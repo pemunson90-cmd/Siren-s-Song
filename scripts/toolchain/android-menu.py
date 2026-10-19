@@ -26,16 +26,35 @@ def inspect(text,png,density,screen,action,after,*,expected_density_source='andr
  if not metrics.contains(report['safe_physical'],physical):raise ValueError('Scroll body lies outside physical safe area')
  offset=layout.get('scroll_vertical')
  if isinstance(offset,bool) or not isinstance(offset,(int,float)) or not math.isfinite(offset) or offset<0:raise ValueError('Invalid actual scroll offset')
- result={'screen':screen,'action':action,'metrics_count':count,'scroll_vertical':offset,'measurement':report}
+ values=layout.get('settings_values')
+ if not isinstance(values,dict) or set(values)!={'music','effects','mute'} or not isinstance(values['mute'],bool) or any(isinstance(values[k],bool) or not isinstance(values[k],(int,float)) or not math.isfinite(values[k]) or not 0<=values[k]<=1 for k in ('music','effects')):raise ValueError('Invalid readonly settings_values')
+ result={'screen':screen,'action':action,'metrics_count':count,'scroll_vertical':offset,'measurement':report,'settings_values':values}
  for control in layout['controls']:
   if control['action']==action and not control.get('clipped',False):
    x,y,w,h=control['hit_rect'];result['tap']=[round((x+w/2)*sx),round((y+h/2)*sy)];return 0,result
  x,y,w,h=physical
  result['swipe']=[round(x+w*.5),round(y+h*.8),round(x+w*.5),round(y+h*.25)]
+ if screen=='settings':
+  # Start in measured empty content, never on a slider/button or scrollbar.
+  center=scroll[0]+scroll[2]*.5; end=scroll[1]+scroll[3]*.1
+  intervals=sorted((max(scroll[1],c['hit_rect'][1]),min(scroll[1]+scroll[3],c['hit_rect'][1]+c['hit_rect'][3])) for c in layout['controls'] if c['hit_rect'][0]<=center<=c['hit_rect'][0]+c['hit_rect'][2] and c['hit_rect'][1]<scroll[1]+scroll[3] and c['hit_rect'][1]+c['hit_rect'][3]>scroll[1])
+  cursor=scroll[1]; gaps=[]
+  for low,high in intervals:
+   if low>cursor:gaps.append((cursor,low))
+   cursor=max(cursor,high)
+  if cursor<scroll[1]+scroll[3]:gaps.append((cursor,scroll[1]+scroll[3]))
+  for low,high in reversed(gaps):
+   start=(low+high)*.5; px=round(center*sx); py=round(start*sy)
+   if start<=end or not low<py/sy<high:continue
+   if any(c['hit_rect'][0]<=px/sx<=c['hit_rect'][0]+c['hit_rect'][2] and c['hit_rect'][1]<=py/sy<=c['hit_rect'][1]+c['hit_rect'][3] for c in layout['controls']):continue
+   result['swipe']=[px,py,px,round(end*sy)];result['swipe_origin']='measured_empty_control_gap';break
+  else:raise ValueError('No measured empty Settings swipe origin with upward travel')
  return 2,result
 def main():
- parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('log',type=Path);parser.add_argument('png',type=Path);parser.add_argument('--density',type=Path,required=True);parser.add_argument('--screen',required=True,choices=['menu','settings','briefing']);parser.add_argument('--action',required=True);parser.add_argument('--after-count',type=int,default=0);args=parser.parse_args()
+ parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('log',type=Path);parser.add_argument('png',type=Path);parser.add_argument('--density',type=Path,required=True);parser.add_argument('--screen',required=True,choices=['menu','settings','briefing']);parser.add_argument('--action',required=True);parser.add_argument('--after-count',type=int,default=0);parser.add_argument('--unchanged-settings',type=Path);args=parser.parse_args()
  try:
-  status,result=inspect(args.log.read_text(errors='replace'),args.png.read_bytes(),args.density.read_text(),args.screen,args.action,args.after_count);print(json.dumps(result,indent=2));return status
+  status,result=inspect(args.log.read_text(errors='replace'),args.png.read_bytes(),args.density.read_text(),args.screen,args.action,args.after_count)
+  if status!=3 and args.unchanged_settings and result['settings_values']!=json.loads(args.unchanged_settings.read_text())['settings_values']:raise ValueError('Settings changed during scroll-only navigation')
+  print(json.dumps(result,indent=2));return status
  except (OSError,ValueError,TypeError,KeyError) as error:print('Invalid native menu evidence: '+str(error),file=sys.stderr);return 1
 if __name__=='__main__':raise SystemExit(main())

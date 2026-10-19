@@ -18,11 +18,28 @@ menu_touch_smoke cover
    r=subprocess.run(['bash','-c',script,'test',str(helper)],capture_output=True,text=True)
    self.assertEqual(r.returncode,expected_status,r.stderr)
    self.assertEqual(r.stdout.splitlines(),expected_output)
- def layout(self):return {'schema':1,'screen':'menu','orders_page':'primary','viewport':[1680,720],'window':[2520,1080],'safe_rect':[0,0,2520,1080],'density_dpi':420,'density_source':'android_display_metrics_density_dpi','chart_rect':None,'scroll_rect':[100,30,1480,650],'scroll_vertical':320,'controls':[{'action':'settings','visual_rect':[200,200,1000,84],'hit_rect':[200,200,1000,84],'clipped':False}]}
- def invoke(self,layout,after=0,action='settings',prefix='',size=(2520,1080)):
+ def layout(self):return {'schema':1,'screen':'menu','orders_page':'primary','viewport':[1680,720],'window':[2520,1080],'safe_rect':[0,0,2520,1080],'density_dpi':420,'density_source':'android_display_metrics_density_dpi','chart_rect':None,'scroll_rect':[100,30,1480,650],'scroll_vertical':320,'settings_values':{'music':.5,'effects':.8,'mute':False},'controls':[{'action':'settings','visual_rect':[200,200,1000,84],'hit_rect':[200,200,1000,84],'clipped':False}]}
+ def invoke(self,layout,after=0,action='settings',prefix='',size=(2520,1080),screen='menu',baseline=None):
   with tempfile.TemporaryDirectory() as temp:
    p=pathlib.Path(temp);(p/'log').write_text(prefix+'SS_UI_METRICS '+json.dumps(layout)+'\n');(p/'png').write_bytes(b'\x89PNG\r\n\x1a\n'+b'\0'*8+struct.pack('>II',*size));(p/'density').write_text('Physical density: 420\n')
-   return subprocess.run([sys.executable,str(CHECKER),str(p/'log'),str(p/'png'),'--density',str(p/'density'),'--screen','menu','--action',action,'--after-count',str(after)],capture_output=True,text=True)
+   extra=[]
+   if baseline is not None:(p/'before').write_text(json.dumps({'settings_values':baseline}));extra=['--unchanged-settings',str(p/'before')]
+   return subprocess.run([sys.executable,str(CHECKER),str(p/'log'),str(p/'png'),'--density',str(p/'density'),'--screen',screen,'--action',action,'--after-count',str(after),*extra],capture_output=True,text=True)
+ def test_navigation_rejects_changed_settings(self):
+  d=self.layout();before=d['settings_values'].copy()
+  self.assertEqual(self.invoke(d,baseline=before).returncode,0)
+  for key,value in (('music',.55),('effects',.75),('mute',True)):
+   changed=self.layout();changed['settings_values'][key]=value
+   r=self.invoke(changed,baseline=before);self.assertEqual(r.returncode,1);self.assertIn('Settings changed',r.stderr)
+ def test_settings_swipe_origin_avoids_slider_hit_rects(self):
+  d=self.layout();d['screen']='settings';d['controls'][0]['action']='volume_music'
+  r=self.invoke(d,screen='settings',action='mute');self.assertEqual(r.returncode,2,r.stderr)
+  j=json.loads(r.stdout);self.assertEqual(j['swipe_origin'],'measured_empty_control_gap');self.assertGreater(j['swipe'][1],426);self.assertEqual(j['settings_values'],d['settings_values'])
+ def test_settings_no_empty_origin_fails(self):
+  d=self.layout();d['screen']='settings';d['controls'][0].update(action='volume_music',visual_rect=[100,30,1480,650],hit_rect=[100,30,1480,650]);r=self.invoke(d,screen='settings',action='mute');self.assertEqual(r.returncode,1);self.assertIn('No measured empty',r.stderr)
+ def test_invalid_settings_state_fails(self):
+  for value in (None,{'music':True,'effects':.8,'mute':False},{'music':.5,'effects':.8,'mute':0}):
+   d=self.layout();d['settings_values']=value;self.assertEqual(self.invoke(d).returncode,1)
  def test_full_target_maps_actual_hit_center(self):
   r=self.invoke(self.layout());self.assertEqual(r.returncode,0,r.stderr);self.assertEqual(json.loads(r.stdout)['tap'],[1050,363])
  def test_clipped_center_never_tapped(self):

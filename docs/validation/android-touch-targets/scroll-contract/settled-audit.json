@@ -1,0 +1,1731 @@
+{
+  "native_measurement": false,
+  "provenance": "unchanged local test_android_density_fixture JSON with same-frame actual PNG",
+  "reports": [
+    {
+      "gate_passed": true,
+      "recommendation_dp": 48,
+      "density_dpi": 420.0,
+      "density_source": "test_android_density_fixture",
+      "native_measurement": false,
+      "density_reference": "explicit local test fixture; no Android OS density observation",
+      "window_physical": [
+        2520.0,
+        1080.0
+      ],
+      "viewport_logical": [
+        1680.0,
+        720.0
+      ],
+      "canvas_scale": [
+        1.5,
+        1.5
+      ],
+      "canvas_transform_model": "Godot 4.6.3 canvas_items/expand; base 1280x720; factor 1; floor before per-axis stretch",
+      "safe_physical": [
+        136.0,
+        0.0,
+        2384.0,
+        1080.0
+      ],
+      "screen": "briefing",
+      "chart_dp": [
+        612.7617142857143,
+        331.42857142857144
+      ],
+      "controls": [
+        {
+          "action": "begin",
+          "visual_logical": [
+            513.333,
+            576.0,
+            366.0,
+            98.0
+          ],
+          "hit_logical": [
+            513.333,
+            576.0,
+            366.0,
+            98.0
+          ],
+          "hit_physical": [
+            769.9994999999999,
+            864.0,
+            549.0,
+            147.0
+          ],
+          "hit_dp": [
+            209.14285714285714,
+            56.0
+          ],
+          "size_exempt_clipped": false
+        },
+        {
+          "action": "back",
+          "visual_logical": [
+            891.333,
+            576.0,
+            366.0,
+            98.0
+          ],
+          "hit_logical": [
+            891.333,
+            576.0,
+            366.0,
+            98.0
+          ],
+          "hit_physical": [
+            1336.9995,
+            864.0,
+            549.0,
+            147.0
+          ],
+          "hit_dp": [
+            209.14285714285714,
+            56.0
+          ],
+          "size_exempt_clipped": false
+        }
+      ],
+      "errors": [],
+      "limits": "No physical panel-mm, Android OS multi-touch, finger comfort or performance claim.",
+      "menu_contract_status": 0,
+      "menu_contract_action": "back",
+      "menu_contract_tap": [
+        1611,
+        938
+      ],
+      "menu_contract_swipe": null,
+      "capture": "docs/validation/production/density/scroll-boundary/captures/cover-inset-briefing",
+      "rejected_capture": false,
+      "input_sha256": {
+        "layout.json": "d676ac4d3a94f71cf6de9fba28a6f26915e0665e8b23cfdb8fb20d04d4cb5a30",
+        "full.png": "d55bfba5f23d3f5e5180dcf689db0aca0fcfa0aebc436b1b592c727b27ef424d",
+        "godot.log": "741745b54b5b006994a9cbe9decb0c2294a23f17aa40d7de3b8671fe6ae2bbae"
+      },
+      "engine_transform_diagnostic": "DENSITY_TRANSFORMS screen=[X: (1.5, 0.0), Y: (0.0, 1.5), O: (0.0, 0.0)] final=[X: (1.5, 0.0), Y: (0.0, 1.5), O: (0.0, 0.0)] canvas=[X: (1.0, 0.0), Y: (0.0, 1.0), O: (90.66667, 0.0)] rect=[P: (0.0, 0.0), S: (1680.0, 720.0)]"
+    },
+    {
+      "gate_passed": true,
+      "recommendation_dp": 48,
+      "density_dpi": 420.0,
+      "density_source": "test_android_density_fixture",
+      "native_measurement": false,
+      "density_reference": "explicit local test fixture; no Android OS density observation",
+      "window_physical": [
+        2520.0,
+        1080.0
+      ],
+      "viewport_logical": [
+        1680.0,
+        720.0
+      ],
+      "canvas_scale": [
+        1.5,
+        1.5
+      ],
+      "canvas_transform_model": "Godot 4.6.3 canvas_items/expand; base 1280x720; factor 1; floor before per-axis stretch",
+      "safe_physical": [
+        136.0,
+        0.0,
+        2384.0,
+        1080.0
+      ],
+      "screen": "mission",
+      "chart_dp": [
+        612.7617142857143,
+        331.42857142857144
+      ],
+      "controls": [
+        {
+          "action": "pause",
+          "visual_logical": [
+            1205.0,
+            112.0,
+            278.87,
+            98.0
+          ],
+          "hit_logical": [
+            1205.0,
+            112.0,
+            278.87,
+            98.0
+          ],
+          "hit_physical": [
+            1807.5,
+            168.0,
+            418.305,
+            147.0
+          ],
+          "hit_dp": [
+            159.3542857142857,
+            56.0
+          ],
+          "size_exempt_clipped": false
+        },
+        {
+          "action": "sub",
+          "visual_logical": [
+            1205.0,
+            214.0,
+            147.0,
+            98.0
+          ],
+          "hit_logical": [
+            1205.0,
+            214.0,
+            147.0,
+            98.0
+          ],
+          "hit_physical": [
+            1807.5,
+            321.0,
+            220.5,
+            147.0
+          ],
+          "hit_dp": [
+            84.0,
+            56.0
+          ],
+          "size_exempt_clipped": false
+        },
+        {
+          "action": "droneA",
+          "visual_logical": [
+            1356.0,
+            214.0,
+            147.0,
+            98.0
+          ],
+          "hit_logical": [
+            1356.0,
+            214.0,
+            147.0,
+            98.0
+          ],
+          "hit_physical": [
+            2034.0,
+            321.0,
+            220.5,
+            147.0
+          ],
+          "hit_dp": [
+            84.0,
+            56.0
+          ],
+          "size_exempt_clipped": false
+        },
+        {
+          "action": "droneB",
+          "visual_logical": [
+            1507.0,
+            214.0,
+            147.0,
+            98.0
+          ],
+          "hit_logical": [
+            1507.0,
+            214.0,
+            147.0,
+            98.0
+          ],
+          "hit_physical": [
+            2260.5,
+            321.0,
+            220.5,
+            147.0
+          ],
+          "hit_dp": [
+            84.0,
+            56.0
+          ],
+          "size_exempt_clipped": false
+        },
+        {
+          "action": "more_orders",
+          "visual_logical": [
+            1487.87,
+            112.0,
+            166.13,
+            98.0
+          ],
+          "hit_logical": [
+            1487.87,
+            112.0,
+            166.13,
+            98.0
+          ],
+          "hit_physical": [
+            2231.805,
+            168.0,
+            249.195,
+            147.0
+          ],
+          "hit_dp": [
+            94.93142857142857,
+            56.0
+          ],
+          "size_exempt_clipped": false
+        },
+        {
+          "action": "ping",
+          "visual_logical": [
+            1205.0,
+            316.0,
+            147.0,
+            98.0
+          ],
+          "hit_logical": [
+            1205.0,
+            316.0,
+            147.0,
+            98.0
+          ],
+          "hit_physical": [
+            1807.5,
+            474.0,
+            220.5,
+            147.0
+          ],
+          "hit_dp": [
+            84.0,
+            56.0
+          ],
+          "size_exempt_clipped": false
+        },
+        {
+          "action": "camera",
+          "visual_logical": [
+            1356.0,
+            316.0,
+            147.0,
+            98.0
+          ],
+          "hit_logical": [
+            1356.0,
+            316.0,
+            147.0,
+            98.0
+          ],
+          "hit_physical": [
+            2034.0,
+            474.0,
+            220.5,
+            147.0
+          ],
+          "hit_dp": [
+            84.0,
+            56.0
+          ],
+          "size_exempt_clipped": false
+        },
+        {
+          "action": "silent",
+          "visual_logical": [
+            1507.0,
+            316.0,
+            147.0,
+            98.0
+          ],
+          "hit_logical": [
+            1507.0,
+            316.0,
+            147.0,
+            98.0
+          ],
+          "hit_physical": [
+            2260.5,
+            474.0,
+            220.5,
+            147.0
+          ],
+          "hit_dp": [
+            84.0,
+            56.0
+          ],
+          "size_exempt_clipped": false
+        },
+        {
+          "action": "queue",
+          "visual_logical": [
+            1205.0,
+            418.0,
+            147.0,
+            98.0
+          ],
+          "hit_logical": [
+            1205.0,
+            418.0,
+            147.0,
+            98.0
+          ],
+          "hit_physical": [
+            1807.5,
+            627.0,
+            220.5,
+            147.0
+          ],
+          "hit_dp": [
+            84.0,
+            56.0
+          ],
+          "size_exempt_clipped": false
+        },
+        {
+          "action": "hold",
+          "visual_logical": [
+            1356.0,
+            418.0,
+            147.0,
+            98.0
+          ],
+          "hit_logical": [
+            1356.0,
+            418.0,
+            147.0,
+            98.0
+          ],
+          "hit_physical": [
+            2034.0,
+            627.0,
+            220.5,
+            147.0
+          ],
+          "hit_dp": [
+            84.0,
+            56.0
+          ],
+          "size_exempt_clipped": false
+        },
+        {
+          "action": "emp",
+          "visual_logical": [
+            1507.0,
+            418.0,
+            147.0,
+            98.0
+          ],
+          "hit_logical": [
+            1507.0,
+            418.0,
+            147.0,
+            98.0
+          ],
+          "hit_physical": [
+            2260.5,
+            627.0,
+            220.5,
+            147.0
+          ],
+          "hit_dp": [
+            84.0,
+            56.0
+          ],
+          "size_exempt_clipped": false
+        },
+        {
+          "action": "home",
+          "visual_logical": [
+            1205.0,
+            520.0,
+            147.0,
+            98.0
+          ],
+          "hit_logical": [
+            1205.0,
+            520.0,
+            147.0,
+            98.0
+          ],
+          "hit_physical": [
+            1807.5,
+            780.0,
+            220.5,
+            147.0
+          ],
+          "hit_dp": [
+            84.0,
+            56.0
+          ],
+          "size_exempt_clipped": false
+        },
+        {
+          "action": "menu",
+          "visual_logical": [
+            1356.0,
+            520.0,
+            147.0,
+            98.0
+          ],
+          "hit_logical": [
+            1356.0,
+            520.0,
+            147.0,
+            98.0
+          ],
+          "hit_physical": [
+            2034.0,
+            780.0,
+            220.5,
+            147.0
+          ],
+          "hit_dp": [
+            84.0,
+            56.0
+          ],
+          "size_exempt_clipped": false
+        },
+        {
+          "action": "zoom_out",
+          "visual_logical": [
+            879.0,
+            120.0,
+            98.0,
+            98.0
+          ],
+          "hit_logical": [
+            879.0,
+            120.0,
+            98.0,
+            98.0
+          ],
+          "hit_physical": [
+            1318.5,
+            180.0,
+            147.0,
+            147.0
+          ],
+          "hit_dp": [
+            56.0,
+            56.0
+          ],
+          "size_exempt_clipped": false
+        },
+        {
+          "action": "zoom_in",
+          "visual_logical": [
+            981.0,
+            120.0,
+            98.0,
+            98.0
+          ],
+          "hit_logical": [
+            981.0,
+            120.0,
+            98.0,
+            98.0
+          ],
+          "hit_physical": [
+            1471.5,
+            180.0,
+            147.0,
+            147.0
+          ],
+          "hit_dp": [
+            56.0,
+            56.0
+          ],
+          "size_exempt_clipped": false
+        },
+        {
+          "action": "fit",
+          "visual_logical": [
+            1083.0,
+            120.0,
+            98.0,
+            98.0
+          ],
+          "hit_logical": [
+            1083.0,
+            120.0,
+            98.0,
+            98.0
+          ],
+          "hit_physical": [
+            1624.5,
+            180.0,
+            147.0,
+            147.0
+          ],
+          "hit_dp": [
+            56.0,
+            56.0
+          ],
+          "size_exempt_clipped": false
+        }
+      ],
+      "errors": [],
+      "limits": "No physical panel-mm, Android OS multi-touch, finger comfort or performance claim.",
+      "capture": "docs/validation/production/density/scroll-boundary/captures/cover-inset-primary",
+      "rejected_capture": false,
+      "input_sha256": {
+        "layout.json": "1d8d8a2c652826b8f0c3e2518251bf229f4ff56ef04d2a9b69e9852ebc2c8975",
+        "full.png": "505bff98dcaa02e4a203674225d13726d49676ad871fdc24d7ac546846dd6af9",
+        "godot.log": "4c8c620af14dc796fb9caaac1464551f426c7869c1b0fadb26bf35fa247ac002"
+      },
+      "engine_transform_diagnostic": "DENSITY_TRANSFORMS screen=[X: (1.5, 0.0), Y: (0.0, 1.5), O: (0.0, 0.0)] final=[X: (1.5, 0.0), Y: (0.0, 1.5), O: (0.0, 0.0)] canvas=[X: (1.0, 0.0), Y: (0.0, 1.0), O: (90.66667, 0.0)] rect=[P: (0.0, 0.0), S: (1680.0, 720.0)]"
+    },
+    {
+      "gate_passed": true,
+      "recommendation_dp": 48,
+      "density_dpi": 420.0,
+      "density_source": "test_android_density_fixture",
+      "native_measurement": false,
+      "density_reference": "explicit local test fixture; no Android OS density observation",
+      "window_physical": [
+        2520.0,
+        1080.0
+      ],
+      "viewport_logical": [
+        1680.0,
+        720.0
+      ],
+      "canvas_scale": [
+        1.5,
+        1.5
+      ],
+      "canvas_transform_model": "Godot 4.6.3 canvas_items/expand; base 1280x720; factor 1; floor before per-axis stretch",
+      "safe_physical": [
+        136.0,
+        0.0,
+        2384.0,
+        1080.0
+      ],
+      "screen": "mission",
+      "chart_dp": [
+        612.7617142857143,
+        331.42857142857144
+      ],
+      "controls": [
+        {
+          "action": "pause",
+          "visual_logical": [
+            1205.0,
+            112.0,
+            278.87,
+            98.0
+          ],
+          "hit_logical": [
+            1205.0,
+            112.0,
+            278.87,
+            98.0
+          ],
+          "hit_physical": [
+            1807.5,
+            168.0,
+            418.305,
+            147.0
+          ],
+          "hit_dp": [
+            159.3542857142857,
+            56.0
+          ],
+          "size_exempt_clipped": false
+        },
+        {
+          "action": "sub",
+          "visual_logical": [
+            1205.0,
+            214.0,
+            147.0,
+            98.0
+          ],
+          "hit_logical": [
+            1205.0,
+            214.0,
+            147.0,
+            98.0
+          ],
+          "hit_physical": [
+            1807.5,
+            321.0,
+            220.5,
+            147.0
+          ],
+          "hit_dp": [
+            84.0,
+            56.0
+          ],
+          "size_exempt_clipped": false
+        },
+        {
+          "action": "droneA",
+          "visual_logical": [
+            1356.0,
+            214.0,
+            147.0,
+            98.0
+          ],
+          "hit_logical": [
+            1356.0,
+            214.0,
+            147.0,
+            98.0
+          ],
+          "hit_physical": [
+            2034.0,
+            321.0,
+            220.5,
+            147.0
+          ],
+          "hit_dp": [
+            84.0,
+            56.0
+          ],
+          "size_exempt_clipped": false
+        },
+        {
+          "action": "droneB",
+          "visual_logical": [
+            1507.0,
+            214.0,
+            147.0,
+            98.0
+          ],
+          "hit_logical": [
+            1507.0,
+            214.0,
+            147.0,
+            98.0
+          ],
+          "hit_physical": [
+            2260.5,
+            321.0,
+            220.5,
+            147.0
+          ],
+          "hit_dp": [
+            84.0,
+            56.0
+          ],
+          "size_exempt_clipped": false
+        },
+        {
+          "action": "more_orders",
+          "visual_logical": [
+            1487.87,
+            112.0,
+            166.13,
+            98.0
+          ],
+          "hit_logical": [
+            1487.87,
+            112.0,
+            166.13,
+            98.0
+          ],
+          "hit_physical": [
+            2231.805,
+            168.0,
+            249.195,
+            147.0
+          ],
+          "hit_dp": [
+            94.93142857142857,
+            56.0
+          ],
+          "size_exempt_clipped": false
+        },
+        {
+          "action": "camera",
+          "visual_logical": [
+            1205.0,
+            520.0,
+            147.0,
+            98.0
+          ],
+          "hit_logical": [
+            1205.0,
+            520.0,
+            147.0,
+            98.0
+          ],
+          "hit_physical": [
+            1807.5,
+            780.0,
+            220.5,
+            147.0
+          ],
+          "hit_dp": [
+            84.0,
+            56.0
+          ],
+          "size_exempt_clipped": false
+        },
+        {
+          "action": "emp",
+          "visual_logical": [
+            1507.0,
+            418.0,
+            147.0,
+            98.0
+          ],
+          "hit_logical": [
+            1507.0,
+            418.0,
+            147.0,
+            98.0
+          ],
+          "hit_physical": [
+            2260.5,
+            627.0,
+            220.5,
+            147.0
+          ],
+          "hit_dp": [
+            84.0,
+            56.0
+          ],
+          "size_exempt_clipped": false
+        },
+        {
+          "action": "decoy",
+          "visual_logical": [
+            1356.0,
+            316.0,
+            147.0,
+            98.0
+          ],
+          "hit_logical": [
+            1356.0,
+            316.0,
+            147.0,
+            98.0
+          ],
+          "hit_physical": [
+            2034.0,
+            474.0,
+            220.5,
+            147.0
+          ],
+          "hit_dp": [
+            84.0,
+            56.0
+          ],
+          "size_exempt_clipped": false
+        },
+        {
+          "action": "recon",
+          "visual_logical": [
+            1205.0,
+            316.0,
+            147.0,
+            98.0
+          ],
+          "hit_logical": [
+            1205.0,
+            316.0,
+            147.0,
+            98.0
+          ],
+          "hit_physical": [
+            1807.5,
+            474.0,
+            220.5,
+            147.0
+          ],
+          "hit_dp": [
+            84.0,
+            56.0
+          ],
+          "size_exempt_clipped": false
+        },
+        {
+          "action": "contact_hold",
+          "visual_logical": [
+            1507.0,
+            316.0,
+            147.0,
+            98.0
+          ],
+          "hit_logical": [
+            1507.0,
+            316.0,
+            147.0,
+            98.0
+          ],
+          "hit_physical": [
+            2260.5,
+            474.0,
+            220.5,
+            147.0
+          ],
+          "hit_dp": [
+            84.0,
+            56.0
+          ],
+          "size_exempt_clipped": false
+        },
+        {
+          "action": "wait_drone",
+          "visual_logical": [
+            1205.0,
+            418.0,
+            147.0,
+            98.0
+          ],
+          "hit_logical": [
+            1205.0,
+            418.0,
+            147.0,
+            98.0
+          ],
+          "hit_physical": [
+            1807.5,
+            627.0,
+            220.5,
+            147.0
+          ],
+          "hit_dp": [
+            84.0,
+            56.0
+          ],
+          "size_exempt_clipped": false
+        },
+        {
+          "action": "waypoint_mode",
+          "visual_logical": [
+            1356.0,
+            418.0,
+            147.0,
+            98.0
+          ],
+          "hit_logical": [
+            1356.0,
+            418.0,
+            147.0,
+            98.0
+          ],
+          "hit_physical": [
+            2034.0,
+            627.0,
+            220.5,
+            147.0
+          ],
+          "hit_dp": [
+            84.0,
+            56.0
+          ],
+          "size_exempt_clipped": false
+        },
+        {
+          "action": "home",
+          "visual_logical": [
+            1356.0,
+            520.0,
+            147.0,
+            98.0
+          ],
+          "hit_logical": [
+            1356.0,
+            520.0,
+            147.0,
+            98.0
+          ],
+          "hit_physical": [
+            2034.0,
+            780.0,
+            220.5,
+            147.0
+          ],
+          "hit_dp": [
+            84.0,
+            56.0
+          ],
+          "size_exempt_clipped": false
+        },
+        {
+          "action": "zoom_out",
+          "visual_logical": [
+            879.0,
+            120.0,
+            98.0,
+            98.0
+          ],
+          "hit_logical": [
+            879.0,
+            120.0,
+            98.0,
+            98.0
+          ],
+          "hit_physical": [
+            1318.5,
+            180.0,
+            147.0,
+            147.0
+          ],
+          "hit_dp": [
+            56.0,
+            56.0
+          ],
+          "size_exempt_clipped": false
+        },
+        {
+          "action": "zoom_in",
+          "visual_logical": [
+            981.0,
+            120.0,
+            98.0,
+            98.0
+          ],
+          "hit_logical": [
+            981.0,
+            120.0,
+            98.0,
+            98.0
+          ],
+          "hit_physical": [
+            1471.5,
+            180.0,
+            147.0,
+            147.0
+          ],
+          "hit_dp": [
+            56.0,
+            56.0
+          ],
+          "size_exempt_clipped": false
+        },
+        {
+          "action": "fit",
+          "visual_logical": [
+            1083.0,
+            120.0,
+            98.0,
+            98.0
+          ],
+          "hit_logical": [
+            1083.0,
+            120.0,
+            98.0,
+            98.0
+          ],
+          "hit_physical": [
+            1624.5,
+            180.0,
+            147.0,
+            147.0
+          ],
+          "hit_dp": [
+            56.0,
+            56.0
+          ],
+          "size_exempt_clipped": false
+        }
+      ],
+      "errors": [],
+      "limits": "No physical panel-mm, Android OS multi-touch, finger comfort or performance claim.",
+      "capture": "docs/validation/production/density/scroll-boundary/captures/cover-inset-secondary",
+      "rejected_capture": false,
+      "input_sha256": {
+        "layout.json": "5354041842284845f2b82656954b7995c93fb34402a42e04c6dd053d5c1fa5ef",
+        "full.png": "367baf4a111817bdf94f74bd94b554313f040eadcc0de50c49af61faf4224e8c",
+        "godot.log": "b86bf61374ee5da4d944cb35efcb7c5520e5a20b762bb4c28f22d92a1c8cc8c2"
+      },
+      "engine_transform_diagnostic": "DENSITY_TRANSFORMS screen=[X: (1.5, 0.0), Y: (0.0, 1.5), O: (0.0, 0.0)] final=[X: (1.5, 0.0), Y: (0.0, 1.5), O: (0.0, 0.0)] canvas=[X: (1.0, 0.0), Y: (0.0, 1.0), O: (90.66667, 0.0)] rect=[P: (0.0, 0.0), S: (1680.0, 720.0)]"
+    },
+    {
+      "gate_passed": true,
+      "recommendation_dp": 48,
+      "density_dpi": 420.0,
+      "density_source": "test_android_density_fixture",
+      "native_measurement": false,
+      "density_reference": "explicit local test fixture; no Android OS density observation",
+      "window_physical": [
+        2520.0,
+        1080.0
+      ],
+      "viewport_logical": [
+        1680.0,
+        720.0
+      ],
+      "canvas_scale": [
+        1.5,
+        1.5
+      ],
+      "canvas_transform_model": "Godot 4.6.3 canvas_items/expand; base 1280x720; factor 1; floor before per-axis stretch",
+      "safe_physical": [
+        0.0,
+        0.0,
+        2520.0,
+        1080.0
+      ],
+      "screen": "menu",
+      "chart_dp": [
+        664.5714285714286,
+        331.42857142857144
+      ],
+      "controls": [
+        {
+          "action": "mission0",
+          "visual_logical": [
+            468.0,
+            286.0,
+            736.0,
+            98.0
+          ],
+          "hit_logical": [
+            468.0,
+            286.0,
+            736.0,
+            98.0
+          ],
+          "hit_physical": [
+            702.0,
+            429.0,
+            1104.0,
+            147.0
+          ],
+          "hit_dp": [
+            420.57142857142856,
+            56.0
+          ],
+          "size_exempt_clipped": false
+        },
+        {
+          "action": "mission1",
+          "visual_logical": [
+            468.0,
+            398.0,
+            736.0,
+            98.0
+          ],
+          "hit_logical": [
+            468.0,
+            398.0,
+            736.0,
+            98.0
+          ],
+          "hit_physical": [
+            702.0,
+            597.0,
+            1104.0,
+            147.0
+          ],
+          "hit_dp": [
+            420.57142857142856,
+            56.0
+          ],
+          "size_exempt_clipped": false
+        },
+        {
+          "action": "mission2",
+          "visual_logical": [
+            468.0,
+            510.0,
+            736.0,
+            98.0
+          ],
+          "hit_logical": [
+            468.0,
+            510.0,
+            736.0,
+            98.0
+          ],
+          "hit_physical": [
+            702.0,
+            765.0,
+            1104.0,
+            147.0
+          ],
+          "hit_dp": [
+            420.57142857142856,
+            56.0
+          ],
+          "size_exempt_clipped": false
+        },
+        {
+          "action": "mission3",
+          "visual_logical": [
+            468.0,
+            622.0,
+            736.0,
+            98.0
+          ],
+          "hit_logical": [
+            468.0,
+            622.0,
+            736.0,
+            52.0
+          ],
+          "hit_physical": [
+            702.0,
+            933.0,
+            1104.0,
+            78.0
+          ],
+          "hit_dp": [
+            420.57142857142856,
+            29.714285714285715
+          ],
+          "size_exempt_clipped": true
+        }
+      ],
+      "errors": [],
+      "limits": "No physical panel-mm, Android OS multi-touch, finger comfort or performance claim.",
+      "menu_contract_status": 2,
+      "menu_contract_action": "settings",
+      "menu_contract_tap": null,
+      "menu_contract_swipe": [
+        1260,
+        823,
+        1260,
+        304
+      ],
+      "capture": "docs/validation/production/density/scroll-boundary/captures/cover-operations",
+      "rejected_capture": false,
+      "input_sha256": {
+        "layout.json": "c7345c55bb648cee501237b04857c012af143b53d4adfef57f1a622b167fb6e8",
+        "full.png": "a9f2669febf0f9a4baabada681937656f1de5d873e18e7a065bc97cbac31865c",
+        "godot.log": "9db6e223da63bfd1114fd9dfe175d8aaa1cb021b403ae90eb148a9a096ebc205"
+      },
+      "engine_transform_diagnostic": "DENSITY_TRANSFORMS screen=[X: (1.5, 0.0), Y: (0.0, 1.5), O: (0.0, 0.0)] final=[X: (1.5, 0.0), Y: (0.0, 1.5), O: (0.0, 0.0)] canvas=[X: (1.0, 0.0), Y: (0.0, 1.0), O: (0.0, 0.0)] rect=[P: (0.0, 0.0), S: (1680.0, 720.0)]"
+    },
+    {
+      "gate_passed": true,
+      "recommendation_dp": 48,
+      "density_dpi": 420.0,
+      "density_source": "test_android_density_fixture",
+      "native_measurement": false,
+      "density_reference": "explicit local test fixture; no Android OS density observation",
+      "window_physical": [
+        2520.0,
+        1080.0
+      ],
+      "viewport_logical": [
+        1680.0,
+        720.0
+      ],
+      "canvas_scale": [
+        1.5,
+        1.5
+      ],
+      "canvas_transform_model": "Godot 4.6.3 canvas_items/expand; base 1280x720; factor 1; floor before per-axis stretch",
+      "safe_physical": [
+        0.0,
+        0.0,
+        2520.0,
+        1080.0
+      ],
+      "screen": "settings",
+      "chart_dp": [
+        664.5714285714286,
+        331.42857142857144
+      ],
+      "controls": [
+        {
+          "action": "back",
+          "visual_logical": [
+            468.0,
+            576.0,
+            744.0,
+            98.0
+          ],
+          "hit_logical": [
+            468.0,
+            576.0,
+            744.0,
+            98.0
+          ],
+          "hit_physical": [
+            702.0,
+            864.0,
+            1116.0,
+            147.0
+          ],
+          "hit_dp": [
+            425.14285714285717,
+            56.0
+          ],
+          "size_exempt_clipped": false
+        },
+        {
+          "action": "volume_music",
+          "visual_logical": [
+            468.0,
+            380.0,
+            736.0,
+            98.0
+          ],
+          "hit_logical": [
+            468.0,
+            380.0,
+            736.0,
+            98.0
+          ],
+          "hit_physical": [
+            702.0,
+            570.0,
+            1104.0,
+            147.0
+          ],
+          "hit_dp": [
+            420.57142857142856,
+            56.0
+          ],
+          "size_exempt_clipped": false
+        },
+        {
+          "action": "volume_effects",
+          "visual_logical": [
+            468.0,
+            555.0,
+            736.0,
+            98.0
+          ],
+          "hit_logical": [
+            468.0,
+            555.0,
+            736.0,
+            9.0
+          ],
+          "hit_physical": [
+            702.0,
+            832.5,
+            1104.0,
+            13.5
+          ],
+          "hit_dp": [
+            420.57142857142856,
+            5.142857142857143
+          ],
+          "size_exempt_clipped": true
+        }
+      ],
+      "errors": [],
+      "limits": "No physical panel-mm, Android OS multi-touch, finger comfort or performance claim.",
+      "menu_contract_status": 0,
+      "menu_contract_action": "back",
+      "menu_contract_tap": [
+        1260,
+        938
+      ],
+      "menu_contract_swipe": null,
+      "capture": "docs/validation/production/density/scroll-boundary/captures/cover-settings",
+      "rejected_capture": false,
+      "input_sha256": {
+        "layout.json": "ed50c9507fd50de71f9ea93254357055c02860178773cccc1db24b141def0323",
+        "full.png": "7af66351e618d68fb6c3d5fd08b97a849f1391b007c764e6838f0ed991b3e86e",
+        "godot.log": "048770856eef559dce229fa8991a37a5d40bad6e6779f1c3a777963d8296560e"
+      },
+      "engine_transform_diagnostic": "DENSITY_TRANSFORMS screen=[X: (1.5, 0.0), Y: (0.0, 1.5), O: (0.0, 0.0)] final=[X: (1.5, 0.0), Y: (0.0, 1.5), O: (0.0, 0.0)] canvas=[X: (1.0, 0.0), Y: (0.0, 1.0), O: (0.0, 0.0)] rect=[P: (0.0, 0.0), S: (1680.0, 720.0)]"
+    },
+    {
+      "gate_passed": true,
+      "recommendation_dp": 48,
+      "density_dpi": 420.0,
+      "density_source": "test_android_density_fixture",
+      "native_measurement": false,
+      "density_reference": "explicit local test fixture; no Android OS density observation",
+      "window_physical": [
+        2184.0,
+        1968.0
+      ],
+      "viewport_logical": [
+        1280.0,
+        1153.0
+      ],
+      "canvas_scale": [
+        1.70625,
+        1.706851691240243
+      ],
+      "canvas_transform_model": "Godot 4.6.3 canvas_items/expand; base 1280x720; factor 1; floor before per-axis stretch",
+      "safe_physical": [
+        0.0,
+        0.0,
+        2184.0,
+        1968.0
+      ],
+      "screen": "menu",
+      "chart_dp": [
+        798.2,
+        416.79692727047455
+      ],
+      "controls": [
+        {
+          "action": "mission0",
+          "visual_logical": [
+            268.0,
+            264.0,
+            736.0,
+            87.0
+          ],
+          "hit_logical": [
+            268.0,
+            264.0,
+            736.0,
+            87.0
+          ],
+          "hit_physical": [
+            457.27500000000003,
+            450.60884648742416,
+            1255.8,
+            148.49609713790113
+          ],
+          "hit_dp": [
+            478.4,
+            56.56994176681948
+          ],
+          "size_exempt_clipped": false
+        },
+        {
+          "action": "mission1",
+          "visual_logical": [
+            268.0,
+            365.0,
+            736.0,
+            87.0
+          ],
+          "hit_logical": [
+            268.0,
+            365.0,
+            736.0,
+            87.0
+          ],
+          "hit_physical": [
+            457.27500000000003,
+            623.0008673026887,
+            1255.8,
+            148.49609713790113
+          ],
+          "hit_dp": [
+            478.4,
+            56.56994176681948
+          ],
+          "size_exempt_clipped": false
+        },
+        {
+          "action": "mission2",
+          "visual_logical": [
+            268.0,
+            466.0,
+            736.0,
+            87.0
+          ],
+          "hit_logical": [
+            268.0,
+            466.0,
+            736.0,
+            87.0
+          ],
+          "hit_physical": [
+            457.27500000000003,
+            795.3928881179532,
+            1255.8,
+            148.49609713790113
+          ],
+          "hit_dp": [
+            478.4,
+            56.56994176681948
+          ],
+          "size_exempt_clipped": false
+        },
+        {
+          "action": "mission3",
+          "visual_logical": [
+            268.0,
+            567.0,
+            736.0,
+            87.0
+          ],
+          "hit_logical": [
+            268.0,
+            567.0,
+            736.0,
+            87.0
+          ],
+          "hit_physical": [
+            457.27500000000003,
+            967.7849089332177,
+            1255.8,
+            148.49609713790113
+          ],
+          "hit_dp": [
+            478.4,
+            56.56994176681948
+          ],
+          "size_exempt_clipped": false
+        },
+        {
+          "action": "mission4",
+          "visual_logical": [
+            268.0,
+            668.0,
+            736.0,
+            87.0
+          ],
+          "hit_logical": [
+            268.0,
+            668.0,
+            736.0,
+            87.0
+          ],
+          "hit_physical": [
+            457.27500000000003,
+            1140.1769297484823,
+            1255.8,
+            148.49609713790113
+          ],
+          "hit_dp": [
+            478.4,
+            56.56994176681948
+          ],
+          "size_exempt_clipped": false
+        },
+        {
+          "action": "mission5",
+          "visual_logical": [
+            268.0,
+            769.0,
+            736.0,
+            87.0
+          ],
+          "hit_logical": [
+            268.0,
+            769.0,
+            736.0,
+            87.0
+          ],
+          "hit_physical": [
+            457.27500000000003,
+            1312.5689505637467,
+            1255.8,
+            148.49609713790113
+          ],
+          "hit_dp": [
+            478.4,
+            56.56994176681948
+          ],
+          "size_exempt_clipped": false
+        },
+        {
+          "action": "loadout",
+          "visual_logical": [
+            268.0,
+            921.0,
+            736.0,
+            87.0
+          ],
+          "hit_logical": [
+            268.0,
+            921.0,
+            736.0,
+            87.0
+          ],
+          "hit_physical": [
+            457.27500000000003,
+            1572.0104076322637,
+            1255.8,
+            148.49609713790113
+          ],
+          "hit_dp": [
+            478.4,
+            56.56994176681948
+          ],
+          "size_exempt_clipped": false
+        },
+        {
+          "action": "settings",
+          "visual_logical": [
+            268.0,
+            1022.0,
+            736.0,
+            87.0
+          ],
+          "hit_logical": [
+            268.0,
+            1022.0,
+            736.0,
+            85.0
+          ],
+          "hit_physical": [
+            457.27500000000003,
+            1744.4024284475283,
+            1255.8,
+            145.08239375542064
+          ],
+          "hit_dp": [
+            478.4,
+            55.26948333539834
+          ],
+          "size_exempt_clipped": true
+        }
+      ],
+      "errors": [],
+      "limits": "No physical panel-mm, Android OS multi-touch, finger comfort or performance claim.",
+      "menu_contract_status": 2,
+      "menu_contract_action": "settings",
+      "menu_contract_tap": null,
+      "menu_contract_swipe": [
+        1092,
+        1527,
+        1092,
+        531
+      ],
+      "capture": "docs/validation/production/density/scroll-boundary/captures/inner-operations",
+      "rejected_capture": false,
+      "input_sha256": {
+        "layout.json": "8bf1f5c0fd27f3e1188a27494297961877793b3ad57270d174ab44e95448e587",
+        "full.png": "3fa2b967010eb2b16226ecbc03cc07b2727140bcf0ac6921b4ce489474efcb13",
+        "godot.log": "b6eef6183e28ea3f45b036fc22130eb4d9e97b251c85a97bd93398178b690488"
+      },
+      "engine_transform_diagnostic": "DENSITY_TRANSFORMS screen=[X: (1.70625, 0.0), Y: (0.0, 1.706852), O: (0.0, 0.0)] final=[X: (1.70625, 0.0), Y: (0.0, 1.706852), O: (0.0, 0.0)] canvas=[X: (1.0, 0.0), Y: (0.0, 1.0), O: (0.0, 0.0)] rect=[P: (0.0, 0.0), S: (1280.0, 1153.0)]"
+    },
+    {
+      "gate_passed": true,
+      "recommendation_dp": 48,
+      "density_dpi": 420.0,
+      "density_source": "test_android_density_fixture",
+      "native_measurement": false,
+      "density_reference": "explicit local test fixture; no Android OS density observation",
+      "window_physical": [
+        2184.0,
+        1968.0
+      ],
+      "viewport_logical": [
+        1280.0,
+        1153.0
+      ],
+      "canvas_scale": [
+        1.70625,
+        1.706851691240243
+      ],
+      "canvas_transform_model": "Godot 4.6.3 canvas_items/expand; base 1280x720; factor 1; floor before per-axis stretch",
+      "safe_physical": [
+        0.0,
+        0.0,
+        2184.0,
+        1968.0
+      ],
+      "screen": "settings",
+      "chart_dp": [
+        798.2,
+        416.79692727047455
+      ],
+      "controls": [
+        {
+          "action": "mute",
+          "visual_logical": [
+            268.0,
+            610.0,
+            744.0,
+            87.0
+          ],
+          "hit_logical": [
+            268.0,
+            610.0,
+            744.0,
+            87.0
+          ],
+          "hit_physical": [
+            457.27500000000003,
+            1041.1795316565483,
+            1269.45,
+            148.49609713790113
+          ],
+          "hit_dp": [
+            483.6,
+            56.56994176681948
+          ],
+          "size_exempt_clipped": false
+        },
+        {
+          "action": "back",
+          "visual_logical": [
+            268.0,
+            1020.0,
+            744.0,
+            87.0
+          ],
+          "hit_logical": [
+            268.0,
+            1020.0,
+            744.0,
+            87.0
+          ],
+          "hit_physical": [
+            457.27500000000003,
+            1740.988725065048,
+            1269.45,
+            148.49609713790113
+          ],
+          "hit_dp": [
+            483.6,
+            56.56994176681948
+          ],
+          "size_exempt_clipped": false
+        },
+        {
+          "action": "volume_music",
+          "visual_logical": [
+            268.0,
+            350.0,
+            744.0,
+            87.0
+          ],
+          "hit_logical": [
+            268.0,
+            350.0,
+            744.0,
+            87.0
+          ],
+          "hit_physical": [
+            457.27500000000003,
+            597.3980919340851,
+            1269.45,
+            148.49609713790113
+          ],
+          "hit_dp": [
+            483.6,
+            56.56994176681948
+          ],
+          "size_exempt_clipped": false
+        },
+        {
+          "action": "volume_effects",
+          "visual_logical": [
+            268.0,
+            509.0,
+            744.0,
+            87.0
+          ],
+          "hit_logical": [
+            268.0,
+            509.0,
+            744.0,
+            87.0
+          ],
+          "hit_physical": [
+            457.27500000000003,
+            868.7875108412836,
+            1269.45,
+            148.49609713790113
+          ],
+          "hit_dp": [
+            483.6,
+            56.56994176681948
+          ],
+          "size_exempt_clipped": false
+        }
+      ],
+      "errors": [],
+      "limits": "No physical panel-mm, Android OS multi-touch, finger comfort or performance claim.",
+      "menu_contract_status": 0,
+      "menu_contract_action": "back",
+      "menu_contract_tap": [
+        1092,
+        1815
+      ],
+      "menu_contract_swipe": null,
+      "capture": "docs/validation/production/density/scroll-boundary/captures/inner-settings",
+      "rejected_capture": false,
+      "input_sha256": {
+        "layout.json": "1c8a8b260b14771a344f7ed7cae884e406cd9792cf54dd8949b44b32e4d2bd5f",
+        "full.png": "64593ac752a372cb88cef22d02f3f637fb4afe93afcf01e7b2b32a54cc1cbabd",
+        "godot.log": "be255e1ffe5b22d626d6a631a2e45aae29ea53664a3289eefb774ee47ab44f85"
+      },
+      "engine_transform_diagnostic": "DENSITY_TRANSFORMS screen=[X: (1.70625, 0.0), Y: (0.0, 1.706852), O: (0.0, 0.0)] final=[X: (1.70625, 0.0), Y: (0.0, 1.706852), O: (0.0, 0.0)] canvas=[X: (1.0, 0.0), Y: (0.0, 1.0), O: (0.0, 0.0)] rect=[P: (0.0, 0.0), S: (1280.0, 1153.0)]"
+    }
+  ]
+}

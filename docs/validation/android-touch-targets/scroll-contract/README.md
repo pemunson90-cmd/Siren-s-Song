@@ -1,0 +1,7 @@
+# Scroll correction: local contract verification
+
+The seven actual same-frame PNG/JSON pairs in `production/density/scroll-boundary/captures/` pass the unchanged size/safe/nonoverlap and exact per-axis transform checker. These are explicitly local `test_android_density_fixture` outputs; three use the recorded x136 Android cutout as a labeled fixture. The native parser still rejects this provenance.
+
+Actual cover Settings state is music 0.5, effects 0.8, mute false. BACK is fully exposed. Effects is clipped and mute omitted; the helper proposes a physical gap-origin swipe (1260,775)→(1260,147), outside the reported slider hit regions at press. Inner Settings already exposes both controls and BACK, requiring no body swipe. The helper never taps effects/mute; every subsequent snapshot must preserve the initial values. These are preparation/geometry observations, not Android gesture passes.
+
+`settled-audit.json` retains all seven geometry results and input hashes; `settings-reachability.json` retains the six action-specific checks. The meaningful actual-engine scroll suite is now included in strict `density-checks.sh`; an independent execution passed its then-current 14 checks without script/engine errors, and the builder's later effects-reachability extension passes 15. Tooling guards pass 16 menu and 23 geometry checks. Native correction still requires a new exact-source run, retaining both failed attempts and the absent-intro observation.
