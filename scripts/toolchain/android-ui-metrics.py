@@ -15,7 +15,7 @@ sys.dont_write_bytecode=True
 from android_metric_records import read_records
 
 MISSION_ACTIONS = 'pause,sub,droneA,droneB,ping,camera,silent,queue,hold,emp,home,menu,more_orders,zoom_out,zoom_in,fit'
-SECONDARY_ACTIONS = 'pause,sub,droneA,droneB,zoom_out,zoom_in,fit,more_orders,camera,emp,home,recon,decoy,contact_hold,wait_drone,waypoint_mode'
+SECONDARY_ACTIONS = 'pause,sub,droneA,droneB,zoom_out,zoom_in,fit,more_orders,program,knock,home,recon,decoy,contact_hold,wait_drone,waypoint_mode'
 
 
 def numbers(value, count, label):

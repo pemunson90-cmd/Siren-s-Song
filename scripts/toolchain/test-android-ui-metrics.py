@@ -151,13 +151,57 @@ class TouchMetricsTests(unittest.TestCase):
         self.assertNotEqual(self.invoke(layout).returncode, 0)
 
     def test_secondary_page_requires_its_explicit_full_action_set(self):
-        layout = self.layout(); layout['orders_page'] = 'secondary'
-        actions = 'pause,sub,droneA,droneB,zoom_out,zoom_in,fit,more_orders,camera,emp,home,recon,decoy,contact_hold,wait_drone,waypoint_mode'.split(',')
-        layout['controls'] = [{'action': action, 'visual_rect': [100 + (i % 4) * 220, 100 + (i // 4) * 100, 200, 84], 'hit_rect': [100 + (i % 4) * 220, 100 + (i // 4) * 100, 200, 84]} for i, action in enumerate(actions)]
+        layout = self.mission_page('secondary')
         result = self.invoke(layout, required=None, page='secondary')
         self.assertEqual(result.returncode, 0, result.stderr)
         layout['controls'] = [control for control in layout['controls'] if control['action'] != 'recon']
         self.assertNotEqual(self.invoke(layout, required=None, page='secondary').returncode, 0)
+
+    def mission_page(self, page):
+        actions = ('pause,sub,droneA,droneB,ping,camera,silent,queue,hold,emp,home,menu,more_orders,zoom_out,zoom_in,fit' if page == 'primary' else
+                   'pause,sub,droneA,droneB,recon,decoy,contact_hold,wait_drone,waypoint_mode,program,knock,home,more_orders,zoom_out,zoom_in,fit').split(',')
+        layout = self.layout(); layout['orders_page'] = page
+        layout['controls'] = [{'action': action, 'visual_rect': [100 + (i % 4) * 220, 100 + (i // 4) * 100, 200, 84], 'hit_rect': [100 + (i % 4) * 220, 100 + (i // 4) * 100, 200, 84]} for i, action in enumerate(actions)]
+        return layout
+
+    def test_legacy_secondary_camera_emp_cannot_replace_new_tactical_controls(self):
+        layout = self.mission_page('secondary')
+        for control in layout['controls']:
+            if control['action'] in ('program', 'knock'):
+                control['action'] = {'program': 'camera', 'knock': 'emp'}[control['action']]
+        result = self.invoke(layout, required=None, page='secondary')
+        self.assertEqual(result.returncode, 1)
+        self.assertIn('Missing required fully exposed control: program', result.stdout)
+        self.assertIn('Missing required fully exposed control: knock', result.stdout)
+
+    def test_secondary_tactical_controls_must_be_present_unclipped_and_48dp(self):
+        for action in ('program', 'knock'):
+            for defect in ('missing', 'clipped', 'small'):
+                with self.subTest(action=action, defect=defect):
+                    layout = self.mission_page('secondary')
+                    control = next(c for c in layout['controls'] if c['action'] == action)
+                    if defect == 'missing':
+                        layout['controls'].remove(control)
+                    else:
+                        control['hit_rect'][3] = 48
+                        control['clipped'] = defect == 'clipped'
+                    result = self.invoke(layout, required=None, page='secondary')
+                    self.assertEqual(result.returncode, 1)
+                    errors = json.loads(result.stdout)['errors']
+                    if defect == 'missing':
+                        self.assertIn('Missing required fully exposed control: ' + action, errors)
+                    else:
+                        self.assertTrue(any(error.startswith(action + ':') for error in errors), errors)
+
+    def test_primary_still_requires_camera_and_emp(self):
+        self.assertEqual(self.invoke(self.mission_page('primary'), required=None).returncode, 0)
+        for action in ('camera', 'emp'):
+            with self.subTest(missing=action):
+                layout = self.mission_page('primary')
+                layout['controls'] = [c for c in layout['controls'] if c['action'] != action]
+                result = self.invoke(layout, required=None)
+                self.assertEqual(result.returncode, 1)
+                self.assertIn('Missing required fully exposed control: ' + action, result.stdout)
 
     def test_cannot_use_wrong_page_snapshot(self):
         layout = self.layout(); layout['orders_page'] = 'secondary'
