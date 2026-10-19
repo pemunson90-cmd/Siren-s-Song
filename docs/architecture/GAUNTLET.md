@@ -1,5 +1,8 @@
 # Siren's Song production architecture
 
+> **2026-10-19 user workflow override:** The continuous Gauntlet mandate remains active, but the previous cycle-by-cycle full validation/review steps are superseded by the current compact execution contract in `../../AGENTS.md`. Use feature branches and one integration reviewer, focused checks for normal merges, Android builds/full criticism at meaningful integrated milestones, and mandatory fetch/reload of governing files at each orchestrator task boundary. Preserve prior verified artifacts; do not restart existing production work.
+
+
 The user authorized the complete game and autonomous Gauntlet in the kickoff request on 18 October 2026 (America/New_York). This supersedes the earlier import-only scope. Source authority remains `docs/SOURCE_AUTHORITY.md`. Original imported files remain immutable.
 
 ## Creative contract
