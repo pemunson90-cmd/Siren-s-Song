@@ -11,6 +11,10 @@ adb get-state | grep -Eq '^device$'
 adb logcat -c
 cleanup() {
     adb logcat -d >"$output/logcat.txt" 2>&1 || true
+    adb exec-out screencap -p >"$output/final-display.png" 2>/dev/null || true
+    adb shell dumpsys activity activities >"$output/final-activity.txt" 2>/dev/null || true
+    echo 'Focused Android runtime diagnostics:'
+    grep -E 'FATAL EXCEPTION|AndroidRuntime|Fatal signal|org.sirenssong.game|SCRIPT ERROR|[Gg]odot' "$output/logcat.txt" | tail -120 || true
     adb shell wm size reset >/dev/null 2>&1 || true
     adb shell wm density reset >/dev/null 2>&1 || true
 }
@@ -21,9 +25,16 @@ adb shell settings put system accelerometer_rotation 0
 # Natural portrait dimensions plus locked landscape produce the requested viewports.
 adb shell settings put system user_rotation 1
 launch() {
-    adb shell monkey -p "$package" -c android.intent.category.LAUNCHER 1 >"$output/launch-$1.txt"
-    sleep 4
-    adb shell pidof "$package" | tee "$output/pid-$1.txt" | grep -Eq '[0-9]'
+    adb shell monkey -p "$package" -c android.intent.category.LAUNCHER 1 | tee "$output/launch-$1.txt"
+    for ((attempt=0; attempt<30; attempt++)); do
+        if adb shell pidof "$package" >"$output/pid-$1.txt"; then break; fi
+        sleep 1
+    done
+    sleep 3
+    if ! adb shell pidof "$package" | tee "$output/pid-$1.txt" | grep -Eq '[0-9]'; then
+        echo "Game process missing after launch: $1" >&2
+        return 1
+    fi
 }
 shot() {
     adb exec-out screencap -p >"$output/$1.png"
