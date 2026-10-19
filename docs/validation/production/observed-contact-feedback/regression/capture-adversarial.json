@@ -1,0 +1,66 @@
+{
+  "checks": 8,
+  "all_passed": true,
+  "method": "real CLI and shell; mocked ADB/log transport and PNG header; no native pixel claim",
+  "results": [
+    {
+      "case": "newest-malformed-json",
+      "actual": 1,
+      "expected": 1,
+      "stderr": "Invalid capture evidence: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)"
+    },
+    {
+      "case": "newest-missing-mission",
+      "actual": 1,
+      "expected": 1,
+      "stderr": "Invalid capture evidence: Invalid capture_state mission"
+    },
+    {
+      "case": "newest-valid-wrong-mission",
+      "actual": 3,
+      "expected": 3,
+      "stderr": ""
+    },
+    {
+      "case": "newest-layout-only-after-postdraw",
+      "actual": 3,
+      "expected": 3,
+      "stderr": ""
+    },
+    {
+      "case": "log-session-replaced-with-same-record-count",
+      "actual": 3,
+      "expected": 3,
+      "stderr": ""
+    },
+    {
+      "case": "new-view-boundary-with-no-later-snapshot",
+      "actual": 3,
+      "expected": 3,
+      "stderr": ""
+    },
+    {
+      "case": "script-error-following-valid-postdraw",
+      "actual": 1,
+      "expected": 1,
+      "stderr": "Invalid capture evidence: Native runtime error while waiting for capture"
+    },
+    {
+      "case": "postcapture-incomplete-latest-retries",
+      "actual": 0,
+      "expected": 0,
+      "events": [
+        "capture",
+        "log:1",
+        "capture",
+        "log:2",
+        "retry",
+        "log:3",
+        "capture",
+        "log:4"
+      ],
+      "final_exists": true,
+      "stderr": ""
+    }
+  ]
+}

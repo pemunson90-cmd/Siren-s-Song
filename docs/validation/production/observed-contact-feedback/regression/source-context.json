@@ -1,0 +1,10 @@
+{
+  "baseline": "9dacbb4a6ac5a7851c368ad060805048bd541056",
+  "candidate": "frozen workingtree product/tooling bytes; manifest authoritative",
+  "routing_requested": "gpt-6.1-sol/high",
+  "actual_backend_usage_cost": "unavailable",
+  "copy": "baseline git archive; candidate copy excludes .godot; both before independent probes",
+  "review_start_head": "809282ded81bb7b71ffad683b94eb93394673990",
+  "reviewed_source_commit": "5eb571f20f43d62810685713118f37147d0121e4",
+  "source_frozen_equivalent_to_commit": true
+}

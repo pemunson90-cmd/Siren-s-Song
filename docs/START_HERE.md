@@ -2,7 +2,7 @@
 
 ## Current stage
 
-Active persistent production Gauntlet in Godot 4.6.3. The [phone dashboard](PHONE_DASHBOARD.md) is the canonical current source/build/evidence entry. Original prototype import/hash verification and ratified Addendum A fixes are preserved. Inspected density b809501 is preserved. Reviewed acoustic source08eca25 / native9dacbb4 / run39244955064 now passes the local/independent/native and scoped byte/pixel gates. The next bounded cycle starts with footage of legitimately observed response/echo/expiry to guide teaching under sensor uncertainty. Read WORKBENCH/CONTINUATION and inspect local changes before repeating work. Experimental finale/full-campaign native, physical Fold7 and human audio acceptance remain open. Imported originals remain immutable.
+Active persistent production Gauntlet in Godot 4.6.3. The [phone dashboard](PHONE_DASHBOARD.md) is the canonical source/build/evidence entry. Original prototype import, ratified Addendum A and inspected density/acoustic native gains remain preserved. Inspected playable baseline is9dacbb4/run39244955064. Current contact-identity and rendered-capture-state candidate is locally committed5eb571f with passing integrated checks, independent experience review and separate regression support; new native evidence precedes APK promotion. The next Blackwater investigation experiment is already running in an isolated snapshot. Read WORKBENCH/CONTINUATION and inspect local changes; do not restart completed work. Full native campaign/finale, physical Fold7 and human audio acceptance remain open. Imported originals remain immutable. Task/worker/checkpoint completion automatically triggers continued execution; only explicit user stop or an actual observed blocking limit permits pause.
 
 ## Read order
 
