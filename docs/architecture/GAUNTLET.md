@@ -1,5 +1,8 @@
 # Siren's Song production architecture
 
+> **CURRENT GAME QUALITY/CONTENT OVERRIDE (2026-10-19):** Read `../CURRENT_GAME_SPEC.md` and `../V7_TO_GODOT_PARITY.md`; these embody the latest user direction and supersede historical single-level functional-spec requirements. Gauntlet is permanently iterative until explicit user stop: improve underlying gameplay depth and coherent content toward AAA-caliber, publishable-quality execution (no store submission/publishing administration) at every pass, critique against the whole player experience, select the next substantial deficiency, and avoid meaningless granular validation loops. Restore verified v7 mechanics deliberately, including functional knockdown torpedo. Existing Godot advancements stay. Continue branch/reviewer/milestone process.
+
+
 > **2026-10-19 user workflow override:** The continuous Gauntlet mandate remains active, but the previous cycle-by-cycle full validation/review steps are superseded by the current compact execution contract in `../../AGENTS.md`. Use feature branches and one integration reviewer, focused checks for normal merges, Android builds/full criticism at meaningful integrated milestones, and mandatory fetch/reload of governing files at each orchestrator task boundary. Preserve prior verified artifacts; do not restart existing production work.
 
 
