@@ -308,7 +308,7 @@ func ship_instrument_layout() -> Array:
 	if not own.alive or not Rect2(Vector2.ZERO,size).has_point(p):return []
 	var font=ThemeDB.fallback_font;var text_size=feedback_font_size
 	var radius=maxf(instrument_height*1.1,(72 if sim.selected==0 else 24)*world_scale+12)
-	var top="QUIETUS · HULL %d · O₂ %d"%[roundi(sim.hull),roundi(sim.oxygen)] if sim.selected==0 else "%s · BAT %d%% · %s"%[own.name,roundi(own.battery),"LOW" if own.silent else "OPEN"]
+	var top="QUIETUS · HULL %d · O₂ %d"%[roundi(sim.hull),roundi(sim.oxygen)] if sim.selected==0 else "%s · BAT %d%% · %s · %s"%[own.name,roundi(own.battery),"LOW" if own.silent else "OPEN","QUIET42" if own.get("drone_drive","transit")=="quiet" else "TRANSIT96"]
 	var noise=preload("res://src/simulation/acoustic_paths.gd").motion_radius(own.vel.length())
 	var lower="MOTION ~%dm · open water"%roundi(noise) if sim.mission.get("acoustic_revision",0)==1 else "MOTION · %dm/s"%roundi(own.vel.length())
 	var pulses=sim.acoustic_feedback().pulses

@@ -252,7 +252,8 @@ func _refresh() -> void:
 	order_buttons.wait_drone.text="WAIT\nDRONE"
 	var mode="ADD TO ROUTE" if sim.queue_mode else "REPLACE ROUTE"
 	var goals=sim.route_goals(); var intent=""
-	if not goals.is_empty(): intent="TO 1: %s / %s · "%["FIXED96" if sim.selected>0 else goals[0].mode.to_upper(),"STOP" if goals[0].stop else "PASS"]
+	if not goals.is_empty(): intent="TO 1: %s / %s · "%[route_editor.mode_label(goals[0].mode,sim.selected>0),"STOP" if goals[0].stop else "PASS"]
+	if sim.selected>0:intent="DRIVE %s · "%["QUIET42" if sim.units[sim.selected].get("drone_drive","transit")=="quiet" else "TRANSIT96"]+intent
 	var context=sim.camera_context().text
 	if scout.state=="armed":context="SCOUT: own passive contact stops · route kept"
 	elif scout.state=="stopped":context=("SCOUT braking" if sim.units[sim.selected].vel.length()>2 else "SCOUT holding")+" · own contact · route kept · SCOUT resumes"
@@ -662,7 +663,9 @@ func _planner_intent_metrics() -> Dictionary:
 		var unit=sim.units[id]; var goals=[]
 		for goal in sim.route_goals(id):
 			goals.append({"pos":[goal.pos.x,goal.pos.y],"mode":goal.mode,"stop":goal.stop,"legacy":goal.get("legacy",false)})
-		own_units.append({"alive":unit.alive,"pos":[unit.pos.x,unit.pos.y],"velocity":[unit.vel.x,unit.vel.y],"battery":unit.battery,"silent":unit.silent,"hold":unit.hold,"goals":goals})
+		var own={"alive":unit.alive,"pos":[unit.pos.x,unit.pos.y],"velocity":[unit.vel.x,unit.vel.y],"battery":unit.battery,"silent":unit.silent,"hold":unit.hold,"goals":goals}
+		if id>0:own["drive"]=unit.get("drone_drive","transit")
+		own_units.append(own)
 	return {"mission":mission_index,"paused":sim.paused,"selected":sim.selected,"elapsed":sim.elapsed,"oxygen":sim.oxygen,"hull":sim.hull,"tools":sim.tools.duplicate(),"queue":sim.queue_mode,"pass_through":sim.pass_through,"units":own_units}
 func _ui_metrics(capture_phase: String="layout_only") -> Dictionary:
 	var viewport=get_viewport_rect().size; var window=Vector2(get_window().size)

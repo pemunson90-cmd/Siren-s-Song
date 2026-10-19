@@ -83,6 +83,8 @@ turn_safe_navigation_tests|TURN SAFE NAVIGATION
 expanded_region_tests|EXPANDED REGION
 expanded_region_journeys|EXPANDED JOURNEYS
 route_program_tests|ROUTE PROGRAM
+drone_drive_tests|DRONE DRIVE
+drone_drive_ui_tests|DRONE DRIVE UI
 drone_operations_tests|DRONE OPERATIONS
 drone_operations_ui_tests|DRONE OPERATIONS UI
 contact_reports_tests|CONTACT REPORT
