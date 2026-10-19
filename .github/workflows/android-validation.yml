@@ -33,13 +33,15 @@ jobs:
         with:
           packages: 'platform-tools build-tools;36.0.0 emulator'
           log-accepted-android-sdk-licenses: false
-      - name: Cache official Godot downloads
-        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+      - name: Restore official Godot downloads
+        id: godot-cache
+        uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
           path: ${{ env.TOOLCHAIN_CACHE }}/downloads
           key: godot-4.6.3-official-sha512-v1
-      - name: Preserve development APK signing identity
-        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+      - name: Restore development APK signing identity
+        id: signing-cache
+        uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
           path: ${{ env.TOOLCHAIN_CACHE }}/debug.keystore
           key: sirens-song-development-signing-v1
@@ -47,6 +49,20 @@ jobs:
         run: |
           scripts/toolchain/install-godot.sh
           echo "$TOOLCHAIN_CACHE/bin" >> "$GITHUB_PATH"
+      - name: Cache verified Godot downloads before runtime tests
+        if: ${{ success() && steps.godot-cache.outputs.cache-hit != 'true' }}
+        uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: ${{ env.TOOLCHAIN_CACHE }}/downloads
+          key: godot-4.6.3-official-sha512-v1
+      - name: Prepare development signing identity
+        run: scripts/toolchain/configure.sh
+      - name: Preserve development signing identity before runtime tests
+        if: ${{ success() && steps.signing-cache.outputs.cache-hit != 'true' }}
+        uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: ${{ env.TOOLCHAIN_CACHE }}/debug.keystore
+          key: sirens-song-development-signing-v1
       - name: Record actual emulator capabilities
         run: |
           mkdir -p "$ARTIFACT_DIR"

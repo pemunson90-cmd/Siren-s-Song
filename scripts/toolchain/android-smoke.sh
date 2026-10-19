@@ -9,7 +9,7 @@ mkdir -p "$output"
 stage() {
     echo "SS_SMOKE_STAGE $(date -u +%Y-%m-%dT%H:%M:%SZ) $*" | tee -a "$output/progress.txt"
 }
-stage 'device-ready; emulator action boot has completed'
+stage 'smoke script entered after emulator action boot'
 adb wait-for-device
 adb get-state | grep -Eq '^device$'
 adb logcat -c
@@ -118,11 +118,12 @@ PY
     stage "$profile native mission/order/pause taps verified"
     shot "$profile-gameplay"
     adb shell input keyevent KEYCODE_HOME
-    stage "$profile waiting for background process termination"
+    stage "$profile background and resume"
     sleep 2
     launch "$profile-resume"
     shot "$profile-resume"
     adb shell input keyevent KEYCODE_HOME
+    stage "$profile waiting for background process termination"
     adb logcat -d >"$output/before-kill-$profile.txt"
     restore_before="$(grep -Ec 'SS_RESTORE ok mission=0' "$output/before-kill-$profile.txt" || true)"
     # am kill only terminates background processes; Android's onStop transition is asynchronous.
