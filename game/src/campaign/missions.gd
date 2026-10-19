@@ -112,4 +112,5 @@ static func make(index: int) -> Dictionary:
 	if i==5:
 		result["contact_report_revision"]=1
 		result.brief+=" A Siren with clear sight can report a last-seen area to one nearby peer after 2s. Break sight to interrupt; disruption stops the report but its own noise can expose you. Reports travel through the local water, never the whole network."
+	if i==1:preload("res://src/campaign/split_channel_region.gd").apply(result)
 	return result
