@@ -35,7 +35,7 @@ func _initialize():
  check(s.task_options(2,Vector2(650,1120)).is_empty() and s.task_options(1,Vector2(1000,1880)).is_empty(),"unfitted craft and out-of-reach point expose no task options")
  var accepted=s.snapshot();s.command("select",{"unit":1});var before=s.snapshot()
  check(not s.command("route_edit",{"index":0,"task_site":"guessed_hidden"}) and s.snapshot()==before,"unknown task edit rejects atomically")
- check(not s.command("route_edit",{"index":0,"stop":false}),"task cannot turn into PASS during edit")
+ check(not s.command("route_edit",{"index":0,"stop":false}) and s.message.contains("Remove TASK"),"task cannot turn into PASS without explaining TASK removal")
  s.command("select",{"unit":0})
  for n in 1200:
   step(s,1)
@@ -53,6 +53,12 @@ func _initialize():
  check(not Sim.valid_snapshot(unknown),"saved task cannot bind unobserved source despite internally matching schema")
  var invalid_clock=inflight.duplicate(true);invalid_clock.capture_time=INF
  check(not Sim.valid_snapshot(invalid_clock),"running task cannot restore forged canonical progress")
+ # Controlled own-intent fixture from a real in-flight save: preserve an
+ # armed guard through canonical HOLD, then use its ACTUAL fresh own contacts.
+ var guarded=inflight.duplicate(true);guarded.units[1].task_run.resume_hold="SCOUT"
+ var scout=make();check(scout.restore(guarded),"saved armed guard remains bound to actual running task")
+ scout.paused=false;scout.advance(1./60)
+ check(scout.capture_unit==-1 and scout.units[1].hold=="SCOUT_STOP" and scout.units[1].task_run.phase=="blocked","fresh own observation latches SCOUT while canonical task HOLD is active")
  var undo=s.snapshot();s.command("select",{"unit":1});s.command("route_edit",{"index":1,"point":Vector2(1050,1780)})
  check(s.capture_unit==1 and s.units[1].task_run.phase=="running","future withdrawal edit preserves active canonical job")
  s.command("route_undo");check(s.route_goals(1)[1].pos==Vector2(1000,1780) and s.capture_unit==1,"undo future edit preserves physical work")
@@ -77,6 +83,11 @@ func _initialize():
  check(not interrupted.units[1].has("task_run"),"explicit task reissue rearms blocked intent without restoring stale guard")
  interrupted.command("emergency",{"point":Vector2(1000,1780)})
  check(not interrupted.units[1].has("task_run") and not interrupted.route_goals(1)[0].has("task_site"),"emergency replacement clears task intent and stale guard restoration")
+ var lost=make();plan(lost);lost.paused=false
+ for n in 3600:
+  lost.advance(1./60)
+  if not lost.units[1].alive:break
+ check(not lost.units[1].alive and lost.capture_unit!=1 and not lost.mission.objectives[0].captured and lost.units[1].task_run.phase=="blocked","actual unprotected loss interrupts task without granting completion or withdrawal")
  var busy=make();busy.command("silent");busy.command("route",{"point":Vector2(650,1120)})
  busy.command("select",{"unit":1});busy.command("route",{"point":Vector2(650,1120)});busy.command("select",{"unit":0})
  for n in 1500:
