@@ -4,13 +4,19 @@
 
 Development build **93b8631**, verified 19 October 2026. The first mission completed on the Android emulator through ordinary touch commands, including camera capture, extraction and saved campaign progress after kill/restart. Cover and unfolded landscape layouts/lifecycle passed. This is a development baseline, with physical Fold7 and complete native campaign validation still open.
 
+## Active challenger · touch navigation
+
+Candidate **92625ac** adds 1–4× zoom, drag pan, +/−/FIT, route-on-short-release, reserved threat information and a MORE ORDERS disclosure. It keeps the simulation, missions and audio unchanged. Local checks pass **8 parser guards + 88 core + 225 runtime checks**. A separate independent regression hunt is reviewing baseline comparisons; [native run 39204224960](https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/39204224960) is assessing actual zoom/swipe/FIT, accidental orders and the existing completion/lifecycle/audio gates. **Promotion is pending.**
+
+[Desktop navigation clip](validation/production/touch/navigation.mp4) · [Cover zoom](validation/production/touch/cover-zoom.png) · [Unfolded controls](validation/production/touch/inner-advanced.png) · [Evidence and retained failures](validation/production/touch/README.md). The clip uses synthetic Godot input; it does not establish Android OS pinch or physical finger comfort.
+
 ## What improved
 
 - **Cold Foundry has a distinct encounter:** physical industrial terrain, two different optical discoveries, an explained carrier response and recoverable extraction. Its independent review supports that bounded gain.
 - **The native audio crash is fixed:** generated PCM loops now end on a valid sample. Android sustained travel crossed the former crash boundary, then completed the camera/objective sequence without fatal, engine or script errors.
 - **Progress survives restart:** the installed app restored Shelf Signal as recovered and Split Channel as available. Development signing matches earlier builds, permitting compatible updates that retain saves.
 
-## See the current game
+## See the verified baseline
 
 Actual Android camera exposure from the verified build:
 
@@ -34,7 +40,7 @@ Baseline source: **93b8631**; audio/game fix **cb8c6f9**; Foundry content **322d
 
 ## Weaknesses and next work
 
-**Zoom, pan and friendlier touch controls are next.** Small craft, crowded threat labels and equally weighted commands make phone-scale decisions harder than they should be. The prototype's dimensions and interface are not constraints. Touch changes must preserve deliberate tactical pause and reliable route replacement, with cover/unfolded gesture evidence.
+**Zoom, pan and friendlier touch controls are under assessment.** Small craft, crowded threat labels and equally weighted commands made phone-scale decisions harder than they should be. The challenger targets those weaknesses, with an extra disclosure tap for secondary orders as an explicit tradeoff. The prototype's dimensions and interface are not constraints. Promotion requires preserved tactical pause and reliable route replacement, plus actual cover/unfolded input evidence.
 
 Physical Fold7 cutouts/hinge/rotation, comfort, real device performance/heat, subjective audio, newcomer comprehension and all six missions on installed Android remain open. Independent review also identifies overlapping encounter labels and a factory facade that could integrate better with its monumental surroundings. Passing checks do not close these experience gaps.
 
