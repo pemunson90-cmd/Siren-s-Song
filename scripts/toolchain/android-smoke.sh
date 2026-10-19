@@ -9,6 +9,15 @@ mkdir -p "$output"
 stage() {
     echo "SS_SMOKE_STAGE $(date -u +%Y-%m-%dT%H:%M:%SZ) $*" | tee -a "$output/progress.txt"
 }
+adb_bin="$(command -v adb)"
+adb() {
+    local status=0
+    timeout --foreground "${ADB_TIMEOUT_SECONDS:-30}" "$adb_bin" "$@" || status=$?
+    if (( status != 0 )); then
+        echo "ADB status $status: ${1:-} ${2:-}" >&2
+    fi
+    return "$status"
+}
 stage 'smoke script entered after emulator action boot'
 adb wait-for-device
 adb get-state | grep -Eq '^device$'
@@ -23,7 +32,7 @@ cleanup() {
     adb shell wm density reset >/dev/null 2>&1 || true
 }
 trap cleanup EXIT
-adb install -r "$apk" | tee "$output/install.txt"
+ADB_TIMEOUT_SECONDS=120 adb install -r "$apk" | tee "$output/install.txt"
 stage 'APK installed'
 component="$(adb shell cmd package resolve-activity --brief -a android.intent.action.MAIN -c android.intent.category.LAUNCHER -p "$package" | tr -d '\r' | tail -1)"
 [[ "$component" == "$package/"* ]] || { echo "No launcher activity resolved: $component" >&2; exit 1; }
@@ -59,8 +68,11 @@ launch() {
     fi
 }
 shot() {
+    stage "capture $1: screenshot begin"
     adb exec-out screencap -p >"$output/$1.png"
+    stage "capture $1: screenshot complete; activity dump begin"
     adb shell dumpsys activity activities >"$output/activity-$1.txt"
+    stage "capture $1: activity dump complete"
 }
 tap_target() {
     local action="$1" expected="$2" stage="$3" coords=""
@@ -71,7 +83,7 @@ tap_target() {
         if coords="$(python3 "$(dirname -- "$0")/android-target.py" "$output/target-$stage.txt" "$output/target-$stage.png" "$action")"; then break; fi
         sleep 1
     done
-    [[ -n "$coords" ]] || { echo "No current visible target for $action" >&2; return 1; }
+    [[ -n "$coords" ]] || { cp "$output/target-$stage.png" "$output/failed-target.png"; echo "No current visible target for $action" >&2; return 1; }
     before_count="$(grep -Ec "$expected" "$output/target-$stage.txt" || true)"
     read -r tap_x tap_y <<<"$coords"
     echo "Touch $stage at $tap_x,$tap_y"
@@ -84,6 +96,7 @@ tap_target() {
         sleep 1
     done
     echo "Touch $stage did not emit expected marker: $expected" >&2
+    cp "$output/target-$stage.png" "$output/failed-target.png"
     return 1
 }
 for profile in cover inner; do

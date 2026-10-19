@@ -117,9 +117,29 @@ jobs:
         with:
           name: android-native-evidence
           path: |
-            artifacts/
-            !artifacts/*.apk
+            artifacts/*.log
+            artifacts/*.txt
+            artifacts/*.sha256
+            artifacts/android-smoke/*.txt
+            artifacts/android-smoke/final-display.png
+            artifacts/android-smoke/failed-target.png
           if-no-files-found: warn
+          retention-days: 14
+      - name: Upload cover viewport screenshots
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: android-cover-screenshots
+          path: artifacts/android-smoke/cover*.png
+          if-no-files-found: ignore
+          retention-days: 14
+      - name: Upload inner viewport screenshots
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: android-inner-screenshots
+          path: artifacts/android-smoke/inner*.png
+          if-no-files-found: ignore
           retention-days: 14
       - name: Upload installable APK separately
         if: always()
