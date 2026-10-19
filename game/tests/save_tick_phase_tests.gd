@@ -50,12 +50,12 @@ func _initialize():
  var camera_copy=Sim.new();check(camera_copy.restore(camera.snapshot()),"fractional in-flight camera restores")
  camera.paused=false;camera_copy.paused=false;camera.advance(Sim.STEP*0.7);camera_copy.advance(Sim.STEP*0.7)
  check(camera.mission.objectives[0].captured and camera_copy.mission.objectives[0].captured and camera.snapshot()==camera_copy.snapshot(),"fractional continuation preserves canonical evidence completion tick")
- # A terminal tick stops draining an already accumulated frame. Its legitimate
- # unused remainder can exceed STEP, but can never execute after the outcome.
+ # A terminal tick discards its unused frame so STEP and batched endings
+ # serialize the same clock while active fractional phase remains exact.
  var terminal=make();terminal.oxygen=0.0001;terminal.paused=false;terminal.advance(0.25);terminal.paused=true
  print("TERMINAL accumulator=",terminal.accumulator)
  var terminal_copy=Sim.new()
- check(terminal.outcome=="lost" and terminal.accumulator>Sim.STEP and terminal_copy.restore(terminal.snapshot()) and terminal_copy.accumulator==terminal.accumulator,"terminal frame retains legitimate unconsumed remainder")
+ check(terminal.outcome=="lost" and terminal.accumulator==0 and terminal_copy.restore(terminal.snapshot()) and terminal_copy.accumulator==0,"terminal frame discards unused time and round-trips a canonical ended clock")
  var isolation=make();step(isolation,47);isolation.start(0)
  check(isolation.sensor_clock==0 and isolation.accumulator==0 and isolation.snapshot()==make().snapshot(),"new mission phase is independent of prior mission ticks")
  # Absence means the old phase is unknowable. Keep the old snapshot shape;

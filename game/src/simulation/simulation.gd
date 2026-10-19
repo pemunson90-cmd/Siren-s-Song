@@ -608,6 +608,8 @@ func advance(dt: float) -> void:
 	accumulator+=minf(dt,0.25)
 	while accumulator+0.0000001>=STEP and outcome.is_empty():
 		_tick(STEP); accumulator-=STEP
+	# A finished dive discards the unused frame instead of saving dt-dependent time.
+	if not outcome.is_empty():accumulator=0.0
 func _tick(dt: float) -> void:
 	Departure.emit(self)
 	elapsed+=dt; oxygen=maxf(0,oxygen-dt/18.0)
