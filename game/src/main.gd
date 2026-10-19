@@ -252,6 +252,7 @@ func _refresh() -> void:
 		unit_buttons[i].modulate=Color("80d9cf") if sim.selected==i else Color.WHITE
 		unit_buttons[i].disabled=not sim.units[i].alive
 		var task="LOST" if not sim.units[i].alive else (capture_task if sim.capture_unit==i else (sim.units[i].hold if not sim.units[i].hold.is_empty() else ("ROUTE" if not sim.units[i].route.is_empty() else "READY")))
+		task={"SCOUT_STOP":"ALERT"}.get(task,task)
 		unit_buttons[i].text=["QUIETUS","DRONE A","DRONE B"][i]+"\n"+task
 		unit_buttons[i].add_theme_font_size_override("font_size",maxi(13,roundi(ui_touch_height*0.25)))
 	order_buttons.waypoint_mode.text="PASS\nPOINTS" if sim.pass_through else "STOP AT\nPOINTS"
@@ -259,7 +260,7 @@ func _refresh() -> void:
 	order_buttons.camera.text="SAMPLE" if sim.mission.get("blackwater_revision",0)==1 else "CAMERA\nLISTEN" if sim.mission.get("finale_revision",0)==1 else ("CAMERA\nLINK" if mission_index==1 else "CAMERA")
 	order_buttons.queue.text="+ QUEUE ON" if sim.queue_mode else "REPLACE"
 	order_buttons.program.text="PLAN\nROUTE"
-	order_buttons.silent.text="SILENT ✓" if sim.units[sim.selected].silent else "CRUISE"
+	order_buttons.silent.text=("LOW\nPROFILE" if sim.units[sim.selected].silent else "OPEN\nPROFILE") if sim.selected>0 else ("SILENT ✓" if sim.units[0].silent else "CRUISE")
 	order_buttons.knock.text="CANCEL\nTORPEDO" if knock_armed else "TORPEDO\n%d"%sim.tools.get("knock",0)
 	order_buttons.knock.disabled=not knock_armed and (sim.selected!=0 or not sim.units[0].alive or sim.tools.get("knock",0)<=0)
 	order_buttons.emp.text="DISRUPT\n%d"%sim.tools.emp
@@ -271,12 +272,17 @@ func _refresh() -> void:
 		log_label.text="WELL · %s | %s"%[comparison,sim.message]
 	advanced_button.text="BACK\nORDERS" if advanced_orders else "MORE\nORDERS"
 	order_buttons.menu.text="MENU"
-	order_buttons.contact_hold.text="IF\nCONTACT"
+	var scout=sim.scout_context()
+	order_buttons.contact_hold.text="IF\nCONTACT" if sim.selected==0 else ("FLEET\nGUARD" if scout.state=="legacy" else ("SCOUT\nRESUME" if scout.state=="stopped" else ("SCOUT\nON" if scout.state=="armed" else "SCOUT\nGUARD")))
 	order_buttons.wait_drone.text="WAIT\nDRONE"
 	var mode="ADD TO ROUTE" if sim.queue_mode else "REPLACE ROUTE"
 	var goals=sim.route_goals(); var intent=""
 	if not goals.is_empty(): intent="TO 1: %s / %s · "%["FIXED96" if sim.selected>0 else goals[0].mode.to_upper(),"STOP" if goals[0].stop else "PASS"]
-	detail_label.text="%s · %s · %s%s"%[sim.units[sim.selected].name.to_upper(),mode,intent,sim.camera_context().text]
+	var context=sim.camera_context().text
+	if scout.state=="armed":context="SCOUT: own passive contact stops · route kept"
+	elif scout.state=="stopped":context=("SCOUT braking" if sim.units[sim.selected].vel.length()>2 else "SCOUT holding")+" · own contact · route kept · SCOUT resumes"
+	elif scout.state=="legacy":context="FLEET GUARD · any fresh fleet contact holds"
+	detail_label.text="%s · %s · %s%s"%[sim.units[sim.selected].name.to_upper(),mode,intent,context]
 	if knock_armed: detail_label.text="TORPEDO · QUIETUS · 150m · noisy flight · impact pins 8s · tap fresh S# · CANCEL"
 func _toggle_advanced() -> void:
 	if advanced_orders: knock_armed=false; ocean.knock_targeting=false

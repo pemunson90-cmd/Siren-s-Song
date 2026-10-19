@@ -1,5 +1,6 @@
 extends RefCounted
 const Departure=preload("res://src/simulation/foundry_departure.gd")
+const DroneOperations=preload("res://src/simulation/drone_operations.gd")
 const Thermal=preload("res://src/simulation/thermal_front.gd")
 const Acoustics = preload("res://src/simulation/acoustic_paths.gd")
 const RouteProgram=preload("res://src/simulation/route_program.gd")
@@ -156,7 +157,11 @@ func command(order: String,args: Dictionary={}) -> bool:
 		"route_edit", "route_insert", "route_delete", "route_undo":
 			if not _edit_program(order,args): return false
 		"hold": u.hold="" if u.hold=="HOLD" else "HOLD"; message="Holding position" if u.hold!="" else "Route released"
-		"contact_hold": u.hold="" if u.hold=="CONTACT" else "CONTACT"; message="Will hold when a contact is observed"
+		"contact_hold":
+			if u.hold in ["CONTACT",DroneOperations.ARMED,DroneOperations.STOPPED]:
+				u.hold="";message="%s · condition released · retained route resumes"%u.name
+			elif selected==0:u.hold="CONTACT";message="Quietus fleet guard · hold while any fresh contact is observed"
+			else:u.hold=DroneOperations.ARMED;message="%s SCOUT · stop on its own passive contact · release or replot to continue"%u.name
 		"wait_drone": u.hold="" if u.hold=="DRONE" else "DRONE"; message="Wait until a live drone reaches its final waypoint"
 		"silent":
 			u.silent=not u.silent
@@ -166,7 +171,7 @@ func command(order: String,args: Dictionary={}) -> bool:
 				for node in u.route:
 					node.mode=u.route_plan[0].mode
 					if node.get("goal",false): break
-			message="Silent running" if u.silent else "Cruise thrust · increased noise"
+			message=(("Low visual profile" if u.silent else "Open visual profile")+" · drone thrust remains 96m/s") if selected>0 else ("Silent running" if u.silent else "Cruise thrust · increased noise")
 		"ping":
 			if ping_time>0: return false
 			ping_time=3.5; ping_origin=u.pos; _noise(u.pos,950,"ACTIVE SONAR"); events.append({"type":"ping","pos":u.pos}); message="Active return · your position is audible"
@@ -364,7 +369,11 @@ func _tick(dt: float) -> void:
 	for i in units.size():
 		var u=units[i]
 		if not u.alive: continue
-		var holding=u.hold=="HOLD" or (u.hold=="CONTACT" and has_live_contact())
+		if i>0 and u.hold==DroneOperations.ARMED:
+			var observed=DroneOperations.local_contact(contacts,i,elapsed)
+			if observed>=0:
+				u.hold=DroneOperations.STOPPED;message="%s observed S%d · SCOUT braking · release SCOUT or replot"%[u.name,observed+1]
+		var holding=u.hold in ["HOLD",DroneOperations.STOPPED] or (u.hold=="CONTACT" and has_live_contact())
 		if u.hold=="DRONE":
 			holding=false
 			for j in [1,2]:
@@ -451,11 +460,28 @@ func _observe() -> void:
 	for i in sirens.size():
 		if contact_visible(sirens[i]):
 			contacts[i]={"pos":sirens[i].pos,"time":elapsed,"mode":sirens[i].mode,"lock":sirens[i].lock,"angle":sirens[i].angle,"target":sirens[i].target,"type":sirens[i].get("type","patroller")}
+			contacts[i]["seen_by"]=passive_receivers(sirens[i].pos)
 			if sirens[i].get("pin_time",0)>0: contacts[i]["pin_time"]=sirens[i].pin_time
 	var expired: Array=[]
 	for i in contacts:
 		if elapsed-contacts[i].time>20: expired.append(i)
 	for i in expired: contacts.erase(i)
+# Acquisition provenance; active sonar/survey and remote beam warnings are not
+# a passive observation by every craft. Main reads the resulting cache only.
+func passive_receivers(point:Vector2)->Array:
+	var receivers=[]
+	for i in units.size():
+		var u=units[i]
+		if not u.alive:continue
+		var radius=(240.0 if i==0 else 330.0)*(0.65 if mission.darkness else 1.0)
+		if mission.get("thermal_revision",0)==1:radius*=Thermal.transmission(PackedVector2Array([u.pos,point]),mission.thermal_fronts)
+		if u.pos.distance_to(point)<radius and line_clear(u.pos,point):receivers.append(i)
+	return receivers
+func scout_context(unit_id:int=-1)->Dictionary:
+	var id=selected if unit_id<0 else unit_id
+	if id<1 or id>=units.size():return {"state":"none","contact":-1}
+	var hold=units[id].hold
+	return {"state":"armed" if hold==DroneOperations.ARMED else ("stopped" if hold==DroneOperations.STOPPED else ("legacy" if hold=="CONTACT" else "none")),"contact":DroneOperations.local_contact(contacts,id,elapsed)}
 # Chart/optical visibility stays independent. Thermal masking affects receiver
 # contacts, not terrain knowledge, photography or a visible beam on our craft.
 func contact_visible(enemy:Dictionary)->bool:
@@ -669,6 +695,7 @@ func restore(data: Dictionary) -> bool:
 static func valid_snapshot(data: Dictionary) -> bool:
 	if not data.has_all(["mission","units","sirens","known","tools"]): return false
 	if not data.mission is Dictionary or not data.units is Array or not data.sirens is Array or not data.known is Dictionary or not data.tools is Dictionary: return false
+	if not DroneOperations.valid(data):return false
 	if not data.mission.has_all(["id","rocks","objectives","extraction","title","darkness","depth"]): return false
 	if not data.mission.id is int or data.mission.id<0 or data.mission.id>5: return false
 	if not data.mission.rocks is Array or not data.mission.objectives is Array or not data.mission.extraction is Vector2: return false
