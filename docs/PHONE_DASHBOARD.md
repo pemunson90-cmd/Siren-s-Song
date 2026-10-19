@@ -2,7 +2,7 @@
 
 **[Latest inspected Android APK ·0afe5fc](https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/39251216827/artifacts/12186710188)** · [Install/update guide](PLAYTEST_ANDROID.md) · [Native evidence](validation/android-39251216827/README.md)
 
-Active Gauntlet: the contact-feedback/capture cycle is verified within scope; the next **Blackwater investigation experiment is already running**. Checkpoints save progress while development continues. Only the user determines satisfaction and program termination.
+Active Gauntlet: the contact-feedback/capture cycle is verified within scope; the next **direct Blackwater chapter implementation is already running**. Checkpoints save progress while development continues. Only the user determines satisfaction and program termination.
 
 ## What you can inspect
 
@@ -28,7 +28,9 @@ Native S# text appears only partially behind an ending/menu overlay in this prot
 
 The [fresh campaign scout](reviews/2026-10-19-campaign-quality-scout.md) found genuine reconnaissance risk but generic rewards: Blackwater promises an exchange while giving two more similar photographs. [Baseline approach](validation/production/campaign-quality-scout/blackwater-approach-16s.mp4) · [no-input exposure and real drone loss](validation/production/campaign-quality-scout/blackwater-noinput-16s.mp4).
 
-An [isolated experiment](../design/BLACKWATER_EXCHANGE_CYCLE.md) compares distinct request/reply information, quiet local sampling and audible standoff reacquisition. A timed transmission window is a hypothesis to reject if it only adds waiting. Early comparisons retain roughly5seconds of added solo waiting without demonstrated calibration-driven planning gain; ordinary completion and real standoff distances are now separately checked. Actual prototype footage and disposition follow before live-source integration. No global AI/sensing/resource retune or new equipment economy is implied.
+The [actual matched experiment](validation/production/blackwater-exchange-prototype/motion/README.md) rejected mandatory transmission timing: it added about five seconds of waiting without demonstrated tactical benefit. The implementation now develops distinct retained request/reply evidence and a quiet-close versus audible-standoff sampling choice, preserving legacy active saves and finite tools. No new chapter APK is promoted yet.
+
+The [independent adherence/progress audit](reviews/2026-10-19-gauntlet-adherence-progress-audit.md) found legitimate contact-feedback gains and corrected stale next-action records, while warning against over-certifying small presentation changes. The response is active chapter development, followed by fresh playable criticism—not another general audit.
 
 ## Preserved gains, losses and remaining bar
 

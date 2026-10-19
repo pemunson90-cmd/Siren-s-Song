@@ -1,12 +1,12 @@
 # Siren's Song progress workbench
 
-**Stage:** Active / Blackwater investigation prototype. Reviewed5eb571f, native0afe5fc/run39251216827 now passes scoped native, byte/signature and41-final-image review; final evidence archival is finishing. Current integrated gate257/298/1057/7/15/68 passes. Native fresh→memory teaching/full-campaign/physical acceptance remains open; inspected9dacbb4 and older fallbacks remain preserved.
+**Stage:** Active / direct Blackwater implementation; mandatory cadence rejected from actual matched motion. Reviewed5eb571f, native0afe5fc/run39251216827 now passes scoped native, byte/signature and41-final-image review; final evidence archival is published at1cbc97b. Current integrated gate257/298/1057/7/15/68 passes. Native fresh→memory teaching/full-campaign/physical acceptance remains open; inspected9dacbb4 and older fallbacks remain preserved.
 **Phone dashboard:** [current APK, evidence and limits](PHONE_DASHBOARD.md).
-**Development comparison base:** aa022cc / game b809501, native run 39229219785; existing artifacts retrieved normally through the selected Command-Library environment's inherited proxy under its unrestricted local policy. Runtime status reports connected but policy state unknown, so actual successful requests establish access rather than an invented enforcement claim.
+**Current playable comparison base:**0afe5fc/run39251216827, with inspected APK bytes, stable signature and scoped actual pixels. Historical entry baseaa022cc/b809501 and all earlier artifacts remain preserved. The current managed Command-Library runtime reports connected, unrestricted/enforced, observations current; no root model-effort telemetry is exposed.
 **Fully inspected native fallback:** f1ea536 / runtime 92625ac; inherited patrol defect recorded. Latest tested APK contains experimental finale ancestry; native finale/full-campaign quality remains unresolved.
 **Player device:** Galaxy Z Fold7; physical folding, touch comfort, OS multi-touch and sustained performance remain open.
 
-## Current evidence and next authorized action
+## Historical role/density evidence — current action is above and below
 
 Ratified A's implemented role gains now have local deterministic, actual desktop footage, separate fresh criticism and native numerical evidence. Current source gate 234 core / 230 runtime plus 8 navigation and current parser guards passes. Independent exact-source probes establish ten circulating patrollers and three intentional station roles, stimulus/search/return, distant current-sight pursuit with emitter standoff, save/pause and legacy continuation. The Well planning-margin observation is inherited from 8d8635a; no sampled 12-unit body penetration was found. Source-specific losses and considered alternatives are retained rather than tuning back to old hull scores. [Role evidence](validation/production/siren-roles/README.md) and [fresh review](reviews/2026-10-19-siren-roles-regressions.md).
 
@@ -26,7 +26,7 @@ Latest [native 39229219785](validation/android-39229219785/README.md), exact sou
 
 Retained failures remain meaningful: two early first-swipe failures, an explicitly absent immersive intro, and 744ad3e's confirmed menu success followed by exactly 1023-character truncated HUD JSON. The [transport-only repair](validation/production/density/metric-transport/README.md) now passes natively without dropping controls, weakening geometry or using stale snapshots. Local strict gate is 234 core / 230 runtime / 1057 geometry / 7 menu / 15 scroll / 65 transport plus parser/archive guards. Initial 63/2 raw Dictionary assertion failures are preserved and explained by JSON integer-to-float normalization; strict canonical byte equality and independent field-value checks pass.
 
-**Next single action:** inspect the current-source [response probe](validation/production/acoustic-feedback/observed-response-probe/README.md), then choose the smallest bounded observation/identity/launch-copy teaching change. Preserve current source9dacbb4, b809501 and f1ea536. Native39244955064 and byte/pixel review are complete within the explicit limits; do not rerun them. Full native optical/threat stress, nonmenu capture synchronization, physical Fold7, full campaign/finale and subjective audio remain open.
+**Next single action:** continue the assigned direct Blackwater request/reply implementation, then inspect actual playable evidence and commission separate experience/regression reviews. Mandatory cadence is rejected; do not redo prototype timing or completed contact/native retrieval. [Independent adherence/progress audit](reviews/2026-10-19-gauntlet-adherence-progress-audit.md) confirms bounded gains and identifies campaign-content priority. Preserve current inspected APK/fallbacks. Root owns integration/publication; `/root/decoy_feedback` owns active game files and `blackwater-direct/` evidence.
 
 ## Resumed artifact gate — 19 October 2026
 

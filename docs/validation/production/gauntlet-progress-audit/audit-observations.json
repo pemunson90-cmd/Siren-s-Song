@@ -1,0 +1,198 @@
+{
+  "observed_utc": "2026-10-19T12:50:27.726405+00:00",
+  "published_audit_base": "1cbc97b08f1022ef675dd6c1cb79bc1dffbf4f49",
+  "reviewed_product": "5eb571f20f43d62810685713118f37147d0121e4",
+  "native_source": "0afe5fce83c575995b718c5e3d6b152bd7282df2",
+  "requested_model": "gpt-6.1-sol/high/fresh context (parent dispatch)",
+  "actual_model_token_cost_telemetry": "unknown",
+  "evidence_sha256": {
+    "docs/validation/production/observed-contact-feedback/clips/baseline-response.mp4": "d82e97d59f9bc869670987fbe80b08e2a1685622ff8643d8f5f34a19f77e1451",
+    "docs/validation/production/observed-contact-feedback/clips/challenger-response.mp4": "b8f4898a7831335eac92d8769b96842e428a25b0deee00835045de101d11cac0",
+    "docs/validation/production/observed-contact-feedback/clips/existing-lock-loss.mp4": "f1e94b2eb6e8f819416f74794cd53ad3274fb27a7b231a563b8ef960ece8e398",
+    "docs/validation/production/blackwater-exchange-prototype/policies.json": "f87acc7ebf391377e9073a73d04909c8d1da75495c5b010b491cb76a4380712c",
+    "reference/original-prototype/sirens_song_prototype_v7.html": "3b00be96179f6a61d23fe203483de3f4083bcc866c75d483ac5bfa748502e85b"
+  },
+  "video_inspection": "ffprobe duration16s each; decoded successive2s samples from all three clips, viewed both halves, plus author precise chronology stills; not every-frame playback or human listening",
+  "native_manifest": {
+    "path": "docs/validation/android-39251216827/SHA256SUMS",
+    "checked": 87,
+    "all_match": true
+  },
+  "v7": {
+    "bytes": 47365,
+    "md5": "e142ae3c5fcc8a6c5758d6b8bae4d614"
+  },
+  "source_scope_equality": {
+    "5eb571f_to_0afe5fc": "git diff --quiet -- game scripts/toolchain .github/workflows exits0",
+    "0afe5fc_to_1cbc97b": "same exits0"
+  },
+  "diff_809282d_to_1cbc97b": {
+    "validation_files": 217,
+    "validation_added_lines": 39283,
+    "governance_design_review_files": 12,
+    "governance_design_review_added_lines": 264,
+    "governance_design_review_deleted_lines": 96,
+    "product_files": 4,
+    "product_added_lines": 57,
+    "product_deleted_lines": 18
+  },
+  "prototype_status": "active/uncommitted read-only sample; results provisional, not accepted gameplay",
+  "prototype_policy_sample": [
+    {
+      "variant": "baseline",
+      "policy": "quiet_drone",
+      "time_to_records": 30.6,
+      "time_to_win": 30.6,
+      "hull": 100.0,
+      "tools": {
+        "decoy": 3,
+        "emp": 0,
+        "recon": 2
+      },
+      "outcome": "won"
+    },
+    {
+      "variant": "baseline",
+      "policy": "quiet_solo",
+      "time_to_records": 46.1,
+      "time_to_win": 78.7,
+      "hull": 100.0,
+      "tools": {
+        "decoy": 3,
+        "emp": 1,
+        "recon": 2
+      },
+      "outcome": "won"
+    },
+    {
+      "variant": "baseline",
+      "policy": "active_solo",
+      "time_to_records": 47.0,
+      "time_to_win": 81.1,
+      "hull": 29.2,
+      "tools": {
+        "decoy": 3,
+        "emp": 0,
+        "recon": 2
+      },
+      "outcome": "won"
+    },
+    {
+      "variant": "baseline",
+      "policy": "adaptive_drone",
+      "time_to_records": 30.6,
+      "time_to_win": 30.6,
+      "hull": 100.0,
+      "tools": {
+        "decoy": 3,
+        "emp": 0,
+        "recon": 2
+      },
+      "outcome": "won"
+    },
+    {
+      "variant": "cycle",
+      "policy": "quiet_drone",
+      "time_to_records": 27.0,
+      "time_to_win": 27.1,
+      "hull": 100.0,
+      "tools": {
+        "decoy": 3,
+        "emp": 0,
+        "recon": 2
+      },
+      "outcome": "won"
+    },
+    {
+      "variant": "cycle",
+      "policy": "quiet_solo",
+      "time_to_records": 47.0,
+      "time_to_win": 79.6,
+      "hull": 100.0,
+      "tools": {
+        "decoy": 3,
+        "emp": 1,
+        "recon": 2
+      },
+      "outcome": "won"
+    },
+    {
+      "variant": "cycle",
+      "policy": "active_solo",
+      "time_to_records": 42.8,
+      "time_to_win": 76.9,
+      "hull": 32.2,
+      "tools": {
+        "decoy": 3,
+        "emp": 0,
+        "recon": 2
+      },
+      "outcome": "won"
+    },
+    {
+      "variant": "cycle",
+      "policy": "adaptive_drone",
+      "time_to_records": 27.0,
+      "time_to_win": 27.1,
+      "hull": 100.0,
+      "tools": {
+        "decoy": 3,
+        "emp": 0,
+        "recon": 2
+      },
+      "outcome": "won"
+    },
+    {
+      "variant": "direct",
+      "policy": "quiet_drone",
+      "time_to_records": 26.4,
+      "time_to_win": 26.5,
+      "hull": 100.0,
+      "tools": {
+        "decoy": 3,
+        "emp": 0,
+        "recon": 2
+      },
+      "outcome": "won"
+    },
+    {
+      "variant": "direct",
+      "policy": "quiet_solo",
+      "time_to_records": 41.9,
+      "time_to_win": 74.5,
+      "hull": 100.0,
+      "tools": {
+        "decoy": 3,
+        "emp": 1,
+        "recon": 2
+      },
+      "outcome": "won"
+    },
+    {
+      "variant": "direct",
+      "policy": "active_solo",
+      "time_to_records": 42.8,
+      "time_to_win": 76.9,
+      "hull": 32.2,
+      "tools": {
+        "decoy": 3,
+        "emp": 0,
+        "recon": 2
+      },
+      "outcome": "won"
+    },
+    {
+      "variant": "direct",
+      "policy": "adaptive_drone",
+      "time_to_records": 26.4,
+      "time_to_win": 26.5,
+      "hull": 100.0,
+      "tools": {
+        "decoy": 3,
+        "emp": 0,
+        "recon": 2
+      },
+      "outcome": "won"
+    }
+  ]
+}

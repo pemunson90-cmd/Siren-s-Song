@@ -1,0 +1,561 @@
+{
+  "commands": [
+    {
+      "accepted": true,
+      "args": "{ \"unit\": 0 }",
+      "order": "select",
+      "time": 0.0
+    },
+    {
+      "accepted": true,
+      "args": "{ \"point\": (760.0, 340.0) }",
+      "order": "route",
+      "time": 0.0
+    },
+    {
+      "accepted": true,
+      "args": "{  }",
+      "order": "emp",
+      "time": 16.1000000000004
+    },
+    {
+      "accepted": true,
+      "args": "{  }",
+      "order": "camera",
+      "time": 20.8000000000001
+    },
+    {
+      "accepted": true,
+      "args": "{ \"point\": (1360.0, 340.0) }",
+      "order": "route",
+      "time": 22.8
+    },
+    {
+      "accepted": true,
+      "args": "{  }",
+      "order": "camera",
+      "time": 39.899999999999
+    }
+  ],
+  "final": {
+    "contacts": {
+
+    },
+    "context": {
+      "ready": false,
+      "target": -1,
+      "text": "Exchange matched · return Quietus to extraction"
+    },
+    "hull": 100.0,
+    "message": "Exchange matched · bring Quietus home",
+    "outcome": "",
+    "own_pos": "(1353.338, 337.1299)",
+    "records": [
+      true,
+      true
+    ],
+    "time": 55.8999999999981,
+    "tools": {
+      "decoy": 3,
+      "emp": 1,
+      "recon": 2
+    }
+  },
+  "fps": 15,
+  "frames": 240,
+  "initial": {
+    "contacts": {
+      "0": {
+        "angle": 2.85785174369812,
+        "lock": 0.0,
+        "mode": "DISRUPTED",
+        "pos": "(692.9759, 330.9924)",
+        "target": -1,
+        "time": 26.0166666666665,
+        "type": "patroller"
+      }
+    },
+    "context": {
+      "ready": false,
+      "target": 1,
+      "text": "REPLY RELAY · CARRIER 0.0/2s"
+    },
+    "hull": 100.0,
+    "message": "Receiving REPLY RELAY · 2 settled seconds on carrier",
+    "outcome": "",
+    "own_pos": "(1353.338, 337.1299)",
+    "records": [
+      true,
+      false
+    ],
+    "time": 39.899999999999,
+    "tools": {
+      "decoy": 3,
+      "emp": 1,
+      "recon": 2
+    }
+  },
+  "inputs_during_clip": 0,
+  "mode": "direct",
+  "samples": [
+    {
+      "contacts": {
+        "0": {
+          "angle": 2.85785174369812,
+          "lock": 0.0,
+          "mode": "DISRUPTED",
+          "pos": "(692.9759, 330.9924)",
+          "target": -1,
+          "time": 26.0166666666665,
+          "type": "patroller"
+        }
+      },
+      "context": {
+        "ready": false,
+        "target": 1,
+        "text": "REPLY RELAY · CARRIER 0.1/2s"
+      },
+      "frame": 0,
+      "hull": 100.0,
+      "message": "Receiving REPLY RELAY · 2 settled seconds on carrier",
+      "outcome": "",
+      "own_pos": "(1353.338, 337.1299)",
+      "records": [
+        true,
+        false
+      ],
+      "time": 39.9666666666657,
+      "tools": {
+        "decoy": 3,
+        "emp": 1,
+        "recon": 2
+      }
+    },
+    {
+      "contacts": {
+        "0": {
+          "angle": 2.85785174369812,
+          "lock": 0.0,
+          "mode": "DISRUPTED",
+          "pos": "(692.9759, 330.9924)",
+          "target": -1,
+          "time": 26.0166666666665,
+          "type": "patroller"
+        }
+      },
+      "context": {
+        "ready": false,
+        "target": 1,
+        "text": "REPLY RELAY · CARRIER 1.1/2s"
+      },
+      "frame": 15,
+      "hull": 100.0,
+      "message": "Receiving REPLY RELAY · 2 settled seconds on carrier",
+      "outcome": "",
+      "own_pos": "(1353.338, 337.1299)",
+      "records": [
+        true,
+        false
+      ],
+      "time": 40.9666666666656,
+      "tools": {
+        "decoy": 3,
+        "emp": 1,
+        "recon": 2
+      }
+    },
+    {
+      "contacts": {
+        "0": {
+          "angle": 2.85785174369812,
+          "lock": 0.0,
+          "mode": "DISRUPTED",
+          "pos": "(692.9759, 330.9924)",
+          "target": -1,
+          "time": 26.0166666666665,
+          "type": "patroller"
+        }
+      },
+      "context": {
+        "ready": false,
+        "target": -1,
+        "text": "Exchange matched · return Quietus to extraction"
+      },
+      "frame": 30,
+      "hull": 100.0,
+      "message": "Exchange matched · bring Quietus home",
+      "outcome": "",
+      "own_pos": "(1353.338, 337.1299)",
+      "records": [
+        true,
+        true
+      ],
+      "time": 41.9666666666656,
+      "tools": {
+        "decoy": 3,
+        "emp": 1,
+        "recon": 2
+      }
+    },
+    {
+      "contacts": {
+        "0": {
+          "angle": 2.85785174369812,
+          "lock": 0.0,
+          "mode": "DISRUPTED",
+          "pos": "(692.9759, 330.9924)",
+          "target": -1,
+          "time": 26.0166666666665,
+          "type": "patroller"
+        }
+      },
+      "context": {
+        "ready": false,
+        "target": -1,
+        "text": "Exchange matched · return Quietus to extraction"
+      },
+      "frame": 45,
+      "hull": 100.0,
+      "message": "Exchange matched · bring Quietus home",
+      "outcome": "",
+      "own_pos": "(1353.338, 337.1299)",
+      "records": [
+        true,
+        true
+      ],
+      "time": 42.9666666666655,
+      "tools": {
+        "decoy": 3,
+        "emp": 1,
+        "recon": 2
+      }
+    },
+    {
+      "contacts": {
+        "0": {
+          "angle": 2.85785174369812,
+          "lock": 0.0,
+          "mode": "DISRUPTED",
+          "pos": "(692.9759, 330.9924)",
+          "target": -1,
+          "time": 26.0166666666665,
+          "type": "patroller"
+        }
+      },
+      "context": {
+        "ready": false,
+        "target": -1,
+        "text": "Exchange matched · return Quietus to extraction"
+      },
+      "frame": 60,
+      "hull": 100.0,
+      "message": "Exchange matched · bring Quietus home",
+      "outcome": "",
+      "own_pos": "(1353.338, 337.1299)",
+      "records": [
+        true,
+        true
+      ],
+      "time": 43.9666666666655,
+      "tools": {
+        "decoy": 3,
+        "emp": 1,
+        "recon": 2
+      }
+    },
+    {
+      "contacts": {
+        "0": {
+          "angle": 2.85785174369812,
+          "lock": 0.0,
+          "mode": "DISRUPTED",
+          "pos": "(692.9759, 330.9924)",
+          "target": -1,
+          "time": 26.0166666666665,
+          "type": "patroller"
+        }
+      },
+      "context": {
+        "ready": false,
+        "target": -1,
+        "text": "Exchange matched · return Quietus to extraction"
+      },
+      "frame": 75,
+      "hull": 100.0,
+      "message": "Exchange matched · bring Quietus home",
+      "outcome": "",
+      "own_pos": "(1353.338, 337.1299)",
+      "records": [
+        true,
+        true
+      ],
+      "time": 44.9666666666654,
+      "tools": {
+        "decoy": 3,
+        "emp": 1,
+        "recon": 2
+      }
+    },
+    {
+      "contacts": {
+        "0": {
+          "angle": 2.85785174369812,
+          "lock": 0.0,
+          "mode": "DISRUPTED",
+          "pos": "(692.9759, 330.9924)",
+          "target": -1,
+          "time": 26.0166666666665,
+          "type": "patroller"
+        }
+      },
+      "context": {
+        "ready": false,
+        "target": -1,
+        "text": "Exchange matched · return Quietus to extraction"
+      },
+      "frame": 90,
+      "hull": 100.0,
+      "message": "Exchange matched · bring Quietus home",
+      "outcome": "",
+      "own_pos": "(1353.338, 337.1299)",
+      "records": [
+        true,
+        true
+      ],
+      "time": 45.9666666666653,
+      "tools": {
+        "decoy": 3,
+        "emp": 1,
+        "recon": 2
+      }
+    },
+    {
+      "contacts": {
+
+      },
+      "context": {
+        "ready": false,
+        "target": -1,
+        "text": "Exchange matched · return Quietus to extraction"
+      },
+      "frame": 105,
+      "hull": 100.0,
+      "message": "Exchange matched · bring Quietus home",
+      "outcome": "",
+      "own_pos": "(1353.338, 337.1299)",
+      "records": [
+        true,
+        true
+      ],
+      "time": 46.9666666666653,
+      "tools": {
+        "decoy": 3,
+        "emp": 1,
+        "recon": 2
+      }
+    },
+    {
+      "contacts": {
+
+      },
+      "context": {
+        "ready": false,
+        "target": -1,
+        "text": "Exchange matched · return Quietus to extraction"
+      },
+      "frame": 120,
+      "hull": 100.0,
+      "message": "Exchange matched · bring Quietus home",
+      "outcome": "",
+      "own_pos": "(1353.338, 337.1299)",
+      "records": [
+        true,
+        true
+      ],
+      "time": 47.9666666666652,
+      "tools": {
+        "decoy": 3,
+        "emp": 1,
+        "recon": 2
+      }
+    },
+    {
+      "contacts": {
+
+      },
+      "context": {
+        "ready": false,
+        "target": -1,
+        "text": "Exchange matched · return Quietus to extraction"
+      },
+      "frame": 135,
+      "hull": 100.0,
+      "message": "Exchange matched · bring Quietus home",
+      "outcome": "",
+      "own_pos": "(1353.338, 337.1299)",
+      "records": [
+        true,
+        true
+      ],
+      "time": 48.9666666666652,
+      "tools": {
+        "decoy": 3,
+        "emp": 1,
+        "recon": 2
+      }
+    },
+    {
+      "contacts": {
+
+      },
+      "context": {
+        "ready": false,
+        "target": -1,
+        "text": "Exchange matched · return Quietus to extraction"
+      },
+      "frame": 150,
+      "hull": 100.0,
+      "message": "Exchange matched · bring Quietus home",
+      "outcome": "",
+      "own_pos": "(1353.338, 337.1299)",
+      "records": [
+        true,
+        true
+      ],
+      "time": 49.9666666666651,
+      "tools": {
+        "decoy": 3,
+        "emp": 1,
+        "recon": 2
+      }
+    },
+    {
+      "contacts": {
+
+      },
+      "context": {
+        "ready": false,
+        "target": -1,
+        "text": "Exchange matched · return Quietus to extraction"
+      },
+      "frame": 165,
+      "hull": 100.0,
+      "message": "Exchange matched · bring Quietus home",
+      "outcome": "",
+      "own_pos": "(1353.338, 337.1299)",
+      "records": [
+        true,
+        true
+      ],
+      "time": 50.9666666666651,
+      "tools": {
+        "decoy": 3,
+        "emp": 1,
+        "recon": 2
+      }
+    },
+    {
+      "contacts": {
+
+      },
+      "context": {
+        "ready": false,
+        "target": -1,
+        "text": "Exchange matched · return Quietus to extraction"
+      },
+      "frame": 180,
+      "hull": 100.0,
+      "message": "Exchange matched · bring Quietus home",
+      "outcome": "",
+      "own_pos": "(1353.338, 337.1299)",
+      "records": [
+        true,
+        true
+      ],
+      "time": 51.966666666665,
+      "tools": {
+        "decoy": 3,
+        "emp": 1,
+        "recon": 2
+      }
+    },
+    {
+      "contacts": {
+
+      },
+      "context": {
+        "ready": false,
+        "target": -1,
+        "text": "Exchange matched · return Quietus to extraction"
+      },
+      "frame": 195,
+      "hull": 100.0,
+      "message": "Exchange matched · bring Quietus home",
+      "outcome": "",
+      "own_pos": "(1353.338, 337.1299)",
+      "records": [
+        true,
+        true
+      ],
+      "time": 52.9666666666649,
+      "tools": {
+        "decoy": 3,
+        "emp": 1,
+        "recon": 2
+      }
+    },
+    {
+      "contacts": {
+
+      },
+      "context": {
+        "ready": false,
+        "target": -1,
+        "text": "Exchange matched · return Quietus to extraction"
+      },
+      "frame": 210,
+      "hull": 100.0,
+      "message": "Exchange matched · bring Quietus home",
+      "outcome": "",
+      "own_pos": "(1353.338, 337.1299)",
+      "records": [
+        true,
+        true
+      ],
+      "time": 53.9666666666649,
+      "tools": {
+        "decoy": 3,
+        "emp": 1,
+        "recon": 2
+      }
+    },
+    {
+      "contacts": {
+
+      },
+      "context": {
+        "ready": false,
+        "target": -1,
+        "text": "Exchange matched · return Quietus to extraction"
+      },
+      "frame": 225,
+      "hull": 100.0,
+      "message": "Exchange matched · bring Quietus home",
+      "outcome": "",
+      "own_pos": "(1353.338, 337.1299)",
+      "records": [
+        true,
+        true
+      ],
+      "time": 54.9666666666648,
+      "tools": {
+        "decoy": 3,
+        "emp": 1,
+        "recon": 2
+      }
+    }
+  ],
+  "setup_ok": true,
+  "solo_fixture": true,
+  "take": "quiet_reply"
+}
