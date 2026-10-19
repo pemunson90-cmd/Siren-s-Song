@@ -26,3 +26,20 @@ Agents may propose and implement original mission design, progression, visuals, 
 ## Coordination
 
 Codex is the provisional primary implementer; Claude Code can contribute art direction and independent reviews; Astra is optional for difficult tasks. These are flexible roles, not exclusive ownership. Avoid concurrent edits to the same files; integrate through reviewable changes.
+
+
+## Model selection and usage policy (Gauntlet)
+
+**Default model: Sol 6.1** for implementation, tests, review, visual criticism, integration, and all delegated/subagent tasks where model selection is available.
+
+**Astra:** use for the initial source-corpus/architecture kickoff and rare, specifically justified escalations where Sol has reached a demonstrated impasse or the decision has unusually broad consequences. Do not create Astra subagents by default. Starting a task with Astra does not authorize inheriting Astra for delegated tasks.
+
+Before spawning a subagent, establish its actual model selection. If the platform silently inherits Astra and cannot explicitly route to Sol, do not fan out Astra subagents. Instead perform the work sequentially, use Sol in a separate task/session, or stop and report the limitation. Never claim a requested model was used without verification.
+
+Each subagent instruction must inherit this policy, the project source hierarchy, the assigned scope, the required evidence, and a bounded deliverable. Delegate only independent work that justifies its coordination and usage costs. Limit concurrency to the smallest useful number; avoid spawning agents solely to increase parallelism.
+
+Prefer deterministic tests, static checks, local scripts, and targeted screenshot comparisons before additional model calls. Reserve fresh-context criticism for substantial, inspectable results. Critics must inspect the running game or captured evidence rather than relying on builder summaries.
+
+Record in the project progress workbench: model actually used (when observable), task, reason for escalation, result, and remaining quality gap. When model routing or usage visibility is unavailable, mark it unknown rather than assuming.
+
+Keep the policy in AGENTS.md and include it in each new session's working context. Do not relax it through nested delegation. If budget or session limits interrupt work, preserve checkpoints and a clear continuation instruction.
