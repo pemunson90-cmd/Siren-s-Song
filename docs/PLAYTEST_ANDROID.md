@@ -1,6 +1,6 @@
 # Galaxy Z Fold7 playtest
 
-**Native Android rendering validation is pending.** This guide is for the next validated playtest build. An available APK or successful installation alone does not establish that the game renders or plays correctly. This is a development playtest, not a release-readiness claim.
+**Cover-screen Android rendering is verified; full gameplay/lifecycle validation is pending.** The early [c96c3bf playtest APK](https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/39197089036/artifacts/12162671131) renders operations/briefing but logs a menu-lifecycle error on first mission entry, and its native smoke did not finish. It is available for targeted hands-on feedback with those known gaps. This is a development playtest, not a release-readiness claim.
 
 ## Install or update
 

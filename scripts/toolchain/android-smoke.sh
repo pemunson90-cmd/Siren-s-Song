@@ -18,12 +18,28 @@ adb() {
     fi
     return "$status"
 }
+read_logcat() {
+    local destination="$1" status=0 read_attempt
+    for ((read_attempt=1; read_attempt<=3; read_attempt++)); do
+        status=0
+        adb logcat -d >"$destination.attempt-$read_attempt.txt" 2>"$destination.attempt-$read_attempt.stderr.txt" || status=$?
+        if (( status == 0 )); then
+            cp "$destination.attempt-$read_attempt.txt" "$destination"
+            return 0
+        fi
+        cat "$destination.attempt-$read_attempt.stderr.txt" >&2
+        stage "logcat read attempt $read_attempt returned $status; partial output retained"
+        if (( status != 255 )); then return "$status"; fi
+        sleep 1
+    done
+    return "$status"
+}
 stage 'smoke script entered after emulator action boot'
 adb wait-for-device
 adb get-state | grep -Eq '^device$'
 adb logcat -c
 cleanup() {
-    adb logcat -d >"$output/logcat.txt" 2>&1 || true
+    read_logcat "$output/logcat.txt" || true
     adb exec-out screencap -p >"$output/final-display.png" 2>/dev/null || true
     adb shell dumpsys activity activities >"$output/final-activity.txt" 2>/dev/null || true
     echo 'Focused Android runtime diagnostics:'
@@ -45,13 +61,13 @@ adb shell settings put secure immersive_mode_confirmations confirmed
 launch() {
     local was_running=false screen_before screen_after target_before target_after
     if adb shell pidof "$package" >/dev/null; then was_running=true; fi
-    adb logcat -d >"$output/prelaunch-$1.txt"
+    read_logcat "$output/prelaunch-$1.txt"
     screen_before="$(grep -c 'SS_SCREEN' "$output/prelaunch-$1.txt" || true)"
     target_before="$(grep -c 'SS_TARGET' "$output/prelaunch-$1.txt" || true)"
     adb shell am start -W -n "$component" | tee "$output/launch-$1.txt"
     ready=false
     for ((attempt=0; attempt<30; attempt++)); do
-        adb logcat -d >"$output/readiness-$1.txt"
+        read_logcat "$output/readiness-$1.txt"
         screen_after="$(grep -c 'SS_SCREEN' "$output/readiness-$1.txt" || true)"
         target_after="$(grep -c 'SS_TARGET' "$output/readiness-$1.txt" || true)"
         if adb shell pidof "$package" >"$output/pid-$1.txt" && \
@@ -79,7 +95,7 @@ tap_target() {
     local before_count after_count
     adb exec-out screencap -p >"$output/target-$stage.png"
     for ((attempt=0; attempt<20; attempt++)); do
-        adb logcat -d >"$output/target-$stage.txt"
+        read_logcat "$output/target-$stage.txt"
         if coords="$(python3 "$(dirname -- "$0")/android-target.py" "$output/target-$stage.txt" "$output/target-$stage.png" "$action")"; then break; fi
         sleep 1
     done
@@ -89,7 +105,7 @@ tap_target() {
     echo "Touch $stage at $tap_x,$tap_y"
     adb shell input tap "$tap_x" "$tap_y"
     for ((attempt=0; attempt<20; attempt++)); do
-        adb logcat -d >"$output/interaction-$stage.txt"
+        read_logcat "$output/interaction-$stage.txt"
         after_count="$(grep -Ec "$expected" "$output/interaction-$stage.txt" || true)"
         if (( after_count > before_count )); then return 0; fi
         if ! adb shell pidof "$package" >/dev/null; then break; fi
@@ -137,7 +153,7 @@ PY
     shot "$profile-resume"
     adb shell input keyevent KEYCODE_HOME
     stage "$profile waiting for background process termination"
-    adb logcat -d >"$output/before-kill-$profile.txt"
+    read_logcat "$output/before-kill-$profile.txt"
     restore_before="$(grep -Ec 'SS_RESTORE ok mission=0' "$output/before-kill-$profile.txt" || true)"
     # am kill only terminates background processes; Android's onStop transition is asynchronous.
     for ((attempt=0; attempt<30; attempt++)); do
@@ -152,7 +168,7 @@ PY
     launch "$profile-restart"
     stage "$profile process restarted with screen/layout readiness"
     shot "$profile-restart"
-    adb logcat -d >"$output/restoration-$profile.txt"
+    read_logcat "$output/restoration-$profile.txt"
     restore_after="$(grep -Ec 'SS_RESTORE ok mission=0' "$output/restoration-$profile.txt" || true)"
     (( restore_after > restore_before )) || {
         echo 'Missing actual mission archive restoration marker' >&2; exit 1;
@@ -161,8 +177,10 @@ PY
     shot "$profile-restored-gameplay"
     stage "$profile mission archive restored and entered"
 done
-adb logcat -d >"$output/logcat.txt"
-if grep -nE 'FATAL EXCEPTION|Fatal signal|SCRIPT ERROR:|Parse Error:|[Ee] godot.*ERROR:' "$output/logcat.txt"; then
+read_logcat "$output/logcat.txt"
+if grep -lE 'FATAL EXCEPTION|Fatal signal|SCRIPT ERROR:|Parse Error:|[Ee] godot.*ERROR:' "$output"/*.txt; then
+    grep -hE 'FATAL EXCEPTION|Fatal signal|SCRIPT ERROR:|Parse Error:|[Ee] godot.*ERROR:' "$output"/*.txt | sort -u >"$output/runtime-errors.txt"
+    cat "$output/runtime-errors.txt"
     echo 'Runtime errors detected; inspect logcat artifact' >&2
     exit 1
 fi

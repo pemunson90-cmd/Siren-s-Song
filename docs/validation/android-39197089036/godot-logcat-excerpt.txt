@@ -1,0 +1,38 @@
+10-19 04:00:09.714   622   730 I ActivityTaskManager: START u0 {flg=0x10000000 xflg=0x5 cmp=org.sirenssong.game/com.godot.game.GodotAppLauncher} with LAUNCH_SINGLE_INSTANCE_PER_TASK from uid 2000 (BAL_ALLOW_PERMISSION) result code=0
+10-19 04:00:09.755   622   676 I ActivityManager: Start proc 2505:org.sirenssong.game/u0a216 for next-top-activity {org.sirenssong.game/com.godot.game.GodotAppLauncher}
+10-19 04:00:10.503  2505  2505 D GodotActivity: Project command line parameters: [--xr_mode_regular, --xr-mode, off, --fullscreen, --background_color, #000000]
+10-19 04:00:10.503  2505  2505 D GodotActivity: Launch intent Intent { flg=0x10000000 xflg=0x5 cmp=org.sirenssong.game/com.godot.game.GodotAppLauncher } with parameters []
+10-19 04:00:10.511  2505  2505 V GodotActivity: Creating new Godot fragment instance.
+10-19 04:00:10.589  2505  2505 V Godot   : InitEngine with params: [--xr_mode_regular, --xr-mode, off, --fullscreen, --background_color, #000000]
+10-19 04:00:10.590  2505  2505 V Godot   : Initializing Godot plugin registry
+10-19 04:00:10.629  2505  2505 I GodotPluginRegistry: Registering runtime plugin AndroidRuntime
+10-19 04:00:10.813  2505  2505 D nativeloader: Load /data/app/~~lzG5pyGCc16EqaHD-OzeLQ==/org.sirenssong.game-ffovi2qyQgJ8r6CfFJClSA==/lib/x86_64/libgodot_android.so using class loader ns clns-9 (caller=/data/app/~~lzG5pyGCc16EqaHD-OzeLQ==/org.sirenssong.game-ffovi2qyQgJ8r6CfFJClSA==/base.apk!classes8.dex): ok
+10-19 04:00:10.814  2505  2505 V Godot   : Godot native layer initialization completed: true
+10-19 04:00:10.883  2505  2505 V Godot   : Godot native layer setup completed
+10-19 04:00:10.883  2505  2505 V Godot   : OnInitRenderView: GodotFragment{327fcdb} (2de280d3-a34b-4062-90fb-5f216a3a6be3 id=0x7f070033)
+10-19 04:00:10.942  2505  2505 D Godot   : Render view should be transparent: false
+10-19 04:00:10.943  2505  2505 D Godot   : usesVulkan(): false
+10-19 04:00:10.943  2505  2505 D Godot   : 			renderingDevice: opengl3 (ProjectSettings)
+10-19 04:00:10.943  2505  2505 D Godot   : 			renderer: gl_compatibility (ProjectSettings)
+10-19 04:00:10.967  2505  2505 V Godot   : OnStart: GodotFragment{327fcdb} (2de280d3-a34b-4062-90fb-5f216a3a6be3 id=0x7f070033)
+10-19 04:00:10.971  2505  2505 V Godot   : OnResume: GodotFragment{327fcdb} (2de280d3-a34b-4062-90fb-5f216a3a6be3 id=0x7f070033)
+10-19 04:00:11.070   622  1814 D CoreBackPreview: Window{54cea2e u0 org.sirenssong.game/com.godot.game.GodotAppLauncher}: Setting back callback OnBackInvokedCallbackInfo{mCallback=android.window.IOnBackInvokedCallback$Stub$Proxy@d181745, mPriority=-1, mIsAnimationCallback=false, mOverrideBehavior=0}
+10-19 04:00:11.070   622  1814 D CoreBackPreview: Window{54cea2e u0 org.sirenssong.game/com.godot.game.GodotAppLauncher}: Setting back callback OnBackInvokedCallbackInfo{mCallback=android.window.IOnBackInvokedCallback$Stub$Proxy@eb71e9a, mPriority=0, mIsAnimationCallback=true, mOverrideBehavior=0}
+10-19 04:00:12.017  2505  2646 I godot   : Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+10-19 04:00:12.197   622   666 I ActivityTaskManager: Displayed org.sirenssong.game/com.godot.game.GodotAppLauncher for user 0: +2s74ms
+10-19 04:00:12.243  2505  2664 E SurfaceSyncGroup: Failed to receive transaction ready in 1000ms. Marking SurfaceSyncGroup(wmsSync-VRI[GodotAppLauncher]#1) as ready
+10-19 04:00:12.243  2505  2664 E SurfaceSyncGroup: Failed to receive transaction ready in 1000ms. Marking SurfaceSyncGroup(VRI[GodotAppLauncher]#2) as ready
+10-19 04:00:12.243  2505  2664 E SurfaceSyncGroup: Failed to receive transaction ready in 1000ms. Marking SurfaceSyncGroup(SurfaceView[org.sirenssong.game/com.godot.game.GodotAppLauncher]#0) as ready
+10-19 04:00:15.532  2505  2646 I godot   : OpenGL API OpenGL ES 3.1 (OpenGL ES 3.1.0 (ANGLE 2.1.17841 git hash: 5fa2e61da947)) - Compatibility - Using Device: Google (Google Inc. (Google)) - Android Emulator OpenGL ES Translator (ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver-5.0.0))
+10-19 04:00:15.656  2505  2646 I godot   : 
+10-19 04:00:15.957  1270  1322 I Launcher.IconCache: Database bulk icon loading failed, using fallback bulk icon loading for: ComponentInfo{org.sirenssong.game/com.godot.game.GodotAppLauncher}
+10-19 04:00:18.828  2505  2646 V Godot   : OnGodotSetupCompleted
+10-19 04:00:20.445  2505  2646 I godot   : SS_SCREEN operations window=(2520, 1080) viewport=(1680.0, 720.0) root=(1680.0, 720.0) unlocked=0 active_time=0.0
+10-19 04:00:20.456  2505  2646 V Godot   : OnGodotMainLoopStarted
+10-19 04:00:20.663  2505  2646 I godot   : SS_TARGET mission0 center=881,211 viewport=1680,720
+10-19 04:00:20.663  2505  2646 I godot   : SS_TARGET mission0 center=881,211 viewport=1680,720
+10-19 04:00:20.663  2505  2646 I godot   : SS_TARGET mission0 center=881,211 viewport=1680,720
+10-19 04:00:24.616  2505  2646 I godot   : SS_MISSION_SELECT 0
+10-19 04:00:24.623  2505  2646 E godot   : ERROR: Condition "!is_inside_tree()" is true. Returning: false
+10-19 04:00:24.623  2505  2646 E godot   :    at: can_process (scene/main/node.cpp:902)
+10-19 04:00:24.832  2505  2646 I godot   : SS_TARGET begin center=885,441 viewport=1680,720
