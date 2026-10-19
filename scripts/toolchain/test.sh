@@ -88,5 +88,6 @@ torpedo_aim_ui_tests|TORPEDO AIM
 thermal_lee_tests|THERMAL LEE
 thermal_transmission_tests|THERMAL TRANSMISSION
 thermal_ui_tests|THERMAL UI
+terminal_tick_tests|TERMINAL TICK
 tactics_composition_tests|TACTICS COMPOSITION
 TACTICAL_SCENARIOS
