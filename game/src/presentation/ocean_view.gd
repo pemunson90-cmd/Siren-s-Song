@@ -339,7 +339,9 @@ func _draw_ship_instrument() -> void:
 		draw_arc(p,radius,start,end,28,Color(.22,.46,.5,.4),3)
 		var amount=clampf((sim.hull/100. if side<0 else sim.oxygen/oxygen_capacity) if sim.selected==0 else own.battery/100.,0.,1.)
 		draw_arc(p,radius,start,start+(end-start)*amount,28,Color("8bd3cb") if side<0 else Color("7aa8c5"),3)
-	for line in ship_instrument_layout():draw_string(ThemeDB.fallback_font,line.position,line.text,HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size,line.color)
+	for line in ship_instrument_layout():
+		draw_string_outline(ThemeDB.fallback_font,line.position,line.text,HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size,4,Color(.01,.03,.04,.95))
+		draw_string(ThemeDB.fallback_font,line.position,line.text,HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size,line.color)
 
 func _finale_array(mass: Rect2) -> void:
 	draw_rect(mass,Color("142930")); draw_texture_rect(basalt,mass,false,Color(0.45,0.58,0.6))
@@ -460,16 +462,20 @@ func own_craft_rects() -> Array:
 func world_label_position(p:Vector2,text:String,font_size:int) -> Vector2:
 	var font=ThemeDB.fallback_font;var actual=maxi(font_size,int(12./world_scale));var extent=font.get_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,-1,actual)*world_scale
 	var origin=chart_camera.to_screen(p);var height=extent.y+6
-	for horizontal in [0,extent.x*.75,-extent.x*.75]:
+	var blocked=ui_blocked_rects+ship_instrument_rects()+own_craft_rects()
+	for horizontal in [0,extent.x*.75,-extent.x*.75,extent.x*1.5,-extent.x*1.5]:
 		for step in [0,-1,-2,1,-3,2,-4,3]:
 			var point=origin+Vector2(horizontal,step*height)
 			point.x=clampf(point.x,12,maxf(12,size.x-extent.x-12))
 			var area=Rect2(point-Vector2(0,font.get_ascent(actual)*world_scale),extent)
-			if Rect2(Vector2.ZERO,size).encloses(area) and not (ui_blocked_rects+ship_instrument_rects()+own_craft_rects()).any(func(r):return r.intersects(area.grow(3))):return chart_camera.to_world(point)
+			if Rect2(Vector2.ZERO,size).encloses(area) and not blocked.any(func(r):return r.intersects(area.grow(3))):return chart_camera.to_world(point)
 	return Vector2.INF
 func _label(p:Vector2,text:String,color:Color,font_size:int) -> void:
 	var placed=world_label_position(p,text,font_size)
-	if placed.is_finite():draw_string(ThemeDB.fallback_font,placed,text,HORIZONTAL_ALIGNMENT_LEFT,-1,maxi(font_size,int(12./world_scale)),color)
+	if placed.is_finite():
+		if placed.distance_to(p)*world_scale>feedback_font_size*2:draw_line(p,placed,Color(color,.35),1./world_scale)
+		draw_string_outline(ThemeDB.fallback_font,placed,text,HORIZONTAL_ALIGNMENT_LEFT,-1,maxi(font_size,int(12./world_scale)),maxi(1,int(3./world_scale)),Color(.01,.03,.04,.95))
+		draw_string(ThemeDB.fallback_font,placed,text,HORIZONTAL_ALIGNMENT_LEFT,-1,maxi(font_size,int(12./world_scale)),color)
 
 func _draw_departure() -> void:
 	var report=sim.departure_feedback()

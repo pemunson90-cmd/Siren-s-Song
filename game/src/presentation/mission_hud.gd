@@ -19,6 +19,7 @@ var extra:Dictionary={}
 var instruments_open=false
 var owned_touches:Dictionary={}
 var draining_popup=false
+var sector_press:Button
 var popup_gesture=preload("res://src/input/map_gesture.gd").new()
 var touch_height=48.
 func setup(owner):
@@ -49,13 +50,13 @@ func _selected_craft():
  if host.advanced_orders:open("craft",{"kind":"craft","unit":host.sim.selected,"pos":host.sim.units[host.sim.selected].pos})
 func open(next:String="craft",context:Dictionary={}):
  for id in host.map_gesture.touches:owned_touches[id]=true
- host.map_gesture.cancel();host.knock_press.clear();popup_gesture.cancel();host.knock_armed=false;host.decoy_armed=false
+ host.map_gesture.cancel();host.knock_press.clear();popup_gesture.cancel();sector_press=null;host.knock_armed=false;host.decoy_armed=false
  if not context.is_empty():subject=context
  elif subject.is_empty() or next=="fleet":subject={"kind":"craft","unit":host.sim.selected,"pos":host.sim.units[host.sim.selected].pos}
  page=next;instruments_open=page=="inspect";host.advanced_orders=true;host._layout()
 func dismiss():
  draining_popup=not owned_touches.is_empty()
- host.map_gesture.cancel();host.knock_press.clear();popup_gesture.cancel();host.advanced_orders=false;instruments_open=false;host._layout()
+ host.map_gesture.cancel();host.knock_press.clear();popup_gesture.cancel();sector_press=null;host.advanced_orders=false;instruments_open=false;host._layout()
 func _back():
  if host.knock_armed or host.decoy_armed:host._primary_action();dismiss();return
  if page=="craft" or page=="object" or page=="fleet":dismiss()
@@ -71,18 +72,39 @@ func owns_pointer(event) -> bool:
   if owned_touches.is_empty():draining_popup=false
  if draining and (event is InputEventScreenTouch or event is InputEventScreenDrag or (event is InputEventMouse and event.device==InputEvent.DEVICE_ID_EMULATION)):return true
  return false
+func sector_at(point:Vector2) -> Button:
+ if not host.advanced_orders or page=="inspect" or ring_buttons.is_empty():return null
+ var local=point-global_position-center;var distance=local.length()
+ if distance<ring_radius-touch_height*.65 or distance>ring_radius+touch_height*.6:return null
+ var turn=fposmod(local.angle()+PI/2,TAU)
+ var index=posmod(roundi(turn/TAU*ring_buttons.size()),ring_buttons.size())
+ return ring_buttons[index]
+func label_at(point:Vector2) -> bool:
+ return action_controls().values().any(func(b):return b.get_global_rect().has_point(point))
 func popup_input(event) -> bool:
- var action={}
+ if event is InputEventMouse and event.device==InputEvent.DEVICE_ID_EMULATION:return false
+ var action={};var point=Vector2.ZERO;var pressed=false
  if event is InputEventScreenTouch:
-  if event.pressed and popup_gesture.active() and not popup_gesture.touches.has(event.index):dismiss();return true
-  action=popup_gesture.feed("press" if event.pressed else "release",event.index,event.position)
- elif event is InputEventScreenDrag:action=popup_gesture.feed("move",event.index,event.position)
+  point=event.position;pressed=event.pressed
+  if pressed and popup_gesture.active() and not popup_gesture.touches.has(event.index):dismiss();return true
+  action=popup_gesture.feed("press" if pressed else "release",event.index,point)
+ elif event is InputEventScreenDrag:
+  point=event.position;action=popup_gesture.feed("move",event.index,point)
+ elif event is InputEventMouseButton and event.button_index==MOUSE_BUTTON_LEFT:
+  point=event.position;pressed=event.pressed;action=popup_gesture.feed("press" if pressed else "release",-1,point)
+ elif event is InputEventMouseMotion and popup_gesture.active():
+  point=event.position;action=popup_gesture.feed("move",-1,point)
+ if pressed:sector_press=null if label_at(point) else sector_at(point)
  if action.has("pan") or action.has("zoom"):dismiss();return true
+ if action.has("tap") and sector_press!=null:
+  var chosen=sector_press;sector_press=null
+  if chosen==sector_at(point) and not chosen.disabled:chosen.pressed.emit()
+  return true
  return false
 func _outside(event):
  if event is InputEventScreenTouch or event is InputEventMouseButton:
   var point=event.position+blocker.global_position
-  if action_controls().values().any(func(b):return b.get_global_rect().has_point(point)):return
+  if label_at(point) or sector_at(point)!=null:return
  if event is InputEventMouseButton and event.button_index in [MOUSE_BUTTON_WHEEL_UP,MOUSE_BUTTON_WHEEL_DOWN]:dismiss();accept_event();return
  if (event is InputEventScreenTouch and event.pressed) or (event is InputEventMouseButton and event.pressed):dismiss();accept_event()
 func command_controls() -> Array:

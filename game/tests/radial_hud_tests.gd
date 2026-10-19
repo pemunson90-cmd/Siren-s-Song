@@ -29,6 +29,8 @@ func run():
   if dimensions.x==2520:g.fixture_safe_area=Rect2(136,0,2384,1080)
   root.add_child(g);await settle();g.set_process(false);g._start_mission(0);await settle()
   var name="cover" if dimensions.x==2520 else "inner";var h=g.mission_hud
+  var extraction=g.sim.mission.extraction;var label_origin=extraction+Vector2(-120 if extraction.y>830 else -66,66 if extraction.y>830 else 90)
+  check(g.ocean.world_label_position(label_origin,"EXTRACTION",18).is_finite(),"crowded recovery keeps its world label with safe relocated placement")
   await capture(name+"-water")
   var before=g.sim.snapshot();var ship=g.ocean.global_position+g.ocean.screen_position(g.sim.units[0].pos)
   await tap(ship)
@@ -40,7 +42,9 @@ func run():
    check(g.get_global_rect().encloses(b.get_global_rect()) and b.size.x*scale.x>=125.99 and b.size.y*scale.y>=125.99,"clamped edge menu retains full48dp labels")
   await capture(name+"-commands")
   await click(h.extra.tools_menu);check(h.page=="tools" and g.sim.snapshot()==before,"tools projection changes no tactical state")
-  await click(g.order_buttons.decoy);check(g.decoy_armed and not g.advanced_orders,"chosen tool leaves menu into explicit aim")
+  var sector=h.global_position+h.center+Vector2.from_angle(-PI/3)*h.ring_radius
+  check(not g.order_buttons.decoy.get_global_rect().has_point(sector),"sector probe lies in actual visible wedge outside native label rectangle")
+  await tap(sector);check(g.decoy_armed and not g.advanced_orders,"full visible wedge tap selects chosen tool into explicit aim")
   before=g.sim.snapshot();await click(h.close_button)
   check(not g.decoy_armed and not g.advanced_orders and g.sim.snapshot()==before,"CANCEL returns directly to water without charge or order")
   await tap(ship);await click(h.extra.route_menu);await click(g.order_buttons.queue)
@@ -76,5 +80,8 @@ func run():
   check(h.sheet.visible and "RECORDS" in h.instrument_info.text and "reception unknown" in h.instrument_info.text,"STATUS exposes objective accounting and acoustic uncertainty")
   h.dismiss();g.sim.tools.emp=0;g.sim.tools.recon=0;g._refresh();h.open("tools");await settle()
   check(g.order_buttons.emp.visible and g.order_buttons.emp.disabled and g.order_buttons.recon.visible and g.order_buttons.recon.disabled,"depleted tools keep stable visible disabled slots and counts")
+  before=g.sim.snapshot();sector=h.global_position+h.center+Vector2.from_angle(PI/6)*h.ring_radius
+  await tap(sector)
+  check(g.advanced_orders and h.page=="tools" and g.sim.snapshot()==before,"disabled wedge stays visible and consumes a separate tap without spend or route")
   h.dismiss();g.queue_free();await settle()
  print("RADIAL HUD CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)
