@@ -2,6 +2,7 @@ extends Control
 const Simulation = preload("res://src/simulation/simulation.gd")
 const SaveStore=preload("res://src/persistence/save_store.gd")
 const Soundscape=preload("res://src/audio/soundscape.gd")
+const MetricsTransport=preload("res://src/diagnostics/metrics_transport.gd")
 const OceanView = preload("res://src/presentation/ocean_view.gd")
 var sim = Simulation.new()
 var store=SaveStore.new()
@@ -43,6 +44,8 @@ var advanced_orders:=false
 var ui_touch_height:=48.0
 var menu_footer: HBoxContainer
 var scroll_report_timer: Timer
+var metrics_session:=""
+var metrics_serial:=0
 func _ready() -> void:
 	get_tree().auto_accept_quit=false
 	_theme()
@@ -416,7 +419,7 @@ func _report_targets() -> void:
 	else:
 		for child in panel_box.get_children()+menu_footer.get_children():
 			if child is Button and child.has_meta("action"): buttons[child.get_meta("action")]=child
-	print("SS_UI_METRICS ",JSON.stringify(_ui_metrics()))
+	_emit_ui_metrics()
 	for key in buttons:
 		var p=buttons[key].get_global_rect().get_center()
 		print("SS_TARGET ",key," center=",roundi(p.x),",",roundi(p.y)," viewport=",roundi(get_viewport_rect().size.x),",",roundi(get_viewport_rect().size.y))
@@ -435,6 +438,14 @@ func _report_targets() -> void:
 				var world:Vector2={"role_observer":Vector2(640,850),"role_home":Vector2(140,800)}[action]
 				var mapped=ocean.global_position+ocean.world_offset+world*ocean.world_scale
 				print("SS_TARGET ",action," center=",roundi(mapped.x),",",roundi(mapped.y)," viewport=",roundi(get_viewport_rect().size.x),",",roundi(get_viewport_rect().size.y))
+
+func _emit_ui_metrics() -> void:
+	var snapshot=_ui_metrics()
+	if OS.get_name()=="Android":
+		if metrics_session.is_empty():metrics_session="%d-%d"%[OS.get_process_id(),Time.get_ticks_usec()]
+		metrics_serial+=1
+		for record in MetricsTransport.encode(snapshot,metrics_session,metrics_serial):print(record)
+	else:print("SS_UI_METRICS ",JSON.stringify(snapshot))
 
 func _enter_water() -> void:
 	screen="mission"; menu.hide(); hud.show()
