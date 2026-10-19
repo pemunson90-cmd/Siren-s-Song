@@ -1,5 +1,8 @@
 # Agent instructions — Siren's Song
 
+> **LIVING GAME SPEC / PERPETUAL QUALITY RATCHET (2026-10-19 USER DIRECTIVE).** Read `docs/CURRENT_GAME_SPEC.md` and `docs/V7_TO_GODOT_PARITY.md` alongside source authority before assigning design or implementing gameplay. The historical original functional spec is superseded as a **current** requirement source; preserve it as provenance. Playable v7 demonstrated targetable knockdown and other omitted mechanics; audit and reconcile them instead of treating old written development-status labels as definitive. At every substantial development pass, assess how to make the entire game more cohesive, deep, polished, intuitive, atmospheric and AAA-caliber in *content and execution*; do not self-declare finished at any milestone. Publishability refers to craftsmanship, not app-store submission/business/legal tasks. Record the next consequential player-facing gain, not merely additional fine-grained checks. Retain continuous branches, one reviewer, appropriate milestone validation and honest platform-limited continuation.
+
+
 ## Current execution contract — user directive, 2026-10-19
 
 This section governs current Gauntlet execution over older per-cycle gates in this file and historical docs. Maintain the game's ratified identity, accepted work, and safety-critical regressions.

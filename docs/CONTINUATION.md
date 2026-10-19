@@ -1,5 +1,8 @@
 # Siren’s Song — live continuation
 
+> **NEW GOVERNING SPEC / NEXT TASK BOUNDARY (2026-10-19):** Fetch current production and inherit `docs/CURRENT_GAME_SPEC.md` and `docs/V7_TO_GODOT_PARITY.md`, plus AGENTS/SOURCE_AUTHORITY. Historical functional spec is provenance only. Next integrations should recover v7's verified single-target knockdown and other consequential omitted mechanics while advancing route-programmed speed, terrain-based acoustic ambiguity, drone differentiation and actual touch usability on separate reviewed feature branches. Prioritize player-facing gameplay improvement, not certifying tiny deltas. Never declare the Gauntlet complete; every cycle finds the next substantial quality gain. AAA/publishable refers to game content and execution, not actual store/release administration. Preserve all active work; don't restart it.
+
+
 User-ratified governance: **e286ade61257190daa46f9433182de323a611271**; latest fetched/published production **fe2d4b72a614df2b0c892ae84dcc2ec57975ed57**. Current user-directed execution contract overrides historical per-increment certification. Continue automatically after task, worker, review and commit completion; no blocking execution boundary is observed.
 
 ## Current integration and ownership

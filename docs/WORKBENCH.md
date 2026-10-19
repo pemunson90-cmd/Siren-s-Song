@@ -1,5 +1,8 @@
 # Siren’s Song · current workbench
 
+> **LATEST USER DESIGN DIRECTION (2026-10-19):** Live intended requirements now in `docs/CURRENT_GAME_SPEC.md`; provenance and v7 mechanic recovery inventory in `docs/V7_TO_GODOT_PARITY.md`. Original functional spec is archived/deprecated as current instruction. Ratified: per-waypoint speed/editing; physically meaningful acoustic paths around basalt; differentiated drones; recover playable v7 knockdown torpedo; high-quality intuitive mobile controls. Preserve beam-centered combat for now; real photography and save profiles later. After each pass compare player-facing gameplay, presentation, discovery and depth to previous state and top-quality games, then pursue the next meaningful improvement without an artificial terminal milestone. AAA/publishable describes output quality, not publishing tasks. Keep current development and milestone batching running.
+
+
 User-ratified governance **e286ade61257190daa46f9433182de323a611271**, fetched/published production **fe2d4b72a614df2b0c892ae84dcc2ec57975ed57**. Dedicated feature worktrees, explicit ownership, one integration reviewer per design, targeted regression checks, comprehensive/native validation at coherent milestones. Task completion triggers execution of the next task.
 
 | Work | Actual state and remaining action |
