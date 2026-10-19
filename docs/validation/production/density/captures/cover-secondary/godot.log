@@ -126,14 +126,15 @@ SS_TARGET chart_center center=608,402 viewport=1680,720
 SS_TARGET objective0 center=1151,435 viewport=1680,720
 SS_TARGET route center=86,750 viewport=1680,720
 DENSITY_SETTLED_CAPTURE size=(2520, 1080) result=0
+DENSITY_TRANSFORMS screen=[X: (1.5, 0.0), Y: (0.0, 1.5), O: (0.0, 0.0)] final=[X: (1.5, 0.0), Y: (0.0, 1.5), O: (0.0, 0.0)] canvas=[X: (1.0, 0.0), Y: (0.0, 1.0), O: (0.0, 0.0)] rect=[P: (0.0, 0.0), S: (1680.0, 720.0)]
 DENSITY_MENU_DEBUG h=98.0 menu=[P: (440.0, 24.0), S: (800.0, 672.0)] stackmin=(0.0, 0.0) footer=[P: (440.0, 24.0), S: (0.0, 0.0)] scrollmin=(0.0, 0.0)
 DENSITY_CAPTURE fixture_dpi=420 view=secondary chart=[P: (26.0, 112.0), S: (1163.0, 580.0)] fraction=0.55765542328042 state=14.5000000000003
 WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
    at: cleanup (core/object/object.cpp:2663)
 --------------------------------------------------------------------------------
 Done recording movie at path: /workspace/Siren-s-Song-gauntlet/docs/validation/production/density/captures/cover-secondary/frame.png
-18 frames at 30 FPS (movie length: 00:00:00:18), recorded in 00:00:07 (14% of real-time speed).
-CPU render time: 0.05 seconds (average: 2.84 ms/frame)
-GPU render time: 0.61 seconds (average: 34.06 ms/frame)
-Encoding time: 2.05 seconds (average: 113.70 ms/frame)
+18 frames at 30 FPS (movie length: 00:00:00:18), recorded in 00:00:06 (16% of real-time speed).
+CPU render time: 0.06 seconds (average: 3.49 ms/frame)
+GPU render time: 0.51 seconds (average: 28.45 ms/frame)
+Encoding time: 2.10 seconds (average: 116.83 ms/frame)
 --------------------------------------------------------------------------------

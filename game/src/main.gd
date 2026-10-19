@@ -195,8 +195,8 @@ func _refresh() -> void:
 	order_buttons.menu.text="MENU"
 	order_buttons.contact_hold.text="IF\nCONTACT"
 	order_buttons.wait_drone.text="WAIT\nDRONE"
-	var mode="add to" if sim.queue_mode else "replace"
-	detail_label.text=sim.camera_context().text
+	var mode="ADD TO ROUTE" if sim.queue_mode else "REPLACE ROUTE"
+	detail_label.text="%s · %s · %s"%[sim.units[sim.selected].name.to_upper(),mode,sim.camera_context().text]
 func _toggle_advanced() -> void:
 	advanced_orders=not advanced_orders; _layout(); _refresh()
 

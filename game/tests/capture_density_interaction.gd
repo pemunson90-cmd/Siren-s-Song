@@ -14,7 +14,7 @@ func run() -> void:
 	var screenshot_path=game.capture_path; game.capture_path=""
 	await process_frame; await process_frame
 	game._start_mission(0); await process_frame; await process_frame; await process_frame
-	var clicks={15:"droneA",30:"route_a",45:"queue",60:"route_b",75:"droneB",90:"route_c",105:"more_orders",135:"home",150:"camera",165:"more_orders",180:"pause",195:"pause",210:"zoom_in",225:"fit"}
+	var clicks={15:"droneA",30:"route_a",45:"queue",60:"route_b",75:"more_orders",90:"camera",105:"route_c",120:"home",135:"more_orders",150:"droneB",165:"route_c",180:"pause",195:"pause",210:"zoom_in",225:"fit"}
 	var held_point=Vector2.ZERO
 	for n in 240:
 		if clicks.has(n):

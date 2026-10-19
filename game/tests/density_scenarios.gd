@@ -5,6 +5,24 @@ func check(ok: bool,message: String):
  checks+=1
  if not ok: failures+=1; printerr("FAIL: ",message)
 func _initialize():call_deferred("run")
+func click(point: Vector2) -> void:
+ var motion=InputEventMouseMotion.new();motion.position=point;motion.global_position=point;root.push_input(motion,true);await process_frame
+ for down in [true,false]:
+  var event=InputEventMouseButton.new();event.position=point;event.button_index=MOUSE_BUTTON_LEFT;event.pressed=down;root.push_input(event,true);await process_frame
+ await process_frame
+func route_intent(ui) -> void:
+ ui._start_mission(0);await process_frame;await process_frame;await process_frame
+ await click(ui.unit_buttons[1].get_global_rect().get_center())
+ await click(ui.ocean.global_position+ui.ocean.world_offset+Vector2(600,800)*ui.ocean.world_scale)
+ await click(ui.order_buttons.queue.get_global_rect().get_center())
+ await click(ui.advanced_button.get_global_rect().get_center())
+ await click(ui.order_buttons.camera.get_global_rect().get_center())
+ check(ui.sim.queue_mode and not ui.order_buttons.queue.is_visible_in_tree(),"secondary camera rejection preserves explicit queued state without hidden mutation")
+ check(ui.detail_label.is_visible_in_tree() and ui.detail_label.text.begins_with("DRONE A · ADD TO ROUTE"),"selected craft and sticky append intent remain visible after secondary action replaces log")
+ await click(ui.ocean.global_position+ui.ocean.world_offset+Vector2(900,800)*ui.ocean.world_scale)
+ check(ui.sim.units[1].route.size()==2,"ordinary chart tap still appends to the actual queued plan")
+ await click(ui.order_buttons.home.get_global_rect().get_center())
+ check(not ui.sim.queue_mode and ui.sim.selected==1 and ui.detail_label.text.begins_with("DRONE A · REPLACE ROUTE"),"emergency replacement visibly clears stale append state on secondary page")
 func run():
  root.size=Vector2i(2520,1080); await process_frame; await process_frame
  var ui=load("res://scenes/main.tscn").instantiate(); ui.set_script(preload("res://tests/density_main.gd")); ui.capture_scenario="density-test"; root.add_child(ui)
@@ -33,6 +51,15 @@ func run():
      check(not intersection.has_area(),"actual hit rectangles %s/%s do not overlap"%[c.action,metrics.controls[j].action])
   var area=ui.ocean.size.x*ui.ocean.size.y/(ui.size.x*ui.size.y)
   check(area>=0.50,"enlarged physical targets retain at least half the surface for the chart")
+  var header_font=ui.detail_label.get_theme_font("font")
+  var header_size=ui.detail_label.get_theme_font_size("font_size")
+  for mission_id in 6:
+   for objective in ui.Simulation.Missions.make(mission_id).objectives:
+    for field in ["requirement","unit_requirement"]:
+     if not objective.has(field):continue
+     var text="DRONE A · REPLACE ROUTE · "+objective[field]
+     check(header_font.get_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,-1,header_size).x<=ui.detail_label.size.x,"long authored camera prerequisite fits with persistent route intent: %s"%objective[field])
+  await route_intent(ui)
   ui._briefing(5);await process_frame;await process_frame
   var begin
   for button in ui.find_children("*","Button",true,false):
