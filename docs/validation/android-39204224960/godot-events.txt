@@ -1,0 +1,731 @@
+        * ActivityRecord{20123624 u0 org.sirenssong.game/com.godot.game.GodotAppLauncher t7}
+        mControlTarget=Window{3e050e3 u0 org.sirenssong.game/com.godot.game.GodotAppLauncher}
+        mControlTarget=Window{dd4fdfd u0 org.sirenssong.game/com.godot.game.GodotAppLauncher}
+        mControlTarget=Window{fdfa99 u0 org.sirenssong.game/com.godot.game.GodotAppLauncher}
+        source=ActivityRecord{20123624 u0 org.sirenssong.game/com.godot.game.GodotAppLauncher t7} SCREEN_ORIENTATION_LANDSCAPE
+      Intent { flg=0x10000000 xflg=0x5 cmp=org.sirenssong.game/com.godot.game.GodotAppLauncher }
+      Window{3e050e3 u0 org.sirenssong.game/com.godot.game.GodotAppLauncher}
+      Window{3e050e3 u0 org.sirenssong.game/com.godot.game.GodotAppLauncher}:
+      Window{dd4fdfd u0 org.sirenssong.game/com.godot.game.GodotAppLauncher}
+      Window{dd4fdfd u0 org.sirenssong.game/com.godot.game.GodotAppLauncher}:
+      Window{fdfa99 u0 org.sirenssong.game/com.godot.game.GodotAppLauncher}
+      Window{fdfa99 u0 org.sirenssong.game/com.godot.game.GodotAppLauncher}:
+      mActivityComponent=org.sirenssong.game/com.godot.game.GodotApp
+      mSurface=Surface(name=org.sirenssong.game/com.godot.game.GodotAppLauncher)/@0x639c1f5
+      windows=[Window{3e050e3 u0 org.sirenssong.game/com.godot.game.GodotAppLauncher}]
+      windows=[Window{dd4fdfd u0 org.sirenssong.game/com.godot.game.GodotAppLauncher}]
+      windows=[Window{fdfa99 u0 org.sirenssong.game/com.godot.game.GodotAppLauncher}]
+    * Hist  #0: ActivityRecord{20123624 u0 org.sirenssong.game/com.godot.game.GodotAppLauncher t7}
+    Resumed: ActivityRecord{20123624 u0 org.sirenssong.game/com.godot.game.GodotAppLauncher t7}
+    WindowStateAnimator{65a132c org.sirenssong.game/com.godot.game.GodotAppLauncher}:
+    mActivityRecord=ActivityRecord{20123624 u0 org.sirenssong.game/com.godot.game.GodotAppLauncher t7}
+    mBaseLayer=21000 mSubLayer=0    mToken=ActivityRecord{20123624 u0 org.sirenssong.game/com.godot.game.GodotAppLauncher t7}
+    mFocusedWindow=Window{3e050e3 u0 org.sirenssong.game/com.godot.game.GodotAppLauncher}
+    mFocusedWindow=Window{dd4fdfd u0 org.sirenssong.game/com.godot.game.GodotAppLauncher}
+    mFocusedWindow=Window{fdfa99 u0 org.sirenssong.game/com.godot.game.GodotAppLauncher}
+    mNavBarBackgroundWindowCandidate=Window{3e050e3 u0 org.sirenssong.game/com.godot.game.GodotAppLauncher}
+    mNavBarBackgroundWindowCandidate=Window{dd4fdfd u0 org.sirenssong.game/com.godot.game.GodotAppLauncher}
+    mNavBarBackgroundWindowCandidate=Window{fdfa99 u0 org.sirenssong.game/com.godot.game.GodotAppLauncher}
+    mNavBarColorWindowCandidate=Window{3e050e3 u0 org.sirenssong.game/com.godot.game.GodotAppLauncher}
+    mNavBarColorWindowCandidate=Window{dd4fdfd u0 org.sirenssong.game/com.godot.game.GodotAppLauncher}
+    mNavBarColorWindowCandidate=Window{fdfa99 u0 org.sirenssong.game/com.godot.game.GodotAppLauncher}
+    mSystemBarColorApps={ActivityRecord{20123624 u0 org.sirenssong.game/com.godot.game.GodotAppLauncher t7}}
+    mTopFullscreenOpaqueWindowState=Window{3e050e3 u0 org.sirenssong.game/com.godot.game.GodotAppLauncher}
+    mTopFullscreenOpaqueWindowState=Window{dd4fdfd u0 org.sirenssong.game/com.godot.game.GodotAppLauncher}
+    mTopFullscreenOpaqueWindowState=Window{fdfa99 u0 org.sirenssong.game/com.godot.game.GodotAppLauncher}
+    topResumedActivity=ActivityRecord{20123624 u0 org.sirenssong.game/com.godot.game.GodotAppLauncher t7}
+   KeyguardShowing=false AodShowing=false KeyguardGoingAway=false DismissalRequested=false  Occluded=false DismissingKeyguardActivity=null TurnScreenOnActivity=ActivityRecord{20123624 u0 org.sirenssong.game/com.godot.game.GodotAppLauncher t7} at display=0
+  ResumedActivity: ActivityRecord{20123624 u0 org.sirenssong.game/com.godot.game.GodotAppLauncher t7}
+  Window #8 Window{3e050e3 u0 org.sirenssong.game/com.godot.game.GodotAppLauncher}:
+  deepestLastOrientationSource=ActivityRecord{20123624 u0 org.sirenssong.game/com.godot.game.GodotAppLauncher t7}
+  imeControlTarget in display# 0 Window{3e050e3 u0 org.sirenssong.game/com.godot.game.GodotAppLauncher}
+  imeInputTarget in display# 0 Window{3e050e3 u0 org.sirenssong.game/com.godot.game.GodotAppLauncher}
+  imeLayeringTarget in display# 0 Window{3e050e3 u0 org.sirenssong.game/com.godot.game.GodotAppLauncher}
+  mCurrentFocus=Window{3e050e3 u0 org.sirenssong.game/com.godot.game.GodotAppLauncher}
+  mCurrentFocus=Window{dd4fdfd u0 org.sirenssong.game/com.godot.game.GodotAppLauncher}
+  mCurrentFocus=Window{fdfa99 u0 org.sirenssong.game/com.godot.game.GodotAppLauncher}
+  mFocusedApp=ActivityRecord{20123624 u0 org.sirenssong.game/com.godot.game.GodotAppLauncher t7}
+  mHoldScreenWindow=Window{3e050e3 u0 org.sirenssong.game/com.godot.game.GodotAppLauncher}
+  mHoldScreenWindow=Window{dd4fdfd u0 org.sirenssong.game/com.godot.game.GodotAppLauncher}
+  mHoldScreenWindow=Window{fdfa99 u0 org.sirenssong.game/com.godot.game.GodotAppLauncher}
+  mLastWakeLockHoldingWindow=Window{3e050e3 u0 org.sirenssong.game/com.godot.game.GodotAppLauncher}
+  mLastWakeLockHoldingWindow=Window{dd4fdfd u0 org.sirenssong.game/com.godot.game.GodotAppLauncher}
+  mLastWakeLockHoldingWindow=Window{fdfa99 u0 org.sirenssong.game/com.godot.game.GodotAppLauncher}
+10-19 05:25:53.639   656  2070 I ActivityTaskManager: START u0 {flg=0x10000000 xflg=0x5 cmp=org.sirenssong.game/com.godot.game.GodotAppLauncher} with LAUNCH_SINGLE_INSTANCE_PER_TASK from uid 2000 (BAL_ALLOW_PERMISSION) result code=0
+10-19 05:25:53.707   656   687 I ActivityManager: Start proc 2718:org.sirenssong.game/u0a216 for next-top-activity {org.sirenssong.game/com.godot.game.GodotAppLauncher}
+10-19 05:25:54.391  1015  1057 V WindowManagerShell: Transition requested (#11): android.os.BinderProxy@40b7028 TransitionRequestInfo { type = OPEN, triggerTask = TaskInfo{userId=0 taskId=7 effectiveUid=10216 displayId=0 isRunning=true baseIntent=Intent { flg=0x10000000 cmp=org.sirenssong.game/com.godot.game.GodotAppLauncher } baseActivity=ComponentInfo{org.sirenssong.game/com.godot.game.GodotApp} topActivity=ComponentInfo{org.sirenssong.game/com.godot.game.GodotApp} origActivity=ComponentInfo{org.sirenssong.game/com.godot.game.GodotAppLauncher} realActivity=ComponentInfo{org.sirenssong.game/com.godot.game.GodotApp} numActivities=1 lastActiveTime=66184 supportsMultiWindow=true resizeMode=2 isResizeable=true minWidth=-1 minHeight=-1 defaultMinSize=220 token=WCT{android.window.IWindowContainerToken$Stub$Proxy@bfb2141} topActivityType=1 pictureInPictureParams=null shouldDockBigOverlays=false launchIntoPipHostTaskId=-1 lastParentTaskIdBeforePip=-1 displayCutoutSafeInsets=Rect(0, 136 - 0, 0) topActivityInfo=ActivityInfo{75526e6 com.godot.game.GodotAppLauncher} launchCookies=[] positionInParent=Point(0, 0) parentTaskId=-1 isFocused=false isVisible=false isVisibleRequested=false isTopActivityNoDisplay=false isSleeping=false locusId=null displayAreaFeatureId=1 isTopActivityTransparent=false isActivityStackTransparent=false lastNonFullscreenBounds=Rect(71, 1079 - 1009, 1514) capturedLink=null capturedLinkTimestamp=0 requestedVisibleTypes=-9 topActivityRequestOpenInBrowserEducationTimestamp=0 appCompatTaskInfo=AppCompatTaskInfo { topActivityInSizeCompat=false eligibleForLetterboxEducation= false isLetterboxEducationEnabled= true isLetterboxDoubleTapEnabled= false eligibleForUserAspectRatioButton= false topActivityBoundsLetterboxed= false isFromLetterboxDoubleTap= false topActivityLetterboxVerticalPosition= -1 topActivityLetterboxHorizontalPosition= -1 topActivityLetterboxWidth=-1 topActivityLetterboxHeight=-1 topActivityAppBounds=Rect(0, 0 - 1080, 2520) isUserFullscreenOverrideEnabled=false isSystemFullscreenOverrideEnabled=false hasMinAspectRatioOverride=false topActivityLetterboxBounds=null cameraCompatTaskInfo=CameraCompatTaskInfo { freeformCameraCompatMode=inactive}} topActivityMainWindowFrame=null}, pipChange = null, remoteTransition = null, displayChange = null, flags = 0, debugId = 11 }
+10-19 05:25:55.411   656   677 V WindowManager: Sent Transition (#11) createdAt=10-19 05:25:53.624 via request=TransitionRequestInfo { type = OPEN, triggerTask = TaskInfo{userId=0 taskId=7 effectiveUid=10216 displayId=0 isRunning=true baseIntent=Intent { flg=0x10000000 cmp=org.sirenssong.game/com.godot.game.GodotAppLauncher } baseActivity=ComponentInfo{org.sirenssong.game/com.godot.game.GodotApp} topActivity=ComponentInfo{org.sirenssong.game/com.godot.game.GodotApp} origActivity=ComponentInfo{org.sirenssong.game/com.godot.game.GodotAppLauncher} realActivity=ComponentInfo{org.sirenssong.game/com.godot.game.GodotApp} numActivities=1 lastActiveTime=66184 supportsMultiWindow=true resizeMode=2 isResizeable=true minWidth=-1 minHeight=-1 defaultMinSize=220 token=WCT{RemoteToken{99a378c Task{706a601 #7 type=standard A=10216:org.sirenssong.game}}} topActivityType=1 pictureInPictureParams=null shouldDockBigOverlays=false launchIntoPipHostTaskId=-1 lastParentTaskIdBeforePip=-1 displayCutoutSafeInsets=Rect(0, 136 - 0, 0) topActivityInfo=ActivityInfo{5de7ed5 com.godot.game.GodotAppLauncher} launchCookies=[] positionInParent=Point(0, 0) parentTaskId=-1 isFocused=false isVisible=false isVisibleRequested=false isTopActivityNoDisplay=false isSleeping=false locusId=null displayAreaFeatureId=1 isTopActivityTransparent=false isActivityStackTransparent=false lastNonFullscreenBounds=Rect(71, 1079 - 1009, 1514) capturedLink=null capturedLinkTimestamp=0 requestedVisibleTypes=-9 topActivityRequestOpenInBrowserEducationTimestamp=0 appCompatTaskInfo=AppCompatTaskInfo { topActivityInSizeCompat=false eligibleForLetterboxEducation= false isLetterboxEducationEnabled= true isLetterboxDoubleTapEnabled= false eligibleForUserAspectRatioButton= false topActivityBoundsLetterboxed= false isFromLetterboxDoubleTap= false topActivityLetterboxVerticalPosition= -1 topActivityLetterboxHorizontalPosition= -1 topActivityLetterboxWidth=-1 topActivityLetterboxHeight=-1 topActivityAppBounds=Rect(0, 0 - 1080, 2520) isUserFullscreenOverrideEnabled=false isSystemFullscreenOverrideEnabled=false hasMinAspectRatioOverride=false topActivityLetterboxBounds=null cameraCompatTaskInfo=CameraCompatTaskInfo { freeformCameraCompatMode=inactive}} topActivityMainWindowFrame=null}, pipChange = null, remoteTransition = null, displayChange = null, flags = 0, debugId = 11 }
+10-19 05:25:56.533  2718  2718 D GodotActivity: Project command line parameters: [--xr_mode_regular, --xr-mode, off, --fullscreen, --background_color, #000000]
+10-19 05:25:56.537  2718  2718 D GodotActivity: Launch intent Intent { flg=0x10000000 xflg=0x5 cmp=org.sirenssong.game/com.godot.game.GodotAppLauncher } with parameters []
+10-19 05:25:56.560  2718  2718 V GodotActivity: Creating new Godot fragment instance.
+10-19 05:25:56.650  2718  2718 V Godot   : InitEngine with params: [--xr_mode_regular, --xr-mode, off, --fullscreen, --background_color, #000000]
+10-19 05:25:56.652  2718  2718 V Godot   : Initializing Godot plugin registry
+10-19 05:25:56.685  2718  2718 I GodotPluginRegistry: Registering runtime plugin AndroidRuntime
+10-19 05:25:56.939  2718  2718 D nativeloader: Load /data/app/~~X4z9kfd4BTTnD88LwRdwbQ==/org.sirenssong.game--8uDamlRG_8resr42IX2vA==/lib/x86_64/libgodot_android.so using class loader ns clns-9 (caller=/data/app/~~X4z9kfd4BTTnD88LwRdwbQ==/org.sirenssong.game--8uDamlRG_8resr42IX2vA==/base.apk!classes8.dex): ok
+10-19 05:25:56.944  2718  2718 V Godot   : Godot native layer initialization completed: true
+10-19 05:25:57.208  2718  2718 V Godot   : Godot native layer setup completed
+10-19 05:25:57.209  2718  2718 V Godot   : OnInitRenderView: GodotFragment{cf398a3} (8ee94a2b-1ab6-4d9a-8413-2a3248165b71 id=0x7f070033)
+10-19 05:25:57.421  2718  2718 D Godot   : Render view should be transparent: false
+10-19 05:25:57.434  2718  2718 D Godot   : 			renderer: gl_compatibility (ProjectSettings)
+10-19 05:25:57.434  2718  2718 D Godot   : 			renderingDevice: opengl3 (ProjectSettings)
+10-19 05:25:57.434  2718  2718 D Godot   : usesVulkan(): false
+10-19 05:25:57.551  2718  2718 V Godot   : OnStart: GodotFragment{cf398a3} (8ee94a2b-1ab6-4d9a-8413-2a3248165b71 id=0x7f070033)
+10-19 05:25:57.602  2718  2718 V Godot   : OnResume: GodotFragment{cf398a3} (8ee94a2b-1ab6-4d9a-8413-2a3248165b71 id=0x7f070033)
+10-19 05:25:57.955   656   739 D CoreBackPreview: Window{3e050e3 u0 org.sirenssong.game/com.godot.game.GodotAppLauncher}: Setting back callback OnBackInvokedCallbackInfo{mCallback=android.window.IOnBackInvokedCallback$Stub$Proxy@741793c, mPriority=-1, mIsAnimationCallback=false, mOverrideBehavior=0}
+10-19 05:25:57.956   656   739 D CoreBackPreview: Window{3e050e3 u0 org.sirenssong.game/com.godot.game.GodotAppLauncher}: Setting back callback OnBackInvokedCallbackInfo{mCallback=android.window.IOnBackInvokedCallback$Stub$Proxy@a3916c5, mPriority=0, mIsAnimationCallback=true, mOverrideBehavior=0}
+10-19 05:25:59.245  2718  2876 E SurfaceSyncGroup: Failed to receive transaction ready in 1000ms. Marking SurfaceSyncGroup(SurfaceView[org.sirenssong.game/com.godot.game.GodotAppLauncher]#0) as ready
+10-19 05:25:59.245  2718  2876 E SurfaceSyncGroup: Failed to receive transaction ready in 1000ms. Marking SurfaceSyncGroup(VRI[GodotAppLauncher]#2) as ready
+10-19 05:25:59.245  2718  2876 E SurfaceSyncGroup: Failed to receive transaction ready in 1000ms. Marking SurfaceSyncGroup(wmsSync-VRI[GodotAppLauncher]#1) as ready
+10-19 05:25:59.554   656   677 I ActivityTaskManager: Displayed org.sirenssong.game/com.godot.game.GodotAppLauncher for user 0: +5s411ms
+10-19 05:25:59.621  2718  2845 I godot   : Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+10-19 05:26:01.010  1294  1322 I Launcher.IconCache: Database bulk icon loading failed, using fallback bulk icon loading for: ComponentInfo{org.sirenssong.game/com.godot.game.GodotAppLauncher}
+10-19 05:26:02.931  2718  2845 I godot   : OpenGL API OpenGL ES 3.1 (OpenGL ES 3.1.0 (ANGLE 2.1.17841 git hash: 5fa2e61da947)) - Compatibility - Using Device: Google (Google Inc. (Google)) - Android Emulator OpenGL ES Translator (ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver-5.0.0))
+10-19 05:26:03.047  2718  2845 I godot   : 
+10-19 05:26:04.902  2718  2845 V Godot   : OnGodotSetupCompleted
+10-19 05:26:07.735  2718  2845 I godot   : SS_SCREEN operations window=(2520, 1080) viewport=(1680.0, 720.0) root=(1680.0, 720.0) unlocked=0 active_time=0.0
+10-19 05:26:07.755  2718  2845 V Godot   : OnGodotMainLoopStarted
+10-19 05:26:08.116  2718  2845 I godot   : SS_TARGET mission0 center=881,211 viewport=1680,720
+10-19 05:26:16.787  2718  2845 I godot   : SS_MISSION_SELECT 0
+10-19 05:26:16.846  2718  2845 I godot   : SS_TARGET begin center=885,441 viewport=1680,720
+10-19 05:26:19.264  2718  2845 I godot   : SS_SCREEN mission paused=true
+10-19 05:26:19.271  2718  2845 I godot   : SS_SAVE ok mission=0 time=0.0 paused=true completed=[] unlocked=0
+10-19 05:26:19.551  2718  2845 I godot   : SS_TARGET pause center=1504,130 viewport=1680,720
+10-19 05:26:19.553  2718  2845 I godot   : SS_TARGET camera center=1575,250 viewport=1680,720
+10-19 05:26:19.553  2718  2845 I godot   : SS_TARGET droneA center=1502,194 viewport=1680,720
+10-19 05:26:19.553  2718  2845 I godot   : SS_TARGET droneB center=1601,194 viewport=1680,720
+10-19 05:26:19.553  2718  2845 I godot   : SS_TARGET ping center=1427,250 viewport=1680,720
+10-19 05:26:19.553  2718  2845 I godot   : SS_TARGET queue center=1575,306 viewport=1680,720
+10-19 05:26:19.553  2718  2845 I godot   : SS_TARGET silent center=1427,306 viewport=1680,720
+10-19 05:26:19.553  2718  2845 I godot   : SS_TARGET sub center=1403,194 viewport=1680,720
+10-19 05:26:19.554  2718  2845 I godot   : SS_TARGET camera center=1575,250 viewport=1680,720
+10-19 05:26:19.554  2718  2845 I godot   : SS_TARGET chart_center center=723,387 viewport=1680,720
+10-19 05:26:19.554  2718  2845 I godot   : SS_TARGET droneA center=1502,194 viewport=1680,720
+10-19 05:26:19.554  2718  2845 I godot   : SS_TARGET droneB center=1601,194 viewport=1680,720
+10-19 05:26:19.554  2718  2845 I godot   : SS_TARGET emp center=1575,362 viewport=1680,720
+10-19 05:26:19.554  2718  2845 I godot   : SS_TARGET fit center=1299,138 viewport=1680,720
+10-19 05:26:19.554  2718  2845 I godot   : SS_TARGET hold center=1427,362 viewport=1680,720
+10-19 05:26:19.554  2718  2845 I godot   : SS_TARGET home center=1427,418 viewport=1680,720
+10-19 05:26:19.554  2718  2845 I godot   : SS_TARGET menu center=1575,418 viewport=1680,720
+10-19 05:26:19.554  2718  2845 I godot   : SS_TARGET more_orders center=1427,474 viewport=1680,720
+10-19 05:26:19.554  2718  2845 I godot   : SS_TARGET objective0 center=1016,405 viewport=1680,720
+10-19 05:26:19.554  2718  2845 I godot   : SS_TARGET pause center=1504,130 viewport=1680,720
+10-19 05:26:19.554  2718  2845 I godot   : SS_TARGET ping center=1427,250 viewport=1680,720
+10-19 05:26:19.554  2718  2845 I godot   : SS_TARGET queue center=1575,306 viewport=1680,720
+10-19 05:26:19.554  2718  2845 I godot   : SS_TARGET route center=442,574 viewport=1680,720
+10-19 05:26:19.554  2718  2845 I godot   : SS_TARGET silent center=1427,306 viewport=1680,720
+10-19 05:26:19.554  2718  2845 I godot   : SS_TARGET sub center=1403,194 viewport=1680,720
+10-19 05:26:19.554  2718  2845 I godot   : SS_TARGET zoom_in center=1245,138 viewport=1680,720
+10-19 05:26:19.554  2718  2845 I godot   : SS_TARGET zoom_out center=1191,138 viewport=1680,720
+10-19 05:26:22.750  2718  2845 I godot   : SS_VIEW zoom=1.4 center=(800.0, 480.0)
+10-19 05:26:22.848  2718  2845 I godot   : SS_TARGET camera center=1575,250 viewport=1680,720
+10-19 05:26:22.848  2718  2845 I godot   : SS_TARGET chart_center center=723,387 viewport=1680,720
+10-19 05:26:22.848  2718  2845 I godot   : SS_TARGET droneA center=1502,194 viewport=1680,720
+10-19 05:26:22.848  2718  2845 I godot   : SS_TARGET droneB center=1601,194 viewport=1680,720
+10-19 05:26:22.848  2718  2845 I godot   : SS_TARGET emp center=1575,362 viewport=1680,720
+10-19 05:26:22.848  2718  2845 I godot   : SS_TARGET fit center=1299,138 viewport=1680,720
+10-19 05:26:22.848  2718  2845 I godot   : SS_TARGET hold center=1427,362 viewport=1680,720
+10-19 05:26:22.848  2718  2845 I godot   : SS_TARGET home center=1427,418 viewport=1680,720
+10-19 05:26:22.848  2718  2845 I godot   : SS_TARGET menu center=1575,418 viewport=1680,720
+10-19 05:26:22.848  2718  2845 I godot   : SS_TARGET more_orders center=1427,474 viewport=1680,720
+10-19 05:26:22.848  2718  2845 I godot   : SS_TARGET objective0 center=1133,412 viewport=1680,720
+10-19 05:26:22.848  2718  2845 I godot   : SS_TARGET pause center=1504,130 viewport=1680,720
+10-19 05:26:22.848  2718  2845 I godot   : SS_TARGET ping center=1427,250 viewport=1680,720
+10-19 05:26:22.848  2718  2845 I godot   : SS_TARGET queue center=1575,306 viewport=1680,720
+10-19 05:26:22.848  2718  2845 I godot   : SS_TARGET route center=330,649 viewport=1680,720
+10-19 05:26:22.848  2718  2845 I godot   : SS_TARGET silent center=1427,306 viewport=1680,720
+10-19 05:26:22.848  2718  2845 I godot   : SS_TARGET sub center=1403,194 viewport=1680,720
+10-19 05:26:22.848  2718  2845 I godot   : SS_TARGET zoom_in center=1245,138 viewport=1680,720
+10-19 05:26:22.848  2718  2845 I godot   : SS_TARGET zoom_out center=1191,138 viewport=1680,720
+10-19 05:26:26.222  2718  2845 I godot   : SS_VIEW zoom=1.0 center=(800.0, 480.0)
+10-19 05:26:26.392  2718  2845 I godot   : SS_TARGET camera center=1575,250 viewport=1680,720
+10-19 05:26:26.392  2718  2845 I godot   : SS_TARGET chart_center center=723,387 viewport=1680,720
+10-19 05:26:26.392  2718  2845 I godot   : SS_TARGET droneA center=1502,194 viewport=1680,720
+10-19 05:26:26.392  2718  2845 I godot   : SS_TARGET droneB center=1601,194 viewport=1680,720
+10-19 05:26:26.392  2718  2845 I godot   : SS_TARGET emp center=1575,362 viewport=1680,720
+10-19 05:26:26.392  2718  2845 I godot   : SS_TARGET fit center=1299,138 viewport=1680,720
+10-19 05:26:26.392  2718  2845 I godot   : SS_TARGET hold center=1427,362 viewport=1680,720
+10-19 05:26:26.392  2718  2845 I godot   : SS_TARGET home center=1427,418 viewport=1680,720
+10-19 05:26:26.392  2718  2845 I godot   : SS_TARGET menu center=1575,418 viewport=1680,720
+10-19 05:26:26.392  2718  2845 I godot   : SS_TARGET more_orders center=1427,474 viewport=1680,720
+10-19 05:26:26.392  2718  2845 I godot   : SS_TARGET pause center=1504,130 viewport=1680,720
+10-19 05:26:26.392  2718  2845 I godot   : SS_TARGET ping center=1427,250 viewport=1680,720
+10-19 05:26:26.392  2718  2845 I godot   : SS_TARGET queue center=1575,306 viewport=1680,720
+10-19 05:26:26.392  2718  2845 I godot   : SS_TARGET silent center=1427,306 viewport=1680,720
+10-19 05:26:26.392  2718  2845 I godot   : SS_TARGET sub center=1403,194 viewport=1680,720
+10-19 05:26:26.392  2718  2845 I godot   : SS_TARGET zoom_in center=1245,138 viewport=1680,720
+10-19 05:26:26.392  2718  2845 I godot   : SS_TARGET zoom_out center=1191,138 viewport=1680,720
+10-19 05:26:26.393  2718  2845 I godot   : SS_TARGET objective0 center=1016,405 viewport=1680,720
+10-19 05:26:26.393  2718  2845 I godot   : SS_TARGET route center=442,574 viewport=1680,720
+10-19 05:26:28.385  2718  2845 I godot   : SS_VIEW zoom=1.4 center=(800.0, 480.0)
+10-19 05:26:28.524  2718  2845 I godot   : SS_TARGET camera center=1575,250 viewport=1680,720
+10-19 05:26:28.524  2718  2845 I godot   : SS_TARGET chart_center center=723,387 viewport=1680,720
+10-19 05:26:28.524  2718  2845 I godot   : SS_TARGET droneA center=1502,194 viewport=1680,720
+10-19 05:26:28.524  2718  2845 I godot   : SS_TARGET droneB center=1601,194 viewport=1680,720
+10-19 05:26:28.524  2718  2845 I godot   : SS_TARGET emp center=1575,362 viewport=1680,720
+10-19 05:26:28.524  2718  2845 I godot   : SS_TARGET fit center=1299,138 viewport=1680,720
+10-19 05:26:28.524  2718  2845 I godot   : SS_TARGET hold center=1427,362 viewport=1680,720
+10-19 05:26:28.524  2718  2845 I godot   : SS_TARGET home center=1427,418 viewport=1680,720
+10-19 05:26:28.524  2718  2845 I godot   : SS_TARGET menu center=1575,418 viewport=1680,720
+10-19 05:26:28.524  2718  2845 I godot   : SS_TARGET more_orders center=1427,474 viewport=1680,720
+10-19 05:26:28.524  2718  2845 I godot   : SS_TARGET objective0 center=1133,412 viewport=1680,720
+10-19 05:26:28.524  2718  2845 I godot   : SS_TARGET pause center=1504,130 viewport=1680,720
+10-19 05:26:28.524  2718  2845 I godot   : SS_TARGET ping center=1427,250 viewport=1680,720
+10-19 05:26:28.524  2718  2845 I godot   : SS_TARGET queue center=1575,306 viewport=1680,720
+10-19 05:26:28.524  2718  2845 I godot   : SS_TARGET silent center=1427,306 viewport=1680,720
+10-19 05:26:28.524  2718  2845 I godot   : SS_TARGET sub center=1403,194 viewport=1680,720
+10-19 05:26:28.524  2718  2845 I godot   : SS_TARGET zoom_in center=1245,138 viewport=1680,720
+10-19 05:26:28.524  2718  2845 I godot   : SS_TARGET zoom_out center=1191,138 viewport=1680,720
+10-19 05:26:28.525  2718  2845 I godot   : SS_TARGET route center=330,649 viewport=1680,720
+10-19 05:26:31.697  2718  2845 I godot   : SS_VIEW zoom=1.96 center=(800.0, 480.0)
+10-19 05:26:31.800  2718  2845 I godot   : SS_TARGET camera center=1575,250 viewport=1680,720
+10-19 05:26:31.800  2718  2845 I godot   : SS_TARGET chart_center center=723,387 viewport=1680,720
+10-19 05:26:31.800  2718  2845 I godot   : SS_TARGET droneA center=1502,194 viewport=1680,720
+10-19 05:26:31.800  2718  2845 I godot   : SS_TARGET droneB center=1601,194 viewport=1680,720
+10-19 05:26:31.800  2718  2845 I godot   : SS_TARGET emp center=1575,362 viewport=1680,720
+10-19 05:26:31.800  2718  2845 I godot   : SS_TARGET fit center=1299,138 viewport=1680,720
+10-19 05:26:31.800  2718  2845 I godot   : SS_TARGET hold center=1427,362 viewport=1680,720
+10-19 05:26:31.800  2718  2845 I godot   : SS_TARGET home center=1427,418 viewport=1680,720
+10-19 05:26:31.800  2718  2845 I godot   : SS_TARGET menu center=1575,418 viewport=1680,720
+10-19 05:26:31.800  2718  2845 I godot   : SS_TARGET more_orders center=1427,474 viewport=1680,720
+10-19 05:26:31.800  2718  2845 I godot   : SS_TARGET objective0 center=1297,421 viewport=1680,720
+10-19 05:26:31.800  2718  2845 I godot   : SS_TARGET pause center=1504,130 viewport=1680,720
+10-19 05:26:31.800  2718  2845 I godot   : SS_TARGET ping center=1427,250 viewport=1680,720
+10-19 05:26:31.800  2718  2845 I godot   : SS_TARGET queue center=1575,306 viewport=1680,720
+10-19 05:26:31.800  2718  2845 I godot   : SS_TARGET route center=173,754 viewport=1680,720
+10-19 05:26:31.800  2718  2845 I godot   : SS_TARGET silent center=1427,306 viewport=1680,720
+10-19 05:26:31.800  2718  2845 I godot   : SS_TARGET sub center=1403,194 viewport=1680,720
+10-19 05:26:31.800  2718  2845 I godot   : SS_TARGET zoom_in center=1245,138 viewport=1680,720
+10-19 05:26:31.800  2718  2845 I godot   : SS_TARGET zoom_out center=1191,138 viewport=1680,720
+10-19 05:26:35.759  2718  2845 I godot   : SS_VIEW zoom=1.96 center=(874.7768, 480.0)
+10-19 05:26:36.112  2718  2845 I godot   : SS_TARGET pause center=1504,130 viewport=1680,720
+10-19 05:26:36.117  2718  2845 I godot   : SS_TARGET camera center=1575,250 viewport=1680,720
+10-19 05:26:36.117  2718  2845 I godot   : SS_TARGET chart_center center=723,387 viewport=1680,720
+10-19 05:26:36.117  2718  2845 I godot   : SS_TARGET droneA center=1502,194 viewport=1680,720
+10-19 05:26:36.117  2718  2845 I godot   : SS_TARGET droneB center=1601,194 viewport=1680,720
+10-19 05:26:36.117  2718  2845 I godot   : SS_TARGET emp center=1575,362 viewport=1680,720
+10-19 05:26:36.117  2718  2845 I godot   : SS_TARGET fit center=1299,138 viewport=1680,720
+10-19 05:26:36.117  2718  2845 I godot   : SS_TARGET hold center=1427,362 viewport=1680,720
+10-19 05:26:36.117  2718  2845 I godot   : SS_TARGET home center=1427,418 viewport=1680,720
+10-19 05:26:36.117  2718  2845 I godot   : SS_TARGET menu center=1575,418 viewport=1680,720
+10-19 05:26:36.117  2718  2845 I godot   : SS_TARGET more_orders center=1427,474 viewport=1680,720
+10-19 05:26:36.117  2718  2845 I godot   : SS_TARGET objective0 center=1211,421 viewport=1680,720
+10-19 05:26:36.117  2718  2845 I godot   : SS_TARGET ping center=1427,250 viewport=1680,720
+10-19 05:26:36.117  2718  2845 I godot   : SS_TARGET queue center=1575,306 viewport=1680,720
+10-19 05:26:36.117  2718  2845 I godot   : SS_TARGET route center=87,754 viewport=1680,720
+10-19 05:26:36.117  2718  2845 I godot   : SS_TARGET silent center=1427,306 viewport=1680,720
+10-19 05:26:36.117  2718  2845 I godot   : SS_TARGET sub center=1403,194 viewport=1680,720
+10-19 05:26:36.117  2718  2845 I godot   : SS_TARGET zoom_in center=1245,138 viewport=1680,720
+10-19 05:26:36.117  2718  2845 I godot   : SS_TARGET zoom_out center=1191,138 viewport=1680,720
+10-19 05:26:40.511  2718  2845 I godot   : SS_VIEW zoom=1.0 center=(800.0, 480.0)
+10-19 05:26:40.618  2718  2845 I godot   : SS_TARGET camera center=1575,250 viewport=1680,720
+10-19 05:26:40.618  2718  2845 I godot   : SS_TARGET chart_center center=723,387 viewport=1680,720
+10-19 05:26:40.618  2718  2845 I godot   : SS_TARGET droneA center=1502,194 viewport=1680,720
+10-19 05:26:40.618  2718  2845 I godot   : SS_TARGET droneB center=1601,194 viewport=1680,720
+10-19 05:26:40.618  2718  2845 I godot   : SS_TARGET emp center=1575,362 viewport=1680,720
+10-19 05:26:40.618  2718  2845 I godot   : SS_TARGET fit center=1299,138 viewport=1680,720
+10-19 05:26:40.618  2718  2845 I godot   : SS_TARGET hold center=1427,362 viewport=1680,720
+10-19 05:26:40.618  2718  2845 I godot   : SS_TARGET home center=1427,418 viewport=1680,720
+10-19 05:26:40.618  2718  2845 I godot   : SS_TARGET menu center=1575,418 viewport=1680,720
+10-19 05:26:40.618  2718  2845 I godot   : SS_TARGET more_orders center=1427,474 viewport=1680,720
+10-19 05:26:40.618  2718  2845 I godot   : SS_TARGET pause center=1504,130 viewport=1680,720
+10-19 05:26:40.618  2718  2845 I godot   : SS_TARGET ping center=1427,250 viewport=1680,720
+10-19 05:26:40.618  2718  2845 I godot   : SS_TARGET queue center=1575,306 viewport=1680,720
+10-19 05:26:40.618  2718  2845 I godot   : SS_TARGET silent center=1427,306 viewport=1680,720
+10-19 05:26:40.618  2718  2845 I godot   : SS_TARGET sub center=1403,194 viewport=1680,720
+10-19 05:26:40.618  2718  2845 I godot   : SS_TARGET zoom_in center=1245,138 viewport=1680,720
+10-19 05:26:40.618  2718  2845 I godot   : SS_TARGET zoom_out center=1191,138 viewport=1680,720
+10-19 05:26:40.619  2718  2845 I godot   : SS_TARGET objective0 center=1016,405 viewport=1680,720
+10-19 05:26:40.619  2718  2845 I godot   : SS_TARGET route center=442,574 viewport=1680,720
+10-19 05:26:42.750  2718  2845 I godot   : SS_ORDER select accepted=true selected=1 queued=false
+10-19 05:26:42.772  2718  2845 I godot   : SS_SAVE ok mission=0 time=0.0 paused=true completed=[] unlocked=0
+10-19 05:26:44.818  2718  2845 I godot   : SS_ORDER select accepted=true selected=0 queued=false
+10-19 05:26:44.826  2718  2845 I godot   : SS_SAVE ok mission=0 time=0.0 paused=true completed=[] unlocked=0
+10-19 05:26:46.843  2718  2845 I godot   : SS_ORDER route accepted=true selected=0 queued=false
+10-19 05:26:46.870  2718  2845 I godot   : SS_SAVE ok mission=0 time=0.0 paused=true completed=[] unlocked=0
+10-19 05:26:49.375  2718  2845 I godot   : SS_PAUSE paused=false
+10-19 05:26:49.379  2718  2845 I godot   : SS_SAVE ok mission=0 time=0.0 paused=false completed=[] unlocked=0
+10-19 05:26:52.894  2718  2845 I godot   : SS_PAUSE paused=true
+10-19 05:26:52.918  2718  2845 I godot   : SS_SAVE ok mission=0 time=1.33 paused=true completed=[] unlocked=0
+10-19 05:26:54.328  2718  2718 V Godot   : OnPause: GodotFragment{cf398a3} (8ee94a2b-1ab6-4d9a-8413-2a3248165b71 id=0x7f070033)
+10-19 05:26:55.385  2718  2718 D VRI[GodotAppLauncher]: visibilityChanged oldVisibility=true newVisibility=false
+10-19 05:26:56.907  2718  2718 V Godot   : OnStop: GodotFragment{cf398a3} (8ee94a2b-1ab6-4d9a-8413-2a3248165b71 id=0x7f070033)
+10-19 05:26:57.786  2718  2845 E BufferQueueProducer: [5a4b6af SurfaceView[org.sirenssong.game/com.godot.game.GodotAppLauncher]#1(BLAST Consumer)1](id:a9e00000001,api:0,p:-1,c:2718) dequeueBuffer: BufferQueue has been abandoned
+10-19 05:26:57.998  2718  2845 I godot   : SS_SAVE ok mission=0 time=1.33 paused=true completed=[] unlocked=0
+10-19 05:26:57.999  2718  2845 I godot   : SS_LIFECYCLE suspended paused=true
+10-19 05:26:58.019  2718  2845 I godot   : SS_LIFECYCLE suspended paused=true
+10-19 05:26:58.019  2718  2845 I godot   : SS_SAVE ok mission=0 time=1.33 paused=true completed=[] unlocked=0
+10-19 05:26:58.081  2718  2845 I godot   : SS_LIFECYCLE suspended paused=true
+10-19 05:26:58.081  2718  2845 I godot   : SS_SAVE ok mission=0 time=1.33 paused=true completed=[] unlocked=0
+10-19 05:27:00.009  1015  1057 V WindowManagerShell: Transition requested (#15): android.os.BinderProxy@74c8c TransitionRequestInfo { type = OPEN, triggerTask = TaskInfo{userId=0 taskId=7 effectiveUid=10216 displayId=0 isRunning=true baseIntent=Intent { flg=0x10000000 cmp=org.sirenssong.game/com.godot.game.GodotAppLauncher } baseActivity=ComponentInfo{org.sirenssong.game/com.godot.game.GodotApp} topActivity=ComponentInfo{org.sirenssong.game/com.godot.game.GodotApp} origActivity=ComponentInfo{org.sirenssong.game/com.godot.game.GodotAppLauncher} realActivity=ComponentInfo{org.sirenssong.game/com.godot.game.GodotApp} numActivities=1 lastActiveTime=126723 supportsMultiWindow=true resizeMode=2 isResizeable=true minWidth=-1 minHeight=-1 defaultMinSize=220 token=WCT{android.window.IWindowContainerToken$Stub$Proxy@cb66fd5} topActivityType=1 pictureInPictureParams=null shouldDockBigOverlays=false launchIntoPipHostTaskId=-1 lastParentTaskIdBeforePip=-1 displayCutoutSafeInsets=Rect(0, 136 - 0, 0) topActivityInfo=ActivityInfo{37eb3ea com.godot.game.GodotAppLauncher} launchCookies=[] positionInParent=Point(0, 0) parentTaskId=-1 isFocused=false isVisible=false isVisibleRequested=false isTopActivityNoDisplay=false isSleeping=false locusId=null displayAreaFeatureId=1 isTopActivityTransparent=false isActivityStackTransparent=false lastNonFullscreenBounds=Rect(71, 1079 - 1009, 1514) capturedLink=null capturedLinkTimestamp=0 requestedVisibleTypes=-16 topActivityRequestOpenInBrowserEducationTimestamp=0 appCompatTaskInfo=AppCompatTaskInfo { topActivityInSizeCompat=false eligibleForLetterboxEducation= false isLetterboxEducationEnabled= true isLetterboxDoubleTapEnabled= false eligibleForUserAspectRatioButton= false topActivityBoundsLetterboxed= false isFromLetterboxDoubleTap= false topActivityLetterboxVerticalPosition= -1 topActivityLetterboxHorizontalPosition= -1 topActivityLetterboxWidth=-1 topActivityLetterboxHeight=-1 topActivityAppBounds=Rect(0, 0 - 2520, 1080) isUserFullscreenOverrideEnabled=false isSystemFullscreenOverrideEnabled=false hasMinAspectRatioOverride=false topActivityLetterboxBounds=null cameraCompatTaskInfo=CameraCompatTaskInfo { freeformCameraCompatMode=inactive}} topActivityMainWindowFrame=null}, pipChange = null, remoteTransition = null, displayChange = null, flags = 0, debugId = 15 }
+10-19 05:27:00.011   656  2074 I ActivityTaskManager: START u0 {flg=0x10000000 xflg=0x5 cmp=org.sirenssong.game/com.godot.game.GodotAppLauncher} with LAUNCH_SINGLE_INSTANCE_PER_TASK from uid 2000 (BAL_ALLOW_PERMISSION) result code=2
+10-19 05:27:00.141  2718  2718 V Godot   : OnStart: GodotFragment{cf398a3} (8ee94a2b-1ab6-4d9a-8413-2a3248165b71 id=0x7f070033)
+10-19 05:27:00.146  2718  2718 V Godot   : OnResume: GodotFragment{cf398a3} (8ee94a2b-1ab6-4d9a-8413-2a3248165b71 id=0x7f070033)
+10-19 05:27:00.193   656   677 V WindowManager: Sent Transition (#15) createdAt=10-19 05:26:59.563 via request=TransitionRequestInfo { type = OPEN, triggerTask = TaskInfo{userId=0 taskId=7 effectiveUid=10216 displayId=0 isRunning=true baseIntent=Intent { flg=0x10000000 cmp=org.sirenssong.game/com.godot.game.GodotAppLauncher } baseActivity=ComponentInfo{org.sirenssong.game/com.godot.game.GodotApp} topActivity=ComponentInfo{org.sirenssong.game/com.godot.game.GodotApp} origActivity=ComponentInfo{org.sirenssong.game/com.godot.game.GodotAppLauncher} realActivity=ComponentInfo{org.sirenssong.game/com.godot.game.GodotApp} numActivities=1 lastActiveTime=126723 supportsMultiWindow=true resizeMode=2 isResizeable=true minWidth=-1 minHeight=-1 defaultMinSize=220 token=WCT{RemoteToken{99a378c Task{706a601 #7 type=standard A=10216:org.sirenssong.game}}} topActivityType=1 pictureInPictureParams=null shouldDockBigOverlays=false launchIntoPipHostTaskId=-1 lastParentTaskIdBeforePip=-1 displayCutoutSafeInsets=Rect(0, 136 - 0, 0) topActivityInfo=ActivityInfo{5de7ed5 com.godot.game.GodotAppLauncher} launchCookies=[] positionInParent=Point(0, 0) parentTaskId=-1 isFocused=false isVisible=false isVisibleRequested=false isTopActivityNoDisplay=false isSleeping=false locusId=null displayAreaFeatureId=1 isTopActivityTransparent=false isActivityStackTransparent=false lastNonFullscreenBounds=Rect(71, 1079 - 1009, 1514) capturedLink=null capturedLinkTimestamp=0 requestedVisibleTypes=-16 topActivityRequestOpenInBrowserEducationTimestamp=0 appCompatTaskInfo=AppCompatTaskInfo { topActivityInSizeCompat=false eligibleForLetterboxEducation= false isLetterboxEducationEnabled= true isLetterboxDoubleTapEnabled= false eligibleForUserAspectRatioButton= false topActivityBoundsLetterboxed= false isFromLetterboxDoubleTap= false topActivityLetterboxVerticalPosition= -1 topActivityLetterboxHorizontalPosition= -1 topActivityLetterboxWidth=-1 topActivityLetterboxHeight=-1 topActivityAppBounds=Rect(0, 0 - 2520, 1080) isUserFullscreenOverrideEnabled=false isSystemFullscreenOverrideEnabled=false hasMinAspectRatioOverride=false topActivityLetterboxBounds=null cameraCompatTaskInfo=CameraCompatTaskInfo { freeformCameraCompatMode=inactive}} topActivityMainWindowFrame=null}, pipChange = null, remoteTransition = null, displayChange = null, flags = 0, debugId = 15 }
+10-19 05:27:00.893  1015  1057 D WindowManagerShell: onActivityRestartAttempt: topActivity=ComponentInfo{org.sirenssong.game/com.godot.game.GodotApp}, wasVisible=false
+10-19 05:27:05.260  2718  2718 V Godot   : OnPause: GodotFragment{cf398a3} (8ee94a2b-1ab6-4d9a-8413-2a3248165b71 id=0x7f070033)
+10-19 05:27:05.720  2718  2845 I godot   : SS_LIFECYCLE suspended paused=true
+10-19 05:27:05.720  2718  2845 I godot   : SS_SAVE ok mission=0 time=1.33 paused=true completed=[] unlocked=0
+10-19 05:27:05.725  2718  2845 I godot   : SS_LIFECYCLE suspended paused=true
+10-19 05:27:05.725  2718  2845 I godot   : SS_SAVE ok mission=0 time=1.33 paused=true completed=[] unlocked=0
+10-19 05:27:05.769  2718  2845 I godot   : SS_SAVE ok mission=0 time=1.33 paused=true completed=[] unlocked=0
+10-19 05:27:05.770  2718  2845 I godot   : SS_LIFECYCLE suspended paused=true
+10-19 05:27:06.322  2718  2718 D VRI[GodotAppLauncher]: visibilityChanged oldVisibility=true newVisibility=false
+10-19 05:27:08.293  2718  2718 V Godot   : OnStop: GodotFragment{cf398a3} (8ee94a2b-1ab6-4d9a-8413-2a3248165b71 id=0x7f070033)
+10-19 05:27:08.973  2718  2845 E BufferQueueProducer: [5a4b6af SurfaceView[org.sirenssong.game/com.godot.game.GodotAppLauncher]#3(BLAST Consumer)3](id:a9e00000003,api:0,p:-1,c:2718) dequeueBuffer: BufferQueue has been abandoned
+10-19 05:27:10.094   656   751 W UsageStatsService: Unexpected activity event reported! (org.sirenssong.game/com.godot.game.GodotApp event : 23 instanceId : 170863782)
+10-19 05:27:10.103   656  2083 I WindowManager: WIN DEATH: Window{3e050e3 u0 org.sirenssong.game/com.godot.game.GodotAppLauncher}
+10-19 05:27:11.420  1015  1057 V WindowManagerShell: Transition requested (#19): android.os.BinderProxy@aca84 TransitionRequestInfo { type = OPEN, triggerTask = TaskInfo{userId=0 taskId=7 effectiveUid=10216 displayId=0 isRunning=true baseIntent=Intent { flg=0x10000000 cmp=org.sirenssong.game/com.godot.game.GodotAppLauncher } baseActivity=ComponentInfo{org.sirenssong.game/com.godot.game.GodotApp} topActivity=ComponentInfo{org.sirenssong.game/com.godot.game.GodotApp} origActivity=ComponentInfo{org.sirenssong.game/com.godot.game.GodotAppLauncher} realActivity=ComponentInfo{org.sirenssong.game/com.godot.game.GodotApp} numActivities=1 lastActiveTime=137678 supportsMultiWindow=true resizeMode=2 isResizeable=true minWidth=-1 minHeight=-1 defaultMinSize=220 token=WCT{android.window.IWindowContainerToken$Stub$Proxy@464a26d} topActivityType=1 pictureInPictureParams=null shouldDockBigOverlays=false launchIntoPipHostTaskId=-1 lastParentTaskIdBeforePip=-1 displayCutoutSafeInsets=Rect(0, 136 - 0, 0) topActivityInfo=ActivityInfo{5a48ea2 com.godot.game.GodotAppLauncher} launchCookies=[] positionInParent=Point(0, 0) parentTaskId=-1 isFocused=false isVisible=false isVisibleRequested=false isTopActivityNoDisplay=false isSleeping=false locusId=null displayAreaFeatureId=1 isTopActivityTransparent=false isActivityStackTransparent=false lastNonFullscreenBounds=Rect(71, 1079 - 1009, 1514) capturedLink=null capturedLinkTimestamp=0 requestedVisibleTypes=-9 topActivityRequestOpenInBrowserEducationTimestamp=0 appCompatTaskInfo=AppCompatTaskInfo { topActivityInSizeCompat=false eligibleForLetterboxEducation= false isLetterboxEducationEnabled= true isLetterboxDoubleTapEnabled= false eligibleForUserAspectRatioButton= false topActivityBoundsLetterboxed= false isFromLetterboxDoubleTap= false topActivityLetterboxVerticalPosition= -1 topActivityLetterboxHorizontalPosition= -1 topActivityLetterboxWidth=-1 topActivityLetterboxHeight=-1 topActivityAppBounds=Rect(0, 0 - 1080, 2520) isUserFullscreenOverrideEnabled=false isSystemFullscreenOverrideEnabled=false hasMinAspectRatioOverride=false topActivityLetterboxBounds=null cameraCompatTaskInfo=CameraCompatTaskInfo { freeformCameraCompatMode=inactive}} topActivityMainWindowFrame=null}, pipChange = null, remoteTransition = null, displayChange = null, flags = 0, debugId = 19 }
+10-19 05:27:11.422   656  1277 I ActivityTaskManager: START u0 {flg=0x10000000 xflg=0x5 cmp=org.sirenssong.game/com.godot.game.GodotAppLauncher} with LAUNCH_SINGLE_INSTANCE_PER_TASK from uid 2000 (BAL_ALLOW_PERMISSION) result code=2
+10-19 05:27:11.432  1015  1057 D WindowManagerShell: onActivityRestartAttempt: topActivity=ComponentInfo{org.sirenssong.game/com.godot.game.GodotApp}, wasVisible=false
+10-19 05:27:11.458   656   687 I ActivityManager: Start proc 4812:org.sirenssong.game/u0a216 for next-top-activity {org.sirenssong.game/com.godot.game.GodotAppLauncher}
+10-19 05:27:11.904   656   677 V WindowManager: Sent Transition (#19) createdAt=10-19 05:27:11.393 via request=TransitionRequestInfo { type = OPEN, triggerTask = TaskInfo{userId=0 taskId=7 effectiveUid=10216 displayId=0 isRunning=true baseIntent=Intent { flg=0x10000000 cmp=org.sirenssong.game/com.godot.game.GodotAppLauncher } baseActivity=ComponentInfo{org.sirenssong.game/com.godot.game.GodotApp} topActivity=ComponentInfo{org.sirenssong.game/com.godot.game.GodotApp} origActivity=ComponentInfo{org.sirenssong.game/com.godot.game.GodotAppLauncher} realActivity=ComponentInfo{org.sirenssong.game/com.godot.game.GodotApp} numActivities=1 lastActiveTime=137678 supportsMultiWindow=true resizeMode=2 isResizeable=true minWidth=-1 minHeight=-1 defaultMinSize=220 token=WCT{RemoteToken{99a378c Task{706a601 #7 type=standard A=10216:org.sirenssong.game}}} topActivityType=1 pictureInPictureParams=null shouldDockBigOverlays=false launchIntoPipHostTaskId=-1 lastParentTaskIdBeforePip=-1 displayCutoutSafeInsets=Rect(0, 136 - 0, 0) topActivityInfo=ActivityInfo{5de7ed5 com.godot.game.GodotAppLauncher} launchCookies=[] positionInParent=Point(0, 0) parentTaskId=-1 isFocused=false isVisible=false isVisibleRequested=false isTopActivityNoDisplay=false isSleeping=false locusId=null displayAreaFeatureId=1 isTopActivityTransparent=false isActivityStackTransparent=false lastNonFullscreenBounds=Rect(71, 1079 - 1009, 1514) capturedLink=null capturedLinkTimestamp=0 requestedVisibleTypes=-9 topActivityRequestOpenInBrowserEducationTimestamp=0 appCompatTaskInfo=AppCompatTaskInfo { topActivityInSizeCompat=false eligibleForLetterboxEducation= false isLetterboxEducationEnabled= true isLetterboxDoubleTapEnabled= false eligibleForUserAspectRatioButton= false topActivityBoundsLetterboxed= false isFromLetterboxDoubleTap= false topActivityLetterboxVerticalPosition= -1 topActivityLetterboxHorizontalPosition= -1 topActivityLetterboxWidth=-1 topActivityLetterboxHeight=-1 topActivityAppBounds=Rect(0, 0 - 1080, 2520) isUserFullscreenOverrideEnabled=false isSystemFullscreenOverrideEnabled=false hasMinAspectRatioOverride=false topActivityLetterboxBounds=null cameraCompatTaskInfo=CameraCompatTaskInfo { freeformCameraCompatMode=inactive}} topActivityMainWindowFrame=null}, pipChange = null, remoteTransition = null, displayChange = null, flags = 0, debugId = 19 }
+10-19 05:27:13.926  4812  4812 D GodotActivity: Project command line parameters: [--xr_mode_regular, --xr-mode, off, --fullscreen, --background_color, #000000]
+10-19 05:27:13.928  4812  4812 D GodotActivity: Launch intent Intent { flg=0x10000000 xflg=0x5 cmp=org.sirenssong.game/com.godot.game.GodotAppLauncher } with parameters []
+10-19 05:27:14.154  4812  4812 V Godot   : InitEngine with params: [--xr_mode_regular, --xr-mode, off, --fullscreen, --background_color, #000000]
+10-19 05:27:14.154  4812  4812 V Godot   : Initializing Godot plugin registry
+10-19 05:27:14.163  4812  4812 I GodotPluginRegistry: Registering runtime plugin AndroidRuntime
+10-19 05:27:14.301  4812  4812 D nativeloader: Load /data/app/~~X4z9kfd4BTTnD88LwRdwbQ==/org.sirenssong.game--8uDamlRG_8resr42IX2vA==/lib/x86_64/libgodot_android.so using class loader ns clns-9 (caller=/data/app/~~X4z9kfd4BTTnD88LwRdwbQ==/org.sirenssong.game--8uDamlRG_8resr42IX2vA==/base.apk!classes8.dex): ok
+10-19 05:27:14.315  4812  4812 V Godot   : Godot native layer initialization completed: true
+10-19 05:27:14.534  4812  4812 V Godot   : Godot native layer setup completed
+10-19 05:27:14.534  4812  4812 V Godot   : OnInitRenderView: GodotFragment{fde2c34} (8ee94a2b-1ab6-4d9a-8413-2a3248165b71 id=0x7f070033)
+10-19 05:27:14.578  4812  4812 D Godot   : Render view should be transparent: false
+10-19 05:27:14.582  4812  4812 D Godot   : 			renderer: gl_compatibility (ProjectSettings)
+10-19 05:27:14.582  4812  4812 D Godot   : 			renderingDevice: opengl3 (ProjectSettings)
+10-19 05:27:14.582  4812  4812 D Godot   : usesVulkan(): false
+10-19 05:27:14.607  4812  4812 V GodotActivity: Reusing existing Godot fragment instance.
+10-19 05:27:14.613  4812  4812 V Godot   : OnStart: GodotFragment{fde2c34} (8ee94a2b-1ab6-4d9a-8413-2a3248165b71 id=0x7f070033)
+10-19 05:27:14.626  4812  4812 V Godot   : OnResume: GodotFragment{fde2c34} (8ee94a2b-1ab6-4d9a-8413-2a3248165b71 id=0x7f070033)
+10-19 05:27:14.797   656  2077 D CoreBackPreview: Window{dd4fdfd u0 org.sirenssong.game/com.godot.game.GodotAppLauncher}: Setting back callback OnBackInvokedCallbackInfo{mCallback=android.window.IOnBackInvokedCallback$Stub$Proxy@77d231, mPriority=-1, mIsAnimationCallback=false, mOverrideBehavior=0}
+10-19 05:27:14.799   656  2077 D CoreBackPreview: Window{dd4fdfd u0 org.sirenssong.game/com.godot.game.GodotAppLauncher}: Setting back callback OnBackInvokedCallbackInfo{mCallback=android.window.IOnBackInvokedCallback$Stub$Proxy@c04c084, mPriority=0, mIsAnimationCallback=true, mOverrideBehavior=0}
+10-19 05:27:14.996  4812  4854 I godot   : Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+10-19 05:27:15.329   656   677 I ActivityTaskManager: Displayed org.sirenssong.game/com.godot.game.GodotAppLauncher for user 0: +3s739ms
+10-19 05:27:15.895  4812  4863 E SurfaceSyncGroup: Failed to receive transaction ready in 1000ms. Marking SurfaceSyncGroup(wmsSync-VRI[GodotAppLauncher]#1) as ready
+10-19 05:27:15.904  4812  4863 E SurfaceSyncGroup: Failed to receive transaction ready in 1000ms. Marking SurfaceSyncGroup(VRI[GodotAppLauncher]#2) as ready
+10-19 05:27:15.907  4812  4863 E SurfaceSyncGroup: Failed to receive transaction ready in 1000ms. Marking SurfaceSyncGroup(SurfaceView[org.sirenssong.game/com.godot.game.GodotAppLauncher]#0) as ready
+10-19 05:27:16.336  4812  4854 E godot   : WARNING: Failed to load cached shader, recompiling.
+10-19 05:27:16.337  4812  4854 E godot   :    at: _load_from_cache (drivers/gles3/shader_gles3.cpp:612)
+10-19 05:27:17.108  4812  4854 I godot   : OpenGL API OpenGL ES 3.1 (OpenGL ES 3.1.0 (ANGLE 2.1.17841 git hash: 5fa2e61da947)) - Compatibility - Using Device: Google (Google Inc. (Google)) - Android Emulator OpenGL ES Translator (ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver-5.0.0))
+10-19 05:27:17.147  4812  4854 I godot   : 
+10-19 05:27:19.753  4812  4854 V Godot   : OnGodotSetupCompleted
+10-19 05:27:22.118  4812  4854 I godot   : SS_RESTORE ok mission=0 time=1.33 paused=true completed=[] unlocked=0
+10-19 05:27:22.152  4812  4854 I godot   : SS_SCREEN operations window=(2520, 1080) viewport=(1680.0, 720.0) root=(1680.0, 720.0) unlocked=0 active_time=1.33
+10-19 05:27:22.171  4812  4854 V Godot   : OnGodotMainLoopStarted
+10-19 05:27:22.451  4812  4854 I godot   : SS_TARGET mission0 center=881,273 viewport=1680,720
+10-19 05:27:22.451  4812  4854 I godot   : SS_TARGET resume center=881,211 viewport=1680,720
+10-19 05:27:26.723  4812  4854 I godot   : SS_SCREEN mission paused=true
+10-19 05:27:26.733  4812  4854 I godot   : SS_SAVE ok mission=0 time=1.33 paused=true completed=[] unlocked=0
+10-19 05:27:26.781  4812  4854 I godot   : SS_TARGET camera center=1575,250 viewport=1680,720
+10-19 05:27:26.781  4812  4854 I godot   : SS_TARGET chart_center center=723,387 viewport=1680,720
+10-19 05:27:26.781  4812  4854 I godot   : SS_TARGET droneA center=1502,194 viewport=1680,720
+10-19 05:27:26.781  4812  4854 I godot   : SS_TARGET droneB center=1601,194 viewport=1680,720
+10-19 05:27:26.781  4812  4854 I godot   : SS_TARGET emp center=1575,362 viewport=1680,720
+10-19 05:27:26.781  4812  4854 I godot   : SS_TARGET fit center=1299,138 viewport=1680,720
+10-19 05:27:26.781  4812  4854 I godot   : SS_TARGET hold center=1427,362 viewport=1680,720
+10-19 05:27:26.781  4812  4854 I godot   : SS_TARGET home center=1427,418 viewport=1680,720
+10-19 05:27:26.781  4812  4854 I godot   : SS_TARGET menu center=1575,418 viewport=1680,720
+10-19 05:27:26.781  4812  4854 I godot   : SS_TARGET more_orders center=1427,474 viewport=1680,720
+10-19 05:27:26.781  4812  4854 I godot   : SS_TARGET objective0 center=1016,405 viewport=1680,720
+10-19 05:27:26.781  4812  4854 I godot   : SS_TARGET pause center=1504,130 viewport=1680,720
+10-19 05:27:26.781  4812  4854 I godot   : SS_TARGET ping center=1427,250 viewport=1680,720
+10-19 05:27:26.781  4812  4854 I godot   : SS_TARGET queue center=1575,306 viewport=1680,720
+10-19 05:27:26.781  4812  4854 I godot   : SS_TARGET route center=442,574 viewport=1680,720
+10-19 05:27:26.781  4812  4854 I godot   : SS_TARGET silent center=1427,306 viewport=1680,720
+10-19 05:27:26.781  4812  4854 I godot   : SS_TARGET sub center=1403,194 viewport=1680,720
+10-19 05:27:26.781  4812  4854 I godot   : SS_TARGET zoom_in center=1245,138 viewport=1680,720
+10-19 05:27:26.781  4812  4854 I godot   : SS_TARGET zoom_out center=1191,138 viewport=1680,720
+10-19 05:27:29.504  4812  4863 E SurfaceSyncGroup: Failed to receive transaction ready in 1000ms. Marking SurfaceSyncGroup(SurfaceView[org.sirenssong.game/com.godot.game.GodotAppLauncher]#5) as ready
+10-19 05:27:29.504  4812  4863 E SurfaceSyncGroup: Failed to receive transaction ready in 1000ms. Marking SurfaceSyncGroup(VRI[GodotAppLauncher]#7) as ready
+10-19 05:27:29.504  4812  4863 E SurfaceSyncGroup: Failed to receive transaction ready in 1000ms. Marking SurfaceSyncGroup(wmsSync-VRI[GodotAppLauncher]#6) as ready
+10-19 05:27:30.375   656   739 I ActivityTaskManager: START u0 {flg=0x10000000 xflg=0x5 cmp=org.sirenssong.game/com.godot.game.GodotAppLauncher} with LAUNCH_SINGLE_INSTANCE_PER_TASK from uid 2000 (BAL_ALLOW_PERMISSION) result code=3
+10-19 05:27:30.376  1015  1057 D WindowManagerShell: onActivityRestartAttempt: topActivity=ComponentInfo{org.sirenssong.game/com.godot.game.GodotApp}, wasVisible=true
+10-19 05:27:30.376  4812  4812 V Godot   : OnPause: GodotFragment{fde2c34} (8ee94a2b-1ab6-4d9a-8413-2a3248165b71 id=0x7f070033)
+10-19 05:27:30.394  4812  4812 V Godot   : OnResume: GodotFragment{fde2c34} (8ee94a2b-1ab6-4d9a-8413-2a3248165b71 id=0x7f070033)
+10-19 05:27:30.547  4812  4854 I godot   : SS_TARGET pause center=676,827 viewport=1280,1153
+10-19 05:27:30.552  4812  4854 I godot   : SS_TARGET camera center=385,947 viewport=1280,1153
+10-19 05:27:30.552  4812  4854 I godot   : SS_TARGET droneA center=674,891 viewport=1280,1153
+10-19 05:27:30.552  4812  4854 I godot   : SS_TARGET droneB center=1059,891 viewport=1280,1153
+10-19 05:27:30.552  4812  4854 I godot   : SS_TARGET hold center=962,947 viewport=1280,1153
+10-19 05:27:30.552  4812  4854 I godot   : SS_TARGET ping center=192,947 viewport=1280,1153
+10-19 05:27:30.552  4812  4854 I godot   : SS_TARGET queue center=770,947 viewport=1280,1153
+10-19 05:27:30.552  4812  4854 I godot   : SS_TARGET silent center=577,947 viewport=1280,1153
+10-19 05:27:30.552  4812  4854 I godot   : SS_TARGET sub center=289,891 viewport=1280,1153
+10-19 05:27:30.553  4812  4854 I godot   : SS_TARGET camera center=385,947 viewport=1280,1153
+10-19 05:27:30.553  4812  4854 I godot   : SS_TARGET chart_center center=676,442 viewport=1280,1153
+10-19 05:27:30.553  4812  4854 I godot   : SS_TARGET droneA center=674,891 viewport=1280,1153
+10-19 05:27:30.553  4812  4854 I godot   : SS_TARGET droneB center=1059,891 viewport=1280,1153
+10-19 05:27:30.553  4812  4854 I godot   : SS_TARGET emp center=1155,947 viewport=1280,1153
+10-19 05:27:30.553  4812  4854 I godot   : SS_TARGET fit center=1223,138 viewport=1280,1153
+10-19 05:27:30.553  4812  4854 I godot   : SS_TARGET hold center=962,947 viewport=1280,1153
+10-19 05:27:30.553  4812  4854 I godot   : SS_TARGET home center=192,1003 viewport=1280,1153
+10-19 05:27:30.553  4812  4854 I godot   : SS_TARGET menu center=385,1003 viewport=1280,1153
+10-19 05:27:30.553  4812  4854 I godot   : SS_TARGET more_orders center=577,1003 viewport=1280,1153
+10-19 05:27:30.553  4812  4854 I godot   : SS_TARGET objective0 center=1026,462 viewport=1280,1153
+10-19 05:27:30.553  4812  4854 I godot   : SS_TARGET pause center=676,827 viewport=1280,1153
+10-19 05:27:30.553  4812  4854 I godot   : SS_TARGET ping center=192,947 viewport=1280,1153
+10-19 05:27:30.553  4812  4854 I godot   : SS_TARGET queue center=770,947 viewport=1280,1153
+10-19 05:27:30.553  4812  4854 I godot   : SS_TARGET route center=341,665 viewport=1280,1153
+10-19 05:27:30.553  4812  4854 I godot   : SS_TARGET silent center=577,947 viewport=1280,1153
+10-19 05:27:30.553  4812  4854 I godot   : SS_TARGET sub center=289,891 viewport=1280,1153
+10-19 05:27:30.553  4812  4854 I godot   : SS_TARGET zoom_in center=1169,138 viewport=1280,1153
+10-19 05:27:30.553  4812  4854 I godot   : SS_TARGET zoom_out center=1115,138 viewport=1280,1153
+10-19 05:27:31.217  4812  4854 I godot   : SS_SAVE ok mission=0 time=1.33 paused=true completed=[] unlocked=0
+10-19 05:27:31.219  4812  4854 I godot   : SS_LIFECYCLE suspended paused=true
+10-19 05:27:31.221  4812  4854 I godot   : SS_SAVE ok mission=0 time=1.33 paused=true completed=[] unlocked=0
+10-19 05:27:31.227  4812  4854 I godot   : SS_LIFECYCLE suspended paused=true
+10-19 05:27:31.247  4812  4854 I godot   : SS_SAVE ok mission=0 time=1.33 paused=true completed=[] unlocked=0
+10-19 05:27:31.249  4812  4854 I godot   : SS_LIFECYCLE suspended paused=true
+10-19 05:27:33.003  1294  1322 I Launcher.IconCache: Database bulk icon loading failed, using fallback bulk icon loading for: ComponentInfo{org.sirenssong.game/com.godot.game.GodotAppLauncher}
+10-19 05:27:36.032  4812  4854 I godot   : SS_SCREEN operations window=(2184, 1968) viewport=(1280.0, 1153.0) root=(1207.326, 1153.0) unlocked=0 active_time=1.33
+10-19 05:27:36.113  4812  4854 I godot   : SS_TARGET mission0 center=676,273 viewport=1280,1153
+10-19 05:27:36.113  4812  4854 I godot   : SS_TARGET resume center=676,211 viewport=1280,1153
+10-19 05:27:38.539  4812  4854 I godot   : SS_MISSION_SELECT 0
+10-19 05:27:38.662  4812  4854 I godot   : SS_TARGET begin center=676,441 viewport=1280,1153
+10-19 05:27:42.274  4812  4854 I godot   : SS_SCREEN mission paused=true
+10-19 05:27:42.294  4812  4854 I godot   : SS_SAVE ok mission=0 time=0.0 paused=true completed=[] unlocked=0
+10-19 05:27:42.589  4812  4854 I godot   : SS_TARGET camera center=385,947 viewport=1280,1153
+10-19 05:27:42.589  4812  4854 I godot   : SS_TARGET chart_center center=676,442 viewport=1280,1153
+10-19 05:27:42.589  4812  4854 I godot   : SS_TARGET droneA center=674,891 viewport=1280,1153
+10-19 05:27:42.589  4812  4854 I godot   : SS_TARGET droneB center=1059,891 viewport=1280,1153
+10-19 05:27:42.589  4812  4854 I godot   : SS_TARGET emp center=1155,947 viewport=1280,1153
+10-19 05:27:42.589  4812  4854 I godot   : SS_TARGET fit center=1223,138 viewport=1280,1153
+10-19 05:27:42.589  4812  4854 I godot   : SS_TARGET hold center=962,947 viewport=1280,1153
+10-19 05:27:42.589  4812  4854 I godot   : SS_TARGET home center=192,1003 viewport=1280,1153
+10-19 05:27:42.589  4812  4854 I godot   : SS_TARGET menu center=385,1003 viewport=1280,1153
+10-19 05:27:42.589  4812  4854 I godot   : SS_TARGET more_orders center=577,1003 viewport=1280,1153
+10-19 05:27:42.589  4812  4854 I godot   : SS_TARGET pause center=676,827 viewport=1280,1153
+10-19 05:27:42.589  4812  4854 I godot   : SS_TARGET ping center=192,947 viewport=1280,1153
+10-19 05:27:42.589  4812  4854 I godot   : SS_TARGET queue center=770,947 viewport=1280,1153
+10-19 05:27:42.589  4812  4854 I godot   : SS_TARGET silent center=577,947 viewport=1280,1153
+10-19 05:27:42.589  4812  4854 I godot   : SS_TARGET sub center=289,891 viewport=1280,1153
+10-19 05:27:42.589  4812  4854 I godot   : SS_TARGET zoom_in center=1169,138 viewport=1280,1153
+10-19 05:27:42.589  4812  4854 I godot   : SS_TARGET zoom_out center=1115,138 viewport=1280,1153
+10-19 05:27:42.590  4812  4854 I godot   : SS_TARGET camera center=385,947 viewport=1280,1153
+10-19 05:27:42.590  4812  4854 I godot   : SS_TARGET chart_center center=676,442 viewport=1280,1153
+10-19 05:27:42.590  4812  4854 I godot   : SS_TARGET droneA center=674,891 viewport=1280,1153
+10-19 05:27:42.590  4812  4854 I godot   : SS_TARGET droneB center=1059,891 viewport=1280,1153
+10-19 05:27:42.590  4812  4854 I godot   : SS_TARGET emp center=1155,947 viewport=1280,1153
+10-19 05:27:42.590  4812  4854 I godot   : SS_TARGET fit center=1223,138 viewport=1280,1153
+10-19 05:27:42.590  4812  4854 I godot   : SS_TARGET hold center=962,947 viewport=1280,1153
+10-19 05:27:42.590  4812  4854 I godot   : SS_TARGET home center=192,1003 viewport=1280,1153
+10-19 05:27:42.590  4812  4854 I godot   : SS_TARGET menu center=385,1003 viewport=1280,1153
+10-19 05:27:42.590  4812  4854 I godot   : SS_TARGET more_orders center=577,1003 viewport=1280,1153
+10-19 05:27:42.590  4812  4854 I godot   : SS_TARGET objective0 center=1026,462 viewport=1280,1153
+10-19 05:27:42.590  4812  4854 I godot   : SS_TARGET pause center=676,827 viewport=1280,1153
+10-19 05:27:42.590  4812  4854 I godot   : SS_TARGET ping center=192,947 viewport=1280,1153
+10-19 05:27:42.590  4812  4854 I godot   : SS_TARGET queue center=770,947 viewport=1280,1153
+10-19 05:27:42.590  4812  4854 I godot   : SS_TARGET route center=341,665 viewport=1280,1153
+10-19 05:27:42.590  4812  4854 I godot   : SS_TARGET silent center=577,947 viewport=1280,1153
+10-19 05:27:42.590  4812  4854 I godot   : SS_TARGET sub center=289,891 viewport=1280,1153
+10-19 05:27:42.590  4812  4854 I godot   : SS_TARGET zoom_in center=1169,138 viewport=1280,1153
+10-19 05:27:42.590  4812  4854 I godot   : SS_TARGET zoom_out center=1115,138 viewport=1280,1153
+10-19 05:27:48.293  4812  4854 I godot   : SS_VIEW zoom=1.4 center=(800.0, 480.0)
+10-19 05:27:48.362  4812  4854 I godot   : SS_TARGET camera center=385,947 viewport=1280,1153
+10-19 05:27:48.362  4812  4854 I godot   : SS_TARGET chart_center center=676,442 viewport=1280,1153
+10-19 05:27:48.362  4812  4854 I godot   : SS_TARGET droneA center=674,891 viewport=1280,1153
+10-19 05:27:48.362  4812  4854 I godot   : SS_TARGET droneB center=1059,891 viewport=1280,1153
+10-19 05:27:48.362  4812  4854 I godot   : SS_TARGET emp center=1155,947 viewport=1280,1153
+10-19 05:27:48.362  4812  4854 I godot   : SS_TARGET fit center=1223,138 viewport=1280,1153
+10-19 05:27:48.362  4812  4854 I godot   : SS_TARGET hold center=962,947 viewport=1280,1153
+10-19 05:27:48.362  4812  4854 I godot   : SS_TARGET home center=192,1003 viewport=1280,1153
+10-19 05:27:48.362  4812  4854 I godot   : SS_TARGET menu center=385,1003 viewport=1280,1153
+10-19 05:27:48.362  4812  4854 I godot   : SS_TARGET more_orders center=577,1003 viewport=1280,1153
+10-19 05:27:48.362  4812  4854 I godot   : SS_TARGET objective0 center=1166,471 viewport=1280,1153
+10-19 05:27:48.362  4812  4854 I godot   : SS_TARGET pause center=676,827 viewport=1280,1153
+10-19 05:27:48.362  4812  4854 I godot   : SS_TARGET ping center=192,947 viewport=1280,1153
+10-19 05:27:48.362  4812  4854 I godot   : SS_TARGET queue center=770,947 viewport=1280,1153
+10-19 05:27:48.362  4812  4854 I godot   : SS_TARGET route center=207,755 viewport=1280,1153
+10-19 05:27:48.362  4812  4854 I godot   : SS_TARGET silent center=577,947 viewport=1280,1153
+10-19 05:27:48.362  4812  4854 I godot   : SS_TARGET sub center=289,891 viewport=1280,1153
+10-19 05:27:48.362  4812  4854 I godot   : SS_TARGET zoom_in center=1169,138 viewport=1280,1153
+10-19 05:27:48.362  4812  4854 I godot   : SS_TARGET zoom_out center=1115,138 viewport=1280,1153
+10-19 05:27:52.911  4812  4854 I godot   : SS_VIEW zoom=1.0 center=(800.0, 480.0)
+10-19 05:27:53.428  4812  4854 I godot   : SS_TARGET pause center=676,827 viewport=1280,1153
+10-19 05:27:53.429  4812  4854 I godot   : SS_TARGET sub center=289,891 viewport=1280,1153
+10-19 05:27:53.433  4812  4854 I godot   : SS_TARGET camera center=385,947 viewport=1280,1153
+10-19 05:27:53.433  4812  4854 I godot   : SS_TARGET chart_center center=676,442 viewport=1280,1153
+10-19 05:27:53.433  4812  4854 I godot   : SS_TARGET droneA center=674,891 viewport=1280,1153
+10-19 05:27:53.433  4812  4854 I godot   : SS_TARGET droneB center=1059,891 viewport=1280,1153
+10-19 05:27:53.433  4812  4854 I godot   : SS_TARGET emp center=1155,947 viewport=1280,1153
+10-19 05:27:53.433  4812  4854 I godot   : SS_TARGET fit center=1223,138 viewport=1280,1153
+10-19 05:27:53.433  4812  4854 I godot   : SS_TARGET hold center=962,947 viewport=1280,1153
+10-19 05:27:53.433  4812  4854 I godot   : SS_TARGET home center=192,1003 viewport=1280,1153
+10-19 05:27:53.433  4812  4854 I godot   : SS_TARGET menu center=385,1003 viewport=1280,1153
+10-19 05:27:53.433  4812  4854 I godot   : SS_TARGET more_orders center=577,1003 viewport=1280,1153
+10-19 05:27:53.433  4812  4854 I godot   : SS_TARGET objective0 center=1026,462 viewport=1280,1153
+10-19 05:27:53.433  4812  4854 I godot   : SS_TARGET ping center=192,947 viewport=1280,1153
+10-19 05:27:53.433  4812  4854 I godot   : SS_TARGET queue center=770,947 viewport=1280,1153
+10-19 05:27:53.433  4812  4854 I godot   : SS_TARGET route center=341,665 viewport=1280,1153
+10-19 05:27:53.433  4812  4854 I godot   : SS_TARGET silent center=577,947 viewport=1280,1153
+10-19 05:27:53.433  4812  4854 I godot   : SS_TARGET zoom_in center=1169,138 viewport=1280,1153
+10-19 05:27:53.433  4812  4854 I godot   : SS_TARGET zoom_out center=1115,138 viewport=1280,1153
+10-19 05:27:56.277  4812  4854 I godot   : SS_VIEW zoom=1.4 center=(800.0, 480.0)
+10-19 05:27:56.562  4812  4854 I godot   : SS_TARGET camera center=385,947 viewport=1280,1153
+10-19 05:27:56.562  4812  4854 I godot   : SS_TARGET droneA center=674,891 viewport=1280,1153
+10-19 05:27:56.562  4812  4854 I godot   : SS_TARGET droneB center=1059,891 viewport=1280,1153
+10-19 05:27:56.562  4812  4854 I godot   : SS_TARGET emp center=1155,947 viewport=1280,1153
+10-19 05:27:56.562  4812  4854 I godot   : SS_TARGET fit center=1223,138 viewport=1280,1153
+10-19 05:27:56.562  4812  4854 I godot   : SS_TARGET hold center=962,947 viewport=1280,1153
+10-19 05:27:56.562  4812  4854 I godot   : SS_TARGET home center=192,1003 viewport=1280,1153
+10-19 05:27:56.562  4812  4854 I godot   : SS_TARGET menu center=385,1003 viewport=1280,1153
+10-19 05:27:56.562  4812  4854 I godot   : SS_TARGET more_orders center=577,1003 viewport=1280,1153
+10-19 05:27:56.562  4812  4854 I godot   : SS_TARGET pause center=676,827 viewport=1280,1153
+10-19 05:27:56.562  4812  4854 I godot   : SS_TARGET ping center=192,947 viewport=1280,1153
+10-19 05:27:56.562  4812  4854 I godot   : SS_TARGET queue center=770,947 viewport=1280,1153
+10-19 05:27:56.562  4812  4854 I godot   : SS_TARGET silent center=577,947 viewport=1280,1153
+10-19 05:27:56.562  4812  4854 I godot   : SS_TARGET sub center=289,891 viewport=1280,1153
+10-19 05:27:56.562  4812  4854 I godot   : SS_TARGET zoom_in center=1169,138 viewport=1280,1153
+10-19 05:27:56.562  4812  4854 I godot   : SS_TARGET zoom_out center=1115,138 viewport=1280,1153
+10-19 05:27:56.563  4812  4854 I godot   : SS_TARGET chart_center center=676,442 viewport=1280,1153
+10-19 05:27:56.563  4812  4854 I godot   : SS_TARGET objective0 center=1166,471 viewport=1280,1153
+10-19 05:27:56.563  4812  4854 I godot   : SS_TARGET route center=207,755 viewport=1280,1153
+10-19 05:27:59.785  4812  4854 I godot   : SS_VIEW zoom=1.96 center=(800.0, 480.0)
+10-19 05:28:00.080  4812  4854 I godot   : SS_TARGET pause center=676,827 viewport=1280,1153
+10-19 05:28:00.102  4812  4854 I godot   : SS_TARGET sub center=289,891 viewport=1280,1153
+10-19 05:28:00.103  4812  4854 I godot   : SS_TARGET camera center=385,947 viewport=1280,1153
+10-19 05:28:00.103  4812  4854 I godot   : SS_TARGET chart_center center=676,442 viewport=1280,1153
+10-19 05:28:00.103  4812  4854 I godot   : SS_TARGET droneA center=674,891 viewport=1280,1153
+10-19 05:28:00.103  4812  4854 I godot   : SS_TARGET droneB center=1059,891 viewport=1280,1153
+10-19 05:28:00.103  4812  4854 I godot   : SS_TARGET emp center=1155,947 viewport=1280,1153
+10-19 05:28:00.103  4812  4854 I godot   : SS_TARGET fit center=1223,138 viewport=1280,1153
+10-19 05:28:00.103  4812  4854 I godot   : SS_TARGET hold center=962,947 viewport=1280,1153
+10-19 05:28:00.103  4812  4854 I godot   : SS_TARGET home center=192,1003 viewport=1280,1153
+10-19 05:28:00.103  4812  4854 I godot   : SS_TARGET menu center=385,1003 viewport=1280,1153
+10-19 05:28:00.103  4812  4854 I godot   : SS_TARGET more_orders center=577,1003 viewport=1280,1153
+10-19 05:28:00.103  4812  4854 I godot   : SS_TARGET objective0 center=1361,483 viewport=1280,1153
+10-19 05:28:00.103  4812  4854 I godot   : SS_TARGET ping center=192,947 viewport=1280,1153
+10-19 05:28:00.103  4812  4854 I godot   : SS_TARGET queue center=770,947 viewport=1280,1153
+10-19 05:28:00.103  4812  4854 I godot   : SS_TARGET route center=19,880 viewport=1280,1153
+10-19 05:28:00.103  4812  4854 I godot   : SS_TARGET silent center=577,947 viewport=1280,1153
+10-19 05:28:00.103  4812  4854 I godot   : SS_TARGET zoom_in center=1169,138 viewport=1280,1153
+10-19 05:28:00.103  4812  4854 I godot   : SS_TARGET zoom_out center=1115,138 viewport=1280,1153
+10-19 05:28:05.136  4812  4854 I godot   : SS_VIEW zoom=1.96 center=(900.2903, 480.0)
+10-19 05:28:05.554  4812  4854 I godot   : SS_TARGET camera center=385,947 viewport=1280,1153
+10-19 05:28:05.554  4812  4854 I godot   : SS_TARGET chart_center center=676,442 viewport=1280,1153
+10-19 05:28:05.554  4812  4854 I godot   : SS_TARGET droneA center=674,891 viewport=1280,1153
+10-19 05:28:05.554  4812  4854 I godot   : SS_TARGET droneB center=1059,891 viewport=1280,1153
+10-19 05:28:05.554  4812  4854 I godot   : SS_TARGET emp center=1155,947 viewport=1280,1153
+10-19 05:28:05.554  4812  4854 I godot   : SS_TARGET fit center=1223,138 viewport=1280,1153
+10-19 05:28:05.554  4812  4854 I godot   : SS_TARGET hold center=962,947 viewport=1280,1153
+10-19 05:28:05.554  4812  4854 I godot   : SS_TARGET home center=192,1003 viewport=1280,1153
+10-19 05:28:05.554  4812  4854 I godot   : SS_TARGET menu center=385,1003 viewport=1280,1153
+10-19 05:28:05.554  4812  4854 I godot   : SS_TARGET more_orders center=577,1003 viewport=1280,1153
+10-19 05:28:05.554  4812  4854 I godot   : SS_TARGET objective0 center=1224,483 viewport=1280,1153
+10-19 05:28:05.554  4812  4854 I godot   : SS_TARGET pause center=676,827 viewport=1280,1153
+10-19 05:28:05.554  4812  4854 I godot   : SS_TARGET ping center=192,947 viewport=1280,1153
+10-19 05:28:05.554  4812  4854 I godot   : SS_TARGET queue center=770,947 viewport=1280,1153
+10-19 05:28:05.554  4812  4854 I godot   : SS_TARGET route center=-119,880 viewport=1280,1153
+10-19 05:28:05.554  4812  4854 I godot   : SS_TARGET silent center=577,947 viewport=1280,1153
+10-19 05:28:05.554  4812  4854 I godot   : SS_TARGET sub center=289,891 viewport=1280,1153
+10-19 05:28:05.554  4812  4854 I godot   : SS_TARGET zoom_in center=1169,138 viewport=1280,1153
+10-19 05:28:05.554  4812  4854 I godot   : SS_TARGET zoom_out center=1115,138 viewport=1280,1153
+10-19 05:28:09.158  4812  4854 I godot   : SS_VIEW zoom=1.0 center=(800.0, 480.0)
+10-19 05:28:09.287  4812  4854 I godot   : SS_TARGET camera center=385,947 viewport=1280,1153
+10-19 05:28:09.287  4812  4854 I godot   : SS_TARGET droneA center=674,891 viewport=1280,1153
+10-19 05:28:09.287  4812  4854 I godot   : SS_TARGET droneB center=1059,891 viewport=1280,1153
+10-19 05:28:09.287  4812  4854 I godot   : SS_TARGET pause center=676,827 viewport=1280,1153
+10-19 05:28:09.287  4812  4854 I godot   : SS_TARGET ping center=192,947 viewport=1280,1153
+10-19 05:28:09.287  4812  4854 I godot   : SS_TARGET queue center=770,947 viewport=1280,1153
+10-19 05:28:09.287  4812  4854 I godot   : SS_TARGET silent center=577,947 viewport=1280,1153
+10-19 05:28:09.287  4812  4854 I godot   : SS_TARGET sub center=289,891 viewport=1280,1153
+10-19 05:28:09.288  4812  4854 I godot   : SS_TARGET emp center=1155,947 viewport=1280,1153
+10-19 05:28:09.288  4812  4854 I godot   : SS_TARGET hold center=962,947 viewport=1280,1153
+10-19 05:28:09.289  4812  4854 I godot   : SS_TARGET home center=192,1003 viewport=1280,1153
+10-19 05:28:09.289  4812  4854 I godot   : SS_TARGET menu center=385,1003 viewport=1280,1153
+10-19 05:28:09.289  4812  4854 I godot   : SS_TARGET more_orders center=577,1003 viewport=1280,1153
+10-19 05:28:09.289  4812  4854 I godot   : SS_TARGET zoom_out center=1115,138 viewport=1280,1153
+10-19 05:28:09.290  4812  4854 I godot   : SS_TARGET chart_center center=676,442 viewport=1280,1153
+10-19 05:28:09.290  4812  4854 I godot   : SS_TARGET fit center=1223,138 viewport=1280,1153
+10-19 05:28:09.290  4812  4854 I godot   : SS_TARGET objective0 center=1026,462 viewport=1280,1153
+10-19 05:28:09.290  4812  4854 I godot   : SS_TARGET route center=341,665 viewport=1280,1153
+10-19 05:28:09.290  4812  4854 I godot   : SS_TARGET zoom_in center=1169,138 viewport=1280,1153
+10-19 05:28:11.698  4812  4854 I godot   : SS_ORDER select accepted=true selected=1 queued=false
+10-19 05:28:11.702  4812  4854 I godot   : SS_SAVE ok mission=0 time=0.0 paused=true completed=[] unlocked=0
+10-19 05:28:15.642  4812  4854 I godot   : SS_ORDER select accepted=true selected=0 queued=false
+10-19 05:28:15.646  4812  4854 I godot   : SS_SAVE ok mission=0 time=0.0 paused=true completed=[] unlocked=0
+10-19 05:28:17.839  4812  4854 I godot   : SS_ORDER route accepted=true selected=0 queued=false
+10-19 05:28:17.842  4812  4854 I godot   : SS_SAVE ok mission=0 time=0.0 paused=true completed=[] unlocked=0
+10-19 05:28:19.830  4812  4854 I godot   : SS_PAUSE paused=false
+10-19 05:28:19.832  4812  4854 I godot   : SS_SAVE ok mission=0 time=0.0 paused=false completed=[] unlocked=0
+10-19 05:28:23.229  4812  4854 I godot   : SS_PAUSE paused=true
+10-19 05:28:23.232  4812  4854 I godot   : SS_SAVE ok mission=0 time=1.45 paused=true completed=[] unlocked=0
+10-19 05:28:24.392  4812  4812 V Godot   : OnPause: GodotFragment{fde2c34} (8ee94a2b-1ab6-4d9a-8413-2a3248165b71 id=0x7f070033)
+10-19 05:28:25.200  4812  4812 V Godot   : OnStop: GodotFragment{fde2c34} (8ee94a2b-1ab6-4d9a-8413-2a3248165b71 id=0x7f070033)
+10-19 05:28:25.925  4812  4854 E BufferQueueProducer: [a2de853 SurfaceView[org.sirenssong.game/com.godot.game.GodotAppLauncher]#1(BLAST Consumer)1](id:12cc00000001,api:0,p:-1,c:4812) dequeueBuffer: BufferQueue has been abandoned
+10-19 05:28:25.929  4812  4854 I godot   : SS_LIFECYCLE suspended paused=true
+10-19 05:28:25.929  4812  4854 I godot   : SS_SAVE ok mission=0 time=1.45 paused=true completed=[] unlocked=0
+10-19 05:28:25.931  4812  4854 I godot   : SS_LIFECYCLE suspended paused=true
+10-19 05:28:25.931  4812  4854 I godot   : SS_SAVE ok mission=0 time=1.45 paused=true completed=[] unlocked=0
+10-19 05:28:25.941  4812  4854 I godot   : SS_LIFECYCLE suspended paused=true
+10-19 05:28:25.941  4812  4854 I godot   : SS_SAVE ok mission=0 time=1.45 paused=true completed=[] unlocked=0
+10-19 05:28:26.722   656  2061 I ActivityTaskManager: START u0 {flg=0x10000000 xflg=0x5 cmp=org.sirenssong.game/com.godot.game.GodotAppLauncher} with LAUNCH_SINGLE_INSTANCE_PER_TASK from uid 2000 (BAL_ALLOW_PERMISSION) result code=2
+10-19 05:28:26.733  1015  1057 D WindowManagerShell: onActivityRestartAttempt: topActivity=ComponentInfo{org.sirenssong.game/com.godot.game.GodotApp}, wasVisible=false
+10-19 05:28:26.743  1015  1057 V WindowManagerShell: Transition requested (#24): android.os.BinderProxy@bd618bb TransitionRequestInfo { type = OPEN, triggerTask = TaskInfo{userId=0 taskId=7 effectiveUid=10216 displayId=0 isRunning=true baseIntent=Intent { flg=0x10000000 cmp=org.sirenssong.game/com.godot.game.GodotAppLauncher } baseActivity=ComponentInfo{org.sirenssong.game/com.godot.game.GodotApp} topActivity=ComponentInfo{org.sirenssong.game/com.godot.game.GodotApp} origActivity=ComponentInfo{org.sirenssong.game/com.godot.game.GodotAppLauncher} realActivity=ComponentInfo{org.sirenssong.game/com.godot.game.GodotApp} numActivities=1 lastActiveTime=216915 supportsMultiWindow=true resizeMode=2 isResizeable=true minWidth=-1 minHeight=-1 defaultMinSize=220 token=WCT{android.window.IWindowContainerToken$Stub$Proxy@153b1d8} topActivityType=1 pictureInPictureParams=null shouldDockBigOverlays=false launchIntoPipHostTaskId=-1 lastParentTaskIdBeforePip=-1 displayCutoutSafeInsets=Rect(124, 0 - 0, 0) topActivityInfo=ActivityInfo{5e2b931 com.godot.game.GodotAppLauncher} launchCookies=[] positionInParent=Point(0, 0) parentTaskId=-1 isFocused=false isVisible=false isVisibleRequested=false isTopActivityNoDisplay=false isSleeping=false locusId=null displayAreaFeatureId=1 isTopActivityTransparent=false isActivityStackTransparent=false lastNonFullscreenBounds=Rect(177, 222 - 2008, 1757) capturedLink=null capturedLinkTimestamp=0 requestedVisibleTypes=-16 topActivityRequestOpenInBrowserEducationTimestamp=0 appCompatTaskInfo=AppCompatTaskInfo { topActivityInSizeCompat=false eligibleForLetterboxEducation= false isLetterboxEducationEnabled= true isLetterboxDoubleTapEnabled= false eligibleForUserAspectRatioButton= true topActivityBoundsLetterboxed= false isFromLetterboxDoubleTap= false topActivityLetterboxVerticalPosition= -1 topActivityLetterboxHorizontalPosition= -1 topActivityLetterboxWidth=-1 topActivityLetterboxHeight=-1 topActivityAppBounds=Rect(0, 0 - 2184, 1968) isUserFullscreenOverrideEnabled=false isSystemFullscreenOverrideEnabled=false hasMinAspectRatioOverride=false topActivityLetterboxBounds=null cameraCompatTaskInfo=CameraCompatTaskInfo { freeformCameraCompatMode=inactive}} topActivityMainWindowFrame=null}, pipChange = null, remoteTransition = null, displayChange = null, flags = 0, debugId = 24 }
+10-19 05:28:26.744  4812  4812 V Godot   : OnStart: GodotFragment{fde2c34} (8ee94a2b-1ab6-4d9a-8413-2a3248165b71 id=0x7f070033)
+10-19 05:28:26.746  4812  4812 V Godot   : OnResume: GodotFragment{fde2c34} (8ee94a2b-1ab6-4d9a-8413-2a3248165b71 id=0x7f070033)
+10-19 05:28:26.805   656   677 V WindowManager: Sent Transition (#24) createdAt=10-19 05:28:26.714 via request=TransitionRequestInfo { type = OPEN, triggerTask = TaskInfo{userId=0 taskId=7 effectiveUid=10216 displayId=0 isRunning=true baseIntent=Intent { flg=0x10000000 cmp=org.sirenssong.game/com.godot.game.GodotAppLauncher } baseActivity=ComponentInfo{org.sirenssong.game/com.godot.game.GodotApp} topActivity=ComponentInfo{org.sirenssong.game/com.godot.game.GodotApp} origActivity=ComponentInfo{org.sirenssong.game/com.godot.game.GodotAppLauncher} realActivity=ComponentInfo{org.sirenssong.game/com.godot.game.GodotApp} numActivities=1 lastActiveTime=216915 supportsMultiWindow=true resizeMode=2 isResizeable=true minWidth=-1 minHeight=-1 defaultMinSize=220 token=WCT{RemoteToken{99a378c Task{706a601 #7 type=standard A=10216:org.sirenssong.game}}} topActivityType=1 pictureInPictureParams=null shouldDockBigOverlays=false launchIntoPipHostTaskId=-1 lastParentTaskIdBeforePip=-1 displayCutoutSafeInsets=Rect(124, 0 - 0, 0) topActivityInfo=ActivityInfo{5de7ed5 com.godot.game.GodotAppLauncher} launchCookies=[] positionInParent=Point(0, 0) parentTaskId=-1 isFocused=false isVisible=false isVisibleRequested=false isTopActivityNoDisplay=false isSleeping=false locusId=null displayAreaFeatureId=1 isTopActivityTransparent=false isActivityStackTransparent=false lastNonFullscreenBounds=Rect(177, 222 - 2008, 1757) capturedLink=null capturedLinkTimestamp=0 requestedVisibleTypes=-16 topActivityRequestOpenInBrowserEducationTimestamp=0 appCompatTaskInfo=AppCompatTaskInfo { topActivityInSizeCompat=false eligibleForLetterboxEducation= false isLetterboxEducationEnabled= true isLetterboxDoubleTapEnabled= false eligibleForUserAspectRatioButton= true topActivityBoundsLetterboxed= false isFromLetterboxDoubleTap= false topActivityLetterboxVerticalPosition= -1 topActivityLetterboxHorizontalPosition= -1 topActivityLetterboxWidth=-1 topActivityLetterboxHeight=-1 topActivityAppBounds=Rect(0, 0 - 2184, 1968) isUserFullscreenOverrideEnabled=false isSystemFullscreenOverrideEnabled=false hasMinAspectRatioOverride=false topActivityLetterboxBounds=null cameraCompatTaskInfo=CameraCompatTaskInfo { freeformCameraCompatMode=inactive}} topActivityMainWindowFrame=null}, pipChange = null, remoteTransition = null, displayChange = null, flags = 0, debugId = 24 }
+10-19 05:28:29.447  4812  4812 V Godot   : OnPause: GodotFragment{fde2c34} (8ee94a2b-1ab6-4d9a-8413-2a3248165b71 id=0x7f070033)
+10-19 05:28:30.088  4812  4812 D VRI[GodotAppLauncher]: visibilityChanged oldVisibility=true newVisibility=false
+10-19 05:28:30.822  4812  4812 V Godot   : OnStop: GodotFragment{fde2c34} (8ee94a2b-1ab6-4d9a-8413-2a3248165b71 id=0x7f070033)
+10-19 05:28:31.052  4812  4854 E BufferQueueProducer: [a2de853 SurfaceView[org.sirenssong.game/com.godot.game.GodotAppLauncher]#3(BLAST Consumer)3](id:12cc00000003,api:0,p:-1,c:4812) dequeueBuffer: BufferQueue has been abandoned
+10-19 05:28:31.055  4812  4854 I godot   : SS_LIFECYCLE suspended paused=true
+10-19 05:28:31.055  4812  4854 I godot   : SS_SAVE ok mission=0 time=1.45 paused=true completed=[] unlocked=0
+10-19 05:28:31.057  4812  4854 I godot   : SS_LIFECYCLE suspended paused=true
+10-19 05:28:31.057  4812  4854 I godot   : SS_SAVE ok mission=0 time=1.45 paused=true completed=[] unlocked=0
+10-19 05:28:31.064  4812  4854 I godot   : SS_SAVE ok mission=0 time=1.45 paused=true completed=[] unlocked=0
+10-19 05:28:31.067  4812  4854 I godot   : SS_LIFECYCLE suspended paused=true
+10-19 05:28:31.302   656   751 W UsageStatsService: Unexpected activity event reported! (org.sirenssong.game/com.godot.game.GodotApp event : 23 instanceId : 170863782)
+10-19 05:28:31.318   656  1169 I WindowManager: WIN DEATH: Window{dd4fdfd u0 org.sirenssong.game/com.godot.game.GodotAppLauncher}
+10-19 05:28:31.806   656  2083 I ActivityTaskManager: START u0 {flg=0x10000000 xflg=0x5 cmp=org.sirenssong.game/com.godot.game.GodotAppLauncher} with LAUNCH_SINGLE_INSTANCE_PER_TASK from uid 2000 (BAL_ALLOW_PERMISSION) result code=2
+10-19 05:28:31.806  1015  1057 V WindowManagerShell: Transition requested (#26): android.os.BinderProxy@2a997ba TransitionRequestInfo { type = OPEN, triggerTask = TaskInfo{userId=0 taskId=7 effectiveUid=10216 displayId=0 isRunning=true baseIntent=Intent { flg=0x10000000 cmp=org.sirenssong.game/com.godot.game.GodotAppLauncher } baseActivity=ComponentInfo{org.sirenssong.game/com.godot.game.GodotApp} topActivity=ComponentInfo{org.sirenssong.game/com.godot.game.GodotApp} origActivity=ComponentInfo{org.sirenssong.game/com.godot.game.GodotAppLauncher} realActivity=ComponentInfo{org.sirenssong.game/com.godot.game.GodotApp} numActivities=1 lastActiveTime=221983 supportsMultiWindow=true resizeMode=2 isResizeable=true minWidth=-1 minHeight=-1 defaultMinSize=220 token=WCT{android.window.IWindowContainerToken$Stub$Proxy@24c766b} topActivityType=1 pictureInPictureParams=null shouldDockBigOverlays=false launchIntoPipHostTaskId=-1 lastParentTaskIdBeforePip=-1 displayCutoutSafeInsets=Rect(124, 0 - 0, 0) topActivityInfo=ActivityInfo{86535c8 com.godot.game.GodotAppLauncher} launchCookies=[] positionInParent=Point(0, 0) parentTaskId=-1 isFocused=false isVisible=false isVisibleRequested=false isTopActivityNoDisplay=false isSleeping=false locusId=null displayAreaFeatureId=1 isTopActivityTransparent=false isActivityStackTransparent=false lastNonFullscreenBounds=Rect(177, 222 - 2008, 1757) capturedLink=null capturedLinkTimestamp=0 requestedVisibleTypes=-9 topActivityRequestOpenInBrowserEducationTimestamp=0 appCompatTaskInfo=AppCompatTaskInfo { topActivityInSizeCompat=false eligibleForLetterboxEducation= false isLetterboxEducationEnabled= true isLetterboxDoubleTapEnabled= false eligibleForUserAspectRatioButton= true topActivityBoundsLetterboxed= false isFromLetterboxDoubleTap= false topActivityLetterboxVerticalPosition= -1 topActivityLetterboxHorizontalPosition= -1 topActivityLetterboxWidth=-1 topActivityLetterboxHeight=-1 topActivityAppBounds=Rect(0, 0 - 2184, 1968) isUserFullscreenOverrideEnabled=false isSystemFullscreenOverrideEnabled=false hasMinAspectRatioOverride=false topActivityLetterboxBounds=null cameraCompatTaskInfo=CameraCompatTaskInfo { freeformCameraCompatMode=inactive}} topActivityMainWindowFrame=null}, pipChange = null, remoteTransition = null, displayChange = null, flags = 0, debugId = 26 }
+10-19 05:28:31.816  1015  1057 D WindowManagerShell: onActivityRestartAttempt: topActivity=ComponentInfo{org.sirenssong.game/com.godot.game.GodotApp}, wasVisible=false
+10-19 05:28:31.834   656   687 I ActivityManager: Start proc 5703:org.sirenssong.game/u0a216 for next-top-activity {org.sirenssong.game/com.godot.game.GodotAppLauncher}
+10-19 05:28:32.031   656   677 V WindowManager: Sent Transition (#26) createdAt=10-19 05:28:31.803 via request=TransitionRequestInfo { type = OPEN, triggerTask = TaskInfo{userId=0 taskId=7 effectiveUid=10216 displayId=0 isRunning=true baseIntent=Intent { flg=0x10000000 cmp=org.sirenssong.game/com.godot.game.GodotAppLauncher } baseActivity=ComponentInfo{org.sirenssong.game/com.godot.game.GodotApp} topActivity=ComponentInfo{org.sirenssong.game/com.godot.game.GodotApp} origActivity=ComponentInfo{org.sirenssong.game/com.godot.game.GodotAppLauncher} realActivity=ComponentInfo{org.sirenssong.game/com.godot.game.GodotApp} numActivities=1 lastActiveTime=221983 supportsMultiWindow=true resizeMode=2 isResizeable=true minWidth=-1 minHeight=-1 defaultMinSize=220 token=WCT{RemoteToken{99a378c Task{706a601 #7 type=standard A=10216:org.sirenssong.game}}} topActivityType=1 pictureInPictureParams=null shouldDockBigOverlays=false launchIntoPipHostTaskId=-1 lastParentTaskIdBeforePip=-1 displayCutoutSafeInsets=Rect(124, 0 - 0, 0) topActivityInfo=ActivityInfo{5de7ed5 com.godot.game.GodotAppLauncher} launchCookies=[] positionInParent=Point(0, 0) parentTaskId=-1 isFocused=false isVisible=false isVisibleRequested=false isTopActivityNoDisplay=false isSleeping=false locusId=null displayAreaFeatureId=1 isTopActivityTransparent=false isActivityStackTransparent=false lastNonFullscreenBounds=Rect(177, 222 - 2008, 1757) capturedLink=null capturedLinkTimestamp=0 requestedVisibleTypes=-9 topActivityRequestOpenInBrowserEducationTimestamp=0 appCompatTaskInfo=AppCompatTaskInfo { topActivityInSizeCompat=false eligibleForLetterboxEducation= false isLetterboxEducationEnabled= true isLetterboxDoubleTapEnabled= false eligibleForUserAspectRatioButton= true topActivityBoundsLetterboxed= false isFromLetterboxDoubleTap= false topActivityLetterboxVerticalPosition= -1 topActivityLetterboxHorizontalPosition= -1 topActivityLetterboxWidth=-1 topActivityLetterboxHeight=-1 topActivityAppBounds=Rect(0, 0 - 2184, 1968) isUserFullscreenOverrideEnabled=false isSystemFullscreenOverrideEnabled=false hasMinAspectRatioOverride=false topActivityLetterboxBounds=null cameraCompatTaskInfo=CameraCompatTaskInfo { freeformCameraCompatMode=inactive}} topActivityMainWindowFrame=null}, pipChange = null, remoteTransition = null, displayChange = null, flags = 0, debugId = 26 }
+10-19 05:28:32.546  5703  5703 D GodotActivity: Launch intent Intent { flg=0x10000000 xflg=0x5 cmp=org.sirenssong.game/com.godot.game.GodotAppLauncher } with parameters []
+10-19 05:28:32.546  5703  5703 D GodotActivity: Project command line parameters: [--xr_mode_regular, --xr-mode, off, --fullscreen, --background_color, #000000]
+10-19 05:28:32.564  5703  5703 V Godot   : InitEngine with params: [--xr_mode_regular, --xr-mode, off, --fullscreen, --background_color, #000000]
+10-19 05:28:32.564  5703  5703 V Godot   : Initializing Godot plugin registry
+10-19 05:28:32.568  5703  5703 I GodotPluginRegistry: Registering runtime plugin AndroidRuntime
+10-19 05:28:32.612  5703  5703 D nativeloader: Load /data/app/~~X4z9kfd4BTTnD88LwRdwbQ==/org.sirenssong.game--8uDamlRG_8resr42IX2vA==/lib/x86_64/libgodot_android.so using class loader ns clns-9 (caller=/data/app/~~X4z9kfd4BTTnD88LwRdwbQ==/org.sirenssong.game--8uDamlRG_8resr42IX2vA==/base.apk!classes8.dex): ok
+10-19 05:28:32.616  5703  5703 V Godot   : Godot native layer initialization completed: true
+10-19 05:28:32.700  5703  5703 V Godot   : Godot native layer setup completed
+10-19 05:28:32.700  5703  5703 V Godot   : OnInitRenderView: GodotFragment{fde2c34} (8ee94a2b-1ab6-4d9a-8413-2a3248165b71 id=0x7f070033)
+10-19 05:28:32.720  5703  5703 D Godot   : 			renderer: gl_compatibility (ProjectSettings)
+10-19 05:28:32.720  5703  5703 D Godot   : 			renderingDevice: opengl3 (ProjectSettings)
+10-19 05:28:32.720  5703  5703 D Godot   : Render view should be transparent: false
+10-19 05:28:32.720  5703  5703 D Godot   : usesVulkan(): false
+10-19 05:28:32.728  5703  5703 V GodotActivity: Reusing existing Godot fragment instance.
+10-19 05:28:32.734  5703  5703 V Godot   : OnStart: GodotFragment{fde2c34} (8ee94a2b-1ab6-4d9a-8413-2a3248165b71 id=0x7f070033)
+10-19 05:28:32.737  5703  5703 V Godot   : OnResume: GodotFragment{fde2c34} (8ee94a2b-1ab6-4d9a-8413-2a3248165b71 id=0x7f070033)
+10-19 05:28:32.772   656  1390 D CoreBackPreview: Window{fdfa99 u0 org.sirenssong.game/com.godot.game.GodotAppLauncher}: Setting back callback OnBackInvokedCallbackInfo{mCallback=android.window.IOnBackInvokedCallback$Stub$Proxy@b99e93f, mPriority=-1, mIsAnimationCallback=false, mOverrideBehavior=0}
+10-19 05:28:32.772   656  2040 D CoreBackPreview: Window{fdfa99 u0 org.sirenssong.game/com.godot.game.GodotAppLauncher}: Setting back callback OnBackInvokedCallbackInfo{mCallback=android.window.IOnBackInvokedCallback$Stub$Proxy@b53b20c, mPriority=0, mIsAnimationCallback=true, mOverrideBehavior=0}
+10-19 05:28:32.987  5703  5724 I godot   : Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+10-19 05:28:33.057   656   677 I ActivityTaskManager: Displayed org.sirenssong.game/com.godot.game.GodotAppLauncher for user 0: +1s254ms
+10-19 05:28:33.643  5703  5724 E godot   : WARNING: Failed to load cached shader, recompiling.
+10-19 05:28:33.644  5703  5724 E godot   :    at: _load_from_cache (drivers/gles3/shader_gles3.cpp:612)
+10-19 05:28:33.911  5703  5731 E SurfaceSyncGroup: Failed to receive transaction ready in 1000ms. Marking SurfaceSyncGroup(VRI[GodotAppLauncher]#2) as ready
+10-19 05:28:33.911  5703  5731 E SurfaceSyncGroup: Failed to receive transaction ready in 1000ms. Marking SurfaceSyncGroup(wmsSync-VRI[GodotAppLauncher]#1) as ready
+10-19 05:28:33.912  5703  5731 E SurfaceSyncGroup: Failed to receive transaction ready in 1000ms. Marking SurfaceSyncGroup(SurfaceView[org.sirenssong.game/com.godot.game.GodotAppLauncher]#0) as ready
+10-19 05:28:34.161  5703  5724 I godot   : OpenGL API OpenGL ES 3.1 (OpenGL ES 3.1.0 (ANGLE 2.1.17841 git hash: 5fa2e61da947)) - Compatibility - Using Device: Google (Google Inc. (Google)) - Android Emulator OpenGL ES Translator (ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver-5.0.0))
+10-19 05:28:34.172  5703  5724 I godot   : 
+10-19 05:28:35.064  5703  5724 V Godot   : OnGodotSetupCompleted
+10-19 05:28:35.995  5703  5724 I godot   : SS_RESTORE ok mission=0 time=1.45 paused=true completed=[] unlocked=0
+10-19 05:28:36.007  5703  5724 I godot   : SS_SCREEN operations window=(2184, 1968) viewport=(1280.0, 1153.0) root=(1280.0, 1153.0) unlocked=0 active_time=1.45
+10-19 05:28:36.013  5703  5724 V Godot   : OnGodotMainLoopStarted
+10-19 05:28:36.102  5703  5724 I godot   : SS_TARGET mission0 center=676,273 viewport=1280,1153
+10-19 05:28:36.102  5703  5724 I godot   : SS_TARGET resume center=676,211 viewport=1280,1153
+10-19 05:28:40.452  5703  5724 I godot   : SS_SCREEN mission paused=true
+10-19 05:28:40.454  5703  5724 I godot   : SS_SAVE ok mission=0 time=1.45 paused=true completed=[] unlocked=0
+10-19 05:28:40.477  5703  5724 I godot   : SS_TARGET camera center=385,947 viewport=1280,1153
+10-19 05:28:40.477  5703  5724 I godot   : SS_TARGET chart_center center=676,442 viewport=1280,1153
+10-19 05:28:40.477  5703  5724 I godot   : SS_TARGET droneA center=674,891 viewport=1280,1153
+10-19 05:28:40.477  5703  5724 I godot   : SS_TARGET droneB center=1059,891 viewport=1280,1153
+10-19 05:28:40.477  5703  5724 I godot   : SS_TARGET emp center=1155,947 viewport=1280,1153
+10-19 05:28:40.477  5703  5724 I godot   : SS_TARGET fit center=1223,138 viewport=1280,1153
+10-19 05:28:40.477  5703  5724 I godot   : SS_TARGET hold center=962,947 viewport=1280,1153
+10-19 05:28:40.477  5703  5724 I godot   : SS_TARGET home center=192,1003 viewport=1280,1153
+10-19 05:28:40.477  5703  5724 I godot   : SS_TARGET menu center=385,1003 viewport=1280,1153
+10-19 05:28:40.477  5703  5724 I godot   : SS_TARGET more_orders center=577,1003 viewport=1280,1153
+10-19 05:28:40.477  5703  5724 I godot   : SS_TARGET objective0 center=1026,462 viewport=1280,1153
+10-19 05:28:40.477  5703  5724 I godot   : SS_TARGET pause center=676,827 viewport=1280,1153
+10-19 05:28:40.477  5703  5724 I godot   : SS_TARGET ping center=192,947 viewport=1280,1153
+10-19 05:28:40.477  5703  5724 I godot   : SS_TARGET queue center=770,947 viewport=1280,1153
+10-19 05:28:40.477  5703  5724 I godot   : SS_TARGET route center=341,665 viewport=1280,1153
+10-19 05:28:40.477  5703  5724 I godot   : SS_TARGET silent center=577,947 viewport=1280,1153
+10-19 05:28:40.477  5703  5724 I godot   : SS_TARGET sub center=289,891 viewport=1280,1153
+10-19 05:28:40.477  5703  5724 I godot   : SS_TARGET zoom_in center=1169,138 viewport=1280,1153
+10-19 05:28:40.477  5703  5724 I godot   : SS_TARGET zoom_out center=1115,138 viewport=1280,1153
+10-19 05:28:46.193  5703  5724 I godot   : SS_SCREEN operations window=(2184, 1968) viewport=(1280.0, 1153.0) root=(1207.326, 1153.0) unlocked=0 active_time=1.45
+10-19 05:28:46.212  5703  5724 I godot   : SS_TARGET mission0 center=676,273 viewport=1280,1153
+10-19 05:28:46.212  5703  5724 I godot   : SS_TARGET resume center=676,211 viewport=1280,1153
+10-19 05:28:48.708  5703  5724 I godot   : SS_MISSION_SELECT 0
+10-19 05:28:48.745  5703  5724 I godot   : SS_TARGET begin center=676,441 viewport=1280,1153
+10-19 05:28:50.645  5703  5724 I godot   : SS_SCREEN mission paused=true
+10-19 05:28:50.651  5703  5724 I godot   : SS_SAVE ok mission=0 time=0.0 paused=true completed=[] unlocked=0
+10-19 05:28:51.011  5703  5724 I godot   : SS_TARGET camera center=385,947 viewport=1280,1153
+10-19 05:28:51.011  5703  5724 I godot   : SS_TARGET droneA center=674,891 viewport=1280,1153
+10-19 05:28:51.011  5703  5724 I godot   : SS_TARGET droneB center=1059,891 viewport=1280,1153
+10-19 05:28:51.011  5703  5724 I godot   : SS_TARGET emp center=1155,947 viewport=1280,1153
+10-19 05:28:51.011  5703  5724 I godot   : SS_TARGET hold center=962,947 viewport=1280,1153
+10-19 05:28:51.011  5703  5724 I godot   : SS_TARGET home center=192,1003 viewport=1280,1153
+10-19 05:28:51.011  5703  5724 I godot   : SS_TARGET pause center=676,827 viewport=1280,1153
+10-19 05:28:51.011  5703  5724 I godot   : SS_TARGET ping center=192,947 viewport=1280,1153
+10-19 05:28:51.011  5703  5724 I godot   : SS_TARGET queue center=770,947 viewport=1280,1153
+10-19 05:28:51.011  5703  5724 I godot   : SS_TARGET silent center=577,947 viewport=1280,1153
+10-19 05:28:51.011  5703  5724 I godot   : SS_TARGET sub center=289,891 viewport=1280,1153
+10-19 05:28:51.012  5703  5724 I godot   : SS_TARGET chart_center center=676,442 viewport=1280,1153
+10-19 05:28:51.012  5703  5724 I godot   : SS_TARGET fit center=1223,138 viewport=1280,1153
+10-19 05:28:51.012  5703  5724 I godot   : SS_TARGET menu center=385,1003 viewport=1280,1153
+10-19 05:28:51.012  5703  5724 I godot   : SS_TARGET more_orders center=577,1003 viewport=1280,1153
+10-19 05:28:51.012  5703  5724 I godot   : SS_TARGET zoom_in center=1169,138 viewport=1280,1153
+10-19 05:28:51.012  5703  5724 I godot   : SS_TARGET zoom_out center=1115,138 viewport=1280,1153
+10-19 05:28:51.013  5703  5724 I godot   : SS_TARGET camera center=385,947 viewport=1280,1153
+10-19 05:28:51.013  5703  5724 I godot   : SS_TARGET chart_center center=676,442 viewport=1280,1153
+10-19 05:28:51.013  5703  5724 I godot   : SS_TARGET droneA center=674,891 viewport=1280,1153
+10-19 05:28:51.013  5703  5724 I godot   : SS_TARGET droneB center=1059,891 viewport=1280,1153
+10-19 05:28:51.013  5703  5724 I godot   : SS_TARGET emp center=1155,947 viewport=1280,1153
+10-19 05:28:51.013  5703  5724 I godot   : SS_TARGET fit center=1223,138 viewport=1280,1153
+10-19 05:28:51.013  5703  5724 I godot   : SS_TARGET hold center=962,947 viewport=1280,1153
+10-19 05:28:51.013  5703  5724 I godot   : SS_TARGET home center=192,1003 viewport=1280,1153
+10-19 05:28:51.013  5703  5724 I godot   : SS_TARGET menu center=385,1003 viewport=1280,1153
+10-19 05:28:51.013  5703  5724 I godot   : SS_TARGET more_orders center=577,1003 viewport=1280,1153
+10-19 05:28:51.013  5703  5724 I godot   : SS_TARGET objective0 center=1026,462 viewport=1280,1153
+10-19 05:28:51.013  5703  5724 I godot   : SS_TARGET pause center=676,827 viewport=1280,1153
+10-19 05:28:51.013  5703  5724 I godot   : SS_TARGET ping center=192,947 viewport=1280,1153
+10-19 05:28:51.013  5703  5724 I godot   : SS_TARGET queue center=770,947 viewport=1280,1153
+10-19 05:28:51.013  5703  5724 I godot   : SS_TARGET route center=341,665 viewport=1280,1153
+10-19 05:28:51.013  5703  5724 I godot   : SS_TARGET silent center=577,947 viewport=1280,1153
+10-19 05:28:51.013  5703  5724 I godot   : SS_TARGET sub center=289,891 viewport=1280,1153
+10-19 05:28:51.013  5703  5724 I godot   : SS_TARGET zoom_in center=1169,138 viewport=1280,1153
+10-19 05:28:51.013  5703  5724 I godot   : SS_TARGET zoom_out center=1115,138 viewport=1280,1153
+10-19 05:28:52.927  5703  5724 I godot   : SS_VIEW zoom=1.0 center=(800.0, 480.0)
+10-19 05:28:53.021  5703  5724 I godot   : SS_TARGET camera center=385,947 viewport=1280,1153
+10-19 05:28:53.021  5703  5724 I godot   : SS_TARGET chart_center center=676,442 viewport=1280,1153
+10-19 05:28:53.021  5703  5724 I godot   : SS_TARGET droneA center=674,891 viewport=1280,1153
+10-19 05:28:53.021  5703  5724 I godot   : SS_TARGET droneB center=1059,891 viewport=1280,1153
+10-19 05:28:53.021  5703  5724 I godot   : SS_TARGET emp center=1155,947 viewport=1280,1153
+10-19 05:28:53.021  5703  5724 I godot   : SS_TARGET fit center=1223,138 viewport=1280,1153
+10-19 05:28:53.021  5703  5724 I godot   : SS_TARGET hold center=962,947 viewport=1280,1153
+10-19 05:28:53.021  5703  5724 I godot   : SS_TARGET home center=192,1003 viewport=1280,1153
+10-19 05:28:53.021  5703  5724 I godot   : SS_TARGET menu center=385,1003 viewport=1280,1153
+10-19 05:28:53.021  5703  5724 I godot   : SS_TARGET more_orders center=577,1003 viewport=1280,1153
+10-19 05:28:53.021  5703  5724 I godot   : SS_TARGET objective0 center=1026,462 viewport=1280,1153
+10-19 05:28:53.021  5703  5724 I godot   : SS_TARGET pause center=676,827 viewport=1280,1153
+10-19 05:28:53.021  5703  5724 I godot   : SS_TARGET ping center=192,947 viewport=1280,1153
+10-19 05:28:53.021  5703  5724 I godot   : SS_TARGET queue center=770,947 viewport=1280,1153
+10-19 05:28:53.021  5703  5724 I godot   : SS_TARGET route center=341,665 viewport=1280,1153
+10-19 05:28:53.021  5703  5724 I godot   : SS_TARGET silent center=577,947 viewport=1280,1153
+10-19 05:28:53.021  5703  5724 I godot   : SS_TARGET sub center=289,891 viewport=1280,1153
+10-19 05:28:53.021  5703  5724 I godot   : SS_TARGET zoom_in center=1169,138 viewport=1280,1153
+10-19 05:28:53.021  5703  5724 I godot   : SS_TARGET zoom_out center=1115,138 viewport=1280,1153
+10-19 05:28:55.290  5703  5724 I godot   : SS_ORDER select accepted=true selected=1 queued=false
+10-19 05:28:55.297  5703  5724 I godot   : SS_SAVE ok mission=0 time=0.0 paused=true completed=[] unlocked=0
+10-19 05:28:57.119  5703  5724 I godot   : SS_ORDER route accepted=true selected=1 queued=false
+10-19 05:28:57.123  5703  5724 I godot   : SS_SAVE ok mission=0 time=0.0 paused=true completed=[] unlocked=0
+10-19 05:28:59.725  5703  5724 I godot   : SS_PAUSE paused=false
+10-19 05:28:59.728  5703  5724 I godot   : SS_SAVE ok mission=0 time=0.0 paused=false completed=[] unlocked=0
+10-19 05:29:10.069  5703  5724 I godot   : SS_SAVE ok mission=0 time=4.92 paused=false completed=[] unlocked=0
+10-19 05:29:21.195  5703  5724 I godot   : SS_SAVE ok mission=0 time=9.98 paused=false completed=[] unlocked=0
+10-19 05:29:27.600  5703  5724 I godot   : SS_CAMERA_READY unit=1 objective=0
+10-19 05:29:30.312  5703  5724 I godot   : SS_PAUSE paused=true
+10-19 05:29:30.326  5703  5724 I godot   : SS_SAVE ok mission=0 time=13.98 paused=true completed=[] unlocked=0
+10-19 05:29:33.283  5703  5724 I godot   : SS_ORDER camera accepted=true selected=1 queued=false
+10-19 05:29:33.290  5703  5724 I godot   : SS_SAVE ok mission=0 time=13.98 paused=true completed=[] unlocked=0
+10-19 05:29:36.968  5703  5724 I godot   : SS_PAUSE paused=false
+10-19 05:29:36.979  5703  5724 I godot   : SS_SAVE ok mission=0 time=13.98 paused=false completed=[] unlocked=0
+10-19 05:29:39.422  5703  5724 I godot   : SS_SAVE ok mission=0 time=15.05 paused=false completed=[] unlocked=0
+10-19 05:29:46.078  5703  5724 I godot   : SS_OBJECTIVE_RECORDED mission=0 objective=0
+10-19 05:29:46.079  5703  5724 I godot   : SS_DEBRIEF outcome=won mission=0
+10-19 05:29:46.093  5703  5724 I godot   : SS_SAVE ok mission=0 time=18.12 paused=true completed=[0] unlocked=1
+10-19 05:29:50.025  5703  5703 V Godot   : OnPause: GodotFragment{fde2c34} (8ee94a2b-1ab6-4d9a-8413-2a3248165b71 id=0x7f070033)
+10-19 05:29:50.755  5703  5703 D VRI[GodotAppLauncher]: visibilityChanged oldVisibility=true newVisibility=false
+10-19 05:29:51.199  5703  5703 V Godot   : OnStop: GodotFragment{fde2c34} (8ee94a2b-1ab6-4d9a-8413-2a3248165b71 id=0x7f070033)
+10-19 05:29:51.817  5703  5724 E BufferQueueProducer: [a2de853 SurfaceView[org.sirenssong.game/com.godot.game.GodotAppLauncher]#1(BLAST Consumer)1](id:164700000001,api:0,p:-1,c:5703) dequeueBuffer: BufferQueue has been abandoned
+10-19 05:29:51.821  5703  5724 I godot   : SS_LIFECYCLE suspended paused=true
+10-19 05:29:51.821  5703  5724 I godot   : SS_SAVE ok mission=0 time=18.12 paused=true completed=[0] unlocked=1
+10-19 05:29:51.823  5703  5724 I godot   : SS_LIFECYCLE suspended paused=true
+10-19 05:29:51.823  5703  5724 I godot   : SS_SAVE ok mission=0 time=18.12 paused=true completed=[0] unlocked=1
+10-19 05:29:51.828  5703  5724 I godot   : SS_LIFECYCLE suspended paused=true
+10-19 05:29:51.828  5703  5724 I godot   : SS_SAVE ok mission=0 time=18.12 paused=true completed=[0] unlocked=1
+Activity: org.sirenssong.game/com.godot.game.GodotApp
+Starting: Intent { cmp=org.sirenssong.game/com.godot.game.GodotAppLauncher }
+org.sirenssong.game/com.godot.game.GodotAppLauncher

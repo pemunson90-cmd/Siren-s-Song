@@ -141,6 +141,11 @@ jobs:
             artifacts/android-smoke/pid-*.txt
             artifacts/android-smoke/rotation-*.txt
             artifacts/android-smoke/view-check-*.txt
+            artifacts/android-smoke/checkpoint-*.txt
+            artifacts/android-smoke/runtime-state-*.txt
+            artifacts/android-smoke/app-exit-info.txt
+            artifacts/android-smoke/app-memory-*.txt
+            artifacts/android-smoke/system-server-*.txt
             artifacts/android-smoke/system-dialog-*.txt
             artifacts/android-smoke/system-dialog-*.xml
             artifacts/android-smoke/*.stderr.txt

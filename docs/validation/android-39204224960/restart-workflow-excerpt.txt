@@ -1,0 +1,10 @@
+2026-10-19T05:29:50.3065629Z SS_SMOKE_STAGE 2026-10-19T05:29:50Z capture inner-mission-completed: screenshot complete; activity dump begin
+2026-10-19T05:29:50.3337625Z SS_SMOKE_STAGE 2026-10-19T05:29:50Z capture inner-mission-completed: activity dump complete
+2026-10-19T05:29:50.3353248Z SS_SMOKE_STAGE 2026-10-19T05:29:50Z Shelf Signal recorded, Quietus extraction won, campaign saved
+2026-10-19T05:29:52.4343455Z ERROR        | DisplaySurfaceGlContextHelper context was preempted by others, current=0x3, needed=0x3, thread=0x555ddd910328
+2026-10-19T05:29:52.5441078Z error: closed
+2026-10-19T05:30:01.8111433Z cmd: Can't find service: window
+2026-10-19T05:30:01.8150333Z ADB status 20: shell wm
+2026-10-19T05:30:03.6673775Z Focused Android runtime diagnostics:
+2026-10-19T05:30:03.6678983Z 10-19 05:30:00.737   437   437 D AndroidRuntime: >>>>>> START com.android.internal.os.ZygoteInit uid 0 <<<<<<
+2026-10-19T05:30:03.7208732Z ##[error]The process '/usr/bin/sh' failed with exit code 20

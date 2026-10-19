@@ -42,11 +42,35 @@ read_logcat() {
     done
     return "$status"
 }
+capture_runtime_state() {
+    local label="$1" status=0
+    adb shell sh >"$output/runtime-state-$label.txt" 2>&1 <<'ANDROID' || status=$?
+for property in sys.boot_completed sys.boot.reason sys.boot.reason.last ro.boot.bootreason init.svc.zygote init.svc.surfaceflinger; do
+    printf '%s=' "$property"
+    getprop "$property"
+done
+printf 'kernel_boot_id='
+cat /proc/sys/kernel/random/boot_id
+printf 'system_server_pid='
+pidof system_server
+service check window
+service check activity
+cat /proc/meminfo
+ANDROID
+    printf 'Diagnostic adb exit status: %s\n' "$status" >>"$output/runtime-state-$label.txt"
+}
 stage 'smoke script entered after emulator action boot'
 adb wait-for-device
 adb get-state | grep -Eq '^device$'
 adb logcat -c
 cleanup() {
+    local exit_status=$?
+    if (( exit_status != 0 )); then
+        capture_runtime_state failure
+        adb shell dumpsys activity exit-info "$package" >"$output/app-exit-info.txt" 2>&1 || true
+        adb shell dumpsys dropbox --print system_server_crash >"$output/system-server-crash.txt" 2>&1 || true
+        adb shell dumpsys dropbox --print system_server_watchdog >"$output/system-server-watchdog.txt" 2>&1 || true
+    fi
     read_logcat "$output/logcat.txt" || true
     # Keep one full final log plus deduplicated engine events in the artifact.
     # All intermediate/partial logs remain on disk for the strict error scan below.
@@ -61,6 +85,7 @@ cleanup() {
 trap cleanup EXIT
 ADB_TIMEOUT_SECONDS=120 adb install -r "$apk" | tee "$output/install.txt"
 stage 'APK installed'
+capture_runtime_state start
 component="$(adb shell cmd package resolve-activity --brief -a android.intent.action.MAIN -c android.intent.category.LAUNCHER -p "$package" | tr -d '\r' | tail -1)"
 [[ "$component" == "$package/"* ]] || { echo "No launcher activity resolved: $component" >&2; exit 1; }
 printf '%s\n' "$component" | tee "$output/launcher-component.txt"
@@ -313,6 +338,9 @@ wait_new_marker 'SS_DEBRIEF outcome=won mission=0' "$won_before" 'extraction-won
 wait_new_marker "$save_pattern" "$save_before" 'campaign-saved' 30
 shot 'inner-mission-completed'
 stage 'Shelf Signal recorded, Quietus extraction won, campaign saved'
+read_logcat "$output/checkpoint-completed-campaign.txt"
+capture_runtime_state before-completed-restart
+adb shell dumpsys meminfo "$package" >"$output/app-memory-before-completed-restart.txt" 2>&1 || true
 adb shell input keyevent KEYCODE_HOME
 read_logcat "$output/completion-before-kill.txt"
 campaign_restore='SS_RESTORE ok mission=0 .*completed=\[0\] unlocked=1'
@@ -327,6 +355,7 @@ if adb shell pidof "$package" >"$output/pid-after-kill-completed.txt"; then
     exit 1
 fi
 launch 'completed-campaign-restart'
+capture_runtime_state after-completed-restart
 wait_new_marker "$campaign_restore" "$campaign_before" 'campaign-restored' 30
 shot 'inner-campaign-restored'
 read_logcat "$output/logcat.txt"
