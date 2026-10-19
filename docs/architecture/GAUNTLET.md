@@ -1,12 +1,6 @@
-# Siren's Song production architecture
+# Siren's Song — technical production architecture
 
-> **CURRENT GAME QUALITY/CONTENT OVERRIDE (2026-10-19):** Read `../CURRENT_GAME_SPEC.md` and `../V7_TO_GODOT_PARITY.md`; these embody the latest user direction and supersede historical single-level functional-spec requirements. Gauntlet is permanently iterative until explicit user stop: improve underlying gameplay depth and coherent content toward AAA-caliber, publishable-quality execution (no store submission/publishing administration) at every pass, critique against the whole player experience, select the next substantial deficiency, and avoid meaningless granular validation loops. Restore verified v7 mechanics deliberately, including functional knockdown torpedo. Existing Godot advancements stay. Continue branch/reviewer/milestone process.
-
-
-> **2026-10-19 user workflow override:** The continuous Gauntlet mandate remains active, but the previous cycle-by-cycle full validation/review steps are superseded by the current compact execution contract in `../../AGENTS.md`. Use feature branches and one integration reviewer, focused checks for normal merges, Android builds/full criticism at meaningful integrated milestones, and mandatory fetch/reload of governing files at each orchestrator task boundary. Preserve prior verified artifacts; do not restart existing production work.
-
-
-The user authorized the complete game and autonomous Gauntlet in the kickoff request on 18 October 2026 (America/New_York). This supersedes the earlier import-only scope. Source authority remains `docs/SOURCE_AUTHORITY.md`. Original imported files remain immutable.
+The Gauntlet's **single operating contract** is `../../AGENTS.md`; the **living intended game** is `../CURRENT_GAME_SPEC.md`. This file preserves technical constraints and gameplay architecture, not an independent workflow, mandatory critic quota, stage-gate schedule or current next-task assignment. Those belong to AGENTS and CONTINUATION. Source authority and ratified player decisions govern implementation.
 
 ## Creative contract
 
@@ -44,7 +38,7 @@ The Sol production lead may refine file names and interfaces before implementing
 
 ## Gameplay design decisions
 
-Start with six authored missions: Shelf Signal (teach sonar and extraction), Split Channel (drone coordination), Blackwater Relay (low visibility and evidence relay), Cold Foundry (industry reconnaissance), The Listening Well (moving threat and sustained observation), and Siren's Song (convergent infiltration/extraction and a narrative resolution). Each needs distinct geography, objective pressure, briefing, outcome, and a tested completion route. Content count alone does not meet the campaign quality bar.
+The current initial campaign comprises six authored missions: Shelf Signal (teach sonar and extraction), Split Channel (drone coordination), Blackwater Relay (low visibility and evidence relay), Cold Foundry (industry reconnaissance), The Listening Well (moving threat and sustained observation), and Siren's Song (convergent infiltration/extraction and a narrative resolution). Each needs distinct geography, objective pressure, briefing, outcome, and a tested completion route. Content count alone does not meet the campaign quality bar.
 
 Progression rewards evidence with equipment choices and new tactical opportunities, not enemy damage escalation. Defeats preserve unlocked campaign progress; retry is immediate. Completed missions are replayable. Include settings, clear tutorial affordances, pause/resume, mission briefing/debrief, and ending.
 
@@ -60,45 +54,8 @@ Abyssal teal/ink palette; layered stone masses and dark trench depth; cyan/amber
 
 Sound conveys engines/noise, ping and returns, proximity/threat, hull pressure, camera, tools, loss, extraction. Dynamic layers must remain restrained; reserve silence and spectral contrast. Include visual equivalents for actionable audio cues. Measure clipping and event spam before review. Human headphone/listening assessment remains a distinct gate from file generation.
 
-## Verification and critique
+## Verification approach
 
-First automate parsing, deterministic scenario tests, save round-trip/corruption, pause invariance, fair AI, route replacement, clearance, objective/extraction, all-mission solvability and lifecycle behavior. Then capture real running output at phone and wider aspect ratios. Review states include initial map, planning routes, sonar behind cover, two drones, threat/exposure, camera reveal, debrief, and ending.
+Preserve deterministic simulation, observation fairness, input/gesture correctness, terrain pathing, authentic save/restore and regression prevention. Run targeted checks during feature development and affected regressions on integration; batch broad Android/gameplay validation at substantive playable milestones or for concrete native problems. Evidence and independent criticism support the Gauntlet's recurring **whole-game quality judgments**, not mandatory ceremony after each small change.
 
-User-ratified [Addendum A](../reviews/2026-10-19-external-audit-addendum-A.md) is the next priority after prototype import/comparison/integrity publication and before parked density UI: RED→GREEN authored terrain-safe waypoint loops, distinct sentinel/hunter with intentional Foundry/Listening Well assignments, preserved fair sensing, retired pre-fix balance numbers and rerun strategies/naive policies/critic probes. Do not lower sensing or speed merely to recover historical hull outcomes.
-
-User-ratified [Addendum B](../reviews/2026-10-19-external-audit-addendum-B.md) and [reusable critic brief](../CRITIC_BRIEF.md) require actual 10–20 second clips including an idle world, dimension-matched shipped footage, feasible honest blinding, retained losses and no imitation. Start with Door Kickers planning, Barotrauma sonar/creature behavior/dread and Mark of the Ninja noise/detection clarity. Unavailable footage remains pending; launch-era store claims require current verification before recommending play.
-
-A fresh-context Sol critic receives the build/capture paths and source references before builder interpretation. It inspects actual images and scenarios, identifies the biggest remaining gap, distinguishes defects from aesthetic judgments, and provides reproducible evidence. Improve until consequential deficiencies are addressed or a concrete execution/resource limit requires a checkpoint. No fixed review-round quota. An APK export is not proof of installed Android behavior or production quality.
-
-## Model policy and continuity
-
-The complete existing AGENTS.md model policy remains binding. Substantial production and review delegations explicitly request `gpt-6.1-sol`, fresh context. The user permits smaller/weaker agents for suitably scoped smaller tasks when reliable fit justifies them; do not buy rework merely to choose cheaper routing. Current collaboration tool exposes that model argument; its response identifies task names but supplies no backend attestation or token/cost totals. Record requested routing separately from actual telemetry. Root/coordinator backend identity is not exposed by runtime tools; do not invent certification. No automatic/inherited premium substitution or premium subagents by default. Exceptional premium use must be permitted and explicitly justified. Escalation requires demonstrated Sol difficulty or a high-consequence decision and a written reason.
-
-Use one production owner and one tooling owner while their files are independent; replace idle builders with fresh critics. Avoid idle premium coordination work: provide concrete briefs and let Sol execute sustained production. `docs/WORKBENCH.md`, `docs/MODEL_USAGE.md`, and `docs/CONTINUATION.md` are the recovery map. Commit meaningful runnable progress and push the development branch. Preserve captures/review records in `docs/validation/`/`docs/reviews/`; large APKs in ignored build output or an explicitly documented downloadable artifact. Never label a milestone complete before running its checks.
-
-
-## Persistent Gauntlet mandate — user ratified 2026-10-18
-
-**The Gauntlet is an open-ended, user-terminated improvement program.** A working prototype, complete six-mission campaign, passing tests, signed/installable APK, polished vertical slice, or app-store-caliber release candidate is a **baseline milestone, never the automatic stopping condition**. The long-term quality ambition is a cohesive, genuinely publishable Android game of the caliber a player could encounter on an app store; after reaching that bar, keep evaluating and improving until the user explicitly says to stop or changes direction. Do not interpret a task list, quality checklist, reviewer approval, or absence of severe defects as authorization to terminate the program.
-
-After each meaningful milestone: (1) build/run and gather inspectable gameplay, visual, audio, interaction and Android evidence; (2) solicit independent evidence-first criticism when warranted; (3) identify the largest remaining experiential, design, content, technical or accessibility opportunity, including improvements beyond bug fixes; (4) prioritize against the established Siren's Song identity and source hierarchy; (5) implement and validate the next bounded improvement; (6) record results, evidence, known limitations and the next action, then repeat. Revisit the quality bar as the game improves. Avoid aimless feature accumulation, endless cosmetic churn and regressions: prioritize player experience, coherence, performance, and meaningful progress. Existing campaign and implementation tasks are the first production phase, not the entire Gauntlet.
-
-**Session/usage/resource limits:** Stop executing when limits require it, preserve a runnable checkpoint, branch/commit status, exact evidence, remaining gaps and a specific next command in WORKBENCH and CONTINUATION. Label the state 'paused / awaiting continuation' rather than 'complete'. Resume the loop when execution becomes available; do not claim background execution across unavailable sessions or automatically bypass platform limits.
-
-**User involvement:** As playable builds mature, invite targeted hands-on testing and incorporate the user's observations, preferences, and new direction. Human feedback becomes increasingly valuable; do not require it for every routine iteration or replace autonomous progress with approval loops. The user alone determines satisfaction and authorizes ending the Gauntlet. Distinguish internal quality estimates from user acceptance. Respect material premise/identity escalation rules and the existing model-budget policy.
-
-
-## Ratified evidence workflow — 19 October
-
-`docs/BASELINE_AND_EXPERIMENTS.md` preserves the verified baseline and challenger promotion/tradeoff history. Deterministic comparisons precede independent evidence review; retain failed/rejected experiments. Fresh whole-game criticism is periodic and covers pacing/variety/depth, progression/upgrades, narrative, atmosphere, art/audio, accessibility and comprehension. A separate regression hunter after substantial changes may find no meaningful regression; confirm reproduction and baseline differences, prioritize consequential regressions, and distinguish inherited weaknesses. Passing a narrow metric is not promotion by itself.
-
-`docs/PHONE_DASHBOARD.md` is the persistent phone-readable entry to stage, output, APK, criticism, gains, tradeoffs, weaknesses and next work. Reuse evidence rather than create infrastructure. User hands-on direction is authoritative without routine approval gates. Persist future agreed decisions with rationale/source hierarchy in governing Git docs and continuation; all new briefs inherit `docs/AGENT_BRIEF.md`. The open-ended mandate above remains verbatim and binding.
-
-## Differentiated role adaptation — ratified A implementation
-
-Actual original v7, not its archival wrapper, is the movement reference. New Foundry guards are conditional tethered sentinels; the Well has a home-based fast hunter. Neither is claimed to roam unprovoked. Production retains pathfinding/inertia, current-sight four-second lock, disruption, local acoustic evidence and bounded deterministic last-known search. New station roles pursue distant current sightings to a navigable emitter standoff; patrollers retain prior lock standoff. This deliberately replaces v7 straight-line chase/overlap and random search with collision-safe physical motion and bounded reproducible search. Legacy active missions keep saved role/content data; roles apply on new dives rather than discarding progress. Exact source comparisons, RED/GREEN, retained losing/considered tactics and visibility limits are in docs/validation/production/siren-roles/. External shipped footage comparison is pending actual access, not passed.
-
-
-## Continuous orchestration semantics — user corrected 19 October
-
-Apply [AGENTS.md’s execution-loop distinctions](../../AGENTS.md). Task completion, worker completion and checkpoint preservation automatically lead to the next task/cycle within the same available execution session. A favorable review triggers the next highest-value meaningful improvement. Only explicit user stop or an actual observed blocking platform/context/usage/execution/resource boundary permits ending overall execution. A genuine boundary requires durable exact continuation evidence, not an invented milestone/session-end rationale. Supported compaction continues execution. User acceptance alone sets the ultimate polished-game quality/compute stopping point. Do not interrupt active independent workers or restart completed work to apply this correction.
+Current feature status and next action: `../CONTINUATION.md`; project history and older external reference methods: recoverable archives. Protect previously accepted gameplay and keep developing the most consequential player-facing opportunity.
