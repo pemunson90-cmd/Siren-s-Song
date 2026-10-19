@@ -1,6 +1,6 @@
 # Siren’s Song continuation · verified 9dacbb4
 
-**Active: observed-contact feedback improvement underway.** The previous voluntary stop at a “session execution boundary” was an instruction-following error, not an observed usage/tool limit. The user explicitly reaffirmed continuous execution. Checkpoints save progress while work continues; they do not authorize a pause.
+**Active: frozen observed-contact/native-capture candidate under independent reviews; isolated Blackwater investigation prototype underway.** The previous voluntary stop at a “session execution boundary” was an instruction-following error, not an observed usage/tool limit. The user explicitly reaffirmed continuous execution. Checkpoints save progress while work continues; they do not authorize a pause.
 
 Read AGENTS.md, SOURCE_AUTHORITY, WORKBENCH, architecture/GAUNTLET, AGENT_BRIEF, CRITIC_BRIEF and BASELINE_AND_EXPERIMENTS before new work. Preserve imported originals and the ratified v7 reference/addenda. Reuse the existing checkout; inspect status/fetch before proceeding. No reset or duplicated foundation work.
 
@@ -40,3 +40,10 @@ The Gauntlet remains active and user-terminated. Continue through checkpoints an
 ## Execution-loop correction now active
 
 The user explicitly ratified the task/worker/checkpoint/session/program distinctions in AGENTS.md. This is an orchestration correction, not a new approval gate. Current source52bedd6 and inspected9dacbb4 APK are preserved; active production and independent tooling proceed without interruption. At each checkpoint save records and immediately investigate/implement the highest-value next improvement. A completed rolling plan is replenished, not treated as program termination. Only explicit user stop or an actual observed blocking limit permits pause, with durable exact continuation and the concrete boundary recorded. No boundary is currently observed; the environment is ready and unrestricted/enforced.
+
+
+## Current integrated handoff while execution continues
+
+Published HEAD809282d is the docs-only execution-loop correction; frozen uncommitted product/tooling is not yet a native-promoted source. Root strict `TOOLCHAIN_CACHE="$PWD/work/toolchain" ARTIFACT_DIR="$PWD/work/contact-integrated" scripts/toolchain/test.sh` exits0 with257/298/1057/7/15/68 and20 new capture parser/shell tests. Durable log: `docs/validation/production/observed-contact-feedback/integrated-green.log`. Experience critic `/root/observed_contact_critic` and separate fresh `/root/observed_contact_regression_hunter` own reports; tooling owns diagnostic source manifest/docs. Do not repeat the broad gate absent changes/failure. Integrate actual findings, publish exact reviewed source as root sole pusher, trigger one meaningful combined native run, then verify downloaded artifacts and actual named-state pixels. Preserve9dacbb4 and all older fallbacks.
+
+Production `/root/decoy_feedback` released contact scope and immediately began the next cycle in isolated `work/blackwater-exchange-prototype/` only, with durable evidence under `docs/validation/production/blackwater-exchange-prototype/`. Read `design/BLACKWATER_EXCHANGE_CYCLE.md` and the fresh campaign scout report. Shared game/tooling source stays frozen for current reviews/native snapshot. First compare baseline decision map with a locally observable quiet-sampling/audible-reacquisition hypothesis; reject dead time or trivial dominance before assets. No routine approval, voluntary stop or background-execution claim. Continue the loop through supported compaction.

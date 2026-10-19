@@ -1,0 +1,13 @@
+F
+======================================================================
+FAIL: test_native_fatal_after_postdraw_is_not_accepted (__main__.CaptureTests.test_native_fatal_after_postdraw_is_not_accepted)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Siren-s-Song-gauntlet/scripts/toolchain/test-android-capture.py", line 48, in test_native_fatal_after_postdraw_is_not_accepted
+    self.assertEqual(self.invoke(records(layout())+'FATAL EXCEPTION: main\n').returncode,1)
+AssertionError: 0 != 1
+
+----------------------------------------------------------------------
+Ran 1 test in 0.053s
+
+FAILED (failures=1)

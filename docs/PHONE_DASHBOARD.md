@@ -79,3 +79,10 @@ Zoom can crop edge labels; some encounter labels overlap. MORE ORDERS adds a tap
 [Workbench](WORKBENCH.md) · [Continuation](CONTINUATION.md) · [Baseline and experiments](BASELINE_AND_EXPERIMENTS.md) · [Source authority](SOURCE_AUTHORITY.md) · [Model/usage record](MODEL_USAGE.md)
 
 The Gauntlet continues until the user chooses to stop. Explore freely; this page is a reference, not a recurring feedback or approval gate.
+
+
+## Active next cycles
+
+[Observed-contact candidate](validation/production/observed-contact-feedback/README.md) distinguishes a seen hunter, its aging echo and a different patrol with shared S# tags/readout. Its retained second-decoy-under-lock clip still ends in loss; the UI does not promise diversion or safety. Integrated local checks pass; fresh experience and separate regression reviews are underway. The native-capture correction now checks app post-draw optical/restored state; actual new Android pixels remain pending. Current inspected APK remains9dacbb4 above.
+
+The [fresh campaign scout](reviews/2026-10-19-campaign-quality-scout.md) recommends making Blackwater's exchange investigable. An [isolated prototype](../design/BLACKWATER_EXCHANGE_CYCLE.md) has begun while current source stays frozen for review. It must earn a useful reconnaissance decision, not merely add waiting. These checkpoints preserve progress while development continues.

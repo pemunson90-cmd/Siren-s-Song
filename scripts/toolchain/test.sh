@@ -7,6 +7,7 @@ require_project
 python3 "$(dirname -- "$0")/test-android-role.py"
 python3 "$(dirname -- "$0")/test-android-metric-records.py"
 python3 "$(dirname -- "$0")/test-android-menu.py"
+python3 "$(dirname -- "$0")/test-android-capture.py"
 python3 "$(dirname -- "$0")/test-android-view.py"
 python3 "$(dirname -- "$0")/test-android-ui-metrics.py"
 log="$ARTIFACT_DIR/tests.log"

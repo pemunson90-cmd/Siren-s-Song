@@ -159,7 +159,7 @@ func command(order: String,args: Dictionary={}) -> bool:
 			_noise(u.pos,650,"DISRUPTION"); message="Disruption pulse · 12 second recovery window"; events.append({"type":"emp","pos":u.pos})
 		"decoy":
 			if tools.decoy<=0: return false
-			tools.decoy-=1; _noise(args.get("point",u.pos+Vector2(160,0)),1100,"DECOY",15.0); message="Decoy transmitting · 15 seconds"; events.append({"type":"decoy","pos":u.pos})
+			tools.decoy-=1; _noise(args.get("point",u.pos+Vector2(160,0)),1100,"DECOY",15.0); message="Decoy launched · 15s transmission"; events.append({"type":"decoy","pos":u.pos})
 		"camera":
 			var context=camera_context()
 			if not context.ready: message=context.text; return false

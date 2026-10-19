@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/workspace/Siren-s-Song-gauntlet/docs/validation/production/native-capture-sync/verify-frame-log.py", line 9, in <module>
+    assert matches,'Camera command accepted before render, but no fresh capture-state diagnostic followed'
+           ^^^^^^^
+AssertionError: Camera command accepted before render, but no fresh capture-state diagnostic followed

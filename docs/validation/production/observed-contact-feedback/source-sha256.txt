@@ -1,0 +1,3 @@
+6727762ccaa0623ad1a3618cccd297f334a292879482aaac72227a96891bb4c2  game/src/presentation/ocean_view.gd
+67b426440f9a609e4f95bfe7b8ca7ea188c92de43602ab79d048b837e03f0b74  game/src/presentation/contact_feedback.gd
+72d3c9415e8e78fe7b87881888aadd7bde1d350953a8bbdeab5fb5a2b528d168  game/src/simulation/simulation.gd

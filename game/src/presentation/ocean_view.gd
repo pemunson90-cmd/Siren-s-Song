@@ -50,6 +50,16 @@ func _process(dt: float) -> void:
 	queue_redraw()
 func acoustic_rows() -> Array:
 	return preload("res://src/presentation/acoustic_feedback.gd").rows(sim.acoustic_feedback()) if sim!=null else []
+func contact_entries() -> Array:
+	return preload("res://src/presentation/contact_feedback.gd").entries(sim.contacts,sim.elapsed,sim.units,sim.line_clear) if sim!=null else []
+func contact_readout_rects() -> Array:
+	var result: Array=[]
+	var top=instrument_top+acoustic_rows().size()*(feedback_font_size+5)+12+7
+	for entry in contact_entries():
+		var width=ThemeDB.fallback_font.get_string_size(entry.text,HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size).x+20
+		result.append(Rect2(12,top,minf(width,size.x-24),feedback_font_size+6))
+		top+=feedback_font_size+8
+	return result
 func _draw() -> void:
 	if sim==null or ocean==null: return
 	_sync_camera()
@@ -120,13 +130,13 @@ func _draw() -> void:
 					draw_arc(dest.pos,10,0,TAU,24,CYAN,2); draw_circle(dest.pos,3,CYAN)
 				last=dest.pos
 		_craft(u,i)
-	var threat_rows: Array=[]
-	for id in sim.contacts:
-		var c=sim.contacts[id]; var fresh=sim.elapsed-c.time<0.3
+	var observed=contact_entries()
+	for entry in observed:
+		var c=sim.contacts[entry.key]; var fresh=entry.fresh
 		var aim=float(c.angle)
 		var observed_target=int(c.get("target",-1))
 		if fresh and c.lock>0 and observed_target>=0 and observed_target<sim.units.size(): aim=c.pos.angle_to_point(sim.units[observed_target].pos)
-		_siren(c.pos,aim,("S%d"%(int(id)+1) if c.lock>0 else c.mode) if fresh else "LAST SEEN",fresh,c.get("type","patroller"))
+		_siren(c.pos,aim,fresh,c.get("type","patroller"))
 		if fresh and c.lock>0:
 			var target_id=int(c.get("target",-1))
 			if target_id>=0 and target_id<sim.units.size() and sim.units[target_id].alive and sim.line_clear(c.pos,sim.units[target_id].pos):
@@ -137,9 +147,7 @@ func _draw() -> void:
 					draw_line(origin,target,Color("ff8a59"),3.5); draw_line(origin,target,Color("ffedc5"),1.2)
 					draw_arc(target,17+sin(phase*18)*5,0,TAU,24,Color("ffbc83"),2)
 				else: _dash(origin,target,Color(1,0.37,0.24,0.32),1.5)
-				threat_rows.append("S%d → %s · %s"%[int(id)+1,sim.units[target_id].name,"FIRING" if c.lock>=4 else "BEAM %.1fs"%(4-c.lock)])
 			draw_arc(c.pos,58,-PI/2,-PI/2+TAU*minf(1,c.lock/4),40,Color("fa7969"),3)
-		elif not fresh: _label(c.pos+Vector2(35,0),"ECHO · %ds"%int(sim.elapsed-c.time),Color("9a8079"),17)
 	var acoustic=sim.acoustic_feedback()
 	for n in acoustic.responses:
 		if n.label=="FACTORY RESPONSE":
@@ -156,6 +164,12 @@ func _draw() -> void:
 		draw_circle(p,0.7+float(i%3)*0.35,Color(0.48,0.7,0.7,0.11))
 	draw_rect(Rect2(0,0,1600,960),Color(0.3,0.7,0.7,0.19),false,2)
 	draw_set_transform(Vector2.ZERO,0,Vector2.ONE)
+	# Short screen-sized tags preserve observed identity without long world labels.
+	for entry in observed:
+		var anchor=chart_camera.to_screen(entry.pos)+Vector2(12,-18)
+		var tag_size=ThemeDB.fallback_font.get_string_size(entry.tag,HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size)
+		draw_rect(Rect2(anchor-Vector2(3,feedback_font_size),Vector2(tag_size.x+6,feedback_font_size+5)),Color(0.025,0.06,0.075,0.94))
+		draw_string(ThemeDB.fallback_font,anchor,entry.tag,HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size,Color("ed8e79") if entry.fresh else Color("b09a94"))
 	draw_rect(Rect2(12,7,minf(430,size.x-194),49),Color(0.025,0.06,0.075,0.94))
 	draw_string(ThemeDB.fallback_font,Vector2(16,26),"TAP ROUTE · DRAG CHART · PINCH ZOOM",HORIZONTAL_ALIGNMENT_LEFT,-1,13,Color("76959c"))
 	draw_string(ThemeDB.fallback_font,Vector2(16,46),"CHART %.1f×"%chart_camera.zoom,HORIZONTAL_ALIGNMENT_LEFT,-1,11,Color("76959c"))
@@ -171,10 +185,11 @@ func _draw() -> void:
 	draw_rect(Rect2(12,instrument_top,minf(instrument_width,size.x-24),instrument_height),Color(0.025,0.06,0.075,0.94))
 	for i in rows.size():
 		draw_string(ThemeDB.fallback_font,Vector2(20,instrument_top+feedback_font_size+5+i*line_height),rows[i],HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size,Color("e1b66e") if i==1 and rows[i]!="DECOYS · none" else Color("a4bfbd"))
-	for row in threat_rows.size():
-		var y=instrument_top+instrument_height+28+row*30
-		draw_rect(Rect2(12,y-19,minf(330,size.x-30),28),Color(0.04,0.07,0.09,0.94))
-		draw_string(ThemeDB.fallback_font,Vector2(20,y),threat_rows[row],HORIZONTAL_ALIGNMENT_LEFT,-1,15,Color("ffac8c"))
+	var readout=contact_readout_rects()
+	for i in observed.size():
+		var entry=observed[i];var box=readout[i]
+		draw_rect(box,Color(0.04,0.07,0.09,0.94))
+		draw_string(ThemeDB.fallback_font,box.position+Vector2(8,feedback_font_size),entry.text,HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size,Color("ffac8c") if entry.urgent else Color("ed8e79") if entry.fresh else Color("b09a94"))
 
 func _finale_array(mass: Rect2) -> void:
 	draw_rect(mass,Color("142930")); draw_texture_rect(basalt,mass,false,Color(0.45,0.58,0.6))
@@ -243,7 +258,7 @@ func _craft(u: Dictionary,index: int) -> void:
 	_label(p+Vector2(-39 if index==sim.selected else -8,label_y),u.name if index==sim.selected else ["Q","A","B"][index],CYAN if index==sim.selected else Color("7e9da4"),18)
 func _hull_style() -> StyleBoxFlat:
 	var style=StyleBoxFlat.new(); style.bg_color=Color("263841"); style.border_color=Color("627780"); style.set_border_width_all(1); style.set_corner_radius_all(7); return style
-func _siren(p: Vector2,angle: float,mode: String,fresh: bool,role: String="patroller") -> void:
+func _siren(p: Vector2,angle: float,fresh: bool,role: String="patroller") -> void:
 	draw_set_transform(world_offset+p*world_scale,angle,Vector2.ONE*world_scale)
 	if fresh:
 		# The same original biological material has distinct station/response profiles.
@@ -261,7 +276,6 @@ func _siren(p: Vector2,angle: float,mode: String,fresh: bool,role: String="patro
 		draw_arc(Vector2.ZERO,24,0,TAU,6,Color("956d63"),1.5)
 		draw_line(Vector2(-12,0),Vector2(12,0),Color("956d63"),1)
 	draw_set_transform(world_offset,0,Vector2.ONE*world_scale)
-	_label(p+Vector2(-35,75),("GUARD" if role=="sentinel" else "HUNTER" if role=="hunter" else "PATROL")+" · "+mode if fresh else mode,Color("ed8e79") if fresh else Color("94766e"),17)
 func _dash(a: Vector2,b: Vector2,color: Color,width: float) -> void:
 	var distance=a.distance_to(b)
 	for n in range(0,int(distance),18): draw_line(a.move_toward(b,n),a.move_toward(b,minf(n+9,distance)),color,width)

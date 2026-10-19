@@ -14,6 +14,7 @@ log_read_serial=0
 system_intro_checked=false
 source "$(dirname -- "$0")/android-role-smoke.sh"
 source "$(dirname -- "$0")/android-menu-smoke.sh"
+source "$(dirname -- "$0")/android-capture-smoke.sh"
 adb() {
     local status=0
     timeout --foreground "${ADB_TIMEOUT_SECONDS:-30}" "$adb_bin" "$@" || status=$?
@@ -129,7 +130,7 @@ launch() {
 }
 shot() {
     stage "capture $1: screenshot begin"
-    adb exec-out screencap -p >"$output/$1.png"
+    if (( $# > 1 )); then capture_state_shot "$@"; else adb exec-out screencap -p >"$output/$1.png"; fi
     stage "capture $1: screenshot complete; activity dump begin"
     adb shell dumpsys activity activities >"$output/activity-$1.txt"
     stage "capture $1: activity dump complete"
@@ -348,7 +349,7 @@ PY
         echo 'Missing actual mission archive restoration marker' >&2; exit 1;
     }
     tap_target resume 'SS_SCREEN mission paused=true' "$profile-restored-mission"
-    shot "$profile-restored-gameplay"
+    shot "$profile-restored-gameplay" restored-mission "$output/target-$profile-restored-mission.txt" 0
     stage "$profile mission archive restored and entered"
 done
 # Complete the introductory dive through ordinary native input. These markers
@@ -368,7 +369,7 @@ wait_new_marker 'SS_CAMERA_READY unit=1 objective=0' "$camera_before" 'camera-re
 tap_target pause 'SS_PAUSE paused=true' 'completion-camera-pause'
 shot 'inner-camera-ready'
 tap_target camera 'SS_ORDER camera accepted=true selected=1' 'completion-camera'
-shot 'inner-camera-exposure'
+shot 'inner-camera-exposure' camera "$output/target-completion-camera.txt" 0
 read_logcat "$output/completion-before-exposure.txt"
 record_before="$(grep -Ec 'SS_OBJECTIVE_RECORDED mission=0 objective=0' "$output/completion-before-exposure.txt" || true)"
 won_before="$(grep -Ec 'SS_DEBRIEF outcome=won mission=0' "$output/completion-before-exposure.txt" || true)"

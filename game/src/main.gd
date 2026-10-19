@@ -166,6 +166,7 @@ func _order(order: String,args: Dictionary={}) -> void:
 	var accepted=sim.command(order,args)
 	print("SS_ORDER ",order," accepted=",accepted," selected=",sim.selected," queued=",sim.queue_mode)
 	_refresh(); _save_archive()
+	if accepted and order=="camera": call_deferred("_report_targets")
 func _pause() -> void:
 	sim.paused=not sim.paused; print("SS_PAUSE paused=",sim.paused); _refresh(); _save_archive()
 func _process(dt: float) -> void:
@@ -410,6 +411,11 @@ func _take_capture() -> void:
 func _report_targets() -> void:
 	await get_tree().process_frame
 	if not is_inside_tree(): return
+	var capture_phase="layout_only"
+	if DisplayServer.get_name()!="headless" and not RenderingServer.get_video_adapter_name().is_empty():
+		await RenderingServer.frame_post_draw
+		if not is_inside_tree(): return
+		capture_phase="post_draw"
 	var buttons: Dictionary={}
 	if hud.visible:
 		buttons={"pause":pause_button,"sub":unit_buttons[0],"droneA":unit_buttons[1],"droneB":unit_buttons[2]}
@@ -420,7 +426,7 @@ func _report_targets() -> void:
 	else:
 		for child in panel_box.get_children()+menu_footer.get_children():
 			if child is Button and child.has_meta("action"): buttons[child.get_meta("action")]=child
-	_emit_ui_metrics()
+	_emit_ui_metrics(_ui_metrics(capture_phase))
 	for key in buttons:
 		var p=buttons[key].get_global_rect().get_center()
 		print("SS_TARGET ",key," center=",roundi(p.x),",",roundi(p.y)," viewport=",roundi(get_viewport_rect().size.x),",",roundi(get_viewport_rect().size.y))
@@ -440,8 +446,8 @@ func _report_targets() -> void:
 				var mapped=ocean.global_position+ocean.world_offset+world*ocean.world_scale
 				print("SS_TARGET ",action," center=",roundi(mapped.x),",",roundi(mapped.y)," viewport=",roundi(get_viewport_rect().size.x),",",roundi(get_viewport_rect().size.y))
 
-func _emit_ui_metrics() -> void:
-	var snapshot=_ui_metrics()
+func _emit_ui_metrics(snapshot: Dictionary={}) -> void:
+	if snapshot.is_empty(): snapshot=_ui_metrics()
 	if OS.get_name()=="Android":
 		if metrics_session.is_empty():metrics_session="%d-%d"%[OS.get_process_id(),Time.get_ticks_usec()]
 		metrics_serial+=1
@@ -507,7 +513,7 @@ func _evidence_gallery(index: int) -> void:
 
 func _rect_values(rect: Rect2) -> Array:
 	return [snappedf(rect.position.x,0.001),snappedf(rect.position.y,0.001),snappedf(rect.size.x,0.001),snappedf(rect.size.y,0.001)]
-func _ui_metrics() -> Dictionary:
+func _ui_metrics(capture_phase: String="layout_only") -> Dictionary:
 	var viewport=get_viewport_rect().size; var window=Vector2(get_window().size)
 	var safe=Rect2(Vector2.ZERO,window)
 	if OS.get_name()=="Android": safe=Rect2(DisplayServer.get_display_safe_area()).intersection(safe)
@@ -530,4 +536,5 @@ func _ui_metrics() -> Dictionary:
 			parent=parent.get_parent()
 		if not hit.has_area(): continue
 		controls.append({"action":action,"visual_rect":_rect_values(visual),"hit_rect":_rect_values(hit),"clipped":not hit.is_equal_approx(visual)})
-	return {"schema":1,"screen":screen,"orders_page":"secondary" if advanced_orders else "primary","viewport":[viewport.x,viewport.y],"window":[window.x,window.y],"safe_rect":_rect_values(safe),"density_dpi":ui_density_dpi(),"density_source":ui_density_source(),"chart_rect":_rect_values(ocean.get_global_rect()),"scroll_rect":_rect_values(scroll.get_global_rect().intersection(menu.get_global_rect()).intersection(Rect2(Vector2.ZERO,viewport))),"scroll_vertical":scroll.scroll_vertical,"settings_values":{"music":settings.get("music",0.5),"effects":settings.get("effects",0.8),"mute":settings.get("mute",false)},"controls":controls}
+	var capture_state={"phase":capture_phase,"drawn_frame":Engine.get_frames_drawn(),"mission":mission_index,"paused":sim.paused,"selected":sim.selected,"capture_unit":sim.capture_unit,"hud_visible":hud.is_visible_in_tree(),"menu_visible":menu.is_visible_in_tree(),"optical_visible":ocean.optical_feed!=null and ocean.optical_feed.is_visible_in_tree()}
+	return {"schema":1,"screen":screen,"orders_page":"secondary" if advanced_orders else "primary","viewport":[viewport.x,viewport.y],"window":[window.x,window.y],"safe_rect":_rect_values(safe),"density_dpi":ui_density_dpi(),"density_source":ui_density_source(),"chart_rect":_rect_values(ocean.get_global_rect()),"scroll_rect":_rect_values(scroll.get_global_rect().intersection(menu.get_global_rect()).intersection(Rect2(Vector2.ZERO,viewport))),"scroll_vertical":scroll.scroll_vertical,"settings_values":{"music":settings.get("music",0.5),"effects":settings.get("effects",0.8),"mute":settings.get("mute",false)},"capture_state":capture_state,"controls":controls}

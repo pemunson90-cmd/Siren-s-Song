@@ -14,8 +14,8 @@ func _apply_safe_area() -> void:
  offset_left=safe.position.x;offset_top=safe.position.y
  offset_right=safe.end.x-viewport_size.x;offset_bottom=safe.end.y-viewport_size.y
  applying_safe_area=false
-func _ui_metrics() -> Dictionary:
- var result=super._ui_metrics()
+func _ui_metrics(capture_phase: String="layout_only") -> Dictionary:
+ var result=super._ui_metrics(capture_phase)
  if fixture_safe_area.has_area():
   result.safe_rect=_rect_values(fixture_safe_area)
   result["safe_area_source"]="recorded_android_39222413584_fixture"
