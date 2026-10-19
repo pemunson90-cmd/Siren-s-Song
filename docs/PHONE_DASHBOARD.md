@@ -26,7 +26,7 @@ Reviewed tactical source **0d1b390** adds PLAN ROUTE, terrain acoustic arrivals/
 
 ## Work already underway
 
-- **Physical torpedo and route programming:** integrated and published, including noisy flight/snare and Quietus per-waypoint speed. Drones remain fixed-speed. Actual clustered-target tap error is now being fixed on its own branch; root reviews the proposal.
+- **Physical torpedo and route programming:** integrated and published, including noisy flight/snare and Quietus per-waypoint speed. Drones remain fixed-speed. Clustered-target tap correction is reviewed and locally integrated: explicit S# FIRE guides, stable intended contact and no spending on ambiguous body taps.
 - **Terrain acoustics:** integrated speed footprint and geometry arrivals. Thermal staging is now in a separate implementation branch, with explicit preservation of camera/terrain and visible beam warnings. Reflections and travel time remain open.
 - **Native validation:** run39288954098 passed signing/full tests/APK build but failed native smoke; all four artifacts and14cover views are inspected. Failure was a stale secondary checklist, now corrected with targeted tests and original-metrics replay; inner/lifecycle checks remain unreached. No retrieval rerun or broad acceptance claim.
 

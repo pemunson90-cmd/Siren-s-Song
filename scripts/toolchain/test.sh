@@ -81,5 +81,6 @@ acoustic_path_affected_tests|AFFECTED ACOUSTIC
 acoustic_path_ui_tests|ACOUSTIC PATH UI
 knockdown_scenarios|KNOCKDOWN
 knockdown_ui_scenarios|KNOCKDOWN UI
+torpedo_aim_ui_tests|TORPEDO AIM
 tactics_composition_tests|TACTICS COMPOSITION
 TACTICAL_SCENARIOS
