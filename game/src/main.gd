@@ -160,6 +160,7 @@ func _layout(cancel_gesture:bool=true) -> void:
 	if route_editor!=null and route_editor.visible: route_editor.configure(size,h)
 	call_deferred("_report_targets")
 func _start_mission(index: int) -> void:
+	_retain_chart_notes()
 	diagnostic_ready=""; diagnostic_records.clear(); diagnostic_roles.clear(); diagnostic_role_route_ready=false; map_gesture.cancel(); advanced_orders=false; knock_armed=false; ocean.knock_targeting=false; decoy_armed=false; ocean.decoy_targeting=false
 	call_deferred("_layout")
 	if route_editor!=null: route_editor.hide()
@@ -501,8 +502,12 @@ func _archive() -> Dictionary:
 	return data
 func _save_archive() -> void:
 	if not capture_scenario.is_empty() or sim.mission==null: return
+	_retain_chart_notes()
 	if store.save(_archive()): print("SS_SAVE ok mission=",mission_index," time=",snappedf(sim.elapsed,0.01)," paused=",sim.paused," completed=",completed," unlocked=",unlocked)
 	else: sim.message=store.warning
+func _retain_chart_notes()->void:
+	if sim.mission!=null and sim.mission.get("delivery_revision",0)==1:
+		expedition=ExpeditionCampaign.recover(expedition,sim.mission)
 func _load_archive() -> void:
 	var saved=store.load_game()
 	if not saved.is_empty():
