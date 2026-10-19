@@ -41,6 +41,7 @@ var map_gesture=preload("res://src/input/map_gesture.gd").new()
 var zoom_buttons: Array=[]
 var advanced_button: Button
 var advanced_orders:=false
+var knock_armed:=false
 var ui_touch_height:=48.0
 var mission_row_heights:=Vector3.ZERO
 var mission_reflow_pending:=false
@@ -64,7 +65,7 @@ func _ready() -> void:
 	for i in 3:
 		var id=i
 		unit_buttons.append(_button(hud,["QUIETUS","DRONE A","DRONE B"][i],func(): _order("select",{"unit":id})))
-	var orders=[["ping","SONAR"],["camera","CAMERA"],["silent","SILENT"],["queue","+ QUEUE"],["hold","HOLD"],["emp","DISRUPT"],["decoy","DECOY"],["recon","SURVEY"],["contact_hold","IF CONTACT"],["wait_drone","WAIT DRONE"],["waypoint_mode","WAYPOINT: PASS"]]
+	var orders=[["ping","SONAR"],["camera","CAMERA"],["silent","SILENT"],["queue","+ QUEUE"],["hold","HOLD"],["emp","DISRUPT"],["decoy","DECOY"],["recon","SURVEY"],["knock","KNOCK"],["contact_hold","IF CONTACT"],["wait_drone","WAIT DRONE"],["waypoint_mode","WAYPOINT: PASS"]]
 	for o in orders:
 		var order=o[0]
 		order_buttons[order]=_button(hud,o[1],func(): _order(order))
@@ -180,7 +181,7 @@ func _layout(cancel_gesture: bool=true) -> void:
 		unit_buttons[i].position=panel.position+Vector2(i*(panel.size.x+gap)/3,mission_row_heights.x+gap)
 		unit_buttons[i].custom_minimum_size=Vector2(0,h); unit_buttons[i].size=Vector2((panel.size.x-2*gap)/3,mission_row_heights.y)
 	var primary=["ping","camera","silent","queue","hold","emp","home","menu"]
-	var secondary=["recon","decoy","contact_hold","wait_drone","waypoint_mode","emp","camera","home"]
+	var secondary=["recon","decoy","contact_hold","wait_drone","waypoint_mode","emp","knock","home"]
 	var keys=secondary if advanced_orders else primary
 	var start=panel.position+Vector2(0,mission_row_heights.x+mission_row_heights.y+2*gap)
 	for key in order_buttons:
@@ -197,11 +198,19 @@ func _layout(cancel_gesture: bool=true) -> void:
 		for slider in menu.find_children("*","Slider",true,false): slider.custom_minimum_size.y=h
 	call_deferred("_report_targets")
 func _start_mission(index: int) -> void:
-	diagnostic_ready=""; diagnostic_records.clear(); diagnostic_roles.clear(); diagnostic_role_route_ready=false; map_gesture.cancel(); ocean.fit_chart(); advanced_orders=false
+	diagnostic_ready=""; diagnostic_records.clear(); diagnostic_roles.clear(); diagnostic_role_route_ready=false; map_gesture.cancel(); ocean.fit_chart(); advanced_orders=false; knock_armed=false; ocean.knock_targeting=false
 	call_deferred("_layout")
 	active_started=true; mission_index=index; sim.start(index,upgrade); ocean.sim=sim; screen="mission"; menu.hide(); hud.show(); _refresh()
 func _order(order: String,args: Dictionary={}) -> void:
+	if order=="knock" and not args.has("target"):
+		map_gesture.cancel()
+		if sim.selected==0 and sim.units[0].alive and sim.tools.get("knock",0)>0 and sim.outcome.is_empty(): knock_armed=not knock_armed
+		else: knock_armed=false; sim.message="Knockdown: Quietus launcher or torpedoes unavailable."
+		_refresh(); return
+	var aiming=knock_armed
+	knock_armed=false; ocean.knock_targeting=false
 	var accepted=sim.command(order,args)
+	if order=="knock" and not accepted: knock_armed=aiming
 	print("SS_ORDER ",order," accepted=",accepted," selected=",sim.selected," queued=",sim.queue_mode)
 	_refresh(); _save_archive()
 	if accepted and order=="camera": call_deferred("_report_targets")
@@ -220,6 +229,8 @@ func _process(dt: float) -> void:
 		if not sim.outcome.is_empty(): _debrief()
 		_refresh()
 func _refresh() -> void:
+	if knock_armed and (screen!="mission" or sim.selected!=0 or not sim.units[0].alive or not sim.outcome.is_empty()): knock_armed=false
+	ocean.knock_targeting=knock_armed
 	title_label.text="SIREN'S SONG    /    %02d  %s"%[mission_index+1,sim.mission.title.to_upper()]
 	status_label.text="DEPTH %dm    O₂ %03d%%    HULL %03d%%    RECORDS %d / %d    %s"%[sim.mission.depth,int(sim.oxygen),int(sim.hull),sim.mission.objectives.filter(func(o): return o.captured).size(),sim.mission.objectives.size(),"TACTICAL PAUSE" if sim.paused else "REAL TIME"]
 	pause_button.text="▶ RESUME" if sim.paused else "Ⅱ PAUSE"
@@ -237,6 +248,8 @@ func _refresh() -> void:
 	order_buttons.camera.text="SAMPLE" if sim.mission.get("blackwater_revision",0)==1 else "CAMERA\nLISTEN" if sim.mission.get("finale_revision",0)==1 else ("CAMERA\nLINK" if mission_index==1 else "CAMERA")
 	order_buttons.queue.text="+ QUEUE ON" if sim.queue_mode else "REPLACE"
 	order_buttons.silent.text="SILENT ✓" if sim.units[sim.selected].silent else "CRUISE"
+	order_buttons.knock.text="CANCEL\nTORPEDO" if knock_armed else "TORPEDO\n%d"%sim.tools.get("knock",0)
+	order_buttons.knock.disabled=not knock_armed and (sim.selected!=0 or not sim.units[0].alive or sim.tools.get("knock",0)<=0)
 	order_buttons.emp.text="DISRUPT\n%d"%sim.tools.emp
 	order_buttons.decoy.text="DECOY\n%d"%sim.tools.decoy
 	order_buttons.recon.text="SURVEY\n%d"%sim.tools.recon
@@ -250,7 +263,9 @@ func _refresh() -> void:
 	order_buttons.wait_drone.text="WAIT\nDRONE"
 	var mode="ADD TO ROUTE" if sim.queue_mode else "REPLACE ROUTE"
 	detail_label.text="%s · %s · %s"%[sim.units[sim.selected].name.to_upper(),mode,sim.camera_context().text]
+	if knock_armed: detail_label.text="TORPEDO · QUIETUS · 150m · noisy flight · impact pins 8s · tap fresh S# · CANCEL"
 func _toggle_advanced() -> void:
+	if advanced_orders: knock_armed=false; ocean.knock_targeting=false
 	advanced_orders=not advanced_orders; _layout(); _refresh()
 
 func _input(event: InputEvent) -> void:
@@ -283,9 +298,19 @@ func _map_event(event: InputEvent,local_event: bool=false) -> bool:
 	if action.has("pan"): ocean.pan_chart(action.pan)
 	if action.get("navigation",false): _view_changed()
 	if action.has("tap") and ocean.get_global_rect().has_point(action.tap):
+		if knock_armed:
+			_target_knockdown(action.tap); return true
 		var world=ocean.map_position(action.tap-ocean.global_position)
 		if Rect2(0,0,1600,960).has_point(world): _order("route",{"point":world})
 	return true
+func _target_knockdown(point: Vector2) -> void:
+	var chosen=-1; var distance=ui_touch_height*0.5
+	for c in sim.knockdown_targets():
+		var d=point.distance_to(ocean.screen_position(c.pos)+ocean.global_position)
+		if d<=distance: distance=d; chosen=c.key
+	if chosen<0:
+		sim.message="No fresh Siren there within 150m · no torpedo spent"; _refresh(); return
+	_order("knock",{"target":chosen})
 func _chart_zoom(factor: float) -> void:
 	map_gesture.cancel(); ocean.zoom_at(factor,ocean.size/2); _view_changed()
 func _view_changed() -> void:
@@ -296,7 +321,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		if event.keycode==KEY_SPACE: _pause()
 		if event.keycode==KEY_ESCAPE: sim.paused=true; _show_campaign()
 func _clear_menu() -> void:
-	map_gesture.cancel()
+	knock_armed=false; ocean.knock_targeting=false; map_gesture.cancel()
 	for button in zoom_buttons: button.hide()
 	for parent in [panel_box,menu_footer]:
 		for c in parent.get_children(): c.queue_free(); parent.remove_child(c)
@@ -452,7 +477,7 @@ func _settings_menu() -> void:
 func _notification(what: int) -> void:
 	if what in [NOTIFICATION_APPLICATION_PAUSED,NOTIFICATION_APPLICATION_FOCUS_OUT,NOTIFICATION_WM_WINDOW_FOCUS_OUT]:
 		if sim.mission!=null:
-			map_gesture.cancel()
+			knock_armed=false; ocean.knock_targeting=false; map_gesture.cancel()
 			sim.paused=true; _save_archive()
 			if sound!=null: sound.suspend()
 			print("SS_LIFECYCLE suspended paused=true")

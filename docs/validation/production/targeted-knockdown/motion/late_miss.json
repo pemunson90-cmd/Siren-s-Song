@@ -1,0 +1,684 @@
+{
+  "camera": "ordinary2x zoom and initial own-position pan only; fixed throughoutclip; programmatic notOSgesture",
+  "commands": [
+    {
+      "accepted": true,
+      "args": "{ \"point\": (820.0, 520.0) }",
+      "frame": -1,
+      "name": "route",
+      "time": 6.89999999999998
+    },
+    {
+      "accepted": true,
+      "args": "{ \"point\": (420.0, 580.0) }",
+      "frame": 15,
+      "name": "emergency",
+      "time": 7.89999999999998
+    },
+    {
+      "accepted": true,
+      "args": "{ \"target\": 1 }",
+      "frame": 39,
+      "name": "knock",
+      "time": 9.50000000000005
+    }
+  ],
+  "commands_during_clip": 2,
+  "final": {
+    "angle": -3.25240904489626,
+    "contacts": [
+      {
+        "age": 0.0500000000000025,
+        "id": 1,
+        "lock": 9.51666666666672,
+        "mode": "BEAM",
+        "pin_time": 0,
+        "position": "(621.3094, 622.6826)",
+        "type": "hunter"
+      }
+    ],
+    "hull": 0.0,
+    "message": "Quietus lost. Your previous campaign records remain safe.",
+    "outcome": "lost",
+    "oxygen": 99.1314814814808,
+    "paused": false,
+    "position": "(427.0588, 579.2146)",
+    "projectiles": [],
+    "route": [],
+    "screen": "debrief",
+    "time": 15.6333333333337,
+    "tools": {
+      "decoy": 3,
+      "emp": 3,
+      "knock": 1,
+      "recon": 2
+    },
+    "velocity": "(0.0, 0.0)"
+  },
+  "fps": 15,
+  "frames": 240,
+  "initial": {
+    "angle": -0.390700191259384,
+    "contacts": [
+      {
+        "age": 0.0499999999999998,
+        "id": 1,
+        "lock": 0.783333333333334,
+        "mode": "LOCKING",
+        "pin_time": 0,
+        "position": "(770.243, 651.6971)",
+        "type": "hunter"
+      }
+    ],
+    "hull": 100.0,
+    "message": "QUIETUS · replaced route",
+    "outcome": "",
+    "oxygen": 99.6166666666664,
+    "paused": false,
+    "position": "(571.2907, 622.4368)",
+    "projectiles": [],
+    "route": [
+      {
+        "pos": "(820.0, 520.0)",
+        "stop": true
+      }
+    ],
+    "screen": "mission",
+    "time": 6.89999999999998,
+    "tools": {
+      "decoy": 3,
+      "emp": 3,
+      "knock": 2,
+      "recon": 2
+    },
+    "velocity": "(72.12212, -29.7052)"
+  },
+  "restored_snapshot_hash": "9d8ac2b8d8f3d566406010593a003a07f03e46c87a60fe87be0688b51a946db9",
+  "samples": [
+    {
+      "angle": -0.390700131654739,
+      "contacts": [
+        {
+          "age": 0.0499999999999998,
+          "id": 1,
+          "lock": 0.850000000000001,
+          "mode": "LOCKING",
+          "pin_time": 0,
+          "position": "(766.8461, 652.2225)",
+          "type": "hunter"
+        }
+      ],
+      "frame": 0,
+      "hull": 100.0,
+      "message": "QUIETUS · replaced route",
+      "outcome": "",
+      "oxygen": 99.6129629629627,
+      "paused": false,
+      "position": "(576.0988, 620.4564)",
+      "projectiles": [],
+      "route": [
+        {
+          "pos": "(820.0, 520.0)",
+          "stop": true
+        }
+      ],
+      "screen": "mission",
+      "time": 6.96666666666665,
+      "tools": {
+        "decoy": 3,
+        "emp": 3,
+        "knock": 2,
+        "recon": 2
+      },
+      "velocity": "(72.12212, -29.7052)"
+    },
+    {
+      "angle": -0.51070001244545,
+      "contacts": [
+        {
+          "age": 0.0499999999999998,
+          "id": 1,
+          "lock": 1.85,
+          "mode": "LOCKING",
+          "pin_time": 0,
+          "position": "(738.029, 656.6799)",
+          "type": "hunter"
+        }
+      ],
+      "frame": 15,
+      "hull": 100.0,
+      "message": "QUIETUS · replaced route",
+      "outcome": "",
+      "oxygen": 99.5574074074071,
+      "paused": false,
+      "position": "(648.1125, 590.7959)",
+      "projectiles": [],
+      "route": [
+        {
+          "pos": "(420.0, 580.0)",
+          "stop": true
+        }
+      ],
+      "screen": "mission",
+      "time": 7.96666666666664,
+      "tools": {
+        "decoy": 3,
+        "emp": 3,
+        "knock": 2,
+        "recon": 2
+      },
+      "velocity": "(69.53314, -28.63885)"
+    },
+    {
+      "angle": -2.31070001244545,
+      "contacts": [
+        {
+          "age": 0.0500000000000025,
+          "id": 1,
+          "lock": 2.84999999999999,
+          "mode": "LOCKING",
+          "pin_time": 0,
+          "position": "(737.2463, 656.801)",
+          "type": "hunter"
+        }
+      ],
+      "frame": 30,
+      "hull": 100.0,
+      "message": "QUIETUS · replaced route",
+      "outcome": "",
+      "oxygen": 99.5018518518515,
+      "paused": false,
+      "position": "(697.9046, 570.2878)",
+      "projectiles": [],
+      "route": [
+        {
+          "pos": "(420.0, 580.0)",
+          "stop": true
+        }
+      ],
+      "screen": "mission",
+      "time": 8.96666666666669,
+      "tools": {
+        "decoy": 3,
+        "emp": 3,
+        "knock": 2,
+        "recon": 2
+      },
+      "velocity": "(30.69811, -12.64376)"
+    },
+    {
+      "angle": -3.21931988397707,
+      "contacts": [
+        {
+          "age": 0.0500000000000025,
+          "id": 1,
+          "lock": 3.84999999999999,
+          "mode": "LOCKING",
+          "pin_time": 0,
+          "position": "(737.2463, 656.801)",
+          "type": "hunter"
+        }
+      ],
+      "frame": 45,
+      "hull": 100.0,
+      "message": "Torpedo launched at S2 · pin on impact · emission audible",
+      "outcome": "",
+      "oxygen": 99.4462962962959,
+      "paused": false,
+      "position": "(707.7084, 557.4211)",
+      "projectiles": [
+        {
+          "aim": "(737.2463, 656.801)",
+          "angle": -4.60045477548708,
+          "life": 2.53333333333333,
+          "noise_clock": 0.183333333333333,
+          "pos": "(653.5192, 617.3782)",
+          "target": 1
+        }
+      ],
+      "route": [
+        {
+          "pos": "(420.0, 580.0)",
+          "stop": true
+        }
+      ],
+      "screen": "mission",
+      "time": 9.96666666666674,
+      "tools": {
+        "decoy": 3,
+        "emp": 3,
+        "knock": 1,
+        "recon": 2
+      },
+      "velocity": "(-10.42973, -9.443208)"
+    },
+    {
+      "angle": -3.24593574205507,
+      "contacts": [
+        {
+          "age": 0.0500000000000025,
+          "id": 1,
+          "lock": 4.84999999999999,
+          "mode": "BEAM",
+          "pin_time": 0,
+          "position": "(737.2463, 656.801)",
+          "type": "hunter"
+        }
+      ],
+      "frame": 60,
+      "hull": 83.8000000000002,
+      "message": "Torpedo launched at S2 · pin on impact · emission audible",
+      "outcome": "",
+      "oxygen": 99.3907407407403,
+      "paused": false,
+      "position": "(676.5432, 553.0585)",
+      "projectiles": [
+        {
+          "aim": "(737.2463, 656.801)",
+          "angle": -7.60045477548707,
+          "life": 1.53333333333334,
+          "noise_clock": 0.05,
+          "pos": "(771.7451, 636.1822)",
+          "target": 1
+        }
+      ],
+      "route": [
+        {
+          "pos": "(420.0, 580.0)",
+          "stop": true
+        }
+      ],
+      "screen": "mission",
+      "time": 10.9666666666668,
+      "tools": {
+        "decoy": 3,
+        "emp": 3,
+        "knock": 1,
+        "recon": 2
+      },
+      "velocity": "(-51.14912, 0.836097)"
+    },
+    {
+      "angle": -3.25241023698916,
+      "contacts": [
+        {
+          "age": 0.0500000000000025,
+          "id": 1,
+          "lock": 5.84999999999998,
+          "mode": "BEAM",
+          "pin_time": 0,
+          "position": "(737.2463, 656.801)",
+          "type": "hunter"
+        }
+      ],
+      "frame": 75,
+      "hull": 65.8000000000003,
+      "message": "Torpedo launched at S2 · pin on impact · emission audible",
+      "outcome": "",
+      "oxygen": 99.3351851851847,
+      "paused": false,
+      "position": "(607.4206, 559.145)",
+      "projectiles": [
+        {
+          "aim": "(737.2463, 656.801)",
+          "angle": -10.6004547754871,
+          "life": 0.533333333333339,
+          "noise_clock": 0.133333333333333,
+          "pos": "(657.3562, 600.8821)",
+          "target": 1
+        }
+      ],
+      "route": [
+        {
+          "pos": "(420.0, 580.0)",
+          "stop": true
+        }
+      ],
+      "screen": "mission",
+      "time": 11.9666666666668,
+      "tools": {
+        "decoy": 3,
+        "emp": 3,
+        "knock": 1,
+        "recon": 2
+      },
+      "velocity": "(-77.52155, 8.626086)"
+    },
+    {
+      "angle": -3.25241023698916,
+      "contacts": [
+        {
+          "age": 0.0500000000000025,
+          "id": 1,
+          "lock": 6.84999999999998,
+          "mode": "BEAM",
+          "pin_time": 0,
+          "position": "(735.8257, 656.0941)",
+          "type": "hunter"
+        }
+      ],
+      "frame": 90,
+      "hull": 47.8000000000005,
+      "message": "Torpedo run ended · shot spent",
+      "outcome": "",
+      "oxygen": 99.2796296296291,
+      "paused": false,
+      "position": "(529.8974, 567.7713)",
+      "projectiles": [],
+      "route": [
+        {
+          "pos": "(420.0, 580.0)",
+          "stop": true
+        }
+      ],
+      "screen": "mission",
+      "time": 12.9666666666669,
+      "tools": {
+        "decoy": 3,
+        "emp": 3,
+        "knock": 1,
+        "recon": 2
+      },
+      "velocity": "(-77.52155, 8.626086)"
+    },
+    {
+      "angle": -3.25241095224489,
+      "contacts": [
+        {
+          "age": 0.716666666666702,
+          "id": 1,
+          "lock": 7.18333333333331,
+          "mode": "BEAM",
+          "pin_time": 0,
+          "position": "(730.2327, 653.4672)",
+          "type": "hunter"
+        }
+      ],
+      "frame": 105,
+      "hull": 29.8000000000006,
+      "message": "Torpedo run ended · shot spent",
+      "outcome": "",
+      "oxygen": 99.2240740740735,
+      "paused": false,
+      "position": "(461.9293, 575.3344)",
+      "projectiles": [],
+      "route": [
+        {
+          "pos": "(420.0, 580.0)",
+          "stop": true
+        }
+      ],
+      "screen": "mission",
+      "time": 13.9666666666669,
+      "tools": {
+        "decoy": 3,
+        "emp": 3,
+        "knock": 1,
+        "recon": 2
+      },
+      "velocity": "(-51.96852, 5.782752)"
+    },
+    {
+      "angle": -3.25240904489626,
+      "contacts": [
+        {
+          "age": 0.0500000000000025,
+          "id": 1,
+          "lock": 8.85000000000002,
+          "mode": "BEAM",
+          "pin_time": 0,
+          "position": "(649.6567, 629.0684)",
+          "type": "hunter"
+        }
+      ],
+      "frame": 120,
+      "hull": 11.8000000000006,
+      "message": "Torpedo run ended · shot spent",
+      "outcome": "",
+      "oxygen": 99.1685185185179,
+      "paused": false,
+      "position": "(427.8857, 579.1226)",
+      "projectiles": [],
+      "route": [
+        {
+          "pos": "(420.0, 580.0)",
+          "stop": true
+        }
+      ],
+      "screen": "mission",
+      "time": 14.966666666667,
+      "tools": {
+        "decoy": 3,
+        "emp": 3,
+        "knock": 1,
+        "recon": 2
+      },
+      "velocity": "(-13.65586, 1.519517)"
+    },
+    {
+      "angle": -3.25240904489626,
+      "contacts": [
+        {
+          "age": 0.0500000000000025,
+          "id": 1,
+          "lock": 9.51666666666672,
+          "mode": "BEAM",
+          "pin_time": 0,
+          "position": "(621.3094, 622.6826)",
+          "type": "hunter"
+        }
+      ],
+      "frame": 135,
+      "hull": 0.0,
+      "message": "Quietus lost. Your previous campaign records remain safe.",
+      "outcome": "lost",
+      "oxygen": 99.1314814814808,
+      "paused": false,
+      "position": "(427.0588, 579.2146)",
+      "projectiles": [],
+      "route": [],
+      "screen": "debrief",
+      "time": 15.6333333333337,
+      "tools": {
+        "decoy": 3,
+        "emp": 3,
+        "knock": 1,
+        "recon": 2
+      },
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "angle": -3.25240904489626,
+      "contacts": [
+        {
+          "age": 0.0500000000000025,
+          "id": 1,
+          "lock": 9.51666666666672,
+          "mode": "BEAM",
+          "pin_time": 0,
+          "position": "(621.3094, 622.6826)",
+          "type": "hunter"
+        }
+      ],
+      "frame": 150,
+      "hull": 0.0,
+      "message": "Quietus lost. Your previous campaign records remain safe.",
+      "outcome": "lost",
+      "oxygen": 99.1314814814808,
+      "paused": false,
+      "position": "(427.0588, 579.2146)",
+      "projectiles": [],
+      "route": [],
+      "screen": "debrief",
+      "time": 15.6333333333337,
+      "tools": {
+        "decoy": 3,
+        "emp": 3,
+        "knock": 1,
+        "recon": 2
+      },
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "angle": -3.25240904489626,
+      "contacts": [
+        {
+          "age": 0.0500000000000025,
+          "id": 1,
+          "lock": 9.51666666666672,
+          "mode": "BEAM",
+          "pin_time": 0,
+          "position": "(621.3094, 622.6826)",
+          "type": "hunter"
+        }
+      ],
+      "frame": 165,
+      "hull": 0.0,
+      "message": "Quietus lost. Your previous campaign records remain safe.",
+      "outcome": "lost",
+      "oxygen": 99.1314814814808,
+      "paused": false,
+      "position": "(427.0588, 579.2146)",
+      "projectiles": [],
+      "route": [],
+      "screen": "debrief",
+      "time": 15.6333333333337,
+      "tools": {
+        "decoy": 3,
+        "emp": 3,
+        "knock": 1,
+        "recon": 2
+      },
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "angle": -3.25240904489626,
+      "contacts": [
+        {
+          "age": 0.0500000000000025,
+          "id": 1,
+          "lock": 9.51666666666672,
+          "mode": "BEAM",
+          "pin_time": 0,
+          "position": "(621.3094, 622.6826)",
+          "type": "hunter"
+        }
+      ],
+      "frame": 180,
+      "hull": 0.0,
+      "message": "Quietus lost. Your previous campaign records remain safe.",
+      "outcome": "lost",
+      "oxygen": 99.1314814814808,
+      "paused": false,
+      "position": "(427.0588, 579.2146)",
+      "projectiles": [],
+      "route": [],
+      "screen": "debrief",
+      "time": 15.6333333333337,
+      "tools": {
+        "decoy": 3,
+        "emp": 3,
+        "knock": 1,
+        "recon": 2
+      },
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "angle": -3.25240904489626,
+      "contacts": [
+        {
+          "age": 0.0500000000000025,
+          "id": 1,
+          "lock": 9.51666666666672,
+          "mode": "BEAM",
+          "pin_time": 0,
+          "position": "(621.3094, 622.6826)",
+          "type": "hunter"
+        }
+      ],
+      "frame": 195,
+      "hull": 0.0,
+      "message": "Quietus lost. Your previous campaign records remain safe.",
+      "outcome": "lost",
+      "oxygen": 99.1314814814808,
+      "paused": false,
+      "position": "(427.0588, 579.2146)",
+      "projectiles": [],
+      "route": [],
+      "screen": "debrief",
+      "time": 15.6333333333337,
+      "tools": {
+        "decoy": 3,
+        "emp": 3,
+        "knock": 1,
+        "recon": 2
+      },
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "angle": -3.25240904489626,
+      "contacts": [
+        {
+          "age": 0.0500000000000025,
+          "id": 1,
+          "lock": 9.51666666666672,
+          "mode": "BEAM",
+          "pin_time": 0,
+          "position": "(621.3094, 622.6826)",
+          "type": "hunter"
+        }
+      ],
+      "frame": 210,
+      "hull": 0.0,
+      "message": "Quietus lost. Your previous campaign records remain safe.",
+      "outcome": "lost",
+      "oxygen": 99.1314814814808,
+      "paused": false,
+      "position": "(427.0588, 579.2146)",
+      "projectiles": [],
+      "route": [],
+      "screen": "debrief",
+      "time": 15.6333333333337,
+      "tools": {
+        "decoy": 3,
+        "emp": 3,
+        "knock": 1,
+        "recon": 2
+      },
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "angle": -3.25240904489626,
+      "contacts": [
+        {
+          "age": 0.0500000000000025,
+          "id": 1,
+          "lock": 9.51666666666672,
+          "mode": "BEAM",
+          "pin_time": 0,
+          "position": "(621.3094, 622.6826)",
+          "type": "hunter"
+        }
+      ],
+      "frame": 225,
+      "hull": 0.0,
+      "message": "Quietus lost. Your previous campaign records remain safe.",
+      "outcome": "lost",
+      "oxygen": 99.1314814814808,
+      "paused": false,
+      "position": "(427.0588, 579.2146)",
+      "projectiles": [],
+      "route": [],
+      "screen": "debrief",
+      "time": 15.6333333333337,
+      "tools": {
+        "decoy": 3,
+        "emp": 3,
+        "knock": 1,
+        "recon": 2
+      },
+      "velocity": "(0.0, 0.0)"
+    }
+  ],
+  "take": "late_miss"
+}

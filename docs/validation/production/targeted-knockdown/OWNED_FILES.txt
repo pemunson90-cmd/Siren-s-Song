@@ -1,0 +1,10 @@
+game/src/audio/soundscape.gd
+game/src/main.gd
+game/src/presentation/acoustic_feedback.gd
+game/src/presentation/ocean_view.gd
+game/src/simulation/simulation.gd
+game/tests/density_scenarios.gd
+game/tests/knockdown_scenarios.gd
+game/tests/knockdown_scenarios.gd.uid
+game/tests/knockdown_ui_scenarios.gd
+docs/validation/production/targeted-knockdown/

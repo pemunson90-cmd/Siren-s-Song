@@ -8,7 +8,7 @@ static func rows(feedback: Dictionary) -> Array:
 		else:pulses.append(n)
 	var tool_text="none"
 	if pulses.size()==1:
-		tool_text="%s %ds"%[{"ACTIVE SONAR":"SONAR","RECON UPLINK":"SURVEY","DISRUPTION":"DISRUPT","CAMERA":"CAMERA"}[pulses[0].label],ceili(pulses[0].time)]
+		tool_text="%s %ds"%[{"ACTIVE SONAR":"SONAR","RECON UPLINK":"SURVEY","DISRUPTION":"DISRUPT","CAMERA":"CAMERA","KNOCKDOWN":"KNOCK","TORPEDO RUN":"TORPEDO"}[pulses[0].label],ceili(pulses[0].time)]
 	elif not pulses.is_empty():
 		var remaining=0.0
 		for n in pulses:remaining=maxf(remaining,n.time)

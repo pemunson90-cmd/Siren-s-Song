@@ -1,0 +1,42 @@
+{
+  "baseline": "bd8f1a5a4065fe71f8753e73eae15b19ef188b71",
+  "source_sha256": {
+    "game/src/audio/soundscape.gd": "c8e57b3062eda76f04254d4b5f0be7ff406e259d0bddd5ba49233a2a88ec700d",
+    "game/src/main.gd": "a9ef72faa49f463f3204da566eda832aab8867044b5987bd124ce54cf7b67752",
+    "game/src/presentation/acoustic_feedback.gd": "9b551fac36ad5f8594b9225a8dd3ca747a20b4aff33789122225dae132304502",
+    "game/src/presentation/ocean_view.gd": "bf1fef9047a255ac0ce420f9255dcbb110bac329a622d2e71a01c467a161e246",
+    "game/src/simulation/simulation.gd": "eadf07a2a6e37e459e91046ea71598df329ff62718be5310ce01086ce67f9625",
+    "game/tests/density_scenarios.gd": "12872d30ce72b1016158dccf341651870858a908aac7f50b630505c79ee5b94d",
+    "game/tests/knockdown_scenarios.gd": "c5b8aacd8520327a7d70b3a8b6c216771fa44d8148b750528675aef433b46221",
+    "game/tests/knockdown_ui_scenarios.gd": "77b89b7a7a5b11c0c3e8e77b84d86bbc2ac33dd782c5b354243cdea5b4d89118"
+  },
+  "snapshot_bytes_sha256": "f1928169f72b1b313877ca018a4a536d8a9f4fe5ce0e2c18d40f854baa4bc47d",
+  "main_before_armed_copy_sha256": "975d3b16386073ac8deb535b91bb1c17ec51d6bf768a8317c69b54d2730ba9e5",
+  "media_sha256": {
+    "motion/emp-contact.png": "37b04bdb9c3623b7aa0e9a73afe2928f58158becb43f9b96ee4a6cec1528244a",
+    "motion/emp.mp4": "25096122047b26078658c369153386e45f075d5c40ecd66776a67223dae156ce",
+    "motion/flight-contact.png": "e14269ce70d32daa08228069573b56b2d4750dccf684867ca8d91c750d434f54",
+    "motion/frames/torpedo-01.png": "4bd348f2c7d3d0f68e4ea609a3cb5881b3c39ce21764471b2bb4732daa021a50",
+    "motion/frames/torpedo-02.png": "ed7d9fea3880bb59d5cce462a7d97f9db274c476b6ba1dc79d87c3c78153d3ad",
+    "motion/frames/torpedo-03.png": "ce03b459b7347f61acb14a9b6888529e015d6a4f655f74dbbdfe31d2b10bf03a",
+    "motion/frames/torpedo-04.png": "0f6d071ee0ec6f5586b46624b5aba1fa8c367839b7686b4d833e44db92c524bc",
+    "motion/frames/torpedo-05.png": "13f03a4199f24141b43bff3062614db0c5f8498179365a1687fa7370e0f31371",
+    "motion/frames/torpedo-06.png": "d08fd74c7ec63435c2e3574a95ee7171c1d3ff58ce40c5f36f85f4f746be2f78",
+    "motion/frames/torpedo-07.png": "485191180b2f0262ff2bfa7fa6b00df2c8493c89087e88b4153d13ed9ae873a0",
+    "motion/frames/torpedo-08.png": "c033afede968a27f1dd613b54856868141529bdb941f1f0f0e447f9c3c3cb9a3",
+    "motion/idle-contact.png": "059bf1135bedcbde402aaf651b1e2f7705cbd18082f75b3ece1ded4e2dbd3059",
+    "motion/idle.mp4": "5e883ce017a3461e7bf83f1f09556662cb15c42ebb85c178f47eeb46d94241d0",
+    "motion/late-miss-contact.png": "40c59a36676345de200530e691d6f5ece9ab7d6d7ea373c9ea7b25c02406540c",
+    "motion/late_miss.mp4": "230818edb9a61dfccdfa30c1db9059285218ca8ad7d09c1a7d93d682a379e636",
+    "motion/torpedo-contact.png": "9d2d9b0a2854599765f58b98e5dd1532120e636c3c5bc32823c30350b4bc31ba",
+    "motion/torpedo.mp4": "a4355e71734992239dd1e342a0efdc03cd2e9e4f02a8aca5c74bba657b754622",
+    "ui/cover-launched.png": "3ec63cba91df505b81b1fdd5ab03616f01f8ded9114311a5d1bcdcc2d0c2b34c",
+    "ui/cover-targeting.png": "bd86a7a988d8d99d5ab675c0b62c327835e9bcc3c85485673f2211c6add815a6",
+    "ui/desktop-launched.png": "e629a27dff9d98f82e21fdb007f7418e71a222b0638a8a1c1aca72c5da43ffc4",
+    "ui/desktop-targeting.png": "3001ae720162aa6a73d7b298a10c5d55cdd8530d0876cc89def43b820825906f",
+    "ui/inner-launched.png": "91e2efc4626a9c58cc8a6cc64f3d2fbb9582a01e19a540528f12e23e2c74d7d7",
+    "ui/inner-targeting.png": "addca5e7d6adbf090ac61835bf85e22cb307418add9fcced88536c5064a58ebb"
+  },
+  "simulation_before_expiry_footer_sha256": "9c61d0c73ba73163248c6b97b598e8a10744e7f45df87836fe3b485661ad25df",
+  "capture_source_note": "torpedo/idle/emp simulation differs from final only by the later own-projectile-expiry footer; none of those takes has an expiring projectile. Final late_miss uses exact final simulation. Armed-mode main explanation alone changed during serial capture; first torpedo uses prior wording, later runs may use final. None arms the UI, so the changed explanation is not shown. Six final UI views use final armed explanation and pre-expiry-footer simulation; no projectile expires in those paused fixtures. No other runtime source bytes changed during capture."
+}
