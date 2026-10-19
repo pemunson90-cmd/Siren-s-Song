@@ -108,6 +108,19 @@ func _initialize():
  check(over.command("camera") and over.capture_unit==0 and over.capture_time==0 and over.units[1].task_run.phase=="blocked" and over.selected==0,"manual override takes canonical channel and blocks automatic task without selection theft")
  step(over,30)
  check(over.capture_unit==0 and over.capture_time>0 and not over.mission.objectives[0].captured,"blocked automatic task does not steal manual channel back")
+ var manual=make();plan(manual)
+ for n in 1200:
+  step(manual,1)
+  if manual.capture_unit==1:break
+ manual.paused=true;manual.command("select",{"unit":1})
+ check(manual.command("camera") and manual.units[1].task_run.phase=="blocked","same-craft manual takeover leaves obsolete task blocked")
+ manual.paused=false
+ for n in 3:manual.advance(1./60)
+ manual.paused=true;var manual_clock=manual.capture_feedback().duplicate();var goals=manual.route_goals(1)
+ check(manual.command("route_edit",{"index":0,"task_site":""}) and manual.capture_feedback()==manual_clock and manual.units[1].hold=="HOLD","removing obsolete task preserves newer manual capture and its exact clock")
+ check(not manual.units[1].has("task_run") and not manual.route_goals(1)[0].has("task_site") and manual.route_goals(1)[0].pos==goals[0].pos and manual.route_goals(1)[1]==goals[1],"old task cleanup preserves STOP destination and queued withdrawal")
+ manual.paused=false;manual.advance(1./60)
+ check(manual.capture_unit==1 and manual.capture_time>manual_clock.elapsed,"newer manual operation continues after obsolete task cleanup")
  finish()
 func finish():
  print("OBSERVED TASK EXECUTION CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)

@@ -435,7 +435,7 @@ func _interrupt_task(unit_id:int,clear:bool=false)->void:
 	var u=units[unit_id]
 	if not u.has("task_run"):return
 	var running=u.task_run.get("phase","")=="running"
-	if capture_unit==unit_id:capture_unit=-1;capture_time=0.0
+	if running and capture_unit==unit_id:capture_unit=-1;capture_time=0.0
 	if clear:
 		u.erase("task_run")
 		if running and u.hold=="HOLD":u.hold=""
