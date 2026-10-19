@@ -32,7 +32,12 @@ static func feedback(sim)->Dictionary:
    if site.has("transmission_origin"):result["transmission_origin"]=site.transmission_origin
  return result
 static func valid(m:Dictionary,time:float=0.0)->bool:
- if m.id not in [12,13]:return not m.has("physical_gates")
+ if m.get("id",-1) not in [12,13]:return not m.has("physical_gates")
+ if not m.get("objectives") is Array or not m.get("signal_sources") is Array or not m.get("expedition_facts") is Dictionary or not m.get("signal_observations") is Array:return false
+ for site in m.objectives:
+  if not site is Dictionary or not site.get("captured") is bool:return false
+ for source in m.signal_sources:
+  if not source is Dictionary or not source.has_all(["id","located"]) or not source.located is bool:return false
  var baseline=Authored.make(m.id,m.get("launch_context",{}))
  if m.id==12:
   if not m.get("physical_gates") is Array or m.physical_gates.size()!=1 or not m.get("structures") is Array:return false
@@ -43,7 +48,7 @@ static func valid(m:Dictionary,time:float=0.0)->bool:
   if m.structures!=([] if gate.opened else [gate.closed_shape]):return false
  else:
   var senders=m.objectives.filter(func(o):return o.get("site_id","")=="warning_transmission")
-  var sources=m.signal_sources.filter(func(s):return s.id=="warning_reply")
+  var sources=m.signal_sources.filter(func(s):return s.get("id","")=="warning_reply")
   if senders.size()!=1 or sources.size()!=1:return false
   var sender=senders[0];var source=sources[0]
   if not own_origin(sender) or sender.get("origin_region")!=baseline.objectives[0].origin_region or sender.get("completion_enable_source","")!="warning_reply" or not source.get("active") is bool or (source.active and not sender.captured):return false
