@@ -1,45 +1,13 @@
-# Agent instructions — Siren's Song
+# Siren's Song — default-branch entry point
 
-Read `docs/START_HERE.md` and `docs/SOURCE_AUTHORITY.md` before substantial work. Consult the design bible and provenance sources when available.
+**ACTIVE DEVELOPMENT AUTHORITY: `gauntlet/production`.** This `main` branch is the repository's default entry and retained historical/source-import view, not the current game-production branch. New and resumed Codex/agent sessions must fetch `origin/gauntlet/production` first, read that ref's full `AGENTS.md`, `docs/CURRENT_GAME_SPEC.md`, `docs/SOURCE_AUTHORITY.md`, `docs/V7_TO_GODOT_PARITY.md`, `docs/CONTINUATION.md`, `docs/WORKBENCH.md`, and relevant design/visual handoffs, and work from the current production tip in an owned feature worktree. Do not develop on `main` or follow older instructions from this branch over current production policy.
 
-## Identity and design
+## Permanent Gauntlet invariant
 
-Siren's Song is an original Android-first 2D tactical stealth game. A single human pilot commands the USS Quietus and remote drones against technologically superior alien Sirens. Core tensions: perceiving exposes you; moving makes noise. Drones extend perception and attention is limited. The agreed working control direction is continuous real-time simulation with unlimited tactical pause, assisted navigation, queued waypoints and conditional orders.
+The Gauntlet is an ongoing **whole-game assessment → highest-value improvement → experience/review → reconciliation → next improvement** program. The **user alone** can declare the overall project finished. Worker/task/plan completion, a signed APK, six authored missions, passing tests, reviews, or perceived release quality **never** terminate it. On task completion the orchestrator must continue useful delegation in the same available session, even if an individual worker ends. When an actual usage/platform/session execution boundary prevents work, preserve precise checkpoint and next commands; label it **PAUSED — RESUME REQUIRED**, never complete. Repository instructions do not create background execution after a session has ended.
 
-The production game targets multiple missions, satisfying progression, compelling audio, and a distinctive visual identity. Treat old one-level and no-procedural-generation prototype constraints as historical scope decisions.
+## Required freshness and integration
 
-## Autonomy
+At **every task completion, dispatch, review, merge and resume boundary**, re-fetch production policies; compare active guidance and handoffs to completed work, accepted user decisions, owner status and next actions; automatically repair stale machine/status entries and compatible documentation; reconcile substantive conflicts under the source hierarchy; and perform a fresh staleness check before marking the task closed. Do not ask the user to maintain status documents manually. Protect workers' active edits. The sole integrator uses per-design feature branches and **one designated reviewer** per proposed merge; run focused checks routinely, native/broad validation at meaningful milestones. Completion of a documentation audit is not completion of the Gauntlet.
 
-Agents may propose and implement original mission design, progression, visuals, systems, tools, and technical architecture within the game's identity. Escalate changes that materially rewrite the premise, core player role, or established identity. Document significant creative decisions and provenance.
-
-## Execution and quality
-
-- Research and reuse maintained, suitably licensed implementations before building custom equivalents.
-- Favor inspectable builds and measured results over unsupported claims.
-- Preserve a working baseline; use focused branches/PRs for substantial changes.
-- Capture screenshots and repeatable gameplay scenarios for visual and experiential review.
-- Test Android behavior, performance, input, save/resume, and failure cases.
-- Keep independent reviews evidence-driven; critics should inspect artifacts before builder explanations.
-- Record unresolved design questions without silently ratifying proposals.
-- Do not configure a new Codex environment or lock the game engine without reviewing existing environment capabilities and documenting the choice.
-
-## Coordination
-
-Codex is the provisional primary implementer; Claude Code can contribute art direction and independent reviews; Astra is optional for difficult tasks. These are flexible roles, not exclusive ownership. Avoid concurrent edits to the same files; integrate through reviewable changes.
-
-
-## Model selection and usage policy (Gauntlet)
-
-**Default model: Sol 6.1** for implementation, tests, review, visual criticism, integration, and all delegated/subagent tasks where model selection is available.
-
-**Astra:** use for the initial source-corpus/architecture kickoff and rare, specifically justified escalations where Sol has reached a demonstrated impasse or the decision has unusually broad consequences. Do not create Astra subagents by default. Starting a task with Astra does not authorize inheriting Astra for delegated tasks.
-
-Before spawning a subagent, establish its actual model selection. If the platform silently inherits Astra and cannot explicitly route to Sol, do not fan out Astra subagents. Instead perform the work sequentially, use Sol in a separate task/session, or stop and report the limitation. Never claim a requested model was used without verification.
-
-Each subagent instruction must inherit this policy, the project source hierarchy, the assigned scope, the required evidence, and a bounded deliverable. Delegate only independent work that justifies its coordination and usage costs. Limit concurrency to the smallest useful number; avoid spawning agents solely to increase parallelism.
-
-Prefer deterministic tests, static checks, local scripts, and targeted screenshot comparisons before additional model calls. Reserve fresh-context criticism for substantial, inspectable results. Critics must inspect the running game or captured evidence rather than relying on builder summaries.
-
-Record in the project progress workbench: model actually used (when observable), task, reason for escalation, result, and remaining quality gap. When model routing or usage visibility is unavailable, mark it unknown rather than assuming.
-
-Keep the policy in AGENTS.md and include it in each new session's working context. Do not relax it through nested delegation. If budget or session limits interrupt work, preserve checkpoints and a clear continuation instruction.
+The production copy of `AGENTS.md` and `docs/GAUNTLET_ORCHESTRATION.md` contains the detailed operating contract. Read the **actual latest production ref** rather than a copied or assumed snapshot.

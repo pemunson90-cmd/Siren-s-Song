@@ -1,31 +1,15 @@
-# Project orientation
+# Siren's Song — begin on active production
 
-## Current stage
+The default `main` branch is the **historical/source-import entry**, not the Gauntlet execution baseline. Current source, tasks and instructions are on [`gauntlet/production`](https://github.com/pemunson90-cmd/Siren-s-Song/tree/gauntlet/production).
 
-Repository foundation, before the production Gauntlet prompt and before engine/environment selection.
+Read on that current ref, in order:
 
-## Read order
+1. [AGENTS.md](https://github.com/pemunson90-cmd/Siren-s-Song/blob/gauntlet/production/AGENTS.md) — operating contract, perpetual loop, branch/review and task-closeout rules.
+2. [CURRENT_GAME_SPEC.md](https://github.com/pemunson90-cmd/Siren-s-Song/blob/gauntlet/production/docs/CURRENT_GAME_SPEC.md) and [SOURCE_AUTHORITY.md](https://github.com/pemunson90-cmd/Siren-s-Song/blob/gauntlet/production/docs/SOURCE_AUTHORITY.md) — intended game, decisions and precedence.
+3. [V7_TO_GODOT_PARITY.md](https://github.com/pemunson90-cmd/Siren-s-Song/blob/gauntlet/production/docs/V7_TO_GODOT_PARITY.md) — working historical mechanic reference and differences.
+4. [CONTINUATION.md](https://github.com/pemunson90-cmd/Siren-s-Song/blob/gauntlet/production/docs/CONTINUATION.md) and [WORKBENCH.md](https://github.com/pemunson90-cmd/Siren-s-Song/blob/gauntlet/production/docs/WORKBENCH.md) — current integrated state, ownership, next work.
+5. [Gauntlet orchestration](https://github.com/pemunson90-cmd/Siren-s-Song/blob/gauntlet/production/docs/GAUNTLET_ORCHESTRATION.md), the design bible, accepted concept selection ledger and relevant source handoffs.
 
-1. `AGENTS.md` — agent working rules.
-2. `docs/SOURCE_AUTHORITY.md` — provenance and decision hierarchy.
-3. `design/SIRENS_SONG_DESIGN_BIBLE_GAUNTLET_V1.md` — creative design bible.
-4. `references/visual/` — review PDF and visual exploration plan; `references/package/` — concept selection ledger and portable image set.
-5. `archive/provenance/` — original conversation and recovered artifacts.
-6. `archive/prototypes/` — historical HTML5 prototypes and design notes.
+Fetch latest production before task dispatch/completion/merge/resume. Keep the root orchestrator working through successive tasks while execution resources permit. Only the user can terminate the Gauntlet. On a real resource/session boundary, mark **PAUSED — RESUME REQUIRED** with exact next action. Check and repair stale handoffs at every task completion.
 
-## Confirmed current direction
-
-- Original multi-level Android 2D tactical submarine stealth game.
-- Single pilot operating submarine and remote drones.
-- Continuous simulation with unlimited tactical pause.
-- Assisted navigation and conditional orders; waypoint routes.
-- Physical terrain and sonar occlusion; acoustic stealth and imperfect information.
-- Sensor-room framing and external camera reveals.
-- Visual exploration favors grounded stylized military science fiction, underwater brutalist alien structures, and angular/serpentine Sirens.
-- Full 3D is out of current production scope; 2.5D is a possible later visual technique.
-
-The [source import report](source-import/README.md) records integrity checks, package layout, and historical discrepancies. The concept selection ledger is at `references/package/SIRENS_SONG_CONCEPT_SELECTION_LEDGER.md`; portable images are under `references/package/references/`.
-
-## Next gate
-
-Inventory existing Codex environments, select a production engine, establish Android build/test tools, and only then launch the Gauntlet production run. Keep the existing prototypes intact as references.
+The original transcript, provenance, prototypes and design handoffs preserved on `main` are evidence and creative references. Current explicit ratifications and the living production specification govern where they differ.
