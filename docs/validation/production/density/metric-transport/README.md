@@ -19,4 +19,4 @@ Reproduce focused test:
 scripts/toolchain/headless.sh --script res://tests/metrics_transport_tests.gd -- --fixture-log=/tmp/sirens-encoded-hud.log --fixture-json=/tmp/sirens-encoded-hud.json
 ```
 
-Native corrected transport remains pending. Downloaded APK-byte/hash and pixel inspection remain blocked by artifact-host access. No new visual critic is needed for this transport-only delta; prior density review and actual captures remain source-specific evidence. Requested production routing is Sol6.1; backend/cost telemetry is unavailable.
+Native corrected transport passes the complete automated gate in [run 39229219785](../../../android-39229219785/README.md) on exact b809501. Both primary/secondary pages on both profiles are decoded and validated; no stale/incomplete fallback is used. Downloaded APK-byte/hash and pixel inspection remain blocked by artifact-host access. No new visual critic is needed for this transport-only delta; prior density review and actual captures remain source-specific evidence. Requested production routing is Sol6.1; backend/cost telemetry is unavailable.

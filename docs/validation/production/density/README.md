@@ -1,4 +1,9 @@
-# Density UI challenger — local checkpoint, native pending
+# Density UI — numerical native gains, artifact review pending
+
+
+**Current checkpoint:** exact b809501 passes [native run 39229219785](../../android-39229219785/README.md): both profiles' target geometry, real Operations/Settings scrolling and unchanged values, sticky actions, navigation and prior completion/lifecycle/role/archive gates. Complete chunked HUD diagnostics resolve the retained truncation failure. Downloaded APK bytes and actual Android pixels remain access-blocked; status is **paused / awaiting artifact access**. Retrieve the existing artifacts using that native README before another substantial cycle. Numerical gains do not establish full visual/usability, physical-device or full-campaign acceptance.
+
+The sections below retain source-specific implementation history and failed attempts; their original pending states do not supersede this checkpoint.
 
 Development comparison: 6388113 / game 7ff53af, bounded A gains. The fully inspected f1ea536 fallback remains available; experimental finale/full-campaign and physical-device quality are not promoted.
 
@@ -14,9 +19,9 @@ Actual render exposed a separate text-reflow defect: cover briefing menu stayed8
 
 `desktop-touch-probe.gd` / `menu-touch-attempt-1.log` retain unsupported desktop ScreenTouch scroll attempt. Official4.6.3 ScrollContainer source (`scroll_container_4.6.3.cpp`, raw GitHub source URL https://raw.githubusercontent.com/godotengine/godot/4.6.3-stable/scene/gui/scroll_container.cpp) gates mouse-emulated drag on DisplayServer touchscreen availability; direct desktop ScreenTouch is not OS finger input. Tooling prepares real Android menu swipe with fresh clipped metrics and scroll offsets; no local pass is substituted.
 
-One diagnostic contract issue remains: actual inner get_viewport_rect is1280×1153, and actual screen transform is X 1.70625 / Y 1.706852 for2184×1968. A uniformity tolerance0.0001 rejects real Godot integer-canvas quantization. Keep actual geometry truthful; coordinate a bounded checker correction with independent tooling, not fabricated1153.4066 canvas height.
+An earlier diagnostic contract issue was: actual inner get_viewport_rect is1280×1153, and actual screen transform is X 1.70625 / Y 1.706852 for2184×1968. A uniformity tolerance0.0001 rejects real Godot integer-canvas quantization. Tooling subsequently corrected the checker using exact engine quantization and independent axis scales; no fabricated 1153.4066 canvas height is used.
 
-Fresh focused critic has completed and supports native validation after the queue-intent correction. Actual 16-second planning/page-change clips are retained; earlier role passive-world clip is ec2aa08 UI source and only supplies labeled prior-world context. Door Kickers shipped-motion comparison remains pending unavailable footage; no external quality verdict. Android geometry/OS scrolling, physical Fold7 comfort, performance and current APK pixel/byte inspection remain open. No density promotion or push yet.
+Fresh focused critic has completed and supports native validation after the queue-intent correction. Actual 16-second planning/page-change clips are retained; earlier role passive-world clip is ec2aa08 UI source and only supplies labeled prior-world context. Door Kickers shipped-motion comparison remains pending unavailable footage; no external quality verdict. At that local checkpoint, Android geometry/OS scrolling and publication were pending. Native numerical gates subsequently pass as recorded above; physical comfort, performance and direct APK pixel/byte inspection remain open.
 
 ## Fresh review follow-up
 
@@ -24,7 +29,7 @@ The separate critic reproduced hidden queue intent with actual GUI inputs on exa
 
 Current primary/secondary PNGs include this fix; briefing/menu images are unchanged from 6ce6cc0. `baseline-6388113/` retains four direct actual baseline captures and measured chart tradeoffs; `clips/` retains both original 6ce and final 16-second planning input replay. Source hashes and artifact hashes bind the final files. Local strict native checker correctly rejects desktop fixture provenance; independent tooling has a separate local fixture geometry audit. Native geometry/OS menu flags are prepared in tooling cd1dde8; actual validation and promotion still wait reviewed exact-source integration.
 
-Final combined `scripts/toolchain/test.sh` passed on reviewed game 6de9e10 plus tooling cd1dde8: 234 simulation / 230 runtime / 699 density / 7 menu, plus 23 geometry / 11 menu / 8 navigation / 10 role parser guards and archive mock. `reviewed-combined.log` retains the full run. Separate fresh [review](../../../reviews/2026-10-19-density-touch-review.md) supports native validation after independently verifying the bounded queue-intent fix. First native attempt 39222413584 / bc95b4d failed at its first cover-menu swipe with no fresh metrics; see current WORKBENCH for the confirmed fixture precondition-order gap and preserved causal uncertainty. No successful native density or Android pixel acceptance exists yet.
+Final combined `scripts/toolchain/test.sh` passed on reviewed game 6de9e10 plus tooling cd1dde8: 234 simulation / 230 runtime / 699 density / 7 menu, plus 23 geometry / 11 menu / 8 navigation / 10 role parser guards and archive mock. `reviewed-combined.log` retains the full run. Separate fresh [review](../../../reviews/2026-10-19-density-touch-review.md) supports native validation after independently verifying the bounded queue-intent fix. First native attempt 39222413584 / bc95b4d failed at its first cover-menu swipe with no fresh metrics; see current WORKBENCH for the confirmed fixture precondition-order gap and preserved causal uncertainty. That first failed run supplies no full native density or Android pixel acceptance.
 
 ## Native scroll-boundary follow-up
 
