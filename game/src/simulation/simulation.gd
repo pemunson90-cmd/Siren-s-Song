@@ -1,5 +1,4 @@
 extends RefCounted
-const RemoteDecoy=preload("res://src/simulation/remote_decoy.gd")
 const SignalField=preload("res://src/simulation/signal_field.gd")
 const Courier=preload("res://src/simulation/blackwater_courier.gd")
 const Departure=preload("res://src/simulation/foundry_departure.gd")
@@ -26,7 +25,6 @@ var contacts: Dictionary = {}
 var events: Array = []
 var noises: Array = []
 var projectiles: Array=[]
-var remote_decoy:Dictionary={}
 var elapsed := 0.0
 var oxygen := 100.0
 var hull := 100.0
@@ -48,9 +46,8 @@ var sensor_clock := 0.0
 var navigation: AStarGrid2D
 var rock_shapes: Array=[]
 var acoustic_paths=Acoustics.new()
-func start(index: int, upgrade: String = "endurance",equipment:Dictionary={}) -> void:
+func start(index: int, upgrade: String = "endurance") -> void:
 	mission = Missions.make(index)
-	remote_decoy=RemoteDecoy.configure(int(equipment.get("remote_decoy_unit",-1)))
 	units.clear()
 	for i in 3:
 		units.append({"pos":mission.get("start",Vector2(140,800))+[Vector2.ZERO,Vector2(0,-100),Vector2(140,0)][i],"vel":Vector2.ZERO,"angle":-0.3,"route":[],"alive":true,"hold":"","silent":true,"battery":100.0,"name":["QUIETUS","DRONE A","DRONE B"][i]})
@@ -66,8 +63,6 @@ func start(index: int, upgrade: String = "endurance",equipment:Dictionary={}) ->
 	_observe()
 func observable_sites() -> Array:
 	return mission.objectives.duplicate(true)
-func remote_decoy_feedback() -> Dictionary:
-	return RemoteDecoy.feedback(self,remote_decoy)
 func signal_readings() -> Array:
 	return SignalField.readings(self)
 func extraction_corridors() -> Array:
@@ -153,7 +148,6 @@ func command(order: String,args: Dictionary={}) -> bool:
 	var u=units[selected]
 	if not u.alive and order!="select":
 		selected=0; queue_mode=false; message="Selected drone lost. Quietus selected; reissue the order."; return false
-	if order in ["pod_place","pod_trigger"]:return RemoteDecoy.command(self,remote_decoy,order,args)
 	match order:
 		"select":
 			var id=int(args.get("unit",0))
@@ -777,12 +771,10 @@ func all_records() -> bool:
 	return true
 func snapshot() -> Dictionary:
 	var data={"mission":mission.duplicate(true),"units":units.duplicate(true),"sirens":sirens.duplicate(true),"known":known.duplicate(true),"contacts":contacts.duplicate(true),"noises":noises.duplicate(true),"elapsed":elapsed,"oxygen":oxygen,"hull":hull,"paused":paused,"selected":selected,"tools":tools.duplicate(),"outcome":outcome,"ping_time":ping_time,"ping_origin":ping_origin,"recon_time":recon_time,"capture_time":capture_time,"capture_unit":capture_unit,"capture_target":capture_target}
-	if not remote_decoy.is_empty():data["remote_decoy"]=remote_decoy.duplicate(true)
 	if not projectiles.is_empty(): data["projectiles"]=projectiles.duplicate(true)
 	return data
 func restore(data: Dictionary) -> bool:
 	if not valid_snapshot(data): return false
-	remote_decoy=data.get("remote_decoy",{}).duplicate(true)
 	mission=data.mission.duplicate(true); units=data.units.duplicate(true); sirens=data.sirens.duplicate(true); known=data.known.duplicate(true); contacts=data.get("contacts",{}).duplicate(true); noises=data.get("noises",[]).duplicate(true); projectiles=data.get("projectiles",[]).duplicate(true)
 	elapsed=float(data.get("elapsed",0)); oxygen=float(data.get("oxygen",100)); hull=float(data.get("hull",100)); selected=clampi(int(data.get("selected",0)),0,2); tools=data.tools.duplicate(); outcome=data.get("outcome",""); paused=true; queue_mode=false
 	ping_time=data.get("ping_time",0.0); ping_origin=data.get("ping_origin",Vector2.ZERO); recon_time=data.get("recon_time",0.0); capture_time=data.get("capture_time",0.0); capture_unit=data.get("capture_unit",-1); capture_target=data.get("capture_target",-1); accumulator=0.0
@@ -806,7 +798,6 @@ static func valid_snapshot(data: Dictionary) -> bool:
 		if not o is Dictionary or not o.has_all(["pos","name","captured"]) or not o.pos is Vector2: return false
 	if not WorldRegion.valid(data):return false
 	if not SignalField.valid(data.mission,float(data.get("elapsed",0))):return false
-	if not RemoteDecoy.valid(data,WorldRegion.size_of(data.mission)):return false
 	if not Departure.valid(data.mission,data.get("elapsed",0.0)):return false
 	if not Courier.valid(data.mission,data.get("elapsed",0.0)):return false
 	if not Thermal.valid_mission(data.mission):return false

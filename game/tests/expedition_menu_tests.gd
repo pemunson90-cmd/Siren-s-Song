@@ -13,12 +13,9 @@ func run():
  var has_progress=main.get_property_list().any(func(p):return p.name=="expedition")
  check(has_progress,"actual Main owns absent-default expedition progress")
  if not has_progress:main.queue_free();await process_frame;quit(1);return
- var store=load("res://src/persistence/save_store.gd").new();var original=store._read("/workspace/Siren-s-Song-gauntlet-archives/earned-campaign-play/six-chapters-recovered-profile/godot/app_userdata/Siren's Song/quietus.save")
- if original.is_empty():
-  # Portable UI contract setup is separate from the external earned-profile run.
-  main.completed=[0,1,2,3,4,5];main.unlocked=5
- else:
-  main.completed=original.completed.duplicate();main.unlocked=original.unlocked;main.recovered_evidence=original.evidence.duplicate(true)
+ var store=load("res://src/persistence/save_store.gd").new()
+ # Portable menu contract fixture; earned-profile play is external evidence.
+ main.completed=[0,1,2,3,4,5];main.unlocked=5
  main._show_campaign();await process_frame
  var buttons=main.panel_box.get_children().filter(func(c):return c is Button and c.get_meta("action","")=="expedition6")
  check(buttons.size()==1 and not buttons[0].disabled,"completed tutorial offers actual playable expedition entry in Operations")
@@ -32,7 +29,7 @@ func run():
  var corridor=main.sim.extraction_corridors().filter(func(c):return c.route=="shelf")[0]
  main.sim.units[0].pos=corridor.pos;main.sim.units[0].vel=Vector2.ZERO;main.sim.advance(0.1);main._debrief()
  check(main.completed==[0,1,2,3,4,5] and main.unlocked==5,"expedition success preserves tutorial completion/unlocked semantics")
- check(main.expedition.get("route","")=="shelf" and main.expedition.get("remote_decoy",false),"Main consumes genuine physical exit outcome into optional progression")
+ check(main.expedition.get("route","")=="shelf" and not main.expedition.has("remote_decoy"),"Main consumes physical exit outcome into optional branch progression")
  var archived=main._archive();check(store.valid(archived),"Main's extended archive passes production SaveStore validation")
  check(main._evidence_is_text({"optical":"divergence_shelf"}),"new acoustic field notes use text gallery rendering")
  main._show_campaign();await process_frame

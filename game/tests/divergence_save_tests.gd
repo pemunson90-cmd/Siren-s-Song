@@ -17,8 +17,8 @@ func _initialize():
  var data={"version":1,"unlocked":5,"completed":[0,1,2,3,4,5],"upgrade":"disruption","settings":{},"active":sim.snapshot(),"evidence":{"divergence_deep":{"name":"DEEP CARRIER","caption":sim.mission.expedition_facts.deep,"optical":"divergence_deep"}}}
  check(store.valid(data),"retained field note after incomplete investigation is valid without branch entitlement")
  check(Campaign.available(data.completed,data.get("expedition",{}))==[6],"field note does not unlock a continuation or module")
- data.expedition={"version":1,"route":"shelf","routes":["shelf"],"facts":{},"completed":[6],"remote_decoy":true}
- check(not store.valid(data),"missing recovered route fact cannot grant a module")
+ data.expedition={"version":1,"route":"shelf","routes":["shelf"],"facts":{},"completed":[6]}
+ check(not store.valid(data),"missing recovered route fact cannot grant a continuation")
  var bad=snap.duplicate(true);bad.mission.signal_observations=[{"receiver":1,"origin":Vector2.ZERO,"direction":Vector2(NAN,1),"time":0,"uncertainty":0.1,"label":"x"}]
  check(not Sim.valid_snapshot(bad),"nonfinite received bearings are rejected before restore")
  bad=snap.duplicate(true);bad.mission.recovered=true;bad.mission.chosen_route="shelf"
