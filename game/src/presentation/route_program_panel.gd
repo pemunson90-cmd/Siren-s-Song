@@ -25,7 +25,7 @@ var reflow_revision=0
 func _ready():
  mouse_filter=Control.MOUSE_FILTER_STOP;hide()
 func button(parent,text,key,action):
- var b=Button.new();b.text=text;b.set_meta("action",key);b.custom_minimum_size.y=touch_height;b.size_flags_horizontal=Control.SIZE_EXPAND_FILL;b.focus_mode=Control.FOCUS_NONE;b.pressed.connect(action,CONNECT_DEFERRED);parent.add_child(b)
+ var b=Button.new();b.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;b.text=text;b.set_meta("action",key);b.custom_minimum_size.y=touch_height;b.size_flags_horizontal=Control.SIZE_EXPAND_FILL;b.focus_mode=Control.FOCUS_NONE;b.pressed.connect(action,CONNECT_DEFERRED);parent.add_child(b)
  if parent==rows:b.mouse_filter=Control.MOUSE_FILTER_PASS
  return b
 func label(parent,text):
@@ -58,7 +58,7 @@ func rebuild():
  rows=VBoxContainer.new();rows.size_flags_horizontal=Control.SIZE_EXPAND_FILL;row_scroll.add_child(rows)
  row_scroll.resized.connect(show_selected_row,CONNECT_DEFERRED);rows.resized.connect(show_selected_row,CONNECT_DEFERRED)
  edit_controls=VBoxContainer.new();edit_controls.size_flags_horizontal=Control.SIZE_EXPAND_FILL;edit_controls.add_theme_constant_override("separation",8);editor.add_child(edit_controls)
- point_info=label(edit_controls,"")
+ point_info=label(edit_controls,"");point_info.text_overrun_behavior=TextServer.OVERRUN_TRIM_ELLIPSIS
  var modes=row(edit_controls);mode_button=button(modes,"","propulsion",cycle_mode);arrival_button=button(modes,"","arrival",toggle_arrival);task_button=button(modes,"TASK\nNONE","task",toggle_tasks)
  var edits=row(edit_controls);button(edits,"INSERT","insert",insert_after);delete_button=button(edits,"DELETE","delete",func():apply("route_delete",{"index":selected_goal}));undo_button=button(edits,"UNDO","undo",func():apply("route_undo",{}))
  configure(host.size,host.ui_touch_height);refresh()
@@ -125,18 +125,22 @@ func refresh():
  undo_button.disabled=host.sim.units[host.sim.selected].get("route_undo",[]).is_empty()
  point_info.text=error_text if not error_text.is_empty() else ("Tap preview to add the first destination." if empty else "POINT %d / %d · tap preview to move"%[selected_goal+1,goals.size()])
  var options=task_options();var attached=not empty and goals[selected_goal].has("task_site")
+ point_info.max_lines_visible=2 if attached else -1
  task_button.visible=not empty and (goals[selected_goal].stop or attached) and (not options.is_empty() or attached)
  task_button.text="TASK\nRECEIVE" if attached else "TASK\nNONE"
  if error_text.is_empty() and not empty and not goals[selected_goal].stop and not options.is_empty():point_info.text+="\nSet AT: STOP to choose a local receiver task."
  if choosing_task:point_info.text="POINT %d · CHOOSE LOCAL RECEIVER WORK\nThe queued route continues after actual acquisition."%[selected_goal+1]
  elif error_text.is_empty() and attached:
-  var goal=goals[selected_goal];var description=goal.task_site
+  var goal=goals[selected_goal];var description=goal.task_site;var cost=""
   for site in host.sim.observable_sites():
    if site.get("site_id","")==goal.task_site:description=site.name;break
   for option in options:
-   if option.site_id==goal.task_site:description+=" · %ds %s"%[roundi(option.duration),"audible" if option.audible else "quiet"];break
-  var blocked=unit.get("task_run",{}).get("phase","")=="blocked" and unit.get("task_run",{}).get("site_id","")==goal.task_site
-  point_info.text=("BLOCKED · "+description+"\nTASK: rearm · NONE: remove · guards stay set.") if blocked else "TASK · "+description+"\nThen queued route · guards retain priority."
+   if option.site_id==goal.task_site:cost="%ds %s"%[roundi(option.duration),"audible" if option.audible else "quiet"];break
+  var blocked=selected_goal==0 and unit.get("task_run",{}).get("phase","")=="blocked" and unit.get("task_run",{}).get("site_id","")==goal.task_site
+  if blocked:task_button.text="TASK\nREARM"
+  # Critical mode/cost stays first. The complete public name is retained in
+  # the existing scrollable task choices when this compact line ellipsizes.
+  point_info.text=("TASK BLOCKED · "+cost+" · guards stay set.\nTASK rearm / NONE · "+description) if blocked else "TASK · "+cost+" · then queued route\n"+description
  preview.selected_goal=selected_goal;preview.queue_redraw();call_deferred("configure",host.size,host.ui_touch_height);call_deferred("show_selected_row")
 func mode_label(mode:String,drone:bool) -> String:
  return ("QUIET42" if mode=="silent" else "TRANSIT96" if mode=="cruise" else "INHERIT") if drone else mode.to_upper()
