@@ -15,7 +15,7 @@ def main():
   if png[:8]!=b'\x89PNG\r\n\x1a\n':raise ValueError('Invalid capture '+str(filename))
   size=struct.unpack('>II',png[16:24]);screen=layout['screen']
   required=set()
-  if screen=='mission':required=set((metrics.SECONDARY_ACTIONS if layout['orders_page']=='secondary' else metrics.MISSION_ACTIONS).split(','))
+  if screen=='mission':required=metrics.required_actions(layout)
   elif screen=='briefing':required={'begin','back'}
   elif screen=='settings':required={'back'}
   try:report=metrics.evaluate(layout,size,layout['density_dpi'],required,expected_density_source='test_android_density_fixture')

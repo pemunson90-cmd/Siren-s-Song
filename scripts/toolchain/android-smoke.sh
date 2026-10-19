@@ -177,7 +177,7 @@ locate_target() {
     echo "No current visible target for $action" >&2
     return 1
 }
-tap_target() {
+tap_target_raw() {
     local action="$1" expected="$2" stage="$3"
     local before_count after_count tap_x tap_y
     locate_target "$action" "$stage"
@@ -194,6 +194,29 @@ tap_target() {
     done
     echo "Touch $stage did not emit expected marker: $expected" >&2
     cp "$output/target-$stage.png" "$output/failed-target.png"
+    return 1
+}
+tap_target() {
+    local action="$1" expected="$2" label="$3" next status step disclosed
+    for ((step=0; step<8; step++)); do
+        read_logcat "$output/access-$label.txt"
+        status=0
+        next="$(python3 "$TOOLCHAIN_ROOT/scripts/toolchain/android-radial.py" "$output/access-$label.txt" "$action")" || status=$?
+        if (( status == 2 )); then sleep 1; continue; fi
+        if (( status != 0 )); then return "$status"; fi
+        if [[ -z "$next" ]]; then tap_target_raw "$action" "$expected" "$label"; return; fi
+        case "$next" in
+            more_orders) disclosed='SS_TARGET sub ' ;;
+            sub|droneA|droneB) disclosed='SS_TARGET camera ' ;;
+            tools_menu) disclosed='SS_TARGET decoy ' ;;
+            route_menu) disclosed='SS_TARGET queue ' ;;
+            guard_menu) disclosed='SS_TARGET contact_hold ' ;;
+            radial_back) disclosed='SS_TARGET (focus|camera|route_here) ' ;;
+            *) echo "Unsupported disclosure action $next" >&2; return 1 ;;
+        esac
+        tap_target_raw "$next" "$disclosed" "$label-access-$step" || return
+    done
+    echo "No bounded radial disclosure path for $action" >&2
     return 1
 }
 wait_new_marker() {
@@ -224,14 +247,18 @@ navigation_smoke() {
     local profile="$1" action zoom label pan_x pan_y end_x before_views
     local checker="$(dirname -- "$0")/android-view.py"
     read_logcat "$output/navigation-before-$profile.txt"
-    # Verify numerical view state as well as a fresh event for each real button tap.
-    for specification in 'zoom_in 1.4 first-in' 'zoom_out 1 overview' 'zoom_in 1.4 second-in' 'zoom_in 1.96 detail'; do
-        read -r action zoom label <<<"$specification"
-        label="$profile-$label"
-        tap_target "$action" 'SS_VIEW zoom=' "$label"
-        python3 "$checker" "$output/interaction-$label.txt" --zoom "$zoom" | tee "$output/view-check-$label.txt"
-    done
-    shot "$profile-zoomed"
+    # Default FOLLOW is intentionally tactical and depends on the actual viewport.
+    tap_target fit 'SS_VIEW zoom=' "$profile-initial-fit"
+    python3 "$checker" "$output/interaction-$profile-initial-fit.txt" --zoom 1
+    tap_target focus 'SS_VIEW zoom=' "$profile-follow"
+    zoom="$(python3 - "$output/interaction-$profile-follow.txt" <<'PY'
+import pathlib,re,sys
+values=re.findall(r'SS_VIEW zoom=([\d.]+)',pathlib.Path(sys.argv[1]).read_text())
+assert values and float(values[-1])>1, 'FOCUS did not restore useful tactical FOLLOW'
+print(values[-1])
+PY
+)"
+    shot "$profile-follow"
     locate_target chart_center "$profile-pan"
     read -r pan_x pan_y <<<"$target_coords"
     end_x="$(python3 - "$output/target-$profile-pan.png" "$pan_x" <<'PY'
@@ -244,7 +271,7 @@ PY
     stage "$profile native chart swipe from $pan_x,$pan_y to $end_x,$pan_y"
     adb shell input touchscreen swipe "$pan_x" "$pan_y" "$end_x" "$pan_y" 600
     wait_new_marker 'SS_VIEW zoom=' "$before_views" "$profile-pan" 20
-    python3 "$checker" "$output/wait-$profile-pan.txt" --zoom 1.96 --panned-from "$output/target-$profile-pan.txt" | tee "$output/view-check-$profile-pan.txt"
+    python3 "$checker" "$output/wait-$profile-pan.txt" --zoom "$zoom" --panned-from "$output/target-$profile-pan.txt" | tee "$output/view-check-$profile-pan.txt"
     shot "$profile-panned"
     tap_target fit 'SS_VIEW zoom=' "$profile-fit"
     python3 "$checker" "$output/interaction-$profile-fit.txt" --zoom 1 --center 800 480 | tee "$output/view-check-$profile-fit.txt"
@@ -255,7 +282,7 @@ for marker in ('SS_ORDER ', 'SS_PAUSE paused='):
     assert before.count(marker) == after.count(marker), f'Chart navigation emitted an unintended command/state change: {marker}'
 print('Native zoom/pan/FIT produced zero orders and zero pause changes')
 PY
-    stage "$profile native zoom/pan/FIT verified without accidental orders; OS pinch remains unverified"
+    stage "$profile native FOLLOW/pan/FIT verified without accidental orders; OS pinch remains unverified"
 }
 verify_touch_targets() {
     local profile="$1" page="${2:-primary}" checkpoint="${3:-initial}" status attempt label
@@ -311,10 +338,9 @@ PY
     navigation_smoke "$profile"
     if [[ "${VERIFY_TOUCH_TARGETS:-0}" == 1 ]]; then
         verify_touch_targets "$profile" primary
-        tap_target more_orders 'SS_TARGET recon ' "$profile-secondary-page"
+        tap_target tools_menu 'SS_TARGET recon ' "$profile-secondary-page"
         verify_touch_targets "$profile" secondary
         planner_touch_smoke "$profile"
-        tap_target more_orders 'SS_TARGET ping ' "$profile-primary-page"
         verify_touch_targets "$profile" primary restored
     fi
     tap_target droneA 'SS_ORDER select accepted=true selected=1' "$profile-drone"

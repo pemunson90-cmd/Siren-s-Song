@@ -66,13 +66,13 @@ planner_touch_smoke() {
         fi
         planner_snapshot "$profile" "$label" "$operation" "$after" "$baseline" "$previous"
     done
-    # DONE is measured by the same geometry gate; secondary HUD must reappear.
+    # DONE is measured by the same geometry gate; water HUD must reappear.
     read -r tap_x tap_y <<<"$(planner_values taps.close)"
     read_logcat "$output/ui-metrics-planner-$profile-before-close.txt"
     local before_count
-    before_count="$(grep -c 'SS_TARGET recon ' "$output/ui-metrics-planner-$profile-before-close.txt" || true)"
+    before_count="$(grep -c 'SS_TARGET focus ' "$output/ui-metrics-planner-$profile-before-close.txt" || true)"
     adb shell input tap "$tap_x" "$tap_y"
-    wait_new_marker 'SS_TARGET recon ' "$before_count" "$profile-planner-closed" 20
+    wait_new_marker 'SS_TARGET focus ' "$before_count" "$profile-planner-closed" 20
     cp "$output/wait-$profile-planner-closed.txt" "$output/ui-metrics-planner-$profile-closed.txt"
     python3 - "$baseline" "$output/ui-metrics-planner-$profile-closed.txt" "$TOOLCHAIN_ROOT/scripts/toolchain" <<'PY'
 import json,sys

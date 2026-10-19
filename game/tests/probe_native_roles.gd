@@ -19,7 +19,7 @@ func run() -> void:
 		step()
 		if game.diagnostic_role_route_ready: break
 	var arrived=game.diagnostic_role_route_ready
-	game.sim.paused=true; game._toggle_advanced(); await frames()
+	game.sim.paused=true; game.mission_hud.open("tools"); await frames()
 	await click(game.order_buttons.decoy.get_global_rect().get_center())
 	if not arrived or not game.decoy_armed or game.sim.tools.decoy!=3:
 		printerr("Role protocol failed to arm without spending"); quit(1); return

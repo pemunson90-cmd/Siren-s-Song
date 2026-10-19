@@ -18,6 +18,29 @@ MISSION_ACTIONS = 'pause,sub,droneA,droneB,ping,camera,silent,queue,hold,emp,hom
 SECONDARY_ACTIONS = 'pause,sub,droneA,droneB,zoom_out,zoom_in,fit,more_orders,program,knock,home,recon,decoy,contact_hold,wait_drone,waypoint_mode'
 
 
+RADIAL_ACTIONS = {
+    'water': 'pause,focus,fit,more_orders',
+    'craft': 'pause,radial_back,camera,ping,silent,program,route_menu,tools_menu,guard_menu,inspect',
+    'tools': 'pause,radial_back,decoy,emp,recon,knock',
+    'route': 'pause,radial_back,queue,hold,waypoint_mode,home,program',
+    'guard': 'pause,radial_back,contact_hold,wait_drone,hold',
+    'fleet': 'pause,radial_back,sub,droneA,droneB,menu',
+    'object': 'pause,radial_back,route_here,camera,inspect,program,queue',
+    'inspect': 'pause,radial_back',
+}
+
+def required_actions(layout):
+    """Require the actual published page, retaining legacy artifact support."""
+    if layout.get('screen') != 'mission':
+        return set()
+    if layout.get('hud_layout') == 'radial':
+        page = layout.get('context_page')
+        if page not in RADIAL_ACTIONS:
+            raise ValueError('Unknown radial context page')
+        return set(RADIAL_ACTIONS[page].split(','))
+    return set((SECONDARY_ACTIONS if layout.get('orders_page') == 'secondary' else MISSION_ACTIONS).split(','))
+
+
 def numbers(value, count, label):
     if not isinstance(value, list) or len(value) != count or any(isinstance(x, bool) or not isinstance(x, (int, float)) or not math.isfinite(x) for x in value):
         raise ValueError(f'{label} must contain {count} finite numbers')
@@ -156,8 +179,7 @@ def main():
         size = struct.unpack('>II', png[16:24])
         if args.screen == 'mission' and layout.get('orders_page') != args.orders_page:
             raise ValueError('Snapshot command page differs from requested current page')
-        required_text = args.required_actions if args.required_actions is not None else (MISSION_ACTIONS if args.orders_page == 'primary' else SECONDARY_ACTIONS)
-        required = set(filter(None, required_text.split(',')))
+        required = set(filter(None, args.required_actions.split(','))) if args.required_actions is not None else required_actions(layout)
         report = evaluate(layout, size, os_density(Path(args.density).read_text()), required)
         report['orders_page'] = layout.get('orders_page')
         print(json.dumps(report, indent=2, allow_nan=False))

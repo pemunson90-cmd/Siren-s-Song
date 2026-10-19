@@ -17,7 +17,7 @@ def inspect(text,png,density,before,kind,mission):
  layout=json.loads(records[-1][1])
  if len(png)<24 or png[:8]!=b'\x89PNG\r\n\x1a\n':raise ValueError('Invalid actual PNG header')
  size=struct.unpack('>II',png[16:24])
- required=set((metrics.SECONDARY_ACTIONS if layout.get('orders_page')=='secondary' else metrics.MISSION_ACTIONS).split(',')) if layout.get('screen')=='mission' else set()
+ required=metrics.required_actions(layout)
  measured=metrics.evaluate(layout,size,metrics.os_density(density),required)
  if not measured['gate_passed']:raise ValueError('; '.join(measured['errors']))
  state=layout.get('capture_state')
