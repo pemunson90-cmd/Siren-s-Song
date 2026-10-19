@@ -2,7 +2,7 @@
 
 Production is continuously integrated playable development; protected `main` receives deliberate tested promotion PRs. Current a451 governance requires structural and semantic completion-time staleness checks, reviewed repairs and immediate next delegation. Only the user ends the Gauntlet. Godot locally/GitHub is default, no automatic APK milestones.
 
-Game87fe includes reviewed finale local reports5dda434 and Blackwater archive glider423b023 alongside accepted tactical systems. Actual gains: one peer investigates stale spatial knowledge; finite local archive interception offers a shorter solo return with later recording, while direct drone remains faster/safer. Relevant independent guards pass; previous e949 comprehensive Godot gate exited0. No repeated broad gate or APK.
+Game5a57 includes reviewed finale local reports5dda434 and Blackwater archive glider423b023 alongside accepted tactical systems. Actual gains: one peer investigates stale spatial knowledge; finite local archive interception offers a shorter solo return with later recording, while direct drone remains faster/safer. Relevant independent guards pass; previous e949 comprehensive Godot gate exited0. No repeated broad gate or APK.
 
 Field-record wording d35569d is integrated without retention/save/progression change; archiveUI8/BlackwaterUI10 pass. Actual earned Main progression completed five chapters, preserved real unlocks/losses/resources and optional Well signature; finale is unstarted. Automated scenario success is still distinct from human acceptance.
 
