@@ -1,0 +1,233 @@
+{
+  "screen": "menu",
+  "action": "settings",
+  "metrics_count": 42,
+  "scroll_vertical": 529,
+  "measurement": {
+    "gate_passed": true,
+    "recommendation_dp": 48,
+    "density_dpi": 420,
+    "density_source": "android_display_metrics_density_dpi",
+    "native_measurement": true,
+    "density_reference": "effective adb shell wm density; game Android DisplayMetrics.densityDpi must agree",
+    "window_physical": [
+      2184.0,
+      1968.0
+    ],
+    "viewport_logical": [
+      1280.0,
+      1153.0
+    ],
+    "canvas_scale": [
+      1.70625,
+      1.706851691240243
+    ],
+    "canvas_transform_model": "Godot 4.6.3 canvas_items/expand; base 1280x720; factor 1; floor before per-axis stretch",
+    "safe_physical": [
+      124.0,
+      0.0,
+      2060.0,
+      1968.0
+    ],
+    "screen": "menu",
+    "chart_dp": [
+      750.9619,
+      416.79692727047455
+    ],
+    "controls": [
+      {
+        "action": "mission1",
+        "visual_logical": [
+          304.337,
+          -14.0,
+          736.0,
+          87.0
+        ],
+        "hit_logical": [
+          304.337,
+          46.0,
+          736.0,
+          27.0
+        ],
+        "hit_physical": [
+          519.27500625,
+          78.51517779705118,
+          1255.8,
+          46.08499566348656
+        ],
+        "hit_dp": [
+          478.4,
+          17.556188824185355
+        ],
+        "size_exempt_clipped": true
+      },
+      {
+        "action": "mission2",
+        "visual_logical": [
+          304.337,
+          87.0,
+          736.0,
+          87.0
+        ],
+        "hit_logical": [
+          304.337,
+          87.0,
+          736.0,
+          87.0
+        ],
+        "hit_physical": [
+          519.27500625,
+          148.49609713790113,
+          1255.8,
+          148.49609713790113
+        ],
+        "hit_dp": [
+          478.4,
+          56.56994176681948
+        ],
+        "size_exempt_clipped": false
+      },
+      {
+        "action": "mission3",
+        "visual_logical": [
+          304.337,
+          188.0,
+          736.0,
+          87.0
+        ],
+        "hit_logical": [
+          304.337,
+          188.0,
+          736.0,
+          87.0
+        ],
+        "hit_physical": [
+          519.27500625,
+          320.88811795316565,
+          1255.8,
+          148.49609713790113
+        ],
+        "hit_dp": [
+          478.4,
+          56.56994176681948
+        ],
+        "size_exempt_clipped": false
+      },
+      {
+        "action": "mission4",
+        "visual_logical": [
+          304.337,
+          289.0,
+          736.0,
+          87.0
+        ],
+        "hit_logical": [
+          304.337,
+          289.0,
+          736.0,
+          87.0
+        ],
+        "hit_physical": [
+          519.27500625,
+          493.2801387684302,
+          1255.8,
+          148.49609713790113
+        ],
+        "hit_dp": [
+          478.4,
+          56.56994176681948
+        ],
+        "size_exempt_clipped": false
+      },
+      {
+        "action": "mission5",
+        "visual_logical": [
+          304.337,
+          390.0,
+          736.0,
+          87.0
+        ],
+        "hit_logical": [
+          304.337,
+          390.0,
+          736.0,
+          87.0
+        ],
+        "hit_physical": [
+          519.27500625,
+          665.6721595836948,
+          1255.8,
+          148.49609713790113
+        ],
+        "hit_dp": [
+          478.4,
+          56.56994176681948
+        ],
+        "size_exempt_clipped": false
+      },
+      {
+        "action": "loadout",
+        "visual_logical": [
+          304.337,
+          919.0,
+          736.0,
+          87.0
+        ],
+        "hit_logical": [
+          304.337,
+          919.0,
+          736.0,
+          87.0
+        ],
+        "hit_physical": [
+          519.27500625,
+          1568.5967042497832,
+          1255.8,
+          148.49609713790113
+        ],
+        "hit_dp": [
+          478.4,
+          56.56994176681948
+        ],
+        "size_exempt_clipped": false
+      },
+      {
+        "action": "settings",
+        "visual_logical": [
+          304.337,
+          1020.0,
+          736.0,
+          87.0
+        ],
+        "hit_logical": [
+          304.337,
+          1020.0,
+          736.0,
+          87.0
+        ],
+        "hit_physical": [
+          519.27500625,
+          1740.988725065048,
+          1255.8,
+          148.49609713790113
+        ],
+        "hit_dp": [
+          478.4,
+          56.56994176681948
+        ],
+        "size_exempt_clipped": false
+      }
+    ],
+    "errors": [],
+    "limits": "No physical panel-mm, Android OS multi-touch, finger comfort or performance claim."
+  },
+  "settings_values": {
+    "effects": 0.8,
+    "music": 0.5,
+    "mute": false
+  },
+  "tap": [
+    1147,
+    1815
+  ]
+}

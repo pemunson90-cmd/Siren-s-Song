@@ -1,0 +1,467 @@
+{
+  "metrics_count": 70,
+  "screen": "mission",
+  "capture_state": {
+    "capture_unit": -1,
+    "drawn_frame": 12,
+    "hud_visible": true,
+    "menu_visible": false,
+    "mission": 0,
+    "optical_visible": false,
+    "paused": true,
+    "phase": "post_draw",
+    "selected": 0
+  },
+  "measurement": {
+    "gate_passed": true,
+    "recommendation_dp": 48,
+    "density_dpi": 420,
+    "density_source": "android_display_metrics_density_dpi",
+    "native_measurement": true,
+    "density_reference": "effective adb shell wm density; game Android DisplayMetrics.densityDpi must agree",
+    "window_physical": [
+      2184.0,
+      1968.0
+    ],
+    "viewport_logical": [
+      1280.0,
+      1153.0
+    ],
+    "canvas_scale": [
+      1.70625,
+      1.706851691240243
+    ],
+    "canvas_transform_model": "Godot 4.6.3 canvas_items/expand; base 1280x720; factor 1; floor before per-axis stretch",
+    "safe_physical": [
+      124.0,
+      0.0,
+      2060.0,
+      1968.0
+    ],
+    "screen": "mission",
+    "chart_dp": [
+      750.9619,
+      416.79692727047455
+    ],
+    "controls": [
+      {
+        "action": "pause",
+        "visual_logical": [
+          98.674,
+          765.0,
+          723.855,
+          87.0
+        ],
+        "hit_logical": [
+          98.674,
+          765.0,
+          723.855,
+          87.0
+        ],
+        "hit_physical": [
+          168.3625125,
+          1305.7415437987859,
+          1235.07759375,
+          148.49609713790113
+        ],
+        "hit_dp": [
+          470.50575000000003,
+          56.56994176681948
+        ],
+        "size_exempt_clipped": false
+      },
+      {
+        "action": "sub",
+        "visual_logical": [
+          98.674,
+          856.0,
+          382.442,
+          87.0
+        ],
+        "hit_logical": [
+          98.674,
+          856.0,
+          382.442,
+          87.0
+        ],
+        "hit_physical": [
+          168.3625125,
+          1461.065047701648,
+          652.5416625,
+          148.49609713790113
+        ],
+        "hit_dp": [
+          248.5873,
+          56.56994176681948
+        ],
+        "size_exempt_clipped": false
+      },
+      {
+        "action": "droneA",
+        "visual_logical": [
+          485.116,
+          856.0,
+          382.442,
+          87.0
+        ],
+        "hit_logical": [
+          485.116,
+          856.0,
+          382.442,
+          87.0
+        ],
+        "hit_physical": [
+          827.7291749999999,
+          1461.065047701648,
+          652.5416625,
+          148.49609713790113
+        ],
+        "hit_dp": [
+          248.5873,
+          56.56994176681948
+        ],
+        "size_exempt_clipped": false
+      },
+      {
+        "action": "droneB",
+        "visual_logical": [
+          871.558,
+          856.0,
+          382.442,
+          87.0
+        ],
+        "hit_logical": [
+          871.558,
+          856.0,
+          382.442,
+          87.0
+        ],
+        "hit_physical": [
+          1487.0958375,
+          1461.065047701648,
+          652.5416625,
+          148.49609713790113
+        ],
+        "hit_dp": [
+          248.5873,
+          56.56994176681948
+        ],
+        "size_exempt_clipped": false
+      },
+      {
+        "action": "more_orders",
+        "visual_logical": [
+          826.529,
+          765.0,
+          427.471,
+          87.0
+        ],
+        "hit_logical": [
+          826.529,
+          765.0,
+          427.471,
+          87.0
+        ],
+        "hit_physical": [
+          1410.26510625,
+          1305.7415437987859,
+          729.37239375,
+          148.49609713790113
+        ],
+        "hit_dp": [
+          277.85615,
+          56.56994176681948
+        ],
+        "size_exempt_clipped": false
+      },
+      {
+        "action": "ping",
+        "visual_logical": [
+          98.674,
+          947.0,
+          285.832,
+          87.0
+        ],
+        "hit_logical": [
+          98.674,
+          947.0,
+          285.831,
+          87.0
+        ],
+        "hit_physical": [
+          168.3625125,
+          1616.38855160451,
+          487.69914375,
+          148.49609713790113
+        ],
+        "hit_dp": [
+          185.79014999999998,
+          56.56994176681948
+        ],
+        "size_exempt_clipped": false
+      },
+      {
+        "action": "camera",
+        "visual_logical": [
+          388.505,
+          947.0,
+          285.832,
+          87.0
+        ],
+        "hit_logical": [
+          388.505,
+          947.0,
+          285.832,
+          87.0
+        ],
+        "hit_physical": [
+          662.88665625,
+          1616.38855160451,
+          487.70085,
+          148.49609713790113
+        ],
+        "hit_dp": [
+          185.7908,
+          56.56994176681948
+        ],
+        "size_exempt_clipped": false
+      },
+      {
+        "action": "silent",
+        "visual_logical": [
+          678.337,
+          947.0,
+          285.831,
+          87.0
+        ],
+        "hit_logical": [
+          678.337,
+          947.0,
+          285.831,
+          87.0
+        ],
+        "hit_physical": [
+          1157.41250625,
+          1616.38855160451,
+          487.69914375,
+          148.49609713790113
+        ],
+        "hit_dp": [
+          185.79014999999998,
+          56.56994176681948
+        ],
+        "size_exempt_clipped": false
+      },
+      {
+        "action": "queue",
+        "visual_logical": [
+          968.169,
+          947.0,
+          285.832,
+          87.0
+        ],
+        "hit_logical": [
+          968.169,
+          947.0,
+          285.831,
+          87.0
+        ],
+        "hit_physical": [
+          1651.93835625,
+          1616.38855160451,
+          487.69914375,
+          148.49609713790113
+        ],
+        "hit_dp": [
+          185.79014999999998,
+          56.56994176681948
+        ],
+        "size_exempt_clipped": false
+      },
+      {
+        "action": "hold",
+        "visual_logical": [
+          98.674,
+          1038.0,
+          285.832,
+          87.0
+        ],
+        "hit_logical": [
+          98.674,
+          1038.0,
+          285.831,
+          87.0
+        ],
+        "hit_physical": [
+          168.3625125,
+          1771.7120555073723,
+          487.69914375,
+          148.49609713790113
+        ],
+        "hit_dp": [
+          185.79014999999998,
+          56.56994176681948
+        ],
+        "size_exempt_clipped": false
+      },
+      {
+        "action": "emp",
+        "visual_logical": [
+          388.505,
+          1038.0,
+          285.832,
+          87.0
+        ],
+        "hit_logical": [
+          388.505,
+          1038.0,
+          285.832,
+          87.0
+        ],
+        "hit_physical": [
+          662.88665625,
+          1771.7120555073723,
+          487.70085,
+          148.49609713790113
+        ],
+        "hit_dp": [
+          185.7908,
+          56.56994176681948
+        ],
+        "size_exempt_clipped": false
+      },
+      {
+        "action": "home",
+        "visual_logical": [
+          678.337,
+          1038.0,
+          285.831,
+          87.0
+        ],
+        "hit_logical": [
+          678.337,
+          1038.0,
+          285.831,
+          87.0
+        ],
+        "hit_physical": [
+          1157.41250625,
+          1771.7120555073723,
+          487.69914375,
+          148.49609713790113
+        ],
+        "hit_dp": [
+          185.79014999999998,
+          56.56994176681948
+        ],
+        "size_exempt_clipped": false
+      },
+      {
+        "action": "menu",
+        "visual_logical": [
+          968.169,
+          1038.0,
+          285.832,
+          87.0
+        ],
+        "hit_logical": [
+          968.169,
+          1038.0,
+          285.831,
+          87.0
+        ],
+        "hit_physical": [
+          1651.93835625,
+          1771.7120555073723,
+          487.69914375,
+          148.49609713790113
+        ],
+        "hit_dp": [
+          185.79014999999998,
+          56.56994176681948
+        ],
+        "size_exempt_clipped": false
+      },
+      {
+        "action": "zoom_out",
+        "visual_logical": [
+          977.0,
+          120.0,
+          87.0,
+          87.0
+        ],
+        "hit_logical": [
+          977.0,
+          120.0,
+          87.0,
+          87.0
+        ],
+        "hit_physical": [
+          1667.0062500000001,
+          204.82220294882916,
+          148.44375,
+          148.49609713790113
+        ],
+        "hit_dp": [
+          56.55,
+          56.56994176681948
+        ],
+        "size_exempt_clipped": false
+      },
+      {
+        "action": "zoom_in",
+        "visual_logical": [
+          1068.0,
+          120.0,
+          87.0,
+          87.0
+        ],
+        "hit_logical": [
+          1068.0,
+          120.0,
+          87.0,
+          87.0
+        ],
+        "hit_physical": [
+          1822.275,
+          204.82220294882916,
+          148.44375,
+          148.49609713790113
+        ],
+        "hit_dp": [
+          56.55,
+          56.56994176681948
+        ],
+        "size_exempt_clipped": false
+      },
+      {
+        "action": "fit",
+        "visual_logical": [
+          1159.0,
+          120.0,
+          87.0,
+          87.0
+        ],
+        "hit_logical": [
+          1159.0,
+          120.0,
+          87.0,
+          87.0
+        ],
+        "hit_physical": [
+          1977.54375,
+          204.82220294882916,
+          148.44375,
+          148.49609713790113
+        ],
+        "hit_dp": [
+          56.55,
+          56.56994176681948
+        ],
+        "size_exempt_clipped": false
+      }
+    ],
+    "errors": [],
+    "limits": "No physical panel-mm, Android OS multi-touch, finger comfort or performance claim."
+  }
+}
