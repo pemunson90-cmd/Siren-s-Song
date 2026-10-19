@@ -1,10 +1,10 @@
 # Siren’s Song · current workbench
 
-Governing revision **e286ade61257190daa46f9433182de323a611271**. Dedicated feature worktrees, explicit ownership, one integration reviewer per design, targeted regression checks, comprehensive/native validation at coherent milestones. Task completion triggers execution of the next task.
+User-ratified governance **e286ade61257190daa46f9433182de323a611271**, fetched/published production **7febd8d6e4f6227b14f9b27f97428b34e25fb6bb**. Dedicated feature worktrees, explicit ownership, one integration reviewer per design, targeted regression checks, comprehensive/native validation at coherent milestones. Task completion triggers execution of the next task.
 
 | Work | Actual state and remaining action |
 | --- | --- |
-| Assisted departure | Merged locally6ab8fb0;45 permanent checks. Same-state basalt clearance improves; turning costs~1.1s,3 inherited corridor stops and unavoidable/no-EMP losses remain. |
+| Assisted departure | Published in7febd8d via6ab8fb0;45 permanent checks. Same-state basalt clearance improves; turning costs~1.1s,3 inherited corridor stops and unavoidable/no-EMP losses remain. |
 | Resume evidence | Merged48a42ad; foreground/postdraw/RGB guard reviewed. Actual same-resume recovery still requires next native batch. |
 | Quietus bow cue | Mergedb21130d; selected craft only, final ocean338c9e47.9 focused checks, matched motion/loss unchanged, inactive debrief identical. Wider-drone clutter rejected. |
 | Optional Well signature | Mergede762eeb with strict fresh-save shape guard9/0. Optional own-noise/reference comparison retains remote completion and real losses. First-record camera key exception found during integration: owner fixed0b318af, GL RED6/2→GREEN6/0; same reviewer independently reran GL6/0 and approved; corrected tip now merged. |
@@ -14,7 +14,7 @@ Governing revision **e286ade61257190daa46f9433182de323a611271**. Dedicated featu
 
 Root sole production integrator in `/workspace/Siren-s-Song-integration`. Existing original workspace/captures and source branches retained. Milestone-tag/manual-dispatch Android trigger replaces every-feature APK. Feature refs containing that workflow correction may be published without redundant builds.
 
-Next: camera correction merged; combined playable-batch gate exited0; publish verified source, publish reconciled production and launch one justified native batch while FIT development continues. No adoption-only critic/APK or per-increment full suite. [Exact continuation](CONTINUATION.md).
+Production7febd8d is published after combined gate0. Explicit `gauntlet/milestone/2026-10-19-navigation-well-resume` is pushed; Android owner monitors actual run/artifacts while FIT and Well context features continue. No adoption-only critic/APK or per-increment full suite. [Exact continuation](CONTINUATION.md).
 
 Latest actual [Android39266427532](validation/android-39266427532/README.md) is20de5cd:4 ZIPs/APK/certificate and48 images inspected. Chapter/loadout/optical states pass scoped review; cover-resume all black. New local features are absent from that APK. Preserve0afe5fc and f1ea536/runtime92625ac recoveries. No physical Fold7/full-campaign/finale/human acceptance claim.
 
