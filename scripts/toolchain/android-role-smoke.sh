@@ -69,7 +69,8 @@ native_role_smoke() {
     read_logcat "$output/role-before-lure.txt"
     initial_return_count="$(grep -Ec 'SS_ROLE mission=4 index=1 type=hunter mode=DORMANT' "$output/role-before-lure.txt" || true)"
     tap_target more_orders 'SS_TARGET decoy ' role-secondary-orders
-    tap_target decoy 'SS_ORDER decoy accepted=true selected=0' role-ordinary-decoy
+    tap_target decoy 'SS_DECOY_AIM armed=true selected=0' role-arm-decoy
+    tap_target role_decoy 'SS_ORDER decoy accepted=true selected=0' role-ordinary-decoy
     tap_target role_home 'SS_ORDER route accepted=true selected=0' role-silent-withdrawal
     shot inner-role-lure-planned
     tap_target pause 'SS_PAUSE paused=false' role-response-resume

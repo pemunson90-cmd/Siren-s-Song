@@ -7,6 +7,7 @@ const RouteProgram=preload("res://src/simulation/route_program.gd")
 const Missions = preload("res://src/campaign/missions.gd")
 const STEP := 1.0/60.0
 const TILE := 40.0
+const DECOY_RANGE := 160.0
 const KNOCK_RANGE := 150.0
 const KNOCK_TIME := 8.0
 const TORPEDO_SPEED := 180.0
@@ -202,8 +203,9 @@ func command(order: String,args: Dictionary={}) -> bool:
 			_noise(u.pos,650,"KNOCKDOWN"); events.append({"type":"knock","pos":u.pos})
 			message="Torpedo launched at S%d · pin on impact · emission audible"%(id+1)
 		"decoy":
-			if tools.decoy<=0: return false
-			tools.decoy-=1; _noise(args.get("point",u.pos+Vector2(160,0)),1100,"DECOY",15.0); message="Decoy launched · 15s transmission"; events.append({"type":"decoy","pos":u.pos})
+			var point=args.get("point",u.pos+Vector2(DECOY_RANGE,0))
+			if not decoy_target_valid(point): message="Decoy needs clear water within 160m and a clear path · no charge spent"; return false
+			tools.decoy-=1; _noise(point,1100,"DECOY",15.0); message="Decoy launched · 15s transmission"; events.append({"type":"decoy","pos":u.pos})
 		"camera":
 			var context=camera_context()
 			if not context.ready: message=context.text; return false
@@ -335,6 +337,10 @@ func well_signature_evidence() -> Dictionary:
 	var reference=mission.well_reference;var observation=mission.well_observation
 	return {"name":"QUIETUS / RETURNED CADENCE","optical":"well_signature","caption":"ENGINE REFERENCE: Quietus moving %.1f m/s at %.1fs near PROFILE APERTURE. LOCAL RETURN: received by %s at %.1fs near RETURN ARCHIVE. The returned cadence matches the recorded reference. Source and intent remain unresolved."%[reference.speed,reference.time,units[observation.unit].name.to_upper(),observation.time]}
 
+func decoy_target_valid(point:Variant) -> bool:
+	if not point is Vector2 or not point.is_finite():return false
+	var origin=units[selected]
+	return origin.alive and outcome.is_empty() and tools.decoy>0 and Rect2(6,6,1588,948).has_point(point) and origin.pos.distance_to(point)<=DECOY_RANGE+0.001 and not blocked(point,6) and segment_safe(origin.pos,point,6)
 func _noise(p: Vector2,radius: float,label: String,duration: float=2.0) -> void:
 	noises.append({"pos":p,"radius":radius,"time":duration,"label":label})
 func departure_feedback() -> Dictionary:
