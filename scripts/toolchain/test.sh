@@ -105,6 +105,7 @@ contact_reports_tests|CONTACT REPORT
 contact_reports_ui_tests|CONTACT REPORT UI
 blackwater_courier_tests|COURIER
 route_program_ui_tests|ROUTE PROGRAM UI
+observed_task_controls_ui_tests|OBSERVED TASK CONTROLS UI
 planner_navigation_ui_tests|PLANNER NAVIGATION
 planner_space_ui_tests|PLANNER SPACE UI
 playfield_hud_tests|PLAYFIELD HUD
