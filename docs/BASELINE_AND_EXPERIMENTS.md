@@ -119,3 +119,14 @@ Observed-contact experience disposition: [fresh independent review](reviews/2026
 
 
 Separate [regression disposition](reviews/2026-10-19-observed-contact-regressions.md) supports exact5eb571f for native validation:518 matching state records,13 cached-observation boundary checks,8 independent capture adversaries and actual forced-three-contact optical coexistence renders. No consequential new regression confirmed; cover's5px maximal-fixture gap and added overlay occupancy stay explicit. Promote only supported local presentation gains now; installed/compositor/physical behavior awaits actual new artifacts.
+
+
+## Scoped native promotion ·contact/capture source0afe5fc
+
+[Run39251216827](validation/android-39251216827/README.md) succeeds on exact0afe5fce83c575995b718c5e3d6b152bd7282df2, identical game/tool bytes to independently reviewed5eb571f. All four downloaded ZIP sizes/SHA256/CRC and extracted APKhash/v2/v3/publiccertificate verify, including independent root recomputation. APKc8b63d1bddee778a19a3a707702e9fd70dc80b3eeb2422c288f77984121fbb4f; stable certificate32bcb2287acd01c1f58c26997c7639f3072c74c6b03ab2a24656dc7cd1c7dc3c. All41 finalPNG views were inspected; root independently viewed all3 critical requested-state images.
+
+Accepted new native evidence: actual inner opticalDRONEA/EXPOSING with camera tool-pulse row, and cover+inner restored paused dive/footer, fixing the earlier9dacbb4 named-frame evidence lag. Three postdraw semantic brackets and15 menu pairs remain equal with nonregressing counts/frames. App-render acknowledgment does not certify the Android compositor; actual inspected pixels support these specific frames. The new source retains both-layout geometry/menu/Settings/zoom/pan/FIT, lifecycle/audio, ordinary Shelf completion/coldsave and fixture-assisted Well/genuinearchive gates.
+
+Local contact identity/echo/newcomer gains and chart-occupancy/gaze-transfer costs remain supported by actual desktop comparisons and independent criticism. Native S# appears only partially behind debrief/menu overlays in this protocol; no unobscured native teaching sequence, crowded optical/contact motion, physical Fold7, human listening/comprehension or full native campaign/finale promotion is inferred. Preserve9dacbb4, b809501 and fully inspectedf1ea536, all loss clips and the unpromoted finale qualification.
+
+The next cycle was already executing during native validation: isolated Blackwater request/reply investigation. Early timing-versus-direct comparisons preserve a roughly5second solo waiting cost with no demonstrated calibration-driven plan change; the worker now investigates actual motion and a matched covered/timed approach before deciding whether to reject cadence. A passing22-rule model is not experience acceptance. Saving this native baseline immediately leads back into that investigation; it does not end the Gauntlet.

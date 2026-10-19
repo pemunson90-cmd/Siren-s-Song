@@ -1,6 +1,6 @@
 # Siren's Song progress workbench
 
-**Stage:** Active / observed-contact and native capture candidate reviewed for meaningful native validation; isolated Blackwater investigation experiment has begun. Current integrated gate257core/298runtime/1057density/7menu/15scroll/68transport passes. Inspected playable baseline remains9dacbb4; no new native acceptance yet.
+**Stage:** Active / Blackwater investigation prototype. Reviewed5eb571f, native0afe5fc/run39251216827 now passes scoped native, byte/signature and41-final-image review; final evidence archival is finishing. Current integrated gate257/298/1057/7/15/68 passes. Native fresh→memory teaching/full-campaign/physical acceptance remains open; inspected9dacbb4 and older fallbacks remain preserved.
 **Phone dashboard:** [current APK, evidence and limits](PHONE_DASHBOARD.md).
 **Development comparison base:** aa022cc / game b809501, native run 39229219785; existing artifacts retrieved normally through the selected Command-Library environment's inherited proxy under its unrestricted local policy. Runtime status reports connected but policy state unknown, so actual successful requests establish access rather than an invented enforcement claim.
 **Fully inspected native fallback:** f1ea536 / runtime 92625ac; inherited patrol defect recorded. Latest tested APK contains experimental finale ancestry; native finale/full-campaign quality remains unresolved.
@@ -213,3 +213,10 @@ Exact source5eb571f passes both [fresh experience](reviews/2026-10-19-observed-c
 ## Meaningful native run39251216827 active
 
 Root published exact0afe5fce83c575995b718c5e3d6b152bd7282df2 against809282d and verified remote HEAD; game/tool bytes equal reviewed5eb571f. [Run39251216827](validation/android-39251216827/README.md), job118055197456, started19October12:19:55UTC. Initial observed stage: official Godot cache restoration; no failure or success verdict yet. Evidence-only tooling owner monitors this new source run and will verify all ZIP/APK/certificate bytes plus actual final PNGs, particularly optical camera and both restored-gameplay states. No duplicate CI/retrieval or compositor acknowledgment claim. Root will not push source while usefulCI runs. Independent production continues the isolated Blackwater investigation prototype from its byte-verified52bedd6 baseline.
+
+
+## Native39251216827 byte/pixel checkpoint — development continues
+
+Exact0afe5fc run/job118055197456 completes success at12:33:53UTC. [Artifact review](validation/android-39251216827/ARTIFACT_REVIEW.md) inspects41 finalPNGs, all4ZIP digests/CRC, extracted APKc8b63d1bddee...21fbb4f and stable v2/v3 certificate, independently recomputed by root. The actual3 new named-state images show inner optical camera and both restored paused dives, with no consequential clipping. Three semantic capture brackets and15menu pairs agree; postdraw is not compositor acknowledgment. Native unobscured S# teaching/crowded contact camera stress remains unproved. Previous baselines/finale/human/device limits stay preserved.
+
+Phone dashboard/playtest/START_HERE/CONTINUATION now lead with this inspected build and the actual next active Blackwater prototype, not the completed earlier response-probe task. Isolated prototype rule/policy corrections are retained; no timing mechanic is accepted. Root publishes released evidence/governing docs with an aborting docs-only guard against0afe5fc, then immediately continues prototype decision/motion review. No platform/resource boundary is observed.
