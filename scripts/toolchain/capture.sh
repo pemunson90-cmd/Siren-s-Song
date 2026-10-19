@@ -12,7 +12,7 @@ mkdir -p "$capture_dir"
     --resolution "${CAPTURE_RESOLUTION:-1280x720}" --fixed-fps "${CAPTURE_FPS:-30}" \
     --write-movie "$capture_dir/frame.png" --quit-after "${CAPTURE_FRAMES:-90}" "$@" \
     2>&1 | tee "$capture_dir/godot.log"
-find "$capture_dir" -maxdepth 1 -type f -name '*.png' -print -quit | rg -q . || {
+find "$capture_dir" -maxdepth 1 -type f -name '*.png' -print -quit | grep -q . || {
     echo "No PNG frames written to $capture_dir" >&2; exit 1;
 }
 echo "Capture: $capture_dir"

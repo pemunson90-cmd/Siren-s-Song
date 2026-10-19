@@ -7,7 +7,7 @@ package=org.sirenssong.game
 output="$ARTIFACT_DIR/android-smoke"
 mkdir -p "$output"
 adb wait-for-device
-adb get-state | rg -q '^device$'
+adb get-state | grep -Eq '^device$'
 adb logcat -c
 cleanup() {
     adb logcat -d >"$output/logcat.txt" 2>&1 || true
@@ -23,7 +23,7 @@ adb shell settings put system user_rotation 1
 launch() {
     adb shell monkey -p "$package" -c android.intent.category.LAUNCHER 1 >"$output/launch-$1.txt"
     sleep 4
-    adb shell pidof "$package" | tee "$output/pid-$1.txt" | rg -q '[0-9]'
+    adb shell pidof "$package" | tee "$output/pid-$1.txt" | grep -Eq '[0-9]'
 }
 shot() {
     adb exec-out screencap -p >"$output/$1.png"
@@ -61,7 +61,7 @@ PY
     shot "$profile-restart"
 done
 adb logcat -d >"$output/logcat.txt"
-if rg -n 'FATAL EXCEPTION|Fatal signal|SCRIPT ERROR:|Parse Error:' "$output/logcat.txt"; then
+if grep -nE 'FATAL EXCEPTION|Fatal signal|SCRIPT ERROR:|Parse Error:' "$output/logcat.txt"; then
     echo 'Runtime errors detected; inspect logcat artifact' >&2
     exit 1
 fi
