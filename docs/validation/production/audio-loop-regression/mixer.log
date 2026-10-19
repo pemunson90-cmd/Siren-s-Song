@@ -1,0 +1,47 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:364)
+OpenGL API 4.5 (Core Profile) Mesa 25.0.7-2+deb13u1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 19.1.7, 256 bits)
+
+Movie Maker mode enabled, recording movie in 1280×720 @ 30 FPS...
+AUDIO LOOP ambience frames=176400 begin=0 end=176399
+AUDIO LOOP engine frames=44100 begin=0 end=44099
+SS_TARGET pause center=1104,130 viewport=1280,720
+SS_TARGET sub center=1003,194 viewport=1280,720
+SS_TARGET droneA center=1102,194 viewport=1280,720
+SS_TARGET droneB center=1201,194 viewport=1280,720
+SS_TARGET ping center=1027,250 viewport=1280,720
+SS_TARGET camera center=1175,250 viewport=1280,720
+SS_TARGET silent center=1027,306 viewport=1280,720
+SS_TARGET queue center=1175,306 viewport=1280,720
+SS_TARGET hold center=1027,362 viewport=1280,720
+SS_TARGET emp center=1175,362 viewport=1280,720
+SS_TARGET decoy center=1027,418 viewport=1280,720
+SS_TARGET recon center=1175,418 viewport=1280,720
+SS_TARGET contact_hold center=1027,474 viewport=1280,720
+SS_TARGET wait_drone center=1175,474 viewport=1280,720
+SS_TARGET waypoint_mode center=1038,586 viewport=1280,720
+SS_TARGET home center=1027,530 viewport=1280,720
+SS_TARGET menu center=1175,530 viewport=1280,720
+SS_TARGET objective0 center=761,404 viewport=1280,720
+SS_TARGET route center=207,568 viewport=1280,720
+SS_CAPTURE /workspace/Siren-s-Song-gauntlet/build/captures/audio-loop-regression/full.png size=(1280, 720) result=0
+AUDIO LOOP AUDITION clock=2.03 ambience_position=2.01 engine_position=0.12
+AUDIO LOOP AUDITION clock=4.02 ambience_position=4.01 engine_position=0.46
+AUDIO LOOP AUDITION clock=6.02 ambience_position=6.01 engine_position=0.8
+AUDIO LOOP AUDITION clock=8.02 ambience_position=0.01 engine_position=1.14
+AUDIO LOOP AUDITION clock=10.02 ambience_position=2.01 engine_position=1.48
+AUDIO LOOP AUDITION clock=12.02 ambience_position=4.0 engine_position=1.82
+AUDIO LOOP AUDITION clock=14.02 ambience_position=6.01 engine_position=0.16
+AUDIO LOOP AUDITION clock=16.02 ambience_position=0.0 engine_position=0.47
+WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
+   at: cleanup (core/object/object.cpp:2663)
+--------------------------------------------------------------------------------
+Done recording movie at path: /workspace/Siren-s-Song-gauntlet/build/captures/audio-loop-regression/frame.png
+540 frames at 30 FPS (movie length: 00:00:18:00), recorded in 00:01:11 (25% of real-time speed).
+CPU render time: 1.57 seconds (average: 2.90 ms/frame)
+GPU render time: 5.29 seconds (average: 9.80 ms/frame)
+Encoding time: 58.45 seconds (average: 108.24 ms/frame)
+--------------------------------------------------------------------------------
+Capture: /workspace/Siren-s-Song-gauntlet/build/captures/audio-loop-regression
+Full viewport: /workspace/Siren-s-Song-gauntlet/build/captures/audio-loop-regression/full.png
