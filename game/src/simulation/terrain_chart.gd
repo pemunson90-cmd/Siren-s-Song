@@ -22,11 +22,12 @@ func configure(mission:Dictionary,shapes:Array,saved:Dictionary={})->void:
  if not saved.is_empty():
   clear_cells=saved.clear_cells.duplicate();return_cells=saved.return_cells.duplicate();surface_segments=saved.surface_segments.duplicate(true);generation=saved.generation
   for segment in surface_segments:_surface_keys[_segment_key(segment)]=true
-  return
+  _build_grid();return
  var seed:Rect2=mission.launch_seed
  for cell in _cells(seed):
   var rect=_rect(cell)
   if seed.encloses(rect) and _water(rect.grow(CLEARANCE)):_clear(cell)
+ _build_grid()
 func snapshot()->Dictionary:
  return {"revision":1,"geometry_revision":geometry_revision,"generation":generation,"clear_cells":clear_cells.duplicate(),"return_cells":return_cells.duplicate(),"surface_segments":surface_segments.duplicate(true)}
 func public_chart()->Dictionary:
@@ -137,28 +138,36 @@ func clear_disk(origin:Vector2,radius:float)->bool:
  return true
 func point_blocked(point:Vector2,margin:float=CLEARANCE)->bool:
  if point.x<margin or point.y<margin or point.x>dimensions.x-margin or point.y>dimensions.y-margin:return true
- for cell in return_cells:
-  if _rect(cell).grow(margin).has_point(point):return true
+ var cell=Vector2i((point/TILE).floor())
+ if return_cells.has(cell):return true
+ if clear_cells.has(cell):return false # Whole footprint already certifies24m.
+ # A speculative cell touching a measured face lacks a certified hull corridor.
+ # This is derived solely from public occupancy, never hidden geometry.
+ for y in range(cell.y-1,cell.y+2):
+  for x in range(cell.x-1,cell.x+2):
+   if return_cells.has(Vector2i(x,y)):return true
  return false
 func segment_safe(a:Vector2,b:Vector2,margin:float=CLEARANCE)->bool:
  if point_blocked(a,margin) or point_blocked(b,margin):return false
- for cell in return_cells:
-  if _segment_rect(a,b,_rect(cell).grow(margin)):return false
- return true
-static func _segment_rect(a:Vector2,b:Vector2,rect:Rect2)->bool:
- var low=0.0;var high=1.0;var delta=b-a
+ var delta=b-a;var times=[0.0,1.0]
  for axis in 2:
-  if absf(delta[axis])<0.000001:
-   if a[axis]<rect.position[axis] or a[axis]>rect.end[axis]:return false
-  else:
-   var first=(rect.position[axis]-a[axis])/delta[axis];var last=(rect.end[axis]-a[axis])/delta[axis]
-   low=maxf(low,minf(first,last));high=minf(high,maxf(first,last))
-   if low>high:return false
+  if absf(delta[axis])<0.00001:continue
+  var low=int(floor(minf(a[axis],b[axis])/TILE));var high=int(ceil(maxf(a[axis],b[axis])/TILE))
+  for value in range(low,high+1):
+   var t=(value*TILE-a[axis])/delta[axis]
+   if t>0 and t<1:times.append(t)
+ times.sort()
+ for n in range(times.size()-1):
+  if point_blocked(a.lerp(b,(times[n]+times[n+1])*0.5),margin):return false
  return true
 func _build_grid()->void:
  if _grid_generation==generation:return
  _grid=AStarGrid2D.new();_grid.region=Rect2i(Vector2i.ZERO,Vector2i(dimensions/TILE));_grid.cell_size=Vector2.ONE*TILE;_grid.offset=Vector2.ONE*TILE/2
  _grid.diagonal_mode=AStarGrid2D.DIAGONAL_MODE_ONLY_IF_NO_OBSTACLES;_grid.update()
+ for y in int(dimensions.y/TILE):
+  _grid.set_point_solid(Vector2i(0,y));_grid.set_point_solid(Vector2i(int(dimensions.x/TILE)-1,y))
+ for x in int(dimensions.x/TILE):
+  _grid.set_point_solid(Vector2i(x,0));_grid.set_point_solid(Vector2i(x,int(dimensions.y/TILE)-1))
  for cell in return_cells:
   for near in _cells(_rect(cell).grow(CLEARANCE+TILE)):
    if point_blocked(Vector2(near)*TILE+Vector2.ONE*TILE/2):_grid.set_point_solid(near,true)

@@ -17,6 +17,7 @@ const RECORDS = [
 	"The final packet describes a fracture below the mantle. The Sirens are leaving. Their song asks us to listen."
 ]
 static func make(index: int,history:Dictionary={}) -> Dictionary:
+	if index==14:return preload("res://src/campaign/blind_passage_mission.gd").make(index,history)
 	if index in [11,12,13]:return preload("res://src/campaign/resolution_missions.gd").make(index,history)
 	if index in [9,10]:return preload("res://src/campaign/onward_missions.gd").make(index,history)
 	if index in [6,7,8]:return preload("res://src/campaign/divergence_missions.gd").make(index)
