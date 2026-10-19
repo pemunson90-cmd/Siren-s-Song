@@ -9,6 +9,7 @@ static func move(s, point: Vector2) -> bool:
 			if contact.lock>1.0 and s.tools.emp>0: s.command("emp"); break
 		if not s.outcome.is_empty(): return s.outcome=="won"
 		if s.units[0].pos.distance_to(point)<20 and s.units[0].vel.length()<2: return true
+		if s.units[0].route.is_empty() and s.units[0].vel.length()<2: return false
 	return false
 static func run(t) -> void:
 	for id in 6:

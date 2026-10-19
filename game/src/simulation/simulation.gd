@@ -77,6 +77,7 @@ func line_clear(a: Vector2,b: Vector2) -> bool:
 func path(a: Vector2, b: Vector2) -> Array:
 	var result: Array=[]
 	if blocked(b,24): return result
+	if blocked(a,24): return _near_wall_recovery(a,b)
 	if segment_safe(a,b,24): return [{"pos":b,"stop":true}]
 	var first=nearest_navigation_cell(a)
 	var last=nearest_navigation_cell(b)
@@ -94,6 +95,26 @@ func path(a: Vector2, b: Vector2) -> Array:
 		result.append({"pos":raw[furthest],"stop":furthest==raw.size()-1})
 		origin=raw[furthest]; at=furthest+1
 	return result
+func _near_wall_recovery(origin: Vector2,destination: Vector2) -> Array:
+	# Inertia can leave a legal 12m hull inside the 24m routing comfort margin.
+	# Escape locally with increasing clearance; retain normal margins after entry.
+	if blocked(origin,12): return []
+	var candidates: Array=[]
+	for radius in [40.0,80.0]:
+		for n in 16:
+			var entry=origin+Vector2.from_angle(n*TAU/16)*radius
+			if blocked(entry,24): continue
+			var count=int(ceil(radius/5.0)); var safe=true
+			for step in range(1,count+1):
+				var fraction=float(step)/count
+				if blocked(origin.lerp(entry,fraction),lerpf(12,24,fraction)): safe=false; break
+			if safe: candidates.append({"pos":entry,"cost":radius+entry.distance_to(destination)})
+	candidates.sort_custom(func(a,b): return a.cost<b.cost)
+	for candidate in candidates:
+		var onward=path(candidate.pos,destination)
+		if not onward.is_empty():
+			var route: Array=[{"pos":candidate.pos,"stop":true}]; route.append_array(onward); return route
+	return []
 func command(order: String,args: Dictionary={}) -> bool:
 	if not outcome.is_empty(): return false
 	var u=units[selected]
@@ -235,6 +256,7 @@ func _move(u: Dictionary,dt: float,speed: float,holding: bool) -> void:
 			var target_angle=delta.angle()
 			var turn=absf(angle_difference(u.angle,target_angle))
 			if turn>0.3: target_speed=minf(target_speed,28.0+35.0*maxf(0,cos(turn)))
+			if turn>0.15 and blocked(u.pos,24): target_speed=0.0 # Thruster-turn away before a near-wall restart.
 			if u.route.size()>1:
 				var next_direction:Vector2=u.route[1].pos-u.route[0].pos
 				var corner=absf(delta.angle_to(next_direction))
@@ -296,11 +318,44 @@ func _threats(dt: float) -> void:
 			s.target=-1; s.lock=maxf(0,s.lock-dt*3); s.suspicion=maxf(0,s.suspicion-dt*0.015)
 			if s.pos.distance_to(s.goal)<35:
 				s.mode="SEARCH" if s.suspicion>0.1 else "PATROL"
-				s.goal=s.home+Vector2(sin(elapsed/19.0+s.patrol)*190,70+cos(elapsed/27.0)*65)
+				s.route=_patrol_route(s); s.path_time=2.0
 			s.path_time-=dt
 			if s.path_time<=0:
-				s.route=path(s.pos,s.goal); s.path_time=2.0
+				s.route=path(s.pos,s.goal)
+				if s.route.is_empty() and s.pos.distance_to(s.goal)>=35:
+					# Preserve investigation intent at a reachable edge of a heard point.
+					if s.mode=="INVESTIGATE": s.route=_search_approach(s)
+					if s.route.is_empty():
+						s.mode="SEARCH" if s.suspicion>0.1 else "PATROL"; s.route=_patrol_route(s)
+				s.path_time=2.0
 		_move(s,dt,48.0 if s.suspicion>0.1 else 25.0,false)
+func _patrol_route(s: Dictionary) -> Array:
+	var points: Array=s.get("patrol_points",[])
+	for _attempt in points.size():
+		var index=int(s.get("patrol_index",0))%points.size()
+		s["patrol_index"]=(index+1)%points.size()
+		var point:Vector2=points[index]
+		if s.pos.distance_to(point)<35: continue
+		var route=path(s.pos,point)
+		if not route.is_empty(): s.goal=point; return route
+	# Legacy archives have no authored points. Validate alternatives instead of
+	# retrying a blocked procedural destination forever. Also recover malformed routes.
+	var angle=elapsed/19.0+float(s.patrol)
+	for ring in [190.0,120.0]:
+		for n in 16:
+			var point:Vector2=(s.home if ring==190.0 else s.pos)+Vector2.from_angle(angle+n*TAU/16)*ring
+			if s.pos.distance_to(point)<75: continue
+			var route=path(s.pos,point)
+			if not route.is_empty(): s.goal=point; return route
+	return []
+func _search_approach(s: Dictionary) -> Array:
+	var heard:Vector2=s.goal
+	for radius in [40.0,80.0,120.0,160.0]:
+		for n in 16:
+			var point=heard+Vector2.from_angle(n*TAU/16)*radius
+			var route=path(s.pos,point)
+			if not route.is_empty(): s.goal=point; return route
+	return []
 func all_records() -> bool:
 	for o in mission.objectives:
 		if not o.captured: return false
@@ -336,6 +391,10 @@ static func valid_snapshot(data: Dictionary) -> bool:
 			if not w is Dictionary or not w.has_all(["pos","stop"]) or not w.pos is Vector2: return false
 	for e in data.sirens:
 		if not e is Dictionary or not e.has_all(["pos","home","goal","vel","route","angle","mode","suspicion","stun","lock","target","patrol","path_time"]): return false
+		if e.has("patrol_points"):
+			if not e.patrol_points is Array or not e.get("patrol_index",0) is int or e.get("patrol_index",0)<0: return false
+			for point in e.patrol_points:
+				if not point is Vector2: return false
 	return true
 
 static func rock_polygon(r: Rect2) -> PackedVector2Array:

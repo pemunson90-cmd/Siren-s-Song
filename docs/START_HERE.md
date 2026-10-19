@@ -2,7 +2,7 @@
 
 ## Current stage
 
-Active persistent production Gauntlet in Godot4.6.3. Verified native baseline93b8631; current direction is zoom/pan and friendlier touch controls. Start with `docs/PHONE_DASHBOARD.md`, then current WORKBENCH/CONTINUATION; historical imports remain immutable.
+Active persistent production Gauntlet in Godot 4.6.3. The [phone dashboard](PHONE_DASHBOARD.md) is the canonical current source/build/evidence entry. Accepted native touch build is f1ea536 (runtime92625ac); published source also contains unpromoted finale work. Current work is confirmed patrol/recovery repair, then physical target sizing and finale assessment. Read WORKBENCH/CONTINUATION for the precise active checkpoint; historical imports remain immutable.
 
 ## Read order
 
@@ -28,4 +28,4 @@ The [source import report](source-import/README.md) records integrity checks, pa
 
 ## Next action
 
-Read `docs/CONTINUATION.md`, `docs/BASELINE_AND_EXPERIMENTS.md` and current touch plan. Preserve verified artifacts, compare challengers, retain rejected experiments, and inherit `docs/AGENT_BRIEF.md` in every delegation. Do not repeat completed foundation/toolchain work. Only the user ends the Gauntlet; pause at actual execution limits with a precise continuation.
+Read `docs/CONTINUATION.md`, `docs/BASELINE_AND_EXPERIMENTS.md` and the current workbench cycle. Preserve verified artifacts, compare challengers, retain rejected experiments, and inherit `docs/AGENT_BRIEF.md` in every delegation. Do not repeat completed foundation/toolchain work. Only the user ends the Gauntlet; pause at actual execution limits with a precise continuation.

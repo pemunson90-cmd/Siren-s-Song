@@ -1,0 +1,3 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+BLACKWATER east_decoy outcome= t=307.6 hull=100.0 phases=100.0,100.0 EMP_first=1 tools={ "emp": 0, "decoy": 2, "recon": 2 } pos=(1351.367, 643.4868) vel=(0.0, 0.0) route=[] hold= captures=[true, true] message=Autopilot stopped at unsafe terrain. Replot in open water.

@@ -77,3 +77,7 @@ Maintain the lightweight phone-readable repository dashboard at `docs/PHONE_DASH
 Zoom in/out and a usable, friendly touch UI are key production features. The prototype UI and screen dimensions are not constraints; logical coordinates are implementation details. Validate zoom/pan, responsive controls, gesture conflicts, accidental orders, route clarity and tactical pause on cover/unfolded evidence, then physical Fold7 when available.
 
 Persist future agreed workflow and creative decisions in Git instructions with rationale and source hierarchy. Update governing docs and continuation at the next safe checkpoint so future sessions inherit them. Every new worker/critic brief must include `docs/AGENT_BRIEF.md` policy, exact scope and evidence; requested model routing must be explicit and actual telemetry honestly unknown where unavailable. The ratified fit-to-task lighter-agent permission refines earlier blanket Sol-only wording; Sol remains the substantial-work default, premium remains justified escalation only.
+
+## Exact publication scope
+
+Before publishing, name the intended committed SHA, agreed reference and sole pusher. A docs-only / `[skip ci]` publication must **abort** if `git diff <reference> <tip> -- game scripts/toolchain .github/workflows` is nonempty; printing the diff is not a guard. Check the committed tip, not merely the working tree, and never stage another owner's active files. An experimental source checkpoint does not promote its APK/runtime. Preserve accepted source/artifacts and label source versus playable-build status explicitly.

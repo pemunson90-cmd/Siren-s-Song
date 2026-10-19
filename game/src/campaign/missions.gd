@@ -75,4 +75,14 @@ static func make(index: int) -> Dictionary:
 		for n in patrols.size():
 			var home=[Vector2(970,160),Vector2(1390,420),Vector2(1260,830)][n]
 			patrols[n].pos=home; patrols[n].home=home; patrols[n].goal=home
+	var circuits=[
+		[[Vector2(620,130),Vector2(800,150),Vector2(800,310),Vector2(620,280)]],
+		[[Vector2(420,140),Vector2(420,420),Vector2(420,700),Vector2(520,780)],[Vector2(1220,140),Vector2(1260,460),Vector2(1360,820),Vector2(1180,560)]],
+		[[Vector2(620,130),Vector2(760,130),Vector2(760,350),Vector2(600,330)],[Vector2(890,130),Vector2(1140,160),Vector2(1140,520),Vector2(780,520)]],
+		[[Vector2(960,260),Vector2(1040,460),Vector2(1080,580),Vector2(1080,840)],[Vector2(1320,820),Vector2(1450,840),Vector2(1510,880),Vector2(1150,860)]],
+		[[Vector2(620,130),Vector2(800,130),Vector2(800,300),Vector2(420,200)],[Vector2(890,130),Vector2(1060,360),Vector2(1180,400),Vector2(1150,740)],[Vector2(1160,130),Vector2(1420,140),Vector2(1450,480),Vector2(1380,780)]],
+		[[Vector2(970,160),Vector2(1140,120),Vector2(1080,400),Vector2(920,560)],[Vector2(1390,420),Vector2(1480,500),Vector2(1500,700),Vector2(1340,410)],[Vector2(1260,830),Vector2(1430,880),Vector2(1030,860),Vector2(900,700)]]
+	]
+	for n in patrols.size():
+		patrols[n]["patrol_points"]=circuits[i][n]; patrols[n]["patrol_index"]=0
 	return result
