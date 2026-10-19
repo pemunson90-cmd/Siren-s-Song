@@ -43,6 +43,7 @@ var zoom_buttons: Array=[]
 var advanced_button: Button
 var advanced_orders:=false
 var knock_armed:=false
+var knock_press:Dictionary={}
 var ui_touch_height:=48.0
 var mission_row_heights:=Vector3.ZERO
 var mission_reflow_pending:=false
@@ -239,7 +240,7 @@ func _process(dt: float) -> void:
 		_refresh()
 func _refresh() -> void:
 	if knock_armed and (screen!="mission" or sim.selected!=0 or not sim.units[0].alive or not sim.outcome.is_empty()): knock_armed=false
-	ocean.knock_targeting=knock_armed
+	ocean.knock_targeting=knock_armed; ocean.knock_touch_size=ui_touch_height
 	title_label.text="SIREN'S SONG    /    %02d  %s"%[mission_index+1,sim.mission.title.to_upper()]
 	status_label.text="DEPTH %dm    O₂ %03d%%    HULL %03d%%    RECORDS %d / %d    %s"%[sim.mission.depth,int(sim.oxygen),int(sim.hull),sim.mission.objectives.filter(func(o): return o.captured).size(),sim.mission.objectives.size(),"TACTICAL PAUSE" if sim.paused else "REAL TIME"]
 	pause_button.text="▶ RESUME" if sim.paused else "Ⅱ PAUSE"
@@ -293,7 +294,7 @@ func _gui_input(event: InputEvent) -> void:
 	if pressed and Rect2(ocean.position,ocean.size).has_point(event.position) and _map_event(event,true): accept_event()
 func _map_event(event: InputEvent,local_event: bool=false) -> bool:
 	if event.device==InputEvent.DEVICE_ID_EMULATION: return false
-	if event is InputEventScreenTouch and event.canceled: map_gesture.cancel(); return true
+	if event is InputEventScreenTouch and event.canceled: map_gesture.cancel(); knock_press.clear(); return true
 	var kind=""; var index=-1; var point=Vector2.ZERO
 	if event is InputEventScreenTouch:
 		kind="press" if event.pressed else "release"; index=event.index; point=event.position
@@ -305,23 +306,24 @@ func _map_event(event: InputEvent,local_event: bool=false) -> bool:
 		kind="move"; point=event.position
 	if kind.is_empty(): return false
 	if local_event: point+=global_position
+	if kind=="press" and not map_gesture.active():
+		knock_press={"armed":knock_armed,"key":ocean.knock_aim_key(point-ocean.global_position) if knock_armed else -1}
 	var action=map_gesture.feed(kind,index,point)
 	if action.has("zoom"): ocean.zoom_at(action.zoom,action.anchor-ocean.global_position)
 	if action.has("pan"): ocean.pan_chart(action.pan)
 	if action.get("navigation",false): _view_changed()
 	if action.has("tap") and ocean.get_global_rect().has_point(action.tap):
-		if knock_armed:
-			_target_knockdown(action.tap); return true
+		if knock_armed or knock_press.get("armed",false):
+			if knock_armed and knock_press.get("armed",false):_target_knockdown(action.tap,knock_press.get("key",-1))
+			knock_press.clear(); return true
 		var world=ocean.map_position(action.tap-ocean.global_position)
 		if Rect2(0,0,1600,960).has_point(world): _order("route",{"point":world})
+	if action.has("ended") or action.has("tap"):knock_press.clear()
 	return true
-func _target_knockdown(point: Vector2) -> void:
-	var chosen=-1; var distance=ui_touch_height*0.5
-	for c in sim.knockdown_targets():
-		var d=point.distance_to(ocean.screen_position(c.pos)+ocean.global_position)
-		if d<=distance: distance=d; chosen=c.key
-	if chosen<0:
-		sim.message="No fresh Siren there within 150m · no torpedo spent"; _refresh(); return
+func _target_knockdown(point: Vector2,intended:int=-2) -> void:
+	var chosen=ocean.knock_aim_key(point-ocean.global_position) if intended==-2 else intended
+	if chosen<0 or not ocean.knock_visible_targets().any(func(c):return c.key==chosen):
+		sim.message="Choose an S# FIRE box or a clear contact · no torpedo spent"; _refresh(); return
 	_order("knock",{"target":chosen})
 func _chart_zoom(factor: float) -> void:
 	map_gesture.cancel(); ocean.zoom_at(factor,ocean.size/2); _view_changed()

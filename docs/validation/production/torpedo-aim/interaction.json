@@ -1,0 +1,80 @@
+{
+  "elapsed": 0.4,
+  "events": [
+    {
+      "down": true,
+      "projectile_keys_after": [],
+      "point": "(1278.5, 569.0)",
+      "stock_after": 2,
+      "touch": false
+    },
+    {
+      "down": false,
+      "projectile_keys_after": [],
+      "point": "(1278.5, 569.0)",
+      "stock_after": 2,
+      "touch": false
+    },
+    {
+      "down": true,
+      "projectile_keys_after": [],
+      "point": "(598.4584, 402.125)",
+      "stock_after": 2,
+      "touch": false
+    },
+    {
+      "down": false,
+      "projectile_keys_after": [
+        0
+      ],
+      "point": "(598.4584, 402.125)",
+      "stock_after": 1,
+      "touch": false
+    },
+    {
+      "down": true,
+      "projectile_keys_after": [
+        0
+      ],
+      "point": "(1278.5, 569.0)",
+      "stock_after": 1,
+      "touch": false
+    },
+    {
+      "down": false,
+      "projectile_keys_after": [
+        0
+      ],
+      "point": "(1278.5, 569.0)",
+      "stock_after": 1,
+      "touch": false
+    },
+    {
+      "down": true,
+      "projectile_keys_after": [
+        0
+      ],
+      "point": "(385.6667, 487.0)",
+      "stock_after": 1,
+      "touch": true
+    },
+    {
+      "down": false,
+      "projectile_keys_after": [
+        0,
+        1
+      ],
+      "point": "(385.6667, 487.0)",
+      "stock_after": 0,
+      "touch": true
+    }
+  ],
+  "final_projectile_keys": [
+    0,
+    1
+  ],
+  "final_stock": 0,
+  "fps": 12,
+  "frames": 192,
+  "paused_entire_clip": true
+}
