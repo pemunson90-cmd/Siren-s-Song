@@ -10,13 +10,14 @@ var engine: AudioStreamPlayer
 var voices: Array=[]
 var panners: Array=[]
 var cues: Dictionary={}
+var received_cues=preload("res://src/audio/received_cues.gd").new()
 var alert_timer := 0.0
 var creak_timer := 11.0
 var system_suspended := false
 static func engine_gain(speed: float,silent: bool) -> float:
 	return clampf(speed/78.0,0,1)*(0.13 if silent else 0.35)
 static func samples(cue: String) -> PackedFloat32Array:
-	var duration={"ambience":8.0,"engine":2.0,"creak":1.6,"beam":1.7,"loss":2.0,"decoy":2.5,"extraction":2.4,"factory":4.8,"knock":0.55,"snare":0.4}.get(cue,1.1)
+	var duration={"ambience":8.0,"engine":2.0,"creak":1.6,"beam":1.7,"loss":2.0,"decoy":2.5,"extraction":2.4,"factory":4.8,"knock":0.55,"snare":0.4,"carrier_received":1.4,"return_received":1.6}.get(cue,1.1)
 	var result=PackedFloat32Array(); result.resize(int(RATE*duration))
 	var rng=RandomNumberGenerator.new(); rng.seed=cue.hash()
 	var filtered=0.0
@@ -39,6 +40,15 @@ static func samples(cue: String) -> PackedFloat32Array:
 				var strike=pow(maxf(0,cos(time*TAU*0.8)),12)
 				value=(sin(TAU*54*time)*0.18+sin(TAU*81*time)*0.11+sin(TAU*(216*time+3*sin(time*1.7)))*0.08)*(0.3+strike*0.7)*sin(PI*k)
 			"ping": value=(sin(TAU*(710*time-110*time*time))+sin(TAU*1240*time)*0.2)*0.28*envelope
+			"carrier_received","return_received":
+				# Two low pulses versus a long-short answer; independent of an
+				# unobserved source and well below the existing alert's level.
+				var pulse=0.0
+				var starts=[.05,.47] if cue=="carrier_received" else [.05,.74]
+				for start in starts:
+					var local=time-start;var length=.23 if cue=="carrier_received" else (.48 if start<.1 else .15)
+					if local>=0 and local<length:pulse+=sin(PI*local/length)*sin(TAU*(320. if cue=="carrier_received" else 400.)*time)*.19
+				value=pulse
 			"camera": value=(sin(TAU*170*time)*0.12+rng.randf_range(-0.2,0.2))*envelope
 			"emp": value=(sin(TAU*(140*time-45*time*time))*0.3+rng.randf_range(-0.14,0.14))*envelope
 			"snare": value=(sin(TAU*160*time)*0.12+sin(TAU*320*time)*0.08+rng.randf_range(-0.06,0.06))*envelope
@@ -70,7 +80,7 @@ func _ready() -> void:
 		if AudioServer.get_bus_effect(0,i).resource_name=="SirenPeakGuard": guarded=true
 	if not guarded:
 		var limiter=AudioEffectLimiter.new(); limiter.resource_name="SirenPeakGuard"; limiter.threshold_db=-3; limiter.ceiling_db=-1; AudioServer.add_bus_effect(0,limiter)
-	for cue in ["ping","camera","emp","knock","snare","record","loss","extraction","alert","recon","decoy","creak","beam","factory"]: cues[cue]=stream(cue)
+	for cue in ["ping","camera","emp","knock","snare","record","loss","extraction","alert","recon","decoy","creak","beam","factory","carrier_received","return_received"]: cues[cue]=stream(cue)
 	ambience=AudioStreamPlayer.new(); ambience.stream=stream("ambience"); ambience.bus=AMBIENCE_BUS; add_child(ambience); ambience.play()
 	engine=AudioStreamPlayer.new(); engine.stream=stream("engine"); engine.bus=EFFECTS_BUS; add_child(engine); engine.play()
 	for n in 5:
@@ -99,7 +109,11 @@ func update(sim,dt: float,active_dive: bool=true) -> void:
 		for contact in sim.contacts.values():
 			if contact.lock>0.1 and sim.elapsed-contact.time<0.4 and alert_timer<=0:
 				play("alert",contact.pos-sim.units[sim.selected].pos); alert_timer=3.0
-	for event in sim.events: play(event.type,event.get("pos",sim.units[sim.selected].pos)-sim.units[sim.selected].pos)
+	for event in sim.events:
+		if event.type in ["carrier_received","return_received"]:
+			var received=received_cues.take(event,sim.selected,sim.elapsed,active_dive and not sim.paused)
+			if not received.is_empty():play(received.cue,received.relative)
+		else:play(event.type,event.get("pos",sim.units[sim.selected].pos)-sim.units[sim.selected].pos)
 	sim.events.clear()
 func play(cue: String,relative_position: Vector2=Vector2.ZERO) -> void:
 	if muted or system_suspended or not cues.has(cue): return

@@ -1,4 +1,5 @@
 extends Control
+const Equipment=preload("res://src/presentation/equipment_context.gd")
 const Expedition=preload("res://src/presentation/expedition_view.gd")
 # A tap opens an object-owned projection. A separate tap chooses an action.
 var host
@@ -211,6 +212,11 @@ func refresh():
   instrument_info.text=site.name+" · "+("RECORDED" if site.captured else "NOT RECORDED")+"\n"+site.get("requirement","")+"\n"+site.get("unit_requirement","")+"\n"+instrument_info.text
  if subject.has("subkind"):instrument_info.text=Expedition.context_detail(sim,subject)+"\n\n"+instrument_info.text
  if page=="signals":instrument_info.text=Expedition.detail(sim,subject.get("receiver",-1))
+ var fitted=Equipment.status(sim)
+ if not fitted.is_empty():instrument_info.text+="\n\n"+fitted
+ if page=="inspect" and sim.selected==0:
+  var correlation=Equipment.correlation_detail(sim)
+  if not correlation.is_empty():instrument_info.text+="\n\n"+correlation
  if not host.advanced_orders:
   extra.arrivals.hide()
   if Expedition.active(sim):
