@@ -6,6 +6,10 @@ apk="${1:-$ARTIFACT_DIR/sirens-song-debug.apk}"
 package=org.sirenssong.game
 output="$ARTIFACT_DIR/android-smoke"
 mkdir -p "$output"
+stage() {
+    echo "SS_SMOKE_STAGE $(date -u +%Y-%m-%dT%H:%M:%SZ) $*" | tee -a "$output/progress.txt"
+}
+stage 'device-ready; emulator action boot has completed'
 adb wait-for-device
 adb get-state | grep -Eq '^device$'
 adb logcat -c
@@ -20,6 +24,7 @@ cleanup() {
 }
 trap cleanup EXIT
 adb install -r "$apk" | tee "$output/install.txt"
+stage 'APK installed'
 component="$(adb shell cmd package resolve-activity --brief -a android.intent.action.MAIN -c android.intent.category.LAUNCHER -p "$package" | tr -d '\r' | tail -1)"
 [[ "$component" == "$package/"* ]] || { echo "No launcher activity resolved: $component" >&2; exit 1; }
 printf '%s\n' "$component" | tee "$output/launcher-component.txt"
@@ -82,6 +87,7 @@ tap_target() {
     return 1
 }
 for profile in cover inner; do
+    stage "$profile viewport and launch"
     case "$profile" in
         cover) adb shell wm size 1080x2520; expected=2520x1080 ;;
         inner) adb shell wm size 1968x2184; expected=2184x1968 ;;
@@ -109,8 +115,10 @@ PY
     tap_target route 'SS_ORDER route accepted=true' "$profile-route"
     tap_target pause 'SS_PAUSE paused=false' "$profile-unpause"
     tap_target pause 'SS_PAUSE paused=true' "$profile-pause"
+    stage "$profile native mission/order/pause taps verified"
     shot "$profile-gameplay"
     adb shell input keyevent KEYCODE_HOME
+    stage "$profile waiting for background process termination"
     sleep 2
     launch "$profile-resume"
     shot "$profile-resume"
@@ -128,6 +136,7 @@ PY
         exit 1
     fi
     launch "$profile-restart"
+    stage "$profile process restarted with screen/layout readiness"
     shot "$profile-restart"
     adb logcat -d >"$output/restoration-$profile.txt"
     restore_after="$(grep -Ec 'SS_RESTORE ok mission=0' "$output/restoration-$profile.txt" || true)"
@@ -136,6 +145,7 @@ PY
     }
     tap_target resume 'SS_SCREEN mission paused=true' "$profile-restored-mission"
     shot "$profile-restored-gameplay"
+    stage "$profile mission archive restored and entered"
 done
 adb logcat -d >"$output/logcat.txt"
 if grep -nE 'FATAL EXCEPTION|Fatal signal|SCRIPT ERROR:|Parse Error:|[Ee] godot.*ERROR:' "$output/logcat.txt"; then
@@ -143,4 +153,5 @@ if grep -nE 'FATAL EXCEPTION|Fatal signal|SCRIPT ERROR:|Parse Error:|[Ee] godot.
     exit 1
 fi
 echo 'Android install, native taps/orders/pause, viewports and mission restore smoke passed.'
+stage 'smoke passed'
 echo 'Touch ergonomics, full mission-state fidelity and Samsung fold behavior require further checks.'
