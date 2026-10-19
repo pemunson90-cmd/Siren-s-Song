@@ -1,0 +1,87 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+SS_UI_METRICS {"chart_rect":[26.0,112.0,1228.0,641.0],"controls":[{"action":"pause","clipped":false,"hit_rect":[26.0,765.0,769.64,87.0],"visual_rect":[26.0,765.0,769.64,87.0]},{"action":"sub","clipped":false,"hit_rect":[26.0,856.0,406.667,87.0],"visual_rect":[26.0,856.0,406.667,87.0]},{"action":"droneA","clipped":false,"hit_rect":[436.667,856.0,406.667,87.0],"visual_rect":[436.667,856.0,406.667,87.0]},{"action":"droneB","clipped":false,"hit_rect":[847.333,856.0,406.667,87.0],"visual_rect":[847.333,856.0,406.667,87.0]},{"action":"more_orders","clipped":false,"hit_rect":[799.64,765.0,454.36,87.0],"visual_rect":[799.64,765.0,454.36,87.0]},{"action":"ping","clipped":false,"hit_rect":[26.0,947.0,304.0,87.0],"visual_rect":[26.0,947.0,304.0,87.0]},{"action":"camera","clipped":false,"hit_rect":[334.0,947.0,304.0,87.0],"visual_rect":[334.0,947.0,304.0,87.0]},{"action":"silent","clipped":false,"hit_rect":[642.0,947.0,304.0,87.0],"visual_rect":[642.0,947.0,304.0,87.0]},{"action":"queue","clipped":false,"hit_rect":[950.0,947.0,304.0,87.0],"visual_rect":[950.0,947.0,304.0,87.0]},{"action":"hold","clipped":false,"hit_rect":[26.0,1038.0,304.0,87.0],"visual_rect":[26.0,1038.0,304.0,87.0]},{"action":"emp","clipped":false,"hit_rect":[334.0,1038.0,304.0,87.0],"visual_rect":[334.0,1038.0,304.0,87.0]},{"action":"home","clipped":false,"hit_rect":[642.0,1038.0,304.0,87.0],"visual_rect":[642.0,1038.0,304.0,87.0]},{"action":"menu","clipped":false,"hit_rect":[950.0,1038.0,304.0,87.0],"visual_rect":[950.0,1038.0,304.0,87.0]},{"action":"zoom_out","clipped":false,"hit_rect":[977.0,120.0,87.0,87.0],"visual_rect":[977.0,120.0,87.0,87.0]},{"action":"zoom_in","clipped":false,"hit_rect":[1068.0,120.0,87.0,87.0],"visual_rect":[1068.0,120.0,87.0,87.0]},{"action":"fit","clipped":false,"hit_rect":[1159.0,120.0,87.0,87.0],"visual_rect":[1159.0,120.0,87.0,87.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","orders_page":"primary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"mission","scroll_rect":[0.0,0.0,0.0,0.0],"scroll_vertical":0,"viewport":[1280.0,1153.0],"window":[2184.0,1968.0]}
+SS_TARGET pause center=411,809 viewport=1280,1153
+SS_TARGET sub center=229,900 viewport=1280,1153
+SS_TARGET droneA center=640,900 viewport=1280,1153
+SS_TARGET droneB center=1051,900 viewport=1280,1153
+SS_TARGET ping center=178,991 viewport=1280,1153
+SS_TARGET camera center=486,991 viewport=1280,1153
+SS_TARGET silent center=794,991 viewport=1280,1153
+SS_TARGET queue center=1102,991 viewport=1280,1153
+SS_TARGET hold center=178,1082 viewport=1280,1153
+SS_TARGET emp center=486,1082 viewport=1280,1153
+SS_TARGET home center=794,1082 viewport=1280,1153
+SS_TARGET menu center=1102,1082 viewport=1280,1153
+SS_TARGET more_orders center=1027,809 viewport=1280,1153
+SS_TARGET zoom_out center=1021,164 viewport=1280,1153
+SS_TARGET zoom_in center=1112,164 viewport=1280,1153
+SS_TARGET fit center=1203,164 viewport=1280,1153
+SS_TARGET chart_center center=640,433 viewport=1280,1153
+SS_TARGET objective0 center=974,453 viewport=1280,1153
+SS_TARGET route center=320,646 viewport=1280,1153
+SS_UI_METRICS {"chart_rect":[26.0,112.0,1228.0,641.0],"controls":[{"action":"pause","clipped":false,"hit_rect":[26.0,765.0,769.64,87.0],"visual_rect":[26.0,765.0,769.64,87.0]},{"action":"sub","clipped":false,"hit_rect":[26.0,856.0,406.667,87.0],"visual_rect":[26.0,856.0,406.667,87.0]},{"action":"droneA","clipped":false,"hit_rect":[436.667,856.0,406.667,87.0],"visual_rect":[436.667,856.0,406.667,87.0]},{"action":"droneB","clipped":false,"hit_rect":[847.333,856.0,406.667,87.0],"visual_rect":[847.333,856.0,406.667,87.0]},{"action":"more_orders","clipped":false,"hit_rect":[799.64,765.0,454.36,87.0],"visual_rect":[799.64,765.0,454.36,87.0]},{"action":"ping","clipped":false,"hit_rect":[26.0,947.0,304.0,87.0],"visual_rect":[26.0,947.0,304.0,87.0]},{"action":"camera","clipped":false,"hit_rect":[334.0,947.0,304.0,87.0],"visual_rect":[334.0,947.0,304.0,87.0]},{"action":"silent","clipped":false,"hit_rect":[642.0,947.0,304.0,87.0],"visual_rect":[642.0,947.0,304.0,87.0]},{"action":"queue","clipped":false,"hit_rect":[950.0,947.0,304.0,87.0],"visual_rect":[950.0,947.0,304.0,87.0]},{"action":"hold","clipped":false,"hit_rect":[26.0,1038.0,304.0,87.0],"visual_rect":[26.0,1038.0,304.0,87.0]},{"action":"emp","clipped":false,"hit_rect":[334.0,1038.0,304.0,87.0],"visual_rect":[334.0,1038.0,304.0,87.0]},{"action":"home","clipped":false,"hit_rect":[642.0,1038.0,304.0,87.0],"visual_rect":[642.0,1038.0,304.0,87.0]},{"action":"menu","clipped":false,"hit_rect":[950.0,1038.0,304.0,87.0],"visual_rect":[950.0,1038.0,304.0,87.0]},{"action":"zoom_out","clipped":false,"hit_rect":[977.0,120.0,87.0,87.0],"visual_rect":[977.0,120.0,87.0,87.0]},{"action":"zoom_in","clipped":false,"hit_rect":[1068.0,120.0,87.0,87.0],"visual_rect":[1068.0,120.0,87.0,87.0]},{"action":"fit","clipped":false,"hit_rect":[1159.0,120.0,87.0,87.0],"visual_rect":[1159.0,120.0,87.0,87.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","orders_page":"primary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"mission","scroll_rect":[0.0,0.0,0.0,0.0],"scroll_vertical":0,"viewport":[1280.0,1153.0],"window":[2184.0,1968.0]}
+SS_TARGET pause center=411,809 viewport=1280,1153
+SS_TARGET sub center=229,900 viewport=1280,1153
+SS_TARGET droneA center=640,900 viewport=1280,1153
+SS_TARGET droneB center=1051,900 viewport=1280,1153
+SS_TARGET ping center=178,991 viewport=1280,1153
+SS_TARGET camera center=486,991 viewport=1280,1153
+SS_TARGET silent center=794,991 viewport=1280,1153
+SS_TARGET queue center=1102,991 viewport=1280,1153
+SS_TARGET hold center=178,1082 viewport=1280,1153
+SS_TARGET emp center=486,1082 viewport=1280,1153
+SS_TARGET home center=794,1082 viewport=1280,1153
+SS_TARGET menu center=1102,1082 viewport=1280,1153
+SS_TARGET more_orders center=1027,809 viewport=1280,1153
+SS_TARGET zoom_out center=1021,164 viewport=1280,1153
+SS_TARGET zoom_in center=1112,164 viewport=1280,1153
+SS_TARGET fit center=1203,164 viewport=1280,1153
+SS_TARGET chart_center center=640,433 viewport=1280,1153
+SS_TARGET objective0 center=974,453 viewport=1280,1153
+SS_TARGET route center=320,646 viewport=1280,1153
+SS_UI_METRICS {"chart_rect":[26.0,112.0,1228.0,641.0],"controls":[{"action":"pause","clipped":false,"hit_rect":[26.0,765.0,769.64,87.0],"visual_rect":[26.0,765.0,769.64,87.0]},{"action":"sub","clipped":false,"hit_rect":[26.0,856.0,406.667,87.0],"visual_rect":[26.0,856.0,406.667,87.0]},{"action":"droneA","clipped":false,"hit_rect":[436.667,856.0,406.667,87.0],"visual_rect":[436.667,856.0,406.667,87.0]},{"action":"droneB","clipped":false,"hit_rect":[847.333,856.0,406.667,87.0],"visual_rect":[847.333,856.0,406.667,87.0]},{"action":"more_orders","clipped":false,"hit_rect":[799.64,765.0,454.36,87.0],"visual_rect":[799.64,765.0,454.36,87.0]},{"action":"ping","clipped":false,"hit_rect":[26.0,947.0,304.0,87.0],"visual_rect":[26.0,947.0,304.0,87.0]},{"action":"camera","clipped":false,"hit_rect":[334.0,947.0,304.0,87.0],"visual_rect":[334.0,947.0,304.0,87.0]},{"action":"silent","clipped":false,"hit_rect":[642.0,947.0,304.0,87.0],"visual_rect":[642.0,947.0,304.0,87.0]},{"action":"queue","clipped":false,"hit_rect":[950.0,947.0,304.0,87.0],"visual_rect":[950.0,947.0,304.0,87.0]},{"action":"hold","clipped":false,"hit_rect":[26.0,1038.0,304.0,87.0],"visual_rect":[26.0,1038.0,304.0,87.0]},{"action":"emp","clipped":false,"hit_rect":[334.0,1038.0,304.0,87.0],"visual_rect":[334.0,1038.0,304.0,87.0]},{"action":"home","clipped":false,"hit_rect":[642.0,1038.0,304.0,87.0],"visual_rect":[642.0,1038.0,304.0,87.0]},{"action":"menu","clipped":false,"hit_rect":[950.0,1038.0,304.0,87.0],"visual_rect":[950.0,1038.0,304.0,87.0]},{"action":"zoom_out","clipped":false,"hit_rect":[977.0,120.0,87.0,87.0],"visual_rect":[977.0,120.0,87.0,87.0]},{"action":"zoom_in","clipped":false,"hit_rect":[1068.0,120.0,87.0,87.0],"visual_rect":[1068.0,120.0,87.0,87.0]},{"action":"fit","clipped":false,"hit_rect":[1159.0,120.0,87.0,87.0],"visual_rect":[1159.0,120.0,87.0,87.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","orders_page":"primary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"mission","scroll_rect":[0.0,0.0,0.0,0.0],"scroll_vertical":0,"viewport":[1280.0,1153.0],"window":[2184.0,1968.0]}
+SS_TARGET pause center=411,809 viewport=1280,1153
+SS_TARGET sub center=229,900 viewport=1280,1153
+SS_TARGET droneA center=640,900 viewport=1280,1153
+SS_TARGET droneB center=1051,900 viewport=1280,1153
+SS_TARGET ping center=178,991 viewport=1280,1153
+SS_TARGET camera center=486,991 viewport=1280,1153
+SS_TARGET silent center=794,991 viewport=1280,1153
+SS_TARGET queue center=1102,991 viewport=1280,1153
+SS_TARGET hold center=178,1082 viewport=1280,1153
+SS_TARGET emp center=486,1082 viewport=1280,1153
+SS_TARGET home center=794,1082 viewport=1280,1153
+SS_TARGET menu center=1102,1082 viewport=1280,1153
+SS_TARGET more_orders center=1027,809 viewport=1280,1153
+SS_TARGET zoom_out center=1021,164 viewport=1280,1153
+SS_TARGET zoom_in center=1112,164 viewport=1280,1153
+SS_TARGET fit center=1203,164 viewport=1280,1153
+SS_TARGET chart_center center=640,433 viewport=1280,1153
+SS_TARGET objective0 center=974,453 viewport=1280,1153
+SS_TARGET route center=320,646 viewport=1280,1153
+SS_UI_METRICS {"chart_rect":[26.0,112.0,1228.0,641.0],"controls":[{"action":"pause","clipped":false,"hit_rect":[26.0,765.0,769.64,87.0],"visual_rect":[26.0,765.0,769.64,87.0]},{"action":"sub","clipped":false,"hit_rect":[26.0,856.0,406.667,87.0],"visual_rect":[26.0,856.0,406.667,87.0]},{"action":"droneA","clipped":false,"hit_rect":[436.667,856.0,406.667,87.0],"visual_rect":[436.667,856.0,406.667,87.0]},{"action":"droneB","clipped":false,"hit_rect":[847.333,856.0,406.667,87.0],"visual_rect":[847.333,856.0,406.667,87.0]},{"action":"more_orders","clipped":false,"hit_rect":[799.64,765.0,454.36,87.0],"visual_rect":[799.64,765.0,454.36,87.0]},{"action":"ping","clipped":false,"hit_rect":[26.0,947.0,304.0,87.0],"visual_rect":[26.0,947.0,304.0,87.0]},{"action":"camera","clipped":false,"hit_rect":[334.0,947.0,304.0,87.0],"visual_rect":[334.0,947.0,304.0,87.0]},{"action":"silent","clipped":false,"hit_rect":[642.0,947.0,304.0,87.0],"visual_rect":[642.0,947.0,304.0,87.0]},{"action":"queue","clipped":false,"hit_rect":[950.0,947.0,304.0,87.0],"visual_rect":[950.0,947.0,304.0,87.0]},{"action":"hold","clipped":false,"hit_rect":[26.0,1038.0,304.0,87.0],"visual_rect":[26.0,1038.0,304.0,87.0]},{"action":"emp","clipped":false,"hit_rect":[334.0,1038.0,304.0,87.0],"visual_rect":[334.0,1038.0,304.0,87.0]},{"action":"home","clipped":false,"hit_rect":[642.0,1038.0,304.0,87.0],"visual_rect":[642.0,1038.0,304.0,87.0]},{"action":"menu","clipped":false,"hit_rect":[950.0,1038.0,304.0,87.0],"visual_rect":[950.0,1038.0,304.0,87.0]},{"action":"zoom_out","clipped":false,"hit_rect":[977.0,120.0,87.0,87.0],"visual_rect":[977.0,120.0,87.0,87.0]},{"action":"zoom_in","clipped":false,"hit_rect":[1068.0,120.0,87.0,87.0],"visual_rect":[1068.0,120.0,87.0,87.0]},{"action":"fit","clipped":false,"hit_rect":[1159.0,120.0,87.0,87.0],"visual_rect":[1159.0,120.0,87.0,87.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","orders_page":"primary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"mission","scroll_rect":[0.0,0.0,0.0,0.0],"scroll_vertical":0,"viewport":[1280.0,1153.0],"window":[2184.0,1968.0]}
+SS_TARGET pause center=411,809 viewport=1280,1153
+SS_TARGET sub center=229,900 viewport=1280,1153
+SS_TARGET droneA center=640,900 viewport=1280,1153
+SS_TARGET droneB center=1051,900 viewport=1280,1153
+SS_TARGET ping center=178,991 viewport=1280,1153
+SS_TARGET camera center=486,991 viewport=1280,1153
+SS_TARGET silent center=794,991 viewport=1280,1153
+SS_TARGET queue center=1102,991 viewport=1280,1153
+SS_TARGET hold center=178,1082 viewport=1280,1153
+SS_TARGET emp center=486,1082 viewport=1280,1153
+SS_TARGET home center=794,1082 viewport=1280,1153
+SS_TARGET menu center=1102,1082 viewport=1280,1153
+SS_TARGET more_orders center=1027,809 viewport=1280,1153
+SS_TARGET zoom_out center=1021,164 viewport=1280,1153
+SS_TARGET zoom_in center=1112,164 viewport=1280,1153
+SS_TARGET fit center=1203,164 viewport=1280,1153
+SS_TARGET chart_center center=640,433 viewport=1280,1153
+SS_TARGET objective0 center=974,453 viewport=1280,1153
+SS_TARGET route center=320,646 viewport=1280,1153
+FRESH_HEADER lines=1 label=[P: (28.0, 79.0), S: (1224.0, 31.0)] chart_y=112.0 text=DRONE A · ADD TO ROUTE · Record the furnace first. Its casting pattern will identify what the cradles contain.
+FRESH_HEADER lines=1 label=[P: (28.0, 79.0), S: (1224.0, 31.0)] chart_y=112.0 text=DRONE A · ADD TO ROUTE · Need both observations: TRANSMITTER CROWN + OUTBOUND WAKES.
+FRESH_HEADER lines=1 label=[P: (28.0, 79.0), S: (1224.0, 31.0)] chart_y=112.0 text=DRONE A · ADD TO ROUTE · Quietus hydrophones required · small drones cannot resolve this packet.
+FRESH_HEADER lines=1 label=[P: (28.0, 79.0), S: (1224.0, 31.0)] chart_y=112.0 text=DRONE A · ADD TO ROUTE · Quietus must operate the archive uplink. Bring the submarine to this anchor.
+FRESH_HEADER lines=1 label=[P: (28.0, 79.0), S: (1224.0, 31.0)] chart_y=112.0 text=DRONE A · ADD TO ROUTE · Uplink needs both relay records. Photograph WEST and EAST first.
