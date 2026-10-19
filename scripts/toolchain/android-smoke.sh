@@ -122,9 +122,9 @@ acknowledge_system_intro() {
     python3 "$(dirname -- "$0")/android-system-dialog.py" "$output/system-dialog-after.xml" >/dev/null || status=$?
     (( status == 2 )) || { echo 'Android immersive intro did not dismiss' >&2; return 1; }
 }
-tap_target() {
-    local action="$1" expected="$2" stage="$3" coords=""
-    local before_count after_count
+locate_target() {
+    local action="$1" label="$2"
+    target_coords=""
     if ! "$system_intro_checked"; then
         acknowledge_system_intro
         system_intro_checked=true
@@ -132,14 +132,21 @@ tap_target() {
     for ((attempt=0; attempt<20; attempt++)); do
         # Android and Godot settle asynchronously after a live resize. Refresh
         # both observations; never reuse a PNG captured before the new layout.
-        adb exec-out screencap -p >"$output/target-$stage.png"
-        read_logcat "$output/target-$stage.txt"
-        if coords="$(python3 "$(dirname -- "$0")/android-target.py" "$output/target-$stage.txt" "$output/target-$stage.png" "$action")"; then break; fi
+        adb exec-out screencap -p >"$output/target-$label.png"
+        read_logcat "$output/target-$label.txt"
+        if target_coords="$(python3 "$(dirname -- "$0")/android-target.py" "$output/target-$label.txt" "$output/target-$label.png" "$action")"; then return 0; fi
         sleep 1
     done
-    [[ -n "$coords" ]] || { cp "$output/target-$stage.png" "$output/failed-target.png"; echo "No current visible target for $action" >&2; return 1; }
+    cp "$output/target-$label.png" "$output/failed-target.png"
+    echo "No current visible target for $action" >&2
+    return 1
+}
+tap_target() {
+    local action="$1" expected="$2" stage="$3"
+    local before_count after_count tap_x tap_y
+    locate_target "$action" "$stage"
     before_count="$(grep -Ec "$expected" "$output/target-$stage.txt" || true)"
-    read -r tap_x tap_y <<<"$coords"
+    read -r tap_x tap_y <<<"$target_coords"
     echo "Touch $stage at $tap_x,$tap_y"
     adb shell input tap "$tap_x" "$tap_y"
     for ((attempt=0; attempt<20; attempt++)); do
@@ -177,6 +184,43 @@ wait_new_marker() {
     echo "Timed out after ${limit}s waiting for $label: $pattern" >&2
     return 1
 }
+navigation_smoke() {
+    local profile="$1" action zoom label pan_x pan_y end_x before_views
+    local checker="$(dirname -- "$0")/android-view.py"
+    read_logcat "$output/navigation-before-$profile.txt"
+    # Verify numerical view state as well as a fresh event for each real button tap.
+    for specification in 'zoom_in 1.4 first-in' 'zoom_out 1 overview' 'zoom_in 1.4 second-in' 'zoom_in 1.96 detail'; do
+        read -r action zoom label <<<"$specification"
+        label="$profile-$label"
+        tap_target "$action" 'SS_VIEW zoom=' "$label"
+        python3 "$checker" "$output/interaction-$label.txt" --zoom "$zoom" | tee "$output/view-check-$label.txt"
+    done
+    shot "$profile-zoomed"
+    locate_target chart_center "$profile-pan"
+    read -r pan_x pan_y <<<"$target_coords"
+    end_x="$(python3 - "$output/target-$profile-pan.png" "$pan_x" <<'PY'
+import pathlib, struct, sys
+width, height = struct.unpack('>II', pathlib.Path(sys.argv[1]).read_bytes()[16:24])
+print(max(1, int(sys.argv[2]) - round(min(width, height) * 0.12)))
+PY
+)"
+    before_views="$(grep -c 'SS_VIEW zoom=' "$output/target-$profile-pan.txt" || true)"
+    stage "$profile native chart swipe from $pan_x,$pan_y to $end_x,$pan_y"
+    adb shell input touchscreen swipe "$pan_x" "$pan_y" "$end_x" "$pan_y" 600
+    wait_new_marker 'SS_VIEW zoom=' "$before_views" "$profile-pan" 20
+    python3 "$checker" "$output/wait-$profile-pan.txt" --zoom 1.96 --panned-from "$output/target-$profile-pan.txt" | tee "$output/view-check-$profile-pan.txt"
+    shot "$profile-panned"
+    tap_target fit 'SS_VIEW zoom=' "$profile-fit"
+    python3 "$checker" "$output/interaction-$profile-fit.txt" --zoom 1 --center 800 480 | tee "$output/view-check-$profile-fit.txt"
+    python3 - "$output/navigation-before-$profile.txt" "$output/interaction-$profile-fit.txt" <<'PY'
+import pathlib, sys
+before, after = (pathlib.Path(p).read_text(errors='replace') for p in sys.argv[1:])
+for marker in ('SS_ORDER ', 'SS_PAUSE paused='):
+    assert before.count(marker) == after.count(marker), f'Chart navigation emitted an unintended command/state change: {marker}'
+print('Native zoom/pan/FIT produced zero orders and zero pause changes')
+PY
+    stage "$profile native zoom/pan/FIT verified without accidental orders; OS pinch remains unverified"
+}
 for profile in cover inner; do
     stage "$profile viewport and launch"
     case "$profile" in
@@ -201,6 +245,7 @@ PY
     fi
     tap_target mission0 'SS_MISSION_SELECT 0' "$profile-mission0"
     tap_target begin 'SS_SCREEN mission paused=true' "$profile-begin"
+    navigation_smoke "$profile"
     tap_target droneA 'SS_ORDER select accepted=true selected=1' "$profile-drone"
     tap_target sub 'SS_ORDER select accepted=true selected=0' "$profile-sub"
     tap_target route 'SS_ORDER route accepted=true' "$profile-route"
@@ -245,6 +290,8 @@ stage 'Shelf Signal ordinary-command completion begins'
 tap_target menu 'SS_SCREEN operations' 'completion-menu'
 tap_target mission0 'SS_MISSION_SELECT 0' 'completion-mission0'
 tap_target begin 'SS_SCREEN mission paused=true' 'completion-begin'
+tap_target fit 'SS_VIEW zoom=' 'completion-fit'
+python3 "$(dirname -- "$0")/android-view.py" "$output/interaction-completion-fit.txt" --zoom 1 --center 800 480 | tee "$output/view-check-completion-fit.txt"
 tap_target droneA 'SS_ORDER select accepted=true selected=1' 'completion-drone'
 tap_target objective0 'SS_ORDER route accepted=true selected=1' 'completion-approach'
 read_logcat "$output/completion-before-run.txt"

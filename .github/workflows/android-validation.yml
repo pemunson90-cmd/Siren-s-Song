@@ -140,6 +140,7 @@ jobs:
             artifacts/android-smoke/launch-*.txt
             artifacts/android-smoke/pid-*.txt
             artifacts/android-smoke/rotation-*.txt
+            artifacts/android-smoke/view-check-*.txt
             artifacts/android-smoke/system-dialog-*.txt
             artifacts/android-smoke/system-dialog-*.xml
             artifacts/android-smoke/*.stderr.txt

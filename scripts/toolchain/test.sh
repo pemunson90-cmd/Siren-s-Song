@@ -3,6 +3,7 @@
 set -euo pipefail
 source "$(dirname -- "$0")/common.sh"
 require_project
+python3 "$(dirname -- "$0")/test-android-view.py"
 log="$ARTIFACT_DIR/tests.log"
 "$(dirname -- "$0")/headless.sh" --script res://tests/run_tests.gd 2>&1 | tee "$log"
 if grep -nE 'SCRIPT ERROR:|(^|[[:space:]])ERROR:' "$log"; then
