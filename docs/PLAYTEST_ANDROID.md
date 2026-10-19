@@ -2,7 +2,7 @@
 
 [Current checkpoint, screenshots and progress](PHONE_DASHBOARD.md)
 
-**Current native-verified development build: [93b8631 APK](https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/39202066103/artifacts/12164418637).** The procedural-audio crash is fixed and passed sustained Android playback, ordinary Shelf Signal camera/objective/extraction completion, and campaign save/kill/restart restoration. Cover and unfolded landscape touch/lifecycle smoke also passed. Physical Galaxy Z Fold7 behavior, the complete native campaign, subjective audio quality and performance remain separate checks. This is a development playtest, not release readiness. [Raw native evidence](validation/android-39202066103/README.md).
+**Current native-verified development build: [f1ea536 APK](https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/39205478335/artifacts/12165339461), runtime92625ac.** Actual +/−/FIT and single-pointer drag pan pass on cover/unfolded landscape without accidental orders or pause changes. Sustained Android audio, ordinary Shelf Signal camera/objective/extraction completion and campaign save/kill/restart restoration pass. The earlier unexplained Android-runtime interruption did not recur; its cause remains unknown. Physical Fold7 behavior, Android OS pinch, the complete native campaign, subjective audio quality and performance remain separate checks. This is a development playtest, not release readiness. [Raw native evidence](validation/android-39205478335/README.md).
 
 ## Install or update
 
@@ -13,12 +13,12 @@
 
 The private signing key is not included. These APKs use development signing; store/release signing remains separate.
 
-The validated 93b8631 APK SHA-256 is `4be4f056a65def993dca34170c2b02fb8e4342a1adac3baa01abcdecc42dcb4e`. Its certificate SHA-256 is `32bcb2287acd01c1f58c26997c7639f3072c74c6b03ab2a24656dc7cd1c7dc3c`, matching earlier playtests. Cache restoration and this certificate match were both observed. Future cache eviction can still change development signing identity.
+The validated f1ea536 APK SHA-256 is `e3c8fa1b838a1fb561cb118b5e6470c680d344a75c979b9dc6ed456f62c396d6`. Its certificate SHA-256 is `32bcb2287acd01c1f58c26997c7639f3072c74c6b03ab2a24656dc7cd1c7dc3c`, matching earlier playtests. Cache restoration and this certificate match were both observed. Future cache eviction can still change development signing identity.
 
 ## Three-minute check after installation
 
-1. **Cover screen, landscape.** Choose **01 Shelf Signal**, then **ENTER WATER · START PAUSED**. Check that the title, status, map, and buttons fit around the camera cutout. While paused, plot a route and watch that oxygen, hull, and simulation time remain still.
-2. **Queue and emergency replacement.** Select **DRONE A**, tap open water, tap **REPLACE** to turn **+ QUEUE ON**, then tap another open-water point. Optionally tap **HOLD**. Select **QUIETUS**: queue mode should clear, and the next water tap should replace Quietus's route. Tap **HOLD**, then **EXTRACT**. This emergency order should replace the route, clear the hold/queue state, and return Quietus toward extraction. Select Quietus first: EXTRACT acts on the selected craft.
+1. **Cover screen, landscape.** Choose **01 Shelf Signal**, then **ENTER WATER · START PAUSED**. Check that the title, status, map, and buttons fit around the camera cutout. While paused, use **+ / −**, drag the chart, then tap **FIT**. Navigation should preserve existing routes and pause. A short water tap plots a route; oxygen, hull and simulation time should remain still while paused. Pinch is implemented and covered by synthetic runtime tests, but actual Android OS multi-touch remains unverified.
+2. **Queue and emergency replacement.** Select **DRONE A**, tap open water, tap **REPLACE** to turn **+ QUEUE ON**, then tap another open-water point. Optionally tap **HOLD**. Secondary conditional controls are behind **MORE ORDERS**. Select **QUIETUS**: queue mode should clear, and the next water tap should replace Quietus's route. Tap **HOLD**, then **EXTRACT**. This emergency order should replace the route, clear the hold/queue state, and return Quietus toward extraction. Select Quietus first: EXTRACT acts on the selected craft.
 3. **Unfold and rotate.** Unfold while the mission remains paused. Commands should reflow below the map and remain tappable. Rotate the phone and return to landscape; check that no controls or status text disappear. Fold back to the cover display and check the same route/state.
 4. **Resume and restore.** Resume for a few seconds, then pause. Press Home, wait briefly, and return through Recents: the dive should be paused with its orders intact. Close the app from Recents, reopen it, and choose **RESUME ACTIVE MISSION**. Check that the same mission, craft positions, routes, and resources return. This manual check complements the emulator's explicit process-kill test.
 

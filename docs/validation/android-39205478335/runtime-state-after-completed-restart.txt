@@ -1,0 +1,57 @@
+sys.boot_completed=1
+sys.boot.reason=reboot,factory_reset
+sys.boot.reason.last=reboot
+ro.boot.bootreason=reboot,factory_reset
+init.svc.zygote=running
+init.svc.surfaceflinger=running
+kernel_boot_id=da9312b0-60ce-4314-aaa1-f07b0d3d3ef5
+system_server_pid=654
+Service window: found
+Service activity: found
+MemTotal:        2532300 kB
+MemFree:          142612 kB
+MemAvailable:     973204 kB
+Buffers:            3680 kB
+Cached:          1072176 kB
+SwapCached:        17864 kB
+Active:          1033416 kB
+Inactive:         654680 kB
+Active(anon):     510372 kB
+Inactive(anon):   157716 kB
+Active(file):     523044 kB
+Inactive(file):   496964 kB
+Unevictable:       39124 kB
+Mlocked:           39124 kB
+SwapTotal:       1899220 kB
+SwapFree:        1140448 kB
+Dirty:               236 kB
+Writeback:             0 kB
+AnonPages:        639128 kB
+Mapped:           816624 kB
+Shmem:             17852 kB
+KReclaimable:      51324 kB
+Slab:             239768 kB
+SReclaimable:      51324 kB
+SUnreclaim:       188444 kB
+KernelStack:       43472 kB
+PageTables:       108284 kB
+SecPageTables:         0 kB
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
+CommitLimit:     3165368 kB
+Committed_AS:   220790960 kB
+VmallocTotal:   34359738367 kB
+VmallocUsed:       68600 kB
+VmallocChunk:          0 kB
+Percpu:             3288 kB
+AnonHugePages:         0 kB
+ShmemHugePages:        0 kB
+ShmemPmdMapped:        0 kB
+FileHugePages:         0 kB
+FilePmdMapped:         0 kB
+CmaTotal:              0 kB
+CmaFree:               0 kB
+DirectMap4k:       48984 kB
+DirectMap2M:     2572288 kB
+Diagnostic adb exit status: 0

@@ -1,51 +1,47 @@
 # Siren's Song · current checkpoint
 
-**[Download the current Android build](https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/39202066103/artifacts/12164418637)** · [Install/update guide](PLAYTEST_ANDROID.md)
+**[Download the current Android build](https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/39205478335/artifacts/12165339461)** · [Install/update guide](PLAYTEST_ANDROID.md)
 
-Development build **93b8631**, verified 19 October 2026. The first mission completed on the Android emulator through ordinary touch commands, including camera capture, extraction and saved campaign progress after kill/restart. Cover and unfolded landscape layouts/lifecycle passed. This is a development baseline, with physical Fold7 and complete native campaign validation still open.
-
-## Active challenger · touch navigation
-
-Candidate **92625ac** adds 1–4× zoom, drag pan, +/−/FIT, route-on-short-release, reserved threat information and a MORE ORDERS disclosure. It keeps the simulation, missions and audio unchanged. Checks pass **8 parser guards + 88 core + 225 runtime checks**; the [independent regression hunt](reviews/2026-10-19-touch-regressions.md) reproduced no consequential new regression. [Native run 39204224960](validation/android-39204224960/README.md) verifies both profiles' actual zoom/swipe/FIT with zero accidental orders, plus ordinary mission completion, but Android services become unavailable during the final campaign restart. A controlled same-game retry will retain additional boot/service/memory evidence. The initiating cause remains unknown. **Promotion is pending; the final restoration/error gate remains required.**
-
-[Desktop navigation clip](validation/production/touch/navigation.mp4) · [Cover zoom](validation/production/touch/cover-zoom.png) · [Unfolded controls](validation/production/touch/inner-advanced.png) · [Evidence and retained failures](validation/production/touch/README.md). The clip uses synthetic Godot input; it does not establish Android OS pinch or physical finger comfort.
+Promoted development baseline **f1ea536**, runtime **92625ac**, verified 19 October 2026. Native zoom, drag pan and FIT pass on cover and unfolded landscape layouts without accidental orders or pause changes. Ordinary first-mission camera/extraction completion and saved campaign restoration also pass. Physical Fold7 and complete native campaign validation remain open.
 
 ## What improved
 
-- **Cold Foundry has a distinct encounter:** physical industrial terrain, two different optical discoveries, an explained carrier response and recoverable extraction. Its independent review supports that bounded gain.
-- **The native audio crash is fixed:** generated PCM loops now end on a valid sample. Android sustained travel crossed the former crash boundary, then completed the camera/objective sequence without fatal, engine or script errors.
-- **Progress survives restart:** the installed app restored Shelf Signal as recovered and Split Channel as available. Development signing matches earlier builds, permitting compatible updates that retain saves.
+- **Touch chart navigation:** 1–4× zoom, +/−/FIT and drag pan help inspect small craft and routes. Short single-touch release plots a route; navigation gestures preserve order intent and tactical pause.
+- **Clearer command priorities:** threat information has reserved space; MORE ORDERS discloses secondary commands. The extra disclosure tap is an accepted tradeoff, with physical comfort still unverified.
+- **Cold Foundry has a distinct encounter:** industrial terrain, two different optical discoveries, an explained carrier response and recoverable extraction. Its independent review supports that bounded gain.
+- **Native audio and progress:** valid PCM loop endpoints survive sustained Android travel, and the recovered/unlocked campaign survives a cold process restart. The development certificate matches earlier builds for compatible updates.
 
-## See the verified baseline
+## See actual Android output
 
-Actual Android camera exposure from the verified build:
+![Cover chart after native zoom and swipe](validation/android-39205478335/cover-panned.png)
 
-![Android optical feed and unfolded tactical controls](validation/android-39202066103/inner-camera-exposure.png)
+[Unfolded pan](validation/android-39205478335/inner-panned.png) · [Optical camera feed](validation/android-39205478335/inner-camera-exposure.png) · [Successful debrief](validation/android-39205478335/inner-mission-completed.png) · [Restarted campaign archive](validation/android-39205478335/inner-campaign-restored.png)
 
-[Android success screen](validation/android-39202066103/inner-mission-completed.png) · [Restarted campaign archive](validation/android-39202066103/inner-campaign-restored.png)
+[Desktop navigation clip](validation/production/touch/navigation.mp4) · [Unfolded secondary controls](validation/production/touch/inner-advanced.png). The clip uses synthetic Godot input; it does not establish Android OS pinch or physical finger comfort.
 
-Cold Foundry: [desktop encounter clip with mixed audio](validation/production/foundry/response-live.mp4) · [furnace discovery](validation/production/foundry/furnace.png) · [departure record](validation/production/foundry/archive_cradle.png). These Foundry captures are desktop evidence, not Samsung screenshots or a native mission-completion claim.
+Cold Foundry: [desktop encounter clip with mixed audio](validation/production/foundry/response-live.mp4) · [furnace discovery](validation/production/foundry/furnace.png) · [departure record](validation/production/foundry/archive_cradle.png). These are desktop evidence, not native Foundry completion or Samsung screenshots.
 
 ## What the checkpoint proves
 
-[Run 39202066103](https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/39202066103) passed **88 core + 176 runtime checks**, strict native error checks, both screen profiles, native input/orders/pause, background/resume, process death/restoration and one ordinary mission completion. [Raw evidence and exact signing/hash](validation/android-39202066103/README.md).
+[Run 39205478335](https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/39205478335) passed **8 parser guards + 88 core + 225 runtime checks**, strict native error checks, numerical OS +/−/swipe/FIT assertions on both profiles, input/orders/pause, background/resume, process death/restoration, ordinary Shelf Signal completion and completed-campaign cold restoration. [Raw evidence, continuity, signing and hash](validation/android-39205478335/README.md).
 
-Baseline source: **93b8631**; audio/game fix **cb8c6f9**; Foundry content **322d23c**. New local work is a challenger until its evidence supports replacing this baseline. Emulator timings are not phone performance measurements.
+The [fresh independent regression hunt](reviews/2026-10-19-touch-regressions.md) reproduced no consequential new regression. The [whole-game critic](reviews/2026-10-19-whole-game-review.md) inspected broader campaign experience and identified the next opportunities. [Previous verified baseline 93b8631](validation/android-39202066103/README.md) remains retained. Test counts and emulator timings do not establish phone performance or experience quality.
 
 ## Experiments kept visible
 
-- Earlier exposed/rushed Foundry strategies failed; a staged finite-defense route succeeded. [Original comparisons and failed attempts](validation/production/foundry/README.md).
-- A narrow authored passage could not fit the navigation grid and was widened. Movement and sight now share the factory footprint.
-- The independent critic found the final scripted Foundry decoy redundant in its controlled comparison. We retain that result and do not claim a demonstrated diversion benefit from that tactic. [Review and reproduction](reviews/2026-10-19-cold-foundry-critique.md).
+- The [first touch run](validation/android-39204224960/README.md) completed gestures and the mission but lost Android services at final restart. The controlled same-game retry passed; the prior initiating cause remains unknown.
+- Earlier exposed/rushed Foundry strategies failed; a staged finite-defense route succeeded. [Comparisons and failed attempts](validation/production/foundry/README.md).
+- A narrow authored passage could not fit the navigation grid and was widened; movement and sight share the factory footprint.
+- The Foundry critic found a scripted decoy redundant in its controlled comparison. We retain that result without claiming a demonstrated diversion benefit. [Review](reviews/2026-10-19-cold-foundry-critique.md).
 
 ## Weaknesses and next work
 
-**Zoom, pan and friendlier touch controls are under assessment.** Small craft, crowded threat labels and equally weighted commands made phone-scale decisions harder than they should be. The challenger targets those weaknesses, with an extra disclosure tap for secondary orders as an explicit tradeoff. The prototype's dimensions and interface are not constraints. Promotion requires preserved tactical pause and reliable route replacement, plus actual cover/unfolded input evidence.
+The next bounded design targets **distinctive finale evidence and meaningful Quietus return/attention**, preserving viable remote and fallback choices. [Cycle brief](design/FINALE_CYCLE.md). This is proposed work, not a new verified feature. The whole-game review also identifies contextual camera-readiness/loadout teaching as useful.
 
-Physical Fold7 cutouts/hinge/rotation, comfort, real device performance/heat, subjective audio, newcomer comprehension and all six missions on installed Android remain open. Independent review also identifies overlapping encounter labels and a factory facade that could integrate better with its monumental surroundings. Passing checks do not close these experience gaps.
+Zoom can crop edge labels; some encounter labels overlap. MORE ORDERS adds a tap. Logical button dimensions do not prove physical comfort. Physical Fold7 hinge/cutout/rotation, OS multi-touch pinch, real device performance/heat, subjective audio, newcomer comprehension and all six missions on installed Android remain open.
 
 ## Follow the work
 
-[Current workbench](WORKBENCH.md) · [Next action / continuation](CONTINUATION.md) · [Independent review](reviews/2026-10-19-cold-foundry-critique.md) · [Source authority](SOURCE_AUTHORITY.md) · [Model/usage record](MODEL_USAGE.md)
+[Workbench](WORKBENCH.md) · [Continuation](CONTINUATION.md) · [Baseline and experiments](BASELINE_AND_EXPERIMENTS.md) · [Source authority](SOURCE_AUTHORITY.md) · [Model/usage record](MODEL_USAGE.md)
 
 The Gauntlet continues until the user chooses to stop. Explore freely; this page is a reference, not a recurring feedback or approval gate.
