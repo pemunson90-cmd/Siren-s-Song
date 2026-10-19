@@ -24,4 +24,3 @@ Official Godot 4.6.3-stable; lines 174-199
 		}
 		return selectedScaledDensity;
 	}
-
