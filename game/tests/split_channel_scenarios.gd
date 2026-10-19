@@ -15,13 +15,19 @@ static func run(t) -> void:
 	for n in 65: s.advance(0.1)
 	t.check(uplink.captured and s.units[0].hold=="","uplink completes autonomously while pilot commands drone")
 	t.check(not s.line_clear(Vector2(460,280),Vector2(1240,280)),"central spine physically separates relay sightlines")
-	# A coordinated ordinary-command run operates both relays while Quietus advances.
-	s=Simulation.new(); s.start(1,"disruption")
+	var direct=coordinated(false)
+	var sheltered=coordinated(true)
+	t.check(direct.outcome=="won" and direct.units[1].alive and direct.units[2].alive,"coordinated drone relay run returns archive and both drones survive")
+	t.check(sheltered.outcome=="won" and sheltered.hull>direct.hull+10,"a planned decoy return preserves more hull than the direct route")
+	for result in [direct,sheltered]: print("SPLIT ","DIRECT" if result==direct else "PLANNED RETURN"," outcome=",result.outcome," time=",snappedf(result.elapsed,0.1)," hull=",snappedf(result.hull,0.1)," EMP remaining=",result.tools.emp," DECOYS remaining=",result.tools.decoy)
+static func coordinated(safe_return: bool,stop_at_return_seconds: float=-1.0):
+	var s=Simulation.new(); s.start(1,"disruption")
 	for id in [1,2,0]:
 		s.command("select",{"unit":id})
 		s.command("route",{"point":[Vector2(840,780),Vector2(420,490),Vector2(1220,490)][id]})
 	s.paused=false
 	var returning=false
+	var return_started=0.0
 	var drone_returned={1:false,2:false}
 	for n in 1600:
 		s.advance(0.1)
@@ -40,7 +46,11 @@ static func run(t) -> void:
 				if not o.captured and s.units[unit_id].alive and s.units[unit_id].pos.distance_to(o.pos)<230:
 					s.command("select",{"unit":unit_id}); s.command("camera"); break
 		if s.all_records() and not returning:
-			s.command("select",{"unit":0}); s.command("route",{"point":s.mission.extraction}); returning=true
+			s.command("select",{"unit":0})
+			if safe_return:
+				s.command("decoy"); s.command("route",{"point":s.mission.extraction})
+			else: s.command("route",{"point":s.mission.extraction})
+			returning=true; return_started=s.elapsed
+		if returning and stop_at_return_seconds>=0 and s.elapsed-return_started>=stop_at_return_seconds: return s
 		if not s.outcome.is_empty(): break
-	t.check(s.outcome=="won" and s.units[1].alive and s.units[2].alive,"coordinated drone relay run returns archive and both drones survive")
-	print("SPLIT COORDINATED outcome=",s.outcome," time=",snappedf(s.elapsed,0.1)," hull=",snappedf(s.hull,0.1)," EMP remaining=",s.tools.emp)
+	return s

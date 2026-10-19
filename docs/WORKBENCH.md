@@ -1,7 +1,7 @@
 # Siren's Song progress workbench
 
 **Stage:** Active Gauntlet, campaign baseline plus two evidence-driven improvement cycles. This is not a finished or user-accepted game.
-**Branch:** `gauntlet/production`; latest committed gameplay reliability cycle `4463446`, current optical/safe-area cycle awaiting checkpoint.
+**Branch:** `gauntlet/production`; campaign baseline plus reliability, optical/safe-area and return-planning cycles; see checkpoints below.
 **Player device:** Samsung Galaxy Z Fold7; physical installation/folding/thumb/performance review remains open.
 
 | Workstream | Current state | Evidence / next action |
@@ -10,16 +10,16 @@
 | Native tactical core | Runnable, regression tested | Fixed60Hz, inertia/assisted routing, two drones, fair LOS/acoustic/beam, command replacement and tactical pause |
 | Campaign/save | Six playable baseline missions and ending | All six ordinary-command fallback runs pass; checksummed active/campaign/settings backup recovery; other missions still need differentiated situations |
 | Split Channel proving ground | Connected channels, two separated relays + Quietus uplink | Coordinated39.3s, solo78.6s; latest standoff change yields67.3% hull in each scripted run; these are tactical fixtures, not human balance acceptance |
-| Art/input | Actual textured world, physical ray, station-owned optical inset | `docs/validation/production/`; core53checks and runtime142checks pass, including pointer inputs, menu preservation, optical ownership and physical→logical safearea conversion |
+| Art/input | Actual textured world, physical ray, station-owned optical inset | `docs/validation/production/`; core61 checks and runtime150 checks pass, including pointer inputs, menu preservation, optical ownership and physical→logical safearea conversion |
 | Audio | Original ambience/cues and volume/mute | Signal/headroom checks pass; functional propulsion/mixed-output/listening polish and forced-exit stream leak remain open |
 | Android emulator | Native launch/log/UI markers verified by tooling; renderer/lifecycle CI iteration active | See `docs/CODEX_ENVIRONMENT.md` and `docs/validation/android-*`; modern backend retry; no Samsung performance claim |
-| Independent criticism | Baseline plus follow-up completed, explicit fresh Sol | `docs/reviews/2026-10-19-baseline-critique.md`; confirmed attention defects fixed, next demonstrate learned safe return |
+| Independent criticism | Baseline plus follow-up completed, explicit fresh Sol | `docs/reviews/2026-10-19-baseline-critique.md`; confirmed attention defects fixed, next learned safe return demonstrated; deepen sound and other missions |
 
 ## Current evidence and highest-value next cycle
 
-Combined validation: `scripts/toolchain/test.sh` → **53 core/campaign +142 runtime checks, zero failures**. Waypoint check totals vary with safe path simplification; invariant tests have been added, not removed. Full framebuffer optical, beam, and connected-channel captures are in `build/captures/cycle2-*` and retained in the validation index. Desktop rendering is distinct from installed Android/Samsung validation.
+Combined validation: `scripts/toolchain/test.sh` → **61 core/campaign +150 runtime checks, zero failures**. Waypoint check totals vary with safe path simplification; invariant tests have been added, not removed. Full framebuffer optical, beam, and connected-channel captures are in `build/captures/cycle2-*` and retained in the validation index. Desktop rendering is distinct from installed Android/Samsung validation.
 
-Next: demonstrate a learned safer Split Channel return/recovery plan with ordinary cover/noise/conditional orders and finite resources; explicitly verify stop/pass-through behavior; deepen mission differentiation and functional sound from the proving ground. Preserve the working baseline while native runtime/cutout/restore evidence matures. Do not stop the Gauntlet at these milestones.
+Next: deepen functional sound (movement, beam/pressure cues, menu/suspend silence and measured mixed output), then carry differentiated situations into the remaining missions. Split Channel now has a tested safer decoy return and explicit STOP/PASS waypoints. Preserve the working baseline while native runtime/cutout/restore evidence matures. Do not stop the Gauntlet at these milestones.
 
 ## Continuity
 
@@ -70,3 +70,13 @@ Independent report: `docs/reviews/2026-10-19-baseline-critique.md` (fresh Sol ev
 - Current combined53core/142runtime pass. Split coordinated39.3s/hull67.3%, both drones survive,3EMPspent; solo78.6s/hull67.3%. Changed standoff affects balance; continue assessing tactical learning rather than claim tuned difficulty.
 - Actual successful optical acquisition captured whileDroneA operates the camera. Switching station acquisition continuity is separately exercised by production simulation and pointer tests. Actual beam capture uses ordinary route+hold after observed acquisition and deliberately stays exposed until96%hull to document emitter→target feedback.
 - Repeated forced short capture exit still warns about AudioStreamWAV/playback references. No assertion that it is fixed or harmless on physical hardware. Next cycle follows the current top summary.
+
+## Gauntlet cycle 3 — waypoint intent and learned return
+
+- Explicit WAYPOINT: PASS / STOP control now changes queued-point behavior. Regression caught intermediate STOP never actually settling; it now brakes before continuing, while straight PASS retains motion and final points stop. Planned sharp pass corners may advance only when the next segment has sampled hull clearance, preventing overshoot into known terrain.
+- Conditional IF CONTACT now responds to fresh observations rather than stale memory echoes; RED→GREEN test proves movement resumes despite retained contact memory.
+- Return hypotheses were tested rather than accepted: lower-channel detour worsened hull (59.8% versus87.1% direct), and an initial2-second decoy changed almost nothing. Found the generic2-second event expired before a disrupted Siren recovered. Dedicated finite decoy transmission now lasts15seconds; its persistence is regression tested.
+- Same coordinated mission and finite3EMP,39.2seconds: direct return87.1% hull; one DECOY from Quietus at uplink then the same return gives100% hull, both drones survive,2decoys remain. This is a learnable tool-and-timing difference, not a global enemy nerf or a claim of balanced human pacing.
+- `scripts/toolchain/test.sh`:61core +150runtime, zero failures. SHA256 inventory: all47 immutable imports match.
+- Real return replay captures use the exact ordinary-command scenario via separate `game/tests/capture_return.gd`, paused at25.7seconds with all3records,100% hull, active decoy and both drone orders. `build/captures/cycle3-return/full.png` and native2184×1968 `cycle3-inner/full.png`.
+- Root owns push timing; native modern-backend validation remains unresolved. Next bounded cycle is functional audio and mixed-output/lifecycle evidence, then further mission differentiation. Persistent Gauntlet remains active.

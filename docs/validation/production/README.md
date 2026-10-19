@@ -23,3 +23,9 @@ Remaining evidence gaps: Android current-game runtime under hosted emulator, phy
 - `cycle2-split.png`: connected channel/relay/uplink proving ground, Quietus selected while drone exposes; its map remains clear.
 
 Current validation53core+142runtime, zero failures. Core includes all-mission fallback, camera station continuity, dead-command rejection, fresh target lock, fast drone navigation, standoff, relay prerequisites/sub-only uplink. Runtime includes true pointer events, briefing preservation/paused-plan resume, optical station ownership and safe-area conversion. Exact current top status and remaining gaps are in WORKBENCH, replacing any historical baseline inference above.
+
+## Cycle 3 return and orders
+
+`cycle3-return.png` and `cycle3-inner.png` come from `capture.sh --script res://tests/capture_return.gd`, replaying actual route/acquisition/disruption/decoy commands. At25.7s, all three records are collected, Quietus has100% hull and is returning; both drones are alive, one decoy transmits east of the uplink,2remain. This run later wins at39.2s/100% hull; the same run without decoy wins39.2s/87.1% hull.3EMP are spent in each. These deterministic comparisons demonstrate a useful tactic; they do not certify human pacing or physical input quality.
+
+Current combined suite61core+150runtime. Explicit STOP/PASS, corner clearance, stale-contact conditional holds and15-second decoy persistence are covered. All47 original source hashes still match the import manifest.

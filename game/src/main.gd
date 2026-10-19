@@ -44,7 +44,7 @@ func _ready() -> void:
 	for i in 3:
 		var id=i
 		unit_buttons.append(_button(hud,["QUIETUS","DRONE A","DRONE B"][i],func(): _order("select",{"unit":id})))
-	var orders=[["ping","SONAR"],["camera","CAMERA"],["silent","SILENT"],["queue","+ QUEUE"],["hold","HOLD"],["emp","DISRUPT"],["decoy","DECOY"],["recon","SURVEY"],["contact_hold","IF CONTACT"],["wait_drone","WAIT DRONE"]]
+	var orders=[["ping","SONAR"],["camera","CAMERA"],["silent","SILENT"],["queue","+ QUEUE"],["hold","HOLD"],["emp","DISRUPT"],["decoy","DECOY"],["recon","SURVEY"],["contact_hold","IF CONTACT"],["wait_drone","WAIT DRONE"],["waypoint_mode","WAYPOINT: PASS"]]
 	for o in orders:
 		var order=o[0]
 		order_buttons[order]=_button(hud,o[1],func(): _order(order))
@@ -83,12 +83,12 @@ func _layout() -> void:
 	var wide=size.x/size.y>1.6
 	title_label.position=Vector2(26,18); title_label.size=Vector2(size.x-52,34)
 	status_label.position=Vector2(28,58); status_label.size=Vector2(size.x-56,28)
-	var panel=Rect2(size.x-324,106,296,size.y-158) if wide else Rect2(26,size.y-294,size.x-52,244)
-	ocean.position=Vector2(26,106); ocean.size=Vector2(size.x-376,size.y-158) if wide else Vector2(size.x-52,size.y-426)
+	var panel=Rect2(size.x-324,106,296,size.y-158) if wide else Rect2(26,size.y-350,size.x-52,300)
+	ocean.position=Vector2(26,106); ocean.size=Vector2(size.x-376,size.y-158) if wide else Vector2(size.x-52,size.y-482)
 	pause_button.position=panel.position; pause_button.size=Vector2(panel.size.x,48)
 	for i in 3:
 		unit_buttons[i].position=panel.position+Vector2(i*(panel.size.x/3),60); unit_buttons[i].size=Vector2(panel.size.x/3-4,48)
-	var keys=["ping","camera","silent","queue","hold","emp","decoy","recon","contact_hold","wait_drone","home","menu"]
+	var keys=["ping","camera","silent","queue","hold","emp","decoy","recon","contact_hold","wait_drone","home","menu","waypoint_mode"]
 	var columns=2 if wide else 6
 	var start=panel.position+Vector2(0,120)
 	for i in keys.size():
@@ -96,7 +96,7 @@ func _layout() -> void:
 		b.position=start+Vector2((i%columns)*(panel.size.x/columns),(i/columns)*56)
 		b.size=Vector2(panel.size.x/columns-6,48)
 		b.add_theme_font_size_override("font_size",15 if wide else 13)
-	detail_label.position=panel.position+Vector2(0,468 if wide else 234); detail_label.size=Vector2(panel.size.x,130); detail_label.visible=wide and size.y>720
+	detail_label.position=panel.position+Vector2(0,522 if wide else 286); detail_label.size=Vector2(panel.size.x,130); detail_label.visible=wide and size.y>720
 	log_label.position=Vector2(28,size.y-38); log_label.size=Vector2(size.x-56,28)
 	if menu!=null:
 		menu.position=Vector2(maxf(24,(size.x-690)/2),24); menu.size=Vector2(minf(690,size.x-48),size.y-48)
@@ -130,6 +130,7 @@ func _refresh() -> void:
 		var task="LOST" if not sim.units[i].alive else ("EXPOSING" if sim.capture_unit==i else (sim.units[i].hold if not sim.units[i].hold.is_empty() else ("ROUTE" if not sim.units[i].route.is_empty() else "READY")))
 		unit_buttons[i].text=["QUIETUS","DRONE A","DRONE B"][i]+"\n"+task
 		unit_buttons[i].add_theme_font_size_override("font_size",13)
+	order_buttons.waypoint_mode.text="WAYPOINT: PASS" if sim.pass_through else "WAYPOINT: STOP"
 	order_buttons.camera.text="CAMERA / LINK" if mission_index==1 else "CAMERA"
 	order_buttons.queue.text="+ QUEUE ON" if sim.queue_mode else "REPLACE"
 	order_buttons.silent.text="SILENT ✓" if sim.units[sim.selected].silent else "CRUISE"

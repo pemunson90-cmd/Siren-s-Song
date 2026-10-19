@@ -36,7 +36,7 @@ func start(index: int, upgrade: String = "endurance") -> void:
 		units.append({"pos":Vector2(140,800)+[Vector2.ZERO,Vector2(0,-100),Vector2(140,0)][i],"vel":Vector2.ZERO,"angle":-0.3,"route":[],"alive":true,"hold":"","silent":true,"battery":100.0,"name":["QUIETUS","DRONE A","DRONE B"][i]})
 	sirens = mission.sirens.duplicate(true)
 	known = {}; contacts = {}; events = []; noises = []
-	elapsed=0.0; oxygen=100.0; hull=100.0; paused=true; selected=0; queue_mode=false; outcome=""
+	elapsed=0.0; oxygen=100.0; hull=100.0; paused=true; selected=0; queue_mode=false; pass_through=true; outcome=""
 	ping_time=0.0; recon_time=0.0; capture_time=0.0; capture_unit=-1; accumulator=0.0
 	tools={"emp":2,"decoy":3,"recon":2}
 	if upgrade=="disruption": tools.emp += 1
@@ -99,6 +99,7 @@ func command(order: String,args: Dictionary={}) -> bool:
 			if id<0 or id>=units.size() or not units[id].alive: return false
 			selected=id; queue_mode=false
 			message="%s selected · next tap replaces route" % units[id].name
+		"waypoint_mode": pass_through=not pass_through; message="Queued waypoints PASS through" if pass_through else "Queued waypoints STOP before continuing"
 		"queue": queue_mode=not queue_mode; message="QUEUE: tap to add" if queue_mode else "REPLACE: tap to set route"
 		"route", "emergency":
 			var append=queue_mode and order!="emergency"
@@ -131,7 +132,7 @@ func command(order: String,args: Dictionary={}) -> bool:
 			_noise(u.pos,650,"DISRUPTION"); message="Disruption pulse · 12 second recovery window"; events.append({"type":"emp","pos":u.pos})
 		"decoy":
 			if tools.decoy<=0: return false
-			tools.decoy-=1; _noise(args.get("point",u.pos+Vector2(160,0)),1100,"DECOY"); message="Decoy transmitting"; events.append({"type":"decoy","pos":u.pos})
+			tools.decoy-=1; _noise(args.get("point",u.pos+Vector2(160,0)),1100,"DECOY",15.0); message="Decoy transmitting · 15 seconds"; events.append({"type":"decoy","pos":u.pos})
 		"camera":
 			if capture_unit>=0: message="One pilot · exposure in progress. Allow it to finish or replace that unit’s route."; return false
 			var best := -1
@@ -146,8 +147,8 @@ func command(order: String,args: Dictionary={}) -> bool:
 			capture_unit=selected; capture_target=best; capture_time=0.0; u.hold="HOLD"; message="Archive uplink · hold 6 seconds" if target.get("kind","")=="uplink" else "Camera exposure · hold 4 seconds"; _noise(u.pos,520,"CAMERA"); events.append({"type":"camera","pos":u.pos})
 		_: return false
 	return true
-func _noise(p: Vector2,radius: float,label: String) -> void:
-	noises.append({"pos":p,"radius":radius,"time":2.0,"label":label})
+func _noise(p: Vector2,radius: float,label: String,duration: float=2.0) -> void:
+	noises.append({"pos":p,"radius":radius,"time":duration,"label":label})
 func advance(dt: float) -> void:
 	if paused or not outcome.is_empty(): return
 	accumulator+=minf(dt,0.25)
@@ -161,7 +162,7 @@ func _tick(dt: float) -> void:
 	for i in units.size():
 		var u=units[i]
 		if not u.alive: continue
-		var holding=u.hold=="HOLD" or (u.hold=="CONTACT" and not contacts.is_empty())
+		var holding=u.hold=="HOLD" or (u.hold=="CONTACT" and has_live_contact())
 		if u.hold=="DRONE":
 			holding=false
 			for j in [1,2]:
@@ -193,7 +194,13 @@ func _move(u: Dictionary,dt: float,speed: float,holding: bool) -> void:
 		var dest=u.route[0]
 		var delta:Vector2=dest.pos-u.pos
 		var arrival=9.0 if dest.stop else 11.0
+		if not dest.stop and u.route.size()>1 and delta.length()<28 and segment_safe(u.pos,u.route[1].pos,24): arrival=28.0
 		if delta.length()<arrival:
+			if dest.stop and u.vel.length()>2:
+				u.vel=u.vel.move_toward(Vector2.ZERO,100*dt)
+				var braking:Vector2=u.pos+u.vel*dt
+				if not blocked(braking,12): u.pos=braking
+				return
 			u.route.pop_front()
 			if dest.stop: u.vel=u.vel.move_toward(Vector2.ZERO,120*dt)
 		if not u.route.is_empty():
@@ -312,3 +319,8 @@ func segment_safe(a: Vector2,b: Vector2,clearance: float) -> bool:
 	for n in range(1,count+1):
 		if blocked(a.lerp(b,float(n)/count),clearance): return false
 	return true
+
+func has_live_contact() -> bool:
+	for contact in contacts.values():
+		if elapsed-contact.time<0.3: return true
+	return false
