@@ -3,6 +3,9 @@ var host
 var selected_goal=0
 var preview
 var body:VBoxContainer
+var content:BoxContainer
+var editor:BoxContainer
+var edit_controls:VBoxContainer
 var rows:VBoxContainer
 var info:Label
 var point_info:Label
@@ -14,6 +17,9 @@ var selected_row:Button
 var row_scroll:ScrollContainer
 var touch_height=48.0
 var error_text=""
+var layout_bounds=Vector2.ZERO
+var reflow_view:Dictionary={}
+var reflow_revision=0
 func _ready():
  mouse_filter=Control.MOUSE_FILTER_STOP;hide()
 func button(parent,text,key,action):
@@ -25,6 +31,7 @@ func row(parent):
 func open(owner):
  host=owner;selected_goal=0;error_text="";show();rebuild()
 func rebuild():
+ reflow_view.clear();reflow_revision+=1;layout_bounds=Vector2.ZERO
  for c in get_children():remove_child(c);c.queue_free()
  touch_height=host.ui_touch_height
  body=VBoxContainer.new();body.add_theme_constant_override("separation",8);add_child(body)
@@ -35,26 +42,49 @@ func rebuild():
   var id=n;var b=button(crafts,host.sim.units[n].name,"craft"+str(n),func():host._order("select",{"unit":id});selected_goal=0;error_text="";rebuild())
   b.disabled=not host.sim.units[n].alive;b.modulate=Color("80d9cf") if n==host.sim.selected else Color.WHITE
  info=label(body,"")
- var content=row(body);content.size_flags_vertical=Control.SIZE_EXPAND_FILL
- preview=preload("res://src/presentation/route_program_preview.gd").new();preview.sim=host.sim;preview.custom_minimum_size=Vector2(160,70);preview.size_flags_vertical=Control.SIZE_EXPAND_FILL;preview.size_flags_horizontal=Control.SIZE_EXPAND_FILL;preview.size_flags_stretch_ratio=0.8;content.add_child(preview)
+ content=BoxContainer.new();content.add_theme_constant_override("separation",8);content.size_flags_vertical=Control.SIZE_EXPAND_FILL;body.add_child(content)
+ preview=preload("res://src/presentation/route_program_preview.gd").new();preview.sim=host.sim;preview.custom_minimum_size=Vector2(160,70);preview.size_flags_vertical=Control.SIZE_EXPAND_FILL;preview.size_flags_horizontal=Control.SIZE_EXPAND_FILL;preview.size_flags_stretch_ratio=1.5;content.add_child(preview)
  preview.view_changed.connect(host._report_targets,CONNECT_DEFERRED)
  preview.point_chosen.connect(func(p):
   var count=host.sim.route_goals().size()
   apply("route_insert" if count==0 else "route_edit",{"index":0 if count==0 else selected_goal,"point":p}))
- var editor=VBoxContainer.new();editor.size_flags_horizontal=Control.SIZE_EXPAND_FILL;editor.size_flags_stretch_ratio=1.2;editor.add_theme_constant_override("separation",8);content.add_child(editor)
+ editor=BoxContainer.new();editor.vertical=true;editor.size_flags_horizontal=Control.SIZE_EXPAND_FILL;editor.add_theme_constant_override("separation",8);content.add_child(editor)
  row_scroll=ScrollContainer.new();row_scroll.custom_minimum_size.y=touch_height;row_scroll.size_flags_vertical=Control.SIZE_EXPAND_FILL;row_scroll.horizontal_scroll_mode=ScrollContainer.SCROLL_MODE_DISABLED;editor.add_child(row_scroll)
  rows=VBoxContainer.new();rows.size_flags_horizontal=Control.SIZE_EXPAND_FILL;row_scroll.add_child(rows)
- point_info=label(editor,"")
- var modes=row(editor);mode_button=button(modes,"","propulsion",cycle_mode);arrival_button=button(modes,"","arrival",toggle_arrival)
- var edits=row(editor);button(edits,"INSERT","insert",insert_after);delete_button=button(edits,"DELETE","delete",func():apply("route_delete",{"index":selected_goal}));undo_button=button(edits,"UNDO","undo",func():apply("route_undo",{}))
+ row_scroll.resized.connect(show_selected_row,CONNECT_DEFERRED);rows.resized.connect(show_selected_row,CONNECT_DEFERRED)
+ edit_controls=VBoxContainer.new();edit_controls.size_flags_horizontal=Control.SIZE_EXPAND_FILL;edit_controls.add_theme_constant_override("separation",8);editor.add_child(edit_controls)
+ point_info=label(edit_controls,"")
+ var modes=row(edit_controls);mode_button=button(modes,"","propulsion",cycle_mode);arrival_button=button(modes,"","arrival",toggle_arrival)
+ var edits=row(edit_controls);button(edits,"INSERT","insert",insert_after);delete_button=button(edits,"DELETE","delete",func():apply("route_delete",{"index":selected_goal}));undo_button=button(edits,"UNDO","undo",func():apply("route_undo",{}))
  configure(host.size,host.ui_touch_height);refresh()
 func configure(bounds:Vector2,h:float):
+ if preview!=null and bounds!=layout_bounds:
+  # BoxContainer changes can produce several intermediate preview sizes. Retain
+  # the inspected view until both container axes have finished sorting.
+  if reflow_view.is_empty():reflow_view={"center":preview.chart_camera.center,"navigation_revision":preview.navigation_revision}
+  layout_bounds=bounds;reflow_revision+=1;call_deferred("restore_reflow_view",reflow_revision)
  touch_height=h;position=Vector2(16,16);size=Vector2(bounds.x-32,bounds.y-32);position.x=(bounds.x-size.x)/2
  if body==null:return
+ # Reflow the same controls: a full-width chart over a compact editing strip
+ # on the inner display, with a chart/list column layout on the wide cover.
+ # Keeping the preview alive retains its camera and cancels gestures on resize.
+ var stacked=bounds.x/bounds.y<1.6
+ content.vertical=stacked;editor.vertical=not stacked
+ editor.size_flags_vertical=Control.SIZE_FILL if stacked else Control.SIZE_EXPAND_FILL
+ row_scroll.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+ row_scroll.size_flags_stretch_ratio=0.9 if stacked else 1.0
+ edit_controls.size_flags_stretch_ratio=1.1 if stacked else 1.0
  for b in find_children("*","Button",true,false):
   b.custom_minimum_size.y=h;b.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;b.add_theme_font_size_override("font_size",maxi(14,roundi(h*0.25)))
  for l in find_children("*","Label",true,false):l.add_theme_font_size_override("font_size",maxi(14,roundi(h*0.25)))
  if preview!=null:preview.configure_navigation(h,maxi(14,roundi(h*0.25)))
+func restore_reflow_view(revision:int):
+ for n in 2:await get_tree().process_frame
+ if revision!=reflow_revision or reflow_view.is_empty():return
+ # New navigation during the sort wins over restoring the previous view.
+ if preview.navigation_revision==reflow_view.navigation_revision:preview.chart_camera.center=reflow_view.center
+ reflow_view.clear();preview.configure_navigation(touch_height,maxi(14,roundi(touch_height*0.25)))
+ show_selected_row()
 func refresh():
  var goals=host.sim.route_goals();selected_goal=clampi(selected_goal,0,maxi(0,goals.size()-1))
  var legacy=goals.any(func(goal):return goal.get("legacy",false))
