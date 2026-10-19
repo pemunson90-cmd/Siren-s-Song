@@ -18,6 +18,25 @@ func capture(game,name:String):
  print("PLANNER_SPACE ",name," panel=",game.route_editor.size," preview=",p.size," fitted_physical=",p.chart_rect().size*scale," area_physical=",fitted_area(p)*scale.x*scale.y)
  if not capture_dir.is_empty() and DisplayServer.get_name()!="headless":
   await RenderingServer.frame_post_draw;root.get_texture().get_image().save_png(capture_dir.path_join(name+".png"))
+func pan_during_reflow(game,dimensions:Vector2i,gesture:bool):
+ var panel=game.route_editor;var p=panel.preview
+ p.fit_chart();p.zoom_at(4.,p.size/2);p.pan_chart(Vector2(-100,-50));await settle()
+ var saved=game.sim.snapshot();var selected=panel.selected_goal
+ root.size=Vector2i(2184,1968) if dimensions.x==2520 else Vector2i(2520,1080)
+ await process_frame
+ var before=p.chart_camera.center
+ if gesture:
+  var origin=p.global_position+p.size/2
+  var press=InputEventScreenTouch.new();press.index=0;press.position=origin;press.pressed=true;root.push_input(press,true)
+  var drag=InputEventScreenDrag.new();drag.index=0;drag.position=origin+Vector2(-30,0);root.push_input(drag,true)
+  var release=InputEventScreenTouch.new();release.index=0;release.position=drag.position;release.pressed=false;root.push_input(release,true)
+ else:p.pan_chart(Vector2(-30,0))
+ var intended=p.chart_camera.center;var label="completed gesture" if gesture else "public pan"
+ check(intended.distance_to(before)>1 and not p.map_gesture.active(),label+" completes a meaningful pan before resize restore")
+ await settle()
+ check(p.chart_camera.center.distance_to(intended)<.1,label+" during reflow takes precedence over saved center")
+ check(game.sim.snapshot()==saved and panel.selected_goal==selected,label+" during reflow preserves paused route intent")
+ root.size=dimensions;await settle()
 func action(panel,key:String):
  for b in panel.find_children("*","Button",true,false):
   if b.get_meta("action","")==key:return b
@@ -61,5 +80,6 @@ func run():
   root.size=dimensions;game.fixture_safe_area=Rect2(136,0,2384,1080) if dimensions.x==2520 else Rect2()
   await process_frame;p.fit_chart();await settle()
   check(p.chart_camera.zoom==1 and p.chart_camera.center==Vector2(800,480) and game.sim.snapshot()==saved,"FIT during reflow takes precedence and preserves model")
+  await pan_during_reflow(game,dimensions,false);await pan_during_reflow(game,dimensions,true)
   game.queue_free();await settle()
  print("PLANNER SPACE UI CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)

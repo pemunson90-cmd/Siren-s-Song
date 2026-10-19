@@ -9,6 +9,8 @@ var navigation_buttons:Array=[]
 var touch_height=48.0
 var navigation_font_size=14
 var view_report_pending=false
+# Presentation navigation intent, independent of layout-driven camera changes.
+var navigation_revision=0
 func _ready():
  mouse_filter=Control.MOUSE_FILTER_STOP;clip_contents=true
  for i in 3:
@@ -40,11 +42,11 @@ func map_position(point:Vector2) -> Vector2:
 func screen_position(world:Vector2) -> Vector2:
  chart_camera.configure(size);return chart_camera.to_screen(world)
 func zoom_at(factor:float,anchor:Vector2):
- map_gesture.cancel();chart_camera.configure(size);chart_camera.zoom_at(factor,anchor);_view_changed()
+ navigation_revision+=1;map_gesture.cancel();chart_camera.configure(size);chart_camera.zoom_at(factor,anchor);_view_changed()
 func pan_chart(delta:Vector2):
- chart_camera.configure(size);chart_camera.pan(delta);_view_changed()
+ navigation_revision+=1;chart_camera.configure(size);chart_camera.pan(delta);_view_changed()
 func fit_chart():
- map_gesture.cancel();chart_camera.configure(size);chart_camera.fit();_view_changed()
+ navigation_revision+=1;map_gesture.cancel();chart_camera.configure(size);chart_camera.fit();_view_changed()
 func _input(event):
  if not is_visible_in_tree() or not map_gesture.active():return
  if event is InputEventMouseButton and event.button_index in [MOUSE_BUTTON_WHEEL_UP,MOUSE_BUTTON_WHEEL_DOWN]:map_gesture.cancel();return
@@ -70,7 +72,7 @@ func _pointer_event(event,local:bool) -> bool:
  chart_camera.configure(size)
  if action.has("zoom"):chart_camera.zoom_at(action.zoom,action.anchor)
  if action.has("pan"):chart_camera.pan(action.pan)
- if action.has("zoom") or action.has("pan"):_view_changed()
+ if action.has("zoom") or action.has("pan"):navigation_revision+=1;_view_changed()
  if action.has("tap") and Rect2(Vector2.ZERO,size).has_point(action.tap):
   var world=chart_camera.to_world(action.tap)
   if Rect2(0,0,1600,960).has_point(world):point_chosen.emit(Vector2(clampf(world.x,24,1576),clampf(world.y,24,936)))

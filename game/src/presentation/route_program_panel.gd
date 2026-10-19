@@ -61,7 +61,7 @@ func configure(bounds:Vector2,h:float):
  if preview!=null and bounds!=layout_bounds:
   # BoxContainer changes can produce several intermediate preview sizes. Retain
   # the inspected view until both container axes have finished sorting.
-  if reflow_view.is_empty():reflow_view={"center":preview.chart_camera.center,"zoom":preview.chart_camera.zoom}
+  if reflow_view.is_empty():reflow_view={"center":preview.chart_camera.center,"navigation_revision":preview.navigation_revision}
   layout_bounds=bounds;reflow_revision+=1;call_deferred("restore_reflow_view",reflow_revision)
  touch_height=h;position=Vector2(16,16);size=Vector2(bounds.x-32,bounds.y-32);position.x=(bounds.x-size.x)/2
  if body==null:return
@@ -82,7 +82,7 @@ func restore_reflow_view(revision:int):
  for n in 2:await get_tree().process_frame
  if revision!=reflow_revision or reflow_view.is_empty():return
  # New navigation during the sort wins over restoring the previous view.
- if preview.chart_camera.zoom==reflow_view.zoom and not preview.map_gesture.active():preview.chart_camera.center=reflow_view.center
+ if preview.navigation_revision==reflow_view.navigation_revision:preview.chart_camera.center=reflow_view.center
  reflow_view.clear();preview.configure_navigation(touch_height,maxi(14,roundi(touch_height*0.25)))
  show_selected_row()
 func refresh():
