@@ -14,7 +14,7 @@ Governing revision **e286ade61257190daa46f9433182de323a611271**. Dedicated featu
 
 Root sole production integrator in `/workspace/Siren-s-Song-integration`. Existing original workspace/captures and source branches retained. Milestone-tag/manual-dispatch Android trigger replaces every-feature APK. Feature refs containing that workflow correction may be published without redundant builds.
 
-Next: camera correction merged; finish one running integrated playable-batch game gate, publish reconciled production and launch one justified native batch while FIT development continues. No adoption-only critic/APK or per-increment full suite. [Exact continuation](CONTINUATION.md).
+Next: camera correction merged; combined playable-batch gate exited0; publish verified source, publish reconciled production and launch one justified native batch while FIT development continues. No adoption-only critic/APK or per-increment full suite. [Exact continuation](CONTINUATION.md).
 
 Latest actual [Android39266427532](validation/android-39266427532/README.md) is20de5cd:4 ZIPs/APK/certificate and48 images inspected. Chapter/loadout/optical states pass scoped review; cover-resume all black. New local features are absent from that APK. Preserve0afe5fc and f1ea536/runtime92625ac recoveries. No physical Fold7/full-campaign/finale/human acceptance claim.
 

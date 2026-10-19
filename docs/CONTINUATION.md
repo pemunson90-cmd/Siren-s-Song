@@ -15,7 +15,7 @@ Active tasks:
 
 ## Immediate execution
 
-Camera correction is merged and retained review report updated. Finish one running combined game gate for the coherent navigation/resume/bow/Well milestone, including permanent9-check Well save-shape gate. Publish verified source against freshly fetched production; all ordinary feature/production pushes now avoid APK builds. Create an explicit `gauntlet/milestone/**` tag or dispatch only for a meaningful playable batch or concrete Android risk. Repeated black cover-resume is such a risk. Continue independent FIT/game improvement while native validation runs; do not wait for routine approval.
+Camera correction is merged and retained review report updated. Combined game gate exited0; publish the coherent batch for the coherent navigation/resume/bow/Well milestone, including permanent9-check Well save-shape gate. Publish verified source against freshly fetched production; all ordinary feature/production pushes now avoid APK builds. Create an explicit `gauntlet/milestone/**` tag or dispatch only for a meaningful playable batch or concrete Android risk. Repeated black cover-resume is such a risk. Continue independent FIT/game improvement while native validation runs; do not wait for routine approval.
 
 ## Recurring instruction synchronization
 
