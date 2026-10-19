@@ -1,5 +1,8 @@
 # Siren's Song progress workbench
 
+> **CURRENT OPERATING MODE (2026-10-19):** Autonomous feature branches/worktrees → one assigned diff reviewer → reconcile/merge into playable `gauntlet/production`. Fetch/re-read current `AGENTS.md`, `CONTINUATION.md`, `WORKBENCH.md` at every task boundary; propagate governing SHA. Use targeted tests per merge; full Android/independent experience review only at substantial milestones or concrete native risk. Continue existing work without restarts; historical gates below are archival unless specifically relevant.
+
+
 > **CURRENT USER-DIRECTED PROCESS (2026-10-19):** Follow the milestone-driven validation policy in [../AGENTS.md](../AGENTS.md). This supersedes historical native-per-feature, independent-review-per-change, and exhaustive-evidence gates appearing below. Continue Blackwater/loadout gameplay development with focused tests and desktop play; batch full regression/native APK to the next meaningful playable milestone unless a concrete Android-specific defect requires an earlier build. Preserve all existing accepted work, artifacts and fallbacks. Historical status below is evidence, not an instruction to repeat its obsolete ceremony.
 
 > **Integration rule (2026-10-19):** One feature branch per independently mergeable design, continuous independent development, one assigned diff/integration reviewer before reconciliation and merge to `gauntlet/production`. Targeted checks per merge; Android APK validation for coherent milestones or native-specific defects. See `AGENTS.md` for governing details. Existing isolated Blackwater/loadout work should be brought onto dedicated branches without restarting.
