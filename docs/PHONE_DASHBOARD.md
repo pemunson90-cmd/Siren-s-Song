@@ -28,7 +28,7 @@ Reviewed tactical source **0d1b390** adds PLAN ROUTE, terrain acoustic arrivals/
 
 - **Physical torpedo and route programming:** integrated and published, including noisy flight/snare and Quietus per-waypoint speed. Drones remain fixed-speed. Clustered-target tap correction is reviewed and locally integrated: explicit S# FIRE guides, stable intended contact and no spending on ambiguous body taps.
 - **Terrain acoustics:** integrated speed footprint and geometry arrivals. Thermal staging is reviewed and integrated: a limited cold-front waiting window costs time and passive contact information, preserving camera/terrain and visible beam warnings. Reflections and travel time remain open.
-- **Paused route planner:** precise editing is next: its fitted map currently cannot pan/zoom. A separate branch adds navigation gestures and full-size +/−/FIT without accidental waypoint changes.
+- **Paused route planner:** reviewed pan/pinch and full-size +/−/FIT support selected-point editing. Native modal diagnostics/probe are next.
 - **Currents:** prototype rejected:1.6s travel gain did not justify62.4m HOLD drift. No flow controller is in the game.
 - **Native validation:** run39288954098 passed signing/full tests/APK build but failed native smoke; all four artifacts and14cover views are inspected. Failure was a stale secondary checklist, now corrected with targeted tests and original-metrics replay; inner/lifecycle checks remain unreached. No retrieval rerun or broad acceptance claim.
 

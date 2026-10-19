@@ -1,24 +1,17 @@
-# Siren’s Song · current workbench
+# Siren’s Song · workbench
 
-> **LATEST USER DESIGN DIRECTION (2026-10-19):** Live intended requirements now in `docs/CURRENT_GAME_SPEC.md`; provenance and v7 mechanic recovery inventory in `docs/V7_TO_GODOT_PARITY.md`. Original functional spec is archived/deprecated as current instruction. Ratified: per-waypoint speed/editing; physically meaningful acoustic paths around basalt; differentiated drones; recover playable v7 knockdown torpedo; high-quality intuitive mobile controls. Preserve beam-centered combat for now; real photography and save profiles later. After each pass compare player-facing gameplay, presentation, discovery and depth to previous state and top-quality games, then pursue the next meaningful improvement without an artificial terminal milestone. AAA/publishable describes output quality, not publishing tasks. Keep current development and milestone batching running.
+Root integrates production; governing16869cd adopted. Reviewed basea855cc1 plus source-only planner8e13043 is the current controls milestone. Preserve playable recoveries and the permanent Git-tracked32bcb debug identity.
 
-
-Reviewed game source **f686108** composes thermal staging and aiming with the tactical core; current user audit commits preserved, governing living spec unchanged. Root integrates/pushes production; published marker79c9b5a triggered one native batch; planner navigation continues independently.
-
-| Work | Actual result / remaining cost |
+| Player gain | Remaining cost/gap |
 | --- | --- |
-| Route programming | Approved5ee9555: Quietus speed, all-craft edit/insert/delete/undo; drones FIXED96. PLAN ROUTE label restores cover chart area without type/control shrink. Planned sequencing, not a proved quieter/safe policy. |
-| Acoustic paths | Approved75537f7: speed-based footprint and water-path inference. Foundry lure changes guard route/hull34.3→100 at20s; Well exposed cruise still loses. Diffraction only, reflections/native performance open. |
-| Physical torpedo | Approvedad64e42: real noisy flight/LOS/terrain/miss/impact8s snare/depth recovery; EMP remains distinct. Actual clips retain losses. Legacy no free stock; fresh2 rounds advertised. |
-| Composition fixes | Armed targeting canceled before planner (root17/0); contact/camera clearance8f32ca6; cover command-grid label0d1b390; source-contract correction2b06815 preserves legacy and fresh2EMP61.6→100 decoy choice without retuning AI. |
-| Validation batch | Initialac3 runner correctly stopped at density2failures after earlier298/324/38/45/9passes; corrected1057density/324runtime and all remaining gates/new tactical harnesses pass. [Exact scope](validation/production/tactical-core-milestone/README.md). Actual392889 whole test gate passed; native smoke failed, all4ZIP/APK/canonical signer and14cover views inspected0661a4a; no inner/lifecycle evidence reached. No per-feature APK. |
-| Signing/CI | Original32bcb key permanently Git-saved/reused,5guards. Production path marker triggers deliberate APK only; marker deliberately changed once at79c9b5a. Stale secondary checklist fixed59534ff/30tests; retained actual native replay84×56dp passes. Existing failed392769 artifacts inspected, no promotion of rotated signer; accepted20de/0afe/f1ea recoveries retained. |
-| Next real gain | Thermala5fe5e6 approved by sole Blackwater reviewer/mergedf686108. Limited waiting window at time/fresh-information cost, chart/optical/beam fairness retained. Reviewer22/12/8 +root composed8UI/65aim pass; no safe crossing/extraction claim. |
-| Mobile targeting | Approved029885c/merged7cc54b0: explicit48dp contact guides/stable gesture identity, ambiguous body tap refuses spend. Root65/17/44focused checks pass; temporary armed chart occupation remains. |
-| Currents investigation | Rejected165f382: same route saves1.6s, but HOLD drifts62.4m. Complete scratch/report archived with27 hashes verified; no productflow. |
-| Next mobile gain | decoy_feedback owns planner-chart-navigation: pan/pinch/+−FIT within paused preview, precise edits and no navigation-induced waypoint changes. Root sole reviewer. |
-| Rejected prototypes | d625 listener added no earlier warning. c1b96fc lower drone thrust reduced sound but worsened same-policy time/hull; no speed picker/global nerf promoted. Operational differentiation remains open. |
+| Quietus waypoint propulsion, all-craft edit/undo; now navigable paused preview | Drones fixed96; toolbar uses chart space; native planner proof pending |
+| Physical noisy torpedo with travel/cover/miss/snare; explicit intended-contact aiming | Finite shots can miss; human/physical targeting unverified |
+| Speed footprint and terrain diffraction; Foundry thermal staging | Mutual fresh-information/time cost, later drone loss retained; reflections/current systems open |
 
-Root has actual fresh cover/inner combined orders/planner captures, clean engine UI checks, and unchanged native-script MODEL preflight (not OS/pixels). Physical Fold7, earned native full campaign/finale, sustained performance and human audio/comprehension remain open. About4.7GB free after verified lossless archival of inactive raw runtime; original ZIP/APK/evidence remain.
+Current work: native-planner-probe (observed_contact_regression_hunter; root reviews), then one combined comprehensive/Android controls batch. Independent Foundry departure experiment (navigation_departure_experience; campaign_experience_review designated reviewer) seeks an observable world/guard-coverage choice. No forced wait/global AI buffs.
 
-Six-document refresh/installed hooks plus explicit unavailable-callback preflight remain active. Requested Sol6.1, backend/cost telemetry unknown. [Continuation](CONTINUATION.md) · [Phone dashboard](PHONE_DASHBOARD.md) · [Adherence follow-through](reviews/2026-10-19-gauntlet-adherence-progress-audit.md). No blocking execution boundary; continue after all milestones.
+Rejected current controller gains1.6s but loses HOLD by62.4m; prior drone picket/thrust prototypes remain rejected. Do not count tests or paperwork as game quality. Next broad weakness: discoveries should change the lived world, beyond static installations and record text.
+
+Latest392889 native failure is a corrected stale checklist; inspected cover scope only, no inner/lifecycle promotion. Physical Fold7/full earned campaign/finale, sustained performance, human audio/comprehension remain open. Evidence/captures/reports live in recoverable external/archive storage; production keeps source/tests/tools and compact instructions.
+
+[Continuation](CONTINUATION.md) · [Phone dashboard](PHONE_DASHBOARD.md). Continue the whole-game improvement loop; milestones do not finish it.

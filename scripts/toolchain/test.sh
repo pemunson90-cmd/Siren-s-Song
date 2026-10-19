@@ -74,6 +74,7 @@ while IFS='|' read -r scenario summary; do
 done <<'TACTICAL_SCENARIOS'
 route_program_tests|ROUTE PROGRAM
 route_program_ui_tests|ROUTE PROGRAM UI
+planner_navigation_ui_tests|PLANNER NAVIGATION
 acoustic_path_tests|ACOUSTIC PATH
 acoustic_hearing_tests|ACOUSTIC HEARING
 acoustic_footprint_tests|ACOUSTIC FOOTPRINT
