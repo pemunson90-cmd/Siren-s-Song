@@ -118,7 +118,9 @@ The original handoff/import/audit/remote-byte gate is satisfied. Preserve 8d8635
 - [x] Verify conditional tether, stimulus/search/home return, actual visible pursuit/standoff, save/pause/legacy continuation and intentional no-input station stillness. Independent exact-source directed replay passes.
 - [x] Rerun fixed naive panel, all-mission fallback, retained tactics and prior critic/loadout probes with source-labeled losses.
 - [x] Capture actual 16-second passive player-view and response/failure footage with explicit no-input interval and perceptual limits; retain rejected setups.
-- [ ] Resolve fresh separate regression criticism and execute one coherent native candidate including explicit fixture-assisted Well role response/return.
+- [x] Resolve fresh separate regression criticism and execute one coherent native candidate including explicit fixture-assisted Well role response/return. Numerical native 39216492480 passes; direct new APK bytes/pixels remain pending host access, not silently certified.
 - [ ] Compare the selected dimension against actual shipped-game footage. Public media access is blocked; original-v7 local browser footage is supplementary, not a substitute.
 
 Latest local gate 234 core / 230 runtime plus 8 navigation and 19 geometry parser checks passes; no native promotion follows from it. Source-specific figures and actual loss/return distinctions: docs/validation/production/siren-roles/README.md. After supported A checkpoint, resume parked density correction before unrelated feature expansion.
+
+A numerical checkpoint 6388113 supports the demonstrated role/native gains only; candidate APK retains experimental finale ancestry, so native finale/full-campaign quality remains open. Preserve fully inspected f1ea fallback. Resume existing density 2fc0976 via selective UI/test/evidence integration after the guarded docs checkpoint; keep later governance/role/native diagnostics and fix initial-window/static-ID/actual geometry before focused review/native density. External shipped reference motion remains pending.
