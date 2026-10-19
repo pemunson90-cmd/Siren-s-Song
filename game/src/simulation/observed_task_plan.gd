@@ -27,6 +27,7 @@ static func qualify(goal:Dictionary,sites:Array,unit_id:int,fitted:Dictionary)->
   if sites[index] is Dictionary and sites[index].get("site_id","")==goal.task_site:matches.append(index)
  if matches.size()!=1:return {"ok":false}
  var index=matches[0];var site=sites[index]
+ if site.get("own_origin",false) or site.has("completion_open_structure") or site.has("completion_enable_source") or site.has("completion_emission"):return {"ok":false}
  if site.get("kind","")!="receiver" or site.get("moving",false)!=false or not site.get("pos") is Vector2 or not site.pos.is_finite() or not site.get("captured") is bool:return {"ok":false}
  if goal.pos.distance_to(site.pos)>=240:return {"ok":false}
  if site.get("required_unit",unit_id)!=unit_id and Sampler.capture_spec(unit_id,fitted,site).is_empty():return {"ok":false}

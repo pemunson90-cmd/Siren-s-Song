@@ -19,6 +19,8 @@ func _initialize():
   check(not task.qualify(goal,sites,1,{}).ok and task.qualify(goal,sites,0,{}).ok,"hardware gates only remote field ability, Quietus keeps baseline task")
   var moving=sites.duplicate(true);moving[0].moving=true
   check(not task.qualify(goal,moving,1,fitted).ok,"moving sources excluded from static task scope")
+  var operation=sites.duplicate(true);operation[0]["completion_open_structure"]="sluice"
+  check(not task.qualify(goal,operation,0,{}).ok,"active machinery cannot be disguised as quiet receiver fieldwork")
   var duplicate=sites.duplicate(true);duplicate.append(sites[0].duplicate(true))
   check(not task.qualify(goal,duplicate,1,fitted).ok,"ambiguous public site identifier rejects")
   var before=[goal.duplicate(true),sites.duplicate(true),unit.duplicate(true),context.duplicate(true)]
