@@ -28,7 +28,7 @@ func _initialize():
  s.mission.objectives[0].pos=Vector2(1080,840);check(s.camera_context().ready,"optical evidence range/LOS is unchanged by thermal reception loss")
  var before=s.snapshot();s.advance(10);check(s.snapshot()==before,"pause freezes front encounter without new knowledge or resource use")
  var restored=Sim.new();check(restored.restore(before) and restored.snapshot()==before,"active front metadata and state restore without migration")
- var old=before.duplicate(true);old.mission.erase("thermal_revision");old.mission.erase("thermal_fronts");var legacy=Sim.new()
+ var old=before.duplicate(true);old.mission.erase("thermal_revision");old.mission.erase("thermal_fronts");old.mission.erase("departure_revision");var legacy=Sim.new()
  check(legacy.restore(old) and legacy.snapshot()==old and legacy.contact_visible(legacy.sirens[0])==legacy.visible(legacy.sirens[0].pos),"legacy Foundry archive restores exact unmasked behavior")
  var bad=before.duplicate(true);bad.mission.thermal_fronts[0].transmission=NAN;check(not Sim.valid_snapshot(bad),"nonfinite thermal strength is rejected before restore")
  bad=before.duplicate(true);bad.mission.id=2;check(not Sim.valid_snapshot(bad),"authored Foundry thermal data cannot activate globally in other chapters")

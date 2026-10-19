@@ -1,4 +1,5 @@
 extends RefCounted
+const Departure=preload("res://src/simulation/foundry_departure.gd")
 const Thermal=preload("res://src/simulation/thermal_front.gd")
 const Acoustics = preload("res://src/simulation/acoustic_paths.gd")
 const RouteProgram=preload("res://src/simulation/route_program.gd")
@@ -331,6 +332,8 @@ func well_signature_evidence() -> Dictionary:
 
 func _noise(p: Vector2,radius: float,label: String,duration: float=2.0) -> void:
 	noises.append({"pos":p,"radius":radius,"time":duration,"label":label})
+func departure_feedback() -> Dictionary:
+	return Departure.feedback(self)
 # Own known emissions only. Reception and enemy reaction remain sensor evidence.
 # Derive from existing clocks so pause/restore need no extra lifetime state.
 func acoustic_feedback() -> Dictionary:
@@ -352,6 +355,7 @@ func advance(dt: float) -> void:
 	while accumulator+0.0000001>=STEP and outcome.is_empty():
 		_tick(STEP); accumulator-=STEP
 func _tick(dt: float) -> void:
+	Departure.emit(self)
 	elapsed+=dt; oxygen=maxf(0,oxygen-dt/18.0)
 	if mission.get("phase","")=="response": mission.response_time=mission.get("response_time",0.0)+dt
 	ping_time=maxf(0,ping_time-dt); recon_time=maxf(0,recon_time-dt)
@@ -676,6 +680,7 @@ static func valid_snapshot(data: Dictionary) -> bool:
 			if not structure is Rect2: return false
 	for o in data.mission.objectives:
 		if not o is Dictionary or not o.has_all(["pos","name","captured"]) or not o.pos is Vector2: return false
+	if not Departure.valid(data.mission,data.get("elapsed",0.0)):return false
 	if not Thermal.valid_mission(data.mission):return false
 	if data.mission.has("acoustic_revision") and (not data.mission.acoustic_revision is int or data.mission.acoustic_revision!=1):return false
 	if data.mission.has("well_revision"):

@@ -133,6 +133,7 @@ func _draw() -> void:
 			draw_rect(area,Color(0.22,0.54,0.7,0.07))
 			draw_rect(area,Color(0.36,0.66,0.78,0.38),false,1.2/world_scale)
 			_label(area.position+Vector2(120,106),"COLD FRONT",Color(0.46,0.7,0.78,0.8),14)
+	_draw_departure()
 	# Bedrock and columnar basalt are original deterministic constructions.
 	for r in sim.mission.rocks: _rock(r)
 	for o in sim.mission.objectives:
@@ -391,3 +392,24 @@ func _dash(a: Vector2,b: Vector2,color: Color,width: float) -> void:
 	for n in range(0,int(distance),18): draw_line(a.move_toward(b,n),a.move_toward(b,minf(n+9,distance)),color,width)
 func _label(p: Vector2,text: String,color: Color,font_size: int) -> void:
 	draw_string(ThemeDB.fallback_font,p,text,HORIZONTAL_ALIGNMENT_LEFT,-1,maxi(font_size,int(12.0/world_scale)),color)
+
+func _draw_departure() -> void:
+	var report=sim.departure_feedback()
+	if report.is_empty():return
+	var tint=Color(0.52,0.66,0.64,0.72)
+	if report.lit:
+		var points=PackedVector2Array()
+		for p in [Vector2(-42,0),Vector2(-36,-9),Vector2(24,-10),Vector2(40,-6),Vector2(48,0),Vector2(40,6),Vector2(24,10),Vector2(-36,9)]:points.append(report.pos+p.rotated(report.angle))
+		tint.a*=report.fade
+		draw_colored_polygon(points,Color(0.15,0.25,0.28,0.92*report.fade))
+		draw_polyline(points,tint,1.2/world_scale);draw_line(points[-1],points[0],tint,1.2/world_scale)
+		for x in [-24,-8,8,24]:
+			draw_line(report.pos+Vector2(x,-7).rotated(report.angle),report.pos+Vector2(x,7).rotated(report.angle),Color(0.31,0.44,0.46,0.7*report.fade),1.0/world_scale)
+		var nose:Vector2=report.pos+Vector2(36,0).rotated(report.angle)
+		draw_circle(nose,2.0/world_scale,Color(0.85,0.75,0.49,report.fade))
+		_label(report.pos+Vector2(-20,28),"DEEP TRANSIT",tint,maxi(4,roundi(feedback_font_size/world_scale)))
+	# Only this owned receiver's supported bearing: no source dot behind stone,
+	# exact countdown, listener reaction, or promised safe crossing.
+	if report.receivers.has(sim.selected):
+		var own=sim.units[sim.selected]
+		_label(own.pos+Vector2(46,-44),"MOTOR %s · %s"%[report.receivers[sim.selected],"MOVING" if report.moving else "RISING"],Color(0.76,0.65,0.43,0.9),maxi(4,roundi(feedback_font_size/world_scale)))
