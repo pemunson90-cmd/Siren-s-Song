@@ -5,6 +5,7 @@ extends RefCounted
 const MODES=["inherit","silent","cruise"]
 const MAX_GOALS=32
 const MAX_UNDO=8
+const TaskPlan=preload("res://src/simulation/observed_task_plan.gd")
 static func goals(unit:Dictionary) -> Array:
  if unit.has("route_plan"):return unit.route_plan.duplicate(true)
  if unit.route.is_empty():return []
@@ -14,6 +15,7 @@ static func valid_goals(value,world_size:Vector2=Vector2(1600,960)) -> bool:
  for goal in value:
   if not goal is Dictionary or not goal.has_all(["pos","stop","mode"]):return false
   if not goal.pos is Vector2 or not goal.pos.is_finite() or not goal.stop is bool or goal.mode not in MODES:return false
+  if not TaskPlan.valid_goal(goal):return false
   if goal.has("legacy") and not goal.legacy is bool:return false
   if goal.has("arrival_set") and not goal.arrival_set is bool:return false
   if goal.pos.x<12 or goal.pos.y<12 or goal.pos.x>world_size.x-12 or goal.pos.y>world_size.y-12:return false
@@ -26,11 +28,15 @@ static func compile(origin:Vector2,plan:Array,pathfinder:Callable,world_size:Vec
   if leg.is_empty():return {"ok":false}
   for node in leg:node.mode=goal.mode
   leg.back().stop=goal.stop;leg.back().goal=true
+  if goal.has("task_site"):leg.back().task_site=goal.task_site
   route.append_array(leg);origin=goal.pos
  return {"ok":true,"route":route}
 static func valid_unit(unit:Dictionary,quietus:bool=true,world_size:Vector2=Vector2(1600,960)) -> bool:
  if unit.has("drone_drive") and (quietus or unit.drone_drive not in ["quiet","transit"]):return false
  if unit.has("route_plan") and not valid_goals(unit.route_plan,world_size):return false
+ if unit.has("task_run"):
+  if not TaskPlan.valid_run(unit.task_run):return false
+  if not unit.task_run.is_empty() and (not unit.has("route_plan") or unit.route_plan.is_empty() or unit.route_plan[0].get("task_site","")!=unit.task_run.site_id):return false
  if unit.has("route_undo"):
   if not unit.route_undo is Array or unit.route_undo.size()>MAX_UNDO:return false
   for plan in unit.route_undo:
@@ -39,11 +45,12 @@ static func valid_unit(unit:Dictionary,quietus:bool=true,world_size:Vector2=Vect
  for node in unit.route:
   if node.has("mode") and node.mode not in MODES:return false
   if node.has("goal") and not node.goal is bool:return false
+  if node.has("task_site") and (not node.get("goal",false) or not TaskPlan.valid_goal(node)):return false
   if unit.has("route_plan"):
    if goal_index>=unit.route_plan.size() or node.get("mode","")!=unit.route_plan[goal_index].mode:return false
    if node.get("goal",false):
     var goal=unit.route_plan[goal_index]
-    if node.pos!=goal.pos or node.stop!=goal.stop:return false
+    if node.pos!=goal.pos or node.stop!=goal.stop or node.get("task_site","")!=goal.get("task_site",""):return false
     goal_index+=1
  if unit.has("route_plan") and goal_index!=unit.route_plan.size():return false
  return true
@@ -58,6 +65,7 @@ static func speed(unit:Dictionary,fallback:float,quietus:bool) -> float:
 static func arrived(unit:Dictionary,node:Dictionary) -> void:
  if not node.get("goal",false):return
  if unit.has("route_plan") and not unit.route_plan.is_empty():unit.route_plan.pop_front()
+ unit.erase("task_run")
  unit.erase("route_undo")
 static func clear(unit:Dictionary) -> void:
- unit.erase("route_plan");unit.erase("route_undo")
+ unit.erase("route_plan");unit.erase("route_undo");unit.erase("task_run")
