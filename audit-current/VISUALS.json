@@ -1,0 +1,62 @@
+{
+  "gameplay_baseline": "56ef1f07dbdce72dd22aa32296a72cc6a8e36146",
+  "runtime_tree": "90b23d7c1ec86ca948a21bc1f0cc476824663b2c",
+  "capture_binding_sha256": "f6339f57126bf293db23d95bc6b9473150ebf0782ba94eacfc028e83aacd5664",
+  "images": [
+    {
+      "file": "visuals/cover-sluice-closed.png",
+      "sha256": "72dca039f43c6f9d90c53f915156d71690a6b6c286a6e4dc6e298f2a2fa7e95a",
+      "capture_source": "cf1d68ea6a3c8e8c8b5ec88d284fcc66f4a2835b"
+    },
+    {
+      "file": "visuals/cover-sluice-open.png",
+      "sha256": "c47918d6a231a1238b8629145e200b76c733890ca972f0581d67edb80c59798c",
+      "capture_source": "cf1d68ea6a3c8e8c8b5ec88d284fcc66f4a2835b"
+    },
+    {
+      "file": "visuals/cover-transmission-received.png",
+      "sha256": "30b88bd251e5c2f0cd6e07c06995befa565ff603177047174228e6623f3d1603",
+      "capture_source": "cf1d68ea6a3c8e8c8b5ec88d284fcc66f4a2835b"
+    },
+    {
+      "file": "visuals/cover-transmission-status.png",
+      "sha256": "690730f327d3cb90b2e0965eaece3a4be3639a2419a9091ad39f09dd5c2dcf92",
+      "capture_source": "2b559c9eb8b258bd53b3ae0120d4fae410bfc679"
+    },
+    {
+      "file": "visuals/inner-sluice-closed.png",
+      "sha256": "fc6391095490e991c37f1647b6c9d3dcf269456855ecfd42a12f44e995a1ce75",
+      "capture_source": "cf1d68ea6a3c8e8c8b5ec88d284fcc66f4a2835b"
+    },
+    {
+      "file": "visuals/inner-sluice-open.png",
+      "sha256": "460524db8a99dcf997e36b28767cf9e3560eadd355e3ececcadf54bcea964519",
+      "capture_source": "cf1d68ea6a3c8e8c8b5ec88d284fcc66f4a2835b"
+    },
+    {
+      "file": "visuals/inner-transmission-received.png",
+      "sha256": "0be2c460733b500d7acad1f26dc51342a5a2ef07ba3c6a928ef4feb4e2437ba7",
+      "capture_source": "cf1d68ea6a3c8e8c8b5ec88d284fcc66f4a2835b"
+    },
+    {
+      "file": "visuals/inner-transmission-status.png",
+      "sha256": "623e9938bed91049e0430e9730475ee07b0da8a1d8434aa2cfdf1a23713aa8b9",
+      "capture_source": "2b559c9eb8b258bd53b3ae0120d4fae410bfc679"
+    }
+  ],
+  "qualification": "Actual Godot4.6.3 Compatibility desktop cover2520x1080/inner2184x1968 previews; not Android, physical Fold7, human audio or whole-game acceptance. Source2cf/production56 has identical runtime to final2b capture. Six cf1 water/gate images precede only a hidden-on-those-frames STATUS heading change; two STATUS images are final2b. No failed prototype images included.",
+  "scenarios": {
+    "closed": "Genuine finalconcealedprofile \u2192 normalMain briefing12 \u2192 visibleBEGIN, paused. CameraFREE centeredon chartedgate for physical inspection only.",
+    "open": "NormalMain restore existinggenuine openedmidarchive; no actor/resource/fact edits or replayed journey.",
+    "send_received": "NormalMain restore genuine13midarchive at57.1333s; ordinaryHOLD and visibleTRANSMIT tap;7.5s ordinarysimulation, thenPAUSE at64.6333s. Completedownsend63.15 actual1838.338/1087.077; actualpublicreceivedsample64.15 same historicalreceiver, noexactfacts. Threats/resources/collisions unchanged.",
+    "status_successor": "Reload saved genuine-derivedcf1 fullarchive and openSTATUS; no elapsed simulation; state identical."
+  },
+  "limits": [
+    "Only operations12/13 represented. Do not infer whole-game quality from these selected scenes.",
+    "Closed/open archives are different genuine states and camera inspection views, not matched performance comparison.",
+    "Actual received scene retains a real urgent beam, finite resources and uncertain source. No forced actor or fact edits in these captures.",
+    "STATUS scrolls; an own-send stencil is historical craft position, not a reply location.",
+    "Whole campaign proofs use source-informed public-command controllers, not novice/human experience.",
+    "Raw original evidence is external to active Git. Source/gameplay claims should be independently checked; curator conclusions are not an audit verdict."
+  ]
+}
