@@ -211,7 +211,8 @@ func _order(order: String,args: Dictionary={}) -> void:
 		knock_armed=false; ocean.knock_targeting=false
 		map_gesture.cancel(); sim.paused=true; screen="program"; hud.hide(); menu.hide()
 		for button in zoom_buttons: button.hide()
-		route_editor.open(self); _save_archive(); return
+		print("SS_SCREEN program paused=",sim.paused)
+		route_editor.open(self); call_deferred("_report_targets"); _save_archive(); return
 	if order=="knock" and not args.has("target"):
 		map_gesture.cancel()
 		if sim.selected==0 and sim.units[0].alive and sim.tools.get("knock",0)>0 and sim.outcome.is_empty(): knock_armed=not knock_armed
@@ -527,7 +528,10 @@ func _report_targets() -> void:
 		if not is_inside_tree(): return
 		capture_phase="post_draw"
 	var buttons: Dictionary={}
-	if hud.visible:
+	if screen=="program" and route_editor.is_visible_in_tree():
+		for control in route_editor.find_children("*","Button",true,false):
+			if control.is_visible_in_tree() and control.has_meta("action"): buttons[control.get_meta("action")]=control
+	elif hud.visible:
 		buttons={"pause":pause_button,"sub":unit_buttons[0],"droneA":unit_buttons[1],"droneB":unit_buttons[2]}
 		for key in order_buttons:
 			if order_buttons[key].is_visible_in_tree(): buttons[key]=order_buttons[key]
@@ -629,12 +633,25 @@ func _evidence_gallery(index: int) -> void:
 
 func _rect_values(rect: Rect2) -> Array:
 	return [snappedf(rect.position.x,0.001),snappedf(rect.position.y,0.001),snappedf(rect.size.x,0.001),snappedf(rect.size.y,0.001)]
+func _planner_intent_metrics() -> Dictionary:
+	# Only operator-owned state; never serialize the model's hidden enemy state.
+	var own_units=[]
+	for id in sim.units.size():
+		var unit=sim.units[id]; var goals=[]
+		for goal in sim.route_goals(id):
+			goals.append({"pos":[goal.pos.x,goal.pos.y],"mode":goal.mode,"stop":goal.stop,"legacy":goal.get("legacy",false)})
+		own_units.append({"alive":unit.alive,"pos":[unit.pos.x,unit.pos.y],"velocity":[unit.vel.x,unit.vel.y],"battery":unit.battery,"silent":unit.silent,"hold":unit.hold,"goals":goals})
+	return {"mission":mission_index,"paused":sim.paused,"selected":sim.selected,"elapsed":sim.elapsed,"oxygen":sim.oxygen,"hull":sim.hull,"tools":sim.tools.duplicate(),"queue":sim.queue_mode,"pass_through":sim.pass_through,"units":own_units}
 func _ui_metrics(capture_phase: String="layout_only") -> Dictionary:
 	var viewport=get_viewport_rect().size; var window=Vector2(get_window().size)
 	var safe=Rect2(Vector2.ZERO,window)
 	if OS.get_name()=="Android": safe=Rect2(DisplayServer.get_display_safe_area()).intersection(safe)
 	var controls: Array=[]; var targets: Dictionary={}
-	if hud.visible:
+	var planner_visible=screen=="program" and route_editor.is_visible_in_tree()
+	if planner_visible:
+		for control in route_editor.find_children("*","Button",true,false):
+			if control.has_meta("action"): targets[control.get_meta("action")]=control
+	elif hud.visible:
 		targets={"pause":pause_button,"sub":unit_buttons[0],"droneA":unit_buttons[1],"droneB":unit_buttons[2],"more_orders":advanced_button}
 		for key in order_buttons:
 			if order_buttons[key].is_visible_in_tree(): targets[key]=order_buttons[key]
@@ -653,4 +670,9 @@ func _ui_metrics(capture_phase: String="layout_only") -> Dictionary:
 		if not hit.has_area(): continue
 		controls.append({"action":action,"visual_rect":_rect_values(visual),"hit_rect":_rect_values(hit),"clipped":not hit.is_equal_approx(visual)})
 	var capture_state={"phase":capture_phase,"drawn_frame":Engine.get_frames_drawn(),"mission":mission_index,"paused":sim.paused,"selected":sim.selected,"capture_unit":sim.capture_unit,"hud_visible":hud.is_visible_in_tree(),"menu_visible":menu.is_visible_in_tree(),"optical_visible":ocean.optical_feed!=null and ocean.optical_feed.is_visible_in_tree()}
-	return {"schema":1,"screen":screen,"orders_page":"secondary" if advanced_orders else "primary","viewport":[viewport.x,viewport.y],"window":[window.x,window.y],"safe_rect":_rect_values(safe),"density_dpi":ui_density_dpi(),"density_source":ui_density_source(),"chart_rect":_rect_values(ocean.get_global_rect()),"scroll_rect":_rect_values(scroll.get_global_rect().intersection(menu.get_global_rect()).intersection(Rect2(Vector2.ZERO,viewport))),"scroll_vertical":scroll.scroll_vertical,"settings_values":{"music":settings.get("music",0.5),"effects":settings.get("effects",0.8),"mute":settings.get("mute",false)},"capture_state":capture_state,"controls":controls}
+	var result={"schema":1,"screen":screen,"orders_page":"secondary" if advanced_orders else "primary","viewport":[viewport.x,viewport.y],"window":[window.x,window.y],"safe_rect":_rect_values(safe),"density_dpi":ui_density_dpi(),"density_source":ui_density_source(),"chart_rect":_rect_values(ocean.get_global_rect()),"scroll_rect":_rect_values(scroll.get_global_rect().intersection(menu.get_global_rect()).intersection(Rect2(Vector2.ZERO,viewport))),"scroll_vertical":scroll.scroll_vertical,"settings_values":{"music":settings.get("music",0.5),"effects":settings.get("effects",0.8),"mute":settings.get("mute",false)},"capture_state":capture_state,"controls":controls}
+	if planner_visible:
+		var preview=route_editor.preview; var camera=preview.chart_camera; var chart=preview.get_global_rect(); var scale=window/viewport
+		result.chart_rect=_rect_values(chart)
+		result["planner"]={"preview_physical":_rect_values(Rect2(chart.position*scale,chart.size*scale)),"zoom":camera.zoom,"center":[camera.center.x,camera.center.y],"intent":_planner_intent_metrics()}
+	return result

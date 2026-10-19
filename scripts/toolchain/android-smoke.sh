@@ -16,6 +16,7 @@ source "$(dirname -- "$0")/android-role-smoke.sh"
 source "$(dirname -- "$0")/android-menu-smoke.sh"
 source "$(dirname -- "$0")/android-capture-smoke.sh"
 source "$(dirname -- "$0")/android-blackwater-smoke.sh"
+source "$(dirname -- "$0")/android-planner-smoke.sh"
 adb() {
     local status=0
     timeout --foreground "${ADB_TIMEOUT_SECONDS:-30}" "$adb_bin" "$@" || status=$?
@@ -312,6 +313,7 @@ PY
         verify_touch_targets "$profile" primary
         tap_target more_orders 'SS_TARGET recon ' "$profile-secondary-page"
         verify_touch_targets "$profile" secondary
+        planner_touch_smoke "$profile"
         tap_target more_orders 'SS_TARGET ping ' "$profile-primary-page"
         verify_touch_targets "$profile" primary restored
     fi
