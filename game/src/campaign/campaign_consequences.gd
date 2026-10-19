@@ -27,6 +27,8 @@ static func recovered(previous:Dictionary,mission:Dictionary)->Dictionary:
   if mission.id==8 and mission.objectives.all(func(o):return o.captured):
    if "drone_sampler" not in p.entitlements:p.entitlements.append("drone_sampler")
  if mission.id>=9:p=commit(p,mission.id,mission.get("launch_equipment",EMPTY_FIT))
+ var resolution=preload("res://src/campaign/resolution_missions.gd").resolution(mission)
+ if not resolution.is_empty():p.facts["resolution"]=resolution
  if mission.id==11 and not p.facts.has("confluence_route") and mission.get("chosen_route","") in ["concealed","overt"]:p.facts.confluence_route=mission.chosen_route
  return p
 static func context(p:Dictionary)->Dictionary:
@@ -86,7 +88,7 @@ static func observe(sim,active:bool=false)->void:
   for receiver in sim.units.size():
    var unit=sim.units[receiver]
    if not unit.alive:continue
-   var arrivals=sim.acoustic_paths.arrivals(unit.pos,source.pos,1200.0)
+   var arrivals=sim.acoustic_paths.arrivals(unit.pos,source.pos,source.get("range",900.0))
    if arrivals.is_empty():continue
    var arrival=arrivals[0]
    var reading={"receiver":receiver,"origin":unit.pos,"direction":unit.pos.direction_to(arrival.goal),"time":sim.elapsed,"uncertainty":0.18 if arrival.direct else 0.65,"label":"UNRESOLVED CARRIER","cadence":source.cadence.duplicate(),"track":track}
@@ -118,6 +120,7 @@ static func valid_mission(m:Dictionary,time:float)->bool:
  var ids=[]
  for source in m.signal_sources:
   if not source is Dictionary or not source.has_all(["id","label","pos","evidence","located","cadence"]) or not source.id is String or source.id in ids or not source.label is String or not source.evidence is String or not source.located is bool or not source.pos is Vector2 or not bounds.has_point(source.pos) or not cadence_valid(source.cadence):return false
+  if source.has("range") and (not (source.range is int or source.range is float) or not is_finite(source.range) or source.range<1 or source.range>2400):return false
   ids.append(source.id)
   if source.located!=m.expedition_facts.has(source.id):return false
   if source.located and (m.expedition_facts[source.id]!=source.evidence or not m.objectives.any(func(o):return o.get("site_id","")==source.id and o.pos==source.pos)):return false
