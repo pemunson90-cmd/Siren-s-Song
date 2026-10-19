@@ -1,5 +1,6 @@
 extends RefCounted
 const PolygonContainment=preload("res://src/simulation/polygon_containment.gd")
+const Operations=preload("res://src/simulation/resolution_operations.gd")
 const Equipment=preload("res://src/equipment/equipment_catalog.gd")
 const Correlator=preload("res://src/equipment/cadence_correlator.gd")
 const Sampler=preload("res://src/equipment/field_sampler.gd")
@@ -76,6 +77,8 @@ func signal_readings() -> Array:
 	return SignalField.readings(self)
 func extraction_corridors() -> Array:
 	return Consequences.corridors(self) if mission.get("expedition_revision",0)==2 else SignalField.corridors(self) if mission.has("expedition_revision") else [{"pos":mission.extraction,"name":"RECOVERY","route":"","available":all_records()}]
+func operation_context()->Dictionary:
+	return Operations.feedback(self)
 func equipment_feedback()->Dictionary:
 	return {"fitted":mission.get("launch_equipment",Consequences.EMPTY_FIT).duplicate(true),"correlation":correlation.duplicate(true)}
 func _capture_duration(objective:Dictionary,unit_id:int)->float:
@@ -254,8 +257,9 @@ func command(order: String,args: Dictionary={}) -> bool:
 			if not context.ready: message=context.text; return false
 			var target=mission.objectives[context.target]
 			capture_unit=selected; capture_target=context.target; capture_time=0.0; u.hold="HOLD"
-			message="%s · hold %.0f seconds"%["Hydrophone reception" if target.get("kind","")=="exchange" else ("Passive hydrophone decode" if target.get("kind","")=="receiver" else ("Archive uplink" if target.get("kind","")=="uplink" else "Camera exposure")),_capture_duration(target,selected)]
-			if target.get("kind","") not in ["receiver","exchange"] or not Sampler.capture_spec(selected,mission.get("launch_equipment",{}),target).is_empty(): _noise(u.pos,520,"CAMERA")
+			Operations.begin(self,target)
+			message="%s · hold %.0f seconds"%["Hydrophone reception" if target.get("kind","")=="exchange" else ("Passive hydrophone decode" if target.get("kind","")=="receiver" else ("Archive uplink" if target.get("kind","")=="uplink" else "Warning transmission" if Operations.own_origin(target) else "Camera exposure")),_capture_duration(target,selected)]
+			if target.get("kind","") not in ["receiver","exchange","transmitter"] or not Sampler.capture_spec(selected,mission.get("launch_equipment",{}),target).is_empty(): _noise(u.pos,520,"CAMERA")
 			events.append({"type":"camera","pos":u.pos})
 		_: return false
 	return true
@@ -341,13 +345,17 @@ func camera_context() -> Dictionary:
 			var c=blackwater_context(capture_target,capture_unit)
 			return {"target":capture_target,"ready":false,"text":"%s · %s · %s %.1f/2s"%[units[capture_unit].name,"REPLY CARRIER" if c.get("source","")=="courier" else active.name,"receiving" if c.settled else "settling",capture_time]}
 		return {"target":capture_target,"ready":false,"text":"%s · %s %.1f / %.0fs"%[units[capture_unit].name,active.name,capture_time,_capture_duration(active,capture_unit)]}
-	if mission.has("expedition_revision") and mission.objectives.all(func(o):return o.captured):
+	if mission.has("expedition_revision") and mission.objectives.all(func(o):return o.captured) and not mission.objectives.any(func(o):return Operations.own_origin(o)):
 		var facts=mission.expedition_facts.keys()
 		return {"target":-1,"ready":false,"text":"No exact source located · listen from another position or spend local RECON" if facts.is_empty() and mission.id!=8 else "Observed %s · choose an available named recovery corridor"%", ".join(facts)}
 	var unit=units[selected]; var best=-1; var nearest=-1; var distance=INF
 	for id in mission.objectives.size():
 		var objective=mission.objectives[id]
-		if objective.captured: continue
+		if objective.captured and not Operations.own_origin(objective): continue
+		if Operations.own_origin(objective):
+			if nearest<0:nearest=id
+			if Operations.ready(self,objective,selected):best=id;break
+			continue
 		var reception=blackwater_context(id) if mission.get("blackwater_revision",0)==1 else {}
 		var d:float=reception.distance if not reception.is_empty() else unit.pos.distance_to(objective.pos)
 		if not reception.is_empty() and reception.ready and best<0:best=id
@@ -357,6 +365,8 @@ func camera_context() -> Dictionary:
 	if mission.get("blackwater_revision",0)==1:
 		var id=best if best>=0 else nearest
 		return {"target":id,"ready":blackwater_context(id).ready,"text":_blackwater_context_text(id,selected)}
+	if best<0 and Operations.own_origin(mission.objectives[nearest]):
+		return {"target":nearest,"ready":false,"text":"TRANSMISSION SECTOR · Quietus chooses clear water inside the charted sector; settle below 12m/s"}
 	if best<0:
 		var target=mission.objectives[nearest]
 		return {"target":nearest,"ready":false,"text":"%s · %dm away / 240m range%s"%[target.name,roundi(distance)," · view blocked by cover" if not line_clear(unit.pos,target.pos) else ""]}
@@ -368,7 +378,7 @@ func camera_context() -> Dictionary:
 	for prerequisite in target.get("requires",[]):
 		if not mission.objectives[prerequisite].captured:
 			return {"target":best,"ready":false,"text":target.get("requirement","Uplink needs both relay records. Photograph WEST and EAST first.")}
-	return {"target":best,"ready":true,"text":"READY · %s · %s %.0fs"%[target.name,"FIELD SAMPLE · AUDIBLE" if not Sampler.capture_spec(selected,mission.get("launch_equipment",{}),target).is_empty() else "passive listen" if target.get("kind","")=="receiver" else "exposure",_capture_duration(target,selected)]}
+	return {"target":best,"ready":true,"text":"READY · %s · %s %.0fs"%[target.name,"FIELD SAMPLE · AUDIBLE" if not Sampler.capture_spec(selected,mission.get("launch_equipment",{}),target).is_empty() else "passive listen" if target.get("kind","")=="receiver" else "TRANSMIT · AUDIBLE" if Operations.own_origin(target) else "exposure",_capture_duration(target,selected)]}
 # Well-specific optional comparison. Own motion and local reception only;
 # no Siren query, extra acoustic source or forced enemy intent.
 func _well_signature_observe() -> void:
@@ -453,7 +463,7 @@ func _tick(dt: float) -> void:
 		var u=units[capture_unit]; var o=mission.objectives[capture_target]
 		var exchange=o.get("kind","")=="exchange" and mission.get("blackwater_revision",0)==1
 		var receiver=blackwater_context(capture_target,capture_unit) if exchange else {}
-		if not u.alive or (exchange and not receiver.ready) or (not exchange and (u.pos.distance_to(o.pos)>240 or not line_clear(u.pos,o.pos))):
+		if not u.alive or (exchange and not receiver.ready) or (Operations.own_origin(o) and not Operations.receiving(self,o,capture_unit)) or (not exchange and not Operations.own_origin(o) and (u.pos.distance_to(o.pos)>240 or not line_clear(u.pos,o.pos))):
 			capture_unit=-1
 			if exchange:capture_time=0.0
 			message="Reception interrupted · move closer or SONAR for a local replay" if exchange else "Exposure interrupted · regain clear view"
@@ -808,7 +818,7 @@ func all_records() -> bool:
 	for id in mission.get("required_site_ids",[]):
 		if not mission.objectives.any(func(o):return o.get("site_id","")==id and o.captured):return false
 	for o in mission.objectives:
-		if not o.captured: return false
+		if not o.captured and not o.get("optional",false): return false
 	return true
 func snapshot() -> Dictionary:
 	var data={"mission":mission.duplicate(true),"units":units.duplicate(true),"sirens":sirens.duplicate(true),"known":known.duplicate(true),"contacts":contacts.duplicate(true),"noises":noises.duplicate(true),"elapsed":elapsed,"oxygen":oxygen,"hull":hull,"paused":paused,"selected":selected,"tools":tools.duplicate(),"outcome":outcome,"ping_time":ping_time,"ping_origin":ping_origin,"recon_time":recon_time,"capture_time":capture_time,"capture_unit":capture_unit,"capture_target":capture_target}
@@ -826,6 +836,7 @@ func restore(data: Dictionary) -> bool:
 static func valid_snapshot(data: Dictionary) -> bool:
 	if not data.has_all(["mission","units","sirens","known","tools"]): return false
 	if not data.mission is Dictionary or not data.units is Array or not data.sirens is Array or not data.known is Dictionary or not data.tools is Dictionary: return false
+	if not Operations.valid(data.mission,float(data.get("elapsed",0))):return false
 	if not Correlator.valid_state(data.get("correlation",{}),float(data.get("elapsed",0))):return false
 	if data.mission.has("launch_equipment") and not Consequences.fitting_valid(data.mission.launch_equipment):return false
 	if data.mission.has("consequence_revision"):
@@ -934,11 +945,9 @@ func has_live_contact() -> bool:
 
 func _record_secured(record: Dictionary) -> void:
 	if mission.id==7 and mission.get("consequence_revision",0)==1 and record.get("site_id","")=="rendezvous":mission["measured_reference"]=mission.signal_sources[0].cadence.duplicate()
-	if mission.get("expedition_revision",0)==2 and record.has("completion_emission"):
-		var emission=record.completion_emission
-		_noise(record.pos,emission.radius,emission.label,emission.duration)
+	if mission.get("expedition_revision",0)==2:Operations.complete(self,record)
 	events.append({"type":"record","pos":record.pos})
-	message="Record secured. Return Quietus to extraction." if all_records() else "Record secured. Continue the survey."
+	message="Warning sent from this origin · listen for a reply from another position; retransmission remains available" if Operations.own_origin(record) else "Record secured. Return Quietus to extraction." if all_records() else "Record secured. Continue the survey."
 	if mission.get("well_revision",0)==1 and record==mission.objectives[0]:
 		message="Pattern record secured · optional moving Quietus comparison explained in recovered records"
 	if mission.get("blackwater_revision",0)==1:

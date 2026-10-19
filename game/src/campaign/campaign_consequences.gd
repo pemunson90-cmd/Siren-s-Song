@@ -79,6 +79,7 @@ static func observe(sim,active:bool=false)->void:
  var observations=[]
  for track in m.signal_sources.size():
   var source=m.signal_sources[track]
+  if not source.get("active",true):continue
   if not sim.passive_receivers(source.pos).is_empty() or (active and preload("res://src/simulation/world_region.gd").survey_visible(sim,source.pos)):
    if not source.located:
     source.located=true;m.expedition_facts[source.id]=source.evidence
@@ -138,5 +139,5 @@ static func valid_mission(m:Dictionary,time:float)->bool:
  for c in m.corridors:
   if not c is Dictionary or not c.has_all(["pos","name","route"]) or not c.pos is Vector2 or not bounds.has_point(c.pos) or not c.name is String or c.route not in ["deep","shelf","concealed","overt"]:return false
  if m.has("launch_equipment") and not fitting_valid(m.launch_equipment):return false
- if m.recovered and (m.chosen_route.is_empty() or m.objectives.is_empty() or not m.objectives.all(func(o):return o.captured) or not m.required_site_ids.all(func(id):return m.objectives.any(func(o):return o.get("site_id","")==id and o.captured))):return false
+ if m.recovered and (m.chosen_route.is_empty() or m.objectives.is_empty() or not m.objectives.all(func(o):return o.captured or o.get("optional",false)) or not m.required_site_ids.all(func(id):return m.objectives.any(func(o):return o.get("site_id","")==id and o.captured))):return false
  return true

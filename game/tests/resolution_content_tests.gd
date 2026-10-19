@@ -37,7 +37,7 @@ func _initialize()->void:
  check(concealed.objectives.size()==1 and concealed.objectives[0].get("optional",false) and concealed.signal_sources.size()==1,"concealed witness stays unlocated while optional mechanical control is charted")
  check(not concealed.signal_sources.any(func(s):return s.has("completion_emission")),"witness acquisition preserves a nonbroadcast recovery plan")
  check(overt.objectives.size()==1 and overt.objectives[0].get("own_origin",false) and overt.objectives[0].required_unit==0,"warning is an own-origin operation rather than another preparation chain")
- check(overt.objectives[0].completion_emission.radius==1100 and overt.objectives[0].completion_emission.duration==8,"overt warning causes a finite physical transmission")
+ check(overt.objectives[0].completion_emission.radius==2000 and overt.objectives[0].completion_emission.duration==8,"overt warning causes a finite physical transmission")
  check(concealed.objectives[0].sampler_compatible and concealed.objectives[0].required_unit==0,"drone specialization can open the optional service sluice while Quietus remains a fallback")
  concealed.recovered=true
  check(content.resolution(concealed).is_empty(),"recovered flag alone cannot replace a witness packet")

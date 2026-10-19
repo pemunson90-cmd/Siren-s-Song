@@ -1,6 +1,8 @@
 extends RefCounted
+# Future authored operations stay staged until their physical hooks and ordinary play are reviewed.
+const RESOLUTION_READY=false
 const Consequences=preload("res://src/campaign/campaign_consequences.gd")
-const FIELD_RECORDS=["wake_packet","wake_repeater","chain_west","chain_east","chain_relay","divergence_deep","divergence_shelf","divergence_rendezvous","divergence_warning","divergence_confluence_packet","divergence_confluence_repeater","divergence_witness_packet","divergence_witness_repeater","resolution_warning_west","resolution_warning_east","resolution_warning_uplink"]
+const FIELD_RECORDS=["resolution_witness_sluice","resolution_warning_transmission","divergence_warning_reply","wake_packet","wake_repeater","chain_west","chain_east","chain_relay","divergence_deep","divergence_shelf","divergence_rendezvous","divergence_warning","divergence_confluence_packet","divergence_confluence_repeater","divergence_witness_packet","divergence_witness_repeater","resolution_warning_west","resolution_warning_east","resolution_warning_uplink"]
 # One concrete fork. Tutorial indices/unlocked remain the original0..5 contract.
 static func available(completed:Array,progress:Dictionary)->Array:
  if not [0,1,2,3,4,5].all(func(id):return id in completed):return []
@@ -8,9 +10,9 @@ static func available(completed:Array,progress:Dictionary)->Array:
  for route in progress.get("routes",[]):result.append(7 if route=="deep" else 8)
  for id in [9,10]:
   if id-2 in progress.get("completed",[]):result.append(id)
- if 9 in progress.get("completed",[]) or 10 in progress.get("completed",[]):result.append(11)
+ if RESOLUTION_READY and (9 in progress.get("completed",[]) or 10 in progress.get("completed",[])):result.append(11)
  var route=progress.get("facts",{}).get("confluence_route","")
- if 11 in progress.get("completed",[]) and route in ["concealed","overt"]:result.append(12 if route=="concealed" else 13)
+ if RESOLUTION_READY and 11 in progress.get("completed",[]) and route in ["concealed","overt"]:result.append(12 if route=="concealed" else 13)
  return result
 static func recover(previous:Dictionary,mission:Dictionary)->Dictionary:
  var result=previous.duplicate(true)
