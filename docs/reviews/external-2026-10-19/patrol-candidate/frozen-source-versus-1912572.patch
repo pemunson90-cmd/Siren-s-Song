@@ -1,0 +1,66 @@
+--- a/game/src/simulation/simulation.gd
++++ b/game/src/simulation/simulation.gd
+@@ -296,11 +296,44 @@
+ 			s.target=-1; s.lock=maxf(0,s.lock-dt*3); s.suspicion=maxf(0,s.suspicion-dt*0.015)
+ 			if s.pos.distance_to(s.goal)<35:
+ 				s.mode="SEARCH" if s.suspicion>0.1 else "PATROL"
+-				s.goal=s.home+Vector2(sin(elapsed/19.0+s.patrol)*190,70+cos(elapsed/27.0)*65)
++				s.route=_patrol_route(s); s.path_time=2.0
+ 			s.path_time-=dt
+ 			if s.path_time<=0:
+-				s.route=path(s.pos,s.goal); s.path_time=2.0
++				s.route=path(s.pos,s.goal)
++				if s.route.is_empty() and s.pos.distance_to(s.goal)>=35:
++					# Preserve investigation intent at a reachable edge of a heard point.
++					if s.mode=="INVESTIGATE": s.route=_search_approach(s)
++					if s.route.is_empty():
++						s.mode="SEARCH" if s.suspicion>0.1 else "PATROL"; s.route=_patrol_route(s)
++				s.path_time=2.0
+ 		_move(s,dt,48.0 if s.suspicion>0.1 else 25.0,false)
++func _patrol_route(s: Dictionary) -> Array:
++	var points: Array=s.get("patrol_points",[])
++	for _attempt in points.size():
++		var index=int(s.get("patrol_index",0))%points.size()
++		s["patrol_index"]=(index+1)%points.size()
++		var point:Vector2=points[index]
++		if s.pos.distance_to(point)<35: continue
++		var route=path(s.pos,point)
++		if not route.is_empty(): s.goal=point; return route
++	# Legacy archives have no authored points. Validate alternatives instead of
++	# retrying a blocked procedural destination forever. Also recover malformed routes.
++	var angle=elapsed/19.0+float(s.patrol)
++	for ring in [190.0,120.0]:
++		for n in 16:
++			var point:Vector2=(s.home if ring==190.0 else s.pos)+Vector2.from_angle(angle+n*TAU/16)*ring
++			if s.pos.distance_to(point)<75: continue
++			var route=path(s.pos,point)
++			if not route.is_empty(): s.goal=point; return route
++	return []
++func _search_approach(s: Dictionary) -> Array:
++	var heard:Vector2=s.goal
++	for radius in [40.0,80.0,120.0,160.0]:
++		for n in 16:
++			var point=heard+Vector2.from_angle(n*TAU/16)*radius
++			var route=path(s.pos,point)
++			if not route.is_empty(): s.goal=point; return route
++	return []
+ func all_records() -> bool:
+ 	for o in mission.objectives:
+ 		if not o.captured: return false
+--- a/game/src/campaign/missions.gd
++++ b/game/src/campaign/missions.gd
+@@ -75,4 +75,14 @@
+ 		for n in patrols.size():
+ 			var home=[Vector2(970,160),Vector2(1390,420),Vector2(1260,830)][n]
+ 			patrols[n].pos=home; patrols[n].home=home; patrols[n].goal=home
++	var circuits=[
++		[[Vector2(620,130),Vector2(800,150),Vector2(800,310),Vector2(620,280)]],
++		[[Vector2(420,140),Vector2(420,420),Vector2(420,700),Vector2(520,780)],[Vector2(1220,140),Vector2(1260,460),Vector2(1360,820),Vector2(1180,560)]],
++		[[Vector2(620,130),Vector2(760,130),Vector2(760,350),Vector2(600,330)],[Vector2(890,130),Vector2(1140,160),Vector2(1140,520),Vector2(780,520)]],
++		[[Vector2(960,260),Vector2(1040,460),Vector2(1080,580),Vector2(1080,840)],[Vector2(1320,820),Vector2(1450,840),Vector2(1510,880),Vector2(1150,860)]],
++		[[Vector2(620,130),Vector2(800,130),Vector2(800,300),Vector2(420,200)],[Vector2(890,130),Vector2(1060,360),Vector2(1180,400),Vector2(1150,740)],[Vector2(1160,130),Vector2(1420,140),Vector2(1450,480),Vector2(1380,780)]],
++		[[Vector2(970,160),Vector2(1140,120),Vector2(1080,400),Vector2(920,560)],[Vector2(1390,420),Vector2(1480,500),Vector2(1500,700),Vector2(1340,410)],[Vector2(1260,830),Vector2(1430,880),Vector2(1030,860),Vector2(900,700)]]
++	]
++	for n in patrols.size():
++		patrols[n]["patrol_points"]=circuits[i][n]; patrols[n]["patrol_index"]=0
+ 	return result
