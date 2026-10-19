@@ -1,0 +1,34 @@
+# Native A-role checkpoint — 6388113
+
+[Run 39216492480](https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/39216492480), job **117941450308**, completed **success** on exact source **638811368f697795b4f92a2f97d0598b29b1a5fa**. Full completed [job text](job.log), [progress](progress.txt), [summary](summary.json) and permanent [artifact identities/digests](artifacts.json) are retained. Requested tooling model: explicit Sol 6.1; actual backend/token/cost attestation unavailable. No nested agents.
+
+**Supported result:** native numerical/input/error gates pass, including one explicitly fixture-assisted Well hunter response and genuine Shelf archive restoration. **Direct APK bytes and actual screenshot inspection remain pending:** artifact delivery to the executor is blocked. This is not native finale/full-campaign acceptance, Samsung physical validation or a performance verdict. The APK also contains earlier finale-experiment ancestry; its inclusion does not close those separate gates. Retain the [previous fully inspected f1ea536 artifact](https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/39205478335/artifacts/12165339461).
+
+## Verified from completed text and exact smoke source
+
+- Headless: **234 core / 230 runtime**, zero failures. Navigation/geometry/role parser guards and archive mock test execute before these suites.
+- Cover **2520×1080** and inner **2184×1968** screenshot dimensions are asserted in CI. Actual native +/−/swipe/FIT numerical states, zero accidental route/pause changes, ordinary craft/order/pause taps, background/resume and real process death/cold mission restoration pass on both profiles. The screenshots are captured, but their pixels have not yet been inspected here.
+- Ordinary **Shelf Signal**: drone route → real camera eligibility → canonical exposure/record → Quietus extraction win → completed archive save → background kill/new process → fresh completed `[0]`, unlocked `1` restore pass. Sustained real-audio active travel and the final strict fatal/Godot/script/parse error gate pass. CI scans all retained intermediate reads; only the available cleanup runtime tail could be independently rescanned locally so far.
+- **Fresh Well fixture boundary:** canonical `Simulation.start(4,"endurance")` / `SaveStore` / `Simulation.restore` roundtrip equality passes. The fixture supplies only prior archive unlock/completed metadata, not earned campaign progression. Its active mission has normal initial craft/terrain/resources, elapsed zero, no captured records or forced outcome. Debug `run-as` binary installation is checked byte-for-byte.
+- **Ordinary Android Well inputs:** resume the fresh paused dive → FIT → select Quietus → silently map-route to observer → actual arrival/stopped marker → pause → MORE ORDERS/DECOY → silently map-route home → resume. No midmission state injection, forced AI commands or emergency cruise replacement. Mode-log parser passes six observations: initial PATROL at zero, DORMANT, INVESTIGATE **13.616667**, SEARCH **18.016667**, RETURN **40.533333**, DORMANT **48.933333** simulated seconds. No visual target/lock is observed during this noise-only protocol. The largest distance in **mode-transition samples** is **231.0796** world units; this is a lower bound on continuous excursion, not its measured peak. Final observed home error **13.4408** is within the actual 15-unit dormant tolerance.
+- **Genuine archive restoration:** primary/backup/temporary files are preserved before injection, restored byte-for-byte with `cmp`, then the ordinary app loader emits a *fresh* mission-0 completed `[0]`, unlocked `1` restoration. The fixture's unlock does not survive into that genuine archive. Native return/restoration is not evidence of Well completion.
+
+The [independent role replay](../production/siren-roles/independent-tooling/README.md), [final pursuit replay](../production/siren-roles/independent-tooling/final-pursuit/README.md), [fresh regression review](../../reviews/2026-10-19-siren-roles-regressions.md) and actual [desktop clips](../production/siren-roles/clips/README.md) support the bounded role gain. Desktop footage does not replace the pending native pixel assessment or external shipped-game comparison.
+
+## APK and signing evidence
+
+[Candidate APK artifact](https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/39216492480/artifacts/12169589920) — **logged APK SHA-256**:
+
+```text
+c7efabdd5a01acbb7c336ddeaadb12cac2309645522c27ec8fce52589cc31993
+```
+
+The build's `apksigner verify --verbose --print-certs` succeeds and logs public certificate SHA-256 **32bcb2287acd01c1f58c26997c7639f3072c74c6b03ab2a24656dc7cd1c7dc3c**, matching the prior build. Exact official-template and development-key cache hits are observed (`godot-4.6.3-official-sha512-v1`, `sirens-song-development-signing-v1`). Private key bytes are neither read nor uploaded. The APK checksum above has not yet been recomputed from a downloaded APK here; artifact ZIP digests in `artifacts.json` are distinct from the APK checksum.
+
+Permanent artifacts: [native logs/fixture evidence](https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/39216492480/artifacts/12169754044) · [cover screenshots](https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/39216492480/artifacts/12169748979) · [inner screenshots](https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/39216492480/artifacts/12170371717) · [emulator capabilities](https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/39216492480/artifacts/12169777519). GitHub artifact retention can expire; this record preserves IDs, sizes and API ZIP digests, not unavailable bytes.
+
+## Artifact-access limitation and remaining work
+
+The supported artifact connector succeeds but returns only File Service `file_uri` metadata and a signed download URL; it supplies no workspace path/readable embedded ZIP resource. Executor retrieval is denied with **CONNECT 403**. Current environment status reports **observations current, restricted/enforced**, and explicitly identifies **`sdmntpreastus2.oaiusercontent.com` not in the allowlist**. No proxy bypass, unrelated-app routing, network-policy edit or extra CI is used to work around it. Temporary signed URLs/query tokens are not retained here. A supported exact-host allowlist change has been requested; after readiness changes, download existing artifacts, verify bytes/hashes, inspect actual frames and append that evidence separately.
+
+Density gate remains **off**; `2fc0976` is parked. Logical sizes do not prove Android dp or physical touch comfort. Physical Fold7 fold/hinge/rotation/cutout behavior, OS multi-touch, sustained device performance/heat, human listening/comprehension, native finale and all-campaign paths remain open. The earlier unexplained guest-runtime interruption is still unexplained. No release-readiness claim follows from this checkpoint.
