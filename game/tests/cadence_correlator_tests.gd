@@ -40,15 +40,29 @@ func _initialize():
   for reading in foreign:reading.receiver=1
   check(tool.advance(state,foreign,REFERENCE,Vector2(100,100),0,6.1,1.0/60).dwell==0,"remote drone reception cannot feed Quietus receiver")
   var changed=samples(6.1);changed[1].cadence=REFERENCE.duplicate()
-  var ambiguity=tool.advance(state,changed,REFERENCE,Vector2(100,100),0,6.1,1.0/60)
-  check(ambiguity.status=="unresolved" and ambiguity.arrivals.all(func(a):return a.classification=="match"),"same-cadence competing arrivals cannot choose an authentic source")
+  var ambiguity={}
+  for n in 361:
+   for reading in changed:reading.time=n/60.0
+   ambiguity=tool.advance(ambiguity,changed,REFERENCE,Vector2(100,100),0,n/60.0,1.0/60)
+  check(ambiguity.status=="unresolved" and ambiguity.arrivals.size()==2 and ambiguity.arrivals.all(func(a):return a.classification=="match"),"same-cadence competing arrivals cannot choose an authentic source")
   var spoof=[samples(6.1)[0]]
-  var matched=tool.advance(state,spoof,REFERENCE,Vector2(100,100),0,6.1,1.0/60)
+  var matched={}
+  for n in 361:
+   spoof[0].time=n/60.0
+   matched=tool.advance(matched,spoof,REFERENCE,Vector2(100,100),0,n/60.0,1.0/60)
   check(matched.status=="match" and matched.qualification==state.qualification,"a sole copied cadence yields pattern match only, never trustworthy identity")
   var no_reference=tool.advance(state,samples(6.1),[],Vector2(100,100),0,6.1,1.0/60)
   check(no_reference.dwell==0 and no_reference.status=="unresolved","field observation without recovered reference grants no correlation")
   var bad=samples(6.1);bad[0].cadence=[NAN,0.4];bad[1].time=INF
   check(tool.advance(state,bad,REFERENCE,Vector2(100,100),0,6.1,1.0/60).dwell==0,"malformed cadence or time cannot enter interpretation")
+  var late={}
+  for n in 360:
+   var others=[samples(n/60.0)[1]]
+   late=tool.advance(late,others,REFERENCE,Vector2(100,100),0,n/60.0,1.0/60)
+  var appeared=tool.advance(late,[samples(6)[0]],REFERENCE,Vector2(100,100),0,6,1.0/60)
+  check(appeared.status=="listening" and appeared.dwell<0.02 and appeared.arrivals.is_empty(),"late new match cannot inherit almost six seconds of another pattern")
+  var reordered=samples(6.1);reordered.reverse()
+  check(tool.advance(state,reordered,REFERENCE,Vector2(100,100),0,6.1,1.0/60).status=="match","reading order change does not reset coherent patterns")
   var binary=bytes_to_var(var_to_bytes(state));check(tool.valid_state(binary,6.0) and binary==state,"correlation state is exactly serializable")
   var resumed=tool.advance(binary,samples(6.1),REFERENCE,Vector2(100,100),0,6.1,1.0/60)
   check(resumed==tool.advance(state,samples(6.1),REFERENCE,Vector2(100,100),0,6.1,1.0/60),"saved listening has identical future")
