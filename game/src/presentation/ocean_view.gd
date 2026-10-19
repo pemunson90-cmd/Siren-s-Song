@@ -213,7 +213,7 @@ func _draw() -> void:
 	var ex=sim.mission.extraction
 	if not Expedition.active(sim) or Expedition.entry(sim):
 		draw_arc(ex,64,0,TAU,64,Color(CYAN,0.42),2)
-		_label(ex+Vector2(-120 if ex.y>830 else -66,66 if ex.y>830 else 90),"WITHDRAWAL" if Expedition.entry(sim) else "EXTRACTION",CYAN,18)
+		_label(ex+Vector2(-120 if ex.y>830 else -66,66 if ex.y>830 else 90),"WITHDRAWAL" if Expedition.entry(sim) or not earned.is_empty() else "EXTRACTION",CYAN,18)
 	EarnedChart.draw_goal(self,sim)
 	Expedition.draw(self,sim)
 	# Own open-water estimate only; deliberately does not sample hidden terrain or

@@ -30,13 +30,13 @@ static func draw_course(view,parts:Array,scale:float,selected:bool)->void:
     view.draw_line(part.from+delta.normalized()*at,part.from+delta.normalized()*minf(at+step*.55,length),color,width)
     at+=step
 static func status(sim,unit:int)->String:
- if chart(sim).is_empty():return ""
  var course=sim.course_status(unit) if sim.has_method("course_status") else {}
+ if course.is_empty():return ""
  match course.get("state",""):
   "blocked":return "NEW TERRAIN · REPLOT · queued intent retained"
   "frontier":return "SURVEY FRONTIER · extend chart or replot"
   "tentative":return "TENTATIVE COURSE · dashed amber is unsurveyed"
- return "CHARTED COURSE · solid cyan is confirmed water"
+ return "CHARTED COURSE · solid cyan is confirmed water" if course.get("clear_distance",0.)>0 else "EARNED CHART · plot through measured water"
 static func delivery(sim)->Dictionary:
  return sim.delivery_context() if sim!=null and sim.has_method("delivery_context") else {}
 static func objective(sim)->String:

@@ -202,7 +202,7 @@ func refresh():
  focus_button.text="FOLLOW" if host.ocean.chart_camera.mode=="follow" else "FOCUS"
  intent.text="%s · %s · %s"%[sim.units[sim.selected].name,"QUEUE" if sim.queue_mode else "REPLACE",("DECOY · TAP CLEAR WATER ≤160m · TAP CANCEL" if host.decoy_armed else "TORPEDO · TAP FRESH CONTACT · TAP CANCEL" if host.knock_armed else sim.message)]
  host.title_label.visible=page!="signals";host.detail_label.visible=page!="signals"
- host.order_buttons.home.text="WITHDRAW" if Expedition.entry(sim) else "EXTRACT"
+ host.order_buttons.home.text="RETURN" if not EarnedChart.delivery(sim).is_empty() else "WITHDRAW" if Expedition.entry(sim) else "EXTRACT"
  extra.route_here.text="PLOT ROUTE" if subject.has("subkind") else "ROUTE HERE"
  extra.arrivals.text="ARRIVALS\n%d"%Expedition.measurements(sim).size()
  extra.arrivals.disabled=Expedition.measurements(sim).is_empty()

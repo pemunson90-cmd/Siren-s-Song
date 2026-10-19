@@ -111,6 +111,7 @@ blackwater_courier_tests|COURIER
 route_program_ui_tests|ROUTE PROGRAM UI
 observed_task_controls_ui_tests|OBSERVED TASK CONTROLS UI
 earned_chart_view_tests|EARNED CHART VIEW
+earned_chart_ui_tests|EARNED CHART UI
 planner_navigation_ui_tests|PLANNER NAVIGATION
 planner_space_ui_tests|PLANNER SPACE UI
 playfield_hud_tests|PLAYFIELD HUD
