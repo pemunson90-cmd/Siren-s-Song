@@ -8,6 +8,8 @@
 
 The candidate build log reports APK SHA-256 `c7efabdd5a01acbb7c336ddeaadb12cac2309645522c27ec8fce52589cc31993` and the same development certificate as the fallback. Those are CI build/signature observations; local recomputation from candidate APK bytes remains pending. Normal updates preserve legacy active mission content; start a fresh dive to receive new role assignments.
 
+**Density UI challenger, not yet an Android-tested build:** local source **6de9e10** enlarges controls/text, keeps briefing and Settings BACK visible, and preserves explicit route intent across command pages. [Actual local screenshots/clip and review](validation/production/density/README.md). The linked 6388113 APK does **not** include these later UI changes. The next matching run must verify actual Android density/hit rectangles and ordinary OS scrolling; desktop fixture results do not establish either. Physical Fold7 comfort remains open.
+
 ## Install or update
 
 1. Open [Android validation runs for the production branch](https://github.com/pemunson90-cmd/Siren-s-Song/actions/workflows/android-validation.yml?query=branch%3Agauntlet%2Fproduction). Use the validated run identified in [WORKBENCH.md](WORKBENCH.md), rather than automatically choosing the newest artifact.
