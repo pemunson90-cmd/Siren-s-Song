@@ -7,7 +7,7 @@
 1. Open [Android validation runs for the production branch](https://github.com/pemunson90-cmd/Siren-s-Song/actions/workflows/android-validation.yml?query=branch%3Agauntlet%2Fproduction). Use the validated run identified in [WORKBENCH.md](WORKBENCH.md), rather than automatically choosing the newest artifact.
 2. Download its **sirens-song-debug-apk** artifact. Sign into GitHub if required. Extract the ZIP in Samsung My Files; it contains `sirens-song-debug.apk`, its checksum, and public signing-certificate evidence.
 3. Tap the APK in My Files. If Android asks, allow My Files to install this application, then finish installation. Launch **Siren's Song** in landscape.
-4. For updates, compare **Signer #1 certificate SHA-256 digest** in `apk-signature.txt` with the previous build's certificate. The same certificate permits an update that retains local data. A cache miss can create a different development key; local builds and CI builds also use different keys unless explicitly coordinated. If Android rejects an update, report the message before uninstalling: uninstalling removes local campaign saves.
+4. For updates, compare the **certificate SHA-256 digest** line in `apk-signature.txt` with the previous build's certificate. The same certificate permits an update that retains local data. A cache miss can create a different development key; local builds and CI builds also use different keys unless explicitly coordinated. If Android rejects an update, report the message before uninstalling: uninstalling removes local campaign saves.
 
 The private signing key is not included. These APKs use development signing; store/release signing remains separate.
 
