@@ -13,11 +13,11 @@ The live instrument reports decoy life and known movement/tool emissions; it doe
 1. Open [Android validation runs for the production branch](https://github.com/pemunson90-cmd/Siren-s-Song/actions/workflows/android-validation.yml?query=branch%3Agauntlet%2Fproduction). Use the validated run identified in [WORKBENCH.md](WORKBENCH.md), rather than automatically choosing the newest artifact.
 2. Download its **sirens-song-debug-apk** artifact. Sign into GitHub if required. Extract the ZIP in Samsung My Files; it contains `sirens-song-debug.apk`, its checksum, and public signing-certificate evidence.
 3. Tap the APK in My Files. If Android asks, allow My Files to install this application, then finish installation. Launch **Siren's Song** in landscape.
-4. For updates, compare the **certificate SHA-256 digest** line in `apk-signature.txt` with the previous build's certificate. The same certificate permits an update that retains local data. A cache miss can create a different development key; local builds and CI builds also use different keys unless explicitly coordinated. If Android rejects an update, report the message before uninstalling: uninstalling removes local campaign saves.
+4. For updates, compare the **certificate SHA-256 digest** line in `apk-signature.txt` with the previous build's certificate. The same certificate permits an update that retains local data. New local/CI builds require the same Git-saved established debug key; missing or mismatched signing files stop configuration instead of generating another identity. If Android rejects an update, report the message before uninstalling: uninstalling removes local campaign saves.
 
-The private signing key is not included. These APKs use development signing; store/release signing remains separate.
+The key is not included in the APK download artifact. The standard debug key is intentionally preserved in Git outside the exported game under the user's explicit authorization; [provenance and certificate](../scripts/toolchain/signing/README.md). These APKs use development signing; store/release signing remains separate.
 
-The validated f1ea536 APK SHA-256 is `e3c8fa1b838a1fb561cb118b5e6470c680d344a75c979b9dc6ed456f62c396d6`. Its certificate SHA-256 is `32bcb2287acd01c1f58c26997c7639f3072c74c6b03ab2a24656dc7cd1c7dc3c`, matching earlier playtests. Cache restoration and this certificate match were both observed. Future cache eviction can still change development signing identity.
+The validated f1ea536 APK SHA-256 is `e3c8fa1b838a1fb561cb118b5e6470c680d344a75c979b9dc6ed456f62c396d6`. Its certificate SHA-256 is `32bcb2287acd01c1f58c26997c7639f3072c74c6b03ab2a24656dc7cd1c7dc3c`, matching earlier playtests. Cache restoration and this certificate match were both observed for that historical build. The same identity is now versioned, so subsequent builds do not depend on signing-cache retention.
 
 ## Three-minute check after installation
 
