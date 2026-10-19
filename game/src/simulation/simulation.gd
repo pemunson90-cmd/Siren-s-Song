@@ -349,7 +349,7 @@ func acoustic_feedback() -> Dictionary:
 func advance(dt: float) -> void:
 	if paused or not outcome.is_empty(): return
 	accumulator+=minf(dt,0.25)
-	while accumulator+0.0000001>=STEP:
+	while accumulator+0.0000001>=STEP and outcome.is_empty():
 		_tick(STEP); accumulator-=STEP
 func _tick(dt: float) -> void:
 	elapsed+=dt; oxygen=maxf(0,oxygen-dt/18.0)
