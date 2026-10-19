@@ -34,19 +34,20 @@ func _initialize()->void:
   check(content.resolution(mission).is_empty(),"authored ending text cannot resolve an unrecovered dive")
  var concealed=content.make(12,history);var overt=content.make(13,history)
  check(concealed.start!=overt.start and concealed.extraction!=overt.extraction and concealed.rocks!=overt.rocks,"concealed and overt jobs have different terrain and traversal")
- check(concealed.objectives.is_empty() and concealed.signal_sources.size()==2,"concealed job begins as received-signal witness search without exact marks")
+ check(concealed.objectives.size()==1 and concealed.objectives[0].get("optional",false) and concealed.signal_sources.size()==1,"concealed witness stays unlocated while optional mechanical control is charted")
  check(not concealed.signal_sources.any(func(s):return s.has("completion_emission")),"witness acquisition preserves a nonbroadcast recovery plan")
- check(overt.objectives.size()==3 and overt.objectives[2].requires==[0,1] and overt.objectives[2].required_unit==0,"warning needs distributed receiver preparation then Quietus's own uplink")
- check(overt.objectives[2].completion_emission.radius==1100 and overt.objectives[2].completion_emission.duration==8,"overt warning causes a finite physical transmission")
- check(overt.objectives.slice(0,2).all(func(o):return o.sampler_compatible and o.required_unit==0),"drone specialization can parallelize receiver work while Quietus remains a fallback")
+ check(overt.objectives.size()==1 and overt.objectives[0].get("own_origin",false) and overt.objectives[0].required_unit==0,"warning is an own-origin operation rather than another preparation chain")
+ check(overt.objectives[0].completion_emission.radius==1100 and overt.objectives[0].completion_emission.duration==8,"overt warning causes a finite physical transmission")
+ check(concealed.objectives[0].sampler_compatible and concealed.objectives[0].required_unit==0,"drone specialization can open the optional service sluice while Quietus remains a fallback")
  concealed.recovered=true
  check(content.resolution(concealed).is_empty(),"recovered flag alone cannot replace a witness packet")
  concealed.objectives=[{"site_id":"witness_packet","captured":true}]
  check(content.resolution(concealed)=="concealed_recovery","recovered witness completes the concealed job")
  overt.recovered=true
  for objective in overt.objectives:objective.captured=true
+ overt.objectives.append({"site_id":"warning_reply","captured":true})
  check(content.resolution(overt)=="overt_warning","recovered prepared uplink completes the different warning job")
- overt.objectives[2].captured=false
+ overt.objectives[1].captured=false
  check(content.resolution(overt).is_empty(),"preparation notes alone cannot claim the warning was forwarded")
  finish()
 func finish()->void:
