@@ -1,6 +1,6 @@
 extends RefCounted
 const Consequences=preload("res://src/campaign/campaign_consequences.gd")
-const FIELD_RECORDS=["divergence_deep","divergence_shelf","divergence_rendezvous","divergence_warning"]
+const FIELD_RECORDS=["wake_packet","wake_repeater","chain_west","chain_east","chain_relay","divergence_deep","divergence_shelf","divergence_rendezvous","divergence_warning"]
 # One concrete fork. Tutorial indices/unlocked remain the original0..5 contract.
 static func available(completed:Array,progress:Dictionary)->Array:
  if not [0,1,2,3,4,5].all(func(id):return id in completed):return []
@@ -35,9 +35,20 @@ static func valid(value)->bool:
   if route not in ["deep","shelf"] or not value.facts.has(route):return false
  for fact in value.facts:
   if not fact is String or not value.facts[fact] is String or (value.version==1 and fact not in ["deep","shelf","rendezvous"]):return false
+ if value.completed.size()>8 or value.facts.size()>16:return false
+ var seen_ids=[]
  for id in value.completed:
+  if id in seen_ids:return false
+  seen_ids.append(id)
   if id not in ([6,7,8] if value.version==1 else [6,7,8,9,10,11,12,13]) or (id==7 and "deep" not in value.routes) or (id==8 and "shelf" not in value.routes):return false
- if value.version==2 and not Consequences.valid(value):return false
+ if value.version==2:
+  if not Consequences.valid(value):return false
+  if 9 in value.completed and 7 not in value.completed:return false
+  if 10 in value.completed and 8 not in value.completed:return false
+  if 11 in value.completed and not (9 in value.completed or 10 in value.completed):return false
+  if 12 in value.completed and (11 not in value.completed or value.facts.get("confluence_route","")!="concealed"):return false
+  if 13 in value.completed and (11 not in value.completed or value.facts.get("confluence_route","")!="overt"):return false
+  if value.facts.has("confluence_route") and (11 not in value.completed or value.facts.confluence_route not in ["concealed","overt"]):return false
  return 6 in value.completed and value.facts.has(value.route)
 
 static func continuations(progress:Dictionary,mission_id:int)->Array:

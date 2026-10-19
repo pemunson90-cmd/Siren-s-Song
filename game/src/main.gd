@@ -32,6 +32,7 @@ var applying_safe_area := false
 var unlocked := 0
 var completed: Array=[]
 var expedition:Dictionary={}
+var fitted_equipment:Dictionary={"quietus":"","drone_a":"","drone_b":""}
 var upgrade := "endurance"
 var capture_scenario := ""
 var frame := 0
@@ -162,7 +163,7 @@ func _start_mission(index: int) -> void:
 	diagnostic_ready=""; diagnostic_records.clear(); diagnostic_roles.clear(); diagnostic_role_route_ready=false; map_gesture.cancel(); advanced_orders=false; knock_armed=false; ocean.knock_targeting=false; decoy_armed=false; ocean.decoy_targeting=false
 	call_deferred("_layout")
 	if route_editor!=null: route_editor.hide()
-	active_started=true; mission_index=index; sim.start(index,upgrade); ocean.sim=sim; ocean.focus_craft(); screen="mission"; menu.hide(); hud.show(); _refresh()
+	active_started=true; mission_index=index; sim.start(index,upgrade,{"context":_launch_context(index),"fitted":fitted_equipment}); ocean.sim=sim; ocean.focus_craft(); screen="mission"; menu.hide(); hud.show(); _refresh()
 func _primary_action() -> void:
 	if decoy_armed or knock_armed:
 		decoy_armed=false;knock_armed=false;map_gesture.cancel();knock_press.clear();_refresh();return
@@ -389,7 +390,7 @@ func _show_campaign() -> void:
 func _briefing(index: int) -> void:
 	if index>=6 and index not in ExpeditionCampaign.available(completed,expedition):return
 	screen="briefing"; sim.paused=true; _clear_menu()
-	var briefing=Simulation.Missions.make(index)
+	var briefing=Simulation.Missions.make(index,_launch_context(index))
 	_menu_text("%02d / %s"%[index+1,briefing.title.to_upper()],30)
 	_menu_text(briefing.brief,20)
 	if ExpeditionOperations.briefing(self,index):pass
@@ -400,10 +401,22 @@ func _briefing(index: int) -> void:
 	_menu_text("SPACE / PAUSE grants unlimited planning time. Silent running is slower and quieter. Disruption interrupts nearby Sirens for 12 seconds. Quietus torpedoes travel noisily up to 150m; impact pins one Siren for 8s. Cover blocks sonar, enemy sight and torpedoes.",17)
 	var stock=_loadout_stock(upgrade)
 	_menu_text("NEXT DIVE / RETRY · %s\nO₂ %d%% · DISRUPT %d · SURVEY %d · 3 DECOYS · 2 DRONES · 2 TORPEDOES"%[upgrade.to_upper(),stock[0],stock[1],stock[2]],17)
+	if index>=6:preload("res://src/presentation/equipment_context.gd").fitting(self,_equipment_context(),func(slot,item):_choose_equipment(slot,item,index))
 	_button(menu_footer,"ENTER WATER\nSTART PAUSED",func(): _start_mission(index); _enter_water(),"begin")
 	_button(menu_footer,"BACK TO\nOPERATIONS",_show_campaign,"back")
 	menu_footer.show()
 	call_deferred("_layout")
+func _launch_context(index:int)->Dictionary:
+	var context=preload("res://src/campaign/campaign_consequences.gd").context(expedition)
+	if index in [9,10]:context.thread="deep" if index==9 else "shelf"
+	return context
+func _equipment_context()->Dictionary:
+	return {"slots":fitted_equipment.duplicate(true),"available":expedition.get("entitlements",[]).duplicate(),"catalog":preload("res://src/equipment/equipment_catalog.gd").public_catalog(expedition.get("entitlements",[]))}
+func _choose_equipment(slot:String,item:String,index:int)->void:
+	var choice=preload("res://src/equipment/equipment_catalog.gd").choose(fitted_equipment,slot,item,expedition.get("entitlements",[]))
+	if not choice.ok:return
+	fitted_equipment=choice.fitted
+	_save_archive();_briefing(index)
 func _debrief() -> void:
 	screen="debrief"; _clear_menu()
 	print("SS_DEBRIEF outcome=",sim.outcome," mission=",mission_index)
@@ -484,6 +497,7 @@ func _scenario(name: String) -> void:
 func _archive() -> Dictionary:
 	var data={"version":1,"unlocked":unlocked,"completed":completed.duplicate(),"upgrade":upgrade,"settings":settings.duplicate(),"evidence":recovered_evidence.duplicate(true),"active":sim.snapshot(),"chart_view":ocean.chart_camera.snapshot()}
 	if not expedition.is_empty():data["expedition"]=expedition.duplicate(true)
+	if not fitted_equipment.values().all(func(item):return item.is_empty()):data["equipment"]=fitted_equipment.duplicate(true)
 	return data
 func _save_archive() -> void:
 	if not capture_scenario.is_empty() or sim.mission==null: return
@@ -494,6 +508,7 @@ func _load_archive() -> void:
 	if not saved.is_empty():
 		unlocked=saved.unlocked; completed=saved.completed; upgrade=saved.upgrade; settings=saved.settings
 		expedition=saved.get("expedition",{}).duplicate(true)
+		fitted_equipment=saved.get("equipment",{"quietus":"","drone_a":"","drone_b":""}).duplicate(true)
 		recovered_evidence=saved.get("evidence",{})
 		if saved.get("active") is Dictionary and sim.restore(saved.active):
 			active_started=true; mission_index=sim.mission.id; ocean.sim=sim
