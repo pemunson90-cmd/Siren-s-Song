@@ -74,6 +74,10 @@ launch() {
     read_logcat "$output/prelaunch-$1.txt"
     screen_before="$(grep -c 'SS_SCREEN' "$output/prelaunch-$1.txt" || true)"
     target_before="$(grep -c 'SS_TARGET' "$output/prelaunch-$1.txt" || true)"
+    # wm size/density changes can restore the display's saved portrait rotation.
+    # This suite intentionally tests landscape; lock WindowManager directly.
+    adb shell wm user-rotation lock 1
+    adb shell wm user-rotation | tee "$output/rotation-$1.txt"
     adb shell am start -W -n "$component" | tee "$output/launch-$1.txt"
     ready=false
     for ((attempt=0; attempt<30; attempt++)); do
@@ -103,8 +107,10 @@ shot() {
 tap_target() {
     local action="$1" expected="$2" stage="$3" coords=""
     local before_count after_count
-    adb exec-out screencap -p >"$output/target-$stage.png"
     for ((attempt=0; attempt<20; attempt++)); do
+        # Android and Godot settle asynchronously after a live resize. Refresh
+        # both observations; never reuse a PNG captured before the new layout.
+        adb exec-out screencap -p >"$output/target-$stage.png"
         read_logcat "$output/target-$stage.txt"
         if coords="$(python3 "$(dirname -- "$0")/android-target.py" "$output/target-$stage.txt" "$output/target-$stage.png" "$action")"; then break; fi
         sleep 1
