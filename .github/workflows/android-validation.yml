@@ -43,7 +43,8 @@ jobs:
         run: |
           mkdir -p "$ARTIFACT_DIR"
           scripts/toolchain/headless.sh 2>&1 | tee "$ARTIFACT_DIR/import.log"
-          scripts/toolchain/headless.sh --script res://tests/run_tests.gd 2>&1 | tee "$ARTIFACT_DIR/tests.log"
+          if grep -E 'SCRIPT ERROR:|ERROR:' "$ARTIFACT_DIR/import.log"; then exit 1; fi
+          scripts/toolchain/test.sh
       - name: Build signed debug APK
         run: scripts/toolchain/build.sh android 2>&1 | tee "$ARTIFACT_DIR/build.log"
       - name: Enable hosted-runner KVM

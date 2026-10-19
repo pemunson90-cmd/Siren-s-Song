@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# Godot can exit zero after script errors; require the harness summary as well.
+set -euo pipefail
+source "$(dirname -- "$0")/common.sh"
+require_project
+log="$ARTIFACT_DIR/tests.log"
+"$(dirname -- "$0")/headless.sh" --script res://tests/run_tests.gd 2>&1 | tee "$log"
+if rg -n 'SCRIPT ERROR:|(^|[[:space:]])ERROR:' "$log"; then
+    echo 'Godot reported errors despite the test process exit status' >&2
+    exit 1
+fi
+rg -q '^CHECKS [1-9][0-9]* FAILURES 0$' "$log" || {
+    echo 'Missing successful test-harness summary' >&2; exit 1;
+}

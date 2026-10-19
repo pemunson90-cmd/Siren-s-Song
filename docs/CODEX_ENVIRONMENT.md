@@ -11,6 +11,7 @@ From the repository root:
 ```sh
 scripts/toolchain/headless.sh                         # import project
 scripts/toolchain/headless.sh --script res://tests/run_tests.gd
+scripts/toolchain/test.sh                             # require clean logs and successful CHECKS summary
 scripts/toolchain/build.sh android                     # signed debug APK
 scripts/toolchain/build.sh linux                       # desktop binary
 CAPTURE_FRAMES=90 scripts/toolchain/capture.sh          # rendered PNG sequence
