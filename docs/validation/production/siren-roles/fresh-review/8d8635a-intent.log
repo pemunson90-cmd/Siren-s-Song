@@ -1,0 +1,11 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+INTENT {"data":{"a":"(990.0, 100.0)","b":"(890.0, 220.0)","distance":156.204986572266},"label":"found legal cover-separated pair","ok":true}
+INTENT {"data":{},"label":"cover prevents lock inside silent visual radius","ok":true}
+INTENT {"data":{},"label":"occluded noise below attenuated hearing threshold is not heard","ok":true}
+INTENT {"data":{"goal":"(890.0, 220.0)","route":1},"label":"audible occluded noise preserves heard-point intent without visual lock","ok":true}
+INTENT {"data":{"hull":100.0,"lock":1.0},"label":"visible player gets telegraphed lock before damage","ok":true}
+INTENT {"data":{"goal":"(700.0, 130.0)","hidden":"(140.0, 800.0)"},"label":"lost sight retains last seen point rather than new hidden player position","ok":true}
+INTENT {"data":{},"label":"lost-sight response enters SEARCH near remembered area","ok":true}
+INTENT {"data":{"goal":"(905.0, 300.0)","route_end":"(889.6927, 336.9552)"},"label":"heard point beside clearance margin gets navigable local approach","ok":true}
+INTENT CHECKS 8 FAILURES 0

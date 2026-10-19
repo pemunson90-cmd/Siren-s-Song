@@ -1,0 +1,13 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+CAMPAIGN 1 outcome=won time=64.0 hull=100.0 oxygen=96.4 last=Archive recovered. Quietus is home.
+CAMPAIGN 2 outcome=won time=78.0 hull=100.0 oxygen=95.7 last=Archive recovered. Quietus is home.
+CAMPAIGN 3 outcome=won time=67.9 hull=9.4 oxygen=96.2 last=Archive recovered. Quietus is home.
+CAMPAIGN 4 outcome=won time=50.9 hull=100.0 oxygen=97.2 last=Archive recovered. Quietus is home.
+CAMPAIGN 5 outcome=won time=82.2 hull=66.4 oxygen=95.4 last=Archive recovered. Quietus is home.
+CAMPAIGN 6 outcome=won time=88.1 hull=100.0
+SPLIT DIRECT outcome=won time=39.2 hull=62.5 EMP remaining=0 DECOYS remaining=3
+SPLIT PLANNED RETURN outcome=won time=39.2 hull=100.0 EMP remaining=0 DECOYS remaining=2
+FOUNDRY STAGED outcome=won time=34.2 hull=100.0 tools={ "emp": 0, "decoy": 2, "recon": 2 }
+LEGACY_FINALE outcome=won t=43.9999999999988 records=[true, true, true] drones=true,true emp=2 message=Archive recovered. Quietus is home.
+CHECKS 204 FAILURES 0

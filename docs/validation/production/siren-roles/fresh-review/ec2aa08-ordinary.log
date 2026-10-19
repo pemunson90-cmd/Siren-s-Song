@@ -1,0 +1,10 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+OCCLUDED_SETUP {"elapsed":12.6000000000002,"hull":100.0,"pilot":"(593.3307, 602.9003)","route":0}
+WARNING {"elapsed":14.9500000000003,"hunter":"(815.5632, 682.8825)","mode":"INVESTIGATE","pilot":"(593.3307, 602.9003)","pilot_route":0,"pilot_speed":0.0}
+OCCLUDED_END {"hull":100.0,"outcome":"","warning":true}
+SAFE_MODE {"home_error":0.0116634657606483,"mode":"INVESTIGATE","pos":"(800.0117, 600.0004)","time":0.0166666666666675}
+SAFE_MODE {"home_error":216.373275756836,"mode":"SEARCH","pos":"(803.1336, 816.3506)","time":4.51666666666677}
+SAFE_MODE {"home_error":230.523788452148,"mode":"RETURN","pos":"(869.3112, 819.8572)","time":26.9833333333322}
+SAFE_MODE {"home_error":14.4021043777466,"mode":"DORMANT","pos":"(802.853, 614.1167)","time":35.7333333333317}
+SAFE_END {"elapsed":35.7333333333317,"hull":100.0,"max_home":326.826568603516,"modes":["INVESTIGATE","SEARCH","RETURN","DORMANT"],"outcome":"","save_exercised":true,"save_ok":true,"tools":{"decoy":2,"emp":2,"recon":2},"visual_ticks":0}
