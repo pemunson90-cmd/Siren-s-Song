@@ -21,3 +21,5 @@ Inspected all views. Desktop changed pixels are bounded to the zoom row (716,120
 Original v7's canvas camera does not implement this zoom/FIT row; this change preserves production's accepted zoom controls. No assets added. No videos, full suite or APK were warranted for this layout-only correction.
 
 Next concrete opportunity: at the same small desktop profile, unchanged MORE ORDERS expands 64px into the DRONE B row and some other two-line actions exceed their 48px row. Address row sizing independently, retaining font/touch minima and chart controls; do not fold it into this reviewed FIT delta.
+
+Root integration decision: approve exactdd09f5b after inspecting the actual source/test and desktop/cover/inner challenger images; merged641ebd4. Production main hash equals reviewed9f9ce404…6b018, with no main changes since feature base. Existing focused60/0 is relevant; no repeated full suite or APK for this layout-only merge.
