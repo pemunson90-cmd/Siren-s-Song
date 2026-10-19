@@ -1,0 +1,7 @@
+SS_SMOKE_STAGE 2026-10-19T15:36:00Z fixture-assisted untouched Blackwater request check begins; not earned chapter progression
+SS_SMOKE_STAGE 2026-10-19T15:36:33Z cover-blackwater-route: fresh marker verified
+SS_SMOKE_STAGE 2026-10-19T15:36:58Z cover-blackwater-ready: fresh marker verified
+SS_SMOKE_STAGE 2026-10-19T15:37:11Z capture cover-blackwater-receiving: matching fresh post_draw state bracket verified; compositor acknowledgment unavailable
+SS_SMOKE_STAGE 2026-10-19T15:37:24Z cover-blackwater-request-earned: fresh marker verified
+SS_SMOKE_STAGE 2026-10-19T15:37:43Z cover-blackwater-cold-restored: fresh marker verified
+SS_SMOKE_STAGE 2026-10-19T15:38:22Z restoring genuine Shelf campaign archive after fixture-assisted Well path

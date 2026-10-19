@@ -1,0 +1,5 @@
+accel:
+0
+KVM (version 12) is installed and usable.
+accel
+Acceleration probe exit status: 0
