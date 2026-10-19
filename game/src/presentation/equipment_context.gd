@@ -43,8 +43,12 @@ static func correlation_detail(sim)->String:
  if result.is_empty():return ""
  var state=result.get("status","listening");var title={"listening":"LISTENING · %.1f / 6s settled"%result.get("dwell",0.),"match":"MATCHED CADENCE","other":"OTHER CADENCE","unresolved":"UNRESOLVED · no unique match"}.get(state,"UNRESOLVED")
  var text="QUIETUS CORRELATOR · "+title
+ var index=0
  for arrival in result.get("arrivals",[]):
-  text+="\n%s · %s"%["MATCHED CADENCE" if arrival.get("classification","")=="match" else "OTHER CADENCE",cadence_text(arrival.get("cadence",[]))]
+  index+=1
+  var direction:Vector2=arrival.direction
+  var bearing=fposmod(rad_to_deg(atan2(direction.x,-direction.y)),360.)
+  text+="\nM%d %s · %03d° ±%d° · %.1fs ago\n%s"%[index,"MATCHED CADENCE" if arrival.get("classification","")=="match" else "OTHER CADENCE",roundi(bearing)%360,roundi(rad_to_deg(arrival.uncertainty)),maxf(0.,sim.elapsed-arrival.time),cadence_text(arrival.get("cadence",[]))]
  return text+"\n"+result.get("qualification","Cadence only; identity, range and passage safety remain unknown.")
 static func cadence_text(cadence:Array)->String:
  var parts=[]

@@ -1,4 +1,13 @@
 extends SceneTree
+class PublicCorrelation:
+ extends RefCounted
+ var selected=0
+ var elapsed=10.5
+ var mission={"id":9,"expedition_revision":2}
+ var units=[{"name":"QUIETUS","pos":Vector2(100,100)}]
+ var result={"status":"match","dwell":6.,"arrivals":[{"receiver":0,"origin":Vector2(200,400),"direction":Vector2.RIGHT,"time":10.,"uncertainty":.18,"cadence":[.8,1.6,.8],"classification":"match"},{"receiver":0,"origin":Vector2(200,400),"direction":Vector2.UP,"time":10.,"uncertainty":.65,"cadence":[.4,.4,1.2],"classification":"other"}],"qualification":"Cadence only; identity, range and passage safety remain unknown."}
+ func equipment_feedback():return {"fitted":{"quietus":"quietus_correlator"},"correlation":result.duplicate(true)}
+ func signal_readings():return []
 var checks=0
 var failures=0
 func check(ok:bool,label:String):
@@ -39,6 +48,17 @@ func run():
   check(cue.take(event,1,10.,true).get("cue","")=="return_received","received RETURN has its own semantic cue")
   event.time=15.;check(cue.take(event,1,30.,true)=={},"stale restored event does not fake new reception")
   event.time=1.;check(not cue.take(event,1,1.,true).is_empty(),"new dive clock resets prior-dive reception suppression")
+ var public=PublicCorrelation.new();var result_before=public.result.duplicate(true)
+ var detail=equipment.correlation_detail(public)
+ check("M1 MATCHED CADENCE" in detail and "090°" in detail and "0.5s" in detail,"matched result identifies its exact historical bearing and age before a source fix")
+ check("M2 OTHER CADENCE" in detail and "000°" in detail and "identity" in detail,"nonmatching arrival retains distinct direction and cadence-only qualification")
+ var presentation=load("res://src/presentation/expedition_view.gd")
+ check(presentation.has_method("display_measurements"),"classified fan geometry shares the same public M labels as the detail card")
+ if presentation.has_method("display_measurements"):
+  var shown=presentation.display_measurements(public,0)
+  check(shown.size()==2 and shown[0].measurement=="M1" and shown[0].origin==Vector2(200,400) and shown[0].classification=="match","M1 fan is anchored to received historical origin, not current craft or source position")
+  public.units[0].pos=Vector2(999,999)
+  check(presentation.display_measurements(public,0)==shown and public.result==result_before,"moving the craft cannot move or mutate the classified historical sample")
  var sound=load("res://src/audio/soundscape.gd")
  var carrier=sound.samples("carrier_received");var answer=sound.samples("return_received")
  check(carrier!=answer and carrier!=sound.samples("alert"),"received carrier and RETURN have distinct non-alert sonic identities")

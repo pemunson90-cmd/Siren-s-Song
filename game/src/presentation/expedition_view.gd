@@ -7,16 +7,24 @@ static func entry(sim)->bool:return active(sim) and sim.mission.id==6
 static func measurements(sim,receiver:int=-1)->Array:
  if not active(sim):return []
  return sim.signal_readings().filter(func(r):return receiver<0 or r.receiver==receiver)
+static func display_measurements(sim,receiver:int)->Array:
+ var samples=[];var index=0
+ for arrival in Equipment.correlation(sim).get("arrivals",[]):
+  index+=1
+  if arrival.receiver!=receiver or sim.elapsed-arrival.time>30.:continue
+  var copy=arrival.duplicate(true);copy["measurement"]="M%d"%index;copy["age"]=maxf(0.,sim.elapsed-arrival.time);samples.append(copy)
+ return samples if not samples.is_empty() else measurements(sim,receiver)
 static func detail(sim,receiver:int=-1)->String:
  var rows=["RECEIVED ARRIVALS · %s"%(sim.units[receiver].name if receiver>=0 else "OWN FLEET")]
+ var compared=receiver in [-1,0] and not Equipment.correlation(sim).get("arrivals",[]).is_empty()
  for reading in measurements(sim,receiver):
+  if compared and reading.receiver==0:continue
   rows.append("%s · %s · %.1fs ago"%[sim.units[reading.receiver].name,reading.label,reading.age])
-  if reading.has("cadence"):rows.append(Equipment.cadence_text(reading.cadence))
   rows.append("ARRIVAL ±%d° · may bend around rock; no source fix"%roundi(rad_to_deg(reading.uncertainty)) if reading.direction.length_squared()>.001 else "Arrival direction unresolved; no source fix")
- if rows.size()==1:rows.append("No current carrier measurements. Listen from another position or use local SURVEY.")
  if receiver in [-1,0]:
   var correlation=Equipment.correlation_detail(sim)
   if not correlation.is_empty():rows.append(correlation)
+ if rows.size()==1:rows.append("No current carrier measurements. Listen from another position or use local SURVEY.")
  return "\n\n".join(rows)
 static func badge_rect(view,sim,touch:float,blocked:Array)->Rect2:
  if measurements(sim,sim.selected).is_empty():return Rect2()
@@ -48,18 +56,21 @@ static func context_detail(sim,subject:Dictionary)->String:
 static func draw(view,sim)->void:
  if not active(sim):return
  var scale=maxf(.01,view.world_scale)
- for reading in measurements(sim,sim.selected):
+ for reading in display_measurements(sim,sim.selected):
   if reading.direction.length_squared()<.001:continue
   var alpha=clampf(1.0-reading.age/30.,.15,.8);var origin:Vector2=reading.origin;var angle:float=reading.direction.angle();var radius=150.
   # Direction and fan are arrival information at the historical receiver,
   # not a line to a source, a measured range or a corridor through terrain.
-  var color=Color(.42,.78,.83,alpha)
+  var color=Color(.88,.72,.43,alpha) if reading.get("classification","")=="match" else Color(.42,.78,.83,alpha)
   view.draw_arc(origin,radius,angle-reading.uncertainty,angle+reading.uncertainty,20,color,2./scale)
   for side in [-1,1]:
    var direction=Vector2.from_angle(angle+reading.uncertainty*side)
    view.draw_line(origin+direction*(radius-12),origin+direction*(radius+12),color,1.5/scale)
   view.draw_line(origin+reading.direction*(radius-8),origin+reading.direction*(radius+8),color,1.5/scale)
   view.draw_circle(origin,4./scale,Color(color,.5*alpha),false,1./scale)
+  if reading.has("measurement"):
+   var label=reading.measurement+" · "+("MATCHED CADENCE" if reading.classification=="match" else "OTHER CADENCE")
+   view._label(origin+reading.direction*(radius+22),label,color,maxi(4,roundi(view.feedback_font_size/scale)))
  for corridor in sim.extraction_corridors():
   var color=Color("72d9d3") if corridor.available else Color("718387")
   view.draw_arc(corridor.pos,64,0,TAU,48,color,2./scale)
