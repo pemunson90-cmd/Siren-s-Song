@@ -15,7 +15,7 @@ const KNOCK_TIME := 8.0
 const TORPEDO_SPEED := 180.0
 const TORPEDO_TURN := 3.0
 const TORPEDO_LIFE := 3.0
-const BOUNDS := Vector2(1600,960)
+const WorldRegion=preload("res://src/simulation/world_region.gd")
 var mission: Dictionary
 var units: Array = []
 var sirens: Array = []
@@ -49,7 +49,7 @@ func start(index: int, upgrade: String = "endurance") -> void:
 	mission = Missions.make(index)
 	units.clear()
 	for i in 3:
-		units.append({"pos":Vector2(140,800)+[Vector2.ZERO,Vector2(0,-100),Vector2(140,0)][i],"vel":Vector2.ZERO,"angle":-0.3,"route":[],"alive":true,"hold":"","silent":true,"battery":100.0,"name":["QUIETUS","DRONE A","DRONE B"][i]})
+		units.append({"pos":mission.get("start",Vector2(140,800))+[Vector2.ZERO,Vector2(0,-100),Vector2(140,0)][i],"vel":Vector2.ZERO,"angle":-0.3,"route":[],"alive":true,"hold":"","silent":true,"battery":100.0,"name":["QUIETUS","DRONE A","DRONE B"][i]})
 	sirens = mission.sirens.duplicate(true)
 	known = {}; contacts = {}; events = []; noises = []; projectiles=[]
 	elapsed=0.0; oxygen=100.0; hull=100.0; paused=true; selected=0; queue_mode=false; pass_through=true; outcome=""
@@ -60,23 +60,26 @@ func start(index: int, upgrade: String = "endurance") -> void:
 	if upgrade=="endurance": oxygen=120.0
 	_build_navigation()
 	_observe()
+func world_size() -> Vector2:
+	return WorldRegion.size_of(mission)
 func _build_navigation() -> void:
 	rock_shapes.clear()
 	for rock in mission.rocks: rock_shapes.append(rock_polygon(rock))
 	navigation = AStarGrid2D.new()
-	navigation.region = Rect2i(0,0,40,24)
+	var cells=WorldRegion.grid_size(mission)
+	navigation.region = Rect2i(Vector2i.ZERO,cells)
 	navigation.cell_size=Vector2(TILE,TILE)
 	navigation.offset=Vector2(20,20)
 	navigation.diagonal_mode=AStarGrid2D.DIAGONAL_MODE_ONLY_IF_NO_OBSTACLES
 	navigation.update()
-	for y in 24:
-		for x in 40:
+	for y in cells.y:
+		for x in cells.x:
 			if blocked(Vector2(x*40+20,y*40+20),21): navigation.set_point_solid(Vector2i(x,y))
 	var acoustic_shapes=rock_shapes.duplicate()
 	for r in mission.get("structures",[]):acoustic_shapes.append(PackedVector2Array([r.position,Vector2(r.end.x,r.position.y),r.end,Vector2(r.position.x,r.end.y)]))
-	acoustic_paths.configure(acoustic_shapes,BOUNDS,mission.get("thermal_fronts",[]) if mission.get("thermal_revision",0)==1 else [])
+	acoustic_paths.configure(acoustic_shapes,world_size(),mission.get("thermal_fronts",[]) if mission.get("thermal_revision",0)==1 else [])
 func blocked(p: Vector2, radius: float = 12.0) -> bool:
-	if p.x<radius or p.y<radius or p.x>BOUNDS.x-radius or p.y>BOUNDS.y-radius: return true
+	if p.x<radius or p.y<radius or p.x>world_size().x-radius or p.y>world_size().y-radius: return true
 	for structure in mission.get("structures",[]):
 		if structure.grow(radius).has_point(p): return true
 	for polygon in rock_shapes:
@@ -187,7 +190,8 @@ func command(order: String,args: Dictionary={}) -> bool:
 				if answered:message="SONAR emitted · local relay replay 3s · settle and SAMPLE"
 		"recon":
 			if tools.recon<=0: return false
-			tools.recon-=1; recon_time=8.0; _noise(u.pos,1100,"RECON UPLINK"); message="Wide survey uplink · 8 seconds"; events.append({"type":"recon","pos":u.pos}); _observe()
+			if mission.has("world_size"):mission["survey_origin"]=u.pos
+			tools.recon-=1; recon_time=8.0; _noise(u.pos,1100,"RECON UPLINK"); message="Local 560m survey · 8 seconds" if mission.has("world_size") else "Wide survey uplink · 8 seconds"; events.append({"type":"recon","pos":u.pos}); _observe()
 		"emp":
 			if tools.emp<=0: return false
 			tools.emp-=1
@@ -222,9 +226,9 @@ func command(order: String,args: Dictionary={}) -> bool:
 func route_goals(unit_id:int=-1) -> Array:
 	return RouteProgram.goals(units[selected if unit_id<0 else unit_id])
 func _install_program(u:Dictionary,plan:Array,remember:bool=true,append:bool=false) -> bool:
-	if not RouteProgram.valid_goals(plan): return false
+	if not RouteProgram.valid_goals(plan,world_size()): return false
 	if selected>0 and plan.any(func(goal): return goal.mode!="inherit"): return false
-	var compiled=RouteProgram.compile(u.route.back().pos,[plan.back()],path) if append else RouteProgram.compile(u.pos,plan,path)
+	var compiled=RouteProgram.compile(u.route.back().pos,[plan.back()],path,world_size()) if append else RouteProgram.compile(u.pos,plan,path,world_size())
 	if not compiled.ok: return false
 	if append:
 		var prefix:Array=u.route.duplicate(true)
@@ -349,7 +353,7 @@ func well_signature_evidence() -> Dictionary:
 func decoy_target_valid(point:Variant) -> bool:
 	if not point is Vector2 or not point.is_finite():return false
 	var origin=units[selected]
-	return origin.alive and outcome.is_empty() and tools.decoy>0 and Rect2(6,6,1588,948).has_point(point) and origin.pos.distance_to(point)<=DECOY_RANGE+0.001 and not blocked(point,6) and segment_safe(origin.pos,point,6)
+	return origin.alive and outcome.is_empty() and tools.decoy>0 and Rect2(Vector2(6,6),world_size()-Vector2(12,12)).has_point(point) and origin.pos.distance_to(point)<=DECOY_RANGE+0.001 and not blocked(point,6) and segment_safe(origin.pos,point,6)
 func _noise(p: Vector2,radius: float,label: String,duration: float=2.0) -> void:
 	noises.append({"pos":p,"radius":radius,"time":duration,"label":label})
 func courier_feedback() -> Dictionary:
@@ -470,10 +474,14 @@ func _move(u: Dictionary,dt: float,speed: float,holding: bool,report_collision: 
 		if player_craft: RouteProgram.clear(u)
 		if report_collision: message="Autopilot stopped at unsafe terrain. Replot in open water."
 func _observe() -> void:
-	for y in 24:
-		for x in 40:
-			var p=Vector2(x*40+20,y*40+20)
-			if visible(p): known[Vector2i(x,y)]=true
+	if mission.has("world_size"):
+		for cell in WorldRegion.observation_cells(self):
+			if visible(Vector2(cell)*TILE+Vector2.ONE*TILE/2):known[cell]=true
+	else:
+		for y in 24:
+			for x in 40:
+				var p=Vector2(x*40+20,y*40+20)
+				if visible(p): known[Vector2i(x,y)]=true
 	for i in sirens.size():
 		if contact_visible(sirens[i]):
 			contacts[i]={"pos":sirens[i].pos,"time":elapsed,"mode":sirens[i].mode,"lock":sirens[i].lock,"angle":sirens[i].angle,"target":sirens[i].target,"type":sirens[i].get("type","patroller")}
@@ -505,7 +513,7 @@ func scout_context(unit_id:int=-1)->Dictionary:
 # contacts, not terrain knowledge, photography or a visible beam on our craft.
 func contact_visible(enemy:Dictionary)->bool:
 	if mission.get("thermal_revision",0)!=1: return visible(enemy.pos)
-	if recon_time>0: return true
+	if WorldRegion.survey_visible(self,enemy.pos): return true
 	for i in units.size():
 		var u=units[i]
 		if not u.alive: continue
@@ -521,7 +529,7 @@ func contact_visible(enemy:Dictionary)->bool:
 	var craft=units[target]
 	return craft.alive and craft.pos.distance_to(enemy.pos)<(180.0 if craft.silent else 290.0) and line_clear(craft.pos,enemy.pos)
 func visible(p: Vector2) -> bool:
-	if recon_time>0: return true
+	if WorldRegion.survey_visible(self,p): return true
 	for i in units.size():
 		var u=units[i]
 		if not u.alive: continue
@@ -731,6 +739,7 @@ static func valid_snapshot(data: Dictionary) -> bool:
 			if not structure is Rect2: return false
 	for o in data.mission.objectives:
 		if not o is Dictionary or not o.has_all(["pos","name","captured"]) or not o.pos is Vector2: return false
+	if not WorldRegion.valid(data):return false
 	if not Departure.valid(data.mission,data.get("elapsed",0.0)):return false
 	if not Courier.valid(data.mission,data.get("elapsed",0.0)):return false
 	if not Thermal.valid_mission(data.mission):return false
@@ -765,7 +774,7 @@ static func valid_snapshot(data: Dictionary) -> bool:
 		for p in data.projectiles:
 			if not p is Dictionary or not p.has_all(["pos","angle","target","aim","life","noise_clock"]): return false
 			if not p.pos is Vector2 or not p.pos.is_finite() or not p.aim is Vector2 or not p.aim.is_finite(): return false
-			if p.pos.x<0 or p.pos.y<0 or p.pos.x>BOUNDS.x or p.pos.y>BOUNDS.y: return false
+			if p.pos.x<0 or p.pos.y<0 or p.pos.x>WorldRegion.size_of(data.mission).x or p.pos.y>WorldRegion.size_of(data.mission).y: return false
 			if not p.target is int or p.target<0 or p.target>=data.sirens.size(): return false
 			for key in ["angle","life","noise_clock"]:
 				if not (p[key] is float or p[key] is int) or not is_finite(p[key]): return false
@@ -778,7 +787,7 @@ static func valid_snapshot(data: Dictionary) -> bool:
 		if not u.pos is Vector2 or not u.vel is Vector2 or not u.route is Array: return false
 		for w in u.route:
 			if not w is Dictionary or not w.has_all(["pos","stop"]) or not w.pos is Vector2: return false
-		if not RouteProgram.valid_unit(u,u==data.units[0]): return false
+		if not RouteProgram.valid_unit(u,u==data.units[0],WorldRegion.size_of(data.mission)): return false
 	for e in data.sirens:
 		if not e is Dictionary or not e.has_all(["pos","home","goal","vel","route","angle","mode","suspicion","stun","lock","target","patrol","path_time"]): return false
 		if e.has("pin_time"):
@@ -833,10 +842,11 @@ func _record_secured(record: Dictionary) -> void:
 			message="The factory answers the camera. Carrier pulse at the departure cradle · plan your recovery route."
 
 func nearest_navigation_cell(point: Vector2) -> Vector2i:
-	var center=Vector2i(clampi(int(point.x/40),0,39),clampi(int(point.y/40),0,23))
+	var cells=WorldRegion.grid_size(mission)
+	var center=Vector2i(clampi(int(point.x/40),0,cells.x-1),clampi(int(point.y/40),0,cells.y-1))
 	var best=Vector2i(-1,-1); var distance=INF
-	for y in range(maxi(0,center.y-2),mini(24,center.y+3)):
-		for x in range(maxi(0,center.x-2),mini(40,center.x+3)):
+	for y in range(maxi(0,center.y-2),mini(cells.y,center.y+3)):
+		for x in range(maxi(0,center.x-2),mini(cells.x,center.x+3)):
 			var cell=Vector2i(x,y)
 			if navigation.is_point_solid(cell): continue
 			var candidate=Vector2(x*40+20,y*40+20)
