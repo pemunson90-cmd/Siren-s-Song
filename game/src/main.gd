@@ -11,6 +11,7 @@ var save_clock:=0.0
 var settings={"music":0.5,"effects":0.8,"mute":false}
 var scroll: ScrollContainer
 var ocean
+var route_editor
 var hud: Control
 var title_label: Label
 var status_label: Label
@@ -64,7 +65,7 @@ func _ready() -> void:
 	for i in 3:
 		var id=i
 		unit_buttons.append(_button(hud,["QUIETUS","DRONE A","DRONE B"][i],func(): _order("select",{"unit":id})))
-	var orders=[["ping","SONAR"],["camera","CAMERA"],["silent","SILENT"],["queue","+ QUEUE"],["hold","HOLD"],["emp","DISRUPT"],["decoy","DECOY"],["recon","SURVEY"],["contact_hold","IF CONTACT"],["wait_drone","WAIT DRONE"],["waypoint_mode","WAYPOINT: PASS"]]
+	var orders=[["ping","SONAR"],["camera","CAMERA"],["silent","SILENT"],["queue","+ QUEUE"],["hold","HOLD"],["emp","DISRUPT"],["decoy","DECOY"],["recon","SURVEY"],["contact_hold","IF CONTACT"],["wait_drone","WAIT DRONE"],["waypoint_mode","WAYPOINT: PASS"],["program","PROGRAM"]]
 	for o in orders:
 		var order=o[0]
 		order_buttons[order]=_button(hud,o[1],func(): _order(order))
@@ -84,6 +85,7 @@ func _ready() -> void:
 	scroll.get_v_scroll_bar().value_changed.connect(func(_value): scroll_report_timer.start())
 	panel_box=VBoxContainer.new(); panel_box.size_flags_horizontal=Control.SIZE_EXPAND_FILL; panel_box.add_theme_constant_override("separation",14); scroll.add_child(panel_box)
 	menu_footer=HBoxContainer.new(); menu_footer.add_theme_constant_override("separation",12); stack.add_child(menu_footer); menu_footer.hide()
+	route_editor=preload("res://src/presentation/route_program_panel.gd").new(); add_child(route_editor)
 	sound=Soundscape.new(); add_child(sound)
 	resized.connect(_layout)
 	for arg in OS.get_cmdline_user_args():
@@ -180,7 +182,7 @@ func _layout(cancel_gesture: bool=true) -> void:
 		unit_buttons[i].position=panel.position+Vector2(i*(panel.size.x+gap)/3,mission_row_heights.x+gap)
 		unit_buttons[i].custom_minimum_size=Vector2(0,h); unit_buttons[i].size=Vector2((panel.size.x-2*gap)/3,mission_row_heights.y)
 	var primary=["ping","camera","silent","queue","hold","emp","home","menu"]
-	var secondary=["recon","decoy","contact_hold","wait_drone","waypoint_mode","emp","camera","home"]
+	var secondary=["recon","decoy","contact_hold","wait_drone","waypoint_mode","program","camera","home"]
 	var keys=secondary if advanced_orders else primary
 	var start=panel.position+Vector2(0,mission_row_heights.x+mission_row_heights.y+2*gap)
 	for key in order_buttons:
@@ -195,12 +197,18 @@ func _layout(cancel_gesture: bool=true) -> void:
 		for button in menu.find_children("*","Button",true,false):
 			button.custom_minimum_size.y=h; button.add_theme_font_size_override("font_size",maxi(17,roundi(h*0.29)))
 		for slider in menu.find_children("*","Slider",true,false): slider.custom_minimum_size.y=h
+	if route_editor!=null and route_editor.visible: route_editor.configure(size,h)
 	call_deferred("_report_targets")
 func _start_mission(index: int) -> void:
 	diagnostic_ready=""; diagnostic_records.clear(); diagnostic_roles.clear(); diagnostic_role_route_ready=false; map_gesture.cancel(); ocean.fit_chart(); advanced_orders=false
 	call_deferred("_layout")
+	if route_editor!=null: route_editor.hide()
 	active_started=true; mission_index=index; sim.start(index,upgrade); ocean.sim=sim; screen="mission"; menu.hide(); hud.show(); _refresh()
 func _order(order: String,args: Dictionary={}) -> void:
+	if order=="program":
+		map_gesture.cancel(); sim.paused=true; screen="program"; hud.hide(); menu.hide()
+		for button in zoom_buttons: button.hide()
+		route_editor.open(self); _save_archive(); return
 	var accepted=sim.command(order,args)
 	print("SS_ORDER ",order," accepted=",accepted," selected=",sim.selected," queued=",sim.queue_mode)
 	_refresh(); _save_archive()
@@ -236,6 +244,7 @@ func _refresh() -> void:
 	ocean.optical_feed.receiver_font_size=maxi(14,roundi(ui_touch_height*0.25))
 	order_buttons.camera.text="SAMPLE" if sim.mission.get("blackwater_revision",0)==1 else "CAMERA\nLISTEN" if sim.mission.get("finale_revision",0)==1 else ("CAMERA\nLINK" if mission_index==1 else "CAMERA")
 	order_buttons.queue.text="+ QUEUE ON" if sim.queue_mode else "REPLACE"
+	order_buttons.program.text="PROGRAM\n%d POINTS"%sim.route_goals().size()
 	order_buttons.silent.text="SILENT ✓" if sim.units[sim.selected].silent else "CRUISE"
 	order_buttons.emp.text="DISRUPT\n%d"%sim.tools.emp
 	order_buttons.decoy.text="DECOY\n%d"%sim.tools.decoy
@@ -249,7 +258,9 @@ func _refresh() -> void:
 	order_buttons.contact_hold.text="IF\nCONTACT"
 	order_buttons.wait_drone.text="WAIT\nDRONE"
 	var mode="ADD TO ROUTE" if sim.queue_mode else "REPLACE ROUTE"
-	detail_label.text="%s · %s · %s"%[sim.units[sim.selected].name.to_upper(),mode,sim.camera_context().text]
+	var goals=sim.route_goals(); var intent=""
+	if not goals.is_empty(): intent="TO 1: %s / %s · "%["FIXED96" if sim.selected>0 else goals[0].mode.to_upper(),"STOP" if goals[0].stop else "PASS"]
+	detail_label.text="%s · %s · %s%s"%[sim.units[sim.selected].name.to_upper(),mode,intent,sim.camera_context().text]
 func _toggle_advanced() -> void:
 	advanced_orders=not advanced_orders; _layout(); _refresh()
 
@@ -292,10 +303,14 @@ func _view_changed() -> void:
 	print("SS_VIEW zoom=",snappedf(ocean.chart_camera.zoom,0.01)," center=",ocean.chart_camera.center)
 	call_deferred("_report_targets")
 func _unhandled_key_input(event: InputEvent) -> void:
+	if screen=="program":
+		if event is InputEventKey and event.pressed and event.keycode==KEY_ESCAPE: route_editor.close()
+		return
 	if event is InputEventKey and event.pressed and not event.echo:
 		if event.keycode==KEY_SPACE: _pause()
 		if event.keycode==KEY_ESCAPE: sim.paused=true; _show_campaign()
 func _clear_menu() -> void:
+	if route_editor!=null: route_editor.hide()
 	map_gesture.cancel()
 	for button in zoom_buttons: button.hide()
 	for parent in [panel_box,menu_footer]:

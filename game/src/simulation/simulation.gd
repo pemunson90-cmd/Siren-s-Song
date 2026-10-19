@@ -1,4 +1,5 @@
 extends RefCounted
+const RouteProgram=preload("res://src/simulation/route_program.gd")
 const Missions = preload("res://src/campaign/missions.gd")
 const STEP := 1.0/60.0
 const TILE := 40.0
@@ -130,20 +131,29 @@ func command(order: String,args: Dictionary={}) -> bool:
 		"queue": queue_mode=not queue_mode; message="QUEUE: tap to add" if queue_mode else "REPLACE: tap to set route"
 		"route", "emergency":
 			var append=queue_mode and order!="emergency"
-			var origin=u.route.back().pos if append and not u.route.is_empty() else u.pos
-			var route=path(origin,args.get("point",origin))
-			if route.is_empty(): message="Rock or unsafe clearance. Choose open water."; return false
+			var plan=route_goals() if append else []
+			if append and not plan.is_empty() and not plan.back().get("arrival_set",false): plan.back().stop=not pass_through
+			plan.append({"pos":args.get("point",u.pos),"stop":true,"mode":"inherit"})
+			if not _install_program(u,plan,append,append and not u.route.is_empty()): message="Rock or unsafe clearance. Choose open water."; return false
 			if not append:
-				u.route.clear(); u.hold=""
+				u.hold=""
 				if capture_unit==selected: capture_unit=-1
-			elif not u.route.is_empty(): u.route.back().stop=not pass_through
-			u.route.append_array(route)
-			if order=="emergency": queue_mode=false; u.silent=false
+			if order=="emergency": queue_mode=false; u.silent=false; u.erase("route_undo")
 			message="%s · %s route" % [u.name,"queued" if append else "replaced"]
+		"route_edit", "route_insert", "route_delete", "route_undo":
+			if not _edit_program(order,args): return false
 		"hold": u.hold="" if u.hold=="HOLD" else "HOLD"; message="Holding position" if u.hold!="" else "Route released"
 		"contact_hold": u.hold="" if u.hold=="CONTACT" else "CONTACT"; message="Will hold when a contact is observed"
 		"wait_drone": u.hold="" if u.hold=="DRONE" else "DRONE"; message="Wait until a live drone reaches its final waypoint"
-		"silent": u.silent=not u.silent; message="Silent running" if u.silent else "Cruise thrust · increased noise"
+		"silent":
+			u.silent=not u.silent
+			# A direct propulsion command overrides the current programmed leg only.
+			if selected==0 and u.has("route_plan") and not u.route_plan.is_empty():
+				u.route_plan[0].mode="silent" if u.silent else "cruise"
+				for node in u.route:
+					node.mode=u.route_plan[0].mode
+					if node.get("goal",false): break
+			message="Silent running" if u.silent else "Cruise thrust · increased noise"
 		"ping":
 			if ping_time>0: return false
 			ping_time=3.5; ping_origin=u.pos; _noise(u.pos,950,"ACTIVE SONAR"); events.append({"type":"ping","pos":u.pos}); message="Active return · your position is audible"
@@ -176,6 +186,50 @@ func command(order: String,args: Dictionary={}) -> bool:
 			events.append({"type":"camera","pos":u.pos})
 		_: return false
 	return true
+# Public read-only operator intent; legacy navigation corners are not editor rows.
+func route_goals(unit_id:int=-1) -> Array:
+	return RouteProgram.goals(units[selected if unit_id<0 else unit_id])
+func _install_program(u:Dictionary,plan:Array,remember:bool=true,append:bool=false) -> bool:
+	if not RouteProgram.valid_goals(plan): return false
+	if selected>0 and plan.any(func(goal): return goal.mode!="inherit"): return false
+	var compiled=RouteProgram.compile(u.route.back().pos,[plan.back()],path) if append else RouteProgram.compile(u.pos,plan,path)
+	if not compiled.ok: return false
+	if append:
+		var prefix:Array=u.route.duplicate(true)
+		if not u.has("route_plan"):
+			for node in prefix: node.mode="inherit"
+			prefix.back().goal=true
+		prefix.back().stop=plan[plan.size()-2].stop
+		prefix.append_array(compiled.route); compiled.route=prefix
+	if remember:
+		var history:Array=u.get("route_undo",[]).duplicate(true)
+		history.append(RouteProgram.goals(u))
+		if history.size()>RouteProgram.MAX_UNDO: history.pop_front()
+		u.route_undo=history
+	else: u.erase("route_undo")
+	u.route_plan=plan.duplicate(true); u.route=compiled.route
+	return true
+func _edit_program(order:String,args:Dictionary) -> bool:
+	var u=units[selected]; var plan=route_goals()
+	if order=="route_undo":
+		var history:Array=u.get("route_undo",[]).duplicate(true)
+		if history.is_empty(): return false
+		var previous:Array=history.pop_back()
+		if not _install_program(u,previous,false): message="Previous course is no longer safe."; return false
+		u.route_undo=history; message="%s · program edit undone"%u.name; return true
+	var index=args.get("index",-1)
+	if not index is int or index<0 or index>plan.size(): return false
+	if order=="route_insert":
+		plan.insert(index,{"pos":args.get("point",u.pos),"stop":args.get("stop",true),"mode":args.get("mode","inherit")})
+	else:
+		if index>=plan.size(): return false
+		if order=="route_delete": plan.remove_at(index)
+		else:
+			for key in ["pos","stop","mode"]:
+				if args.has("point" if key=="pos" else key): plan[index][key]=args["point" if key=="pos" else key]
+	if order=="route_edit" and args.has("stop"): plan[index].arrival_set=true
+	if not _install_program(u,plan): message="Program rejected · choose safe open water."; return false
+	message="%s · %d programmed destinations"%[u.name,plan.size()]; return true
 # Read-only receiver geometry. Relay reply is authored local behavior; no enemy query.
 func blackwater_context(target:int,station:int=-1) -> Dictionary:
 	if station<0:station=selected
@@ -308,11 +362,13 @@ func _tick(dt: float) -> void:
 		outcome="won"; paused=true; message="Archive recovered. Quietus is home."; events.append({"type":"extraction","pos":units[0].pos})
 func _move(u: Dictionary,dt: float,speed: float,holding: bool,report_collision: bool=true,player_craft: bool=false) -> void:
 	var desired=Vector2.ZERO
+	if player_craft: speed=RouteProgram.speed(u,speed,u.name=="QUIETUS")
 	if not u.route.is_empty() and not holding:
 		var dest=u.route[0]
 		var delta:Vector2=dest.pos-u.pos
 		var arrival=9.0 if dest.stop else 11.0
-		if not dest.stop and u.route.size()>1 and delta.length()<28 and segment_safe(u.pos,u.route[1].pos,24): arrival=28.0
+		var mode_boundary=player_craft and dest.get("goal",false) and u.route.size()>1 and u.route[1].get("mode","inherit")!="inherit" and u.route[1].get("mode","inherit")!=dest.get("mode","inherit")
+		if not mode_boundary and not dest.stop and u.route.size()>1 and delta.length()<28 and segment_safe(u.pos,u.route[1].pos,24): arrival=28.0
 		if delta.length()<arrival:
 			if dest.stop and u.vel.length()>2:
 				u.vel=u.vel.move_toward(Vector2.ZERO,100*dt)
@@ -320,6 +376,7 @@ func _move(u: Dictionary,dt: float,speed: float,holding: bool,report_collision: 
 				if not blocked(braking,12): u.pos=braking
 				return
 			u.route.pop_front()
+			if player_craft: RouteProgram.arrived(u,dest); speed=RouteProgram.speed(u,speed,u.name=="QUIETUS")
 			if dest.stop: u.vel=u.vel.move_toward(Vector2.ZERO,120*dt)
 		if not u.route.is_empty():
 			delta=u.route[0].pos-u.pos
@@ -345,6 +402,7 @@ func _move(u: Dictionary,dt: float,speed: float,holding: bool,report_collision: 
 	if not blocked(next,12): u.pos=next
 	else:
 		u.vel=Vector2.ZERO; u.route.clear()
+		if player_craft: RouteProgram.clear(u)
 		if report_collision: message="Autopilot stopped at unsafe terrain. Replot in open water."
 func _observe() -> void:
 	for y in 24:
@@ -539,6 +597,7 @@ static func valid_snapshot(data: Dictionary) -> bool:
 		if not u.pos is Vector2 or not u.vel is Vector2 or not u.route is Array: return false
 		for w in u.route:
 			if not w is Dictionary or not w.has_all(["pos","stop"]) or not w.pos is Vector2: return false
+		if not RouteProgram.valid_unit(u,u==data.units[0]): return false
 	for e in data.sirens:
 		if not e is Dictionary or not e.has_all(["pos","home","goal","vel","route","angle","mode","suspicion","stun","lock","target","patrol","path_time"]): return false
 		if e.has("type") and e.type not in ["patroller","sentinel","hunter"]: return false

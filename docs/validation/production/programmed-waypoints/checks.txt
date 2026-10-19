@@ -1,0 +1,41 @@
+work/route-program-red.log
+FAIL operator destinations are retained separately from compiled corners
+FAIL first leg can be programmed to cruise
+FAIL second leg can be programmed silent with a full stop
+FAIL third leg resumes cruise
+FAIL route inspector exposes operator goals
+ROUTE PROGRAM CHECKS 5 FAILURES 5
+
+work/program-boundary-red.log
+FAIL programmed propulsion does not switch at the wide autopath-corner shortcut radius
+ROUTE PROGRAM CHECKS 33 FAILURES 1
+
+work/legacy-queue-red.log
+FAIL appending to a legacy course preserves its existing corners instead of replanning it
+ROUTE PROGRAM CHECKS 32 FAILURES 1
+
+work/drone-propulsion-red.log
+FAIL fixed-speed drones reject explicit propulsion programs without changing their route
+FAIL restored explicit drone propulsion programs are rejected
+ROUTE PROGRAM CHECKS 35 FAILURES 2
+
+work/drone-manual-red.log
+FAIL legacy drone manual flag still works without creating a false propulsion program
+ROUTE PROGRAM CHECKS 36 FAILURES 1
+
+work/final-route_program_tests.gd.log
+ROUTE PROGRAM CHECKS 36 FAILURES 0
+
+work/final-route_program_ui_tests.gd.log
+ROUTE PROGRAM UI CHECKS 44 FAILURES 0
+
+work/final-navigation_departure_tests.gd.log
+OPEN_WATER_TRACE_SHA256 cacac27b54a6a5129176a3966a3b4a150e01500cbbe73178ee63cc1476ff9e3e
+ENEMY_TRACE_SHA256 bfd8f334de7583807e4ff26071b39c370df5992ace0679bd262c8ce75d2bb520
+NAVIGATION CHECKS 45 FAILURES 0
+
+work/final-run_tests.gd.log
+CHECKS 293 FAILURES 0
+
+work/runtime-regression.log
+RUNTIME CHECKS 316 FAILURES 0
