@@ -1,0 +1,123 @@
+{
+  "schema": 1,
+  "source": "User upload SIRENS_SONG_ORIGINAL_PROTOTYPE_HANDOFF.zip, 2026-10-19",
+  "base_commit": "d09311c3c7201249d4b7230462ff42e9623aa67e",
+  "archive": {
+    "path": "reference/SIRENS_SONG_ORIGINAL_PROTOTYPE_HANDOFF.zip",
+    "bytes": 53264,
+    "sha256": "d68bbe1495fa42361eaf3ff02e08e60ae1a63251b54a01b7b9d4812e6b27f10d",
+    "crc_check": "all entries passed",
+    "existing_copy": "references/package/sources/01-sirens_song_handoff.zip",
+    "existing_copy_byte_identical": true
+  },
+  "directory_entries": [
+    "history/"
+  ],
+  "regular_file_count": 7,
+  "manifest_payload_count": 6,
+  "uncompressed_regular_bytes": 142965,
+  "files": [
+    {
+      "path": "reference/original-prototype/MANIFEST.md",
+      "zip_entry": "MANIFEST.md",
+      "bytes": 15141,
+      "md5": "c8cb923ab2a2d25a81fbf47ebab7daaa",
+      "sha256": "bedb9bf440497b6419e575b8da1d3bf63e9feda479cb7287ae0407eeaaf61749",
+      "manifest_entry": null,
+      "manifest_match": null,
+      "existing_copy": "archive/prototypes/MANIFEST.md",
+      "existing_copy_exists": true,
+      "existing_copy_byte_identical": true
+    },
+    {
+      "path": "reference/original-prototype/SIRENS_SONG_dev_notes.md",
+      "zip_entry": "SIRENS_SONG_dev_notes.md",
+      "bytes": 7753,
+      "md5": "4cfcc7e6ae3ea9826e84b66e7c1f9352",
+      "sha256": "823ca9748a6fe19f972370d0ac0b654a3a42fba0851835d0bd0c1c71b3160fe7",
+      "manifest_entry": {
+        "bytes": 7753,
+        "md5": "4cfcc7e6ae3ea9826e84b66e7c1f9352"
+      },
+      "manifest_match": true,
+      "existing_copy": "archive/prototypes/SIRENS_SONG_dev_notes.md",
+      "existing_copy_exists": true,
+      "existing_copy_byte_identical": true
+    },
+    {
+      "path": "reference/original-prototype/SIRENS_SONG_functional_spec.md",
+      "zip_entry": "SIRENS_SONG_functional_spec.md",
+      "bytes": 16947,
+      "md5": "2c377c8e4cf4c6aa512913c038adc154",
+      "sha256": "19e9f0821afbe7ac56eba57e87aa7d7ba9e15a271a30221b9c6e3ad2fb7422f7",
+      "manifest_entry": {
+        "bytes": 16947,
+        "md5": "2c377c8e4cf4c6aa512913c038adc154"
+      },
+      "manifest_match": true,
+      "existing_copy": "archive/prototypes/SIRENS_SONG_functional_spec.md",
+      "existing_copy_exists": true,
+      "existing_copy_byte_identical": true
+    },
+    {
+      "path": "reference/original-prototype/SIRENS_SONG_pressure_design.md",
+      "zip_entry": "SIRENS_SONG_pressure_design.md",
+      "bytes": 8836,
+      "md5": "b541814988b796dd7af6f2a76d35efde",
+      "sha256": "c0f049bcf6927fcfe0fb7c8fb0848cdd3089aa9750be2427a41a2c3ad9c2069f",
+      "manifest_entry": {
+        "bytes": 8836,
+        "md5": "b541814988b796dd7af6f2a76d35efde"
+      },
+      "manifest_match": true,
+      "existing_copy": "archive/prototypes/SIRENS_SONG_pressure_design.md",
+      "existing_copy_exists": true,
+      "existing_copy_byte_identical": true
+    },
+    {
+      "path": "reference/original-prototype/history/DEEP_CONTACT_original_spec.md",
+      "zip_entry": "history/DEEP_CONTACT_original_spec.md",
+      "bytes": 2202,
+      "md5": "163880a718cd9e79268feb6ab31b3047",
+      "sha256": "05554c3d9e97a876b2554960624b0e4db913bcae6533e72d2727d1f8d7507c57",
+      "manifest_entry": {
+        "bytes": 2202,
+        "md5": "163880a718cd9e79268feb6ab31b3047"
+      },
+      "manifest_match": true,
+      "existing_copy": "archive/prototypes/history/DEEP_CONTACT_original_spec.md",
+      "existing_copy_exists": true,
+      "existing_copy_byte_identical": true
+    },
+    {
+      "path": "reference/original-prototype/history/sirens_song_prototype.html",
+      "zip_entry": "history/sirens_song_prototype.html",
+      "bytes": 44721,
+      "md5": "becaefe38af0627288254644c4e6e4cc",
+      "sha256": "86238d84d345c327ae2272286860ece568f715eb310d3b92403ee38bec586b5b",
+      "manifest_entry": {
+        "bytes": 44721,
+        "md5": "becaefe38af0627288254644c4e6e4cc"
+      },
+      "manifest_match": true,
+      "existing_copy": "archive/prototypes/history/sirens_song_prototype.html",
+      "existing_copy_exists": true,
+      "existing_copy_byte_identical": true
+    },
+    {
+      "path": "reference/original-prototype/sirens_song_prototype_v7.html",
+      "zip_entry": "sirens_song_prototype_v7.html",
+      "bytes": 47365,
+      "md5": "e142ae3c5fcc8a6c5758d6b8bae4d614",
+      "sha256": "3b00be96179f6a61d23fe203483de3f4083bcc866c75d483ac5bfa748502e85b",
+      "manifest_entry": {
+        "bytes": 47365,
+        "md5": "e142ae3c5fcc8a6c5758d6b8bae4d614"
+      },
+      "manifest_match": true,
+      "existing_copy": "archive/prototypes/sirens_song_prototype_v7.html",
+      "existing_copy_exists": true,
+      "existing_copy_byte_identical": true
+    }
+  ]
+}

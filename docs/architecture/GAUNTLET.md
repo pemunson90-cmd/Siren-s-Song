@@ -13,7 +13,7 @@ Confirmed requirements: Android first; 2D; multiple missions/progression/conclus
 - Design bible §§4–6: inertia, cover in both directions, finite pilot attention, explicit route replacement, stop/pass-through waypoints.
 - Transcript turns 28/30: sub fallback camera, return leg, slow oxygen drain; 38–44: terrain must be revealed and occlusion visible; 50: stunned enemies must not detect/kill; 107–111: uneven difficulty and a strong preference against frantic play.
 - Drone-command experiment: useful route queues, selected units, hold/wait conditions. Its persistent append mode and near-waypoint slowdown are problems to prevent, not copy.
-- v7 prototype: reusable behavioral reference for noise, suspicion, ping investigation, last-known positions, tools, extraction, and procedural audio. The integrated HTML architecture and exact balance values are not production constraints.
+- User-ratified [original v7](../../reference/original-prototype/sirens_song_prototype_v7.html): working implementation reference for movement, differentiated Sirens, noise/suspicion, ping/last-known investigation, tools, evidence/extraction, atmosphere and procedural audio. Read and compare actual relevant behavior before redesign; record omissions/departures. Current explicit production decisions govern; integrated HTML architecture, historical scope/approval rules and exact balance defaults are not automatically production constraints.
 - C01/C02 selected candidates: branching basalt passages, readable physical cover, cyan routes, visible cylindrical drones, monumental cyan/amber factory. Review PDF: low Quietus silhouette, aft central screw, restrained wake, red angular/serpentine Sirens; avoid clutter and airborne smoke.
 
 ## Engine and platform
@@ -57,6 +57,10 @@ Sound conveys engines/noise, ping and returns, proximity/threat, hull pressure, 
 ## Verification and critique
 
 First automate parsing, deterministic scenario tests, save round-trip/corruption, pause invariance, fair AI, route replacement, clearance, objective/extraction, all-mission solvability and lifecycle behavior. Then capture real running output at phone and wider aspect ratios. Review states include initial map, planning routes, sonar behind cover, two drones, threat/exposure, camera reveal, debrief, and ending.
+
+User-ratified [Addendum A](../reviews/2026-10-19-external-audit-addendum-A.md) is the next priority after prototype import/comparison/integrity publication and before parked density UI: RED→GREEN authored terrain-safe waypoint loops, distinct sentinel/hunter with intentional Foundry/Listening Well assignments, preserved fair sensing, retired pre-fix balance numbers and rerun strategies/naive policies/critic probes. Do not lower sensing or speed merely to recover historical hull outcomes.
+
+User-ratified [Addendum B](../reviews/2026-10-19-external-audit-addendum-B.md) and [reusable critic brief](../CRITIC_BRIEF.md) require actual 10–20 second clips including an idle world, dimension-matched shipped footage, feasible honest blinding, retained losses and no imitation. Start with Door Kickers planning, Barotrauma sonar/creature behavior/dread and Mark of the Ninja noise/detection clarity. Unavailable footage remains pending; launch-era store claims require current verification before recommending play.
 
 A fresh-context Sol critic receives the build/capture paths and source references before builder interpretation. It inspects actual images and scenarios, identifies the biggest remaining gap, distinguishes defects from aesthetic judgments, and provides reproducible evidence. Improve until consequential deficiencies are addressed or a concrete execution/resource limit requires a checkpoint. No fixed review-round quota. An APK export is not proof of installed Android behavior or production quality.
 
