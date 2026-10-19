@@ -1,5 +1,7 @@
 # User ratification and safe continuation · 19 October 2026
 
+**Published status:** import `8598d5a` and all requested remote bytes/paths are verified; see [published result](PUBLISHED_RESULT.md) and [per-path evidence](PUBLISHED_VERIFICATION.json). Preparation details below remain as provenance.
+
 Current explicit user direction makes original v7 a **working gameplay implementation reference**, requires the original handoff preserved at `reference/original-prototype/`, and requires import/comparison/committed-hash/GitHub-path verification before production resumes. This is an implementation-reference duty, not automatic rollback to historical single-level limits, approval gates, HTML architecture or every old balance constant. Current source hierarchy, creative production scope and model policy remain in force.
 
 The user separately directed: commit both addenda to `docs/reviews/`; **A is the priority fix, follow it test-first; B is ratified critic direction**, starting with Door Kickers, Barotrauma and Mark of the Ninja. Originals are unchanged:

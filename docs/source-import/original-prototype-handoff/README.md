@@ -1,5 +1,7 @@
 # Original prototype handoff import · 19 October 2026
 
+**Published status:** import `8598d5a` and all requested remote bytes/paths are verified; see [published result](PUBLISHED_RESULT.md) and [per-path evidence](PUBLISHED_VERIFICATION.json). Preparation details below remain as provenance.
+
 User-supplied archive: `SIRENS_SONG_ORIGINAL_PROTOTYPE_HANDOFF.zip`, **53,264 bytes**, SHA-256 **d68bbe1495fa42361eaf3ff02e08e60ae1a63251b54a01b7b9d4812e6b27f10d**. Original ZIP is preserved at [reference/SIRENS_SONG_ORIGINAL_PROTOTYPE_HANDOFF.zip](../../../reference/SIRENS_SONG_ORIGINAL_PROTOTYPE_HANDOFF.zip). All seven regular files are preserved at their exact internal paths under [reference/original-prototype/](../../../reference/original-prototype/). No original content, filename, line ending or metadata text was rewritten.
 
 [INVENTORY.json](INVENTORY.json) records every original's byte count, MD5 and SHA-256, manifest match and existing-copy comparison. The ZIP contains six manifest-listed payloads, `MANIFEST.md` itself and the nonempty `history/` directory. Uncompressed regular-file total is **142,965 bytes**.
