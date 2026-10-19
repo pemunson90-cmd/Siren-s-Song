@@ -1,0 +1,279 @@
+{
+  "baseline_commit": "483e1bf96354e9ce0ff4aed2b9d56876ab1262f9",
+  "dispatch_policy": "e3f415f9980a63dca41a8b0ab6d3e83717bc23e0",
+  "requested_routing": "Sol6.1/high",
+  "actual_backend_effort_usage_cost": "unavailable",
+  "runtime": "Godot4.6.3 stable7d41c59c4 Linux headless; isolated XDG; no rendering/audio/human/native claim",
+  "methods": "Ordinary production commands;2EMP Endurance; initial fixed routes to known mission objectives; camera when own position within230; reactive EMP uses only fresh player contacts with observed lock>=1; no forced outcome/enemy/terrain/knowledge/resource edits. Final policy suppresses duplicate EMP for0.3s after issuance; inherited cached-contact losses retained separately.",
+  "prototype": "Only ignored subclass overrides requested drone propulsion96/72/60. Manual silent flag untouched. No production serialization/UI/route editor change.",
+  "source_sha256": {
+    "game/src/simulation/simulation.gd": "c0c0ee5da459e99dba091b2e487b0424f6ea10b12cbf8cb697883d3d86bb0abb",
+    "game/src/simulation/acoustic_paths.gd": "3ec518705aa1669b3ba0c73603eaab598f5bfa956ec4d104733b5f884e8c6b48",
+    "game/src/simulation/route_program.gd": "0697405de0a0f7e7959c87f687e85233f8ff58a1fed30ff13a5e106f8bc17f9d",
+    "game/src/campaign/missions.gd": "d211ed0a4545f6334751e8f5a33d97dbde5903ab37bb72b89c402c92ed07d70e",
+    "game/tests/split_channel_scenarios.gd": "21153bbf68a6d1c29505d849db5ae53cdd9eac17f34f4a35df0834e12dcef0eb",
+    "reference/original-prototype/sirens_song_prototype_v7.html": "3b00be96179f6a61d23fe203483de3f4083bcc866c75d483ac5bfa748502e85b"
+  },
+  "summaries": {
+    "idle-60": {
+      "alive": [
+        true,
+        true,
+        true
+      ],
+      "battery": [
+        100.0,
+        97.1357142857218,
+        97.1357142857218
+      ],
+      "capture_times": [
+        -1.0,
+        -1.0,
+        -1.0
+      ],
+      "drone_home_times": [
+        -1.0,
+        -1.0
+      ],
+      "first_contact": 15.1000000000003,
+      "first_damage": -1.0,
+      "hull": 100.0,
+      "idle": true,
+      "max_speed": [
+        0.0,
+        0.0
+      ],
+      "moving_time": [
+        0.0,
+        0.0
+      ],
+      "outcome": "",
+      "oxygen": 117.77222222222,
+      "radius_time": [
+        0.0,
+        0.0
+      ],
+      "thrust": 60.0,
+      "time": 40.099999999999,
+      "tools": {
+        "decoy": 3,
+        "emp": 2,
+        "knock": 2,
+        "recon": 2
+      }
+    },
+    "idle-96": {
+      "alive": [
+        true,
+        true,
+        true
+      ],
+      "battery": [
+        100.0,
+        97.1357142857218,
+        97.1357142857218
+      ],
+      "capture_times": [
+        -1.0,
+        -1.0,
+        -1.0
+      ],
+      "drone_home_times": [
+        -1.0,
+        -1.0
+      ],
+      "first_contact": 15.1000000000003,
+      "first_damage": -1.0,
+      "hull": 100.0,
+      "idle": true,
+      "max_speed": [
+        0.0,
+        0.0
+      ],
+      "moving_time": [
+        0.0,
+        0.0
+      ],
+      "outcome": "",
+      "oxygen": 117.77222222222,
+      "radius_time": [
+        0.0,
+        0.0
+      ],
+      "thrust": 96.0,
+      "time": 40.099999999999,
+      "tools": {
+        "decoy": 3,
+        "emp": 2,
+        "knock": 2,
+        "recon": 2
+      }
+    },
+    "split-60": {
+      "alive": [
+        true,
+        true,
+        true
+      ],
+      "battery": [
+        100.0,
+        96.7500000000085,
+        96.7500000000085
+      ],
+      "capture_times": [
+        10.5000000000001,
+        20.8000000000001,
+        26.8999999999998
+      ],
+      "drone_home_times": [
+        19.8000000000002,
+        41.7999999999989
+      ],
+      "first_contact": 5.09999999999999,
+      "first_damage": 36.0999999999992,
+      "hull": 28.0000000000006,
+      "idle": false,
+      "max_speed": [
+        60.0000038146973,
+        60.0000038146973
+      ],
+      "moving_time": [
+        16.6,
+        38.7000000000003
+      ],
+      "outcome": "won",
+      "oxygen": 117.47222222222,
+      "radius_time": [
+        3060.17446897067,
+        8740.03634753255
+      ],
+      "thrust": 60.0,
+      "time": 45.4999999999987,
+      "tools": {
+        "decoy": 3,
+        "emp": 0,
+        "knock": 2,
+        "recon": 2
+      }
+    },
+    "split-72": {
+      "alive": [
+        true,
+        true,
+        true
+      ],
+      "battery": [
+        100.0,
+        96.9214285714366,
+        96.9214285714366
+      ],
+      "capture_times": [
+        10.0000000000001,
+        18.4000000000002,
+        24.4999999999999
+      ],
+      "drone_home_times": [
+        18.5000000000002,
+        36.5999999999992
+      ],
+      "first_contact": 4.69999999999999,
+      "first_damage": 36.1999999999992,
+      "hull": 48.4000000000005,
+      "idle": false,
+      "max_speed": [
+        72.0,
+        72.0000076293945
+      ],
+      "moving_time": [
+        15.3,
+        33.5000000000002
+      ],
+      "outcome": "won",
+      "oxygen": 117.605555555554,
+      "radius_time": [
+        3473.25565628248,
+        10338.1775253577
+      ],
+      "thrust": 72.0,
+      "time": 43.0999999999988,
+      "tools": {
+        "decoy": 3,
+        "emp": 0,
+        "knock": 2,
+        "recon": 2
+      }
+    },
+    "split-96": {
+      "alive": [
+        true,
+        true,
+        true
+      ],
+      "battery": [
+        100.0,
+        97.2000000000073,
+        97.2000000000073
+      ],
+      "capture_times": [
+        9.70000000000006,
+        15.5000000000003,
+        21.6000000000001
+      ],
+      "drone_home_times": [
+        17.4000000000003,
+        30.4999999999995
+      ],
+      "first_contact": 4.19999999999999,
+      "first_damage": 34.9999999999993,
+      "hull": 61.6000000000004,
+      "idle": false,
+      "max_speed": [
+        96.0000076293945,
+        96.0000076293945
+      ],
+      "moving_time": [
+        14.1,
+        27.6000000000001
+      ],
+      "outcome": "won",
+      "oxygen": 117.82222222222,
+      "radius_time": [
+        4032.72292649447,
+        13505.4908169449
+      ],
+      "thrust": 96.0,
+      "time": 39.1999999999991,
+      "tools": {
+        "decoy": 3,
+        "emp": 0,
+        "knock": 2,
+        "recon": 2
+      }
+    }
+  },
+  "limitations": [
+    "single deterministic task, not campaign balance or human comprehension",
+    "no newly inspected external comparison; prior primary Duskers result d625e56 remains preserved",
+    "radius-time raw diagnostic is not a detection probability or experience score",
+    "future currents need water-relative propulsion vs transported velocity separation; no currents implemented"
+  ],
+  "artifacts": {
+    "green.log": "fc0a183cebcb6dde44ac0b3c9b413fe949289266a723197665e0183dc29db59d",
+    "guards.gd": "d9f7abcd336206c763202b7f73f846c2e8212a0184979f694cab5b49d562cda3",
+    "idle-60.json.gz": "3b1cefc776bb436e01d0d89ef2d1498a5f6a342cf607b040a9ec8be24a1bc509",
+    "idle-96.json.gz": "65e0903c4bc661154a3f7ce387d7c0a97ac25781637fe69554f4f529689fc8fd",
+    "inherited-policy/operation.gd": "d2c30138d7c6863ef0ed26b62d2b1ac4f3aa23a6f05fe32fbbcc786ea990d804",
+    "inherited-policy/operation.log": "f4ce10ffb243857354da50f9be66656c1e078a148673fb5cfd9fbf059d0b176f",
+    "inherited-policy/split-60.json.gz": "6a8efaef01cb28faea7b988e7553dfe593da625088e13bc51a95242215b7db78",
+    "inherited-policy/split-72.json.gz": "1795a4667a971f210740dbe83cf731cce539ee81bbf5f0d4a64b1b3905076ee3",
+    "inherited-policy/split-96.json.gz": "37bd7d8a1395134f0ce4311a92d15bda47f35db1e4f19cce527bbf485c341f15",
+    "operation.gd": "d729999e3a0319c1b7c1fc30af9d5ffcaeb11bfc34b103f6fa113d1cd8a4558a",
+    "operation.log": "b58829a899e22cc08a873bc30df9104a78dfae385bafeb40ee02f289fc8406cc",
+    "red.log": "aed71a54c4b118a69695b42ef339b4ddd7c65549b163bb4fa20a75c9cfc77021",
+    "split-60.json.gz": "7a855b3a557d432399c3a965ab3208d8b089619b9596ee3d65c731502a12a78d",
+    "split-72.json.gz": "d0f69e74021e4c7169086e1dc9f91ff1fbbb088428a8649ea84c5cafd946df49",
+    "split-96.json.gz": "37bd7d8a1395134f0ce4311a92d15bda47f35db1e4f19cce527bbf485c341f15",
+    "thrust_sim.gd": "dd1977e6c12c97a124817fd88478fca24b88ef0b20a11feb784a6615ed7c3e74"
+  },
+  "completion_policy": "31397aa08aa25118680fcabe2d241058b8ad9d77; six governing files unchanged"
+}
