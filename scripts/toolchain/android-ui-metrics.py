@@ -41,6 +41,8 @@ def required_actions(layout):
         actions = set(RADIAL_ACTIONS[page].split(','))
         if page == 'object' and layout.get('context_subject_kind') in ('corridor', 'withdrawal'):
             actions.remove('camera')
+        if page == 'object' and layout.get('context_subject_kind') == 'transmission':
+            actions.remove('route_here')
         return actions
     return set((SECONDARY_ACTIONS if layout.get('orders_page') == 'secondary' else MISSION_ACTIONS).split(','))
 

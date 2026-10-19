@@ -60,6 +60,18 @@ class TouchMetricsTests(unittest.TestCase):
             layout['controls'].pop()
             self.assertEqual(self.invoke(layout,required=None,page='secondary').returncode,1)
 
+    def test_transmission_context_requires_explicit_action_without_fake_route_anchor(self):
+        layout=self.layout()
+        layout.update(hud_layout='radial',context_page='object',context_subject_kind='transmission',orders_page='secondary')
+        actions='pause,radial_back,camera,inspect,program,queue'.split(',')
+        layout['controls']=[dict(layout['controls'][0],action=action,visual_rect=[20+i%5*230,20+i//5*100,200,84],hit_rect=[20+i%5*230,20+i//5*100,200,84]) for i,action in enumerate(actions)]
+        result=self.invoke(layout,required=None,page='secondary')
+        self.assertEqual(result.returncode,0,result.stderr+result.stdout)
+        layout['controls']=[control for control in layout['controls'] if control['action']!='camera']
+        result=self.invoke(layout,required=None,page='secondary')
+        self.assertEqual(result.returncode,1,result.stderr+result.stdout)
+        self.assertIn('camera',result.stdout)
+
     def test_site_unknown_and_missing_context_kind_keep_camera_mandatory(self):
         for kind in ['site', 'unknown', None]:
             layout=self.layout()

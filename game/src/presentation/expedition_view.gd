@@ -1,4 +1,6 @@
 extends RefCounted
+const World=preload("res://src/presentation/resolution_world.gd")
+const Operations=preload("res://src/presentation/operation_instruments.gd")
 const Equipment=preload("res://src/presentation/equipment_context.gd")
 # Public received measurements only. Fans have no hit region: water along a
 # bearing remains available for routes. The HUD supplies an explicit badge.
@@ -40,6 +42,10 @@ static func badge_rect(view,sim,touch:float,blocked:Array)->Rect2:
  return Rect2()
 static func pick(view,sim,point:Vector2,touch:float)->Dictionary:
  if not active(sim):return {}
+ for index in sim.observable_sites().size():
+  var site=sim.observable_sites()[index]
+  if site.get("own_origin",false) and transmission_badge(view,site,touch).has_point(point):
+   return {"kind":"objective","subkind":"transmission","index":index,"name":"TRANSMISSION SECTOR","pos":site.pos}
  # Only charted physical corridors are targets, never received fan directions.
  for corridor in sim.extraction_corridors():
   if point.distance_to(view.screen_position(corridor.pos))<=maxf(touch*.5,64*view.world_scale):
@@ -48,6 +54,7 @@ static func pick(view,sim,point:Vector2,touch:float)->Dictionary:
   return {"kind":"objective","subkind":"withdrawal","name":"INCOMPLETE WITHDRAWAL","pos":sim.mission.extraction}
  return {}
 static func context_detail(sim,subject:Dictionary)->String:
+ if subject.get("subkind","") in ["transmission","actuator"]:return Operations.detail(sim,subject.get("index",-1))
  if subject.get("subkind","")=="withdrawal":return "INCOMPLETE WITHDRAWAL\nReturn Quietus to the southern basin. Field observations remain; this does not recover an expedition route."
  for corridor in sim.extraction_corridors():
   if corridor.route==subject.get("route",""):
@@ -56,6 +63,15 @@ static func context_detail(sim,subject:Dictionary)->String:
 static func draw(view,sim)->void:
  if not active(sim):return
  var scale=maxf(.01,view.world_scale)
+ if sim.has_method("operation_context"):
+  World.draw(view,sim.operation_context())
+  for site in sim.observable_sites():
+   if not site.get("own_origin",false):continue
+   var area=transmission_badge(view,site,view.instrument_height)
+   var world_area=Rect2((area.position-view.world_offset)/scale,area.size/scale)
+   view.draw_rect(world_area,Color("102c38"))
+   view.draw_rect(world_area,Color("b49b6e"),false,1.5/scale)
+   view._label(world_area.position+Vector2(10,area.size.y*.58)/scale,"SEND INFO",Color("e1b66e"),roundi(view.feedback_font_size/scale))
  for reading in display_measurements(sim,sim.selected):
   if reading.direction.length_squared()<.001:continue
   var alpha=clampf(1.0-reading.age/30.,.15,.8);var origin:Vector2=reading.origin;var angle:float=reading.direction.angle();var radius=150.
@@ -76,3 +92,8 @@ static func draw(view,sim)->void:
   view.draw_arc(corridor.pos,64,0,TAU,48,color,2./scale)
   view._label(corridor.pos+Vector2(-62,-78),corridor.name,color,maxi(4,roundi(view.feedback_font_size/scale)))
   view._label(corridor.pos+Vector2(-62,91),"RECOVERY" if corridor.available else ("FIELD TASK" if sim.mission.get("expedition_revision",0)==2 else "INTERPRET CARRIER"),color,maxi(4,roundi(view.feedback_font_size/scale)))
+
+static func transmission_badge(view,site:Dictionary,touch:float)->Rect2:
+ # Only this visible target owns input; the entire chosen-origin region is water.
+ var dimensions=Vector2(touch*2,touch)
+ return Rect2(view.screen_position(site.pos)-dimensions*.5,dimensions)
