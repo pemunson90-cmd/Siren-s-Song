@@ -49,7 +49,7 @@ static func advance(sim,observations:Array,fresh:Array,dt:float)->void:
   peer.suspicion=maxf(peer.suspicion,0.3);peer.mode="INVESTIGATE";peer.path_time=0.0;peer.route.clear()
 static func valid(data:Dictionary)->bool:
  var enabled=data.mission.has("contact_report_revision")
- if enabled and (not data.mission.contact_report_revision is int or data.mission.contact_report_revision!=1 or data.mission.get("acoustic_revision",0)!=1):return false
+ if enabled and (data.mission.get("id",-1)!=5 or not data.mission.contact_report_revision is int or data.mission.contact_report_revision!=1 or data.mission.get("acoustic_revision",0)!=1):return false
  for s in data.sirens:
   if s is Dictionary and s.has("report_interest"):
    var interest=s.report_interest

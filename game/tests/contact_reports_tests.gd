@@ -88,5 +88,6 @@ func _initialize():
  sight(legacy,3);check(not legacy.sirens[0].has("report"),"legacy mission cannot gain new reports")
  var bad=partial.duplicate(true);bad.sirens[0].report.charge=NAN;check(not Sim.valid_snapshot(bad),"nonfinite charge rejected")
  bad=partial.duplicate(true);bad.sirens[0].report.target=9;check(not Sim.valid_snapshot(bad),"invalid report target rejected")
+ bad=partial.duplicate(true);bad.mission.id=0;check(not Sim.valid_snapshot(bad),"finale report opt-in cannot silently activate on an earlier mission")
  bad=old.duplicate(true);bad.sirens[0]["report"]=partial.sirens[0].report;check(not Sim.valid_snapshot(bad),"report state requires explicit optional mechanic revision")
  print("CONTACT REPORT CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)
