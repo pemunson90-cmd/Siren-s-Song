@@ -13,7 +13,7 @@ adb_bin="$(command -v adb)"
 adb() {
     local status=0
     timeout --foreground "${ADB_TIMEOUT_SECONDS:-30}" "$adb_bin" "$@" || status=$?
-    if (( status != 0 )); then
+    if (( status != 0 )) && [[ "$*" != "shell pidof $package" || "$status" != 1 ]]; then
         echo "ADB status $status: ${1:-} ${2:-}" >&2
     fi
     return "$status"

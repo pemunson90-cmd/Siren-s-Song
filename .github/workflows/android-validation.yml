@@ -66,13 +66,19 @@ jobs:
       - name: Record actual emulator capabilities
         run: |
           mkdir -p "$ARTIFACT_DIR"
-          "$ANDROID_HOME/emulator/emulator" -version 2>&1 | tee "$ARTIFACT_DIR/emulator-version.txt"
-          set +e
-          "$ANDROID_HOME/emulator/emulator" -help-gpu > "$ARTIFACT_DIR/emulator-gpu-help.txt" 2>&1
-          help_status=$?
-          set -e
-          cat "$ARTIFACT_DIR/emulator-gpu-help.txt"
-          echo "emulator -help-gpu exit status: $help_status" | tee -a "$ARTIFACT_DIR/emulator-gpu-help.txt"
+          if test -f "$ANDROID_HOME/emulator/source.properties"; then
+            cat "$ANDROID_HOME/emulator/source.properties" | tee "$ARTIFACT_DIR/emulator-package.txt"
+          fi
+          probe() {
+            local name="$1" status=0
+            shift
+            timeout 30 "$@" > "$ARTIFACT_DIR/$name.txt" 2>&1 || status=$?
+            cat "$ARTIFACT_DIR/$name.txt"
+            echo "Probe exit status: $status" | tee -a "$ARTIFACT_DIR/$name.txt"
+          }
+          probe emulator-version "$ANDROID_HOME/emulator/emulator" -no-window -noaudio -version
+          probe emulator-gpu-help "$ANDROID_HOME/emulator/emulator" -no-window -noaudio -help-gpu
+          probe emulator-shared-libraries ldd "$ANDROID_HOME/emulator/qemu/linux-x86_64/qemu-system-x86_64-headless"
       - name: Headless import and simulation tests
         run: |
           mkdir -p "$ARTIFACT_DIR"
@@ -91,7 +97,10 @@ jobs:
           test -c /dev/kvm
           sudo chmod 0666 /dev/kvm
           test -r /dev/kvm && test -w /dev/kvm
-          "$ANDROID_HOME/emulator/emulator" -accel-check 2>&1 | tee "$ARTIFACT_DIR/emulator-acceleration.txt"
+          acceleration_status=0
+          timeout 30 "$ANDROID_HOME/emulator/emulator" -no-window -noaudio -accel-check > "$ARTIFACT_DIR/emulator-acceleration.txt" 2>&1 || acceleration_status=$?
+          cat "$ARTIFACT_DIR/emulator-acceleration.txt"
+          echo "Acceleration probe exit status: $acceleration_status" | tee -a "$ARTIFACT_DIR/emulator-acceleration.txt"
       - name: Upload emulator capabilities before boot
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
