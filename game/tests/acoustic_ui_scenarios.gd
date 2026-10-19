@@ -6,7 +6,7 @@ static func run(t,game) -> void:
 	var lines=rows(game)
 	t.check(lines.any(func(line):return "DECOY" in line and "15s" in line),"persistent chart instrument retains decoy countdown after route message overwrites launch")
 	t.check(lines.any(func(line):return "reception unknown" in line),"instrument explicitly preserves uncertainty about enemy reception")
-	t.check(lines.size()==4,"own acoustic estimate adds one honest terrain qualification row")
+	t.check(lines.any(func(line):return "OPEN WATER" in line and "basalt" in line),"own acoustic estimate preserves its honest terrain qualification")
 	game.sim.command("ping"); game._refresh()
 	t.check(rows(game).any(func(line):return "SONAR" in line and "2s" in line),"own sonar pulse has a finite explained transmission timer")
 	lines=rows(game)
