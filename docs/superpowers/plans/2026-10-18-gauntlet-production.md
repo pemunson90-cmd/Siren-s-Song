@@ -13,7 +13,7 @@
 ## Global constraints
 
 - Preserve all imported source files and the existing AGENTS.md model policy.
-- All delegated production/critics explicitly request gpt-6.1-sol; do not claim unavailable actual-model/cost telemetry.
+- Sol6.1 is default for substantial delegated production/critics; explicit smaller-model routing is permitted for appropriately scoped smaller work when reliable fit justifies it. Never claim unavailable actual-model/cost telemetry.
 - No omniscient player/AI, time advancement during tactical pause, enemy health combat loop, or hidden persistent route-append trap.
 - Physical terrain, route clearance and sensor occlusion agree. Nonlethal tools provide fair recovery.
 - Real runtime evidence precedes visual criticism. Android installation/runtime claims require actual device evidence.
@@ -27,9 +27,9 @@
 4. Phone aspect ratios and scale must preserve touch target readability and prevent HUD overlap; exercise actual input in runtime captures.
 5. Every mission must be completable with ordinary commands/resources, including drone loss fallback; deterministic route scenarios plus fresh play review.
 
-## Verified status — 19 October, through539f58b
+## Verified status — 19 October, through93b8631
 
-Checked items are implemented/reproduced milestones, not user acceptance or a stopping condition. Current command `scripts/toolchain/test.sh` passes70core/campaign +173runtime checks. Actual rendering, command-driven ending, waveform measurements and two independent Sol reviews are indexed in `docs/validation/production/` and `docs/reviews/`. Workbench's current summary takes precedence over historical checkpoint counts. Root controls push timing; latest installed renderer/lifecycle retry remains pending. Do not rebuild completed foundation work.
+Checked items are implemented/reproduced milestones, not user acceptance or a stopping condition. Current command `scripts/toolchain/test.sh` passes88core/campaign +176runtime checks. Actual rendering, command-driven ending, waveform measurements and two independent Sol reviews are indexed in `docs/validation/production/` and `docs/reviews/`. Workbench's current summary takes precedence over historical checkpoint counts. Tooling coordinates sole pushes; native39202066103 passed cover/inner lifecycle, >30s active audio and ordinary Shelf Signal completion/cold campaign restore. Physical Fold7/full-campaign native remain open. Do not rebuild completed foundation work.
 
 ## Task 1 — Native production shell and verified toolchain
 
@@ -73,16 +73,16 @@ Files: `game/src/campaign/*`, `game/src/persistence/*`, mission data and UI inte
 - [ ] Test every mission via ordinary command-driven completion scenarios, resources and failure/retry; test save round-trip including drone routes, objectives, AI and paused state.
 - [ ] Fresh integration critic exercises the actual campaign and reports progression, interaction, pacing, clarity and fairness defects. Resolve consequential findings and commit.
 
-Task4 partial items: six missions, replay, prose ending, saves and actual-pointer campaign progression exist. Only Split Channel yet meets a strong differentiated-task standard; Cold Foundry is the next critic-selected content cycle. Loadouts are selectable from the start, so meaningful evidence-driven equipment progression is still open. Ordinary all-mission fallback and save corruption/round-trip tests pass, while explicit defeat→retry and broader legacy-save/device lifecycle evidence remain outstanding. Two independent reviews are complete; material content findings remain active work.
+Task4 partial items: six missions, replay, prose ending, saves and actual-pointer campaign progression exist. Split Channel and the independently reviewed Cold Foundry now demonstrate differentiated task/observation pressures; other missions remain active content opportunities. Loadouts are selectable from the start, so meaningful evidence-driven equipment progression is still open. Ordinary all-mission fallback and save corruption/round-trip tests pass, while explicit defeat→retry and broader legacy-save/device lifecycle evidence remain outstanding. Two independent reviews are complete; material content findings remain active work.
 
 ## Task 5 — Android and quality closure
 
-- [ ] Rebuild latest APK; inspect package metadata, signing and included assets. Install/run with adb if a device exists; otherwise retain device validation as blocked, never simulated evidence.
+- [x] Rebuild latest APK; inspect package metadata, signing and included assets. Install/run with adb if a device exists; otherwise retain device validation as blocked, never simulated evidence.
 - [ ] Run regression scenarios and actual-render captures; examine Android lifecycle wiring, memory/performance and safe areas. Device claims remain separate from desktop measurements.
 - [x] Independent fresh Sol reviewer inspects integrated outputs and key sources; iterate on material quality gaps without arbitrary round count.
-- [ ] Update workbench, model assignment/usage record, evidence index and continuation. Commit and push meaningful progress to development branch; expose APK location/hash and limitations.
+- [x] Update workbench, model assignment/usage record, evidence index and continuation. Commit and push meaningful progress to development branch; expose APK location/hash and limitations.
 
-Task5 partial items: native debug export/signing and installed cover/briefing rendering are evidenced, but the newest combined code's Android touch/lifecycle/cutout run is still pending. The observed menu-dispatch defect has a local failure-first regression and deferred-callback fix; the native ERROR gate remains strict. Physical ZFold7 folding/thumb/performance, human listening and store signing are not certified. Do not mark this phase closed because a build or review exists.
+Task5 partial items: native39202066103/source93b8631 passed current cover/inner touch/lifecycle and ordinary Shelf Signal completion/new-process campaign restore, with>30s active audio and strict error/fatal gate. Exact APK/hash/cert and actual pictures are retained; PCM boundary defect is fixed and reproduced RED→GREEN. Full-campaign native play, physical ZFold7 folding/thumb/performance, human listening and store signing remain uncertified. Do not mark the Gauntlet closed because a build/review exists.
 
 ## Coordination and checkpoint rules
 
@@ -100,3 +100,10 @@ After each meaningful milestone: (1) build/run and gather inspectable gameplay, 
 **Session/usage/resource limits:** Stop executing when limits require it, preserve a runnable checkpoint, branch/commit status, exact evidence, remaining gaps and a specific next command in WORKBENCH and CONTINUATION. Label the state 'paused / awaiting continuation' rather than 'complete'. Resume the loop when execution becomes available; do not claim background execution across unavailable sessions or automatically bypass platform limits.
 
 **User involvement:** As playable builds mature, invite targeted hands-on testing and incorporate the user's observations, preferences, and new direction. Human feedback becomes increasingly valuable; do not require it for every routine iteration or replace autonomous progress with approval loops. The user alone determines satisfaction and authorizes ending the Gauntlet. Distinguish internal quality estimates from user acceptance. Respect material premise/identity escalation rules and the existing model-budget policy.
+
+
+## Ratified continuation beyond phase one
+
+Follow `docs/BASELINE_AND_EXPERIMENTS.md` for preserved baseline/challenger comparisons, accepted tradeoffs and rejected experiments. Periodic fresh whole-game criticism and a separate evidence-based regression hunter follow deterministic comparisons after substantial changes; no invented faults or fixed round quota. Keep `docs/PHONE_DASHBOARD.md` phone-readable and current with existing artifacts. New workers inherit `docs/AGENT_BRIEF.md`; fit-to-task lighter agents are permitted, Sol remains the substantial-work default, premium is justified escalation only. Persist future agreed decisions in governing Git docs with rationale/source hierarchy.
+
+Next focused cycle: user-prioritized zoom/pan and friendly touch UI. Prototype UI/screen dimensions are not constraints. Touch spec/plan dated19October defines the next challenger; preserve pause, explicit route intent and bounded observations, and verify gesture conflicts/accidental orders at cover/unfolded sizes. User hands-on direction remains authoritative without routine approval gates. Milestones never terminate the Persistent Gauntlet.

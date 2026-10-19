@@ -1,6 +1,8 @@
 # Siren's Song progress workbench
 
-**Stage:** Active Gauntlet, campaign baseline, four verified improvement cycles and a green Cold Foundry candidate blocked on a diagnosed native audio-loop boundary defect after independent review. This is not a finished or user-accepted game.
+**Stage:** Active Gauntlet, campaign baseline plus five experience/reliability cycles, with Cold Foundry and the exact PCM fix verified on native Android. This is not a finished or user-accepted game.
+**Phone dashboard:** [current evidence and next work](PHONE_DASHBOARD.md).
+**Verified baseline:** `93b8631`, [native39202066103](https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/39202066103); [scope/tradeoffs](BASELINE_AND_EXPERIMENTS.md).
 **Branch:** `gauntlet/production`; campaign baseline plus reliability, optical/safe-area and return-planning cycles; see checkpoints below.
 **Player device:** Samsung Galaxy Z Fold7; physical installation/folding/thumb/performance review remains open.
 
@@ -12,18 +14,18 @@
 | Split Channel proving ground | Connected channels, two separated relays + Quietus uplink | Coordinated39.2s: direct87.1% hull versus100% with one sustained decoy; both drones survive. These are scripted tactics, not human balance acceptance |
 | Art/input | Actual textured world, physical ray, station-owned optical inset | `docs/validation/production/`; core88 checks and runtime176 checks pass, including pointer inputs, menu preservation, optical ownership and physical→logical safearea conversion |
 | Audio | Original movement, pressure, distinct tool/beam cues and volume/mute | Actual stereo mixer recorded: peak−9.28dBFS, no clipped samples, paused tail exactly silent; human listening/native audio and forced-exit stream leak remain open |
-| Android emulator | Source539f58b passed native cover+inner entry/order/pause/Home/kill/restart/archive; new ordinary mission-completion gate prepared | See `docs/CODEX_ENVIRONMENT.md` and `docs/validation/android-*`; Actions39197795717; next candidate native run pending; no Samsung performance claim |
+| Android emulator | Source93b8631 passed native cover+inner lifecycle and ordinary Shelf Signal completion/new-process campaign restore | See `docs/CODEX_ENVIRONMENT.md` and `docs/validation/android-*`; Actions39202066103; >30s active audio with fixed endpoints; full-campaign native still open; no Samsung performance claim |
 | Independent criticism | Baseline/follow-up, integrated experience and Cold Foundry reviews completed, explicit fresh Sol | `docs/reviews/2026-10-19-baseline-critique.md`; confirmed attention defects fixed, next learned safe return demonstrated; deepen sound and other missions |
 
 ## Current evidence and highest-value next cycle
 
 Combined validation: `scripts/toolchain/test.sh` → **88 core/campaign +176 runtime checks, zero failures**. Waypoint check totals vary with safe path simplification; invariant tests have been added, not removed. Full framebuffer optical, beam, and connected-channel captures are in `build/captures/cycle2-*` and retained in the validation index. Desktop rendering is distinct from installed Android/Samsung validation.
 
-Next: validate the minimal PCM loop-end fix on installed Android. Run39200256192 passed cover/inner lifecycle and restored gameplay, then crashed reading ambience sample176400 (one past its buffer). Two RED endpoint checks reproduced invalid loop indices; last-valid-index fix passes88core/176runtime. Exact register/disassembly/source reasoning: `docs/validation/production/audio-loop-regression/README.md`. Tooling owns the next sole push/retry. Long actual desktop mixer audition completed18seconds with ambience wraps observed at8.02s/16.02s and repeated engine wraps; native retry remains required. After the native blocker and Foundry assessment are safely settled, persist the queued user workflow/model refinements and execute the zoom/pan/touch priority. No global mute or gate weakening. Do not stop the Gauntlet at these milestones.
+Next: execute the focused zoom/pan and friendly touch cycle from the accepted touch spec/plan. Native39202066103 now verifies the PCM fix through>30s active audio plus ordinary Shelf Signal camera completion, won debrief and completed[0]/unlocked1 new-process restore. Tooling inspected actual exposure/debrief/restored archive pixels.88core/176runtime pass. Preserve93b8631 as baseline; compare gesture/route behavior, inspect actual cover/unfolded output, run a separate regression hunt and fresh integrated criticism proportionately. User ratified evidence ratchet, lighter-agent fit permission, persistent-decisions rule and prototype-independent touch direction are now in AGENTS/architecture/brief. Physical Fold7, full-campaign native, human comfort/listening and broader content/progression depth remain open. Persistent Gauntlet continues.
 
 ## Continuity
 
-Read `docs/CONTINUATION.md` and the plan before working. Model assignments and telemetry limits: `docs/MODEL_USAGE.md`. All production/critics explicitly request Sol 6.1. Engine decision and creative scope are documented; no additional routine approval is required.
+Read `docs/CONTINUATION.md` and the plan before working. Model assignments and telemetry limits: `docs/MODEL_USAGE.md`. Sol6.1 is default for substantial production/critics; fit-to-task lighter workers are permitted for smaller actions, with explicit routing and no invented backend/cost telemetry. Engine decision and creative scope are documented; no additional routine approval is required.
 
 ## Production checkpoint 1 — native shell and core
 
@@ -113,3 +115,8 @@ Runtime teardown now permits0.5s after explicit scene free, following tooling's 
 ## Native extended-gameplay blocker — exact PCM endpoint fix
 
 Run39200256192 exposed an actual AudioTrack SIGSEGV after uninterrupted audio playback, distinct from the previous fixture rotation failure. Tombstone/disassembly computes an ambience read at index176400, one beyond the176399 final frame. Matching official mixer source includes the loop endpoint in a chunk; authored loops used the frame count. Corrected both ambience and engine to their last valid index. New tests fail2/88 before fix and full88core/176runtime pass after. Longer actual18second mixer audition is retained with observed loop wraps and PCM analysis; installed retry remains pending, with no native success claim. Skills debugger/TDD reads were attempted after catalog briefly returned, but packages again reported unavailable; concrete RED→GREEN/debugging evidence remains recorded. Routine Sol resolution, no premium escalation.
+
+
+## Safe checkpoint — native completion and ratified next-cycle workflow
+
+Verified baseline93b8631/run39202066103: native orders/camera/record/won, completed[0]/unlocked1 cold restore, >30s active audio and strict zero-error/fatal gate. Independent Foundry report supports bounded mission gains; label crowding and touch scale remain. The agreed process upgrade/model refinement/persistent-decisions/touch direction is now reconciled in governing docs, baseline index and new-agent brief. Tooling owns the phone dashboard and playtest entry links. Next action is the touch plan's failing transform/gesture tests, then minimal camera/input implementation, real captures and separate regression evidence. No routine approval gate or program completion claim.

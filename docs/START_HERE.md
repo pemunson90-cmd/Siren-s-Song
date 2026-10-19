@@ -2,7 +2,7 @@
 
 ## Current stage
 
-Repository foundation, before the production Gauntlet prompt and before engine/environment selection.
+Active persistent production Gauntlet in Godot4.6.3. Verified native baseline93b8631; current direction is zoom/pan and friendlier touch controls. Start with `docs/PHONE_DASHBOARD.md`, then current WORKBENCH/CONTINUATION; historical imports remain immutable.
 
 ## Read order
 
@@ -26,6 +26,6 @@ Repository foundation, before the production Gauntlet prompt and before engine/e
 
 The [source import report](source-import/README.md) records integrity checks, package layout, and historical discrepancies. The concept selection ledger is at `references/package/SIRENS_SONG_CONCEPT_SELECTION_LEDGER.md`; portable images are under `references/package/references/`.
 
-## Next gate
+## Next action
 
-Inventory existing Codex environments, select a production engine, establish Android build/test tools, and only then launch the Gauntlet production run. Keep the existing prototypes intact as references.
+Read `docs/CONTINUATION.md`, `docs/BASELINE_AND_EXPERIMENTS.md` and current touch plan. Preserve verified artifacts, compare challengers, retain rejected experiments, and inherit `docs/AGENT_BRIEF.md` in every delegation. Do not repeat completed foundation/toolchain work. Only the user ends the Gauntlet; pause at actual execution limits with a precise continuation.

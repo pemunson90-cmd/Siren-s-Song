@@ -30,7 +30,7 @@ Codex is the provisional primary implementer; Claude Code can contribute art dir
 
 ## Model selection and usage policy (Gauntlet)
 
-**Default model: Sol 6.1** for implementation, tests, review, visual criticism, integration, and all delegated/subagent tasks where model selection is available.
+**Default model: Sol 6.1** for implementation, tests, review, visual criticism, integration, and substantial delegated/subagent tasks where model selection is available. Smaller/weaker agents are permitted for appropriately scoped smaller actions when fit and reliability justify them; do not choose a cheaper agent that creates rework.
 
 **Astra:** use for the initial source-corpus/architecture kickoff and rare, specifically justified escalations where Sol has reached a demonstrated impasse or the decision has unusually broad consequences. Do not create Astra subagents by default. Starting a task with Astra does not authorize inheriting Astra for delegated tasks.
 
@@ -66,3 +66,14 @@ After each meaningful milestone: (1) build/run and gather inspectable gameplay, 
 **Session/usage/resource limits:** Stop executing when limits require it, preserve a runnable checkpoint, branch/commit status, exact evidence, remaining gaps and a specific next command in WORKBENCH and CONTINUATION. Label the state 'paused / awaiting continuation' rather than 'complete'. Resume the loop when execution becomes available; do not claim background execution across unavailable sessions or automatically bypass platform limits.
 
 **User involvement:** As playable builds mature, invite targeted hands-on testing and incorporate the user's observations, preferences, and new direction. Human feedback becomes increasingly valuable; do not require it for every routine iteration or replace autonomous progress with approval loops. The user alone determines satisfaction and authorizes ending the Gauntlet. Distinguish internal quality estimates from user acceptance. Respect material premise/identity escalation rules and the existing model-budget policy.
+
+
+## Evidence ratchet and current user direction — ratified 2026-10-19
+
+Preserve the strongest verified baseline and its artifacts before substantial challengers. Record intended player gain, actual comparisons, accepted tradeoffs and retained rejected/deferred experiments in `docs/BASELINE_AND_EXPERIMENTS.md`. Deterministic checks precede critics. Periodically commission fresh whole-game criticism across pacing, variety, tactical depth, progression/upgrades, narrative, atmosphere, audiovisual quality, accessibility and comprehension. Use a separate evidence-based regression hunter after substantial changes; it may find no meaningful regression. Reproduce/compare findings, distinguish inherited weaknesses, and prioritize confirmed consequential regressions. Do not replace experiential improvement with more invariant counts or force reviewers to invent faults.
+
+Maintain the lightweight phone-readable repository dashboard at `docs/PHONE_DASHBOARD.md`: current stage/cycle, actual images/video, APK, criticism, accepted gains, rejected/deferred experiments, weaknesses/opportunities, blockers and next action. Reuse existing workbench/evidence; no hosting dependency or process infrastructure is required. User hands-on direction remains authoritative; retain useful work and avoid routine approval/opinion gates.
+
+Zoom in/out and a usable, friendly touch UI are key production features. The prototype UI and screen dimensions are not constraints; logical coordinates are implementation details. Validate zoom/pan, responsive controls, gesture conflicts, accidental orders, route clarity and tactical pause on cover/unfolded evidence, then physical Fold7 when available.
+
+Persist future agreed workflow and creative decisions in Git instructions with rationale and source hierarchy. Update governing docs and continuation at the next safe checkpoint so future sessions inherit them. Every new worker/critic brief must include `docs/AGENT_BRIEF.md` policy, exact scope and evidence; requested model routing must be explicit and actual telemetry honestly unknown where unavailable. The ratified fit-to-task lighter-agent permission refines earlier blanket Sol-only wording; Sol remains the substantial-work default, premium remains justified escalation only.

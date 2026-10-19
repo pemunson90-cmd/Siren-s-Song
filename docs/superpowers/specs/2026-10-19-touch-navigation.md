@@ -1,10 +1,10 @@
-# Touch navigation proposal — queued after Cold Foundry validation
+# Touch navigation challenger — after verified Cold Foundry checkpoint
 
-Authority: user's explicit 19 October direction: production need not retain prototype UI/screen dimensions; zoom in/out and a usable, friendly touch UI are key features. This proposal refines implementation within that direction, subject to actual cover/unfolded evidence. Source hierarchy and the persistent Gauntlet remain binding. Do not start the major implementation cycle before the current candidate's independent/native assessment and deferred process checkpoint are secured.
+Authority: user's explicit 19 October direction: production need not retain prototype UI/screen dimensions; zoom in/out and a usable, friendly touch UI are key features. This bounded challenger refines implementation within that direction, subject to actual cover/unfolded evidence. Source hierarchy and the persistent Gauntlet remain binding. Independent/native checkpoint93b8631 and governing workflow updates are secured. Proceed inline under the user’s autonomy grant; compare the challenger before promotion.
 
 Player problem: craft and danger are small in the whole-map overview, labels collide near objectives, and a tap-only chart makes closer inspection impossible. Retain an overview for planning, allow closer inspection and movement across the chart, and make route gestures distinguishable from navigation gestures. Screen dimensions are not a design constraint.
 
-Proposed bounded challenger:
+Implementation direction:
 
 - Separate a presentation-only chart camera from simulation state. Whole-map fit remains initial/default recovery view. Pinch or +/- zoom around an anchor; drag pans; FIT restores the overview. Zoom/pan never advances simulation, changes sensor range or reveals hidden contacts. Keep pause, station selection, route intent and emergency replacement accessible.
 - Tap release issues a route only after a single short stationary touch. Crossing a drag threshold or introducing a second finger cancels the pending order for the whole gesture. Continue tracking releases outside the map; cancel on menu, lifecycle or layout changes. Ignore touch-emulated duplicate mouse events on the chart while preserving native button input.
