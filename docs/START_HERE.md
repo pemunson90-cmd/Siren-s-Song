@@ -2,7 +2,7 @@
 
 ## Current stage
 
-Active persistent production Gauntlet in Godot 4.6.3. The [phone dashboard](PHONE_DASHBOARD.md) is the canonical current source/build/evidence entry. Accepted native touch build is f1ea536 (runtime92625ac); published source also contains unpromoted finale work. The user has paused improvements for original-prototype handoff ingestion and mechanics audit. Safe production source is 8d8635a; density WIP is parked separately as 2fc0976. Read WORKBENCH/CONTINUATION for the precise active checkpoint; historical imports remain immutable.
+Active persistent production Gauntlet in Godot 4.6.3. The [phone dashboard](PHONE_DASHBOARD.md) is the canonical current source/build/evidence entry. Accepted native touch build is f1ea536 (runtime92625ac); published source also contains unpromoted finale work. The user has paused improvements for original-prototype handoff ingestion and mechanics audit. Safe production source is 8d8635a; ratified Addendum A is next after verified import/audit publication, before density WIP parked separately as 2fc0976. Addendum B governs future critic references. Read WORKBENCH/CONTINUATION for the precise active checkpoint; historical imports remain immutable.
 
 ## Read order
 
