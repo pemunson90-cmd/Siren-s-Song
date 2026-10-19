@@ -3,7 +3,7 @@ Status: actionable inventory grounded in playable `reference/original-prototype/
 
 | Feature | v7 evidence | Current Godot interpretation | Disposition |
 | --- | --- | --- | --- |
-| Knockdown torpedo | Functional target mode/selection, two charges, ~150 original-scale range, 8s pinned stun, suspicion/Hunt costs, visual/audio effect | Absent; EMP radial 340 world units/12s is different | **Restore** as distinct single-target control; translate scale and balance by play |
+| Knockdown torpedo | Functional instant target pin/selection, two charges, ~150 original-scale range, 8s stun, suspicion/Hunt costs, visual/audio effect | Absent; EMP radial 340 world units/12s is different | **Restore/adapt under newer explicit user direction:** physical Quietus-launched, audible steering projectile; LOS launch, travel/terrain misses, impact cable snare with2D sink/fade/recovery; preserve flight saves and translate balance by play |
 | Speed-based acoustic signature | Continuous speed-squared hearing/footprint; silent behavior distinct | Mostly velocity threshold at 50 and 430 hearing; silent/cruise visual radii 180/290 | **Adapt** continuous acoustic field and truthful feedback |
 | Amber noise/range footprint | Live radius and planning guides | Own noise events/indicators, missing proportional propulsion ring | **Restore/adapt** |
 | Acoustic around terrain | Earlier action sound cover attenuation; current Godot 0.36 blanket obstruction factor, direct velocity hearing | Geometric multi-path around cover not present | **New approved direction:** seeded ambiguity tied to acoustic paths |
