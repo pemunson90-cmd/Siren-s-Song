@@ -29,13 +29,20 @@ adb shell settings put system accelerometer_rotation 0
 adb shell settings put system user_rotation 1
 adb shell settings put secure immersive_mode_confirmations confirmed
 launch() {
+    local was_running=false screen_before screen_after target_before target_after
+    if adb shell pidof "$package" >/dev/null; then was_running=true; fi
+    adb logcat -d >"$output/prelaunch-$1.txt"
+    screen_before="$(grep -c 'SS_SCREEN' "$output/prelaunch-$1.txt" || true)"
+    target_before="$(grep -c 'SS_TARGET' "$output/prelaunch-$1.txt" || true)"
     adb shell am start -W -n "$component" | tee "$output/launch-$1.txt"
     ready=false
     for ((attempt=0; attempt<30; attempt++)); do
         adb logcat -d >"$output/readiness-$1.txt"
+        screen_after="$(grep -c 'SS_SCREEN' "$output/readiness-$1.txt" || true)"
+        target_after="$(grep -c 'SS_TARGET' "$output/readiness-$1.txt" || true)"
         if adb shell pidof "$package" >"$output/pid-$1.txt" && \
-            grep -q 'SS_SCREEN' "$output/readiness-$1.txt" && \
-            grep -q 'SS_TARGET' "$output/readiness-$1.txt"; then
+            (( screen_after > 0 && target_after > 0 )) && \
+            { "$was_running" || (( screen_after > screen_before && target_after > target_before )); }; then
             ready=true
             break
         fi
