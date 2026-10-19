@@ -46,7 +46,7 @@ class TouchMetricsTests(unittest.TestCase):
         self.assertEqual(self.invoke(value,transport=chunked(value)+'SS_VIEW changed\n').returncode,2)
 
     def test_retained_truncated_native_record_is_rejected(self):
-        raw=(CHECKER.parents[2]/'docs/validation/android-39227185627/native-excerpt.log').read_text()
+        raw=(CHECKER.parent/'fixtures/truncated-native-ui-metrics.log').read_text()
         line=next(x for x in raw.splitlines() if 'I godot' in x and 'SS_UI_METRICS ' in x)
         self.assertEqual(len(line.split('SS_UI_METRICS ')[1]),1009)
         result=self.invoke(self.layout(),suffix=line+'\n')
