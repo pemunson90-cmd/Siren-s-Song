@@ -1,0 +1,20 @@
+{
+  "audit_sha256": "d11cc7b1c1a806c987f8fea2cf57e43138ff85cd8788e5b91ec0353a221ed61b",
+  "final_card": "User final attachment, byte-for-byte copy; earlier card superseded",
+  "published_checkpoints": {
+    "gauntlet/production": "56ef1f07dbdce72dd22aa32296a72cc6a8e36146",
+    "gauntlet/feature/earned-terrain-chart": "71d8fc234dd52c7ded10b59d22e874fafb06c93f",
+    "gauntlet/feature/observed-task-execution": "09e458ea5cfa1e7ef41a7f7957ad3adffebbb419",
+    "gauntlet/feature/earned-chart-world": "55bc0b06d8cdcb0beb4bba6b6f0c51b57d9da301",
+    "gauntlet/feature/observed-task-controls": "8f7978b88a280848977c5a9b22e74425b0d69c12",
+    "gauntlet/feature/blind-passage-main": "166081fcc14fc56dbed2bf57cb67a1ffb6a0b076",
+    "gauntlet/review/blind-passage-main-play": "4bc2746ef79ba3e2118383abf88a912a56c19dc2",
+    "gauntlet/fix/save-tick-phase": "640e399011b09c34bd32751359c257cbdb7478cb",
+    "gauntlet/feature/blind-passage-content": "7fe12f824c8e1ae2e4d839a417eaa39da3030390",
+    "gauntlet/review/observed-task-and-save": "49fb5941757a53a5ac5fa8ff4a462ccbdf72975a",
+    "gauntlet/checkpoint/pre-claude-guidance": "66c88d19fdfc2a4e32f39f5761bfd08cf9650435"
+  },
+  "verification": "All refs independently matched git ls-remote after worker pushes. No gameplay merge performed during pause.",
+  "working_state": "Workers report tracked-clean checkpoints. Generated Godot UID sidecars/caches and external evidence remain preserved in existing workspace; raw external evidence is separate from published source.",
+  "shelved": "Observed-task automation/TASK-NONE and new chapter14 branches; preserve source for selective future reuse under revised passes."
+}
