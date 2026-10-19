@@ -4,6 +4,9 @@ static func advance(s,seconds: float) -> void:
 	for n in int(round(seconds*10)): s.advance(0.1)
 static func fixture(role: String):
 	var s=Simulation.new(); s.start(0)
+	# Exact historical heard-point assertions preserve legacy active-role archives.
+	# Fresh terrain-arrival rules are exercised in acoustic_hearing_tests.gd.
+	s.mission.erase("acoustic_revision")
 	s.mission.rocks=[]; s.mission.erase("structures"); s._build_navigation()
 	s.units[0].pos=Vector2(140,850); s.units[1].alive=false; s.units[2].alive=false
 	var guard=s.sirens[0]

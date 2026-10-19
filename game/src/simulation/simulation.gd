@@ -1,4 +1,5 @@
 extends RefCounted
+const Acoustics = preload("res://src/simulation/acoustic_paths.gd")
 const Missions = preload("res://src/campaign/missions.gd")
 const STEP := 1.0/60.0
 const TILE := 40.0
@@ -30,6 +31,7 @@ var accumulator := 0.0
 var sensor_clock := 0.0
 var navigation: AStarGrid2D
 var rock_shapes: Array=[]
+var acoustic_paths=Acoustics.new()
 func start(index: int, upgrade: String = "endurance") -> void:
 	mission = Missions.make(index)
 	units.clear()
@@ -57,6 +59,9 @@ func _build_navigation() -> void:
 	for y in 24:
 		for x in 40:
 			if blocked(Vector2(x*40+20,y*40+20),21): navigation.set_point_solid(Vector2i(x,y))
+	var acoustic_shapes=rock_shapes.duplicate()
+	for r in mission.get("structures",[]):acoustic_shapes.append(PackedVector2Array([r.position,Vector2(r.end.x,r.position.y),r.end,Vector2(r.position.x,r.end.y)]))
+	acoustic_paths.configure(acoustic_shapes,BOUNDS)
 func blocked(p: Vector2, radius: float = 12.0) -> bool:
 	if p.x<radius or p.y<radius or p.x>BOUNDS.x-radius or p.y>BOUNDS.y-radius: return true
 	for structure in mission.get("structures",[]):
@@ -246,11 +251,11 @@ func _noise(p: Vector2,radius: float,label: String,duration: float=2.0) -> void:
 # Own known emissions only. Reception and enemy reaction remain sensor evidence.
 # Derive from existing clocks so pause/restore need no extra lifetime state.
 func acoustic_feedback() -> Dictionary:
-	var result={"motion":[],"pulses":[],"responses":[]}
+	var result={"motion":[],"pulses":[],"responses":[],"revision":mission.get("acoustic_revision",0)}
 	for u in units:
 		# Match actual movement hearing, including residual speed after SILENT.
-		if u.alive and u.vel.length()>50:
-			result.motion.append({"name":u.name,"pos":u.pos})
+		if u.alive and (u.vel.length()>0.0 if mission.get("acoustic_revision",0)==1 else u.vel.length()>50):
+			result.motion.append({"name":u.name,"pos":u.pos,"radius":Acoustics.motion_radius(u.vel.length()) if mission.get("acoustic_revision",0)==1 else 430.0,"speed":u.vel.length()})
 	for n in noises:
 		if n.time<=0: continue
 		if n.label in ["DECOY","ACTIVE SONAR","RECON UPLINK","DISRUPTION","CAMERA"]:
@@ -380,12 +385,17 @@ func _threats(dt: float) -> void:
 			var dist=s.pos.distance_to(u.pos)
 			var radius=180.0 if u.silent else 290.0
 			if dist<radius and line_clear(s.pos,u.pos): detected=i; break
-			if u.vel.length()>50 and dist<430:
+			if mission.get("acoustic_revision",0)!=1 and u.vel.length()>50 and dist<430:
 				s.goal=u.pos; heard=true; s.mode="INVESTIGATE"; s.suspicion=maxf(s.suspicion,0.3)
-		for noise in noises:
-			var acoustic=1.0 if line_clear(s.pos,noise.pos) else 0.36
-			if s.pos.distance_to(noise.pos)<noise.radius*acoustic:
-				s.goal=noise.pos; heard=true; s.mode="INVESTIGATE"; s.suspicion=maxf(s.suspicion,0.45)
+		if mission.get("acoustic_revision",0)==1:
+			var arrival=_heard_arrival(s)
+			if not arrival.is_empty():
+				s.goal=arrival.goal;heard=true;s.mode="INVESTIGATE";s.suspicion=maxf(s.suspicion,arrival.suspicion)
+		else:
+			for noise in noises:
+				var acoustic=1.0 if line_clear(s.pos,noise.pos) else 0.36
+				if s.pos.distance_to(noise.pos)<noise.radius*acoustic:
+					s.goal=noise.pos; heard=true; s.mode="INVESTIGATE"; s.suspicion=maxf(s.suspicion,0.45)
 		if heard:
 			s["last_known"]=s.goal; s["attention_time"]=12.0; s["search_index"]=0
 		if detected>=0:
@@ -419,6 +429,21 @@ func _threats(dt: float) -> void:
 		var speed=48.0 if s.suspicion>0.1 else 25.0
 		if s.get("type","")=="hunter": speed=38.0 if s.mode in ["RETURN","DORMANT"] else 64.0
 		_move(s,dt,speed,false,false)
+
+func _heard_arrival(s:Dictionary)->Dictionary:
+	# Never consult player contacts or a hidden exact destination. A listener
+	# receives only supported water-path arrivals; visual acquisition stays separate.
+	var best:Dictionary={}
+	for u in units:
+		if not u.alive:continue
+		var arrival=Acoustics.choose(acoustic_paths.arrivals(s.pos,u.pos,Acoustics.motion_radius(u.vel.length())),int(s.patrol))
+		if not arrival.is_empty() and (best.is_empty() or arrival.strength>best.strength):
+			best=arrival;best["suspicion"]=0.3
+	for noise in noises:
+		var arrival=Acoustics.choose(acoustic_paths.arrivals(s.pos,noise.pos,noise.radius),int(s.patrol))
+		if not arrival.is_empty() and (best.is_empty() or arrival.strength>best.strength):
+			best=arrival;best["suspicion"]=0.45
+	return best
 
 func _visual_pursuit(s: Dictionary,target: Vector2,dt: float) -> void:
 	# Port station-role pursuit without the v7 straight-line overlap. The beam's
@@ -508,6 +533,7 @@ static func valid_snapshot(data: Dictionary) -> bool:
 			if not structure is Rect2: return false
 	for o in data.mission.objectives:
 		if not o is Dictionary or not o.has_all(["pos","name","captured"]) or not o.pos is Vector2: return false
+	if data.mission.has("acoustic_revision") and (not data.mission.acoustic_revision is int or data.mission.acoustic_revision!=1):return false
 	if data.mission.has("well_revision"):
 		if data.mission.id!=4 or not data.mission.well_revision is int or data.mission.well_revision!=1 or data.mission.objectives.size()!=3 or not data.mission.get("well_reference") is Dictionary or not data.mission.get("well_observation") is Dictionary:return false
 		var reference=data.mission.well_reference;var observation=data.mission.well_observation;var time=data.get("elapsed",0.0)

@@ -1,0 +1,38 @@
+{
+	"actions": [
+		[
+			"silent",
+			{
+
+			}
+		],
+		[
+			"route",
+			{
+				"point": "(1350.0, 800.0)"
+			}
+		],
+		[
+			"decoy",
+			{
+				"point": "(900.0, 500.0)"
+			}
+		],
+		[
+			"ping",
+			{
+
+			}
+		],
+		[
+			"recon",
+			{
+
+			}
+		]
+	],
+	"clip_seconds": 12,
+	"fixture": "none: ordinary current mission3 and production commands, no state/knowledge/enemy/outcome edits",
+	"fps": 15,
+	"warmup_seconds": 8
+}

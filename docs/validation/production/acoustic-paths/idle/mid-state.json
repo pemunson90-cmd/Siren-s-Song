@@ -1,0 +1,132 @@
+{
+	"contacts": {
+
+	},
+	"feedback": {
+		"motion": [],
+		"pulses": [],
+		"responses": [],
+		"revision": 1
+	},
+	"hull": 100.0,
+	"threats": [
+		{
+			"angle": 1.44278609752655,
+			"attention_time": 0.0,
+			"goal": "(800.0, 300.0)",
+			"home": "(620.0, 130.0)",
+			"lock": 0.0,
+			"mode": "PATROL",
+			"path_time": 0.100000000000002,
+			"patrol": 0,
+			"patrol_index": 3,
+			"patrol_points": [
+				"(620.0, 130.0)",
+				"(800.0, 130.0)",
+				"(800.0, 300.0)",
+				"(420.0, 200.0)"
+			],
+			"pos": "(783.1354, 168.9763)",
+			"route": [
+				{
+					"pos": "(800.0, 300.0)",
+					"stop": true
+				}
+			],
+			"stun": 0.0,
+			"suspicion": 0.0,
+			"target": -1,
+			"type": "patroller",
+			"vel": "(3.191523, 24.79545)"
+		},
+		{
+			"angle": 0.0,
+			"attention_time": 0.0,
+			"goal": "(800.0, 600.0)",
+			"home": "(800.0, 600.0)",
+			"lock": 0.0,
+			"mode": "DORMANT",
+			"path_time": 0.0,
+			"patrol": 1,
+			"patrol_index": 0,
+			"patrol_points": [
+				"(890.0, 130.0)",
+				"(1060.0, 360.0)",
+				"(1180.0, 400.0)",
+				"(1150.0, 740.0)"
+			],
+			"pos": "(800.0, 600.0)",
+			"route": [],
+			"stun": 0.0,
+			"suspicion": 0.0,
+			"target": -1,
+			"type": "hunter",
+			"vel": "(0.0, 0.0)"
+		},
+		{
+			"angle": 0.0384432971477509,
+			"attention_time": 0.0,
+			"goal": "(1420.0, 140.0)",
+			"home": "(1160.0, 130.0)",
+			"lock": 0.0,
+			"mode": "PATROL",
+			"path_time": 0.0500000000000021,
+			"patrol": 2,
+			"patrol_index": 2,
+			"patrol_points": [
+				"(1160.0, 130.0)",
+				"(1420.0, 140.0)",
+				"(1450.0, 480.0)",
+				"(1380.0, 780.0)"
+			],
+			"pos": "(1352.635, 137.409)",
+			"route": [
+				{
+					"pos": "(1420.0, 140.0)",
+					"stop": true
+				}
+			],
+			"stun": 0.0,
+			"suspicion": 0.0,
+			"target": -1,
+			"type": "patroller",
+			"vel": "(24.98153, 0.960846)"
+		}
+	],
+	"time": 7.99999999999998,
+	"units": [
+		{
+			"alive": true,
+			"angle": -0.3,
+			"battery": 100.0,
+			"hold": "",
+			"name": "QUIETUS",
+			"pos": "(140.0, 800.0)",
+			"route": [],
+			"silent": true,
+			"vel": "(0.0, 0.0)"
+		},
+		{
+			"alive": true,
+			"angle": -0.3,
+			"battery": 99.4285714285729,
+			"hold": "",
+			"name": "DRONE A",
+			"pos": "(140.0, 700.0)",
+			"route": [],
+			"silent": true,
+			"vel": "(0.0, 0.0)"
+		},
+		{
+			"alive": true,
+			"angle": -0.3,
+			"battery": 99.4285714285729,
+			"hold": "",
+			"name": "DRONE B",
+			"pos": "(280.0, 800.0)",
+			"route": [],
+			"silent": true,
+			"vel": "(0.0, 0.0)"
+		}
+	]
+}

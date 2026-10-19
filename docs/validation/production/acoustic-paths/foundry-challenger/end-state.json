@@ -1,0 +1,139 @@
+{
+	"contacts": {
+		"0": {
+			"angle": -1.08582246303559,
+			"lock": 0.0,
+			"mode": "INVESTIGATE",
+			"pos": "(914.2339, 536.6048)",
+			"target": -1,
+			"time": 7.84999999999998,
+			"type": "sentinel"
+		},
+		"1": {
+			"angle": -1.57329750061035,
+			"lock": 0.0,
+			"mode": "INVESTIGATE",
+			"pos": "(1048.484, 764.767)",
+			"target": -1,
+			"time": 7.84999999999998,
+			"type": "sentinel"
+		}
+	},
+	"hull": 100.0,
+	"outcome": "",
+	"sirens": [
+		{
+			"angle": -13.9131683190558,
+			"attention_time": 0.0,
+			"goal": "(960.0, 260.0)",
+			"home": "(960.0, 260.0)",
+			"last_known": "(957.345, 501.6743)",
+			"lock": 0.0,
+			"mode": "RETURN",
+			"path_time": 1.03333333333334,
+			"patrol": 0,
+			"patrol_index": 0,
+			"patrol_points": [
+				"(960.0, 260.0)",
+				"(1040.0, 460.0)",
+				"(1080.0, 580.0)",
+				"(1080.0, 840.0)"
+			],
+			"pos": "(943.9573, 330.4178)",
+			"route": [
+				{
+					"pos": "(960.0, 260.0)",
+					"stop": true
+				}
+			],
+			"search_index": 0,
+			"stun": 0.0,
+			"suspicion": 0.374500000000008,
+			"target": -1,
+			"tether": 190.0,
+			"type": "sentinel",
+			"vel": "(10.66226, -46.80081)"
+		},
+		{
+			"angle": 1.02391195297241,
+			"attention_time": 0.0,
+			"goal": "(1320.0, 820.0)",
+			"home": "(1320.0, 820.0)",
+			"last_known": "(850.4963, 459.2086)",
+			"lock": 0.0,
+			"mode": "RETURN",
+			"path_time": 1.03333333333334,
+			"patrol": 1,
+			"patrol_index": 0,
+			"patrol_points": [
+				"(1320.0, 820.0)",
+				"(1450.0, 840.0)",
+				"(1510.0, 880.0)",
+				"(1150.0, 860.0)"
+			],
+			"pos": "(1004.521, 568.8754)",
+			"route": [
+				{
+					"pos": "(1060.0, 660.0)",
+					"stop": false
+				},
+				{
+					"pos": "(1100.0, 780.0)",
+					"stop": false
+				},
+				{
+					"pos": "(1320.0, 820.0)",
+					"stop": true
+				}
+			],
+			"search_index": 0,
+			"stun": 0.0,
+			"suspicion": 0.374500000000008,
+			"target": -1,
+			"tether": 190.0,
+			"type": "sentinel",
+			"vel": "(24.96137, 40.99915)"
+		}
+	],
+	"time": 20.0000000000001,
+	"tools": {
+		"decoy": 2,
+		"emp": 2,
+		"recon": 1
+	},
+	"units": [
+		{
+			"alive": true,
+			"angle": -0.0576251335442066,
+			"battery": 100.0,
+			"hold": "",
+			"name": "QUIETUS",
+			"pos": "(1342.761, 800.4176)",
+			"route": [],
+			"silent": false,
+			"vel": "(0.0, 0.0)"
+		},
+		{
+			"alive": true,
+			"angle": -0.3,
+			"battery": 98.5714285714323,
+			"hold": "",
+			"name": "DRONE A",
+			"pos": "(140.0, 700.0)",
+			"route": [],
+			"silent": true,
+			"vel": "(0.0, 0.0)"
+		},
+		{
+			"alive": true,
+			"angle": -0.3,
+			"battery": 98.5714285714323,
+			"hold": "",
+			"name": "DRONE B",
+			"pos": "(280.0, 800.0)",
+			"route": [],
+			"silent": true,
+			"vel": "(0.0, 0.0)"
+		}
+	]
+}

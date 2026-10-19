@@ -1,0 +1,6 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+FAIL idle means zero propulsion, never safe
+FAIL instrument exposes measured open-water own footprint
+FAIL footprint explicitly qualifies terrain uncertainty
+ACOUSTIC FOOTPRINT CHECKS 5 FAILURES 3
