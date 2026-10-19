@@ -75,6 +75,8 @@ while IFS='|' read -r scenario summary; do
     }
 done <<'TACTICAL_SCENARIOS'
 turn_safe_navigation_tests|TURN SAFE NAVIGATION
+expanded_region_tests|EXPANDED REGION
+expanded_region_journeys|EXPANDED JOURNEYS
 route_program_tests|ROUTE PROGRAM
 drone_operations_tests|DRONE OPERATIONS
 drone_operations_ui_tests|DRONE OPERATIONS UI

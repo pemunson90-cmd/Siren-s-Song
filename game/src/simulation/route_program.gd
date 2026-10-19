@@ -9,18 +9,18 @@ static func goals(unit:Dictionary) -> Array:
  if unit.has("route_plan"):return unit.route_plan.duplicate(true)
  if unit.route.is_empty():return []
  return [{"pos":unit.route.back().pos,"stop":bool(unit.route.back().stop),"mode":"inherit","legacy":true}]
-static func valid_goals(value) -> bool:
+static func valid_goals(value,world_size:Vector2=Vector2(1600,960)) -> bool:
  if not value is Array or value.size()>MAX_GOALS:return false
  for goal in value:
   if not goal is Dictionary or not goal.has_all(["pos","stop","mode"]):return false
   if not goal.pos is Vector2 or not goal.pos.is_finite() or not goal.stop is bool or goal.mode not in MODES:return false
   if goal.has("legacy") and not goal.legacy is bool:return false
   if goal.has("arrival_set") and not goal.arrival_set is bool:return false
-  if goal.pos.x<12 or goal.pos.y<12 or goal.pos.x>1588 or goal.pos.y>948:return false
+  if goal.pos.x<12 or goal.pos.y<12 or goal.pos.x>world_size.x-12 or goal.pos.y>world_size.y-12:return false
  return true
-static func compile(origin:Vector2,plan:Array,pathfinder:Callable) -> Dictionary:
+static func compile(origin:Vector2,plan:Array,pathfinder:Callable,world_size:Vector2=Vector2(1600,960)) -> Dictionary:
  var route:Array=[]
- if not valid_goals(plan):return {"ok":false}
+ if not valid_goals(plan,world_size):return {"ok":false}
  for goal in plan:
   var leg:Array=pathfinder.call(origin,goal.pos)
   if leg.is_empty():return {"ok":false}
@@ -28,13 +28,13 @@ static func compile(origin:Vector2,plan:Array,pathfinder:Callable) -> Dictionary
   leg.back().stop=goal.stop;leg.back().goal=true
   route.append_array(leg);origin=goal.pos
  return {"ok":true,"route":route}
-static func valid_unit(unit:Dictionary,quietus:bool=true) -> bool:
- if unit.has("route_plan") and not valid_goals(unit.route_plan):return false
+static func valid_unit(unit:Dictionary,quietus:bool=true,world_size:Vector2=Vector2(1600,960)) -> bool:
+ if unit.has("route_plan") and not valid_goals(unit.route_plan,world_size):return false
  if not quietus and unit.has("route_plan") and unit.route_plan.any(func(goal):return goal.mode!="inherit"):return false
  if unit.has("route_undo"):
   if not unit.route_undo is Array or unit.route_undo.size()>MAX_UNDO:return false
   for plan in unit.route_undo:
-   if not valid_goals(plan) or (not quietus and plan.any(func(goal):return goal.mode!="inherit")):return false
+   if not valid_goals(plan,world_size) or (not quietus and plan.any(func(goal):return goal.mode!="inherit")):return false
  var goal_index=0
  for node in unit.route:
   if node.has("mode") and (node.mode not in MODES or (not quietus and node.mode!="inherit")):return false

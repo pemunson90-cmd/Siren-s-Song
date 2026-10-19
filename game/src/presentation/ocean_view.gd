@@ -136,16 +136,17 @@ func _draw() -> void:
 	_sync_camera()
 	draw_rect(Rect2(Vector2.ZERO,size),Color("050f17"))
 	draw_set_transform(world_offset,0,Vector2.ONE*world_scale)
-	draw_texture_rect(ocean,Rect2(0,0,1600,960),false)
+	var region=sim.world_size()
+	draw_texture_rect_region(ocean,Rect2(Vector2.ZERO,region),Rect2(Vector2.ZERO,region/2.0))
 	# Cartographic graticule, subordinate to the physical water and stone.
-	for x in range(0,1601,160):
-		draw_line(Vector2(x,0),Vector2(x,960),Color(0.3,0.65,0.67,0.06),1)
-	for y in range(0,961,160):
-		draw_line(Vector2(0,y),Vector2(1600,y),Color(0.3,0.65,0.67,0.06),1)
+	for x in range(0,int(region.x)+1,160):
+		draw_line(Vector2(x,0),Vector2(x,region.y),Color(0.3,0.65,0.67,0.06),1)
+	for y in range(0,int(region.y)+1,160):
+		draw_line(Vector2(0,y),Vector2(region.x,y),Color(0.3,0.65,0.67,0.06),1)
 	# Depth contours and abyssal fissures occupy the navigable seabed.
-	for n in 7:
+	for n in int(ceil(region.y/135.0)):
 		var points=PackedVector2Array()
-		for k in 45:
+		for k in int(ceil(region.x/38.0))+1:
 			points.append(Vector2(k*38,80+n*135+sin(k*0.19+n)*32))
 		draw_polyline(points,Color(0.12,0.3,0.33,0.11),1.2)
 	# Briefed environment only; no listener positions or hidden arrival paths.
@@ -183,8 +184,11 @@ func _draw() -> void:
 		draw_line(o.pos+Vector2(0,-14),o.pos+Vector2(0,14),c,1)
 		if not o.captured: _label(o.pos+Vector2(50,-5),o.name,c,17)
 	# Physical chart is retained. Unknown water, shadows, and contact memory remain separate.
-	for y in 24:
-		for x in 40:
+	var low=Vector2i((-world_offset/world_scale)/40.0).max(Vector2i.ZERO)
+	var high=Vector2i((size-world_offset)/world_scale/40.0)+Vector2i.ONE
+	high=high.min(Vector2i(region/40.0))
+	for y in range(low.y,high.y):
+		for x in range(low.x,high.x):
 			var key=Vector2i(x,y); var p=Vector2(x*40+20,y*40+20)
 			var alpha=0.38 if not sim.known.has(key) else (0.0 if sim.visible(p) else 0.20)
 			if alpha>0: draw_rect(Rect2(x*40,y*40,40,40),Color(0.005,0.014,0.025,alpha))
@@ -275,9 +279,9 @@ func _draw() -> void:
 			draw_circle(n.pos,4,Color("e1b66e"))
 	# Sediment, restrained wake, and instrument ticks live above the physical view.
 	for i in 70:
-		var p=Vector2(fmod(i*241.17+phase*2,1600),fmod(i*137.3+phase*0.7,960))
+		var p=Vector2(fmod(i*241.17+phase*2,region.x),fmod(i*137.3+phase*0.7,region.y))
 		draw_circle(p,0.7+float(i%3)*0.35,Color(0.48,0.7,0.7,0.11))
-	draw_rect(Rect2(0,0,1600,960),Color(0.3,0.7,0.7,0.19),false,2)
+	draw_rect(Rect2(Vector2.ZERO,region),Color(0.3,0.7,0.7,0.19),false,2)
 	draw_set_transform(Vector2.ZERO,0,Vector2.ONE)
 	_draw_ship_instrument()
 	# Short screen-sized tags preserve observed identity without long world labels.
