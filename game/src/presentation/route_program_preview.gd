@@ -94,7 +94,7 @@ func _draw():
   var goal=goals[n];var p=chart_camera.to_screen(goal.pos)
   var color=Color("88ded6") if goal.mode!="cruise" else Color("e2c586")
   draw_circle(p,8 if n==selected_goal else 5,color,false,2)
-  draw_string(font,p+Vector2(10,0),str(n+1),HORIZONTAL_ALIGNMENT_LEFT,-1,16,color)
+  draw_string(font,p+Vector2(10,0),str(n+1)+(" · WORK" if goal.has("task_site") else ""),HORIZONTAL_ALIGNMENT_LEFT,-1,16,color)
  draw_circle(chart_camera.to_screen(u.pos),5,Color.WHITE)
  draw_rect(chart_rect(),Color("40646b"),false,1)
  var hint="%.1f× · DRAG / PINCH"%chart_camera.zoom
