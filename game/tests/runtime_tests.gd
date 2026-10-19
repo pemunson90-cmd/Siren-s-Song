@@ -7,11 +7,16 @@ func check(value: bool,label: String) -> void:
 	if not value: failures+=1; printerr("FAIL: ",label)
 func _initialize() -> void: call_deferred("run")
 func click(p: Vector2) -> void:
-	var down=InputEventMouseButton.new(); down.position=p; down.button_index=MOUSE_BUTTON_LEFT; down.pressed=true
+	var down=InputEventMouseButton.new(); down.position=p; down.global_position=p; down.button_index=MOUSE_BUTTON_LEFT; down.button_mask=MOUSE_BUTTON_MASK_LEFT; down.pressed=true
 	var motion=InputEventMouseMotion.new(); motion.position=p; motion.global_position=p; root.push_input(motion,true)
 	root.push_input(down,true); await process_frame
-	var up=InputEventMouseButton.new(); up.position=p; up.button_index=MOUSE_BUTTON_LEFT; up.pressed=false
+	var up=InputEventMouseButton.new(); up.position=p; up.global_position=p; up.button_index=MOUSE_BUTTON_LEFT; up.pressed=false
 	root.push_input(up,true); await process_frame
+func select_craft(index:int) -> void:
+	if game.advanced_orders:game.mission_hud.dismiss()
+	await click(game.advanced_button.get_global_rect().get_center());await process_frame
+	await click(game.unit_buttons[index].get_global_rect().get_center());await process_frame
+	await click(game.mission_hud.close_button.get_global_rect().get_center());await process_frame
 func run() -> void:
 	# A headless DisplayServer starts at 64x64. Declare the physical input fixture
 	# before creating density-sized controls, as later resize cases already do.
@@ -30,13 +35,13 @@ func run() -> void:
 	await process_frame; await process_frame
 	game._start_mission(0); await process_frame
 	print("UI root=",root.size," game=",game.size," drone=",game.unit_buttons[1].get_global_rect())
-	await click(game.unit_buttons[1].get_global_rect().get_center())
+	await select_craft(1)
 	check(game.sim.selected==1,"actual pointer input selects independent drone")
 	var destination=Vector2(320,800)
 	var screen_point=game.ocean.global_position+game.ocean.world_offset+destination*game.ocean.world_scale
 	await click(screen_point)
 	check(not game.sim.units[1].route.is_empty(),"actual map tap issues route to selected drone")
-	await click(game.unit_buttons[0].get_global_rect().get_center())
+	await select_craft(0)
 	check(game.sim.selected==0 and not game.sim.queue_mode,"actual sub selection clears queue mode")
 	await click(game.pause_button.get_global_rect().get_center())
 	check(not game.sim.paused,"actual pause button starts simulation")
@@ -45,7 +50,7 @@ func run() -> void:
 	check(game.sim.paused and before==game.sim.snapshot(),"application suspend freezes active mission")
 	game.sim.units[1].pos=Vector2(1300,510); game.sim.command("select",{"unit":1}); game.sim.command("camera"); await process_frame
 	check(game.ocean.optical_feed.visible,"optical inset belongs to the currently operated camera station")
-	await click(game.unit_buttons[0].get_global_rect().get_center()); await process_frame
+	await select_craft(0); await process_frame
 	check(not game.ocean.optical_feed.visible and game.sim.capture_unit==1,"switch to submarine clears camera overlay while exposure continues")
 	game._start_mission(0); game.sim.command("route",{"point":Vector2(360,800)}); game._show_campaign(); await process_frame
 	var has_resume=false
@@ -58,12 +63,12 @@ func run() -> void:
 	for dimensions in [Vector2i(1280,720),Vector2i(2520,1080),Vector2i(2184,1968),Vector2i(960,540)]:
 		root.size=dimensions; await process_frame; await process_frame
 		game._layout()
-		var all=game.unit_buttons.duplicate(); all.append(game.pause_button); all.append_array(game.order_buttons.values()); all.append_array(game.zoom_buttons)
+		var all=game.mission_hud.action_controls().values()
 		for button in all:
 			var rect=button.get_global_rect()
 			check(Rect2(Vector2.ZERO,game.size).encloses(rect),"%s button %s remains inside viewport"%[dimensions,button.text])
 			check(button.size.y>=44,"%s button %s has logical touch height"%[dimensions,button.text])
-		check(not Rect2(game.ocean.position,game.ocean.size).intersects(game.pause_button.get_global_rect()),"%s map and pause controls do not overlap"%dimensions)
+		check(game.mission_hud.blocks(game.pause_button.get_global_rect().get_center()),"%s persistent pause owns input above full-bleed water"%dimensions)
 	await preload("res://tests/observed_contact_ui_scenarios.gd").run(self,game)
 	await preload("res://tests/acoustic_ui_scenarios.gd").run(self,game)
 	await preload("res://tests/touch_navigation_scenarios.gd").run(self,game)

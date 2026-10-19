@@ -84,6 +84,8 @@ blackwater_courier_tests|COURIER
 route_program_ui_tests|ROUTE PROGRAM UI
 planner_navigation_ui_tests|PLANNER NAVIGATION
 planner_space_ui_tests|PLANNER SPACE UI
+playfield_hud_tests|PLAYFIELD HUD
+radial_hud_tests|RADIAL HUD
 planner_metrics_tests|PLANNER METRICS
 acoustic_path_tests|ACOUSTIC PATH
 acoustic_hearing_tests|ACOUSTIC HEARING

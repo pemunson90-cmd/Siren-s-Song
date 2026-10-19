@@ -17,9 +17,9 @@ static func run(t,game) -> void:
 	var point=Vector2(800,480)
 	t.check(ocean.map_position(ocean.screen_position(point)).distance_to(point)<0.01,"world and input transform agree after zoom and pan")
 	t.check(game.sim.snapshot()==snapshot,"chart navigation does not change paused simulation or observations")
-	t.check(game.zoom_buttons.size()==3 and game.zoom_buttons.all(func(b):return b.size.y>=44),"zoom out/in/FIT have visible touch targets")
+	t.check(game.zoom_buttons[2].is_visible_in_tree() and game.mission_hud.focus_button.is_visible_in_tree() and game.zoom_buttons[2].size.y>=44,"FIT and FOCUS have visible touch targets; pinch owns zoom")
 	ocean.fit_chart(); game.sim.command("queue")
-	var destination=Vector2(320,800); var p=ocean.global_position+ocean.screen_position(destination)
+	var destination=Vector2(480,850); var p=ocean.global_position+ocean.screen_position(destination)
 	await touch(t,0,p,true); await touch(t,0,p,false)
 	# Android may emit a mouse event for the same real finger. Never append it twice.
 	var mouse=InputEventMouseButton.new(); mouse.device=InputEvent.DEVICE_ID_EMULATION; mouse.position=p; mouse.button_index=MOUSE_BUTTON_LEFT; mouse.pressed=true
@@ -50,8 +50,10 @@ static func run(t,game) -> void:
 	await touch(t,0,p,true); await touch(t,0,p,false)
 	t.check(game.sim.units[0].route[-1].pos.distance_to(destination)<1,"cutout-inset root maps global touch release to the same world destination")
 	game.position=root_position
-	ocean.fit_chart(); await t.click(game.zoom_buttons[1].get_global_rect().get_center())
-	t.check(ocean.chart_camera.zoom>1,"actual pointer tap on plus zooms the chart")
+	ocean.fit_chart()
+	var wheel=InputEventMouseButton.new();wheel.button_index=MOUSE_BUTTON_WHEEL_UP;wheel.position=ocean.global_position+ocean.size/2;wheel.pressed=true;t.root.push_input(wheel,true);await t.process_frame
+	t.check(ocean.chart_camera.zoom>1,"actual chart wheel input zooms the chart")
+	wheel=wheel.duplicate();wheel.pressed=false;t.root.push_input(wheel,true);await t.process_frame
 	await t.click(game.zoom_buttons[2].get_global_rect().get_center())
 	t.check(is_equal_approx(ocean.chart_camera.zoom,1),"actual FIT tap restores the overview")
 	ocean.zoom_at(100,ocean.size/2); t.check(ocean.chart_camera.zoom==4,"chart zoom has a useful upper bound")
