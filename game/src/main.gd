@@ -42,6 +42,8 @@ var map_gesture=preload("res://src/input/map_gesture.gd").new()
 var zoom_buttons: Array=[]
 var advanced_button: Button
 var advanced_orders:=false
+var decoy_armed:=false
+var decoy_unit:=-1
 var knock_armed:=false
 var knock_press:Dictionary={}
 var ui_touch_height:=48.0
@@ -202,26 +204,33 @@ func _layout(cancel_gesture: bool=true) -> void:
 	if route_editor!=null and route_editor.visible: route_editor.configure(size,h)
 	call_deferred("_report_targets")
 func _start_mission(index: int) -> void:
-	diagnostic_ready=""; diagnostic_records.clear(); diagnostic_roles.clear(); diagnostic_role_route_ready=false; map_gesture.cancel(); ocean.fit_chart(); advanced_orders=false; knock_armed=false; ocean.knock_targeting=false
+	diagnostic_ready=""; diagnostic_records.clear(); diagnostic_roles.clear(); diagnostic_role_route_ready=false; map_gesture.cancel(); ocean.fit_chart(); advanced_orders=false; knock_armed=false; ocean.knock_targeting=false; decoy_armed=false; ocean.decoy_targeting=false
 	call_deferred("_layout")
 	if route_editor!=null: route_editor.hide()
 	active_started=true; mission_index=index; sim.start(index,upgrade); ocean.sim=sim; screen="mission"; menu.hide(); hud.show(); _refresh()
 func _order(order: String,args: Dictionary={}) -> void:
 	if order=="program":
-		knock_armed=false; ocean.knock_targeting=false
+		knock_armed=false; ocean.knock_targeting=false; decoy_armed=false; ocean.decoy_targeting=false
 		map_gesture.cancel(); sim.paused=true; screen="program"; hud.hide(); menu.hide()
 		for button in zoom_buttons: button.hide()
 		print("SS_SCREEN program paused=",sim.paused)
 		route_editor.open(self); call_deferred("_report_targets"); _save_archive(); return
+	if order=="decoy" and not args.has("point"):
+		map_gesture.cancel(); knock_armed=false; ocean.knock_targeting=false
+		if sim.units[sim.selected].alive and sim.tools.decoy>0 and sim.outcome.is_empty():decoy_armed=not decoy_armed;decoy_unit=sim.selected
+		else:decoy_armed=false;sim.message="Decoy unavailable · no charge spent"
+		_refresh(); print("SS_DECOY_AIM armed=",decoy_armed," selected=",sim.selected); call_deferred("_report_targets"); return
 	if order=="knock" and not args.has("target"):
-		map_gesture.cancel()
+		map_gesture.cancel();decoy_armed=false;ocean.decoy_targeting=false
 		if sim.selected==0 and sim.units[0].alive and sim.tools.get("knock",0)>0 and sim.outcome.is_empty(): knock_armed=not knock_armed
 		else: knock_armed=false; sim.message="Knockdown: Quietus launcher or torpedoes unavailable."
 		_refresh(); return
-	var aiming=knock_armed
-	knock_armed=false; ocean.knock_targeting=false
+	map_gesture.cancel()
+	var aiming=knock_armed;var aiming_decoy=decoy_armed
+	knock_armed=false; ocean.knock_targeting=false; decoy_armed=false; ocean.decoy_targeting=false
 	var accepted=sim.command(order,args)
 	if order=="knock" and not accepted: knock_armed=aiming
+	if order=="decoy" and not accepted:decoy_armed=aiming_decoy
 	print("SS_ORDER ",order," accepted=",accepted," selected=",sim.selected," queued=",sim.queue_mode)
 	_refresh(); _save_archive()
 	if accepted and order=="camera": call_deferred("_report_targets")
@@ -240,6 +249,8 @@ func _process(dt: float) -> void:
 		if not sim.outcome.is_empty(): _debrief()
 		_refresh()
 func _refresh() -> void:
+	if decoy_armed and (screen!="mission" or sim.selected!=decoy_unit or not sim.units[sim.selected].alive or sim.tools.decoy<=0 or not sim.outcome.is_empty()):decoy_armed=false
+	ocean.decoy_targeting=decoy_armed
 	if knock_armed and (screen!="mission" or sim.selected!=0 or not sim.units[0].alive or not sim.outcome.is_empty()): knock_armed=false
 	ocean.knock_targeting=knock_armed; ocean.knock_touch_size=ui_touch_height
 	title_label.text="SIREN'S SONG    /    %02d  %s"%[mission_index+1,sim.mission.title.to_upper()]
@@ -263,7 +274,8 @@ func _refresh() -> void:
 	order_buttons.knock.text="CANCEL\nTORPEDO" if knock_armed else "TORPEDO\n%d"%sim.tools.get("knock",0)
 	order_buttons.knock.disabled=not knock_armed and (sim.selected!=0 or not sim.units[0].alive or sim.tools.get("knock",0)<=0)
 	order_buttons.emp.text="DISRUPT\n%d"%sim.tools.emp
-	order_buttons.decoy.text="DECOY\n%d"%sim.tools.decoy
+	order_buttons.decoy.text="CANCEL\nDECOY" if decoy_armed else "DECOY\n%d"%sim.tools.decoy
+	order_buttons.decoy.disabled=sim.tools.decoy<=0 and not decoy_armed
 	order_buttons.recon.text="SURVEY\n%d"%sim.tools.recon
 	log_label.text=sim.message
 	if sim.mission.get("well_revision",0)==1 and sim.mission.objectives[0].captured:
@@ -277,9 +289,10 @@ func _refresh() -> void:
 	var goals=sim.route_goals(); var intent=""
 	if not goals.is_empty(): intent="TO 1: %s / %s · "%["FIXED96" if sim.selected>0 else goals[0].mode.to_upper(),"STOP" if goals[0].stop else "PASS"]
 	detail_label.text="%s · %s · %s%s"%[sim.units[sim.selected].name.to_upper(),mode,intent,sim.camera_context().text]
+	if decoy_armed:detail_label.text="DECOY · %s · CLEAR PATH · 160m · 15s · CANCEL"%sim.units[sim.selected].name.to_upper()
 	if knock_armed: detail_label.text="TORPEDO · QUIETUS · 150m · noisy flight · impact pins 8s · tap fresh S# · CANCEL"
 func _toggle_advanced() -> void:
-	if advanced_orders: knock_armed=false; ocean.knock_targeting=false
+	if advanced_orders: knock_armed=false; ocean.knock_targeting=false; decoy_armed=false; ocean.decoy_targeting=false; map_gesture.cancel()
 	advanced_orders=not advanced_orders; _layout(); _refresh()
 
 func _input(event: InputEvent) -> void:
@@ -308,7 +321,7 @@ func _map_event(event: InputEvent,local_event: bool=false) -> bool:
 	if kind.is_empty(): return false
 	if local_event: point+=global_position
 	if kind=="press" and not map_gesture.active():
-		knock_press={"armed":knock_armed,"key":ocean.knock_aim_key(point-ocean.global_position) if knock_armed else -1}
+		knock_press={"armed":knock_armed,"decoy":decoy_armed,"unit":sim.selected,"key":ocean.knock_aim_key(point-ocean.global_position) if knock_armed else -1}
 	var action=map_gesture.feed(kind,index,point)
 	if action.has("zoom"): ocean.zoom_at(action.zoom,action.anchor-ocean.global_position)
 	if action.has("pan"): ocean.pan_chart(action.pan)
@@ -316,6 +329,10 @@ func _map_event(event: InputEvent,local_event: bool=false) -> bool:
 	if action.has("tap") and ocean.get_global_rect().has_point(action.tap):
 		if knock_armed or knock_press.get("armed",false):
 			if knock_armed and knock_press.get("armed",false):_target_knockdown(action.tap,knock_press.get("key",-1))
+			knock_press.clear(); return true
+		if decoy_armed or knock_press.get("decoy",false):
+			if decoy_armed and knock_press.get("decoy",false) and knock_press.get("unit",-1)==sim.selected:
+				_order("decoy",{"point":ocean.map_position(action.tap-ocean.global_position)})
 			knock_press.clear(); return true
 		var world=ocean.map_position(action.tap-ocean.global_position)
 		if Rect2(0,0,1600,960).has_point(world): _order("route",{"point":world})
@@ -340,7 +357,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		if event.keycode==KEY_ESCAPE: sim.paused=true; _show_campaign()
 func _clear_menu() -> void:
 	if route_editor!=null: route_editor.hide()
-	knock_armed=false; ocean.knock_targeting=false; map_gesture.cancel()
+	knock_armed=false; ocean.knock_targeting=false; decoy_armed=false; ocean.decoy_targeting=false; map_gesture.cancel()
 	for button in zoom_buttons: button.hide()
 	for parent in [panel_box,menu_footer]:
 		for c in parent.get_children(): c.queue_free(); parent.remove_child(c)
@@ -499,7 +516,7 @@ func _settings_menu() -> void:
 func _notification(what: int) -> void:
 	if what in [NOTIFICATION_APPLICATION_PAUSED,NOTIFICATION_APPLICATION_FOCUS_OUT,NOTIFICATION_WM_WINDOW_FOCUS_OUT]:
 		if sim.mission!=null:
-			knock_armed=false; ocean.knock_targeting=false; map_gesture.cancel()
+			knock_armed=false; ocean.knock_targeting=false; decoy_armed=false; ocean.decoy_targeting=false; map_gesture.cancel()
 			sim.paused=true; _save_archive()
 			if sound!=null: sound.suspend()
 			print("SS_LIFECYCLE suspended paused=true")
@@ -554,6 +571,12 @@ func _report_targets() -> void:
 		var p=ocean.global_position+ocean.world_offset+Vector2(320,800)*ocean.world_scale
 		print("SS_TARGET route center=",roundi(p.x),",",roundi(p.y)," viewport=",roundi(get_viewport_rect().size.x),",",roundi(get_viewport_rect().size.y))
 
+		# Own launch geometry only. Keep10m inside the cap for rounded input pixels.
+		if decoy_armed:
+			var deployment=sim.units[sim.selected].pos+Vector2(150,0)
+			if sim.decoy_target_valid(deployment):
+				var mapped=ocean.global_position+ocean.screen_position(deployment)
+				print("SS_TARGET role_decoy center=",roundi(mapped.x),",",roundi(mapped.y)," viewport=",roundi(get_viewport_rect().size.x),",",roundi(get_viewport_rect().size.y))
 		if mission_index==4:
 			for action in {"role_observer":Vector2(640,850),"role_home":Vector2(140,800)}:
 				var world:Vector2={"role_observer":Vector2(640,850),"role_home":Vector2(140,800)}[action]

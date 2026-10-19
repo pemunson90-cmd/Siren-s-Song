@@ -22,7 +22,8 @@ static func play(diversion: bool=true,cruise: bool=false,existing=null):
 		s.start(4,"disruption"); s.units[1].alive=false; s.units[2].alive=false
 	for id in 3:
 		var point=[Vector2(800,390),Vector2(1150,450),Vector2(780,850)][id]
-		if id==1 and diversion: s.command("decoy",{"point":Vector2(1450,800)})
+		# Actual clear-water160m deployment; no remote API-only lure.
+		if id==1 and diversion and not s.command("decoy"): return s
 		if id==1 and cruise: s.command("silent")
 		if not travel(s,point): return s
 		if id==1 and cruise: s.command("silent")

@@ -11,6 +11,7 @@ var foundry=preload("res://assets/structures/foundry.png")
 var quietus=preload("res://assets/craft/quietus.png")
 var basalt=preload("res://assets/materials/basalt.png")
 var camera_flash := 0.0
+var decoy_targeting:=false
 var knock_targeting:=false
 var knock_touch_size:=48.0
 var feedback_font_size:=14
@@ -184,6 +185,9 @@ func _draw() -> void:
 			for n in 48:
 				var a=float(n)/48*TAU
 				draw_arc(own.pos,radius,a,a+TAU/96,3,Color(0.9,0.65,0.3,0.42),1.4)
+	# Own deployment reach only; terrain remains authoritative on an actual tap.
+	if decoy_targeting and sim.units[sim.selected].alive:
+		draw_arc(sim.units[sim.selected].pos,sim.DECOY_RANGE,0,TAU,64,Color(0.82,0.69,0.4,0.8),1.8/world_scale)
 	for i in sim.units.size():
 		var u=sim.units[i]
 		if not u.alive: continue
@@ -259,7 +263,7 @@ func _draw() -> void:
 		draw_rect(Rect2(anchor-Vector2(3,feedback_font_size),Vector2(tag_size.x+6,feedback_font_size+5)),Color(0.025,0.06,0.075,0.94))
 		draw_string(ThemeDB.fallback_font,anchor,entry.tag,HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size,Color("ed8e79") if entry.fresh else Color("b09a94"))
 	draw_rect(Rect2(12,7,minf(430,size.x-194),49),Color(0.025,0.06,0.075,0.94))
-	draw_string(ThemeDB.fallback_font,Vector2(16,26),("TAP FRESH S# · DRAG CHART · PINCH ZOOM" if knock_targeting else "TAP ROUTE · DRAG CHART · PINCH ZOOM"),HORIZONTAL_ALIGNMENT_LEFT,-1,13,Color("76959c"))
+	draw_string(ThemeDB.fallback_font,Vector2(16,26),("TAP CLEAR WATER ≤160m · DRAG/PINCH" if decoy_targeting else "TAP FRESH S# · DRAG CHART · PINCH ZOOM" if knock_targeting else "TAP ROUTE · DRAG CHART · PINCH ZOOM"),HORIZONTAL_ALIGNMENT_LEFT,-1,13,Color("76959c"))
 	draw_string(ThemeDB.fallback_font,Vector2(16,46),"CHART %.1f×"%chart_camera.zoom,HORIZONTAL_ALIGNMENT_LEFT,-1,11,Color("76959c"))
 
 	for n in acoustic.pulses:

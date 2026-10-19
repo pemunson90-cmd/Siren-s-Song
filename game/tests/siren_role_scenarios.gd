@@ -36,7 +36,8 @@ static func run(t) -> void:
 			t.check(s.sirens[0].pos.distance_to(s.sirens[0].home)<35,"hunter completes local investigation/search and returns to station")
 	t.check(distances[1]>distances[0]+5,"hunter has faster physical response than ordinary patrol under identical hearing conditions")
 	var lure=fixture("sentinel"); lure.sirens[0].pos=Vector2(760,500); lure.units[0].pos=Vector2(140,900)
-	lure.command("decoy",{"point":Vector2(600,500)}); advance(lure,1)
+	# Isolated hearing stimulus, not a claim of remote tool deployment.
+	lure._noise(Vector2(600,500),1100,"DECOY",15.0); advance(lure,1)
 	t.check(lure.sirens[0].goal.distance_to(Vector2(600,500))<1 and lure.sirens[0].pos.distance_to(lure.sirens[0].home)>190,"fresh audible lure can draw a sentinel beyond tether; it is not a hard chase leash")
 	advance(lure,30)
 	t.check(lure.sirens[0].pos.distance_to(lure.sirens[0].home)<35,"sentinel returns home after the outside lure ends")
