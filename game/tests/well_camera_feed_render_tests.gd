@@ -34,12 +34,21 @@ func run():
 	var fresh=await picture("fresh-well")
 	check(game.ocean.optical_feed.visible,"actual main scene displays active first-record camera feed")
 	objective.erase("optical");var fallback=await picture("legacy-fallback")
-	check(fresh==fallback,"text-only Well key renders the existing complete fallback without an image lookup failure")
+	check(fresh!=fallback,"fresh Well first-record feed gives site-specific context instead of the generic foundry fallback")
 	objective["optical"]="unknown_future_record";var unknown=await picture("unknown-key")
 	check(unknown==fallback,"unknown illustration key also uses the existing fallback")
 	objective.optical="furnace";var known=await picture("known-furnace")
 	check(known!=fallback,"known furnace illustration still renders its distinct evidence image")
 	objective.optical="well_pattern"
+	var revision=game.sim.mission.well_revision;game.sim.mission.erase("well_revision")
+	var legacy=await picture("legacy-well-key")
+	check(legacy==fallback,"legacy Well key without revision preserves existing camera fallback")
+	game.sim.mission.well_revision=revision
+	var enemies=game.sim.sirens.duplicate(true)
+	for enemy in game.sim.sirens:enemy.pos=Vector2(1500,900);enemy.mode="ENGAGE"
+	var hidden=await picture("hidden-enemies")
+	check(hidden==fresh,"site context does not disclose hidden Siren state")
+	game.sim.sirens=enemies
 	check(game.sim.snapshot()==before,"rendering and temporary fixture metadata leave camera/simulation state unchanged")
 	game.queue_free();await process_frame;await create_timer(.5).timeout
 	print("WELL CAMERA RENDER CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)

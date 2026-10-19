@@ -1,0 +1,35 @@
+[
+  {
+    "profile": "desktop",
+    "simulation_identical": true,
+    "controls_identical": true,
+    "viewport_identical": true,
+    "safe_rect_identical": true,
+    "elapsed": 0.25,
+    "capture_progress": 0.25,
+    "reference": {},
+    "observation": {}
+  },
+  {
+    "profile": "cover",
+    "simulation_identical": true,
+    "controls_identical": true,
+    "viewport_identical": true,
+    "safe_rect_identical": true,
+    "elapsed": 0.25,
+    "capture_progress": 0.25,
+    "reference": {},
+    "observation": {}
+  },
+  {
+    "profile": "inner",
+    "simulation_identical": true,
+    "controls_identical": true,
+    "viewport_identical": true,
+    "safe_rect_identical": true,
+    "elapsed": 0.25,
+    "capture_progress": 0.25,
+    "reference": {},
+    "observation": {}
+  }
+]

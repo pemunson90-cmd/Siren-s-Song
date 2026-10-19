@@ -10,6 +10,7 @@ func _process(_dt: float) -> void: queue_redraw()
 func _draw() -> void:
 	if sim==null or sim.capture_unit<0: return
 	var objective=sim.mission.objectives[sim.capture_target]
+	var well_site=sim.mission.get("well_revision",0)==1 and objective.get("optical","")=="well_pattern"
 	var duration=objective.get("duration",4.0)
 	var progress=clampf(sim.capture_time/duration,0,1)
 	draw_rect(Rect2(Vector2.ZERO,size),Color("07151d")); draw_rect(Rect2(Vector2.ZERO,size),Color("6b9d9f"),false,1)
@@ -27,6 +28,8 @@ func _draw() -> void:
 		draw_polyline(trace,PHOSPHOR,2.0)
 		draw_string(ThemeDB.fallback_font,picture.position+Vector2(8,receiver_font_size+5),"LOCAL REPLAY" if context.replay>0 else "QUIET RECEPTION",HORIZONTAL_ALIGNMENT_LEFT,-1,receiver_font_size,PHOSPHOR)
 		if not context.settled:draw_string(ThemeDB.fallback_font,picture.position+Vector2(8,picture.size.y-8),"SETTLING · wait for rest",HORIZONTAL_ALIGNMENT_LEFT,-1,receiver_font_size,Color("e0bf83"))
+	elif well_site:
+		_draw_well_site(picture,objective)
 	elif objective.has("optical") and optics.has(objective.optical):
 		var image=optics[objective.optical]
 		var image_size=Vector2(picture.size.x,picture.size.x*9.0/16.0)
@@ -53,8 +56,27 @@ func _draw() -> void:
 	for y in range(36,int(size.y-40),4): draw_line(Vector2(8,y),Vector2(size.x-8,y),Color(0,0.02,0.04,0.11),1)
 	var font=ThemeDB.fallback_font
 	var type=objective.get("kind","")
-	var font_size=receiver_font_size if type=="exchange" else 14
-	draw_string(font,Vector2(14,24),"%s / %s"%["HYDROPHONES" if type in ["receiver","exchange"] else ("ARCHIVE LINK" if objective.get("kind","")=="uplink" else "OPTICAL"),sim.units[sim.capture_unit].name],HORIZONTAL_ALIGNMENT_LEFT,-1,font_size,PHOSPHOR)
+	var font_size=receiver_font_size if type=="exchange" or well_site else 14
+	draw_string(font,Vector2(14,24),"%s / %s"%["SITE SCHEMATIC" if well_site else ("HYDROPHONES" if type in ["receiver","exchange"] else ("ARCHIVE LINK" if objective.get("kind","")=="uplink" else "OPTICAL")),sim.units[sim.capture_unit].name],HORIZONTAL_ALIGNMENT_LEFT,-1,font_size,PHOSPHOR)
 	draw_string(font,Vector2(14,size.y-24),objective.name,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size,Color("e0bf83"))
 	draw_string(font,Vector2(size.x-68,size.y-24),"%02d%%"%int(progress*100),HORIZONTAL_ALIGNMENT_LEFT,-1,font_size,PHOSPHOR)
 	draw_rect(Rect2(12,size.y-12,size.x-24,3),Color("25464b")); draw_rect(Rect2(12,size.y-12,(size.x-24)*progress,3),PHOSPHOR)
+
+func _draw_well_site(picture:Rect2,objective:Dictionary) -> void:
+	# Analytical rendering of the ribbed site already shown on the chart.
+	# No photograph, received cadence, hidden listener or decoded interpretation.
+	var font=ThemeDB.fallback_font;var detail_size=mini(receiver_font_size,16)
+	draw_string(font,picture.position+Vector2(12,detail_size+5),"LOCAL SITE GEOMETRY",HORIZONTAL_ALIGNMENT_LEFT,-1,detail_size,Color("83b8b9"))
+	var center=picture.position+Vector2(picture.size.x*0.27,picture.size.y*0.60)
+	var scale=clampf((picture.size.y-46)/100,0.55,1.0)
+	draw_rect(Rect2(center-Vector2(37,47)*scale,Vector2(74,94)*scale),Color("25434b"),false,1.5)
+	for x in [-26,-8,10,28]:
+		draw_line(center+Vector2(x,-42)*scale,center+Vector2(x,40)*scale,Color("4a9298") if x<0 else Color("a88451"),2)
+	for y in [-34,-7,20]:draw_line(center+Vector2(-37,y)*scale,center+Vector2(37,y)*scale,Color("3e646d"),1.5)
+	draw_circle(center-Vector2(0,20)*scale,14*scale,Color("102832"))
+	draw_arc(center-Vector2(0,20)*scale,12*scale,0,TAU,32,Color("cba26b"),2)
+	var column=picture.position+Vector2(picture.size.x*0.54,64)
+	var distance=sim.units[sim.capture_unit].pos.distance_to(objective.pos)
+	draw_string(font,column,"CAMERA RANGE",HORIZONTAL_ALIGNMENT_LEFT,-1,detail_size,Color("83b8b9"))
+	draw_string(font,column+Vector2(0,27),"%dm"%roundi(distance),HORIZONTAL_ALIGNMENT_LEFT,-1,detail_size+5,PHOSPHOR)
+	draw_string(font,column+Vector2(0,53),"ACQUIRING",HORIZONTAL_ALIGNMENT_LEFT,-1,detail_size,Color("e0bf83"))
