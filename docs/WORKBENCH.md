@@ -1,6 +1,6 @@
 # Siren's Song progress workbench
 
-**Stage:** Density UI challenger integrated locally; full simulation/runtime gate and actual geometry checks pass. Fresh focused review supports native validation after its queue-intent correction; the final combined gate passes; native density run is next. This is not a finished or fully accepted game.
+**Stage:** Density UI challenger integrated locally; full simulation/runtime gate and actual geometry checks pass. Fresh focused review supports native validation after its queue-intent correction; the final combined gate passes; the first native run stopped at its initial cover-menu swipe, and a focused tooling retry is pending. This is not a finished or fully accepted game.
 **Phone dashboard:** [current APK, evidence and limits](PHONE_DASHBOARD.md).
 **Development comparison base:** 6388113 / game 7ff53af, native numerical run 39216492480. New APK bytes and pixels are not directly reviewed yet because artifact-host access is blocked.
 **Fully inspected native fallback:** f1ea536 / runtime 92625ac; inherited patrol defect recorded. Latest tested APK contains experimental finale ancestry; native finale/full-campaign quality remains unresolved.
@@ -18,7 +18,9 @@ Fresh critic confirmed hidden sticky append mode on the secondary page; persiste
 
 Final combined strict gate (game 6de9e10 + tooling cd1dde8) passes 234 simulation / 230 runtime / 699 density / 7 menu checks, plus 23 geometry / 11 menu / 8 navigation / 10 role parser guards and archive restoration mock. [Raw final log](validation/production/density/reviewed-combined.log). [Fresh review](reviews/2026-10-19-density-touch-review.md) supports native validation after independently verifying the queue-intent fix.
 
-Next: agree the exact committed candidate SHA with tooling for its sole push/native run. Tooling cd1dde8 enables geometry/OS menu gates while retaining old interaction/lifecycle/audio/Shelf/role gates. The checker now matches actual Godot floor-before-stretch canvas quantization and per-axis scale. No simulation delta requires rerunning old A probes. After density, address finite decoy/noise feedback under sensor uncertainty. Shipped Door Kickers motion comparison and physical Fold7 comfort remain pending.
+First native density run 39222413584 / bc95b4d passed hosted tests/build and emitted actual Android cover metrics (1680×720 canvas, 420 dpi, safe rect beginning at physical x136, exposed menu rows 56 dp). The first OS swipe produced no fresh metrics and the strict gate failed. Code inspection confirms the new menu input path ran before the existing first-use SystemUI check; tooling f43e562 now provides the bounded shared, idempotent precondition correction. Overlay causality is still unverified without actual pixels, and no game regression or crash is established. Preserve the failed run; do not promote density.
+
+Next: coordinate the exact unchanged-game retry SHA and sole push using tooling f43e562, then assess real OS scrolling/geometry and all retained old/role gates. Tooling cd1dde8 enabled density/OS menu checks and the checker models actual Godot integer viewport quantization. Even a numerical pass will not replace direct Android pixel inspection.
 
 
 ## Continuity
@@ -138,3 +140,5 @@ Controlled run39205478335 at f1ea536, unchanged production runtime 92625ac, pass
 ## Ratified A review checkpoint
 
 Unpromoted game source 7ff53af, fresh exact 8d8635a→ec2aa08 review plus independently replayed 7ff feedback delta: no consequential new regression. Full current local gate 234 core / 230 runtime plus 8 navigation and current parser guards passes. Native protocol is an ordinary-command local proof (not OS input): one decoy, silent departure, hunter physical return without target lock or hull damage. Critic artifacts and retained losing clips are linked above. Shipped-game motion comparison, physical Fold7 comfort and performance remain open. One root-commissioned fresh Sol critic, no implementation fanout/premium escalation; actual backend/cost unknown.
+
+Retry prerequisite f43e562 is reviewed: shared intro precondition runs before menu observation/input and target lookup, acknowledgement failures abort input, and absence/dismissal XML evidence is retained. All 12 focused menu guards pass; game/workflow differences from bc95b4d are empty. No repeat gameplay suite is needed for this tooling-only correction. [Failed native evidence](validation/android-39222413584/README.md).
