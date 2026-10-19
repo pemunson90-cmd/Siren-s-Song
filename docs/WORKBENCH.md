@@ -1,5 +1,8 @@
 # Siren's Song progress workbench
 
+> **CURRENT USER-DIRECTED PROCESS (2026-10-19):** Follow the milestone-driven validation policy in [../AGENTS.md](../AGENTS.md). This supersedes historical native-per-feature, independent-review-per-change, and exhaustive-evidence gates appearing below. Continue Blackwater/loadout gameplay development with focused tests and desktop play; batch full regression/native APK to the next meaningful playable milestone unless a concrete Android-specific defect requires an earlier build. Preserve all existing accepted work, artifacts and fallbacks. Historical status below is evidence, not an instruction to repeat its obsolete ceremony.
+
+
 **Stage:** Active / reviewed direct Blackwater source advancing to meaningful native validation; isolated loadout-clarity implementation already running. Mandatory cadence rejected. Reviewed5eb571f, native0afe5fc/run39251216827 now passes scoped native, byte/signature and41-final-image review; final evidence archival is published at1cbc97b. Direct Blackwater integrated gate292/308/1057/7/15/68 now passes locally; actual chapter criticism/native promotion remain pending. Native fresh→memory teaching/full-campaign/physical acceptance remains open; inspected9dacbb4 and older fallbacks remain preserved.
 **Phone dashboard:** [current APK, evidence and limits](PHONE_DASHBOARD.md).
 **Current playable comparison base:**0afe5fc/run39251216827, with inspected APK bytes, stable signature and scoped actual pixels. Historical entry baseaa022cc/b809501 and all earlier artifacts remain preserved. The current managed Command-Library runtime reports connected, unrestricted/enforced, observations current; no root model-effort telemetry is exposed.
