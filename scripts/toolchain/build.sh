@@ -15,6 +15,6 @@ test -s "$output"
 if [[ "$target" == android ]]; then
     apksigner="$(find "$ANDROID_HOME/build-tools" -mindepth 2 -maxdepth 2 -name apksigner | sort -V | tail -1)"
     test -n "$apksigner"
-    "$apksigner" verify --verbose --print-certs "$output"
+    "$apksigner" verify --verbose --print-certs "$output" | tee "$ARTIFACT_DIR/apk-signature.txt"
 fi
-sha256sum "$output"
+(cd -- "$(dirname -- "$output")" && sha256sum "$(basename -- "$output")") | tee "$output.sha256"

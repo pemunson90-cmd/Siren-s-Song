@@ -8,10 +8,13 @@ settings_root="${XDG_CONFIG_HOME:-$HOME/.config}/godot"
 settings_file="$settings_root/editor_settings-4.6.tres"
 keystore_file="$TOOLCHAIN_CACHE/debug.keystore"
 if [[ ! -f "$keystore_file" ]]; then
+    echo 'Signing identity cache miss: creating a NEW development key; update compatibility is not established.'
     "$JAVA_HOME/bin/keytool" -genkeypair -keystore "$keystore_file" -storepass android \
         -alias androiddebugkey -keypass android -dname 'CN=Android Debug,O=Android,C=US' \
         -keyalg RSA -keysize 2048 -validity 10000 >/dev/null
     chmod 600 "$keystore_file"
+else
+    echo 'Reusing external development signing identity; compare the public certificate for APK update compatibility.'
 fi
 python3 - "$settings_file" "$JAVA_HOME" "$ANDROID_HOME" "$keystore_file" <<'PY'
 import json, pathlib, re, sys

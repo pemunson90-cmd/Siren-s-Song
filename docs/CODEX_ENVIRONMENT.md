@@ -28,6 +28,8 @@ Outputs default to `/workspace/.sirens-song-toolchain/artifacts`; downloads and 
 
 GitHub Actions caches its development debug keystore separately from official downloads so successive playtest APKs can update the same installation and retain saves. The cache is created after a successful job and is scoped by GitHub's cache rules. `build.sh` prints the APK certificate SHA256 as well as the APK SHA256. A deleted/missing cache produces a new debug signing identity; check the certificate before offering an update to an existing playtest installation. This standard debug key is neither confidential production signing material nor suitable for a store release. Local and hosted keys are separate identities unless deliberately coordinated.
 
+A missing key emits an explicit **Signing identity cache miss** warning. Public certificate/signature evidence is saved as `apk-signature.txt`; the APK's checksum is saved beside it as `sirens-song-debug.apk.sha256`. Both are included in the installable APK artifact. Private key bytes are never uploaded as an artifact or committed. A future durable release/update channel needs controlled signing-key storage; the development cache alone is not a permanent identity guarantee.
+
 ## Installed toolchain
 
 | Component | Observed version / path |
