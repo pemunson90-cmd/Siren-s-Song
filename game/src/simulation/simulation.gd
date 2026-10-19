@@ -51,6 +51,7 @@ var capture_unit := -1
 var capture_target := -1
 var accumulator := 0.0
 var sensor_clock := 0.0
+var persist_tick_phase := false
 var navigation: AStarGrid2D
 var rock_shapes: Array=[]
 var rock_bounds:Array=[]
@@ -66,6 +67,7 @@ func start(index: int, upgrade: String = "endurance", launch:Dictionary={}) -> v
 	known = {}; contacts = {}; events = []; noises = []; projectiles=[]
 	elapsed=0.0; oxygen=100.0; hull=100.0; paused=true; selected=0; queue_mode=false; pass_through=true; outcome=""
 	ping_time=0.0; recon_time=0.0; capture_time=0.0; capture_unit=-1; capture_target=-1; accumulator=0.0
+	sensor_clock=0.0; persist_tick_phase=true
 	tools={"emp":2,"decoy":3,"recon":2,"knock":2}
 	if upgrade=="disruption": tools.emp += 1
 	if upgrade=="survey": tools.recon += 1
@@ -912,6 +914,7 @@ func snapshot() -> Dictionary:
 	var data={"mission":mission.duplicate(true),"units":units.duplicate(true),"sirens":sirens.duplicate(true),"known":known.duplicate(true),"contacts":contacts.duplicate(true),"noises":noises.duplicate(true),"elapsed":elapsed,"oxygen":oxygen,"hull":hull,"paused":paused,"selected":selected,"tools":tools.duplicate(),"outcome":outcome,"ping_time":ping_time,"ping_origin":ping_origin,"recon_time":recon_time,"capture_time":capture_time,"capture_unit":capture_unit,"capture_target":capture_target}
 	if not correlation.is_empty():data["correlation"]=correlation.duplicate(true)
 	if not projectiles.is_empty(): data["projectiles"]=projectiles.duplicate(true)
+	if persist_tick_phase:data["tick_phase"]={"sensor_clock":sensor_clock,"accumulator":accumulator}
 	return data
 func restore(data: Dictionary) -> bool:
 	if not valid_snapshot(data): return false
@@ -919,10 +922,26 @@ func restore(data: Dictionary) -> bool:
 	mission=data.mission.duplicate(true); units=data.units.duplicate(true); sirens=data.sirens.duplicate(true); known=data.known.duplicate(true); contacts=data.get("contacts",{}).duplicate(true); noises=data.get("noises",[]).duplicate(true); projectiles=data.get("projectiles",[]).duplicate(true)
 	elapsed=float(data.get("elapsed",0)); oxygen=float(data.get("oxygen",100)); hull=float(data.get("hull",100)); selected=clampi(int(data.get("selected",0)),0,2); tools=data.tools.duplicate(); outcome=data.get("outcome",""); paused=true; queue_mode=false
 	ping_time=data.get("ping_time",0.0); ping_origin=data.get("ping_origin",Vector2.ZERO); recon_time=data.get("recon_time",0.0); capture_time=data.get("capture_time",0.0); capture_unit=data.get("capture_unit",-1); capture_target=data.get("capture_target",-1); accumulator=0.0
+	# Legacy archives contain no recoverable phase. Never inherit another dive's
+	# clocks or infer them from elapsed; keep their optional field absent.
+	persist_tick_phase=data.has("tick_phase")
+	sensor_clock=float(data.get("tick_phase",{}).get("sensor_clock",0.0))
+	accumulator=float(data.get("tick_phase",{}).get("accumulator",0.0))
 	_build_navigation(); message="Mission restored · paused for review"; return true
 
 static func valid_snapshot(data: Dictionary) -> bool:
 	if not data.has_all(["mission","units","sirens","known","tools"]): return false
+	if data.has("tick_phase"):
+		var phase=data.tick_phase
+		if not phase is Dictionary or phase.size()!=2 or not phase.has_all(["sensor_clock","accumulator"]):return false
+		for key in ["sensor_clock","accumulator"]:
+			if not (phase[key] is int or phase[key] is float) or not is_finite(float(phase[key])):return false
+		if phase.sensor_clock<0 or phase.sensor_clock>0.15 or phase.accumulator< -0.0000001:return false
+		# advance() may leave a tiny negative remainder through its epsilon, or
+		# a larger unused frame when an outcome stops the draining loop.
+		if data.get("outcome","")=="":
+			if phase.accumulator>=STEP:return false
+		elif phase.accumulator>0.25:return false
 	if not data.mission is Dictionary or not data.units is Array or not data.sirens is Array or not data.known is Dictionary or not data.tools is Dictionary: return false
 	if not Operations.valid(data.mission,float(data.get("elapsed",0))):return false
 	if not Correlator.valid_state(data.get("correlation",{}),float(data.get("elapsed",0))):return false
