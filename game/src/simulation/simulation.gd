@@ -261,8 +261,10 @@ func _threats(dt: float) -> void:
 		if detected>=0:
 			if s.target!=detected: s.lock=0.0
 			s.route.clear(); s.angle=rotate_toward(s.angle,s.pos.angle_to_point(units[detected].pos),1.8*dt)
+			var previous_lock:float=s.lock
 			s.target=detected; s.goal=units[detected].pos; s.lock+=dt; s.suspicion=minf(1,s.suspicion+dt*0.3); s.mode="LOCKING" if s.lock<4 else "BEAM"
 			if s.lock>=4:
+				if previous_lock<4: events.append({"type":"beam","pos":units[detected].pos})
 				if detected==0: hull=maxf(0,hull-dt*18)
 				else: units[detected].alive=false; s.lock=0; events.append({"type":"loss","pos":units[detected].pos}); message="%s lost · submarine camera remains available"%units[detected].name
 		else:

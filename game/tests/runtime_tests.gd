@@ -54,6 +54,15 @@ func run() -> void:
 			check(Rect2(Vector2.ZERO,game.size).encloses(rect),"%s button %s remains inside viewport"%[dimensions,button.text])
 			check(button.size.y>=44,"%s button %s has logical touch height"%[dimensions,button.text])
 		check(not Rect2(game.ocean.position,game.ocean.size).intersects(game.pause_button.get_global_rect()),"%s map and pause controls do not overlap"%dimensions)
+	await preload("res://tests/campaign_ui_scenarios.gd").run(self,game)
+	game.sound.resume(); game.screen="debrief"; game.sim.paused=false; game.sound.alert_timer=0.0
+	game.sim.contacts[0]={"pos":game.sim.units[0].pos+Vector2(100,0),"time":game.sim.elapsed,"mode":"BEAM","lock":4.2,"angle":0.0}
+	await process_frame
+	check(game.sound.ambience.stream_paused and game.sound.alert_timer==0,"debrief does not continue dive ambience or repeat threat alarms")
+	game.sound.muted=true; game.sound.update(game.sim,0.1,false)
+	check(AudioServer.is_bus_mute(AudioServer.get_bus_index("SirenAmbience")) and AudioServer.is_bus_mute(AudioServer.get_bus_index("SirenEffects")),"mute silences both production buses rather than leaving a low-level signal")
+	game.sound.suspend(); game.sim.paused=false; game.sound.update(game.sim,0.1,true)
+	check(game.sound.engine.stream_paused and game.sound.ambience.stream_paused,"system suspension freezes propulsion and ambience even before simulation notification")
 	game.queue_free(); await process_frame
 	print("RUNTIME CHECKS ",checks," FAILURES ",failures)
 	quit(1 if failures else 0)

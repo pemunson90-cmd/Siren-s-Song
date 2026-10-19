@@ -112,7 +112,7 @@ func _pause() -> void:
 func _process(dt: float) -> void:
 	frame+=1
 	if frame==4 and not capture_path.is_empty(): _take_capture()
-	if sound!=null: sound.update(sim,dt)
+	if sound!=null: sound.update(sim,dt,screen=="mission")
 	if screen=="mission" and not sim.paused:
 		save_clock+=dt
 		if save_clock>5.0: _save_archive(); save_clock=0.0
@@ -284,6 +284,8 @@ func _notification(what: int) -> void:
 			sim.paused=true; _save_archive()
 			if sound!=null: sound.suspend()
 			print("SS_LIFECYCLE suspended paused=true")
+	if what in [NOTIFICATION_APPLICATION_RESUMED,NOTIFICATION_APPLICATION_FOCUS_IN,NOTIFICATION_WM_WINDOW_FOCUS_IN]:
+		if sound!=null: sound.resume()
 	if what==NOTIFICATION_WM_CLOSE_REQUEST:
 		_save_archive(); get_tree().quit()
 	if what==NOTIFICATION_WM_GO_BACK_REQUEST:

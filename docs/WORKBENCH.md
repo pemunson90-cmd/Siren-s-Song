@@ -10,16 +10,16 @@
 | Native tactical core | Runnable, regression tested | Fixed60Hz, inertia/assisted routing, two drones, fair LOS/acoustic/beam, command replacement and tactical pause |
 | Campaign/save | Six playable baseline missions and ending | All six ordinary-command fallback runs pass; checksummed active/campaign/settings backup recovery; other missions still need differentiated situations |
 | Split Channel proving ground | Connected channels, two separated relays + Quietus uplink | Coordinated39.3s, solo78.6s; latest standoff change yields67.3% hull in each scripted run; these are tactical fixtures, not human balance acceptance |
-| Art/input | Actual textured world, physical ray, station-owned optical inset | `docs/validation/production/`; core61 checks and runtime150 checks pass, including pointer inputs, menu preservation, optical ownership and physical→logical safearea conversion |
-| Audio | Original ambience/cues and volume/mute | Signal/headroom checks pass; functional propulsion/mixed-output/listening polish and forced-exit stream leak remain open |
+| Art/input | Actual textured world, physical ray, station-owned optical inset | `docs/validation/production/`; core70 checks and runtime172 checks pass, including pointer inputs, menu preservation, optical ownership and physical→logical safearea conversion |
+| Audio | Original movement, pressure, distinct tool/beam cues and volume/mute | Actual stereo mixer recorded: peak−9.28dBFS, no clipped samples, paused tail exactly silent; human listening/native audio and forced-exit stream leak remain open |
 | Android emulator | Native launch/log/UI markers verified by tooling; renderer/lifecycle CI iteration active | See `docs/CODEX_ENVIRONMENT.md` and `docs/validation/android-*`; modern backend retry; no Samsung performance claim |
 | Independent criticism | Baseline plus follow-up completed, explicit fresh Sol | `docs/reviews/2026-10-19-baseline-critique.md`; confirmed attention defects fixed, next learned safe return demonstrated; deepen sound and other missions |
 
 ## Current evidence and highest-value next cycle
 
-Combined validation: `scripts/toolchain/test.sh` → **61 core/campaign +150 runtime checks, zero failures**. Waypoint check totals vary with safe path simplification; invariant tests have been added, not removed. Full framebuffer optical, beam, and connected-channel captures are in `build/captures/cycle2-*` and retained in the validation index. Desktop rendering is distinct from installed Android/Samsung validation.
+Combined validation: `scripts/toolchain/test.sh` → **70 core/campaign +172 runtime checks, zero failures**. Waypoint check totals vary with safe path simplification; invariant tests have been added, not removed. Full framebuffer optical, beam, and connected-channel captures are in `build/captures/cycle2-*` and retained in the validation index. Desktop rendering is distinct from installed Android/Samsung validation.
 
-Next: deepen functional sound (movement, beam/pressure cues, menu/suspend silence and measured mixed output), then carry differentiated situations into the remaining missions. Split Channel now has a tested safer decoy return and explicit STOP/PASS waypoints. Preserve the working baseline while native runtime/cutout/restore evidence matures. Do not stop the Gauntlet at these milestones.
+Next: fresh integrated Sol review of all six missions, progression/narrative, sensory tension, reference match and phone comprehension, then execute its highest-value experiential cycle. Sound integration and mixed-output measurements are now checkpointed; Split Channel has a tested safer decoy return and explicit STOP/PASS waypoints. Preserve the working baseline while native runtime/cutout/restore evidence matures. Do not stop the Gauntlet at these milestones.
 
 ## Continuity
 
@@ -80,3 +80,12 @@ Independent report: `docs/reviews/2026-10-19-baseline-critique.md` (fresh Sol ev
 - `scripts/toolchain/test.sh`:61core +150runtime, zero failures. SHA256 inventory: all47 immutable imports match.
 - Real return replay captures use the exact ordinary-command scenario via separate `game/tests/capture_return.gd`, paused at25.7seconds with all3records,100% hull, active decoy and both drone orders. `build/captures/cycle3-return/full.png` and native2184×1968 `cycle3-inner/full.png`.
 - Root owns push timing; native modern-backend validation remains unresolved. Next bounded cycle is functional audio and mixed-output/lifecycle evidence, then further mission differentiation. Persistent Gauntlet remains active.
+
+## Gauntlet cycle 4 — functional sound and full campaign interface evidence
+
+- Original propulsion loop now follows actual submarine speed and silent/cruise state; restrained pressure creaks, distinct beam/recon/decoy/extraction signals, bounded threat alarms and per-cue bearing panning. Master peak guard and independent ambience/effects buses implement true mute. Audio suspension remains distinct from manual tactical pause.
+- RED→GREEN tests establish moving/quiet/noisy engine gains and distinct cues, debrief silence/no repeated alarms, mute buses and system suspension. Production beam begins one semantic cue rather than per-frame sound spam.
+- Actual production mixer audition:8s,48kHz,stereo32-bit PCM. Peak0.34336 (−9.285dBFS), RMS0.06765,0clipped samples, paused7.3–8s window peak/RMS exactly0. `audio-audition.wav` and `audio-analysis.json` retained in validation. This is a controlled overlapping-cue audition during real game movement, not a human listening approval or a worst-case hardware mix guarantee.
+- Added accelerated full-campaign UI scenario: actual pointer ENTER on each briefing, ordinary route/camera/disruption/extraction commands, real debrief/unlock updates and final ending/replay progress. All six recoveries pass through the actual interface. Current suite70core +172runtime checks, zero failures.
+- All six current mission overview images retained under `docs/validation/production/campaign/`; each is a real paused RECON observation. `ending-command-run.png` follows actual mission6 commands (82.1s/hull100%), replacing the earlier synthetic0-time ending fixture as completion evidence. These remain expert automated protocols, not novice gameplay assessment.
+- Next is fresh integrated evidence-first Sol criticism of the full campaign experience, using images/audio artifacts before builder interpretation. It should set the next substantial mission/progression/sensory improvement, beyond further invariant repairs. Physical Samsung, hosted renderer/lifecycle and human listening gates remain separate.

@@ -29,3 +29,10 @@ Current validation53core+142runtime, zero failures. Core includes all-mission fa
 `cycle3-return.png` and `cycle3-inner.png` come from `capture.sh --script res://tests/capture_return.gd`, replaying actual route/acquisition/disruption/decoy commands. At25.7s, all three records are collected, Quietus has100% hull and is returning; both drones are alive, one decoy transmits east of the uplink,2remain. This run later wins at39.2s/100% hull; the same run without decoy wins39.2s/87.1% hull.3EMP are spent in each. These deterministic comparisons demonstrate a useful tactic; they do not certify human pacing or physical input quality.
 
 Current combined suite61core+150runtime. Explicit STOP/PASS, corner clearance, stale-contact conditional holds and15-second decoy persistence are covered. All47 original source hashes still match the import manifest.
+
+## Cycle 4 sound and campaign interface
+
+- `audio-audition.wav` is the actual8-second production mixer: moving Quietus with ambience/propulsion and a controlled alternating-bearing cue sequence. Script: `capture.sh --script res://tests/capture_audio.gd`,240frames/30fps. `audio-analysis.json` reports48kHz stereo32-bitPCM, peak−9.285dBFS,0clipped samples and exactly silent paused7.3–8s tail. Human listening, physical headphones and Android output remain unverified.
+- `campaign/mission-1.png` through `mission-6.png`: real current overview observations after spending a RECON charge and pausing. Script: `capture.sh --script res://tests/capture_campaign.gd -- --mission=0` through5.
+- `ending-command-run.png`: actual ordinary-command mission6 victory at82.1seconds,100% hull, then actual ending panel. Script: `capture.sh --script res://tests/capture_campaign.gd -- --view=ending`.
+- Current combined70core +172runtime checks include all six actual briefing→pointerENTER→commanded objective/extraction→debrief/unlock transitions and ending/replay progress. These are accelerated scripted runs, not continuous human play or campaign quality acceptance.
