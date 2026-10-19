@@ -1,0 +1,6 @@
+2026-10-19 integrated controls and Foundry thermal milestone
+Reviewed source: 762a8aa
+Batch: stable contact-specific torpedo aiming; navigable paused route preview; optional Foundry thermal staging; terminal simulation stop; native planner touch probe and corrected secondary-action checklist.
+Validation: full local gate9659665 passed; terminal73/core298 and relocated-fixture30/9 checks subsequently passed. CI runs the complete final gate.
+Canonical debug certificate: 32bcb2287acd01c1f58c26997c7639f3072c74c6b03ab2a24656dc7cd1c7dc3c
+One intentional production build; preserve inspected APK fallbacks. No retrieval-only rerun.

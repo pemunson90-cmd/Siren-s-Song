@@ -1,0 +1,9 @@
+# Siren's Song — independent experience criticism
+
+**Applies to substantial player-experience evaluations, not routine merge review.** Single-reviewer branch integration follows `docs/AGENT_BRIEF.md`. The ratified external-reference method is available when it materially helps evaluate meaningful tactical, visual, acoustic or interface quality.
+
+Assess the *whole playable game* periodically: what is most limiting its tactical depth, decision quality, tension, learning curve, narrative discovery, mission identity, readability, audio, art, accessibility or cohesion? An accepted improvement still leaves a next opportunity. Compare actual play and its strongest working baseline; differentiate inherited weaknesses from new regressions and separate observed facts from interpretation.
+
+For relevant targeted comparisons, use specific dimensions rather than imitation or generic game ratings. Door Kickers informs planning/touch routes, Barotrauma sonar/submarine dread, Mark of the Ninja acoustic/detection clarity; expand to other examples when a defined question warrants it. Inspect actual gameplay and, where useful, no-input enemy/world behavior alongside matching reference footage; record time/source and retain losing counterexamples. The historical 10–20-second clip, timestamps and honest blinding method remain available **for commissioned comparisons**. They are not a mandatory media production cycle after each gameplay or UI merge.
+
+Return a compact verdict: *actual player experience → strength/weakness and comparison → most consequential next change → tradeoffs and evidence limits*. Avoid grading a game by test counts, clip volume or report length. Put substantial raw footage and forensic analysis in the external/archive evidence store, leaving only concise actionable instructions/current status in the production repository. Preserve source version/provenance in the archive index.

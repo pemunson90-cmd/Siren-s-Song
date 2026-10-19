@@ -1,15 +1,18 @@
-# Siren's Song — begin on active production
+# Siren's Song — current project entry
 
-The default `main` branch is the **historical/source-import entry**, not the Gauntlet execution baseline. Current source, tasks and instructions are on [`gauntlet/production`](https://github.com/pemunson90-cmd/Siren-s-Song/tree/gauntlet/production).
+**Gauntlet process:** [AGENTS.md](../AGENTS.md) — canonical orchestration and continuous-improvement instructions.
+**Intended game:** [CURRENT_GAME_SPEC.md](CURRENT_GAME_SPEC.md) — living game specification.
+**Source precedence and v7:** [SOURCE_AUTHORITY.md](SOURCE_AUTHORITY.md), [V7_TO_GODOT_PARITY.md](V7_TO_GODOT_PARITY.md).
+**Active execution:** [CONTINUATION.md](CONTINUATION.md) — integrated baseline, ownership, exact next task; [WORKBENCH.md](WORKBENCH.md) — player-facing status.
+**Engine and runtime:** [architecture/GAUNTLET.md](architecture/GAUNTLET.md), [GAUNTLET_ORCHESTRATION.md](GAUNTLET_ORCHESTRATION.md).
 
-Read on that current ref, in order:
+The Gauntlet continuously evaluates the whole game, identifies its most consequential weakness/opportunity, makes an improvement, assesses actual player gain, integrates with one reviewer, and repeats. Six missions, passing tests and APK builds are development checkpoints. The ultimate aspiration is AAA-caliber game content and execution, with the user controlling the game's creative identity.
 
-1. [AGENTS.md](https://github.com/pemunson90-cmd/Siren-s-Song/blob/gauntlet/production/AGENTS.md) — operating contract, perpetual loop, branch/review and task-closeout rules.
-2. [CURRENT_GAME_SPEC.md](https://github.com/pemunson90-cmd/Siren-s-Song/blob/gauntlet/production/docs/CURRENT_GAME_SPEC.md) and [SOURCE_AUTHORITY.md](https://github.com/pemunson90-cmd/Siren-s-Song/blob/gauntlet/production/docs/SOURCE_AUTHORITY.md) — intended game, decisions and precedence.
-3. [V7_TO_GODOT_PARITY.md](https://github.com/pemunson90-cmd/Siren-s-Song/blob/gauntlet/production/docs/V7_TO_GODOT_PARITY.md) — working historical mechanic reference and differences.
-4. [CONTINUATION.md](https://github.com/pemunson90-cmd/Siren-s-Song/blob/gauntlet/production/docs/CONTINUATION.md) and [WORKBENCH.md](https://github.com/pemunson90-cmd/Siren-s-Song/blob/gauntlet/production/docs/WORKBENCH.md) — current integrated state, ownership, next work.
-5. [Gauntlet orchestration](https://github.com/pemunson90-cmd/Siren-s-Song/blob/gauntlet/production/docs/GAUNTLET_ORCHESTRATION.md), the design bible, accepted concept selection ledger and relevant source handoffs.
+Historical prototype wrappers, original specifications, past audits and validation records are preserved as archival provenance. The executable v7 implementation is a valuable source of already-proven mechanics; it does not impose its historical one-level workflow. Work on dedicated feature branches; root reconciles production without restarting completed work.
 
-Fetch latest production before task dispatch/completion/merge/resume. Keep the root orchestrator working through successive tasks while execution resources permit. Only the user can terminate the Gauntlet. On a real resource/session boundary, mark **PAUSED — RESUME REQUIRED** with exact next action. Check and repair stale handoffs at every task completion.
+**Lean repository:** game/source/assets/test/build files and concise instructions stay active. Audit ledgers, external criticism, raw CI evidence, screenshots and video belong in recoverable archives outside active production Git. Consult `AGENTS.md` before creating any new reporting documents.
 
-The original transcript, provenance, prototypes and design handoffs preserved on `main` are evidence and creative references. Current explicit ratifications and the living production specification govern where they differ.
+
+## Current operational closeout rule
+
+Every completed worker/review/merge task causes the orchestrator to fetch current production, run `python3 scripts/toolchain/gauntlet-boundary.py --boundary complete`, perform the semantic staleness comparison, repair obsolete active handoffs on a reviewed branch and delegate the next highest-value work. Status in archive/provenance documents is historical. `main` receives coherent tested promotions from the continuously reviewed `gauntlet/production` line; individual feature branches never skip reconciliation or testing to land directly on main. Only the user determines that the Gauntlet is finished.
