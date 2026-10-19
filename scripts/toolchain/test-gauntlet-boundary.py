@@ -4,7 +4,7 @@ import fcntl, importlib.util, json, os, pathlib, subprocess, sys, tempfile, time
 ROOT=pathlib.Path(__file__).resolve().parent
 HELPER=ROOT/'gauntlet-boundary.py'
 INSTALL=ROOT/'install-gauntlet-hooks.py'
-FILES=('AGENTS.md','docs/CONTINUATION.md','docs/WORKBENCH.md','docs/architecture/GAUNTLET.md')
+FILES=('AGENTS.md','docs/CONTINUATION.md','docs/WORKBENCH.md','docs/architecture/GAUNTLET.md','docs/CURRENT_GAME_SPEC.md','docs/V7_TO_GODOT_PARITY.md')
 
 def run(*args,cwd=None,input=None):
  return subprocess.run(args,cwd=cwd,input=input,text=True,capture_output=True,timeout=15)
@@ -22,7 +22,7 @@ class BoundaryTests(unittest.TestCase):
   git(self.seed,'config','user.name','Test');git(self.seed,'config','user.email','test@example.invalid')
   git(self.seed,'checkout','-b','gauntlet/production')
   for name in FILES:
-   p=self.seed/name;p.parent.mkdir(parents=True,exist_ok=True);p.write_text('# '+name+'\n\n## Current execution contract\nUser current contract.\n\n## History\nFULL TAIL\n')
+   p=self.seed/name;p.parent.mkdir(parents=True,exist_ok=True);p.write_text('# '+name+'\n\n> LIVING GAME SPEC / PERPETUAL QUALITY RATCHET: read both living documents.\n\n## Current execution contract\nUser current contract.\n\n## History\nFULL TAIL\n')
   git(self.seed,'add','.');git(self.seed,'commit','-m','initial');git(self.seed,'remote','add','origin',str(self.remote));git(self.seed,'push','origin','gauntlet/production')
   git(self.base,'clone','-b','gauntlet/production',str(self.remote),str(self.repo));git(self.repo,'config','user.name','Test');git(self.repo,'config','user.email','test@example.invalid')
   self.sha=git(self.seed,'rev-parse','HEAD')
@@ -35,18 +35,31 @@ class BoundaryTests(unittest.TestCase):
  def install(self):return run(sys.executable,str(INSTALL),cwd=self.repo)
  def test_fetch_full_cache_change_and_dirty_branch_preserved(self):
   r=self.invoke('--boundary','resume');self.assertEqual(r.returncode,0,r.stderr);a=self.receipt();self.assertEqual(a['policy_sha'],self.sha)
-  for name in FILES:self.assertEqual(pathlib.Path(a['files'][name]['cache_path']).read_bytes(),(self.seed/name).read_bytes())
-  git(self.repo,'checkout','-b','feature');(self.repo/'AGENTS.md').write_text('DIRTY LOCAL');new=self.update()
-  r=self.invoke('--boundary','review');self.assertEqual(r.returncode,0,r.stderr);self.assertEqual(self.receipt()['policy_sha'],new);self.assertIn('AGENTS.md',self.receipt()['changed_files']);self.assertEqual(git(self.repo,'branch','--show-current'),'feature');self.assertEqual((self.repo/'AGENTS.md').read_text(),'DIRTY LOCAL')
+  for name in FILES:
+   self.assertIn(name,a['files']);self.assertEqual(pathlib.Path(a['files'][name]['cache_path']).read_bytes(),(self.seed/name).read_bytes())
+  git(self.repo,'checkout','-b','feature');(self.repo/'AGENTS.md').write_text('DIRTY LOCAL');self.update();new=self.update('docs/CURRENT_GAME_SPEC.md')
+  r=self.invoke('--boundary','review');self.assertEqual(r.returncode,0,r.stderr);self.assertEqual(self.receipt()['policy_sha'],new);self.assertIn('AGENTS.md',self.receipt()['changed_files']);self.assertIn('docs/CURRENT_GAME_SPEC.md',self.receipt()['changed_files']);self.assertEqual(git(self.repo,'branch','--show-current'),'feature');self.assertEqual((self.repo/'AGENTS.md').read_text(),'DIRTY LOCAL')
  def test_failed_fetch_marks_stale_without_advancing_last_success(self):
   self.assertEqual(self.invoke().returncode,0);git(self.repo,'remote','set-url','origin',str(self.base/'missing.git'))
   r=self.invoke();self.assertNotEqual(r.returncode,0);d=self.receipt();self.assertEqual(d['status'],'stale');self.assertIsNone(d['policy_sha']);self.assertEqual(d['last_success']['policy_sha'],self.sha);self.assertIn('fetch',d['error'])
  def test_missing_remote_document_is_stale(self):
   self.assertEqual(self.invoke().returncode,0);git(self.seed,'rm','docs/WORKBENCH.md');git(self.seed,'commit','-m','broken docs');git(self.seed,'push','origin','gauntlet/production')
   self.assertNotEqual(self.invoke().returncode,0);self.assertEqual(self.receipt()['last_success']['policy_sha'],self.sha)
+ def assert_missing_required_spec_stops_dispatch(self,name):
+  self.assertEqual(self.invoke().returncode,0);git(self.seed,'rm',name);git(self.seed,'commit','-m','missing required living document');git(self.seed,'push','origin','gauntlet/production')
+  p=self.base/'task.json';p.write_text(json.dumps({'target':'worker','message':'Task'}))
+  r=self.invoke('--boundary','dispatch','--dispatch',str(p));self.assertNotEqual(r.returncode,0);self.assertEqual(r.stdout,'');d=self.receipt();self.assertEqual(d['status'],'stale');self.assertIsNone(d['policy_sha']);self.assertEqual(d['last_success']['policy_sha'],self.sha);self.assertIn(name,d['error'])
+ def test_missing_current_game_spec_is_stale_without_dispatch(self):
+  self.assert_missing_required_spec_stops_dispatch('docs/CURRENT_GAME_SPEC.md')
+ def test_missing_parity_ledger_is_stale_without_dispatch(self):
+  self.assert_missing_required_spec_stops_dispatch('docs/V7_TO_GODOT_PARITY.md')
  def test_dispatch_uses_fetched_sha_and_contract(self):
+  for name in ('docs/CURRENT_GAME_SPEC.md','docs/V7_TO_GODOT_PARITY.md'):(self.repo/name).unlink()
   new=self.update();p=self.base/'task.json';p.write_text(json.dumps({'target':'/root/worker','message':'Implement bounded change.'}))
   r=self.invoke('--boundary','dispatch','--dispatch',str(p));self.assertEqual(r.returncode,0,r.stderr);d=json.loads(r.stdout);self.assertEqual(d['tool'],'collaboration.followup_task');self.assertIn(new,d['arguments']['message']);self.assertIn('NEW USER DIRECTION',pathlib.Path(self.receipt()['files']['AGENTS.md']['cache_path']).read_text());self.assertIn('User current contract',d['arguments']['message'])
+  self.assertIn('LIVING GAME SPEC / PERPETUAL QUALITY RATCHET',d['arguments']['message']);self.assertNotIn('FULL TAIL',d['arguments']['message'])
+  for name in ('docs/CURRENT_GAME_SPEC.md','docs/V7_TO_GODOT_PARITY.md'):
+   self.assertIn(name+': '+self.receipt()['files'][name]['cache_path'],d['arguments']['message']);self.assertEqual(pathlib.Path(self.receipt()['files'][name]['cache_path']).read_bytes(),(self.seed/name).read_bytes());self.assertFalse((self.repo/name).exists())
   p.write_text(json.dumps({'task_name':'worker','message':'Task'}));r=self.invoke('--dispatch',str(p));d=json.loads(r.stdout);self.assertEqual(d['tool'],'collaboration.spawn_agent');self.assertEqual(d['arguments']['model'],'gpt-6.1-sol');self.assertEqual(d['arguments']['fork_turns'],'none')
  def test_dispatch_failure_emits_no_tool_payload(self):
   p=self.base/'task.json';p.write_text(json.dumps({'target':'worker','message':'Task'}));git(self.repo,'remote','set-url','origin',str(self.base/'missing'))
