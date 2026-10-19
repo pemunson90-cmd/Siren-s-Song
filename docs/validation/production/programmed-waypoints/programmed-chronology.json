@@ -1,0 +1,3667 @@
+{
+  "camera": "normal2x zoom, fixed own-route center before frame0; no camera changes in clip",
+  "final_hull": 100.0,
+  "final_outcome": "",
+  "idle": false,
+  "initial_snapshot_sha256": "a711ec4c8bd6f34cc84cd1970b078889e1895d89054acfff15da66086155b706",
+  "inputs": [
+    {
+      "frame": 15,
+      "order": "select",
+      "unit": 1
+    },
+    {
+      "frame": 75,
+      "order": "select",
+      "unit": 0
+    },
+    {
+      "frame": 90,
+      "order": "select",
+      "unit": 2
+    },
+    {
+      "frame": 120,
+      "order": "select",
+      "unit": 0
+    }
+  ],
+  "programmed": true,
+  "samples": [
+    {
+      "contacts": {
+
+      },
+      "frame": 0,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.996296296296,
+      "pos": "(140.1133, 799.9724)",
+      "route_nodes": 3,
+      "selected": 0,
+      "silent": false,
+      "time": 0.0666666666666667,
+      "velocity": "(2.728259, -0.622465)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 1,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.992592592593,
+      "pos": "(140.411, 799.9174)",
+      "route_nodes": 3,
+      "selected": 0,
+      "silent": false,
+      "time": 0.133333333333333,
+      "velocity": "(5.512566, -0.901372)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 2,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.988888888889,
+      "pos": "(140.8952, 799.8574)",
+      "route_nodes": 3,
+      "selected": 0,
+      "silent": false,
+      "time": 0.2,
+      "velocity": "(8.312237, -0.886942)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 3,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.985185185185,
+      "pos": "(141.566, 799.7999)",
+      "route_nodes": 3,
+      "selected": 0,
+      "silent": false,
+      "time": 0.266666666666667,
+      "velocity": "(11.11195, -0.846964)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 4,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.981481481481,
+      "pos": "(142.4234, 799.7451)",
+      "route_nodes": 3,
+      "selected": 0,
+      "silent": false,
+      "time": 0.333333333333333,
+      "velocity": "(13.91164, -0.805397)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 5,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.977777777778,
+      "pos": "(143.4675, 799.6932)",
+      "route_nodes": 3,
+      "selected": 0,
+      "silent": false,
+      "time": 0.4,
+      "velocity": "(16.71131, -0.762219)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 6,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.974074074074,
+      "pos": "(144.6983, 799.6443)",
+      "route_nodes": 3,
+      "selected": 0,
+      "silent": false,
+      "time": 0.466666666666667,
+      "velocity": "(19.51095, -0.717402)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 7,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.97037037037,
+      "pos": "(146.1157, 799.5984)",
+      "route_nodes": 3,
+      "selected": 0,
+      "silent": false,
+      "time": 0.533333333333333,
+      "velocity": "(22.31057, -0.67091)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 8,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.966666666667,
+      "pos": "(147.7197, 799.5557)",
+      "route_nodes": 3,
+      "selected": 0,
+      "silent": false,
+      "time": 0.6,
+      "velocity": "(25.11015, -0.622704)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 9,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.962962962963,
+      "pos": "(149.5103, 799.5162)",
+      "route_nodes": 3,
+      "selected": 0,
+      "silent": false,
+      "time": 0.666666666666667,
+      "velocity": "(27.90971, -0.572733)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 10,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.959259259259,
+      "pos": "(151.4876, 799.4802)",
+      "route_nodes": 3,
+      "selected": 0,
+      "silent": false,
+      "time": 0.733333333333334,
+      "velocity": "(30.70923, -0.520944)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 11,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.955555555556,
+      "pos": "(153.6516, 799.4477)",
+      "route_nodes": 3,
+      "selected": 0,
+      "silent": false,
+      "time": 0.800000000000001,
+      "velocity": "(33.50871, -0.467268)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 12,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.951851851852,
+      "pos": "(156.0021, 799.4189)",
+      "route_nodes": 3,
+      "selected": 0,
+      "silent": false,
+      "time": 0.866666666666668,
+      "velocity": "(36.30816, -0.411628)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 13,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.948148148148,
+      "pos": "(158.5393, 799.3937)",
+      "route_nodes": 3,
+      "selected": 0,
+      "silent": false,
+      "time": 0.933333333333335,
+      "velocity": "(39.10757, -0.353936)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 14,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.944444444444,
+      "pos": "(161.2631, 799.3726)",
+      "route_nodes": 3,
+      "selected": 0,
+      "silent": false,
+      "time": 1.0,
+      "velocity": "(41.90693, -0.294086)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 15,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.940740740741,
+      "pos": "(164.1736, 799.3556)",
+      "route_nodes": 3,
+      "selected": 1,
+      "silent": false,
+      "time": 1.06666666666667,
+      "velocity": "(44.70623, -0.231962)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 16,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.937037037037,
+      "pos": "(167.2706, 799.3428)",
+      "route_nodes": 3,
+      "selected": 1,
+      "silent": false,
+      "time": 1.13333333333333,
+      "velocity": "(47.50549, -0.167427)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 17,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.933333333333,
+      "pos": "(170.5543, 799.3344)",
+      "route_nodes": 3,
+      "selected": 1,
+      "silent": false,
+      "time": 1.2,
+      "velocity": "(50.3047, -0.100315)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 18,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.92962962963,
+      "pos": "(174.0246, 799.3306)",
+      "route_nodes": 3,
+      "selected": 1,
+      "silent": false,
+      "time": 1.26666666666667,
+      "velocity": "(53.10382, -0.03044)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 19,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.925925925926,
+      "pos": "(177.6815, 799.3317)",
+      "route_nodes": 3,
+      "selected": 1,
+      "silent": false,
+      "time": 1.33333333333333,
+      "velocity": "(55.90287, 0.042419)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 20,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.922222222222,
+      "pos": "(181.5249, 799.3377)",
+      "route_nodes": 3,
+      "selected": 1,
+      "silent": false,
+      "time": 1.4,
+      "velocity": "(58.70184, 0.118526)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 21,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.918518518518,
+      "pos": "(185.555, 799.3489)",
+      "route_nodes": 3,
+      "selected": 1,
+      "silent": false,
+      "time": 1.46666666666667,
+      "velocity": "(61.50071, 0.198214)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 22,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.914814814815,
+      "pos": "(189.7717, 799.3656)",
+      "route_nodes": 3,
+      "selected": 1,
+      "silent": false,
+      "time": 1.53333333333333,
+      "velocity": "(64.29945, 0.281876)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 23,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.911111111111,
+      "pos": "(194.1749, 799.3881)",
+      "route_nodes": 3,
+      "selected": 1,
+      "silent": false,
+      "time": 1.6,
+      "velocity": "(67.09807, 0.369998)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 24,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.907407407407,
+      "pos": "(198.7647, 799.4166)",
+      "route_nodes": 3,
+      "selected": 1,
+      "silent": false,
+      "time": 1.66666666666667,
+      "velocity": "(69.89651, 0.463187)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 25,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.903703703704,
+      "pos": "(203.5411, 799.4516)",
+      "route_nodes": 3,
+      "selected": 1,
+      "silent": false,
+      "time": 1.73333333333333,
+      "velocity": "(72.69476, 0.562229)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 26,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.9,
+      "pos": "(208.504, 799.4935)",
+      "route_nodes": 3,
+      "selected": 1,
+      "silent": false,
+      "time": 1.8,
+      "velocity": "(75.49276, 0.668078)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 27,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.896296296296,
+      "pos": "(213.6485, 799.5425)",
+      "route_nodes": 3,
+      "selected": 1,
+      "silent": false,
+      "time": 1.86666666666666,
+      "velocity": "(77.9962, 0.76975)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 28,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.892592592593,
+      "pos": "(218.8483, 799.5938)",
+      "route_nodes": 3,
+      "selected": 1,
+      "silent": false,
+      "time": 1.93333333333333,
+      "velocity": "(77.9962, 0.769837)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 29,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.888888888889,
+      "pos": "(224.048, 799.6451)",
+      "route_nodes": 3,
+      "selected": 1,
+      "silent": false,
+      "time": 2.0,
+      "velocity": "(77.9962, 0.769949)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 30,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.885185185185,
+      "pos": "(229.2478, 799.6964)",
+      "route_nodes": 3,
+      "selected": 1,
+      "silent": false,
+      "time": 2.06666666666666,
+      "velocity": "(77.9962, 0.770096)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 31,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.881481481481,
+      "pos": "(234.4476, 799.7476)",
+      "route_nodes": 3,
+      "selected": 1,
+      "silent": false,
+      "time": 2.13333333333333,
+      "velocity": "(77.9962, 0.770301)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 32,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.877777777778,
+      "pos": "(239.6473, 799.7989)",
+      "route_nodes": 3,
+      "selected": 1,
+      "silent": false,
+      "time": 2.2,
+      "velocity": "(77.99619, 0.770604)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 33,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.874074074074,
+      "pos": "(244.8471, 799.8502)",
+      "route_nodes": 3,
+      "selected": 1,
+      "silent": false,
+      "time": 2.26666666666666,
+      "velocity": "(77.99619, 0.770809)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 34,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.87037037037,
+      "pos": "(250.0469, 799.9016)",
+      "route_nodes": 3,
+      "selected": 1,
+      "silent": false,
+      "time": 2.33333333333333,
+      "velocity": "(77.99619, 0.77078)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 35,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.866666666667,
+      "pos": "(255.13, 799.9507)",
+      "route_nodes": 2,
+      "selected": 1,
+      "silent": true,
+      "time": 2.4,
+      "velocity": "(75.19679, 0.712851)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 36,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.862962962963,
+      "pos": "(260.0265, 799.9958)",
+      "route_nodes": 2,
+      "selected": 1,
+      "silent": true,
+      "time": 2.46666666666666,
+      "velocity": "(72.39742, 0.653641)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 37,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.859259259259,
+      "pos": "(264.7363, 800.0368)",
+      "route_nodes": 2,
+      "selected": 1,
+      "silent": true,
+      "time": 2.53333333333333,
+      "velocity": "(69.59807, 0.593045)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 38,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.855555555555,
+      "pos": "(269.2595, 800.0738)",
+      "route_nodes": 2,
+      "selected": 1,
+      "silent": true,
+      "time": 2.6,
+      "velocity": "(66.79876, 0.530949)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 39,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.851851851852,
+      "pos": "(273.5961, 800.1066)",
+      "route_nodes": 2,
+      "selected": 1,
+      "silent": true,
+      "time": 2.66666666666666,
+      "velocity": "(63.99949, 0.467226)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 40,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.848148148148,
+      "pos": "(277.7462, 800.135)",
+      "route_nodes": 2,
+      "selected": 1,
+      "silent": true,
+      "time": 2.73333333333333,
+      "velocity": "(61.20025, 0.40174)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 41,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.844444444444,
+      "pos": "(281.7095, 800.159)",
+      "route_nodes": 2,
+      "selected": 1,
+      "silent": true,
+      "time": 2.79999999999999,
+      "velocity": "(58.40107, 0.334347)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 42,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.840740740741,
+      "pos": "(285.4863, 800.1784)",
+      "route_nodes": 2,
+      "selected": 1,
+      "silent": true,
+      "time": 2.86666666666666,
+      "velocity": "(55.60192, 0.264888)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 43,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.837037037037,
+      "pos": "(289.0765, 800.1931)",
+      "route_nodes": 2,
+      "selected": 1,
+      "silent": true,
+      "time": 2.93333333333333,
+      "velocity": "(52.80285, 0.193199)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 44,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.833333333333,
+      "pos": "(292.48, 800.203)",
+      "route_nodes": 2,
+      "selected": 1,
+      "silent": true,
+      "time": 2.99999999999999,
+      "velocity": "(50.00383, 0.119091)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 45,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.829629629629,
+      "pos": "(295.697, 800.2078)",
+      "route_nodes": 2,
+      "selected": 1,
+      "silent": true,
+      "time": 3.06666666666666,
+      "velocity": "(47.20488, 0.042374)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 46,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.825925925926,
+      "pos": "(298.7274, 800.2073)",
+      "route_nodes": 2,
+      "selected": 1,
+      "silent": true,
+      "time": 3.13333333333333,
+      "velocity": "(44.40601, -0.037154)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 47,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.822222222222,
+      "pos": "(301.5777, 800.2016)",
+      "route_nodes": 2,
+      "selected": 1,
+      "silent": true,
+      "time": 3.19999999999999,
+      "velocity": "(41.99986, -0.107953)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 48,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.818518518518,
+      "pos": "(304.3777, 800.1945)",
+      "route_nodes": 2,
+      "selected": 1,
+      "silent": true,
+      "time": 3.26666666666666,
+      "velocity": "(41.99986, -0.108017)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 49,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.814814814815,
+      "pos": "(307.1778, 800.1873)",
+      "route_nodes": 2,
+      "selected": 1,
+      "silent": true,
+      "time": 3.33333333333333,
+      "velocity": "(41.99986, -0.108017)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 50,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.811111111111,
+      "pos": "(309.9778, 800.1801)",
+      "route_nodes": 2,
+      "selected": 1,
+      "silent": true,
+      "time": 3.39999999999999,
+      "velocity": "(41.99986, -0.108016)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 51,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.807407407407,
+      "pos": "(312.7779, 800.1729)",
+      "route_nodes": 2,
+      "selected": 1,
+      "silent": true,
+      "time": 3.46666666666666,
+      "velocity": "(41.99986, -0.108016)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 52,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.803703703704,
+      "pos": "(315.5779, 800.1657)",
+      "route_nodes": 2,
+      "selected": 1,
+      "silent": true,
+      "time": 3.53333333333333,
+      "velocity": "(41.99986, -0.108015)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 53,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.8,
+      "pos": "(318.378, 800.1585)",
+      "route_nodes": 2,
+      "selected": 1,
+      "silent": true,
+      "time": 3.59999999999999,
+      "velocity": "(41.99986, -0.108014)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 54,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.796296296296,
+      "pos": "(321.178, 800.1513)",
+      "route_nodes": 2,
+      "selected": 1,
+      "silent": true,
+      "time": 3.66666666666666,
+      "velocity": "(41.99986, -0.108014)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 55,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.792592592592,
+      "pos": "(323.9781, 800.1441)",
+      "route_nodes": 2,
+      "selected": 1,
+      "silent": true,
+      "time": 3.73333333333332,
+      "velocity": "(41.99986, -0.108013)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 56,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.788888888889,
+      "pos": "(326.7781, 800.1369)",
+      "route_nodes": 2,
+      "selected": 1,
+      "silent": true,
+      "time": 3.79999999999999,
+      "velocity": "(41.99986, -0.108012)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 57,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.785185185185,
+      "pos": "(329.5782, 800.1297)",
+      "route_nodes": 2,
+      "selected": 1,
+      "silent": true,
+      "time": 3.86666666666666,
+      "velocity": "(41.99986, -0.108011)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 58,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.781481481481,
+      "pos": "(332.3782, 800.1225)",
+      "route_nodes": 2,
+      "selected": 1,
+      "silent": true,
+      "time": 3.93333333333332,
+      "velocity": "(41.99986, -0.10801)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 59,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.777777777778,
+      "pos": "(335.1783, 800.1153)",
+      "route_nodes": 2,
+      "selected": 1,
+      "silent": true,
+      "time": 3.99999999999999,
+      "velocity": "(41.99986, -0.108008)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 60,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.774074074074,
+      "pos": "(337.9783, 800.1081)",
+      "route_nodes": 2,
+      "selected": 1,
+      "silent": true,
+      "time": 4.06666666666666,
+      "velocity": "(41.99986, -0.108007)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 61,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.77037037037,
+      "pos": "(340.7784, 800.1009)",
+      "route_nodes": 2,
+      "selected": 1,
+      "silent": true,
+      "time": 4.13333333333332,
+      "velocity": "(41.99986, -0.108005)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 62,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.766666666666,
+      "pos": "(343.5784, 800.0937)",
+      "route_nodes": 2,
+      "selected": 1,
+      "silent": true,
+      "time": 4.19999999999999,
+      "velocity": "(41.99986, -0.108004)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 63,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.762962962963,
+      "pos": "(346.3785, 800.0865)",
+      "route_nodes": 2,
+      "selected": 1,
+      "silent": true,
+      "time": 4.26666666666666,
+      "velocity": "(41.99986, -0.108001)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 64,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.759259259259,
+      "pos": "(349.1785, 800.0793)",
+      "route_nodes": 2,
+      "selected": 1,
+      "silent": true,
+      "time": 4.33333333333332,
+      "velocity": "(41.99986, -0.107999)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 65,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.755555555555,
+      "pos": "(351.9719, 800.0721)",
+      "route_nodes": 2,
+      "selected": 1,
+      "silent": true,
+      "time": 4.39999999999999,
+      "velocity": "(41.59923, -0.106966)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 66,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.751851851852,
+      "pos": "(354.6472, 800.0652)",
+      "route_nodes": 2,
+      "selected": 1,
+      "silent": true,
+      "time": 4.46666666666666,
+      "velocity": "(39.24893, -0.100955)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 67,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.748148148148,
+      "pos": "(357.1659, 800.0587)",
+      "route_nodes": 2,
+      "selected": 1,
+      "silent": true,
+      "time": 4.53333333333332,
+      "velocity": "(36.89761, -0.094888)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 68,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.744444444444,
+      "pos": "(359.5277, 800.0527)",
+      "route_nodes": 2,
+      "selected": 1,
+      "silent": true,
+      "time": 4.59999999999999,
+      "velocity": "(34.54507, -0.088854)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 69,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.740740740741,
+      "pos": "(361.7326, 800.047)",
+      "route_nodes": 2,
+      "selected": 1,
+      "silent": true,
+      "time": 4.66666666666666,
+      "velocity": "(32.19115, -0.082859)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 70,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.737037037037,
+      "pos": "(363.7806, 800.0417)",
+      "route_nodes": 2,
+      "selected": 1,
+      "silent": true,
+      "time": 4.73333333333332,
+      "velocity": "(29.83564, -0.076799)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 71,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.733333333333,
+      "pos": "(365.6714, 800.0369)",
+      "route_nodes": 2,
+      "selected": 1,
+      "silent": true,
+      "time": 4.79999999999999,
+      "velocity": "(27.47831, -0.070663)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 72,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.729629629629,
+      "pos": "(367.405, 800.0324)",
+      "route_nodes": 2,
+      "selected": 1,
+      "silent": true,
+      "time": 4.86666666666665,
+      "velocity": "(25.11879, -0.064677)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 73,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.725925925926,
+      "pos": "(368.9812, 800.0284)",
+      "route_nodes": 2,
+      "selected": 1,
+      "silent": true,
+      "time": 4.93333333333332,
+      "velocity": "(22.75668, -0.058614)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 74,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.722222222222,
+      "pos": "(370.3997, 800.0247)",
+      "route_nodes": 2,
+      "selected": 1,
+      "silent": true,
+      "time": 4.99999999999999,
+      "velocity": "(20.39132, -0.052463)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 75,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.718518518518,
+      "pos": "(371.6068, 800.0216)",
+      "route_nodes": 2,
+      "selected": 0,
+      "silent": true,
+      "time": 5.06666666666665,
+      "velocity": "(15.87392, -0.040865)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 76,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.714814814815,
+      "pos": "(372.3872, 800.0196)",
+      "route_nodes": 2,
+      "selected": 0,
+      "silent": true,
+      "time": 5.13333333333332,
+      "velocity": "(9.207274, -0.023703)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 77,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.711111111111,
+      "pos": "(372.7233, 800.0187)",
+      "route_nodes": 2,
+      "selected": 0,
+      "silent": true,
+      "time": 5.19999999999999,
+      "velocity": "(2.540629, -0.00654)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 78,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.707407407407,
+      "pos": "(372.8079, 800.0187)",
+      "route_nodes": 1,
+      "selected": 0,
+      "silent": false,
+      "time": 5.26666666666665,
+      "velocity": "(2.1, -0.000235)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 79,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.703703703703,
+      "pos": "(373.0645, 800.0187)",
+      "route_nodes": 1,
+      "selected": 0,
+      "silent": false,
+      "time": 5.33333333333332,
+      "velocity": "(4.9, -0.000547)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 80,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.7,
+      "pos": "(373.5078, 800.0187)",
+      "route_nodes": 1,
+      "selected": 0,
+      "silent": false,
+      "time": 5.39999999999999,
+      "velocity": "(7.699999, -0.000861)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 81,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.696296296296,
+      "pos": "(374.1378, 800.0187)",
+      "route_nodes": 1,
+      "selected": 0,
+      "silent": false,
+      "time": 5.46666666666665,
+      "velocity": "(10.5, -0.001176)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 82,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.692592592592,
+      "pos": "(374.9545, 800.0187)",
+      "route_nodes": 1,
+      "selected": 0,
+      "silent": false,
+      "time": 5.53333333333332,
+      "velocity": "(13.3, -0.001492)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 83,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.688888888889,
+      "pos": "(375.9579, 800.0187)",
+      "route_nodes": 1,
+      "selected": 0,
+      "silent": false,
+      "time": 5.59999999999999,
+      "velocity": "(16.1, -0.00181)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 84,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.685185185185,
+      "pos": "(377.1479, 800.0184)",
+      "route_nodes": 1,
+      "selected": 0,
+      "silent": false,
+      "time": 5.66666666666665,
+      "velocity": "(18.9, -0.002129)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 85,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.681481481481,
+      "pos": "(378.5245, 800.0182)",
+      "route_nodes": 1,
+      "selected": 0,
+      "silent": false,
+      "time": 5.73333333333332,
+      "velocity": "(21.7, -0.002446)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 86,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.677777777778,
+      "pos": "(380.0879, 800.0179)",
+      "route_nodes": 1,
+      "selected": 0,
+      "silent": false,
+      "time": 5.79999999999998,
+      "velocity": "(24.50001, -0.00276)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 87,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.674074074074,
+      "pos": "(381.8379, 800.0177)",
+      "route_nodes": 1,
+      "selected": 0,
+      "silent": false,
+      "time": 5.86666666666665,
+      "velocity": "(27.30001, -0.003073)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 88,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.67037037037,
+      "pos": "(383.7745, 800.0175)",
+      "route_nodes": 1,
+      "selected": 0,
+      "silent": false,
+      "time": 5.93333333333332,
+      "velocity": "(30.10001, -0.003385)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 89,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.666666666666,
+      "pos": "(385.8979, 800.0172)",
+      "route_nodes": 1,
+      "selected": 0,
+      "silent": false,
+      "time": 5.99999999999998,
+      "velocity": "(32.90001, -0.003697)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 90,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.662962962963,
+      "pos": "(388.2079, 800.017)",
+      "route_nodes": 1,
+      "selected": 2,
+      "silent": false,
+      "time": 6.06666666666665,
+      "velocity": "(35.70002, -0.004008)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 91,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.659259259259,
+      "pos": "(390.7046, 800.0167)",
+      "route_nodes": 1,
+      "selected": 2,
+      "silent": false,
+      "time": 6.13333333333332,
+      "velocity": "(38.50002, -0.004321)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 92,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.655555555555,
+      "pos": "(393.3879, 800.0165)",
+      "route_nodes": 1,
+      "selected": 2,
+      "silent": false,
+      "time": 6.19999999999998,
+      "velocity": "(41.30002, -0.004634)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 93,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.651851851852,
+      "pos": "(396.2579, 800.0162)",
+      "route_nodes": 1,
+      "selected": 2,
+      "silent": false,
+      "time": 6.26666666666665,
+      "velocity": "(44.10003, -0.004951)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 94,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.648148148148,
+      "pos": "(399.3145, 800.016)",
+      "route_nodes": 1,
+      "selected": 2,
+      "silent": false,
+      "time": 6.33333333333332,
+      "velocity": "(46.90003, -0.005271)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 95,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.644444444444,
+      "pos": "(402.5579, 800.0156)",
+      "route_nodes": 1,
+      "selected": 2,
+      "silent": false,
+      "time": 6.39999999999998,
+      "velocity": "(49.70003, -0.005597)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 96,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.64074074074,
+      "pos": "(405.9879, 800.0151)",
+      "route_nodes": 1,
+      "selected": 2,
+      "silent": false,
+      "time": 6.46666666666665,
+      "velocity": "(52.50003, -0.005918)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 97,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.637037037037,
+      "pos": "(409.6046, 800.0146)",
+      "route_nodes": 1,
+      "selected": 2,
+      "silent": false,
+      "time": 6.53333333333332,
+      "velocity": "(55.30004, -0.006233)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 98,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.633333333333,
+      "pos": "(413.4079, 800.0142)",
+      "route_nodes": 1,
+      "selected": 2,
+      "silent": false,
+      "time": 6.59999999999998,
+      "velocity": "(58.10004, -0.006543)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 99,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.629629629629,
+      "pos": "(417.3979, 800.0137)",
+      "route_nodes": 1,
+      "selected": 2,
+      "silent": false,
+      "time": 6.66666666666665,
+      "velocity": "(60.90004, -0.006849)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 100,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.625925925926,
+      "pos": "(421.5746, 800.0132)",
+      "route_nodes": 1,
+      "selected": 2,
+      "silent": false,
+      "time": 6.73333333333331,
+      "velocity": "(63.70005, -0.00715)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 101,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.622222222222,
+      "pos": "(425.9379, 800.0127)",
+      "route_nodes": 1,
+      "selected": 2,
+      "silent": false,
+      "time": 6.79999999999998,
+      "velocity": "(66.50004, -0.00745)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 102,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.618518518518,
+      "pos": "(430.4879, 800.0122)",
+      "route_nodes": 1,
+      "selected": 2,
+      "silent": false,
+      "time": 6.86666666666665,
+      "velocity": "(69.30003, -0.007751)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 103,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.614814814815,
+      "pos": "(435.2245, 800.0117)",
+      "route_nodes": 1,
+      "selected": 2,
+      "silent": false,
+      "time": 6.93333333333331,
+      "velocity": "(72.10001, -0.008058)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 104,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.611111111111,
+      "pos": "(440.1479, 800.0112)",
+      "route_nodes": 1,
+      "selected": 2,
+      "silent": false,
+      "time": 6.99999999999998,
+      "velocity": "(74.9, -0.008384)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 105,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.607407407407,
+      "pos": "(445.2579, 800.0107)",
+      "route_nodes": 1,
+      "selected": 2,
+      "silent": false,
+      "time": 7.06666666666665,
+      "velocity": "(77.69999, -0.008776)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 106,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.603703703703,
+      "pos": "(450.4573, 800.0103)",
+      "route_nodes": 1,
+      "selected": 2,
+      "silent": false,
+      "time": 7.13333333333331,
+      "velocity": "(77.96761, -0.008905)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 107,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.6,
+      "pos": "(455.5576, 800.0098)",
+      "route_nodes": 1,
+      "selected": 2,
+      "silent": false,
+      "time": 7.19999999999998,
+      "velocity": "(75.62539, -0.008725)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 108,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.596296296296,
+      "pos": "(460.5017, 800.0093)",
+      "route_nodes": 1,
+      "selected": 2,
+      "silent": false,
+      "time": 7.26666666666665,
+      "velocity": "(73.28287, -0.008533)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 109,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.592592592592,
+      "pos": "(465.2896, 800.0088)",
+      "route_nodes": 1,
+      "selected": 2,
+      "silent": false,
+      "time": 7.33333333333331,
+      "velocity": "(70.94006, -0.00833)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 110,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.588888888889,
+      "pos": "(469.9213, 800.0083)",
+      "route_nodes": 1,
+      "selected": 2,
+      "silent": false,
+      "time": 7.39999999999998,
+      "velocity": "(68.59692, -0.008112)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 111,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.585185185185,
+      "pos": "(474.3968, 800.0078)",
+      "route_nodes": 1,
+      "selected": 2,
+      "silent": false,
+      "time": 7.46666666666665,
+      "velocity": "(66.25346, -0.007881)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 112,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.581481481481,
+      "pos": "(478.716, 800.0073)",
+      "route_nodes": 1,
+      "selected": 2,
+      "silent": false,
+      "time": 7.53333333333331,
+      "velocity": "(63.90963, -0.007633)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 113,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.577777777777,
+      "pos": "(482.879, 800.0068)",
+      "route_nodes": 1,
+      "selected": 2,
+      "silent": false,
+      "time": 7.59999999999998,
+      "velocity": "(61.5654, -0.007367)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 114,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.574074074074,
+      "pos": "(486.8857, 800.0063)",
+      "route_nodes": 1,
+      "selected": 2,
+      "silent": false,
+      "time": 7.66666666666664,
+      "velocity": "(59.22073, -0.007082)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 115,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.57037037037,
+      "pos": "(490.736, 800.0059)",
+      "route_nodes": 1,
+      "selected": 2,
+      "silent": false,
+      "time": 7.73333333333331,
+      "velocity": "(56.87562, -0.006775)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 116,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.566666666666,
+      "pos": "(494.43, 800.0054)",
+      "route_nodes": 1,
+      "selected": 2,
+      "silent": false,
+      "time": 7.79999999999998,
+      "velocity": "(54.53001, -0.006445)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 117,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.562962962963,
+      "pos": "(497.9675, 800.0049)",
+      "route_nodes": 1,
+      "selected": 2,
+      "silent": false,
+      "time": 7.86666666666664,
+      "velocity": "(52.18384, -0.006088)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 118,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.559259259259,
+      "pos": "(501.3487, 800.0044)",
+      "route_nodes": 1,
+      "selected": 2,
+      "silent": false,
+      "time": 7.93333333333331,
+      "velocity": "(49.83709, -0.005701)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 119,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.555555555555,
+      "pos": "(504.5734, 800.004)",
+      "route_nodes": 1,
+      "selected": 2,
+      "silent": false,
+      "time": 7.99999999999998,
+      "velocity": "(47.48968, -0.005362)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 120,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.551851851851,
+      "pos": "(507.6415, 800.0038)",
+      "route_nodes": 1,
+      "selected": 0,
+      "silent": false,
+      "time": 8.06666666666665,
+      "velocity": "(45.14154, -0.005242)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 121,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.548148148148,
+      "pos": "(510.5531, 800.0035)",
+      "route_nodes": 1,
+      "selected": 0,
+      "silent": false,
+      "time": 8.13333333333332,
+      "velocity": "(42.79263, -0.005109)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 122,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.544444444444,
+      "pos": "(513.308, 800.0033)",
+      "route_nodes": 1,
+      "selected": 0,
+      "silent": false,
+      "time": 8.19999999999999,
+      "velocity": "(40.44282, -0.004961)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 123,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.54074074074,
+      "pos": "(515.9063, 800.0031)",
+      "route_nodes": 1,
+      "selected": 0,
+      "silent": false,
+      "time": 8.26666666666666,
+      "velocity": "(38.092, -0.004795)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 124,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.537037037037,
+      "pos": "(518.3478, 800.0028)",
+      "route_nodes": 1,
+      "selected": 0,
+      "silent": false,
+      "time": 8.33333333333333,
+      "velocity": "(35.74004, -0.004608)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 125,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.533333333333,
+      "pos": "(520.6324, 800.0026)",
+      "route_nodes": 1,
+      "selected": 0,
+      "silent": false,
+      "time": 8.4,
+      "velocity": "(33.38684, -0.004398)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 126,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.529629629629,
+      "pos": "(522.7601, 800.0023)",
+      "route_nodes": 1,
+      "selected": 0,
+      "silent": false,
+      "time": 8.46666666666667,
+      "velocity": "(31.03217, -0.00416)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 127,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.525925925926,
+      "pos": "(524.7307, 800.0021)",
+      "route_nodes": 1,
+      "selected": 0,
+      "silent": false,
+      "time": 8.53333333333334,
+      "velocity": "(28.67583, -0.00389)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 128,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.522222222222,
+      "pos": "(526.5441, 800.0018)",
+      "route_nodes": 1,
+      "selected": 0,
+      "silent": false,
+      "time": 8.60000000000001,
+      "velocity": "(26.31754, -0.003584)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 129,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.518518518518,
+      "pos": "(528.2003, 800.0016)",
+      "route_nodes": 1,
+      "selected": 0,
+      "silent": false,
+      "time": 8.66666666666668,
+      "velocity": "(23.95689, -0.003236)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 130,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.514814814814,
+      "pos": "(529.6989, 800.0013)",
+      "route_nodes": 1,
+      "selected": 0,
+      "silent": false,
+      "time": 8.73333333333335,
+      "velocity": "(21.5932, -0.002843)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 131,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.511111111111,
+      "pos": "(531.0399, 800.0011)",
+      "route_nodes": 1,
+      "selected": 0,
+      "silent": false,
+      "time": 8.80000000000002,
+      "velocity": "(19.22604, -0.002402)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 132,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.507407407407,
+      "pos": "(532.0439, 800.001)",
+      "route_nodes": 1,
+      "selected": 0,
+      "silent": false,
+      "time": 8.86666666666669,
+      "velocity": "(12.55937, -0.001569)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 133,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.503703703703,
+      "pos": "(532.6033, 800.001)",
+      "route_nodes": 1,
+      "selected": 0,
+      "silent": false,
+      "time": 8.93333333333336,
+      "velocity": "(5.892704, -0.000736)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 134,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.5,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 9.00000000000003,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 135,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.496296296296,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 9.0666666666667,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 136,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.492592592592,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 9.13333333333337,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 137,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.488888888888,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 9.20000000000004,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 138,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.485185185185,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 9.26666666666671,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 139,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.481481481481,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 9.33333333333338,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 140,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.477777777777,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 9.40000000000005,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 141,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.474074074074,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 9.46666666666672,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 142,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.47037037037,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 9.53333333333339,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 143,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.466666666666,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 9.60000000000006,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 144,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.462962962963,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 9.66666666666673,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 145,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.459259259259,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 9.7333333333334,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 146,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.455555555555,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 9.80000000000007,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 147,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.451851851851,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 9.86666666666674,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 148,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.448148148148,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 9.93333333333341,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 149,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.444444444444,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 10.0000000000001,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 150,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.44074074074,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 10.0666666666667,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 151,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.437037037037,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 10.1333333333334,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 152,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.433333333333,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 10.2000000000001,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 153,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.429629629629,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 10.2666666666668,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 154,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.425925925925,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 10.3333333333334,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 155,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.422222222222,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 10.4000000000001,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 156,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.418518518518,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 10.4666666666668,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 157,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.414814814814,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 10.5333333333334,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 158,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.411111111111,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 10.6000000000001,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 159,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.407407407407,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 10.6666666666668,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 160,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.403703703703,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 10.7333333333334,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 161,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.4,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 10.8000000000001,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 162,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.396296296296,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 10.8666666666668,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 163,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.392592592592,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 10.9333333333335,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 164,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.388888888888,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 11.0000000000001,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 165,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.385185185185,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 11.0666666666668,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 166,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.381481481481,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 11.1333333333335,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 167,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.377777777777,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 11.2000000000001,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 168,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.374074074074,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 11.2666666666668,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 169,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.37037037037,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 11.3333333333335,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 170,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.366666666666,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 11.4000000000001,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 171,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.362962962962,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 11.4666666666668,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 172,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.359259259259,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 11.5333333333335,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 173,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.355555555555,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 11.6000000000002,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 174,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.351851851851,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 11.6666666666668,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 175,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.348148148148,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 11.7333333333335,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 176,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.344444444444,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 11.8000000000002,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 177,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.34074074074,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 11.8666666666668,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 178,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.337037037037,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 11.9333333333335,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 179,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.333333333333,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 12.0000000000002,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 180,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.329629629629,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 12.0666666666668,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 181,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.325925925925,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 12.1333333333335,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 182,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.322222222222,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 12.2000000000002,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 183,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.318518518518,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 12.2666666666669,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 184,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.314814814814,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 12.3333333333335,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 185,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.311111111111,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 12.4000000000002,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 186,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.307407407407,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 12.4666666666669,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 187,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.303703703703,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 12.5333333333335,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 188,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.299999999999,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 12.6000000000002,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 189,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.296296296296,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 12.6666666666669,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 190,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.292592592592,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 12.7333333333335,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 191,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.288888888888,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 12.8000000000002,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 192,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.285185185185,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 12.8666666666669,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 193,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.281481481481,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 12.9333333333336,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 194,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.277777777777,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 13.0000000000002,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 195,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.274074074073,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 13.0666666666669,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 196,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.27037037037,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 13.1333333333336,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 197,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.266666666666,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 13.2000000000002,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 198,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.262962962962,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 13.2666666666669,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 199,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.259259259259,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 13.3333333333336,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 200,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.255555555555,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 13.4000000000002,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 201,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.251851851851,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 13.4666666666669,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 202,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.248148148148,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 13.5333333333336,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 203,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.244444444444,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 13.6000000000003,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 204,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.24074074074,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 13.6666666666669,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 205,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.237037037036,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 13.7333333333336,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 206,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.233333333333,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 13.8000000000003,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 207,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.229629629629,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 13.8666666666669,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 208,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.225925925925,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 13.9333333333336,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 209,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.222222222222,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 14.0000000000003,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 210,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.218518518518,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 14.0666666666669,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 211,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.214814814814,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 14.1333333333336,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 212,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.21111111111,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 14.2000000000003,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 213,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.207407407407,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 14.266666666667,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 214,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.203703703703,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 14.3333333333336,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 215,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.199999999999,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 14.4000000000003,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 216,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.196296296296,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 14.466666666667,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 217,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.192592592592,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 14.5333333333336,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 218,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.188888888888,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 14.6000000000003,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 219,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.185185185185,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 14.666666666667,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 220,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.181481481481,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 14.7333333333336,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 221,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.177777777777,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 14.8000000000003,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 222,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.174074074073,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 14.866666666667,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 223,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.17037037037,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 14.9333333333337,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 224,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.166666666666,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 15.0000000000003,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 225,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.162962962962,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 15.066666666667,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 226,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.159259259259,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 15.1333333333337,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 227,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.155555555555,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 15.2000000000003,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 228,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.151851851851,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 15.266666666667,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 229,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.148148148147,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 15.3333333333337,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 230,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.144444444444,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 15.4000000000003,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 231,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.14074074074,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 15.466666666667,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 232,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.137037037036,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 15.5333333333337,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 233,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.133333333333,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 15.6000000000004,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 234,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.129629629629,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 15.666666666667,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 235,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.125925925925,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 15.7333333333337,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 236,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.122222222222,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 15.8000000000004,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 237,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.118518518518,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 15.866666666667,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 238,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.114814814814,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 15.9333333333337,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "contacts": {
+
+      },
+      "frame": 239,
+      "hull": 100.0,
+      "outcome": "",
+      "oxygen": 119.11111111111,
+      "pos": "(532.7313, 800.001)",
+      "route_nodes": 0,
+      "selected": 0,
+      "silent": false,
+      "time": 16.0000000000004,
+      "velocity": "(0.0, 0.0)"
+    }
+  ],
+  "setup": "unmodified fresh Shelf Signal; ordinary route/queue/STOP commands; both drones independently moving; programmed incoming modes before frame0 or baseline initial manual CRUISE. Idle gets no route/mode commands.",
+  "transitions": [
+    {
+      "frame": 0,
+      "pos": "(140.1133, 799.9724)",
+      "remaining_nodes": 3,
+      "silent": false,
+      "speed": 2.79836702346802,
+      "time": 0.0666666666666667
+    },
+    {
+      "frame": 35,
+      "pos": "(255.13, 799.9507)",
+      "remaining_nodes": 2,
+      "silent": true,
+      "speed": 75.2001724243164,
+      "time": 2.4
+    },
+    {
+      "frame": 78,
+      "pos": "(372.8079, 800.0187)",
+      "remaining_nodes": 1,
+      "silent": false,
+      "speed": 2.09999990463257,
+      "time": 5.26666666666665
+    },
+    {
+      "frame": 134,
+      "pos": "(532.7313, 800.001)",
+      "remaining_nodes": 0,
+      "silent": false,
+      "speed": 0.0,
+      "time": 9.00000000000003
+    }
+  ]
+}
