@@ -42,9 +42,11 @@ Files: ocean_view.gd/main.gd; gesture tests; `game/tests/capture_touch.gd` and r
 
 - [x] After deterministic comparisons, commission a separate bounded Sol regression hunter against baseline93b8631 and actual challenger output; allow no meaningful findings. Confirm consequential regressions before speculative additions.
 - [x] Fresh integrated criticism as warranted across whole-game experience, with images-first and model/source policy inherited; do not substitute additional difficulty for clarity.
-- [ ] Native +/-/transformed target taps and ordinary camera completion/lifecycle gate; inspect actual pixels. Physical Fold7 comfort remains open.
-- [ ] Update baseline/challenger promotion, dashboard, workbench, continuation and model evidence; preserve rejected work and begin next highest-value cycle. No milestone ends the Gauntlet.
+- [x] Native +/-/transformed target taps and ordinary camera completion/lifecycle gate; inspect actual pixels. Physical Fold7 comfort remains open.
+- [x] Update baseline/challenger promotion, dashboard, workbench, continuation and model evidence; preserve rejected work and begin next highest-value cycle. No milestone ends the Gauntlet.
 
 Self-review: camera/gesture interfaces, native target contract, cancellation/duplication failure classes and actual visual/Android gates are assigned above. Implementation choices are within the user's explicit touch direction and standing autonomy grant, not a claim that the user approved every UI detail.
 
 Task3 evidence: separate hunter found no consequential newly broken behavior (`docs/reviews/2026-10-19-touch-regressions.md`); fresh whole-game review completed (`docs/reviews/2026-10-19-whole-game-review.md`). Native39204224960 passed both profiles actual +/−/pan/FIT without orders/pause changes and ordinary camera/won/save, but its final completed-campaign restart was interrupted by Android runtime/service restart. Cause not established; no speculative game fix. Diagnostic-only retry39205478335/f1ea536 is pending, production runtime unchanged from92625ac. Overall native/promotion boxes remain open.48 logical pixels do not certify48 Android dp or physical comfort.
+
+Promotion checkpoint: controlled native39205478335 at f1ea536 (runtime92625ac) passed the full touch/completion/campaign-cold-restore/error gate. Same kernel boot ID and system_server PID 654 throughout final restart. No game/backend change; prior interruption cause unknown/nonreproduced. Actual OS pinch, physical Fold7 comfort and sustained performance remain open. Touch milestone promoted with review/tradeoff evidence; continue the finale cycle rather than ending the Gauntlet.

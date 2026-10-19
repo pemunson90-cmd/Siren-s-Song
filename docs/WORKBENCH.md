@@ -1,8 +1,8 @@
 # Siren's Song progress workbench
 
-**Stage:** Active Gauntlet, campaign baseline plus five experience/reliability cycles, with Cold Foundry and the exact PCM fix verified on native Android; touch challenger has completed independent regression/whole-game reviews and is awaiting the final native retry. This is not a finished or user-accepted game.
+**Stage:** Active Gauntlet, campaign baseline plus five experience/reliability cycles, with Cold Foundry and the exact PCM fix verified on native Android; touch milestone is now promoted after independent reviews and complete native retry; finale investigation/return cycle is beginning. This is not a finished or user-accepted game.
 **Phone dashboard:** [current evidence and next work](PHONE_DASHBOARD.md).
-**Verified baseline:** `93b8631`, [native39202066103](https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/39202066103); [scope/tradeoffs](BASELINE_AND_EXPERIMENTS.md).
+**Verified baseline:** `f1ea536` (runtime `92625ac`), [native39205478335](https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/39205478335); prior `93b8631` preserved; [scope/tradeoffs](BASELINE_AND_EXPERIMENTS.md).
 **Branch:** `gauntlet/production`; campaign baseline plus reliability, optical/safe-area and return-planning cycles; see checkpoints below.
 **Player device:** Samsung Galaxy Z Fold7; physical installation/folding/thumb/performance review remains open.
 
@@ -19,9 +19,9 @@
 
 ## Current evidence and highest-value next cycle
 
-Current touch candidate92625ac: **8 parser guards +88 core/campaign +225 runtime checks, zero failures**. Separate hunter found no consequential newly broken behavior versus93b8631; actual retained probes cover transformed routes, queue/emergency, optical ownership, duplication and resize cancellation. [Whole-game review](reviews/2026-10-19-whole-game-review.md) supports local zoom/threat clarity and prioritizes a distinctive finale warning/return investigation after native settlement. Its ordinary loadout comparisons were reproduced; logs/captures live in `validation/production/whole-game-review/`.
+Promoted touch runtime **92625ac** at source **f1ea536**, native **39205478335**: 8 parser guards +88 core/campaign +225 runtime checks pass. Separate regression hunter found no consequential newly broken behavior; [whole-game review](reviews/2026-10-19-whole-game-review.md) supports local zoom, threat clarity and calmer controls. Actual native plus/minus/pan/FIT on both layouts produced zero accidental orders or pause changes. Sustained audio, ordinary camera/won/save, lifecycle and completed[0]/unlocked1 new-process restore passed the strict gate. Same kernel boot ID and system_server PID 654 across final restart. Earlier interruption remains unexplained/nonreproduced; no game/backend/gate change was used.
 
-Native39204224960 verified actual +/−/pan/FIT on both profiles without new route/pause events, lifecycle/archive entry, sustained audio and ordinary camera/won/save. Final completed-campaign cold restore was interrupted by Android runtime/service restart/adb closure; cause unknown, no established game regression. Diagnostic-only retry39205478335 atf1ea536 is pending with production runtime unchanged. Source freeze and baseline93b8631 remain.48 logical pixels do not certify48 Android dp, thumb comfort or physical Fold7 ergonomics. Next: tooling assesses full retry before promotion; then design the bounded finale cycle using fresh critique, retaining valid-strategy tradeoffs and solo/loss recovery.
+Next bounded cycle: make the finale's warning a recognizable discovery with a meaningful Quietus exposure/return choice, retaining solo/drone-loss recovery. Reproduced review strategies remain in `validation/production/whole-game-review/`; any deliberate loss of valid remote completion must be weighed and documented, not labeled a bug fix.48 logical pixels do not certify48 Android dp or physical Fold7 comfort. OS pinch, physical handling/folding, human listening, full-campaign native play and sustained performance remain open. Prior baseline93b8631 and all rejected/failed traces remain preserved.
 
 ## Continuity
 
@@ -132,3 +132,7 @@ Minor policy precision reconciled: exceptional premium delegation is permitted o
 ## Touch challenger task2 — readable danger and primary orders
 
 Integrated reserved fresh threat target/countdown strip, short nonselected craft IDs, quiet recovered markers, and MORE ORDERS disclosure while keeping camera/emergency/route intent primary. New RED cases found OS-canceled touch becoming a route and HUD second finger being treated as a chart pinch; fixed at the input boundary. Actual cover/unfolded close views show larger craft and separated threat text; synthetic-pointer movie exercises plus/pan/FIT/disclosure with zero route orders.225runtime/88core plus8 tooling parser checks pass. Tradeoff: survey/decoy/conditions/STOP/PASS require one disclosure tap; human comfort/discovery and native gesture behavior are pending. Independent regression evidence comes before promotion. No simulation/campaign/audio source changes from verified baseline.
+
+## Touch promotion — complete native retry
+
+Controlled run39205478335 at f1ea536, unchanged production runtime92625ac, passed the entire gate with separate hunter and periodic whole-game review complete. Tooling inspected actual cover/inner pan, camera and restored archive images. APK SHA-256 `e3c8fa1b838a1fb561cb118b5e6470c680d344a75c979b9dc6ed456f62c396d6`, artifact12165339461; stable signing certificate. Accepted gains/tradeoffs/limits are in the baseline ledger and phone dashboard. No stopping condition is implied; finale cycle begins under standing autonomy.
