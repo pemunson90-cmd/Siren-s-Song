@@ -77,10 +77,10 @@ func _initialize():
  for n in 130:s.advance(1.0/60)
  check(s.sirens[1].has("report_interest") and s.sirens[1].pos.x>250 and s.hull==100,"production sensing moves otherwise-uninformed peer without changing beam window")
  s=fixture();s.mission.structures=[Rect2(650,500,30,80)];s._build_navigation();s.units[0].angle=-PI/2;s._observe()
- check(s.contacts.has(0) and s.command("emergency",{"point":Vector2(740,540)}),"pilot can replot behind physical cover from an earned witness without a tool")
+ check(s.contacts.has(0) and s.command("route",{"point":Vector2(740,540)}),"pilot can replot behind physical cover from an earned witness without a tool")
  s.paused=false
  for n in 180:s.advance(1.0/60)
- check(not s.sirens[1].has("report_interest") and s.sirens[0].get("report",{}).get("sent",0)==0 and s.hull==100 and s.tools.emp==2,"quiet physical withdrawal breaks sight before report completion")
+ check(s.units[0].silent and not s.sirens[1].has("report_interest") and s.sirens[0].get("report",{}).get("sent",0)==0 and s.hull==100 and s.tools.emp==2,"quiet physical withdrawal breaks sight before report completion")
  s=fixture();sight(s,1);var old=s.snapshot();old.mission.erase("contact_report_revision")
  old.mission.erase("acoustic_revision")
  for e in old.sirens:e.erase("report")
