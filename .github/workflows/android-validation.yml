@@ -141,6 +141,9 @@ jobs:
             artifacts/android-smoke/pid-*.txt
             artifacts/android-smoke/rotation-*.txt
             artifacts/android-smoke/view-check-*.txt
+            artifacts/android-smoke/density-*.txt
+            artifacts/android-smoke/ui-metrics-*.txt
+            artifacts/android-smoke/ui-metrics-*.json
             artifacts/android-smoke/checkpoint-*.txt
             artifacts/android-smoke/runtime-state-*.txt
             artifacts/android-smoke/app-exit-info.txt

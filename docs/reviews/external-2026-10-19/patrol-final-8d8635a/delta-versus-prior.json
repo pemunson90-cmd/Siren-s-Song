@@ -1,0 +1,93 @@
+[
+  {
+    "mission": 0,
+    "siren": 0,
+    "travel_delta_m": 0.0,
+    "stationary_delta_s": 0.0,
+    "waypoint_visits_equal": true
+  },
+  {
+    "mission": 1,
+    "siren": 0,
+    "travel_delta_m": 0.0,
+    "stationary_delta_s": 0.0,
+    "waypoint_visits_equal": true
+  },
+  {
+    "mission": 1,
+    "siren": 1,
+    "travel_delta_m": 0.0,
+    "stationary_delta_s": 0.0,
+    "waypoint_visits_equal": true
+  },
+  {
+    "mission": 2,
+    "siren": 0,
+    "travel_delta_m": 0.0,
+    "stationary_delta_s": 0.0,
+    "waypoint_visits_equal": true
+  },
+  {
+    "mission": 2,
+    "siren": 1,
+    "travel_delta_m": 0.0,
+    "stationary_delta_s": 0.0,
+    "waypoint_visits_equal": true
+  },
+  {
+    "mission": 3,
+    "siren": 0,
+    "travel_delta_m": 0.0,
+    "stationary_delta_s": 0.0,
+    "waypoint_visits_equal": true
+  },
+  {
+    "mission": 3,
+    "siren": 1,
+    "travel_delta_m": 0.0,
+    "stationary_delta_s": 0.0,
+    "waypoint_visits_equal": true
+  },
+  {
+    "mission": 4,
+    "siren": 0,
+    "travel_delta_m": -1.1259157956010313,
+    "stationary_delta_s": 0.0,
+    "waypoint_visits_equal": true
+  },
+  {
+    "mission": 4,
+    "siren": 1,
+    "travel_delta_m": 0.0,
+    "stationary_delta_s": 0.0,
+    "waypoint_visits_equal": true
+  },
+  {
+    "mission": 4,
+    "siren": 2,
+    "travel_delta_m": 0.0,
+    "stationary_delta_s": 0.0,
+    "waypoint_visits_equal": true
+  },
+  {
+    "mission": 5,
+    "siren": 0,
+    "travel_delta_m": 0.0,
+    "stationary_delta_s": 0.0,
+    "waypoint_visits_equal": true
+  },
+  {
+    "mission": 5,
+    "siren": 1,
+    "travel_delta_m": 0.0,
+    "stationary_delta_s": 0.0,
+    "waypoint_visits_equal": true
+  },
+  {
+    "mission": 5,
+    "siren": 2,
+    "travel_delta_m": 0.0,
+    "stationary_delta_s": 0.0,
+    "waypoint_visits_equal": true
+  }
+]

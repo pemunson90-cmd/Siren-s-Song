@@ -246,6 +246,32 @@ print('Native zoom/pan/FIT produced zero orders and zero pause changes')
 PY
     stage "$profile native zoom/pan/FIT verified without accidental orders; OS pinch remains unverified"
 }
+verify_touch_targets() {
+    local profile="$1" page="${2:-primary}" checkpoint="${3:-initial}" status attempt label
+    label="$profile-$page-$checkpoint"
+    # Enable only with a coherent source that emits the agreed atomic metrics.
+    # This adds measurements to the existing run; it does not replace input/lifecycle gates.
+    adb shell wm density >"$output/density-$profile.txt"
+    for ((attempt=0; attempt<10; attempt++)); do
+        read_logcat "$output/ui-metrics-$label.txt"
+        shot "$profile-touch-targets-$page-$checkpoint"
+        status=0
+        python3 "$(dirname -- "$0")/android-ui-metrics.py" "$output/ui-metrics-$label.txt" "$output/$profile-touch-targets-$page-$checkpoint.png" \
+            --density "$output/density-$profile.txt" --screen mission --orders-page "$page" >"$output/ui-metrics-$label.json" 2>"$output/ui-metrics-$label.stderr.txt" || status=$?
+        if (( status == 0 )); then
+            stage "$profile $page actual native hit rectangles meet 48 dp recommendation at observed Android density"
+            return 0
+        fi
+        if (( status != 2 )); then
+            cat "$output/ui-metrics-$label.json" "$output/ui-metrics-$label.stderr.txt" >&2
+            return "$status"
+        fi
+        sleep 1
+    done
+    cat "$output/ui-metrics-$label.stderr.txt" >&2
+    echo "No fresh native UI metrics for $profile $page" >&2
+    return 1
+}
 for profile in cover inner; do
     stage "$profile viewport and launch"
     case "$profile" in
@@ -271,6 +297,13 @@ PY
     tap_target mission0 'SS_MISSION_SELECT 0' "$profile-mission0"
     tap_target begin 'SS_SCREEN mission paused=true' "$profile-begin"
     navigation_smoke "$profile"
+    if [[ "${VERIFY_TOUCH_TARGETS:-0}" == 1 ]]; then
+        verify_touch_targets "$profile" primary
+        tap_target more_orders 'SS_TARGET recon ' "$profile-secondary-page"
+        verify_touch_targets "$profile" secondary
+        tap_target more_orders 'SS_TARGET ping ' "$profile-primary-page"
+        verify_touch_targets "$profile" primary restored
+    fi
     tap_target droneA 'SS_ORDER select accepted=true selected=1' "$profile-drone"
     tap_target sub 'SS_ORDER select accepted=true selected=0' "$profile-sub"
     tap_target route 'SS_ORDER route accepted=true' "$profile-route"
