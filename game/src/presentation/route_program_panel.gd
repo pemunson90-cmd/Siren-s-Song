@@ -37,6 +37,7 @@ func rebuild():
  info=label(body,"")
  var content=row(body);content.size_flags_vertical=Control.SIZE_EXPAND_FILL
  preview=preload("res://src/presentation/route_program_preview.gd").new();preview.sim=host.sim;preview.custom_minimum_size=Vector2(160,70);preview.size_flags_vertical=Control.SIZE_EXPAND_FILL;preview.size_flags_horizontal=Control.SIZE_EXPAND_FILL;preview.size_flags_stretch_ratio=0.8;content.add_child(preview)
+ preview.view_changed.connect(host._report_targets,CONNECT_DEFERRED)
  preview.point_chosen.connect(func(p):
   var count=host.sim.route_goals().size()
   apply("route_insert" if count==0 else "route_edit",{"index":0 if count==0 else selected_goal,"point":p}))
@@ -53,6 +54,7 @@ func configure(bounds:Vector2,h:float):
  for b in find_children("*","Button",true,false):
   b.custom_minimum_size.y=h;b.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;b.add_theme_font_size_override("font_size",maxi(14,roundi(h*0.25)))
  for l in find_children("*","Label",true,false):l.add_theme_font_size_override("font_size",maxi(14,roundi(h*0.25)))
+ if preview!=null:preview.configure_navigation(h,maxi(14,roundi(h*0.25)))
 func refresh():
  var goals=host.sim.route_goals();selected_goal=clampi(selected_goal,0,maxi(0,goals.size()-1))
  var legacy=goals.any(func(goal):return goal.get("legacy",false))
