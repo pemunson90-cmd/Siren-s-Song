@@ -16,7 +16,9 @@ const RECORDS = [
 	"Our engine note appears in the next transmission. They have heard the lone pilot inside Quietus.",
 	"The final packet describes a fracture below the mantle. The Sirens are leaving. Their song asks us to listen."
 ]
-static func make(index: int) -> Dictionary:
+static func make(index: int,history:Dictionary={}) -> Dictionary:
+	if index in [11,12,13]:return preload("res://src/campaign/resolution_missions.gd").make(index,history)
+	if index in [9,10]:return preload("res://src/campaign/onward_missions.gd").make(index,history)
 	if index in [6,7,8]:return preload("res://src/campaign/divergence_missions.gd").make(index)
 	var i = clampi(index,0,5)
 	var layouts = [

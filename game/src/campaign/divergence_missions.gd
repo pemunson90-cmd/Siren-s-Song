@@ -3,6 +3,8 @@ const IDS=[6,7,8]
 static func make(index:int)->Dictionary:
  var entry=index==6;var deep=index==7
  var m={"id":index,"title":["The Divergence","Deep Rendezvous","Shelf Return"][index-6],"depth":4200 if entry else (4860 if deep else 2900),"darkness":false,"region_revision":1,"world_size":Vector2(2200,2600 if entry else 2400),"acoustic_revision":1,"expedition_revision":1,"objectives":[],"sirens":[],"signal_sources":[],"signal_observations":[],"expedition_facts":{},"next_signal_time":0.0,"chosen_route":"","recovered":false,"withdrawal_armed":false}
+ if index in [7,8]:m["consequence_revision"]=1
+ if index==7:m["measured_reference"]=[]
  if entry:
   m.start=Vector2(400,2300);m.extraction=Vector2(400,2360)
   m.rocks=[Rect2(-100,1800,800,200),Rect2(1000,1720,1400,200),Rect2(900,780,300,700),Rect2(100,1100,470,360),Rect2(680,300,160,300),Rect2(1400,1000,260,430),Rect2(1720,500,500,140),Rect2(950,-100,300,500)]
@@ -16,7 +18,7 @@ static func make(index:int)->Dictionary:
   m.start=Vector2(1800,2180);m.extraction=Vector2(420,180)
   m.rocks=[Rect2(1000,1600,1400,260),Rect2(840,680,320,720),Rect2(-100,1000,580,280),Rect2(1260,900,300,350),Rect2(120,300,260,340),Rect2(760,-100,300,500)]
   var source=_source("rendezvous","BERTHING CARRIER",Vector2(540,640),"Unarmed hulls exchange low berthing corrections. The rendezvous is assembling an evacuation line farther down the trench.")
-  source["confirm"]=true;m.signal_sources=[source]
+  source["confirm"]=true;source["cadence"]=[0.8,1.6,0.8];m.signal_sources=[source]
   m["corridors"]=[{"pos":m.extraction,"name":"NORTH TRENCH RECOVERY","route":"deep"}]
   m.brief="Enter from the lower trench. Locate the berthing carrier in the western basin, then bring Quietus within clear receiver reach and use CAMERA / LISTEN to confirm the evacuation rendezvous. Drones can find its carrier while Quietus crosses the covered central saddle. Recovery lies north, beyond the berth. The long southern wall separates the lower staging basin from the central saddle. A drone can watch its western tip while Quietus crosses."
   m.record="Deep rendezvous confirmed: the hulls are organizing an evacuation, but the destination remains unresolved. Quietus has a route farther down the trench."

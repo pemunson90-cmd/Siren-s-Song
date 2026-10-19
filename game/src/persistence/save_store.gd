@@ -8,6 +8,10 @@ func valid(data: Dictionary) -> bool:
 	if not data.get("unlocked") is int or data.unlocked<0 or data.unlocked>5: return false
 	if not data.get("completed") is Array or not data.get("settings") is Dictionary or not data.get("upgrade") is String: return false
 	if data.has("expedition") and not preload("res://src/campaign/expedition_campaign.gd").valid(data.expedition):return false
+	if data.has("equipment"):
+		if not preload("res://src/campaign/campaign_consequences.gd").fitting_valid(data.equipment):return false
+		for item in data.equipment.values():
+			if not item.is_empty() and item not in data.get("expedition",{}).get("entitlements",[]):return false
 	if data.has("evidence"):
 		if not data.evidence is Dictionary: return false
 		for key in data.evidence:
@@ -16,6 +20,11 @@ func valid(data: Dictionary) -> bool:
 	if data.has("active") and data.active!=null:
 		if not data.active is Dictionary or not Simulation.valid_snapshot(data.active): return false
 		if data.active.mission.id>=6 and data.active.mission.id not in preload("res://src/campaign/expedition_campaign.gd").available(data.completed,data.get("expedition",{})):return false
+		var fitted=data.active.mission.get("launch_equipment",{})
+		for item in fitted.values():
+			if not item.is_empty() and item not in data.get("expedition",{}).get("entitlements",[]):return false
+		var references=data.active.mission.get("launch_context",{}).get("references",{})
+		if not references.is_empty() and references!=data.get("expedition",{}).get("references",{}):return false
 	return true
 func save(data: Dictionary) -> bool:
 	if not valid(data): warning="Save rejected: unsupported or invalid archive."; return false
