@@ -41,7 +41,9 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          if [[ -z "$BASE_SHA" ]]; then
+          if [[ ! -f game/project.godot ]]; then
+            echo 'game=false' >> "$GITHUB_OUTPUT"
+          elif [[ -z "$BASE_SHA" ]]; then
             echo 'game=true' >> "$GITHUB_OUTPUT"
           elif git diff --quiet "$BASE_SHA" HEAD -- game scripts/toolchain .github/workflows; then
             echo 'game=false' >> "$GITHUB_OUTPUT"
@@ -79,4 +81,4 @@ jobs:
           grep -Eq '^CHECKS [1-9][0-9]* FAILURES 0$' artifacts/pr-core.log
       - name: Docs-only change; no Godot run
         if: steps.changes.outputs.game == 'false'
-        run: echo 'No gameplay or toolchain change. Guidance is checked in the guidance job.'
+        run: echo 'No active Godot game or gameplay change. Guidance is checked separately.'
