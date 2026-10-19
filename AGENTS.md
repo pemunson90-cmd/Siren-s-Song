@@ -1,5 +1,19 @@
 # Agent instructions — Siren's Song
 
+## Current execution contract — user directive, 2026-10-19
+
+This section governs current Gauntlet execution over older per-cycle gates in this file and historical docs. Maintain the game's ratified identity, accepted work, and safety-critical regressions.
+
+**Continuous development:** Each independently mergeable design or implementation lives on its own feature branch/worktree. Allow nonconflicting work to advance concurrently. One assigned integrator coordinates changes into `gauntlet/production`. Each proposed merge receives **one designated reviewer** inspecting the diff, potential conflicts, and focused tests; resolve findings and reconcile against the latest production tip. Additional reviewers require a specific consequential risk. Preserve a playable production branch.
+
+**Proportionate testing:** Fast targeted tests and Godot previews during iterations; affected regression checks before merges; full suite and Android APK at meaningful integrated milestones or for a concrete Android-specific problem. Do not require an APK, exhaustive recordings, independent experiential criticism, or a detailed evidence archive for every small step. Keep existing tests/artifacts available; always correct known breaking regressions. Make game progress the primary outcome.
+
+**Mandatory instruction refresh at every task boundary:** Before assigning the next task, spawning a worker, deciding a merge, or resuming a checkpoint, the orchestrator/integrator must (1) fetch the latest remote `gauntlet/production` without disturbing active work, (2) read `AGENTS.md`, `docs/CONTINUATION.md`, and `docs/WORKBENCH.md` from the fetched tip, (3) apply newer user-directed policy and reconcile any conflicting older local instructions, and (4) pass the current policy and its SHA in the next worker/reviewer brief. Do not assume a running Codex session automatically reloads AGENTS.md. If fetch is unavailable, document the failure, protect existing changes, and retry at the next boundary; do not falsely attest a refresh.
+
+**Self-directed handoffs:** Completing a feature, review, build, checkpoint, or task triggers the next highest-value authorized development activity without asking the user to coordinate routine work. Preserve the running context, current branch/commit, open work and concrete next action. Pause only on an actual execution/resource boundary, dangerous unresolved conflict, or material decision outside the user's existing authorization; a repository instruction cannot itself guarantee execution after a platform session ends. Do not claim background execution across unavailable sessions.
+
+**Instruction upkeep:** Keep this concise contract as the canonical operating policy. WORKBENCH/CONTINUATION contain current state rather than duplicate full governance. Historical mandatory native/review-per-increment wording is superseded. Update the short active handoff when implementing a new policy, and explicitly acknowledge the fetched governance SHA once per session, not after every tiny action.
+
 Read `docs/START_HERE.md` and `docs/SOURCE_AUTHORITY.md` before substantial work. Consult the design bible and provenance sources when available.
 
 ## Identity and design
