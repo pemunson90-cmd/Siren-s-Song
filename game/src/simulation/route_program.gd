@@ -29,15 +29,15 @@ static func compile(origin:Vector2,plan:Array,pathfinder:Callable,world_size:Vec
   route.append_array(leg);origin=goal.pos
  return {"ok":true,"route":route}
 static func valid_unit(unit:Dictionary,quietus:bool=true,world_size:Vector2=Vector2(1600,960)) -> bool:
+ if unit.has("drone_drive") and (quietus or unit.drone_drive not in ["quiet","transit"]):return false
  if unit.has("route_plan") and not valid_goals(unit.route_plan,world_size):return false
- if not quietus and unit.has("route_plan") and unit.route_plan.any(func(goal):return goal.mode!="inherit"):return false
  if unit.has("route_undo"):
   if not unit.route_undo is Array or unit.route_undo.size()>MAX_UNDO:return false
   for plan in unit.route_undo:
-   if not valid_goals(plan,world_size) or (not quietus and plan.any(func(goal):return goal.mode!="inherit")):return false
+   if not valid_goals(plan,world_size):return false
  var goal_index=0
  for node in unit.route:
-  if node.has("mode") and (node.mode not in MODES or (not quietus and node.mode!="inherit")):return false
+  if node.has("mode") and node.mode not in MODES:return false
   if node.has("goal") and not node.goal is bool:return false
   if unit.has("route_plan"):
    if goal_index>=unit.route_plan.size() or node.get("mode","")!=unit.route_plan[goal_index].mode:return false
@@ -48,10 +48,13 @@ static func valid_unit(unit:Dictionary,quietus:bool=true,world_size:Vector2=Vect
  if unit.has("route_plan") and goal_index!=unit.route_plan.size():return false
  return true
 static func speed(unit:Dictionary,fallback:float,quietus:bool) -> float:
- if unit.route.is_empty():return fallback
- var mode=unit.route[0].get("mode","inherit")
- if mode!="inherit":unit.silent=mode=="silent"
- return (42.0 if unit.silent else 78.0) if quietus else fallback
+ if quietus and unit.route.is_empty():return fallback
+ var mode="inherit" if unit.route.is_empty() else unit.route[0].get("mode","inherit")
+ if quietus:
+  if mode!="inherit":unit.silent=mode=="silent"
+  return 42.0 if unit.silent else 78.0
+ if mode!="inherit":unit.drone_drive="quiet" if mode=="silent" else "transit"
+ return 42.0 if unit.get("drone_drive","transit")=="quiet" else fallback
 static func arrived(unit:Dictionary,node:Dictionary) -> void:
  if not node.get("goal",false):return
  if unit.has("route_plan") and not unit.route_plan.is_empty():unit.route_plan.pop_front()

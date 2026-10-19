@@ -67,11 +67,11 @@ func _initialize():
  malformed=snap.duplicate(true);malformed.units[0].route_plan.pop_back();check(not Sim.valid_snapshot(malformed),"inconsistent optional goal/corner correspondence is rejected")
  malformed=snap.duplicate(true);malformed.units[0].route_plan[0].pos=Vector2(NAN,0);check(not Sim.valid_snapshot(malformed),"nonfinite optional goal position is rejected")
  var drone=fresh();drone.command("select",{"unit":1});drone.command("route",{"point":Vector2(400,700)});var drone_before=drone.snapshot()
- check(not drone.command("route_edit",{"index":0,"mode":"silent"}) and drone.snapshot()==drone_before,"fixed-speed drones reject explicit propulsion programs without changing their route")
- drone.command("silent");check(Sim.valid_snapshot(drone.snapshot()) and drone.route_goals()[0].mode=="inherit","legacy drone manual flag still works without creating a false propulsion program")
- var bad_drone=drone_before.duplicate(true);bad_drone.units[1].route_plan[0].mode="silent"
- for node in bad_drone.units[1].route:node.mode="silent"
- check(not Sim.valid_snapshot(bad_drone),"restored explicit drone propulsion programs are rejected")
+ check(drone.command("route_edit",{"index":0,"mode":"silent"}) and drone.units[1].silent,"drone incoming propulsion program preserves independent visual profile")
+ drone.command("silent");check(Sim.valid_snapshot(drone.snapshot()) and drone.route_goals()[0].mode=="silent" and not drone.units[1].silent,"manual visual profile preserves accepted drone propulsion program")
+ var bad_drone=drone_before.duplicate(true);bad_drone.units[1].route_plan[0].mode="warp"
+ for node in bad_drone.units[1].route:node.mode="warp"
+ check(not Sim.valid_snapshot(bad_drone),"malformed explicit drone propulsion programs are rejected")
  var terrain=fresh();terrain.mission.structures=[Rect2(300,600,160,220)];terrain._build_navigation();terrain.command("route",{"point":Vector2(560,800)})
  check(terrain.route_goals().size()==1 and terrain.units[0].route.size()>1,"one operator destination can compile through multiple avoidance corners")
  terrain.command("route_edit",{"index":0,"mode":"cruise"});terrain.paused=false;var safe=true
