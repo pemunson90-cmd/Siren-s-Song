@@ -20,15 +20,15 @@ Watch [baseline](validation/production/navigation-emergency-experience/motion/ba
 
 This steering is integrated locally, **absent from20de5cd APK**. Turning still costs about1.1s in the matched stationary departure; momentum can still cause collisions. Fixed2× framing/no camera follow and scripted inputs do not establish thumb comfort. [Independent experience](reviews/2026-10-19-navigation-departure-experience.md) · [Separate regression](reviews/2026-10-19-navigation-departure-regressions.md).
 
-Production source **fd8b18a** includes reviewed steering, bow cue, optional Well discovery/schematics, touch rows and a recovered-archive ending recap. These are newer than the accepted APK above.
+Reviewed tactical source **0d1b390** adds PLAN ROUTE, terrain acoustic arrivals/own-speed footprint and physical snaring torpedoes to the existing steering/Well/archive work. [Actual cover orders](validation/production/tactical-core-milestone/cover-secondary.png) · [Paused planner](validation/production/tactical-core-milestone/cover-planner.png). These are desktop420dpi fixtures, newer than the accepted APK above; one combined native build is next.
 
 [Later native39276951740](validation/android-39276951740/ARTIFACT_REVIEW.md) **failed** on gallery scroll overshoot. Actual cover/inner same-resume screenshots are readable, but the gallery sequence is incomplete and its signing certificate changed, so that APK is not promoted. The original accepted debug key is now permanently saved in Git and required by every build; no silent regeneration.
 
 ## Work already underway
 
 - **Physical knockdown torpedo:** Quietus launches a noisy steering entity; LOS acquisition, travel time, terrain interception, impact snare and visible drag/recovery. Actual play/miss evidence is being finished before integration review.
-- **Programmed waypoints:** speed per waypoint, route editing and undo, with a paused chart/list planner designed for both layouts.
-- **Terrain acoustics:** geometry-constrained ambiguous arrival directions and continuous own-speed noise feedback. Exposed movement still has real losses; tests alone do not establish richer tactics.
+- **Programmed waypoints:** reviewed and locally merged Quietus speed programming plus all-craft route editing/undo and paused chart/list planner. Drones remain fixed-speed; native combined proof pending.
+- **Terrain acoustics:** reviewed and locally merged geometry-constrained arrivals and continuous own-speed footprint. One Foundry lure now draws a guard around cover; exposed Well movement still loses. Reflection/travel time and combined native proof remain pending.
 - **Native scroll reliability:** correcting the actual overshoot with directional bounded gestures while preserving fresh target and safe Settings controls. Next APK batches these gains; ordinary commits no longer build APKs.
 
 ## Remaining quality bar

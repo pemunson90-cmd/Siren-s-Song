@@ -29,3 +29,5 @@ Exact changed source/test SHA256:
 - `game/src/presentation/acoustic_feedback.gd`: `0075cd282d856bb2853fa408856e7ef1fde9d9892e377b417c95479b97d9c875`
 - `game/src/presentation/ocean_view.gd`: `022a956497cc533cab8bb9e4f628504424b9d73220c6ef61c7fff8e697fc4582`
 - `game/tests/acoustic_ui_scenarios.gd`: `ec3737142adfc35a7093a7a8aa6a98c51a22a308763991f963152584515b2be6`
+
+Root single integration review accepted8f32ca6 after inspecting baseline/challenger cover and actual inner/desktop pixels plus the three-file diff. All three rows remain above optical; no font/control/sensing changes. Later PLAN ROUTE correction restores the larger cover chart; composed runtime324/0 and density1057/0 pass. Horizontal instrument clutter/world-contact overlap remain, no human/native claim.

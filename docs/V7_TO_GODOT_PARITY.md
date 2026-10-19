@@ -3,10 +3,10 @@ Status: actionable inventory grounded in playable `reference/original-prototype/
 
 | Feature | v7 evidence | Current Godot interpretation | Disposition |
 | --- | --- | --- | --- |
-| Knockdown torpedo | Functional instant target pin/selection, two charges, ~150 original-scale range, 8s stun, suspicion/Hunt costs, visual/audio effect | Absent; EMP radial 340 world units/12s is different | **Restore/adapt under newer explicit user direction:** physical Quietus-launched, audible steering projectile; LOS launch, travel/terrain misses, impact cable snare with2D sink/fade/recovery; preserve flight saves and translate balance by play |
-| Speed-based acoustic signature | Continuous speed-squared hearing/footprint; silent behavior distinct | Mostly velocity threshold at 50 and 430 hearing; silent/cruise visual radii 180/290 | **Adapt** continuous acoustic field and truthful feedback |
-| Amber noise/range footprint | Live radius and planning guides | Own noise events/indicators, missing proportional propulsion ring | **Restore/adapt** |
-| Acoustic around terrain | Earlier action sound cover attenuation; current Godot 0.36 blanket obstruction factor, direct velocity hearing | Geometric multi-path around cover not present | **New approved direction:** seeded ambiguity tied to acoustic paths |
+| Knockdown torpedo | Functional instant target pin/selection, two charges, ~150 original-scale range, 8s stun, suspicion/Hunt costs, visual/audio effect | Reviewedad64e42, composed9e9f609: physical Quietus-launched audible steering entity with LOS launch, travel/terrain misses, impact snare and2D depth recovery; EMP remains distinct340/12 | **Physically adapted** under user direction;17 combined save/input checks pass. Actual terrain-interception footage, native lifecycle/audio/performance and wider balance remain open |
+| Speed-based acoustic signature | Continuous speed-squared hearing/footprint; silent behavior distinct | New missions use continuous actual-speed-squared hearing; legacy archives keep threshold model. Visual sensing remains separate | **Adapted75537f7** after source/gameplay review; sustained Android performance and balance remain open |
+| Amber noise/range footprint | Live radius and planning guides | Own-motion range contours follow actual speed and explicitly qualify open-water radius; enemy reception unknown | **Adapted75537f7**; no terrain/listener reveal, physical readability pending |
+| Acoustic around terrain | Earlier action sound cover attenuation; current Godot 0.36 blanket obstruction factor, direct velocity hearing | New-mission water-path graph supports attenuation/bend-dependent competing arrivals and inferred corner goals | **Partial75537f7**: reviewed diffraction approximation; reflected paths and finite sound travel time remain pending |
 | Drone targeting | v7 alert-sensitive close-range destruction distinctions | Common 4s beam lock detects drones and sub; drones die immediately when beamed | **Research + differentiate** without arbitrary drone nerf |
 | Thermal cover | Cold band reduces detection | Absent | **Adapt** as spatial stealth affordance |
 | Currents | Implemented current drift/forces | Absent | **Adapt**, preserving Godot route/collision honesty |
@@ -16,7 +16,7 @@ Status: actionable inventory grounded in playable `reference/original-prototype/
 | Logs/story discoveries | Triggered environmental narrative interactions | Campaign records and gallery, not same exploratory cadence | **Compare and enrich** story discovery later |
 | Enemy archetypes | Patroller, sentinel tether, hunter | Current Godot now has patroller/sentinel/hunter roles | **Retained/adapted** |
 | Combat | Beam plus targetable knockdown counterplay | Beam and EMP/decoy only | **Restore knockdown**, defer broader enemy arsenal |
-| Navigation/waypoints | Basic autopilot and planning cues | Advanced Godot pathing with REPLACE/QUEUE and PASS/STOP, but no per-segment speed/edit/undo | **Add** per-segment programming; preserve Godot improvements |
+| Navigation/waypoints | Basic autopilot and planning cues | Reviewed5ee9555 adds Quietus incoming propulsion and all-craft goal edit/insert/delete/undo with safe pathing | **Partial adaptation**: drones truthfully FIXED96; per-waypoint drone propulsion remains pending, legacy routes preserved |
 | Campaign/progression | One playable prototype scenario | Six playable authored chapters with evidence, archival save, drones, advanced control | **Expand quality and variety**, not historical scope cap |
 | Save management | Prototype state | Single user://quietus.save + recovery backup | **Keep for now**, profile/export milestone later |
 
