@@ -58,7 +58,13 @@ def scan(read):
             docs[path] = read(path)
         except (FileNotFoundError, UnicodeError, OSError, subprocess.TimeoutExpired):
             docs[path] = None
-    main = docs["docs/CURRENT_GAME_SPEC.md"] is None
+    # A deleted living spec in an otherwise active production tree is a failure,
+    # not permission to silently treat that branch as historical main.
+    production_markers = (
+        "docs/CURRENT_GAME_SPEC.md", "docs/CONTINUATION.md",
+        "docs/WORKBENCH.md", "docs/GAUNTLET_ORCHESTRATION.md",
+    )
+    main = not any(docs[p] is not None for p in production_markers)
     required = (
         ("AGENTS.md", "README.md", "docs/START_HERE.md", "docs/SOURCE_AUTHORITY.md")
         if main else FILES
