@@ -71,3 +71,8 @@ static func run(t) -> void:
 		t.check(s.sirens[0].pos.distance_to(origin)>20 and s.sirens[0].lock>1.9 and s.hull==100,"%s physically pursues a distant visible target while preserving the lock telegraph"%role)
 		advance(s,1.8)
 		t.check(s.sirens[0].pos.distance_to(s.units[0].pos)>110 and s.hull==100,"%s brakes at safe emitter standoff instead of overlapping a visible target"%role)
+
+	var collision=fixture("hunter"); collision.mission.rocks=[Rect2(700,200,100,400)]; collision._build_navigation()
+	collision.sirens[0].pos=Vector2(812,400); collision.sirens[0].vel=Vector2(-96,0)
+	collision.message="Quietus orders intact"; collision._threats(0.1)
+	t.check(collision.message=="Quietus orders intact","enemy terrain braking cannot falsely report that the player's autopilot stopped")

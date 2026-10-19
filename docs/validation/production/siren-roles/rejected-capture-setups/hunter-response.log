@@ -1,0 +1,76 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:364)
+OpenGL API 4.5 (Core Profile) Mesa 25.0.7-2+deb13u1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 19.1.7, 256 bits)
+
+Movie Maker mode enabled, recording movie in 1280×720 @ 30 FPS...
+ROLE CLIP stage=hunter_response mission=4 start_elapsed=16.4000000000004 no further commands during recording; passive observation only; roles=[{ "type": "patroller", "mode": "PATROL", "position": "(696.1252, 261.9442)" }, { "type": "hunter", "mode": "DORMANT", "position": "(800.0, 600.0)" }, { "type": "patroller", "mode": "PATROL", "position": "(1423.09, 306.5519)" }]
+SS_TARGET pause center=1504,130 viewport=1680,720
+SS_TARGET sub center=1403,194 viewport=1680,720
+SS_TARGET droneA center=1502,194 viewport=1680,720
+SS_TARGET droneB center=1601,194 viewport=1680,720
+SS_TARGET ping center=1427,250 viewport=1680,720
+SS_TARGET camera center=1575,250 viewport=1680,720
+SS_TARGET silent center=1427,306 viewport=1680,720
+SS_TARGET queue center=1575,306 viewport=1680,720
+SS_TARGET hold center=1427,362 viewport=1680,720
+SS_TARGET emp center=1575,362 viewport=1680,720
+SS_TARGET home center=1427,418 viewport=1680,720
+SS_TARGET menu center=1575,418 viewport=1680,720
+SS_TARGET more_orders center=1427,474 viewport=1680,720
+SS_TARGET zoom_out center=1191,138 viewport=1680,720
+SS_TARGET zoom_in center=1245,138 viewport=1680,720
+SS_TARGET fit center=1299,138 viewport=1680,720
+SS_TARGET chart_center center=678,387 viewport=1680,720
+SS_TARGET objective0 center=678,334 viewport=1680,720
+SS_TARGET route center=397,574 viewport=1680,720
+SS_TARGET pause center=1504,130 viewport=1680,720
+SS_TARGET sub center=1403,194 viewport=1680,720
+SS_TARGET droneA center=1502,194 viewport=1680,720
+SS_TARGET droneB center=1601,194 viewport=1680,720
+SS_TARGET ping center=1427,250 viewport=1680,720
+SS_TARGET camera center=1575,250 viewport=1680,720
+SS_TARGET silent center=1427,306 viewport=1680,720
+SS_TARGET queue center=1575,306 viewport=1680,720
+SS_TARGET hold center=1427,362 viewport=1680,720
+SS_TARGET emp center=1575,362 viewport=1680,720
+SS_TARGET home center=1427,418 viewport=1680,720
+SS_TARGET menu center=1575,418 viewport=1680,720
+SS_TARGET more_orders center=1427,474 viewport=1680,720
+SS_TARGET zoom_out center=1191,138 viewport=1680,720
+SS_TARGET zoom_in center=1245,138 viewport=1680,720
+SS_TARGET fit center=1299,138 viewport=1680,720
+SS_TARGET chart_center center=678,387 viewport=1680,720
+SS_TARGET objective0 center=678,334 viewport=1680,720
+SS_TARGET route center=397,574 viewport=1680,720
+SS_TARGET pause center=1504,130 viewport=1680,720
+SS_TARGET sub center=1403,194 viewport=1680,720
+SS_TARGET droneA center=1502,194 viewport=1680,720
+SS_TARGET droneB center=1601,194 viewport=1680,720
+SS_TARGET ping center=1427,250 viewport=1680,720
+SS_TARGET camera center=1575,250 viewport=1680,720
+SS_TARGET silent center=1427,306 viewport=1680,720
+SS_TARGET queue center=1575,306 viewport=1680,720
+SS_TARGET hold center=1427,362 viewport=1680,720
+SS_TARGET emp center=1575,362 viewport=1680,720
+SS_TARGET home center=1427,418 viewport=1680,720
+SS_TARGET menu center=1575,418 viewport=1680,720
+SS_TARGET more_orders center=1427,474 viewport=1680,720
+SS_TARGET zoom_out center=1191,138 viewport=1680,720
+SS_TARGET zoom_in center=1245,138 viewport=1680,720
+SS_TARGET fit center=1299,138 viewport=1680,720
+SS_TARGET chart_center center=678,387 viewport=1680,720
+SS_TARGET objective0 center=678,334 viewport=1680,720
+SS_TARGET route center=397,574 viewport=1680,720
+SS_CAMERA_READY unit=0 objective=2
+SS_CAPTURE /tmp/sirens-role-hunter-response/full.png size=(1680, 720) result=0
+SS_DEBRIEF outcome=lost mission=4
+WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
+   at: cleanup (core/object/object.cpp:2663)
+--------------------------------------------------------------------------------
+Done recording movie at path: /tmp/sirens-role-hunter-response/frame.png
+480 frames at 30 FPS (movie length: 00:00:16:00), recorded in 00:01:14 (21% of real-time speed).
+CPU render time: 2.35 seconds (average: 4.90 ms/frame)
+GPU render time: 9.60 seconds (average: 20.00 ms/frame)
+Encoding time: 51.73 seconds (average: 107.78 ms/frame)
+--------------------------------------------------------------------------------

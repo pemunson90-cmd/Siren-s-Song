@@ -10,12 +10,12 @@ func run() -> void:
 	var mission=0 if stage=="idle_patrol" else 3 if stage=="sentinel_return" else 4
 	game._start_mission(mission)
 	if stage in ["idle_hunter","hunter_response","hunter_return"]:
-		preload("res://tests/campaign_scenarios.gd").move(game.sim,Vector2(800,800))
+		preload("res://tests/campaign_scenarios.gd").move(game.sim,Vector2(600,600))
 	elif stage=="idle_patrol":
 		preload("res://tests/campaign_scenarios.gd").move(game.sim,Vector2(800,510))
 		for n in 16*60: game.sim.advance(1.0/60.0)
 	if stage in ["hunter_response","hunter_return"]:
-		game.sim.command("decoy",{"point":Vector2(1100,650)}); game.sim.paused=false
+		game.sim.command("decoy",{"point":Vector2(800,850)}); game.sim.paused=false
 		if stage=="hunter_return":
 			for n in 26*60: game.sim.advance(1.0/60.0)
 	game.sim.paused=false

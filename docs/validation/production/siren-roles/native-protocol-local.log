@@ -1,0 +1,77 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+SS_ROLE mission=4 index=1 type=hunter mode=PATROL pos=800.000000,600.000000 home=800.000000,600.000000 target=-1 lock=0.000000 time=0.000000
+SS_TARGET pause center=640,954 viewport=1280,1280
+SS_TARGET sub center=229,1018 viewport=1280,1280
+SS_TARGET droneA center=638,1018 viewport=1280,1280
+SS_TARGET droneB center=1047,1018 viewport=1280,1280
+SS_TARGET ping center=125,1074 viewport=1280,1280
+SS_TARGET camera center=330,1074 viewport=1280,1280
+SS_TARGET silent center=535,1074 viewport=1280,1280
+SS_TARGET queue center=739,1074 viewport=1280,1280
+SS_TARGET hold center=944,1074 viewport=1280,1280
+SS_TARGET emp center=1149,1074 viewport=1280,1280
+SS_TARGET home center=125,1130 viewport=1280,1280
+SS_TARGET menu center=330,1130 viewport=1280,1280
+SS_TARGET more_orders center=535,1130 viewport=1280,1280
+SS_TARGET zoom_out center=1115,138 viewport=1280,1280
+SS_TARGET zoom_in center=1169,138 viewport=1280,1280
+SS_TARGET fit center=1223,138 viewport=1280,1280
+SS_TARGET chart_center center=640,505 viewport=1280,1280
+SS_TARGET objective0 center=640,436 viewport=1280,1280
+SS_TARGET route center=272,751 viewport=1280,1280
+SS_TARGET role_observer center=517,789 viewport=1280,1280
+SS_TARGET role_home center=133,751 viewport=1280,1280
+SS_TARGET pause center=640,954 viewport=1280,1280
+SS_TARGET sub center=229,1018 viewport=1280,1280
+SS_TARGET droneA center=638,1018 viewport=1280,1280
+SS_TARGET droneB center=1047,1018 viewport=1280,1280
+SS_TARGET ping center=125,1074 viewport=1280,1280
+SS_TARGET camera center=330,1074 viewport=1280,1280
+SS_TARGET silent center=535,1074 viewport=1280,1280
+SS_TARGET queue center=739,1074 viewport=1280,1280
+SS_TARGET hold center=944,1074 viewport=1280,1280
+SS_TARGET emp center=1149,1074 viewport=1280,1280
+SS_TARGET home center=125,1130 viewport=1280,1280
+SS_TARGET menu center=330,1130 viewport=1280,1280
+SS_TARGET more_orders center=535,1130 viewport=1280,1280
+SS_TARGET zoom_out center=1115,138 viewport=1280,1280
+SS_TARGET zoom_in center=1169,138 viewport=1280,1280
+SS_TARGET fit center=1223,138 viewport=1280,1280
+SS_TARGET chart_center center=640,505 viewport=1280,1280
+SS_TARGET objective0 center=640,436 viewport=1280,1280
+SS_TARGET route center=272,751 viewport=1280,1280
+SS_TARGET role_observer center=517,789 viewport=1280,1280
+SS_TARGET role_home center=133,751 viewport=1280,1280
+SS_TARGET pause center=640,954 viewport=1280,1280
+SS_TARGET sub center=229,1018 viewport=1280,1280
+SS_TARGET droneA center=638,1018 viewport=1280,1280
+SS_TARGET droneB center=1047,1018 viewport=1280,1280
+SS_TARGET ping center=125,1074 viewport=1280,1280
+SS_TARGET camera center=330,1074 viewport=1280,1280
+SS_TARGET silent center=535,1074 viewport=1280,1280
+SS_TARGET queue center=739,1074 viewport=1280,1280
+SS_TARGET hold center=944,1074 viewport=1280,1280
+SS_TARGET emp center=1149,1074 viewport=1280,1280
+SS_TARGET home center=125,1130 viewport=1280,1280
+SS_TARGET menu center=330,1130 viewport=1280,1280
+SS_TARGET more_orders center=535,1130 viewport=1280,1280
+SS_TARGET zoom_out center=1115,138 viewport=1280,1280
+SS_TARGET zoom_in center=1169,138 viewport=1280,1280
+SS_TARGET fit center=1223,138 viewport=1280,1280
+SS_TARGET chart_center center=640,505 viewport=1280,1280
+SS_TARGET objective0 center=640,436 viewport=1280,1280
+SS_TARGET route center=272,751 viewport=1280,1280
+SS_TARGET role_observer center=517,789 viewport=1280,1280
+SS_TARGET role_home center=133,751 viewport=1280,1280
+SS_ORDER route accepted=true selected=0 queued=false
+SS_ROLE mission=4 index=1 type=hunter mode=DORMANT pos=800.000000,600.000000 home=800.000000,600.000000 target=-1 lock=0.000000 time=0.100000
+SS_CAMERA_READY unit=0 objective=2
+SS_ROLE_ROUTE_READY mission=4 unit=0 time=12.7000000000002
+SS_ORDER decoy accepted=true selected=0 queued=false
+SS_ORDER route accepted=true selected=0 queued=false
+SS_ROLE mission=4 index=1 type=hunter mode=INVESTIGATE pos=800.243896,600.020203 home=800.000000,600.000000 target=-1 lock=0.000000 time=12.800000
+SS_ROLE mission=4 index=1 type=hunter mode=SEARCH pos=796.643372,819.154907 home=800.000000,600.000000 target=-1 lock=0.000000 time=17.300000
+SS_ROLE mission=4 index=1 type=hunter mode=RETURN pos=862.042908,819.020081 home=800.000000,600.000000 target=-1 lock=0.000000 time=39.700000
+SS_ROLE mission=4 index=1 type=hunter mode=DORMANT pos=805.194153,611.297668 home=800.000000,600.000000 target=-1 lock=0.000000 time=48.200000
+ROLE_PROTOCOL ok=true modes=["INVESTIGATE", "SEARCH", "RETURN", "DORMANT"] max_excursion=325.827178955078 hull=100.0 elapsed=48.1999999999985 tools={ "emp": 2, "decoy": 2, "recon": 2 } quietus=(146.9829, 801.2913)

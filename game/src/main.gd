@@ -34,6 +34,8 @@ var menu_buttons: Array=[]
 var recovered_evidence: Dictionary={}
 var diagnostic_ready := ""
 var diagnostic_records: Dictionary={}
+var diagnostic_roles: Dictionary={}
+var diagnostic_role_route_ready:=false
 var map_gesture=preload("res://src/input/map_gesture.gd").new()
 var zoom_buttons: Array=[]
 var advanced_button: Button
@@ -120,7 +122,7 @@ func _layout() -> void:
 		menu.position=Vector2(maxf(24,(size.x-690)/2),24); menu.size=Vector2(minf(690,size.x-48),size.y-48)
 	call_deferred("_report_targets")
 func _start_mission(index: int) -> void:
-	diagnostic_ready=""; diagnostic_records.clear(); map_gesture.cancel(); ocean.fit_chart(); advanced_orders=false
+	diagnostic_ready=""; diagnostic_records.clear(); diagnostic_roles.clear(); diagnostic_role_route_ready=false; map_gesture.cancel(); ocean.fit_chart(); advanced_orders=false
 	call_deferred("_layout")
 	active_started=true; mission_index=index; sim.start(index,upgrade); ocean.sim=sim; screen="mission"; menu.hide(); hud.show(); _refresh()
 func _order(order: String,args: Dictionary={}) -> void:
@@ -224,7 +226,7 @@ func _show_campaign() -> void:
 		var id=i
 		var b=_button(panel_box,"%02d   %s   %s"%[i+1,Simulation.Missions.TITLES[i],"RECOVERED" if i in completed else ("AVAILABLE" if i<=unlocked else "LOCKED")],func(): print("SS_MISSION_SELECT ",id); _briefing(id))
 		b.disabled=i>unlocked
-		if i==0: b.set_meta("action","mission0")
+		b.set_meta("action","mission%d"%i)
 	if not recovered_evidence.is_empty(): _button(panel_box,"REVIEW OPTICAL RECORDS",func(): _evidence_gallery(0))
 	_menu_text("Equipment: %s"%upgrade.to_upper(),15)
 	_button(panel_box,"CYCLE LOADOUT · endurance / disruption / survey",func(): upgrade=["endurance","disruption","survey"][( ["endurance","disruption","survey"].find(upgrade)+1)%3]; _show_campaign())
@@ -388,6 +390,12 @@ func _report_targets() -> void:
 		var p=ocean.global_position+ocean.world_offset+Vector2(320,800)*ocean.world_scale
 		print("SS_TARGET route center=",roundi(p.x),",",roundi(p.y)," viewport=",roundi(get_viewport_rect().size.x),",",roundi(get_viewport_rect().size.y))
 
+		if mission_index==4:
+			for action in {"role_observer":Vector2(640,850),"role_home":Vector2(140,800)}:
+				var world:Vector2={"role_observer":Vector2(640,850),"role_home":Vector2(140,800)}[action]
+				var mapped=ocean.global_position+ocean.world_offset+world*ocean.world_scale
+				print("SS_TARGET ",action," center=",roundi(mapped.x),",",roundi(mapped.y)," viewport=",roundi(get_viewport_rect().size.x),",",roundi(get_viewport_rect().size.y))
+
 func _enter_water() -> void:
 	screen="mission"; menu.hide(); hud.show()
 	for button in zoom_buttons: button.show()
@@ -404,6 +412,16 @@ func _apply_safe_area() -> void:
 	applying_safe_area=false
 
 func _observation_diagnostics() -> void:
+	# Read-only validation logs. Hidden AI state never enters the player HUD.
+	for id in sim.sirens.size():
+		var siren=sim.sirens[id]
+		if siren.get("type","patroller")=="patroller": continue
+		if diagnostic_roles.get(id,"")!=siren.mode:
+			diagnostic_roles[id]=siren.mode
+			print("SS_ROLE mission=%d index=%d type=%s mode=%s pos=%.6f,%.6f home=%.6f,%.6f target=%d lock=%.6f time=%.6f"%[mission_index,id,siren.type,siren.mode,siren.pos.x,siren.pos.y,siren.home.x,siren.home.y,siren.target,siren.lock,sim.elapsed])
+	var route_ready=mission_index==4 and sim.units[0].alive and sim.units[0].pos.distance_to(Vector2(640,850))<20 and sim.units[0].vel.length()<2
+	if route_ready and not diagnostic_role_route_ready: print("SS_ROLE_ROUTE_READY mission=4 unit=0 time=",sim.elapsed)
+	diagnostic_role_route_ready=route_ready
 	var ready=""
 	var unit=sim.units[sim.selected]
 	for id in sim.mission.objectives.size():

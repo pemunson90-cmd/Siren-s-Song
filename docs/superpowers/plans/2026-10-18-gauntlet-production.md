@@ -58,7 +58,9 @@ Files: `game/src/presentation/*`, `game/src/audio/*`, `game/assets/*`, input int
 
 - [x] Inspect selected references C01/C02, Quietus exterior and Siren studies with view_image before building assets.
 - [x] Build original layered seabed, industrial structures, craft, fog/sonar shadows, routes and controlled VFX. Expose observed information only.
-- [x] Implement clear pause/resume, selected unit, replace/queue/emergency orders, stop/pass-through, conditions and tool feedback with phone-sized targets.
+- [ ] Implement clear pause/resume, selected unit, replace/queue/emergency orders, stop/pass-through, conditions and tool feedback with phone-sized targets.
+
+Controls/gesture behavior exists and native input passes, but the accepted 48-logical-pixel targets are only 27.43/31.20 dp on the measured420dpi cover/inner fixture. Density-aware target work is parked at2fc0976 until ratified A is handled; do not call physical phone targets complete.
 - [x] Add functional sound layers, mute/volume preferences and background pause handling. Verify generated/bundled assets and avoid audio spam/clipping.
 - [x] Capture actual planning, sonar cover, two-drone and threat states at 1280×720 and 960×540 plus a wide aspect. Record runtime timings and errors.
 - [x] Fresh Sol critic compares captures side-by-side with references and exercises scenarios before reading builder claims. Fix the single biggest consequential gap, recapture, and repeat while useful.
@@ -107,3 +109,16 @@ After each meaningful milestone: (1) build/run and gather inspectable gameplay, 
 Follow `docs/BASELINE_AND_EXPERIMENTS.md` for preserved baseline/challenger comparisons, accepted tradeoffs and rejected experiments. Periodic fresh whole-game criticism and a separate evidence-based regression hunter follow deterministic comparisons after substantial changes; no invented faults or fixed round quota. Keep `docs/PHONE_DASHBOARD.md` phone-readable and current with existing artifacts. New workers inherit `docs/AGENT_BRIEF.md`; fit-to-task lighter agents are permitted, Sol remains the substantial-work default, premium is justified escalation only. Persist future agreed decisions in governing Git docs with rationale/source hierarchy.
 
 Next focused cycle: user-prioritized zoom/pan and friendly touch UI. Prototype UI/screen dimensions are not constraints. Touch spec/plan dated19October defines the next challenger; preserve pause, explicit route intent and bounded observations, and verify gesture conflicts/accidental orders at cover/unfolded sizes. User hands-on direction remains authoritative without routine approval gates. Milestones never terminate the Persistent Gauntlet.
+
+## Current ratified A checkpoint — 19 October
+
+The original handoff/import/audit/remote-byte gate is satisfied. Preserve8d8635a patrol/recovery and acceptedf1ea536 APK while evaluating the local role challenger.
+
+- [x] Retain pre-fix role RED and visible-pursuit RED; implement distinct Foundry sentinels / Well hunter using actual v7 behavior with production terrain/sensing/lock safety.
+- [x] Verify conditional tether, stimulus/search/home return, actual visible pursuit/standoff, save/pause/legacy continuation and intentional no-input station stillness. Independent exact-source directed replay passes.
+- [x] Rerun fixed naive panel, all-mission fallback, retained tactics and prior critic/loadout probes with source-labeled losses.
+- [x] Capture actual16-second passive player-view and response/failure footage with explicit no-input interval and perceptual limits; retain rejected setups.
+- [ ] Resolve fresh separate regression criticism and execute one coherent native candidate including explicit fixture-assisted Well role response/return.
+- [ ] Compare the selected dimension against actual shipped-game footage. Public media access is blocked; original-v7 local browser footage is supplementary, not a substitute.
+
+Latest local gate234 core /230 runtime plus8 navigation and19 geometry parser checks passes; no native promotion follows from it. Source-specific figures and actual loss/return distinctions: docs/validation/production/siren-roles/README.md. After supported A checkpoint, resume parked density correction before unrelated feature expansion.

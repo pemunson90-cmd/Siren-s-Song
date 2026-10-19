@@ -234,7 +234,7 @@ func _tick(dt: float) -> void:
 	if hull<=0: outcome="lost"; message="Quietus lost. Your previous campaign records remain safe."
 	if all_records() and units[0].pos.distance_to(mission.extraction)<65 and units[0].vel.length()<12:
 		outcome="won"; paused=true; message="Archive recovered. Quietus is home."; events.append({"type":"extraction","pos":units[0].pos})
-func _move(u: Dictionary,dt: float,speed: float,holding: bool) -> void:
+func _move(u: Dictionary,dt: float,speed: float,holding: bool,report_collision: bool=true) -> void:
 	var desired=Vector2.ZERO
 	if not u.route.is_empty() and not holding:
 		var dest=u.route[0]
@@ -266,7 +266,9 @@ func _move(u: Dictionary,dt: float,speed: float,holding: bool) -> void:
 	u.vel=u.vel.move_toward(desired,42*dt)
 	var next:Vector2=u.pos+u.vel*dt
 	if not blocked(next,12): u.pos=next
-	else: u.vel=Vector2.ZERO; u.route.clear(); message="Autopilot stopped at unsafe terrain. Replot in open water."
+	else:
+		u.vel=Vector2.ZERO; u.route.clear()
+		if report_collision: message="Autopilot stopped at unsafe terrain. Replot in open water."
 func _observe() -> void:
 	for y in 24:
 		for x in 40:
@@ -339,7 +341,7 @@ func _threats(dt: float) -> void:
 					s.path_time=2.0
 		var speed=48.0 if s.suspicion>0.1 else 25.0
 		if s.get("type","")=="hunter": speed=38.0 if s.mode in ["RETURN","DORMANT"] else 64.0
-		_move(s,dt,speed,false)
+		_move(s,dt,speed,false,false)
 
 func _visual_pursuit(s: Dictionary,target: Vector2,dt: float) -> void:
 	# Port station-role pursuit without the v7 straight-line overlap. The beam's
