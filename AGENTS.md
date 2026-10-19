@@ -43,3 +43,15 @@ Prefer deterministic tests, static checks, local scripts, and targeted screensho
 Record in the project progress workbench: model actually used (when observable), task, reason for escalation, result, and remaining quality gap. When model routing or usage visibility is unavailable, mark it unknown rather than assuming.
 
 Keep the policy in AGENTS.md and include it in each new session's working context. Do not relax it through nested delegation. If budget or session limits interrupt work, preserve checkpoints and a clear continuation instruction.
+
+## Production implementation and continuation
+
+Read `docs/architecture/GAUNTLET.md`, `docs/WORKBENCH.md`, and `docs/CONTINUATION.md` after the source authority. The current user has authorized production, engine/toolchain selection and autonomous iteration; historical import-only scope is superseded. Follow the Sol-first policy above, including in fresh-context/nested instructions. User autonomy and model policy override skill defaults that would request repeated routine design approval, impose fixed critique counts, or select a premium reviewer automatically.
+
+Production engine: Godot 4.6.3 stable, GDScript, Compatibility renderer. Project lives in `game/`; official Android templates must match. See ADR 0001 and `docs/CODEX_ENVIRONMENT.md`. Use existing environment capabilities before replacing configuration. Main device target: Galaxy Z Fold7; test cover and unfolded landscape sizes, safe areas and lifecycle. GitHub emulator evidence supplements real device review.
+
+Keep deterministic simulation separated from presentation, commands explicit, and observations bounded by sensors. Cover blocks perception in both directions; paused simulation does not consume resources. Switching drone→sub must clear stale append/tool state; emergency route replacement is reliable. Maintain imported sources byte-for-byte.
+
+Use `scripts/toolchain/headless.sh --script res://tests/run_tests.gd`, `scripts/toolchain/build.sh android`, and `scripts/toolchain/capture.sh` once supplied; inspect exact script help/contracts. Run the actual game for visual evidence. Headless tests and desktop captures do not establish Android runtime behavior. Record device/emulator differences.
+
+Every meaningful milestone updates workbench status, raw evidence paths, independent criticism, model assignments, known blockers and next command. Commit focused runnable progress. Never overwrite another worker's files; assign ownership and interfaces first. The production lead owns game code except tooling-owned export presets; tooling owns its scripts and CI. Preserve the latest checkpoint through context loss.
