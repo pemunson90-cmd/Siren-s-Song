@@ -359,6 +359,9 @@ func _debrief() -> void:
 		_menu_text("ARCHIVE RECOVERED",32)
 		_menu_text(sim.mission.record,22)
 		_menu_text("Dive time %02d:%02d  /  Hull %d%%  /  Life support %d%%"%[int(sim.elapsed)/60,int(sim.elapsed)%60,int(sim.hull),int(sim.oxygen)],17)
+		if mission_index==5:
+			_menu_text("YOUR RECOVERED ARCHIVE · ACROSS DIVES",14)
+			_menu_text(preload("res://src/campaign/archive_recap.gd").summary(recovered_evidence),14)
 		if not recovered_evidence.is_empty(): _button(panel_box,"REVIEW RECOVERED RECORDS" if recovered_evidence.has("blackwater_request") or recovered_evidence.has("blackwater_reply") or recovered_evidence.has("well_pattern") or recovered_evidence.has("well_signature") else "REVIEW OPTICAL RECORDS",func(): _evidence_gallery(0),"evidence")
 		if mission_index==5:
 			var discovery="The crown points into the trench. Unarmed wakes lead away from the fracture. Quietus’ hydrophones resolve what the images could not: they are evacuating.\n\n" if sim.mission.get("finale_revision",0)==1 else ""

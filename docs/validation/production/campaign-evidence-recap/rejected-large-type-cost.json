@@ -1,0 +1,25 @@
+{
+  "reason": "Recap added too much reading/scroll at18-size density-scaled typography. Full actual first draft remains in ignored work/archive-recap/rejected-large-type/.",
+  "reading_cost": [
+    {
+      "fixture": "fixture-minimal-cover",
+      "scroll": 1457,
+      "added_logical_scroll": 238
+    },
+    {
+      "fixture": "fixture-full-cover",
+      "scroll": 1781,
+      "added_logical_scroll": 562
+    },
+    {
+      "fixture": "fixture-full-inner",
+      "scroll": 886,
+      "added_logical_scroll": 463
+    },
+    {
+      "fixture": "fixture-minimal-inner",
+      "scroll": 592,
+      "added_logical_scroll": 169
+    }
+  ]
+}

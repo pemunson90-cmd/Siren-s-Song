@@ -1,0 +1,169 @@
+{
+	"archive_unchanged": true,
+	"bottom": {
+		"capture_state": {
+			"capture_unit": -1,
+			"drawn_frame": 289,
+			"hud_visible": false,
+			"menu_visible": true,
+			"mission": 5,
+			"optical_visible": false,
+			"paused": true,
+			"phase": "layout_only",
+			"selected": 0
+		},
+		"chart_rect": [
+			26.0,
+			112.0,
+			1228.0,
+			641.0
+		],
+		"controls": [
+			{
+				"action": "retry",
+				"clipped": false,
+				"hit_rect": [
+					268.0,
+					919.0,
+					736.0,
+					87.0
+				],
+				"visual_rect": [
+					268.0,
+					919.0,
+					736.0,
+					87.0
+				]
+			},
+			{
+				"action": "back",
+				"clipped": false,
+				"hit_rect": [
+					268.0,
+					1020.0,
+					736.0,
+					87.0
+				],
+				"visual_rect": [
+					268.0,
+					1020.0,
+					736.0,
+					87.0
+				]
+			}
+		],
+		"density_dpi": 420.0,
+		"density_source": "test_android_density_fixture",
+		"orders_page": "primary",
+		"safe_area_source": "recorded_android_39222413584_fixture",
+		"safe_rect": [
+			0.0,
+			0.0,
+			2184.0,
+			1968.0
+		],
+		"schema": 1,
+		"screen": "debrief",
+		"scroll_rect": [
+			268.0,
+			46.0,
+			744.0,
+			1061.0
+		],
+		"scroll_vertical": 521,
+		"settings_values": {
+			"effects": 0.8,
+			"music": 0.5,
+			"mute": false
+		},
+		"viewport": [
+			1280.0,
+			1153.0
+		],
+		"window": [
+			2184.0,
+			1968.0
+		]
+	},
+	"fixture": "synthetic final-success UI, not earned campaign/native evidence; current finale keys minimal or all9 keys full",
+	"full": false,
+	"labels": [
+		"ARCHIVE RECOVERED",
+		"The final packet describes a fracture below the mantle. The Sirens are leaving. Their song asks us to listen.",
+		"Dive time 00:00  /  Hull 100%  /  Life support 120%",
+		"YOUR RECOVERED ARCHIVE · ACROSS DIVES",
+		"Finale · fracture warning and evacuation packet.",
+		"THE SONG CONTINUES\n\nThe crown points into the trench. Unarmed wakes lead away from the fracture. Quietus’ hydrophones resolve what the images could not: they are evacuating.\n\nYou return with a warning, not a firing solution. Above you, the fleet waits for orders. Below, the foundry lights go dark, one by one. For the first time since descent, Quietus hears only the ocean.\n\nCampaign complete. Every dive remains replayable."
+	],
+	"operations_reachable": true,
+	"pointer_opened_operations": true,
+	"top": {
+		"capture_state": {
+			"capture_unit": -1,
+			"drawn_frame": 273,
+			"hud_visible": false,
+			"menu_visible": true,
+			"mission": 5,
+			"optical_visible": false,
+			"paused": true,
+			"phase": "layout_only",
+			"selected": 0
+		},
+		"chart_rect": [
+			26.0,
+			112.0,
+			1228.0,
+			641.0
+		],
+		"controls": [
+			{
+				"action": "evidence",
+				"clipped": false,
+				"hit_rect": [
+					268.0,
+					480.0,
+					736.0,
+					87.0
+				],
+				"visual_rect": [
+					268.0,
+					480.0,
+					736.0,
+					87.0
+				]
+			}
+		],
+		"density_dpi": 420.0,
+		"density_source": "test_android_density_fixture",
+		"orders_page": "primary",
+		"safe_area_source": "recorded_android_39222413584_fixture",
+		"safe_rect": [
+			0.0,
+			0.0,
+			2184.0,
+			1968.0
+		],
+		"schema": 1,
+		"screen": "debrief",
+		"scroll_rect": [
+			268.0,
+			46.0,
+			744.0,
+			1061.0
+		],
+		"scroll_vertical": 0,
+		"settings_values": {
+			"effects": 0.8,
+			"music": 0.5,
+			"mute": false
+		},
+		"viewport": [
+			1280.0,
+			1153.0
+		],
+		"window": [
+			2184.0,
+			1968.0
+		]
+	}
+}
