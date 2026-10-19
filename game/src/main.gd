@@ -1,4 +1,6 @@
 extends Control
+const ExpeditionOperations=preload("res://src/presentation/expedition_operations.gd")
+const ExpeditionCampaign=preload("res://src/campaign/expedition_campaign.gd")
 const Simulation = preload("res://src/simulation/simulation.gd")
 const SaveStore=preload("res://src/persistence/save_store.gd")
 const Soundscape=preload("res://src/audio/soundscape.gd")
@@ -29,6 +31,7 @@ var active_started := false
 var applying_safe_area := false
 var unlocked := 0
 var completed: Array=[]
+var expedition:Dictionary={}
 var upgrade := "endurance"
 var capture_scenario := ""
 var frame := 0
@@ -367,6 +370,7 @@ func _show_campaign() -> void:
 		var b=_button(panel_box,"%02d   %s   %s"%[i+1,Simulation.Missions.TITLES[i],"RECOVERED" if i in completed else ("AVAILABLE" if i<=unlocked else "LOCKED")],func(): print("SS_MISSION_SELECT ",id); _briefing(id))
 		b.disabled=i>unlocked
 		b.set_meta("action","mission%d"%i)
+	ExpeditionOperations.operations(self)
 	if not recovered_evidence.is_empty(): _button(panel_box,"REVIEW FIELD RECORDS",func(): _evidence_gallery(0),"evidence")
 	_menu_text("Field records remain reviewable after loss or abandonment. Only successful extraction advances the campaign.",14)
 	var stock=_loadout_stock(upgrade)
@@ -382,11 +386,13 @@ func _show_campaign() -> void:
 	print("SS_SCREEN operations window=",get_window().size," viewport=",get_viewport_rect().size," root=",size," unlocked=",unlocked," active_time=",snappedf(sim.elapsed,0.01))
 	call_deferred("_layout")
 func _briefing(index: int) -> void:
+	if index>=6 and index not in ExpeditionCampaign.available(completed,expedition):return
 	screen="briefing"; sim.paused=true; _clear_menu()
 	var briefing=Simulation.Missions.make(index)
 	_menu_text("%02d / %s"%[index+1,briefing.title.to_upper()],30)
 	_menu_text(briefing.brief,20)
-	if briefing.get("blackwater_revision",0)==1:
+	if ExpeditionOperations.briefing(self,index):pass
+	elif briefing.get("blackwater_revision",0)==1:
 		_menu_text("ORDERS\nTap a craft for its command ring; FLEET chooses a station. Empty water plots its route. ROUTE → REPLACE / QUEUE changes append intent. PAUSE stays available. Settle and SAMPLE for two seconds. Quietus receives within156m; drones within214.5m. Cover blocks reception. An audible SONAR may prompt a local relay replay; a decoded packet explains its partner's handshake. Return Quietus after both records.",17)
 	else:
 		_menu_text("ORDERS\nTap a craft for its command ring; FLEET chooses a station. Tap empty water to replace its route. Craft → ROUTE → REPLACE / QUEUE changes append intent. PAUSE stays available. Drag / pinch inspects freely; FOCUS follows the craft and FIT shows the region. CAMERA works within 240m of a gold record marker. Return Quietus after all records are secured.",17)
@@ -400,6 +406,7 @@ func _briefing(index: int) -> void:
 func _debrief() -> void:
 	screen="debrief"; _clear_menu()
 	print("SS_DEBRIEF outcome=",sim.outcome," mission=",mission_index)
+	if ExpeditionOperations.debrief(self):return
 	if sim.outcome=="won":
 		_retain_evidence()
 		if mission_index not in completed: completed.append(mission_index)
@@ -414,6 +421,7 @@ func _debrief() -> void:
 		if mission_index==5:
 			var discovery="The crown points into the trench. Unarmed wakes lead away from the fracture. Quietus’ hydrophones resolve what the images could not: they are evacuating.\n\n" if sim.mission.get("finale_revision",0)==1 else ""
 			_menu_text("THE SONG CONTINUES\n\n"+discovery+"You return with a warning, not a firing solution. Above you, the fleet waits for orders. Below, the foundry lights go dark, one by one. For the first time since descent, Quietus hears only the ocean.\n\nIntroductory arc complete. Every dive remains replayable.",20)
+			if 6 in ExpeditionCampaign.available(completed,expedition):_button(panel_box,"BEYOND THE WARNING / THE DIVERGENCE",func():_briefing(6),"expedition6")
 		else: _button(panel_box,"NEXT DIVE",func(): _briefing(mission_index+1),"next_dive")
 	else:
 		_menu_text("SIGNAL LOST",32); _menu_text(sim.message,22); _menu_text("Field records remain reviewable after loss or abandonment. Only successful extraction advances the campaign.",17)
@@ -473,7 +481,9 @@ func _scenario(name: String) -> void:
 		sim.paused=true
 
 func _archive() -> Dictionary:
-	return {"version":1,"unlocked":unlocked,"completed":completed.duplicate(),"upgrade":upgrade,"settings":settings.duplicate(),"evidence":recovered_evidence.duplicate(true),"active":sim.snapshot(),"chart_view":ocean.chart_camera.snapshot()}
+	var data={"version":1,"unlocked":unlocked,"completed":completed.duplicate(),"upgrade":upgrade,"settings":settings.duplicate(),"evidence":recovered_evidence.duplicate(true),"active":sim.snapshot(),"chart_view":ocean.chart_camera.snapshot()}
+	if not expedition.is_empty():data["expedition"]=expedition.duplicate(true)
+	return data
 func _save_archive() -> void:
 	if not capture_scenario.is_empty() or sim.mission==null: return
 	if store.save(_archive()): print("SS_SAVE ok mission=",mission_index," time=",snappedf(sim.elapsed,0.01)," paused=",sim.paused," completed=",completed," unlocked=",unlocked)
@@ -482,6 +492,7 @@ func _load_archive() -> void:
 	var saved=store.load_game()
 	if not saved.is_empty():
 		unlocked=saved.unlocked; completed=saved.completed; upgrade=saved.upgrade; settings=saved.settings
+		expedition=saved.get("expedition",{}).duplicate(true)
 		recovered_evidence=saved.get("evidence",{})
 		if saved.get("active") is Dictionary and sim.restore(saved.active):
 			active_started=true; mission_index=sim.mission.id; ocean.sim=sim
@@ -550,10 +561,12 @@ func _report_targets() -> void:
 	if hud.visible:
 		var center=ocean.get_global_rect().get_center()
 		print("SS_TARGET chart_center center=",roundi(center.x),",",roundi(center.y)," viewport=",roundi(get_viewport_rect().size.x),",",roundi(get_viewport_rect().size.y))
-		var approach=sim.mission.objectives[0].pos+Vector2(0,210)
-		if sim.blocked(approach,25): approach=sim.mission.objectives[0].pos+Vector2(-210,0)
-		var objective_point=ocean.global_position+ocean.world_offset+approach*ocean.world_scale
-		print("SS_TARGET objective0 center=",roundi(objective_point.x),",",roundi(objective_point.y)," viewport=",roundi(get_viewport_rect().size.x),",",roundi(get_viewport_rect().size.y))
+		var sites=sim.observable_sites()
+		if not sites.is_empty():
+			var approach=sites[0].pos+Vector2(0,210)
+			if sim.blocked(approach,25): approach=sites[0].pos+Vector2(-210,0)
+			var objective_point=ocean.global_position+ocean.world_offset+approach*ocean.world_scale
+			print("SS_TARGET objective0 center=",roundi(objective_point.x),",",roundi(objective_point.y)," viewport=",roundi(get_viewport_rect().size.x),",",roundi(get_viewport_rect().size.y))
 		var p=ocean.global_position+ocean.world_offset+Vector2(480,850)*ocean.world_scale
 		print("SS_TARGET route center=",roundi(p.x),",",roundi(p.y)," viewport=",roundi(get_viewport_rect().size.x),",",roundi(get_viewport_rect().size.y))
 
@@ -618,7 +631,7 @@ func _observation_diagnostics() -> void:
 		if not ready.is_empty(): print("SS_CAMERA_READY ",ready)
 	if sim.mission.get("well_revision",0)==1 and not sim.mission.well_observation.is_empty() and not recovered_evidence.has("well_signature"):_retain_evidence()
 func _evidence_is_text(entry:Dictionary) -> bool:
-	return entry.optical in ["well_pattern","well_signature"]
+	return entry.optical in ExpeditionCampaign.FIELD_RECORDS or entry.optical in ["well_pattern","well_signature"]
 func _retain_evidence() -> void:
 	for objective in sim.mission.objectives:
 		if objective.captured and objective.has("optical"):

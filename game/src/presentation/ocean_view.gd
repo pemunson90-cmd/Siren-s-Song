@@ -174,7 +174,7 @@ func _draw() -> void:
 		draw_set_transform(world_offset,0,Vector2.ONE*world_scale)
 	elif sim.mission.has("array_rect"):
 		_finale_array(sim.mission.array_rect)
-	elif sim.mission.id>=3 and sim.mission.id!=5:
+	elif sim.mission.id in [3,4]:
 		draw_texture_rect(foundry,Rect2(1080,-100,540,360),false,Color(0.65,0.8,0.82,0.8))
 	# Intelligence marks are briefed coordinates, not live contact observations.
 	for o in observable_sites():
@@ -203,6 +203,7 @@ func _draw() -> void:
 	var ex=sim.mission.extraction
 	draw_arc(ex,64,0,TAU,64,Color(CYAN,0.42),2)
 	_label(ex+Vector2(-120 if ex.y>830 else -66,66 if ex.y>830 else 90),"EXTRACTION",CYAN,18)
+	preload("res://src/presentation/expedition_view.gd").draw(self,sim)
 	# Own open-water estimate only; deliberately does not sample hidden terrain or
 	# listeners. Dotted amber radius is subordinate to later foreground beam cues.
 	if sim.mission.get("acoustic_revision",0)==1:

@@ -76,6 +76,9 @@ while IFS='|' read -r scenario summary; do
     }
 done <<'TACTICAL_SCENARIOS'
 polygon_bound_tests|POLYGON BOUND
+divergence_tests|DIVERGENCE
+divergence_save_tests|DIVERGENCE SAVE
+expedition_menu_tests|EXPEDITION MENU
 turn_safe_navigation_tests|TURN SAFE NAVIGATION
 expanded_region_tests|EXPANDED REGION
 expanded_region_journeys|EXPANDED JOURNEYS
