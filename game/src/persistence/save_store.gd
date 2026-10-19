@@ -15,6 +15,7 @@ func valid(data: Dictionary) -> bool:
 			if key not in preload("res://src/campaign/expedition_campaign.gd").FIELD_RECORDS+["furnace","cradle","transmitter","departure","warning","blackwater_request","blackwater_reply","well_pattern","well_signature"] or not entry is Dictionary or not entry.has_all(["name","caption","optical"]) or entry.optical!=key or not entry.name is String or not entry.caption is String: return false
 	if data.has("active") and data.active!=null:
 		if not data.active is Dictionary or not Simulation.valid_snapshot(data.active): return false
+		if data.active.mission.id>=6 and data.active.mission.id not in preload("res://src/campaign/expedition_campaign.gd").available(data.completed,data.get("expedition",{})):return false
 	return true
 func save(data: Dictionary) -> bool:
 	if not valid(data): warning="Save rejected: unsupported or invalid archive."; return false

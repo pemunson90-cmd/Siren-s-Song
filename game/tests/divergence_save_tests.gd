@@ -25,6 +25,8 @@ func _initialize():
  check(not Sim.valid_snapshot(bad),"recovered flag without corresponding source evidence is rejected")
  bad=snap.duplicate(true);bad.mission.expedition_facts["shelf"]="unsupported field note"
  check(not Sim.valid_snapshot(bad),"route facts must correspond to a located authored source")
+ var premature=data.duplicate(true);premature.erase("expedition");var continuation=Sim.new();continuation.start(7);premature.active=continuation.snapshot()
+ check(not store.valid(premature),"top-level archive cannot resume an unearned continuation without its recovered route")
  for id in [7,8]:
   var follow=Sim.new();follow.start(id);check(Sim.valid_snapshot(follow.snapshot()),"authored continuation starts in valid snapshot")
  print("DIVERGENCE SAVE CHECKS ",checks," FAILURES ",failures)
