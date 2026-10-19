@@ -53,7 +53,7 @@ static func stream(cue: String) -> AudioStreamWAV:
 	var values=samples(cue); var bytes=PackedByteArray(); bytes.resize(values.size()*2)
 	for n in values.size(): bytes.encode_s16(n*2,int(clampf(values[n],-0.95,0.95)*32767))
 	var wav=AudioStreamWAV.new(); wav.format=AudioStreamWAV.FORMAT_16_BITS; wav.mix_rate=RATE; wav.data=bytes
-	if cue in ["ambience","engine"]: wav.loop_mode=AudioStreamWAV.LOOP_FORWARD; wav.loop_end=values.size()
+	if cue in ["ambience","engine"]: wav.loop_mode=AudioStreamWAV.LOOP_FORWARD; wav.loop_end=values.size()-1 # Godot WAV mixer includes this endpoint; keep it inside PCM data.
 	return wav
 func _bus(name: String,send_to: String="Master") -> int:
 	var index=AudioServer.get_bus_index(name)
