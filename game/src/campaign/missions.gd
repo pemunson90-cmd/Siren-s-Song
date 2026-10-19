@@ -68,6 +68,7 @@ static func make(index: int) -> Dictionary:
 		patrols[0].pos=Vector2(420,140); patrols[0].home=patrols[0].pos; patrols[0].goal=patrols[0].pos
 		var east=patrols[0].duplicate(true); east.pos=Vector2(1220,140); east.home=east.pos; east.goal=east.pos; east.patrol=1; patrols.append(east)
 	var result={"id":i,"title":TITLES[i],"brief":BRIEFS[i],"record":RECORDS[i],"rocks":layouts[i],"objectives":objectives,"sirens":patrols,"extraction":Vector2(140,800),"darkness":i==2,"depth":[840,1320,1850,2360,3100,3840][i]}
+	result["acoustic_revision"]=1
 	if i==2:result["blackwater_revision"]=1
 	if i==3:
 		var factory=Rect2(1120,140,400,600)

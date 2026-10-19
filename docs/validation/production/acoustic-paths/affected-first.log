@@ -1,0 +1,7 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+FAIL hunter follows heard last-known point without tracking the now-hidden pilot
+FAIL fresh audible lure can draw a sentinel beyond tether; it is not a hard chase leash
+FAIL sentinel follows a loud occluded sound via navigable water without visual lock
+FAIL hunter follows a loud occluded sound via navigable water without visual lock
+AFFECTED ACOUSTIC CHECKS 53 FAILURES 4

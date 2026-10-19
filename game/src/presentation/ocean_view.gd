@@ -118,6 +118,15 @@ func _draw() -> void:
 	var ex=sim.mission.extraction
 	draw_arc(ex,64,0,TAU,64,Color(CYAN,0.42),2)
 	_label(ex+Vector2(-120 if ex.y>830 else -66,66 if ex.y>830 else 90),"EXTRACTION",CYAN,18)
+	# Own open-water estimate only; deliberately does not sample hidden terrain or
+	# listeners. Dotted amber radius is subordinate to later foreground beam cues.
+	if sim.mission.get("acoustic_revision",0)==1:
+		var own=sim.units[sim.selected]
+		var radius=preload("res://src/simulation/acoustic_paths.gd").motion_radius(own.vel.length())
+		if own.alive and radius>8:
+			for n in 48:
+				var a=float(n)/48*TAU
+				draw_arc(own.pos,radius,a,a+TAU/96,3,Color(0.9,0.65,0.3,0.42),1.4)
 	for i in sim.units.size():
 		var u=sim.units[i]
 		if not u.alive: continue

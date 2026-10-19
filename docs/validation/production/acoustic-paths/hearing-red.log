@@ -1,0 +1,8 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+FAIL new dive opts into acoustic model
+FAIL moderate actual speed cannot announce a fixed430m radius
+FAIL cruise audible without visual lock or exact hidden location
+FAIL generic noise around basalt yields an arrival corner goal
+FAIL own footprint derives actual speed and common open-water reference
+ACOUSTIC HEARING CHECKS 11 FAILURES 5

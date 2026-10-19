@@ -1,0 +1,7 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+FAIL speed range is continuous across old50 threshold
+FAIL unobstructed audible path arrives directly
+FAIL basalt island yields distinct upper and lower arrival branches
+FAIL world-edge wall leaves only one physical arrival
+ACOUSTIC PATH CHECKS 9 FAILURES 4

@@ -22,7 +22,7 @@ static func run(t) -> void:
 	f=feedback(s)
 	t.check(f.motion.size()==2,"silent toggle and drone station cannot hide actual above-threshold movement emissions")
 	s.units[0].vel=Vector2(50,0); s.units[1].alive=false
-	t.check(feedback(s).motion.is_empty(),"movement cue uses strict production speed threshold and excludes lost craft")
+	t.check(feedback(s).motion.size()==1 and feedback(s).motion[0].radius<430,"continuous own speed estimate survives old threshold and excludes lost craft")
 	s.command("ping"); s.command("recon"); s.command("emp"); s._noise(Vector2(1500,50),1150,"FACTORY RESPONSE",8); s._noise(Vector2(1200,20),500,"UNKNOWN",8)
 	f=feedback(s)
 	t.check(f.pulses.map(func(n):return n.label)==["ACTIVE SONAR","RECON UPLINK","DISRUPTION"],"own pulse feedback excludes enemy and unknown noise sources")

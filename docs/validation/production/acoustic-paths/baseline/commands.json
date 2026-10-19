@@ -1,0 +1,51 @@
+{
+	"actions": [
+		[
+			"silent",
+			{
+
+			}
+		],
+		[
+			"route",
+			{
+				"point": "(800.0, 780.0)"
+			}
+		],
+		[
+			"select",
+			{
+				"unit": 1
+			}
+		],
+		[
+			"route",
+			{
+				"point": "(760.0, 200.0)"
+			}
+		],
+		[
+			"select",
+			{
+				"unit": 2
+			}
+		],
+		[
+			"route",
+			{
+				"point": "(1370.0, 450.0)"
+			}
+		],
+		[
+			"select",
+			{
+				"unit": 0
+			}
+		]
+	],
+	"branch_fixture": false,
+	"duration": 16,
+	"fps": 15,
+	"idle": false,
+	"source": "ordinary mission4start; commands through productionAPI; no enemy,knowledge,resource or outcome fixture edits"
+}
