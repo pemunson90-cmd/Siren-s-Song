@@ -21,7 +21,7 @@ static func run(t,game):
 	for child in game.panel_box.get_children():
 		if child is TextureRect:images.append(child.texture.resource_path)
 		if child is Label:copy+=child.text+"\n"
-	t.check(images==["res://assets/evidence/blackwater_request.png"] and "RECOVERED OPTICAL" not in copy,"earned hydrophone record uses its distinct plate and honest archive heading")
+	t.check(images==["res://assets/evidence/blackwater_request.png"] and "FIELD HYDROPHONE RECORDS / 1 OF 1" in copy,"earned hydrophone field record uses its distinct plate without implying extraction")
 	t.check(game.store.valid(game._archive()),"completed receiver progress and new record are valid in the existing campaign archive")
 	game.sim.mission.objectives[1].captured=true;game._retain_evidence();game._evidence_gallery(1);await t.process_frame
 	images.clear()
