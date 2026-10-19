@@ -1,4 +1,6 @@
 extends RefCounted
+const RemoteDecoy=preload("res://src/simulation/remote_decoy.gd")
+const SignalField=preload("res://src/simulation/signal_field.gd")
 const Courier=preload("res://src/simulation/blackwater_courier.gd")
 const Departure=preload("res://src/simulation/foundry_departure.gd")
 const DroneOperations=preload("res://src/simulation/drone_operations.gd")
@@ -24,6 +26,7 @@ var contacts: Dictionary = {}
 var events: Array = []
 var noises: Array = []
 var projectiles: Array=[]
+var remote_decoy:Dictionary={}
 var elapsed := 0.0
 var oxygen := 100.0
 var hull := 100.0
@@ -45,8 +48,9 @@ var sensor_clock := 0.0
 var navigation: AStarGrid2D
 var rock_shapes: Array=[]
 var acoustic_paths=Acoustics.new()
-func start(index: int, upgrade: String = "endurance") -> void:
+func start(index: int, upgrade: String = "endurance",equipment:Dictionary={}) -> void:
 	mission = Missions.make(index)
+	remote_decoy=RemoteDecoy.configure(int(equipment.get("remote_decoy_unit",-1)))
 	units.clear()
 	for i in 3:
 		units.append({"pos":mission.get("start",Vector2(140,800))+[Vector2.ZERO,Vector2(0,-100),Vector2(140,0)][i],"vel":Vector2.ZERO,"angle":-0.3,"route":[],"alive":true,"hold":"","silent":true,"battery":100.0,"name":["QUIETUS","DRONE A","DRONE B"][i]})
@@ -60,6 +64,14 @@ func start(index: int, upgrade: String = "endurance") -> void:
 	if upgrade=="endurance": oxygen=120.0
 	_build_navigation()
 	_observe()
+func observable_sites() -> Array:
+	return mission.objectives.duplicate(true)
+func remote_decoy_feedback() -> Dictionary:
+	return RemoteDecoy.feedback(self,remote_decoy)
+func signal_readings() -> Array:
+	return SignalField.readings(self)
+func extraction_corridors() -> Array:
+	return SignalField.corridors(self) if mission.has("expedition_revision") else [{"pos":mission.extraction,"name":"RECOVERY","route":"","available":all_records()}]
 func world_size() -> Vector2:
 	return WorldRegion.size_of(mission)
 func _build_navigation() -> void:
@@ -141,6 +153,7 @@ func command(order: String,args: Dictionary={}) -> bool:
 	var u=units[selected]
 	if not u.alive and order!="select":
 		selected=0; queue_mode=false; message="Selected drone lost. Quietus selected; reissue the order."; return false
+	if order in ["pod_place","pod_trigger"]:return RemoteDecoy.command(self,remote_decoy,order,args)
 	match order:
 		"select":
 			var id=int(args.get("unit",0))
@@ -191,7 +204,7 @@ func command(order: String,args: Dictionary={}) -> bool:
 		"recon":
 			if tools.recon<=0: return false
 			if mission.has("world_size"):mission["survey_origin"]=u.pos
-			tools.recon-=1; recon_time=8.0; _noise(u.pos,1100,"RECON UPLINK"); message="Local 560m survey · 8 seconds" if mission.has("world_size") else "Wide survey uplink · 8 seconds"; events.append({"type":"recon","pos":u.pos}); _observe()
+			tools.recon-=1; recon_time=8.0; _noise(u.pos,1100,"RECON UPLINK"); message="Local 560m survey · 8 seconds" if mission.has("world_size") else "Wide survey uplink · 8 seconds"; SignalField.observe(self,true); events.append({"type":"recon","pos":u.pos}); _observe()
 		"emp":
 			if tools.emp<=0: return false
 			tools.emp-=1
@@ -305,6 +318,9 @@ func camera_context() -> Dictionary:
 			var c=blackwater_context(capture_target,capture_unit)
 			return {"target":capture_target,"ready":false,"text":"%s · %s · %s %.1f/2s"%[units[capture_unit].name,"REPLY CARRIER" if c.get("source","")=="courier" else active.name,"receiving" if c.settled else "settling",capture_time]}
 		return {"target":capture_target,"ready":false,"text":"%s · %s %.1f / %.0fs"%[units[capture_unit].name,active.name,capture_time,active.get("duration",4.0)]}
+	if mission.has("expedition_revision") and mission.objectives.all(func(o):return o.captured):
+		var facts=mission.expedition_facts.keys()
+		return {"target":-1,"ready":false,"text":"No exact source located · listen from another position or spend local RECON" if facts.is_empty() and mission.id!=8 else "Observed %s · choose an available named recovery corridor"%", ".join(facts)}
 	var unit=units[selected]; var best=-1; var nearest=-1; var distance=INF
 	for id in mission.objectives.size():
 		var objective=mission.objectives[id]
@@ -407,7 +423,7 @@ func _tick(dt: float) -> void:
 	_threats(dt)
 	sensor_clock-=dt
 	if sensor_clock<=0:
-		_observe(); sensor_clock=0.15
+		_observe(); SignalField.observe(self); sensor_clock=0.15
 	if capture_unit>=0:
 		var u=units[capture_unit]; var o=mission.objectives[capture_target]
 		var exchange=o.get("kind","")=="exchange" and mission.get("blackwater_revision",0)==1
@@ -427,7 +443,8 @@ func _tick(dt: float) -> void:
 		selected=0; queue_mode=false; message="Drone lost · Quietus selected · SAMPLE remains available." if mission.get("blackwater_revision",0)==1 else "Drone lost · Quietus command restored. Submarine camera remains available."
 	if oxygen<=0: outcome="lost"; message="Life support exhausted. The archive is silent."
 	if hull<=0: outcome="lost"; message="Quietus lost. Your previous campaign records remain safe."
-	if outcome.is_empty() and all_records() and units[0].pos.distance_to(mission.extraction)<65 and units[0].vel.length()<12:
+	SignalField.extract(self)
+	if not mission.has("expedition_revision") and outcome.is_empty() and all_records() and units[0].pos.distance_to(mission.extraction)<65 and units[0].vel.length()<12:
 		outcome="won"; paused=true; message="Archive recovered. Quietus is home."; events.append({"type":"extraction","pos":units[0].pos})
 # Player-only continuous hull corridor, O(terrain edges) rather than O(length).
 # Endpoints vs edges are covered by blocked(); the remaining closest segment
@@ -760,10 +777,12 @@ func all_records() -> bool:
 	return true
 func snapshot() -> Dictionary:
 	var data={"mission":mission.duplicate(true),"units":units.duplicate(true),"sirens":sirens.duplicate(true),"known":known.duplicate(true),"contacts":contacts.duplicate(true),"noises":noises.duplicate(true),"elapsed":elapsed,"oxygen":oxygen,"hull":hull,"paused":paused,"selected":selected,"tools":tools.duplicate(),"outcome":outcome,"ping_time":ping_time,"ping_origin":ping_origin,"recon_time":recon_time,"capture_time":capture_time,"capture_unit":capture_unit,"capture_target":capture_target}
+	if not remote_decoy.is_empty():data["remote_decoy"]=remote_decoy.duplicate(true)
 	if not projectiles.is_empty(): data["projectiles"]=projectiles.duplicate(true)
 	return data
 func restore(data: Dictionary) -> bool:
 	if not valid_snapshot(data): return false
+	remote_decoy=data.get("remote_decoy",{}).duplicate(true)
 	mission=data.mission.duplicate(true); units=data.units.duplicate(true); sirens=data.sirens.duplicate(true); known=data.known.duplicate(true); contacts=data.get("contacts",{}).duplicate(true); noises=data.get("noises",[]).duplicate(true); projectiles=data.get("projectiles",[]).duplicate(true)
 	elapsed=float(data.get("elapsed",0)); oxygen=float(data.get("oxygen",100)); hull=float(data.get("hull",100)); selected=clampi(int(data.get("selected",0)),0,2); tools=data.tools.duplicate(); outcome=data.get("outcome",""); paused=true; queue_mode=false
 	ping_time=data.get("ping_time",0.0); ping_origin=data.get("ping_origin",Vector2.ZERO); recon_time=data.get("recon_time",0.0); capture_time=data.get("capture_time",0.0); capture_unit=data.get("capture_unit",-1); capture_target=data.get("capture_target",-1); accumulator=0.0
@@ -775,7 +794,7 @@ static func valid_snapshot(data: Dictionary) -> bool:
 	if not DroneOperations.valid(data):return false
 	if not ContactReports.valid(data):return false
 	if not data.mission.has_all(["id","rocks","objectives","extraction","title","darkness","depth"]): return false
-	if not data.mission.id is int or data.mission.id<0 or data.mission.id>5: return false
+	if not data.mission.id is int or data.mission.id<0 or data.mission.id>8: return false
 	if not data.mission.rocks is Array or not data.mission.objectives is Array or not data.mission.extraction is Vector2: return false
 	for r in data.mission.rocks:
 		if not r is Rect2: return false
@@ -786,6 +805,8 @@ static func valid_snapshot(data: Dictionary) -> bool:
 	for o in data.mission.objectives:
 		if not o is Dictionary or not o.has_all(["pos","name","captured"]) or not o.pos is Vector2: return false
 	if not WorldRegion.valid(data):return false
+	if not SignalField.valid(data.mission,float(data.get("elapsed",0))):return false
+	if not RemoteDecoy.valid(data,WorldRegion.size_of(data.mission)):return false
 	if not Departure.valid(data.mission,data.get("elapsed",0.0)):return false
 	if not Courier.valid(data.mission,data.get("elapsed",0.0)):return false
 	if not Thermal.valid_mission(data.mission):return false

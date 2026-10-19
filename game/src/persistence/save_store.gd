@@ -7,11 +7,12 @@ func valid(data: Dictionary) -> bool:
 	if data.get("version",0)!=1: return false
 	if not data.get("unlocked") is int or data.unlocked<0 or data.unlocked>5: return false
 	if not data.get("completed") is Array or not data.get("settings") is Dictionary or not data.get("upgrade") is String: return false
+	if data.has("expedition") and not preload("res://src/campaign/expedition_campaign.gd").valid(data.expedition):return false
 	if data.has("evidence"):
 		if not data.evidence is Dictionary: return false
 		for key in data.evidence:
 			var entry=data.evidence[key]
-			if key not in ["furnace","cradle","transmitter","departure","warning","blackwater_request","blackwater_reply","well_pattern","well_signature"] or not entry is Dictionary or not entry.has_all(["name","caption","optical"]) or entry.optical!=key or not entry.name is String or not entry.caption is String: return false
+			if key not in preload("res://src/campaign/expedition_campaign.gd").FIELD_RECORDS+["furnace","cradle","transmitter","departure","warning","blackwater_request","blackwater_reply","well_pattern","well_signature"] or not entry is Dictionary or not entry.has_all(["name","caption","optical"]) or entry.optical!=key or not entry.name is String or not entry.caption is String: return false
 	if data.has("active") and data.active!=null:
 		if not data.active is Dictionary or not Simulation.valid_snapshot(data.active): return false
 	return true

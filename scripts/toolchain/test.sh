@@ -74,6 +74,10 @@ while IFS='|' read -r scenario summary; do
         echo "Missing successful $scenario summary" >&2; exit 1;
     }
 done <<'TACTICAL_SCENARIOS'
+divergence_tests|DIVERGENCE
+divergence_save_tests|DIVERGENCE SAVE
+expedition_equipment_tests|EXPEDITION EQUIPMENT
+remote_decoy_tests|REMOTE DECOY
 turn_safe_navigation_tests|TURN SAFE NAVIGATION
 expanded_region_tests|EXPANDED REGION
 expanded_region_journeys|EXPANDED JOURNEYS

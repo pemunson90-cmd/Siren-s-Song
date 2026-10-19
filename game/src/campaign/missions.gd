@@ -17,6 +17,7 @@ const RECORDS = [
 	"The final packet describes a fracture below the mantle. The Sirens are leaving. Their song asks us to listen."
 ]
 static func make(index: int) -> Dictionary:
+	if index in [6,7,8]:return preload("res://src/campaign/divergence_missions.gd").make(index)
 	var i = clampi(index,0,5)
 	var layouts = [
 		[Rect2(440,350,240,260),Rect2(920,140,180,260),Rect2(1020,680,200,180)],
