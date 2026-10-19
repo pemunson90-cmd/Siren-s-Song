@@ -1,6 +1,6 @@
 # Siren’s Song · living development roadmap
 
-Code baseline bb67c036dbdfd5bb98c160e6ebdd165dbd801782: game ecd15f683d12cbd1ffa5459621d9e1c92bc81407, runtime e9635e53e7a43d24fc9adc7884ef7ddc35988bb5. Documentation descendants do not imply newer gameplay. Root alone integrates production; protected main6d27f72 remains the prior expedition recovery baseline. This horizon is revisable; only the user ends the Gauntlet.
+Code baseline e0c2dbe4c2d1285f24c6bbb1bfaa92d40b67ceea: game c98ced9f3465a55e7e07243ea16f024083f28efa, runtime 30f675f636dcaee7c5c1d1b6c5fa50f3023fa250. Documentation descendants do not imply newer gameplay. Root alone integrates production; protected main6d27f72 remains the prior expedition recovery baseline. This horizon is revisable; only the user ends the Gauntlet.
 
 The requested independent audit then DIFFERENT adversarial audit is complete, archived at archive/gauntlet-program-audit-2026-10-19/715043c. Their diagnosis—real tactical growth but serial-encounter risk—drives the connected plan below. No third program audit or two critics per feature.
 
@@ -22,9 +22,9 @@ Next game advance: **recovered history → distinct operation/consequence → ch
 
 | Owner / branch | Current assignment |
 | --- | --- |
-| expanded_regions · gauntlet/feature/resolution-operations · /workspace/Siren-s-Song-resolution-operations | Shared Sim/Main/save/registry hooks for actual once-only mechanical gate12 and chosen own-origin transmission13. Gate collision/sight/acoustics/nav/restore must agree; quiet detour remains. Frozen first campaign scope c625391 stays preserved. |
+| expanded_regions · gauntlet/feature/resolution-operations · /workspace/Siren-s-Song-resolution-operations | Shared hooks frozen c7f3bfa; actual gate12/own-origin13 model proofs pass. Now ordinary Main11→12/13 on isolated review/resolution-main-play branch from copies of the genuinely earned9/10 profile. Its readiness flag is proof-only; production remains gated. Frozen first campaign scope c625391 stays preserved. |
 | campaign_experience_review · gauntlet/feature/resolution-threads | Future-content AUTHOR: Confluence11, concealed recovery12, overt warning13. Staged1c8ad65 has different operations, recovered-history conditions, physical geometry and bounded fixture proofs; shared runtime/ordinary12/13 proof still pending. Working fiction is revisable, not ratified canon. |
-| planner_space · gauntlet/feature/campaign-instruments | Close source-bound first-loop views/input and main-dispatch fixtures; then consume agreed public gate/transmission observations for future operations. No hidden source UI or permanent button wall. |
+| planner_space · gauntlet/feature/campaign-instruments | First-loop views/input/tests/audio complete. Next independently branched operation controls and caller integrate world876 with public gate/transmission observations. No hidden source UI or permanent button wall. |
 | earned_campaign_play · gauntlet/feature/earned-capabilities | Pure modules35f651a and bounded comparisons complete; ownership released except concrete review fixes. Keep negative inaudible9 proof, valid bare10 win and real losses. Do not restart closed drive work. |
 | navigation_departure_experience | Sole integration reviewer, incrementally reviewing actual source/game/save/knowledge and relevant tests. Root reconciles/pushes; no second feature critic. |
 
@@ -34,6 +34,6 @@ Following work continues both craft growth, branch/rejoin consequences and furth
 
 ## Validation discipline
 
-Broader Godot batch687daa1 passed core309/runtime179/density769 and preceding suites but ACTUALLY EXIT1 at a new test fixture freeing itself during a callback. Tests-only cleanupa386 repaired it; changed campaign contracts plus all23 selected/remaining suites at a5d6ff0 pass with clean error checks. New9+10 normal Main-dispatch fixture92f adds targeted coverage. Read-only effective capture feedback and focused view regressions correct the sampler’s false four-second100% display and suppress an unfitted correlator card; no balance changes. Preserve segmented evidence, never relabel original batch EXIT0. External packets: connected-campaign/{equipment,earned-loop,instruments,integration-review,integrated-687daa1,integrated-a5d6ff0}. Raw reports/media stay outside production.
+Broader Godot batch687daa1 passed core309/runtime179/density769 and preceding suites but ACTUALLY EXIT1 at a new test fixture freeing itself during a callback. Tests-only cleanupa386 repaired it; changed campaign contracts plus all23 selected/remaining suites at a5d6ff0 pass with clean error checks. New9+10 normal Main-dispatch fixture92f adds targeted coverage. Read-only effective capture feedback and focused view regressions correct the sampler’s false four-second100% display and suppress an unfitted correlator card; no balance changes. Retry audio c85 adds8 focused checks; its nonfatal ObjectDB fixture cleanup warning is retained, not clean-stderr acceptance. Preserve segmented evidence, never relabel original batch EXIT0. External packets: connected-campaign/{equipment,earned-loop,instruments,integration-review,integrated-687daa1,integrated-a5d6ff0}. Raw reports/media stay outside production.
 
 Latest retained Android39297579454/e091 predates current code; no new APK for this cycle. Native only on explicit request or concrete Android-specific risk unresolved in Godot. Preserve signer/fallbacks. Each completion automatically refreshes instructions, reconciles handoffs and begins next useful work; no milestone or critic report ends the program.
