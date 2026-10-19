@@ -83,5 +83,9 @@ func run():
   before=g.sim.snapshot();sector=h.global_position+h.center+Vector2.from_angle(PI/6)*h.ring_radius
   await tap(sector)
   check(g.advanced_orders and h.page=="tools" and g.sim.snapshot()==before,"disabled wedge stays visible and consumes a separate tap without spend or route")
+  for edge_page in ["craft","object"]:
+   h.open(edge_page,{"kind":"craft" if edge_page=="craft" else "objective","unit":g.sim.selected,"index":0,"name":"SITE","pos":g.ocean.map_position(Vector2.ZERO)});await settle()
+   var radius=h.ring_radius+h.touch_height*.6;var annulus=Rect2(h.global_position+h.center-Vector2.ONE*radius,Vector2.ONE*radius*2)
+   check(h.ring_buttons.all(func(b):return not b.get_global_rect().intersects(g.pause_button.get_global_rect())) and not annulus.intersects(g.pause_button.get_global_rect()),"top-edge craft/object projection keeps labels and full annulus clear of PAUSE")
   h.dismiss();g.queue_free();await settle()
  print("RADIAL HUD CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)

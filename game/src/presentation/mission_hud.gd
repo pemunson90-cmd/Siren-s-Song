@@ -138,7 +138,8 @@ func layout(bounds:Vector2,h:float):
  anchor=host.ocean.screen_position(subject.get("pos",host.sim.units[host.sim.selected].pos))
  ring_radius=h*2.25
  var edge=Vector2(h*3.1,h*2.9)
- center=anchor.clamp(edge,bounds-edge)
+ var minimum=Vector2(edge.x,minf(h*3.85+20,bounds.y-edge.y))
+ center=anchor.clamp(minimum,bounds-edge)
  if page=="inspect":center=Vector2(bounds.x*.5,bounds.y*.5)
  if host.advanced_orders:
   for i in ring_buttons.size():
