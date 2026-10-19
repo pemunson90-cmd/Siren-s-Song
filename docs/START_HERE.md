@@ -1,5 +1,8 @@
 # Project orientation
 
+> **READ FIRST — active intended game:** `docs/CURRENT_GAME_SPEC.md` (living requirements) and `docs/V7_TO_GODOT_PARITY.md` (source-backed recovery inventory), then current AGENTS/SOURCE_AUTHORITY/WORKBENCH/CONTINUATION. Original archival functional spec is deprecated as current direction but preserved unchanged. Gauntlet never ends at a quality/test/APK milestone; each pass must pursue the next substantive AAA-caliber player-experience improvement, without undertaking actual publishing logistics.
+
+
 ## Current stage
 
 Active persistent production Gauntlet in Godot 4.6.3. The [phone dashboard](PHONE_DASHBOARD.md) is the canonical source/build/evidence entry. Original prototype import, ratified Addendum A and inspected density/acoustic native gains remain preserved. Latest inspected playable build is0afe5fc/run39251216827, with reviewed source5eb571f, passing integrated checks, independent experience/separate regression and scoped native ZIP/APK/signature/41-final-image review. Actual camera/restored-state captures now match their names; native fresh→memory contact teaching is still unproved. Preserve9dacbb4 and older fallbacks. The next Blackwater investigation experiment is already running in an isolated snapshot. Read WORKBENCH/CONTINUATION and inspect local changes; do not restart completed work. Full native campaign/finale, physical Fold7 and human audio acceptance remain open. Imported originals remain immutable. Task/worker/checkpoint completion automatically triggers continued execution; only explicit user stop or an actual observed blocking limit permits pause.
