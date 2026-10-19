@@ -363,10 +363,12 @@ func camera_context() -> Dictionary:
 	var target=mission.objectives[best]
 	if target.get("required_unit",selected)!=selected and Sampler.capture_spec(selected,mission.get("launch_equipment",{}),target).is_empty():
 		return {"target":best,"ready":false,"text":target.get("unit_requirement","Quietus must operate the archive uplink. Bring the submarine to this anchor.")}
+	if not Sampler.capture_spec(selected,mission.get("launch_equipment",{}),target).is_empty() and unit.vel.length()>=12:
+		return {"target":best,"ready":false,"text":"FIELD SAMPLE · settle below 12m/s before the audible 8s exposure"}
 	for prerequisite in target.get("requires",[]):
 		if not mission.objectives[prerequisite].captured:
 			return {"target":best,"ready":false,"text":target.get("requirement","Uplink needs both relay records. Photograph WEST and EAST first.")}
-	return {"target":best,"ready":true,"text":"READY · %s · %s %.0fs"%[target.name,"passive listen" if target.get("kind","")=="receiver" else "exposure",_capture_duration(target,selected)]}
+	return {"target":best,"ready":true,"text":"READY · %s · %s %.0fs"%[target.name,"FIELD SAMPLE · AUDIBLE" if not Sampler.capture_spec(selected,mission.get("launch_equipment",{}),target).is_empty() else "passive listen" if target.get("kind","")=="receiver" else "exposure",_capture_duration(target,selected)]}
 # Well-specific optional comparison. Own motion and local reception only;
 # no Siren query, extra acoustic source or forced enemy intent.
 func _well_signature_observe() -> void:
@@ -456,6 +458,7 @@ func _tick(dt: float) -> void:
 			if exchange:capture_time=0.0
 			message="Reception interrupted · move closer or SONAR for a local replay" if exchange else "Exposure interrupted · regain clear view"
 		elif exchange and not receiver.settled:capture_time=0.0
+		elif not Sampler.capture_spec(capture_unit,mission.get("launch_equipment",{}),o).is_empty() and u.vel.length()>=12:capture_time=0.0
 		else:
 			capture_time+=dt
 			if capture_time+(0.0000001 if exchange else 0.0)>=_capture_duration(o,capture_unit):

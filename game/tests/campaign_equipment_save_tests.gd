@@ -20,6 +20,7 @@ func _initialize():
  var sampler=Sim.new();sampler.start(10,"disruption",{"fitted":{"quietus":"","drone_a":"drone_sampler","drone_b":""}})
  sampler.units[1].pos=sampler.mission.objectives[0].pos+Vector2(0,80);sampler.command("select",{"unit":1})
  check(sampler.camera_context().ready,"equipped drone may operate explicit compatible receiver")
+ check("AUDIBLE" in sampler.camera_context().text,"drone receiver context truthfully labels audible field sampling")
  sampler.command("emp") # Real finite counterplay keeps this save-duration fixture alive during exposure.
  sampler.command("camera")
  check(sampler.noises.any(func(n):return n.label=="CAMERA"),"sampler operation has actual ordinary audible camera cost")

@@ -18,13 +18,19 @@ func _initialize():
  var earned=Campaign.recover(notes,recovered)
  check("quietus_correlator" in earned.entitlements and earned.references.return_cadence==[0.8,1.6,0.8],"successful confirmed recovery earns measured kit")
  check(9 in Campaign.available([0,1,2,3,4,5],earned),"Deep recovery opens actual onward task")
- var launched=Consequences.commit(earned,9,{"quietus":"quietus_correlator","drone_a":"","drone_b":""})
+ var launched=Campaign.recover(earned,{"id":9,"expedition_revision":2,"recovered":true,"expedition_facts":{},"launch_equipment":{"quietus":"quietus_correlator","drone_a":"","drone_b":""}})
+ check(11 not in Campaign.available([0,1,2,3,4,5],launched),"unreviewed resolution data stays out of playable operations")
  check(launched.selected_thread=="deep" and launched.history.size()==1,"recovery commits one selected downstream history")
  var opposite={"id":6,"expedition_revision":1,"recovered":true,"chosen_route":"shelf","expedition_facts":{"shelf":"other"}}
  var replayed=Campaign.recover(launched,opposite)
  check(replayed.selected_thread=="deep" and replayed.history==launched.history and "shelf" in replayed.routes,"opposite replay adds access without rewriting selected history")
+ var failed9={"id":9,"expedition_revision":2,"recovered":false,"expedition_facts":{"wake_packet":"field only"}}
+ var uncommitted=Campaign.recover(earned,failed9)
+ check(uncommitted.selected_thread.is_empty() and uncommitted.history.is_empty(),"failed onward dive does not commit selected history")
+ replayed=Campaign.recover(replayed,{"id":9,"expedition_revision":2,"recovered":true,"expedition_facts":{},"launch_equipment":launched.history[0].fitted})
  var confluence={"id":11,"expedition_revision":2,"recovered":true,"chosen_route":"concealed","expedition_facts":{}}
  var selected=Campaign.recover(replayed,confluence)
+ check(Campaign.valid(selected),"committed recovered history remains a valid archive")
  confluence.chosen_route="overt"
  check(Campaign.recover(selected,confluence).facts.confluence_route=="concealed","replayed later exit cannot rewrite committed consequence")
  var corrupt=launched.duplicate(true);corrupt.history[0].mission=99
