@@ -23,8 +23,8 @@ This steering is integrated locally, **absent from20de5cd APK**. Turning still c
 ## Work already underway
 
 - **Resume evidence:** reviewed foreground/postdraw/actualRGB guard is locally integrated; it preserves immediate/rejected captures and fails boundedly if frames stay blank. Next meaningful native source tests same-resume recovery. [Independent review](reviews/2026-10-19-native-resume-capture-regressions.md). No compositor/pixel-semantic guarantee.
-- **Heading clarity:** a small selected-Quietus bow cue is being compared in isolation. [Official Door Kickers comparison](reviews/2026-10-19-route-intent-reference-comparison.md) finds clearer local facing/remaining-route linkage there. An all-craft draft was rejected for drone-label clutter; no accepted cue or physics imitation yet.
-- **Listening Well discovery:** [actual scout](reviews/2026-10-19-late-campaign-opportunity.md) found generic reused photographs/no retained discovery before a fixed engine-note revelation. An optional moving-signature/returned-pattern comparison is under test. Remote completion stays viable; requiring the excursion was rejected for added exposure without an extra discovery. Real losses and low-hull solo recovery remain evidence.
+- **Heading clarity:** a reviewed selected-Quietus bow cue is merged locally; it is absent from the latest APK. [Official Door Kickers comparison](reviews/2026-10-19-route-intent-reference-comparison.md) finds clearer local facing/remaining-route linkage there. An all-craft draft was rejected for drone-label clutter; the accepted small cue changes no physics.
+- **Listening Well discovery:** [actual scout](reviews/2026-10-19-late-campaign-opportunity.md) found generic reused photographs/no retained discovery before a fixed engine-note revelation. An optional moving-signature/returned-pattern comparison is merged locally; a first-record camera regression is being corrected before publication. Remote completion stays viable; requiring the excursion was rejected for added exposure without an extra discovery. Real losses and low-hull solo recovery remain evidence.
 
 ## Remaining quality bar
 

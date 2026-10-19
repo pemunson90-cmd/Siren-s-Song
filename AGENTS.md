@@ -14,6 +14,8 @@ This section governs current Gauntlet execution over older per-cycle gates in th
 
 **Instruction upkeep:** Keep this concise contract as the canonical operating policy. WORKBENCH/CONTINUATION contain current state rather than duplicate full governance. Historical mandatory native/review-per-increment wording is superseded. Update the short active handoff when implementing a new policy, and explicitly acknowledge the fetched governance SHA once per session, not after every tiny action.
 
+**Concrete boundary mechanism:** Run `python3 scripts/toolchain/gauntlet-boundary.py --boundary <complete|dispatch|review|merge|resume>`; for dispatch use `--dispatch work/task.json` and invoke the emitted collaboration payload after reading changed cached instructions. Reviewed installer `scripts/toolchain/install-gauntlet-hooks.py` adds non-destructive shared Git hooks for commit/checkout/merge/push. Collaboration callbacks and session-resume hooks are unavailable here, so their explicit preflight remains mandatory. See [docs/GAUNTLET_ORCHESTRATION.md](docs/GAUNTLET_ORCHESTRATION.md); a fresh receipt proves retrieval, not semantic adoption or future/background execution.
+
 Read `docs/START_HERE.md` and `docs/SOURCE_AUTHORITY.md` before substantial work. Consult the design bible and provenance sources when available.
 
 ## Identity and design

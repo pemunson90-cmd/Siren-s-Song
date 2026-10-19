@@ -48,4 +48,13 @@ fi
 grep -Eq '^NAVIGATION CHECKS [1-9][0-9]* FAILURES 0$' "$navigation_log" || {
     echo 'Missing successful navigation departure summary' >&2; exit 1;
 }
+well_shape_log="$ARTIFACT_DIR/well-save-shape-tests.log"
+"$(dirname -- "$0")/headless.sh" --script res://tests/well_signature_save_shape_tests.gd 2>&1 | tee "$well_shape_log"
+if grep -nE 'SCRIPT ERROR:|(^|[[:space:]])ERROR:' "$well_shape_log"; then
+    echo 'Godot reported Well save-shape errors' >&2
+    exit 1
+fi
+grep -Eq '^WELL SAVE SHAPE CHECKS [1-9][0-9]* FAILURES 0$' "$well_shape_log" || {
+    echo 'Missing successful Well save-shape summary' >&2; exit 1;
+}
 "$(dirname -- "$0")/density-checks.sh"
