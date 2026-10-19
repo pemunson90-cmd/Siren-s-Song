@@ -319,6 +319,8 @@ func _edit_program(order:String,args:Dictionary) -> bool:
 		if args.task_site.is_empty():plan[index].erase("task_site")
 		else:plan[index].task_site=args.task_site;plan[index].stop=true;plan[index].arrival_set=true
 	if order=="route_edit" and args.has("stop"): plan[index].arrival_set=true
+	if order=="route_edit" and args.get("stop",true)==false and plan[index].has("task_site"):
+		message="Remove TASK before choosing PASS";return false
 	if not _install_program(u,plan): message="Program rejected · choose safe open water."; return false
 	if order=="route_edit" and index==0 and args.has("task_site") and u.get("task_run",{}).get("phase","")=="blocked":u.erase("task_run")
 	message="%s · %d programmed destinations"%[u.name,plan.size()]; return true
