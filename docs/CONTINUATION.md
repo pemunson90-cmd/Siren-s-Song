@@ -11,7 +11,7 @@ Published in7febd8d: assisted departure6ab8fb0, resume evidence48a42ad, selected
 Active tasks:
 - `/root/campaign_quality_scout`: camera illustration-key regression fixed at0b318af and merged735e444; actual GL RED6/2 then GREEN6/0 independently rerun by same reviewer. New independent feature `/workspace/Siren-s-Song-well-context`, branch `gauntlet/feature/well-acquisition-context`, from735e444: compare originalv7 and replace generic foundry acquisition imagery with honest site-specific context; no simulation/save/main changes or unearned sensor claims. Same sole reviewer `/root/blackwater_experience_critic`. Prepared full brief `work/well-context-dispatch.json` in original workspace.
 - `/root/decoy_feedback`: new FIT label-layout feature `/workspace/Siren-s-Song-fit-label`, branch `gauntlet/feature/fit-label-layout`, based on e762eeb. Reproduce1280×720/95dpi FI/T wrap, fix measured geometry while preserving touch/text minima, check both420dpi layouts. Root sole integration reviewer. Prepared full dispatch saved in original workspace `work/fit-label-dispatch-ready.json`.
-- `/root/android_artifact_review`: owns monitoring and artifact inspection for explicit milestone tag `gauntlet/milestone/2026-10-19-navigation-well-resume` at7febd8d. Run ID pending; do not create duplicate CI. Evidence worktree/branch when known; no game/tool edits.
+- `/root/android_artifact_review`: owns monitoring and artifact inspection for explicit milestone tag `gauntlet/milestone/2026-10-19-navigation-well-resume` at7febd8d. Actual run39276951740, job118143668785, source7febd8d. Evidence-only `/workspace/Siren-s-Song-native-39276951740`, branch `gauntlet/feature/native-39276951740-evidence`; no duplicate CI or game/tool edits.
 
 ## Immediate execution
 

@@ -14,7 +14,7 @@ User-ratified governance **e286ade61257190daa46f9433182de323a611271**, fetched/p
 
 Root sole production integrator in `/workspace/Siren-s-Song-integration`. Existing original workspace/captures and source branches retained. Milestone-tag/manual-dispatch Android trigger replaces every-feature APK. Feature refs containing that workflow correction may be published without redundant builds.
 
-Production7febd8d is published after combined gate0. Explicit `gauntlet/milestone/2026-10-19-navigation-well-resume` is pushed; Android owner monitors actual run/artifacts while FIT and Well context features continue. No adoption-only critic/APK or per-increment full suite. [Exact continuation](CONTINUATION.md).
+Production7febd8d is published after combined gate0. Explicit `gauntlet/milestone/2026-10-19-navigation-well-resume` is pushed; Android owner monitors [run39276951740](https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/39276951740)/actual artifacts while FIT and Well context features continue. No adoption-only critic/APK or per-increment full suite. [Exact continuation](CONTINUATION.md).
 
 Latest actual [Android39266427532](validation/android-39266427532/README.md) is20de5cd:4 ZIPs/APK/certificate and48 images inspected. Chapter/loadout/optical states pass scoped review; cover-resume all black. New local features are absent from that APK. Preserve0afe5fc and f1ea536/runtime92625ac recoveries. No physical Fold7/full-campaign/finale/human acceptance claim.
 

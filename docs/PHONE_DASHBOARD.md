@@ -20,7 +20,7 @@ Watch [baseline](validation/production/navigation-emergency-experience/motion/ba
 
 This steering is integrated locally, **absent from20de5cd APK**. Turning still costs about1.1s in the matched stationary departure; momentum can still cause collisions. Fixed2× framing/no camera follow and scripted inputs do not establish thumb comfort. [Independent experience](reviews/2026-10-19-navigation-departure-experience.md) · [Separate regression](reviews/2026-10-19-navigation-departure-regressions.md).
 
-Production source7febd8d now contains reviewed steering, resume guard, bow cue and optional Well discovery; the latest inspected APK above does not. An explicit native milestone is being monitored while FIT and Well presentation work continue.
+Production source7febd8d now contains reviewed steering, resume guard, bow cue and optional Well discovery; the latest inspected APK above does not. [Native milestone39276951740](https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/39276951740) is being monitored while FIT and Well presentation work continue.
 
 ## Work already underway
 
