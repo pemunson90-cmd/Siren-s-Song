@@ -6,6 +6,8 @@ Game51fbd6c (production7a2c7fe) includes reviewed finale local reports5dda434 an
 
 Field-record wording d35569d is integrated without retention/save/progression change; archiveUI8/BlackwaterUI10 pass. Actual earned Main progression completed all six chapters, preserving real unlocks/losses/resources and optional Well signature; normal quit/reload confirms completed[0..5]. Final46.95s/hull100/both drones alive,3EMP+2decoys spent. Successful mission time totals228.72 simulated seconds, not human play duration. Automated scenario success is still distinct from human acceptance.
 
+**Ratified campaign ambition:** the current six missions are the tutorial arc. Build a substantially longer, involved branching story campaign inspired by Star Fox, meaningful Quietus/drone upgrades and multiple endings, with serious AAA-caliber Android quality. Existing normal-save completion validates this introductory arc, not the intended future full game. The next design assessment now targets that larger scope while the spatial UI and authored world foundations proceed.
+
 **Highest user priority:** current UI/game ratio and tiny-map experience are unacceptable; v7 already had bounded scrolling follow. Actual v7 WORLD1200×1800/VIEW_H900 versus Godot fitted1600×960 confirms lost foundational camera behavior. Passing layout metrics and a larger route editor did not establish good gameplay presentation.
 
 **New user interface direction:** minimal diegetic/spatial instruments inspired by Dead Space, Quietus rings, contextual holographic panels and tap-open radial menus; a permanent button row is rejected as the final approach. Preserve useful camera work and touch/gesture safety while evolving the prototype.

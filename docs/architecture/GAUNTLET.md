@@ -4,7 +4,7 @@ The Gauntlet's **single operating contract** is `../../AGENTS.md`; the **living 
 
 ## Creative contract
 
-One human pilot commands the vulnerable USS Quietus and independently routed drones to investigate superior alien Sirens. A six-mission campaign should move from first contact to discovery and a difficult return with evidence. Decisions come from limited information, acoustic exposure, divided attention, inertia, resources, and terrain. Unlimited tactical pause supports deliberate play. Avoid frantic tapping, conventional combat, omniscient enemies, and failure from hidden UI state.
+One human pilot commands the vulnerable USS Quietus and independently routed drones to investigate superior alien Sirens. The six existing missions form an introductory/tutorial arc from first contact to discovery and a difficult return with evidence. The longer intended campaign adds branching story routes, Quietus/drone upgrades and multiple endings under current user guidance. Decisions come from limited information, acoustic exposure, divided attention, inertia, resources, and terrain. Unlimited tactical pause supports deliberate play. Avoid frantic tapping, conventional combat, omniscient enemies, and failure from hidden UI state.
 
 Confirmed requirements: Android first; 2D; multiple missions/progression/conclusion; queued routes and conditional orders; obstacle collision and visible sonar occlusion; independent drones with submarine fallback camera; slow oxygen pressure; return to extraction. Details below are agent design decisions within the user's creative grant, adjustable after evidence.
 
@@ -38,7 +38,7 @@ The Sol production lead may refine file names and interfaces before implementing
 
 ## Gameplay design decisions
 
-The current initial campaign comprises six authored missions: Shelf Signal (teach sonar and extraction), Split Channel (drone coordination), Blackwater Relay (low visibility and evidence relay), Cold Foundry (industry reconnaissance), The Listening Well (moving threat and sustained observation), and Siren's Song (convergent infiltration/extraction and a narrative resolution). Each needs distinct geography, objective pressure, briefing, outcome, and a tested completion route. Content count alone does not meet the campaign quality bar.
+The current implemented introductory/tutorial arc comprises six authored missions: Shelf Signal (teach sonar and extraction), Split Channel (drone coordination), Blackwater Relay (low visibility and evidence relay), Cold Foundry (industry reconnaissance), The Listening Well (moving threat and sustained observation), and Siren's Song (convergent infiltration/extraction and a narrative resolution). Each needs distinct geography, objective pressure, briefing, outcome, and a tested completion route. Content count alone does not meet the campaign quality bar. These six are not the intended full campaign; branching routes, longer investigations, upgrades and multiple endings remain future implementation under the living spec.
 
 Progression rewards evidence with equipment choices and new tactical opportunities, not enemy damage escalation. Defeats preserve unlocked campaign progress; retry is immediate. Completed missions are replayable. Include settings, clear tutorial affordances, pause/resume, mission briefing/debrief, and ending.
 
