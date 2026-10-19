@@ -2,7 +2,7 @@
 
 ## Current stage
 
-Active persistent production Gauntlet in Godot 4.6.3. The [phone dashboard](PHONE_DASHBOARD.md) is the canonical current source/build/evidence entry. The original-prototype import/audit is published and byte-verified. Ratified Addendum A has a bounded numerical native checkpoint at 6388113; direct new bytes/pixels and native finale/full-campaign quality remain open. Resume density WIP 2fc0976 selectively, preserving later governance and role diagnostics; Addendum B governs critic references and honest footage limits. Read WORKBENCH/CONTINUATION for exact current gates and accepted-versus-experimental source status. Imported originals remain immutable.
+Active persistent production Gauntlet in Godot 4.6.3. The [phone dashboard](PHONE_DASHBOARD.md) is the canonical current source/build/evidence entry. Original prototype import/hash verification and ratified Addendum A fixes are preserved. Existing density build b809501 / run39229219785 now passes downloaded ZIP/APK/signature and actual Android image review within its documented scope. The active bounded cycle is clearer finite-decoy/known-noise feedback under sensor uncertainty. Read WORKBENCH/CONTINUATION and inspect local changes before repeating work. Experimental finale/full-campaign native, physical Fold7 and human audio acceptance remain open. Imported originals remain immutable.
 
 ## Read order
 

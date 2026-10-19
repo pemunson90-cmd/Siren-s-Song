@@ -1,4 +1,8 @@
-# Density native gate passes; artifact inspection pending
+# Density native gate and downloaded artifact inspection pass
+
+**19 October follow-up: the byte/pixel dependency is resolved.** All four existing ZIPs were downloaded through the supported connector/File Service URLs and normal proxy, matching `artifacts.json` sizes and digests. Extracted APK SHA-256 matches CI; local `apksigner` verifies v2/v3 and the expected certificate. Actual cover/inner primary/secondary/restored HUD, Settings, camera, debrief and restoration images were inspected. No consequential visual blocker was found; the next bounded experience cycle may proceed. Preserve f1ea536 and bounded A 6388113 as recovery points; experimental finale/full-campaign and physical Fold7 acceptance remain open.
+
+[Independent artifact findings and exact limitations](ARTIFACT_REVIEW.md) · [machine-readable download/pixel verification](download-verification.json) · [local APK signature verification](downloaded-apk-signature.txt). Fourteen native screenshots are retained losslessly under [screenshots/](screenshots/); selected actual decoded geometry/state is in [downloaded-metrics/](downloaded-metrics/). Some menu PNGs precede their corresponding fresh metrics: the review explicitly distinguishes actual pixels from filename/state assumptions, including the returned-menu frames. This is an evidence synchronization limitation, not a demonstrated game BACK failure.
 
 Exact source **b809501af49fe6cd2c23acd7b2d47867a0d1f638**, [run 39229219785](https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/39229219785), job 117982845592: **success**. Native step started 09:21:53 UTC; the smoke passed at 09:33:36 on 19 October 2026. Full local gate also passes: 234 simulation / 230 runtime / 1057 geometry / 7 menu / 15 scroll / 65 transport, plus parser/archive guards.
 
@@ -14,7 +18,7 @@ The complete diagnostic transport now passes Android geometry instead of accepti
 
 ## Build identity and permanent artifacts
 
-CI reports APK SHA-256 **1c23e474006e3340752b357cc379e1fc686ac4d503ccd329f82caea3f75804a9**. Public certificate SHA-256 **32bcb2287acd01c1f58c26997c7639f3072c74c6b03ab2a24656dc7cd1c7dc3c** matches A 6388113 and the inspected f1ea536 fallback. Official-template and signing-cache hits are observed. These are logged build/signature results; local APK-byte hash recomputation remains pending. Private keys are not artifacts.
+CI reports APK SHA-256 **1c23e474006e3340752b357cc379e1fc686ac4d503ccd329f82caea3f75804a9**. Public certificate SHA-256 **32bcb2287acd01c1f58c26997c7639f3072c74c6b03ab2a24656dc7cd1c7dc3c** matches A 6388113 and the inspected f1ea536 fallback. Official-template and signing-cache hits are observed. Follow-up downloaded-byte recomputation and local signature verification now confirm both results. Private keys are not artifacts.
 
 | Artifact | Permanent link / ID |
 |---|---|
@@ -26,9 +30,9 @@ CI reports APK SHA-256 **1c23e474006e3340752b357cc379e1fc686ac4d503ccd329f82caea
 
 `artifacts.json` preserves API sizes and ZIP digests, which differ from the APK digest. Runtime evidence is 62,191,351 compressed bytes; screenshot artifacts remain separate. The candidate includes unpromoted finale ancestry: no native finale/full-campaign, physical Samsung folding/rotation, OS multitouch, comfort or performance acceptance follows from these gates. [Fully inspected fallback](../android-39205478335/README.md) remains available.
 
-## Paused next action: retrieve existing artifacts
+## Retained earlier access checkpoint — superseded by successful retrieval above
 
-Direct artifact delivery is still blocked at **sdmntpreastus2.oaiusercontent.com**, current restricted/enforced environment revision 56. No signed URL retry or bypass was attempted. Numerical/input gains are supported; current APK bytes and actual pixels remain **uninspected**. Resume only after supported environment readiness confirms the requested host is allowed; no new CI run is needed for access.
+At the earlier checkpoint direct artifact delivery was blocked at **sdmntpreastus2.oaiusercontent.com**, restricted/enforced environment revision 56. No signed URL retry or bypass was attempted then. APK bytes and pixels were correctly left uninspected. The new selected environment reports local unrestricted policy; connected readiness has unknown enforcement state, and ordinary supported requests actually succeeded. No new CI run was used for access. The original retrieval contract below is retained for reproducibility; its pending actions have now been performed as documented in the follow-up review.
 
 Exact supported connector call, first for the existing APK:
 

@@ -1,0 +1,17 @@
+{
+  "mission": 4,
+  "hunter": 1,
+  "entry": "fixture-assisted fresh dive",
+  "observations": 6,
+  "max_observed_home_distance": 231.33932584912827,
+  "return_simulated_time": 49.333333,
+  "final_home_error": 14.182571894567298,
+  "modes": [
+    "PATROL",
+    "DORMANT",
+    "INVESTIGATE",
+    "SEARCH",
+    "RETURN",
+    "DORMANT"
+  ]
+}

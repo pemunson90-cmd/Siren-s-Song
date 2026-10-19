@@ -1,8 +1,8 @@
 # Siren's Song progress workbench
 
-**Stage:** Paused / awaiting artifact access. Density native numerical/input gates pass on exact b809501; downloaded Android APK bytes and screenshots remain uninspected. No further substantial game cycle across that evidence gate.
+**Stage:** Active / acoustic-feedback cycle. Existing density native artifact gate is now inspected: all four ZIPs and the APK match recorded hashes, the APK signature/certificate verifies, and the independent actual Android image review finds no blocking UI defect. This supports the bounded density gains, not full-content acceptance.
 **Phone dashboard:** [current APK, evidence and limits](PHONE_DASHBOARD.md).
-**Development comparison base:** 6388113 / game 7ff53af, native numerical run 39216492480. New APK bytes and pixels are not directly reviewed yet because artifact-host access is blocked.
+**Development comparison base:** aa022cc / game b809501, native run 39229219785; existing artifacts retrieved normally through the selected Command-Library environment's inherited proxy under its unrestricted local policy. Runtime status reports connected but policy state unknown, so actual successful requests establish access rather than an invented enforcement claim.
 **Fully inspected native fallback:** f1ea536 / runtime 92625ac; inherited patrol defect recorded. Latest tested APK contains experimental finale ancestry; native finale/full-campaign quality remains unresolved.
 **Player device:** Galaxy Z Fold7; physical folding, touch comfort, OS multi-touch and sustained performance remain open.
 
@@ -26,7 +26,16 @@ Latest [native 39229219785](validation/android-39229219785/README.md), exact sou
 
 Retained failures remain meaningful: two early first-swipe failures, an explicitly absent immersive intro, and 744ad3e's confirmed menu success followed by exactly 1023-character truncated HUD JSON. The [transport-only repair](validation/production/density/metric-transport/README.md) now passes natively without dropping controls, weakening geometry or using stale snapshots. Local strict gate is 234 core / 230 runtime / 1057 geometry / 7 menu / 15 scroll / 65 transport plus parser/archive guards. Initial 63/2 raw Dictionary assertion failures are preserved and explained by JSON integer-to-float normalization; strict canonical byte equality and independent field-value checks pass.
 
-**Next single action:** after supported artifact-host readiness changes, retrieve the **existing** b809501 artifacts using the exact supported request in the native evidence README, verify downloaded APK bytes/hash/certificate and inspect both layouts' actual menu/Settings, command pages, camera, debrief and restored archive frames. Record clipping, readability, safe-area coverage and chart/control usability against the local images/review. Do not bypass network policy or rerun CI merely to retrieve bytes. Tooling owns this retrieval/inspection gate. Preserve bounded A 6388113 and fully inspected f1ea536 fallback; the latest APK retains experimental finale ancestry. Finite decoy/noise feedback remains the next planned experience cycle after this gate; external shipped footage, physical phone comfort, sustained performance and full native campaign remain open. No background execution is claimed.
+**Next single action:** finish the bounded finite-decoy / known-noise feedback challenger against inspected b809501, then inspect actual comparison clips and obtain separate evidence-first regression criticism. Preserve 6388113 and the fully inspected f1ea536 fallback. Do not disclose hidden listeners or retune hearing to match a visual ring. Original v7 is the implementation reference; its continuous movement footprint differs from production's existing threshold hearing. Physical Fold7, native full campaign/finale and subjective audio remain open.
+
+## Resumed artifact gate — 19 October 2026
+
+The selected published Command-Library environment started with no checkout; cloned gauntlet/production and fetched origin, both exactly aa022cc, with no pre-existing local changes. Godot is the pinned official 4.6.3. Local network snapshot is unrestricted; supported connector File Service delivery succeeds through the inherited proxy. No new CI run or network bypass was used. Four ZIP digests/CRC and extracted APK SHA-256 match the preserved run; local apksigner verifies v2/v3 and the expected public certificate. Independent Sol-routed review inspected all 41 Android PNGs in contact sheets plus critical full-size views, finding no consequential blocking readability/clipping/safe-area defect. Some menu transition screenshots lag the fresh diagnostic state; they are not silently treated as images of the new screen. [Byte/pixel review and exact limitations](validation/android-39229219785/README.md).
+
+Fresh clone setup qualification: an initial test attempt preceded Godot's required import and failed loading missing .ctex resources. The documented editor import resolves that setup omission. Fresh strict full gate afterward exits 0: 234 core / 230 runtime / 1057 geometry / 7 menu / 15 scroll / 65 transport plus parser/archive guards. Parent log: work/baseline-gate.log; durable challenger evidence will retain the baseline log. No game correction was inferred from the setup failure.
+
+One fresh reviewer explicitly requested gpt-6.1-sol/high for artifact bytes/pixels; one subsequent production owner explicitly requested the same model for the bounded acoustic-feedback cycle. Actual backend/token/cost telemetry is unavailable. Parent is sole pusher; imported originals and prior accepted artifacts remain preserved.
+
 
 ## Continuity
 

@@ -1,0 +1,233 @@
+{
+  "review_date_utc": "2026-10-19",
+  "source_sha": "b809501af49fe6cd2c23acd7b2d47867a0d1f638",
+  "run_id": 39229219785,
+  "transport": "Supported github_download_workflow_artifact returned File Service download_url; normal inherited HTTPS proxy and CA trust. Signed URLs kept in tool memory only, not written to files or printed.",
+  "environment_observation": {
+    "local_policy_version": 1,
+    "local_http_policy": "unrestricted",
+    "connected_status": "connected",
+    "desired_remote_http_policy": "unrestricted",
+    "remote_policy_state": "unknown",
+    "observations_current": true,
+    "actual_four_downloads": "success"
+  },
+  "artifacts": [
+    {
+      "kind": "apk",
+      "artifact_id": 12176549560,
+      "bytes": 68982353,
+      "sha256": "c15f69ff4ab0f64632fdeb1d11b43912328daae22674257ccd8de7df2658ec69",
+      "size_matches_artifacts_json": true,
+      "digest_matches_artifacts_json": true,
+      "zip_crc_pass": true
+    },
+    {
+      "kind": "cover",
+      "artifact_id": 12176429491,
+      "bytes": 10329000,
+      "sha256": "b2832fcc7a1d06d056777eb957f36a25bab270c8143efb6c8a560f0f262366d3",
+      "size_matches_artifacts_json": true,
+      "digest_matches_artifacts_json": true,
+      "zip_crc_pass": true
+    },
+    {
+      "kind": "inner",
+      "artifact_id": 12176749376,
+      "bytes": 19329954,
+      "sha256": "4bba5bfd18cad83755ea742f4ebb3a0df8fd257beb7f30ec98bd0b3bfb58b4aa",
+      "size_matches_artifacts_json": true,
+      "digest_matches_artifacts_json": true,
+      "zip_crc_pass": true
+    },
+    {
+      "kind": "runtime",
+      "artifact_id": 12176174995,
+      "bytes": 62191351,
+      "sha256": "db3fbe463b32a94ed486bdab4cef5d40b243937c11f80c6feb725d59b69b0279",
+      "size_matches_artifacts_json": true,
+      "digest_matches_artifacts_json": true,
+      "zip_crc_pass": true
+    }
+  ],
+  "apk": {
+    "bytes": 69372821,
+    "sha256": "1c23e474006e3340752b357cc379e1fc686ac4d503ccd329f82caea3f75804a9",
+    "matches_ci_apk_sha256": true,
+    "local_apksigner_exit": 0,
+    "v2_verified": true,
+    "v3_verified": true,
+    "signers": 1,
+    "certificate_sha256": "32bcb2287acd01c1f58c26997c7639f3072c74c6b03ab2a24656dc7cd1c7dc3c"
+  },
+  "screenshots": [
+    {
+      "artifact": "cover",
+      "source_entry": "cover-touch-targets-primary-initial.png",
+      "source_sha256": "006c21d6d0f8b0a62cdfc26e50f564d2aed9954ac70d3a0272875cb9a140541e",
+      "retained": "screenshots/cover-touch-targets-primary-initial.webp",
+      "retained_sha256": "a4d0f108306f32f62df434d86d76ca8fdad65675205e33b270b568d95b6b7008",
+      "pixels_identical_rgba": true,
+      "dimensions": [
+        2520,
+        1080
+      ]
+    },
+    {
+      "artifact": "cover",
+      "source_entry": "cover-touch-targets-secondary-initial.png",
+      "source_sha256": "dcb13c69c449a10c764a2acbdb2440eac8b03af8ad3fbd775c71ee09447bb2db",
+      "retained": "screenshots/cover-touch-targets-secondary-initial.webp",
+      "retained_sha256": "1d4a71f2804e7db793f5a59df08c230f391cd6477c5b90acd6d4e6724de237fc",
+      "pixels_identical_rgba": true,
+      "dimensions": [
+        2520,
+        1080
+      ]
+    },
+    {
+      "artifact": "cover",
+      "source_entry": "cover-touch-targets-primary-restored.png",
+      "source_sha256": "4d067694da5bcdb2648969d8246160d09a9964e6349d4c38a8b4088e0b775214",
+      "retained": "screenshots/cover-touch-targets-primary-restored.webp",
+      "retained_sha256": "55b34c55b71822361939115ea63e2ef12971c09fb41425a1a89c0ee84b042d68",
+      "pixels_identical_rgba": true,
+      "dimensions": [
+        2520,
+        1080
+      ]
+    },
+    {
+      "artifact": "cover",
+      "source_entry": "cover-menu-scroll-0.png",
+      "source_sha256": "a788c6dcb2727cb443960d47b5e838c4b1abbf5cc7bac61adc1e9c2adc011c3b",
+      "retained": "screenshots/cover-menu-scroll-0.webp",
+      "retained_sha256": "48438bc04ad856bba2cf153aeaddc18989f2cecdea506571364124b44bfef589",
+      "pixels_identical_rgba": true,
+      "dimensions": [
+        2520,
+        1080
+      ]
+    },
+    {
+      "artifact": "cover",
+      "source_entry": "cover-menu-settings-mute.png",
+      "source_sha256": "d9db66bc738c21d855e56b9e0ad97f6670fc769f05b4b676662cbae09a251222",
+      "retained": "screenshots/cover-menu-settings-mute.webp",
+      "retained_sha256": "438e68f1e7a87f644a176424b68654a81414b34f72da1d9c344de4b2a23f2e58",
+      "pixels_identical_rgba": true,
+      "dimensions": [
+        2520,
+        1080
+      ]
+    },
+    {
+      "artifact": "cover",
+      "source_entry": "cover-restored-gameplay.png",
+      "source_sha256": "dd3662de53111186ee1223a883784cb39c0037a711109a81e33b4b32e0efb6d5",
+      "retained": "screenshots/cover-restored-gameplay.webp",
+      "retained_sha256": "b83cc6f01eb193c871308a054143af8e6cbb3a83119ce90799c34c09fae9c077",
+      "pixels_identical_rgba": true,
+      "dimensions": [
+        2520,
+        1080
+      ]
+    },
+    {
+      "artifact": "inner",
+      "source_entry": "inner-touch-targets-primary-initial.png",
+      "source_sha256": "6c5a4b057c973eddba14b373047120db4b01294c29275123f7150425701a8540",
+      "retained": "screenshots/inner-touch-targets-primary-initial.webp",
+      "retained_sha256": "bf4fbc6dc9403b347f77c00613ebdfe29f1b126b9850a4a14c14fd54f0e4ffe1",
+      "pixels_identical_rgba": true,
+      "dimensions": [
+        2184,
+        1968
+      ]
+    },
+    {
+      "artifact": "inner",
+      "source_entry": "inner-touch-targets-secondary-initial.png",
+      "source_sha256": "bf6dd2be0328deb1a512ee7c1b3a91dd7275b3792a5ae857a66754deaced46af",
+      "retained": "screenshots/inner-touch-targets-secondary-initial.webp",
+      "retained_sha256": "922efe5d2b251930e41bbf7763b31557b93a5300e4a5af030a0b43665b480c9e",
+      "pixels_identical_rgba": true,
+      "dimensions": [
+        2184,
+        1968
+      ]
+    },
+    {
+      "artifact": "inner",
+      "source_entry": "inner-menu-settings-mute.png",
+      "source_sha256": "45c0e5a42dc8bc4da85820f990c1c4cb7cc40d090ecb33ebeb65745c482ded4e",
+      "retained": "screenshots/inner-menu-settings-mute.webp",
+      "retained_sha256": "026a38ecba673c05ace22e0068659121f74efa3a840d19dc1d710e50af877bbd",
+      "pixels_identical_rgba": true,
+      "dimensions": [
+        2184,
+        1968
+      ]
+    },
+    {
+      "artifact": "inner",
+      "source_entry": "inner-camera-exposure.png",
+      "source_sha256": "07bd4e0e8943cd99ffc06153d5daa734d2d5673fc8c2533a4b01200c3034100b",
+      "retained": "screenshots/inner-camera-exposure.webp",
+      "retained_sha256": "6cf836a8aec932631ff8beb0566bfc3c1c18ce3177d043a8551dad374bc6c3eb",
+      "pixels_identical_rgba": true,
+      "dimensions": [
+        2184,
+        1968
+      ]
+    },
+    {
+      "artifact": "inner",
+      "source_entry": "inner-mission-completed.png",
+      "source_sha256": "7047bf0ff593276dce8a975c526de36a8f5b6570600bb883669bad556e9f8272",
+      "retained": "screenshots/inner-mission-completed.webp",
+      "retained_sha256": "e771b062424b34b7b54937a8c7150ce9e882ca18e809d195d64a3465aa5acf04",
+      "pixels_identical_rgba": true,
+      "dimensions": [
+        2184,
+        1968
+      ]
+    },
+    {
+      "artifact": "inner",
+      "source_entry": "inner-campaign-restored.png",
+      "source_sha256": "532bcc077a73beaa37702607d0e1507bf9de0620f9bb44ce59a4e121d0fb8c36",
+      "retained": "screenshots/inner-campaign-restored.webp",
+      "retained_sha256": "9fd5fa07d9199c7e185184f1939dd1ba8d884a2ba7ef48c2127d9efbd188e517",
+      "pixels_identical_rgba": true,
+      "dimensions": [
+        2184,
+        1968
+      ]
+    },
+    {
+      "artifact": "inner",
+      "source_entry": "inner-role-lure-planned.png",
+      "source_sha256": "a272d0a29464087f4655ff4cd699f2116f28244b420c37967b1dfae4ad122aca",
+      "retained": "screenshots/inner-role-lure-planned.webp",
+      "retained_sha256": "b5f302cd14aedd39a6f346821daf55b11340a4f8e5da740e7a03808818aad7f3",
+      "pixels_identical_rgba": true,
+      "dimensions": [
+        2184,
+        1968
+      ]
+    },
+    {
+      "artifact": "inner",
+      "source_entry": "inner-role-return.png",
+      "source_sha256": "87477262e703131f35b89aa0c9df81272618d33b963d2311c31dc555e6bf7636",
+      "retained": "screenshots/inner-role-return.webp",
+      "retained_sha256": "9fbe3277d346ec8ba8b5d4abc20faeb21bbbddff8604efcac94b2e7677544a94",
+      "pixels_identical_rgba": true,
+      "dimensions": [
+        2184,
+        1968
+      ]
+    }
+  ]
+}
