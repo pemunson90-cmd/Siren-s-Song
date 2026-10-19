@@ -80,7 +80,7 @@ func _draw() -> void:
 		draw_arc(o.pos,43,0,TAU,40,Color(c,0.35),1.4)
 		draw_line(o.pos+Vector2(-14,0),o.pos+Vector2(14,0),c,1)
 		draw_line(o.pos+Vector2(0,-14),o.pos+Vector2(0,14),c,1)
-		_label(o.pos+Vector2(50,-5),"RECOVERED" if o.captured else o.name,c,17)
+		if not o.captured: _label(o.pos+Vector2(50,-5),o.name,c,17)
 	# Physical chart is retained. Unknown water, shadows, and contact memory remain separate.
 	for y in 24:
 		for x in 40:
@@ -109,12 +109,13 @@ func _draw() -> void:
 					draw_arc(dest.pos,10,0,TAU,24,CYAN,2); draw_circle(dest.pos,3,CYAN)
 				last=dest.pos
 		_craft(u,i)
+	var threat_rows: Array=[]
 	for id in sim.contacts:
 		var c=sim.contacts[id]; var fresh=sim.elapsed-c.time<0.3
 		var aim=float(c.angle)
 		var observed_target=int(c.get("target",-1))
 		if fresh and c.lock>0 and observed_target>=0 and observed_target<sim.units.size(): aim=c.pos.angle_to_point(sim.units[observed_target].pos)
-		_siren(c.pos,aim,c.mode,fresh)
+		_siren(c.pos,aim,("S%d"%(int(id)+1) if c.lock>0 else c.mode) if fresh else "LAST SEEN",fresh)
 		if fresh and c.lock>0:
 			var target_id=int(c.get("target",-1))
 			if target_id>=0 and target_id<sim.units.size() and sim.units[target_id].alive and sim.line_clear(c.pos,sim.units[target_id].pos):
@@ -125,14 +126,13 @@ func _draw() -> void:
 					draw_line(origin,target,Color("ff8a59"),3.5); draw_line(origin,target,Color("ffedc5"),1.2)
 					draw_arc(target,17+sin(phase*18)*5,0,TAU,24,Color("ffbc83"),2)
 				else: _dash(origin,target,Color(1,0.37,0.24,0.32),1.5)
-				_label(c.pos+Vector2(-50,-94),"TARGET · "+sim.units[target_id].name,Color("e8ab91"),16)
+				threat_rows.append("S%d → %s · %s"%[int(id)+1,sim.units[target_id].name,"FIRING" if c.lock>=4 else "BEAM %.1fs"%(4-c.lock)])
 			draw_arc(c.pos,58,-PI/2,-PI/2+TAU*minf(1,c.lock/4),40,Color("fa7969"),3)
-			_label(c.pos+Vector2(-50,-70),("FIRING" if c.lock>=4 else "BEAM %.1fs"%(4-c.lock)),Color("fa7969"),18)
 		elif not fresh: _label(c.pos+Vector2(35,0),"ECHO · %ds"%int(sim.elapsed-c.time),Color("9a8079"),17)
 	for n in sim.noises:
 		if n.label=="FACTORY RESPONSE":
 			draw_arc(n.pos,60+fmod(sim.mission.get("response_time",0.0)*100,350),0,TAU,64,Color(0.95,0.66,0.32,0.6),3)
-			_label(sim.mission.factory_rect.position+Vector2(16,520),"CARRIER RESPONSE · FROM CRADLE",Color("e1b66e"),16)
+			_label(sim.mission.factory_rect.position+Vector2(16,520),"CARRIER · CRADLE",Color("e1b66e"),16)
 		if n.label=="DECOY":
 			draw_arc(n.pos,25+sin(phase*4)*9,0,TAU,32,Color("e1b66e"),2)
 	# Sediment, restrained wake, and instrument ticks live above the physical view.
@@ -141,8 +141,14 @@ func _draw() -> void:
 		draw_circle(p,0.7+float(i%3)*0.35,Color(0.48,0.7,0.7,0.11))
 	draw_rect(Rect2(0,0,1600,960),Color(0.3,0.7,0.7,0.19),false,2)
 	draw_set_transform(Vector2.ZERO,0,Vector2.ONE)
+	draw_rect(Rect2(12,7,minf(430,size.x-194),49),Color(0.025,0.06,0.075,0.94))
 	draw_string(ThemeDB.fallback_font,Vector2(16,26),"TAP ROUTE · DRAG CHART · PINCH ZOOM",HORIZONTAL_ALIGNMENT_LEFT,-1,13,Color("76959c"))
-	draw_string(ThemeDB.fallback_font,Vector2(16,46),"CHART %.1f× · OBSERVATIONS UNCHANGED"%chart_camera.zoom,HORIZONTAL_ALIGNMENT_LEFT,-1,11,Color("76959c"))
+	draw_string(ThemeDB.fallback_font,Vector2(16,46),"CHART %.1f×"%chart_camera.zoom,HORIZONTAL_ALIGNMENT_LEFT,-1,11,Color("76959c"))
+
+	for row in threat_rows.size():
+		var y=82+row*30
+		draw_rect(Rect2(12,y-19,minf(330,size.x-30),28),Color(0.04,0.07,0.09,0.94))
+		draw_string(ThemeDB.fallback_font,Vector2(20,y),threat_rows[row],HORIZONTAL_ALIGNMENT_LEFT,-1,15,Color("ffac8c"))
 
 func _rock(r: Rect2) -> void:
 	var poly=sim.rock_polygon(r)
@@ -189,7 +195,9 @@ func _craft(u: Dictionary,index: int) -> void:
 		draw_line(Vector2(9,-5),Vector2(9,5),Color("8a9b9d"),1)
 		draw_circle(Vector2(18,0),3,Color("7edfe4")); draw_line(Vector2(-20,-9),Vector2(-16,9),Color("506e77"),2)
 	draw_set_transform(world_offset,0,Vector2.ONE*world_scale)
-	_label(p+Vector2(-39,63 if index==0 else 45),u.name,CYAN if index==sim.selected else Color("7e9da4"),18)
+	var label_y=63 if index==0 else 45
+	if (world_offset+p*world_scale).y+label_y*world_scale>size.y-8: label_y=-36
+	_label(p+Vector2(-39 if index==sim.selected else -8,label_y),u.name if index==sim.selected else ["Q","A","B"][index],CYAN if index==sim.selected else Color("7e9da4"),18)
 func _hull_style() -> StyleBoxFlat:
 	var style=StyleBoxFlat.new(); style.bg_color=Color("263841"); style.border_color=Color("627780"); style.set_border_width_all(1); style.set_corner_radius_all(7); return style
 func _siren(p: Vector2,angle: float,mode: String,fresh: bool) -> void:

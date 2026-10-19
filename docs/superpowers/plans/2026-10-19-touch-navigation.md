@@ -33,10 +33,10 @@ Interfaces: ChartCamera.configure(size), fit(), zoom_at(factor,anchor), pan(delt
 
 Files: ocean_view.gd/main.gd; gesture tests; `game/tests/capture_touch.gd` and retained evidence.
 
-- [ ] Inspect actual overview/zoomed Foundry danger and optical states at2520×1080 and2184×1968. Compare baseline frames first.
-- [ ] Reduce label obstruction and improve primary/advanced action hierarchy where evidence supports it; retain target/countdown, pause, station/queue/STOP/PASS and emergency access. Add targeted regression before behavioral UI changes.
-- [ ] Capture ordinary transformed tap routes, pan/FIT recovery and actual threat/optical views. Record gains/tradeoffs and rejected experiments, not only test counts.
-- [ ] Run full suite and commit candidate, coordinate sole push/native completion with tooling after previous run settles.
+- [x] Inspect actual overview/zoomed Foundry danger and optical states at2520×1080 and2184×1968. Compare baseline frames first.
+- [x] Reduce label obstruction and improve primary/advanced action hierarchy where evidence supports it; retain target/countdown, pause, station/queue/STOP/PASS and emergency access. Add targeted regression before behavioral UI changes.
+- [x] Capture ordinary transformed tap routes, pan/FIT recovery and actual threat/optical views. Record gains/tradeoffs and rejected experiments, not only test counts.
+- [x] Run full suite and commit candidate, coordinate sole push/native completion with tooling after previous run settles.
 
 ## Task3 — Independent regression and promotion
 

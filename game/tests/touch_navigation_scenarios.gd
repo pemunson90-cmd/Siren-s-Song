@@ -62,3 +62,12 @@ static func run(t,game) -> void:
 	await touch(t,0,origin,true); await touch(t,1,origin+Vector2(30,0),true); await touch(t,2,origin+Vector2(60,0),true)
 	await touch(t,1,origin+Vector2(30,0),false); await touch(t,2,origin+Vector2(60,0),false); await touch(t,0,origin,false)
 	t.check(game.sim.units[0].route==orders and not game.map_gesture.active(),"third-finger release cannot become a stale single-touch order")
+
+	orders=game.sim.units[0].route.duplicate(true)
+	await touch(t,0,origin,true)
+	var canceled=InputEventScreenTouch.new(); canceled.index=0; canceled.position=origin; canceled.pressed=false; canceled.canceled=true
+	t.root.push_input(canceled,true); await t.process_frame
+	t.check(game.sim.units[0].route==orders and not game.map_gesture.active(),"OS-canceled touch never commits a route on release")
+	await touch(t,0,origin,true); await touch(t,1,game.pause_button.get_global_rect().get_center(),true)
+	t.check(not game.map_gesture.active(),"a second finger entering HUD cancels chart navigation instead of pinching behind controls")
+	await touch(t,1,game.pause_button.get_global_rect().get_center(),false); await touch(t,0,origin,false)

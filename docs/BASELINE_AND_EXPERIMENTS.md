@@ -24,3 +24,8 @@ Record baseline SHA/artifacts, player problem and proposed gain; deterministic c
 - Native failures are preserved by run/source: legacy shader backend, fixture rotation, fullscreen system prompt, actual PCM boundary crash. Fixture failures do not prove game regressions; desktop success did not prove native audio safety.
 
 Next challenger record begins with `docs/superpowers/specs/2026-10-19-touch-navigation.md` and its implementation plan. Keep this index and the workbench current at milestones; detailed raw history remains linked.
+
+
+## Active challenger — touch navigation (not promoted yet)
+
+Anchored zoom/pan/FIT and release-based route gestures; calmer primary/secondary controls and reserved fresh threat target/countdown strip. Actual artifacts and RED→GREEN counterexamples: `validation/production/touch/README.md`.8 parser guards+88core/225runtime pass; simulation/campaign/audio sources unchanged from baseline. Tradeoff is an extra tap to reach survey/decoy/conditions/STOP/PASS; tactical pause and emergency remain primary. Synthetic Godot multi-touch is exercised; native OS+/−/swipe/FIT and physical pinch comfort remain pending. Separate regression hunt and native assessment precede promotion; old93b8631 remains available.

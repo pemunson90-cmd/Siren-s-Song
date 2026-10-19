@@ -8,8 +8,9 @@ func run() -> void:
 	var game=load("res://scenes/main.tscn").instantiate(); game.capture_scenario="touch-evidence"; root.add_child(game)
 	game._start_mission(3)
 	game.sim=preload("res://tests/foundry_command_plan.gd").play(true,"cradle",true); game.ocean.sim=game.sim; game.sim.paused=true
-	if view!="fit":
+	if view=="zoom":
 		game.ocean.zoom_at(2.2,game.ocean.screen_position(Vector2(1240,760)))
 		game.ocean.pan_chart(Vector2(-35,-45))
+	if view=="advanced": game._toggle_advanced()
 	game._refresh()
 	print("TOUCH EVIDENCE view=",view," zoom=",game.ocean.chart_camera.zoom," center=",game.ocean.chart_camera.center," time=",game.sim.elapsed," hull=",game.sim.hull)

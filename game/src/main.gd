@@ -36,6 +36,8 @@ var diagnostic_ready := ""
 var diagnostic_records: Dictionary={}
 var map_gesture=preload("res://src/input/map_gesture.gd").new()
 var zoom_buttons: Array=[]
+var advanced_button: Button
+var advanced_orders:=false
 func _ready() -> void:
 	get_tree().auto_accept_quit=false
 	_theme()
@@ -56,6 +58,7 @@ func _ready() -> void:
 	for o in orders:
 		var order=o[0]
 		order_buttons[order]=_button(hud,o[1],func(): _order(order))
+	advanced_button=_button(hud,"MORE ORDERS",_toggle_advanced)
 	order_buttons["home"]=_button(hud,"EXTRACT",func(): _order("emergency",{"point":sim.mission.extraction}))
 	order_buttons["menu"]=_button(hud,"OPERATIONS",func(): sim.paused=true; _show_campaign())
 	menu=PanelContainer.new(); add_child(menu); scroll=ScrollContainer.new(); scroll.horizontal_scroll_mode=ScrollContainer.SCROLL_MODE_DISABLED; menu.add_child(scroll); panel_box=VBoxContainer.new(); panel_box.size_flags_horizontal=Control.SIZE_EXPAND_FILL; panel_box.add_theme_constant_override("separation",14); scroll.add_child(panel_box)
@@ -95,25 +98,30 @@ func _layout() -> void:
 	var panel=Rect2(size.x-324,106,296,size.y-158) if wide else Rect2(26,size.y-350,size.x-52,300)
 	ocean.position=Vector2(26,106); ocean.size=Vector2(size.x-376,size.y-158) if wide else Vector2(size.x-52,size.y-482)
 	for i in zoom_buttons.size():
+		zoom_buttons[i].visible=screen=="mission"
 		zoom_buttons[i].position=Vector2(ocean.size.x-164+i*54,8); zoom_buttons[i].size=Vector2(50,48)
 	pause_button.position=panel.position; pause_button.size=Vector2(panel.size.x,48)
 	for i in 3:
 		unit_buttons[i].position=panel.position+Vector2(i*(panel.size.x/3),60); unit_buttons[i].size=Vector2(panel.size.x/3-4,48)
-	var keys=["ping","camera","silent","queue","hold","emp","decoy","recon","contact_hold","wait_drone","home","menu","waypoint_mode"]
+	var secondary=["recon","decoy","contact_hold","wait_drone","waypoint_mode"]
+	var keys=["ping","camera","silent","queue","hold","emp","home","menu","advanced"]+secondary
 	var columns=2 if wide else 6
 	var start=panel.position+Vector2(0,120)
 	for i in keys.size():
-		var b=order_buttons[keys[i]]
+		var b=advanced_button if keys[i]=="advanced" else order_buttons[keys[i]]
+		b.visible=keys[i] not in secondary or advanced_orders
 		b.position=start+Vector2((i%columns)*(panel.size.x/columns),(i/columns)*56)
 		b.size=Vector2(panel.size.x/columns-6,48)
 		b.add_theme_font_size_override("font_size",15 if wide else 13)
-	detail_label.position=panel.position+Vector2(0,522 if wide else 286); detail_label.size=Vector2(panel.size.x,130); detail_label.visible=wide and size.y>720
+	detail_label.position=panel.position+Vector2(0,408 if wide else 240); detail_label.size=Vector2(panel.size.x,138 if wide else 52); detail_label.visible=not advanced_orders
+	detail_label.add_theme_font_size_override("font_size",14)
 	log_label.position=Vector2(28,size.y-38); log_label.size=Vector2(size.x-56,28)
 	if menu!=null:
 		menu.position=Vector2(maxf(24,(size.x-690)/2),24); menu.size=Vector2(minf(690,size.x-48),size.y-48)
 	call_deferred("_report_targets")
 func _start_mission(index: int) -> void:
-	diagnostic_ready=""; diagnostic_records.clear(); map_gesture.cancel(); ocean.fit_chart()
+	diagnostic_ready=""; diagnostic_records.clear(); map_gesture.cancel(); ocean.fit_chart(); advanced_orders=false
+	call_deferred("_layout")
 	active_started=true; mission_index=index; sim.start(index,upgrade); ocean.sim=sim; screen="mission"; menu.hide(); hud.show(); _refresh()
 func _order(order: String,args: Dictionary={}) -> void:
 	var accepted=sim.command(order,args)
@@ -151,17 +159,26 @@ func _refresh() -> void:
 	order_buttons.decoy.text="DECOY · %d"%sim.tools.decoy
 	order_buttons.recon.text="SURVEY · %d"%sim.tools.recon
 	log_label.text=sim.message
-	detail_label.text="SELECTED  /  %s\n\nTap water: %s route\n%s\n\nSonar and cameras expose you.\nCover breaks sight and beam lock.\n\nEXTRACT replaces all orders."%[sim.units[sim.selected].name,"add to" if sim.queue_mode else "replace",sim.units[sim.selected].hold]
+	advanced_button.text="FEWER ORDERS" if advanced_orders else "MORE ORDERS"
+	var mode="add to" if sim.queue_mode else "replace"
+	detail_label.text="Tap chart to %s route.\nDrag to pan · pinch to zoom.\n\nEXTRACT clears queued orders and conditions."%mode if size.x/size.y>1.6 else "Tap chart: %s route · Drag: pan · Pinch: zoom.\nEXTRACT clears queued orders and conditions."%mode
+func _toggle_advanced() -> void:
+	advanced_orders=not advanced_orders; _layout(); _refresh()
+
 func _input(event: InputEvent) -> void:
-	if screen=="mission" and map_gesture.active() and _map_event(event): get_viewport().set_input_as_handled()
+	if screen!="mission" or not map_gesture.active(): return
+	if event is InputEventScreenTouch and event.pressed and not ocean.get_global_rect().has_point(event.position):
+		map_gesture.cancel(); return
+	if _map_event(event): get_viewport().set_input_as_handled()
 func _gui_input(event: InputEvent) -> void:
 	if screen!="mission": return
 	if event is InputEventMouseButton and event.button_index in [MOUSE_BUTTON_WHEEL_UP,MOUSE_BUTTON_WHEEL_DOWN] and event.pressed and Rect2(ocean.position,ocean.size).has_point(event.position):
-		ocean.zoom_at(1.2 if event.button_index==MOUSE_BUTTON_WHEEL_UP else 1.0/1.2,event.position-ocean.position); _view_changed(); accept_event(); return
+		map_gesture.cancel(); ocean.zoom_at(1.2 if event.button_index==MOUSE_BUTTON_WHEEL_UP else 1.0/1.2,event.position-ocean.position); _view_changed(); accept_event(); return
 	var pressed=(event is InputEventScreenTouch and event.pressed) or (event is InputEventMouseButton and event.pressed and event.button_index==MOUSE_BUTTON_LEFT)
 	if pressed and Rect2(ocean.position,ocean.size).has_point(event.position) and _map_event(event,true): accept_event()
 func _map_event(event: InputEvent,local_event: bool=false) -> bool:
 	if event.device==InputEvent.DEVICE_ID_EMULATION: return false
+	if event is InputEventScreenTouch and event.canceled: map_gesture.cancel(); return true
 	var kind=""; var index=-1; var point=Vector2.ZERO
 	if event is InputEventScreenTouch:
 		kind="press" if event.pressed else "release"; index=event.index; point=event.position
@@ -192,6 +209,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		if event.keycode==KEY_ESCAPE: sim.paused=true; _show_campaign()
 func _clear_menu() -> void:
 	map_gesture.cancel()
+	for button in zoom_buttons: button.hide()
 	for c in panel_box.get_children(): c.queue_free(); panel_box.remove_child(c)
 	menu.show(); hud.hide(); scroll.scroll_vertical=0
 func _menu_text(text: String,font_size: int=17) -> Label:
@@ -349,7 +367,9 @@ func _report_targets() -> void:
 	var buttons: Dictionary={}
 	if hud.visible:
 		buttons={"pause":pause_button,"sub":unit_buttons[0],"droneA":unit_buttons[1],"droneB":unit_buttons[2]}
-		for key in order_buttons: buttons[key]=order_buttons[key]
+		for key in order_buttons:
+			if order_buttons[key].is_visible_in_tree(): buttons[key]=order_buttons[key]
+		buttons["more_orders"]=advanced_button
 		for i in zoom_buttons.size(): buttons[["zoom_out","zoom_in","fit"][i]]=zoom_buttons[i]
 	else:
 		for child in panel_box.get_children():
@@ -369,6 +389,7 @@ func _report_targets() -> void:
 
 func _enter_water() -> void:
 	screen="mission"; menu.hide(); hud.show()
+	for button in zoom_buttons: button.show()
 	print("SS_SCREEN mission paused=",sim.paused)
 	call_deferred("_layout"); _save_archive()
 

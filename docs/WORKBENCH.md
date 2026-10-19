@@ -1,6 +1,6 @@
 # Siren's Song progress workbench
 
-**Stage:** Active Gauntlet, campaign baseline plus five experience/reliability cycles, with Cold Foundry and the exact PCM fix verified on native Android. This is not a finished or user-accepted game.
+**Stage:** Active Gauntlet, campaign baseline plus five experience/reliability cycles, with Cold Foundry and the exact PCM fix verified on native Android; touch challenger is integrated and awaiting independent/native assessment. This is not a finished or user-accepted game.
 **Phone dashboard:** [current evidence and next work](PHONE_DASHBOARD.md).
 **Verified baseline:** `93b8631`, [native39202066103](https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/39202066103); [scope/tradeoffs](BASELINE_AND_EXPERIMENTS.md).
 **Branch:** `gauntlet/production`; campaign baseline plus reliability, optical/safe-area and return-planning cycles; see checkpoints below.
@@ -21,7 +21,7 @@
 
 Combined validation: `scripts/toolchain/test.sh` → **88 core/campaign +176 runtime checks, zero failures**. Waypoint check totals vary with safe path simplification; invariant tests have been added, not removed. Full framebuffer optical, beam, and connected-channel captures are in `build/captures/cycle2-*` and retained in the validation index. Desktop rendering is distinct from installed Android/Samsung validation.
 
-Next: execute the focused zoom/pan and friendly touch cycle from the accepted touch spec/plan. Native39202066103 now verifies the PCM fix through>30s active audio plus ordinary Shelf Signal camera completion, won debrief and completed[0]/unlocked1 new-process restore. Tooling inspected actual exposure/debrief/restored archive pixels.88core/176runtime pass. Preserve93b8631 as baseline; compare gesture/route behavior, inspect actual cover/unfolded output, run a separate regression hunt and fresh integrated criticism proportionately. User ratified evidence ratchet, lighter-agent fit permission, persistent-decisions rule and prototype-independent touch direction are now in AGENTS/architecture/brief. Physical Fold7, full-campaign native, human comfort/listening and broader content/progression depth remain open. Persistent Gauntlet continues.
+Next: independently hunt regressions in the integrated touch challenger against preserved93b8631, then assess native OS+/−/swipe/FIT plus existing mission/lifecycle/audio gates. Current candidate passes8 parser guards,88core/225runtime; actual cover/unfolded FIT/2.2×views, advanced-order access and a7second synthetic-Godot-input navigation clip are retained in `docs/validation/production/touch/`. Primary orders are calmer, targets/countdowns have reserved space, and gesture cancellation/duplicate/cutout cases are reproduced RED→GREEN. Baseline is not yet superseded. Physical Fold7, OS multi-touch, human comfort/listening and full-campaign native remain open. Continue the plan's task3, not task1 foundation. Persistent Gauntlet remains active.
 
 ## Continuity
 
@@ -127,3 +127,8 @@ Verified baseline93b8631/run39202066103: native orders/camera/record/won, comple
 Presentation-only anchored1–4×zoom, clamped drag pan and visible48px−/+/FIT controls now run in the linked production worktree. First RED assertion demonstrated missing chart zoom; added actual touch/mouse, pinch, pan, outside/suspend/layout/third-finger and coordinate checks. A further RED reproduced the cutout-inset root mixing local press/global release; gesture positions now consistently use full-window coordinates. Touch-generated mouse events are ignored only at the chart boundary, preventing duplicate queued endpoints. Full88core/218runtime pass; baseline93b8631 is preserved and not yet superseded. Actual overview/zoom captures are being collected, then primary-action hierarchy/label obstruction and separate regression review follow. Native tooling is preparing actual OS+/−/swipe/FIT checks while keeping completion/lifecycle/audio gates. No OS pinch/physical comfort claim.
 
 Minor policy precision reconciled: exceptional premium delegation is permitted only with documented allowed high-consequence/impasse justification; prohibit silent/inherited premium substitution and default fanout, not a blanket ban on justified exceptions. No such escalation is needed here.
+
+
+## Touch challenger task2 — readable danger and primary orders
+
+Integrated reserved fresh threat target/countdown strip, short nonselected craft IDs, quiet recovered markers, and MORE ORDERS disclosure while keeping camera/emergency/route intent primary. New RED cases found OS-canceled touch becoming a route and HUD second finger being treated as a chart pinch; fixed at the input boundary. Actual cover/unfolded close views show larger craft and separated threat text; synthetic-pointer movie exercises plus/pan/FIT/disclosure with zero route orders.225runtime/88core plus8 tooling parser checks pass. Tradeoff: survey/decoy/conditions/STOP/PASS require one disclosure tap; human comfort/discovery and native gesture behavior are pending. Independent regression evidence comes before promotion. No simulation/campaign/audio source changes from verified baseline.
