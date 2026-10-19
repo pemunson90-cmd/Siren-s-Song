@@ -1,4 +1,5 @@
 extends Control
+const EarnedChart=preload("res://src/presentation/earned_chart_view.gd")
 const Operations=preload("res://src/presentation/operation_instruments.gd")
 const Equipment=preload("res://src/presentation/equipment_context.gd")
 const Expedition=preload("res://src/presentation/expedition_view.gd")
@@ -207,11 +208,15 @@ func refresh():
  extra.arrivals.disabled=Expedition.measurements(sim).is_empty()
  var sites=host.ocean.observable_sites();var records=sites.filter(func(o):return o.captured).size()
  var summary="KNOWN SITES %d · RECORDED %d"%[sites.size(),records] if Expedition.active(sim) else "RECORDS %d/%d"%[records,sites.size()]
+ var navigation=EarnedChart.objective(sim)
+ if not navigation.is_empty():summary=navigation+"\n"+EarnedChart.status(sim,sim.selected)
  instrument_info.text=summary+" · DEPTH %dm\n"%sim.mission.depth+"\n".join(host.ocean.acoustic_rows())+"\n"+sim.message
  if subject.get("kind","")=="objective" and subject.get("index",-1)>=0 and subject.index<host.ocean.observable_sites().size():
   var site=host.ocean.observable_sites()[subject.index]
   instrument_info.text=site.name+" · "+("RECORDED" if site.captured else "NOT RECORDED")+"\n"+site.get("requirement","")+"\n"+site.get("unit_requirement","")+"\n"+instrument_info.text
  if subject.get("subkind","") in ["corridor","withdrawal"]:instrument_info.text=Expedition.context_detail(sim,subject)+"\n\n"+instrument_info.text
+ var chart_detail=EarnedChart.context_detail(sim,subject)
+ if not chart_detail.is_empty():instrument_info.text=chart_detail+"\n\n"+instrument_info.text
  if page=="signals":instrument_info.text=Expedition.detail(sim,subject.get("receiver",-1))
  var sampling=Equipment.sample_detail(sim)
  if not sampling.is_empty():
@@ -219,7 +224,10 @@ func refresh():
   intent.text=sim.units[sim.selected].name+" · "+sampling
   instrument_info.text+="\n\n"+sampling
  var operation=Operations.action(sim,subject.get("index",-1) if subject.get("kind","")=="objective" else -1)
- host.order_buttons.camera.disabled=false
+ host.order_buttons.camera.disabled=not navigation.is_empty()
+ if not navigation.is_empty():
+  host.order_buttons.camera.text="NAVIGATE"
+  host.detail_label.text=navigation
  if not operation.is_empty():
   host.order_buttons.camera.text=operation.label;host.order_buttons.camera.disabled=not operation.enabled
   instrument_info.text=Operations.detail(sim,operation.target)+"\n\n"+summary+"\n"+"\n".join(host.ocean.acoustic_rows())

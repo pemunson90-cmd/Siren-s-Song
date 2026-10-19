@@ -1,4 +1,5 @@
 extends PanelContainer
+const EarnedChart=preload("res://src/presentation/earned_chart_view.gd")
 var host
 var selected_goal=0
 var preview
@@ -141,6 +142,9 @@ func refresh():
   # Critical mode/cost stays first. The complete public name is retained in
   # the existing scrollable task choices when this compact line ellipsizes.
   point_info.text=("TASK BLOCKED · "+cost+" · guards stay set.\nTASK rearm / NONE · "+description) if blocked else "TASK · "+cost+" · then queued route\n"+description
+ var chart_status=EarnedChart.status(host.sim,host.sim.selected)
+ if not chart_status.is_empty() and not attached and not choosing_task and error_text.is_empty():
+  point_info.max_lines_visible=2;point_info.text=chart_status+"\nTap preview to replot selected point; remaining goals stay queued."
  preview.selected_goal=selected_goal;preview.queue_redraw();call_deferred("configure",host.size,host.ui_touch_height);call_deferred("show_selected_row")
 func mode_label(mode:String,drone:bool) -> String:
  return ("QUIET42" if mode=="silent" else "TRANSIT96" if mode=="cruise" else "INHERIT") if drone else mode.to_upper()

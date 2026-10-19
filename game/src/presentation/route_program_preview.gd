@@ -1,4 +1,5 @@
 extends Control
+const EarnedChart=preload("res://src/presentation/earned_chart_view.gd")
 signal point_chosen(point:Vector2)
 signal view_changed
 var sim
@@ -83,12 +84,20 @@ func _draw():
  draw_rect(Rect2(Vector2.ZERO,size),Color("06131c"))
  if sim==null:return
  chart_camera.configure(size,world_size());var scale=chart_camera.scale
- for cell in sim.known:
-  var world=Vector2(cell)*40
-  draw_rect(Rect2(chart_camera.to_screen(world),Vector2(40,40)*scale),Color("2b3b40") if sim.blocked(world+Vector2(20,20),0) else Color("102c36"))
+ var earned=EarnedChart.chart(sim)
+ if not earned.is_empty():
+  draw_set_transform(chart_camera.offset,0,Vector2.ONE*scale)
+  EarnedChart.draw_terrain(self,earned,scale)
+  EarnedChart.draw_course(self,EarnedChart.segments(sim,sim.selected),scale,true)
+  draw_set_transform(Vector2.ZERO,0,Vector2.ONE)
+ else:
+  for cell in sim.known:
+   var world=Vector2(cell)*40
+   draw_rect(Rect2(chart_camera.to_screen(world),Vector2(40,40)*scale),Color("2b3b40") if sim.blocked(world+Vector2(20,20),0) else Color("102c36"))
  var u=sim.units[sim.selected];var previous=chart_camera.to_screen(u.pos)
- for node in u.route:
-  var p=chart_camera.to_screen(node.pos);draw_line(previous,p,Color("527f83"),1);previous=p
+ if earned.is_empty():
+  for node in u.route:
+   var p=chart_camera.to_screen(node.pos);draw_line(previous,p,Color("527f83"),1);previous=p
  var goals=sim.route_goals();var font=ThemeDB.fallback_font
  for n in goals.size():
   var goal=goals[n];var p=chart_camera.to_screen(goal.pos)

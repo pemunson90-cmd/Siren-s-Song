@@ -1,4 +1,5 @@
 extends Control
+const EarnedChart=preload("res://src/presentation/earned_chart_view.gd")
 const Expedition=preload("res://src/presentation/expedition_view.gd")
 var sim
 var optical_feed
@@ -59,6 +60,8 @@ func pick_context(point:Vector2,touch:float) -> Dictionary:
 		var site=observable_sites()[id]
 		if site.get("own_origin",false):continue
 		if point.distance_to(screen_position(site.pos))<=maxf(touch*.5,38*world_scale):return {"kind":"objective","subkind":"actuator","index":id,"name":site.name,"pos":site.pos} if site.get("site_id","")=="witness_sluice" else {"kind":"objective","index":id,"name":site.name,"pos":site.pos}
+	var delivery=EarnedChart.delivery(sim)
+	if not delivery.is_empty() and point.distance_to(screen_position(delivery.handoff_pos))<=maxf(touch*.5,30*world_scale):return EarnedChart.goal_context(sim,delivery.handoff_pos)
 	return Expedition.pick(self,sim,point,touch)
 func _sync_camera() -> void:
 	chart_camera.configure(size,world_size())
@@ -139,6 +142,7 @@ func _draw() -> void:
 	draw_rect(Rect2(Vector2.ZERO,size),Color("050f17"))
 	draw_set_transform(world_offset,0,Vector2.ONE*world_scale)
 	var region=sim.world_size()
+	var earned=EarnedChart.chart(sim)
 	draw_texture_rect_region(ocean,Rect2(Vector2.ZERO,region),Rect2(Vector2.ZERO,region/2.0))
 	# Cartographic graticule, subordinate to the physical water and stone.
 	for x in range(0,int(region.x)+1,160):
@@ -146,7 +150,7 @@ func _draw() -> void:
 	for y in range(0,int(region.y)+1,160):
 		draw_line(Vector2(0,y),Vector2(region.x,y),Color(0.3,0.65,0.67,0.06),1)
 	# Depth contours and abyssal fissures occupy the navigable seabed.
-	for n in int(ceil(region.y/135.0)):
+	for n in (int(ceil(region.y/135.0)) if earned.is_empty() else 0):
 		var points=PackedVector2Array()
 		for k in int(ceil(region.x/38.0))+1:
 			points.append(Vector2(k*38,80+n*135+sin(k*0.19+n)*32))
@@ -161,7 +165,9 @@ func _draw() -> void:
 			_label(area.position+Vector2(120,106),"COLD FRONT",Color(0.46,0.7,0.78,0.8),14)
 	_draw_departure()
 	# Bedrock and columnar basalt are original deterministic constructions.
-	for r in sim.mission.rocks: _rock(r)
+	if earned.is_empty():
+		for r in sim.mission.rocks: _rock(r)
+	else:EarnedChart.draw_terrain(self,earned,world_scale)
 	for o in observable_sites():
 		if o.get("own_origin",false):continue
 		if o.get("kind","")=="receiver":
@@ -169,15 +175,15 @@ func _draw() -> void:
 			draw_line(o.pos-Vector2(17,0),o.pos+Vector2(17,0),Color("80bdb6"),2)
 			draw_line(o.pos-Vector2(0,17),o.pos+Vector2(0,17),Color("80bdb6"),2)
 		else: _installation(o.pos,o.captured)
-	if sim.mission.has("factory_rect"):
+	if earned.is_empty() and sim.mission.has("factory_rect"):
 		var mass:Rect2=sim.mission.factory_rect
 		draw_rect(mass,Color("102630")); draw_rect(mass,Color("486268"),false,3)
 		draw_set_transform(world_offset+mass.get_center()*world_scale,PI/2,Vector2.ONE*world_scale)
 		draw_texture_rect(foundry,Rect2(-mass.size.y/2,-mass.size.x/2,mass.size.y,mass.size.x),false,Color(0.8,0.95,1))
 		draw_set_transform(world_offset,0,Vector2.ONE*world_scale)
-	elif sim.mission.has("array_rect"):
+	elif earned.is_empty() and sim.mission.has("array_rect"):
 		_finale_array(sim.mission.array_rect)
-	elif sim.mission.id in [3,4]:
+	elif earned.is_empty() and sim.mission.id in [3,4]:
 		draw_texture_rect(foundry,Rect2(1080,-100,540,360),false,Color(0.65,0.8,0.82,0.8))
 	# Intelligence marks are briefed coordinates, not live contact observations.
 	for o in observable_sites():
@@ -191,14 +197,14 @@ func _draw() -> void:
 	var low=Vector2i((-world_offset/world_scale)/40.0).max(Vector2i.ZERO)
 	var high=Vector2i((size-world_offset)/world_scale/40.0)+Vector2i.ONE
 	high=high.min(Vector2i(region/40.0))
-	for y in range(low.y,high.y):
+	for y in (range(low.y,high.y) if earned.is_empty() else []):
 		for x in range(low.x,high.x):
 			var key=Vector2i(x,y); var p=Vector2(x*40+20,y*40+20)
 			var alpha=0.38 if not sim.known.has(key) else (0.0 if sim.visible(p) else 0.20)
 			if alpha>0: draw_rect(Rect2(x*40,y*40,40,40),Color(0.005,0.014,0.025,alpha))
 	preload("res://src/presentation/blackwater_courier_view.gd").draw(self,sim)
 	# Sonar rays stop at actual cover, producing explicit acoustic shadows.
-	if sim.ping_time>0:
+	if earned.is_empty() and sim.ping_time>0:
 		var radius=(3.5-sim.ping_time)*210
 		for n in 180:
 			var direction=Vector2.from_angle(n*TAU/180)
@@ -208,6 +214,7 @@ func _draw() -> void:
 	if not Expedition.active(sim) or Expedition.entry(sim):
 		draw_arc(ex,64,0,TAU,64,Color(CYAN,0.42),2)
 		_label(ex+Vector2(-120 if ex.y>830 else -66,66 if ex.y>830 else 90),"WITHDRAWAL" if Expedition.entry(sim) else "EXTRACTION",CYAN,18)
+	EarnedChart.draw_goal(self,sim)
 	Expedition.draw(self,sim)
 	# Own open-water estimate only; deliberately does not sample hidden terrain or
 	# listeners. Dotted amber radius is subordinate to later foreground beam cues.
@@ -224,11 +231,12 @@ func _draw() -> void:
 	for i in sim.units.size():
 		var u=sim.units[i]
 		if not u.alive: continue
+		if not earned.is_empty():EarnedChart.draw_course(self,EarnedChart.segments(sim,i),world_scale,i==sim.selected)
 		if not u.route.is_empty():
 			var last=u.pos
 			for n in u.route.size():
 				var dest=u.route[n]
-				_dash(last,dest.pos,Color(CYAN,0.75 if i==sim.selected else 0.22),2)
+				if earned.is_empty():_dash(last,dest.pos,Color(CYAN,0.75 if i==sim.selected else 0.22),2)
 				if dest.stop:
 					draw_arc(dest.pos,10,0,TAU,24,CYAN,2); draw_circle(dest.pos,3,CYAN)
 				last=dest.pos
@@ -321,6 +329,8 @@ func ship_instrument_layout() -> Array:
 		if scout.state=="armed":hint="SCOUT · own contact stops · route kept"
 		elif scout.state=="stopped":hint="SCOUT %s · route kept · tap craft"%("braking" if own.vel.length()>2 else "holding")
 		elif scout.state=="legacy":hint="FLEET GUARD · any fresh contact holds"
+	var course=EarnedChart.status(sim,sim.selected)
+	if not course.is_empty():hint=course
 	var blocked=ui_blocked_rects.duplicate()
 	for id in sim.units.size():
 		if id==sim.selected or not sim.units[id].alive:continue
