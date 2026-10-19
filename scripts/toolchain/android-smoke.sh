@@ -13,6 +13,7 @@ adb_bin="$(command -v adb)"
 log_read_serial=0
 system_intro_checked=false
 source "$(dirname -- "$0")/android-role-smoke.sh"
+source "$(dirname -- "$0")/android-menu-smoke.sh"
 adb() {
     local status=0
     timeout --foreground "${ADB_TIMEOUT_SECONDS:-30}" "$adb_bin" "$@" || status=$?
@@ -297,6 +298,7 @@ PY
         # The prior mission remains alive during the live cover-to-inner resize.
         tap_target menu 'SS_SCREEN operations' "$profile-menu"
     fi
+    if [[ "${VERIFY_TOUCH_TARGETS:-0}" == 1 ]]; then menu_touch_smoke "$profile"; fi
     tap_target mission0 'SS_MISSION_SELECT 0' "$profile-mission0"
     tap_target begin 'SS_SCREEN mission paused=true' "$profile-begin"
     navigation_smoke "$profile"
