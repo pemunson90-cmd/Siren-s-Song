@@ -56,6 +56,6 @@ Sound conveys engines/noise, ping and returns, proximity/threat, hull pressure, 
 
 ## Verification approach
 
-Preserve deterministic simulation, observation fairness, input/gesture correctness, terrain pathing, authentic save/restore and regression prevention. Run targeted checks during feature development and affected regressions on integration; batch broad Android/gameplay validation at substantive playable milestones or for concrete native problems. Evidence and independent criticism support the Gauntlet's recurring **whole-game quality judgments**, not mandatory ceremony after each small change.
+Preserve deterministic simulation, observation fairness, input/gesture correctness, terrain pathing, authentic save/restore and regression prevention. Run targeted checks during feature development and affected regressions on integration; batch broad Godot gameplay regression at substantive playable milestones. Per current user preference, build Android packages only on explicit request or for concrete native problems that Godot cannot resolve; ordinary development and previews run directly in Godot or GitHub. Evidence and independent criticism support the Gauntlet's recurring **whole-game quality judgments**, not mandatory ceremony after each small change.
 
 Current feature status and next action: `../CONTINUATION.md`; project history and older external reference methods: recoverable archives. Protect previously accepted gameplay and keep developing the most consequential player-facing opportunity.

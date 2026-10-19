@@ -1,17 +1,17 @@
 # Siren’s Song · workbench
 
-Root integrates production; lean governing instructions through f7e753d8 adopted. Reviewed source8aa3ef4 composes the controls/thermal milestone, native planner probe and terminal-tick correctness fix. Preserve playable recoveries and the permanent Git-tracked32bcb debug identity.
+Godot locally/GitHub is the user's default validation path. No automatic APK milestones: only explicit request or concrete native risk warrants another package. Root alone integrates production; continue automatically after tasks.
 
-| Player gain | Remaining cost/gap |
+Reviewed source5d99daa preserves the tactical core and adds observable Foundry industry, terminal-tick stopping and survival-first extraction. Root composed Godot core309/0 and extraction69/0. Permanent Git-tracked32bcb debug identity is verified by the existing Android APK.
+
+| Actual gain | Remaining weakness/cost |
 | --- | --- |
-| Quietus waypoint propulsion, all-craft edit/undo; now navigable paused preview | Drones fixed96; toolbar uses chart space; native probe integrated; actual Android proof pending |
-| Physical noisy torpedo with travel/cover/miss/snare; explicit intended-contact aiming | Finite shots can miss; human/physical targeting unverified |
-| Speed footprint and terrain diffraction; Foundry thermal staging | Mutual fresh-information/time cost, later drone loss retained; reflections/current systems open |
+| Programmable routes and navigable paused planner | Toolbar/preview space; populated-route native editing/human comfort unproven |
+| Physical noisy steering/snaring torpedo, intended-contact aiming | Finite misses; broad native combat/human targeting unverified |
+| Speed noise, terrain arrivals, Foundry thermal front/departure | Mutual information/time cost; faster early EMP counterexample; native CPU/reflections/currents open |
 
-Current work: complete controls gate9659665 passed; terminal73/core298 and relocated-fixture30/9 checks subsequently pass. Single Android controls run39297579454 at e091f37 is active; android_controls_artifacts inspects externally; reviewed native probe measures planner OS zoom/drag/FIT without changing paused intent. Reviewed Foundry departure5d021e1 is integrated: observable industry and local guard-coverage opportunity, no forced wait/global AI buffs. Early EMP is faster/healthier; preserved debrief stock has no demonstrated campaign value. Host query median1.552ms, native cost open. Extraction-survivalae29b6f reviewed/integrated69/73; separate patrol fixture correction underway (industrial noise invalidates no-stimulus premise). decoy_feedback researches a new v7/Duskers-informed drone-operations branch; prior speed nerfs remain rejected. Departure builder now investigates an embodied Well discovery, before any product edits.
+Next source work: drone-operations (decoy_feedback) makes independently screened branches possible; decoy-placement (navigation_departure_experience) recovers deliberate v7 lure placement instead of blind160m-east spending. Preserve honest losses and legacy saves. Well-return cosmetic/gating idea deferred without product changes. Current/HOLD and drone-speed experiments remain rejected.
 
-Rejected current controller gains1.6s but loses HOLD by62.4m; prior drone picket/thrust prototypes remain rejected. Do not count tests or paperwork as game quality. Next broad weakness: discoveries should change the lived world, beyond static installations and record text.
+Android39297579454/e091f37 completed successfully and all5ZIP/APK/pixels were inspected externally. Final both layouts/planner/resume/restoration and scoped chapters are readable; immediate black cover frame/early inner resize remain, with gallery-body scroll and populated-route edits unverified. This APK predates later departure/extraction. Preserve20de/0afe/f1ea recoveries. Physical Fold7/full earned campaign/finale, human audio/comprehension and sustained performance remain open.
 
-Latest392889 native failure is a corrected stale checklist; inspected cover scope only, no inner/lifecycle promotion. Physical Fold7/full earned campaign/finale, sustained performance, human audio/comprehension remain open. Evidence/captures/reports live in recoverable external/archive storage; production keeps source/tests/tools and compact instructions.
-
-[Continuation](CONTINUATION.md) · [Phone dashboard](https://github.com/pemunson90-cmd/Siren-s-Song/blob/archive/gauntlet-evidence-2026-10-19-stage2/docs/PHONE_DASHBOARD.md). Continue the whole-game improvement loop; milestones do not finish it.
+Evidence/reports/media live in external archives, not production. [Continuation](CONTINUATION.md) holds current ownership and exact next action; historical phone dashboard is retained in the archive branch.
