@@ -1,4 +1,5 @@
 extends RefCounted
+const Thermal=preload("res://src/simulation/thermal_front.gd")
 const Acoustics = preload("res://src/simulation/acoustic_paths.gd")
 const RouteProgram=preload("res://src/simulation/route_program.gd")
 const Missions = preload("res://src/campaign/missions.gd")
@@ -68,7 +69,7 @@ func _build_navigation() -> void:
 			if blocked(Vector2(x*40+20,y*40+20),21): navigation.set_point_solid(Vector2i(x,y))
 	var acoustic_shapes=rock_shapes.duplicate()
 	for r in mission.get("structures",[]):acoustic_shapes.append(PackedVector2Array([r.position,Vector2(r.end.x,r.position.y),r.end,Vector2(r.position.x,r.end.y)]))
-	acoustic_paths.configure(acoustic_shapes,BOUNDS)
+	acoustic_paths.configure(acoustic_shapes,BOUNDS,mission.get("thermal_fronts",[]) if mission.get("thermal_revision",0)==1 else [])
 func blocked(p: Vector2, radius: float = 12.0) -> bool:
 	if p.x<radius or p.y<radius or p.x>BOUNDS.x-radius or p.y>BOUNDS.y-radius: return true
 	for structure in mission.get("structures",[]):
@@ -333,7 +334,7 @@ func _noise(p: Vector2,radius: float,label: String,duration: float=2.0) -> void:
 # Own known emissions only. Reception and enemy reaction remain sensor evidence.
 # Derive from existing clocks so pause/restore need no extra lifetime state.
 func acoustic_feedback() -> Dictionary:
-	var result={"motion":[],"pulses":[],"responses":[],"revision":mission.get("acoustic_revision",0)}
+	var result={"motion":[],"pulses":[],"responses":[],"revision":mission.get("acoustic_revision",0),"thermal":mission.get("thermal_revision",0)==1}
 	for u in units:
 		# Match actual movement hearing, including residual speed after SILENT.
 		if u.alive and (u.vel.length()>0.0 if mission.get("acoustic_revision",0)==1 else u.vel.length()>50):
@@ -444,13 +445,32 @@ func _observe() -> void:
 			var p=Vector2(x*40+20,y*40+20)
 			if visible(p): known[Vector2i(x,y)]=true
 	for i in sirens.size():
-		if visible(sirens[i].pos):
+		if contact_visible(sirens[i]):
 			contacts[i]={"pos":sirens[i].pos,"time":elapsed,"mode":sirens[i].mode,"lock":sirens[i].lock,"angle":sirens[i].angle,"target":sirens[i].target,"type":sirens[i].get("type","patroller")}
 			if sirens[i].get("pin_time",0)>0: contacts[i]["pin_time"]=sirens[i].pin_time
 	var expired: Array=[]
 	for i in contacts:
 		if elapsed-contacts[i].time>20: expired.append(i)
 	for i in expired: contacts.erase(i)
+# Chart/optical visibility stays independent. Thermal masking affects receiver
+# contacts, not terrain knowledge, photography or a visible beam on our craft.
+func contact_visible(enemy:Dictionary)->bool:
+	if mission.get("thermal_revision",0)!=1: return visible(enemy.pos)
+	if recon_time>0: return true
+	for i in units.size():
+		var u=units[i]
+		if not u.alive: continue
+		var radius=(240.0 if i==0 else 330.0)*(0.65 if mission.darkness else 1.0)
+		radius*=Thermal.transmission(PackedVector2Array([u.pos,enemy.pos]),mission.thermal_fronts)
+		if u.pos.distance_to(enemy.pos)<radius and line_clear(u.pos,enemy.pos): return true
+	var ping_range=650*Thermal.transmission(PackedVector2Array([ping_origin,enemy.pos]),mission.thermal_fronts)
+	if ping_time>0 and ping_origin.distance_to(enemy.pos)<ping_range and line_clear(ping_origin,enemy.pos): return true
+	# The actual charging line is an observable emission. Never infer a remote
+	# or decaying lock, a stunned attacker, or a beam behind physical cover.
+	var target=int(enemy.get("target",-1))
+	if enemy.get("lock",0)<=0 or enemy.get("stun",0)>0 or target<0 or target>=units.size(): return false
+	var craft=units[target]
+	return craft.alive and craft.pos.distance_to(enemy.pos)<(180.0 if craft.silent else 290.0) and line_clear(craft.pos,enemy.pos)
 func visible(p: Vector2) -> bool:
 	if recon_time>0: return true
 	for i in units.size():
@@ -656,6 +676,7 @@ static func valid_snapshot(data: Dictionary) -> bool:
 			if not structure is Rect2: return false
 	for o in data.mission.objectives:
 		if not o is Dictionary or not o.has_all(["pos","name","captured"]) or not o.pos is Vector2: return false
+	if not Thermal.valid_mission(data.mission):return false
 	if data.mission.has("acoustic_revision") and (not data.mission.acoustic_revision is int or data.mission.acoustic_revision!=1):return false
 	if data.mission.has("well_revision"):
 		if data.mission.id!=4 or not data.mission.well_revision is int or data.mission.well_revision!=1 or data.mission.objectives.size()!=3 or not data.mission.get("well_reference") is Dictionary or not data.mission.get("well_observation") is Dictionary:return false

@@ -125,6 +125,14 @@ func _draw() -> void:
 		for k in 45:
 			points.append(Vector2(k*38,80+n*135+sin(k*0.19+n)*32))
 		draw_polyline(points,Color(0.12,0.3,0.33,0.11),1.2)
+	# Briefed environment only; no listener positions or hidden arrival paths.
+	# Kept below stone, fog, craft and the foreground charging/beam warnings.
+	if sim.mission.get("thermal_revision",0)==1:
+		for front in sim.mission.thermal_fronts:
+			var area:Rect2=front.area
+			draw_rect(area,Color(0.22,0.54,0.7,0.07))
+			draw_rect(area,Color(0.36,0.66,0.78,0.38),false,1.2/world_scale)
+			_label(area.position+Vector2(120,106),"COLD FRONT",Color(0.46,0.7,0.78,0.8),14)
 	# Bedrock and columnar basalt are original deterministic constructions.
 	for r in sim.mission.rocks: _rock(r)
 	for o in sim.mission.objectives:

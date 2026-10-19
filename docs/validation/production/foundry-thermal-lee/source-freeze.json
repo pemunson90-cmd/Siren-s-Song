@@ -1,0 +1,12 @@
+{
+  "baseline": "79c9b5a90cccf31dd3aceba12256eac8df89771a",
+  "policy": "f6afaca56b4b3046d1ec5aa6cddee9e3ffa639a9",
+  "files": {
+    "game/src/simulation/thermal_front.gd": "9289f4e7939e458e6f74ce060307e16890c21377744748cee9265ec9df885a1f",
+    "game/src/simulation/acoustic_paths.gd": "3cdcc928948971290587b93eecca057b63be865960c5628f6d0374c565a11dd0",
+    "game/src/simulation/simulation.gd": "12dbf0cd90e633230542fbe024b637b7c58d83bcd7a896dafeee5146d5c1254e",
+    "game/src/campaign/missions.gd": "4553275b7edbe56e2354137159b0eb945cd305accb7ec7c5363631dd7d4ab6cc",
+    "game/src/presentation/ocean_view.gd": "de465201a0fb81ff38a1fa9d58c0ffc21f0ee27ae9ba336c870051bde1010b0b",
+    "game/src/presentation/acoustic_feedback.gd": "366c2ffe0d8a0d84ccb7f46ded78248f3ac2e0a5ca7f68545e62261550a53ad0"
+  }
+}

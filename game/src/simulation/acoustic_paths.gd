@@ -2,6 +2,8 @@ extends RefCounted
 # Coarse low-frequency diffraction model, not a wave solver. Reuses the engine's
 # AStar2D visibility graph. Rock is opaque; corners supply longer, weaker arrivals.
 # No reflections yet. No player knowledge or listener truth enters presentation.
+const Thermal=preload("res://src/simulation/thermal_front.gd")
+var thermal_fronts:Array=[]
 var shapes:Array=[]
 var bounds:=Vector2.ZERO
 var graph:=AStar2D.new()
@@ -10,7 +12,8 @@ static func motion_radius(speed:float)->float:
 	# v7's squared-speed curve, translated to current78m/s cruise/430m reference.
 	# Real residual velocity counts even after a SILENT order; no toggle loophole.
 	return 430.0*pow(maxf(0,speed)/78.0,2)
-func configure(polygons:Array,world_bounds:Vector2)->void:
+func configure(polygons:Array,world_bounds:Vector2,fronts:Array=[])->void:
+	thermal_fronts=fronts.duplicate(true)
 	shapes=polygons.duplicate(true);bounds=world_bounds;graph.clear();vertices.clear()
 	for shape in shapes:
 		for outline in Geometry2D.offset_polygon(shape,28.0,Geometry2D.JOIN_MITER):
@@ -30,7 +33,9 @@ func clear(a:Vector2,b:Vector2)->bool:
 	return true
 func arrivals(listener:Vector2,source:Vector2,radius:float)->Array:
 	if radius<=0 or listener.distance_to(source)>=radius:return []
-	if clear(listener,source):return [_arrival(PackedVector2Array([listener,source]),radius)]
+	if clear(listener,source):
+		var direct=_arrival(PackedVector2Array([listener,source]),radius)
+		return [direct] if direct.strength>1.0 else []
 	var start=vertices.size();var end=start+1
 	graph.add_point(start,listener);graph.add_point(end,source)
 	for i in vertices.size():
@@ -58,7 +63,7 @@ func _arrival(points:PackedVector2Array,radius:float)->Dictionary:
 	var direct=points.size()==2
 	# Range and cumulative bend reduce amplitude. This is a tunable game-scale
 	# approximation, not a claim of calibrated underwater transmission loss.
-	var strength=radius*exp(-0.35*turn)/maxf(1,length)
+	var strength=radius*exp(-0.35*turn)/maxf(1,length)*Thermal.transmission(points,thermal_fronts)
 	var goal=points[1]
 	if direct:goal=points[0]+points[0].direction_to(points[1])*maxf(80,roundf(length/80.0)*80)
 	return {"points":points,"length":length,"strength":strength,"direct":direct,"goal":goal}
