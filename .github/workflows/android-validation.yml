@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 35
     env:
-      TOOLCHAIN_CACHE: ${{ github.workspace }}/.toolchain-cache
+      TOOLCHAIN_CACHE: ${{ github.workspace }}/../sirens-song-toolchain
       ARTIFACT_DIR: ${{ github.workspace }}/artifacts
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
@@ -33,12 +33,12 @@ jobs:
       - name: Cache official Godot downloads
         uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
-          path: .toolchain-cache/downloads
+          path: ${{ env.TOOLCHAIN_CACHE }}/downloads
           key: godot-4.6.3-official-sha512-v1
       - name: Preserve development APK signing identity
         uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
-          path: .toolchain-cache/debug.keystore
+          path: ${{ env.TOOLCHAIN_CACHE }}/debug.keystore
           key: sirens-song-development-signing-v1
       - name: Install pinned native toolchain
         run: |
