@@ -485,7 +485,9 @@ func _load_archive() -> void:
 		recovered_evidence=saved.get("evidence",{})
 		if saved.get("active") is Dictionary and sim.restore(saved.active):
 			active_started=true; mission_index=sim.mission.id; ocean.sim=sim
-			ocean._sync_camera();ocean.chart_camera.restore(saved.get("chart_view",{}))
+			ocean._sync_camera()
+			var chart_view=saved.get("chart_view",{})
+			if chart_view is Dictionary:ocean.chart_camera.restore(chart_view)
 			print("SS_RESTORE ok mission=",mission_index," time=",snappedf(sim.elapsed,0.01)," paused=",sim.paused," completed=",completed," unlocked=",unlocked)
 	sound.music_volume=settings.get("music",0.5); sound.effects_volume=settings.get("effects",0.8); sound.muted=settings.get("mute",false)
 	if not store.warning.is_empty(): sim.message=store.warning
@@ -552,7 +554,7 @@ func _report_targets() -> void:
 		if sim.blocked(approach,25): approach=sim.mission.objectives[0].pos+Vector2(-210,0)
 		var objective_point=ocean.global_position+ocean.world_offset+approach*ocean.world_scale
 		print("SS_TARGET objective0 center=",roundi(objective_point.x),",",roundi(objective_point.y)," viewport=",roundi(get_viewport_rect().size.x),",",roundi(get_viewport_rect().size.y))
-		var p=ocean.global_position+ocean.world_offset+Vector2(320,800)*ocean.world_scale
+		var p=ocean.global_position+ocean.world_offset+Vector2(480,850)*ocean.world_scale
 		print("SS_TARGET route center=",roundi(p.x),",",roundi(p.y)," viewport=",roundi(get_viewport_rect().size.x),",",roundi(get_viewport_rect().size.y))
 
 		# Own launch geometry only. Keep10m inside the cap for rounded input pixels.

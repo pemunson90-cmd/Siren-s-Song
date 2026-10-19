@@ -109,6 +109,13 @@ func run():
   check(ocean.chart_camera.mode=="free" and ocean.chart_camera.desired_center==camera_state.center,"resize preserves manual camera intent")
   game._show_campaign();game._enter_water();await settle()
   check(ocean.chart_camera.mode=="free" and ocean.chart_camera.desired_center==camera_state.center,"operations resume preserves manual camera intent")
+  var old_path=game.store.path;game.store.path="user://optional-view-"+name+".save"
+  var invalid_view=game._archive();invalid_view.chart_view=["invalid optional presentation state"]
+  check(game.store.save(invalid_view),"optional invalid presentation field leaves the tactical archive valid")
+  game._load_archive()
+  check(game.sim.snapshot()==invalid_view.active,"loading an invalid optional view preserves valid tactical progress")
+  for suffix in ["",".bak",".tmp"]:DirAccess.remove_absolute(game.store.path+suffix)
+  game.store.path=old_path
   game.queue_free();await settle()
  var region_camera=preload("res://src/presentation/chart_camera.gd").new();region_camera.configure(Vector2(1200,800),Vector2(2000,2400));region_camera.follow(Vector2(1700,2100))
  check(region_camera.to_world(region_camera.to_screen(Vector2(1800,2200))).distance_to(Vector2(1800,2200))<.01 and region_camera.center.y>1600,"camera follows and maps genuine larger-world coordinates")
