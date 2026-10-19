@@ -1,0 +1,81 @@
+name: Gauntlet PR checks
+
+on:
+  pull_request:
+    branches: ['main', 'gauntlet/production']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: gauntlet-pr-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  guidance:
+    name: guidance
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Test guidance detector
+        run: python3 scripts/toolchain/test-check-gauntlet-guidance.py
+      - name: Audit current branch's governing instructions
+        run: python3 scripts/toolchain/check-gauntlet-guidance.py --root .
+
+  game-smoke:
+    name: game-smoke
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      TOOLCHAIN_CACHE: ${{ github.workspace }}/../sirens-song-toolchain
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+      - name: Determine whether gameplay or tooling changed
+        id: changes
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ -z "$BASE_SHA" ]]; then
+            echo 'game=true' >> "$GITHUB_OUTPUT"
+          elif git diff --quiet "$BASE_SHA" HEAD -- game scripts/toolchain .github/workflows; then
+            echo 'game=false' >> "$GITHUB_OUTPUT"
+          else
+            echo 'game=true' >> "$GITHUB_OUTPUT"
+          fi
+      - name: Restore verified Godot download cache
+        if: steps.changes.outputs.game == 'true'
+        uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: ${{ env.TOOLCHAIN_CACHE }}/downloads
+          key: godot-4.6.3-official-sha512-v1
+      - name: Install pinned Godot toolchain
+        if: steps.changes.outputs.game == 'true'
+        run: |
+          scripts/toolchain/install-godot.sh
+          echo "$TOOLCHAIN_CACHE/bin" >> "$GITHUB_PATH"
+      - name: Cache verified official download
+        if: steps.changes.outputs.game == 'true'
+        uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: ${{ env.TOOLCHAIN_CACHE }}/downloads
+          key: godot-4.6.3-official-sha512-v1
+      - name: Validate import and deterministic core game
+        if: steps.changes.outputs.game == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts
+          scripts/toolchain/headless.sh --editor --import --quit 2>&1 | tee artifacts/pr-import.log
+          if grep -nE 'SCRIPT ERROR:|(^|[[:space:]])ERROR:' artifacts/pr-import.log; then exit 1; fi
+          scripts/toolchain/headless.sh --script res://tests/run_tests.gd 2>&1 | tee artifacts/pr-core.log
+          if grep -nE 'SCRIPT ERROR:|(^|[[:space:]])ERROR:' artifacts/pr-core.log; then exit 1; fi
+          grep -Eq '^CHECKS [1-9][0-9]* FAILURES 0$' artifacts/pr-core.log
+      - name: Docs-only change; no Godot run
+        if: steps.changes.outputs.game == 'false'
+        run: echo 'No gameplay or toolchain change. Guidance is checked in the guidance job.'
