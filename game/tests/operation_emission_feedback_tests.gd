@@ -66,5 +66,5 @@ func _initialize():
   var old_world=Sim.new();old_world.start(id);var before=old_world.snapshot();old_world.operation_context();var clone=Sim.new()
   unchanged=unchanged and old_world.snapshot()==before and clone.restore(before) and clone.snapshot()==before
  check(unchanged,"old0..10 snapshots and read-only feedback remain exact")
- print("OPERATION EMISSION FEEDBACK ",checks," FAILURES ",failures)
+ print("OPERATION EMISSION FEEDBACK CHECKS ",checks," FAILURES ",failures)
  quit(1 if failures else 0)

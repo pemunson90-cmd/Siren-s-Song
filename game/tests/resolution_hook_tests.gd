@@ -43,5 +43,5 @@ func _initialize():
  check(not Sim.valid_snapshot(bad),"response activation must agree with the completed warning")
  bad=tx.snapshot();bad.mission.objectives[0].erase("captured")
  check(not Sim.valid_snapshot(bad),"malformed transmitter save is rejected without executing incomplete operation data")
- print("RESOLUTION HOOKS ",checks," FAILURES ",failures)
+ print("RESOLUTION HOOKS CHECKS ",checks," FAILURES ",failures)
  quit(1 if failures else 0)

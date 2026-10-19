@@ -84,6 +84,9 @@ campaign_equipment_save_tests|CAMPAIGN EQUIPMENT SAVE
 onward_mission_tests|ONWARD MISSIONS
 resolution_content_tests|RESOLUTION CONTENT
 resolution_geometry_tests|RESOLUTION GEOMETRY
+resolution_operations_tests|RESOLUTION OPERATIONS
+resolution_hook_tests|RESOLUTION HOOKS
+operation_emission_feedback_tests|OPERATION EMISSION FEEDBACK
 resolution_instruments_tests|RESOLUTION INSTRUMENT
 resolution_controls_ui_tests|RESOLUTION CONTROLS UI
 earned_equipment_tests|EARNED EQUIPMENT

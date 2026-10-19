@@ -19,7 +19,9 @@ func _initialize():
  check("quietus_correlator" in earned.entitlements and earned.references.return_cadence==[0.8,1.6,0.8],"successful confirmed recovery earns measured kit")
  check(9 in Campaign.available([0,1,2,3,4,5],earned),"Deep recovery opens actual onward task")
  var launched=Campaign.recover(earned,{"id":9,"expedition_revision":2,"recovered":true,"expedition_facts":{},"launch_equipment":{"quietus":"quietus_correlator","drone_a":"","drone_b":""}})
- check(11 not in Campaign.available([0,1,2,3,4,5],launched),"unreviewed resolution data stays out of playable operations")
+ check(11 in Campaign.available([0,1,2,3,4,5],launched),"recovered onward job opens reviewed Confluence")
+ check(11 not in Campaign.available([0,1,2,3,4,5],earned),"equipment recovery alone cannot skip the onward job")
+ check(12 not in Campaign.available([0,1,2,3,4,5],launched) and 13 not in Campaign.available([0,1,2,3,4,5],launched),"Confluence departure must precede either distinct operation")
  check(launched.selected_thread=="deep" and launched.history.size()==1,"recovery commits one selected downstream history")
  var opposite={"id":6,"expedition_revision":1,"recovered":true,"chosen_route":"shelf","expedition_facts":{"shelf":"other"}}
  var replayed=Campaign.recover(launched,opposite)
