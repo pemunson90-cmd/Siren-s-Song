@@ -1,0 +1,240 @@
+--- /tmp/sirens-original-prototype-handoff-inspect/history/sirens_song_prototype.html	2026-10-19 06:30:54.784737783 +0000
++++ /tmp/sirens-original-prototype-handoff-inspect/sirens_song_prototype_v7.html	2026-10-19 06:30:54.783736223 +0000
+@@ -3,7 +3,7 @@
+ <head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+-<title>SIREN'S SONG — prototype v6</title>
++<title>SIREN'S SONG — prototype v7</title>
+ <style>
+   @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+   :root{--abyss:#02080a;--phos:#3df0b8;--phos-dim:#1c6b54;--amber:#ffb13b;--red:#ff4d57;--cyan:#46c9ff;--grid:#0c2a30;}
+@@ -17,7 +17,7 @@
+   .lbl{width:62px;opacity:.85;text-transform:uppercase;}
+   .bar{flex:1;height:9px;background:#06222a;border:1px solid var(--grid);position:relative;overflow:hidden;}
+   .fill{position:absolute;inset:0;width:0%;transition:width .08s linear;}
+-  #suspFill{background:var(--phos);}#oxyFill{background:var(--cyan);}
++  #suspFill{background:var(--phos);}#oxyFill{background:var(--cyan);}#hullFill{background:var(--phos);}
+   .meta{display:flex;justify-content:space-between;margin-top:4px;font-size:11.5px;}
+   #state{font-weight:bold;letter-spacing:1px;}
+   .blink{animation:bk .5s steps(2) infinite;}@keyframes bk{50%{opacity:.25}}
+@@ -55,10 +55,11 @@
+ </head>
+ <body>
+ <div id="app">
+-  <div id="hud">
++  <div id="hud" class="hidden">
+     <div class="row"><span class="lbl">Suspicion</span><div class="bar"><div id="suspFill" class="fill"></div></div></div>
++    <div class="row"><span class="lbl">Hull</span><div class="bar"><div id="hullFill" class="fill"></div></div></div>
+     <div class="row"><span class="lbl">Oxygen</span><div class="bar"><div id="oxyFill" class="fill"></div></div></div>
+-    <div class="meta"><span id="state">— SILENT RUNNING —</span><span id="photos">PHOTOS 0/4</span></div>
++    <div class="meta"><span id="state">— SILENT RUNNING —</span><span id="hunt">HUNT —</span><span id="photos">PHOTOS 0/4</span></div>
+   </div>
+   <div id="game">
+     <canvas id="cv"></canvas>
+@@ -81,7 +82,7 @@
+       <button id="startBtn">▶ DIVE</button>
+     </div>
+   </div>
+-  <div id="controls">
++  <div id="controls" class="hidden">
+     <div class="ctrlrow">
+       <button class="btn" id="pingBtn">PING<span class="ct">sonar</span></button>
+       <button class="btn" id="reconBtn">RECON<span class="ct" id="reconCt">x2</span></button>
+@@ -100,23 +101,25 @@
+ "use strict";
+ const WORLD_W=1200, WORLD_H=1800, VIEW_H=900;
+ const CFG={
+-  maxSpeed:96, accel:2.2, turnRate:2.0, arriveR:110, subR:9,
++  maxSpeed:96, accel:2.2, turnRate:2.0, arriveR:220, subR:9,
+   passiveR:130,
+   pingMax:520, pingGrow:0.5, pingLife:3.2, pingCost:18, pingCooldown:1.3, pingHear:430, investigateT:6.5,
+   reconLife:3.2, reconCost:9, reconR:560,
+   empRange:150, empStun:3.2, empCost:24,
+   knockRange:150, knockStun:8.0, knockCost:20,
+   decoyLife:7.0, decoyCost:5, decoyPull:320,
+-  droneSpeed:135, droneVisionR:155, droneKillR:16,
++  droneSpeed:135, droneVisionR:120, droneKillR:16,
+   noiseHearMax:360, noiseGain:13,
+   photoCost:14, captureR:72, extractR:78,
+   factoryR:340, factoryGain:8,
+   decay:3, decayDelay:1.8, alert:34, hostile:75, killHold:3.5,
+-  oxyDrain:100/230, detectGain:22,
++  oxyDrain:100/300, detectGain:22,
++  huntTime:0.2, huntPhoto:8, huntPing:5, huntTool:4, huntDetect:6, huntGraze:6, huntDecay:1.0, huntDelay:6,
++  grazeDmg:20, grazeDelay:1.5, grazeCool:3.0,
+   thermalY0:0.40, thermalY1:0.455, thermalMul:0.5
+ };
+ let screen='menu', T=0, mode='move', paused=false;
+-let sub,suspicion,oxygen,atMax,noiseT,baseAlert,pings,decoys,drones,recon,sirens,objectives,obstacles,
++let sub,suspicion,oxygen,atMax,noiseT,hunt,hull,grazeCD,grazeT,huntT,wasDetected,pings,decoys,drones,recon,sirens,objectives,obstacles,
+     currents,logs,extraction,tools,pingCD,last,bubbles,snow,fx,bubT,beatT;
+ 
+ /* ---------------- audio (procedural, gesture-initialised, fail-safe) ---------------- */
+@@ -154,7 +157,7 @@
+ 
+ function init(){
+   sub={x:WORLD_W*0.5,y:WORLD_H*0.92,tx:WORLD_W*0.5,ty:WORLD_H*0.92,h:-Math.PI/2,spd:0,silent:false};
+-  suspicion=0;oxygen=100;atMax=0;noiseT=0;baseAlert=0;pingCD=0;mode='move';
++  suspicion=0;oxygen=100;atMax=0;noiseT=0;hunt=0;hull=100;grazeCD=0;grazeT=0;huntT=0;wasDetected=false;pingCD=0;mode='move';
+   pings=[];decoys=[];drones=[];recon={t:0,x:0,y:0};bubbles=[];fx=[];bubT=0;beatT=0;
+   snow=[];for(let i=0;i<80;i++)snow.push({x:Math.random()*WORLD_W,y:Math.random()*WORLD_H,r:0.6+Math.random()*1.6,s:6+Math.random()*14,dx:(Math.random()-0.5)*4});
+   tools={recon:2,drone:4,emp:2,knock:2,decoy:4};
+@@ -203,7 +206,9 @@
+   return Math.hypot(ax+t*dx-cx,ay+t*dy-cy)<r;}
+ function losClear(a,b){for(const o of obstacles){if(segCircle(a.x,a.y,b.x,b.y,o.x,o.y,o.r))return false;}return true;}
+ function inThermal(y){return y>WORLD_H*CFG.thermalY0&&y<WORLD_H*CFG.thermalY1;}
+-function effDetect(s){return s.detect*(1+baseAlert*0.04)*(inThermal(sub.y)?CFG.thermalMul:1);}
++function effDetect(s){return s.detect*huntMult()*(inThermal(sub.y)?CFG.thermalMul:1);}
++function huntStage(){return hunt<20?0:hunt<45?1:hunt<70?2:hunt<90?3:4;}
++function huntMult(){return [1.0,1.15,1.3,1.5,1.7][huntStage()];}
+ function shadowPoly(L,cx,cy,r,far){const dx=cx-L.x,dy=cy-L.y,dd=Math.hypot(dx,dy);
+   if(dd<=r)return null;const a=Math.atan2(dy,dx),al=Math.asin(Math.min(1,r/dd)),a1=a-al,a2=a+al,n=dd*0.88;
+   return [{x:L.x+Math.cos(a1)*n,y:L.y+Math.sin(a1)*n},{x:L.x+Math.cos(a2)*n,y:L.y+Math.sin(a2)*n},
+@@ -223,11 +228,14 @@
+   const r=cv.getBoundingClientRect(),cam=camera();
+   const wx=(e.clientX-r.left-cssW/2)/scale+cam.cx,wy=(e.clientY-r.top-cssH/2)/scale+cam.cy;
+   const cx=Math.max(10,Math.min(WORLD_W-10,wx)),cy=Math.max(10,Math.min(WORLD_H-10,wy));
+-  if(mode==='drone'){drones.push({x:sub.x,y:sub.y,tx:cx,ty:cy,dead:false});tools.drone--;mode='move';AU.drone();syncBtns();toast('Drone away');}
++  if(mode==='drone'){const dr=drones.find(d=>!d.dead);
++    if(dr){dr.tx=cx;dr.ty=cy;toast('Drone re-tasked');}
++    else{drones.push({x:sub.x,y:sub.y,tx:cx,ty:cy,dead:false});tools.drone--;toast('Drone launched');}
++    mode='move';AU.drone();syncBtns();}
+   else if(mode==='decoy'){decoys.push({x:cx,y:cy,t:CFG.decoyLife});tools.decoy--;suspicion+=CFG.decoyCost;noiseT=CFG.decayDelay;AU.decoy();mode='move';syncBtns();toast('Decoy dropped');}
+   else if(mode==='knock'){let tgt=null,best=1e9;
+     for(const s of sirens){if(dist(s,sub)>CFG.knockRange)continue;const d=Math.hypot(s.x-cx,s.y-cy);if(d<best){best=d;tgt=s;}}
+-    if(tgt&&best<70){tgt.stun=Math.max(tgt.stun,CFG.knockStun);tgt.invT=0;fx.push({type:'knock',x:tgt.x,y:tgt.y,t:0,life:0.6});tools.knock--;suspicion+=CFG.knockCost;noiseT=CFG.decayDelay;AU.knock();mode='move';syncBtns();toast('Pinned to the floor');}
++    if(tgt&&best<70){tgt.stun=Math.max(tgt.stun,CFG.knockStun);tgt.invT=0;fx.push({type:'knock',x:tgt.x,y:tgt.y,t:0,life:0.6});tools.knock--;suspicion+=CFG.knockCost;noiseT=CFG.decayDelay;hunt+=CFG.huntTool;huntT=CFG.huntDelay;AU.knock();mode='move';syncBtns();toast('Pinned to the floor');}
+     else toast('No Siren in range there');}
+   else {sub.tx=cx;sub.ty=cy;}});
+ 
+@@ -237,12 +245,12 @@
+ document.getElementById('logmodal').addEventListener('pointerdown',e=>{e.stopPropagation();document.getElementById('logmodal').classList.add('hidden');paused=false;});
+ 
+ /* tools */
+-function doPing(){if(screen!=='playing'||pingCD>0)return;pings.push({x:sub.x,y:sub.y,t:0});suspicion+=CFG.pingCost;noiseT=CFG.decayDelay;pingCD=CFG.pingCooldown;AU.ping();
++function doPing(){if(screen!=='playing'||pingCD>0)return;pings.push({x:sub.x,y:sub.y,t:0});suspicion+=CFG.pingCost;noiseT=CFG.decayDelay;pingCD=CFG.pingCooldown;hunt+=CFG.huntPing;huntT=CFG.huntDelay;AU.ping();
+   for(const s of sirens){if(dist(s,sub)<CFG.pingHear){s.invX=sub.x;s.invY=sub.y;s.invT=CFG.investigateT;}}}
+ function doRecon(){if(screen!=='playing'||tools.recon<=0)return;tools.recon--;recon.x=sub.x;recon.y=sub.y;recon.t=CFG.reconLife;suspicion+=CFG.reconCost;noiseT=CFG.decayDelay;AU.ping();syncBtns();}
+-function doDrone(){if(screen!=='playing'||tools.drone<=0)return;mode=(mode==='drone')?'move':'drone';toast(mode==='drone'?'Tap to deploy drone':'Drone cancelled');syncBtns();}
++function doDrone(){if(screen!=='playing')return;const live=drones.some(d=>!d.dead);if(!live&&tools.drone<=0)return;mode=(mode==='drone')?'move':'drone';toast(mode==='drone'?(live?'Tap to send drone':'Tap to launch drone'):'Cancelled');syncBtns();}
+ function doSilent(){if(screen!=='playing')return;sub.silent=!sub.silent;syncBtns();toast(sub.silent?'Silent running — engines cut':'Engines online');}
+-function doEmp(){if(screen!=='playing'||tools.emp<=0)return;let hit=0;for(const s of sirens){if(dist(s,sub)<CFG.empRange){s.stun=Math.max(s.stun,CFG.empStun);s.invT=0;hit++;}}
++function doEmp(){if(screen!=='playing'||tools.emp<=0)return;let hit=0;hunt+=CFG.huntTool;huntT=CFG.huntDelay;for(const s of sirens){if(dist(s,sub)<CFG.empRange){s.stun=Math.max(s.stun,CFG.empStun);s.invT=0;hit++;}}
+   if(!hit){toast('EMP: no Siren in blast radius');return;}fx.push({type:'emp',x:sub.x,y:sub.y,t:0,life:0.7});tools.emp--;suspicion+=CFG.empCost;noiseT=CFG.decayDelay;AU.emp();toast('EMP — '+hit+' stunned');syncBtns();}
+ function doKnock(){if(screen!=='playing'||tools.knock<=0)return;mode=(mode==='knock')?'move':'knock';toast(mode==='knock'?'Tap the Siren to pin':'Knockdown cancelled');syncBtns();}
+ function doDecoy(){if(screen!=='playing'||tools.decoy<=0)return;mode=(mode==='decoy')?'move':'decoy';toast(mode==='decoy'?'Tap to drop decoy':'Decoy cancelled');syncBtns();}
+@@ -251,7 +259,7 @@
+   for(const d of drones){if(d.dead)continue;const dd=dist(o,d);if(dd<CFG.captureR&&dd<bestD){bestD=dd;viaDrone=true;}}
+   const sd=dist(o,sub);if(sd<CFG.captureR&&sd<bestD){bestD=sd;viaDrone=false;}
+   if(bestD<1e9){const prox=1-bestD/CFG.captureR;o.q=viaDrone?(0.55+0.45*prox):(0.25+0.45*prox);
+-    o.got=true;suspicion+=CFG.photoCost;baseAlert++;noiseT=CFG.decayDelay;
++    o.got=true;suspicion+=CFG.photoCost;hunt+=CFG.huntPhoto;huntT=CFG.huntDelay;noiseT=CFG.decayDelay;
+     fx.push({type:'flash',x:o.x,y:o.y,t:0,life:0.55});AU.cap();break;}}}
+ function doMute(){AU.muted=!AU.muted;if(AU.muted)AU.stopAmb();else AU.startAmb();syncBtns();}
+ document.getElementById('pingBtn').addEventListener('click',doPing);
+@@ -271,7 +279,7 @@
+   document.getElementById('knockCt').textContent='x'+tools.knock;
+   document.getElementById('decoyCt').textContent='x'+tools.decoy;
+   document.getElementById('reconBtn').disabled=tools.recon<=0;
+-  document.getElementById('droneBtn').disabled=tools.drone<=0&&mode!=='drone';
++  document.getElementById('droneBtn').disabled=tools.drone<=0&&!drones.some(d=>!d.dead)&&mode!=='drone';
+   document.getElementById('empBtn').disabled=tools.emp<=0;
+   document.getElementById('knockBtn').disabled=tools.knock<=0&&mode!=='knock';
+   document.getElementById('decoyBtn').disabled=tools.decoy<=0&&mode!=='decoy';
+@@ -321,7 +329,7 @@
+   for(const o of obstacles)if(o.hit>0)o.hit-=dt;
+   if(recon.t>0)recon.t-=dt;
+ 
+-  const noise=sub.silent?0:sub.spd/CFG.maxSpeed;
++  const noise=sub.silent?0:Math.pow(sub.spd/CFG.maxSpeed,2);
+   let gain=0;
+   const factory={x:WORLD_W*0.5,y:WORLD_H*0.05};
+   const fd=dist(sub,factory); if(fd<CFG.factoryR)gain+=CFG.factoryGain*(1-fd/CFG.factoryR);
+@@ -332,6 +340,14 @@
+   if(gain>0){suspicion+=gain*dt;noiseT=CFG.decayDelay;}else if(noiseT>0){noiseT-=dt;}else suspicion-=CFG.decay*dt;
+   suspicion=Math.max(0,Math.min(100,suspicion));
+ 
++  // THE HUNT — global escalation. Action-driven; the clock only nudges it.
++  hunt+=CFG.huntTime*dt;
++  if(detected&&!wasDetected){hunt+=CFG.huntDetect;huntT=CFG.huntDelay;} wasDetected=detected;
++  if(huntT>0)huntT-=dt; else hunt-=CFG.huntDecay*dt;
++  const hFloor=gotCount()*CFG.huntPhoto;             // progress never fully cools
++  hunt=Math.max(hFloor,Math.min(100,hunt));
++  if(AU.amb&&AU.amb.g)AU.amb.g.gain.value=0.10+huntStage()*0.02;
++
+   const alerted=suspicion>=CFG.alert;
+   for(const s of sirens){
+     if(s.stun>0){s.stun-=dt;continue;}
+@@ -339,7 +355,7 @@
+     // attention: decoys always lure; drones only draw Sirens once alerted or investigating
+     let lure=null,bd=CFG.decoyPull;
+     for(const dc of decoys){const d=Math.hypot(s.x-dc.x,s.y-dc.y);if(d<bd){bd=d;lure=dc;}}
+-    if(alerted||s.invT>0){for(const dr of drones){if(dr.dead)continue;const d=Math.hypot(s.x-dr.x,s.y-dr.y);if(d<bd){bd=d;lure=dr;}}}
++    // drones no longer lure — decoy is the lure; the drone is the camera
+     const seesSub=s._sees;
+     if(seesSub){s.invX=sub.x;s.invY=sub.y;s.invT=CFG.investigateT;} // remember last-known position
+     const invSpd=(s.pat+s.chase)/2;
+@@ -368,6 +384,13 @@
+   // audio heartbeat scaled to suspicion
+   beatT-=dt; if(beatT<=0&&suspicion>=CFG.alert){AU.beat(suspicion>=CFG.hostile);beatT=suspicion>=CFG.hostile?0.45:0.9;}
+ 
++  // GRAZE — at HOSTILE with a live detector you bleed hull; sustained max still vaporizes
++  if(grazeCD>0)grazeCD-=dt;
++  if(suspicion>=CFG.hostile&&detected&&grazeCD<=0){
++    grazeT+=dt;
++    if(grazeT>=CFG.grazeDelay){hull-=CFG.grazeDmg;hunt=Math.min(100,hunt+CFG.huntGraze);huntT=CFG.huntDelay;grazeCD=CFG.grazeCool;grazeT=0;fx.push({type:'flash',x:sub.x,y:sub.y,t:0,life:0.4});AU.knock&&AU.knock();if(hull<=0){hull=0;return end(false,'HULL BREACHED');}}
++  }else grazeT=0;
++
+   // KILL RULE: vaporize only while an active un-stunned LOS detector is present
+   if(suspicion>=100&&detected){atMax+=dt;if(atMax>=CFG.killHold){AU.boom();return end(false,'VAPORIZED');}}else atMax=0;
+   if(allGot()&&dist(sub,extraction)<CFG.extractR){AU.surface();return end(true,'EXTRACTED');}
+@@ -429,7 +452,7 @@
+   const fr=revealLevel({x:WORLD_W*0.5,y:WORLD_H*0.05});
+   if(fr>0){ctx.globalAlpha=fr===2?.9:.4;const g=ctx.createRadialGradient(WORLD_W*0.5,WORLD_H*0.03,10,WORLD_W*0.5,WORLD_H*0.03,300);
+     g.addColorStop(0,'#1c6b54');g.addColorStop(1,'rgba(2,8,10,0)');ctx.fillStyle=g;ctx.fillRect(0,0,WORLD_W,WORLD_H*0.25);
+-    ctx.globalAlpha=1;ctx.strokeStyle=fr===2?'#3df0b8':'#1c6b54';ctx.lineWidth=3;ctx.strokeRect(WORLD_W*0.5-110,16,220,96);
++    ctx.globalAlpha=1;const hp=huntStage()>=3;ctx.strokeStyle=hp?'#ff5a4a':(fr===2?'#3df0b8':'#1c6b54');ctx.lineWidth=hp?4:3;if(hp){ctx.shadowColor='#ff5a4a';ctx.shadowBlur=12;}ctx.strokeRect(WORLD_W*0.5-110,16,220,96);ctx.shadowBlur=0;
+     ctx.lineWidth=1;ctx.globalAlpha=fr===2?.6:.3;for(let i=1;i<6;i++){ctx.beginPath();ctx.moveTo(WORLD_W*0.5-110+i*36,16);ctx.lineTo(WORLD_W*0.5-110+i*36,112);ctx.stroke();}ctx.globalAlpha=1;}
+   // sonar bubbles (sub + drones) with occlusion
+   sonarBubble(sub,CFG.passiveR);
+@@ -498,7 +521,7 @@
+   if(screen==='playing'&&!sub.silent){
+     const R=CFG.arriveR;
+     // live sound footprint: how far your CURRENT noise actually carries (the invisible thing)
+-    const noise=sub.spd/CFG.maxSpeed, hr=CFG.noiseHearMax*noise;
++    const noise=Math.pow(sub.spd/CFG.maxSpeed,2), hr=CFG.noiseHearMax*noise;
+     if(hr>16){ctx.globalAlpha=0.045+0.035*Math.sin(T*4);ctx.fillStyle='#ffb13b';ctx.beginPath();ctx.arc(sub.x,sub.y,hr,0,7);ctx.fill();
+       ctx.globalAlpha=.24;ctx.strokeStyle='#ffb13b';ctx.lineWidth=1;ctx.setLineDash([3,7]);ctx.beginPath();ctx.arc(sub.x,sub.y,hr,0,7);ctx.stroke();ctx.setLineDash([]);ctx.globalAlpha=1;}
+     // planning rings: how fast a click at this distance will cruise
+@@ -537,7 +560,7 @@
+   if(screen==='playing'&&suspicion>=CFG.hostile){const pa=0.18+0.16*Math.sin(T*7);const rv=ctx.createRadialGradient(cssW/2,cssH/2,cssH*0.25,cssW/2,cssH/2,cssH*0.7);
+     rv.addColorStop(0,'rgba(255,77,87,0)');rv.addColorStop(1,'rgba(255,77,87,'+pa+')');ctx.fillStyle=rv;ctx.fillRect(0,0,cssW,cssH);}
+   if(mode!=='move'){
+-    const txt=mode==='drone'?'▣ TAP TO DEPLOY DRONE':mode==='decoy'?'◆ TAP TO DROP DECOY':'✖ TAP A SIREN TO PIN (in range)';
++    const txt=mode==='drone'?'▣ TAP TO SEND DRONE':mode==='decoy'?'◆ TAP TO DROP DECOY':'✖ TAP A SIREN TO PIN (in range)';
+     ctx.fillStyle=mode==='knock'?'#ff9a8a':'#7fe6ff';ctx.font='13px monospace';ctx.textAlign='center';ctx.fillText(txt,cssW/2,cssH-26);
+     ctx.globalAlpha=.55;ctx.fillStyle='#9ad6c4';ctx.font='11px monospace';ctx.fillText('— time eased —',cssW/2,cssH-11);ctx.globalAlpha=1;}
+ }
+@@ -545,6 +568,10 @@
+ function hud(){
+   document.getElementById('suspFill').style.width=suspicion+'%';
+   document.getElementById('oxyFill').style.width=oxygen+'%';
++  document.getElementById('hullFill').style.width=hull+'%';
++  const hf=document.getElementById('hullFill');hf.style.background=hull>50?'var(--phos)':hull>25?'var(--amber)':'var(--red)';
++  const hs=huntStage(),hn=['DORMANT','STIRRING','SEARCHING','HUNTING','LOCKDOWN'][hs],hc=['var(--cyan)','var(--cyan)','var(--amber)','var(--amber)','var(--red)'][hs];
++  const hEl=document.getElementById('hunt');hEl.textContent='HUNT: '+hn;hEl.style.color=hc;hEl.classList.toggle('blink',hs>=4);
+   const sf=document.getElementById('suspFill');let col='var(--phos)',st=sub.silent?'SILENT RUNNING':'CURIOUS';
+   if(suspicion>=CFG.hostile){col='var(--red)';st='⚠ HOSTILE — BREAK CONTACT';}
+   else if(suspicion>=CFG.alert){col='var(--amber)';st='ALERT';}
+@@ -557,8 +584,8 @@
+ function frame(now){let dt=(now-(last||now))/1000;last=now;dt=Math.min(dt,0.05);T+=dt;
+   if(screen==='playing'&&!paused){update(mode!=='move'?dt*0.30:dt);hud();}render();requestAnimationFrame(frame);}
+ 
+-function startGame(){AU.init();AU.resume();if(!AU.muted)AU.startAmb();init();resize();syncBtns();screen='playing';document.getElementById('overlay').classList.add('hidden');paused=false;document.getElementById('logmodal').classList.add('hidden');}
+-function end(win,why){screen=win?'won':'lost';AU.stopAmb();const ov=document.getElementById('overlay');ov.classList.remove('hidden');
++function startGame(){AU.init();AU.resume();if(!AU.muted)AU.startAmb();init();syncBtns();screen='playing';document.getElementById('overlay').classList.add('hidden');document.getElementById('hud').classList.remove('hidden');document.getElementById('controls').classList.remove('hidden');paused=false;document.getElementById('logmodal').classList.add('hidden');resize();}
++function end(win,why){screen=win?'won':'lost';AU.stopAmb();const ov=document.getElementById('overlay');ov.classList.remove('hidden');document.getElementById('hud').classList.add('hidden');document.getElementById('controls').classList.add('hidden');
+   let grade='';if(win){const total=objectives.reduce((a,o)=>a+o.q,0),pct=total/objectives.length;
+     const g=pct>=0.95?'A — flawless intel':pct>=0.7?'B — solid intel':'C — grainy, but it counts';grade='<p class="grade">INTEL GRADE: '+g+'</p>';}
+   ov.innerHTML=win

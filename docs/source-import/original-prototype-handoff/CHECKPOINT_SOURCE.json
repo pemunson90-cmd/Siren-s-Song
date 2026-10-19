@@ -1,0 +1,33 @@
+{
+  "source_commit": "8d8635aa2a1d7dc64c3d0f9f933972c1504aec1e",
+  "remote_ref": "refs/heads/checkpoint/patrol-recovery-8d8635a",
+  "status": "source-only, unpromoted; production branch not moved by this checkpoint",
+  "github_tree_complete": true,
+  "observed_checkpoint_action_runs": 0,
+  "paths": [
+    {
+      "path": "game/src/audio/soundscape.gd",
+      "git_blob_sha1": "94922d2e90e401a8c323eec2f82ea8f72b0a163b",
+      "bytes": 6808,
+      "url": "https://github.com/pemunson90-cmd/Siren-s-Song/blob/8d8635aa2a1d7dc64c3d0f9f933972c1504aec1e/game/src/audio/soundscape.gd"
+    },
+    {
+      "path": "game/src/campaign/missions.gd",
+      "git_blob_sha1": "1a85f5e4a9ff191543fd3e28b53889b2d8e01192",
+      "bytes": 8443,
+      "url": "https://github.com/pemunson90-cmd/Siren-s-Song/blob/8d8635aa2a1d7dc64c3d0f9f933972c1504aec1e/game/src/campaign/missions.gd"
+    },
+    {
+      "path": "game/src/presentation/ocean_view.gd",
+      "git_blob_sha1": "53794347c77bbe29f5b86e0c92c0855320b5841b",
+      "bytes": 12911,
+      "url": "https://github.com/pemunson90-cmd/Siren-s-Song/blob/8d8635aa2a1d7dc64c3d0f9f933972c1504aec1e/game/src/presentation/ocean_view.gd"
+    },
+    {
+      "path": "game/src/simulation/simulation.gd",
+      "git_blob_sha1": "674f83320329e101a08ea3ca6c49bee52c271c8b",
+      "bytes": 23592,
+      "url": "https://github.com/pemunson90-cmd/Siren-s-Song/blob/8d8635aa2a1d7dc64c3d0f9f933972c1504aec1e/game/src/simulation/simulation.gd"
+    }
+  ]
+}

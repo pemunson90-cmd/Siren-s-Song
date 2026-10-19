@@ -1,0 +1,404 @@
+diff --git a/game/src/campaign/missions.gd b/game/src/campaign/missions.gd
+index 4cd6105..1a85f5e 100644
+--- a/game/src/campaign/missions.gd
++++ b/game/src/campaign/missions.gd
+@@ -6,7 +6,7 @@ const BRIEFS = [
+ 	"The signal is a conversation. Blackwater absorbs passive returns. Use the relay chain to map the exchange. Drones see farther; the submarine camera remains your fallback.",
+ 	"Enter from the western shelf. Our recovery buoy lies beyond the southern factory wall. First image the FURNACE VENT, then the DEPARTURE CRADLE. The basalt spine offers shelter; the industrial perimeter does not. Cameras may provoke a carrier response. Plan Quietus’ passage before exposing the second record. Drones can take either photograph; the submarine remains your fallback.",
+ 	"The well is listening to us. Collect three records from its circumference. A mobile hunter patrols the inner water. Break sight before its beam resolves. Silence is a route, too.",
+-	"The song is a warning, not an invitation. Document the transmission array and its outbound vector. Return with the archive. Command will ask for targets. Bring them evidence instead."
++	"The transmission crown faces the trench; outbound wakes point deeper, away from us. Photograph both to separate their meanings. Bring Quietus through the southern basalt lee to the LEE RECEIVER and use CAMERA / LISTEN for six quiet seconds. Only the submarine carries the low-frequency hydrophones needed to resolve the packet. Drones can scout the exposed crown and wakes while Quietus moves under cover; the submarine can take either image if they are lost. Return to the western buoy with what you heard. Command will ask for targets. Bring evidence instead."
+ ]
+ const RECORDS = [
+ 	"A manufactured pulse. Something beneath the shelf is counting the seconds between our pings.",
+@@ -24,7 +24,7 @@ static func make(index: int) -> Dictionary:
+ 		[Rect2(400,430,280,220),Rect2(840,250,240,220),Rect2(1200,650,160,200)],
+ 		[Rect2(-120,-120,360,680),Rect2(240,-120,660,260),Rect2(500,300,300,360),Rect2(740,900,320,140),Rect2(900,620,120,180)],
+ 		[Rect2(480,280,240,250),Rect2(880,420,220,250),Rect2(1200,180,160,160)],
+-		[Rect2(360,300,180,340),Rect2(740,160,220,300),Rect2(1040,540,240,220)]
++		[Rect2(-100,-100,340,640),Rect2(560,-100,280,620),Rect2(1000,470,250,190)]
+ 	]
+ 	var points = [
+ 		[Vector2(1300,300)],
+@@ -32,7 +32,7 @@ static func make(index: int) -> Dictionary:
+ 		[Vector2(760,200),Vector2(1360,480)],
+ 		[Vector2(1090,360),Vector2(1320,770)],
+ 		[Vector2(800,180),Vector2(1370,450),Vector2(780,780)],
+-		[Vector2(1160,240),Vector2(1420,460),Vector2(1000,820)]
++		[Vector2(1210,240),Vector2(1400,700),Vector2(900,780)]
+ 	]
+ 	var objectives: Array = []
+ 	for n in points[i].size():
+@@ -46,6 +46,15 @@ static func make(index: int) -> Dictionary:
+ 		objectives[1].name="DEPARTURE CRADLE"; objectives[1]["optical"]="cradle"; objectives[1]["requires"]=[0]
+ 		objectives[1]["requirement"]="Record the furnace first. Its casting pattern will identify what the cradles contain."
+ 		objectives[1]["evidence"]="Long smooth hulls hang in open frames. No visible armament. An empty cradle opens toward the deeper trench. They are preparing to leave."
++	if i==5:
++		objectives[0].name="TRANSMITTER CROWN"; objectives[0]["optical"]="transmitter"
++		objectives[0]["evidence"]="Nested resonator vanes point into the trench. Their repeated spacing matches a low-frequency carrier, not a gun aperture. The sound is directed below us."
++		objectives[1].name="OUTBOUND WAKES"; objectives[1]["optical"]="departure"
++		objectives[1]["evidence"]="Smooth unarmed hulls descend away from the shelf. Their wakes converge beyond a warm fracture in the trench floor. This is a departure route, not an attack vector."
++		objectives[2].name="LEE RECEIVER"; objectives[2]["kind"]="receiver"; objectives[2]["required_unit"]=0; objectives[2]["duration"]=6.0; objectives[2]["requires"]=[0,1]; objectives[2]["optical"]="warning"
++		objectives[2]["requirement"]="Need both optical observations: TRANSMITTER CROWN and OUTBOUND WAKES. Their geometry separates the packet from reflected noise."
++		objectives[2]["unit_requirement"]="Quietus hydrophones required. Bring the submarine into the basalt lee; small drones cannot resolve this low-frequency packet."
++		objectives[2]["evidence"]="DECODED: a fracture is propagating below the mantle. The outbound hulls are evacuating, not assembling for attack. The carrier repeats the safe direction away from the fracture: listen, then leave."
+ 	var patrols: Array = []
+ 	for n in (1 + i / 2):
+ 		patrols.append({"pos":Vector2(620 + n*270,130),"home":Vector2(620+n*270,130),"goal":Vector2(620+n*270,130),"vel":Vector2.ZERO,"route":[],"angle":0.0,"mode":"PATROL","suspicion":0.0,"stun":0.0,"lock":0.0,"target":-1,"patrol":n,"path_time":0.0})
+@@ -60,4 +69,20 @@ static func make(index: int) -> Dictionary:
+ 		for n in patrols.size():
+ 			var home=[Vector2(960,260),Vector2(1320,820)][n]
+ 			patrols[n].pos=home; patrols[n].home=home; patrols[n].goal=home
++	if i==5:
++		result["phase"]="observations"; result["finale_revision"]=1
++		result["array_rect"]=Rect2(1260,60,300,280); result["structures"]=[result.array_rect]
++		for n in patrols.size():
++			var home=[Vector2(970,160),Vector2(1390,420),Vector2(1260,830)][n]
++			patrols[n].pos=home; patrols[n].home=home; patrols[n].goal=home
++	var circuits=[
++		[[Vector2(620,130),Vector2(800,150),Vector2(800,310),Vector2(620,280)]],
++		[[Vector2(420,140),Vector2(420,420),Vector2(420,700),Vector2(520,780)],[Vector2(1220,140),Vector2(1260,460),Vector2(1360,820),Vector2(1180,560)]],
++		[[Vector2(620,130),Vector2(760,130),Vector2(760,350),Vector2(600,330)],[Vector2(890,130),Vector2(1140,160),Vector2(1140,520),Vector2(780,520)]],
++		[[Vector2(960,260),Vector2(1040,460),Vector2(1080,580),Vector2(1080,840)],[Vector2(1320,820),Vector2(1450,840),Vector2(1510,880),Vector2(1150,860)]],
++		[[Vector2(620,130),Vector2(800,130),Vector2(800,300),Vector2(420,200)],[Vector2(890,130),Vector2(1060,360),Vector2(1180,400),Vector2(1150,740)],[Vector2(1160,130),Vector2(1420,140),Vector2(1450,480),Vector2(1380,780)]],
++		[[Vector2(970,160),Vector2(1140,120),Vector2(1080,400),Vector2(920,560)],[Vector2(1390,420),Vector2(1480,500),Vector2(1500,700),Vector2(1340,410)],[Vector2(1260,830),Vector2(1430,880),Vector2(1030,860),Vector2(900,700)]]
++	]
++	for n in patrols.size():
++		patrols[n]["patrol_points"]=circuits[i][n]; patrols[n]["patrol_index"]=0
+ 	return result
+diff --git a/game/src/input/map_gesture.gd.uid b/game/src/input/map_gesture.gd.uid
+new file mode 100644
+index 0000000..1c8b29d
+--- /dev/null
++++ b/game/src/input/map_gesture.gd.uid
+@@ -0,0 +1 @@
++uid://ddm8aeblt8twn
+diff --git a/game/src/main.gd b/game/src/main.gd
+index b1e680e..9cc9d4c 100644
+--- a/game/src/main.gd
++++ b/game/src/main.gd
+@@ -152,7 +152,7 @@ func _refresh() -> void:
+ 		unit_buttons[i].text=["QUIETUS","DRONE A","DRONE B"][i]+"\n"+task
+ 		unit_buttons[i].add_theme_font_size_override("font_size",13)
+ 	order_buttons.waypoint_mode.text="WAYPOINT: PASS" if sim.pass_through else "WAYPOINT: STOP"
+-	order_buttons.camera.text="CAMERA / LINK" if mission_index==1 else "CAMERA"
++	order_buttons.camera.text="CAMERA / LISTEN" if sim.mission.get("finale_revision",0)==1 else ("CAMERA / LINK" if mission_index==1 else "CAMERA")
+ 	order_buttons.queue.text="+ QUEUE ON" if sim.queue_mode else "REPLACE"
+ 	order_buttons.silent.text="SILENT ✓" if sim.units[sim.selected].silent else "CRUISE"
+ 	order_buttons.emp.text="DISRUPT · %d"%sim.tools.emp
+@@ -161,7 +161,7 @@ func _refresh() -> void:
+ 	log_label.text=sim.message
+ 	advanced_button.text="FEWER ORDERS" if advanced_orders else "MORE ORDERS"
+ 	var mode="add to" if sim.queue_mode else "replace"
+-	detail_label.text="Tap chart to %s route.\nDrag to pan · pinch to zoom.\n\nEXTRACT clears queued orders and conditions."%mode if size.x/size.y>1.6 else "Tap chart: %s route · Drag: pan · Pinch: zoom.\nEXTRACT clears queued orders and conditions."%mode
++	detail_label.text=sim.camera_context().text+"\n\nEXTRACT clears queued orders and conditions." if size.x/size.y>1.6 else sim.camera_context().text+"\nEXTRACT clears queued orders / conditions."
+ func _toggle_advanced() -> void:
+ 	advanced_orders=not advanced_orders; _layout(); _refresh()
+ 
+@@ -254,7 +254,8 @@ func _debrief() -> void:
+ 		_menu_text("Dive time %02d:%02d  /  Hull %d%%  /  Life support %d%%"%[int(sim.elapsed)/60,int(sim.elapsed)%60,int(sim.hull),int(sim.oxygen)],17)
+ 		if not recovered_evidence.is_empty(): _button(panel_box,"REVIEW OPTICAL RECORDS",func(): _evidence_gallery(0))
+ 		if mission_index==5:
+-			_menu_text("THE SONG CONTINUES\n\nYou return with a warning, not a firing solution. Above you, the fleet waits for orders. Below, the foundry lights go dark, one by one. For the first time since descent, Quietus hears only the ocean.\n\nCampaign complete. Every dive remains replayable.",20)
++			var discovery="The crown points into the trench. Unarmed wakes lead away from the fracture. Quietus’ hydrophones resolve what the images could not: they are evacuating.\n\n" if sim.mission.get("finale_revision",0)==1 else ""
++			_menu_text("THE SONG CONTINUES\n\n"+discovery+"You return with a warning, not a firing solution. Above you, the fleet waits for orders. Below, the foundry lights go dark, one by one. For the first time since descent, Quietus hears only the ocean.\n\nCampaign complete. Every dive remains replayable.",20)
+ 		else: _button(panel_box,"NEXT DIVE",func(): _briefing(mission_index+1))
+ 	else:
+ 		_menu_text("SIGNAL LOST",32); _menu_text(sim.message,22); _menu_text("Recovered campaign records are preserved. Replan your approach from tactical pause.",17)
+@@ -411,8 +412,8 @@ func _observation_diagnostics() -> void:
+ 			diagnostic_records[id]=true
+ 			print("SS_OBJECTIVE_RECORDED mission=",mission_index," objective=",id)
+ 			_retain_evidence()
+-		if not objective.captured and unit.alive and sim.capture_unit<0 and unit.pos.distance_to(objective.pos)<240 and sim.line_clear(unit.pos,objective.pos):
+-			ready="unit=%d objective=%d"%[sim.selected,id]
++	var context=sim.camera_context()
++	if unit.alive and context.ready: ready="unit=%d objective=%d"%[sim.selected,context.target]
+ 	if ready!=diagnostic_ready:
+ 		diagnostic_ready=ready
+ 		if not ready.is_empty(): print("SS_CAMERA_READY ",ready)
+@@ -427,7 +428,7 @@ func _evidence_gallery(index: int) -> void:
+ 	var keys=recovered_evidence.keys(); var entry=recovered_evidence[keys[index%keys.size()]]
+ 	_menu_text("RECOVERED OPTICAL / %d OF %d"%[index+1,keys.size()],18)
+ 	_menu_text(entry.name,28)
+-	var image=TextureRect.new(); image.texture=load("res://assets/evidence/foundry_%s.png"%entry.optical)
++	var image=TextureRect.new(); image.texture=preload("res://src/presentation/evidence_catalog.gd").IMAGES[entry.optical]
+ 	image.expand_mode=TextureRect.EXPAND_IGNORE_SIZE; image.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED; image.custom_minimum_size=Vector2(0,minf(320,size.y*0.4)); panel_box.add_child(image)
+ 	_menu_text(entry.caption,19)
+ 	if keys.size()>1: _button(panel_box,"NEXT RECORD",func(): _evidence_gallery((index+1)%keys.size()))
+diff --git a/game/src/persistence/save_store.gd b/game/src/persistence/save_store.gd
+index 8e92e70..0626d50 100644
+--- a/game/src/persistence/save_store.gd
++++ b/game/src/persistence/save_store.gd
+@@ -11,7 +11,7 @@ func valid(data: Dictionary) -> bool:
+ 		if not data.evidence is Dictionary: return false
+ 		for key in data.evidence:
+ 			var entry=data.evidence[key]
+-			if key not in ["furnace","cradle"] or not entry is Dictionary or not entry.has_all(["name","caption","optical"]) or entry.optical!=key or not entry.name is String or not entry.caption is String: return false
++			if key not in ["furnace","cradle","transmitter","departure","warning"] or not entry is Dictionary or not entry.has_all(["name","caption","optical"]) or entry.optical!=key or not entry.name is String or not entry.caption is String: return false
+ 	if data.has("active") and data.active!=null:
+ 		if not data.active is Dictionary or not Simulation.valid_snapshot(data.active): return false
+ 	return true
+diff --git a/game/src/presentation/camera_feed.gd b/game/src/presentation/camera_feed.gd
+index 9df5999..338ad94 100644
+--- a/game/src/presentation/camera_feed.gd
++++ b/game/src/presentation/camera_feed.gd
+@@ -1,6 +1,6 @@
+ extends Control
+ var sim
+-var optics={"furnace":preload("res://assets/evidence/foundry_furnace.png"),"cradle":preload("res://assets/evidence/foundry_cradle.png")}
++var optics=preload("res://src/presentation/evidence_catalog.gd").IMAGES
+ var foundry=preload("res://assets/structures/foundry.png")
+ const PHOSPHOR=Color("8cdcd3")
+ func _ready() -> void:
+@@ -39,7 +39,7 @@ func _draw() -> void:
+ 			draw_circle(p,0.7,Color("6b888c"))
+ 	for y in range(36,int(size.y-40),4): draw_line(Vector2(8,y),Vector2(size.x-8,y),Color(0,0.02,0.04,0.11),1)
+ 	var font=ThemeDB.fallback_font
+-	draw_string(font,Vector2(14,24),"%s / %s"%["ARCHIVE LINK" if objective.get("kind","")=="uplink" else "OPTICAL",sim.units[sim.capture_unit].name],HORIZONTAL_ALIGNMENT_LEFT,-1,14,PHOSPHOR)
++	draw_string(font,Vector2(14,24),"%s / %s"%["HYDROPHONES" if objective.get("kind","")=="receiver" else ("ARCHIVE LINK" if objective.get("kind","")=="uplink" else "OPTICAL"),sim.units[sim.capture_unit].name],HORIZONTAL_ALIGNMENT_LEFT,-1,14,PHOSPHOR)
+ 	draw_string(font,Vector2(14,size.y-24),objective.name,HORIZONTAL_ALIGNMENT_LEFT,-1,14,Color("e0bf83"))
+ 	draw_string(font,Vector2(size.x-68,size.y-24),"%02d%%"%int(progress*100),HORIZONTAL_ALIGNMENT_LEFT,-1,14,PHOSPHOR)
+ 	draw_rect(Rect2(12,size.y-12,size.x-24,3),Color("25464b")); draw_rect(Rect2(12,size.y-12,(size.x-24)*progress,3),PHOSPHOR)
+diff --git a/game/src/presentation/chart_camera.gd.uid b/game/src/presentation/chart_camera.gd.uid
+new file mode 100644
+index 0000000..da96837
+--- /dev/null
++++ b/game/src/presentation/chart_camera.gd.uid
+@@ -0,0 +1 @@
++uid://chrjr8srqvy2r
+diff --git a/game/src/presentation/evidence_catalog.gd b/game/src/presentation/evidence_catalog.gd
+new file mode 100644
+index 0000000..d3dfdc9
+--- /dev/null
++++ b/game/src/presentation/evidence_catalog.gd
+@@ -0,0 +1,8 @@
++extends RefCounted
++const IMAGES={
++ "furnace":preload("res://assets/evidence/foundry_furnace.png"),
++ "cradle":preload("res://assets/evidence/foundry_cradle.png"),
++ "transmitter":preload("res://assets/evidence/finale_transmitter.png"),
++ "departure":preload("res://assets/evidence/finale_departure.png"),
++ "warning":preload("res://assets/evidence/finale_warning.png")
++}
+diff --git a/game/src/presentation/evidence_catalog.gd.uid b/game/src/presentation/evidence_catalog.gd.uid
+new file mode 100644
+index 0000000..b5166ea
+--- /dev/null
++++ b/game/src/presentation/evidence_catalog.gd.uid
+@@ -0,0 +1 @@
++uid://dcro63j8q0etq
+diff --git a/game/src/presentation/ocean_view.gd b/game/src/presentation/ocean_view.gd
+index 2b44347..5379434 100644
+--- a/game/src/presentation/ocean_view.gd
++++ b/game/src/presentation/ocean_view.gd
+@@ -65,14 +65,21 @@ func _draw() -> void:
+ 		draw_polyline(points,Color(0.12,0.3,0.33,0.11),1.2)
+ 	# Bedrock and columnar basalt are original deterministic constructions.
+ 	for r in sim.mission.rocks: _rock(r)
+-	for o in sim.mission.objectives: _installation(o.pos,o.captured)
++	for o in sim.mission.objectives:
++		if o.get("kind","")=="receiver":
++			draw_arc(o.pos,26,0,TAU,40,Color("80bdb6"),2)
++			draw_line(o.pos-Vector2(17,0),o.pos+Vector2(17,0),Color("80bdb6"),2)
++			draw_line(o.pos-Vector2(0,17),o.pos+Vector2(0,17),Color("80bdb6"),2)
++		else: _installation(o.pos,o.captured)
+ 	if sim.mission.has("factory_rect"):
+ 		var mass:Rect2=sim.mission.factory_rect
+ 		draw_rect(mass,Color("102630")); draw_rect(mass,Color("486268"),false,3)
+ 		draw_set_transform(world_offset+mass.get_center()*world_scale,PI/2,Vector2.ONE*world_scale)
+ 		draw_texture_rect(foundry,Rect2(-mass.size.y/2,-mass.size.x/2,mass.size.y,mass.size.x),false,Color(0.8,0.95,1))
+ 		draw_set_transform(world_offset,0,Vector2.ONE*world_scale)
+-	elif sim.mission.id>=3:
++	elif sim.mission.has("array_rect"):
++		_finale_array(sim.mission.array_rect)
++	elif sim.mission.id>=3 and sim.mission.id!=5:
+ 		draw_texture_rect(foundry,Rect2(1080,-100,540,360),false,Color(0.65,0.8,0.82,0.8))
+ 	# Intelligence marks are briefed coordinates, not live contact observations.
+ 	for o in sim.mission.objectives:
+@@ -150,6 +157,23 @@ func _draw() -> void:
+ 		draw_rect(Rect2(12,y-19,minf(330,size.x-30),28),Color(0.04,0.07,0.09,0.94))
+ 		draw_string(ThemeDB.fallback_font,Vector2(20,y),threat_rows[row],HORIZONTAL_ALIGNMENT_LEFT,-1,15,Color("ffac8c"))
+ 
++func _finale_array(mass: Rect2) -> void:
++	draw_rect(mass,Color("142930")); draw_texture_rect(basalt,mass,false,Color(0.45,0.58,0.6))
++	draw_rect(mass,Color("627a7d"),false,3)
++	for n in 8:
++		var x=mass.position.x+22+n*35
++		draw_rect(Rect2(x,mass.position.y+8,16,mass.size.y-16),Color("203c43"))
++		draw_line(Vector2(x,mass.position.y+8),Vector2(x,mass.end.y-8),Color("6a8082"),2)
++	var mouth=mass.position+Vector2(mass.size.x*0.5,mass.size.y-18)
++	for n in 5:
++		draw_arc(mouth,35+n*24,PI,TAU,40,Color("72a3a4") if n%2==0 else Color("31474e"),7)
++	for n in 7:
++		var a=PI+float(n)/6*PI
++		draw_line(mouth+Vector2.from_angle(a)*35,mouth+Vector2.from_angle(a)*132,Color("b39363"),3)
++	if sim.mission.objectives[1].captured:
++		_dash(Vector2(1410,720),Vector2(1250,880),Color("80bdb6"),3)
++		draw_line(Vector2(1250,880),Vector2(1256,850),Color("80bdb6"),3)
++		draw_line(Vector2(1250,880),Vector2(1280,873),Color("80bdb6"),3)
+ func _rock(r: Rect2) -> void:
+ 	var poly=sim.rock_polygon(r)
+ 	var lower=PackedVector2Array(); var uv=PackedVector2Array()
+diff --git a/game/src/simulation/simulation.gd b/game/src/simulation/simulation.gd
+index 48940b8..674f833 100644
+--- a/game/src/simulation/simulation.gd
++++ b/game/src/simulation/simulation.gd
+@@ -77,6 +77,7 @@ func line_clear(a: Vector2,b: Vector2) -> bool:
+ func path(a: Vector2, b: Vector2) -> Array:
+ 	var result: Array=[]
+ 	if blocked(b,24): return result
++	if blocked(a,24): return _near_wall_recovery(a,b)
+ 	if segment_safe(a,b,24): return [{"pos":b,"stop":true}]
+ 	var first=nearest_navigation_cell(a)
+ 	var last=nearest_navigation_cell(b)
+@@ -94,6 +95,26 @@ func path(a: Vector2, b: Vector2) -> Array:
+ 		result.append({"pos":raw[furthest],"stop":furthest==raw.size()-1})
+ 		origin=raw[furthest]; at=furthest+1
+ 	return result
++func _near_wall_recovery(origin: Vector2,destination: Vector2) -> Array:
++	# Inertia can leave a legal 12m hull inside the 24m routing comfort margin.
++	# Escape locally with increasing clearance; retain normal margins after entry.
++	if blocked(origin,12): return []
++	var candidates: Array=[]
++	for radius in [40.0,80.0]:
++		for n in 16:
++			var entry=origin+Vector2.from_angle(n*TAU/16)*radius
++			if blocked(entry,24): continue
++			var count=int(ceil(radius/5.0)); var safe=true
++			for step in range(1,count+1):
++				var fraction=float(step)/count
++				if blocked(origin.lerp(entry,fraction),lerpf(12,24,fraction)): safe=false; break
++			if safe: candidates.append({"pos":entry,"cost":radius+entry.distance_to(destination)})
++	candidates.sort_custom(func(a,b): return a.cost<b.cost)
++	for candidate in candidates:
++		var onward=path(candidate.pos,destination)
++		if not onward.is_empty():
++			var route: Array=[{"pos":candidate.pos,"stop":true}]; route.append_array(onward); return route
++	return []
+ func command(order: String,args: Dictionary={}) -> bool:
+ 	if not outcome.is_empty(): return false
+ 	var u=units[selected]
+@@ -140,19 +161,37 @@ func command(order: String,args: Dictionary={}) -> bool:
+ 			if tools.decoy<=0: return false
+ 			tools.decoy-=1; _noise(args.get("point",u.pos+Vector2(160,0)),1100,"DECOY",15.0); message="Decoy transmitting · 15 seconds"; events.append({"type":"decoy","pos":u.pos})
+ 		"camera":
+-			if capture_unit>=0: message="One pilot · exposure in progress. Allow it to finish or replace that unit’s route."; return false
+-			var best := -1
+-			for i in mission.objectives.size():
+-				var o=mission.objectives[i]
+-				if not o.captured and u.pos.distance_to(o.pos)<240 and line_clear(u.pos,o.pos): best=i; break
+-			if best<0: message="Camera needs a clear view within 240m of an uncaptured marker."; return false
+-			var target=mission.objectives[best]
+-			if target.get("required_unit",selected)!=selected: message="Quietus must operate the archive uplink. Bring the submarine to this anchor."; return false
+-			for prerequisite in target.get("requires",[]):
+-				if not mission.objectives[prerequisite].captured: message=target.get("requirement","Uplink needs both relay records. Photograph WEST and EAST first."); return false
+-			capture_unit=selected; capture_target=best; capture_time=0.0; u.hold="HOLD"; message="Archive uplink · hold 6 seconds" if target.get("kind","")=="uplink" else "Camera exposure · hold 4 seconds"; _noise(u.pos,520,"CAMERA"); events.append({"type":"camera","pos":u.pos})
++			var context=camera_context()
++			if not context.ready: message=context.text; return false
++			var target=mission.objectives[context.target]
++			capture_unit=selected; capture_target=context.target; capture_time=0.0; u.hold="HOLD"
++			message="%s · hold %.0f seconds"%["Passive hydrophone decode" if target.get("kind","")=="receiver" else ("Archive uplink" if target.get("kind","")=="uplink" else "Camera exposure"),target.get("duration",4.0)]
++			if target.get("kind","")!="receiver": _noise(u.pos,520,"CAMERA")
++			events.append({"type":"camera","pos":u.pos})
+ 		_: return false
+ 	return true
++func camera_context() -> Dictionary:
++	if capture_unit>=0:
++		var active=mission.objectives[capture_target]
++		return {"target":capture_target,"ready":false,"text":"%s · %s %.1f / %.0fs"%[units[capture_unit].name,active.name,capture_time,active.get("duration",4.0)]}
++	var unit=units[selected]; var best=-1; var nearest=-1; var distance=INF
++	for id in mission.objectives.size():
++		var objective=mission.objectives[id]
++		if objective.captured: continue
++		var d:float=unit.pos.distance_to(objective.pos)
++		if d<distance: nearest=id; distance=d
++		if best<0 and d<240 and line_clear(unit.pos,objective.pos): best=id
++	if nearest<0: return {"target":-1,"ready":false,"text":"Archive aboard · return Quietus to extraction."}
++	if best<0:
++		var target=mission.objectives[nearest]
++		return {"target":nearest,"ready":false,"text":"%s · %dm away / 240m range%s"%[target.name,roundi(distance)," · view blocked by cover" if not line_clear(unit.pos,target.pos) else ""]}
++	var target=mission.objectives[best]
++	if target.get("required_unit",selected)!=selected:
++		return {"target":best,"ready":false,"text":target.get("unit_requirement","Quietus must operate the archive uplink. Bring the submarine to this anchor.")}
++	for prerequisite in target.get("requires",[]):
++		if not mission.objectives[prerequisite].captured:
++			return {"target":best,"ready":false,"text":target.get("requirement","Uplink needs both relay records. Photograph WEST and EAST first.")}
++	return {"target":best,"ready":true,"text":"READY · %s · %s %.0fs"%[target.name,"passive listen" if target.get("kind","")=="receiver" else "exposure",target.get("duration",4.0)]}
+ func _noise(p: Vector2,radius: float,label: String,duration: float=2.0) -> void:
+ 	noises.append({"pos":p,"radius":radius,"time":duration,"label":label})
+ func advance(dt: float) -> void:
+@@ -217,6 +256,7 @@ func _move(u: Dictionary,dt: float,speed: float,holding: bool) -> void:
+ 			var target_angle=delta.angle()
+ 			var turn=absf(angle_difference(u.angle,target_angle))
+ 			if turn>0.3: target_speed=minf(target_speed,28.0+35.0*maxf(0,cos(turn)))
++			if turn>0.15 and blocked(u.pos,24): target_speed=0.0 # Thruster-turn away before a near-wall restart.
+ 			if u.route.size()>1:
+ 				var next_direction:Vector2=u.route[1].pos-u.route[0].pos
+ 				var corner=absf(delta.angle_to(next_direction))
+@@ -278,11 +318,44 @@ func _threats(dt: float) -> void:
+ 			s.target=-1; s.lock=maxf(0,s.lock-dt*3); s.suspicion=maxf(0,s.suspicion-dt*0.015)
+ 			if s.pos.distance_to(s.goal)<35:
+ 				s.mode="SEARCH" if s.suspicion>0.1 else "PATROL"
+-				s.goal=s.home+Vector2(sin(elapsed/19.0+s.patrol)*190,70+cos(elapsed/27.0)*65)
++				s.route=_patrol_route(s); s.path_time=2.0
+ 			s.path_time-=dt
+ 			if s.path_time<=0:
+-				s.route=path(s.pos,s.goal); s.path_time=2.0
++				s.route=path(s.pos,s.goal)
++				if s.route.is_empty() and s.pos.distance_to(s.goal)>=35:
++					# Preserve investigation intent at a reachable edge of a heard point.
++					if s.mode=="INVESTIGATE": s.route=_search_approach(s)
++					if s.route.is_empty():
++						s.mode="SEARCH" if s.suspicion>0.1 else "PATROL"; s.route=_patrol_route(s)
++				s.path_time=2.0
+ 		_move(s,dt,48.0 if s.suspicion>0.1 else 25.0,false)
++func _patrol_route(s: Dictionary) -> Array:
++	var points: Array=s.get("patrol_points",[])
++	for _attempt in points.size():
++		var index=int(s.get("patrol_index",0))%points.size()
++		s["patrol_index"]=(index+1)%points.size()
++		var point:Vector2=points[index]
++		if s.pos.distance_to(point)<35: continue
++		var route=path(s.pos,point)
++		if not route.is_empty(): s.goal=point; return route
++	# Legacy archives have no authored points. Validate alternatives instead of
++	# retrying a blocked procedural destination forever. Also recover malformed routes.
++	var angle=elapsed/19.0+float(s.patrol)
++	for ring in [190.0,120.0]:
++		for n in 16:
++			var point:Vector2=(s.home if ring==190.0 else s.pos)+Vector2.from_angle(angle+n*TAU/16)*ring
++			if s.pos.distance_to(point)<75: continue
++			var route=path(s.pos,point)
++			if not route.is_empty(): s.goal=point; return route
++	return []
++func _search_approach(s: Dictionary) -> Array:
++	var heard:Vector2=s.goal
++	for radius in [40.0,80.0,120.0,160.0]:
++		for n in 16:
++			var point=heard+Vector2.from_angle(n*TAU/16)*radius
++			var route=path(s.pos,point)
++			if not route.is_empty(): s.goal=point; return route
++	return []
+ func all_records() -> bool:
+ 	for o in mission.objectives:
+ 		if not o.captured: return false
+@@ -318,6 +391,10 @@ static func valid_snapshot(data: Dictionary) -> bool:
+ 			if not w is Dictionary or not w.has_all(["pos","stop"]) or not w.pos is Vector2: return false
+ 	for e in data.sirens:
+ 		if not e is Dictionary or not e.has_all(["pos","home","goal","vel","route","angle","mode","suspicion","stun","lock","target","patrol","path_time"]): return false
++		if e.has("patrol_points"):
++			if not e.patrol_points is Array or not e.get("patrol_index",0) is int or e.get("patrol_index",0)<0: return false
++			for point in e.patrol_points:
++				if not point is Vector2: return false
+ 	return true
+ 
+ static func rock_polygon(r: Rect2) -> PackedVector2Array:
+@@ -341,6 +418,8 @@ func has_live_contact() -> bool:
+ func _record_secured(record: Dictionary) -> void:
+ 	events.append({"type":"record","pos":record.pos})
+ 	message="Record secured. Return Quietus to extraction." if all_records() else "Record secured. Continue the survey."
++	if mission.id==5 and record.get("kind","")=="receiver":
++		mission["phase"]="warning"; message="Warning decoded: deep fracture; outbound hulls are leaving. Bring Quietus and this packet home."
+ 	if mission.id==3:
+ 		message="Furnace record secured. Review recovered evidence in Operations."
+ 		if all_records() and mission.get("phase","")!="response":
