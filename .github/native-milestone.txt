@@ -1,6 +1,6 @@
-2026-10-19 tactical core milestone
-Reviewed source: 00a61a870cc33fd91c16a7d068dde40e2b31bf1b
-Game source: 0d1b390857afe5cd674e5248f8ac8eb4716b36b7
-Batch: Quietus waypoint propulsion and all-craft route editor; geometry-based acoustic arrivals and speed footprint; physical noisy steering impact-snare torpedoes.
-Native risks: combined touch layout/input, lifecycle/save, corrected directional gallery scrolling, restored canonical debug signing certificate32bcb2287acd01c1f58c26997c7639f3072c74c6b03ab2a24656dc7cd1c7dc3c.
-One intentional production build; preserve accepted APK/evidence fallbacks. No artifact-retrieval rerun.
+2026-10-19 integrated controls and Foundry thermal milestone
+Reviewed source: 762a8aa
+Batch: stable contact-specific torpedo aiming; navigable paused route preview; optional Foundry thermal staging; terminal simulation stop; native planner touch probe and corrected secondary-action checklist.
+Validation: full local gate9659665 passed; terminal73/core298 and relocated-fixture30/9 checks subsequently passed. CI runs the complete final gate.
+Canonical debug certificate: 32bcb2287acd01c1f58c26997c7639f3072c74c6b03ab2a24656dc7cd1c7dc3c
+One intentional production build; preserve inspected APK fallbacks. No retrieval-only rerun.
