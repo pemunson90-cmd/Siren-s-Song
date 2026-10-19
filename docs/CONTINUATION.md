@@ -1,29 +1,32 @@
-# Siren’s Song · continuation
+# Continuation
+Playable base: `56ef1f07dbdce72dd22aa32296a72cc6a8e36146` on gauntlet/production.
 
-Root alone integrates/pushes production from /workspace/Siren-s-Song-integration. Code baseline2cf77dec9b00dedbf6f27d5a82c5a4bb2ba1110b, gamea85bb1b30274b66d5471d6ced080daa19220bfc8, runtime90b23d7c1ec86ca948a21bc1f0cc476824663b2c. Root composition branchgauntlet/integration/connected-campaign uses /workspace/Siren-s-Song-divergence-integration. Protected main6d27f72 is prior expedition baseline/PR5, not current drive/equipment. Preserve originalv7, all branches/experiments, genuine earned profiles, fallback APKs and canonical Git debug signer.
+## Current contract
+The final user card governs: archive/claude-audit-2026-10-19, docs/audit/.
+The checkpoint and F1–F7 response are published there. Active work is recoverable on feature branches.
+Observed-task automation, TASK/NONE and new chapter IDs are shelved; retain their branches.
+The user ends the Gauntlet and playtests afterward. Continue throughout available execution.
 
-## Current gain and next development
+## Execute next: Pass 1 — Stakes
+Tune oxygen and drone endurance to actual operation length and craft roles.
+Restore evidence-floored local Hunt pressure with readable, knowledge-fair escalation.
+Give moving craft consequential acoustic exposure and patrollers actual last-known-area sweeps.
+Evaluate the sluice, sampler and transmission origins under that pressure.
+Aim for meaningful ending resource spreads and several viable strategies; measure actual play.
 
-User-requested independent then different adversarial program audit is complete (archive715043c); living connected horizon/status is WORKBENCH.md, inherited in full at every existing boundary refresh. No third program audit. Current playable route0..5tutorial→6→7/8→9/10→Confluence11→concealed12 or overt13. These recovered outcomes are operational milestones, not accepted finished endings or a content ceiling.
+## Player evaluation
+Fresh critics play full operations through injected touch on cover and inner views.
+Use cautious, aggressive, drone-heavy and Quietus-only strategies without builder notes or winning routes.
+Record actual routes, elapsed time, losses, confusion and unused choices.
+Compare anonymously against real reference footage, one interaction dimension at a time.
 
-First substantive recovered equipment loop: ordinary Main8 recovery grants unique optional drone sampler; quit/reload→real fit callback→10 remote8s noisy fieldwork while Quietus handles other arm→ordinary recovery/debrief/reload preserves tutorial and committed history. Declared model pair fitted54.97s versus bare86.93s, both hull100; fitted lost unattendedA/spent3EMP, bare kept both/spent1. Do not turn that later no-recall loss into mandatory hardware cost. Ordinary Main7 also earns actual reference/correlator and reaches9 recovery; raw-number comparison was convenience, new timed-measurement UI remains qualified. Actual whole-journey button callbacks are not injected touch; separate cover/inner fitting/arrival input proof exists.
+## Following passes
+Pass 2: build one large polygon operation with mixed Sirens, earned terrain, environment and a resolution scene.
+Pass 3: unify planner/play charts, useful framing, concise teaching, route map and replayable branches.
+Retain the fair simulation, physical torpedo, save recovery and established architecture.
 
-Reviewed connected operations2cf77de now expose11→12/13: immutable prior thread determines Confluence approach; physical recovered exit selects the next job. Concealed12 offers a quiet detour or optional audible4s sluice actuation, physically opening one exact passage and rebuilding collision/navigation/acoustics. Overt13 permits actual Quietus-origin transmission: settled6s preparation, then2000m/8s acoustic emission; a reply requires actual delivery and local reception. Own send and received uncertain measurements never prove identity, safe passage or an exact source position. Last completed own origin survives later aborted attempts.
-
-Immediately continue explicit observed-task planning, not another audit or operation replay:
-- earned_campaign_play owns narrow shared execution, NEW observed_task_plan.gd/optional route metadata on a separate branch from2cf77de plus componentc6ef773. Worktree /workspace/Siren-s-Song-next-capability. One canonical capture channel; no new timer, defense automation or hidden targets. Explicit observed receiver STOP→actual fieldwork→planned withdrawal must preserve guards, manual overrides and old optional-absent saves.
-- planner_space owns the matching existing planner contextual TASK/NONE UI on a separate branch from2cf77de (or latest production descendant), /workspace/Siren-s-Song-berth-instruments. Show actual4s quiet Quietus/8s audible fitted drone costs. No shared Sim/Main/save edits. Record exact new branch names at their freeze; preserved gauntlet/feature/resolution-instruments remains2b559c9.
-- navigation_departure_experience is sole integration reviewer; operations2cf approved. Next review is separate task-execution scope, focused on canonical capture/guards/cancel/save and actual planner input. No repeat whole journeys or first-loop suites.
-- expanded_regions released shared operation scope frozen18776ff; campaign_experience_review released authored567bd4e/world876b5de. Concrete regression fixes only; preserve canonicalc7f3bfa, isolated genuine Main proof5033c95 and first campaignc625391.
-
-Bounded task prototype matches competent manual play exactly54.97s/full hull/both drones alive/3EMP. It proves expressible commands, not faster/safer play or shipped automation. Integrate actual execution and controls next. Following opportunities remain earned terrain/physical world depth, broader fleet growth, branch consequences, substantial narrative and meaningful endings, environmental physics and audiovisual identity. No count of new chapters ends development.
-
-## Evidence and limits
-
-Operations packets external connected-campaign/{resolution-main,resolution-threads,resolution-world,resolution-feedback,resolution-instruments,resolution-integration-review}. Root verified genuine Main15 artifacts, feedback3 source hashes and final UI47 bindings; personally viewed all8 final cover/inner images. Final bindingf6339f57126bf293db23d95bc6b9473150ebf0782ba94eacfc028e83aacd5664 identifies six final-cf1 and two final-2b STATUS views; root-folder PNGs are retained failed prototypes. Sole review targeted26 emission/14 campaign-access/32 actual controls pass; prior19 hooks/11 mid-save fidelity retained. Genuine independent earned-profile Main11→12/13 recoveries and mid-save restoration pass. This is not a fresh fullsuite/native run, balanced-choice proof or human acceptance. East13 outperformed west in the declared controller.
-
-External connected-campaign/equipment/verification.json SHA02f7112920cda9de20652195a60aff7f54241bb7b0c5367d8a5172d25b2a4cfc binds41artifacts; earned-loop/verification.json SHA3fa6dbb91841fc6c516a7ba127b9f8cbebb7726fbe424fdf74928d9b4cefa36b binds31source/23evidence files; root verified all. Same sole review retains actual legacy6/7 load and60tick fidelity. Preserve original negative paths and finite resources/losses.
-
-Broader687 Godot script ACTUAL EXIT1 at mock fixture locked-object free despite6assertions/0; preceding core309/runtime179/density769/registered suites pass. Tests-only fixture fix then a5 changed contracts+exactremaining23suites clean; no repeat passed prelude. Actual Main9/10 dispatch92f is targeted successor. Final capture-feedback7d77/view733 correct effective8s progress and absent-instrument presentation, with narrow focused checks; no repeated broad gate. Retry audio c85 adds8 focused checks with a retained nonfatal ObjectDB fixture cleanup warning. Logs/source qualifications stay external, not a claim of whole-current-campaign/novice/headphone/physicalFold7/performance acceptance. Latest native39297579454/e091 remains retained; build only explicit request/concrete native risk, no automatic milestone APK.
-
-Task completion is not program termination. Run boundary complete/dispatch/review/merge, fetch/read changed FULL governing files, semantically reconcile user/spec/bible/visuals/live ownership and actual evidence, and immediately execute next meaningful improvement. Only explicit user stop or actual enforced execution/resource exhaustion interrupts the Gauntlet; checkpoint exact branches/next command as PAUSED — RESUME REQUIRED on a genuine interruption, never claim operation beyond the session.
+## Integration and continuity
+Use dedicated feature branches and pull requests; require game-smoke CI before merging gameplay.
+One integration reviewer checks source and relevant regressions; batch broader Godot validation meaningfully.
+Refresh current instructions at task boundaries, repair stale handoffs, then execute the next highest-value action.
+On actual platform exhaustion, publish recovery refs and write PAUSED, RESUME REQUIRED with the next command.
