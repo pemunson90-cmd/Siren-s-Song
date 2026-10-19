@@ -1,0 +1,5 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+FAIL: valid launch spends one charge without an instant pin
+FAIL: launch creates an independent physical projectile
+KNOCKDOWN CHECKS 4 FAILURES 2

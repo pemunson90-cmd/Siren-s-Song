@@ -1,0 +1,27 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:364)
+OpenGL API 4.5 (Core Profile) Mesa 25.0.7-2+deb13u1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 19.1.7, 256 bits)
+
+SS_ROLE mission=4 index=1 type=hunter mode=RETURN pos=803.277588,749.014648 home=800.000000,600.000000 target=-1 lock=0.000000 time=0.400000
+SS_CAMERA_READY unit=0 objective=2
+SS_ORDER knock accepted=false selected=0 queued=false
+SS_ORDER select accepted=true selected=1 queued=false
+SS_ORDER select accepted=true selected=0 queued=false
+SS_CAMERA_READY unit=0 objective=2
+SS_ORDER knock accepted=true selected=0 queued=false
+SS_ROLE mission=4 index=1 type=hunter mode=RETURN pos=803.277588,749.014648 home=800.000000,600.000000 target=-1 lock=0.000000 time=0.400000
+SS_CAMERA_READY unit=0 objective=2
+SS_ORDER knock accepted=false selected=0 queued=false
+SS_ORDER select accepted=true selected=1 queued=false
+SS_ORDER select accepted=true selected=0 queued=false
+SS_CAMERA_READY unit=0 objective=2
+SS_ORDER knock accepted=true selected=0 queued=false
+SS_ROLE mission=4 index=1 type=hunter mode=RETURN pos=803.277588,749.014648 home=800.000000,600.000000 target=-1 lock=0.000000 time=0.400000
+SS_CAMERA_READY unit=0 objective=2
+SS_ORDER knock accepted=false selected=0 queued=false
+SS_ORDER select accepted=true selected=1 queued=false
+SS_ORDER select accepted=true selected=0 queued=false
+SS_CAMERA_READY unit=0 objective=2
+SS_ORDER knock accepted=true selected=0 queued=false
+KNOCKDOWN UI CHECKS 30 FAILURES 0

@@ -4,6 +4,11 @@ const RouteProgram=preload("res://src/simulation/route_program.gd")
 const Missions = preload("res://src/campaign/missions.gd")
 const STEP := 1.0/60.0
 const TILE := 40.0
+const KNOCK_RANGE := 150.0
+const KNOCK_TIME := 8.0
+const TORPEDO_SPEED := 180.0
+const TORPEDO_TURN := 3.0
+const TORPEDO_LIFE := 3.0
 const BOUNDS := Vector2(1600,960)
 var mission: Dictionary
 var units: Array = []
@@ -12,6 +17,7 @@ var known: Dictionary = {}
 var contacts: Dictionary = {}
 var events: Array = []
 var noises: Array = []
+var projectiles: Array=[]
 var elapsed := 0.0
 var oxygen := 100.0
 var hull := 100.0
@@ -21,7 +27,7 @@ var queue_mode := false
 var pass_through := true
 var outcome := ""
 var message := "Chart loaded. Tap water to plot a route; unpause when ready."
-var tools := {"emp":2,"decoy":3,"recon":2}
+var tools := {"emp":2,"decoy":3,"recon":2,"knock":2}
 var ping_time := 0.0
 var ping_origin := Vector2.ZERO
 var recon_time := 0.0
@@ -39,10 +45,10 @@ func start(index: int, upgrade: String = "endurance") -> void:
 	for i in 3:
 		units.append({"pos":Vector2(140,800)+[Vector2.ZERO,Vector2(0,-100),Vector2(140,0)][i],"vel":Vector2.ZERO,"angle":-0.3,"route":[],"alive":true,"hold":"","silent":true,"battery":100.0,"name":["QUIETUS","DRONE A","DRONE B"][i]})
 	sirens = mission.sirens.duplicate(true)
-	known = {}; contacts = {}; events = []; noises = []
+	known = {}; contacts = {}; events = []; noises = []; projectiles=[]
 	elapsed=0.0; oxygen=100.0; hull=100.0; paused=true; selected=0; queue_mode=false; pass_through=true; outcome=""
 	ping_time=0.0; recon_time=0.0; capture_time=0.0; capture_unit=-1; capture_target=-1; accumulator=0.0
-	tools={"emp":2,"decoy":3,"recon":2}
+	tools={"emp":2,"decoy":3,"recon":2,"knock":2}
 	if upgrade=="disruption": tools.emp += 1
 	if upgrade=="survey": tools.recon += 1
 	if upgrade=="endurance": oxygen=120.0
@@ -176,8 +182,18 @@ func command(order: String,args: Dictionary={}) -> bool:
 			if tools.emp<=0: return false
 			tools.emp-=1
 			for s in sirens:
-				if s.pos.distance_to(u.pos)<340: s.stun=12.0; s.lock=0.0; s.target=-1; s.mode="DISRUPTED"
+				if s.pos.distance_to(u.pos)<340: s.stun=12.0; s.lock=0.0; s.target=-1; s.mode="PINNED" if s.get("pin_time",0)>0 else "DISRUPTED"
 			_noise(u.pos,650,"DISRUPTION"); message="Disruption pulse · 12 second recovery window"; events.append({"type":"emp","pos":u.pos})
+		"knock":
+			var id=args.get("target",null)
+			var eligible=knockdown_targets().any(func(c):return c.key==id) if id is int else false
+			if tools.get("knock",0)<=0 or not eligible or id<0 or id>=sirens.size(): message="Knockdown needs a fresh contact within 150m and a clear path."; return false
+			var target=sirens[id]
+			if target.stun>0 or not visible(target.pos) or u.pos.distance_to(target.pos)>KNOCK_RANGE or not line_clear(u.pos,target.pos): message="Knockdown target unavailable · no torpedo spent."; return false
+			tools.knock-=1
+			projectiles.append({"pos":u.pos,"angle":u.angle,"target":id,"aim":target.pos,"life":TORPEDO_LIFE,"noise_clock":0.0})
+			_noise(u.pos,650,"KNOCKDOWN"); events.append({"type":"knock","pos":u.pos})
+			message="Torpedo launched at S%d · pin on impact · emission audible"%(id+1)
 		"decoy":
 			if tools.decoy<=0: return false
 			tools.decoy-=1; _noise(args.get("point",u.pos+Vector2(160,0)),1100,"DECOY",15.0); message="Decoy launched · 15s transmission"; events.append({"type":"decoy","pos":u.pos})
@@ -235,6 +251,18 @@ func _edit_program(order:String,args:Dictionary) -> bool:
 	if order=="route_edit" and args.has("stop"): plan[index].arrival_set=true
 	if not _install_program(u,plan): message="Program rejected · choose safe open water."; return false
 	message="%s · %d programmed destinations"%[u.name,plan.size()]; return true
+# Target guides use cached observed positions only. Final command validation also
+# requires current legitimate visibility and a physical launch path.
+func knockdown_targets() -> Array:
+	var result: Array=[]
+	if selected!=0 or units.is_empty() or not units[0].alive or not outcome.is_empty(): return result
+	for id in contacts:
+		var c=contacts[id]
+		if not id is int or not c is Dictionary or not c.has_all(["time","pos"]): continue
+		if not c.pos is Vector2 or not c.pos.is_finite() or not (c.time is int or c.time is float) or not is_finite(c.time): continue
+		if elapsed-c.time<0 or elapsed-c.time>=0.3 or c.get("mode","") in ["PINNED","DISRUPTED"]: continue
+		if units[0].pos.distance_to(c.pos)<=KNOCK_RANGE and visible(c.pos) and line_clear(units[0].pos,c.pos): result.append({"key":id,"pos":c.pos,"tag":"S%d"%(id+1)})
+	return result
 # Read-only receiver geometry. Relay reply is authored local behavior; no enemy query.
 func blackwater_context(target:int,station:int=-1) -> Dictionary:
 	if station<0:station=selected
@@ -312,7 +340,7 @@ func acoustic_feedback() -> Dictionary:
 			result.motion.append({"name":u.name,"pos":u.pos,"radius":Acoustics.motion_radius(u.vel.length()) if mission.get("acoustic_revision",0)==1 else 430.0,"speed":u.vel.length()})
 	for n in noises:
 		if n.time<=0: continue
-		if n.label in ["DECOY","ACTIVE SONAR","RECON UPLINK","DISRUPTION","CAMERA"]:
+		if n.label in ["DECOY","ACTIVE SONAR","RECON UPLINK","DISRUPTION","CAMERA","KNOCKDOWN","TORPEDO RUN"]:
 			result.pulses.append({"label":n.label,"pos":n.pos,"time":n.time})
 		elif n.label=="FACTORY RESPONSE" and visible(n.pos):
 			result.responses.append({"label":n.label,"pos":n.pos,"time":n.time})
@@ -340,6 +368,7 @@ func _tick(dt: float) -> void:
 		if i>0:
 			u.battery=maxf(0,u.battery-dt/14.0)
 			if u.battery<=0: u.alive=false; events.append({"type":"loss","pos":u.pos}); message=("%s battery exhausted · Quietus can SAMPLE either relay." if mission.get("blackwater_revision",0)==1 else "%s battery exhausted. Quietus camera remains available.")%u.name
+	_advance_projectiles(dt)
 	_threats(dt)
 	sensor_clock-=dt
 	if sensor_clock<=0:
@@ -415,7 +444,9 @@ func _observe() -> void:
 			var p=Vector2(x*40+20,y*40+20)
 			if visible(p): known[Vector2i(x,y)]=true
 	for i in sirens.size():
-		if visible(sirens[i].pos): contacts[i]={"pos":sirens[i].pos,"time":elapsed,"mode":sirens[i].mode,"lock":sirens[i].lock,"angle":sirens[i].angle,"target":sirens[i].target,"type":sirens[i].get("type","patroller")}
+		if visible(sirens[i].pos):
+			contacts[i]={"pos":sirens[i].pos,"time":elapsed,"mode":sirens[i].mode,"lock":sirens[i].lock,"angle":sirens[i].angle,"target":sirens[i].target,"type":sirens[i].get("type","patroller")}
+			if sirens[i].get("pin_time",0)>0: contacts[i]["pin_time"]=sirens[i].pin_time
 	var expired: Array=[]
 	for i in contacts:
 		if elapsed-contacts[i].time>20: expired.append(i)
@@ -430,10 +461,42 @@ func visible(p: Vector2) -> bool:
 		if u.pos.distance_to(p)<radius and line_clear(u.pos,p): return true
 	if ping_time>0 and ping_origin.distance_to(p)<650 and line_clear(ping_origin,p): return true
 	return false
+# Physical steering uses Quietus' own current sensor reach and clear sight only.
+# Once sight breaks, aim stays at the last acquired point; no through-rock tracking.
+func _advance_projectiles(dt: float) -> void:
+	for n in range(projectiles.size()-1,-1,-1):
+		var p=projectiles[n]; p.life-=dt
+		if p.life<=0: projectiles.remove_at(n); message="Torpedo run ended · shot spent"; continue
+		var target=sirens[p.target]; var origin=units[0]
+		var reach=240.0*(0.65 if mission.darkness else 1.0)
+		if origin.alive and origin.pos.distance_to(target.pos)<reach and line_clear(origin.pos,target.pos): p.aim=target.pos
+		p.angle=rotate_toward(p.angle,p.pos.angle_to_point(p.aim),TORPEDO_TURN*dt)
+		var next=p.pos+Vector2.from_angle(p.angle)*TORPEDO_SPEED*dt
+		if not line_clear(p.pos,next) or blocked(next,3):
+			projectiles.remove_at(n); message="Torpedo struck terrain · shot spent"; continue
+		var hit=-1; var nearest=INF
+		for id in sirens.size():
+			var point=Geometry2D.get_closest_point_to_segment(sirens[id].pos,p.pos,next)
+			if point.distance_to(sirens[id].pos)<=18 and point.distance_to(p.pos)<nearest:
+				hit=id; nearest=point.distance_to(p.pos)
+		if hit>=0:
+			var struck=sirens[hit]
+			struck.stun=maxf(struck.stun,KNOCK_TIME); struck["pin_time"]=KNOCK_TIME; struck.mode="PINNED"; struck.vel=Vector2.ZERO; struck.lock=0.0; struck.target=-1
+			struck.suspicion=maxf(struck.suspicion,0.45)
+			projectiles.remove_at(n)
+			if visible(struck.pos):
+				message="S%d snared · 8s descent and recovery"%(hit+1); events.append({"type":"snare","pos":next}); _observe()
+			continue
+		p.pos=next; p.noise_clock=maxf(0,p.noise_clock-dt)
+		if p.noise_clock<=0:
+			_noise(p.pos,430,"TORPEDO RUN",0.25); p.noise_clock=0.2
 func _threats(dt: float) -> void:
 	for s in sirens:
+		if s.get("pin_time",0)>0: s.pin_time=maxf(0,s.pin_time-dt)
 		if s.stun>0:
-			s.stun-=dt; s.lock=0.0; s.target=-1; s.mode="DISRUPTED"; continue
+			s.stun-=dt; s.lock=0.0; s.target=-1
+			s.mode="PINNED" if s.get("pin_time",0)>0 else "DISRUPTED"
+			continue
 		var detected := -1
 		var heard := false
 		s["attention_time"]=maxf(0.0,float(s.get("attention_time",0.0))-dt)
@@ -569,10 +632,12 @@ func all_records() -> bool:
 		if not o.captured: return false
 	return true
 func snapshot() -> Dictionary:
-	return {"mission":mission.duplicate(true),"units":units.duplicate(true),"sirens":sirens.duplicate(true),"known":known.duplicate(true),"contacts":contacts.duplicate(true),"noises":noises.duplicate(true),"elapsed":elapsed,"oxygen":oxygen,"hull":hull,"paused":paused,"selected":selected,"tools":tools.duplicate(),"outcome":outcome,"ping_time":ping_time,"ping_origin":ping_origin,"recon_time":recon_time,"capture_time":capture_time,"capture_unit":capture_unit,"capture_target":capture_target}
+	var data={"mission":mission.duplicate(true),"units":units.duplicate(true),"sirens":sirens.duplicate(true),"known":known.duplicate(true),"contacts":contacts.duplicate(true),"noises":noises.duplicate(true),"elapsed":elapsed,"oxygen":oxygen,"hull":hull,"paused":paused,"selected":selected,"tools":tools.duplicate(),"outcome":outcome,"ping_time":ping_time,"ping_origin":ping_origin,"recon_time":recon_time,"capture_time":capture_time,"capture_unit":capture_unit,"capture_target":capture_target}
+	if not projectiles.is_empty(): data["projectiles"]=projectiles.duplicate(true)
+	return data
 func restore(data: Dictionary) -> bool:
 	if not valid_snapshot(data): return false
-	mission=data.mission.duplicate(true); units=data.units.duplicate(true); sirens=data.sirens.duplicate(true); known=data.known.duplicate(true); contacts=data.get("contacts",{}).duplicate(true); noises=data.get("noises",[]).duplicate(true)
+	mission=data.mission.duplicate(true); units=data.units.duplicate(true); sirens=data.sirens.duplicate(true); known=data.known.duplicate(true); contacts=data.get("contacts",{}).duplicate(true); noises=data.get("noises",[]).duplicate(true); projectiles=data.get("projectiles",[]).duplicate(true)
 	elapsed=float(data.get("elapsed",0)); oxygen=float(data.get("oxygen",100)); hull=float(data.get("hull",100)); selected=clampi(int(data.get("selected",0)),0,2); tools=data.tools.duplicate(); outcome=data.get("outcome",""); paused=true; queue_mode=false
 	ping_time=data.get("ping_time",0.0); ping_origin=data.get("ping_origin",Vector2.ZERO); recon_time=data.get("recon_time",0.0); capture_time=data.get("capture_time",0.0); capture_unit=data.get("capture_unit",-1); capture_target=data.get("capture_target",-1); accumulator=0.0
 	_build_navigation(); message="Mission restored · paused for review"; return true
@@ -617,7 +682,19 @@ static func valid_snapshot(data: Dictionary) -> bool:
 		if not station is int or station< -1 or station>2 or not target is int or target< -1 or target>1:return false
 		if station>=0 and target<0:return false
 		if not (progress is float or progress is int) or not is_finite(float(progress)) or progress<0 or progress>2.01:return false
+	if data.has("projectiles"):
+		if not data.projectiles is Array or data.projectiles.size()>2 or (not data.projectiles.is_empty() and not data.tools.has("knock")): return false
+		for p in data.projectiles:
+			if not p is Dictionary or not p.has_all(["pos","angle","target","aim","life","noise_clock"]): return false
+			if not p.pos is Vector2 or not p.pos.is_finite() or not p.aim is Vector2 or not p.aim.is_finite(): return false
+			if p.pos.x<0 or p.pos.y<0 or p.pos.x>BOUNDS.x or p.pos.y>BOUNDS.y: return false
+			if not p.target is int or p.target<0 or p.target>=data.sirens.size(): return false
+			for key in ["angle","life","noise_clock"]:
+				if not (p[key] is float or p[key] is int) or not is_finite(p[key]): return false
+			if p.life<=0 or p.life>TORPEDO_LIFE or p.noise_clock<0 or p.noise_clock>0.201: return false
 	if data.units.size()!=3 or not data.tools.has_all(["emp","decoy","recon"]): return false
+	if data.tools.has("knock") and (not data.tools.knock is int or data.tools.knock<0 or data.tools.knock>2): return false
+	if data.has("projectiles") and data.projectiles.size()+data.tools.get("knock",0)>2: return false
 	for u in data.units:
 		if not u is Dictionary or not u.has_all(["pos","vel","angle","route","alive","hold","silent","battery","name"]): return false
 		if not u.pos is Vector2 or not u.vel is Vector2 or not u.route is Array: return false
@@ -626,6 +703,9 @@ static func valid_snapshot(data: Dictionary) -> bool:
 		if not RouteProgram.valid_unit(u,u==data.units[0]): return false
 	for e in data.sirens:
 		if not e is Dictionary or not e.has_all(["pos","home","goal","vel","route","angle","mode","suspicion","stun","lock","target","patrol","path_time"]): return false
+		if e.has("pin_time"):
+			if not (e.pin_time is float or e.pin_time is int) or not is_finite(e.pin_time) or e.pin_time<0 or e.pin_time>KNOCK_TIME: return false
+			if e.pin_time>0 and (not (e.stun is float or e.stun is int) or not is_finite(e.stun) or e.stun+0.001<e.pin_time): return false
 		if e.has("type") and e.type not in ["patroller","sentinel","hunter"]: return false
 		if e.has("tether") and (not (e.tether is float or e.tether is int) or e.tether<=0): return false
 		if e.has("attention_time") and (not (e.attention_time is float or e.attention_time is int) or e.attention_time<0): return false

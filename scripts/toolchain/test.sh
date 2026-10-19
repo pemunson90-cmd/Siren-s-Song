@@ -58,3 +58,27 @@ grep -Eq '^WELL SAVE SHAPE CHECKS [1-9][0-9]* FAILURES 0$' "$well_shape_log" || 
     echo 'Missing successful Well save-shape summary' >&2; exit 1;
 }
 "$(dirname -- "$0")/density-checks.sh"
+
+# Integrated tactical milestone guards: require each actual harness summary,
+# since Godot may return zero after a script error.
+while IFS='|' read -r scenario summary; do
+    tactical_log="$ARTIFACT_DIR/$scenario.log"
+    "$(dirname -- "$0")/headless.sh" --script "res://tests/$scenario.gd" 2>&1 | tee "$tactical_log"
+    if grep -nE 'SCRIPT ERROR:|(^|[[:space:]])ERROR:' "$tactical_log"; then
+        echo "Godot reported errors in $scenario" >&2; exit 1
+    fi
+    grep -Eq "^$summary CHECKS [1-9][0-9]* FAILURES 0$" "$tactical_log" || {
+        echo "Missing successful $scenario summary" >&2; exit 1;
+    }
+done <<'TACTICAL_SCENARIOS'
+route_program_tests|ROUTE PROGRAM
+route_program_ui_tests|ROUTE PROGRAM UI
+acoustic_path_tests|ACOUSTIC PATH
+acoustic_hearing_tests|ACOUSTIC HEARING
+acoustic_footprint_tests|ACOUSTIC FOOTPRINT
+acoustic_path_affected_tests|AFFECTED ACOUSTIC
+acoustic_path_ui_tests|ACOUSTIC PATH UI
+knockdown_scenarios|KNOCKDOWN
+knockdown_ui_scenarios|KNOCKDOWN UI
+tactics_composition_tests|TACTICS COMPOSITION
+TACTICAL_SCENARIOS

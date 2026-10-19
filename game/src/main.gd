@@ -42,6 +42,7 @@ var map_gesture=preload("res://src/input/map_gesture.gd").new()
 var zoom_buttons: Array=[]
 var advanced_button: Button
 var advanced_orders:=false
+var knock_armed:=false
 var ui_touch_height:=48.0
 var mission_row_heights:=Vector3.ZERO
 var mission_reflow_pending:=false
@@ -65,7 +66,7 @@ func _ready() -> void:
 	for i in 3:
 		var id=i
 		unit_buttons.append(_button(hud,["QUIETUS","DRONE A","DRONE B"][i],func(): _order("select",{"unit":id})))
-	var orders=[["ping","SONAR"],["camera","CAMERA"],["silent","SILENT"],["queue","+ QUEUE"],["hold","HOLD"],["emp","DISRUPT"],["decoy","DECOY"],["recon","SURVEY"],["contact_hold","IF CONTACT"],["wait_drone","WAIT DRONE"],["waypoint_mode","WAYPOINT: PASS"],["program","PROGRAM"]]
+	var orders=[["ping","SONAR"],["camera","CAMERA"],["silent","SILENT"],["queue","+ QUEUE"],["hold","HOLD"],["emp","DISRUPT"],["decoy","DECOY"],["recon","SURVEY"],["contact_hold","IF CONTACT"],["wait_drone","WAIT DRONE"],["waypoint_mode","WAYPOINT: PASS"],["program","PROGRAM"],["knock","TORPEDO"]]
 	for o in orders:
 		var order=o[0]
 		order_buttons[order]=_button(hud,o[1],func(): _order(order))
@@ -182,7 +183,7 @@ func _layout(cancel_gesture: bool=true) -> void:
 		unit_buttons[i].position=panel.position+Vector2(i*(panel.size.x+gap)/3,mission_row_heights.x+gap)
 		unit_buttons[i].custom_minimum_size=Vector2(0,h); unit_buttons[i].size=Vector2((panel.size.x-2*gap)/3,mission_row_heights.y)
 	var primary=["ping","camera","silent","queue","hold","emp","home","menu"]
-	var secondary=["recon","decoy","contact_hold","wait_drone","waypoint_mode","program","camera","home"]
+	var secondary=["recon","decoy","contact_hold","wait_drone","waypoint_mode","program","knock","home"]
 	var keys=secondary if advanced_orders else primary
 	var start=panel.position+Vector2(0,mission_row_heights.x+mission_row_heights.y+2*gap)
 	for key in order_buttons:
@@ -200,16 +201,25 @@ func _layout(cancel_gesture: bool=true) -> void:
 	if route_editor!=null and route_editor.visible: route_editor.configure(size,h)
 	call_deferred("_report_targets")
 func _start_mission(index: int) -> void:
-	diagnostic_ready=""; diagnostic_records.clear(); diagnostic_roles.clear(); diagnostic_role_route_ready=false; map_gesture.cancel(); ocean.fit_chart(); advanced_orders=false
+	diagnostic_ready=""; diagnostic_records.clear(); diagnostic_roles.clear(); diagnostic_role_route_ready=false; map_gesture.cancel(); ocean.fit_chart(); advanced_orders=false; knock_armed=false; ocean.knock_targeting=false
 	call_deferred("_layout")
 	if route_editor!=null: route_editor.hide()
 	active_started=true; mission_index=index; sim.start(index,upgrade); ocean.sim=sim; screen="mission"; menu.hide(); hud.show(); _refresh()
 func _order(order: String,args: Dictionary={}) -> void:
 	if order=="program":
+		knock_armed=false; ocean.knock_targeting=false
 		map_gesture.cancel(); sim.paused=true; screen="program"; hud.hide(); menu.hide()
 		for button in zoom_buttons: button.hide()
 		route_editor.open(self); _save_archive(); return
+	if order=="knock" and not args.has("target"):
+		map_gesture.cancel()
+		if sim.selected==0 and sim.units[0].alive and sim.tools.get("knock",0)>0 and sim.outcome.is_empty(): knock_armed=not knock_armed
+		else: knock_armed=false; sim.message="Knockdown: Quietus launcher or torpedoes unavailable."
+		_refresh(); return
+	var aiming=knock_armed
+	knock_armed=false; ocean.knock_targeting=false
 	var accepted=sim.command(order,args)
+	if order=="knock" and not accepted: knock_armed=aiming
 	print("SS_ORDER ",order," accepted=",accepted," selected=",sim.selected," queued=",sim.queue_mode)
 	_refresh(); _save_archive()
 	if accepted and order=="camera": call_deferred("_report_targets")
@@ -228,6 +238,8 @@ func _process(dt: float) -> void:
 		if not sim.outcome.is_empty(): _debrief()
 		_refresh()
 func _refresh() -> void:
+	if knock_armed and (screen!="mission" or sim.selected!=0 or not sim.units[0].alive or not sim.outcome.is_empty()): knock_armed=false
+	ocean.knock_targeting=knock_armed
 	title_label.text="SIREN'S SONG    /    %02d  %s"%[mission_index+1,sim.mission.title.to_upper()]
 	status_label.text="DEPTH %dm    O₂ %03d%%    HULL %03d%%    RECORDS %d / %d    %s"%[sim.mission.depth,int(sim.oxygen),int(sim.hull),sim.mission.objectives.filter(func(o): return o.captured).size(),sim.mission.objectives.size(),"TACTICAL PAUSE" if sim.paused else "REAL TIME"]
 	pause_button.text="▶ RESUME" if sim.paused else "Ⅱ PAUSE"
@@ -246,6 +258,8 @@ func _refresh() -> void:
 	order_buttons.queue.text="+ QUEUE ON" if sim.queue_mode else "REPLACE"
 	order_buttons.program.text="PROGRAM\n%d POINTS"%sim.route_goals().size()
 	order_buttons.silent.text="SILENT ✓" if sim.units[sim.selected].silent else "CRUISE"
+	order_buttons.knock.text="CANCEL\nTORPEDO" if knock_armed else "TORPEDO\n%d"%sim.tools.get("knock",0)
+	order_buttons.knock.disabled=not knock_armed and (sim.selected!=0 or not sim.units[0].alive or sim.tools.get("knock",0)<=0)
 	order_buttons.emp.text="DISRUPT\n%d"%sim.tools.emp
 	order_buttons.decoy.text="DECOY\n%d"%sim.tools.decoy
 	order_buttons.recon.text="SURVEY\n%d"%sim.tools.recon
@@ -261,7 +275,9 @@ func _refresh() -> void:
 	var goals=sim.route_goals(); var intent=""
 	if not goals.is_empty(): intent="TO 1: %s / %s · "%["FIXED96" if sim.selected>0 else goals[0].mode.to_upper(),"STOP" if goals[0].stop else "PASS"]
 	detail_label.text="%s · %s · %s%s"%[sim.units[sim.selected].name.to_upper(),mode,intent,sim.camera_context().text]
+	if knock_armed: detail_label.text="TORPEDO · QUIETUS · 150m · noisy flight · impact pins 8s · tap fresh S# · CANCEL"
 func _toggle_advanced() -> void:
+	if advanced_orders: knock_armed=false; ocean.knock_targeting=false
 	advanced_orders=not advanced_orders; _layout(); _refresh()
 
 func _input(event: InputEvent) -> void:
@@ -294,9 +310,19 @@ func _map_event(event: InputEvent,local_event: bool=false) -> bool:
 	if action.has("pan"): ocean.pan_chart(action.pan)
 	if action.get("navigation",false): _view_changed()
 	if action.has("tap") and ocean.get_global_rect().has_point(action.tap):
+		if knock_armed:
+			_target_knockdown(action.tap); return true
 		var world=ocean.map_position(action.tap-ocean.global_position)
 		if Rect2(0,0,1600,960).has_point(world): _order("route",{"point":world})
 	return true
+func _target_knockdown(point: Vector2) -> void:
+	var chosen=-1; var distance=ui_touch_height*0.5
+	for c in sim.knockdown_targets():
+		var d=point.distance_to(ocean.screen_position(c.pos)+ocean.global_position)
+		if d<=distance: distance=d; chosen=c.key
+	if chosen<0:
+		sim.message="No fresh Siren there within 150m · no torpedo spent"; _refresh(); return
+	_order("knock",{"target":chosen})
 func _chart_zoom(factor: float) -> void:
 	map_gesture.cancel(); ocean.zoom_at(factor,ocean.size/2); _view_changed()
 func _view_changed() -> void:
@@ -311,7 +337,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		if event.keycode==KEY_ESCAPE: sim.paused=true; _show_campaign()
 func _clear_menu() -> void:
 	if route_editor!=null: route_editor.hide()
-	map_gesture.cancel()
+	knock_armed=false; ocean.knock_targeting=false; map_gesture.cancel()
 	for button in zoom_buttons: button.hide()
 	for parent in [panel_box,menu_footer]:
 		for c in parent.get_children(): c.queue_free(); parent.remove_child(c)
@@ -343,7 +369,7 @@ func _show_campaign() -> void:
 		var supplies=_loadout_stock(choice)
 		rows.append("%s · %d%% / %d / %d"%[choice.to_upper(),supplies[0],supplies[1],supplies[2]])
 	_menu_text("\n".join(rows),14)
-	_menu_text("ALL: 3 DECOYS · 2 DRONES\nDISRUPT: 12s · SURVEY: 8s, audible",14)
+	_menu_text("ALL: 3 DECOYS · 2 DRONES · 2 TORPEDOES\nDISRUPT: 12s · SURVEY: 8s, audible",14)
 	_button(panel_box,"CYCLE LOADOUT · endurance / disruption / survey",func(): upgrade=["endurance","disruption","survey"][( ["endurance","disruption","survey"].find(upgrade)+1)%3]; _show_campaign(),"loadout")
 	_button(panel_box,"AUDIO / SETTINGS",_settings_menu,"settings")
 	print("SS_SCREEN operations window=",get_window().size," viewport=",get_viewport_rect().size," root=",size," unlocked=",unlocked," active_time=",snappedf(sim.elapsed,0.01))
@@ -357,9 +383,9 @@ func _briefing(index: int) -> void:
 		_menu_text("ORDERS\nPlot routes, select a craft, settle and SAMPLE for two seconds. Quietus receives within156m; drones within214.5m. Cover blocks reception. An audible SONAR may prompt a local relay replay; a decoded packet explains its partner's handshake. Return Quietus after both records.",17)
 	else:
 		_menu_text("ORDERS\nTap water to replace your route. REPLACE toggles explicit queueing. Select Quietus or either drone. Use CAMERA within 240m of a gold record marker. Return Quietus to the extraction ring after all records are secured.",17)
-	_menu_text("SPACE / PAUSE grants unlimited planning time. Silent running is slower and quieter. Disruption interrupts nearby Sirens for 12 seconds. Cover blocks sonar and enemy sight.",17)
+	_menu_text("SPACE / PAUSE grants unlimited planning time. Silent running is slower and quieter. Disruption interrupts nearby Sirens for 12 seconds. Quietus torpedoes travel noisily up to 150m; impact pins one Siren for 8s. Cover blocks sonar, enemy sight and torpedoes.",17)
 	var stock=_loadout_stock(upgrade)
-	_menu_text("NEXT DIVE / RETRY · %s\nO₂ %d%% · DISRUPT %d · SURVEY %d · 3 DECOYS · 2 DRONES"%[upgrade.to_upper(),stock[0],stock[1],stock[2]],17)
+	_menu_text("NEXT DIVE / RETRY · %s\nO₂ %d%% · DISRUPT %d · SURVEY %d · 3 DECOYS · 2 DRONES · 2 TORPEDOES"%[upgrade.to_upper(),stock[0],stock[1],stock[2]],17)
 	_button(menu_footer,"ENTER WATER\nSTART PAUSED",func(): _start_mission(index); _enter_water(),"begin")
 	_button(menu_footer,"BACK TO\nOPERATIONS",_show_campaign,"back")
 	menu_footer.show()
@@ -470,7 +496,7 @@ func _settings_menu() -> void:
 func _notification(what: int) -> void:
 	if what in [NOTIFICATION_APPLICATION_PAUSED,NOTIFICATION_APPLICATION_FOCUS_OUT,NOTIFICATION_WM_WINDOW_FOCUS_OUT]:
 		if sim.mission!=null:
-			map_gesture.cancel()
+			knock_armed=false; ocean.knock_targeting=false; map_gesture.cancel()
 			sim.paused=true; _save_archive()
 			if sound!=null: sound.suspend()
 			print("SS_LIFECYCLE suspended paused=true")

@@ -11,6 +11,7 @@ var foundry=preload("res://assets/structures/foundry.png")
 var quietus=preload("res://assets/craft/quietus.png")
 var basalt=preload("res://assets/materials/basalt.png")
 var camera_flash := 0.0
+var knock_targeting:=false
 var feedback_font_size:=14
 var instrument_top:=64.0
 var chart_camera=preload("res://src/presentation/chart_camera.gd").new()
@@ -139,13 +140,22 @@ func _draw() -> void:
 					draw_arc(dest.pos,10,0,TAU,24,CYAN,2); draw_circle(dest.pos,3,CYAN)
 				last=dest.pos
 		_craft(u,i)
+	# Only own launcher range and legitimately cached targets; beams draw afterward.
+	if knock_targeting and sim.selected==0 and sim.units[0].alive:
+		draw_arc(sim.units[0].pos,sim.KNOCK_RANGE,0,TAU,64,Color(0.7,0.85,0.8,0.5),1.5/world_scale)
+		for c in sim.knockdown_targets():
+			draw_arc(c.pos,maxf(24,feedback_font_size*1.2/world_scale),0,TAU,32,Color("a7c7c3"),1.5/world_scale)
+	for projectile in sim.projectiles:
+		var heading=Vector2.from_angle(projectile.angle)
+		draw_line(projectile.pos-heading*17,projectile.pos+heading*5,Color("a7c7c3"),3/world_scale)
+		draw_circle(projectile.pos+heading*5,2.2/world_scale,Color("ddede2"))
 	var observed=contact_entries()
 	for entry in observed:
 		var c=sim.contacts[entry.key]; var fresh=entry.fresh
 		var aim=float(c.angle)
 		var observed_target=int(c.get("target",-1))
 		if fresh and c.lock>0 and observed_target>=0 and observed_target<sim.units.size(): aim=c.pos.angle_to_point(sim.units[observed_target].pos)
-		_siren(c.pos,aim,fresh,c.get("type","patroller"))
+		_siren(c.pos,aim,fresh,c.get("type","patroller"),maxf(0,float(c.get("pin_time",0))-(sim.elapsed-c.time)) if fresh else 0.0)
 		if fresh and c.lock>0:
 			var target_id=int(c.get("target",-1))
 			if target_id>=0 and target_id<sim.units.size() and sim.units[target_id].alive and sim.line_clear(c.pos,sim.units[target_id].pos):
@@ -180,7 +190,7 @@ func _draw() -> void:
 		draw_rect(Rect2(anchor-Vector2(3,feedback_font_size),Vector2(tag_size.x+6,feedback_font_size+5)),Color(0.025,0.06,0.075,0.94))
 		draw_string(ThemeDB.fallback_font,anchor,entry.tag,HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size,Color("ed8e79") if entry.fresh else Color("b09a94"))
 	draw_rect(Rect2(12,7,minf(430,size.x-194),49),Color(0.025,0.06,0.075,0.94))
-	draw_string(ThemeDB.fallback_font,Vector2(16,26),"TAP ROUTE · DRAG CHART · PINCH ZOOM",HORIZONTAL_ALIGNMENT_LEFT,-1,13,Color("76959c"))
+	draw_string(ThemeDB.fallback_font,Vector2(16,26),("TAP FRESH S# · DRAG CHART · PINCH ZOOM" if knock_targeting else "TAP ROUTE · DRAG CHART · PINCH ZOOM"),HORIZONTAL_ALIGNMENT_LEFT,-1,13,Color("76959c"))
 	draw_string(ThemeDB.fallback_font,Vector2(16,46),"CHART %.1f×"%chart_camera.zoom,HORIZONTAL_ALIGNMENT_LEFT,-1,11,Color("76959c"))
 
 	for n in acoustic.pulses:
@@ -282,14 +292,21 @@ func selected_heading_marker() -> PackedVector2Array:
 	return PackedVector2Array([bow+side,bow+direction*length,bow-side])
 func _hull_style() -> StyleBoxFlat:
 	var style=StyleBoxFlat.new(); style.bg_color=Color("263841"); style.border_color=Color("627780"); style.set_border_width_all(1); style.set_corner_radius_all(7); return style
-func _siren(p: Vector2,angle: float,fresh: bool,role: String="patroller") -> void:
-	draw_set_transform(world_offset+p*world_scale,angle,Vector2.ONE*world_scale)
+func _siren(p: Vector2,angle: float,fresh: bool,role: String="patroller",pin_time: float=0.0) -> void:
+	var depth=1.0
+	if pin_time>0: depth=1.0-0.58*minf(clampf((8.0-pin_time)/0.8,0,1),clampf(pin_time/0.8,0,1))
+	draw_set_transform(world_offset+p*world_scale,angle,Vector2.ONE*world_scale*depth)
 	if fresh:
 		# The same original biological material has distinct station/response profiles.
 		var body=Rect2(-67,-40,134,80)
 		if role=="sentinel": body=Rect2(-58,-53,116,106)
 		elif role=="hunter": body=Rect2(-79,-30,158,60)
-		draw_texture_rect(siren_ray,body,false)
+		draw_texture_rect(siren_ray,body,false,Color(lerpf(0.25,1.0,depth),lerpf(0.44,1.0,depth),lerpf(0.55,1.0,depth),lerpf(0.45,1.0,depth)))
+		if pin_time>0:
+			for x in [-25.0,0.0,25.0]:
+				draw_arc(Vector2(x,0),26,-PI*0.45,PI*0.45,16,Color("85b1b4"),2.0)
+			draw_line(Vector2(-40,19),Vector2(40,-19),Color("85b1b4"),2.0)
+			draw_line(Vector2(0,26),Vector2(0,60),Color(0.2,0.35,0.4,0.5),1.5)
 		if role=="sentinel":
 			for side in [-1,1]:
 				draw_line(Vector2(-18,side*39),Vector2(14,side*48),Color("b6a58b"),2)
