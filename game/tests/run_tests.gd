@@ -1,0 +1,21 @@
+extends SceneTree
+const Simulation = preload("res://src/simulation/simulation.gd")
+var failures := 0
+var checks := 0
+func check(value: bool, message: String) -> void:
+	checks += 1
+	if not value:
+		failures += 1
+		printerr("FAIL: ", message)
+func _initialize() -> void:
+	var s = Simulation.new()
+	s.start(0)
+	var before = s.snapshot()
+	s.advance(10.0)
+	check(before == s.snapshot(), "tactical pause freezes every simulation clock")
+	s.command("route", {"point":Vector2(220,800)})
+	s.paused = false
+	for i in 180: s.advance(1.0/60.0)
+	check(s.units[0].pos.x > 150, "ordinary route commands propel submarine with inertia")
+	print("CHECKS ", checks, " FAILURES ", failures)
+	quit(1 if failures else 0)
