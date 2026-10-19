@@ -2,7 +2,7 @@ extends RefCounted
 # Working fiction. Registry, recovered-thread commits and runtime hooks belong
 # to the campaign owner; this module consumes their recovered launch context.
 const IDS=[11,12,13]
-const FIELD_RECORDS=["divergence_confluence_packet","divergence_confluence_repeater","divergence_witness_packet","divergence_witness_repeater","resolution_warning_west","resolution_warning_east","resolution_warning_uplink"]
+const FIELD_RECORDS=["divergence_confluence_packet","divergence_confluence_repeater","divergence_witness_packet","resolution_witness_sluice","resolution_warning_transmission","divergence_warning_reply"]
 
 static func available(history:Dictionary)->Array:
  var completed=history.get("completed",[]);var facts=history.get("facts",{})
@@ -17,7 +17,7 @@ static func available(history:Dictionary)->Array:
 static func resolution(mission:Dictionary)->String:
  if not mission.get("recovered",false):return ""
  var id=mission.get("id",-1)
- var required=["witness_packet"] if id==12 else (["warning_west","warning_east","warning_uplink"] if id==13 else [])
+ var required=["witness_packet"] if id==12 else (["warning_transmission","warning_reply"] if id==13 else [])
  if required.is_empty():return ""
  var sites=mission.get("objectives",[])
  for site_id in required:
@@ -50,25 +50,30 @@ static func _confluence(m:Dictionary)->void:
  _patrol(m,Vector2(1590,1060),[Vector2(1590,1060),Vector2(1590,1640),Vector2(2180,1640),Vector2(2180,680)])
 
 static func _concealed(m:Dictionary)->void:
- m.world_size=Vector2(2400,3000);m.start=Vector2(2060,2680);m.extraction=Vector2(240,2700)
- m.rocks=[Rect2(720,2160,1780,240),Rect2(920,600,350,1200),Rect2(-100,1500,620,230),Rect2(1500,1300,900,180),Rect2(1320,360,340,420),Rect2(300,300,180,260)]
- m.signal_sources=[_source("witness_packet","SEALED WITNESS MEMORY",Vector2(560,680),"Quietus recovers the witness memory without broadcasting its origin. The packet preserves the observed evacuation and the human warning together; it does not reveal where the surviving pilot will surface.",[.8,1.6,.8]),_source("witness_repeater","EMPTY MEMORY ECHO",Vector2(1900,940),"An empty station still repeats the dispatch. Its abandoned echo is useful context, not the concealed witness packet.",[1.6,.8,1.6],false)]
+ m.world_size=Vector2(2400,3000);m.start=Vector2(2060,2680);m.extraction=Vector2(2260,2700)
+ m.rocks=[Rect2(720,2160,940,240),Rect2(1900,2160,600,240),Rect2(920,600,350,1200),Rect2(-100,1500,620,230),Rect2(1500,1300,900,180),Rect2(1320,360,340,420),Rect2(300,300,180,260)]
+ var gate=Rect2(1660,2160,240,240)
+ m.physical_gates=[{"id":"witness_service_sluice","closed_shape":gate,"site_id":"witness_sluice","opened":false}];m.structures=[gate]
+ m.signal_sources=[_source("witness_packet","SEALED WITNESS MEMORY",Vector2(1840,760),"Quietus receives the concealed witness memory. The packet preserves the observed evacuation and the human warning together; it does not reveal where a surviving pilot will surface.",[.8,1.6,.8])]
+ var actuator=_receiver("witness_sluice","SERVICE SLUICE CONTROL",Vector2(1780,2040),"The local actuator retracts the man-made service sluice. Its finite motor run is audible; the open passage changes the return route without silencing or ordering any patrol.")
+ actuator.merge({"optional":true,"completion_open_structure":"witness_service_sluice","completion_emission":{"radius":1100.0,"label":"SERVICE SLUICE MOTOR","duration":8.0}});m.objectives=[actuator]
  m.required_site_ids=["witness_packet"]
- m.corridors=[{"pos":m.extraction,"name":"WESTERN QUIET RECOVERY","route":"concealed"}]
- m.brief="Recover the sealed witness and bring Quietus back through the western recovery basin. The southern overhang separates deployment from the long return; the central spine separates the live memory from an empty repeating station. A received RETURN reference with the fitted correlator may identify which branch deserves a close approach. Quietus can always investigate and decode the real packet itself. A fitted drone sampler can do the compatible local field work, but its eight-second exposure is audible and the drone must survive to finish. There is no transmission task here: keep the witness's origin private while planning your physical return. Active tools remain available when survival needs them; no hidden purity score invalidates the recovery."
- m.record="The witness record returns without transmitting its source coordinates through the warning chain. The concealed recovery preserves an independent account of what Quietus observed. This resolves one operation, not the fate of the ocean."
+ m.corridors=[{"pos":m.extraction,"name":"CONCEALED RECOVERY BASIN","route":"concealed"}]
+ m.brief="Confluence's concealed passage leads to a witness store beyond the southern overhang. Recover its local packet and return to the southeast basin. The long western detour works with the service sluice shut and needs no transmission or machinery. Alternatively, operate the charted SERVICE SLUICE CONTROL on its north side: an audible motor permanently opens the man-made passage for a shorter return. It never closes or crushes craft. Quietus can operate it in four seconds; a fitted drone sampler can work independently in eight audible seconds, if it survives. The actuator is optional and does not replace the witness. Decide whether the changed route is worth making the machinery heard, then bring the packet home. Active tools remain available; no hidden purity score invalidates recovery."
+ m.record="The witness record returns without forwarding its source through the warning chain. The service sluice, if opened, remains an actual route through the overhang; the unannounced western detour remains a valid alternative. This resolves the concealed operation, not the fate of the ocean."
  _patrol(m,Vector2(700,1140),[Vector2(700,1140),Vector2(700,700),Vector2(780,480),Vector2(820,1900)])
  _patrol(m,Vector2(1780,1780),[Vector2(1780,1780),Vector2(2100,1780),Vector2(2100,1580),Vector2(1380,1580)])
 
 static func _overt(m:Dictionary)->void:
  m.world_size=Vector2(2800,2600);m.start=Vector2(420,2320);m.extraction=Vector2(2420,240)
  m.rocks=[Rect2(1080,980,600,860),Rect2(100,700,700,220),Rect2(1960,800,940,220),Rect2(1000,-100,500,400),Rect2(280,1530,500,220),Rect2(1880,1880,520,200)]
- m.objectives=[_receiver("warning_west","WEST CHAIN RECEIVER",Vector2(660,1250),"The western receiver holds the first part of the verified warning, prepared locally without a long-range broadcast."),_receiver("warning_east","EAST CHAIN RECEIVER",Vector2(2120,1420),"The eastern receiver holds the second part. Both local packets are needed before Quietus can forward a coherent warning.")]
- var uplink={"site_id":"warning_uplink","name":"WARNING CHAIN UPLINK","pos":Vector2(1400,560),"kind":"uplink","required_unit":0,"duration":4.0,"captured":false,"requires":[0,1],"requirement":"Prepare WEST and EAST receiver packets before transmitting.","unit_requirement":"Quietus must carry and transmit the assembled warning.","optical":"resolution_warning_uplink","evidence":"Quietus forwards the assembled fracture warning through the open chain. Its finite transmission is physically audible; an acknowledgement is not a promise that the route home is safe.","completion_emission":{"radius":1100.0,"label":"WARNING CHAIN TRANSMISSION","duration":8.0}}
- m.objectives.append(uplink);m.required_site_ids=["warning_west","warning_east","warning_uplink"]
+ var sector=Rect2(300,1000,2200,700)
+ m.objectives=[{"site_id":"warning_transmission","name":"WARNING TRANSMISSION SECTOR","pos":Vector2(500,1120),"kind":"transmitter","own_origin":true,"origin_region":sector,"required_unit":0,"duration":6.0,"captured":false,"unit_requirement":"Quietus must carry and transmit the recovered warning.","optical":"resolution_warning_transmission","evidence":"Quietus sends the recovered Confluence packet from its actual chosen position. A local receiver begins replying; the return identifies reception, not the receiver's allegiance or safe water.","completion_emission":{"radius":1100.0,"label":"WARNING CHAIN TRANSMISSION","duration":8.0},"completion_enable_source":"warning_reply"}]
+ var reply=_source("warning_reply","LOCAL WARNING ACKNOWLEDGEMENT",Vector2(2380,440),"Quietus receives the local acknowledgement after sending Confluence's warning. The station has answered; its identity, intent and the wider chain remain uncertain.",[1.2,.6,1.2]);reply.active=false;m.signal_sources=[reply]
+ m.required_site_ids=["warning_transmission","warning_reply"]
  m.corridors=[{"pos":m.extraction,"name":"NORTHEAST WARNING RECOVERY","route":"overt"}]
- m.brief="Carry the warning across a divided transmission field. Prepare WEST and EAST local receiver packets, then bring Quietus to the northern uplink and transmit. The two arms can be worked in parallel by fitted drone samplers; each needs eight audible seconds and a living craft, while Quietus's four-second receiver remains the fallback. Plan the submarine's central approach while watching those field operations. The uplink requires both packets and Quietus, emits an ordinary finite warning transmission, and leaves you a real withdrawal to the northeast. Cover, disruption and decoys retain their ordinary costs. No recipient is revealed or ordered to ignore you by sending the warning."
- m.record="The assembled warning travels through the open chain. Quietus returns with the acknowledgement and the cost of having spoken. The message offers a warning instead of a firing solution; what others do with it remains unresolved."
+ m.brief="Confluence's warning is already aboard. Choose where Quietus will speak inside the charted transmission sector: its western arm offers an early origin, while the eastern arm brings the submarine closer to the northern response water. The central breakwater separates approaches and sound paths. CAMERA / TRANSMIT uses Quietus's actual position, not a fixed uplink: settle for six seconds while the warning is sent. The finite transmission is audible at that origin. Only then does a local station begin replying. Use actual received bearings or a close observation to find and receive that acknowledgement, then return Quietus through northeast recovery. Drones may investigate the response or cover another approach; they cannot speak for Quietus. A reply does not certify identity, allegiance or a safe withdrawal."
+ m.record="Quietus chose where to send the warning, received a local answer, and returned with that exchange. The receiver has become an active participant rather than an unexplained chart mark. The message offers a warning instead of a firing solution; what the wider chain does with it remains unresolved."
  _patrol(m,Vector2(760,1140),[Vector2(760,1140),Vector2(460,1140),Vector2(460,1460),Vector2(900,1460)])
  _patrol(m,Vector2(2020,1340),[Vector2(2020,1340),Vector2(1840,1520),Vector2(2320,1520),Vector2(2320,1120)])
  _patrol(m,Vector2(1720,600),[Vector2(1720,600),Vector2(1900,460),Vector2(2240,460),Vector2(2060,680)])
