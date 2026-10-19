@@ -96,7 +96,8 @@ func refresh():
  var legacy=goals.any(func(goal):return goal.get("legacy",false))
  var drone=host.sim.selected>0;var unit=host.sim.units[host.sim.selected]
  info.text=unit.name+(" · DRIVE %s · %s PROFILE\nTO sets incoming drive; INHERIT keeps current. STOP settles, then continues."%["QUIET42" if unit.get("drone_drive","transit")=="quiet" else "TRANSIT96","LOW" if unit.silent else "OPEN"] if drone else " · TO sets incoming propulsion. INHERIT keeps manual. STOP settles, then continues.")+("\nLegacy course retained; editing rebuilds to its final goal." if legacy else "")
- if goals.any(func(goal):return goal.has("task_site")):info.text=info.text.replace("STOP settles, then continues.","STOP waits for chosen work.")
+ if goals.any(func(goal):return goal.has("task_site")):
+  info.text=unit.name+(" · DRIVE %s · %s PROFILE"%["QUIET42" if unit.get("drone_drive","transit")=="quiet" else "TRANSIT96","LOW" if unit.silent else "OPEN"] if drone else "")+" · TASK STOP waits for receiver work."
  for c in rows.get_children():rows.remove_child(c);c.queue_free()
  selected_row=null
  if choosing_task:

@@ -63,6 +63,7 @@ func run():
   check(receiver!=null and "8s" in receiver.text and "AUDIBLE" in receiver.text,"fitted drone choice discloses actual eight-second audible fieldwork")
   before=game.sim.snapshot();await click(receiver)
   check(game.sim.route_goals()[0].get("task_site","")=="chain_west" and game.sim.capture_feedback().unit<0 and game.sim.tools==before.tools,"fitted drone attaches future work without immediate capture or spend")
+  check(Rect2(Vector2.ZERO,root.get_visible_rect().size).encloses(panel.get_global_rect()) and action("undo").get_global_rect().end.y<=root.get_visible_rect().size.y,"fitted drone task disclosure keeps bottom edit targets inside viewport")
   game.sim.paused=false
   for tick in 740:game.sim.advance(1./60)
   game.sim.paused=true
