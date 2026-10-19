@@ -35,6 +35,11 @@ jobs:
         with:
           path: .toolchain-cache/downloads
           key: godot-4.6.3-official-sha512-v1
+      - name: Preserve development APK signing identity
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: .toolchain-cache/debug.keystore
+          key: sirens-song-development-signing-v1
       - name: Install pinned native toolchain
         run: |
           scripts/toolchain/install-godot.sh

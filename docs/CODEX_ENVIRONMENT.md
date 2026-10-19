@@ -26,6 +26,8 @@ Outputs default to `/workspace/.sirens-song-toolchain/artifacts`; downloads and 
 
 `configure.sh` writes workstation Godot Android editor paths and creates an external debug keystore using Android's standard debug identity. It does not download packages or put keys in the repository. The Android preset exports package `org.sirenssong.game`, landscape, with ARM64 and x86_64 native libraries; Gradle custom builds are disabled.
 
+GitHub Actions caches its development debug keystore separately from official downloads so successive playtest APKs can update the same installation and retain saves. The cache is created after a successful job and is scoped by GitHub's cache rules. `build.sh` prints the APK certificate SHA256 as well as the APK SHA256. A deleted/missing cache produces a new debug signing identity; check the certificate before offering an update to an existing playtest installation. This standard debug key is neither confidential production signing material nor suitable for a store release. Local and hosted keys are separate identities unless deliberately coordinated.
+
 ## Installed toolchain
 
 | Component | Observed version / path |
