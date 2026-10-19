@@ -1,6 +1,6 @@
 # Siren’s Song · workbench
 
-Root integrates production; governing16869cd adopted. Reviewed source8aa3ef4 composes the controls/thermal milestone, native planner probe and terminal-tick correctness fix. Preserve playable recoveries and the permanent Git-tracked32bcb debug identity.
+Root integrates production; lean governing instructions through f7e753d8 adopted. Reviewed source8aa3ef4 composes the controls/thermal milestone, native planner probe and terminal-tick correctness fix. Preserve playable recoveries and the permanent Git-tracked32bcb debug identity.
 
 | Player gain | Remaining cost/gap |
 | --- | --- |
@@ -8,7 +8,7 @@ Root integrates production; governing16869cd adopted. Reviewed source8aa3ef4 com
 | Physical noisy torpedo with travel/cover/miss/snare; explicit intended-contact aiming | Finite shots can miss; human/physical targeting unverified |
 | Speed footprint and terrain diffraction; Foundry thermal staging | Mutual fresh-information/time cost, later drone loss retained; reflections/current systems open |
 
-Current work: complete controls gate9659665 passed; terminal73/core298 and relocated-fixture30/9 checks subsequently pass. Root publishes one Android controls batch; reviewed native probe measures planner OS zoom/drag/FIT without changing paused intent. Independent Foundry departure5d021e1 is frozen for campaign_experience_review; it offers a slower preserve-EMP/drone choice versus early healthier EMP return. No forced wait/global AI buffs.
+Current work: complete controls gate9659665 passed; terminal73/core298 and relocated-fixture30/9 checks subsequently pass. Single Android controls run39297579454 at e091f37 is active; android_controls_artifacts inspects externally; reviewed native probe measures planner OS zoom/drag/FIT without changing paused intent. Independent Foundry departure5d021e1 is frozen for campaign_experience_review; it offers a slower preserve-EMP/drone choice versus early healthier EMP return. No forced wait/global AI buffs. decoy_feedback researches a new v7/Duskers-informed drone-operations branch; prior speed nerfs remain rejected.
 
 Rejected current controller gains1.6s but loses HOLD by62.4m; prior drone picket/thrust prototypes remain rejected. Do not count tests or paperwork as game quality. Next broad weakness: discoveries should change the lived world, beyond static installations and record text.
 
