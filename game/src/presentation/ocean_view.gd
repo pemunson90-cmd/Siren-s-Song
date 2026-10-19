@@ -12,6 +12,7 @@ var quietus=preload("res://assets/craft/quietus.png")
 var basalt=preload("res://assets/materials/basalt.png")
 var camera_flash := 0.0
 var knock_targeting:=false
+var knock_touch_size:=48.0
 var feedback_font_size:=14
 var instrument_top:=64.0
 var chart_camera=preload("res://src/presentation/chart_camera.gd").new()
@@ -61,6 +62,52 @@ func contact_readout_rects() -> Array:
 		result.append(Rect2(12,top,minf(width,size.x-24),feedback_font_size+6))
 		top+=feedback_font_size+8
 	return result
+func knock_visible_targets() -> Array:
+	var targets=[]
+	if not knock_targeting or sim==null:return targets
+	for c in sim.knockdown_targets():
+		var anchor=screen_position(c.pos)
+		if Rect2(Vector2.ZERO,size).has_point(anchor):targets.append({"key":c.key,"tag":c.tag,"anchor":anchor})
+	targets.sort_custom(func(a,b):return a.key<b.key)
+	return targets
+func knock_aim_targets() -> Array:
+	var targets=knock_visible_targets()
+	if targets.is_empty():return []
+	var blocked=[Rect2(0,0,size.x,instrument_top)]
+	var rows=acoustic_rows()
+	for i in rows.size():
+		var width=ThemeDB.fallback_font.get_string_size(rows[i],HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size).x+20
+		blocked.append(Rect2(12,instrument_top+i*(feedback_font_size+5),minf(width,size.x-24),feedback_font_size+17).grow(4))
+	for box in contact_readout_rects():blocked.append(box.grow(4))
+	if optical_feed!=null and optical_feed.visible:blocked.append(optical_feed.get_rect().grow(6))
+	for u in sim.units:
+		if u.alive:blocked.append(Rect2(screen_position(u.pos)-Vector2(85,45)*world_scale,Vector2(170,90)*world_scale).grow(6))
+	for target in targets:blocked.append(Rect2(target.anchor-Vector2.ONE*90*world_scale,Vector2.ONE*180*world_scale).grow(6))
+	for objective in sim.mission.objectives:
+		var anchor=screen_position(objective.pos)
+		blocked.append(Rect2(anchor-Vector2.ONE*43*world_scale,Vector2.ONE*86*world_scale).grow(4))
+		if not objective.captured:
+			var font=maxi(17,int(12/world_scale));var width=ThemeDB.fallback_font.get_string_size(objective.name,HORIZONTAL_ALIGNMENT_LEFT,-1,font).x*world_scale
+			blocked.append(Rect2(screen_position(objective.pos+Vector2(50,-5))-Vector2(0,font*world_scale),Vector2(width,font*world_scale+6)).grow(4))
+	for u in sim.units:
+		var previous=screen_position(u.pos)
+		for node in u.route:
+			var next=screen_position(node.pos)
+			blocked.append(Rect2(Vector2(minf(previous.x,next.x),minf(previous.y,next.y)),Vector2(absf(next.x-previous.x),absf(next.y-previous.y))).grow(8));previous=next
+
+	for entry in contact_entries():
+		if not entry.urgent:continue
+		var c=sim.contacts[entry.key];var aim=screen_position(sim.units[c.target].pos);var anchor=screen_position(c.pos)
+		blocked.append(Rect2(Vector2(minf(anchor.x,aim.x),minf(anchor.y,aim.y)),Vector2(absf(anchor.x-aim.x),absf(anchor.y-aim.y))).grow(8))
+	return preload("res://src/presentation/torpedo_aim.gd").layout(targets,Rect2(Vector2.ONE*8,size-Vector2.ONE*16),knock_touch_size,blocked)
+func knock_aim_key(point:Vector2) -> int:
+	for aim in knock_aim_targets():
+		if aim.rect.has_point(point):return aim.key
+	var hits=[]
+	for target in knock_visible_targets():
+		if point.distance_to(target.anchor)<knock_touch_size/2:hits.append(target.key)
+	# A broad phone hit area cannot infer intent between overlapping bodies.
+	return hits[0] if hits.size()==1 else -1
 func _draw() -> void:
 	if sim==null or ocean==null: return
 	_sync_camera()
@@ -143,8 +190,21 @@ func _draw() -> void:
 	# Only own launcher range and legitimately cached targets; beams draw afterward.
 	if knock_targeting and sim.selected==0 and sim.units[0].alive:
 		draw_arc(sim.units[0].pos,sim.KNOCK_RANGE,0,TAU,64,Color(0.7,0.85,0.8,0.5),1.5/world_scale)
-		for c in sim.knockdown_targets():
-			draw_arc(c.pos,maxf(24,feedback_font_size*1.2/world_scale),0,TAU,32,Color("a7c7c3"),1.5/world_scale)
+		for c in knock_visible_targets():
+			draw_arc(map_position(c.anchor),maxf(24,feedback_font_size*1.2/world_scale),0,TAU,32,Color("a7c7c3"),1.5/world_scale)
+		# Own aim controls are below all observed Sirens/beams in the draw order.
+		draw_set_transform(Vector2.ZERO,0,Vector2.ONE)
+		for aim in knock_aim_targets():
+			var box:Rect2=aim.rect;var center=box.get_center()
+			draw_line(aim.anchor,aim.anchor.clamp(box.position,box.end),Color(0.65,0.78,0.76,0.65),1.5)
+			draw_circle(aim.anchor,3,Color("a7c7c3"))
+			draw_rect(box,Color(0.035,0.09,0.11,0.98));draw_rect(box,Color("a7c7c3"),false,1.5)
+			var line_height=feedback_font_size+4
+			for i in 2:
+				var text=aim.tag if i==0 else "FIRE"
+				var width=ThemeDB.fallback_font.get_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size).x
+				draw_string(ThemeDB.fallback_font,Vector2(center.x-width/2,center.y-line_height+ThemeDB.fallback_font.get_ascent(feedback_font_size)+i*line_height),text,HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size,Color("c4ded8"))
+		draw_set_transform(world_offset,0,Vector2.ONE*world_scale)
 	for projectile in sim.projectiles:
 		var heading=Vector2.from_angle(projectile.angle)
 		draw_line(projectile.pos-heading*17,projectile.pos+heading*5,Color("a7c7c3"),3/world_scale)
