@@ -36,6 +36,7 @@ class TouchMetricsTests(unittest.TestCase):
             'craft': 'pause,radial_back,camera,ping,silent,program,route_menu,tools_menu,guard_menu,inspect',
             'tools': 'pause,radial_back,decoy,emp,recon,knock',
             'fleet': 'pause,radial_back,sub,droneA,droneB,menu',
+            'signals': 'pause,radial_back',
         }
         for page, actions in pages.items():
             layout = self.layout()

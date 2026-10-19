@@ -16,7 +16,7 @@ PAGES = {
     'guard': {'contact_hold', 'wait_drone', 'hold'},
 }
 CRAFT = {'camera', 'ping', 'silent', 'program', 'tools_menu', 'route_menu', 'guard_menu', 'inspect'}
-STATIONS = {'sub', 'droneA', 'droneB', 'menu'}
+STATIONS = {'sub', 'droneA', 'droneB', 'menu', 'arrivals'}
 
 def next_action(layout, target):
     if layout.get('screen') != 'mission' or layout.get('hud_layout') != 'radial':
@@ -39,7 +39,7 @@ def next_action(layout, target):
             if target in actions:
                 return destination + '_menu'
         return 'radial_back'
-    if page in {'tools', 'route', 'guard', 'object', 'inspect'}:
+    if page in {'tools', 'route', 'guard', 'object', 'inspect', 'signals'}:
         return 'radial_back'
     raise ValueError('Unknown radial context page')
 

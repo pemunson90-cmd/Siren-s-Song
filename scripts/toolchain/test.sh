@@ -93,6 +93,7 @@ planner_navigation_ui_tests|PLANNER NAVIGATION
 planner_space_ui_tests|PLANNER SPACE UI
 playfield_hud_tests|PLAYFIELD HUD
 radial_hud_tests|RADIAL HUD
+expedition_instruments_ui_tests|EXPEDITION INSTRUMENT UI
 planner_metrics_tests|PLANNER METRICS
 acoustic_path_tests|ACOUSTIC PATH
 acoustic_hearing_tests|ACOUSTIC HEARING

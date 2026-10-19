@@ -1,4 +1,5 @@
 extends Control
+const Expedition=preload("res://src/presentation/expedition_view.gd")
 var sim
 var optical_feed
 var siren_ray=preload("res://assets/craft/siren_ray.png")
@@ -57,7 +58,7 @@ func pick_context(point:Vector2,touch:float) -> Dictionary:
 	for id in observable_sites().size():
 		var site=observable_sites()[id]
 		if point.distance_to(screen_position(site.pos))<=maxf(touch*.5,38*world_scale):return {"kind":"objective","index":id,"name":site.name,"pos":site.pos}
-	return {}
+	return Expedition.pick(self,sim,point,touch)
 func _sync_camera() -> void:
 	chart_camera.configure(size,world_size())
 	if chart_camera.mode=="follow" and sim!=null:chart_camera.follow(sim.units[sim.selected].pos)
@@ -201,9 +202,10 @@ func _draw() -> void:
 			var end=sim.ping_origin+direction*radius
 			if sim.line_clear(sim.ping_origin,end): draw_line(end-direction*6,end,Color(0.3,0.95,0.88,sim.ping_time/5),2)
 	var ex=sim.mission.extraction
-	draw_arc(ex,64,0,TAU,64,Color(CYAN,0.42),2)
-	_label(ex+Vector2(-120 if ex.y>830 else -66,66 if ex.y>830 else 90),"EXTRACTION",CYAN,18)
-	preload("res://src/presentation/expedition_view.gd").draw(self,sim)
+	if not Expedition.active(sim) or Expedition.entry(sim):
+		draw_arc(ex,64,0,TAU,64,Color(CYAN,0.42),2)
+		_label(ex+Vector2(-120 if ex.y>830 else -66,66 if ex.y>830 else 90),"WITHDRAWAL" if Expedition.entry(sim) else "EXTRACTION",CYAN,18)
+	Expedition.draw(self,sim)
 	# Own open-water estimate only; deliberately does not sample hidden terrain or
 	# listeners. Dotted amber radius is subordinate to later foreground beam cues.
 	if sim.mission.get("acoustic_revision",0)==1:

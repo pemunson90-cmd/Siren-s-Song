@@ -27,6 +27,7 @@ RADIAL_ACTIONS = {
     'fleet': 'pause,radial_back,sub,droneA,droneB,menu',
     'object': 'pause,radial_back,route_here,camera,inspect,program,queue',
     'inspect': 'pause,radial_back',
+    'signals': 'pause,radial_back',
 }
 
 def required_actions(layout):

@@ -15,12 +15,14 @@ class Tests(unittest.TestCase):
  def test_other_page_goes_back_before_new_action(self):self.assertEqual(radial.next_action(state('tools'),'camera'),'radial_back')
  def test_world_targets_wait_for_water(self):
   self.assertEqual(radial.next_action(state('craft'),'objective0'),'radial_back');self.assertIsNone(radial.next_action(state('water'),'objective0'))
+ def test_measurement_disclosure_reuses_fleet_and_back(self):
+  self.assertEqual(radial.next_action(state("water"),"arrivals"),"more_orders");self.assertIsNone(radial.next_action(state("fleet",["arrivals"]),"arrivals"));self.assertEqual(radial.next_action(state("signals"),"camera"),"radial_back")
  def test_legacy_and_menu_have_no_new_navigation(self):
   self.assertIsNone(radial.next_action({'screen':'mission'},'emp'));self.assertIsNone(radial.next_action({'screen':'menu'},'emp'))
  def test_invalid_state_fails_closed(self):
   self.assertRaises(ValueError,radial.next_action,state('unknown'),'emp');self.assertRaises(ValueError,radial.next_action,state('fleet',selected=True),'emp')
  def test_disclosure_steps_never_fire_a_tool(self):
-  for page in ['water','fleet','craft','tools','route','guard','inspect']:
+  for page in ['water','fleet','craft','tools','route','guard','inspect','signals']:
    for action in ['decoy','emp','recon','knock','camera','home','contact_hold','route']:
     self.assertIn(radial.next_action(state(page),action),[None,'more_orders','sub','droneA','droneB','radial_back','tools_menu','route_menu','guard_menu'])
  def test_cli_requires_latest_complete_current_layout(self):
