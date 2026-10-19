@@ -1,0 +1,1538 @@
+{
+  "source_sha256": "3b00be96179f6a61d23fe203483de3f4083bcc866c75d483ac5bfa748502e85b",
+  "browser": "154.0.8037.57",
+  "external_font_blocked": true,
+  "errors": [],
+  "samples": [
+    {
+      "label": "idle-start",
+      "monotonic": 18691.76887191,
+      "T": 0.14470000000149014,
+      "screen": "playing",
+      "paused": false,
+      "sub": {
+        "x": 600,
+        "y": 1656
+      },
+      "sirens": [
+        {
+          "type": "patroller",
+          "x": 599.8064487064362,
+          "y": 1115.9818545662283,
+          "invT": 0,
+          "sees": false,
+          "wi": 0
+        },
+        {
+          "type": "patroller",
+          "x": 599.829315355958,
+          "y": 1332.0512053932127,
+          "invT": 0,
+          "sees": false,
+          "wi": 0
+        },
+        {
+          "type": "sentinel",
+          "x": 888,
+          "y": 324,
+          "invT": 0,
+          "sees": false,
+          "wi": null
+        },
+        {
+          "type": "hunter",
+          "x": 72,
+          "y": 180,
+          "invT": 0,
+          "sees": false,
+          "wi": null
+        }
+      ]
+    },
+    {
+      "label": "idle-1",
+      "monotonic": 18692.979322615,
+      "T": 1.3614000000014894,
+      "screen": "playing",
+      "paused": false,
+      "sub": {
+        "x": 600,
+        "y": 1656
+      },
+      "sirens": [
+        {
+          "type": "patroller",
+          "x": 570.7331327981262,
+          "y": 1113.2562311998283,
+          "invT": 0,
+          "sees": false,
+          "wi": 0
+        },
+        {
+          "type": "patroller",
+          "x": 574.1907960489277,
+          "y": 1339.7427611853213,
+          "invT": 0,
+          "sees": false,
+          "wi": 0
+        },
+        {
+          "type": "sentinel",
+          "x": 888,
+          "y": 324,
+          "invT": 0,
+          "sees": false,
+          "wi": null
+        },
+        {
+          "type": "hunter",
+          "x": 72,
+          "y": 180,
+          "invT": 0,
+          "sees": false,
+          "wi": null
+        }
+      ]
+    },
+    {
+      "label": "idle-2",
+      "monotonic": 18693.98280384,
+      "T": 2.3614000000014874,
+      "screen": "playing",
+      "paused": false,
+      "sub": {
+        "x": 600,
+        "y": 1656
+      },
+      "sirens": [
+        {
+          "type": "patroller",
+          "x": 546.837911372705,
+          "y": 1111.0160541911982,
+          "invT": 0,
+          "sees": false,
+          "wi": 0
+        },
+        {
+          "type": "patroller",
+          "x": 553.1186177740611,
+          "y": 1346.064414667781,
+          "invT": 0,
+          "sees": false,
+          "wi": 0
+        },
+        {
+          "type": "sentinel",
+          "x": 888,
+          "y": 324,
+          "invT": 0,
+          "sees": false,
+          "wi": null
+        },
+        {
+          "type": "hunter",
+          "x": 72,
+          "y": 180,
+          "invT": 0,
+          "sees": false,
+          "wi": null
+        }
+      ]
+    },
+    {
+      "label": "idle-3",
+      "monotonic": 18694.988307669,
+      "T": 3.3613000000014854,
+      "screen": "playing",
+      "paused": false,
+      "sub": {
+        "x": 600,
+        "y": 1656
+      },
+      "sirens": [
+        {
+          "type": "patroller",
+          "x": 522.9450794694261,
+          "y": 1108.776101200267,
+          "invT": 0,
+          "sees": false,
+          "wi": 0
+        },
+        {
+          "type": "patroller",
+          "x": 532.0485467170222,
+          "y": 1352.3854359848924,
+          "invT": 0,
+          "sees": false,
+          "wi": 0
+        },
+        {
+          "type": "sentinel",
+          "x": 888,
+          "y": 324,
+          "invT": 0,
+          "sees": false,
+          "wi": null
+        },
+        {
+          "type": "hunter",
+          "x": 72,
+          "y": 180,
+          "invT": 0,
+          "sees": false,
+          "wi": null
+        }
+      ]
+    },
+    {
+      "label": "idle-4",
+      "monotonic": 18695.99523627,
+      "T": 4.37800000000149,
+      "screen": "playing",
+      "paused": false,
+      "sub": {
+        "x": 600,
+        "y": 1656
+      },
+      "sirens": [
+        {
+          "type": "patroller",
+          "x": 498.65080784619914,
+          "y": 1106.498513235589,
+          "invT": 0,
+          "sees": false,
+          "wi": 0
+        },
+        {
+          "type": "patroller",
+          "x": 510.62446306496537,
+          "y": 1358.812661080509,
+          "invT": 0,
+          "sees": false,
+          "wi": 0
+        },
+        {
+          "type": "sentinel",
+          "x": 888,
+          "y": 324,
+          "invT": 0,
+          "sees": false,
+          "wi": null
+        },
+        {
+          "type": "hunter",
+          "x": 72,
+          "y": 180,
+          "invT": 0,
+          "sees": false,
+          "wi": null
+        }
+      ]
+    },
+    {
+      "label": "idle-5",
+      "monotonic": 18696.999335547,
+      "T": 5.377900000001502,
+      "screen": "playing",
+      "paused": false,
+      "sub": {
+        "x": 600,
+        "y": 1656
+      },
+      "sirens": [
+        {
+          "type": "patroller",
+          "x": 474.7579759429185,
+          "y": 1104.258560244656,
+          "invT": 0,
+          "sees": false,
+          "wi": 0
+        },
+        {
+          "type": "patroller",
+          "x": 489.55439200792785,
+          "y": 1365.1336823976205,
+          "invT": 0,
+          "sees": false,
+          "wi": 0
+        },
+        {
+          "type": "sentinel",
+          "x": 888,
+          "y": 324,
+          "invT": 0,
+          "sees": false,
+          "wi": null
+        },
+        {
+          "type": "hunter",
+          "x": 72,
+          "y": 180,
+          "invT": 0,
+          "sees": false,
+          "wi": null
+        }
+      ]
+    },
+    {
+      "label": "idle-6",
+      "monotonic": 18698.005877905,
+      "T": 6.377800000001514,
+      "screen": "playing",
+      "paused": false,
+      "sub": {
+        "x": 600,
+        "y": 1656
+      },
+      "sirens": [
+        {
+          "type": "patroller",
+          "x": 450.86514403963787,
+          "y": 1102.018607253723,
+          "invT": 0,
+          "sees": false,
+          "wi": 0
+        },
+        {
+          "type": "patroller",
+          "x": 468.48432095089,
+          "y": 1371.454703714732,
+          "invT": 0,
+          "sees": false,
+          "wi": 0
+        },
+        {
+          "type": "sentinel",
+          "x": 888,
+          "y": 324,
+          "invT": 0,
+          "sees": false,
+          "wi": null
+        },
+        {
+          "type": "hunter",
+          "x": 72,
+          "y": 180,
+          "invT": 0,
+          "sees": false,
+          "wi": null
+        }
+      ]
+    },
+    {
+      "label": "idle-7",
+      "monotonic": 18699.014723477,
+      "T": 7.394500000001524,
+      "screen": "playing",
+      "paused": false,
+      "sub": {
+        "x": 600,
+        "y": 1656
+      },
+      "sirens": [
+        {
+          "type": "patroller",
+          "x": 426.5708724164101,
+          "y": 1099.7410192890447,
+          "invT": 0,
+          "sees": false,
+          "wi": 0
+        },
+        {
+          "type": "patroller",
+          "x": 447.0602372988341,
+          "y": 1377.8819288103487,
+          "invT": 0,
+          "sees": false,
+          "wi": 0
+        },
+        {
+          "type": "sentinel",
+          "x": 888,
+          "y": 324,
+          "invT": 0,
+          "sees": false,
+          "wi": null
+        },
+        {
+          "type": "hunter",
+          "x": 72,
+          "y": 180,
+          "invT": 0,
+          "sees": false,
+          "wi": null
+        }
+      ]
+    },
+    {
+      "label": "idle-8",
+      "monotonic": 18700.035569844,
+      "T": 8.377800000001528,
+      "screen": "playing",
+      "paused": false,
+      "sub": {
+        "x": 600,
+        "y": 1656
+      },
+      "sirens": [
+        {
+          "type": "patroller",
+          "x": 403.074701188792,
+          "y": 1097.538253236455,
+          "invT": 0,
+          "sees": false,
+          "wi": 0
+        },
+        {
+          "type": "patroller",
+          "x": 426.33996440115914,
+          "y": 1384.0980106796512,
+          "invT": 0,
+          "sees": false,
+          "wi": 0
+        },
+        {
+          "type": "sentinel",
+          "x": 888,
+          "y": 324,
+          "invT": 0,
+          "sees": false,
+          "wi": null
+        },
+        {
+          "type": "hunter",
+          "x": 72,
+          "y": 180,
+          "invT": 0,
+          "sees": false,
+          "wi": null
+        }
+      ]
+    },
+    {
+      "label": "idle-9",
+      "monotonic": 18701.044306921,
+      "T": 9.427800000001525,
+      "screen": "playing",
+      "paused": false,
+      "sub": {
+        "x": 600,
+        "y": 1656
+      },
+      "sirens": [
+        {
+          "type": "patroller",
+          "x": 377.98471869209874,
+          "y": 1095.1860673773895,
+          "invT": 0,
+          "sees": false,
+          "wi": 0
+        },
+        {
+          "type": "patroller",
+          "x": 404.21417721255045,
+          "y": 1390.7357468362338,
+          "invT": 0,
+          "sees": false,
+          "wi": 0
+        },
+        {
+          "type": "sentinel",
+          "x": 888,
+          "y": 324,
+          "invT": 0,
+          "sees": false,
+          "wi": null
+        },
+        {
+          "type": "hunter",
+          "x": 72,
+          "y": 180,
+          "invT": 0,
+          "sees": false,
+          "wi": null
+        }
+      ]
+    },
+    {
+      "label": "idle-10",
+      "monotonic": 18702.049474279,
+      "T": 10.427700000001506,
+      "screen": "playing",
+      "paused": false,
+      "sub": {
+        "x": 600,
+        "y": 1656
+      },
+      "sirens": [
+        {
+          "type": "patroller",
+          "x": 354.09188678881924,
+          "y": 1092.9461143864562,
+          "invT": 0,
+          "sees": false,
+          "wi": 0
+        },
+        {
+          "type": "patroller",
+          "x": 383.1441061555127,
+          "y": 1397.0567681533453,
+          "invT": 0,
+          "sees": false,
+          "wi": 0
+        },
+        {
+          "type": "sentinel",
+          "x": 888,
+          "y": 324,
+          "invT": 0,
+          "sees": false,
+          "wi": null
+        },
+        {
+          "type": "hunter",
+          "x": 72,
+          "y": 180,
+          "invT": 0,
+          "sees": false,
+          "wi": null
+        }
+      ]
+    },
+    {
+      "label": "idle-11",
+      "monotonic": 18703.052685304,
+      "T": 11.427600000001496,
+      "screen": "playing",
+      "paused": false,
+      "sub": {
+        "x": 600,
+        "y": 1656
+      },
+      "sirens": [
+        {
+          "type": "patroller",
+          "x": 330.19905488553974,
+          "y": 1090.7061613955223,
+          "invT": 0,
+          "sees": false,
+          "wi": 0
+        },
+        {
+          "type": "patroller",
+          "x": 362.0740350984755,
+          "y": 1403.3777894704572,
+          "invT": 0,
+          "sees": false,
+          "wi": 0
+        },
+        {
+          "type": "sentinel",
+          "x": 888,
+          "y": 324,
+          "invT": 0,
+          "sees": false,
+          "wi": null
+        },
+        {
+          "type": "hunter",
+          "x": 72,
+          "y": 180,
+          "invT": 0,
+          "sees": false,
+          "wi": null
+        }
+      ]
+    },
+    {
+      "label": "idle-12",
+      "monotonic": 18704.06035966,
+      "T": 12.44430000000148,
+      "screen": "playing",
+      "paused": false,
+      "sub": {
+        "x": 600,
+        "y": 1656
+      },
+      "sirens": [
+        {
+          "type": "patroller",
+          "x": 305.9047832623131,
+          "y": 1088.4285734308444,
+          "invT": 0,
+          "sees": false,
+          "wi": 0
+        },
+        {
+          "type": "patroller",
+          "x": 381.1990118037683,
+          "y": 1403.808639814416,
+          "invT": 0,
+          "sees": false,
+          "wi": 1
+        },
+        {
+          "type": "sentinel",
+          "x": 888,
+          "y": 324,
+          "invT": 0,
+          "sees": false,
+          "wi": null
+        },
+        {
+          "type": "hunter",
+          "x": 72,
+          "y": 180,
+          "invT": 0,
+          "sees": false,
+          "wi": null
+        }
+      ]
+    },
+    {
+      "label": "idle-13",
+      "monotonic": 18705.064191288,
+      "T": 13.444200000001464,
+      "screen": "playing",
+      "paused": false,
+      "sub": {
+        "x": 600,
+        "y": 1656
+      },
+      "sirens": [
+        {
+          "type": "patroller",
+          "x": 282.0119513590336,
+          "y": 1086.1886204399116,
+          "invT": 0,
+          "sees": false,
+          "wi": 0
+        },
+        {
+          "type": "patroller",
+          "x": 403.1968098903771,
+          "y": 1403.817814822389,
+          "invT": 0,
+          "sees": false,
+          "wi": 1
+        },
+        {
+          "type": "sentinel",
+          "x": 888,
+          "y": 324,
+          "invT": 0,
+          "sees": false,
+          "wi": null
+        },
+        {
+          "type": "hunter",
+          "x": 72,
+          "y": 180,
+          "invT": 0,
+          "sees": false,
+          "wi": null
+        }
+      ]
+    },
+    {
+      "label": "idle-14",
+      "monotonic": 18706.067543191,
+      "T": 14.444200000001446,
+      "screen": "playing",
+      "paused": false,
+      "sub": {
+        "x": 600,
+        "y": 1656
+      },
+      "sirens": [
+        {
+          "type": "patroller",
+          "x": 258.11672993361157,
+          "y": 1083.9484434312774,
+          "invT": 0,
+          "sees": false,
+          "wi": 0
+        },
+        {
+          "type": "patroller",
+          "x": 425.1968079767949,
+          "y": 1403.8269907479546,
+          "invT": 0,
+          "sees": false,
+          "wi": 1
+        },
+        {
+          "type": "sentinel",
+          "x": 888,
+          "y": 324,
+          "invT": 0,
+          "sees": false,
+          "wi": null
+        },
+        {
+          "type": "hunter",
+          "x": 72,
+          "y": 180,
+          "invT": 0,
+          "sees": false,
+          "wi": null
+        }
+      ]
+    },
+    {
+      "label": "idle-15",
+      "monotonic": 18707.07497734,
+      "T": 15.46080000000143,
+      "screen": "playing",
+      "paused": false,
+      "sub": {
+        "x": 600,
+        "y": 1656
+      },
+      "sirens": [
+        {
+          "type": "patroller",
+          "x": 233.82484783252698,
+          "y": 1081.6710794843,
+          "invT": 0,
+          "sees": false,
+          "wi": 0
+        },
+        {
+          "type": "patroller",
+          "x": 447.56200603144737,
+          "y": 1403.8363189938846,
+          "invT": 0,
+          "sees": false,
+          "wi": 1
+        },
+        {
+          "type": "sentinel",
+          "x": 888,
+          "y": 324,
+          "invT": 0,
+          "sees": false,
+          "wi": null
+        },
+        {
+          "type": "hunter",
+          "x": 72,
+          "y": 180,
+          "invT": 0,
+          "sees": false,
+          "wi": null
+        }
+      ]
+    },
+    {
+      "label": "idle-16",
+      "monotonic": 18708.079414246,
+      "T": 16.460800000001413,
+      "screen": "playing",
+      "paused": false,
+      "sub": {
+        "x": 600,
+        "y": 1656
+      },
+      "sirens": [
+        {
+          "type": "patroller",
+          "x": 223.09993213556464,
+          "y": 1080.0652202039628,
+          "invT": 0,
+          "sees": false,
+          "wi": 1
+        },
+        {
+          "type": "patroller",
+          "x": 469.562004117865,
+          "y": 1403.8454949194502,
+          "invT": 0,
+          "sees": false,
+          "wi": 1
+        },
+        {
+          "type": "sentinel",
+          "x": 888,
+          "y": 324,
+          "invT": 0,
+          "sees": false,
+          "wi": null
+        },
+        {
+          "type": "hunter",
+          "x": 72,
+          "y": 180,
+          "invT": 0,
+          "sees": false,
+          "wi": null
+        }
+      ]
+    },
+    {
+      "label": "ordinary-ping",
+      "monotonic": 18708.285387462,
+      "T": 16.660800000001405,
+      "screen": "playing",
+      "paused": false,
+      "sub": {
+        "x": 600,
+        "y": 1656
+      },
+      "sirens": [
+        {
+          "type": "patroller",
+          "x": 227.8999321179318,
+          "y": 1080.0648087741429,
+          "invT": 0,
+          "sees": false,
+          "wi": 1
+        },
+        {
+          "type": "patroller",
+          "x": 473.842294969863,
+          "y": 1404.33689087293,
+          "invT": 6.483399999999998,
+          "sees": false,
+          "wi": 1
+        },
+        {
+          "type": "sentinel",
+          "x": 888,
+          "y": 324,
+          "invT": 0,
+          "sees": false,
+          "wi": null
+        },
+        {
+          "type": "hunter",
+          "x": 72,
+          "y": 180,
+          "invT": 0,
+          "sees": false,
+          "wi": null
+        }
+      ]
+    },
+    {
+      "label": "response-1",
+      "monotonic": 18709.294645321,
+      "T": 17.677400000001356,
+      "screen": "playing",
+      "paused": false,
+      "sub": {
+        "x": 600,
+        "y": 1656
+      },
+      "sirens": [
+        {
+          "type": "patroller",
+          "x": 252.29833202830395,
+          "y": 1080.0627174763683,
+          "invT": 0,
+          "sees": false,
+          "wi": 1
+        },
+        {
+          "type": "patroller",
+          "x": 488.8764128564982,
+          "y": 1434.3273924394414,
+          "invT": 5.466799999999987,
+          "sees": false,
+          "wi": 1
+        },
+        {
+          "type": "sentinel",
+          "x": 888,
+          "y": 324,
+          "invT": 0,
+          "sees": false,
+          "wi": null
+        },
+        {
+          "type": "hunter",
+          "x": 72,
+          "y": 180,
+          "invT": 0,
+          "sees": false,
+          "wi": null
+        }
+      ]
+    },
+    {
+      "label": "response-2",
+      "monotonic": 18710.300510891,
+      "T": 18.677300000001352,
+      "screen": "playing",
+      "paused": false,
+      "sub": {
+        "x": 600,
+        "y": 1656
+      },
+      "sirens": [
+        {
+          "type": "patroller",
+          "x": 276.29593194014944,
+          "y": 1080.0606605329838,
+          "invT": 0,
+          "sees": false,
+          "wi": 1
+        },
+        {
+          "type": "patroller",
+          "x": 503.66356067751593,
+          "y": 1463.8252308383721,
+          "invT": 4.466899999999976,
+          "sees": false,
+          "wi": 1
+        },
+        {
+          "type": "sentinel",
+          "x": 888,
+          "y": 324,
+          "invT": 0,
+          "sees": false,
+          "wi": null
+        },
+        {
+          "type": "hunter",
+          "x": 72,
+          "y": 180,
+          "invT": 0,
+          "sees": false,
+          "wi": null
+        }
+      ]
+    },
+    {
+      "label": "response-3",
+      "monotonic": 18711.313022001,
+      "T": 19.694000000001353,
+      "screen": "playing",
+      "paused": false,
+      "sub": {
+        "x": 600,
+        "y": 1656
+      },
+      "sirens": [
+        {
+          "type": "patroller",
+          "x": 300.6967318505139,
+          "y": 1080.0585690294943,
+          "invT": 0,
+          "sees": false,
+          "wi": 1
+        },
+        {
+          "type": "patroller",
+          "x": 518.6991574268194,
+          "y": 1493.818682483728,
+          "invT": 3.4501999999999704,
+          "sees": false,
+          "wi": 1
+        },
+        {
+          "type": "sentinel",
+          "x": 888,
+          "y": 324,
+          "invT": 0,
+          "sees": false,
+          "wi": null
+        },
+        {
+          "type": "hunter",
+          "x": 72,
+          "y": 180,
+          "invT": 0,
+          "sees": false,
+          "wi": null
+        }
+      ]
+    },
+    {
+      "label": "response-4",
+      "monotonic": 18712.316746374,
+      "T": 20.69390000000132,
+      "screen": "playing",
+      "paused": false,
+      "sub": {
+        "x": 600,
+        "y": 1656
+      },
+      "sirens": [
+        {
+          "type": "patroller",
+          "x": 324.6943317623594,
+          "y": 1080.0565120861097,
+          "invT": 0,
+          "sees": false,
+          "wi": 1
+        },
+        {
+          "type": "patroller",
+          "x": 533.4863052478378,
+          "y": 1523.31652088266,
+          "invT": 2.450299999999974,
+          "sees": false,
+          "wi": 1
+        },
+        {
+          "type": "sentinel",
+          "x": 888,
+          "y": 324,
+          "invT": 0,
+          "sees": false,
+          "wi": null
+        },
+        {
+          "type": "hunter",
+          "x": 72,
+          "y": 180,
+          "invT": 0,
+          "sees": false,
+          "wi": null
+        }
+      ]
+    },
+    {
+      "label": "response-5",
+      "monotonic": 18713.351889467,
+      "T": 21.71050000000128,
+      "screen": "playing",
+      "paused": false,
+      "sub": {
+        "x": 600,
+        "y": 1656
+      },
+      "sirens": [
+        {
+          "type": "patroller",
+          "x": 349.09273167273255,
+          "y": 1080.0544207883352,
+          "invT": 0,
+          "sees": false,
+          "wi": 1
+        },
+        {
+          "type": "patroller",
+          "x": 552.2170868511721,
+          "y": 1560.6812362089975,
+          "invT": 6.5,
+          "sees": true,
+          "wi": 1
+        },
+        {
+          "type": "sentinel",
+          "x": 888,
+          "y": 324,
+          "invT": 0,
+          "sees": false,
+          "wi": null
+        },
+        {
+          "type": "hunter",
+          "x": 72,
+          "y": 180,
+          "invT": 0,
+          "sees": false,
+          "wi": null
+        }
+      ]
+    },
+    {
+      "label": "response-6",
+      "monotonic": 18714.362794957,
+      "T": 22.74380000000125,
+      "screen": "playing",
+      "paused": false,
+      "sub": {
+        "x": 600,
+        "y": 1656
+      },
+      "sirens": [
+        {
+          "type": "patroller",
+          "x": 373.8919315816334,
+          "y": 1080.0522951361706,
+          "invT": 0,
+          "sees": false,
+          "wi": 1
+        },
+        {
+          "type": "patroller",
+          "x": 572.5918707875092,
+          "y": 1601.325455854447,
+          "invT": 6.5,
+          "sees": true,
+          "wi": 1
+        },
+        {
+          "type": "sentinel",
+          "x": 888,
+          "y": 324,
+          "invT": 0,
+          "sees": false,
+          "wi": null
+        },
+        {
+          "type": "hunter",
+          "x": 72,
+          "y": 180,
+          "invT": 0,
+          "sees": false,
+          "wi": null
+        }
+      ]
+    },
+    {
+      "label": "response-7",
+      "monotonic": 18715.379222148,
+      "T": 23.76050000000126,
+      "screen": "playing",
+      "paused": false,
+      "sub": {
+        "x": 600,
+        "y": 1656
+      },
+      "sirens": [
+        {
+          "type": "patroller",
+          "x": 398.29273149199787,
+          "y": 1080.0502036326811,
+          "invT": 0,
+          "sees": false,
+          "wi": 1
+        },
+        {
+          "type": "patroller",
+          "x": 592.639333119914,
+          "y": 1641.3167247149217,
+          "invT": 6.5,
+          "sees": true,
+          "wi": 1
+        },
+        {
+          "type": "sentinel",
+          "x": 888,
+          "y": 324,
+          "invT": 0,
+          "sees": false,
+          "wi": null
+        },
+        {
+          "type": "hunter",
+          "x": 72,
+          "y": 180,
+          "invT": 0,
+          "sees": false,
+          "wi": null
+        }
+      ]
+    },
+    {
+      "label": "response-8",
+      "monotonic": 18716.382327099,
+      "T": 24.760400000001244,
+      "screen": "playing",
+      "paused": false,
+      "sub": {
+        "x": 600,
+        "y": 1656
+      },
+      "sirens": [
+        {
+          "type": "patroller",
+          "x": 422.29033140384337,
+          "y": 1080.0481466892966,
+          "invT": 0,
+          "sees": false,
+          "wi": 1
+        },
+        {
+          "type": "patroller",
+          "x": 599.8699856597907,
+          "y": 1655.7406435613239,
+          "invT": 6.5,
+          "sees": true,
+          "wi": 1
+        },
+        {
+          "type": "sentinel",
+          "x": 888,
+          "y": 324,
+          "invT": 0,
+          "sees": false,
+          "wi": null
+        },
+        {
+          "type": "hunter",
+          "x": 72,
+          "y": 180,
+          "invT": 0,
+          "sees": false,
+          "wi": null
+        }
+      ]
+    },
+    {
+      "label": "response-9",
+      "monotonic": 18717.385180078,
+      "T": 25.760500000001212,
+      "screen": "playing",
+      "paused": false,
+      "sub": {
+        "x": 600,
+        "y": 1656
+      },
+      "sirens": [
+        {
+          "type": "patroller",
+          "x": 446.2927313156712,
+          "y": 1080.046089334482,
+          "invT": 0,
+          "sees": false,
+          "wi": 1
+        },
+        {
+          "type": "patroller",
+          "x": 599.8699856597907,
+          "y": 1655.7406435613239,
+          "invT": 6.5,
+          "sees": true,
+          "wi": 1
+        },
+        {
+          "type": "sentinel",
+          "x": 888,
+          "y": 324,
+          "invT": 0,
+          "sees": false,
+          "wi": null
+        },
+        {
+          "type": "hunter",
+          "x": 72,
+          "y": 180,
+          "invT": 0,
+          "sees": false,
+          "wi": null
+        }
+      ]
+    },
+    {
+      "label": "response-10",
+      "monotonic": 18718.393019968,
+      "T": 26.77700000000118,
+      "screen": "playing",
+      "paused": false,
+      "sub": {
+        "x": 600,
+        "y": 1656
+      },
+      "sirens": [
+        {
+          "type": "patroller",
+          "x": 470.6887312260532,
+          "y": 1080.0439982424225,
+          "invT": 0,
+          "sees": false,
+          "wi": 1
+        },
+        {
+          "type": "patroller",
+          "x": 599.8699856597907,
+          "y": 1655.7406435613239,
+          "invT": 6.5,
+          "sees": true,
+          "wi": 1
+        },
+        {
+          "type": "sentinel",
+          "x": 888,
+          "y": 324,
+          "invT": 0,
+          "sees": false,
+          "wi": null
+        },
+        {
+          "type": "hunter",
+          "x": 72,
+          "y": 180,
+          "invT": 0,
+          "sees": false,
+          "wi": null
+        }
+      ]
+    },
+    {
+      "label": "response-11",
+      "monotonic": 18719.400962696,
+      "T": 27.77700000000118,
+      "screen": "playing",
+      "paused": false,
+      "sub": {
+        "x": 600,
+        "y": 1656
+      },
+      "sirens": [
+        {
+          "type": "patroller",
+          "x": 494.68873113789,
+          "y": 1080.041941093323,
+          "invT": 0,
+          "sees": false,
+          "wi": 1
+        },
+        {
+          "type": "patroller",
+          "x": 599.8699856597907,
+          "y": 1655.7406435613239,
+          "invT": 6.5,
+          "sees": true,
+          "wi": 1
+        },
+        {
+          "type": "sentinel",
+          "x": 888,
+          "y": 324,
+          "invT": 0,
+          "sees": false,
+          "wi": null
+        },
+        {
+          "type": "hunter",
+          "x": 72,
+          "y": 180,
+          "invT": 0,
+          "sees": false,
+          "wi": null
+        }
+      ]
+    },
+    {
+      "label": "response-12",
+      "monotonic": 18720.41635083,
+      "T": 28.793600000001156,
+      "screen": "playing",
+      "paused": false,
+      "sub": {
+        "x": 600,
+        "y": 1656
+      },
+      "sirens": [
+        {
+          "type": "patroller",
+          "x": 519.0871310482628,
+          "y": 1080.0398497955484,
+          "invT": 0,
+          "sees": false,
+          "wi": 1
+        },
+        {
+          "type": "patroller",
+          "x": 599.8699856597907,
+          "y": 1655.7406435613239,
+          "invT": 6.5,
+          "sees": true,
+          "wi": 1
+        },
+        {
+          "type": "sentinel",
+          "x": 888,
+          "y": 324,
+          "invT": 0,
+          "sees": false,
+          "wi": null
+        },
+        {
+          "type": "hunter",
+          "x": 72,
+          "y": 180,
+          "invT": 0,
+          "sees": false,
+          "wi": null
+        }
+      ]
+    },
+    {
+      "label": "response-13",
+      "monotonic": 18721.420295979,
+      "T": 29.793600000001106,
+      "screen": "playing",
+      "paused": false,
+      "sub": {
+        "x": 600,
+        "y": 1656
+      },
+      "sirens": [
+        {
+          "type": "patroller",
+          "x": 543.0871309600975,
+          "y": 1080.037792646449,
+          "invT": 0,
+          "sees": false,
+          "wi": 1
+        },
+        {
+          "type": "patroller",
+          "x": 599.8699856597907,
+          "y": 1655.7406435613239,
+          "invT": 6.5,
+          "sees": true,
+          "wi": 1
+        },
+        {
+          "type": "sentinel",
+          "x": 888,
+          "y": 324,
+          "invT": 0,
+          "sees": false,
+          "wi": null
+        },
+        {
+          "type": "hunter",
+          "x": 72,
+          "y": 180,
+          "invT": 0,
+          "sees": false,
+          "wi": null
+        }
+      ]
+    },
+    {
+      "label": "response-14",
+      "monotonic": 18722.43012761,
+      "T": 30.793600000001074,
+      "screen": "lost",
+      "paused": false,
+      "sub": {
+        "x": 600,
+        "y": 1656
+      },
+      "sirens": [
+        {
+          "type": "patroller",
+          "x": 551.0863309307122,
+          "y": 1080.037106998654,
+          "invT": 0,
+          "sees": false,
+          "wi": 1
+        },
+        {
+          "type": "patroller",
+          "x": 599.8699856597907,
+          "y": 1655.7406435613239,
+          "invT": 6.5,
+          "sees": true,
+          "wi": 1
+        },
+        {
+          "type": "sentinel",
+          "x": 888,
+          "y": 324,
+          "invT": 0,
+          "sees": false,
+          "wi": null
+        },
+        {
+          "type": "hunter",
+          "x": 72,
+          "y": 180,
+          "invT": 0,
+          "sees": false,
+          "wi": null
+        }
+      ]
+    },
+    {
+      "label": "response-15",
+      "monotonic": 18723.434989217,
+      "T": 31.793500000001067,
+      "screen": "lost",
+      "paused": false,
+      "sub": {
+        "x": 600,
+        "y": 1656
+      },
+      "sirens": [
+        {
+          "type": "patroller",
+          "x": 551.0863309307122,
+          "y": 1080.037106998654,
+          "invT": 0,
+          "sees": false,
+          "wi": 1
+        },
+        {
+          "type": "patroller",
+          "x": 599.8699856597907,
+          "y": 1655.7406435613239,
+          "invT": 6.5,
+          "sees": true,
+          "wi": 1
+        },
+        {
+          "type": "sentinel",
+          "x": 888,
+          "y": 324,
+          "invT": 0,
+          "sees": false,
+          "wi": null
+        },
+        {
+          "type": "hunter",
+          "x": 72,
+          "y": 180,
+          "invT": 0,
+          "sees": false,
+          "wi": null
+        }
+      ]
+    },
+    {
+      "label": "response-16",
+      "monotonic": 18724.439995642,
+      "T": 32.81010000000108,
+      "screen": "lost",
+      "paused": false,
+      "sub": {
+        "x": 600,
+        "y": 1656
+      },
+      "sirens": [
+        {
+          "type": "patroller",
+          "x": 551.0863309307122,
+          "y": 1080.037106998654,
+          "invT": 0,
+          "sees": false,
+          "wi": 1
+        },
+        {
+          "type": "patroller",
+          "x": 599.8699856597907,
+          "y": 1655.7406435613239,
+          "invT": 6.5,
+          "sees": true,
+          "wi": 1
+        },
+        {
+          "type": "sentinel",
+          "x": 888,
+          "y": 324,
+          "invT": 0,
+          "sees": false,
+          "wi": null
+        },
+        {
+          "type": "hunter",
+          "x": 72,
+          "y": 180,
+          "invT": 0,
+          "sees": false,
+          "wi": null
+        }
+      ]
+    }
+  ]
+}
