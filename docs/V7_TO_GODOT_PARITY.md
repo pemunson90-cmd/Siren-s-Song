@@ -1,5 +1,5 @@
 # v7 → Godot mechanics reconciliation ledger · 2026-10-19
-Status: actionable inventory grounded in playable `reference/original-prototype/sirens_song_prototype_v7.html`, historical `archive/prototypes/` and current Godot code. Historical `docs/reviews/2026-10-19-original-prototype-mechanics-audit.md` is useful but source-revision-specific, not current status authority. Details and future disposition governed by `docs/CURRENT_GAME_SPEC.md`.
+Status: actionable inventory grounded in playable `reference/original-prototype/sirens_song_prototype_v7.html`, historical `archive/prototypes/` and current Godot code. Historical `https://github.com/pemunson90-cmd/Siren-s-Song/blob/archive/gauntlet-evidence-2026-10-19-stage2/docs/reviews/2026-10-19-original-prototype-mechanics-audit.md` is useful but source-revision-specific, not current status authority. Details and future disposition governed by `docs/CURRENT_GAME_SPEC.md`.
 
 | Feature | v7 evidence | Current Godot interpretation | Disposition |
 | --- | --- | --- | --- |
