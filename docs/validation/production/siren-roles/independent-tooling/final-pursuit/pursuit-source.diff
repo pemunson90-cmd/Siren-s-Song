@@ -1,0 +1,31 @@
+--- 01206514-pre-pursuit
++++ 472b86bd-final-pursuit
+@@ -311,7 +311,9 @@
+ 			s["last_known"]=s.goal; s["attention_time"]=12.0; s["search_index"]=0
+ 		if detected>=0:
+ 			if s.target!=detected: s.lock=0.0
+-			s.route.clear(); s.angle=rotate_toward(s.angle,s.pos.angle_to_point(units[detected].pos),1.8*dt)
++			if s.get("type","patroller")=="patroller": s.route.clear()
++			else: _visual_pursuit(s,units[detected].pos,dt)
++			if s.route.is_empty(): s.angle=rotate_toward(s.angle,s.pos.angle_to_point(units[detected].pos),1.8*dt)
+ 			var previous_lock:float=s.lock
+ 			s.target=detected; s.goal=units[detected].pos; s["last_known"]=s.goal; s["attention_time"]=12.0; s["search_index"]=0; s.lock+=dt; s.suspicion=minf(1,s.suspicion+dt*0.3); s.mode="LOCKING" if s.lock<4 else "BEAM"
+ 			if s.lock>=4:
+@@ -338,6 +340,17 @@
+ 		var speed=48.0 if s.suspicion>0.1 else 25.0
+ 		if s.get("type","")=="hunter": speed=38.0 if s.mode in ["RETURN","DORMANT"] else 64.0
+ 		_move(s,dt,speed,false)
++
++func _visual_pursuit(s: Dictionary,target: Vector2,dt: float) -> void:
++	# Port station-role pursuit without the v7 straight-line overlap. The beam's
++	# independent four-second lock still requires current sight on every tick.
++	if s.pos.distance_to(target)<=205:
++		s.route.clear(); return
++	s.path_time-=dt
++	if s.path_time<=0 or s.route.is_empty():
++		var approach=target+target.direction_to(s.pos)*180.0
++		s.route=path(s.pos,approach) if line_clear(approach,target) else []
++		s.path_time=0.3
+ 
+ func _station_intent(s: Dictionary,heard: bool,dt: float) -> void:
+ 	# v7 station roles react to evidence, then return. Tether is conditional,
