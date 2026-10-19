@@ -1,0 +1,12 @@
+{
+  "baseline_commit": "6ab8fb0eb18180d9e4cb2a732c2873552ea9b727",
+  "product_changed": [
+    "game/src/presentation/ocean_view.gd"
+  ],
+  "other_138_original_files_identical": true,
+  "baseline_original_files_unchanged": true,
+  "baseline_ocean_sha256": "6727762ccaa0623ad1a3618cccd297f334a292879482aaac72227a96891bb4c2",
+  "challenger_ocean_sha256": "338c9e470284a93f19ab170404c566be32e915a6d2374f85486409fe9a113816",
+  "simulation_sha256": "d1bad2ca17fa28c1f8faa3ce2a7e4d1c91cf5ba2ad79df98c4bcb0d193431641",
+  "patch_sha256": "1e6e80ef7f16da477e88e72a0283f0feab336dbea5c2177e2559a12504d0d4e0"
+}

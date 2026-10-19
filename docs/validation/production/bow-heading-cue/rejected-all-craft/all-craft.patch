@@ -1,0 +1,26 @@
+--- a/game/src/presentation/ocean_view.gd
++++ b/game/src/presentation/ocean_view.gd
+@@ -253,9 +253,23 @@
+ 		draw_line(Vector2(9,-5),Vector2(9,5),Color("8a9b9d"),1)
+ 		draw_circle(Vector2(18,0),3,Color("7edfe4")); draw_line(Vector2(-20,-9),Vector2(-16,9),Color("506e77"),2)
+ 	draw_set_transform(world_offset,0,Vector2.ONE*world_scale)
++	if index==sim.selected:
++		var heading=selected_heading_marker()
++		draw_polyline(heading,INK,feedback_font_size*0.27/world_scale,true)
++		draw_polyline(heading,Color("a7c7c3"),feedback_font_size*0.15/world_scale,true)
+ 	var label_y=63 if index==0 else 45
+ 	if (world_offset+p*world_scale).y+label_y*world_scale>size.y-8: label_y=-36
+ 	_label(p+Vector2(-39 if index==sim.selected else -8,label_y),u.name if index==sim.selected else ["Q","A","B"][index],CYAN if index==sim.selected else Color("7e9da4"),18)
++func selected_heading_marker() -> PackedVector2Array:
++	if sim==null or sim.selected<0 or sim.selected>=sim.units.size(): return PackedVector2Array()
++	var u=sim.units[sim.selected]
++	if not u.alive: return PackedVector2Array()
++	var scale=maxf(world_scale,0.001)
++	var length=float(feedback_font_size)/scale
++	var direction=Vector2.from_angle(u.angle)
++	var bow:Vector2=u.pos+direction*((66.0 if sim.selected==0 else 21.0)+length*0.55)
++	var side=direction.orthogonal()*length*0.36
++	return PackedVector2Array([bow+side,bow+direction*length,bow-side])
+ func _hull_style() -> StyleBoxFlat:
+ 	var style=StyleBoxFlat.new(); style.bg_color=Color("263841"); style.border_color=Color("627780"); style.set_border_width_all(1); style.set_corner_radius_all(7); return style
+ func _siren(p: Vector2,angle: float,fresh: bool,role: String="patroller") -> void:

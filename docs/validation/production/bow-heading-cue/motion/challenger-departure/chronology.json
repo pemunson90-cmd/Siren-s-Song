@@ -1,0 +1,395 @@
+{
+  "camera": "programmatic normal2x zoom and own-position following pan each frame; not OS input",
+  "departure_command_before_frame0": true,
+  "final_hull": 100.0,
+  "final_message": "QUIETUS · replaced route",
+  "final_outcome": "",
+  "inputs_during_clip": 0,
+  "samples": [
+    {
+      "angle": 0.353938410878182,
+      "frame": 0,
+      "hull": 100.0,
+      "message": "QUIETUS · replaced route",
+      "outcome": "",
+      "position": "(1353.052, 618.3444)",
+      "route": [
+        {
+          "pos": "(740.0, 620.0)",
+          "stop": false
+        },
+        {
+          "pos": "(580.0, 700.0)",
+          "stop": false
+        },
+        {
+          "pos": "(140.0, 800.0)",
+          "stop": true
+        }
+      ],
+      "time": 47.4666666666653,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "angle": 2.15393841087818,
+      "frame": 15,
+      "hull": 100.0,
+      "message": "QUIETUS · replaced route",
+      "outcome": "",
+      "position": "(1353.052, 618.3444)",
+      "route": [
+        {
+          "pos": "(740.0, 620.0)",
+          "stop": false
+        },
+        {
+          "pos": "(580.0, 700.0)",
+          "stop": false
+        },
+        {
+          "pos": "(140.0, 800.0)",
+          "stop": true
+        }
+      ],
+      "time": 48.4666666666652,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "angle": 3.14672714868654,
+      "frame": 30,
+      "hull": 100.0,
+      "message": "QUIETUS · replaced route",
+      "outcome": "",
+      "position": "(1335.506, 623.083)",
+      "route": [
+        {
+          "pos": "(740.0, 620.0)",
+          "stop": false
+        },
+        {
+          "pos": "(580.0, 700.0)",
+          "stop": false
+        },
+        {
+          "pos": "(140.0, 800.0)",
+          "stop": true
+        }
+      ],
+      "time": 49.4666666666651,
+      "velocity": "(-37.14269, 1.327857)"
+    },
+    {
+      "angle": 3.14690429369082,
+      "frame": 45,
+      "hull": 100.0,
+      "message": "QUIETUS · replaced route",
+      "outcome": "",
+      "position": "(1293.764, 622.9414)",
+      "route": [
+        {
+          "pos": "(740.0, 620.0)",
+          "stop": false
+        },
+        {
+          "pos": "(580.0, 700.0)",
+          "stop": false
+        },
+        {
+          "pos": "(140.0, 800.0)",
+          "stop": true
+        }
+      ],
+      "time": 50.4666666666651,
+      "velocity": "(-41.9994, -0.223085)"
+    },
+    {
+      "angle": 3.14690357843508,
+      "frame": 60,
+      "hull": 100.0,
+      "message": "QUIETUS · replaced route",
+      "outcome": "",
+      "position": "(1251.767, 622.718)",
+      "route": [
+        {
+          "pos": "(740.0, 620.0)",
+          "stop": false
+        },
+        {
+          "pos": "(580.0, 700.0)",
+          "stop": false
+        },
+        {
+          "pos": "(140.0, 800.0)",
+          "stop": true
+        }
+      ],
+      "time": 51.466666666665,
+      "velocity": "(-41.9994, -0.223055)"
+    },
+    {
+      "angle": 3.14690286317934,
+      "frame": 75,
+      "hull": 100.0,
+      "message": "QUIETUS · replaced route",
+      "outcome": "",
+      "position": "(1209.77, 622.4946)",
+      "route": [
+        {
+          "pos": "(740.0, 620.0)",
+          "stop": false
+        },
+        {
+          "pos": "(580.0, 700.0)",
+          "stop": false
+        },
+        {
+          "pos": "(140.0, 800.0)",
+          "stop": true
+        }
+      ],
+      "time": 52.466666666665,
+      "velocity": "(-41.9994, -0.223025)"
+    },
+    {
+      "angle": 3.14690214792361,
+      "frame": 90,
+      "hull": 100.0,
+      "message": "QUIETUS · replaced route",
+      "outcome": "",
+      "position": "(1167.773, 622.2712)",
+      "route": [
+        {
+          "pos": "(740.0, 620.0)",
+          "stop": false
+        },
+        {
+          "pos": "(580.0, 700.0)",
+          "stop": false
+        },
+        {
+          "pos": "(140.0, 800.0)",
+          "stop": true
+        }
+      ],
+      "time": 53.4666666666649,
+      "velocity": "(-41.99941, -0.222995)"
+    },
+    {
+      "angle": 3.14690095583071,
+      "frame": 105,
+      "hull": 100.0,
+      "message": "QUIETUS · replaced route",
+      "outcome": "",
+      "position": "(1125.776, 622.0479)",
+      "route": [
+        {
+          "pos": "(740.0, 620.0)",
+          "stop": false
+        },
+        {
+          "pos": "(580.0, 700.0)",
+          "stop": false
+        },
+        {
+          "pos": "(140.0, 800.0)",
+          "stop": true
+        }
+      ],
+      "time": 54.4666666666649,
+      "velocity": "(-41.99941, -0.222945)"
+    },
+    {
+      "angle": 3.14689976373781,
+      "frame": 120,
+      "hull": 100.0,
+      "message": "QUIETUS · replaced route",
+      "outcome": "",
+      "position": "(1083.778, 621.8245)",
+      "route": [
+        {
+          "pos": "(740.0, 620.0)",
+          "stop": false
+        },
+        {
+          "pos": "(580.0, 700.0)",
+          "stop": false
+        },
+        {
+          "pos": "(140.0, 800.0)",
+          "stop": true
+        }
+      ],
+      "time": 55.4666666666648,
+      "velocity": "(-41.99941, -0.222895)"
+    },
+    {
+      "angle": 3.14689809480776,
+      "frame": 135,
+      "hull": 100.0,
+      "message": "QUIETUS · replaced route",
+      "outcome": "",
+      "position": "(1041.781, 621.6011)",
+      "route": [
+        {
+          "pos": "(740.0, 620.0)",
+          "stop": false
+        },
+        {
+          "pos": "(580.0, 700.0)",
+          "stop": false
+        },
+        {
+          "pos": "(140.0, 800.0)",
+          "stop": true
+        }
+      ],
+      "time": 56.4666666666647,
+      "velocity": "(-41.99941, -0.222825)"
+    },
+    {
+      "angle": 3.14689594904055,
+      "frame": 150,
+      "hull": 100.0,
+      "message": "QUIETUS · replaced route",
+      "outcome": "",
+      "position": "(999.7822, 621.3777)",
+      "route": [
+        {
+          "pos": "(740.0, 620.0)",
+          "stop": false
+        },
+        {
+          "pos": "(580.0, 700.0)",
+          "stop": false
+        },
+        {
+          "pos": "(140.0, 800.0)",
+          "stop": true
+        }
+      ],
+      "time": 57.4666666666647,
+      "velocity": "(-41.99941, -0.222735)"
+    },
+    {
+      "angle": 3.14689284959902,
+      "frame": 165,
+      "hull": 100.0,
+      "message": "QUIETUS · replaced route",
+      "outcome": "",
+      "position": "(957.7814, 621.1543)",
+      "route": [
+        {
+          "pos": "(740.0, 620.0)",
+          "stop": false
+        },
+        {
+          "pos": "(580.0, 700.0)",
+          "stop": false
+        },
+        {
+          "pos": "(140.0, 800.0)",
+          "stop": true
+        }
+      ],
+      "time": 58.4666666666646,
+      "velocity": "(-41.99941, -0.222605)"
+    },
+    {
+      "angle": 3.1468885580646,
+      "frame": 180,
+      "hull": 100.0,
+      "message": "QUIETUS · replaced route",
+      "outcome": "",
+      "position": "(915.7807, 620.9309)",
+      "route": [
+        {
+          "pos": "(740.0, 620.0)",
+          "stop": false
+        },
+        {
+          "pos": "(580.0, 700.0)",
+          "stop": false
+        },
+        {
+          "pos": "(140.0, 800.0)",
+          "stop": true
+        }
+      ],
+      "time": 59.4666666666646,
+      "velocity": "(-41.99941, -0.222424)"
+    },
+    {
+      "angle": 3.14688140550722,
+      "frame": 195,
+      "hull": 100.0,
+      "message": "QUIETUS · replaced route",
+      "outcome": "",
+      "position": "(873.78, 620.7075)",
+      "route": [
+        {
+          "pos": "(740.0, 620.0)",
+          "stop": false
+        },
+        {
+          "pos": "(580.0, 700.0)",
+          "stop": false
+        },
+        {
+          "pos": "(140.0, 800.0)",
+          "stop": true
+        }
+      ],
+      "time": 60.4666666666645,
+      "velocity": "(-41.99941, -0.222124)"
+    },
+    {
+      "angle": 3.14686781564821,
+      "frame": 210,
+      "hull": 100.0,
+      "message": "QUIETUS · replaced route",
+      "outcome": "",
+      "position": "(831.7792, 620.4842)",
+      "route": [
+        {
+          "pos": "(740.0, 620.0)",
+          "stop": false
+        },
+        {
+          "pos": "(580.0, 700.0)",
+          "stop": false
+        },
+        {
+          "pos": "(140.0, 800.0)",
+          "stop": true
+        }
+      ],
+      "time": 61.4666666666645,
+      "velocity": "(-41.99942, -0.221553)"
+    },
+    {
+      "angle": 3.14686805406679,
+      "frame": 225,
+      "hull": 100.0,
+      "message": "QUIETUS · replaced route",
+      "outcome": "",
+      "position": "(789.7785, 620.2626)",
+      "route": [
+        {
+          "pos": "(740.0, 620.0)",
+          "stop": false
+        },
+        {
+          "pos": "(580.0, 700.0)",
+          "stop": false
+        },
+        {
+          "pos": "(140.0, 800.0)",
+          "stop": true
+        }
+      ],
+      "time": 62.4666666666644,
+      "velocity": "(-41.99942, -0.221563)"
+    }
+  ],
+  "setup": "restored identical baseline ordinary forward-order both-drones-lost fixture; finite-tool policy;4.5s holds"
+}
