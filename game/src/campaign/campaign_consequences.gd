@@ -16,6 +16,9 @@ static func retain(previous:Dictionary,mission:Dictionary)->Dictionary:
  var p=upgrade(previous)
  if p.is_empty():return p
  for key in mission.get("expedition_facts",{}):p.notes[key]=mission.expedition_facts[key]
+ if mission.get("terrain_chart_revision",0)==1 and mission.get("id",-1)==14:
+  var chart=mission.get("terrain_chart_note",{})
+  if preload("res://src/simulation/terrain_chart.gd").valid_state(chart,mission):p["terrain_notes"]={"14":chart.duplicate(true)}
  return p
 static func recovered(previous:Dictionary,mission:Dictionary)->Dictionary:
  var p=retain(previous,mission)
@@ -32,7 +35,9 @@ static func recovered(previous:Dictionary,mission:Dictionary)->Dictionary:
  if mission.id==11 and not p.facts.has("confluence_route") and mission.get("chosen_route","") in ["concealed","overt"]:p.facts["confluence_route"]=mission.chosen_route
  return p
 static func context(p:Dictionary)->Dictionary:
- return {"thread":p.get("selected_thread",""),"completed":p.get("completed",[]).duplicate(),"facts":p.get("facts",{}).duplicate(true),"references":p.get("references",{}).duplicate(true)}
+ var result={"thread":p.get("selected_thread",""),"completed":p.get("completed",[]).duplicate(),"facts":p.get("facts",{}).duplicate(true),"references":p.get("references",{}).duplicate(true)}
+ if p.has("terrain_notes"):result.terrain_notes=p.terrain_notes.duplicate(true)
+ return result
 static func commit(previous:Dictionary,id:int,fitted:Dictionary)->Dictionary:
  var p=upgrade(previous)
  if p.is_empty() or id<9:return p
@@ -52,7 +57,11 @@ static func cadence_valid(value)->bool:
   if not (interval is int or interval is float) or not is_finite(interval) or interval<=0 or interval>10:return false
  return true
 static func valid(p:Dictionary)->bool:
- if not p.has_all(["notes","entitlements","references","history","selected_thread"]) or not p.notes is Dictionary or p.notes.size()>16 or not p.entitlements is Array or p.entitlements.size()>2 or not p.references is Dictionary or not p.history is Array or p.history.size()>5 or p.selected_thread not in ["","deep","shelf"]:return false
+ if p.has("terrain_notes"):
+  var notes=p.terrain_notes
+  if not notes is Dictionary or notes.size()!=1 or not notes.has("14"):return false
+  if not preload("res://src/simulation/terrain_chart.gd").valid_state(notes["14"],{"world_size":Vector2(2400,3000),"chart_geometry_revision":1}):return false
+ if not p.has_all(["notes","entitlements","references","history","selected_thread"]) or not p.notes is Dictionary or p.notes.size()>16 or not p.entitlements is Array or p.entitlements.size()>2 or not p.references is Dictionary or not p.history is Array or p.history.size()>6 or p.selected_thread not in ["","deep","shelf"]:return false
  for key in p.notes:
   if not key is String or not p.notes[key] is String:return false
  var seen=[]
@@ -65,7 +74,7 @@ static func valid(p:Dictionary)->bool:
  if "drone_sampler" in p.entitlements and 8 not in p.completed:return false
  seen=[]
  for h in p.history:
-  if not h is Dictionary or not h.has_all(["mission","thread","fitted"]) or h.mission not in [9,10,11,12,13] or h.mission in seen or h.mission not in p.completed or h.thread not in ["deep","shelf"] or h.thread!=p.selected_thread or not fitting_valid(h.fitted):return false
+  if not h is Dictionary or not h.has_all(["mission","thread","fitted"]) or h.mission not in [9,10,11,12,13,14] or h.mission in seen or h.mission not in p.completed or h.thread not in ["deep","shelf"] or h.thread!=p.selected_thread or not fitting_valid(h.fitted):return false
   for item in h.fitted.values():
    if not item.is_empty() and item not in p.entitlements:return false
   seen.append(h.mission)

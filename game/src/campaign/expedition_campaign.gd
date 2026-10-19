@@ -1,6 +1,7 @@
 extends RefCounted
 # Future authored operations stay staged until their physical hooks and ordinary play are reviewed.
 const RESOLUTION_READY=true
+const BLIND_PASSAGE_READY=false
 const Consequences=preload("res://src/campaign/campaign_consequences.gd")
 const FIELD_RECORDS=["resolution_witness_sluice","resolution_warning_transmission","divergence_warning_reply","wake_packet","wake_repeater","chain_west","chain_east","chain_relay","divergence_deep","divergence_shelf","divergence_rendezvous","divergence_warning","divergence_confluence_packet","divergence_confluence_repeater","divergence_witness_packet","divergence_witness_repeater","resolution_warning_west","resolution_warning_east","resolution_warning_uplink"]
 # One concrete fork. Tutorial indices/unlocked remain the original0..5 contract.
@@ -13,9 +14,16 @@ static func available(completed:Array,progress:Dictionary)->Array:
  if RESOLUTION_READY and (9 in progress.get("completed",[]) or 10 in progress.get("completed",[])):result.append(11)
  var route=progress.get("facts",{}).get("confluence_route","")
  if RESOLUTION_READY and 11 in progress.get("completed",[]) and route in ["concealed","overt"]:result.append(12 if route=="concealed" else 13)
+ if BLIND_PASSAGE_READY and (12 in progress.get("completed",[]) or 13 in progress.get("completed",[])) and progress.get("facts",{}).get("resolution","") in ["concealed_recovery","overt_warning"]:result.append(14)
  return result
 static func recover(previous:Dictionary,mission:Dictionary)->Dictionary:
  var result=previous.duplicate(true)
+ if mission.get("delivery_revision",0)==1:
+  result=Consequences.retain(result,mission)
+  if mission.get("id",-1)==14 and mission.get("recovered",false) and mission.get("handoff_complete",false) and valid(result):
+   if 14 not in result.completed:result.completed.append(14)
+   result=Consequences.commit(result,14,mission.get("launch_equipment",Consequences.EMPTY_FIT))
+  return result
  if mission.get("expedition_revision",0) not in [1,2] or not mission.get("recovered",false):return Consequences.retain(result,mission)
  if mission.id!=6 and (result.is_empty() or not valid(result)):return result
  if result.is_empty():result={"version":1,"route":"","routes":[],"facts":{},"completed":[]}
@@ -37,12 +45,12 @@ static func valid(value)->bool:
   if route not in ["deep","shelf"] or not value.facts.has(route):return false
  for fact in value.facts:
   if not fact is String or not value.facts[fact] is String or (value.version==1 and fact not in ["deep","shelf","rendezvous"]):return false
- if value.completed.size()>8 or value.facts.size()>16:return false
+ if value.completed.size()>9 or value.facts.size()>16:return false
  var seen_ids=[]
  for id in value.completed:
   if id in seen_ids:return false
   seen_ids.append(id)
-  if id not in ([6,7,8] if value.version==1 else [6,7,8,9,10,11,12,13]) or (id==7 and "deep" not in value.routes) or (id==8 and "shelf" not in value.routes):return false
+  if id not in ([6,7,8] if value.version==1 else [6,7,8,9,10,11,12,13,14]) or (id==7 and "deep" not in value.routes) or (id==8 and "shelf" not in value.routes):return false
  if value.version==2:
   if not Consequences.valid(value):return false
   if 9 in value.completed and 7 not in value.completed:return false
@@ -50,10 +58,12 @@ static func valid(value)->bool:
   if 11 in value.completed and not (9 in value.completed or 10 in value.completed):return false
   if 12 in value.completed and (11 not in value.completed or value.facts.get("confluence_route","")!="concealed"):return false
   if 13 in value.completed and (11 not in value.completed or value.facts.get("confluence_route","")!="overt"):return false
+  if 14 in value.completed and not ((12 in value.completed and value.facts.get("resolution","")=="concealed_recovery") or (13 in value.completed and value.facts.get("resolution","")=="overt_warning")):return false
   if value.facts.has("confluence_route") and (11 not in value.completed or value.facts.confluence_route not in ["concealed","overt"]):return false
  return 6 in value.completed and value.facts.has(value.route)
 
 static func continuations(progress:Dictionary,mission_id:int)->Array:
  var targets={6:[7 if progress.get("route","")=="deep" else 8],7:[9],8:[10],9:[11],10:[11],11:[12 if progress.get("facts",{}).get("confluence_route","")=="concealed" else 13]}
+ if mission_id in [12,13]:targets[mission_id]=[14]
  var accessible=available([0,1,2,3,4,5],progress)
  return targets.get(mission_id,[]).filter(func(id):return id in accessible)
