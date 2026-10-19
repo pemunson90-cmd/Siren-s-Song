@@ -10,3 +10,5 @@ All game drawing, noise materials, and procedural audio are original work produc
 - Typeface: Godot's bundled fallback font; engine-distributed font licensing applies. Engine and export template attribution follows Godot's MIT license and bundled third-party notices.
 
 Generated material fidelity and viewpoint continuity remain subject to the independent visual review and continued art direction.
+
+- `craft/siren_ray.png`: original transparent sprite generation `exec-af79225c-9265-4868-b093-e263da9fe36d`, using the approved angular-ray study as design reference. Separate physical asset; beam/target/impact remain live simulation-driven overlays.

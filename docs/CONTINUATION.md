@@ -8,7 +8,7 @@ Build with Godot4.6.3 Compatibility in `game/`. Galaxy Z Fold7 is the primary de
 
 Production lead: own game code, simulation, campaign, UI, rendering/audio and persistence. Tooling owner: export presets, scripts/toolchain, CI and environment report. Coordinate ownership. Preserve imported archives/design/reference sources unchanged.
 
-Next: implement the native production foundation and deterministic tactical core, run tests, capture real output, and commission fresh-context Sol criticism. Continue through campaign and Android quality gates while resources allow. Commit meaningful progress and push the branch. Keep incomplete quality/device gates visible; do not call a compiled milestone a finished game.
+Next: continue from the existing tested campaign and Split Channel proving ground. Run `scripts/toolchain/test.sh` (current53core +142runtime), inspect WORKBENCH current summary and latest independent report, then demonstrate a learned safer return/recovery plan, verify explicit stop/pass-through behavior, and deepen differentiated missions/audio. Root coordinates pushes while tooling obtains installed Android backend/lifecycle/cutout evidence. Preserve the baseline and iterate; do not restart foundation work or call it finished.
 
 
 ## Persistent Gauntlet mandate — user ratified 2026-10-18
@@ -23,4 +23,4 @@ After each meaningful milestone: (1) build/run and gather inspectable gameplay, 
 
 ## Current production recovery point — 19 October
 
-The native six-mission baseline exists; do not rebuild it. Current game interfaces and raw evidence are in WORKBENCH checkpoint2 and `docs/validation/production/README.md`. Run `scripts/toolchain/test.sh` and `headless.sh --script res://tests/runtime_tests.gd` first (50/137 checks at checkpoint). Read the fresh baseline critic report when available and execute the next highest-value improvement cycle. The Gauntlet remains active beyond this baseline. Root controls push timing while tooling diagnoses Android first launch. Production lead has not pushed. Preserve imported files and all ratified Persistent Gauntlet mandate paragraphs.
+The campaign baseline and two improvement cycles exist; do not rebuild them. `docs/WORKBENCH.md` has the current state before historical checkpoints. Latest evidence: `docs/validation/production/README.md`, `docs/reviews/2026-10-19-baseline-critique.md`; actual new framebuffers `build/captures/cycle2-optical/full.png`, `cycle2-beam/full.png`, `cycle2-split/full.png`. First command: `scripts/toolchain/test.sh` (53core/142runtime at this checkpoint). Continue the top workbench next cycle and native validation, commit meaningful progress, coordinate pushes with root to avoid canceling useful CI. Physical Samsung and human listening gates remain open. Preserve imported sources and every ratified Persistent Gauntlet mandate paragraph.

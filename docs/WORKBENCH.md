@@ -1,23 +1,25 @@
 # Siren's Song progress workbench
 
-**Stage:** Architectural kickoff complete; Sol production starting. Full game is not yet built.
-**Branch:** `gauntlet/production`, based on `3bfd7f41934d7f302896e5caa71f4a9f3787e4a9`.
-**Player device:** Samsung Galaxy Z Fold7. Cover and unfolded layouts are required.
+**Stage:** Active Gauntlet, campaign baseline plus two evidence-driven improvement cycles. This is not a finished or user-accepted game.
+**Branch:** `gauntlet/production`; latest committed gameplay reliability cycle `4463446`, current optical/safe-area cycle awaiting checkpoint.
+**Player device:** Samsung Galaxy Z Fold7; physical installation/folding/thumb/performance review remains open.
 
-| Workstream | Status | Evidence / next action |
+| Workstream | Current state | Evidence / next action |
 | --- | --- | --- |
-| Source import | Complete | 47 immutable source files, original SHA inventories in `docs/source-import/` |
-| Corpus/visual/architecture | Complete | `docs/architecture/GAUNTLET.md`, ADR 0001, production design/plan |
-| Environment/toolchain | In progress, Sol | Godot4.6.3, JDK17/SDK available; official templates installed and dummy Xorg rendering verified. `docs/CODEX_ENVIRONMENT.md` |
-| Native game/simulation | Starting, Sol lead | `game/`; real game tests/captures pending |
-| Art/audio/touch | Planned | Compare actual output with C01/C02 and Quietus/Siren references |
-| Campaign/progression/save | Planned | Six authored missions, ending, lifecycle and replay gates |
-| Android emulator CI | In progress, Sol tooling | GitHub Actions native install, lifecycle, cover/unfolded screenshots |
-| Device review | Pending | Actual Z Fold7 installation/touch/fold/performance |
+| Sources/architecture | Preserved and implemented | Immutable imported corpus; Godot4.6.3 Compatibility architecture |
+| Native tactical core | Runnable, regression tested | Fixed60Hz, inertia/assisted routing, two drones, fair LOS/acoustic/beam, command replacement and tactical pause |
+| Campaign/save | Six playable baseline missions and ending | All six ordinary-command fallback runs pass; checksummed active/campaign/settings backup recovery; other missions still need differentiated situations |
+| Split Channel proving ground | Connected channels, two separated relays + Quietus uplink | Coordinated39.3s, solo78.6s; latest standoff change yields67.3% hull in each scripted run; these are tactical fixtures, not human balance acceptance |
+| Art/input | Actual textured world, physical ray, station-owned optical inset | `docs/validation/production/`; core53checks and runtime142checks pass, including pointer inputs, menu preservation, optical ownership and physical→logical safearea conversion |
+| Audio | Original ambience/cues and volume/mute | Signal/headroom checks pass; functional propulsion/mixed-output/listening polish and forced-exit stream leak remain open |
+| Android emulator | Native launch/log/UI markers verified by tooling; renderer/lifecycle CI iteration active | See `docs/CODEX_ENVIRONMENT.md` and `docs/validation/android-*`; modern backend retry; no Samsung performance claim |
+| Independent criticism | Baseline plus follow-up completed, explicit fresh Sol | `docs/reviews/2026-10-19-baseline-critique.md`; confirmed attention defects fixed, next demonstrate learned safe return |
 
-## Evidence and criticism
+## Current evidence and highest-value next cycle
 
-No new game quality claim yet. Raw evidence, tests, independent critiques and biggest remaining gap will be added here as produced. Initial largest gap: no production executable.
+Combined validation: `scripts/toolchain/test.sh` → **53 core/campaign +142 runtime checks, zero failures**. Waypoint check totals vary with safe path simplification; invariant tests have been added, not removed. Full framebuffer optical, beam, and connected-channel captures are in `build/captures/cycle2-*` and retained in the validation index. Desktop rendering is distinct from installed Android/Samsung validation.
+
+Next: demonstrate a learned safer Split Channel return/recovery plan with ordinary cover/noise/conditional orders and finite resources; explicitly verify stop/pass-through behavior; deepen mission differentiation and functional sound from the proving ground. Preserve the working baseline while native runtime/cutout/restore evidence matures. Do not stop the Gauntlet at these milestones.
 
 ## Continuity
 
@@ -59,3 +61,12 @@ Independent report: `docs/reviews/2026-10-19-baseline-critique.md` (fresh Sol ev
 - Current combined suite:52core checks +139runtime, zero failures (waypoint assertions reduce after path simplification). All six fallback victories remain. Split solo:78.6s/hull81.7%; coordinated two drones+sub uplink:39.3s/hull6.4%, both drones survive, all3EMP spent. Faster coordinated route is risky; these are distinct automated tactics, not a claim of solved pacing/balance.
 - Camera named fixture repaired to route a drone normally, acquire, change station and capture mid-exposure; recapture pending after new navigation fix. Next priorities: richer actual camera view/physical beam, safearea response to measured Android cutout, then reassess campaign differentiation and sound rather than expand counts.
 - Root/tooling own native backend diagnosis; nextcombined push safe after this green cycle. Persistent Gauntlet continues; no completion claim.
+
+## Gauntlet cycle 2 — observed optical/beam feedback and safe-area handling
+
+- Added separate optical image panel and original generated physical ray asset, directional target/beam/impact overlay, clear contact memory symbol, and locking standoff so the Siren does not continue its stale approach route into the firing target. Regression demonstrated overlap after4.5seconds before fix.
+- Follow-up critic independently inspected new framebuffers, verified52/140tests and traced coordinated damage to the return corridor (first damage at33.1seconds, after all collection completed). It reproduced optical inset blocking an actual escape-map tap. Fix: optical inset belongs only to the currently operated camera station; switching toQuietus clears it while acquisition continues. Pointer regression RED→GREEN.
+- Native Pixel fixture reports136physicalpx cutout. New pure geometry conversion maps that to90.6667logicalpx at1.5scale; Android root receives safe-area insets. Diagnostic centers remain global/full-viewport logical coordinates. Installed cutout validation is still pending, not assumed from the formula test.
+- Current combined53core/142runtime pass. Split coordinated39.3s/hull67.3%, both drones survive,3EMPspent; solo78.6s/hull67.3%. Changed standoff affects balance; continue assessing tactical learning rather than claim tuned difficulty.
+- Actual successful optical acquisition captured whileDroneA operates the camera. Switching station acquisition continuity is separately exercised by production simulation and pointer tests. Actual beam capture uses ordinary route+hold after observed acquisition and deliberately stays exposed until96%hull to document emitter→target feedback.
+- Repeated forced short capture exit still warns about AudioStreamWAV/playback references. No assertion that it is fixed or harmless on physical hardware. Next cycle follows the current top summary.

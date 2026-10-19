@@ -162,3 +162,68 @@ d6452ae87dd05e0708ef6c799699d5cb7856a4626f190d7e15d07c9de066aa58  scripts/toolch
 The isolated probes instantiated the production `Simulation` and actual main scene with `capture_scenario="critic-probe"` to suppress archive writes. For reproduction, use a temporary `extends SceneTree` script, preload `res://src/simulation/simulation.gd`, and apply the explicit fixtures/commands/counts above. UI probes instantiate `res://scenes/main.tscn`, add it to `root`, await two frames, and call the same `_start_mission`, `_show_campaign` and `_briefing` methods wired to buttons. The temporary probe file is `/tmp/sirens-critic-probes.gd` in this execution workspace; durable reproduction steps and observations are recorded here so the report remains usable after temporary files disappear.
 
 Only this review document was edited. No game/tooling/import edits or commits were made by the critic.
+
+## Follow-up cycle review — Split Channel, optical feed and physical threat (19 October, 03:38 UTC snapshot)
+
+I first inspected the new actual full framebuffers `build/captures/split-cycle/full.png`, `optical-cycle/full.png`, `beam-oriented/full.png`, and `physical-threat-cycle/full.png`, before reading the cycle's changes or claims. I then inspected the current mission, simulation, camera/feed/UI and tests, including commit `4463446` plus working changes over `5f471b4`. I independently ran `scripts/toolchain/test.sh`: **52 core/campaign checks and 140 runtime checks, zero failures**. The changed check count includes fewer per-waypoint assertions after route simplification; totals alone do not measure coverage or quality. The exit ObjectDB leak warning remains.
+
+### What materially improved
+
+Split Channel now has connected coast edges and a long central spine that genuinely separates relay sightlines. WEST and EAST RELAY lie in different channels; UPLINK ANCHOR requires both records and six seconds operated by Quietus. The sub must do something beyond waiting at extraction. This is a meaningful first mission distinction, and the fallback remains possible. The brief now states the task dependency clearly. It would be inaccurate to repeat the original “all six are identical photo-return missions” finding without this exception.
+
+Unit buttons now show ROUTE/READY/EXPOSING and hold state, and observed locks explicitly name their target. The physical ray asset is closer to the approved strange, pointed craft than the old warning polygon; stale contacts use a different abstract symbol. The optical inset is an actual richer presentation while exposure progresses, and the named camera fixture now reaches a live exposure instead of SIGNAL LOST. Target-oriented beam lines and an impact ring make causality more visible. These are tangible improvements, not merely more assets.
+
+### Tactical evidence: faster collection is established; balanced coordination is not
+
+The ordinary-command coordinated scenario completes in **39.3 seconds, 6.4% hull, zero disruption charges remaining; both drones survive**. The solo-sub fallback takes **78.6 seconds, 81.7% hull**. The faster plan saves about half the elapsed simulation time but almost loses Quietus. Its automation checks observed contacts each 0.1 seconds and fires disruption from the nearest surviving platform, so this is evidence of possibility under knowledgeable control, not a novice success rate or proof that coordination is satisfying.
+
+I localized the risk by cloning the same production test into `/tmp/sirens-split-trace.gd` and adding read-only trace output:
+
+```text
+RETURN START time=21.6 hull=100.0 sub=(790.8411,781.3786) tools=0
+FIRST DAMAGE time=33.1 sub=(392.8277,808.9018) capture=-1 records=[true,true,true] tools=0
+SPLIT COORDINATED outcome=won time=39.3 hull=6.4 EMP remaining=0
+```
+
+The coordinated collection/uplink succeeds intact; the near-loss happens on the **return corridor after resources have been spent**. Six percent hull is a narrow remaining margin, not automatically unfair difficulty. It calls for an inspectable recovery plan and hands-on assessment. The largest remaining gameplay opportunity is a learnable extraction decision: can a player recognize that the initial fastest return is unsafe, use cover/noise/drone diversion or a conditional route, and reach home with a margin that follows from that decision? Prove at least one such route, then deliberately compare it with the exposed route. Do not assume adding drone use or shortening the uplink will solve a return-leg problem, or globally weaken Sirens before understanding it.
+
+### Concrete new input defect: the optical reward masks evacuation commands
+
+In the supplied optical frame, the inset covers Quietus and the extraction area while Quietus is selected and Drone A is photographing. Its Control uses `MOUSE_FILTER_STOP`. I confirmed the actual input consequence with `/tmp/sirens-inset-probe.gd`, instantiating the real camera scenario at logical 1280×720 and injecting pointer down/up through `root.push_input`:
+
+- Drone A exposure was active, selected unit was Quietus.
+- The inset's global rectangle was `(40,426)` size `(390,228)`.
+- A tap at world `(320,800)`, logical `(206.8,567.8)`, produced no route command; Quietus' route stayed empty.
+- A tap at uncovered open water `(800,800)` produced `SS_ORDER route accepted=true`, route size 1, with Drone A's exposure still active.
+
+This is a definite divided-attention regression: the new reward hides and intercepts useful water precisely while the player should be coordinating another platform. It also prevents a paused player from ordering that covered escape point until the view is dismissed or exposure ends. Blind click-through is not an adequate sole remedy because it still hides the commanded water. At report handoff the owner is implementing station-owned display: show the feed when that platform is selected and hide it when another station is selected, while the commanded exposure continues. That fix is **in progress, not yet independently verified in this appendix**; the task label should preserve awareness of the continuing action.
+
+### Beam correspondence and feedback still require close-range evidence
+
+Aim now follows the observed target, and the sprite's pointed emitter is at its forward/right end. However, the reviewed draw code starts the line at `center + aim * min(62,distance/2)`, while the physical sprite's emitter is approximately +63 world units. For a target 60 units from the Siren center, the beam begins about 30 units forward, inside its body, rather than at the snout. The beam-oriented frame also compresses craft, target label, countdown, impact and lock ring into one overlapping patch. The rule is consequentially clearer than before, but the physical source remains inconsistent at close range.
+
+This is a reproduced code/geometry mismatch, not a demand for extra graphical effects. At handoff the owner is adding a standoff regression and fixing the beam origin to the actual emitter; these changes need a fresh close-range image and dynamic approach/escape evidence. Verify body scale and collision/approach behavior together, rather than moving a beam endpoint until one still image looks acceptable. The correct test is that a player can visually locate emitter, path and struck craft throughout the engagement. During damage, “BEAM 0.0s” could also become an explicit firing state; a frozen zero countdown communicates less than the otherwise good target label.
+
+### Camera payoff and composition remain development opportunities
+
+The optical feed has stronger detail and a progress reward, but the first three missions still show the same ribbed spire close-up, and later missions share the same foundry image. WEST/EAST differ by their label rather than visibly different evidence. The feed disappears at completion and records remain chiefly counters/prose; this is an improved observation state, not yet a memorable recovered archive. A small mission-specific detail or retained evidence view would make exposure yield knowledge the player can recognize. Prioritize meaningful differences and a coherent record, not six decorative zooms. The uplink should feel like combining those records rather than photographing another indistinguishable spire.
+
+The new Split Channel geography is materially closer to C01/C02's tactical separation. It still reads as a few tall, repeated extruded slabs against empty gridded water, rather than layered basalt channels with recesses, meaningful depth and an integrated industrial destination. The other supplied missions retain the original isolated-island composition. Physical-threat imagery now better expresses alien superiority, but tiny dark craft need label support, and terrain still has a repeated outline and abrupt square fog boundaries. These are aesthetic/legibility judgments grounded in the images, not claims of broken collision. Preserve the useful new channel logic as composition improves.
+
+The safe-area conversion test now checks that 136 physical pixels on a 2520-wide window become approximately 90.6667 logical pixels on a 1680-wide canvas. That is useful deterministic math evidence. The reported native cutout measurement and this test do not establish installed layout/input behavior; reinstallation and actual native touch remain pending for these changes.
+
+### Next bounded cycle and evidence
+
+Finish the inset input and emitter/standoff fixes, then capture a coordinated **return and recovery** with actual pause/select/route/tool input. Include an unsuccessful exposed return for comparison, one safe recovery route, the moment the threat becomes legible, and the information available to the pilot at that moment. Measure hull, tool expenditure, exposure and timing separately. Review camera station ownership and threatening close-range craft at cover/unfolded sizes. Continue improving one mission's geography and recognizable recovered evidence from that play result. This remains a Persistent Gauntlet iteration; neither the passing suites nor the newly differentiated mission is a stopping condition.
+
+Reviewed source hashes before the owner's subsequent fixes:
+
+```text
+f474205c5891548a5ccafd3cb966668fe434f52e43c61ce0c3af81bfb84f67f2  game/src/main.gd
+a4d7455884776d2fb7674aa90ee5e0ba753f414355e83db5b99a8388e172a05b  game/src/simulation/simulation.gd
+1c5e7c6ec51d0e77818ca0b82cd79025212ab6f17e622c8c4891c6e3afa6b17a  game/src/presentation/ocean_view.gd
+07b9b39c14548904457e29dc8bab095d6c60caa49ec65c3f53c87b4374616730  game/src/presentation/camera_feed.gd
+70e6de3fd6bd119a0c3e3a132b0171275097544887f214a789d4fe271ce57528  game/src/campaign/missions.gd
+```
+
+This appendix owns no implementation files, creates no delegates, and makes no installed-device or listening claim. The original findings and earlier fix verification remain preserved above.

@@ -1,5 +1,7 @@
 extends Control
 var sim
+var optical_feed
+var siren_ray=preload("res://assets/craft/siren_ray.png")
 var phase := 0.0
 var world_scale := 1.0
 var world_offset := Vector2.ZERO
@@ -15,6 +17,7 @@ func _ready() -> void:
 	mouse_filter=Control.MOUSE_FILTER_IGNORE
 	clip_contents=true
 	texture_repeat=CanvasItem.TEXTURE_REPEAT_ENABLED
+	optical_feed=preload("res://src/presentation/camera_feed.gd").new(); add_child(optical_feed)
 	var noise=FastNoiseLite.new()
 	noise.seed=7319; noise.frequency=0.024; noise.fractal_octaves=4
 	var img=Image.create(800,480,false,Image.FORMAT_RGB8)
@@ -27,7 +30,11 @@ func _ready() -> void:
 func map_position(screen: Vector2) -> Vector2:
 	return (screen-world_offset)/world_scale
 func _process(dt: float) -> void:
-	phase+=dt; camera_flash=maxf(0,camera_flash-dt); queue_redraw()
+	phase+=dt; camera_flash=maxf(0,camera_flash-dt)
+	if optical_feed!=null:
+		optical_feed.sim=sim; optical_feed.visible=sim!=null and sim.capture_unit>=0 and sim.selected==sim.capture_unit
+		optical_feed.position=Vector2(14,size.y-242); optical_feed.size=Vector2(minf(390,size.x*0.48),228)
+	queue_redraw()
 func _draw() -> void:
 	if sim==null or ocean==null: return
 	world_scale=minf(size.x/1600.0,size.y/960.0)
@@ -88,8 +95,21 @@ func _draw() -> void:
 		_craft(u,i)
 	for id in sim.contacts:
 		var c=sim.contacts[id]; var fresh=sim.elapsed-c.time<0.3
-		_siren(c.pos,c.angle,c.mode,fresh)
+		var aim=float(c.angle)
+		var observed_target=int(c.get("target",-1))
+		if fresh and c.lock>0 and observed_target>=0 and observed_target<sim.units.size(): aim=c.pos.angle_to_point(sim.units[observed_target].pos)
+		_siren(c.pos,aim,c.mode,fresh)
 		if fresh and c.lock>0:
+			var target_id=int(c.get("target",-1))
+			if target_id>=0 and target_id<sim.units.size() and sim.units[target_id].alive and sim.line_clear(c.pos,sim.units[target_id].pos):
+				var target:Vector2=sim.units[target_id].pos
+				var origin:Vector2=c.pos+Vector2.from_angle(aim)*62
+				if c.lock>=4:
+					draw_line(origin,target,Color(1,0.22,0.09,0.23),10)
+					draw_line(origin,target,Color("ff8a59"),3.5); draw_line(origin,target,Color("ffedc5"),1.2)
+					draw_arc(target,17+sin(phase*18)*5,0,TAU,24,Color("ffbc83"),2)
+				else: _dash(origin,target,Color(1,0.37,0.24,0.32),1.5)
+				_label(c.pos+Vector2(-50,-94),"TARGET · "+sim.units[target_id].name,Color("e8ab91"),16)
 			draw_arc(c.pos,58,-PI/2,-PI/2+TAU*minf(1,c.lock/4),40,Color("fa7969"),3)
 			_label(c.pos+Vector2(-50,-70),"BEAM %.1fs"%maxf(0,4-c.lock),Color("fa7969"),18)
 		elif not fresh: _label(c.pos+Vector2(35,0),"ECHO · %ds"%int(sim.elapsed-c.time),Color("9a8079"),17)
@@ -104,10 +124,7 @@ func _draw() -> void:
 	draw_set_transform(Vector2.ZERO,0,Vector2.ONE)
 	draw_string(ThemeDB.fallback_font,Vector2(16,26),"TACTICAL / BATHYMETRY",HORIZONTAL_ALIGNMENT_LEFT,-1,13,Color("76959c"))
 	draw_string(ThemeDB.fallback_font,Vector2(size.x-202,26),"%04d m  ·  CHART MEMORY"%sim.mission.depth,HORIZONTAL_ALIGNMENT_LEFT,-1,13,Color("76959c"))
-	if sim.capture_unit>=0:
-		var text="OPTICAL FEED  /  EXPOSING %d%%"%int(sim.capture_time/4*100)
-		draw_rect(Rect2(12,size.y-50,size.x-24,38),Color("102b35"))
-		_label(Vector2(26,size.y-25),text,Color("e1b66e"),17)
+
 func _rock(r: Rect2) -> void:
 	var poly=sim.rock_polygon(r)
 	var lower=PackedVector2Array(); var uv=PackedVector2Array()
@@ -158,13 +175,11 @@ func _hull_style() -> StyleBoxFlat:
 	var style=StyleBoxFlat.new(); style.bg_color=Color("263841"); style.border_color=Color("627780"); style.set_border_width_all(1); style.set_corner_radius_all(7); return style
 func _siren(p: Vector2,angle: float,mode: String,fresh: bool) -> void:
 	draw_set_transform(world_offset+p*world_scale,angle,Vector2.ONE*world_scale)
-	var poly=PackedVector2Array([Vector2(55,0),Vector2(4,-15),Vector2(-23,-52),Vector2(-13,-8),Vector2(-42,-15),Vector2(-28,0),Vector2(-42,15),Vector2(-13,8),Vector2(-23,52),Vector2(4,15)])
-	draw_colored_polygon(poly,Color("20262c") if fresh else Color(0.3,0.15,0.13,0.4))
-	draw_polyline(poly,Color("aa6158") if fresh else Color(0.5,0.3,0.25,0.4),1.4)
 	if fresh:
-		draw_line(Vector2(-5,-11),Vector2(42,0),Color("ee7664"),2)
-		draw_line(Vector2(-5,11),Vector2(42,0),Color("ee7664"),2)
-		draw_circle(Vector2(45,0),3,Color("ffc59b"))
+		draw_texture_rect(siren_ray,Rect2(-67,-40,134,80),false)
+	else:
+		draw_arc(Vector2.ZERO,24,0,TAU,6,Color("956d63"),1.5)
+		draw_line(Vector2(-12,0),Vector2(12,0),Color("956d63"),1)
 	draw_set_transform(world_offset,0,Vector2.ONE*world_scale)
 	_label(p+Vector2(-35,75),mode,Color("ed8e79") if fresh else Color("94766e"),17)
 func _dash(a: Vector2,b: Vector2,color: Color,width: float) -> void:

@@ -24,3 +24,6 @@ static func run(t) -> void:
 		s.advance(0.1)
 		if s.units[1].pos.distance_to(Vector2(1300,510))<20: break
 	t.check(s.units[1].pos.distance_to(Vector2(1300,510))<20,"assisted drone route rounds known basalt with inertia")
+	s=Simulation.new(); s.start(0); s.units[0].pos=Vector2(760,800); s.units[1].alive=false; s.units[2].alive=false; s.sirens[0].pos=Vector2(900,800); s.sirens[0].route=s.path(s.sirens[0].pos,s.units[0].pos); s.paused=false
+	for n in 45: s.advance(0.1)
+	t.check(s.sirens[0].pos.distance_to(s.units[0].pos)>110,"locking Siren holds emitter standoff instead of overlapping its target")

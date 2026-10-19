@@ -13,6 +13,9 @@ func click(p: Vector2) -> void:
 	var up=InputEventMouseButton.new(); up.position=p; up.button_index=MOUSE_BUTTON_LEFT; up.pressed=false
 	root.push_input(up,true); await process_frame
 func run() -> void:
+	var metrics=preload("res://src/presentation/layout_metrics.gd")
+	var safe=metrics.content_rect(Vector2(1680,720),Vector2(2520,1080),Rect2(136,0,2384,1080))
+	check(absf(safe.position.x-90.6667)<0.01 and absf(safe.end.x-1680)<0.01,"native display cutout maps to correct logical inset")
 	game=load("res://scenes/main.tscn").instantiate(); game.capture_scenario="runtime-test"; root.add_child(game)
 	await process_frame; await process_frame
 	game._start_mission(0); await process_frame
@@ -30,6 +33,10 @@ func run() -> void:
 	game._notification(Node.NOTIFICATION_APPLICATION_PAUSED)
 	var before=game.sim.snapshot(); await process_frame
 	check(game.sim.paused and before==game.sim.snapshot(),"application suspend freezes active mission")
+	game.sim.units[1].pos=Vector2(1300,510); game.sim.command("select",{"unit":1}); game.sim.command("camera"); await process_frame
+	check(game.ocean.optical_feed.visible,"optical inset belongs to the currently operated camera station")
+	await click(game.unit_buttons[0].get_global_rect().get_center()); await process_frame
+	check(not game.ocean.optical_feed.visible and game.sim.capture_unit==1,"switch to submarine clears camera overlay while exposure continues")
 	game._start_mission(0); game.sim.command("route",{"point":Vector2(360,800)}); game._show_campaign(); await process_frame
 	var has_resume=false
 	for child in game.panel_box.get_children():

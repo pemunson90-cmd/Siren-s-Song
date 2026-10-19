@@ -15,3 +15,11 @@ Validation on this baseline: `scripts/toolchain/test.sh` →50 checks, zero fail
 Six fallback campaign victories used ordinary route/camera/EMP/extraction commands, both drones unavailable, finite resources, observed contact reactions only. Mission1:64.5s/hull100%;2:88.2s/100%;3:72.9s/49%;4:86.2s/100%;5:86.8s/100%;6:83.9s/100%. These are accelerated deterministic solvability checks, not evidence of human pacing, meaningful drone incentives, or campaign depth.
 
 Remaining evidence gaps: Android current-game runtime under hosted emulator, physical Galaxy Z Fold7 touch/folding/safe-area/performance validation, human sound listening, sustained human gameplay. Forced short desktop shutdown emits AudioStreamWAV/playback ObjectDB leak warning; source/audio cleanup attempted, leak still reproducible and unresolved. Rendering and all tests contain no script errors.
+
+## Current cycle 2 evidence
+
+- `cycle2-optical.png`: actual successful mid-acquisition DroneA optical view (49%); station-owned inset, persistent independent task.
+- `cycle2-beam.png`: actual observed emitter→Quietus beam,96% hull; ordinary route then hold while intentionally exposed. Correct target identity, fresh lock and physical ray sprite.
+- `cycle2-split.png`: connected channel/relay/uplink proving ground, Quietus selected while drone exposes; its map remains clear.
+
+Current validation53core+142runtime, zero failures. Core includes all-mission fallback, camera station continuity, dead-command rejection, fresh target lock, fast drone navigation, standoff, relay prerequisites/sub-only uplink. Runtime includes true pointer events, briefing preservation/paused-plan resume, optical station ownership and safe-area conversion. Exact current top status and remaining gaps are in WORKBENCH, replacing any historical baseline inference above.

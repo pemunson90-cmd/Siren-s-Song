@@ -23,6 +23,7 @@ var panel_box: VBoxContainer
 var screen := "menu"
 var mission_index := 0
 var active_started := false
+var applying_safe_area := false
 var unlocked := 0
 var completed: Array=[]
 var upgrade := "endurance"
@@ -78,6 +79,7 @@ func _button(parent: Node,text: String,action: Callable) -> Button:
 	return b
 func _layout() -> void:
 	if ocean==null: return
+	_apply_safe_area()
 	var wide=size.x/size.y>1.6
 	title_label.position=Vector2(26,18); title_label.size=Vector2(size.x-52,34)
 	status_label.position=Vector2(28,58); status_label.size=Vector2(size.x-56,28)
@@ -211,8 +213,28 @@ func _scenario(name: String) -> void:
 		for n in 250:
 			sim.advance(0.1)
 			if sim.units[1].route.is_empty() and sim.units[1].vel.length()<2: break
-		sim.command("camera"); sim.command("select",{"unit":0})
+		sim.command("camera")
 		for n in 20: sim.advance(0.1)
+		sim.paused=true
+	if name=="beam":
+		_start_mission(0); sim.command("route",{"point":Vector2(700,200)}); sim.paused=false
+		var anchored=false
+		for n in 1600:
+			sim.advance(0.1)
+			var beam=false
+			for c in sim.contacts.values():
+				if c.lock>0.1 and not anchored: sim.command("hold"); anchored=true
+				if c.lock>=4.15 and sim.elapsed-c.time<0.3: beam=true
+			if beam or not sim.outcome.is_empty(): break
+		sim.paused=true
+	if name=="split":
+		_start_mission(1)
+		for id in [1,2,0]:
+			sim.command("select",{"unit":id}); sim.command("route",{"point":[Vector2(840,780),Vector2(420,490),Vector2(1220,490)][id]})
+		sim.paused=false
+		for n in 70: sim.advance(0.1)
+		sim.command("select",{"unit":1}); sim.command("camera"); sim.command("select",{"unit":0})
+		for n in 15: sim.advance(0.1)
 		sim.paused=true
 	if name in ["field","threat"]:
 		_start_mission(3 if name=="field" else 2)
@@ -284,12 +306,21 @@ func _report_targets() -> void:
 			if child is Button and child.has_meta("action"): buttons[child.get_meta("action")]=child
 	for key in buttons:
 		var p=buttons[key].get_global_rect().get_center()
-		print("SS_TARGET ",key," center=",roundi(p.x),",",roundi(p.y)," viewport=",roundi(size.x),",",roundi(size.y))
+		print("SS_TARGET ",key," center=",roundi(p.x),",",roundi(p.y)," viewport=",roundi(get_viewport_rect().size.x),",",roundi(get_viewport_rect().size.y))
 	if hud.visible:
-		var p=ocean.position+ocean.world_offset+Vector2(320,800)*ocean.world_scale
-		print("SS_TARGET route center=",roundi(p.x),",",roundi(p.y)," viewport=",roundi(size.x),",",roundi(size.y))
+		var p=ocean.global_position+ocean.world_offset+Vector2(320,800)*ocean.world_scale
+		print("SS_TARGET route center=",roundi(p.x),",",roundi(p.y)," viewport=",roundi(get_viewport_rect().size.x),",",roundi(get_viewport_rect().size.y))
 
 func _enter_water() -> void:
 	screen="mission"; menu.hide(); hud.show()
 	print("SS_SCREEN mission paused=",sim.paused)
 	call_deferred("_layout"); _save_archive()
+
+func _apply_safe_area() -> void:
+	if OS.get_name()!="Android" or applying_safe_area: return
+	applying_safe_area=true
+	var viewport_size=get_viewport_rect().size
+	var safe=preload("res://src/presentation/layout_metrics.gd").content_rect(viewport_size,Vector2(get_window().size),Rect2(DisplayServer.get_display_safe_area()))
+	offset_left=safe.position.x; offset_top=safe.position.y
+	offset_right=safe.end.x-viewport_size.x; offset_bottom=safe.end.y-viewport_size.y
+	applying_safe_area=false

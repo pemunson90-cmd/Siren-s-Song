@@ -219,7 +219,7 @@ func _observe() -> void:
 			var p=Vector2(x*40+20,y*40+20)
 			if visible(p): known[Vector2i(x,y)]=true
 	for i in sirens.size():
-		if visible(sirens[i].pos): contacts[i]={"pos":sirens[i].pos,"time":elapsed,"mode":sirens[i].mode,"lock":sirens[i].lock,"angle":sirens[i].angle}
+		if visible(sirens[i].pos): contacts[i]={"pos":sirens[i].pos,"time":elapsed,"mode":sirens[i].mode,"lock":sirens[i].lock,"angle":sirens[i].angle,"target":sirens[i].target}
 	var expired: Array=[]
 	for i in contacts:
 		if elapsed-contacts[i].time>20: expired.append(i)
@@ -253,6 +253,7 @@ func _threats(dt: float) -> void:
 				s.goal=noise.pos; s.mode="INVESTIGATE"; s.suspicion=maxf(s.suspicion,0.45)
 		if detected>=0:
 			if s.target!=detected: s.lock=0.0
+			s.route.clear(); s.angle=rotate_toward(s.angle,s.pos.angle_to_point(units[detected].pos),1.8*dt)
 			s.target=detected; s.goal=units[detected].pos; s.lock+=dt; s.suspicion=minf(1,s.suspicion+dt*0.3); s.mode="LOCKING" if s.lock<4 else "BEAM"
 			if s.lock>=4:
 				if detected==0: hull=maxf(0,hull-dt*18)
