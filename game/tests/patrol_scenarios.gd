@@ -3,6 +3,11 @@ const Simulation=preload("res://src/simulation/simulation.gd")
 static func run(t) -> void:
 	for mission in 6:
 		var s=Simulation.new(); s.start(mission); s.paused=false
+		if mission==3:
+			# This case promises no stimulus: restore the valid pre-departure
+			# Foundry rather than treating its new industrial motor as silence.
+			var quiet=s.snapshot(); quiet.mission.erase("departure_revision")
+			t.check(s.restore(quiet),"no-stimulus patrol fixture restores legacy Foundry without industrial traffic")
 		for siren in s.sirens:
 			var points=siren.get("patrol_points",[])
 			t.check(points.size()>=3,"mission %d has an authored legible circulation route"%mission)
@@ -21,6 +26,17 @@ static func run(t) -> void:
 				t.check(travel[id]<1 and s.sirens[id].pos.distance_to(s.sirens[id].home)<1,"mission %d station role %d deliberately guards its home without a stimulus"%[mission,id])
 			var siren=s.sirens[id]
 			t.check(siren.pos.distance_to(siren.goal)<35 or (not s.blocked(siren.goal,24) and not s.path(siren.pos,siren.goal).is_empty()),"mission %d Siren %d has an arrived or reachable patrol destination"%[mission,id])
+	# Fresh Foundry must still react to its real world activity. No pilot
+	# commands, poses, enemy goals or noise events are injected in this case.
+	var industrial=Simulation.new(); industrial.start(3); industrial.paused=false
+	var pilot_positions=industrial.units.map(func(unit):return unit.pos)
+	var station=industrial.sirens[1]
+	for n in 198: industrial.advance(0.1)
+	t.check(station.pos.distance_to(station.home)<1 and industrial.noises.is_empty(),"fresh Foundry station guards home before the industrial motor begins")
+	for n in 6: industrial.advance(0.1)
+	t.check(industrial.noises.any(func(noise):return noise.label=="DEEP MOTOR") and industrial.noises.all(func(noise):return noise.label=="DEEP MOTOR"),"fresh Foundry supplies a real industrial stimulus without pilot emissions")
+	t.check(industrial.units.map(func(unit):return unit.pos)==pilot_positions and industrial.units.all(func(unit):return unit.vel==Vector2.ZERO),"industrial response needs no pilot motion or acoustic command")
+	t.check(station.target==-1 and station.mode=="INVESTIGATE" and station.pos.distance_to(station.home)>1,"fresh station physically investigates the industrial motor without a visual pilot target")
 	var heard=Simulation.new(); heard.start(0)
 	# A legal hull can emit beside cover where a larger navigation margin rejects the exact noise point.
 	heard.units[0].pos=Vector2(905,300); heard.command("ping"); heard.paused=false; heard.advance(0.1)
