@@ -1,6 +1,6 @@
 # Siren's Song progress workbench
 
-**Stage:** Active Gauntlet, campaign baseline plus two evidence-driven improvement cycles. This is not a finished or user-accepted game.
+**Stage:** Active Gauntlet, campaign baseline plus four verified improvement cycles. This is not a finished or user-accepted game.
 **Branch:** `gauntlet/production`; campaign baseline plus reliability, optical/safe-area and return-planning cycles; see checkpoints below.
 **Player device:** Samsung Galaxy Z Fold7; physical installation/folding/thumb/performance review remains open.
 
@@ -9,15 +9,15 @@
 | Sources/architecture | Preserved and implemented | Immutable imported corpus; Godot4.6.3 Compatibility architecture |
 | Native tactical core | Runnable, regression tested | Fixed60Hz, inertia/assisted routing, two drones, fair LOS/acoustic/beam, command replacement and tactical pause |
 | Campaign/save | Six playable baseline missions and ending | All six ordinary-command fallback runs pass; checksummed active/campaign/settings backup recovery; other missions still need differentiated situations |
-| Split Channel proving ground | Connected channels, two separated relays + Quietus uplink | Coordinated39.3s, solo78.6s; latest standoff change yields67.3% hull in each scripted run; these are tactical fixtures, not human balance acceptance |
-| Art/input | Actual textured world, physical ray, station-owned optical inset | `docs/validation/production/`; core70 checks and runtime172 checks pass, including pointer inputs, menu preservation, optical ownership and physical→logical safearea conversion |
+| Split Channel proving ground | Connected channels, two separated relays + Quietus uplink | Coordinated39.2s: direct87.1% hull versus100% with one sustained decoy; both drones survive. These are scripted tactics, not human balance acceptance |
+| Art/input | Actual textured world, physical ray, station-owned optical inset | `docs/validation/production/`; core70 checks and runtime173 checks pass, including pointer inputs, menu preservation, optical ownership and physical→logical safearea conversion |
 | Audio | Original movement, pressure, distinct tool/beam cues and volume/mute | Actual stereo mixer recorded: peak−9.28dBFS, no clipped samples, paused tail exactly silent; human listening/native audio and forced-exit stream leak remain open |
-| Android emulator | Native launch/log/UI markers verified by tooling; renderer/lifecycle CI iteration active | See `docs/CODEX_ENVIRONMENT.md` and `docs/validation/android-*`; modern backend retry; no Samsung performance claim |
+| Android emulator | Native cover/briefing rendering verified by tooling; touch-dispatch fix locally verified, lifecycle/restore retry pending | See `docs/CODEX_ENVIRONMENT.md` and `docs/validation/android-*`; modern backend retry; no Samsung performance claim |
 | Independent criticism | Baseline plus follow-up completed, explicit fresh Sol | `docs/reviews/2026-10-19-baseline-critique.md`; confirmed attention defects fixed, next learned safe return demonstrated; deepen sound and other missions |
 
 ## Current evidence and highest-value next cycle
 
-Combined validation: `scripts/toolchain/test.sh` → **70 core/campaign +172 runtime checks, zero failures**. Waypoint check totals vary with safe path simplification; invariant tests have been added, not removed. Full framebuffer optical, beam, and connected-channel captures are in `build/captures/cycle2-*` and retained in the validation index. Desktop rendering is distinct from installed Android/Samsung validation.
+Combined validation: `scripts/toolchain/test.sh` → **70 core/campaign +173 runtime checks, zero failures**. Waypoint check totals vary with safe path simplification; invariant tests have been added, not removed. Full framebuffer optical, beam, and connected-channel captures are in `build/captures/cycle2-*` and retained in the validation index. Desktop rendering is distinct from installed Android/Samsung validation.
 
 Next: fresh integrated Sol review of all six missions, progression/narrative, sensory tension, reference match and phone comprehension, then execute its highest-value experiential cycle. Sound integration and mixed-output measurements are now checkpointed; Split Channel has a tested safer decoy return and explicit STOP/PASS waypoints. Preserve the working baseline while native runtime/cutout/restore evidence matures. Do not stop the Gauntlet at these milestones.
 
@@ -89,3 +89,9 @@ Independent report: `docs/reviews/2026-10-19-baseline-critique.md` (fresh Sol ev
 - Added accelerated full-campaign UI scenario: actual pointer ENTER on each briefing, ordinary route/camera/disruption/extraction commands, real debrief/unlock updates and final ending/replay progress. All six recoveries pass through the actual interface. Current suite70core +172runtime checks, zero failures.
 - All six current mission overview images retained under `docs/validation/production/campaign/`; each is a real paused RECON observation. `ending-command-run.png` follows actual mission6 commands (82.1s/hull100%), replacing the earlier synthetic0-time ending fixture as completion evidence. These remain expert automated protocols, not novice gameplay assessment.
 - Next is fresh integrated evidence-first Sol criticism of the full campaign experience, using images/audio artifacts before builder interpretation. It should set the next substantial mission/progression/sensory improvement, beyond further invariant repairs. Physical Samsung, hosted renderer/lifecycle and human listening gates remain separate.
+
+## Native input blocker — 19 October
+
+Actual hosted Android log at `github-run-39197089036/evidence/android-smoke/logcat.txt:17766` reports `can_process !is_inside_tree`6ms after first mission selection. The menu callback synchronously removed its own pressed Button from the scene tree while touch dispatch still referenced it. This is a game-side defect; the native error gate stays strict.
+
+Regression emitted the real mission Button's pressed signal and asserted the dispatching control remained inside the tree until delivery returned. Before fix it detached immediately and failed. Button actions now use Godot CONNECT_DEFERRED so transitions/orders execute after current input delivery. The full actual-pointer campaign and layout suite passes:70core +173runtime, zero failures. Installed Android confirmation is pending the next coherent push; local regression is not relabeled device evidence.

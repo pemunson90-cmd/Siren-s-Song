@@ -18,6 +18,13 @@ func run() -> void:
 	check(absf(safe.position.x-90.6667)<0.01 and absf(safe.end.x-1680)<0.01,"native display cutout maps to correct logical inset")
 	game=load("res://scenes/main.tscn").instantiate(); game.capture_scenario="runtime-test"; root.add_child(game)
 	await process_frame; await process_frame
+	game._show_campaign(); await process_frame
+	var pressed_mission
+	for child in game.panel_box.get_children():
+		if child is Button and child.get_meta("action","")=="mission0": pressed_mission=child
+	pressed_mission.pressed.emit()
+	check(pressed_mission.is_inside_tree(),"menu selection keeps dispatching control inside the tree until input delivery completes")
+	await process_frame; await process_frame
 	game._start_mission(0); await process_frame
 	print("UI root=",root.size," game=",game.size," drone=",game.unit_buttons[1].get_global_rect())
 	await click(game.unit_buttons[1].get_global_rect().get_center())

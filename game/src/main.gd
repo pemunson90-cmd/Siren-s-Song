@@ -73,7 +73,7 @@ func _theme() -> void:
 func _label(parent: Node,text: String,font_size: int) -> Label:
 	var l=Label.new(); l.text=text; l.add_theme_font_size_override("font_size",font_size); parent.add_child(l); return l
 func _button(parent: Node,text: String,action: Callable) -> Button:
-	var b=Button.new(); b.text=text; b.custom_minimum_size=Vector2(0,48); b.pressed.connect(action); b.focus_mode=Control.FOCUS_NONE; parent.add_child(b)
+	var b=Button.new(); b.text=text; b.custom_minimum_size=Vector2(0,48); b.pressed.connect(action,CONNECT_DEFERRED); b.focus_mode=Control.FOCUS_NONE; parent.add_child(b)
 	if text.begins_with("ENTER WATER"): b.set_meta("action","begin")
 	if text=="RESUME ACTIVE MISSION": b.set_meta("action","resume")
 	return b
