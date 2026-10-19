@@ -100,6 +100,7 @@ route_program_tests|ROUTE PROGRAM
 observed_task_plan_tests|OBSERVED TASK PLAN
 observed_task_route_tests|OBSERVED TASK ROUTE
 observed_task_execution_tests|OBSERVED TASK EXECUTION
+save_tick_phase_tests|SAVE TICK PHASE
 drone_drive_tests|DRONE DRIVE
 drone_drive_ui_tests|DRONE DRIVE UI
 drone_operations_tests|DRONE OPERATIONS
