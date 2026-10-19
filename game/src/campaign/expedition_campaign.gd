@@ -1,6 +1,6 @@
 extends RefCounted
 # Future authored operations stay staged until their physical hooks and ordinary play are reviewed.
-const RESOLUTION_READY=false
+const RESOLUTION_READY=true
 const Consequences=preload("res://src/campaign/campaign_consequences.gd")
 const FIELD_RECORDS=["resolution_witness_sluice","resolution_warning_transmission","divergence_warning_reply","wake_packet","wake_repeater","chain_west","chain_east","chain_relay","divergence_deep","divergence_shelf","divergence_rendezvous","divergence_warning","divergence_confluence_packet","divergence_confluence_repeater","divergence_witness_packet","divergence_witness_repeater","resolution_warning_west","resolution_warning_east","resolution_warning_uplink"]
 # One concrete fork. Tutorial indices/unlocked remain the original0..5 contract.
