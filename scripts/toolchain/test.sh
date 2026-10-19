@@ -5,6 +5,7 @@ source "$(dirname -- "$0")/common.sh"
 require_project
 python3 "$(dirname -- "$0")/test-configure-signing.py"
 "$(dirname -- "$0")/test-native-role-archive.sh"
+"$(dirname -- "$0")/test-decoy-role-contract.sh"
 python3 "$(dirname -- "$0")/test-android-role.py"
 python3 "$(dirname -- "$0")/test-android-metric-records.py"
 python3 "$(dirname -- "$0")/test-android-menu.py"
@@ -85,6 +86,8 @@ acoustic_hearing_tests|ACOUSTIC HEARING
 acoustic_footprint_tests|ACOUSTIC FOOTPRINT
 acoustic_path_affected_tests|AFFECTED ACOUSTIC
 acoustic_path_ui_tests|ACOUSTIC PATH UI
+decoy_deployment_tests|DECOY DEPLOYMENT
+decoy_aim_ui_tests|DECOY AIM UI
 knockdown_scenarios|KNOCKDOWN
 knockdown_ui_scenarios|KNOCKDOWN UI
 torpedo_aim_ui_tests|TORPEDO AIM
