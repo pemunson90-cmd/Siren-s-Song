@@ -33,6 +33,7 @@ func run():
   check(not g.advanced_orders and not g.sim.route_goals().is_empty() and g.sim.route_goals()[0].pos.distance_to(water)<1.,"ordinary water inside the known sector still plots route")
   # Local own-actor geometry fixture, distinct from genuine captured play evidence.
   g.sim.command("hold");g.sim.units[0].pos=Vector2(1830,1080);g.sim.units[0].vel=Vector2.ZERO;g.ocean.focus_craft();g._layout();await settle()
+  check(not load("res://src/presentation/expedition_view.gd").transmission_badge(g.ocean,site,g.ui_touch_height).has_area(),"offscreen info badge cannot leave a visible orphan label or invisible hit target")
   h.open("craft",{"kind":"craft","unit":0,"pos":g.sim.units[0].pos});await settle()
   before=g.sim.snapshot();var routes_before=g.sim.route_goals().duplicate(true)
   check(g.order_buttons.camera.text=="TRANSMIT" and not g.order_buttons.camera.disabled,"settled own craft offers TRANSMIT at chosen actual position")
@@ -59,7 +60,7 @@ func run():
   g._start_mission(12);g.ocean.fit_chart();g._layout();await settle();site=g.sim.observable_sites()[0]
   context=g.ocean.pick_context(g.ocean.screen_position(site.pos),g.ui_touch_height);h.open("object",context);await settle()
   check(g.order_buttons.camera.text=="ACTUATE" and g.order_buttons.camera.disabled and h.extra.route_here.visible,"physical actuator exposes local ACTUATE and ordinary approach route")
-  h.open("inspect");await settle();check("optional" in h.instrument_info.text.to_lower() and "reception unknown" in h.instrument_info.text,"actuator status discloses voluntary machinery cost without remote hearing knowledge")
+  h.open("inspect");await settle();check("optional" in h.instrument_info.text.to_lower() and "reception unknown" in h.instrument_info.text and h.instrument_info.text.begins_with("ACTUATE"),"actuator status discloses voluntary machinery cost without remote hearing knowledge")
   h.dismiss();g._start_mission(0);g._layout();await settle();check(not g.order_buttons.camera.disabled and g.order_buttons.camera.text=="CAMERA","tutorial camera remains unchanged after operation contexts")
   g.queue_free();await settle()
  print("RESOLUTION CONTROLS UI CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)

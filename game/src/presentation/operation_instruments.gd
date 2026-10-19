@@ -46,7 +46,8 @@ static func detail(sim,index:int=-1)->String:
  if info.is_empty():return ""
  var text=info.detail;var op=operation(sim,index)
  if op.action=="TRANSMIT":
-  text+="\n"+phase(sim)+" · sending does not confirm delivery or safe passage."
+  var state=phase(sim)
+  text+="\n"+({"RECEIVED":"OWN SEND COMPLETE · RECEIVED ARRIVAL","SENT":"OWN SEND COMPLETE · reception unknown","UNSENT":"NO COMPLETED SEND","TRANSMITTING":"TRANSMITTING · hold position"}.get(state,state))+". Delivery and safe passage remain unknown."
   var last=op.get("last_completed",{})
   if not last.is_empty():text+="\nLast completed own send · %.1fs ago at %d, %d."%[last.age,roundi(last.pos.x),roundi(last.pos.y)]
   text+="\nRECEIVED MEASUREMENTS · %d (historical arrivals, not delivery acknowledgments)."%sim.signal_readings().size()

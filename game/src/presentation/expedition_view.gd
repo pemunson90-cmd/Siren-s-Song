@@ -68,10 +68,11 @@ static func draw(view,sim)->void:
   for site in sim.observable_sites():
    if not site.get("own_origin",false):continue
    var area=transmission_badge(view,site,view.instrument_height)
+   if not area.has_area():continue
    var world_area=Rect2((area.position-view.world_offset)/scale,area.size/scale)
    view.draw_rect(world_area,Color("102c38"))
    view.draw_rect(world_area,Color("b49b6e"),false,1.5/scale)
-   view._label(world_area.position+Vector2(10,area.size.y*.58)/scale,"SEND INFO",Color("e1b66e"),roundi(view.feedback_font_size/scale))
+   view.draw_string(ThemeDB.fallback_font,world_area.position+Vector2(10,area.size.y*.58)/scale,"SEND INFO",HORIZONTAL_ALIGNMENT_LEFT,-1,roundi(view.feedback_font_size/scale),Color("e1b66e"))
  for reading in display_measurements(sim,sim.selected):
   if reading.direction.length_squared()<.001:continue
   var alpha=clampf(1.0-reading.age/30.,.15,.8);var origin:Vector2=reading.origin;var angle:float=reading.direction.angle();var radius=150.
@@ -96,4 +97,5 @@ static func draw(view,sim)->void:
 static func transmission_badge(view,site:Dictionary,touch:float)->Rect2:
  # Only this visible target owns input; the entire chosen-origin region is water.
  var dimensions=Vector2(touch*2,touch)
- return Rect2(view.screen_position(site.pos)-dimensions*.5,dimensions)
+ var area=Rect2(view.screen_position(site.pos)-dimensions*.5,dimensions)
+ return area if Rect2(Vector2.ZERO,view.size).encloses(area) and area.position.y>=view.instrument_top+8 else Rect2()

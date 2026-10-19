@@ -222,7 +222,8 @@ func refresh():
  host.order_buttons.camera.disabled=false
  if not operation.is_empty():
   host.order_buttons.camera.text=operation.label;host.order_buttons.camera.disabled=not operation.enabled
-  instrument_info.text+="\n\n"+Operations.detail(sim,operation.target)
+  instrument_info.text=Operations.detail(sim,operation.target)+"\n\n"+summary+"\n"+"\n".join(host.ocean.acoustic_rows())
+  host.detail_label.text=sim.units[sim.selected].name+" · "+operation.detail.get_slice("\n",0)
   if sim.capture_feedback().unit>=0:intent.text=sim.units[sim.selected].name+" · "+operation.detail.get_slice("\n",0)
  var fitted=Equipment.status(sim)
  if not fitted.is_empty():instrument_info.text+="\n\n"+fitted
