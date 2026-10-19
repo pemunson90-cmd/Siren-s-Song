@@ -1,0 +1,5 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+SS_RESTORE ok mission=2 time=11.9 paused=true completed=[0, 1] unlocked=2
+SS_RESTORE ok mission=5 time=4.0 paused=true completed=[0, 1, 2, 3, 4] unlocked=5
+TASK UI CHECKS 15 FAILURES 0

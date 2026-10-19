@@ -42,6 +42,8 @@ var zoom_buttons: Array=[]
 var advanced_button: Button
 var advanced_orders:=false
 var ui_touch_height:=48.0
+var mission_row_heights:=Vector3.ZERO
+var mission_reflow_pending:=false
 var menu_footer: HBoxContainer
 var scroll_report_timer: Timer
 var metrics_session:=""
@@ -69,6 +71,8 @@ func _ready() -> void:
 	advanced_button=_button(hud,"MORE ORDERS",_toggle_advanced)
 	order_buttons["home"]=_button(hud,"EXTRACT",func(): _order("emergency",{"point":sim.mission.extraction}))
 	order_buttons["menu"]=_button(hud,"OPERATIONS",func(): sim.paused=true; _show_campaign())
+	for button in [pause_button,advanced_button]+unit_buttons+order_buttons.values():
+		button.minimum_size_changed.connect(_queue_mission_reflow)
 	menu=PanelContainer.new(); add_child(menu)
 	# Shaped text can shrink a previous minimum after container reflow.
 	# Reapply the window bounds once that minimum settles.
@@ -113,20 +117,47 @@ func ui_density_dpi() -> float:
 	return DisplayServer.screen_get_dpi()
 func ui_density_source() -> String:
 	return "android_display_metrics_density_dpi" if OS.get_name()=="Android" else "desktop_display_server_dpi"
-func _layout() -> void:
+func _queue_mission_reflow() -> void:
+	if mission_reflow_pending: return
+	mission_reflow_pending=true; call_deferred("_reflow_mission")
+func _measured_mission_rows() -> Vector3:
+	var heights=Vector3(ui_touch_height,ui_touch_height,ui_touch_height)
+	for button in [pause_button,advanced_button]: heights.x=maxf(heights.x,button.get_minimum_size().y)
+	for button in unit_buttons: heights.y=maxf(heights.y,button.get_minimum_size().y)
+	for button in order_buttons.values(): heights.z=maxf(heights.z,button.get_minimum_size().y)
+	return heights
+func _reflow_mission() -> void:
+	mission_reflow_pending=false
+	if screen=="mission" and not _measured_mission_rows().is_equal_approx(mission_row_heights): _layout(false)
+func _layout(cancel_gesture: bool=true) -> void:
 	if ocean==null: return
-	map_gesture.cancel(); _apply_safe_area()
+	var previous_chart=Rect2(ocean.position,ocean.size)
+	if cancel_gesture: map_gesture.cancel()
+	_apply_safe_area()
 	ui_touch_height=preload("res://src/presentation/layout_metrics.gd").touch_height(get_viewport_rect().size,Vector2(get_window().size),ui_density_dpi())
 	var h=ui_touch_height; var gap=4.0; var wide=size.x/size.y>1.6
 	ocean.feedback_font_size=maxi(14,roundi(h*0.22)); ocean.instrument_top=maxf(64,h+20)
 	var top=112.0; var bottom=28.0
 	var columns=2 if 6*h+5*gap<=size.y-top-bottom else (3 if 5*h+4*gap<=size.y-top-bottom else 4)
 	if not wide: columns=4
-	var rows=int(ceil(8.0/columns))
-	var panel_width=maxf(360,columns*h*1.5+(columns-1)*gap) if wide else size.x-52
-	var panel_height=(rows+2)*h+(rows+1)*gap
+	_refresh()
+	var rows=0; var panel_width=0.0; var panel_height=0.0
+	while true:
+		rows=int(ceil(8.0/columns))
+		panel_width=maxf(360,columns*h*1.5+(columns-1)*gap) if wide else size.x-52
+		pause_button.size.x=panel_width*0.63-gap; advanced_button.size.x=panel_width*0.37
+		for button in [pause_button,advanced_button]: button.add_theme_font_size_override("font_size",maxi(15,roundi(h*0.26)))
+		for button in unit_buttons: button.size.x=(panel_width-2*gap)/3
+		for button in order_buttons.values():
+			button.size.x=(panel_width-(columns-1)*gap)/columns
+			button.add_theme_font_size_override("font_size",maxi(14,roundi(h*0.26)))
+		mission_row_heights=_measured_mission_rows()
+		panel_height=mission_row_heights.x+mission_row_heights.y+rows*mission_row_heights.z+(rows+1)*gap
+		if not wide or panel_height<=size.y-top-bottom or columns==4: break
+		columns+=1
 	var panel=Rect2(size.x-panel_width-26,top,panel_width,panel_height) if wide else Rect2(26,size.y-bottom-panel_height,panel_width,panel_height)
 	ocean.position=Vector2(26,top); ocean.size=Vector2(panel.position.x-42,size.y-top-bottom) if wide else Vector2(size.x-52,panel.position.y-top-12)
+	if not cancel_gesture and Rect2(ocean.position,ocean.size)!=previous_chart: map_gesture.cancel()
 	title_label.position=Vector2(26,12); title_label.size=Vector2(size.x-52,34); title_label.add_theme_font_size_override("font_size",maxi(26,roundi(h*0.31)))
 	status_label.position=Vector2(28,48); status_label.size=Vector2(size.x-56,28); status_label.add_theme_font_size_override("font_size",maxi(17,roundi(h*0.25)))
 	detail_label.position=Vector2(28,79); detail_label.size=Vector2(size.x-56,30); detail_label.visible=true; detail_label.add_theme_font_size_override("font_size",maxi(15,roundi(h*0.25)))
@@ -142,29 +173,29 @@ func _layout() -> void:
 		zoom_buttons[i].visible=screen=="mission"; zoom_buttons[i].custom_minimum_size=Vector2(zoom_sizes[i],h)
 		zoom_buttons[i].position=Vector2(zoom_x,8); zoom_buttons[i].size=Vector2(zoom_sizes[i],h)
 		zoom_x+=zoom_sizes[i]+gap
-	pause_button.position=panel.position; pause_button.custom_minimum_size=Vector2(0,h); pause_button.size=Vector2(panel.size.x*0.63-gap,h)
-	advanced_button.position=panel.position+Vector2(panel.size.x*0.63,0); advanced_button.custom_minimum_size=Vector2(0,h); advanced_button.size=Vector2(panel.size.x*0.37,h)
+	pause_button.position=panel.position; pause_button.custom_minimum_size=Vector2(0,h); pause_button.size=Vector2(panel.size.x*0.63-gap,mission_row_heights.x)
+	advanced_button.position=panel.position+Vector2(panel.size.x*0.63,0); advanced_button.custom_minimum_size=Vector2(0,h); advanced_button.size=Vector2(panel.size.x*0.37,mission_row_heights.x)
 	for button in [pause_button,advanced_button]: button.add_theme_font_size_override("font_size",maxi(15,roundi(h*0.26)))
 	for i in 3:
-		unit_buttons[i].position=panel.position+Vector2(i*(panel.size.x+gap)/3,h+gap)
-		unit_buttons[i].custom_minimum_size=Vector2(0,h); unit_buttons[i].size=Vector2((panel.size.x-2*gap)/3,h)
+		unit_buttons[i].position=panel.position+Vector2(i*(panel.size.x+gap)/3,mission_row_heights.x+gap)
+		unit_buttons[i].custom_minimum_size=Vector2(0,h); unit_buttons[i].size=Vector2((panel.size.x-2*gap)/3,mission_row_heights.y)
 	var primary=["ping","camera","silent","queue","hold","emp","home","menu"]
 	var secondary=["recon","decoy","contact_hold","wait_drone","waypoint_mode","emp","camera","home"]
 	var keys=secondary if advanced_orders else primary
-	var start=panel.position+Vector2(0,2*(h+gap))
+	var start=panel.position+Vector2(0,mission_row_heights.x+mission_row_heights.y+2*gap)
 	for key in order_buttons:
 		var button=order_buttons[key]; button.visible=key in keys; button.custom_minimum_size=Vector2(0,h)
-		button.position=start; button.size=Vector2((panel.size.x-(columns-1)*gap)/columns,h)
+		button.position=start; button.size=Vector2((panel.size.x-(columns-1)*gap)/columns,mission_row_heights.z)
 		button.add_theme_font_size_override("font_size",maxi(14,roundi(h*0.26)))
 	for i in keys.size():
-		order_buttons[keys[i]].position=start+Vector2((i%columns)*(panel.size.x+gap)/columns,(i/columns)*(h+gap))
+		order_buttons[keys[i]].position=start+Vector2((i%columns)*(panel.size.x+gap)/columns,(i/columns)*(mission_row_heights.z+gap))
 	log_label.position=Vector2(28,size.y-26); log_label.size=Vector2(size.x-56,26); log_label.add_theme_font_size_override("font_size",maxi(16,roundi(h*0.22)))
 	if menu!=null:
 		menu.position=Vector2(maxf(24,(size.x-800)/2),24); menu.size=Vector2(minf(800,size.x-48),size.y-48)
 		for button in menu.find_children("*","Button",true,false):
 			button.custom_minimum_size.y=h; button.add_theme_font_size_override("font_size",maxi(17,roundi(h*0.29)))
 		for slider in menu.find_children("*","Slider",true,false): slider.custom_minimum_size.y=h
-	_refresh(); call_deferred("_report_targets")
+	call_deferred("_report_targets")
 func _start_mission(index: int) -> void:
 	diagnostic_ready=""; diagnostic_records.clear(); diagnostic_roles.clear(); diagnostic_role_route_ready=false; map_gesture.cancel(); ocean.fit_chart(); advanced_orders=false
 	call_deferred("_layout")
@@ -192,10 +223,13 @@ func _refresh() -> void:
 	title_label.text="SIREN'S SONG    /    %02d  %s"%[mission_index+1,sim.mission.title.to_upper()]
 	status_label.text="DEPTH %dm    O₂ %03d%%    HULL %03d%%    RECORDS %d / %d    %s"%[sim.mission.depth,int(sim.oxygen),int(sim.hull),sim.mission.objectives.filter(func(o): return o.captured).size(),sim.mission.objectives.size(),"TACTICAL PAUSE" if sim.paused else "REAL TIME"]
 	pause_button.text="▶ RESUME" if sim.paused else "Ⅱ PAUSE"
+	var capture_task="CAMERA"
+	if sim.capture_unit>=0 and sim.capture_target>=0 and sim.capture_target<sim.mission.objectives.size():
+		capture_task={"receiver":"LISTEN","exchange":"SAMPLE","uplink":"LINK"}.get(sim.mission.objectives[sim.capture_target].get("kind",""),"CAMERA")
 	for i in 3:
 		unit_buttons[i].modulate=Color("80d9cf") if sim.selected==i else Color.WHITE
 		unit_buttons[i].disabled=not sim.units[i].alive
-		var task="LOST" if not sim.units[i].alive else (("LISTEN" if sim.mission.get("blackwater_revision",0)==1 else "EXPOSING") if sim.capture_unit==i else (sim.units[i].hold if not sim.units[i].hold.is_empty() else ("ROUTE" if not sim.units[i].route.is_empty() else "READY")))
+		var task="LOST" if not sim.units[i].alive else (capture_task if sim.capture_unit==i else (sim.units[i].hold if not sim.units[i].hold.is_empty() else ("ROUTE" if not sim.units[i].route.is_empty() else "READY")))
 		unit_buttons[i].text=["QUIETUS","DRONE A","DRONE B"][i]+"\n"+task
 		unit_buttons[i].add_theme_font_size_override("font_size",maxi(13,roundi(ui_touch_height*0.25)))
 	order_buttons.waypoint_mode.text="PASS\nPOINTS" if sim.pass_through else "STOP AT\nPOINTS"
