@@ -1,6 +1,6 @@
 # Siren's Song progress workbench
 
-**Stage:** Active / acoustic-feedback cycle. Existing density native artifact gate is now inspected: all four ZIPs and the APK match recorded hashes, the APK signature/certificate verifies, and the independent actual Android image review finds no blocking UI defect. This supports the bounded density gains, not full-content acceptance.
+**Stage:** Active / reviewed acoustic-feedback native candidate. Existing density native artifact gate is now inspected: all four ZIPs and the APK match recorded hashes, the APK signature/certificate verifies, and the independent actual Android image review finds no blocking UI defect. This supports the bounded density gains, not full-content acceptance.
 **Phone dashboard:** [current APK, evidence and limits](PHONE_DASHBOARD.md).
 **Development comparison base:** aa022cc / game b809501, native run 39229219785; existing artifacts retrieved normally through the selected Command-Library environment's inherited proxy under its unrestricted local policy. Runtime status reports connected but policy state unknown, so actual successful requests establish access rather than an invented enforcement claim.
 **Fully inspected native fallback:** f1ea536 / runtime 92625ac; inherited patrol defect recorded. Latest tested APK contains experimental finale ancestry; native finale/full-campaign quality remains unresolved.
@@ -26,7 +26,7 @@ Latest [native 39229219785](validation/android-39229219785/README.md), exact sou
 
 Retained failures remain meaningful: two early first-swipe failures, an explicitly absent immersive intro, and 744ad3e's confirmed menu success followed by exactly 1023-character truncated HUD JSON. The [transport-only repair](validation/production/density/metric-transport/README.md) now passes natively without dropping controls, weakening geometry or using stale snapshots. Local strict gate is 234 core / 230 runtime / 1057 geometry / 7 menu / 15 scroll / 65 transport plus parser/archive guards. Initial 63/2 raw Dictionary assertion failures are preserved and explained by JSON integer-to-float normalization; strict canonical byte equality and independent field-value checks pass.
 
-**Next single action:** finish the bounded finite-decoy / known-noise feedback challenger against inspected b809501, then inspect actual comparison clips and obtain separate evidence-first regression criticism. Preserve 6388113 and the fully inspected f1ea536 fallback. Do not disclose hidden listeners or retune hearing to match a visual ring. Original v7 is the implementation reference; its continuous movement footprint differs from production's existing threshold hearing. Physical Fold7, native full campaign/finale and subjective audio remain open.
+**Next single action:** publish the reviewed acoustic source08eca25 plus its final reviews and run one meaningful new native validation; inspect actual candidate APK/signature and both-layout pixels before Android promotion. Both independent experience and separate regression reviews are finished, no consequential blocker confirmed. Preserve 6388113 and the fully inspected f1ea536 fallback. Do not disclose hidden listeners or retune hearing to match a visual ring. Original v7 is the implementation reference; its continuous movement footprint differs from production's existing threshold hearing. Physical Fold7, native full campaign/finale and subjective audio remain open.
 
 ## Resumed artifact gate — 19 October 2026
 
@@ -36,6 +36,12 @@ Fresh clone setup qualification: an initial test attempt preceded Godot's requir
 
 One fresh reviewer explicitly requested gpt-6.1-sol/high for artifact bytes/pixels; one subsequent production owner explicitly requested the same model for the bounded acoustic-feedback cycle. Actual backend/token/cost telemetry is unavailable. Parent is sole pusher; imported originals and prior accepted artifacts remain preserved.
 
+
+## Acoustic local source checkpoint — 08eca25
+
+Read-only own acoustic snapshot, persistent decoy remaining-life glyphs/summary and uncertain reception cue are committed at **08eca25**, reviewed for native validation but not natively promoted. No AI, duration, resource or save-schema tuning. Final integrated strict gate passes **245 core / 237 runtime / 1057 geometry / 7 menu / 15 scroll / 65 transport**, with final **30** menu parser tests plus related guards. Baseline/challenger actual GUI/order/pause/final-state traces agree; paired 20-second cover clips, 18-second no-input expiry, camera/threat and retained-loss views are in [acoustic evidence](validation/production/acoustic-feedback/README.md). Rejected hidden-page capture, overly dense tiny fixture, first SURVEY visibility fixture error and compact-row iteration remain retained.
+
+Script-only [screenshot ordering correction](validation/android-39229219785/capture-timing-fix/README.md) now brackets candidate capture with matching fresh canonical state; malformed data/preferences still fail. No compositor acknowledgment or automatic semantic pixel proof is claimed. Existing b809501 Android gate remains preserved. Fresh [experience review](reviews/2026-10-19-acoustic-feedback-critique.md) supports the bounded gain; matched official Mark of the Ninja footage is clearer spatially. Separate [regression review](reviews/2026-10-19-acoustic-feedback-regressions.md) confirms no consequential new regression:396 identical baseline/current command/state records across six45-second attempts, restored multiple-decoy and hidden-source boundaries,4 shell adversaries and both-layout threat/camera coexistence with explicit paused-fixture limits. Next is native validation and exact bytes/pixels; no native source08 result is claimed yet. Root is sole pusher. Raw log whitespace is preserved in RED evidence; scoped source/Markdown checks pass.
 
 ## Continuity
 
@@ -156,3 +162,8 @@ Controlled run39205478335 at f1ea536, unchanged production runtime 92625ac, pass
 Unpromoted game source 7ff53af, fresh exact 8d8635a→ec2aa08 review plus independently replayed 7ff feedback delta: no consequential new regression. Full current local gate 234 core / 230 runtime plus 8 navigation and current parser guards passes. Native protocol is an ordinary-command local proof (not OS input): one decoy, silent departure, hunter physical return without target lock or hull damage. Critic artifacts and retained losing clips are linked above. Shipped-game motion comparison, physical Fold7 comfort and performance remain open. One root-commissioned fresh Sol critic, no implementation fanout/premium escalation; actual backend/cost unknown.
 
 Retry prerequisite f43e562 is reviewed: shared intro precondition runs before menu observation/input and target lookup, acknowledgement failures abort input, and absence/dismissal XML evidence is retained. All 12 focused menu guards pass; game/workflow differences from bc95b4d are empty. No repeat gameplay suite is needed for this tooling-only correction. [Failed native evidence](validation/android-39222413584/README.md).
+
+
+## Acoustic review disposition
+
+Accept only supported desktop lifetime/own-emission gains pending native confirmation. Keep opaque instrument occupancy and lower threat rows as explicit costs. The stale launch-log wording is inherited and deferred; clearer observed-response/active-lock teaching is the next experience opportunity after the native evidence gate. No unseen listener success confirmation or AI/hearing retune is authorized by the comparison. The reference access note corrects only the newly inspected Mark of the Ninja footage, not other games or store availability. Parent is sole candidate pusher; source/tool hashes remain those independently reviewed in08eca25.

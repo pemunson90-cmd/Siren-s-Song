@@ -1,0 +1,19 @@
+test_postcapture_incomplete_chunk_cannot_fallback (__main__.Independent.test_postcapture_incomplete_chunk_cannot_fallback) ... ok
+test_postcapture_malformed_latest_is_fatal (__main__.Independent.test_postcapture_malformed_latest_is_fatal) ... ok
+test_snapshot_count_regression_cannot_publish (__main__.Independent.test_snapshot_count_regression_cannot_publish) ... ok
+test_target_exposure_change_requires_fresh_pair (__main__.Independent.test_target_exposure_change_requires_fresh_pair) ... FAIL
+
+======================================================================
+FAIL: test_target_exposure_change_requires_fresh_pair (__main__.Independent.test_target_exposure_change_requires_fresh_pair)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Siren-s-Song-gauntlet/docs/validation/production/acoustic-feedback/regression/shell_adversarial.py", line 24, in test_target_exposure_change_requires_fresh_pair
+    self.assertEqual(r.returncode,0,r.stderr);self.assertIn('retry',events);self.assertTrue(final);self.assertIn('tap',report)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 != 0 : Invalid native menu evidence: settings: invalid clipping exemption for HUD/required/full hit region
+
+
+----------------------------------------------------------------------
+Ran 4 tests in 1.552s
+
+FAILED (failures=1)
