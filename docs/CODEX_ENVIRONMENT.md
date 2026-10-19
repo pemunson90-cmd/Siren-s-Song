@@ -54,6 +54,8 @@ The official Godot 4.6.3 Android source pins JDK17, Gradle8.11.1, AGP8.6.1, Kotl
 
 Movie Maker can emit an audio WAV beside PNGs. For a playable recording, encode a chosen sequence with FFmpeg after checking Godot's actual generated frame names. Screenshots should come from rendered frames, not an empty display after the process exits.
 
+Godot Movie Maker retains the configured1280×720 output size even when `--resolution` changes the window; this can crop a taller fold layout. `capture.sh` therefore also requests the production game's full-viewport screenshot hook, saved as `full.png` after layout settles. Use **full.png** for viewport/layout review. The script ensures at least6 frames run. For an inner-display approximation on the existing desktop: `CAPTURE_RESOLUTION=1092x984 CAPTURE_FRAMES=6 scripts/toolchain/capture.sh -- --scenario=planning`. A caller can supply an explicit absolute `--capture-path=...` to replace the default screenshot destination. Emulator screenshots use `adb screencap` and are unaffected by Movie Maker cropping.
+
 ## Android runtime gate
 
 The environment has no emulator executable, AVD/system image, `/dev/kvm`, physical USB device node, or running adb server when audited. APK creation and signature/manifest inspection are feasible here. APK installation, touchscreen behavior, lifecycle/save-resume, Android audio, GPU performance, and thermal behavior require an accessible device or a separately provisioned emulator. Neither a successful export nor desktop rendering is evidence of an Android runtime test.
