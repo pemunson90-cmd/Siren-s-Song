@@ -1,6 +1,0 @@
-Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
-
-{"build_ms":14.403,"hull":100.0,"max_tick_ms":4.531,"mean_tick_ms":0.362524166666667,"mission":0,"sim_seconds":20.0000000000001,"sirens":1}
-{"build_ms":25.104,"hull":100.0,"max_tick_ms":10.316,"mean_tick_ms":1.67569916666667,"mission":3,"sim_seconds":20.0000000000001,"sirens":2}
-{"build_ms":10.183,"hull":28.3000000000006,"max_tick_ms":6.937,"mean_tick_ms":1.10575416666667,"mission":4,"sim_seconds":20.0000000000001,"sirens":3}
-{"build_ms":10.735,"hull":31.0000000000006,"max_tick_ms":4.482,"mean_tick_ms":0.6643325,"mission":5,"sim_seconds":20.0000000000001,"sirens":3}

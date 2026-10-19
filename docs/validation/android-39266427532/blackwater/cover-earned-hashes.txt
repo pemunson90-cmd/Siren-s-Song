@@ -1,2 +1,0 @@
-bbc4aeca436fd8605b327122adc20d4af11c5f889fb2d704b660e864797684e7  /home/runner/work/Siren-s-Song/Siren-s-Song/artifacts/android-smoke/blackwater/cover-earned.save
-bbc4aeca436fd8605b327122adc20d4af11c5f889fb2d704b660e864797684e7  /home/runner/work/Siren-s-Song/Siren-s-Song/artifacts/android-smoke/blackwater/cover-cold-restored.save

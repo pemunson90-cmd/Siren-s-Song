@@ -1,5 +1,0 @@
-Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
-
-FAIL: replaying Blackwater after ordinary finale completion yields a valid fresh snapshot
-FAIL: existing autosave accepts fresh Blackwater after finale target2
-BLACKWATER CHECKS 33 FAILURES 2

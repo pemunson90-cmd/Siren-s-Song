@@ -1,1 +1,0 @@
-97346ad1c344d03e2f08ac0febc197aebe7a3e0dee81589e475c85c9a053144f  /home/runner/work/Siren-s-Song/Siren-s-Song/artifacts/android-smoke/role-fixture.save

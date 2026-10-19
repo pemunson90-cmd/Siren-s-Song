@@ -1,6 +1,0 @@
-PASS: 59 original PNG hashes; 41 final-labelled views reviewed; 20 retained final + 3 retained probe WebPs decode pixel-identically.
-PASS: local Markdown links in README.md and ARTIFACT_REVIEW.md resolve.
-PASS: all retained JSON parses; 44 parsed metric reports; exact received job text length; runtime-errors scan empty.
-PASS: 15 menu canonical brackets and 3 post_draw semantic brackets; monotonic identities and native48dp geometry; actual critical final images inspected.
-PASS: retained text evidence scan finds no signed download URLs.
-Scope: existing completed run evidence only; no CI rerun or new source-test execution.

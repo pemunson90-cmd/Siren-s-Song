@@ -1,9 +1,0 @@
-{
-  "isolated_suites_commit": "6ce6cc0bb926caad225e18a667579821020dd0cf",
-  "project_sha256": "9f9e9f5e824cdb54dc9925d46f8cbfbd7881f8db01286fd11928a3607a52e59c",
-  "project_model": "1280x720 canvas_items expand scale factor1; no inset viewport substitution",
-  "geometry_summary": "DENSITY CHECKS 685 FAILURES 0",
-  "menu_summary": "DENSITY MENU CHECKS 7 FAILURES 0",
-  "settled_capture_artifacts_commit": "6de9e10cd1bd41b6e08988b950455fd0fdeabfca",
-  "settled_capture_blobs_verified": 33
-}

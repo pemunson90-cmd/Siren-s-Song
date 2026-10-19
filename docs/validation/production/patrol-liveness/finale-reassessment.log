@@ -1,6 +1,0 @@
-Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
-
-FINALE mode=[false, true, -1] outcome=won t=88.1 hull=54.4000000000004 pos=(147.279, 799.7449) records=[true, true, true] drones=true,true tools={ "emp": 0, "decoy": 2, "recon": 2 } msg=Archive recovered. Quietus is home.
-FINALE mode=[true, true, -1] outcome=won t=56.4 hull=100.0 pos=(147.3213, 800.2884) records=[true, true, true] drones=true,false tools={ "emp": 0, "decoy": 3, "recon": 2 } msg=Archive recovered. Quietus is home.
-FINALE mode=[true, false, -1] outcome= t=34.9 hull=100.0 pos=(682.7845, 780.2578) records=[false, true, false] drones=false,true tools={ "emp": 3, "decoy": 3, "recon": 2 } msg=Need both optical observations: TRANSMITTER CROWN and OUTBOUND WAKES. Their geometry separates the packet from reflected noise.
-FINALE mode=[true, true, 1] outcome= t=34.9 hull=100.0 pos=(682.7845, 780.2578) records=[false, true, false] drones=false,true tools={ "emp": 1, "decoy": 3, "recon": 2 } msg=Need both optical observations: TRANSMITTER CROWN and OUTBOUND WAKES. Their geometry separates the packet from reflected noise.

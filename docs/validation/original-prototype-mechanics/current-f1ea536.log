@@ -1,5 +1,0 @@
-Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
-
-MECHANICS_AUDIT {"audio":{"engine_gain_42_silent":0.07,"engine_gain_78_cruise":0.35,"fresh_lock_alert_timer":3.0,"voice_playing":true},"beam":{"hull":99.64,"lock":4.01},"ping":{"investigates":true,"noise_radius":950.0,"suspicion":0.44985},"sources_sha":["f1ea536"],"stationary_detection":[{"distance":200,"lock":0.0,"silent":true,"target":-1},{"distance":200,"lock":0.01,"silent":false,"target":0}],"stun":{"hull":99.64,"lock":0.0,"target":-1},"velocity_hearing":[{"distance":350,"investigates":false,"noise_events":0,"speed":0.0,"suspicion":0.0,"target":-1},{"distance":350,"investigates":false,"noise_events":0,"speed":42.0,"suspicion":0.0,"target":-1},{"distance":350,"investigates":false,"noise_events":0,"speed":50.0,"suspicion":0.0,"target":-1},{"distance":350,"investigates":true,"noise_events":0,"speed":50.01,"suspicion":0.29985,"target":-1},{"distance":350,"investigates":true,"noise_events":0,"speed":78.0,"suspicion":0.29985,"target":-1}]}
-WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
-   at: cleanup (core/object/object.cpp:2663)

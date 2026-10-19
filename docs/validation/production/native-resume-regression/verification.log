@@ -1,6 +1,0 @@
-PASS exact20de patch applies; all10 before/after hashes match
-PASS actual old-run blackPNG byte/pixel provenance
-PASS five additional checker/helper/decoder boundary adversaries
-PASS retained GL/headless/9new/20capture/17Blackwater/archive/runtime308 source evidence reused
-PASS review/evidence links resolve and final frozen patch hash unchanged
-No shared source/save/governance/CI/currentrun/commit/push mutation by reviewer

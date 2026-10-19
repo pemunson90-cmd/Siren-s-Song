@@ -1,5 +1,0 @@
-Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
-
-FAIL: active reception context remains tied to receiving craft after station selection changes
-WORST QUIET WAIT 9.90000000000007 sec over100 arrival phases; no travel/threat guarantee
-EXCHANGE RULE CHECKS 23 FAILURES 1

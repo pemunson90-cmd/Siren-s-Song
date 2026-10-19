@@ -14,4 +14,4 @@ Rejected current controller gains1.6s but loses HOLD by62.4m; prior drone picket
 
 Latest392889 native failure is a corrected stale checklist; inspected cover scope only, no inner/lifecycle promotion. Physical Fold7/full earned campaign/finale, sustained performance, human audio/comprehension remain open. Evidence/captures/reports live in recoverable external/archive storage; production keeps source/tests/tools and compact instructions.
 
-[Continuation](CONTINUATION.md) · [Phone dashboard](PHONE_DASHBOARD.md). Continue the whole-game improvement loop; milestones do not finish it.
+[Continuation](CONTINUATION.md) · [Phone dashboard](https://github.com/pemunson90-cmd/Siren-s-Song/blob/archive/gauntlet-evidence-2026-10-19-stage2/docs/PHONE_DASHBOARD.md). Continue the whole-game improvement loop; milestones do not finish it.

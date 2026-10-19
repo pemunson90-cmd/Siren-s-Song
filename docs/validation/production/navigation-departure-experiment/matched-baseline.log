@@ -1,4 +1,0 @@
-Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
-
-MATCHED_INITIAL sha=54ebaf9d4d74848a0d7cd49b623860a544cd237d5bb1dbe7814b414a3247bc54 time=47.3999999999986 pos=(1353.052, 618.3444) angle=0.23393841087818 tools={ "emp": 0, "decoy": 3, "recon": 2 }
-MATCHED_FINAL returned=false won=false time=49.4999999999985 hull=100.0 oxygen=97.2499999999978 pos=(1353.405, 648.6044) tools={ "emp": 0, "decoy": 3, "recon": 2 } message=Autopilot stopped at unsafe terrain. Replot in open water.
