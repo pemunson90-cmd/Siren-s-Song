@@ -41,7 +41,9 @@ func run() -> void:
  var game=load("res://scenes/main.tscn").instantiate();game.set_script(preload("res://tests/density_main.gd"));game.capture_scenario="transport-fixture";root.add_child(game)
  await process_frame;await process_frame;game._start_mission(0);await process_frame;await process_frame;await process_frame
  var snapshot=game._ui_metrics();var payload=JSON.stringify(snapshot)
- check(payload.to_utf8_buffer().size()>1023 and snapshot.controls.size()==16,"actual full HUD fixture exceeds old boundary and includes all controls")
+ var actions=snapshot.controls.map(func(control):return control.action)
+ var visible=game.mission_hud.action_controls()
+ check(payload.to_utf8_buffer().size()>1023 and ["pause","focus","fit","more_orders"].all(func(action):return action in actions) and visible.keys().all(func(action):return action in actions) and actions.size()==visible.size(),"actual minimal water HUD exceeds old boundary and transports every visible safety/view/fleet action")
  var records=verify(snapshot,"hud-fixture",1)
  for arg in OS.get_cmdline_user_args():
   if arg.begins_with("--fixture-log="):
