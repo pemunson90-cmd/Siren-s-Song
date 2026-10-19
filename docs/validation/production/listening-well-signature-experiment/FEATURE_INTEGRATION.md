@@ -17,3 +17,11 @@ Focused checks on this reconciled worktree:
 Reproduction from this worktree: use `godot --headless --path game --script "$PWD/docs/validation/production/listening-well-signature-experiment/rules.gd"` and the adjacent `ui_rules.gd`; the existing resume probe is `scripts/toolchain/test-resume-state.gd`. The legacy helper accepts the absolute path to adjacent `actual6ab-active.snapshot` after `--`. Give each run an isolated XDG_DATA_HOME under ignored work/. These are focused fixtures; existing ordinary gameplay evidence and its qualifications remain in README.
 
 Next: root's single assigned reviewer inspects the actual clips/phone stills, diff/conflicts and focused compatibility. Fix concrete findings on this branch; root reconciles/merges if supported. No second routine critic or certification gate.
+
+## Designated-review correction: revised Well save shape
+
+The integration reviewer reproduced a new failure: a revised Well snapshot shortened to two objectives was accepted, then a moving reference accessed missing objective2. The correction is restricted to the new `well_revision` branch: require integer1 and exactly three objective dictionaries. Existing generic validation still checks their required fields, while snapshots without `well_revision` keep their prior rules.
+
+`game/tests/well_signature_save_shape_tests.gd` is a focused persistent regression. RED9checks/5assertion failures also emitted malformed bool/string comparison errors, demonstrating why type validation must precede numeric comparison. GREEN9/0, with no script errors: ordinary revision1 restores, counts0/1/2/4 reject before restore, float/bool/string revisions reject, and unrevisioned legacy shape is preserved. An actual6ab active archive again restores unchanged apart from the inherited pause-on-restore contract (`save-shape-actual-legacy.log`). No broad hardening, extra suite, UI/physical changes or recapture follows from this save-boundary correction.
+
+The original d4bd6a9b patch and captures remain historical/frozen; this one-line correction is a separate commit on the same feature branch. The new focused test is the only additional game file. Feature push remains held pending root's narrow workflow-trigger correction.

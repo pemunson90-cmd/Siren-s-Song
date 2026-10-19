@@ -16,10 +16,15 @@
     },
     {
       "path": "game/src/simulation/simulation.gd",
-      "sha256": "1b341614e013c2ad7e6ace9a663fc0fd952c098af534704c0c4a228963571994"
+      "sha256": "afeead52ae9555e41d2c94dcd7c61a77f81864174b5b3cd07a34bb1e355af3e5"
+    },
+    {
+      "path": "game/tests/well_signature_save_shape_tests.gd",
+      "sha256": "7dce0b601b6e4ec65bdad8dc778a550238547d8784dad54de60cbdf7d5d4b8e0"
     }
   ],
   "frozen_patch_sha256": "d4bd6a9bb9012773d1f6e74ae51d6ddc09191563e630936cfe6d407501aeecd8",
   "governance_unchanged": true,
-  "foreground_hook_preserved": true
+  "foreground_hook_preserved": true,
+  "review_correction": "Strict integer well_revision1 and exactly3objectives; legacy snapshots without revision unchanged"
 }
