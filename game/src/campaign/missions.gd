@@ -71,6 +71,8 @@ static func make(index: int) -> Dictionary:
 	result["acoustic_revision"]=1
 	if i==2:result["blackwater_revision"]=1
 	if i==3:
+		result["thermal_revision"]=1;result["thermal_fronts"]=preload("res://src/simulation/thermal_front.gd").foundry()
+		result.brief+=" A charted cold-water front crosses the southern channel. Sound and passive contacts weaken across it in both directions. Waiting west of it may protect a staging drone, but costs information and time. Close sight and visible beam charges still expose you; optical photography remains noisy."
 		var factory=Rect2(1120,140,400,600)
 		result["structures"]=[factory]; result["factory_rect"]=factory; result["phase"]="approach"; result["response_time"]=0.0
 		result.extraction=Vector2(1420,880)
