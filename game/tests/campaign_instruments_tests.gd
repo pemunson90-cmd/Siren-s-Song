@@ -8,6 +8,15 @@ class PublicCorrelation:
  var result={"status":"match","dwell":6.,"arrivals":[{"receiver":0,"origin":Vector2(200,400),"direction":Vector2.RIGHT,"time":10.,"uncertainty":.18,"cadence":[.8,1.6,.8],"classification":"match"},{"receiver":0,"origin":Vector2(200,400),"direction":Vector2.UP,"time":10.,"uncertainty":.65,"cadence":[.4,.4,1.2],"classification":"other"}],"qualification":"Cadence only; identity, range and passage safety remain unknown."}
  func equipment_feedback():return {"fitted":{"quietus":"quietus_correlator"},"correlation":result.duplicate(true)}
  func signal_readings():return []
+class PublicSampler:
+ extends RefCounted
+ var selected=1
+ var capture_unit=-1
+ var capture_target=0
+ var capture_time=0.
+ func equipment_feedback():return {"fitted":{"quietus":"","drone_a":"drone_sampler","drone_b":""}}
+ func observable_sites():return [{"site_id":"chain_west","sampler_compatible":true}]
+ func camera_context():return {"ready":true,"target":0,"text":"FIELD SAMPLE · AUDIBLE 8s"}
 var checks=0
 var failures=0
 func check(ok:bool,label:String):
@@ -59,6 +68,12 @@ func run():
   check(shown.size()==2 and shown[0].measurement=="M1" and shown[0].origin==Vector2(200,400) and shown[0].classification=="match","M1 fan is anchored to received historical origin, not current craft or source position")
   public.units[0].pos=Vector2(999,999)
   check(presentation.display_measurements(public,0)==shown and public.result==result_before,"moving the craft cannot move or mutate the classified historical sample")
+ var sampler=PublicSampler.new()
+ check(equipment.has_method("sample_detail"),"equipped field sampling has explicit public audible-task presentation")
+ if equipment.has_method("sample_detail"):
+  check("FIELD SAMPLE" in equipment.sample_detail(sampler) and "AUDIBLE 8s" in equipment.sample_detail(sampler),"ready fitted drone discloses eight-second audible exposure")
+  sampler.capture_unit=1;sampler.capture_time=2.5
+  check("2.5 / 8s" in equipment.sample_detail(sampler),"active field sampling retains own task progress and disclosure")
  var sound=load("res://src/audio/soundscape.gd")
  var carrier=sound.samples("carrier_received");var answer=sound.samples("return_received")
  check(carrier!=answer and carrier!=sound.samples("alert"),"received carrier and RETURN have distinct non-alert sonic identities")

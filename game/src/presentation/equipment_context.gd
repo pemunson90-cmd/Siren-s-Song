@@ -54,3 +54,12 @@ static func cadence_text(cadence:Array)->String:
  var parts=[]
  for value in cadence:parts.append("%.1f"%value)
  return "PULSES "+" / ".join(parts)+"s" if not parts.is_empty() else "Cadence unresolved"
+static func sample_detail(sim)->String:
+ if sim.selected not in [1,2] or not sim.has_method("equipment_feedback"):return ""
+ var slot="drone_a" if sim.selected==1 else "drone_b"
+ if sim.equipment_feedback().get("fitted",{}).get(slot,"")!="drone_sampler":return ""
+ var active=sim.capture_unit==sim.selected
+ var context=sim.camera_context();var target=sim.capture_target if active else context.get("target",-1)
+ var sites=sim.observable_sites()
+ if target<0 or target>=sites.size() or not sites[target].get("sampler_compatible",false) or (not active and not context.get("ready",false)):return ""
+ return "FIELD SAMPLE · AUDIBLE 8s"+(" · %.1f / 8s"%sim.capture_time if active else " · settle to begin")

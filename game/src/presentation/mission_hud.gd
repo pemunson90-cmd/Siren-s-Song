@@ -212,6 +212,11 @@ func refresh():
   instrument_info.text=site.name+" · "+("RECORDED" if site.captured else "NOT RECORDED")+"\n"+site.get("requirement","")+"\n"+site.get("unit_requirement","")+"\n"+instrument_info.text
  if subject.has("subkind"):instrument_info.text=Expedition.context_detail(sim,subject)+"\n\n"+instrument_info.text
  if page=="signals":instrument_info.text=Expedition.detail(sim,subject.get("receiver",-1))
+ var sampling=Equipment.sample_detail(sim)
+ if not sampling.is_empty():
+  host.order_buttons.camera.text="FIELD\nSAMPLE"
+  intent.text=sim.units[sim.selected].name+" · "+sampling
+  instrument_info.text+="\n\n"+sampling
  var fitted=Equipment.status(sim)
  if not fitted.is_empty():instrument_info.text+="\n\n"+fitted
  if page=="inspect" and sim.selected==0:
