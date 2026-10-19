@@ -166,6 +166,7 @@ func _draw() -> void:
 			var key=Vector2i(x,y); var p=Vector2(x*40+20,y*40+20)
 			var alpha=0.38 if not sim.known.has(key) else (0.0 if sim.visible(p) else 0.20)
 			if alpha>0: draw_rect(Rect2(x*40,y*40,40,40),Color(0.005,0.014,0.025,alpha))
+	preload("res://src/presentation/blackwater_courier_view.gd").draw(self,sim)
 	# Sonar rays stop at actual cover, producing explicit acoustic shadows.
 	if sim.ping_time>0:
 		var radius=(3.5-sim.ping_time)*210

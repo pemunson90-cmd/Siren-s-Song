@@ -1,4 +1,5 @@
 extends RefCounted
+const Courier=preload("res://src/simulation/blackwater_courier.gd")
 const Departure=preload("res://src/simulation/foundry_departure.gd")
 const DroneOperations=preload("res://src/simulation/drone_operations.gd")
 const Thermal=preload("res://src/simulation/thermal_front.gd")
@@ -279,9 +280,14 @@ func blackwater_context(target:int,station:int=-1) -> Dictionary:
 	var radius=(240.0 if station==0 else 330.0)*(0.65 if mission.darkness else 1.0)
 	var distance=u.pos.distance_to(o.pos);var clear=line_clear(u.pos,o.pos)
 	var replay=maxf(0.0,o.get("replay_until",0.0)-elapsed) if u.alive and clear and distance<240 else 0.0
-	return {"distance":distance,"quiet_range":radius,"clear":clear,"quiet":u.alive and clear and distance<radius,"replay":replay,"ready":u.alive and clear and (distance<radius or replay>0),"settled":u.vel.length()<2}
+	var fixed={"distance":distance,"quiet_range":radius,"clear":clear,"quiet":u.alive and clear and distance<radius,"replay":replay,"ready":u.alive and clear and (distance<radius or replay>0),"settled":u.vel.length()<2,"source":"relay","origin":o.pos}
+	if target==1 and not fixed.ready:
+		var moving=Courier.receiver(self,station)
+		if not moving.is_empty():return moving
+	return fixed
 func _blackwater_context_text(target:int,station:int) -> String:
 	var c=blackwater_context(target,station);var name=mission.objectives[target].name
+	if c.get("source","")=="courier":return "REPLY CARRIER · local moving archive · settle + SAMPLE 2s"
 	if not c.clear:return "%s · cover blocks reception"%name
 	if c.replay>0:return "%s · LOCAL REPLAY %.1fs · SAMPLE 2s"%[name,c.replay]
 	if c.quiet:return "%s · quiet receiver ready · SAMPLE 2s"%name
@@ -292,13 +298,15 @@ func camera_context() -> Dictionary:
 		var active=mission.objectives[capture_target]
 		if active.get("kind","")=="exchange":
 			var c=blackwater_context(capture_target,capture_unit)
-			return {"target":capture_target,"ready":false,"text":"%s · %s · %s %.1f/2s"%[units[capture_unit].name,active.name,"receiving" if c.settled else "settling",capture_time]}
+			return {"target":capture_target,"ready":false,"text":"%s · %s · %s %.1f/2s"%[units[capture_unit].name,"REPLY CARRIER" if c.get("source","")=="courier" else active.name,"receiving" if c.settled else "settling",capture_time]}
 		return {"target":capture_target,"ready":false,"text":"%s · %s %.1f / %.0fs"%[units[capture_unit].name,active.name,capture_time,active.get("duration",4.0)]}
 	var unit=units[selected]; var best=-1; var nearest=-1; var distance=INF
 	for id in mission.objectives.size():
 		var objective=mission.objectives[id]
 		if objective.captured: continue
-		var d:float=unit.pos.distance_to(objective.pos)
+		var reception=blackwater_context(id) if mission.get("blackwater_revision",0)==1 else {}
+		var d:float=reception.distance if not reception.is_empty() else unit.pos.distance_to(objective.pos)
+		if not reception.is_empty() and reception.ready and best<0:best=id
 		if d<distance: nearest=id; distance=d
 		if best<0 and d<240 and line_clear(unit.pos,objective.pos): best=id
 	if nearest<0: return {"target":-1,"ready":false,"text":"Archive aboard · return Quietus to extraction."}
@@ -343,6 +351,8 @@ func decoy_target_valid(point:Variant) -> bool:
 	return origin.alive and outcome.is_empty() and tools.decoy>0 and Rect2(6,6,1588,948).has_point(point) and origin.pos.distance_to(point)<=DECOY_RANGE+0.001 and not blocked(point,6) and segment_safe(origin.pos,point,6)
 func _noise(p: Vector2,radius: float,label: String,duration: float=2.0) -> void:
 	noises.append({"pos":p,"radius":radius,"time":duration,"label":label})
+func courier_feedback() -> Dictionary:
+	return Courier.feedback(self)
 func departure_feedback() -> Dictionary:
 	return Departure.feedback(self)
 # Own known emissions only. Reception and enemy reaction remain sensor evidence.
@@ -714,6 +724,7 @@ static func valid_snapshot(data: Dictionary) -> bool:
 	for o in data.mission.objectives:
 		if not o is Dictionary or not o.has_all(["pos","name","captured"]) or not o.pos is Vector2: return false
 	if not Departure.valid(data.mission,data.get("elapsed",0.0)):return false
+	if not Courier.valid(data.mission,data.get("elapsed",0.0)):return false
 	if not Thermal.valid_mission(data.mission):return false
 	if data.mission.has("acoustic_revision") and (not data.mission.acoustic_revision is int or data.mission.acoustic_revision!=1):return false
 	if data.mission.has("well_revision"):
@@ -800,7 +811,9 @@ func _record_secured(record: Dictionary) -> void:
 	if mission.get("well_revision",0)==1 and record==mission.objectives[0]:
 		message="Pattern record secured · optional moving Quietus comparison explained in recovered records"
 	if mission.get("blackwater_revision",0)==1:
+		if record==mission.objectives[0]:Courier.launch(self)
 		message="Exchange matched · ancient ocean archive aboard · return Quietus home" if all_records() else ("REQUEST decoded · REPLY accepts SONAR replay within 240m; or approach quietly" if record.name=="REQUEST RELAY" else "REPLY decoded · ancient temperatures · REQUEST accepts SONAR replay within 240m")
+		if mission.get("courier_revision",0)==1 and record==mission.objectives[0] and not all_records():message="REQUEST decoded · southern REPLY CARRIER announced · intercept + SAMPLE, or SONAR / quiet eastern relay"
 	if mission.id==5 and record.get("kind","")=="receiver":
 		mission["phase"]="warning"; message="Warning decoded: deep fracture; outbound hulls are leaving. Bring Quietus and this packet home."
 	if mission.id==3:
