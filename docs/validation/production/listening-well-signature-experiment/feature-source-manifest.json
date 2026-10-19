@@ -21,10 +21,19 @@
     {
       "path": "game/tests/well_signature_save_shape_tests.gd",
       "sha256": "7dce0b601b6e4ec65bdad8dc778a550238547d8784dad54de60cbdf7d5d4b8e0"
+    },
+    {
+      "path": "game/src/presentation/camera_feed.gd",
+      "sha256": "7fb570640661fa079fea045c472759344c395a618fdd8ae10bb8d38a135a144e"
+    },
+    {
+      "path": "game/tests/well_camera_feed_render_tests.gd",
+      "sha256": "2539e91a95bdd67284b6e875df69f8530da3f9bce0d5eddf77fd7171c62a4e6e"
     }
   ],
   "frozen_patch_sha256": "d4bd6a9bb9012773d1f6e74ae51d6ddc09191563e630936cfe6d407501aeecd8",
   "governance_unchanged": true,
   "foreground_hook_preserved": true,
-  "review_correction": "Strict integer well_revision1 and exactly3objectives; legacy snapshots without revision unchanged"
+  "review_correction": "Strict integer well_revision1 and exactly3objectives; legacy snapshots without revision unchanged",
+  "render_correction": "Camera image lookup checks illustration catalog membership; actual GL6/0; fallback unchanged"
 }
