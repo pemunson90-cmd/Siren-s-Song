@@ -1,0 +1,11 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:364)
+OpenGL API 4.5 (Core Profile) Mesa 25.0.7-2+deb13u1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 19.1.7, 256 bits)
+
+SS_ROLE mission=4 index=1 type=hunter mode=PATROL pos=800.000000,600.000000 home=800.000000,600.000000 target=-1 lock=0.000000 time=0.000000
+CLEARANCE_VIEW cover chart=(1072.333, 580.0) font=22 instrument_width=789.0 lines=["MOTION NOISE · idle", "DECOYS · none", "TOOL PULSES · 2 active · up to 2s", "OPEN WATER · basalt bends/weakens sound · enemy reception unknown"] contacts=[[P: (12.0, 245.0), S: (378.0, 28.0)], [P: (12.0, 275.0), S: (298.0, 28.0)], [P: (12.0, 305.0), S: (293.0, 28.0)]] optical=[P: (14.0, 338.0), S: (390.0, 228.0)] visible=true
+SS_ROLE mission=4 index=1 type=hunter mode=PATROL pos=800.000000,600.000000 home=800.000000,600.000000 target=-1 lock=0.000000 time=0.000000
+CLEARANCE_VIEW inner chart=(1228.0, 641.0) font=19 instrument_width=684.0 lines=["MOTION NOISE · idle", "DECOYS · none", "TOOL PULSES · 2 active · up to 2s", "OPEN WATER · basalt bends/weakens sound · enemy reception unknown"] contacts=[[P: (12.0, 222.0), S: (329.0, 25.0)], [P: (12.0, 249.0), S: (259.0, 25.0)], [P: (12.0, 276.0), S: (255.0, 25.0)]] optical=[P: (14.0, 399.0), S: (390.0, 228.0)] visible=true
+SS_ROLE mission=4 index=1 type=hunter mode=PATROL pos=800.000000,600.000000 home=800.000000,600.000000 target=-1 lock=0.000000 time=0.000000
+CLEARANCE_VIEW desktop chart=(852.0, 580.0) font=14 instrument_width=510.0 lines=["MOTION NOISE · idle", "DECOYS · none", "TOOL PULSES · 2 active · up to 2s", "OPEN WATER · basalt bends/weakens sound · enemy reception unknown"] contacts=[[P: (12.0, 163.0), S: (248.0, 20.0)], [P: (12.0, 185.0), S: (196.0, 20.0)], [P: (12.0, 207.0), S: (193.0, 20.0)]] optical=[P: (14.0, 338.0), S: (390.0, 228.0)] visible=true

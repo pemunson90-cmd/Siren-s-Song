@@ -198,10 +198,11 @@ func _draw() -> void:
 			draw_string(ThemeDB.fallback_font,chart_camera.to_screen(n.pos)+Vector2(12,-12),"%ds"%ceili(n.time),HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size,Color("e1b66e"))
 	var rows=acoustic_rows()
 	var line_height=feedback_font_size+5
-	var instrument_height=rows.size()*line_height+12
-	var instrument_width=0.0
-	for row in rows:instrument_width=maxf(instrument_width,ThemeDB.fallback_font.get_string_size(row,HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size).x+20)
-	draw_rect(Rect2(12,instrument_top,minf(instrument_width,size.x-24),instrument_height),Color(0.025,0.06,0.075,0.94))
+	# Fit each backing to its line, as contact rows do: a long qualification
+	# must not hide charted water beside the shorter stock/emission rows.
+	for i in rows.size():
+		var width=ThemeDB.fallback_font.get_string_size(rows[i],HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size).x+20
+		draw_rect(Rect2(12,instrument_top+i*line_height,minf(width,size.x-24),line_height+12),Color(0.025,0.06,0.075,0.94))
 	for i in rows.size():
 		draw_string(ThemeDB.fallback_font,Vector2(20,instrument_top+feedback_font_size+5+i*line_height),rows[i],HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size,Color("e1b66e") if i==1 and rows[i]!="DECOYS · none" else Color("a4bfbd"))
 	var readout=contact_readout_rects()
