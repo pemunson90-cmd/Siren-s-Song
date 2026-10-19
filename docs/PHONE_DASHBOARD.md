@@ -89,3 +89,6 @@ The [fresh campaign scout](reviews/2026-10-19-campaign-quality-scout.md) recomme
 
 
 Current candidate5eb571f now has both [experience](reviews/2026-10-19-observed-contact-feedback-critique.md) and separate [regression](reviews/2026-10-19-observed-contact-regressions.md) support for meaningful native validation. No consequential blocker confirmed; chart coverage/gaze-transfer costs remain. The inspected APK link above remains the playable baseline while new native bytes/pixels are pending. Blackwater prototyping continues in isolation.
+
+
+**New Android validation is running:** [39251216827](validation/android-39251216827/README.md), exact0afe5fc/source5eb571f. Its APK and actual new optical/restored-state pixels are not yet accepted. The previous inspected build remains linked above. Blackwater investigation prototyping continues while this run is active.

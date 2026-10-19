@@ -14,3 +14,6 @@ ffmpeg -ss 30 -i work/reference-footage/mark-of-the-ninja-trailer.mp4 -t 10 -an 
 ```
 
 Four selected frames with timestamps and Klei credit are retained in [critic evidence](../production/acoustic-feedback/critic/reference-moments.jpg). Full trailer is not duplicated into the repository. This compares clarity, not assets, identity or mechanic imitation. No recommendation to play/download a current store version is made; current regional/mobile availability was not verified.
+
+
+The subsequent [bounded Barotrauma discovery](BAROTRAUMA_SONAR_DISCOVERY_2026-10-19.md) checks three candidate sources. No sustained-motion comparison was verified: ordinary YouTube access returns source-specific CONNECT403; accessible Steam originals are static JPEGs. The official197s trailer is retrieved/inspected but only its roughly2s console shot matches the topic. These limits do not block production or imply an environment-wide outage, and no dimension winner is invented. Exact next candidate is recorded without requiring another publication/permission request.

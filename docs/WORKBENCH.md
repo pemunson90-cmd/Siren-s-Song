@@ -181,9 +181,11 @@ Run39244955064 succeeds; all four ZIP sizes/SHA256/CRC and extracted APK hash/si
 The next cycle has begun with a footage-only probe of unchanged9dacbb4 using existing ordinary hunter_response capture commands, not new gameplay/UI code. Current pixels show hunter investigation→aging echo, a different investigating patrol, and15-second expiry. Hidden diagnostic positions in capture logs are not player-view proof. Read the probe’s final chronology/provenance before designing teaching. Possible stable observed-contact identity/context and launch-event copy remain proposals; no mechanical retune or hidden diversion confirmation follows. This is an open Gauntlet checkpoint, not completion or human acceptance.
 
 
-## Session continuation checkpoint
+## Historical voluntary-stop record — superseded by user correction
 
-Execution pauses here after the verified source/review/native-artifact cycle and a completed next-cycle footage-only probe. No worker remains active and no background agent execution is claimed. Source/tooling9dacbb4 are unchanged; only final evidence/governing docs follow in a guarded docs-only publication referenced to9dacbb4. Native source08/9dac bounded gains are supported, not full campaign/finale/user acceptance. Next exact action: read CONTINUATION and the observed-response-probe README/clip, decide the smallest test-first observation/identity/launch-copy improvement, then continue autonomously. Do not repeat completed retrieval/CI or reopen older network restrictions: normal delivery works and the current policy is unrestricted/enforced. Physical/human and named capture gaps remain explicit above.
+The following pause was voluntary and invalid under the standing mandate; its correction and resumed execution follow below. This is retained history, not a current execution instruction.
+
+Execution paused after the verified source/review/native-artifact cycle and a completed next-cycle footage-only probe. No worker remains active and no background agent execution is claimed. Source/tooling9dacbb4 are unchanged; only final evidence/governing docs follow in a guarded docs-only publication referenced to9dacbb4. Native source08/9dac bounded gains are supported, not full campaign/finale/user acceptance. Next exact action: read CONTINUATION and the observed-response-probe README/clip, decide the smallest test-first observation/identity/launch-copy improvement, then continue autonomously. Do not repeat completed retrieval/CI or reopen older network restrictions: normal delivery works and the current policy is unrestricted/enforced. Physical/human and named capture gaps remain explicit above.
 
 
 ## Correction: unauthorized voluntary stop and resumed work
@@ -206,3 +208,8 @@ The complementary [campaign scout](reviews/2026-10-19-campaign-quality-scout.md)
 ## Reviewed contact/capture native candidate
 
 Exact source5eb571f passes both [fresh experience](reviews/2026-10-19-observed-contact-feedback-critique.md) and separate [regression](reviews/2026-10-19-observed-contact-regressions.md) reviews within scope.518 baseline/challenger state records match,13 independent contact boundaries and8 capture adversaries pass; actual three-contact/four-emission/optical density stress renders retain a5logical-pixel cover gap and explicit synthetic-contact qualification. No consequential new regression confirmed. The stronger capture contract is app-render evidence, not compositor acknowledgment. Root will publish this exact source plus final reports against remote809282d as sole pusher and run one meaningful native validation. New APK/pixel promotion remains pending. The isolated Blackwater prototype is already active, so this publication/checkpoint does not end execution.
+
+
+## Meaningful native run39251216827 active
+
+Root published exact0afe5fce83c575995b718c5e3d6b152bd7282df2 against809282d and verified remote HEAD; game/tool bytes equal reviewed5eb571f. [Run39251216827](validation/android-39251216827/README.md), job118055197456, started19October12:19:55UTC. Initial observed stage: official Godot cache restoration; no failure or success verdict yet. Evidence-only tooling owner monitors this new source run and will verify all ZIP/APK/certificate bytes plus actual final PNGs, particularly optical camera and both restored-gameplay states. No duplicate CI/retrieval or compositor acknowledgment claim. Root will not push source while usefulCI runs. Independent production continues the isolated Blackwater investigation prototype from its byte-verified52bedd6 baseline.

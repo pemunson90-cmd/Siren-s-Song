@@ -58,9 +58,9 @@ Files: `game/src/presentation/*`, `game/src/audio/*`, `game/assets/*`, input int
 
 - [x] Inspect selected references C01/C02, Quietus exterior and Siren studies with view_image before building assets.
 - [x] Build original layered seabed, industrial structures, craft, fog/sonar shadows, routes and controlled VFX. Expose observed information only.
-- [ ] Implement clear pause/resume, selected unit, replace/queue/emergency orders, stop/pass-through, conditions and tool feedback with phone-sized targets.
+- [x] Implement clear pause/resume, selected unit, replace/queue/emergency orders, stop/pass-through, conditions and tool feedback with phone-sized targets.
 
-Controls/gesture behavior exists and native input passes, but the accepted 48-logical-pixel targets are only 27.43/31.20 dp on the measured 420 dpi cover/inner fixture. Density-aware work from 2fc0976 is now selectively integrated locally after the bounded A milestone. Actual 56 dp fixture rows, sticky actions, page replacement and persistent route intent are in focused review; native density and physical comfort remain open.
+The earlier48-logical-pixel targets measured only27.43/31.20dp on the420dpi fixture; that historical weakness is preserved. Density-aware56dp rows, sticky actions, scrolling, persistent route intent and primary/secondary controls now pass scoped native numerical/input and actual byte/pixel review on b809501/run39229219785 and acoustic9dacbb4/run39244955064. Physical comfort, OS pinch/folding and sustained real-device performance remain open; the checked implementation item does not close those gates.
 - [x] Add functional sound layers, mute/volume preferences and background pause handling. Verify generated/bundled assets and avoid audio spam/clipping.
 - [x] Capture actual planning, sonar cover, two-drone and threat states at 1280×720 and 960×540 plus a wide aspect. Record runtime timings and errors.
 - [x] Fresh Sol critic compares captures side-by-side with references and exercises scenarios before reading builder claims. Fix the single biggest consequential gap, recapture, and repeat while useful.
@@ -126,3 +126,10 @@ Latest local gate 234 core / 230 runtime plus 8 navigation and 19 geometry parse
 A numerical checkpoint 6388113 supports the demonstrated role/native gains only; candidate APK retains experimental finale ancestry, so native finale/full-campaign quality remains open. Preserve fully inspected f1ea fallback. Resume existing density 2fc0976 via selective UI/test/evidence integration after the guarded docs checkpoint; keep later governance/role/native diagnostics and fix initial-window/static-ID/actual geometry before focused review/native density. External shipped reference motion remains pending.
 
 Density local checkpoint 6ce6cc0 plus focused route-intent feedback: 234 simulation / 230 runtime, final 699 geometry/text/GUI checks; actual cover/inner/menu captures and 16-second planning clips retained. Fresh separate critic confirmed the hidden-queue feedback regression, now fixed without changing simulation. Coordinate reviewed exact-source native metric/OS scroll gates; no pixel/physical/full-campaign acceptance implied.
+
+
+## Current rolling cycles ·19October
+
+Reviewed contact-identity/rendered-capture source5eb571f, published0afe5fc, is in meaningful native run39251216827. Integrated257/298/1057/7/15/68 and independent experience/separate regression support the candidate, not new native or full-campaign acceptance. Inspect actual downloaded optical/restored-dive PNGs and bytes/certificate before promotion. Preserve all prior builds/losses.
+
+The next Blackwater investigation prototype has already started in an isolated52bedd6 snapshot. Its first experiment compares quiet local sampling against audible standoff reacquisition; timing is a rejectable hypothesis, not a required system. Distinct evidence/decisions must justify changes before assets or live-source integration. See `design/BLACKWATER_EXCHANGE_CYCLE.md` and the fresh campaign scout report. Completed items/cycles replenish the plan; only explicit user stop or an actual observed blocking limit permits pause. No such limit is currently observed.
