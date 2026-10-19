@@ -1,3 +1,11 @@
+## Current playable batch — navigation, resume, bow and Well
+
+User-ratified governance e286ade is reconciled into local production; independently mergeable feature branches and one reviewer per design replace historical per-increment certification. Assisted departure, guarded native-resume capture, selected Quietus heading cue and optional Well signature discovery are merged locally. Native20de5cd below remains the latest actually inspected APK; these new features have no native acceptance yet.
+
+Well review found a fresh-save shape crash (fixed with9 permanent checks), and subsequent actual first-record rendering exposed a missing illustration-key lookup. Corrected0b318af passes actual Compatibility GL6/0, independently rerun by the same reviewer. Text-only and unknown keys use the existing fallback; known images remain distinct. Generic fallback art remains a content weakness. Remote completion, solo recovery costs and losses are preserved; no source/intent revelation is invented.
+
+The current combined game gate is one coherent milestone check, not an orchestration-adoption requirement. Native validation is justified by the unresolved actual black cover-resume and accumulated playable changes. Android workflow now uses explicit milestone tags/manual dispatch; ordinary feature commits do not build APKs. Concurrent next work fixes measured FIT label wrapping without reducing text/touch minima. Historical status blocks below retain their original evidence and are superseded by this entry and CONTINUATION.
+
 ## Scoped native chapter checkpoint —20de5cd/run39266427532
 
 NativeCI succeeds on corrected chapter/loadout source20de5cd. All4ZIP/APK/certificate bytes and48finalPNGs are inspected; root independently recomputes hashes/signature and views8 critical originals. Both actual Blackwater receiving panels show the full settling hint; both earned request galleries show the handshake/body/BACK, cover caption requires scrolling. Fine poster annotations remain smaller than the large caption; physical readability/comprehension is unproved. Actual optical/restored named states are correct.

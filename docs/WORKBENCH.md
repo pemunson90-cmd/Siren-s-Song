@@ -7,13 +7,14 @@ Governing revision **e286ade61257190daa46f9433182de323a611271**. Dedicated featu
 | Assisted departure | Merged locally6ab8fb0;45 permanent checks. Same-state basalt clearance improves; turning costs~1.1s,3 inherited corridor stops and unavoidable/no-EMP losses remain. |
 | Resume evidence | Merged48a42ad; foreground/postdraw/RGB guard reviewed. Actual same-resume recovery still requires next native batch. |
 | Quietus bow cue | Mergedb21130d; selected craft only, final ocean338c9e47.9 focused checks, matched motion/loss unchanged, inactive debrief identical. Wider-drone clutter rejected. |
-| Optional Well signature | Mergede762eeb with strict fresh-save shape guard9/0. Optional own-noise/reference comparison retains remote completion and real losses. First-record camera key exception found during integration: owner fixed0b318af, GL RED6/2→GREEN6/0; same reviewer checking before publication. |
+| Optional Well signature | Mergede762eeb with strict fresh-save shape guard9/0. Optional own-noise/reference comparison retains remote completion and real losses. First-record camera key exception found during integration: owner fixed0b318af, GL RED6/2→GREEN6/0; same reviewer independently reran GL6/0 and approved; corrected tip now merged. |
+| Well acquisition context | Next isolated feature owned by Well author from735e444; replace misleading generic foundry fallback with honest site-specific presentation after originalv7 comparison. Same Well reviewer; no new sensing/game rules. |
 | FIT label clarity | Bow owner now owns isolated feature from e762eeb; fix actual small-desktop FI/T wrap with both native density regressions. Root reviews integration. |
 | Durable orchestration | Versioned boundary helper, installer,12 real Git tests, installed hooks and actual receipts. Explicit dispatch/review preflight fills unsupported collaboration-callback gap. [Mechanism](GAUNTLET_ORCHESTRATION.md). |
 
 Root sole production integrator in `/workspace/Siren-s-Song-integration`. Existing original workspace/captures and source branches retained. Milestone-tag/manual-dispatch Android trigger replaces every-feature APK. Feature refs containing that workflow correction may be published without redundant builds.
 
-Next: finish camera same-reviewer correction, run one integrated playable-batch game gate, publish reconciled production and launch one justified native batch while FIT development continues. No adoption-only critic/APK or per-increment full suite. [Exact continuation](CONTINUATION.md).
+Next: camera correction merged; finish one running integrated playable-batch game gate, publish reconciled production and launch one justified native batch while FIT development continues. No adoption-only critic/APK or per-increment full suite. [Exact continuation](CONTINUATION.md).
 
 Latest actual [Android39266427532](validation/android-39266427532/README.md) is20de5cd:4 ZIPs/APK/certificate and48 images inspected. Chapter/loadout/optical states pass scoped review; cover-resume all black. New local features are absent from that APK. Preserve0afe5fc and f1ea536/runtime92625ac recoveries. No physical Fold7/full-campaign/finale/human acceptance claim.
 
