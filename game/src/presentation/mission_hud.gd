@@ -223,7 +223,7 @@ func refresh():
  if not operation.is_empty():
   host.order_buttons.camera.text=operation.label;host.order_buttons.camera.disabled=not operation.enabled
   instrument_info.text=Operations.detail(sim,operation.target)+"\n\n"+summary+"\n"+"\n".join(host.ocean.acoustic_rows())
-  host.detail_label.text=sim.units[sim.selected].name+" · "+operation.detail.get_slice("\n",0)
+  host.detail_label.text=sim.units[sim.selected].name+" · "+("OWN TRANSMITTER" if operation.label=="TRANSMIT" else "LOCAL MACHINERY CONTROL")
   if sim.capture_feedback().unit>=0:intent.text=sim.units[sim.selected].name+" · "+operation.detail.get_slice("\n",0)
  var fitted=Equipment.status(sim)
  if not fitted.is_empty():instrument_info.text+="\n\n"+fitted
