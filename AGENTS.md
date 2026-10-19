@@ -121,3 +121,17 @@ A boundary must be actual, not inferred from finished work, a long turn, a clean
 - **Safety invariant:** never merge known broken core gameplay, save compatibility, or build-breaking changes; run targeted guards before commit. A milestone full validation and a final release-quality acceptance gate remain mandatory. Explicitly distinguish desktop proof, automated native proof, and physical Fold7 user testing.
 
 When historical continuation notes say "next single action" is native certification of an otherwise desktop-reviewed small change, interpret that as milestone-pending unless a concrete Android-specific defect demands immediate validation. This policy governs all future workers and review instructions; inherited older stage gates do not override it.
+
+### Branch-per-design and single-reviewer integration (2026-10-19 clarification)
+
+User-directed operating model: **one dedicated Git feature branch per independently mergeable design/implementation change, continuous parallel progress where work is independent, and one assigned integration reviewer for each proposed merge**.
+
+1. Branch from the latest integrated `gauntlet/production` tip, e.g. `gauntlet/feature/blackwater-evidence`; define the owned files and expected player-facing change. Commit useful increments on that branch. Do not share a mutable feature branch between unrelated workers.
+2. Work continues on other nonconflicting feature branches. Do not serialize independent design development behind one branch's full suite, evidence packaging, independent reviews or Android APK build.
+3. Before merge, **one designated integration reviewer** examines the actual diff, verifies it still fits the game and current baseline, checks interactions/conflicts/asset provenance and save compatibility where relevant, and runs or requests *targeted* tests. The reviewer reports concrete fix requests or approves. A second reviewer is exceptional and justified by a distinct high-risk concern, not routine ceremony.
+4. Reconcile approved branches against the current production tip, resolve conflicts deliberately, and recheck the changed surfaces. Merge through a reviewable PR/merge (or equivalent explicit integration commit). Prefer one clearly assigned integrator to avoid concurrent pushes to the shared branch. Never silently overwrite other branches or uncommitted work.
+5. Keep `gauntlet/production` in a playable, known-working state. A branch needing larger experimentation stays separate. When one branch lands, subsequent branches reconcile against that newer source rather than replacing it with a stale snapshot.
+6. Periodically build and validate an Android APK for a **coherent batch of merged features** or an observed Android-specific problem, with full milestone/release gates as defined above. Feature-branch approval does not require producing an APK.
+7. Preserve prior reviewer findings and failure reproductions; don't force each new design through repeated external criticism or identical audit records. Track simple statuses: developing → review → reconcile → merged; blocked means a concrete unresolved defect or conflict.
+
+If inherited ownership notes say only root can push, treat that as the shared-branch integrator role; implementers may push their own dedicated feature branches if authorized and technically supported. Active isolated work can be promoted into feature branches without restarting it.
