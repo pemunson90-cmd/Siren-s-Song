@@ -25,7 +25,7 @@ static func complete(sim,site:Dictionary)->void:
   sim._noise(site.get("transmission_origin",site.pos),sound.radius,sound.label,sound.duration)
 static func feedback(sim)->Dictionary:
  var result={"gates":[]}
- for gate in sim.mission.get("physical_gates",[]):result.gates.append({"id":gate.id,"pos":gate.closed_shape.get_center(),"opened":gate.opened})
+ for gate in sim.mission.get("physical_gates",[]):result.gates.append({"id":gate.id,"pos":gate.closed_shape.get_center(),"rect":gate.closed_shape,"opened":gate.opened})
  for site in sim.observable_sites():
   if own_origin(site):
    result["transmission_region"]=site.origin_region
