@@ -5,6 +5,8 @@
 
 **Work on the game, not on proving that a workflow happened.** Pick improvements by their expected effect on the player's actual experience. Question accepted approaches when a larger gain is available. Prefer deep, coherent gameplay and polished, intuitive interactions to more granularity, test counts, ceremony or endlessly decorating existing assumptions.
 
+Communication: state concrete actions, results and intended player gains directly. Explain limitations when they affect an actual expectation, with the reason. Keep progress updates affirmative and concise.
+
 ## Authority
 Current user decisions > `docs/CURRENT_GAME_SPEC.md` and accepted amendments > ratified design bible/selected visual decisions > demonstrated play/source evidence > historical provenance > proposals. `docs/SOURCE_AUTHORITY.md` resolves details. The playable v7 source is a working implementation reference: do not lose its demonstrated knockdown weapon, Hunt, acoustic footprint, environmental systems or other mechanics without deliberate comparison and rationale. Old single-level specs, wrappers, approval loops and historical work plans are archival evidence, not present instructions.
 
