@@ -88,3 +88,21 @@ Read [the original prototype handoff](reference/original-prototype/MANIFEST.md) 
 The user explicitly ratified [Addendum A](docs/reviews/2026-10-19-external-audit-addendum-A.md) as the priority fix and [Addendum B](docs/reviews/2026-10-19-external-audit-addendum-B.md) as critic direction. After the prototype import/comparison audit and committed/remote integrity checks, implement A test-first: authored terrain-safe patrol loops, distinct tethered sentinel/fast-response hunter, Listening Well hunter and intentional Foundry sentinels, preserved fair sensing, historical pre-fix balance numbers and rerun strategies/naive policies/critic probes. Do not weaken detection or speed merely to recover old hull results. Complete this priority before resuming the parked density UI cycle.
 
 All future critic briefs inherit [docs/CRITIC_BRIEF.md](docs/CRITIC_BRIEF.md): one dimension against shipped-game footage, actual 10–20 second game clips including idle-world observation, blind only where feasible and honestly labeled, retained losses and no imitation. Start with Door Kickers, Barotrauma and Mark of the Ninja; verify current store availability before recommending play. [Ratification/checkpoint note](docs/source-import/original-prototype-handoff/RATIFICATION.md) distinguishes originals, current directions, evidence gaps and preserved work. Existing model-selection and persistent Gauntlet policy remain binding.
+
+
+## Gauntlet execution loop — user correction, 19 October 2026
+
+The user explicitly corrected a root orchestration failure: stopping after a bounded milestone despite an identified next action. The fully polished, feature-complete, playable Android game is the long-term target; only the user determines satisfaction and when to stop spending compute. Passing tests, an accepted build/review, a completed plan or absence of critical defects never sets that bar or ends execution.
+
+| Event/state | Meaning | Required next action |
+| --- | --- | --- |
+| Task completion | One bounded assignment has its required evidence. | Integrate/review it as appropriate and execute the next available task in the same available session. |
+| Worker completion | One worker has released its assigned scope. | Reuse, release or replace that worker and continue orchestration. Worker completion never implies program completion. |
+| Milestone/checkpoint | Verified baseline, evidence and decisions are preserved. | Identify the highest-value next improvement, update WORKBENCH/CONTINUATION, and immediately begin implementing or investigating it. Repeat without routine approval. |
+| Available execution session | Tools/context/resources still permit useful authorized work. | Continue development, evaluation, criticism, planning and improvement. Continue through task-plan completion and supported context compaction. |
+| Actual session exhaustion | A concrete platform/context/usage/execution/resource boundary prevents further useful execution. | Preserve a durable runnable checkpoint, exact observed boundary, source/branch/worker/evidence status and exact next commands. Mark paused/awaiting continuation; do not claim background execution. |
+| User-authorized program termination | The user explicitly says to stop because satisfied or changing direction. | Follow that instruction and preserve the requested final/handoff state. No worker or quality estimate substitutes for this decision. |
+
+At every checkpoint: (1) preserve the verified baseline/evidence/decisions; (2) select the highest-value next improvement; (3) update the workbench and continuation; (4) immediately execute or investigate it; (5) repeat. If review finds no consequential defect, choose a meaningful creative/experiential improvement rather than ending the loop. Preserve source hierarchy, Sol-first model policy, evidence ratchet and active independent workers.
+
+A boundary must be actual, not inferred from finished work, a long turn, a clean handoff, an arbitrary cycle count or anticipated context pressure. Use available compaction/continuation within the session. Record the concrete blocking observation honestly; never relabel a voluntary stop as an enforced session boundary. When a task ends and another authorized task is available, the next action is execution, not a final report to the user.

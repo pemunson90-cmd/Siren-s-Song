@@ -14,7 +14,7 @@ Reviewed source **08eca25**, published native **9dacbb4**, improves **finite dec
 
 [Actual native decoy launch](validation/android-39244955064/screenshots/inner-role-lure-planned.webp) · [after return/expiry](validation/android-39244955064/screenshots/inner-role-return.webp) · [cover secondary](validation/android-39244955064/screenshots/cover-touch-targets-secondary-initial.webp) · [returned Operations](validation/android-39244955064/screenshots/cover-menu-returned.webp). Multi-decoy/motion/tool-row/camera-threat stress remains desktop evidence. Nonmenu camera/restored-gameplay captures still lag; functional logs pass, but those pictures do not prove optical-overlay fit. Full native campaign/finale, physical Fold7 and subjective audio remain open.
 
-Next experience cycle has a saved [current-source response/echo/expiry probe](validation/production/acoustic-feedback/observed-response-probe/README.md). Session execution is paused awaiting continuation, with no background agent work; the Gauntlet remains open. Teaching must preserve uncertainty; stale launch-log wording remains a small inherited follow-up.
+Next experience cycle has a saved [current-source response/echo/expiry probe](validation/production/acoustic-feedback/observed-response-probe/README.md). Development is active: the next observed-contact feedback improvement is underway. The previous voluntary stop was corrected; the Gauntlet continues through checkpoint saves. Teaching must preserve uncertainty; stale launch-log wording remains a small inherited follow-up.
 
 ![Actual Android cover controls](validation/android-39229219785/screenshots/cover-touch-targets-primary-initial.webp)
 

@@ -1,6 +1,6 @@
 # Siren’s Song continuation · verified 9dacbb4
 
-**Paused / awaiting continuation at the session execution boundary.** The open-ended Gauntlet remains active; no worker/background agent execution continues after this task. Source/native/evidence checks below are complete within scope, and the next-cycle footage probe is saved.
+**Active: observed-contact feedback improvement underway.** The previous voluntary stop at a “session execution boundary” was an instruction-following error, not an observed usage/tool limit. The user explicitly reaffirmed continuous execution. Checkpoints save progress while work continues; they do not authorize a pause.
 
 Read AGENTS.md, SOURCE_AUTHORITY, WORKBENCH, architecture/GAUNTLET, AGENT_BRIEF, CRITIC_BRIEF and BASELINE_AND_EXPERIMENTS before new work. Preserve imported originals and the ratified v7 reference/addenda. Reuse the existing checkout; inspect status/fetch before proceeding. No reset or duplicated foundation work.
 
@@ -8,7 +8,7 @@ Read AGENTS.md, SOURCE_AUTHORITY, WORKBENCH, architecture/GAUNTLET, AGENT_BRIEF,
 
 APK artifact12183682559, SHA256 `4887a2ee583c4fc80f0589f63d494f1cfb75f5b37b4395aa8605cbf1e17e0432`; certificate `32bcb2287acd01c1f58c26997c7639f3072c74c6b03ab2a24656dc7cd1c7dc3c` verifies locally. [Actual review](validation/android-39244955064/ARTIFACT_REVIEW.md). Readable instruments on both layouts, inner15s→none and final requested-menu pixels are supported. Native multiple decoys/motion/tool-row/optical-threat stress remains unproved. Nonmenu camera/restored-gameplay PNGs still lag; functional logs pass, those images are not named-state proof. Coordinate stronger nonmenu capture identity before claiming those pixels.
 
-**Next single action:** read the current-source [observed-response probe](validation/production/acoustic-feedback/observed-response-probe/README.md) and its16-second clip, then choose the smallest tested teaching/identity improvement from actual observations. The ordinary unchanged-source scenario shows a fresh hunter investigating, then an aging echo, then a different investigating patrol while the decoy clock continues to expiry. Do not infer that the same hunter returned, that an unseen listener was diverted, or that expiry means safety. Consider stable readable observed-contact identity/context and explicit launch-event wording; those are proposals, not automatically ratified implementations. Keep actual v7 sight-over-lure and current fair sensing/lock rules. No AI/hearing/resource retune is indicated.
+**Current active next action:** production is already implementing the evidence-supported observed-contact identity/readout and historical launch-copy improvement; tooling independently addresses nonmenu rendered-state capture identity. Preserve their ownership and do not redispatch/restart them. Inspect their current results, integrate and review, then automatically execute the next cycle. The source probe remains the evidence basis: read the current-source [observed-response probe](validation/production/acoustic-feedback/observed-response-probe/README.md) and its16-second clip, then choose the smallest tested teaching/identity improvement from actual observations. The ordinary unchanged-source scenario shows a fresh hunter investigating, then an aging echo, then a different investigating patrol while the decoy clock continues to expiry. Do not infer that the same hunter returned, that an unseen listener was diverted, or that expiry means safety. Consider stable readable observed-contact identity/context and explicit launch-event wording; those are proposals, not automatically ratified implementations. Keep actual v7 sight-over-lure and current fair sensing/lock rules. No AI/hearing/resource retune is indicated.
 
 The existing reproduction command is:
 
@@ -34,4 +34,9 @@ After each meaningful milestone: (1) build/run and gather inspectable gameplay, 
 
 ## Recovery rule
 
-The Gauntlet remains active and user-terminated. At a session execution/context boundary, checkpoint precisely and pause awaiting continuation; no agent background execution is implied. Resume from the reviewed current source/probe rather than restarting the completed cycle.
+The Gauntlet remains active and user-terminated. Continue through checkpoints and context compaction. Pause only when the user explicitly stops the program or an actual observed execution/usage/tool limit blocks further progress; record the concrete blocker. Do not invent a limit from a milestone, long turn, or preference for a clean handoff.
+
+
+## Execution-loop correction now active
+
+The user explicitly ratified the task/worker/checkpoint/session/program distinctions in AGENTS.md. This is an orchestration correction, not a new approval gate. Current source52bedd6 and inspected9dacbb4 APK are preserved; active production and independent tooling proceed without interruption. At each checkpoint save records and immediately investigate/implement the highest-value next improvement. A completed rolling plan is replenished, not treated as program termination. Only explicit user stop or an actual observed blocking limit permits pause, with durable exact continuation and the concrete boundary recorded. No boundary is currently observed; the environment is ready and unrestricted/enforced.
