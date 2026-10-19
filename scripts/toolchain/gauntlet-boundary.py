@@ -85,6 +85,29 @@ def dispatch(path, policy):
     if not follow:task.setdefault('model','gpt-6.1-sol');task.setdefault('fork_turns','none')
     return {'tool':'collaboration.followup_task' if follow else 'collaboration.spawn_agent','arguments':task}
 
+
+def check_completion_guidance(policy):
+    """Execute current canonical linter, even from an older active feature branch."""
+    path='scripts/toolchain/check-gauntlet-guidance.py'
+    try:
+        script=command(['git','show',policy['policy_sha']+':'+path])
+    except RuntimeError:
+        # Older test fixtures and historical commits predate the linter.
+        # Once current production mandates it, absence is a hard stale-governance failure.
+        agents=pathlib.Path(policy['files']['AGENTS.md']['cache_path']).read_text()
+        if 'check-gauntlet-guidance.py' in agents:
+            raise RuntimeError('required completion-time guidance checker missing from fetched production')
+        print('Historical policy has no guidance checker; semantic closeout still required',file=sys.stderr)
+        return
+    p=subprocess.run([sys.executable,'-','--ref',policy['policy_sha']],
+                     input=script,stdout=subprocess.PIPE,stderr=subprocess.PIPE,
+                     timeout=30)
+    if p.stdout:print(p.stdout.decode(errors='replace').rstrip(),file=sys.stderr)
+    if p.stderr:print(p.stderr.decode(errors='replace').rstrip(),file=sys.stderr)
+    if p.returncode:
+        raise RuntimeError('guidance is stale at fetched production SHA; assign a repair branch and reviewer before next closeout')
+
+
 def guard_push(policy, updates):
     for line in updates.splitlines():
         fields=line.split()
@@ -103,6 +126,7 @@ def main():
     try:
         if not 0<args.timeout<=60 or not 0<=args.lock_timeout<=10:raise ValueError('timeout must be (0,60], lock-timeout [0,10] seconds')
         policy=refresh(args.boundary,args.timeout,args.lock_timeout)
+        if args.boundary=='complete':check_completion_guidance(policy)
         if args.boundary=='pre-push':guard_push(policy,sys.stdin.read())
         if args.dispatch:print(json.dumps(dispatch(args.dispatch,policy),indent=2))
         return 0
