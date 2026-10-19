@@ -14,13 +14,13 @@ static func available(completed:Array,progress:Dictionary)->Array:
  if RESOLUTION_READY and (9 in progress.get("completed",[]) or 10 in progress.get("completed",[])):result.append(11)
  var route=progress.get("facts",{}).get("confluence_route","")
  if RESOLUTION_READY and 11 in progress.get("completed",[]) and route in ["concealed","overt"]:result.append(12 if route=="concealed" else 13)
- if BLIND_PASSAGE_READY and (12 in progress.get("completed",[]) or 13 in progress.get("completed",[])) and progress.get("facts",{}).get("resolution","") in ["concealed_recovery","overt_warning"]:result.append(14)
+ if BLIND_PASSAGE_READY and preload("res://src/campaign/blind_passage_mission.gd").can_launch(Consequences.context(progress)):result.append(14)
  return result
 static func recover(previous:Dictionary,mission:Dictionary)->Dictionary:
  var result=previous.duplicate(true)
  if mission.get("delivery_revision",0)==1:
   result=Consequences.retain(result,mission)
-  if mission.get("id",-1)==14 and mission.get("recovered",false) and mission.get("handoff_complete",false) and valid(result):
+  if mission.get("id",-1)==14 and mission.get("recovered",false) and preload("res://src/campaign/blind_passage_mission.gd").delivery_ready(mission) and preload("res://src/campaign/blind_passage_mission.gd").can_launch(Consequences.context(result)) and valid(result):
    if 14 not in result.completed:result.completed.append(14)
    result=Consequences.commit(result,14,mission.get("launch_equipment",Consequences.EMPTY_FIT))
   return result
