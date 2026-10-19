@@ -79,6 +79,11 @@ polygon_bound_tests|POLYGON BOUND
 divergence_tests|DIVERGENCE
 divergence_save_tests|DIVERGENCE SAVE
 expedition_menu_tests|EXPEDITION MENU
+campaign_consequence_tests|CAMPAIGN CONSEQUENCES
+campaign_equipment_save_tests|CAMPAIGN EQUIPMENT SAVE
+onward_mission_tests|ONWARD MISSIONS
+resolution_content_tests|RESOLUTION CONTENT
+resolution_geometry_tests|RESOLUTION GEOMETRY
 earned_equipment_tests|EARNED EQUIPMENT
 cadence_correlator_tests|CADENCE CORRELATOR
 field_sampler_tests|FIELD SAMPLER

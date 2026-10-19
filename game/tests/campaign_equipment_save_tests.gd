@@ -30,5 +30,5 @@ func _initialize():
  restored.paused=false
  for i in 240:restored.advance(1.0/60)
  check(restored.mission.objectives[0].captured,"restored sampler finishes at its eight-second physical exposure")
- print("CAMPAIGN EQUIPMENT SAVE ",checks," FAILURES ",failures)
+ print("CAMPAIGN EQUIPMENT SAVE CHECKS ",checks," FAILURES ",failures)
  quit(1 if failures else 0)

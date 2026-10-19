@@ -29,5 +29,5 @@ func _initialize():
  check(Campaign.recover(selected,confluence).facts.confluence_route=="concealed","replayed later exit cannot rewrite committed consequence")
  var corrupt=launched.duplicate(true);corrupt.history[0].mission=99
  check(not Campaign.valid(corrupt),"bounded history rejects unknown mission")
- print("CAMPAIGN CONSEQUENCES ",checks," FAILURES ",failures)
+ print("CAMPAIGN CONSEQUENCES CHECKS ",checks," FAILURES ",failures)
  quit(1 if failures else 0)

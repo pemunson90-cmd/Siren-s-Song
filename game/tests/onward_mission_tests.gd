@@ -21,5 +21,5 @@ func _initialize():
    sim.units[0].pos=sim.mission.signal_sources[1].pos;sim._observe()
    for i in 60:sim.advance(1.0/60)
    check(not sim.all_records(),"optional repeater discovery cannot complete live packet")
- print("ONWARD MISSIONS ",checks," FAILURES ",failures)
+ print("ONWARD MISSIONS CHECKS ",checks," FAILURES ",failures)
  quit(1 if failures else 0)
