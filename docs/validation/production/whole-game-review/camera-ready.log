@@ -1,0 +1,94 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:364)
+OpenGL API 4.5 (Core Profile) Mesa 25.0.7-2+deb13u1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 19.1.7, 256 bits)
+
+Movie Maker mode enabled, recording movie in 1280×720 @ 30 FPS...
+CRITIC CAMERA_READY elapsed=14.5000000000003 position=(1293.41, 512.9643) camera_button=CAMERA capture=-1
+SS_TARGET pause center=1504,130 viewport=1680,720
+SS_TARGET sub center=1403,194 viewport=1680,720
+SS_TARGET droneA center=1502,194 viewport=1680,720
+SS_TARGET droneB center=1601,194 viewport=1680,720
+SS_TARGET ping center=1427,250 viewport=1680,720
+SS_TARGET camera center=1575,250 viewport=1680,720
+SS_TARGET silent center=1427,306 viewport=1680,720
+SS_TARGET queue center=1575,306 viewport=1680,720
+SS_TARGET hold center=1427,362 viewport=1680,720
+SS_TARGET emp center=1575,362 viewport=1680,720
+SS_TARGET home center=1427,418 viewport=1680,720
+SS_TARGET menu center=1575,418 viewport=1680,720
+SS_TARGET more_orders center=1427,474 viewport=1680,720
+SS_TARGET zoom_out center=1191,138 viewport=1680,720
+SS_TARGET zoom_in center=1245,138 viewport=1680,720
+SS_TARGET fit center=1299,138 viewport=1680,720
+SS_TARGET chart_center center=678,387 viewport=1680,720
+SS_TARGET objective0 center=1205,419 viewport=1680,720
+SS_TARGET route center=172,724 viewport=1680,720
+SS_TARGET pause center=1504,130 viewport=1680,720
+SS_TARGET sub center=1403,194 viewport=1680,720
+SS_TARGET droneA center=1502,194 viewport=1680,720
+SS_TARGET droneB center=1601,194 viewport=1680,720
+SS_TARGET ping center=1427,250 viewport=1680,720
+SS_TARGET camera center=1575,250 viewport=1680,720
+SS_TARGET silent center=1427,306 viewport=1680,720
+SS_TARGET queue center=1575,306 viewport=1680,720
+SS_TARGET hold center=1427,362 viewport=1680,720
+SS_TARGET emp center=1575,362 viewport=1680,720
+SS_TARGET home center=1427,418 viewport=1680,720
+SS_TARGET menu center=1575,418 viewport=1680,720
+SS_TARGET more_orders center=1427,474 viewport=1680,720
+SS_TARGET zoom_out center=1191,138 viewport=1680,720
+SS_TARGET zoom_in center=1245,138 viewport=1680,720
+SS_TARGET fit center=1299,138 viewport=1680,720
+SS_TARGET chart_center center=678,387 viewport=1680,720
+SS_TARGET objective0 center=1205,419 viewport=1680,720
+SS_TARGET route center=172,724 viewport=1680,720
+SS_TARGET pause center=1504,130 viewport=1680,720
+SS_TARGET sub center=1403,194 viewport=1680,720
+SS_TARGET droneA center=1502,194 viewport=1680,720
+SS_TARGET droneB center=1601,194 viewport=1680,720
+SS_TARGET ping center=1427,250 viewport=1680,720
+SS_TARGET camera center=1575,250 viewport=1680,720
+SS_TARGET silent center=1427,306 viewport=1680,720
+SS_TARGET queue center=1575,306 viewport=1680,720
+SS_TARGET hold center=1427,362 viewport=1680,720
+SS_TARGET emp center=1575,362 viewport=1680,720
+SS_TARGET home center=1427,418 viewport=1680,720
+SS_TARGET menu center=1575,418 viewport=1680,720
+SS_TARGET more_orders center=1427,474 viewport=1680,720
+SS_TARGET zoom_out center=1191,138 viewport=1680,720
+SS_TARGET zoom_in center=1245,138 viewport=1680,720
+SS_TARGET fit center=1299,138 viewport=1680,720
+SS_TARGET chart_center center=678,387 viewport=1680,720
+SS_TARGET objective0 center=1205,419 viewport=1680,720
+SS_TARGET route center=172,724 viewport=1680,720
+SS_TARGET pause center=1504,130 viewport=1680,720
+SS_TARGET sub center=1403,194 viewport=1680,720
+SS_TARGET droneA center=1502,194 viewport=1680,720
+SS_TARGET droneB center=1601,194 viewport=1680,720
+SS_TARGET ping center=1427,250 viewport=1680,720
+SS_TARGET camera center=1575,250 viewport=1680,720
+SS_TARGET silent center=1427,306 viewport=1680,720
+SS_TARGET queue center=1575,306 viewport=1680,720
+SS_TARGET hold center=1427,362 viewport=1680,720
+SS_TARGET emp center=1575,362 viewport=1680,720
+SS_TARGET home center=1427,418 viewport=1680,720
+SS_TARGET menu center=1575,418 viewport=1680,720
+SS_TARGET more_orders center=1427,474 viewport=1680,720
+SS_TARGET zoom_out center=1191,138 viewport=1680,720
+SS_TARGET zoom_in center=1245,138 viewport=1680,720
+SS_TARGET fit center=1299,138 viewport=1680,720
+SS_TARGET chart_center center=678,387 viewport=1680,720
+SS_TARGET objective0 center=1205,419 viewport=1680,720
+SS_TARGET route center=172,724 viewport=1680,720
+SS_CAMERA_READY unit=1 objective=0
+SS_CAPTURE /tmp/sirens-whole-game-ready/full.png size=(2520, 1080) result=0
+WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
+   at: cleanup (core/object/object.cpp:2663)
+--------------------------------------------------------------------------------
+Done recording movie at path: /tmp/sirens-whole-game-ready/frame.png
+8 frames at 30 FPS (movie length: 00:00:00:08), recorded in 00:00:03 (33% of real-time speed).
+CPU render time: 0.01 seconds (average: 1.12 ms/frame)
+GPU render time: 0.04 seconds (average: 4.61 ms/frame)
+Encoding time: 0.78 seconds (average: 97.08 ms/frame)
+--------------------------------------------------------------------------------
