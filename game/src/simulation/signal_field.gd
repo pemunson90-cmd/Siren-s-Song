@@ -60,8 +60,18 @@ static func valid(m:Dictionary,time:float)->bool:
  var dimensions=preload("res://src/simulation/world_region.gd").size_of(m)
  for source in m.signal_sources:
   if not source is Dictionary or not source.has_all(["id","label","pos","evidence","located"]) or source.id not in ["deep","shelf","rendezvous"] or not source.label is String or not source.evidence is String or not source.located is bool or not source.pos is Vector2 or not SURVEY.contains(source.pos,dimensions):return false
+ var sources={}
+ for source in m.signal_sources:
+  if sources.has(source.id):return false
+  sources[source.id]=source
+ var expected=["deep","shelf"] if m.id==6 else (["rendezvous"] if m.id==7 else [])
+ if sources.size()!=expected.size() or not expected.all(func(id):return sources.has(id)):return false
  for fact in m.expedition_facts:
-  if fact not in ["deep","shelf","rendezvous"] or not m.expedition_facts[fact] is String:return false
+  if not sources.has(fact) or not sources[fact].located or m.expedition_facts[fact]!=sources[fact].evidence:return false
+ for source in m.signal_sources:
+  if source.located!=m.expedition_facts.has(source.id):return false
+  var sites=m.objectives.filter(func(o):return o.get("site_id","")==source.id and o.pos==source.pos)
+  if sites.size()!=(1 if source.located else 0):return false
  for reading in m.signal_observations:
   if not reading is Dictionary or not reading.has_all(["receiver","origin","direction","time","uncertainty","label"]):return false
   if not reading.receiver is int or reading.receiver<0 or reading.receiver>2 or not reading.origin is Vector2 or not SURVEY.contains(reading.origin,dimensions) or not reading.direction is Vector2 or not reading.direction.is_finite() or reading.direction.length()>1.001:return false

@@ -23,6 +23,8 @@ func _initialize():
  check(not Sim.valid_snapshot(bad),"nonfinite received bearings are rejected before restore")
  bad=snap.duplicate(true);bad.mission.recovered=true;bad.mission.chosen_route="shelf"
  check(not Sim.valid_snapshot(bad),"recovered flag without corresponding source evidence is rejected")
+ bad=snap.duplicate(true);bad.mission.expedition_facts["shelf"]="unsupported field note"
+ check(not Sim.valid_snapshot(bad),"route facts must correspond to a located authored source")
  for id in [7,8]:
   var follow=Sim.new();follow.start(id);check(Sim.valid_snapshot(follow.snapshot()),"authored continuation starts in valid snapshot")
  print("DIVERGENCE SAVE CHECKS ",checks," FAILURES ",failures)
