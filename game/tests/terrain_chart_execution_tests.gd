@@ -19,6 +19,10 @@ func _initialize():
   var initial=a.public_chart()
   check(a.command("route",{"point":Vector2(640,500)}) and b.command("route",{"point":Vector2(640,500)}) and a.units[0].route==b.units[0].route,"actual unknown destination order and compile ignore hidden endpoint rock")
   check(a.public_chart()==initial,"paused order adds no knowledge")
+  var state_before=a.snapshot();var segments=a.course_segments(0);var delivery=a.delivery_context()
+  check(segments.any(func(part):return part.confirmed) and segments.any(func(part):return not part.confirmed),"public course segments distinguish certified prefix from speculative intention")
+  check(delivery.handoff_sector==a.mission.handoff_sector and not delivery.return_available and not delivery.handoff_complete,"delivery DTO exposes announced destination and own recovery prerequisites")
+  check(a.snapshot()==state_before,"course and delivery presentation getters earn no observations and mutate no intent")
   check(a._repair_current_leg(a.units[0]) and b._repair_current_leg(b.units[0]) and a.units[0].route==b.units[0].route,"turn-displaced repair reads identical public chart rather than hidden layouts")
   a.command("ping");check(a.public_chart()==initial,"paused SONAR earns no chart measurements")
   a.command("recon");check(a.public_chart()==initial,"paused finite RECON arms tool without chart stamping")
@@ -45,4 +49,16 @@ func _initialize():
   var restored=loaded.snapshot();check(restored.terrain_chart==state.terrain_chart and restored.tick_phase==state.tick_phase,"chart restore preserves earned knowledge and exact existing tick phase")
   var legacy=Sim.new();legacy.start(0);check(not legacy.snapshot().has("terrain_chart") and legacy.public_chart().is_empty(),"old missions retain absent chart schema and behavior")
   check(not fixture().all_records(),"empty objectives cannot complete carried-evidence delivery at launch")
+  var withdrawal=Sim.new();withdrawal.start(14,"disruption",{"context":{"completed":[12],"facts":{"resolution":"concealed_recovery","confluence_route":"concealed"}}})
+  withdrawal.command("route",{"point":Vector2(300,2480)});withdrawal.paused=false
+  for tick in 600:withdrawal.advance(Sim.STEP)
+  withdrawal.command("route",{"point":withdrawal.mission.withdrawal_pos})
+  for tick in 600:withdrawal.advance(Sim.STEP)
+  check(withdrawal.outcome=="withdrawn" and not withdrawal.mission.handoff_complete and not withdrawal.mission.recovered,"ordinary departure and settled early return retain notes without delivery success")
+  var evolving=Sim.new();evolving.start(14,"disruption",{"context":{"completed":[12],"facts":{"resolution":"concealed_recovery","confluence_route":"concealed"}}});evolving.command("route",{"point":Vector2(300,2000)});evolving.paused=false
+  for tick in 47:evolving.advance(Sim.STEP)
+  evolving.paused=true;var copy=Sim.new();check(copy.restore(evolving.snapshot()),"active earned-chart running course restores")
+  evolving.paused=false;copy.paused=false
+  for tick in 80:evolving.advance(Sim.STEP);copy.advance(Sim.STEP)
+  check(evolving.snapshot()==copy.snapshot(),"identical future ticks preserve chart observations physics AI and phase exactly")
  print("TERRAIN CHART EXECUTION CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)
