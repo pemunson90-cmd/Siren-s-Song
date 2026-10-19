@@ -45,7 +45,7 @@ func run():
   check(sim.route_goals()[0].pos.distance_to(target)<1. and sim.route_goals()[1]==tail,"ordinary preview tap accepts unknown rock endpoint and retains queued return")
   check(sim.paused and sim.public_chart()==chart and sim.capture_unit<0,"plotting unknown intent adds no chart or capture and remains paused")
   for blocked in [false,true]:
-   if blocked:sim.units[0]["chart_stop"]="New terrain — replot"
+   if blocked:sim.units[0]["chart_stop"]="New terrain"
    editor.refresh();await settle()
    check(editor.point_info.text.contains("REPLOT" if blocked else "TENTATIVE"),"planner explains active course uncertainty or replot latch")
    check(Rect2(Vector2.ZERO,root.get_visible_rect().size).encloses(editor.get_global_rect()),"uncertainty and blocked guidance retain bounded planner height")
@@ -54,5 +54,11 @@ func run():
     check(b!=null and Rect2(Vector2.ZERO,root.get_visible_rect().size).encloses(b.get_global_rect()) and b.size.y>=game.ui_touch_height,"full-size visible replot editing target "+id)
   var before=sim.snapshot();editor.preview.pan_chart(Vector2(40,-30));editor.preview.zoom_at(1.5,editor.preview.size*.5);await settle()
   check(sim.snapshot()==before,"planner camera gestures retain full intent and chart in pause")
+  var observed=sim.public_chart()
+  sim.units[1].alive=false;editor.preview.queue_redraw();game.ocean.queue_redraw();await settle()
+  check(sim.public_chart()==observed,"lost observer retains the same earned map in world and preview")
+  check(sim.restore(before),"actual paused active chart restores through normal model contract")
+  editor.refresh();game._refresh();await settle()
+  check(sim.public_chart()==observed and sim.snapshot()==before,"restored world and preview add no samples or ghost orders")
   game.queue_free();await settle()
  print("EARNED CHART UI CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)
