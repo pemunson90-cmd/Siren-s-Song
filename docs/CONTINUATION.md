@@ -5,10 +5,10 @@ Adopt governing16869cd (AGENTS/briefs/entry/architecture simplification); source
 Integrated basea855cc1 includes physical torpedoes, route programming, acoustic paths, stable contact aiming and reviewed Foundry thermal staging. Planner8e13043 is approved by root: pan/pinch/1–4×/+−FIT; independent34checks pass. Its exact source-only diff is reconciled onto current user instructions; no development restart. Builder's44planner/17composition checks remain valid. Temporary toolbar occupation/cropped view remain costs; native/human precision unverified.
 
 Active ownership:
-- observed_contact_regression_hunter: `gauntlet/feature/native-planner-probe`, reused debug-identity worktree; read-only main modal metrics + atomic native zoom/drag/FIT/close checks. Reconcile against published planner, root reviews, then one comprehensive/Android controls milestone.
+- Native planner probec3b9d2a is approved by root and integrated;22CLI/shell cases pass independently, worker38headless/38software-GL checks retained. Root runs the combined comprehensive gate, then publishes one deliberate Android controls milestone. Worker released; no physical/OS-multitouch claim.
 - navigation_departure_experience: `gauntlet/feature/foundry-departure-cycle`, reused environment worktree; optional observable industrial departure through real hearing, no forced guard goals/global buffs/mandatory wait. campaign_experience_review is sole designated reviewer when frozen. Independent of the controls batch.
 
-Next: publish reconciled planner; finish native probe, run the meaningful integrated gate/build once, inspect existing artifacts. Keep departure development moving meanwhile. Reject current-controller165f382 (62.4m HOLD drift for1.6s transport); do not restart failed drone speed/listener prototypes.
+Next: complete the combined regression gate, publish one deliberate Android controls milestone, inspect its existing artifacts. Keep departure development moving meanwhile. Reject current-controller165f382 (62.4m HOLD drift for1.6s transport); do not restart failed drone speed/listener prototypes.
 
 Latest native39288954098 at79c9b5a passed source gate/APK build but stopped on stale secondary requirements; corrected59534ff passes original84×56dp controls. Four ZIPs/APK/canonical32bcb cert and14cover views inspected; inner/lifecycle/later gameplay unreached. Preserve20de scoped chapter APK (black cover-resume caveat),0afe andf1ea recoveries. No full earned campaign/physical Fold7/audio/performance acceptance.
 

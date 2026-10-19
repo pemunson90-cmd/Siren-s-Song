@@ -13,6 +13,7 @@ python3 "$(dirname -- "$0")/test-android-resume.py"
 python3 "$(dirname -- "$0")/test-android-blackwater.py"
 python3 "$(dirname -- "$0")/test-android-view.py"
 python3 "$(dirname -- "$0")/test-android-ui-metrics.py"
+python3 "$(dirname -- "$0")/test-android-planner.py"
 log="$ARTIFACT_DIR/tests.log"
 "$(dirname -- "$0")/headless.sh" --script res://tests/run_tests.gd 2>&1 | tee "$log"
 if grep -nE 'SCRIPT ERROR:|(^|[[:space:]])ERROR:' "$log"; then
@@ -75,6 +76,7 @@ done <<'TACTICAL_SCENARIOS'
 route_program_tests|ROUTE PROGRAM
 route_program_ui_tests|ROUTE PROGRAM UI
 planner_navigation_ui_tests|PLANNER NAVIGATION
+planner_metrics_tests|PLANNER METRICS
 acoustic_path_tests|ACOUSTIC PATH
 acoustic_hearing_tests|ACOUSTIC HEARING
 acoustic_footprint_tests|ACOUSTIC FOOTPRINT

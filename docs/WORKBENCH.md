@@ -4,11 +4,11 @@ Root integrates production; governing16869cd adopted. Reviewed basea855cc1 plus 
 
 | Player gain | Remaining cost/gap |
 | --- | --- |
-| Quietus waypoint propulsion, all-craft edit/undo; now navigable paused preview | Drones fixed96; toolbar uses chart space; native planner proof pending |
+| Quietus waypoint propulsion, all-craft edit/undo; now navigable paused preview | Drones fixed96; toolbar uses chart space; native probe integrated; actual Android proof pending |
 | Physical noisy torpedo with travel/cover/miss/snare; explicit intended-contact aiming | Finite shots can miss; human/physical targeting unverified |
 | Speed footprint and terrain diffraction; Foundry thermal staging | Mutual fresh-information/time cost, later drone loss retained; reflections/current systems open |
 
-Current work: native-planner-probe (observed_contact_regression_hunter; root reviews), then one combined comprehensive/Android controls batch. Independent Foundry departure experiment (navigation_departure_experience; campaign_experience_review designated reviewer) seeks an observable world/guard-coverage choice. No forced wait/global AI buffs.
+Current work: root runs the combined regression gate and then one Android controls batch; reviewed native probe measures planner OS zoom/drag/FIT without changing paused intent. Independent Foundry departure experiment (navigation_departure_experience; campaign_experience_review designated reviewer) seeks an observable world/guard-coverage choice. No forced wait/global AI buffs.
 
 Rejected current controller gains1.6s but loses HOLD by62.4m; prior drone picket/thrust prototypes remain rejected. Do not count tests or paperwork as game quality. Next broad weakness: discoveries should change the lived world, beyond static installations and record text.
 
