@@ -43,14 +43,18 @@ func run() -> void:
   var ui=load("res://scenes/main.tscn").instantiate();ui.set_script(preload("res://tests/order_row_main.gd"));ui.capture_scenario="order-row-test";ui.fixture_dpi=profile.dpi
   if profile.inset:ui.fixture_safe_area=Rect2(profile.inset,0,profile.size.x-profile.inset,profile.size.y)
   root.add_child(ui);await settle()
-  for state in [{"mission":0,"task":"READY","stock":3},{"mission":1,"task":"ROUTE","stock":2},{"mission":5,"task":"EXPOSING","stock":1},{"mission":2,"task":"LISTEN","stock":0},{"mission":0,"task":"CONTACT","stock":0},{"mission":0,"task":"DRONE","stock":1},{"mission":0,"task":"LOST","stock":2}]:
+  for state in [{"mission":0,"task":"READY","stock":3},{"mission":1,"task":"ROUTE","stock":2},{"mission":5,"task":"EXPOSING","stock":1,"target":2,"label":"LISTEN"},{"mission":0,"task":"OPTICAL","stock":2,"target":0,"label":"CAMERA"},{"mission":1,"task":"UPLINK","stock":1,"target":2,"label":"LINK"},{"mission":2,"task":"LISTEN","stock":0,"target":0,"label":"SAMPLE"},{"mission":0,"task":"CONTACT","stock":0},{"mission":0,"task":"DRONE","stock":1},{"mission":0,"task":"LOST","stock":2}]:
    if not capture_dir.is_empty() and not (state.task=="READY" or (state.task=="EXPOSING" and profile.name=="cover")):continue
    ui._start_mission(state.mission);await settle()
    if state.task=="ROUTE":ui.sim.command("route",{"point":Vector2(320,800)})
-   elif state.task in ["EXPOSING","LISTEN"]:ui.sim.capture_unit=0
+   elif state.has("target"):ui.sim.capture_unit=0;ui.sim.capture_target=state.target
    elif state.task=="LOST":ui.sim.units[1].alive=false
    elif state.task in ["CONTACT","DRONE"]:ui.sim.units[0].hold=state.task
    ui.sim.tools={"emp":state.stock,"recon":state.stock,"decoy":state.stock};ui.sim.queue_mode=state.stock==0;ui.sim.pass_through=state.stock!=1;ui.sim.units[0].silent=state.stock!=2;ui._refresh();await settle()
+   if state.has("label"):
+    check(ui.unit_buttons[0].text.get_slice("\n",1)==state.label,"%s active %s uses short honest %s task"%[profile.name,state.task,state.label])
+    var b=ui.unit_buttons[0];var required=b.get_theme_font("font").get_string_size(state.label,HORIZONTAL_ALIGNMENT_LEFT,-1,b.get_theme_font_size("font_size")).x+b.get_theme_stylebox("normal").get_minimum_size().x
+    check(required<=b.size.x,"%s active %s task remains one whole word at unchanged font"%[profile.name,state.task])
    for advanced in [false,true]:
     if ui.advanced_orders!=advanced:ui._toggle_advanced();await settle()
     var issues=layout_issues(ui,profile)

@@ -9,7 +9,7 @@ static func run(t,game):
 	t.check("SAMPLE" in copy and not "Use CAMERA within 240m" in copy,"Blackwater briefing explains local reception without generic optical range instructions")
 	game._start_mission(2);game.sim.units[0].pos=Vector2(760,330);game.sim.command("camera");game._refresh();await t.process_frame
 	t.check(game.ocean.optical_feed.visible,"receiving station owns the live hydrophone inset")
-	t.check(game.unit_buttons[0].text.ends_with("\nLISTEN"),"receiver station uses a short two-line status on dense cover controls")
+	t.check(game.unit_buttons[0].text.ends_with("\nSAMPLE"),"receiver station shows the short SAMPLE task matching its action")
 	game.sim.command("select",{"unit":1});game._refresh();await t.process_frame
 	t.check(not game.ocean.optical_feed.visible and game.sim.capture_unit==0,"handoff hides remote receiver feed while sample stays with Quietus")
 	game.sim.command("select",{"unit":0});game.sim.paused=false

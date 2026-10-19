@@ -223,10 +223,13 @@ func _refresh() -> void:
 	title_label.text="SIREN'S SONG    /    %02d  %s"%[mission_index+1,sim.mission.title.to_upper()]
 	status_label.text="DEPTH %dm    O₂ %03d%%    HULL %03d%%    RECORDS %d / %d    %s"%[sim.mission.depth,int(sim.oxygen),int(sim.hull),sim.mission.objectives.filter(func(o): return o.captured).size(),sim.mission.objectives.size(),"TACTICAL PAUSE" if sim.paused else "REAL TIME"]
 	pause_button.text="▶ RESUME" if sim.paused else "Ⅱ PAUSE"
+	var capture_task="CAMERA"
+	if sim.capture_unit>=0 and sim.capture_target>=0 and sim.capture_target<sim.mission.objectives.size():
+		capture_task={"receiver":"LISTEN","exchange":"SAMPLE","uplink":"LINK"}.get(sim.mission.objectives[sim.capture_target].get("kind",""),"CAMERA")
 	for i in 3:
 		unit_buttons[i].modulate=Color("80d9cf") if sim.selected==i else Color.WHITE
 		unit_buttons[i].disabled=not sim.units[i].alive
-		var task="LOST" if not sim.units[i].alive else (("LISTEN" if sim.mission.get("blackwater_revision",0)==1 else "EXPOSING") if sim.capture_unit==i else (sim.units[i].hold if not sim.units[i].hold.is_empty() else ("ROUTE" if not sim.units[i].route.is_empty() else "READY")))
+		var task="LOST" if not sim.units[i].alive else (capture_task if sim.capture_unit==i else (sim.units[i].hold if not sim.units[i].hold.is_empty() else ("ROUTE" if not sim.units[i].route.is_empty() else "READY")))
 		unit_buttons[i].text=["QUIETUS","DRONE A","DRONE B"][i]+"\n"+task
 		unit_buttons[i].add_theme_font_size_override("font_size",maxi(13,roundi(ui_touch_height*0.25)))
 	order_buttons.waypoint_mode.text="PASS\nPOINTS" if sim.pass_through else "STOP AT\nPOINTS"
