@@ -20,15 +20,16 @@ Watch [baseline](validation/production/navigation-emergency-experience/motion/ba
 
 This steering is integrated locally, **absent from20de5cd APK**. Turning still costs about1.1s in the matched stationary departure; momentum can still cause collisions. Fixed2× framing/no camera follow and scripted inputs do not establish thumb comfort. [Independent experience](reviews/2026-10-19-navigation-departure-experience.md) · [Separate regression](reviews/2026-10-19-navigation-departure-regressions.md).
 
-Production source7febd8d now contains reviewed steering, resume guard, bow cue and optional Well discovery; the latest inspected APK above does not. [Native milestone39276951740](https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/39276951740) is being monitored while FIT and Well presentation work continue.
+Production source **fd8b18a** includes reviewed steering, bow cue, optional Well discovery/schematics, touch rows and a recovered-archive ending recap. These are newer than the accepted APK above.
+
+[Later native39276951740](validation/android-39276951740/ARTIFACT_REVIEW.md) **failed** on gallery scroll overshoot. Actual cover/inner same-resume screenshots are readable, but the gallery sequence is incomplete and its signing certificate changed, so that APK is not promoted. The original accepted debug key is now permanently saved in Git and required by every build; no silent regeneration.
 
 ## Work already underway
 
-- **Resume evidence:** reviewed foreground/postdraw/actualRGB guard is locally integrated; it preserves immediate/rejected captures and fails boundedly if frames stay blank. Next meaningful native source tests same-resume recovery. [Independent review](reviews/2026-10-19-native-resume-capture-regressions.md). No compositor/pixel-semantic guarantee.
-- **Touch labels:** FIT is fixed on the small desktop layout with unchanged text and native density geometry. Measured rows and whole CAMERA/LISTEN/SAMPLE/LINK labels are merged locally; composed affected checks pass. No per-fix APK.
-- **Equipment depth:** ordinary exploration/recovery is being compared before changing choices; Survey adds one recon charge, Endurance adds oxygen, decoys are common.
-- **Heading clarity:** a reviewed selected-Quietus bow cue is merged locally; it is absent from the latest APK. [Official Door Kickers comparison](reviews/2026-10-19-route-intent-reference-comparison.md) finds clearer local facing/remaining-route linkage there. An all-craft draft was rejected for drone-label clutter; the accepted small cue changes no physics.
-- **Listening Well discovery:** [actual scout](reviews/2026-10-19-late-campaign-opportunity.md) found generic reused photographs/no retained discovery before a fixed engine-note revelation. An optional moving-signature/returned-pattern comparison is merged locally; a first-record camera regression is being corrected before publication. Remote completion stays viable; requiring the excursion was rejected for added exposure without an extra discovery. Real losses and low-hull solo recovery remain evidence.
+- **Physical knockdown torpedo:** Quietus launches a noisy steering entity; LOS acquisition, travel time, terrain interception, impact snare and visible drag/recovery. Actual play/miss evidence is being finished before integration review.
+- **Programmed waypoints:** speed per waypoint, route editing and undo, with a paused chart/list planner designed for both layouts.
+- **Terrain acoustics:** geometry-constrained ambiguous arrival directions and continuous own-speed noise feedback. Exposed movement still has real losses; tests alone do not establish richer tactics.
+- **Native scroll reliability:** correcting the actual overshoot with directional bounded gestures while preserving fresh target and safe Settings controls. Next APK batches these gains; ordinary commits no longer build APKs.
 
 ## Remaining quality bar
 
