@@ -1,6 +1,7 @@
 extends RefCounted
 const Departure=preload("res://src/simulation/foundry_departure.gd")
 const DroneOperations=preload("res://src/simulation/drone_operations.gd")
+const ContactReports=preload("res://src/simulation/contact_reports.gd")
 const Thermal=preload("res://src/simulation/thermal_front.gd")
 const Acoustics = preload("res://src/simulation/acoustic_paths.gd")
 const RouteProgram=preload("res://src/simulation/route_program.gd")
@@ -467,6 +468,8 @@ func _observe() -> void:
 		if contact_visible(sirens[i]):
 			contacts[i]={"pos":sirens[i].pos,"time":elapsed,"mode":sirens[i].mode,"lock":sirens[i].lock,"angle":sirens[i].angle,"target":sirens[i].target,"type":sirens[i].get("type","patroller")}
 			contacts[i]["seen_by"]=passive_receivers(sirens[i].pos)
+			if sirens[i].get("report",{}).get("charge",0)>0:contacts[i]["report_remaining"]=ContactReports.CHARGE-sirens[i].report.charge
+			if sirens[i].get("report",{}).get("sent",0)>0:contacts[i]["report_sent"]=true
 			if sirens[i].get("pin_time",0)>0: contacts[i]["pin_time"]=sirens[i].pin_time
 	var expired: Array=[]
 	for i in contacts:
@@ -547,11 +550,13 @@ func _advance_projectiles(dt: float) -> void:
 		if p.noise_clock<=0:
 			_noise(p.pos,430,"TORPEDO RUN",0.25); p.noise_clock=0.2
 func _threats(dt: float) -> void:
+	var observations=[];var fresh=[]
 	for s in sirens:
 		if s.get("pin_time",0)>0: s.pin_time=maxf(0,s.pin_time-dt)
 		if s.stun>0:
 			s.stun-=dt; s.lock=0.0; s.target=-1
 			s.mode="PINNED" if s.get("pin_time",0)>0 else "DISRUPTED"
+			observations.append(-1);fresh.append(false)
 			continue
 		var detected := -1
 		var heard := false
@@ -575,6 +580,7 @@ func _threats(dt: float) -> void:
 					s.goal=noise.pos; heard=true; s.mode="INVESTIGATE"; s.suspicion=maxf(s.suspicion,0.45)
 		if heard:
 			s["last_known"]=s.goal; s["attention_time"]=12.0; s["search_index"]=0
+		observations.append(detected);fresh.append(heard or detected>=0)
 		if detected>=0:
 			if s.target!=detected: s.lock=0.0
 			if s.get("type","patroller")=="patroller": s.route.clear()
@@ -606,6 +612,7 @@ func _threats(dt: float) -> void:
 		var speed=48.0 if s.suspicion>0.1 else 25.0
 		if s.get("type","")=="hunter": speed=38.0 if s.mode in ["RETURN","DORMANT"] else 64.0
 		_move(s,dt,speed,false,false)
+	ContactReports.advance(self,observations,fresh,dt)
 
 func _heard_arrival(s:Dictionary)->Dictionary:
 	# Never consult player contacts or a hidden exact destination. A listener
@@ -702,6 +709,7 @@ static func valid_snapshot(data: Dictionary) -> bool:
 	if not data.has_all(["mission","units","sirens","known","tools"]): return false
 	if not data.mission is Dictionary or not data.units is Array or not data.sirens is Array or not data.known is Dictionary or not data.tools is Dictionary: return false
 	if not DroneOperations.valid(data):return false
+	if not ContactReports.valid(data):return false
 	if not data.mission.has_all(["id","rocks","objectives","extraction","title","darkness","depth"]): return false
 	if not data.mission.id is int or data.mission.id<0 or data.mission.id>5: return false
 	if not data.mission.rocks is Array or not data.mission.objectives is Array or not data.mission.extraction is Vector2: return false
