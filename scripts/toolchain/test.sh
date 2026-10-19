@@ -101,6 +101,7 @@ radial_hud_tests|RADIAL HUD
 expedition_instruments_ui_tests|EXPEDITION INSTRUMENT UI
 campaign_instruments_tests|CAMPAIGN INSTRUMENT
 campaign_instruments_ui_tests|CAMPAIGN INSTRUMENT UI
+campaign_debrief_view_tests|CAMPAIGN DEBRIEF VIEW
 planner_metrics_tests|PLANNER METRICS
 acoustic_path_tests|ACOUSTIC PATH
 acoustic_hearing_tests|ACOUSTIC HEARING
