@@ -4,13 +4,17 @@
 
 Promoted development baseline **f1ea536**, runtime **92625ac**, verified 19 October 2026. Native zoom, drag pan and FIT pass on cover and unfolded landscape layouts without accidental orders or pause changes. Ordinary first-mission camera/extraction completion and saved campaign restoration also pass. Physical Fold7 and complete native campaign validation remain open.
 
-## Current priority · restore distinct enemy roles
+## Current priority · validate the A-role challenger
 
 The [original prototype import](source-import/original-prototype-handoff/PUBLISHED_RESULT.md) is published at **8598d5a**, with remote byte/path verification recorded at **178ea2d**. All seven original files, ZIP and both addenda match. [The mechanics audit](reviews/2026-10-19-original-prototype-mechanics-audit.md) identifies carried behavior, changed mechanics and missing features; v7 is now the working implementation reference.
 
-**Ratified Addendum A comes next:** test-first authored patrol loops, distinct sentinel/hunter behavior, intentional mission assignments, fair sensing and new strategy comparisons. The **8d8635a** loop/recovery checkpoint passes sustained deterministic patrol checks but remains unpromoted; full role work and its review are still in progress. Density UI work is parked at **2fc0976** until this priority is handled. **The accepted APK above is unchanged.** [Ratified directions/checkpoints](source-import/original-prototype-handoff/RATIFICATION.md).
+**The role challenger is implemented; independent review is finishing and native validation is next.** Current game checkpoint **7ff53af** adds authored circulation, two intentional Foundry guards and a faster Well hunter, with bounded pursuit/search/home return and preserved fair sensing. [Behavior, RED/GREEN, tactics and retained losses](validation/production/siren-roles/README.md). The independent replay verifies all 10 patrollers circulate for 600 seconds and every waypoint is visited; three station roles deliberately wait at home. [Exact-source independent evidence](validation/production/siren-roles/independent-tooling/README.md) · [Final pursuit replay](validation/production/siren-roles/independent-tooling/final-pursuit/README.md).
 
-[External reference footage preparation](validation/reference-footage/README.md) has official candidates, but media access is blocked. No motion comparison or timestamp verdict is claimed. Door Kickers planning, Barotrauma sonar/enemy behavior and Mark of the Ninja noise feedback remain the starting bar.
+Watch actual **16-second desktop player-view clips**: [passive patrol](validation/production/siren-roles/clips/passive-patrol.mp4) · [occluded lure response](validation/production/siren-roles/clips/occluded-lure-response.mp4) · [exposed lure and loss](validation/production/siren-roles/clips/exposed-lure-loss.mp4). [Exact setups and limits](validation/production/siren-roles/clips/README.md): hidden actors become last-seen echoes, and these clips do not show a complete safe return. The exposed loss is retained as failure evidence.
+
+[Prepared native increment](validation/native-siren-roles/README.md) keeps the existing full gate and adds one **fixture-assisted** fresh Well encounter with ordinary silent route/decoy/withdrawal inputs, then restores the genuine Shelf archive. It is not earned six-mission progression; actual Android execution is pending. Density UI remains parked at **2fc0976**. **The accepted APK above is unchanged.**
+
+[Actual original-v7 browser idle/PING clips](validation/reference-footage/v7-comparison/README.md) now supplement the source audit. [Shipped-game reference footage](validation/reference-footage/README.md) remains inaccessible/pending: no Barotrauma, Door Kickers or Mark of the Ninja motion verdict is claimed. [Ratified directions/checkpoints](source-import/original-prototype-handoff/RATIFICATION.md).
 
 ## What improved
 
@@ -44,7 +48,7 @@ The [fresh independent regression hunt](reviews/2026-10-19-touch-regressions.md)
 
 ## Weaknesses and next work
 
-**New confirmed baseline defect: eight of thirteen Sirens stall at unreachable patrol goals.** An independent 600-second-per-mission probe reproduces this without player input. [External audit and independent verification](reviews/external-2026-10-19/README.md). The authored-loop/recovery candidate has sustained motion, but distinct roles and new balance assessment remain required before promotion. Existing native touch/completion evidence remains valid for its exact tested build; old balance outcomes are historical observations of the stalled-patrol world, not targets to recover by weakening threats.
+**New confirmed baseline defect: eight of thirteen Sirens stall at unreachable patrol goals.** An independent 600-second-per-mission probe reproduces this without player input. [External audit and independent verification](reviews/external-2026-10-19/README.md). The current role challenger resolves the reproduced stalls in sustained probes, adds distinct station roles and retains new balance comparisons; independent review and actual native candidate validation remain before promotion. Existing native touch/completion evidence remains valid for its exact tested build; old balance outcomes are historical observations of the stalled-patrol world, not targets to recover by weakening threats.
 
 The retained, unpromoted finale experiment targets **distinctive finale evidence and meaningful Quietus return/attention**, preserving viable remote and fallback choices. [Cycle brief](design/FINALE_CYCLE.md). It has no accepted native finale-completion verdict; preserve it without treating source publication as promotion. The whole-game review also identifies contextual camera-readiness/loadout teaching as useful.
 
