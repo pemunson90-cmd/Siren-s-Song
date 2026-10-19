@@ -7,12 +7,14 @@ The project uses an explicit distinction between Pat's decisions, ratified direc
 
 ## Authority hierarchy
 
-1. Pat's current explicit decisions and approvals.
-2. Current design bible and accepted amendments.
-3. Approved concept selection ledger and recent visual review decisions.
-4. Verified playtest findings and reproducible behavior.
-5. Original conversation provenance and historical functional specifications.
-6. Exploratory concept images, older prototypes, and assistant proposals.
+1. Current explicit user decisions and ratifications.
+2. The living `docs/CURRENT_GAME_SPEC.md` and accepted amendments, interpreted together with the ratified design bible.
+3. Accepted concept selections and relevant visual/design decisions.
+4. Source-verified playable behavior, playtest findings and reproducible runtime evidence.
+5. Historical specifications, recovered conversations and archived investigations.
+6. Exploratory images, proposals and unratified suggestions.
+
+The **functional status** of historical mechanics is established by the actual executable version at issue: later playable v7 code takes precedence over earlier prose saying a tool was unbuilt. Historical wrappers do not control current development or task/approval cadence. When evidence prompts a quality improvement, adapt the current spec without resurrecting stale workflow requirements.
 
 **Explicit user ratification, 19 October 2026:** [original prototype v7](../reference/original-prototype/sirens_song_prototype_v7.html) is a working gameplay **implementation reference**, not merely inspirational material. Read its actual behavior and compare production against it before replacing or omitting mechanics; record retained, changed and missing behavior with rationale. Current explicit production decisions still govern; the historical wrapper/single-level/approval rules do not reactivate. [Addenda A and B](source-import/original-prototype-handoff/RATIFICATION.md) are now user-ratified directions despite B's preserved original “Proposal” label. Their source assertions still require honest verification; ratification does not make every historical inference a measured fact.
 
