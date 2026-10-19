@@ -3,7 +3,7 @@ extends RefCounted
 # hulls. It uses the already known site and public received samples only.
 static func applies(mission:int,objective:Dictionary)->bool:
  return mission>=6 and (objective.get("kind","") in ["receiver","uplink"] or (mission==7 and objective.get("site_id","")=="rendezvous"))
-static func title()->String:return "LOCAL RECEIVER · ANALYTICAL"
+static func title()->String:return "RECEIVER · ANALYTICAL"
 static func draw(view,picture:Rect2,readings:Array,receiver:int)->void:
  var font=ThemeDB.fallback_font;var ink=Color("8cdcd3");var muted=Color("4d7c83")
  var fs=mini(view.receiver_font_size,16);var center=picture.position+picture.size*Vector2(.27,.55)

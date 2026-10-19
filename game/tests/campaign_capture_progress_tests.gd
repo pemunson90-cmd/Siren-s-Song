@@ -11,6 +11,9 @@ func run():
  var feed_script=load("res://src/presentation/camera_feed.gd")
  check(feed_script.has_method("acquisition_progress"),"receiver display consumes actual public effective capture clock")
  if not feed_script.has_method("acquisition_progress"):finish();return
+ var caption=Feed.fit_caption("WEST WARNING PREPARATION",270.,25)
+ check(caption.ends_with("…") and ThemeDB.fallback_font.get_string_size(caption,HORIZONTAL_ALIGNMENT_LEFT,-1,25).x<=270.,"long receiver caption preserves reserved percentage space at unchanged font size")
+ check(Feed.fit_caption("BERTH",270.,25)=="BERTH","short receiver captions remain complete")
  var sim=Sim.new()
  # Isolated capture-clock fixtures, not earned journeys or exposure outcomes.
  for unit in [1,0]:

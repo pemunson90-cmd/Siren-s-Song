@@ -5,6 +5,12 @@ var optics=preload("res://src/presentation/evidence_catalog.gd").IMAGES
 var foundry=preload("res://assets/structures/foundry.png")
 const ReceiverScene=preload("res://src/presentation/receiver_scene.gd")
 const PHOSPHOR=Color("8cdcd3")
+static func fit_caption(text:String,width:float,font_size:int)->String:
+	var font=ThemeDB.fallback_font
+	if font.get_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x<=width:return text
+	var shortened=text
+	while not shortened.is_empty() and font.get_string_size(shortened+"…",HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x>width:shortened=shortened.left(shortened.length()-1)
+	return shortened+"…"
 static func acquisition_progress(state)->float:
 	var clock=state.capture_feedback()
 	return clampf(clock.elapsed/clock.duration,0,1) if clock.duration>0 else 0.
@@ -62,8 +68,11 @@ func _draw() -> void:
 	var font=ThemeDB.fallback_font
 	var type=objective.get("kind","")
 	var font_size=receiver_font_size if type=="exchange" or well_site or ReceiverScene.applies(sim.mission.id,objective) else 14
-	draw_string(font,Vector2(14,24),"%s / %s"%[ReceiverScene.title() if ReceiverScene.applies(sim.mission.id,objective) else "SITE SCHEMATIC" if well_site else ("HYDROPHONES" if type in ["receiver","exchange"] else ("ARCHIVE LINK" if objective.get("kind","")=="uplink" else "OPTICAL")),sim.units[sim.capture_unit].name],HORIZONTAL_ALIGNMENT_LEFT,-1,font_size,PHOSPHOR)
+	var heading="%s / %s"%[ReceiverScene.title() if ReceiverScene.applies(sim.mission.id,objective) else "SITE SCHEMATIC" if well_site else ("HYDROPHONES" if type in ["receiver","exchange"] else ("ARCHIVE LINK" if objective.get("kind","")=="uplink" else "OPTICAL")),sim.units[sim.capture_unit].name]
+	if ReceiverScene.applies(sim.mission.id,objective):heading=fit_caption(heading,size.x-28,font_size)
+	draw_string(font,Vector2(14,24),heading,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size,PHOSPHOR)
 	var received_name="REPLY CARRIER" if type=="exchange" and sim.blackwater_context(sim.capture_target,sim.capture_unit).get("source","")=="courier" else objective.name
+	if ReceiverScene.applies(sim.mission.id,objective):received_name=fit_caption(received_name,size.x-100,font_size)
 	draw_string(font,Vector2(14,size.y-24),received_name,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size,Color("e0bf83"))
 	draw_string(font,Vector2(size.x-68,size.y-24),"%02d%%"%int(progress*100),HORIZONTAL_ALIGNMENT_LEFT,-1,font_size,PHOSPHOR)
 	draw_rect(Rect2(12,size.y-12,size.x-24,3),Color("25464b")); draw_rect(Rect2(12,size.y-12,(size.x-24)*progress,3),PHOSPHOR)
