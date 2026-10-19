@@ -1,0 +1,174 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:364)
+OpenGL API 4.5 (Core Profile) Mesa 25.0.7-2+deb13u1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 19.1.7, 256 bits)
+
+SS_UI_METRICS {"chart_rect":[116.667,112.0,1072.333,580.0],"controls":[{"action":"pause","clipped":false,"hit_rect":[1205.0,112.0,278.87,98.0],"visual_rect":[1205.0,112.0,278.87,98.0]},{"action":"sub","clipped":false,"hit_rect":[1205.0,214.0,147.0,98.0],"visual_rect":[1205.0,214.0,147.0,98.0]},{"action":"droneA","clipped":false,"hit_rect":[1356.0,214.0,147.0,98.0],"visual_rect":[1356.0,214.0,147.0,98.0]},{"action":"droneB","clipped":false,"hit_rect":[1507.0,214.0,147.0,98.0],"visual_rect":[1507.0,214.0,147.0,98.0]},{"action":"more_orders","clipped":false,"hit_rect":[1487.87,112.0,166.13,98.0],"visual_rect":[1487.87,112.0,166.13,98.0]},{"action":"ping","clipped":false,"hit_rect":[1205.0,316.0,147.0,98.0],"visual_rect":[1205.0,316.0,147.0,98.0]},{"action":"camera","clipped":false,"hit_rect":[1356.0,316.0,147.0,98.0],"visual_rect":[1356.0,316.0,147.0,98.0]},{"action":"silent","clipped":false,"hit_rect":[1507.0,316.0,147.0,98.0],"visual_rect":[1507.0,316.0,147.0,98.0]},{"action":"queue","clipped":false,"hit_rect":[1205.0,418.0,147.0,98.0],"visual_rect":[1205.0,418.0,147.0,98.0]},{"action":"hold","clipped":false,"hit_rect":[1356.0,418.0,147.0,98.0],"visual_rect":[1356.0,418.0,147.0,98.0]},{"action":"emp","clipped":false,"hit_rect":[1507.0,418.0,147.0,98.0],"visual_rect":[1507.0,418.0,147.0,98.0]},{"action":"home","clipped":false,"hit_rect":[1205.0,520.0,147.0,98.0],"visual_rect":[1205.0,520.0,147.0,98.0]},{"action":"menu","clipped":false,"hit_rect":[1356.0,520.0,147.0,98.0],"visual_rect":[1356.0,520.0,147.0,98.0]},{"action":"zoom_out","clipped":false,"hit_rect":[879.0,120.0,98.0,98.0],"visual_rect":[879.0,120.0,98.0,98.0]},{"action":"zoom_in","clipped":false,"hit_rect":[981.0,120.0,98.0,98.0],"visual_rect":[981.0,120.0,98.0,98.0]},{"action":"fit","clipped":false,"hit_rect":[1083.0,120.0,98.0,98.0],"visual_rect":[1083.0,120.0,98.0,98.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","orders_page":"primary","safe_area_source":"recorded_android_39222413584_fixture","safe_rect":[136.0,0.0,2384.0,1080.0],"schema":1,"screen":"mission","scroll_rect":[0.0,0.0,0.0,0.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1680.0,720.0],"window":[2520.0,1080.0]}
+SS_TARGET pause center=1344,161 viewport=1680,720
+SS_TARGET sub center=1279,263 viewport=1680,720
+SS_TARGET droneA center=1430,263 viewport=1680,720
+SS_TARGET droneB center=1581,263 viewport=1680,720
+SS_TARGET ping center=1279,365 viewport=1680,720
+SS_TARGET camera center=1430,365 viewport=1680,720
+SS_TARGET silent center=1581,365 viewport=1680,720
+SS_TARGET queue center=1279,467 viewport=1680,720
+SS_TARGET hold center=1430,467 viewport=1680,720
+SS_TARGET emp center=1581,467 viewport=1680,720
+SS_TARGET home center=1279,569 viewport=1680,720
+SS_TARGET menu center=1430,569 viewport=1680,720
+SS_TARGET more_orders center=1571,161 viewport=1680,720
+SS_TARGET zoom_out center=928,169 viewport=1680,720
+SS_TARGET zoom_in center=1030,169 viewport=1680,720
+SS_TARGET fit center=1132,169 viewport=1680,720
+SS_TARGET chart_center center=653,402 viewport=1680,720
+SS_TARGET objective0 center=955,420 viewport=1680,720
+SS_TARGET route center=363,595 viewport=1680,720
+SS_UI_METRICS {"chart_rect":[116.667,112.0,1072.333,580.0],"controls":[{"action":"pause","clipped":false,"hit_rect":[1205.0,112.0,278.87,98.0],"visual_rect":[1205.0,112.0,278.87,98.0]},{"action":"sub","clipped":false,"hit_rect":[1205.0,214.0,147.0,98.0],"visual_rect":[1205.0,214.0,147.0,98.0]},{"action":"droneA","clipped":false,"hit_rect":[1356.0,214.0,147.0,98.0],"visual_rect":[1356.0,214.0,147.0,98.0]},{"action":"droneB","clipped":false,"hit_rect":[1507.0,214.0,147.0,98.0],"visual_rect":[1507.0,214.0,147.0,98.0]},{"action":"more_orders","clipped":false,"hit_rect":[1487.87,112.0,166.13,98.0],"visual_rect":[1487.87,112.0,166.13,98.0]},{"action":"ping","clipped":false,"hit_rect":[1205.0,316.0,147.0,98.0],"visual_rect":[1205.0,316.0,147.0,98.0]},{"action":"camera","clipped":false,"hit_rect":[1356.0,316.0,147.0,98.0],"visual_rect":[1356.0,316.0,147.0,98.0]},{"action":"silent","clipped":false,"hit_rect":[1507.0,316.0,147.0,98.0],"visual_rect":[1507.0,316.0,147.0,98.0]},{"action":"queue","clipped":false,"hit_rect":[1205.0,418.0,147.0,98.0],"visual_rect":[1205.0,418.0,147.0,98.0]},{"action":"hold","clipped":false,"hit_rect":[1356.0,418.0,147.0,98.0],"visual_rect":[1356.0,418.0,147.0,98.0]},{"action":"emp","clipped":false,"hit_rect":[1507.0,418.0,147.0,98.0],"visual_rect":[1507.0,418.0,147.0,98.0]},{"action":"home","clipped":false,"hit_rect":[1205.0,520.0,147.0,98.0],"visual_rect":[1205.0,520.0,147.0,98.0]},{"action":"menu","clipped":false,"hit_rect":[1356.0,520.0,147.0,98.0],"visual_rect":[1356.0,520.0,147.0,98.0]},{"action":"zoom_out","clipped":false,"hit_rect":[879.0,120.0,98.0,98.0],"visual_rect":[879.0,120.0,98.0,98.0]},{"action":"zoom_in","clipped":false,"hit_rect":[981.0,120.0,98.0,98.0],"visual_rect":[981.0,120.0,98.0,98.0]},{"action":"fit","clipped":false,"hit_rect":[1083.0,120.0,98.0,98.0],"visual_rect":[1083.0,120.0,98.0,98.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","orders_page":"primary","safe_area_source":"recorded_android_39222413584_fixture","safe_rect":[136.0,0.0,2384.0,1080.0],"schema":1,"screen":"mission","scroll_rect":[0.0,0.0,0.0,0.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1680.0,720.0],"window":[2520.0,1080.0]}
+SS_TARGET pause center=1344,161 viewport=1680,720
+SS_TARGET sub center=1279,263 viewport=1680,720
+SS_TARGET droneA center=1430,263 viewport=1680,720
+SS_TARGET droneB center=1581,263 viewport=1680,720
+SS_TARGET ping center=1279,365 viewport=1680,720
+SS_TARGET camera center=1430,365 viewport=1680,720
+SS_TARGET silent center=1581,365 viewport=1680,720
+SS_TARGET queue center=1279,467 viewport=1680,720
+SS_TARGET hold center=1430,467 viewport=1680,720
+SS_TARGET emp center=1581,467 viewport=1680,720
+SS_TARGET home center=1279,569 viewport=1680,720
+SS_TARGET menu center=1430,569 viewport=1680,720
+SS_TARGET more_orders center=1571,161 viewport=1680,720
+SS_TARGET zoom_out center=928,169 viewport=1680,720
+SS_TARGET zoom_in center=1030,169 viewport=1680,720
+SS_TARGET fit center=1132,169 viewport=1680,720
+SS_TARGET chart_center center=653,402 viewport=1680,720
+SS_TARGET objective0 center=955,420 viewport=1680,720
+SS_TARGET route center=363,595 viewport=1680,720
+SS_UI_METRICS {"chart_rect":[116.667,112.0,1072.333,580.0],"controls":[{"action":"pause","clipped":false,"hit_rect":[1205.0,112.0,278.87,98.0],"visual_rect":[1205.0,112.0,278.87,98.0]},{"action":"sub","clipped":false,"hit_rect":[1205.0,214.0,147.0,98.0],"visual_rect":[1205.0,214.0,147.0,98.0]},{"action":"droneA","clipped":false,"hit_rect":[1356.0,214.0,147.0,98.0],"visual_rect":[1356.0,214.0,147.0,98.0]},{"action":"droneB","clipped":false,"hit_rect":[1507.0,214.0,147.0,98.0],"visual_rect":[1507.0,214.0,147.0,98.0]},{"action":"more_orders","clipped":false,"hit_rect":[1487.87,112.0,166.13,98.0],"visual_rect":[1487.87,112.0,166.13,98.0]},{"action":"ping","clipped":false,"hit_rect":[1205.0,316.0,147.0,98.0],"visual_rect":[1205.0,316.0,147.0,98.0]},{"action":"camera","clipped":false,"hit_rect":[1356.0,316.0,147.0,98.0],"visual_rect":[1356.0,316.0,147.0,98.0]},{"action":"silent","clipped":false,"hit_rect":[1507.0,316.0,147.0,98.0],"visual_rect":[1507.0,316.0,147.0,98.0]},{"action":"queue","clipped":false,"hit_rect":[1205.0,418.0,147.0,98.0],"visual_rect":[1205.0,418.0,147.0,98.0]},{"action":"hold","clipped":false,"hit_rect":[1356.0,418.0,147.0,98.0],"visual_rect":[1356.0,418.0,147.0,98.0]},{"action":"emp","clipped":false,"hit_rect":[1507.0,418.0,147.0,98.0],"visual_rect":[1507.0,418.0,147.0,98.0]},{"action":"home","clipped":false,"hit_rect":[1205.0,520.0,147.0,98.0],"visual_rect":[1205.0,520.0,147.0,98.0]},{"action":"menu","clipped":false,"hit_rect":[1356.0,520.0,147.0,98.0],"visual_rect":[1356.0,520.0,147.0,98.0]},{"action":"zoom_out","clipped":false,"hit_rect":[879.0,120.0,98.0,98.0],"visual_rect":[879.0,120.0,98.0,98.0]},{"action":"zoom_in","clipped":false,"hit_rect":[981.0,120.0,98.0,98.0],"visual_rect":[981.0,120.0,98.0,98.0]},{"action":"fit","clipped":false,"hit_rect":[1083.0,120.0,98.0,98.0],"visual_rect":[1083.0,120.0,98.0,98.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","orders_page":"primary","safe_area_source":"recorded_android_39222413584_fixture","safe_rect":[136.0,0.0,2384.0,1080.0],"schema":1,"screen":"mission","scroll_rect":[0.0,0.0,0.0,0.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1680.0,720.0],"window":[2520.0,1080.0]}
+SS_TARGET pause center=1344,161 viewport=1680,720
+SS_TARGET sub center=1279,263 viewport=1680,720
+SS_TARGET droneA center=1430,263 viewport=1680,720
+SS_TARGET droneB center=1581,263 viewport=1680,720
+SS_TARGET ping center=1279,365 viewport=1680,720
+SS_TARGET camera center=1430,365 viewport=1680,720
+SS_TARGET silent center=1581,365 viewport=1680,720
+SS_TARGET queue center=1279,467 viewport=1680,720
+SS_TARGET hold center=1430,467 viewport=1680,720
+SS_TARGET emp center=1581,467 viewport=1680,720
+SS_TARGET home center=1279,569 viewport=1680,720
+SS_TARGET menu center=1430,569 viewport=1680,720
+SS_TARGET more_orders center=1571,161 viewport=1680,720
+SS_TARGET zoom_out center=928,169 viewport=1680,720
+SS_TARGET zoom_in center=1030,169 viewport=1680,720
+SS_TARGET fit center=1132,169 viewport=1680,720
+SS_TARGET chart_center center=653,402 viewport=1680,720
+SS_TARGET objective0 center=955,420 viewport=1680,720
+SS_TARGET route center=363,595 viewport=1680,720
+SS_UI_METRICS {"chart_rect":[116.667,112.0,1072.333,580.0],"controls":[{"action":"pause","clipped":false,"hit_rect":[1205.0,112.0,278.87,98.0],"visual_rect":[1205.0,112.0,278.87,98.0]},{"action":"sub","clipped":false,"hit_rect":[1205.0,214.0,147.0,98.0],"visual_rect":[1205.0,214.0,147.0,98.0]},{"action":"droneA","clipped":false,"hit_rect":[1356.0,214.0,147.0,98.0],"visual_rect":[1356.0,214.0,147.0,98.0]},{"action":"droneB","clipped":false,"hit_rect":[1507.0,214.0,147.0,98.0],"visual_rect":[1507.0,214.0,147.0,98.0]},{"action":"more_orders","clipped":false,"hit_rect":[1487.87,112.0,166.13,98.0],"visual_rect":[1487.87,112.0,166.13,98.0]},{"action":"ping","clipped":false,"hit_rect":[1205.0,316.0,147.0,98.0],"visual_rect":[1205.0,316.0,147.0,98.0]},{"action":"camera","clipped":false,"hit_rect":[1356.0,316.0,147.0,98.0],"visual_rect":[1356.0,316.0,147.0,98.0]},{"action":"silent","clipped":false,"hit_rect":[1507.0,316.0,147.0,98.0],"visual_rect":[1507.0,316.0,147.0,98.0]},{"action":"queue","clipped":false,"hit_rect":[1205.0,418.0,147.0,98.0],"visual_rect":[1205.0,418.0,147.0,98.0]},{"action":"hold","clipped":false,"hit_rect":[1356.0,418.0,147.0,98.0],"visual_rect":[1356.0,418.0,147.0,98.0]},{"action":"emp","clipped":false,"hit_rect":[1507.0,418.0,147.0,98.0],"visual_rect":[1507.0,418.0,147.0,98.0]},{"action":"home","clipped":false,"hit_rect":[1205.0,520.0,147.0,98.0],"visual_rect":[1205.0,520.0,147.0,98.0]},{"action":"menu","clipped":false,"hit_rect":[1356.0,520.0,147.0,98.0],"visual_rect":[1356.0,520.0,147.0,98.0]},{"action":"zoom_out","clipped":false,"hit_rect":[879.0,120.0,98.0,98.0],"visual_rect":[879.0,120.0,98.0,98.0]},{"action":"zoom_in","clipped":false,"hit_rect":[981.0,120.0,98.0,98.0],"visual_rect":[981.0,120.0,98.0,98.0]},{"action":"fit","clipped":false,"hit_rect":[1083.0,120.0,98.0,98.0],"visual_rect":[1083.0,120.0,98.0,98.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","orders_page":"primary","safe_area_source":"recorded_android_39222413584_fixture","safe_rect":[136.0,0.0,2384.0,1080.0],"schema":1,"screen":"mission","scroll_rect":[0.0,0.0,0.0,0.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1680.0,720.0],"window":[2520.0,1080.0]}
+SS_TARGET pause center=1344,161 viewport=1680,720
+SS_TARGET sub center=1279,263 viewport=1680,720
+SS_TARGET droneA center=1430,263 viewport=1680,720
+SS_TARGET droneB center=1581,263 viewport=1680,720
+SS_TARGET ping center=1279,365 viewport=1680,720
+SS_TARGET camera center=1430,365 viewport=1680,720
+SS_TARGET silent center=1581,365 viewport=1680,720
+SS_TARGET queue center=1279,467 viewport=1680,720
+SS_TARGET hold center=1430,467 viewport=1680,720
+SS_TARGET emp center=1581,467 viewport=1680,720
+SS_TARGET home center=1279,569 viewport=1680,720
+SS_TARGET menu center=1430,569 viewport=1680,720
+SS_TARGET more_orders center=1571,161 viewport=1680,720
+SS_TARGET zoom_out center=928,169 viewport=1680,720
+SS_TARGET zoom_in center=1030,169 viewport=1680,720
+SS_TARGET fit center=1132,169 viewport=1680,720
+SS_TARGET chart_center center=653,402 viewport=1680,720
+SS_TARGET objective0 center=955,420 viewport=1680,720
+SS_TARGET route center=363,595 viewport=1680,720
+SS_UI_METRICS {"chart_rect":[116.667,112.0,1072.333,580.0],"controls":[{"action":"pause","clipped":false,"hit_rect":[1205.0,112.0,278.87,98.0],"visual_rect":[1205.0,112.0,278.87,98.0]},{"action":"sub","clipped":false,"hit_rect":[1205.0,214.0,147.0,98.0],"visual_rect":[1205.0,214.0,147.0,98.0]},{"action":"droneA","clipped":false,"hit_rect":[1356.0,214.0,147.0,98.0],"visual_rect":[1356.0,214.0,147.0,98.0]},{"action":"droneB","clipped":false,"hit_rect":[1507.0,214.0,147.0,98.0],"visual_rect":[1507.0,214.0,147.0,98.0]},{"action":"more_orders","clipped":false,"hit_rect":[1487.87,112.0,166.13,98.0],"visual_rect":[1487.87,112.0,166.13,98.0]},{"action":"ping","clipped":false,"hit_rect":[1205.0,316.0,147.0,98.0],"visual_rect":[1205.0,316.0,147.0,98.0]},{"action":"camera","clipped":false,"hit_rect":[1356.0,316.0,147.0,98.0],"visual_rect":[1356.0,316.0,147.0,98.0]},{"action":"silent","clipped":false,"hit_rect":[1507.0,316.0,147.0,98.0],"visual_rect":[1507.0,316.0,147.0,98.0]},{"action":"queue","clipped":false,"hit_rect":[1205.0,418.0,147.0,98.0],"visual_rect":[1205.0,418.0,147.0,98.0]},{"action":"hold","clipped":false,"hit_rect":[1356.0,418.0,147.0,98.0],"visual_rect":[1356.0,418.0,147.0,98.0]},{"action":"emp","clipped":false,"hit_rect":[1507.0,418.0,147.0,98.0],"visual_rect":[1507.0,418.0,147.0,98.0]},{"action":"home","clipped":false,"hit_rect":[1205.0,520.0,147.0,98.0],"visual_rect":[1205.0,520.0,147.0,98.0]},{"action":"menu","clipped":false,"hit_rect":[1356.0,520.0,147.0,98.0],"visual_rect":[1356.0,520.0,147.0,98.0]},{"action":"zoom_out","clipped":false,"hit_rect":[879.0,120.0,98.0,98.0],"visual_rect":[879.0,120.0,98.0,98.0]},{"action":"zoom_in","clipped":false,"hit_rect":[981.0,120.0,98.0,98.0],"visual_rect":[981.0,120.0,98.0,98.0]},{"action":"fit","clipped":false,"hit_rect":[1083.0,120.0,98.0,98.0],"visual_rect":[1083.0,120.0,98.0,98.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","orders_page":"primary","safe_area_source":"recorded_android_39222413584_fixture","safe_rect":[136.0,0.0,2384.0,1080.0],"schema":1,"screen":"mission","scroll_rect":[0.0,0.0,0.0,0.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1680.0,720.0],"window":[2520.0,1080.0]}
+SS_TARGET pause center=1344,161 viewport=1680,720
+SS_TARGET sub center=1279,263 viewport=1680,720
+SS_TARGET droneA center=1430,263 viewport=1680,720
+SS_TARGET droneB center=1581,263 viewport=1680,720
+SS_TARGET ping center=1279,365 viewport=1680,720
+SS_TARGET camera center=1430,365 viewport=1680,720
+SS_TARGET silent center=1581,365 viewport=1680,720
+SS_TARGET queue center=1279,467 viewport=1680,720
+SS_TARGET hold center=1430,467 viewport=1680,720
+SS_TARGET emp center=1581,467 viewport=1680,720
+SS_TARGET home center=1279,569 viewport=1680,720
+SS_TARGET menu center=1430,569 viewport=1680,720
+SS_TARGET more_orders center=1571,161 viewport=1680,720
+SS_TARGET zoom_out center=928,169 viewport=1680,720
+SS_TARGET zoom_in center=1030,169 viewport=1680,720
+SS_TARGET fit center=1132,169 viewport=1680,720
+SS_TARGET chart_center center=653,402 viewport=1680,720
+SS_TARGET objective0 center=955,420 viewport=1680,720
+SS_TARGET route center=363,595 viewport=1680,720
+ACOUSTIC_INPUT frame=0 action=pause sim_time=0.0
+SS_PAUSE paused=false
+ACOUSTIC_INPUT frame=5 action=silent sim_time=0.25
+SS_ORDER silent accepted=true selected=0 queued=false
+ACOUSTIC_INPUT frame=15 action=route_sub sim_time=0.91666666666667
+SS_ORDER route accepted=true selected=0 queued=false
+ACOUSTIC_INPUT frame=30 action=more sim_time=1.91666666666666
+SS_UI_METRICS {"chart_rect":[116.667,112.0,1072.333,580.0],"controls":[{"action":"pause","clipped":false,"hit_rect":[1205.0,112.0,278.87,98.0],"visual_rect":[1205.0,112.0,278.87,98.0]},{"action":"sub","clipped":false,"hit_rect":[1205.0,214.0,147.0,98.0],"visual_rect":[1205.0,214.0,147.0,98.0]},{"action":"droneA","clipped":false,"hit_rect":[1356.0,214.0,147.0,98.0],"visual_rect":[1356.0,214.0,147.0,98.0]},{"action":"droneB","clipped":false,"hit_rect":[1507.0,214.0,147.0,98.0],"visual_rect":[1507.0,214.0,147.0,98.0]},{"action":"more_orders","clipped":false,"hit_rect":[1487.87,112.0,166.13,98.0],"visual_rect":[1487.87,112.0,166.13,98.0]},{"action":"camera","clipped":false,"hit_rect":[1205.0,520.0,147.0,98.0],"visual_rect":[1205.0,520.0,147.0,98.0]},{"action":"emp","clipped":false,"hit_rect":[1507.0,418.0,147.0,98.0],"visual_rect":[1507.0,418.0,147.0,98.0]},{"action":"decoy","clipped":false,"hit_rect":[1356.0,316.0,147.0,98.0],"visual_rect":[1356.0,316.0,147.0,98.0]},{"action":"recon","clipped":false,"hit_rect":[1205.0,316.0,147.0,98.0],"visual_rect":[1205.0,316.0,147.0,98.0]},{"action":"contact_hold","clipped":false,"hit_rect":[1507.0,316.0,147.0,98.0],"visual_rect":[1507.0,316.0,147.0,98.0]},{"action":"wait_drone","clipped":false,"hit_rect":[1205.0,418.0,147.0,98.0],"visual_rect":[1205.0,418.0,147.0,98.0]},{"action":"waypoint_mode","clipped":false,"hit_rect":[1356.0,418.0,147.0,98.0],"visual_rect":[1356.0,418.0,147.0,98.0]},{"action":"home","clipped":false,"hit_rect":[1356.0,520.0,147.0,98.0],"visual_rect":[1356.0,520.0,147.0,98.0]},{"action":"zoom_out","clipped":false,"hit_rect":[879.0,120.0,98.0,98.0],"visual_rect":[879.0,120.0,98.0,98.0]},{"action":"zoom_in","clipped":false,"hit_rect":[981.0,120.0,98.0,98.0],"visual_rect":[981.0,120.0,98.0,98.0]},{"action":"fit","clipped":false,"hit_rect":[1083.0,120.0,98.0,98.0],"visual_rect":[1083.0,120.0,98.0,98.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","orders_page":"secondary","safe_area_source":"recorded_android_39222413584_fixture","safe_rect":[136.0,0.0,2384.0,1080.0],"schema":1,"screen":"mission","scroll_rect":[0.0,0.0,0.0,0.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1680.0,720.0],"window":[2520.0,1080.0]}
+SS_TARGET pause center=1344,161 viewport=1680,720
+SS_TARGET sub center=1279,263 viewport=1680,720
+SS_TARGET droneA center=1430,263 viewport=1680,720
+SS_TARGET droneB center=1581,263 viewport=1680,720
+SS_TARGET camera center=1279,569 viewport=1680,720
+SS_TARGET emp center=1581,467 viewport=1680,720
+SS_TARGET decoy center=1430,365 viewport=1680,720
+SS_TARGET recon center=1279,365 viewport=1680,720
+SS_TARGET contact_hold center=1581,365 viewport=1680,720
+SS_TARGET wait_drone center=1279,467 viewport=1680,720
+SS_TARGET waypoint_mode center=1430,467 viewport=1680,720
+SS_TARGET home center=1430,569 viewport=1680,720
+SS_TARGET more_orders center=1571,161 viewport=1680,720
+SS_TARGET zoom_out center=928,169 viewport=1680,720
+SS_TARGET zoom_in center=1030,169 viewport=1680,720
+SS_TARGET fit center=1132,169 viewport=1680,720
+SS_TARGET chart_center center=653,402 viewport=1680,720
+SS_TARGET objective0 center=955,420 viewport=1680,720
+SS_TARGET route center=363,595 viewport=1680,720
+ACOUSTIC_INPUT frame=45 action=decoy sim_time=2.91666666666666
+SS_ORDER decoy accepted=true selected=0 queued=false
+ACOUSTIC_INPUT frame=60 action=droneA sim_time=3.91666666666666
+SS_ORDER select accepted=true selected=1 queued=false
+ACOUSTIC_INPUT frame=75 action=route_drone sim_time=4.91666666666665
+SS_ORDER route accepted=true selected=1 queued=false
+ACOUSTIC_INPUT frame=90 action=decoy sim_time=5.91666666666665
+SS_ORDER decoy accepted=true selected=1 queued=false
+ACOUSTIC_INPUT frame=105 action=sub sim_time=6.91666666666665
+SS_ORDER select accepted=true selected=0 queued=false
+ACOUSTIC_INPUT frame=110 action=more sim_time=7.24999999999998
+SS_UI_METRICS {"chart_rect":[116.667,112.0,1072.333,580.0],"controls":[{"action":"pause","clipped":false,"hit_rect":[1205.0,112.0,278.87,98.0],"visual_rect":[1205.0,112.0,278.87,98.0]},{"action":"sub","clipped":false,"hit_rect":[1205.0,214.0,147.0,98.0],"visual_rect":[1205.0,214.0,147.0,98.0]},{"action":"droneA","clipped":false,"hit_rect":[1356.0,214.0,147.0,98.0],"visual_rect":[1356.0,214.0,147.0,98.0]},{"action":"droneB","clipped":false,"hit_rect":[1507.0,214.0,147.0,98.0],"visual_rect":[1507.0,214.0,147.0,98.0]},{"action":"more_orders","clipped":false,"hit_rect":[1487.87,112.0,166.13,98.0],"visual_rect":[1487.87,112.0,166.13,98.0]},{"action":"ping","clipped":false,"hit_rect":[1205.0,316.0,147.0,98.0],"visual_rect":[1205.0,316.0,147.0,98.0]},{"action":"camera","clipped":false,"hit_rect":[1356.0,316.0,147.0,98.0],"visual_rect":[1356.0,316.0,147.0,98.0]},{"action":"silent","clipped":false,"hit_rect":[1507.0,316.0,147.0,98.0],"visual_rect":[1507.0,316.0,147.0,98.0]},{"action":"queue","clipped":false,"hit_rect":[1205.0,418.0,147.0,98.0],"visual_rect":[1205.0,418.0,147.0,98.0]},{"action":"hold","clipped":false,"hit_rect":[1356.0,418.0,147.0,98.0],"visual_rect":[1356.0,418.0,147.0,98.0]},{"action":"emp","clipped":false,"hit_rect":[1507.0,418.0,147.0,98.0],"visual_rect":[1507.0,418.0,147.0,98.0]},{"action":"home","clipped":false,"hit_rect":[1205.0,520.0,147.0,98.0],"visual_rect":[1205.0,520.0,147.0,98.0]},{"action":"menu","clipped":false,"hit_rect":[1356.0,520.0,147.0,98.0],"visual_rect":[1356.0,520.0,147.0,98.0]},{"action":"zoom_out","clipped":false,"hit_rect":[879.0,120.0,98.0,98.0],"visual_rect":[879.0,120.0,98.0,98.0]},{"action":"zoom_in","clipped":false,"hit_rect":[981.0,120.0,98.0,98.0],"visual_rect":[981.0,120.0,98.0,98.0]},{"action":"fit","clipped":false,"hit_rect":[1083.0,120.0,98.0,98.0],"visual_rect":[1083.0,120.0,98.0,98.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","orders_page":"primary","safe_area_source":"recorded_android_39222413584_fixture","safe_rect":[136.0,0.0,2384.0,1080.0],"schema":1,"screen":"mission","scroll_rect":[0.0,0.0,0.0,0.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1680.0,720.0],"window":[2520.0,1080.0]}
+SS_TARGET pause center=1344,161 viewport=1680,720
+SS_TARGET sub center=1279,263 viewport=1680,720
+SS_TARGET droneA center=1430,263 viewport=1680,720
+SS_TARGET droneB center=1581,263 viewport=1680,720
+SS_TARGET ping center=1279,365 viewport=1680,720
+SS_TARGET camera center=1430,365 viewport=1680,720
+SS_TARGET silent center=1581,365 viewport=1680,720
+SS_TARGET queue center=1279,467 viewport=1680,720
+SS_TARGET hold center=1430,467 viewport=1680,720
+SS_TARGET emp center=1581,467 viewport=1680,720
+SS_TARGET home center=1279,569 viewport=1680,720
+SS_TARGET menu center=1430,569 viewport=1680,720
+SS_TARGET more_orders center=1571,161 viewport=1680,720
+SS_TARGET zoom_out center=928,169 viewport=1680,720
+SS_TARGET zoom_in center=1030,169 viewport=1680,720
+SS_TARGET fit center=1132,169 viewport=1680,720
+SS_TARGET chart_center center=653,402 viewport=1680,720
+SS_TARGET objective0 center=955,420 viewport=1680,720
+SS_TARGET route center=363,595 viewport=1680,720
+ACOUSTIC_INPUT frame=120 action=silent sim_time=7.91666666666664
+SS_ORDER silent accepted=true selected=0 queued=false
+ACOUSTIC_INPUT frame=135 action=hold sim_time=8.91666666666669
+SS_ORDER hold accepted=true selected=0 queued=false
+ACOUSTIC_INPUT frame=150 action=pause sim_time=9.91666666666674
+SS_PAUSE paused=true
+ACOUSTIC_INPUT frame=165 action=pause sim_time=9.98333333333341
+SS_PAUSE paused=false
+ACOUSTIC_INPUT frame=180 action=route_sub sim_time=10.9166666666668
+SS_ORDER route accepted=true selected=0 queued=false
+ACOUSTIC_END fps=15 frames=300 elapsed=18.9166666666669 hull=100.0 outcome= noises=[{ "pos": (321.2639, 699.2913), "radius": 1100.0, "time": 2.06666666666634, "label": "DECOY" }]

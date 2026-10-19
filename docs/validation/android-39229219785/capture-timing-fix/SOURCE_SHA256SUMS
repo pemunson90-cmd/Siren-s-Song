@@ -1,0 +1,3 @@
+b10fb08d19036734642007ccd8f4ca9fa4207f70094ec8185779b777fc13f568  scripts/toolchain/android-menu-smoke.sh
+eed5f2063121f419daf7d4bc120fe4751e1c92707cb88125e62ae7a6847cb57e  scripts/toolchain/android-menu.py
+8de73ba2b6d2bb672c37dfed15f94e03e214aab2d4a48ba28c89b3718324ce05  scripts/toolchain/test-android-menu.py

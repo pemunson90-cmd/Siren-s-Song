@@ -64,6 +64,7 @@ func run() -> void:
 			check(Rect2(Vector2.ZERO,game.size).encloses(rect),"%s button %s remains inside viewport"%[dimensions,button.text])
 			check(button.size.y>=44,"%s button %s has logical touch height"%[dimensions,button.text])
 		check(not Rect2(game.ocean.position,game.ocean.size).intersects(game.pause_button.get_global_rect()),"%s map and pause controls do not overlap"%dimensions)
+	await preload("res://tests/acoustic_ui_scenarios.gd").run(self,game)
 	await preload("res://tests/touch_navigation_scenarios.gd").run(self,game)
 	await preload("res://tests/interface_scenarios.gd").run(self,game)
 	await preload("res://tests/finale_ui_scenarios.gd").run(self,game)

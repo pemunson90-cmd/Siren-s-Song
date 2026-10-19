@@ -118,6 +118,7 @@ func _layout() -> void:
 	map_gesture.cancel(); _apply_safe_area()
 	ui_touch_height=preload("res://src/presentation/layout_metrics.gd").touch_height(get_viewport_rect().size,Vector2(get_window().size),ui_density_dpi())
 	var h=ui_touch_height; var gap=4.0; var wide=size.x/size.y>1.6
+	ocean.feedback_font_size=maxi(14,roundi(h*0.22)); ocean.instrument_top=maxf(64,h+20)
 	var top=112.0; var bottom=28.0
 	var columns=2 if 6*h+5*gap<=size.y-top-bottom else (3 if 5*h+4*gap<=size.y-top-bottom else 4)
 	if not wide: columns=4

@@ -1,24 +1,54 @@
 #!/usr/bin/env bash
 # Sourced by the native smoke; only enabled with matching density-aware source.
 menu_snapshot() {
-    local profile="$1" label="$2" screen="$3" action="$4" after="${5:-0}" attempt status
+    local profile="$1" label="$2" screen="$3" action="$4" after="${5:-0}" attempt status pre_status
+    local capture="$output/$profile-menu-$label.png" probe="$output/$profile-menu-$label-geometry-probe.png" candidate="$output/$profile-menu-$label-candidate.png"
     local state_args=()
     if [[ -n "${menu_settings_baseline:-}" ]]; then state_args+=(--unchanged-settings "$menu_settings_baseline"); fi
     menu_report="$output/ui-metrics-menu-$profile-$label.json"
+    # The probe establishes native PNG geometry only, never requested-screen pixels.
+    # Final capture follows matching fresh metrics, then is checked against a
+    # second observation. There is no compositor/presented-frame acknowledgment.
+    rm -f "$capture" "$candidate"
     adb shell wm density >"$output/density-$profile.txt"
+    adb exec-out screencap -p >"$probe" || return
     for ((attempt=0; attempt<10; attempt++)); do
-        adb exec-out screencap -p >"$output/$profile-menu-$label.png"
         read_logcat "$output/ui-metrics-menu-$profile-$label.txt"
         status=0
         python3 "$(dirname -- "${BASH_SOURCE[0]}")/android-menu.py" \
-            "$output/ui-metrics-menu-$profile-$label.txt" "$output/$profile-menu-$label.png" \
-            --density "$output/density-$profile.txt" --screen "$screen" --action "$action" --after-count "$after" "${state_args[@]}" \
-            >"$menu_report" 2>"$output/ui-metrics-menu-$profile-$label.stderr.txt" || status=$?
-        if (( status == 0 || status == 2 )); then menu_status="$status"; return 0; fi
+            "$output/ui-metrics-menu-$profile-$label.txt" "$probe" \
+            --density "$output/density-$profile.txt" --screen "$screen" --action "$action" --after-count "$after" --wait-for-screen "${state_args[@]}" \
+            >"$menu_report.pre-capture.json" 2>"$output/ui-metrics-menu-$profile-$label.stderr.txt" || status=$?
+        if (( status == 0 || status == 2 )); then
+            pre_status="$status"
+            adb exec-out screencap -p >"$candidate" || return
+            read_logcat "$output/ui-metrics-menu-$profile-$label.txt"
+            status=0
+            python3 "$(dirname -- "${BASH_SOURCE[0]}")/android-menu.py" \
+                "$output/ui-metrics-menu-$profile-$label.txt" "$candidate" \
+                --density "$output/density-$profile.txt" --screen "$screen" --action "$action" --after-count "$after" --wait-for-screen "${state_args[@]}" \
+                >"$menu_report" 2>"$output/ui-metrics-menu-$profile-$label.stderr.txt" || status=$?
+            if (( status == pre_status )) && python3 - "$menu_report.pre-capture.json" "$menu_report" <<'PY'
+import json,sys
+before,after=(json.load(open(path)) for path in sys.argv[1:])
+# Legitimate identical layout re-emission advances the count; it need not freeze.
+before_count=before.pop('metrics_count');after_count=after.pop('metrics_count')
+sys.exit(0 if after_count>=before_count and before==after else 1)
+PY
+            then
+                mv "$candidate" "$capture"
+                menu_status="$status"; return 0
+            fi
+            if (( status == 0 || status == 2 )); then
+                echo "Menu state changed across screenshot; retrying: $profile $label" >&2
+                mv "$candidate" "$output/$profile-menu-$label-rejected-$attempt.png"
+                status=3
+            fi
+        fi
         if (( status != 3 )); then cat "$output/ui-metrics-menu-$profile-$label.stderr.txt" >&2; return "$status"; fi
         sleep 1
     done
-    echo "Fresh actual menu metrics missing: $profile $label" >&2
+    echo "Fresh stable menu state around screenshot missing: $profile $label" >&2
     return 1
 }
 menu_json_values() {

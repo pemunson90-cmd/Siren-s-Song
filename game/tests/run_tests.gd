@@ -28,5 +28,6 @@ func _initialize() -> void:
 	preload("res://tests/finale_scenarios.gd").run(self)
 	preload("res://tests/patrol_scenarios.gd").run(self)
 	preload("res://tests/siren_role_scenarios.gd").run(self)
+	preload("res://tests/acoustic_scenarios.gd").run(self)
 	print("CHECKS ", checks, " FAILURES ", failures)
 	quit(1 if failures else 0)

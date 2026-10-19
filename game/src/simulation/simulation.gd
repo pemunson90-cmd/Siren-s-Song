@@ -194,6 +194,21 @@ func camera_context() -> Dictionary:
 	return {"target":best,"ready":true,"text":"READY · %s · %s %.0fs"%[target.name,"passive listen" if target.get("kind","")=="receiver" else "exposure",target.get("duration",4.0)]}
 func _noise(p: Vector2,radius: float,label: String,duration: float=2.0) -> void:
 	noises.append({"pos":p,"radius":radius,"time":duration,"label":label})
+# Own known emissions only. Reception and enemy reaction remain sensor evidence.
+# Derive from existing clocks so pause/restore need no extra lifetime state.
+func acoustic_feedback() -> Dictionary:
+	var result={"motion":[],"pulses":[],"responses":[]}
+	for u in units:
+		# Match actual movement hearing, including residual speed after SILENT.
+		if u.alive and u.vel.length()>50:
+			result.motion.append({"name":u.name,"pos":u.pos})
+	for n in noises:
+		if n.time<=0: continue
+		if n.label in ["DECOY","ACTIVE SONAR","RECON UPLINK","DISRUPTION","CAMERA"]:
+			result.pulses.append({"label":n.label,"pos":n.pos,"time":n.time})
+		elif n.label=="FACTORY RESPONSE" and visible(n.pos):
+			result.responses.append({"label":n.label,"pos":n.pos,"time":n.time})
+	return result
 func advance(dt: float) -> void:
 	if paused or not outcome.is_empty(): return
 	accumulator+=minf(dt,0.25)

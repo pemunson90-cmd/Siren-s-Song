@@ -1,0 +1,82 @@
+..........FFF...FFFF.F.....
+======================================================================
+FAIL: test_opt_in_malformed_other_screen_is_fatal (__main__.Tests.test_opt_in_malformed_other_screen_is_fatal)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Siren-s-Song-gauntlet/scripts/toolchain/test-android-menu.py", line 148, in test_opt_in_malformed_other_screen_is_fatal
+    r=self.invoke(d,wait=True);self.assertEqual(r.returncode,1,r.stderr);self.assertNotIn('unrecognized arguments',r.stderr)
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 2 != 1 : usage: android-menu.py [-h] --density DENSITY --screen
+                       {menu,settings,briefing} --action ACTION
+                       [--after-count AFTER_COUNT]
+                       [--unchanged-settings UNCHANGED_SETTINGS]
+                       log png
+android-menu.py: error: unrecognized arguments: --wait-for-screen
+
+
+======================================================================
+FAIL: test_opt_in_settings_mutation_on_other_screen_is_fatal (__main__.Tests.test_opt_in_settings_mutation_on_other_screen_is_fatal)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Siren-s-Song-gauntlet/scripts/toolchain/test-android-menu.py", line 151, in test_opt_in_settings_mutation_on_other_screen_is_fatal
+    r=self.invoke(d,wait=True,baseline=before);self.assertEqual(r.returncode,1);self.assertIn('Settings changed',r.stderr)
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 2 != 1
+
+======================================================================
+FAIL: test_opt_in_valid_other_screen_retries (__main__.Tests.test_opt_in_valid_other_screen_retries)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Siren-s-Song-gauntlet/scripts/toolchain/test-android-menu.py", line 144, in test_opt_in_valid_other_screen_retries
+    d=self.layout();d['screen']='settings';self.assertEqual(self.invoke(d,wait=True).returncode,3)
+                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 2 != 3
+
+======================================================================
+FAIL: test_snapshot_changed_geometry_during_capture_is_retried (__main__.Tests.test_snapshot_changed_geometry_during_capture_is_retried)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Siren-s-Song-gauntlet/scripts/toolchain/test-android-menu.py", line 60, in test_snapshot_changed_geometry_during_capture_is_retried
+    self.assertEqual(r.returncode,0,r.stderr);self.assertIn('retry',events)
+                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'retry' not found in ['density', 'capture', 'log:1', 'validate:0', 'accepted:0']
+
+======================================================================
+FAIL: test_snapshot_final_capture_follows_matching_fresh_validation (__main__.Tests.test_snapshot_final_capture_follows_matching_fresh_validation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Siren-s-Song-gauntlet/scripts/toolchain/test-android-menu.py", line 53, in test_snapshot_final_capture_follows_matching_fresh_validation
+    self.assertGreater(captures[-1],validations[0],events)
+AssertionError: 5 not greater than 7 : ['density', 'capture', 'log:1', 'validate:3', 'retry', 'capture', 'log:2', 'validate:0', 'accepted:0']
+
+======================================================================
+FAIL: test_snapshot_freshness_timeout_never_publishes_final_png (__main__.Tests.test_snapshot_freshness_timeout_never_publishes_final_png)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Siren-s-Song-gauntlet/scripts/toolchain/test-android-menu.py", line 74, in test_snapshot_freshness_timeout_never_publishes_final_png
+    self.assertNotEqual(r.returncode,0);self.assertFalse(final)
+                                        ^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_snapshot_identical_reemission_does_not_require_serial_freeze (__main__.Tests.test_snapshot_identical_reemission_does_not_require_serial_freeze)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Siren-s-Song-gauntlet/scripts/toolchain/test-android-menu.py", line 66, in test_snapshot_identical_reemission_does_not_require_serial_freeze
+    self.assertEqual(report['metrics_count'],2);self.assertTrue(final)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 != 2
+
+======================================================================
+FAIL: test_snapshot_postcapture_settings_mutation_is_fatal_without_final_png (__main__.Tests.test_snapshot_postcapture_settings_mutation_is_fatal_without_final_png)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Siren-s-Song-gauntlet/scripts/toolchain/test-android-menu.py", line 71, in test_snapshot_postcapture_settings_mutation_is_fatal_without_final_png
+    self.assertEqual(r.returncode,1,r.stderr);self.assertIn('Settings changed',r.stderr);self.assertFalse(final)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 1 : 
+
+----------------------------------------------------------------------
+Ran 27 tests in 2.150s
+
+FAILED (failures=8)

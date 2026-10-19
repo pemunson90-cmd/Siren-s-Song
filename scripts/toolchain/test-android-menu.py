@@ -6,6 +6,96 @@ def chunked(value,identity='42:1'):
  raw=json.dumps(value).encode();parts=[raw[i:i+450] for i in range(0,len(raw),450)]
  return '\n'.join(f'SS_UI_METRICS_PART id={identity} part={i} parts={len(parts)} bytes={len(raw)} sha256={hashlib.sha256(raw).hexdigest()} data={base64.b64encode(part).decode()}' for i,part in enumerate(parts))+'\n'
 class Tests(unittest.TestCase):
+ def snapshot(self,logs,*,after=0,action='settings',baseline=None,sizes=None):
+  """Run the real shell/checker; mock only unavailable ADB/log transport."""
+  with tempfile.TemporaryDirectory() as temp:
+   p=pathlib.Path(temp);(p/'events').touch();(p/'reads').write_text('0');(p/'captures').write_text('0')
+   sizes=sizes or [(2520,1080)]
+   for i,size in enumerate(sizes,1):(p/f'source-{i}.png').write_bytes(b'\x89PNG\r\n\x1a\n'+b'\0'*8+struct.pack('>II',*size))
+   for i,log in enumerate(logs,1):(p/f'log-{i}').write_text(log)
+   if baseline is not None:(p/'baseline.json').write_text(json.dumps({'settings_values':baseline}))
+   script='''set -eu
+source "$1"
+output="$2"
+export output
+menu_settings_baseline="$3"
+adb() {
+ if [[ "$*" == 'shell wm density' ]]; then echo density >>"$output/events"; echo 'Physical density: 420';
+ elif [[ "$*" == 'exec-out screencap -p' ]]; then
+  local n
+  n=$(cat "$output/captures"); n=$((n+1)); echo "$n" >"$output/captures"
+  if ((n>PNG_LIMIT)); then n=PNG_LIMIT; fi
+  echo capture >>"$output/events"; cat "$output/source-$n.png"
+ else return 99; fi
+}
+read_logcat() {
+ local n
+ n=$(cat "$output/reads"); n=$((n+1)); echo "$n" >"$output/reads"
+ if ((n>LOG_LIMIT)); then n=LOG_LIMIT; fi
+ echo "log:$n" >>"$output/events"
+ cp "$output/log-$n" "$1"
+}
+python3() {
+ local status=0
+ command python3 "$@" || status=$?
+ if [[ "$1" == */android-menu.py ]]; then echo "validate:$status" >>"$output/events"; fi
+ return "$status"
+}
+sleep() { echo retry >>"$output/events"; }
+menu_snapshot cover timing menu "$4" "$5"
+echo "accepted:$menu_status" >>"$output/events"
+'''.replace('LOG_LIMIT',str(len(logs))).replace('PNG_LIMIT',str(len(sizes)))
+   r=subprocess.run(['bash','-c',script,'test',str(CHECKER.with_name('android-menu-smoke.sh')),str(p),str(p/'baseline.json') if baseline is not None else '',action,str(after)],capture_output=True,text=True)
+   report=p/'ui-metrics-menu-cover-timing.json'
+   return r,(p/'events').read_text().splitlines(),json.loads(report.read_text()) if report.exists() and report.stat().st_size else None,(p/'cover-menu-timing.png').exists()
+ def test_snapshot_final_capture_follows_matching_fresh_validation(self):
+  old='SS_UI_METRICS '+json.dumps(self.layout())+'\n'
+  current=old+old
+  r,events,report,final=self.snapshot([old,current,current],after=1)
+  self.assertEqual(r.returncode,0,r.stderr)
+  captures=[i for i,event in enumerate(events) if event=='capture']
+  validations=[i for i,event in enumerate(events) if event=='validate:0']
+  self.assertGreater(captures[-1],validations[0],events)
+  self.assertGreater(validations[-1],captures[-1],events)
+  self.assertEqual(report['metrics_count'],2);self.assertTrue(final)
+ def test_snapshot_changed_geometry_during_capture_is_retried(self):
+  first=self.layout();changed=self.layout();changed['scroll_vertical']=400
+  old='SS_UI_METRICS '+json.dumps(first)+'\n';new=old+'SS_UI_METRICS '+json.dumps(changed)+'\n'
+  r,events,report,final=self.snapshot([old,new,new,new])
+  self.assertEqual(r.returncode,0,r.stderr);self.assertIn('retry',events)
+  self.assertEqual(report['scroll_vertical'],400);self.assertTrue(final)
+ def test_snapshot_identical_reemission_does_not_require_serial_freeze(self):
+  line='SS_UI_METRICS '+json.dumps(self.layout())+'\n'
+  r,events,report,final=self.snapshot([line,line+line])
+  self.assertEqual(r.returncode,0,r.stderr);self.assertNotIn('retry',events)
+  self.assertEqual(report['metrics_count'],2);self.assertTrue(final)
+ def test_snapshot_postcapture_settings_mutation_is_fatal_without_final_png(self):
+  layout=self.layout();before=layout['settings_values'].copy();old='SS_UI_METRICS '+json.dumps(layout)+'\n'
+  layout['settings_values']['mute']=True;new=old+'SS_UI_METRICS '+json.dumps(layout)+'\n'
+  r,events,report,final=self.snapshot([old,new],baseline=before)
+  self.assertEqual(r.returncode,1,r.stderr);self.assertIn('Settings changed',r.stderr);self.assertFalse(final)
+ def test_snapshot_freshness_timeout_never_publishes_final_png(self):
+  r,events,report,final=self.snapshot(['SS_UI_METRICS '+json.dumps(self.layout())+'\n'],after=1)
+  self.assertNotEqual(r.returncode,0);self.assertFalse(final)
+ def test_snapshot_missing_target_preserves_scrolling_exit(self):
+  r,events,report,final=self.snapshot(['SS_UI_METRICS '+json.dumps(self.layout())+'\n'],action='absent')
+  self.assertEqual(r.returncode,0,r.stderr);self.assertEqual(events[-1],'accepted:2');self.assertTrue(final)
+ def test_snapshot_valid_other_screen_transition_retries(self):
+  current='SS_UI_METRICS '+json.dumps(self.layout())+'\n'
+  other=self.layout();other['screen']='settings'
+  transitioning=current+'SS_UI_METRICS '+json.dumps(other)+'\n';settled=transitioning+current
+  r,events,report,final=self.snapshot([current,transitioning,settled,settled])
+  self.assertEqual(r.returncode,0,r.stderr);self.assertIn('validate:3',events);self.assertIn('retry',events)
+  self.assertEqual(report['screen'],'menu');self.assertEqual(report['metrics_count'],3);self.assertTrue(final)
+ def test_snapshot_postcapture_png_geometry_mismatch_is_fatal(self):
+  r,events,report,final=self.snapshot(['SS_UI_METRICS '+json.dumps(self.layout())+'\n'],sizes=[(2520,1080),(2184,1968)])
+  self.assertEqual(r.returncode,1,r.stderr);self.assertIn('actual PNG dimensions',r.stderr);self.assertFalse(final)
+ def test_snapshot_continuously_changing_state_times_out(self):
+  logs=[];text=''
+  for i in range(20):
+   d=self.layout();d['scroll_vertical']=i;text+='SS_UI_METRICS '+json.dumps(d)+'\n';logs.append(text)
+  r,events,report,final=self.snapshot(logs)
+  self.assertNotEqual(r.returncode,0);self.assertEqual(events.count('capture'),11);self.assertFalse(final)
  def test_menu_first_input_checks_system_ui_before_observing_or_swiping(self):
   helper=CHECKER.with_name('android-menu-smoke.sh')
   for intro_status,expected_status,expected_output in ((0,71,['intro','log','snapshot']),(37,37,['intro'])):
@@ -22,11 +112,11 @@ menu_touch_smoke cover
    self.assertEqual(r.returncode,expected_status,r.stderr)
    self.assertEqual(r.stdout.splitlines(),expected_output)
  def layout(self):return {'schema':1,'screen':'menu','orders_page':'primary','viewport':[1680,720],'window':[2520,1080],'safe_rect':[0,0,2520,1080],'density_dpi':420,'density_source':'android_display_metrics_density_dpi','chart_rect':None,'scroll_rect':[100,30,1480,650],'scroll_vertical':320,'settings_values':{'music':.5,'effects':.8,'mute':False},'controls':[{'action':'settings','visual_rect':[200,200,1000,84],'hit_rect':[200,200,1000,84],'clipped':False}]}
- def invoke(self,layout,after=0,action='settings',prefix='',size=(2520,1080),screen='menu',baseline=None,transport=None):
+ def invoke(self,layout,after=0,action='settings',prefix='',size=(2520,1080),screen='menu',baseline=None,transport=None,wait=False):
   with tempfile.TemporaryDirectory() as temp:
    p=pathlib.Path(temp);(p/'log').write_text(prefix+(transport if transport is not None else 'SS_UI_METRICS '+json.dumps(layout)+'\n'));(p/'png').write_bytes(b'\x89PNG\r\n\x1a\n'+b'\0'*8+struct.pack('>II',*size));(p/'density').write_text('Physical density: 420\n')
-   extra=[]
-   if baseline is not None:(p/'before').write_text(json.dumps({'settings_values':baseline}));extra=['--unchanged-settings',str(p/'before')]
+   extra=['--wait-for-screen'] if wait else []
+   if baseline is not None:(p/'before').write_text(json.dumps({'settings_values':baseline}));extra+=['--unchanged-settings',str(p/'before')]
    return subprocess.run([sys.executable,str(CHECKER),str(p/'log'),str(p/'png'),'--density',str(p/'density'),'--screen',screen,'--action',action,'--after-count',str(after),*extra],capture_output=True,text=True)
  def test_chunk_count_tracks_snapshots_not_parts(self):
   d=self.layout();d['padding']='x'*2000;text=chunked(d)
@@ -71,4 +161,13 @@ menu_touch_smoke cover
   d=self.layout();d["density_source"]="test_android_density_fixture";self.assertEqual(self.invoke(d).returncode,1)
  def test_wrong_screen_rejected(self):
   d=self.layout();d['screen']='settings';self.assertEqual(self.invoke(d).returncode,1)
+ def test_opt_in_valid_other_screen_retries(self):
+  d=self.layout();d['screen']='settings';self.assertEqual(self.invoke(d,wait=True).returncode,3)
+ def test_opt_in_malformed_other_screen_is_fatal(self):
+  for key,value in [('screen','unexpected'),('safe_rect',None),('settings_values',None),('controls',[])]:
+   d=self.layout();d['screen']='settings';d[key]=value
+   r=self.invoke(d,wait=True);self.assertEqual(r.returncode,1,r.stderr);self.assertNotIn('unrecognized arguments',r.stderr)
+ def test_opt_in_settings_mutation_on_other_screen_is_fatal(self):
+  d=self.layout();before=d['settings_values'].copy();d['screen']='settings';d['settings_values']['mute']=True
+  r=self.invoke(d,wait=True,baseline=before);self.assertEqual(r.returncode,1);self.assertIn('Settings changed',r.stderr)
 if __name__=='__main__':unittest.main()

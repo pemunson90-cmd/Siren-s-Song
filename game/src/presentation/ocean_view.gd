@@ -11,6 +11,8 @@ var foundry=preload("res://assets/structures/foundry.png")
 var quietus=preload("res://assets/craft/quietus.png")
 var basalt=preload("res://assets/materials/basalt.png")
 var camera_flash := 0.0
+var feedback_font_size:=14
+var instrument_top:=64.0
 var chart_camera=preload("res://src/presentation/chart_camera.gd").new()
 const CYAN := Color("72d9d3")
 const INK := Color("07141c")
@@ -46,6 +48,8 @@ func _process(dt: float) -> void:
 		optical_feed.sim=sim; optical_feed.visible=sim!=null and sim.capture_unit>=0 and sim.selected==sim.capture_unit
 		optical_feed.position=Vector2(14,size.y-242); optical_feed.size=Vector2(minf(390,size.x*0.48),228)
 	queue_redraw()
+func acoustic_rows() -> Array:
+	return preload("res://src/presentation/acoustic_feedback.gd").rows(sim.acoustic_feedback()) if sim!=null else []
 func _draw() -> void:
 	if sim==null or ocean==null: return
 	_sync_camera()
@@ -136,12 +140,16 @@ func _draw() -> void:
 				threat_rows.append("S%d → %s · %s"%[int(id)+1,sim.units[target_id].name,"FIRING" if c.lock>=4 else "BEAM %.1fs"%(4-c.lock)])
 			draw_arc(c.pos,58,-PI/2,-PI/2+TAU*minf(1,c.lock/4),40,Color("fa7969"),3)
 		elif not fresh: _label(c.pos+Vector2(35,0),"ECHO · %ds"%int(sim.elapsed-c.time),Color("9a8079"),17)
-	for n in sim.noises:
+	var acoustic=sim.acoustic_feedback()
+	for n in acoustic.responses:
 		if n.label=="FACTORY RESPONSE":
 			draw_arc(n.pos,60+fmod(sim.mission.get("response_time",0.0)*100,350),0,TAU,64,Color(0.95,0.66,0.32,0.6),3)
 			_label(sim.mission.factory_rect.position+Vector2(16,520),"CARRIER · CRADLE",Color("e1b66e"),16)
+	for n in acoustic.pulses:
 		if n.label=="DECOY":
-			draw_arc(n.pos,25+sin(phase*4)*9,0,TAU,32,Color("e1b66e"),2)
+			draw_arc(n.pos,29,0,TAU,40,Color("675b43"),2)
+			draw_arc(n.pos,29,-PI/2,-PI/2+TAU*clampf(n.time/15.0,0,1),40,Color("e1b66e"),3)
+			draw_circle(n.pos,4,Color("e1b66e"))
 	# Sediment, restrained wake, and instrument ticks live above the physical view.
 	for i in 70:
 		var p=Vector2(fmod(i*241.17+phase*2,1600),fmod(i*137.3+phase*0.7,960))
@@ -152,8 +160,19 @@ func _draw() -> void:
 	draw_string(ThemeDB.fallback_font,Vector2(16,26),"TAP ROUTE · DRAG CHART · PINCH ZOOM",HORIZONTAL_ALIGNMENT_LEFT,-1,13,Color("76959c"))
 	draw_string(ThemeDB.fallback_font,Vector2(16,46),"CHART %.1f×"%chart_camera.zoom,HORIZONTAL_ALIGNMENT_LEFT,-1,11,Color("76959c"))
 
+	for n in acoustic.pulses:
+		if n.label=="DECOY":
+			draw_string(ThemeDB.fallback_font,chart_camera.to_screen(n.pos)+Vector2(12,-12),"%ds"%ceili(n.time),HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size,Color("e1b66e"))
+	var rows=acoustic_rows()
+	var line_height=feedback_font_size+5
+	var instrument_height=rows.size()*line_height+12
+	var instrument_width=0.0
+	for row in rows:instrument_width=maxf(instrument_width,ThemeDB.fallback_font.get_string_size(row,HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size).x+20)
+	draw_rect(Rect2(12,instrument_top,minf(instrument_width,size.x-24),instrument_height),Color(0.025,0.06,0.075,0.94))
+	for i in rows.size():
+		draw_string(ThemeDB.fallback_font,Vector2(20,instrument_top+feedback_font_size+5+i*line_height),rows[i],HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size,Color("e1b66e") if i==1 and rows[i]!="DECOYS · none" else Color("a4bfbd"))
 	for row in threat_rows.size():
-		var y=82+row*30
+		var y=instrument_top+instrument_height+28+row*30
 		draw_rect(Rect2(12,y-19,minf(330,size.x-30),28),Color(0.04,0.07,0.09,0.94))
 		draw_string(ThemeDB.fallback_font,Vector2(20,y),threat_rows[row],HORIZONTAL_ALIGNMENT_LEFT,-1,15,Color("ffac8c"))
 

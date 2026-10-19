@@ -1,0 +1,31 @@
+Exact GUI input, accepted orders, pause flags, simulation time, end hull/outcome/noises match.
+
+ACOUSTIC_INPUT frame=0 action=pause sim_time=0.0
+SS_PAUSE paused=false
+ACOUSTIC_INPUT frame=5 action=silent sim_time=0.25
+SS_ORDER silent accepted=true selected=0 queued=false
+ACOUSTIC_INPUT frame=15 action=route_sub sim_time=0.91666666666667
+SS_ORDER route accepted=true selected=0 queued=false
+ACOUSTIC_INPUT frame=30 action=more sim_time=1.91666666666666
+ACOUSTIC_INPUT frame=45 action=decoy sim_time=2.91666666666666
+SS_ORDER decoy accepted=true selected=0 queued=false
+ACOUSTIC_INPUT frame=60 action=droneA sim_time=3.91666666666666
+SS_ORDER select accepted=true selected=1 queued=false
+ACOUSTIC_INPUT frame=75 action=route_drone sim_time=4.91666666666665
+SS_ORDER route accepted=true selected=1 queued=false
+ACOUSTIC_INPUT frame=90 action=decoy sim_time=5.91666666666665
+SS_ORDER decoy accepted=true selected=1 queued=false
+ACOUSTIC_INPUT frame=105 action=sub sim_time=6.91666666666665
+SS_ORDER select accepted=true selected=0 queued=false
+ACOUSTIC_INPUT frame=110 action=more sim_time=7.24999999999998
+ACOUSTIC_INPUT frame=120 action=silent sim_time=7.91666666666664
+SS_ORDER silent accepted=true selected=0 queued=false
+ACOUSTIC_INPUT frame=135 action=hold sim_time=8.91666666666669
+SS_ORDER hold accepted=true selected=0 queued=false
+ACOUSTIC_INPUT frame=150 action=pause sim_time=9.91666666666674
+SS_PAUSE paused=true
+ACOUSTIC_INPUT frame=165 action=pause sim_time=9.98333333333341
+SS_PAUSE paused=false
+ACOUSTIC_INPUT frame=180 action=route_sub sim_time=10.9166666666668
+SS_ORDER route accepted=true selected=0 queued=false
+ACOUSTIC_END fps=15 frames=300 elapsed=18.9166666666669 hull=100.0 outcome= noises=[{ "pos": (321.2639, 699.2913), "radius": 1100.0, "time": 2.06666666666634, "label": "DECOY" }]
