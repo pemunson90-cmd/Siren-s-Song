@@ -1,6 +1,6 @@
 # Galaxy Z Fold7 playtest
 
-**Known active-gameplay audio crash; fix validation pending.** The [539f58b exploratory APK](https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/39197795717/artifacts/12162622874) passed native cover/unfolded rendering, brief touch/order/pause smoke and save restoration, but that test did not exercise sustained active audio. A later build with the same procedural-loop implementation crashes in AudioTrack on the first eight-second ambience boundary during ordinary play. The exact PCM endpoint defect is being corrected and requires a fresh native pass. Do not interpret the earlier smoke as gameplay stability or release readiness. Physical Galaxy Z Fold7 behavior, complete mission playthroughs, audio quality and performance remain separate checks.
+**Current native-verified development build: [93b8631 APK](https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/39202066103/artifacts/12164418637).** The procedural-audio crash is fixed and passed sustained Android playback, ordinary Shelf Signal camera/objective/extraction completion, and campaign save/kill/restart restoration. Cover and unfolded landscape touch/lifecycle smoke also passed. Physical Galaxy Z Fold7 behavior, the complete native campaign, subjective audio quality and performance remain separate checks. This is a development playtest, not release readiness. [Raw native evidence](validation/android-39202066103/README.md).
 
 ## Install or update
 
@@ -11,7 +11,7 @@
 
 The private signing key is not included. These APKs use development signing; store/release signing remains separate.
 
-The validated 539f58b APK SHA-256 is `513ec0b57b5b09b176fa4ae9a10b05dd407052b349508cc9a54f68383a62e836`. Its certificate SHA-256 is `32bcb2287acd01c1f58c26997c7639f3072c74c6b03ab2a24656dc7cd1c7dc3c`, matching the earlier c96c3bf playtest. Cache restoration and this certificate match were both observed. Future cache eviction can still change development signing identity.
+The validated 93b8631 APK SHA-256 is `4be4f056a65def993dca34170c2b02fb8e4342a1adac3baa01abcdecc42dcb4e`. Its certificate SHA-256 is `32bcb2287acd01c1f58c26997c7639f3072c74c6b03ab2a24656dc7cd1c7dc3c`, matching earlier playtests. Cache restoration and this certificate match were both observed. Future cache eviction can still change development signing identity.
 
 ## Three-minute check after installation
 

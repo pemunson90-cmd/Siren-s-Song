@@ -1,0 +1,64 @@
+SS_SMOKE_STAGE 2026-10-19T05:00:20Z smoke script entered after emulator action boot
+SS_SMOKE_STAGE 2026-10-19T05:00:44Z APK installed
+SS_SMOKE_STAGE 2026-10-19T05:00:44Z cover viewport and launch
+SS_SMOKE_STAGE 2026-10-19T05:01:03Z capture cover: screenshot begin
+SS_SMOKE_STAGE 2026-10-19T05:01:05Z capture cover: screenshot complete; activity dump begin
+SS_SMOKE_STAGE 2026-10-19T05:01:05Z capture cover: activity dump complete
+SS_SMOKE_STAGE 2026-10-19T05:01:29Z cover native mission/order/pause taps verified
+SS_SMOKE_STAGE 2026-10-19T05:01:29Z capture cover-gameplay: screenshot begin
+SS_SMOKE_STAGE 2026-10-19T05:01:30Z capture cover-gameplay: screenshot complete; activity dump begin
+SS_SMOKE_STAGE 2026-10-19T05:01:30Z capture cover-gameplay: activity dump complete
+SS_SMOKE_STAGE 2026-10-19T05:01:30Z cover background and resume
+SS_SMOKE_STAGE 2026-10-19T05:01:36Z capture cover-resume: screenshot begin
+SS_SMOKE_STAGE 2026-10-19T05:01:38Z capture cover-resume: screenshot complete; activity dump begin
+SS_SMOKE_STAGE 2026-10-19T05:01:39Z capture cover-resume: activity dump complete
+SS_SMOKE_STAGE 2026-10-19T05:01:39Z cover waiting for background process termination
+SS_SMOKE_STAGE 2026-10-19T05:01:58Z cover process restarted with screen/layout readiness
+SS_SMOKE_STAGE 2026-10-19T05:01:58Z capture cover-restart: screenshot begin
+SS_SMOKE_STAGE 2026-10-19T05:02:00Z capture cover-restart: screenshot complete; activity dump begin
+SS_SMOKE_STAGE 2026-10-19T05:02:00Z capture cover-restart: activity dump complete
+SS_SMOKE_STAGE 2026-10-19T05:02:03Z capture cover-restored-gameplay: screenshot begin
+SS_SMOKE_STAGE 2026-10-19T05:02:03Z capture cover-restored-gameplay: screenshot complete; activity dump begin
+SS_SMOKE_STAGE 2026-10-19T05:02:03Z capture cover-restored-gameplay: activity dump complete
+SS_SMOKE_STAGE 2026-10-19T05:02:03Z cover mission archive restored and entered
+SS_SMOKE_STAGE 2026-10-19T05:02:03Z inner viewport and launch
+SS_SMOKE_STAGE 2026-10-19T05:02:06Z capture inner: screenshot begin
+SS_SMOKE_STAGE 2026-10-19T05:02:08Z capture inner: screenshot complete; activity dump begin
+SS_SMOKE_STAGE 2026-10-19T05:02:08Z capture inner: activity dump complete
+SS_SMOKE_STAGE 2026-10-19T05:02:41Z inner native mission/order/pause taps verified
+SS_SMOKE_STAGE 2026-10-19T05:02:41Z capture inner-gameplay: screenshot begin
+SS_SMOKE_STAGE 2026-10-19T05:02:44Z capture inner-gameplay: screenshot complete; activity dump begin
+SS_SMOKE_STAGE 2026-10-19T05:02:44Z capture inner-gameplay: activity dump complete
+SS_SMOKE_STAGE 2026-10-19T05:02:44Z inner background and resume
+SS_SMOKE_STAGE 2026-10-19T05:02:49Z capture inner-resume: screenshot begin
+SS_SMOKE_STAGE 2026-10-19T05:02:51Z capture inner-resume: screenshot complete; activity dump begin
+SS_SMOKE_STAGE 2026-10-19T05:02:51Z capture inner-resume: activity dump complete
+SS_SMOKE_STAGE 2026-10-19T05:02:51Z inner waiting for background process termination
+SS_SMOKE_STAGE 2026-10-19T05:03:00Z inner process restarted with screen/layout readiness
+SS_SMOKE_STAGE 2026-10-19T05:03:00Z capture inner-restart: screenshot begin
+SS_SMOKE_STAGE 2026-10-19T05:03:02Z capture inner-restart: screenshot complete; activity dump begin
+SS_SMOKE_STAGE 2026-10-19T05:03:02Z capture inner-restart: activity dump complete
+SS_SMOKE_STAGE 2026-10-19T05:03:06Z capture inner-restored-gameplay: screenshot begin
+SS_SMOKE_STAGE 2026-10-19T05:03:07Z capture inner-restored-gameplay: screenshot complete; activity dump begin
+SS_SMOKE_STAGE 2026-10-19T05:03:07Z capture inner-restored-gameplay: activity dump complete
+SS_SMOKE_STAGE 2026-10-19T05:03:07Z inner mission archive restored and entered
+SS_SMOKE_STAGE 2026-10-19T05:03:07Z Shelf Signal ordinary-command completion begins
+SS_SMOKE_STAGE 2026-10-19T05:04:00Z camera-ready: fresh marker verified
+SS_SMOKE_STAGE 2026-10-19T05:04:04Z capture inner-camera-ready: screenshot begin
+SS_SMOKE_STAGE 2026-10-19T05:04:06Z capture inner-camera-ready: screenshot complete; activity dump begin
+SS_SMOKE_STAGE 2026-10-19T05:04:06Z capture inner-camera-ready: activity dump complete
+SS_SMOKE_STAGE 2026-10-19T05:04:08Z capture inner-camera-exposure: screenshot begin
+SS_SMOKE_STAGE 2026-10-19T05:04:09Z capture inner-camera-exposure: screenshot complete; activity dump begin
+SS_SMOKE_STAGE 2026-10-19T05:04:09Z capture inner-camera-exposure: activity dump complete
+SS_SMOKE_STAGE 2026-10-19T05:04:21Z record-secured: fresh marker verified
+SS_SMOKE_STAGE 2026-10-19T05:04:22Z extraction-won: fresh marker verified
+SS_SMOKE_STAGE 2026-10-19T05:04:22Z campaign-saved: fresh marker verified
+SS_SMOKE_STAGE 2026-10-19T05:04:22Z capture inner-mission-completed: screenshot begin
+SS_SMOKE_STAGE 2026-10-19T05:04:23Z capture inner-mission-completed: screenshot complete; activity dump begin
+SS_SMOKE_STAGE 2026-10-19T05:04:23Z capture inner-mission-completed: activity dump complete
+SS_SMOKE_STAGE 2026-10-19T05:04:23Z Shelf Signal recorded, Quietus extraction won, campaign saved
+SS_SMOKE_STAGE 2026-10-19T05:04:32Z campaign-restored: fresh marker verified
+SS_SMOKE_STAGE 2026-10-19T05:04:32Z capture inner-campaign-restored: screenshot begin
+SS_SMOKE_STAGE 2026-10-19T05:04:33Z capture inner-campaign-restored: screenshot complete; activity dump begin
+SS_SMOKE_STAGE 2026-10-19T05:04:33Z capture inner-campaign-restored: activity dump complete
+SS_SMOKE_STAGE 2026-10-19T05:04:35Z smoke passed
