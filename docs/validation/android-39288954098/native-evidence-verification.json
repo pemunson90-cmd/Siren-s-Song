@@ -1,0 +1,163 @@
+{
+  "latest_atomic_count": 26,
+  "latest_atomic_source_sha256": "e43c1145939a08fdf7a1e392e501bdd71da0204e0ab17c88fe510338137fc0e4",
+  "actual_secondary_actions": [
+    "pause",
+    "sub",
+    "droneA",
+    "droneB",
+    "more_orders",
+    "decoy",
+    "recon",
+    "contact_hold",
+    "wait_drone",
+    "waypoint_mode",
+    "program",
+    "knock",
+    "home",
+    "zoom_out",
+    "zoom_in",
+    "fit"
+  ],
+  "reported_secondary_errors": [
+    "Missing required fully exposed control: camera",
+    "Missing required fully exposed control: emp"
+  ],
+  "secondary_min_hit_dp": 56.0,
+  "safe_rect_physical": [
+    136.0,
+    0.0,
+    2384.0,
+    1080.0
+  ],
+  "window": [
+    2520.0,
+    1080.0
+  ],
+  "viewport": [
+    1680.0,
+    720.0
+  ],
+  "menu_brackets": [
+    {
+      "name": "ui-metrics-menu-cover-initial.json",
+      "pre_count": 5,
+      "post_count": 5,
+      "stable_measurement_settings": true,
+      "scroll_vertical": 0,
+      "settings_values": {
+        "effects": 0.8,
+        "music": 0.5,
+        "mute": false
+      }
+    },
+    {
+      "name": "ui-metrics-menu-cover-returned.json",
+      "pre_count": 14,
+      "post_count": 15,
+      "stable_measurement_settings": true,
+      "scroll_vertical": 0,
+      "settings_values": {
+        "effects": 0.8,
+        "music": 0.5,
+        "mute": false
+      }
+    },
+    {
+      "name": "ui-metrics-menu-cover-scroll-0.json",
+      "pre_count": 6,
+      "post_count": 6,
+      "stable_measurement_settings": true,
+      "scroll_vertical": 155,
+      "settings_values": {
+        "effects": 0.8,
+        "music": 0.5,
+        "mute": false
+      }
+    },
+    {
+      "name": "ui-metrics-menu-cover-scroll-1.json",
+      "pre_count": 7,
+      "post_count": 7,
+      "stable_measurement_settings": true,
+      "scroll_vertical": 650,
+      "settings_values": {
+        "effects": 0.8,
+        "music": 0.5,
+        "mute": false
+      }
+    },
+    {
+      "name": "ui-metrics-menu-cover-settings-back.json",
+      "pre_count": 12,
+      "post_count": 12,
+      "stable_measurement_settings": true,
+      "scroll_vertical": 201,
+      "settings_values": {
+        "effects": 0.8,
+        "music": 0.5,
+        "mute": false
+      }
+    },
+    {
+      "name": "ui-metrics-menu-cover-settings-mute.json",
+      "pre_count": 12,
+      "post_count": 12,
+      "stable_measurement_settings": true,
+      "scroll_vertical": 201,
+      "settings_values": {
+        "effects": 0.8,
+        "music": 0.5,
+        "mute": false
+      }
+    },
+    {
+      "name": "ui-metrics-menu-cover-settings-volume_effects-scroll-0.json",
+      "pre_count": 12,
+      "post_count": 12,
+      "stable_measurement_settings": true,
+      "scroll_vertical": 201,
+      "settings_values": {
+        "effects": 0.8,
+        "music": 0.5,
+        "mute": false
+      }
+    },
+    {
+      "name": "ui-metrics-menu-cover-settings-volume_effects.json",
+      "pre_count": 11,
+      "post_count": 11,
+      "stable_measurement_settings": true,
+      "scroll_vertical": 0,
+      "settings_values": {
+        "effects": 0.8,
+        "music": 0.5,
+        "mute": false
+      }
+    },
+    {
+      "name": "ui-metrics-menu-cover-settings.json",
+      "pre_count": 10,
+      "post_count": 11,
+      "stable_measurement_settings": true,
+      "scroll_vertical": 0,
+      "settings_values": {
+        "effects": 0.8,
+        "music": 0.5,
+        "mute": false
+      }
+    }
+  ],
+  "runtime_errors_file_bytes": 0,
+  "not_reached": [
+    "inner viewport",
+    "same-resume immediate/final",
+    "process death/cold restore",
+    "camera exposure",
+    "Shelf record/extraction/completion",
+    "Well fixture/restore",
+    "Blackwater request/gallery/restore",
+    "final strict error scan"
+  ],
+  "limits": "Only actual failed source79c9b5a evidence. Empty runtime-errors file is not a passed final scan. App postdraw/measurement bracketing is not Android compositor acknowledgment."
+}

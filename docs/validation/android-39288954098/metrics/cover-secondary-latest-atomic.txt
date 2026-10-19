@@ -1,0 +1,228 @@
+10-19 16:57:19.103  2746  2964 I godot   : SS_UI_METRICS_PART id=2746-12898445:26 part=0 parts=6 bytes=2393 sha256=e43c1145939a08fdf7a1e392e501bdd71da0204e0ab17c88fe510338137fc0e4 data=eyJjYXB0dXJlX3N0YXRlIjp7ImNhcHR1cmVfdW5pdCI6LTEsImRyYXduX2ZyYW1lIjoxOTMsImh1ZF92aXNpYmxlIjp0cnVlLCJtZW51X3Zpc2libGUiOmZhbHNlLCJtaXNzaW9uIjowLCJvcHRpY2FsX3Zpc2libGUiOmZhbHNlLCJwYXVzZWQiOnRydWUsInBoYXNlIjoicG9zdF9kcmF3Iiwic2VsZWN0ZWQiOjB9LCJjaGFydF9yZWN0IjpbMTE2LjY2NywxMTIuMCwxMDcyLjMzMyw1ODAuMF0sImNvbnRyb2xzIjpbeyJhY3Rpb24iOiJwYXVzZSIsImNsaXBwZWQiOmZhbHNlLCJoaXRfcmVjdCI6WzEyMDUuMCwxMTIuMCwyNzguODcsOTguMF0sInZpc3VhbF9yZWN0IjpbMTIwNS4wLDExMi4wLDI3OC44Nyw5OC4wXX0seyJhY3Rpb24iOiJzdWIiLCJjbGlwcGVkIjpmYWxzZSwiaGl0X3JlY3QiOlsxMjA1LjAsMjE0LjAsMTQ3LjAsOTguMF0sInZpc3VhbF9yZWN0IjpbMTIwNS4wLDIxNC4wLDE0Ny4w
+10-19 16:57:19.103  2746  2964 I godot   : SS_UI_METRICS_PART id=2746-12898445:26 part=1 parts=6 bytes=2393 sha256=e43c1145939a08fdf7a1e392e501bdd71da0204e0ab17c88fe510338137fc0e4 data=LDk4LjBdfSx7ImFjdGlvbiI6ImRyb25lQSIsImNsaXBwZWQiOmZhbHNlLCJoaXRfcmVjdCI6WzEzNTYuMCwyMTQuMCwxNDcuMCw5OC4wXSwidmlzdWFsX3JlY3QiOlsxMzU2LjAsMjE0LjAsMTQ3LjAsOTguMF19LHsiYWN0aW9uIjoiZHJvbmVCIiwiY2xpcHBlZCI6ZmFsc2UsImhpdF9yZWN0IjpbMTUwNy4wLDIxNC4wLDE0Ny4wLDk4LjBdLCJ2aXN1YWxfcmVjdCI6WzE1MDcuMCwyMTQuMCwxNDcuMCw5OC4wXX0seyJhY3Rpb24iOiJtb3JlX29yZGVycyIsImNsaXBwZWQiOmZhbHNlLCJoaXRfcmVjdCI6WzE0ODcuODcsMTEyLjAsMTY2LjEzLDk4LjBdLCJ2aXN1YWxfcmVjdCI6WzE0ODcuODcsMTEyLjAsMTY2LjEzLDk4LjBdfSx7ImFjdGlvbiI6ImRlY295IiwiY2xpcHBlZCI6ZmFsc2UsImhpdF9yZWN0IjpbMTM1Ni4wLDMxNi4wLDE0Ny4wLDk4LjBdLCJ2aXN1YWxfcmVjdCI6WzEzNTYuMCwz
+10-19 16:57:19.104  2746  2964 I godot   : SS_UI_METRICS_PART id=2746-12898445:26 part=2 parts=6 bytes=2393 sha256=e43c1145939a08fdf7a1e392e501bdd71da0204e0ab17c88fe510338137fc0e4 data=MTYuMCwxNDcuMCw5OC4wXX0seyJhY3Rpb24iOiJyZWNvbiIsImNsaXBwZWQiOmZhbHNlLCJoaXRfcmVjdCI6WzEyMDUuMCwzMTYuMCwxNDcuMCw5OC4wXSwidmlzdWFsX3JlY3QiOlsxMjA1LjAsMzE2LjAsMTQ3LjAsOTguMF19LHsiYWN0aW9uIjoiY29udGFjdF9ob2xkIiwiY2xpcHBlZCI6ZmFsc2UsImhpdF9yZWN0IjpbMTUwNy4wLDMxNi4wLDE0Ny4wLDk4LjBdLCJ2aXN1YWxfcmVjdCI6WzE1MDcuMCwzMTYuMCwxNDcuMCw5OC4wXX0seyJhY3Rpb24iOiJ3YWl0X2Ryb25lIiwiY2xpcHBlZCI6ZmFsc2UsImhpdF9yZWN0IjpbMTIwNS4wLDQxOC4wLDE0Ny4wLDk4LjBdLCJ2aXN1YWxfcmVjdCI6WzEyMDUuMCw0MTguMCwxNDcuMCw5OC4wXX0seyJhY3Rpb24iOiJ3YXlwb2ludF9tb2RlIiwiY2xpcHBlZCI6ZmFsc2UsImhpdF9yZWN0IjpbMTM1Ni4wLDQxOC4wLDE0Ny4wLDk4LjBdLCJ2aXN1
+10-19 16:57:19.104  2746  2964 I godot   : SS_UI_METRICS_PART id=2746-12898445:26 part=3 parts=6 bytes=2393 sha256=e43c1145939a08fdf7a1e392e501bdd71da0204e0ab17c88fe510338137fc0e4 data=YWxfcmVjdCI6WzEzNTYuMCw0MTguMCwxNDcuMCw5OC4wXX0seyJhY3Rpb24iOiJwcm9ncmFtIiwiY2xpcHBlZCI6ZmFsc2UsImhpdF9yZWN0IjpbMTUwNy4wLDQxOC4wLDE0Ny4wLDk4LjBdLCJ2aXN1YWxfcmVjdCI6WzE1MDcuMCw0MTguMCwxNDcuMCw5OC4wXX0seyJhY3Rpb24iOiJrbm9jayIsImNsaXBwZWQiOmZhbHNlLCJoaXRfcmVjdCI6WzEyMDUuMCw1MjAuMCwxNDcuMCw5OC4wXSwidmlzdWFsX3JlY3QiOlsxMjA1LjAsNTIwLjAsMTQ3LjAsOTguMF19LHsiYWN0aW9uIjoiaG9tZSIsImNsaXBwZWQiOmZhbHNlLCJoaXRfcmVjdCI6WzEzNTYuMCw1MjAuMCwxNDcuMCw5OC4wXSwidmlzdWFsX3JlY3QiOlsxMzU2LjAsNTIwLjAsMTQ3LjAsOTguMF19LHsiYWN0aW9uIjoiem9vbV9vdXQiLCJjbGlwcGVkIjpmYWxzZSwiaGl0X3JlY3QiOls4NzkuMCwxMjAuMCw5OC4wLDk4LjBdLCJ2aXN1
+10-19 16:57:19.104  2746  2964 I godot   : SS_UI_METRICS_PART id=2746-12898445:26 part=4 parts=6 bytes=2393 sha256=e43c1145939a08fdf7a1e392e501bdd71da0204e0ab17c88fe510338137fc0e4 data=YWxfcmVjdCI6Wzg3OS4wLDEyMC4wLDk4LjAsOTguMF19LHsiYWN0aW9uIjoiem9vbV9pbiIsImNsaXBwZWQiOmZhbHNlLCJoaXRfcmVjdCI6Wzk4MS4wLDEyMC4wLDk4LjAsOTguMF0sInZpc3VhbF9yZWN0IjpbOTgxLjAsMTIwLjAsOTguMCw5OC4wXX0seyJhY3Rpb24iOiJmaXQiLCJjbGlwcGVkIjpmYWxzZSwiaGl0X3JlY3QiOlsxMDgzLjAsMTIwLjAsOTguMCw5OC4wXSwidmlzdWFsX3JlY3QiOlsxMDgzLjAsMTIwLjAsOTguMCw5OC4wXX1dLCJkZW5zaXR5X2RwaSI6NDIwLjAsImRlbnNpdHlfc291cmNlIjoiYW5kcm9pZF9kaXNwbGF5X21ldHJpY3NfZGVuc2l0eV9kcGkiLCJvcmRlcnNfcGFnZSI6InNlY29uZGFyeSIsInNhZmVfcmVjdCI6WzEzNi4wLDAuMCwyMzg0LjAsMTA4MC4wXSwic2NoZW1hIjoxLCJzY3JlZW4iOiJtaXNzaW9uIiwic2Nyb2xsX3JlY3QiOls1MTMuMzMzLDQ2LjAs
+10-19 16:57:19.104  2746  2964 I godot   : SS_UI_METRICS_PART id=2746-12898445:26 part=5 parts=6 bytes=2393 sha256=e43c1145939a08fdf7a1e392e501bdd71da0204e0ab17c88fe510338137fc0e4 data=NzQ0LjAsNTE4LjBdLCJzY3JvbGxfdmVydGljYWwiOjAsInNldHRpbmdzX3ZhbHVlcyI6eyJlZmZlY3RzIjowLjgsIm11c2ljIjowLjUsIm11dGUiOmZhbHNlfSwidmlld3BvcnQiOlsxNjgwLjAsNzIwLjBdLCJ3aW5kb3ciOlsyNTIwLjAsMTA4MC4wXX0=
+10-19 16:57:19.104  2746  2964 I godot   : SS_TARGET pause center=1344,161 viewport=1680,720
+10-19 16:57:19.105  2746  2964 I godot   : SS_TARGET sub center=1279,263 viewport=1680,720
+10-19 16:57:19.105  2746  2964 I godot   : SS_TARGET droneA center=1430,263 viewport=1680,720
+10-19 16:57:19.105  2746  2964 I godot   : SS_TARGET droneB center=1581,263 viewport=1680,720
+10-19 16:57:19.105  2746  2964 I godot   : SS_TARGET decoy center=1430,365 viewport=1680,720
+10-19 16:57:19.105  2746  2964 I godot   : SS_TARGET recon center=1279,365 viewport=1680,720
+10-19 16:57:19.105  2746  2964 I godot   : SS_TARGET contact_hold center=1581,365 viewport=1680,720
+10-19 16:57:19.105  2746  2964 I godot   : SS_TARGET wait_drone center=1279,467 viewport=1680,720
+10-19 16:57:19.105  2746  2964 I godot   : SS_TARGET waypoint_mode center=1430,467 viewport=1680,720
+10-19 16:57:19.105  2746  2964 I godot   : SS_TARGET program center=1581,467 viewport=1680,720
+10-19 16:57:19.105  2746  2964 I godot   : SS_TARGET knock center=1279,569 viewport=1680,720
+10-19 16:57:19.105  2746  2964 I godot   : SS_TARGET home center=1430,569 viewport=1680,720
+10-19 16:57:19.105  2746  2964 I godot   : SS_TARGET more_orders center=1571,161 viewport=1680,720
+10-19 16:57:19.105  2746  2964 I godot   : SS_TARGET zoom_out center=928,169 viewport=1680,720
+10-19 16:57:19.105  2746  2964 I godot   : SS_TARGET zoom_in center=1030,169 viewport=1680,720
+10-19 16:57:19.105  2746  2964 I godot   : SS_TARGET fit center=1132,169 viewport=1680,720
+10-19 16:57:19.105  2746  2964 I godot   : SS_TARGET chart_center center=653,402 viewport=1680,720
+10-19 16:57:19.105  2746  2964 I godot   : SS_TARGET objective0 center=955,420 viewport=1680,720
+10-19 16:57:19.105  2746  2964 I godot   : SS_TARGET route center=363,595 viewport=1680,720
+10-19 16:57:19.115  1788  1788 V ContactsProvider: Scheduled notifyChange started.
+10-19 16:57:19.171  1330  4417 I NetworkScheduler.Stats: Task com.google.android.gms/com.google.android.gms.udc.service.UdcContextInitService finished executing. cause:5 result: 1 elapsed_millis: 340 uptime_millis: 340 exec_start_elapsed_seconds: 166 [CONTEXT service_id=218 ]
+10-19 16:57:19.247  1330  4791 I .gms.persistent: AssetManager2(0x77974ba04018) locale list changing from [] to [en-US]
+10-19 16:57:19.285  1330  4781 I NetworkScheduler.Stats: Task com.google.android.gms/com.google.android.gms.tapandpay.gcmtask.TapAndPayGcmTaskService started execution. cause:5 exec_start_elapsed_seconds: 166 [CONTEXT service_id=218 ]
+10-19 16:57:19.306  1330  4791 I PhenotypeResourceReader: unable to find any Phenotype resource metadata for com.google.android.modulemetadata
+10-19 16:57:19.306  1330  2429 I TapAndPay: Sending QUICK_ACCESS_WALLET_STATE_CHANGED broadcast to wallet app. [CONTEXT service_id=79 ]
+10-19 16:57:19.315  1330  4791 I .gms.persistent: AssetManager2(0x77974b9ec918) locale list changing from [] to [en-US]
+10-19 16:57:19.338  1330  4417 I NetworkScheduler.Stats: Task com.google.android.gms/com.google.android.gms.tapandpay.gcmtask.TapAndPayGcmTaskService finished executing. cause:5 result: 1 elapsed_millis: 66 uptime_millis: 66 exec_start_elapsed_seconds: 166 [CONTEXT service_id=218 ]
+10-19 16:57:19.399  1488  1957 I DownloadManager: DownloadManager$3.onProgress():514 Downloading __KLP_delight__en-840 with size 15089274
+10-19 16:57:19.411   445   481 I netd    : tetherGetStats() -> {[]} <1.01ms>
+10-19 16:57:19.414   445   481 I netd    : bandwidthSetGlobalAlert(2097152) <0.14ms>
+10-19 16:57:19.445  1330  4791 I .gms.persistent: AssetManager2(0x77974ba04338) locale list changing from [] to [en-US]
+10-19 16:57:19.450  1330  4986 I ProximityAuth: [FeatureLoader] auth_easyunlock module load status: 2
+10-19 16:57:19.456  1330  1330 I ProximityAuth: [PhoneHubService] Handling intent for PhoneHubChimeraService.
+10-19 16:57:19.458  1330  4417 I ProximityAuth: [PhoneHubService] No enabled account, stopping service
+10-19 16:57:19.460  1330  1330 I ProximityAuth: [PhoneHubService] Destroying PhoneHubChimeraService.
+10-19 16:57:19.460  1330  1330 W ProximityAuth: [PhoneHubNotificationProcessor] shutdown(): context is null.
+10-19 16:57:19.460  1330  1330 I ProximityAuth: [PhoneHubService] All devices have disconnected. Performing cleanup...
+10-19 16:57:19.462  1330  1330 W ChimeraUtils: Module com.google.android.gms.auth_proximity missing resource null(0)
+10-19 16:57:19.471  1330  4986 W ProximityAuth: [GetSyncedDevices] Attestation: No devices out of 0 passed verification.
+10-19 16:57:19.477  1500  5014 I SystemUpdate: [Installation,ReceiverIntentOperation] Received intent: Intent { act=com.google.android.gms.phenotype.com.google.android.gms.update.COMMITTED xflg=0x4 pkg=com.google.android.gms cmp=com.google.android.gms/.chimera.GmsIntentOperationService (has extras) }.
+10-19 16:57:19.486  1500  4992 I SystemUpdate: [Execution,InstallationEventIntentOperation] Handling event of type 2.
+10-19 16:57:19.491  1330  4986 I PTCommittedOperation: Receive new configuration for com.google.android.gms.auth_authzen
+10-19 16:57:19.491  1330  4981 I NearbyMediums: ModuleInitializer handles incoming intent com.google.android.gms.phenotype.COMMITTED
+10-19 16:57:19.492  1500  5014 I SystemUpdate: [Execution,InstallationIntentOperation] Received intent: Intent { act=com.google.android.gms.update.INSTALL_UPDATE cat=[targeted_intent_op_prefix:.update.execution.InstallationIntentOperation] xflg=0x4 cmp=com.google.android.gms/.chimera.GmsIntentOperationService (has extras) }.
+10-19 16:57:19.492  1500  5014 I SystemUpdate: [Execution,ExecutionManager] Start action execution: finished-execution
+10-19 16:57:19.492  1500  5014 I SystemUpdate: [Execution,ExecutionManager] Action finished-execution executed for 0.00 seconds.
+10-19 16:57:19.497  1500  5014 W ModuleInitIntentOp: Dropping unexpected action com.google.android.gms.phenotype.COMMITTED
+10-19 16:57:19.497  1500  5014 W ModuleInitIntentOp: Dropping unexpected action com.google.android.gms.phenotype.COMMITTED
+10-19 16:57:19.497  1500  5014 I AutofillFlagChangeInten: onHandleIntent() [CONTEXT service_id=177 ]
+10-19 16:57:19.497  1500  5014 W ModuleInitIntentOp: Dropping unexpected action com.google.android.gms.phenotype.COMMITTED
+10-19 16:57:19.497  1500  4996 I SyncIntentOperation: Handling the intent: Intent { act=com.google.android.gms.phenotype.COMMITTED xflg=0x4 pkg=com.google.android.gms cmp=com.google.android.gms/.chimera.GmsIntentOperationService (has extras) }. [CONTEXT service_id=80 ]
+10-19 16:57:19.497  1500  4992 I fpnvgms : [FpnvIntentOperation] Received intent: Intent { act=com.google.android.gms.phenotype.COMMITTED xflg=0x4 pkg=com.google.android.gms cmp=com.google.android.gms/.chimera.GmsIntentOperationService (has extras) } [CONTEXT service_id=429 ]
+10-19 16:57:19.499  1500  5008 I MdiSyncModule: flag handling is skipping irrelevant intent.
+10-19 16:57:19.499  1500  5008 I MlBenchmarkInstaller: Intent: com.google.android.gms.phenotype.COMMITTED [CONTEXT service_id=340 ]
+10-19 16:57:19.499  1500  5008 I MlBenchmarkInstaller: COMMITTED Extra package name: com.google.android.gms.auth_authzen [CONTEXT service_id=340 ]
+10-19 16:57:19.499  1500  5008 W ModuleInitIntentOp: Dropping unexpected action com.google.android.gms.phenotype.COMMITTED
+10-19 16:57:19.499  1500  5001 I GmsSyncPolicyEngine: Periodic sync 1 disabled by policy, cancelled.
+10-19 16:57:19.499  1500  5001 I GmsSyncPolicyEngine: Periodic sync 2 disabled by policy, cancelled.
+10-19 16:57:19.499  1500  5001 I GmsSyncPolicyEngine: Periodic sync 3 disabled by policy, cancelled.
+10-19 16:57:19.499  1500  5003 I LocationHistory: [IntentOperation] Handling action com.google.android.gms.phenotype.COMMITTED [CONTEXT service_id=314 ]
+10-19 16:57:19.625  1500  4863 W ModuleInitIntentOp: Dropping unexpected action com.google.android.gms.phenotype.COMMITTED
+10-19 16:57:19.625  1500  5014 W ModuleInitIntentOp: Dropping unexpected action com.google.android.gms.phenotype.COMMITTED
+10-19 16:57:19.627  1500  4863 I AutofillFlagChangeInten: onHandleIntent() [CONTEXT service_id=177 ]
+10-19 16:57:19.629  1500  5005 W ModuleInitIntentOp: Dropping unexpected action com.google.android.gms.phenotype.COMMITTED
+10-19 16:57:19.630  1500  4999 I SyncIntentOperation: Handling the intent: Intent { act=com.google.android.gms.phenotype.COMMITTED xflg=0x4 pkg=com.google.android.gms cmp=com.google.android.gms/.chimera.GmsIntentOperationService (has extras) }. [CONTEXT service_id=80 ]
+10-19 16:57:19.632  1500  5003 I fpnvgms : [FpnvIntentOperation] Received intent: Intent { act=com.google.android.gms.phenotype.COMMITTED xflg=0x4 pkg=com.google.android.gms cmp=com.google.android.gms/.chimera.GmsIntentOperationService (has extras) } [CONTEXT service_id=429 ]
+10-19 16:57:19.646  1500  5001 I MdiSyncModule: flag handling is skipping irrelevant intent.
+10-19 16:57:19.647  1500  5014 I MlBenchmarkInstaller: Intent: com.google.android.gms.phenotype.COMMITTED [CONTEXT service_id=340 ]
+10-19 16:57:19.647  1500  5014 I MlBenchmarkInstaller: COMMITTED Extra package name: com.google.android.gms.tron.metrics [CONTEXT service_id=340 ]
+10-19 16:57:19.647  1500  5014 I GmsSyncPolicyEngine: Periodic sync 1 disabled by policy, cancelled.
+10-19 16:57:19.647  1500  4863 W ModuleInitIntentOp: Dropping unexpected action com.google.android.gms.phenotype.COMMITTED
+10-19 16:57:19.647  1500  4863 I LocationHistory: [IntentOperation] Handling action com.google.android.gms.phenotype.COMMITTED [CONTEXT service_id=314 ]
+10-19 16:57:19.651  1500  5014 I GmsSyncPolicyEngine: Periodic sync 2 disabled by policy, cancelled.
+10-19 16:57:19.651  1500  5014 I GmsSyncPolicyEngine: Periodic sync 3 disabled by policy, cancelled.
+10-19 16:57:19.663  1330  4982 I NearbyMediums: ModuleInitializer handles incoming intent com.google.android.gms.phenotype.COMMITTED
+10-19 16:57:19.668  1330  4978 I PTCommittedOperation: Receive new configuration for com.google.android.gms.tron.metrics
+10-19 16:57:19.709  1330  4791 I PhenotypeResourceReader: unable to find any Phenotype resource metadata for com.google.android.gsf
+10-19 16:57:19.743  1330  4791 I PhenotypeResourceReader: unable to find any Phenotype resource metadata for com.google.android.tag
+10-19 16:57:19.781  1500  1500 D BoundBrokerSvc: onUnbind: Intent { act=com.google.android.gms.findmydevice.spot.service.management.START dat=chimera-action:/... xflg=0x4 cmp=com.google.android.gms/.chimera.GmsApiService }
+10-19 16:57:19.782  1500  1500 D BoundBrokerSvc: onUnbind: Intent { act=com.google.android.gms.chimera.container.moduleinstall.ModuleInstallService.START dat=chimera-action:/... xflg=0x4 cmp=com.google.android.gms/.chimera.GmsApiService }
+10-19 16:57:19.786  1330  4791 I .gms.persistent: AssetManager2(0x77974ba04658) locale list changing from [] to [en-US]
+10-19 16:57:19.815  1330  4791 I .gms.persistent: AssetManager2(0x77974ba00e18) locale list changing from [] to [en-US]
+10-19 16:57:19.818  1330  4791 I PhenotypeResourceReader: unable to find any Phenotype resource metadata for com.google.android.apps.nexuslauncher
+10-19 16:57:19.853  1500  4990 W ModuleInitIntentOp: Dropping unexpected action com.google.android.gms.phenotype.COMMITTED
+10-19 16:57:19.865  1500  5001 W ModuleInitIntentOp: Dropping unexpected action com.google.android.gms.phenotype.COMMITTED
+10-19 16:57:19.865  1500  5001 W ModuleInitIntentOp: Dropping unexpected action com.google.android.gms.phenotype.COMMITTED
+10-19 16:57:19.866  1500  5001 I SyncIntentOperation: Handling the intent: Intent { act=com.google.android.gms.phenotype.COMMITTED xflg=0x4 pkg=com.google.android.gms cmp=com.google.android.gms/.chimera.GmsIntentOperationService (has extras) }. [CONTEXT service_id=80 ]
+10-19 16:57:19.869  1500  4990 I fpnvgms : [FpnvIntentOperation] Received intent: Intent { act=com.google.android.gms.phenotype.COMMITTED xflg=0x4 pkg=com.google.android.gms cmp=com.google.android.gms/.chimera.GmsIntentOperationService (has extras) } [CONTEXT service_id=429 ]
+10-19 16:57:19.870  1500  4863 I MdiSyncModule: flag handling is skipping irrelevant intent.
+10-19 16:57:19.870  1500  4863 I MlBenchmarkInstaller: Intent: com.google.android.gms.phenotype.COMMITTED [CONTEXT service_id=340 ]
+10-19 16:57:19.870  1500  4863 I MlBenchmarkInstaller: COMMITTED Extra package name: com.google.android.gms.wearable [CONTEXT service_id=340 ]
+10-19 16:57:19.871  1500  5000 I AutofillFlagChangeInten: onHandleIntent() [CONTEXT service_id=177 ]
+10-19 16:57:19.871  1500  5000 W ModuleInitIntentOp: Dropping unexpected action com.google.android.gms.phenotype.COMMITTED
+10-19 16:57:19.871  1500  5000 I GmsSyncPolicyEngine: Periodic sync 1 disabled by policy, cancelled.
+10-19 16:57:19.871  1500  5000 I GmsSyncPolicyEngine: Periodic sync 2 disabled by policy, cancelled.
+10-19 16:57:19.871  1500  5000 I GmsSyncPolicyEngine: Periodic sync 3 disabled by policy, cancelled.
+10-19 16:57:19.871  1500  5000 I LocationHistory: [IntentOperation] Handling action com.google.android.gms.phenotype.COMMITTED [CONTEXT service_id=314 ]
+10-19 16:57:19.882  1330  4980 I PTCommittedOperation: Receive new configuration for com.google.android.gms.wearable
+10-19 16:57:19.889  1330  4978 I NearbyMediums: ModuleInitializer handles incoming intent com.google.android.gms.phenotype.COMMITTED
+10-19 16:57:19.893  1330  4781 E ctxmgr  : [WorkManager] Ongoing task not found: HandleSystemStateOnReceive [CONTEXT service_id=47 ]
+10-19 16:57:19.900  1330  4791 I PhenotypeResourceReader: unable to find any Phenotype resource metadata for com.google.android.feedback
+10-19 16:57:19.904  1330  4791 I .gms.persistent: AssetManager2(0x77974ba04978) locale list changing from [] to [en-US]
+10-19 16:57:19.909  1500  5008 I PhoneskyRecoveryLogs: Experiments updated. Start recovery checks. [CONTEXT service_id=242 ]
+10-19 16:57:19.909  1500  5008 W ChimeraUtils: Module com.google.android.gms.phonesky_recovery missing resource null(0)
+10-19 16:57:19.915  1330  4791 I .gms.persistent: AssetManager2(0x77974ba06278) locale list changing from [] to [en-US]
+10-19 16:57:19.951  1500  1580 E feyh    : DataFileGroupValidator Group name missing in added group
+10-19 16:57:19.954  1500  1580 E feyh    : DataFileGroupValidator Group name missing in added group
+10-19 16:57:19.955  1500  1580 E feyh    : DataFileGroupValidator Group name missing in added group
+10-19 16:57:19.955  1500  1580 E feyh    : DataFileGroupValidator Group name missing in added group
+10-19 16:57:19.956  1500  1580 E feyh    : DataFileGroupValidator Group name missing in added group
+10-19 16:57:19.956  1500  1580 E feyh    : DataFileGroupValidator Group name missing in added group
+10-19 16:57:19.957  1500  1580 E feyh    : DataFileGroupValidator Group name missing in added group
+10-19 16:57:19.957  1500  1580 E feyh    : DataFileGroupValidator Group name missing in added group
+10-19 16:57:19.957  1500  1580 E feyh    : DataFileGroupValidator Group name missing in added group
+10-19 16:57:19.957  1500  1580 E feyh    : DataFileGroupValidator Group name missing in added group
+10-19 16:57:19.958  1500  1580 E feyh    : DataFileGroupValidator Group name missing in added group
+10-19 16:57:19.959  1500  1580 E feyh    : DataFileGroupValidator Group name missing in added group
+10-19 16:57:19.959  1500  1580 E feyh    : DataFileGroupValidator Group name missing in added group
+10-19 16:57:19.960  1500  1580 E feyh    : DataFileGroupValidator Group name missing in added group
+10-19 16:57:19.960  1500  1580 E feyh    : FileGroupManager: Trying to add expired group enpromo-state-config.
+10-19 16:57:19.960  1500  1580 W feyh    : MDDManager class fegg
+10-19 16:57:19.960  1500  1580 E feyh    : DataFileGroupValidator Group name missing in added group
+10-19 16:57:19.961  1500  1580 E feyh    : DataFileGroupValidator Group name missing in added group
+10-19 16:57:20.042  1330  4791 I .gms.persistent: AssetManager2(0x77974ba07858) locale list changing from [] to [en-US]
+10-19 16:57:20.046  1330  4791 I PhenotypeResourceReader: unable to find any Phenotype resource metadata for com.google.android.gms.supervision
+10-19 16:57:20.182     0     0 I logd    : logdr: UID=2000 GID=2000 PID=5028 n tail=0 logMask=99 pid=0 start=0ns deadline=0ns
+10-19 16:57:20.060  1330  4791 I PhenotypeResourceReader: unable to find any Phenotype resource metadata for com.android.settings
+10-19 16:57:20.070  1330  4791 I .gms.persistent: AssetManager2(0x77974ba023f8) locale list changing from [] to [en-US]
+10-19 16:57:20.079  1330  4791 I .gms.persistent: AssetManager2(0x77974ba01778) locale list changing from [] to [en-US]
+10-19 16:57:20.096   642   744 D ActivityManager: freezing 3110 com.android.chrome
+10-19 16:57:20.111   642   914 D InetDiagMessage: Destroyed 0 sockets, proto=IPPROTO_TCP, family=AF_INET, states=14
+10-19 16:57:20.119   642   914 D InetDiagMessage: Destroyed 0 sockets, proto=IPPROTO_TCP, family=AF_INET6, states=14
+10-19 16:57:20.119   642   914 D InetDiagMessage: Destroyed live tcp sockets for uids={10161} in 21ms
+10-19 16:57:20.180  1330  4723 I AppDoctorConfigChanged: Refreshing configuration on flag commit.
+10-19 16:57:20.195   517   625 D AudioFlinger: mixer(0x7bd370524770) throttle end: throttle time(15)
+10-19 16:57:20.208  1330  4791 I PhenotypeResourceReader: unable to find any Phenotype resource metadata for com.google.android.apps.wallpaper
+10-19 16:57:20.230   642  1124 D OomAdjuster: Not killing cached processes
+10-19 16:57:20.243   642   744 D ActivityManager: freezing 2506 com.google.android.dialer
+10-19 16:57:20.252  1500  4996 W ModuleInitIntentOp: Dropping unexpected action com.google.android.gms.phenotype.COMMITTED
+10-19 16:57:20.252  1330  4989 I PTCommittedOperation: Receive new configuration for com.google.android.gms.firebase.auth
+10-19 16:57:20.262  1330  4982 I NearbyMediums: ModuleInitializer handles incoming intent com.google.android.gms.phenotype.COMMITTED
+10-19 16:57:20.262  1500  4997 I AutofillFlagChangeInten: onHandleIntent() [CONTEXT service_id=177 ]
+10-19 16:57:20.262  1500  4997 W ModuleInitIntentOp: Dropping unexpected action com.google.android.gms.phenotype.COMMITTED
+10-19 16:57:20.263  1500  4996 W ModuleInitIntentOp: Dropping unexpected action com.google.android.gms.phenotype.COMMITTED
+10-19 16:57:20.268  1500  4998 I SyncIntentOperation: Handling the intent: Intent { act=com.google.android.gms.phenotype.COMMITTED xflg=0x4 pkg=com.google.android.gms cmp=com.google.android.gms/.chimera.GmsIntentOperationService (has extras) }. [CONTEXT service_id=80 ]
+10-19 16:57:20.269  1500  4998 I fpnvgms : [FpnvIntentOperation] Received intent: Intent { act=com.google.android.gms.phenotype.COMMITTED xflg=0x4 pkg=com.google.android.gms cmp=com.google.android.gms/.chimera.GmsIntentOperationService (has extras) } [CONTEXT service_id=429 ]
+10-19 16:57:20.270   642   914 D InetDiagMessage: Destroyed 0 sockets, proto=IPPROTO_TCP, family=AF_INET, states=14
+10-19 16:57:20.273   642   914 D InetDiagMessage: Destroyed 0 sockets, proto=IPPROTO_TCP, family=AF_INET6, states=14
+10-19 16:57:20.273   642   914 D InetDiagMessage: Destroyed live tcp sockets for uids={10136} in 22ms
+10-19 16:57:20.279  1500  5001 I MdiSyncModule: flag handling is skipping irrelevant intent.
+10-19 16:57:20.280  1500  5000 I MlBenchmarkInstaller: Intent: com.google.android.gms.phenotype.COMMITTED [CONTEXT service_id=340 ]
+10-19 16:57:20.287  1500  4996 W ModuleInitIntentOp: Dropping unexpected action com.google.android.gms.phenotype.COMMITTED
+10-19 16:57:20.287  1500  4996 I GmsSyncPolicyEngine: Periodic sync 1 disabled by policy, cancelled.
+10-19 16:57:20.287  1500  5000 I MlBenchmarkInstaller: COMMITTED Extra package name: com.google.android.gms.firebase.auth [CONTEXT service_id=340 ]
+10-19 16:57:20.287  1500  4996 I GmsSyncPolicyEngine: Periodic sync 2 disabled by policy, cancelled.
+10-19 16:57:20.288  1330  4791 I PhenotypeResourceReader: unable to find any Phenotype resource metadata for com.android.systemui
+10-19 16:57:20.289  1500  4996 I GmsSyncPolicyEngine: Periodic sync 3 disabled by policy, cancelled.
+10-19 16:57:20.292  1330  4791 I .gms.persistent: AssetManager2(0x77974b9f7818) locale list changing from [] to [en-US]
+10-19 16:57:20.293  1500  5000 I LocationHistory: [IntentOperation] Handling action com.google.android.gms.phenotype.COMMITTED [CONTEXT service_id=314 ]
+10-19 16:57:20.299  1330  4417 I AppDoctorManager: Updating appdoctor Uri Permissions. [CONTEXT service_id=256 ]
+10-19 16:57:20.325  1330  4417 I AppDoctorManager: Granting access to 'com.google.android.gms' [CONTEXT service_id=256 ]
+10-19 16:57:20.339  1330  4782 I AppDoctorManager: Logged Proposed com.google.android.gmsb454824792_2025_02-10-24_11-08-00 [CONTEXT service_id=256 ]
+10-19 16:57:20.344  1330  4781 I AppDoctorManager: Sending ASAP Fix Broadcast to com.google.android.gms [CONTEXT service_id=256 ]
+10-19 16:57:20.397  1488  1957 I DownloadManager: DownloadManager$3.onProgress():514 Downloading __KLP_delight__en-840 with size 20897402
+10-19 16:57:20.432  1330  5031 I com.google.android.gmsb: Running fixer!
+10-19 16:57:20.462  1500  1500 I WakefulBroadcastRcvr: Processing wakeful broadcast: com.google.android.gms.checkin.CHECKIN_START_ACTION
+10-19 16:57:20.473  1500  5000 I Checkin : [CheckinIntentOperation] onHandleIntent, Intent { act=com.google.android.gms.checkin.CHECKIN_START_ACTION cat=[targeted_intent_op_prefix:.checkin.CheckinIntentOperation] xflg=0x4 cmp=com.google.android.gms/.chimera.GmsIntentOperationService (has extras) }
+10-19 16:57:20.486  1330  4791 I .gms.persistent: AssetManager2(0x77974b9f87b8) locale list changing from [] to [en-US]
+10-19 16:57:20.501  1500  5000 I Checkin : [CheckinOperation] Starting Checkin: Default Task Reason : 9 Force : true UserId : 0 Start time : 168040
+10-19 16:57:20.505  1500  5000 I CheckinUtil: Classify the device as Phone. [CONTEXT service_id=130 ]
+10-19 16:57:20.511  1330  2429 I AppDoctorManager: Revoking access to 'com.google.android.gms' [CONTEXT service_id=256 ]
+10-19 16:57:20.511  1330  4790 I AppDoctorManager: Permission revoked for com.google.android.gms: true [CONTEXT service_id=256 ]
+10-19 16:57:20.511  1330  5032 I GmsAppDoctorReceiver: App doctor is complete.
+10-19 16:57:20.512  1330  1330 I AppDoctorManager: App returned RESULT_OK. [CONTEXT service_id=256 ]
+10-19 16:57:20.616  1121  1138 I AdapterProperties: getBondedDevices: length=0
+10-19 16:57:20.616  1500  5001 I DckStubModuleInit: Loading stub module components [CONTEXT service_id=289 ]
+10-19 16:57:20.617  1500  5001 W Dck     : Disable DCK module - Android debug build without fullaccess [CONTEXT service_id=289 ]
+10-19 16:57:20.617  1500  5001 W Dck     : Dck module not eligible for asynchronous downloading [CONTEXT service_id=289 ]
+10-19 16:57:20.626  1500  5000 I Checkin : [AndroidCheckinProtoModule] Checkin reason type: 9 attempt count: 1.
+10-19 16:57:20.636  1330  4791 I .gms.persistent: AssetManager2(0x77974b9e8138) locale list changing from [] to [en-US]
+10-19 16:57:20.795     0     0 I logd    : logdr: UID=2000 GID=2000 PID=5038 n tail=0 logMask=99 pid=0 start=0ns deadline=0ns
+10-19 16:57:20.686   642  1326 D FileUtils: Rounded bytes from 2593071104 to 4000000000
+10-19 16:57:20.727   642   957 D BackgroundInstallControlService: Package event received: 0
+10-19 16:57:20.908     0     0 I servicemanager: Caller(pid=234,uid=1017,sid=u:r:keystore:s0) Found android.hardware.security.keymint.IRemotelyProvisionedComponent/default in device VINTF manifest.
+10-19 16:57:20.806   642  1946 I RemoteProvisionSysSvc: getRegistration(android.hardware.security.keymint.IRemotelyProvisionedComponent/default)
+10-19 16:57:20.806   642   957 D BackgroundInstallControlService: Package event received: 0
+10-19 16:57:20.807   642   957 D BackgroundInstallControlService: Package event received: 0
+10-19 16:57:20.809   445   481 I netd    : tetherGetStats() -> {[]} <0.28ms>
+10-19 16:57:20.817  1330  4791 I HeterodyneSyncer: Removed 0 invalid users [CONTEXT service_id=51 ]
+10-19 16:57:20.819   642   642 I RegistrationProxy: onServiceConnected: com.android.rkpdapp.service.RemoteProvisioningService
+10-19 16:57:20.830   588  2114 I AttributionAndPermissionUtils: checkPermission (forDataDelivery 0 startDataDelivery 0): Permission hard denied for client attribution [uid 10145, pid 1500, packageName "<unknown>"]
+10-19 16:57:20.831  1500  4997 W PrereqChecker: No rear-facing camera detected.
+10-19 16:57:20.832  1500  4997 I OcrModelUpStIntentOp: Downloading text recognizer
+10-19 16:57:20.837  1488  1705 I DownloadManager: DownloadManager$3.onProgress():514 Downloading __KLP_delight__en-840 with size 23928884
+10-19 16:57:20.957     0     0 I servicemanager: Caller(pid=3016,uid=10211,sid=u:r:rkpdapp:s0:c211,c256,c512,c768) Found android.hardware.security.keymint.IRemotelyProvisionedComponent/default in device VINTF manifest.
+10-19 16:57:20.847   642  1930 I RegistrationProxy: IGetRegistrationCallback.onSuccess
+10-19 16:57:20.849   445   481 I netd    : bandwidthSetGlobalAlert(2097152) <0.09ms>
+10-19 16:57:20.865   642   744 D ActivityManager: freezing 2404 com.google.android.apps.wallpaper
+10-19 16:57:20.876   445   481 I netd    : tetherGetStats() -> {[]} <3.69ms>
+10-19 16:57:20.888  1500  1500 D BoundBrokerSvc: onRebind: Intent { act=com.google.android.gms.chimera.container.moduleinstall.ModuleInstallService.START dat=chimera-action:/... xflg=0x4 cmp=com.google.android.gms/.chimera.GmsApiService }
+10-19 16:57:20.892   642   729 I RemoteProvisionSysSvc: Fetching key 10145 for client 257076225
+10-19 16:57:20.892   642   729 I RegistrationProxy: getKeyAsync operation started with callback 6404774
+10-19 16:57:20.893  3016  3063 I RkpdRegistrationBinder: Key requested for : android.hardware.security.keymint.IRemotelyProvisionedComponent/default, clientUid: 1017, keyId: 10145, callback: 157518524
+10-19 16:57:20.894  3016  3063 I RkpdRegistrationBinder: Key successfully assigned to client
+10-19 16:57:20.894   642   914 D InetDiagMessage: Destroyed 0 sockets, proto=IPPROTO_TCP, family=AF_INET, states=14
+10-19 16:57:20.894   445   481 I netd    : bandwidthRemoveInterfaceQuota(eth0) <1.93ms>
+10-19 16:57:20.894   642   914 D InetDiagMessage: Destroyed 0 sockets, proto=IPPROTO_TCP, family=AF_INET6, states=14
+10-19 16:57:20.894   642   914 D InetDiagMessage: Destroyed live tcp sockets for uids={10186} in 1ms
+10-19 16:57:20.894   642   642 I RemoteProvisionSysSvc: Successfully fetched key for client 257076225
+10-19 16:57:20.896   445   481 I netd    : bandwidthSetInterfaceQuota(eth0, 9223372036854775807) <2.34ms>
+10-19 16:57:20.919   236   236 D SoftKeymaster: system/keymaster/km_openssl/certificate_utils.cpp, Line 148: Using TAG_CERTIFICATE_NOT_BEFORE: 0
+10-19 16:57:21.034     0     0 I servicemanager: Caller(pid=234,uid=1017,sid=u:r:keystore:s0) Found android.hardware.security.keymint.IRemotelyProvisionedComponent/default in device VINTF manifest.
+10-19 16:57:20.919   236   236 D SoftKeymaster: system/keymaster/km_openssl/certificate_utils.cpp, Line 154: Using TAG_CERTIFICATE_NOT_AFTER: 2461449600000
+10-19 16:57:20.919   236   236 D SoftKeymaster: system/keymaster/km_openssl/certificate_utils.cpp, Line 159: Got certificate date params:  NotBefore = 0, NotAfter = 2461449600000
+10-19 16:57:20.919   236   236 D SoftKeymaster: system/keymaster/km_openssl/certificate_utils.cpp, Line 273: Setting notBefore to 0
+10-19 16:57:20.919   236   236 D SoftKeymaster: system/keymaster/km_openssl/certificate_utils.cpp, Line 282: Setting notAfter to 2461449600
+10-19 16:57:20.929  1171  1415 D SatelliteController: iisInCarrierRoamingNbIotNtn: satellite is disabled
+10-19 16:57:20.949  1500  4974 I ChimeraConfigurator: Starting update, reason: 4 urgentFeatures: vision.ocr:-1
+10-19 16:57:21.001  1500  1500 D BoundBrokerSvc: onBind: Intent { act=com.google.android.gms.ocr.service.internal.START dat=chimera-action:/... xflg=0x4 cmp=com.google.android.gms/.chimera.GmsInternalApiService }
+10-19 16:57:21.001  1500  1500 D BoundBrokerSvc: Loading bound service for intent: Intent { act=com.google.android.gms.ocr.service.internal.START dat=chimera-action:/... xflg=0x4 cmp=com.google.android.gms/.chimera.GmsInternalApiService }
+10-19 16:57:21.156  1330  4460 W .gms.persistent: Long monitor contention with owner lowpool[31] (4791) at android.database.sqlite.SQLiteDatabase eebk.k()(:com.google.android.gms@252635038@25.26.35 (260800-783060121):323) waiters=0 in android.database.sqlite.SQLiteDatabase eebk.k() for 241ms
+10-19 16:57:21.186   642   671 W IPCThreadState: Sending oneway calls to frozen process.
