@@ -1,6 +1,6 @@
 # Siren's Song progress workbench
 
-**Stage:** Active Gauntlet, campaign baseline, four verified improvement cycles and a green Cold Foundry candidate awaiting independent/native assessment. This is not a finished or user-accepted game.
+**Stage:** Active Gauntlet, campaign baseline, four verified improvement cycles and a green Cold Foundry candidate awaiting native assessment after independent review. This is not a finished or user-accepted game.
 **Branch:** `gauntlet/production`; campaign baseline plus reliability, optical/safe-area and return-planning cycles; see checkpoints below.
 **Player device:** Samsung Galaxy Z Fold7; physical installation/folding/thumb/performance review remains open.
 
@@ -13,13 +13,13 @@
 | Art/input | Actual textured world, physical ray, station-owned optical inset | `docs/validation/production/`; core86 checks and runtime176 checks pass, including pointer inputs, menu preservation, optical ownership and physical→logical safearea conversion |
 | Audio | Original movement, pressure, distinct tool/beam cues and volume/mute | Actual stereo mixer recorded: peak−9.28dBFS, no clipped samples, paused tail exactly silent; human listening/native audio and forced-exit stream leak remain open |
 | Android emulator | Source539f58b passed native cover+inner entry/order/pause/Home/kill/restart/archive; new ordinary mission-completion gate prepared | See `docs/CODEX_ENVIRONMENT.md` and `docs/validation/android-*`; Actions39197795717; next candidate native run pending; no Samsung performance claim |
-| Independent criticism | Baseline/follow-up and fresh integrated experience reviews completed, explicit fresh Sol | `docs/reviews/2026-10-19-baseline-critique.md`; confirmed attention defects fixed, next learned safe return demonstrated; deepen sound and other missions |
+| Independent criticism | Baseline/follow-up, integrated experience and Cold Foundry reviews completed, explicit fresh Sol | `docs/reviews/2026-10-19-baseline-critique.md`; confirmed attention defects fixed, next learned safe return demonstrated; deepen sound and other missions |
 
 ## Current evidence and highest-value next cycle
 
 Combined validation: `scripts/toolchain/test.sh` → **86 core/campaign +176 runtime checks, zero failures**. Waypoint check totals vary with safe path simplification; invariant tests have been added, not removed. Full framebuffer optical, beam, and connected-channel captures are in `build/captures/cycle2-*` and retained in the validation index. Desktop rendering is distinct from installed Android/Samsung validation.
 
-Next: complete independent Cold Foundry criticism and the candidate native ordinary-command Shelf Signal completion/archival restore run. Current mission evidence: `docs/validation/production/foundry/README.md`, distinct camera records, physical factory, carrier response, 34.2s/100% staged win with both drones alive versus 55.6s protected solo; failed strategies retained. These are scripted comparisons, not human acceptance. After that safe checkpoint, persist the queued user process upgrade (baseline/challenger, separate regression hunter, periodic whole-game criticism, phone dashboard and fit-to-task model refinement), then begin the user-prioritized zoom/pan and friendly touch-controls cycle. Prototype dimensions are an implementation coordinate space, not a UX restriction. Do not stop the Gauntlet at these milestones.
+Next: complete the candidate native ordinary-command Shelf Signal completion/archival restore run. Current mission evidence: `docs/validation/production/foundry/README.md`, distinct camera records, physical factory, carrier response, 34.2s/100% staged win with both drones alive versus 55.6s protected solo; failed strategies retained. These are scripted comparisons, not human acceptance. After that safe checkpoint, persist the queued user process upgrade (baseline/challenger, separate regression hunter, periodic whole-game criticism, phone dashboard and fit-to-task model refinement), then begin the user-prioritized zoom/pan and friendly touch-controls cycle. Prototype dimensions are an implementation coordinate space, not a UX restriction. Do not stop the Gauntlet at these milestones.
 
 ## Continuity
 
@@ -105,6 +105,6 @@ Accepted bounded response: author a physical factory approach, two recognizably 
 
 ## Gauntlet cycle 5 candidate — Cold Foundry
 
-86 core/176 runtime checks pass. See `docs/validation/production/foundry/README.md` for actual framebuffers/live audio-video, ordinary-command plans and retained failed strategies. No forced victories/poses in the evidence drivers. Fresh independent Sol critic dispatched with images-first instruction and explicit routing; report pending. New Android ordinary-touch objective completion and campaign save/restore hooks agreed with tooling; source candidate ready for its sole push after this commit. Strongest installed baseline remains539f58b / run39197795717 until candidate passes.
+86 core/176 runtime checks pass. See `docs/validation/production/foundry/README.md` for actual framebuffers/live audio-video, ordinary-command plans and retained failed strategies. No forced victories/poses in the evidence drivers. Fresh independent Sol critic completed images-first review with explicit routing: bounded mission cycle substantially delivered; phone-scale zoom/touch and label obstruction remain the largest concrete gaps. It reproduced all final strategies/checks and demonstrated recoverable real drone loss. Controlled comparison found the scripted late decoy redundant; no causal benefit is claimed. See `docs/reviews/2026-10-19-cold-foundry-critique.md`. New Android ordinary-touch objective completion and campaign save/restore hooks agreed with tooling; source candidate ready for its sole push after this commit. Strongest installed baseline remains539f58b / run39197795717 until candidate passes.
 
 Runtime teardown now permits0.5s after explicit scene free, following tooling's isolated audio-thread probe; no leak warning in that test. Forced short capture teardown warning remains, not claimed as solved or native leak. Current tests retain legacy save compatibility and earned evidence across dives.

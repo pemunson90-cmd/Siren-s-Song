@@ -1,6 +1,6 @@
 # Cold Foundry candidate evidence
 
-Production candidate, 19 October 2026. This is a bounded mission experience improvement within the persistent Gauntlet, pending independent assessment and the next installed Android run. Prior verified native baseline: `539f58b`, Actions `39197795717`.
+Production candidate, 19 October 2026. This is a bounded mission experience improvement within the persistent Gauntlet, independently assessed, pending the next installed Android run. Prior verified native baseline: `539f58b`, Actions `39197795717`.
 
 Actual desktop full-view framebuffers: initial uncertainty, commanded approach, two mid-exposure camera views, carrier response, two retained optical records and debrief at 2520×1080; `inner-archive.png` and `inner-response.png` at 2184×1968. These are the running Godot game, not interface mockups. Camera/archive art is separately authored original imagery; physical terrain, structures, craft, sensing, orders and consequences remain live.
 
@@ -24,3 +24,9 @@ Earlier inferior vantages and rushed parallel approaches are retained in `foundr
 Physical changes: connected western shelf/basalt spine, a solid 400×600 factory footprint shared by sight/movement/drawing, furnace before departure interpretation, far-side recovery buoy. A 60m authored pinch proved inaccessible to the 40m navigation grid and was widened; a clear near-wall goal now projects onto a reachable navigation cell. Completed records create a real eight-second acoustic source at the cradle, using existing hearing/occlusion/patrol rules, with no spawned threat or omniscient target assignment.
 
 Candidate verification: `scripts/toolchain/test.sh` → 86 core/campaign + 176 runtime checks, zero failures. Save format retains old archives and validates new evidence metadata; actual disk round-trip and invalid-evidence rejection are covered. Native completion hooks report actual target/range/LOS/record/debrief/save state only. Physical Fold7, human comprehension, comfort and audio remain open gates.
+
+## Independent assessment
+
+`docs/reviews/2026-10-19-cold-foundry-critique.md` independently reproduced all final command outcomes,86core/176runtime zero-failure checks and recorded waveform measurements. It judges the bounded mission cycle substantially delivered, with phone-scale reading/manipulation the largest remaining concrete gap. Labels still obstruct the cradle/live threat, craft remain small without zoom, and the tactical factory is less integrated than the selected monumental references. These remain recorded opportunities, not covered by passing solver tests.
+
+The critic's controlled return **without the late scripted decoy** wins at the same34.2s/100%, both drones alive, zero EMP remaining. The canonical comparison above faithfully reports spent stock; it does not show a causal decoy benefit. Retain that redundant tactic as an experiment, simplify future teaching, and avoid claiming a richer tool economy from it. Additional delayed reaction from mid-cradle exposure permits a real Drone A loss, then wins34.2s/100% with one EMP remaining; exact commands are in the independent report. The lost drone is a recoverable tradeoff in this case, not an automatic mission failure.
