@@ -10,7 +10,7 @@ func _process(_dt: float) -> void: queue_redraw()
 func _draw() -> void:
 	if sim==null or sim.capture_unit<0: return
 	var objective=sim.mission.objectives[sim.capture_target]
-	var well_site=sim.mission.get("well_revision",0)==1 and objective.get("optical","")=="well_pattern"
+	var well_site=sim.mission.get("well_revision",0)==1 and (not objective.has("optical") or objective.optical=="well_pattern")
 	var duration=objective.get("duration",4.0)
 	var progress=clampf(sim.capture_time/duration,0,1)
 	draw_rect(Rect2(Vector2.ZERO,size),Color("07151d")); draw_rect(Rect2(Vector2.ZERO,size),Color("6b9d9f"),false,1)
@@ -66,7 +66,7 @@ func _draw_well_site(picture:Rect2,objective:Dictionary) -> void:
 	# Analytical rendering of the ribbed site already shown on the chart.
 	# No photograph, received cadence, hidden listener or decoded interpretation.
 	var font=ThemeDB.fallback_font;var detail_size=mini(receiver_font_size,16)
-	draw_string(font,picture.position+Vector2(12,detail_size+5),"LOCAL SITE GEOMETRY",HORIZONTAL_ALIGNMENT_LEFT,-1,detail_size,Color("83b8b9"))
+	draw_string(font,picture.position+Vector2(12,detail_size+5),"SITE %02d / GEOMETRY"%(sim.capture_target+1),HORIZONTAL_ALIGNMENT_LEFT,-1,detail_size,Color("83b8b9"))
 	var center=picture.position+Vector2(picture.size.x*0.27,picture.size.y*0.60)
 	var scale=clampf((picture.size.y-46)/100,0.55,1.0)
 	draw_rect(Rect2(center-Vector2(37,47)*scale,Vector2(74,94)*scale),Color("25434b"),false,1.5)

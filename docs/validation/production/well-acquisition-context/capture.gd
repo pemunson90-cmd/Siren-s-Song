@@ -17,5 +17,14 @@ func run():
 		var snapshot=game.sim.snapshot();var digest=HashingContext.new();digest.start(HashingContext.HASH_SHA256);digest.update(var_to_bytes(snapshot))
 		var record={"profile":profile.name,"fixture":"paused local acquisition; Drone A posed800,390; real SELECT/CAMERA and1.2s physical simulation; no enemy changes or received evidence","camera_accepted":accepted,"simulation_sha256":digest.finish().hex_encode(),"time":game.sim.elapsed,"target":game.sim.capture_target,"unit":game.sim.capture_unit,"progress":game.sim.capture_time,"reference":game.sim.mission.well_reference,"observation":game.sim.mission.well_observation,"metrics":game._ui_metrics()}
 		FileAccess.open(folder.path_join(profile.name+".json"),FileAccess.WRITE).store_string(JSON.stringify(record,"\t"));print("CAPTURE ",record)
+		if profile.density:
+			for id in [1,2]:
+				game._start_mission(4);game.sim.units[1].pos=[Vector2(1150,450),Vector2(780,850)][id-1];game.sim.units[1].vel=Vector2.ZERO
+				game.sim.command("select",{"unit":1});var starts=game.sim.command("camera");game.sim.paused=false;game.sim.advance(1.2);game.sim.paused=true;game._refresh()
+				for n in 6:await process_frame
+				await RenderingServer.frame_post_draw
+				var name=profile.name+"-site%d"%(id+1)
+				root.get_texture().get_image().save_png(folder.path_join(name+".png"))
+				FileAccess.open(folder.path_join(name+".json"),FileAccess.WRITE).store_string(JSON.stringify({"camera_accepted":starts,"target":game.sim.capture_target,"time":game.sim.elapsed,"progress":game.sim.capture_time,"metrics":game._ui_metrics()},"\t"))
 		game.queue_free();for n in 3:await process_frame
 	await create_timer(.5).timeout;quit()

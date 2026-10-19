@@ -4,7 +4,7 @@
 	"metrics": {
 		"capture_state": {
 			"capture_unit": 1,
-			"drawn_frame": 53,
+			"drawn_frame": 65,
 			"hud_visible": true,
 			"menu_visible": false,
 			"mission": 4,

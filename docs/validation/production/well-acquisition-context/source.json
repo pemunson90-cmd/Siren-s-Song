@@ -1,14 +1,14 @@
 {
   "base": "735e444f9ab5c6caec52cc044824da526c3f2857",
-  "current_policy": "7febd8d6e4f6227b14f9b27f97428b34e25fb6bb",
+  "current_policy": "fe2d4b72a614df2b0c892ae84dcc2ec57975ed57",
   "owned_source": [
     {
       "path": "game/src/presentation/camera_feed.gd",
-      "sha256": "c30da8a802bf129c1d117ff35db1643aed866d0839584b8b8650a694e2b1dba7"
+      "sha256": "8265689c5d4c00dab8d996f2821f1298f85a2188e098b27b5a7d87996751d9bd"
     },
     {
       "path": "game/tests/well_camera_feed_render_tests.gd",
-      "sha256": "fe55241a322011ea0a6a9833673d3cc6f8fc1b560c4d1750eafe997043d1e195"
+      "sha256": "da64068ac135cd60c64ae371011a14e2547f19bfc33dcac9becd589ff2043d4a"
     }
   ],
   "unchanged_surfaces": [
@@ -20,5 +20,6 @@
     "assets",
     "controls"
   ],
-  "status": "candidate; same designated reviewer pending"
+  "status": "candidate; same designated reviewer pending",
+  "scope": "all three fresh revised Well acquisition sites; existing legacy and known image paths preserved"
 }
