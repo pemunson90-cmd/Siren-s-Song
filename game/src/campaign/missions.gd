@@ -52,8 +52,8 @@ static func make(index: int) -> Dictionary:
 		objectives[1].name="OUTBOUND WAKES"; objectives[1]["optical"]="departure"
 		objectives[1]["evidence"]="Smooth unarmed hulls descend away from the shelf. Their wakes converge beyond a warm fracture in the trench floor. This is a departure route, not an attack vector."
 		objectives[2].name="LEE RECEIVER"; objectives[2]["kind"]="receiver"; objectives[2]["required_unit"]=0; objectives[2]["duration"]=6.0; objectives[2]["requires"]=[0,1]; objectives[2]["optical"]="warning"
-		objectives[2]["requirement"]="Need both optical observations: TRANSMITTER CROWN and OUTBOUND WAKES. Their geometry separates the packet from reflected noise."
-		objectives[2]["unit_requirement"]="Quietus hydrophones required. Bring the submarine into the basalt lee; small drones cannot resolve this low-frequency packet."
+		objectives[2]["requirement"]="Need both observations: TRANSMITTER CROWN + OUTBOUND WAKES."
+		objectives[2]["unit_requirement"]="Quietus hydrophones required · small drones cannot resolve this packet."
 		objectives[2]["evidence"]="DECODED: a fracture is propagating below the mantle. The outbound hulls are evacuating, not assembling for attack. The carrier repeats the safe direction away from the fracture: listen, then leave."
 	var patrols: Array = []
 	for n in (1 + i / 2):

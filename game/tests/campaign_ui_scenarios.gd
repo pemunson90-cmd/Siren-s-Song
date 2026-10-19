@@ -5,7 +5,7 @@ static func run(t,game) -> void:
 	for id in 6:
 		game._briefing(id); await t.process_frame
 		var begin
-		for child in game.panel_box.get_children():
+		for child in game.panel_box.get_children()+game.menu_footer.get_children():
 			if child is Button and child.get_meta("action","")=="begin": begin=child
 		t.check(begin!=null,"campaign mission %d presents an ENTER WATER action"%(id+1))
 		if begin==null: return
@@ -26,6 +26,6 @@ static func run(t,game) -> void:
 		await t.process_frame; await t.process_frame
 		t.check(game.screen=="debrief" and s.outcome=="won" and id in game.completed and game.unlocked==mini(5,id+1),"campaign mission %d completion unlocks the correct next dive"%(id+1))
 	var ending=false
-	for child in game.panel_box.get_children():
+	for child in game.panel_box.get_children()+game.menu_footer.get_children():
 		if child is Label and "Campaign complete" in child.text: ending=true
 	t.check(game.completed.size()==6 and ending,"six actual mission recoveries reach the campaign ending and preserve replay progress")

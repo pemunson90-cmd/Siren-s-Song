@@ -1,0 +1,164 @@
+{
+  "chart_rect": [
+    26.0,
+    112.0,
+    1228.0,
+    641.0
+  ],
+  "controls": [
+    {
+      "action": "mission0",
+      "clipped": false,
+      "hit_rect": [
+        268.0,
+        264.0,
+        736.0,
+        87.0
+      ],
+      "visual_rect": [
+        268.0,
+        264.0,
+        736.0,
+        87.0
+      ]
+    },
+    {
+      "action": "mission1",
+      "clipped": false,
+      "hit_rect": [
+        268.0,
+        365.0,
+        736.0,
+        87.0
+      ],
+      "visual_rect": [
+        268.0,
+        365.0,
+        736.0,
+        87.0
+      ]
+    },
+    {
+      "action": "mission2",
+      "clipped": false,
+      "hit_rect": [
+        268.0,
+        466.0,
+        736.0,
+        87.0
+      ],
+      "visual_rect": [
+        268.0,
+        466.0,
+        736.0,
+        87.0
+      ]
+    },
+    {
+      "action": "mission3",
+      "clipped": false,
+      "hit_rect": [
+        268.0,
+        567.0,
+        736.0,
+        87.0
+      ],
+      "visual_rect": [
+        268.0,
+        567.0,
+        736.0,
+        87.0
+      ]
+    },
+    {
+      "action": "mission4",
+      "clipped": false,
+      "hit_rect": [
+        268.0,
+        668.0,
+        736.0,
+        87.0
+      ],
+      "visual_rect": [
+        268.0,
+        668.0,
+        736.0,
+        87.0
+      ]
+    },
+    {
+      "action": "mission5",
+      "clipped": false,
+      "hit_rect": [
+        268.0,
+        769.0,
+        736.0,
+        87.0
+      ],
+      "visual_rect": [
+        268.0,
+        769.0,
+        736.0,
+        87.0
+      ]
+    },
+    {
+      "action": "loadout",
+      "clipped": false,
+      "hit_rect": [
+        268.0,
+        921.0,
+        736.0,
+        87.0
+      ],
+      "visual_rect": [
+        268.0,
+        921.0,
+        736.0,
+        87.0
+      ]
+    },
+    {
+      "action": "settings",
+      "clipped": true,
+      "hit_rect": [
+        268.0,
+        1022.0,
+        736.0,
+        85.0
+      ],
+      "visual_rect": [
+        268.0,
+        1022.0,
+        736.0,
+        87.0
+      ]
+    }
+  ],
+  "density_dpi": 420.0,
+  "density_source": "test_android_density_fixture",
+  "orders_page": "primary",
+  "safe_rect": [
+    0.0,
+    0.0,
+    2184.0,
+    1968.0
+  ],
+  "schema": 1,
+  "screen": "menu",
+  "scroll_rect": [
+    268.0,
+    46.0,
+    744.0,
+    1061.0
+  ],
+  "scroll_vertical": 0,
+  "viewport": [
+    1280.0,
+    1153.0
+  ],
+  "window": [
+    2184.0,
+    1968.0
+  ]
+}

@@ -13,6 +13,9 @@ func click(p: Vector2) -> void:
 	var up=InputEventMouseButton.new(); up.position=p; up.button_index=MOUSE_BUTTON_LEFT; up.pressed=false
 	root.push_input(up,true); await process_frame
 func run() -> void:
+	# A headless DisplayServer starts at 64x64. Declare the physical input fixture
+	# before creating density-sized controls, as later resize cases already do.
+	root.size=Vector2i(1280,720); await process_frame; await process_frame
 	var metrics=preload("res://src/presentation/layout_metrics.gd")
 	var safe=metrics.content_rect(Vector2(1680,720),Vector2(2520,1080),Rect2(136,0,2384,1080))
 	check(absf(safe.position.x-90.6667)<0.01 and absf(safe.end.x-1680)<0.01,"native display cutout maps to correct logical inset")

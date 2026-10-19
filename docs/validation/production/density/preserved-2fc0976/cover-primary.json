@@ -1,0 +1,285 @@
+{
+  "chart_rect": [
+    26.0,
+    112.0,
+    1252.0,
+    580.0
+  ],
+  "controls": [
+    {
+      "action": "pause",
+      "clipped": false,
+      "hit_rect": [
+        1294.0,
+        112.0,
+        222.8,
+        84.0
+      ],
+      "visual_rect": [
+        1294.0,
+        112.0,
+        222.8,
+        84.0
+      ]
+    },
+    {
+      "action": "sub",
+      "clipped": false,
+      "hit_rect": [
+        1294.0,
+        200.0,
+        117.333,
+        84.0
+      ],
+      "visual_rect": [
+        1294.0,
+        200.0,
+        117.333,
+        84.0
+      ]
+    },
+    {
+      "action": "droneA",
+      "clipped": false,
+      "hit_rect": [
+        1415.333,
+        200.0,
+        117.333,
+        84.0
+      ],
+      "visual_rect": [
+        1415.333,
+        200.0,
+        117.333,
+        84.0
+      ]
+    },
+    {
+      "action": "droneB",
+      "clipped": false,
+      "hit_rect": [
+        1536.667,
+        200.0,
+        117.333,
+        84.0
+      ],
+      "visual_rect": [
+        1536.667,
+        200.0,
+        117.333,
+        84.0
+      ]
+    },
+    {
+      "action": "more_orders",
+      "clipped": false,
+      "hit_rect": [
+        1520.8,
+        112.0,
+        133.2,
+        88.0
+      ],
+      "visual_rect": [
+        1520.8,
+        112.0,
+        133.2,
+        88.0
+      ]
+    },
+    {
+      "action": "ping",
+      "clipped": false,
+      "hit_rect": [
+        1294.0,
+        288.0,
+        178.0,
+        84.0
+      ],
+      "visual_rect": [
+        1294.0,
+        288.0,
+        178.0,
+        84.0
+      ]
+    },
+    {
+      "action": "camera",
+      "clipped": false,
+      "hit_rect": [
+        1476.0,
+        288.0,
+        178.0,
+        84.0
+      ],
+      "visual_rect": [
+        1476.0,
+        288.0,
+        178.0,
+        84.0
+      ]
+    },
+    {
+      "action": "silent",
+      "clipped": false,
+      "hit_rect": [
+        1294.0,
+        376.0,
+        178.0,
+        84.0
+      ],
+      "visual_rect": [
+        1294.0,
+        376.0,
+        178.0,
+        84.0
+      ]
+    },
+    {
+      "action": "queue",
+      "clipped": false,
+      "hit_rect": [
+        1476.0,
+        376.0,
+        178.0,
+        84.0
+      ],
+      "visual_rect": [
+        1476.0,
+        376.0,
+        178.0,
+        84.0
+      ]
+    },
+    {
+      "action": "hold",
+      "clipped": false,
+      "hit_rect": [
+        1294.0,
+        464.0,
+        178.0,
+        84.0
+      ],
+      "visual_rect": [
+        1294.0,
+        464.0,
+        178.0,
+        84.0
+      ]
+    },
+    {
+      "action": "emp",
+      "clipped": false,
+      "hit_rect": [
+        1476.0,
+        464.0,
+        178.0,
+        88.0
+      ],
+      "visual_rect": [
+        1476.0,
+        464.0,
+        178.0,
+        88.0
+      ]
+    },
+    {
+      "action": "home",
+      "clipped": false,
+      "hit_rect": [
+        1294.0,
+        552.0,
+        178.0,
+        84.0
+      ],
+      "visual_rect": [
+        1294.0,
+        552.0,
+        178.0,
+        84.0
+      ]
+    },
+    {
+      "action": "menu",
+      "clipped": false,
+      "hit_rect": [
+        1476.0,
+        552.0,
+        178.0,
+        84.0
+      ],
+      "visual_rect": [
+        1476.0,
+        552.0,
+        178.0,
+        84.0
+      ]
+    },
+    {
+      "action": "zoom_out",
+      "clipped": false,
+      "hit_rect": [
+        1010.0,
+        120.0,
+        84.0,
+        84.0
+      ],
+      "visual_rect": [
+        1010.0,
+        120.0,
+        84.0,
+        84.0
+      ]
+    },
+    {
+      "action": "zoom_in",
+      "clipped": false,
+      "hit_rect": [
+        1098.0,
+        120.0,
+        84.0,
+        84.0
+      ],
+      "visual_rect": [
+        1098.0,
+        120.0,
+        84.0,
+        84.0
+      ]
+    },
+    {
+      "action": "fit",
+      "clipped": false,
+      "hit_rect": [
+        1186.0,
+        120.0,
+        84.0,
+        84.0
+      ],
+      "visual_rect": [
+        1186.0,
+        120.0,
+        84.0,
+        84.0
+      ]
+    }
+  ],
+  "density_dpi": 420.0,
+  "density_source": "test_android_density_fixture",
+  "orders_page": "primary",
+  "safe_rect": [
+    0.0,
+    0.0,
+    2520.0,
+    1080.0
+  ],
+  "schema": 1,
+  "screen": "mission",
+  "viewport": [
+    1680.0,
+    720.0
+  ],
+  "window": [
+    2520.0,
+    1080.0
+  ]
+}

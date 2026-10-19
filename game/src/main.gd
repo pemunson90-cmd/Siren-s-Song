@@ -40,6 +40,9 @@ var map_gesture=preload("res://src/input/map_gesture.gd").new()
 var zoom_buttons: Array=[]
 var advanced_button: Button
 var advanced_orders:=false
+var ui_touch_height:=48.0
+var menu_footer: HBoxContainer
+var scroll_report_timer: Timer
 func _ready() -> void:
 	get_tree().auto_accept_quit=false
 	_theme()
@@ -63,7 +66,17 @@ func _ready() -> void:
 	advanced_button=_button(hud,"MORE ORDERS",_toggle_advanced)
 	order_buttons["home"]=_button(hud,"EXTRACT",func(): _order("emergency",{"point":sim.mission.extraction}))
 	order_buttons["menu"]=_button(hud,"OPERATIONS",func(): sim.paused=true; _show_campaign())
-	menu=PanelContainer.new(); add_child(menu); scroll=ScrollContainer.new(); scroll.horizontal_scroll_mode=ScrollContainer.SCROLL_MODE_DISABLED; menu.add_child(scroll); panel_box=VBoxContainer.new(); panel_box.size_flags_horizontal=Control.SIZE_EXPAND_FILL; panel_box.add_theme_constant_override("separation",14); scroll.add_child(panel_box)
+	menu=PanelContainer.new(); add_child(menu)
+	# Shaped text can shrink a previous minimum after container reflow.
+	# Reapply the window bounds once that minimum settles.
+	menu.minimum_size_changed.connect(_layout,CONNECT_DEFERRED)
+	var stack=VBoxContainer.new(); stack.add_theme_constant_override("separation",12); menu.add_child(stack)
+	scroll=ScrollContainer.new(); scroll.size_flags_vertical=Control.SIZE_EXPAND_FILL; scroll.horizontal_scroll_mode=ScrollContainer.SCROLL_MODE_DISABLED; stack.add_child(scroll)
+	scroll_report_timer=Timer.new(); scroll_report_timer.one_shot=true; scroll_report_timer.wait_time=0.15; add_child(scroll_report_timer)
+	scroll_report_timer.timeout.connect(_report_targets)
+	scroll.get_v_scroll_bar().value_changed.connect(func(_value): scroll_report_timer.start())
+	panel_box=VBoxContainer.new(); panel_box.size_flags_horizontal=Control.SIZE_EXPAND_FILL; panel_box.add_theme_constant_override("separation",14); scroll.add_child(panel_box)
+	menu_footer=HBoxContainer.new(); menu_footer.add_theme_constant_override("separation",12); stack.add_child(menu_footer); menu_footer.hide()
 	sound=Soundscape.new(); add_child(sound)
 	resized.connect(_layout)
 	for arg in OS.get_cmdline_user_args():
@@ -85,42 +98,59 @@ func _theme() -> void:
 	t.set_stylebox("panel","PanelContainer",p); theme=t
 func _label(parent: Node,text: String,font_size: int) -> Label:
 	var l=Label.new(); l.text=text; l.add_theme_font_size_override("font_size",font_size); parent.add_child(l); return l
-func _button(parent: Node,text: String,action: Callable) -> Button:
-	var b=Button.new(); b.text=text; b.custom_minimum_size=Vector2(0,48); b.pressed.connect(action,CONNECT_DEFERRED); b.focus_mode=Control.FOCUS_NONE; parent.add_child(b)
-	if text.begins_with("ENTER WATER"): b.set_meta("action","begin")
-	if text=="RESUME ACTIVE MISSION": b.set_meta("action","resume")
+func _button(parent: Node,text: String,action: Callable,action_id: String="") -> Button:
+	var b=Button.new(); b.text=text; b.custom_minimum_size=Vector2(0,ui_touch_height); b.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART; b.pressed.connect(action,CONNECT_DEFERRED); b.focus_mode=Control.FOCUS_NONE; parent.add_child(b)
+	if parent==menu_footer: b.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+	if not action_id.is_empty(): b.set_meta("action",action_id); b.set_meta("ui_action",action_id)
 	return b
+func ui_density_dpi() -> float:
+	return DisplayServer.screen_get_dpi()
+func ui_density_source() -> String:
+	return "android_display_metrics_density_dpi" if OS.get_name()=="Android" else "desktop_display_server_dpi"
 func _layout() -> void:
 	if ocean==null: return
-	map_gesture.cancel()
-	_apply_safe_area()
-	var wide=size.x/size.y>1.6
-	title_label.position=Vector2(26,18); title_label.size=Vector2(size.x-52,34)
-	status_label.position=Vector2(28,58); status_label.size=Vector2(size.x-56,28)
-	var panel=Rect2(size.x-324,106,296,size.y-158) if wide else Rect2(26,size.y-350,size.x-52,300)
-	ocean.position=Vector2(26,106); ocean.size=Vector2(size.x-376,size.y-158) if wide else Vector2(size.x-52,size.y-482)
+	map_gesture.cancel(); _apply_safe_area()
+	ui_touch_height=preload("res://src/presentation/layout_metrics.gd").touch_height(get_viewport_rect().size,Vector2(get_window().size),ui_density_dpi())
+	var h=ui_touch_height; var gap=4.0; var wide=size.x/size.y>1.6
+	var top=112.0; var bottom=28.0
+	var columns=2 if 6*h+5*gap<=size.y-top-bottom else (3 if 5*h+4*gap<=size.y-top-bottom else 4)
+	if not wide: columns=4
+	var rows=int(ceil(8.0/columns))
+	var panel_width=maxf(360,columns*h*1.5+(columns-1)*gap) if wide else size.x-52
+	var panel_height=(rows+2)*h+(rows+1)*gap
+	var panel=Rect2(size.x-panel_width-26,top,panel_width,panel_height) if wide else Rect2(26,size.y-bottom-panel_height,panel_width,panel_height)
+	ocean.position=Vector2(26,top); ocean.size=Vector2(panel.position.x-42,size.y-top-bottom) if wide else Vector2(size.x-52,panel.position.y-top-12)
+	title_label.position=Vector2(26,12); title_label.size=Vector2(size.x-52,34); title_label.add_theme_font_size_override("font_size",maxi(26,roundi(h*0.31)))
+	status_label.position=Vector2(28,48); status_label.size=Vector2(size.x-56,28); status_label.add_theme_font_size_override("font_size",maxi(17,roundi(h*0.25)))
+	detail_label.position=Vector2(28,79); detail_label.size=Vector2(size.x-56,30); detail_label.visible=true; detail_label.add_theme_font_size_override("font_size",maxi(15,roundi(h*0.25)))
+	var zoom_width=3*h+2*gap
 	for i in zoom_buttons.size():
-		zoom_buttons[i].visible=screen=="mission"
-		zoom_buttons[i].position=Vector2(ocean.size.x-164+i*54,8); zoom_buttons[i].size=Vector2(50,48)
-	pause_button.position=panel.position; pause_button.size=Vector2(panel.size.x,48)
+		zoom_buttons[i].visible=screen=="mission"; zoom_buttons[i].custom_minimum_size=Vector2(h,h)
+		zoom_buttons[i].position=Vector2(ocean.size.x-zoom_width-8+i*(h+gap),8); zoom_buttons[i].size=Vector2(h,h)
+		zoom_buttons[i].add_theme_font_size_override("font_size",maxi(18,roundi(h*0.29)))
+	pause_button.position=panel.position; pause_button.custom_minimum_size=Vector2(0,h); pause_button.size=Vector2(panel.size.x*0.63-gap,h)
+	advanced_button.position=panel.position+Vector2(panel.size.x*0.63,0); advanced_button.custom_minimum_size=Vector2(0,h); advanced_button.size=Vector2(panel.size.x*0.37,h)
+	for button in [pause_button,advanced_button]: button.add_theme_font_size_override("font_size",maxi(15,roundi(h*0.26)))
 	for i in 3:
-		unit_buttons[i].position=panel.position+Vector2(i*(panel.size.x/3),60); unit_buttons[i].size=Vector2(panel.size.x/3-4,48)
-	var secondary=["recon","decoy","contact_hold","wait_drone","waypoint_mode"]
-	var keys=["ping","camera","silent","queue","hold","emp","home","menu","advanced"]+secondary
-	var columns=2 if wide else 6
-	var start=panel.position+Vector2(0,120)
+		unit_buttons[i].position=panel.position+Vector2(i*(panel.size.x+gap)/3,h+gap)
+		unit_buttons[i].custom_minimum_size=Vector2(0,h); unit_buttons[i].size=Vector2((panel.size.x-2*gap)/3,h)
+	var primary=["ping","camera","silent","queue","hold","emp","home","menu"]
+	var secondary=["recon","decoy","contact_hold","wait_drone","waypoint_mode","emp","camera","home"]
+	var keys=secondary if advanced_orders else primary
+	var start=panel.position+Vector2(0,2*(h+gap))
+	for key in order_buttons:
+		var button=order_buttons[key]; button.visible=key in keys; button.custom_minimum_size=Vector2(0,h)
+		button.position=start; button.size=Vector2((panel.size.x-(columns-1)*gap)/columns,h)
+		button.add_theme_font_size_override("font_size",maxi(14,roundi(h*0.26)))
 	for i in keys.size():
-		var b=advanced_button if keys[i]=="advanced" else order_buttons[keys[i]]
-		b.visible=keys[i] not in secondary or advanced_orders
-		b.position=start+Vector2((i%columns)*(panel.size.x/columns),(i/columns)*56)
-		b.size=Vector2(panel.size.x/columns-6,48)
-		b.add_theme_font_size_override("font_size",15 if wide else 13)
-	detail_label.position=panel.position+Vector2(0,408 if wide else 240); detail_label.size=Vector2(panel.size.x,138 if wide else 52); detail_label.visible=not advanced_orders
-	detail_label.add_theme_font_size_override("font_size",14)
-	log_label.position=Vector2(28,size.y-38); log_label.size=Vector2(size.x-56,28)
+		order_buttons[keys[i]].position=start+Vector2((i%columns)*(panel.size.x+gap)/columns,(i/columns)*(h+gap))
+	log_label.position=Vector2(28,size.y-26); log_label.size=Vector2(size.x-56,26); log_label.add_theme_font_size_override("font_size",maxi(16,roundi(h*0.22)))
 	if menu!=null:
-		menu.position=Vector2(maxf(24,(size.x-690)/2),24); menu.size=Vector2(minf(690,size.x-48),size.y-48)
-	call_deferred("_report_targets")
+		menu.position=Vector2(maxf(24,(size.x-800)/2),24); menu.size=Vector2(minf(800,size.x-48),size.y-48)
+		for button in menu.find_children("*","Button",true,false):
+			button.custom_minimum_size.y=h; button.add_theme_font_size_override("font_size",maxi(17,roundi(h*0.29)))
+		for slider in menu.find_children("*","Slider",true,false): slider.custom_minimum_size.y=h
+	_refresh(); call_deferred("_report_targets")
 func _start_mission(index: int) -> void:
 	diagnostic_ready=""; diagnostic_records.clear(); diagnostic_roles.clear(); diagnostic_role_route_ready=false; map_gesture.cancel(); ocean.fit_chart(); advanced_orders=false
 	call_deferred("_layout")
@@ -146,24 +176,27 @@ func _process(dt: float) -> void:
 func _refresh() -> void:
 	title_label.text="SIREN'S SONG    /    %02d  %s"%[mission_index+1,sim.mission.title.to_upper()]
 	status_label.text="DEPTH %dm    O₂ %03d%%    HULL %03d%%    RECORDS %d / %d    %s"%[sim.mission.depth,int(sim.oxygen),int(sim.hull),sim.mission.objectives.filter(func(o): return o.captured).size(),sim.mission.objectives.size(),"TACTICAL PAUSE" if sim.paused else "REAL TIME"]
-	pause_button.text="▶  RESUME / EXECUTE PLAN" if sim.paused else "Ⅱ  TACTICAL PAUSE"
+	pause_button.text="▶ RESUME" if sim.paused else "Ⅱ PAUSE"
 	for i in 3:
 		unit_buttons[i].modulate=Color("80d9cf") if sim.selected==i else Color.WHITE
 		unit_buttons[i].disabled=not sim.units[i].alive
 		var task="LOST" if not sim.units[i].alive else ("EXPOSING" if sim.capture_unit==i else (sim.units[i].hold if not sim.units[i].hold.is_empty() else ("ROUTE" if not sim.units[i].route.is_empty() else "READY")))
 		unit_buttons[i].text=["QUIETUS","DRONE A","DRONE B"][i]+"\n"+task
-		unit_buttons[i].add_theme_font_size_override("font_size",13)
-	order_buttons.waypoint_mode.text="WAYPOINT: PASS" if sim.pass_through else "WAYPOINT: STOP"
-	order_buttons.camera.text="CAMERA / LISTEN" if sim.mission.get("finale_revision",0)==1 else ("CAMERA / LINK" if mission_index==1 else "CAMERA")
+		unit_buttons[i].add_theme_font_size_override("font_size",maxi(13,roundi(ui_touch_height*0.25)))
+	order_buttons.waypoint_mode.text="PASS\nPOINTS" if sim.pass_through else "STOP AT\nPOINTS"
+	order_buttons.camera.text="CAMERA\nLISTEN" if sim.mission.get("finale_revision",0)==1 else ("CAMERA\nLINK" if mission_index==1 else "CAMERA")
 	order_buttons.queue.text="+ QUEUE ON" if sim.queue_mode else "REPLACE"
 	order_buttons.silent.text="SILENT ✓" if sim.units[sim.selected].silent else "CRUISE"
-	order_buttons.emp.text="DISRUPT · %d"%sim.tools.emp
-	order_buttons.decoy.text="DECOY · %d"%sim.tools.decoy
-	order_buttons.recon.text="SURVEY · %d"%sim.tools.recon
+	order_buttons.emp.text="DISRUPT\n%d"%sim.tools.emp
+	order_buttons.decoy.text="DECOY\n%d"%sim.tools.decoy
+	order_buttons.recon.text="SURVEY\n%d"%sim.tools.recon
 	log_label.text=sim.message
-	advanced_button.text="FEWER ORDERS" if advanced_orders else "MORE ORDERS"
+	advanced_button.text="BACK\nORDERS" if advanced_orders else "MORE\nORDERS"
+	order_buttons.menu.text="MENU"
+	order_buttons.contact_hold.text="IF\nCONTACT"
+	order_buttons.wait_drone.text="WAIT\nDRONE"
 	var mode="add to" if sim.queue_mode else "replace"
-	detail_label.text=sim.camera_context().text+"\n\nEXTRACT clears queued orders and conditions." if size.x/size.y>1.6 else sim.camera_context().text+"\nEXTRACT clears queued orders / conditions."
+	detail_label.text=sim.camera_context().text
 func _toggle_advanced() -> void:
 	advanced_orders=not advanced_orders; _layout(); _refresh()
 
@@ -212,25 +245,27 @@ func _unhandled_key_input(event: InputEvent) -> void:
 func _clear_menu() -> void:
 	map_gesture.cancel()
 	for button in zoom_buttons: button.hide()
-	for c in panel_box.get_children(): c.queue_free(); panel_box.remove_child(c)
+	for parent in [panel_box,menu_footer]:
+		for c in parent.get_children(): c.queue_free(); parent.remove_child(c)
+	menu_footer.hide()
 	menu.show(); hud.hide(); scroll.scroll_vertical=0
 func _menu_text(text: String,font_size: int=17) -> Label:
-	var l=_label(panel_box,text,font_size); l.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART; l.custom_minimum_size.x=minf(610,size.x-120); return l
+	var l=_label(panel_box,text,roundi(font_size*ui_touch_height/48.0)); l.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART; l.custom_minimum_size.x=minf(610,size.x-120); return l
 func _show_campaign() -> void:
 	screen="menu"; _clear_menu()
 	_menu_text("SIREN'S SONG",38).add_theme_color_override("font_color",Color("80d9cf"))
 	_menu_text("ONE PILOT. TWO DRONES. AN OCEAN THAT LISTENS.",14)
 	_menu_text("USS QUIETUS  /  OPERATIONS ARCHIVE",18)
-	if active_started and sim.outcome.is_empty(): _button(panel_box,"RESUME ACTIVE MISSION",_enter_water)
+	if active_started and sim.outcome.is_empty(): _button(panel_box,"RESUME ACTIVE MISSION",_enter_water,"resume")
 	for i in 6:
 		var id=i
 		var b=_button(panel_box,"%02d   %s   %s"%[i+1,Simulation.Missions.TITLES[i],"RECOVERED" if i in completed else ("AVAILABLE" if i<=unlocked else "LOCKED")],func(): print("SS_MISSION_SELECT ",id); _briefing(id))
 		b.disabled=i>unlocked
 		b.set_meta("action","mission%d"%i)
-	if not recovered_evidence.is_empty(): _button(panel_box,"REVIEW OPTICAL RECORDS",func(): _evidence_gallery(0))
+	if not recovered_evidence.is_empty(): _button(panel_box,"REVIEW OPTICAL RECORDS",func(): _evidence_gallery(0),"evidence")
 	_menu_text("Equipment: %s"%upgrade.to_upper(),15)
-	_button(panel_box,"CYCLE LOADOUT · endurance / disruption / survey",func(): upgrade=["endurance","disruption","survey"][( ["endurance","disruption","survey"].find(upgrade)+1)%3]; _show_campaign())
-	_button(panel_box,"AUDIO / SETTINGS",_settings_menu)
+	_button(panel_box,"CYCLE LOADOUT · endurance / disruption / survey",func(): upgrade=["endurance","disruption","survey"][( ["endurance","disruption","survey"].find(upgrade)+1)%3]; _show_campaign(),"loadout")
+	_button(panel_box,"AUDIO / SETTINGS",_settings_menu,"settings")
 	_menu_text("Unlimited tactical pause · tap routes · survey, photograph, return",14)
 	print("SS_SCREEN operations window=",get_window().size," viewport=",get_viewport_rect().size," root=",size," unlocked=",unlocked," active_time=",snappedf(sim.elapsed,0.01))
 	call_deferred("_layout")
@@ -241,8 +276,9 @@ func _briefing(index: int) -> void:
 	_menu_text(briefing.brief,20)
 	_menu_text("ORDERS\nTap water to replace your route. REPLACE toggles explicit queueing. Select Quietus or either drone. Use CAMERA within 240m of a gold record marker. Return Quietus to the extraction ring after all records are secured.",17)
 	_menu_text("SPACE / PAUSE grants unlimited planning time. Silent running is slower and quieter. Disruption interrupts nearby Sirens for 12 seconds. Cover blocks sonar and enemy sight.",17)
-	_button(panel_box,"ENTER WATER · START PAUSED",func(): _start_mission(index); _enter_water())
-	_button(panel_box,"BACK TO OPERATIONS",_show_campaign)
+	_button(menu_footer,"ENTER WATER\nSTART PAUSED",func(): _start_mission(index); _enter_water(),"begin")
+	_button(menu_footer,"BACK TO\nOPERATIONS",_show_campaign,"back")
+	menu_footer.show()
 	call_deferred("_layout")
 func _debrief() -> void:
 	screen="debrief"; _clear_menu()
@@ -254,15 +290,15 @@ func _debrief() -> void:
 		_menu_text("ARCHIVE RECOVERED",32)
 		_menu_text(sim.mission.record,22)
 		_menu_text("Dive time %02d:%02d  /  Hull %d%%  /  Life support %d%%"%[int(sim.elapsed)/60,int(sim.elapsed)%60,int(sim.hull),int(sim.oxygen)],17)
-		if not recovered_evidence.is_empty(): _button(panel_box,"REVIEW OPTICAL RECORDS",func(): _evidence_gallery(0))
+		if not recovered_evidence.is_empty(): _button(panel_box,"REVIEW OPTICAL RECORDS",func(): _evidence_gallery(0),"evidence")
 		if mission_index==5:
 			var discovery="The crown points into the trench. Unarmed wakes lead away from the fracture. Quietus’ hydrophones resolve what the images could not: they are evacuating.\n\n" if sim.mission.get("finale_revision",0)==1 else ""
 			_menu_text("THE SONG CONTINUES\n\n"+discovery+"You return with a warning, not a firing solution. Above you, the fleet waits for orders. Below, the foundry lights go dark, one by one. For the first time since descent, Quietus hears only the ocean.\n\nCampaign complete. Every dive remains replayable.",20)
-		else: _button(panel_box,"NEXT DIVE",func(): _briefing(mission_index+1))
+		else: _button(panel_box,"NEXT DIVE",func(): _briefing(mission_index+1),"next_dive")
 	else:
 		_menu_text("SIGNAL LOST",32); _menu_text(sim.message,22); _menu_text("Recovered campaign records are preserved. Replan your approach from tactical pause.",17)
-	_button(panel_box,"RETRY DIVE",func(): _briefing(mission_index))
-	_button(panel_box,"OPERATIONS ARCHIVE",_show_campaign)
+	_button(panel_box,"RETRY DIVE",func(): _briefing(mission_index),"retry")
+	_button(panel_box,"OPERATIONS ARCHIVE",_show_campaign,"back")
 	_save_archive()
 	call_deferred("_layout")
 func _scenario(name: String) -> void:
@@ -339,10 +375,10 @@ func _settings_menu() -> void:
 	for field in ["music","effects"]:
 		var key=field
 		_menu_text("%s VOLUME"%key.to_upper(),17)
-		var slider=HSlider.new(); slider.min_value=0; slider.max_value=1; slider.step=0.05; slider.value=settings.get(key,0.5); slider.custom_minimum_size.y=48; panel_box.add_child(slider)
+		var slider=HSlider.new(); slider.min_value=0; slider.max_value=1; slider.step=0.05; slider.value=settings.get(key,0.5); slider.custom_minimum_size.y=ui_touch_height; slider.set_meta("ui_action","volume_"+key); panel_box.add_child(slider)
 		slider.value_changed.connect(func(value): settings[key]=value; sound.set(key+"_volume",value); _save_archive())
-	_button(panel_box,"MUTE: %s"%("ON" if sound.muted else "OFF"),func(): sound.muted=not sound.muted; settings.mute=sound.muted; _save_archive(); _settings_menu())
-	_button(panel_box,"BACK TO OPERATIONS",_show_campaign)
+	_button(panel_box,"MUTE: %s"%("ON" if sound.muted else "OFF"),func(): sound.muted=not sound.muted; settings.mute=sound.muted; _save_archive(); _settings_menu(),"mute")
+	_button(menu_footer,"BACK TO OPERATIONS",_show_campaign,"back"); menu_footer.show()
 	call_deferred("_layout")
 func _notification(what: int) -> void:
 	if what in [NOTIFICATION_APPLICATION_PAUSED,NOTIFICATION_APPLICATION_FOCUS_OUT,NOTIFICATION_WM_WINDOW_FOCUS_OUT]:
@@ -375,8 +411,9 @@ func _report_targets() -> void:
 		buttons["more_orders"]=advanced_button
 		for i in zoom_buttons.size(): buttons[["zoom_out","zoom_in","fit"][i]]=zoom_buttons[i]
 	else:
-		for child in panel_box.get_children():
+		for child in panel_box.get_children()+menu_footer.get_children():
 			if child is Button and child.has_meta("action"): buttons[child.get_meta("action")]=child
+	print("SS_UI_METRICS ",JSON.stringify(_ui_metrics()))
 	for key in buttons:
 		var p=buttons[key].get_global_rect().get_center()
 		print("SS_TARGET ",key," center=",roundi(p.x),",",roundi(p.y)," viewport=",roundi(get_viewport_rect().size.x),",",roundi(get_viewport_rect().size.y))
@@ -449,6 +486,33 @@ func _evidence_gallery(index: int) -> void:
 	var image=TextureRect.new(); image.texture=preload("res://src/presentation/evidence_catalog.gd").IMAGES[entry.optical]
 	image.expand_mode=TextureRect.EXPAND_IGNORE_SIZE; image.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED; image.custom_minimum_size=Vector2(0,minf(320,size.y*0.4)); panel_box.add_child(image)
 	_menu_text(entry.caption,19)
-	if keys.size()>1: _button(panel_box,"NEXT RECORD",func(): _evidence_gallery((index+1)%keys.size()))
-	_button(panel_box,"BACK TO OPERATIONS",_show_campaign)
+	if keys.size()>1: _button(panel_box,"NEXT RECORD",func(): _evidence_gallery((index+1)%keys.size()),"next_record")
+	_button(menu_footer,"BACK TO OPERATIONS",_show_campaign,"back"); menu_footer.show()
 	call_deferred("_layout")
+
+func _rect_values(rect: Rect2) -> Array:
+	return [snappedf(rect.position.x,0.001),snappedf(rect.position.y,0.001),snappedf(rect.size.x,0.001),snappedf(rect.size.y,0.001)]
+func _ui_metrics() -> Dictionary:
+	var viewport=get_viewport_rect().size; var window=Vector2(get_window().size)
+	var safe=Rect2(Vector2.ZERO,window)
+	if OS.get_name()=="Android": safe=Rect2(DisplayServer.get_display_safe_area()).intersection(safe)
+	var controls: Array=[]; var targets: Dictionary={}
+	if hud.visible:
+		targets={"pause":pause_button,"sub":unit_buttons[0],"droneA":unit_buttons[1],"droneB":unit_buttons[2],"more_orders":advanced_button}
+		for key in order_buttons:
+			if order_buttons[key].is_visible_in_tree(): targets[key]=order_buttons[key]
+		for i in zoom_buttons.size(): targets[["zoom_out","zoom_in","fit"][i]]=zoom_buttons[i]
+	else:
+		var candidates=menu.find_children("*","Button",true,false)+menu.find_children("*","Slider",true,false)
+		for control in candidates: targets[control.get_meta("action",control.get_meta("ui_action",str(control.get_instance_id())))]=control
+	for action in targets:
+		var control=targets[action]
+		if not control.is_visible_in_tree(): continue
+		var visual:Rect2=control.get_global_rect(); var hit=visual.intersection(Rect2(Vector2.ZERO,viewport))
+		var parent=control.get_parent()
+		while parent!=null:
+			if parent is Control and parent.clip_contents: hit=hit.intersection(parent.get_global_rect())
+			parent=parent.get_parent()
+		if not hit.has_area(): continue
+		controls.append({"action":action,"visual_rect":_rect_values(visual),"hit_rect":_rect_values(hit),"clipped":not hit.is_equal_approx(visual)})
+	return {"schema":1,"screen":screen,"orders_page":"secondary" if advanced_orders else "primary","viewport":[viewport.x,viewport.y],"window":[window.x,window.y],"safe_rect":_rect_values(safe),"density_dpi":ui_density_dpi(),"density_source":ui_density_source(),"chart_rect":_rect_values(ocean.get_global_rect()),"scroll_rect":_rect_values(scroll.get_global_rect().intersection(menu.get_global_rect()).intersection(Rect2(Vector2.ZERO,viewport))),"scroll_vertical":scroll.scroll_vertical,"controls":controls}
