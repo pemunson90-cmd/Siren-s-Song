@@ -22,6 +22,7 @@ var menu: PanelContainer
 var panel_box: VBoxContainer
 var screen := "menu"
 var mission_index := 0
+var active_started := false
 var unlocked := 0
 var completed: Array=[]
 var upgrade := "endurance"
@@ -55,6 +56,7 @@ func _ready() -> void:
 		if arg.begins_with("--scenario="): capture_scenario=arg.get_slice("=",1)
 		if arg.begins_with("--capture-path="): capture_path=arg.trim_prefix("--capture-path=")
 	_start_mission(0)
+	active_started=false
 	if capture_scenario.is_empty(): _load_archive(); _show_campaign()
 	else: _scenario(capture_scenario)
 	_layout()
@@ -98,7 +100,7 @@ func _layout() -> void:
 		menu.position=Vector2(maxf(24,(size.x-690)/2),24); menu.size=Vector2(minf(690,size.x-48),size.y-48)
 	call_deferred("_report_targets")
 func _start_mission(index: int) -> void:
-	mission_index=index; sim.start(index,upgrade); ocean.sim=sim; screen="mission"; menu.hide(); hud.show(); _refresh()
+	active_started=true; mission_index=index; sim.start(index,upgrade); ocean.sim=sim; screen="mission"; menu.hide(); hud.show(); _refresh()
 func _order(order: String,args: Dictionary={}) -> void:
 	var accepted=sim.command(order,args)
 	print("SS_ORDER ",order," accepted=",accepted," selected=",sim.selected," queued=",sim.queue_mode)
@@ -123,6 +125,10 @@ func _refresh() -> void:
 	for i in 3:
 		unit_buttons[i].modulate=Color("80d9cf") if sim.selected==i else Color.WHITE
 		unit_buttons[i].disabled=not sim.units[i].alive
+		var task="LOST" if not sim.units[i].alive else ("EXPOSING" if sim.capture_unit==i else (sim.units[i].hold if not sim.units[i].hold.is_empty() else ("ROUTE" if not sim.units[i].route.is_empty() else "READY")))
+		unit_buttons[i].text=["QUIETUS","DRONE A","DRONE B"][i]+"\n"+task
+		unit_buttons[i].add_theme_font_size_override("font_size",13)
+	order_buttons.camera.text="CAMERA / LINK" if mission_index==1 else "CAMERA"
 	order_buttons.queue.text="+ QUEUE ON" if sim.queue_mode else "REPLACE"
 	order_buttons.silent.text="SILENT ✓" if sim.units[sim.selected].silent else "CRUISE"
 	order_buttons.emp.text="DISRUPT · %d"%sim.tools.emp
@@ -151,7 +157,7 @@ func _show_campaign() -> void:
 	_menu_text("SIREN'S SONG",38).add_theme_color_override("font_color",Color("80d9cf"))
 	_menu_text("ONE PILOT. TWO DRONES. AN OCEAN THAT LISTENS.",14)
 	_menu_text("USS QUIETUS  /  OPERATIONS ARCHIVE",18)
-	if sim.elapsed>0 and sim.outcome.is_empty(): _button(panel_box,"RESUME ACTIVE MISSION",func(): screen="mission"; menu.hide(); hud.show())
+	if active_started and sim.outcome.is_empty(): _button(panel_box,"RESUME ACTIVE MISSION",_enter_water)
 	for i in 6:
 		var id=i
 		var b=_button(panel_box,"%02d   %s   %s"%[i+1,Simulation.Missions.TITLES[i],"RECOVERED" if i in completed else ("AVAILABLE" if i<=unlocked else "LOCKED")],func(): print("SS_MISSION_SELECT ",id); _briefing(id))
@@ -164,12 +170,13 @@ func _show_campaign() -> void:
 	print("SS_SCREEN operations window=",get_window().size," viewport=",get_viewport_rect().size," root=",size," unlocked=",unlocked," active_time=",snappedf(sim.elapsed,0.01))
 	call_deferred("_layout")
 func _briefing(index: int) -> void:
-	_start_mission(index); screen="briefing"; _clear_menu()
-	_menu_text("%02d / %s"%[index+1,sim.mission.title.to_upper()],30)
-	_menu_text(sim.mission.brief,20)
+	screen="briefing"; sim.paused=true; _clear_menu()
+	var briefing=Simulation.Missions.make(index)
+	_menu_text("%02d / %s"%[index+1,briefing.title.to_upper()],30)
+	_menu_text(briefing.brief,20)
 	_menu_text("ORDERS\nTap water to replace your route. REPLACE toggles explicit queueing. Select Quietus or either drone. Use CAMERA within 240m of a gold record marker. Return Quietus to the extraction ring after all records are secured.",17)
 	_menu_text("SPACE / PAUSE grants unlimited planning time. Silent running is slower and quieter. Disruption interrupts nearby Sirens for 12 seconds. Cover blocks sonar and enemy sight.",17)
-	_button(panel_box,"ENTER WATER · START PAUSED",func(): screen="mission"; menu.hide(); hud.show(); print("SS_SCREEN mission paused=",sim.paused); _save_archive())
+	_button(panel_box,"ENTER WATER · START PAUSED",func(): _start_mission(index); _enter_water())
 	_button(panel_box,"BACK TO OPERATIONS",_show_campaign)
 	call_deferred("_layout")
 func _debrief() -> void:
@@ -199,7 +206,15 @@ func _scenario(name: String) -> void:
 	if name=="debrief": sim.outcome="won"; _debrief()
 	if name=="ending": _start_mission(5); sim.outcome="won"; _debrief()
 	if name=="briefing": _briefing(0)
-	if name in ["field","threat","camera"]:
+	if name=="camera":
+		_start_mission(0); sim.command("select",{"unit":1}); sim.command("route",{"point":Vector2(1300,510)}); sim.paused=false
+		for n in 250:
+			sim.advance(0.1)
+			if sim.units[1].route.is_empty() and sim.units[1].vel.length()<2: break
+		sim.command("camera"); sim.command("select",{"unit":0})
+		for n in 20: sim.advance(0.1)
+		sim.paused=true
+	if name in ["field","threat"]:
 		_start_mission(3 if name=="field" else 2)
 		sim.command("route",{"point":Vector2(1200,480) if name=="field" else Vector2(760,410)})
 		sim.command("select",{"unit":1}); sim.command("route",{"point":Vector2(1320,430) if name=="field" else Vector2(1000,600)})
@@ -224,7 +239,7 @@ func _load_archive() -> void:
 	if not saved.is_empty():
 		unlocked=saved.unlocked; completed=saved.completed; upgrade=saved.upgrade; settings=saved.settings
 		if saved.get("active") is Dictionary and sim.restore(saved.active):
-			mission_index=sim.mission.id; ocean.sim=sim
+			active_started=true; mission_index=sim.mission.id; ocean.sim=sim
 			print("SS_RESTORE ok mission=",mission_index," time=",snappedf(sim.elapsed,0.01)," paused=",sim.paused)
 	sound.music_volume=settings.get("music",0.5); sound.effects_volume=settings.get("effects",0.8); sound.muted=settings.get("mute",false)
 	if not store.warning.is_empty(): sim.message=store.warning
@@ -273,3 +288,8 @@ func _report_targets() -> void:
 	if hud.visible:
 		var p=ocean.position+ocean.world_offset+Vector2(320,800)*ocean.world_scale
 		print("SS_TARGET route center=",roundi(p.x),",",roundi(p.y)," viewport=",roundi(size.x),",",roundi(size.y))
+
+func _enter_water() -> void:
+	screen="mission"; menu.hide(); hud.show()
+	print("SS_SCREEN mission paused=",sim.paused)
+	call_deferred("_layout"); _save_archive()

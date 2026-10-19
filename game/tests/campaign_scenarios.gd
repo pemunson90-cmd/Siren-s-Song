@@ -21,7 +21,7 @@ static func run(t) -> void:
 			if s.blocked(vantage,25): vantage=target.pos+Vector2(-210,0)
 			if not move(s,vantage): success=false; break
 			if not s.command("camera"): success=false; break
-			for n in 45: s.advance(0.1)
+			for n in int((target.get("duration",4.0)+0.5)*10): s.advance(0.1)
 			if not target.captured: success=false; break
 		if success: success=move(s,s.mission.extraction)
 		t.check(success and s.outcome=="won","mission %d completes via routes, camera, extraction with drone-loss fallback"%(id+1))
