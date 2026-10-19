@@ -63,7 +63,7 @@ func run():
   check(action("propulsion").disabled and "FIXED96" in action("propulsion").text,"drone editor truthfully exposes fixed propulsion without implying a silent speed change")
   await click(action("craft0"));await click(action("close"),true)
   check(game.screen=="mission" and game.sim.paused and game.sim.route_goals()==plan,"closing leaves edited program paused and persistent")
-  check("PROGRAM" in game.order_buttons.program.text and "TO 1: INHERIT" in game.detail_label.text,"selected craft program intent persists outside modal")
+  check("PLAN" in game.order_buttons.program.text and "ROUTE" in game.order_buttons.program.text and "TO 1: INHERIT" in game.detail_label.text,"selected craft program intent persists outside modal")
   game._order("program");await settle()
   var viewport=Rect2(Vector2.ZERO,root.get_visible_rect().size)
   for key in ["propulsion","arrival","insert","delete","undo","close"]:

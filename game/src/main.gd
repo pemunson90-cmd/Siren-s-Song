@@ -66,7 +66,7 @@ func _ready() -> void:
 	for i in 3:
 		var id=i
 		unit_buttons.append(_button(hud,["QUIETUS","DRONE A","DRONE B"][i],func(): _order("select",{"unit":id})))
-	var orders=[["ping","SONAR"],["camera","CAMERA"],["silent","SILENT"],["queue","+ QUEUE"],["hold","HOLD"],["emp","DISRUPT"],["decoy","DECOY"],["recon","SURVEY"],["contact_hold","IF CONTACT"],["wait_drone","WAIT DRONE"],["waypoint_mode","WAYPOINT: PASS"],["program","PROGRAM"],["knock","TORPEDO"]]
+	var orders=[["ping","SONAR"],["camera","CAMERA"],["silent","SILENT"],["queue","+ QUEUE"],["hold","HOLD"],["emp","DISRUPT"],["decoy","DECOY"],["recon","SURVEY"],["contact_hold","IF CONTACT"],["wait_drone","WAIT DRONE"],["waypoint_mode","WAYPOINT: PASS"],["program","PLAN ROUTE"],["knock","TORPEDO"]]
 	for o in orders:
 		var order=o[0]
 		order_buttons[order]=_button(hud,o[1],func(): _order(order))
@@ -256,7 +256,7 @@ func _refresh() -> void:
 	ocean.optical_feed.receiver_font_size=maxi(14,roundi(ui_touch_height*0.25))
 	order_buttons.camera.text="SAMPLE" if sim.mission.get("blackwater_revision",0)==1 else "CAMERA\nLISTEN" if sim.mission.get("finale_revision",0)==1 else ("CAMERA\nLINK" if mission_index==1 else "CAMERA")
 	order_buttons.queue.text="+ QUEUE ON" if sim.queue_mode else "REPLACE"
-	order_buttons.program.text="PROGRAM\n%d POINTS"%sim.route_goals().size()
+	order_buttons.program.text="PLAN\nROUTE"
 	order_buttons.silent.text="SILENT ✓" if sim.units[sim.selected].silent else "CRUISE"
 	order_buttons.knock.text="CANCEL\nTORPEDO" if knock_armed else "TORPEDO\n%d"%sim.tools.get("knock",0)
 	order_buttons.knock.disabled=not knock_armed and (sim.selected!=0 or not sim.units[0].alive or sim.tools.get("knock",0)<=0)
