@@ -92,6 +92,7 @@ func _ready() -> void:
 		panners.append(panner)
 		var voice=AudioStreamPlayer.new(); voice.bus=bus_name; voice.volume_db=-7.5; add_child(voice); voices.append(voice)
 func update(sim,dt: float,active_dive: bool=true) -> void:
+	received_cues.observe_clock(sim.elapsed)
 	if ambience==null or system_suspended: return
 	var ambience_index=AudioServer.get_bus_index(AMBIENCE_BUS); var effects_index=AudioServer.get_bus_index(EFFECTS_BUS)
 	AudioServer.set_bus_mute(ambience_index,muted or music_volume<=0); AudioServer.set_bus_mute(effects_index,muted or effects_volume<=0)

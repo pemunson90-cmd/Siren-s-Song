@@ -3,9 +3,11 @@ extends RefCounted
 # displayed by the instruments, never polled into repeat audio on load/pause.
 var heard:Dictionary={}
 var last_time=-1.
-func take(event:Dictionary,selected:int,time:float,running:bool)->Dictionary:
+func observe_clock(time:float)->void:
  if time<last_time:heard.clear()
  last_time=time
+func take(event:Dictionary,selected:int,time:float,running:bool)->Dictionary:
+ observe_clock(time)
  if not running or event.get("type","") not in ["carrier_received","return_received"]:return {}
  if event.get("receiver",-1)!=selected or not event.get("direction",null) is Vector2:return {}
  var at=event.get("time",-100.)
