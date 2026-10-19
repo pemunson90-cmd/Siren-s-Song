@@ -16,8 +16,10 @@ static func run(t,game) -> void:
 			preload("res://tests/listening_well_command_plan.gd").play(true,false,s)
 		if id==5:
 			preload("res://tests/finale_command_plan.gd").play(false,"complete",true,-1,s)
-		for objective in ([] if id in [4,5] else s.mission.objectives):
-			var vantage=objective.pos+Vector2(0,210)
+		var objectives=[] if id in [4,5] else s.mission.objectives.duplicate()
+		if id==2:objectives.reverse()
+		for objective in objectives:
+			var vantage=objective.pos+Vector2(0,140 if id==2 else 210)
 			if s.blocked(vantage,25): vantage=objective.pos+Vector2(-210,0)
 			if not Routes.move(s,vantage): break
 			s.command("camera")

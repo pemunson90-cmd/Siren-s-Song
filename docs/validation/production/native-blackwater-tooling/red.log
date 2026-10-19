@@ -1,0 +1,106 @@
+FFFFFFFFFFF
+======================================================================
+FAIL: test_existing_capture_helper_accepts_optional_gallery_checker (__main__.BlackwaterTests.test_existing_capture_helper_accepts_optional_gallery_checker)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Siren-s-Song-gauntlet/scripts/toolchain/test-android-blackwater.py", line 73, in test_existing_capture_helper_accepts_optional_gallery_checker
+    self.assertEqual(r.returncode,0,r.stderr);self.assertTrue((p/'cover-blackwater-gallery.png').exists())
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 2 != 0 : usage: android-capture.py [-h] --density DENSITY --after-log AFTER_LOG --kind
+                          {camera,restored-mission} --mission MISSION
+                          log png
+android-capture.py: error: argument --kind: invalid choice: 'gallery' (choose from camera, restored-mission)
+
+
+======================================================================
+FAIL: test_failed_fixture_launch_restores_private_genuine_bytes (__main__.BlackwaterTests.test_failed_fixture_launch_restores_private_genuine_bytes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Siren-s-Song-gauntlet/scripts/toolchain/test-android-blackwater.py", line 99, in test_failed_fixture_launch_restores_private_genuine_bytes
+    self.assertEqual(r.returncode,17,r.stderr);self.assertEqual((p/'remote/files/quietus.save').read_bytes(),primary);self.assertEqual((p/'remote/files/quietus.save.bak').read_bytes(),backup)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 != 17 : test: line 3: /workspace/Siren-s-Song-gauntlet/scripts/toolchain/android-blackwater-smoke.sh: No such file or directory
+
+
+======================================================================
+FAIL: test_gallery_does_not_accept_receiving_or_wrong_mission (__main__.BlackwaterTests.test_gallery_does_not_accept_receiving_or_wrong_mission)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Siren-s-Song-gauntlet/scripts/toolchain/test-android-blackwater.py", line 30, in test_gallery_does_not_accept_receiving_or_wrong_mission
+    self.assertEqual(self.invoke(fixture.records(d),'gallery').returncode,3)
+AssertionError: 2 != 3
+
+======================================================================
+FAIL: test_gallery_missing_or_clipped_back_is_fatal (__main__.BlackwaterTests.test_gallery_missing_or_clipped_back_is_fatal)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Siren-s-Song-gauntlet/scripts/toolchain/test-android-blackwater.py", line 36, in test_gallery_missing_or_clipped_back_is_fatal
+    self.assertEqual(self.invoke(fixture.records(d),'gallery').returncode,1)
+AssertionError: 2 != 1
+
+======================================================================
+FAIL: test_gallery_requires_fresh_postdraw_and_exposed_back (__main__.BlackwaterTests.test_gallery_requires_fresh_postdraw_and_exposed_back)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Siren-s-Song-gauntlet/scripts/toolchain/test-android-blackwater.py", line 26, in test_gallery_requires_fresh_postdraw_and_exposed_back
+    r=self.invoke(fixture.records(layout('gallery')),'gallery');self.assertEqual(r.returncode,0,r.stderr)
+                                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 2 != 0 : /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3: can't open file '/workspace/Siren-s-Song-gauntlet/scripts/toolchain/android-blackwater.py': [Errno 2] No such file or directory
+
+
+======================================================================
+FAIL: test_latest_missing_capture_state_never_uses_old_record (__main__.BlackwaterTests.test_latest_missing_capture_state_never_uses_old_record)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Siren-s-Song-gauntlet/scripts/toolchain/test-android-blackwater.py", line 51, in test_latest_missing_capture_state_never_uses_old_record
+    self.assertEqual(self.invoke(fixture.records(layout('gallery'))+fixture.records(d,'42:2'),'gallery').returncode,3)
+AssertionError: 2 != 3
+
+======================================================================
+FAIL: test_malformed_other_screen_and_under48_remain_fatal (__main__.BlackwaterTests.test_malformed_other_screen_and_under48_remain_fatal)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Siren-s-Song-gauntlet/scripts/toolchain/test-android-blackwater.py", line 48, in test_malformed_other_screen_and_under48_remain_fatal
+    self.assertEqual(self.invoke(fixture.records(d),'gallery').returncode,1)
+AssertionError: 2 != 1
+
+======================================================================
+FAIL: test_receiving_reuses_strict_paused_camera_contract (__main__.BlackwaterTests.test_receiving_reuses_strict_paused_camera_contract)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Siren-s-Song-gauntlet/scripts/toolchain/test-android-blackwater.py", line 24, in test_receiving_reuses_strict_paused_camera_contract
+    r=self.invoke(fixture.records(layout()));self.assertEqual(r.returncode,0,r.stderr)
+                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 2 != 0 : /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3: can't open file '/workspace/Siren-s-Song-gauntlet/scripts/toolchain/android-blackwater.py': [Errno 2] No such file or directory
+
+
+======================================================================
+FAIL: test_route_maps_ordinary_world_point_from_validated_fresh_fit (__main__.BlackwaterTests.test_route_maps_ordinary_world_point_from_validated_fresh_fit)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Siren-s-Song-gauntlet/scripts/toolchain/test-android-blackwater.py", line 54, in test_route_maps_ordinary_world_point_from_validated_fresh_fit
+    r=self.invoke(text,'route');self.assertEqual(r.returncode,0,r.stderr);self.assertEqual(json.loads(r.stdout)['tap'],[570,382])
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 2 != 0 : /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3: can't open file '/workspace/Siren-s-Song-gauntlet/scripts/toolchain/android-blackwater.py': [Errno 2] No such file or directory
+
+
+======================================================================
+FAIL: test_route_rejects_unknown_view_and_waits_for_fresh_metrics (__main__.BlackwaterTests.test_route_rejects_unknown_view_and_waits_for_fresh_metrics)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Siren-s-Song-gauntlet/scripts/toolchain/test-android-blackwater.py", line 56, in test_route_rejects_unknown_view_and_waits_for_fresh_metrics
+    self.assertEqual(self.invoke(fixture.records(layout('route')),'route').returncode,1)
+AssertionError: 2 != 1
+
+======================================================================
+FAIL: test_stale_incomplete_and_headless_never_become_final (__main__.BlackwaterTests.test_stale_incomplete_and_headless_never_become_final)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Siren-s-Song-gauntlet/scripts/toolchain/test-android-blackwater.py", line 40, in test_stale_incomplete_and_headless_never_become_final
+    self.assertEqual(self.invoke(text,kind,text).returncode,3)
+AssertionError: 2 != 3
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.202s
+
+FAILED (failures=11)

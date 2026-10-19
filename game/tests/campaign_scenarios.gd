@@ -27,8 +27,12 @@ static func run(t) -> void:
 			print("CAMPAIGN 6 outcome=",s.outcome," time=",snappedf(s.elapsed,0.1)," hull=",s.hull)
 			continue
 		var success=true
-		for target in s.mission.objectives:
-			var vantage=target.pos+Vector2(0,210)
+		# Blackwater quiet156m fallback: observed safe reverse-order return,
+		# preserving the inherited forward south-vantage stop as separate evidence.
+		var objectives=s.mission.objectives.duplicate()
+		if id==2:objectives.reverse()
+		for target in objectives:
+			var vantage=target.pos+Vector2(0,140 if id==2 else 210)
 			if s.blocked(vantage,25): vantage=target.pos+Vector2(-210,0)
 			if not move(s,vantage): success=false; break
 			if not s.command("camera"): success=false; break

@@ -1,0 +1,754 @@
+{
+  "commands": [
+    {
+      "accepted": true,
+      "args": "{ \"unit\": 1 }",
+      "order": "select",
+      "time": 0.0
+    },
+    {
+      "accepted": true,
+      "args": "{ \"point\": (760.0, 390.0) }",
+      "order": "route",
+      "time": 0.0
+    },
+    {
+      "accepted": true,
+      "args": "{  }",
+      "order": "emp",
+      "time": 9.0666666666667
+    },
+    {
+      "accepted": true,
+      "args": "{  }",
+      "order": "camera",
+      "time": 10.8666666666668
+    }
+  ],
+  "final": {
+    "alive": [
+      true,
+      true,
+      true
+    ],
+    "capture_time": 4.01666666666666,
+    "contacts": {
+      "0": {
+        "angle": 1.64083468914032,
+        "lock": 0.0,
+        "mode": "DISRUPTED",
+        "pos": "(686.6271, 258.9825)",
+        "target": -1,
+        "time": 15.8500000000004,
+        "type": "patroller"
+      }
+    },
+    "context": {
+      "ready": false,
+      "target": 1,
+      "text": "RELAY MOUTH · 614m away / 240m range · view blocked by cover"
+    },
+    "hull": 100.0,
+    "message": "Record secured. Continue the survey.",
+    "outcome": "",
+    "own_positions": [
+      "(140.0, 800.0)",
+      "(752.9029, 389.318)",
+      "(280.0, 800.0)"
+    ],
+    "records": [
+      true,
+      false
+    ],
+    "selected": 1,
+    "time": 16.0000000000004,
+    "tools": {
+      "decoy": 3,
+      "emp": 1,
+      "recon": 2
+    }
+  },
+  "fps": 15,
+  "frames": 240,
+  "initial": {
+    "alive": [
+      true,
+      true,
+      true
+    ],
+    "capture_time": 0.0,
+    "contacts": {
+
+    },
+    "context": {
+      "ready": false,
+      "target": 0,
+      "text": "SIGNAL SPIRE · 796m away / 240m range · view blocked by cover"
+    },
+    "hull": 100.0,
+    "message": "DRONE A · replaced route",
+    "outcome": "",
+    "own_positions": [
+      "(140.0, 800.0)",
+      "(140.0, 700.0)",
+      "(280.0, 800.0)"
+    ],
+    "records": [
+      false,
+      false
+    ],
+    "selected": 1,
+    "time": 0.0,
+    "tools": {
+      "decoy": 3,
+      "emp": 2,
+      "recon": 2
+    }
+  },
+  "inputs_during_clip": 2,
+  "samples": [
+    {
+      "alive": [
+        true,
+        true,
+        true
+      ],
+      "capture_time": 0.0,
+      "contacts": {
+
+      },
+      "context": {
+        "ready": false,
+        "target": 0,
+        "text": "SIGNAL SPIRE · 796m away / 240m range · view blocked by cover"
+      },
+      "frame": 0,
+      "hull": 100.0,
+      "message": "DRONE A · replaced route",
+      "outcome": "",
+      "own_positions": [
+        "(140.0, 800.0)",
+        "(140.1091, 699.9589)",
+        "(280.0, 800.0)"
+      ],
+      "records": [
+        false,
+        false
+      ],
+      "selected": 1,
+      "time": 0.0666666666666667,
+      "tools": {
+        "decoy": 3,
+        "emp": 2,
+        "recon": 2
+      }
+    },
+    {
+      "alive": [
+        true,
+        true,
+        true
+      ],
+      "capture_time": 0.0,
+      "contacts": {
+
+      },
+      "context": {
+        "ready": false,
+        "target": 0,
+        "text": "SIGNAL SPIRE · 773m away / 240m range · view blocked by cover"
+      },
+      "frame": 15,
+      "hull": 100.0,
+      "message": "DRONE A · replaced route",
+      "outcome": "",
+      "own_positions": [
+        "(140.0, 800.0)",
+        "(158.273, 684.5186)",
+        "(280.0, 800.0)"
+      ],
+      "records": [
+        false,
+        false
+      ],
+      "selected": 1,
+      "time": 1.06666666666667,
+      "tools": {
+        "decoy": 3,
+        "emp": 2,
+        "recon": 2
+      }
+    },
+    {
+      "alive": [
+        true,
+        true,
+        true
+      ],
+      "capture_time": 0.0,
+      "contacts": {
+
+      },
+      "context": {
+        "ready": false,
+        "target": 0,
+        "text": "SIGNAL SPIRE · 707m away / 240m range · view blocked by cover"
+      },
+      "frame": 30,
+      "hull": 100.0,
+      "message": "DRONE A · replaced route",
+      "outcome": "",
+      "own_positions": [
+        "(140.0, 800.0)",
+        "(205.1448, 638.4335)",
+        "(280.0, 800.0)"
+      ],
+      "records": [
+        false,
+        false
+      ],
+      "selected": 1,
+      "time": 2.06666666666666,
+      "tools": {
+        "decoy": 3,
+        "emp": 2,
+        "recon": 2
+      }
+    },
+    {
+      "alive": [
+        true,
+        true,
+        true
+      ],
+      "capture_time": 0.0,
+      "contacts": {
+
+      },
+      "context": {
+        "ready": false,
+        "target": 0,
+        "text": "SIGNAL SPIRE · 613m away / 240m range · view blocked by cover"
+      },
+      "frame": 45,
+      "hull": 100.0,
+      "message": "DRONE A · replaced route",
+      "outcome": "",
+      "own_positions": [
+        "(140.0, 800.0)",
+        "(271.8513, 570.8304)",
+        "(280.0, 800.0)"
+      ],
+      "records": [
+        false,
+        false
+      ],
+      "selected": 1,
+      "time": 3.06666666666666,
+      "tools": {
+        "decoy": 3,
+        "emp": 2,
+        "recon": 2
+      }
+    },
+    {
+      "alive": [
+        true,
+        true,
+        true
+      ],
+      "capture_time": 0.0,
+      "contacts": {
+
+      },
+      "context": {
+        "ready": false,
+        "target": 0,
+        "text": "SIGNAL SPIRE · 518m away / 240m range"
+      },
+      "frame": 60,
+      "hull": 100.0,
+      "message": "DRONE A · replaced route",
+      "outcome": "",
+      "own_positions": [
+        "(140.0, 800.0)",
+        "(339.2513, 502.4698)",
+        "(280.0, 800.0)"
+      ],
+      "records": [
+        false,
+        false
+      ],
+      "selected": 1,
+      "time": 4.06666666666666,
+      "tools": {
+        "decoy": 3,
+        "emp": 2,
+        "recon": 2
+      }
+    },
+    {
+      "alive": [
+        true,
+        true,
+        true
+      ],
+      "capture_time": 0.0,
+      "contacts": {
+
+      },
+      "context": {
+        "ready": false,
+        "target": 0,
+        "text": "SIGNAL SPIRE · 433m away / 240m range"
+      },
+      "frame": 75,
+      "hull": 100.0,
+      "message": "DRONE A · replaced route",
+      "outcome": "",
+      "own_positions": [
+        "(140.0, 800.0)",
+        "(399.9366, 440.9196)",
+        "(280.0, 800.0)"
+      ],
+      "records": [
+        false,
+        false
+      ],
+      "selected": 1,
+      "time": 5.06666666666665,
+      "tools": {
+        "decoy": 3,
+        "emp": 2,
+        "recon": 2
+      }
+    },
+    {
+      "alive": [
+        true,
+        true,
+        true
+      ],
+      "capture_time": 0.0,
+      "contacts": {
+
+      },
+      "context": {
+        "ready": false,
+        "target": 0,
+        "text": "SIGNAL SPIRE · 372m away / 240m range"
+      },
+      "frame": 90,
+      "hull": 100.0,
+      "message": "DRONE A · replaced route",
+      "outcome": "",
+      "own_positions": [
+        "(140.0, 800.0)",
+        "(443.936, 396.4928)",
+        "(280.0, 800.0)"
+      ],
+      "records": [
+        false,
+        false
+      ],
+      "selected": 1,
+      "time": 6.06666666666665,
+      "tools": {
+        "decoy": 3,
+        "emp": 2,
+        "recon": 2
+      }
+    },
+    {
+      "alive": [
+        true,
+        true,
+        true
+      ],
+      "capture_time": 0.0,
+      "contacts": {
+
+      },
+      "context": {
+        "ready": false,
+        "target": 0,
+        "text": "SIGNAL SPIRE · 311m away / 240m range"
+      },
+      "frame": 105,
+      "hull": 100.0,
+      "message": "DRONE A · replaced route",
+      "outcome": "",
+      "own_positions": [
+        "(140.0, 800.0)",
+        "(501.1228, 372.1536)",
+        "(280.0, 800.0)"
+      ],
+      "records": [
+        false,
+        false
+      ],
+      "selected": 1,
+      "time": 7.06666666666665,
+      "tools": {
+        "decoy": 3,
+        "emp": 2,
+        "recon": 2
+      }
+    },
+    {
+      "alive": [
+        true,
+        true,
+        true
+      ],
+      "capture_time": 0.0,
+      "contacts": {
+        "0": {
+          "angle": 2.60187742233276,
+          "lock": 0.0166666666666667,
+          "mode": "LOCKING",
+          "pos": "(709.4486, 246.2257)",
+          "target": 1,
+          "time": 8.01666666666664,
+          "type": "patroller"
+        }
+      },
+      "context": {
+        "ready": false,
+        "target": 0,
+        "text": "SIGNAL SPIRE · 244m away / 240m range"
+      },
+      "frame": 120,
+      "hull": 100.0,
+      "message": "DRONE A · replaced route",
+      "outcome": "",
+      "own_positions": [
+        "(140.0, 800.0)",
+        "(589.1165, 373.5781)",
+        "(280.0, 800.0)"
+      ],
+      "records": [
+        false,
+        false
+      ],
+      "selected": 1,
+      "time": 8.06666666666665,
+      "tools": {
+        "decoy": 3,
+        "emp": 2,
+        "recon": 2
+      }
+    },
+    {
+      "alive": [
+        true,
+        true,
+        true
+      ],
+      "capture_time": 0.0,
+      "contacts": {
+        "0": {
+          "angle": 1.67282807826996,
+          "lock": 1.01666666666667,
+          "mode": "LOCKING",
+          "pos": "(686.7973, 258.8874)",
+          "target": 1,
+          "time": 9.01666666666669,
+          "type": "patroller"
+        }
+      },
+      "context": {
+        "ready": true,
+        "target": 0,
+        "text": "READY · SIGNAL SPIRE · exposure 4s"
+      },
+      "frame": 135,
+      "hull": 100.0,
+      "message": "DRONE A · replaced route",
+      "outcome": "",
+      "own_positions": [
+        "(140.0, 800.0)",
+        "(678.0331, 382.1229)",
+        "(280.0, 800.0)"
+      ],
+      "records": [
+        false,
+        false
+      ],
+      "selected": 1,
+      "time": 9.0666666666667,
+      "tools": {
+        "decoy": 3,
+        "emp": 2,
+        "recon": 2
+      }
+    },
+    {
+      "alive": [
+        true,
+        true,
+        true
+      ],
+      "capture_time": 0.0,
+      "contacts": {
+        "0": {
+          "angle": 1.64083468914032,
+          "lock": 0.0,
+          "mode": "DISRUPTED",
+          "pos": "(686.6271, 258.9825)",
+          "target": -1,
+          "time": 10.0166666666667,
+          "type": "patroller"
+        }
+      },
+      "context": {
+        "ready": true,
+        "target": 0,
+        "text": "READY · SIGNAL SPIRE · exposure 4s"
+      },
+      "frame": 150,
+      "hull": 100.0,
+      "message": "Disruption pulse · 12 second recovery window",
+      "outcome": "",
+      "own_positions": [
+        "(140.0, 800.0)",
+        "(734.5369, 387.5529)",
+        "(280.0, 800.0)"
+      ],
+      "records": [
+        false,
+        false
+      ],
+      "selected": 1,
+      "time": 10.0666666666667,
+      "tools": {
+        "decoy": 3,
+        "emp": 1,
+        "recon": 2
+      }
+    },
+    {
+      "alive": [
+        true,
+        true,
+        true
+      ],
+      "capture_time": 0.2,
+      "contacts": {
+        "0": {
+          "angle": 1.64083468914032,
+          "lock": 0.0,
+          "mode": "DISRUPTED",
+          "pos": "(686.6271, 258.9825)",
+          "target": -1,
+          "time": 11.0166666666668,
+          "type": "patroller"
+        }
+      },
+      "context": {
+        "ready": false,
+        "target": 0,
+        "text": "DRONE A · SIGNAL SPIRE 0.2 / 4s"
+      },
+      "frame": 165,
+      "hull": 100.0,
+      "message": "Camera exposure · hold 4 seconds",
+      "outcome": "",
+      "own_positions": [
+        "(140.0, 800.0)",
+        "(752.9029, 389.318)",
+        "(280.0, 800.0)"
+      ],
+      "records": [
+        false,
+        false
+      ],
+      "selected": 1,
+      "time": 11.0666666666668,
+      "tools": {
+        "decoy": 3,
+        "emp": 1,
+        "recon": 2
+      }
+    },
+    {
+      "alive": [
+        true,
+        true,
+        true
+      ],
+      "capture_time": 1.2,
+      "contacts": {
+        "0": {
+          "angle": 1.64083468914032,
+          "lock": 0.0,
+          "mode": "DISRUPTED",
+          "pos": "(686.6271, 258.9825)",
+          "target": -1,
+          "time": 12.0166666666668,
+          "type": "patroller"
+        }
+      },
+      "context": {
+        "ready": false,
+        "target": 0,
+        "text": "DRONE A · SIGNAL SPIRE 1.2 / 4s"
+      },
+      "frame": 180,
+      "hull": 100.0,
+      "message": "Camera exposure · hold 4 seconds",
+      "outcome": "",
+      "own_positions": [
+        "(140.0, 800.0)",
+        "(752.9029, 389.318)",
+        "(280.0, 800.0)"
+      ],
+      "records": [
+        false,
+        false
+      ],
+      "selected": 1,
+      "time": 12.0666666666668,
+      "tools": {
+        "decoy": 3,
+        "emp": 1,
+        "recon": 2
+      }
+    },
+    {
+      "alive": [
+        true,
+        true,
+        true
+      ],
+      "capture_time": 2.2,
+      "contacts": {
+        "0": {
+          "angle": 1.64083468914032,
+          "lock": 0.0,
+          "mode": "DISRUPTED",
+          "pos": "(686.6271, 258.9825)",
+          "target": -1,
+          "time": 13.0166666666669,
+          "type": "patroller"
+        }
+      },
+      "context": {
+        "ready": false,
+        "target": 0,
+        "text": "DRONE A · SIGNAL SPIRE 2.2 / 4s"
+      },
+      "frame": 195,
+      "hull": 100.0,
+      "message": "Camera exposure · hold 4 seconds",
+      "outcome": "",
+      "own_positions": [
+        "(140.0, 800.0)",
+        "(752.9029, 389.318)",
+        "(280.0, 800.0)"
+      ],
+      "records": [
+        false,
+        false
+      ],
+      "selected": 1,
+      "time": 13.0666666666669,
+      "tools": {
+        "decoy": 3,
+        "emp": 1,
+        "recon": 2
+      }
+    },
+    {
+      "alive": [
+        true,
+        true,
+        true
+      ],
+      "capture_time": 3.19999999999999,
+      "contacts": {
+        "0": {
+          "angle": 1.64083468914032,
+          "lock": 0.0,
+          "mode": "DISRUPTED",
+          "pos": "(686.6271, 258.9825)",
+          "target": -1,
+          "time": 14.0166666666669,
+          "type": "patroller"
+        }
+      },
+      "context": {
+        "ready": false,
+        "target": 0,
+        "text": "DRONE A · SIGNAL SPIRE 3.2 / 4s"
+      },
+      "frame": 210,
+      "hull": 100.0,
+      "message": "Camera exposure · hold 4 seconds",
+      "outcome": "",
+      "own_positions": [
+        "(140.0, 800.0)",
+        "(752.9029, 389.318)",
+        "(280.0, 800.0)"
+      ],
+      "records": [
+        false,
+        false
+      ],
+      "selected": 1,
+      "time": 14.0666666666669,
+      "tools": {
+        "decoy": 3,
+        "emp": 1,
+        "recon": 2
+      }
+    },
+    {
+      "alive": [
+        true,
+        true,
+        true
+      ],
+      "capture_time": 4.01666666666666,
+      "contacts": {
+        "0": {
+          "angle": 1.64083468914032,
+          "lock": 0.0,
+          "mode": "DISRUPTED",
+          "pos": "(686.6271, 258.9825)",
+          "target": -1,
+          "time": 15.016666666667,
+          "type": "patroller"
+        }
+      },
+      "context": {
+        "ready": false,
+        "target": 1,
+        "text": "RELAY MOUTH · 614m away / 240m range · view blocked by cover"
+      },
+      "frame": 225,
+      "hull": 100.0,
+      "message": "Record secured. Continue the survey.",
+      "outcome": "",
+      "own_positions": [
+        "(140.0, 800.0)",
+        "(752.9029, 389.318)",
+        "(280.0, 800.0)"
+      ],
+      "records": [
+        true,
+        false
+      ],
+      "selected": 1,
+      "time": 15.066666666667,
+      "tools": {
+        "decoy": 3,
+        "emp": 1,
+        "recon": 2
+      }
+    }
+  ],
+  "setup_ok": true,
+  "solo_fixture": false,
+  "take": "approach"
+}

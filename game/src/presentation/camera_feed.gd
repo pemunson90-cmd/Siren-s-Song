@@ -1,5 +1,6 @@
 extends Control
 var sim
+var receiver_font_size=14
 var optics=preload("res://src/presentation/evidence_catalog.gd").IMAGES
 var foundry=preload("res://assets/structures/foundry.png")
 const PHOSPHOR=Color("8cdcd3")
@@ -14,7 +15,19 @@ func _draw() -> void:
 	draw_rect(Rect2(Vector2.ZERO,size),Color("07151d")); draw_rect(Rect2(Vector2.ZERO,size),Color("6b9d9f"),false,1)
 	var picture=Rect2(8,36,size.x-16,size.y-78)
 	draw_rect(picture,Color("102a32"))
-	if objective.has("optical"):
+	if objective.get("kind","")=="exchange":
+		# Live local receiver trace; interpretation plate is retained only after decode.
+		var context=sim.blackwater_context(sim.capture_target,sim.capture_unit)
+		var trace=PackedVector2Array()
+		var center=picture.get_center();var amp=minf(32,picture.size.y*0.2)
+		for x in range(0,int(picture.size.x),2):
+			var phase=float(x)*0.17+sim.capture_time*5.0
+			var envelope=pow(maxf(0,sin(float(x)*0.037)),3)
+			trace.append(Vector2(picture.position.x+x,center.y+sin(phase)*envelope*amp))
+		draw_polyline(trace,PHOSPHOR,2.0)
+		draw_string(ThemeDB.fallback_font,picture.position+Vector2(8,receiver_font_size+5),"LOCAL REPLAY" if context.replay>0 else "QUIET RECEPTION",HORIZONTAL_ALIGNMENT_LEFT,-1,receiver_font_size,PHOSPHOR)
+		if not context.settled:draw_string(ThemeDB.fallback_font,picture.position+Vector2(8,picture.size.y-8),"SETTLING · progress starts at rest",HORIZONTAL_ALIGNMENT_LEFT,-1,receiver_font_size,Color("e0bf83"))
+	elif objective.has("optical"):
 		var image=optics[objective.optical]
 		var image_size=Vector2(picture.size.x,picture.size.x*9.0/16.0)
 		if image_size.y>picture.size.y: image_size=Vector2(picture.size.y*16.0/9.0,picture.size.y)
@@ -39,7 +52,9 @@ func _draw() -> void:
 			draw_circle(p,0.7,Color("6b888c"))
 	for y in range(36,int(size.y-40),4): draw_line(Vector2(8,y),Vector2(size.x-8,y),Color(0,0.02,0.04,0.11),1)
 	var font=ThemeDB.fallback_font
-	draw_string(font,Vector2(14,24),"%s / %s"%["HYDROPHONES" if objective.get("kind","")=="receiver" else ("ARCHIVE LINK" if objective.get("kind","")=="uplink" else "OPTICAL"),sim.units[sim.capture_unit].name],HORIZONTAL_ALIGNMENT_LEFT,-1,14,PHOSPHOR)
-	draw_string(font,Vector2(14,size.y-24),objective.name,HORIZONTAL_ALIGNMENT_LEFT,-1,14,Color("e0bf83"))
-	draw_string(font,Vector2(size.x-68,size.y-24),"%02d%%"%int(progress*100),HORIZONTAL_ALIGNMENT_LEFT,-1,14,PHOSPHOR)
+	var type=objective.get("kind","")
+	var font_size=receiver_font_size if type=="exchange" else 14
+	draw_string(font,Vector2(14,24),"%s / %s"%["HYDROPHONES" if type in ["receiver","exchange"] else ("ARCHIVE LINK" if objective.get("kind","")=="uplink" else "OPTICAL"),sim.units[sim.capture_unit].name],HORIZONTAL_ALIGNMENT_LEFT,-1,font_size,PHOSPHOR)
+	draw_string(font,Vector2(14,size.y-24),objective.name,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size,Color("e0bf83"))
+	draw_string(font,Vector2(size.x-68,size.y-24),"%02d%%"%int(progress*100),HORIZONTAL_ALIGNMENT_LEFT,-1,font_size,PHOSPHOR)
 	draw_rect(Rect2(12,size.y-12,size.x-24,3),Color("25464b")); draw_rect(Rect2(12,size.y-12,(size.x-24)*progress,3),PHOSPHOR)

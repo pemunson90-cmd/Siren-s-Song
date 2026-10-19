@@ -1,0 +1,23 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+FAIL: fresh Blackwater uses two-second direct relay samples without cyclic waiting
+FAIL: request and reply have distinct retained receiver records
+FAIL: quiet local reception earns request without an optical emission
+FAIL: first earned request explains a usable next-site audible replay alternative
+FAIL: retained request preserves the learned replay protocol
+FAIL: reverse reply-first order remains valid and teaches matching request action
+FAIL: reply preserves the archival ocean-temperature discovery
+FAIL: Quietus210m standoff cannot silently use its156m passive receiver
+FAIL: accepted existing SONAR permits local clear standoff replay sampling
+FAIL: audible standoff earns the same request in two settled seconds
+FAIL: drone230m is outside actual214.5m passive reach
+FAIL: drone can use clear230m replay standoff
+FAIL: drone and Quietus share the locally earned replay path
+FAIL: replay expiry interrupts an incomplete standoff sample
+FAIL: moving craft must settle before reception accumulates
+FAIL: restored partial sample finishes its remaining reception
+FAIL: slower Quietus remains valid after both drones are lost
+FAIL: actual archive retains new request evidence and remaining replay lifetime
+FAIL: malformed optional replay state is rejected before restore
+FAIL: nonfinite optional replay clock cannot enter a restored mission
+BLACKWATER CHECKS 31 FAILURES 20

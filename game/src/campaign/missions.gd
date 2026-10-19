@@ -3,7 +3,7 @@ const TITLES = ["Shelf Signal", "Split Channel", "Blackwater Relay", "Cold Found
 const BRIEFS = [
 	"A repeating signal rises from the shelf. Photograph the listening spire, then bring Quietus home. Your charts show rock, not what waits behind it. Sonar reveals water but announces your position.",
 	"Two channels. Two witnesses. Photograph the separated WEST and EAST relays. Bring Quietus to the sheltered UPLINK ANCHOR and use CAMERA / LINK to combine their records. Drones travel faster and can expose a relay while the submarine moves. Losing them leaves a longer solo-sub approach. Return with the combined archive.",
-	"The signal is a conversation. Blackwater absorbs passive returns. Use the relay chain to map the exchange. Drones see farther; the submarine camera remains your fallback.",
+	"The signal is a conversation. Blackwater absorbs passive returns. Settle within passive reach and SAMPLE the REQUEST and REPLY relays. Each packet describes its partner. Drones hear farther; Quietus can recover either record if they are lost. Sonar may solicit a local answer, but the ocean hears your emission. Bring the exchange home.",
 	"Enter from the western shelf. Our recovery buoy lies beyond the southern factory wall. First image the FURNACE VENT, then the DEPARTURE CRADLE. The basalt spine offers shelter; the industrial perimeter does not. Station guards hold the furnace and recovery channel. A live decoy can draw them out; they return when its signal ends. Cameras may provoke a carrier response. Plan Quietus’ passage before exposing the second record. Drones can take either photograph; the submarine remains your fallback.",
 	"The well is listening to us. Collect three records from its circumference. A fast responder waits in the inner water. Noise draws it out; broken sight leaves it searching the last heard or seen position. Break sight before its beam resolves. Silence is a route, too.",
 	"The transmission crown faces the trench; outbound wakes point deeper, away from us. Photograph both to separate their meanings. Bring Quietus through the southern basalt lee to the LEE RECEIVER and use CAMERA / LISTEN for six quiet seconds. Only the submarine carries the low-frequency hydrophones needed to resolve the packet. Drones can scout the exposed crown and wakes while Quietus moves under cover; the submarine can take either image if they are lost. Return to the western buoy with what you heard. Command will ask for targets. Bring evidence instead."
@@ -40,6 +40,12 @@ static func make(index: int) -> Dictionary:
 	if i==1:
 		objectives[0].name="WEST RELAY"; objectives[1].name="EAST RELAY"
 		objectives[2].name="UPLINK ANCHOR"; objectives[2]["kind"]="uplink"; objectives[2]["duration"]=6.0; objectives[2]["required_unit"]=0; objectives[2]["requires"]=[0,1]
+	if i==2:
+		for n in 2:
+			objectives[n].name=["REQUEST RELAY","REPLY RELAY"][n];objectives[n]["kind"]="exchange";objectives[n]["duration"]=2.0;objectives[n]["replay_until"]=0.0
+			objectives[n]["optical"]=["blackwater_request","blackwater_reply"][n]
+		objectives[0]["evidence"]="REPLY HANDSHAKE: settle and SAMPLE 2s within passive reach. For standoff, settle first, emit SONAR under 240m with a clear line, then SAMPLE 2s during its 3s reply. The western request asks its eastern partner for a missing ocean-temperature archive."
+		objectives[1]["evidence"]="ANCIENT OCEAN: the eastern reply carries temperature strata older than humanity. Its header identifies the requested climate archive. The REQUEST uses the same handshake: settle within passive reach and SAMPLE 2s, or settle, SONAR under 240m with a clear line, then SAMPLE during the 3s local replay. Either packet can be recovered first."
 	if i==3:
 		objectives[0].name="FURNACE VENT"; objectives[0]["optical"]="furnace"
 		objectives[0]["evidence"]="Molten material is drawn into smooth hollow forms. This is a construction line, not a weapon aperture."
@@ -62,6 +68,7 @@ static func make(index: int) -> Dictionary:
 		patrols[0].pos=Vector2(420,140); patrols[0].home=patrols[0].pos; patrols[0].goal=patrols[0].pos
 		var east=patrols[0].duplicate(true); east.pos=Vector2(1220,140); east.home=east.pos; east.goal=east.pos; east.patrol=1; patrols.append(east)
 	var result={"id":i,"title":TITLES[i],"brief":BRIEFS[i],"record":RECORDS[i],"rocks":layouts[i],"objectives":objectives,"sirens":patrols,"extraction":Vector2(140,800),"darkness":i==2,"depth":[840,1320,1850,2360,3100,3840][i]}
+	if i==2:result["blackwater_revision"]=1
 	if i==3:
 		var factory=Rect2(1120,140,400,600)
 		result["structures"]=[factory]; result["factory_rect"]=factory; result["phase"]="approach"; result["response_time"]=0.0

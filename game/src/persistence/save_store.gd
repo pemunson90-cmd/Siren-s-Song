@@ -11,7 +11,7 @@ func valid(data: Dictionary) -> bool:
 		if not data.evidence is Dictionary: return false
 		for key in data.evidence:
 			var entry=data.evidence[key]
-			if key not in ["furnace","cradle","transmitter","departure","warning"] or not entry is Dictionary or not entry.has_all(["name","caption","optical"]) or entry.optical!=key or not entry.name is String or not entry.caption is String: return false
+			if key not in ["furnace","cradle","transmitter","departure","warning","blackwater_request","blackwater_reply"] or not entry is Dictionary or not entry.has_all(["name","caption","optical"]) or entry.optical!=key or not entry.name is String or not entry.caption is String: return false
 	if data.has("active") and data.active!=null:
 		if not data.active is Dictionary or not Simulation.valid_snapshot(data.active): return false
 	return true

@@ -1,0 +1,114 @@
+{
+  "reference": "0afe5fc",
+  "final_frozen_files": [
+    {
+      "path": "game/assets/ATTRIBUTION.md",
+      "sha256": "00e371691feef07a59b01bfd8b5f063e1c8658e6cf9d81822d1d68331171bf8e"
+    },
+    {
+      "path": "game/assets/evidence/blackwater_reply.png",
+      "sha256": "39f3e0d0feb20b212e474350c7c30010db6075ce99932d9d66d236b1068559c6"
+    },
+    {
+      "path": "game/assets/evidence/blackwater_reply.png.import",
+      "sha256": "40c987e8f3863f5299ae8f6fdbe27e538a30027ff0fb8be1d6490295f0b8e987"
+    },
+    {
+      "path": "game/assets/evidence/blackwater_request.png",
+      "sha256": "052d14f8b7583fb1ff8f1a3cc97e26a5630bc467e894da9529989b6667cec06e"
+    },
+    {
+      "path": "game/assets/evidence/blackwater_request.png.import",
+      "sha256": "659c8b7f0a6daaa7f4084aa03fcfa780239067e03cd1af345798826cc29c4e7f"
+    },
+    {
+      "path": "game/src/campaign/missions.gd",
+      "sha256": "1bb9e90dac6386d5d630bb12915e09ad34383067228aaf3017c4964eb17525a1"
+    },
+    {
+      "path": "game/src/main.gd",
+      "sha256": "9e8e6cca44d0b326245df208f8ca50d5b00426ba768852c963aceacd4d5d1a53"
+    },
+    {
+      "path": "game/src/persistence/save_store.gd",
+      "sha256": "b7fa9eeb7a0c2d374833a5ea97a26f5d6fb7e6eefc5118dc1af44210ca8819c5"
+    },
+    {
+      "path": "game/src/presentation/camera_feed.gd",
+      "sha256": "e7787ec02bfb11940bae58755394e529967f41d78e70183151f00861d858e0d1"
+    },
+    {
+      "path": "game/src/presentation/evidence_catalog.gd",
+      "sha256": "0f757d3ae5c06436e11769a4f80dda7c983912deb6e7151c030b0e1cd1b86764"
+    },
+    {
+      "path": "game/src/simulation/simulation.gd",
+      "sha256": "f69be61072eaaa4c36a24932d7ec705a65f5389fb4f4283e045c7a5a58ef1884"
+    },
+    {
+      "path": "game/tests/blackwater_scenarios.gd",
+      "sha256": "c53b44ab64b7b2fb00a98dcfe30a3202c4e39b29dbac9ad84731d9b284a24d51"
+    },
+    {
+      "path": "game/tests/blackwater_scenarios.gd.uid",
+      "sha256": "8bb0fdde031793905dcc3b26bc09535ab1cf0c722e82a80900a7a69fb44e5280"
+    },
+    {
+      "path": "game/tests/blackwater_tests.gd",
+      "sha256": "8eec9cca1b5a062138792870637cce388eaef293a628ee84112955d4c0241fca"
+    },
+    {
+      "path": "game/tests/blackwater_tests.gd.uid",
+      "sha256": "6e7b5163d30948917ac145b664d33a5df37058722b6cc2fd041e9b3a1c9da333"
+    },
+    {
+      "path": "game/tests/blackwater_ui_scenarios.gd",
+      "sha256": "78e50bd1d94f535533553c7464561e35b10764b75d177aa0bc023d55632b7eb2"
+    },
+    {
+      "path": "game/tests/blackwater_ui_scenarios.gd.uid",
+      "sha256": "fc40212cf855e6ce5da7c55f3805b025bc32c6e0cb9911b1ba55e90d4a3b7970"
+    },
+    {
+      "path": "game/tests/blackwater_ui_tests.gd",
+      "sha256": "ecba43eef13db25718eb05b4ebefa99b44765213e9c91874c6eccc2f6fc14a68"
+    },
+    {
+      "path": "game/tests/blackwater_ui_tests.gd.uid",
+      "sha256": "682f77c3f7fed0656bba5d2a043717c1cc937ce24bd624b122656b18bd5a875a"
+    },
+    {
+      "path": "game/tests/campaign_scenarios.gd",
+      "sha256": "32c9b617ce0a8e789544fee15448dc5ab44feca4037ae0475aea7da351ec749d"
+    },
+    {
+      "path": "game/tests/campaign_ui_scenarios.gd",
+      "sha256": "795e0422ccc5036004e0285a8edf73c1f3cf9fdab95eead23de49043f737c865"
+    },
+    {
+      "path": "game/tests/capture_blackwater.gd",
+      "sha256": "1d2f5b2562b7abf87e4819e1c8c129088735167324a0768a3856ebb9a7c07e9b"
+    },
+    {
+      "path": "game/tests/capture_blackwater.gd.uid",
+      "sha256": "8160325517ff97b3010adbc023c38f04a90cb0c55733044c0591d5f0cd67fb73"
+    },
+    {
+      "path": "game/tests/capture_blackwater_motion.gd",
+      "sha256": "6b10d83902ab8d65587ed1fef23e24ce4510cabf4173c66cabf0e4526ee71508"
+    },
+    {
+      "path": "game/tests/fixtures/accepted-blackwater.archive",
+      "sha256": "e302e534efe9001cded839f53849f8da9645d886f52ae688592ef6d6a18f6158"
+    },
+    {
+      "path": "game/tests/run_tests.gd",
+      "sha256": "74a01ee0b4689be0e510bd6bee911161275a63b4709eab316242d15bab0122e5"
+    },
+    {
+      "path": "game/tests/runtime_tests.gd",
+      "sha256": "779720073de58d674d611b405a1cebd910262574c83956b2d68437b8cc905c71"
+    }
+  ],
+  "note": "Other existing importer-generated uid files are outside owned/staging scope."
+}

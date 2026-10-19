@@ -1,0 +1,13 @@
+..........F....
+======================================================================
+FAIL: test_route_does_not_fall_back_to_older_valid_fit (__main__.BlackwaterTests.test_route_does_not_fall_back_to_older_valid_fit)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Siren-s-Song-gauntlet/scripts/toolchain/test-android-blackwater.py", line 96, in test_route_does_not_fall_back_to_older_valid_fit
+    self.assertEqual(self.invoke(text,'route').returncode,1)
+AssertionError: 0 != 1
+
+----------------------------------------------------------------------
+Ran 15 tests in 2.358s
+
+FAILED (failures=1)

@@ -1,0 +1,18 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+HUNT_CORE PASS ordinary initial SONAR accepted
+HUNT_CORE PASS actual binary snapshot restores active standoff reception
+HUNT_CORE PASS restore preserves remaining replay and sample progress
+HUNT_CORE PASS long tactical pause consumes no replay/sample/resources
+HUNT_CORE PASS restored settled2s sample succeeds without tool inventory changes
+HUNT_CORE PASS exact240m boundary cannot replay or passively sample
+HUNT_CORE PASS just-inside240m clear local SONAR opens replay
+HUNT_CORE PASS renewed motion discards partial two-second accumulation
+HUNT_CORE PASS expired replay remains expired on restore
+HUNT_CORE PASS new current cover cannot reuse previously earned replay
+HUNT_CORE PASS readiness/context queries remain read-only
+HUNT_CORE PASS dead receiver cannot reuse replay
+HUNT_CORE PASS actual legacy archive loads without new revision
+HUNT_CORE PASS actual legacy1s-progress exposure still needs4s total
+HUNT_CORE PASS actual legacy exposure completes at original rule with no migration
+HUNT_CORE failures=0

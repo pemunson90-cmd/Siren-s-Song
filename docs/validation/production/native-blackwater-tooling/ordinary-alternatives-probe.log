@@ -1,0 +1,10 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PROBE strategy=drone-decoy route=true time=10.8500000000001 alive=true hull=100.0 pos=(752.9029, 389.318) sample=true
+PROBE earned=false alive=false hull=100.0 outcome=
+PROBE strategy=quietus route=true time=20.7833333333334 alive=true hull=66.4000000000003 pos=(752.9633, 331.1867) sample=true
+PROBE earned=true alive=true hull=28.9000000000006 outcome=
+PROBE strategy=quietus-decoy route=true time=20.7833333333334 alive=true hull=66.4000000000003 pos=(752.9633, 331.1867) sample=true
+PROBE earned=true alive=true hull=28.9000000000006 outcome=
+PROBE strategy=drone-emp-arrival route=true time=10.8500000000001 alive=true hull=100.0 pos=(752.9029, 389.318) sample=true
+PROBE earned=true alive=true hull=100.0 outcome=

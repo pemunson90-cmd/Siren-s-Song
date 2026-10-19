@@ -1,0 +1,207 @@
+{
+  "baseline_source": "0afe5fce83c575995b718c5e3d6b152bd7282df2",
+  "final_source_hashes_verified": [
+    {
+      "path": "game/src/campaign/missions.gd",
+      "sha256": "1bb9e90dac6386d5d630bb12915e09ad34383067228aaf3017c4964eb17525a1"
+    },
+    {
+      "path": "game/src/simulation/simulation.gd",
+      "sha256": "f69be61072eaaa4c36a24932d7ec705a65f5389fb4f4283e045c7a5a58ef1884"
+    },
+    {
+      "path": "game/src/persistence/save_store.gd",
+      "sha256": "b7fa9eeb7a0c2d374833a5ea97a26f5d6fb7e6eefc5118dc1af44210ca8819c5"
+    },
+    {
+      "path": "game/src/main.gd",
+      "sha256": "9e8e6cca44d0b326245df208f8ca50d5b00426ba768852c963aceacd4d5d1a53"
+    },
+    {
+      "path": "game/src/presentation/camera_feed.gd",
+      "sha256": "e7787ec02bfb11940bae58755394e529967f41d78e70183151f00861d858e0d1"
+    },
+    {
+      "path": "game/src/presentation/evidence_catalog.gd",
+      "sha256": "0f757d3ae5c06436e11769a4f80dda7c983912deb6e7151c030b0e1cd1b86764"
+    },
+    {
+      "path": "game/assets/evidence/blackwater_request.png",
+      "sha256": "052d14f8b7583fb1ff8f1a3cc97e26a5630bc467e894da9529989b6667cec06e"
+    },
+    {
+      "path": "game/assets/evidence/blackwater_reply.png",
+      "sha256": "39f3e0d0feb20b212e474350c7c30010db6075ce99932d9d66d236b1068559c6"
+    }
+  ],
+  "copy_delta": "Two retained captions and Blackwater range/loss/battery message wording only; audited exactpatch. Mechanics freeze used for independent replay unchanged. No extra458trace run solely for text.",
+  "clips": [
+    {
+      "name": "baseline-approach",
+      "sha256": "c70bd9a0a67267c4567eef95917de6c49dabb5b16ecdef0f9dd7043791721f14",
+      "media": {
+        "width": 1280,
+        "height": 720,
+        "avg_frame_rate": "15/1",
+        "duration": "16.000000",
+        "nb_read_frames": "240"
+      },
+      "inputs_during_clip": 2,
+      "initial_time": 0.0,
+      "final": {
+        "time": 16.0000000000004,
+        "hull": 100.0,
+        "records": [
+          true,
+          false
+        ],
+        "alive": [
+          true,
+          true,
+          true
+        ],
+        "message": "Record secured. Continue the survey."
+      },
+      "inspection": "all16 decoded1fps samples plus selected full decoded frames; not real-time human/audio-quality review"
+    },
+    {
+      "name": "challenger-approach",
+      "sha256": "1d056fb741d79121b49d9d7e4b0b607cda90dba665d3cb398813306a7f33057d",
+      "media": {
+        "width": 1280,
+        "height": 720,
+        "avg_frame_rate": "15/1",
+        "duration": "16.000000",
+        "nb_read_frames": "240"
+      },
+      "inputs_during_clip": 2,
+      "initial_time": 0.0,
+      "final": {
+        "time": 16.0000000000004,
+        "hull": 100.0,
+        "records": [
+          true,
+          false
+        ],
+        "alive": [
+          true,
+          true,
+          true
+        ],
+        "message": "REQUEST decoded \u00b7 REPLY accepts SONAR replay within240m; or approach quietly"
+      },
+      "inspection": "all16 decoded1fps samples plus selected full decoded frames; not real-time human/audio-quality review"
+    },
+    {
+      "name": "challenger-active-reply",
+      "sha256": "4ab212a3420f22be438e24c502e692b7783d7595d5f3cd0bca27e64f2fd48e05",
+      "media": {
+        "width": 1280,
+        "height": 720,
+        "avg_frame_rate": "15/1",
+        "duration": "16.000000",
+        "nb_read_frames": "240"
+      },
+      "inputs_during_clip": 2,
+      "initial_time": 41.6999999999989,
+      "final": {
+        "time": 57.699999999998,
+        "hull": 96.1,
+        "records": [
+          true,
+          true
+        ],
+        "alive": [
+          true,
+          false,
+          false
+        ],
+        "message": "Exchange matched \u00b7 ancient ocean archive aboard \u00b7 return Quietus home"
+      },
+      "inspection": "all16 decoded1fps samples plus selected full decoded frames; not real-time human/audio-quality review"
+    },
+    {
+      "name": "challenger-idle-final",
+      "sha256": "7c0ff1211ad150def5cfee6eec8ef9eda12c060edbcc1fdb562affbac0b85b3f",
+      "media": {
+        "width": 1280,
+        "height": 720,
+        "avg_frame_rate": "15/1",
+        "duration": "16.000000",
+        "nb_read_frames": "240"
+      },
+      "inputs_during_clip": 0,
+      "initial_time": 12.9000000000002,
+      "final": {
+        "time": 28.8999999999996,
+        "hull": 100.0,
+        "records": [
+          true,
+          false
+        ],
+        "alive": [
+          true,
+          false,
+          true
+        ],
+        "message": "Drone lost \u00b7 Quietus selected \u00b7 SAMPLE remains available."
+      },
+      "inspection": "all16 decoded1fps samples plus selected full decoded frames; not real-time human/audio-quality review"
+    },
+    {
+      "name": "challenger-active-control",
+      "sha256": "850a9c06d05ffb4391c34464337920fffbc10de89bb2d68ce1f8b91f3e949e51",
+      "media": {
+        "width": 1280,
+        "height": 720,
+        "avg_frame_rate": "15/1",
+        "duration": "16.000000",
+        "nb_read_frames": "240"
+      },
+      "inputs_during_clip": 0,
+      "initial_time": 41.6999999999989,
+      "final": {
+        "time": 57.699999999998,
+        "hull": 100.0,
+        "records": [
+          true,
+          false
+        ],
+        "alive": [
+          true,
+          false,
+          false
+        ],
+        "message": "QUIETUS \u00b7 replaced route"
+      },
+      "inspection": "all16 decoded1fps samples plus selected full decoded frames; not real-time human/audio-quality review"
+    }
+  ],
+  "images": [
+    {
+      "path": "docs/validation/production/blackwater-direct/layout-cover-receiving/full.png",
+      "sha256": "d702a2cadfb338299863892a1694fa7acb9e6d7881442af18f3f4f535696f66d"
+    },
+    {
+      "path": "docs/validation/production/blackwater-direct/layout-cover-gallery-request/full.png",
+      "sha256": "cd43cd84532851cb9c5269b211361b9eaa8995a0749249fde0aaffae7bd91ce2"
+    },
+    {
+      "path": "docs/validation/production/blackwater-direct/layout-cover-gallery-reply/full.png",
+      "sha256": "8505e955b41ff258ef103de0ea041c820b3d69f3bdc174f0987170cf10ae8775"
+    },
+    {
+      "path": "docs/validation/production/blackwater-direct/layout-inner-receiving/full.png",
+      "sha256": "81673c616858962f988f16a4fa9082ba0668cd392fdd9c6e80a584ac720e36fe"
+    },
+    {
+      "path": "docs/validation/production/blackwater-direct/layout-inner-gallery-request/full.png",
+      "sha256": "599e6fc762594bc2aef8e87bccda5039c750852e26ba3b343f59f5af7ce713cb"
+    },
+    {
+      "path": "docs/validation/production/blackwater-direct/layout-inner-gallery-reply/full.png",
+      "sha256": "a47c2e2aaa1ec7d997b5ebf2dcfa5e8cfd48b8b7e19d21fdd8f09e7dd216b619"
+    }
+  ],
+  "limits": "Desktop GL/fixture420dpi only; no new native/compositor/Fold7/human audio acceptance"
+}

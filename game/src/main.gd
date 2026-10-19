@@ -188,11 +188,12 @@ func _refresh() -> void:
 	for i in 3:
 		unit_buttons[i].modulate=Color("80d9cf") if sim.selected==i else Color.WHITE
 		unit_buttons[i].disabled=not sim.units[i].alive
-		var task="LOST" if not sim.units[i].alive else ("EXPOSING" if sim.capture_unit==i else (sim.units[i].hold if not sim.units[i].hold.is_empty() else ("ROUTE" if not sim.units[i].route.is_empty() else "READY")))
+		var task="LOST" if not sim.units[i].alive else (("LISTEN" if sim.mission.get("blackwater_revision",0)==1 else "EXPOSING") if sim.capture_unit==i else (sim.units[i].hold if not sim.units[i].hold.is_empty() else ("ROUTE" if not sim.units[i].route.is_empty() else "READY")))
 		unit_buttons[i].text=["QUIETUS","DRONE A","DRONE B"][i]+"\n"+task
 		unit_buttons[i].add_theme_font_size_override("font_size",maxi(13,roundi(ui_touch_height*0.25)))
 	order_buttons.waypoint_mode.text="PASS\nPOINTS" if sim.pass_through else "STOP AT\nPOINTS"
-	order_buttons.camera.text="CAMERA\nLISTEN" if sim.mission.get("finale_revision",0)==1 else ("CAMERA\nLINK" if mission_index==1 else "CAMERA")
+	ocean.optical_feed.receiver_font_size=maxi(14,roundi(ui_touch_height*0.25))
+	order_buttons.camera.text="SAMPLE" if sim.mission.get("blackwater_revision",0)==1 else "CAMERA\nLISTEN" if sim.mission.get("finale_revision",0)==1 else ("CAMERA\nLINK" if mission_index==1 else "CAMERA")
 	order_buttons.queue.text="+ QUEUE ON" if sim.queue_mode else "REPLACE"
 	order_buttons.silent.text="SILENT ✓" if sim.units[sim.selected].silent else "CRUISE"
 	order_buttons.emp.text="DISRUPT\n%d"%sim.tools.emp
@@ -270,7 +271,7 @@ func _show_campaign() -> void:
 		var b=_button(panel_box,"%02d   %s   %s"%[i+1,Simulation.Missions.TITLES[i],"RECOVERED" if i in completed else ("AVAILABLE" if i<=unlocked else "LOCKED")],func(): print("SS_MISSION_SELECT ",id); _briefing(id))
 		b.disabled=i>unlocked
 		b.set_meta("action","mission%d"%i)
-	if not recovered_evidence.is_empty(): _button(panel_box,"REVIEW OPTICAL RECORDS",func(): _evidence_gallery(0),"evidence")
+	if not recovered_evidence.is_empty(): _button(panel_box,"REVIEW RECOVERED RECORDS" if recovered_evidence.has("blackwater_request") or recovered_evidence.has("blackwater_reply") else "REVIEW OPTICAL RECORDS",func(): _evidence_gallery(0),"evidence")
 	_menu_text("Equipment: %s"%upgrade.to_upper(),15)
 	_button(panel_box,"CYCLE LOADOUT · endurance / disruption / survey",func(): upgrade=["endurance","disruption","survey"][( ["endurance","disruption","survey"].find(upgrade)+1)%3]; _show_campaign(),"loadout")
 	_button(panel_box,"AUDIO / SETTINGS",_settings_menu,"settings")
@@ -282,7 +283,10 @@ func _briefing(index: int) -> void:
 	var briefing=Simulation.Missions.make(index)
 	_menu_text("%02d / %s"%[index+1,briefing.title.to_upper()],30)
 	_menu_text(briefing.brief,20)
-	_menu_text("ORDERS\nTap water to replace your route. REPLACE toggles explicit queueing. Select Quietus or either drone. Use CAMERA within 240m of a gold record marker. Return Quietus to the extraction ring after all records are secured.",17)
+	if briefing.get("blackwater_revision",0)==1:
+		_menu_text("ORDERS\nPlot routes, select a craft, settle and SAMPLE for two seconds. Quietus receives within156m; drones within214.5m. Cover blocks reception. An audible SONAR may prompt a local relay replay; a decoded packet explains its partner's handshake. Return Quietus after both records.",17)
+	else:
+		_menu_text("ORDERS\nTap water to replace your route. REPLACE toggles explicit queueing. Select Quietus or either drone. Use CAMERA within 240m of a gold record marker. Return Quietus to the extraction ring after all records are secured.",17)
 	_menu_text("SPACE / PAUSE grants unlimited planning time. Silent running is slower and quieter. Disruption interrupts nearby Sirens for 12 seconds. Cover blocks sonar and enemy sight.",17)
 	_button(menu_footer,"ENTER WATER\nSTART PAUSED",func(): _start_mission(index); _enter_water(),"begin")
 	_button(menu_footer,"BACK TO\nOPERATIONS",_show_campaign,"back")
@@ -298,7 +302,7 @@ func _debrief() -> void:
 		_menu_text("ARCHIVE RECOVERED",32)
 		_menu_text(sim.mission.record,22)
 		_menu_text("Dive time %02d:%02d  /  Hull %d%%  /  Life support %d%%"%[int(sim.elapsed)/60,int(sim.elapsed)%60,int(sim.hull),int(sim.oxygen)],17)
-		if not recovered_evidence.is_empty(): _button(panel_box,"REVIEW OPTICAL RECORDS",func(): _evidence_gallery(0),"evidence")
+		if not recovered_evidence.is_empty(): _button(panel_box,"REVIEW RECOVERED RECORDS" if recovered_evidence.has("blackwater_request") or recovered_evidence.has("blackwater_reply") else "REVIEW OPTICAL RECORDS",func(): _evidence_gallery(0),"evidence")
 		if mission_index==5:
 			var discovery="The crown points into the trench. Unarmed wakes lead away from the fracture. Quietus’ hydrophones resolve what the images could not: they are evacuating.\n\n" if sim.mission.get("finale_revision",0)==1 else ""
 			_menu_text("THE SONG CONTINUES\n\n"+discovery+"You return with a warning, not a firing solution. Above you, the fleet waits for orders. Below, the foundry lights go dark, one by one. For the first time since descent, Quietus hears only the ocean.\n\nCampaign complete. Every dive remains replayable.",20)
@@ -502,7 +506,7 @@ func _evidence_gallery(index: int) -> void:
 	if recovered_evidence.is_empty(): _show_campaign(); return
 	sim.paused=true; screen="evidence"; _clear_menu()
 	var keys=recovered_evidence.keys(); var entry=recovered_evidence[keys[index%keys.size()]]
-	_menu_text("RECOVERED OPTICAL / %d OF %d"%[index+1,keys.size()],18)
+	_menu_text("RECOVERED %s / %d OF %d"%["HYDROPHONES" if entry.optical in ["blackwater_request","blackwater_reply"] else "OPTICAL",index+1,keys.size()],18)
 	_menu_text(entry.name,28)
 	var image=TextureRect.new(); image.texture=preload("res://src/presentation/evidence_catalog.gd").IMAGES[entry.optical]
 	image.expand_mode=TextureRect.EXPAND_IGNORE_SIZE; image.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED; image.custom_minimum_size=Vector2(0,minf(320,size.y*0.4)); panel_box.add_child(image)

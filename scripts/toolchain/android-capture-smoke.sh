@@ -2,7 +2,7 @@
 # Sourced by android-smoke; two paused capture classes only, no input mutation.
 capture_state_shot() {
     local label="$1" kind="$2" before="$3" mission="$4" attempt status
-    local checker="$(dirname -- "${BASH_SOURCE[0]}")/android-capture.py"
+    local checker="${5:-$(dirname -- "${BASH_SOURCE[0]}")/android-capture.py}"
     local base="$output/ui-metrics-capture-$label" probe="$output/$label-geometry-probe.png" candidate="$output/$label-candidate.png" final="$output/$label.png"
     rm -f "$final" "$candidate"
     adb shell wm density >"$base-density.txt" || return

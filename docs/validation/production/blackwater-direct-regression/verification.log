@@ -1,0 +1,7 @@
+PASS final8 source hashes and six inspected image hashes
+PASS reused accepted518record baseline;458 unaffected records equal
+PASS ordinary transition RED preserved and actual archive save GREEN
+PASS15 focused receiver/archive adversaries
+PASS successful probe logs contain no Godot ERROR/SCRIPT ERROR records
+PASS reference/legacy bytes unchanged and all review links resolve
+No broad suite or native/CI rerun by reviewer

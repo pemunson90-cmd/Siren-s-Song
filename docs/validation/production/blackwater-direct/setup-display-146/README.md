@@ -1,0 +1,1 @@
+Final layout launch attempt used stale display146. Xorg reported server already active; subsequent game launches could not initialize a display. No screenshots/metric captures were produced and these are not product failures. Retained raw setup errors; actual receiving RED frames from145 remain separate. Final images use a checked unused display.

@@ -15,6 +15,7 @@ system_intro_checked=false
 source "$(dirname -- "$0")/android-role-smoke.sh"
 source "$(dirname -- "$0")/android-menu-smoke.sh"
 source "$(dirname -- "$0")/android-capture-smoke.sh"
+source "$(dirname -- "$0")/android-blackwater-smoke.sh"
 adb() {
     local status=0
     timeout --foreground "${ADB_TIMEOUT_SECONDS:-30}" "$adb_bin" "$@" || status=$?
@@ -402,6 +403,7 @@ capture_runtime_state after-completed-restart
 wait_new_marker "$campaign_restore" "$campaign_before" 'campaign-restored' 30
 shot 'inner-campaign-restored'
 if [[ "${VERIFY_SIREN_ROLES:-0}" == 1 ]]; then native_role_smoke; fi
+if [[ "${VERIFY_BLACKWATER:-0}" == 1 ]]; then native_blackwater_smoke; fi
 read_logcat "$output/logcat.txt"
 if grep -lE 'FATAL EXCEPTION|Fatal signal|SCRIPT ERROR:|Parse Error:|[Ee] godot.*ERROR:' "$output"/*.txt; then
     grep -hE 'FATAL EXCEPTION|Fatal signal|SCRIPT ERROR:|Parse Error:|[Ee] godot.*ERROR:' "$output"/*.txt | sort -u >"$output/runtime-errors.txt"

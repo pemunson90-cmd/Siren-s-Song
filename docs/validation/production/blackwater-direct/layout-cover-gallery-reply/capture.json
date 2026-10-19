@@ -1,0 +1,137 @@
+{
+  "archive": [
+    "blackwater_request",
+    "blackwater_reply"
+  ],
+  "capture_time": 2.0,
+  "commands": [
+    {
+      "accepted": true,
+      "args": "{ \"unit\": 1 }",
+      "order": "select",
+      "time": 0.0
+    },
+    {
+      "accepted": true,
+      "args": "{ \"point\": (760.0, 390.0) }",
+      "order": "route",
+      "time": 0.0
+    },
+    {
+      "accepted": true,
+      "args": "{  }",
+      "order": "emp",
+      "time": 9.10000000000003
+    },
+    {
+      "accepted": true,
+      "args": "{  }",
+      "order": "camera",
+      "time": 10.9000000000001
+    },
+    {
+      "accepted": true,
+      "args": "{ \"point\": (1360.0, 290.0) }",
+      "order": "route",
+      "time": 12.9000000000002
+    },
+    {
+      "accepted": true,
+      "args": "{  }",
+      "order": "emp",
+      "time": 21.1000000000001
+    },
+    {
+      "accepted": true,
+      "args": "{  }",
+      "order": "camera",
+      "time": 24.3999999999999
+    }
+  ],
+  "hull": 100.0,
+  "metrics": {
+    "capture_state": {
+      "capture_unit": -1,
+      "drawn_frame": 13,
+      "hud_visible": false,
+      "menu_visible": true,
+      "mission": 2,
+      "optical_visible": false,
+      "paused": true,
+      "phase": "layout_only",
+      "selected": 1
+    },
+    "chart_rect": [
+      116.667,
+      112.0,
+      1072.333,
+      580.0
+    ],
+    "controls": [
+      {
+        "action": "back",
+        "clipped": false,
+        "hit_rect": [
+          513.333,
+          576.0,
+          744.0,
+          98.0
+        ],
+        "visual_rect": [
+          513.333,
+          576.0,
+          744.0,
+          98.0
+        ]
+      }
+    ],
+    "density_dpi": 420.0,
+    "density_source": "test_android_density_fixture",
+    "orders_page": "primary",
+    "safe_area_source": "recorded_android_39222413584_fixture",
+    "safe_rect": [
+      136.0,
+      0.0,
+      2384.0,
+      1080.0
+    ],
+    "schema": 1,
+    "screen": "evidence",
+    "scroll_rect": [
+      513.333,
+      46.0,
+      744.0,
+      518.0
+    ],
+    "scroll_vertical": 0,
+    "settings_values": {
+      "effects": 0.8,
+      "music": 0.5,
+      "mute": false
+    },
+    "viewport": [
+      1680.0,
+      720.0
+    ],
+    "window": [
+      2520.0,
+      1080.0
+    ]
+  },
+  "prepared": true,
+  "profile": "cover",
+  "receiver_font": 25,
+  "records": [
+    true,
+    true
+  ],
+  "take": "gallery-reply",
+  "time": 26.3999999999998,
+  "tools": {
+    "decoy": 3,
+    "emp": 0,
+    "recon": 2
+  },
+  "viewport": "(1680.0, 720.0)",
+  "window": "(2520, 1080)"
+}

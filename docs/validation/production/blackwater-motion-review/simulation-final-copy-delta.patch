@@ -1,0 +1,38 @@
+--- captured-core
++++ final-copy-core
+@@ -190,7 +190,7 @@
+ 	if c.replay>0:return "%s · LOCAL REPLAY %.1fs · SAMPLE 2s"%[name,c.replay]
+ 	if c.quiet:return "%s · quiet receiver ready · SAMPLE 2s"%name
+ 	var learned=mission.objectives.any(func(o):return o.captured)
+-	return "%s · %dm / quiet%.0fm%s"%[name,c.distance,c.quiet_range," · learned: SONAR + SAMPLE within240m" if learned else " · move closer to listen"]
++	return "%s · %dm / quiet %.0fm%s"%[name,c.distance,c.quiet_range," · learned: SONAR + SAMPLE within 240m" if learned else " · move closer to listen"]
+ func camera_context() -> Dictionary:
+ 	if capture_unit>=0:
+ 		var active=mission.objectives[capture_target]
+@@ -258,7 +258,7 @@
+ 		_move(u,dt,(42.0 if u.silent else 78.0) if i==0 else 96.0,holding)
+ 		if i>0:
+ 			u.battery=maxf(0,u.battery-dt/14.0)
+-			if u.battery<=0: u.alive=false; events.append({"type":"loss","pos":u.pos}); message="%s battery exhausted. Quietus camera remains available."%u.name
++			if u.battery<=0: u.alive=false; events.append({"type":"loss","pos":u.pos}); message=("%s battery exhausted · Quietus can SAMPLE either relay." if mission.get("blackwater_revision",0)==1 else "%s battery exhausted. Quietus camera remains available.")%u.name
+ 	_threats(dt)
+ 	sensor_clock-=dt
+ 	if sensor_clock<=0:
+@@ -278,7 +278,7 @@
+ 				if exchange:capture_time=o.duration
+ 				o.captured=true; u.hold=""; capture_unit=-1; _record_secured(o)
+ 	if not units[selected].alive:
+-		selected=0; queue_mode=false; message="Drone lost · Quietus command restored. Submarine camera remains available."
++		selected=0; queue_mode=false; message="Drone lost · Quietus selected · SAMPLE remains available." if mission.get("blackwater_revision",0)==1 else "Drone lost · Quietus command restored. Submarine camera remains available."
+ 	if oxygen<=0: outcome="lost"; message="Life support exhausted. The archive is silent."
+ 	if hull<=0: outcome="lost"; message="Quietus lost. Your previous campaign records remain safe."
+ 	if all_records() and units[0].pos.distance_to(mission.extraction)<65 and units[0].vel.length()<12:
+@@ -533,7 +533,7 @@
+ 	events.append({"type":"record","pos":record.pos})
+ 	message="Record secured. Return Quietus to extraction." if all_records() else "Record secured. Continue the survey."
+ 	if mission.get("blackwater_revision",0)==1:
+-		message="Exchange matched · ancient ocean archive aboard · return Quietus home" if all_records() else ("REQUEST decoded · REPLY accepts SONAR replay within240m; or approach quietly" if record.name=="REQUEST RELAY" else "REPLY decoded · ancient temperatures · REQUEST accepts SONAR replay within240m")
++		message="Exchange matched · ancient ocean archive aboard · return Quietus home" if all_records() else ("REQUEST decoded · REPLY accepts SONAR replay within 240m; or approach quietly" if record.name=="REQUEST RELAY" else "REPLY decoded · ancient temperatures · REQUEST accepts SONAR replay within 240m")
+ 	if mission.id==5 and record.get("kind","")=="receiver":
+ 		mission["phase"]="warning"; message="Warning decoded: deep fracture; outbound hulls are leaving. Bring Quietus and this packet home."
+ 	if mission.id==3:

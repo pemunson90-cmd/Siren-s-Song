@@ -2,7 +2,7 @@
 
 **[Latest inspected Android APK ·0afe5fc](https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/39251216827/artifacts/12186710188)** · [Install/update guide](PLAYTEST_ANDROID.md) · [Native evidence](validation/android-39251216827/README.md)
 
-Active Gauntlet: the contact-feedback/capture cycle is verified within scope; the next **direct Blackwater chapter implementation is already running**. Checkpoints save progress while development continues. Only the user determines satisfaction and program termination.
+Active Gauntlet: the contact-feedback/capture cycle is verified within scope; the **direct Blackwater chapter has passed independent desktop review**, with native validation next and isolated loadout clarity already underway. Checkpoints save progress while development continues. Only the user determines satisfaction and program termination.
 
 ## What you can inspect
 
@@ -29,6 +29,10 @@ Native S# text appears only partially behind an ending/menu overlay in this prot
 The [fresh campaign scout](reviews/2026-10-19-campaign-quality-scout.md) found genuine reconnaissance risk but generic rewards: Blackwater promises an exchange while giving two more similar photographs. [Baseline approach](validation/production/campaign-quality-scout/blackwater-approach-16s.mp4) · [no-input exposure and real drone loss](validation/production/campaign-quality-scout/blackwater-noinput-16s.mp4).
 
 The [actual matched experiment](validation/production/blackwater-exchange-prototype/motion/README.md) rejected mandatory transmission timing: it added about five seconds of waiting without demonstrated tactical benefit. The implementation now develops distinct retained request/reply evidence and a quiet-close versus audible-standoff sampling choice, preserving legacy active saves and finite tools. No new chapter APK is promoted yet.
+
+Watch the current [baseline approach](validation/production/blackwater-motion-review/baseline-approach.mp4), [new request](validation/production/blackwater-motion-review/challenger-approach.mp4), [audible reply](validation/production/blackwater-motion-review/challenger-active-reply.mp4), [matched no-input control](validation/production/blackwater-motion-review/challenger-active-control.mp4) and [real idle-world drone loss](validation/production/blackwater-motion-review/challenger-idle-final.mp4). [Fresh experience review](reviews/2026-10-19-blackwater-direct-experience.md) supports scoped desktop promotion; [regression review](reviews/2026-10-19-blackwater-direct-regressions.md) verified the save-transition fix. These are desktop command-driven captures, not native chapter acceptance. New fixture-assisted native sampling/record/restoration/gallery checks are prepared; latest inspected APK above remains unchanged until actual review.
+
+Local direct-chapter checks now pass; [actual cover receiving](validation/production/blackwater-direct/layout-cover-receiving/full.png) and [earned request gallery](validation/production/blackwater-direct/layout-cover-gallery-request/full.png) are desktop420dpi fixtures using ordinary drone routes/sampling. They are **not Android screenshots or chapter promotion**. Matched motion, independent experience review and new scoped native checks are in progress. A real transition-save regression and receiving-label wrap were found and corrected; old failure evidence is retained.
 
 The [independent adherence/progress audit](reviews/2026-10-19-gauntlet-adherence-progress-audit.md) found legitimate contact-feedback gains and corrected stale next-action records, while warning against over-certifying small presentation changes. The response is active chapter development, followed by fresh playable criticism—not another general audit.
 

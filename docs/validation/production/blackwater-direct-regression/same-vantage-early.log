@@ -1,0 +1,8 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+HUNT_SOLO reverse=false target=0 captured=true elapsed=25.2999999999998 hull=100.0 tools={ "emp": 2, "decoy": 3, "recon": 2 } outcome=
+HUNT_SOLO reverse=false target=1 captured=true elapsed=47.3999999999986 hull=100.0 tools={ "emp": 0, "decoy": 3, "recon": 2 } outcome=
+HUNT_SOLO_FINAL reverse=false okay=false outcome= elapsed=49.4999999999985 hull=100.0 tools={ "emp": 0, "decoy": 3, "recon": 2 } oxygen=97.2499999999978 pos=(1353.405, 648.6044) message=Autopilot stopped at unsafe terrain. Replot in open water. route=[]
+HUNT_SOLO reverse=true target=1 captured=true elapsed=34.5999999999993 hull=100.0 tools={ "emp": 1, "decoy": 3, "recon": 2 } outcome=
+HUNT_SOLO reverse=true target=0 captured=true elapsed=57.999999999998 hull=100.0 tools={ "emp": 0, "decoy": 3, "recon": 2 } outcome=
+HUNT_SOLO_FINAL reverse=true okay=true outcome=won elapsed=78.8999999999968 hull=79.9000000000002 tools={ "emp": 0, "decoy": 3, "recon": 2 } oxygen=95.6166666666632 pos=(144.2128, 793.681) message=Archive recovered. Quietus is home. route=[{ "pos": (140.0, 800.0), "stop": true }]

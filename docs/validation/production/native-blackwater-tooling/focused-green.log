@@ -1,0 +1,12 @@
+................
+----------------------------------------------------------------------
+Ran 16 tests in 2.315s
+
+OK
+....................
+----------------------------------------------------------------------
+Ran 20 tests in 2.752s
+
+OK
+Archive restoration: binary primary/backup integrity, absent temporary cleanup, and write-failure propagation pass (mock transport only)
+FOCUSED_GATE_EXIT=0; changed shell bash -n passed.

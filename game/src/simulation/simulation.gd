@@ -38,7 +38,7 @@ func start(index: int, upgrade: String = "endurance") -> void:
 	sirens = mission.sirens.duplicate(true)
 	known = {}; contacts = {}; events = []; noises = []
 	elapsed=0.0; oxygen=100.0; hull=100.0; paused=true; selected=0; queue_mode=false; pass_through=true; outcome=""
-	ping_time=0.0; recon_time=0.0; capture_time=0.0; capture_unit=-1; accumulator=0.0
+	ping_time=0.0; recon_time=0.0; capture_time=0.0; capture_unit=-1; capture_target=-1; accumulator=0.0
 	tools={"emp":2,"decoy":3,"recon":2}
 	if upgrade=="disruption": tools.emp += 1
 	if upgrade=="survey": tools.recon += 1
@@ -148,6 +148,12 @@ func command(order: String,args: Dictionary={}) -> bool:
 			if ping_time>0: return false
 			ping_time=3.5; ping_origin=u.pos; _noise(u.pos,950,"ACTIVE SONAR"); events.append({"type":"ping","pos":u.pos}); message="Active return · your position is audible"
 			_observe()
+			if mission.get("blackwater_revision",0)==1:
+				var answered=false
+				for target in mission.objectives:
+					if not target.captured and u.pos.distance_to(target.pos)<240 and line_clear(u.pos,target.pos):
+						target.replay_until=elapsed+3.0;answered=true
+				if answered:message="SONAR emitted · local relay replay 3s · settle and SAMPLE"
 		"recon":
 			if tools.recon<=0: return false
 			tools.recon-=1; recon_time=8.0; _noise(u.pos,1100,"RECON UPLINK"); message="Wide survey uplink · 8 seconds"; events.append({"type":"recon","pos":u.pos}); _observe()
@@ -165,14 +171,32 @@ func command(order: String,args: Dictionary={}) -> bool:
 			if not context.ready: message=context.text; return false
 			var target=mission.objectives[context.target]
 			capture_unit=selected; capture_target=context.target; capture_time=0.0; u.hold="HOLD"
-			message="%s · hold %.0f seconds"%["Passive hydrophone decode" if target.get("kind","")=="receiver" else ("Archive uplink" if target.get("kind","")=="uplink" else "Camera exposure"),target.get("duration",4.0)]
-			if target.get("kind","")!="receiver": _noise(u.pos,520,"CAMERA")
+			message="%s · hold %.0f seconds"%["Hydrophone reception" if target.get("kind","")=="exchange" else ("Passive hydrophone decode" if target.get("kind","")=="receiver" else ("Archive uplink" if target.get("kind","")=="uplink" else "Camera exposure")),target.get("duration",4.0)]
+			if target.get("kind","") not in ["receiver","exchange"]: _noise(u.pos,520,"CAMERA")
 			events.append({"type":"camera","pos":u.pos})
 		_: return false
 	return true
+# Read-only receiver geometry. Relay reply is authored local behavior; no enemy query.
+func blackwater_context(target:int,station:int=-1) -> Dictionary:
+	if station<0:station=selected
+	var u=units[station];var o=mission.objectives[target]
+	var radius=(240.0 if station==0 else 330.0)*(0.65 if mission.darkness else 1.0)
+	var distance=u.pos.distance_to(o.pos);var clear=line_clear(u.pos,o.pos)
+	var replay=maxf(0.0,o.get("replay_until",0.0)-elapsed) if u.alive and clear and distance<240 else 0.0
+	return {"distance":distance,"quiet_range":radius,"clear":clear,"quiet":u.alive and clear and distance<radius,"replay":replay,"ready":u.alive and clear and (distance<radius or replay>0),"settled":u.vel.length()<2}
+func _blackwater_context_text(target:int,station:int) -> String:
+	var c=blackwater_context(target,station);var name=mission.objectives[target].name
+	if not c.clear:return "%s · cover blocks reception"%name
+	if c.replay>0:return "%s · LOCAL REPLAY %.1fs · SAMPLE 2s"%[name,c.replay]
+	if c.quiet:return "%s · quiet receiver ready · SAMPLE 2s"%name
+	var learned=mission.objectives.any(func(o):return o.captured)
+	return "%s · %dm / quiet %.0fm%s"%[name,c.distance,c.quiet_range," · learned: SONAR + SAMPLE within 240m" if learned else " · move closer to listen"]
 func camera_context() -> Dictionary:
 	if capture_unit>=0:
 		var active=mission.objectives[capture_target]
+		if active.get("kind","")=="exchange":
+			var c=blackwater_context(capture_target,capture_unit)
+			return {"target":capture_target,"ready":false,"text":"%s · %s · %s %.1f/2s"%[units[capture_unit].name,active.name,"receiving" if c.settled else "settling",capture_time]}
 		return {"target":capture_target,"ready":false,"text":"%s · %s %.1f / %.0fs"%[units[capture_unit].name,active.name,capture_time,active.get("duration",4.0)]}
 	var unit=units[selected]; var best=-1; var nearest=-1; var distance=INF
 	for id in mission.objectives.size():
@@ -182,6 +206,9 @@ func camera_context() -> Dictionary:
 		if d<distance: nearest=id; distance=d
 		if best<0 and d<240 and line_clear(unit.pos,objective.pos): best=id
 	if nearest<0: return {"target":-1,"ready":false,"text":"Archive aboard · return Quietus to extraction."}
+	if mission.get("blackwater_revision",0)==1:
+		var id=best if best>=0 else nearest
+		return {"target":id,"ready":blackwater_context(id).ready,"text":_blackwater_context_text(id,selected)}
 	if best<0:
 		var target=mission.objectives[nearest]
 		return {"target":nearest,"ready":false,"text":"%s · %dm away / 240m range%s"%[target.name,roundi(distance)," · view blocked by cover" if not line_clear(unit.pos,target.pos) else ""]}
@@ -231,20 +258,27 @@ func _tick(dt: float) -> void:
 		_move(u,dt,(42.0 if u.silent else 78.0) if i==0 else 96.0,holding)
 		if i>0:
 			u.battery=maxf(0,u.battery-dt/14.0)
-			if u.battery<=0: u.alive=false; events.append({"type":"loss","pos":u.pos}); message="%s battery exhausted. Quietus camera remains available."%u.name
+			if u.battery<=0: u.alive=false; events.append({"type":"loss","pos":u.pos}); message=("%s battery exhausted · Quietus can SAMPLE either relay." if mission.get("blackwater_revision",0)==1 else "%s battery exhausted. Quietus camera remains available.")%u.name
 	_threats(dt)
 	sensor_clock-=dt
 	if sensor_clock<=0:
 		_observe(); sensor_clock=0.15
 	if capture_unit>=0:
 		var u=units[capture_unit]; var o=mission.objectives[capture_target]
-		if not u.alive or u.pos.distance_to(o.pos)>240 or not line_clear(u.pos,o.pos): capture_unit=-1; message="Exposure interrupted · regain clear view"
+		var exchange=o.get("kind","")=="exchange" and mission.get("blackwater_revision",0)==1
+		var receiver=blackwater_context(capture_target,capture_unit) if exchange else {}
+		if not u.alive or (exchange and not receiver.ready) or (not exchange and (u.pos.distance_to(o.pos)>240 or not line_clear(u.pos,o.pos))):
+			capture_unit=-1
+			if exchange:capture_time=0.0
+			message="Reception interrupted · move closer or SONAR for a local replay" if exchange else "Exposure interrupted · regain clear view"
+		elif exchange and not receiver.settled:capture_time=0.0
 		else:
 			capture_time+=dt
-			if capture_time>=o.get("duration",4.0):
+			if capture_time+(0.0000001 if exchange else 0.0)>=o.get("duration",4.0):
+				if exchange:capture_time=o.duration
 				o.captured=true; u.hold=""; capture_unit=-1; _record_secured(o)
 	if not units[selected].alive:
-		selected=0; queue_mode=false; message="Drone lost · Quietus command restored. Submarine camera remains available."
+		selected=0; queue_mode=false; message="Drone lost · Quietus selected · SAMPLE remains available." if mission.get("blackwater_revision",0)==1 else "Drone lost · Quietus command restored. Submarine camera remains available."
 	if oxygen<=0: outcome="lost"; message="Life support exhausted. The archive is silent."
 	if hull<=0: outcome="lost"; message="Quietus lost. Your previous campaign records remain safe."
 	if all_records() and units[0].pos.distance_to(mission.extraction)<65 and units[0].vel.length()<12:
@@ -446,6 +480,18 @@ static func valid_snapshot(data: Dictionary) -> bool:
 			if not structure is Rect2: return false
 	for o in data.mission.objectives:
 		if not o is Dictionary or not o.has_all(["pos","name","captured"]) or not o.pos is Vector2: return false
+	if data.mission.has("blackwater_revision"):
+		if data.mission.id!=2 or not data.mission.blackwater_revision is int or data.mission.blackwater_revision!=1 or data.mission.objectives.size()!=2:return false
+		var time=data.get("elapsed",0.0)
+		if not (time is float or time is int) or not is_finite(float(time)) or time<0:return false
+		for o in data.mission.objectives:
+			if o.get("kind","")!="exchange" or o.get("duration",0)!=2.0:return false
+			var until=o.get("replay_until",null)
+			if not (until is float or until is int) or not is_finite(float(until)) or until<0 or until>time+3.001:return false
+		var station=data.get("capture_unit",-1);var target=data.get("capture_target",-1);var progress=data.get("capture_time",0.0)
+		if not station is int or station< -1 or station>2 or not target is int or target< -1 or target>1:return false
+		if station>=0 and target<0:return false
+		if not (progress is float or progress is int) or not is_finite(float(progress)) or progress<0 or progress>2.01:return false
 	if data.units.size()!=3 or not data.tools.has_all(["emp","decoy","recon"]): return false
 	for u in data.units:
 		if not u is Dictionary or not u.has_all(["pos","vel","angle","route","alive","hold","silent","battery","name"]): return false
@@ -486,6 +532,8 @@ func has_live_contact() -> bool:
 func _record_secured(record: Dictionary) -> void:
 	events.append({"type":"record","pos":record.pos})
 	message="Record secured. Return Quietus to extraction." if all_records() else "Record secured. Continue the survey."
+	if mission.get("blackwater_revision",0)==1:
+		message="Exchange matched · ancient ocean archive aboard · return Quietus home" if all_records() else ("REQUEST decoded · REPLY accepts SONAR replay within 240m; or approach quietly" if record.name=="REQUEST RELAY" else "REPLY decoded · ancient temperatures · REQUEST accepts SONAR replay within 240m")
 	if mission.id==5 and record.get("kind","")=="receiver":
 		mission["phase"]="warning"; message="Warning decoded: deep fracture; outbound hulls are leaving. Bring Quietus and this packet home."
 	if mission.id==3:

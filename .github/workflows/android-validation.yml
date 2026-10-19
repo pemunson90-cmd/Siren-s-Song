@@ -22,6 +22,7 @@ jobs:
     env:
       ARTIFACT_DIR: ${{ github.workspace }}/artifacts
       VERIFY_SIREN_ROLES: '1'
+      VERIFY_BLACKWATER: '1'
       VERIFY_TOUCH_TARGETS: '1'
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
@@ -149,6 +150,9 @@ jobs:
             artifacts/android-smoke/role-*.txt
             artifacts/android-smoke/role-*.json
             artifacts/android-smoke/role-fixture.save
+            artifacts/android-smoke/blackwater/*.txt
+            artifacts/android-smoke/blackwater/*.json
+            artifacts/android-smoke/blackwater/*.save
             artifacts/android-smoke/checkpoint-*.txt
             artifacts/android-smoke/runtime-state-*.txt
             artifacts/android-smoke/app-exit-info.txt
@@ -166,7 +170,9 @@ jobs:
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: android-cover-screenshots
-          path: artifacts/android-smoke/cover*.png
+          path: |
+            artifacts/android-smoke/cover*.png
+            artifacts/android-smoke/blackwater/cover*.png
           if-no-files-found: ignore
           retention-days: 14
       - name: Upload inner viewport screenshots
@@ -174,7 +180,9 @@ jobs:
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: android-inner-screenshots
-          path: artifacts/android-smoke/inner*.png
+          path: |
+            artifacts/android-smoke/inner*.png
+            artifacts/android-smoke/blackwater/inner*.png
           if-no-files-found: ignore
           retention-days: 14
       - name: Upload installable APK separately

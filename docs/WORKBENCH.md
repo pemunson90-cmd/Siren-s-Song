@@ -1,10 +1,12 @@
 # Siren's Song progress workbench
 
-**Stage:** Active / direct Blackwater implementation; mandatory cadence rejected from actual matched motion. Reviewed5eb571f, native0afe5fc/run39251216827 now passes scoped native, byte/signature and41-final-image review; final evidence archival is published at1cbc97b. Current integrated gate257/298/1057/7/15/68 passes. Native fresh→memory teaching/full-campaign/physical acceptance remains open; inspected9dacbb4 and older fallbacks remain preserved.
+**Stage:** Active / reviewed direct Blackwater source advancing to meaningful native validation; isolated loadout-clarity implementation already running. Mandatory cadence rejected. Reviewed5eb571f, native0afe5fc/run39251216827 now passes scoped native, byte/signature and41-final-image review; final evidence archival is published at1cbc97b. Direct Blackwater integrated gate292/308/1057/7/15/68 now passes locally; actual chapter criticism/native promotion remain pending. Native fresh→memory teaching/full-campaign/physical acceptance remains open; inspected9dacbb4 and older fallbacks remain preserved.
 **Phone dashboard:** [current APK, evidence and limits](PHONE_DASHBOARD.md).
 **Current playable comparison base:**0afe5fc/run39251216827, with inspected APK bytes, stable signature and scoped actual pixels. Historical entry baseaa022cc/b809501 and all earlier artifacts remain preserved. The current managed Command-Library runtime reports connected, unrestricted/enforced, observations current; no root model-effort telemetry is exposed.
 **Fully inspected native fallback:** f1ea536 / runtime 92625ac; inherited patrol defect recorded. Latest tested APK contains experimental finale ancestry; native finale/full-campaign quality remains unresolved.
 **Player device:** Galaxy Z Fold7; physical folding, touch comfort, OS multi-touch and sustained performance remain open.
+
+**Active isolated next gain:** [actual loadout-comprehension scout](reviews/2026-10-19-loadout-comprehension-scout.md) confirms Operations names omit stock/effect tradeoffs and next-dive versus active-resume distinction. Chapter ownership is released; producer now builds compact real-resource comparison/briefing confirmation in isolated copies without changing equipment mechanics. Scout explicitly requested Sol6.1/high; actual backend/cost telemetry unknown. Separate Blackwater regression and fresh experience scopes are released with supported bounded desktop promotion; native chapter acceptance remains pending.
 
 ## Historical role/density evidence — current action is above and below
 
@@ -26,7 +28,7 @@ Latest [native 39229219785](validation/android-39229219785/README.md), exact sou
 
 Retained failures remain meaningful: two early first-swipe failures, an explicitly absent immersive intro, and 744ad3e's confirmed menu success followed by exactly 1023-character truncated HUD JSON. The [transport-only repair](validation/production/density/metric-transport/README.md) now passes natively without dropping controls, weakening geometry or using stale snapshots. Local strict gate is 234 core / 230 runtime / 1057 geometry / 7 menu / 15 scroll / 65 transport plus parser/archive guards. Initial 63/2 raw Dictionary assertion failures are preserved and explained by JSON integer-to-float normalization; strict canonical byte equality and independent field-value checks pass.
 
-**Next single action:** continue the assigned direct Blackwater request/reply implementation, then inspect actual playable evidence and commission separate experience/regression reviews. Mandatory cadence is rejected; do not redo prototype timing or completed contact/native retrieval. [Independent adherence/progress audit](reviews/2026-10-19-gauntlet-adherence-progress-audit.md) confirms bounded gains and identifies campaign-content priority. Preserve current inspected APK/fallbacks. Root owns integration/publication; `/root/decoy_feedback` owns active game files and `blackwater-direct/` evidence.
+**Next single action:** root publishes reviewed Blackwater source + scoped native tooling/workflow, then inspects actual new native run/artifacts; current inspected APK remains0afe5fc. Producer already implements loadout clarity in isolated copies, without touching shared source. Fresh experience and separate regression support scoped desktop promotion; all losses/source-deltas remain retained. Do not repeat unchanged checks or stop at this milestone.
 
 ## Resumed artifact gate — 19 October 2026
 

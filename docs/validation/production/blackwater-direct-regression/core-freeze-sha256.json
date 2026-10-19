@@ -1,0 +1,5 @@
+{
+  "game/src/simulation/simulation.gd": "e941450ef406ed415c266784167b053c70d47c69cb86a9d523555befb2809c2a",
+  "game/src/campaign/missions.gd": "2ed1a9ce44dedd223dd7d16a5434b8823161bfe1eb1e038f3525c7140c0075aa",
+  "game/src/persistence/save_store.gd": "b7fa9eeb7a0c2d374833a5ea97a26f5d6fb7e6eefc5118dc1af44210ca8819c5"
+}

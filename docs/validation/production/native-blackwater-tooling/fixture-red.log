@@ -1,0 +1,30 @@
+F.F.........
+======================================================================
+FAIL: test_actual_fresh_fixture_and_ordinary_earned_archive_verifier (__main__.BlackwaterTests.test_actual_fresh_fixture_and_ordinary_earned_archive_verifier)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Siren-s-Song-gauntlet/scripts/toolchain/test-android-blackwater.py", line 22, in test_actual_fresh_fixture_and_ordinary_earned_archive_verifier
+    self.assertEqual(r.returncode,0,r.stderr);self.assertIn('fresh_snapshot_equal=true',r.stdout);self.assertTrue(archive.is_file())
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 != 0 : ERROR: Attempt to open script '/workspace/Siren-s-Song-gauntlet/scripts/toolchain/native-blackwater-fixture.gd' resulted in error 'File not found'.
+   at: load_source_code (modules/gdscript/gdscript.cpp:1127)
+ERROR: Failed loading resource: /workspace/Siren-s-Song-gauntlet/scripts/toolchain/native-blackwater-fixture.gd.
+   at: _load (core/io/resource_loader.cpp:343)
+ERROR: Can't load script: /workspace/Siren-s-Song-gauntlet/scripts/toolchain/native-blackwater-fixture.gd
+   at: start (main/main.cpp:4271)
+
+
+======================================================================
+FAIL: test_failed_fixture_launch_restores_private_genuine_bytes (__main__.BlackwaterTests.test_failed_fixture_launch_restores_private_genuine_bytes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Siren-s-Song-gauntlet/scripts/toolchain/test-android-blackwater.py", line 134, in test_failed_fixture_launch_restores_private_genuine_bytes
+    self.assertEqual(r.returncode,17,r.stderr);self.assertEqual((p/'remote/files/quietus.save').read_bytes(),primary);self.assertEqual((p/'remote/files/quietus.save.bak').read_bytes(),backup)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 != 17 : test: line 3: /workspace/Siren-s-Song-gauntlet/scripts/toolchain/android-blackwater-smoke.sh: No such file or directory
+
+
+----------------------------------------------------------------------
+Ran 12 tests in 0.999s
+
+FAILED (failures=2)

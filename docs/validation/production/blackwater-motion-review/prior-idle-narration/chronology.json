@@ -1,0 +1,826 @@
+{
+  "commands": [
+    {
+      "accepted": true,
+      "args": "{ \"unit\": 1 }",
+      "order": "select",
+      "time": 0.0
+    },
+    {
+      "accepted": true,
+      "args": "{ \"point\": (760.0, 390.0) }",
+      "order": "route",
+      "time": 0.0
+    },
+    {
+      "accepted": true,
+      "args": "{  }",
+      "order": "emp",
+      "time": 9.10000000000003
+    },
+    {
+      "accepted": true,
+      "args": "{  }",
+      "order": "camera",
+      "time": 10.9000000000001
+    }
+  ],
+  "final": {
+    "alive": [
+      true,
+      false,
+      true
+    ],
+    "capture_time": 2.0,
+    "contacts": {
+      "0": {
+        "angle": 1.0997097492218,
+        "lock": 3.91666666666666,
+        "mode": "LOCKING",
+        "pos": "(686.5427, 259.0297)",
+        "target": 1,
+        "time": 25.0166666666665,
+        "type": "patroller"
+      }
+    },
+    "context": {
+      "ready": false,
+      "target": 1,
+      "text": "REPLY RELAY · 1261m / quiet156m · learned: SONAR + SAMPLE within240m"
+    },
+    "hull": 100.0,
+    "message": "Drone lost · Quietus command restored. Submarine camera remains available.",
+    "outcome": "",
+    "own_positions": [
+      "(140.0, 800.0)",
+      "(752.9029, 389.318)",
+      "(280.0, 800.0)"
+    ],
+    "records": [
+      true,
+      false
+    ],
+    "selected": 0,
+    "time": 28.8999999999996,
+    "tools": {
+      "decoy": 3,
+      "emp": 1,
+      "recon": 2
+    }
+  },
+  "fps": 15,
+  "frames": 240,
+  "initial": {
+    "alive": [
+      true,
+      true,
+      true
+    ],
+    "capture_time": 2.0,
+    "contacts": {
+      "0": {
+        "angle": 1.62028849124908,
+        "lock": 0.0,
+        "mode": "DISRUPTED",
+        "pos": "(686.5645, 259.0175)",
+        "target": -1,
+        "time": 12.8500000000002,
+        "type": "patroller"
+      }
+    },
+    "context": {
+      "ready": false,
+      "target": 1,
+      "text": "REPLY RELAY · cover blocks reception"
+    },
+    "hull": 100.0,
+    "message": "REQUEST decoded · REPLY accepts SONAR replay within240m; or approach quietly",
+    "outcome": "",
+    "own_positions": [
+      "(140.0, 800.0)",
+      "(752.9029, 389.318)",
+      "(280.0, 800.0)"
+    ],
+    "records": [
+      true,
+      false
+    ],
+    "selected": 1,
+    "time": 12.9000000000002,
+    "tools": {
+      "decoy": 3,
+      "emp": 1,
+      "recon": 2
+    }
+  },
+  "inputs_during_clip": 0,
+  "samples": [
+    {
+      "alive": [
+        true,
+        true,
+        true
+      ],
+      "capture_time": 2.0,
+      "contacts": {
+        "0": {
+          "angle": 1.62028849124908,
+          "lock": 0.0,
+          "mode": "DISRUPTED",
+          "pos": "(686.5645, 259.0175)",
+          "target": -1,
+          "time": 12.8500000000002,
+          "type": "patroller"
+        }
+      },
+      "context": {
+        "ready": false,
+        "target": 1,
+        "text": "REPLY RELAY · cover blocks reception"
+      },
+      "frame": 0,
+      "hull": 100.0,
+      "message": "REQUEST decoded · REPLY accepts SONAR replay within240m; or approach quietly",
+      "outcome": "",
+      "own_positions": [
+        "(140.0, 800.0)",
+        "(752.9029, 389.318)",
+        "(280.0, 800.0)"
+      ],
+      "records": [
+        true,
+        false
+      ],
+      "selected": 1,
+      "time": 12.9666666666669,
+      "tools": {
+        "decoy": 3,
+        "emp": 1,
+        "recon": 2
+      }
+    },
+    {
+      "alive": [
+        true,
+        true,
+        true
+      ],
+      "capture_time": 2.0,
+      "contacts": {
+        "0": {
+          "angle": 1.62028849124908,
+          "lock": 0.0,
+          "mode": "DISRUPTED",
+          "pos": "(686.5645, 259.0175)",
+          "target": -1,
+          "time": 13.8500000000003,
+          "type": "patroller"
+        }
+      },
+      "context": {
+        "ready": false,
+        "target": 1,
+        "text": "REPLY RELAY · cover blocks reception"
+      },
+      "frame": 15,
+      "hull": 100.0,
+      "message": "REQUEST decoded · REPLY accepts SONAR replay within240m; or approach quietly",
+      "outcome": "",
+      "own_positions": [
+        "(140.0, 800.0)",
+        "(752.9029, 389.318)",
+        "(280.0, 800.0)"
+      ],
+      "records": [
+        true,
+        false
+      ],
+      "selected": 1,
+      "time": 13.9666666666669,
+      "tools": {
+        "decoy": 3,
+        "emp": 1,
+        "recon": 2
+      }
+    },
+    {
+      "alive": [
+        true,
+        true,
+        true
+      ],
+      "capture_time": 2.0,
+      "contacts": {
+        "0": {
+          "angle": 1.62028849124908,
+          "lock": 0.0,
+          "mode": "DISRUPTED",
+          "pos": "(686.5645, 259.0175)",
+          "target": -1,
+          "time": 14.8500000000003,
+          "type": "patroller"
+        }
+      },
+      "context": {
+        "ready": false,
+        "target": 1,
+        "text": "REPLY RELAY · cover blocks reception"
+      },
+      "frame": 30,
+      "hull": 100.0,
+      "message": "REQUEST decoded · REPLY accepts SONAR replay within240m; or approach quietly",
+      "outcome": "",
+      "own_positions": [
+        "(140.0, 800.0)",
+        "(752.9029, 389.318)",
+        "(280.0, 800.0)"
+      ],
+      "records": [
+        true,
+        false
+      ],
+      "selected": 1,
+      "time": 14.966666666667,
+      "tools": {
+        "decoy": 3,
+        "emp": 1,
+        "recon": 2
+      }
+    },
+    {
+      "alive": [
+        true,
+        true,
+        true
+      ],
+      "capture_time": 2.0,
+      "contacts": {
+        "0": {
+          "angle": 1.62028849124908,
+          "lock": 0.0,
+          "mode": "DISRUPTED",
+          "pos": "(686.5645, 259.0175)",
+          "target": -1,
+          "time": 15.8500000000004,
+          "type": "patroller"
+        }
+      },
+      "context": {
+        "ready": false,
+        "target": 1,
+        "text": "REPLY RELAY · cover blocks reception"
+      },
+      "frame": 45,
+      "hull": 100.0,
+      "message": "REQUEST decoded · REPLY accepts SONAR replay within240m; or approach quietly",
+      "outcome": "",
+      "own_positions": [
+        "(140.0, 800.0)",
+        "(752.9029, 389.318)",
+        "(280.0, 800.0)"
+      ],
+      "records": [
+        true,
+        false
+      ],
+      "selected": 1,
+      "time": 15.966666666667,
+      "tools": {
+        "decoy": 3,
+        "emp": 1,
+        "recon": 2
+      }
+    },
+    {
+      "alive": [
+        true,
+        true,
+        true
+      ],
+      "capture_time": 2.0,
+      "contacts": {
+        "0": {
+          "angle": 1.62028849124908,
+          "lock": 0.0,
+          "mode": "DISRUPTED",
+          "pos": "(686.5645, 259.0175)",
+          "target": -1,
+          "time": 16.8500000000003,
+          "type": "patroller"
+        }
+      },
+      "context": {
+        "ready": false,
+        "target": 1,
+        "text": "REPLY RELAY · cover blocks reception"
+      },
+      "frame": 60,
+      "hull": 100.0,
+      "message": "REQUEST decoded · REPLY accepts SONAR replay within240m; or approach quietly",
+      "outcome": "",
+      "own_positions": [
+        "(140.0, 800.0)",
+        "(752.9029, 389.318)",
+        "(280.0, 800.0)"
+      ],
+      "records": [
+        true,
+        false
+      ],
+      "selected": 1,
+      "time": 16.966666666667,
+      "tools": {
+        "decoy": 3,
+        "emp": 1,
+        "recon": 2
+      }
+    },
+    {
+      "alive": [
+        true,
+        true,
+        true
+      ],
+      "capture_time": 2.0,
+      "contacts": {
+        "0": {
+          "angle": 1.62028849124908,
+          "lock": 0.0,
+          "mode": "DISRUPTED",
+          "pos": "(686.5645, 259.0175)",
+          "target": -1,
+          "time": 17.8500000000003,
+          "type": "patroller"
+        }
+      },
+      "context": {
+        "ready": false,
+        "target": 1,
+        "text": "REPLY RELAY · cover blocks reception"
+      },
+      "frame": 75,
+      "hull": 100.0,
+      "message": "REQUEST decoded · REPLY accepts SONAR replay within240m; or approach quietly",
+      "outcome": "",
+      "own_positions": [
+        "(140.0, 800.0)",
+        "(752.9029, 389.318)",
+        "(280.0, 800.0)"
+      ],
+      "records": [
+        true,
+        false
+      ],
+      "selected": 1,
+      "time": 17.9666666666669,
+      "tools": {
+        "decoy": 3,
+        "emp": 1,
+        "recon": 2
+      }
+    },
+    {
+      "alive": [
+        true,
+        true,
+        true
+      ],
+      "capture_time": 2.0,
+      "contacts": {
+        "0": {
+          "angle": 1.62028849124908,
+          "lock": 0.0,
+          "mode": "DISRUPTED",
+          "pos": "(686.5645, 259.0175)",
+          "target": -1,
+          "time": 18.8500000000002,
+          "type": "patroller"
+        }
+      },
+      "context": {
+        "ready": false,
+        "target": 1,
+        "text": "REPLY RELAY · cover blocks reception"
+      },
+      "frame": 90,
+      "hull": 100.0,
+      "message": "REQUEST decoded · REPLY accepts SONAR replay within240m; or approach quietly",
+      "outcome": "",
+      "own_positions": [
+        "(140.0, 800.0)",
+        "(752.9029, 389.318)",
+        "(280.0, 800.0)"
+      ],
+      "records": [
+        true,
+        false
+      ],
+      "selected": 1,
+      "time": 18.9666666666669,
+      "tools": {
+        "decoy": 3,
+        "emp": 1,
+        "recon": 2
+      }
+    },
+    {
+      "alive": [
+        true,
+        true,
+        true
+      ],
+      "capture_time": 2.0,
+      "contacts": {
+        "0": {
+          "angle": 1.62028849124908,
+          "lock": 0.0,
+          "mode": "DISRUPTED",
+          "pos": "(686.5645, 259.0175)",
+          "target": -1,
+          "time": 19.8500000000002,
+          "type": "patroller"
+        }
+      },
+      "context": {
+        "ready": false,
+        "target": 1,
+        "text": "REPLY RELAY · cover blocks reception"
+      },
+      "frame": 105,
+      "hull": 100.0,
+      "message": "REQUEST decoded · REPLY accepts SONAR replay within240m; or approach quietly",
+      "outcome": "",
+      "own_positions": [
+        "(140.0, 800.0)",
+        "(752.9029, 389.318)",
+        "(280.0, 800.0)"
+      ],
+      "records": [
+        true,
+        false
+      ],
+      "selected": 1,
+      "time": 19.9666666666668,
+      "tools": {
+        "decoy": 3,
+        "emp": 1,
+        "recon": 2
+      }
+    },
+    {
+      "alive": [
+        true,
+        true,
+        true
+      ],
+      "capture_time": 2.0,
+      "contacts": {
+        "0": {
+          "angle": 1.62028849124908,
+          "lock": 0.0,
+          "mode": "DISRUPTED",
+          "pos": "(686.5645, 259.0175)",
+          "target": -1,
+          "time": 20.8500000000001,
+          "type": "patroller"
+        }
+      },
+      "context": {
+        "ready": false,
+        "target": 1,
+        "text": "REPLY RELAY · cover blocks reception"
+      },
+      "frame": 120,
+      "hull": 100.0,
+      "message": "REQUEST decoded · REPLY accepts SONAR replay within240m; or approach quietly",
+      "outcome": "",
+      "own_positions": [
+        "(140.0, 800.0)",
+        "(752.9029, 389.318)",
+        "(280.0, 800.0)"
+      ],
+      "records": [
+        true,
+        false
+      ],
+      "selected": 1,
+      "time": 20.9666666666668,
+      "tools": {
+        "decoy": 3,
+        "emp": 1,
+        "recon": 2
+      }
+    },
+    {
+      "alive": [
+        true,
+        true,
+        true
+      ],
+      "capture_time": 2.0,
+      "contacts": {
+        "0": {
+          "angle": 1.0997097492218,
+          "lock": 0.750000000000001,
+          "mode": "LOCKING",
+          "pos": "(686.5427, 259.0297)",
+          "target": 1,
+          "time": 21.85,
+          "type": "patroller"
+        }
+      },
+      "context": {
+        "ready": false,
+        "target": 1,
+        "text": "REPLY RELAY · cover blocks reception"
+      },
+      "frame": 135,
+      "hull": 100.0,
+      "message": "REQUEST decoded · REPLY accepts SONAR replay within240m; or approach quietly",
+      "outcome": "",
+      "own_positions": [
+        "(140.0, 800.0)",
+        "(752.9029, 389.318)",
+        "(280.0, 800.0)"
+      ],
+      "records": [
+        true,
+        false
+      ],
+      "selected": 1,
+      "time": 21.9666666666667,
+      "tools": {
+        "decoy": 3,
+        "emp": 1,
+        "recon": 2
+      }
+    },
+    {
+      "alive": [
+        true,
+        true,
+        true
+      ],
+      "capture_time": 2.0,
+      "contacts": {
+        "0": {
+          "angle": 1.0997097492218,
+          "lock": 1.75,
+          "mode": "LOCKING",
+          "pos": "(686.5427, 259.0297)",
+          "target": 1,
+          "time": 22.85,
+          "type": "patroller"
+        }
+      },
+      "context": {
+        "ready": false,
+        "target": 1,
+        "text": "REPLY RELAY · cover blocks reception"
+      },
+      "frame": 150,
+      "hull": 100.0,
+      "message": "REQUEST decoded · REPLY accepts SONAR replay within240m; or approach quietly",
+      "outcome": "",
+      "own_positions": [
+        "(140.0, 800.0)",
+        "(752.9029, 389.318)",
+        "(280.0, 800.0)"
+      ],
+      "records": [
+        true,
+        false
+      ],
+      "selected": 1,
+      "time": 22.9666666666666,
+      "tools": {
+        "decoy": 3,
+        "emp": 1,
+        "recon": 2
+      }
+    },
+    {
+      "alive": [
+        true,
+        true,
+        true
+      ],
+      "capture_time": 2.0,
+      "contacts": {
+        "0": {
+          "angle": 1.0997097492218,
+          "lock": 2.75,
+          "mode": "LOCKING",
+          "pos": "(686.5427, 259.0297)",
+          "target": 1,
+          "time": 23.8499999999999,
+          "type": "patroller"
+        }
+      },
+      "context": {
+        "ready": false,
+        "target": 1,
+        "text": "REPLY RELAY · cover blocks reception"
+      },
+      "frame": 165,
+      "hull": 100.0,
+      "message": "REQUEST decoded · REPLY accepts SONAR replay within240m; or approach quietly",
+      "outcome": "",
+      "own_positions": [
+        "(140.0, 800.0)",
+        "(752.9029, 389.318)",
+        "(280.0, 800.0)"
+      ],
+      "records": [
+        true,
+        false
+      ],
+      "selected": 1,
+      "time": 23.9666666666666,
+      "tools": {
+        "decoy": 3,
+        "emp": 1,
+        "recon": 2
+      }
+    },
+    {
+      "alive": [
+        true,
+        true,
+        true
+      ],
+      "capture_time": 2.0,
+      "contacts": {
+        "0": {
+          "angle": 1.0997097492218,
+          "lock": 3.74999999999999,
+          "mode": "LOCKING",
+          "pos": "(686.5427, 259.0297)",
+          "target": 1,
+          "time": 24.8499999999999,
+          "type": "patroller"
+        }
+      },
+      "context": {
+        "ready": false,
+        "target": 1,
+        "text": "REPLY RELAY · cover blocks reception"
+      },
+      "frame": 180,
+      "hull": 100.0,
+      "message": "REQUEST decoded · REPLY accepts SONAR replay within240m; or approach quietly",
+      "outcome": "",
+      "own_positions": [
+        "(140.0, 800.0)",
+        "(752.9029, 389.318)",
+        "(280.0, 800.0)"
+      ],
+      "records": [
+        true,
+        false
+      ],
+      "selected": 1,
+      "time": 24.9666666666665,
+      "tools": {
+        "decoy": 3,
+        "emp": 1,
+        "recon": 2
+      }
+    },
+    {
+      "alive": [
+        true,
+        false,
+        true
+      ],
+      "capture_time": 2.0,
+      "contacts": {
+        "0": {
+          "angle": 1.0997097492218,
+          "lock": 3.91666666666666,
+          "mode": "LOCKING",
+          "pos": "(686.5427, 259.0297)",
+          "target": 1,
+          "time": 25.0166666666665,
+          "type": "patroller"
+        }
+      },
+      "context": {
+        "ready": false,
+        "target": 1,
+        "text": "REPLY RELAY · 1261m / quiet156m · learned: SONAR + SAMPLE within240m"
+      },
+      "frame": 195,
+      "hull": 100.0,
+      "message": "Drone lost · Quietus command restored. Submarine camera remains available.",
+      "outcome": "",
+      "own_positions": [
+        "(140.0, 800.0)",
+        "(752.9029, 389.318)",
+        "(280.0, 800.0)"
+      ],
+      "records": [
+        true,
+        false
+      ],
+      "selected": 0,
+      "time": 25.9666666666665,
+      "tools": {
+        "decoy": 3,
+        "emp": 1,
+        "recon": 2
+      }
+    },
+    {
+      "alive": [
+        true,
+        false,
+        true
+      ],
+      "capture_time": 2.0,
+      "contacts": {
+        "0": {
+          "angle": 1.0997097492218,
+          "lock": 3.91666666666666,
+          "mode": "LOCKING",
+          "pos": "(686.5427, 259.0297)",
+          "target": 1,
+          "time": 25.0166666666665,
+          "type": "patroller"
+        }
+      },
+      "context": {
+        "ready": false,
+        "target": 1,
+        "text": "REPLY RELAY · 1261m / quiet156m · learned: SONAR + SAMPLE within240m"
+      },
+      "frame": 210,
+      "hull": 100.0,
+      "message": "Drone lost · Quietus command restored. Submarine camera remains available.",
+      "outcome": "",
+      "own_positions": [
+        "(140.0, 800.0)",
+        "(752.9029, 389.318)",
+        "(280.0, 800.0)"
+      ],
+      "records": [
+        true,
+        false
+      ],
+      "selected": 0,
+      "time": 26.9666666666664,
+      "tools": {
+        "decoy": 3,
+        "emp": 1,
+        "recon": 2
+      }
+    },
+    {
+      "alive": [
+        true,
+        false,
+        true
+      ],
+      "capture_time": 2.0,
+      "contacts": {
+        "0": {
+          "angle": 1.0997097492218,
+          "lock": 3.91666666666666,
+          "mode": "LOCKING",
+          "pos": "(686.5427, 259.0297)",
+          "target": 1,
+          "time": 25.0166666666665,
+          "type": "patroller"
+        }
+      },
+      "context": {
+        "ready": false,
+        "target": 1,
+        "text": "REPLY RELAY · 1261m / quiet156m · learned: SONAR + SAMPLE within240m"
+      },
+      "frame": 225,
+      "hull": 100.0,
+      "message": "Drone lost · Quietus command restored. Submarine camera remains available.",
+      "outcome": "",
+      "own_positions": [
+        "(140.0, 800.0)",
+        "(752.9029, 389.318)",
+        "(280.0, 800.0)"
+      ],
+      "records": [
+        true,
+        false
+      ],
+      "selected": 0,
+      "time": 27.9666666666664,
+      "tools": {
+        "decoy": 3,
+        "emp": 1,
+        "recon": 2
+      }
+    }
+  ],
+  "setup_ok": true,
+  "solo_fixture": false,
+  "take": "idle"
+}
