@@ -29,6 +29,8 @@ PY
 menu_touch_smoke() {
     local profile="$1" swipe_index before_count before_offset after_offset x1 y1 x2 y2 tap_x tap_y initial_log
     stage "$profile actual OS menu scroll/Settings/sticky BACK begins"
+    # This is the first input path on cover, before locate_target is reached.
+    ensure_system_intro || return
     initial_log="$output/ui-metrics-menu-$profile-before.txt"
     read_logcat "$initial_log"
     menu_snapshot "$profile" initial menu settings

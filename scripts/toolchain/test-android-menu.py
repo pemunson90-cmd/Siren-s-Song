@@ -3,6 +3,21 @@
 import json, pathlib, struct, subprocess, sys, tempfile, unittest
 CHECKER=pathlib.Path(__file__).with_name('android-menu.py')
 class Tests(unittest.TestCase):
+ def test_menu_first_input_checks_system_ui_before_observing_or_swiping(self):
+  helper=CHECKER.with_name('android-menu-smoke.sh')
+  for intro_status,expected_status,expected_output in ((0,71,['intro','log','snapshot']),(37,37,['intro'])):
+   script='''set -eu
+source "$1"
+output=/unused
+stage() { :; }
+ensure_system_intro() { echo intro; return "$2"; }
+read_logcat() { echo log; }
+menu_snapshot() { echo snapshot; exit 71; }
+menu_touch_smoke cover
+'''.replace('return "$2"',f'return {intro_status}')
+   r=subprocess.run(['bash','-c',script,'test',str(helper)],capture_output=True,text=True)
+   self.assertEqual(r.returncode,expected_status,r.stderr)
+   self.assertEqual(r.stdout.splitlines(),expected_output)
  def layout(self):return {'schema':1,'screen':'menu','orders_page':'primary','viewport':[1680,720],'window':[2520,1080],'safe_rect':[0,0,2520,1080],'density_dpi':420,'density_source':'android_display_metrics_density_dpi','chart_rect':None,'scroll_rect':[100,30,1480,650],'scroll_vertical':320,'controls':[{'action':'settings','visual_rect':[200,200,1000,84],'hit_rect':[200,200,1000,84],'clipped':False}]}
  def invoke(self,layout,after=0,action='settings',prefix='',size=(2520,1080)):
   with tempfile.TemporaryDirectory() as temp:

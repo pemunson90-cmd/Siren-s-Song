@@ -140,7 +140,7 @@ acknowledge_system_intro() {
     adb shell uiautomator dump /sdcard/sirens-system-ui.xml >"$output/system-dialog-dump.txt"
     adb exec-out cat /sdcard/sirens-system-ui.xml >"$output/system-dialog-before.xml"
     coords="$(python3 "$(dirname -- "$0")/android-system-dialog.py" "$output/system-dialog-before.xml")" || status=$?
-    if (( status == 2 )); then return 0; fi
+    if (( status == 2 )); then stage 'known Android immersive intro absent'; return 0; fi
     if (( status != 0 )); then return "$status"; fi
     read -r tap_x tap_y <<<"$coords"
     stage "acknowledging known Android immersive intro at accessibility bounds $tap_x,$tap_y"
@@ -150,14 +150,18 @@ acknowledge_system_intro() {
     status=0
     python3 "$(dirname -- "$0")/android-system-dialog.py" "$output/system-dialog-after.xml" >/dev/null || status=$?
     (( status == 2 )) || { echo 'Android immersive intro did not dismiss' >&2; return 1; }
+    stage 'known Android immersive intro dismissal verified by accessibility XML'
+}
+ensure_system_intro() {
+    if ! "$system_intro_checked"; then
+        acknowledge_system_intro || return
+        system_intro_checked=true
+    fi
 }
 locate_target() {
     local action="$1" label="$2"
     target_coords=""
-    if ! "$system_intro_checked"; then
-        acknowledge_system_intro
-        system_intro_checked=true
-    fi
+    ensure_system_intro || return
     for ((attempt=0; attempt<20; attempt++)); do
         # Android and Godot settle asynchronously after a live resize. Refresh
         # both observations; never reuse a PNG captured before the new layout.
