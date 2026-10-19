@@ -18,7 +18,7 @@ func _initialize():
  var earned=Campaign.recover(notes,recovered)
  check("quietus_correlator" in earned.entitlements and earned.references.return_cadence==[0.8,1.6,0.8],"successful confirmed recovery earns measured kit")
  check(9 in Campaign.available([0,1,2,3,4,5],earned),"Deep recovery opens actual onward task")
- var launched=Consequences.commit(earned,9,{"quietus":"quietus_correlator","drone_a":"","drone_b":""})
+ var launched=Campaign.recover(earned,{"id":9,"expedition_revision":2,"recovered":true,"expedition_facts":{},"launch_equipment":{"quietus":"quietus_correlator","drone_a":"","drone_b":""}})
  check(launched.selected_thread=="deep" and launched.history.size()==1,"recovery commits one selected downstream history")
  var opposite={"id":6,"expedition_revision":1,"recovered":true,"chosen_route":"shelf","expedition_facts":{"shelf":"other"}}
  var replayed=Campaign.recover(launched,opposite)

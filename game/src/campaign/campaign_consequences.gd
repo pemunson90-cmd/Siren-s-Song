@@ -29,7 +29,7 @@ static func recovered(previous:Dictionary,mission:Dictionary)->Dictionary:
  if mission.id>=9:p=commit(p,mission.id,mission.get("launch_equipment",EMPTY_FIT))
  var resolution=preload("res://src/campaign/resolution_missions.gd").resolution(mission)
  if not resolution.is_empty():p.facts["resolution"]=resolution
- if mission.id==11 and not p.facts.has("confluence_route") and mission.get("chosen_route","") in ["concealed","overt"]:p.facts.confluence_route=mission.chosen_route
+ if mission.id==11 and not p.facts.has("confluence_route") and mission.get("chosen_route","") in ["concealed","overt"]:p.facts["confluence_route"]=mission.chosen_route
  return p
 static func context(p:Dictionary)->Dictionary:
  return {"thread":p.get("selected_thread",""),"completed":p.get("completed",[]).duplicate(),"facts":p.get("facts",{}).duplicate(true),"references":p.get("references",{}).duplicate(true)}
@@ -65,7 +65,7 @@ static func valid(p:Dictionary)->bool:
  if "drone_sampler" in p.entitlements and 8 not in p.completed:return false
  seen=[]
  for h in p.history:
-  if not h is Dictionary or not h.has_all(["mission","thread","fitted"]) or h.mission not in [9,10,11,12,13] or h.mission in seen or h.thread not in ["deep","shelf"] or h.thread!=p.selected_thread or not fitting_valid(h.fitted):return false
+  if not h is Dictionary or not h.has_all(["mission","thread","fitted"]) or h.mission not in [9,10,11,12,13] or h.mission in seen or h.mission not in p.completed or h.thread not in ["deep","shelf"] or h.thread!=p.selected_thread or not fitting_valid(h.fitted):return false
   for item in h.fitted.values():
    if not item.is_empty() and item not in p.entitlements:return false
   seen.append(h.mission)
