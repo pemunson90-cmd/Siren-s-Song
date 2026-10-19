@@ -20,6 +20,8 @@ The **functional status** of historical mechanics is established by the actual e
 
 A newer proposal does not silently supersede an established decision. When documents disagree, record the discrepancy and seek a decision only if it materially affects the game's identity or production.
 
+**Authority reconciliation (2026-10-19):** The design bible v1's original internal authority ordering, and the visual plan v3's original approval/pending-generation language, are historical descriptions from their authored dates. The explicit current user direction and the living hierarchy above control production. The concept-selection ledger and portable package handoff contain later accepted visual exploration and supersede the plan's pending-generation status; preserve the plan as a comparative art reference. At every completed task agents audit the active handoff against the latest ratifications and automatically repair routine stale current-state wording through reviewed updates rather than asking the user to reconcile documents.
+
 ## Visual guidance
 
 Use candidate gameplay references for scene composition and world language, the recent Quietus exterior for silhouette continuity, and the review PDF for known image-generation failure modes. Concept-art engineering cutaways are exploratory. Keep physical terrain, vehicles, contacts, and route/sensor overlays legible and distinguishable on mobile.
