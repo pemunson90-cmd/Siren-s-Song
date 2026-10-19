@@ -20,10 +20,11 @@ jobs:
       run:
         shell: bash
     env:
-      TOOLCHAIN_CACHE: ${{ github.workspace }}/../sirens-song-toolchain
       ARTIFACT_DIR: ${{ github.workspace }}/artifacts
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Resolve external toolchain cache path
+        run: echo "TOOLCHAIN_CACHE=$(realpath -m "$GITHUB_WORKSPACE/../sirens-song-toolchain")" >> "$GITHUB_ENV"
       - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5
         with:
           distribution: temurin
