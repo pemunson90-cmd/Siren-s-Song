@@ -69,7 +69,10 @@ static func make(index: int) -> Dictionary:
 		var east=patrols[0].duplicate(true); east.pos=Vector2(1220,140); east.home=east.pos; east.goal=east.pos; east.patrol=1; patrols.append(east)
 	var result={"id":i,"title":TITLES[i],"brief":BRIEFS[i],"record":RECORDS[i],"rocks":layouts[i],"objectives":objectives,"sirens":patrols,"extraction":Vector2(140,800),"darkness":i==2,"depth":[840,1320,1850,2360,3100,3840][i]}
 	result["acoustic_revision"]=1
-	if i==2:result["blackwater_revision"]=1
+	if i==2:
+		result["blackwater_revision"]=1;result["courier_revision"]=1;result["courier_launch"]=-1.0
+		objectives[0].evidence+=" The request announces a ballast-driven archive glider carrying a copy of the eastern REPLY around the southern basalt corridor to a buried western intake. The recovered chart marks its course. Intercept its local carrier with a settled SAMPLE 2s before it submerges at the intake; it never visits this REQUEST. This optional return-leg interception replaces the eastern approach, not the record. The fixed REPLY and its SONAR replay remain available if you miss it."
+		result.brief+=" A recovered request may announce an archive carrier. Its route is an interception opportunity; the fixed relays remain available in either order."
 	if i==3:
 		result["departure_revision"]=1
 		result["thermal_revision"]=1;result["thermal_fronts"]=preload("res://src/simulation/thermal_front.gd").foundry()

@@ -26,7 +26,7 @@ func _draw() -> void:
 			var envelope=pow(maxf(0,sin(float(x)*0.037)),3)
 			trace.append(Vector2(picture.position.x+x,center.y+sin(phase)*envelope*amp))
 		draw_polyline(trace,PHOSPHOR,2.0)
-		draw_string(ThemeDB.fallback_font,picture.position+Vector2(8,receiver_font_size+5),"LOCAL REPLAY" if context.replay>0 else "QUIET RECEPTION",HORIZONTAL_ALIGNMENT_LEFT,-1,receiver_font_size,PHOSPHOR)
+		draw_string(ThemeDB.fallback_font,picture.position+Vector2(8,receiver_font_size+5),"REPLY CARRIER · LOCAL" if context.get("source","")=="courier" else ("LOCAL REPLAY" if context.replay>0 else "QUIET RECEPTION"),HORIZONTAL_ALIGNMENT_LEFT,-1,receiver_font_size,PHOSPHOR)
 		if not context.settled:draw_string(ThemeDB.fallback_font,picture.position+Vector2(8,picture.size.y-8),"SETTLING · wait for rest",HORIZONTAL_ALIGNMENT_LEFT,-1,receiver_font_size,Color("e0bf83"))
 	elif well_site:
 		_draw_well_site(picture,objective)
@@ -58,7 +58,8 @@ func _draw() -> void:
 	var type=objective.get("kind","")
 	var font_size=receiver_font_size if type=="exchange" or well_site else 14
 	draw_string(font,Vector2(14,24),"%s / %s"%["SITE SCHEMATIC" if well_site else ("HYDROPHONES" if type in ["receiver","exchange"] else ("ARCHIVE LINK" if objective.get("kind","")=="uplink" else "OPTICAL")),sim.units[sim.capture_unit].name],HORIZONTAL_ALIGNMENT_LEFT,-1,font_size,PHOSPHOR)
-	draw_string(font,Vector2(14,size.y-24),objective.name,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size,Color("e0bf83"))
+	var received_name="REPLY CARRIER" if type=="exchange" and sim.blackwater_context(sim.capture_target,sim.capture_unit).get("source","")=="courier" else objective.name
+	draw_string(font,Vector2(14,size.y-24),received_name,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size,Color("e0bf83"))
 	draw_string(font,Vector2(size.x-68,size.y-24),"%02d%%"%int(progress*100),HORIZONTAL_ALIGNMENT_LEFT,-1,font_size,PHOSPHOR)
 	draw_rect(Rect2(12,size.y-12,size.x-24,3),Color("25464b")); draw_rect(Rect2(12,size.y-12,(size.x-24)*progress,3),PHOSPHOR)
 
