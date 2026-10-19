@@ -23,6 +23,11 @@ func run():
   root.add_child(game);game.set_process(false)
   game.completed=profile.completed.duplicate();game.unlocked=profile.unlocked;game.expedition=profile.expedition.duplicate(true);game.fitted_equipment=profile.get("equipment",game.fitted_equipment).duplicate(true)
   var tutorial=game.completed.duplicate();var recovered=game.expedition.completed.duplicate();var history=game.expedition.history.duplicate(true)
+  game._show_campaign()
+  check(game.panel_box.get_children().any(func(node):return node is Button and node.get_meta("action","")=="expedition14")==Campaign.BLIND_PASSAGE_READY,"ordinary Operations14 visibility follows the reviewed readiness gate")
+  if Campaign.BLIND_PASSAGE_READY:
+   game._briefing(14)
+   check(game.screen=="briefing" and text_of(game).contains("Blind Passage".to_upper()) and text_of(game).contains("HANDOFF"),"enabled candidate ordinary14 selection opens its navigation briefing")
   game._start_mission(14)
   check(game.sim.mission.get("carried_evidence","")==("concealed_recovery" if branch=="concealed" else "overt_warning"),"Main14 launch carries actual%s recovered context"%branch)
   if game.sim.mission.id!=14:
