@@ -26,3 +26,4 @@ fi
 grep -Eq '^RUNTIME CHECKS [1-9][0-9]* FAILURES 0$' "$runtime_log" || {
     echo 'Missing successful runtime test-harness summary' >&2; exit 1;
 }
+"$(dirname -- "$0")/density-checks.sh"

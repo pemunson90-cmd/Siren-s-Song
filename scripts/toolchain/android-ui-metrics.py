@@ -48,21 +48,33 @@ def os_density(text):
     return result
 
 
-def evaluate(layout, size, density, required):
+def evaluate(layout, size, density, required, *, expected_density_source='android_display_metrics_density_dpi'):
     if layout.get('schema') != 1 or not isinstance(layout.get('screen'), str):
         raise ValueError('Unsupported SS_UI_METRICS schema/screen')
     width, height = numbers(layout.get('window'), 2, 'window')
     logical_width, logical_height = numbers(layout.get('viewport'), 2, 'viewport')
     if min(width, height, logical_width, logical_height) <= 0 or [width, height] != list(size):
         raise ValueError('Reported window must equal actual PNG dimensions')
-    if layout.get('density_source') != 'android_display_metrics_density_dpi':
-        raise ValueError('Native density_source must be Android DisplayMetrics.densityDpi')
+    if expected_density_source not in ('android_display_metrics_density_dpi', 'test_android_density_fixture'):
+        raise ValueError('Unsupported measurement provenance')
+    native = expected_density_source == 'android_display_metrics_density_dpi'
+    if layout.get('density_source') != expected_density_source:
+        raise ValueError('Native density_source must be Android DisplayMetrics.densityDpi' if native else 'Local audit requires explicit fixture provenance')
     reported_density = layout.get('density_dpi')
     if isinstance(reported_density, bool) or not isinstance(reported_density, (int, float)) or reported_density != density:
         raise ValueError('Game density_dpi disagrees with effective Android wm density')
     sx, sy = width / logical_width, height / logical_height
-    if abs(sx / sy - 1) > 0.0001:
-        raise ValueError('Nonuniform/rounded canvas transform; report precise full viewport floats')
+    # Exact current project contract: Godot 4.6.3 canvas_items + expand,
+    # 1280x720 content size, scale factor 1. Window::_update_viewport_size
+    # floors the expanded logical extent BEFORE applying per-axis stretch.
+    # Integer arithmetic avoids inventing a floating-coordinate tolerance.
+    window_width, window_height = size
+    if window_width * 720 >= window_height * 1280:
+        expected_viewport = [720 * window_width // window_height, 720]
+    else:
+        expected_viewport = [1280, 1280 * window_height // window_width]
+    if [logical_width, logical_height] != expected_viewport:
+        raise ValueError(f'Viewport disagrees with actual Godot floor-before-stretch contract: expected {expected_viewport}')
     safe = rect(layout.get('safe_rect'), 'safe_rect')
     if not contains([0, 0, width, height], safe):
         raise ValueError('Physical safe_rect lies outside window')
@@ -112,7 +124,7 @@ def evaluate(layout, size, density, required):
     chart_dp = [chart[2] * sx * 160 / density, chart[3] * sy * 160 / density] if chart else None
     if chart and not contains(safe, [chart[0] * sx, chart[1] * sy, chart[2] * sx, chart[3] * sy]):
         errors.append('Chart lies outside physical safe_rect')
-    return {'gate_passed': not errors, 'recommendation_dp': 48, 'density_dpi': density, 'density_reference': 'effective adb shell wm density; game Android DisplayMetrics.densityDpi must agree', 'window_physical': [width, height], 'viewport_logical': [logical_width, logical_height], 'canvas_scale': [sx, sy], 'safe_physical': safe, 'screen': layout['screen'], 'chart_dp': chart_dp, 'controls': results, 'errors': errors, 'limits': 'No physical panel-mm, Android OS multi-touch, finger comfort or performance claim.'}
+    return {'gate_passed': not errors, 'recommendation_dp': 48, 'density_dpi': density, 'density_source': layout['density_source'], 'native_measurement': native, 'density_reference': ('effective adb shell wm density; game Android DisplayMetrics.densityDpi must agree' if native else 'explicit local test fixture; no Android OS density observation'), 'window_physical': [width, height], 'viewport_logical': [logical_width, logical_height], 'canvas_scale': [sx, sy], 'canvas_transform_model': 'Godot 4.6.3 canvas_items/expand; base 1280x720; factor 1; floor before per-axis stretch', 'safe_physical': safe, 'screen': layout['screen'], 'chart_dp': chart_dp, 'controls': results, 'errors': errors, 'limits': 'No physical panel-mm, Android OS multi-touch, finger comfort or performance claim.'}
 
 
 def main():

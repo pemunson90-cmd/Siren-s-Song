@@ -24,6 +24,8 @@ class Tests(unittest.TestCase):
   d=self.layout();d['scroll_rect']=[-100,0,1000,600];self.assertEqual(self.invoke(d).returncode,1)
  def test_missing_scroll_contract_rejected(self):
   d=self.layout();del d['scroll_rect'];self.assertEqual(self.invoke(d).returncode,1)
+ def test_native_cli_rejects_local_fixture(self):
+  d=self.layout();d["density_source"]="test_android_density_fixture";self.assertEqual(self.invoke(d).returncode,1)
  def test_wrong_screen_rejected(self):
   d=self.layout();d['screen']='settings';self.assertEqual(self.invoke(d).returncode,1)
 if __name__=='__main__':unittest.main()

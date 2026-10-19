@@ -9,7 +9,7 @@ from pathlib import Path
 sys.dont_write_bytecode=True
 spec=importlib.util.spec_from_file_location('metrics',Path(__file__).with_name('android-ui-metrics.py'))
 metrics=importlib.util.module_from_spec(spec);spec.loader.exec_module(metrics)
-def inspect(text,png,density,screen,action,after):
+def inspect(text,png,density,screen,action,after,*,expected_density_source='android_display_metrics_density_dpi'):
  lines=text.splitlines();count=sum('SS_UI_METRICS ' in line for line in lines)
  boundary=max((i for i,line in enumerate(lines) if any(x in line for x in ('SS_SCREEN ','SS_MISSION_SELECT ','SS_VIEW '))),default=-1)
  snapshots=[line.split('SS_UI_METRICS ',1)[1] for line in lines[boundary+1:] if 'SS_UI_METRICS ' in line]
@@ -17,7 +17,9 @@ def inspect(text,png,density,screen,action,after):
  layout=json.loads(snapshots[-1])
  if layout.get('screen')!=screen:raise ValueError('Current metrics screen differs from requested menu')
  if len(png)<24 or png[:8]!=b'\x89PNG\r\n\x1a\n':raise ValueError('Invalid actual PNG header')
- size=struct.unpack('>II',png[16:24]);report=metrics.evaluate(layout,size,metrics.os_density(density),set())
+ size=struct.unpack('>II',png[16:24])
+ reference_density=density if expected_density_source=='test_android_density_fixture' else metrics.os_density(density)
+ report=metrics.evaluate(layout,size,reference_density,set(),expected_density_source=expected_density_source)
  if not report['gate_passed']:raise ValueError('; '.join(report['errors']))
  scroll=metrics.rect(layout.get('scroll_rect'),'scroll_rect');sx,sy=report['canvas_scale']
  physical=[scroll[0]*sx,scroll[1]*sy,scroll[2]*sx,scroll[3]*sy]

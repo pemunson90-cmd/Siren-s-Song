@@ -22,6 +22,7 @@ jobs:
     env:
       ARTIFACT_DIR: ${{ github.workspace }}/artifacts
       VERIFY_SIREN_ROLES: '1'
+      VERIFY_TOUCH_TARGETS: '1'
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - name: Resolve external toolchain cache path

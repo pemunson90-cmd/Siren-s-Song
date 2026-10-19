@@ -38,10 +38,28 @@ class TouchMetricsTests(unittest.TestCase):
         self.assertNotEqual(result.returncode, 0)
         self.assertIn('48 dp', result.stdout)
 
-    def test_accepts_inner_fractional_canvas_scale(self):
+    def test_accepts_actual_integer_inner_viewport_and_axis_scales(self):
         layout = self.layout(logical_height=74)
+        layout.update(viewport=[1280, 1153], window=[2184, 1968], safe_rect=[0, 0, 2184, 1968])
+        result = self.invoke(layout, size=(2184, 1968))
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(json.loads(result.stdout)["canvas_scale"], [2184 / 1280, 1968 / 1153])
+
+    def test_rejects_fabricated_fractional_viewport(self):
+        layout = self.layout(logical_height=84)
         layout.update(viewport=[1280, 1968 / (2184 / 1280)], window=[2184, 1968], safe_rect=[0, 0, 2184, 1968])
-        self.assertEqual(self.invoke(layout, size=(2184, 1968)).returncode, 0)
+        self.assertNotEqual(self.invoke(layout, size=(2184, 1968)).returncode, 0)
+
+    def test_rejects_wrong_integer_quantization(self):
+        for height in [1152, 1154]:
+            layout = self.layout(logical_height=84)
+            layout.update(viewport=[1280, height], window=[2184, 1968], safe_rect=[0, 0, 2184, 1968])
+            self.assertNotEqual(self.invoke(layout, size=(2184, 1968)).returncode, 0)
+
+    def test_accepts_exact_wider_axis_floor(self):
+        layout = self.layout()
+        layout.update(viewport=[1893, 720], window=[2840, 1080], safe_rect=[0, 0, 2840, 1080])
+        self.assertEqual(self.invoke(layout, size=(2840, 1080)).returncode, 0)
 
     def test_uses_android_density_override_and_checks_agreement(self):
         self.assertEqual(self.invoke(self.layout(), density='Physical density: 560\nOverride density: 420\n').returncode, 0)
@@ -96,6 +114,10 @@ class TouchMetricsTests(unittest.TestCase):
 
     def test_rejects_snapshot_that_mislabels_current_screen(self):
         layout = self.layout(screen='operations')
+        self.assertNotEqual(self.invoke(layout).returncode, 0)
+
+    def test_native_cli_rejects_local_fixture_provenance(self):
+        layout = self.layout(); layout["density_source"] = "test_android_density_fixture"
         self.assertNotEqual(self.invoke(layout).returncode, 0)
 
     def test_rejects_unknown_density_provenance(self):

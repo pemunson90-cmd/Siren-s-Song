@@ -1,0 +1,30 @@
+.FF.......F...........
+======================================================================
+FAIL: test_accepts_actual_integer_inner_viewport_and_axis_scales (__main__.TouchMetricsTests.test_accepts_actual_integer_inner_viewport_and_axis_scales)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Siren-s-Song-gauntlet/scripts/toolchain/test-android-ui-metrics.py", line 45, in test_accepts_actual_integer_inner_viewport_and_axis_scales
+    self.assertEqual(result.returncode, 0, result.stderr)
+AssertionError: 1 != 0 : Invalid native UI evidence: Nonuniform/rounded canvas transform; report precise full viewport floats
+
+
+======================================================================
+FAIL: test_accepts_exact_wider_axis_floor (__main__.TouchMetricsTests.test_accepts_exact_wider_axis_floor)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Siren-s-Song-gauntlet/scripts/toolchain/test-android-ui-metrics.py", line 62, in test_accepts_exact_wider_axis_floor
+    self.assertEqual(self.invoke(layout, size=(2840, 1080)).returncode, 0)
+AssertionError: 1 != 0
+
+======================================================================
+FAIL: test_rejects_fabricated_fractional_viewport (__main__.TouchMetricsTests.test_rejects_fabricated_fractional_viewport)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Siren-s-Song-gauntlet/scripts/toolchain/test-android-ui-metrics.py", line 51, in test_rejects_fabricated_fractional_viewport
+    self.assertNotEqual(self.invoke(layout, size=(2184, 1968)).returncode, 0)
+AssertionError: 0 == 0
+
+----------------------------------------------------------------------
+Ran 22 tests in 0.773s
+
+FAILED (failures=3)
