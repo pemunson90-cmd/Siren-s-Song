@@ -15,3 +15,7 @@ Generated material fidelity and viewpoint continuity remain subject to the indep
 
 - `evidence/foundry_furnace.png`: original generation `exec-f460f3af-6053-4fcb-87ce-252e2990c60d`, 19 October 2026. Close optical view of molten hollow forms and ribbed industrial enclosure; earned by photographing FURNACE VENT.
 - `evidence/foundry_cradle.png`: original generation `exec-02ee27fc-bde3-4382-9c0e-6ecfa61c4308`, 19 October 2026. Distinct optical view of smooth unarmed hulls in open departure frames; earned by photographing DEPARTURE CRADLE. Both are observation images within the camera/archive, never a pasted tactical-world background.
+
+- `evidence/finale_transmitter.png`: original generation `exec-23404c6a-f700-4eeb-a9e2-dc6ce2d28412`, 19 October 2026. Earned close optical observation of nested acoustic crown vanes directed into the trench.
+- `evidence/finale_departure.png`: original generation `exec-951f898e-38bf-4864-96d4-ff1200d778dd`, 19 October 2026. Distinct earned observation of unarmed descending hulls and outbound wakes over a deep fracture. These images are optical/archive records, never tactical-world backgrounds.
+- `evidence/finale_warning.svg` and its PNG rendering: original authored decoded carrier plot; human instrument annotation combines the two observed geometries with Quietus' passive hydrophone acquisition. The schematic is an earned interpretation, not an omniscient contact map.

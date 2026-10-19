@@ -15,6 +15,11 @@ static func run(t) -> void:
 		var s=Simulation.new(); s.start(id,"disruption")
 		# The fallback suite deliberately starts after both drones are lost.
 		s.units[1].alive=false; s.units[2].alive=false
+		if id==5:
+			preload("res://tests/finale_command_plan.gd").play(false,"complete",true,-1,s)
+			t.check(s.outcome=="won","finale completes via covered solo routes, optical observations, passive decode and return after both drones lost")
+			print("CAMPAIGN 6 outcome=",s.outcome," time=",snappedf(s.elapsed,0.1)," hull=",s.hull)
+			continue
 		var success=true
 		for target in s.mission.objectives:
 			var vantage=target.pos+Vector2(0,210)

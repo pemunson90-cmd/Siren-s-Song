@@ -1,0 +1,13 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+CAMPAIGN 1 outcome=won time=64.0 hull=100.0 oxygen=96.4 last=Archive recovered. Quietus is home.
+CAMPAIGN 2 outcome=won time=78.0 hull=42.1 oxygen=95.7 last=Archive recovered. Quietus is home.
+CAMPAIGN 3 outcome=won time=67.9 hull=100.0 oxygen=96.2 last=Archive recovered. Quietus is home.
+CAMPAIGN 4 outcome=won time=50.6 hull=100.0 oxygen=97.2 last=Archive recovered. Quietus is home.
+CAMPAIGN 5 outcome=won time=82.2 hull=100.0 oxygen=95.4 last=Archive recovered. Quietus is home.
+FAIL: mission 6 completes via routes, camera, extraction with drone-loss fallback
+CAMPAIGN 6 outcome=lost time=54.7 hull=0.0 oxygen=97.0 last=Quietus lost. Your previous campaign records remain safe.
+SPLIT DIRECT outcome=won time=39.2 hull=87.1 EMP remaining=0 DECOYS remaining=3
+SPLIT PLANNED RETURN outcome=won time=39.2 hull=100.0 EMP remaining=0 DECOYS remaining=2
+FOUNDRY STAGED outcome=won time=34.2 hull=100.0 tools={ "emp": 0, "decoy": 2, "recon": 2 }
+CHECKS 103 FAILURES 1

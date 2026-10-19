@@ -65,14 +65,21 @@ func _draw() -> void:
 		draw_polyline(points,Color(0.12,0.3,0.33,0.11),1.2)
 	# Bedrock and columnar basalt are original deterministic constructions.
 	for r in sim.mission.rocks: _rock(r)
-	for o in sim.mission.objectives: _installation(o.pos,o.captured)
+	for o in sim.mission.objectives:
+		if o.get("kind","")=="receiver":
+			draw_arc(o.pos,26,0,TAU,40,Color("80bdb6"),2)
+			draw_line(o.pos-Vector2(17,0),o.pos+Vector2(17,0),Color("80bdb6"),2)
+			draw_line(o.pos-Vector2(0,17),o.pos+Vector2(0,17),Color("80bdb6"),2)
+		else: _installation(o.pos,o.captured)
 	if sim.mission.has("factory_rect"):
 		var mass:Rect2=sim.mission.factory_rect
 		draw_rect(mass,Color("102630")); draw_rect(mass,Color("486268"),false,3)
 		draw_set_transform(world_offset+mass.get_center()*world_scale,PI/2,Vector2.ONE*world_scale)
 		draw_texture_rect(foundry,Rect2(-mass.size.y/2,-mass.size.x/2,mass.size.y,mass.size.x),false,Color(0.8,0.95,1))
 		draw_set_transform(world_offset,0,Vector2.ONE*world_scale)
-	elif sim.mission.id>=3:
+	elif sim.mission.has("array_rect"):
+		_finale_array(sim.mission.array_rect)
+	elif sim.mission.id>=3 and sim.mission.id!=5:
 		draw_texture_rect(foundry,Rect2(1080,-100,540,360),false,Color(0.65,0.8,0.82,0.8))
 	# Intelligence marks are briefed coordinates, not live contact observations.
 	for o in sim.mission.objectives:
@@ -150,6 +157,23 @@ func _draw() -> void:
 		draw_rect(Rect2(12,y-19,minf(330,size.x-30),28),Color(0.04,0.07,0.09,0.94))
 		draw_string(ThemeDB.fallback_font,Vector2(20,y),threat_rows[row],HORIZONTAL_ALIGNMENT_LEFT,-1,15,Color("ffac8c"))
 
+func _finale_array(mass: Rect2) -> void:
+	draw_rect(mass,Color("142930")); draw_texture_rect(basalt,mass,false,Color(0.45,0.58,0.6))
+	draw_rect(mass,Color("627a7d"),false,3)
+	for n in 8:
+		var x=mass.position.x+22+n*35
+		draw_rect(Rect2(x,mass.position.y+8,16,mass.size.y-16),Color("203c43"))
+		draw_line(Vector2(x,mass.position.y+8),Vector2(x,mass.end.y-8),Color("6a8082"),2)
+	var mouth=mass.position+Vector2(mass.size.x*0.5,mass.size.y-18)
+	for n in 5:
+		draw_arc(mouth,35+n*24,PI,TAU,40,Color("72a3a4") if n%2==0 else Color("31474e"),7)
+	for n in 7:
+		var a=PI+float(n)/6*PI
+		draw_line(mouth+Vector2.from_angle(a)*35,mouth+Vector2.from_angle(a)*132,Color("b39363"),3)
+	if sim.mission.objectives[1].captured:
+		_dash(Vector2(1410,720),Vector2(1250,880),Color("80bdb6"),3)
+		draw_line(Vector2(1250,880),Vector2(1256,850),Color("80bdb6"),3)
+		draw_line(Vector2(1250,880),Vector2(1280,873),Color("80bdb6"),3)
 func _rock(r: Rect2) -> void:
 	var poly=sim.rock_polygon(r)
 	var lower=PackedVector2Array(); var uv=PackedVector2Array()

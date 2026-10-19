@@ -1,6 +1,6 @@
 extends Control
 var sim
-var optics={"furnace":preload("res://assets/evidence/foundry_furnace.png"),"cradle":preload("res://assets/evidence/foundry_cradle.png")}
+var optics=preload("res://src/presentation/evidence_catalog.gd").IMAGES
 var foundry=preload("res://assets/structures/foundry.png")
 const PHOSPHOR=Color("8cdcd3")
 func _ready() -> void:
@@ -39,7 +39,7 @@ func _draw() -> void:
 			draw_circle(p,0.7,Color("6b888c"))
 	for y in range(36,int(size.y-40),4): draw_line(Vector2(8,y),Vector2(size.x-8,y),Color(0,0.02,0.04,0.11),1)
 	var font=ThemeDB.fallback_font
-	draw_string(font,Vector2(14,24),"%s / %s"%["ARCHIVE LINK" if objective.get("kind","")=="uplink" else "OPTICAL",sim.units[sim.capture_unit].name],HORIZONTAL_ALIGNMENT_LEFT,-1,14,PHOSPHOR)
+	draw_string(font,Vector2(14,24),"%s / %s"%["HYDROPHONES" if objective.get("kind","")=="receiver" else ("ARCHIVE LINK" if objective.get("kind","")=="uplink" else "OPTICAL"),sim.units[sim.capture_unit].name],HORIZONTAL_ALIGNMENT_LEFT,-1,14,PHOSPHOR)
 	draw_string(font,Vector2(14,size.y-24),objective.name,HORIZONTAL_ALIGNMENT_LEFT,-1,14,Color("e0bf83"))
 	draw_string(font,Vector2(size.x-68,size.y-24),"%02d%%"%int(progress*100),HORIZONTAL_ALIGNMENT_LEFT,-1,14,PHOSPHOR)
 	draw_rect(Rect2(12,size.y-12,size.x-24,3),Color("25464b")); draw_rect(Rect2(12,size.y-12,(size.x-24)*progress,3),PHOSPHOR)

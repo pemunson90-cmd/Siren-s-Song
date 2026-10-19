@@ -140,19 +140,37 @@ func command(order: String,args: Dictionary={}) -> bool:
 			if tools.decoy<=0: return false
 			tools.decoy-=1; _noise(args.get("point",u.pos+Vector2(160,0)),1100,"DECOY",15.0); message="Decoy transmitting · 15 seconds"; events.append({"type":"decoy","pos":u.pos})
 		"camera":
-			if capture_unit>=0: message="One pilot · exposure in progress. Allow it to finish or replace that unit’s route."; return false
-			var best := -1
-			for i in mission.objectives.size():
-				var o=mission.objectives[i]
-				if not o.captured and u.pos.distance_to(o.pos)<240 and line_clear(u.pos,o.pos): best=i; break
-			if best<0: message="Camera needs a clear view within 240m of an uncaptured marker."; return false
-			var target=mission.objectives[best]
-			if target.get("required_unit",selected)!=selected: message="Quietus must operate the archive uplink. Bring the submarine to this anchor."; return false
-			for prerequisite in target.get("requires",[]):
-				if not mission.objectives[prerequisite].captured: message=target.get("requirement","Uplink needs both relay records. Photograph WEST and EAST first."); return false
-			capture_unit=selected; capture_target=best; capture_time=0.0; u.hold="HOLD"; message="Archive uplink · hold 6 seconds" if target.get("kind","")=="uplink" else "Camera exposure · hold 4 seconds"; _noise(u.pos,520,"CAMERA"); events.append({"type":"camera","pos":u.pos})
+			var context=camera_context()
+			if not context.ready: message=context.text; return false
+			var target=mission.objectives[context.target]
+			capture_unit=selected; capture_target=context.target; capture_time=0.0; u.hold="HOLD"
+			message="%s · hold %.0f seconds"%["Passive hydrophone decode" if target.get("kind","")=="receiver" else ("Archive uplink" if target.get("kind","")=="uplink" else "Camera exposure"),target.get("duration",4.0)]
+			if target.get("kind","")!="receiver": _noise(u.pos,520,"CAMERA")
+			events.append({"type":"camera","pos":u.pos})
 		_: return false
 	return true
+func camera_context() -> Dictionary:
+	if capture_unit>=0:
+		var active=mission.objectives[capture_target]
+		return {"target":capture_target,"ready":false,"text":"%s · %s %.1f / %.0fs"%[units[capture_unit].name,active.name,capture_time,active.get("duration",4.0)]}
+	var unit=units[selected]; var best=-1; var nearest=-1; var distance=INF
+	for id in mission.objectives.size():
+		var objective=mission.objectives[id]
+		if objective.captured: continue
+		var d:float=unit.pos.distance_to(objective.pos)
+		if d<distance: nearest=id; distance=d
+		if best<0 and d<240 and line_clear(unit.pos,objective.pos): best=id
+	if nearest<0: return {"target":-1,"ready":false,"text":"Archive aboard · return Quietus to extraction."}
+	if best<0:
+		var target=mission.objectives[nearest]
+		return {"target":nearest,"ready":false,"text":"%s · %dm away / 240m range%s"%[target.name,roundi(distance)," · view blocked by cover" if not line_clear(unit.pos,target.pos) else ""]}
+	var target=mission.objectives[best]
+	if target.get("required_unit",selected)!=selected:
+		return {"target":best,"ready":false,"text":target.get("unit_requirement","Quietus must operate the archive uplink. Bring the submarine to this anchor.")}
+	for prerequisite in target.get("requires",[]):
+		if not mission.objectives[prerequisite].captured:
+			return {"target":best,"ready":false,"text":target.get("requirement","Uplink needs both relay records. Photograph WEST and EAST first.")}
+	return {"target":best,"ready":true,"text":"READY · %s · %s %.0fs"%[target.name,"passive listen" if target.get("kind","")=="receiver" else "exposure",target.get("duration",4.0)]}
 func _noise(p: Vector2,radius: float,label: String,duration: float=2.0) -> void:
 	noises.append({"pos":p,"radius":radius,"time":duration,"label":label})
 func advance(dt: float) -> void:
@@ -341,6 +359,8 @@ func has_live_contact() -> bool:
 func _record_secured(record: Dictionary) -> void:
 	events.append({"type":"record","pos":record.pos})
 	message="Record secured. Return Quietus to extraction." if all_records() else "Record secured. Continue the survey."
+	if mission.id==5 and record.get("kind","")=="receiver":
+		mission["phase"]="warning"; message="Warning decoded: deep fracture; outbound hulls are leaving. Bring Quietus and this packet home."
 	if mission.id==3:
 		message="Furnace record secured. Review recovered evidence in Operations."
 		if all_records() and mission.get("phase","")!="response":

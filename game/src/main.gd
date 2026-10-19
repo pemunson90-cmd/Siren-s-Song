@@ -152,7 +152,7 @@ func _refresh() -> void:
 		unit_buttons[i].text=["QUIETUS","DRONE A","DRONE B"][i]+"\n"+task
 		unit_buttons[i].add_theme_font_size_override("font_size",13)
 	order_buttons.waypoint_mode.text="WAYPOINT: PASS" if sim.pass_through else "WAYPOINT: STOP"
-	order_buttons.camera.text="CAMERA / LINK" if mission_index==1 else "CAMERA"
+	order_buttons.camera.text="CAMERA / LISTEN" if sim.mission.get("finale_revision",0)==1 else ("CAMERA / LINK" if mission_index==1 else "CAMERA")
 	order_buttons.queue.text="+ QUEUE ON" if sim.queue_mode else "REPLACE"
 	order_buttons.silent.text="SILENT ✓" if sim.units[sim.selected].silent else "CRUISE"
 	order_buttons.emp.text="DISRUPT · %d"%sim.tools.emp
@@ -161,7 +161,7 @@ func _refresh() -> void:
 	log_label.text=sim.message
 	advanced_button.text="FEWER ORDERS" if advanced_orders else "MORE ORDERS"
 	var mode="add to" if sim.queue_mode else "replace"
-	detail_label.text="Tap chart to %s route.\nDrag to pan · pinch to zoom.\n\nEXTRACT clears queued orders and conditions."%mode if size.x/size.y>1.6 else "Tap chart: %s route · Drag: pan · Pinch: zoom.\nEXTRACT clears queued orders and conditions."%mode
+	detail_label.text=sim.camera_context().text+"\n\nEXTRACT clears queued orders and conditions." if size.x/size.y>1.6 else sim.camera_context().text+"\nEXTRACT clears queued orders / conditions."
 func _toggle_advanced() -> void:
 	advanced_orders=not advanced_orders; _layout(); _refresh()
 
@@ -254,7 +254,8 @@ func _debrief() -> void:
 		_menu_text("Dive time %02d:%02d  /  Hull %d%%  /  Life support %d%%"%[int(sim.elapsed)/60,int(sim.elapsed)%60,int(sim.hull),int(sim.oxygen)],17)
 		if not recovered_evidence.is_empty(): _button(panel_box,"REVIEW OPTICAL RECORDS",func(): _evidence_gallery(0))
 		if mission_index==5:
-			_menu_text("THE SONG CONTINUES\n\nYou return with a warning, not a firing solution. Above you, the fleet waits for orders. Below, the foundry lights go dark, one by one. For the first time since descent, Quietus hears only the ocean.\n\nCampaign complete. Every dive remains replayable.",20)
+			var discovery="The crown points into the trench. Unarmed wakes lead away from the fracture. Quietus’ hydrophones resolve what the images could not: they are evacuating.\n\n" if sim.mission.get("finale_revision",0)==1 else ""
+			_menu_text("THE SONG CONTINUES\n\n"+discovery+"You return with a warning, not a firing solution. Above you, the fleet waits for orders. Below, the foundry lights go dark, one by one. For the first time since descent, Quietus hears only the ocean.\n\nCampaign complete. Every dive remains replayable.",20)
 		else: _button(panel_box,"NEXT DIVE",func(): _briefing(mission_index+1))
 	else:
 		_menu_text("SIGNAL LOST",32); _menu_text(sim.message,22); _menu_text("Recovered campaign records are preserved. Replan your approach from tactical pause.",17)
@@ -411,8 +412,8 @@ func _observation_diagnostics() -> void:
 			diagnostic_records[id]=true
 			print("SS_OBJECTIVE_RECORDED mission=",mission_index," objective=",id)
 			_retain_evidence()
-		if not objective.captured and unit.alive and sim.capture_unit<0 and unit.pos.distance_to(objective.pos)<240 and sim.line_clear(unit.pos,objective.pos):
-			ready="unit=%d objective=%d"%[sim.selected,id]
+	var context=sim.camera_context()
+	if unit.alive and context.ready: ready="unit=%d objective=%d"%[sim.selected,context.target]
 	if ready!=diagnostic_ready:
 		diagnostic_ready=ready
 		if not ready.is_empty(): print("SS_CAMERA_READY ",ready)
@@ -427,7 +428,7 @@ func _evidence_gallery(index: int) -> void:
 	var keys=recovered_evidence.keys(); var entry=recovered_evidence[keys[index%keys.size()]]
 	_menu_text("RECOVERED OPTICAL / %d OF %d"%[index+1,keys.size()],18)
 	_menu_text(entry.name,28)
-	var image=TextureRect.new(); image.texture=load("res://assets/evidence/foundry_%s.png"%entry.optical)
+	var image=TextureRect.new(); image.texture=preload("res://src/presentation/evidence_catalog.gd").IMAGES[entry.optical]
 	image.expand_mode=TextureRect.EXPAND_IGNORE_SIZE; image.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED; image.custom_minimum_size=Vector2(0,minf(320,size.y*0.4)); panel_box.add_child(image)
 	_menu_text(entry.caption,19)
 	if keys.size()>1: _button(panel_box,"NEXT RECORD",func(): _evidence_gallery((index+1)%keys.size()))

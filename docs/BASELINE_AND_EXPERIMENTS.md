@@ -12,6 +12,10 @@ Prior accepted Foundry/PCM gains remain: physical factory approach shared by mov
 
 Next challenger: earned finale warning, distinct observations and meaningful Quietus/return choice with solo/drone-loss recovery. Physical target sizing, camera-ready teaching, equipment explanation, wider campaign variety and richer progression remain opportunities, not claims of completion. No baseline is user acceptance or a stopping condition.
 
+## Confirmed inherited defect — patrol liveness
+
+External audit supplied by the user, independently reproduced by Sol tooling on accepted f1ea536: 8 of 13 Sirens can stall for nearly/all 600 simulated seconds after an unreachable patrol goal. `path()` returns empty; goal selection is gated on arriving within35m, so a distant blocked goal never changes. Other Sirens travel kilometres; the broad inference that every enemy is static is unsupported. This is inherited world behavior, not a touch regression. Preserve accepted source/artifacts and historic tactical outcomes as source-specific evidence, not current balance conclusions. Owned correction and fair patrol/cover/noise/chase/search plus campaign recovery reassessment take priority over promoting the unreviewed finale experiment. No global timer/difficulty change or automatic adoption of external recommendations is authorized by the report itself.
+
 ## Promotion record required for each substantial challenger
 
 Record baseline SHA/artifacts, player problem and proposed gain; deterministic comparisons before critics; actual output and ordinary input/command traces; independent whole-game criticism periodically; a separate evidence-based regression hunt after substantial changes. A hunter may find no meaningful regression. Confirm findings with reproduction and baseline comparison where possible; distinguish inherited weakness from newly caused regression. Fix confirmed consequential regressions first. Promote only supported gains with documented tradeoffs; retain the baseline or revert a worse experiment. Keep rejected/deferred work and why, rather than deleting counterexamples. No arbitrary review quota, premium-model default or routine approval gate.

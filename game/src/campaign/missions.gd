@@ -6,7 +6,7 @@ const BRIEFS = [
 	"The signal is a conversation. Blackwater absorbs passive returns. Use the relay chain to map the exchange. Drones see farther; the submarine camera remains your fallback.",
 	"Enter from the western shelf. Our recovery buoy lies beyond the southern factory wall. First image the FURNACE VENT, then the DEPARTURE CRADLE. The basalt spine offers shelter; the industrial perimeter does not. Cameras may provoke a carrier response. Plan Quietus’ passage before exposing the second record. Drones can take either photograph; the submarine remains your fallback.",
 	"The well is listening to us. Collect three records from its circumference. A mobile hunter patrols the inner water. Break sight before its beam resolves. Silence is a route, too.",
-	"The song is a warning, not an invitation. Document the transmission array and its outbound vector. Return with the archive. Command will ask for targets. Bring them evidence instead."
+	"The transmission crown faces the trench; outbound wakes point deeper, away from us. Photograph both to separate their meanings. Bring Quietus through the southern basalt lee to the LEE RECEIVER and use CAMERA / LISTEN for six quiet seconds. Only the submarine carries the low-frequency hydrophones needed to resolve the packet. Drones can scout the exposed crown and wakes while Quietus moves under cover; the submarine can take either image if they are lost. Return to the western buoy with what you heard. Command will ask for targets. Bring evidence instead."
 ]
 const RECORDS = [
 	"A manufactured pulse. Something beneath the shelf is counting the seconds between our pings.",
@@ -24,7 +24,7 @@ static func make(index: int) -> Dictionary:
 		[Rect2(400,430,280,220),Rect2(840,250,240,220),Rect2(1200,650,160,200)],
 		[Rect2(-120,-120,360,680),Rect2(240,-120,660,260),Rect2(500,300,300,360),Rect2(740,900,320,140),Rect2(900,620,120,180)],
 		[Rect2(480,280,240,250),Rect2(880,420,220,250),Rect2(1200,180,160,160)],
-		[Rect2(360,300,180,340),Rect2(740,160,220,300),Rect2(1040,540,240,220)]
+		[Rect2(-100,-100,340,640),Rect2(560,-100,280,620),Rect2(1000,470,250,190)]
 	]
 	var points = [
 		[Vector2(1300,300)],
@@ -32,7 +32,7 @@ static func make(index: int) -> Dictionary:
 		[Vector2(760,200),Vector2(1360,480)],
 		[Vector2(1090,360),Vector2(1320,770)],
 		[Vector2(800,180),Vector2(1370,450),Vector2(780,780)],
-		[Vector2(1160,240),Vector2(1420,460),Vector2(1000,820)]
+		[Vector2(1210,240),Vector2(1400,700),Vector2(900,780)]
 	]
 	var objectives: Array = []
 	for n in points[i].size():
@@ -46,6 +46,15 @@ static func make(index: int) -> Dictionary:
 		objectives[1].name="DEPARTURE CRADLE"; objectives[1]["optical"]="cradle"; objectives[1]["requires"]=[0]
 		objectives[1]["requirement"]="Record the furnace first. Its casting pattern will identify what the cradles contain."
 		objectives[1]["evidence"]="Long smooth hulls hang in open frames. No visible armament. An empty cradle opens toward the deeper trench. They are preparing to leave."
+	if i==5:
+		objectives[0].name="TRANSMITTER CROWN"; objectives[0]["optical"]="transmitter"
+		objectives[0]["evidence"]="Nested resonator vanes point into the trench. Their repeated spacing matches a low-frequency carrier, not a gun aperture. The sound is directed below us."
+		objectives[1].name="OUTBOUND WAKES"; objectives[1]["optical"]="departure"
+		objectives[1]["evidence"]="Smooth unarmed hulls descend away from the shelf. Their wakes converge beyond a warm fracture in the trench floor. This is a departure route, not an attack vector."
+		objectives[2].name="LEE RECEIVER"; objectives[2]["kind"]="receiver"; objectives[2]["required_unit"]=0; objectives[2]["duration"]=6.0; objectives[2]["requires"]=[0,1]; objectives[2]["optical"]="warning"
+		objectives[2]["requirement"]="Need both optical observations: TRANSMITTER CROWN and OUTBOUND WAKES. Their geometry separates the packet from reflected noise."
+		objectives[2]["unit_requirement"]="Quietus hydrophones required. Bring the submarine into the basalt lee; small drones cannot resolve this low-frequency packet."
+		objectives[2]["evidence"]="DECODED: a fracture is propagating below the mantle. The outbound hulls are evacuating, not assembling for attack. The carrier repeats the safe direction away from the fracture: listen, then leave."
 	var patrols: Array = []
 	for n in (1 + i / 2):
 		patrols.append({"pos":Vector2(620 + n*270,130),"home":Vector2(620+n*270,130),"goal":Vector2(620+n*270,130),"vel":Vector2.ZERO,"route":[],"angle":0.0,"mode":"PATROL","suspicion":0.0,"stun":0.0,"lock":0.0,"target":-1,"patrol":n,"path_time":0.0})
@@ -59,5 +68,11 @@ static func make(index: int) -> Dictionary:
 		result.extraction=Vector2(1420,880)
 		for n in patrols.size():
 			var home=[Vector2(960,260),Vector2(1320,820)][n]
+			patrols[n].pos=home; patrols[n].home=home; patrols[n].goal=home
+	if i==5:
+		result["phase"]="observations"; result["finale_revision"]=1
+		result["array_rect"]=Rect2(1260,60,300,280); result["structures"]=[result.array_rect]
+		for n in patrols.size():
+			var home=[Vector2(970,160),Vector2(1390,420),Vector2(1260,830)][n]
 			patrols[n].pos=home; patrols[n].home=home; patrols[n].goal=home
 	return result
