@@ -1,3 +1,9 @@
+## Scoped native chapter checkpoint —20de5cd/run39266427532
+
+NativeCI succeeds on corrected chapter/loadout source20de5cd. All4ZIP/APK/certificate bytes and48finalPNGs are inspected; root independently recomputes hashes/signature and views8 critical originals. Both actual Blackwater receiving panels show the full settling hint; both earned request galleries show the handshake/body/BACK, cover caption requires scrolling. Fine poster annotations remain smaller than the large caption; physical readability/comprehension is unproved. Actual optical/restored named states are correct.
+
+Accept these bounded native chapter/presentation gains; retain **all-black cover-resume** as an unresolved capture/presentation failure and preserve0afe5fc as the earlier successful inspected fallback. No native fullcampaign/finale, human/audio, Fold7, compositor or globalvisual acceptance. [Primary review](validation/android-39266427532/ARTIFACT_REVIEW.md), [independent parent proof](validation/production/android-parent-39266427532/README.md). Resume foreground/freshpostdraw/blank guard is separately reviewed and locally integrated, not in20de; next meaningful native source will test it alongside steering.
+
 ## Reviewed near-wall assisted departure — local promotion
 
 Against exacta178825 same earned snapshot/home command, baseline drifts into basalt and discards route at+2.1s; challenger spends~1.1s visibly rotating then clears the terrain with retained route. Separate full trace recovers78.7s/100hull, not a goal for future balance. [Matched actual16s motion](validation/production/navigation-departure-motion/README.md), [independent experience](reviews/2026-10-19-navigation-departure-experience.md), [separate regression](reviews/2026-10-19-navigation-departure-regressions.md). Independent16 valid geometry cases yield no baseline-success→newfailure;3 inherited corridor stops remain.
@@ -8,7 +14,7 @@ Promote exactsimd1bad2ca locally onto20de5cd for meaningful native validation: [
 
 Strongest inspected successful native baseline remains0afe5fc/run39251216827. Published chaptera178825 has independent scoped desktop support but failed native39261365076 in the relative-path fixture helper, before chapter frames. Preserve black cover-resume frame; no native chapter acceptance.
 
-Reviewed loadout challenger reveals finite stock/effects before BEGIN and distinguishes resumed active equipment; active simulation/save values remain unchanged. Cost: longer Operations/briefing scroll. [Actual paired captures and criticism](reviews/2026-10-19-loadout-clarity-review.md). Root clipped-settling hint correction and helper RED→GREEN share a full passing [combined gate](validation/production/combined-loadout-path-gate/README.md); native validation pending. Separate near-wall navigation experiment retains baseline collision and~1.1s turning cost, with independent review before integration.
+Reviewed loadout challenger reveals finite stock/effects before BEGIN and distinguishes resumed active equipment; active simulation/save values remain unchanged. Cost: longer Operations/briefing scroll. Clarity does not establish balanced or meaningful equipment choices: ordinary scripted missions finish with abundant oxygen, so the Endurance advantage still needs exploration-paced evidence before any resource retune. [Actual paired captures and criticism](reviews/2026-10-19-loadout-clarity-review.md). Root clipped-settling hint correction and helper RED→GREEN share a full passing [combined gate](validation/production/combined-loadout-path-gate/README.md); native validation pending. Separate near-wall navigation experiment retains baseline collision and~1.1s turning cost, with independent review before integration.
 
 # Verified baseline and experiments
 

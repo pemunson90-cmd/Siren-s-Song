@@ -1,0 +1,7 @@
+# Navigation and native-resume evidence — combined publication gate
+
+Source composition: published20de5cd + independently reviewed near-wall steeringd1bad2ca (local6ab8fb0) + independently reviewed resume patchbf3628f9. All tracked game/tool/workflow and new owned source hashes match before/after the complete toolchain gate. Exit0:293core/308runtime/38loadout/45navigation/1057density/7menu/15scroll/68transport, all0failures, plus Python9resume/20capture/17Blackwater and existing parser suites. Root separately executes actual headless foreground state test:2layout_only reports, pausedstate unchanged; independent actualGL gives2postdraw reports versusRED0.
+
+The navigation gain preserves the tested accepted route with finite gradual turn/braking/time cost; original terrain stops and both no-EMP threat losses remain. New resume contract retains immediate/rejected screenshots and requires fresh foreground/postdraw/stable semantic geometry plus actualRGB variation before publishing a final candidate. It cannot establish compositor acknowledgment or image semantics, nor retrospectively repair the blackcoverresume in20de.
+
+Current20de native39266427532 passes CI and scoped chapter/48image/ZIP/APK/signature review, but coverresume is black. This new meaningful source needs its own native run and actual artifact review. Bow cue and Well signature experiments are excluded; their isolated source is not part of this gate. Root alone publishes and immediately continues those next cycles.

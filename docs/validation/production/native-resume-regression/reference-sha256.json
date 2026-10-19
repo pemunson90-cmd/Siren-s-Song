@@ -1,0 +1,42 @@
+[
+  {
+    "path": "docs/validation/production/native-resume-capture/source.patch",
+    "sha256": "bf3628f9aeb5cccaf11a8f26050af9f59bb71781a73d00ab48cb9623794655e0"
+  },
+  {
+    "path": "docs/validation/production/native-resume-capture/source-manifest.json",
+    "sha256": "e7744e7f33619dac4c4031e207e14d62819e4301bcc9014e19b0941c1f20be40"
+  },
+  {
+    "path": "docs/validation/production/native-resume-capture/real-gl-red.log",
+    "sha256": "6d4b312e8ac3e4f315d7030a0baf982ff9cba786b2fdb773229167c9f1db871a"
+  },
+  {
+    "path": "docs/validation/production/native-resume-capture/real-gl-green.log",
+    "sha256": "a5b297f5be15d24b7aea9d6ba3d076856fca04196a5e12cb84bcb45e17341507"
+  },
+  {
+    "path": "docs/validation/production/native-resume-capture/headless-green.log",
+    "sha256": "1cda46ddb07079d4f48eb25eaeb9e3dc6177af0fdc9a6132055c3ffdb5db74e1"
+  },
+  {
+    "path": "docs/validation/production/native-resume-capture/protocol-decoder-green-first.log",
+    "sha256": "be84bf1a4fdc0c12868d6ae0c79285f4fc1815972f7655258ce3c8f5f2a11b87"
+  },
+  {
+    "path": "docs/validation/production/native-resume-capture/existing-capture-green.log",
+    "sha256": "98ddcdd295c37aecd0f8618e4c9f6a80621f1b92ab77352f4245993af0ea511f"
+  },
+  {
+    "path": "docs/validation/production/native-resume-capture/existing-blackwater-green.log",
+    "sha256": "95c44ee92cd631b64bf794ceca7b94f2528e3d70b4d417f7d78e2c2e319eb2e8"
+  },
+  {
+    "path": "docs/validation/production/native-resume-capture/archive-green.log",
+    "sha256": "2f12df4c67432f3d74b236e1325e84a13772598d0a3b1f6f446c7f22ec608b50"
+  },
+  {
+    "path": "docs/validation/production/native-resume-capture/runtime-green.log",
+    "sha256": "1a3ae5b76def643b011d7937f81ba8cb9889e81ab2cdac240e0f0b24f1cf0e51"
+  }
+]

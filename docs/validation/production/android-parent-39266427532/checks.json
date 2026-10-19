@@ -1,0 +1,48 @@
+{
+  "run": 39266427532,
+  "archives": [
+    {
+      "file": "apk.zip",
+      "bytes": 69160477,
+      "sha256": "de88dad885ffaa7531fea9f1db4f07a747364fd2cda46b8c104d125a9f38271e",
+      "crc_pass": true,
+      "entries": 3,
+      "official_metadata_match": true,
+      "artifact_id": 12193674811
+    },
+    {
+      "file": "cover.zip",
+      "bytes": 16898597,
+      "sha256": "c060d305bd607d05a4179396d0823440c25a1f3befa4ff1c41104d01e743b81f",
+      "crc_pass": true,
+      "entries": 35,
+      "official_metadata_match": true,
+      "artifact_id": 12195590143
+    },
+    {
+      "file": "inner.zip",
+      "bytes": 30240465,
+      "sha256": "c9ab255fd975aba5ba15e7910160b0505161dd166c4fdac5f74a81eae7c63a97",
+      "crc_pass": true,
+      "entries": 38,
+      "official_metadata_match": true,
+      "artifact_id": 12193844700
+    },
+    {
+      "file": "runtime.zip",
+      "bytes": 349234688,
+      "sha256": "c7995d1b3fe1032ba4beebbcf888da2e24721f45d815610f1a565a2c76b44614",
+      "crc_pass": true,
+      "entries": 717,
+      "official_metadata_match": true,
+      "artifact_id": 12193894541
+    }
+  ],
+  "apks": [
+    {
+      "path": "work/android-39266427532/apk/sirens-song-debug.apk",
+      "bytes": 69556301,
+      "sha256": "de329c96548d7e95168992f62a78b99ce04651edbbdac3174e62282e1db84abf"
+    }
+  ]
+}

@@ -1,0 +1,505 @@
+{
+  "baseline-emp": {
+    "sha256": "25279348cac263985a155ac4b2c5bb8d2bd60e938dab433ad6514effc0b7ffe0",
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "width": 1280,
+          "height": 720,
+          "r_frame_rate": "15/1",
+          "nb_frames": "240"
+        }
+      ],
+      "format": {
+        "duration": "16.000000"
+      }
+    },
+    "restored_snapshot_hash": "0af173dd9d6dfe8d814e41fe7a2424cf9de05dc8b26134a67dfae1e6ba59a601",
+    "initial": {
+      "angle": -0.390700191259384,
+      "contacts": [
+        {
+          "age": 0.0499999999999998,
+          "id": 1,
+          "lock": 0.783333333333334,
+          "mode": "LOCKING",
+          "position": "(770.243, 651.6971)",
+          "type": "hunter"
+        }
+      ],
+      "hull": 100.0,
+      "message": "QUIETUS \u00b7 replaced route",
+      "outcome": "",
+      "oxygen": 99.6166666666664,
+      "paused": false,
+      "position": "(571.2907, 622.4368)",
+      "route": [
+        {
+          "pos": "(820.0, 520.0)",
+          "stop": true
+        }
+      ],
+      "screen": "mission",
+      "time": 6.89999999999998,
+      "tools": {
+        "decoy": 3,
+        "emp": 3,
+        "recon": 2
+      },
+      "velocity": "(72.12212, -29.7052)"
+    },
+    "final": {
+      "angle": -3.32800227800478,
+      "contacts": [
+        {
+          "age": 0.149999999999991,
+          "id": 1,
+          "lock": 2.84999999999999,
+          "mode": "LOCKING",
+          "position": "(737.2463, 656.801)",
+          "type": "hunter"
+        },
+        {
+          "age": 0.149999999999991,
+          "id": 0,
+          "lock": 7.88333333333331,
+          "mode": "BEAM",
+          "position": "(769.749, 410.7291)",
+          "type": "patroller"
+        }
+      ],
+      "hull": 27.4000000000006,
+      "message": "Autopilot stopped at unsafe terrain. Replot in open water.",
+      "outcome": "",
+      "oxygen": 98.7277777777768,
+      "paused": false,
+      "position": "(686.3267, 529.771)",
+      "route": [],
+      "screen": "mission",
+      "time": 22.9,
+      "tools": {
+        "decoy": 3,
+        "emp": 2,
+        "recon": 2
+      },
+      "velocity": "(0.0, 0.0)"
+    },
+    "commands": [
+      {
+        "accepted": true,
+        "args": "{ \"point\": (820.0, 520.0) }",
+        "frame": -1,
+        "name": "route",
+        "time": 6.89999999999998
+      },
+      {
+        "accepted": true,
+        "args": "{ \"point\": (420.0, 580.0) }",
+        "frame": 15,
+        "name": "emergency",
+        "time": 7.89999999999998
+      },
+      {
+        "accepted": true,
+        "args": "{  }",
+        "frame": 15,
+        "name": "emp",
+        "time": 7.89999999999998
+      }
+    ]
+  },
+  "challenger-emp": {
+    "sha256": "cd309f2c13b2ae51ac22c233798c165767fa5a37fab01c75eb9c3d3d0f0cf5b8",
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "width": 1280,
+          "height": 720,
+          "r_frame_rate": "15/1",
+          "nb_frames": "240"
+        }
+      ],
+      "format": {
+        "duration": "16.000000"
+      }
+    },
+    "restored_snapshot_hash": "0af173dd9d6dfe8d814e41fe7a2424cf9de05dc8b26134a67dfae1e6ba59a601",
+    "initial": {
+      "angle": -0.390700191259384,
+      "contacts": [
+        {
+          "age": 0.0499999999999998,
+          "id": 1,
+          "lock": 0.783333333333334,
+          "mode": "LOCKING",
+          "position": "(770.243, 651.6971)",
+          "type": "hunter"
+        }
+      ],
+      "hull": 100.0,
+      "message": "QUIETUS \u00b7 replaced route",
+      "outcome": "",
+      "oxygen": 99.6166666666664,
+      "paused": false,
+      "position": "(571.2907, 622.4368)",
+      "route": [
+        {
+          "pos": "(820.0, 520.0)",
+          "stop": true
+        }
+      ],
+      "screen": "mission",
+      "time": 6.89999999999998,
+      "tools": {
+        "decoy": 3,
+        "emp": 3,
+        "recon": 2
+      },
+      "velocity": "(72.12212, -29.7052)"
+    },
+    "final": {
+      "angle": -3.25240904489626,
+      "contacts": [
+        {
+          "age": 0.149999999999991,
+          "id": 1,
+          "lock": 1.76666666666667,
+          "mode": "LOCKING",
+          "position": "(630.4009, 596.6454)",
+          "type": "hunter"
+        }
+      ],
+      "hull": 85.3000000000001,
+      "message": "Disruption pulse \u00b7 12 second recovery window",
+      "outcome": "",
+      "oxygen": 98.7277777777768,
+      "paused": false,
+      "position": "(427.0588, 579.2146)",
+      "route": [],
+      "screen": "mission",
+      "time": 22.9,
+      "tools": {
+        "decoy": 3,
+        "emp": 2,
+        "recon": 2
+      },
+      "velocity": "(0.0, 0.0)"
+    },
+    "commands": [
+      {
+        "accepted": true,
+        "args": "{ \"point\": (820.0, 520.0) }",
+        "frame": -1,
+        "name": "route",
+        "time": 6.89999999999998
+      },
+      {
+        "accepted": true,
+        "args": "{ \"point\": (420.0, 580.0) }",
+        "frame": 15,
+        "name": "emergency",
+        "time": 7.89999999999998
+      },
+      {
+        "accepted": true,
+        "args": "{  }",
+        "frame": 15,
+        "name": "emp",
+        "time": 7.89999999999998
+      }
+    ]
+  },
+  "baseline-noemp": {
+    "sha256": "713fd31de9f04135d5f2ae851407fa18991c92dbf1d72c470ab49d7285abb924",
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "width": 1280,
+          "height": 720,
+          "r_frame_rate": "15/1",
+          "nb_frames": "240"
+        }
+      ],
+      "format": {
+        "duration": "16.000000"
+      }
+    },
+    "restored_snapshot_hash": "0af173dd9d6dfe8d814e41fe7a2424cf9de05dc8b26134a67dfae1e6ba59a601",
+    "initial": {
+      "angle": -0.390700191259384,
+      "contacts": [
+        {
+          "age": 0.0499999999999998,
+          "id": 1,
+          "lock": 0.783333333333334,
+          "mode": "LOCKING",
+          "position": "(770.243, 651.6971)",
+          "type": "hunter"
+        }
+      ],
+      "hull": 100.0,
+      "message": "QUIETUS \u00b7 replaced route",
+      "outcome": "",
+      "oxygen": 99.6166666666664,
+      "paused": false,
+      "position": "(571.2907, 622.4368)",
+      "route": [
+        {
+          "pos": "(820.0, 520.0)",
+          "stop": true
+        }
+      ],
+      "screen": "mission",
+      "time": 6.89999999999998,
+      "tools": {
+        "decoy": 3,
+        "emp": 3,
+        "recon": 2
+      },
+      "velocity": "(72.12212, -29.7052)"
+    },
+    "final": {
+      "angle": -3.32800227800478,
+      "contacts": [
+        {
+          "age": 0.0500000000000025,
+          "id": 1,
+          "lock": 9.51666666666672,
+          "mode": "BEAM",
+          "position": "(737.2463, 656.801)",
+          "type": "hunter"
+        },
+        {
+          "age": 0.0500000000000025,
+          "id": 0,
+          "lock": 0.716666666666667,
+          "mode": "LOCKING",
+          "position": "(770.5712, 407.1558)",
+          "type": "patroller"
+        }
+      ],
+      "hull": 0.0,
+      "message": "Quietus lost. Your previous campaign records remain safe.",
+      "outcome": "lost",
+      "oxygen": 99.1314814814808,
+      "paused": false,
+      "position": "(686.3267, 529.771)",
+      "route": [],
+      "screen": "debrief",
+      "time": 15.6333333333337,
+      "tools": {
+        "decoy": 3,
+        "emp": 3,
+        "recon": 2
+      },
+      "velocity": "(0.0, 0.0)"
+    },
+    "commands": [
+      {
+        "accepted": true,
+        "args": "{ \"point\": (820.0, 520.0) }",
+        "frame": -1,
+        "name": "route",
+        "time": 6.89999999999998
+      },
+      {
+        "accepted": true,
+        "args": "{ \"point\": (420.0, 580.0) }",
+        "frame": 15,
+        "name": "emergency",
+        "time": 7.89999999999998
+      }
+    ]
+  },
+  "challenger-noemp": {
+    "sha256": "4af6ad11dd1494e158934049f1be7c9679659c3d6bb83e8e701c60c4704be46d",
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "width": 1280,
+          "height": 720,
+          "r_frame_rate": "15/1",
+          "nb_frames": "240"
+        }
+      ],
+      "format": {
+        "duration": "16.000000"
+      }
+    },
+    "restored_snapshot_hash": "0af173dd9d6dfe8d814e41fe7a2424cf9de05dc8b26134a67dfae1e6ba59a601",
+    "initial": {
+      "angle": -0.390700191259384,
+      "contacts": [
+        {
+          "age": 0.0499999999999998,
+          "id": 1,
+          "lock": 0.783333333333334,
+          "mode": "LOCKING",
+          "position": "(770.243, 651.6971)",
+          "type": "hunter"
+        }
+      ],
+      "hull": 100.0,
+      "message": "QUIETUS \u00b7 replaced route",
+      "outcome": "",
+      "oxygen": 99.6166666666664,
+      "paused": false,
+      "position": "(571.2907, 622.4368)",
+      "route": [
+        {
+          "pos": "(820.0, 520.0)",
+          "stop": true
+        }
+      ],
+      "screen": "mission",
+      "time": 6.89999999999998,
+      "tools": {
+        "decoy": 3,
+        "emp": 3,
+        "recon": 2
+      },
+      "velocity": "(72.12212, -29.7052)"
+    },
+    "final": {
+      "angle": -3.25240904489626,
+      "contacts": [
+        {
+          "age": 0.0500000000000025,
+          "id": 1,
+          "lock": 9.51666666666672,
+          "mode": "BEAM",
+          "position": "(621.3094, 622.6826)",
+          "type": "hunter"
+        }
+      ],
+      "hull": 0.0,
+      "message": "Quietus lost. Your previous campaign records remain safe.",
+      "outcome": "lost",
+      "oxygen": 99.1314814814808,
+      "paused": false,
+      "position": "(427.0588, 579.2146)",
+      "route": [],
+      "screen": "debrief",
+      "time": 15.6333333333337,
+      "tools": {
+        "decoy": 3,
+        "emp": 3,
+        "recon": 2
+      },
+      "velocity": "(0.0, 0.0)"
+    },
+    "commands": [
+      {
+        "accepted": true,
+        "args": "{ \"point\": (820.0, 520.0) }",
+        "frame": -1,
+        "name": "route",
+        "time": 6.89999999999998
+      },
+      {
+        "accepted": true,
+        "args": "{ \"point\": (420.0, 580.0) }",
+        "frame": 15,
+        "name": "emergency",
+        "time": 7.89999999999998
+      }
+    ]
+  },
+  "idle": {
+    "sha256": "b429d82fdd4bf37277eeaa3ab15782b28dbbf9fbf68c6bc71e26b1d92b47efe0",
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "width": 1280,
+          "height": 720,
+          "r_frame_rate": "15/1",
+          "nb_frames": "240"
+        }
+      ],
+      "format": {
+        "duration": "16.000000"
+      }
+    },
+    "restored_snapshot_hash": "0af173dd9d6dfe8d814e41fe7a2424cf9de05dc8b26134a67dfae1e6ba59a601",
+    "initial": {
+      "angle": -0.390700191259384,
+      "contacts": [
+        {
+          "age": 0.0499999999999998,
+          "id": 1,
+          "lock": 0.783333333333334,
+          "mode": "LOCKING",
+          "position": "(770.243, 651.6971)",
+          "type": "hunter"
+        }
+      ],
+      "hull": 100.0,
+      "message": "QUIETUS \u00b7 replaced route",
+      "outcome": "",
+      "oxygen": 99.6166666666664,
+      "paused": false,
+      "position": "(571.2907, 622.4368)",
+      "route": [
+        {
+          "pos": "(820.0, 520.0)",
+          "stop": true
+        }
+      ],
+      "screen": "mission",
+      "time": 6.89999999999998,
+      "tools": {
+        "decoy": 3,
+        "emp": 3,
+        "recon": 2
+      },
+      "velocity": "(72.12212, -29.7052)"
+    },
+    "final": {
+      "angle": -0.390709608793259,
+      "contacts": [
+        {
+          "age": 0.0166666666666675,
+          "id": 1,
+          "lock": 8.68333333333334,
+          "mode": "BEAM",
+          "position": "(737.2463, 656.801)",
+          "type": "hunter"
+        }
+      ],
+      "hull": 0.0,
+      "message": "Quietus lost. Your previous campaign records remain safe.",
+      "outcome": "lost",
+      "oxygen": 99.179629629629,
+      "paused": false,
+      "position": "(813.2736, 522.7704)",
+      "route": [],
+      "screen": "debrief",
+      "time": 14.766666666667,
+      "tools": {
+        "decoy": 3,
+        "emp": 3,
+        "recon": 2
+      },
+      "velocity": "(0.0, 0.0)"
+    },
+    "commands": [
+      {
+        "accepted": true,
+        "args": "{ \"point\": (820.0, 520.0) }",
+        "frame": -1,
+        "name": "route",
+        "time": 6.89999999999998
+      }
+    ]
+  }
+}

@@ -1,248 +1,28 @@
-# Siren's Song progress workbench
+# Siren’s Song · current workbench
 
-**Stage:** Active / reviewed direct Blackwater source advancing to meaningful native validation; isolated loadout-clarity implementation already running. Mandatory cadence rejected. Reviewed5eb571f, native0afe5fc/run39251216827 now passes scoped native, byte/signature and41-final-image review; final evidence archival is published at1cbc97b. Direct Blackwater integrated gate292/308/1057/7/15/68 now passes locally; actual chapter criticism/native promotion remain pending. Native fresh→memory teaching/full-campaign/physical acceptance remains open; inspected9dacbb4 and older fallbacks remain preserved.
-**Phone dashboard:** [current APK, evidence and limits](PHONE_DASHBOARD.md).
-**Current playable comparison base:**0afe5fc/run39251216827, with inspected APK bytes, stable signature and scoped actual pixels. Historical entry baseaa022cc/b809501 and all earlier artifacts remain preserved. The current managed Command-Library runtime reports connected, unrestricted/enforced, observations current; no root model-effort telemetry is exposed.
-**Fully inspected native fallback:** f1ea536 / runtime 92625ac; inherited patrol defect recorded. Latest tested APK contains experimental finale ancestry; native finale/full-campaign quality remains unresolved.
-**Player device:** Galaxy Z Fold7; physical folding, touch comfort, OS multi-touch and sustained performance remain open.
+**Governance refreshed:** e286ade61257190daa46f9433182de323a611271. Current [AGENTS contract](../AGENTS.md) governs: autonomous feature branches/worktrees, one designated integration reviewer, focused checks, Android/full validation at coherent milestones or concrete native risk. Fetch/read remote AGENTS/CONTINUATION/WORKBENCH at each task boundary and pass that SHA to workers. Earlier per-step certification gates are superseded; Git history retains the former detailed workbench.
 
-**Active isolated next gain:** [actual loadout-comprehension scout](reviews/2026-10-19-loadout-comprehension-scout.md) confirms Operations names omit stock/effect tradeoffs and next-dive versus active-resume distinction. Chapter ownership is released; producer now builds compact real-resource comparison/briefing confirmation in isolated copies without changing equipment mechanics. Scout explicitly requested Sol6.1/high; actual backend/cost telemetry unknown. Separate Blackwater regression and fresh experience scopes are released with supported bounded desktop promotion; native chapter acceptance remains pending.
+## Playable production and actual failure
 
-## Historical role/density evidence — current action is above and below
+Remote game/tool source20de5cd, plus newer governance through e286ade. [Native39266427532](validation/android-39266427532/README.md) succeeds; all4ZIP/APK/certificate checks and48finalimages inspected, independently corroborated by root. Both Blackwater receiving/gallery layouts, settling hint, native loadout and named optical/restored states pass scoped review. **Cover-resume is all black**; cold restart does not prove same-resume recovery. NewAPKde329c…84abf; preserved successful inspected0afe5fc and earlierf1ea536/runtime92625ac fallbacks.
 
-Ratified A's implemented role gains now have local deterministic, actual desktop footage, separate fresh criticism and native numerical evidence. Current source gate 234 core / 230 runtime plus 8 navigation and current parser guards passes. Independent exact-source probes establish ten circulating patrollers and three intentional station roles, stimulus/search/return, distant current-sight pursuit with emitter standoff, save/pause and legacy continuation. The Well planning-margin observation is inherited from 8d8635a; no sampled 12-unit body penetration was found. Source-specific losses and considered alternatives are retained rather than tuning back to old hull scores. [Role evidence](validation/production/siren-roles/README.md) and [fresh review](reviews/2026-10-19-siren-roles-regressions.md).
+## Active integration
 
-[Native 39216492480](validation/android-39216492480/README.md) passes old cover/inner zoom/pan/FIT/order/pause/lifecycle/audio/Shelf completion and restored genuine progression gates. The added untouched, explicitly fixture-assisted Well entry uses ordinary Android silent route→DECOY→silent withdrawal; mode samples show investigation/search/physical home return without visual target/lock, and the genuine Shelf archive is restored byte-for-byte. This is not earned mission 4 progression, Well completion, native finale or all-campaign acceptance. Build-log hash/cert are retained; direct downloaded bytes/new pixels remain pending artifact-host access. The prior fully inspected f1ea fallback remains preserved.
+| Design | State / owner / next action |
+| --- | --- |
+| Assisted departure | Local6ab8fb0; exactsimd1bad2ca. Promote existing commit to dedicated assisted-departure branch, reconcile governance and merge with designated integration reviewer. Same-state route now clears basalt;~1.1s rotation and3 inherited corridor stops remain. |
+| Resume evidence | Reviewed patchbf3628f9 applied locally; root focused9/headless unchanged-state and full combined gate pass. Promote dedicated native-resume-evidence branch; same integration reviewer reuses prior findings, checks actual diff/conflicts. Native batch justified by repeated actual black frame. |
+| Bow heading cue | Frozen selected-Quietus-only ocean338c9e47;9focused, unchanged paired states/losses. Wider-drone clutter and debrief protrusion drafts rejected/fixed. One designated experience/integration reviewer finishes corrected motion. Promote existing patch to its feature worktree from reconciled production; no separate APK requirement. |
+| Well signature | Frozen optional4-file delta d4bd6a9b on6ab8fb0. Remote win preserved; required excursion rejected for exposure without extra discovery. Solo match win31.3% hull and coordinated losses retained. Promote existing work to feature worktree, assign ONE reviewer for gameplay/compatibility/targeted tests. |
 
-Current density evidence: selective UI port from immutable 2fc0976 preserves current role/finale/save code. The initial 64×64 headless-window fixture caused five pointer failures; declaring the physical test window before scene creation restores 230/0 without claiming a product geometry fix. Actual hit checks then found six two-line overlaps. Authored 56 dp rows, readable button text and shorter pass/stop labels resolve them while retaining 55.77% cover / 53.34% inner chart area. A rendered text-reflow defect left briefing actions below the cover screen; deferred minimum-size layout handling restores sticky ENTER/BACK. Wheel/pointer menu navigation has 7/0 checks; the failed unconfigured desktop touch attempt is retained, and a correctly configured touchscreen-capability/emulated-mouse fixture now exercises the actual engine scroll branch. Actual OS coverage remains separate. [Current density evidence and retained failures](validation/production/density/README.md).
+Root alone integrates/pushes production. Implementers may commit/push their assigned feature branches; no source restart or duplicate full suite/archive. Existing isolated captures stay untouched while branch promotion happens.
 
-Fresh critic confirmed hidden sticky append mode on the secondary page; persistent selected-craft / route-mode header resolves it without simulation changes. Actual GUI follow-up and long prerequisite fit pass; updated images and 16-second planning replay are retained. Final focused 699 / runtime 230 pass.
+## Evidence and next execution
 
-Final combined strict gate (game 6de9e10 + tooling cd1dde8) passes 234 simulation / 230 runtime / 699 density / 7 menu checks, plus 23 geometry / 11 menu / 8 navigation / 10 role parser guards and archive restoration mock. [Raw final log](validation/production/density/reviewed-combined.log). [Fresh review](reviews/2026-10-19-density-touch-review.md) supports native validation after independently verifying the queue-intent fix.
+[Combined navigation/resume gate](validation/production/resume-navigation-combined-gate/README.md) exits0 with293core/308runtime/38loadout/45navigation/1057density/7menu/15scroll/68transport plus9resume and existing parsers, exact source-before/after equality. No broad repeat needed merely to apply governance-only commits. [Independent integration reviewer](reviews/2026-10-19-navigation-resume-integration.md) is assigned; resolve concrete findings.
 
-Native density runs 39222413584 and 39223713376 both stopped after the first menu swipe with no fresh metrics. The second explicitly reported the immersive intro absent, so that hypothesis is not supported. Official engine behavior and local RED identify menu Buttons stopping drag propagation before ScrollContainer; wheel events were exempt, explaining the prior pass. A bounded fix sets PASS only on scrolling panel_box Buttons, preserving HUD/chart/footer filters and deferred actions. Readonly settings_values supports real native assertions without activating sliders/buttons.
+[Actual emergency comparison](validation/production/navigation-emergency-experience/README.md): one EMP SPENT3→2, baseline terrain stop/end hull27.4 versus steering route retained/hull85.3. Neither is a win/safeescape; both no-EMP takes lose movie+8.733s, no-input continuation+7.867s, delayed replacement still collides. [Official route-intent comparison](reviews/2026-10-19-route-intent-reference-comparison.md) motivates the small cue; no physics imitation.
 
-Post-fix full gate passes 234 simulation / 230 runtime / 699 geometry / 7 menu / 14 scroll plus parser/archive guards. Test-only extensions pass 1057 geometry/ordinary-input/sticky checks including the actual recorded x136 cover inset, and final 15 scroll checks including Settings effects/mute reach with unchanged values. Existing critic independently passes the 15 checks and finds no new integration regression. [Focused source/log/render evidence](validation/production/density/scroll-boundary/README.md). Three actual inset renders were inspected; no native/pixel claim follows.
+Next: preserve root pending work on native-resume feature; reconcile latest governance/nav into playable production; merge reviewed resume source; promote cue/Well branches and continue their one-reviewer integrations. Batch the next meaningful native validation for the concrete resume issue and coherent accepted changes, without serializing independent development. Keep [phone dashboard](PHONE_DASHBOARD.md)/[continuation](CONTINUATION.md) current, not a duplicate full governance archive.
 
-Latest [native 39229219785](validation/android-39229219785/README.md), exact source **b809501af49fe6cd2c23acd7b2d47867a0d1f638**, succeeds. Both cover and inner pass primary/secondary/restored-primary target geometry, actual OS Operations scrolling, Settings effects/mute reach with unchanged audio values, sticky BACK and zoom/pan/FIT without accidental orders. Cover Settings needs one measured-gap swipe; inner exposes those controls without one. Old mission/order/pause, background/kill/restart archive, ordinary Shelf route/camera/record/extraction/save/cold restore, fixture-assisted Well hunter return and byte-for-byte genuine Shelf archive restoration all pass the strict final error gate. This is bounded numerical/input acceptance, not direct Android visual acceptance, full campaign/native finale, earned Well progression or physical Fold7 validation.
-
-Retained failures remain meaningful: two early first-swipe failures, an explicitly absent immersive intro, and 744ad3e's confirmed menu success followed by exactly 1023-character truncated HUD JSON. The [transport-only repair](validation/production/density/metric-transport/README.md) now passes natively without dropping controls, weakening geometry or using stale snapshots. Local strict gate is 234 core / 230 runtime / 1057 geometry / 7 menu / 15 scroll / 65 transport plus parser/archive guards. Initial 63/2 raw Dictionary assertion failures are preserved and explained by JSON integer-to-float normalization; strict canonical byte equality and independent field-value checks pass.
-
-**Next single action:** root inspects exact native run39261365076/job118089566933 from publisheda178825 and its existing artifacts; current inspected APK remains0afe5fc. Producer already implements loadout clarity in isolated copies, without touching shared source. Fresh experience and separate regression support scoped desktop promotion; all losses/source-deltas remain retained. Do not repeat unchanged checks or stop at this milestone.
-
-## Resumed artifact gate — 19 October 2026
-
-The selected published Command-Library environment started with no checkout; cloned gauntlet/production and fetched origin, both exactly aa022cc, with no pre-existing local changes. Godot is the pinned official 4.6.3. Local network snapshot is unrestricted; supported connector File Service delivery succeeds through the inherited proxy. No new CI run or network bypass was used. Four ZIP digests/CRC and extracted APK SHA-256 match the preserved run; local apksigner verifies v2/v3 and the expected public certificate. Independent Sol-routed review inspected all 41 Android PNGs in contact sheets plus critical full-size views, finding no consequential blocking readability/clipping/safe-area defect. Some menu transition screenshots lag the fresh diagnostic state; they are not silently treated as images of the new screen. [Byte/pixel review and exact limitations](validation/android-39229219785/README.md).
-
-Fresh clone setup qualification: an initial test attempt preceded Godot's required import and failed loading missing .ctex resources. The documented editor import resolves that setup omission. Fresh strict full gate afterward exits 0: 234 core / 230 runtime / 1057 geometry / 7 menu / 15 scroll / 65 transport plus parser/archive guards. Parent log: work/baseline-gate.log; durable challenger evidence will retain the baseline log. No game correction was inferred from the setup failure.
-
-One fresh reviewer explicitly requested gpt-6.1-sol/high for artifact bytes/pixels; one subsequent production owner explicitly requested the same model for the bounded acoustic-feedback cycle. Actual backend/token/cost telemetry is unavailable. Parent is sole pusher; imported originals and prior accepted artifacts remain preserved.
-
-
-## Acoustic local source checkpoint — 08eca25
-
-Read-only own acoustic snapshot, persistent decoy remaining-life glyphs/summary and uncertain reception cue are committed at **08eca25**, reviewed for native validation but not natively promoted. No AI, duration, resource or save-schema tuning. Final integrated strict gate passes **245 core / 237 runtime / 1057 geometry / 7 menu / 15 scroll / 65 transport**, with final **30** menu parser tests plus related guards. Baseline/challenger actual GUI/order/pause/final-state traces agree; paired 20-second cover clips, 18-second no-input expiry, camera/threat and retained-loss views are in [acoustic evidence](validation/production/acoustic-feedback/README.md). Rejected hidden-page capture, overly dense tiny fixture, first SURVEY visibility fixture error and compact-row iteration remain retained.
-
-Script-only [screenshot ordering correction](validation/android-39229219785/capture-timing-fix/README.md) now brackets candidate capture with matching fresh canonical state; malformed data/preferences still fail. No compositor acknowledgment or automatic semantic pixel proof is claimed. Existing b809501 Android gate remains preserved. Fresh [experience review](reviews/2026-10-19-acoustic-feedback-critique.md) supports the bounded gain; matched official Mark of the Ninja footage is clearer spatially. Separate [regression review](reviews/2026-10-19-acoustic-feedback-regressions.md) confirms no consequential new regression:396 identical baseline/current command/state records across six45-second attempts, restored multiple-decoy and hidden-source boundaries,4 shell adversaries and both-layout threat/camera coexistence with explicit paused-fixture limits. Next is native validation and exact bytes/pixels; no native source08 result is claimed yet. Root is sole pusher. Raw log whitespace is preserved in RED evidence; scoped source/Markdown checks pass.
-
-## Continuity
-
-Read `docs/CONTINUATION.md` and the plan before working. Model assignments and telemetry limits: `docs/MODEL_USAGE.md`. Sol6.1 is default for substantial production/critics; fit-to-task lighter workers are permitted for smaller actions, with explicit routing and no invented backend/cost telemetry. Engine decision and creative scope are documented; no additional routine approval is required.
-
-## Production checkpoint 1 — native shell and core
-
-Requested routing: sustained production `gpt-6.1-sol`, fresh-context dispatch accepted. Actual backend/token/cost telemetry unavailable. No nested implementation delegates.
-
-- Created native `game/` project, scene, deterministic `Simulation` and six authored mission definitions, responsive touch HUD and original procedural ocean/stone/craft renderer.
-- Interfaces: `Simulation.start(index, upgrade)`, `command(order, args)`, `advance(dt)` (fixed 60Hz), `snapshot()`/`restore()`, `visible(point)`/`line_clear(a,b)`. Commands never advance time. Briefed static terrain chart differs from sensor-observed water/contact memory.
-- RED: initial motion test failed against stub. GREEN: `scripts/toolchain/headless.sh --script res://tests/run_tests.gd` → 2 checks, zero failures. This is an initial foundation check, not full gameplay coverage.
-- `headless.sh --editor --import --quit` parses. Real GL capture: `CAPTURE_FRAMES=2 CAPTURE_DIR=build/captures/shell scripts/toolchain/capture.sh -- --scenario=planning`; actual PNG inspected.
-- Actual visual evidence is currently too sparse/dark and contact/drone labels overlap at launch. High visual-quality gate remains open. Persistence/audio and adversarial/full-campaign tests are next.
-
-
-## Gauntlet lifecycle
-
-Status: **active, open-ended**. The current five-task production plan is phase one; a playable or app-store-caliber build is a milestone, not user acceptance or termination. After each review cycle record the highest-value next improvement and carry it forward. If execution limits intervene, checkpoint as paused/awaiting continuation. Only explicit user direction ends the Gauntlet.
-
-## Production checkpoint 2 — campaign baseline, awaiting criticism
-
-- Six ordinary-command objective→extraction fallback scenarios pass with finite disruption and no drones. Direct-to-marker naive routes originally lost to upper patrols; tested standoff positions and reactions to observed lock fixed solver tactics without weakening enemies.63–89s accelerated solutions certify solvability, not content quality.
--50 checks pass via `scripts/toolchain/test.sh`;137 actual-pointer/layout/lifecycle checks pass via `headless.sh --script res://tests/runtime_tests.gd`. RED→GREEN save checksum/atomic backup recovery and original audio signal/headroom; malformed snapshots now reject before navigation initialization (prior test reproduced missing-rock errors).
-- Integrated versioned campaign/settings/active mission persistence, periodic/order/suspend saves, always-paused restore, separate volume/mute controls, event audio, scrollable briefings/operations, mission debrief/conclusion, full-viewport capture and stable Android diagnostic target/event markers.
-- Original generated basalt material, Quietus sprite based on exterior reference, and alien foundry asset integrated as separate objects. Attribution in `game/assets/ATTRIBUTION.md`. Full native-size captures retained under `docs/validation/production/`; these are desktop rendering, not Samsung validation.
-- Sole fresh critic dispatched explicit `gpt-6.1-sol`, fresh context/high reasoning: `/root/sol_production_lead/sol_evidence_critic`, read-only evidence review into `docs/reviews/2026-10-19-baseline-critique.md`. Backend/token/cost attestation unavailable. It inspected images/references first. No implementation fanout.
-- Review/next cycle remains active. Largest visible concern is still sparse geography and flat threatening contacts versus selected continuous basalt channel concepts; critic also evaluating mission/drone incentives. Short forced capture exit leaks2 audio stream/playback pairs despite explicit stop/clear; unresolved, not hidden.
-- Root/tooling investigating first-launch hosted Android PID failure; do not distribute launch-failing shell as user playtest. No production-lead pushes performed while useful CI run pending.
-
-## Gauntlet cycle 1 — trustworthy divided attention + Split Channel proving ground
-
-Independent report: `docs/reviews/2026-10-19-baseline-critique.md` (fresh Sol evidence-first; report includes original repros and independently verified follow-up). Review found briefing preview discarding active dive, zero-time paused plan missing resume, station selection silently canceling/stranding exposure, beam charge transferring targets, and dead-selected drones projecting tools. Focused RED tests reproduced all; fixes passed55core/139runtime before content work.
-
-- Camera acquisition now completes autonomously after the pilot switches stations, while only one acquisition can run at once. Replacing the acquiring unit's route deliberately cancels it. New targets receive a fresh beam telegraph. Lost active drone falls back to Quietus; dead-origin tools reject.
-- Briefing is a preview until ENTER WATER; returning from it preserves the active mission/orders. Paused pre-execution plans are resumable. Common enter/resume function emits stable native touch targets.
-- Split Channel now has connected coastal masses/central dividing spine, separated WEST/EAST relay records and6-second Quietus-only archive uplink requiring both. Per-unit READY/ROUTE/HOLD/EXPOSING/LOST task labels visible at all layouts.
-- The new coordinated scenario exposed a genuine autopilot bug: fast drones orbit/clipped dense40m corners, and a new coastal launch cell had unsafe clearance. Added failing navigation regression; fixed using sampled-clearance string-pulled paths, turn/corner speed assistance, safe launch separation. Pass-through retains speed on straight routes; physical inertia remains.
-- Current combined suite:52core checks +139runtime, zero failures (waypoint assertions reduce after path simplification). All six fallback victories remain. Split solo:78.6s/hull81.7%; coordinated two drones+sub uplink:39.3s/hull6.4%, both drones survive, all3EMP spent. Faster coordinated route is risky; these are distinct automated tactics, not a claim of solved pacing/balance.
-- Camera named fixture repaired to route a drone normally, acquire, change station and capture mid-exposure; recapture pending after new navigation fix. Next priorities: richer actual camera view/physical beam, safearea response to measured Android cutout, then reassess campaign differentiation and sound rather than expand counts.
-- Root/tooling own native backend diagnosis; nextcombined push safe after this green cycle. Persistent Gauntlet continues; no completion claim.
-
-## Gauntlet cycle 2 — observed optical/beam feedback and safe-area handling
-
-- Added separate optical image panel and original generated physical ray asset, directional target/beam/impact overlay, clear contact memory symbol, and locking standoff so the Siren does not continue its stale approach route into the firing target. Regression demonstrated overlap after4.5seconds before fix.
-- Follow-up critic independently inspected new framebuffers, verified52/140tests and traced coordinated damage to the return corridor (first damage at33.1seconds, after all collection completed). It reproduced optical inset blocking an actual escape-map tap. Fix: optical inset belongs only to the currently operated camera station; switching toQuietus clears it while acquisition continues. Pointer regression RED→GREEN.
-- Native Pixel fixture reports136physicalpx cutout. New pure geometry conversion maps that to90.6667logicalpx at1.5scale; Android root receives safe-area insets. Diagnostic centers remain global/full-viewport logical coordinates. Installed cutout validation is still pending, not assumed from the formula test.
-- Current combined53core/142runtime pass. Split coordinated39.3s/hull67.3%, both drones survive,3EMPspent; solo78.6s/hull67.3%. Changed standoff affects balance; continue assessing tactical learning rather than claim tuned difficulty.
-- Actual successful optical acquisition captured whileDroneA operates the camera. Switching station acquisition continuity is separately exercised by production simulation and pointer tests. Actual beam capture uses ordinary route+hold after observed acquisition and deliberately stays exposed until96%hull to document emitter→target feedback.
-- Repeated forced short capture exit still warns about AudioStreamWAV/playback references. No assertion that it is fixed or harmless on physical hardware. Next cycle follows the current top summary.
-
-## Gauntlet cycle 3 — waypoint intent and learned return
-
-- Explicit WAYPOINT: PASS / STOP control now changes queued-point behavior. Regression caught intermediate STOP never actually settling; it now brakes before continuing, while straight PASS retains motion and final points stop. Planned sharp pass corners may advance only when the next segment has sampled hull clearance, preventing overshoot into known terrain.
-- Conditional IF CONTACT now responds to fresh observations rather than stale memory echoes; RED→GREEN test proves movement resumes despite retained contact memory.
-- Return hypotheses were tested rather than accepted: lower-channel detour worsened hull (59.8% versus87.1% direct), and an initial2-second decoy changed almost nothing. Found the generic2-second event expired before a disrupted Siren recovered. Dedicated finite decoy transmission now lasts15seconds; its persistence is regression tested.
-- Same coordinated mission and finite3EMP,39.2seconds: direct return87.1% hull; one DECOY from Quietus at uplink then the same return gives100% hull, both drones survive,2decoys remain. This is a learnable tool-and-timing difference, not a global enemy nerf or a claim of balanced human pacing.
-- `scripts/toolchain/test.sh`:61core +150runtime, zero failures. SHA256 inventory: all47 immutable imports match.
-- Real return replay captures use the exact ordinary-command scenario via separate `game/tests/capture_return.gd`, paused at25.7seconds with all3records,100% hull, active decoy and both drone orders. `build/captures/cycle3-return/full.png` and native2184×1968 `cycle3-inner/full.png`.
-- Root owns push timing; native modern-backend validation remains unresolved. Next bounded cycle is functional audio and mixed-output/lifecycle evidence, then further mission differentiation. Persistent Gauntlet remains active.
-
-## Gauntlet cycle 4 — functional sound and full campaign interface evidence
-
-- Original propulsion loop now follows actual submarine speed and silent/cruise state; restrained pressure creaks, distinct beam/recon/decoy/extraction signals, bounded threat alarms and per-cue bearing panning. Master peak guard and independent ambience/effects buses implement true mute. Audio suspension remains distinct from manual tactical pause.
-- RED→GREEN tests establish moving/quiet/noisy engine gains and distinct cues, debrief silence/no repeated alarms, mute buses and system suspension. Production beam begins one semantic cue rather than per-frame sound spam.
-- Actual production mixer audition:8s,48kHz,stereo32-bit PCM. Peak0.34336 (−9.285dBFS), RMS0.06765,0clipped samples, paused7.3–8s window peak/RMS exactly0. `audio-audition.wav` and `audio-analysis.json` retained in validation. This is a controlled overlapping-cue audition during real game movement, not a human listening approval or a worst-case hardware mix guarantee.
-- Added accelerated full-campaign UI scenario: actual pointer ENTER on each briefing, ordinary route/camera/disruption/extraction commands, real debrief/unlock updates and final ending/replay progress. All six recoveries pass through the actual interface. Current suite70core +172runtime checks, zero failures.
-- All six current mission overview images retained under `docs/validation/production/campaign/`; each is a real paused RECON observation. `ending-command-run.png` follows actual mission6 commands (82.1s/hull100%), replacing the earlier synthetic0-time ending fixture as completion evidence. These remain expert automated protocols, not novice gameplay assessment.
-- Next is fresh integrated evidence-first Sol criticism of the full campaign experience, using images/audio artifacts before builder interpretation. It should set the next substantial mission/progression/sensory improvement, beyond further invariant repairs. Physical Samsung, hosted renderer/lifecycle and human listening gates remain separate.
-
-## Native input blocker — 19 October
-
-Actual hosted Android log at `github-run-39197089036/evidence/android-smoke/logcat.txt:17766` reports `can_process !is_inside_tree`6ms after first mission selection. The menu callback synchronously removed its own pressed Button from the scene tree while touch dispatch still referenced it. This is a game-side defect; the native error gate stays strict.
-
-Regression emitted the real mission Button's pressed signal and asserted the dispatching control remained inside the tree until delivery returned. Before fix it detached immediately and failed. Button actions now use Godot CONNECT_DEFERRED so transitions/orders execute after current input delivery. The full actual-pointer campaign and layout suite passes:70core +173runtime, zero failures. Installed Android confirmation is pending the next coherent push; local regression is not relabeled device evidence.
-
-## Next content cycle accepted — Cold Foundry
-
-Fresh report `docs/reviews/2026-10-19-integrated-experience-critique.md` independently inspected all six current observations and references before builder interpretation. It verified70/172 at its snapshot and the raw mixer measurements. Its probe found Cold Foundry's ordinary solo fallback wins83.4s/100% without tools or observed lock; Listening Well remains genuinely threatening, so no blanket late-game difficulty claim is made.
-
-Accepted bounded response: author a physical factory approach, two recognizably different observations with retained evidence, and an explained factory response/return decision. Use existing mechanics, retain recoverable solo/drone-loss paths and compare plausible naive versus considered tactics. A far-side recovery buoy gives Quietus a meaningful transit without an arbitrary new drone requirement. No new enemy class/global oxygen/lock-time escalation. Root confirmed this is within the creative grant. Judge actual clarity, discovery and tension, not only solver difficulty.
-
-
-## Gauntlet cycle 5 candidate — Cold Foundry
-
-86 core/176 runtime checks pass. See `docs/validation/production/foundry/README.md` for actual framebuffers/live audio-video, ordinary-command plans and retained failed strategies. No forced victories/poses in the evidence drivers. Fresh independent Sol critic completed images-first review with explicit routing: bounded mission cycle substantially delivered; phone-scale zoom/touch and label obstruction remain the largest concrete gaps. It reproduced all final strategies/checks and demonstrated recoverable real drone loss. Controlled comparison found the scripted late decoy redundant; no causal benefit is claimed. See `docs/reviews/2026-10-19-cold-foundry-critique.md`. New Android ordinary-touch objective completion and campaign save/restore hooks agreed with tooling; source candidate ready for its sole push after this commit. Strongest installed baseline remains539f58b / run39197795717 until candidate passes.
-
-Runtime teardown now permits0.5s after explicit scene free, following tooling's isolated audio-thread probe; no leak warning in that test. Forced short capture teardown warning remains, not claimed as solved or native leak. Current tests retain legacy save compatibility and earned evidence across dives.
-
-
-## Native extended-gameplay blocker — exact PCM endpoint fix
-
-Run39200256192 exposed an actual AudioTrack SIGSEGV after uninterrupted audio playback, distinct from the previous fixture rotation failure. Tombstone/disassembly computes an ambience read at index176400, one beyond the176399 final frame. Matching official mixer source includes the loop endpoint in a chunk; authored loops used the frame count. Corrected both ambience and engine to their last valid index. New tests fail2/88 before fix and full88core/176runtime pass after. Longer actual18second mixer audition is retained with observed loop wraps and PCM analysis; installed retry remains pending, with no native success claim. Skills debugger/TDD reads were attempted after catalog briefly returned, but packages again reported unavailable; concrete RED→GREEN/debugging evidence remains recorded. Routine Sol resolution, no premium escalation.
-
-
-## Safe checkpoint — native completion and ratified next-cycle workflow
-
-Verified baseline93b8631/run39202066103: native orders/camera/record/won, completed[0]/unlocked1 cold restore, >30s active audio and strict zero-error/fatal gate. Independent Foundry report supports bounded mission gains; label crowding and touch scale remain. The agreed process upgrade/model refinement/persistent-decisions/touch direction is now reconciled in governing docs, baseline index and new-agent brief. Tooling owns the phone dashboard and playtest entry links. Next action is the touch plan's failing transform/gesture tests, then minimal camera/input implementation, real captures and separate regression evidence. No routine approval gate or program completion claim.
-
-
-## Touch challenger task1 — camera and gesture command boundary
-
-Presentation-only anchored1–4×zoom, clamped drag pan and visible48px−/+/FIT controls now run in the linked production worktree. First RED assertion demonstrated missing chart zoom; added actual touch/mouse, pinch, pan, outside/suspend/layout/third-finger and coordinate checks. A further RED reproduced the cutout-inset root mixing local press/global release; gesture positions now consistently use full-window coordinates. Touch-generated mouse events are ignored only at the chart boundary, preventing duplicate queued endpoints. Full88core/218runtime pass; baseline93b8631 is preserved and not yet superseded. Actual overview/zoom captures are being collected, then primary-action hierarchy/label obstruction and separate regression review follow. Native tooling is preparing actual OS+/−/swipe/FIT checks while keeping completion/lifecycle/audio gates. No OS pinch/physical comfort claim.
-
-Minor policy precision reconciled: exceptional premium delegation is permitted only with documented allowed high-consequence/impasse justification; prohibit silent/inherited premium substitution and default fanout, not a blanket ban on justified exceptions. No such escalation is needed here.
-
-
-## Touch challenger task2 — readable danger and primary orders
-
-Integrated reserved fresh threat target/countdown strip, short nonselected craft IDs, quiet recovered markers, and MORE ORDERS disclosure while keeping camera/emergency/route intent primary. New RED cases found OS-canceled touch becoming a route and HUD second finger being treated as a chart pinch; fixed at the input boundary. Actual cover/unfolded close views show larger craft and separated threat text; synthetic-pointer movie exercises plus/pan/FIT/disclosure with zero route orders.225runtime/88core plus8 tooling parser checks pass. Tradeoff: survey/decoy/conditions/STOP/PASS require one disclosure tap; human comfort/discovery and native gesture behavior are pending. Independent regression evidence comes before promotion. No simulation/campaign/audio source changes from verified baseline.
-
-## Touch promotion — complete native retry
-
-Controlled run39205478335 at f1ea536, unchanged production runtime 92625ac, passed the entire gate with separate hunter and periodic whole-game review complete. Tooling inspected actual cover/inner pan, camera and restored archive images. APK SHA-256 `e3c8fa1b838a1fb561cb118b5e6470c680d344a75c979b9dc6ed456f62c396d6`, artifact12165339461; stable signing certificate. Accepted gains/tradeoffs/limits are in the baseline ledger and phone dashboard. No stopping condition is implied; finale cycle begins under standing autonomy.
-
-## Ratified A review checkpoint
-
-Unpromoted game source 7ff53af, fresh exact 8d8635a→ec2aa08 review plus independently replayed 7ff feedback delta: no consequential new regression. Full current local gate 234 core / 230 runtime plus 8 navigation and current parser guards passes. Native protocol is an ordinary-command local proof (not OS input): one decoy, silent departure, hunter physical return without target lock or hull damage. Critic artifacts and retained losing clips are linked above. Shipped-game motion comparison, physical Fold7 comfort and performance remain open. One root-commissioned fresh Sol critic, no implementation fanout/premium escalation; actual backend/cost unknown.
-
-Retry prerequisite f43e562 is reviewed: shared intro precondition runs before menu observation/input and target lookup, acknowledgement failures abort input, and absence/dismissal XML evidence is retained. All 12 focused menu guards pass; game/workflow differences from bc95b4d are empty. No repeat gameplay suite is needed for this tooling-only correction. [Failed native evidence](validation/android-39222413584/README.md).
-
-
-## Acoustic review disposition
-
-Accept only supported desktop lifetime/own-emission gains pending native confirmation. Keep opaque instrument occupancy and lower threat rows as explicit costs. The stale launch-log wording is inherited and deferred; clearer observed-response/active-lock teaching is the next experience opportunity after the native evidence gate. No unseen listener success confirmation or AI/hearing retune is authorized by the comparison. The reference access note corrects only the newly inspected Mark of the Ninja footage, not other games or store availability. Parent is sole candidate pusher; source/tool hashes remain those independently reviewed in08eca25.
-
-
-## Native run started — 39244955064
-
-Published candidate **9dacbb4** carries exactly reviewed08eca25 product/tool hashes plus final independent reports. Remote gauntlet/production SHA verified after push. Native job118034522688 is in progress; pinned install observed, signing preparation next at the initial checkpoint. Sole pusher is root; evidence owner `/root/android_artifact_review` resumed explicitly Sol6.1/high. Current network observation is connected/unrestricted ENFORCED with current observations (prior unknown state retained historically). No candidate runtime or APK/pixel verdict yet. [Recovery/run checkpoint](validation/android-39244955064/README.md). Governing updates remain local during the active run, avoiding accidental concurrency cancellation; commit them after the run settles or at a genuine interruption using exact-source publication guards.
-
-
-## Native artifact disposition and next probe
-
-Run39244955064 succeeds; all four ZIP sizes/SHA256/CRC and extracted APK hash/signature/certificate verify, including independent parent recomputation. Actual both-layout instrument/inner15s→none and corrected final menu identity support bounded promotion of source9dacbb4/08eca25. [Exact review](validation/android-39244955064/ARTIFACT_REVIEW.md). Retain nonmenu optical/restored-frame lag and desktop-only multiple-decoy/motion/tool/optical-threat stress as unproved, without inventing a new game defect. Earlier inspected baselines remain preserved.
-
-The next cycle has begun with a footage-only probe of unchanged9dacbb4 using existing ordinary hunter_response capture commands, not new gameplay/UI code. Current pixels show hunter investigation→aging echo, a different investigating patrol, and15-second expiry. Hidden diagnostic positions in capture logs are not player-view proof. Read the probe’s final chronology/provenance before designing teaching. Possible stable observed-contact identity/context and launch-event copy remain proposals; no mechanical retune or hidden diversion confirmation follows. This is an open Gauntlet checkpoint, not completion or human acceptance.
-
-
-## Historical voluntary-stop record — superseded by user correction
-
-The following pause was voluntary and invalid under the standing mandate; its correction and resumed execution follow below. This is retained history, not a current execution instruction.
-
-Execution paused after the verified source/review/native-artifact cycle and a completed next-cycle footage-only probe. No worker remains active and no background agent execution is claimed. Source/tooling9dacbb4 are unchanged; only final evidence/governing docs follow in a guarded docs-only publication referenced to9dacbb4. Native source08/9dac bounded gains are supported, not full campaign/finale/user acceptance. Next exact action: read CONTINUATION and the observed-response-probe README/clip, decide the smallest test-first observation/identity/launch-copy improvement, then continue autonomously. Do not repeat completed retrieval/CI or reopen older network restrictions: normal delivery works and the current policy is unrestricted/enforced. Physical/human and named capture gaps remain explicit above.
-
-
-## Correction: unauthorized voluntary stop and resumed work
-
-The root stopped after52bedd6 without an observed hard limit or user stop and described its choice as a session execution boundary. That explanation was unsupported and contradicted the persistent mandate. User reaffirmed continuous autonomous development; implementation resumes from the preserved current source/probe. Existing progress/artifacts remain intact. Checkpoint commits are saves, not permission to finish a turn; continue through milestones and compaction until explicit user stop or a concrete blocking limit. Same explicitly routed Sol6.1/high production owner resumed for bounded observed-contact identity/context and historical launch-copy feedback, no routine approval or repeat foundation work. Root owns governing docs/sole publication.
-
-
-## Explicit execution-loop correction ratified
-
-User supplied concrete orchestration semantics: task completion, worker completion, accepted milestones and checkpoint saves automatically lead to the next development action in the same available session. Persistent instructions now distinguish those events from actual observed session exhaustion and user-authorized program termination. No actual boundary is currently observed. Environment/credentials/toolchain report ready; production continues the observed-contact feedback from the saved probe, while independent tooling fixes the measured nonmenu capture timing. Existing active workers/scopes are preserved. Root owns these governing edits and sole publication; next task/cycle begins automatically after integration/review/native evidence, without a final report as a stopping action.
-
-
-## Frozen contact/capture candidate and automatic next cycle
-
-Root integrated strict gate exits0 on the released product and tooling sources:257core/298runtime/1057density/7menu/15scroll/68transport; Python10role/9transport/30menu/20capture/8view/27geometry checks pass with no Godot errors. [Raw integrated evidence](validation/production/observed-contact-feedback/integrated-green.log). Product source manifests verify unchanged; the diagnostic signature integration failure is retained and fixed by its tooling owner in the density subclass. This supports independent review, not a native promotion. Fresh experience critic and separate regression hunter inspect the frozen candidate; root remains sole pusher.
-
-The complementary [campaign scout](reviews/2026-10-19-campaign-quality-scout.md) inspected117 exact52bedd6 game files and two fresh16second Blackwater clips, preserving genuine drone loss. It recommends an interpretable exchange investigation rather than more generic photographs. [Next-cycle experiment](../design/BLACKWATER_EXCHANGE_CYCLE.md) begins immediately in an isolated production snapshot: compare quiet observation and audible reacquisition, reject dead waiting/dominant answers before assets, preserve solo fallback and fair sensing. No shared source is changed during frozen candidate review. The Barotrauma trailer's two-second console shot is unsuitable for a sustained-sonar verdict; that comparison remains pending. Worker completion/checkpoint is not program termination; no blocking limit is observed.
-
-
-## Reviewed contact/capture native candidate
-
-Exact source5eb571f passes both [fresh experience](reviews/2026-10-19-observed-contact-feedback-critique.md) and separate [regression](reviews/2026-10-19-observed-contact-regressions.md) reviews within scope.518 baseline/challenger state records match,13 independent contact boundaries and8 capture adversaries pass; actual three-contact/four-emission/optical density stress renders retain a5logical-pixel cover gap and explicit synthetic-contact qualification. No consequential new regression confirmed. The stronger capture contract is app-render evidence, not compositor acknowledgment. Root will publish this exact source plus final reports against remote809282d as sole pusher and run one meaningful native validation. New APK/pixel promotion remains pending. The isolated Blackwater prototype is already active, so this publication/checkpoint does not end execution.
-
-
-## Meaningful native run39251216827 active
-
-Root published exact0afe5fce83c575995b718c5e3d6b152bd7282df2 against809282d and verified remote HEAD; game/tool bytes equal reviewed5eb571f. [Run39251216827](validation/android-39251216827/README.md), job118055197456, started19October12:19:55UTC. Initial observed stage: official Godot cache restoration; no failure or success verdict yet. Evidence-only tooling owner monitors this new source run and will verify all ZIP/APK/certificate bytes plus actual final PNGs, particularly optical camera and both restored-gameplay states. No duplicate CI/retrieval or compositor acknowledgment claim. Root will not push source while usefulCI runs. Independent production continues the isolated Blackwater investigation prototype from its byte-verified52bedd6 baseline.
-
-
-## Native39251216827 byte/pixel checkpoint — development continues
-
-Exact0afe5fc run/job118055197456 completes success at12:33:53UTC. [Artifact review](validation/android-39251216827/ARTIFACT_REVIEW.md) inspects41 finalPNGs, all4ZIP digests/CRC, extracted APKc8b63d1bddee...21fbb4f and stable v2/v3 certificate, independently recomputed by root. The actual3 new named-state images show inner optical camera and both restored paused dives, with no consequential clipping. Three semantic capture brackets and15menu pairs agree; postdraw is not compositor acknowledgment. Native unobscured S# teaching/crowded contact camera stress remains unproved. Previous baselines/finale/human/device limits stay preserved.
-
-Phone dashboard/playtest/START_HERE/CONTINUATION now lead with this inspected build and the actual next active Blackwater prototype, not the completed earlier response-probe task. Isolated prototype rule/policy corrections are retained; no timing mechanic is accepted. Root publishes released evidence/governing docs with an aborting docs-only guard against0afe5fc, then immediately continues prototype decision/motion review. No platform/resource boundary is observed.
-
-## Active native / next product cycle
-
-Publisheda178825 starts meaningful run39261365076/job118089566933; no result assumed. Android owner monitors/downloads/verifies existing artifacts with normal supported procedure, no signedURL exposure or retrieval-only reruns. Producer's loadout patch remains isolated; its30focused pointer/state contract passes and actual layout comparison is in progress. Do not cancel native validation with another source push.
-
-Root also isolated the retained inherited navigation stop: every home-route segment is24m-clear, but initial near180degree craft departure curves into basalt. [Exact ordinary trace](validation/production/navigation-corner-investigation/README.md). No movement change accepted. This is a concrete future route-reliability opportunity after current loadout work, not a reason to retune enemies or hull clearance.
-
-## Native39261365076 observed failure and correction
-
-Exacta178825 build/signing/headless gates and ordinary native Shelf/restore/Well/genuine archive restoration passed, but new Blackwater helper failed before fixture generation/injection: relative `scripts/toolchain/native-blackwater-fixture.gd` resolves as `res://scripts/...` after Godot --path game. Existing absolute-path tests missed the relative sourced entry. Android owner now owns minimal test-first absolute-path correction; raw oldrun artifact proves cause. This is a validation-helper failure, not a network policy or gameplay result. No new chapter frames exist and no chapter native promotion follows.
-
-Measured old native step13:38:00→13:51:49 consumed13m49 of15m before the new scenario. Root raises that step budget to25m for two-layout request/restore/gallery checks; job35m/gates remain. Actual failure was not a timeout. Next CI will be a meaningful source correction, never a retrieval-only rerun. Root integrated reviewed loadout main patch (38/0) and verified short settlinghint in both420dpi render fixtures; both remain local/unbuilt. Navigation experiment proceeds separately in isolation.
-
-## Corrected combined gate — next action is publication, not stopping
-
-Root combined source exits0 with293/308/38/1057/7/15/68 zero-failure checks and17 helper tests. [Exact source/RED/probe/GREEN](validation/production/combined-loadout-path-gate/README.md). Reviewed loadout shows actual equipment before launch, preserving active equipment on resume; extra scrolling retained. Inertial-scroll test now waits boundedly for real rest without changing production debounce. Relative-entry helper failure is reproduced/fixed;25m step allowance reflects measured expanded scope. Failed39261365076 all4ZIP/APK/certificate and actual screenshot review retained, including black cover resume; no chapter pixels exist. Root sole-publishes againsta178825, starts meaningful corrected native validation, then immediately continues isolated navigation reviews/integration. Explicitly routed Sol6.1/high workers; backend effort/usage telemetry unavailable. No blocking execution boundary observed.
-
-##20de5cd published; navigation integrated locally, next cycles active
-
-Root sole-pushed20de5cd againsta178825, remote accepted; automaticnative39266427532/job118107089291 starts. Hold sourcepush while usefulCI runs. Frozen literal rawjob/log/diff whitespace is preserved; product/governance checks passed. Released nav experience+regression recommend bounded integration: no new baseline-success→failure in16 valid independentgeometrycases;3 inheritedstops retained; exact stationary-Siren response unchanged, no universalcollision claim. Root applied exactreviewedsim d1bad2ca and permanent45 departuregate; fullcombinedtest running21668. Nextproducer investigates emergency replacement near legitimately observedthreat withincomingmomentum; latemissionscout investigates one concretecreativeopportunity; Androidowner monitorscurrentrun andisolates resume-capture contract. No programcompletion/observedresourceboundary.
-
-## Reviewed steering combined gate passes — hold push during useful native run
-
-Root integrated exactd1bad2ca and permanent45-check departuregate onto20de5cd; complete gate exits0, 293core/308runtime/38loadout/45navigation/1057density/7menu/15scroll/68transport. [Frozen source/fullrawlog](validation/production/navigation-integrated-gate/README.md). No Godot errors or assertion weakening. Both independentreviews released; three inherited corridorstops/conservative~1.1s turningcost retained. Root can save localcommit but holds sourcepush during20de5cd native39266427532. SameSol6.1 producer nowisolates emergency-control experience, scoutlatechaptercreativereward, Androidownerresume-capture protocol+currentrun. Nextaction remains activework/artifactreview, no programstop.
+Sol6.1 explicitly routed for substantial work; actual backend/effort/token/cost telemetry unknown. Command-Library remains unrestricted/ready. Physical Fold7, full earned native campaign/finale, thermal/frameperformance and human audio/newcomer acceptance remain open. No blocking execution boundary is observed. Completion triggers next work; only user stop or an actual blocking boundary permits overall pause.

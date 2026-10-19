@@ -1,0 +1,49 @@
+{
+  "run_id": 39266427532,
+  "job_id": 118107089291,
+  "source_sha": "20de5cd2f7aaabd96790cfbe67840e22c07c66fe",
+  "archives": [
+    {
+      "artifact_id": 12193674811,
+      "name": "sirens-song-debug-apk",
+      "size_bytes": 69160477,
+      "sha256": "de88dad885ffaa7531fea9f1db4f07a747364fd2cda46b8c104d125a9f38271e",
+      "metadata_match": true,
+      "crc_pass": true,
+      "entries": 3
+    },
+    {
+      "artifact_id": 12195590143,
+      "name": "android-cover-screenshots",
+      "size_bytes": 16898597,
+      "sha256": "c060d305bd607d05a4179396d0823440c25a1f3befa4ff1c41104d01e743b81f",
+      "metadata_match": true,
+      "crc_pass": true,
+      "entries": 35
+    },
+    {
+      "artifact_id": 12193844700,
+      "name": "android-inner-screenshots",
+      "size_bytes": 30240465,
+      "sha256": "c9ab255fd975aba5ba15e7910160b0505161dd166c4fdac5f74a81eae7c63a97",
+      "metadata_match": true,
+      "crc_pass": true,
+      "entries": 38
+    },
+    {
+      "artifact_id": 12193894541,
+      "name": "android-native-evidence",
+      "size_bytes": 349234688,
+      "sha256": "c7995d1b3fe1032ba4beebbcf888da2e24721f45d815610f1a565a2c76b44614",
+      "metadata_match": true,
+      "crc_pass": true,
+      "entries": 717
+    }
+  ],
+  "apk": {
+    "name": "sirens-song-debug.apk",
+    "size_bytes": 69556301,
+    "sha256": "de329c96548d7e95168992f62a78b99ce04651edbbdac3174e62282e1db84abf",
+    "archived_hash_match": true
+  }
+}

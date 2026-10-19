@@ -3,6 +3,7 @@
 capture_state_shot() {
     local label="$1" kind="$2" before="$3" mission="$4" attempt status
     local checker="${5:-$(dirname -- "${BASH_SOURCE[0]}")/android-capture.py}"
+    local frame_guard="${6:-}" pixel_log
     local base="$output/ui-metrics-capture-$label" probe="$output/$label-geometry-probe.png" candidate="$output/$label-candidate.png" final="$output/$label.png"
     rm -f "$final" "$candidate"
     adb shell wm density >"$base-density.txt" || return
@@ -24,6 +25,14 @@ bf=before['capture_state'].pop('drawn_frame');af=after['capture_state'].pop('dra
 if ac<bc or af<bf:print('Capture snapshot count/drawn frame regressed',file=sys.stderr);sys.exit(1)
 sys.exit(0 if before==after else 3)
 PY
+                if (( status == 0 )); then
+                    if [[ -n "$frame_guard" ]]; then
+                        pixel_log="$base-pixels-$attempt.txt"
+                        "$GODOT_BIN" --headless --path "$GAME_DIR" --script "$frame_guard" -- "--image=$candidate" >"$pixel_log" 2>&1 || status=$?
+                        if (( status == 0 )) && ! grep -q '^SS_FRAME_PIXELS nonblank=true$' "$pixel_log"; then status=1; fi
+                        if (( status != 0 && status != 3 )); then cat "$pixel_log" >&2; fi
+                    fi
+                fi
                 if (( status == 0 )); then
                     mv "$candidate" "$final"
                     stage "capture $label: matching fresh post_draw state bracket verified; compositor acknowledgment unavailable"

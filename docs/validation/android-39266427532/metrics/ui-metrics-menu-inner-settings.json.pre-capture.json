@@ -1,0 +1,155 @@
+{
+  "screen": "settings",
+  "action": "back",
+  "metrics_count": 40,
+  "scroll_vertical": 0,
+  "measurement": {
+    "gate_passed": true,
+    "recommendation_dp": 48,
+    "density_dpi": 420,
+    "density_source": "android_display_metrics_density_dpi",
+    "native_measurement": true,
+    "density_reference": "effective adb shell wm density; game Android DisplayMetrics.densityDpi must agree",
+    "window_physical": [
+      2184.0,
+      1968.0
+    ],
+    "viewport_logical": [
+      1280.0,
+      1153.0
+    ],
+    "canvas_scale": [
+      1.70625,
+      1.706851691240243
+    ],
+    "canvas_transform_model": "Godot 4.6.3 canvas_items/expand; base 1280x720; factor 1; floor before per-axis stretch",
+    "safe_physical": [
+      124.0,
+      0.0,
+      2060.0,
+      1968.0
+    ],
+    "screen": "settings",
+    "chart_dp": [
+      750.9619,
+      416.79692727047455
+    ],
+    "controls": [
+      {
+        "action": "mute",
+        "visual_logical": [
+          304.337,
+          610.0,
+          744.0,
+          87.0
+        ],
+        "hit_logical": [
+          304.337,
+          610.0,
+          744.0,
+          87.0
+        ],
+        "hit_physical": [
+          519.27500625,
+          1041.1795316565483,
+          1269.45,
+          148.49609713790113
+        ],
+        "hit_dp": [
+          483.6,
+          56.56994176681948
+        ],
+        "size_exempt_clipped": false
+      },
+      {
+        "action": "back",
+        "visual_logical": [
+          304.337,
+          1020.0,
+          744.0,
+          87.0
+        ],
+        "hit_logical": [
+          304.337,
+          1020.0,
+          744.0,
+          87.0
+        ],
+        "hit_physical": [
+          519.27500625,
+          1740.988725065048,
+          1269.45,
+          148.49609713790113
+        ],
+        "hit_dp": [
+          483.6,
+          56.56994176681948
+        ],
+        "size_exempt_clipped": false
+      },
+      {
+        "action": "volume_music",
+        "visual_logical": [
+          304.337,
+          350.0,
+          744.0,
+          87.0
+        ],
+        "hit_logical": [
+          304.337,
+          350.0,
+          744.0,
+          87.0
+        ],
+        "hit_physical": [
+          519.27500625,
+          597.3980919340851,
+          1269.45,
+          148.49609713790113
+        ],
+        "hit_dp": [
+          483.6,
+          56.56994176681948
+        ],
+        "size_exempt_clipped": false
+      },
+      {
+        "action": "volume_effects",
+        "visual_logical": [
+          304.337,
+          509.0,
+          744.0,
+          87.0
+        ],
+        "hit_logical": [
+          304.337,
+          509.0,
+          744.0,
+          87.0
+        ],
+        "hit_physical": [
+          519.27500625,
+          868.7875108412836,
+          1269.45,
+          148.49609713790113
+        ],
+        "hit_dp": [
+          483.6,
+          56.56994176681948
+        ],
+        "size_exempt_clipped": false
+      }
+    ],
+    "errors": [],
+    "limits": "No physical panel-mm, Android OS multi-touch, finger comfort or performance claim."
+  },
+  "settings_values": {
+    "effects": 0.8,
+    "music": 0.5,
+    "mute": false
+  },
+  "tap": [
+    1154,
+    1815
+  ]
+}

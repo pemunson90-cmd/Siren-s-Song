@@ -1,0 +1,10 @@
+game/src/main.gd
+game/tests/resume_metrics_main.gd
+scripts/toolchain/android-capture.py
+scripts/toolchain/android-capture-smoke.sh
+scripts/toolchain/android-smoke.sh
+scripts/toolchain/check-nonblank-frame.gd
+scripts/toolchain/test-android-resume.py
+scripts/toolchain/test-resume-state.gd
+scripts/toolchain/test.sh
+scripts/toolchain/fixtures/native-cover-resume-black.png

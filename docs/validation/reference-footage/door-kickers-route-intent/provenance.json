@@ -1,0 +1,46 @@
+{
+  "retrieved_utc": "2026-10-19T14:20:27.011558+00:00",
+  "metadata_source": "https://store.steampowered.com/api/appdetails?appids=248610&filters=movies",
+  "movie": {
+    "id": 2035064,
+    "name": "Launch Trailer",
+    "thumbnail": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2035064/movie.293x165.jpg?t=1447364314",
+    "dash_av1": "https://video.akamai.steamstatic.com/store_trailers/248610/26514/5322635674f7e17957cf5697013c4455df5ed407/1750487582/dash_av1.mpd?t=1447364314",
+    "dash_h264": "https://video.akamai.steamstatic.com/store_trailers/248610/26514/5322635674f7e17957cf5697013c4455df5ed407/1750487582/dash_h264.mpd?t=1447364314",
+    "hls_h264": "https://video.akamai.steamstatic.com/store_trailers/248610/26514/5322635674f7e17957cf5697013c4455df5ed407/1750487582/hls_264_master.m3u8?t=1447364314",
+    "highlight": true
+  },
+  "local_files": {
+    "launch-trailer.mp4": {
+      "bytes": 83100242,
+      "sha256": "50c19b5616c35358213779d2998d840ba79a04617cced8d60f5685b01fb4eed4"
+    },
+    "movies.json": {
+      "bytes": 2804,
+      "sha256": "19dea8f09c5b1ef96346704e0397a4b582020a388f77a3a64ea99d192ea837b7"
+    },
+    "route-intent-15-27.mp4": {
+      "bytes": 1690909,
+      "sha256": "9cf7278b4c550e6e613d15135883be01f1590374ad703f76c660ea61347dda6d"
+    }
+  },
+  "access": "Normal inherited network/proxy/CA; no bypass or signed artifact URL.",
+  "comparison_status": "candidate excerpt; independent critic has not inspected; nonblind, no human input/audio/latency evidence",
+  "candidate_excerpt": {
+    "source_start_s": 17,
+    "source_end_s": 27,
+    "duration_s": 10,
+    "file": "route-intent-17-27.mp4",
+    "sha256": "72ecd7642a37ab6afd59365b997630b821e6f31b44c98de7c8e470e263b5ed5a",
+    "note": "Independent critic found outgoing parking-scene wipe in approximately first0.3s of17\u201327 excerpt; not a continuous10s comparison. Original remains retained; clean-window search pending."
+  },
+  "verified_excerpt": {
+    "source_start_s": 17.5,
+    "source_end_s": 27.5,
+    "duration_s": 10,
+    "sha256": "61b8366c8a65b7c48aa12368075d563ec4861a8e33ea360f652effb210290780",
+    "independent_report": "docs/reviews/2026-10-19-route-intent-reference-comparison.md",
+    "local_file": "work/route-intent-reference-comparison/door-kickers-source-17p5-27p5.mp4",
+    "limits": "Promotional gameplay; no input latency, submarine physics, current patch/platform, human listening or store recommendation claim."
+  }
+}

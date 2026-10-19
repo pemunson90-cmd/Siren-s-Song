@@ -326,7 +326,10 @@ PY
     stage "$profile background and resume"
     sleep 2
     launch "$profile-resume"
-    shot "$profile-resume"
+    # Preserve the first presentation, even black/rotated; it is not final proof.
+    shot "$profile-resume-immediate"
+    shot "$profile-resume" resumed-mission "$output/prelaunch-$profile-resume.txt" 0 \
+        "$TOOLCHAIN_ROOT/scripts/toolchain/android-capture.py" "$TOOLCHAIN_ROOT/scripts/toolchain/check-nonblank-frame.gd"
     adb shell input keyevent KEYCODE_HOME
     stage "$profile waiting for background process termination"
     read_logcat "$output/before-kill-$profile.txt"

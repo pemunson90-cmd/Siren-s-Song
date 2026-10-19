@@ -1,0 +1,8 @@
+{
+  "source": "android-native-evidence/android-smoke/final-display.png",
+  "png_sha256": "462f7c73e377993408ffedce8eb763a25aa7722430cdf16aa818b0fd67fb4b5b",
+  "rgba_sha256": "d78dc12343316e503b17809e8d7e04ea27a15409a579c062e9d10142a146eb66",
+  "retained": "screenshots/final-display.webp",
+  "webp_sha256": "a87719a6c2d6d06b835f84a7de759909076e7cce791657f085752b2b0bb8acfe",
+  "pixel_identical": true
+}

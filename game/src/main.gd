@@ -414,6 +414,9 @@ func _notification(what: int) -> void:
 			print("SS_LIFECYCLE suspended paused=true")
 	if what in [NOTIFICATION_APPLICATION_RESUMED,NOTIFICATION_APPLICATION_FOCUS_IN,NOTIFICATION_WM_WINDOW_FOCUS_IN]:
 		if sound!=null: sound.resume()
+		if is_node_ready() and is_inside_tree() and hud!=null:
+			print("SS_LIFECYCLE foreground")
+			call_deferred("_report_targets")
 	if what==NOTIFICATION_WM_CLOSE_REQUEST:
 		_save_archive(); get_tree().quit()
 	if what==NOTIFICATION_WM_GO_BACK_REQUEST:

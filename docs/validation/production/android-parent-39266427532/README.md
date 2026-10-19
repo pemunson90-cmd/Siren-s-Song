@@ -1,0 +1,7 @@
+# Parent independent recomputation and critical native views
+
+Exact20de5cd/run39266427532. Root independently reads all4 existing downloadedZIPs: sizes/SHA256/CRC/entry counts in checks.json. ExtractedAPK69,556,301bytes SHA256de329c96548d7e95168992f62a78b99ce04651edbbdac3174e62282e1db84abf; independent localapksigner verifiesv2/v3 and stable32bcb228 certificate. No re-download, CI rerun, signed-URL persistence or trust-policy change. Parent also compares all4 actualsizes/digests to original official artifact metadata, confirms nonexpired IDs, and records the match. Primary worker separately inspects all48 finalimages.
+
+Root viewed actual8 originals listed by digest, not builder mockups: both Blackwater receiving panels show full short settling hint and known contact/threat rows; both earnedREQUEST galleries show authored handshake diagram, caption/body and reachableBACK/scroll area (cover body requires scroll). Fine poster annotations are smaller than the large caption; physical readability/learning are unproved. Inneroptical and bothrestored dives show named states. Cover-resume is entirely black, retained as a capture/presentation failure; later cold restore does not establish same-resume recovery.
+
+These observations support bounded native chapter/presentation gains alongside the primary review, not a blanket visual/lifecycle/fullcampaign/physicalFold7/humanlistening acceptance. Locally integrated resume-hook/freshpostdraw/nonblank guard and steering are absent from this20de APK. Prior0afe5fc successful inspected fallback stays preserved.

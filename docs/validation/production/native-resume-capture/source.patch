@@ -1,0 +1,243 @@
+diff --git a/game/src/main.gd b/game/src/main.gd
+index 90e0e6a..b92ce30 100644
+--- a/game/src/main.gd
++++ b/game/src/main.gd
+@@ -414,6 +414,9 @@ func _notification(what: int) -> void:
+ 			print("SS_LIFECYCLE suspended paused=true")
+ 	if what in [NOTIFICATION_APPLICATION_RESUMED,NOTIFICATION_APPLICATION_FOCUS_IN,NOTIFICATION_WM_WINDOW_FOCUS_IN]:
+ 		if sound!=null: sound.resume()
++		if is_node_ready() and is_inside_tree() and hud!=null:
++			print("SS_LIFECYCLE foreground")
++			call_deferred("_report_targets")
+ 	if what==NOTIFICATION_WM_CLOSE_REQUEST:
+ 		_save_archive(); get_tree().quit()
+ 	if what==NOTIFICATION_WM_GO_BACK_REQUEST:
+diff --git a/game/tests/resume_metrics_main.gd b/game/tests/resume_metrics_main.gd
+new file mode 100644
+index 0000000..5b0b27d
+--- /dev/null
++++ b/game/tests/resume_metrics_main.gd
+@@ -0,0 +1,4 @@
++extends "res://src/main.gd"
++var resume_snapshots: Array=[]
++func _emit_ui_metrics(snapshot: Dictionary={}) -> void:
++	resume_snapshots.append(snapshot.duplicate(true));super._emit_ui_metrics(snapshot)
+diff --git a/scripts/toolchain/android-capture.py b/scripts/toolchain/android-capture.py
+index 2e6963f..5bc5eef 100644
+--- a/scripts/toolchain/android-capture.py
++++ b/scripts/toolchain/android-capture.py
+@@ -30,13 +30,18 @@ def inspect(text,png,density,before,kind,mission):
+   if isinstance(value,bool) or not isinstance(value,int) or not low<=value<=high:raise ValueError('Invalid capture_state '+key)
+  if state.get('phase') not in ['layout_only','post_draw']:raise ValueError('Invalid capture_state phase')
+  result={'metrics_count':len(records),'screen':layout['screen'],'capture_state':state,'measurement':measured}
++ if kind=='resumed-mission':
++  foreground=[i for i,line in enumerate(lines) if 'SS_LIFECYCLE foreground' in line]
++  if len(foreground)<=before.count('SS_LIFECYCLE foreground') or records[-1][0]<=foreground[-1]:
++   result['waiting']='new foreground marker and complete following post-draw report';return 3,result
+  expected=layout['screen']=='mission' and state['phase']=='post_draw' and state['mission']==mission and state['paused'] and state['hud_visible'] and not state['menu_visible']
+  if kind=='camera':expected=expected and state['selected']==1 and state['capture_unit']==1 and state['optical_visible']
+  else:expected=expected and state['selected']==0 and not state['optical_visible']
++ if kind=='resumed-mission':expected=expected and state['capture_unit']==-1
+  if not expected:result['waiting']='latest validated state is not the requested paused presentation';return 3,result
+  return 0,result
+ def main():
+- p=argparse.ArgumentParser(description=__doc__);p.add_argument('log',type=Path);p.add_argument('png',type=Path);p.add_argument('--density',type=Path,required=True);p.add_argument('--after-log',type=Path,required=True);p.add_argument('--kind',choices=['camera','restored-mission'],required=True);p.add_argument('--mission',type=int,required=True);args=p.parse_args()
++ p=argparse.ArgumentParser(description=__doc__);p.add_argument('log',type=Path);p.add_argument('png',type=Path);p.add_argument('--density',type=Path,required=True);p.add_argument('--after-log',type=Path,required=True);p.add_argument('--kind',choices=['camera','restored-mission','resumed-mission'],required=True);p.add_argument('--mission',type=int,required=True);args=p.parse_args()
+  try:
+   status,result=inspect(args.log.read_text(errors='replace'),args.png.read_bytes(),args.density.read_text(),args.after_log.read_text(errors='replace'),args.kind,args.mission)
+   print(json.dumps(result,indent=2));return status
+diff --git a/scripts/toolchain/android-capture-smoke.sh b/scripts/toolchain/android-capture-smoke.sh
+index ae10d04..75cba82 100644
+--- a/scripts/toolchain/android-capture-smoke.sh
++++ b/scripts/toolchain/android-capture-smoke.sh
+@@ -3,6 +3,7 @@
+ capture_state_shot() {
+     local label="$1" kind="$2" before="$3" mission="$4" attempt status
+     local checker="${5:-$(dirname -- "${BASH_SOURCE[0]}")/android-capture.py}"
++    local frame_guard="${6:-}" pixel_log
+     local base="$output/ui-metrics-capture-$label" probe="$output/$label-geometry-probe.png" candidate="$output/$label-candidate.png" final="$output/$label.png"
+     rm -f "$final" "$candidate"
+     adb shell wm density >"$base-density.txt" || return
+@@ -24,6 +25,14 @@ bf=before['capture_state'].pop('drawn_frame');af=after['capture_state'].pop('dra
+ if ac<bc or af<bf:print('Capture snapshot count/drawn frame regressed',file=sys.stderr);sys.exit(1)
+ sys.exit(0 if before==after else 3)
+ PY
++                if (( status == 0 )); then
++                    if [[ -n "$frame_guard" ]]; then
++                        pixel_log="$base-pixels-$attempt.txt"
++                        "$GODOT_BIN" --headless --path "$GAME_DIR" --script "$frame_guard" -- "--image=$candidate" >"$pixel_log" 2>&1 || status=$?
++                        if (( status == 0 )) && ! grep -q '^SS_FRAME_PIXELS nonblank=true$' "$pixel_log"; then status=1; fi
++                        if (( status != 0 && status != 3 )); then cat "$pixel_log" >&2; fi
++                    fi
++                fi
+                 if (( status == 0 )); then
+                     mv "$candidate" "$final"
+                     stage "capture $label: matching fresh post_draw state bracket verified; compositor acknowledgment unavailable"
+diff --git a/scripts/toolchain/android-smoke.sh b/scripts/toolchain/android-smoke.sh
+index 66e136c..cb53368 100755
+--- a/scripts/toolchain/android-smoke.sh
++++ b/scripts/toolchain/android-smoke.sh
+@@ -326,7 +326,10 @@ PY
+     stage "$profile background and resume"
+     sleep 2
+     launch "$profile-resume"
+-    shot "$profile-resume"
++    # Preserve the first presentation, even black/rotated; it is not final proof.
++    shot "$profile-resume-immediate"
++    shot "$profile-resume" resumed-mission "$output/prelaunch-$profile-resume.txt" 0 \
++        "$TOOLCHAIN_ROOT/scripts/toolchain/android-capture.py" "$TOOLCHAIN_ROOT/scripts/toolchain/check-nonblank-frame.gd"
+     adb shell input keyevent KEYCODE_HOME
+     stage "$profile waiting for background process termination"
+     read_logcat "$output/before-kill-$profile.txt"
+diff --git a/scripts/toolchain/check-nonblank-frame.gd b/scripts/toolchain/check-nonblank-frame.gd
+new file mode 100644
+index 0000000..e4a5227
+--- /dev/null
++++ b/scripts/toolchain/check-nonblank-frame.gd
+@@ -0,0 +1,16 @@
++extends SceneTree
++# Decode actual PNG pixels using pinned Godot. RGB variation only rejects blank
++# frames; it does not identify scene semantics or acknowledge Android composition.
++func _initialize():
++	var path=""
++	for arg in OS.get_cmdline_user_args():
++		if arg.begins_with("--image="):path=arg.trim_prefix("--image=")
++	var image=Image.new()
++	if not path.is_absolute_path() or image.load(path)!=OK or image.is_empty():
++		print("SS_FRAME_PIXELS invalid");quit(1);return
++	image.convert(Image.FORMAT_RGBA8)
++	var data=image.get_data();var nonblank=false
++	for i in range(4,data.size(),4):
++		if data[i]!=data[0] or data[i+1]!=data[1] or data[i+2]!=data[2]:nonblank=true;break
++	print("SS_FRAME_PIXELS nonblank=",nonblank)
++	quit(0 if nonblank else 3)
+diff --git a/scripts/toolchain/test-android-resume.py b/scripts/toolchain/test-android-resume.py
+new file mode 100644
+index 0000000..2f9589a
+--- /dev/null
++++ b/scripts/toolchain/test-android-resume.py
+@@ -0,0 +1,71 @@
++#!/usr/bin/env python3
++"""Resume contract and actual PNG decoding; ADB alone is unavailable/mocked."""
++import importlib.util,json,os,pathlib,struct,subprocess,sys,tempfile,unittest,zlib
++sys.dont_write_bytecode=True
++ROOT=pathlib.Path(__file__).resolve().parent
++spec=importlib.util.spec_from_file_location('capture_fixtures',ROOT/'test-android-capture.py');fixture=importlib.util.module_from_spec(spec);spec.loader.exec_module(fixture)
++BLACK=ROOT/'fixtures/native-cover-resume-black.png'
++def png(rgb):
++ def chunk(kind,data):return struct.pack('>I',len(data))+kind+data+struct.pack('>I',zlib.crc32(kind+data)&0xffffffff)
++ return b'\x89PNG\r\n\x1a\n'+chunk(b'IHDR',struct.pack('>IIBBBBB',len(rgb)//3,1,8,2,0,0,0))+chunk(b'IDAT',zlib.compress(b'\0'+bytes(rgb)))+chunk(b'IEND',b'')
++class ResumeTests(unittest.TestCase):
++ def invoke(self,text,before=''):
++  with tempfile.TemporaryDirectory() as folder:
++   p=pathlib.Path(folder)
++   for name,value in [('log',text),('before',before),('density','Physical density: 420\n')]: (p/name).write_text(value)
++   (p/'png').write_bytes(b'\x89PNG\r\n\x1a\n'+b'\0'*8+struct.pack('>II',2520,1080))
++   return subprocess.run([sys.executable,str(ROOT/'android-capture.py'),str(p/'log'),str(p/'png'),'--density',str(p/'density'),'--after-log',str(p/'before'),'--kind','resumed-mission','--mission','0'],capture_output=True,text=True)
++ def decode(self,path):
++  return subprocess.run([os.environ.get('GODOT_BIN','godot'),'--headless','--path',str(ROOT.parent.parent/'game'),'--script',str(ROOT/'check-nonblank-frame.gd'),'--','--image='+str(path)],capture_output=True,text=True)
++ def test_resume_requires_fresh_foreground_marker_and_postdraw(self):
++  text='SS_LIFECYCLE foreground\n'+fixture.records(fixture.layout('restored-mission'))
++  r=self.invoke(text);self.assertEqual(r.returncode,0,r.stderr)
++ def test_old_or_missing_foreground_report_never_reused(self):
++  d=fixture.records(fixture.layout('restored-mission'))
++  for text,before in [(d,''),(d+'SS_LIFECYCLE foreground\n',''),('SS_LIFECYCLE foreground\n'+d,'SS_LIFECYCLE foreground\n'+d)]:self.assertEqual(self.invoke(text,before).returncode,3)
++ def test_incomplete_latest_or_layout_only_waits(self):
++  d=fixture.layout('restored-mission');text='SS_LIFECYCLE foreground\n'+fixture.records(d)
++  self.assertEqual(self.invoke(text+fixture.records(d,'42:2').splitlines()[0]+'\n').returncode,3)
++  d['capture_state']['phase']='layout_only';self.assertEqual(self.invoke('SS_LIFECYCLE foreground\n'+fixture.records(d)).returncode,3)
++ def test_malformed_report_stays_fatal_even_without_foreground_ack(self):
++  d=fixture.layout('restored-mission');d['capture_state']['paused']='yes';self.assertEqual(self.invoke(fixture.records(d)).returncode,1)
++ def test_real_godot_rejects_original_allblack_native_frame(self):
++  r=self.decode(BLACK);self.assertEqual(r.returncode,3,r.stdout+r.stderr);self.assertIn('SS_FRAME_PIXELS nonblank=false',r.stdout)
++ def test_real_godot_accepts_rgb_variation_but_not_uniform_white(self):
++  with tempfile.TemporaryDirectory() as folder:
++   p=pathlib.Path(folder)/'frame.png';p.write_bytes(png([0,0,0,255,255,255]));r=self.decode(p);self.assertEqual(r.returncode,0,r.stdout+r.stderr);self.assertIn('SS_FRAME_PIXELS nonblank=true',r.stdout)
++   p.write_bytes(png([255,255,255,255,255,255]));r=self.decode(p);self.assertEqual(r.returncode,3,r.stdout+r.stderr)
++ def test_real_decoder_invalid_png_is_fatal(self):
++  with tempfile.TemporaryDirectory() as folder:
++   p=pathlib.Path(folder)/'frame.png';p.write_bytes(b'not a PNG');r=self.decode(p);self.assertEqual(r.returncode,1);self.assertIn('SS_FRAME_PIXELS invalid',r.stdout)
++ def shell(self,frames):
++  with tempfile.TemporaryDirectory() as folder:
++   p=pathlib.Path(folder);(p/'before').write_text('');(p/'events').touch();(p/'count').write_text('0')
++   (p/'log').write_text('SS_LIFECYCLE foreground\n'+fixture.records(fixture.layout('restored-mission')))
++   (p/'good.png').write_bytes(BLACK.read_bytes())
++   # Real nonuniform full-size PNG using stdlib encoder; no visual-identity claim.
++   width,height=2520,1080
++   def chunk(kind,data):return struct.pack('>I',len(data))+kind+data+struct.pack('>I',zlib.crc32(kind+data)&0xffffffff)
++   raw=b'\0'+bytes([255,255,255])+bytes((width-1)*3)
++   (p/'good.png').write_bytes(b'\x89PNG\r\n\x1a\n'+chunk(b'IHDR',struct.pack('>IIBBBBB',width,height,8,2,0,0,0))+chunk(b'IDAT',zlib.compress(raw+(b'\0'+bytes(width*3))*(height-1)))+chunk(b'IEND',b''))
++   (p/'black.png').write_bytes(BLACK.read_bytes())
++   script='''set -euo pipefail
++source "$1/android-capture-smoke.sh"
++output="$2"; GAME_DIR="$1/../../game"; GODOT_BIN=godot
++stage() { :; }
++read_logcat() { cp "$output/log" "$1"; }
++sleep() { echo retry >>"$output/events"; }
++adb() {
++ if [[ "$*" == 'shell wm density' ]]; then echo 'Physical density: 420';return;fi
++ local n; n=$(cat "$output/count");n=$((n+1));echo "$n" >"$output/count"
++ if ((n>=GOOD_AT));then cat "$output/good.png";else cat "$output/black.png";fi
++}
++capture_state_shot cover-resume resumed-mission "$output/before" 0 "$1/android-capture.py" "$1/check-nonblank-frame.gd"
++'''.replace('GOOD_AT',str(frames))
++   r=subprocess.run(['bash','-c',script,'test',str(ROOT),str(p)],capture_output=True,text=True)
++   return r,(p/'cover-resume.png').exists(),len(list(p.glob('cover-resume-rejected-*.png'))),(p/'events').read_text()
++ def test_black_candidate_is_retained_then_later_nonblank_can_be_final(self):
++  r,final,rejected,events=self.shell(3);self.assertEqual(r.returncode,0,r.stdout+r.stderr);self.assertTrue(final);self.assertEqual(rejected,1);self.assertIn('retry',events)
++ def test_bounded_allblack_candidates_never_become_final(self):
++  r,final,rejected,events=self.shell(100);self.assertNotEqual(r.returncode,0);self.assertFalse(final);self.assertEqual(rejected,10)
++if __name__=='__main__':unittest.main()
+diff --git a/scripts/toolchain/test-resume-state.gd b/scripts/toolchain/test-resume-state.gd
+new file mode 100644
+index 0000000..574de8e
+--- /dev/null
++++ b/scripts/toolchain/test-resume-state.gd
+@@ -0,0 +1,18 @@
++extends SceneTree
++# Read-only foreground hook probe. No archive load/save and no forced game poses.
++func _initialize():call_deferred("run")
++func run():
++	root.size=Vector2i(2184,1968)
++	var game=load("res://scenes/main.tscn").instantiate();game.set_script(load("res://tests/resume_metrics_main.gd"));game.capture_scenario="menu"
++	game._notification(NOTIFICATION_APPLICATION_RESUMED);game._notification(NOTIFICATION_APPLICATION_FOCUS_IN)
++	root.add_child(game)
++	game._start_mission(0)
++	for i in 20:await process_frame
++	game.resume_snapshots.clear();var before=game.sim.snapshot()
++	game._notification(NOTIFICATION_APPLICATION_RESUMED);game._notification(NOTIFICATION_APPLICATION_FOCUS_IN)
++	for i in 12:await process_frame
++	var expected="layout_only" if DisplayServer.get_name()=="headless" else "post_draw"
++	var valid=game.resume_snapshots.size()>0 and game.sim.snapshot()==before
++	for report in game.resume_snapshots:valid=valid and report.capture_state.phase==expected and report.capture_state.paused and report.capture_state.mission==0
++	print("RESUME_TEST reports=",game.resume_snapshots.size()," phase=",expected," display=",DisplayServer.get_name()," drawn=",Engine.get_frames_drawn()," unchanged=",game.sim.snapshot()==before," result=",valid)
++	game.queue_free();await process_frame;await create_timer(0.5).timeout;quit(0 if valid else 1)
+diff --git a/scripts/toolchain/test.sh b/scripts/toolchain/test.sh
+index e6a7ad3..40169f8 100755
+--- a/scripts/toolchain/test.sh
++++ b/scripts/toolchain/test.sh
+@@ -8,6 +8,7 @@ python3 "$(dirname -- "$0")/test-android-role.py"
+ python3 "$(dirname -- "$0")/test-android-metric-records.py"
+ python3 "$(dirname -- "$0")/test-android-menu.py"
+ python3 "$(dirname -- "$0")/test-android-capture.py"
++python3 "$(dirname -- "$0")/test-android-resume.py"
+ python3 "$(dirname -- "$0")/test-android-blackwater.py"
+ python3 "$(dirname -- "$0")/test-android-view.py"
+ python3 "$(dirname -- "$0")/test-android-ui-metrics.py"
+diff --git a/scripts/toolchain/fixtures/native-cover-resume-black.png b/scripts/toolchain/fixtures/native-cover-resume-black.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..973c133cea9a593ead06e601ec861241469f901e
+GIT binary patch
+literal 13037
+zcmeI2F-yZx6h?0_Xj&Q#A|h(R;^N@oC^(r$YL+Ucs}ezqTZe)=I7k&y3PpGQ3o*I~
+zPVo;Yh(pmu90Z}0lMagCYe<W8C*{k~zC37$lk*Pc(xc^k&P<LbMZ|O$oq|ZBA)?P3
+zz1Xoz)1P?LDutXa{_Xf1ZuE-n77biG#`>Yigt*Rpar?CScwtJ$3WL3`t?%=b`|R4%
+zv36N{9m7YW>p3X*#cK&`sm=C{#dV7XIYdg313AzEIzR{L03DzMbbt=f0Xjej=l~s{
+z1OMBB@Xk*g>LDBNSF7IsOKUA7)pYdW@tV5nZ?6x$&QL8I^u+tSnT8gxL#r7t#WOl%
+zw;6q|z0a=)3c>*dnxhT{j};&=3V^^U00N@`2#kV)z$gF$qW}nuf;tcUr2q)mA1hBH
+zgEjSE00sg;7zjXMAOL}ZP!JdeKwuOAp_?c?{GN<$aG2E{PYx0xB*&nDz!@<h2nXnZ
+tz$gF$qW}nu0w6F73Id}52#f+C{E;Y3P7Ni>^?~6tWv{!CcYNEc{s57!w+8?K
+
+literal 0
+HcmV?d00001
+

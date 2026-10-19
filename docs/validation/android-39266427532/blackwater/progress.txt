@@ -1,0 +1,17 @@
+SS_SMOKE_STAGE 2026-10-19T14:24:56Z fixture-assisted untouched Blackwater request check begins; not earned chapter progression
+SS_SMOKE_STAGE 2026-10-19T14:25:24Z cover-blackwater-route: fresh marker verified
+SS_SMOKE_STAGE 2026-10-19T14:25:48Z cover-blackwater-ready: fresh marker verified
+SS_SMOKE_STAGE 2026-10-19T14:26:00Z capture cover-blackwater-receiving: matching fresh post_draw state bracket verified; compositor acknowledgment unavailable
+SS_SMOKE_STAGE 2026-10-19T14:26:12Z cover-blackwater-request-earned: fresh marker verified
+SS_SMOKE_STAGE 2026-10-19T14:26:30Z cover-blackwater-cold-restored: fresh marker verified
+SS_SMOKE_STAGE 2026-10-19T14:26:51Z capture cover-blackwater-request-gallery: matching fresh post_draw state bracket verified; compositor acknowledgment unavailable
+SS_SMOKE_STAGE 2026-10-19T14:26:51Z cover fixture-assisted ordinary Blackwater request/paused cold restore/gallery checks passed
+SS_SMOKE_STAGE 2026-10-19T14:27:15Z inner-blackwater-route: fresh marker verified
+SS_SMOKE_STAGE 2026-10-19T14:27:45Z inner-blackwater-ready: fresh marker verified
+SS_SMOKE_STAGE 2026-10-19T14:28:01Z capture inner-blackwater-receiving: matching fresh post_draw state bracket verified; compositor acknowledgment unavailable
+SS_SMOKE_STAGE 2026-10-19T14:28:15Z inner-blackwater-request-earned: fresh marker verified
+SS_SMOKE_STAGE 2026-10-19T14:28:31Z inner-blackwater-cold-restored: fresh marker verified
+SS_SMOKE_STAGE 2026-10-19T14:28:50Z capture inner-blackwater-request-gallery: matching fresh post_draw state bracket verified; compositor acknowledgment unavailable
+SS_SMOKE_STAGE 2026-10-19T14:28:50Z inner fixture-assisted ordinary Blackwater request/paused cold restore/gallery checks passed
+SS_SMOKE_STAGE 2026-10-19T14:28:50Z restoring genuine Shelf campaign archive after fixture-assisted Well path
+SS_SMOKE_STAGE 2026-10-19T14:29:00Z Blackwater fixture checks passed; genuine archive restored byte-for-byte
