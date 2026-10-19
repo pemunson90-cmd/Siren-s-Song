@@ -1,3 +1,9 @@
+## Reviewed near-wall assisted departure — local promotion
+
+Against exacta178825 same earned snapshot/home command, baseline drifts into basalt and discards route at+2.1s; challenger spends~1.1s visibly rotating then clears the terrain with retained route. Separate full trace recovers78.7s/100hull, not a goal for future balance. [Matched actual16s motion](validation/production/navigation-departure-motion/README.md), [independent experience](reviews/2026-10-19-navigation-departure-experience.md), [separate regression](reviews/2026-10-19-navigation-departure-regressions.md). Independent16 valid geometry cases yield no baseline-success→newfailure;3 inherited corridor stops remain.
+
+Promote exactsimd1bad2ca locally onto20de5cd for meaningful native validation: [combined source/green gate](validation/production/navigation-integrated-gate/README.md). Cost is conservative near-terrain rotation/time; circle room heuristic is no universal clearance guarantee. Existing physical momentum/route stop remains, enemy/default movement/openwater matched traces unchanged, no sensing/save/resource retune. Deliberate departure fromv7 thrust-floor/pushout retains production collision honesty. Native39266427532 contains20de5cd UI/helper only; steering native acceptance pending.
+
 ## Current challenger update — 19 October
 
 Strongest inspected successful native baseline remains0afe5fc/run39251216827. Published chaptera178825 has independent scoped desktop support but failed native39261365076 in the relative-path fixture helper, before chapter frames. Preserve black cover-resume frame; no native chapter acceptance.
@@ -8,7 +14,7 @@ Reviewed loadout challenger reveals finite stock/effects before BEGIN and distin
 
 ## Current baseline
 
-**Current scoped baseline: native0afe5fc / reviewed source5eb571f / run39251216827.** Integrated checks, independent experience/separate regression and all4ZIP/APK/signature/41-final-image gates pass. Actual inner camera and both restored-gameplay screenshots now show their named states. [Exact review](validation/android-39251216827/ARTIFACT_REVIEW.md). Preserve9dacbb4, b809501 and fully inspectedf1ea536. Native fresh→memory→newcomer/contact-optical stress, full campaign/finale, physical Fold7 and human audio/comprehension remain open. The active challenger is the existing isolated Blackwater investigation prototype; timing has not demonstrated a useful planning gain and is not accepted.
+**Current scoped baseline: native0afe5fc / reviewed source5eb571f / run39251216827.** Integrated checks, independent experience/separate regression and all4ZIP/APK/signature/41-final-image gates pass. Actual inner camera and both restored-gameplay screenshots now show their named states. [Exact review](validation/android-39251216827/ARTIFACT_REVIEW.md). Preserve9dacbb4, b809501 and fully inspectedf1ea536. Native fresh→memory→newcomer/contact-optical stress, full campaign/finale, physical Fold7 and human audio/comprehension remain open. The mandatory Blackwater timing prototype was rejected; direct request/reply chapter source is published but native acceptance remains pending. Current isolated/source-integrated challengers and exact status are above and in CONTINUATION.
 
 ### Preserved earlier baselines and qualifications
 

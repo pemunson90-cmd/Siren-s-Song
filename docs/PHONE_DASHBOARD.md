@@ -2,7 +2,7 @@
 
 Latest successful inspected APK remains **0afe5fc**, [run39251216827](validation/android-39251216827/README.md). New chapter run39261365076 failed in the validation helper before chapter injection; [all artifacts and the black resume frame are retained](validation/android-39261365076/README.md). Its APK is not promoted.
 
-The relative-path helper correction, reviewed [loadout clarity](reviews/2026-10-19-loadout-clarity-review.md), and readable settling hint pass the combined local gate. Native validation of these corrections is next. More loadout scrolling remains a cost. In parallel, matched motion shows an isolated steering challenger clearing a previously failed basalt departure; separate experience and regression reviews precede integration. Continuous development proceeds through these checkpoints.
+The relative-path helper correction, reviewed [loadout clarity](reviews/2026-10-19-loadout-clarity-review.md), and readable settling hint pass the combined local gate. [Native39266427532](validation/android-39266427532/README.md) is now running on exact20de5cd. More loadout scrolling remains a cost. In parallel, matched motion shows an isolated steering challenger clearing a previously failed basalt departure; [experience](reviews/2026-10-19-navigation-departure-experience.md) and [regression](reviews/2026-10-19-navigation-departure-regressions.md) support local integration, now passing combined checks. The change is not in the running APK candidate. Continuous development proceeds through these checkpoints.
 
 # Siren's Song · current checkpoint
 

@@ -38,4 +38,13 @@ fi
 grep -Eq '^LOADOUT CHECKS [1-9][0-9]* FAILURES 0$' "$loadout_log" || {
     echo 'Missing successful loadout UI summary' >&2; exit 1;
 }
+navigation_log="$ARTIFACT_DIR/navigation-departure-tests.log"
+"$(dirname -- "$0")/headless.sh" --script res://tests/navigation_departure_tests.gd 2>&1 | tee "$navigation_log"
+if grep -nE 'SCRIPT ERROR:|(^|[[:space:]])ERROR:' "$navigation_log"; then
+    echo 'Godot reported navigation departure test errors' >&2
+    exit 1
+fi
+grep -Eq '^NAVIGATION CHECKS [1-9][0-9]* FAILURES 0$' "$navigation_log" || {
+    echo 'Missing successful navigation departure summary' >&2; exit 1;
+}
 "$(dirname -- "$0")/density-checks.sh"

@@ -1,0 +1,8 @@
+PASS137-file pinned isolation; only exact frozen simulation changed
+PASS16 valid new adversarial geometry comparisons, zero baseline-success to candidate-failure
+PASS three inherited corridor stops and rejected blocked-target fixture retained
+PASS corrected emergency/pause/actualarchive/futurekinematics comparison
+PASS integrated30s stationary-player Siren/decoy digest and legacy archive equality
+PASS four actual16s/240frame movies identified and sampled across full interval
+PASS probe logs contain no engine SCRIPT ERROR/ERROR; report links resolve
+No broad suite/source/native/CI/publication mutation by reviewer

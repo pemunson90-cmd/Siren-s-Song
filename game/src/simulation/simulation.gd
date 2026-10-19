@@ -255,7 +255,7 @@ func _tick(dt: float) -> void:
 			holding=false
 			for j in [1,2]:
 				if units[j].alive and not units[j].route.is_empty(): holding=true
-		_move(u,dt,(42.0 if u.silent else 78.0) if i==0 else 96.0,holding)
+		_move(u,dt,(42.0 if u.silent else 78.0) if i==0 else 96.0,holding,true,true)
 		if i>0:
 			u.battery=maxf(0,u.battery-dt/14.0)
 			if u.battery<=0: u.alive=false; events.append({"type":"loss","pos":u.pos}); message=("%s battery exhausted · Quietus can SAMPLE either relay." if mission.get("blackwater_revision",0)==1 else "%s battery exhausted. Quietus camera remains available.")%u.name
@@ -283,7 +283,7 @@ func _tick(dt: float) -> void:
 	if hull<=0: outcome="lost"; message="Quietus lost. Your previous campaign records remain safe."
 	if all_records() and units[0].pos.distance_to(mission.extraction)<65 and units[0].vel.length()<12:
 		outcome="won"; paused=true; message="Archive recovered. Quietus is home."; events.append({"type":"extraction","pos":units[0].pos})
-func _move(u: Dictionary,dt: float,speed: float,holding: bool,report_collision: bool=true) -> void:
+func _move(u: Dictionary,dt: float,speed: float,holding: bool,report_collision: bool=true,player_craft: bool=false) -> void:
 	var desired=Vector2.ZERO
 	if not u.route.is_empty() and not holding:
 		var dest=u.route[0]
@@ -305,6 +305,11 @@ func _move(u: Dictionary,dt: float,speed: float,holding: bool,report_collision: 
 			var target_angle=delta.angle()
 			var turn=absf(angle_difference(u.angle,target_angle))
 			if turn>0.3: target_speed=minf(target_speed,28.0+35.0*maxf(0,cos(turn)))
+			if player_craft and turn>0.3:
+				# Reserve hull room for the remaining turn and current momentum.
+				# Withhold thrust, retaining normal braking/rotation until the arc fits.
+				var maneuver_room=12.0+target_speed*turn/1.8+u.vel.length_squared()/84.0
+				if blocked(u.pos,maneuver_room): target_speed=0.0
 			if turn>0.15 and blocked(u.pos,24): target_speed=0.0 # Thruster-turn away before a near-wall restart.
 			if u.route.size()>1:
 				var next_direction:Vector2=u.route[1].pos-u.route[0].pos

@@ -1,0 +1,125 @@
+{
+  "new_baseline_success_to_failure_cases": [],
+  "valid_geometry_cases": 16,
+  "baseline_completed": 10,
+  "challenger_completed": 13,
+  "no_penetration_or_retained_route_stalls": true,
+  "integrated_stationary_threat_digest_equal": true,
+  "integrated_stationary_threat_digest": "9f692f2da56150c92ad58ca25039edabe6ad36594260d0adb0709072132f100b",
+  "legacy_results_equal": true,
+  "fixture_rejection": "replace_turn initial corpus chose blocked1100,300 destination; both reject. Corrected1250,250 probe independently saved/restored both; baseline terrain stop, candidate reaches. Raw failed probe retained, not a regression.",
+  "cases": [
+    {
+      "case": "corridor_0_true_0",
+      "baseline_reached": true,
+      "baseline_time": 14.6000000000003,
+      "challenger_reached": true,
+      "challenger_time": 14.5000000000003
+    },
+    {
+      "case": "corridor_0_true_8",
+      "baseline_reached": true,
+      "baseline_time": 14.7000000000003,
+      "challenger_reached": true,
+      "challenger_time": 14.5000000000003
+    },
+    {
+      "case": "corridor_0_false_0",
+      "baseline_reached": true,
+      "baseline_time": 14.3000000000003,
+      "challenger_reached": true,
+      "challenger_time": 14.3000000000003
+    },
+    {
+      "case": "corridor_0_false_8",
+      "baseline_reached": false,
+      "baseline_time": 2.89999999999999,
+      "challenger_reached": false,
+      "challenger_time": 2.89999999999999
+    },
+    {
+      "case": "world_top_0",
+      "baseline_reached": true,
+      "baseline_time": 12.5000000000002,
+      "challenger_reached": true,
+      "challenger_time": 12.4000000000002
+    },
+    {
+      "case": "world_bottom_0",
+      "baseline_reached": true,
+      "baseline_time": 12.5000000000002,
+      "challenger_reached": true,
+      "challenger_time": 12.4000000000002
+    },
+    {
+      "case": "long_pass_0",
+      "baseline_reached": true,
+      "baseline_time": 65.0999999999976,
+      "challenger_reached": true,
+      "challenger_time": 64.9999999999976
+    },
+    {
+      "case": "long_stop_0",
+      "baseline_reached": true,
+      "baseline_time": 67.7999999999974,
+      "challenger_reached": true,
+      "challenger_time": 67.7999999999974
+    },
+    {
+      "case": "corridor_1_true_0",
+      "baseline_reached": false,
+      "baseline_time": 2.3,
+      "challenger_reached": true,
+      "challenger_time": 8.60000000000001
+    },
+    {
+      "case": "corridor_1_true_8",
+      "baseline_reached": true,
+      "baseline_time": 8.80000000000002,
+      "challenger_reached": true,
+      "challenger_time": 8.60000000000001
+    },
+    {
+      "case": "corridor_1_false_0",
+      "baseline_reached": false,
+      "baseline_time": 2.4,
+      "challenger_reached": false,
+      "challenger_time": 2.4
+    },
+    {
+      "case": "corridor_1_false_8",
+      "baseline_reached": false,
+      "baseline_time": 2.3,
+      "challenger_reached": false,
+      "challenger_time": 2.3
+    },
+    {
+      "case": "world_top_1",
+      "baseline_reached": true,
+      "baseline_time": 7.69999999999998,
+      "challenger_reached": true,
+      "challenger_time": 7.59999999999998
+    },
+    {
+      "case": "world_bottom_1",
+      "baseline_reached": true,
+      "baseline_time": 7.69999999999998,
+      "challenger_reached": true,
+      "challenger_time": 7.59999999999998
+    },
+    {
+      "case": "long_pass_1",
+      "baseline_reached": false,
+      "baseline_time": 2.3,
+      "challenger_reached": true,
+      "challenger_time": 34.9999999999993
+    },
+    {
+      "case": "long_stop_1",
+      "baseline_reached": false,
+      "baseline_time": 2.3,
+      "challenger_reached": true,
+      "challenger_time": 37.8999999999991
+    }
+  ]
+}
