@@ -118,6 +118,21 @@ tap_target() {
     cp "$output/target-$stage.png" "$output/failed-target.png"
     return 1
 }
+wait_new_marker() {
+    local pattern="$1" before="$2" label="$3" limit="${4:-90}"
+    local deadline=$((SECONDS + limit)) count
+    while (( SECONDS < deadline )); do
+        read_logcat "$output/wait-$label.txt"
+        count="$(grep -Ec "$pattern" "$output/wait-$label.txt" || true)"
+        if (( count > before )); then
+            stage "$label: fresh marker verified"
+            return 0
+        fi
+        sleep 1
+    done
+    echo "Timed out after ${limit}s waiting for $label: $pattern" >&2
+    return 1
+}
 for profile in cover inner; do
     stage "$profile viewport and launch"
     case "$profile" in
@@ -180,6 +195,49 @@ PY
     shot "$profile-restored-gameplay"
     stage "$profile mission archive restored and entered"
 done
+# Complete the introductory dive through ordinary native input. These markers
+# only observe canonical camera/range/outcome/save state; they do not alter it.
+stage 'Shelf Signal ordinary-command completion begins'
+tap_target menu 'SS_SCREEN operations' 'completion-menu'
+tap_target mission0 'SS_MISSION_SELECT 0' 'completion-mission0'
+tap_target begin 'SS_SCREEN mission paused=true' 'completion-begin'
+tap_target droneA 'SS_ORDER select accepted=true selected=1' 'completion-drone'
+tap_target objective0 'SS_ORDER route accepted=true selected=1' 'completion-approach'
+read_logcat "$output/completion-before-run.txt"
+camera_before="$(grep -Ec 'SS_CAMERA_READY unit=1 objective=0' "$output/completion-before-run.txt" || true)"
+tap_target pause 'SS_PAUSE paused=false' 'completion-travel'
+wait_new_marker 'SS_CAMERA_READY unit=1 objective=0' "$camera_before" 'camera-ready' 90
+tap_target pause 'SS_PAUSE paused=true' 'completion-camera-pause'
+shot 'inner-camera-ready'
+tap_target camera 'SS_ORDER camera accepted=true selected=1' 'completion-camera'
+shot 'inner-camera-exposure'
+read_logcat "$output/completion-before-exposure.txt"
+record_before="$(grep -Ec 'SS_OBJECTIVE_RECORDED mission=0 objective=0' "$output/completion-before-exposure.txt" || true)"
+won_before="$(grep -Ec 'SS_DEBRIEF outcome=won mission=0' "$output/completion-before-exposure.txt" || true)"
+save_pattern='SS_SAVE ok mission=0 .*completed=\[0\] unlocked=1'
+save_before="$(grep -Ec "$save_pattern" "$output/completion-before-exposure.txt" || true)"
+tap_target pause 'SS_PAUSE paused=false' 'completion-exposure-resume'
+wait_new_marker 'SS_OBJECTIVE_RECORDED mission=0 objective=0' "$record_before" 'record-secured' 30
+wait_new_marker 'SS_DEBRIEF outcome=won mission=0' "$won_before" 'extraction-won' 30
+wait_new_marker "$save_pattern" "$save_before" 'campaign-saved' 30
+shot 'inner-mission-completed'
+stage 'Shelf Signal recorded, Quietus extraction won, campaign saved'
+adb shell input keyevent KEYCODE_HOME
+read_logcat "$output/completion-before-kill.txt"
+campaign_restore='SS_RESTORE ok mission=0 .*completed=\[0\] unlocked=1'
+campaign_before="$(grep -Ec "$campaign_restore" "$output/completion-before-kill.txt" || true)"
+for ((attempt=0; attempt<30; attempt++)); do
+    adb shell am kill "$package"
+    if ! adb shell pidof "$package" >"$output/pid-after-kill-completed.txt"; then break; fi
+    sleep 1
+done
+if adb shell pidof "$package" >"$output/pid-after-kill-completed.txt"; then
+    echo 'Completed-mission process survived am kill; campaign restoration not verified' >&2
+    exit 1
+fi
+launch 'completed-campaign-restart'
+wait_new_marker "$campaign_restore" "$campaign_before" 'campaign-restored' 30
+shot 'inner-campaign-restored'
 read_logcat "$output/logcat.txt"
 if grep -lE 'FATAL EXCEPTION|Fatal signal|SCRIPT ERROR:|Parse Error:|[Ee] godot.*ERROR:' "$output"/*.txt; then
     grep -hE 'FATAL EXCEPTION|Fatal signal|SCRIPT ERROR:|Parse Error:|[Ee] godot.*ERROR:' "$output"/*.txt | sort -u >"$output/runtime-errors.txt"
@@ -187,6 +245,6 @@ if grep -lE 'FATAL EXCEPTION|Fatal signal|SCRIPT ERROR:|Parse Error:|[Ee] godot.
     echo 'Runtime errors detected; inspect logcat artifact' >&2
     exit 1
 fi
-echo 'Android install, native taps/orders/pause, viewports and mission restore smoke passed.'
+echo 'Android install, native taps/orders/pause, viewports, mission restore and ordinary-command mission completion smoke passed.'
 stage 'smoke passed'
 echo 'Touch ergonomics, full mission-state fidelity and Samsung fold behavior require further checks.'
