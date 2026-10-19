@@ -87,6 +87,7 @@ resolution_geometry_tests|RESOLUTION GEOMETRY
 earned_equipment_tests|EARNED EQUIPMENT
 cadence_correlator_tests|CADENCE CORRELATOR
 field_sampler_tests|FIELD SAMPLER
+capture_feedback_tests|CAPTURE FEEDBACK
 turn_safe_navigation_tests|TURN SAFE NAVIGATION
 expanded_region_tests|EXPANDED REGION
 expanded_region_journeys|EXPANDED JOURNEYS

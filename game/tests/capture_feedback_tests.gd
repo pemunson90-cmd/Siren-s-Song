@@ -19,5 +19,5 @@ func _initialize():
  for id in [0,2]:
   var legacy=Sim.new();legacy.start(id);legacy.capture_unit=0;legacy.capture_target=0
   check(legacy.capture_feedback().duration==(2.0 if id==2 else 4.0),"legacy photograph/exchange duration unchanged")
- print("CAPTURE FEEDBACK ",checks," FAILURES ",failures)
+ print("CAPTURE FEEDBACK CHECKS ",checks," FAILURES ",failures)
  quit(1 if failures else 0)
