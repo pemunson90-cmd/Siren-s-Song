@@ -7,7 +7,7 @@ func check(ok,label):
  if not ok:failures+=1;printerr("FAIL ",label)
 func fixture(with_wall=true):
  var s=Sim.new();s.start(0)
- s.mission.merge({"id":14,"terrain_chart_revision":1,"chart_geometry_revision":1,"world_size":Vector2(1200,1200),"region_revision":1,"launch_seed":Rect2(80,800,400,320),"start":Vector2(300,1000),"extraction":Vector2(300,1000),"rocks":[Rect2(600,100,120,720)] if with_wall else [],"sirens":[],"objectives":[],"delivery_revision":1,"handoff_pos":Vector2(1000,200),"withdrawal_pos":Vector2(300,1000),"handoff_sector":Rect2(880,80,240,240),"launch_context":{},"carried_evidence":"","handoff_complete":false,"recovered":false},true)
+ s.mission.merge({"id":14,"terrain_chart_revision":1,"chart_geometry_revision":1,"world_size":Vector2(1200,1200),"region_revision":1,"launch_seed":Rect2(80,800,400,320),"start":Vector2(300,1000),"extraction":Vector2(300,1000),"rocks":[Rect2(600,100,120,720)] if with_wall else [],"sirens":[],"objectives":[],"delivery_revision":1,"handoff_pos":Vector2(1000,200),"withdrawal_pos":Vector2(300,1000),"handoff_sector":Rect2(880,80,240,240),"launch_context":{},"carried_evidence":"","handoff_complete":false,"withdrawal_armed":false,"recovered":false},true)
  s.units[0].pos=Vector2(300,1000);s.units[1].pos=Vector2(300,900);s.units[2].pos=Vector2(440,1000);s.sirens=[]
  s._build_navigation();s.call("_configure_chart")
  return s
@@ -37,6 +37,9 @@ func _initialize():
   check(stop.units[1].hold=="" and stop.capture_unit==-1,"terrain stop does not replace pilot hold or fabricate task/capture")
   stop.units[1].hold="SCOUT_STOP";var guarded=stop.units[1].pos;stop.advance(0.1)
   check(stop.units[1].hold=="SCOUT_STOP" and stop.units[1].pos==guarded,"terrain stop keeps latched SCOUT release authority")
+  var diagonal=Sim.new();diagonal.start(14,"disruption",{"context":{"completed":[12],"facts":{"resolution":"concealed_recovery","confluence_route":"concealed"}}});diagonal.command("route",{"point":diagonal.mission.handoff_pos});diagonal.paused=false
+  for tick in 1200:diagonal.advance(Sim.STEP)
+  check(diagonal.course_status(0).state=="blocked","conservative diagonal cell frontier beside an observed face provides replot cue rather than permanent unresolved drift")
   var state=stop.snapshot();check(Sim.valid_snapshot(state),"optional chart and course latch validate")
   var loaded=Sim.new();check(loaded.restore(state) and loaded.public_chart()==stop.public_chart() and loaded.units==stop.units,"restore rebuilds chart without new observation or intent mutation")
   var restored=loaded.snapshot();check(restored.terrain_chart==state.terrain_chart and restored.tick_phase==state.tick_phase,"chart restore preserves earned knowledge and exact existing tick phase")

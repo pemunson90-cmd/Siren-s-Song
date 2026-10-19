@@ -125,7 +125,10 @@ func _chart_speed(u:Dictionary,speed:float)->float:
 	# Certified cells already include24m hull corridor; retain another12m reserve.
 	var usable=maxf(0,distance-12.0)
 	var latency=0.15+STEP*2
-	return minf(speed,maxf(0,sqrt(84.0*usable+pow(42.0*latency,2))-42.0*latency))
+	var safe_speed=maxf(0,sqrt(84.0*usable+pow(42.0*latency,2))-42.0*latency)
+	# When momentum exceeds the envelope, actual vector deceleration must be
+	# full braking rather than spending acceleration on a new thrust direction.
+	return 0.0 if u.vel.length()>safe_speed else minf(speed,safe_speed)
 func _course_segment_safe(a:Vector2,b:Vector2,margin:float)->bool:
 	return terrain_chart.segment_safe(a,b,margin) if terrain_chart!=null else segment_safe(a,b,margin)
 func _course_turn_clear(point:Vector2,radius:float)->bool:
@@ -133,16 +136,19 @@ func _course_turn_clear(point:Vector2,radius:float)->bool:
 func _delivery_tick()->void:
 	if mission.get("delivery_revision",0)!=1 or not outcome.is_empty() or not _delivery_carry(mission):return
 	var u=units[0]
+	if u.pos.distance_to(mission.withdrawal_pos)>180:mission.withdrawal_armed=true
 	if u.vel.length()>=12:return
+	if not mission.handoff_complete and mission.withdrawal_armed and u.pos.distance_to(mission.withdrawal_pos)<65:
+		outcome="withdrawn";paused=true;message="Incomplete passage withdrawal · earned terrain notes retained"
+		return
 	if not mission.handoff_complete and u.pos.distance_to(mission.handoff_pos)<65:
 		mission.handoff_complete=true;message="Carried evidence handed over · return Quietus through the earned chart"
 		events.append({"type":"handoff","pos":u.pos,"time":elapsed})
 	elif mission.handoff_complete and u.pos.distance_to(mission.withdrawal_pos)<65:
 		mission.recovered=true;outcome="won";paused=true;message="Quietus recovered after the physical handoff";events.append({"type":"extraction","pos":u.pos})
 static func _delivery_carry(m:Dictionary)->bool:
-	var context=m.get("launch_context",{});var completed=context.get("completed",[]);var facts=context.get("facts",{})
-	var expected="concealed_recovery" if 12 in completed and facts.get("confluence_route","")=="concealed" else ("overt_warning" if 13 in completed and facts.get("confluence_route","")=="overt" else "")
-	return not expected.is_empty() and facts.get("resolution","")==expected and m.get("carried_evidence","")==expected
+	var evidence=preload("res://src/campaign/blind_passage_mission.gd").carried_evidence(m.get("launch_context",{}))
+	return not evidence.is_empty() and m.get("carried_evidence","")==evidence
 func observable_sites() -> Array:
 	return mission.objectives.duplicate(true)
 func signal_readings() -> Array:
@@ -269,7 +275,8 @@ func command(order: String,args: Dictionary={}) -> bool:
 			message="%s · %s route" % [u.name,"queued" if append else "replaced"]
 		"route_edit", "route_insert", "route_delete", "route_undo":
 			if not _edit_program(order,args): return false
-		"hold": u.hold="" if u.hold=="HOLD" else "HOLD"; message="Holding position" if u.hold!="" else "Route released"
+		"hold":
+			u.hold="" if u.hold=="HOLD" else "HOLD"; message="Holding position" if u.hold!="" else ("Pilot HOLD released · terrain still needs replot" if u.has("chart_stop") else "Route released")
 		"contact_hold":
 			if u.hold in ["CONTACT",DroneOperations.ARMED,DroneOperations.STOPPED]:
 				u.hold="";message="%s · condition released · retained route resumes"%u.name
@@ -367,7 +374,7 @@ func _install_program(u:Dictionary,plan:Array,remember:bool=true,append:bool=fal
 		u.route_undo=history
 	else: u.erase("route_undo")
 	u.route_plan=plan.duplicate(true); u.route=compiled.route
-	if terrain_chart!=null:u.erase("chart_stop")
+	if terrain_chart!=null and not append:u.erase("chart_stop")
 	return true
 func _edit_program(order:String,args:Dictionary) -> bool:
 	var u=units[selected]; var plan=route_goals()
@@ -655,7 +662,7 @@ func _tick(dt: float) -> void:
 # pairs are an edge intersection or a rock vertex vs this leg. No convexity
 # assumption is made, and bounds follow blocked()'s current world contract.
 func _player_leg_safe(a:Vector2,b:Vector2) -> bool:
-	if terrain_chart!=null:return terrain_chart.segment_safe(a,b,12)
+	if terrain_chart!=null:return terrain_chart.segment_safe(a,b,24)
 	if blocked(a,12) or blocked(b,12): return false
 	for structure in mission.get("structures",[]):
 		if _leg_enters_rect(a,b,structure.grow(12)): return false
@@ -696,7 +703,7 @@ func _move(u: Dictionary,dt: float,speed: float,holding: bool,report_collision: 
 	if player_craft: speed=RouteProgram.speed(u,speed,u.name=="QUIETUS")
 	var earned=player_craft and terrain_chart!=null
 	if earned and not u.route.is_empty():
-		if not terrain_chart.segment_safe(u.pos,u.route[0].pos,12):_chart_block(u,"New terrain")
+		if not terrain_chart.segment_safe(u.pos,u.route[0].pos,24):_chart_block(u,"New terrain")
 		if u.has("chart_stop"):holding=true
 		speed=_chart_speed(u,speed)
 	if player_craft and not earned and not holding and not u.route.is_empty() and not _player_leg_safe(u.pos,u.route[0].pos):
@@ -1053,11 +1060,11 @@ static func valid_snapshot(data: Dictionary) -> bool:
 	if data.mission.has("terrain_chart_revision"):
 		if data.mission.id!=14 or data.mission.terrain_chart_revision!=1 or data.mission.get("chart_geometry_revision")!=1 or not data.mission.get("launch_seed") is Rect2:return false
 		if not TerrainChart.valid_state(data.get("terrain_chart"),data.mission):return false
-		if data.mission.get("terrain_chart_note",{})!=data.terrain_chart:return false
+		if data.mission.get("terrain_chart_note",{})!=data.terrain_chart or data.known!=data.terrain_chart.clear_cells:return false
 	elif data.has("terrain_chart"):return false
 	if data.mission.has("delivery_revision"):
 		var m=data.mission
-		if m.id!=14 or m.delivery_revision!=1 or not m.get("handoff_complete") is bool or not m.get("recovered") is bool or not m.get("launch_context") is Dictionary or not m.get("carried_evidence") is String:return false
+		if m.id!=14 or m.delivery_revision!=1 or not m.get("handoff_complete") is bool or not m.get("recovered") is bool or not m.get("withdrawal_armed") is bool or not m.get("launch_context") is Dictionary or not m.get("carried_evidence") is String:return false
 		if not m.get("handoff_sector") is Rect2:return false
 		for key in ["handoff_pos","withdrawal_pos"]:
 			if not m.get(key) is Vector2 or not WorldRegion.contains(m[key],WorldRegion.size_of(m)):return false
