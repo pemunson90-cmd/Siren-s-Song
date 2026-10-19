@@ -3,7 +3,7 @@ name: Android validation
 on:
   workflow_dispatch:
   push:
-    branches: ['gauntlet/**']
+    tags: ['gauntlet/milestone/**']
 
 permissions:
   contents: read
