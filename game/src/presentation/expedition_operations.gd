@@ -12,7 +12,7 @@ static func operations(main)->void:
 static func briefing(main,index:int)->bool:
  if index<6:return false
  main._menu_text("OBSERVATION ORDERS\nArrival arcs show where a carrier reached that receiver; sound may bend around basalt. They are not exact target bearings. Close clear passive reception or local RECON earns a precise source mark. Pause gives planning time, never new passive samples. Named recovery corridors show which interpretations you have confirmed.",17)
- if index==6:main._menu_text("Choose a physical exit with Quietus after its carrier is identified. Investigating both retains both facts; your exit selects the continuation. The southern basin permits incomplete withdrawal after departure, without a route or equipment reward.",17)
+ if index==6:main._menu_text("Choose a physical exit with Quietus after its carrier is identified. Investigating both retains both facts; your exit selects the continuation. The southern basin permits incomplete withdrawal after departure, without completing an expedition route.",17)
  return true
 static func debrief(main)->bool:
  var mission=main.sim.mission
@@ -30,7 +30,7 @@ static func debrief(main)->bool:
  else:
   main._menu_text("INCOMPLETE WITHDRAWAL" if main.sim.outcome=="withdrawn" else "EXPEDITION LOST",30)
   main._menu_text(main.sim.message,20)
-  main._menu_text("Field observations remain in the archive. This dive grants no route completion or module.",17)
+  main._menu_text("Field observations remain in the archive. This dive does not complete an expedition route.",17)
  if not main.recovered_evidence.is_empty():main._button(main.panel_box,"REVIEW FIELD RECORDS",func():main._evidence_gallery(0),"evidence")
  main._button(main.panel_box,"RETRY EXPEDITION",func():main._briefing(mission.id),"retry")
  main._button(main.panel_box,"OPERATIONS ARCHIVE",main._show_campaign,"back")
