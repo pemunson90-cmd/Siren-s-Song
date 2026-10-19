@@ -11,6 +11,7 @@ stage() {
 }
 adb_bin="$(command -v adb)"
 log_read_serial=0
+system_intro_checked=false
 adb() {
     local status=0
     timeout --foreground "${ADB_TIMEOUT_SECONDS:-30}" "$adb_bin" "$@" || status=$?
@@ -104,9 +105,30 @@ shot() {
     adb shell dumpsys activity activities >"$output/activity-$1.txt"
     stage "capture $1: activity dump complete"
 }
+acknowledge_system_intro() {
+    local coords="" status=0 tap_x tap_y
+    adb shell dumpsys window windows >"$output/system-dialog-window.txt"
+    adb shell uiautomator dump /sdcard/sirens-system-ui.xml >"$output/system-dialog-dump.txt"
+    adb exec-out cat /sdcard/sirens-system-ui.xml >"$output/system-dialog-before.xml"
+    coords="$(python3 "$(dirname -- "$0")/android-system-dialog.py" "$output/system-dialog-before.xml")" || status=$?
+    if (( status == 2 )); then return 0; fi
+    if (( status != 0 )); then return "$status"; fi
+    read -r tap_x tap_y <<<"$coords"
+    stage "acknowledging known Android immersive intro at accessibility bounds $tap_x,$tap_y"
+    adb shell input tap "$tap_x" "$tap_y"
+    adb shell uiautomator dump /sdcard/sirens-system-ui.xml >"$output/system-dialog-after-dump.txt"
+    adb exec-out cat /sdcard/sirens-system-ui.xml >"$output/system-dialog-after.xml"
+    status=0
+    python3 "$(dirname -- "$0")/android-system-dialog.py" "$output/system-dialog-after.xml" >/dev/null || status=$?
+    (( status == 2 )) || { echo 'Android immersive intro did not dismiss' >&2; return 1; }
+}
 tap_target() {
     local action="$1" expected="$2" stage="$3" coords=""
     local before_count after_count
+    if ! "$system_intro_checked"; then
+        acknowledge_system_intro
+        system_intro_checked=true
+    fi
     for ((attempt=0; attempt<20; attempt++)); do
         # Android and Godot settle asynchronously after a live resize. Refresh
         # both observations; never reuse a PNG captured before the new layout.
