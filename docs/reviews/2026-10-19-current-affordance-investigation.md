@@ -2,7 +2,7 @@
 
 **Reject this throwaway controller for integration.** An authored lane supplies a small transport benefit, but the inherited heading-limited stationkeeping transient makes existing HOLD substantially worse. No meaningful tactical or player-experience gain is demonstrated yet; do not add currents globally or tune enemies to manufacture one.
 
-Exact baseline `25d02069ba986e3839155841e1aec6e66486febe`, branch `gauntlet/experiment/current-affordance`, reused `/workspace/Siren-s-Song-drone-investigation`; requested Sol 6.1/high, actual backend/usage unknown. Scratch and complete source/command/hash manifest: `work/current-affordance/manifest.json` in that worktree. Negative drone results `d625e56` and `c1b96fc` remain preserved. Product/tool/workflow/governance/thermal-worker files untouched; this report is the sole tracked delta.
+Exact baseline `25d02069ba986e3839155841e1aec6e66486febe`, branch `gauntlet/experiment/current-affordance`, reused `/workspace/Siren-s-Song-drone-investigation`; requested Sol 6.1/high, actual backend/usage unknown. [Preserved complete scratch archive](../validation/production/current-affordance/spike-evidence.tar.gz), SHA256 `bf1ef87f11377c4807b3a6aeb8a8f542042f5d0b215afda1cbe1f87d56eddcaa`; root verified all27 manifest artifact hashes before archiving. Extract with `tar -xzf spike-evidence.tar.gz` into an isolated scratch directory. Original scratch and complete source/command/hash manifest: `work/current-affordance/manifest.json` in that worktree. Negative drone results `d625e56` and `c1b96fc` remain preserved. Product/tool/workflow/governance/thermal-worker files untouched; this report is the sole tracked delta.
 
 ## Reference and contract
 
