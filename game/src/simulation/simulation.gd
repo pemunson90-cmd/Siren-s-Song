@@ -172,7 +172,9 @@ func command(order: String,args: Dictionary={}) -> bool:
 			if not append:
 				u.hold=""
 				if capture_unit==selected: capture_unit=-1
-			if order=="emergency": queue_mode=false; u.silent=false; u.erase("route_undo")
+			if order=="emergency":
+				queue_mode=false; u.silent=false; u.erase("route_undo")
+				if selected>0 and u.has("drone_drive"):u.drone_drive="transit"
 			message="%s · %s route" % [u.name,"queued" if append else "replaced"]
 		"route_edit", "route_insert", "route_delete", "route_undo":
 			if not _edit_program(order,args): return false
@@ -191,7 +193,17 @@ func command(order: String,args: Dictionary={}) -> bool:
 				for node in u.route:
 					node.mode=u.route_plan[0].mode
 					if node.get("goal",false): break
-			message=(("Low visual profile" if u.silent else "Open visual profile")+" · drone thrust remains 96m/s") if selected>0 else ("Silent running" if u.silent else "Cruise thrust · increased noise")
+			message=(("Low visual profile" if u.silent else "Open visual profile")+" · drone thrust target %dm/s"%(42 if u.get("drone_drive","transit")=="quiet" else 96)) if selected>0 else ("Silent running" if u.silent else "Cruise thrust · increased noise")
+		"drone_drive":
+			var mode=args.get("mode","")
+			if selected==0 or mode not in ["quiet","transit"]:return false
+			u.drone_drive=mode
+			if u.has("route_plan") and not u.route_plan.is_empty():
+				u.route_plan[0].mode="silent" if mode=="quiet" else "cruise"
+				for node in u.route:
+					node.mode=u.route_plan[0].mode
+					if node.get("goal",false):break
+			message="%s · %s · visual profile unchanged"%[u.name,"QUIET42" if mode=="quiet" else "TRANSIT96"]
 		"ping":
 			if ping_time>0: return false
 			ping_time=3.5; ping_origin=u.pos; _noise(u.pos,950,"ACTIVE SONAR"); events.append({"type":"ping","pos":u.pos}); message="Active return · your position is audible"
@@ -241,7 +253,6 @@ func route_goals(unit_id:int=-1) -> Array:
 	return RouteProgram.goals(units[selected if unit_id<0 else unit_id])
 func _install_program(u:Dictionary,plan:Array,remember:bool=true,append:bool=false) -> bool:
 	if not RouteProgram.valid_goals(plan,world_size()): return false
-	if selected>0 and plan.any(func(goal): return goal.mode!="inherit"): return false
 	var compiled=RouteProgram.compile(u.route.back().pos,[plan.back()],path,world_size()) if append else RouteProgram.compile(u.pos,plan,path,world_size())
 	if not compiled.ok: return false
 	if append:

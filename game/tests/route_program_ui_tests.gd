@@ -60,7 +60,7 @@ func run():
   var space=InputEventKey.new();space.keycode=KEY_SPACE;space.pressed=true;root.push_input(space,true);await settle()
   check(game.sim.paused,"SPACE cannot resume simulation behind the program modal")
   var plan=game.sim.route_goals();await click(action("craft1"),true);check(game.sim.selected==1 and game.sim.route_goals(0)==plan,"editor craft selection preserves other craft program")
-  check(action("propulsion").disabled and "FIXED96" in action("propulsion").text,"drone editor truthfully exposes fixed propulsion without implying a silent speed change")
+  check(action("propulsion").disabled and "TO:" in action("propulsion").text and "DRIVE TRANSIT96" in game.route_editor.info.text,"empty drone program truthfully shows legacy current drive without an editable destination")
   await click(action("craft0"));await click(action("close"),true)
   check(game.screen=="mission" and game.sim.paused and game.sim.route_goals()==plan,"closing leaves edited program paused and persistent")
   check("PLAN" in game.order_buttons.program.text and "ROUTE" in game.order_buttons.program.text and "TO 1: INHERIT" in game.detail_label.text,"selected craft program intent persists outside modal")
