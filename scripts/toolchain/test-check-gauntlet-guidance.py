@@ -17,7 +17,11 @@ class GuidanceTests(unittest.TestCase):
              "likely candidate; Quietus; Sirens" for p in module.FILES}
         d["README.md"] = "Active game development on gauntlet/production"
         if not active:
-            d.pop("docs/CURRENT_GAME_SPEC.md")
+            for name in (
+                "docs/CURRENT_GAME_SPEC.md", "docs/CONTINUATION.md",
+                "docs/WORKBENCH.md", "docs/GAUNTLET_ORCHESTRATION.md",
+            ):
+                d.pop(name)
         return d
 
     def scan(self, d):
@@ -47,6 +51,11 @@ class GuidanceTests(unittest.TestCase):
         d = self.make_docs(True)
         d.pop("docs/CONTINUATION.md")
         self.assertTrue(any("CONTINUATION" in e for e in self.scan(d)))
+
+    def test_missing_living_spec_cannot_disguise_production(self):
+        d = self.make_docs(True)
+        d.pop("docs/CURRENT_GAME_SPEC.md")
+        self.assertTrue(any("CURRENT_GAME_SPEC.md" in e for e in self.scan(d)))
 
     def test_completion_rule_rejected(self):
         d = self.make_docs(True)
