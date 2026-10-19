@@ -1,0 +1,6 @@
+2026-10-19 tactical core milestone
+Reviewed source: 00a61a870cc33fd91c16a7d068dde40e2b31bf1b
+Game source: 0d1b390857afe5cd674e5248f8ac8eb4716b36b7
+Batch: Quietus waypoint propulsion and all-craft route editor; geometry-based acoustic arrivals and speed footprint; physical noisy steering impact-snare torpedoes.
+Native risks: combined touch layout/input, lifecycle/save, corrected directional gallery scrolling, restored canonical debug signing certificate32bcb2287acd01c1f58c26997c7639f3072c74c6b03ab2a24656dc7cd1c7dc3c.
+One intentional production build; preserve accepted APK/evidence fallbacks. No artifact-retrieval rerun.
