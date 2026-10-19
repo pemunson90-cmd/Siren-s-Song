@@ -1,0 +1,187 @@
+{
+  "camera": "programmatic normal2x zoom and own-position following pan each frame; not OS input",
+  "departure_command_before_frame0": false,
+  "final_hull": 100.0,
+  "final_message": "Mission restored · paused for review",
+  "final_outcome": "",
+  "inputs_during_clip": 0,
+  "samples": [
+    {
+      "angle": 0.233938410878181,
+      "frame": 0,
+      "hull": 100.0,
+      "message": "Mission restored · paused for review",
+      "outcome": "",
+      "position": "(1353.052, 618.3444)",
+      "route": [],
+      "time": 47.4666666666653,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "angle": 0.233938410878181,
+      "frame": 15,
+      "hull": 100.0,
+      "message": "Mission restored · paused for review",
+      "outcome": "",
+      "position": "(1353.052, 618.3444)",
+      "route": [],
+      "time": 48.4666666666652,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "angle": 0.233938410878181,
+      "frame": 30,
+      "hull": 100.0,
+      "message": "Mission restored · paused for review",
+      "outcome": "",
+      "position": "(1353.052, 618.3444)",
+      "route": [],
+      "time": 49.4666666666651,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "angle": 0.233938410878181,
+      "frame": 45,
+      "hull": 100.0,
+      "message": "Mission restored · paused for review",
+      "outcome": "",
+      "position": "(1353.052, 618.3444)",
+      "route": [],
+      "time": 50.4666666666651,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "angle": 0.233938410878181,
+      "frame": 60,
+      "hull": 100.0,
+      "message": "Mission restored · paused for review",
+      "outcome": "",
+      "position": "(1353.052, 618.3444)",
+      "route": [],
+      "time": 51.466666666665,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "angle": 0.233938410878181,
+      "frame": 75,
+      "hull": 100.0,
+      "message": "Mission restored · paused for review",
+      "outcome": "",
+      "position": "(1353.052, 618.3444)",
+      "route": [],
+      "time": 52.466666666665,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "angle": 0.233938410878181,
+      "frame": 90,
+      "hull": 100.0,
+      "message": "Mission restored · paused for review",
+      "outcome": "",
+      "position": "(1353.052, 618.3444)",
+      "route": [],
+      "time": 53.4666666666649,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "angle": 0.233938410878181,
+      "frame": 105,
+      "hull": 100.0,
+      "message": "Mission restored · paused for review",
+      "outcome": "",
+      "position": "(1353.052, 618.3444)",
+      "route": [],
+      "time": 54.4666666666649,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "angle": 0.233938410878181,
+      "frame": 120,
+      "hull": 100.0,
+      "message": "Mission restored · paused for review",
+      "outcome": "",
+      "position": "(1353.052, 618.3444)",
+      "route": [],
+      "time": 55.4666666666648,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "angle": 0.233938410878181,
+      "frame": 135,
+      "hull": 100.0,
+      "message": "Mission restored · paused for review",
+      "outcome": "",
+      "position": "(1353.052, 618.3444)",
+      "route": [],
+      "time": 56.4666666666647,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "angle": 0.233938410878181,
+      "frame": 150,
+      "hull": 100.0,
+      "message": "Mission restored · paused for review",
+      "outcome": "",
+      "position": "(1353.052, 618.3444)",
+      "route": [],
+      "time": 57.4666666666647,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "angle": 0.233938410878181,
+      "frame": 165,
+      "hull": 100.0,
+      "message": "Mission restored · paused for review",
+      "outcome": "",
+      "position": "(1353.052, 618.3444)",
+      "route": [],
+      "time": 58.4666666666646,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "angle": 0.233938410878181,
+      "frame": 180,
+      "hull": 100.0,
+      "message": "Mission restored · paused for review",
+      "outcome": "",
+      "position": "(1353.052, 618.3444)",
+      "route": [],
+      "time": 59.4666666666646,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "angle": 0.233938410878181,
+      "frame": 195,
+      "hull": 100.0,
+      "message": "Mission restored · paused for review",
+      "outcome": "",
+      "position": "(1353.052, 618.3444)",
+      "route": [],
+      "time": 60.4666666666645,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "angle": 0.233938410878181,
+      "frame": 210,
+      "hull": 100.0,
+      "message": "Mission restored · paused for review",
+      "outcome": "",
+      "position": "(1353.052, 618.3444)",
+      "route": [],
+      "time": 61.4666666666645,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "angle": 0.233938410878181,
+      "frame": 225,
+      "hull": 100.0,
+      "message": "Mission restored · paused for review",
+      "outcome": "",
+      "position": "(1353.052, 618.3444)",
+      "route": [],
+      "time": 62.4666666666644,
+      "velocity": "(0.0, 0.0)"
+    }
+  ],
+  "setup": "restored identical baseline ordinary forward-order both-drones-lost fixture; finite-tool policy;4.5s holds"
+}

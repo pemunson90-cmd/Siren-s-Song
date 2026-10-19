@@ -1,0 +1,238 @@
+{
+  "fps": 15,
+  "frames": 240,
+  "input_frames": {
+    "begin": [
+      179,
+      180
+    ],
+    "cycle1": [
+      29,
+      30
+    ],
+    "cycle2": [
+      59,
+      60
+    ],
+    "mission0": [
+      98,
+      99
+    ]
+  },
+  "programmatic_scroll_frames": [
+    34,
+    64,
+    90,
+    104
+  ],
+  "samples": [
+    {
+      "active_stock_unchanged": true,
+      "frame": 0,
+      "oxygen": 120.0,
+      "screen": "menu",
+      "scroll": 761,
+      "selection": "endurance",
+      "tools": {
+        "decoy": 3,
+        "emp": 2,
+        "recon": 2
+      }
+    },
+    {
+      "active_stock_unchanged": true,
+      "frame": 15,
+      "oxygen": 120.0,
+      "screen": "menu",
+      "scroll": 761,
+      "selection": "endurance",
+      "tools": {
+        "decoy": 3,
+        "emp": 2,
+        "recon": 2
+      }
+    },
+    {
+      "active_stock_unchanged": true,
+      "frame": 30,
+      "oxygen": 120.0,
+      "screen": "menu",
+      "scroll": 0,
+      "selection": "disruption",
+      "tools": {
+        "decoy": 3,
+        "emp": 2,
+        "recon": 2
+      }
+    },
+    {
+      "active_stock_unchanged": true,
+      "frame": 45,
+      "oxygen": 120.0,
+      "screen": "menu",
+      "scroll": 761,
+      "selection": "disruption",
+      "tools": {
+        "decoy": 3,
+        "emp": 2,
+        "recon": 2
+      }
+    },
+    {
+      "active_stock_unchanged": true,
+      "frame": 60,
+      "oxygen": 120.0,
+      "screen": "menu",
+      "scroll": 0,
+      "selection": "survey",
+      "tools": {
+        "decoy": 3,
+        "emp": 2,
+        "recon": 2
+      }
+    },
+    {
+      "active_stock_unchanged": true,
+      "frame": 75,
+      "oxygen": 120.0,
+      "screen": "menu",
+      "scroll": 761,
+      "selection": "survey",
+      "tools": {
+        "decoy": 3,
+        "emp": 2,
+        "recon": 2
+      }
+    },
+    {
+      "active_stock_unchanged": true,
+      "frame": 90,
+      "oxygen": 120.0,
+      "screen": "menu",
+      "scroll": 352,
+      "selection": "survey",
+      "tools": {
+        "decoy": 3,
+        "emp": 2,
+        "recon": 2
+      }
+    },
+    {
+      "active_stock_unchanged": true,
+      "frame": 105,
+      "oxygen": 120.0,
+      "screen": "briefing",
+      "scroll": 583,
+      "selection": "survey",
+      "tools": {
+        "decoy": 3,
+        "emp": 2,
+        "recon": 2
+      }
+    },
+    {
+      "active_stock_unchanged": true,
+      "frame": 120,
+      "oxygen": 120.0,
+      "screen": "briefing",
+      "scroll": 583,
+      "selection": "survey",
+      "tools": {
+        "decoy": 3,
+        "emp": 2,
+        "recon": 2
+      }
+    },
+    {
+      "active_stock_unchanged": true,
+      "frame": 135,
+      "oxygen": 120.0,
+      "screen": "briefing",
+      "scroll": 583,
+      "selection": "survey",
+      "tools": {
+        "decoy": 3,
+        "emp": 2,
+        "recon": 2
+      }
+    },
+    {
+      "active_stock_unchanged": true,
+      "frame": 150,
+      "oxygen": 120.0,
+      "screen": "briefing",
+      "scroll": 583,
+      "selection": "survey",
+      "tools": {
+        "decoy": 3,
+        "emp": 2,
+        "recon": 2
+      }
+    },
+    {
+      "active_stock_unchanged": true,
+      "frame": 165,
+      "oxygen": 120.0,
+      "screen": "briefing",
+      "scroll": 583,
+      "selection": "survey",
+      "tools": {
+        "decoy": 3,
+        "emp": 2,
+        "recon": 2
+      }
+    },
+    {
+      "active_stock_unchanged": false,
+      "frame": 180,
+      "oxygen": 100.0,
+      "screen": "mission",
+      "scroll": 583,
+      "selection": "survey",
+      "tools": {
+        "decoy": 3,
+        "emp": 2,
+        "recon": 3
+      }
+    },
+    {
+      "active_stock_unchanged": false,
+      "frame": 195,
+      "oxygen": 100.0,
+      "screen": "mission",
+      "scroll": 583,
+      "selection": "survey",
+      "tools": {
+        "decoy": 3,
+        "emp": 2,
+        "recon": 3
+      }
+    },
+    {
+      "active_stock_unchanged": false,
+      "frame": 210,
+      "oxygen": 100.0,
+      "screen": "mission",
+      "scroll": 583,
+      "selection": "survey",
+      "tools": {
+        "decoy": 3,
+        "emp": 2,
+        "recon": 3
+      }
+    },
+    {
+      "active_stock_unchanged": false,
+      "frame": 225,
+      "oxygen": 100.0,
+      "screen": "mission",
+      "scroll": 583,
+      "selection": "survey",
+      "tools": {
+        "decoy": 3,
+        "emp": 2,
+        "recon": 3
+      }
+    }
+  ]
+}

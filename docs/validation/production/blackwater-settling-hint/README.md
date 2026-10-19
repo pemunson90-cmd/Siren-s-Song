@@ -1,0 +1,7 @@
+# Settling-hint clipping · visual RED/GREEN
+
+A new moving-receiver state, absent from the earlier settled receiving views, reproduces clipping on publisheda178825: `SETTLING · progress starts at rest` runs past the inset right edge. [Actual cover RED](cover-red.png). Root created/retained this failing fixture before changing source. It is a synthetic own Quietus pose(760,330)/velocity(80,0), SAMPLE and paused; no earned route, changed enemy, native/device or human claim.
+
+A one-line presentation correction shortens the same instruction to `SETTLING · wait for rest`. [Same cover GREEN](cover-green.png) and [inner GREEN](inner-green.png) now show the complete hint, record/progress and existing controls. Source/game mechanics, geometry, font size, HUD, resources and sensor rules are unchanged. Both420dpi desktop fixtures use pinned4.6.3/softwareGL; cover2520×1080/inset136, inner2184×1968. Source compiled/rendered without SCRIPT ERROR/ERROR in retained logs. Visual comparison verifies fit; no mirrored text unit test or broad unchanged regression rerun was added.
+
+`baseline.json` freezes original source/hash and fixture qualifications. Drivers/raw logs and exact current-file hash preserve reproduction. The active Android run39261365076 is exacta178825 and **does not contain this local fix**; actual native moving-state pixels still require inspection. Root will publish the correction with the next verified source update after the active build completes, preserving that build and baseline.

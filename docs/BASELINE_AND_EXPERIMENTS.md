@@ -1,3 +1,9 @@
+## Current challenger update — 19 October
+
+Strongest inspected successful native baseline remains0afe5fc/run39251216827. Published chaptera178825 has independent scoped desktop support but failed native39261365076 in the relative-path fixture helper, before chapter frames. Preserve black cover-resume frame; no native chapter acceptance.
+
+Reviewed loadout challenger reveals finite stock/effects before BEGIN and distinguishes resumed active equipment; active simulation/save values remain unchanged. Cost: longer Operations/briefing scroll. [Actual paired captures and criticism](reviews/2026-10-19-loadout-clarity-review.md). Root clipped-settling hint correction and helper RED→GREEN share a full passing [combined gate](validation/production/combined-loadout-path-gate/README.md); native validation pending. Separate near-wall navigation experiment retains baseline collision and~1.1s turning cost, with independent review before integration.
+
 # Verified baseline and experiments
 
 ## Current baseline

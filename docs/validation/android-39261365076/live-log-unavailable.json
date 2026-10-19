@@ -1,0 +1,10 @@
+{
+  "job_id": 118089566933,
+  "run_id": 39261365076,
+  "observed_provider_time": "2026-10-19T13:41:02.4774975Z",
+  "supported_tool": "github_fetch_workflow_job_logs",
+  "error_code": "NOT_FOUND",
+  "http_status": 404,
+  "provider_error": "BlobNotFound: The specified blob does not exist",
+  "scope": "Job still in progress; downloadable live log unavailable. Not a native gameplay failure. No alternate network route or repeated live-log probe."
+}

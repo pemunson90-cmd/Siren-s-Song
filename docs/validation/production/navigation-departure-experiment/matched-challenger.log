@@ -1,0 +1,4 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+MATCHED_INITIAL sha=54ebaf9d4d74848a0d7cd49b623860a544cd237d5bb1dbe7814b414a3247bc54 time=47.3999999999986 pos=(1353.052, 618.3444) angle=0.23393841087818 tools={ "emp": 0, "decoy": 3, "recon": 2 }
+MATCHED_FINAL returned=true won=true time=78.6999999999968 hull=100.0 oxygen=95.6277777777743 pos=(147.1158, 798.3077) tools={ "emp": 0, "decoy": 3, "recon": 2 } message=Archive recovered. Quietus is home.

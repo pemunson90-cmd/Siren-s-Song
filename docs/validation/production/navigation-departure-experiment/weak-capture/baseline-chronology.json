@@ -1,0 +1,213 @@
+{
+  "camera": "programmatic normal2x zoom/pan; not OS input",
+  "departure_command_before_frame0": true,
+  "final_hull": 100.0,
+  "final_message": "Autopilot stopped at unsafe terrain. Replot in open water.",
+  "final_outcome": "",
+  "inputs_during_clip": 0,
+  "samples": [
+    {
+      "angle": 0.353938410878182,
+      "frame": 0,
+      "hull": 100.0,
+      "message": "QUIETUS · replaced route",
+      "outcome": "",
+      "position": "(1353.164, 618.3784)",
+      "route": [
+        {
+          "pos": "(740.0, 620.0)",
+          "stop": false
+        },
+        {
+          "pos": "(580.0, 700.0)",
+          "stop": false
+        },
+        {
+          "pos": "(140.0, 800.0)",
+          "stop": true
+        }
+      ],
+      "time": 47.4666666666653,
+      "velocity": "(2.664092, 0.856059)"
+    },
+    {
+      "angle": 2.15393841087818,
+      "frame": 15,
+      "hull": 100.0,
+      "message": "QUIETUS · replaced route",
+      "outcome": "",
+      "position": "(1360.185, 634.7694)",
+      "route": [
+        {
+          "pos": "(740.0, 620.0)",
+          "stop": false
+        },
+        {
+          "pos": "(580.0, 700.0)",
+          "stop": false
+        },
+        {
+          "pos": "(140.0, 800.0)",
+          "stop": true
+        }
+      ],
+      "time": 48.4666666666652,
+      "velocity": "(-4.370324, 29.72917)"
+    },
+    {
+      "angle": 3.18819100061525,
+      "frame": 30,
+      "hull": 100.0,
+      "message": "Autopilot stopped at unsafe terrain. Replot in open water.",
+      "outcome": "",
+      "position": "(1353.405, 648.6044)",
+      "route": [],
+      "time": 49.4666666666651,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "angle": 3.18819100061525,
+      "frame": 45,
+      "hull": 100.0,
+      "message": "Autopilot stopped at unsafe terrain. Replot in open water.",
+      "outcome": "",
+      "position": "(1353.405, 648.6044)",
+      "route": [],
+      "time": 50.4666666666651,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "angle": 3.18819100061525,
+      "frame": 60,
+      "hull": 100.0,
+      "message": "Autopilot stopped at unsafe terrain. Replot in open water.",
+      "outcome": "",
+      "position": "(1353.405, 648.6044)",
+      "route": [],
+      "time": 51.466666666665,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "angle": 3.18819100061525,
+      "frame": 75,
+      "hull": 100.0,
+      "message": "Autopilot stopped at unsafe terrain. Replot in open water.",
+      "outcome": "",
+      "position": "(1353.405, 648.6044)",
+      "route": [],
+      "time": 52.466666666665,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "angle": 3.18819100061525,
+      "frame": 90,
+      "hull": 100.0,
+      "message": "Autopilot stopped at unsafe terrain. Replot in open water.",
+      "outcome": "",
+      "position": "(1353.405, 648.6044)",
+      "route": [],
+      "time": 53.4666666666649,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "angle": 3.18819100061525,
+      "frame": 105,
+      "hull": 100.0,
+      "message": "Autopilot stopped at unsafe terrain. Replot in open water.",
+      "outcome": "",
+      "position": "(1353.405, 648.6044)",
+      "route": [],
+      "time": 54.4666666666649,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "angle": 3.18819100061525,
+      "frame": 120,
+      "hull": 100.0,
+      "message": "Autopilot stopped at unsafe terrain. Replot in open water.",
+      "outcome": "",
+      "position": "(1353.405, 648.6044)",
+      "route": [],
+      "time": 55.4666666666648,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "angle": 3.18819100061525,
+      "frame": 135,
+      "hull": 100.0,
+      "message": "Autopilot stopped at unsafe terrain. Replot in open water.",
+      "outcome": "",
+      "position": "(1353.405, 648.6044)",
+      "route": [],
+      "time": 56.4666666666647,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "angle": 3.18819100061525,
+      "frame": 150,
+      "hull": 100.0,
+      "message": "Autopilot stopped at unsafe terrain. Replot in open water.",
+      "outcome": "",
+      "position": "(1353.405, 648.6044)",
+      "route": [],
+      "time": 57.4666666666647,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "angle": 3.18819100061525,
+      "frame": 165,
+      "hull": 100.0,
+      "message": "Autopilot stopped at unsafe terrain. Replot in open water.",
+      "outcome": "",
+      "position": "(1353.405, 648.6044)",
+      "route": [],
+      "time": 58.4666666666646,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "angle": 3.18819100061525,
+      "frame": 180,
+      "hull": 100.0,
+      "message": "Autopilot stopped at unsafe terrain. Replot in open water.",
+      "outcome": "",
+      "position": "(1353.405, 648.6044)",
+      "route": [],
+      "time": 59.4666666666646,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "angle": 3.18819100061525,
+      "frame": 195,
+      "hull": 100.0,
+      "message": "Autopilot stopped at unsafe terrain. Replot in open water.",
+      "outcome": "",
+      "position": "(1353.405, 648.6044)",
+      "route": [],
+      "time": 60.4666666666645,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "angle": 3.18819100061525,
+      "frame": 210,
+      "hull": 100.0,
+      "message": "Autopilot stopped at unsafe terrain. Replot in open water.",
+      "outcome": "",
+      "position": "(1353.405, 648.6044)",
+      "route": [],
+      "time": 61.4666666666645,
+      "velocity": "(0.0, 0.0)"
+    },
+    {
+      "angle": 3.18819100061525,
+      "frame": 225,
+      "hull": 100.0,
+      "message": "Autopilot stopped at unsafe terrain. Replot in open water.",
+      "outcome": "",
+      "position": "(1353.405, 648.6044)",
+      "route": [],
+      "time": 62.4666666666644,
+      "velocity": "(0.0, 0.0)"
+    }
+  ],
+  "setup": "restored identical baseline ordinary forward-order both-drones-lost fixture; finite-tool policy;4.5s holds"
+}

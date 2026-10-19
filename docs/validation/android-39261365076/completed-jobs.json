@@ -1,0 +1,225 @@
+{
+  "total_count": 1,
+  "jobs": [
+    {
+      "id": 118089566933,
+      "run_id": 39261365076,
+      "workflow_name": "Android validation",
+      "head_branch": "gauntlet/production",
+      "run_url": "https://api.github.com/repos/pemunson90-cmd/Siren-s-Song/actions/runs/39261365076",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOVOMl2M8AAAAbfq_K1Q",
+      "head_sha": "a178825fc4885f9f3ab191315302925ab0cdac87",
+      "url": "https://api.github.com/repos/pemunson90-cmd/Siren-s-Song/actions/jobs/118089566933",
+      "html_url": "https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/39261365076/job/118089566933",
+      "status": "completed",
+      "conclusion": "failure",
+      "created_at": "2026-10-19T13:34:51Z",
+      "started_at": "2026-10-19T13:34:53Z",
+      "completed_at": "2026-10-19T13:52:11Z",
+      "name": "native-smoke",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-19T13:34:54Z",
+          "completed_at": "2026-10-19T13:34:57Z"
+        },
+        {
+          "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-19T13:34:57Z",
+          "completed_at": "2026-10-19T13:35:33Z"
+        },
+        {
+          "name": "Resolve external toolchain cache path",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-19T13:35:33Z",
+          "completed_at": "2026-10-19T13:35:34Z"
+        },
+        {
+          "name": "Run actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-19T13:35:34Z",
+          "completed_at": "2026-10-19T13:35:34Z"
+        },
+        {
+          "name": "Set up Android SDK explicitly",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-19T13:35:34Z",
+          "completed_at": "2026-10-19T13:35:54Z"
+        },
+        {
+          "name": "Restore official Godot downloads",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-19T13:35:54Z",
+          "completed_at": "2026-10-19T13:36:15Z"
+        },
+        {
+          "name": "Restore development APK signing identity",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-19T13:36:15Z",
+          "completed_at": "2026-10-19T13:36:15Z"
+        },
+        {
+          "name": "Install pinned native toolchain",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-10-19T13:36:15Z",
+          "completed_at": "2026-10-19T13:36:19Z"
+        },
+        {
+          "name": "Cache verified Godot downloads before runtime tests",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 9,
+          "started_at": "2026-10-19T13:36:19Z",
+          "completed_at": "2026-10-19T13:36:19Z"
+        },
+        {
+          "name": "Prepare development signing identity",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10,
+          "started_at": "2026-10-19T13:36:19Z",
+          "completed_at": "2026-10-19T13:36:27Z"
+        },
+        {
+          "name": "Preserve development signing identity before runtime tests",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 11,
+          "started_at": "2026-10-19T13:36:27Z",
+          "completed_at": "2026-10-19T13:36:27Z"
+        },
+        {
+          "name": "Record actual emulator capabilities",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 12,
+          "started_at": "2026-10-19T13:36:27Z",
+          "completed_at": "2026-10-19T13:36:27Z"
+        },
+        {
+          "name": "Headless import and simulation tests",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13,
+          "started_at": "2026-10-19T13:36:27Z",
+          "completed_at": "2026-10-19T13:37:37Z"
+        },
+        {
+          "name": "Build signed debug APK",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-10-19T13:37:37Z",
+          "completed_at": "2026-10-19T13:37:58Z"
+        },
+        {
+          "name": "Enable hosted-runner KVM",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-10-19T13:37:58Z",
+          "completed_at": "2026-10-19T13:37:58Z"
+        },
+        {
+          "name": "Upload emulator capabilities before boot",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16,
+          "started_at": "2026-10-19T13:37:58Z",
+          "completed_at": "2026-10-19T13:38:00Z"
+        },
+        {
+          "name": "Native Android install and lifecycle smoke",
+          "status": "completed",
+          "conclusion": "failure",
+          "number": 17,
+          "started_at": "2026-10-19T13:38:00Z",
+          "completed_at": "2026-10-19T13:51:49Z"
+        },
+        {
+          "name": "Upload build and runtime evidence",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 18,
+          "started_at": "2026-10-19T13:51:49Z",
+          "completed_at": "2026-10-19T13:51:59Z"
+        },
+        {
+          "name": "Upload cover viewport screenshots",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 19,
+          "started_at": "2026-10-19T13:51:59Z",
+          "completed_at": "2026-10-19T13:52:01Z"
+        },
+        {
+          "name": "Upload inner viewport screenshots",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 20,
+          "started_at": "2026-10-19T13:52:01Z",
+          "completed_at": "2026-10-19T13:52:04Z"
+        },
+        {
+          "name": "Upload installable APK separately",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 21,
+          "started_at": "2026-10-19T13:52:04Z",
+          "completed_at": "2026-10-19T13:52:08Z"
+        },
+        {
+          "name": "Post Run actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 41,
+          "started_at": "2026-10-19T13:52:08Z",
+          "completed_at": "2026-10-19T13:52:08Z"
+        },
+        {
+          "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 42,
+          "started_at": "2026-10-19T13:52:08Z",
+          "completed_at": "2026-10-19T13:52:08Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 43,
+          "started_at": "2026-10-19T13:52:08Z",
+          "completed_at": "2026-10-19T13:52:08Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/pemunson90-cmd/Siren-s-Song/check-runs/118089566933",
+      "labels": [
+        "ubuntu-24.04"
+      ],
+      "runner_id": 1000001926,
+      "runner_name": "GitHub Actions 1000001926",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    }
+  ]
+}

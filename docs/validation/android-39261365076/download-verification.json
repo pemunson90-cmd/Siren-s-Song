@@ -1,0 +1,974 @@
+{
+  "run_id": 39261365076,
+  "job_id": 118089566933,
+  "source_sha": "a178825fc4885f9f3ab191315302925ab0cdac87",
+  "archives": [
+    {
+      "artifact_id": 12191858677,
+      "name": "sirens-song-debug-apk",
+      "size_bytes": 69153796,
+      "sha256": "e08fd390f192aefa94f390b73377df3a6d58817eb309bd8c2cad2a5fbcd7e082",
+      "metadata_match": true,
+      "crc_pass": true,
+      "entries": 3
+    },
+    {
+      "artifact_id": 12191318695,
+      "name": "android-cover-screenshots",
+      "size_bytes": 13003127,
+      "sha256": "4e1472af2802c63e245622dbb1107194839b9d98f715711d0174fc36f406591a",
+      "metadata_match": true,
+      "crc_pass": true,
+      "entries": 27
+    },
+    {
+      "artifact_id": 12191808644,
+      "name": "android-inner-screenshots",
+      "size_bytes": 25625809,
+      "sha256": "16d5c214883152db8dde664b2320e5d60fab33693cf25a8e178ef18201e19433",
+      "metadata_match": true,
+      "crc_pass": true,
+      "entries": 32
+    },
+    {
+      "artifact_id": 12191289302,
+      "name": "android-native-evidence",
+      "size_bytes": 80678594,
+      "sha256": "be8197ea80efc3a7f6a6dcf3912125ee40f6f108914aaeaa36d25b74e57e49a7",
+      "metadata_match": true,
+      "crc_pass": true,
+      "entries": 405
+    }
+  ],
+  "apk": {
+    "name": "sirens-song-debug.apk",
+    "size_bytes": 69547946,
+    "sha256": "3b8026807a2aac9d8e77480f5819ecd84445ed53d5e1bbd35859f6075229b304",
+    "archived_hash_match": true,
+    "local_apksigner_exit": 0,
+    "v2": true,
+    "v3": true,
+    "certificate_sha256": "32bcb2287acd01c1f58c26997c7639f3072c74c6b03ab2a24656dc7cd1c7dc3c",
+    "development_signing_only": true
+  },
+  "status": "failed before native Blackwater fixture generation",
+  "blackwater_final_png_count": 0,
+  "final_inspected_count": 41,
+  "images": [
+    {
+      "original": "cover/cover-gameplay.png",
+      "original_sha256": "20ef3767d53a4055bada4f99c5bc36a1851ce76d060aabc7e7d3f638fbff5a5f",
+      "dimensions": [
+        2520,
+        1080
+      ],
+      "final": true
+    },
+    {
+      "original": "cover/cover-menu-initial-geometry-probe.png",
+      "original_sha256": "fedb764ddfa602f3dced9dd7f2f6915dae7d2e773c7072aef13d275bb74170c8",
+      "dimensions": [
+        2520,
+        1080
+      ],
+      "final": false
+    },
+    {
+      "original": "cover/cover-menu-initial.png",
+      "original_sha256": "34c304e6c4f0b2d3f9765230505ce62c509df0f44b5388d385f1bae899864644",
+      "dimensions": [
+        2520,
+        1080
+      ],
+      "final": true
+    },
+    {
+      "original": "cover/cover-menu-returned-geometry-probe.png",
+      "original_sha256": "317293039fa4f68ed451ebe812de064c7f359c4d411b2d21286399f6626f7d47",
+      "dimensions": [
+        2520,
+        1080
+      ],
+      "final": false
+    },
+    {
+      "original": "cover/cover-menu-returned.png",
+      "original_sha256": "87c84f3f8fa411d552c80221449ced35144e01b1e5a8547ffea4d771fe43f59b",
+      "dimensions": [
+        2520,
+        1080
+      ],
+      "final": true,
+      "retained": "screenshots/cover-menu-returned.webp",
+      "retained_sha256": "ec30ee1470d5e6cbf22f08962ce291acd06cf96d2ec484ca5994bc378ad7e7cb",
+      "rgba_pixel_identical": true
+    },
+    {
+      "original": "cover/cover-menu-scroll-0-geometry-probe.png",
+      "original_sha256": "cd5fe30cba4a64c8fbc7485c0cc6e8bf7f0a9997346d6343f0adaa0fccef6f22",
+      "dimensions": [
+        2520,
+        1080
+      ],
+      "final": false
+    },
+    {
+      "original": "cover/cover-menu-scroll-0.png",
+      "original_sha256": "f37551539b7e83c275cf4a5ff009891fca8b7a26b1f1af14723927244e3205a6",
+      "dimensions": [
+        2520,
+        1080
+      ],
+      "final": true,
+      "retained": "screenshots/cover-menu-scroll-0.webp",
+      "retained_sha256": "507a21fe5a31b663ecd70d77d2c8557414fa9d4c5b829939571b55064a4d31c9",
+      "rgba_pixel_identical": true
+    },
+    {
+      "original": "cover/cover-menu-settings-back-geometry-probe.png",
+      "original_sha256": "cf09df68795401bc066c3afa80146f7522e1097c67af72f6ffe3d43f312ac025",
+      "dimensions": [
+        2520,
+        1080
+      ],
+      "final": false
+    },
+    {
+      "original": "cover/cover-menu-settings-back.png",
+      "original_sha256": "efb2c1da93c04aa1518fd43eddaf4303345a329994694db18392430f48d805ef",
+      "dimensions": [
+        2520,
+        1080
+      ],
+      "final": true
+    },
+    {
+      "original": "cover/cover-menu-settings-geometry-probe.png",
+      "original_sha256": "79da5c75043611496135b31abed2f556caf1889b692ffbe3c02864421910fe1f",
+      "dimensions": [
+        2520,
+        1080
+      ],
+      "final": false
+    },
+    {
+      "original": "cover/cover-menu-settings-mute-geometry-probe.png",
+      "original_sha256": "6cea08eadf343365e22f32a8c7010ef93ab98cc23e90c6430d113be6bf0b8594",
+      "dimensions": [
+        2520,
+        1080
+      ],
+      "final": false
+    },
+    {
+      "original": "cover/cover-menu-settings-mute.png",
+      "original_sha256": "0603eabc4e5a34e4bdd82a0b5fc961af3c77429c0ad61b1361a3ef0443811eca",
+      "dimensions": [
+        2520,
+        1080
+      ],
+      "final": true,
+      "retained": "screenshots/cover-menu-settings-mute.webp",
+      "retained_sha256": "d93324013626210d4b9e652e312c9bcf8d5be3ce19ffea74f3d318f6f1806f7b",
+      "rgba_pixel_identical": true
+    },
+    {
+      "original": "cover/cover-menu-settings-volume_effects-geometry-probe.png",
+      "original_sha256": "f68f7c3ddfd172c52d0ee1ab877617d7acd57570321891c971c754564e3b38d6",
+      "dimensions": [
+        2520,
+        1080
+      ],
+      "final": false
+    },
+    {
+      "original": "cover/cover-menu-settings-volume_effects-scroll-0-geometry-probe.png",
+      "original_sha256": "398de69461abbbd660c48729b9ed03443782392822b6bf6cba6fd68ce5594c29",
+      "dimensions": [
+        2520,
+        1080
+      ],
+      "final": false
+    },
+    {
+      "original": "cover/cover-menu-settings-volume_effects-scroll-0.png",
+      "original_sha256": "b011f8c59a6ec356cd364a94e37c394925f06dadea797efd474098a444c2f72f",
+      "dimensions": [
+        2520,
+        1080
+      ],
+      "final": true
+    },
+    {
+      "original": "cover/cover-menu-settings-volume_effects.png",
+      "original_sha256": "05f40381959b22d1e424ab80937f8c288b1def6ccb11bf2a88cdacf75e2ca26c",
+      "dimensions": [
+        2520,
+        1080
+      ],
+      "final": true
+    },
+    {
+      "original": "cover/cover-menu-settings.png",
+      "original_sha256": "f8d92e4a49514ac8670216630d658ee36b4a8db73cdb3ed9096faf5176a87014",
+      "dimensions": [
+        2520,
+        1080
+      ],
+      "final": true,
+      "retained": "screenshots/cover-menu-settings.webp",
+      "retained_sha256": "f0a1585a5ecdbcc1acfe6822dc0923ef8c69fc9fae5d0eabea95ef876fbd4134",
+      "rgba_pixel_identical": true
+    },
+    {
+      "original": "cover/cover-panned.png",
+      "original_sha256": "ae614e50b33789daf80a7ab4e7fbdf168176725e54ad074a8cac310c9e202ca7",
+      "dimensions": [
+        2520,
+        1080
+      ],
+      "final": true
+    },
+    {
+      "original": "cover/cover-restart.png",
+      "original_sha256": "4fee3508b0a6ef7f7ccc47cba85d119a11800f221177f6f817ef57057d429347",
+      "dimensions": [
+        2520,
+        1080
+      ],
+      "final": true
+    },
+    {
+      "original": "cover/cover-restored-gameplay-geometry-probe.png",
+      "original_sha256": "6afcca2fafbea523a0116d8d895a48567784544918e3adbbdd2772eb14d4960b",
+      "dimensions": [
+        2520,
+        1080
+      ],
+      "final": false
+    },
+    {
+      "original": "cover/cover-restored-gameplay.png",
+      "original_sha256": "3f349282f8aa39a10b52139afb680a1d99a52305c86f6e62e48386ce5add65d7",
+      "dimensions": [
+        2520,
+        1080
+      ],
+      "final": true,
+      "retained": "screenshots/cover-restored-gameplay.webp",
+      "retained_sha256": "65641fa5a24efaa6b3bfaad6660a500cf439971736113376de3bc405c93b25c5",
+      "rgba_pixel_identical": true
+    },
+    {
+      "original": "cover/cover-resume.png",
+      "original_sha256": "cc4fbb9d2709856a47efcdd68a59dad12a0ea018402cec1fde1721088c9c949b",
+      "dimensions": [
+        2520,
+        1080
+      ],
+      "final": true,
+      "retained": "screenshots/cover-resume.webp",
+      "retained_sha256": "5cbbae6a0ec7c98d6f59b15a20a4cb11128c090abab7ae9321455c1a26b2f377",
+      "rgba_pixel_identical": true
+    },
+    {
+      "original": "cover/cover-touch-targets-primary-initial.png",
+      "original_sha256": "350d07604ee93d0bfcd7073705f2331fce406427b077d3aa79adf387587ff7cd",
+      "dimensions": [
+        2520,
+        1080
+      ],
+      "final": true,
+      "retained": "screenshots/cover-touch-targets-primary-initial.webp",
+      "retained_sha256": "d2025c59b7cf9e324f7f20b83661d64a820314bf1fcaf25b0a1ad3a9351e16a9",
+      "rgba_pixel_identical": true
+    },
+    {
+      "original": "cover/cover-touch-targets-primary-restored.png",
+      "original_sha256": "0ec16fd3716fcc001133dfb334abd64f91432595cd3b72cdb72ecab2ef62910d",
+      "dimensions": [
+        2520,
+        1080
+      ],
+      "final": true,
+      "retained": "screenshots/cover-touch-targets-primary-restored.webp",
+      "retained_sha256": "a8d5c22892a800ac73b843cd9f0e0922b9b1ebbff209bc02ed6c8e27ac58c8c9",
+      "rgba_pixel_identical": true
+    },
+    {
+      "original": "cover/cover-touch-targets-secondary-initial.png",
+      "original_sha256": "2af52a910ac15b055c0247de9c912e35e66a01e945476d0805307cd2be152869",
+      "dimensions": [
+        2520,
+        1080
+      ],
+      "final": true,
+      "retained": "screenshots/cover-touch-targets-secondary-initial.webp",
+      "retained_sha256": "c255478b073c92b7e27c1d16a3d7bf6c4aab8b4ca60406eeea4575a204a0c63e",
+      "rgba_pixel_identical": true
+    },
+    {
+      "original": "cover/cover-zoomed.png",
+      "original_sha256": "4e99244cd6920712403a97dbe83bea12ffd399d3f794cf16a6316547dbf60a1e",
+      "dimensions": [
+        2520,
+        1080
+      ],
+      "final": true
+    },
+    {
+      "original": "cover/cover.png",
+      "original_sha256": "2dc36c0109987bc250ed66eb19a71338f3e673956e584da9d2802ee6e2bb2524",
+      "dimensions": [
+        2520,
+        1080
+      ],
+      "final": true
+    },
+    {
+      "original": "inner/inner-camera-exposure-geometry-probe.png",
+      "original_sha256": "6ef9cb3e42e8745bd2b890201b5ca1a7fdc856bbe03fea3d406bd11ca773f115",
+      "dimensions": [
+        2184,
+        1968
+      ],
+      "final": false
+    },
+    {
+      "original": "inner/inner-camera-exposure.png",
+      "original_sha256": "c51c549232129f33dee0c940471b72016ee348ef1fa901a92e2557a2e2e3a6e1",
+      "dimensions": [
+        2184,
+        1968
+      ],
+      "final": true,
+      "retained": "screenshots/inner-camera-exposure.webp",
+      "retained_sha256": "7edd449baa92bf0fc672ae88ff555b767691825f758945395efc861dafabaa6a",
+      "rgba_pixel_identical": true
+    },
+    {
+      "original": "inner/inner-camera-ready.png",
+      "original_sha256": "dd50d390976c2bdc98e05f38d9402dba6cf34f4b37d2b239539a8fdf13f4567c",
+      "dimensions": [
+        2184,
+        1968
+      ],
+      "final": true
+    },
+    {
+      "original": "inner/inner-campaign-restored.png",
+      "original_sha256": "ab197a729388746a613c76bae3efa5023bd700665e20dc356f8ebcdab3dee136",
+      "dimensions": [
+        2184,
+        1968
+      ],
+      "final": true,
+      "retained": "screenshots/inner-campaign-restored.webp",
+      "retained_sha256": "fb6e2820092e92b4e3c45f1ba32600bd19a5bc86ef4ea066fe5f8e08c2c68bee",
+      "rgba_pixel_identical": true
+    },
+    {
+      "original": "inner/inner-gameplay.png",
+      "original_sha256": "b130825130697d152c9f2fb8c70b3706da319c14cbd4f125f0839d7ffc225e9f",
+      "dimensions": [
+        2184,
+        1968
+      ],
+      "final": true
+    },
+    {
+      "original": "inner/inner-menu-initial-geometry-probe.png",
+      "original_sha256": "16080ce38cde91c8d87943cf6675f3ab1420b78cfc9db1b2b4b373023ddff914",
+      "dimensions": [
+        2184,
+        1968
+      ],
+      "final": false
+    },
+    {
+      "original": "inner/inner-menu-initial.png",
+      "original_sha256": "60b79b43f9fd44a02ef4c36b416979d292e052dbb32ee494854b2f74af47ceb1",
+      "dimensions": [
+        2184,
+        1968
+      ],
+      "final": true
+    },
+    {
+      "original": "inner/inner-menu-returned-geometry-probe.png",
+      "original_sha256": "a2d83c2e9aaad1cd89f8502e27fa21dd650ef08604d9789891774e6487d87059",
+      "dimensions": [
+        2184,
+        1968
+      ],
+      "final": false
+    },
+    {
+      "original": "inner/inner-menu-returned.png",
+      "original_sha256": "a1d1bf742ee7ba6dee52490a3c8e43332c5c28770d0f06ba7a1d35245b0c71ba",
+      "dimensions": [
+        2184,
+        1968
+      ],
+      "final": true,
+      "retained": "screenshots/inner-menu-returned.webp",
+      "retained_sha256": "d0f04486901c9096fc99b2a10e20fa30072cf93067b1139092166109ec519908",
+      "rgba_pixel_identical": true
+    },
+    {
+      "original": "inner/inner-menu-scroll-0-geometry-probe.png",
+      "original_sha256": "de8e26365f33057f9dadfb350c9d0f3ffbde96b2a89435192fe28abb8b5307da",
+      "dimensions": [
+        2184,
+        1968
+      ],
+      "final": false
+    },
+    {
+      "original": "inner/inner-menu-scroll-0.png",
+      "original_sha256": "5b3f1f27b0a7e64cd7dffc0133c0c69fa7d94c7a483367ffc8adc58ebf0c2340",
+      "dimensions": [
+        2184,
+        1968
+      ],
+      "final": true
+    },
+    {
+      "original": "inner/inner-menu-settings-back-geometry-probe.png",
+      "original_sha256": "0938507adb41b303e0cb89f92cb4a8c9f2c9ba296a6430c49b92225175d64750",
+      "dimensions": [
+        2184,
+        1968
+      ],
+      "final": false
+    },
+    {
+      "original": "inner/inner-menu-settings-back.png",
+      "original_sha256": "b1eb500076bf6689963454cda20968af180bb96cdecfb5703fad0be041732c93",
+      "dimensions": [
+        2184,
+        1968
+      ],
+      "final": true
+    },
+    {
+      "original": "inner/inner-menu-settings-geometry-probe.png",
+      "original_sha256": "7571b512942223dbe4f54c8ffe75b3ccdfbad446f1f2a0a940f768c2d9d7edb0",
+      "dimensions": [
+        2184,
+        1968
+      ],
+      "final": false
+    },
+    {
+      "original": "inner/inner-menu-settings-mute-geometry-probe.png",
+      "original_sha256": "1595c23b1f20983a7202fb3a75460f54fe192c2b465358db0c67c4d9ed0e0330",
+      "dimensions": [
+        2184,
+        1968
+      ],
+      "final": false
+    },
+    {
+      "original": "inner/inner-menu-settings-mute.png",
+      "original_sha256": "c4d1de3c9af0861ca2a05bb5d6f0a22e791d40a28897e66e9851751f649bd42b",
+      "dimensions": [
+        2184,
+        1968
+      ],
+      "final": true,
+      "retained": "screenshots/inner-menu-settings-mute.webp",
+      "retained_sha256": "77a43ddc98c9b3cd8bda9ebd4e9eb02d1727bb511dc60329be0ad8e811871f2e",
+      "rgba_pixel_identical": true
+    },
+    {
+      "original": "inner/inner-menu-settings-volume_effects-geometry-probe.png",
+      "original_sha256": "7b5bafe77e7e40465e19e3632606befe203552116f6715bcb57912cbccde4464",
+      "dimensions": [
+        2184,
+        1968
+      ],
+      "final": false
+    },
+    {
+      "original": "inner/inner-menu-settings-volume_effects.png",
+      "original_sha256": "4445f2a88746a31e0d549cc9af68229401574661e2fe803af36c6e98eec2f9da",
+      "dimensions": [
+        2184,
+        1968
+      ],
+      "final": true
+    },
+    {
+      "original": "inner/inner-menu-settings.png",
+      "original_sha256": "b6f7f5480ea33f125bf7f8ee73bcc4a2348e775a3d7aab797ec348defd7ea21f",
+      "dimensions": [
+        2184,
+        1968
+      ],
+      "final": true,
+      "retained": "screenshots/inner-menu-settings.webp",
+      "retained_sha256": "72bd921e8c2b7874f684aad693ef083779ba19e84c81c1198bc4013b242df9d6",
+      "rgba_pixel_identical": true
+    },
+    {
+      "original": "inner/inner-mission-completed.png",
+      "original_sha256": "b654b7650218fdac6eaf168360bd72d029cf98c8f37729e95cd8e3565a6a2378",
+      "dimensions": [
+        2184,
+        1968
+      ],
+      "final": true,
+      "retained": "screenshots/inner-mission-completed.webp",
+      "retained_sha256": "64f51da2e90752325fc7409d9bdea3090af5e11457509d9074c0e93100da90ca",
+      "rgba_pixel_identical": true
+    },
+    {
+      "original": "inner/inner-panned.png",
+      "original_sha256": "77c76399c1e7d7b2e954b5831e3bc8d44c6d24bbb9a26d1b2aff8a74baf42f46",
+      "dimensions": [
+        2184,
+        1968
+      ],
+      "final": true
+    },
+    {
+      "original": "inner/inner-restart.png",
+      "original_sha256": "b4d92ae82b4e7737b3eb6f479e299ca1e64a4537ce42552fd2beb3d8ecd2e1a9",
+      "dimensions": [
+        2184,
+        1968
+      ],
+      "final": true
+    },
+    {
+      "original": "inner/inner-restored-gameplay-geometry-probe.png",
+      "original_sha256": "731c171797b3a4d160c44eaa2b2f581f62f6c9cd1961415d3a1d3acad8ffbca0",
+      "dimensions": [
+        2184,
+        1968
+      ],
+      "final": false
+    },
+    {
+      "original": "inner/inner-restored-gameplay.png",
+      "original_sha256": "73ee14453090a3ee84dbc6463b18bf5940bb328900b9d9a0c13772a6cc26c042",
+      "dimensions": [
+        2184,
+        1968
+      ],
+      "final": true,
+      "retained": "screenshots/inner-restored-gameplay.webp",
+      "retained_sha256": "0c2c0d3a5fe70db4973f2f425a1d957d9b056105dec51a152b98114224c35693",
+      "rgba_pixel_identical": true
+    },
+    {
+      "original": "inner/inner-resume.png",
+      "original_sha256": "e3a4991179840ba98119a6f21b903bd687dc958bab2e81a85f2f4a4d1488fe70",
+      "dimensions": [
+        2184,
+        1968
+      ],
+      "final": true
+    },
+    {
+      "original": "inner/inner-role-lure-planned.png",
+      "original_sha256": "25d2c46d8456865cbe2b1a47b3a84cf0c4852949a4f49bbb4f5cbaceadaf4ac7",
+      "dimensions": [
+        2184,
+        1968
+      ],
+      "final": true,
+      "retained": "screenshots/inner-role-lure-planned.webp",
+      "retained_sha256": "1945b8b63a0a1729c8ac9f062e6407a8e52bf9c234b6a193eb9361f8d7bd3315",
+      "rgba_pixel_identical": true
+    },
+    {
+      "original": "inner/inner-role-return.png",
+      "original_sha256": "298e7f526f9545744e4445e9d67624dc2a4a608b7df8fbc6891acfa2d2db7fbe",
+      "dimensions": [
+        2184,
+        1968
+      ],
+      "final": true,
+      "retained": "screenshots/inner-role-return.webp",
+      "retained_sha256": "52728f8d8b59d6f092d64800e9ab875adfd56bff98758018b753c1f7fea3ab23",
+      "rgba_pixel_identical": true
+    },
+    {
+      "original": "inner/inner-touch-targets-primary-initial.png",
+      "original_sha256": "5f9a72a26f563be42315efaea8784c02bcec3fbfbb910bba5a7c7176081c6246",
+      "dimensions": [
+        2184,
+        1968
+      ],
+      "final": true,
+      "retained": "screenshots/inner-touch-targets-primary-initial.webp",
+      "retained_sha256": "2a22eafd94140635ee09fd2597711ea161fe21105ec5144d8486b5563de50a7a",
+      "rgba_pixel_identical": true
+    },
+    {
+      "original": "inner/inner-touch-targets-primary-restored.png",
+      "original_sha256": "4d92e5316d771029030a9e4077a97bb6cae4bb29293b38ff43d9896c7bcb3432",
+      "dimensions": [
+        2184,
+        1968
+      ],
+      "final": true,
+      "retained": "screenshots/inner-touch-targets-primary-restored.webp",
+      "retained_sha256": "5bef076f845b4dc64ca6b1f1318c3155473a32c1ad74a6977cc00fd5b73d51f4",
+      "rgba_pixel_identical": true
+    },
+    {
+      "original": "inner/inner-touch-targets-secondary-initial.png",
+      "original_sha256": "917ffcfa720b9950abeca9be70f24f37b76a52c2df32a7bfe996365b648fc3e7",
+      "dimensions": [
+        2184,
+        1968
+      ],
+      "final": true,
+      "retained": "screenshots/inner-touch-targets-secondary-initial.webp",
+      "retained_sha256": "3246f6d4404800fdd0162bd97388180c531c644290df887c0065840cdd909368",
+      "rgba_pixel_identical": true
+    },
+    {
+      "original": "inner/inner-zoomed.png",
+      "original_sha256": "12a811595d4586732a96784052a117e445e4edb4da4d846e3131371f938ad923",
+      "dimensions": [
+        2184,
+        1968
+      ],
+      "final": true
+    },
+    {
+      "original": "inner/inner.png",
+      "original_sha256": "0f7c58fe126c0dd0c968b1f31ca4908749317f434193379dfb94479d39dd2137",
+      "dimensions": [
+        2184,
+        1968
+      ],
+      "final": true
+    }
+  ],
+  "capture_brackets": [
+    {
+      "pre": "ui-metrics-capture-cover-restored-gameplay-pre.json",
+      "post": "ui-metrics-capture-cover-restored-gameplay.json",
+      "metrics_counts": [
+        32,
+        32
+      ],
+      "drawn_frames": [
+        10,
+        10
+      ],
+      "semantic_equal": true,
+      "state": {
+        "capture_unit": -1,
+        "hud_visible": true,
+        "menu_visible": false,
+        "mission": 0,
+        "optical_visible": false,
+        "paused": true,
+        "phase": "post_draw",
+        "selected": 0
+      },
+      "measurement_passed": true,
+      "minimum_nonexempt_hit_dp": 56.0
+    },
+    {
+      "pre": "ui-metrics-capture-inner-camera-exposure-pre.json",
+      "post": "ui-metrics-capture-inner-camera-exposure.json",
+      "metrics_counts": [
+        71,
+        71
+      ],
+      "drawn_frames": [
+        201,
+        201
+      ],
+      "semantic_equal": true,
+      "state": {
+        "capture_unit": 1,
+        "hud_visible": true,
+        "menu_visible": false,
+        "mission": 0,
+        "optical_visible": true,
+        "paused": true,
+        "phase": "post_draw",
+        "selected": 1
+      },
+      "measurement_passed": true,
+      "minimum_nonexempt_hit_dp": 56.55
+    },
+    {
+      "pre": "ui-metrics-capture-inner-restored-gameplay-pre.json",
+      "post": "ui-metrics-capture-inner-restored-gameplay.json",
+      "metrics_counts": [
+        62,
+        62
+      ],
+      "drawn_frames": [
+        12,
+        12
+      ],
+      "semantic_equal": true,
+      "state": {
+        "capture_unit": -1,
+        "hud_visible": true,
+        "menu_visible": false,
+        "mission": 0,
+        "optical_visible": false,
+        "paused": true,
+        "phase": "post_draw",
+        "selected": 0
+      },
+      "measurement_passed": true,
+      "minimum_nonexempt_hit_dp": 56.55
+    }
+  ],
+  "menu_brackets": [
+    {
+      "pre": "ui-metrics-menu-cover-initial.json.pre-capture.json",
+      "post": "ui-metrics-menu-cover-initial.json",
+      "metrics_counts": [
+        5,
+        5
+      ],
+      "canonical_equal": true,
+      "settings_values": {
+        "effects": 0.8,
+        "music": 0.5,
+        "mute": false
+      }
+    },
+    {
+      "pre": "ui-metrics-menu-cover-returned.json.pre-capture.json",
+      "post": "ui-metrics-menu-cover-returned.json",
+      "metrics_counts": [
+        13,
+        14
+      ],
+      "canonical_equal": true,
+      "settings_values": {
+        "effects": 0.8,
+        "music": 0.5,
+        "mute": false
+      }
+    },
+    {
+      "pre": "ui-metrics-menu-cover-scroll-0.json.pre-capture.json",
+      "post": "ui-metrics-menu-cover-scroll-0.json",
+      "metrics_counts": [
+        6,
+        6
+      ],
+      "canonical_equal": true,
+      "settings_values": {
+        "effects": 0.8,
+        "music": 0.5,
+        "mute": false
+      }
+    },
+    {
+      "pre": "ui-metrics-menu-cover-settings-back.json.pre-capture.json",
+      "post": "ui-metrics-menu-cover-settings-back.json",
+      "metrics_counts": [
+        11,
+        11
+      ],
+      "canonical_equal": true,
+      "settings_values": {
+        "effects": 0.8,
+        "music": 0.5,
+        "mute": false
+      }
+    },
+    {
+      "pre": "ui-metrics-menu-cover-settings-mute.json.pre-capture.json",
+      "post": "ui-metrics-menu-cover-settings-mute.json",
+      "metrics_counts": [
+        11,
+        11
+      ],
+      "canonical_equal": true,
+      "settings_values": {
+        "effects": 0.8,
+        "music": 0.5,
+        "mute": false
+      }
+    },
+    {
+      "pre": "ui-metrics-menu-cover-settings-volume_effects-scroll-0.json.pre-capture.json",
+      "post": "ui-metrics-menu-cover-settings-volume_effects-scroll-0.json",
+      "metrics_counts": [
+        11,
+        11
+      ],
+      "canonical_equal": true,
+      "settings_values": {
+        "effects": 0.8,
+        "music": 0.5,
+        "mute": false
+      }
+    },
+    {
+      "pre": "ui-metrics-menu-cover-settings-volume_effects.json.pre-capture.json",
+      "post": "ui-metrics-menu-cover-settings-volume_effects.json",
+      "metrics_counts": [
+        10,
+        10
+      ],
+      "canonical_equal": true,
+      "settings_values": {
+        "effects": 0.8,
+        "music": 0.5,
+        "mute": false
+      }
+    },
+    {
+      "pre": "ui-metrics-menu-cover-settings.json.pre-capture.json",
+      "post": "ui-metrics-menu-cover-settings.json",
+      "metrics_counts": [
+        9,
+        10
+      ],
+      "canonical_equal": true,
+      "settings_values": {
+        "effects": 0.8,
+        "music": 0.5,
+        "mute": false
+      }
+    },
+    {
+      "pre": "ui-metrics-menu-inner-initial.json.pre-capture.json",
+      "post": "ui-metrics-menu-inner-initial.json",
+      "metrics_counts": [
+        35,
+        35
+      ],
+      "canonical_equal": true,
+      "settings_values": {
+        "effects": 0.8,
+        "music": 0.5,
+        "mute": false
+      }
+    },
+    {
+      "pre": "ui-metrics-menu-inner-returned.json.pre-capture.json",
+      "post": "ui-metrics-menu-inner-returned.json",
+      "metrics_counts": [
+        43,
+        43
+      ],
+      "canonical_equal": true,
+      "settings_values": {
+        "effects": 0.8,
+        "music": 0.5,
+        "mute": false
+      }
+    },
+    {
+      "pre": "ui-metrics-menu-inner-scroll-0.json.pre-capture.json",
+      "post": "ui-metrics-menu-inner-scroll-0.json",
+      "metrics_counts": [
+        36,
+        36
+      ],
+      "canonical_equal": true,
+      "settings_values": {
+        "effects": 0.8,
+        "music": 0.5,
+        "mute": false
+      }
+    },
+    {
+      "pre": "ui-metrics-menu-inner-settings-back.json.pre-capture.json",
+      "post": "ui-metrics-menu-inner-settings-back.json",
+      "metrics_counts": [
+        41,
+        41
+      ],
+      "canonical_equal": true,
+      "settings_values": {
+        "effects": 0.8,
+        "music": 0.5,
+        "mute": false
+      }
+    },
+    {
+      "pre": "ui-metrics-menu-inner-settings-mute.json.pre-capture.json",
+      "post": "ui-metrics-menu-inner-settings-mute.json",
+      "metrics_counts": [
+        41,
+        41
+      ],
+      "canonical_equal": true,
+      "settings_values": {
+        "effects": 0.8,
+        "music": 0.5,
+        "mute": false
+      }
+    },
+    {
+      "pre": "ui-metrics-menu-inner-settings-volume_effects.json.pre-capture.json",
+      "post": "ui-metrics-menu-inner-settings-volume_effects.json",
+      "metrics_counts": [
+        41,
+        41
+      ],
+      "canonical_equal": true,
+      "settings_values": {
+        "effects": 0.8,
+        "music": 0.5,
+        "mute": false
+      }
+    },
+    {
+      "pre": "ui-metrics-menu-inner-settings.json.pre-capture.json",
+      "post": "ui-metrics-menu-inner-settings.json",
+      "metrics_counts": [
+        41,
+        41
+      ],
+      "canonical_equal": true,
+      "settings_values": {
+        "effects": 0.8,
+        "music": 0.5,
+        "mute": false
+      }
+    }
+  ],
+  "cleanup_display": {
+    "original_sha256": "9930b695fdeeb6d91d070469881d44a9dbf3f2cee3f33c6c5ed3736fb3d0a38d",
+    "retained_sha256": "fff753ba8ada5173c57ec6bb835715d0a3389ec6589c3f07af0e4175c640813b",
+    "rgba_pixel_identical": true,
+    "dimensions": [
+      2184,
+      1968
+    ]
+  },
+  "blackwater_files": [
+    "fixture-generation.txt",
+    "progress.txt"
+  ],
+  "cover_resume": {
+    "all_rgb_black": true,
+    "rgb_extrema": [
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        0
+      ]
+    ],
+    "unique_rgb_colors": 1,
+    "acceptance": "unbracketed immediate-resume frame does not certify resumed presentation; persistent game defect unproven"
+  }
+}

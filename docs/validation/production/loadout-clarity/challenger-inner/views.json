@@ -1,0 +1,909 @@
+[
+  {
+    "active_oxygen": 120.0,
+    "active_tools": {
+      "decoy": 3,
+      "emp": 2,
+      "recon": 2
+    },
+    "labels": [
+      "SIREN'S SONG",
+      "ONE PILOT. TWO DRONES. AN OCEAN THAT LISTENS.",
+      "USS QUIETUS  /  OPERATIONS ARCHIVE",
+      "RESUME ACTIVE MISSION",
+      "Resuming preserves the active dive's equipment.",
+      "01   Shelf Signal   AVAILABLE",
+      "02   Split Channel   LOCKED",
+      "03   Blackwater Relay   LOCKED",
+      "04   Cold Foundry   LOCKED",
+      "05   The Listening Well   LOCKED",
+      "06   Siren's Song   LOCKED",
+      "Unlimited tactical pause · tap routes · survey, photograph, return",
+      "NEXT DIVE / RETRY · ENDURANCE\nO₂ 120% · DISRUPT 2 · SURVEY 2",
+      "COMPARE: O₂ / DISRUPT / SURVEY\nENDURANCE · 120% / 2 / 2\nDISRUPTION · 100% / 3 / 2\nSURVEY · 100% / 2 / 3",
+      "ALL: 3 DECOYS · 2 DRONES\nDISRUPT: 12s · SURVEY: 8s, audible",
+      "CYCLE LOADOUT · endurance / disruption / survey",
+      "AUDIO / SETTINGS"
+    ],
+    "metrics": {
+      "capture_state": {
+        "capture_unit": -1,
+        "drawn_frame": 17,
+        "hud_visible": false,
+        "menu_visible": true,
+        "mission": 0,
+        "optical_visible": false,
+        "paused": true,
+        "phase": "layout_only",
+        "selected": 0
+      },
+      "chart_rect": [
+        26.0,
+        112.0,
+        1228.0,
+        641.0
+      ],
+      "controls": [
+        {
+          "action": "mission1",
+          "clipped": true,
+          "hit_rect": [
+            268.0,
+            46.0,
+            736.0,
+            27.0
+          ],
+          "visual_rect": [
+            268.0,
+            -14.0,
+            736.0,
+            87.0
+          ]
+        },
+        {
+          "action": "mission2",
+          "clipped": false,
+          "hit_rect": [
+            268.0,
+            87.0,
+            736.0,
+            87.0
+          ],
+          "visual_rect": [
+            268.0,
+            87.0,
+            736.0,
+            87.0
+          ]
+        },
+        {
+          "action": "mission3",
+          "clipped": false,
+          "hit_rect": [
+            268.0,
+            188.0,
+            736.0,
+            87.0
+          ],
+          "visual_rect": [
+            268.0,
+            188.0,
+            736.0,
+            87.0
+          ]
+        },
+        {
+          "action": "mission4",
+          "clipped": false,
+          "hit_rect": [
+            268.0,
+            289.0,
+            736.0,
+            87.0
+          ],
+          "visual_rect": [
+            268.0,
+            289.0,
+            736.0,
+            87.0
+          ]
+        },
+        {
+          "action": "mission5",
+          "clipped": false,
+          "hit_rect": [
+            268.0,
+            390.0,
+            736.0,
+            87.0
+          ],
+          "visual_rect": [
+            268.0,
+            390.0,
+            736.0,
+            87.0
+          ]
+        },
+        {
+          "action": "loadout",
+          "clipped": false,
+          "hit_rect": [
+            268.0,
+            919.0,
+            736.0,
+            87.0
+          ],
+          "visual_rect": [
+            268.0,
+            919.0,
+            736.0,
+            87.0
+          ]
+        },
+        {
+          "action": "settings",
+          "clipped": false,
+          "hit_rect": [
+            268.0,
+            1020.0,
+            736.0,
+            87.0
+          ],
+          "visual_rect": [
+            268.0,
+            1020.0,
+            736.0,
+            87.0
+          ]
+        }
+      ],
+      "density_dpi": 420.0,
+      "density_source": "test_android_density_fixture",
+      "orders_page": "primary",
+      "safe_rect": [
+        0.0,
+        0.0,
+        2184.0,
+        1968.0
+      ],
+      "schema": 1,
+      "screen": "menu",
+      "scroll_rect": [
+        268.0,
+        46.0,
+        744.0,
+        1061.0
+      ],
+      "scroll_vertical": 529,
+      "settings_values": {
+        "effects": 0.8,
+        "music": 0.5,
+        "mute": false
+      },
+      "viewport": [
+        1280.0,
+        1153.0
+      ],
+      "window": [
+        2184.0,
+        1968.0
+      ]
+    },
+    "name": "operations-endurance",
+    "page": 1061.0,
+    "screen": "menu",
+    "scroll": 529,
+    "scroll_max": 1590.0,
+    "selection": "endurance",
+    "visibility": [
+      {
+        "fully_visible": true,
+        "rect": "[P: (268.0, 578.0), S: (736.0, 77.0)]",
+        "text": "NEXT DIVE / RETRY · ENDURANCE\nO₂ 120% · DISRUPT 2 · SURVEY 2"
+      },
+      {
+        "fully_visible": true,
+        "rect": "[P: (268.0, 669.0), S: (736.0, 149.0)]",
+        "text": "COMPARE: O₂ / DISRUPT / SURVEY\nENDURANCE · 120% / 2 / 2\nDISRUPTION · 100% / 3 / 2\nSURVEY · 100% / 2 / 3"
+      },
+      {
+        "fully_visible": true,
+        "rect": "[P: (268.0, 919.0), S: (736.0, 87.0)]",
+        "text": "CYCLE LOADOUT · endurance / disruption / survey"
+      },
+      {
+        "fully_visible": true,
+        "rect": "[P: (268.0, 1020.0), S: (736.0, 87.0)]",
+        "text": "AUDIO / SETTINGS"
+      }
+    ]
+  },
+  {
+    "active_oxygen": 120.0,
+    "active_tools": {
+      "decoy": 3,
+      "emp": 2,
+      "recon": 2
+    },
+    "labels": [
+      "SIREN'S SONG",
+      "ONE PILOT. TWO DRONES. AN OCEAN THAT LISTENS.",
+      "USS QUIETUS  /  OPERATIONS ARCHIVE",
+      "RESUME ACTIVE MISSION",
+      "Resuming preserves the active dive's equipment.",
+      "01   Shelf Signal   AVAILABLE",
+      "02   Split Channel   LOCKED",
+      "03   Blackwater Relay   LOCKED",
+      "04   Cold Foundry   LOCKED",
+      "05   The Listening Well   LOCKED",
+      "06   Siren's Song   LOCKED",
+      "Unlimited tactical pause · tap routes · survey, photograph, return",
+      "NEXT DIVE / RETRY · DISRUPTION\nO₂ 100% · DISRUPT 3 · SURVEY 2",
+      "COMPARE: O₂ / DISRUPT / SURVEY\nENDURANCE · 120% / 2 / 2\nDISRUPTION · 100% / 3 / 2\nSURVEY · 100% / 2 / 3",
+      "ALL: 3 DECOYS · 2 DRONES\nDISRUPT: 12s · SURVEY: 8s, audible",
+      "CYCLE LOADOUT · endurance / disruption / survey",
+      "AUDIO / SETTINGS"
+    ],
+    "metrics": {
+      "capture_state": {
+        "capture_unit": -1,
+        "drawn_frame": 37,
+        "hud_visible": false,
+        "menu_visible": true,
+        "mission": 0,
+        "optical_visible": false,
+        "paused": true,
+        "phase": "layout_only",
+        "selected": 0
+      },
+      "chart_rect": [
+        26.0,
+        112.0,
+        1228.0,
+        641.0
+      ],
+      "controls": [
+        {
+          "action": "mission1",
+          "clipped": true,
+          "hit_rect": [
+            268.0,
+            46.0,
+            736.0,
+            27.0
+          ],
+          "visual_rect": [
+            268.0,
+            -14.0,
+            736.0,
+            87.0
+          ]
+        },
+        {
+          "action": "mission2",
+          "clipped": false,
+          "hit_rect": [
+            268.0,
+            87.0,
+            736.0,
+            87.0
+          ],
+          "visual_rect": [
+            268.0,
+            87.0,
+            736.0,
+            87.0
+          ]
+        },
+        {
+          "action": "mission3",
+          "clipped": false,
+          "hit_rect": [
+            268.0,
+            188.0,
+            736.0,
+            87.0
+          ],
+          "visual_rect": [
+            268.0,
+            188.0,
+            736.0,
+            87.0
+          ]
+        },
+        {
+          "action": "mission4",
+          "clipped": false,
+          "hit_rect": [
+            268.0,
+            289.0,
+            736.0,
+            87.0
+          ],
+          "visual_rect": [
+            268.0,
+            289.0,
+            736.0,
+            87.0
+          ]
+        },
+        {
+          "action": "mission5",
+          "clipped": false,
+          "hit_rect": [
+            268.0,
+            390.0,
+            736.0,
+            87.0
+          ],
+          "visual_rect": [
+            268.0,
+            390.0,
+            736.0,
+            87.0
+          ]
+        },
+        {
+          "action": "loadout",
+          "clipped": false,
+          "hit_rect": [
+            268.0,
+            919.0,
+            736.0,
+            87.0
+          ],
+          "visual_rect": [
+            268.0,
+            919.0,
+            736.0,
+            87.0
+          ]
+        },
+        {
+          "action": "settings",
+          "clipped": false,
+          "hit_rect": [
+            268.0,
+            1020.0,
+            736.0,
+            87.0
+          ],
+          "visual_rect": [
+            268.0,
+            1020.0,
+            736.0,
+            87.0
+          ]
+        }
+      ],
+      "density_dpi": 420.0,
+      "density_source": "test_android_density_fixture",
+      "orders_page": "primary",
+      "safe_rect": [
+        0.0,
+        0.0,
+        2184.0,
+        1968.0
+      ],
+      "schema": 1,
+      "screen": "menu",
+      "scroll_rect": [
+        268.0,
+        46.0,
+        744.0,
+        1061.0
+      ],
+      "scroll_vertical": 529,
+      "settings_values": {
+        "effects": 0.8,
+        "music": 0.5,
+        "mute": false
+      },
+      "viewport": [
+        1280.0,
+        1153.0
+      ],
+      "window": [
+        2184.0,
+        1968.0
+      ]
+    },
+    "name": "operations-disruption",
+    "page": 1061.0,
+    "screen": "menu",
+    "scroll": 529,
+    "scroll_max": 1590.0,
+    "selection": "disruption",
+    "visibility": [
+      {
+        "fully_visible": true,
+        "rect": "[P: (268.0, 578.0), S: (736.0, 77.0)]",
+        "text": "NEXT DIVE / RETRY · DISRUPTION\nO₂ 100% · DISRUPT 3 · SURVEY 2"
+      },
+      {
+        "fully_visible": true,
+        "rect": "[P: (268.0, 669.0), S: (736.0, 149.0)]",
+        "text": "COMPARE: O₂ / DISRUPT / SURVEY\nENDURANCE · 120% / 2 / 2\nDISRUPTION · 100% / 3 / 2\nSURVEY · 100% / 2 / 3"
+      },
+      {
+        "fully_visible": true,
+        "rect": "[P: (268.0, 919.0), S: (736.0, 87.0)]",
+        "text": "CYCLE LOADOUT · endurance / disruption / survey"
+      },
+      {
+        "fully_visible": true,
+        "rect": "[P: (268.0, 1020.0), S: (736.0, 87.0)]",
+        "text": "AUDIO / SETTINGS"
+      }
+    ]
+  },
+  {
+    "active_oxygen": 120.0,
+    "active_tools": {
+      "decoy": 3,
+      "emp": 2,
+      "recon": 2
+    },
+    "labels": [
+      "SIREN'S SONG",
+      "ONE PILOT. TWO DRONES. AN OCEAN THAT LISTENS.",
+      "USS QUIETUS  /  OPERATIONS ARCHIVE",
+      "RESUME ACTIVE MISSION",
+      "Resuming preserves the active dive's equipment.",
+      "01   Shelf Signal   AVAILABLE",
+      "02   Split Channel   LOCKED",
+      "03   Blackwater Relay   LOCKED",
+      "04   Cold Foundry   LOCKED",
+      "05   The Listening Well   LOCKED",
+      "06   Siren's Song   LOCKED",
+      "Unlimited tactical pause · tap routes · survey, photograph, return",
+      "NEXT DIVE / RETRY · SURVEY\nO₂ 100% · DISRUPT 2 · SURVEY 3",
+      "COMPARE: O₂ / DISRUPT / SURVEY\nENDURANCE · 120% / 2 / 2\nDISRUPTION · 100% / 3 / 2\nSURVEY · 100% / 2 / 3",
+      "ALL: 3 DECOYS · 2 DRONES\nDISRUPT: 12s · SURVEY: 8s, audible",
+      "CYCLE LOADOUT · endurance / disruption / survey",
+      "AUDIO / SETTINGS"
+    ],
+    "metrics": {
+      "capture_state": {
+        "capture_unit": -1,
+        "drawn_frame": 57,
+        "hud_visible": false,
+        "menu_visible": true,
+        "mission": 0,
+        "optical_visible": false,
+        "paused": true,
+        "phase": "layout_only",
+        "selected": 0
+      },
+      "chart_rect": [
+        26.0,
+        112.0,
+        1228.0,
+        641.0
+      ],
+      "controls": [
+        {
+          "action": "mission1",
+          "clipped": true,
+          "hit_rect": [
+            268.0,
+            46.0,
+            736.0,
+            27.0
+          ],
+          "visual_rect": [
+            268.0,
+            -14.0,
+            736.0,
+            87.0
+          ]
+        },
+        {
+          "action": "mission2",
+          "clipped": false,
+          "hit_rect": [
+            268.0,
+            87.0,
+            736.0,
+            87.0
+          ],
+          "visual_rect": [
+            268.0,
+            87.0,
+            736.0,
+            87.0
+          ]
+        },
+        {
+          "action": "mission3",
+          "clipped": false,
+          "hit_rect": [
+            268.0,
+            188.0,
+            736.0,
+            87.0
+          ],
+          "visual_rect": [
+            268.0,
+            188.0,
+            736.0,
+            87.0
+          ]
+        },
+        {
+          "action": "mission4",
+          "clipped": false,
+          "hit_rect": [
+            268.0,
+            289.0,
+            736.0,
+            87.0
+          ],
+          "visual_rect": [
+            268.0,
+            289.0,
+            736.0,
+            87.0
+          ]
+        },
+        {
+          "action": "mission5",
+          "clipped": false,
+          "hit_rect": [
+            268.0,
+            390.0,
+            736.0,
+            87.0
+          ],
+          "visual_rect": [
+            268.0,
+            390.0,
+            736.0,
+            87.0
+          ]
+        },
+        {
+          "action": "loadout",
+          "clipped": false,
+          "hit_rect": [
+            268.0,
+            919.0,
+            736.0,
+            87.0
+          ],
+          "visual_rect": [
+            268.0,
+            919.0,
+            736.0,
+            87.0
+          ]
+        },
+        {
+          "action": "settings",
+          "clipped": false,
+          "hit_rect": [
+            268.0,
+            1020.0,
+            736.0,
+            87.0
+          ],
+          "visual_rect": [
+            268.0,
+            1020.0,
+            736.0,
+            87.0
+          ]
+        }
+      ],
+      "density_dpi": 420.0,
+      "density_source": "test_android_density_fixture",
+      "orders_page": "primary",
+      "safe_rect": [
+        0.0,
+        0.0,
+        2184.0,
+        1968.0
+      ],
+      "schema": 1,
+      "screen": "menu",
+      "scroll_rect": [
+        268.0,
+        46.0,
+        744.0,
+        1061.0
+      ],
+      "scroll_vertical": 529,
+      "settings_values": {
+        "effects": 0.8,
+        "music": 0.5,
+        "mute": false
+      },
+      "viewport": [
+        1280.0,
+        1153.0
+      ],
+      "window": [
+        2184.0,
+        1968.0
+      ]
+    },
+    "name": "operations-survey",
+    "page": 1061.0,
+    "screen": "menu",
+    "scroll": 529,
+    "scroll_max": 1590.0,
+    "selection": "survey",
+    "visibility": [
+      {
+        "fully_visible": true,
+        "rect": "[P: (268.0, 578.0), S: (736.0, 77.0)]",
+        "text": "NEXT DIVE / RETRY · SURVEY\nO₂ 100% · DISRUPT 2 · SURVEY 3"
+      },
+      {
+        "fully_visible": true,
+        "rect": "[P: (268.0, 669.0), S: (736.0, 149.0)]",
+        "text": "COMPARE: O₂ / DISRUPT / SURVEY\nENDURANCE · 120% / 2 / 2\nDISRUPTION · 100% / 3 / 2\nSURVEY · 100% / 2 / 3"
+      },
+      {
+        "fully_visible": true,
+        "rect": "[P: (268.0, 919.0), S: (736.0, 87.0)]",
+        "text": "CYCLE LOADOUT · endurance / disruption / survey"
+      },
+      {
+        "fully_visible": true,
+        "rect": "[P: (268.0, 1020.0), S: (736.0, 87.0)]",
+        "text": "AUDIO / SETTINGS"
+      }
+    ]
+  },
+  {
+    "active_oxygen": 120.0,
+    "active_tools": {
+      "decoy": 3,
+      "emp": 2,
+      "recon": 2
+    },
+    "labels": [
+      "QUIETUS / AUDIO",
+      "Actionable sound cues also appear in the tactical display. Audio pauses when you suspend the dive.",
+      "MUSIC VOLUME",
+      "EFFECTS VOLUME",
+      "MUTE: OFF"
+    ],
+    "metrics": {
+      "capture_state": {
+        "capture_unit": -1,
+        "drawn_frame": 77,
+        "hud_visible": false,
+        "menu_visible": true,
+        "mission": 0,
+        "optical_visible": false,
+        "paused": true,
+        "phase": "layout_only",
+        "selected": 0
+      },
+      "chart_rect": [
+        26.0,
+        112.0,
+        1228.0,
+        641.0
+      ],
+      "controls": [
+        {
+          "action": "mute",
+          "clipped": false,
+          "hit_rect": [
+            268.0,
+            610.0,
+            744.0,
+            87.0
+          ],
+          "visual_rect": [
+            268.0,
+            610.0,
+            744.0,
+            87.0
+          ]
+        },
+        {
+          "action": "back",
+          "clipped": false,
+          "hit_rect": [
+            268.0,
+            1020.0,
+            744.0,
+            87.0
+          ],
+          "visual_rect": [
+            268.0,
+            1020.0,
+            744.0,
+            87.0
+          ]
+        },
+        {
+          "action": "volume_music",
+          "clipped": false,
+          "hit_rect": [
+            268.0,
+            350.0,
+            744.0,
+            87.0
+          ],
+          "visual_rect": [
+            268.0,
+            350.0,
+            744.0,
+            87.0
+          ]
+        },
+        {
+          "action": "volume_effects",
+          "clipped": false,
+          "hit_rect": [
+            268.0,
+            509.0,
+            744.0,
+            87.0
+          ],
+          "visual_rect": [
+            268.0,
+            509.0,
+            744.0,
+            87.0
+          ]
+        }
+      ],
+      "density_dpi": 420.0,
+      "density_source": "test_android_density_fixture",
+      "orders_page": "primary",
+      "safe_rect": [
+        0.0,
+        0.0,
+        2184.0,
+        1968.0
+      ],
+      "schema": 1,
+      "screen": "settings",
+      "scroll_rect": [
+        268.0,
+        46.0,
+        744.0,
+        962.0
+      ],
+      "scroll_vertical": 0,
+      "settings_values": {
+        "effects": 0.8,
+        "music": 0.5,
+        "mute": false
+      },
+      "viewport": [
+        1280.0,
+        1153.0
+      ],
+      "window": [
+        2184.0,
+        1968.0
+      ]
+    },
+    "name": "settings-reached",
+    "page": 651.0,
+    "screen": "settings",
+    "scroll": 0,
+    "scroll_max": 651.0,
+    "selection": "survey",
+    "visibility": []
+  },
+  {
+    "active_oxygen": 120.0,
+    "active_tools": {
+      "decoy": 3,
+      "emp": 2,
+      "recon": 2
+    },
+    "labels": [
+      "01 / SHELF SIGNAL",
+      "A repeating signal rises from the shelf. Photograph the listening spire, then bring Quietus home. Your charts show rock, not what waits behind it. Sonar reveals water but announces your position.",
+      "ORDERS\nTap water to replace your route. REPLACE toggles explicit queueing. Select Quietus or either drone. Use CAMERA within 240m of a gold record marker. Return Quietus to the extraction ring after all records are secured.",
+      "SPACE / PAUSE grants unlimited planning time. Silent running is slower and quieter. Disruption interrupts nearby Sirens for 12 seconds. Cover blocks sonar and enemy sight.",
+      "NEXT DIVE / RETRY · SURVEY\nO₂ 100% · DISRUPT 2 · SURVEY 3 · 3 DECOYS · 2 DRONES"
+    ],
+    "metrics": {
+      "capture_state": {
+        "capture_unit": -1,
+        "drawn_frame": 103,
+        "hud_visible": false,
+        "menu_visible": true,
+        "mission": 0,
+        "optical_visible": false,
+        "paused": true,
+        "phase": "layout_only",
+        "selected": 0
+      },
+      "chart_rect": [
+        26.0,
+        112.0,
+        1228.0,
+        641.0
+      ],
+      "controls": [
+        {
+          "action": "begin",
+          "clipped": false,
+          "hit_rect": [
+            268.0,
+            1017.0,
+            366.0,
+            90.0
+          ],
+          "visual_rect": [
+            268.0,
+            1017.0,
+            366.0,
+            90.0
+          ]
+        },
+        {
+          "action": "back",
+          "clipped": false,
+          "hit_rect": [
+            646.0,
+            1017.0,
+            366.0,
+            90.0
+          ],
+          "visual_rect": [
+            646.0,
+            1017.0,
+            366.0,
+            90.0
+          ]
+        }
+      ],
+      "density_dpi": 420.0,
+      "density_source": "test_android_density_fixture",
+      "orders_page": "primary",
+      "safe_rect": [
+        0.0,
+        0.0,
+        2184.0,
+        1968.0
+      ],
+      "schema": 1,
+      "screen": "briefing",
+      "scroll_rect": [
+        268.0,
+        46.0,
+        744.0,
+        959.0
+      ],
+      "scroll_vertical": 35,
+      "settings_values": {
+        "effects": 0.8,
+        "music": 0.5,
+        "mute": false
+      },
+      "viewport": [
+        1280.0,
+        1153.0
+      ],
+      "window": [
+        2184.0,
+        1968.0
+      ]
+    },
+    "name": "briefing-survey",
+    "page": 959.0,
+    "screen": "briefing",
+    "scroll": 35,
+    "scroll_max": 994.0,
+    "selection": "survey",
+    "visibility": [
+      {
+        "fully_visible": true,
+        "rect": "[P: (268.0, 867.0), S: (736.0, 138.0)]",
+        "text": "NEXT DIVE / RETRY · SURVEY\nO₂ 100% · DISRUPT 2 · SURVEY 3 · 3 DECOYS · 2 DRONES"
+      }
+    ]
+  }
+]

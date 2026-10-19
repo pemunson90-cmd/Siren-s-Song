@@ -20,6 +20,16 @@ func drag(start: Vector2,finish: Vector2) -> void:
 		move=InputEventMouseMotion.new();move.position=point;move.global_position=point;move.relative=point-previous;move.button_mask=MOUSE_BUTTON_MASK_LEFT;move.device=InputEvent.DEVICE_ID_EMULATION
 		root.push_input(move,true);previous=point;await process_frame
 	mouse(finish,false);await create_timer(0.5).timeout
+	# A longer body can still be coasting after 500ms. Observe bounded actual
+	# scroll rest before asserting the existing post-scroll debounce callback.
+	var deadline=Time.get_ticks_msec()+2000
+	var last_offset=game.scroll.scroll_vertical;var still_since=Time.get_ticks_msec()
+	var quiet_ms=ceili(game.scroll_report_timer.wait_time*1000)+50
+	while Time.get_ticks_msec()<deadline:
+		await process_frame
+		if game.scroll.scroll_vertical!=last_offset:
+			last_offset=game.scroll.scroll_vertical;still_since=Time.get_ticks_msec()
+		elif Time.get_ticks_msec()-still_since>=quiet_ms:break
 func action(id: String):
 	for b in game.menu.find_children("*","Button",true,false):
 		if b.get_meta("action","")==id:return b

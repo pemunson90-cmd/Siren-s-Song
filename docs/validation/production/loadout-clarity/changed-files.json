@@ -1,0 +1,11 @@
+{
+  "published_baseline": "a178825fc4885f9f3ab191315302925ab0cdac87",
+  "changed": [
+    "game/src/main.gd"
+  ],
+  "baseline_original_files_unchanged": true,
+  "all_other_original_game_files_identical": true,
+  "baseline_main_sha256": "9e8e6cca44d0b326245df208f8ca50d5b00426ba768852c963aceacd4d5d1a53",
+  "challenger_main_sha256": "c2d4c83c300267daeb9e2174298258b902b69393c4e5d5f854d8a7876be5bb03",
+  "patch_sha256": "d371fb4d7599d5b3ae80f892668572ae97472e064771022ee709eb4ca3375d06"
+}

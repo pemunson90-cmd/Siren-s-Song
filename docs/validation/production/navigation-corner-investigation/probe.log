@@ -1,0 +1,9 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+NAV_SETUP target=0 ok=true time=25.2999999999998 pos=(752.9493, 340.9741) vel=(0.0, 0.0) captured=true
+NAV_SETUP target=1 ok=true time=47.3999999999986 pos=(1353.052, 618.3444) vel=(0.0, 0.0) captured=true
+NAV_PLAN origin=(1353.052, 618.3444) angle=0.23393841087818 vel=(0.0, 0.0) origin_blocked24=false route=[{ "pos": (740.0, 620.0), "stop": false }, { "pos": (580.0, 700.0), "stop": false }, { "pos": (140.0, 800.0), "stop": true }]
+NAV_SEGMENT index=0 from=(1353.052, 618.3444) to=(740.0, 620.0) safe24=true safe12=true
+NAV_SEGMENT index=1 from=(740.0, 620.0) to=(580.0, 700.0) safe24=true safe12=true
+NAV_SEGMENT index=2 from=(580.0, 700.0) to=(140.0, 800.0) safe24=true safe12=true
+NAV_FINAL before={ "pos": (1353.405, 648.6044), "vel": (-19.43126, 5.358473), "angle": 3.18802124658693, "route": [{ "pos": (740.0, 620.0), "stop": false }, { "pos": (580.0, 700.0), "stop": false }, { "pos": (140.0, 800.0), "stop": true }] } after_pos=(1353.405, 648.6044) elapsed=49.4999999999985 message=Autopilot stopped at unsafe terrain. Replot in open water. outcome=

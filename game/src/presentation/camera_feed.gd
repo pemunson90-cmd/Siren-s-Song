@@ -26,7 +26,7 @@ func _draw() -> void:
 			trace.append(Vector2(picture.position.x+x,center.y+sin(phase)*envelope*amp))
 		draw_polyline(trace,PHOSPHOR,2.0)
 		draw_string(ThemeDB.fallback_font,picture.position+Vector2(8,receiver_font_size+5),"LOCAL REPLAY" if context.replay>0 else "QUIET RECEPTION",HORIZONTAL_ALIGNMENT_LEFT,-1,receiver_font_size,PHOSPHOR)
-		if not context.settled:draw_string(ThemeDB.fallback_font,picture.position+Vector2(8,picture.size.y-8),"SETTLING · progress starts at rest",HORIZONTAL_ALIGNMENT_LEFT,-1,receiver_font_size,Color("e0bf83"))
+		if not context.settled:draw_string(ThemeDB.fallback_font,picture.position+Vector2(8,picture.size.y-8),"SETTLING · wait for rest",HORIZONTAL_ALIGNMENT_LEFT,-1,receiver_font_size,Color("e0bf83"))
 	elif objective.has("optical"):
 		var image=optics[objective.optical]
 		var image_size=Vector2(picture.size.x,picture.size.x*9.0/16.0)

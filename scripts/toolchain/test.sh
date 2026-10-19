@@ -29,4 +29,13 @@ fi
 grep -Eq '^RUNTIME CHECKS [1-9][0-9]* FAILURES 0$' "$runtime_log" || {
     echo 'Missing successful runtime test-harness summary' >&2; exit 1;
 }
+loadout_log="$ARTIFACT_DIR/loadout-ui-tests.log"
+"$(dirname -- "$0")/headless.sh" --script res://tests/loadout_ui_tests.gd 2>&1 | tee "$loadout_log"
+if grep -nE 'SCRIPT ERROR:|(^|[[:space:]])ERROR:' "$loadout_log"; then
+    echo 'Godot reported loadout UI test errors' >&2
+    exit 1
+fi
+grep -Eq '^LOADOUT CHECKS [1-9][0-9]* FAILURES 0$' "$loadout_log" || {
+    echo 'Missing successful loadout UI summary' >&2; exit 1;
+}
 "$(dirname -- "$0")/density-checks.sh"

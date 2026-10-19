@@ -1,0 +1,24 @@
+..........F......
+======================================================================
+FAIL: test_relative_source_real_godot_entry_restores_after_later_launch_failure (__main__.BlackwaterTests.test_relative_source_real_godot_entry_restores_after_later_launch_failure)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Siren-s-Song-gauntlet/scripts/toolchain/test-android-blackwater.py", line 157, in test_relative_source_real_godot_entry_restores_after_later_launch_failure
+    r=self.archive_case(temporary=True,relative_real_entry=True);self.assertEqual(r.returncode,17,r.stderr)
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/Siren-s-Song-gauntlet/scripts/toolchain/test-android-blackwater.py", line 145, in archive_case
+    self.assertEqual(r.returncode,17,r.stderr+(proof.read_text() if proof.exists() else 'fixture output missing'))
+AssertionError: 1 != 17 : Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+ERROR: Attempt to open script 'res://scripts/toolchain/native-blackwater-fixture.gd' resulted in error 'File not found'.
+   at: load_source_code (modules/gdscript/gdscript.cpp:1127)
+ERROR: Failed loading resource: res://scripts/toolchain/native-blackwater-fixture.gd.
+   at: _load (core/io/resource_loader.cpp:343)
+ERROR: Can't load script: scripts/toolchain/native-blackwater-fixture.gd
+   at: start (main/main.cpp:4271)
+
+
+----------------------------------------------------------------------
+Ran 17 tests in 2.392s
+
+FAILED (failures=1)

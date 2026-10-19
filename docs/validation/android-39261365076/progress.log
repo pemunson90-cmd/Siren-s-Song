@@ -1,0 +1,130 @@
+SS_SMOKE_STAGE 2026-10-19T13:39:34Z smoke script entered after emulator action boot
+SS_SMOKE_STAGE 2026-10-19T13:40:02Z APK installed
+SS_SMOKE_STAGE 2026-10-19T13:40:03Z cover viewport and launch
+SS_SMOKE_STAGE 2026-10-19T13:40:23Z capture cover: screenshot begin
+SS_SMOKE_STAGE 2026-10-19T13:40:25Z capture cover: screenshot complete; activity dump begin
+SS_SMOKE_STAGE 2026-10-19T13:40:25Z capture cover: activity dump complete
+SS_SMOKE_STAGE 2026-10-19T13:40:25Z cover actual OS menu scroll/Settings/sticky BACK begins
+SS_SMOKE_STAGE 2026-10-19T13:40:32Z known Android immersive intro absent
+SS_SMOKE_STAGE 2026-10-19T13:40:36Z cover menu OS swipe 0 inside measured scroll body
+SS_SMOKE_STAGE 2026-10-19T13:40:49Z cover Settings OS swipe from measured empty gap to expose volume_effects
+SS_SMOKE_STAGE 2026-10-19T13:41:02Z cover Settings effects/mute reachability verified; unchanged settings; scroll gestures=1
+SS_SMOKE_STAGE 2026-10-19T13:41:11Z cover measured Settings/sticky BACK native input verified; operations scroll gestures=1
+SS_SMOKE_STAGE 2026-10-19T13:41:39Z capture cover-zoomed: screenshot begin
+SS_SMOKE_STAGE 2026-10-19T13:41:40Z capture cover-zoomed: screenshot complete; activity dump begin
+SS_SMOKE_STAGE 2026-10-19T13:41:41Z capture cover-zoomed: activity dump complete
+SS_SMOKE_STAGE 2026-10-19T13:41:43Z cover native chart swipe from 980,603 to 850,603
+SS_SMOKE_STAGE 2026-10-19T13:41:46Z cover-pan: fresh marker verified
+SS_SMOKE_STAGE 2026-10-19T13:41:46Z capture cover-panned: screenshot begin
+SS_SMOKE_STAGE 2026-10-19T13:41:47Z capture cover-panned: screenshot complete; activity dump begin
+SS_SMOKE_STAGE 2026-10-19T13:41:47Z capture cover-panned: activity dump complete
+SS_SMOKE_STAGE 2026-10-19T13:41:50Z cover native zoom/pan/FIT verified without accidental orders; OS pinch remains unverified
+SS_SMOKE_STAGE 2026-10-19T13:41:51Z capture cover-touch-targets-primary-initial: screenshot begin
+SS_SMOKE_STAGE 2026-10-19T13:41:52Z capture cover-touch-targets-primary-initial: screenshot complete; activity dump begin
+SS_SMOKE_STAGE 2026-10-19T13:41:53Z capture cover-touch-targets-primary-initial: activity dump complete
+SS_SMOKE_STAGE 2026-10-19T13:41:53Z cover primary actual native hit rectangles meet 48 dp recommendation at observed Android density
+SS_SMOKE_STAGE 2026-10-19T13:41:58Z capture cover-touch-targets-secondary-initial: screenshot begin
+SS_SMOKE_STAGE 2026-10-19T13:42:00Z capture cover-touch-targets-secondary-initial: screenshot complete; activity dump begin
+SS_SMOKE_STAGE 2026-10-19T13:42:00Z capture cover-touch-targets-secondary-initial: activity dump complete
+SS_SMOKE_STAGE 2026-10-19T13:42:00Z cover secondary actual native hit rectangles meet 48 dp recommendation at observed Android density
+SS_SMOKE_STAGE 2026-10-19T13:42:05Z capture cover-touch-targets-primary-restored: screenshot begin
+SS_SMOKE_STAGE 2026-10-19T13:42:06Z capture cover-touch-targets-primary-restored: screenshot complete; activity dump begin
+SS_SMOKE_STAGE 2026-10-19T13:42:06Z capture cover-touch-targets-primary-restored: activity dump complete
+SS_SMOKE_STAGE 2026-10-19T13:42:07Z cover primary actual native hit rectangles meet 48 dp recommendation at observed Android density
+SS_SMOKE_STAGE 2026-10-19T13:42:27Z cover native mission/order/pause taps verified
+SS_SMOKE_STAGE 2026-10-19T13:42:27Z capture cover-gameplay: screenshot begin
+SS_SMOKE_STAGE 2026-10-19T13:42:29Z capture cover-gameplay: screenshot complete; activity dump begin
+SS_SMOKE_STAGE 2026-10-19T13:42:29Z capture cover-gameplay: activity dump complete
+SS_SMOKE_STAGE 2026-10-19T13:42:29Z cover background and resume
+SS_SMOKE_STAGE 2026-10-19T13:42:40Z capture cover-resume: screenshot begin
+SS_SMOKE_STAGE 2026-10-19T13:42:42Z capture cover-resume: screenshot complete; activity dump begin
+SS_SMOKE_STAGE 2026-10-19T13:42:42Z capture cover-resume: activity dump complete
+SS_SMOKE_STAGE 2026-10-19T13:42:42Z cover waiting for background process termination
+SS_SMOKE_STAGE 2026-10-19T13:43:08Z cover process restarted with screen/layout readiness
+SS_SMOKE_STAGE 2026-10-19T13:43:08Z capture cover-restart: screenshot begin
+SS_SMOKE_STAGE 2026-10-19T13:43:09Z capture cover-restart: screenshot complete; activity dump begin
+SS_SMOKE_STAGE 2026-10-19T13:43:09Z capture cover-restart: activity dump complete
+SS_SMOKE_STAGE 2026-10-19T13:43:14Z capture cover-restored-gameplay: screenshot begin
+SS_SMOKE_STAGE 2026-10-19T13:43:19Z capture cover-restored-gameplay: matching fresh post_draw state bracket verified; compositor acknowledgment unavailable
+SS_SMOKE_STAGE 2026-10-19T13:43:19Z capture cover-restored-gameplay: screenshot complete; activity dump begin
+SS_SMOKE_STAGE 2026-10-19T13:43:20Z capture cover-restored-gameplay: activity dump complete
+SS_SMOKE_STAGE 2026-10-19T13:43:20Z cover mission archive restored and entered
+SS_SMOKE_STAGE 2026-10-19T13:43:20Z inner viewport and launch
+SS_SMOKE_STAGE 2026-10-19T13:43:24Z capture inner: screenshot begin
+SS_SMOKE_STAGE 2026-10-19T13:43:26Z capture inner: screenshot complete; activity dump begin
+SS_SMOKE_STAGE 2026-10-19T13:43:26Z capture inner: activity dump complete
+SS_SMOKE_STAGE 2026-10-19T13:43:33Z inner actual OS menu scroll/Settings/sticky BACK begins
+SS_SMOKE_STAGE 2026-10-19T13:43:39Z inner menu OS swipe 0 inside measured scroll body
+SS_SMOKE_STAGE 2026-10-19T13:43:56Z inner Settings effects/mute reachability verified; unchanged settings; scroll gestures=0
+SS_SMOKE_STAGE 2026-10-19T13:44:05Z inner measured Settings/sticky BACK native input verified; operations scroll gestures=1
+SS_SMOKE_STAGE 2026-10-19T13:44:30Z capture inner-zoomed: screenshot begin
+SS_SMOKE_STAGE 2026-10-19T13:44:31Z capture inner-zoomed: screenshot complete; activity dump begin
+SS_SMOKE_STAGE 2026-10-19T13:44:31Z capture inner-zoomed: activity dump complete
+SS_SMOKE_STAGE 2026-10-19T13:44:34Z inner native chart swipe from 1153,739 to 917,739
+SS_SMOKE_STAGE 2026-10-19T13:44:35Z inner-pan: fresh marker verified
+SS_SMOKE_STAGE 2026-10-19T13:44:35Z capture inner-panned: screenshot begin
+SS_SMOKE_STAGE 2026-10-19T13:44:37Z capture inner-panned: screenshot complete; activity dump begin
+SS_SMOKE_STAGE 2026-10-19T13:44:37Z capture inner-panned: activity dump complete
+SS_SMOKE_STAGE 2026-10-19T13:44:40Z inner native zoom/pan/FIT verified without accidental orders; OS pinch remains unverified
+SS_SMOKE_STAGE 2026-10-19T13:44:41Z capture inner-touch-targets-primary-initial: screenshot begin
+SS_SMOKE_STAGE 2026-10-19T13:44:43Z capture inner-touch-targets-primary-initial: screenshot complete; activity dump begin
+SS_SMOKE_STAGE 2026-10-19T13:44:43Z capture inner-touch-targets-primary-initial: activity dump complete
+SS_SMOKE_STAGE 2026-10-19T13:44:43Z inner primary actual native hit rectangles meet 48 dp recommendation at observed Android density
+SS_SMOKE_STAGE 2026-10-19T13:44:48Z capture inner-touch-targets-secondary-initial: screenshot begin
+SS_SMOKE_STAGE 2026-10-19T13:44:50Z capture inner-touch-targets-secondary-initial: screenshot complete; activity dump begin
+SS_SMOKE_STAGE 2026-10-19T13:44:50Z capture inner-touch-targets-secondary-initial: activity dump complete
+SS_SMOKE_STAGE 2026-10-19T13:44:50Z inner secondary actual native hit rectangles meet 48 dp recommendation at observed Android density
+SS_SMOKE_STAGE 2026-10-19T13:44:56Z capture inner-touch-targets-primary-restored: screenshot begin
+SS_SMOKE_STAGE 2026-10-19T13:44:57Z capture inner-touch-targets-primary-restored: screenshot complete; activity dump begin
+SS_SMOKE_STAGE 2026-10-19T13:44:57Z capture inner-touch-targets-primary-restored: activity dump complete
+SS_SMOKE_STAGE 2026-10-19T13:44:57Z inner primary actual native hit rectangles meet 48 dp recommendation at observed Android density
+SS_SMOKE_STAGE 2026-10-19T13:45:15Z inner native mission/order/pause taps verified
+SS_SMOKE_STAGE 2026-10-19T13:45:15Z capture inner-gameplay: screenshot begin
+SS_SMOKE_STAGE 2026-10-19T13:45:17Z capture inner-gameplay: screenshot complete; activity dump begin
+SS_SMOKE_STAGE 2026-10-19T13:45:17Z capture inner-gameplay: activity dump complete
+SS_SMOKE_STAGE 2026-10-19T13:45:17Z inner background and resume
+SS_SMOKE_STAGE 2026-10-19T13:45:23Z capture inner-resume: screenshot begin
+SS_SMOKE_STAGE 2026-10-19T13:45:25Z capture inner-resume: screenshot complete; activity dump begin
+SS_SMOKE_STAGE 2026-10-19T13:45:25Z capture inner-resume: activity dump complete
+SS_SMOKE_STAGE 2026-10-19T13:45:25Z inner waiting for background process termination
+SS_SMOKE_STAGE 2026-10-19T13:45:36Z inner process restarted with screen/layout readiness
+SS_SMOKE_STAGE 2026-10-19T13:45:36Z capture inner-restart: screenshot begin
+SS_SMOKE_STAGE 2026-10-19T13:45:37Z capture inner-restart: screenshot complete; activity dump begin
+SS_SMOKE_STAGE 2026-10-19T13:45:37Z capture inner-restart: activity dump complete
+SS_SMOKE_STAGE 2026-10-19T13:45:42Z capture inner-restored-gameplay: screenshot begin
+SS_SMOKE_STAGE 2026-10-19T13:45:49Z capture inner-restored-gameplay: matching fresh post_draw state bracket verified; compositor acknowledgment unavailable
+SS_SMOKE_STAGE 2026-10-19T13:45:49Z capture inner-restored-gameplay: screenshot complete; activity dump begin
+SS_SMOKE_STAGE 2026-10-19T13:45:49Z capture inner-restored-gameplay: activity dump complete
+SS_SMOKE_STAGE 2026-10-19T13:45:49Z inner mission archive restored and entered
+SS_SMOKE_STAGE 2026-10-19T13:45:49Z Shelf Signal ordinary-command completion begins
+SS_SMOKE_STAGE 2026-10-19T13:46:57Z camera-ready: fresh marker verified
+SS_SMOKE_STAGE 2026-10-19T13:47:02Z capture inner-camera-ready: screenshot begin
+SS_SMOKE_STAGE 2026-10-19T13:47:04Z capture inner-camera-ready: screenshot complete; activity dump begin
+SS_SMOKE_STAGE 2026-10-19T13:47:04Z capture inner-camera-ready: activity dump complete
+SS_SMOKE_STAGE 2026-10-19T13:47:08Z capture inner-camera-exposure: screenshot begin
+SS_SMOKE_STAGE 2026-10-19T13:47:14Z capture inner-camera-exposure: matching fresh post_draw state bracket verified; compositor acknowledgment unavailable
+SS_SMOKE_STAGE 2026-10-19T13:47:14Z capture inner-camera-exposure: screenshot complete; activity dump begin
+SS_SMOKE_STAGE 2026-10-19T13:47:14Z capture inner-camera-exposure: activity dump complete
+SS_SMOKE_STAGE 2026-10-19T13:47:33Z record-secured: fresh marker verified
+SS_SMOKE_STAGE 2026-10-19T13:47:33Z extraction-won: fresh marker verified
+SS_SMOKE_STAGE 2026-10-19T13:47:34Z campaign-saved: fresh marker verified
+SS_SMOKE_STAGE 2026-10-19T13:47:34Z capture inner-mission-completed: screenshot begin
+SS_SMOKE_STAGE 2026-10-19T13:47:36Z capture inner-mission-completed: screenshot complete; activity dump begin
+SS_SMOKE_STAGE 2026-10-19T13:47:36Z capture inner-mission-completed: activity dump complete
+SS_SMOKE_STAGE 2026-10-19T13:47:36Z Shelf Signal recorded, Quietus extraction won, campaign saved
+SS_SMOKE_STAGE 2026-10-19T13:47:49Z campaign-restored: fresh marker verified
+SS_SMOKE_STAGE 2026-10-19T13:47:49Z capture inner-campaign-restored: screenshot begin
+SS_SMOKE_STAGE 2026-10-19T13:47:50Z capture inner-campaign-restored: screenshot complete; activity dump begin
+SS_SMOKE_STAGE 2026-10-19T13:47:50Z capture inner-campaign-restored: activity dump complete
+SS_SMOKE_STAGE 2026-10-19T13:47:50Z fixture-assisted Listening Well hunter path begins; not earned campaign progression
+SS_SMOKE_STAGE 2026-10-19T13:49:03Z role-observer-ready: fresh marker verified
+SS_SMOKE_STAGE 2026-10-19T13:49:21Z capture inner-role-lure-planned: screenshot begin
+SS_SMOKE_STAGE 2026-10-19T13:49:22Z capture inner-role-lure-planned: screenshot complete; activity dump begin
+SS_SMOKE_STAGE 2026-10-19T13:49:22Z capture inner-role-lure-planned: activity dump complete
+SS_SMOKE_STAGE 2026-10-19T13:51:20Z role-home-return: fresh marker verified
+SS_SMOKE_STAGE 2026-10-19T13:51:24Z capture inner-role-return: screenshot begin
+SS_SMOKE_STAGE 2026-10-19T13:51:25Z capture inner-role-return: screenshot complete; activity dump begin
+SS_SMOKE_STAGE 2026-10-19T13:51:25Z capture inner-role-return: activity dump complete
+SS_SMOKE_STAGE 2026-10-19T13:51:25Z restoring genuine Shelf campaign archive after fixture-assisted Well path
+SS_SMOKE_STAGE 2026-10-19T13:51:36Z role-genuine-restore: fresh marker verified
+SS_SMOKE_STAGE 2026-10-19T13:51:36Z fixture-assisted Well response passed; genuine Shelf archive restored byte-for-byte

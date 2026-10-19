@@ -7,7 +7,7 @@ native_blackwater_smoke() (
     output="$output/blackwater"
     mkdir -p "$output"
     local tool_dir profile dimensions suffix name status before_count x y x1 y1 x2 y2 count offset
-    tool_dir="$(dirname -- "${BASH_SOURCE[0]}")"
+    tool_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
     role_backup_active=false
     trap 'status=$?; trap - EXIT; if ! restore_role_archive; then echo "Blackwater genuine archive restoration failed" >&2; status=1; fi; exit "$status"' EXIT
     stage 'fixture-assisted untouched Blackwater request check begins; not earned chapter progression'

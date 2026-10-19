@@ -1,0 +1,7 @@
+{
+  "source": "a178825fc4885f9f3ab191315302925ab0cdac87",
+  "camera_feed_sha256": "e7787ec02bfb11940bae58755394e529967f41d78e70183151f00861d858e0d1",
+  "fixture": "synthetic own Quietus at760,330 with velocity80,0; SAMPLE and pause;420dpi2520x1080/inset136",
+  "scope": "presentation-only, no earned encounter/native claim",
+  "failure": "SETTLING progress starts at rest clips at right inset edge"
+}

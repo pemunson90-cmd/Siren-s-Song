@@ -1,0 +1,60 @@
+diff --git a/scripts/toolchain/android-blackwater-smoke.sh b/scripts/toolchain/android-blackwater-smoke.sh
+index b750b28..f02f3fa 100644
+--- a/scripts/toolchain/android-blackwater-smoke.sh
++++ b/scripts/toolchain/android-blackwater-smoke.sh
+@@ -7,7 +7,7 @@ native_blackwater_smoke() (
+     output="$output/blackwater"
+     mkdir -p "$output"
+     local tool_dir profile dimensions suffix name status before_count x y x1 y1 x2 y2 count offset
+-    tool_dir="$(dirname -- "${BASH_SOURCE[0]}")"
++    tool_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+     role_backup_active=false
+     trap 'status=$?; trap - EXIT; if ! restore_role_archive; then echo "Blackwater genuine archive restoration failed" >&2; status=1; fi; exit "$status"' EXIT
+     stage 'fixture-assisted untouched Blackwater request check begins; not earned chapter progression'
+diff --git a/scripts/toolchain/test-android-blackwater.py b/scripts/toolchain/test-android-blackwater.py
+index e1d5d42..0e755ca 100644
+--- a/scripts/toolchain/test-android-blackwater.py
++++ b/scripts/toolchain/test-android-blackwater.py
+@@ -1,6 +1,6 @@
+ #!/usr/bin/env python3
+ """Scoped protocol/geometry and unavailable-device archive isolation tests."""
+-import importlib.util,json,os,pathlib,struct,subprocess,sys,tempfile,unittest
++import importlib.util,json,os,pathlib,shlex,struct,subprocess,sys,tempfile,unittest
+ ROOT=pathlib.Path(__file__).resolve().parent
+ spec=importlib.util.spec_from_file_location('capture_fixtures',ROOT/'test-android-capture.py')
+ fixture=importlib.util.module_from_spec(spec);spec.loader.exec_module(fixture)
+@@ -109,7 +109,7 @@ capture_state_shot cover-blackwater-gallery gallery "$output/before" 2 "$1/andro
+ '''
+    r=subprocess.run(['bash','-c',script,'test',str(ROOT),str(p)],capture_output=True,text=True)
+    self.assertEqual(r.returncode,0,r.stderr);self.assertTrue((p/'cover-blackwater-gallery.png').exists())
+- def archive_case(self,launch='return 17',temporary=False,restored=True):
++ def archive_case(self,launch='return 17',temporary=False,restored=True,relative_real_entry=False):
+   with tempfile.TemporaryDirectory() as folder:
+    p=pathlib.Path(folder);(p/'remote/files').mkdir(parents=True);(p/'evidence').mkdir()
+    primary=b'genuine\0\xff\r\n';backup=b'backup\0\xfe\r\n';(p/'remote/files/quietus.save').write_bytes(primary);(p/'remote/files/quietus.save.bak').write_bytes(backup)
+@@ -135,7 +135,15 @@ adb() {
+ native_blackwater_smoke
+ '''.replace('$2/remote',str(p)+'/remote').replace('LAUNCH',launch)
+    (p/'godot-mock').write_text('#!/bin/bash\nfor arg; do if [[ "$arg" == --output=* ]]; then echo fixture >"${arg#--output=}"; fi; done\necho SS_NATIVE_BLACKWATER fresh_snapshot_equal=true\n');(p/'godot-mock').chmod(0o755)
+-   r=subprocess.run(['bash','-c',script,'test',str(ROOT),str(p)],capture_output=True,text=True)
++   source_root=str(ROOT)
++   if relative_real_entry:
++    source_root='scripts/toolchain'
++    script=script.replace('GAME_DIR="$2"','GAME_DIR=game').replace('GODOT_BIN="$2/godot-mock"','GODOT_BIN='+shlex.quote(os.environ.get('GODOT_BIN','godot')))
++   r=subprocess.run(['bash','-c',script,'test',source_root,str(p)],cwd=ROOT.parent.parent,capture_output=True,text=True)
++   if relative_real_entry:
++    proof=p/'evidence/blackwater/fixture-generation.txt'
++    self.assertEqual(r.returncode,17,r.stderr+(proof.read_text() if proof.exists() else 'fixture output missing'))
++    self.assertIn('fresh_snapshot_equal=true',proof.read_text())
+    self.assertEqual((p/'evidence/blackwater/role-archive-primary.save').read_bytes(),primary)
+    if restored:
+     self.assertEqual((p/'remote/files/quietus.save').read_bytes(),primary,r.stderr);self.assertEqual((p/'remote/files/quietus.save.bak').read_bytes(),backup,r.stderr)
+@@ -145,6 +153,8 @@ native_blackwater_smoke
+    return r
+  def test_failed_fixture_launch_restores_private_genuine_bytes(self):
+   r=self.archive_case();self.assertEqual(r.returncode,17,r.stderr)
++ def test_relative_source_real_godot_entry_restores_after_later_launch_failure(self):
++  r=self.archive_case(temporary=True,relative_real_entry=True);self.assertEqual(r.returncode,17,r.stderr)
+  def test_normal_exit_restores_existing_primary_backup_and_temporary(self):
+   r=self.archive_case('exit 0',True);self.assertEqual(r.returncode,0,r.stderr)
+  def test_term_restores_private_archive_and_propagates_signal_status(self):
