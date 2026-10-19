@@ -90,5 +90,6 @@ thermal_lee_tests|THERMAL LEE
 thermal_transmission_tests|THERMAL TRANSMISSION
 thermal_ui_tests|THERMAL UI
 terminal_tick_tests|TERMINAL TICK
+extraction_survival_tests|EXTRACTION SURVIVAL
 tactics_composition_tests|TACTICS COMPOSITION
 TACTICAL_SCENARIOS
