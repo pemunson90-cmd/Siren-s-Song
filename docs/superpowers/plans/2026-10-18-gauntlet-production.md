@@ -27,14 +27,18 @@
 4. Phone aspect ratios and scale must preserve touch target readability and prevent HUD overlap; exercise actual input in runtime captures.
 5. Every mission must be completable with ordinary commands/resources, including drone loss fallback; deterministic route scenarios plus fresh play review.
 
+## Verified status — 19 October, through539f58b
+
+Checked items are implemented/reproduced milestones, not user acceptance or a stopping condition. Current command `scripts/toolchain/test.sh` passes70core/campaign +173runtime checks. Actual rendering, command-driven ending, waveform measurements and two independent Sol reviews are indexed in `docs/validation/production/` and `docs/reviews/`. Workbench's current summary takes precedence over historical checkpoint counts. Root controls push timing; latest installed renderer/lifecycle retry remains pending. Do not rebuild completed foundation work.
+
 ## Task 1 — Native production shell and verified toolchain
 
 Files: `game/project.godot`, `game/scenes/main.tscn`, `game/src/main.gd`; tooling owner owns `scripts/toolchain/*`, `game/export_presets.cfg`, environment report. Project owner does not edit tooling-owned files concurrently.
 
-- [ ] Create a runnable Godot scene with valid state from frame one, landscape scaling, pause and menu/mission transitions.
-- [ ] Install official matching templates; record download/source/version. Export a debug APK, inspect its manifest/signature, and document exact reproduction commands.
-- [ ] Start real rendering with the existing dummy Xorg display. Capture a PNG from the viewport; verify it is actual game output.
-- [ ] Commit runnable shell and exact evidence. Record runtime/device gaps honestly.
+- [x] Create a runnable Godot scene with valid state from frame one, landscape scaling, pause and menu/mission transitions.
+- [x] Install official matching templates; record download/source/version. Export a debug APK, inspect its manifest/signature, and document exact reproduction commands.
+- [x] Start real rendering with the existing dummy Xorg display. Capture a PNG from the viewport; verify it is actual game output.
+- [x] Commit runnable shell and exact evidence. Record runtime/device gaps honestly.
 
 ## Task 2 — Deterministic tactical core and fair threats
 
@@ -42,20 +46,22 @@ Files: `game/src/simulation/*`, `game/tests/run_tests.gd`, `game/tests/scenarios
 Interfaces: a mission definition and seeded new state; `step(dt)`/command API; serializable snapshot; observations and events for presentation. Sol owner must document actual class names/signatures before splitting ownership.
 
 - [ ] Write failing assertions for pause invariance, frame-step consistency, replacement after unit switch, pass-through versus stop, known-wall routing, collision, LOS, ping-origin investigation, stunned detector recovery and extraction.
-- [ ] Implement fixed-step movement, commands, two independent drones, local/active/recon observations, suspicion, fair Siren states, tool resource use and objectives.
-- [ ] Run the production simulation headlessly; add adversarial tests for hidden-contact leakage and drone-loss fallback. Confirm failures are fixed rather than suppressed.
-- [ ] Produce a deterministic scenario trace of a legitimate objective→extraction run. Commit.
+- [x] Implement fixed-step movement, commands, two independent drones, local/active/recon observations, suspicion, fair Siren states, tool resource use and objectives.
+- [x] Run the production simulation headlessly; add adversarial tests for hidden-contact leakage and drone-loss fallback. Confirm failures are fixed rather than suppressed.
+- [x] Produce a deterministic scenario trace of a legitimate objective→extraction run. Commit.
+
+Task2 remaining qualification: the listed behavior assertions now exist, and focused RED→GREEN regressions cover defects found during implementation/review. Separate initial failing runs were not retained for every first-phase invariant; direct collision-impact/unseen-obstacle discovery coverage remains narrower than the original ambition. Current terrain is a briefed static chart; unknown water/contact memory remains sensor-bounded. Extend targeted missing cases rather than reimplement the passing core.
 
 ## Task 3 — Playable art, sound, touch and tactical readability
 
 Files: `game/src/presentation/*`, `game/src/audio/*`, `game/assets/*`, input integration in main; tests for input transforms.
 
-- [ ] Inspect selected references C01/C02, Quietus exterior and Siren studies with view_image before building assets.
-- [ ] Build original layered seabed, industrial structures, craft, fog/sonar shadows, routes and controlled VFX. Expose observed information only.
-- [ ] Implement clear pause/resume, selected unit, replace/queue/emergency orders, stop/pass-through, conditions and tool feedback with phone-sized targets.
-- [ ] Add functional sound layers, mute/volume preferences and background pause handling. Verify generated/bundled assets and avoid audio spam/clipping.
-- [ ] Capture actual planning, sonar cover, two-drone and threat states at 1280×720 and 960×540 plus a wide aspect. Record runtime timings and errors.
-- [ ] Fresh Sol critic compares captures side-by-side with references and exercises scenarios before reading builder claims. Fix the single biggest consequential gap, recapture, and repeat while useful.
+- [x] Inspect selected references C01/C02, Quietus exterior and Siren studies with view_image before building assets.
+- [x] Build original layered seabed, industrial structures, craft, fog/sonar shadows, routes and controlled VFX. Expose observed information only.
+- [x] Implement clear pause/resume, selected unit, replace/queue/emergency orders, stop/pass-through, conditions and tool feedback with phone-sized targets.
+- [x] Add functional sound layers, mute/volume preferences and background pause handling. Verify generated/bundled assets and avoid audio spam/clipping.
+- [x] Capture actual planning, sonar cover, two-drone and threat states at 1280×720 and 960×540 plus a wide aspect. Record runtime timings and errors.
+- [x] Fresh Sol critic compares captures side-by-side with references and exercises scenarios before reading builder claims. Fix the single biggest consequential gap, recapture, and repeat while useful.
 
 ## Task 4 — Campaign, progression, saving and ending
 
@@ -63,16 +69,20 @@ Files: `game/src/campaign/*`, `game/src/persistence/*`, mission data and UI inte
 
 - [ ] Author six distinct missions with staged mechanics, authored routes, escalating objectives, briefings, debriefings and ending. Record mission design rationale.
 - [ ] Add meaningful evidence-driven unlock/loadout choices and replay. Defeat retains earned progress.
-- [ ] Implement versioned active mission/settings/campaign saves, atomic replacement, safe corrupt-save recovery, pause on focus loss and resume confirmation.
+- [x] Implement versioned active mission/settings/campaign saves, atomic replacement, safe corrupt-save recovery, pause on focus loss and resume confirmation.
 - [ ] Test every mission via ordinary command-driven completion scenarios, resources and failure/retry; test save round-trip including drone routes, objectives, AI and paused state.
 - [ ] Fresh integration critic exercises the actual campaign and reports progression, interaction, pacing, clarity and fairness defects. Resolve consequential findings and commit.
+
+Task4 partial items: six missions, replay, prose ending, saves and actual-pointer campaign progression exist. Only Split Channel yet meets a strong differentiated-task standard; Cold Foundry is the next critic-selected content cycle. Loadouts are selectable from the start, so meaningful evidence-driven equipment progression is still open. Ordinary all-mission fallback and save corruption/round-trip tests pass, while explicit defeat→retry and broader legacy-save/device lifecycle evidence remain outstanding. Two independent reviews are complete; material content findings remain active work.
 
 ## Task 5 — Android and quality closure
 
 - [ ] Rebuild latest APK; inspect package metadata, signing and included assets. Install/run with adb if a device exists; otherwise retain device validation as blocked, never simulated evidence.
 - [ ] Run regression scenarios and actual-render captures; examine Android lifecycle wiring, memory/performance and safe areas. Device claims remain separate from desktop measurements.
-- [ ] Independent fresh Sol reviewer inspects integrated outputs and key sources; iterate on material quality gaps without arbitrary round count.
+- [x] Independent fresh Sol reviewer inspects integrated outputs and key sources; iterate on material quality gaps without arbitrary round count.
 - [ ] Update workbench, model assignment/usage record, evidence index and continuation. Commit and push meaningful progress to development branch; expose APK location/hash and limitations.
+
+Task5 partial items: native debug export/signing and installed cover/briefing rendering are evidenced, but the newest combined code's Android touch/lifecycle/cutout run is still pending. The observed menu-dispatch defect has a local failure-first regression and deferred-callback fix; the native ERROR gate remains strict. Physical ZFold7 folding/thumb/performance, human listening and store signing are not certified. Do not mark this phase closed because a build or review exists.
 
 ## Coordination and checkpoint rules
 

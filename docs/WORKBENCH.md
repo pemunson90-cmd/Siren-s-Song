@@ -13,13 +13,13 @@
 | Art/input | Actual textured world, physical ray, station-owned optical inset | `docs/validation/production/`; core70 checks and runtime173 checks pass, including pointer inputs, menu preservation, optical ownership and physical→logical safearea conversion |
 | Audio | Original movement, pressure, distinct tool/beam cues and volume/mute | Actual stereo mixer recorded: peak−9.28dBFS, no clipped samples, paused tail exactly silent; human listening/native audio and forced-exit stream leak remain open |
 | Android emulator | Native cover/briefing rendering verified by tooling; touch-dispatch fix locally verified, lifecycle/restore retry pending | See `docs/CODEX_ENVIRONMENT.md` and `docs/validation/android-*`; modern backend retry; no Samsung performance claim |
-| Independent criticism | Baseline plus follow-up completed, explicit fresh Sol | `docs/reviews/2026-10-19-baseline-critique.md`; confirmed attention defects fixed, next learned safe return demonstrated; deepen sound and other missions |
+| Independent criticism | Baseline/follow-up and fresh integrated experience reviews completed, explicit fresh Sol | `docs/reviews/2026-10-19-baseline-critique.md`; confirmed attention defects fixed, next learned safe return demonstrated; deepen sound and other missions |
 
 ## Current evidence and highest-value next cycle
 
 Combined validation: `scripts/toolchain/test.sh` → **70 core/campaign +173 runtime checks, zero failures**. Waypoint check totals vary with safe path simplification; invariant tests have been added, not removed. Full framebuffer optical, beam, and connected-channel captures are in `build/captures/cycle2-*` and retained in the validation index. Desktop rendering is distinct from installed Android/Samsung validation.
 
-Next: fresh integrated Sol review of all six missions, progression/narrative, sensory tension, reference match and phone comprehension, then execute its highest-value experiential cycle. Sound integration and mixed-output measurements are now checkpointed; Split Channel has a tested safer decoy return and explicit STOP/PASS waypoints. Preserve the working baseline while native runtime/cutout/restore evidence matures. Do not stop the Gauntlet at these milestones.
+Next: execute the accepted Cold Foundry cycle from the fresh integrated review: physical industrial approach/cover, distinct retained optical discoveries, and causal recoverable extraction using current drone/cover/decoy vocabulary. Sound integration and mixed-output measurements are now checkpointed; Split Channel has a tested safer decoy return and explicit STOP/PASS waypoints. Preserve the working baseline while native runtime/cutout/restore evidence matures. Do not stop the Gauntlet at these milestones.
 
 ## Continuity
 
@@ -95,3 +95,9 @@ Independent report: `docs/reviews/2026-10-19-baseline-critique.md` (fresh Sol ev
 Actual hosted Android log at `github-run-39197089036/evidence/android-smoke/logcat.txt:17766` reports `can_process !is_inside_tree`6ms after first mission selection. The menu callback synchronously removed its own pressed Button from the scene tree while touch dispatch still referenced it. This is a game-side defect; the native error gate stays strict.
 
 Regression emitted the real mission Button's pressed signal and asserted the dispatching control remained inside the tree until delivery returned. Before fix it detached immediately and failed. Button actions now use Godot CONNECT_DEFERRED so transitions/orders execute after current input delivery. The full actual-pointer campaign and layout suite passes:70core +173runtime, zero failures. Installed Android confirmation is pending the next coherent push; local regression is not relabeled device evidence.
+
+## Next content cycle accepted — Cold Foundry
+
+Fresh report `docs/reviews/2026-10-19-integrated-experience-critique.md` independently inspected all six current observations and references before builder interpretation. It verified70/172 at its snapshot and the raw mixer measurements. Its probe found Cold Foundry's ordinary solo fallback wins83.4s/100% without tools or observed lock; Listening Well remains genuinely threatening, so no blanket late-game difficulty claim is made.
+
+Accepted bounded response: author a physical factory approach, two recognizably different observations with retained evidence, and an explained factory response/return decision. Use existing mechanics, retain recoverable solo/drone-loss paths and compare plausible naive versus considered tactics. A far-side recovery buoy gives Quietus a meaningful transit without an arbitrary new drone requirement. No new enemy class/global oxygen/lock-time escalation. Root confirmed this is within the creative grant. Judge actual clarity, discovery and tension, not only solver difficulty.
