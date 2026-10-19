@@ -1,14 +1,11 @@
 # Siren's Song
 
-Original Android-first 2D tactical submarine stealth game in development.
+Original Android-first 2D tactical submarine-stealth and reconnaissance game. USS Quietus and two drones operate amid physical sonar, acoustic exposure and technologically superior alien Sirens.
 
-A lone pilot commands the experimental USS Quietus and its reconnaissance drones in hostile deep water. Sonar and movement expose the submarine; superior alien Sirens respond to what they detect. Production target: a multi-mission game with tactical pause, assisted navigation, conditional orders, and a distinctive underwater visual identity.
+**Active game development:** [`gauntlet/production`](https://github.com/pemunson90-cmd/Siren-s-Song/tree/gauntlet/production). This default `main` branch retains the source-import/history entry and routing information. It is not the active development baseline.
 
-## Start here
+Start with the [current Gauntlet operating contract](https://github.com/pemunson90-cmd/Siren-s-Song/blob/gauntlet/production/AGENTS.md), [living game specification](https://github.com/pemunson90-cmd/Siren-s-Song/blob/gauntlet/production/docs/CURRENT_GAME_SPEC.md), [current work/ownership](https://github.com/pemunson90-cmd/Siren-s-Song/blob/gauntlet/production/docs/CONTINUATION.md) and [source authority](https://github.com/pemunson90-cmd/Siren-s-Song/blob/gauntlet/production/docs/SOURCE_AUTHORITY.md).
 
-- [Project orientation](docs/START_HERE.md)
-- [Source authority](docs/SOURCE_AUTHORITY.md)
-- [Agent instructions](AGENTS.md)
-- [Codex environment checklist](docs/CODEX_ENVIRONMENT.md)
+The Gauntlet continues through successive player-facing improvements **until the user explicitly ends it**. Completed tasks, a finished campaign, APKs and reviewer approval are not terminal conditions. At task boundaries workers check and repair documentation staleness and the orchestrator assigns the next authorized work while usage is available.
 
-**Status:** Preproduction and source import. Engine and Android environment selection pending. The historical HTML5 prototypes remain behavioral references. Design bible, extracted provenance, visual assets, and historical archives are imported. See the [source import verification and reconciliation](docs/source-import/README.md).
+Historical material on `main`: [source-import reconciliation](docs/source-import/README.md), [design bible](design/SIRENS_SONG_DESIGN_BIBLE_GAUNTLET_V1.md) and [visual handoff package](references/package/START_HERE.md).
