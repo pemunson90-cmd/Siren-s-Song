@@ -1,0 +1,16 @@
+[
+  {
+    "name": "manual",
+    "status": 200,
+    "bytes": 1157320,
+    "sha256": "25cc78d74cf7517c3afa8fc5f57a0e7a661ea52c0ebfd85415dd3770d2879043",
+    "file": "work/drone-investigation/DuskersManual.pdf"
+  },
+  {
+    "name": "metadata",
+    "status": 200,
+    "bytes": 3551,
+    "sha256": "adef9c450bfc4ddfb40d247246c755312a388c704a04ca61176b5066fec66545",
+    "file": "work/drone-investigation/duskers-metadata.json"
+  }
+]

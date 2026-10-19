@@ -1,0 +1,6 @@
+{
+  "movie_id": 256655208,
+  "title": "Duskers Gameplay Overview",
+  "metadata_api": "https://store.steampowered.com/api/appdetails?appids=254320&filters=movies",
+  "retrieval": "normal urllib proxy+TLS verification unchanged; public HLS"
+}

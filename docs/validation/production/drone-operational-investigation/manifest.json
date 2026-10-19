@@ -1,0 +1,50 @@
+{
+  "requested_routing": "Sol6.1/high",
+  "actual_backend_effort_usage": "unknown",
+  "current_source": "dced64ffc1dddd9e93f13a029cc44b5e7daa93cd",
+  "acoustic_candidate": "75537f72e297d5e2b07c03198e90097c594e9c07 (game identical47c74c9; later2b06815 onlytests)",
+  "prototype": "headless observer on frozen source copies, NOT a game feature or UI; no source modifications",
+  "manual": {
+    "url": "https://cdn.akamai.steamstatic.com/steam/apps/254320/manuals/DuskersManual.pdf?t=1464910735",
+    "sha256": "25cc78d74cf7517c3afa8fc5f57a0e7a661ea52c0ebfd85415dd3770d2879043",
+    "manual_heading": "v2.103, Section4 p9; PDF creation2016-05-12; clientbuild unknown"
+  },
+  "official_video": {
+    "steam_movie_id": 256655208,
+    "title": "Duskers Gameplay Overview",
+    "source_duration": 103.2,
+    "retrieved_duration": 96.066667,
+    "inspected_excerpt": "58\u201374seconds,16s; recognizable edited overview, no listening or currentpatch claim",
+    "full_file_sha256": "0ccc6fef55c875a3640d92451f824ad7c7c1af2cb4e8d3325f331eb6d5311134",
+    "excerpt_probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "width": 1280,
+          "height": 720,
+          "r_frame_rate": "30/1",
+          "nb_frames": "480"
+        }
+      ],
+      "format": {
+        "duration": "16.000000",
+        "size": "3769760"
+      }
+    }
+  },
+  "artifacts": {
+    "candidate-probe.jsonl": "ecd342afcc6b22f23f4be57eceb4d32cb348b4d94e5b1a370e2a60c6cd9ad59a",
+    "current-probe.jsonl": "c4e4873e7469f505c5f0ff1d9cfba0cf7dfcaacec45d8efad2ed85f02504063e",
+    "duskers-deployment-58-74.mp4": "6b4edd8a044953b47b9bba7cdefbafa3ac51d479d6960ef855338f36d66ef1f4",
+    "duskers-deployment-contact.png": "6b9235d1315d8db50787e1bf64f13fd646a2897a6ee3b62baa153faa4b11251f",
+    "guard.gd": "df2041e26e50eeafacbb2d8225516337fa9572e4f6f982e7fad560a3638a947c",
+    "guards.log": "0cb7231ce6a913f2231b42fd8394cd579c7c4702b1d8333d8313c9042646a74a",
+    "passive_listener.gd": "cc990e4ad90879a33f4fa61ed1416967341a3cf02385f237fe0be6b3768a77e6",
+    "probe.gd": "6ef76bbf2a5673e4eb4c68117dd5b051e9e27fbc0a99334c8659cfe08191c3a4",
+    "retrieval.json": "9a28d9913c5f6918d8e61f22fdc0c19a4519917645a948b415479f7c3840ab7b",
+    "selected-source.json": "c64fdd271b03e2b7ae849d71fa09499072ccdd949817e7f596ee03ec1966c020",
+    "v7-drone-reference.json": "2a785e09a01c463d83bc4725484e56fe0e0ee0469dca1e907458f420fd975577"
+  },
+  "governance_completion_fetch": "ea0b2bc8cfd2c04b0cc9e74f4acca96838b0367e; all six governing docs unchanged"
+}

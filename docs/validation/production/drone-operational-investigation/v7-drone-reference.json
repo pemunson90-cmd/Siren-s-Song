@@ -1,0 +1,60 @@
+{
+  "source": "reference/original-prototype/sirens_song_prototype_v7.html",
+  "sha256": "3b00be96179f6a61d23fe203483de3f4083bcc866c75d483ac5bfa748502e85b",
+  "method": "actual CFG and destruction condition extracted verbatim and run in Node vm; no browser/human play claim",
+  "samples": [
+    {
+      "alerted": false,
+      "invT": 0,
+      "distance": 10,
+      "dead": false
+    },
+    {
+      "alerted": false,
+      "invT": 0,
+      "distance": 20,
+      "dead": false
+    },
+    {
+      "alerted": false,
+      "invT": 1,
+      "distance": 10,
+      "dead": true
+    },
+    {
+      "alerted": false,
+      "invT": 1,
+      "distance": 20,
+      "dead": false
+    },
+    {
+      "alerted": true,
+      "invT": 0,
+      "distance": 10,
+      "dead": true
+    },
+    {
+      "alerted": true,
+      "invT": 0,
+      "distance": 20,
+      "dead": false
+    },
+    {
+      "alerted": true,
+      "invT": 1,
+      "distance": 10,
+      "dead": true
+    },
+    {
+      "alerted": true,
+      "invT": 1,
+      "distance": 20,
+      "dead": false
+    }
+  ],
+  "production_departures": [
+    "Godot four-second visual beam targets all craft at180/290 with current LOS; drone destroyed at beam, Quietus loses18hull/s",
+    "Godot dronemax96 despite manual silent flag; new routecandidate explicitly FIXED96",
+    "Acoustic candidate retains actualvel² for allcraft; stationary listener is a separate rejected-or-accepted hypothesis, not current mechanic"
+  ]
+}
