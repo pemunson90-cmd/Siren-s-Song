@@ -130,11 +130,18 @@ func _layout() -> void:
 	title_label.position=Vector2(26,12); title_label.size=Vector2(size.x-52,34); title_label.add_theme_font_size_override("font_size",maxi(26,roundi(h*0.31)))
 	status_label.position=Vector2(28,48); status_label.size=Vector2(size.x-56,28); status_label.add_theme_font_size_override("font_size",maxi(17,roundi(h*0.25)))
 	detail_label.position=Vector2(28,79); detail_label.size=Vector2(size.x-56,30); detail_label.visible=true; detail_label.add_theme_font_size_override("font_size",maxi(15,roundi(h*0.25)))
-	var zoom_width=3*h+2*gap
+	var zoom_width=gap*(zoom_buttons.size()-1); var zoom_sizes: Array[float]=[]
+	for button in zoom_buttons:
+		var font_size=maxi(18,roundi(h*0.29)); button.add_theme_font_size_override("font_size",font_size)
+		# Keep short chart labels on one line without reducing type or touch size.
+		var text_width=button.get_theme_font("font").get_string_size(button.text,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x
+		var width=maxf(h,ceilf(text_width+button.get_theme_stylebox("normal").get_minimum_size().x))
+		zoom_sizes.append(width); zoom_width+=width
+	var zoom_x=ocean.size.x-zoom_width-8
 	for i in zoom_buttons.size():
-		zoom_buttons[i].visible=screen=="mission"; zoom_buttons[i].custom_minimum_size=Vector2(h,h)
-		zoom_buttons[i].position=Vector2(ocean.size.x-zoom_width-8+i*(h+gap),8); zoom_buttons[i].size=Vector2(h,h)
-		zoom_buttons[i].add_theme_font_size_override("font_size",maxi(18,roundi(h*0.29)))
+		zoom_buttons[i].visible=screen=="mission"; zoom_buttons[i].custom_minimum_size=Vector2(zoom_sizes[i],h)
+		zoom_buttons[i].position=Vector2(zoom_x,8); zoom_buttons[i].size=Vector2(zoom_sizes[i],h)
+		zoom_x+=zoom_sizes[i]+gap
 	pause_button.position=panel.position; pause_button.custom_minimum_size=Vector2(0,h); pause_button.size=Vector2(panel.size.x*0.63-gap,h)
 	advanced_button.position=panel.position+Vector2(panel.size.x*0.63,0); advanced_button.custom_minimum_size=Vector2(0,h); advanced_button.size=Vector2(panel.size.x*0.37,h)
 	for button in [pause_button,advanced_button]: button.add_theme_font_size_override("font_size",maxi(15,roundi(h*0.26)))
