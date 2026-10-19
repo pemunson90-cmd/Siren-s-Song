@@ -95,11 +95,30 @@ func player_path(a:Vector2,b:Vector2)->Array:
 	return terrain_chart.player_path(a,b) if terrain_chart!=null else path(a,b)
 func course_status(unit_id:int=-1)->Dictionary:
 	if terrain_chart==null:return {}
-	var u=units[selected if unit_id<0 else unit_id]
+	var id=selected if unit_id<0 else unit_id
+	if id>=units.size():return {}
+	var u=units[id]
 	if u.has("chart_stop"):return {"state":"blocked","reason":u.chart_stop,"clear_distance":0.0}
 	if u.route.is_empty():return {"state":"charted","reason":"","clear_distance":0.0}
 	var distance=terrain_chart.clear_distance(u.pos,u.route[0].pos)
 	return {"state":"charted" if distance+0.01>=u.pos.distance_to(u.route[0].pos) else ("frontier" if distance<20 else "tentative"),"reason":"Unsurveyed course" if distance+0.01<u.pos.distance_to(u.route[0].pos) else "","clear_distance":distance}
+func course_segments(unit_id:int=-1)->Array:
+	var result=[]
+	if terrain_chart==null:return result
+	var id=selected if unit_id<0 else unit_id
+	if id>=units.size():return result
+	var origin:Vector2=units[id].pos
+	for node in units[id].route:
+		var distance=origin.distance_to(node.pos)
+		var clear=terrain_chart.clear_distance(origin,node.pos)
+		var frontier=origin.move_toward(node.pos,clear)
+		if clear>0.001:result.append({"from":origin,"to":frontier,"confirmed":true})
+		if clear+0.001<distance:result.append({"from":frontier,"to":node.pos,"confirmed":false})
+		origin=node.pos
+	return result
+func delivery_context()->Dictionary:
+	if mission.get("delivery_revision",0)!=1:return {}
+	return {"handoff_sector":mission.handoff_sector,"handoff_pos":mission.handoff_pos,"withdrawal_pos":mission.withdrawal_pos,"handoff_complete":mission.handoff_complete,"recovered":mission.recovered,"withdrawal_armed":mission.withdrawal_armed,"carried_evidence":mission.carried_evidence,"return_available":all_records()}
 func _chart_observe()->void:
 	if terrain_chart==null or paused:return
 	var receivers=[]
