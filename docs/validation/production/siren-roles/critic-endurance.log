@@ -1,8 +1,0 @@
-Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
-
-DRONE_ONLY mission=0 complete_records=true outcome=won elapsed=18.6 hull=100.0 oxygen=119.0 quietus_displacement=0.0 drones=true,true emp_left=2 result=true msg=Archive recovered. Quietus is home.
-DRONE_ONLY mission=2 complete_records=false outcome= elapsed=23.8 hull=100.0 oxygen=118.7 quietus_displacement=0.0 drones=false,true emp_left=0 result=false msg=Drone lost · Quietus command restored. Submarine camera remains available.
-DRONE_ONLY mission=4 complete_records=false outcome= elapsed=15.6 hull=100.0 oxygen=119.1 quietus_displacement=0.0 drones=false,true emp_left=0 result=false msg=Drone lost · Quietus command restored. Submarine camera remains available.
-DRONE_ONLY mission=5 complete_records=false outcome= elapsed=36.8 hull=100.0 oxygen=118.0 quietus_displacement=0.0 drones=false,true emp_left=0 result=false msg=Drone lost · Quietus command restored. Submarine camera remains available.
-DEFAULT_LOADOUT oxygen=120.0 emp=2 recon=2
-CAMERA_AT_LAUNCH accepted=false message=SIGNAL SPIRE · 1263m away / 240m range · view blocked by cover

@@ -1,9 +1,0 @@
-test_postcapture_incomplete_chunk_cannot_fallback (__main__.Independent.test_postcapture_incomplete_chunk_cannot_fallback) ... ok
-test_postcapture_malformed_latest_is_fatal (__main__.Independent.test_postcapture_malformed_latest_is_fatal) ... ok
-test_snapshot_count_regression_cannot_publish (__main__.Independent.test_snapshot_count_regression_cannot_publish) ... ok
-test_target_exposure_change_requires_fresh_pair (__main__.Independent.test_target_exposure_change_requires_fresh_pair) ... ok
-
-----------------------------------------------------------------------
-Ran 4 tests in 1.800s
-
-OK

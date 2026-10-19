@@ -1,5 +1,0 @@
-# Current integrated campaign views
-
-Candidate game92625ac, actual Godot framebuffers collected after touch integration. Mission0–5 are1280×720 overviews with one ordinary finite SURVEY command, paused; that permitted survey exposes contacts for8seconds. These are not normal passive initial views or human-play traces. The cover briefing is2520×1080. Unfolded ending2184×1968 comes from actual ordinary mission6 fallback camera/route/extraction commands: won82.1s,100% hull, then actual debrief.
-
-Reproduce through `capture_campaign.gd -- --mission=0..5`, `--mission=0 --view=brief`, or `--view=ending`, using the standard capture tool and stated resolutions. Captures do not write player saves. Supporting current close encounter and synthetic input movie: `../touch/`; prior integrated mission/response/audio evidence remains alongside. Desktop rendering does not certify physical Fold7 or full native campaign play. This collection supports periodic whole-game criticism; six overview pictures do not establish content depth, progression or human pacing.

@@ -1,9 +1,0 @@
-# Whole-game review evidence
-
-Independent report: [whole-game review](../../../reviews/2026-10-19-whole-game-review.md). Candidate92625ac, promoted baseline93b8631; game source unchanged during review. The critic authored the three scripts and actual2520×1080 operations/camera-ready images in an isolated temporary directory. Production retained them here after handoff and independently reran both command protocols; `*-rerun.log` are that reproduction. No game state, player save or game source was altered.
-
-`disruption_probe.gd`: ordinary briefed drone routes/camera and finite EMP only on fresh observed lock. It does not route Quietus. Missions0/2/4/5 win18.6/30.0/45.8/44.1s with both drones alive and Quietus stationary. `endurance_probe.gd` changes only loadout: missions0/2 win, missions4/5 lose Drone A mid-plan, Drone B/fallback remain and outcome is still active. Retain both results; third disruption charge has value. These are expert accelerated protocols, not human pacing/optimality or difficulty acceptance.
-
-Replay from repository root, with an isolated XDG directory, using `scripts/toolchain/headless.sh --script "$PWD/docs/validation/production/whole-game-review/disruption_probe.gd"` (substitute endurance file for comparison). `capture_probe.gd` reproduces the real operations and ordinarily reached camera-ready views; report gives full flags. The ready image demonstrates missing player-facing target/range readiness despite legitimate range/LOS. Original capture logs preserve the known short-exit audio flush warning; no native leak inference is made.
-
-Review proposes a bounded distinctive finale warning/return investigation after current touch native settlement, while preserving recovery and explicitly weighing remote-completion tradeoffs. These artifacts do not certify physical Android dp sizing, Fold7 ergonomics, human listening or native final-restore success.

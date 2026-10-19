@@ -1,2 +1,0 @@
-6e86eceae2e39e45db8052f601f92fe556e64ee107f6d1e4ef0bc4a2320eb8ee  /home/runner/work/Siren-s-Song/Siren-s-Song/artifacts/android-smoke/role-archive-primary.save
-6e86eceae2e39e45db8052f601f92fe556e64ee107f6d1e4ef0bc4a2320eb8ee  /home/runner/work/Siren-s-Song/Siren-s-Song/artifacts/android-smoke/role-archive-backup.save

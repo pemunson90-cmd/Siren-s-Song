@@ -1,7 +1,0 @@
-Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
-
-FAIL heard ping investigation targets origin
-FAIL a planned decoy return preserves more hull than the direct route
-SPLIT DIRECT outcome=won time=39.2 hull=100.0 EMP remaining=0 DECOYS remaining=3
-SPLIT PLANNED RETURN outcome=won time=39.2 hull=100.0 EMP remaining=0 DECOYS remaining=2
-ACOUSTIC COMPOSITION CHECKS 26 FAILURES 2

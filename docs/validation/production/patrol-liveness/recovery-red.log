@@ -1,5 +1,0 @@
-Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
-
-FAIL: emergency can recover a legal hull stranded near a basalt corner
-FAIL: near-wall recovery moves continuously through safe water to open clearance
-CHECKS 97 FAILURES 2

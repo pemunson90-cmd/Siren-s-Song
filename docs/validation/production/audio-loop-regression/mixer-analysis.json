@@ -1,9 +1,0 @@
-{
-  "sample_rate": 48000,
-  "channels": 2,
-  "sample_width": 4,
-  "seconds": 18.0,
-  "peak": 0.14537715911865234,
-  "rms": 0.03794518265949133,
-  "clipped_samples": 0
-}

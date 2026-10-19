@@ -1,5 +1,0 @@
-PASS 518 exactly equal paired records
-PASS 13 contact and 8 additional capture edge probes
-PASS headless layout-only exit and actual cover/inner PNG dimensions
-PASS successful runs contain no Godot SCRIPT ERROR/ERROR records
-PASS frozen source manifest and review links

@@ -1,7 +1,0 @@
-10-19 04:31:55.079  4074  4104 I godot   : SS_RESTORE ok mission=0 time=0.65 paused=true completed=[] unlocked=0
-10-19 04:32:04.875  4074  4104 I godot   : SS_TARGET menu center=1575,530 viewport=1680,720
-10-19 04:32:09.715   651  1876 I WindowManager: Display id=0 rotation changed to 0 from 1, lastOrientation=-1 userRotationMode=1 userRotation=0 lastSensorRotation=0
-10-19 04:32:10.397  4074  4104 I godot   : SS_TARGET menu center=1155,1003 viewport=1280,1153
-10-19 04:32:10.397  4074  4104 I godot   : SS_TARGET menu center=1155,1003 viewport=1280,1153
-10-19 04:32:12.803  4074  4104 I godot   : SS_TARGET menu center=1149,810 viewport=1280,960
-10-19 04:32:12.803  4074  4104 I godot   : SS_TARGET menu center=1149,810 viewport=1280,960

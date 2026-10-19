@@ -1,1 +1,0 @@
-First inline inner stills had a stale cover safe-area fixture during resize; excluded from inner evidence. Baseline additionally had inner labels at cover dimensions. See separately captured media/optional/pages and media/baseline/pages for actual full-inner-safe-rect evidence. Product sources were not changed.

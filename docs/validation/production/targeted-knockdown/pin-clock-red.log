@@ -1,5 +1,0 @@
-Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
-
-FAIL: snare carries its own eight-second depth clock independent of disruption
-FAIL: EMP keeps twelve-second disruption without resetting the physical snare interval
-KNOCKDOWN CHECKS 51 FAILURES 2

@@ -1,5 +1,0 @@
-Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
-
-BENCHMARK scenario=aligned-open microseconds_per_tick_samples=[190.112, 188.1905, 185.6085, 188.048, 182.073]
-BENCHMARK scenario=sharp-open microseconds_per_tick_samples=[235.046, 222.317, 217.842, 228.8635, 231.927]
-BENCHMARK scenario=sharp-near microseconds_per_tick_samples=[250.6625, 274.0835, 294.9335, 250.929, 257.5265]

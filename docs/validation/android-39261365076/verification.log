@@ -1,7 +1,0 @@
-PASS:4 existing ZIP metadata sizes/SHA256/CRC; extracted APK archived hash and local v2/v3/stable certificate.
-PASS:59 original PNG hashes;41 final-labelled images inspected;21 retained final views +cleanup display decode pixel-identically.
-PASS:44 parsed metrics;15 menu and3 post_draw semantic brackets; no counter/frame regression.
-PASS:local Markdown links/JSON/signedURL text scan; exact received job text659287characters/659289UTF8bytes.
-FAIL: native Blackwater fixture generator resolves relative --script below --path game; no fixture injection or chapter PNGs.
-OBSERVED LOSS: cover-resume PNG is entirely black; later cover restored gameplay readable; no persistent-game-defect inference.
-Scope: sourcea178 failed run only; local correction and later product work are separate. No CI rerun.
