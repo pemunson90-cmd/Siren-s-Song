@@ -10,6 +10,7 @@ stage() {
     echo "SS_SMOKE_STAGE $(date -u +%Y-%m-%dT%H:%M:%SZ) $*" | tee -a "$output/progress.txt"
 }
 adb_bin="$(command -v adb)"
+log_read_serial=0
 adb() {
     local status=0
     timeout --foreground "${ADB_TIMEOUT_SECONDS:-30}" "$adb_bin" "$@" || status=$?
@@ -20,6 +21,8 @@ adb() {
 }
 read_logcat() {
     local destination="$1" status=0 read_attempt
+    ((log_read_serial+=1))
+    local serial="$log_read_serial"
     for ((read_attempt=1; read_attempt<=3; read_attempt++)); do
         status=0
         adb logcat -d >"$destination.attempt-$read_attempt.txt" 2>"$destination.attempt-$read_attempt.stderr.txt" || status=$?
@@ -27,6 +30,10 @@ read_logcat() {
             cp "$destination.attempt-$read_attempt.txt" "$destination"
             return 0
         fi
+        # Repeated readiness polls reuse destination names. Preserve failed reads
+        # independently so a later successful poll cannot overwrite their errors.
+        cp "$destination.attempt-$read_attempt.txt" "$output/failed-logcat-$serial-attempt-$read_attempt.txt"
+        cp "$destination.attempt-$read_attempt.stderr.txt" "$output/failed-logcat-$serial-attempt-$read_attempt.stderr.txt"
         cat "$destination.attempt-$read_attempt.stderr.txt" >&2
         stage "logcat read attempt $read_attempt returned $status; partial output retained"
         if (( status != 255 )); then return "$status"; fi
