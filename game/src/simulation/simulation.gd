@@ -425,9 +425,28 @@ func _tick(dt: float) -> void:
 	if hull<=0: outcome="lost"; message="Quietus lost. Your previous campaign records remain safe."
 	if outcome.is_empty() and all_records() and units[0].pos.distance_to(mission.extraction)<65 and units[0].vel.length()<12:
 		outcome="won"; paused=true; message="Archive recovered. Quietus is home."; events.append({"type":"extraction","pos":units[0].pos})
+# Physical turns can leave the line compiled at order time. Repair only a dirty
+# current leg; keep every accepted node/goal after it and never re-run AStar for
+# an unobstructed leg. This is player autopilot, not enemy pursuit steering.
+func _repair_current_leg(u:Dictionary) -> bool:
+	var destination:Dictionary=u.route[0]
+	var leg=path(u.pos,destination.pos)
+	if leg.is_empty() or not segment_safe(u.pos,leg[0].pos,12): return false
+	for node in leg:
+		# Keep a near-wall recovery safety STOP, distinct from operator arrival.
+		if destination.has("mode"): node.mode=destination.mode
+	leg[leg.size()-1]=destination.duplicate(true)
+	leg.append_array(u.route.slice(1));u.route=leg
+	return true
 func _move(u: Dictionary,dt: float,speed: float,holding: bool,report_collision: bool=true,player_craft: bool=false) -> void:
 	var desired=Vector2.ZERO
 	if player_craft: speed=RouteProgram.speed(u,speed,u.name=="QUIETUS")
+	if player_craft and not holding and not u.route.is_empty() and not segment_safe(u.pos,u.route[0].pos,12):
+		if _repair_current_leg(u):
+			if report_collision: message="%s · course adjusted around charted terrain"%u.name
+		else:
+			u.route.clear();RouteProgram.clear(u)
+			if report_collision: message="%s autopilot stopped at unsafe terrain. Replot in open water."%u.name
 	if not u.route.is_empty() and not holding:
 		var dest=u.route[0]
 		var delta:Vector2=dest.pos-u.pos
@@ -468,7 +487,7 @@ func _move(u: Dictionary,dt: float,speed: float,holding: bool,report_collision: 
 	else:
 		u.vel=Vector2.ZERO; u.route.clear()
 		if player_craft: RouteProgram.clear(u)
-		if report_collision: message="Autopilot stopped at unsafe terrain. Replot in open water."
+		if report_collision: message="%s autopilot stopped at unsafe terrain. Replot in open water."%u.name
 func _observe() -> void:
 	for y in 24:
 		for x in 40:
@@ -825,7 +844,7 @@ func _record_secured(record: Dictionary) -> void:
 	if mission.id==5 and record.get("kind","")=="receiver":
 		mission["phase"]="warning"; message="Warning decoded: deep fracture; outbound hulls are leaving. Bring Quietus and this packet home."
 	if mission.id==3:
-		message="Furnace record secured. Review recovered evidence in Operations."
+		message="Furnace record secured. Review observations in FIELD RECORDS."
 		if all_records() and mission.get("phase","")!="response":
 			mission["phase"]="response"; mission["response_time"]=0.0
 			var origin:Vector2=mission.objectives[1].pos

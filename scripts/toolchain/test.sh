@@ -74,6 +74,7 @@ while IFS='|' read -r scenario summary; do
         echo "Missing successful $scenario summary" >&2; exit 1;
     }
 done <<'TACTICAL_SCENARIOS'
+turn_safe_navigation_tests|TURN SAFE NAVIGATION
 route_program_tests|ROUTE PROGRAM
 drone_operations_tests|DRONE OPERATIONS
 drone_operations_ui_tests|DRONE OPERATIONS UI
