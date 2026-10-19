@@ -1,0 +1,153 @@
+--- a/game/src/campaign/missions.gd
++++ b/game/src/campaign/missions.gd
+@@ -78,6 +78,12 @@
+ 			patrols[n].pos=home; patrols[n].home=home; patrols[n].goal=home
+ 			patrols[n]["type"]="sentinel"; patrols[n]["tether"]=190.0
+ 	if i==4:
++		result["well_revision"]=1;result["well_reference"]={};result["well_observation"]={}
++		result.brief="The well repeats an unassigned cadence. Recover three perimeter records and return. Its fast hunter follows real noise and sightings. Optional comparison: after recording the PATTERN ARRAY, cruise Quietus through clear water within 240m of the PROFILE APERTURE while MOTION NOISE shows QUIETUS. Then bring a live receiver within passive reach of the RETURN ARCHIVE. A drone can listen while Quietus makes its pass; Quietus can make the comparison alone. Remote records remain a valid unverified archive. No comparison is worth promising a safe escape."
++		result.record="Well archive recovered · signature unverified. The returned cadence remains unassigned; no moving Quietus comparison was observed."
++		objectives[0].name="PATTERN ARRAY";objectives[0]["optical"]="well_pattern"
++		objectives[0]["evidence"]="UNASSIGNED CADENCE. This perimeter record contains a repeating pattern, not an identified speaker. Optional test: cruise Quietus past the PROFILE APERTURE within 240m and a clear line while its motion-noise instrument is active. Receive the local return near the RETURN ARCHIVE: Quietus within 240m or a live drone within 330m, with a clear line. Keep the remote archive without making this comparison, or risk a moving pass for a recorded match."
++		objectives[1].name="PROFILE APERTURE";objectives[2].name="RETURN ARCHIVE"
+ 		patrols[1]["type"]="hunter"; patrols[1].pos=Vector2(800,600); patrols[1].home=patrols[1].pos; patrols[1].goal=patrols[1].pos
+ 	if i==5:
+ 		result["phase"]="observations"; result["finale_revision"]=1
+--- a/game/src/main.gd
++++ b/game/src/main.gd
+@@ -200,6 +200,9 @@
+ 	order_buttons.decoy.text="DECOY\n%d"%sim.tools.decoy
+ 	order_buttons.recon.text="SURVEY\n%d"%sim.tools.recon
+ 	log_label.text=sim.message
++	if sim.mission.get("well_revision",0)==1 and sim.mission.objectives[0].captured:
++		var comparison="MATCH RECORDED" if not sim.mission.well_observation.is_empty() else ("REFERENCE LOGGED" if not sim.mission.well_reference.is_empty() else "UNVERIFIED")
++		log_label.text="WELL · %s | %s"%[comparison,sim.message]
+ 	advanced_button.text="BACK\nORDERS" if advanced_orders else "MORE\nORDERS"
+ 	order_buttons.menu.text="MENU"
+ 	order_buttons.contact_hold.text="IF\nCONTACT"
+@@ -275,7 +278,7 @@
+ 		var b=_button(panel_box,"%02d   %s   %s"%[i+1,Simulation.Missions.TITLES[i],"RECOVERED" if i in completed else ("AVAILABLE" if i<=unlocked else "LOCKED")],func(): print("SS_MISSION_SELECT ",id); _briefing(id))
+ 		b.disabled=i>unlocked
+ 		b.set_meta("action","mission%d"%i)
+-	if not recovered_evidence.is_empty(): _button(panel_box,"REVIEW RECOVERED RECORDS" if recovered_evidence.has("blackwater_request") or recovered_evidence.has("blackwater_reply") else "REVIEW OPTICAL RECORDS",func(): _evidence_gallery(0),"evidence")
++	if not recovered_evidence.is_empty(): _button(panel_box,"REVIEW RECOVERED RECORDS" if recovered_evidence.has("blackwater_request") or recovered_evidence.has("blackwater_reply") or recovered_evidence.has("well_pattern") or recovered_evidence.has("well_signature") else "REVIEW OPTICAL RECORDS",func(): _evidence_gallery(0),"evidence")
+ 	_menu_text("Unlimited tactical pause · tap routes · survey, photograph, return",14)
+ 	var stock=_loadout_stock(upgrade)
+ 	_menu_text("NEXT DIVE / RETRY · %s\nO₂ %d%% · DISRUPT %d · SURVEY %d"%[upgrade.to_upper(),stock[0],stock[1],stock[2]],15)
+@@ -315,7 +318,7 @@
+ 		_menu_text("ARCHIVE RECOVERED",32)
+ 		_menu_text(sim.mission.record,22)
+ 		_menu_text("Dive time %02d:%02d  /  Hull %d%%  /  Life support %d%%"%[int(sim.elapsed)/60,int(sim.elapsed)%60,int(sim.hull),int(sim.oxygen)],17)
+-		if not recovered_evidence.is_empty(): _button(panel_box,"REVIEW RECOVERED RECORDS" if recovered_evidence.has("blackwater_request") or recovered_evidence.has("blackwater_reply") else "REVIEW OPTICAL RECORDS",func(): _evidence_gallery(0),"evidence")
++		if not recovered_evidence.is_empty(): _button(panel_box,"REVIEW RECOVERED RECORDS" if recovered_evidence.has("blackwater_request") or recovered_evidence.has("blackwater_reply") or recovered_evidence.has("well_pattern") or recovered_evidence.has("well_signature") else "REVIEW OPTICAL RECORDS",func(): _evidence_gallery(0),"evidence")
+ 		if mission_index==5:
+ 			var discovery="The crown points into the trench. Unarmed wakes lead away from the fracture. Quietus’ hydrophones resolve what the images could not: they are evacuating.\n\n" if sim.mission.get("finale_revision",0)==1 else ""
+ 			_menu_text("THE SONG CONTINUES\n\n"+discovery+"You return with a warning, not a firing solution. Above you, the fleet waits for orders. Below, the foundry lights go dark, one by one. For the first time since descent, Quietus hears only the ocean.\n\nCampaign complete. Every dive remains replayable.",20)
+@@ -510,19 +513,25 @@
+ 	if ready!=diagnostic_ready:
+ 		diagnostic_ready=ready
+ 		if not ready.is_empty(): print("SS_CAMERA_READY ",ready)
++	if sim.mission.get("well_revision",0)==1 and not sim.mission.well_observation.is_empty() and not recovered_evidence.has("well_signature"):_retain_evidence()
++func _evidence_is_text(entry:Dictionary) -> bool:
++	return entry.optical in ["well_pattern","well_signature"]
+ func _retain_evidence() -> void:
+ 	for objective in sim.mission.objectives:
+ 		if objective.captured and objective.has("optical"):
+ 			recovered_evidence[objective.optical]={"name":objective.name,"caption":objective.evidence,"optical":objective.optical}
++	var signature=sim.well_signature_evidence()
++	if not signature.is_empty():recovered_evidence[signature.optical]=signature
+ func _evidence_gallery(index: int) -> void:
+ 	_retain_evidence()
+ 	if recovered_evidence.is_empty(): _show_campaign(); return
+ 	sim.paused=true; screen="evidence"; _clear_menu()
+ 	var keys=recovered_evidence.keys(); var entry=recovered_evidence[keys[index%keys.size()]]
+-	_menu_text("RECOVERED %s / %d OF %d"%["HYDROPHONES" if entry.optical in ["blackwater_request","blackwater_reply"] else "OPTICAL",index+1,keys.size()],18)
++	_menu_text("RECOVERED %s / %d OF %d"%["ACOUSTIC" if _evidence_is_text(entry) else ("HYDROPHONES" if entry.optical in ["blackwater_request","blackwater_reply"] else "OPTICAL"),index+1,keys.size()],18)
+ 	_menu_text(entry.name,28)
+-	var image=TextureRect.new(); image.texture=preload("res://src/presentation/evidence_catalog.gd").IMAGES[entry.optical]
+-	image.expand_mode=TextureRect.EXPAND_IGNORE_SIZE; image.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED; image.custom_minimum_size=Vector2(0,minf(320,size.y*0.4)); panel_box.add_child(image)
++	if not _evidence_is_text(entry):
++		var image=TextureRect.new(); image.texture=preload("res://src/presentation/evidence_catalog.gd").IMAGES[entry.optical]
++		image.expand_mode=TextureRect.EXPAND_IGNORE_SIZE; image.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED; image.custom_minimum_size=Vector2(0,minf(320,size.y*0.4)); panel_box.add_child(image)
+ 	_menu_text(entry.caption,19)
+ 	if keys.size()>1: _button(panel_box,"NEXT RECORD",func(): _evidence_gallery((index+1)%keys.size()),"next_record")
+ 	_button(menu_footer,"BACK TO OPERATIONS",_show_campaign,"back"); menu_footer.show()
+--- a/game/src/persistence/save_store.gd
++++ b/game/src/persistence/save_store.gd
+@@ -11,7 +11,7 @@
+ 		if not data.evidence is Dictionary: return false
+ 		for key in data.evidence:
+ 			var entry=data.evidence[key]
+-			if key not in ["furnace","cradle","transmitter","departure","warning","blackwater_request","blackwater_reply"] or not entry is Dictionary or not entry.has_all(["name","caption","optical"]) or entry.optical!=key or not entry.name is String or not entry.caption is String: return false
++			if key not in ["furnace","cradle","transmitter","departure","warning","blackwater_request","blackwater_reply","well_pattern","well_signature"] or not entry is Dictionary or not entry.has_all(["name","caption","optical"]) or entry.optical!=key or not entry.name is String or not entry.caption is String: return false
+ 	if data.has("active") and data.active!=null:
+ 		if not data.active is Dictionary or not Simulation.valid_snapshot(data.active): return false
+ 	return true
+--- a/game/src/simulation/simulation.gd
++++ b/game/src/simulation/simulation.gd
+@@ -219,6 +219,28 @@
+ 		if not mission.objectives[prerequisite].captured:
+ 			return {"target":best,"ready":false,"text":target.get("requirement","Uplink needs both relay records. Photograph WEST and EAST first.")}
+ 	return {"target":best,"ready":true,"text":"READY · %s · %s %.0fs"%[target.name,"passive listen" if target.get("kind","")=="receiver" else "exposure",target.get("duration",4.0)]}
++# Well-specific optional comparison. Own motion and local reception only;
++# no Siren query, extra acoustic source or forced enemy intent.
++func _well_signature_observe() -> void:
++	if mission.get("well_revision",0)!=1 or not mission.objectives[0].captured:return
++	var emitter=units[0];var aperture:Vector2=mission.objectives[1].pos
++	if mission.well_reference.is_empty() and emitter.alive and emitter.vel.length()>50 and emitter.pos.distance_to(aperture)<240 and line_clear(emitter.pos,aperture):
++		mission.well_reference={"time":elapsed,"speed":emitter.vel.length(),"pos":emitter.pos}
++		message="Quietus engine reference recorded · compare locally at RETURN ARCHIVE"
++	if mission.well_reference.is_empty() or not mission.well_observation.is_empty():return
++	var origin:Vector2=mission.objectives[2].pos
++	for id in units.size():
++		var receiver=units[id];var radius=(240.0 if id==0 else 330.0)*(0.65 if mission.darkness else 1.0)
++		if receiver.alive and receiver.pos.distance_to(origin)<radius and line_clear(receiver.pos,origin):
++			mission.well_observation={"time":elapsed,"unit":id,"pos":origin}
++			mission.record="A returned pattern matches Quietus' moving engine cadence. Its source and intent remain unresolved."
++			message="Returned cadence matches Quietus reference · comparison recorded"
++			break
++func well_signature_evidence() -> Dictionary:
++	if mission.get("well_revision",0)!=1 or mission.well_observation.is_empty():return {}
++	var reference=mission.well_reference;var observation=mission.well_observation
++	return {"name":"QUIETUS / RETURNED CADENCE","optical":"well_signature","caption":"ENGINE REFERENCE: Quietus moving %.1f m/s at %.1fs near PROFILE APERTURE. LOCAL RETURN: received by %s at %.1fs near RETURN ARCHIVE. The returned cadence matches the recorded reference. Source and intent remain unresolved."%[reference.speed,reference.time,units[observation.unit].name.to_upper(),observation.time]}
++
+ func _noise(p: Vector2,radius: float,label: String,duration: float=2.0) -> void:
+ 	noises.append({"pos":p,"radius":radius,"time":duration,"label":label})
+ # Own known emissions only. Reception and enemy reaction remain sensor evidence.
+@@ -277,6 +299,7 @@
+ 			if capture_time+(0.0000001 if exchange else 0.0)>=o.get("duration",4.0):
+ 				if exchange:capture_time=o.duration
+ 				o.captured=true; u.hold=""; capture_unit=-1; _record_secured(o)
++	_well_signature_observe()
+ 	if not units[selected].alive:
+ 		selected=0; queue_mode=false; message="Drone lost · Quietus selected · SAMPLE remains available." if mission.get("blackwater_revision",0)==1 else "Drone lost · Quietus command restored. Submarine camera remains available."
+ 	if oxygen<=0: outcome="lost"; message="Life support exhausted. The archive is silent."
+@@ -485,6 +508,19 @@
+ 			if not structure is Rect2: return false
+ 	for o in data.mission.objectives:
+ 		if not o is Dictionary or not o.has_all(["pos","name","captured"]) or not o.pos is Vector2: return false
++	if data.mission.has("well_revision"):
++		if data.mission.id!=4 or data.mission.well_revision!=1 or not data.mission.get("well_reference") is Dictionary or not data.mission.get("well_observation") is Dictionary:return false
++		var reference=data.mission.well_reference;var observation=data.mission.well_observation;var time=data.get("elapsed",0.0)
++		if not (time is float or time is int) or not is_finite(float(time)) or time<0:return false
++		if not reference.is_empty():
++			if not reference.has_all(["time","speed","pos"]) or not reference.pos is Vector2 or not reference.pos.is_finite():return false
++			for key in ["time","speed"]:
++				if not (reference[key] is float or reference[key] is int) or not is_finite(float(reference[key])):return false
++			if reference.time<0 or reference.time>time or reference.speed<=50:return false
++		if not observation.is_empty():
++			if reference.is_empty() or not observation.has_all(["time","unit","pos"]) or not observation.pos is Vector2 or not observation.pos.is_finite():return false
++			if not observation.unit is int or observation.unit<0 or observation.unit>2:return false
++			if not (observation.time is float or observation.time is int) or not is_finite(float(observation.time)) or observation.time<reference.time or observation.time>time:return false
+ 	if data.mission.has("blackwater_revision"):
+ 		if data.mission.id!=2 or not data.mission.blackwater_revision is int or data.mission.blackwater_revision!=1 or data.mission.objectives.size()!=2:return false
+ 		var time=data.get("elapsed",0.0)
+@@ -537,6 +573,8 @@
+ func _record_secured(record: Dictionary) -> void:
+ 	events.append({"type":"record","pos":record.pos})
+ 	message="Record secured. Return Quietus to extraction." if all_records() else "Record secured. Continue the survey."
++	if mission.get("well_revision",0)==1 and record==mission.objectives[0]:
++		message="Pattern record secured · optional moving Quietus comparison explained in recovered records"
+ 	if mission.get("blackwater_revision",0)==1:
+ 		message="Exchange matched · ancient ocean archive aboard · return Quietus home" if all_records() else ("REQUEST decoded · REPLY accepts SONAR replay within 240m; or approach quietly" if record.name=="REQUEST RELAY" else "REPLY decoded · ancient temperatures · REQUEST accepts SONAR replay within 240m")
+ 	if mission.id==5 and record.get("kind","")=="receiver":

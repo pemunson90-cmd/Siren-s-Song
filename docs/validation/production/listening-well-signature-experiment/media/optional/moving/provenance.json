@@ -1,0 +1,290 @@
+{
+	"commands": [
+		{
+			"accepted": true,
+			"args": {
+				"unit": 1
+			},
+			"order": "select",
+			"time": 0.0
+		},
+		{
+			"accepted": true,
+			"args": {
+				"point": "(800.0, 390.0)"
+			},
+			"order": "route",
+			"time": 0.0
+		},
+		{
+			"accepted": true,
+			"args": {
+				"unit": 1
+			},
+			"order": "select",
+			"time": 7.18333333333331
+		},
+		{
+			"accepted": true,
+			"args": {
+
+			},
+			"order": "emp",
+			"time": 7.18333333333331
+		},
+		{
+			"accepted": true,
+			"args": {
+				"unit": 1
+			},
+			"order": "select",
+			"time": 7.18333333333331
+		},
+		{
+			"accepted": true,
+			"args": {
+				"unit": 1
+			},
+			"order": "select",
+			"time": 10.8500000000001
+		},
+		{
+			"accepted": true,
+			"args": {
+
+			},
+			"order": "emp",
+			"time": 10.8500000000001
+		},
+		{
+			"accepted": true,
+			"args": {
+				"unit": 1
+			},
+			"order": "select",
+			"time": 10.8500000000001
+		},
+		{
+			"accepted": true,
+			"args": {
+				"unit": 1
+			},
+			"order": "select",
+			"time": 11.3333333333335
+		},
+		{
+			"accepted": true,
+			"args": {
+
+			},
+			"order": "camera",
+			"time": 11.3333333333335
+		},
+		{
+			"accepted": true,
+			"args": {
+				"unit": 1
+			},
+			"order": "select",
+			"time": 15.8333333333337
+		},
+		{
+			"accepted": true,
+			"args": {
+				"point": "(420.0, 180.0)"
+			},
+			"order": "route",
+			"time": 15.8333333333337
+		},
+		{
+			"accepted": true,
+			"args": {
+				"unit": 2
+			},
+			"order": "select",
+			"time": 15.8333333333337
+		},
+		{
+			"accepted": true,
+			"args": {
+				"point": "(780.0, 850.0)"
+			},
+			"order": "route",
+			"time": 15.8333333333337
+		},
+		{
+			"accepted": true,
+			"args": {
+				"unit": 0
+			},
+			"order": "select",
+			"time": 15.8333333333337
+		},
+		{
+			"accepted": true,
+			"args": {
+
+			},
+			"order": "silent",
+			"time": 15.8333333333337
+		},
+		{
+			"accepted": true,
+			"args": {
+				"unit": 0
+			},
+			"order": "select",
+			"time": 15.8333333333337
+		},
+		{
+			"accepted": true,
+			"args": {
+				"point": "(1150.0, 450.0)"
+			},
+			"order": "route",
+			"time": 15.8333333333337
+		},
+		{
+			"accepted": true,
+			"args": {
+				"unit": 0
+			},
+			"order": "select",
+			"time": 23.8499999999999
+		},
+		{
+			"accepted": true,
+			"args": {
+
+			},
+			"order": "emp",
+			"time": 23.8499999999999
+		},
+		{
+			"accepted": true,
+			"args": {
+				"unit": 0
+			},
+			"order": "select",
+			"time": 23.8499999999999
+		},
+		{
+			"accepted": true,
+			"args": {
+
+			},
+			"order": "silent",
+			"time": 33.9999999999994
+		},
+		{
+			"accepted": true,
+			"args": {
+				"unit": 0
+			},
+			"order": "select",
+			"time": 33.9999999999994
+		},
+		{
+			"accepted": true,
+			"args": {
+
+			},
+			"order": "camera",
+			"time": 33.9999999999994
+		},
+		{
+			"accepted": true,
+			"args": {
+				"unit": 2
+			},
+			"order": "select",
+			"time": 38.5333333333324
+		},
+		{
+			"accepted": true,
+			"args": {
+
+			},
+			"order": "camera",
+			"time": 38.5333333333324
+		}
+	],
+	"density": 420,
+	"fixture": "direct chapter index4/disruption; no pose/enemy/tool/outcome override except solo begins with both drones lost",
+	"mode": "moving",
+	"state": {
+		"archive": {
+			"well_pattern": {
+				"caption": "UNASSIGNED CADENCE. This perimeter record contains a repeating pattern, not an identified speaker. Optional test: cruise Quietus past the PROFILE APERTURE within 240m and a clear line while its motion-noise instrument is active. Receive the local return near the RETURN ARCHIVE: Quietus within 240m or a live drone within 330m, with a clear line. Keep the remote archive without making this comparison, or risk a moving pass for a recorded match.",
+				"name": "PATTERN ARRAY",
+				"optical": "well_pattern"
+			},
+			"well_signature": {
+				"caption": "ENGINE REFERENCE: Quietus moving 54.5 m/s at 32.9s near PROFILE APERTURE. LOCAL RETURN: received by DRONE B at 32.9s near RETURN ARCHIVE. The returned cadence matches the recorded reference. Source and intent remain unresolved.",
+				"name": "QUIETUS / RETURNED CADENCE",
+				"optical": "well_signature"
+			}
+		},
+		"hull": 100.0,
+		"message": "Record secured. Return Quietus to extraction.",
+		"observation": {
+			"pos": "(780.0, 780.0)",
+			"time": 32.8833333333328,
+			"unit": 2
+		},
+		"outcome": "",
+		"records": [
+			true,
+			true,
+			true
+		],
+		"reference": {
+			"pos": "(1133.402, 411.9085)",
+			"speed": 54.5005645751953,
+			"time": 32.8833333333328
+		},
+		"story": "A returned pattern matches Quietus' moving engine cadence. Its source and intent remain unresolved.",
+		"time": 42.9999999999988,
+		"tools": {
+			"decoy": 3,
+			"emp": 0,
+			"recon": 2
+		},
+		"units": [
+			{
+				"alive": true,
+				"angle": 1.1974618434906,
+				"battery": 100.0,
+				"hold": "",
+				"name": "QUIETUS",
+				"pos": "(1147.591, 443.8465)",
+				"route": [],
+				"silent": true,
+				"vel": "(0.0, 0.0)"
+			},
+			{
+				"alive": true,
+				"angle": -2.9962739944458,
+				"battery": 96.9285714285795,
+				"hold": "",
+				"name": "DRONE A",
+				"pos": "(427.0611, 181.0334)",
+				"route": [],
+				"silent": true,
+				"vel": "(0.0, 0.0)"
+			},
+			{
+				"alive": true,
+				"angle": 0.103890776634216,
+				"battery": 96.9285714285795,
+				"hold": "",
+				"name": "DRONE B",
+				"pos": "(772.8781, 849.2574)",
+				"route": [],
+				"silent": true,
+				"vel": "(0.0, 0.0)"
+			}
+		]
+	},
+	"viewport": "(2520, 1080)"
+}

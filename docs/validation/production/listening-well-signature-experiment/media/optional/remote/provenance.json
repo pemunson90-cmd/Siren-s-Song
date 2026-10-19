@@ -1,0 +1,241 @@
+{
+	"commands": [
+		{
+			"accepted": true,
+			"args": {
+				"unit": 1
+			},
+			"order": "select",
+			"time": 0.0
+		},
+		{
+			"accepted": true,
+			"args": {
+				"point": "(800.0, 390.0)"
+			},
+			"order": "route",
+			"time": 0.0
+		},
+		{
+			"accepted": true,
+			"args": {
+				"unit": 1
+			},
+			"order": "select",
+			"time": 7.18333333333331
+		},
+		{
+			"accepted": true,
+			"args": {
+
+			},
+			"order": "emp",
+			"time": 7.18333333333331
+		},
+		{
+			"accepted": true,
+			"args": {
+				"unit": 1
+			},
+			"order": "select",
+			"time": 7.18333333333331
+		},
+		{
+			"accepted": true,
+			"args": {
+				"unit": 1
+			},
+			"order": "select",
+			"time": 10.8500000000001
+		},
+		{
+			"accepted": true,
+			"args": {
+
+			},
+			"order": "emp",
+			"time": 10.8500000000001
+		},
+		{
+			"accepted": true,
+			"args": {
+				"unit": 1
+			},
+			"order": "select",
+			"time": 10.8500000000001
+		},
+		{
+			"accepted": true,
+			"args": {
+				"unit": 1
+			},
+			"order": "select",
+			"time": 11.3333333333335
+		},
+		{
+			"accepted": true,
+			"args": {
+
+			},
+			"order": "camera",
+			"time": 11.3333333333335
+		},
+		{
+			"accepted": true,
+			"args": {
+				"unit": 1
+			},
+			"order": "select",
+			"time": 15.8333333333337
+		},
+		{
+			"accepted": true,
+			"args": {
+				"point": "(1150.0, 450.0)"
+			},
+			"order": "route",
+			"time": 15.8333333333337
+		},
+		{
+			"accepted": true,
+			"args": {
+				"unit": 1
+			},
+			"order": "select",
+			"time": 23.0333333333333
+		},
+		{
+			"accepted": true,
+			"args": {
+
+			},
+			"order": "camera",
+			"time": 23.0333333333333
+		},
+		{
+			"accepted": true,
+			"args": {
+				"unit": 1
+			},
+			"order": "select",
+			"time": 25.8499999999998
+		},
+		{
+			"accepted": true,
+			"args": {
+
+			},
+			"order": "emp",
+			"time": 25.8499999999998
+		},
+		{
+			"accepted": true,
+			"args": {
+				"unit": 1
+			},
+			"order": "select",
+			"time": 25.8499999999998
+		},
+		{
+			"accepted": true,
+			"args": {
+				"unit": 1
+			},
+			"order": "select",
+			"time": 27.5333333333331
+		},
+		{
+			"accepted": true,
+			"args": {
+				"point": "(780.0, 850.0)"
+			},
+			"order": "route",
+			"time": 27.5333333333331
+		},
+		{
+			"accepted": true,
+			"args": {
+				"unit": 1
+			},
+			"order": "select",
+			"time": 37.5999999999991
+		},
+		{
+			"accepted": true,
+			"args": {
+
+			},
+			"order": "camera",
+			"time": 37.5999999999991
+		}
+	],
+	"density": 420,
+	"fixture": "direct chapter index4/disruption; no pose/enemy/tool/outcome override except solo begins with both drones lost",
+	"mode": "remote",
+	"state": {
+		"archive": {
+			"well_pattern": {
+				"caption": "UNASSIGNED CADENCE. This perimeter record contains a repeating pattern, not an identified speaker. Optional test: cruise Quietus past the PROFILE APERTURE within 240m and a clear line while its motion-noise instrument is active. Receive the local return near the RETURN ARCHIVE: Quietus within 240m or a live drone within 330m, with a clear line. Keep the remote archive without making this comparison, or risk a moving pass for a recorded match.",
+				"name": "PATTERN ARRAY",
+				"optical": "well_pattern"
+			}
+		},
+		"hull": 100.0,
+		"message": "Archive recovered. Quietus is home.",
+		"observation": {
+
+		},
+		"outcome": "won",
+		"records": [
+			true,
+			true,
+			true
+		],
+		"reference": {
+
+		},
+		"story": "Well archive recovered · signature unverified. The returned cadence remains unassigned; no moving Quietus comparison was observed.",
+		"time": 41.6166666666656,
+		"tools": {
+			"decoy": 3,
+			"emp": 0,
+			"recon": 2
+		},
+		"units": [
+			{
+				"alive": true,
+				"angle": -0.3,
+				"battery": 100.0,
+				"hold": "",
+				"name": "QUIETUS",
+				"pos": "(140.0, 800.0)",
+				"route": [],
+				"silent": true,
+				"vel": "(0.0, 0.0)"
+			},
+			{
+				"alive": true,
+				"angle": 2.74884605407715,
+				"battery": 97.0273809523887,
+				"hold": "",
+				"name": "DRONE A",
+				"pos": "(786.7243, 847.2143)",
+				"route": [],
+				"silent": true,
+				"vel": "(0.0, 0.0)"
+			},
+			{
+				"alive": true,
+				"angle": -0.3,
+				"battery": 97.0273809523887,
+				"hold": "",
+				"name": "DRONE B",
+				"pos": "(280.0, 800.0)",
+				"route": [],
+				"silent": true,
+				"vel": "(0.0, 0.0)"
+			}
+		]
+	},
+	"viewport": "(2520, 1080)"
+}
