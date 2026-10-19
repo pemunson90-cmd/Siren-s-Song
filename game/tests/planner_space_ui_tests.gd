@@ -71,7 +71,7 @@ func run():
   await settle()
   await touch(p.global_position+p.size/2,false);await settle()
   check(p.get_instance_id()==preview_id and p.chart_camera.zoom==zoom,"resize keeps the same preview and zoom")
-  var expected_camera=load("res://src/presentation/chart_camera.gd").new();expected_camera.zoom=zoom;expected_camera.center=center;expected_camera.configure(p.size)
+  var expected_camera=load("res://src/presentation/chart_camera.gd").new();expected_camera.mode="free";expected_camera.zoom=zoom;expected_camera.center=center;expected_camera.configure(p.size)
   check(p.chart_camera.center.distance_to(expected_camera.center)<.1,"resize preserves inspected center subject to chart bounds: "+str(center)+" -> "+str(p.chart_camera.center)+" expected "+str(expected_camera.center))
   check(game.sim.snapshot()==saved and panel.selected_goal==selected and game.sim.paused,"resize cancels pending touch and preserves paused route intent")
   check(panel.row_scroll.get_global_rect().encloses(panel.selected_row.get_global_rect()),"resize keeps selected last row visible")
