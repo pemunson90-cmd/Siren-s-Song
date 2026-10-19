@@ -1,0 +1,9 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+FIT_GEOMETRY {"geometry":[{"font":18,"label":"−","rect":[716.0,120.0,48.0,48.0],"required_width":35.0},{"font":18,"label":"+","rect":[768.0,120.0,48.0,48.0],"required_width":35.0},{"font":18,"label":"FIT","rect":[820.0,120.0,50.0,48.0],"required_width":50.0}],"profile":"desktop","window":[1280,720]}
+SS_VIEW zoom=1.0 center=(800.0, 480.0)
+FIT_GEOMETRY {"geometry":[{"font":28,"label":"−","rect":[879.000061035156,120.0,98.0,98.0],"required_width":40.0},{"font":28,"label":"+","rect":[981.000061035156,120.0,98.0,98.0],"required_width":40.0},{"font":28,"label":"FIT","rect":[1083.0,120.0,98.0,98.0],"required_width":63.0}],"profile":"cover","window":[2520,1080]}
+SS_VIEW zoom=1.0 center=(800.0, 480.0)
+FIT_GEOMETRY {"geometry":[{"font":25,"label":"−","rect":[977.0,120.0,87.0,87.0],"required_width":38.0},{"font":25,"label":"+","rect":[1068.0,120.0,87.0,87.0],"required_width":38.0},{"font":25,"label":"FIT","rect":[1159.0,120.0,87.0,87.0],"required_width":59.0}],"profile":"inner","window":[2184,1968]}
+SS_VIEW zoom=1.0 center=(800.0, 480.0)
+FIT LABEL CHECKS 60 FAILURES 0
