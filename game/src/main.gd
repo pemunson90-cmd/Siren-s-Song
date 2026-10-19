@@ -1,7 +1,14 @@
 extends Control
 const Simulation = preload("res://src/simulation/simulation.gd")
+const SaveStore=preload("res://src/persistence/save_store.gd")
+const Soundscape=preload("res://src/audio/soundscape.gd")
 const OceanView = preload("res://src/presentation/ocean_view.gd")
 var sim = Simulation.new()
+var store=SaveStore.new()
+var sound
+var save_clock:=0.0
+var settings={"music":0.5,"effects":0.8,"mute":false}
+var scroll: ScrollContainer
 var ocean
 var hud: Control
 var title_label: Label
@@ -20,6 +27,7 @@ var completed: Array=[]
 var upgrade := "endurance"
 var capture_scenario := ""
 var frame := 0
+var capture_path := ""
 var menu_buttons: Array=[]
 func _ready() -> void:
 	get_tree().auto_accept_quit=false
@@ -40,12 +48,14 @@ func _ready() -> void:
 		order_buttons[order]=_button(hud,o[1],func(): _order(order))
 	order_buttons["home"]=_button(hud,"EXTRACT",func(): _order("emergency",{"point":sim.mission.extraction}))
 	order_buttons["menu"]=_button(hud,"OPERATIONS",func(): sim.paused=true; _show_campaign())
-	menu=PanelContainer.new(); add_child(menu); panel_box=VBoxContainer.new(); panel_box.add_theme_constant_override("separation",14); menu.add_child(panel_box)
+	menu=PanelContainer.new(); add_child(menu); scroll=ScrollContainer.new(); scroll.horizontal_scroll_mode=ScrollContainer.SCROLL_MODE_DISABLED; menu.add_child(scroll); panel_box=VBoxContainer.new(); panel_box.size_flags_horizontal=Control.SIZE_EXPAND_FILL; panel_box.add_theme_constant_override("separation",14); scroll.add_child(panel_box)
+	sound=Soundscape.new(); add_child(sound)
 	resized.connect(_layout)
 	for arg in OS.get_cmdline_user_args():
 		if arg.begins_with("--scenario="): capture_scenario=arg.get_slice("=",1)
+		if arg.begins_with("--capture-path="): capture_path=arg.trim_prefix("--capture-path=")
 	_start_mission(0)
-	if capture_scenario.is_empty(): _show_campaign()
+	if capture_scenario.is_empty(): _load_archive(); _show_campaign()
 	else: _scenario(capture_scenario)
 	_layout()
 func _theme() -> void:
@@ -60,7 +70,10 @@ func _theme() -> void:
 func _label(parent: Node,text: String,font_size: int) -> Label:
 	var l=Label.new(); l.text=text; l.add_theme_font_size_override("font_size",font_size); parent.add_child(l); return l
 func _button(parent: Node,text: String,action: Callable) -> Button:
-	var b=Button.new(); b.text=text; b.custom_minimum_size=Vector2(0,48); b.pressed.connect(action); b.focus_mode=Control.FOCUS_NONE; parent.add_child(b); return b
+	var b=Button.new(); b.text=text; b.custom_minimum_size=Vector2(0,48); b.pressed.connect(action); b.focus_mode=Control.FOCUS_NONE; parent.add_child(b)
+	if text.begins_with("ENTER WATER"): b.set_meta("action","begin")
+	if text=="RESUME ACTIVE MISSION": b.set_meta("action","resume")
+	return b
 func _layout() -> void:
 	if ocean==null: return
 	var wide=size.x/size.y>1.6
@@ -82,15 +95,23 @@ func _layout() -> void:
 	detail_label.position=panel.position+Vector2(0,468 if wide else 234); detail_label.size=Vector2(panel.size.x,130); detail_label.visible=wide and size.y>720
 	log_label.position=Vector2(28,size.y-38); log_label.size=Vector2(size.x-56,28)
 	if menu!=null:
-		menu.position=Vector2(maxf(24,(size.x-690)/2),maxf(12,(size.y-menu.size.y)/2)); menu.size.x=minf(690,size.x-48)
+		menu.position=Vector2(maxf(24,(size.x-690)/2),24); menu.size=Vector2(minf(690,size.x-48),size.y-48)
+	call_deferred("_report_targets")
 func _start_mission(index: int) -> void:
 	mission_index=index; sim.start(index,upgrade); ocean.sim=sim; screen="mission"; menu.hide(); hud.show(); _refresh()
 func _order(order: String,args: Dictionary={}) -> void:
-	sim.command(order,args); _refresh()
+	var accepted=sim.command(order,args)
+	print("SS_ORDER ",order," accepted=",accepted," selected=",sim.selected," queued=",sim.queue_mode)
+	_refresh(); _save_archive()
 func _pause() -> void:
-	sim.paused=not sim.paused; _refresh()
+	sim.paused=not sim.paused; print("SS_PAUSE paused=",sim.paused); _refresh(); _save_archive()
 func _process(dt: float) -> void:
 	frame+=1
+	if frame==4 and not capture_path.is_empty(): _take_capture()
+	if sound!=null: sound.update(sim,dt)
+	if screen=="mission" and not sim.paused:
+		save_clock+=dt
+		if save_clock>5.0: _save_archive(); save_clock=0.0
 	if screen=="mission":
 		sim.advance(dt)
 		if not sim.outcome.is_empty(): _debrief()
@@ -122,7 +143,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		if event.keycode==KEY_ESCAPE: sim.paused=true; _show_campaign()
 func _clear_menu() -> void:
 	for c in panel_box.get_children(): c.queue_free(); panel_box.remove_child(c)
-	menu.show(); hud.hide(); menu.size.y=0
+	menu.show(); hud.hide(); scroll.scroll_vertical=0
 func _menu_text(text: String,font_size: int=17) -> Label:
 	var l=_label(panel_box,text,font_size); l.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART; l.custom_minimum_size.x=minf(610,size.x-120); return l
 func _show_campaign() -> void:
@@ -133,11 +154,14 @@ func _show_campaign() -> void:
 	if sim.elapsed>0 and sim.outcome.is_empty(): _button(panel_box,"RESUME ACTIVE MISSION",func(): screen="mission"; menu.hide(); hud.show())
 	for i in 6:
 		var id=i
-		var b=_button(panel_box,"%02d   %s   %s"%[i+1,Simulation.Missions.TITLES[i],"RECOVERED" if i in completed else ("AVAILABLE" if i<=unlocked else "LOCKED")],func(): _briefing(id))
+		var b=_button(panel_box,"%02d   %s   %s"%[i+1,Simulation.Missions.TITLES[i],"RECOVERED" if i in completed else ("AVAILABLE" if i<=unlocked else "LOCKED")],func(): print("SS_MISSION_SELECT ",id); _briefing(id))
 		b.disabled=i>unlocked
+		if i==0: b.set_meta("action","mission0")
 	_menu_text("Equipment: %s"%upgrade.to_upper(),15)
 	_button(panel_box,"CYCLE LOADOUT · endurance / disruption / survey",func(): upgrade=["endurance","disruption","survey"][( ["endurance","disruption","survey"].find(upgrade)+1)%3]; _show_campaign())
+	_button(panel_box,"AUDIO / SETTINGS",_settings_menu)
 	_menu_text("Unlimited tactical pause · tap routes · survey, photograph, return",14)
+	print("SS_SCREEN operations window=",get_window().size," viewport=",get_viewport_rect().size," root=",size," unlocked=",unlocked," active_time=",snappedf(sim.elapsed,0.01))
 	call_deferred("_layout")
 func _briefing(index: int) -> void:
 	_start_mission(index); screen="briefing"; _clear_menu()
@@ -145,11 +169,12 @@ func _briefing(index: int) -> void:
 	_menu_text(sim.mission.brief,20)
 	_menu_text("ORDERS\nTap water to replace your route. REPLACE toggles explicit queueing. Select Quietus or either drone. Use CAMERA within 240m of a gold record marker. Return Quietus to the extraction ring after all records are secured.",17)
 	_menu_text("SPACE / PAUSE grants unlimited planning time. Silent running is slower and quieter. Disruption interrupts nearby Sirens for 12 seconds. Cover blocks sonar and enemy sight.",17)
-	_button(panel_box,"ENTER WATER · START PAUSED",func(): screen="mission"; menu.hide(); hud.show())
+	_button(panel_box,"ENTER WATER · START PAUSED",func(): screen="mission"; menu.hide(); hud.show(); print("SS_SCREEN mission paused=",sim.paused); _save_archive())
 	_button(panel_box,"BACK TO OPERATIONS",_show_campaign)
 	call_deferred("_layout")
 func _debrief() -> void:
 	screen="debrief"; _clear_menu()
+	print("SS_DEBRIEF outcome=",sim.outcome," mission=",mission_index)
 	if sim.outcome=="won":
 		if mission_index not in completed: completed.append(mission_index)
 		unlocked=mini(5,maxi(unlocked,mission_index+1))
@@ -163,6 +188,7 @@ func _debrief() -> void:
 		_menu_text("SIGNAL LOST",32); _menu_text(sim.message,22); _menu_text("Recovered campaign records are preserved. Replan your approach from tactical pause.",17)
 	_button(panel_box,"RETRY DIVE",func(): _briefing(mission_index))
 	_button(panel_box,"OPERATIONS ARCHIVE",_show_campaign)
+	_save_archive()
 	call_deferred("_layout")
 func _scenario(name: String) -> void:
 	if name=="menu": _show_campaign(); return
@@ -173,3 +199,77 @@ func _scenario(name: String) -> void:
 	if name=="debrief": sim.outcome="won"; _debrief()
 	if name=="ending": _start_mission(5); sim.outcome="won"; _debrief()
 	if name=="briefing": _briefing(0)
+	if name in ["field","threat","camera"]:
+		_start_mission(3 if name=="field" else 2)
+		sim.command("route",{"point":Vector2(1200,480) if name=="field" else Vector2(760,410)})
+		sim.command("select",{"unit":1}); sim.command("route",{"point":Vector2(1320,430) if name=="field" else Vector2(1000,600)})
+		sim.command("select",{"unit":2}); sim.command("route",{"point":Vector2(1300,740)})
+		sim.command("select",{"unit":0}); sim.paused=false
+		for n in 330:
+			sim.advance(0.1)
+			for c in sim.contacts.values():
+				if c.lock>1 and sim.tools.emp>0: sim.command("emp"); break
+		sim.command("ping")
+		if name=="camera": sim.command("camera")
+		sim.paused=true
+
+func _archive() -> Dictionary:
+	return {"version":1,"unlocked":unlocked,"completed":completed.duplicate(),"upgrade":upgrade,"settings":settings.duplicate(),"active":sim.snapshot()}
+func _save_archive() -> void:
+	if not capture_scenario.is_empty() or sim.mission==null: return
+	if store.save(_archive()): print("SS_SAVE ok mission=",mission_index," time=",snappedf(sim.elapsed,0.01)," paused=",sim.paused)
+	else: sim.message=store.warning
+func _load_archive() -> void:
+	var saved=store.load_game()
+	if not saved.is_empty():
+		unlocked=saved.unlocked; completed=saved.completed; upgrade=saved.upgrade; settings=saved.settings
+		if saved.get("active") is Dictionary and sim.restore(saved.active):
+			mission_index=sim.mission.id; ocean.sim=sim
+			print("SS_RESTORE ok mission=",mission_index," time=",snappedf(sim.elapsed,0.01)," paused=",sim.paused)
+	sound.music_volume=settings.get("music",0.5); sound.effects_volume=settings.get("effects",0.8); sound.muted=settings.get("mute",false)
+	if not store.warning.is_empty(): sim.message=store.warning
+func _settings_menu() -> void:
+	_clear_menu(); screen="settings"
+	_menu_text("QUIETUS / AUDIO",30)
+	_menu_text("Actionable sound cues also appear in the tactical display. Audio pauses when you suspend the dive.",18)
+	for field in ["music","effects"]:
+		var key=field
+		_menu_text("%s VOLUME"%key.to_upper(),17)
+		var slider=HSlider.new(); slider.min_value=0; slider.max_value=1; slider.step=0.05; slider.value=settings.get(key,0.5); slider.custom_minimum_size.y=48; panel_box.add_child(slider)
+		slider.value_changed.connect(func(value): settings[key]=value; sound.set(key+"_volume",value); _save_archive())
+	_button(panel_box,"MUTE: %s"%("ON" if sound.muted else "OFF"),func(): sound.muted=not sound.muted; settings.mute=sound.muted; _save_archive(); _settings_menu())
+	_button(panel_box,"BACK TO OPERATIONS",_show_campaign)
+	call_deferred("_layout")
+func _notification(what: int) -> void:
+	if what in [NOTIFICATION_APPLICATION_PAUSED,NOTIFICATION_APPLICATION_FOCUS_OUT,NOTIFICATION_WM_WINDOW_FOCUS_OUT]:
+		if sim.mission!=null:
+			sim.paused=true; _save_archive()
+			if sound!=null: sound.suspend()
+			print("SS_LIFECYCLE suspended paused=true")
+	if what==NOTIFICATION_WM_CLOSE_REQUEST:
+		_save_archive(); get_tree().quit()
+	if what==NOTIFICATION_WM_GO_BACK_REQUEST:
+		sim.paused=true; _save_archive(); _show_campaign()
+
+func _take_capture() -> void:
+	await RenderingServer.frame_post_draw
+	var image=get_viewport().get_texture().get_image()
+	var result=image.save_png(capture_path)
+	print("SS_CAPTURE ",capture_path," size=",image.get_size()," result=",result)
+
+func _report_targets() -> void:
+	await get_tree().process_frame
+	if not is_inside_tree(): return
+	var buttons: Dictionary={}
+	if hud.visible:
+		buttons={"pause":pause_button,"sub":unit_buttons[0],"droneA":unit_buttons[1],"droneB":unit_buttons[2]}
+		for key in order_buttons: buttons[key]=order_buttons[key]
+	else:
+		for child in panel_box.get_children():
+			if child is Button and child.has_meta("action"): buttons[child.get_meta("action")]=child
+	for key in buttons:
+		var p=buttons[key].get_global_rect().get_center()
+		print("SS_TARGET ",key," center=",roundi(p.x),",",roundi(p.y)," viewport=",roundi(size.x),",",roundi(size.y))
+	if hud.visible:
+		var p=ocean.position+ocean.world_offset+Vector2(320,800)*ocean.world_scale
+		print("SS_TARGET route center=",roundi(p.x),",",roundi(p.y)," viewport=",roundi(size.x),",",roundi(size.y))

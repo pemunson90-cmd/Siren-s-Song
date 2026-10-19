@@ -27,12 +27,13 @@ var capture_time := 0.0
 var capture_unit := -1
 var capture_target := -1
 var accumulator := 0.0
+var sensor_clock := 0.0
 var navigation: AStarGrid2D
 func start(index: int, upgrade: String = "endurance") -> void:
 	mission = Missions.make(index)
 	units.clear()
 	for i in 3:
-		units.append({"pos":Vector2(140,800)+Vector2(i*18,-i*28),"vel":Vector2.ZERO,"angle":-0.3,"route":[],"alive":true,"hold":"","silent":true,"battery":100.0,"name":["QUIETUS","DRONE A","DRONE B"][i]})
+		units.append({"pos":Vector2(140,800)+[Vector2.ZERO,Vector2(0,-125),Vector2(140,0)][i],"vel":Vector2.ZERO,"angle":-0.3,"route":[],"alive":true,"hold":"","silent":true,"battery":100.0,"name":["QUIETUS","DRONE A","DRONE B"][i]})
 	sirens = mission.sirens.duplicate(true)
 	known = {}; contacts = {}; events = []; noises = []
 	elapsed=0.0; oxygen=100.0; hull=100.0; paused=true; selected=0; queue_mode=false; outcome=""
@@ -56,14 +57,17 @@ func _build_navigation() -> void:
 func blocked(p: Vector2, radius: float = 12.0) -> bool:
 	if p.x<radius or p.y<radius or p.x>BOUNDS.x-radius or p.y>BOUNDS.y-radius: return true
 	for rock in mission.rocks:
-		if rock.grow(radius).has_point(p): return true
+		var polygon=rock_polygon(rock)
+		if Geometry2D.is_point_in_polygon(p,polygon): return true
+		for n in polygon.size():
+			if Geometry2D.get_closest_point_to_segment(p,polygon[n],polygon[(n+1)%polygon.size()]).distance_to(p)<radius: return true
 	return false
 func line_clear(a: Vector2,b: Vector2) -> bool:
 	for rock in mission.rocks:
-		if rock.has_point(a) or rock.has_point(b): return false
-		var corners = [rock.position,Vector2(rock.end.x,rock.position.y),rock.end,Vector2(rock.position.x,rock.end.y)]
-		for n in 4:
-			if Geometry2D.segment_intersects_segment(a,b,corners[n],corners[(n+1)%4]) != null: return false
+		var corners=rock_polygon(rock)
+		if Geometry2D.is_point_in_polygon(a,corners) or Geometry2D.is_point_in_polygon(b,corners): return false
+		for n in corners.size():
+			if Geometry2D.segment_intersects_segment(a,b,corners[n],corners[(n+1)%corners.size()]) != null: return false
 	return true
 func path(a: Vector2, b: Vector2) -> Array:
 	var result: Array=[]
@@ -152,8 +156,10 @@ func _tick(dt: float) -> void:
 		if i>0:
 			u.battery=maxf(0,u.battery-dt/14.0)
 			if u.battery<=0: u.alive=false; events.append({"type":"loss","pos":u.pos}); message="%s battery exhausted. Quietus camera remains available."%u.name
-	_observe()
 	_threats(dt)
+	sensor_clock-=dt
+	if sensor_clock<=0:
+		_observe(); sensor_clock=0.15
 	if capture_unit>=0:
 		var u=units[capture_unit]; var o=mission.objectives[capture_target]
 		if not u.alive or u.pos.distance_to(o.pos)>240 or not line_clear(u.pos,o.pos): capture_unit=-1; message="Exposure interrupted · regain clear view"
@@ -244,8 +250,34 @@ func all_records() -> bool:
 func snapshot() -> Dictionary:
 	return {"mission":mission.duplicate(true),"units":units.duplicate(true),"sirens":sirens.duplicate(true),"known":known.duplicate(true),"contacts":contacts.duplicate(true),"noises":noises.duplicate(true),"elapsed":elapsed,"oxygen":oxygen,"hull":hull,"paused":paused,"selected":selected,"tools":tools.duplicate(),"outcome":outcome,"ping_time":ping_time,"ping_origin":ping_origin,"recon_time":recon_time,"capture_time":capture_time,"capture_unit":capture_unit,"capture_target":capture_target}
 func restore(data: Dictionary) -> bool:
-	if not data.has_all(["mission","units","sirens","known","tools"]) or data.units.size()!=3: return false
+	if not valid_snapshot(data): return false
 	mission=data.mission.duplicate(true); units=data.units.duplicate(true); sirens=data.sirens.duplicate(true); known=data.known.duplicate(true); contacts=data.get("contacts",{}).duplicate(true); noises=data.get("noises",[]).duplicate(true)
 	elapsed=float(data.get("elapsed",0)); oxygen=float(data.get("oxygen",100)); hull=float(data.get("hull",100)); selected=clampi(int(data.get("selected",0)),0,2); tools=data.tools.duplicate(); outcome=data.get("outcome",""); paused=true; queue_mode=false
 	ping_time=data.get("ping_time",0.0); ping_origin=data.get("ping_origin",Vector2.ZERO); recon_time=data.get("recon_time",0.0); capture_time=data.get("capture_time",0.0); capture_unit=data.get("capture_unit",-1); capture_target=data.get("capture_target",-1); accumulator=0.0
 	_build_navigation(); message="Mission restored · paused for review"; return true
+
+static func valid_snapshot(data: Dictionary) -> bool:
+	if not data.has_all(["mission","units","sirens","known","tools"]): return false
+	if not data.mission is Dictionary or not data.units is Array or not data.sirens is Array or not data.known is Dictionary or not data.tools is Dictionary: return false
+	if not data.mission.has_all(["id","rocks","objectives","extraction","title","darkness","depth"]): return false
+	if not data.mission.id is int or data.mission.id<0 or data.mission.id>5: return false
+	if not data.mission.rocks is Array or not data.mission.objectives is Array or not data.mission.extraction is Vector2: return false
+	for r in data.mission.rocks:
+		if not r is Rect2: return false
+	for o in data.mission.objectives:
+		if not o is Dictionary or not o.has_all(["pos","name","captured"]) or not o.pos is Vector2: return false
+	if data.units.size()!=3 or not data.tools.has_all(["emp","decoy","recon"]): return false
+	for u in data.units:
+		if not u is Dictionary or not u.has_all(["pos","vel","angle","route","alive","hold","silent","battery","name"]): return false
+		if not u.pos is Vector2 or not u.vel is Vector2 or not u.route is Array: return false
+		for w in u.route:
+			if not w is Dictionary or not w.has_all(["pos","stop"]) or not w.pos is Vector2: return false
+	for e in data.sirens:
+		if not e is Dictionary or not e.has_all(["pos","home","goal","vel","route","angle","mode","suspicion","stun","lock","target","patrol","path_time"]): return false
+	return true
+
+static func rock_polygon(r: Rect2) -> PackedVector2Array:
+	var normalized=[Vector2(0.18,0.0),Vector2(0.62,0.03),Vector2(0.88,0.0),Vector2(1.0,0.22),Vector2(0.94,0.51),Vector2(1.0,0.78),Vector2(0.79,1.0),Vector2(0.43,0.94),Vector2(0.18,1.0),Vector2(0.0,0.8),Vector2(0.04,0.44),Vector2(0.0,0.2)]
+	var result=PackedVector2Array()
+	for p in normalized: result.append(r.position+p*r.size)
+	return result

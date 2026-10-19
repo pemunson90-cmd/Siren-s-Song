@@ -9,3 +9,5 @@ User policy: Astra kickoff/rare justified escalation; Sol 6.1 production, critic
 | sol_production_lead | `gpt-6.1-sol`, `fork_turns=none`, high reasoning | Explicit supported model argument accepted; task `/root/sol_production_lead`; backend attestation/usage unavailable | Sustained production owner |
 
 Do not translate a requested model ID into an unsupported claim about measured execution or cost savings. Record each critic/exception here. No Astra subagents or premium escalations have been requested. Keep concurrency to production+tooling, and a fresh critic only when needed.
+
+| sol_evidence_critic (baseline) | `gpt-6.1-sol`, `fork_turns=none`, high reasoning | Supported explicit argument accepted; task `/root/sol_production_lead/sol_evidence_critic`; actual backend/usage unavailable | Raw images/references inspected before claims; independent review in progress |

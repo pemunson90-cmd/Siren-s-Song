@@ -5,11 +5,16 @@ var world_scale := 1.0
 var world_offset := Vector2.ZERO
 var ocean: ImageTexture
 var rocks: Array = []
+var foundry=preload("res://assets/structures/foundry.png")
+var quietus=preload("res://assets/craft/quietus.png")
+var basalt=preload("res://assets/materials/basalt.png")
 var camera_flash := 0.0
 const CYAN := Color("72d9d3")
 const INK := Color("07141c")
 func _ready() -> void:
 	mouse_filter=Control.MOUSE_FILTER_IGNORE
+	clip_contents=true
+	texture_repeat=CanvasItem.TEXTURE_REPEAT_ENABLED
 	var noise=FastNoiseLite.new()
 	noise.seed=7319; noise.frequency=0.024; noise.fractal_octaves=4
 	var img=Image.create(800,480,false,Image.FORMAT_RGB8)
@@ -35,9 +40,17 @@ func _draw() -> void:
 		draw_line(Vector2(x,0),Vector2(x,960),Color(0.3,0.65,0.67,0.06),1)
 	for y in range(0,961,160):
 		draw_line(Vector2(0,y),Vector2(1600,y),Color(0.3,0.65,0.67,0.06),1)
+	# Depth contours and abyssal fissures occupy the navigable seabed.
+	for n in 7:
+		var points=PackedVector2Array()
+		for k in 45:
+			points.append(Vector2(k*38,80+n*135+sin(k*0.19+n)*32))
+		draw_polyline(points,Color(0.12,0.3,0.33,0.11),1.2)
 	# Bedrock and columnar basalt are original deterministic constructions.
 	for r in sim.mission.rocks: _rock(r)
 	for o in sim.mission.objectives: _installation(o.pos,o.captured)
+	if sim.mission.id>=3:
+		draw_texture_rect(foundry,Rect2(1080,-100,540,360),false,Color(0.65,0.8,0.82,0.8))
 	# Intelligence marks are briefed coordinates, not live contact observations.
 	for o in sim.mission.objectives:
 		var c=CYAN if o.captured else Color("e1b66e")
@@ -49,7 +62,7 @@ func _draw() -> void:
 	for y in 24:
 		for x in 40:
 			var key=Vector2i(x,y); var p=Vector2(x*40+20,y*40+20)
-			var alpha=0.60 if not sim.known.has(key) else (0.0 if sim.visible(p) else 0.31)
+			var alpha=0.38 if not sim.known.has(key) else (0.0 if sim.visible(p) else 0.20)
 			if alpha>0: draw_rect(Rect2(x*40,y*40,40,40),Color(0.005,0.014,0.025,alpha))
 	# Sonar rays stop at actual cover, producing explicit acoustic shadows.
 	if sim.ping_time>0:
@@ -89,33 +102,29 @@ func _draw() -> void:
 		draw_circle(p,0.7+float(i%3)*0.35,Color(0.48,0.7,0.7,0.11))
 	draw_rect(Rect2(0,0,1600,960),Color(0.3,0.7,0.7,0.19),false,2)
 	draw_set_transform(Vector2.ZERO,0,Vector2.ONE)
-	_label(Vector2(16,26),"TACTICAL / BATHYMETRY",Color("76959c"),13)
-	_label(Vector2(size.x-202,26),"%04d m  ·  CHART MEMORY"%sim.mission.depth,Color("76959c"),13)
+	draw_string(ThemeDB.fallback_font,Vector2(16,26),"TACTICAL / BATHYMETRY",HORIZONTAL_ALIGNMENT_LEFT,-1,13,Color("76959c"))
+	draw_string(ThemeDB.fallback_font,Vector2(size.x-202,26),"%04d m  ·  CHART MEMORY"%sim.mission.depth,HORIZONTAL_ALIGNMENT_LEFT,-1,13,Color("76959c"))
 	if sim.capture_unit>=0:
 		var text="OPTICAL FEED  /  EXPOSING %d%%"%int(sim.capture_time/4*100)
 		draw_rect(Rect2(12,size.y-50,size.x-24,38),Color("102b35"))
 		_label(Vector2(26,size.y-25),text,Color("e1b66e"),17)
 func _rock(r: Rect2) -> void:
-	draw_rect(Rect2(r.position+Vector2(10,24),r.size),Color(0.002,0.009,0.014,0.9))
-	draw_rect(r,Color("172a31"))
-	var rng=RandomNumberGenerator.new(); rng.seed=int(r.position.x*173+r.position.y)
-	for y in range(int(r.position.y),int(r.end.y),22):
-		for x in range(int(r.position.x),int(r.end.x),23):
-			var p=Vector2(x+11,y+11); var radius=rng.randf_range(10,17)
-			var poly=PackedVector2Array()
-			for k in 6:
-				var v=p+Vector2.from_angle(k*TAU/6+0.2)*radius
-				v.x=clampf(v.x,r.position.x,r.end.x); v.y=clampf(v.y,r.position.y,r.end.y)
-				poly.append(v)
-			var value=rng.randf_range(0.0,0.065)
-			draw_colored_polygon(poly,Color(0.12+value,0.18+value,0.19+value))
-			draw_polyline(poly,Color(0.26,0.35,0.35,0.35),1)
-			if rng.randf()<0.2: draw_line(p,p+Vector2(7,-5),Color(0.43,0.39,0.25,0.45),2)
-	draw_line(r.position,r.position+Vector2(r.size.x,0),Color("4c6869"),2)
-	draw_line(r.position,Vector2(r.position.x,r.end.y),Color("395559"),2)
-	# Face striations give depth without hiding navigation boundaries.
-	for x in range(int(r.position.x+4),int(r.end.x),9):
-		draw_line(Vector2(x,r.end.y-10),Vector2(x+2,r.end.y+13),Color(0.06,0.12,0.15,0.65),3)
+	var poly=sim.rock_polygon(r)
+	var lower=PackedVector2Array(); var uv=PackedVector2Array()
+	for p in poly:
+		lower.append(p+Vector2(9,23)); uv.append((p-r.position)/Vector2(400,400))
+	draw_colored_polygon(lower,Color("030b11"))
+	draw_colored_polygon(poly,Color("31474c"))
+	draw_polygon(poly,PackedColorArray([Color(0.72,0.85,0.86)]),uv,basalt)
+	for n in poly.size():
+		var a=poly[n]; var b=poly[(n+1)%poly.size()]
+		if b.x<a.x:
+			draw_colored_polygon(PackedVector2Array([a,b,b+Vector2(9,23),a+Vector2(9,23)]),Color("11252e"))
+			for k in range(0,int(a.distance_to(b)),8):
+				var p=a.move_toward(b,k)
+				draw_line(p,p+Vector2(7,21),Color(0.2,0.35,0.39,0.5),2)
+		else: draw_line(a,b,Color(0.49,0.65,0.66,0.55),1.8)
+	draw_polyline(poly,Color(0.17,0.26,0.3,0.5),2)
 func _installation(p: Vector2,recorded: bool) -> void:
 	var rect=Rect2(p-Vector2(38,72),Vector2(76,108))
 	draw_rect(Rect2(rect.position+Vector2(14,18),rect.size),Color(0.0,0.02,0.03,0.8))
@@ -135,20 +144,9 @@ func _craft(u: Dictionary,index: int) -> void:
 		draw_line(p+Vector2(-55,-38),p+Vector2(-55,-25),CYAN,2)
 	draw_set_transform(world_offset+p*world_scale,u.angle,Vector2.ONE*world_scale)
 	if index==0:
-		var hull=PackedVector2Array([Vector2(-49,-7),Vector2(-31,-14),Vector2(18,-15),Vector2(43,-8),Vector2(52,0),Vector2(43,8),Vector2(18,15),Vector2(-31,14),Vector2(-49,7)])
-		draw_colored_polygon(hull,Color("0b151d")); draw_polyline(hull,Color("65747a"),1.4)
-		draw_colored_polygon(PackedVector2Array([Vector2(-37,-9),Vector2(-45,-23),Vector2(-27,-15),Vector2(-21,0),Vector2(-27,15),Vector2(-45,23),Vector2(-37,9)]),Color("21333c"))
-		draw_style_box(_hull_style(),Rect2(-30,-9,63,18))
-		for x in range(-24,32,9):
-			draw_line(Vector2(x,-10),Vector2(x,10),Color("536068"),1)
-			draw_circle(Vector2(x,4),1,Color("bb9b64"))
-		draw_rect(Rect2(-5,-6,20,12),Color("24363e")); draw_rect(Rect2(1,-3,8,6),Color("101d24"))
-		draw_circle(Vector2(40,0),2,Color("f5d69a"))
-		for k in 7:
-			var end=Vector2(-53,0)+Vector2.from_angle(k*TAU/7+phase*3)*8
-			draw_line(Vector2(-53,0),end,Color("98865a"),2)
+		draw_texture_rect_region(quietus,Rect2(-66,-17,132,34),Rect2(60,145,1940,390))
 		if u.vel.length()>8:
-			for n in 3: draw_line(Vector2(-58-n*10,-3-n),Vector2(-65-n*13,-3-n),Color(0.4,0.75,0.75,0.14),2)
+			for n in 3: draw_line(Vector2(-69-n*10,-3-n),Vector2(-75-n*13,-3-n),Color(0.4,0.75,0.75,0.14),2)
 	else:
 		draw_style_box(_hull_style(),Rect2(-18,-5,36,10))
 		draw_line(Vector2(-9,-6),Vector2(-9,6),Color("b69251"),3)
@@ -173,4 +171,4 @@ func _dash(a: Vector2,b: Vector2,color: Color,width: float) -> void:
 	var distance=a.distance_to(b)
 	for n in range(0,int(distance),18): draw_line(a.move_toward(b,n),a.move_toward(b,minf(n+9,distance)),color,width)
 func _label(p: Vector2,text: String,color: Color,font_size: int) -> void:
-	draw_string(ThemeDB.fallback_font,p,text,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size,color)
+	draw_string(ThemeDB.fallback_font,p,text,HORIZONTAL_ALIGNMENT_LEFT,-1,maxi(font_size,int(12.0/world_scale)),color)
