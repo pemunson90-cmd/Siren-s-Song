@@ -386,8 +386,8 @@ func _show_campaign() -> void:
 		var b=_button(panel_box,"%02d   %s   %s"%[i+1,Simulation.Missions.TITLES[i],"RECOVERED" if i in completed else ("AVAILABLE" if i<=unlocked else "LOCKED")],func(): print("SS_MISSION_SELECT ",id); _briefing(id))
 		b.disabled=i>unlocked
 		b.set_meta("action","mission%d"%i)
-	if not recovered_evidence.is_empty(): _button(panel_box,"REVIEW RECOVERED RECORDS" if recovered_evidence.has("blackwater_request") or recovered_evidence.has("blackwater_reply") or recovered_evidence.has("well_pattern") or recovered_evidence.has("well_signature") else "REVIEW OPTICAL RECORDS",func(): _evidence_gallery(0),"evidence")
-	_menu_text("Unlimited tactical pause · tap routes · survey, photograph, return",14)
+	if not recovered_evidence.is_empty(): _button(panel_box,"REVIEW FIELD RECORDS",func(): _evidence_gallery(0),"evidence")
+	_menu_text("Field records remain reviewable after loss or abandonment. Only successful extraction advances the campaign.",14)
 	var stock=_loadout_stock(upgrade)
 	_menu_text("NEXT DIVE / RETRY · %s\nO₂ %d%% · DISRUPT %d · SURVEY %d"%[upgrade.to_upper(),stock[0],stock[1],stock[2]],15)
 	var rows=["COMPARE: O₂ / DISRUPT / SURVEY"]
@@ -427,15 +427,15 @@ func _debrief() -> void:
 		_menu_text(sim.mission.record,22)
 		_menu_text("Dive time %02d:%02d  /  Hull %d%%  /  Life support %d%%"%[int(sim.elapsed)/60,int(sim.elapsed)%60,int(sim.hull),int(sim.oxygen)],17)
 		if mission_index==5:
-			_menu_text("YOUR RECOVERED ARCHIVE · ACROSS DIVES",14)
+			_menu_text("YOUR FIELD RECORD · ACROSS DIVES",14)
 			_menu_text(preload("res://src/campaign/archive_recap.gd").summary(recovered_evidence),14)
-		if not recovered_evidence.is_empty(): _button(panel_box,"REVIEW RECOVERED RECORDS" if recovered_evidence.has("blackwater_request") or recovered_evidence.has("blackwater_reply") or recovered_evidence.has("well_pattern") or recovered_evidence.has("well_signature") else "REVIEW OPTICAL RECORDS",func(): _evidence_gallery(0),"evidence")
+		if not recovered_evidence.is_empty(): _button(panel_box,"REVIEW FIELD RECORDS",func(): _evidence_gallery(0),"evidence")
 		if mission_index==5:
 			var discovery="The crown points into the trench. Unarmed wakes lead away from the fracture. Quietus’ hydrophones resolve what the images could not: they are evacuating.\n\n" if sim.mission.get("finale_revision",0)==1 else ""
 			_menu_text("THE SONG CONTINUES\n\n"+discovery+"You return with a warning, not a firing solution. Above you, the fleet waits for orders. Below, the foundry lights go dark, one by one. For the first time since descent, Quietus hears only the ocean.\n\nCampaign complete. Every dive remains replayable.",20)
 		else: _button(panel_box,"NEXT DIVE",func(): _briefing(mission_index+1),"next_dive")
 	else:
-		_menu_text("SIGNAL LOST",32); _menu_text(sim.message,22); _menu_text("Recovered campaign records are preserved. Replan your approach from tactical pause.",17)
+		_menu_text("SIGNAL LOST",32); _menu_text(sim.message,22); _menu_text("Field records remain reviewable after loss or abandonment. Only successful extraction advances the campaign.",17)
 	_button(panel_box,"RETRY DIVE",func(): _briefing(mission_index),"retry")
 	_button(panel_box,"OPERATIONS ARCHIVE",_show_campaign,"back")
 	_save_archive()
@@ -650,7 +650,7 @@ func _evidence_gallery(index: int) -> void:
 	if recovered_evidence.is_empty(): _show_campaign(); return
 	sim.paused=true; screen="evidence"; _clear_menu()
 	var keys=recovered_evidence.keys(); var entry=recovered_evidence[keys[index%keys.size()]]
-	_menu_text("RECOVERED %s / %d OF %d"%["ACOUSTIC" if _evidence_is_text(entry) else ("HYDROPHONES" if entry.optical in ["blackwater_request","blackwater_reply"] else "OPTICAL"),index+1,keys.size()],18)
+	_menu_text("FIELD %s RECORDS / %d OF %d"%["ACOUSTIC" if _evidence_is_text(entry) else ("HYDROPHONE" if entry.optical in ["blackwater_request","blackwater_reply"] else "OPTICAL"),index+1,keys.size()],18)
 	_menu_text(entry.name,28)
 	if not _evidence_is_text(entry):
 		var image=TextureRect.new(); image.texture=preload("res://src/presentation/evidence_catalog.gd").IMAGES[entry.optical]
