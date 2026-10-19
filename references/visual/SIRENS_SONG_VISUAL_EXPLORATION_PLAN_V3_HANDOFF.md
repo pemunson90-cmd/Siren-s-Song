@@ -1,3 +1,5 @@
+> **Historical planning snapshot (2026-10-18).** The generation-approval and “not generated yet” status below describes this plan at creation time. Pat subsequently authorized and reviewed concept generations. Current accepted directions and actual exploration status are in [the concept-selection ledger](../package/SIRENS_SONG_CONCEPT_SELECTION_LEDGER.md) and [portable visual handoff](../package/START_HERE.md). Preserve this document's comparative six-brief methodology; use the later selection/handoff for what to build.
+
 # SIREN'S SONG — Visual Exploration Plan v3
 
 **Date:** 2026-10-18  
