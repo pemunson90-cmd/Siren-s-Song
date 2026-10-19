@@ -19,6 +19,10 @@ class Host:
  func _menu_text(text,_size):rows.append(text)
  func _button(_parent,text,_callback,action):actions.append({"text":text,"action":action})
  func _briefing(_id):pass
+ func _launch_context(id):
+  var context=preload("res://src/campaign/campaign_consequences.gd").context(expedition)
+  if id in [9,10]:context.thread="deep" if id==9 else "shelf"
+  return context
  func _evidence_gallery(_id):pass
  func _show_campaign():pass
  func _save_archive():pass
