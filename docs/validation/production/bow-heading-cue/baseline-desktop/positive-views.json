@@ -1,0 +1,318 @@
+[
+  {
+    "camera_zoom": 2.0,
+    "font_basis": 14,
+    "marker": "[]",
+    "metrics": {
+      "capture_state": {
+        "capture_unit": -1,
+        "drawn_frame": 5,
+        "hud_visible": true,
+        "menu_visible": false,
+        "mission": 2,
+        "optical_visible": false,
+        "paused": false,
+        "phase": "layout_only",
+        "selected": 0
+      },
+      "chart_rect": [
+        26.0,
+        112.0,
+        852.0,
+        580.0
+      ],
+      "controls": [
+        {
+          "action": "pause",
+          "clipped": false,
+          "hit_rect": [
+            894.0,
+            112.0,
+            222.8,
+            48.0
+          ],
+          "visual_rect": [
+            894.0,
+            112.0,
+            222.8,
+            48.0
+          ]
+        },
+        {
+          "action": "sub",
+          "clipped": false,
+          "hit_rect": [
+            894.0,
+            164.0,
+            117.333,
+            56.0
+          ],
+          "visual_rect": [
+            894.0,
+            164.0,
+            117.333,
+            56.0
+          ]
+        },
+        {
+          "action": "droneA",
+          "clipped": false,
+          "hit_rect": [
+            1015.333,
+            164.0,
+            117.333,
+            48.0
+          ],
+          "visual_rect": [
+            1015.333,
+            164.0,
+            117.333,
+            48.0
+          ]
+        },
+        {
+          "action": "droneB",
+          "clipped": false,
+          "hit_rect": [
+            1136.667,
+            164.0,
+            117.333,
+            48.0
+          ],
+          "visual_rect": [
+            1136.667,
+            164.0,
+            117.333,
+            48.0
+          ]
+        },
+        {
+          "action": "more_orders",
+          "clipped": false,
+          "hit_rect": [
+            1120.8,
+            112.0,
+            133.2,
+            64.0
+          ],
+          "visual_rect": [
+            1120.8,
+            112.0,
+            133.2,
+            64.0
+          ]
+        },
+        {
+          "action": "ping",
+          "clipped": false,
+          "hit_rect": [
+            894.0,
+            216.0,
+            178.0,
+            48.0
+          ],
+          "visual_rect": [
+            894.0,
+            216.0,
+            178.0,
+            48.0
+          ]
+        },
+        {
+          "action": "camera",
+          "clipped": false,
+          "hit_rect": [
+            1076.0,
+            216.0,
+            178.0,
+            48.0
+          ],
+          "visual_rect": [
+            1076.0,
+            216.0,
+            178.0,
+            48.0
+          ]
+        },
+        {
+          "action": "silent",
+          "clipped": false,
+          "hit_rect": [
+            894.0,
+            268.0,
+            178.0,
+            48.0
+          ],
+          "visual_rect": [
+            894.0,
+            268.0,
+            178.0,
+            48.0
+          ]
+        },
+        {
+          "action": "queue",
+          "clipped": false,
+          "hit_rect": [
+            1076.0,
+            268.0,
+            178.0,
+            48.0
+          ],
+          "visual_rect": [
+            1076.0,
+            268.0,
+            178.0,
+            48.0
+          ]
+        },
+        {
+          "action": "hold",
+          "clipped": false,
+          "hit_rect": [
+            894.0,
+            320.0,
+            178.0,
+            48.0
+          ],
+          "visual_rect": [
+            894.0,
+            320.0,
+            178.0,
+            48.0
+          ]
+        },
+        {
+          "action": "emp",
+          "clipped": false,
+          "hit_rect": [
+            1076.0,
+            320.0,
+            178.0,
+            60.0
+          ],
+          "visual_rect": [
+            1076.0,
+            320.0,
+            178.0,
+            60.0
+          ]
+        },
+        {
+          "action": "home",
+          "clipped": false,
+          "hit_rect": [
+            894.0,
+            372.0,
+            178.0,
+            48.0
+          ],
+          "visual_rect": [
+            894.0,
+            372.0,
+            178.0,
+            48.0
+          ]
+        },
+        {
+          "action": "menu",
+          "clipped": false,
+          "hit_rect": [
+            1076.0,
+            372.0,
+            178.0,
+            48.0
+          ],
+          "visual_rect": [
+            1076.0,
+            372.0,
+            178.0,
+            48.0
+          ]
+        },
+        {
+          "action": "zoom_out",
+          "clipped": false,
+          "hit_rect": [
+            718.0,
+            120.0,
+            48.0,
+            48.0
+          ],
+          "visual_rect": [
+            718.0,
+            120.0,
+            48.0,
+            48.0
+          ]
+        },
+        {
+          "action": "zoom_in",
+          "clipped": false,
+          "hit_rect": [
+            770.0,
+            120.0,
+            48.0,
+            48.0
+          ],
+          "visual_rect": [
+            770.0,
+            120.0,
+            48.0,
+            48.0
+          ]
+        },
+        {
+          "action": "fit",
+          "clipped": false,
+          "hit_rect": [
+            822.0,
+            120.0,
+            48.0,
+            72.0
+          ],
+          "visual_rect": [
+            822.0,
+            120.0,
+            48.0,
+            72.0
+          ]
+        }
+      ],
+      "density_dpi": 95.0,
+      "density_source": "desktop_display_server_dpi",
+      "orders_page": "primary",
+      "safe_rect": [
+        0.0,
+        0.0,
+        1280.0,
+        720.0
+      ],
+      "schema": 1,
+      "screen": "mission",
+      "scroll_rect": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scroll_vertical": 0,
+      "settings_values": {
+        "effects": 0.8,
+        "music": 0.5,
+        "mute": false
+      },
+      "viewport": [
+        1280.0,
+        720.0
+      ],
+      "window": [
+        1280.0,
+        720.0
+      ]
+    },
+    "name": "departure-positive-015",
+    "snapshot_hash": "1f25e887b2665c562bd46123efbede2310cde6b7e4be57dc2718576b2491a6ae",
+    "world_scale": 1.065
+  }
+]
