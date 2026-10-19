@@ -79,6 +79,9 @@ polygon_bound_tests|POLYGON BOUND
 divergence_tests|DIVERGENCE
 divergence_save_tests|DIVERGENCE SAVE
 expedition_menu_tests|EXPEDITION MENU
+earned_equipment_tests|EARNED EQUIPMENT
+cadence_correlator_tests|CADENCE CORRELATOR
+field_sampler_tests|FIELD SAMPLER
 turn_safe_navigation_tests|TURN SAFE NAVIGATION
 expanded_region_tests|EXPANDED REGION
 expanded_region_journeys|EXPANDED JOURNEYS
