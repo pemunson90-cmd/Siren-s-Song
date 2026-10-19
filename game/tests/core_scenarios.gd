@@ -23,7 +23,12 @@ static func run(t) -> void:
 	t.check(s.contacts.is_empty() and s.sirens[0].lock==0,"hidden Siren truth does not leak or lock through cover")
 	s=Simulation.new(); s.start(0); s.units[0].pos=Vector2(400,800); s.sirens[0].pos=Vector2(700,800); s.command("ping"); s.paused=false
 	for n in 10: s.advance(1.0/60)
-	t.check(s.sirens[0].goal.distance_to(Vector2(400,800))<1,"heard ping investigation targets origin")
+	var inferred:Vector2=s.sirens[0].goal
+	t.check(inferred.distance_to(Vector2(400,800))<=40.01 and inferred!=Vector2(400,800) and s.sirens[0].lock==0 and s.sirens[0].target==-1,"fresh direct sound gives coarse80m-bin inference without hidden exact goal or visual lock")
+	var legacy=Simulation.new();legacy.start(0);legacy.mission.erase("acoustic_revision")
+	legacy.units[0].pos=Vector2(400,800);legacy.sirens[0].pos=Vector2(700,800);legacy.command("ping");legacy.paused=false
+	for n in 10:legacy.advance(1.0/60)
+	t.check(legacy.sirens[0].goal.distance_to(Vector2(400,800))<1,"legacy active hearing keeps its exact historical ping-origin contract")
 	s.units[0].pos=Vector2(650,800); s.command("emp"); var hull=s.hull
 	for n in 120: s.advance(1.0/60)
 	t.check(s.hull==hull and s.sirens[0].lock==0,"stunned Sirens cannot detect or damage")
