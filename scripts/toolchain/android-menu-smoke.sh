@@ -58,6 +58,13 @@ value=json.load(open(sys.argv[1]))[sys.argv[2]]
 print(*value) if isinstance(value,list) else print(value)
 PY
 }
+menu_assert_scroll_progress() {
+    python3 - "$@" <<'PY'
+import sys
+before,after,y1,y2=map(float,sys.argv[1:])
+assert (after-before)*(y1-y2)>abs(y1-y2), 'OS swipe made no progress in emitted swipe direction'
+PY
+}
 menu_touch_smoke() {
     local profile="$1" swipe_index before_count before_offset after_offset x1 y1 x2 y2 tap_x tap_y initial_log action settings_swipes=0 operations_swipes=0
     menu_settings_baseline=""
@@ -77,10 +84,7 @@ menu_touch_smoke() {
         adb shell input swipe "$x1" "$y1" "$x2" "$y2" 450
         menu_snapshot "$profile" "scroll-$swipe_index" menu settings "$before_count"
         after_offset="$(menu_json_values scroll_vertical)"
-        python3 - "$before_offset" "$after_offset" <<'PY'
-import sys
-assert float(sys.argv[2]) > float(sys.argv[1])+1, 'OS swipe did not advance actual menu scroll offset'
-PY
+        menu_assert_scroll_progress "$before_offset" "$after_offset" "$y1" "$y2"
     done
     (( menu_status == 0 )) || { echo 'Settings never became fully exposed in bounded scroll attempts' >&2; return 1; }
     operations_swipes="$swipe_index"
@@ -101,10 +105,7 @@ PY
             ((settings_swipes+=1))
             menu_snapshot "$profile" "settings-$action-scroll-$swipe_index" settings "$action" "$before_count"
             after_offset="$(menu_json_values scroll_vertical)"
-            python3 - "$before_offset" "$after_offset" <<'PY'
-import sys
-assert float(sys.argv[2]) > float(sys.argv[1])+1, 'Settings OS swipe did not advance actual scroll offset'
-PY
+            menu_assert_scroll_progress "$before_offset" "$after_offset" "$y1" "$y2"
         done
         (( menu_status == 0 )) || { echo "Settings $action never fully exposed" >&2; return 1; }
     done
