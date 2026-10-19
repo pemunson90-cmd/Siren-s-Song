@@ -49,6 +49,30 @@ class TouchMetricsTests(unittest.TestCase):
         layout['context_page']='unknown'
         self.assertIn('Unknown radial', self.invoke(layout, required=None, page='secondary').stderr)
 
+    def test_charted_corridor_and_withdrawal_context_do_not_require_camera(self):
+        for kind in ['corridor', 'withdrawal']:
+            layout=self.layout()
+            layout.update(hud_layout='radial', context_page='object', context_subject_kind=kind, orders_page='secondary')
+            actions='pause,radial_back,route_here,inspect,program,queue'.split(',')
+            layout['controls']=[dict(layout['controls'][0], action=action, visual_rect=[20+i%5*230,20+i//5*100,200,84], hit_rect=[20+i%5*230,20+i//5*100,200,84]) for i,action in enumerate(actions)]
+            result=self.invoke(layout,required=None,page='secondary')
+            self.assertEqual(result.returncode,0,result.stderr+result.stdout)
+            layout['controls'].pop()
+            self.assertEqual(self.invoke(layout,required=None,page='secondary').returncode,1)
+
+    def test_site_unknown_and_missing_context_kind_keep_camera_mandatory(self):
+        for kind in ['site', 'unknown', None]:
+            layout=self.layout()
+            layout.update(hud_layout='radial',context_page='object',orders_page='secondary')
+            if kind is not None:layout['context_subject_kind']=kind
+            actions='pause,radial_back,route_here,inspect,program,queue'.split(',')
+            layout['controls']=[dict(layout['controls'][0],action=action,visual_rect=[20+i%5*230,20+i//5*100,200,84],hit_rect=[20+i%5*230,20+i//5*100,200,84]) for i,action in enumerate(actions)]
+            result=self.invoke(layout,required=None,page='secondary')
+            self.assertEqual(result.returncode,1,result.stderr+result.stdout)
+            self.assertIn('camera',result.stdout)
+            layout['controls'].append(dict(layout['controls'][0],action='camera',visual_rect=[250,120,200,84],hit_rect=[250,120,200,84]))
+            self.assertEqual(self.invoke(layout,required=None,page='secondary').returncode,0)
+
     def test_complete_chunked_geometry_uses_same_gate(self):
         value=self.layout();value['padding']='x'*5000
         result=self.invoke(value,transport=chunked(value));self.assertEqual(result.returncode,0,result.stderr)

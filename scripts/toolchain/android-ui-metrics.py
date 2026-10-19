@@ -38,7 +38,10 @@ def required_actions(layout):
         page = layout.get('context_page')
         if page not in RADIAL_ACTIONS:
             raise ValueError('Unknown radial context page')
-        return set(RADIAL_ACTIONS[page].split(','))
+        actions = set(RADIAL_ACTIONS[page].split(','))
+        if page == 'object' and layout.get('context_subject_kind') in ('corridor', 'withdrawal'):
+            actions.remove('camera')
+        return actions
     return set((SECONDARY_ACTIONS if layout.get('orders_page') == 'secondary' else MISSION_ACTIONS).split(','))
 
 

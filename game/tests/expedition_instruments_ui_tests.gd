@@ -114,6 +114,7 @@ func run():
   var corridor=g.sim.extraction_corridors().filter(func(c):return c.route=="shelf")[0];await tap(g.ocean.global_position+g.ocean.screen_position(corridor.pos))
   check(g.advanced_orders and h.subject.get("subkind","")=="corridor" and g.sim.snapshot()==before,"charted corridor tap opens observational context without choosing a branch")
   check(not g.order_buttons.camera.visible and "PLOT" in h.extra.route_here.text,"corridor offers explicit route planning rather than remote recording")
+  check(g._ui_metrics().context_subject_kind=="corridor","native metrics distinguish charted corridor from ordinary camera-recordable site")
   h.dismiss();g._start_mission(0);await settle();check(g.order_buttons.home.text=="EXTRACT" and not h.extra.arrivals.visible,"tutorial craft and extraction controls remain unchanged")
   g.queue_free();await settle()
  print("EXPEDITION INSTRUMENT UI CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)
