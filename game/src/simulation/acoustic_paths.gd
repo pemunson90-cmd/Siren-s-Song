@@ -1,10 +1,12 @@
 extends RefCounted
+const PolygonContainment=preload("res://src/simulation/polygon_containment.gd")
 # Coarse low-frequency diffraction model, not a wave solver. Reuses the engine's
 # AStar2D visibility graph. Rock is opaque; corners supply longer, weaker arrivals.
 # No reflections yet. No player knowledge or listener truth enters presentation.
 const Thermal=preload("res://src/simulation/thermal_front.gd")
 var thermal_fronts:Array=[]
 var shapes:Array=[]
+var shape_bounds:Array=[]
 var bounds:=Vector2.ZERO
 var graph:=AStar2D.new()
 var vertices:PackedVector2Array=[]
@@ -14,20 +16,25 @@ static func motion_radius(speed:float)->float:
 	return 430.0*pow(maxf(0,speed)/78.0,2)
 func configure(polygons:Array,world_bounds:Vector2,fronts:Array=[])->void:
 	thermal_fronts=fronts.duplicate(true)
-	shapes=polygons.duplicate(true);bounds=world_bounds;graph.clear();vertices.clear()
+	shapes=polygons.duplicate(true);shape_bounds=PolygonContainment.bounds_for(shapes);bounds=world_bounds;graph.clear();vertices.clear()
 	for shape in shapes:
 		for outline in Geometry2D.offset_polygon(shape,28.0,Geometry2D.JOIN_MITER):
 			for p in outline:
 				if p.x<=0 or p.y<=0 or p.x>=bounds.x or p.y>=bounds.y:continue
-				if shapes.any(func(s):return Geometry2D.is_point_in_polygon(p,s)):continue
+				if _inside_any(p):continue
 				vertices.append(p)
 	for i in vertices.size():graph.add_point(i,vertices[i])
 	for i in vertices.size():
 		for j in range(i+1,vertices.size()):
 			if clear(vertices[i],vertices[j]):graph.connect_points(i,j)
+func _inside_any(point:Vector2)->bool:
+	for i in shapes.size():
+		if PolygonContainment.contains(point,shapes[i],shape_bounds[i]):return true
+	return false
 func clear(a:Vector2,b:Vector2)->bool:
-	for shape in shapes:
-		if Geometry2D.is_point_in_polygon(a,shape) or Geometry2D.is_point_in_polygon(b,shape):return false
+	for index in shapes.size():
+		var shape=shapes[index]
+		if PolygonContainment.contains(a,shape,shape_bounds[index]) or PolygonContainment.contains(b,shape,shape_bounds[index]):return false
 		for i in shape.size():
 			if Geometry2D.segment_intersects_segment(a,b,shape[i],shape[(i+1)%shape.size()])!=null:return false
 	return true

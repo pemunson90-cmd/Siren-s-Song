@@ -1,4 +1,5 @@
 extends RefCounted
+const PolygonContainment=preload("res://src/simulation/polygon_containment.gd")
 const Courier=preload("res://src/simulation/blackwater_courier.gd")
 const Departure=preload("res://src/simulation/foundry_departure.gd")
 const DroneOperations=preload("res://src/simulation/drone_operations.gd")
@@ -44,6 +45,7 @@ var accumulator := 0.0
 var sensor_clock := 0.0
 var navigation: AStarGrid2D
 var rock_shapes: Array=[]
+var rock_bounds:Array=[]
 var acoustic_paths=Acoustics.new()
 func start(index: int, upgrade: String = "endurance") -> void:
 	mission = Missions.make(index)
@@ -65,6 +67,7 @@ func world_size() -> Vector2:
 func _build_navigation() -> void:
 	rock_shapes.clear()
 	for rock in mission.rocks: rock_shapes.append(rock_polygon(rock))
+	rock_bounds=PolygonContainment.bounds_for(rock_shapes)
 	navigation = AStarGrid2D.new()
 	var cells=WorldRegion.grid_size(mission)
 	navigation.region = Rect2i(Vector2i.ZERO,cells)
@@ -82,16 +85,20 @@ func blocked(p: Vector2, radius: float = 12.0) -> bool:
 	if p.x<radius or p.y<radius or p.x>world_size().x-radius or p.y>world_size().y-radius: return true
 	for structure in mission.get("structures",[]):
 		if structure.grow(radius).has_point(p): return true
-	for polygon in rock_shapes:
-		if Geometry2D.is_point_in_polygon(p,polygon): return true
+	for i in rock_shapes.size():
+		var polygon=rock_shapes[i]
+		if PolygonContainment.contains(p,polygon,rock_bounds[i]): return true
 		for n in polygon.size():
 			if Geometry2D.get_closest_point_to_segment(p,polygon[n],polygon[(n+1)%polygon.size()]).distance_to(p)<radius: return true
 	return false
 func line_clear(a: Vector2,b: Vector2) -> bool:
 	var shapes=rock_shapes.duplicate()
-	for structure in mission.get("structures",[]): shapes.append(PackedVector2Array([structure.position,Vector2(structure.end.x,structure.position.y),structure.end,Vector2(structure.position.x,structure.end.y)]))
-	for corners in shapes:
-		if Geometry2D.is_point_in_polygon(a,corners) or Geometry2D.is_point_in_polygon(b,corners): return false
+	var structures=mission.get("structures",[])
+	for structure in structures: shapes.append(PackedVector2Array([structure.position,Vector2(structure.end.x,structure.position.y),structure.end,Vector2(structure.position.x,structure.end.y)]))
+	for i in shapes.size():
+		var corners=shapes[i]
+		var box:Rect2=rock_bounds[i] if i<rock_shapes.size() else structures[i-rock_shapes.size()]
+		if PolygonContainment.contains(a,corners,box) or PolygonContainment.contains(b,corners,box): return false
 		for n in corners.size():
 			if Geometry2D.segment_intersects_segment(a,b,corners[n],corners[(n+1)%corners.size()]) != null: return false
 	return true

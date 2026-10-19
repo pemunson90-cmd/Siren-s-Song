@@ -75,6 +75,7 @@ while IFS='|' read -r scenario summary; do
         echo "Missing successful $scenario summary" >&2; exit 1;
     }
 done <<'TACTICAL_SCENARIOS'
+polygon_bound_tests|POLYGON BOUND
 turn_safe_navigation_tests|TURN SAFE NAVIGATION
 expanded_region_tests|EXPANDED REGION
 expanded_region_journeys|EXPANDED JOURNEYS

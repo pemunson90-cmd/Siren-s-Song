@@ -21,11 +21,14 @@ func analytic_geometry():
   check(false,"private analytic player-leg guard replaces length-sampled hot check");return
  check(s._player_leg_safe(Vector2(12,12),Vector2(1588,948)) and not s._player_leg_safe(Vector2(11.99,12),Vector2(100,100)),"analytic guard inherits exact physical endpoint/bounds clearance")
  s.rock_shapes=[PackedVector2Array([Vector2(400,400),Vector2(600,400),Vector2(600,600),Vector2(540,600),Vector2(540,460),Vector2(460,460),Vector2(460,600),Vector2(400,600)])]
+ s.rock_bounds=preload("res://src/simulation/polygon_containment.gd").bounds_for(s.rock_shapes)
  check(s._player_leg_safe(Vector2(500,500),Vector2(500,650)) and not s._player_leg_safe(Vector2(480,550),Vector2(620,550)),"concave inlet remains navigable but crossing its arm rejects")
  check(not s._player_leg_safe(Vector2(410,420),Vector2(300,300)),"polygon-contained endpoint rejects even if no vertex is close to the course")
  s.rock_shapes=[PackedVector2Array([Vector2(505,500),Vector2(506,520),Vector2(504,520)])]
+ s.rock_bounds=preload("res://src/simulation/polygon_containment.gd").bounds_for(s.rock_shapes)
  check(s._player_leg_safe(Vector2(100,488),Vector2(900,488)) and not s._player_leg_safe(Vector2(100,488.01),Vector2(900,488.01)),"rock capsule uses strict radius tangency and catches vertex intrusion between old10m samples")
  s.rock_shapes=[];s.mission.structures=[Rect2(300,300,200,200)]
+ s.rock_bounds=preload("res://src/simulation/polygon_containment.gd").bounds_for(s.rock_shapes)
  check(s._player_leg_safe(Vector2(200,512),Vector2(600,512)) and not s._player_leg_safe(Vector2(200,288),Vector2(600,288)),"grown structure tangency retains existing half-open AABB boundaries")
  check(not s._player_leg_safe(Vector2(520,500),Vector2(500,520)),"crossing only expanded right and bottom boundaries still intersects structure interior")
  check(s._player_leg_safe(Vector2(520,504),Vector2(504,520)) and not s._player_leg_safe(Vector2(280,296),Vector2(296,280)),"grown AABB single-corner touch preserves excluded maximum and included minimum")
