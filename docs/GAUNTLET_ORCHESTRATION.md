@@ -45,6 +45,15 @@ The installer refuses configured `core.hooksPath` and any unmanaged/symlink targ
 - `pre-merge-commit` refreshes and blocks merge-commit creation on failure. A Git fast-forward or `--no-verify` can bypass this hook; run the explicit merge boundary before deciding any merge.
 - `pre-push` refreshes and blocks on failure. Updates targeting `refs/heads/gauntlet/production` additionally require the freshly fetched origin production SHA to be an ancestor of the **proposed pushed tip**, not merely current HEAD; production deletion is refused. Feature pushes refresh without requiring a rebased feature. This compares the canonical origin production even when pushing another remote; no automatic merge, force or push occurs. Git hooks remain locally bypassable and cannot prevent a remote race after fetch; normal non-forced push still protects that race.
 
-Android validation now runs only on explicit `gauntlet/milestone/**` tag pushes or manual workflow dispatch; ordinary feature/production branch pushes do not launch an APK build. Root tags a coherent reviewed playable milestone (or concrete native-specific fix) after appropriate checks. This boundary helper never builds/reruns Android or dispatches CI.
+Android validation runs only by manual dispatch on `gauntlet/production`, after a coherent reviewed playable milestone or concrete native-specific fix. Ordinary feature/production pushes and tag pushes do not launch an APK build; tags remain optional recovery/source labels. The native job also rejects manual dispatches on feature or tag refs. Using the production ref keeps development signing-cache lookup in the established production branch scope; a missing/deleted cache can still create a new identity.
+
+Record the intended published production SHA, then explicitly dispatch:
+
+```sh
+gh workflow run android-validation.yml --ref gauntlet/production
+gh run view RUN_ID --json event,headBranch,headSha,url
+```
+
+Identify the actual dispatched run and verify its event is `workflow_dispatch`, branch is `gauntlet/production`, and recorded `headSha` (API `head_sha`) equals the intended source before attributing evidence to it. Do not infer the source from a tag or the newest run alone. This boundary helper never builds/reruns Android or dispatches CI.
 
 Focused check: `python3 scripts/toolchain/test-gauntlet-boundary.py`. Tests use temporary local bare remotes, actual fetch/commit/checkout/push hooks, dirty work, full-byte caches, stale failure/retry, missing documents, dispatch, unmanaged installation refusal and bounded process/lock handling. No project hooks are installed by the tests. RED/GREEN logs remain ignored in the feature worktree's `work/` directory. No gameplay suite or APK is warranted for this opt-in development helper.
