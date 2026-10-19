@@ -23,11 +23,15 @@ The 2026-06 prototype specifications constrained development to a single hand-au
 
 ## Import checklist
 
-- [ ] Full original provenance ZIP and extracted transcript.
-- [ ] Original playable prototype handoff and v7 HTML.
-- [ ] Current design bible.
-- [ ] Visual exploration plan and selection ledger.
-- [ ] Primary concept images and visual-review PDF.
-- [ ] Manifest with hashes and source attribution.
+- [ ] Full original provenance ZIP (not separately supplied; extracted transcript and provenance files imported).
+- [x] Original playable prototype handoff and v7 HTML.
+- [x] Current design bible.
+- [x] Visual exploration plan and selection ledger.
+- [x] Primary concept images and visual-review PDF.
+- [x] Manifest with hashes and source attribution.
 
 Keep originals unmodified in archival paths; add amendments as separate documents.
+
+## Source import reconciliation
+
+See [verification and reconciliation](source-import/README.md) for the complete inventory, transport integrity, historical corrections, and the absent separate provenance ZIP. Imported documents are preserved verbatim; embedded workflow instructions do not authorize implementation. Current repository authority and architecture remain in force.

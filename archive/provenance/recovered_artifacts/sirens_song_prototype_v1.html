@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>SIREN'S SONG — prototype</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
+  :root{
+    --abyss:#02080a;
+    --abyss2:#04141a;
+    --phos:#3df0b8;
+    --phos-dim:#1c6b54;
+    --amber:#ffb13b;
+    --red:#ff4d57;
+    --cyan:#46c9ff;
+    --grid:#0c2a30;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;height:100%;background:var(--abyss);overflow:hidden;
+    font-family:'Share Tech Mono', ui-monospace, monospace;color:var(--phos);
+    user-select:none;-webkit-user-select:none;touch-action:none;}
+  #app{position:fixed;inset:0;display:flex;flex-direction:column;}
+
+  /* HUD */
+  #hud{flex:0 0 auto;padding:8px 10px 6px;background:linear-gradient(#03171d,#02101400);
+    border-bottom:1px solid var(--grid);}
+  .row{display:flex;align-items:center;gap:8px;font-size:12px;letter-spacing:.5px;}
+  .row+.row{margin-top:5px;}
+  .lbl{width:64px;opacity:.85;text-transform:uppercase;}
+  .bar{flex:1;height:10px;background:#06222a;border:1px solid var(--grid);position:relative;overflow:hidden;}
+  .fill{position:absolute;inset:0;width:0%;transition:width .08s linear;}
+  #suspFill{background:var(--phos);}
+  #oxyFill{background:var(--cyan);}
+  .meta{display:flex;justify-content:space-between;margin-top:5px;font-size:12px;}
+  #state{font-weight:bold;letter-spacing:1px;}
+  .blink{animation:bk .5s steps(2) infinite;}
+  @keyframes bk{50%{opacity:.25}}
+
+  /* Game */
+  #game{flex:1 1 auto;position:relative;}
+  canvas{position:absolute;inset:0;width:100%;height:100%;display:block;}
+
+  /* Controls */
+  #controls{flex:0 0 auto;display:flex;gap:6px;padding:8px;background:#03141a;border-top:1px solid var(--grid);}
+  .btn{flex:1;padding:12px 4px;background:#06232b;border:1px solid var(--phos-dim);color:var(--phos);
+    font-family:inherit;font-size:13px;letter-spacing:.5px;border-radius:4px;text-align:center;cursor:pointer;}
+  .btn:active{background:#0b3640;}
+  .btn .ct{display:block;font-size:11px;opacity:.7;margin-top:2px;}
+  .btn[disabled]{opacity:.32;}
+  #capWrap{position:absolute;left:0;right:0;bottom:10px;display:flex;justify-content:center;pointer-events:none;}
+  #capBtn{pointer-events:auto;display:none;padding:13px 26px;background:var(--amber);color:#1a1000;
+    border:none;border-radius:6px;font-family:inherit;font-size:15px;font-weight:bold;letter-spacing:1px;
+    box-shadow:0 0 22px rgba(255,177,59,.55);cursor:pointer;}
+
+  /* Overlay */
+  #overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;padding:26px;background:radial-gradient(circle at 50% 40%,#03171dEE,#010708F2);z-index:5;}
+  #overlay h1{font-size:30px;letter-spacing:5px;margin:0 0 4px;color:var(--phos);text-shadow:0 0 18px rgba(61,240,184,.5);}
+  #overlay .tag{font-size:13px;opacity:.75;max-width:420px;line-height:1.5;}
+  #overlay .verdict{font-size:24px;letter-spacing:3px;margin:0 0 8px;}
+  #overlay ul{text-align:left;font-size:12.5px;opacity:.82;line-height:1.65;max-width:420px;margin:14px 0 20px;padding-left:18px;}
+  #startBtn{margin-top:18px;padding:14px 34px;background:transparent;border:1px solid var(--phos);color:var(--phos);
+    font-family:inherit;font-size:15px;letter-spacing:2px;border-radius:5px;cursor:pointer;}
+  #startBtn:active{background:#0b3640;}
+  .hidden{display:none !important;}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="hud">
+    <div class="row"><span class="lbl">Suspicion</span><div class="bar"><div id="suspFill" class="fill"></div></div></div>
+    <div class="row"><span class="lbl">Oxygen</span><div class="bar"><div id="oxyFill" class="fill"></div></div></div>
+    <div class="meta"><span id="state">— SILENT RUNNING —</span><span id="photos">PHOTOS 0/3</span></div>
+  </div>
+
+  <div id="game">
+    <canvas id="cv"></canvas>
+    <div id="capWrap"><button id="capBtn">CAPTURE</button></div>
+    <div id="overlay">
+      <h1>SIREN'S SONG</h1>
+      <p class="tag">You pilot an experimental stealth sub, armed only with zero-kill gear.
+      Photograph the alien factory and reach extraction. You cannot win a fight — the Sirens
+      vaporize anything that reads as a threat. Stay quiet. Seeing is being seen.</p>
+      <button id="startBtn">▶ DIVE</button>
+    </div>
+  </div>
+
+  <div id="controls">
+    <button class="btn" id="pingBtn">PING<span class="ct">sonar</span></button>
+    <button class="btn" id="reconBtn">RECON<span class="ct" id="reconCt">x2</span></button>
+    <button class="btn" id="empBtn">EMP<span class="ct" id="empCt">x3</span></button>
+    <button class="btn" id="decoyBtn">DECOY<span class="ct" id="decoyCt">x3</span></button>
+  </div>
+</div>
+
+<script>
+"use strict";
+/* ---------- fixed virtual world (portrait) ---------- */
+const W = 600, H = 900;
+
+/* ---------- tunables (first-pass, expect to change) ---------- */
+const CFG = {
+  subSpeed:115, passiveR:78,
+  pingMax:300, pingGrow:0.45, pingLife:3.0, pingCost:18, pingCooldown:1.3,
+  reconLife:3.2, reconCost:9,
+  empRange:150, empStun:5.0, empCost:18,
+  decoyLife:6.0, decoyCost:6, decoyPull:230,
+  photoCost:14, captureR:62, extractR:60,
+  factoryR:230, factoryGain:8,
+  decay:7, alert:34, hostile:75, killHold:3.4,
+  oxyDrain:100/155,           // ~155s of air
+  detectGain:23
+};
+
+/* ---------- state ---------- */
+let screen='menu';
+let sub, suspicion, oxygen, atMax, pings, decoys, recon, sirens, objectives, extraction, tools, pingCD, last;
+
+function init(){
+  sub = {x:W*0.5, y:H*0.9, tx:W*0.5, ty:H*0.9};
+  suspicion = 0; oxygen = 100; atMax = 0; pingCD = 0;
+  pings = []; decoys = []; recon = {t:0};
+  tools = {recon:2, emp:3, decoy:3};
+  objectives = [
+    {x:W*0.50, y:H*0.55, name:'SILHOUETTE', got:false},
+    {x:W*0.20, y:H*0.34, name:'BAYS',       got:false},
+    {x:W*0.74, y:H*0.18, name:'POWER CORE', got:false},
+  ];
+  extraction = {x:W*0.50, y:H*0.92};
+  sirens = [
+    // Patroller: predictable loop through the mid field
+    {type:'patroller', x:W*0.5, y:H*0.62, mode:'patrol', stun:0,
+      wp:[{x:W*0.18,y:H*0.6},{x:W*0.82,y:H*0.6},{x:W*0.82,y:H*0.42},{x:W*0.18,y:H*0.42}], wi:0,
+      detect:96, pat:46, chase:78, home:null},
+    // Sentinel: guards the power core, large detection, tethered
+    {type:'sentinel', x:W*0.74, y:H*0.18, mode:'guard', stun:0,
+      detect:128, pat:0, chase:64, home:{x:W*0.74,y:H*0.18}, tether:150},
+    // Hunter: dormant off to the side until you get loud
+    {type:'hunter', x:W*0.06, y:H*0.12, mode:'dormant', stun:0,
+      detect:104, pat:0, chase:104, home:{x:W*0.06,y:H*0.12}},
+  ];
+  last = performance.now();
+}
+
+/* ---------- helpers ---------- */
+const dist=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
+function moveToward(e,tx,ty,sp,dt){
+  const dx=tx-e.x, dy=ty-e.y, d=Math.hypot(dx,dy);
+  if(d<1) return false;
+  const s=Math.min(sp*dt,d); e.x+=dx/d*s; e.y+=dy/d*s; return d> s+0.5;
+}
+function allGot(){return objectives.every(o=>o.got);}
+function gotCount(){return objectives.filter(o=>o.got).length;}
+
+/* ---------- input mapping (screen -> world) ---------- */
+const cv=document.getElementById('cv'), ctx=cv.getContext('2d');
+let scale=1, offX=0, offY=0, dpr=1;
+function resize(){
+  const r=cv.getBoundingClientRect();
+  dpr=Math.min(window.devicePixelRatio||1,2);
+  cv.width=Math.max(1,Math.floor(r.width*dpr));
+  cv.height=Math.max(1,Math.floor(r.height*dpr));
+  scale=Math.min(r.width/W, r.height/H);
+  offX=(r.width-W*scale)/2; offY=(r.height-H*scale)/2;
+}
+window.addEventListener('resize',resize);
+
+cv.addEventListener('pointerdown',e=>{
+  if(screen!=='playing') return;
+  const r=cv.getBoundingClientRect();
+  let x=(e.clientX-r.left-offX)/scale, y=(e.clientY-r.top-offY)/scale;
+  sub.tx=Math.max(8,Math.min(W-8,x)); sub.ty=Math.max(8,Math.min(H-8,y));
+});
+
+/* ---------- tools ---------- */
+function doPing(){ if(screen!=='playing'||pingCD>0) return;
+  pings.push({x:sub.x,y:sub.y,t:0}); suspicion+=CFG.pingCost; pingCD=CFG.pingCooldown; }
+function doRecon(){ if(screen!=='playing'||tools.recon<=0) return;
+  tools.recon--; recon.t=CFG.reconLife; suspicion+=CFG.reconCost; syncBtns(); }
+function doEmp(){ if(screen!=='playing'||tools.emp<=0) return;
+  let tgt=null,best=CFG.empRange;
+  for(const s of sirens){const d=dist(s,sub); if(d<best){best=d;tgt=s;}}
+  if(!tgt) return; tgt.stun=CFG.empStun; tools.emp--; suspicion+=CFG.empCost; syncBtns(); }
+function doDecoy(){ if(screen!=='playing'||tools.decoy<=0) return;
+  decoys.push({x:sub.x,y:sub.y,t:CFG.decoyLife}); tools.decoy--; suspicion+=CFG.decoyCost; syncBtns(); }
+function doCapture(){ if(screen!=='playing') return;
+  for(const o of objectives){ if(!o.got && dist(o,sub)<CFG.captureR){
+    o.got=true; suspicion+=CFG.photoCost; break; } } }
+
+document.getElementById('pingBtn').addEventListener('click',doPing);
+document.getElementById('reconBtn').addEventListener('click',doRecon);
+document.getElementById('empBtn').addEventListener('click',doEmp);
+document.getElementById('decoyBtn').addEventListener('click',doDecoy);
+document.getElementById('capBtn').addEventListener('click',doCapture);
+document.getElementById('startBtn').addEventListener('click',startGame);
+
+function syncBtns(){
+  document.getElementById('reconCt').textContent='x'+tools.recon;
+  document.getElementById('empCt').textContent='x'+tools.emp;
+  document.getElementById('decoyCt').textContent='x'+tools.decoy;
+  document.getElementById('reconBtn').disabled=tools.recon<=0;
+  document.getElementById('empBtn').disabled=tools.emp<=0;
+  document.getElementById('decoyBtn').disabled=tools.decoy<=0;
+}
+
+/* ---------- update ---------- */
+function update(dt){
+  if(pingCD>0) pingCD-=dt;
+  oxygen-=CFG.oxyDrain*dt; if(oxygen<=0){oxygen=0; return end(false,'OXYGEN DEPLETED');}
+
+  moveToward(sub,sub.tx,sub.ty,CFG.subSpeed,dt);
+
+  // reveal timers
+  for(const p of pings) p.t+=dt; pings=pings.filter(p=>p.t<CFG.pingLife);
+  for(const d of decoys) d.t-=dt; decoys=decoys.filter(d=>d.t>0);
+  if(recon.t>0) recon.t-=dt;
+
+  // suspicion: continuous proximity gain, decay only when fully clear
+  let gain=0;
+  const factory={x:W*0.5,y:H*0.06};
+  const fd=dist(sub,factory);
+  if(fd<CFG.factoryR) gain+=CFG.factoryGain*(1-fd/CFG.factoryR);
+  let sirenNear=false;
+  for(const s of sirens){
+    if(s.stun>0) continue;
+    const d=dist(s,sub);
+    if(d<s.detect){ gain+=CFG.detectGain*(1-d/s.detect); sirenNear=true; }
+  }
+  if(gain>0) suspicion+=gain*dt; else suspicion-=CFG.decay*dt;
+  suspicion=Math.max(0,Math.min(100,suspicion));
+
+  // siren AI
+  const hostile=suspicion>=CFG.alert;
+  for(const s of sirens){
+    if(s.stun>0){ s.stun-=dt; continue; }
+    // pick a target: decoy pulls curious/alert sirens
+    let target=sub, pull=false;
+    if(decoys.length){
+      let bd=CFG.decoyPull, bx=null;
+      for(const dc of decoys){const d=Math.hypot(s.x-dc.x,s.y-dc.y); if(d<bd){bd=d;bx=dc;}}
+      if(bx){target=bx; pull=true;}
+    }
+    const seesSub=dist(s,sub)<s.detect;
+    if(s.type==='patroller'){
+      if((hostile||seesSub)&&!pull){ moveToward(s,sub.x,sub.y,s.chase,dt); }
+      else if(pull){ moveToward(s,target.x,target.y,s.chase,dt); }
+      else { const wp=s.wp[s.wi]; if(!moveToward(s,wp.x,wp.y,s.pat,dt)) s.wi=(s.wi+1)%s.wp.length; }
+    } else if(s.type==='sentinel'){
+      const goHome = !(hostile||seesSub) && !pull;
+      const tx = goHome? s.home : target;
+      // tethered: don't stray too far from home
+      if(dist(s,s.home)>s.tether && !goHome){ moveToward(s,s.home.x,s.home.y,s.chase,dt); }
+      else moveToward(s,tx.x,tx.y, goHome? s.pat||30 : s.chase, dt);
+    } else if(s.type==='hunter'){
+      if(hostile||pull){ s.mode='hunt'; moveToward(s,target.x,target.y,s.chase,dt); }
+      else { s.mode='dormant'; moveToward(s,s.home.x,s.home.y,40,dt); }
+    }
+  }
+
+  // kill / win checks
+  if(suspicion>=100){ atMax+=dt; if(atMax>=CFG.killHold) return end(false,'VAPORIZED'); }
+  else atMax=0;
+  if(allGot() && dist(sub,extraction)<CFG.extractR) return end(true,'EXTRACTED');
+}
+
+/* ---------- render ---------- */
+function revealLevel(o){
+  // returns 0 hidden, 1 dim (passive), 2 bright (active/recon)
+  if(recon.t>0) return 2;
+  for(const p of pings){ const r=Math.min(CFG.pingMax,CFG.pingMax*(p.t/CFG.pingGrow));
+    if(dist(o,{x:p.x,y:p.y})<r && p.t<CFG.pingLife) return 2; }
+  if(dist(o,sub)<CFG.passiveR) return 1;
+  return 0;
+}
+function render(){
+  const r=cv.getBoundingClientRect();
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  ctx.clearRect(0,0,r.width,r.height);
+  // abyss
+  ctx.fillStyle='#02080a'; ctx.fillRect(0,0,r.width,r.height);
+  ctx.save();
+  ctx.translate(offX,offY); ctx.scale(scale,scale);
+  // world bounds + faint grid
+  ctx.strokeStyle='#0c2a30'; ctx.lineWidth=1;
+  for(let gx=0;gx<=W;gx+=60){ctx.globalAlpha=.5;ctx.beginPath();ctx.moveTo(gx,0);ctx.lineTo(gx,H);ctx.stroke();}
+  for(let gy=0;gy<=H;gy+=60){ctx.beginPath();ctx.moveTo(0,gy);ctx.lineTo(W,gy);ctx.stroke();}
+  ctx.globalAlpha=1;
+
+  // factory glow (top) — only hinted unless revealed
+  const fr=revealLevel({x:W*0.5,y:H*0.06});
+  if(fr>0){
+    ctx.globalAlpha=fr===2?0.9:0.4;
+    const g=ctx.createRadialGradient(W*0.5,H*0.04,10,W*0.5,H*0.04,200);
+    g.addColorStop(0,'#1c6b54'); g.addColorStop(1,'rgba(2,8,10,0)');
+    ctx.fillStyle=g; ctx.fillRect(0,0,W,H*0.3);
+    ctx.globalAlpha=1;
+    ctx.strokeStyle=fr===2?'#3df0b8':'#1c6b54'; ctx.lineWidth=2;
+    ctx.strokeRect(W*0.5-70,8,140,70);
+    ctx.fillStyle=fr===2?'#3df0b8':'#1c6b54'; ctx.font='11px monospace'; ctx.textAlign='center';
+    ctx.fillText('▣ FACTORY ▣',W*0.5,55);
+  }
+
+  // ping ripples
+  for(const p of pings){
+    const rr=CFG.pingMax*Math.min(1,p.t/CFG.pingGrow);
+    const a=Math.max(0,1-p.t/CFG.pingLife);
+    ctx.globalAlpha=a*0.6; ctx.strokeStyle='#3df0b8'; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.arc(p.x,p.y,rr,0,7); ctx.stroke();
+    ctx.globalAlpha=1;
+  }
+  // passive ring
+  ctx.globalAlpha=.18; ctx.strokeStyle='#3df0b8'; ctx.setLineDash([4,6]);
+  ctx.beginPath(); ctx.arc(sub.x,sub.y,CFG.passiveR,0,7); ctx.stroke();
+  ctx.setLineDash([]); ctx.globalAlpha=1;
+
+  // decoys
+  for(const d of decoys){ ctx.globalAlpha=.7; ctx.fillStyle='#46c9ff';
+    ctx.beginPath(); ctx.arc(d.x,d.y,5,0,7); ctx.fill();
+    ctx.globalAlpha=.25; ctx.beginPath(); ctx.arc(d.x,d.y,14+Math.sin(d.t*8)*3,0,7); ctx.stroke();
+    ctx.globalAlpha=1; }
+
+  // objectives
+  for(const o of objectives){
+    const rv=o.got?2:revealLevel(o);
+    if(rv===0) continue;
+    ctx.globalAlpha=rv===2?1:0.45;
+    ctx.strokeStyle=o.got?'#1c6b54':'#ffb13b'; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.arc(o.x,o.y,11,0,7); ctx.stroke();
+    ctx.fillStyle=o.got?'#1c6b54':'#ffb13b';
+    ctx.beginPath(); ctx.arc(o.x,o.y,3,0,7); ctx.fill();
+    ctx.font='10px monospace'; ctx.textAlign='center';
+    ctx.fillText((o.got?'✓ ':'◇ ')+o.name,o.x,o.y-16);
+    ctx.globalAlpha=1;
+  }
+
+  // sirens (revealed only)
+  for(const s of sirens){
+    const rv=revealLevel(s);
+    if(rv===0) continue;
+    const stunned=s.stun>0;
+    ctx.globalAlpha=rv===2?1:0.4;
+    ctx.strokeStyle=stunned?'#46c9ff':'#ff4d57'; ctx.lineWidth=2;
+    // diamond
+    ctx.beginPath();
+    ctx.moveTo(s.x,s.y-9);ctx.lineTo(s.x+9,s.y);ctx.lineTo(s.x,s.y+9);ctx.lineTo(s.x-9,s.y);ctx.closePath();
+    ctx.stroke();
+    if(rv===2){ ctx.globalAlpha=.12; ctx.beginPath(); ctx.arc(s.x,s.y,s.detect,0,7);
+      ctx.fillStyle=stunned?'#46c9ff':'#ff4d57'; ctx.fill(); }
+    ctx.globalAlpha=1;
+    ctx.fillStyle=stunned?'#46c9ff':'#ff4d57'; ctx.font='9px monospace'; ctx.textAlign='center';
+    ctx.fillText(stunned?'~STUN~':s.type.toUpperCase(),s.x,s.y-14);
+  }
+
+  // extraction (lit once all photos taken)
+  const live=allGot();
+  ctx.globalAlpha=live?1:0.4; ctx.strokeStyle=live?'#3df0b8':'#1c6b54'; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.arc(extraction.x,extraction.y,CFG.extractR*0.5,0,7); ctx.stroke();
+  ctx.font='10px monospace'; ctx.textAlign='center'; ctx.fillStyle=live?'#3df0b8':'#1c6b54';
+  ctx.fillText(live?'▲ EXTRACT ▲':'extract (locked)',extraction.x,extraction.y+CFG.extractR*0.5+14);
+  ctx.globalAlpha=1;
+
+  // sub
+  ctx.fillStyle='#3df0b8'; ctx.strokeStyle='#02080a'; ctx.lineWidth=2;
+  ctx.save(); ctx.translate(sub.x,sub.y);
+  const ang=Math.atan2(sub.ty-sub.y,sub.tx-sub.x);
+  ctx.rotate(ang);
+  ctx.beginPath(); ctx.moveTo(11,0); ctx.lineTo(-7,6); ctx.lineTo(-4,0); ctx.lineTo(-7,-6); ctx.closePath();
+  ctx.fill(); ctx.stroke(); ctx.restore();
+
+  ctx.restore();
+
+  // vignette
+  const vg=ctx.createRadialGradient(r.width/2,r.height/2,r.height*0.3,r.width/2,r.height/2,r.height*0.75);
+  vg.addColorStop(0,'rgba(0,0,0,0)'); vg.addColorStop(1,'rgba(0,0,0,0.55)');
+  ctx.fillStyle=vg; ctx.fillRect(0,0,r.width,r.height);
+}
+
+/* ---------- HUD ---------- */
+function hud(){
+  document.getElementById('suspFill').style.width=suspicion+'%';
+  document.getElementById('oxyFill').style.width=oxygen+'%';
+  const sf=document.getElementById('suspFill');
+  let col=getComputedStyle(document.documentElement).getPropertyValue('--phos');
+  let st='— SILENT RUNNING —';
+  if(suspicion>=CFG.hostile){col='var(--red)'; st='⚠ HOSTILE — BREAK CONTACT';}
+  else if(suspicion>=CFG.alert){col='var(--amber)'; st='ALERT';}
+  else st='CURIOUS';
+  sf.style.background=col;
+  const stEl=document.getElementById('state');
+  stEl.textContent=st; stEl.style.color=col;
+  stEl.classList.toggle('blink',suspicion>=CFG.hostile);
+  document.getElementById('photos').textContent='PHOTOS '+gotCount()+'/3';
+  // contextual capture
+  let near=null;
+  for(const o of objectives){ if(!o.got && dist(o,sub)<CFG.captureR){near=o;break;} }
+  const cb=document.getElementById('capBtn');
+  if(near){ cb.style.display='block'; cb.textContent='📷 '+near.name; } else cb.style.display='none';
+}
+
+/* ---------- loop ---------- */
+function frame(now){
+  let dt=(now-(last||now))/1000; last=now;
+  dt=Math.min(dt,0.05);
+  if(screen==='playing'){ update(dt); hud(); }
+  render();
+  requestAnimationFrame(frame);
+}
+
+/* ---------- screen transitions ---------- */
+function startGame(){ init(); resize(); syncBtns(); screen='playing';
+  document.getElementById('overlay').classList.add('hidden'); }
+function end(win,why){
+  screen=win?'won':'lost';
+  const ov=document.getElementById('overlay');
+  ov.classList.remove('hidden');
+  ov.innerHTML = win
+    ? `<p class="verdict" style="color:var(--phos)">MISSION COMPLETE</p>
+       <p class="tag">${why}. All three frames captured and you slipped the net.
+       The factory was real — and you were never supposed to make it home.</p>
+       <button id="startBtn">▶ DIVE AGAIN</button>`
+    : `<p class="verdict" style="color:var(--red)">${why}</p>
+       <p class="tag">The deep keeps you. ${win?'':'The Sirens were never going to let a threat leave —'}
+       you just have to read them better than they read you.</p>
+       <ul>
+        <li>PING reveals far but spikes suspicion — ration it.</li>
+        <li>Suspicion only decays when you go quiet and clear.</li>
+        <li>EMP/DECOY buy escape windows when HOSTILE — that's the valve.</li>
+       </ul>
+       <button id="startBtn">▶ RETRY</button>`;
+  document.getElementById('startBtn').addEventListener('click',startGame);
+}
+
+/* boot */
+resize(); requestAnimationFrame(frame);
+window.addEventListener('orientationchange',()=>setTimeout(resize,120));
+</script>
+</body>
+</html>

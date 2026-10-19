@@ -8,10 +8,10 @@ Repository foundation, before the production Gauntlet prompt and before engine/e
 
 1. `AGENTS.md` — agent working rules.
 2. `docs/SOURCE_AUTHORITY.md` — provenance and decision hierarchy.
-3. `design/SIRENS_SONG_DESIGN_BIBLE_GAUNTLET_V1.md` — creative design bible (to be imported).
-4. `references/visual/` — approved and candidate concept images, review PDF, selection ledger (to be imported).
-5. `archive/provenance/` — original conversation and recovered artifacts (to be imported).
-6. `archive/prototypes/` — historical HTML5 prototypes and design notes (to be imported).
+3. `design/SIRENS_SONG_DESIGN_BIBLE_GAUNTLET_V1.md` — creative design bible.
+4. `references/visual/` — review PDF and visual exploration plan; `references/package/` — concept selection ledger and portable image set.
+5. `archive/provenance/` — original conversation and recovered artifacts.
+6. `archive/prototypes/` — historical HTML5 prototypes and design notes.
 
 ## Confirmed current direction
 
@@ -23,6 +23,8 @@ Repository foundation, before the production Gauntlet prompt and before engine/e
 - Sensor-room framing and external camera reveals.
 - Visual exploration favors grounded stylized military science fiction, underwater brutalist alien structures, and angular/serpentine Sirens.
 - Full 3D is out of current production scope; 2.5D is a possible later visual technique.
+
+The [source import report](source-import/README.md) records integrity checks, package layout, and historical discrepancies. The concept selection ledger is at `references/package/SIRENS_SONG_CONCEPT_SELECTION_LEDGER.md`; portable images are under `references/package/references/`.
 
 ## Next gate
 

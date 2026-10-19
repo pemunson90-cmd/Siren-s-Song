@@ -11,4 +11,4 @@ A lone pilot commands the experimental USS Quietus and its reconnaissance drones
 - [Agent instructions](AGENTS.md)
 - [Codex environment checklist](docs/CODEX_ENVIRONMENT.md)
 
-**Status:** Preproduction and source import. Engine and Android environment selection pending. The historical HTML5 prototypes remain behavioral references. Design bible, provenance, visual assets, and archives are being staged for import.
+**Status:** Preproduction and source import. Engine and Android environment selection pending. The historical HTML5 prototypes remain behavioral references. Design bible, extracted provenance, visual assets, and historical archives are imported. See the [source import verification and reconciliation](docs/source-import/README.md).

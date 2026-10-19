@@ -1,0 +1,107 @@
+[
+  {
+    "path": "SIRENS_SONG_CONCEPT_SELECTION_LEDGER.md",
+    "bytes": 5645,
+    "sha256": "cbfeee5b1a87b130507815b86a97207004912aaa6a2581713585826ba85726c9"
+  },
+  {
+    "path": "START_HERE.md",
+    "bytes": 3931,
+    "sha256": "3c06d1af7c0671882bbc497089415a14d988484244979f6e08c20328ccb3124d"
+  },
+  {
+    "path": "archive/exec-1b18dab7-3b7a-4dcf-b0e6-f4ab68673513.png",
+    "bytes": 2664673,
+    "sha256": "48c9ef4e8bb7c4fd339461916d691c4ecb8e79db73c2a0d3c8570245724f12bd"
+  },
+  {
+    "path": "archive/exec-46abe549-6077-402a-976e-8a0ff8f4e0f5.png",
+    "bytes": 2293587,
+    "sha256": "4fee4696074bb7bf95f8c9cead60572ffd3768409503a348e235caebafb1687f"
+  },
+  {
+    "path": "archive/exec-57daaf88-d61c-4588-b7a0-7a99bf725136.png",
+    "bytes": 2956617,
+    "sha256": "26dbb2dc18c6377e66bbd79492105cd03b43babc57f057ff6c52e92fbff88392"
+  },
+  {
+    "path": "archive/exec-59516071-0bd6-4b29-9da3-4f272c5d28ef.png",
+    "bytes": 2524944,
+    "sha256": "b353876fa1edd78d6c1b3b46b5045d3b8d02d4a059f09bcbb063d0783a55b764"
+  },
+  {
+    "path": "archive/exec-83aa9c1b-aaad-44b9-8751-4928adfcfbb6.png",
+    "bytes": 2638211,
+    "sha256": "f908f1366e3354cfcf9638a6d53b174cc8fc1151dbc66e76c6f664e64b132830"
+  },
+  {
+    "path": "archive/exec-cdf37b5e-620b-4f94-85d4-ecab266a1a98.png",
+    "bytes": 2647446,
+    "sha256": "57751d09e3de2518cd79cc3f544ba17c873bc02684c1d361c123aa3691752ee4"
+  },
+  {
+    "path": "archive/exec-e9be7714-77fb-4f4e-9ab4-194e52689d2d.png",
+    "bytes": 2163687,
+    "sha256": "c53117ea5b1ea7f200eb180bd61d8ac511bf6f475b5666d089327758e0116522"
+  },
+  {
+    "path": "archive/exec-f875a309-4ba5-49ba-b0b1-f8094d85a236.png",
+    "bytes": 2748905,
+    "sha256": "3261f1eeb81ffa9a6a181f3a970d1a1a142939c324d7936ee05792107f1dc9ff"
+  },
+  {
+    "path": "references/01_TOPDOWN_FACTORY_APPROACH.png",
+    "bytes": 3263121,
+    "sha256": "262a9b1d1050e9e1519af61d79ec24f7f2dcc8b737266266b16aa8f9cb42c402"
+  },
+  {
+    "path": "references/02_TOPDOWN_SPLIT_CHANNEL.png",
+    "bytes": 3135613,
+    "sha256": "0bdc621c0cda85e4fb6b2594f051af89defbd030567fd3a7b9b721f708bdd303"
+  },
+  {
+    "path": "references/03_FACTORY_SCALE_QUIETUS_CORRECTED.png",
+    "bytes": 2327142,
+    "sha256": "bfcd4b6e87a3ed90cc6a50a32ab696c2585bba6400b4de3901beb6d12dc95e99"
+  },
+  {
+    "path": "references/04_BLACKWATER_QUIETUS_CORRECTED.png",
+    "bytes": 2063242,
+    "sha256": "40f632b963a410e319db38cad08f46f5421393b58ca09e57f3dd536405d407a8"
+  },
+  {
+    "path": "references/05_SIREN_ANGULAR_RAY.png",
+    "bytes": 2538013,
+    "sha256": "1739827562dae8b0b6a9d9f8b64cde7e8f201140f107e23f3d3fc0b6c3522ad8"
+  },
+  {
+    "path": "references/06_SIREN_SERPENTINE.png",
+    "bytes": 2616081,
+    "sha256": "017832f84875b9c0462b15e253eb54461ce7159bf299998f198943dcad973885"
+  },
+  {
+    "path": "references/07_QUIETUS_EXTERIOR_REFERENCE_PDF_PAGE.png",
+    "bytes": 1416966,
+    "sha256": "ea7c74218f2089338749b3e81d775ad5daded2167146ec83341f02eb502e79be"
+  },
+  {
+    "path": "sources/01-sirens_song_handoff.zip",
+    "bytes": 53264,
+    "sha256": "d68bbe1495fa42361eaf3ff02e08e60ae1a63251b54a01b7b9d4812e6b27f10d"
+  },
+  {
+    "path": "sources/02-SIRENS_SONG_DESIGN_BIBLE_GAUNTLET_V1-1-.md",
+    "bytes": 16268,
+    "sha256": "b53d0cc5e5ad9cab4e7147c8b456c385bc73495286301baaf03c86f57d7b5d4c"
+  },
+  {
+    "path": "sources/03-SIRENS_SONG_VISUAL_EXPLORATION_PLAN_V3_HANDOFF-1-.md",
+    "bytes": 11194,
+    "sha256": "0d77250594a2d1506f2dfac29488040dac1381a3e22ae1d5305a6843e870ad1a"
+  },
+  {
+    "path": "sources/SIRENS_SONG_CONCEPT_ART_IMAGE_REVIEW_HANDOFF.pdf",
+    "bytes": 37833406,
+    "sha256": "4d39691d89d36f77224dc0fae9b1c2ecf36ca9e08868fb9dfb532046f86b1bc5"
+  }
+]
