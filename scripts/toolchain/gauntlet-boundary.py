@@ -2,7 +2,7 @@
 """Fetch/copy current instructions at an explicit or Git-hook task boundary."""
 import argparse, fcntl, hashlib, json, os, pathlib, re, signal, subprocess, sys, tempfile, time
 
-FILES=('AGENTS.md','docs/CONTINUATION.md','docs/WORKBENCH.md','docs/architecture/GAUNTLET.md')
+FILES=('AGENTS.md','docs/CONTINUATION.md','docs/WORKBENCH.md','docs/architecture/GAUNTLET.md','docs/CURRENT_GAME_SPEC.md','docs/V7_TO_GODOT_PARITY.md')
 REF='refs/remotes/origin/gauntlet/production'
 PRODUCTION='refs/heads/gauntlet/production'
 
@@ -77,10 +77,10 @@ def dispatch(path, policy):
     if set(task)-allowed or not isinstance(task.get('target' if follow else 'task_name'),str):raise ValueError('invalid followup_task/spawn_agent arguments')
     agents=pathlib.Path(policy['files']['AGENTS.md']['cache_path']).read_text()
     match=re.search(r'^## Current execution contract[^\n]*\n(.*?)(?=^## |\Z)',agents,re.M|re.S)
-    contract=match.group(0).strip() if match else agents
+    contract=agents[:match.end()].strip() if match else agents
     prefix='Current fetched policy SHA: '+policy['policy_sha']+'\n'+contract+'\n\nRead and apply the FULL cached governing files before this task:\n'
     prefix+='\n'.join(name+': '+policy['files'][name]['cache_path'] for name in FILES)
-    prefix+='\nInherit docs/AGENT_BRIEF.md and docs/SOURCE_AUTHORITY.md; current explicit user direction has priority. Imported originals remain immutable. Sol6.1 is the substantial-work default; record requested routing separately from unavailable backend/cost telemetry. Preserve assigned ownership and strongest verified baseline.\n\nAssigned task:\n'
+    prefix+='\nRead the cached CURRENT_GAME_SPEC.md and V7_TO_GODOT_PARITY.md alongside source authority before design or gameplay implementation; historical specifications remain provenance. Inherit docs/AGENT_BRIEF.md and docs/SOURCE_AUTHORITY.md; current explicit user direction has priority. Imported originals remain immutable. Sol6.1 is the substantial-work default; record requested routing separately from unavailable backend/cost telemetry. Preserve assigned ownership and strongest verified baseline.\n\nAssigned task:\n'
     task['message']=prefix+task['message']
     if not follow:task.setdefault('model','gpt-6.1-sol');task.setdefault('fork_turns','none')
     return {'tool':'collaboration.followup_task' if follow else 'collaboration.spawn_agent','arguments':task}
