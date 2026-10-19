@@ -20,19 +20,28 @@ cleanup() {
 }
 trap cleanup EXIT
 adb install -r "$apk" | tee "$output/install.txt"
+component="$(adb shell cmd package resolve-activity --brief -a android.intent.action.MAIN -c android.intent.category.LAUNCHER -p "$package" | tr -d '\r' | tail -1)"
+[[ "$component" == "$package/"* ]] || { echo "No launcher activity resolved: $component" >&2; exit 1; }
+printf '%s\n' "$component" | tee "$output/launcher-component.txt"
 adb shell getprop ro.build.fingerprint >"$output/fingerprint.txt"
 adb shell settings put system accelerometer_rotation 0
 # Natural portrait dimensions plus locked landscape produce the requested viewports.
 adb shell settings put system user_rotation 1
 launch() {
-    adb shell monkey -p "$package" -c android.intent.category.LAUNCHER 1 | tee "$output/launch-$1.txt"
+    adb shell am start -W -n "$component" | tee "$output/launch-$1.txt"
+    ready=false
     for ((attempt=0; attempt<30; attempt++)); do
-        if adb shell pidof "$package" >"$output/pid-$1.txt"; then break; fi
+        adb logcat -d >"$output/readiness-$1.txt"
+        if adb shell pidof "$package" >"$output/pid-$1.txt" && \
+            grep -q 'SS_SCREEN' "$output/readiness-$1.txt" && \
+            grep -q 'SS_TARGET' "$output/readiness-$1.txt"; then
+            ready=true
+            break
+        fi
         sleep 1
     done
-    sleep 3
-    if ! adb shell pidof "$package" | tee "$output/pid-$1.txt" | grep -Eq '[0-9]'; then
-        echo "Game process missing after launch: $1" >&2
+    if ! "$ready"; then
+        echo "Game process or screen/layout readiness marker missing after launch: $1" >&2
         return 1
     fi
 }
