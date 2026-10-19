@@ -16,7 +16,7 @@ func _initialize()->void:
  check(content.available({"completed":[9,11],"facts":{"confluence_route":"concealed"}})==[11,12],"recovered concealed departure opens only concealed recovery")
  check(content.available({"completed":[10,11],"facts":{"confluence_route":"overt"}})==[11,13],"recovered overt departure opens only warning job")
  check(content.available({"completed":[9,11],"facts":{"confluence_route":"unknown"}})==[11],"an unsupported departure cannot invent a resolution")
- var history={"thread":"deep-first","completed":[9],"facts":{},"references":{"return_cadence":[.8,1.6,.8]},"notes":{"unrecovered":"packet"}}
+ var history={"thread":"deep","completed":[9],"facts":{},"references":{"return_cadence":[.8,1.6,.8]},"notes":{"unrecovered":"packet"}}
  var before=history.duplicate(true)
  var confluence=content.make(11,history)
  check(history==before and not confluence.launch_context.has("notes"),"authored launch context copies recovered history without mutating it or carrying notes")
