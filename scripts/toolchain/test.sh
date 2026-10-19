@@ -3,6 +3,7 @@
 set -euo pipefail
 source "$(dirname -- "$0")/common.sh"
 require_project
+python3 "$(dirname -- "$0")/test-configure-signing.py"
 "$(dirname -- "$0")/test-native-role-archive.sh"
 python3 "$(dirname -- "$0")/test-android-role.py"
 python3 "$(dirname -- "$0")/test-android-metric-records.py"
