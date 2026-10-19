@@ -8,6 +8,7 @@ static func run(t) -> void:
 			# Foundry rather than treating its new industrial motor as silence.
 			var quiet=s.snapshot(); quiet.mission.erase("departure_revision")
 			t.check(s.restore(quiet),"no-stimulus patrol fixture restores legacy Foundry without industrial traffic")
+			s.paused=false # Restoring a dive intentionally enters tactical pause.
 		for siren in s.sirens:
 			var points=siren.get("patrol_points",[])
 			t.check(points.size()>=3,"mission %d has an authored legible circulation route"%mission)
@@ -19,6 +20,7 @@ static func run(t) -> void:
 			s.advance(0.1)
 			for id in s.sirens.size():
 				travel[id]+=last[id].distance_to(s.sirens[id].pos); last[id]=s.sirens[id].pos
+		t.check(is_equal_approx(s.elapsed,35.0),"mission %d patrol fixture actually advances all 35 simulation seconds"%mission)
 		for id in s.sirens.size():
 			if s.sirens[id].get("type","patroller")=="patroller":
 				t.check(travel[id]>75,"mission %d patroller %d circulates without player noise"%[mission,id])
