@@ -79,6 +79,9 @@ func extraction_corridors() -> Array:
 	return Consequences.corridors(self) if mission.get("expedition_revision",0)==2 else SignalField.corridors(self) if mission.has("expedition_revision") else [{"pos":mission.extraction,"name":"RECOVERY","route":"","available":all_records()}]
 func operation_context()->Dictionary:
 	return Operations.feedback(self)
+func capture_feedback()->Dictionary:
+	if capture_unit<0 or capture_target<0 or capture_target>=mission.objectives.size():return {"duration":0.0,"elapsed":0.0,"unit":-1,"target":-1}
+	return {"duration":_capture_duration(mission.objectives[capture_target],capture_unit),"elapsed":capture_time,"unit":capture_unit,"target":capture_target}
 func equipment_feedback()->Dictionary:
 	return {"fitted":mission.get("launch_equipment",Consequences.EMPTY_FIT).duplicate(true),"correlation":correlation.duplicate(true)}
 func _capture_duration(objective:Dictionary,unit_id:int)->float:
