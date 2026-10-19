@@ -11,6 +11,7 @@ var foundry=preload("res://assets/structures/foundry.png")
 var quietus=preload("res://assets/craft/quietus.png")
 var basalt=preload("res://assets/materials/basalt.png")
 var camera_flash := 0.0
+var chart_camera=preload("res://src/presentation/chart_camera.gd").new()
 const CYAN := Color("72d9d3")
 const INK := Color("07141c")
 func _ready() -> void:
@@ -28,7 +29,17 @@ func _ready() -> void:
 			img.set_pixel(x,y,Color(0.025+n*0.028,0.065+n*0.075+trench*0.015,0.085+n*0.075))
 	ocean=ImageTexture.create_from_image(img)
 func map_position(screen: Vector2) -> Vector2:
-	return (screen-world_offset)/world_scale
+	_sync_camera(); return chart_camera.to_world(screen)
+func screen_position(world: Vector2) -> Vector2:
+	_sync_camera(); return chart_camera.to_screen(world)
+func _sync_camera() -> void:
+	chart_camera.configure(size); world_scale=chart_camera.scale; world_offset=chart_camera.offset
+func zoom_at(factor: float,anchor: Vector2) -> void:
+	_sync_camera(); chart_camera.zoom_at(factor,anchor); _sync_camera(); queue_redraw()
+func pan_chart(delta: Vector2) -> void:
+	_sync_camera(); chart_camera.pan(delta); _sync_camera(); queue_redraw()
+func fit_chart() -> void:
+	chart_camera.fit(); _sync_camera(); queue_redraw()
 func _process(dt: float) -> void:
 	phase+=dt; camera_flash=maxf(0,camera_flash-dt)
 	if optical_feed!=null:
@@ -37,8 +48,7 @@ func _process(dt: float) -> void:
 	queue_redraw()
 func _draw() -> void:
 	if sim==null or ocean==null: return
-	world_scale=minf(size.x/1600.0,size.y/960.0)
-	world_offset=(size-Vector2(1600,960)*world_scale)/2.0
+	_sync_camera()
 	draw_rect(Rect2(Vector2.ZERO,size),Color("050f17"))
 	draw_set_transform(world_offset,0,Vector2.ONE*world_scale)
 	draw_texture_rect(ocean,Rect2(0,0,1600,960),false)
@@ -131,8 +141,8 @@ func _draw() -> void:
 		draw_circle(p,0.7+float(i%3)*0.35,Color(0.48,0.7,0.7,0.11))
 	draw_rect(Rect2(0,0,1600,960),Color(0.3,0.7,0.7,0.19),false,2)
 	draw_set_transform(Vector2.ZERO,0,Vector2.ONE)
-	draw_string(ThemeDB.fallback_font,Vector2(16,26),"TACTICAL / BATHYMETRY",HORIZONTAL_ALIGNMENT_LEFT,-1,13,Color("76959c"))
-	draw_string(ThemeDB.fallback_font,Vector2(size.x-202,26),"%04d m  ·  CHART MEMORY"%sim.mission.depth,HORIZONTAL_ALIGNMENT_LEFT,-1,13,Color("76959c"))
+	draw_string(ThemeDB.fallback_font,Vector2(16,26),"TAP ROUTE · DRAG CHART · PINCH ZOOM",HORIZONTAL_ALIGNMENT_LEFT,-1,13,Color("76959c"))
+	draw_string(ThemeDB.fallback_font,Vector2(16,46),"CHART %.1f× · OBSERVATIONS UNCHANGED"%chart_camera.zoom,HORIZONTAL_ALIGNMENT_LEFT,-1,11,Color("76959c"))
 
 func _rock(r: Rect2) -> void:
 	var poly=sim.rock_polygon(r)

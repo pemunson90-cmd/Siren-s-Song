@@ -55,12 +55,13 @@ func run() -> void:
 	for dimensions in [Vector2i(1280,720),Vector2i(2520,1080),Vector2i(2184,1968),Vector2i(960,540)]:
 		root.size=dimensions; await process_frame; await process_frame
 		game._layout()
-		var all=game.unit_buttons.duplicate(); all.append(game.pause_button); all.append_array(game.order_buttons.values())
+		var all=game.unit_buttons.duplicate(); all.append(game.pause_button); all.append_array(game.order_buttons.values()); all.append_array(game.zoom_buttons)
 		for button in all:
 			var rect=button.get_global_rect()
 			check(Rect2(Vector2.ZERO,game.size).encloses(rect),"%s button %s remains inside viewport"%[dimensions,button.text])
 			check(button.size.y>=44,"%s button %s has logical touch height"%[dimensions,button.text])
 		check(not Rect2(game.ocean.position,game.ocean.size).intersects(game.pause_button.get_global_rect()),"%s map and pause controls do not overlap"%dimensions)
+	await preload("res://tests/touch_navigation_scenarios.gd").run(self,game)
 	await preload("res://tests/campaign_ui_scenarios.gd").run(self,game)
 	game.sound.resume(); game.screen="debrief"; game.sim.paused=false; game.sound.alert_timer=0.0
 	game.sim.contacts[0]={"pos":game.sim.units[0].pos+Vector2(100,0),"time":game.sim.elapsed,"mode":"BEAM","lock":4.2,"angle":0.0}

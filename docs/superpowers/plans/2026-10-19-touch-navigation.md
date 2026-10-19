@@ -24,10 +24,10 @@ Preserve verified93b8631/native39202066103 and evidence index. Zoom range1–4; 
 Files: create `game/src/presentation/chart_camera.gd`, `game/src/input/map_gesture.gd`, `game/tests/touch_navigation_scenarios.gd`; modify ocean_view.gd/main.gd/runtime_tests.gd.
 Interfaces: ChartCamera.configure(size), fit(), zoom_at(factor,anchor), pan(delta), to_world(point), to_screen(point), scale, offset, zoom. MapGesture.feed(kind,index,position) returns gesture action dictionary; cancel()/active() clear/report touch state. Existing ocean.map_position and world_scale/world_offset consume camera state.
 
-- [ ] Write failing runtime assertions: visible +/−/FIT controls; anchor retained under zoom; roundtrip after pan; drag and pinch emit no route; queued real touch plus emulated mouse produces exactly one endpoint; transformed tap maps correctly; outside/lifecycle cancellation preserves snapshot.
-- [ ] Run runtime entry point and retain expected RED, not parser errors.
-- [ ] Implement camera clamping/anchoring and recognizer; root starts map gestures through GUI and tracks active moves/releases globally. Ignore emulated mouse on map, keep button behavior. Add48px zoom controls and concise hint; reset camera on new mission, cancel gestures on menu/layout/suspend.
-- [ ] Run focused tests and full `scripts/toolchain/test.sh`; preserve all campaign/PCM regressions. Commit runnable change.
+- [x] Write failing runtime assertions: visible +/−/FIT controls; anchor retained under zoom; roundtrip after pan; drag and pinch emit no route; queued real touch plus emulated mouse produces exactly one endpoint; transformed tap maps correctly; outside/lifecycle cancellation preserves snapshot.
+- [x] Run runtime entry point and retain expected RED, not parser errors.
+- [x] Implement camera clamping/anchoring and recognizer; root starts map gestures through GUI and tracks active moves/releases globally. Ignore emulated mouse on map, keep button behavior. Add48px zoom controls and concise hint; reset camera on new mission, cancel gestures on menu/layout/suspend.
+- [x] Run focused tests and full `scripts/toolchain/test.sh`; preserve all campaign/PCM regressions. Commit runnable change.
 
 ## Task2 — Phone comprehension at useful scale
 

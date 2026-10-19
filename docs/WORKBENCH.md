@@ -120,3 +120,10 @@ Run39200256192 exposed an actual AudioTrack SIGSEGV after uninterrupted audio pl
 ## Safe checkpoint — native completion and ratified next-cycle workflow
 
 Verified baseline93b8631/run39202066103: native orders/camera/record/won, completed[0]/unlocked1 cold restore, >30s active audio and strict zero-error/fatal gate. Independent Foundry report supports bounded mission gains; label crowding and touch scale remain. The agreed process upgrade/model refinement/persistent-decisions/touch direction is now reconciled in governing docs, baseline index and new-agent brief. Tooling owns the phone dashboard and playtest entry links. Next action is the touch plan's failing transform/gesture tests, then minimal camera/input implementation, real captures and separate regression evidence. No routine approval gate or program completion claim.
+
+
+## Touch challenger task1 — camera and gesture command boundary
+
+Presentation-only anchored1–4×zoom, clamped drag pan and visible48px−/+/FIT controls now run in the linked production worktree. First RED assertion demonstrated missing chart zoom; added actual touch/mouse, pinch, pan, outside/suspend/layout/third-finger and coordinate checks. A further RED reproduced the cutout-inset root mixing local press/global release; gesture positions now consistently use full-window coordinates. Touch-generated mouse events are ignored only at the chart boundary, preventing duplicate queued endpoints. Full88core/218runtime pass; baseline93b8631 is preserved and not yet superseded. Actual overview/zoom captures are being collected, then primary-action hierarchy/label obstruction and separate regression review follow. Native tooling is preparing actual OS+/−/swipe/FIT checks while keeping completion/lifecycle/audio gates. No OS pinch/physical comfort claim.
+
+Minor policy precision reconciled: exceptional premium delegation is permitted only with documented allowed high-consequence/impasse justification; prohibit silent/inherited premium substitution and default fanout, not a blanket ban on justified exceptions. No such escalation is needed here.

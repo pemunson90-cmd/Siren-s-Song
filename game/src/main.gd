@@ -34,10 +34,15 @@ var menu_buttons: Array=[]
 var recovered_evidence: Dictionary={}
 var diagnostic_ready := ""
 var diagnostic_records: Dictionary={}
+var map_gesture=preload("res://src/input/map_gesture.gd").new()
+var zoom_buttons: Array=[]
 func _ready() -> void:
 	get_tree().auto_accept_quit=false
 	_theme()
 	ocean=OceanView.new(); add_child(ocean)
+	zoom_buttons.append(_button(ocean,"−",func(): _chart_zoom(1.0/1.4)))
+	zoom_buttons.append(_button(ocean,"+",func(): _chart_zoom(1.4)))
+	zoom_buttons.append(_button(ocean,"FIT",func(): ocean.fit_chart(); _view_changed()))
 	hud=Control.new(); hud.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT); hud.mouse_filter=Control.MOUSE_FILTER_IGNORE; add_child(hud)
 	title_label=_label(hud,"",26)
 	status_label=_label(hud,"",17)
@@ -82,12 +87,15 @@ func _button(parent: Node,text: String,action: Callable) -> Button:
 	return b
 func _layout() -> void:
 	if ocean==null: return
+	map_gesture.cancel()
 	_apply_safe_area()
 	var wide=size.x/size.y>1.6
 	title_label.position=Vector2(26,18); title_label.size=Vector2(size.x-52,34)
 	status_label.position=Vector2(28,58); status_label.size=Vector2(size.x-56,28)
 	var panel=Rect2(size.x-324,106,296,size.y-158) if wide else Rect2(26,size.y-350,size.x-52,300)
 	ocean.position=Vector2(26,106); ocean.size=Vector2(size.x-376,size.y-158) if wide else Vector2(size.x-52,size.y-482)
+	for i in zoom_buttons.size():
+		zoom_buttons[i].position=Vector2(ocean.size.x-164+i*54,8); zoom_buttons[i].size=Vector2(50,48)
 	pause_button.position=panel.position; pause_button.size=Vector2(panel.size.x,48)
 	for i in 3:
 		unit_buttons[i].position=panel.position+Vector2(i*(panel.size.x/3),60); unit_buttons[i].size=Vector2(panel.size.x/3-4,48)
@@ -105,7 +113,7 @@ func _layout() -> void:
 		menu.position=Vector2(maxf(24,(size.x-690)/2),24); menu.size=Vector2(minf(690,size.x-48),size.y-48)
 	call_deferred("_report_targets")
 func _start_mission(index: int) -> void:
-	diagnostic_ready=""; diagnostic_records.clear()
+	diagnostic_ready=""; diagnostic_records.clear(); map_gesture.cancel(); ocean.fit_chart()
 	active_started=true; mission_index=index; sim.start(index,upgrade); ocean.sim=sim; screen="mission"; menu.hide(); hud.show(); _refresh()
 func _order(order: String,args: Dictionary={}) -> void:
 	var accepted=sim.command(order,args)
@@ -144,18 +152,46 @@ func _refresh() -> void:
 	order_buttons.recon.text="SURVEY · %d"%sim.tools.recon
 	log_label.text=sim.message
 	detail_label.text="SELECTED  /  %s\n\nTap water: %s route\n%s\n\nSonar and cameras expose you.\nCover breaks sight and beam lock.\n\nEXTRACT replaces all orders."%[sim.units[sim.selected].name,"add to" if sim.queue_mode else "replace",sim.units[sim.selected].hold]
+func _input(event: InputEvent) -> void:
+	if screen=="mission" and map_gesture.active() and _map_event(event): get_viewport().set_input_as_handled()
 func _gui_input(event: InputEvent) -> void:
 	if screen!="mission": return
-	if (event is InputEventMouseButton and event.pressed and event.button_index==MOUSE_BUTTON_LEFT) or (event is InputEventScreenTouch and event.pressed):
-		var p=event.position
-		if Rect2(ocean.position,ocean.size).has_point(p):
-			var point=ocean.map_position(p-ocean.position)
-			if point.x>=0 and point.y>=0 and point.x<1600 and point.y<960: _order("route",{"point":point})
+	if event is InputEventMouseButton and event.button_index in [MOUSE_BUTTON_WHEEL_UP,MOUSE_BUTTON_WHEEL_DOWN] and event.pressed and Rect2(ocean.position,ocean.size).has_point(event.position):
+		ocean.zoom_at(1.2 if event.button_index==MOUSE_BUTTON_WHEEL_UP else 1.0/1.2,event.position-ocean.position); _view_changed(); accept_event(); return
+	var pressed=(event is InputEventScreenTouch and event.pressed) or (event is InputEventMouseButton and event.pressed and event.button_index==MOUSE_BUTTON_LEFT)
+	if pressed and Rect2(ocean.position,ocean.size).has_point(event.position) and _map_event(event,true): accept_event()
+func _map_event(event: InputEvent,local_event: bool=false) -> bool:
+	if event.device==InputEvent.DEVICE_ID_EMULATION: return false
+	var kind=""; var index=-1; var point=Vector2.ZERO
+	if event is InputEventScreenTouch:
+		kind="press" if event.pressed else "release"; index=event.index; point=event.position
+	elif event is InputEventScreenDrag:
+		kind="move"; index=event.index; point=event.position
+	elif event is InputEventMouseButton and event.button_index==MOUSE_BUTTON_LEFT:
+		kind="press" if event.pressed else "release"; point=event.position
+	elif event is InputEventMouseMotion and map_gesture.active():
+		kind="move"; point=event.position
+	if kind.is_empty(): return false
+	if local_event: point+=global_position
+	var action=map_gesture.feed(kind,index,point)
+	if action.has("zoom"): ocean.zoom_at(action.zoom,action.anchor-ocean.global_position)
+	if action.has("pan"): ocean.pan_chart(action.pan)
+	if action.get("navigation",false): _view_changed()
+	if action.has("tap") and ocean.get_global_rect().has_point(action.tap):
+		var world=ocean.map_position(action.tap-ocean.global_position)
+		if Rect2(0,0,1600,960).has_point(world): _order("route",{"point":world})
+	return true
+func _chart_zoom(factor: float) -> void:
+	map_gesture.cancel(); ocean.zoom_at(factor,ocean.size/2); _view_changed()
+func _view_changed() -> void:
+	print("SS_VIEW zoom=",snappedf(ocean.chart_camera.zoom,0.01)," center=",ocean.chart_camera.center)
+	call_deferred("_report_targets")
 func _unhandled_key_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo:
 		if event.keycode==KEY_SPACE: _pause()
 		if event.keycode==KEY_ESCAPE: sim.paused=true; _show_campaign()
 func _clear_menu() -> void:
+	map_gesture.cancel()
 	for c in panel_box.get_children(): c.queue_free(); panel_box.remove_child(c)
 	menu.show(); hud.hide(); scroll.scroll_vertical=0
 func _menu_text(text: String,font_size: int=17) -> Label:
@@ -290,6 +326,7 @@ func _settings_menu() -> void:
 func _notification(what: int) -> void:
 	if what in [NOTIFICATION_APPLICATION_PAUSED,NOTIFICATION_APPLICATION_FOCUS_OUT,NOTIFICATION_WM_WINDOW_FOCUS_OUT]:
 		if sim.mission!=null:
+			map_gesture.cancel()
 			sim.paused=true; _save_archive()
 			if sound!=null: sound.suspend()
 			print("SS_LIFECYCLE suspended paused=true")
@@ -313,6 +350,7 @@ func _report_targets() -> void:
 	if hud.visible:
 		buttons={"pause":pause_button,"sub":unit_buttons[0],"droneA":unit_buttons[1],"droneB":unit_buttons[2]}
 		for key in order_buttons: buttons[key]=order_buttons[key]
+		for i in zoom_buttons.size(): buttons[["zoom_out","zoom_in","fit"][i]]=zoom_buttons[i]
 	else:
 		for child in panel_box.get_children():
 			if child is Button and child.has_meta("action"): buttons[child.get_meta("action")]=child
@@ -320,6 +358,8 @@ func _report_targets() -> void:
 		var p=buttons[key].get_global_rect().get_center()
 		print("SS_TARGET ",key," center=",roundi(p.x),",",roundi(p.y)," viewport=",roundi(get_viewport_rect().size.x),",",roundi(get_viewport_rect().size.y))
 	if hud.visible:
+		var center=ocean.get_global_rect().get_center()
+		print("SS_TARGET chart_center center=",roundi(center.x),",",roundi(center.y)," viewport=",roundi(get_viewport_rect().size.x),",",roundi(get_viewport_rect().size.y))
 		var approach=sim.mission.objectives[0].pos+Vector2(0,210)
 		if sim.blocked(approach,25): approach=sim.mission.objectives[0].pos+Vector2(-210,0)
 		var objective_point=ocean.global_position+ocean.world_offset+approach*ocean.world_scale
