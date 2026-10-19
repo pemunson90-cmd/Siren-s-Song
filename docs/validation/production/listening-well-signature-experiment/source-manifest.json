@@ -1,0 +1,847 @@
+{
+  "source": "6ab8fb0eb18180d9e4cb2a732c2873552ea9b727",
+  "tracked_game_files": 139,
+  "baseline_all_exact": true,
+  "changed": [
+    "game/src/campaign/missions.gd",
+    "game/src/main.gd",
+    "game/src/persistence/save_store.gd",
+    "game/src/simulation/simulation.gd"
+  ],
+  "files": [
+    {
+      "path": "game/assets/ATTRIBUTION.md",
+      "baseline_sha256": "00e371691feef07a59b01bfd8b5f063e1c8658e6cf9d81822d1d68331171bf8e",
+      "optional_sha256": "00e371691feef07a59b01bfd8b5f063e1c8658e6cf9d81822d1d68331171bf8e",
+      "changed": false
+    },
+    {
+      "path": "game/assets/craft/quietus.png",
+      "baseline_sha256": "bac02ff5dbcfb3ecee882418430313d0d4838bd90275d345ab3aaf1d4a710acc",
+      "optional_sha256": "bac02ff5dbcfb3ecee882418430313d0d4838bd90275d345ab3aaf1d4a710acc",
+      "changed": false
+    },
+    {
+      "path": "game/assets/craft/quietus.png.import",
+      "baseline_sha256": "0ae0fb3af6f66529b0979b938803d6e9fc84d703509f8876e687708bf75aff86",
+      "optional_sha256": "0ae0fb3af6f66529b0979b938803d6e9fc84d703509f8876e687708bf75aff86",
+      "changed": false
+    },
+    {
+      "path": "game/assets/craft/siren_ray.png",
+      "baseline_sha256": "98aa5db9626529fba7726e8bb204f4c2f6c70dfa895418911a12a63051876e66",
+      "optional_sha256": "98aa5db9626529fba7726e8bb204f4c2f6c70dfa895418911a12a63051876e66",
+      "changed": false
+    },
+    {
+      "path": "game/assets/craft/siren_ray.png.import",
+      "baseline_sha256": "553713f7d09877b5f5186672b7d29c7bac1e820b9b19846f2318af5e8a1bab72",
+      "optional_sha256": "553713f7d09877b5f5186672b7d29c7bac1e820b9b19846f2318af5e8a1bab72",
+      "changed": false
+    },
+    {
+      "path": "game/assets/evidence/blackwater_reply.png",
+      "baseline_sha256": "39f3e0d0feb20b212e474350c7c30010db6075ce99932d9d66d236b1068559c6",
+      "optional_sha256": "39f3e0d0feb20b212e474350c7c30010db6075ce99932d9d66d236b1068559c6",
+      "changed": false
+    },
+    {
+      "path": "game/assets/evidence/blackwater_reply.png.import",
+      "baseline_sha256": "40c987e8f3863f5299ae8f6fdbe27e538a30027ff0fb8be1d6490295f0b8e987",
+      "optional_sha256": "40c987e8f3863f5299ae8f6fdbe27e538a30027ff0fb8be1d6490295f0b8e987",
+      "changed": false
+    },
+    {
+      "path": "game/assets/evidence/blackwater_request.png",
+      "baseline_sha256": "052d14f8b7583fb1ff8f1a3cc97e26a5630bc467e894da9529989b6667cec06e",
+      "optional_sha256": "052d14f8b7583fb1ff8f1a3cc97e26a5630bc467e894da9529989b6667cec06e",
+      "changed": false
+    },
+    {
+      "path": "game/assets/evidence/blackwater_request.png.import",
+      "baseline_sha256": "659c8b7f0a6daaa7f4084aa03fcfa780239067e03cd1af345798826cc29c4e7f",
+      "optional_sha256": "659c8b7f0a6daaa7f4084aa03fcfa780239067e03cd1af345798826cc29c4e7f",
+      "changed": false
+    },
+    {
+      "path": "game/assets/evidence/finale_departure.png",
+      "baseline_sha256": "fd5ceb55f131230c5f87d861305cf53cea2add5186b46d976834a3380102bd60",
+      "optional_sha256": "fd5ceb55f131230c5f87d861305cf53cea2add5186b46d976834a3380102bd60",
+      "changed": false
+    },
+    {
+      "path": "game/assets/evidence/finale_departure.png.import",
+      "baseline_sha256": "cee7be30fb190b1296796a981992028f671c796c0751a9633f931f28c55ea425",
+      "optional_sha256": "cee7be30fb190b1296796a981992028f671c796c0751a9633f931f28c55ea425",
+      "changed": false
+    },
+    {
+      "path": "game/assets/evidence/finale_transmitter.png",
+      "baseline_sha256": "27abfbeefacf94a37aa492a8d29b5770afb59f78644ff9a4308bf7306a7f7417",
+      "optional_sha256": "27abfbeefacf94a37aa492a8d29b5770afb59f78644ff9a4308bf7306a7f7417",
+      "changed": false
+    },
+    {
+      "path": "game/assets/evidence/finale_transmitter.png.import",
+      "baseline_sha256": "654222d28209226349e9fe513c3ff1762286aa617e063bac31448962ff7dc414",
+      "optional_sha256": "654222d28209226349e9fe513c3ff1762286aa617e063bac31448962ff7dc414",
+      "changed": false
+    },
+    {
+      "path": "game/assets/evidence/finale_warning.png",
+      "baseline_sha256": "08ee7b8ccf62c47a233419cdf8bef629b678ee815ac439ed1c09b28de3bd6537",
+      "optional_sha256": "08ee7b8ccf62c47a233419cdf8bef629b678ee815ac439ed1c09b28de3bd6537",
+      "changed": false
+    },
+    {
+      "path": "game/assets/evidence/finale_warning.png.import",
+      "baseline_sha256": "5bc48098fa478ebc365e947314dae218303fca475abb35e78f1e33bd80f27ad4",
+      "optional_sha256": "5bc48098fa478ebc365e947314dae218303fca475abb35e78f1e33bd80f27ad4",
+      "changed": false
+    },
+    {
+      "path": "game/assets/evidence/finale_warning.svg",
+      "baseline_sha256": "4361a65e876e4cc34cebd4028f7cc1f72d23c871892b19f493f8e55253881a57",
+      "optional_sha256": "4361a65e876e4cc34cebd4028f7cc1f72d23c871892b19f493f8e55253881a57",
+      "changed": false
+    },
+    {
+      "path": "game/assets/evidence/finale_warning.svg.import",
+      "baseline_sha256": "da4ea6136b49d7fc074a716e10842b4ba4a4001457501a02ce797d5d69b2c142",
+      "optional_sha256": "da4ea6136b49d7fc074a716e10842b4ba4a4001457501a02ce797d5d69b2c142",
+      "changed": false
+    },
+    {
+      "path": "game/assets/evidence/foundry_cradle.png",
+      "baseline_sha256": "89c37a048306408be3f71002da0215a6a754ace629b0d7f9eed27fd48098f8b6",
+      "optional_sha256": "89c37a048306408be3f71002da0215a6a754ace629b0d7f9eed27fd48098f8b6",
+      "changed": false
+    },
+    {
+      "path": "game/assets/evidence/foundry_cradle.png.import",
+      "baseline_sha256": "3ec5a673855736773c8b934d6384e02b9fbd23ead48ff96f84191fe236eed7e4",
+      "optional_sha256": "3ec5a673855736773c8b934d6384e02b9fbd23ead48ff96f84191fe236eed7e4",
+      "changed": false
+    },
+    {
+      "path": "game/assets/evidence/foundry_furnace.png",
+      "baseline_sha256": "71c0f9cd695b6aa35048076e76873936a72a9303d4d5c2965479599048d98b0c",
+      "optional_sha256": "71c0f9cd695b6aa35048076e76873936a72a9303d4d5c2965479599048d98b0c",
+      "changed": false
+    },
+    {
+      "path": "game/assets/evidence/foundry_furnace.png.import",
+      "baseline_sha256": "ff922f8c8534756c0bc0e3d72758bcbf86981e7df9425252d75ef6c2848a2138",
+      "optional_sha256": "ff922f8c8534756c0bc0e3d72758bcbf86981e7df9425252d75ef6c2848a2138",
+      "changed": false
+    },
+    {
+      "path": "game/assets/materials/basalt.png",
+      "baseline_sha256": "579277db395151edd2ab094a80eb7c0ce84917fd27ebde4f0d6a40fa76c9f1f2",
+      "optional_sha256": "579277db395151edd2ab094a80eb7c0ce84917fd27ebde4f0d6a40fa76c9f1f2",
+      "changed": false
+    },
+    {
+      "path": "game/assets/materials/basalt.png.import",
+      "baseline_sha256": "1272e7571e4facb2892c55bceb70835a6375866d878f25108b03e2c2b80b6eff",
+      "optional_sha256": "1272e7571e4facb2892c55bceb70835a6375866d878f25108b03e2c2b80b6eff",
+      "changed": false
+    },
+    {
+      "path": "game/assets/structures/foundry.png",
+      "baseline_sha256": "ea5126c0fb4bdda1d0730a55cf79101aa9b86c637830b725cc6b9797eceec3f9",
+      "optional_sha256": "ea5126c0fb4bdda1d0730a55cf79101aa9b86c637830b725cc6b9797eceec3f9",
+      "changed": false
+    },
+    {
+      "path": "game/assets/structures/foundry.png.import",
+      "baseline_sha256": "7a3e98ff8858a281f1f4a0fb657608120757cd60819fea0c9dcd4014489128d1",
+      "optional_sha256": "7a3e98ff8858a281f1f4a0fb657608120757cd60819fea0c9dcd4014489128d1",
+      "changed": false
+    },
+    {
+      "path": "game/export_presets.cfg",
+      "baseline_sha256": "779bc40f0928536dcf9f97d50977df955eaae2609536d98504b48c85923fff92",
+      "optional_sha256": "779bc40f0928536dcf9f97d50977df955eaae2609536d98504b48c85923fff92",
+      "changed": false
+    },
+    {
+      "path": "game/project.godot",
+      "baseline_sha256": "9f9e9f5e824cdb54dc9925d46f8cbfbd7881f8db01286fd11928a3607a52e59c",
+      "optional_sha256": "9f9e9f5e824cdb54dc9925d46f8cbfbd7881f8db01286fd11928a3607a52e59c",
+      "changed": false
+    },
+    {
+      "path": "game/scenes/main.tscn",
+      "baseline_sha256": "d6cc0f77a39506549d2a6fe88d0922ed37d04fa6633f982f34d13c2aa0adb79a",
+      "optional_sha256": "d6cc0f77a39506549d2a6fe88d0922ed37d04fa6633f982f34d13c2aa0adb79a",
+      "changed": false
+    },
+    {
+      "path": "game/src/audio/soundscape.gd",
+      "baseline_sha256": "1f29d17b01ac8e2f09b0d83bd3f796179abb0478dc1b6f7691199590b6336c15",
+      "optional_sha256": "1f29d17b01ac8e2f09b0d83bd3f796179abb0478dc1b6f7691199590b6336c15",
+      "changed": false
+    },
+    {
+      "path": "game/src/audio/soundscape.gd.uid",
+      "baseline_sha256": "841b0f95f61268306f4e83f2c90197da265712cfa8d7fe80580d5e0203b76b6a",
+      "optional_sha256": "841b0f95f61268306f4e83f2c90197da265712cfa8d7fe80580d5e0203b76b6a",
+      "changed": false
+    },
+    {
+      "path": "game/src/campaign/missions.gd",
+      "baseline_sha256": "1bb9e90dac6386d5d630bb12915e09ad34383067228aaf3017c4964eb17525a1",
+      "optional_sha256": "04ea49e6f3a0f75fb1e58650abb603fb095160d79de2b3f8c0ab4923587c33d8",
+      "changed": true
+    },
+    {
+      "path": "game/src/campaign/missions.gd.uid",
+      "baseline_sha256": "f776b2950646dd8e25826638dc6c62d49925b4d0b4db7fb2444410c36ac7a95d",
+      "optional_sha256": "f776b2950646dd8e25826638dc6c62d49925b4d0b4db7fb2444410c36ac7a95d",
+      "changed": false
+    },
+    {
+      "path": "game/src/diagnostics/metrics_transport.gd",
+      "baseline_sha256": "f05c79b307dd0abf8c15cf47df0f51157a86869f38e47a3aa4b7eff5b6df650e",
+      "optional_sha256": "f05c79b307dd0abf8c15cf47df0f51157a86869f38e47a3aa4b7eff5b6df650e",
+      "changed": false
+    },
+    {
+      "path": "game/src/input/map_gesture.gd",
+      "baseline_sha256": "7d74451d0ebbc01f226b17f7bef3ef1bfa83a071ca91fb651e48e666426d65b3",
+      "optional_sha256": "7d74451d0ebbc01f226b17f7bef3ef1bfa83a071ca91fb651e48e666426d65b3",
+      "changed": false
+    },
+    {
+      "path": "game/src/input/map_gesture.gd.uid",
+      "baseline_sha256": "3d7581633fbef1f028049d4d3f0e4bd8e7294c7997c7d5333ea563de042db865",
+      "optional_sha256": "3d7581633fbef1f028049d4d3f0e4bd8e7294c7997c7d5333ea563de042db865",
+      "changed": false
+    },
+    {
+      "path": "game/src/main.gd",
+      "baseline_sha256": "c2d4c83c300267daeb9e2174298258b902b69393c4e5d5f854d8a7876be5bb03",
+      "optional_sha256": "d984add35c470ea6295987fbac39951480be2588d5a85889b26da38e61032afd",
+      "changed": true
+    },
+    {
+      "path": "game/src/main.gd.uid",
+      "baseline_sha256": "2dd19d5b5fae8e114c754b4b25a2c14853b608fbc9ddc87d66590a0afdc7f890",
+      "optional_sha256": "2dd19d5b5fae8e114c754b4b25a2c14853b608fbc9ddc87d66590a0afdc7f890",
+      "changed": false
+    },
+    {
+      "path": "game/src/persistence/save_store.gd",
+      "baseline_sha256": "b7fa9eeb7a0c2d374833a5ea97a26f5d6fb7e6eefc5118dc1af44210ca8819c5",
+      "optional_sha256": "38077aa166086bfde36eb2b39085f260554b6b772dcdf0b66da735486652a7ad",
+      "changed": true
+    },
+    {
+      "path": "game/src/persistence/save_store.gd.uid",
+      "baseline_sha256": "a37874cb9174aad1a9f8161be86abff59592002d8a86c45ba2d62dee14d23223",
+      "optional_sha256": "a37874cb9174aad1a9f8161be86abff59592002d8a86c45ba2d62dee14d23223",
+      "changed": false
+    },
+    {
+      "path": "game/src/presentation/acoustic_feedback.gd",
+      "baseline_sha256": "14611c7dba417da96b0fa2b9724a1009310588ac4c50344faecf974d8606b1a3",
+      "optional_sha256": "14611c7dba417da96b0fa2b9724a1009310588ac4c50344faecf974d8606b1a3",
+      "changed": false
+    },
+    {
+      "path": "game/src/presentation/camera_feed.gd",
+      "baseline_sha256": "c2a84ec57867503c77b278112fad80ae0e92610d88b429eb4ab6768a974bd834",
+      "optional_sha256": "c2a84ec57867503c77b278112fad80ae0e92610d88b429eb4ab6768a974bd834",
+      "changed": false
+    },
+    {
+      "path": "game/src/presentation/camera_feed.gd.uid",
+      "baseline_sha256": "0e69b6807824c4124e94f5f572cae492f0ee60f764de2c508dd6bed38bcb1994",
+      "optional_sha256": "0e69b6807824c4124e94f5f572cae492f0ee60f764de2c508dd6bed38bcb1994",
+      "changed": false
+    },
+    {
+      "path": "game/src/presentation/chart_camera.gd",
+      "baseline_sha256": "fa234470eab695bb092f110c231131d162f0dd51704dea8511237e14200d1951",
+      "optional_sha256": "fa234470eab695bb092f110c231131d162f0dd51704dea8511237e14200d1951",
+      "changed": false
+    },
+    {
+      "path": "game/src/presentation/chart_camera.gd.uid",
+      "baseline_sha256": "b3f9a88e87d23caa95bca5a609094c690d8921de1dc5f7cf30c7e2ebff25a366",
+      "optional_sha256": "b3f9a88e87d23caa95bca5a609094c690d8921de1dc5f7cf30c7e2ebff25a366",
+      "changed": false
+    },
+    {
+      "path": "game/src/presentation/contact_feedback.gd",
+      "baseline_sha256": "67b426440f9a609e4f95bfe7b8ca7ea188c92de43602ab79d048b837e03f0b74",
+      "optional_sha256": "67b426440f9a609e4f95bfe7b8ca7ea188c92de43602ab79d048b837e03f0b74",
+      "changed": false
+    },
+    {
+      "path": "game/src/presentation/evidence_catalog.gd",
+      "baseline_sha256": "0f757d3ae5c06436e11769a4f80dda7c983912deb6e7151c030b0e1cd1b86764",
+      "optional_sha256": "0f757d3ae5c06436e11769a4f80dda7c983912deb6e7151c030b0e1cd1b86764",
+      "changed": false
+    },
+    {
+      "path": "game/src/presentation/evidence_catalog.gd.uid",
+      "baseline_sha256": "c2dadef7da1affa1cb9701feded3d3731781f00cbbc8098e00208184b0105804",
+      "optional_sha256": "c2dadef7da1affa1cb9701feded3d3731781f00cbbc8098e00208184b0105804",
+      "changed": false
+    },
+    {
+      "path": "game/src/presentation/layout_metrics.gd",
+      "baseline_sha256": "a2be7d8d5a6466ff24549b8d8136aa614b6e8f61f898a0969c5d34e606ae2712",
+      "optional_sha256": "a2be7d8d5a6466ff24549b8d8136aa614b6e8f61f898a0969c5d34e606ae2712",
+      "changed": false
+    },
+    {
+      "path": "game/src/presentation/layout_metrics.gd.uid",
+      "baseline_sha256": "11e3222f34052c050febd03d63be8812b3297d5268c166757d3f0aae2eebf683",
+      "optional_sha256": "11e3222f34052c050febd03d63be8812b3297d5268c166757d3f0aae2eebf683",
+      "changed": false
+    },
+    {
+      "path": "game/src/presentation/ocean_view.gd",
+      "baseline_sha256": "6727762ccaa0623ad1a3618cccd297f334a292879482aaac72227a96891bb4c2",
+      "optional_sha256": "6727762ccaa0623ad1a3618cccd297f334a292879482aaac72227a96891bb4c2",
+      "changed": false
+    },
+    {
+      "path": "game/src/presentation/ocean_view.gd.uid",
+      "baseline_sha256": "b12dc726e14fddf1fb1c4500068d8e3306404ce9722974a434583cddd5d6c684",
+      "optional_sha256": "b12dc726e14fddf1fb1c4500068d8e3306404ce9722974a434583cddd5d6c684",
+      "changed": false
+    },
+    {
+      "path": "game/src/simulation/simulation.gd",
+      "baseline_sha256": "d1bad2ca17fa28c1f8faa3ce2a7e4d1c91cf5ba2ad79df98c4bcb0d193431641",
+      "optional_sha256": "1b341614e013c2ad7e6ace9a663fc0fd952c098af534704c0c4a228963571994",
+      "changed": true
+    },
+    {
+      "path": "game/src/simulation/simulation.gd.uid",
+      "baseline_sha256": "a905211fc95b7121f4a7a893f8e8b8b53b85bcb25336c78363370ab27b10cd48",
+      "optional_sha256": "a905211fc95b7121f4a7a893f8e8b8b53b85bcb25336c78363370ab27b10cd48",
+      "changed": false
+    },
+    {
+      "path": "game/tests/acoustic_scenarios.gd",
+      "baseline_sha256": "0e598d4b6445d1212defd3bacf23ec9a5db1ce9ca19a2decda1628d5205f998d",
+      "optional_sha256": "0e598d4b6445d1212defd3bacf23ec9a5db1ce9ca19a2decda1628d5205f998d",
+      "changed": false
+    },
+    {
+      "path": "game/tests/acoustic_ui_scenarios.gd",
+      "baseline_sha256": "45d021585f0e35011043786a0f27d020bb012af30333801e811d635bb4b45ff9",
+      "optional_sha256": "45d021585f0e35011043786a0f27d020bb012af30333801e811d635bb4b45ff9",
+      "changed": false
+    },
+    {
+      "path": "game/tests/attention_scenarios.gd",
+      "baseline_sha256": "58dc84ee2a08f66ce127c9688c20d6ac56a14140df08009cd8d1a771841128f4",
+      "optional_sha256": "58dc84ee2a08f66ce127c9688c20d6ac56a14140df08009cd8d1a771841128f4",
+      "changed": false
+    },
+    {
+      "path": "game/tests/attention_scenarios.gd.uid",
+      "baseline_sha256": "c6a3f180e47693b79a44ff1f401c087e238c8fe7bdb73f094b39f40aed80a1da",
+      "optional_sha256": "c6a3f180e47693b79a44ff1f401c087e238c8fe7bdb73f094b39f40aed80a1da",
+      "changed": false
+    },
+    {
+      "path": "game/tests/audio_scenarios.gd",
+      "baseline_sha256": "e0d4175819341107b4b8f67d2c3ae2d56efb9b7916a98fcd5b7ff7f10b3ddeea",
+      "optional_sha256": "e0d4175819341107b4b8f67d2c3ae2d56efb9b7916a98fcd5b7ff7f10b3ddeea",
+      "changed": false
+    },
+    {
+      "path": "game/tests/audio_scenarios.gd.uid",
+      "baseline_sha256": "65df493ba8992715cd8f3de2999dbce681ab838a81cee6a03b0f51a4e655fadb",
+      "optional_sha256": "65df493ba8992715cd8f3de2999dbce681ab838a81cee6a03b0f51a4e655fadb",
+      "changed": false
+    },
+    {
+      "path": "game/tests/blackwater_scenarios.gd",
+      "baseline_sha256": "c53b44ab64b7b2fb00a98dcfe30a3202c4e39b29dbac9ad84731d9b284a24d51",
+      "optional_sha256": "c53b44ab64b7b2fb00a98dcfe30a3202c4e39b29dbac9ad84731d9b284a24d51",
+      "changed": false
+    },
+    {
+      "path": "game/tests/blackwater_scenarios.gd.uid",
+      "baseline_sha256": "8bb0fdde031793905dcc3b26bc09535ab1cf0c722e82a80900a7a69fb44e5280",
+      "optional_sha256": "8bb0fdde031793905dcc3b26bc09535ab1cf0c722e82a80900a7a69fb44e5280",
+      "changed": false
+    },
+    {
+      "path": "game/tests/blackwater_tests.gd",
+      "baseline_sha256": "8eec9cca1b5a062138792870637cce388eaef293a628ee84112955d4c0241fca",
+      "optional_sha256": "8eec9cca1b5a062138792870637cce388eaef293a628ee84112955d4c0241fca",
+      "changed": false
+    },
+    {
+      "path": "game/tests/blackwater_tests.gd.uid",
+      "baseline_sha256": "6e7b5163d30948917ac145b664d33a5df37058722b6cc2fd041e9b3a1c9da333",
+      "optional_sha256": "6e7b5163d30948917ac145b664d33a5df37058722b6cc2fd041e9b3a1c9da333",
+      "changed": false
+    },
+    {
+      "path": "game/tests/blackwater_ui_scenarios.gd",
+      "baseline_sha256": "78e50bd1d94f535533553c7464561e35b10764b75d177aa0bc023d55632b7eb2",
+      "optional_sha256": "78e50bd1d94f535533553c7464561e35b10764b75d177aa0bc023d55632b7eb2",
+      "changed": false
+    },
+    {
+      "path": "game/tests/blackwater_ui_scenarios.gd.uid",
+      "baseline_sha256": "fc40212cf855e6ce5da7c55f3805b025bc32c6e0cb9911b1ba55e90d4a3b7970",
+      "optional_sha256": "fc40212cf855e6ce5da7c55f3805b025bc32c6e0cb9911b1ba55e90d4a3b7970",
+      "changed": false
+    },
+    {
+      "path": "game/tests/blackwater_ui_tests.gd",
+      "baseline_sha256": "ecba43eef13db25718eb05b4ebefa99b44765213e9c91874c6eccc2f6fc14a68",
+      "optional_sha256": "ecba43eef13db25718eb05b4ebefa99b44765213e9c91874c6eccc2f6fc14a68",
+      "changed": false
+    },
+    {
+      "path": "game/tests/blackwater_ui_tests.gd.uid",
+      "baseline_sha256": "682f77c3f7fed0656bba5d2a043717c1cc937ce24bd624b122656b18bd5a875a",
+      "optional_sha256": "682f77c3f7fed0656bba5d2a043717c1cc937ce24bd624b122656b18bd5a875a",
+      "changed": false
+    },
+    {
+      "path": "game/tests/campaign_scenarios.gd",
+      "baseline_sha256": "32c9b617ce0a8e789544fee15448dc5ab44feca4037ae0475aea7da351ec749d",
+      "optional_sha256": "32c9b617ce0a8e789544fee15448dc5ab44feca4037ae0475aea7da351ec749d",
+      "changed": false
+    },
+    {
+      "path": "game/tests/campaign_scenarios.gd.uid",
+      "baseline_sha256": "c52e718315e7f73568eb00e2840d3706bc9e98ec47f1372a8ffed14c0c8e2a02",
+      "optional_sha256": "c52e718315e7f73568eb00e2840d3706bc9e98ec47f1372a8ffed14c0c8e2a02",
+      "changed": false
+    },
+    {
+      "path": "game/tests/campaign_ui_scenarios.gd",
+      "baseline_sha256": "795e0422ccc5036004e0285a8edf73c1f3cf9fdab95eead23de49043f737c865",
+      "optional_sha256": "795e0422ccc5036004e0285a8edf73c1f3cf9fdab95eead23de49043f737c865",
+      "changed": false
+    },
+    {
+      "path": "game/tests/campaign_ui_scenarios.gd.uid",
+      "baseline_sha256": "28528abdb4e5d6bb7303fb5ac26b9bc594911e4ac532ed4005de14a0be6e3bad",
+      "optional_sha256": "28528abdb4e5d6bb7303fb5ac26b9bc594911e4ac532ed4005de14a0be6e3bad",
+      "changed": false
+    },
+    {
+      "path": "game/tests/capture_acoustic.gd",
+      "baseline_sha256": "d2e3818a7c44d1154a6c7fd3f2050a09b738e6d89a1eea1da599b212153f938a",
+      "optional_sha256": "d2e3818a7c44d1154a6c7fd3f2050a09b738e6d89a1eea1da599b212153f938a",
+      "changed": false
+    },
+    {
+      "path": "game/tests/capture_acoustic_context.gd",
+      "baseline_sha256": "72c4f86b0eb38ec4643192914ec55fa39e2f4213c7d71e852b9955e35e1b809c",
+      "optional_sha256": "72c4f86b0eb38ec4643192914ec55fa39e2f4213c7d71e852b9955e35e1b809c",
+      "changed": false
+    },
+    {
+      "path": "game/tests/capture_audio.gd",
+      "baseline_sha256": "0d683f92387a095a54343acd37b1a67de27465d4d1fc1c8fa0d5a7585d188daf",
+      "optional_sha256": "0d683f92387a095a54343acd37b1a67de27465d4d1fc1c8fa0d5a7585d188daf",
+      "changed": false
+    },
+    {
+      "path": "game/tests/capture_audio.gd.uid",
+      "baseline_sha256": "8c9f3721ed125f9c8a176c8ff74d534ef2da1b10b9f924fdf02e16993a648fac",
+      "optional_sha256": "8c9f3721ed125f9c8a176c8ff74d534ef2da1b10b9f924fdf02e16993a648fac",
+      "changed": false
+    },
+    {
+      "path": "game/tests/capture_audio_loops.gd",
+      "baseline_sha256": "81848bd9c1e973f116a879d1884491dde299dda394d53c9e1d965a02d11c910a",
+      "optional_sha256": "81848bd9c1e973f116a879d1884491dde299dda394d53c9e1d965a02d11c910a",
+      "changed": false
+    },
+    {
+      "path": "game/tests/capture_audio_loops.gd.uid",
+      "baseline_sha256": "8383244e7b14302ebec743da6f5e2667869b988dd4600b5ccb83ba02441ad028",
+      "optional_sha256": "8383244e7b14302ebec743da6f5e2667869b988dd4600b5ccb83ba02441ad028",
+      "changed": false
+    },
+    {
+      "path": "game/tests/capture_blackwater.gd",
+      "baseline_sha256": "1d2f5b2562b7abf87e4819e1c8c129088735167324a0768a3856ebb9a7c07e9b",
+      "optional_sha256": "1d2f5b2562b7abf87e4819e1c8c129088735167324a0768a3856ebb9a7c07e9b",
+      "changed": false
+    },
+    {
+      "path": "game/tests/capture_blackwater.gd.uid",
+      "baseline_sha256": "8160325517ff97b3010adbc023c38f04a90cb0c55733044c0591d5f0cd67fb73",
+      "optional_sha256": "8160325517ff97b3010adbc023c38f04a90cb0c55733044c0591d5f0cd67fb73",
+      "changed": false
+    },
+    {
+      "path": "game/tests/capture_blackwater_motion.gd",
+      "baseline_sha256": "6b10d83902ab8d65587ed1fef23e24ce4510cabf4173c66cabf0e4526ee71508",
+      "optional_sha256": "6b10d83902ab8d65587ed1fef23e24ce4510cabf4173c66cabf0e4526ee71508",
+      "changed": false
+    },
+    {
+      "path": "game/tests/capture_campaign.gd",
+      "baseline_sha256": "ef874a0a678b883950cef1b526725e4dc0c5d4b8428ad4fbc12847563836ca3e",
+      "optional_sha256": "ef874a0a678b883950cef1b526725e4dc0c5d4b8428ad4fbc12847563836ca3e",
+      "changed": false
+    },
+    {
+      "path": "game/tests/capture_campaign.gd.uid",
+      "baseline_sha256": "c4dc340db925c83d96c84739ae2270af2cd4eefca1e5356957047942e13e03ae",
+      "optional_sha256": "c4dc340db925c83d96c84739ae2270af2cd4eefca1e5356957047942e13e03ae",
+      "changed": false
+    },
+    {
+      "path": "game/tests/capture_density.gd",
+      "baseline_sha256": "a82c89dac2e5503d6554be407e6adbe87b8a0fa2091323f7908d60359ad472c1",
+      "optional_sha256": "a82c89dac2e5503d6554be407e6adbe87b8a0fa2091323f7908d60359ad472c1",
+      "changed": false
+    },
+    {
+      "path": "game/tests/capture_density_interaction.gd",
+      "baseline_sha256": "392a59bded62752761428e691010e53d6dcf48662ab432d74cb0f447dfe317db",
+      "optional_sha256": "392a59bded62752761428e691010e53d6dcf48662ab432d74cb0f447dfe317db",
+      "changed": false
+    },
+    {
+      "path": "game/tests/capture_finale.gd",
+      "baseline_sha256": "f8eeff9e488848fcb5e67b4ef1ed79211708e0e3c8df90d7b5db2f45082340d2",
+      "optional_sha256": "f8eeff9e488848fcb5e67b4ef1ed79211708e0e3c8df90d7b5db2f45082340d2",
+      "changed": false
+    },
+    {
+      "path": "game/tests/capture_finale.gd.uid",
+      "baseline_sha256": "632f34ec5eb577505fa82520eee85645569b3bb0f54634ce861d12e30d430913",
+      "optional_sha256": "632f34ec5eb577505fa82520eee85645569b3bb0f54634ce861d12e30d430913",
+      "changed": false
+    },
+    {
+      "path": "game/tests/capture_foundry.gd",
+      "baseline_sha256": "b689faea6031a3d23ccfbd875e63adad9d887b1e0dad7b540f476d0f389dcc52",
+      "optional_sha256": "b689faea6031a3d23ccfbd875e63adad9d887b1e0dad7b540f476d0f389dcc52",
+      "changed": false
+    },
+    {
+      "path": "game/tests/capture_foundry.gd.uid",
+      "baseline_sha256": "b7e38d7b65607e9a1c2951581ab25fb694d20ebf85af7f4bb7c54ce2d83076a3",
+      "optional_sha256": "b7e38d7b65607e9a1c2951581ab25fb694d20ebf85af7f4bb7c54ce2d83076a3",
+      "changed": false
+    },
+    {
+      "path": "game/tests/capture_observed_contact_lock.gd",
+      "baseline_sha256": "ba8b2b368c990314bebc75baaf79314cde9f405167799b09786335b7a526263a",
+      "optional_sha256": "ba8b2b368c990314bebc75baaf79314cde9f405167799b09786335b7a526263a",
+      "changed": false
+    },
+    {
+      "path": "game/tests/capture_return.gd",
+      "baseline_sha256": "74cb04a04cbe7d228892cc99937b786cd8b2b3fb96e457561926358a6a849a79",
+      "optional_sha256": "74cb04a04cbe7d228892cc99937b786cd8b2b3fb96e457561926358a6a849a79",
+      "changed": false
+    },
+    {
+      "path": "game/tests/capture_return.gd.uid",
+      "baseline_sha256": "7fa408e64c0d3eed2f86d8831e21061ec90d427851b98869a8bad84ed8b1fe16",
+      "optional_sha256": "7fa408e64c0d3eed2f86d8831e21061ec90d427851b98869a8bad84ed8b1fe16",
+      "changed": false
+    },
+    {
+      "path": "game/tests/capture_siren_roles.gd",
+      "baseline_sha256": "3337c2f0679d5fbac5abcf6330ff09742210a3ec5a2cd205c679c934c07ccdee",
+      "optional_sha256": "3337c2f0679d5fbac5abcf6330ff09742210a3ec5a2cd205c679c934c07ccdee",
+      "changed": false
+    },
+    {
+      "path": "game/tests/capture_touch.gd",
+      "baseline_sha256": "59e8f4ee061a9ccfa120fa9f2fadb46fe6f1ae06da4a5bc69096dfe34842b86a",
+      "optional_sha256": "59e8f4ee061a9ccfa120fa9f2fadb46fe6f1ae06da4a5bc69096dfe34842b86a",
+      "changed": false
+    },
+    {
+      "path": "game/tests/capture_touch.gd.uid",
+      "baseline_sha256": "164f9315176fbdba0def2266996f77f840c6c2318e56d3e6b4cbb192454f1f6b",
+      "optional_sha256": "164f9315176fbdba0def2266996f77f840c6c2318e56d3e6b4cbb192454f1f6b",
+      "changed": false
+    },
+    {
+      "path": "game/tests/capture_touch_movie.gd",
+      "baseline_sha256": "6170bfb560cee3e75279ddf992a1602d9d8c5f16c37b701158eff00cef5a8a3c",
+      "optional_sha256": "6170bfb560cee3e75279ddf992a1602d9d8c5f16c37b701158eff00cef5a8a3c",
+      "changed": false
+    },
+    {
+      "path": "game/tests/capture_touch_movie.gd.uid",
+      "baseline_sha256": "20c58732586bfec71cb551442f8655e180af5cf1fc3e2d4465e2b7cee710cf35",
+      "optional_sha256": "20c58732586bfec71cb551442f8655e180af5cf1fc3e2d4465e2b7cee710cf35",
+      "changed": false
+    },
+    {
+      "path": "game/tests/core_scenarios.gd",
+      "baseline_sha256": "bd44da08757820a680fe4cdd434d1c13c6c3d2a16f736a563712cf0a2a815771",
+      "optional_sha256": "bd44da08757820a680fe4cdd434d1c13c6c3d2a16f736a563712cf0a2a815771",
+      "changed": false
+    },
+    {
+      "path": "game/tests/core_scenarios.gd.uid",
+      "baseline_sha256": "28f88c668dc8094b01cdb7b25cb678248a6f90e078342c63b22c559f70c03e91",
+      "optional_sha256": "28f88c668dc8094b01cdb7b25cb678248a6f90e078342c63b22c559f70c03e91",
+      "changed": false
+    },
+    {
+      "path": "game/tests/density_main.gd",
+      "baseline_sha256": "4312d93b812bbef9fcc5e8c404944075ca7484c709dde3bc1d8c47218e0ec57a",
+      "optional_sha256": "4312d93b812bbef9fcc5e8c404944075ca7484c709dde3bc1d8c47218e0ec57a",
+      "changed": false
+    },
+    {
+      "path": "game/tests/density_menu_scenarios.gd",
+      "baseline_sha256": "2e811a179d762e098ec7836fde3cc8171ed9750b9f3dc5a51fbd595c742ef1b0",
+      "optional_sha256": "2e811a179d762e098ec7836fde3cc8171ed9750b9f3dc5a51fbd595c742ef1b0",
+      "changed": false
+    },
+    {
+      "path": "game/tests/density_scenarios.gd",
+      "baseline_sha256": "f2b6f155c622f147d3fc0d76d3841d7064ef14124f23d42d2e97c05af7328318",
+      "optional_sha256": "f2b6f155c622f147d3fc0d76d3841d7064ef14124f23d42d2e97c05af7328318",
+      "changed": false
+    },
+    {
+      "path": "game/tests/density_scroll_scenarios.gd",
+      "baseline_sha256": "326d7c0a43f3d06cef4ed231d56fea540403e8a8b97153d9cd4e53ca8d72780a",
+      "optional_sha256": "326d7c0a43f3d06cef4ed231d56fea540403e8a8b97153d9cd4e53ca8d72780a",
+      "changed": false
+    },
+    {
+      "path": "game/tests/finale_command_plan.gd",
+      "baseline_sha256": "fda8ece1283c3982063809476c1d84b720739247bbe4bbcd7bc600355884e835",
+      "optional_sha256": "fda8ece1283c3982063809476c1d84b720739247bbe4bbcd7bc600355884e835",
+      "changed": false
+    },
+    {
+      "path": "game/tests/finale_command_plan.gd.uid",
+      "baseline_sha256": "8e617b71a30e6d5cf212917048ae5cc5571cc91302c019ff57955d8793873b82",
+      "optional_sha256": "8e617b71a30e6d5cf212917048ae5cc5571cc91302c019ff57955d8793873b82",
+      "changed": false
+    },
+    {
+      "path": "game/tests/finale_scenarios.gd",
+      "baseline_sha256": "78f04259ba6d2773eb9cb6e95f07499f1891c87d38846c202e0546047573f292",
+      "optional_sha256": "78f04259ba6d2773eb9cb6e95f07499f1891c87d38846c202e0546047573f292",
+      "changed": false
+    },
+    {
+      "path": "game/tests/finale_scenarios.gd.uid",
+      "baseline_sha256": "a67b7723520ab14e29caed405c42e3e82fcf47e3e3ef5b223847b1d054bb16b4",
+      "optional_sha256": "a67b7723520ab14e29caed405c42e3e82fcf47e3e3ef5b223847b1d054bb16b4",
+      "changed": false
+    },
+    {
+      "path": "game/tests/finale_ui_scenarios.gd",
+      "baseline_sha256": "9ecbed6e273336f4ab2e89c4f921b14253853ed3620d6aef354058ab8213faa7",
+      "optional_sha256": "9ecbed6e273336f4ab2e89c4f921b14253853ed3620d6aef354058ab8213faa7",
+      "changed": false
+    },
+    {
+      "path": "game/tests/finale_ui_scenarios.gd.uid",
+      "baseline_sha256": "d7b1d2572b3ee2f4a5e740d2838c91b93acc287e0002fef18eda83c17767d1f3",
+      "optional_sha256": "d7b1d2572b3ee2f4a5e740d2838c91b93acc287e0002fef18eda83c17767d1f3",
+      "changed": false
+    },
+    {
+      "path": "game/tests/fixtures/accepted-blackwater.archive",
+      "baseline_sha256": "e302e534efe9001cded839f53849f8da9645d886f52ae688592ef6d6a18f6158",
+      "optional_sha256": "e302e534efe9001cded839f53849f8da9645d886f52ae688592ef6d6a18f6158",
+      "changed": false
+    },
+    {
+      "path": "game/tests/fixtures/accepted-finale.archive",
+      "baseline_sha256": "6b19dfcc4a57c321e8e4d56f9e7513b0a1e4f3b695bdc42b82a4a7f58c22d261",
+      "optional_sha256": "6b19dfcc4a57c321e8e4d56f9e7513b0a1e4f3b695bdc42b82a4a7f58c22d261",
+      "changed": false
+    },
+    {
+      "path": "game/tests/foundry_command_plan.gd",
+      "baseline_sha256": "54575c9c423da7962039c56df60c07dbe4b5116b2df668f1044c26cca71da0d6",
+      "optional_sha256": "54575c9c423da7962039c56df60c07dbe4b5116b2df668f1044c26cca71da0d6",
+      "changed": false
+    },
+    {
+      "path": "game/tests/foundry_command_plan.gd.uid",
+      "baseline_sha256": "ebf163ef59c73af652d9eaeea9c79dddbc69412b06fa5509460113ac59fe3e69",
+      "optional_sha256": "ebf163ef59c73af652d9eaeea9c79dddbc69412b06fa5509460113ac59fe3e69",
+      "changed": false
+    },
+    {
+      "path": "game/tests/foundry_scenarios.gd",
+      "baseline_sha256": "27ec82467bd17e5e6f0ed9301dabb6939255f31f77ebde7b5ca01fd833000684",
+      "optional_sha256": "27ec82467bd17e5e6f0ed9301dabb6939255f31f77ebde7b5ca01fd833000684",
+      "changed": false
+    },
+    {
+      "path": "game/tests/foundry_scenarios.gd.uid",
+      "baseline_sha256": "b5e4bd93f8a7da19c014fa8ea54a0fe079f1bbd49c4dca79735d488ec3cdbed5",
+      "optional_sha256": "b5e4bd93f8a7da19c014fa8ea54a0fe079f1bbd49c4dca79735d488ec3cdbed5",
+      "changed": false
+    },
+    {
+      "path": "game/tests/interface_scenarios.gd",
+      "baseline_sha256": "01edc8617d5dcad8fd3bb424a3e828ccdc5f5b95f56a6634591ebe55130cc76e",
+      "optional_sha256": "01edc8617d5dcad8fd3bb424a3e828ccdc5f5b95f56a6634591ebe55130cc76e",
+      "changed": false
+    },
+    {
+      "path": "game/tests/interface_scenarios.gd.uid",
+      "baseline_sha256": "a5a06ef4cc86b0d4c0642fe098b2f040743c29dc908ba1b841f92a16adb74af4",
+      "optional_sha256": "a5a06ef4cc86b0d4c0642fe098b2f040743c29dc908ba1b841f92a16adb74af4",
+      "changed": false
+    },
+    {
+      "path": "game/tests/listening_well_command_plan.gd",
+      "baseline_sha256": "fe9f3b11660eb98e43d6637e0bdddac17be9fc2ce953f8e01bbf03f7a348a1d2",
+      "optional_sha256": "fe9f3b11660eb98e43d6637e0bdddac17be9fc2ce953f8e01bbf03f7a348a1d2",
+      "changed": false
+    },
+    {
+      "path": "game/tests/loadout_ui_tests.gd",
+      "baseline_sha256": "5e8fc63196cf6dae2a5daf105c81f3c6e7204ca9d04992d24e7a8cabecfa4a4a",
+      "optional_sha256": "5e8fc63196cf6dae2a5daf105c81f3c6e7204ca9d04992d24e7a8cabecfa4a4a",
+      "changed": false
+    },
+    {
+      "path": "game/tests/metrics_transport_tests.gd",
+      "baseline_sha256": "d08e9b80a24bfd6bbcce979159fd4e2911ceb230ce2ad88a04ba05936217e24b",
+      "optional_sha256": "d08e9b80a24bfd6bbcce979159fd4e2911ceb230ce2ad88a04ba05936217e24b",
+      "changed": false
+    },
+    {
+      "path": "game/tests/navigation_departure_tests.gd",
+      "baseline_sha256": "9233ab1f933fe853e3da5441820a17a0bdc2496525e23123dbeebc533e639fbf",
+      "optional_sha256": "9233ab1f933fe853e3da5441820a17a0bdc2496525e23123dbeebc533e639fbf",
+      "changed": false
+    },
+    {
+      "path": "game/tests/observed_contact_scenarios.gd",
+      "baseline_sha256": "e038f511a53343e0a8a58c855b3e826f53779db411972ac9b5af095fc62f8234",
+      "optional_sha256": "e038f511a53343e0a8a58c855b3e826f53779db411972ac9b5af095fc62f8234",
+      "changed": false
+    },
+    {
+      "path": "game/tests/observed_contact_ui_scenarios.gd",
+      "baseline_sha256": "76deb5d4a15ad96e59f07d00976c35f7e3d1e237a6d8b1069484ac201691eccd",
+      "optional_sha256": "76deb5d4a15ad96e59f07d00976c35f7e3d1e237a6d8b1069484ac201691eccd",
+      "changed": false
+    },
+    {
+      "path": "game/tests/patrol_scenarios.gd",
+      "baseline_sha256": "61c8205db5edb78d1f71df1237c39de76b632882b4085df67359a5213b47fc27",
+      "optional_sha256": "61c8205db5edb78d1f71df1237c39de76b632882b4085df67359a5213b47fc27",
+      "changed": false
+    },
+    {
+      "path": "game/tests/persistence_scenarios.gd",
+      "baseline_sha256": "e938d66ea67afd310657541eee2064d1135cb7f75d4f82e892eb95e4f4cc0b37",
+      "optional_sha256": "e938d66ea67afd310657541eee2064d1135cb7f75d4f82e892eb95e4f4cc0b37",
+      "changed": false
+    },
+    {
+      "path": "game/tests/persistence_scenarios.gd.uid",
+      "baseline_sha256": "37cdee7ad46490df343c90c06cc70928e227808ed299b43e36d849966e6dd43f",
+      "optional_sha256": "37cdee7ad46490df343c90c06cc70928e227808ed299b43e36d849966e6dd43f",
+      "changed": false
+    },
+    {
+      "path": "game/tests/probe_foundry.gd",
+      "baseline_sha256": "6c13064ca23f760358ca24effdf5a5fe345752241f2bdc8b89896a407d62dc22",
+      "optional_sha256": "6c13064ca23f760358ca24effdf5a5fe345752241f2bdc8b89896a407d62dc22",
+      "changed": false
+    },
+    {
+      "path": "game/tests/probe_foundry.gd.uid",
+      "baseline_sha256": "57ef314c74421695241309ac2877f8806548a37106c07c5a9dc50ecf40407886",
+      "optional_sha256": "57ef314c74421695241309ac2877f8806548a37106c07c5a9dc50ecf40407886",
+      "changed": false
+    },
+    {
+      "path": "game/tests/probe_native_roles.gd",
+      "baseline_sha256": "902a4f17b9330e773caf083a8a712b3719adfb03a29f67cdee2867fea178ecce",
+      "optional_sha256": "902a4f17b9330e773caf083a8a712b3719adfb03a29f67cdee2867fea178ecce",
+      "changed": false
+    },
+    {
+      "path": "game/tests/run_tests.gd",
+      "baseline_sha256": "74a01ee0b4689be0e510bd6bee911161275a63b4709eab316242d15bab0122e5",
+      "optional_sha256": "74a01ee0b4689be0e510bd6bee911161275a63b4709eab316242d15bab0122e5",
+      "changed": false
+    },
+    {
+      "path": "game/tests/run_tests.gd.uid",
+      "baseline_sha256": "bc0e46d330ecdd9b43063cfa926d97fc5737670b6f32f5b561f8115624bc940d",
+      "optional_sha256": "bc0e46d330ecdd9b43063cfa926d97fc5737670b6f32f5b561f8115624bc940d",
+      "changed": false
+    },
+    {
+      "path": "game/tests/runtime_tests.gd",
+      "baseline_sha256": "779720073de58d674d611b405a1cebd910262574c83956b2d68437b8cc905c71",
+      "optional_sha256": "779720073de58d674d611b405a1cebd910262574c83956b2d68437b8cc905c71",
+      "changed": false
+    },
+    {
+      "path": "game/tests/runtime_tests.gd.uid",
+      "baseline_sha256": "d6e71c5daddc4532f21918ee6c1018ff317dbb38612a5cfcfe675e13b6d99429",
+      "optional_sha256": "d6e71c5daddc4532f21918ee6c1018ff317dbb38612a5cfcfe675e13b6d99429",
+      "changed": false
+    },
+    {
+      "path": "game/tests/siren_role_scenarios.gd",
+      "baseline_sha256": "911f5649c6a6387b59c518e41da57d3cd362fb17e8e7573eaad73ed5cfabd76a",
+      "optional_sha256": "911f5649c6a6387b59c518e41da57d3cd362fb17e8e7573eaad73ed5cfabd76a",
+      "changed": false
+    },
+    {
+      "path": "game/tests/split_channel_scenarios.gd",
+      "baseline_sha256": "4d7987a1a9c74785e11baaf59f062ab3808f5e8addb7d8589a8bf7e63eda1675",
+      "optional_sha256": "4d7987a1a9c74785e11baaf59f062ab3808f5e8addb7d8589a8bf7e63eda1675",
+      "changed": false
+    },
+    {
+      "path": "game/tests/split_channel_scenarios.gd.uid",
+      "baseline_sha256": "8946b890ea6e1005d99e126197c15929fc591403fa0eea50bfedaf7f4974efbe",
+      "optional_sha256": "8946b890ea6e1005d99e126197c15929fc591403fa0eea50bfedaf7f4974efbe",
+      "changed": false
+    },
+    {
+      "path": "game/tests/touch_navigation_scenarios.gd",
+      "baseline_sha256": "3e02363ac740f9f5419810360590c06bb29754aeed0648e07732cae88178c0af",
+      "optional_sha256": "3e02363ac740f9f5419810360590c06bb29754aeed0648e07732cae88178c0af",
+      "changed": false
+    },
+    {
+      "path": "game/tests/touch_navigation_scenarios.gd.uid",
+      "baseline_sha256": "fd1a0b36d2861513046d58a3b879c824b353ebd5bce65c5484958d97d56ce0a4",
+      "optional_sha256": "fd1a0b36d2861513046d58a3b879c824b353ebd5bce65c5484958d97d56ce0a4",
+      "changed": false
+    },
+    {
+      "path": "game/tests/waypoint_scenarios.gd",
+      "baseline_sha256": "ace16b7038fa1ba0f1b819152227bbdbafe17699e76948859fbbe7b516ace42a",
+      "optional_sha256": "ace16b7038fa1ba0f1b819152227bbdbafe17699e76948859fbbe7b516ace42a",
+      "changed": false
+    },
+    {
+      "path": "game/tests/waypoint_scenarios.gd.uid",
+      "baseline_sha256": "2ff03631d2c518b2ab67cdd9eac2be5f812c6262cc2170dec7eba8703efb2173",
+      "optional_sha256": "2ff03631d2c518b2ab67cdd9eac2be5f812c6262cc2170dec7eba8703efb2173",
+      "changed": false
+    }
+  ]
+}

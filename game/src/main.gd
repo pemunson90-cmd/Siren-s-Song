@@ -200,6 +200,9 @@ func _refresh() -> void:
 	order_buttons.decoy.text="DECOY\n%d"%sim.tools.decoy
 	order_buttons.recon.text="SURVEY\n%d"%sim.tools.recon
 	log_label.text=sim.message
+	if sim.mission.get("well_revision",0)==1 and sim.mission.objectives[0].captured:
+		var comparison="MATCH RECORDED" if not sim.mission.well_observation.is_empty() else ("REFERENCE LOGGED" if not sim.mission.well_reference.is_empty() else "UNVERIFIED")
+		log_label.text="WELL · %s | %s"%[comparison,sim.message]
 	advanced_button.text="BACK\nORDERS" if advanced_orders else "MORE\nORDERS"
 	order_buttons.menu.text="MENU"
 	order_buttons.contact_hold.text="IF\nCONTACT"
@@ -275,7 +278,7 @@ func _show_campaign() -> void:
 		var b=_button(panel_box,"%02d   %s   %s"%[i+1,Simulation.Missions.TITLES[i],"RECOVERED" if i in completed else ("AVAILABLE" if i<=unlocked else "LOCKED")],func(): print("SS_MISSION_SELECT ",id); _briefing(id))
 		b.disabled=i>unlocked
 		b.set_meta("action","mission%d"%i)
-	if not recovered_evidence.is_empty(): _button(panel_box,"REVIEW RECOVERED RECORDS" if recovered_evidence.has("blackwater_request") or recovered_evidence.has("blackwater_reply") else "REVIEW OPTICAL RECORDS",func(): _evidence_gallery(0),"evidence")
+	if not recovered_evidence.is_empty(): _button(panel_box,"REVIEW RECOVERED RECORDS" if recovered_evidence.has("blackwater_request") or recovered_evidence.has("blackwater_reply") or recovered_evidence.has("well_pattern") or recovered_evidence.has("well_signature") else "REVIEW OPTICAL RECORDS",func(): _evidence_gallery(0),"evidence")
 	_menu_text("Unlimited tactical pause · tap routes · survey, photograph, return",14)
 	var stock=_loadout_stock(upgrade)
 	_menu_text("NEXT DIVE / RETRY · %s\nO₂ %d%% · DISRUPT %d · SURVEY %d"%[upgrade.to_upper(),stock[0],stock[1],stock[2]],15)
@@ -315,7 +318,7 @@ func _debrief() -> void:
 		_menu_text("ARCHIVE RECOVERED",32)
 		_menu_text(sim.mission.record,22)
 		_menu_text("Dive time %02d:%02d  /  Hull %d%%  /  Life support %d%%"%[int(sim.elapsed)/60,int(sim.elapsed)%60,int(sim.hull),int(sim.oxygen)],17)
-		if not recovered_evidence.is_empty(): _button(panel_box,"REVIEW RECOVERED RECORDS" if recovered_evidence.has("blackwater_request") or recovered_evidence.has("blackwater_reply") else "REVIEW OPTICAL RECORDS",func(): _evidence_gallery(0),"evidence")
+		if not recovered_evidence.is_empty(): _button(panel_box,"REVIEW RECOVERED RECORDS" if recovered_evidence.has("blackwater_request") or recovered_evidence.has("blackwater_reply") or recovered_evidence.has("well_pattern") or recovered_evidence.has("well_signature") else "REVIEW OPTICAL RECORDS",func(): _evidence_gallery(0),"evidence")
 		if mission_index==5:
 			var discovery="The crown points into the trench. Unarmed wakes lead away from the fracture. Quietus’ hydrophones resolve what the images could not: they are evacuating.\n\n" if sim.mission.get("finale_revision",0)==1 else ""
 			_menu_text("THE SONG CONTINUES\n\n"+discovery+"You return with a warning, not a firing solution. Above you, the fleet waits for orders. Below, the foundry lights go dark, one by one. For the first time since descent, Quietus hears only the ocean.\n\nCampaign complete. Every dive remains replayable.",20)
@@ -513,19 +516,25 @@ func _observation_diagnostics() -> void:
 	if ready!=diagnostic_ready:
 		diagnostic_ready=ready
 		if not ready.is_empty(): print("SS_CAMERA_READY ",ready)
+	if sim.mission.get("well_revision",0)==1 and not sim.mission.well_observation.is_empty() and not recovered_evidence.has("well_signature"):_retain_evidence()
+func _evidence_is_text(entry:Dictionary) -> bool:
+	return entry.optical in ["well_pattern","well_signature"]
 func _retain_evidence() -> void:
 	for objective in sim.mission.objectives:
 		if objective.captured and objective.has("optical"):
 			recovered_evidence[objective.optical]={"name":objective.name,"caption":objective.evidence,"optical":objective.optical}
+	var signature=sim.well_signature_evidence()
+	if not signature.is_empty():recovered_evidence[signature.optical]=signature
 func _evidence_gallery(index: int) -> void:
 	_retain_evidence()
 	if recovered_evidence.is_empty(): _show_campaign(); return
 	sim.paused=true; screen="evidence"; _clear_menu()
 	var keys=recovered_evidence.keys(); var entry=recovered_evidence[keys[index%keys.size()]]
-	_menu_text("RECOVERED %s / %d OF %d"%["HYDROPHONES" if entry.optical in ["blackwater_request","blackwater_reply"] else "OPTICAL",index+1,keys.size()],18)
+	_menu_text("RECOVERED %s / %d OF %d"%["ACOUSTIC" if _evidence_is_text(entry) else ("HYDROPHONES" if entry.optical in ["blackwater_request","blackwater_reply"] else "OPTICAL"),index+1,keys.size()],18)
 	_menu_text(entry.name,28)
-	var image=TextureRect.new(); image.texture=preload("res://src/presentation/evidence_catalog.gd").IMAGES[entry.optical]
-	image.expand_mode=TextureRect.EXPAND_IGNORE_SIZE; image.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED; image.custom_minimum_size=Vector2(0,minf(320,size.y*0.4)); panel_box.add_child(image)
+	if not _evidence_is_text(entry):
+		var image=TextureRect.new(); image.texture=preload("res://src/presentation/evidence_catalog.gd").IMAGES[entry.optical]
+		image.expand_mode=TextureRect.EXPAND_IGNORE_SIZE; image.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED; image.custom_minimum_size=Vector2(0,minf(320,size.y*0.4)); panel_box.add_child(image)
 	_menu_text(entry.caption,19)
 	if keys.size()>1: _button(panel_box,"NEXT RECORD",func(): _evidence_gallery((index+1)%keys.size()),"next_record")
 	_button(menu_footer,"BACK TO OPERATIONS",_show_campaign,"back"); menu_footer.show()

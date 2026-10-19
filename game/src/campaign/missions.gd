@@ -78,6 +78,12 @@ static func make(index: int) -> Dictionary:
 			patrols[n].pos=home; patrols[n].home=home; patrols[n].goal=home
 			patrols[n]["type"]="sentinel"; patrols[n]["tether"]=190.0
 	if i==4:
+		result["well_revision"]=1;result["well_reference"]={};result["well_observation"]={}
+		result.brief="The well repeats an unassigned cadence. Recover three perimeter records and return. Its fast hunter follows real noise and sightings. Optional comparison: after recording the PATTERN ARRAY, cruise Quietus through clear water within 240m of the PROFILE APERTURE while MOTION NOISE shows QUIETUS. Then bring a live receiver within passive reach of the RETURN ARCHIVE. A drone can listen while Quietus makes its pass; Quietus can make the comparison alone. Remote records remain a valid unverified archive. No comparison is worth promising a safe escape."
+		result.record="Well archive recovered · signature unverified. The returned cadence remains unassigned; no moving Quietus comparison was observed."
+		objectives[0].name="PATTERN ARRAY";objectives[0]["optical"]="well_pattern"
+		objectives[0]["evidence"]="UNASSIGNED CADENCE. This perimeter record contains a repeating pattern, not an identified speaker. Optional test: cruise Quietus past the PROFILE APERTURE within 240m and a clear line while its motion-noise instrument is active. Receive the local return near the RETURN ARCHIVE: Quietus within 240m or a live drone within 330m, with a clear line. Keep the remote archive without making this comparison, or risk a moving pass for a recorded match."
+		objectives[1].name="PROFILE APERTURE";objectives[2].name="RETURN ARCHIVE"
 		patrols[1]["type"]="hunter"; patrols[1].pos=Vector2(800,600); patrols[1].home=patrols[1].pos; patrols[1].goal=patrols[1].pos
 	if i==5:
 		result["phase"]="observations"; result["finale_revision"]=1

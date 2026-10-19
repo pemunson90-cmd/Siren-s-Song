@@ -1,0 +1,25 @@
+{
+  "base": "70172131006f3b36456959c36c38a519690f5747",
+  "branch": "gauntlet/feature/listening-well-signature",
+  "product_files": [
+    {
+      "path": "game/src/campaign/missions.gd",
+      "sha256": "04ea49e6f3a0f75fb1e58650abb603fb095160d79de2b3f8c0ab4923587c33d8"
+    },
+    {
+      "path": "game/src/main.gd",
+      "sha256": "fd5d9273199473c34b888ed5305371c151d1fa7b675afdb61f6aafb01ea66334"
+    },
+    {
+      "path": "game/src/persistence/save_store.gd",
+      "sha256": "38077aa166086bfde36eb2b39085f260554b6b772dcdf0b66da735486652a7ad"
+    },
+    {
+      "path": "game/src/simulation/simulation.gd",
+      "sha256": "1b341614e013c2ad7e6ace9a663fc0fd952c098af534704c0c4a228963571994"
+    }
+  ],
+  "frozen_patch_sha256": "d4bd6a9bb9012773d1f6e74ae51d6ddc09191563e630936cfe6d407501aeecd8",
+  "governance_unchanged": true,
+  "foreground_hook_preserved": true
+}

@@ -1,0 +1,3630 @@
+{
+  "note": "Full delivered videos/stills retained in media; lossless per-frame intermediates and rejected fixture stills kept in owned ignored scratch, not staged as hundreds of redundant binaries.",
+  "files": [
+    {
+      "relative_media_path": "baseline/moving/0134.png",
+      "sha256": "44767e35b735c345d8db43efa8c2a7f23e82831cded42c772e12267144c05295",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0134.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0020.png",
+      "sha256": "5988d899ef3c56c25ec753801e8e5d46fac3f6ceb264df4f9512c846920567d1",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0020.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0094.png",
+      "sha256": "cc7066a0abb0bac9fac3d123dc7dedb902b5f97f1b2dce66e2002ce4c50fde59",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0094.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0236.png",
+      "sha256": "76b7768e549de4307093dd170307b97da080f3f3c2435c8546c990ba088d4f4d",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0236.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0205.png",
+      "sha256": "4215cc44b9976a6db8f14c03319ef0fb2bb6413ceff5ea7b6c2a2dc385b97d9f",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0205.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0149.png",
+      "sha256": "adecd83e178681836753a249f174600e35825c3266fe94efc7aad34361c68c66",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0149.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0190.png",
+      "sha256": "98651684f67be9fab64a43b4c71e2f6745be0d8d0c669f8cdc4f6e61ea96c756",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0190.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0146.png",
+      "sha256": "6b50406f3a52fc5d7ceded22c81ba96c17a910c201948a93a7142ff67f42f669",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0146.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0088.png",
+      "sha256": "f9b6204a2ef00a502adcf780aca7783075b5a29af7954592247b7053977f8e29",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0088.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0191.png",
+      "sha256": "9c9ed0d1ed44b5f16b1e410493ca0243eb5ce548510ab13804c7be1bb8f8a483",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0191.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0095.png",
+      "sha256": "f4e4fc9ed3f165336ad92c943f8ff8ae71d26247de627b562a4a39a10ba84d1d",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0095.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0210.png",
+      "sha256": "77ce21ab6cdaaa1d086d33450056528e48a6b60138ca7ef41ecb3e2a056ecb22",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0210.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0155.png",
+      "sha256": "b206c860ea9b74485ef4d0584a51dfbba0df948c9a49b5388ecae042e40f4aff",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0155.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0100.png",
+      "sha256": "081fdfc4fa4be92a0d5cb777fc7d1b7f7425eff8f9733ff3a631cd1e9ef947de",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0100.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0008.png",
+      "sha256": "348bb1eb58284578400097f5c584176dc5ae76627bf88a01f15adbd41693059b",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0008.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0175.png",
+      "sha256": "7541ca6c893b9d945b5d56aa4883eaa955805e276aa49631864ab575006c8c4e",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0175.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0150.png",
+      "sha256": "f1e2f9a247f6706d35205a707d42443da073c9ec66c518f12fc4594e6a5522e8",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0150.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0005.png",
+      "sha256": "008840a71c3e285442543157ccdd93d083bfb81b50192f4068c5e1130929859e",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0005.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0156.png",
+      "sha256": "9abe21ab897f88f930f24f30709be928f0341a85d79b66be524d851bfd1844fb",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0156.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0056.png",
+      "sha256": "c98524393085872cd65094c32ae769f1d338340b6a3be119219c382403ccdbe8",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0056.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0172.png",
+      "sha256": "7a150db4f10626999ae4cb37a0745e725cec35c95540339db4d78519c757b204",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0172.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0231.png",
+      "sha256": "f806db77a5843c752cfbcb0346389b23c8c23918ec10dcc0899d9086c2fc6ebd",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0231.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0047.png",
+      "sha256": "50a8495bb7185ba5e2406b467dcb55c9acfeb60950554bb2b8757315f2c5366d",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0047.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0167.png",
+      "sha256": "caf558bd633e5d7bed3b17f362ae1c94999ab98faa420017ff7eabbe9f73687f",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0167.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0076.png",
+      "sha256": "c712a7183d8a9a21e80073b8ff6b1b6c40a7342cfec8424afba81a269d3f8b89",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0076.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0028.png",
+      "sha256": "d39d0e5d06b7ba2be7867a3807247525e4fbf6ad194e724d9d02e3da4268ffb0",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0028.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0006.png",
+      "sha256": "2e2f68b4251d4da75d3b58f73834b141406af169ffcf5dd76507c59fedb211b3",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0006.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0230.png",
+      "sha256": "60bc0a59678e814dee75287093917c3a0b80ffd9bd909341987bc5f1815f6059",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0230.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0133.png",
+      "sha256": "87056b72bf04c9fb252d5a477824e83a007ab0a9369cb6fd45de9f4faf8ecd23",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0133.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0000.png",
+      "sha256": "1567904c1bef91ca308cc48dc2e8dfbcd721f74cc4346efb62fbe7d5baaca584",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0000.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0013.png",
+      "sha256": "9643601237feb72c71f6d50f70413c00b9423b9bf4373b8981aa95caa704bcb7",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0013.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0071.png",
+      "sha256": "2a6a788f27ef7cefdd63acc9d6bfb544e06c778aa6c19e5878f93b2049153dfa",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0071.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0211.png",
+      "sha256": "e428ca18b174b7bdb65c592127931c676b9ca6ecb7052c96ec1b0e61151879b7",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0211.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0110.png",
+      "sha256": "e2912bb40d94f23837d55b674f7cf2b80919b4cbd435e5a949d1868b0c9d838d",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0110.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0224.png",
+      "sha256": "71387c5ebc8035f2dfb4aad836b758e46b7e2ab6dd507129ab870170f61bdb38",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0224.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0234.png",
+      "sha256": "27aeb5a4e6641d33126755d8995e365bf194b23a1f18ff2cef5061ac566f7524",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0234.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0235.png",
+      "sha256": "b882bd810a88ac33290d04f4e78f750ac2c67ca100ab6ecae267465b842155dc",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0235.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0025.png",
+      "sha256": "d7e7e7415c2bcf64ceea530305c02b7b66a0db6172243f2ae09c699f6f77dc05",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0025.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0200.png",
+      "sha256": "afc5c36cd62d5c7347cdb9b59d61ca7041dad118747fb9642aa8db113faebdb2",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0200.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0223.png",
+      "sha256": "baae87a19ff217c72f6218ade232f727b2363c0a82f7a929aad684d4df2ff8bf",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0223.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0142.png",
+      "sha256": "7b9dfcb5ef4adcb965996102e389b8e5daf5f228fb0ac94caa54afe4a5cef57b",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0142.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0080.png",
+      "sha256": "93a4567791303b256667b1a8237a42ead56e82703ec9e872f956ce246958d6e0",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0080.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0177.png",
+      "sha256": "6af6b81fc659119b36cdeb3869ec5a52f1eedf9fede11fd297e105b8634f2fe5",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0177.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/excluded-fixture-briefing-inner.png",
+      "sha256": "755e922fd5f915456756e5f8f67a7e1e653cd77e09749b8cff3e905b0676441b",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/excluded-fixture-briefing-inner.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0003.png",
+      "sha256": "72ab5caf4b63e6ffbe327fe6a3181c1ef343c50005c5531f0db1d222f013c65e",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0003.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0215.png",
+      "sha256": "1980c24defde73922d763e4832796aa94845e456166c05c5e991bcc5517187ba",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0215.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0169.png",
+      "sha256": "e4bc29e4f412bb7f68b2f407cd5c8e0794ec8ede67f392228186862329ed8fb0",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0169.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0131.png",
+      "sha256": "329914668cc6e575841e9f0cd98b441304753783875d0d530752b0dc810e0de1",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0131.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0105.png",
+      "sha256": "08e6e7b4927bf83bdbb34e5dee28c0c44edf30ca21e9fbe686b509bcae0601a1",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0105.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0207.png",
+      "sha256": "d924b44f8f285937561623a3f382c7b5c77aac7e3c936ea7962444fa36fae989",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0207.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0053.png",
+      "sha256": "5415814bd4a9f7fe74373ae047884da08d4f8753ab5b70d0956cb867e1f8cda8",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0053.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0018.png",
+      "sha256": "cb627305cab89b9753d985081e38306eb06301adc4522750771ea775dbec3001",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0018.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0087.png",
+      "sha256": "7932e27d57bee170c89f7c7a11bd2879e00ebc317f4980a777892f48e638f5d3",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0087.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0070.png",
+      "sha256": "65ee58bbd099fc79b9c03550ac249ff7bdd5a805bc0a761f76038661849ee501",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0070.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0222.png",
+      "sha256": "65b208d0089f24f0bdbad817c03a751157f5411e6892e06464f68dde1595d0b9",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0222.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0016.png",
+      "sha256": "8dc8aefa032cd0db8114a5f8dca70a15adad9d2ab96447169e1b71ea50aaea20",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0016.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0176.png",
+      "sha256": "aa19d2c2a10ea7882ab3ab852d1f40939bf54974a7af2cfcc14734ef150f9200",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0176.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0225.png",
+      "sha256": "19f03a2963c7f4fe08e9cae9e8c1ff6e2287089f3483f1364f468ebca662748e",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0225.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0044.png",
+      "sha256": "526c23ced08b7919b2fbb1072e781f5c3ffdba73001ccb9f7d261ce19e489b96",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0044.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0054.png",
+      "sha256": "4f5fde28c00e99c2bdbc06e864f6074bad3bd32e60ecdd14fc29cce6a3d4e7c8",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0054.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0214.png",
+      "sha256": "9f936093b950e55b37620603c04a5c34d672516d73edfef6737fb5317d9eacfb",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0214.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0069.png",
+      "sha256": "e1429305d0ab705212b0e1469694387285eab2e554af9a24a0a99e0829cd202e",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0069.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0206.png",
+      "sha256": "9dd299467c93615c791c2cc22933df2bb99f01d6643d9300ae99b3b5a5393ec3",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0206.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0098.png",
+      "sha256": "17c9f2b0a62ec408840c1c32a5e795a8692f8f451ee19a30ea65d05267848d8f",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0098.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/excluded-fixture-briefing-inner-bottom.png",
+      "sha256": "a279015ae4bc7375683a5e49ae5321ad1dad8ffb8e704035654cd7658ed808ea",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/excluded-fixture-briefing-inner-bottom.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0073.png",
+      "sha256": "a761f56a74c9efa302d5ace6ccddaee71808415638de832a479d1f6cb1d41562",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0073.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0119.png",
+      "sha256": "fd2cc41a132cbffa53582bebe055a1b24be918f0a5750c7ddd71a10c16a6adac",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0119.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0112.png",
+      "sha256": "b9220aca119d7a4c005cae8adb33a1d4ec5f323cafed946e0178fdce53168b49",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0112.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0089.png",
+      "sha256": "47019041db277a61fba5bd049c6d20f8c681b72f194b101d2bb71194ccf5693b",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0089.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0004.png",
+      "sha256": "a0defc9f62f028304b87d53be4c9b0b980162b3380574809d76c29acf3b3e2ba",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0004.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0077.png",
+      "sha256": "9fdeb68d98b35cd30f956363003a22dc496a93103b136e9bab2920037ff87e81",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0077.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0208.png",
+      "sha256": "98d2b41069686bbb8cbf13146c4d99156ea044596c41579b036845654429d654",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0208.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0217.png",
+      "sha256": "073c21f4f68d0440cd990b0118e4973e3f1a2c06c374a665e40a067bfdbe5548",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0217.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0123.png",
+      "sha256": "cc4788294561b62df23913543aeebace04d500cff8f0d002df296cfcf93eff33",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0123.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0153.png",
+      "sha256": "17f5f8a1ed5378832be56adc0ba69b1521d36031968ce383f26c3ad9adaa4552",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0153.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0180.png",
+      "sha256": "e44a6119fe12b9efc7b2c788a48291e71a1b6d6d15b9c57a84fd149e87e25f6f",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0180.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0139.png",
+      "sha256": "58edd4ef9b596ae2aacdfb80a0fd21da76e797a749347cd55910ebfa03467b9f",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0139.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0023.png",
+      "sha256": "f01015086a1db4690ca10ef2ee18ede7ea609e59a605844c6bdfd9d055e34c0c",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0023.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0194.png",
+      "sha256": "bfe9bde8d4ebd7e559a1455572978be16c9934efc890137b75ca787b23cd39d3",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0194.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0203.png",
+      "sha256": "e6a78f8c6d141a6668b1be23ee0500f65bcc1a975b1292043b0540e0443587ab",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0203.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0059.png",
+      "sha256": "ef0de4a395dffc49857a51e1cef1ff3549f7352aef16e078c0c831a0118ca3bc",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0059.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0067.png",
+      "sha256": "0a74d68bf0eafe5709d03801500d6c0484485c2562b79f3579736dd99c72d8b4",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0067.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0128.png",
+      "sha256": "d3d63b98fc4055bd79b596c6505652986ef1877f9e7907d64e33347f94e72e38",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0128.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0085.png",
+      "sha256": "e40f52a99d650775ff478d2d5ddd26e58b9c4a44216872d114643cb367fe8516",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0085.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0027.png",
+      "sha256": "43cfe6e1ed3b227655e43439c5538d8a1d5c75a5689c89e4976c03420af22243",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0027.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0163.png",
+      "sha256": "2e016a9d3aa1c2df23bcf50c4b2282ac8df34755bca22219ce295c2235d909c1",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0163.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0072.png",
+      "sha256": "1ab6a9f29ff8c77433ea0bb68596d57782028af76f42c7a7ac18739b17750f66",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0072.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0017.png",
+      "sha256": "71bb16a079362f419c0d8410db0fc39323743a8828420842fa290d61db9bf768",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0017.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0145.png",
+      "sha256": "2a276f3b9d56669c45a558294ca43db06c33d5cb9ce9de67d16ff8d1de94e537",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0145.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0213.png",
+      "sha256": "080c0d04f7755a3ee16da18b693960dda32bb57ac9e8a05d5cab1eecec70a72d",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0213.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0170.png",
+      "sha256": "becc7f7393fe1acd2440e64563a5dda03a227e95ff99b3cec499a87d36851098",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0170.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0209.png",
+      "sha256": "f8ca669b0220d3fa3e1634d103d384e191f31a4637dcd6c2230dc90cdded2da2",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0209.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0039.png",
+      "sha256": "0be07bade8c90932cc733ed550c05f2870a0e3a949ba4d7e7dfb616c7fe59f94",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0039.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0092.png",
+      "sha256": "ded04af64511f5f3ef42f80b1f3298e8730addf873c615f589317fd8629ba067",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0092.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0062.png",
+      "sha256": "80cb329f0b58ffe1cd4df61f38b751c1692464f34143cbe7590099504c9dedbd",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0062.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0064.png",
+      "sha256": "9f3af2c792253be8b7c44e7b75d59d752cbc102a607cd340b923b0f727775376",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0064.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0229.png",
+      "sha256": "32c61192681432f20f08444fb5d0948fe4cd8bb81b5bae31dd2f82cb7ef704e9",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0229.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0232.png",
+      "sha256": "2cdb37445ebf44e168116aaad5f4388dc4f017ea4d717d18ec0615ca940a4ede",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0232.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0037.png",
+      "sha256": "c010892d6e65dd15922794468797360ea281c02618621b82f3193ae4ca9e9e25",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0037.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0111.png",
+      "sha256": "a1ccf995036e4ecf9286a0197dea5024af965ccb50029d11114c9665f4e14964",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0111.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0158.png",
+      "sha256": "c987bad74b5c523ce067159871bf5606330fe27694cdb9cef5dc4c5f644ddd44",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0158.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0030.png",
+      "sha256": "c41063282b675fd760b3084b4b23bca03a331686db76892187d12c641970cf34",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0030.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0161.png",
+      "sha256": "4f0fad9f5e7dafab588a0c3bf5669683ef479d12817387632133af4775d906fd",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0161.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0031.png",
+      "sha256": "80f5cf9c6d325d11d892ebfcbf2a0359a17a18c77fa0b7d9d4b555f7aa9c1355",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0031.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0216.png",
+      "sha256": "356d5f1296e83e136c873ee3b9a909cb69a6808576ebc6b092d78a82c6236bc3",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0216.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0035.png",
+      "sha256": "e7224f09fce1c4f28b26cfe1e72a919c11a944ffa6254dd3b5c51d9df599b3cd",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0035.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0050.png",
+      "sha256": "ecaf793ceb74bd665586f84255e6234d178b19d9d8961af0f8c134b9db813d68",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0050.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0036.png",
+      "sha256": "5b1679755bb08e62cb63c70dc3aafa1562db6ff9884ecf544496df7fe99203f8",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0036.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0058.png",
+      "sha256": "25757791a76b8866e42302c32aef72c592f12e22fa35a08e8cdf7a09be5020a2",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0058.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0196.png",
+      "sha256": "2975d84bc6d2a5fa547a43e70bb20dadc8ce09e34517366c60c9383cfcccb4d9",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0196.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0204.png",
+      "sha256": "754ad1ee781a428f77f64a02761dc85506ac89b3680e785ede2a1b48977b94b3",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0204.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0104.png",
+      "sha256": "4c7d3ea6b7e7196b88fbf19bf3ccc186c868c915cff1f6ec3c0bceec9de0bb8b",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0104.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0218.png",
+      "sha256": "8181c947a646fcb92a81f9639eb090459f95dd3610e189cb1e8a9c296622458b",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0218.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0152.png",
+      "sha256": "c8f29e40d58239d58d30dba120645b0981bba0657e5ad203cfc2c3b983ba742c",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0152.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0065.png",
+      "sha256": "51600b80993eb665e9275f186d25fa679590d4924ebde20ace6881bef6fe0e83",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0065.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0233.png",
+      "sha256": "f7ba8e70ded58f233587b042660832b0b741bf468475fe0599217b890e74ea13",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0233.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0143.png",
+      "sha256": "fa1cc1d3740e879676638743d50c69def72e59e22dd8c6f894a8a4e0c8618e51",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0143.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0178.png",
+      "sha256": "592ce4dfa873fc775f9571447f3cc467ea81248529db44823cd4c275d3bb748f",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0178.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0181.png",
+      "sha256": "26d0bdd97ffe05c0bc0350576ff786f8d801dde0780ca47d438b8c85deaae54e",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0181.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0228.png",
+      "sha256": "2e07f56bcd710de32e3d2654ec0e5a8e4651ebefaae3b598fb84fc094392ba53",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0228.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0096.png",
+      "sha256": "c7658fa315f0be0a7d090032aaccb56ecd0ab1050a9f21c3d5793fb5e4e9e1c7",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0096.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0125.png",
+      "sha256": "1e81f99f5e1339a821312b3d532d1c39efa12a0c7144138d51ad5ce9bf520186",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0125.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0093.png",
+      "sha256": "22b717947b5994ba1b73cba2d0a734054a66dda762425e403adb800231ebb517",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0093.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0189.png",
+      "sha256": "d396a12ae9f21135649fb328ec731f9f5aa948fc60bc5bd7c3855359534e1032",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0189.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0099.png",
+      "sha256": "54295cdd573162f5f790a24052f5de657add82c6a7e36f254907fbe92545fb90",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0099.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0015.png",
+      "sha256": "d3462f3e1e49e0a24a1c800f5b7871c2f5ab559410b880a35cbecfa5c6923511",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0015.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0174.png",
+      "sha256": "2d6ddc4c4787c0e2de3c1ac2f0f9c1156bfc4ccf07d23d5f661ebb36c798b9dc",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0174.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0045.png",
+      "sha256": "90cd1cedf8ab8a91ec5742cd90866bcd9f68e1c719820b46c7f447c94eb926d0",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0045.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0135.png",
+      "sha256": "9ef9c18e00f01d0979d72bfe5ec83d294136985573f81928d79df4460ab49067",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0135.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0201.png",
+      "sha256": "caa30a49fca9c96c8c8efd1533462bf9bc24671f4321d8b8054dd938effd6b80",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0201.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0160.png",
+      "sha256": "f7aad6c1190874dfbd82bbf17f09f5792fc9cb3be8a70f8e1d2eda648a670d36",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0160.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0132.png",
+      "sha256": "9c4a9691b8f821ee746c760d2fcd58695d3d6d2fb0f8aac960441566d7bb4c2a",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0132.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0220.png",
+      "sha256": "45e0ba50b93b15457a0379db9978a53311eec3af80f0c172c342cfd45fa984ff",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0220.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0007.png",
+      "sha256": "f23ea8a5e1d6cef71605093988bffeedfbbfcd0bb94f2d0bc354f0e052b06d19",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0007.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0074.png",
+      "sha256": "f91c60e631b9dda84e8dfb024e07b72f85cec3142b9d2ca702427130cf8348a6",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0074.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0141.png",
+      "sha256": "71b1c22a5bd44212231021eddc883974bca11e4574df14ef7041fcdc9b36bbbf",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0141.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0137.png",
+      "sha256": "832070a7e1ad50ac1ed6403e5b21845f78a9495fcbdbde14cf1d44f2d59b0fa0",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0137.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0115.png",
+      "sha256": "5b41daa31309071370888bc0e55a600acdca22ccbffd3b79359f5087c21ca79b",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0115.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0066.png",
+      "sha256": "4b2e83d1f53647efc40827d82eb76c0d47c8bce9507293d0f95eaa19cbdd4d3b",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0066.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0192.png",
+      "sha256": "1e96af9d2d5fb3b34be6effc69e478beee765b5bca4c3218023973f68051f543",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0192.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0075.png",
+      "sha256": "f9b97cf56bdd7a6d3232b221b1baa66515df4bf1b5b224bfb1d20eafda104abb",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0075.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0061.png",
+      "sha256": "3023d26ff384dcd5830434a55e35b03d0e4dad23ecf6248f6bbd99a273a19115",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0061.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0009.png",
+      "sha256": "6459ddb027aeb967ab7ebe5d9d11812a7203adcb8f56e6b564b37ebd60d47c45",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0009.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0084.png",
+      "sha256": "b34f8da4b56ef64a18f1eb742a79cbd54575f8227301cf42f5cd6502ffa7806a",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0084.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0164.png",
+      "sha256": "18b2d2ab567705212c4b40c13641b5e5b3ce00b35ba692a95374060bc8598037",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0164.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0114.png",
+      "sha256": "14a90aaddf5b61e95b1770618c77570ef585a937c6ae682c99dde32cabe3e0fa",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0114.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0144.png",
+      "sha256": "43487ed3a3dcb60a35ac13bc014e02c604f732f2e155cef94c89af085ae9bb4f",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0144.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0082.png",
+      "sha256": "1fe24d919718ed22b81b1b0a652df0d59f4cd752d4a5e1595ec52bd7989233f4",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0082.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0226.png",
+      "sha256": "1ac199efe5f3bceacbda95e762408b5c02807dc18d8987a6a35f46f9ee12abe4",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0226.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0198.png",
+      "sha256": "94002d0f42708e7bbbe03710646770053806af5c4560fbd2abeec2a59d9fb6c6",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0198.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0147.png",
+      "sha256": "8376c20077fac11659f3887dbd7e2e2655032fe97ba712b34fbb52045ec763af",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0147.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0165.png",
+      "sha256": "d034624a7e5705102898c4a8cbd3e3d4d370238ac2ac08c5832cbe42b6631165",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0165.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0151.png",
+      "sha256": "d9914092476c34a6f281c39020dd35304a559d63fd7d8c418c12b17802d9d4f2",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0151.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0117.png",
+      "sha256": "c5e91b72566f5b355e343bd4a0d9078991f40945ea1cb1bbc5a7c05534af1795",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0117.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0048.png",
+      "sha256": "6b6fcb2a7ecac6c46223b6a8a2276274915bba2610704e144b685c07ccedcf3c",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0048.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0127.png",
+      "sha256": "87f09c1b194103a13f37076e45611a13b221ace004197037b755e17377529f85",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0127.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0140.png",
+      "sha256": "8ce61eed32140245c2ac70ae5574b97b4921a7cf719e2dfe2363b9053111b063",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0140.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0097.png",
+      "sha256": "b4d4e9568e265b56afecd4bcb4f8cc4adb91a265d853ce4a3d7ca6aa8fd4d5a8",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0097.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0148.png",
+      "sha256": "f3745be204433feda2a1768c9a4e4131dd1ff61623188e197ff7b152cfa8fbf2",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0148.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0227.png",
+      "sha256": "f78be345377f3ef3e56e84a0eee4f509ca2265da723cde4b38761243c87c2091",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0227.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0034.png",
+      "sha256": "f4b54960e8f1892e28d2717b933626f16bfe59dcc035e22cefd97c7ecfb43feb",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0034.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0010.png",
+      "sha256": "5a01ef390c498bd754fdc71f2a0f5088b0cf5f6a42d26038ac6e6d34b930b235",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0010.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0193.png",
+      "sha256": "4326369ec4da1d83bc93f3bd376bc81250159f7492b23cbc8ae045e401fffed9",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0193.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0107.png",
+      "sha256": "ae27e83e6551455a002b3ab5230ce7b1801b37ae996c1c906046111c2dfb9bb5",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0107.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0042.png",
+      "sha256": "b487c9e68386e6d4e40cbf105e4b20be805680928960b0b08f39e8b37e090488",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0042.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0106.png",
+      "sha256": "286f8aa1fbdc17745380811c00c6a0c1f92ba53075487f73fe39488ef553d449",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0106.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0086.png",
+      "sha256": "419012256b5ff76f089d6b54b72b2f65a53bfce845a256c9f0efc653772adaf2",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0086.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0199.png",
+      "sha256": "4913dbc827d60e070a4cb6fb4d2c95db5a014e7464f8f420536c72a92157d52a",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0199.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0130.png",
+      "sha256": "11328682dddc84b32e60dea67e7ff3ab996b10010f0fe3190b00daba6daf3847",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0130.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0068.png",
+      "sha256": "6da04e7758bbd2d28fb37d7add4b94cb4e14048266026078144999de8b542cff",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0068.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0060.png",
+      "sha256": "90a62ff3f31ce9060b0397b841fa52a929120f0164ccacbd5d66ec8572ccc22c",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0060.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0188.png",
+      "sha256": "b79965d220312c9ce95e06449c8ee83249901a37690e511e139cd7b7959a39b7",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0188.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0103.png",
+      "sha256": "df1b8f2985826c8f8b26f707a9217849f49e0a9769300c2cefab93fea0d3e0ee",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0103.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0120.png",
+      "sha256": "9fb4fae6c508460fc2046eec5cec5436e0f54f08d6bb4f6623701f6977c4263e",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0120.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0184.png",
+      "sha256": "f0cbac8c095fa8e494c558bcc200c08a1f99d3fb8a53f26fa0f5375ddeee3af2",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0184.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0055.png",
+      "sha256": "46c0cac615ddbe4c0c0b48f0dc57c36c32021fc5e31a111f64dbdd06df078333",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0055.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0179.png",
+      "sha256": "95f7f1c05dfbb80b410d1d7978618a985cf7c103812d5fded8891666a5d2fbb5",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0179.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0033.png",
+      "sha256": "d650889a925e245ddebf7f7b8562e7b1e545267ab732c340248b5b234ec91e8e",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0033.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0029.png",
+      "sha256": "7a5e8a0f87b640036b628dadb665fa139f3e9cf01a6559b16c1348eda4f0748d",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0029.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0118.png",
+      "sha256": "01c22eaae2cfc732db1b9a81e695a294764f6ff40464d792463fb4bd125c14f0",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0118.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0109.png",
+      "sha256": "346eb7ab9f1a664b7bcac067f5ccc460e2aa900921aa72144d897140748f02c2",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0109.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0079.png",
+      "sha256": "814d3c4ab24e9a370dbf3fd7b0fb8aefe4d08683f818109a04e0f17e56721dd4",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0079.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0090.png",
+      "sha256": "f5173e8eb1fd3933f9407320f529d9143fef6631ac1dafa3810ea4441b5a3fb9",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0090.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0081.png",
+      "sha256": "4880f305dfe9cae873fc25c0fa6370b6a79437d4a000ed605cb36101f1f3afae",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0081.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0051.png",
+      "sha256": "ecff1d180172a54b1f6c4bc4733b8bdd9583c5fa0c48aa1568624065dfba76fc",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0051.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0014.png",
+      "sha256": "ce43f0f8cf336e0d41038aabe24f19a2d42b41b14142900169f2ef91a0468381",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0014.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0154.png",
+      "sha256": "e3f6b98195d3c3af1a800e733163c347d7374b657f042c61c224c5dac7e32193",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0154.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0012.png",
+      "sha256": "68382fca0eb5a293a294da878eafad2ad3eba277bde738c31c501ca51968565d",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0012.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0049.png",
+      "sha256": "52986e6a9b3207d46589a72a7cb57ef5496a6a7b0150f8f84969cfa35174f439",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0049.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0046.png",
+      "sha256": "b7db181a7e97623ccfb2d3da8816305eedaa4430034ba7648456cc8f46d1dc2e",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0046.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0187.png",
+      "sha256": "005dea3183bd1b01955670af91d4c0f351ab00fdde9af455aa43f24b0c39f8d7",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0187.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0202.png",
+      "sha256": "f3702d88668e75d78dcf2a3916cf4a03175e2b7d32d68b3b38c4b1eff8b11f70",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0202.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0162.png",
+      "sha256": "d505975fad5a80aa5b9a5a5b949ebfd521a84693a4774e6e91492037289fb30f",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0162.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0138.png",
+      "sha256": "26e363cad1a10cee26dcbc80db54c133b50ce3091211aac564310c856ef63390",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0138.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0002.png",
+      "sha256": "73d525f0ab07dada40c44185f9091621bf3f7b4f9ba04e28ab0a8e1fc6739af8",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0002.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0091.png",
+      "sha256": "5d7930195730921984862c983aff94da80597d746738914bb9500a0ea4c6d7e4",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0091.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0083.png",
+      "sha256": "cbc6b9701490720539dc3a78fc099cc10436a49abab9edf8d92f1773249cc7c4",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0083.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0116.png",
+      "sha256": "69f142822a4a05fea2569e6b65f58c0cf03d3127ccee5d159ca45eb6c443b2c7",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0116.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0173.png",
+      "sha256": "bc7ea9c17b3d3b033884a0d38aa6a6e1c6f14ac7af357918bf30154a0f8bdd7f",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0173.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0239.png",
+      "sha256": "f534058fcef7659fc00c44389e35f0e8e351167dd5ece0597712dabd30007c51",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0239.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0101.png",
+      "sha256": "de76eff19700157f078706100f21750780293aaadfcf56d726726c4d11c847c4",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0101.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0102.png",
+      "sha256": "07aa9897632c59f5867b5efafe56161edf517986a49624e5b89b2c5a4558c74c",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0102.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0011.png",
+      "sha256": "72cd302e5566fb5947103f0cba71f219367f2c2425be317f417d0f26a2604c55",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0011.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0024.png",
+      "sha256": "7a62b86a5af0ca0e07fc1d74ccaee0a185fc39dd7ee5d89508918738f3f6ac7e",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0024.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0001.png",
+      "sha256": "7c5e9c24a09826c394729ac9d2ed2661ce121e36d082e28eaf23ae606a418c14",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0001.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0183.png",
+      "sha256": "72a27b42c8ae0bc00279be423745182c86a9a0567b73ecc49917c025bda1f99c",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0183.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0238.png",
+      "sha256": "9a5c914454315849dad1b0bb7ac80262a4b520ce94b61ef404a4023c8b339d28",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0238.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0032.png",
+      "sha256": "bce716741ffd43976a82c8f3194a2f7942db1b3d576c766a4a732d75c30d6548",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0032.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0186.png",
+      "sha256": "d2073499952a8c8d69fe66c270501eea7c4c38681421de9d9ff40ae3f112694b",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0186.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0040.png",
+      "sha256": "8be41a9d2ae8dce2b7f203d45aec466cb74c9ce1b71649476ba235a5f91fcde0",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0040.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0168.png",
+      "sha256": "ee4fe62b96ccfae510f469ea784353718dce9bcf51c996979a4599bed97ff20d",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0168.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0041.png",
+      "sha256": "1add9084c00def10d0e24a0fd660089791f6584d1778c95c09b12913e78479c7",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0041.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0212.png",
+      "sha256": "a372217d23b73142f6b16ecb78e1580401517cca32ea8848f6567aa2c8f4c031",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0212.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0221.png",
+      "sha256": "5a9b0eb33ff946a3275db100a2e7c3a9b416fda70515f19b3f64c52219bcd2ec",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0221.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0043.png",
+      "sha256": "8a700f5d77bfca200c937e445cb20d0beb68421c3fea2e029d0dd748b9508490",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0043.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0038.png",
+      "sha256": "4a67f75047c453f0745ee038c3f8ac2500a9e82aae645a26a1921af8fd1c7555",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0038.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0124.png",
+      "sha256": "4c79395065ddd62e9c1842bb23fcc78acbb6208d3894fb21db27b6258130017d",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0124.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0129.png",
+      "sha256": "bd9e6fdc518fd04c1a416c6712e2026161c57529a2758d2aa7f90cb85524def1",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0129.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0021.png",
+      "sha256": "bc16d4a1042b744c97bc275f75458db0db9ee59bd62497128055ca3ddb9b3051",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0021.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0113.png",
+      "sha256": "aa8a2e3da3d0708402d1e826cf6abe3553e34dc9ad0a16964a069eda5f4fe8f6",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0113.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0219.png",
+      "sha256": "29a3426eb84ae3676a2407d24567f3def586725d434284881fa044ccb9173703",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0219.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0136.png",
+      "sha256": "65232fed2893bcebf48fddccc5a76ef1951602e344b9dca3ecba27d5cfc6312c",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0136.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0052.png",
+      "sha256": "6946c7ff0fa8023023567de7dc17341f6af974badd26a0ba6972898f518b9d9b",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0052.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0185.png",
+      "sha256": "7cb35576402fb3e96e14eef3a46ee4a78c27865d4097c4bb0f553189c45f2e1e",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0185.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0237.png",
+      "sha256": "5c56fce1336d6dfdc26d2df13e2b80118149efbc1624bb0282c1741d0eb71358",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0237.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0108.png",
+      "sha256": "fc8c0c4ef26d943c0e459266bd8b80712a200e8c813c10a785b8e0b6e6152e38",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0108.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0195.png",
+      "sha256": "d4c47f3a0fb711e15e81e22765d31ad18eb1a8ce5f3286dded920e98a12c271f",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0195.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0121.png",
+      "sha256": "8a541ac594038817d9dcc0615c5ecbb8721b8855f2c54ca3166eb54bba46bee1",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0121.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0078.png",
+      "sha256": "34d6d7ec7100d25e94393a5c61da66bd427cef3d25a1ad95dfa17d50f0e3238e",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0078.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0057.png",
+      "sha256": "fec62b164687a709ab7a7ed5b56ae868df26c0a926af2585f50532b92d9e6fd3",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0057.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0122.png",
+      "sha256": "36a6a70496bdd9952082fdfdd7e2252d7bfedfaef24e6eba97a36ab465a8a9de",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0122.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0063.png",
+      "sha256": "397b026f1dc625621223873747e720dd3999982dcd797ed130256de014769b90",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0063.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0159.png",
+      "sha256": "6766802b6cbca766310e8d7f948dd41fe4706bdcc1567d268af96184da496043",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0159.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0171.png",
+      "sha256": "024b10456ea72cb4c42eeed25821f58ccb32f24c61a977b0a181748d3b972180",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0171.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0026.png",
+      "sha256": "3831856f6c788db5d4071c46576490a8017a76377305efcbc1a7c88b38934682",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0026.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0197.png",
+      "sha256": "c24239c2f59e93a0fbc89c2a609596d2a4ab4318a9cb05c3ecf00c7d6f543fae",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0197.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0126.png",
+      "sha256": "7a020b550607cfb5b474dbf8f932cb6d5a3706c8704a306ed09b21400d469e72",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0126.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0166.png",
+      "sha256": "8356348b7b55525495b811d3a842a5516fa2be280bbed2542473f757c946f5be",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0166.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0157.png",
+      "sha256": "63b2c93ae16065d7e7380c7c285fc2261febef98348542daebfec56dd04d4e7c",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0157.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0182.png",
+      "sha256": "9858e820f0cf679ab65d4fad2f0cf65c621c149d05739518b184381479566ac7",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0182.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0022.png",
+      "sha256": "b73745161c25496aaa7c54d4403449c017413b29e496db4905eb100dc0e990f3",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0022.png"
+    },
+    {
+      "relative_media_path": "baseline/moving/0019.png",
+      "sha256": "dcfde431722eeeab4f609e5206339c315d4ca827ef870ef95c7dae32b185be26",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/baseline/moving/0019.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0134.png",
+      "sha256": "2dccae336e68542188d4459706b9d97ebc8f1af8dfb906ae98c05b164cd19742",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0134.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0020.png",
+      "sha256": "5db9bdc8979b7b4dc23635ae8a0bd9a8c13b8b11f4ba91bd35eec699901ff150",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0020.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0094.png",
+      "sha256": "6c8b7d7cce017a89caa73c1dce756372b8efe43a673082f3e29004bb62d0dd19",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0094.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0236.png",
+      "sha256": "364ae47fb124518d75159ed90d5a3dd87539674709a0cbade0cf4bc083c18687",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0236.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0205.png",
+      "sha256": "e9d3e8cec7223ebe4d2f04267c4676d40d1c840c9ff06cbe53a83b89302e731e",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0205.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0149.png",
+      "sha256": "895fc6d499fa35b41d2910f4c3ac6cebfd00e08fa7dc585f6556efe785673dd4",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0149.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0190.png",
+      "sha256": "30253943b62da572643090e4e6c89668ba884724ae6a5bb05b05fa9663813de4",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0190.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0146.png",
+      "sha256": "80990f38c54a1709dc3311eb267314f3eb51c133a76b71fb83fa9dea9746d884",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0146.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0088.png",
+      "sha256": "3bc3bb3696751aed9a4a0e4c3251f48683990c16b22137400b91d9295524750b",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0088.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0191.png",
+      "sha256": "821f570deae6b81e57bf7c7bce085307db8177e8adf4194934255eac406737ee",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0191.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0095.png",
+      "sha256": "b1527cb35164777ba837e29632c743d254ce7d835d887f4b324b8cd89b3e31ef",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0095.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0210.png",
+      "sha256": "0c5085eeb2eade6c14389b8caf5209e1968e2d14e9c3a162280b84eedbc76fa4",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0210.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0155.png",
+      "sha256": "137a25b94ac8032d7f37490396a2207818ccfd4b4999bd0d64a8b95f77486fd7",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0155.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0100.png",
+      "sha256": "261b848add8d24dc7f50d109c74adc3c33d902d633f99ec7b4f4c77228f30210",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0100.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0008.png",
+      "sha256": "89655fa98e7c41f19da3caa51d993b84cf86345b35a3f72696e2cbf8dd35099c",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0008.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0175.png",
+      "sha256": "83505d679827cda48f984a89a0272186fb181a1705601b2d925cdfbe8d245efd",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0175.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0150.png",
+      "sha256": "7dd513652b24692e0d5be8b10a1c33facdbfce244c646556e142ef71eac6a77f",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0150.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0005.png",
+      "sha256": "1e90a728eaac3d257684c12f100e03645b5020de8e886bc4f0d9342c08bd3bc3",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0005.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0156.png",
+      "sha256": "03bce15e1cc49f61d6756228887be4d96c9c2158e8491abd5ddeded50cb297b8",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0156.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0056.png",
+      "sha256": "1dab8eb799abd94c9c0f63c5c651ee3a22e1fa973bc6fe02bcd6c862c6efe019",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0056.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0172.png",
+      "sha256": "ae0ed38d6f3bd9b873d2bb2947001e8eb5c31201bb0cd742702676d766d40ef6",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0172.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0231.png",
+      "sha256": "56efac01e94ef2e562653b32189ca378e95af35edb772bf74dbd48b832fdbeaa",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0231.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0047.png",
+      "sha256": "84b3611bd518beefee51dea5e4100a471e09c4bb5bfa97dd05261064090b281e",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0047.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0167.png",
+      "sha256": "0e4bc1a43917decd011faa65d84531005f1ddef194d56da0635244fdd5a6a251",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0167.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0076.png",
+      "sha256": "89318bc5b998ed86953c714a22739fe02010ddb61302071dc9dea9c780cd0021",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0076.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0028.png",
+      "sha256": "766591b8be9c415a71b4afdc5765675121a01d551f3b1883a06cec7c0eaa0d4b",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0028.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0006.png",
+      "sha256": "03f49211dcfec366b80cb93ab1a5a82332173d059ceebef4e5fbef6dbe92e1e2",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0006.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0230.png",
+      "sha256": "e7b4f4b0abc64ca8145aba0ce379428538186b008cb10f9cc33fc3b4484e11f2",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0230.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0133.png",
+      "sha256": "7ad683892c3275fbfb106d14eadf5fd7cca7d9ad40171f3f040746a5e81eabee",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0133.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0000.png",
+      "sha256": "a19ad0665062d106bc357b84ac1548a6ce79b21f8b8802c78bc23108c845ddb5",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0000.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0013.png",
+      "sha256": "1553ac88875c11fae1da44175b9ada8fbb52d2f08d7d3a3368d1a0ace92ca43e",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0013.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0071.png",
+      "sha256": "8c839f8c505e48fae6892b638c0f60bd493fb650dbf43ac8dac803d4f813943b",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0071.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0211.png",
+      "sha256": "b6a4dd04575b212b0d0dc43718e10fb7fe1b41417d563e6616c7abb3ff32b479",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0211.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0110.png",
+      "sha256": "0e1126f7811b7558ef8e5dfc82d23b0ef0c805535b04d5d98907fddbaef22efb",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0110.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0224.png",
+      "sha256": "1cebfba0f0b5aff1d7b16801c4fd07c409e1e5b84bd4582534179641ebd4ecf9",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0224.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0234.png",
+      "sha256": "b1ff07cfe2cc1cd78e76d57f98e79f1575af1f427aea86b6bda48bcaccd3cabe",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0234.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0235.png",
+      "sha256": "5442d0a1de6bbb323c23050ec4e4d4bdc36c9db0ffe0a0c9679100591996a3b7",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0235.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0025.png",
+      "sha256": "fb12473ed9e3eacdec090786ea7b77ea621b0c4146b421f90c828eb316a5c741",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0025.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0200.png",
+      "sha256": "416733fe78e584ad184e61b68a363fb685ba460fc91a3b00bc28d95f4b68e370",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0200.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0223.png",
+      "sha256": "18340ac6ddec3a722c75dabb61c0e8db80de56eff5b79fbe50b145cdbe843eee",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0223.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0142.png",
+      "sha256": "d69d66b0cce468ebb0fe39b8b8ccf79c1ea631aa934272352f7ec6d6ed9c62ab",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0142.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0080.png",
+      "sha256": "a0d906ae001a0f789b1bc4dbc6b235c688beb3bd58f2399abe74cfb80882430f",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0080.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0177.png",
+      "sha256": "61b6225957201d61244bdea952daf2dc247dd1642621441f0364c3164bc1f4d0",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0177.png"
+    },
+    {
+      "relative_media_path": "optional/moving/excluded-fixture-briefing-inner.png",
+      "sha256": "ff998dc94529afbd2002c1f92e15435e4ee45e13f75903b87fe77559626a4a1c",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/excluded-fixture-briefing-inner.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0003.png",
+      "sha256": "0da85d639794217aaade2c946acc78ece1fc4728cd3ff7d3362477709a2cc0b0",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0003.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0215.png",
+      "sha256": "92d86d72a1eed887c5dfdae99b936b1238146d8f9daf77bf397086e3a765a3cf",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0215.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0169.png",
+      "sha256": "766d6a9a9af660f13d6b5e84f5986a96083015fa3a704d2480583c0ae67e7e05",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0169.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0131.png",
+      "sha256": "21613d26393dabc40cdc1b862f46991c6fff25ca2ac46f106a9b375761e4664d",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0131.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0105.png",
+      "sha256": "e4d4a70ebcdff380ca388d1c1b135fed6a9c084d497d019e327075389060f778",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0105.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0207.png",
+      "sha256": "da2f8f662c68643e2104aa3fe0c3555545c9ca684f78c4df4ed9296ae7786d27",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0207.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0053.png",
+      "sha256": "54f44d3a1467b995cccd3ceaf33c5956af90a1bf03e1129b1f95130840e2fecf",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0053.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0018.png",
+      "sha256": "867d2ff3945d1dbe70d6dcdff73676d49c2b466b9da6666b3b3b7265c6da8c66",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0018.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0087.png",
+      "sha256": "68664e5a2c66602a579b8094f89078c36f145dd92784657aaf1408118e1c62f2",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0087.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0070.png",
+      "sha256": "b29788fe692bd7ac05b790ac86c985fbd9e3893184bb0a12ba55d9abca6b4e2d",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0070.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0222.png",
+      "sha256": "e44044b5a8cb9c0b85cfac4f274fcc379be3d7f38dba7c3e1c1a2ec4aecec247",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0222.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0016.png",
+      "sha256": "01a643d4e4f3b4e62d71b6e33ef0825e2c31a8e155b653c8342c3c383734f41c",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0016.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0176.png",
+      "sha256": "7e4522ba53133f194078400e811dc52423288569232863569c089e9c095ff26b",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0176.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0225.png",
+      "sha256": "c4d4cae836c11406d6c38ffd0f052c28046e2b53be90369fc15a497de529d534",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0225.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0044.png",
+      "sha256": "e88be2dc4cfb9771c2fcd245f0f214dff97ac5552564b849b6dc70b3bd20bb9e",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0044.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0054.png",
+      "sha256": "a6802d464d61bfd7291f1cf965126f596a323c84f411989b084e0a01c09e0661",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0054.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0214.png",
+      "sha256": "3cbe8fb28f3d7d2d0c2818ed55a6a9d06df75d906806fd6751a41154de201b62",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0214.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0069.png",
+      "sha256": "fda0579314b92f4bc77df302268571af1eda7cc0e97388a4ff6e390accbc6f76",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0069.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0206.png",
+      "sha256": "5892664f85da0e1f601c7ebf6f8dcbe24786caf960e608e0efaf63be826327e7",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0206.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0098.png",
+      "sha256": "00d88815ccfb315ab1a2c83772c8072b830c9761242e5a8e57fcc36c7ab48f1b",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0098.png"
+    },
+    {
+      "relative_media_path": "optional/moving/excluded-fixture-briefing-inner-bottom.png",
+      "sha256": "93ea5922e4cf557a74f126b9f5183a2f5c4f7662e3b2ea4739c774c1e9164ef5",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/excluded-fixture-briefing-inner-bottom.png"
+    },
+    {
+      "relative_media_path": "optional/moving/excluded-fixture-match-record-inner.png",
+      "sha256": "548b3601ff4c02c2aa2ff77ffeb72512bf4f8b0e5242c7c5a9b9fecb6deb7f73",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/excluded-fixture-match-record-inner.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0073.png",
+      "sha256": "62719ad31c1b243913f435bba3ee51818b2dc1228b60315e31dc74df3003f2c1",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0073.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0119.png",
+      "sha256": "475537b1bc43610628bd8f1652fefd07d17bc7d732ad961290a4a9179a688431",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0119.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0112.png",
+      "sha256": "63f3a81444092a5f42139f3204f8318b0b78b4257fb1333d4c6323e786debcfe",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0112.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0089.png",
+      "sha256": "3eacef87bbbb53d9328432306307e292b29d4f9e3beb35842f3603fac18b3be4",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0089.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0004.png",
+      "sha256": "2ba418519eca94e03555652ab7fb8491c87392fa9d69609e715339d2be18c493",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0004.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0077.png",
+      "sha256": "1d8d40f3ce8068a81cad0d0218a0df629ea1ad1c5c7b1072ec03e40cfb6698b9",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0077.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0208.png",
+      "sha256": "0b04c0063d44f530e5d1cc24890a138798de4c09a504602e9b4dd96ef4640fd9",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0208.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0217.png",
+      "sha256": "4b8e540f1c0f64cd239fe0762a725d61b16d4a8c63ca65d8e6545c9a0f069038",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0217.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0123.png",
+      "sha256": "755e9af55193741d60d10e96504357c4bbee2c3bde19d341589e58452087168b",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0123.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0153.png",
+      "sha256": "4e941fd888734eff70f4ecf9cda0ed79ed237addce0884418c9f72c7a6686155",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0153.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0180.png",
+      "sha256": "12fc60bbce83ec3a34746450ecb4b377767631574e3e5b2c0d78db7dad356441",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0180.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0139.png",
+      "sha256": "95c8317f281c122e40824968540c3b13dc631ee40a138267408a4aed18c6ae8b",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0139.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0023.png",
+      "sha256": "f317fccf25dbc3dddc75f783a2ce3facb7ef28ebd5b8476da7c6465b2b2c779b",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0023.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0194.png",
+      "sha256": "739006f50ac9ba59401a76e3fab861a40b73c26f38638c554fc87c042b7bfa01",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0194.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0203.png",
+      "sha256": "bb9f65fa6c5f54452e13e65356f0d08dcdce850a977334a6bb587c2aa33af480",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0203.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0059.png",
+      "sha256": "d2d9243f5faee73a50bedf652636e33bc1af13168296806056c4b87dacf38a37",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0059.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0067.png",
+      "sha256": "c499992e7a436cbc9ee0a46e66e496fc71742e5bb79cf869de15734ce46ebfff",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0067.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0128.png",
+      "sha256": "9b42e41b7beabc731565f24166766c039d4d7419e3ddec511fdb8b5355ae89a5",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0128.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0085.png",
+      "sha256": "45898e277883e7d0333881b49dfc471c2b028eaf21ebf8cdbf3e871cf52e8a05",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0085.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0027.png",
+      "sha256": "48d6847de4d455a42a145d4427372ef8b171d21522c41d24ba6a57dde638d6cb",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0027.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0163.png",
+      "sha256": "2f058e0d62f381e589b6a184a100303eb9eb6530e4a2921f1df3d374cc3660c8",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0163.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0072.png",
+      "sha256": "13be93ca34a8262c201fbfda7d0fbfca9931b8b24abdd3599be591ca3cb23fbe",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0072.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0017.png",
+      "sha256": "87ea136187fdb4b6d972897838f824dba54aefe67d9f5c8cb3c42bfbde19c76f",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0017.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0145.png",
+      "sha256": "09fbb0501cc946a98e47ef45325bebfb32c79037914bf9f26608d198a68b089a",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0145.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0213.png",
+      "sha256": "232dc606cce36cea367b429bf6677ece79bf94d5cb70d2b7c77acac60040b4b3",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0213.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0170.png",
+      "sha256": "99b1d82955e82f46b45a5c00058324f57b96e51faf14928174d5c746b7aee918",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0170.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0209.png",
+      "sha256": "74851cdfdd1b9379da57a6a1d6b0e354359293a93ecb2dca6a16958193016509",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0209.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0039.png",
+      "sha256": "888a011b35bcfd09b5e71e036b28baa0c53dc6e53cb6f7038451f43a139f7486",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0039.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0092.png",
+      "sha256": "353e9f02572c7306bfe590dc382a44dc36bb8384ba812b9615ff80321ebeac05",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0092.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0062.png",
+      "sha256": "bfe90033e6fb573622d90431d8e33d1cf60743e6fbccf82fced451ccc4fbb0a0",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0062.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0064.png",
+      "sha256": "b61b1149b7a06b57a2f7f41ae4ac00b3b2290887024aa218d99bc604e4235e90",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0064.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0229.png",
+      "sha256": "0318c564e001cc43f74fe279f5f320c249bc22eb15a1b916239f0f6dbf27d31f",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0229.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0232.png",
+      "sha256": "1598ca86f76d2446a440c8b3afdc48742d1e1babab29d26c83e43bc8de6dea5f",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0232.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0037.png",
+      "sha256": "5578b0cf797a0f2a8fc281ee38aa9bd8d2165690fea650ca2e6ac8aba8842816",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0037.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0111.png",
+      "sha256": "17dbbb45d63a1d5ad6b1aeff387a58d095b24d163af4b470b00045cb5a204796",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0111.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0158.png",
+      "sha256": "153627bdcaddb07b1d5bff8304b2b3c88801a67bc65ddc2d9a51c4fb5b6fc5b7",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0158.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0030.png",
+      "sha256": "0ca5758fd19cd00d9600858eb00c292a0ff80ae5001415a4f23cd37796fc39ba",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0030.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0161.png",
+      "sha256": "f49eb8edf37bdfd51365fa5d6bb14aa65f7bd125e40c628597fc48b08e7203b9",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0161.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0031.png",
+      "sha256": "e2e03b50c8d70da189eecb84693f9c6740a7b4ce6c7636eb61834481d78961bc",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0031.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0216.png",
+      "sha256": "cc1acb55acc56d0664d49982a0f131a123383fd8b6da7e8fb2a150f10a63597c",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0216.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0035.png",
+      "sha256": "374f45443c01197acaa24651e4c2582b9090d09f8268f060e012f26f976c6cc7",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0035.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0050.png",
+      "sha256": "0c8182b984c29962e9be20dee4f287018f999f20becbf9b6b31f03b29d65f99f",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0050.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0036.png",
+      "sha256": "f5305d07378b282fed373bec88933372b56d499c9bf51de192ebc2928fee601c",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0036.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0058.png",
+      "sha256": "0b9eafe41f0aec9a35c3ae0606a8ef8065784626f2d55197ef17a62bb96caf5f",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0058.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0196.png",
+      "sha256": "76a0534d43f9bacaa8640760db012f9c81e3e3694050dce69a925696c8c57863",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0196.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0204.png",
+      "sha256": "9a6c87cf9c0cc5e22ef38df33e6e8f2495aa65342ae1c1208f8e65e636f17288",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0204.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0104.png",
+      "sha256": "f7dae5a91726d0271154f153be863acf11f70f0f0b9eac3e67c4edaa6f262095",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0104.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0218.png",
+      "sha256": "1d80bd336eae358b33943296a4139ffd3c4042f5c61bd81857c5eab047a6fb01",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0218.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0152.png",
+      "sha256": "9a2f03e9d27c6f35b41bd1025ca2cfd9748d5e0aecaa776878d17dbf2b08cba7",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0152.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0065.png",
+      "sha256": "3afd2920b691c993c0d236b96d1a64c0d0053a5d3425a4d220d45af086333f00",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0065.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0233.png",
+      "sha256": "14ddb651b99f6083dbb1078edbea8e826158b608f6c35aade09a3bcf76e1482f",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0233.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0143.png",
+      "sha256": "6c0a74265c7761a3b67d3cfd00737741942a2f383ef82b0a28f11182fa74558a",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0143.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0178.png",
+      "sha256": "024a4ca42ca4d57693bfd207cc3d058eb04d0338eee690e8a0bcf797431ee0c6",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0178.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0181.png",
+      "sha256": "882f701f78f1cc6454eeaeaa18a7a0528f827333c7eff1811297f2352f040d02",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0181.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0228.png",
+      "sha256": "4e686da1152f50ead4e5dab03ccc773760b1ed616d12dc2443d2c49dd1b74ecd",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0228.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0096.png",
+      "sha256": "8d53e11cc8edcab91ecdbb1153f1f5d42c873fbae2091358292280d400a30f89",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0096.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0125.png",
+      "sha256": "3638ce80b8b701f1a1007866698c3ae8bdf06bbd641b16be3bef004df643a0b3",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0125.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0093.png",
+      "sha256": "789437ee20d42b5f6dcba4d906b8c4bfba970a338a7be085598856e92bc279c9",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0093.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0189.png",
+      "sha256": "ffa8775e76d3e16dd55b036901a0d83c6aa0606926435cfa85a49f45f58d1d11",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0189.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0099.png",
+      "sha256": "ea6d39e1936b2850c8209fd9c52f9c16cd9cef02aa60ec17811208731f320dec",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0099.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0015.png",
+      "sha256": "b112a955ec927dbe2abfc4c968946f26b72aecaad85de46565cc731cf6a30aa0",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0015.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0174.png",
+      "sha256": "a1907eb477c629b4d5517540b7944a8034ead4d2d671220c08027f3e1c810019",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0174.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0045.png",
+      "sha256": "84fa4419fd8d04d00ec89fb06bad2439740db548929bb46182660a3431d0a7a7",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0045.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0135.png",
+      "sha256": "917d732d178b64e7e4aff6eb898dcdfbb972f43987b600c4bb9d4a6d922f5025",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0135.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0201.png",
+      "sha256": "4b39198a4668aa59809e2ff1411b6814ba0b989890afff7ac03fa12b0357130f",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0201.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0160.png",
+      "sha256": "bbc22cb8e6ad6a717042d9cd48be129c2ea6ad39dbd28d3d8bee14b4d2f61a83",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0160.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0132.png",
+      "sha256": "4ebad1f986e16a3d07823bba419bc9b47c2c1c5dd76f8ad68967d15168ae37e0",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0132.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0220.png",
+      "sha256": "91f5cd6fce2bab1f9265426b77a412d7f75622e868bfd9a147d3544fe11620d0",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0220.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0007.png",
+      "sha256": "ef52c3ea3e8fe6a34ead4d66fc7566189bb0220704d84889b6c756de15281801",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0007.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0074.png",
+      "sha256": "6e4d9a87def9a89c560985d73b40ddf3168d9372b1e4822df194951b5f155b10",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0074.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0141.png",
+      "sha256": "aa140a56a7bfbefa19886180a926f54e18c99e2ad9e764181165ccb0d2a00afb",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0141.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0137.png",
+      "sha256": "788e57bef51a8d232cc49fd9629dcd8e5cd6d6c6678ef5660f45c990d803a30e",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0137.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0115.png",
+      "sha256": "6e41425191e59af19443c6827190c2a2a0fcfc27b7c7308b748a72fb073d57a7",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0115.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0066.png",
+      "sha256": "277310ad06c220f3fb7a4cce7f066cea9c814368e247c87dae4ebdfc10eb9c25",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0066.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0192.png",
+      "sha256": "eda6b2c67e5a8e79093a8fc6d3239d11df1eeade9bb159b0324f43cdfd01d726",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0192.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0075.png",
+      "sha256": "59c0726a78ee5c469a22e930ddfc70556e8e7cef77c8b27ae9f1f2f91aa960b8",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0075.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0061.png",
+      "sha256": "336181b21f6a4280bb184093e27de070251d7b868dd11c4e7ded949b699a5485",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0061.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0009.png",
+      "sha256": "56ffdd7aee1fff832aed180b58ab5c8c2b7c200eb6c5b4b0fe7a44490b66ed73",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0009.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0084.png",
+      "sha256": "9defff7f43641fb62bc2e855c55b1ed3300bdef1ee25947ad100204cc54d9f1e",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0084.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0164.png",
+      "sha256": "b2b62c4532067cbae678b05865c074825677a4afda18f3ff39fb7d4d54556443",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0164.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0114.png",
+      "sha256": "13340d8ca5cf56e4fd3c4c12e332765549e5a98fabde5507585ad048d7bd5e33",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0114.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0144.png",
+      "sha256": "b1dcb8076db4bca5d5d0ddc5a224d45755dd3720c1a892345ca10e25c0ad6435",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0144.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0082.png",
+      "sha256": "35459fbf96f3a608041a7f3030cd9e3083a7fbfab47f61639d2e5b97373cfb4d",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0082.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0226.png",
+      "sha256": "27479512f89acb4bf6d8d9e0955f1f10624ea2a78659c6a6b7375287bcfdf31a",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0226.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0198.png",
+      "sha256": "b6c2aa4f754614772703c964206599d32b61e92b97638ae34762539c8a279536",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0198.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0147.png",
+      "sha256": "a1958930e0174ce18691eb9dc163cd9936c923cc7fa12dcc5ff90be609c30f10",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0147.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0165.png",
+      "sha256": "9a84d248f4741d913943b1462357fd76ca25780c8515113f7e30c13dba525913",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0165.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0151.png",
+      "sha256": "d929aa83c14a3ae4171ec9787d6165a16e1c2fb7640c998b21c93bb114eef760",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0151.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0117.png",
+      "sha256": "252971dce4e1658151fce4563fc7d514723a1a5036d0194e66047eb401733e51",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0117.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0048.png",
+      "sha256": "2d9703f79d833b1dab1905d4cb43ed21c676c063ddae661a277515e4b68f1d65",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0048.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0127.png",
+      "sha256": "e7a87a3735e257626917edcd5d76681de68acff9aacbc7313e3d9acfd46bc9c8",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0127.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0140.png",
+      "sha256": "6b49d47fa7a31b7d3f7c6ac83599c79b2f26f0762ff1eb1b0b496fe3ee1e31cc",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0140.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0097.png",
+      "sha256": "b3972b407e07d50b570beadc27275fba0ccde874761d3f3ed6df60900cacb860",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0097.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0148.png",
+      "sha256": "2c087cda89441026674abadce66711a60c0a1aa882d04341e47bd30afa348e24",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0148.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0227.png",
+      "sha256": "157796bd4eca394e4a4683258df2f52ebf37bda8f2dda7206f298470ac240782",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0227.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0034.png",
+      "sha256": "384c263f2b9c945b2011924a8fce7db734aa376760c4d18abf21c5de7322531a",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0034.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0010.png",
+      "sha256": "602bc60635b92293e2491ee7606f2d3dc68595ea3fcce8ef38cf6672c814a082",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0010.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0193.png",
+      "sha256": "cad8dcc9d797c0a3851144801dc990c9b88af491df34623a3d7aebff4ebcd074",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0193.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0107.png",
+      "sha256": "6f23881c727193fdbb512cfe9552c7534c7825a478b616611bf9611fa4a5febd",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0107.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0042.png",
+      "sha256": "b4cfb541e190f706775177a335055f2800e28f9fd79694ab976c64166fda0ee5",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0042.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0106.png",
+      "sha256": "60d729eb6209908730d42b97e312c3838a6f65782bcb01fc2b4b28b58b6884f3",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0106.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0086.png",
+      "sha256": "f08cc38121981ac5228eb08ada78a5af27a47dddba9a352192b8c8b529cd8a83",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0086.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0199.png",
+      "sha256": "000970b12a354878b15ba3b18ce1d423b6db0cf5cda09cf5ded542b557f01901",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0199.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0130.png",
+      "sha256": "5ee872d3a7276aff5df0ef61b370ef9ef246f855b84cf83432754521754edec5",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0130.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0068.png",
+      "sha256": "7fcbb9c3409deb45349b19f9ea9683bdd2064003ceae4a791eab19270fff5535",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0068.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0060.png",
+      "sha256": "631d58094e4a2f36d0cbaf203abeb88120622765f3629407e51ac024ac50a187",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0060.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0188.png",
+      "sha256": "e99b6a27e7a706fcc3033b6e99ed0f6bc0017f267da5614c2064816f68e67b45",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0188.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0103.png",
+      "sha256": "c9ae0cc5f79681e467d43e3727238145fa4b74e8a470311cf6a1611e8892f9ba",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0103.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0120.png",
+      "sha256": "194199d1e68c47f117d2c3dd6545225b833e76be0ea251f90814026be6eaf19f",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0120.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0184.png",
+      "sha256": "d3d35de00066479e7d183b21bdaef48052fbbe78e49ed94d9756d5c986b36b19",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0184.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0055.png",
+      "sha256": "00110a2227fa9bd07d593e23a0a7393a634c72e8a5c14a683ed2065e4a38e958",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0055.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0179.png",
+      "sha256": "9c74364951e591d278552abf67e668d468efe8e6645e3ec68ff67d4823a67a81",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0179.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0033.png",
+      "sha256": "abc8de97fb45dc12147ffd7ed5caeaa1730fa715a043b7a17403a5544ae51bd4",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0033.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0029.png",
+      "sha256": "ff377b93c79f69078bb65fd3e503c713cfd0b6523721cf58aae5b4b81b90434e",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0029.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0118.png",
+      "sha256": "96241b6da9c85fa524b976d2d93d65ae9d870f9861b31c0cffff907afd7a6c66",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0118.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0109.png",
+      "sha256": "eb6569a34f78bb8d158f9f6021fe5ddd2536ad8729de84c39243fd44041ac746",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0109.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0079.png",
+      "sha256": "d32cd8a5c54420ab75fc91846cd963b9d6feb081e0f9dddfe38a3bbaaa099428",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0079.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0090.png",
+      "sha256": "a3aa590e98fe90918f2afe8f1ff1bd375fd5509b9584ffa81f68fc31aabb0bff",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0090.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0081.png",
+      "sha256": "02dd4f7a71ce4ee25164380b0e09f4763cab4d48927312a85f6f58c75433037c",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0081.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0051.png",
+      "sha256": "8bb10f965be895750c5b486e9d3d5a20511d4f36ff38cd0b3b60394ff4f56b67",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0051.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0014.png",
+      "sha256": "a9ec810faf65d3b4ff3fb24f05383a4f7d0722c8fda1850e48a180f1c7a127dd",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0014.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0154.png",
+      "sha256": "571ccb0b1a61ea6cc85b4296382aeffc01b71a7a6574aad0f340233b56b3b89b",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0154.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0012.png",
+      "sha256": "22b3dbfc2616f933b2efbcd407951e508391df05786b6116287a5f30a9659c4b",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0012.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0049.png",
+      "sha256": "de36c4c553e345c773d98c6c198079f3efe17017a4c97baea77fa6461a789bbe",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0049.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0046.png",
+      "sha256": "18dae0e8b46914193566e384af6487136fffdaf57db8249f439ecbd69de418be",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0046.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0187.png",
+      "sha256": "1fc4bb45e789a78881698593260cc5ffb7c9b514bbfe17cdac8a5a1d190c86f4",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0187.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0202.png",
+      "sha256": "e333861fd197d533fcc83c58fe90d0248a568f2108391211dd61b5124abfe976",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0202.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0162.png",
+      "sha256": "f4de29f5a43695c987cb132dafba9d4350f9c656931427603dd9c1012da4e000",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0162.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0138.png",
+      "sha256": "db02649772d895d86fbf81b076d94f00a58580d33ebffb768037913c7ef006c6",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0138.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0002.png",
+      "sha256": "303dc9dc01abffee24d143873a9fea99fe19757cd1e0a0f12b2f38348543341f",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0002.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0091.png",
+      "sha256": "c81650530350b78d01201e9a9d501ca9959823a5baf7f6e1ccaa4b3bd5a5addf",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0091.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0083.png",
+      "sha256": "8db3f383ca5583c6045ae7b056552349255039a27cd1242c4c3331a72bf14234",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0083.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0116.png",
+      "sha256": "ac75535b4a278cac4a01e905f41d098d0ff726d84996baa675aff77d8a94c472",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0116.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0173.png",
+      "sha256": "5c1b4fab3534288a41c6346c26af37e3c8954bc02c9044149f3a42b7eae18b1f",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0173.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0239.png",
+      "sha256": "831a0c9c1feccae6af0d0aee451a953fe729356f516968c0d5e851121f0cdd1c",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0239.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0101.png",
+      "sha256": "7216e687889637c825b26892a8a5fecb6e91e51aa3c8ca19fe849e39e3798a04",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0101.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0102.png",
+      "sha256": "5c1f270ea4254fdffcb53135c79e106d05dc784ba2ab7cb9126b340932be3efe",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0102.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0011.png",
+      "sha256": "fadf1a7e4ec60e6f586e25b8a3b664d1842b5ac5767dd600d6d5c4906c7694ca",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0011.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0024.png",
+      "sha256": "94fffcfa89c1aabf57c533ce0a12dadc25291411e6b4b84d59bc6ee96cf1ea8c",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0024.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0001.png",
+      "sha256": "3b96c29a8409de1110852715df02704b652e1e43111595c63372a6065c6488b3",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0001.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0183.png",
+      "sha256": "c37690ec4764b3fdbf0145c45808e3f12f6f06da3f987a52db6d643535570821",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0183.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0238.png",
+      "sha256": "1b4783e04afd301371963f062b022866c7377b6e398204922899a0af4ed8047c",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0238.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0032.png",
+      "sha256": "c40eefb19ea283983c37a8bb290a47bc45bdec7d1924eaf547bd0b40d2192063",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0032.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0186.png",
+      "sha256": "81530bdbc3dcfe884ced55097b74cd4d6deb8c892f17b3401fa96b851dff0645",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0186.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0040.png",
+      "sha256": "60382341d8e264447a16e4d82c7b66793c064b24a70740bea6451ea945c0aa0f",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0040.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0168.png",
+      "sha256": "fffb8a53ece053425d2bddb7263b914a5e172e0ef8db88f3eede84614d298e8b",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0168.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0041.png",
+      "sha256": "50074a2a552c19b31a7501b52cb77918f5a724f53a374fea80d984746e80948d",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0041.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0212.png",
+      "sha256": "b89986bb66cead793e9e0082448a6110bbbcacccc60534e8b15473c17917380b",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0212.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0221.png",
+      "sha256": "3e5225a60a81c621142907e86e55d3a993a3732de8094aff7aff7044cd95874d",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0221.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0043.png",
+      "sha256": "c12ff43640e1ed0741e24a12bcfcba1af4ce5f4f3306caaea569bf45caf17720",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0043.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0038.png",
+      "sha256": "acbac2fcf201c75c5dd4f8fc2adda0fde6bb51d32aa40c70195e18a1f21eb3d6",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0038.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0124.png",
+      "sha256": "e92314189979de1ba596c1fe6ed52618786bda071820b740e007e701330395af",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0124.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0129.png",
+      "sha256": "ed5390dce6b2a9b11cbf83001b0ae245c8ce7abbb96b2d2788f70742d8474cc9",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0129.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0021.png",
+      "sha256": "2f5e9d682e39ed2cdfab792798680a09e0c6ae1d8cbd08dca11d900b2756bb02",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0021.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0113.png",
+      "sha256": "4433b7fc8d8409a81a2bc56313acb7844e362a10a2f9e00c36847599067b79fa",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0113.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0219.png",
+      "sha256": "5ed23ffdfa78b440a84912cf73cb914485f9bc044c0ed965e69529318baba983",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0219.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0136.png",
+      "sha256": "d8a41e46e95caec874824389c58822d44e1eb61cb058e310d0aee3f0c5d649a0",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0136.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0052.png",
+      "sha256": "cd0ae0c49d7ea3f45185348a30954a62cbac74d172ce0265fbb30b914a68d9e2",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0052.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0185.png",
+      "sha256": "6e5eff3e7e5858a1187f99ac01f72c92ec4b428cc98a4944dc2c7a9cadd62f8d",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0185.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0237.png",
+      "sha256": "e66d368dc453f6d8ddcf04f92765a06236f4c4c0482a1bacb9f8bdee8bf5090f",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0237.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0108.png",
+      "sha256": "23742672a9370685eaa1829b59540b156d7f0afc51c94eab4549597f4579c3a0",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0108.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0195.png",
+      "sha256": "a3aa74fb62e38278869248f450aac3d8beba6c6f1236b242ca0c41578bc310cd",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0195.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0121.png",
+      "sha256": "b7cf731a599679528f731bf31ce7d1b18ea7fb1f3b8b8cde6c6a99bfd55be212",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0121.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0078.png",
+      "sha256": "752f3d7adef1a50eeafefc53016426d822436a95275d7da4190c93a3204d133f",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0078.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0057.png",
+      "sha256": "18e5da317f763d9798af4c41687e18ace42edfa49e1c7ff61e4b8f2d32c14564",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0057.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0122.png",
+      "sha256": "24eb625f34d09d488d0eebbfa38a84fc2b05e17d1d9ef59dc53edc46431cc460",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0122.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0063.png",
+      "sha256": "b1b35456c1656343f9fbeacfb931eb0c2e2bbac6cdee962cb1f5ba285f7be9bb",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0063.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0159.png",
+      "sha256": "6a4cca4f0f2f51392cc2fac45ae4f534a25855578e8b30e30ac4c524053e05b0",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0159.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0171.png",
+      "sha256": "51c9182807caa03c37f6adb0e6cacf479d60272c4cd7f89450da96f2a565f4fb",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0171.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0026.png",
+      "sha256": "013d76c4955e49674a49e63ea1443bb9735e3c6ef149ed6607a180bd51f077a2",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0026.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0197.png",
+      "sha256": "623bf5957853dc7d5aaf52204c3437cdb7a56657073fadd434134c73a4d85c44",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0197.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0126.png",
+      "sha256": "0f7a4c51af46b681cc8fbbcd994315f30362f6cfd09801d6b067d10ef4c2ca69",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0126.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0166.png",
+      "sha256": "dd0d611f355f471ca2205d95e470a5776637681db46c53e1a1814266c0d1e873",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0166.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0157.png",
+      "sha256": "14ecc52a7304cfe5fdb491361172832f1c89e752c94c58f7b903e8b4768ff65e",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0157.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0182.png",
+      "sha256": "ca7ee0ad69104e699f68d58acba381507db205b3bed11aa7544bd25dbac536bd",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0182.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0022.png",
+      "sha256": "10f3a5b5edd9e6cce1dfcf9a41a7aa483eed3da543a8fcb3ce637a6a2e477960",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0022.png"
+    },
+    {
+      "relative_media_path": "optional/moving/0019.png",
+      "sha256": "2ae5973d48d8cb78828388615636e6dd3773dcc13544c46e212cccb0373ae872",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/moving/0019.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0134.png",
+      "sha256": "17006ce85700e71e5bd4dabaa84bd4b304c68094fe53374ee177a67a45893b23",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0134.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0020.png",
+      "sha256": "36be02a1b91649cdd47adfa87e2ad38bb1f522b62b99b64c86b1ae7c902e40e0",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0020.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0094.png",
+      "sha256": "eccafc7ec5067f1b552f95efe890d620d114c507f07c8c04ff11abbc7217a484",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0094.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0236.png",
+      "sha256": "314a01bb67de7b5d6ac62013519ace94fbf6009d31b9ff74c713c421a19933d1",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0236.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0205.png",
+      "sha256": "9f013bfb4e22e971a5bd44cb03a860b3849bdc7683719016c739107c8556c84f",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0205.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0149.png",
+      "sha256": "cbfc12b788696487ab44d8337700c9bae4d68c704e0970fb8c5cc39f56402acd",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0149.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0190.png",
+      "sha256": "bfce714be4a056eff72ef60010bde42b632af6d91bd68b3591fb2037d26bc9c7",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0190.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0146.png",
+      "sha256": "61b680cfc8202d34c784c5c7014905a0dc14bbc64332242062092fe60485a4b6",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0146.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0088.png",
+      "sha256": "aff79097827d7596d1200f5dbbdbe41f2cebe07ccb3e9a25c5b5ab73c1c983c7",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0088.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0191.png",
+      "sha256": "631fbb39f238996e4e54f39048b95079729cbc415fe1aed6b868147d79e14f71",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0191.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0095.png",
+      "sha256": "23a4f22f2485e1d99dd31370d304fb3553343c399f21fb3b6c2be930f28678d8",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0095.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0210.png",
+      "sha256": "186341aaea661c605bcf38860107b664d4c44758c2084162fa745dc3f1b93ac5",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0210.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0155.png",
+      "sha256": "abd95a3764682dcbc2956880f23b1c6447cb192173f095ec3cbef0988005f92a",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0155.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0100.png",
+      "sha256": "2691218f5926f900cf5c6a8f5b843b211d2502805ddeace9c5e8968c80faf26f",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0100.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0008.png",
+      "sha256": "d7820f659874381ce7c5afd689ba234930bb6306108e9d0db21f8bbfa1f89ee6",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0008.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0175.png",
+      "sha256": "2d03d103b8aa818fbfab1107dbee8b00e7596cdf1389b5a0722af0f1a1ffcf9d",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0175.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0150.png",
+      "sha256": "a6524c245ef3c332b4581e4fd8e73c12cb70986dcc2c69bfe822c67a6bbe6582",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0150.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0005.png",
+      "sha256": "0e87ecb5443857eeb4691190d442783ed0ff1ac32a61ffa5eccc1e21e5a0fac7",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0005.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0156.png",
+      "sha256": "00195156a71b5a59f5d61d746b6293dc5ddb1c070316f029e8ead46549d1772c",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0156.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0056.png",
+      "sha256": "68c60b1cc233b0a03c0a7e6e091a1367875afc77849df6958f047e0e8e847f49",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0056.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0172.png",
+      "sha256": "a952fc2bd543551b7d8f39b9c5586672a284c75681ec0e1d4fb4996555878e89",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0172.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0231.png",
+      "sha256": "3058fa68667607b0eae3f8809d371e161df06c43bbfdeb274e53ae0db4591767",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0231.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0047.png",
+      "sha256": "5906280c6aface6f83cd82172841f016e899c15ce04b2b619a2a6c353e302246",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0047.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0167.png",
+      "sha256": "7dd44e924c8458c201a5b1972c57f8c8060549cf4b5c388279ce7c3d7bf78767",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0167.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0076.png",
+      "sha256": "6789c6a9ad06009bc3d4a3b3f100cdaf937ae89dde6983405468857ef9a95134",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0076.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0028.png",
+      "sha256": "eab6cea2d64e5fbc3bfd898534a27f70efa81bf982de90b299c2c0c6e1c65057",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0028.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0006.png",
+      "sha256": "551aca3f050e1aa247c9ff8e394bfef7a82b06fcc402292d8036d70fb261bb5f",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0006.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0230.png",
+      "sha256": "df1e9280d4f3c4a6a907b6a4e958f3d91935f1c2520dd4e31d307331c250b2fa",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0230.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0133.png",
+      "sha256": "697943d9edb8d1d99b3fdc1cafda0acf0e069b352b0fb41b730271b8aa67f7b0",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0133.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0000.png",
+      "sha256": "932bf70e2561bd47e7f4be775fa98cac798d2ade2284bc59d085822171ca32b7",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0000.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0013.png",
+      "sha256": "dc3628bbf5fb8a4d83d14764045dd91f6caba0c5f8d19e463e36dacb0c35de09",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0013.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0071.png",
+      "sha256": "34cfa2433b64e88a851024605e5c2019564ca0b13db429998c78f5d3ac4aeb51",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0071.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0211.png",
+      "sha256": "faf8e2085cf78ce5700ae52c3cb89844b0f2d56c8cafe7e1558c51786ea55c4a",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0211.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0110.png",
+      "sha256": "fcd0ae836c93f666f9653f4fc90b0b6e820e66d4758feed88b0035215179d9ab",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0110.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0224.png",
+      "sha256": "da4a369ea5f8908dfbe6e6b7b3a339ab1b6872f0d885b601c84f3b9bd3dea385",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0224.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0234.png",
+      "sha256": "14bed64b2fbd9a2ea4650686426f7b108bbe8a1e40d61942a8f321f53913f015",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0234.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0235.png",
+      "sha256": "6d1cc804790407d7c41809ddc6fd0da7e738e17e57342373acad2aa8b351fb25",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0235.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0025.png",
+      "sha256": "d1d14f2afa2342ffea9b9a003f820a9037f813e1f4b69264697bd784d54cf265",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0025.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0200.png",
+      "sha256": "c3a94c9c1bafefb010596a36b39d6119903bbe48a9500e1ffcabed346434843d",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0200.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0223.png",
+      "sha256": "e713381bd066faa94ff3245e114a9de618798b57725e7a8e2ea8d54ed92b7c55",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0223.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0142.png",
+      "sha256": "8d5e5ad27ee45153752f0d730950770ae5f628f778f15415a9e8cfff7033fffd",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0142.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0080.png",
+      "sha256": "e19e72d04339483f4116d53915d9e032c38e388e8ef83cdc7c352ed36c7e58b6",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0080.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0177.png",
+      "sha256": "a456066798e31a4f9e482632141e4e1b83556c8e4f65a01dbb5a16dc28591ed1",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0177.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0003.png",
+      "sha256": "ec039bb8ac401b16808c15b53f2882cc190a51f27aabcc30946af24d8e97404b",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0003.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0215.png",
+      "sha256": "59f3c69fff2d0dc9205be50c67177869972d4b247172b1537e7d71410aac5254",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0215.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0169.png",
+      "sha256": "bd45cef29319708e802de68e131a67a0ab8756f2ea41ed2c08b0c652025e17c2",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0169.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0131.png",
+      "sha256": "1008c94d22afcb7997c3aff662357652ab43ae664836f7c5ae39bb54e8dfde5c",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0131.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0105.png",
+      "sha256": "353a2398d9c8b8f1faf6d3223b36ec0f0f7a8a91e327d00a2b8e2ebf6a72ae32",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0105.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0207.png",
+      "sha256": "c1c5b0a0720c4ba8b162f377ec66fa65a514b1ac7d548d5b56b42bc7b4d88a50",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0207.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0053.png",
+      "sha256": "7144b668f4c13f6aee97d486194c509763c532cd31fde16f76115de80e590a90",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0053.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0018.png",
+      "sha256": "06870629330f868f75aa6a5a56c0cd0b669af96c5b101dc66f8fbee9c5aed284",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0018.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0087.png",
+      "sha256": "a802095d19dec6648a264213d5b4fbff1b689881b19a3201d3de5579b236ad7e",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0087.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0070.png",
+      "sha256": "6b46a3217885044cc05f4655e93a705472e79549aaa7085d331555209256f239",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0070.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0222.png",
+      "sha256": "47122bed68927ae4a7d151f84ff4c2c834366ccfc5925dc08c7bf5f6927177b5",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0222.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0016.png",
+      "sha256": "8cc429b9944ef0f11e34061f58bc4c1e2490b456f5fc9131d3f205268c20b901",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0016.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0176.png",
+      "sha256": "55816d1167e18fef3a94c33181544a96da3cb2add0635c6711228234d5aa03bb",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0176.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0225.png",
+      "sha256": "3af7e5201c7e8eee5dacf12d8b394f1cf6fa83867c3db2dd072ab817c8ab6328",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0225.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0044.png",
+      "sha256": "5e28b73bbcf3e5b9374fb2f03f6b31e5fb68a2e48c5112f319d65bae1f392e6e",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0044.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0054.png",
+      "sha256": "801f0f3be7d2fd213fc61357188147860e116e18a15297dd358f048fb67096cc",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0054.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0214.png",
+      "sha256": "9b8e8af22111c3f453de4105a3d3a4975b92fe3bdfd80a629a24b46e0484df5d",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0214.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0069.png",
+      "sha256": "d24924325025874aeec3f944db974fdf3e78a9eb53cda269ab2e17e223ff6f06",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0069.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0206.png",
+      "sha256": "f232b758390c3e57144ac5196f688de67eb0fb6a1666a7bb975ca81aeadd72a9",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0206.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0098.png",
+      "sha256": "24ec62dde8c700df0e813beb1322cf80069787e4300f15fc28810c137789cbe4",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0098.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0073.png",
+      "sha256": "213bb9ab243b03b5cc74d17f9e396010c269e15108e962f2d7f72dc8c5e69145",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0073.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0119.png",
+      "sha256": "05b02b698528f27a8201f7f7441ae5b66308f346b7aa518de3cefac40927596a",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0119.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0112.png",
+      "sha256": "7583c38413abb53851b36128a79878fea6f03a5c23cf872bbfad611486cbdeed",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0112.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0089.png",
+      "sha256": "d74c16bb4d9ddc3503ebe7611fe16a913293f07b579fe7a62157c8b05ff2dfa0",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0089.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0004.png",
+      "sha256": "cf3d7f70a0919fb168d5c01f975ea9c32626f3a24bf12d86e40b0a69d05ba501",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0004.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0077.png",
+      "sha256": "01bfbb98824ec8935ab08d169b25345e85d481640a447ee9f16ce289c9273dbb",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0077.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0208.png",
+      "sha256": "9794b7edcedecb7dd14d35527fb9804bba474058401084c0b6547ca4d60b44eb",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0208.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0217.png",
+      "sha256": "9f918b59cd83dde58244708fc194facc074055666f387c62d6cc5c9c2d7ba37b",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0217.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0123.png",
+      "sha256": "dcac9b3041e7a802c847cd4de31040b2eae08b96e98ab4dbf91d3dc8efe1aa4d",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0123.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0153.png",
+      "sha256": "17e949da55edba29dc24bac72f4cb955802ebc1a1b1f4cb7e61893e7563107bd",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0153.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0180.png",
+      "sha256": "1226f0efc674cb7242cb2e2db6eaba0ae75acb67cb4ebb71bc055e2332f97dad",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0180.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0139.png",
+      "sha256": "5521be7cd26f4c33e087862b1c45c94c54d59fb6c539fda96b83249b34393c27",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0139.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0023.png",
+      "sha256": "8c4026249a4ae50ad233fb6730c0ef8d93bf7f8c6785fbddf1332ab3ebacac58",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0023.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0194.png",
+      "sha256": "073ad628b5ca8ecafc6137e57022c0ef8ef6138c8680b14faa51af507f082d14",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0194.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0203.png",
+      "sha256": "e66a1c876429551b7233ca789943691429beb1b6e26a8e51f001365f4645da79",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0203.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0059.png",
+      "sha256": "b9a63d06cfa7eacfe5e2e805965f26d75d25eb82e4cddbbea3676255cff9df9b",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0059.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0067.png",
+      "sha256": "89675d96206f025d7eb86e2ad82eeb912f1cf93b5c426fdf7d3eac117a2bbff5",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0067.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0128.png",
+      "sha256": "154567ff3499dd86e7a79b1548ea02b968a931b38020a30d404faaddd61b8c17",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0128.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0085.png",
+      "sha256": "291676fc15f78c033faaae209fb57ce1a84a5c6244a66caa649a8549ae6a89d9",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0085.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0027.png",
+      "sha256": "c591d254f577e99a0056e716317d11d0d8951d6e3a6c16ac44157e6f84e19bbd",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0027.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0163.png",
+      "sha256": "1a24a5704b7ff1a4122b7749afeb1d18770111874b5dbf7a3cc8d278bdbbfdd5",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0163.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0072.png",
+      "sha256": "2d7816ba581df097b9fc22f0cb81f7bbd1b70f6bf27f5244005703c6798ef8c5",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0072.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0017.png",
+      "sha256": "5039fa235cbbf73fc3243af6094fd922ea5cc70068820b859b950233827b109b",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0017.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0145.png",
+      "sha256": "800f41501d6b05136f301e4ea11b50f79faaa22e2d23f57618c88ab21de6ede4",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0145.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0213.png",
+      "sha256": "5dd82a391a97cb1f9fdfbff619d40a764d939c1d362e7a1862580799fe4f7d04",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0213.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0170.png",
+      "sha256": "443f05223d3fcd71f3004dc216eea57ddcdf87e1df7ab6d43ea1bd3c22f1b0e8",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0170.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0209.png",
+      "sha256": "50c013899446852fffa2e86e44ba658be007017a089aaab6654553e7e486d260",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0209.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0039.png",
+      "sha256": "14348464115af4f07fcae08a191cc49bf358fc3167d89d40929d68017638849b",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0039.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0092.png",
+      "sha256": "89c1ff68753df4c578ef10dc7aaf95669d3534e0fadb3fb5077c7d6f51b8ca49",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0092.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0062.png",
+      "sha256": "c5da8fd8d72da37ca4494270fbb7fc063a1ccc562ba137f0bc8c0156ca112564",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0062.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0064.png",
+      "sha256": "f05a3d777f53d561de7438462d6cc97e1b677bd4b82a1d4381de6b2c0e81db7b",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0064.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0229.png",
+      "sha256": "120f95b2a449abf68462c72916472e9266f25c23ccc1c5a915025f7006144adf",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0229.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0232.png",
+      "sha256": "393a2c6404d0ded763f868bba7ded415d74115a9717a1bc69f61ebd842f56401",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0232.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0037.png",
+      "sha256": "bae4f1e68a1e33b76c6ce093b80b06bfe5a92d692e350f1a7bd5a0087645dd09",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0037.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0111.png",
+      "sha256": "5dce2a7fab36484ea817a07e0c7185e5de19190c1fa65e8ffc324918687f65bb",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0111.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0158.png",
+      "sha256": "bac4771ee6553657b37efbcd877d60277793fb91cff9c8c0c9f24bfabdc27f03",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0158.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0030.png",
+      "sha256": "e9d1cd2487bea3fb3f463aa21c8c209a850c252246afbab1f2694a4b29e29519",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0030.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0161.png",
+      "sha256": "9c41fb2fd3cf388a81ac5b7efa650368c276e0195dee8c844b373fd605f6e22b",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0161.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0031.png",
+      "sha256": "982ab85210e4651fd234b0f4c7f479012e58d79bd0a7c82513bea279a0dc4693",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0031.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0216.png",
+      "sha256": "3b7e67807ba4c066a05a095efd734d2b6a0e453b1a03bdbfe6abbdf18cba7431",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0216.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0035.png",
+      "sha256": "42131f50a235982b7e819ec2ad9bda4201535ea851f1dbb77a66e7db17c746ab",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0035.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0050.png",
+      "sha256": "d644087babea4a167aafb4806654de9dd0539ad8618a1d2c76f098e99f7d6100",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0050.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0036.png",
+      "sha256": "c4f14cfdfd3847f32dc2bc1d22ad1594ed8efbed65efa215c4e0514bd9c01331",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0036.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0058.png",
+      "sha256": "f965693d3fe06cde846f66cfa7ac226b964ddc3c273b5a6c4ba4e3acd049f86f",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0058.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0196.png",
+      "sha256": "be2314ae97a378c83458468c880907db9249399a1ae74213b1c370f4b31664a3",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0196.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0204.png",
+      "sha256": "cf9f806afbf94515305a83772b4f4606e42bf31311b25ac395b94f2e548c3418",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0204.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0104.png",
+      "sha256": "54abc74ef703803ad0df61c98820c1f1e0310672a44e2cc8290f7e6b6e44cfed",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0104.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0218.png",
+      "sha256": "fcb8ed5cfbb0a2f2cacf7f8716b8f64d79fc5a5c060690fc757b8fb97e3a2318",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0218.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0152.png",
+      "sha256": "b7e19b1763a1cb80d1126fb8006f31b1bad7536b1eb9bc18ffadbc96e9c7f77f",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0152.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0065.png",
+      "sha256": "4bde30db1bc126ceb95579693743fe40e6c3a2af84d4ddad8a06bb82787f74cd",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0065.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0233.png",
+      "sha256": "e5fa46de4fffee3e20eefe2227d8f2183cd2baa55743fa76fe3a37eb8fa20068",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0233.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0143.png",
+      "sha256": "e3184227a76aa4aea917ad27c379d7858ca600101ba27ca1d61cfaea0500f197",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0143.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0178.png",
+      "sha256": "6a5a8fa9bbc95dd55da5cf91edf976b88c4d643e33ecdf9e2b9fe39be58f532e",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0178.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0181.png",
+      "sha256": "377dadd8b81faf0c01ba9683df37c02fe34a1d47d50c0bac864b9fd7aa537bbd",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0181.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0228.png",
+      "sha256": "170fab8298139504e14261d2ba51fa0fc17e1d80388807c47e36538e3d35a205",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0228.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0096.png",
+      "sha256": "8f59b6a7851bff6639e35a3a495a1712917c4fac9d502b96af22a9d03ebbd96c",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0096.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0125.png",
+      "sha256": "117c3ebf2f3d3799f4b417b6f20ac15c832b71b1df6ed988dcc68e89535a4787",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0125.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0093.png",
+      "sha256": "a3f030337eb731be9b3f92237658b94a818a493802753fd711f3c76ba73f3617",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0093.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0189.png",
+      "sha256": "5b9796464b0b8154eacaafd175be9eac547fd2436cb5dcae50cb958a2ce21df6",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0189.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0099.png",
+      "sha256": "97292c17e03cbc3e7b7e418502e4c081e178491c49670cd4ef6dc1a20d3e27e6",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0099.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0015.png",
+      "sha256": "cdf5f8f4eca45a913ca786dd31853b5d33158a769792f80ede3c8516482b6869",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0015.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0174.png",
+      "sha256": "7e46ef2d13b6609d6c1b90558145dc29b444073917bfd441a2b30ed02114c087",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0174.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0045.png",
+      "sha256": "19322a3ddca9e852cd60e5cdaffb428052f0244dda8570a507ce8c3b8e14e835",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0045.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0135.png",
+      "sha256": "a2393d406a0aa45e197d9030fc1d42a14f27b2b9bdb027c6a610c7921b94a6d4",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0135.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0201.png",
+      "sha256": "2823f577520eae24b66a71c4d07bd257ff16e1121c062c8908dd57bd132774d8",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0201.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0160.png",
+      "sha256": "2f8995f3086654b6e567ee59fe6354ab1cd0eadef2f51c411557f2965f2a4675",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0160.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0132.png",
+      "sha256": "b51a4666f47bfbdfdc84bc1fab154c1e64a70f14ab272269e8ad8ab8f5aa05f9",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0132.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0220.png",
+      "sha256": "50355adcf0c4c0e841a826c629d7fd82e170b4b85ec3a0c202286e390811dc8c",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0220.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0007.png",
+      "sha256": "29eef6665a86f25f037adde6117521d4a88cfa3b3aea9fb7f834e224d2f9db75",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0007.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0074.png",
+      "sha256": "1997d4a15320698ff666fcbfe3e9a62a8e1b7b4591c2d6378813bb788b3d5c5a",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0074.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0141.png",
+      "sha256": "50eb53bccc538ae4abfa51e421c441d367a818a4da52f00adce362eea5a4938c",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0141.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0137.png",
+      "sha256": "eb014bf33255d6b785cfbd459cf0b9f647427b45c883a65e2d2e727c40a09f94",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0137.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0115.png",
+      "sha256": "1126e95937d55e0157f066befa64be81a9f9a1d46d7ac2029a332ce66aba91ae",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0115.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0066.png",
+      "sha256": "9e2e98439f415b46af637a3ed1415d5ef83f64e1145a1a857bdbf1547e73d174",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0066.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0192.png",
+      "sha256": "beac34dfd94c63e47603f00887f92e98cf97ae1fb90941c06221a5460d708bf1",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0192.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0075.png",
+      "sha256": "78caf206685aec2ae39f76183072ca1de5438addf35d46b0ed033747b072b27b",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0075.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0061.png",
+      "sha256": "fb5ccdc2ce1c8be21f4b6a90a7af881be92d5af0c89e80a6c6bbee0545e1202b",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0061.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0009.png",
+      "sha256": "76a8b6fffd7ba50c52fb9681c37c83e24a7fc66ea640e5b1a349fea691ce0ebb",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0009.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0084.png",
+      "sha256": "e76c5987cf6b6dee87a6fcf66185b1e59c7a21047aee2688817df276f94b9401",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0084.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0164.png",
+      "sha256": "9bc255c1e8945639a32c82efee180f2a80a1543e009825bb55362dc99e3c5502",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0164.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0114.png",
+      "sha256": "79efea9bd2cf3e85a9990e5cf217915b6fcd2f9067739e538c1e3684143a13cd",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0114.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0144.png",
+      "sha256": "6c6271e65f01b012c796684c71e737e6d2e34ba764236ea276f4b2d499dc03eb",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0144.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0082.png",
+      "sha256": "5cff55206147e0eefdea1a6ae1b44c2db21061c248129a364be20bed26e7f841",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0082.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0226.png",
+      "sha256": "e568bdcb8536131c2324513128e354901dff4adfdd6955737bf7629c708373e6",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0226.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0198.png",
+      "sha256": "7829eebc91c0780b2fd57d13e7fa66e3042b93191d723958f351824852637002",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0198.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0147.png",
+      "sha256": "681419276d610d821cd60929f0f74056c696bc9d6b12281eafe3babcf9e62db5",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0147.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0165.png",
+      "sha256": "c805be0bb3e6c3773d90a2729e85f2c22353fe923e686751640734283f5ee91e",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0165.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0151.png",
+      "sha256": "69000c1f794c32ad6f724d548ce2ae25c9916606883e7534ae2e72d1877f97a9",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0151.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0117.png",
+      "sha256": "0b736f9e78b58d6075fbc1d40e43d2d22ec845208969a6f7208ef1a93b32d795",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0117.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0048.png",
+      "sha256": "b81b977daddbc812b930d05566cbbe0efeed1e5541afd51ebf4a92f07fb326eb",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0048.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0127.png",
+      "sha256": "5f8d11a7ad21f0b8df7a3a6f9491af4773631760bdb2ff660127bb06b63e6cf2",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0127.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0140.png",
+      "sha256": "b5b2d3e0fe6cb85915cf0a0e73cb0423a836daea69e5f9bf044dcd6e855d9334",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0140.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0097.png",
+      "sha256": "5a2a92135f88f2d1333120063b463b22acdbc607899017f3e30004062d5d0df4",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0097.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0148.png",
+      "sha256": "3df403df5aa75db583a5b0062b66c3d655ba51f2dfeb95039ce61d3cc3855944",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0148.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0227.png",
+      "sha256": "45df7e2dabbafe5ea9f6e6c7afe33cbc9ad0c1a960256b340ca5f590bdd242ed",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0227.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0034.png",
+      "sha256": "399326f024b21502dd202dc17b289aae0652e498a2405da9fb8123506979d542",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0034.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0010.png",
+      "sha256": "b8279c50e8f592d057e218805c7d2c480921def746fa68445e43223cd231b227",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0010.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0193.png",
+      "sha256": "0d42d3c84f39acc3fba6fe1c04df86739208438d96533e8e5946062a66e63a0f",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0193.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0107.png",
+      "sha256": "3f5d3d937ce9cefe3bc58a0b205f8cfef03dd15c06267ae70f170a34b1e1f8a7",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0107.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0042.png",
+      "sha256": "bcf7a5019ac2d1d06a3a73c7321a9a1b598f7ea70a5b15d3d4f74d6eb6913287",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0042.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0106.png",
+      "sha256": "aaf0497b44530977b506fdaedf42883db2f89a92b95d26eedbe9a20e74801978",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0106.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0086.png",
+      "sha256": "17235135cffadfcbae92ac09272d2e9dc00252baf4dd7f522ed63ba69eb98faa",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0086.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0199.png",
+      "sha256": "22550fde7591573a3f7f1752156d782632e29374dcef87b148bffb451a23e4e2",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0199.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0130.png",
+      "sha256": "4756d83cb312a54694b02e6a269bcaee9e470e2677c1bbe92afa33ecee24d697",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0130.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0068.png",
+      "sha256": "bb79b4c659731f55ab746f8de0bd0cda59629a777c9ac09b93b2da48aa8d11df",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0068.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0060.png",
+      "sha256": "42596687706a821f62e91651a110a44cc00098dc7d76168f8bc75d36957ea804",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0060.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0188.png",
+      "sha256": "c7280cc57f6b5d933b4334273a83fa301fc774c1ae2c87285cb288ae1055850b",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0188.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0103.png",
+      "sha256": "5b55a370f29d11575e5031b50148359e221c17e248ad84fd723db6883ee807af",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0103.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0120.png",
+      "sha256": "f44dc60a1a739a09772d5c2c526ab8c62ac78c6f7f30920795898383bb2a70b1",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0120.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0184.png",
+      "sha256": "b2ffca1585a8f33e8a02f9663cd57d50528e3b6a2839ca7423f26e0bbf535c9b",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0184.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0055.png",
+      "sha256": "af689e0677209803bba6e09e0b0d24e468652e333a2afe60b6ce93b675ec2ed6",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0055.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0179.png",
+      "sha256": "d3dec43f950bd4e5c86c9c9149519bd4a14a220431e3363b2edab505bab4d6c8",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0179.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0033.png",
+      "sha256": "e11f2a1a8f227cee7bb37edc6af7e6701a7b4b8c4c2fdec8ed1d3870762b5840",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0033.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0029.png",
+      "sha256": "851ed32107b08fc890b0bd2272ea3722c03e03c2c79f15316392ae7f42ac0c09",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0029.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0118.png",
+      "sha256": "beab4014aff8c3616bde4d7b169f00581534ec841c8422e3b7d471d4a0ee0aae",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0118.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0109.png",
+      "sha256": "76ff3ad4f58ae5f36a1454803708516a3a9593236e9ce7a030ab4595d1f0a5b3",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0109.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0079.png",
+      "sha256": "b87a40f2622d2afc49196d4cfcf0328214021407486c48f947fd546e0720107c",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0079.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0090.png",
+      "sha256": "679e6392b1740aa339abc267f2afcbc30cd9a088a762e7c3b68b0262f83a173b",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0090.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0081.png",
+      "sha256": "f13ccbd624d1d346e47e7a37af8164795ed83a45739112bce95139e700e8327a",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0081.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0051.png",
+      "sha256": "5d567ee3ff6a8a2ad3aef2e56d46994d4c2f4fa0204d73abd28b812954814eda",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0051.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0014.png",
+      "sha256": "2a3b37764631e4a2bb0257e736b9b836d5e0b49dd6dce962cdcbcb26eae94f75",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0014.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0154.png",
+      "sha256": "c8bb1e966b4743c3c255dce65691e0106c37b6013e8d41bb5fa7d494aa010752",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0154.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0012.png",
+      "sha256": "167dd7845cedc856943dedf1ee5cc292b88efec2878dde2e5559ab43dc025872",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0012.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0049.png",
+      "sha256": "7a6113e1b070d70d4c16c459b97de6be7a1c131450350f78344fcbf1f3b314c7",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0049.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0046.png",
+      "sha256": "5a5cd46f371c9f82bf615cca62a76e72eb3fada163acf42397d60ab01b33d746",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0046.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0187.png",
+      "sha256": "90c52f498fca483f87362e9a85bf4c68a764ca1a019de3383e175b331f779bca",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0187.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0202.png",
+      "sha256": "ca2e61506a1971f323672a18312e4acf53844b3fd3c7587473bfc31b547dcae2",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0202.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0162.png",
+      "sha256": "442cae06bd9c3f3d3c9200be471e7a43f73576da0d53f1d9cb8ed23c50004dde",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0162.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0138.png",
+      "sha256": "630d50d9a6032b0ae807443d0ab84566437b2a65f11b583a6d9a7aea46cc34d4",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0138.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0002.png",
+      "sha256": "5d60d96b8cf20ea413ae18aca9ba9e836c3440438d9f2ac009f2748c568fbd01",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0002.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0091.png",
+      "sha256": "78f1b7fb091084a3ddcfe1f9a74017ac9db0eb9e5da3ac7fa7fef4dfa38bf22e",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0091.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0083.png",
+      "sha256": "a4b56ad91ca831bdb96e703fa49ea34242e57437c87bddebd9085ed7abfeb636",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0083.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0116.png",
+      "sha256": "1aafa72cb84ac161658c03b615702d7e37d7a5e3e61af1dc3160d736fe5df9c1",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0116.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0173.png",
+      "sha256": "641aff08bab686fe6e2cb95703f2e69c39908edb992ecca7ec5971fdbef6b8b8",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0173.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0239.png",
+      "sha256": "a428644f610cc1ece6fd9a434928cbc572384de3e2bd93bf3baa1b8016acedd8",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0239.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0101.png",
+      "sha256": "f73573ac8bdc1cf23f06e8f7efed0575e542dfb9923dc5e4d07c3086cbdeacb2",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0101.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0102.png",
+      "sha256": "4d8654648ca5241eefb3515535c08edd7735c0a9375874c14873418799abfe73",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0102.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0011.png",
+      "sha256": "dc00ff0c44d3b241a66f1b8f4cc3d816063281f88e18d4aac0fda2b865a2dbf2",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0011.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0024.png",
+      "sha256": "c4f4cf77e391cecf7ad161234747468aec3d2b84f0745136e0f07c4f4e374fc7",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0024.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0001.png",
+      "sha256": "a1f7482322d678a49c139d365487cb60ee37d9ab6e8502f2718c606efd300e35",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0001.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0183.png",
+      "sha256": "1b3e303751ece108fd8a4b27957b237c0fb8706ecc58c13de4c5a726b5ed0a9d",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0183.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0238.png",
+      "sha256": "5759b2888084917bf7f6388e416f677acf01be27eb3e729e30d1eb57f24b34e0",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0238.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0032.png",
+      "sha256": "81af5d8ea7e32a23d042157016c2779cc305f128dcf56593a628e3e551bf50dd",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0032.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0186.png",
+      "sha256": "db12e5656663cd8017fdfc007b09767f345eef7b210fc3260411732bd8e3f141",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0186.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0040.png",
+      "sha256": "6180f0d44bf1c7fd8fa69fa97f0f58fbac2d13ad8838783b9eb9c44fdce02fac",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0040.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0168.png",
+      "sha256": "f2e3342398871209f152b81af3e599b1142c46a3f9f58a99bfc30c693246e273",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0168.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0041.png",
+      "sha256": "9c0c50cf5d840cf911aec08ac15d3ab2f7e9dffa8e272f9d08b5d1f1c8deb284",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0041.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0212.png",
+      "sha256": "b1280a74ad3cebe4969b9673d519dd87dcd2bf25dbbe5f1027edef090854b731",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0212.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0221.png",
+      "sha256": "8440da4fed99305802eace92e662fef5c32703c40b99195441aafbd88aeecf90",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0221.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0043.png",
+      "sha256": "a20952c058ff4ff9a84c74b7c14c3d0d3f6e20091e62dc41c560b06a9f2c55e0",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0043.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0038.png",
+      "sha256": "1a5216ea8cf72294b01352d4bb8357c8f4310919414517c5bd51e47314cd4725",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0038.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0124.png",
+      "sha256": "49b84324d54ccf9205d6abf581ad0a3ae87a47d8ccd414619b2d0810117a60e3",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0124.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0129.png",
+      "sha256": "2e13381d58917a7e8a01cbb9c9935745eaa18a322ba16c2e5214b6993ee24364",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0129.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0021.png",
+      "sha256": "b3a6c08dae5a95f834282d012c8a006ef42998969018e568eafa4f2b143b0943",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0021.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0113.png",
+      "sha256": "a852f25b5ba2f84ba62ff9c944e70a02e2fcffe4668b8e143331a2aaf42d5275",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0113.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0219.png",
+      "sha256": "3a32ca480c170ca5f353bbc02e70db72ac5ab265d0946513089ea3910a0ca157",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0219.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0136.png",
+      "sha256": "545754fcc5c01f92c8580f3f06e1f367a53c07a2f207225563f11da406098f82",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0136.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0052.png",
+      "sha256": "d10305bd14e688be003f8d34c607d3acdee007c00c7e94dd07c328fdb1ee8208",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0052.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0185.png",
+      "sha256": "9520b4cf33c3e5dc8a2b59eddaa555f9f08376dbf99b888e1b236b6846abbae5",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0185.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0237.png",
+      "sha256": "739db9e526d1193380a049e2165753e2d8b0b03ed8c11d053185fef1dc3967c8",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0237.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0108.png",
+      "sha256": "df95d4e613f2f7a31267e213a4d79225a8432ef5a8b9d8f4d3ccb92208468c97",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0108.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0195.png",
+      "sha256": "16eb5940b25254350590b1b156e9d300c60e55e1bd997f004fcf81b10a6d81e8",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0195.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0121.png",
+      "sha256": "a2404831968dea23d2a34e080b7cc20bc3925a277ca1a64246a744167defb769",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0121.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0078.png",
+      "sha256": "4f6129574dc22ef2459c4f4c1e9625f31803846d03fecd77d322f411fc3fd950",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0078.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0057.png",
+      "sha256": "051ea4487b93567fc6e3b3ccbf3b5dbf8887a58fe5aaf1cde2de7c23be7bf1a9",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0057.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0122.png",
+      "sha256": "b5a7f4d187f51f96dc0ec41f0dc28d6375e30d2730c4f0ae8106fe5a096b986a",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0122.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0063.png",
+      "sha256": "cf22fe07b99cea346fa977eaac4f4c3b855a98ba4887ae395404cafddb853adc",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0063.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0159.png",
+      "sha256": "38815c32cdf554289f550a2e1392d8ba6833907c3ae2dc15728b8f6a0bb4dca2",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0159.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0171.png",
+      "sha256": "b5ac2733d2ee4122ca6839c150a5f77b22d75e5679c20d666cee029701e9f83f",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0171.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0026.png",
+      "sha256": "fbfb3111e79599b49c376845550e650e259cc5263692df74366defe1bfc2afbf",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0026.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0197.png",
+      "sha256": "1a1743d991de03fc589c3a1b487a811f653a0d0027101e929d91eb7a63b2c261",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0197.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0126.png",
+      "sha256": "9c07dcaa0132257265daaa32047eef7434a823ca8f8aefa37fe37585f0f8e144",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0126.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0166.png",
+      "sha256": "9e7ea71a3417b0f040d04d77de513a55baed5d659403d2976fb6dbaf54d9d862",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0166.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0157.png",
+      "sha256": "b3b90f2789ea442a9ce867e8a85b4182a4f9aa6bb9f13d181826f6099dd34cc6",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0157.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0182.png",
+      "sha256": "2a182dd4e07b5217e8be2a84c07d661dd7f731975b4622cde0e0a33c508332e4",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0182.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0022.png",
+      "sha256": "bece5d0939fd8bb5c674c7b66ffac492cb7f0078a3973cd6250951e52d69382c",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0022.png"
+    },
+    {
+      "relative_media_path": "optional/idle/0019.png",
+      "sha256": "b853b5ede282dac8483fedb82ce4e32957c6e114528c16c7b52a498e7831bd28",
+      "scratch_path": "work/listening-well-signature-experiment/raw-frame-intermediates/optional/idle/0019.png"
+    }
+  ]
+}

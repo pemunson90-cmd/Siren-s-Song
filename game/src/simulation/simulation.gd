@@ -219,6 +219,28 @@ func camera_context() -> Dictionary:
 		if not mission.objectives[prerequisite].captured:
 			return {"target":best,"ready":false,"text":target.get("requirement","Uplink needs both relay records. Photograph WEST and EAST first.")}
 	return {"target":best,"ready":true,"text":"READY · %s · %s %.0fs"%[target.name,"passive listen" if target.get("kind","")=="receiver" else "exposure",target.get("duration",4.0)]}
+# Well-specific optional comparison. Own motion and local reception only;
+# no Siren query, extra acoustic source or forced enemy intent.
+func _well_signature_observe() -> void:
+	if mission.get("well_revision",0)!=1 or not mission.objectives[0].captured:return
+	var emitter=units[0];var aperture:Vector2=mission.objectives[1].pos
+	if mission.well_reference.is_empty() and emitter.alive and emitter.vel.length()>50 and emitter.pos.distance_to(aperture)<240 and line_clear(emitter.pos,aperture):
+		mission.well_reference={"time":elapsed,"speed":emitter.vel.length(),"pos":emitter.pos}
+		message="Quietus engine reference recorded · compare locally at RETURN ARCHIVE"
+	if mission.well_reference.is_empty() or not mission.well_observation.is_empty():return
+	var origin:Vector2=mission.objectives[2].pos
+	for id in units.size():
+		var receiver=units[id];var radius=(240.0 if id==0 else 330.0)*(0.65 if mission.darkness else 1.0)
+		if receiver.alive and receiver.pos.distance_to(origin)<radius and line_clear(receiver.pos,origin):
+			mission.well_observation={"time":elapsed,"unit":id,"pos":origin}
+			mission.record="A returned pattern matches Quietus' moving engine cadence. Its source and intent remain unresolved."
+			message="Returned cadence matches Quietus reference · comparison recorded"
+			break
+func well_signature_evidence() -> Dictionary:
+	if mission.get("well_revision",0)!=1 or mission.well_observation.is_empty():return {}
+	var reference=mission.well_reference;var observation=mission.well_observation
+	return {"name":"QUIETUS / RETURNED CADENCE","optical":"well_signature","caption":"ENGINE REFERENCE: Quietus moving %.1f m/s at %.1fs near PROFILE APERTURE. LOCAL RETURN: received by %s at %.1fs near RETURN ARCHIVE. The returned cadence matches the recorded reference. Source and intent remain unresolved."%[reference.speed,reference.time,units[observation.unit].name.to_upper(),observation.time]}
+
 func _noise(p: Vector2,radius: float,label: String,duration: float=2.0) -> void:
 	noises.append({"pos":p,"radius":radius,"time":duration,"label":label})
 # Own known emissions only. Reception and enemy reaction remain sensor evidence.
@@ -277,6 +299,7 @@ func _tick(dt: float) -> void:
 			if capture_time+(0.0000001 if exchange else 0.0)>=o.get("duration",4.0):
 				if exchange:capture_time=o.duration
 				o.captured=true; u.hold=""; capture_unit=-1; _record_secured(o)
+	_well_signature_observe()
 	if not units[selected].alive:
 		selected=0; queue_mode=false; message="Drone lost · Quietus selected · SAMPLE remains available." if mission.get("blackwater_revision",0)==1 else "Drone lost · Quietus command restored. Submarine camera remains available."
 	if oxygen<=0: outcome="lost"; message="Life support exhausted. The archive is silent."
@@ -485,6 +508,19 @@ static func valid_snapshot(data: Dictionary) -> bool:
 			if not structure is Rect2: return false
 	for o in data.mission.objectives:
 		if not o is Dictionary or not o.has_all(["pos","name","captured"]) or not o.pos is Vector2: return false
+	if data.mission.has("well_revision"):
+		if data.mission.id!=4 or data.mission.well_revision!=1 or not data.mission.get("well_reference") is Dictionary or not data.mission.get("well_observation") is Dictionary:return false
+		var reference=data.mission.well_reference;var observation=data.mission.well_observation;var time=data.get("elapsed",0.0)
+		if not (time is float or time is int) or not is_finite(float(time)) or time<0:return false
+		if not reference.is_empty():
+			if not reference.has_all(["time","speed","pos"]) or not reference.pos is Vector2 or not reference.pos.is_finite():return false
+			for key in ["time","speed"]:
+				if not (reference[key] is float or reference[key] is int) or not is_finite(float(reference[key])):return false
+			if reference.time<0 or reference.time>time or reference.speed<=50:return false
+		if not observation.is_empty():
+			if reference.is_empty() or not observation.has_all(["time","unit","pos"]) or not observation.pos is Vector2 or not observation.pos.is_finite():return false
+			if not observation.unit is int or observation.unit<0 or observation.unit>2:return false
+			if not (observation.time is float or observation.time is int) or not is_finite(float(observation.time)) or observation.time<reference.time or observation.time>time:return false
 	if data.mission.has("blackwater_revision"):
 		if data.mission.id!=2 or not data.mission.blackwater_revision is int or data.mission.blackwater_revision!=1 or data.mission.objectives.size()!=2:return false
 		var time=data.get("elapsed",0.0)
@@ -537,6 +573,8 @@ func has_live_contact() -> bool:
 func _record_secured(record: Dictionary) -> void:
 	events.append({"type":"record","pos":record.pos})
 	message="Record secured. Return Quietus to extraction." if all_records() else "Record secured. Continue the survey."
+	if mission.get("well_revision",0)==1 and record==mission.objectives[0]:
+		message="Pattern record secured · optional moving Quietus comparison explained in recovered records"
 	if mission.get("blackwater_revision",0)==1:
 		message="Exchange matched · ancient ocean archive aboard · return Quietus home" if all_records() else ("REQUEST decoded · REPLY accepts SONAR replay within 240m; or approach quietly" if record.name=="REQUEST RELAY" else "REPLY decoded · ancient temperatures · REQUEST accepts SONAR replay within 240m")
 	if mission.id==5 and record.get("kind","")=="receiver":

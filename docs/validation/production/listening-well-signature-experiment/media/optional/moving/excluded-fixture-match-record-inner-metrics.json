@@ -1,0 +1,68 @@
+{
+	"capture_state": {
+		"capture_unit": -1,
+		"drawn_frame": 251,
+		"hud_visible": false,
+		"menu_visible": true,
+		"mission": 4,
+		"optical_visible": false,
+		"paused": true,
+		"phase": "layout_only",
+		"selected": 2
+	},
+	"chart_rect": [
+		105.707,
+		112.0,
+		732.793,
+		492.744
+	],
+	"controls": [
+		{
+			"action": "back",
+			"clipped": false,
+			"hit_rect": [
+				307.854,
+				499.0,
+				744.0,
+				87.0
+			],
+			"visual_rect": [
+				307.854,
+				499.0,
+				744.0,
+				87.0
+			]
+		}
+	],
+	"density_dpi": 420.0,
+	"density_source": "test_android_density_fixture",
+	"orders_page": "primary",
+	"safe_rect": [
+		0.0,
+		0.0,
+		2184.0,
+		1968.0
+	],
+	"schema": 1,
+	"screen": "evidence",
+	"scroll_rect": [
+		307.854,
+		46.0,
+		744.0,
+		441.0
+	],
+	"scroll_vertical": 0,
+	"settings_values": {
+		"effects": 0.8,
+		"music": 0.5,
+		"mute": false
+	},
+	"viewport": [
+		1280.0,
+		1153.0
+	],
+	"window": [
+		2184.0,
+		1968.0
+	]
+}

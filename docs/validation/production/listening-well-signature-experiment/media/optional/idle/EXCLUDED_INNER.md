@@ -1,0 +1,1 @@
+Inline inner captures were still from the already-loaded stale-cover fixture helper. Excluded to own raw-frame scratch. Use separately settled pages/solo-match-inner-* captures instead. No product resize judgment follows from excluded fixture output.
