@@ -27,6 +27,7 @@ adb shell getprop ro.build.fingerprint >"$output/fingerprint.txt"
 adb shell settings put system accelerometer_rotation 0
 # Natural portrait dimensions plus locked landscape produce the requested viewports.
 adb shell settings put system user_rotation 1
+adb shell settings put secure immersive_mode_confirmations confirmed
 launch() {
     adb shell am start -W -n "$component" | tee "$output/launch-$1.txt"
     ready=false
@@ -49,6 +50,30 @@ shot() {
     adb exec-out screencap -p >"$output/$1.png"
     adb shell dumpsys activity activities >"$output/activity-$1.txt"
 }
+tap_target() {
+    local action="$1" expected="$2" stage="$3" coords=""
+    local before_count after_count
+    adb exec-out screencap -p >"$output/target-$stage.png"
+    for ((attempt=0; attempt<20; attempt++)); do
+        adb logcat -d >"$output/target-$stage.txt"
+        if coords="$(python3 "$(dirname -- "$0")/android-target.py" "$output/target-$stage.txt" "$output/target-$stage.png" "$action")"; then break; fi
+        sleep 1
+    done
+    [[ -n "$coords" ]] || { echo "No current visible target for $action" >&2; return 1; }
+    before_count="$(grep -Ec "$expected" "$output/target-$stage.txt" || true)"
+    read -r tap_x tap_y <<<"$coords"
+    echo "Touch $stage at $tap_x,$tap_y"
+    adb shell input tap "$tap_x" "$tap_y"
+    for ((attempt=0; attempt<20; attempt++)); do
+        adb logcat -d >"$output/interaction-$stage.txt"
+        after_count="$(grep -Ec "$expected" "$output/interaction-$stage.txt" || true)"
+        if (( after_count > before_count )); then return 0; fi
+        if ! adb shell pidof "$package" >/dev/null; then break; fi
+        sleep 1
+    done
+    echo "Touch $stage did not emit expected marker: $expected" >&2
+    return 1
+}
 for profile in cover inner; do
     case "$profile" in
         cover) adb shell wm size 1080x2520; expected=2520x1080 ;;
@@ -66,24 +91,49 @@ actual = '%dx%d' % struct.unpack('>II', data[16:24])
 assert actual == sys.argv[2], f'Viewport mismatch: expected {sys.argv[2]}, got {actual}'
 print('Verified screenshot viewport', actual)
 PY
+    if [[ "$profile" == inner ]]; then
+        # The prior mission remains alive during the live cover-to-inner resize.
+        tap_target menu 'SS_SCREEN operations' "$profile-menu"
+    fi
+    tap_target mission0 'SS_MISSION_SELECT 0' "$profile-mission0"
+    tap_target begin 'SS_SCREEN mission paused=true' "$profile-begin"
+    tap_target droneA 'SS_ORDER select accepted=true selected=1' "$profile-drone"
+    tap_target sub 'SS_ORDER select accepted=true selected=0' "$profile-sub"
+    tap_target route 'SS_ORDER route accepted=true' "$profile-route"
+    tap_target pause 'SS_PAUSE paused=false' "$profile-unpause"
+    tap_target pause 'SS_PAUSE paused=true' "$profile-pause"
+    shot "$profile-gameplay"
     adb shell input keyevent KEYCODE_HOME
     sleep 2
     launch "$profile-resume"
     shot "$profile-resume"
     adb shell input keyevent KEYCODE_HOME
-    adb shell am kill "$package"
-    sleep 2
+    adb logcat -d >"$output/before-kill-$profile.txt"
+    restore_before="$(grep -Ec 'SS_RESTORE ok mission=0' "$output/before-kill-$profile.txt" || true)"
+    # am kill only terminates background processes; Android's onStop transition is asynchronous.
+    for ((attempt=0; attempt<30; attempt++)); do
+        adb shell am kill "$package"
+        if ! adb shell pidof "$package" >"$output/pid-after-kill-$profile.txt"; then break; fi
+        sleep 1
+    done
     if adb shell pidof "$package" >"$output/pid-after-kill-$profile.txt"; then
         echo "Background process survived am kill; lifecycle death not verified" >&2
         exit 1
     fi
     launch "$profile-restart"
     shot "$profile-restart"
+    adb logcat -d >"$output/restoration-$profile.txt"
+    restore_after="$(grep -Ec 'SS_RESTORE ok mission=0' "$output/restoration-$profile.txt" || true)"
+    (( restore_after > restore_before )) || {
+        echo 'Missing actual mission archive restoration marker' >&2; exit 1;
+    }
+    tap_target resume 'SS_SCREEN mission paused=true' "$profile-restored-mission"
+    shot "$profile-restored-gameplay"
 done
 adb logcat -d >"$output/logcat.txt"
-if grep -nE 'FATAL EXCEPTION|Fatal signal|SCRIPT ERROR:|Parse Error:' "$output/logcat.txt"; then
+if grep -nE 'FATAL EXCEPTION|Fatal signal|SCRIPT ERROR:|Parse Error:|[Ee] godot.*ERROR:' "$output/logcat.txt"; then
     echo 'Runtime errors detected; inspect logcat artifact' >&2
     exit 1
 fi
-echo 'Android install, viewports, background/resume and process restart smoke passed.'
-echo 'Game-state restoration, touch usability and Samsung fold behavior require further checks.'
+echo 'Android install, native taps/orders/pause, viewports and mission restore smoke passed.'
+echo 'Touch ergonomics, full mission-state fidelity and Samsung fold behavior require further checks.'

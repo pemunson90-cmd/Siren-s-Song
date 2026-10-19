@@ -61,7 +61,7 @@ jobs:
           target: google_apis
           profile: pixel_7
           disable-animations: true
-          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          emulator-options: -no-window -gpu swangle_indirect -noaudio -no-boot-anim -camera-back none
           script: scripts/toolchain/android-smoke.sh
       - name: Upload build and runtime evidence
         if: always()
