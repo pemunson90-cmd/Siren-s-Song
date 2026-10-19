@@ -23,7 +23,6 @@ class Host:
  func _show_campaign():pass
  func _save_archive():pass
  func _layout():pass
- func dispose():panel_box.free();free()
 var checks=0
 var failures=0
 func check(ok:bool,label:String):
@@ -43,5 +42,5 @@ func run():
  check(View.debrief(host),"successful Deep recovery remains handled by expedition presentation")
  check(host.rows.any(func(text):return "RECOVERED FITTING" in text and "CADENCE CORRELATOR" in text),"actual adapter result announces the new recovered fitting before launch choice")
  check(host.actions.any(func(action):return action.action=="next_expedition" and "Wake Crossing" in action.text),"continue action uses campaign-owned unlocked onward rather than arithmetic mission numbering")
- await process_frame;host.dispose()
+ await process_frame;host.panel_box.free();host.queue_free();await process_frame
  print("CAMPAIGN DEBRIEF VIEW CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)
