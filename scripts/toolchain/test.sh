@@ -85,6 +85,7 @@ acoustic_path_ui_tests|ACOUSTIC PATH UI
 knockdown_scenarios|KNOCKDOWN
 knockdown_ui_scenarios|KNOCKDOWN UI
 torpedo_aim_ui_tests|TORPEDO AIM
+foundry_departure_tests|FOUNDRY DEPARTURE
 thermal_lee_tests|THERMAL LEE
 thermal_transmission_tests|THERMAL TRANSMISSION
 thermal_ui_tests|THERMAL UI
