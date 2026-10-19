@@ -37,7 +37,9 @@ static func status(sim)->String:
  return "%s · %s"%[SLOTS[slot],{"quietus_correlator":"CADENCE CORRELATOR","drone_sampler":"FIELD SAMPLER"}.get(id,"FITTED EQUIPMENT")]
 
 static func correlation(sim)->Dictionary:
- return sim.equipment_feedback().get("correlation",{}) if sim.has_method("equipment_feedback") else {}
+ if not sim.has_method("equipment_feedback"):return {}
+ var feedback=sim.equipment_feedback()
+ return feedback.get("correlation",{}) if feedback.get("fitted",{}).get("quietus","")=="quietus_correlator" else {}
 static func correlation_detail(sim)->String:
  var result=correlation(sim)
  if result.is_empty():return ""

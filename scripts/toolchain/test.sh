@@ -109,6 +109,7 @@ campaign_instruments_tests|CAMPAIGN INSTRUMENT
 campaign_instruments_ui_tests|CAMPAIGN INSTRUMENT UI
 campaign_debrief_view_tests|CAMPAIGN DEBRIEF VIEW
 campaign_main_dispatch_tests|CAMPAIGN MAIN DISPATCH
+campaign_capture_progress_tests|CAMPAIGN CAPTURE PROGRESS
 planner_metrics_tests|PLANNER METRICS
 acoustic_path_tests|ACOUSTIC PATH
 acoustic_hearing_tests|ACOUSTIC HEARING

@@ -1,12 +1,13 @@
 extends SceneTree
 class PublicCorrelation:
  extends RefCounted
+ var fit_id="quietus_correlator"
  var selected=0
  var elapsed=10.5
  var mission={"id":9,"expedition_revision":2}
  var units=[{"name":"QUIETUS","pos":Vector2(100,100)}]
  var result={"status":"match","dwell":6.,"arrivals":[{"receiver":0,"origin":Vector2(200,400),"direction":Vector2.RIGHT,"time":10.,"uncertainty":.18,"cadence":[.8,1.6,.8],"classification":"match"},{"receiver":0,"origin":Vector2(200,400),"direction":Vector2.UP,"time":10.,"uncertainty":.65,"cadence":[.4,.4,1.2],"classification":"other"}],"qualification":"Cadence only; identity, range and passage safety remain unknown."}
- func equipment_feedback():return {"fitted":{"quietus":"quietus_correlator"},"correlation":result.duplicate(true)}
+ func equipment_feedback():return {"fitted":{"quietus":fit_id},"correlation":result.duplicate(true)}
  func signal_readings():return []
 class PublicSampler:
  extends RefCounted
@@ -68,6 +69,8 @@ func run():
   check(shown.size()==2 and shown[0].measurement=="M1" and shown[0].origin==Vector2(200,400) and shown[0].classification=="match","M1 fan is anchored to received historical origin, not current craft or source position")
   public.units[0].pos=Vector2(999,999)
   check(presentation.display_measurements(public,0)==shown and public.result==result_before,"moving the craft cannot move or mutate the classified historical sample")
+ public.fit_id=""
+ check(equipment.correlation_detail(public).is_empty() and presentation.display_measurements(public,0).is_empty(),"BARE launch never displays a correlator or its classified fans from disabled module state")
  var sampler=PublicSampler.new()
  check(equipment.has_method("sample_detail"),"equipped field sampling has explicit public audible-task presentation")
  if equipment.has_method("sample_detail"):

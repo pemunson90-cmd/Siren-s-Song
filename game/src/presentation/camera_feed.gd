@@ -5,6 +5,9 @@ var optics=preload("res://src/presentation/evidence_catalog.gd").IMAGES
 var foundry=preload("res://assets/structures/foundry.png")
 const ReceiverScene=preload("res://src/presentation/receiver_scene.gd")
 const PHOSPHOR=Color("8cdcd3")
+static func acquisition_progress(state)->float:
+	var clock=state.capture_feedback()
+	return clampf(clock.elapsed/clock.duration,0,1) if clock.duration>0 else 0.
 func _ready() -> void:
 	clip_contents=true; mouse_filter=Control.MOUSE_FILTER_STOP
 func _process(_dt: float) -> void: queue_redraw()
@@ -12,8 +15,7 @@ func _draw() -> void:
 	if sim==null or sim.capture_unit<0: return
 	var objective=sim.mission.objectives[sim.capture_target]
 	var well_site=sim.mission.get("well_revision",0)==1 and (not objective.has("optical") or objective.optical=="well_pattern")
-	var duration=objective.get("duration",4.0)
-	var progress=clampf(sim.capture_time/duration,0,1)
+	var progress=acquisition_progress(sim)
 	draw_rect(Rect2(Vector2.ZERO,size),Color("07151d")); draw_rect(Rect2(Vector2.ZERO,size),Color("6b9d9f"),false,1)
 	var picture=Rect2(8,36,size.x-16,size.y-78)
 	draw_rect(picture,Color("102a32"))
