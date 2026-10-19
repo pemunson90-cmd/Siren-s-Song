@@ -42,5 +42,9 @@ func _initialize()->void:
  check(warning.signal_sources.size()==1 and not warning.signal_sources[0].get("active",true),"actual response carrier is silent until the warning is sent")
  check(warning.signal_sources.size()==1 and tx.get("completion_enable_source","")==warning.signal_sources[0].id,"transmission triggers the specific physical response source")
  check(warning.required_site_ids==["warning_transmission","warning_reply"] and warning.signal_sources.size()==1 and warning.signal_sources[0].confirm,"sending alone cannot resolve the operation before received reply and recovery")
+ if warning.signal_sources.size()==1:
+  var sim=Sim.new();sim.start(0);sim.mission=warning;sim._build_navigation()
+  var reply=warning.signal_sources[0]
+  check(sim.acoustic_paths.arrivals(Vector2(500,1120),reply.pos,900).is_empty() and not sim.acoustic_paths.arrivals(Vector2(1840,1080),reply.pos,900).is_empty(),"eastern transmission origin can receive the activated reply before the early western origin")
  print("RESOLUTION OPERATIONS CHECKS ",checks," FAILURES ",failures)
  quit(1 if failures else 0)
