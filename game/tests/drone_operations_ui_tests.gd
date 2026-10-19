@@ -27,9 +27,9 @@ func run():
   await click(g.order_buttons.contact_hold);check(g.sim.units[1].hold=='' and g.sim.paused,'actual RESUME releases scout without unpausing or spending')
   g.sim.units[1].hold='CONTACT';g._refresh();await settle()
   check(g.order_buttons.contact_hold.text=='FLEET\nGUARD','legacy aggregate hold is distinguished from new local scout')
-  await click(g.unit_buttons[0]);check(g.order_buttons.contact_hold.text=='IF\nCONTACT' and g.order_buttons.silent.text=='SILENT ✓','Quietus keeps fleet guard and silent-running controls')
   for b in [g.order_buttons.contact_hold,g.order_buttons.silent]:
-   var rect=b.get_global_rect();check(rect.size.y*dimensions.y/g.get_viewport_rect().size.y>=126 and b.text.split('\n').all(func(line):return b.get_theme_font('font').get_string_size(line,HORIZONTAL_ALIGNMENT_LEFT,-1,b.get_theme_font_size('font_size')).x<=rect.size.x-8),'contextual controls retain48dp height and full-sized lines fit')
+   var rect=b.get_global_rect();check(rect.size.y*dimensions.y/g.get_viewport_rect().size.y>=126 and Array(b.text.split('\n')).all(func(line):return b.get_theme_font('font').get_string_size(line,HORIZONTAL_ALIGNMENT_LEFT,-1,b.get_theme_font_size('font_size')).x<=rect.size.x-8),'contextual controls retain48dp height and full-sized lines fit')
+  await click(g.unit_buttons[0]);check(g.order_buttons.contact_hold.text=='IF\nCONTACT' and g.order_buttons.silent.text=='SILENT ✓','Quietus keeps fleet guard and silent-running controls')
   g.queue_free();await settle()
  await create_timer(.5).timeout
  print('DRONE OPERATIONS UI CHECKS ',checks,' FAILURES ',failures);quit(1 if failures else 0)
