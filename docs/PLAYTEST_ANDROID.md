@@ -1,5 +1,7 @@
 # Galaxy Z Fold7 playtest
 
+[Current checkpoint, screenshots and progress](PHONE_DASHBOARD.md)
+
 **Current native-verified development build: [93b8631 APK](https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/39202066103/artifacts/12164418637).** The procedural-audio crash is fixed and passed sustained Android playback, ordinary Shelf Signal camera/objective/extraction completion, and campaign save/kill/restart restoration. Cover and unfolded landscape touch/lifecycle smoke also passed. Physical Galaxy Z Fold7 behavior, the complete native campaign, subjective audio quality and performance remain separate checks. This is a development playtest, not release readiness. [Raw native evidence](validation/android-39202066103/README.md).
 
 ## Install or update
