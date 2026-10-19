@@ -13,6 +13,7 @@ const ContactReports=preload("res://src/simulation/contact_reports.gd")
 const Thermal=preload("res://src/simulation/thermal_front.gd")
 const Acoustics = preload("res://src/simulation/acoustic_paths.gd")
 const RouteProgram=preload("res://src/simulation/route_program.gd")
+const TaskPlan=preload("res://src/simulation/observed_task_plan.gd")
 const Missions = preload("res://src/campaign/missions.gd")
 const STEP := 1.0/60.0
 const TILE := 40.0
@@ -172,6 +173,7 @@ func command(order: String,args: Dictionary={}) -> bool:
 	var u=units[selected]
 	if not u.alive and order!="select":
 		selected=0; queue_mode=false; message="Selected drone lost. Quietus selected; reissue the order."; return false
+	if order in ["hold","contact_hold","wait_drone"] and u.has("task_run"):_interrupt_task(selected)
 	match order:
 		"select":
 			var id=int(args.get("unit",0))
@@ -183,7 +185,7 @@ func command(order: String,args: Dictionary={}) -> bool:
 		"route", "emergency":
 			var append=queue_mode and order!="emergency"
 			var plan=route_goals() if append else []
-			if append and not plan.is_empty() and not plan.back().get("arrival_set",false): plan.back().stop=not pass_through
+			if append and not plan.is_empty() and not plan.back().has("task_site") and not plan.back().get("arrival_set",false): plan.back().stop=not pass_through
 			plan.append({"pos":args.get("point",u.pos),"stop":true,"mode":"inherit"})
 			if not _install_program(u,plan,append,append and not u.route.is_empty()): message="Rock or unsafe clearance. Choose open water."; return false
 			if not append:
@@ -258,12 +260,11 @@ func command(order: String,args: Dictionary={}) -> bool:
 		"camera":
 			var context=camera_context()
 			if not context.ready: message=context.text; return false
-			var target=mission.objectives[context.target]
-			capture_unit=selected; capture_target=context.target; capture_time=0.0; u.hold="HOLD"
-			Operations.begin(self,target)
-			message="%s · hold %.0f seconds"%["Hydrophone reception" if target.get("kind","")=="exchange" else ("Passive hydrophone decode" if target.get("kind","")=="receiver" else ("Archive uplink" if target.get("kind","")=="uplink" else "Warning transmission" if Operations.own_origin(target) else "Camera exposure")),_capture_duration(target,selected)]
-			if target.get("kind","") not in ["receiver","exchange","transmitter"] or not Sampler.capture_spec(selected,mission.get("launch_equipment",{}),target).is_empty(): _noise(u.pos,520,"CAMERA")
-			events.append({"type":"camera","pos":u.pos})
+			if context.get("override_task",false):_interrupt_task(capture_unit)
+			if u.has("task_run"):_interrupt_task(selected)
+			elif not route_goals().is_empty() and route_goals()[0].has("task_site"):
+				u.task_run=TaskPlan.interrupted(TaskPlan.running(route_goals()[0].task_site,""))
+			if not _begin_capture(selected,context.target):return false
 		_: return false
 	return true
 # Public read-only operator intent; legacy navigation corners are not editor rows.
@@ -271,6 +272,11 @@ func route_goals(unit_id:int=-1) -> Array:
 	return RouteProgram.goals(units[selected if unit_id<0 else unit_id])
 func _install_program(u:Dictionary,plan:Array,remember:bool=true,append:bool=false) -> bool:
 	if not RouteProgram.valid_goals(plan,world_size()): return false
+	var unit_id=units.find(u)
+	for goal in plan:
+		if goal.has("task_site"):
+			var known=TaskPlan.qualify(goal,observable_sites(),unit_id,mission.get("launch_equipment",{}))
+			if not known.ok or not line_clear(goal.pos,mission.objectives[known.index].pos):return false
 	var compiled=RouteProgram.compile(u.route.back().pos,[plan.back()],path,world_size()) if append else RouteProgram.compile(u.pos,plan,path,world_size())
 	if not compiled.ok: return false
 	if append:
@@ -280,6 +286,8 @@ func _install_program(u:Dictionary,plan:Array,remember:bool=true,append:bool=fal
 			prefix.back().goal=true
 		prefix.back().stop=plan[plan.size()-2].stop
 		prefix.append_array(compiled.route); compiled.route=prefix
+	var old_plan=RouteProgram.goals(u)
+	if u.has("task_run") and (plan.is_empty() or old_plan.is_empty() or plan[0].get("task_site","")!=old_plan[0].get("task_site","") or plan[0].pos!=old_plan[0].pos):_interrupt_task(unit_id,true)
 	if remember:
 		var history:Array=u.get("route_undo",[]).duplicate(true)
 		history.append(RouteProgram.goals(u))
@@ -306,8 +314,15 @@ func _edit_program(order:String,args:Dictionary) -> bool:
 		else:
 			for key in ["pos","stop","mode"]:
 				if args.has("point" if key=="pos" else key): plan[index][key]=args["point" if key=="pos" else key]
+	if order in ["route_insert","route_edit"] and args.has("task_site"):
+		if not args.task_site is String:return false
+		if args.task_site.is_empty():plan[index].erase("task_site")
+		else:plan[index].task_site=args.task_site;plan[index].stop=true;plan[index].arrival_set=true
 	if order=="route_edit" and args.has("stop"): plan[index].arrival_set=true
+	if order=="route_edit" and args.get("stop",true)==false and plan[index].has("task_site"):
+		message="Remove TASK before choosing PASS";return false
 	if not _install_program(u,plan): message="Program rejected · choose safe open water."; return false
+	if order=="route_edit" and index==0 and args.has("task_site") and u.get("task_run",{}).get("phase","")=="blocked":u.erase("task_run")
 	message="%s · %d programmed destinations"%[u.name,plan.size()]; return true
 # Target guides use cached observed positions only. Final command validation also
 # requires current legitimate visibility and a physical launch path.
@@ -343,11 +358,17 @@ func _blackwater_context_text(target:int,station:int) -> String:
 	return "%s · %dm / quiet %.0fm%s"%[name,c.distance,c.quiet_range," · learned: SONAR + SAMPLE within 240m" if learned else " · move closer to listen"]
 func camera_context() -> Dictionary:
 	if capture_unit>=0:
+		if units[capture_unit].get("task_run",{}).get("phase","")=="running":
+			var replacement=_idle_camera_context()
+			if replacement.ready:
+				replacement["override_task"]=true;replacement.text="OVERRIDE TASK · "+replacement.text;return replacement
 		var active=mission.objectives[capture_target]
 		if active.get("kind","")=="exchange":
 			var c=blackwater_context(capture_target,capture_unit)
 			return {"target":capture_target,"ready":false,"text":"%s · %s · %s %.1f/2s"%[units[capture_unit].name,"REPLY CARRIER" if c.get("source","")=="courier" else active.name,"receiving" if c.settled else "settling",capture_time]}
 		return {"target":capture_target,"ready":false,"text":"%s · %s %.1f / %.0fs"%[units[capture_unit].name,active.name,capture_time,_capture_duration(active,capture_unit)]}
+	return _idle_camera_context()
+func _idle_camera_context()->Dictionary:
 	if mission.has("expedition_revision") and mission.objectives.all(func(o):return o.captured) and not mission.objectives.any(func(o):return Operations.own_origin(o)):
 		var facts=mission.expedition_facts.keys()
 		return {"target":-1,"ready":false,"text":"No exact source located · listen from another position or spend local RECON" if facts.is_empty() and mission.id!=8 else "Observed %s · choose an available named recovery corridor"%", ".join(facts)}
@@ -373,15 +394,69 @@ func camera_context() -> Dictionary:
 	if best<0:
 		var target=mission.objectives[nearest]
 		return {"target":nearest,"ready":false,"text":"%s · %dm away / 240m range%s"%[target.name,roundi(distance)," · view blocked by cover" if not line_clear(unit.pos,target.pos) else ""]}
-	var target=mission.objectives[best]
-	if target.get("required_unit",selected)!=selected and Sampler.capture_spec(selected,mission.get("launch_equipment",{}),target).is_empty():
-		return {"target":best,"ready":false,"text":target.get("unit_requirement","Quietus must operate the archive uplink. Bring the submarine to this anchor.")}
-	if not Sampler.capture_spec(selected,mission.get("launch_equipment",{}),target).is_empty() and unit.vel.length()>=12:
-		return {"target":best,"ready":false,"text":"FIELD SAMPLE · settle below 12m/s before the audible 8s exposure"}
+	return _capture_context_for(selected,best)
+func _capture_context_for(unit_id:int,target_id:int)->Dictionary:
+	if unit_id<0 or unit_id>=units.size() or target_id<0 or target_id>=mission.objectives.size():return {"target":-1,"ready":false,"text":"Unknown receiver"}
+	var unit=units[unit_id];var target=mission.objectives[target_id]
+	if not unit.alive or (target.captured and not Operations.own_origin(target)):return {"target":target_id,"ready":false,"text":"Receiver unavailable"}
+	if Operations.own_origin(target):
+		if not Operations.ready(self,target,unit_id):return {"target":target_id,"ready":false,"text":"TRANSMISSION SECTOR · choose clear water and settle below 12m/s"}
+	elif target.get("kind","")=="exchange" and mission.get("blackwater_revision",0)==1:
+		return {"target":target_id,"ready":blackwater_context(target_id,unit_id).ready,"text":_blackwater_context_text(target_id,unit_id)}
+	elif unit.pos.distance_to(target.pos)>=240 or not line_clear(unit.pos,target.pos):return {"target":target_id,"ready":false,"text":"Receiver needs a clear local view within 240m"}
+	if target.get("required_unit",unit_id)!=unit_id and Sampler.capture_spec(unit_id,mission.get("launch_equipment",{}),target).is_empty():
+		return {"target":target_id,"ready":false,"text":target.get("unit_requirement","Quietus must operate the archive uplink. Bring the submarine to this anchor.")}
+	if not Sampler.capture_spec(unit_id,mission.get("launch_equipment",{}),target).is_empty() and unit.vel.length()>=12:
+		return {"target":target_id,"ready":false,"text":"FIELD SAMPLE · settle below 12m/s before the audible 8s exposure"}
 	for prerequisite in target.get("requires",[]):
 		if not mission.objectives[prerequisite].captured:
-			return {"target":best,"ready":false,"text":target.get("requirement","Uplink needs both relay records. Photograph WEST and EAST first.")}
-	return {"target":best,"ready":true,"text":"READY · %s · %s %.0fs"%[target.name,"FIELD SAMPLE · AUDIBLE" if not Sampler.capture_spec(selected,mission.get("launch_equipment",{}),target).is_empty() else "passive listen" if target.get("kind","")=="receiver" else "TRANSMIT · AUDIBLE" if Operations.own_origin(target) else "exposure",_capture_duration(target,selected)]}
+			return {"target":target_id,"ready":false,"text":target.get("requirement","Uplink needs both relay records. Photograph WEST and EAST first.")}
+	return {"target":target_id,"ready":true,"text":"READY · %s · %s %.0fs"%[target.name,"FIELD SAMPLE · AUDIBLE" if not Sampler.capture_spec(unit_id,mission.get("launch_equipment",{}),target).is_empty() else "passive listen" if target.get("kind","")=="receiver" else "TRANSMIT · AUDIBLE" if Operations.own_origin(target) else "exposure",_capture_duration(target,unit_id)]}
+func _begin_capture(unit_id:int,target_id:int)->bool:
+	if capture_unit>=0 or not outcome.is_empty():return false
+	var context=_capture_context_for(unit_id,target_id)
+	if not context.ready:return false
+	var u=units[unit_id];var target=mission.objectives[target_id]
+	capture_unit=unit_id;capture_target=target_id;capture_time=0.0;u.hold="HOLD"
+	Operations.begin(self,target)
+	message="%s · hold %.0f seconds"%["Hydrophone reception" if target.get("kind","")=="exchange" else ("FIELD SAMPLE · AUDIBLE" if not Sampler.capture_spec(unit_id,mission.get("launch_equipment",{}),target).is_empty() else "Passive hydrophone decode" if target.get("kind","")=="receiver" else "Archive uplink" if target.get("kind","")=="uplink" else "Warning transmission" if Operations.own_origin(target) else "Camera exposure"),_capture_duration(target,unit_id)]
+	if target.get("kind","") not in ["receiver","exchange","transmitter"] or not Sampler.capture_spec(unit_id,mission.get("launch_equipment",{}),target).is_empty():_noise(u.pos,520,"CAMERA")
+	events.append({"type":"camera","pos":u.pos});return true
+func task_options(unit_id:int,point:Vector2)->Array:
+	var options=[]
+	if unit_id<0 or unit_id>=units.size() or not units[unit_id].alive:return options
+	var sites=observable_sites();var fit=mission.get("launch_equipment",{})
+	for site in sites:
+		var goal={"pos":point,"stop":true,"task_site":site.get("site_id","")}
+		var known=TaskPlan.qualify(goal,sites,unit_id,fit)
+		if known.ok and line_clear(point,site.pos):options.append({"site_id":site.site_id,"name":site.name,"duration":_capture_duration(site,unit_id),"audible":not Sampler.capture_spec(unit_id,fit,site).is_empty()})
+	return options
+func _interrupt_task(unit_id:int,clear:bool=false)->void:
+	var u=units[unit_id]
+	if not u.has("task_run"):return
+	var running=u.task_run.get("phase","")=="running"
+	if capture_unit==unit_id:capture_unit=-1;capture_time=0.0
+	if clear:
+		u.erase("task_run")
+		if running and u.hold=="HOLD":u.hold=""
+	else:
+		u.task_run=TaskPlan.interrupted(u.task_run);u.task_run.resume_hold=""
+func _task_arrival(u:Dictionary,node:Dictionary)->bool:
+	var unit_id=units.find(u);var sites=observable_sites()
+	var known=TaskPlan.qualify(node,sites,unit_id,mission.get("launch_equipment",{}))
+	var ready=known.ok and _capture_context_for(unit_id,known.index).ready
+	var active_site=mission.objectives[capture_target].get("site_id","") if capture_unit>=0 else ""
+	var context={"paused":paused,"guard_blocked":false,"ready":ready,"capture_unit":capture_unit,"capture_site":active_site}
+	var decision=TaskPlan.decide(node,sites,u,unit_id,mission.get("launch_equipment",{}),context)
+	if decision.action=="complete":return true
+	if decision.action=="begin":
+		var previous_hold=u.hold
+		if _begin_capture(unit_id,decision.index):u.task_run=TaskPlan.running(node.task_site,previous_hold)
+	elif decision.action=="blocked" and not u.has("task_run"):
+		u.task_run=TaskPlan.interrupted(TaskPlan.running(node.task_site,""));u.hold="HOLD";message=u.name+" task blocked · edit task or operate manually"
+	u.vel=Vector2.ZERO
+	return false
+
 # Well-specific optional comparison. Own motion and local reception only;
 # no Siren query, extra acoustic source or forced enemy intent.
 func _well_signature_observe() -> void:
@@ -444,10 +519,18 @@ func _tick(dt: float) -> void:
 	for i in units.size():
 		var u=units[i]
 		if not u.alive: continue
-		if i>0 and u.hold==DroneOperations.ARMED:
+		var effective_hold=u.hold
+		if u.get("task_run",{}).get("phase","")=="running" and capture_unit==i and u.hold=="HOLD":effective_hold=u.task_run.resume_hold
+		if i>0 and effective_hold==DroneOperations.ARMED:
 			var observed=DroneOperations.local_contact(contacts,i,elapsed)
 			if observed>=0:
-				u.hold=DroneOperations.STOPPED;message="%s observed S%d · SCOUT braking · release SCOUT or replot"%[u.name,observed+1]
+				_interrupt_task(i);u.hold=DroneOperations.STOPPED;effective_hold=u.hold;message="%s observed S%d · SCOUT braking · release SCOUT or replot"%[u.name,observed+1]
+		var guard_blocks=effective_hold in ["HOLD",DroneOperations.STOPPED] or (effective_hold=="CONTACT" and has_live_contact())
+		if effective_hold=="DRONE":
+			for j in [1,2]:
+				if units[j].alive and not units[j].route.is_empty():guard_blocks=true
+		if guard_blocks and u.get("task_run",{}).get("phase","")=="running" and capture_unit==i:
+			_interrupt_task(i);u.hold=effective_hold
 		var holding=u.hold in ["HOLD",DroneOperations.STOPPED] or (u.hold=="CONTACT" and has_live_contact())
 		if u.hold=="DRONE":
 			holding=false
@@ -467,6 +550,7 @@ func _tick(dt: float) -> void:
 		var exchange=o.get("kind","")=="exchange" and mission.get("blackwater_revision",0)==1
 		var receiver=blackwater_context(capture_target,capture_unit) if exchange else {}
 		if not u.alive or (exchange and not receiver.ready) or (Operations.own_origin(o) and not Operations.receiving(self,o,capture_unit)) or (not exchange and not Operations.own_origin(o) and (u.pos.distance_to(o.pos)>240 or not line_clear(u.pos,o.pos))):
+			_interrupt_task(capture_unit)
 			capture_unit=-1
 			if exchange:capture_time=0.0
 			message="Reception interrupted · move closer or SONAR for a local replay" if exchange else "Exposure interrupted · regain clear view"
@@ -476,7 +560,7 @@ func _tick(dt: float) -> void:
 			capture_time+=dt
 			if capture_time+(0.0000001 if exchange else 0.0)>=_capture_duration(o,capture_unit):
 				if exchange:capture_time=o.duration
-				o.captured=true; u.hold=""; capture_unit=-1; _record_secured(o)
+				o.captured=true;u.hold=u.task_run.resume_hold if u.get("task_run",{}).get("phase","")=="running" else "";capture_unit=-1;_record_secured(o)
 	if mission.get("expedition_revision",0)==2:
 		var was=correlation.get("status","")
 		correlation=Correlator.advance(correlation,signal_readings(),mission.get("launch_context",{}).get("references",{}).get("return_cadence",[]),units[0].pos,units[0].vel.length(),elapsed,dt,units[0].alive and Equipment.item_for(mission.get("launch_equipment",{}),0)=="quietus_correlator")
@@ -553,6 +637,7 @@ func _move(u: Dictionary,dt: float,speed: float,holding: bool,report_collision: 
 				var braking:Vector2=u.pos+u.vel*dt
 				if not blocked(braking,12): u.pos=braking
 				return
+			if player_craft and dest.has("task_site") and not _task_arrival(u,dest):return
 			u.route.pop_front()
 			if player_craft: RouteProgram.arrived(u,dest); speed=RouteProgram.speed(u,speed,u.name=="QUIETUS")
 			if dest.stop: u.vel=u.vel.move_toward(Vector2.ZERO,120*dt)
@@ -912,6 +997,20 @@ static func valid_snapshot(data: Dictionary) -> bool:
 		for w in u.route:
 			if not w is Dictionary or not w.has_all(["pos","stop"]) or not w.pos is Vector2: return false
 		if not RouteProgram.valid_unit(u,u==data.units[0],WorldRegion.size_of(data.mission)): return false
+		var unit_id=data.units.find(u);var fit=data.mission.get("launch_equipment",{})
+		var plans=[u.get("route_plan",[])];plans.append_array(u.get("route_undo",[]))
+		for plan in plans:
+			for goal in plan:
+				if goal.has("task_site") and not TaskPlan.qualify(goal,data.mission.objectives,unit_id,fit).ok:return false
+		if u.get("task_run",{}).get("phase","")=="running":
+			var known=TaskPlan.qualify(u.route_plan[0],data.mission.objectives,unit_id,fit)
+			if not known.ok:return false
+			if data.get("capture_unit",-1)==unit_id:
+				if data.get("capture_target",-1)!=known.index:return false
+				var site=data.mission.objectives[known.index];var progress=data.get("capture_time",null)
+				var duration=Sampler.capture_spec(unit_id,fit,site).get("duration",site.get("duration",4.0))
+				if not (progress is float or progress is int) or not is_finite(progress) or progress<0 or progress>duration+STEP+0.000001:return false
+			elif not data.mission.objectives[known.index].captured:return false
 	for e in data.sirens:
 		if not e is Dictionary or not e.has_all(["pos","home","goal","vel","route","angle","mode","suspicion","stun","lock","target","patrol","path_time"]): return false
 		if e.has("pin_time"):
