@@ -97,10 +97,7 @@ PY
             read -r x1 y1 x2 y2 <<<"$(menu_json_values swipe)"
             adb shell input swipe "$x1" "$y1" "$x2" "$y2" 450
             menu_snapshot "$profile" "blackwater-evidence-scroll-$count" menu evidence "$before_count"
-            python3 - "$offset" "$(menu_json_values scroll_vertical)" <<'PY'
-import sys
-assert float(sys.argv[2])>float(sys.argv[1])+1,'Blackwater menu scroll made no progress'
-PY
+            menu_assert_scroll_progress "$offset" "$(menu_json_values scroll_vertical)" "$y1" "$y2"
         done
         (( menu_status==0 )) || { echo 'Earned gallery entry not exposed' >&2; exit 1; }
         read -r x y <<<"$(menu_json_values tap)"

@@ -4,7 +4,7 @@
 Exit 0: fully exposed target; 2: scrolling needed; 3: fresh metrics pending;
 1: invalid evidence. Synthetic tests do not establish Android scrolling.
 """
-import argparse, importlib.util, json, math, struct, sys
+import argparse, importlib.util, json, math, re, struct, sys
 from pathlib import Path
 sys.dont_write_bytecode=True
 from android_metric_records import read_records
@@ -36,23 +36,52 @@ def inspect(text,png,density,screen,action,after,*,expected_density_source='andr
  for control in layout['controls']:
   if control['action']==action and not control.get('clipped',False):
    x,y,w,h=control['hit_rect'];result['tap']=[round((x+w/2)*sx),round((y+h/2)*sy)];return 0,result
- x,y,w,h=physical
- result['swipe']=[round(x+w*.5),round(y+h*.8),round(x+w*.5),round(y+h*.25)]
+ # Only a current clipped rectangle or this report's trailing target can guide
+ # direction. SS_TARGET is never tap authority; older reports are not reused.
+ target=next((c['visual_rect'] for c in layout['controls'] if c['action']==action),None)
+ delta=None
+ if target is not None:
+  if target[3]>scroll[3]:raise ValueError('Target is taller than scroll body')
+  if target[1]<scroll[1]:delta=scroll[1]-target[1]
+  elif target[1]+target[3]>scroll[1]+scroll[3]:delta=scroll[1]+scroll[3]-target[1]-target[3]
+  else:raise ValueError('Clipped target has no vertical scroll correction')
+ else:
+  # _report_targets emits all metric parts, then the target block, synchronously.
+  end=max(i for i,line in enumerate(lines) if 'SS_UI_METRICS' in line)
+  hints=[line.split('SS_TARGET ',1)[1] for line in lines[end+1:] if 'SS_TARGET '+action+' ' in line]
+  if len(hints)>1:raise ValueError('Ambiguous current target direction hint')
+  if hints:
+   match=re.fullmatch(re.escape(action)+r' center=(-?\d+),(-?\d+) viewport=(\d+),(\d+)',hints[0])
+   if not match:raise ValueError('Malformed current target direction hint')
+   tx,ty,vw,vh=map(int,match.groups())
+   if [vw,vh]!=layout['viewport'] or not scroll[0]<=tx<=scroll[0]+scroll[2]:raise ValueError('Target direction hint disagrees with measured viewport/body')
+   if ty<scroll[1]:delta=scroll[1]-ty
+   elif ty>scroll[1]+scroll[3]:delta=scroll[1]+scroll[3]-ty
+   else:raise ValueError('Unexposed target hint lies within scroll body')
+ direction=1 if delta is not None and delta>0 else -1
+ if direction>0 and offset<=1:raise ValueError('Cannot scroll toward target above at top limit')
+ # Unknown targets retain the bounded forward search. Known targets use a
+ # quarter-body cap plus only the measured deficit near an edge, damping flings.
+ travel=scroll[3]*.55 if delta is None else min(scroll[3]*.25,abs(delta)+scroll[3]*.1)
+ start=scroll[1]+scroll[3]*(.25 if direction>0 else .8)
+ center=scroll[0]+scroll[2]*.5
+ result['swipe']=[round(center*sx),round(start*sy),round(center*sx),round((start+direction*travel)*sy)]
  if screen=='settings':
   # Start in measured empty content, never on a slider/button or scrollbar.
-  center=scroll[0]+scroll[2]*.5; end=scroll[1]+scroll[3]*.1
+  end=scroll[1]+scroll[3]*(.9 if direction>0 else .1)
   intervals=sorted((max(scroll[1],c['hit_rect'][1]),min(scroll[1]+scroll[3],c['hit_rect'][1]+c['hit_rect'][3])) for c in layout['controls'] if c['hit_rect'][0]<=center<=c['hit_rect'][0]+c['hit_rect'][2] and c['hit_rect'][1]<scroll[1]+scroll[3] and c['hit_rect'][1]+c['hit_rect'][3]>scroll[1])
   cursor=scroll[1]; gaps=[]
   for low,high in intervals:
    if low>cursor:gaps.append((cursor,low))
    cursor=max(cursor,high)
   if cursor<scroll[1]+scroll[3]:gaps.append((cursor,scroll[1]+scroll[3]))
-  for low,high in reversed(gaps):
+  for low,high in (gaps if direction>0 else reversed(gaps)):
    start=(low+high)*.5; px=round(center*sx); py=round(start*sy)
-   if start<=end or not low<py/sy<high:continue
+   if (end-start)*direction<=0 or not low<py/sy<high:continue
    if any(c['hit_rect'][0]<=px/sx<=c['hit_rect'][0]+c['hit_rect'][2] and c['hit_rect'][1]<=py/sy<=c['hit_rect'][1]+c['hit_rect'][3] for c in layout['controls']):continue
+   if delta is not None:end=start+direction*min(travel,abs(end-start))
    result['swipe']=[px,py,px,round(end*sy)];result['swipe_origin']='measured_empty_control_gap';break
-  else:raise ValueError('No measured empty Settings swipe origin with upward travel')
+  else:raise ValueError('No measured empty Settings swipe origin with requested travel')
  return 2,result
 def main():
  parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('log',type=Path);parser.add_argument('png',type=Path);parser.add_argument('--density',type=Path,required=True);parser.add_argument('--screen',required=True,choices=['menu','settings','briefing']);parser.add_argument('--action',required=True);parser.add_argument('--after-count',type=int,default=0);parser.add_argument('--unchanged-settings',type=Path);parser.add_argument('--wait-for-screen',action='store_true',help='Retry a fully validated other screen; malformed evidence and changed settings remain fatal');args=parser.parse_args()
