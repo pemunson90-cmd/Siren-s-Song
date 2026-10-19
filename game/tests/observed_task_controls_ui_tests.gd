@@ -21,6 +21,18 @@ func click(control):
   var touch=InputEventScreenTouch.new();touch.index=0;touch.position=point;touch.pressed=down;root.push_input(touch,true)
   var mouse=InputEventMouseButton.new();mouse.device=InputEvent.DEVICE_ID_EMULATION;mouse.position=point;mouse.global_position=point;mouse.button_index=MOUSE_BUTTON_LEFT;mouse.pressed=down;root.push_input(mouse,true);await process_frame
  await settle();Input.set_emulate_touch_from_mouse(previous)
+func scroll_choices(panel):
+ # Enable the desktop GUI touchscreen path, as in density_scroll_scenarios.
+ var previous=Input.is_emulating_touch_from_mouse();Input.set_emulate_touch_from_mouse(true)
+ var point=panel.row_scroll.get_global_rect().get_center()
+ var touch=InputEventScreenTouch.new();touch.index=0;touch.position=point;touch.pressed=true;root.push_input(touch,true)
+ var mouse=InputEventMouseButton.new();mouse.device=InputEvent.DEVICE_ID_EMULATION;mouse.position=point;mouse.global_position=point;mouse.button_index=MOUSE_BUTTON_LEFT;mouse.pressed=true;root.push_input(mouse,true);await process_frame
+ for step in 16:
+  var at=point-Vector2(0,(step+1)*10)
+  var drag=InputEventScreenDrag.new();drag.index=0;drag.position=at;drag.relative=Vector2(0,-10);root.push_input(drag,true)
+  var motion=InputEventMouseMotion.new();motion.device=InputEvent.DEVICE_ID_EMULATION;motion.position=at;motion.global_position=at;motion.relative=Vector2(0,-10);motion.button_mask=MOUSE_BUTTON_MASK_LEFT;root.push_input(motion,true);await process_frame
+ touch=touch.duplicate();touch.position=point-Vector2(0,160);touch.pressed=false;root.push_input(touch,true)
+ mouse=mouse.duplicate();mouse.position=touch.position;mouse.global_position=touch.position;mouse.pressed=false;root.push_input(mouse,true);await settle();Input.set_emulate_touch_from_mouse(previous)
 func run():
  for dimensions in [Vector2i(2520,1080),Vector2i(2184,1968)]:
   root.size=dimensions;await settle();game=load("res://scenes/main.tscn").instantiate();game.set_script(load("res://tests/density_main.gd"));game.capture_scenario="observed-task-ui"
@@ -64,12 +76,24 @@ func run():
   before=game.sim.snapshot();await click(receiver)
   check(game.sim.route_goals()[0].get("task_site","")=="chain_west" and game.sim.capture_feedback().unit<0 and game.sim.tools==before.tools,"fitted drone attaches future work without immediate capture or spend")
   check(Rect2(Vector2.ZERO,root.get_visible_rect().size).encloses(panel.get_global_rect()) and action("undo").get_global_rect().end.y<=root.get_visible_rect().size.y,"fitted drone task disclosure keeps bottom edit targets inside viewport")
+  # Public label-length fixture only; no actor/resource/fact changes and no earned-play claim.
+  var saved_name=game.sim.mission.objectives[0].name
+  var long_name="WEST WARNING PREPARATION · "+"RECOVERED LOCAL RECEIVER DESCRIPTION ".repeat(8)
+  game.sim.mission.objectives[0].name=long_name;panel.refresh();await settle()
+  check(Rect2(Vector2.ZERO,root.get_visible_rect().size).encloses(panel.get_global_rect()) and panel.point_info.max_lines_visible==2,"long task names obey bounded two-line summary and viewport contract")
+  await click(action("task"));receiver=action("task_chain_west")
+  check(receiver!=null and long_name in receiver.text and "8s" in receiver.text and Rect2(Vector2.ZERO,root.get_visible_rect().size).encloses(panel.get_global_rect()),"full long receiver name and cost stay available in existing bounded scroll choices")
+  if receiver==null or action("task_back")==null:game.queue_free();await settle();continue
+  before=game.sim.snapshot();await scroll_choices(panel)
+  check(panel.choosing_task and panel.row_scroll.scroll_vertical>0 and game.sim.snapshot()==before,"actual touch scrolling reveals full long-name details without selecting or mutating work")
+  await click(action("task_back"));game.sim.mission.objectives[0].name=saved_name;panel.refresh();await settle()
   game.sim.paused=false
   for tick in 740:game.sim.advance(1./60)
   game.sim.paused=true
   check(game.sim.capture_feedback().unit==1,"ordinary planned approach starts canonical drone work before interruption")
   game.sim.command("contact_hold");var manual_guard=game.sim.units[1].hold;panel.refresh();await settle()
   check("BLOCKED" in panel.point_info.text and "TASK" in panel.point_info.text and "guard" in panel.point_info.text.to_lower(),"interrupted task explains explicit rearm and retained guard authority")
+  check(Rect2(Vector2.ZERO,root.get_visible_rect().size).encloses(panel.get_global_rect()) and "REARM" in action("task").text,"blocked task state keeps full editor bounds and an explicit rearm affordance")
   await click(action("task"));await click(action("task_chain_west"))
   check(not game.sim.units[1].has("task_run") and game.sim.units[1].hold==manual_guard and game.sim.capture_feedback().unit<0,"explicit rearm clears blocked bookkeeping without changing the explicit manual guard or starting work")
   await click(action("task"));before=game.sim.snapshot();var selected=panel.selected_goal
