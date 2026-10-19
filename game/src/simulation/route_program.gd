@@ -1,6 +1,7 @@
 extends RefCounted
-# Operator goals are separate from terrain-avoidance corners. Legacy courses stay
-# byte-for-byte intact until an explicit edit/route order requests a new course.
+# Operator goals are separate from terrain-avoidance corners. Restore leaves
+# legacy courses intact; runtime safety repair can replace an obstructed leg
+# without changing the accepted destination or later nodes.
 const MODES=["inherit","silent","cruise"]
 const MAX_GOALS=32
 const MAX_UNDO=8

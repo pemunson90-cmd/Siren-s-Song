@@ -60,7 +60,7 @@ func _initialize():
  # Momentum too large for braking room must still stop rather than tunnel or retain an unsafe route.
  var unsafe=fresh_wall(1,78.0);unsafe.command("route",{"point":Vector2(530,180)});drive(unsafe)
  print("UNAVOIDABLE_STOP time=",unsafe.elapsed," pos=",unsafe.units[0].pos," vel=",unsafe.units[0].vel," message=",unsafe.message)
- check(unsafe.units[0].route.is_empty() and "unsafe terrain" in unsafe.message and not unsafe.blocked(unsafe.units[0].pos,12),"unavoidable inertial collision retains physical safety stop")
+ check(unsafe.units[0].route.is_empty() and "unsafe terrain" in unsafe.message and unsafe.units[0].name in unsafe.message and not unsafe.blocked(unsafe.units[0].pos,12),"unavoidable inertial collision retains physical safety stop")
  var paused=fresh_wall(1);paused.command("route",{"point":Vector2(530,180)});paused.paused=true;var snap=paused.snapshot();paused.advance(10)
  check(paused.snapshot()==snap,"pause preserves route inertia resources and time")
  var restored=Sim.new();check(restored.restore(snap),"existing snapshot restores maneuver state")
