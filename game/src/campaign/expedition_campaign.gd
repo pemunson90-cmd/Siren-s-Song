@@ -1,6 +1,6 @@
 extends RefCounted
 const Consequences=preload("res://src/campaign/campaign_consequences.gd")
-const FIELD_RECORDS=["wake_packet","wake_repeater","chain_west","chain_east","chain_relay","divergence_deep","divergence_shelf","divergence_rendezvous","divergence_warning"]+preload("res://src/campaign/resolution_missions.gd").FIELD_RECORDS
+const FIELD_RECORDS=["wake_packet","wake_repeater","chain_west","chain_east","chain_relay","divergence_deep","divergence_shelf","divergence_rendezvous","divergence_warning","divergence_confluence_packet","divergence_confluence_repeater","divergence_witness_packet","divergence_witness_repeater","resolution_warning_west","resolution_warning_east","resolution_warning_uplink"]
 # One concrete fork. Tutorial indices/unlocked remain the original0..5 contract.
 static func available(completed:Array,progress:Dictionary)->Array:
  if not [0,1,2,3,4,5].all(func(id):return id in completed):return []
