@@ -130,7 +130,16 @@ jobs:
             artifacts/*.log
             artifacts/*.txt
             artifacts/*.sha256
-            artifacts/android-smoke/*.txt
+            artifacts/android-smoke/logcat.txt
+            artifacts/android-smoke/godot-events.txt
+            artifacts/android-smoke/progress.txt
+            artifacts/android-smoke/runtime-errors.txt
+            artifacts/android-smoke/install.txt
+            artifacts/android-smoke/launcher-component.txt
+            artifacts/android-smoke/fingerprint.txt
+            artifacts/android-smoke/launch-*.txt
+            artifacts/android-smoke/pid-*.txt
+            artifacts/android-smoke/*.stderr.txt
             artifacts/android-smoke/final-display.png
             artifacts/android-smoke/failed-target.png
           if-no-files-found: warn

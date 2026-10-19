@@ -1,6 +1,6 @@
 # Galaxy Z Fold7 playtest
 
-**Cover-screen Android rendering is verified; full gameplay/lifecycle validation is pending.** The early [c96c3bf playtest APK](https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/39197089036/artifacts/12162671131) renders operations/briefing but logs a menu-lifecycle error on first mission entry, and its native smoke did not finish. It is available for targeted hands-on feedback with those known gaps. This is a development playtest, not a release-readiness claim.
+**Native cover/unfolded rendering, touch smoke and save restoration passed on the hosted emulator.** Download the [539f58b playtest APK](https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/39197795717/artifacts/12162622874). This build fixes the earlier mission-entry error; the strict native error gate passed. Actual Galaxy Z Fold7 behavior, complete mission playthroughs, audio quality and performance remain hands-on checks. This is a development playtest, not a release-readiness claim.
 
 ## Install or update
 
@@ -10,6 +10,8 @@
 4. For updates, compare the **certificate SHA-256 digest** line in `apk-signature.txt` with the previous build's certificate. The same certificate permits an update that retains local data. A cache miss can create a different development key; local builds and CI builds also use different keys unless explicitly coordinated. If Android rejects an update, report the message before uninstalling: uninstalling removes local campaign saves.
 
 The private signing key is not included. These APKs use development signing; store/release signing remains separate.
+
+The validated 539f58b APK SHA-256 is `513ec0b57b5b09b176fa4ae9a10b05dd407052b349508cc9a54f68383a62e836`. Its certificate SHA-256 is `32bcb2287acd01c1f58c26997c7639f3072c74c6b03ab2a24656dc7cd1c7dc3c`, matching the earlier c96c3bf playtest. Cache restoration and this certificate match were both observed. Future cache eviction can still change development signing identity.
 
 ## Three-minute check after installation
 

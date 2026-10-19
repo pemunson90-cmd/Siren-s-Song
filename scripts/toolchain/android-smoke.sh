@@ -40,6 +40,9 @@ adb get-state | grep -Eq '^device$'
 adb logcat -c
 cleanup() {
     read_logcat "$output/logcat.txt" || true
+    # Keep one full final log plus deduplicated engine events in the artifact.
+    # All intermediate/partial logs remain on disk for the strict error scan below.
+    grep -hE '[Gg]odot|FATAL EXCEPTION|Fatal signal|SCRIPT ERROR:|Parse Error:' "$output"/*.txt | sort -u >"$output/godot-events.txt" || true
     adb exec-out screencap -p >"$output/final-display.png" 2>/dev/null || true
     adb shell dumpsys activity activities >"$output/final-activity.txt" 2>/dev/null || true
     echo 'Focused Android runtime diagnostics:'
