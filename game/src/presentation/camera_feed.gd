@@ -38,7 +38,8 @@ func _draw() -> void:
 		draw_string(ThemeDB.fallback_font,picture.position+Vector2(8,receiver_font_size+5),"REPLY CARRIER · LOCAL" if context.get("source","")=="courier" else ("LOCAL REPLAY" if context.replay>0 else "QUIET RECEPTION"),HORIZONTAL_ALIGNMENT_LEFT,-1,receiver_font_size,PHOSPHOR)
 		if not context.settled:draw_string(ThemeDB.fallback_font,picture.position+Vector2(8,picture.size.y-8),"SETTLING · wait for rest",HORIZONTAL_ALIGNMENT_LEFT,-1,receiver_font_size,Color("e0bf83"))
 	elif ReceiverScene.applies(sim.mission.id,objective):
-		ReceiverScene.draw(self,picture,sim.signal_readings(),sim.capture_unit)
+		if objective.get("own_origin",false):ReceiverScene.draw_transmitter(self,picture,sim.capture_feedback())
+		else:ReceiverScene.draw(self,picture,sim.signal_readings(),sim.capture_unit)
 	elif well_site:
 		_draw_well_site(picture,objective)
 	elif objective.has("optical") and optics.has(objective.optical):
@@ -68,7 +69,7 @@ func _draw() -> void:
 	var font=ThemeDB.fallback_font
 	var type=objective.get("kind","")
 	var font_size=receiver_font_size if type=="exchange" or well_site or ReceiverScene.applies(sim.mission.id,objective) else 14
-	var heading="%s / %s"%[ReceiverScene.title() if ReceiverScene.applies(sim.mission.id,objective) else "SITE SCHEMATIC" if well_site else ("HYDROPHONES" if type in ["receiver","exchange"] else ("ARCHIVE LINK" if objective.get("kind","")=="uplink" else "OPTICAL")),sim.units[sim.capture_unit].name]
+	var heading="%s / %s"%[("TRANSMITTER · ANALYTICAL" if objective.get("own_origin",false) else ReceiverScene.title()) if ReceiverScene.applies(sim.mission.id,objective) else "SITE SCHEMATIC" if well_site else ("HYDROPHONES" if type in ["receiver","exchange"] else ("ARCHIVE LINK" if objective.get("kind","")=="uplink" else "OPTICAL")),sim.units[sim.capture_unit].name]
 	if ReceiverScene.applies(sim.mission.id,objective):heading=fit_caption(heading,size.x-28,font_size)
 	draw_string(font,Vector2(14,24),heading,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size,PHOSPHOR)
 	var received_name="REPLY CARRIER" if type=="exchange" and sim.blackwater_context(sim.capture_target,sim.capture_unit).get("source","")=="courier" else objective.name

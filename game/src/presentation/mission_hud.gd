@@ -1,4 +1,5 @@
 extends Control
+const Operations=preload("res://src/presentation/operation_instruments.gd")
 const Equipment=preload("res://src/presentation/equipment_context.gd")
 const Expedition=preload("res://src/presentation/expedition_view.gd")
 # A tap opens an object-owned projection. A separate tap chooses an action.
@@ -137,7 +138,7 @@ func command_controls() -> Array:
   "route":return [host.order_buttons.queue,host.order_buttons.hold,host.order_buttons.waypoint_mode,host.order_buttons.home,host.order_buttons.program]
   "guard":return [host.order_buttons.contact_hold,host.order_buttons.wait_drone,host.order_buttons.hold]
   "fleet":return host.unit_buttons+([extra.arrivals] if Expedition.active(host.sim) else [])+[host.order_buttons.menu]
-  "object":return [extra.route_here]+([] if subject.has("subkind") else [host.order_buttons.camera])+[extra.inspect,host.order_buttons.program,host.order_buttons.queue]
+  "object":return ([] if subject.get("subkind","")=="transmission" else [extra.route_here])+([] if subject.get("subkind","") in ["corridor","withdrawal"] else [host.order_buttons.camera])+[extra.inspect,host.order_buttons.program,host.order_buttons.queue]
   "inspect","signals":return []
  return [host.order_buttons.camera,host.order_buttons.ping,host.order_buttons.silent,host.order_buttons.program,extra.route_menu,extra.tools_menu,extra.guard_menu,extra.inspect]
 func layout(bounds:Vector2,h:float):
@@ -210,13 +211,20 @@ func refresh():
  if subject.get("kind","")=="objective" and subject.get("index",-1)>=0 and subject.index<host.ocean.observable_sites().size():
   var site=host.ocean.observable_sites()[subject.index]
   instrument_info.text=site.name+" · "+("RECORDED" if site.captured else "NOT RECORDED")+"\n"+site.get("requirement","")+"\n"+site.get("unit_requirement","")+"\n"+instrument_info.text
- if subject.has("subkind"):instrument_info.text=Expedition.context_detail(sim,subject)+"\n\n"+instrument_info.text
+ if subject.get("subkind","") in ["corridor","withdrawal"]:instrument_info.text=Expedition.context_detail(sim,subject)+"\n\n"+instrument_info.text
  if page=="signals":instrument_info.text=Expedition.detail(sim,subject.get("receiver",-1))
  var sampling=Equipment.sample_detail(sim)
  if not sampling.is_empty():
   host.order_buttons.camera.text="FIELD\nSAMPLE"
   intent.text=sim.units[sim.selected].name+" · "+sampling
   instrument_info.text+="\n\n"+sampling
+ var operation=Operations.action(sim,subject.get("index",-1) if subject.get("kind","")=="objective" else -1)
+ host.order_buttons.camera.disabled=false
+ if not operation.is_empty():
+  host.order_buttons.camera.text=operation.label;host.order_buttons.camera.disabled=not operation.enabled
+  instrument_info.text=Operations.detail(sim,operation.target)+"\n\n"+summary+"\n"+"\n".join(host.ocean.acoustic_rows())
+  host.detail_label.text=sim.units[sim.selected].name+" · "+operation.detail.get_slice("\n",0)
+  if sim.capture_feedback().unit>=0:intent.text=sim.units[sim.selected].name+" · "+operation.detail.get_slice("\n",0)
  var fitted=Equipment.status(sim)
  if not fitted.is_empty():instrument_info.text+="\n\n"+fitted
  if page=="inspect" and sim.selected==0:

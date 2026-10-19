@@ -84,6 +84,8 @@ campaign_equipment_save_tests|CAMPAIGN EQUIPMENT SAVE
 onward_mission_tests|ONWARD MISSIONS
 resolution_content_tests|RESOLUTION CONTENT
 resolution_geometry_tests|RESOLUTION GEOMETRY
+resolution_instruments_tests|RESOLUTION INSTRUMENT
+resolution_controls_ui_tests|RESOLUTION CONTROLS UI
 earned_equipment_tests|EARNED EQUIPMENT
 cadence_correlator_tests|CADENCE CORRELATOR
 field_sampler_tests|FIELD SAMPLER

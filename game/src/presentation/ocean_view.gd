@@ -57,7 +57,8 @@ func pick_context(point:Vector2,touch:float) -> Dictionary:
 	if choices.size()==1:return {"kind":"craft","unit":choices[0],"pos":sim.units[choices[0]].pos}
 	for id in observable_sites().size():
 		var site=observable_sites()[id]
-		if point.distance_to(screen_position(site.pos))<=maxf(touch*.5,38*world_scale):return {"kind":"objective","index":id,"name":site.name,"pos":site.pos}
+		if site.get("own_origin",false):continue
+		if point.distance_to(screen_position(site.pos))<=maxf(touch*.5,38*world_scale):return {"kind":"objective","subkind":"actuator","index":id,"name":site.name,"pos":site.pos} if site.get("site_id","")=="witness_sluice" else {"kind":"objective","index":id,"name":site.name,"pos":site.pos}
 	return Expedition.pick(self,sim,point,touch)
 func _sync_camera() -> void:
 	chart_camera.configure(size,world_size())
@@ -162,6 +163,7 @@ func _draw() -> void:
 	# Bedrock and columnar basalt are original deterministic constructions.
 	for r in sim.mission.rocks: _rock(r)
 	for o in observable_sites():
+		if o.get("own_origin",false):continue
 		if o.get("kind","")=="receiver":
 			draw_arc(o.pos,26,0,TAU,40,Color("80bdb6"),2)
 			draw_line(o.pos-Vector2(17,0),o.pos+Vector2(17,0),Color("80bdb6"),2)
@@ -179,11 +181,12 @@ func _draw() -> void:
 		draw_texture_rect(foundry,Rect2(1080,-100,540,360),false,Color(0.65,0.8,0.82,0.8))
 	# Intelligence marks are briefed coordinates, not live contact observations.
 	for o in observable_sites():
+		if o.get("own_origin",false):continue
 		var c=CYAN if o.captured else Color("e1b66e")
 		draw_arc(o.pos,43,0,TAU,40,Color(c,0.35),1.4)
 		draw_line(o.pos+Vector2(-14,0),o.pos+Vector2(14,0),c,1)
 		draw_line(o.pos+Vector2(0,-14),o.pos+Vector2(0,14),c,1)
-		if not o.captured: _label(o.pos+Vector2(50,-5),o.name,c,17)
+		if not o.captured: _label(o.pos+Vector2(50,-5),"SLUICE CONTROL" if o.get("site_id","")=="witness_sluice" else o.name,c,17)
 	# Physical chart is retained. Unknown water, shadows, and contact memory remain separate.
 	var low=Vector2i((-world_offset/world_scale)/40.0).max(Vector2i.ZERO)
 	var high=Vector2i((size-world_offset)/world_scale/40.0)+Vector2i.ONE
