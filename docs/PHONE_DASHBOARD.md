@@ -25,6 +25,8 @@ Production source7febd8d now contains reviewed steering, resume guard, bow cue a
 ## Work already underway
 
 - **Resume evidence:** reviewed foreground/postdraw/actualRGB guard is locally integrated; it preserves immediate/rejected captures and fails boundedly if frames stay blank. Next meaningful native source tests same-resume recovery. [Independent review](reviews/2026-10-19-native-resume-capture-regressions.md). No compositor/pixel-semantic guarantee.
+- **Touch labels:** FIT is fixed on the small desktop layout with unchanged text and native density geometry. A confirmed cover EXPOSING/MORE ORDERS row overlap is now being corrected; no per-fix APK.
+- **Equipment depth:** ordinary exploration/recovery is being compared before changing choices; Survey adds one recon charge, Endurance adds oxygen, decoys are common.
 - **Heading clarity:** a reviewed selected-Quietus bow cue is merged locally; it is absent from the latest APK. [Official Door Kickers comparison](reviews/2026-10-19-route-intent-reference-comparison.md) finds clearer local facing/remaining-route linkage there. An all-craft draft was rejected for drone-label clutter; the accepted small cue changes no physics.
 - **Listening Well discovery:** [actual scout](reviews/2026-10-19-late-campaign-opportunity.md) found generic reused photographs/no retained discovery before a fixed engine-note revelation. An optional moving-signature/returned-pattern comparison is merged locally; a first-record camera regression is being corrected before publication. Remote completion stays viable; requiring the excursion was rejected for added exposure without an extra discovery. Real losses and low-hull solo recovery remain evidence.
 

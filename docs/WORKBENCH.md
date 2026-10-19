@@ -1,6 +1,6 @@
 # Siren’s Song · current workbench
 
-User-ratified governance **e286ade61257190daa46f9433182de323a611271**, fetched/published production **7febd8d6e4f6227b14f9b27f97428b34e25fb6bb**. Dedicated feature worktrees, explicit ownership, one integration reviewer per design, targeted regression checks, comprehensive/native validation at coherent milestones. Task completion triggers execution of the next task.
+User-ratified governance **e286ade61257190daa46f9433182de323a611271**, fetched/published production **fe2d4b72a614df2b0c892ae84dcc2ec57975ed57**. Dedicated feature worktrees, explicit ownership, one integration reviewer per design, targeted regression checks, comprehensive/native validation at coherent milestones. Task completion triggers execution of the next task.
 
 | Work | Actual state and remaining action |
 | --- | --- |
@@ -10,6 +10,8 @@ User-ratified governance **e286ade61257190daa46f9433182de323a611271**, fetched/p
 | Optional Well signature | Mergede762eeb with strict fresh-save shape guard9/0. Optional own-noise/reference comparison retains remote completion and real losses. First-record camera key exception found during integration: owner fixed0b318af, GL RED6/2→GREEN6/0; same reviewer independently reran GL6/0 and approved; corrected tip now merged. |
 | Well acquisition context | Next isolated feature owned by Well author from735e444; replace misleading generic foundry fallback with honest site-specific presentation after originalv7 comparison. Same Well reviewer; no new sensing/game rules. |
 | FIT / order-row clarity | FITdd09f5b merged641ebd4, root source/pixel review,60/0, unchanged native density geometry. Same owner continues new order-row-layout branch to fix actual desktop MORE ORDERS overlap without smaller type/touch targets; root reviews. |
+| Equipment depth | Isolated scout compares actual Survey+1RECON/common3decoy against Endurance+20O2 under ordinary exploration/recovery; no game edits or punitive oxygen retune. |
+| Native signing continuity | Existing tagrun39276951740 created a separate signingcache; old production identity cache retained. Actual APKcertificate pending. Tooling owner prepares minimal production-ref manual-dispatch correction; root reviews, no duplicate CI. |
 | Durable orchestration | Versioned boundary helper, installer,12 real Git tests, installed hooks and actual receipts. Explicit dispatch/review preflight fills unsupported collaboration-callback gap. [Mechanism](GAUNTLET_ORCHESTRATION.md). |
 
 Root sole production integrator in `/workspace/Siren-s-Song-integration`. Existing original workspace/captures and source branches retained. Milestone-tag/manual-dispatch Android trigger replaces every-feature APK. Feature refs containing that workflow correction may be published without redundant builds.

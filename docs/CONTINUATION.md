@@ -1,6 +1,6 @@
 # Siren’s Song — live continuation
 
-User-ratified governance: **e286ade61257190daa46f9433182de323a611271**; latest fetched/published production **7febd8d6e4f6227b14f9b27f97428b34e25fb6bb**. Current user-directed execution contract overrides historical per-increment certification. Continue automatically after task, worker, review and commit completion; no blocking execution boundary is observed.
+User-ratified governance: **e286ade61257190daa46f9433182de323a611271**; latest fetched/published production **fe2d4b72a614df2b0c892ae84dcc2ec57975ed57**. Current user-directed execution contract overrides historical per-increment certification. Continue automatically after task, worker, review and commit completion; no blocking execution boundary is observed.
 
 ## Current integration and ownership
 
@@ -13,9 +13,12 @@ Active tasks:
 - `/root/decoy_feedback`: FIT fixeddd09f5b and merged641ebd4 after root review of source,60/0 and actual3profile images; both420dpi geometries retained. Next dedicated `/workspace/Siren-s-Song-order-rows`, branch `gauntlet/feature/order-row-layout`, from641ebd4: fix measured MORE ORDERS/other two-line desktop overlap with actual input and geometry checks. Root sole reviewer. Full dispatch `work/orders-layout-dispatch.json` in original workspace.
 - `/root/android_artifact_review`: owns monitoring and artifact inspection for explicit milestone tag `gauntlet/milestone/2026-10-19-navigation-well-resume` at7febd8d. Actual run39276951740, job118143668785, source7febd8d. Evidence-only `/workspace/Siren-s-Song-native-39276951740`, branch `gauntlet/feature/native-39276951740-evidence`; no duplicate CI or game/tool edits.
 
+- `/root/navigation_departure_experience`: equipment-depth investigation `/workspace/Siren-s-Song-equipment-depth`, `gauntlet/experiment/equipment-depth` from7febd8d, only ignored probes and short owned recommendation. Source correction: Survey adds1RECON only, common DECOY3; O2 base30min/Endurance36min. Test ordinary exploration/recovery before recommending change.
+- `/root/observed_contact_regression_hunter`: `/workspace/Siren-s-Song-native-dispatch`, `gauntlet/feature/production-native-milestones` fromfe2d4b7. Tagrun created separate signingcache; actualcertificate pending. Minimal dispatch-on-production trigger/docs correction, no key/caches mutation or newrun. Root sole reviewer.
+
 ## Immediate execution
 
-Camera correction is merged, same-reviewer report retained, combined game gate exited0 and production7febd8d published. Explicit native milestone tag is pushed for the coherent navigation/resume/bow/Well batch and concrete repeated black cover-resume risk. Android worker identifies actual run and inspects artifacts; never infer same-resume recovery from cold restart. Ordinary feature/production pushes avoid APK builds. Continue independent FIT/game improvement while native validation runs; do not wait for routine approval.
+Camera correction is merged, same-reviewer report retained, combined game gate exited0 and production7febd8d published. Explicit native milestone tag is pushed for the coherent navigation/resume/bow/Well batch and concrete repeated black cover-resume risk. Android worker inspects existing39276951740; tag-scoped signingcache differs from preserved production cache, APKcertificate remains pending. Correct future native dispatch to production ref after targeted trigger review; never infer same-resume recovery from cold restart. Ordinary feature/production pushes avoid APK builds. Continue independent FIT/game improvement while native validation runs; do not wait for routine approval.
 
 ## Recurring instruction synchronization
 
