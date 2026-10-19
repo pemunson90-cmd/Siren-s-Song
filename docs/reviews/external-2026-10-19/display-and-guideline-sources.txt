@@ -1,0 +1,97 @@
+# What is the display size & resolution of Galaxy Flip 7 & Galaxy Fold 7? | Samsung Saudi Arabia
+URL: https://www.samsung.com/sa_en/support/mobile-devices/what-is-the-display-size-resolution-of-galaxy-flip-7-galaxy-fold-7/
+
+What is the display size & resolution of Galaxy Flip 7 & Galaxy Fold 7? | Samsung Saudi Arabia
+
+# What is the display size & resolution of Galaxy Flip 7 & Galaxy Fold 7?
+
+Last Update date : Aug 07. 2025
+
+ 
+
+ Galaxy Flip7 – Display Specifications 
+
+Main Display
+
+- Size: 6.9 inches
+- Resolution: 2520 x 1080 (FHD+)
+- Type: Dynamic AMOLED 2X
+- Refresh Rate: Adaptive 1–120 Hz
+
+Note: Galaxy Flip7 Delivers smooth scrolling and optimized power efficiency
+
+Cover Display
+
+- Size: 4.1 inches
+- Resolution: 948 x 1048
+- Type: Super AMOLED
+- Refresh Rate: 60/120 Hz
+
+Note: Adjusts based on content and usage for balanced performance.
+
+ Galaxy Fold7 – Display Specifications 
+
+Main Display
+
+- Size: 8.0 inches
+- Resolution: 2184 x 1968 (QXGA+)
+- Type: Dynamic AMOLED 2X
+- Refresh Rate: Adaptive 1–120 Hz
+
+Note: Galaxy Fold7 ensures fluid viewing with enhanced efficiency.
+
+Cover Display
+
+- Size: 6.5 inches
+- Resolution: 2520 x 1080 (HD+)
+- Type: Dynamic AMOLED 2X
+- Refresh Rate: Adaptive 1–120 Hz
+
+Note: Galaxy Fold7 provides smooth performance, even when folded.
+
+Note: For further assistance or questions, please Contact us.
+
+# Touch target size - Android Accessibility Help
+URL: https://support.google.com/accessibility/android/answer/7101858?hl=en
+
+Touch target size - Android Accessibility Help
+
+# Touch target size
+
+Any on-screen element that someone can click, touch, or otherwise interact with should be large enough for reliable interaction. Consider making sure these elements have a width and height of at least 48dp, as described in the Material Design Accessibility guidelines.
+
+### View
+
+When you implement clickable or touchable elements in a layout, consider using dimensions that meet or exceed the recommended size for touch targets.
+
+If these controls are sized dynamically, or resize based on the size of their content, consider using `android:minWidth` and `android:minHeight` to set a lower bound on their dimensions.
+
+To retain the original size of a `View` while expanding its touchable region, consider using a `TouchDelegate`, which allows a parent layout to handle touch events on behalf of the descendant `View`.
+
+Tip: Accessibility Scanner can detect and account for the use of `TouchDelegate` only when running on Android 10 and later. On earlier Android versions, touch target size results may appear even when this API is used to enlarge touch targets to an appropriate size.
+
+## Compose
+
+When you implement clickable or touchable elements in a composable, consider using dimensions that meet or exceed the recommended size for touch targets.
+
+If these controls are sized dynamically, or resize based on the size of their content, consider using `Modifier.sizeIn` to set a lower bound on their dimensions.
+
+ To retain the original size of a composable while expanding its touchable region, consider making an ancestor `clickable` or use `Modifier.mergeDescendants`, which allow accessibility services to focus only a larger ancestor composable and send it click events.
+
+## Design
+
+Touch targets include the area that responds to user input. Touch targets extend beyond the visual bounds of an element: An element like an icon may appear to be 24x24dp but the padding surrounding it comprises the full 48x48dp touch target. In Jetpack Compose, Material components like `Checkbox` or `Switch` automatically add padding to make sure they’re at least 48x48dp. In some cases, such as very small and close-together buttons, elements can’t be expanded without causing touchable regions to overlap.
+
+Consider making touch targets at least 48x48dp, separated by 8dp of space or more, to ensure balanced information density and usability. A touch target of 48x48dp results in a physical size of about 9mm, regardless of screen size. The recommended target size for touchscreen objects is 7-10mm.
+
+For examples, refer to the Material Design Accessibility guidelines.
+
+## Testing
+
+To manually verify that an app's user interface doesn't contain small touch targets:
+
+1. Open the app.
+2. Identify all clickable, touchable, or interactable elements within the interface.
+3. Ensure that each of those elements is 48x48dp in size, or approximately 9mm in each dimension.
+
+Android's automated testing tools can detect small touch targets

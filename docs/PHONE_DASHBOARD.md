@@ -36,9 +36,11 @@ The [fresh independent regression hunt](reviews/2026-10-19-touch-regressions.md)
 
 ## Weaknesses and next work
 
-The next bounded design targets **distinctive finale evidence and meaningful Quietus return/attention**, preserving viable remote and fallback choices. [Cycle brief](design/FINALE_CYCLE.md). This is proposed work, not a new verified feature. The whole-game review also identifies contextual camera-readiness/loadout teaching as useful.
+**New confirmed baseline defect: eight of thirteen Sirens stall at unreachable patrol goals.** An independent 600-second-per-mission probe reproduces this without player input. [External audit and independent verification](reviews/external-2026-10-19/README.md). The lead is prioritizing liveness and fresh strategy comparisons before further balance promotion. Existing native touch/completion evidence remains valid for its exact tested build; old balance outcomes describe the stalled-patrol world.
 
-Zoom can crop edge labels; some encounter labels overlap. MORE ORDERS adds a tap. Logical button dimensions do not prove physical comfort. Physical Fold7 hinge/cutout/rotation, OS multi-touch pinch, real device performance/heat, subjective audio, newcomer comprehension and all six missions on installed Android remain open.
+The retained finale experiment targets **distinctive finale evidence and meaningful Quietus return/attention**, preserving viable remote and fallback choices. [Cycle brief](design/FINALE_CYCLE.md). This is proposed work, not a new verified feature. The whole-game review also identifies contextual camera-readiness/loadout teaching as useful.
+
+Zoom can crop edge labels; some encounter labels overlap. MORE ORDERS adds a tap. Logical button dimensions do not prove physical comfort. [Computed native target sizes](reviews/external-2026-10-19/target-sizing.md) are approximately 4.3 mm cover / 5.7 mm inner for the smaller controls using nominal Samsung specs; responsive sizing needs correction and physical verification. Physical Fold7 hinge/cutout/rotation, OS multi-touch pinch, real device performance/heat, subjective audio, newcomer comprehension and all six missions on installed Android remain open.
 
 ## Follow the work
 
