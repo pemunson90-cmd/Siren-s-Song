@@ -1,0 +1,26 @@
+# Validation evidence batch 024
+
+Frozen SHA `dced64ffc1dddd9e93f13a029cc44b5e7daa93cd`; zero-based records 414 through 431 of 874. Source bytes fetched for content shape and explicit qualifiers; this is source evidence review, not replay of native behavior.
+
+| File | Blob | Content | Indicators |
+|---|---|---|---|
+| `docs/validation/android-39276951740/metrics/ui-metrics-menu-cover-settings.json` | `e83d14896be17b28fff93eb91339e634b0642bbd` | 2609 chars JSON object; keys: screen, action, metrics_count, scroll_vertical, measurement, settings_values, tap | failure/warning text |
+| `docs/validation/android-39276951740/metrics/ui-metrics-menu-cover-settings.json.pre-capture.json` | `d14b81d18b9bc70292ee31ae2fb90d2378806434` | 2608 chars JSON object; keys: screen, action, metrics_count, scroll_vertical, measurement, settings_values, tap | failure/warning text |
+| `docs/validation/android-39276951740/metrics/ui-metrics-menu-inner-initial.json` | `3877fe2b0e90363b6c237d26b3a4f020b3058749` | 4716 chars JSON object; keys: screen, action, metrics_count, scroll_vertical, measurement, settings_values, swipe | failure/warning text |
+| `docs/validation/android-39276951740/metrics/ui-metrics-menu-inner-initial.json.pre-capture.json` | `3877fe2b0e90363b6c237d26b3a4f020b3058749` | 4716 chars JSON object; keys: screen, action, metrics_count, scroll_vertical, measurement, settings_values, swipe | failure/warning text |
+| `docs/validation/android-39276951740/metrics/ui-metrics-menu-inner-returned.json` | `f5502f85ab5b225833b265b2be4191359baaa03c` | 4716 chars JSON object; keys: screen, action, metrics_count, scroll_vertical, measurement, settings_values, swipe | failure/warning text |
+| `docs/validation/android-39276951740/metrics/ui-metrics-menu-inner-returned.json.pre-capture.json` | `f5502f85ab5b225833b265b2be4191359baaa03c` | 4716 chars JSON object; keys: screen, action, metrics_count, scroll_vertical, measurement, settings_values, swipe | failure/warning text |
+| `docs/validation/android-39276951740/metrics/ui-metrics-menu-inner-scroll-0.json` | `c548002bef3dbcb16589d61278a162e078997119` | 4694 chars JSON object; keys: screen, action, metrics_count, scroll_vertical, measurement, settings_values, tap | failure/warning text |
+| `docs/validation/android-39276951740/metrics/ui-metrics-menu-inner-scroll-0.json.pre-capture.json` | `c548002bef3dbcb16589d61278a162e078997119` | 4694 chars JSON object; keys: screen, action, metrics_count, scroll_vertical, measurement, settings_values, tap | failure/warning text |
+| `docs/validation/android-39276951740/metrics/ui-metrics-menu-inner-settings-back.json` | `59db03d4debc31e1b2b6263aa23960851675bd28` | 3181 chars JSON object; keys: screen, action, metrics_count, scroll_vertical, measurement, settings_values, tap | failure/warning text |
+| `docs/validation/android-39276951740/metrics/ui-metrics-menu-inner-settings-back.json.pre-capture.json` | `59db03d4debc31e1b2b6263aa23960851675bd28` | 3181 chars JSON object; keys: screen, action, metrics_count, scroll_vertical, measurement, settings_values, tap | failure/warning text |
+| `docs/validation/android-39276951740/metrics/ui-metrics-menu-inner-settings-baseline.json` | `3877fe2b0e90363b6c237d26b3a4f020b3058749` | 4716 chars JSON object; keys: screen, action, metrics_count, scroll_vertical, measurement, settings_values, swipe | failure/warning text |
+| `docs/validation/android-39276951740/metrics/ui-metrics-menu-inner-settings-mute.json` | `894739ce4ec38174f65b67b022217c46b2bc2265` | 3181 chars JSON object; keys: screen, action, metrics_count, scroll_vertical, measurement, settings_values, tap | failure/warning text |
+| `docs/validation/android-39276951740/metrics/ui-metrics-menu-inner-settings-mute.json.pre-capture.json` | `894739ce4ec38174f65b67b022217c46b2bc2265` | 3181 chars JSON object; keys: screen, action, metrics_count, scroll_vertical, measurement, settings_values, tap | failure/warning text |
+| `docs/validation/android-39276951740/metrics/ui-metrics-menu-inner-settings-volume_effects.json` | `97850b6082db013a6a50cbe94b916e0a925c589a` | 3190 chars JSON object; keys: screen, action, metrics_count, scroll_vertical, measurement, settings_values, tap | failure/warning text |
+| `docs/validation/android-39276951740/metrics/ui-metrics-menu-inner-settings-volume_effects.json.pre-capture.json` | `97850b6082db013a6a50cbe94b916e0a925c589a` | 3190 chars JSON object; keys: screen, action, metrics_count, scroll_vertical, measurement, settings_values, tap | failure/warning text |
+| `docs/validation/android-39276951740/metrics/ui-metrics-menu-inner-settings.json` | `59db03d4debc31e1b2b6263aa23960851675bd28` | 3181 chars JSON object; keys: screen, action, metrics_count, scroll_vertical, measurement, settings_values, tap | failure/warning text |
+| `docs/validation/android-39276951740/metrics/ui-metrics-menu-inner-settings.json.pre-capture.json` | `b0c351b514d04f93a99372e9bbb2678c548ad7c9` | 3181 chars JSON object; keys: screen, action, metrics_count, scroll_vertical, measurement, settings_values, tap | failure/warning text |
+| `docs/validation/android-39276951740/monitor-152903-jobs.json` | `58d3116cd6710b353200230a6f0e5861cf92aa17` | 4205 chars JSON object; keys: observed_utc, jobs | qualified |
+
+Next cursor: 432.
