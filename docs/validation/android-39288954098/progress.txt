@@ -1,0 +1,29 @@
+SS_SMOKE_STAGE 2026-10-19T16:55:15Z smoke script entered after emulator action boot
+SS_SMOKE_STAGE 2026-10-19T16:55:36Z APK installed
+SS_SMOKE_STAGE 2026-10-19T16:55:37Z cover viewport and launch
+SS_SMOKE_STAGE 2026-10-19T16:55:57Z capture cover: screenshot begin
+SS_SMOKE_STAGE 2026-10-19T16:56:00Z capture cover: screenshot complete; activity dump begin
+SS_SMOKE_STAGE 2026-10-19T16:56:00Z capture cover: activity dump complete
+SS_SMOKE_STAGE 2026-10-19T16:56:00Z cover actual OS menu scroll/Settings/sticky BACK begins
+SS_SMOKE_STAGE 2026-10-19T16:56:04Z known Android immersive intro absent
+SS_SMOKE_STAGE 2026-10-19T16:56:08Z cover menu OS swipe 0 inside measured scroll body
+SS_SMOKE_STAGE 2026-10-19T16:56:14Z cover menu OS swipe 1 inside measured scroll body
+SS_SMOKE_STAGE 2026-10-19T16:56:29Z cover Settings OS swipe from measured empty gap to expose volume_effects
+SS_SMOKE_STAGE 2026-10-19T16:56:37Z cover Settings effects/mute reachability verified; unchanged settings; scroll gestures=1
+SS_SMOKE_STAGE 2026-10-19T16:56:43Z cover measured Settings/sticky BACK native input verified; operations scroll gestures=2
+SS_SMOKE_STAGE 2026-10-19T16:57:04Z capture cover-zoomed: screenshot begin
+SS_SMOKE_STAGE 2026-10-19T16:57:05Z capture cover-zoomed: screenshot complete; activity dump begin
+SS_SMOKE_STAGE 2026-10-19T16:57:06Z capture cover-zoomed: activity dump complete
+SS_SMOKE_STAGE 2026-10-19T16:57:07Z cover native chart swipe from 980,603 to 850,603
+SS_SMOKE_STAGE 2026-10-19T16:57:10Z cover-pan: fresh marker verified
+SS_SMOKE_STAGE 2026-10-19T16:57:10Z capture cover-panned: screenshot begin
+SS_SMOKE_STAGE 2026-10-19T16:57:12Z capture cover-panned: screenshot complete; activity dump begin
+SS_SMOKE_STAGE 2026-10-19T16:57:12Z capture cover-panned: activity dump complete
+SS_SMOKE_STAGE 2026-10-19T16:57:15Z cover native zoom/pan/FIT verified without accidental orders; OS pinch remains unverified
+SS_SMOKE_STAGE 2026-10-19T16:57:15Z capture cover-touch-targets-primary-initial: screenshot begin
+SS_SMOKE_STAGE 2026-10-19T16:57:17Z capture cover-touch-targets-primary-initial: screenshot complete; activity dump begin
+SS_SMOKE_STAGE 2026-10-19T16:57:17Z capture cover-touch-targets-primary-initial: activity dump complete
+SS_SMOKE_STAGE 2026-10-19T16:57:17Z cover primary actual native hit rectangles meet 48 dp recommendation at observed Android density
+SS_SMOKE_STAGE 2026-10-19T16:57:22Z capture cover-touch-targets-secondary-initial: screenshot begin
+SS_SMOKE_STAGE 2026-10-19T16:57:23Z capture cover-touch-targets-secondary-initial: screenshot complete; activity dump begin
+SS_SMOKE_STAGE 2026-10-19T16:57:23Z capture cover-touch-targets-secondary-initial: activity dump complete
