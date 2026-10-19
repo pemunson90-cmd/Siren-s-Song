@@ -73,7 +73,7 @@ static func _overt(m:Dictionary)->void:
  _patrol(m,Vector2(1720,600),[Vector2(1720,600),Vector2(1900,460),Vector2(2240,460),Vector2(2060,680)])
 
 static func _source(id:String,label:String,pos:Vector2,evidence:String,cadence:Array,confirm:bool=true)->Dictionary:
- return {"id":id,"label":label,"pos":pos,"evidence":evidence,"located":false,"cadence":cadence,"confirm":confirm,"sampler_compatible":confirm}
+ return {"id":id,"label":label,"pos":pos,"optical":"divergence_"+id,"evidence":evidence,"located":false,"cadence":cadence,"confirm":confirm,"sampler_compatible":confirm}
 
 static func _receiver(id:String,label:String,pos:Vector2,evidence:String)->Dictionary:
  return {"site_id":id,"name":label,"pos":pos,"kind":"receiver","required_unit":0,"duration":4.0,"captured":false,"sampler_compatible":true,"optical":"resolution_"+id,"evidence":evidence}

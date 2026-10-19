@@ -28,6 +28,7 @@ func _initialize()->void:
   check(mission.id==id and mission.expedition_revision==2,"each job has its stable new campaign ID and opt-in revision")
   check(mission.world_size.x>=2200 and mission.world_size.y>=2400,"resolution jobs have authored regional traversal beyond a fitted arena")
   check(not mission.required_site_ids.is_empty(),"every recovery requires earned named sites even before source discovery")
+  check(mission.signal_sources.all(func(s):return s.get("optical","") in content.FIELD_RECORDS),"new helper receives explicit field-record keys for each dynamic source")
   check(not mission.sirens.is_empty() and mission.sirens.all(func(s):return s.mode=="PATROL" and s.lock==0 and s.target==-1),"authored threats begin with ordinary patrol knowledge")
   check(content.resolution(mission).is_empty(),"authored ending text cannot resolve an unrecovered dive")
  var concealed=content.make(12,history);var overt=content.make(13,history)
