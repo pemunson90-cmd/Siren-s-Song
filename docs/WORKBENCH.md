@@ -3,7 +3,7 @@
 > **LATEST USER DESIGN DIRECTION (2026-10-19):** Live intended requirements now in `docs/CURRENT_GAME_SPEC.md`; provenance and v7 mechanic recovery inventory in `docs/V7_TO_GODOT_PARITY.md`. Original functional spec is archived/deprecated as current instruction. Ratified: per-waypoint speed/editing; physically meaningful acoustic paths around basalt; differentiated drones; recover playable v7 knockdown torpedo; high-quality intuitive mobile controls. Preserve beam-centered combat for now; real photography and save profiles later. After each pass compare player-facing gameplay, presentation, discovery and depth to previous state and top-quality games, then pursue the next meaningful improvement without an artificial terminal milestone. AAA/publishable describes output quality, not publishing tasks. Keep current development and milestone batching running.
 
 
-Reviewed game source **f686108** composes thermal staging and aiming with the tactical core; current user audit commits preserved, governing living spec unchanged. Root integrates/pushes production; published marker79c9b5a triggered one native batch; planner navigation continues independently.
+Reviewed game source **6f3433e** composes navigable planner, thermal staging and aiming with the tactical core; current user audit commits preserved, governing living spec unchanged. Root integrates/pushes production; published marker79c9b5a triggered one native batch; native modal diagnostics and an independent Foundry departure experiment continue.
 
 | Work | Actual result / remaining cost |
 | --- | --- |
@@ -16,7 +16,8 @@ Reviewed game source **f686108** composes thermal staging and aiming with the ta
 | Next real gain | Thermala5fe5e6 approved by sole Blackwater reviewer/mergedf686108. Limited waiting window at time/fresh-information cost, chart/optical/beam fairness retained. Reviewer22/12/8 +root composed8UI/65aim pass; no safe crossing/extraction claim. |
 | Mobile targeting | Approved029885c/merged7cc54b0: explicit48dp contact guides/stable gesture identity, ambiguous body tap refuses spend. Root65/17/44focused checks pass; temporary armed chart occupation remains. |
 | Currents investigation | Rejected165f382: same route saves1.6s, but HOLD drifts62.4m. Complete scratch/report archived with27 hashes verified; no productflow. |
-| Next mobile gain | decoy_feedback owns planner-chart-navigation: pan/pinch/+−FIT within paused preview, precise edits and no navigation-induced waypoint changes. Root sole reviewer. |
+| Next mobile gain | Approved8e13043/merged6f3433e: pan/pinch/+−FIT within paused preview, precise selected edits, root34/0focused checks. Nativeprobe owner observed_contact_regression_hunter now exposes actual modal controls/view, then one combined validation batch. |
+| Next world gain | Fresh cross-mission critic recommends observable Foundry departure via genuine local hearing. navigation_departure_experience owns one candidate; campaign_experience_review sole reviewer. No product event yet. |
 | Rejected prototypes | d625 listener added no earlier warning. c1b96fc lower drone thrust reduced sound but worsened same-policy time/hull; no speed picker/global nerf promoted. Operational differentiation remains open. |
 
 Root has actual fresh cover/inner combined orders/planner captures, clean engine UI checks, and unchanged native-script MODEL preflight (not OS/pixels). Physical Fold7, earned native full campaign/finale, sustained performance and human audio/comprehension remain open. About4.7GB free after verified lossless archival of inactive raw runtime; original ZIP/APK/evidence remain.

@@ -1,0 +1,9 @@
+# Planner navigation · integration review
+
+Root approves8e130431498c928d04832110219e2b440966a729, merged6f3433e against published thermal/aim sourcea855cc1. Full governing refresha855cc1 is adopted. One reviewer; requestedSol6.1, backend/cost unknown.
+
+Artifact-first inspection covered the paired12s sequence via decoded samples, both actual420dpi challenger layouts and command/state trace, then source. Existing fitted preview ignores pan/pinch. Challenger magnifies to4× and maps the same declared tap to selected goal400,780 versus baseline556.32,720. This is an automated mapping demonstration, not human precision or live-world success. Other goals/resources/time stay unchanged. Still route modes differ, explicitly disclosed; movies are the matched comparison.
+
+Root independently ran34 focused input checks without engine errors. Builder44 existing planner and17 composition checks are retained, not claimed as new root runs. Local ChartCamera/MapGesture reuse preserves clipping/known cells, bounded zoom, selected-only edits and drag/pinch/cancel/outside/emulated-input guards. Two panel additions supply touch sizing and coalesced read-only view reports; no physics, main, shared input/camera or save changes. Merge preserves thermal world layer/aiming/native checker.
+
+Full-size toolbar overlays occupy the preview's upper edge, and zoom crops context; FIT restores overview. The chart remains an abstract known-cell/route preview, not a complete sensor view. Native modal diagnostics currently omit this screen; a separate owner is fixing that read-only measurement/probe before the combined APK. No native/human/OS-pinch or reference-game parity claim follows. [Exact evidence](../validation/production/planner-navigation/README.md). Continue the native probe and independent Foundry departure experiment; this review does not end the Gauntlet.
