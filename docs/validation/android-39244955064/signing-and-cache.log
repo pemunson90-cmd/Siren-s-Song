@@ -1,0 +1,15 @@
+2026-10-19T11:29:40.2315064Z Cache hit for: godot-4.6.3-official-sha512-v1
+2026-10-19T11:29:54.0216855Z Cache restored successfully
+2026-10-19T11:29:54.5024755Z Cache restored from key: godot-4.6.3-official-sha512-v1
+2026-10-19T11:29:54.9589173Z Cache hit for: sirens-song-development-signing-v1
+2026-10-19T11:29:55.3067910Z Cache restored successfully
+2026-10-19T11:29:55.3143852Z Cache restored from key: sirens-song-development-signing-v1
+2026-10-19T11:31:23.3900200Z Verified using v1 scheme (JAR signing): false
+2026-10-19T11:31:23.3901021Z Verified using v2 scheme (APK Signature Scheme v2): true
+2026-10-19T11:31:23.3901862Z Verified using v3 scheme (APK Signature Scheme v3): true
+2026-10-19T11:31:23.3902770Z Verified using v3.1 scheme (APK Signature Scheme v3.1): false
+2026-10-19T11:31:23.3903692Z Verified using v3.2 scheme (APK Signature Scheme v3.2): false
+2026-10-19T11:31:23.3904615Z Verified using v4 scheme (APK Signature Scheme v4): false
+2026-10-19T11:31:23.3906079Z Number of signers: 1
+2026-10-19T11:31:23.3923680Z V3.0 Signer: certificate SHA-256 digest: 32bcb2287acd01c1f58c26997c7639f3072c74c6b03ab2a24656dc7cd1c7dc3c
+2026-10-19T11:31:23.4547449Z 4887a2ee583c4fc80f0589f63d494f1cfb75f5b37b4395aa8605cbf1e17e0432  sirens-song-debug.apk

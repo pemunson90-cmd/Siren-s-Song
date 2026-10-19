@@ -1,6 +1,6 @@
 # Siren's Song progress workbench
 
-**Stage:** Active / reviewed acoustic-feedback native candidate. Existing density native artifact gate is now inspected: all four ZIPs and the APK match recorded hashes, the APK signature/certificate verifies, and the independent actual Android image review finds no blocking UI defect. This supports the bounded density gains, not full-content acceptance.
+**Stage:** Paused / awaiting continuation at this session execution boundary; Gauntlet remains active and user-terminated. Native feedback9dacbb4 is accepted within recorded scope; current-source response/echo/expiry probe is saved for the next teaching cycle. Latest header/continuation supersede older retained pending-access states below.
 **Phone dashboard:** [current APK, evidence and limits](PHONE_DASHBOARD.md).
 **Development comparison base:** aa022cc / game b809501, native run 39229219785; existing artifacts retrieved normally through the selected Command-Library environment's inherited proxy under its unrestricted local policy. Runtime status reports connected but policy state unknown, so actual successful requests establish access rather than an invented enforcement claim.
 **Fully inspected native fallback:** f1ea536 / runtime 92625ac; inherited patrol defect recorded. Latest tested APK contains experimental finale ancestry; native finale/full-campaign quality remains unresolved.
@@ -26,7 +26,7 @@ Latest [native 39229219785](validation/android-39229219785/README.md), exact sou
 
 Retained failures remain meaningful: two early first-swipe failures, an explicitly absent immersive intro, and 744ad3e's confirmed menu success followed by exactly 1023-character truncated HUD JSON. The [transport-only repair](validation/production/density/metric-transport/README.md) now passes natively without dropping controls, weakening geometry or using stale snapshots. Local strict gate is 234 core / 230 runtime / 1057 geometry / 7 menu / 15 scroll / 65 transport plus parser/archive guards. Initial 63/2 raw Dictionary assertion failures are preserved and explained by JSON integer-to-float normalization; strict canonical byte equality and independent field-value checks pass.
 
-**Next single action:** publish the reviewed acoustic source08eca25 plus its final reviews and run one meaningful new native validation; inspect actual candidate APK/signature and both-layout pixels before Android promotion. Both independent experience and separate regression reviews are finished, no consequential blocker confirmed. Preserve 6388113 and the fully inspected f1ea536 fallback. Do not disclose hidden listeners or retune hearing to match a visual ring. Original v7 is the implementation reference; its continuous movement footprint differs from production's existing threshold hearing. Physical Fold7, native full campaign/finale and subjective audio remain open.
+**Next single action:** inspect the current-source [response probe](validation/production/acoustic-feedback/observed-response-probe/README.md), then choose the smallest bounded observation/identity/launch-copy teaching change. Preserve current source9dacbb4, b809501 and f1ea536. Native39244955064 and byte/pixel review are complete within the explicit limits; do not rerun them. Full native optical/threat stress, nonmenu capture synchronization, physical Fold7, full campaign/finale and subjective audio remain open.
 
 ## Resumed artifact gate — 19 October 2026
 
@@ -167,3 +167,20 @@ Retry prerequisite f43e562 is reviewed: shared intro precondition runs before me
 ## Acoustic review disposition
 
 Accept only supported desktop lifetime/own-emission gains pending native confirmation. Keep opaque instrument occupancy and lower threat rows as explicit costs. The stale launch-log wording is inherited and deferred; clearer observed-response/active-lock teaching is the next experience opportunity after the native evidence gate. No unseen listener success confirmation or AI/hearing retune is authorized by the comparison. The reference access note corrects only the newly inspected Mark of the Ninja footage, not other games or store availability. Parent is sole candidate pusher; source/tool hashes remain those independently reviewed in08eca25.
+
+
+## Native run started — 39244955064
+
+Published candidate **9dacbb4** carries exactly reviewed08eca25 product/tool hashes plus final independent reports. Remote gauntlet/production SHA verified after push. Native job118034522688 is in progress; pinned install observed, signing preparation next at the initial checkpoint. Sole pusher is root; evidence owner `/root/android_artifact_review` resumed explicitly Sol6.1/high. Current network observation is connected/unrestricted ENFORCED with current observations (prior unknown state retained historically). No candidate runtime or APK/pixel verdict yet. [Recovery/run checkpoint](validation/android-39244955064/README.md). Governing updates remain local during the active run, avoiding accidental concurrency cancellation; commit them after the run settles or at a genuine interruption using exact-source publication guards.
+
+
+## Native artifact disposition and next probe
+
+Run39244955064 succeeds; all four ZIP sizes/SHA256/CRC and extracted APK hash/signature/certificate verify, including independent parent recomputation. Actual both-layout instrument/inner15s→none and corrected final menu identity support bounded promotion of source9dacbb4/08eca25. [Exact review](validation/android-39244955064/ARTIFACT_REVIEW.md). Retain nonmenu optical/restored-frame lag and desktop-only multiple-decoy/motion/tool/optical-threat stress as unproved, without inventing a new game defect. Earlier inspected baselines remain preserved.
+
+The next cycle has begun with a footage-only probe of unchanged9dacbb4 using existing ordinary hunter_response capture commands, not new gameplay/UI code. Current pixels show hunter investigation→aging echo, a different investigating patrol, and15-second expiry. Hidden diagnostic positions in capture logs are not player-view proof. Read the probe’s final chronology/provenance before designing teaching. Possible stable observed-contact identity/context and launch-event copy remain proposals; no mechanical retune or hidden diversion confirmation follows. This is an open Gauntlet checkpoint, not completion or human acceptance.
+
+
+## Session continuation checkpoint
+
+Execution pauses here after the verified source/review/native-artifact cycle and a completed next-cycle footage-only probe. No worker remains active and no background agent execution is claimed. Source/tooling9dacbb4 are unchanged; only final evidence/governing docs follow in a guarded docs-only publication referenced to9dacbb4. Native source08/9dac bounded gains are supported, not full campaign/finale/user acceptance. Next exact action: read CONTINUATION and the observed-response-probe README/clip, decide the smallest test-first observation/identity/launch-copy improvement, then continue autonomously. Do not repeat completed retrieval/CI or reopen older network restrictions: normal delivery works and the current policy is unrestricted/enforced. Physical/human and named capture gaps remain explicit above.

@@ -1,0 +1,6 @@
+PASS all4 archive size/SHA256/CRC and metadata comparisons
+PASS extractedAPK hash matches CI; recorded local apksigner v2/v3/signer/certificate checks
+PASS all56 originalPNG hashes and17 retained lossless image hashes/pixel equality
+PASS15 actual native menu report before/after pairs agree; strict runtime-error file empty
+PASS completed source/status and all localMarkdown evidence links
+No source tests, emulator rerun, presented-frame assertion or physical-device claim added

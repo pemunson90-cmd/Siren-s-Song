@@ -1,0 +1,1 @@
+Capture wrapper exit0. Exactly240 PNG movie frames. Encoded H2641280x720,15/1fps,240frames,16.000000s; AAC captured mixer audio. Six accurately sought decoded full frames inspected; full interval additionally sampled at1fps. No game/toolchain changes against9dacbb4. No broad suite run for this footage-only probe. Source hashes independently rechecked.
