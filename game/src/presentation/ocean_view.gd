@@ -17,6 +17,8 @@ var knock_touch_size:=48.0
 var feedback_font_size:=14
 var instrument_top:=64.0
 var ui_blocked_rects:Array=[]
+var instrument_height=48.
+var oxygen_capacity=100.
 var chart_camera=preload("res://src/presentation/chart_camera.gd").new()
 const CYAN := Color("72d9d3")
 const INK := Color("07141c")
@@ -40,6 +42,22 @@ func screen_position(world: Vector2) -> Vector2:
 	_sync_camera(); return chart_camera.to_screen(world)
 func world_size() -> Vector2:
 	return sim.world_size() if sim!=null and sim.has_method("world_size") else Vector2(1600,960)
+func observable_sites() -> Array:
+	return sim.observable_sites() if sim.has_method("observable_sites") else sim.mission.objectives
+func pick_context(point:Vector2,touch:float) -> Dictionary:
+	_sync_camera();var choices=[]
+	for id in sim.units.size():
+		var u=sim.units[id]
+		if not u.alive:continue
+		var local=(point-screen_position(u.pos)).rotated(-u.angle)
+		var half=Vector2(66,18)*world_scale if id==0 else Vector2(18,8)*world_scale
+		if Rect2(-half,half*2).grow(touch*.32).has_point(local):choices.append(id)
+	if choices.size()>1:return {"kind":"fleet","pos":map_position(point)}
+	if choices.size()==1:return {"kind":"craft","unit":choices[0],"pos":sim.units[choices[0]].pos}
+	for id in observable_sites().size():
+		var site=observable_sites()[id]
+		if point.distance_to(screen_position(site.pos))<=maxf(touch*.5,38*world_scale):return {"kind":"objective","index":id,"name":site.name,"pos":site.pos}
+	return {}
 func _sync_camera() -> void:
 	chart_camera.configure(size,world_size())
 	if chart_camera.mode=="follow" and sim!=null:chart_camera.follow(sim.units[sim.selected].pos)
@@ -88,7 +106,7 @@ func knock_aim_targets() -> Array:
 	for u in sim.units:
 		if u.alive:blocked.append(Rect2(screen_position(u.pos)-Vector2(85,45)*world_scale,Vector2(170,90)*world_scale).grow(6))
 	for target in targets:blocked.append(Rect2(target.anchor-Vector2.ONE*90*world_scale,Vector2.ONE*180*world_scale).grow(6))
-	for objective in sim.mission.objectives:
+	for objective in observable_sites():
 		var anchor=screen_position(objective.pos)
 		blocked.append(Rect2(anchor-Vector2.ONE*43*world_scale,Vector2.ONE*86*world_scale).grow(4))
 		if not objective.captured:
@@ -141,7 +159,7 @@ func _draw() -> void:
 	_draw_departure()
 	# Bedrock and columnar basalt are original deterministic constructions.
 	for r in sim.mission.rocks: _rock(r)
-	for o in sim.mission.objectives:
+	for o in observable_sites():
 		if o.get("kind","")=="receiver":
 			draw_arc(o.pos,26,0,TAU,40,Color("80bdb6"),2)
 			draw_line(o.pos-Vector2(17,0),o.pos+Vector2(17,0),Color("80bdb6"),2)
@@ -158,7 +176,7 @@ func _draw() -> void:
 	elif sim.mission.id>=3 and sim.mission.id!=5:
 		draw_texture_rect(foundry,Rect2(1080,-100,540,360),false,Color(0.65,0.8,0.82,0.8))
 	# Intelligence marks are briefed coordinates, not live contact observations.
-	for o in sim.mission.objectives:
+	for o in observable_sites():
 		var c=CYAN if o.captured else Color("e1b66e")
 		draw_arc(o.pos,43,0,TAU,40,Color(c,0.35),1.4)
 		draw_line(o.pos+Vector2(-14,0),o.pos+Vector2(14,0),c,1)
@@ -261,6 +279,7 @@ func _draw() -> void:
 		draw_circle(p,0.7+float(i%3)*0.35,Color(0.48,0.7,0.7,0.11))
 	draw_rect(Rect2(0,0,1600,960),Color(0.3,0.7,0.7,0.19),false,2)
 	draw_set_transform(Vector2.ZERO,0,Vector2.ONE)
+	_draw_ship_instrument()
 	# Short screen-sized tags preserve observed identity without long world labels.
 	for entry in observed:
 		var anchor=chart_camera.to_screen(entry.pos)+Vector2(12,-18)
@@ -275,6 +294,52 @@ func _draw() -> void:
 		var entry=observed[i];var box=readout[i]
 		draw_rect(box,Color(0.04,0.07,0.09,0.94))
 		draw_string(ThemeDB.fallback_font,box.position+Vector2(8,feedback_font_size),entry.text,HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size,Color("ffac8c") if entry.urgent else Color("ed8e79") if entry.fresh else Color("b09a94"))
+
+func ship_instrument_layout() -> Array:
+	if sim==null:return []
+	var own=sim.units[sim.selected];var p=screen_position(own.pos)
+	if not own.alive or not Rect2(Vector2.ZERO,size).has_point(p):return []
+	var font=ThemeDB.fallback_font;var text_size=feedback_font_size
+	var radius=maxf(instrument_height*1.1,(72 if sim.selected==0 else 24)*world_scale+12)
+	var top="QUIETUS · HULL %d · O₂ %d"%[roundi(sim.hull),roundi(sim.oxygen)] if sim.selected==0 else "%s · BAT %d%% · %s"%[own.name,roundi(own.battery),"LOW" if own.silent else "OPEN"]
+	var noise=preload("res://src/simulation/acoustic_paths.gd").motion_radius(own.vel.length())
+	var lower="MOTION ~%dm · open water"%roundi(noise) if sim.mission.get("acoustic_revision",0)==1 else "MOTION · %dm/s"%roundi(own.vel.length())
+	var pulses=sim.acoustic_feedback().pulses
+	var hint="reception unknown · tap craft" if pulses.is_empty() else "PULSES %d · reception unknown"%pulses.size()
+	if sim.selected>0:
+		var scout=sim.scout_context()
+		if scout.state=="armed":hint="SCOUT · own contact stops · route kept"
+		elif scout.state=="stopped":hint="SCOUT %s · route kept · tap craft"%("braking" if own.vel.length()>2 else "holding")
+		elif scout.state=="legacy":hint="FLEET GUARD · any fresh contact holds"
+	var blocked=ui_blocked_rects.duplicate()
+	for id in sim.units.size():
+		if id==sim.selected or not sim.units[id].alive:continue
+		var at=screen_position(sim.units[id].pos);var half=(Vector2(70,24) if id==0 else Vector2(24,15))*world_scale
+		blocked.append(Rect2(at-half,half*2).grow(8))
+	var result=[];var lower_y=minf(p.y+radius+text_size+10,size.y-text_size*4-28)
+	for i in 3:
+		var text=[top,lower,hint][i];var extent=font.get_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,-1,text_size)
+		var preferred=p.y-radius-2*text_size-12 if i==0 else lower_y+(i-1)*(ceilf(font.get_height(text_size))+8)
+		var x=clampf(p.x-extent.x/2,12,maxf(12,size.x-extent.x-12))
+		for step in [0,-1,-2,1,2,-3,3,-4,4,-5,5,-6,6]:
+			var baseline=clampf(preferred+step*(text_size+8),instrument_top+text_size,size.y-2*text_size-18)
+			var area=Rect2(Vector2(x,baseline-font.get_ascent(text_size)),extent)
+			if not blocked.any(func(r):return r.intersects(area.grow(3))):
+				result.append({"text":text,"position":Vector2(x,baseline),"rect":area,"color":Color("9cc6c7") if i==0 else Color("bfac82") if i==1 else Color("87a7a9")});blocked.append(area);break
+	return result
+func ship_instrument_rects() -> Array:return ship_instrument_layout().map(func(line):return line.rect)
+func _draw_ship_instrument() -> void:
+	var own=sim.units[sim.selected];var p=screen_position(own.pos)
+	if not own.alive or not Rect2(Vector2.ZERO,size).has_point(p):return
+	var radius=maxf(instrument_height*1.1,(72 if sim.selected==0 else 24)*world_scale+12)
+	# Labelled screen-readable instrument arcs; real acoustic range stays amber
+	# in world space and follows actual speed, not propulsion intent.
+	for side in [-1,1]:
+		var start=-PI*.9 if side<0 else -PI*.4;var end=start+PI*.3
+		draw_arc(p,radius,start,end,28,Color(.22,.46,.5,.4),3)
+		var amount=clampf((sim.hull/100. if side<0 else sim.oxygen/oxygen_capacity) if sim.selected==0 else own.battery/100.,0.,1.)
+		draw_arc(p,radius,start,start+(end-start)*amount,28,Color("8bd3cb") if side<0 else Color("7aa8c5"),3)
+	for line in ship_instrument_layout():draw_string(ThemeDB.fallback_font,line.position,line.text,HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size,line.color)
 
 func _finale_array(mass: Rect2) -> void:
 	draw_rect(mass,Color("142930")); draw_texture_rect(basalt,mass,false,Color(0.45,0.58,0.6))
@@ -324,7 +389,6 @@ func _installation(p: Vector2,recorded: bool) -> void:
 func _craft(u: Dictionary,index: int) -> void:
 	var p:Vector2=u.pos
 	if index==sim.selected:
-		draw_arc(p,48 if index==0 else 31,0,TAU,56,Color(CYAN,0.55),1.5)
 		draw_line(p+Vector2(-55,-38),p+Vector2(-42,-38),CYAN,2)
 		draw_line(p+Vector2(-55,-38),p+Vector2(-55,-25),CYAN,2)
 	draw_set_transform(world_offset+p*world_scale,u.angle,Vector2.ONE*world_scale)
@@ -345,7 +409,7 @@ func _craft(u: Dictionary,index: int) -> void:
 			draw_polyline(heading,Color("a7c7c3"),feedback_font_size*0.15/world_scale,true)
 	var label_y=63 if index==0 else 45
 	if (world_offset+p*world_scale).y+label_y*world_scale>size.y-8: label_y=-36
-	_label(p+Vector2(-39 if index==sim.selected else -8,label_y),u.name if index==sim.selected else ["Q","A","B"][index],CYAN if index==sim.selected else Color("7e9da4"),18)
+	if index!=sim.selected:_label(p+Vector2(-8,label_y),["Q","A","B"][index],Color("7e9da4"),18)
 func selected_heading_marker() -> PackedVector2Array:
 	if sim==null or sim.selected!=0 or sim.units.is_empty(): return PackedVector2Array()
 	var u=sim.units[sim.selected]
@@ -386,13 +450,22 @@ func _siren(p: Vector2,angle: float,fresh: bool,role: String="patroller",pin_tim
 func _dash(a: Vector2,b: Vector2,color: Color,width: float) -> void:
 	var distance=a.distance_to(b)
 	for n in range(0,int(distance),18): draw_line(a.move_toward(b,n),a.move_toward(b,minf(n+9,distance)),color,width)
+func own_craft_rects() -> Array:
+	var result=[]
+	for id in sim.units.size():
+		if not sim.units[id].alive:continue
+		var half=(Vector2(74,32) if id==0 else Vector2(26,20))*world_scale
+		result.append(Rect2(screen_position(sim.units[id].pos)-half,half*2))
+	return result
 func world_label_position(p:Vector2,text:String,font_size:int) -> Vector2:
 	var font=ThemeDB.fallback_font;var actual=maxi(font_size,int(12./world_scale));var extent=font.get_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,-1,actual)*world_scale
 	var origin=chart_camera.to_screen(p);var height=extent.y+6
-	for step in [0,-1,-2,1,-3,2,-4,3]:
-		var point=origin+Vector2(0,step*height)
-		var area=Rect2(point-Vector2(0,font.get_ascent(actual)*world_scale),extent)
-		if Rect2(Vector2.ZERO,size).encloses(area) and not ui_blocked_rects.any(func(r):return r.intersects(area.grow(3))):return chart_camera.to_world(point)
+	for horizontal in [0,extent.x*.75,-extent.x*.75]:
+		for step in [0,-1,-2,1,-3,2,-4,3]:
+			var point=origin+Vector2(horizontal,step*height)
+			point.x=clampf(point.x,12,maxf(12,size.x-extent.x-12))
+			var area=Rect2(point-Vector2(0,font.get_ascent(actual)*world_scale),extent)
+			if Rect2(Vector2.ZERO,size).encloses(area) and not (ui_blocked_rects+ship_instrument_rects()+own_craft_rects()).any(func(r):return r.intersects(area.grow(3))):return chart_camera.to_world(point)
 	return Vector2.INF
 func _label(p:Vector2,text:String,color:Color,font_size:int) -> void:
 	var placed=world_label_position(p,text,font_size)

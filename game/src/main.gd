@@ -143,7 +143,7 @@ func _layout(cancel_gesture:bool=true) -> void:
 	_apply_safe_area()
 	ui_touch_height=preload("res://src/presentation/layout_metrics.gd").touch_height(get_viewport_rect().size,Vector2(get_window().size),ui_density_dpi())
 	var h=ui_touch_height
-	ocean.position=Vector2.ZERO;ocean.size=size;ocean.feedback_font_size=maxi(14,roundi(h*.26));ocean.instrument_top=h+24
+	ocean.position=Vector2.ZERO;ocean.size=size;ocean.feedback_font_size=maxi(14,roundi(h*.26));ocean.instrument_top=h+24;ocean.instrument_height=h;ocean.oxygen_capacity=120. if upgrade=="endurance" else 100.
 	_refresh()
 	if mission_hud!=null:
 		mission_hud.layout(size,h);mission_row_heights=_measured_mission_rows()
@@ -165,8 +165,8 @@ func _primary_action() -> void:
 		decoy_armed=false;knock_armed=false;map_gesture.cancel();knock_press.clear();_refresh();return
 	_order("camera")
 func _order(order: String,args: Dictionary={}) -> void:
-	if advanced_orders and order not in ["select","queue"]:
-		advanced_orders=false;mission_hud.instruments_open=false;_layout()
+	if advanced_orders and order!="select":
+		mission_hud.dismiss()
 	if order=="program":
 		knock_armed=false; ocean.knock_targeting=false; decoy_armed=false; ocean.decoy_targeting=false
 		map_gesture.cancel(); sim.paused=true; screen="program"; hud.hide(); menu.hide()
@@ -233,9 +233,11 @@ func _refresh() -> void:
 	order_buttons.knock.text="CANCEL\nTORPEDO" if knock_armed else "TORPEDO\n%d"%sim.tools.get("knock",0)
 	order_buttons.knock.disabled=not knock_armed and (sim.selected!=0 or not sim.units[0].alive or sim.tools.get("knock",0)<=0)
 	order_buttons.emp.text="DISRUPT\n%d"%sim.tools.emp
+	order_buttons.emp.disabled=sim.tools.emp<=0
 	order_buttons.decoy.text="CANCEL\nDECOY" if decoy_armed else "DECOY\n%d"%sim.tools.decoy
 	order_buttons.decoy.disabled=sim.tools.decoy<=0 and not decoy_armed
 	order_buttons.recon.text="SURVEY\n%d"%sim.tools.recon
+	order_buttons.recon.disabled=sim.tools.recon<=0
 	log_label.text=sim.message
 	if sim.mission.get("well_revision",0)==1 and sim.mission.objectives[0].captured:
 		var comparison="MATCH RECORDED" if not sim.mission.well_observation.is_empty() else ("REFERENCE LOGGED" if not sim.mission.well_reference.is_empty() else "UNVERIFIED")
@@ -259,12 +261,16 @@ func _refresh() -> void:
 func _focus_craft() -> void:
 	map_gesture.cancel();ocean.focus_craft();_refresh();_view_changed()
 func _toggle_advanced() -> void:
-	knock_armed=false;ocean.knock_targeting=false;decoy_armed=false;ocean.decoy_targeting=false;map_gesture.cancel();knock_press.clear()
-	advanced_orders=not advanced_orders
-	if not advanced_orders:mission_hud.instruments_open=false
-	_layout();_refresh()
+	if advanced_orders:mission_hud.dismiss()
+	else:mission_hud.open("craft",{"kind":"craft","unit":sim.selected,"pos":sim.units[sim.selected].pos})
 func _input(event:InputEvent) -> void:
-	if screen!="mission" or not map_gesture.active():return
+	if screen!="mission":return
+	if mission_hud.owns_pointer(event):get_viewport().set_input_as_handled();return
+	if advanced_orders:
+		map_gesture.cancel();knock_press.clear()
+		if mission_hud.popup_input(event):get_viewport().set_input_as_handled()
+		return
+	if not map_gesture.active():return
 	var pressed=(event is InputEventScreenTouch and event.pressed) or (event is InputEventMouseButton and event.pressed)
 	if pressed and (not ocean.get_global_rect().has_point(event.position) or mission_hud.blocks(event.position)):
 		map_gesture.cancel();return
@@ -305,6 +311,10 @@ func _map_event(event: InputEvent,local_event: bool=false) -> bool:
 			if decoy_armed and knock_press.get("decoy",false) and knock_press.get("unit",-1)==sim.selected:
 				_order("decoy",{"point":ocean.map_position(action.tap-ocean.global_position)})
 			knock_press.clear(); return true
+		var context=ocean.pick_context(action.tap-ocean.global_position,ui_touch_height)
+		if not context.is_empty():
+			if context.kind=="craft" and context.unit!=sim.selected:_order("select",{"unit":context.unit})
+			mission_hud.open("object" if context.kind=="objective" else "fleet" if context.kind=="fleet" else "craft",context);return true
 		var world=ocean.map_position(action.tap-ocean.global_position)
 		if Rect2(Vector2.ZERO,ocean.world_size()).has_point(world): _order("route",{"point":world})
 	if action.has("ended") or action.has("tap"):knock_press.clear()
@@ -377,9 +387,9 @@ func _briefing(index: int) -> void:
 	_menu_text("%02d / %s"%[index+1,briefing.title.to_upper()],30)
 	_menu_text(briefing.brief,20)
 	if briefing.get("blackwater_revision",0)==1:
-		_menu_text("ORDERS\nPlot routes, select a craft, settle and SAMPLE for two seconds. Quietus receives within156m; drones within214.5m. Cover blocks reception. An audible SONAR may prompt a local relay replay; a decoded packet explains its partner's handshake. Return Quietus after both records.",17)
+		_menu_text("ORDERS\nTap a craft for its command ring; FLEET chooses a station. Empty water plots its route. ROUTE → REPLACE / QUEUE changes append intent. PAUSE stays available. Settle and SAMPLE for two seconds. Quietus receives within156m; drones within214.5m. Cover blocks reception. An audible SONAR may prompt a local relay replay; a decoded packet explains its partner's handshake. Return Quietus after both records.",17)
 	else:
-		_menu_text("ORDERS\nTap water to replace your route. REPLACE toggles explicit queueing. Select Quietus or either drone. Use CAMERA within 240m of a gold record marker. Return Quietus to the extraction ring after all records are secured.",17)
+		_menu_text("ORDERS\nTap a craft for its command ring; FLEET chooses a station. Tap empty water to replace its route. Craft → ROUTE → REPLACE / QUEUE changes append intent. PAUSE stays available. Drag / pinch inspects freely; FOCUS follows the craft and FIT shows the region. CAMERA works within 240m of a gold record marker. Return Quietus after all records are secured.",17)
 	_menu_text("SPACE / PAUSE grants unlimited planning time. Silent running is slower and quieter. Disruption interrupts nearby Sirens for 12 seconds. Quietus torpedoes travel noisily up to 150m; impact pins one Siren for 8s. Cover blocks sonar, enemy sight and torpedoes.",17)
 	var stock=_loadout_stock(upgrade)
 	_menu_text("NEXT DIVE / RETRY · %s\nO₂ %d%% · DISRUPT %d · SURVEY %d · 3 DECOYS · 2 DRONES · 2 TORPEDOES"%[upgrade.to_upper(),stock[0],stock[1],stock[2]],17)
@@ -403,7 +413,7 @@ func _debrief() -> void:
 		if not recovered_evidence.is_empty(): _button(panel_box,"REVIEW FIELD RECORDS",func(): _evidence_gallery(0),"evidence")
 		if mission_index==5:
 			var discovery="The crown points into the trench. Unarmed wakes lead away from the fracture. Quietus’ hydrophones resolve what the images could not: they are evacuating.\n\n" if sim.mission.get("finale_revision",0)==1 else ""
-			_menu_text("THE SONG CONTINUES\n\n"+discovery+"You return with a warning, not a firing solution. Above you, the fleet waits for orders. Below, the foundry lights go dark, one by one. For the first time since descent, Quietus hears only the ocean.\n\nCampaign complete. Every dive remains replayable.",20)
+			_menu_text("THE SONG CONTINUES\n\n"+discovery+"You return with a warning, not a firing solution. Above you, the fleet waits for orders. Below, the foundry lights go dark, one by one. For the first time since descent, Quietus hears only the ocean.\n\nIntroductory arc complete. Every dive remains replayable.",20)
 		else: _button(panel_box,"NEXT DIVE",func(): _briefing(mission_index+1),"next_dive")
 	else:
 		_menu_text("SIGNAL LOST",32); _menu_text(sim.message,22); _menu_text("Field records remain reviewable after loss or abandonment. Only successful extraction advances the campaign.",17)
@@ -527,11 +537,7 @@ func _report_targets() -> void:
 		for control in route_editor.find_children("*","Button",true,false):
 			if control.is_visible_in_tree() and control.has_meta("action"): buttons[control.get_meta("action")]=control
 	elif hud.visible:
-		buttons={"pause":pause_button,"sub":unit_buttons[0],"droneA":unit_buttons[1],"droneB":unit_buttons[2]}
-		for key in order_buttons:
-			if order_buttons[key].is_visible_in_tree(): buttons[key]=order_buttons[key]
-		buttons["more_orders"]=advanced_button
-		for i in zoom_buttons.size(): buttons[["zoom_out","zoom_in","fit"][i]]=zoom_buttons[i]
+		buttons=mission_hud.action_controls()
 	else:
 		for child in panel_box.get_children()+menu_footer.get_children():
 			if child is Button and child.has_meta("action"): buttons[child.get_meta("action")]=child
@@ -653,12 +659,7 @@ func _ui_metrics(capture_phase: String="layout_only") -> Dictionary:
 		for control in route_editor.find_children("*","Button",true,false):
 			if control.has_meta("action"): targets[control.get_meta("action")]=control
 	elif hud.visible:
-		targets={"pause":pause_button,"sub":unit_buttons[0],"droneA":unit_buttons[1],"droneB":unit_buttons[2],"more_orders":advanced_button}
-		for key in order_buttons:
-			if order_buttons[key].is_visible_in_tree(): targets[key]=order_buttons[key]
-		for i in zoom_buttons.size(): targets[["zoom_out","zoom_in","fit"][i]]=zoom_buttons[i]
-		targets["focus"]=mission_hud.focus_button;targets["instruments"]=mission_hud.instrument_button
-		if advanced_orders:targets["orders_close"]=mission_hud.close_button
+		targets=mission_hud.action_controls()
 	else:
 		var candidates=menu.find_children("*","Button",true,false)+menu.find_children("*","Slider",true,false)
 		for control in candidates: targets[control.get_meta("action",control.get_meta("ui_action",str(control.get_instance_id())))]=control
@@ -673,7 +674,7 @@ func _ui_metrics(capture_phase: String="layout_only") -> Dictionary:
 		if not hit.has_area(): continue
 		controls.append({"action":action,"visual_rect":_rect_values(visual),"hit_rect":_rect_values(hit),"clipped":not hit.is_equal_approx(visual)})
 	var capture_state={"phase":capture_phase,"drawn_frame":Engine.get_frames_drawn(),"mission":mission_index,"paused":sim.paused,"selected":sim.selected,"capture_unit":sim.capture_unit,"hud_visible":hud.is_visible_in_tree(),"menu_visible":menu.is_visible_in_tree(),"optical_visible":ocean.optical_feed!=null and ocean.optical_feed.is_visible_in_tree()}
-	var result={"schema":1,"screen":screen,"orders_page":"secondary" if advanced_orders else "primary","hud_layout":"playfield","chart_view":{"mode":ocean.chart_camera.mode,"zoom":ocean.chart_camera.zoom,"center":[ocean.chart_camera.center.x,ocean.chart_camera.center.y]},"viewport":[viewport.x,viewport.y],"window":[window.x,window.y],"safe_rect":_rect_values(safe),"density_dpi":ui_density_dpi(),"density_source":ui_density_source(),"chart_rect":_rect_values(ocean.get_global_rect()),"scroll_rect":_rect_values(scroll.get_global_rect().intersection(menu.get_global_rect()).intersection(Rect2(Vector2.ZERO,viewport))),"scroll_vertical":scroll.scroll_vertical,"settings_values":{"music":settings.get("music",0.5),"effects":settings.get("effects",0.8),"mute":settings.get("mute",false)},"capture_state":capture_state,"controls":controls}
+	var result={"schema":1,"screen":screen,"orders_page":"secondary" if advanced_orders else "primary","hud_layout":"radial","context_page":mission_hud.page if advanced_orders else "water","chart_view":{"mode":ocean.chart_camera.mode,"zoom":ocean.chart_camera.zoom,"center":[ocean.chart_camera.center.x,ocean.chart_camera.center.y]},"viewport":[viewport.x,viewport.y],"window":[window.x,window.y],"safe_rect":_rect_values(safe),"density_dpi":ui_density_dpi(),"density_source":ui_density_source(),"chart_rect":_rect_values(ocean.get_global_rect()),"scroll_rect":_rect_values(scroll.get_global_rect().intersection(menu.get_global_rect()).intersection(Rect2(Vector2.ZERO,viewport))),"scroll_vertical":scroll.scroll_vertical,"settings_values":{"music":settings.get("music",0.5),"effects":settings.get("effects",0.8),"mute":settings.get("mute",false)},"capture_state":capture_state,"controls":controls}
 	if planner_visible:
 		var preview=route_editor.preview; var camera=preview.chart_camera; var chart=preview.get_global_rect(); var scale=window/viewport
 		result.chart_rect=_rect_values(chart)

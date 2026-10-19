@@ -29,5 +29,5 @@ static func run(t,game) -> void:
 		t.check(game.screen=="debrief" and s.outcome=="won" and id in game.completed and game.unlocked==mini(5,id+1),"campaign mission %d completion unlocks the correct next dive"%(id+1))
 	var ending=false
 	for child in game.panel_box.get_children()+game.menu_footer.get_children():
-		if child is Label and "Campaign complete" in child.text: ending=true
+		if child is Label and "Introductory arc complete" in child.text: ending=true
 	t.check(game.completed.size()==6 and ending,"six actual mission recoveries reach the campaign ending and preserve replay progress")

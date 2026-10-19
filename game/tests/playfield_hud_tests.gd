@@ -50,16 +50,16 @@ func run():
    print("PLAYFIELD_WATER ",name," unobscured=",exposed," camera=",ocean.chart_camera.center," mode=",ocean.chart_camera.mode)
    check(exposed>=(.75 if name=="cover" else .82),"persistent HUD leaves most water unobscured")
    var scale=Vector2(dimensions)/root.get_visible_rect().size
-   for button in game.mission_hud.dock.get_children():
+   for button in game.mission_hud.action_controls().values():
     var font=button.get_theme_font("font");var font_size=button.get_theme_font_size("font_size");var content=button.get_theme_stylebox("normal").get_minimum_size()
-    for line in button.text.split("\n"):check(font.get_string_size(line,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x+content.x<=button.size.x+.1,"dock caption fits at unchanged full type size")
+    for line in button.text.split("\n"):check(font.get_string_size(line,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x+content.x<=button.size.x+.1,"persistent caption fits at unchanged full type size")
    var controls=game._ui_metrics().controls
    for n in controls.size():
     var c=controls[n];var r=Rect2(c.hit_rect[0],c.hit_rect[1],c.hit_rect[2],c.hit_rect[3])
-    check(not c.clipped and r.size.x*scale.x>=125.99 and r.size.y*scale.y>=125.99,"actual dock/chart target48dp "+c.action)
+    check(not c.clipped and r.size.x*scale.x>=125.99 and r.size.y*scale.y>=125.99,"actual persistent chart target48dp "+c.action)
     for j in range(n):
      var b=controls[j].hit_rect
-     check(not r.intersects(Rect2(b[0],b[1],b[2],b[3])),"actual dock/chart controls do not overlap")
+     check(not r.intersects(Rect2(b[0],b[1],b[2],b[3])),"actual persistent chart controls do not overlap")
   check(ocean.position==Vector2.ZERO and ocean.size==game.size,"water fills safe viewport")
   var follows=ocean.chart_camera.has_method("follow")
   check(follows,"default camera supports physical craft follow")
@@ -71,7 +71,7 @@ func run():
   if not follows:game.queue_free();await settle();continue
   print("PLAYFIELD_SCROLL ",name," craft=",start," -> ",game.sim.units[0].pos," camera=",camera_start," -> ",ocean.chart_camera.center)
   check(game.sim.units[0].pos.distance_to(start)>100 and ocean.chart_camera.center.distance_to(camera_start)>30,"actual physical movement scrolls the followed playfield")
-  var destination=game.sim.units[0].pos+Vector2(50,-20);var latest=ocean.global_position+ocean.screen_position(destination)
+  var destination=game.sim.units[0].pos+Vector2(220,-20);var latest=ocean.global_position+ocean.screen_position(destination)
   await touch(latest,true);await touch(latest,false);await settle()
   check(not game.sim.route_goals().is_empty() and game.sim.route_goals()[0].pos.distance_to(destination)<.1,"ordinary route tap after physical follow uses latest camera transform")
   await click(game.pause_button);check(game.sim.paused,"persistent PAUSE remains immediate after actual moving play")
@@ -81,12 +81,13 @@ func run():
   ocean.fit_chart();game._order("select",{"unit":0});ocean._sync_camera()
   check(ocean.chart_camera.mode=="overview" and ocean.chart_camera.zoom==1,"FIT stays overview through craft selection")
   game._focus_craft();check(ocean.chart_camera.mode=="follow","FOCUS explicitly returns to craft follow")
-  var before=game.sim.snapshot();await click(game.advanced_button)
+  var before=game.sim.snapshot();game.mission_hud.open("craft")
   check(game.advanced_orders and game.sim.snapshot()==before,"orders sheet opens without changing route or pause")
   await capture(name+"-orders")
+  await click(game.mission_hud.extra.tools_menu)
   await click(game.order_buttons.decoy)
   check(game.decoy_armed and not game.advanced_orders,"context tool closes sheet into explicit map aim")
-  before=game.sim.snapshot();await click(game.order_buttons.camera)
+  before=game.sim.snapshot();await click(game.mission_hud.close_button)
   check(not game.decoy_armed and game.sim.snapshot()==before,"persistent CANCEL leaves no tool spend or world order")
   await click(game.pause_button);check(not game.sim.paused,"paused orders aim and cancel return directly to running play")
   await click(game.pause_button)
@@ -95,9 +96,10 @@ func run():
   var outside=game.global_position+Vector2(32,game.size.y*.5)
   await touch(outside,true);await touch(outside,false);await settle()
   check(not game.advanced_orders and game.sim.snapshot()==before and not game.map_gesture.active(),"outside-sheet dismissal consumes the whole gesture")
+  game.mission_hud.open("craft");await settle()
   await click(game.mission_hud.instrument_button)
   check(game.advanced_orders and game.mission_hud.instrument_info.visible and "OPEN WATER" in game.mission_hud.instrument_info.text and "reception unknown" in game.mission_hud.instrument_info.text,"expandable instruments keep truthful acoustic uncertainty")
-  await click(game.mission_hud.close_button)
+  game.mission_hud.dismiss()
   ocean.pan_chart(Vector2(-40,-10));var camera_state=ocean.chart_camera.snapshot();var archive=game._archive()
   check(game.store.valid(archive) and archive.chart_view==camera_state,"save includes view intent alongside a valid unchanged tactical archive")
   var saved_camera=preload("res://src/presentation/chart_camera.gd").new();saved_camera.configure(ocean.size,ocean.world_size());saved_camera.restore(archive.chart_view)

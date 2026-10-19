@@ -15,7 +15,7 @@ func button_click(point:Vector2):
   var event=InputEventMouseButton.new();event.button_index=MOUSE_BUTTON_LEFT;event.position=point;event.global_position=point;event.pressed=down;root.push_input(event,true);await process_frame
  await frames()
 func setup(g):
- g._start_mission(0);g.sim.units[0].pos=Vector2(400,500);g.sim.units[0].route=[{"pos":Vector2(300,700),"stop":true}];g._toggle_advanced();g._refresh();await frames()
+ g._start_mission(0);g.sim.units[0].pos=Vector2(400,500);g.sim.units[0].route=[{"pos":Vector2(300,700),"stop":true}];g.mission_hud.open("tools");g._refresh();await frames()
 func run():
  root.size=Vector2i(1280,720);await frames()
  var g=load("res://scenes/main.tscn").instantiate();g.capture_scenario="decoy-aim-tests";root.add_child(g);g.set_process(false);await setup(g)
