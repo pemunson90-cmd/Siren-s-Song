@@ -1,0 +1,117 @@
+{
+  "actual_chart": "[P: (0.0, 15.10001), S: (598.0, 358.8)]",
+  "actual_goals": [
+    {
+      "mode": "inherit",
+      "pos": "(260.0, 800.0)",
+      "stop": false
+    },
+    {
+      "mode": "inherit",
+      "pos": "(556.3209, 719.9999)",
+      "stop": false
+    },
+    {
+      "mode": "inherit",
+      "pos": "(540.0, 800.0)",
+      "stop": true
+    }
+  ],
+  "desired_final_point": "(400,780)",
+  "elapsed": 0.0,
+  "events": [
+    {
+      "index": 0,
+      "kind": "press",
+      "preview_point": "(112.025, 314.1)"
+    },
+    {
+      "index": 1,
+      "kind": "press",
+      "preview_point": "(172.025, 314.1)"
+    },
+    {
+      "index": 0,
+      "kind": "move",
+      "preview_point": "(82.02499, 314.1)"
+    },
+    {
+      "index": 1,
+      "kind": "move",
+      "preview_point": "(202.025, 314.1)"
+    },
+    {
+      "index": 0,
+      "kind": "release",
+      "preview_point": "(82.02499, 314.1)"
+    },
+    {
+      "index": 1,
+      "kind": "release",
+      "preview_point": "(202.025, 314.1)"
+    },
+    {
+      "index": 0,
+      "kind": "press",
+      "preview_point": "(112.025, 314.1)"
+    },
+    {
+      "index": 1,
+      "kind": "press",
+      "preview_point": "(172.025, 314.1)"
+    },
+    {
+      "index": 0,
+      "kind": "move",
+      "preview_point": "(82.02499, 314.1)"
+    },
+    {
+      "index": 1,
+      "kind": "move",
+      "preview_point": "(202.025, 314.1)"
+    },
+    {
+      "index": 0,
+      "kind": "release",
+      "preview_point": "(82.02499, 314.1)"
+    },
+    {
+      "index": 1,
+      "kind": "release",
+      "preview_point": "(202.025, 314.1)"
+    },
+    {
+      "index": -1,
+      "kind": "press",
+      "preview_point": "(142.025, 314.1)"
+    },
+    {
+      "index": -1,
+      "kind": "move",
+      "preview_point": "(178.025, 314.1)"
+    },
+    {
+      "index": -1,
+      "kind": "release",
+      "preview_point": "(178.025, 314.1)"
+    },
+    {
+      "index": 0,
+      "kind": "press",
+      "preview_point": "(207.9249, 284.2)"
+    },
+    {
+      "index": 0,
+      "kind": "release",
+      "preview_point": "(207.9249, 284.2)"
+    }
+  ],
+  "expected_zoom": 4.0,
+  "fps": 12,
+  "frames": 144,
+  "initial_chart": "[P: (0.0, 15.10001), S: (598.0, 358.8)]",
+  "paused": true,
+  "preview_size": "(598.0, 389.0)",
+  "resources_unchanged": true,
+  "selected": 1
+}
