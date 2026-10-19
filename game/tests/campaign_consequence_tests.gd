@@ -23,8 +23,13 @@ func _initialize():
  var opposite={"id":6,"expedition_revision":1,"recovered":true,"chosen_route":"shelf","expedition_facts":{"shelf":"other"}}
  var replayed=Campaign.recover(launched,opposite)
  check(replayed.selected_thread=="deep" and replayed.history==launched.history and "shelf" in replayed.routes,"opposite replay adds access without rewriting selected history")
+ var failed9={"id":9,"expedition_revision":2,"recovered":false,"expedition_facts":{"wake_packet":"field only"}}
+ var uncommitted=Campaign.recover(earned,failed9)
+ check(uncommitted.selected_thread.is_empty() and uncommitted.history.is_empty(),"failed onward dive does not commit selected history")
+ replayed=Campaign.recover(replayed,{"id":9,"expedition_revision":2,"recovered":true,"expedition_facts":{},"launch_equipment":launched.history[0].fitted})
  var confluence={"id":11,"expedition_revision":2,"recovered":true,"chosen_route":"concealed","expedition_facts":{}}
  var selected=Campaign.recover(replayed,confluence)
+ check(Campaign.valid(selected),"committed recovered history remains a valid archive")
  confluence.chosen_route="overt"
  check(Campaign.recover(selected,confluence).facts.confluence_route=="concealed","replayed later exit cannot rewrite committed consequence")
  var corrupt=launched.duplicate(true);corrupt.history[0].mission=99
