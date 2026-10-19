@@ -74,8 +74,11 @@ while IFS='|' read -r scenario summary; do
     }
 done <<'TACTICAL_SCENARIOS'
 route_program_tests|ROUTE PROGRAM
+drone_operations_tests|DRONE OPERATIONS
+drone_operations_ui_tests|DRONE OPERATIONS UI
 route_program_ui_tests|ROUTE PROGRAM UI
 planner_navigation_ui_tests|PLANNER NAVIGATION
+planner_space_ui_tests|PLANNER SPACE UI
 planner_metrics_tests|PLANNER METRICS
 acoustic_path_tests|ACOUSTIC PATH
 acoustic_hearing_tests|ACOUSTIC HEARING
