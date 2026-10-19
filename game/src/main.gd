@@ -101,6 +101,9 @@ func _label(parent: Node,text: String,font_size: int) -> Label:
 func _button(parent: Node,text: String,action: Callable,action_id: String="") -> Button:
 	var b=Button.new(); b.text=text; b.custom_minimum_size=Vector2(0,ui_touch_height); b.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART; b.pressed.connect(action,CONNECT_DEFERRED); b.focus_mode=Control.FOCUS_NONE; parent.add_child(b)
 	if parent==menu_footer: b.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+	# Let ScrollContainer observe touch-emulated drags begun on menu rows.
+	# Its scroll-begin notification cancels the button click; taps still activate.
+	if parent==panel_box: b.mouse_filter=Control.MOUSE_FILTER_PASS
 	if not action_id.is_empty(): b.set_meta("action",action_id); b.set_meta("ui_action",action_id)
 	return b
 func ui_density_dpi() -> float:
@@ -515,4 +518,4 @@ func _ui_metrics() -> Dictionary:
 			parent=parent.get_parent()
 		if not hit.has_area(): continue
 		controls.append({"action":action,"visual_rect":_rect_values(visual),"hit_rect":_rect_values(hit),"clipped":not hit.is_equal_approx(visual)})
-	return {"schema":1,"screen":screen,"orders_page":"secondary" if advanced_orders else "primary","viewport":[viewport.x,viewport.y],"window":[window.x,window.y],"safe_rect":_rect_values(safe),"density_dpi":ui_density_dpi(),"density_source":ui_density_source(),"chart_rect":_rect_values(ocean.get_global_rect()),"scroll_rect":_rect_values(scroll.get_global_rect().intersection(menu.get_global_rect()).intersection(Rect2(Vector2.ZERO,viewport))),"scroll_vertical":scroll.scroll_vertical,"controls":controls}
+	return {"schema":1,"screen":screen,"orders_page":"secondary" if advanced_orders else "primary","viewport":[viewport.x,viewport.y],"window":[window.x,window.y],"safe_rect":_rect_values(safe),"density_dpi":ui_density_dpi(),"density_source":ui_density_source(),"chart_rect":_rect_values(ocean.get_global_rect()),"scroll_rect":_rect_values(scroll.get_global_rect().intersection(menu.get_global_rect()).intersection(Rect2(Vector2.ZERO,viewport))),"scroll_vertical":scroll.scroll_vertical,"settings_values":{"music":settings.get("music",0.5),"effects":settings.get("effects",0.8),"mute":settings.get("mute",false)},"controls":controls}

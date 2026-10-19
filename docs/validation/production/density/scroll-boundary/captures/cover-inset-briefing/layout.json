@@ -1,0 +1,74 @@
+{
+  "chart_rect": [
+    116.667,
+    112.0,
+    1072.333,
+    580.0
+  ],
+  "controls": [
+    {
+      "action": "begin",
+      "clipped": false,
+      "hit_rect": [
+        513.333,
+        576.0,
+        366.0,
+        98.0
+      ],
+      "visual_rect": [
+        513.333,
+        576.0,
+        366.0,
+        98.0
+      ]
+    },
+    {
+      "action": "back",
+      "clipped": false,
+      "hit_rect": [
+        891.333,
+        576.0,
+        366.0,
+        98.0
+      ],
+      "visual_rect": [
+        891.333,
+        576.0,
+        366.0,
+        98.0
+      ]
+    }
+  ],
+  "density_dpi": 420.0,
+  "density_source": "test_android_density_fixture",
+  "orders_page": "primary",
+  "safe_area_source": "recorded_android_39222413584_fixture",
+  "safe_rect": [
+    136.0,
+    0.0,
+    2384.0,
+    1080.0
+  ],
+  "schema": 1,
+  "screen": "briefing",
+  "scroll_rect": [
+    513.333,
+    46.0,
+    744.0,
+    518.0
+  ],
+  "scroll_vertical": 0,
+  "settings_values": {
+    "effects": 0.8,
+    "music": 0.5,
+    "mute": false
+  },
+  "viewport": [
+    1680.0,
+    720.0
+  ],
+  "window": [
+    2520.0,
+    1080.0
+  ]
+}

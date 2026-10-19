@@ -26,7 +26,10 @@ func route_intent(ui) -> void:
 func run():
  root.size=Vector2i(2520,1080); await process_frame; await process_frame
  var ui=load("res://scenes/main.tscn").instantiate(); ui.set_script(preload("res://tests/density_main.gd")); ui.capture_scenario="density-test"; root.add_child(ui)
- for dimensions in [Vector2i(2520,1080),Vector2i(2184,1968)]:
+ for profile in [{"size":Vector2i(2520,1080),"inset":0},{"size":Vector2i(2184,1968),"inset":0},{"size":Vector2i(2520,1080),"inset":136}]:
+  var dimensions=profile.size
+  ui.fixture_safe_area=Rect2(profile.inset,0,dimensions.x-profile.inset,dimensions.y) if profile.inset>0 else Rect2()
+  print("DENSITY_PROFILE window=",dimensions," recorded_inset_x=",profile.inset)
   root.size=dimensions; await process_frame; await process_frame
   ui._start_mission(0); ui._layout(); await process_frame; await process_frame
   var scale=Vector2(dimensions)/ui.get_viewport_rect().size
@@ -42,14 +45,14 @@ func run():
    check(ui.sim.snapshot()==before,"opening secondary orders does not mutate paused tactical state")
    check(ui.order_buttons.camera.is_visible_in_tree() and ui.order_buttons.home.is_visible_in_tree(),"camera and emergency remain accessible on both order pages")
    var metrics=ui._ui_metrics()
-   var safe=Rect2(Vector2.ZERO,ui.get_viewport_rect().size)
+   var safe=preload("res://src/presentation/layout_metrics.gd").content_rect(ui.get_viewport_rect().size,Vector2(dimensions),Rect2(profile.inset,0,dimensions.x-profile.inset,dimensions.y))
    for i in metrics.controls.size():
     var c=metrics.controls[i];var r=Rect2(c.hit_rect[0],c.hit_rect[1],c.hit_rect[2],c.hit_rect[3])
     check(not c.clipped and safe.encloses(r),"visible mission action %s fully exposed"%c.action)
     for j in range(i):
      var other=metrics.controls[j].hit_rect;var intersection=r.intersection(Rect2(other[0],other[1],other[2],other[3]))
      check(not intersection.has_area(),"actual hit rectangles %s/%s do not overlap"%[c.action,metrics.controls[j].action])
-  var area=ui.ocean.size.x*ui.ocean.size.y/(ui.size.x*ui.size.y)
+  var area=ui.ocean.size.x*ui.ocean.size.y/(ui.get_viewport_rect().size.x*ui.get_viewport_rect().size.y)
   check(area>=0.50,"enlarged physical targets retain at least half the surface for the chart")
   var header_font=ui.detail_label.get_theme_font("font")
   var header_size=ui.detail_label.get_theme_font_size("font_size")
@@ -65,6 +68,12 @@ func run():
   for button in ui.find_children("*","Button",true,false):
    if button.get_meta("action","")=="begin":begin=button
   check(begin!=null and ui.menu.get_global_rect().encloses(begin.get_global_rect()) and ui.get_viewport_rect().encloses(begin.get_global_rect()),"long finale briefing keeps ENTER WATER fully exposed at physical target size")
+  var content_safe=preload("res://src/presentation/layout_metrics.gd").content_rect(ui.get_viewport_rect().size,Vector2(dimensions),Rect2(profile.inset,0,dimensions.x-profile.inset,dimensions.y))
+  for button in ui.menu_footer.get_children():
+   check(content_safe.encloses(button.get_global_rect()),"sticky briefing action %s remains inside recorded physical safe region"%button.get_meta("action",""))
+  ui._settings_menu();await process_frame;await process_frame;await process_frame
+  for button in ui.menu_footer.get_children():
+   check(content_safe.encloses(button.get_global_rect()),"sticky Settings BACK remains inside recorded physical safe region")
  check(ui.has_method("_ui_metrics"),"actual hit geometry and density provenance are available for independent native measurement")
  ui.queue_free();await process_frame;await create_timer(0.5).timeout
  print("DENSITY CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)

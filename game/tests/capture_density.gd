@@ -1,11 +1,14 @@
 extends SceneTree
 func _initialize():call_deferred("run")
 func run():
- var view="primary";var evidence_path=""
+ var view="primary";var evidence_path="";var inset=0.0
  for arg in OS.get_cmdline_user_args():
   if arg.begins_with("--density-view="):view=arg.get_slice("=",1)
   if arg.begins_with("--metrics-path="):evidence_path=arg.trim_prefix("--metrics-path=")
- var game=load("res://scenes/main.tscn").instantiate();game.set_script(preload("res://tests/density_main.gd"));game.capture_scenario="density-review";root.add_child(game)
+  if arg.begins_with("--safe-inset-x="):inset=float(arg.trim_prefix("--safe-inset-x="))
+ var game=load("res://scenes/main.tscn").instantiate();game.set_script(preload("res://tests/density_main.gd"));game.capture_scenario="density-review"
+ if inset>0:game.fixture_safe_area=Rect2(inset,0,root.size.x-inset,root.size.y)
+ root.add_child(game)
  var screenshot_path=game.capture_path; game.capture_path=""
  await process_frame;await process_frame
  if view=="settings":game._settings_menu()

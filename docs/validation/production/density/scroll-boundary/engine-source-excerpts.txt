@@ -1,0 +1,50 @@
+https://github.com/godotengine/godot/blob/4.6.3-stable/scene/main/viewport.cpp
+Full source SHA256 8499322e9bba800abbd4e930a5dd578c549a950c7f993ce5c2dd207f58b93cf2
+1715: void Viewport::_gui_call_input(Control *p_control, const Ref<InputEvent> &p_input) {
+1716: 	Ref<InputEvent> ev = p_input;
+1717:
+1718: 	// Returns true if an event should be impacted by a control's mouse filter.
+1719: 	bool is_pointer_event = Ref<InputEventMouse>(p_input).is_valid() || Ref<InputEventScreenDrag>(p_input).is_valid() || Ref<InputEventScreenTouch>(p_input).is_valid();
+1720:
+1721: 	Ref<InputEventMouseButton> mb = p_input;
+1722: 	bool is_scroll_event = mb.is_valid() &&
+1723: 			(mb->get_button_index() == MouseButton::WHEEL_DOWN ||
+1724: 					mb->get_button_index() == MouseButton::WHEEL_UP ||
+1725: 					mb->get_button_index() == MouseButton::WHEEL_LEFT ||
+1726: 					mb->get_button_index() == MouseButton::WHEEL_RIGHT);
+1727:
+1728: 	CanvasItem *ci = p_control;
+1729: 	while (ci) {
+1730: 		Control *control = Object::cast_to<Control>(ci);
+1731: 		if (control) {
+1732: 			if (control->get_mouse_filter_with_override() != Control::MOUSE_FILTER_IGNORE) {
+1733: 				control->_call_gui_input(ev);
+1734: 			}
+1735:
+1736: 			if (!control->is_inside_tree() || control->is_set_as_top_level()) {
+1737: 				break;
+1738: 			}
+1739: 			if (control->get_mouse_filter_with_override() == Control::MOUSE_FILTER_STOP && is_pointer_event && !(is_scroll_event && control->data.force_pass_scroll_events)) {
+1740: 				// Mouse, ScreenDrag and ScreenTouch events are stopped by default with MOUSE_FILTER_STOP, unless we have a scroll event and force_pass_scroll_events set to true
+1741: 				set_input_as_handled();
+1742: 				break;
+1743: 			}
+1744: 		}
+1745:
+1746: 		if (is_input_handled()) {
+1747: 			// Break when the event is set to handled in a child Control node or after physics picking in SubViewport.
+
+https://github.com/godotengine/godot/blob/4.6.3-stable/platform/android/display_server_android.cpp
+Full source SHA256 9564abd54f2227775e47ec7a8a09eaebe7a767456a4c025c04fd09566cfc6894
+370: 		return SCREEN_REFRESH_RATE_FALLBACK;
+371: 	}
+372:
+373: 	return godot_io_java->get_screen_refresh_rate(SCREEN_REFRESH_RATE_FALLBACK);
+374: }
+375:
+376: bool DisplayServerAndroid::is_touchscreen_available() const {
+377: 	return true;
+378: }
+379:
+380: void DisplayServerAndroid::virtual_keyboard_show(const String &p_existing_text, const Rect2 &p_screen_rect, VirtualKeyboardType p_type, int p_max_length, int p_cursor_start, int p_cursor_end) {
+381: 	GodotIOJavaWrapper *godot_io_java = OS_Android::get_singleton()->get_godot_io_java();
