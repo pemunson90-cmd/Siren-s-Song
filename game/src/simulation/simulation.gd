@@ -273,7 +273,7 @@ func _observe() -> void:
 			var p=Vector2(x*40+20,y*40+20)
 			if visible(p): known[Vector2i(x,y)]=true
 	for i in sirens.size():
-		if visible(sirens[i].pos): contacts[i]={"pos":sirens[i].pos,"time":elapsed,"mode":sirens[i].mode,"lock":sirens[i].lock,"angle":sirens[i].angle,"target":sirens[i].target}
+		if visible(sirens[i].pos): contacts[i]={"pos":sirens[i].pos,"time":elapsed,"mode":sirens[i].mode,"lock":sirens[i].lock,"angle":sirens[i].angle,"target":sirens[i].target,"type":sirens[i].get("type","patroller")}
 	var expired: Array=[]
 	for i in contacts:
 		if elapsed-contacts[i].time>20: expired.append(i)
@@ -293,6 +293,8 @@ func _threats(dt: float) -> void:
 		if s.stun>0:
 			s.stun-=dt; s.lock=0.0; s.target=-1; s.mode="DISRUPTED"; continue
 		var detected := -1
+		var heard := false
+		s["attention_time"]=maxf(0.0,float(s.get("attention_time",0.0))-dt)
 		for i in units.size():
 			var u=units[i]
 			if not u.alive: continue
@@ -300,35 +302,79 @@ func _threats(dt: float) -> void:
 			var radius=180.0 if u.silent else 290.0
 			if dist<radius and line_clear(s.pos,u.pos): detected=i; break
 			if u.vel.length()>50 and dist<430:
-				s.goal=u.pos; s.mode="INVESTIGATE"; s.suspicion=maxf(s.suspicion,0.3)
+				s.goal=u.pos; heard=true; s.mode="INVESTIGATE"; s.suspicion=maxf(s.suspicion,0.3)
 		for noise in noises:
 			var acoustic=1.0 if line_clear(s.pos,noise.pos) else 0.36
 			if s.pos.distance_to(noise.pos)<noise.radius*acoustic:
-				s.goal=noise.pos; s.mode="INVESTIGATE"; s.suspicion=maxf(s.suspicion,0.45)
+				s.goal=noise.pos; heard=true; s.mode="INVESTIGATE"; s.suspicion=maxf(s.suspicion,0.45)
+		if heard:
+			s["last_known"]=s.goal; s["attention_time"]=12.0; s["search_index"]=0
 		if detected>=0:
 			if s.target!=detected: s.lock=0.0
-			s.route.clear(); s.angle=rotate_toward(s.angle,s.pos.angle_to_point(units[detected].pos),1.8*dt)
+			if s.get("type","patroller")=="patroller": s.route.clear()
+			else: _visual_pursuit(s,units[detected].pos,dt)
+			if s.route.is_empty(): s.angle=rotate_toward(s.angle,s.pos.angle_to_point(units[detected].pos),1.8*dt)
 			var previous_lock:float=s.lock
-			s.target=detected; s.goal=units[detected].pos; s.lock+=dt; s.suspicion=minf(1,s.suspicion+dt*0.3); s.mode="LOCKING" if s.lock<4 else "BEAM"
+			s.target=detected; s.goal=units[detected].pos; s["last_known"]=s.goal; s["attention_time"]=12.0; s["search_index"]=0; s.lock+=dt; s.suspicion=minf(1,s.suspicion+dt*0.3); s.mode="LOCKING" if s.lock<4 else "BEAM"
 			if s.lock>=4:
 				if previous_lock<4: events.append({"type":"beam","pos":units[detected].pos})
 				if detected==0: hull=maxf(0,hull-dt*18)
 				else: units[detected].alive=false; s.lock=0; events.append({"type":"loss","pos":units[detected].pos}); message="%s lost · submarine camera remains available"%units[detected].name
 		else:
 			s.target=-1; s.lock=maxf(0,s.lock-dt*3); s.suspicion=maxf(0,s.suspicion-dt*0.015)
-			if s.pos.distance_to(s.goal)<35:
-				s.mode="SEARCH" if s.suspicion>0.1 else "PATROL"
-				s.route=_patrol_route(s); s.path_time=2.0
-			s.path_time-=dt
-			if s.path_time<=0:
-				s.route=path(s.pos,s.goal)
-				if s.route.is_empty() and s.pos.distance_to(s.goal)>=35:
-					# Preserve investigation intent at a reachable edge of a heard point.
-					if s.mode=="INVESTIGATE": s.route=_search_approach(s)
-					if s.route.is_empty():
-						s.mode="SEARCH" if s.suspicion>0.1 else "PATROL"; s.route=_patrol_route(s)
-				s.path_time=2.0
-		_move(s,dt,48.0 if s.suspicion>0.1 else 25.0,false)
+			if s.get("type","patroller")!="patroller":
+				_station_intent(s,heard,dt)
+			else:
+				if s.pos.distance_to(s.goal)<35:
+					s.mode="SEARCH" if s.suspicion>0.1 else "PATROL"
+					s.route=_patrol_route(s); s.path_time=2.0
+				s.path_time-=dt
+				if s.path_time<=0:
+					s.route=path(s.pos,s.goal)
+					if s.route.is_empty() and s.pos.distance_to(s.goal)>=35:
+						# Preserve investigation intent at a reachable edge of a heard point.
+						if s.mode=="INVESTIGATE": s.route=_search_approach(s)
+						if s.route.is_empty():
+							s.mode="SEARCH" if s.suspicion>0.1 else "PATROL"; s.route=_patrol_route(s)
+					s.path_time=2.0
+		var speed=48.0 if s.suspicion>0.1 else 25.0
+		if s.get("type","")=="hunter": speed=38.0 if s.mode in ["RETURN","DORMANT"] else 64.0
+		_move(s,dt,speed,false)
+
+func _visual_pursuit(s: Dictionary,target: Vector2,dt: float) -> void:
+	# Port station-role pursuit without the v7 straight-line overlap. The beam's
+	# independent four-second lock still requires current sight on every tick.
+	if s.pos.distance_to(target)<=205:
+		s.route.clear(); return
+	s.path_time-=dt
+	if s.path_time<=0 or s.route.is_empty():
+		var approach=target+target.direction_to(s.pos)*180.0
+		s.route=path(s.pos,approach) if line_clear(approach,target) else []
+		s.path_time=0.3
+
+func _station_intent(s: Dictionary,heard: bool,dt: float) -> void:
+	# v7 station roles react to evidence, then return. Tether is conditional,
+	# never an invisible wall that defeats a currently heard lure or visual lock.
+	var outside=s.pos.distance_to(s.home)>float(s.get("tether",190.0))
+	var returning=s.get("attention_time",0.0)<=0 or (s.get("type","")=="sentinel" and outside and not heard)
+	if returning:
+		s["attention_time"]=0.0; s.goal=s.home
+		s.mode="DORMANT" if s.pos.distance_to(s.home)<15 else "RETURN"
+		if s.mode=="DORMANT": s.route.clear(); return
+	elif s.pos.distance_to(s.goal)<35:
+		s.mode="SEARCH"
+		# Search the observed area, never the pilot's now-hidden location.
+		if not heard:
+			var center:Vector2=s.get("last_known",s.goal)
+			for attempt in 8:
+				var index=int(s.get("search_index",0)); s["search_index"]=index+1
+				var point=center+Vector2.from_angle(index*TAU/8)*80.0
+				if not path(s.pos,point).is_empty(): s.goal=point; break
+	s.path_time-=dt
+	if s.path_time<=0 or s.route.is_empty() or s.route.back().pos.distance_to(s.goal)>1:
+		s.route=path(s.pos,s.goal)
+		if s.route.is_empty() and s.pos.distance_to(s.goal)>=35: s.route=_search_approach(s)
+		s.path_time=2.0
 func _patrol_route(s: Dictionary) -> Array:
 	var points: Array=s.get("patrol_points",[])
 	for _attempt in points.size():
@@ -391,6 +437,11 @@ static func valid_snapshot(data: Dictionary) -> bool:
 			if not w is Dictionary or not w.has_all(["pos","stop"]) or not w.pos is Vector2: return false
 	for e in data.sirens:
 		if not e is Dictionary or not e.has_all(["pos","home","goal","vel","route","angle","mode","suspicion","stun","lock","target","patrol","path_time"]): return false
+		if e.has("type") and e.type not in ["patroller","sentinel","hunter"]: return false
+		if e.has("tether") and (not (e.tether is float or e.tether is int) or e.tether<=0): return false
+		if e.has("attention_time") and (not (e.attention_time is float or e.attention_time is int) or e.attention_time<0): return false
+		if e.has("last_known") and not e.last_known is Vector2: return false
+		if e.has("search_index") and (not e.search_index is int or e.search_index<0): return false
 		if e.has("patrol_points"):
 			if not e.patrol_points is Array or not e.get("patrol_index",0) is int or e.get("patrol_index",0)<0: return false
 			for point in e.patrol_points:

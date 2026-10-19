@@ -1,0 +1,5 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+FAIL: sentinel physically pursues a distant visible target while preserving the lock telegraph
+FAIL: hunter physically pursues a distant visible target while preserving the lock telegraph
+CHECKS 29 FAILURES 2

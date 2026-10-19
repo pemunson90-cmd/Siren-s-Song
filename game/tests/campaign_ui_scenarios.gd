@@ -12,9 +12,11 @@ static func run(t,game) -> void:
 		await t.click(begin.get_global_rect().get_center())
 		t.check(game.screen=="mission" and game.mission_index==id,"campaign mission %d begins through actual pointer input"%(id+1))
 		var s=game.sim; s.units[1].alive=false; s.units[2].alive=false
+		if id==4:
+			preload("res://tests/listening_well_command_plan.gd").play(true,false,s)
 		if id==5:
 			preload("res://tests/finale_command_plan.gd").play(false,"complete",true,-1,s)
-		for objective in ([] if id==5 else s.mission.objectives):
+		for objective in ([] if id in [4,5] else s.mission.objectives):
 			var vantage=objective.pos+Vector2(0,210)
 			if s.blocked(vantage,25): vantage=objective.pos+Vector2(-210,0)
 			if not Routes.move(s,vantage): break

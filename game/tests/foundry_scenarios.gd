@@ -23,6 +23,6 @@ static func run(t) -> void:
 	var restored=Simulation.new(); restored.restore(s.snapshot())
 	t.check(restored.mission==s.mission and restored.paused,"factory response and recovered evidence survive paused restoration")
 
-	var coordinated=preload("res://tests/foundry_command_plan.gd").play(true)
-	t.check(coordinated.outcome=="won" and coordinated.units[1].alive and coordinated.units[2].alive,"staged ordinary drone commands and finite tools recover both Foundry records without forced losses")
+	var coordinated=preload("res://tests/foundry_command_plan.gd").play(true,"complete",true,"queued")
+	t.check(coordinated.outcome=="won" and coordinated.units[1].alive and coordinated.units[2].alive,"queued covered withdrawal and finite tools recover both Foundry records without forced drone losses")
 	print("FOUNDRY STAGED outcome=",coordinated.outcome," time=",snappedf(coordinated.elapsed,0.1)," hull=",snappedf(coordinated.hull,0.1)," tools=",coordinated.tools)

@@ -122,7 +122,7 @@ func _draw() -> void:
 		var aim=float(c.angle)
 		var observed_target=int(c.get("target",-1))
 		if fresh and c.lock>0 and observed_target>=0 and observed_target<sim.units.size(): aim=c.pos.angle_to_point(sim.units[observed_target].pos)
-		_siren(c.pos,aim,("S%d"%(int(id)+1) if c.lock>0 else c.mode) if fresh else "LAST SEEN",fresh)
+		_siren(c.pos,aim,("S%d"%(int(id)+1) if c.lock>0 else c.mode) if fresh else "LAST SEEN",fresh,c.get("type","patroller"))
 		if fresh and c.lock>0:
 			var target_id=int(c.get("target",-1))
 			if target_id>=0 and target_id<sim.units.size() and sim.units[target_id].alive and sim.line_clear(c.pos,sim.units[target_id].pos):
@@ -224,15 +224,25 @@ func _craft(u: Dictionary,index: int) -> void:
 	_label(p+Vector2(-39 if index==sim.selected else -8,label_y),u.name if index==sim.selected else ["Q","A","B"][index],CYAN if index==sim.selected else Color("7e9da4"),18)
 func _hull_style() -> StyleBoxFlat:
 	var style=StyleBoxFlat.new(); style.bg_color=Color("263841"); style.border_color=Color("627780"); style.set_border_width_all(1); style.set_corner_radius_all(7); return style
-func _siren(p: Vector2,angle: float,mode: String,fresh: bool) -> void:
+func _siren(p: Vector2,angle: float,mode: String,fresh: bool,role: String="patroller") -> void:
 	draw_set_transform(world_offset+p*world_scale,angle,Vector2.ONE*world_scale)
 	if fresh:
-		draw_texture_rect(siren_ray,Rect2(-67,-40,134,80),false)
+		# The same original biological material has distinct station/response profiles.
+		var body=Rect2(-67,-40,134,80)
+		if role=="sentinel": body=Rect2(-58,-53,116,106)
+		elif role=="hunter": body=Rect2(-79,-30,158,60)
+		draw_texture_rect(siren_ray,body,false)
+		if role=="sentinel":
+			for side in [-1,1]:
+				draw_line(Vector2(-18,side*39),Vector2(14,side*48),Color("b6a58b"),2)
+		elif role=="hunter":
+			draw_line(Vector2(-57,-15),Vector2(-76,-26),Color("b6a58b"),2)
+			draw_line(Vector2(-57,15),Vector2(-76,26),Color("b6a58b"),2)
 	else:
 		draw_arc(Vector2.ZERO,24,0,TAU,6,Color("956d63"),1.5)
 		draw_line(Vector2(-12,0),Vector2(12,0),Color("956d63"),1)
 	draw_set_transform(world_offset,0,Vector2.ONE*world_scale)
-	_label(p+Vector2(-35,75),mode,Color("ed8e79") if fresh else Color("94766e"),17)
+	_label(p+Vector2(-35,75),("GUARD" if role=="sentinel" else "HUNTER" if role=="hunter" else "PATROL")+" · "+mode if fresh else mode,Color("ed8e79") if fresh else Color("94766e"),17)
 func _dash(a: Vector2,b: Vector2,color: Color,width: float) -> void:
 	var distance=a.distance_to(b)
 	for n in range(0,int(distance),18): draw_line(a.move_toward(b,n),a.move_toward(b,minf(n+9,distance)),color,width)

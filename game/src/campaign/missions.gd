@@ -4,8 +4,8 @@ const BRIEFS = [
 	"A repeating signal rises from the shelf. Photograph the listening spire, then bring Quietus home. Your charts show rock, not what waits behind it. Sonar reveals water but announces your position.",
 	"Two channels. Two witnesses. Photograph the separated WEST and EAST relays. Bring Quietus to the sheltered UPLINK ANCHOR and use CAMERA / LINK to combine their records. Drones travel faster and can expose a relay while the submarine moves. Losing them leaves a longer solo-sub approach. Return with the combined archive.",
 	"The signal is a conversation. Blackwater absorbs passive returns. Use the relay chain to map the exchange. Drones see farther; the submarine camera remains your fallback.",
-	"Enter from the western shelf. Our recovery buoy lies beyond the southern factory wall. First image the FURNACE VENT, then the DEPARTURE CRADLE. The basalt spine offers shelter; the industrial perimeter does not. Cameras may provoke a carrier response. Plan Quietus’ passage before exposing the second record. Drones can take either photograph; the submarine remains your fallback.",
-	"The well is listening to us. Collect three records from its circumference. A mobile hunter patrols the inner water. Break sight before its beam resolves. Silence is a route, too.",
+	"Enter from the western shelf. Our recovery buoy lies beyond the southern factory wall. First image the FURNACE VENT, then the DEPARTURE CRADLE. The basalt spine offers shelter; the industrial perimeter does not. Station guards hold the furnace and recovery channel. A live decoy can draw them out; they return when its signal ends. Cameras may provoke a carrier response. Plan Quietus’ passage before exposing the second record. Drones can take either photograph; the submarine remains your fallback.",
+	"The well is listening to us. Collect three records from its circumference. A fast responder waits in the inner water. Noise draws it out; broken sight leaves it searching the last heard or seen position. Break sight before its beam resolves. Silence is a route, too.",
 	"The transmission crown faces the trench; outbound wakes point deeper, away from us. Photograph both to separate their meanings. Bring Quietus through the southern basalt lee to the LEE RECEIVER and use CAMERA / LISTEN for six quiet seconds. Only the submarine carries the low-frequency hydrophones needed to resolve the packet. Drones can scout the exposed crown and wakes while Quietus moves under cover; the submarine can take either image if they are lost. Return to the western buoy with what you heard. Command will ask for targets. Bring evidence instead."
 ]
 const RECORDS = [
@@ -57,7 +57,7 @@ static func make(index: int) -> Dictionary:
 		objectives[2]["evidence"]="DECODED: a fracture is propagating below the mantle. The outbound hulls are evacuating, not assembling for attack. The carrier repeats the safe direction away from the fracture: listen, then leave."
 	var patrols: Array = []
 	for n in (1 + i / 2):
-		patrols.append({"pos":Vector2(620 + n*270,130),"home":Vector2(620+n*270,130),"goal":Vector2(620+n*270,130),"vel":Vector2.ZERO,"route":[],"angle":0.0,"mode":"PATROL","suspicion":0.0,"stun":0.0,"lock":0.0,"target":-1,"patrol":n,"path_time":0.0})
+		patrols.append({"pos":Vector2(620 + n*270,130),"home":Vector2(620+n*270,130),"goal":Vector2(620+n*270,130),"vel":Vector2.ZERO,"route":[],"angle":0.0,"mode":"PATROL","suspicion":0.0,"stun":0.0,"lock":0.0,"target":-1,"patrol":n,"path_time":0.0,"type":"patroller"})
 	if i==1:
 		patrols[0].pos=Vector2(420,140); patrols[0].home=patrols[0].pos; patrols[0].goal=patrols[0].pos
 		var east=patrols[0].duplicate(true); east.pos=Vector2(1220,140); east.home=east.pos; east.goal=east.pos; east.patrol=1; patrols.append(east)
@@ -69,6 +69,9 @@ static func make(index: int) -> Dictionary:
 		for n in patrols.size():
 			var home=[Vector2(960,260),Vector2(1320,820)][n]
 			patrols[n].pos=home; patrols[n].home=home; patrols[n].goal=home
+			patrols[n]["type"]="sentinel"; patrols[n]["tether"]=190.0
+	if i==4:
+		patrols[1]["type"]="hunter"; patrols[1].pos=Vector2(800,600); patrols[1].home=patrols[1].pos; patrols[1].goal=patrols[1].pos
 	if i==5:
 		result["phase"]="observations"; result["finale_revision"]=1
 		result["array_rect"]=Rect2(1260,60,300,280); result["structures"]=[result.array_rect]

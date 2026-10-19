@@ -1,0 +1,10 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+FAIL: Cold Foundry intentionally assigns tethered station guards
+FAIL: Listening Well has a distinct fast responder rather than another generic patrol
+FAIL: unprovoked sentinel remains tethered to its authored station
+FAIL: unprovoked hunter waits at home as in actual v7 implementation
+FAIL: hunter completes local investigation/search and returns to station
+FAIL: hunter has faster physical response than ordinary patrol under identical hearing conditions
+FAIL: sentinel returns home after the outside lure ends
+CHECKS 13 FAILURES 7

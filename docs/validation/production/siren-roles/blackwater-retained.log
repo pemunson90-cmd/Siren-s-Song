@@ -1,0 +1,9 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+BLACKWATER simple outcome=won t=67.9 hull=9.4 phases=100.0,100.0 EMP_first=1 tools={ "emp": 0, "decoy": 3, "recon": 2 } pos=(147.1456, 798.3431) vel=(-5.589561, 1.296019) route=[{ "pos": (140.0, 800.0), "stop": true }] hold= captures=[true, true] message=Archive recovered. Quietus is home.
+REPLAN stopped=(1351.367, 643.4868) t=51.0999999999984 msg=Autopilot stopped at unsafe terrain. Replot in open water.
+BLACKWATER east outcome=won t=92.1 hull=100.0 phases=100.0,100.0 EMP_first=1 tools={ "emp": 0, "decoy": 3, "recon": 2 } pos=(147.2299, 800.6407) vel=(-5.519967, -0.489219) route=[{ "pos": (140.0, 800.0), "stop": true }] hold= captures=[true, true] message=Archive recovered. Quietus is home.
+REPLAN stopped=(1351.367, 643.4868) t=51.0999999999984 msg=Autopilot stopped at unsafe terrain. Replot in open water.
+BLACKWATER east_decoy outcome=won t=92.1 hull=100.0 phases=100.0,100.0 EMP_first=1 tools={ "emp": 0, "decoy": 2, "recon": 2 } pos=(147.2299, 800.6407) vel=(-5.519967, -0.489219) route=[{ "pos": (140.0, 800.0), "stop": true }] hold= captures=[true, true] message=Archive recovered. Quietus is home.
+REPLAN stopped=(1351.275, 643.7709) t=44.7999999999987 msg=Autopilot stopped at unsafe terrain. Replot in open water.
+BLACKWATER east_cruise outcome=won t=85.8 hull=100.0 phases=100.0,100.0 EMP_first=1 tools={ "emp": 0, "decoy": 3, "recon": 2 } pos=(147.1823, 800.6276) vel=(-2.346793, -0.205059) route=[{ "pos": (140.0, 800.0), "stop": true }] hold= captures=[true, true] message=Archive recovered. Quietus is home.

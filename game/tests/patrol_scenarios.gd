@@ -15,7 +15,10 @@ static func run(t) -> void:
 			for id in s.sirens.size():
 				travel[id]+=last[id].distance_to(s.sirens[id].pos); last[id]=s.sirens[id].pos
 		for id in s.sirens.size():
-			t.check(travel[id]>75,"mission %d Siren %d patrols without needing player noise to rescue an invalid goal"%[mission,id])
+			if s.sirens[id].get("type","patroller")=="patroller":
+				t.check(travel[id]>75,"mission %d patroller %d circulates without player noise"%[mission,id])
+			else:
+				t.check(travel[id]<1 and s.sirens[id].pos.distance_to(s.sirens[id].home)<1,"mission %d station role %d deliberately guards its home without a stimulus"%[mission,id])
 			var siren=s.sirens[id]
 			t.check(siren.pos.distance_to(siren.goal)<35 or (not s.blocked(siren.goal,24) and not s.path(siren.pos,siren.goal).is_empty()),"mission %d Siren %d has an arrived or reachable patrol destination"%[mission,id])
 	var heard=Simulation.new(); heard.start(0)
