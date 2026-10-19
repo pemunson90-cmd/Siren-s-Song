@@ -19,5 +19,7 @@ func _initialize():
  check(not old.has("terrain_notes") and not Consequences.context(old).has("terrain_notes"),"old progress/context optional shape stays exact")
  var bad=notes.duplicate(true);bad.terrain_notes["13"]=bad.terrain_notes["14"]
  check(not Campaign.valid(bad),"one-region notes cannot expand into arbitrary global atlas")
+ var wrong_version=notes.duplicate(true);wrong_version.version=1
+ check(not Campaign.valid(wrong_version),"terrain note schema requires versioned recovered-campaign extension")
  check(14 not in Campaign.available([0,1,2,3,4,5],notes),"new journey stays gated until coherent actual view and play review")
  print("TERRAIN CHART CAMPAIGN CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)

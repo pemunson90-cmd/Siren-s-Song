@@ -36,6 +36,7 @@ static func recover(previous:Dictionary,mission:Dictionary)->Dictionary:
 static func valid(value)->bool:
  if not value is Dictionary:return false
  if value.is_empty():return true
+ if value.has("terrain_notes") and value.get("version",0)!=2:return false
  if not value.has_all(["version","route","routes","facts","completed"]) or value.version not in [1,2] or value.route not in ["deep","shelf"] or not value.routes is Array or not value.facts is Dictionary or not value.completed is Array:return false
  if value.routes.is_empty() or value.routes.size()>2 or value.route not in value.routes:return false
  var unique={}
