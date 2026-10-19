@@ -16,7 +16,7 @@ var system_suspended := false
 static func engine_gain(speed: float,silent: bool) -> float:
 	return clampf(speed/78.0,0,1)*(0.13 if silent else 0.35)
 static func samples(cue: String) -> PackedFloat32Array:
-	var duration={"ambience":8.0,"engine":2.0,"creak":1.6,"beam":1.7,"loss":2.0,"decoy":2.5,"extraction":2.4}.get(cue,1.1)
+	var duration={"ambience":8.0,"engine":2.0,"creak":1.6,"beam":1.7,"loss":2.0,"decoy":2.5,"extraction":2.4,"factory":4.8}.get(cue,1.1)
 	var result=PackedFloat32Array(); result.resize(int(RATE*duration))
 	var rng=RandomNumberGenerator.new(); rng.seed=cue.hash()
 	var filtered=0.0
@@ -35,6 +35,9 @@ static func samples(cue: String) -> PackedFloat32Array:
 				filtered=lerpf(filtered,rng.randf_range(-1,1),0.13)
 				value=(sin(TAU*(73*time+0.6*sin(time*11)))*0.17+sin(TAU*147*time)*0.05+filtered*0.12)*sin(PI*k)*exp(-k*2)
 			"beam": value=(sin(TAU*(430*time+13*time*time))*0.17+sin(TAU*437*time)*0.13+sin(TAU*960*time)*0.045)*envelope
+			"factory":
+				var strike=pow(maxf(0,cos(time*TAU*0.8)),12)
+				value=(sin(TAU*54*time)*0.18+sin(TAU*81*time)*0.11+sin(TAU*(216*time+3*sin(time*1.7)))*0.08)*(0.3+strike*0.7)*sin(PI*k)
 			"ping": value=(sin(TAU*(710*time-110*time*time))+sin(TAU*1240*time)*0.2)*0.28*envelope
 			"camera": value=(sin(TAU*170*time)*0.12+rng.randf_range(-0.2,0.2))*envelope
 			"emp": value=(sin(TAU*(140*time-45*time*time))*0.3+rng.randf_range(-0.14,0.14))*envelope
@@ -65,7 +68,7 @@ func _ready() -> void:
 		if AudioServer.get_bus_effect(0,i).resource_name=="SirenPeakGuard": guarded=true
 	if not guarded:
 		var limiter=AudioEffectLimiter.new(); limiter.resource_name="SirenPeakGuard"; limiter.threshold_db=-3; limiter.ceiling_db=-1; AudioServer.add_bus_effect(0,limiter)
-	for cue in ["ping","camera","emp","record","loss","extraction","alert","recon","decoy","creak","beam"]: cues[cue]=stream(cue)
+	for cue in ["ping","camera","emp","record","loss","extraction","alert","recon","decoy","creak","beam","factory"]: cues[cue]=stream(cue)
 	ambience=AudioStreamPlayer.new(); ambience.stream=stream("ambience"); ambience.bus=AMBIENCE_BUS; add_child(ambience); ambience.play()
 	engine=AudioStreamPlayer.new(); engine.stream=stream("engine"); engine.bus=EFFECTS_BUS; add_child(engine); engine.play()
 	for n in 5:

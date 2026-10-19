@@ -24,5 +24,6 @@ func _initialize() -> void:
 	preload("res://tests/attention_scenarios.gd").run(self)
 	preload("res://tests/split_channel_scenarios.gd").run(self)
 	preload("res://tests/waypoint_scenarios.gd").run(self)
+	preload("res://tests/foundry_scenarios.gd").run(self)
 	print("CHECKS ", checks, " FAILURES ", failures)
 	quit(1 if failures else 0)

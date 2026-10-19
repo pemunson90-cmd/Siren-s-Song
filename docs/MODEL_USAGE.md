@@ -13,3 +13,6 @@ User policy: Astra only kickoff/high-consequence architecture or a demonstrated 
 No Astra subagents or premium escalations were requested. One production owner, one tooling owner and at most one active critic; no implementation fanout. Native checks and deterministic scenarios precede criticism. Test waypoint totals change with path simplification; exact historic counts remain in the workbench's dated checkpoints.
 
 Superpowers execution/TDD/debugging instructions were read while skills were available. Later the skill catalog was disabled; a verification-skill read returned “skill package is not available.” Concrete verification continues through observed commands and outputs; no unobservable skill/backend/cost claims are made.
+
+
+Cold Foundry candidate: sustained production requested gpt-6.1-sol; fresh `/root/sol_production_lead/sol_foundry_critic` explicitly requested gpt-6.1-sol/high with fork_turns=none, actual backend/token/cost telemetry unknown. Bounded evidence-first experience critique after86core/176runtime deterministic checks and actual new captures. Mandatory policy plus latest user fit-to-task refinement, source hierarchy, persistent mandate and queued zoom/touch priority inherited. No implementation fanout. Report pending; prior rejected tactics retained as evidence.

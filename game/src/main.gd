@@ -31,6 +31,9 @@ var capture_scenario := ""
 var frame := 0
 var capture_path := ""
 var menu_buttons: Array=[]
+var recovered_evidence: Dictionary={}
+var diagnostic_ready := ""
+var diagnostic_records: Dictionary={}
 func _ready() -> void:
 	get_tree().auto_accept_quit=false
 	_theme()
@@ -102,6 +105,7 @@ func _layout() -> void:
 		menu.position=Vector2(maxf(24,(size.x-690)/2),24); menu.size=Vector2(minf(690,size.x-48),size.y-48)
 	call_deferred("_report_targets")
 func _start_mission(index: int) -> void:
+	diagnostic_ready=""; diagnostic_records.clear()
 	active_started=true; mission_index=index; sim.start(index,upgrade); ocean.sim=sim; screen="mission"; menu.hide(); hud.show(); _refresh()
 func _order(order: String,args: Dictionary={}) -> void:
 	var accepted=sim.command(order,args)
@@ -118,6 +122,7 @@ func _process(dt: float) -> void:
 		if save_clock>5.0: _save_archive(); save_clock=0.0
 	if screen=="mission":
 		sim.advance(dt)
+		_observation_diagnostics()
 		if not sim.outcome.is_empty(): _debrief()
 		_refresh()
 func _refresh() -> void:
@@ -166,6 +171,7 @@ func _show_campaign() -> void:
 		var b=_button(panel_box,"%02d   %s   %s"%[i+1,Simulation.Missions.TITLES[i],"RECOVERED" if i in completed else ("AVAILABLE" if i<=unlocked else "LOCKED")],func(): print("SS_MISSION_SELECT ",id); _briefing(id))
 		b.disabled=i>unlocked
 		if i==0: b.set_meta("action","mission0")
+	if not recovered_evidence.is_empty(): _button(panel_box,"REVIEW OPTICAL RECORDS",func(): _evidence_gallery(0))
 	_menu_text("Equipment: %s"%upgrade.to_upper(),15)
 	_button(panel_box,"CYCLE LOADOUT · endurance / disruption / survey",func(): upgrade=["endurance","disruption","survey"][( ["endurance","disruption","survey"].find(upgrade)+1)%3]; _show_campaign())
 	_button(panel_box,"AUDIO / SETTINGS",_settings_menu)
@@ -186,11 +192,13 @@ func _debrief() -> void:
 	screen="debrief"; _clear_menu()
 	print("SS_DEBRIEF outcome=",sim.outcome," mission=",mission_index)
 	if sim.outcome=="won":
+		_retain_evidence()
 		if mission_index not in completed: completed.append(mission_index)
 		unlocked=mini(5,maxi(unlocked,mission_index+1))
 		_menu_text("ARCHIVE RECOVERED",32)
 		_menu_text(sim.mission.record,22)
 		_menu_text("Dive time %02d:%02d  /  Hull %d%%  /  Life support %d%%"%[int(sim.elapsed)/60,int(sim.elapsed)%60,int(sim.hull),int(sim.oxygen)],17)
+		if not recovered_evidence.is_empty(): _button(panel_box,"REVIEW OPTICAL RECORDS",func(): _evidence_gallery(0))
 		if mission_index==5:
 			_menu_text("THE SONG CONTINUES\n\nYou return with a warning, not a firing solution. Above you, the fleet waits for orders. Below, the foundry lights go dark, one by one. For the first time since descent, Quietus hears only the ocean.\n\nCampaign complete. Every dive remains replayable.",20)
 		else: _button(panel_box,"NEXT DIVE",func(): _briefing(mission_index+1))
@@ -252,18 +260,19 @@ func _scenario(name: String) -> void:
 		sim.paused=true
 
 func _archive() -> Dictionary:
-	return {"version":1,"unlocked":unlocked,"completed":completed.duplicate(),"upgrade":upgrade,"settings":settings.duplicate(),"active":sim.snapshot()}
+	return {"version":1,"unlocked":unlocked,"completed":completed.duplicate(),"upgrade":upgrade,"settings":settings.duplicate(),"evidence":recovered_evidence.duplicate(true),"active":sim.snapshot()}
 func _save_archive() -> void:
 	if not capture_scenario.is_empty() or sim.mission==null: return
-	if store.save(_archive()): print("SS_SAVE ok mission=",mission_index," time=",snappedf(sim.elapsed,0.01)," paused=",sim.paused)
+	if store.save(_archive()): print("SS_SAVE ok mission=",mission_index," time=",snappedf(sim.elapsed,0.01)," paused=",sim.paused," completed=",completed," unlocked=",unlocked)
 	else: sim.message=store.warning
 func _load_archive() -> void:
 	var saved=store.load_game()
 	if not saved.is_empty():
 		unlocked=saved.unlocked; completed=saved.completed; upgrade=saved.upgrade; settings=saved.settings
+		recovered_evidence=saved.get("evidence",{})
 		if saved.get("active") is Dictionary and sim.restore(saved.active):
 			active_started=true; mission_index=sim.mission.id; ocean.sim=sim
-			print("SS_RESTORE ok mission=",mission_index," time=",snappedf(sim.elapsed,0.01)," paused=",sim.paused)
+			print("SS_RESTORE ok mission=",mission_index," time=",snappedf(sim.elapsed,0.01)," paused=",sim.paused," completed=",completed," unlocked=",unlocked)
 	sound.music_volume=settings.get("music",0.5); sound.effects_volume=settings.get("effects",0.8); sound.muted=settings.get("mute",false)
 	if not store.warning.is_empty(): sim.message=store.warning
 func _settings_menu() -> void:
@@ -311,6 +320,10 @@ func _report_targets() -> void:
 		var p=buttons[key].get_global_rect().get_center()
 		print("SS_TARGET ",key," center=",roundi(p.x),",",roundi(p.y)," viewport=",roundi(get_viewport_rect().size.x),",",roundi(get_viewport_rect().size.y))
 	if hud.visible:
+		var approach=sim.mission.objectives[0].pos+Vector2(0,210)
+		if sim.blocked(approach,25): approach=sim.mission.objectives[0].pos+Vector2(-210,0)
+		var objective_point=ocean.global_position+ocean.world_offset+approach*ocean.world_scale
+		print("SS_TARGET objective0 center=",roundi(objective_point.x),",",roundi(objective_point.y)," viewport=",roundi(get_viewport_rect().size.x),",",roundi(get_viewport_rect().size.y))
 		var p=ocean.global_position+ocean.world_offset+Vector2(320,800)*ocean.world_scale
 		print("SS_TARGET route center=",roundi(p.x),",",roundi(p.y)," viewport=",roundi(get_viewport_rect().size.x),",",roundi(get_viewport_rect().size.y))
 
@@ -327,3 +340,35 @@ func _apply_safe_area() -> void:
 	offset_left=safe.position.x; offset_top=safe.position.y
 	offset_right=safe.end.x-viewport_size.x; offset_bottom=safe.end.y-viewport_size.y
 	applying_safe_area=false
+
+func _observation_diagnostics() -> void:
+	var ready=""
+	var unit=sim.units[sim.selected]
+	for id in sim.mission.objectives.size():
+		var objective=sim.mission.objectives[id]
+		if objective.captured and not diagnostic_records.has(id):
+			diagnostic_records[id]=true
+			print("SS_OBJECTIVE_RECORDED mission=",mission_index," objective=",id)
+			_retain_evidence()
+		if not objective.captured and unit.alive and sim.capture_unit<0 and unit.pos.distance_to(objective.pos)<240 and sim.line_clear(unit.pos,objective.pos):
+			ready="unit=%d objective=%d"%[sim.selected,id]
+	if ready!=diagnostic_ready:
+		diagnostic_ready=ready
+		if not ready.is_empty(): print("SS_CAMERA_READY ",ready)
+func _retain_evidence() -> void:
+	for objective in sim.mission.objectives:
+		if objective.captured and objective.has("optical"):
+			recovered_evidence[objective.optical]={"name":objective.name,"caption":objective.evidence,"optical":objective.optical}
+func _evidence_gallery(index: int) -> void:
+	_retain_evidence()
+	if recovered_evidence.is_empty(): _show_campaign(); return
+	sim.paused=true; screen="evidence"; _clear_menu()
+	var keys=recovered_evidence.keys(); var entry=recovered_evidence[keys[index%keys.size()]]
+	_menu_text("RECOVERED OPTICAL / %d OF %d"%[index+1,keys.size()],18)
+	_menu_text(entry.name,28)
+	var image=TextureRect.new(); image.texture=load("res://assets/evidence/foundry_%s.png"%entry.optical)
+	image.expand_mode=TextureRect.EXPAND_IGNORE_SIZE; image.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED; image.custom_minimum_size=Vector2(0,minf(320,size.y*0.4)); panel_box.add_child(image)
+	_menu_text(entry.caption,19)
+	if keys.size()>1: _button(panel_box,"NEXT RECORD",func(): _evidence_gallery((index+1)%keys.size()))
+	_button(panel_box,"BACK TO OPERATIONS",_show_campaign)
+	call_deferred("_layout")

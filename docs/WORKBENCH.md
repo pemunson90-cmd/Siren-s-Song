@@ -1,6 +1,6 @@
 # Siren's Song progress workbench
 
-**Stage:** Active Gauntlet, campaign baseline plus four verified improvement cycles. This is not a finished or user-accepted game.
+**Stage:** Active Gauntlet, campaign baseline, four verified improvement cycles and a green Cold Foundry candidate awaiting independent/native assessment. This is not a finished or user-accepted game.
 **Branch:** `gauntlet/production`; campaign baseline plus reliability, optical/safe-area and return-planning cycles; see checkpoints below.
 **Player device:** Samsung Galaxy Z Fold7; physical installation/folding/thumb/performance review remains open.
 
@@ -10,16 +10,16 @@
 | Native tactical core | Runnable, regression tested | Fixed60Hz, inertia/assisted routing, two drones, fair LOS/acoustic/beam, command replacement and tactical pause |
 | Campaign/save | Six playable baseline missions and ending | All six ordinary-command fallback runs pass; checksummed active/campaign/settings backup recovery; other missions still need differentiated situations |
 | Split Channel proving ground | Connected channels, two separated relays + Quietus uplink | Coordinated39.2s: direct87.1% hull versus100% with one sustained decoy; both drones survive. These are scripted tactics, not human balance acceptance |
-| Art/input | Actual textured world, physical ray, station-owned optical inset | `docs/validation/production/`; core70 checks and runtime173 checks pass, including pointer inputs, menu preservation, optical ownership and physical→logical safearea conversion |
+| Art/input | Actual textured world, physical ray, station-owned optical inset | `docs/validation/production/`; core86 checks and runtime176 checks pass, including pointer inputs, menu preservation, optical ownership and physical→logical safearea conversion |
 | Audio | Original movement, pressure, distinct tool/beam cues and volume/mute | Actual stereo mixer recorded: peak−9.28dBFS, no clipped samples, paused tail exactly silent; human listening/native audio and forced-exit stream leak remain open |
-| Android emulator | Native cover/briefing rendering verified by tooling; touch-dispatch fix locally verified, lifecycle/restore retry pending | See `docs/CODEX_ENVIRONMENT.md` and `docs/validation/android-*`; modern backend retry; no Samsung performance claim |
+| Android emulator | Source539f58b passed native cover+inner entry/order/pause/Home/kill/restart/archive; new ordinary mission-completion gate prepared | See `docs/CODEX_ENVIRONMENT.md` and `docs/validation/android-*`; Actions39197795717; next candidate native run pending; no Samsung performance claim |
 | Independent criticism | Baseline/follow-up and fresh integrated experience reviews completed, explicit fresh Sol | `docs/reviews/2026-10-19-baseline-critique.md`; confirmed attention defects fixed, next learned safe return demonstrated; deepen sound and other missions |
 
 ## Current evidence and highest-value next cycle
 
-Combined validation: `scripts/toolchain/test.sh` → **70 core/campaign +173 runtime checks, zero failures**. Waypoint check totals vary with safe path simplification; invariant tests have been added, not removed. Full framebuffer optical, beam, and connected-channel captures are in `build/captures/cycle2-*` and retained in the validation index. Desktop rendering is distinct from installed Android/Samsung validation.
+Combined validation: `scripts/toolchain/test.sh` → **86 core/campaign +176 runtime checks, zero failures**. Waypoint check totals vary with safe path simplification; invariant tests have been added, not removed. Full framebuffer optical, beam, and connected-channel captures are in `build/captures/cycle2-*` and retained in the validation index. Desktop rendering is distinct from installed Android/Samsung validation.
 
-Next: execute the accepted Cold Foundry cycle from the fresh integrated review: physical industrial approach/cover, distinct retained optical discoveries, and causal recoverable extraction using current drone/cover/decoy vocabulary. Sound integration and mixed-output measurements are now checkpointed; Split Channel has a tested safer decoy return and explicit STOP/PASS waypoints. Preserve the working baseline while native runtime/cutout/restore evidence matures. Do not stop the Gauntlet at these milestones.
+Next: complete independent Cold Foundry criticism and the candidate native ordinary-command Shelf Signal completion/archival restore run. Current mission evidence: `docs/validation/production/foundry/README.md`, distinct camera records, physical factory, carrier response, 34.2s/100% staged win with both drones alive versus 55.6s protected solo; failed strategies retained. These are scripted comparisons, not human acceptance. After that safe checkpoint, persist the queued user process upgrade (baseline/challenger, separate regression hunter, periodic whole-game criticism, phone dashboard and fit-to-task model refinement), then begin the user-prioritized zoom/pan and friendly touch-controls cycle. Prototype dimensions are an implementation coordinate space, not a UX restriction. Do not stop the Gauntlet at these milestones.
 
 ## Continuity
 
@@ -101,3 +101,10 @@ Regression emitted the real mission Button's pressed signal and asserted the dis
 Fresh report `docs/reviews/2026-10-19-integrated-experience-critique.md` independently inspected all six current observations and references before builder interpretation. It verified70/172 at its snapshot and the raw mixer measurements. Its probe found Cold Foundry's ordinary solo fallback wins83.4s/100% without tools or observed lock; Listening Well remains genuinely threatening, so no blanket late-game difficulty claim is made.
 
 Accepted bounded response: author a physical factory approach, two recognizably different observations with retained evidence, and an explained factory response/return decision. Use existing mechanics, retain recoverable solo/drone-loss paths and compare plausible naive versus considered tactics. A far-side recovery buoy gives Quietus a meaningful transit without an arbitrary new drone requirement. No new enemy class/global oxygen/lock-time escalation. Root confirmed this is within the creative grant. Judge actual clarity, discovery and tension, not only solver difficulty.
+
+
+## Gauntlet cycle 5 candidate — Cold Foundry
+
+86 core/176 runtime checks pass. See `docs/validation/production/foundry/README.md` for actual framebuffers/live audio-video, ordinary-command plans and retained failed strategies. No forced victories/poses in the evidence drivers. Fresh independent Sol critic dispatched with images-first instruction and explicit routing; report pending. New Android ordinary-touch objective completion and campaign save/restore hooks agreed with tooling; source candidate ready for its sole push after this commit. Strongest installed baseline remains539f58b / run39197795717 until candidate passes.
+
+Runtime teardown now permits0.5s after explicit scene free, following tooling's isolated audio-thread probe; no leak warning in that test. Forced short capture teardown warning remains, not claimed as solved or native leak. Current tests retain legacy save compatibility and earned evidence across dives.

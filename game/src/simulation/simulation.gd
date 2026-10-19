@@ -29,6 +29,7 @@ var capture_target := -1
 var accumulator := 0.0
 var sensor_clock := 0.0
 var navigation: AStarGrid2D
+var rock_shapes: Array=[]
 func start(index: int, upgrade: String = "endurance") -> void:
 	mission = Missions.make(index)
 	units.clear()
@@ -45,6 +46,8 @@ func start(index: int, upgrade: String = "endurance") -> void:
 	_build_navigation()
 	_observe()
 func _build_navigation() -> void:
+	rock_shapes.clear()
+	for rock in mission.rocks: rock_shapes.append(rock_polygon(rock))
 	navigation = AStarGrid2D.new()
 	navigation.region = Rect2i(0,0,40,24)
 	navigation.cell_size=Vector2(TILE,TILE)
@@ -56,25 +59,28 @@ func _build_navigation() -> void:
 			if blocked(Vector2(x*40+20,y*40+20),21): navigation.set_point_solid(Vector2i(x,y))
 func blocked(p: Vector2, radius: float = 12.0) -> bool:
 	if p.x<radius or p.y<radius or p.x>BOUNDS.x-radius or p.y>BOUNDS.y-radius: return true
-	for rock in mission.rocks:
-		var polygon=rock_polygon(rock)
+	for structure in mission.get("structures",[]):
+		if structure.grow(radius).has_point(p): return true
+	for polygon in rock_shapes:
 		if Geometry2D.is_point_in_polygon(p,polygon): return true
 		for n in polygon.size():
 			if Geometry2D.get_closest_point_to_segment(p,polygon[n],polygon[(n+1)%polygon.size()]).distance_to(p)<radius: return true
 	return false
 func line_clear(a: Vector2,b: Vector2) -> bool:
-	for rock in mission.rocks:
-		var corners=rock_polygon(rock)
+	var shapes=rock_shapes.duplicate()
+	for structure in mission.get("structures",[]): shapes.append(PackedVector2Array([structure.position,Vector2(structure.end.x,structure.position.y),structure.end,Vector2(structure.position.x,structure.end.y)]))
+	for corners in shapes:
 		if Geometry2D.is_point_in_polygon(a,corners) or Geometry2D.is_point_in_polygon(b,corners): return false
 		for n in corners.size():
 			if Geometry2D.segment_intersects_segment(a,b,corners[n],corners[(n+1)%corners.size()]) != null: return false
 	return true
 func path(a: Vector2, b: Vector2) -> Array:
 	var result: Array=[]
-	if blocked(b,18): return result
+	if blocked(b,24): return result
 	if segment_safe(a,b,24): return [{"pos":b,"stop":true}]
-	var first=Vector2i(clampi(int(a.x/40),0,39),clampi(int(a.y/40),0,23))
-	var last=Vector2i(clampi(int(b.x/40),0,39),clampi(int(b.y/40),0,23))
+	var first=nearest_navigation_cell(a)
+	var last=nearest_navigation_cell(b)
+	if first.x<0 or last.x<0: return result
 	var grid_path=navigation.get_point_path(first,last)
 	var raw: Array=[]
 	for n in range(1,grid_path.size()): raw.append(grid_path[n])
@@ -143,7 +149,7 @@ func command(order: String,args: Dictionary={}) -> bool:
 			var target=mission.objectives[best]
 			if target.get("required_unit",selected)!=selected: message="Quietus must operate the archive uplink. Bring the submarine to this anchor."; return false
 			for prerequisite in target.get("requires",[]):
-				if not mission.objectives[prerequisite].captured: message="Uplink needs both relay records. Photograph WEST and EAST first."; return false
+				if not mission.objectives[prerequisite].captured: message=target.get("requirement","Uplink needs both relay records. Photograph WEST and EAST first."); return false
 			capture_unit=selected; capture_target=best; capture_time=0.0; u.hold="HOLD"; message="Archive uplink · hold 6 seconds" if target.get("kind","")=="uplink" else "Camera exposure · hold 4 seconds"; _noise(u.pos,520,"CAMERA"); events.append({"type":"camera","pos":u.pos})
 		_: return false
 	return true
@@ -156,6 +162,7 @@ func advance(dt: float) -> void:
 		_tick(STEP); accumulator-=STEP
 func _tick(dt: float) -> void:
 	elapsed+=dt; oxygen=maxf(0,oxygen-dt/18.0)
+	if mission.get("phase","")=="response": mission.response_time=mission.get("response_time",0.0)+dt
 	ping_time=maxf(0,ping_time-dt); recon_time=maxf(0,recon_time-dt)
 	for n in noises: n.time-=dt
 	noises=noises.filter(func(n): return n.time>0)
@@ -181,7 +188,7 @@ func _tick(dt: float) -> void:
 		else:
 			capture_time+=dt
 			if capture_time>=o.get("duration",4.0):
-				o.captured=true; u.hold=""; capture_unit=-1; message="Record secured. Return Quietus to extraction." if all_records() else "Record secured. Continue the survey."; events.append({"type":"record","pos":o.pos})
+				o.captured=true; u.hold=""; capture_unit=-1; _record_secured(o)
 	if not units[selected].alive:
 		selected=0; queue_mode=false; message="Drone lost · Quietus command restored. Submarine camera remains available."
 	if oxygen<=0: outcome="lost"; message="Life support exhausted. The archive is silent."
@@ -297,6 +304,10 @@ static func valid_snapshot(data: Dictionary) -> bool:
 	if not data.mission.rocks is Array or not data.mission.objectives is Array or not data.mission.extraction is Vector2: return false
 	for r in data.mission.rocks:
 		if not r is Rect2: return false
+	if data.mission.has("structures"):
+		if not data.mission.structures is Array: return false
+		for structure in data.mission.structures:
+			if not structure is Rect2: return false
 	for o in data.mission.objectives:
 		if not o is Dictionary or not o.has_all(["pos","name","captured"]) or not o.pos is Vector2: return false
 	if data.units.size()!=3 or not data.tools.has_all(["emp","decoy","recon"]): return false
@@ -326,3 +337,26 @@ func has_live_contact() -> bool:
 	for contact in contacts.values():
 		if elapsed-contact.time<0.3: return true
 	return false
+
+func _record_secured(record: Dictionary) -> void:
+	events.append({"type":"record","pos":record.pos})
+	message="Record secured. Return Quietus to extraction." if all_records() else "Record secured. Continue the survey."
+	if mission.id==3:
+		message="Furnace record secured. Review recovered evidence in Operations."
+		if all_records() and mission.get("phase","")!="response":
+			mission["phase"]="response"; mission["response_time"]=0.0
+			var origin:Vector2=mission.objectives[1].pos
+			_noise(origin,1150,"FACTORY RESPONSE",8.0); events.append({"type":"factory","pos":origin})
+			message="The factory answers the camera. Carrier pulse at the departure cradle · plan your recovery route."
+
+func nearest_navigation_cell(point: Vector2) -> Vector2i:
+	var center=Vector2i(clampi(int(point.x/40),0,39),clampi(int(point.y/40),0,23))
+	var best=Vector2i(-1,-1); var distance=INF
+	for y in range(maxi(0,center.y-2),mini(24,center.y+3)):
+		for x in range(maxi(0,center.x-2),mini(40,center.x+3)):
+			var cell=Vector2i(x,y)
+			if navigation.is_point_solid(cell): continue
+			var candidate=Vector2(x*40+20,y*40+20)
+			var d=candidate.distance_squared_to(point)
+			if d<distance and segment_safe(candidate,point,24): best=cell; distance=d
+	return best

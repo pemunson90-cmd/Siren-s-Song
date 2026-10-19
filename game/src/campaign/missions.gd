@@ -4,7 +4,7 @@ const BRIEFS = [
 	"A repeating signal rises from the shelf. Photograph the listening spire, then bring Quietus home. Your charts show rock, not what waits behind it. Sonar reveals water but announces your position.",
 	"Two channels. Two witnesses. Photograph the separated WEST and EAST relays. Bring Quietus to the sheltered UPLINK ANCHOR and use CAMERA / LINK to combine their records. Drones travel faster and can expose a relay while the submarine moves. Losing them leaves a longer solo-sub approach. Return with the combined archive.",
 	"The signal is a conversation. Blackwater absorbs passive returns. Use the relay chain to map the exchange. Drones see farther; the submarine camera remains your fallback.",
-	"We found the source: a foundry large enough to build a fleet. Image its furnaces and assembly crown. Amber light marks the active machinery. Sirens listen along the eastern perimeter.",
+	"Enter from the western shelf. Our recovery buoy lies beyond the southern factory wall. First image the FURNACE VENT, then the DEPARTURE CRADLE. The basalt spine offers shelter; the industrial perimeter does not. Cameras may provoke a carrier response. Plan Quietus’ passage before exposing the second record. Drones can take either photograph; the submarine remains your fallback.",
 	"The well is listening to us. Collect three records from its circumference. A mobile hunter patrols the inner water. Break sight before its beam resolves. Silence is a route, too.",
 	"The song is a warning, not an invitation. Document the transmission array and its outbound vector. Return with the archive. Command will ask for targets. Bring them evidence instead."
 ]
@@ -22,7 +22,7 @@ static func make(index: int) -> Dictionary:
 		[Rect2(440,350,240,260),Rect2(920,140,180,260),Rect2(1020,680,200,180)],
 		[Rect2(-100,-100,340,760),Rect2(600,-100,300,700),Rect2(1440,-100,260,700),Rect2(480,900,500,160),Rect2(1030,650,180,160)],
 		[Rect2(400,430,280,220),Rect2(840,250,240,220),Rect2(1200,650,160,200)],
-		[Rect2(360,240,180,390),Rect2(760,500,260,200),Rect2(1020,160,180,160)],
+		[Rect2(-120,-120,360,680),Rect2(240,-120,660,260),Rect2(500,300,300,360),Rect2(740,900,320,140),Rect2(900,620,120,180)],
 		[Rect2(480,280,240,250),Rect2(880,420,220,250),Rect2(1200,180,160,160)],
 		[Rect2(360,300,180,340),Rect2(740,160,220,300),Rect2(1040,540,240,220)]
 	]
@@ -30,7 +30,7 @@ static func make(index: int) -> Dictionary:
 		[Vector2(1300,300)],
 		[Vector2(420,280),Vector2(1220,280),Vector2(840,780)],
 		[Vector2(760,200),Vector2(1360,480)],
-		[Vector2(1320,220),Vector2(1400,700)],
+		[Vector2(1090,360),Vector2(1320,770)],
 		[Vector2(800,180),Vector2(1370,450),Vector2(780,780)],
 		[Vector2(1160,240),Vector2(1420,460),Vector2(1000,820)]
 	]
@@ -40,10 +40,24 @@ static func make(index: int) -> Dictionary:
 	if i==1:
 		objectives[0].name="WEST RELAY"; objectives[1].name="EAST RELAY"
 		objectives[2].name="UPLINK ANCHOR"; objectives[2]["kind"]="uplink"; objectives[2]["duration"]=6.0; objectives[2]["required_unit"]=0; objectives[2]["requires"]=[0,1]
+	if i==3:
+		objectives[0].name="FURNACE VENT"; objectives[0]["optical"]="furnace"
+		objectives[0]["evidence"]="Molten material is drawn into smooth hollow forms. This is a construction line, not a weapon aperture."
+		objectives[1].name="DEPARTURE CRADLE"; objectives[1]["optical"]="cradle"; objectives[1]["requires"]=[0]
+		objectives[1]["requirement"]="Record the furnace first. Its casting pattern will identify what the cradles contain."
+		objectives[1]["evidence"]="Long smooth hulls hang in open frames. No visible armament. An empty cradle opens toward the deeper trench. They are preparing to leave."
 	var patrols: Array = []
 	for n in (1 + i / 2):
 		patrols.append({"pos":Vector2(620 + n*270,130),"home":Vector2(620+n*270,130),"goal":Vector2(620+n*270,130),"vel":Vector2.ZERO,"route":[],"angle":0.0,"mode":"PATROL","suspicion":0.0,"stun":0.0,"lock":0.0,"target":-1,"patrol":n,"path_time":0.0})
 	if i==1:
 		patrols[0].pos=Vector2(420,140); patrols[0].home=patrols[0].pos; patrols[0].goal=patrols[0].pos
 		var east=patrols[0].duplicate(true); east.pos=Vector2(1220,140); east.home=east.pos; east.goal=east.pos; east.patrol=1; patrols.append(east)
-	return {"id":i,"title":TITLES[i],"brief":BRIEFS[i],"record":RECORDS[i],"rocks":layouts[i],"objectives":objectives,"sirens":patrols,"extraction":Vector2(140,800),"darkness":i==2,"depth":[840,1320,1850,2360,3100,3840][i]}
+	var result={"id":i,"title":TITLES[i],"brief":BRIEFS[i],"record":RECORDS[i],"rocks":layouts[i],"objectives":objectives,"sirens":patrols,"extraction":Vector2(140,800),"darkness":i==2,"depth":[840,1320,1850,2360,3100,3840][i]}
+	if i==3:
+		var factory=Rect2(1120,140,400,600)
+		result["structures"]=[factory]; result["factory_rect"]=factory; result["phase"]="approach"; result["response_time"]=0.0
+		result.extraction=Vector2(1420,880)
+		for n in patrols.size():
+			var home=[Vector2(960,260),Vector2(1320,820)][n]
+			patrols[n].pos=home; patrols[n].home=home; patrols[n].goal=home
+	return result

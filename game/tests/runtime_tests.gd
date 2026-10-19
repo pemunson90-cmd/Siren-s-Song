@@ -70,6 +70,21 @@ func run() -> void:
 	check(AudioServer.is_bus_mute(AudioServer.get_bus_index("SirenAmbience")) and AudioServer.is_bus_mute(AudioServer.get_bus_index("SirenEffects")),"mute silences both production buses rather than leaving a low-level signal")
 	game.sound.suspend(); game.sim.paused=false; game.sound.update(game.sim,0.1,true)
 	check(game.sound.engine.stream_paused and game.sound.ambience.stream_paused,"system suspension freezes propulsion and ambience even before simulation notification")
+	game.recovered_evidence.clear(); game._start_mission(3); game._evidence_gallery(0); await process_frame
+	check(game.screen=="menu" and game.recovered_evidence.is_empty(),"optical archive does not expose undiscovered factory records")
+	game.sim.mission.objectives[0].captured=true; game._retain_evidence()
+	game._evidence_gallery(0); await process_frame
+	var photos=[]
+	for child in game.panel_box.get_children():
+		if child is TextureRect: photos.append(child.texture.resource_path)
+	check(game.screen=="evidence" and photos==["res://assets/evidence/foundry_furnace.png"],"recovered furnace gallery displays its own earned image")
+	game.sim.mission.objectives[1].captured=true; game._retain_evidence(); game._start_mission(4)
+	game._evidence_gallery(1); await process_frame
+	photos.clear()
+	for child in game.panel_box.get_children():
+		if child is TextureRect: photos.append(child.texture.resource_path)
+	check(photos==["res://assets/evidence/foundry_cradle.png"] and game.store.valid(game._archive()),"distinct departure evidence persists across dives in a valid campaign archive")
 	game.queue_free(); await process_frame
+	await create_timer(0.5).timeout
 	print("RUNTIME CHECKS ",checks," FAILURES ",failures)
 	quit(1 if failures else 0)

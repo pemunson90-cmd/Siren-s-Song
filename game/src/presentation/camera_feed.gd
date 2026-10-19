@@ -1,5 +1,6 @@
 extends Control
 var sim
+var optics={"furnace":preload("res://assets/evidence/foundry_furnace.png"),"cradle":preload("res://assets/evidence/foundry_cradle.png")}
 var foundry=preload("res://assets/structures/foundry.png")
 const PHOSPHOR=Color("8cdcd3")
 func _ready() -> void:
@@ -13,7 +14,12 @@ func _draw() -> void:
 	draw_rect(Rect2(Vector2.ZERO,size),Color("07151d")); draw_rect(Rect2(Vector2.ZERO,size),Color("6b9d9f"),false,1)
 	var picture=Rect2(8,36,size.x-16,size.y-78)
 	draw_rect(picture,Color("102a32"))
-	if sim.mission.id>=3:
+	if objective.has("optical"):
+		var image=optics[objective.optical]
+		var image_size=Vector2(picture.size.x,picture.size.x*9.0/16.0)
+		if image_size.y>picture.size.y: image_size=Vector2(picture.size.y*16.0/9.0,picture.size.y)
+		draw_texture_rect(image,Rect2(picture.get_center()-image_size/2,image_size),false)
+	elif sim.mission.id>=3:
 		draw_texture_rect(foundry,Rect2(14,34,size.x-28,size.y-72),false,Color(0.9,1,1))
 	else:
 		# Magnified image of the same ribbed listening spire seen in bathymetry.

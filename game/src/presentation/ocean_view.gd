@@ -56,7 +56,13 @@ func _draw() -> void:
 	# Bedrock and columnar basalt are original deterministic constructions.
 	for r in sim.mission.rocks: _rock(r)
 	for o in sim.mission.objectives: _installation(o.pos,o.captured)
-	if sim.mission.id>=3:
+	if sim.mission.has("factory_rect"):
+		var mass:Rect2=sim.mission.factory_rect
+		draw_rect(mass,Color("102630")); draw_rect(mass,Color("486268"),false,3)
+		draw_set_transform(world_offset+mass.get_center()*world_scale,PI/2,Vector2.ONE*world_scale)
+		draw_texture_rect(foundry,Rect2(-mass.size.y/2,-mass.size.x/2,mass.size.y,mass.size.x),false,Color(0.8,0.95,1))
+		draw_set_transform(world_offset,0,Vector2.ONE*world_scale)
+	elif sim.mission.id>=3:
 		draw_texture_rect(foundry,Rect2(1080,-100,540,360),false,Color(0.65,0.8,0.82,0.8))
 	# Intelligence marks are briefed coordinates, not live contact observations.
 	for o in sim.mission.objectives:
@@ -80,7 +86,7 @@ func _draw() -> void:
 			if sim.line_clear(sim.ping_origin,end): draw_line(end-direction*6,end,Color(0.3,0.95,0.88,sim.ping_time/5),2)
 	var ex=sim.mission.extraction
 	draw_arc(ex,64,0,TAU,64,Color(CYAN,0.42),2)
-	_label(ex+Vector2(-66,90),"EXTRACTION",CYAN,18)
+	_label(ex+Vector2(-120 if ex.y>830 else -66,66 if ex.y>830 else 90),"EXTRACTION",CYAN,18)
 	for i in sim.units.size():
 		var u=sim.units[i]
 		if not u.alive: continue
@@ -111,9 +117,12 @@ func _draw() -> void:
 				else: _dash(origin,target,Color(1,0.37,0.24,0.32),1.5)
 				_label(c.pos+Vector2(-50,-94),"TARGET · "+sim.units[target_id].name,Color("e8ab91"),16)
 			draw_arc(c.pos,58,-PI/2,-PI/2+TAU*minf(1,c.lock/4),40,Color("fa7969"),3)
-			_label(c.pos+Vector2(-50,-70),"BEAM %.1fs"%maxf(0,4-c.lock),Color("fa7969"),18)
+			_label(c.pos+Vector2(-50,-70),("FIRING" if c.lock>=4 else "BEAM %.1fs"%(4-c.lock)),Color("fa7969"),18)
 		elif not fresh: _label(c.pos+Vector2(35,0),"ECHO · %ds"%int(sim.elapsed-c.time),Color("9a8079"),17)
 	for n in sim.noises:
+		if n.label=="FACTORY RESPONSE":
+			draw_arc(n.pos,60+fmod(sim.mission.get("response_time",0.0)*100,350),0,TAU,64,Color(0.95,0.66,0.32,0.6),3)
+			_label(sim.mission.factory_rect.position+Vector2(16,520),"CARRIER RESPONSE · FROM CRADLE",Color("e1b66e"),16)
 		if n.label=="DECOY":
 			draw_arc(n.pos,25+sin(phase*4)*9,0,TAU,32,Color("e1b66e"),2)
 	# Sediment, restrained wake, and instrument ticks live above the physical view.
