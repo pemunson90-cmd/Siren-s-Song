@@ -80,3 +80,16 @@ The first APK probe exposed Godot's silent configuration rejection when `renderi
 Prepared a portable hosted-runner workflow and connected-device smoke script. API36 x86_64 emulator tests and Fold7-sized landscape viewport checks have not yet run at this checkpoint. Local KVM absence does not prevent GitHub-hosted KVM. Generic GitHub connector fetch of `/repos/pemunson90-cmd/Siren-s-Song/actions/runs?per_page=3` succeeded with `total_count:0` before the workflow push; local `gh` requests returned Forbidden. No API-token or credential value was inspected or printed.
 
 Pinned action revisions were resolved with `git ls-remote https://github.com/OWNER/REPO.git refs/tags/v4` (or v2 for emulator runner): checkout `11d5960a326750d5838078e36cf38b85af677262`, setup-java `cf277c60eb25467037889841efdb72551f06f6c3`, cache `0057852bfaa89a56745cba8c7296529d2fc39830`, upload-artifact `ea165f8d65b6e75b540449e92b4886f43607fa02`, emulator runner `4c44018e59b437e86cdfc41da381398f93ed8808`. Workflow YAML parses and all shell scripts pass `bash -n`; emulator behavior requires the first hosted execution.
+
+### Production shell verification
+
+At source commit `5cdcc6e732c01597a296ff8596eb30f48eb7f488`, executed:
+
+```sh
+scripts/toolchain/build.sh android
+CAPTURE_FRAMES=3 CAPTURE_DIR=/workspace/.sirens-song-toolchain/artifacts/production-planning scripts/toolchain/capture.sh -- --scenario=planning
+```
+
+The production APK exported successfully to `/workspace/.sirens-song-toolchain/artifacts/sirens-song-debug.apk` (approximately54MiB). SHA256: `70bca991f4c753c5e1bcaf1c57e565a85976930916bf8f81786203c64868a69f`. `apksigner verify --verbose` confirms v2 and v3 signatures; `aapt2 dump badging` confirms package `org.sirenssong.game`, minSDK24, targetSDK36, and both `arm64-v8a` and `x86_64` native libraries. The metadata reader emits a themed-icon resource warning from the official template; APK signatures pass. An Android runtime check is still required to determine whether any resource issue affects installation or launch.
+
+Movie Maker produced three1280×720 PNG frames without GDScript/runtime errors. Inspected `production-planning/frame00000002.png`: the production tactical map, queued routes, drone/Quietus indicators, status header, and command controls are visible. This is actual production game rendering, separate from the earlier temporary probe. It does not establish Android performance, touch behavior, or physical fold handling. No local APK installation was attempted because no Android runtime is available.
