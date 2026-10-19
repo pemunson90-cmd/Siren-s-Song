@@ -16,6 +16,7 @@ var knock_targeting:=false
 var knock_touch_size:=48.0
 var feedback_font_size:=14
 var instrument_top:=64.0
+var ui_blocked_rects:Array=[]
 var chart_camera=preload("res://src/presentation/chart_camera.gd").new()
 const CYAN := Color("72d9d3")
 const INK := Color("07141c")
@@ -37,8 +38,15 @@ func map_position(screen: Vector2) -> Vector2:
 	_sync_camera(); return chart_camera.to_world(screen)
 func screen_position(world: Vector2) -> Vector2:
 	_sync_camera(); return chart_camera.to_screen(world)
+func world_size() -> Vector2:
+	return sim.world_size() if sim!=null and sim.has_method("world_size") else Vector2(1600,960)
 func _sync_camera() -> void:
-	chart_camera.configure(size); world_scale=chart_camera.scale; world_offset=chart_camera.offset
+	chart_camera.configure(size,world_size())
+	if chart_camera.mode=="follow" and sim!=null:chart_camera.follow(sim.units[sim.selected].pos)
+	world_scale=chart_camera.scale;world_offset=chart_camera.offset
+func focus_craft() -> void:
+	if sim==null:return
+	chart_camera.follow(sim.units[sim.selected].pos);_sync_camera();queue_redraw()
 func zoom_at(factor: float,anchor: Vector2) -> void:
 	_sync_camera(); chart_camera.zoom_at(factor,anchor); _sync_camera(); queue_redraw()
 func pan_chart(delta: Vector2) -> void:
@@ -46,10 +54,10 @@ func pan_chart(delta: Vector2) -> void:
 func fit_chart() -> void:
 	chart_camera.fit(); _sync_camera(); queue_redraw()
 func _process(dt: float) -> void:
-	phase+=dt; camera_flash=maxf(0,camera_flash-dt)
+	phase+=dt; camera_flash=maxf(0,camera_flash-dt);_sync_camera()
 	if optical_feed!=null:
 		optical_feed.sim=sim; optical_feed.visible=sim!=null and sim.capture_unit>=0 and sim.selected==sim.capture_unit
-		optical_feed.position=Vector2(14,size.y-242); optical_feed.size=Vector2(minf(390,size.x*0.48),228)
+		optical_feed.position=Vector2(14,maxf(instrument_top+40,size.y-380)); optical_feed.size=Vector2(minf(390,size.x*0.48),228)
 	queue_redraw()
 func acoustic_rows() -> Array:
 	return preload("res://src/presentation/acoustic_feedback.gd").rows(sim.acoustic_feedback()) if sim!=null else []
@@ -57,7 +65,7 @@ func contact_entries() -> Array:
 	return preload("res://src/presentation/contact_feedback.gd").entries(sim.contacts,sim.elapsed,sim.units,sim.line_clear) if sim!=null else []
 func contact_readout_rects() -> Array:
 	var result: Array=[]
-	var top=instrument_top+acoustic_rows().size()*(feedback_font_size+5)+12+7
+	var top=instrument_top+10
 	for entry in contact_entries():
 		var width=ThemeDB.fallback_font.get_string_size(entry.text,HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size).x+20
 		result.append(Rect2(12,top,minf(width,size.x-24),feedback_font_size+6))
@@ -74,11 +82,7 @@ func knock_visible_targets() -> Array:
 func knock_aim_targets() -> Array:
 	var targets=knock_visible_targets()
 	if targets.is_empty():return []
-	var blocked=[Rect2(0,0,size.x,instrument_top)]
-	var rows=acoustic_rows()
-	for i in rows.size():
-		var width=ThemeDB.fallback_font.get_string_size(rows[i],HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size).x+20
-		blocked.append(Rect2(12,instrument_top+i*(feedback_font_size+5),minf(width,size.x-24),feedback_font_size+17).grow(4))
+	var blocked=ui_blocked_rects.duplicate();blocked.append(Rect2(0,0,size.x,instrument_top))
 	for box in contact_readout_rects():blocked.append(box.grow(4))
 	if optical_feed!=null and optical_feed.visible:blocked.append(optical_feed.get_rect().grow(6))
 	for u in sim.units:
@@ -263,22 +267,9 @@ func _draw() -> void:
 		var tag_size=ThemeDB.fallback_font.get_string_size(entry.tag,HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size)
 		draw_rect(Rect2(anchor-Vector2(3,feedback_font_size),Vector2(tag_size.x+6,feedback_font_size+5)),Color(0.025,0.06,0.075,0.94))
 		draw_string(ThemeDB.fallback_font,anchor,entry.tag,HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size,Color("ed8e79") if entry.fresh else Color("b09a94"))
-	draw_rect(Rect2(12,7,minf(430,size.x-194),49),Color(0.025,0.06,0.075,0.94))
-	draw_string(ThemeDB.fallback_font,Vector2(16,26),("TAP CLEAR WATER ≤160m · DRAG/PINCH" if decoy_targeting else "TAP FRESH S# · DRAG CHART · PINCH ZOOM" if knock_targeting else "TAP ROUTE · DRAG CHART · PINCH ZOOM"),HORIZONTAL_ALIGNMENT_LEFT,-1,13,Color("76959c"))
-	draw_string(ThemeDB.fallback_font,Vector2(16,46),"CHART %.1f×"%chart_camera.zoom,HORIZONTAL_ALIGNMENT_LEFT,-1,11,Color("76959c"))
-
 	for n in acoustic.pulses:
 		if n.label=="DECOY":
 			draw_string(ThemeDB.fallback_font,chart_camera.to_screen(n.pos)+Vector2(12,-12),"%ds"%ceili(n.time),HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size,Color("e1b66e"))
-	var rows=acoustic_rows()
-	var line_height=feedback_font_size+5
-	# Fit each backing to its line, as contact rows do: a long qualification
-	# must not hide charted water beside the shorter stock/emission rows.
-	for i in rows.size():
-		var width=ThemeDB.fallback_font.get_string_size(rows[i],HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size).x+20
-		draw_rect(Rect2(12,instrument_top+i*line_height,minf(width,size.x-24),line_height+12),Color(0.025,0.06,0.075,0.94))
-	for i in rows.size():
-		draw_string(ThemeDB.fallback_font,Vector2(20,instrument_top+feedback_font_size+5+i*line_height),rows[i],HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size,Color("e1b66e") if i==1 and rows[i]!="DECOYS · none" else Color("a4bfbd"))
 	var readout=contact_readout_rects()
 	for i in observed.size():
 		var entry=observed[i];var box=readout[i]
@@ -395,8 +386,17 @@ func _siren(p: Vector2,angle: float,fresh: bool,role: String="patroller",pin_tim
 func _dash(a: Vector2,b: Vector2,color: Color,width: float) -> void:
 	var distance=a.distance_to(b)
 	for n in range(0,int(distance),18): draw_line(a.move_toward(b,n),a.move_toward(b,minf(n+9,distance)),color,width)
-func _label(p: Vector2,text: String,color: Color,font_size: int) -> void:
-	draw_string(ThemeDB.fallback_font,p,text,HORIZONTAL_ALIGNMENT_LEFT,-1,maxi(font_size,int(12.0/world_scale)),color)
+func world_label_position(p:Vector2,text:String,font_size:int) -> Vector2:
+	var font=ThemeDB.fallback_font;var actual=maxi(font_size,int(12./world_scale));var extent=font.get_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,-1,actual)*world_scale
+	var origin=chart_camera.to_screen(p);var height=extent.y+6
+	for step in [0,-1,-2,1,-3,2,-4,3]:
+		var point=origin+Vector2(0,step*height)
+		var area=Rect2(point-Vector2(0,font.get_ascent(actual)*world_scale),extent)
+		if Rect2(Vector2.ZERO,size).encloses(area) and not ui_blocked_rects.any(func(r):return r.intersects(area.grow(3))):return chart_camera.to_world(point)
+	return Vector2.INF
+func _label(p:Vector2,text:String,color:Color,font_size:int) -> void:
+	var placed=world_label_position(p,text,font_size)
+	if placed.is_finite():draw_string(ThemeDB.fallback_font,placed,text,HORIZONTAL_ALIGNMENT_LEFT,-1,maxi(font_size,int(12./world_scale)),color)
 
 func _draw_departure() -> void:
 	var report=sim.departure_feedback()
