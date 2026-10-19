@@ -15,7 +15,7 @@ Status: actionable inventory grounded in playable `reference/original-prototype/
 | Photo imagery | Live prototype graphical feedback | Godot live optical panel and authored evidence illustrations | **Accept placeholder**; real captured viewpoint later |
 | Logs/story discoveries | Triggered environmental narrative interactions | Campaign records and gallery, not same exploratory cadence | **Compare and enrich** story discovery later |
 | Enemy archetypes | Patroller, sentinel tether, hunter | Current Godot now has patroller/sentinel/hunter roles | **Retained/adapted** |
-| Combat | Beam plus targetable knockdown counterplay | Beam and EMP/decoy only | **Restore knockdown**, defer broader enemy arsenal |
+| Combat | Beam plus targetable knockdown counterplay | Beam, radial EMP/decoy and reviewed physical single-target knockdown | **Physically adapted**; wider enemy arsenal remains later research |
 | Navigation/waypoints | Basic autopilot and planning cues | Reviewed5ee9555 adds Quietus incoming propulsion and all-craft goal edit/insert/delete/undo with safe pathing | **Partial adaptation**: drones truthfully FIXED96; per-waypoint drone propulsion remains pending, legacy routes preserved |
 | Campaign/progression | One playable prototype scenario | Six playable authored chapters with evidence, archival save, drones, advanced control | **Expand quality and variety**, not historical scope cap |
 | Save management | Prototype state | Single user://quietus.save + recovery backup | **Keep for now**, profile/export milestone later |

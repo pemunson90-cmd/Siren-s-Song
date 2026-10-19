@@ -20,7 +20,7 @@ Watch [baseline](validation/production/navigation-emergency-experience/motion/ba
 
 This steering is integrated locally, **absent from20de5cd APK**. Turning still costs about1.1s in the matched stationary departure; momentum can still cause collisions. Fixed2× framing/no camera follow and scripted inputs do not establish thumb comfort. [Independent experience](reviews/2026-10-19-navigation-departure-experience.md) · [Separate regression](reviews/2026-10-19-navigation-departure-regressions.md).
 
-Reviewed tactical source **0d1b390** adds PLAN ROUTE, terrain acoustic arrivals/own-speed footprint and physical snaring torpedoes to the existing steering/Well/archive work. [Actual cover orders](validation/production/tactical-core-milestone/cover-secondary.png) · [Paused planner](validation/production/tactical-core-milestone/cover-planner.png). These are desktop420dpi fixtures, newer than the accepted APK above; combined native39288954098 passed all source tests and built the APK, then failed native smoke. Existing artifacts are being inspected before promotion.
+Reviewed tactical source **0d1b390** adds PLAN ROUTE, terrain acoustic arrivals/own-speed footprint and physical snaring torpedoes to the existing steering/Well/archive work. [Actual cover orders](validation/production/tactical-core-milestone/cover-secondary.png) · [Paused planner](validation/production/tactical-core-milestone/cover-planner.png). These are desktop420dpi fixtures, newer than the accepted APK above; combined native39288954098 passed all source tests and built the APK, then failed native smoke. [Artifact review](validation/android-39288954098/ARTIFACT_REVIEW.md) verifies the saved signing identity and readable cover controls. The failed run stopped before inner/lifecycle checks, so it is not promoted.
 
 [Later native39276951740](validation/android-39276951740/ARTIFACT_REVIEW.md) **failed** on gallery scroll overshoot. Actual cover/inner same-resume screenshots are readable, but the gallery sequence is incomplete and its signing certificate changed, so that APK is not promoted. The original accepted debug key is now permanently saved in Git and required by every build; no silent regeneration.
 
@@ -28,7 +28,7 @@ Reviewed tactical source **0d1b390** adds PLAN ROUTE, terrain acoustic arrivals/
 
 - **Physical torpedo and route programming:** integrated and published, including noisy flight/snare and Quietus per-waypoint speed. Drones remain fixed-speed. Actual clustered-target tap error is now being fixed on its own branch; root reviews the proposal.
 - **Terrain acoustics:** integrated speed footprint and geometry arrivals. Thermal staging is now in a separate implementation branch, with explicit preservation of camera/terrain and visible beam warnings. Reflections and travel time remain open.
-- **Native validation:** run39288954098 passed signing/full tests/APK build but failed native smoke; artifact worker is identifying the exact failure and inspecting existing uploaded evidence. No retrieval rerun, no acceptance claim.
+- **Native validation:** run39288954098 passed signing/full tests/APK build but failed native smoke; all four artifacts and14cover views are inspected. Failure was a stale secondary checklist, now corrected with targeted tests and original-metrics replay; inner/lifecycle checks remain unreached. No retrieval rerun or broad acceptance claim.
 
 ## Remaining quality bar
 
