@@ -21,6 +21,7 @@ func _initialize():
  var compiled=Route.compile(Vector2(1000,1880),plan,path,dimensions)
  check(compiled.ok and compiled.route[1].get("task_site","")=="chain_west","compile carries task only onto physical final arrival node")
  check(not compiled.route[0].has("task_site") and not compiled.route[2].has("task_site") and not compiled.route[3].has("task_site"),"avoidance corners and withdrawal remain ordinary route nodes")
+ check(not Route.valid_unit({"route":compiled.route,"silent":true},false,dimensions),"legacy route without explicit accepted plan cannot acquire executable task")
  var u={"name":"DRONE A","pos":Vector2(1000,1880),"vel":Vector2.ZERO,"route":compiled.route,"route_plan":plan,"route_undo":[plan.duplicate(true)],"silent":true}
  check(Route.valid_unit(u,false,dimensions),"optional task plan and undo validate together")
  var saved=bytes_to_var(var_to_bytes(u));check(saved==u and Route.valid_unit(saved,false,dimensions),"task intent/undo survives exact serialization without capture timer")

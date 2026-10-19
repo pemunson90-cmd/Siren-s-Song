@@ -45,7 +45,7 @@ static func valid_unit(unit:Dictionary,quietus:bool=true,world_size:Vector2=Vect
  for node in unit.route:
   if node.has("mode") and node.mode not in MODES:return false
   if node.has("goal") and not node.goal is bool:return false
-  if node.has("task_site") and (not node.get("goal",false) or not TaskPlan.valid_goal(node)):return false
+  if node.has("task_site") and (not unit.has("route_plan") or not node.get("goal",false) or not TaskPlan.valid_goal(node)):return false
   if unit.has("route_plan"):
    if goal_index>=unit.route_plan.size() or node.get("mode","")!=unit.route_plan[goal_index].mode:return false
    if node.get("goal",false):
