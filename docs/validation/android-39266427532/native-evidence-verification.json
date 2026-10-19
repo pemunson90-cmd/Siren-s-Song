@@ -1,0 +1,679 @@
+{
+  "blackwater_binary_checks": [
+    {
+      "check": "cover untouched fixture injection",
+      "original": "fixture.save",
+      "restored": "cover-fixture-installed.save",
+      "sha256": "9691e522ddf420515a22b626b6816f83b84aea5a449d66ebfd5ead68b7362c0e",
+      "byte_identical": true
+    },
+    {
+      "check": "inner untouched fixture injection",
+      "original": "fixture.save",
+      "restored": "inner-fixture-installed.save",
+      "sha256": "9691e522ddf420515a22b626b6816f83b84aea5a449d66ebfd5ead68b7362c0e",
+      "byte_identical": true
+    },
+    {
+      "check": "cover earned request cold restore",
+      "original": "cover-earned.save",
+      "restored": "cover-cold-restored.save",
+      "sha256": "bbc4aeca436fd8605b327122adc20d4af11c5f889fb2d704b660e864797684e7",
+      "byte_identical": true
+    },
+    {
+      "check": "inner earned request cold restore",
+      "original": "inner-earned.save",
+      "restored": "inner-cold-restored.save",
+      "sha256": "10031b40609757eff553478a679bce137177481424adb6a2a4dd05648478ec31",
+      "byte_identical": true
+    },
+    {
+      "check": "genuine primary restoration",
+      "original": "role-archive-primary.save",
+      "restored": "role-restored-primary.save",
+      "sha256": "16331cd2d14e21b5075ca7a1ade7b6fd787d05f31b378c465cd676cb632af71f",
+      "byte_identical": true
+    },
+    {
+      "check": "genuine .bak restoration",
+      "original": "role-archive-backup.save",
+      "restored": "role-restored-backup.save",
+      "sha256": "16331cd2d14e21b5075ca7a1ade7b6fd787d05f31b378c465cd676cb632af71f",
+      "byte_identical": true
+    }
+  ],
+  "capture_brackets": [
+    {
+      "path": "metrics/blackwater/ui-metrics-capture-cover-blackwater-receiving.json",
+      "pre_metrics_count": 97,
+      "post_metrics_count": 97,
+      "pre_drawn_frame": 117,
+      "post_drawn_frame": 117,
+      "semantic_geometry_equal": true,
+      "state": {
+        "capture_unit": 1,
+        "hud_visible": true,
+        "menu_visible": false,
+        "mission": 2,
+        "optical_visible": true,
+        "paused": true,
+        "phase": "post_draw",
+        "selected": 1
+      }
+    },
+    {
+      "path": "metrics/blackwater/ui-metrics-capture-cover-blackwater-request-gallery.json",
+      "pre_metrics_count": 109,
+      "post_metrics_count": 109,
+      "pre_drawn_frame": 50,
+      "post_drawn_frame": 50,
+      "semantic_geometry_equal": true,
+      "state": {
+        "capture_unit": -1,
+        "hud_visible": false,
+        "menu_visible": true,
+        "mission": 2,
+        "optical_visible": false,
+        "paused": true,
+        "phase": "post_draw",
+        "selected": 1
+      }
+    },
+    {
+      "path": "metrics/blackwater/ui-metrics-capture-inner-blackwater-receiving.json",
+      "pre_metrics_count": 117,
+      "post_metrics_count": 117,
+      "pre_drawn_frame": 123,
+      "post_drawn_frame": 123,
+      "semantic_geometry_equal": true,
+      "state": {
+        "capture_unit": 1,
+        "hud_visible": true,
+        "menu_visible": false,
+        "mission": 2,
+        "optical_visible": true,
+        "paused": true,
+        "phase": "post_draw",
+        "selected": 1
+      }
+    },
+    {
+      "path": "metrics/blackwater/ui-metrics-capture-inner-blackwater-request-gallery.json",
+      "pre_metrics_count": 128,
+      "post_metrics_count": 128,
+      "pre_drawn_frame": 32,
+      "post_drawn_frame": 32,
+      "semantic_geometry_equal": true,
+      "state": {
+        "capture_unit": -1,
+        "hud_visible": false,
+        "menu_visible": true,
+        "mission": 2,
+        "optical_visible": false,
+        "paused": true,
+        "phase": "post_draw",
+        "selected": 1
+      }
+    },
+    {
+      "path": "metrics/ui-metrics-capture-cover-restored-gameplay.json",
+      "pre_metrics_count": 32,
+      "post_metrics_count": 32,
+      "pre_drawn_frame": 12,
+      "post_drawn_frame": 12,
+      "semantic_geometry_equal": true,
+      "state": {
+        "capture_unit": -1,
+        "hud_visible": true,
+        "menu_visible": false,
+        "mission": 0,
+        "optical_visible": false,
+        "paused": true,
+        "phase": "post_draw",
+        "selected": 0
+      }
+    },
+    {
+      "path": "metrics/ui-metrics-capture-inner-camera-exposure.json",
+      "pre_metrics_count": 69,
+      "post_metrics_count": 69,
+      "pre_drawn_frame": 190,
+      "post_drawn_frame": 190,
+      "semantic_geometry_equal": true,
+      "state": {
+        "capture_unit": 1,
+        "hud_visible": true,
+        "menu_visible": false,
+        "mission": 0,
+        "optical_visible": true,
+        "paused": true,
+        "phase": "post_draw",
+        "selected": 1
+      }
+    },
+    {
+      "path": "metrics/ui-metrics-capture-inner-restored-gameplay.json",
+      "pre_metrics_count": 61,
+      "post_metrics_count": 61,
+      "pre_drawn_frame": 10,
+      "post_drawn_frame": 10,
+      "semantic_geometry_equal": true,
+      "state": {
+        "capture_unit": -1,
+        "hud_visible": true,
+        "menu_visible": false,
+        "mission": 0,
+        "optical_visible": false,
+        "paused": true,
+        "phase": "post_draw",
+        "selected": 0
+      }
+    }
+  ],
+  "menu_brackets": [
+    {
+      "path": "metrics/blackwater/ui-metrics-menu-cover-blackwater-evidence-entry.json",
+      "pre_metrics_count": 104,
+      "post_metrics_count": 104,
+      "stable_measurement_settings": true
+    },
+    {
+      "path": "metrics/blackwater/ui-metrics-menu-cover-blackwater-evidence-scroll-0.json",
+      "pre_metrics_count": 105,
+      "post_metrics_count": 105,
+      "stable_measurement_settings": true
+    },
+    {
+      "path": "metrics/blackwater/ui-metrics-menu-inner-blackwater-evidence-entry.json",
+      "pre_metrics_count": 124,
+      "post_metrics_count": 124,
+      "stable_measurement_settings": true
+    },
+    {
+      "path": "metrics/ui-metrics-menu-cover-initial.json",
+      "pre_metrics_count": 5,
+      "post_metrics_count": 5,
+      "stable_measurement_settings": true
+    },
+    {
+      "path": "metrics/ui-metrics-menu-cover-returned.json",
+      "pre_metrics_count": 13,
+      "post_metrics_count": 14,
+      "stable_measurement_settings": true
+    },
+    {
+      "path": "metrics/ui-metrics-menu-cover-scroll-0.json",
+      "pre_metrics_count": 6,
+      "post_metrics_count": 6,
+      "stable_measurement_settings": true
+    },
+    {
+      "path": "metrics/ui-metrics-menu-cover-settings-back.json",
+      "pre_metrics_count": 11,
+      "post_metrics_count": 11,
+      "stable_measurement_settings": true
+    },
+    {
+      "path": "metrics/ui-metrics-menu-cover-settings-mute.json",
+      "pre_metrics_count": 11,
+      "post_metrics_count": 11,
+      "stable_measurement_settings": true
+    },
+    {
+      "path": "metrics/ui-metrics-menu-cover-settings-volume_effects-scroll-0.json",
+      "pre_metrics_count": 11,
+      "post_metrics_count": 11,
+      "stable_measurement_settings": true
+    },
+    {
+      "path": "metrics/ui-metrics-menu-cover-settings-volume_effects.json",
+      "pre_metrics_count": 10,
+      "post_metrics_count": 10,
+      "stable_measurement_settings": true
+    },
+    {
+      "path": "metrics/ui-metrics-menu-cover-settings.json",
+      "pre_metrics_count": 9,
+      "post_metrics_count": 10,
+      "stable_measurement_settings": true
+    },
+    {
+      "path": "metrics/ui-metrics-menu-inner-initial.json",
+      "pre_metrics_count": 35,
+      "post_metrics_count": 35,
+      "stable_measurement_settings": true
+    },
+    {
+      "path": "metrics/ui-metrics-menu-inner-returned.json",
+      "pre_metrics_count": 43,
+      "post_metrics_count": 43,
+      "stable_measurement_settings": true
+    },
+    {
+      "path": "metrics/ui-metrics-menu-inner-scroll-0.json",
+      "pre_metrics_count": 36,
+      "post_metrics_count": 36,
+      "stable_measurement_settings": true
+    },
+    {
+      "path": "metrics/ui-metrics-menu-inner-settings-back.json",
+      "pre_metrics_count": 41,
+      "post_metrics_count": 41,
+      "stable_measurement_settings": true
+    },
+    {
+      "path": "metrics/ui-metrics-menu-inner-settings-mute.json",
+      "pre_metrics_count": 41,
+      "post_metrics_count": 41,
+      "stable_measurement_settings": true
+    },
+    {
+      "path": "metrics/ui-metrics-menu-inner-settings-volume_effects.json",
+      "pre_metrics_count": 41,
+      "post_metrics_count": 41,
+      "stable_measurement_settings": true
+    },
+    {
+      "path": "metrics/ui-metrics-menu-inner-settings.json",
+      "pre_metrics_count": 40,
+      "post_metrics_count": 41,
+      "stable_measurement_settings": true
+    }
+  ],
+  "geometry_reports": [
+    {
+      "path": "metrics/blackwater/ui-metrics-capture-cover-blackwater-receiving-pre.json",
+      "gate_passed": true,
+      "density_dpi": 420,
+      "min_nonclipped_hit_dp": 56.0
+    },
+    {
+      "path": "metrics/blackwater/ui-metrics-capture-cover-blackwater-receiving.json",
+      "gate_passed": true,
+      "density_dpi": 420,
+      "min_nonclipped_hit_dp": 56.0
+    },
+    {
+      "path": "metrics/blackwater/ui-metrics-capture-cover-blackwater-request-gallery-pre.json",
+      "gate_passed": true,
+      "density_dpi": 420,
+      "min_nonclipped_hit_dp": 56.0
+    },
+    {
+      "path": "metrics/blackwater/ui-metrics-capture-cover-blackwater-request-gallery.json",
+      "gate_passed": true,
+      "density_dpi": 420,
+      "min_nonclipped_hit_dp": 56.0
+    },
+    {
+      "path": "metrics/blackwater/ui-metrics-capture-inner-blackwater-receiving-pre.json",
+      "gate_passed": true,
+      "density_dpi": 420,
+      "min_nonclipped_hit_dp": 56.55
+    },
+    {
+      "path": "metrics/blackwater/ui-metrics-capture-inner-blackwater-receiving.json",
+      "gate_passed": true,
+      "density_dpi": 420,
+      "min_nonclipped_hit_dp": 56.55
+    },
+    {
+      "path": "metrics/blackwater/ui-metrics-capture-inner-blackwater-request-gallery-pre.json",
+      "gate_passed": true,
+      "density_dpi": 420,
+      "min_nonclipped_hit_dp": 56.56994176681948
+    },
+    {
+      "path": "metrics/blackwater/ui-metrics-capture-inner-blackwater-request-gallery.json",
+      "gate_passed": true,
+      "density_dpi": 420,
+      "min_nonclipped_hit_dp": 56.56994176681948
+    },
+    {
+      "path": "metrics/blackwater/ui-metrics-menu-cover-blackwater-evidence-entry.json",
+      "gate_passed": true,
+      "density_dpi": 420,
+      "min_nonclipped_hit_dp": 56.0
+    },
+    {
+      "path": "metrics/blackwater/ui-metrics-menu-cover-blackwater-evidence-entry.json.pre-capture.json",
+      "gate_passed": true,
+      "density_dpi": 420,
+      "min_nonclipped_hit_dp": 56.0
+    },
+    {
+      "path": "metrics/blackwater/ui-metrics-menu-cover-blackwater-evidence-scroll-0.json",
+      "gate_passed": true,
+      "density_dpi": 420,
+      "min_nonclipped_hit_dp": 56.0
+    },
+    {
+      "path": "metrics/blackwater/ui-metrics-menu-cover-blackwater-evidence-scroll-0.json.pre-capture.json",
+      "gate_passed": true,
+      "density_dpi": 420,
+      "min_nonclipped_hit_dp": 56.0
+    },
+    {
+      "path": "metrics/blackwater/ui-metrics-menu-inner-blackwater-evidence-entry.json",
+      "gate_passed": true,
+      "density_dpi": 420,
+      "min_nonclipped_hit_dp": 56.56994176681948
+    },
+    {
+      "path": "metrics/blackwater/ui-metrics-menu-inner-blackwater-evidence-entry.json.pre-capture.json",
+      "gate_passed": true,
+      "density_dpi": 420,
+      "min_nonclipped_hit_dp": 56.56994176681948
+    },
+    {
+      "path": "metrics/ui-metrics-capture-cover-restored-gameplay-pre.json",
+      "gate_passed": true,
+      "density_dpi": 420,
+      "min_nonclipped_hit_dp": 56.0
+    },
+    {
+      "path": "metrics/ui-metrics-capture-cover-restored-gameplay.json",
+      "gate_passed": true,
+      "density_dpi": 420,
+      "min_nonclipped_hit_dp": 56.0
+    },
+    {
+      "path": "metrics/ui-metrics-capture-inner-camera-exposure-pre.json",
+      "gate_passed": true,
+      "density_dpi": 420,
+      "min_nonclipped_hit_dp": 56.55
+    },
+    {
+      "path": "metrics/ui-metrics-capture-inner-camera-exposure.json",
+      "gate_passed": true,
+      "density_dpi": 420,
+      "min_nonclipped_hit_dp": 56.55
+    },
+    {
+      "path": "metrics/ui-metrics-capture-inner-restored-gameplay-pre.json",
+      "gate_passed": true,
+      "density_dpi": 420,
+      "min_nonclipped_hit_dp": 56.55
+    },
+    {
+      "path": "metrics/ui-metrics-capture-inner-restored-gameplay.json",
+      "gate_passed": true,
+      "density_dpi": 420,
+      "min_nonclipped_hit_dp": 56.55
+    },
+    {
+      "path": "metrics/ui-metrics-cover-primary-initial.json",
+      "gate_passed": true,
+      "density_dpi": 420,
+      "min_nonclipped_hit_dp": 56.0
+    },
+    {
+      "path": "metrics/ui-metrics-cover-primary-restored.json",
+      "gate_passed": true,
+      "density_dpi": 420,
+      "min_nonclipped_hit_dp": 56.0
+    },
+    {
+      "path": "metrics/ui-metrics-cover-secondary-initial.json",
+      "gate_passed": true,
+      "density_dpi": 420,
+      "min_nonclipped_hit_dp": 56.0
+    },
+    {
+      "path": "metrics/ui-metrics-inner-primary-initial.json",
+      "gate_passed": true,
+      "density_dpi": 420,
+      "min_nonclipped_hit_dp": 56.55
+    },
+    {
+      "path": "metrics/ui-metrics-inner-primary-restored.json",
+      "gate_passed": true,
+      "density_dpi": 420,
+      "min_nonclipped_hit_dp": 56.55
+    },
+    {
+      "path": "metrics/ui-metrics-inner-secondary-initial.json",
+      "gate_passed": true,
+      "density_dpi": 420,
+      "min_nonclipped_hit_dp": 56.55
+    },
+    {
+      "path": "metrics/ui-metrics-menu-cover-initial.json",
+      "gate_passed": true,
+      "density_dpi": 420,
+      "min_nonclipped_hit_dp": 56.0
+    },
+    {
+      "path": "metrics/ui-metrics-menu-cover-initial.json.pre-capture.json",
+      "gate_passed": true,
+      "density_dpi": 420,
+      "min_nonclipped_hit_dp": 56.0
+    },
+    {
+      "path": "metrics/ui-metrics-menu-cover-returned.json",
+      "gate_passed": true,
+      "density_dpi": 420,
+      "min_nonclipped_hit_dp": 56.0
+    },
+    {
+      "path": "metrics/ui-metrics-menu-cover-returned.json.pre-capture.json",
+      "gate_passed": true,
+      "density_dpi": 420,
+      "min_nonclipped_hit_dp": 56.0
+    },
+    {
+      "path": "metrics/ui-metrics-menu-cover-scroll-0.json",
+      "gate_passed": true,
+      "density_dpi": 420,
+      "min_nonclipped_hit_dp": 56.0
+    },
+    {
+      "path": "metrics/ui-metrics-menu-cover-scroll-0.json.pre-capture.json",
+      "gate_passed": true,
+      "density_dpi": 420,
+      "min_nonclipped_hit_dp": 56.0
+    },
+    {
+      "path": "metrics/ui-metrics-menu-cover-settings-back.json",
+      "gate_passed": true,
+      "density_dpi": 420,
+      "min_nonclipped_hit_dp": 56.0
+    },
+    {
+      "path": "metrics/ui-metrics-menu-cover-settings-back.json.pre-capture.json",
+      "gate_passed": true,
+      "density_dpi": 420,
+      "min_nonclipped_hit_dp": 56.0
+    },
+    {
+      "path": "metrics/ui-metrics-menu-cover-settings-baseline.json",
+      "gate_passed": true,
+      "density_dpi": 420,
+      "min_nonclipped_hit_dp": 56.0
+    },
+    {
+      "path": "metrics/ui-metrics-menu-cover-settings-mute.json",
+      "gate_passed": true,
+      "density_dpi": 420,
+      "min_nonclipped_hit_dp": 56.0
+    },
+    {
+      "path": "metrics/ui-metrics-menu-cover-settings-mute.json.pre-capture.json",
+      "gate_passed": true,
+      "density_dpi": 420,
+      "min_nonclipped_hit_dp": 56.0
+    },
+    {
+      "path": "metrics/ui-metrics-menu-cover-settings-volume_effects-scroll-0.json",
+      "gate_passed": true,
+      "density_dpi": 420,
+      "min_nonclipped_hit_dp": 56.0
+    },
+    {
+      "path": "metrics/ui-metrics-menu-cover-settings-volume_effects-scroll-0.json.pre-capture.json",
+      "gate_passed": true,
+      "density_dpi": 420,
+      "min_nonclipped_hit_dp": 56.0
+    },
+    {
+      "path": "metrics/ui-metrics-menu-cover-settings-volume_effects.json",
+      "gate_passed": true,
+      "density_dpi": 420,
+      "min_nonclipped_hit_dp": 56.0
+    },
+    {
+      "path": "metrics/ui-metrics-menu-cover-settings-volume_effects.json.pre-capture.json",
+      "gate_passed": true,
+      "density_dpi": 420,
+      "min_nonclipped_hit_dp": 56.0
+    },
+    {
+      "path": "metrics/ui-metrics-menu-cover-settings.json",
+      "gate_passed": true,
+      "density_dpi": 420,
+      "min_nonclipped_hit_dp": 56.0
+    },
+    {
+      "path": "metrics/ui-metrics-menu-cover-settings.json.pre-capture.json",
+      "gate_passed": true,
+      "density_dpi": 420,
+      "min_nonclipped_hit_dp": 56.0
+    },
+    {
+      "path": "metrics/ui-metrics-menu-inner-initial.json",
+      "gate_passed": true,
+      "density_dpi": 420,
+      "min_nonclipped_hit_dp": 56.56994176681948
+    },
+    {
+      "path": "metrics/ui-metrics-menu-inner-initial.json.pre-capture.json",
+      "gate_passed": true,
+      "density_dpi": 420,
+      "min_nonclipped_hit_dp": 56.56994176681948
+    },
+    {
+      "path": "metrics/ui-metrics-menu-inner-returned.json",
+      "gate_passed": true,
+      "density_dpi": 420,
+      "min_nonclipped_hit_dp": 56.56994176681948
+    },
+    {
+      "path": "metrics/ui-metrics-menu-inner-returned.json.pre-capture.json",
+      "gate_passed": true,
+      "density_dpi": 420,
+      "min_nonclipped_hit_dp": 56.56994176681948
+    },
+    {
+      "path": "metrics/ui-metrics-menu-inner-scroll-0.json",
+      "gate_passed": true,
+      "density_dpi": 420,
+      "min_nonclipped_hit_dp": 56.56994176681948
+    },
+    {
+      "path": "metrics/ui-metrics-menu-inner-scroll-0.json.pre-capture.json",
+      "gate_passed": true,
+      "density_dpi": 420,
+      "min_nonclipped_hit_dp": 56.56994176681948
+    },
+    {
+      "path": "metrics/ui-metrics-menu-inner-settings-back.json",
+      "gate_passed": true,
+      "density_dpi": 420,
+      "min_nonclipped_hit_dp": 56.56994176681948
+    },
+    {
+      "path": "metrics/ui-metrics-menu-inner-settings-back.json.pre-capture.json",
+      "gate_passed": true,
+      "density_dpi": 420,
+      "min_nonclipped_hit_dp": 56.56994176681948
+    },
+    {
+      "path": "metrics/ui-metrics-menu-inner-settings-baseline.json",
+      "gate_passed": true,
+      "density_dpi": 420,
+      "min_nonclipped_hit_dp": 56.56994176681948
+    },
+    {
+      "path": "metrics/ui-metrics-menu-inner-settings-mute.json",
+      "gate_passed": true,
+      "density_dpi": 420,
+      "min_nonclipped_hit_dp": 56.56994176681948
+    },
+    {
+      "path": "metrics/ui-metrics-menu-inner-settings-mute.json.pre-capture.json",
+      "gate_passed": true,
+      "density_dpi": 420,
+      "min_nonclipped_hit_dp": 56.56994176681948
+    },
+    {
+      "path": "metrics/ui-metrics-menu-inner-settings-volume_effects.json",
+      "gate_passed": true,
+      "density_dpi": 420,
+      "min_nonclipped_hit_dp": 56.56994176681948
+    },
+    {
+      "path": "metrics/ui-metrics-menu-inner-settings-volume_effects.json.pre-capture.json",
+      "gate_passed": true,
+      "density_dpi": 420,
+      "min_nonclipped_hit_dp": 56.56994176681948
+    },
+    {
+      "path": "metrics/ui-metrics-menu-inner-settings.json",
+      "gate_passed": true,
+      "density_dpi": 420,
+      "min_nonclipped_hit_dp": 56.56994176681948
+    },
+    {
+      "path": "metrics/ui-metrics-menu-inner-settings.json.pre-capture.json",
+      "gate_passed": true,
+      "density_dpi": 420,
+      "min_nonclipped_hit_dp": 56.56994176681948
+    }
+  ],
+  "temporary_archive": {
+    "original_save_uploaded": false,
+    "restored_save_uploaded": false,
+    "scope": "Original temporary absent; strict restore helper removes absent original. Run success evidences command success, not an independently captured remote post-cleanup stat."
+  },
+  "cover_resume": {
+    "sha256": "cc4fbb9d2709856a47efcdd68a59dad12a0ea018402cec1fde1721088c9c949b",
+    "bytes": 13037,
+    "rgb_extrema": [
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        0
+      ]
+    ],
+    "uniform_black": true
+  },
+  "inner_resume": {
+    "sha256": "315e54ba70931aaa4118011d0b73a40a697d760fbd823a9314570c974b80820a",
+    "bytes": 1237476,
+    "rgb_extrema": [
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ]
+    ],
+    "uniform_black": false
+  },
+  "final_png_count": 48,
+  "probe_png_count": 25
+}

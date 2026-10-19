@@ -1,0 +1,216 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:364)
+OpenGL API 4.5 (Core Profile) Mesa 25.0.7-2+deb13u1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 19.1.7, 256 bits)
+
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":0,"hud_visible":true,"menu_visible":false,"mission":0,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[116.667,112.0,1072.333,580.0],"controls":[{"action":"pause","clipped":false,"hit_rect":[1205.0,112.0,278.87,98.0],"visual_rect":[1205.0,112.0,278.87,98.0]},{"action":"sub","clipped":false,"hit_rect":[1205.0,214.0,147.0,98.0],"visual_rect":[1205.0,214.0,147.0,98.0]},{"action":"droneA","clipped":false,"hit_rect":[1356.0,214.0,147.0,98.0],"visual_rect":[1356.0,214.0,147.0,98.0]},{"action":"droneB","clipped":false,"hit_rect":[1507.0,214.0,147.0,98.0],"visual_rect":[1507.0,214.0,147.0,98.0]},{"action":"more_orders","clipped":false,"hit_rect":[1487.87,112.0,166.13,98.0],"visual_rect":[1487.87,112.0,166.13,98.0]},{"action":"ping","clipped":false,"hit_rect":[1205.0,316.0,147.0,98.0],"visual_rect":[1205.0,316.0,147.0,98.0]},{"action":"camera","clipped":false,"hit_rect":[1356.0,316.0,147.0,98.0],"visual_rect":[1356.0,316.0,147.0,98.0]},{"action":"silent","clipped":false,"hit_rect":[1507.0,316.0,147.0,98.0],"visual_rect":[1507.0,316.0,147.0,98.0]},{"action":"queue","clipped":false,"hit_rect":[1205.0,418.0,147.0,98.0],"visual_rect":[1205.0,418.0,147.0,98.0]},{"action":"hold","clipped":false,"hit_rect":[1356.0,418.0,147.0,98.0],"visual_rect":[1356.0,418.0,147.0,98.0]},{"action":"emp","clipped":false,"hit_rect":[1507.0,418.0,147.0,98.0],"visual_rect":[1507.0,418.0,147.0,98.0]},{"action":"home","clipped":false,"hit_rect":[1205.0,520.0,147.0,98.0],"visual_rect":[1205.0,520.0,147.0,98.0]},{"action":"menu","clipped":false,"hit_rect":[1356.0,520.0,147.0,98.0],"visual_rect":[1356.0,520.0,147.0,98.0]},{"action":"zoom_out","clipped":false,"hit_rect":[879.0,120.0,98.0,98.0],"visual_rect":[879.0,120.0,98.0,98.0]},{"action":"zoom_in","clipped":false,"hit_rect":[981.0,120.0,98.0,98.0],"visual_rect":[981.0,120.0,98.0,98.0]},{"action":"fit","clipped":false,"hit_rect":[1083.0,120.0,98.0,98.0],"visual_rect":[1083.0,120.0,98.0,98.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","orders_page":"primary","safe_area_source":"recorded_android_39222413584_fixture","safe_rect":[136.0,0.0,2384.0,1080.0],"schema":1,"screen":"mission","scroll_rect":[0.0,0.0,0.0,0.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1680.0,720.0],"window":[2520.0,1080.0]}
+SS_TARGET pause center=1344,161 viewport=1680,720
+SS_TARGET sub center=1279,263 viewport=1680,720
+SS_TARGET droneA center=1430,263 viewport=1680,720
+SS_TARGET droneB center=1581,263 viewport=1680,720
+SS_TARGET ping center=1279,365 viewport=1680,720
+SS_TARGET camera center=1430,365 viewport=1680,720
+SS_TARGET silent center=1581,365 viewport=1680,720
+SS_TARGET queue center=1279,467 viewport=1680,720
+SS_TARGET hold center=1430,467 viewport=1680,720
+SS_TARGET emp center=1581,467 viewport=1680,720
+SS_TARGET home center=1279,569 viewport=1680,720
+SS_TARGET menu center=1430,569 viewport=1680,720
+SS_TARGET more_orders center=1571,161 viewport=1680,720
+SS_TARGET zoom_out center=928,169 viewport=1680,720
+SS_TARGET zoom_in center=1030,169 viewport=1680,720
+SS_TARGET fit center=1132,169 viewport=1680,720
+SS_TARGET chart_center center=653,402 viewport=1680,720
+SS_TARGET objective0 center=955,420 viewport=1680,720
+SS_TARGET route center=363,595 viewport=1680,720
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":0,"hud_visible":true,"menu_visible":false,"mission":0,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[116.667,112.0,1072.333,580.0],"controls":[{"action":"pause","clipped":false,"hit_rect":[1205.0,112.0,278.87,98.0],"visual_rect":[1205.0,112.0,278.87,98.0]},{"action":"sub","clipped":false,"hit_rect":[1205.0,214.0,147.0,98.0],"visual_rect":[1205.0,214.0,147.0,98.0]},{"action":"droneA","clipped":false,"hit_rect":[1356.0,214.0,147.0,98.0],"visual_rect":[1356.0,214.0,147.0,98.0]},{"action":"droneB","clipped":false,"hit_rect":[1507.0,214.0,147.0,98.0],"visual_rect":[1507.0,214.0,147.0,98.0]},{"action":"more_orders","clipped":false,"hit_rect":[1487.87,112.0,166.13,98.0],"visual_rect":[1487.87,112.0,166.13,98.0]},{"action":"ping","clipped":false,"hit_rect":[1205.0,316.0,147.0,98.0],"visual_rect":[1205.0,316.0,147.0,98.0]},{"action":"camera","clipped":false,"hit_rect":[1356.0,316.0,147.0,98.0],"visual_rect":[1356.0,316.0,147.0,98.0]},{"action":"silent","clipped":false,"hit_rect":[1507.0,316.0,147.0,98.0],"visual_rect":[1507.0,316.0,147.0,98.0]},{"action":"queue","clipped":false,"hit_rect":[1205.0,418.0,147.0,98.0],"visual_rect":[1205.0,418.0,147.0,98.0]},{"action":"hold","clipped":false,"hit_rect":[1356.0,418.0,147.0,98.0],"visual_rect":[1356.0,418.0,147.0,98.0]},{"action":"emp","clipped":false,"hit_rect":[1507.0,418.0,147.0,98.0],"visual_rect":[1507.0,418.0,147.0,98.0]},{"action":"home","clipped":false,"hit_rect":[1205.0,520.0,147.0,98.0],"visual_rect":[1205.0,520.0,147.0,98.0]},{"action":"menu","clipped":false,"hit_rect":[1356.0,520.0,147.0,98.0],"visual_rect":[1356.0,520.0,147.0,98.0]},{"action":"zoom_out","clipped":false,"hit_rect":[879.0,120.0,98.0,98.0],"visual_rect":[879.0,120.0,98.0,98.0]},{"action":"zoom_in","clipped":false,"hit_rect":[981.0,120.0,98.0,98.0],"visual_rect":[981.0,120.0,98.0,98.0]},{"action":"fit","clipped":false,"hit_rect":[1083.0,120.0,98.0,98.0],"visual_rect":[1083.0,120.0,98.0,98.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","orders_page":"primary","safe_area_source":"recorded_android_39222413584_fixture","safe_rect":[136.0,0.0,2384.0,1080.0],"schema":1,"screen":"mission","scroll_rect":[0.0,0.0,0.0,0.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1680.0,720.0],"window":[2520.0,1080.0]}
+SS_TARGET pause center=1344,161 viewport=1680,720
+SS_TARGET sub center=1279,263 viewport=1680,720
+SS_TARGET droneA center=1430,263 viewport=1680,720
+SS_TARGET droneB center=1581,263 viewport=1680,720
+SS_TARGET ping center=1279,365 viewport=1680,720
+SS_TARGET camera center=1430,365 viewport=1680,720
+SS_TARGET silent center=1581,365 viewport=1680,720
+SS_TARGET queue center=1279,467 viewport=1680,720
+SS_TARGET hold center=1430,467 viewport=1680,720
+SS_TARGET emp center=1581,467 viewport=1680,720
+SS_TARGET home center=1279,569 viewport=1680,720
+SS_TARGET menu center=1430,569 viewport=1680,720
+SS_TARGET more_orders center=1571,161 viewport=1680,720
+SS_TARGET zoom_out center=928,169 viewport=1680,720
+SS_TARGET zoom_in center=1030,169 viewport=1680,720
+SS_TARGET fit center=1132,169 viewport=1680,720
+SS_TARGET chart_center center=653,402 viewport=1680,720
+SS_TARGET objective0 center=955,420 viewport=1680,720
+SS_TARGET route center=363,595 viewport=1680,720
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":0,"hud_visible":true,"menu_visible":false,"mission":0,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[116.667,112.0,1072.333,580.0],"controls":[{"action":"pause","clipped":false,"hit_rect":[1205.0,112.0,278.87,98.0],"visual_rect":[1205.0,112.0,278.87,98.0]},{"action":"sub","clipped":false,"hit_rect":[1205.0,214.0,147.0,98.0],"visual_rect":[1205.0,214.0,147.0,98.0]},{"action":"droneA","clipped":false,"hit_rect":[1356.0,214.0,147.0,98.0],"visual_rect":[1356.0,214.0,147.0,98.0]},{"action":"droneB","clipped":false,"hit_rect":[1507.0,214.0,147.0,98.0],"visual_rect":[1507.0,214.0,147.0,98.0]},{"action":"more_orders","clipped":false,"hit_rect":[1487.87,112.0,166.13,98.0],"visual_rect":[1487.87,112.0,166.13,98.0]},{"action":"ping","clipped":false,"hit_rect":[1205.0,316.0,147.0,98.0],"visual_rect":[1205.0,316.0,147.0,98.0]},{"action":"camera","clipped":false,"hit_rect":[1356.0,316.0,147.0,98.0],"visual_rect":[1356.0,316.0,147.0,98.0]},{"action":"silent","clipped":false,"hit_rect":[1507.0,316.0,147.0,98.0],"visual_rect":[1507.0,316.0,147.0,98.0]},{"action":"queue","clipped":false,"hit_rect":[1205.0,418.0,147.0,98.0],"visual_rect":[1205.0,418.0,147.0,98.0]},{"action":"hold","clipped":false,"hit_rect":[1356.0,418.0,147.0,98.0],"visual_rect":[1356.0,418.0,147.0,98.0]},{"action":"emp","clipped":false,"hit_rect":[1507.0,418.0,147.0,98.0],"visual_rect":[1507.0,418.0,147.0,98.0]},{"action":"home","clipped":false,"hit_rect":[1205.0,520.0,147.0,98.0],"visual_rect":[1205.0,520.0,147.0,98.0]},{"action":"menu","clipped":false,"hit_rect":[1356.0,520.0,147.0,98.0],"visual_rect":[1356.0,520.0,147.0,98.0]},{"action":"zoom_out","clipped":false,"hit_rect":[879.0,120.0,98.0,98.0],"visual_rect":[879.0,120.0,98.0,98.0]},{"action":"zoom_in","clipped":false,"hit_rect":[981.0,120.0,98.0,98.0],"visual_rect":[981.0,120.0,98.0,98.0]},{"action":"fit","clipped":false,"hit_rect":[1083.0,120.0,98.0,98.0],"visual_rect":[1083.0,120.0,98.0,98.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","orders_page":"primary","safe_area_source":"recorded_android_39222413584_fixture","safe_rect":[136.0,0.0,2384.0,1080.0],"schema":1,"screen":"mission","scroll_rect":[0.0,0.0,0.0,0.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1680.0,720.0],"window":[2520.0,1080.0]}
+SS_TARGET pause center=1344,161 viewport=1680,720
+SS_TARGET sub center=1279,263 viewport=1680,720
+SS_TARGET droneA center=1430,263 viewport=1680,720
+SS_TARGET droneB center=1581,263 viewport=1680,720
+SS_TARGET ping center=1279,365 viewport=1680,720
+SS_TARGET camera center=1430,365 viewport=1680,720
+SS_TARGET silent center=1581,365 viewport=1680,720
+SS_TARGET queue center=1279,467 viewport=1680,720
+SS_TARGET hold center=1430,467 viewport=1680,720
+SS_TARGET emp center=1581,467 viewport=1680,720
+SS_TARGET home center=1279,569 viewport=1680,720
+SS_TARGET menu center=1430,569 viewport=1680,720
+SS_TARGET more_orders center=1571,161 viewport=1680,720
+SS_TARGET zoom_out center=928,169 viewport=1680,720
+SS_TARGET zoom_in center=1030,169 viewport=1680,720
+SS_TARGET fit center=1132,169 viewport=1680,720
+SS_TARGET chart_center center=653,402 viewport=1680,720
+SS_TARGET objective0 center=955,420 viewport=1680,720
+SS_TARGET route center=363,595 viewport=1680,720
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":0,"hud_visible":true,"menu_visible":false,"mission":0,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[116.667,112.0,1072.333,580.0],"controls":[{"action":"pause","clipped":false,"hit_rect":[1205.0,112.0,278.87,98.0],"visual_rect":[1205.0,112.0,278.87,98.0]},{"action":"sub","clipped":false,"hit_rect":[1205.0,214.0,147.0,98.0],"visual_rect":[1205.0,214.0,147.0,98.0]},{"action":"droneA","clipped":false,"hit_rect":[1356.0,214.0,147.0,98.0],"visual_rect":[1356.0,214.0,147.0,98.0]},{"action":"droneB","clipped":false,"hit_rect":[1507.0,214.0,147.0,98.0],"visual_rect":[1507.0,214.0,147.0,98.0]},{"action":"more_orders","clipped":false,"hit_rect":[1487.87,112.0,166.13,98.0],"visual_rect":[1487.87,112.0,166.13,98.0]},{"action":"ping","clipped":false,"hit_rect":[1205.0,316.0,147.0,98.0],"visual_rect":[1205.0,316.0,147.0,98.0]},{"action":"camera","clipped":false,"hit_rect":[1356.0,316.0,147.0,98.0],"visual_rect":[1356.0,316.0,147.0,98.0]},{"action":"silent","clipped":false,"hit_rect":[1507.0,316.0,147.0,98.0],"visual_rect":[1507.0,316.0,147.0,98.0]},{"action":"queue","clipped":false,"hit_rect":[1205.0,418.0,147.0,98.0],"visual_rect":[1205.0,418.0,147.0,98.0]},{"action":"hold","clipped":false,"hit_rect":[1356.0,418.0,147.0,98.0],"visual_rect":[1356.0,418.0,147.0,98.0]},{"action":"emp","clipped":false,"hit_rect":[1507.0,418.0,147.0,98.0],"visual_rect":[1507.0,418.0,147.0,98.0]},{"action":"home","clipped":false,"hit_rect":[1205.0,520.0,147.0,98.0],"visual_rect":[1205.0,520.0,147.0,98.0]},{"action":"menu","clipped":false,"hit_rect":[1356.0,520.0,147.0,98.0],"visual_rect":[1356.0,520.0,147.0,98.0]},{"action":"zoom_out","clipped":false,"hit_rect":[879.0,120.0,98.0,98.0],"visual_rect":[879.0,120.0,98.0,98.0]},{"action":"zoom_in","clipped":false,"hit_rect":[981.0,120.0,98.0,98.0],"visual_rect":[981.0,120.0,98.0,98.0]},{"action":"fit","clipped":false,"hit_rect":[1083.0,120.0,98.0,98.0],"visual_rect":[1083.0,120.0,98.0,98.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","orders_page":"primary","safe_area_source":"recorded_android_39222413584_fixture","safe_rect":[136.0,0.0,2384.0,1080.0],"schema":1,"screen":"mission","scroll_rect":[0.0,0.0,0.0,0.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1680.0,720.0],"window":[2520.0,1080.0]}
+SS_TARGET pause center=1344,161 viewport=1680,720
+SS_TARGET sub center=1279,263 viewport=1680,720
+SS_TARGET droneA center=1430,263 viewport=1680,720
+SS_TARGET droneB center=1581,263 viewport=1680,720
+SS_TARGET ping center=1279,365 viewport=1680,720
+SS_TARGET camera center=1430,365 viewport=1680,720
+SS_TARGET silent center=1581,365 viewport=1680,720
+SS_TARGET queue center=1279,467 viewport=1680,720
+SS_TARGET hold center=1430,467 viewport=1680,720
+SS_TARGET emp center=1581,467 viewport=1680,720
+SS_TARGET home center=1279,569 viewport=1680,720
+SS_TARGET menu center=1430,569 viewport=1680,720
+SS_TARGET more_orders center=1571,161 viewport=1680,720
+SS_TARGET zoom_out center=928,169 viewport=1680,720
+SS_TARGET zoom_in center=1030,169 viewport=1680,720
+SS_TARGET fit center=1132,169 viewport=1680,720
+SS_TARGET chart_center center=653,402 viewport=1680,720
+SS_TARGET objective0 center=955,420 viewport=1680,720
+SS_TARGET route center=363,595 viewport=1680,720
+SS_ORDER select accepted=true selected=1 queued=false
+SS_ORDER route accepted=true selected=1 queued=false
+CLIP_START idle=false t=0.0 tools={ "emp": 3, "decoy": 3, "recon": 2 } sub=(140.0, 800.0)
+SS_ROLE mission=4 index=1 type=hunter mode=DORMANT pos=800.000000,600.000000 home=800.000000,600.000000 target=-1 lock=0.000000 time=0.066667
+FRAME 0 t=0.06666666666667 selected=1 records=[false, false, false] drones=true,true contacts={  } tools={ "emp": 3, "decoy": 3, "recon": 2 } message=DRONE A · replaced route
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":2,"hud_visible":true,"menu_visible":false,"mission":4,"optical_visible":false,"paused":false,"phase":"post_draw","selected":1},"chart_rect":[116.667,112.0,1072.333,580.0],"controls":[{"action":"pause","clipped":false,"hit_rect":[1205.0,112.0,278.87,98.0],"visual_rect":[1205.0,112.0,278.87,98.0]},{"action":"sub","clipped":false,"hit_rect":[1205.0,214.0,147.0,98.0],"visual_rect":[1205.0,214.0,147.0,98.0]},{"action":"droneA","clipped":false,"hit_rect":[1356.0,214.0,147.0,98.0],"visual_rect":[1356.0,214.0,147.0,98.0]},{"action":"droneB","clipped":false,"hit_rect":[1507.0,214.0,147.0,98.0],"visual_rect":[1507.0,214.0,147.0,98.0]},{"action":"more_orders","clipped":false,"hit_rect":[1487.87,112.0,166.13,98.0],"visual_rect":[1487.87,112.0,166.13,98.0]},{"action":"ping","clipped":false,"hit_rect":[1205.0,316.0,147.0,98.0],"visual_rect":[1205.0,316.0,147.0,98.0]},{"action":"camera","clipped":false,"hit_rect":[1356.0,316.0,147.0,98.0],"visual_rect":[1356.0,316.0,147.0,98.0]},{"action":"silent","clipped":false,"hit_rect":[1507.0,316.0,147.0,98.0],"visual_rect":[1507.0,316.0,147.0,98.0]},{"action":"queue","clipped":false,"hit_rect":[1205.0,418.0,147.0,98.0],"visual_rect":[1205.0,418.0,147.0,98.0]},{"action":"hold","clipped":false,"hit_rect":[1356.0,418.0,147.0,98.0],"visual_rect":[1356.0,418.0,147.0,98.0]},{"action":"emp","clipped":false,"hit_rect":[1507.0,418.0,147.0,98.0],"visual_rect":[1507.0,418.0,147.0,98.0]},{"action":"home","clipped":false,"hit_rect":[1205.0,520.0,147.0,98.0],"visual_rect":[1205.0,520.0,147.0,98.0]},{"action":"menu","clipped":false,"hit_rect":[1356.0,520.0,147.0,98.0],"visual_rect":[1356.0,520.0,147.0,98.0]},{"action":"zoom_out","clipped":false,"hit_rect":[879.0,120.0,98.0,98.0],"visual_rect":[879.0,120.0,98.0,98.0]},{"action":"zoom_in","clipped":false,"hit_rect":[981.0,120.0,98.0,98.0],"visual_rect":[981.0,120.0,98.0,98.0]},{"action":"fit","clipped":false,"hit_rect":[1083.0,120.0,98.0,98.0],"visual_rect":[1083.0,120.0,98.0,98.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","orders_page":"primary","safe_area_source":"recorded_android_39222413584_fixture","safe_rect":[136.0,0.0,2384.0,1080.0],"schema":1,"screen":"mission","scroll_rect":[0.0,0.0,0.0,0.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1680.0,720.0],"window":[2520.0,1080.0]}
+SS_TARGET pause center=1344,161 viewport=1680,720
+SS_TARGET sub center=1279,263 viewport=1680,720
+SS_TARGET droneA center=1430,263 viewport=1680,720
+SS_TARGET droneB center=1581,263 viewport=1680,720
+SS_TARGET ping center=1279,365 viewport=1680,720
+SS_TARGET camera center=1430,365 viewport=1680,720
+SS_TARGET silent center=1581,365 viewport=1680,720
+SS_TARGET queue center=1279,467 viewport=1680,720
+SS_TARGET hold center=1430,467 viewport=1680,720
+SS_TARGET emp center=1581,467 viewport=1680,720
+SS_TARGET home center=1279,569 viewport=1680,720
+SS_TARGET menu center=1430,569 viewport=1680,720
+SS_TARGET more_orders center=1571,161 viewport=1680,720
+SS_TARGET zoom_out center=928,169 viewport=1680,720
+SS_TARGET zoom_in center=1030,169 viewport=1680,720
+SS_TARGET fit center=1132,169 viewport=1680,720
+SS_TARGET chart_center center=653,402 viewport=1680,720
+SS_TARGET objective0 center=653,348 viewport=1680,720
+SS_TARGET route center=363,595 viewport=1680,720
+SS_TARGET role_observer center=556,626 viewport=1680,720
+SS_TARGET role_home center=254,595 viewport=1680,720
+FRAME 15 t=1.06666666666667 selected=1 records=[false, false, false] drones=true,true contacts={  } tools={ "emp": 3, "decoy": 3, "recon": 2 } message=DRONE A · replaced route
+FRAME 30 t=2.06666666666666 selected=1 records=[false, false, false] drones=true,true contacts={  } tools={ "emp": 3, "decoy": 3, "recon": 2 } message=DRONE A · replaced route
+FRAME 45 t=3.06666666666666 selected=1 records=[false, false, false] drones=true,true contacts={  } tools={ "emp": 3, "decoy": 3, "recon": 2 } message=DRONE A · replaced route
+SS_ROLE mission=4 index=1 type=hunter mode=INVESTIGATE pos=800.069885,600.003540 home=800.000000,600.000000 target=-1 lock=0.000000 time=3.666667
+FRAME 60 t=4.06666666666666 selected=1 records=[false, false, false] drones=true,true contacts={  } tools={ "emp": 3, "decoy": 3, "recon": 2 } message=DRONE A · replaced route
+FRAME 75 t=5.06666666666665 selected=1 records=[false, false, false] drones=true,true contacts={ 1: { "pos": (808.5603, 624.1945), "time": 5.01666666666665, "mode": "INVESTIGATE", "lock": 0.0, "angle": 2.52, "target": -1, "type": "hunter" } } tools={ "emp": 3, "decoy": 3, "recon": 2 } message=DRONE A · replaced route
+FRAME 90 t=6.06666666666665 selected=1 records=[false, false, false] drones=true,true contacts={ 1: { "pos": (778.7336, 645.6147), "time": 6.01666666666665, "mode": "INVESTIGATE", "lock": 0.0, "angle": 3.4823787848102, "target": -1, "type": "hunter" } } tools={ "emp": 3, "decoy": 3, "recon": 2 } message=DRONE A · replaced route
+SS_ROLE mission=4 index=1 type=hunter mode=LOCKING pos=770.464417,646.111328 home=800.000000,600.000000 target=1 lock=0.033333 time=6.200000
+FRAME 105 t=7.06666666666665 selected=1 records=[false, false, false] drones=true,true contacts={ 1: { "pos": (748.0361, 646.4424), "time": 7.01666666666665, "mode": "LOCKING", "lock": 0.85, "angle": 3.99801141420473, "target": 1, "type": "hunter" } } tools={ "emp": 3, "decoy": 3, "recon": 2 } message=DRONE A · replaced route
+SS_ORDER select accepted=true selected=1 queued=false
+SS_ORDER emp accepted=true selected=1 queued=false
+SS_ORDER select accepted=true selected=1 queued=false
+SS_ROLE mission=4 index=1 type=hunter mode=DISRUPTED pos=746.900146,646.459167 home=800.000000,600.000000 target=-1 lock=0.000000 time=7.200000
+FRAME 120 t=8.06666666666665 selected=1 records=[false, false, false] drones=true,true contacts={ 1: { "pos": (746.9001, 646.4592), "time": 8.01666666666664, "mode": "DISRUPTED", "lock": 0.0, "angle": 4.09790355363955, "target": -1, "type": "hunter" } } tools={ "emp": 2, "decoy": 3, "recon": 2 } message=DRONE A selected · next tap replaces route
+FRAME 135 t=9.0666666666667 selected=1 records=[false, false, false] drones=true,true contacts={ 1: { "pos": (746.9001, 646.4592), "time": 9.01666666666669, "mode": "DISRUPTED", "lock": 0.0, "angle": 4.09790355363955, "target": -1, "type": "hunter" }, 0: { "pos": (781.8296, 234.9028), "time": 9.01666666666669, "mode": "INVESTIGATE", "lock": 0.0, "angle": 1.70704925060272, "target": -1, "type": "patroller" } } tools={ "emp": 2, "decoy": 3, "recon": 2 } message=DRONE A selected · next tap replaces route
+FRAME 150 t=10.0666666666667 selected=1 records=[false, false, false] drones=true,true contacts={ 1: { "pos": (746.9001, 646.4592), "time": 10.0166666666667, "mode": "DISRUPTED", "lock": 0.0, "angle": 4.09790355363955, "target": -1, "type": "hunter" }, 0: { "pos": (775.6115, 280.2616), "time": 10.0166666666667, "mode": "LOCKING", "lock": 0.31666666666667, "angle": 1.45577454566956, "target": 1, "type": "patroller" } } tools={ "emp": 2, "decoy": 3, "recon": 2 } message=DRONE A selected · next tap replaces route
+SS_CAMERA_READY unit=1 objective=0
+SS_ORDER select accepted=true selected=1 queued=false
+SS_ORDER emp accepted=true selected=1 queued=false
+SS_ORDER select accepted=true selected=1 queued=false
+FRAME 165 t=11.0666666666668 selected=1 records=[false, false, false] drones=true,true contacts={ 1: { "pos": (746.9001, 646.4592), "time": 11.0166666666668, "mode": "DISRUPTED", "lock": 0.0, "angle": 4.09790355363955, "target": -1, "type": "hunter" }, 0: { "pos": (773.7035, 294.178), "time": 11.0166666666668, "mode": "DISRUPTED", "lock": 0.0, "angle": 1.34144914150238, "target": -1, "type": "patroller" } } tools={ "emp": 1, "decoy": 3, "recon": 2 } message=DRONE A selected · next tap replaces route
+SS_ORDER camera accepted=true selected=1 queued=false
+SS_UI_METRICS {"capture_state":{"capture_unit":1,"drawn_frame":169,"hud_visible":true,"menu_visible":false,"mission":4,"optical_visible":true,"paused":false,"phase":"post_draw","selected":1},"chart_rect":[116.667,112.0,1072.333,580.0],"controls":[{"action":"pause","clipped":false,"hit_rect":[1205.0,112.0,278.87,98.0],"visual_rect":[1205.0,112.0,278.87,98.0]},{"action":"sub","clipped":false,"hit_rect":[1205.0,214.0,147.0,98.0],"visual_rect":[1205.0,214.0,147.0,98.0]},{"action":"droneA","clipped":false,"hit_rect":[1356.0,214.0,147.0,98.0],"visual_rect":[1356.0,214.0,147.0,98.0]},{"action":"droneB","clipped":false,"hit_rect":[1507.0,214.0,147.0,98.0],"visual_rect":[1507.0,214.0,147.0,98.0]},{"action":"more_orders","clipped":false,"hit_rect":[1487.87,112.0,166.13,98.0],"visual_rect":[1487.87,112.0,166.13,98.0]},{"action":"ping","clipped":false,"hit_rect":[1205.0,316.0,147.0,98.0],"visual_rect":[1205.0,316.0,147.0,98.0]},{"action":"camera","clipped":false,"hit_rect":[1356.0,316.0,147.0,98.0],"visual_rect":[1356.0,316.0,147.0,98.0]},{"action":"silent","clipped":false,"hit_rect":[1507.0,316.0,147.0,98.0],"visual_rect":[1507.0,316.0,147.0,98.0]},{"action":"queue","clipped":false,"hit_rect":[1205.0,418.0,147.0,98.0],"visual_rect":[1205.0,418.0,147.0,98.0]},{"action":"hold","clipped":false,"hit_rect":[1356.0,418.0,147.0,98.0],"visual_rect":[1356.0,418.0,147.0,98.0]},{"action":"emp","clipped":false,"hit_rect":[1507.0,418.0,147.0,98.0],"visual_rect":[1507.0,418.0,147.0,98.0]},{"action":"home","clipped":false,"hit_rect":[1205.0,520.0,147.0,98.0],"visual_rect":[1205.0,520.0,147.0,98.0]},{"action":"menu","clipped":false,"hit_rect":[1356.0,520.0,147.0,98.0],"visual_rect":[1356.0,520.0,147.0,98.0]},{"action":"zoom_out","clipped":false,"hit_rect":[879.0,120.0,98.0,98.0],"visual_rect":[879.0,120.0,98.0,98.0]},{"action":"zoom_in","clipped":false,"hit_rect":[981.0,120.0,98.0,98.0],"visual_rect":[981.0,120.0,98.0,98.0]},{"action":"fit","clipped":false,"hit_rect":[1083.0,120.0,98.0,98.0],"visual_rect":[1083.0,120.0,98.0,98.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","orders_page":"primary","safe_area_source":"recorded_android_39222413584_fixture","safe_rect":[136.0,0.0,2384.0,1080.0],"schema":1,"screen":"mission","scroll_rect":[0.0,0.0,0.0,0.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1680.0,720.0],"window":[2520.0,1080.0]}
+SS_TARGET pause center=1344,161 viewport=1680,720
+SS_TARGET sub center=1279,263 viewport=1680,720
+SS_TARGET droneA center=1430,263 viewport=1680,720
+SS_TARGET droneB center=1581,263 viewport=1680,720
+SS_TARGET ping center=1279,365 viewport=1680,720
+SS_TARGET camera center=1430,365 viewport=1680,720
+SS_TARGET silent center=1581,365 viewport=1680,720
+SS_TARGET queue center=1279,467 viewport=1680,720
+SS_TARGET hold center=1430,467 viewport=1680,720
+SS_TARGET emp center=1581,467 viewport=1680,720
+SS_TARGET home center=1279,569 viewport=1680,720
+SS_TARGET menu center=1430,569 viewport=1680,720
+SS_TARGET more_orders center=1571,161 viewport=1680,720
+SS_TARGET zoom_out center=928,169 viewport=1680,720
+SS_TARGET zoom_in center=1030,169 viewport=1680,720
+SS_TARGET fit center=1132,169 viewport=1680,720
+SS_TARGET chart_center center=653,402 viewport=1680,720
+SS_TARGET objective0 center=653,348 viewport=1680,720
+SS_TARGET route center=363,595 viewport=1680,720
+SS_TARGET role_observer center=556,626 viewport=1680,720
+SS_TARGET role_home center=254,595 viewport=1680,720
+FRAME 180 t=12.0666666666668 selected=1 records=[false, false, false] drones=true,true contacts={ 1: { "pos": (746.9001, 646.4592), "time": 12.0166666666668, "mode": "DISRUPTED", "lock": 0.0, "angle": 4.09790355363955, "target": -1, "type": "hunter" }, 0: { "pos": (773.7035, 294.178), "time": 12.0166666666668, "mode": "DISRUPTED", "lock": 0.0, "angle": 1.34144914150238, "target": -1, "type": "patroller" } } tools={ "emp": 1, "decoy": 3, "recon": 2 } message=Camera exposure · hold 4 seconds
+FRAME 195 t=13.0666666666669 selected=1 records=[false, false, false] drones=true,true contacts={ 1: { "pos": (746.9001, 646.4592), "time": 13.0166666666669, "mode": "DISRUPTED", "lock": 0.0, "angle": 4.09790355363955, "target": -1, "type": "hunter" }, 0: { "pos": (773.7035, 294.178), "time": 13.0166666666669, "mode": "DISRUPTED", "lock": 0.0, "angle": 1.34144914150238, "target": -1, "type": "patroller" } } tools={ "emp": 1, "decoy": 3, "recon": 2 } message=Camera exposure · hold 4 seconds
+FRAME 210 t=14.0666666666669 selected=1 records=[false, false, false] drones=true,true contacts={ 1: { "pos": (746.9001, 646.4592), "time": 14.0166666666669, "mode": "DISRUPTED", "lock": 0.0, "angle": 4.09790355363955, "target": -1, "type": "hunter" }, 0: { "pos": (773.7035, 294.178), "time": 14.0166666666669, "mode": "DISRUPTED", "lock": 0.0, "angle": 1.34144914150238, "target": -1, "type": "patroller" } } tools={ "emp": 1, "decoy": 3, "recon": 2 } message=Camera exposure · hold 4 seconds
+FRAME 225 t=15.066666666667 selected=1 records=[false, false, false] drones=true,true contacts={ 1: { "pos": (746.9001, 646.4592), "time": 15.016666666667, "mode": "DISRUPTED", "lock": 0.0, "angle": 4.09790355363955, "target": -1, "type": "hunter" }, 0: { "pos": (773.7035, 294.178), "time": 15.016666666667, "mode": "DISRUPTED", "lock": 0.0, "angle": 1.34144914150238, "target": -1, "type": "patroller" } } tools={ "emp": 1, "decoy": 3, "recon": 2 } message=Camera exposure · hold 4 seconds
+SS_OBJECTIVE_RECORDED mission=4 objective=0
+FRAME 240 t=16.066666666667 selected=1 records=[true, false, false] drones=true,true contacts={ 1: { "pos": (746.9001, 646.4592), "time": 16.016666666667, "mode": "DISRUPTED", "lock": 0.0, "angle": 4.09790355363955, "target": -1, "type": "hunter" }, 0: { "pos": (773.7035, 294.178), "time": 16.016666666667, "mode": "DISRUPTED", "lock": 0.0, "angle": 1.34144914150238, "target": -1, "type": "patroller" } } tools={ "emp": 1, "decoy": 3, "recon": 2 } message=Record secured. Continue the survey.
+FRAME 255 t=17.066666666667 selected=1 records=[true, false, false] drones=true,true contacts={ 1: { "pos": (746.9001, 646.4592), "time": 17.016666666667, "mode": "DISRUPTED", "lock": 0.0, "angle": 4.09790355363955, "target": -1, "type": "hunter" }, 0: { "pos": (773.7035, 294.178), "time": 17.016666666667, "mode": "DISRUPTED", "lock": 0.0, "angle": 1.34144914150238, "target": -1, "type": "patroller" } } tools={ "emp": 1, "decoy": 3, "recon": 2 } message=Record secured. Continue the survey.
+FRAME 270 t=18.0666666666669 selected=1 records=[true, false, false] drones=true,true contacts={ 1: { "pos": (746.9001, 646.4592), "time": 18.0166666666669, "mode": "DISRUPTED", "lock": 0.0, "angle": 4.09790355363955, "target": -1, "type": "hunter" }, 0: { "pos": (773.7035, 294.178), "time": 18.0166666666669, "mode": "DISRUPTED", "lock": 0.0, "angle": 1.34144914150238, "target": -1, "type": "patroller" } } tools={ "emp": 1, "decoy": 3, "recon": 2 } message=Record secured. Continue the survey.
+FRAME 285 t=19.0666666666669 selected=1 records=[true, false, false] drones=true,true contacts={ 1: { "pos": (746.9001, 646.4592), "time": 19.0166666666669, "mode": "DISRUPTED", "lock": 0.0, "angle": 4.09790355363955, "target": -1, "type": "hunter" }, 0: { "pos": (773.7035, 294.178), "time": 19.0166666666669, "mode": "DISRUPTED", "lock": 0.0, "angle": 1.34144914150238, "target": -1, "type": "patroller" } } tools={ "emp": 1, "decoy": 3, "recon": 2 } message=Record secured. Continue the survey.
+CLIP_END t=20.0000000000001 records=[true, false, false] hull=100.0 sub=(140.0, 800.0) events=[{ "type": "emp", "pos": (682.6364, 555.297) }, { "type": "emp", "pos": (798.2774, 399.4399) }, { "type": "camera", "pos": (798.6968, 397.1415) }, { "type": "record", "pos": (800.0, 180.0) }]
+SS_ORDER select accepted=true selected=1 queued=false
+SS_ORDER route accepted=true selected=1 queued=false
+SS_ORDER camera accepted=true selected=1 queued=false
+SS_ORDER select accepted=true selected=1 queued=false
+SS_ORDER emp accepted=true selected=1 queued=false
+SS_ORDER select accepted=true selected=1 queued=false
+SS_UI_METRICS {"capture_state":{"capture_unit":1,"drawn_frame":302,"hud_visible":true,"menu_visible":false,"mission":4,"optical_visible":true,"paused":false,"phase":"post_draw","selected":1},"chart_rect":[116.667,112.0,1072.333,580.0],"controls":[{"action":"pause","clipped":false,"hit_rect":[1205.0,112.0,278.87,98.0],"visual_rect":[1205.0,112.0,278.87,98.0]},{"action":"sub","clipped":false,"hit_rect":[1205.0,214.0,147.0,98.0],"visual_rect":[1205.0,214.0,147.0,98.0]},{"action":"droneA","clipped":false,"hit_rect":[1356.0,214.0,147.0,98.0],"visual_rect":[1356.0,214.0,147.0,98.0]},{"action":"droneB","clipped":false,"hit_rect":[1507.0,214.0,147.0,98.0],"visual_rect":[1507.0,214.0,147.0,98.0]},{"action":"more_orders","clipped":false,"hit_rect":[1487.87,112.0,166.13,98.0],"visual_rect":[1487.87,112.0,166.13,98.0]},{"action":"ping","clipped":false,"hit_rect":[1205.0,316.0,147.0,98.0],"visual_rect":[1205.0,316.0,147.0,98.0]},{"action":"camera","clipped":false,"hit_rect":[1356.0,316.0,147.0,98.0],"visual_rect":[1356.0,316.0,147.0,98.0]},{"action":"silent","clipped":false,"hit_rect":[1507.0,316.0,147.0,98.0],"visual_rect":[1507.0,316.0,147.0,98.0]},{"action":"queue","clipped":false,"hit_rect":[1205.0,418.0,147.0,98.0],"visual_rect":[1205.0,418.0,147.0,98.0]},{"action":"hold","clipped":false,"hit_rect":[1356.0,418.0,147.0,98.0],"visual_rect":[1356.0,418.0,147.0,98.0]},{"action":"emp","clipped":false,"hit_rect":[1507.0,418.0,147.0,98.0],"visual_rect":[1507.0,418.0,147.0,98.0]},{"action":"home","clipped":false,"hit_rect":[1205.0,520.0,147.0,98.0],"visual_rect":[1205.0,520.0,147.0,98.0]},{"action":"menu","clipped":false,"hit_rect":[1356.0,520.0,147.0,98.0],"visual_rect":[1356.0,520.0,147.0,98.0]},{"action":"zoom_out","clipped":false,"hit_rect":[879.0,120.0,98.0,98.0],"visual_rect":[879.0,120.0,98.0,98.0]},{"action":"zoom_in","clipped":false,"hit_rect":[981.0,120.0,98.0,98.0],"visual_rect":[981.0,120.0,98.0,98.0]},{"action":"fit","clipped":false,"hit_rect":[1083.0,120.0,98.0,98.0],"visual_rect":[1083.0,120.0,98.0,98.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","orders_page":"primary","safe_area_source":"recorded_android_39222413584_fixture","safe_rect":[136.0,0.0,2384.0,1080.0],"schema":1,"screen":"mission","scroll_rect":[0.0,0.0,0.0,0.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1680.0,720.0],"window":[2520.0,1080.0]}
+SS_TARGET pause center=1344,161 viewport=1680,720
+SS_TARGET sub center=1279,263 viewport=1680,720
+SS_TARGET droneA center=1430,263 viewport=1680,720
+SS_TARGET droneB center=1581,263 viewport=1680,720
+SS_TARGET ping center=1279,365 viewport=1680,720
+SS_TARGET camera center=1430,365 viewport=1680,720
+SS_TARGET silent center=1581,365 viewport=1680,720
+SS_TARGET queue center=1279,467 viewport=1680,720
+SS_TARGET hold center=1430,467 viewport=1680,720
+SS_TARGET emp center=1581,467 viewport=1680,720
+SS_TARGET home center=1279,569 viewport=1680,720
+SS_TARGET menu center=1430,569 viewport=1680,720
+SS_TARGET more_orders center=1571,161 viewport=1680,720
+SS_TARGET zoom_out center=928,169 viewport=1680,720
+SS_TARGET zoom_in center=1030,169 viewport=1680,720
+SS_TARGET fit center=1132,169 viewport=1680,720
+SS_TARGET chart_center center=653,402 viewport=1680,720
+SS_TARGET objective0 center=653,348 viewport=1680,720
+SS_TARGET route center=363,595 viewport=1680,720
+SS_TARGET role_observer center=556,626 viewport=1680,720
+SS_TARGET role_home center=254,595 viewport=1680,720
+SS_ORDER select accepted=true selected=1 queued=false
+SS_ORDER route accepted=true selected=1 queued=false
+SS_ORDER camera accepted=true selected=1 queued=false
+SS_ROLE mission=4 index=1 type=hunter mode=SEARCH pos=1172.605103,420.585999 home=800.000000,600.000000 target=-1 lock=0.000000 time=45.383333
+SS_OBJECTIVE_RECORDED mission=4 objective=1
+SS_OBJECTIVE_RECORDED mission=4 objective=2
+FINAL outcome=won time=45.383333333332 sub=(140.0, 800.0) records=[true, true, true] recovered=[] drones=true,true tools={ "emp": 0, "decoy": 3, "recon": 2 }
+SS_DEBRIEF outcome=won mission=4
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":305,"hud_visible":false,"menu_visible":true,"mission":4,"optical_visible":false,"paused":true,"phase":"post_draw","selected":1},"chart_rect":[116.667,112.0,1072.333,580.0],"controls":[{"action":"next_dive","clipped":false,"hit_rect":[513.333,540.0,736.0,98.0],"visual_rect":[513.333,540.0,736.0,98.0]},{"action":"retry","clipped":true,"hit_rect":[513.333,652.0,736.0,22.0],"visual_rect":[513.333,652.0,736.0,98.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","orders_page":"primary","safe_area_source":"recorded_android_39222413584_fixture","safe_rect":[136.0,0.0,2384.0,1080.0],"schema":1,"screen":"debrief","scroll_rect":[513.333,46.0,744.0,628.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1680.0,720.0],"window":[2520.0,1080.0]}
+SS_TARGET next_dive center=881,589 viewport=1680,720
+SS_TARGET retry center=881,701 viewport=1680,720
+SS_TARGET back center=881,813 viewport=1680,720
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":305,"hud_visible":false,"menu_visible":true,"mission":4,"optical_visible":false,"paused":true,"phase":"post_draw","selected":1},"chart_rect":[116.667,112.0,1072.333,580.0],"controls":[{"action":"next_dive","clipped":false,"hit_rect":[513.333,540.0,736.0,98.0],"visual_rect":[513.333,540.0,736.0,98.0]},{"action":"retry","clipped":true,"hit_rect":[513.333,652.0,736.0,22.0],"visual_rect":[513.333,652.0,736.0,98.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","orders_page":"primary","safe_area_source":"recorded_android_39222413584_fixture","safe_rect":[136.0,0.0,2384.0,1080.0],"schema":1,"screen":"debrief","scroll_rect":[513.333,46.0,744.0,628.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1680.0,720.0],"window":[2520.0,1080.0]}
+SS_TARGET next_dive center=881,589 viewport=1680,720
+SS_TARGET retry center=881,701 viewport=1680,720
+SS_TARGET back center=881,813 viewport=1680,720
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":305,"hud_visible":false,"menu_visible":true,"mission":4,"optical_visible":false,"paused":true,"phase":"post_draw","selected":1},"chart_rect":[116.667,112.0,1072.333,580.0],"controls":[{"action":"next_dive","clipped":false,"hit_rect":[513.333,540.0,736.0,98.0],"visual_rect":[513.333,540.0,736.0,98.0]},{"action":"retry","clipped":true,"hit_rect":[513.333,652.0,736.0,22.0],"visual_rect":[513.333,652.0,736.0,98.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","orders_page":"primary","safe_area_source":"recorded_android_39222413584_fixture","safe_rect":[136.0,0.0,2384.0,1080.0],"schema":1,"screen":"debrief","scroll_rect":[513.333,46.0,744.0,628.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1680.0,720.0],"window":[2520.0,1080.0]}
+SS_TARGET next_dive center=881,589 viewport=1680,720
+SS_TARGET retry center=881,701 viewport=1680,720
+SS_TARGET back center=881,813 viewport=1680,720
+WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
+   at: cleanup (core/object/object.cpp:2663)

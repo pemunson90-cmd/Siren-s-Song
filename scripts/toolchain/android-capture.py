@@ -30,13 +30,18 @@ def inspect(text,png,density,before,kind,mission):
   if isinstance(value,bool) or not isinstance(value,int) or not low<=value<=high:raise ValueError('Invalid capture_state '+key)
  if state.get('phase') not in ['layout_only','post_draw']:raise ValueError('Invalid capture_state phase')
  result={'metrics_count':len(records),'screen':layout['screen'],'capture_state':state,'measurement':measured}
+ if kind=='resumed-mission':
+  foreground=[i for i,line in enumerate(lines) if 'SS_LIFECYCLE foreground' in line]
+  if len(foreground)<=before.count('SS_LIFECYCLE foreground') or records[-1][0]<=foreground[-1]:
+   result['waiting']='new foreground marker and complete following post-draw report';return 3,result
  expected=layout['screen']=='mission' and state['phase']=='post_draw' and state['mission']==mission and state['paused'] and state['hud_visible'] and not state['menu_visible']
  if kind=='camera':expected=expected and state['selected']==1 and state['capture_unit']==1 and state['optical_visible']
  else:expected=expected and state['selected']==0 and not state['optical_visible']
+ if kind=='resumed-mission':expected=expected and state['capture_unit']==-1
  if not expected:result['waiting']='latest validated state is not the requested paused presentation';return 3,result
  return 0,result
 def main():
- p=argparse.ArgumentParser(description=__doc__);p.add_argument('log',type=Path);p.add_argument('png',type=Path);p.add_argument('--density',type=Path,required=True);p.add_argument('--after-log',type=Path,required=True);p.add_argument('--kind',choices=['camera','restored-mission'],required=True);p.add_argument('--mission',type=int,required=True);args=p.parse_args()
+ p=argparse.ArgumentParser(description=__doc__);p.add_argument('log',type=Path);p.add_argument('png',type=Path);p.add_argument('--density',type=Path,required=True);p.add_argument('--after-log',type=Path,required=True);p.add_argument('--kind',choices=['camera','restored-mission','resumed-mission'],required=True);p.add_argument('--mission',type=int,required=True);args=p.parse_args()
  try:
   status,result=inspect(args.log.read_text(errors='replace'),args.png.read_bytes(),args.density.read_text(),args.after_log.read_text(errors='replace'),args.kind,args.mission)
   print(json.dumps(result,indent=2));return status

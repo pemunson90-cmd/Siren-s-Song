@@ -1,0 +1,66 @@
+{
+  "all_passed": true,
+  "method": "real checker/helper; mocked ADB/logs. Three decoder-boundary probes plus real corruptPNG decoding; no screenshot identity/native claim.",
+  "results": [
+    {
+      "case": "resume rejects hidden other-station active capture",
+      "exit": 3,
+      "expected": 3
+    },
+    {
+      "case": "exit0 without explicit pixel marker is fatal",
+      "exit": 1,
+      "expected": 1,
+      "final_exists": false,
+      "geometry_probe_retained": true,
+      "rejected_count": 1,
+      "events": [
+        "log:1",
+        "log:2"
+      ],
+      "stderr": ""
+    },
+    {
+      "case": "pixel marker cannot override decoder error",
+      "exit": 7,
+      "expected": 7,
+      "final_exists": false,
+      "geometry_probe_retained": true,
+      "rejected_count": 1,
+      "events": [
+        "log:1",
+        "log:2"
+      ],
+      "stderr": "SS_FRAME_PIXELS nonblank=true"
+    },
+    {
+      "case": "real decoder rejects geometry-valid corrupt PNG",
+      "exit": 1,
+      "expected": 1,
+      "final_exists": false,
+      "geometry_probe_retained": true,
+      "rejected_count": 1,
+      "events": [
+        "log:1",
+        "log:2"
+      ],
+      "stderr": "Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org\n\nWARNING: [00][00][00][00]: bad header (invalid type)\n     at: check_error (drivers/png/png_driver_common.cpp:55)\n     GDScript backtrace (most recent call first):\n         [0] _initialize (/workspace/Siren-s-Song-gauntlet/work/native-resume-regression/candidate/scripts/toolchain/check-nonblank-frame.gd:9)\nERROR: Condition \"!success\" is true. Returning: ERR_FILE_CORRUPT\n   at: png_to_image (drivers/png/png_driver_common.cpp:68)\n   GDScript backtrace (most recent call first):\n       [0] _initialize (/workspace/Siren-s-Song-gauntlet/work/native-resume-regression/candidate/scripts/toolchain/check-nonblank-frame.gd:9)\nERROR: Error loading image: '/workspace/Siren-s-Song-gauntlet/work/native-resume-regression/tmpe4m7yjr8/cover-resume-candidate.png'.\n   at: load_image (core/io/image_loader.cpp:100)\n   GDScript backtrace (most recent call first):\n       [0] _initialize (/workspace/Siren-s-Song-gauntlet/work/native-resume-regression/candidate/scripts/toolchain/check-nonblank-frame.gd:9)\nSS_FRAME_PIXELS invalid"
+    },
+    {
+      "case": "foreground change after candidate forces a fresh bracket",
+      "exit": 0,
+      "expected": 0,
+      "final_exists": true,
+      "geometry_probe_retained": true,
+      "rejected_count": 1,
+      "events": [
+        "log:1",
+        "log:2",
+        "retry",
+        "log:3",
+        "log:4"
+      ],
+      "stderr": ""
+    }
+  ]
+}
