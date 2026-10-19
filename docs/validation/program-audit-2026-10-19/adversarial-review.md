@@ -1,0 +1,116 @@
+# Siren’s Song — adversarial program and game review
+
+19 October 2026 · different fresh reviewer · gameplay frozen at `7fcdc488e5a58995f92be08c786617223cde3a3e`
+
+## Decision
+
+**The first audit’s central diagnosis survives. There is substantial real tactical development and a genuine first campaign fork, but the implemented game does not yet contain the longer consequential campaign, earned Quietus/drone growth or multiple endings the user requested. The current selected encounter is a promising ingredient, not an adequate production direction by itself.**
+
+My main correction is to the first audit’s ordering. “Berth and another crossing now, persistent capabilities in the following connected unit” can reproduce precisely the serial-slice pattern it warns against. Root should make the next connected playable increment demonstrate **something recovered in one dive changing an available plan in a later dive**, while giving both craft families an executable growth workstream and the Shelf branch an explicit next consequence. This is a change to the unit of planning, not a demand for a generic campaign engine or simultaneous delivery of the entire game.
+
+The audit does **not** establish that recent navigation, scrolling or radial work was wasted, that the game is uniformly easy, or that the berth should be discarded. It also cannot establish a chronic allocation failure from elapsed work or spending: actual effort/cost history was not available, and the expanded scope is current user direction. The supported conclusion is a serious **forward risk of serial local slices**, with concrete missing systems and an insufficiently connected selected next task. Root must convert that into implementation now; another audit or routine approval cycle would not resolve it.
+
+## Independence and limits
+
+I read the full frozen `independent-review.md` and its receipt myself, verified the supplied report/receipt hashes, and then inspected actual source in the clean prepared berth worktree at exact `7f`. I read the full current six governing documents fetched at `f9ce87f2fe7f3206f014b953ecc3b0a4e16893c4`, plus source authority, agent/critic briefs, architecture, ratified bible, selection ledger and portable visual handoff. I compared selected source, representative tests, actual retained command scripts/logs and three decisive images; the evidence receipt identifies them. I did not share authorship with the first reviewer or commission another critic.
+
+All source references below refer to immutable `7f` unless explicitly qualified. Game tree is `2596989e9e8db2ea50f38f5884e2a22610bf35d5`; runtime tree is `ecbfd02e65ad090bcbc201ff9a90b6ea3bcc1971`. The prepared berth tree has no tracked changes. Governing `f9ce87f` changes only CONTINUATION/WORKBENCH from `7f`.
+
+This is a source/evidence challenge, **not a new runtime playtest**. I ran no game, broad suite, campaign replay or APK; I altered no source, profile, actor, resource or progression. Prior Godot images do not let me judge touch comfort, audio quality, native performance or novice discovery. Requested routing is Sol6.1/Ultra; actual backend, applied effort, usage and cost telemetry are not observable.
+
+## Ranked findings and corrections
+
+### 1. High — the first audit’s proposed sequence still leaves longitudinal growth deferrable
+
+The status findings are unusually clear in the source. `expedition_campaign.gd:4–8` can open only 6/7/8. `expedition_operations.gd:25–36` offers continuation after 6, then retry/archive after 7 or 8. `simulation.gd:51–63` creates three fresh craft, fresh batteries and stocks for every dive. `main.gd:359–385` freely cycles endurance/disruption/survey, including before any earned progression. These are useful tactical/loadout systems, not an earned fleet-development system. No source inspected implements alternate campaign resolutions.
+
+The first report correctly calls for a connected route/consequence map. Its next two delivery rows nevertheless place an entire responsive berth, changing collision/acoustic geometry and a next mission before implementing craft growth. The held proposal is even more explicit: “A persistent equipment reward must still earn its own practical case later.” That sentence was reasonable for an encounter investigation; it is inadequate as the program’s only executable forward commitment after this user request.
+
+**Correction:** freeze a small recovered-outcome/capability contract, then resource an earned capability and its later authored use as part of the next connected delivery, rather than waiting for all berth work to finish before somebody investigates equipment. Define Quietus and drone growth together; implementation can be staged, but name an owner and playable use case for each immediately. The next milestone must contain actual longitudinal gain, not merely a field saying an upgrade will exist later. Shelf needs a concrete next task in the same roadmap. Symmetric mission counts are unnecessary; indefinite Deep-only development is the risk.
+
+Do not replace this with “build upgrades first” in isolation. A fitted item with no useful authored situation is another slice. Nor should root expand the next task into berth + both entire upgrade trees + two long routes + all endings. Keep one small cross-dive progression loop reviewable, and keep the larger route and resolution direction visible beyond it.
+
+### 2. High — replay, knowledge and recovered consequences need an explicit contract before expansion
+
+The first report describes persistent branch facts accurately but underplays what their current shape means for future plans:
+
+- `expedition_campaign.gd:15–18` accumulates facts and unlocked `routes`, while overwriting singular `route` whenever 6 is recovered again. Both routes may remain available. This is persistent replay access, not an exclusive campaign history.
+- `expedition_operations.gd:20–22` retains field evidence before deciding whether recovery succeeded. Only the successful recovered mission updates expedition progression. This intentional separation is also documented in Main and the save tests.
+- Shelf’s acknowledgement is authored objective/evidence (`divergence_missions.gd:28–31`), while its recovered progression is currently completed8; it is not a new `expedition_facts` key. Deep adds the rendezvous fact on location, with successful recovery controlling top-level advancement.
+- Validation enumerates IDs and allowed fact names in several places: `expedition_campaign.gd:23–34`, `signal_field.gd:53–84`, `simulation.gd:807`, mission construction and the debrief adapter. The first fork deliberately has a bounded schema.
+
+These facts are not current demonstrated save regressions. They are a design dependency. Using the most recent `route` as a permanent moral/ending decision could let replay silently rewrite the intended history; using retained evidence presence to award equipment or a recovered-route ending could let a failed dive grant an entitlement. Conversely, forbidding access to a branch already earned would break the current replay contract.
+
+**Correction:** distinguish (a) reviewable observations, (b) successfully recovered discoveries/outcomes and (c) currently selected expedition/history for future continuation. Define what replay may add or replace and how an old archive defaults. Use the minimum versioned, content-driven extension needed by the next real consequence; do not generalize every mission into a graph framework now. Preserve existing0..5 and active6/7/8 semantics exactly. A useful acceptance pair is the same observation followed by failure versus recovery: both retain its field record, only the recovered outcome grants the new capability/continuation. A second pair replays the other route and demonstrates that earlier earned access and any committed consequence behave as documented.
+
+### 3. Medium-high — preserve the berth hypothesis, but challenge its information and strategic value
+
+The first report’s observed berth mismatch is real. Deep’s model contains a signal point and patrollers, with no berth hull or mechanism (`divergence_missions.gd:15–24`). `camera_feed.gd:33–39` falls back to the Foundry image because the new optical key has no image. I inspected the bound `berth-listen.png`: a BERTHING CARRIER marker and inherited factory image stand in for the described evacuation operation. The source supports a truthful embodiment task.
+
+The held proposal is **more than another collection/exit loop on paper**. Voluntary audible answering, an independently operating installation, physically opened passage and a different later approach could give the pilot causal agency. Its retained quiet north exit, no mandatory escort/waiting window and explicit save/geometry agreement are good constraints. Dismissing it as pointless polish would be wrong.
+
+However, its hardest claims remain hypotheses:
+
+1. The answer may be a free universally preferable shortcut if its actual sound reaches nobody or the later route has no meaningful difference. Conversely, forcing a guard reaction to sell a cost would violate the intended physical rules. The proposal already says to retain that negative result; enforce it.
+2. The RETURN reference may be mere recognition prose. Current `signal_field.gd:18` gives each reading its source label; lines10–11 locate a source immediately on legitimate close passive reception or local survey. A new remembered cadence must change an uncertain decision **before** ordinary acquisition would already resolve it, without secretly revealing a source/path or withholding existing baseline information to manufacture utility. Two colored entrances alone would not demonstrate that.
+3. A real barrier transition touches collision, route clearance, sight, acoustic caches and save restoration. This is a distinct, consequential implementation risk. It is justified by player gain only if the changed passage matters. An elaborate moving gate is not required to communicate acknowledgement.
+
+**Correction:** retain berth activity and the causal answer as a candidate inside the connected milestone, but prototype the minimum physical/knowledge consequence first. Make its footprint truthful and its response audible/visible through permitted observations. If the gate consumes the delivery while earned growth and later consequences slip again, reduce the mechanism rather than deferring those user requirements. Keep the proposal’s successful unannounced recovery as a valid alternative. Its names, machinery and narrative interpretation remain agent proposals, not retrospectively ratified canon.
+
+### 4. High quality gap — do not turn progression into a reason to defer world, sound and learning indefinitely
+
+The first report fairly recognizes functioning tactics. I checked real independent-craft movement, speed-based hearing, public historical arrivals and finite tools in source and focused tests; these are substantive player agency. The earned Main log also really contains recovered shelf6/8 and deep6/7, with both drones lost in8 and three EMP spent. That falsifies an unqualified “safe/trivial game” dismissal. The driver is source-informed and uses normal Main methods/button signals, not physical touch discovery; it cannot certify difficulty or comprehension.
+
+The visual/sonic quality deficit survives, but remains a qualitative, bounded judgment. The selected C01 shows layered massive seabed, an inhabited factory and clearly distinct craft tasks. The current berth capture has physical basalt and a strong Quietus silhouette but little observable industrial life. It is neither a blank wireframe nor evidence of the intended sustained world. A few selected images cannot grade the entire game’s art; they do decisively expose this encounter’s fiction/observation gap.
+
+`soundscape.gd:73,92–103` has real generated cues, Quietus engine and contact/event dispatch. `signal_field.gd` produces new carrier readings without a corresponding carrier sound event. The first report’s “visually described more than audibly embodied” finding survives. Source existence and PCM-bound tests do not establish a compelling mix, and I did not audition it.
+
+**Correction:** make world/sonic embodiment part of authored new encounters, with a parallel presentation/audio scope after the public interface is frozen. Received cadence should have a distinguishable sonic identity and visual equivalent; it should convey the same earned information, never a hidden live source. Ask an independent observer to explain the intended observation→decision connection from the game when that material exists. Do not redesign all controls again absent a specific failure. Reserve a small current-source profiling/comprehension investigation alongside content rather than declaring these dimensions “polish after the campaign.” This does not require a new APK now.
+
+The unresolved fully known terrain is a genuine living-spec contradiction (`simulation.gd:74–90`, `ocean_view.gd:163,187–195`), not a regression created by scrolling/navigation. The next exploration design should state which terrain is briefed and which knowledge is earned. Do not abruptly remove safe route assistance across old missions or make a global fog rewrite a prerequisite for content. Implement the missing exploration contract deliberately in an appropriate authored region.
+
+### 5. Medium — the evidence is stronger than “tests only,” weaker than whole-current-game acceptance
+
+The first report makes the important distinctions correctly. I confirmed them against selected actual test code and retained logs:
+
+| Evidence claim | Challenge result |
+| --- | --- |
+| Genuine first fork and both playable leaves | **Survives.** Actual Main script/log shows normal commands, finite tool spending, physical recoveries and reloads. This is stronger than invented flags or actor-placement-only tests. Source revision51da predates current drive; it is incremental compatibility evidence, not a new7f whole-campaign playthrough. |
+| Changed drone control works | **Survives within scope.** Current-tree model tests cover optional absent96, physical42 acceleration, profile independence, save/future replay, queued intent, undo and near-wall clearance. UI tests use actual injected touch/pointer events. Preserved logs report23/0 and38/0. The authored6 comparison is a separate model proof, not another earned Main campaign. |
+| Current expanded observation UI is checked | **Survives within scope.** The instrument test checks hidden-source independence, historical origin, paused clocks, water-tap routing, bounded scrolling and corridor context in cover/inner fixtures. It openly places receivers/samples to isolate rules. That is appropriate focused checking; it does not show a novice can interpret a carrier. |
+| Broad Godot acceptance | **Requires exact qualification already present in first report.** The older142d batch exited1 on obsolete transport premises; the fixture repair and resumed remaining guards passed. Later PR5 log has309core/0, not the entire current registry. Registration in `test.sh` does not mean all entries ran at7f. No rerun is warranted just to make a greener summary. |
+| Native validation applies to current game | **Rejected.** Android39297579454 is sourcee091. Its retained evidence/signature is useful for that older source. New worlds, scrolling, fork and drive do not inherit native acceptance. Current host captures are not physical Fold7 evidence. |
+| AAA quality / campaign length / comfort | **Unestablished.** Neither reviewer has current human/novice/native/audio/performance evidence sufficient for those claims. This is uncertainty, not a measured failure or a lowered ambition. |
+
+The report’s “atomic validated save” wording should be read as implemented validation and backup mechanisms, not a security/completeness guarantee. For example, top-level completed is checked as an Array but not exhaustively as a valid tutorial history (`save_store.gd:8–9`). That does not establish a normal-player regression; it is another reason to avoid expanding entitlement rules by assumption.
+
+### 6. Medium operational correction — semantic repairs extend beyond the workflow-presence sentence
+
+I verified exact frozen source, clean held trees and documentation-only policy ancestry. The selected drive and expedition receipts name designated sole reviewers; source/worktree history supports independent branches and root composition. I found no evidence here of a gratuitous second feature gate. This user-requested two-stage program audit is a separate assignment, not a new per-feature process.
+
+Current `main`6d27 contains **both** workflow definitions; `GAUNTLET_ORCHESTRATION.md:57` is obsolete. Its line48 also speaks of creating an Android marker after a coherent milestone or native fix. Repair that together with the missing-workflow rationale so nobody interprets “milestone” as an automatic APK trigger. Current AGENTS/spec permit packages on explicit request or a concrete Android risk unresolved in Godot. Do not manually dispatch a test build to prove workflow availability.
+
+Normal exact-head PR5 promotion and its check source are retained. “Protected main” is the governing accepted-baseline policy; this audit does not independently certify server-enforced branch rules. The recorded administration403 cannot prove those rules were installed. This distinction need not delay gameplay.
+
+The tracked development key hash matches the preserved established identity, and configuration verifies its pinned certificate and fails instead of regenerating on absence. No new APK or signing change is needed. Original v7 is retained; its fixed135 drones, instant knockdown, currents and Hunt differ from current deliberately adapted/partial systems, as the ledger says. Rejected remote-decoy/current/controller traces remain meaningful negative evidence; they do not waive upgrades, currents or pressure evaluation forever.
+
+The first audit’s broad process observations are reasonable **for the records examined**, not certification of every past worker/merge/model call. Requested model names are not observable backend/cost telemetry. A freshness helper passing establishes retrieval and structure; semantic status still requires reading and reconciliation.
+
+## Reconciled execution direction
+
+Use the first report as a sound diagnosis with the following tighter delivery model. Root can make the compact roadmap and then dispatch immediately; no routine user decision or second redesign review is required.
+
+| Workstream | Concrete next deliverable and ownership seam | Acceptance / reason to reject |
+| --- | --- | --- |
+| **Connected campaign and history** | One owner defines a short route/rejoin/revelation map and a minimal recovered-outcome/replay contract, then owns campaign/save/Main entitlement adapters. Show integrated0..8, next consequences for Deep and Shelf, where both craft growth enters and at least two candidate resolution paths/conditions. Keep story details revisable. | The next authored unit has an explicit earlier cause and later playable effect. Old active saves and replay access remain valid. Reject an enormous graph/economy framework with no new playable consequence, or a roadmap whose only staffed item is the next Deep scene. |
+| **Earned capability plus later use** | Immediately assign equipment design/implementation and authored use together. Establish one useful Quietus capability and one useful drone specialization opportunity, with legitimate recovered earning, fitting/choice and a cost/constraint. Stage their implementation within the connected work; do not require two entire trees at once. Separate module ownership from shared simulation/Main hooks, which need one owner. | A recovered acquisition survives quit/reload, changes an available later plan and has a viable unfitted counterexample. At least the first such loop is playable in the next connected increment. Reject baseline drive/profile controls sold as rewards, simple stat inflation without a decision, removal of existing competence, or reviving the failed remote-decoy reward without new evidence. |
+| **Responsive world and onward content** | Retain a reduced berth/answer candidate if it serves the history/capability use. Content owner authors the later route task; presentation owner consumes frozen public feedback. Staff the Shelf consequence as actual content work, not merely a map annotation. These may branch/rejoin instead of multiplying whole levels. | The pilot can observe a world operation, choose an intervention and experience its later difference. A received reference changes interpretation/route before ordinary acquisition resolves the issue. Reject a universal free shortcut, another mandatory hold timer, or entry differences with identical decisions. |
+| **Resolutions and whole-game quality** | Keep a staffed next resolution/narrative task after the first longitudinal loop; parallel truthful world/audio identity and bounded learning/performance probes where file ownership permits. An ending needs authored playable conditions and consequence, not a completion flag. | Earlier recovered histories produce visibly different later opportunities and resolutions; the pilot’s actions determine more than debrief wording. Content and craft keep advancing while specific quality faults are repaired. Do not replace this with a quality percentage, arbitrary mission quota or a claim that the Gauntlet is finished. |
+
+Parallel work is feasible after the narrow contracts are fixed: pure mission authoring, equipment module/tests and presentation/audio can proceed independently. Multiple agents editing `main.gd`, `simulation.gd`, campaign validation and shared save adapters without ownership is not useful parallelism. Root should keep one owner for those hooks, one designated integration reviewer per feature, and focused checks appropriate to the changed rules.
+
+The strongest next whole-game evidence is **a prior recovered decision/capability changing a later tactical plan, another branch advancing, and an eventual resolution becoming causally reachable**. More source entries, fine-grained controls, hashes or screenshots alone will not establish that. Existing tactics, physical uncertainty, quiet successful recoveries, independent drones, unlimited pause and source/save fidelity are assets to preserve while doing it.
+
+This report completes only the adversarial assignment. Root must reconcile both reports, repair ordinary stale guidance, publish the compact living implementation direction and immediately resume the authorized development loop. Only the user can end the Gauntlet.
+
+Completion boundary fetched unchanged`f9ce87f`; command exited0 and the structural guidance check passed. I semantically compared the current requirements, original/visual authority, active/held ownership and selected source/review/CI evidence. Current audit handoffs remain accurate; the source-level workflow wording and now-needed execution roadmap are concrete root reconciliation work, not reasons to stop. `adversarial-source-hash-receipt.json` binds this report and the selected-input manifest; no source/gameplay acceptance is implied by those hashes.

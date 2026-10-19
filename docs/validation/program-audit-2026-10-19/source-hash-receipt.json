@@ -1,0 +1,150 @@
+{
+  "review": "first independent program/game audit",
+  "written_utc": "2026-10-19T21:59:29.984797+00:00",
+  "frozen_source": "7fcdc488e5a58995f92be08c786617223cde3a3e",
+  "game_tree": "2596989e9e8db2ea50f38f5884e2a22610bf35d5",
+  "runtime_tree": "ecbfd02e65ad090bcbc201ff9a90b6ea3bcc1971",
+  "report": {
+    "path": "independent-review.md",
+    "sha256": "afb53b0c2e021fd70f2943bbb01cfc23b51b0c425320808dd35e10934393b536"
+  },
+  "requested_routing": {
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "ultra"
+  },
+  "actual_backend_effort_usage_cost": "unavailable",
+  "method": "Independent immutable source/evidence and selected rendered image inspection; no new gameplay run, broad tests, APK or game edits. Evidence hash matching verifies binding, not quality.",
+  "source_snapshot": {
+    "path": "work/source",
+    "manifest": "work/read-source-manifest.json",
+    "manifest_sha256": "082d7b6bdbe97bfc3dca75c9750551c958112408c05984c12ce55f3a21824d7b",
+    "files": 78
+  },
+  "integrity_checks": {
+    "path": "work/evidence-integrity-checks.json",
+    "sha256": "4b6f8647170c6eb2e66ddd93a85c236c22d22d4907e6d7d2d907300b7a7fba6d",
+    "checks": 108,
+    "mismatch_or_missing": 0
+  },
+  "completion_boundary": {
+    "policy": "f9ce87f2fe7f3206f014b953ecc3b0a4e16893c4",
+    "command": "python3 scripts/toolchain/gauntlet-boundary.py --boundary complete",
+    "exit": 0,
+    "structural": "PASS",
+    "semantic": "Changed full CONT/WB read; source-independent program findings retained; stale workflow-absence rationale assigned to root for repair.",
+    "stderr_sha256": "c40de3bf5ce8e0442f38c7355c17115e0bb718fd30683710584e6406d3a57a77",
+    "governing_files": [
+      {
+        "path": "AGENTS.md",
+        "sha256": "b82b2131c26c02042e49e682366c5929618b1ea1e774143554f62c418927ba42",
+        "changed_from_frozen": false,
+        "application": "identical to previously fully read bytes"
+      },
+      {
+        "path": "docs/CONTINUATION.md",
+        "sha256": "b736534ea61dc56f00ef2e9534106378ccf3458b71797e86fb2cce300c7eda61",
+        "changed_from_frozen": true,
+        "application": "full changed document read"
+      },
+      {
+        "path": "docs/WORKBENCH.md",
+        "sha256": "bc9afbc793ba8492be6151bb5ccaad4e00cd93584e4fd1c4bb14c378cf06c67e",
+        "changed_from_frozen": true,
+        "application": "full changed document read"
+      },
+      {
+        "path": "docs/architecture/GAUNTLET.md",
+        "sha256": "a83b335067eefef379e929301b39301a8a30190ceeb3dd407677f4c491e43ff2",
+        "changed_from_frozen": false,
+        "application": "identical to previously fully read bytes"
+      },
+      {
+        "path": "docs/CURRENT_GAME_SPEC.md",
+        "sha256": "6e0ea62681ce6f81a5b798662f5dba2cc6452e48eb3472df94605f1d76db066a",
+        "changed_from_frozen": false,
+        "application": "identical to previously fully read bytes"
+      },
+      {
+        "path": "docs/V7_TO_GODOT_PARITY.md",
+        "sha256": "ecdcfe32c32e5e6ef669c51dafb9b27230d0c3a6372ac648f0e78d08f447e56b",
+        "changed_from_frozen": false,
+        "application": "identical to previously fully read bytes"
+      }
+    ]
+  },
+  "evidence_packets": [
+    {
+      "path": "earned-campaign-play/completed-campaign-assessment.json",
+      "sha256": "1baad13f2b632a38d2d42a33545c73f82b56fed3bdf743261e3f4f618ecc5e5b"
+    },
+    {
+      "path": "divergence-expedition/verification-manifest.json",
+      "sha256": "9e8a986fde76a498a6171399243f79680ff64e9bfee2780092b3e7de544b01a5"
+    },
+    {
+      "path": "divergence-expedition/integration-review/model-main-save-51da-review.json",
+      "sha256": "e1aedf114732eccf9f1c4a69180f2a43f787e699156e5fe27d1003d17e52e105"
+    },
+    {
+      "path": "expedition-instruments/evidence-binding.json",
+      "sha256": "fc27132c3f999b0824c5ee810e7beb20206819d486e53db95dfd1d4dcea79212"
+    },
+    {
+      "path": "expedition-instruments/integration-review/final-coherent-receipt.json",
+      "sha256": "7f4f57562e16529a27624e46ae79ee703603cf563c20b7a0a114a9094945119c"
+    },
+    {
+      "path": "drone-drive/verification.json",
+      "sha256": "52d69f829e7325f13b0c8272ad37b7b097eb407b73828bf5f7035b22adbe5b67"
+    },
+    {
+      "path": "drone-drive-review/decision.json",
+      "sha256": "6cc22c10464f5ce4a50f6c39e67f4277623d4ac8a9e090bee14bba90e21c45a5"
+    },
+    {
+      "path": "spatial-142d/verification.json",
+      "sha256": "ade4af4947f4cfdd4966bbd9aa3992f0c7698d95b19c9cb82ec137d2c8aa2928"
+    },
+    {
+      "path": "accepted-baseline-promotion/receipt.json",
+      "sha256": "7effe31b0f901718ad67581eacfc7ca8baad3a1d10d0e870b994ea656625a307"
+    },
+    {
+      "path": "next-capability/recommendation.json",
+      "sha256": "3d731122a46fad6fb7dd241375626685f1583465062910b55e0b685ec55c2696"
+    },
+    {
+      "path": "remote-decoy/authored-comparison/verification.json",
+      "sha256": "c3210568307efbadc2de546977c6c19f679b9900b0d656feebf3d4e100cc22a5"
+    },
+    {
+      "path": "next-expedition-experience/proposal.txt",
+      "sha256": "94b49f1747afb9311b52c798bc80cb902306fd0218769f0fbbd130276bc06205"
+    },
+    {
+      "path": "next-expedition-experience/verification.json",
+      "sha256": "0364628ef76af58044e8530b8a461b06def8652889b088c42bca58710e214856"
+    },
+    {
+      "path": "android-39297579454/download-verification.json",
+      "sha256": "3422a1ad0319b88e3125f293b838bf8b31d386f3ce21af9ae27697ae1f6e1eb8"
+    },
+    {
+      "path": "android-39297579454/native-evidence-verification.json",
+      "sha256": "f1b450de60023a0180a2ba5084d6334a0e8c2fd837dcd5c40b771780d3f74039"
+    }
+  ],
+  "prepared_branches": [
+    {
+      "worktree": "/workspace/Siren-s-Song-responsive-berth",
+      "head": "7fcdc488e5a58995f92be08c786617223cde3a3e",
+      "tracked_status": ""
+    },
+    {
+      "worktree": "/workspace/Siren-s-Song-berth-instruments",
+      "head": "7fcdc488e5a58995f92be08c786617223cde3a3e",
+      "tracked_status": ""
+    }
+  ],
+  "next": "Root commissions DIFFERENT fresh adversary against report/source, reconciles findings, repairs ordinary stale guidance, immediately resumes authorized development; first reviewer does not dispatch adversary."
+}
