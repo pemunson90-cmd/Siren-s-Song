@@ -1,4 +1,5 @@
 extends RefCounted
+const Sampler=preload("res://src/equipment/field_sampler.gd")
 const Authored=preload("res://src/campaign/resolution_missions.gd")
 # Once-only physical operations. No actor goals, perception or hidden positions
 # are supplied to presentation, and opening never invalidates occupied water.
@@ -6,10 +7,14 @@ static func own_origin(site:Dictionary)->bool:return site.get("own_origin",false
 static func ready(sim,site:Dictionary,unit:int)->bool:
  return unit==0 and sim.units[0].alive and site.get("origin_region",Rect2()).has_point(sim.units[0].pos) and sim.units[0].vel.length()<12
 static func begin(sim,site:Dictionary)->void:
- if own_origin(site):site["transmission_origin"]=sim.units[0].pos
+ if sim.mission.id in [12,13] and (own_origin(site) or site.has("completion_open_structure")):
+  site["attempt_origin"]=sim.units[sim.capture_unit].pos
 static func receiving(sim,site:Dictionary,unit:int)->bool:
- return ready(sim,site,unit) and site.has("transmission_origin") and sim.units[unit].pos.distance_to(site.transmission_origin)<8
+ # Old unpublished in-flight snapshots recorded this attempt under the old key.
+ var origin=site.get("attempt_origin",site.get("transmission_origin",Vector2.INF))
+ return ready(sim,site,unit) and sim.units[unit].pos.distance_to(origin)<8
 static func complete(sim,site:Dictionary)->void:
+ if own_origin(site):site["transmission_origin"]=site.get("attempt_origin",site.get("transmission_origin",sim.units[0].pos))
  var changed=false
  for gate in sim.mission.get("physical_gates",[]):
   if gate.id==site.get("completion_open_structure","") and not gate.opened:
@@ -22,20 +27,52 @@ static func complete(sim,site:Dictionary)->void:
     source.active=true;source["request_origin"]=origin;source["request_time"]=sim.elapsed
  if site.has("completion_emission"):
   var sound=site.completion_emission
-  sim._noise(site.get("transmission_origin",site.pos),sound.radius,sound.label,sound.duration)
+  var origin:Vector2=site.get("transmission_origin",site.pos)
+  sim._noise(origin,sound.radius,sound.label,sound.duration)
+  if sim.mission.id in [12,13]:site["completed_emission"]={"pos":origin,"time":sim.elapsed,"radius":sound.radius,"duration":sound.duration,"label":sound.label}
 static func feedback(sim)->Dictionary:
- var result={"gates":[]}
+ var result={"gates":[],"operations":[]}
  for gate in sim.mission.get("physical_gates",[]):result.gates.append({"id":gate.id,"pos":gate.closed_shape.get_center(),"rect":gate.closed_shape,"opened":gate.opened})
- for site in sim.observable_sites():
+ var sites=sim.observable_sites()
+ for index in sites.size():
+  var site:Dictionary=sites[index]
+  if not own_origin(site) and not site.has("completion_open_structure"):continue
+  var active=sim.capture_target==index and sim.capture_unit>=0
+  var unit:int=sim.capture_unit if active else sim.selected
+  if not active and unit!=site.get("required_unit",unit) and Sampler.capture_spec(unit,sim.mission.get("launch_equipment",{}),site).is_empty():unit=site.get("required_unit",unit)
+  var cost:Dictionary=site.get("completion_emission",{})
+  var operation={"site_id":site.site_id,"name":site.name,"action":"TRANSMIT" if own_origin(site) else "ACTUATE","unit":unit,"duration":sim._capture_duration(site,unit),"optional":site.get("optional",false),"repeatable":own_origin(site),"completed":site.captured,"emission":cost.duplicate(true),"qualification":"Open-water emission reach; reception remains unknown."}
+  var sampler=Sampler.capture_spec(unit,sim.mission.get("launch_equipment",{}),site)
+  if not sampler.is_empty():operation["start_emission"]={"radius":sampler.noise_radius,"duration":2.0,"label":"CAMERA"}
+  if active:
+   operation["attempt"]={"unit":unit,"elapsed":sim.capture_time,"duration":operation.duration}
+   if site.has("attempt_origin"):operation.attempt["origin"]=site.attempt_origin
+   elif own_origin(site) and site.has("transmission_origin"):operation.attempt["origin"]=site.transmission_origin
+  if site.has("completed_emission"):
+   operation["last_completed"]=site.completed_emission.duplicate(true)
+   operation.last_completed["age"]=maxf(0.0,sim.elapsed-site.completed_emission.time)
+  result.operations.append(operation)
   if own_origin(site):
    result["transmission_region"]=site.origin_region
-   if site.has("transmission_origin"):result["transmission_origin"]=site.transmission_origin
+   # Old recorded attempts cannot prove the place/time of a completed send.
+   if site.has("completed_emission"):result["transmission_origin"]=site.completed_emission.pos
  return result
 static func valid(m:Dictionary,time:float=0.0)->bool:
  if m.get("id",-1) not in [12,13]:return not m.has("physical_gates")
  if not m.get("objectives") is Array or not m.get("signal_sources") is Array or not m.get("expedition_facts") is Dictionary or not m.get("signal_observations") is Array:return false
  for site in m.objectives:
   if not site is Dictionary or not site.get("captured") is bool:return false
+  if site.has("attempt_origin"):
+   var bounds=Rect2(Vector2.ZERO,m.world_size)
+   if not site.attempt_origin is Vector2 or not site.attempt_origin.is_finite() or not bounds.has_point(site.attempt_origin):return false
+   if own_origin(site) and not site.get("origin_region",Rect2()).has_point(site.attempt_origin):return false
+  if site.has("completed_emission"):
+   var emission=site.completed_emission;var cost=site.get("completion_emission",{})
+   if not emission is Dictionary or emission.size()!=5 or not emission.has_all(["pos","time","radius","duration","label"]) or not site.captured or not cost is Dictionary or not cost.has_all(["radius","duration","label"]):return false
+   if not emission.pos is Vector2 or not emission.pos.is_finite() or emission.pos!=site.get("transmission_origin",site.pos):return false
+   if not (emission.time is int or emission.time is float) or not is_finite(emission.time) or emission.time<0 or emission.time>time:return false
+   for key in ["radius","duration","label"]:
+    if emission[key]!=cost[key]:return false
  for source in m.signal_sources:
   if not source is Dictionary or not source.has_all(["id","located"]) or not source.located is bool:return false
  var baseline=Authored.make(m.id,m.get("launch_context",{}))
