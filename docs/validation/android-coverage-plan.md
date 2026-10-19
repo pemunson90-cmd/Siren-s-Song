@@ -6,7 +6,11 @@
 
 Retain both cover/inner zoom/pan/FIT, zero accidental order/pause assertions, ordinary Shelf Signal camera/win, sustained real audio, strict fatal/engine/script/parse scan, and cold completed-campaign restoration. Reuse one APK, signing identity, emulator boot and bounded adb helpers. Do not multiply six nearly identical long jobs. Do not rerun the unchanged promoted baseline only to collect more counts.
 
-## Next valuable increment
+## Current ratified A priority
+
+Before the earlier finale proposal, add the bounded [fixture-assisted Listening Well hunter encounter](native-siren-roles/README.md) using the existing one-boot smoke and all strict gates. This observes ordinary route/lure/withdrawal/physical-return on the new roles, not earned campaign progression. Tooling is opt-in until the coherent source/critic checkpoint. Density UI remains parked.
+
+## Earlier finale increment proposal
 
 Add **one finale ordinary-input path** when its canonical command protocol is green and independently inspected. It exercises distinct optical evidence, shipborne acquisition, Quietus return, ending presentation and durable archive data that Shelf Signal cannot cover. Keep the final error gate after this increment. Start with unfolded landscape for the long path; cover layout/gesture behavior already has independent coverage. A selected cover ending frame can follow live resize, without replaying the whole mission twice.
 

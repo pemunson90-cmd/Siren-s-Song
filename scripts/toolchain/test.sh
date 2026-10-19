@@ -3,6 +3,8 @@
 set -euo pipefail
 source "$(dirname -- "$0")/common.sh"
 require_project
+"$(dirname -- "$0")/test-native-role-archive.sh"
+python3 "$(dirname -- "$0")/test-android-role.py"
 python3 "$(dirname -- "$0")/test-android-view.py"
 python3 "$(dirname -- "$0")/test-android-ui-metrics.py"
 log="$ARTIFACT_DIR/tests.log"

@@ -1,0 +1,14 @@
+.........F
+======================================================================
+FAIL: test_wrong_mode_order_rejected (__main__.Tests.test_wrong_mode_order_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Siren-s-Song-gauntlet/scripts/toolchain/test-android-role.py", line 16, in test_wrong_mode_order_rejected
+    lines=GOOD.splitlines();lines[2]=row("RETURN","800,830",7);lines[3]=row("SEARCH","800,820",20);self.assertRaises(ValueError,module.evaluate,"\n".join(lines))
+                                                                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised by evaluate
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.001s
+
+FAILED (failures=1)

@@ -12,6 +12,7 @@ stage() {
 adb_bin="$(command -v adb)"
 log_read_serial=0
 system_intro_checked=false
+source "$(dirname -- "$0")/android-role-smoke.sh"
 adb() {
     local status=0
     timeout --foreground "${ADB_TIMEOUT_SECONDS:-30}" "$adb_bin" "$@" || status=$?
@@ -65,6 +66,7 @@ adb get-state | grep -Eq '^device$'
 adb logcat -c
 cleanup() {
     local exit_status=$?
+    if ! restore_role_archive; then echo "Failed to restore preserved genuine archive" >&2; exit_status=1; fi
     if (( exit_status != 0 )); then
         capture_runtime_state failure
         adb shell dumpsys activity exit-info "$package" >"$output/app-exit-info.txt" 2>&1 || true
@@ -81,6 +83,7 @@ cleanup() {
     grep -E 'FATAL EXCEPTION|AndroidRuntime|Fatal signal|org.sirenssong.game|SCRIPT ERROR|[Gg]odot' "$output/logcat.txt" | tail -120 || true
     adb shell wm size reset >/dev/null 2>&1 || true
     adb shell wm density reset >/dev/null 2>&1 || true
+    exit "$exit_status"
 }
 trap cleanup EXIT
 ADB_TIMEOUT_SECONDS=120 adb install -r "$apk" | tee "$output/install.txt"
@@ -391,6 +394,7 @@ launch 'completed-campaign-restart'
 capture_runtime_state after-completed-restart
 wait_new_marker "$campaign_restore" "$campaign_before" 'campaign-restored' 30
 shot 'inner-campaign-restored'
+if [[ "${VERIFY_SIREN_ROLES:-0}" == 1 ]]; then native_role_smoke; fi
 read_logcat "$output/logcat.txt"
 if grep -lE 'FATAL EXCEPTION|Fatal signal|SCRIPT ERROR:|Parse Error:|[Ee] godot.*ERROR:' "$output"/*.txt; then
     grep -hE 'FATAL EXCEPTION|Fatal signal|SCRIPT ERROR:|Parse Error:|[Ee] godot.*ERROR:' "$output"/*.txt | sort -u >"$output/runtime-errors.txt"
