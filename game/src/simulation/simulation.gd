@@ -425,13 +425,40 @@ func _tick(dt: float) -> void:
 	if hull<=0: outcome="lost"; message="Quietus lost. Your previous campaign records remain safe."
 	if outcome.is_empty() and all_records() and units[0].pos.distance_to(mission.extraction)<65 and units[0].vel.length()<12:
 		outcome="won"; paused=true; message="Archive recovered. Quietus is home."; events.append({"type":"extraction","pos":units[0].pos})
+# Player-only continuous hull corridor, O(terrain edges) rather than O(length).
+# Endpoints vs edges are covered by blocked(); the remaining closest segment
+# pairs are an edge intersection or a rock vertex vs this leg. No convexity
+# assumption is made, and bounds follow blocked()'s current world contract.
+func _player_leg_safe(a:Vector2,b:Vector2) -> bool:
+	if blocked(a,12) or blocked(b,12): return false
+	for structure in mission.get("structures",[]):
+		if _leg_enters_rect(a,b,structure.grow(12)): return false
+	for polygon in rock_shapes:
+		for n in polygon.size():
+			var vertex:Vector2=polygon[n]
+			if Geometry2D.segment_intersects_segment(a,b,vertex,polygon[(n+1)%polygon.size()])!=null: return false
+			if Geometry2D.get_closest_point_to_segment(vertex,a,b).distance_squared_to(vertex)<144.0: return false
+	return true
+# Slab clipping retains Rect2.has_point's included minimum/excluded maximum,
+# including parallel/tangent legs and a single-corner contact.
+func _leg_enters_rect(a:Vector2,b:Vector2,rect:Rect2) -> bool:
+	var enter=0.0;var leave=1.0;var delta=b-a
+	for axis in 2:
+		if delta[axis]==0.0:
+			if a[axis]<rect.position[axis] or a[axis]>=rect.end[axis]: return false
+		else:
+			var first=(rect.position[axis]-a[axis])/delta[axis]
+			var last=(rect.end[axis]-a[axis])/delta[axis]
+			enter=maxf(enter,minf(first,last));leave=minf(leave,maxf(first,last))
+			if enter>leave: return false
+	return rect.has_point(a.lerp(b,(enter+leave)*0.5))
 # Physical turns can leave the line compiled at order time. Repair only a dirty
 # current leg; keep every accepted node/goal after it and never re-run AStar for
 # an unobstructed leg. This is player autopilot, not enemy pursuit steering.
 func _repair_current_leg(u:Dictionary) -> bool:
 	var destination:Dictionary=u.route[0]
 	var leg=path(u.pos,destination.pos)
-	if leg.is_empty() or not segment_safe(u.pos,leg[0].pos,12): return false
+	if leg.is_empty() or not _player_leg_safe(u.pos,leg[0].pos): return false
 	for node in leg:
 		# Keep a near-wall recovery safety STOP, distinct from operator arrival.
 		if destination.has("mode"): node.mode=destination.mode
@@ -441,7 +468,7 @@ func _repair_current_leg(u:Dictionary) -> bool:
 func _move(u: Dictionary,dt: float,speed: float,holding: bool,report_collision: bool=true,player_craft: bool=false) -> void:
 	var desired=Vector2.ZERO
 	if player_craft: speed=RouteProgram.speed(u,speed,u.name=="QUIETUS")
-	if player_craft and not holding and not u.route.is_empty() and not segment_safe(u.pos,u.route[0].pos,12):
+	if player_craft and not holding and not u.route.is_empty() and not _player_leg_safe(u.pos,u.route[0].pos):
 		if _repair_current_leg(u):
 			if report_collision: message="%s · course adjusted around charted terrain"%u.name
 		else:

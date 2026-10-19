@@ -15,7 +15,22 @@ func displaced():
  # Restore the accepted pre-turn leg; replotted routes already avoid this obstacle.
  u.route=[{"pos":Vector2(140,800),"stop":true,"goal":true,"mode":"inherit"}]
  return s
+func analytic_geometry():
+ var s=Sim.new();s.start(0);s.mission.rocks=[];s.mission.structures=[];s._build_navigation()
+ if not s.has_method("_player_leg_safe"):
+  check(false,"private analytic player-leg guard replaces length-sampled hot check");return
+ check(s._player_leg_safe(Vector2(12,12),Vector2(1588,948)) and not s._player_leg_safe(Vector2(11.99,12),Vector2(100,100)),"analytic guard inherits exact physical endpoint/bounds clearance")
+ s.rock_shapes=[PackedVector2Array([Vector2(400,400),Vector2(600,400),Vector2(600,600),Vector2(540,600),Vector2(540,460),Vector2(460,460),Vector2(460,600),Vector2(400,600)])]
+ check(s._player_leg_safe(Vector2(500,500),Vector2(500,650)) and not s._player_leg_safe(Vector2(480,550),Vector2(620,550)),"concave inlet remains navigable but crossing its arm rejects")
+ check(not s._player_leg_safe(Vector2(410,420),Vector2(300,300)),"polygon-contained endpoint rejects even if no vertex is close to the course")
+ s.rock_shapes=[PackedVector2Array([Vector2(505,500),Vector2(506,520),Vector2(504,520)])]
+ check(s._player_leg_safe(Vector2(100,488),Vector2(900,488)) and not s._player_leg_safe(Vector2(100,488.01),Vector2(900,488.01)),"rock capsule uses strict radius tangency and catches vertex intrusion between old10m samples")
+ s.rock_shapes=[];s.mission.structures=[Rect2(300,300,200,200)]
+ check(s._player_leg_safe(Vector2(200,512),Vector2(600,512)) and not s._player_leg_safe(Vector2(200,288),Vector2(600,288)),"grown structure tangency retains existing half-open AABB boundaries")
+ check(not s._player_leg_safe(Vector2(520,500),Vector2(500,520)),"crossing only expanded right and bottom boundaries still intersects structure interior")
+ check(s._player_leg_safe(Vector2(520,504),Vector2(504,520)) and not s._player_leg_safe(Vector2(280,296),Vector2(296,280)),"grown AABB single-corner touch preserves excluded maximum and included minimum")
 func _initialize():
+ analytic_geometry()
  var s=displaced();var u=s.units[0];var goal=s.route_goals();var undo=u.get("route_undo",[]).duplicate(true)
  check(not s.segment_safe(u.pos,u.route[0].pos,12),"earned displaced leg is physically obstructed despite retained accepted endpoint")
  var before=s.snapshot();s.advance(1);check(s.snapshot()==before,"pause does not repair or change a saved course")
