@@ -397,7 +397,7 @@ func _tick(dt: float) -> void:
 		selected=0; queue_mode=false; message="Drone lost · Quietus selected · SAMPLE remains available." if mission.get("blackwater_revision",0)==1 else "Drone lost · Quietus command restored. Submarine camera remains available."
 	if oxygen<=0: outcome="lost"; message="Life support exhausted. The archive is silent."
 	if hull<=0: outcome="lost"; message="Quietus lost. Your previous campaign records remain safe."
-	if all_records() and units[0].pos.distance_to(mission.extraction)<65 and units[0].vel.length()<12:
+	if outcome.is_empty() and all_records() and units[0].pos.distance_to(mission.extraction)<65 and units[0].vel.length()<12:
 		outcome="won"; paused=true; message="Archive recovered. Quietus is home."; events.append({"type":"extraction","pos":units[0].pos})
 func _move(u: Dictionary,dt: float,speed: float,holding: bool,report_collision: bool=true,player_craft: bool=false) -> void:
 	var desired=Vector2.ZERO
