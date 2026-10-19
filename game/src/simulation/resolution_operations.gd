@@ -59,6 +59,7 @@ static func feedback(sim)->Dictionary:
  return result
 static func valid(m:Dictionary,time:float=0.0)->bool:
  if m.get("id",-1) not in [12,13]:return not m.has("physical_gates")
+ if not m.get("world_size") is Vector2 or not m.world_size.is_finite() or not m.get("launch_context") is Dictionary:return false
  if not m.get("objectives") is Array or not m.get("signal_sources") is Array or not m.get("expedition_facts") is Dictionary or not m.get("signal_observations") is Array:return false
  for site in m.objectives:
   if not site is Dictionary or not site.get("captured") is bool:return false

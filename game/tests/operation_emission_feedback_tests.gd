@@ -52,6 +52,8 @@ func _initialize():
  check(not Sim.valid_snapshot(bad),"future completed emission timestamp is rejected")
  bad=restored.snapshot();bad.mission.objectives[0].completed_emission.pos=Vector2(NAN,1)
  check(not Sim.valid_snapshot(bad),"nonfinite completed origin is rejected")
+ bad=restored.snapshot();bad.mission.erase("world_size")
+ check(not Sim.valid_snapshot(bad),"metadata cannot execute against a missing world-size schema")
  var gate=Sim.new();gate.start(12,"disruption",{"fitted":{"quietus":"","drone_a":"drone_sampler","drone_b":""}});gate.command("select",{"unit":1})
  var actuator=operation(gate)
  check(actuator.action=="ACTUATE" and actuator.duration==8 and actuator.start_emission.radius==520 and actuator.emission.radius==1100,"sampler actuator exposes both real start and completion costs")
