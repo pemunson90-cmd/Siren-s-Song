@@ -22,6 +22,7 @@ static func valid(value)->bool:
  if not value is Dictionary:return false
  if value.is_empty():return true
  if not value.has_all(["version","route","routes","facts","completed","remote_decoy"]) or value.version!=1 or value.route not in ["deep","shelf"] or not value.routes is Array or not value.facts is Dictionary or not value.completed is Array or not value.remote_decoy is bool:return false
+ if value.has("fit_unit") and (not value.fit_unit is int or value.fit_unit not in [-1,1,2]):return false
  if value.routes.is_empty() or value.routes.size()>2 or value.route not in value.routes:return false
  var unique={}
  for route in value.routes:unique[route]=true
