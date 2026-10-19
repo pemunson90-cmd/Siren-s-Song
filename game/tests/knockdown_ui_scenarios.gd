@@ -17,7 +17,7 @@ func setup(ui) -> void:
  ui._start_mission(4);ui.sim.units[0].pos=Vector2(600,750);ui.sim.units[0].angle=0
  ui.sim.sirens[0].pos=Vector2(740,750);ui.sim.sirens[1].pos=Vector2(800,750);ui.sim.paused=false
  for i in 24:ui.sim.advance(1.0/60)
- ui.sim.paused=true;ui.sim._observe();ui._toggle_advanced();ui._refresh()
+ ui.sim.paused=true;ui.sim._observe();ui.mission_hud.open("tools");ui._refresh()
 func run() -> void:
  for arg in OS.get_cmdline_user_args():
   if arg.begins_with("--capture-dir="):capture_dir=arg.trim_prefix("--capture-dir=")
@@ -30,7 +30,7 @@ func run() -> void:
   if not ui.order_buttons.has("knock"):ui.queue_free();await process_frame;await create_timer(0.5).timeout;finish();return
   setup(ui);await wait_frames()
   ui.ocean.zoom_at(2.0,ui.ocean.size/2);ui.ocean.pan_chart(ui.ocean.size/2-ui.ocean.screen_position(ui.sim.units[0].pos));await wait_frames()
-  check(not ui.order_buttons.camera.is_visible_in_tree() and ui.order_buttons.knock.is_visible_in_tree(),"secondary duplicate CAMERA slot becomes KNOCK without another row")
+  check(not ui.order_buttons.camera.is_visible_in_tree() and ui.order_buttons.knock.is_visible_in_tree(),"contextual TOOLS projection exposes distinct torpedo action")
   var rect=ui.order_buttons.knock.get_global_rect();var scale=Vector2(profile.size)/ui.get_viewport_rect().size
   check(ui.get_global_rect().encloses(rect) and rect.size.x*scale.x>=48*profile.dpi/160.0 and rect.size.y*scale.y>=48*profile.dpi/160.0,"knock target stays safe and touch sized")
   await click(rect.get_center())
@@ -44,16 +44,16 @@ func run() -> void:
   await click(ui.ocean.screen_position(ui.sim.contacts[0].pos)+ui.ocean.global_position)
   check(ui.knock_armed and ui.sim.tools.knock==2 and ui.sim.projectiles.is_empty(),"stale live-position rejection keeps explicit targeting and never spends or plots")
   ui.sim.sirens[0].pos=actual;ui.sim._observe()
-  await click(ui.unit_buttons[1].get_global_rect().get_center())
+  ui.mission_hud.open("fleet");await wait_frames();await click(ui.unit_buttons[1].get_global_rect().get_center())
   check(not ui.knock_armed and ui.sim.selected==1 and ui.order_buttons.knock.disabled,"unit switch clears targeting and cannot silently launch from drone")
-  await click(ui.unit_buttons[0].get_global_rect().get_center());await click(ui.order_buttons.knock.get_global_rect().get_center())
+  ui.mission_hud.open("fleet");await wait_frames();await click(ui.unit_buttons[0].get_global_rect().get_center());ui.mission_hud.open("tools");await wait_frames();await click(ui.order_buttons.knock.get_global_rect().get_center())
   await click(ui.ocean.screen_position(ui.sim.contacts[0].pos)+ui.ocean.global_position)
   check(not ui.knock_armed and ui.sim.tools.knock==1 and ui.sim.projectiles.size()==1 and ui.sim.units[0].route==route,"fresh contact tap launches physical torpedo and never creates a route")
   if not capture_dir.is_empty():
    await RenderingServer.frame_post_draw;root.get_texture().get_image().save_png(capture_dir+"/"+profile.name+"-launched.png")
-  await click(ui.order_buttons.knock.get_global_rect().get_center());await click(ui.order_buttons.knock.get_global_rect().get_center())
+  ui.mission_hud.open("tools");await wait_frames();await click(ui.order_buttons.knock.get_global_rect().get_center());await click(ui.mission_hud.close_button.get_global_rect().get_center())
   check(not ui.knock_armed and ui.sim.tools.knock==1,"explicit cancel does not spend")
-  ui._toggle_advanced();await wait_frames();check(ui.order_buttons.camera.is_visible_in_tree(),"primary CAMERA remains available")
+  ui.mission_hud.open("craft");await wait_frames();check(ui.order_buttons.camera.is_visible_in_tree(),"craft CAMERA remains available")
   ui.queue_free();await process_frame;await create_timer(0.5).timeout
  finish()
 func finish() -> void:

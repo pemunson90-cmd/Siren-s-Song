@@ -30,6 +30,24 @@ class TouchMetricsTests(unittest.TestCase):
     def layout(self, *, logical_height=84, screen='mission'):
         return {'schema': 1, 'screen': screen, 'orders_page': 'primary', 'viewport': [1680, 720], 'window': [2520, 1080], 'safe_rect': [0, 0, 2520, 1080], 'density_dpi': 420, 'density_source': 'android_display_metrics_density_dpi', 'chart_rect': [0, 0, 800, 600], 'controls': [{'action': 'pause', 'visual_rect': [900, 100, 200, logical_height], 'hit_rect': [900, 100, 200, logical_height], 'clipped': False}]}
 
+    def test_radial_page_contract_uses_actual_persistent_and_context_controls(self):
+        pages = {
+            'water': 'pause,focus,fit,more_orders',
+            'craft': 'pause,radial_back,camera,ping,silent,program,route_menu,tools_menu,guard_menu,inspect',
+            'tools': 'pause,radial_back,decoy,emp,recon,knock',
+            'fleet': 'pause,radial_back,sub,droneA,droneB,menu',
+        }
+        for page, actions in pages.items():
+            layout = self.layout()
+            layout.update(hud_layout='radial', context_page=page, orders_page='primary' if page=='water' else 'secondary')
+            layout['controls'] = [dict(layout['controls'][0], action=action, visual_rect=[20+i%5*230, 20+i//5*100, 200, 84], hit_rect=[20+i%5*230, 20+i//5*100, 200, 84]) for i, action in enumerate(actions.split(','))]
+            result = self.invoke(layout, required=None, page=layout['orders_page'])
+            self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
+            layout['controls'].pop()
+            self.assertEqual(self.invoke(layout, required=None, page=layout['orders_page']).returncode, 1)
+        layout['context_page']='unknown'
+        self.assertIn('Unknown radial', self.invoke(layout, required=None, page='secondary').stderr)
+
     def test_complete_chunked_geometry_uses_same_gate(self):
         value=self.layout();value['padding']='x'*5000
         result=self.invoke(value,transport=chunked(value));self.assertEqual(result.returncode,0,result.stderr)

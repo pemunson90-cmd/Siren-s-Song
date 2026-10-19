@@ -12,17 +12,17 @@ func click(point: Vector2) -> void:
  await process_frame
 func route_intent(ui) -> void:
  ui._start_mission(0);await process_frame;await process_frame;await process_frame
- await click(ui.unit_buttons[1].get_global_rect().get_center())
- await click(ui.ocean.global_position+ui.ocean.world_offset+Vector2(600,800)*ui.ocean.world_scale)
- await click(ui.order_buttons.queue.get_global_rect().get_center())
- await click(ui.advanced_button.get_global_rect().get_center())
- await click(ui.order_buttons.recon.get_global_rect().get_center())
- check(ui.sim.queue_mode and not ui.order_buttons.queue.is_visible_in_tree(),"secondary survey preserves explicit queued state without hidden mutation")
- check(ui.detail_label.is_visible_in_tree() and ui.detail_label.text.begins_with("DRONE A · ADD TO ROUTE"),"selected craft and sticky append intent remain visible after secondary survey replaces log")
- await click(ui.ocean.global_position+ui.ocean.world_offset+Vector2(900,800)*ui.ocean.world_scale)
+ ui.mission_hud.open("fleet");await process_frame;await click(ui.unit_buttons[1].get_global_rect().get_center())
+ ui.mission_hud.dismiss();ui.ocean.fit_chart();await process_frame
+ await click(ui.ocean.global_position+ui.ocean.screen_position(Vector2(600,800)))
+ ui.mission_hud.open("route");await process_frame;await click(ui.order_buttons.queue.get_global_rect().get_center())
+ ui.mission_hud.open("tools");await process_frame;await click(ui.order_buttons.recon.get_global_rect().get_center())
+ check(ui.sim.queue_mode and not ui.order_buttons.queue.is_visible_in_tree(),"survey preserves explicit queued state after contextual menu closes")
+ check(ui.mission_hud.intent.is_visible_in_tree() and "DRONE A · QUEUE" in ui.mission_hud.intent.text,"selected craft and sticky append intent remain visible on water")
+ await click(ui.ocean.global_position+ui.ocean.screen_position(Vector2(900,800)))
  check(ui.sim.units[1].route.size()==2,"ordinary chart tap still appends to the actual queued plan")
- await click(ui.order_buttons.home.get_global_rect().get_center())
- check(not ui.sim.queue_mode and ui.sim.selected==1 and ui.detail_label.text.begins_with("DRONE A · REPLACE ROUTE"),"emergency replacement visibly clears stale append state on secondary page")
+ ui.mission_hud.open("route");await process_frame;await click(ui.order_buttons.home.get_global_rect().get_center())
+ check(not ui.sim.queue_mode and ui.sim.selected==1 and "DRONE A · REPLACE" in ui.mission_hud.intent.text,"emergency replacement visibly clears stale append state")
 func run():
  root.size=Vector2i(2520,1080); await process_frame; await process_frame
  var ui=load("res://scenes/main.tscn").instantiate(); ui.set_script(preload("res://tests/density_main.gd")); ui.capture_scenario="density-test"; root.add_child(ui)
@@ -34,16 +34,18 @@ func run():
   ui._start_mission(0); ui._layout(); await process_frame; await process_frame
   var scale=Vector2(dimensions)/ui.get_viewport_rect().size
   var before=ui.sim.snapshot()
-  for secondary in [false,true]:
-   if secondary:ui._toggle_advanced();await process_frame;await process_frame
-   var buttons=ui.unit_buttons.duplicate();buttons.append(ui.pause_button);buttons.append(ui.advanced_button);buttons.append_array(ui.zoom_buttons);buttons.append_array(ui.order_buttons.values())
+  for page in ["water","craft","tools","route","guard","fleet","inspect"]:
+   if page=="water":ui.mission_hud.dismiss()
+   else:ui.mission_hud.open(page)
+   await process_frame;await process_frame
+   var buttons=ui.mission_hud.action_controls().values()
    for button in buttons:
     if not button.is_visible_in_tree():continue
     var dp=button.get_global_rect().size*scale/(420.0/160.0)
     check(button.get_theme_font_size("font_size")*scale.y/(420.0/160.0)>=13.99,"%s %s readable text retains at least14 fixture dp"%[dimensions,button.text])
     check(dp.x>=47.99 and dp.y>=47.99,"%s %s actual target meets48dp; measured%s"%[dimensions,button.text,dp])
    check(ui.sim.snapshot()==before,"opening secondary orders does not mutate paused tactical state")
-   check((ui.order_buttons.knock.is_visible_in_tree() if secondary else ui.order_buttons.camera.is_visible_in_tree()) and ui.order_buttons.home.is_visible_in_tree(),"primary camera or secondary knock and emergency remain accessible")
+   check(ui.pause_button.is_visible_in_tree(),"pause stays immediately accessible on every contextual page")
    var metrics=ui._ui_metrics()
    var safe=preload("res://src/presentation/layout_metrics.gd").content_rect(ui.get_viewport_rect().size,Vector2(dimensions),Rect2(profile.inset,0,dimensions.x-profile.inset,dimensions.y))
    for i in metrics.controls.size():
@@ -54,14 +56,6 @@ func run():
      check(not intersection.has_area(),"actual hit rectangles %s/%s do not overlap"%[c.action,metrics.controls[j].action])
   var area=ui.ocean.size.x*ui.ocean.size.y/(ui.get_viewport_rect().size.x*ui.get_viewport_rect().size.y)
   check(area>=0.50,"enlarged physical targets retain at least half the surface for the chart")
-  var header_font=ui.detail_label.get_theme_font("font")
-  var header_size=ui.detail_label.get_theme_font_size("font_size")
-  for mission_id in 6:
-   for objective in ui.Simulation.Missions.make(mission_id).objectives:
-    for field in ["requirement","unit_requirement"]:
-     if not objective.has(field):continue
-     var text="DRONE A · REPLACE ROUTE · "+objective[field]
-     check(header_font.get_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,-1,header_size).x<=ui.detail_label.size.x,"long authored camera prerequisite fits with persistent route intent: %s"%objective[field])
   await route_intent(ui)
   ui._briefing(5);await process_frame;await process_frame
   var begin
