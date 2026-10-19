@@ -1,0 +1,200 @@
+10-19 04:42:44.216  5456  5492 F libc    : Fatal signal 11 (SIGSEGV), code 2 (SEGV_ACCERR), fault addr 0x7f78981ff000 in tid 5492 (AudioTrack), pid 5456 (sirenssong.game)
+10-19 04:42:44.243   648  2134 W JobScheduler: Job didn't exist in JobStore: e7ea8bc {androidx.work.systemjobscheduler} #u0a161/555000000 @androidx.work.systemjobscheduler@com.google.android.apps.photos/androidx.work.impl.background.systemjob.SystemJobService
+10-19 04:42:44.253   464  5493 W android.hardware.audio@7.1-impl.ranchu: pcmWrite:259 pcm_writei failed with 'cannot read/write stream data: I/O error' (-1)
+10-19 04:42:44.256   464  5493 E android.hardware.audio@7.1-impl.ranchu: pcmWrite:260 failure: -1
+10-19 04:42:44.313  6102  6102 I crash_dump64: obtaining output fd from tombstoned, type: kDebuggerdTombstoneProto
+10-19 04:42:44.316   278   278 I tombstoned: received crash request for pid 5492
+10-19 04:42:44.317  6102  6102 I crash_dump64: performing dump of process 5456 (target tid = 5492)
+10-19 04:42:44.361   464  5493 W android.hardware.audio@7.1-impl.ranchu: pcmWrite:259 pcm_writei failed with 'cannot read/write stream data: I/O error' (-1)
+10-19 04:42:44.361   464  5493 E android.hardware.audio@7.1-impl.ranchu: pcmWrite:260 failure: -1
+10-19 04:42:44.472   464  5493 W android.hardware.audio@7.1-impl.ranchu: pcmWrite:259 pcm_writei failed with 'cannot read/write stream data: I/O error' (-1)
+10-19 04:42:44.472   464  5493 E android.hardware.audio@7.1-impl.ranchu: pcmWrite:260 failure: -1
+10-19 04:42:44.685     0     0 I logd    : logdr: UID=2000 GID=2000 PID=6105 n tail=0 logMask=99 pid=0 start=0ns deadline=0ns
+10-19 04:42:44.581   464  5493 W android.hardware.audio@7.1-impl.ranchu: pcmWrite:259 pcm_writei failed with 'cannot read/write stream data: I/O error' (-1)
+10-19 04:42:44.582   464  5493 E android.hardware.audio@7.1-impl.ranchu: pcmWrite:260 failure: -1
+10-19 04:42:44.685   464  5493 W android.hardware.audio@7.1-impl.ranchu: pcmWrite:259 pcm_writei failed with 'cannot read/write stream data: I/O error' (-1)
+10-19 04:42:44.685   464  5493 E android.hardware.audio@7.1-impl.ranchu: pcmWrite:260 failure: -1
+10-19 04:42:44.789   464  5493 W android.hardware.audio@7.1-impl.ranchu: pcmWrite:259 pcm_writei failed with 'cannot read/write stream data: I/O error' (-1)
+10-19 04:42:44.789   464  5493 E android.hardware.audio@7.1-impl.ranchu: pcmWrite:260 failure: -1
+10-19 04:42:44.879   521   634 I AudioFlinger: prepareTracks_l BUFFER TIMEOUT: remove track(57) from active list due to underrun on thread 13
+10-19 04:42:44.892   648   705 I AppsFilter: interaction: PackageSetting{3ab1399 com.android.microdroid.empty_payload/10201} -> PackageSetting{16ecffe com.google.android.apps.photos/10161} BLOCKED
+10-19 04:42:44.892   648   705 I AppsFilter: interaction: PackageSetting{126265e org.sirenssong.game/10216} -> PackageSetting{16ecffe com.google.android.apps.photos/10161} BLOCKED
+10-19 04:42:44.893   464  5493 W android.hardware.audio@7.1-impl.ranchu: pcmWrite:259 pcm_writei failed with 'cannot read/write stream data: I/O error' (-1)
+10-19 04:42:44.893   464  5493 E android.hardware.audio@7.1-impl.ranchu: pcmWrite:260 failure: -1
+10-19 04:42:44.896   648   744 I system_server: AssetManager2(0x7f7a89640458) locale list changing from [] to [en-US]
+10-19 04:42:44.900   648   753 I RoleService: Granting default roles...
+10-19 04:42:44.910   648  1097 W SignedPackage: Package doesn't have required signing certificate: com.google.android.retaildemo
+10-19 04:42:44.910   648  1097 E RoleControllerServiceImpl: Default/fallback role holder package doesn't qualify for the role, package: com.google.android.gms.supervision, role: android.app.role.SYSTEM_SUPERVISION
+10-19 04:42:44.912   648   994 D ActivityManager: sync unfroze 1013 com.google.android.permissioncontroller for 6
+10-19 04:42:44.914  1187  1187 D CarrierSvcBindHelper: onPackageModified: com.google.android.apps.photos
+10-19 04:42:44.915   648   952 I AppWidgetServiceImpl: Received broadcast: android.intent.action.PACKAGE_CHANGED on user 0
+10-19 04:42:44.915  1187  1187 D CarrierSvcBindHelper: No carrier app for: 0
+10-19 04:42:44.916  1187  1446 I SatelliteAppTracker: onPackageModified : com.google.android.apps.photos
+10-19 04:42:44.917   648   970 D BackgroundInstallControlService: Package event received: 0
+10-19 04:42:44.917   648   970 D BackgroundInstallControlService: Package event received: 0
+10-19 04:42:44.917   648   952 I AppWidgetServiceImpl: Received broadcast: android.intent.action.PACKAGE_CHANGED on user 0
+10-19 04:42:44.919  1187  1187 E SmsApplication: com.google.android.apps.messaging lost android:read_cell_broadcasts:  (fixing)
+10-19 04:42:44.920   648   952 D AppWidgetServiceImpl: Trying to notify widget providers changed
+10-19 04:42:44.921   648   952 D AppWidgetServiceImpl: Trying to notify widget providers changed
+10-19 04:42:44.921   648  1350 W AppOpService: Ignored setUidMode call for runtime permission app op: uid = 10145, code = READ_CELL_BROADCASTS, mode = allow, callingUid = 1001, oldMode = allow
+10-19 04:42:44.922  1012  1012 D ControlsListingControllerImpl: ServiceConfig reloaded, count: 0
+10-19 04:42:44.929   648   969 D ShortcutService: received package broadcast intent: Intent { act=android.intent.action.PACKAGE_CHANGED dat=package: flg=0x45000010 pkg=android (has extras) }
+10-19 04:42:44.929   648   969 D ShortcutService: changing package: com.google.android.apps.photos userId=0
+10-19 04:42:44.929   648   969 D ShortcutService: received package broadcast intent: Intent { act=android.intent.action.PACKAGE_CHANGED dat=package: flg=0x45000010 (has extras) }
+10-19 04:42:44.929   648   969 D ShortcutService: changing package: com.google.android.apps.photos userId=0
+10-19 04:42:44.930   450   481 I netd    : tetherGetStats() -> {[]} <0.44ms>
+10-19 04:42:44.930   648  1350 I AppWidgetServiceImpl: getInstalledProvidersForProfiles() 0
+10-19 04:42:44.973   648  2131 W ProcessStats: Tracking association SourceState{e06e4e6 system/1000 ImpFg #5724} whose proc state 5 is better than process ProcessState{1bb2579 com.google.android.permissioncontroller/10206 pkg=com.google.android.permissioncontroller} proc state 14 (30 skipped)
+10-19 04:42:44.980   648  2134 W AppOpService: Ignored setUidMode call for runtime permission app op: uid = 1001, code = READ_SMS, mode = allow, callingUid = 1001, oldMode = allow
+10-19 04:42:44.984  1013  6108 I PermissionControllerServiceImpl: Updating user sensitive for uid 10161
+10-19 04:42:44.984   648   673 I system_server: AssetManager2(0x7f7a89654638) locale list changing from [] to [en-US]
+10-19 04:42:44.987   648  1097 W SignedPackage: Package doesn't have required signing certificate: com.google.android.apps.work.clouddpc
+10-19 04:42:44.990   648   775 I system_server: AssetManager2(0x7f7a896539b8) locale list changing from [] to [en-US]
+10-19 04:42:44.994   648  2131 W AppOpService: Ignored setUidMode call for runtime permission app op: uid = 1001, code = RECEIVE_SMS, mode = allow, callingUid = 1001, oldMode = allow
+10-19 04:42:44.995   648  2131 W AppOpService: Ignored setUidMode call for runtime permission app op: uid = 1001, code = RECEIVE_WAP_PUSH, mode = allow, callingUid = 1001, oldMode = allow
+10-19 04:42:44.995   648  2131 W AppOpService: Ignored setUidMode call for runtime permission app op: uid = 1001, code = SEND_SMS, mode = allow, callingUid = 1001, oldMode = allow
+10-19 04:42:44.996   648  2131 W AppOpService: Ignored setUidMode call for runtime permission app op: uid = 1001, code = READ_CELL_BROADCASTS, mode = allow, callingUid = 1001, oldMode = allow
+10-19 04:42:44.996  1013  6108 I PermissionControllerServiceImpl: Updating user sensitive for uid 10161
+10-19 04:42:44.999   464  5493 W android.hardware.audio@7.1-impl.ranchu: pcmWrite:259 pcm_writei failed with 'cannot read/write stream data: I/O error' (-1)
+10-19 04:42:44.999   464  5493 E android.hardware.audio@7.1-impl.ranchu: pcmWrite:260 failure: -1
+10-19 04:42:45.000   648   678 I system_server: AssetManager2(0x7f7a896571f8) locale list changing from [] to [en-US]
+10-19 04:42:45.008   648  1350 I system_server: AssetManager2(0x7f7a8963d898) locale list changing from [] to [en-US]
+10-19 04:42:45.014   648   775 I system_server: AssetManager2(0x7f7a8964df18) locale list changing from [] to [en-US]
+10-19 04:42:45.017   648   775 I system_server: AssetManager2(0x7f7a8964a6d8) locale list changing from [] to [en-US]
+10-19 04:42:45.018   648   775 I system_server: AssetManager2(0x7f7a89652a18) locale list changing from [] to [en-US]
+10-19 04:42:45.019   648   775 V AccessibilityManagerService: onUserStateChangedLocked for userId: 0, forceUpdate: false
+10-19 04:42:45.024   648  1350 W ParceledListSlice: Element #26 is 19556 bytes.
+10-19 04:42:45.024   648  1350 W ParceledListSlice: Element #27 is 19592 bytes.
+10-19 04:42:45.027   648  2068 W ParceledListSlice: Element #28 is 19432 bytes.
+10-19 04:42:45.027   648  2068 W ParceledListSlice: Element #29 is 19520 bytes.
+10-19 04:42:45.027   648  2068 W ParceledListSlice: Element #30 is 19456 bytes.
+10-19 04:42:45.034  1187  1444 D ImsResolver: maybeAddedImsService, packageName: com.google.android.apps.photos
+10-19 04:42:45.034  1187  1444 V ImsResolver: searchForImsServices: package=com.google.android.apps.photos, users=[UserHandle{0}]
+10-19 04:42:45.041  1187  1444 V ImsResolver: searchForImsServices: package=com.google.android.apps.photos, users=[UserHandle{0}]
+10-19 04:42:45.073  1187  1187 D SatelliteController: packageStateChanged: package:com.google.android.apps.photos DefaultSmsPackageName:com.google.android.apps.messaging
+10-19 04:42:45.073  1187  1187 V SatelliteController: Neither SMS or SatelliteGateway package
+10-19 04:42:45.093  1187  1187 E SmsApplication: com.google.android.apps.messaging lost android:read_cell_broadcasts:  (fixing)
+10-19 04:42:45.097  1297  1321 I s.nexuslauncher: AssetManager2(0x7f7a89638d98) locale list changing from [] to [en-US]
+10-19 04:42:45.099   648  2134 W AppOpService: Ignored setUidMode call for runtime permission app op: uid = 10145, code = READ_CELL_BROADCASTS, mode = allow, callingUid = 1001, oldMode = allow
+10-19 04:42:45.101   464  5493 W android.hardware.audio@7.1-impl.ranchu: pcmWrite:259 pcm_writei failed with 'cannot read/write stream data: I/O error' (-1)
+10-19 04:42:45.101   464  5493 E android.hardware.audio@7.1-impl.ranchu: pcmWrite:260 failure: -1
+10-19 04:42:45.102   648  2134 W AppOpService: Ignored setUidMode call for runtime permission app op: uid = 1001, code = READ_SMS, mode = allow, callingUid = 1001, oldMode = allow
+10-19 04:42:45.102  1297  1321 W HWUI    : Image decoding logging dropped!
+10-19 04:42:45.104   648  2134 W AppOpService: Ignored setUidMode call for runtime permission app op: uid = 1001, code = RECEIVE_SMS, mode = allow, callingUid = 1001, oldMode = allow
+10-19 04:42:45.105   648  2134 W AppOpService: Ignored setUidMode call for runtime permission app op: uid = 1001, code = RECEIVE_WAP_PUSH, mode = allow, callingUid = 1001, oldMode = allow
+10-19 04:42:45.105   648  2134 W AppOpService: Ignored setUidMode call for runtime permission app op: uid = 1001, code = SEND_SMS, mode = allow, callingUid = 1001, oldMode = allow
+10-19 04:42:45.105   648  2134 W AppOpService: Ignored setUidMode call for runtime permission app op: uid = 1001, code = READ_CELL_BROADCASTS, mode = allow, callingUid = 1001, oldMode = allow
+10-19 04:42:45.105  1187  1187 D SatelliteAccessController: Current default SMS app:ComponentInfo{com.google.android.apps.messaging/com.google.android.apps.messaging.shared.receiver.SmsDeliverReceiver}
+10-19 04:42:45.105  1187  1187 D SatelliteController: getSelectedSatelliteSubId: subId=-1
+10-19 04:42:45.105  1187  1187 D SatelliteAccessController: supportedMsgApps:com.google.android.apps.messaging
+10-19 04:42:45.107   648  1097 E RoleControllerServiceImpl: Default/fallback role holder package doesn't qualify for the role, package: com.google.android.gms, role: android.app.role.WALLET
+10-19 04:42:45.109   648  1097 I system_server: AssetManager2(0x7f7a89626e18) locale list changing from [] to [en-US]
+10-19 04:42:45.111  1297  1321 W HWUI    : Image decoding logging dropped!
+10-19 04:42:45.115   648  1097 W SignedPackage: Cannot get ApplicationInfo for package: com.google.android.devicelockcontroller
+10-19 04:42:45.129   648   678 I system_server: AssetManager2(0x7f7a896507b8) locale list changing from [] to [en-US]
+10-19 04:42:45.133  1297  1321 D AlphabeticIndexCompat: computeSectionName: cs: Settings sectionName: S
+10-19 04:42:45.134  1297  1321 D AlphabeticIndexCompat: computeSectionName: cs: Photos sectionName: P
+10-19 04:42:45.134  1297  1321 D AlphabeticIndexCompat: computeSectionName: cs: Battery sectionName: B
+10-19 04:42:45.134  1297  1321 D AlphabeticIndexCompat: computeSectionName: cs: Chrome sectionName: C
+10-19 04:42:45.134  1297  1321 D AlphabeticIndexCompat: computeSectionName: cs: Gmail sectionName: G
+10-19 04:42:45.135  1297  1321 D AlphabeticIndexCompat: computeSectionName: cs: Drive sectionName: D
+10-19 04:42:45.138  1297  1321 D AlphabeticIndexCompat: computeSectionName: cs: Clock sectionName: C
+10-19 04:42:45.138  1297  1321 D AlphabeticIndexCompat: computeSectionName: cs: Contacts sectionName: C
+10-19 04:42:45.138   648   775 W MagnificationConnectionManager: requestConnection duplicated request: connect=false, mConnectionState=DISCONNECTED
+10-19 04:42:45.139  1297  1321 D AlphabeticIndexCompat: computeSectionName: cs: Calendar sectionName: C
+10-19 04:42:45.139  1297  1321 D AlphabeticIndexCompat: computeSectionName: cs: Maps sectionName: M
+10-19 04:42:45.141   648   648 W IPCThreadState: Sending oneway calls to frozen process.
+10-19 04:42:45.141   648   648 W IPCThreadState: Sending oneway calls to frozen process.
+10-19 04:42:45.142   648   648 W IPCThreadState: Sending oneway calls to frozen process.
+10-19 04:42:45.142   648   648 W IPCThreadState: Sending oneway calls to frozen process.
+10-19 04:42:45.142  1297  1321 D AlphabeticIndexCompat: computeSectionName: cs: YouTube Music sectionName: Y
+10-19 04:42:45.142  1297  1321 D AlphabeticIndexCompat: computeSectionName: cs: YouTube sectionName: Y
+10-19 04:42:45.142  1297  1321 D AlphabeticIndexCompat: computeSectionName: cs: Google sectionName: G
+10-19 04:42:45.143   648   678 I system_server: AssetManager2(0x7f7a89654f98) locale list changing from [] to [en-US]
+10-19 04:42:45.144  1297  1321 D AlphabeticIndexCompat: computeSectionName: cs: Android System Intelligence sectionName: A
+10-19 04:42:45.145  1297  1321 D AlphabeticIndexCompat: computeSectionName: cs: Digital Wellbeing sectionName: D
+10-19 04:42:45.151   648   678 W IPCThreadState: Sending oneway calls to frozen process.
+10-19 04:42:45.151  1297  1321 D AlphabeticIndexCompat: computeSectionName: cs: Conversations sectionName: C
+10-19 04:42:45.152   648  1350 I AppWidgetServiceImpl: getInstalledProvidersForProfiles() 0
+10-19 04:42:45.157   648  2134 W ParceledListSlice: Element #26 is 19556 bytes.
+10-19 04:42:45.157   648  2134 W ParceledListSlice: Element #27 is 19592 bytes.
+10-19 04:42:45.158   648  1350 W ParceledListSlice: Element #28 is 19432 bytes.
+10-19 04:42:45.158   648  1350 W ParceledListSlice: Element #29 is 19520 bytes.
+10-19 04:42:45.158   648  1350 W ParceledListSlice: Element #30 is 19456 bytes.
+10-19 04:42:45.158  1649  2692 I AiAiEcho: AppIndexer Package:[com.google.android.apps.photos] UserProfile:[0] Enabled:[true].
+10-19 04:42:45.158  1649  2692 I AiAiEcho: AppFetcherImplV2 updateApps package:[com.google.android.apps.photos], userId:[0], reason:[package is updated.].
+10-19 04:42:45.160  1649  2692 I ogle.android.as: AssetManager2(0x7f7a89643338) locale list changing from [] to [en-US]
+10-19 04:42:45.179  1297  1321 W HWUI    : Image decoding logging dropped!
+10-19 04:42:45.185  1297  1321 W HWUI    : Image decoding logging dropped!
+10-19 04:42:45.205   464  5493 W android.hardware.audio@7.1-impl.ranchu: pcmWrite:259 pcm_writei failed with 'cannot read/write stream data: I/O error' (-1)
+10-19 04:42:45.205   464  5493 E android.hardware.audio@7.1-impl.ranchu: pcmWrite:260 failure: -1
+10-19 04:42:45.207  1297  1321 D AlphabeticIndexCompat: computeSectionName: cs: Settings sectionName: S
+10-19 04:42:45.207  1297  1321 D AlphabeticIndexCompat: computeSectionName: cs: Photos sectionName: P
+10-19 04:42:45.207  1297  1321 D AlphabeticIndexCompat: computeSectionName: cs: Battery sectionName: B
+10-19 04:42:45.208  1297  1321 D AlphabeticIndexCompat: computeSectionName: cs: Chrome sectionName: C
+10-19 04:42:45.210  1297  1321 D AlphabeticIndexCompat: computeSectionName: cs: Gmail sectionName: G
+10-19 04:42:45.210  1297  1321 D AlphabeticIndexCompat: computeSectionName: cs: Drive sectionName: D
+10-19 04:42:45.211  1297  1321 D AlphabeticIndexCompat: computeSectionName: cs: Clock sectionName: C
+10-19 04:42:45.212  1297  1321 D AlphabeticIndexCompat: computeSectionName: cs: Contacts sectionName: C
+10-19 04:42:45.212  1297  1321 D AlphabeticIndexCompat: computeSectionName: cs: Calendar sectionName: C
+10-19 04:42:45.212  1297  1321 D AlphabeticIndexCompat: computeSectionName: cs: Maps sectionName: M
+10-19 04:42:45.212  1297  1321 D AlphabeticIndexCompat: computeSectionName: cs: YouTube Music sectionName: Y
+10-19 04:42:45.213  1297  1321 D AlphabeticIndexCompat: computeSectionName: cs: YouTube sectionName: Y
+10-19 04:42:45.213  1297  1321 D AlphabeticIndexCompat: computeSectionName: cs: Google sectionName: G
+10-19 04:42:45.213  1297  1321 D AlphabeticIndexCompat: computeSectionName: cs: Android System Intelligence sectionName: A
+10-19 04:42:45.213  1297  1321 D AlphabeticIndexCompat: computeSectionName: cs: Digital Wellbeing sectionName: D
+10-19 04:42:45.213  1297  1321 D AlphabeticIndexCompat: computeSectionName: cs: Conversations sectionName: C
+10-19 04:42:45.214  1297  1321 D PackageUpdatedTask: Package updated: mOp=UPDATE packages=[com.google.android.apps.photos], user=UserHandle{0}
+10-19 04:42:45.379     0     0 I logd    : logdr: UID=10216 GID=10216 PID=6102 n tail=500 logMask=8 pid=5456 start=0ns deadline=0ns
+10-19 04:42:45.395     0     0 I logd    : logdr: UID=10216 GID=10216 PID=6102 n tail=500 logMask=1 pid=5456 start=0ns deadline=0ns
+10-19 04:42:45.269  1297  1321 I s.nexuslauncher: AssetManager2(0x7f7a89675018) locale list changing from [] to [en-US]
+10-19 04:42:45.280  6102  6102 F DEBUG   : *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
+10-19 04:42:45.280  6102  6102 F DEBUG   : Build fingerprint: 'google/sdk_gphone64_x86_64/emu64xa:16/BE2A.250530.026.F3/13894323:userdebug/dev-keys'
+10-19 04:42:45.280  6102  6102 F DEBUG   : Revision: '0'
+10-19 04:42:45.280  6102  6102 F DEBUG   : ABI: 'x86_64'
+10-19 04:42:45.280  6102  6102 F DEBUG   : Timestamp: 2026-10-19 04:42:44.322577575+0000
+10-19 04:42:45.281  6102  6102 F DEBUG   : Process uptime: 47s
+10-19 04:42:45.281  6102  6102 F DEBUG   : Cmdline: org.sirenssong.game
+10-19 04:42:45.281  6102  6102 F DEBUG   : pid: 5456, tid: 5492, name: AudioTrack  >>> org.sirenssong.game <<<
+10-19 04:42:45.281  6102  6102 F DEBUG   : uid: 10216
+10-19 04:42:45.281  6102  6102 F DEBUG   : signal 11 (SIGSEGV), code 2 (SEGV_ACCERR), fault addr 0x00007f78981ff000
+10-19 04:42:45.281  6102  6102 F DEBUG   :     rax 00007f7a99661b30  rbx 0000000000000011  rcx 0000000000000000  rdx 0000000000000010
+10-19 04:42:45.281  6102  6102 F DEBUG   :     r8  000000000000000e  r9  0000000000000001  r10 0000000000000000  r11 000000000002b110
+10-19 04:42:45.281  6102  6102 F DEBUG   :     r12 00007f7a99661b28  r13 00007f78981a8de0  r14 00007f7a996620b8  r15 0000000000000080
+10-19 04:42:45.281  6102  6102 F DEBUG   :     rdi 00007f7a996619a0  rsi 000000000002b110
+10-19 04:42:45.281  6102  6102 F DEBUG   :     rbp 00007f7800df6060  rsp 00007f7800df5fb0  rip 00007f7805b058db
+10-19 04:42:45.281  6102  6102 F DEBUG   : 13 total frames
+10-19 04:42:45.281  6102  6102 F DEBUG   : backtrace:
+10-19 04:42:45.281  6102  6102 F DEBUG   :       #00 pc 00000000030338db  /data/app/~~KNQv6kqs2g5YXB-Y5ms0_w==/org.sirenssong.game-cJCF3L_E5msJpolxrlmvdA==/lib/x86_64/libgodot_android.so (BuildId: 20156519a646217072efd93ff30876fa51603c60)
+10-19 04:42:45.281  6102  6102 F DEBUG   :       #01 pc 000000000370b0d3  /data/app/~~KNQv6kqs2g5YXB-Y5ms0_w==/org.sirenssong.game-cJCF3L_E5msJpolxrlmvdA==/lib/x86_64/libgodot_android.so (BuildId: 20156519a646217072efd93ff30876fa51603c60)
+10-19 04:42:45.281  6102  6102 F DEBUG   :       #02 pc 00000000036e27fc  /data/app/~~KNQv6kqs2g5YXB-Y5ms0_w==/org.sirenssong.game-cJCF3L_E5msJpolxrlmvdA==/lib/x86_64/libgodot_android.so (BuildId: 20156519a646217072efd93ff30876fa51603c60)
+10-19 04:42:45.281  6102  6102 F DEBUG   :       #03 pc 00000000036e02ce  /data/app/~~KNQv6kqs2g5YXB-Y5ms0_w==/org.sirenssong.game-cJCF3L_E5msJpolxrlmvdA==/lib/x86_64/libgodot_android.so (BuildId: 20156519a646217072efd93ff30876fa51603c60)
+10-19 04:42:45.281  6102  6102 F DEBUG   :       #04 pc 0000000001195e5d  /data/app/~~KNQv6kqs2g5YXB-Y5ms0_w==/org.sirenssong.game-cJCF3L_E5msJpolxrlmvdA==/lib/x86_64/libgodot_android.so (BuildId: 20156519a646217072efd93ff30876fa51603c60)
+10-19 04:42:45.281  6102  6102 F DEBUG   :       #05 pc 000000000001f5cd  /system/lib64/libwilhelm.so (android::AudioTrackCallback::onMoreData(android::AudioTrack::Buffer const&)+157) (BuildId: a275562ea5a4d21868ddcdc6068d321a)
+10-19 04:42:45.281  6102  6102 F DEBUG   :       #06 pc 00000000000b9245  /system/lib64/libaudioclient.so (android::AudioTrack::processAudioBuffer()+3301) (BuildId: 3a4034f2e26b43ec8efce431ad06dfd5)
+10-19 04:42:45.281  6102  6102 F DEBUG   :       #07 pc 00000000000b82bb  /system/lib64/libaudioclient.so (android::AudioTrack::AudioTrackThread::threadLoop()+443) (BuildId: 3a4034f2e26b43ec8efce431ad06dfd5)
+10-19 04:42:45.281  6102  6102 F DEBUG   :       #08 pc 00000000000196f1  /system/lib64/libutils.so (android::Thread::_threadLoop(void*)+161) (BuildId: 5cc628b071d29c54b7d93955e6a5c990)
+10-19 04:42:45.281  6102  6102 F DEBUG   :       #09 pc 000000000011b82e  /system/lib64/libandroid_runtime.so (android::AndroidRuntime::javaThreadShell(void*)+142) (BuildId: 88fea1b94cf3198cbd0e8df7e23e9710)
+10-19 04:42:45.281  6102  6102 F DEBUG   :       #10 pc 000000000001b9af  /system/lib64/libutils.so (libutil_thread_trampoline(void*) (.__uniq.226528677032898775202282855395389835431)+15) (BuildId: 5cc628b071d29c54b7d93955e6a5c990)
+10-19 04:42:45.281  6102  6102 F DEBUG   :       #11 pc 000000000007ac5f  /apex/com.android.runtime/lib64/bionic/libc.so (__pthread_start(void*)+63) (BuildId: fcb82240218d1473de1e3d2137c0be35)
+10-19 04:42:45.281  6102  6102 F DEBUG   :       #12 pc 000000000006d94d  /apex/com.android.runtime/lib64/bionic/libc.so (__start_thread+61) (BuildId: fcb82240218d1473de1e3d2137c0be35)
+10-19 04:42:45.294  1297  1321 W HWUI    : Image decoding logging dropped!
+10-19 04:42:45.310   464  5493 W android.hardware.audio@7.1-impl.ranchu: pcmWrite:259 pcm_writei failed with 'cannot read/write stream data: I/O error' (-1)
+10-19 04:42:45.310   464  5493 E android.hardware.audio@7.1-impl.ranchu: pcmWrite:260 failure: -1
+10-19 04:42:45.339   648  6114 E ActivityManager: App crashed on incremental package org.sirenssong.game which is 100% loaded.
+10-19 04:42:45.340   278   278 E tombstoned: Tombstone written to: tombstone_00
+10-19 04:42:45.520     0     0 I init    : Untracked pid 6102 exited with status 0
+10-19 04:42:45.521     0     0 I init    : Untracked pid 6102 did not have an associated service entry and will not be reaped
+10-19 04:42:45.368   648  6115 I DropBoxManagerService: add tag=data_app_native_crash isTagEnabled=true flags=0x2
+10-19 04:42:45.539     0     0 I init    : Untracked pid 6104 exited with status 0
+10-19 04:42:45.542     0     0 I init    : Untracked pid 6104 did not have an associated service entry and will not be reaped
+10-19 04:42:45.393   648  6114 W ActivityTaskManager:   Force finishing activity org.sirenssong.game/com.godot.game.GodotAppLauncher
+10-19 04:42:45.395  1012  1092 V WindowManagerShell: Transition requested (#26): android.os.BinderProxy@99f2517 TransitionRequestInfo { type = CLOSE, triggerTask = TaskInfo{userId=0 taskId=7 effectiveUid=10216 displayId=0 isRunning=true baseIntent=Intent { flg=0x10000000 cmp=org.sirenssong.game/com.godot.game.GodotAppLauncher } baseActivity=ComponentInfo{org.sirenssong.game/com.godot.game.GodotApp} topActivity=ComponentInfo{org.sirenssong.game/com.godot.game.GodotApp} origActivity=ComponentInfo{org.sirenssong.game/com.godot.game.GodotAppLauncher} realActivity=ComponentInfo{org.sirenssong.game/com.godot.game.GodotApp} numActivities=1 lastActiveTime=235319 supportsMultiWindow=true resizeMode=2 isResizeable=true minWidth=-1 minHeight=-1 defaultMinSize=220 token=WCT{android.window.IWindowContainerToken$Stub$Proxy@cd9fd04} topActivityType=1 pictureInPictureParams=null shouldDockBigOverlays=false launchIntoPipHostTaskId=-1 lastParentTaskIdBeforePip=-1 displayCutoutSafeInsets=Rect(0, 0 - 0, 0) topActivityInfo=ActivityInfo{90022ed com.godot.game.GodotAppLauncher} launchCookies=[] positionInParent=Point(0, 0) parentTaskId=-1 isFocused=true isVisible=true isVisibleRequested=true isTopActivityNoDisplay=false isSleeping=false locusId=null displayAreaFeatureId=1 isTopActivityTransparent=false isActivityStackTransparent=false lastNonFullscreenBounds=Rect(177, 222 - 2008, 1757) capturedLink=null capturedLinkTimestamp=0 requestedVisibleTypes=-16 topActivityRequestOpenInBrowserEducationTimestamp=0 appCompatTaskInfo=AppCompatTaskInfo { topActivityInSizeCompat=false eligibleForLetterboxEducation= false isLetterboxEducationEnabled= true isLetterboxDoubleTapEnabled= false eligibleForUserAspectRatioButton= true topActivityBoundsLetterboxed= false isFromLetterboxDoubleTap= false topActivityLetterboxVerticalPosition= -1 topActivityLetterboxHorizontalPosition= -1 topActivityLetterboxWidth=-1 topActivityLetterboxHeight=-1 topActivityAppBounds=Rect(0, 0 - 2184, 1968) isUserFullscreenOverrideEnabled=false isSystemFullscreenOverrideEnabled=false hasMinAspectRatioOverride=false topActivityLetterboxBounds=null cameraCompatTaskInfo=CameraCompatTaskInfo { freeformCameraCompatMode=inactive}} topActivityMainWindowFrame=null}, pipChange = null, remoteTransition = null, displayChange = null, flags = 16, debugId = 26 }
+10-19 04:42:45.396   648   747 I DropBoxManagerService: add tag=SYSTEM_TOMBSTONE_PROTO_WITH_HEADERS isTagEnabled=true flags=0x4
+10-19 04:42:45.403  3808  3808 I Bugle   : BroadcastReceiverAsyncWorkTracker: Acknowledging broadcast of cump@a68c66d
+10-19 04:42:45.409   648   764 W InputDispatcher: channel 'bbee7ee org.sirenssong.game/com.godot.game.GodotAppLauncher' ~ Consumer closed input channel or an error occurred.  events=0x9
+10-19 04:42:45.409   648   764 E InputDispatcher: channel 'bbee7ee org.sirenssong.game/com.godot.game.GodotAppLauncher' ~ Channel is unrecoverably broken and will be disposed!
+10-19 04:42:45.576     0     0 W binder_debug: 19 callbacks suppressed
+10-19 04:42:45.576     0     0 I binder  : undelivered transaction 349028, process died.
+10-19 04:42:45.409   648   764 I WindowManager: WINDOW DIED Window{bbee7ee u0 org.sirenssong.game/com.godot.game.GodotAppLauncher}
+10-19 04:42:45.411   648  1164 I ActivityManager: Process org.sirenssong.game (pid 5456) has died: fg  TOP 

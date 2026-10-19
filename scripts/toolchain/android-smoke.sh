@@ -136,6 +136,15 @@ wait_new_marker() {
     local deadline=$((SECONDS + limit)) count
     while (( SECONDS < deadline )); do
         read_logcat "$output/wait-$label.txt"
+        if grep -E 'FATAL EXCEPTION|Fatal signal|SCRIPT ERROR:|Parse Error:|[Ee] godot.*ERROR:' "$output/wait-$label.txt" >"$output/runtime-errors.txt"; then
+            cat "$output/runtime-errors.txt" >&2
+            echo "Native runtime failure while waiting for $label" >&2
+            return 1
+        fi
+        if ! adb shell pidof "$package" >"$output/pid-wait-$label.txt"; then
+            echo "Game process died while waiting for $label" >&2
+            return 1
+        fi
         count="$(grep -Ec "$pattern" "$output/wait-$label.txt" || true)"
         if (( count > before )); then
             stage "$label: fresh marker verified"

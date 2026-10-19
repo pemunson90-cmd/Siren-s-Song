@@ -1,6 +1,6 @@
 # Galaxy Z Fold7 playtest
 
-**Native cover/unfolded rendering, touch smoke and save restoration passed on the hosted emulator.** Download the [539f58b playtest APK](https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/39197795717/artifacts/12162622874). This build fixes the earlier mission-entry error; the strict native error gate passed. Actual Galaxy Z Fold7 behavior, complete mission playthroughs, audio quality and performance remain hands-on checks. This is a development playtest, not a release-readiness claim.
+**Known active-gameplay audio crash; fix validation pending.** The [539f58b exploratory APK](https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/39197795717/artifacts/12162622874) passed native cover/unfolded rendering, brief touch/order/pause smoke and save restoration, but that test did not exercise sustained active audio. A later build with the same procedural-loop implementation crashes in AudioTrack on the first eight-second ambience boundary during ordinary play. The exact PCM endpoint defect is being corrected and requires a fresh native pass. Do not interpret the earlier smoke as gameplay stability or release readiness. Physical Galaxy Z Fold7 behavior, complete mission playthroughs, audio quality and performance remain separate checks.
 
 ## Install or update
 
