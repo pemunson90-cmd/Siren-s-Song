@@ -37,7 +37,8 @@ static func _base(index:int,history:Dictionary)->Dictionary:
  return {"id":index,"title":{11:"Confluence",12:"The Concealed Record",13:"The Open Warning"}[index],"depth":{11:4720,12:5180,13:3420}[index],"darkness":index==12,"world_size":Vector2(2400,2800),"region_revision":1,"acoustic_revision":1,"expedition_revision":2,"resolution_revision":1,"launch_context":context,"objectives":[],"sirens":[],"signal_sources":[],"signal_observations":[],"expedition_facts":{},"next_signal_time":0.0,"chosen_route":"","recovered":false,"withdrawal_armed":false,"required_site_ids":[]}
 
 static func _confluence(m:Dictionary)->void:
- m.start=Vector2(2100,2460) if 9 in m.launch_context.completed else Vector2(280,2460)
+ var deep=m.launch_context.thread=="deep" or (m.launch_context.thread.is_empty() and 9 in m.launch_context.completed)
+ m.start=Vector2(2100,2460) if deep else Vector2(280,2460)
  m.extraction=Vector2(280,220)
  m.rocks=[Rect2(-100,1950,950,220),Rect2(1370,1950,1200,220),Rect2(980,620,380,1120),Rect2(180,1180,400,300),Rect2(1680,1180,400,300),Rect2(940,-100,400,460)]
  m.signal_sources=[_source("confluence_packet","LIVE CONFLUENCE MEMORY",Vector2(600,760),"The recovered return and the surface acknowledgement meet in the same dispatch memory. The fracture warning can be brought out as a concealed witness record, or forwarded through the open warning chain. Neither carrier says that the guarded water is safe.",[.8,1.6,.8]),_source("confluence_repeater","ABANDONED DISPATCH REPEATER",Vector2(1880,720),"This station repeats an old dispatch. Its clear voice is a retained recording, not the living packet needed at Confluence.",[1.6,.8,1.6],false)]

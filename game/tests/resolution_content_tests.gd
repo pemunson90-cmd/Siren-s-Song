@@ -22,6 +22,7 @@ func _initialize()->void:
  check(history==before and not confluence.launch_context.has("notes"),"authored launch context copies recovered history without mutating it or carrying notes")
  check(confluence.launch_context.references==history.references,"only actually recovered reference is carried into the next encounter")
  check(content.make(11,{"completed":[10],"facts":{}}).start!=confluence.start,"Deep and Shelf approach Confluence from different physical mouths")
+ check(content.make(11,{"thread":"shelf","completed":[9,10]}).start==content.make(11,{"completed":[10]}).start,"later alternate recovery does not replace the committed Shelf physical approach")
  check(content.make(99).is_empty(),"reserved authoring module does not alias an invalid mission ID")
  for id in [11,12,13]:
   var mission=content.make(id,history)
