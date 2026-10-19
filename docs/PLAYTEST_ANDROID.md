@@ -8,7 +8,7 @@
 
 The candidate build log reports APK SHA-256 `c7efabdd5a01acbb7c336ddeaadb12cac2309645522c27ec8fce52589cc31993` and the same development certificate as the fallback. Those are CI build/signature observations; local recomputation from candidate APK bytes remains pending. Normal updates preserve legacy active mission content; start a fresh dive to receive new role assignments.
 
-**Density UI challenger, not yet an Android-tested build:** local source **6de9e10** enlarges controls/text, keeps briefing and Settings BACK visible, and preserves explicit route intent across command pages. [Actual local screenshots/clip and review](validation/production/density/README.md). The linked 6388113 APK does **not** include these later UI changes. The next matching run must verify actual Android density/hit rectangles and ordinary OS scrolling; desktop fixture results do not establish either. Physical Fold7 comfort remains open.
+**Density UI challenger, full native gate incomplete:** source **744ad3e** enlarges controls/text, keeps briefing and Settings BACK visible, and preserves route intent across command pages. Actual cover Operations/Settings swipes, unchanged audio settings, sticky BACK and zoom/pan/FIT pass, but truncated diagnostic JSON blocks the HUD geometry gate and all later native assertions. [Exact partial result](validation/android-39227185627/README.md) · [Local screenshots/clip and review](validation/production/density/README.md). The linked 6388113 APK does **not** include these later UI changes. Complete metric transport, downstream gates, direct artifact/pixel inspection and physical Fold7 comfort remain open.
 
 ## Install or update
 

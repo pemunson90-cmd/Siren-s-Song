@@ -7,15 +7,19 @@ import subprocess
 import sys
 import tempfile
 import unittest
+import base64,hashlib
 
 CHECKER = Path(__file__).with_name('android-ui-metrics.py')
+def chunked(value,identity='42:1'):
+    raw=json.dumps(value).encode();parts=[raw[i:i+450] for i in range(0,len(raw),450)]
+    return '\n'.join(f'SS_UI_METRICS_PART id={identity} part={i} parts={len(parts)} bytes={len(raw)} sha256={hashlib.sha256(raw).hexdigest()} data={base64.b64encode(part).decode()}' for i,part in enumerate(parts))+'\n'
 
 
 class TouchMetricsTests(unittest.TestCase):
-    def invoke(self, payload, *, size=(2520, 1080), density='Physical density: 420\n', prefix='SS_SCREEN mission\n', suffix='', required='pause', page='primary'):
+    def invoke(self, payload, *, size=(2520, 1080), density='Physical density: 420\n', prefix='SS_SCREEN mission\n', suffix='', required='pause', page='primary', transport=None):
         with tempfile.TemporaryDirectory() as folder:
             folder = Path(folder)
-            (folder / 'log').write_text(prefix + 'SS_UI_METRICS ' + json.dumps(payload) + '\n' + suffix)
+            (folder / 'log').write_text(prefix + (transport if transport is not None else 'SS_UI_METRICS ' + json.dumps(payload) + '\n') + suffix)
             (folder / 'image.png').write_bytes(b'\x89PNG\r\n\x1a\n' + b'\0' * 8 + struct.pack('>II', *size))
             (folder / 'density').write_text(density)
             command = [sys.executable, str(CHECKER), str(folder / 'log'), str(folder / 'image.png'), '--density', str(folder / 'density'), '--screen', prefix.split('SS_SCREEN ', 1)[1].split()[0], '--orders-page', page]
@@ -25,6 +29,28 @@ class TouchMetricsTests(unittest.TestCase):
 
     def layout(self, *, logical_height=84, screen='mission'):
         return {'schema': 1, 'screen': screen, 'orders_page': 'primary', 'viewport': [1680, 720], 'window': [2520, 1080], 'safe_rect': [0, 0, 2520, 1080], 'density_dpi': 420, 'density_source': 'android_display_metrics_density_dpi', 'chart_rect': [0, 0, 800, 600], 'controls': [{'action': 'pause', 'visual_rect': [900, 100, 200, logical_height], 'hit_rect': [900, 100, 200, logical_height], 'clipped': False}]}
+
+    def test_complete_chunked_geometry_uses_same_gate(self):
+        value=self.layout();value['padding']='x'*5000
+        result=self.invoke(value,transport=chunked(value));self.assertEqual(result.returncode,0,result.stderr)
+        value['controls'][0]['hit_rect'][3]=48
+        self.assertEqual(self.invoke(value,transport=chunked(value)).returncode,1)
+
+    def test_incomplete_latest_chunk_cannot_reuse_old_geometry(self):
+        value=self.layout();value['padding']='x'*2000
+        incomplete='\n'.join(chunked(value,'42:2').splitlines()[:-1])+'\n'
+        self.assertEqual(self.invoke(self.layout(),suffix=incomplete).returncode,2)
+
+    def test_chunk_start_before_view_boundary_stays_stale(self):
+        value=self.layout()
+        self.assertEqual(self.invoke(value,transport=chunked(value)+'SS_VIEW changed\n').returncode,2)
+
+    def test_retained_truncated_native_record_is_rejected(self):
+        raw=(CHECKER.parents[2]/'docs/validation/android-39227185627/native-excerpt.log').read_text()
+        line=next(x for x in raw.splitlines() if 'I godot' in x and 'SS_UI_METRICS ' in x)
+        self.assertEqual(len(line.split('SS_UI_METRICS ')[1]),1009)
+        result=self.invoke(self.layout(),suffix=line+'\n')
+        self.assertEqual(result.returncode,1);self.assertIn('Unterminated string',result.stderr)
 
     def test_accepts_actual_48dp_cover_hit_region(self):
         result = self.invoke(self.layout())

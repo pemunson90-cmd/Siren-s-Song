@@ -7,13 +7,14 @@ Exit 0: fully exposed target; 2: scrolling needed; 3: fresh metrics pending;
 import argparse, importlib.util, json, math, struct, sys
 from pathlib import Path
 sys.dont_write_bytecode=True
+from android_metric_records import read_records
 spec=importlib.util.spec_from_file_location('metrics',Path(__file__).with_name('android-ui-metrics.py'))
 metrics=importlib.util.module_from_spec(spec);spec.loader.exec_module(metrics)
 def inspect(text,png,density,screen,action,after,*,expected_density_source='android_display_metrics_density_dpi'):
- lines=text.splitlines();count=sum('SS_UI_METRICS ' in line for line in lines)
+ lines=text.splitlines();records=read_records(text);count=len(records)
  boundary=max((i for i,line in enumerate(lines) if any(x in line for x in ('SS_SCREEN ','SS_MISSION_SELECT ','SS_VIEW '))),default=-1)
- snapshots=[line.split('SS_UI_METRICS ',1)[1] for line in lines[boundary+1:] if 'SS_UI_METRICS ' in line]
- if count<=after or not snapshots:return 3,{'waiting':'fresh atomic metrics after previous input','metrics_count':count}
+ snapshots=[payload for position,payload in records if position>boundary]
+ if count<=after or not snapshots or snapshots[-1] is None:return 3,{'waiting':'fresh complete atomic metrics after previous input','metrics_count':count}
  layout=json.loads(snapshots[-1])
  if layout.get('screen')!=screen:raise ValueError('Current metrics screen differs from requested menu')
  if len(png)<24 or png[:8]!=b'\x89PNG\r\n\x1a\n':raise ValueError('Invalid actual PNG header')

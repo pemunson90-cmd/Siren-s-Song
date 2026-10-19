@@ -3,11 +3,12 @@
 set -euo pipefail
 source "$(dirname -- "$0")/common.sh"
 require_project
-for suite in geometry menu scroll; do
+for suite in geometry menu scroll transport; do
     case "$suite" in
         geometry) script=res://tests/density_scenarios.gd; summary='DENSITY CHECKS' ;;
         menu) script=res://tests/density_menu_scenarios.gd; summary='DENSITY MENU CHECKS' ;;
         scroll) script=res://tests/density_scroll_scenarios.gd; summary='DENSITY SCROLL CHECKS' ;;
+        transport) script=res://tests/metrics_transport_tests.gd; summary='METRIC TRANSPORT CHECKS' ;;
     esac
     log="$ARTIFACT_DIR/density-$suite-tests.log"
     "$(dirname -- "$0")/headless.sh" --script "$script" 2>&1 | tee "$log"

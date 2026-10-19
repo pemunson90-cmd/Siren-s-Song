@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 """Exercise clipped-menu reachability through the real native evidence CLI."""
-import json, pathlib, struct, subprocess, sys, tempfile, unittest
+import base64,hashlib,json, pathlib, struct, subprocess, sys, tempfile, unittest
 CHECKER=pathlib.Path(__file__).with_name('android-menu.py')
+def chunked(value,identity='42:1'):
+ raw=json.dumps(value).encode();parts=[raw[i:i+450] for i in range(0,len(raw),450)]
+ return '\n'.join(f'SS_UI_METRICS_PART id={identity} part={i} parts={len(parts)} bytes={len(raw)} sha256={hashlib.sha256(raw).hexdigest()} data={base64.b64encode(part).decode()}' for i,part in enumerate(parts))+'\n'
 class Tests(unittest.TestCase):
  def test_menu_first_input_checks_system_ui_before_observing_or_swiping(self):
   helper=CHECKER.with_name('android-menu-smoke.sh')
@@ -19,12 +22,20 @@ menu_touch_smoke cover
    self.assertEqual(r.returncode,expected_status,r.stderr)
    self.assertEqual(r.stdout.splitlines(),expected_output)
  def layout(self):return {'schema':1,'screen':'menu','orders_page':'primary','viewport':[1680,720],'window':[2520,1080],'safe_rect':[0,0,2520,1080],'density_dpi':420,'density_source':'android_display_metrics_density_dpi','chart_rect':None,'scroll_rect':[100,30,1480,650],'scroll_vertical':320,'settings_values':{'music':.5,'effects':.8,'mute':False},'controls':[{'action':'settings','visual_rect':[200,200,1000,84],'hit_rect':[200,200,1000,84],'clipped':False}]}
- def invoke(self,layout,after=0,action='settings',prefix='',size=(2520,1080),screen='menu',baseline=None):
+ def invoke(self,layout,after=0,action='settings',prefix='',size=(2520,1080),screen='menu',baseline=None,transport=None):
   with tempfile.TemporaryDirectory() as temp:
-   p=pathlib.Path(temp);(p/'log').write_text(prefix+'SS_UI_METRICS '+json.dumps(layout)+'\n');(p/'png').write_bytes(b'\x89PNG\r\n\x1a\n'+b'\0'*8+struct.pack('>II',*size));(p/'density').write_text('Physical density: 420\n')
+   p=pathlib.Path(temp);(p/'log').write_text(prefix+(transport if transport is not None else 'SS_UI_METRICS '+json.dumps(layout)+'\n'));(p/'png').write_bytes(b'\x89PNG\r\n\x1a\n'+b'\0'*8+struct.pack('>II',*size));(p/'density').write_text('Physical density: 420\n')
    extra=[]
    if baseline is not None:(p/'before').write_text(json.dumps({'settings_values':baseline}));extra=['--unchanged-settings',str(p/'before')]
    return subprocess.run([sys.executable,str(CHECKER),str(p/'log'),str(p/'png'),'--density',str(p/'density'),'--screen',screen,'--action',action,'--after-count',str(after),*extra],capture_output=True,text=True)
+ def test_chunk_count_tracks_snapshots_not_parts(self):
+  d=self.layout();d['padding']='x'*2000;text=chunked(d)
+  result=self.invoke(d,transport=text);self.assertEqual(result.returncode,0,result.stderr);self.assertEqual(json.loads(result.stdout)['metrics_count'],1)
+  self.assertEqual(self.invoke(d,transport=text,after=1).returncode,3)
+  self.assertEqual(self.invoke(d,transport=text+chunked(d,'42:2'),after=1).returncode,0)
+ def test_incomplete_latest_menu_never_reuses_previous_target(self):
+  d=self.layout();text=chunked(d)+chunked(d,'42:2').splitlines()[0]+'\n'
+  self.assertEqual(self.invoke(d,transport=text).returncode,3)
  def test_navigation_rejects_changed_settings(self):
   d=self.layout();before=d['settings_values'].copy()
   self.assertEqual(self.invoke(d,baseline=before).returncode,0)

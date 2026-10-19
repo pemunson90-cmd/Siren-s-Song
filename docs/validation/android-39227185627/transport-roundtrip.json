@@ -1,0 +1,12 @@
+{
+  "native_measurement": false,
+  "source": "actual Godot metrics_transport_tests.gd HUD output; unchanged fixture provenance",
+  "full_utf8_bytes": 2166,
+  "sha256": "0b94dc7041bdc8e66bdc563f79381d86c1e2e408041b1d9a6d58d3cea1700a9e",
+  "parts": 5,
+  "max_record_bytes": 739,
+  "reconstructed_bytes_identical": true,
+  "control_count": 16,
+  "geometry_gate_passed": true,
+  "density_source": "test_android_density_fixture"
+}

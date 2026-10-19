@@ -11,6 +11,8 @@ from pathlib import Path
 import re
 import struct
 import sys
+sys.dont_write_bytecode=True
+from android_metric_records import read_records
 
 MISSION_ACTIONS = 'pause,sub,droneA,droneB,ping,camera,silent,queue,hold,emp,home,menu,more_orders,zoom_out,zoom_in,fit'
 SECONDARY_ACTIONS = 'pause,sub,droneA,droneB,zoom_out,zoom_in,fit,more_orders,camera,emp,home,recon,decoy,contact_hold,wait_drone,waypoint_mode'
@@ -139,8 +141,8 @@ def main():
     try:
         lines = Path(args.log).read_text(errors='replace').splitlines()
         boundary = max((i for i, line in enumerate(lines) if any(x in line for x in ('SS_SCREEN ', 'SS_MISSION_SELECT ', 'SS_VIEW '))), default=-1)
-        snapshots = [line.split('SS_UI_METRICS ', 1)[1] for line in lines[boundary + 1:] if 'SS_UI_METRICS ' in line]
-        if not snapshots:
+        snapshots = [payload for position, payload in read_records('\n'.join(lines)) if position > boundary]
+        if not snapshots or snapshots[-1] is None:
             print('Waiting for fresh atomic SS_UI_METRICS after screen/view change', file=sys.stderr)
             return 2
         layout = json.loads(snapshots[-1])
