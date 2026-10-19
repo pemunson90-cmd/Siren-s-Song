@@ -1,3 +1,5 @@
+> Current user contract: AGENTS.md and the final card on archive/claude-audit-2026-10-19 govern. Gameplay features integrate through PRs with passing game-smoke CI. Fresh independent critics play full operations through actual injected touch and compare anonymously against real reference footage. Current priorities are Stakes → One real operation → Instruments over caveats. Task completion immediately advances the loop; the user plays after explicitly stopping it. The mechanisms below support that contract.
+
 # Gauntlet boundary refresh
 
 This opt-in helper fetches `origin/gauntlet/production` and reads the **full bytes** of remote `AGENTS.md`, `docs/CONTINUATION.md`, `docs/WORKBENCH.md`, `docs/architecture/GAUNTLET.md`, `docs/CURRENT_GAME_SPEC.md` and `docs/V7_TO_GODOT_PARITY.md` at a task boundary. All six files are required; a missing living spec or parity ledger fails the refresh without emitting a dispatch. It never checks out, merges, resets, stages or changes an active branch. Root is the assigned integration reviewer and installer; no production publication is implied.

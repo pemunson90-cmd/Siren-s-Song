@@ -1,3 +1,5 @@
+Current user contract: read AGENTS.md and the final audit card on archive/claude-audit-2026-10-19. Gameplay features use PRs with passing game-smoke CI. Player critics start fresh, play full operations through actual injected touch, and compare against anonymized real reference footage under docs/CRITIC_BRIEF.md. The user plays after explicitly stopping the Gauntlet.
+
 # Siren's Song — worker and reviewer brief
 
 Every worker reads the latest `AGENTS.md`, `docs/CURRENT_GAME_SPEC.md`, `docs/SOURCE_AUTHORITY.md`, `docs/V7_TO_GODOT_PARITY.md` and `docs/CONTINUATION.md` from the current production tip before acting. The user has authorized autonomous, continuous game improvement. Each individual assignment contributes to the orchestrator's ongoing **whole-game evaluation → largest opportunity → improvement → reassessment** loop.
