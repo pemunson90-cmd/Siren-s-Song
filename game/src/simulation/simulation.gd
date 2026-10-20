@@ -524,9 +524,10 @@ func command(order: String,args: Dictionary={}) -> bool:
 			var eligible=knockdown_targets().any(func(c):return c.key==id) if id is int else false
 			if tools.get("knock",0)<=0 or not eligible or id<0 or id>=sirens.size(): message="Knockdown needs a fresh contact within 150m and a clear path."; return false
 			var target=sirens[id]
-			if target.stun>0 or not visible(target.pos) or u.pos.distance_to(target.pos)>KNOCK_RANGE or not line_clear(u.pos,target.pos): message="Knockdown target unavailable · no torpedo spent."; return false
+			var launch_band=_knock_band(contacts[id])
+			if target.stun>0 or launch_band not in Depth.occupied(target) or not contact_visible(target) or u.pos.distance_to(target.pos)>KNOCK_RANGE or not Depth.clear(self,u.pos,target.pos,launch_band,3): message="Knockdown target unavailable · no torpedo spent."; return false
 			tools.knock-=1
-			projectiles.append({"pos":u.pos,"angle":u.angle,"target":id,"aim":target.pos,"life":TORPEDO_LIFE,"noise_clock":0.0,"band":u.band})
+			projectiles.append({"pos":u.pos,"angle":u.angle,"target":id,"aim":target.pos,"life":TORPEDO_LIFE,"noise_clock":0.0,"band":launch_band})
 			_noise(u.pos,650,"KNOCKDOWN",2.0,u.band); events.append({"type":"knock","pos":u.pos})
 			message="Torpedo launched at S%d · pin on impact · emission audible"%(id+1)
 		"decoy":
@@ -604,8 +605,14 @@ func knockdown_targets() -> Array:
 		if not id is int or not c is Dictionary or not c.has_all(["time","pos"]): continue
 		if not c.pos is Vector2 or not c.pos.is_finite() or not (c.time is int or c.time is float) or not is_finite(c.time): continue
 		if elapsed-c.time<0 or elapsed-c.time>=0.3 or c.get("mode","") in ["PINNED","DISRUPTED"]: continue
-		if units[0].pos.distance_to(c.pos)<=KNOCK_RANGE and visible(c.pos) and line_clear(units[0].pos,c.pos): result.append({"key":id,"pos":c.pos,"tag":"S%d"%(id+1)})
+		if units[0].pos.distance_to(c.pos)<=KNOCK_RANGE and _knock_band(c)>=0: result.append({"key":id,"pos":c.pos,"tag":"S%d"%(id+1)})
 	return result
+# Use only the acquired depth/transition and own geometry for aim previews.
+# The projectile occupies one shared water volume, even during a craft shift.
+func _knock_band(contact:Dictionary)->int:
+	for band in Depth.occupied(units[0]):
+		if band in Depth.occupied(contact) and visible(contact.pos,band) and Depth.clear(self,units[0].pos,contact.pos,band,3):return band
+	return -1
 # Read-only receiver geometry. Relay reply is authored local behavior; no enemy query.
 func blackwater_context(target:int,station:int=-1) -> Dictionary:
 	if station<0:station=selected
@@ -987,7 +994,7 @@ func _observe() -> void:
 				if visible(p): known[Vector2i(x,y)]=true
 	for i in sirens.size():
 		if contact_visible(sirens[i]):
-			contacts[i]={"pos":sirens[i].pos,"time":elapsed,"mode":sirens[i].mode,"lock":sirens[i].lock,"angle":sirens[i].angle,"target":sirens[i].target,"type":sirens[i].get("type","patroller"),"band":sirens[i].band,"source":"optical","confidence":1.0}
+			contacts[i]={"pos":sirens[i].pos,"time":elapsed,"mode":sirens[i].mode,"lock":sirens[i].lock,"angle":sirens[i].angle,"target":sirens[i].target,"type":sirens[i].get("type","patroller"),"band":sirens[i].band,"transition":sirens[i].transition.duplicate(),"source":"optical","confidence":1.0}
 			contacts[i]["seen_by"]=passive_receivers(sirens[i].pos,sirens[i].band)
 			if sirens[i].get("recipient_target",false):contacts[i]["recipient_target"]=true
 			if sirens[i].get("report",{}).get("charge",0)>0:contacts[i]["report_remaining"]=ContactReports.CHARGE-sirens[i].report.charge

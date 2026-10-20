@@ -30,8 +30,9 @@ older journeys remain playable only on their preserved source, without migration
 Builder verification: all0–5 source-known input/render journeys finish on both views;
 new1–5 policies spend no finite tool. Core672/runtime563, interaction72, context60,
 Shelf input118, remaining input404 and rendered Song82 pass.
-Next: root requests the SAME independent reviewer against this accumulated milestone;
-review fixes stay on SAME branch. FIT/craft-handle friction and balance remain findings.
+Fresh repair: band-aware cached torpedo aims/physical launches and craft-local recovery;
+witness/module custody and plant continuity covered. Root independently reviews accumulated
+source next. FIT/craft-handle friction and Well balance remain findings.
 Only after that review/fixes: final-head CI and normal milestone PR.
 28 core/12 optional, fleet/economy/research/frontend/presentation/audio,
 challenges/replay, expeditions and naval career remain the approved program.

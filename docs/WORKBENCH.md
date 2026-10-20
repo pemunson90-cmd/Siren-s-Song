@@ -5,7 +5,7 @@ Read USER_DIRECTIVES.md and CURRENT_GAME_SPEC.md for governing scope.
 |---|---|
 |Pass0/V7 and physical finales|Preserved; complete fresh branch evaluation remains|
 |Reusable operation/config foundation|Landed production fb4cf105|
-|Physical depth / advanced sonar|Builder verified opening; independent review pending|
+|Physical depth / advanced sonar|Opening verified; torpedo/recovery repair; review next|
 |First new enemy: active sweeper|Shelf/Blackwater/Well/finale; four further roles remain|
 |Opening policy evidence|Source-known command and injected-input journeys; no blind preference claim|
 |Complete six-operation opening arc|Authored0–5; command/input policies pass both views; review pending|
@@ -22,6 +22,8 @@ New depth charts and routes use local measurements; transitions retain route goa
 Sonar separates bearings, triangulated fixes, optical contacts and stale echoes.
 Sweeper returns/reporting use acquired snapshots, with a real disruption/evasion window.
 
+Fresh blockers reproduced/repaired: band-aware torpedo admission and craft-local
+Blackwater/witness winching, module custody and plant continuity.
 Root owns one independent reviewer, final-head game-smoke, PR and merge
 after the complete opening0–5 milestone; internal tasks continue on this branch.
 Keep other profiles/trees, main, signer, evidence and recovery refs untouched.

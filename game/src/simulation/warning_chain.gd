@@ -17,7 +17,7 @@ static func _local(sim,id:int,pos:Vector2)->String:
  if not u.alive:return "Craft lost"
  if u.band!=1 or not u.transition.is_empty():return "MIDDLE band and settled depth required"
  if u.pos.distance_to(pos)>RANGE:return "Move within60m of this plant station"
- if not sim.line_clear(u.pos,pos):return "Terrain blocks the local plant connection"
+ if not sim.Depth.clear(sim,u.pos,pos,u.band):return "Terrain blocks the local plant connection"
  if u.vel.length()>=2:return "Settle below2m/s"
  if _work(sim,id):return "Finish this craft's active work first"
  return ""

@@ -41,6 +41,7 @@ static func context(sim,item:String,unit_id:int)->Dictionary:
  elif result.claimed_by>=0:result.reason="Recovery in progress"
  elif not state.jobs[unit_id].is_empty() or not sim.captures[unit_id].is_empty() or sim._blackwater_recovery_busy(unit_id) or sim._warning_chain_busy(unit_id) or sim._witness_recovery_busy(unit_id):result.reason="Finish this craft's active work first"
  elif result.distance>RANGE:result.reason="Move within 60m"
+ elif unit.band!=sim.Depth.cargo_band(sim,item) or not unit.transition.is_empty():result.reason="Salvage requires its recorded depth band"
  elif not sim.Depth.clear(sim,unit.pos,module.pos,unit.band):result.reason="Terrain blocks recovery"
  elif unit.vel.length()>=2.0:result.reason="Settle below 2m/s"
  else:result.ready=true;result.reason="Recover module · audible winch 4s"
@@ -66,7 +67,7 @@ static func tick(sim,dt:float)->void:
   var job=state.jobs[id]
   if job.is_empty():continue
   var unit=sim.units[id];var module=state.modules[job.item]
-  if not unit.alive or unit.hold!="HOLD" or module.state!="salvage" or unit.pos.distance_to(module.pos)>RANGE or not sim.Depth.clear(sim,unit.pos,module.pos,unit.band):
+  if not unit.alive or unit.hold!="HOLD" or module.state!="salvage" or unit.pos.distance_to(module.pos)>RANGE or unit.band!=sim.Depth.cargo_band(sim,job.item) or not unit.transition.is_empty() or not sim.Depth.clear(sim,unit.pos,module.pos,unit.band):
    state.jobs[id]={}
    if unit.hold=="HOLD":unit.hold=""
    sim.message="%s · module recovery interrupted"%unit.name

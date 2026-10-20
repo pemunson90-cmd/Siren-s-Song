@@ -14,6 +14,7 @@ static func fixture():
  for i in [1,2]:s.units[i].alive=false
  return s
 static func run(t):
+ preload("res://tests/depth_repair_scenarios.gd").run(t)
  for id in Sim.Missions.Catalog.registered_ids():
   var original=Sim.new();original.start(id);var copy=Sim.new()
   t.check(copy.restore(original.snapshot()),"all registered operations roundtrip physical depth and sonar "+str(id))
