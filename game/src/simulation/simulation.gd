@@ -17,6 +17,7 @@ const Thermal=preload("res://src/simulation/thermal_front.gd")
 const Acoustics = preload("res://src/simulation/acoustic_paths.gd")
 const TerrainChart=preload("res://src/simulation/terrain_chart.gd")
 const RouteProgram=preload("res://src/simulation/route_program.gd")
+const ModuleRecovery=preload("res://src/simulation/module_recovery.gd")
 const Missions = preload("res://src/campaign/missions.gd")
 const STEP := 1.0/60.0
 const TILE := 40.0
@@ -73,6 +74,8 @@ func start(index: int, upgrade: String = "endurance", launch:Dictionary={}) -> v
 	units.clear()
 	for i in 3:
 		units.append({"pos":mission.get("start",Vector2(140,800))+[Vector2.ZERO,Vector2(0,-100),Vector2(140,0)][i],"vel":Vector2.ZERO,"angle":-0.3,"route":[],"alive":true,"hold":"","silent":true,"battery":100.0,"name":["QUIETUS","DRONE A","DRONE B"][i]})
+	mission["module_recovery"]=ModuleRecovery.initial(mission.launch_equipment,units)
+	mission["fleet_commit"]=launch.get("fleet_commit",false)
 	sirens = mission.sirens.duplicate(true)
 	known = {}; contacts = {}; events = []; noises = []; projectiles=[]
 	elapsed=0.0; oxygen=100.0; hull=100.0; paused=true; selected=0; queue_mode=false; pass_through=true; outcome=""
@@ -164,6 +167,22 @@ func signal_readings() -> Array:
 	return SignalField.readings(self)
 func extraction_corridors() -> Array:
 	return Consequences.corridors(self) if mission.get("expedition_revision",0)==2 else SignalField.corridors(self) if mission.has("expedition_revision") else [{"pos":mission.extraction,"name":"RECOVERY","route":"","available":all_records()}]
+func salvage_sites()->Array:return ModuleRecovery.sites(self)
+func salvage_context(item:String,unit_id:int=-1)->Dictionary:return ModuleRecovery.context(self,item,selected if unit_id<0 else unit_id)
+func module_recovery_status()->Dictionary:return ModuleRecovery.status(self)
+func departure_context()->Dictionary:
+	if outcome.is_empty() and units[0].alive and units[0].vel.length()<12:
+		for corridor in extraction_corridors():
+			if corridor.available and units[0].pos.distance_to(corridor.pos)<65:return ModuleRecovery.departure(self,corridor)
+	return {"available":false,"pending":false,"confirmation_required":false,"corridor":{},"recovered":[],"left":[],"recovered_drones":[],"text":"Bring Quietus and the required records to a recovery mouth"}
+func _try_extract(corridor:Dictionary,confirmed:bool=false)->bool:
+	var context=departure_context()
+	if not context.available or context.corridor.pos!=corridor.pos or context.corridor.get("route","")!=corridor.get("route",""):return false
+	if context.confirmation_required and not confirmed:
+		message=context.text;return false
+	ModuleRecovery.record(self,context)
+	if mission.has("expedition_revision"):mission.chosen_route=corridor.route;mission.recovered=true
+	outcome="won";paused=true;message="Archive recovered / "+corridor.name;events.append({"type":"extraction","pos":units[0].pos});return true
 func operation_context()->Dictionary:
 	return Operations.feedback(self)
 func confluence_context()->Dictionary:
@@ -297,10 +316,18 @@ func _near_wall_recovery(origin: Vector2,destination: Vector2) -> Array:
 	return []
 func command(order: String,args: Dictionary={}) -> bool:
 	if not outcome.is_empty(): return false
+	if order=="depart":
+		var context=departure_context()
+		if not context.available or not args.get("confirm") is bool:return false
+		if not args.confirm:ModuleRecovery.defer(self,context);message="Recovery continues · route remaining module carriers, then depart";return true
+		return _try_extract(context.corridor,true)
 	var u=units[selected]
 	if not u.alive and order!="select":
 		selected=0; queue_mode=false; message="Selected drone lost. Quietus selected; reissue the order."; return false
 	match order:
+		"salvage":
+			if not args.get("item") is String:return false
+			return ModuleRecovery.begin(self,args.item)
 		"select":
 			var id=int(args.get("unit",0))
 			if id<0 or id>=units.size() or not units[id].alive: return false
@@ -384,6 +411,7 @@ func command(order: String,args: Dictionary={}) -> bool:
 			if not decoy_target_valid(point): message="Decoy needs clear water within 160m and a clear path · no charge spent"; return false
 			tools.decoy-=1; _noise(point,1100,"DECOY",15.0); message="Decoy launched · 15s transmission"; events.append({"type":"decoy","pos":u.pos})
 		"camera":
+			if not module_recovery_status().jobs[selected].is_empty():message="Finish this craft's module recovery first";return false
 			var context=camera_context()
 			if not context.ready: message=context.text; return false
 			var target=mission.objectives[context.target]
@@ -561,7 +589,7 @@ func acoustic_feedback() -> Dictionary:
 			result.motion.append({"name":u.name,"pos":u.pos,"radius":motion_radius(units.find(u)) if mission.get("acoustic_revision",0)==1 else 430.0,"speed":propulsion_speed(u)})
 	for n in noises:
 		if n.time<=0: continue
-		if n.label in ["DECOY","ACTIVE SONAR","RECON UPLINK","DISRUPTION","CAMERA","KNOCKDOWN","TORPEDO RUN","WARNING CHAIN TRANSMISSION","SERVICE SLUICE MOTOR"]:
+		if n.label in ["DECOY","ACTIVE SONAR","RECON UPLINK","DISRUPTION","CAMERA","KNOCKDOWN","TORPEDO RUN","WARNING CHAIN TRANSMISSION","SERVICE SLUICE MOTOR","RECOVERY WINCH"]:
 			result.pulses.append({"label":n.label,"pos":n.pos,"time":n.time})
 		elif n.label=="FACTORY RESPONSE" and visible(n.pos):
 			result.responses.append({"label":n.label,"pos":n.pos,"time":n.time})
@@ -597,6 +625,7 @@ func _tick(dt: float) -> void:
 			if u.battery<=0: u.alive=false; events.append({"type":"loss","pos":u.pos}); message=("%s battery exhausted · Quietus can SAMPLE either relay." if mission.get("blackwater_revision",0)==1 else "%s battery exhausted. Quietus camera remains available.")%u.name
 	_advance_projectiles(dt)
 	_threats(dt)
+	ModuleRecovery.tick(self,dt)
 	sensor_clock-=dt
 	if sensor_clock<=0:
 		_observe(); SignalField.observe(self); Consequences.observe(self); sensor_clock=0.15
@@ -628,7 +657,7 @@ func _tick(dt: float) -> void:
 	SignalField.extract(self)
 	Consequences.extract(self)
 	if not mission.has("expedition_revision") and outcome.is_empty() and all_records() and units[0].pos.distance_to(mission.extraction)<65 and units[0].vel.length()<12:
-		outcome="won"; paused=true; message="Archive recovered. Quietus is home."; events.append({"type":"extraction","pos":units[0].pos})
+		_try_extract({"pos":mission.extraction,"name":"RECOVERY","route":"","available":true})
 # Player-only continuous hull corridor, O(terrain edges) rather than O(length).
 # Endpoints vs edges are covered by blocked(); the remaining closest segment
 # pairs are an edge intersection or a rock vertex vs this leg. No convexity
@@ -1050,6 +1079,7 @@ func restore(data: Dictionary) -> bool:
 static func valid_snapshot(data: Dictionary) -> bool:
 	if not data.has_all(["mission","units","sirens","known","tools"]): return false
 	if not data.mission is Dictionary or not data.units is Array or not data.sirens is Array or not data.known is Dictionary or not data.tools is Dictionary: return false
+	if not ModuleRecovery.valid(data):return false
 	if not Operations.valid(data.mission,float(data.get("elapsed",0))):return false
 	if not Correlator.valid_state(data.get("correlation",{}),float(data.get("elapsed",0))):return false
 	if data.mission.has("launch_equipment") and (not Equipment.valid_fitting(data.mission.launch_equipment) or not data.mission.launch_equipment.has_all(Equipment.SLOTS)):return false
