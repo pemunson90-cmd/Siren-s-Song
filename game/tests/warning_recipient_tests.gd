@@ -7,6 +7,13 @@ const Endings=preload("res://src/campaign/endings.gd")
 const BERTH=Vector2(1840,440)
 const HOME=Vector2(2420,240)
 const PANEL=Vector2(1840,380)
+class ArrivalDebrief:
+ extends RefCounted
+ var sim
+ var ui_touch_height=48.
+ var panel_box=VBoxContainer.new()
+ var lines=[]
+ func _menu_text(value:String,_font:int):lines.append(value)
 var checks=0
 var failures=0
 func check(ok:bool,label:String):
@@ -28,6 +35,42 @@ func acknowledge(s):
  s.units[0].pos=BERTH+Vector2(-100,0);s.units[0].vel=Vector2.ZERO;advance(s,.8)
  check(s.command("camera"),"earned local reply remains a real reception")
  advance(s,4.2)
+func post_arrival_loss(arrival:Dictionary):
+ # Targeted transition fixture, not an unmodified-guard voyage. The recipient
+ # genuinely travelled and was observed; only the guard/own observation sites
+ # are staged. All hull damage and failure use the normal threat tick.
+ var s=Sim.new();check(s.restore(arrival),"observed refuge arrival restores before post-arrival threat")
+ var store=Store.new();store.path="user://warning-recipient-post-arrival.save"
+ for suffix in ["",".bak",".tmp"]:DirAccess.remove_absolute(store.path+suffix)
+ var archive={"version":1,"unlocked":5,"completed":[0,1,2,3,4,5],"upgrade":"endurance","settings":{},"expedition":progress(),"active":s.snapshot()}
+ check(store.save(archive) and store.load_game()==archive,"active recipient arrival binary archive round-trips before Quietus recovery")
+ var template=Sim.new();template.start(13);var guard=template.sirens[2].duplicate(true)
+ guard.pos=HOME+Vector2(130,0);guard.home=guard.pos;guard.goal=guard.pos;guard.route=[];guard.patrol_points=[]
+ s.sirens=[guard];s.units[1].pos=HOME+Vector2(-100,-210);s.units[1].vel=Vector2.ZERO;s.units[2].pos=Vector2(600,2200)
+ advance(s,6)
+ check(s.mission.warning_recipient.body.hull>0 and s.mission.warning_recipient.body.hull<100 and s.sirens[0].get("recipient_target",false),"ordinary acquired beam damages the arrived recipient while the observer stays outside acquisition range")
+ archive.active=s.snapshot()
+ check(store.save(archive) and store.load_game()==archive,"damaged live recipient at refuge remains a serializable active dive")
+ advance(s,6)
+ var status=s.warning_recipient_status();var lost=s.snapshot()
+ check(s.outcome=="lost" and status.arrived and status.receipt and not status.recipient.alive and status.recipient.hull==0 and status.recipient.phase=="lost","post-arrival beam death retains truthful historical arrival and locally observed current death")
+ check(Sim.valid_snapshot(lost),"legitimate arrived-then-destroyed lost snapshot remains valid")
+ var invalid=lost.duplicate(true);invalid.outcome=""
+ check(not Sim.valid_snapshot(invalid),"dead recipient cannot become an active dive by dropping its lost outcome")
+ invalid.outcome="won"
+ check(not Sim.valid_snapshot(invalid),"historical arrival cannot turn a destroyed recipient into a won dive")
+ var debrief=ArrivalDebrief.new();debrief.sim=s
+ preload("res://src/presentation/warning_recipient_view.gd").arrival(debrief)
+ check(debrief.lines.any(func(line):return "LOST AFTER ARRIVAL" in line) and debrief.lines.any(func(line):return "no campaign outcome" in line) and not debrief.lines.any(func(line):return "RECIPIENT AT REFUGE" in line),"loss debrief distinguishes received historical arrival from the recipient's subsequent destruction")
+ check(debrief.panel_box.get_child_count()==1 and not debrief.panel_box.get_child(0).arrival_data.recipient.alive,"arrival illustration receives the observed deceased hull rather than a living recipient")
+ debrief.panel_box.free()
+ archive.active=lost;archive.expedition=Campaign.recover(progress(),s.mission)
+ check(not (13 in archive.expedition.completed) and not archive.expedition.facts.has("warning_arrival") and Endings.resolve(archive.expedition).is_empty(),"post-arrival destruction awards no new recovered facts or campaign ending")
+ check(store.save(archive) and store.load_game()==archive,"actual binary save and reload preserve post-arrival recipient loss")
+ var restored=Sim.new();check(restored.restore(lost) and restored.outcome=="lost" and restored.warning_recipient_status()==status,"post-arrival lost model restores its history and deceased current projection")
+ var loaded=store.load_game();var binary=Sim.new()
+ check(not loaded.is_empty() and loaded.active==lost and binary.restore(loaded.active) and binary.outcome=="lost","binary-loaded failed dive restores without falling back to the older living arrival")
+ for suffix in ["",".bak",".tmp"]:DirAccess.remove_absolute(store.path+suffix)
 func _initialize():call_deferred("run")
 func run():
  var s=fresh()
@@ -87,6 +130,7 @@ func run():
  independent.units[0].pos=Vector2(600,2000);independent.units[1].pos=HOME;independent.units[1].vel=Vector2.ZERO
  advance(independent,65)
  check(independent.warning_recipient_status().receipt and independent.outcome.is_empty(),"living drone can observe real arrival without impersonating independent Quietus recovery")
+ post_arrival_loss(independent.snapshot())
  independent.hull=0;advance(independent,.1)
  check(independent.outcome=="lost" and Campaign.recover(progress(),independent.mission).facts.get("warning_arrival","").is_empty(),"recipient arrival followed by Q loss grants no new campaign result")
  var unheard=fresh("service_local_receipt");unheard.units[0].pos=Vector2(320,1680);unheard.units[0].vel=Vector2.ZERO

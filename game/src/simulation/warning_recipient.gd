@@ -121,7 +121,9 @@ static func valid(data:Dictionary)->bool:
   if not point is Dictionary or not point.get("pos") is Vector2 or not Region.contains(point.pos,m.world_size) or not point.get("stop") is bool:return false
  if state.course.is_empty() and (vessel.pos!=BERTH or not vessel.route.is_empty() or state.arrived or state.receipt):return false
  if not state.course.is_empty() and not state.delivered:return false
- if state.arrived and (not vessel.alive or vessel.pos.distance_to(REFUGE)>=16 or not vessel.route.is_empty()):return false
+ # Arrival and its receipt are historical facts; a later beam can still kill.
+ if state.arrived and (vessel.pos.distance_to(REFUGE)>=16 or not vessel.route.is_empty()):return false
+ if not vessel.alive and data.get("outcome","")!="lost":return false
  if state.receipt and (not state.arrived or state.seen.is_empty()):return false
  if not state.seen.is_empty():
   if not state.seen.has_all(["pos","angle","hull","alive","phase","time"]) or not state.seen.pos is Vector2 or not state.seen.pos.is_finite() or not _number(state.seen.time) or not _number(state.seen.angle) or not _number(state.seen.hull) or not state.seen.alive is bool or state.seen.phase not in ["lost","refuge","moored","transit","blocked"] or state.seen.time<0 or state.seen.time>data.elapsed:return false

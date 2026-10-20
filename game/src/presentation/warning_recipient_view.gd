@@ -99,8 +99,10 @@ static func arrival(main):
  if info.is_empty() or not info.receipt:return
  var scene=load("res://src/presentation/warning_recipient_view.gd").new();scene.name="WarningArrival";scene.arrival_data=info
  scene.custom_minimum_size=Vector2(0,main.ui_touch_height*1.65);scene.mouse_filter=Control.MOUSE_FILTER_IGNORE;main.panel_box.add_child(scene)
- main._menu_text("RECIPIENT AT REFUGE · "+info.course.to_upper()+" COURSE\nTHIS CROSSING · ARRIVAL RECEIVED",20)
- if main.sim.outcome!="won":main._menu_text("The recipient reached refuge. Quietus did not recover; this dive grants no campaign outcome.",17)
+ var deceased=not info.recipient.get("alive",true);var failed=main.sim.outcome!="won"
+ var heading=("RECIPIENT LOST AFTER ARRIVAL" if deceased else "RECIPIENT ARRIVAL PREVIOUSLY RECEIVED") if failed else "RECIPIENT AT REFUGE"
+ main._menu_text(heading+" · "+info.course.to_upper()+" COURSE\n"+("HISTORICAL ARRIVAL RECEIPT" if failed else "THIS CROSSING · ARRIVAL RECEIVED"),20)
+ if failed:main._menu_text("The recipient was destroyed after its arrival was received. This dive grants no campaign outcome." if deceased else "The recipient reached refuge. Quietus did not recover; this dive grants no campaign outcome.",17)
 func _ready():resized.connect(queue_redraw)
 func _draw():
  if arrival_data.is_empty():return
@@ -109,5 +111,5 @@ func _draw():
  for side in [-1,1]:
   draw_colored_polygon(PackedVector2Array([Vector2(side*275,-70),Vector2(side*180,-70),Vector2(side*155,-25),Vector2(side*175,65),Vector2(side*275,70)]),Color("18363e"))
   draw_line(Vector2(-65,side*30),Vector2(65,side*30),TEAL,4)
- _hull(self,Vector2.ZERO,0,1)
+ _hull(self,Vector2.ZERO,0,1,false,arrival_data.recipient.get("alive",true))
  draw_set_transform(Vector2.ZERO,0,Vector2.ONE)
