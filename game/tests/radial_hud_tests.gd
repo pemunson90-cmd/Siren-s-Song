@@ -59,7 +59,7 @@ func run():
   var site=g.sim.mission.objectives[0];await tap(g.ocean.global_position+g.ocean.screen_position(site.pos))
   check(g.advanced_orders and h.page=="object" and g.sim.snapshot()==before,"briefed-object tap opens observational context without remote action")
   await capture(name+"-site")
-  h.dismiss();g.ocean.focus_craft();await settle();ship=g.ocean.global_position+g.ocean.screen_position(g.sim.units[g.sim.selected].pos)
+  h.dismiss();g._focus_craft();await settle();ship=g.ocean.global_position+g.ocean.screen_position(g.sim.units[g.sim.selected].pos)
   before=g.sim.snapshot();await tap(ship)
   var origin=h.center
   await touch(origin,true)
