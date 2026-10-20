@@ -1,12 +1,17 @@
 # Current user directives — read before accepting work
 
-## Governing order, reaffirmed 20 October
+## Latest approved order — full-release execution
+Implement the approved full-release expansion in docs/CURRENT_GAME_SPEC.md. The user approved campaign/replay first, then roguelite expeditions and naval career, three tactical depth bands, persistent recoverable costs by default with refill/heavy-attrition settings, and24–30 core operations (production target28) plus12 optional operations. This order supersedes prior rough-only/one-operation scope limits and authorizes new campaign content and substantive release polish. Preserve accepted Pass0/V7 work and all saved evidence.
+
+Use Sol6.1 Medium with one implementation worker and one integration reviewer, short task-specific context, coherent feature batches, affected checks and required final-head CI. Wider impartial reviewers run sequentially at substantive complete-game boundaries. No new governance framework, routine APK cycle or further design-approval gate. Preserve native risk validation, canonical signer, branches, saves and fair information. Human playtesting never gates development; only the user ends the Gauntlet.
+
+## Prior rough-recovery order — retained provenance
 **Finish Pass 0 and the V7 full-game directive first. Then Stakes → One real operation → Instruments over caveats.**
 The later [order correction](directives/2026-10-20-order-correction.md) governs the earlier [audit reaffirmation](directives/2026-10-20-audit-reaffirmation.md). Both are recorded verbatim.
 The user decides when to playtest. User play, approval, and an agent readiness rating never gate ongoing development.
 Only the user ends the Gauntlet; complete tasks automatically dispatch the next authorized work.
 
-## Active full-game scope
+## Accepted baseline and prior phase scope
 Build the fixed [Pass 0 campaign](PASS0_CAMPAIGN_PLAN.md) and functional V7 recovery under [the living game specification](CURRENT_GAME_SPEC.md) and [parity ledger](V7_TO_GODOT_PARITY.md).
 The rough campaign nodes, four endings, general craft upgrades and mixed enemy rosters are implemented. Full branch touch journeys remain unfinished.
 The integrated V7 recovery builds currents, sensor-earned terrain, an evidence-driven local pressure floor, threat heartbeat/vignette and photographic grading. The PR gate passed; evaluate the whole game and develop the audit quality passes; preserve accepted Godot adaptations and fair information.

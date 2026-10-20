@@ -1,39 +1,25 @@
 # Continuation
-Current reconciled production base: `6778fadb1b3b63f29570f712e7ae37eb04d507fa`.
-Read docs/USER_DIRECTIVES.md first; the latest order correction governs.
+Current reconciled production base: `ce157219271cbc4447393070c829e370ae20c2a9`.
+Read docs/USER_DIRECTIVES.md and the approved release scope in CURRENT_GAME_SPEC.md.
 
-## Next — whole-game evaluation and physical campaign consequences
-The rough campaign, four endings, craft upgrades and functional V7 rows are built.
-Stakes integrates operation endurance, independent acquisitions and targeting feedback.
-Confluence has an authored region, earned terrain, physical mouths and noisy sluice.
-Earned courses retain intent, repair certified detours and stop at unresolved hazards.
-Recovery orders preserve drive/profile and offer explicit named mouths for route choices.
-Older frozen-source journeys reached three endings; the drone finale has an unobserved interval.
-Genuine Stakes reached Silent Exodus on frozen0ee; drone continued unchanged into current source.
-Focused staged-access operations retain separate provenance from genuine journeys.
-Physical module recovery makes local salvage and extraction affect later kit availability.
-Bare craft and Quietus preserve finishability; returning players recovered and refitted gear.
-Deep Rendezvous supports physical tender transit, interception and permanent refuge;
-quiet berth completion remains available and hull tracking follows actual measurements.
-Blackwater requires local packet delivery; wreck winching and relay resampling preserve alternatives.
-Warning Chain now uses a craft-held shore supply or finite noisy backup generator,
-physical service shutter or remote mast, explicit output selection/send and two exits.
-Its record distinguishes actual local receipt from transmission with external reception unknown.
-Source-known physical journeys establish finishability; first-exposure touch play evaluates it.
-The route planner retains existing charted terrain, targets, recovery and shutter state.
-Craft-anchored rings replace detached cards; deliberate STATUS retains exact fleet detail.
-Critical reserves, work/cargo/power and full touch targets remain; chart gestures pass through.
-Concealed Record retains physical rescue and adds distinct witness-guided deep/shelf consequences.
-Engine sound follows thrust; unsaved progress and archive recovery now stay visible with explicit retry.
-Open Warning requires recipient transit/arrival; nearby gate work remains accessible through craft controls.
-Shelf Return now warns two occupied galleries through local delivery or a risky common alarm.
-Next play both concealed outcomes on cover; retain all campaign, enemy, growth and presentation gaps.
+## Active delivery
+The user approved full-release implementation with Sol6.1 Medium.
+Use one implementation worker and one independent integration reviewer.
+Target:28 core/12 optional operations, six regions, depth-aware stealth/sonar,
+eight enemy roles, three hulls/four drone chassis,24 modules/eight tools,
+eight practical artifacts, complete controls/presentation/frontend/settings.
+Campaign/replay/challenges first; expeditions then persistent naval career.
+Economy presets: refill, recoverable persistent costs(default), heavy attrition.
+Next integrate frozen Wake and remove fixed operation/progression ceilings.
+Then build shared depth/sensing/enemy/fleet systems and the six-operation opening arc.
+Existing14-node campaign and Pass0/V7 systems are accepted rough foundations.
+Whole-game deficiencies remain in the published cumulative inventory.
 
-## Preserve and integrate
-The unchanged audit and F1–F7 response are on archive/claude-audit-2026-10-19.
-Published critic saves/drivers remain on gauntlet/checkpoint/touch-play-2026-10-20.
-Observed-task automation, TASK/NONE and new chapters remain shelved on published branches.
-Use feature branches, one blocker-focused review and PR game-smoke; rough quality is accepted.
-Reject incompatible saves cleanly; preserve the canonical debug signer.
-Refresh instructions at boundaries, reconcile handoffs, then execute the next task.
-Only the user ends the Gauntlet. Actual exhaustion requires PAUSED, RESUME REQUIRED and an exact next command.
+## Preservation and gates
+Wake candidate28f2b97 is frozen in critic-current, released for composition/review.
+Genuine/staged player sources and profiles remain frozen and reserved; do not reset.
+Historical campaign receipts and unique evidence remain in checkpoint refs.
+Preserve main, all branch refs and canonical debug signer; no routine APK.
+Use PRs with final-head independent review and new successful game-smoke CI.
+Update these short handoffs at normal completed nodes, then continue.
+Human playtesting gates nothing. Only the user ends the Gauntlet.

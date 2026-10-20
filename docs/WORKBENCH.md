@@ -1,39 +1,21 @@
-# Siren’s Song · campaign build
-Read docs/USER_DIRECTIVES.md. Pass 0 rows are built at rough quality; V7 recovery is integrated.
+# Siren’s Song · full-release build
+Read docs/USER_DIRECTIVES.md and CURRENT_GAME_SPEC.md for approved scope.
 
-| Node | Status |
+| Delivery stage | Actual state |
 |---|---|
-|0–5 Tutorial|rough|
-|6 Divergence: deep or shelf|rough|
-|7 Deep Rendezvous: physical tender and quiet fallback|rough integrated|
-|8 Shelf Return: occupied galleries, actual warnings and masked return|rough integrated|
-|9 Wake Crossing|rough|
-|10 Warning Chain: physical power and output machinery|rough integrated|
-|11 Confluence: authored region and physical return choices|rough integrated|
-|12 Concealed Record: rescue and distinct witness-guided consequences|rough integrated|
-|13 Open Warning: vulnerable recipient, physical courses and arrival|rough integrated|
-|Deep+12 · Silent Exodus ending|rough|
-|Deep+13 · Beacon Pact ending|rough|
-|Shelf+12 · Hidden Harbour ending|rough|
-|Shelf+13 · Surface Reckoning ending|rough|
-|Fresh-campaign replay|rough|
-|Quietus vector drive|rough|
-|Quietus baffles|rough|
-|Drone deep cells|rough|
-|Drone survey array|rough|
-|V7 current fields|rough|
-|V7 sensor-earned terrain|rough|
-|V7 evidence-floor pressure|rough|
-|V7 threat heartbeat/vignette|rough|
-|V7 photographic grading|rough|
-Stakes integrated: endurance, concurrent exposures and targeting feedback. User play gates nothing.
-Current play: Stakes reached Silent Exodus; drone continues unchanged; staged critics evaluate new work.
-Confluence integrated: authored region, noisy physical sluice, earned world art and departure.
-Craft-anchored rings integrated; named recovery routes retain drive/profile and route intent.
-Earned-course continuity integrated: retained goals, certified-water repairs, real hazard stops.
-Genuine journeys reached Hidden Harbour, Surface Reckoning and Silent Exodus.
-Physical module salvage integrated: return cargo or lose optional kit; bare frames remain.
-Blackwater delivery integrated: raw buffers return to Q through local transfer or recovery.
-Warning Chain integrated: shore supply/backup, service/mast output and physical exits.
-Concealed Record integrates witness rescue; Open Warning has real crossing and accessible local gate controls.
-Save failures persist with retry. Next: play both concealed routes; expand remaining full-game deficiencies.
+|Pass0/V7 rough campaign|Integrated; full branch evaluation incomplete|
+|Wake completed candidate|28f2b97 frozen; composition/review pending|
+|Reusable release foundations|Active: operation/progression catalog|
+|Depth-aware stealth/sonar/enemies/fleet|Next|
+|Integrated six-operation opening arc|Planned|
+|28 core/12 optional campaign + replay/challenges|Planned|
+|Production world/audio/frontend/settings/accessibility|Planned with campaign|
+|Roguelite expeditions|Planned after campaign/replay|
+|Persistent naval career|Planned after expeditions|
+|Full-release native/whole-game verification|Planned; criticism continues afterward|
+
+Defaults: three tactical depth bands; recoverable persistent costs.
+Refill and heavy-attrition economy remain selectable difficulty options.
+One implementation worker and one integration reviewer, requested Sol6.1 Medium.
+Preserve existing gameplay, profiles, branches, signer and cumulative deficiencies.
+Human playtesting never gates development; the user alone ends the Gauntlet.

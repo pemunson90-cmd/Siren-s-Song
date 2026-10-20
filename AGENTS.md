@@ -1,6 +1,6 @@
 Milestone = a complete playable game. Each cycle: a fresh critic plays it with no build notes, the audit ranks its biggest weakness, the next version fixes it, repeat. The user's playtest gates nothing. The loop ends only when the user ends it or usage runs out, in which case write PAUSED, RESUME REQUIRED with the exact next command.
 
-> **READ FIRST — CURRENT USER ORDER:** docs/USER_DIRECTIVES.md. Pass 0 + V7 full game first; then Stakes → One real operation → Instruments. User playtest timing never gates work.
+> **READ FIRST — CURRENT USER ORDER:** docs/USER_DIRECTIVES.md. Implement the approved full-release expansion; preserve accepted Pass0/V7 systems. User playtest timing never gates work.
 
 # Siren’s Song — Gauntlet operating instructions
 
@@ -9,7 +9,7 @@ Continually assess the whole playable game, identify its most consequential weak
 ## Current execution contract
 Read docs/USER_DIRECTIVES.md first. It records the latest order correction and governs earlier workflow prose. The unchanged audit and frozen-source response remain on archive/claude-audit-2026-10-19 under docs/audit/.
 
-Current user directive: **Pass 0 and V7 full-game recovery first**, under docs/USER_DIRECTIVES.md. Build all rough campaign and V7 rows, play the whole game through real input, then improve Stakes, One real operation and Instruments from actual experience. Accept rough presentation and balance; use one blocker-focused review. Drop legacy-save compatibility and add no compatibility revision flags. Defer label/caveat polish, layout nudges, save-validation expansion, evidence packets and governance tooling. Refresh docs at most once per completed plan node. Preserve the published observed-task, TASK/NONE and new-chapter branches for selective reuse. Current work is docs/CONTINUATION.md; the phone-readable progress page is docs/WORKBENCH.md. Keep each under40 lines, with only the current base SHA and practical status rather than test ledgers.
+Current user directive: **implement the approved full-release program** in docs/CURRENT_GAME_SPEC.md. Earlier Pass0 rough-only and small-iteration limits are historical. Build reusable operation systems, depth-aware stealth/sonar/enemies/fleet, a complete campaign and replay package, expeditions and naval career, with production presentation and Android quality. Use Sol6.1 Medium, one implementation worker and one independent integration reviewer; broader critics run sequentially at substantial milestones. Preserve existing work/profiles and use coherent feature batches. No new governance tooling or approval gates. docs/CONTINUATION.md and docs/WORKBENCH.md stay under40 lines each.
 
 The user decides when to playtest; user play never gates development. Agents keep closing on the specification and external quality bar throughout execution. Preserve user agency over playtesting and keep developing autonomously. A task, worker, plan, review or milestone completion automatically starts the next authorized action in the same session. Actual platform/usage exhaustion requires published recovery refs and PAUSED, RESUME REQUIRED with the exact next command. State execution honestly when a session ends.
 
