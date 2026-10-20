@@ -47,7 +47,12 @@ func run():
  history_case()
  finish()
 func history_case():
- var s=Sim.new();s.start(9);var m=s.mission;m.recovered=true
+ # Controlled position fixture earns the packet/recovery through runtime commands.
+ var s=Sim.new();s.start(9);s.sirens=[]
+ s.units[0].pos=s.mission.signal_sources[0].pos;s._observe();step(s,.8);s.command("camera");step(s,4.2)
+ s.units[0].pos=s.mission.extraction;s.units[0].vel=Vector2.ZERO;step(s,.1)
+ check(s.outcome=="won","history fixture carries an actually recovered packet")
+ var m=s.mission
  var p=Campaign.recover(progress(),m)
  check(p.facts.get("wake_crossing","")=="repeater_unused","first successful quiet recovery records only the actual unused-hardware outcome")
  m.wake_crossing.played_at=0.0;m.wake_crossing.played_by=1

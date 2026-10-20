@@ -4,7 +4,7 @@ import fcntl, importlib.util, json, os, pathlib, subprocess, sys, tempfile, time
 ROOT=pathlib.Path(__file__).resolve().parent
 HELPER=ROOT/'gauntlet-boundary.py'
 INSTALL=ROOT/'install-gauntlet-hooks.py'
-FILES=('AGENTS.md','docs/CONTINUATION.md','docs/WORKBENCH.md','docs/architecture/GAUNTLET.md','docs/CURRENT_GAME_SPEC.md','docs/V7_TO_GODOT_PARITY.md')
+FILES=('AGENTS.md','docs/USER_DIRECTIVES.md','docs/CONTINUATION.md','docs/WORKBENCH.md','docs/architecture/GAUNTLET.md','docs/CURRENT_GAME_SPEC.md','docs/V7_TO_GODOT_PARITY.md')
 
 def run(*args,cwd=None,input=None):
  return subprocess.run(args,cwd=cwd,input=input,text=True,capture_output=True,timeout=15)
@@ -49,6 +49,16 @@ class BoundaryTests(unittest.TestCase):
   self.assertEqual(self.invoke().returncode,0);git(self.seed,'rm',name);git(self.seed,'commit','-m','missing required living document');git(self.seed,'push','origin','gauntlet/production')
   p=self.base/'task.json';p.write_text(json.dumps({'target':'worker','message':'Task'}))
   r=self.invoke('--boundary','dispatch','--dispatch',str(p));self.assertNotEqual(r.returncode,0);self.assertEqual(r.stdout,'');d=self.receipt();self.assertEqual(d['status'],'stale');self.assertIsNone(d['policy_sha']);self.assertEqual(d['last_success']['policy_sha'],self.sha);self.assertIn(name,d['error'])
+ def test_missing_user_directives_is_stale_without_dispatch(self):
+  self.assert_missing_required_spec_stops_dispatch('docs/USER_DIRECTIVES.md')
+ def test_directive_only_change_is_detected_and_carried(self):
+  self.assertEqual(self.invoke().returncode,0)
+  new=self.update('docs/USER_DIRECTIVES.md')
+  p=self.base/'task.json';p.write_text(json.dumps({'target':'worker','message':'Task'}))
+  r=self.invoke('--boundary','dispatch','--dispatch',str(p));self.assertEqual(r.returncode,0,r.stderr)
+  self.assertEqual(self.receipt()['changed_files'],['docs/USER_DIRECTIVES.md'])
+  self.assertIn('docs/USER_DIRECTIVES.md: '+self.receipt()['files']['docs/USER_DIRECTIVES.md']['cache_path'],json.loads(r.stdout)['arguments']['message'])
+  self.assertEqual(self.receipt()['policy_sha'],new)
  def test_missing_current_game_spec_is_stale_without_dispatch(self):
   self.assert_missing_required_spec_stops_dispatch('docs/CURRENT_GAME_SPEC.md')
  def test_missing_parity_ledger_is_stale_without_dispatch(self):

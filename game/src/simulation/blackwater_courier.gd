@@ -1,4 +1,5 @@
 extends RefCounted
+const Catalog=preload("res://src/campaign/operation_catalog.gd")
 # A ballast-driven archive glider carries the eastern reply around the basalt
 # to a buried western intake. Its quiet relay carrier has the same passive
 # reach as the fixed terminals. It is neither cover, a lure nor a new objective.
@@ -35,7 +36,7 @@ static func receiver(sim,station:int)->Dictionary:
  return {"distance":u.pos.distance_to(report.pos),"quiet_range":radius,"clear":true,"quiet":true,"replay":0.0,"ready":true,"settled":u.vel.length()<2,"source":"courier","origin":report.pos}
 static func valid(mission:Dictionary,time)->bool:
  if not mission.has("courier_revision"):return not mission.has("courier_launch")
- if mission.id!=2 or mission.get("blackwater_revision",0)!=1 or not mission.courier_revision is int or mission.courier_revision!=1 or mission.objectives.size()!=2:return false
+ if not Catalog.supports(mission.id,"packet_delivery") or mission.get("blackwater_revision",0)!=1 or not mission.courier_revision is int or mission.courier_revision!=1 or mission.objectives.size()!=2:return false
  if not mission.objectives[0].captured is bool:return false
  var launch_time=mission.get("courier_launch",null)
  if not (time is float or time is int) or not is_finite(float(time)) or time<0:return false

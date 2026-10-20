@@ -1,4 +1,4 @@
-Milestone = a complete playable game. Each cycle: a fresh critic plays it with no build notes, the audit ranks its biggest weakness, the next version fixes it, repeat. The user's playtest gates nothing. The loop ends only when the user ends it or usage runs out, in which case write PAUSED, RESUME REQUIRED with the exact next command.
+Milestone = a complete playable game. Build coherent release batches with one implementation worker and one independent integration reviewer; fresh broader critics assess substantial milestones sequentially. The user's playtest gates nothing. The loop ends only when the user ends it or usage runs out, in which case write PAUSED, RESUME REQUIRED with the exact next command.
 
 > **READ FIRST — CURRENT USER ORDER:** docs/USER_DIRECTIVES.md. Implement the approved full-release expansion; preserve accepted Pass0/V7 systems. User playtest timing never gates work.
 

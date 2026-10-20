@@ -31,7 +31,10 @@ static func resolution(mission:Dictionary)->String:
 static func make(index:int,history:Dictionary={})->Dictionary:
  if index not in IDS:return {}
  var m=_base(index,history)
- if index==11:_confluence(m)
+ if index==11:
+  _confluence(m)
+  m["earned_terrain"]=true
+  m["launch_seed"]=Rect2(m.start-Vector2(160,200),Vector2(480,480)).intersection(Rect2(Vector2.ONE*40,m.world_size-Vector2.ONE*80))
  elif index==12:_concealed(m)
  else:_overt(m)
  return m
@@ -96,3 +99,7 @@ static func _receiver(id:String,label:String,pos:Vector2,evidence:String)->Dicti
 
 static func _patrol(m:Dictionary,pos:Vector2,points:Array)->void:
  m.sirens.append({"pos":pos,"home":pos,"goal":pos,"vel":Vector2.ZERO,"route":[],"angle":0.0,"mode":"PATROL","suspicion":0.0,"stun":0.0,"lock":0.0,"target":-1,"patrol":m.sirens.size(),"path_time":0.0,"type":"patroller","patrol_points":points,"patrol_index":0})
+
+static func supports_config(config:Dictionary)->bool:
+ var source=config.get("source_id",-1)
+ return config.size()==2 and config.get("history")==true and source in IDS

@@ -1,4 +1,5 @@
 extends RefCounted
+const OperationsCatalog=preload("res://src/campaign/operation_catalog.gd")
 # One non-player recipient owns its hull/course. Fleet controls and sensors stay
 # with the three player craft; no announcement provides a live vessel tracker.
 const Region=preload("res://src/simulation/world_region.gd")
@@ -8,7 +9,7 @@ const PANEL=Vector2(1840,380)
 const GATE=Rect2(1800,240,160,100)
 const SPEED=28.0
 const COURSES={"exposed":[Vector2(1540,440),Vector2(1540,680),Vector2(2260,680),Vector2(2340,440),REFUGE],"sheltered":[Vector2(1840,160),Vector2(2280,160),REFUGE]}
-static func applies(m:Dictionary)->bool:return m.get("id")==13 and m.has("warning_recipient")
+static func applies(m:Dictionary)->bool:return OperationsCatalog.supports(m.get("id",-1),"recipient") and m.has("warning_recipient")
 static func initial()->Dictionary:
  return {"body":{"pos":BERTH,"vel":Vector2.ZERO,"angle":0.,"route":[],"alive":true,"hull":100.,"silent":true,"name":"WARNING RECIPIENT"},"delivered":false,"course":"","arrived":false,"receipt":false,"seen":{},"gate_seen":{},"gate_method":""}
 static func body(sim)->Dictionary:return sim.mission.warning_recipient.body if applies(sim.mission) else {}
@@ -106,7 +107,7 @@ static func recovered_facts(m:Dictionary)->Dictionary:
 static func _number(value)->bool:return (value is float or value is int) and is_finite(value)
 static func valid(data:Dictionary)->bool:
  var m=data.mission
- if m.get("id")!=13:return not m.has("warning_recipient")
+ if not OperationsCatalog.supports(m.get("id",-1),"recipient"):return not m.has("warning_recipient")
  if not applies(m):return false
  if not m.get("signal_sources") is Array or m.signal_sources.size()!=1 or not m.signal_sources[0] is Dictionary:return false
  var state=m.warning_recipient

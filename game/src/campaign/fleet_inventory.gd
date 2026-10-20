@@ -2,7 +2,6 @@ extends RefCounted
 # Entitlements describe discoveries; this ledger records physical modules left
 # on a first successful recovery. Failure, retry and replay never spend stock.
 const Catalog=preload("res://src/equipment/equipment_catalog.gd")
-const DRONE_ITEMS=["drone_sampler","drone_deep_cells","drone_survey_array"]
 static func available(earned:Array,fleet:Dictionary={})->Array:
  var lost=[]
  for result in fleet.get("outcomes",{}).values():lost.append_array(result.lost)
@@ -41,15 +40,15 @@ static func _partition(recovered,lost,expected:Array)->bool:
 static func valid(value,earned:Array,completed:Array)->bool:
  if not value is Dictionary:return false
  if value.is_empty():return true
- if value.size()!=1 or not value.get("outcomes") is Dictionary or value.outcomes.size()>14:return false
+ if value.size()!=1 or not value.get("outcomes") is Dictionary or value.outcomes.size()>preload("res://src/campaign/operation_catalog.gd").registered_ids().size():return false
  var lost=[]
  for id in value.outcomes:
-  if not id is int or id<0 or id>13 or id not in completed:return false
+  if not id is int or id not in preload("res://src/campaign/operation_catalog.gd").registered_ids() or id not in completed:return false
   var result=value.outcomes[id]
   if not result is Dictionary or result.size()!=2 or not result.get("recovered") is Array or not result.get("lost") is Array:return false
   var seen=[]
   for item in result.recovered+result.lost:
-   if item not in DRONE_ITEMS or item not in earned or item in seen or item in lost:return false
+   if (item not in Catalog.ITEMS or not Catalog.ITEMS[item].compatible_slots.any(func(slot):return slot in ["drone_a","drone_b"])) or item not in earned or item in seen or item in lost:return false
    seen.append(item)
   lost.append_array(result.lost)
  return true

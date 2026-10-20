@@ -807,7 +807,7 @@ func _observation_diagnostics() -> void:
 		if not ready.is_empty(): print("SS_CAMERA_READY ",ready)
 	if sim.mission.get("well_revision",0)==1 and not sim.mission.well_observation.is_empty() and not recovered_evidence.has("well_signature"):_retain_evidence()
 func _evidence_is_text(entry:Dictionary) -> bool:
-	return entry.optical in ExpeditionCampaign.FIELD_RECORDS or entry.optical in ["well_pattern","well_signature"]
+	return entry.optical in preload("res://src/campaign/operation_catalog.gd").record_keys(true) or entry.optical in ["well_pattern","well_signature"]
 func _retain_evidence() -> void:
 	for objective in sim.mission.objectives:
 		if objective.captured and objective.has("photo_quality"):

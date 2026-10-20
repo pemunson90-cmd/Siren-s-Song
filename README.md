@@ -1,4 +1,4 @@
-> **CURRENT USER ORDER:** read docs/USER_DIRECTIVES.md first. Pass 0 and V7 full game precede the audit quality passes. User playtest timing never gates development.
+> **CURRENT USER ORDER:** read docs/USER_DIRECTIVES.md first. Execute the approved full-release expansion in docs/CURRENT_GAME_SPEC.md; preserve accepted Pass0/V7 systems. Sol6.1 Medium, one implementation worker and one independent integration reviewer; broader critics run sequentially at substantial milestones. Human playtesting never gates development.
 
 # Siren's Song
 

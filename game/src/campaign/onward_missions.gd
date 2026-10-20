@@ -39,3 +39,7 @@ static func make(id:int,history:Dictionary={})->Dictionary:
   m.sirens[0].type="sentinel";m.sirens[0]["tether"]=190.0
   m.brief+=" A sentinel defends the western preparation; the eastern arm is patrolled."
  return m
+
+static func supports_config(config:Dictionary)->bool:
+ var source=config.get("source_id",-1)
+ return config.size()==2 and config.get("history")==true and source in [9,10]

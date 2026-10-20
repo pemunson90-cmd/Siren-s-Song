@@ -1,4 +1,4 @@
-> **READ FIRST — CURRENT USER ORDER:** docs/USER_DIRECTIVES.md. Pass 0 + V7 full game first; then Stakes → One real operation → Instruments. User playtest timing never gates work.
+> **CURRENT USER ORDER:** read docs/USER_DIRECTIVES.md first. Execute the approved full-release expansion in docs/CURRENT_GAME_SPEC.md; preserve accepted Pass0/V7 systems. Sol6.1 Medium, one implementation worker and one independent integration reviewer; broader critics run sequentially at substantial milestones. Human playtesting never gates development.
 
 # Independent player criticism
 

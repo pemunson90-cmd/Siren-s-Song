@@ -42,6 +42,11 @@ class GuidanceTests(unittest.TestCase):
         d["README.md"] = "Status: Preproduction and source import. Engine selection pending."
         self.assertTrue(any("README" in e for e in self.scan(d)))
 
+    def test_missing_user_directives_rejected(self):
+        d = self.make_docs(True)
+        d.pop("docs/USER_DIRECTIVES.md")
+        self.assertTrue(any("USER_DIRECTIVES" in e for e in self.scan(d)))
+
     def test_missing_design_handoff_rejected(self):
         d = self.make_docs(True)
         d.pop("references/package/START_HERE.md")

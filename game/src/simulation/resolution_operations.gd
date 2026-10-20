@@ -1,4 +1,5 @@
 extends RefCounted
+const Catalog=preload("res://src/campaign/operation_catalog.gd")
 const Sampler=preload("res://src/equipment/field_sampler.gd")
 const Authored=preload("res://src/campaign/resolution_missions.gd")
 # Once-only physical operations. No actor goals, perception or hidden positions
@@ -7,7 +8,7 @@ static func own_origin(site:Dictionary)->bool:return site.get("own_origin",false
 static func ready(sim,site:Dictionary,unit:int)->bool:
  return unit==0 and sim.units[0].alive and site.get("origin_region",Rect2()).has_point(sim.units[0].pos) and sim.units[0].vel.length()<12
 static func begin(sim,site:Dictionary,unit:int)->void:
- if sim.mission.id in [11,12,13] and (own_origin(site) or site.has("completion_open_structure")):
+ if Catalog.supports(sim.mission.id,"resolution") and (own_origin(site) or site.has("completion_open_structure")):
   site["attempt_origin"]=sim.units[unit].pos
 static func receiving(sim,site:Dictionary,unit:int)->bool:
  # Old unpublished in-flight snapshots recorded this attempt under the old key.
@@ -26,17 +27,17 @@ static func complete(sim,site:Dictionary)->void:
    var origin:Vector2=site.get("transmission_origin",site.pos)
    if not sim.acoustic_paths.arrivals(source.pos,origin,site.completion_emission.radius).is_empty():
     source.active=true;source["request_origin"]=origin;source["request_time"]=sim.elapsed
-    if sim.mission.id==13:preload("res://src/simulation/warning_recipient.gd").delivered(sim)
+    if Catalog.supports(sim.mission.id,"recipient"):preload("res://src/simulation/warning_recipient.gd").delivered(sim)
  if site.has("completion_emission"):
   var sound=site.completion_emission
   var origin:Vector2=site.get("transmission_origin",site.pos)
   sim._noise(origin,sound.radius,sound.label,sound.duration)
-  if sim.mission.id in [11,12,13]:site["completed_emission"]={"pos":origin,"time":sim.elapsed,"radius":sound.radius,"duration":sound.duration,"label":sound.label}
+  if Catalog.supports(sim.mission.id,"resolution"):site["completed_emission"]={"pos":origin,"time":sim.elapsed,"radius":sound.radius,"duration":sound.duration,"label":sound.label}
 static func feedback(sim)->Dictionary:
  var result={"gates":[],"operations":[]}
  for gate in sim.mission.get("physical_gates",[]):
-  if sim.mission.id==13:continue # Recipient's measured hardware projection owns this gate.
-  if sim.mission.id==11:
+  if Catalog.supports(sim.mission.id,"recipient"):continue # Recipient's measured hardware projection owns this gate.
+  if sim.mission.get("earned_terrain",false):
    if sim.mission.signal_sources.any(func(source):return source.id==gate.site_id and source.located):
     # The discovered control reports machinery state, not the remote footprint.
     # Confluence's physical material is drawn from measured chart faces.
@@ -68,7 +69,7 @@ static func feedback(sim)->Dictionary:
    if site.has("completed_emission"):result["transmission_origin"]=site.completed_emission.pos
  return result
 static func valid(m:Dictionary,time:float=0.0)->bool:
- if m.get("id",-1) not in [11,12,13]:return not m.has("physical_gates")
+ if not Catalog.supports(m.get("id",-1),"resolution"):return not m.has("physical_gates")
  if not m.get("world_size") is Vector2 or not m.world_size.is_finite() or not m.get("launch_context") is Dictionary:return false
  if not m.get("objectives") is Array or not m.get("signal_sources") is Array or not m.get("expedition_facts") is Dictionary or not m.get("signal_observations") is Array:return false
  for site in m.objectives:
@@ -86,18 +87,18 @@ static func valid(m:Dictionary,time:float=0.0)->bool:
     if emission[key]!=cost[key]:return false
  for source in m.signal_sources:
   if not source is Dictionary or not source.has_all(["id","located"]) or not source.located is bool:return false
- var baseline=Authored.make(m.id,m.get("launch_context",{}))
- if m.id in [11,12]:
+ var baseline=Catalog.make(m.id,m.get("launch_context",{}))
+ if not Catalog.supports(m.id,"recipient"):
   if not m.get("physical_gates") is Array or m.physical_gates.size()!=1 or not m.get("structures") is Array:return false
   var gate=m.physical_gates[0];var expected=baseline.physical_gates[0]
   if not gate is Dictionary or not gate.has_all(["id","site_id","closed_shape","opened"]) or gate.id!=expected.id or gate.site_id!=expected.site_id or gate.closed_shape!=expected.closed_shape or not gate.opened is bool:return false
   var actuators=m.objectives.filter(func(o):return o.get("site_id","")==gate.site_id)
-  if m.id==11 and actuators.is_empty():
+  if m.get("earned_terrain",false) and actuators.is_empty():
    if gate.opened:return false
   elif actuators.size()!=1 or actuators[0].captured!=gate.opened or actuators[0].get("completion_open_structure","")!=gate.id:return false
   var structures=baseline.structures.duplicate()
   if gate.opened:structures.erase(gate.closed_shape)
-  if m.id==12:structures=preload("res://src/simulation/concealed_harbour.gd").expected_structures(m,structures,time)
+  if Catalog.supports(m.id,"witness"):structures=preload("res://src/simulation/concealed_harbour.gd").expected_structures(m,structures,time)
   if m.structures!=structures:return false
  else:
   var senders=m.objectives.filter(func(o):return o.get("site_id","")=="warning_transmission")

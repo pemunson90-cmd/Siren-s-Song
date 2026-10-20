@@ -105,6 +105,7 @@ jobs:
           wake_crossing_tests|WAKE CROSSING
           wake_crossing_journey_tests|WAKE CROSSING JOURNEY
           wake_crossing_ui_tests|WAKE CROSSING UI
+          operation_catalog_tests|OPERATION CATALOG
           onward_mission_tests|ONWARD MISSIONS
           cadence_correlator_tests|CADENCE CORRELATOR
           contact_reports_tests|CONTACT REPORT

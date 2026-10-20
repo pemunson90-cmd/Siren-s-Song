@@ -1,4 +1,5 @@
 extends RefCounted
+const OperationsCatalog=preload("res://src/campaign/operation_catalog.gd")
 # One occupied sealed pod travels on real fleet bodies. It is not a fourth
 # combat actor: ordinary carrier sight, beams, loss and salvage remain physical.
 const ITEM="witness_capsule"
@@ -8,7 +9,7 @@ const RANGE=60.0
 const DURATION=4.0
 static func initial()->Dictionary:
  return {"state":"at_berth","pos":BERTH,"carrier":-1,"job":{},"rescues":0,"losses":[],"landed_by":-1}
-static func applies(mission:Dictionary)->bool:return mission.get("id")==12 and mission.has("witness_evacuation")
+static func applies(mission:Dictionary)->bool:return OperationsCatalog.supports(mission.get("id",-1),"witness") and mission.has("witness_evacuation")
 static func known(sim)->bool:
  return applies(sim.mission) and (sim.mission.witness_evacuation.state!="at_berth" or sim.mission.signal_sources.any(func(s):return s.id=="witness_packet" and s.located))
 static func available(sim)->bool:return known(sim) and sim.mission.witness_evacuation.state in ["at_berth","salvage"]
@@ -128,7 +129,7 @@ static func recovered_facts(mission:Dictionary)->Dictionary:
  return {"witness_arrival":["quietus","drone_a","drone_b"][state.landed_by],"witness_recovery":account}
 static func valid(data:Dictionary)->bool:
  var mission=data.mission
- if mission.get("id")!=12:return not mission.has("witness_evacuation")
+ if not OperationsCatalog.supports(mission.get("id",-1),"witness"):return not mission.has("witness_evacuation")
  var state=mission.get("witness_evacuation")
  if not state is Dictionary or state.size()!=7 or state.get("state") not in ["at_berth","carried","salvage","landed"] or not state.get("pos") is Vector2 or not state.pos.is_finite() or not Rect2(Vector2.ZERO,mission.world_size).has_point(state.pos):return false
  if not state.get("carrier") is int or not state.get("landed_by") is int or not state.get("rescues") is int or state.rescues<0 or state.rescues>2 or not state.get("losses") is Array or state.losses.size()>2 or not state.get("job") is Dictionary:return false

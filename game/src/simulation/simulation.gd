@@ -75,8 +75,10 @@ var rock_shapes: Array=[]
 var rock_bounds:Array=[]
 var acoustic_paths=Acoustics.new()
 func start(index: int, upgrade: String = "endurance", launch:Dictionary={}) -> void:
-	mission = Missions.make(index,launch.get("context",{}))
-	mission["endurance"]=Endurance.profile(index)
+	var operation=Missions.make(index,launch.get("context",{}))
+	if operation.is_empty():return
+	mission=operation
+	mission["endurance"]=mission.get("endurance",Endurance.profile(Missions.Catalog.definition(index).config.source_id))
 	correlation={}
 	mission["launch_equipment"]=launch.get("fitted",Consequences.EMPTY_FIT).duplicate(true)
 	units.clear()
@@ -1180,19 +1182,20 @@ func restore(data: Dictionary) -> bool:
 static func valid_snapshot(data: Dictionary) -> bool:
 	if not data.has_all(["mission","units","sirens","known","tools"]): return false
 	if not data.mission is Dictionary or not data.units is Array or not data.sirens is Array or not data.known is Dictionary or not data.tools is Dictionary: return false
+	if not data.mission.get("id") is int or data.mission.id not in Missions.Catalog.registered_ids():return false
 	if not ModuleRecovery.valid(data):return false
 	if not Operations.valid(data.mission,float(data.get("elapsed",0))):return false
 	if not Correlator.valid_state(data.get("correlation",{}),float(data.get("elapsed",0))):return false
 	if data.mission.has("launch_equipment") and (not Equipment.valid_fitting(data.mission.launch_equipment) or not data.mission.launch_equipment.has_all(Equipment.SLOTS)):return false
 	if data.mission.has("consequence_revision"):
-		if data.mission.id not in [7,8] or data.mission.consequence_revision!=1:return false
-		if data.mission.id==7:
+		if data.mission.consequence_revision!=Missions.Catalog.make(data.mission.id).get("consequence_revision",-1):return false
+		if Rendezvous.applies(data.mission):
 			var ref=data.mission.get("measured_reference",null)
 			if not ref is Array or (not ref.is_empty() and (ref!=[0.8,1.6,0.8] or not data.mission.objectives.any(func(o):return o.get("site_id","")=="rendezvous" and o.captured))):return false
 	if not DroneOperations.valid(data):return false
 	if not ContactReports.valid(data):return false
 	if not data.mission.has_all(["id","rocks","objectives","extraction","title","darkness","depth"]): return false
-	if not data.mission.id is int or data.mission.id<0 or data.mission.id>13: return false
+	if not data.mission.id is int or data.mission.id not in Missions.Catalog.registered_ids(): return false
 	if not data.mission.rocks is Array or not data.mission.objectives is Array or not data.mission.extraction is Vector2: return false
 	for r in data.mission.rocks:
 		if not PolygonContainment.valid_shape(r): return false
@@ -1212,7 +1215,7 @@ static func valid_snapshot(data: Dictionary) -> bool:
 		if not (work.elapsed is float or work.elapsed is int) or not is_finite(float(work.elapsed)) or work.elapsed<0:return false
 		var site=data.mission.objectives[work.target]
 		var duration=Sampler.capture_spec(id,data.mission.get("launch_equipment",{}),site).get("duration",site.get("duration",4.0))
-		if work.elapsed>duration or (site.captured and not Operations.own_origin(site) and not (data.mission.id==2 and data.mission.has("blackwater_delivery"))):return false
+		if work.elapsed>duration or (site.captured and not Operations.own_origin(site) and not (Delivery.applies(data.mission))):return false
 		exposed.append(work.target)
 	if not WorldRegion.valid(data):return false
 	if not Witness.valid(data):return false
@@ -1246,7 +1249,7 @@ static func valid_snapshot(data: Dictionary) -> bool:
 			if not observation.unit is int or observation.unit<0 or observation.unit>2:return false
 			if not (observation.time is float or observation.time is int) or not is_finite(float(observation.time)) or observation.time<reference.time or observation.time>time:return false
 	if data.mission.has("blackwater_revision"):
-		if data.mission.id!=2 or not data.mission.blackwater_revision is int or data.mission.blackwater_revision!=1 or data.mission.objectives.size()!=2:return false
+		if not Missions.Catalog.supports(data.mission.id,"packet_delivery") or not data.mission.blackwater_revision is int or data.mission.blackwater_revision!=1 or data.mission.objectives.size()!=2:return false
 		var time=data.get("elapsed",0.0)
 		if not (time is float or time is int) or not is_finite(float(time)) or time<0:return false
 		for o in data.mission.objectives:
@@ -1309,7 +1312,7 @@ func has_live_contact() -> bool:
 
 func _record_secured(record: Dictionary,unit_id:int=-1) -> void:
 	Recon.secured(self,record,unit_id)
-	if mission.id==7 and mission.get("consequence_revision",0)==1 and record.get("site_id","")=="rendezvous":mission["measured_reference"]=mission.signal_sources[0].cadence.duplicate()
+	if Rendezvous.applies(mission) and mission.get("consequence_revision",0)==1 and record.get("site_id","")=="rendezvous":mission["measured_reference"]=mission.signal_sources[0].cadence.duplicate()
 	if mission.get("expedition_revision",0)==2:Operations.complete(self,record)
 	events.append({"type":"record","pos":record.pos})
 	message="Warning sent from this origin · listen for a reply from another position; retransmission remains available" if Operations.own_origin(record) else "Record secured. Return Quietus to extraction." if all_records() else "Record secured. Continue the survey."

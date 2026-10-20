@@ -1,21 +1,27 @@
 # Siren’s Song · full-release build
-Read docs/USER_DIRECTIVES.md and CURRENT_GAME_SPEC.md for approved scope.
+Read USER_DIRECTIVES.md and CURRENT_GAME_SPEC.md for approved scope.
 
 | Delivery stage | Actual state |
 |---|---|
-|Pass0/V7 rough campaign|Integrated; full branch evaluation incomplete|
-|Wake completed candidate|28f2b97 frozen; composition/review pending|
-|Reusable release foundations|Active: operation/progression catalog|
-|Depth-aware stealth/sonar/enemies/fleet|Next|
-|Integrated six-operation opening arc|Planned|
-|28 core/12 optional campaign + replay/challenges|Planned|
-|Production world/audio/frontend/settings/accessibility|Planned with campaign|
-|Roguelite expeditions|Planned after campaign/replay|
-|Persistent naval career|Planned after expeditions|
-|Full-release native/whole-game verification|Planned; criticism continues afterward|
+|Pass0/V7 rough campaign|Preserved; full branch evaluation incomplete|
+|Wake completed candidate|28f2b97 merged normally into foundation batch|
+|Reusable release foundations|Implemented; independent review/PR integration next|
+|Depth-aware stealth/sonar/enemies/fleet|Next implementation batch|
+|Integrated six-operation opening arc|Planned after shared systems|
+|28 core/12 optional campaign + replay/challenges|Approved; not yet authored|
+|Production world/audio/frontend/settings/accessibility|Approved unfinished work|
+|Roguelite expeditions|After campaign/replay|
+|Persistent naval career|After expeditions|
+|Native/whole-game verification|At meaningful milestones; criticism continues|
 
-Defaults: three tactical depth bands; recoverable persistent costs.
-Refill and heavy-attrition economy remain selectable difficulty options.
-One implementation worker and one integration reviewer, requested Sol6.1 Medium.
-Preserve existing gameplay, profiles, branches, signer and cumulative deficiencies.
+Foundation: registered implemented IDs0–13; catalog-driven factory/behavior,
+prerequisites and known fact/record validation; content-derived persistence limits.
+Tests temporarily register higher IDs and prove physical recovery/current saves.
+No synthetic operation is exposed in the real campaign.
+API/configuration seam: see CONTINUATION.md and operation_catalog.gd.
+Next: three physical tactical depth bands, shared sonar and stealth foundations.
+Preserve fair information, baseline fleet solutions and recoverable physical costs.
+Economy: recoverable persistent costs(default), refill and heavy-attrition presets.
+One implementation worker + one integration reviewer, requested Sol6.1 Medium.
+Preserve profiles, branches, canonical signer and cumulative deficiencies.
 Human playtesting never gates development; the user alone ends the Gauntlet.

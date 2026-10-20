@@ -113,5 +113,6 @@ func run() -> void:
 	await preload("res://tests/save_feedback_scenarios.gd").run(self)
 	game.queue_free(); await process_frame
 	await create_timer(0.5).timeout
+	preload("res://tests/operation_catalog_scenarios.gd").run(self)
 	print("RUNTIME CHECKS ",checks," FAILURES ",failures)
 	quit(1 if failures else 0)
