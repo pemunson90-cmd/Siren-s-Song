@@ -1,3 +1,5 @@
+> **CURRENT USER ORDER:** read docs/USER_DIRECTIVES.md first. Pass 0 and V7 full game precede the audit quality passes. User playtest timing never gates development.
+
 # Siren's Song
 
 Original Android-first 2D tactical submarine-stealth and reconnaissance game. One pilot commands USS Quietus and two drones through alien industrial water, acoustic exposure, incomplete information and superior Siren threats.
