@@ -77,11 +77,16 @@ func run() -> void:
 	await preload("res://tests/blackwater_ui_scenarios.gd").run(self,game)
 	await preload("res://tests/campaign_ui_scenarios.gd").run(self,game)
 	# The recovery command emits this own-craft event; production audio must route it.
-	game.sound.resume(); game.sound.muted=false; game.sim.paused=true
+	game.sound.resume(); game.sound.muted=false; game.sim.paused=false
 	for voice in game.sound.voices:voice.stop()
 	game.sim.events=[{"type":"salvage","pos":game.sim.units[0].pos}]
 	game.sound.update(game.sim,0.0,true)
 	check(game.sound.voices.any(func(voice):return voice.playing and voice.stream==game.sound.cues.get("salvage")),"own recovery-winch event reaches an actual production audio voice")
+	var winch_voice=game.sound.voices.filter(func(voice):return voice.stream==game.sound.cues.get("salvage"))[0]
+	game.sim.paused=true;game.sound.update(game.sim,0.0,true)
+	check(winch_voice.stream_paused,"tactical planning freezes the actual recovery-winch voice")
+	game.sim.paused=false;game.sound.update(game.sim,0.0,true)
+	check(winch_voice.playing and not winch_voice.stream_paused,"leaving tactical pause resumes that same recovery-winch voice")
 	for voice in game.sound.voices:voice.stop()
 	game.sound.resume(); game.screen="debrief"; game.sim.paused=false; game.sound.alert_timer=0.0
 	game.sim.contacts[0]={"pos":game.sim.units[0].pos+Vector2(100,0),"time":game.sim.elapsed,"mode":"BEAM","lock":4.2,"angle":0.0}
