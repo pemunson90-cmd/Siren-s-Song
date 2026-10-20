@@ -1,0 +1,10 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+SS_SCREEN operations window=(2520, 1080) viewport=(1680.0, 720.0) root=(1680.0, 720.0) unlocked=0 active_time=0.0
+SS_ROLE mission=4 index=1 type=hunter mode=LOCKING pos=712.000000,750.000000 home=800.000000,600.000000 target=0 lock=0.400000 time=0.400000
+SS_ROLE mission=4 index=3 type=sweeper mode=SWEEP CHARGING pos=1380.000000,820.000000 home=1380.000000,820.000000 target=-1 lock=0.000000 time=0.400000
+SS_CAMERA_READY unit=0 objective=2
+FAIL: aim callouts preserve deterministic observed identity order
+TORPEDO AIM CHECKS 4 FAILURES 1
+WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
+   at: cleanup (core/object/object.cpp:2663)

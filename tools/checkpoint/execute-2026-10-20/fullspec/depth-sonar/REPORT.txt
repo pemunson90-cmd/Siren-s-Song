@@ -117,3 +117,58 @@ approximations. Full28core/12optional, four further roles, fleet/economy/researc
 production frontend/world/audio, replay/challenges, expeditions/career remain unfinished.
 Next: root activates SAME independent accumulated review vs productionfb4; fixes
 remain on SAME milestone branch, then root owns final-head CI/PR. No next-milestone switch.
+
+
+Fresh-session repair closeout — 20 October 2026
+Source released to root: 25b64e792decfd5ba0adfac542a5af828974c4e5 on
+gauntlet/release/depth-sonar, parent d73b9fa0aa539ea86f81b65f44c25df675138ea4.
+Requested routing gpt-6.1-sol / medium; backend telemetry unavailable. Current
+production guidance fb4cf105 and milestone execution correction read. Prior original
+independent review/probes/red logs remain unavailable; none reconstructed as evidence.
+
+Both confirmed blockers reproduced locally. First red84/10 (repair-logs/red.log);
+final regression replay against all five original d73 simulation files95/15
+(final-baseline-red.log, process exit1). It uses actual authored Well sweeper at
+(1380,820), Q(1280,820), and DEEP Blackwater Q(550,540)/buffer(550,500).
+Exact replay command: python3 repair-logs/replay-baseline-red.py (absolute external
+report directory); it restores repaired source byte-for-byte in finally. Final
+restored-source depth_sonar_tests95/0. Earlier audit red91/4 is retained separately.
+
+Torpedo preview now reads cached acquired band/transition plus own fleet sensing
+and band geometry. No hidden roster/position/depth/stun query in previews. Physical
+launch validates legitimate current sight, range, occupied shared band and clear
+3m projectile path before spending. A transition shot occupies its chosen shared
+band. Unknown-depth fixes remain ineligible. Tests cover SHALLOW/DEEP, exclusive
+same-band allied sight through a thermal boundary, cross-band no-spend, both target
+transition volumes, launcher transition, terrain and hidden-truth invariance.
+Blackwater work uses worker geometry and custody band, independently of selection.
+Analogous witnessed audit defects repaired: witness winch selected-band cancellation,
+module/witness custody-change work continuation, plant umbilical selected-band
+disconnection. Loss, route/released hold, depth/transition, blocked water and custody
+interruptions remain; physical motion resets accumulated winch time as before.
+
+Verification: Godot4.6.3; all commands from /workspace/Siren-s-Song-play-frozen:
+XDG_DATA_HOME=/workspace/work/depth-repair-<group>-xdg godot --headless --path game
+  --script res://tests/<suite>.gd
+Groups: core(run_tests), runtime(runtime_tests,torpedo_aim_ui_tests), local-work
+(blackwater_delivery_tests,module_recovery_tests,witness_evacuation_tests,
+warning_chain_tests,opening_depth_tests); final focused uses depth-repair-xdg.
+Observed summaries: core710/0; runtime601/0; torpedo UI65/0; Blackwater60/0;
+module55/0; witness49/0; Chain49/0; opening72/0; focused depth95/0. Logs under
+repair-logs/<suite>.log, torpedo-aim-final.log and final-depth.log. Core/runtime
+precede only final regression-fixture strengthening; final focused covers that
+fixture. UI overlaps now explicitly place both staged actors in MIDDLE and add
+cover to Well's authored MIDDLE override (rather than unused inherited rocks).
+Initial overlap failure4/1 and cover-fixture failure65/2 retained in torpedo UI
+logs; corrected actual input suite65/0 on both layouts. No native/render quality
+claim from headless input. No script/engine errors in final successful logs.
+
+No APK, full density/profiling/rendered campaign repeat, save migration or frozen
+profile edit. Existing unresolved balance/control/native/headphone concerns above
+remain. Full toolchain/final-head CI is root's integration action, not claimed run.
+CONTINUATION38/WORKBENCH31 lines reconcile repairs/review next. USER_DIRECTIVES
+records latest priority: substantial new playable content, focused refinement only
+at meaningful boundaries or when continuation otherwise becomes prohibitive.
+All owned Godot processes exited; no display process started. Generated221
+untracked UIDs preserved on disk and excluded from commit per root; tracked UIDs
+unchanged. Root owns sole independent accumulated review, final-head CI and PR.

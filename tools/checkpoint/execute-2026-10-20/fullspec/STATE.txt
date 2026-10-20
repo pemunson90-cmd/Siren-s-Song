@@ -1,3 +1,5 @@
+REVIEW ASSIGNMENT — builder released25b64e792decfd5ba0adfac542a5af828974c4e5, tracked clean,221 UIDs preserved untracked, no owned processes. Sole restored independent /root/release_integration_review now receives accumulated milestone vs fresh productionfb4cf105. Evidence/commands in depth-sonar/REPORT.txt; complete diff in depth-sonar/accumulated-review.diff. Both prior blockers and analogous ongoing-work repairs require independent assessment. Current latest user priority is substantial new content after required integration. No PR yet.
+
 LATEST RESUME — fresh instance on 2026-10-20; published refs restored, old local-only files unavailable. See CURRENT_HANDOFF.md and depth-sonar/REVIEW_HANDOFF.md. Prior review HOLD with two P2 blockers; sole restored /root/depth_sonar_foundation owns same-branch repair at d73b9fa. Next: release source, restored sole independent reviewer, full milestone approval and exact-head CI/PR. Newest genuine Warning Chain earned save dea48a26… is unavailable here; never resume older checkpoint save as latest. No old profile was reset or migrated.
 
 CURRENT EXECUTION — 20 October 2026; release foundation integrated

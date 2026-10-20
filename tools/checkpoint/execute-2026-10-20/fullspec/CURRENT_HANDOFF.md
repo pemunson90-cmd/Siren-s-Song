@@ -22,3 +22,9 @@ All0–5 source-known rendered journeys both layouts were reported complete/all3
 Latest genuine drone campaign is user-reported Warning Chain10 recovery71.1667s, allcraftalive, hull55.9/O2 76.2778, batteries86.8042/85.083, western local receipt, tools3decoy/0EMP/2torpedo/2survey. Frozen source a6b6701; session drone-continuation-20261020-7; receipt warning-chain-earned-a6b6701.save, SHA dea48a26dfea3b7e99128cb6f8cbf6bdec469a0d4137fe14bc4041b6bcc17426. Receipt bytes/JSON were not published and are unavailable here. Do not rewind to checkpoint's older active Warning Chain or Shelf save, fabricate bytes, edit or migrate saves. Genuine campaign continuation awaits that exact receipt; substantive development proceeds.
 
 Checkpointed staged Deep/Shelf and older genuine profiles remain preserved remotely; restore immutable copies only when needed. Preserve signer, branches and unique evidence. No APK requested. User alone ends Gauntlet.
+
+## Latest user steering — after session restoration
+
+"Once the session is restored continue orchestration and make maximum progress on new content over refinement until proceeding without regression testing or bug hunting/refinement becomes a prohibitively difficult or expensive endeavor."
+
+Root continues the already confirmed repair/final accumulated review/mandatory CI boundary, then prioritizes substantial new playable content. No speculative refinement expansion or repetitive broad testing. Required physical/fair-information preservation and current milestone integration contract remain.

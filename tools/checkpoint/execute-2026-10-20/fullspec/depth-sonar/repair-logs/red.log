@@ -1,0 +1,13 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+FAIL same-band authored Well optical target offered in band 0
+FAIL same-band shot physically admitted in band 0
+FAIL same-band authored Well optical target offered in band 2
+FAIL same-band shot physically admitted in band 2
+FAIL MIDDLE allied observation cannot offer an unreachable guard to DEEP Quietus
+FAIL cross-band rejection spends no ammunition
+FAIL same-band ally may legitimately acquire a target outside Quietus passive reach
+FAIL target transition reachable in occupied band 2
+FAIL transitioning Quietus launches into the shared occupied band
+FAIL DEEP Blackwater recovery survives selection 2
+DEPTH SONAR CHECKS 84 FAILURES 10
