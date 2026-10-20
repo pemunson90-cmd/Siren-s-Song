@@ -10,6 +10,7 @@ const Sampler=preload("res://src/equipment/field_sampler.gd")
 const Consequences=preload("res://src/campaign/campaign_consequences.gd")
 const SignalField=preload("res://src/simulation/signal_field.gd")
 const Courier=preload("res://src/simulation/blackwater_courier.gd")
+const Delivery=preload("res://src/simulation/blackwater_delivery.gd")
 const Rendezvous=preload("res://src/simulation/rendezvous_transport.gd")
 const Departure=preload("res://src/simulation/foundry_departure.gd")
 const DroneOperations=preload("res://src/simulation/drone_operations.gd")
@@ -171,6 +172,8 @@ func extraction_corridors() -> Array:
 func salvage_sites()->Array:return ModuleRecovery.sites(self)
 func salvage_context(item:String,unit_id:int=-1)->Dictionary:return ModuleRecovery.context(self,item,selected if unit_id<0 else unit_id)
 func module_recovery_status()->Dictionary:return ModuleRecovery.status(self)
+func blackwater_delivery_status()->Dictionary:return Delivery.status(self)
+func blackwater_handoff_context(carrier:int)->Dictionary:return Delivery.handoff_context(self,carrier)
 func departure_context()->Dictionary:
 	if outcome.is_empty() and units[0].alive and units[0].vel.length()<12:
 		for corridor in extraction_corridors():
@@ -329,6 +332,9 @@ func command(order: String,args: Dictionary={}) -> bool:
 	if not u.alive and order!="select":
 		selected=0; queue_mode=false; message="Selected drone lost. Quietus selected; reissue the order."; return false
 	match order:
+		"blackwater_handoff":
+			if not args.get("carrier") is int:return false
+			return Delivery.handoff(self,args.carrier)
 		"salvage":
 			if not args.get("item") is String:return false
 			return ModuleRecovery.begin(self,args.item)
@@ -1068,6 +1074,7 @@ func _search_approach(s: Dictionary) -> Array:
 			if not route.is_empty(): s.goal=point; return route
 	return []
 func all_records() -> bool:
+	if not Delivery.complete(self):return false
 	for id in mission.get("required_site_ids",[]):
 		if not mission.objectives.any(func(o):return o.get("site_id","")==id and o.captured):return false
 	for o in mission.objectives:
@@ -1124,6 +1131,7 @@ static func valid_snapshot(data: Dictionary) -> bool:
 		if work.elapsed>duration or (site.captured and not Operations.own_origin(site)):return false
 		exposed.append(work.target)
 	if not WorldRegion.valid(data):return false
+	if not Delivery.valid(data):return false
 	if not Rendezvous.valid(data.mission,float(data.get("elapsed",0))):return false
 	if data.mission.get("earned_terrain",false):
 		if not data.mission.get("launch_seed") is Rect2 or not TerrainChart.valid_state(data.mission.get("terrain_chart"),data.mission):return false
@@ -1221,6 +1229,7 @@ func _record_secured(record: Dictionary,unit_id:int=-1) -> void:
 		if record==mission.objectives[0]:Courier.launch(self)
 		message="Exchange matched · ancient ocean archive aboard · return Quietus home" if all_records() else ("REQUEST decoded · REPLY accepts SONAR replay within 240m; or approach quietly" if record.name=="REQUEST RELAY" else "REPLY decoded · ancient temperatures · REQUEST accepts SONAR replay within 240m")
 		if mission.get("courier_revision",0)==1 and record==mission.objectives[0] and not all_records():message="REQUEST decoded · southern REPLY CARRIER announced · intercept + SAMPLE, or SONAR / quiet eastern relay"
+		Delivery.sampled(self,mission.objectives.find(record),unit_id)
 	if mission.id==5 and record.get("kind","")=="receiver":
 		mission["phase"]="warning"; message="Warning decoded: deep fracture; outbound hulls are leaving. Bring Quietus and this packet home."
 	if mission.id==3:
