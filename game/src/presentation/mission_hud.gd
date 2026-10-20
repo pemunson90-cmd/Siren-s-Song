@@ -85,6 +85,8 @@ func open_recovery(destinations:Array):
   var point:Vector2=destination.pos
   var readiness="FIELD NOTES ONLY" if destination.get("withdrawal",false) else "RECOVERY AVAILABLE" if destination.get("available",false) else "APPROACH · NOT READY"
   var b=host._button(recovery_box,destination.name+"\n"+readiness,func():host._order("route",{"point":point}),"recovery_%d"%recovery_buttons.size())
+  # Only popup_gesture may commit a choice; emulated GUI releases can follow a cancelled touch.
+  b.mouse_filter=Control.MOUSE_FILTER_IGNORE
   recovery_buttons.append(b)
  open("recovery",{"kind":"craft","unit":host.sim.selected,"pos":host.sim.units[host.sim.selected].pos})
 func open(next:String="craft",context:Dictionary={}):
@@ -142,6 +144,10 @@ func plant_button_at(point:Vector2) -> Button:
  for button in ring_buttons:
   if button.get_global_rect().has_point(point):return button
  return sector_at(point)
+func recovery_button_at(point:Vector2) -> Button:
+ for button in recovery_buttons:
+  if button.is_visible_in_tree() and button.get_global_rect().has_point(point):return button
+ return null
 func label_at(point:Vector2) -> bool:
  return action_controls().values().any(func(b):return b.get_global_rect().has_point(point))
 func popup_input(event) -> bool:
@@ -160,7 +166,7 @@ func popup_input(event) -> bool:
  elif event is InputEventMouseMotion and popup_gesture.active():
   point=event.position;action=popup_gesture.feed("move",-1,point)
  if pressed:
-  sector_press=plant_button_at(point) if page=="plant" else null if label_at(point) else sector_at(point)
+  sector_press=recovery_button_at(point) if page=="recovery" else plant_button_at(point) if page=="plant" else null if label_at(point) else sector_at(point)
   if sheet.visible and sheet.get_global_rect().has_point(point) and not label_at(point):sheet_pointers[pointer]=true
  if sheet_pointers.has(pointer):
   if event is InputEventScreenTouch and not event.pressed:sheet_pointers.erase(pointer)
@@ -169,7 +175,7 @@ func popup_input(event) -> bool:
  if action.has("pan") or action.has("zoom"):dismiss();return true
  if action.has("tap") and sector_press!=null:
   var chosen=sector_press;sector_press=null
-  if chosen==(plant_button_at(point) if page=="plant" else sector_at(point)) and not chosen.disabled:chosen.pressed.emit()
+  if chosen==(recovery_button_at(point) if page=="recovery" else plant_button_at(point) if page=="plant" else sector_at(point)) and not chosen.disabled:chosen.pressed.emit()
   return true
  return false
 func _outside(event):
