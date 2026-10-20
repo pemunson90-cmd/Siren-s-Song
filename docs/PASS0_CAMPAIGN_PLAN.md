@@ -8,7 +8,7 @@ At6, take the deep exit: `7 → 9 → 11`; or the shelf exit: `8 → 10 → 11`.
 At11, recover concealed through12 or transmit openly through13.
 Replay the campaign from a fresh start to take every combination.
 
-| Node | Function | Enemy roster | Initial status |
+| Node | Function | Enemy roster | Current rough build |
 |---|---|---|---|
 |0–5|Six-operation tutorial; preserve existing roles and mechanics|Patroller, sentinel, hunter, glider|rough|
 |6 Divergence|Choose deep evacuation or shelf warning route|Patrollers|rough|
@@ -19,10 +19,10 @@ Replay the campaign from a fresh start to take every combination.
 |11 Confluence|Choose concealed recovery or public warning|Thread-dependent sentinel or hunter, patroller|rough|
 |12 Concealed Record|Recover witness through the sluice or detour|Sentinel, patroller|rough|
 |13 Open Warning|Choose a transmission origin and recover reply|Hunter, sentinel, patroller|rough|
-|Deep+12: Silent Exodus|Evacuees escape with their route hidden|Distinct ending screen|unbuilt|
-|Deep+13: Beacon Pact|Evacuees organize a public safe channel|Distinct ending screen|unbuilt|
-|Shelf+12: Hidden Harbour|Shelters evacuate covertly|Distinct ending screen|unbuilt|
-|Shelf+13: Surface Reckoning|Surface disaster averted; corridor exposed|Distinct ending screen|unbuilt|
+|Deep+12: Silent Exodus|Evacuees escape with their route hidden|Distinct ending screen|rough|
+|Deep+13: Beacon Pact|Evacuees organize a public safe channel|Distinct ending screen|rough|
+|Shelf+12: Hidden Harbour|Shelters evacuate covertly|Distinct ending screen|rough|
+|Shelf+13: Surface Reckoning|Surface disaster averted; corridor exposed|Distinct ending screen|rough|
 
 ## Persistent capability upgrades
 Fit one hardware item per craft slot before launching; capability persists into later missions.

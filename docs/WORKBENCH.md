@@ -9,7 +9,7 @@ Read docs/USER_DIRECTIVES.md. Pass 0 rows are built at rough quality; V7 recover
 |8 Shelf Return|rough|
 |9 Wake Crossing|rough|
 |10 Warning Chain|rough|
-|11 Confluence: concealed or overt|rough|
+|11 Confluence: authored region and physical return choices|rough integrated|
 |12 Concealed Record|rough|
 |13 Open Warning|rough|
 |Deep+12 · Silent Exodus ending|rough|
@@ -32,4 +32,6 @@ User playtest timing never gates development.
 
 Stakes integrated: mission endurance, concurrent craft exposures, visible targeting refusals.
 Current play: fresh cover/inner journeys plus drone-heavy and Quietus-only continuations.
-Pass 2 active: authored Confluence region, functional service sluice, earned world art and resolution.
+Confluence integrated: authored region, noisy physical sluice, earned world art and departure.
+Current build: practical fleet instruments for separated craft and simultaneous acquisitions.
+Focused Confluence touch play uses explicitly staged access; genuine campaign journeys continue.
