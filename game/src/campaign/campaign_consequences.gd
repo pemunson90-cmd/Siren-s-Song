@@ -28,6 +28,9 @@ static func recovered(previous:Dictionary,mission:Dictionary)->Dictionary:
    if "drone_sampler" not in p.entitlements:p.entitlements.append("drone_sampler")
  if mission.id==10 and not p.history.any(func(h):return h.mission==10) and not mission.get("warning_chain",{}).get("result",{}).is_empty():
   p.facts["warning_chain"]="service_local_receipt" if mission.warning_chain.result.proof=="local_receipt" else "mast_transmission_external_unknown"
+ if mission.id==12 and not p.history.any(func(h):return h.mission==12):
+  var arrival=preload("res://src/simulation/witness_evacuation.gd").recovered_facts(mission)
+  for key in arrival:p.facts[key]=arrival[key]
  if mission.id>=9:p=commit(p,mission.id,mission.get("launch_equipment",EMPTY_FIT))
  var resolution=preload("res://src/campaign/resolution_missions.gd").resolution(mission)
  if not resolution.is_empty():p.facts["resolution"]=resolution

@@ -1,6 +1,7 @@
 extends RefCounted
 # Working fiction. Registry, recovered-thread commits and runtime hooks belong
 # to the campaign owner; this module consumes their recovered launch context.
+const Witness=preload("res://src/simulation/witness_evacuation.gd")
 const IDS=[11,12,13]
 const FIELD_RECORDS=["divergence_confluence_packet","divergence_confluence_repeater","divergence_witness_packet","resolution_witness_sluice","resolution_warning_transmission","divergence_warning_reply"]
 
@@ -17,6 +18,7 @@ static func available(history:Dictionary)->Array:
 static func resolution(mission:Dictionary)->String:
  if not mission.get("recovered",false):return ""
  var id=mission.get("id",-1)
+ if id==12 and mission.get("witness_evacuation",{}).get("state","")!="landed":return ""
  var required=["witness_packet"] if id==12 else (["warning_transmission","warning_reply"] if id==13 else [])
  if required.is_empty():return ""
  var sites=mission.get("objectives",[])
@@ -40,16 +42,17 @@ static func _confluence(m:Dictionary)->void:
  preload("res://src/campaign/confluence_region.gd").build(m)
 
 static func _concealed(m:Dictionary)->void:
+ m["witness_evacuation"]=Witness.initial()
  m.world_size=Vector2(2400,3000);m.start=Vector2(2060,2680);m.extraction=Vector2(2260,2700)
  m.rocks=[Rect2(720,2160,940,240),Rect2(1900,2160,600,240),Rect2(920,600,350,1200),Rect2(-100,1500,620,230),Rect2(1500,1300,900,180),Rect2(1320,360,340,420),Rect2(300,300,180,260)]
  var gate=Rect2(1660,2160,240,240)
  m.physical_gates=[{"id":"witness_service_sluice","closed_shape":gate,"site_id":"witness_sluice","opened":false}];m.structures=[gate]
- m.signal_sources=[_source("witness_packet","SEALED WITNESS MEMORY",Vector2(1840,760),"Quietus receives the concealed witness memory. The packet preserves the observed evacuation and the human warning together; it does not reveal where a surviving pilot will surface.",[.8,1.6,.8])]
+ m.signal_sources=[_source("witness_packet","OCCUPIED WITNESS CAPSULE",Witness.BERTH,"An occupied pressure-rated evacuation capsule waits at the witness berth. Local WINCH loads the living witness onto a real fleet craft; LAND it in the southeast harbour. Carrier loss ejects this same sealed pod for local recovery.",[.8,1.6,.8])]
  var actuator=_receiver("witness_sluice","SERVICE SLUICE CONTROL",Vector2(1780,2040),"The local actuator retracts the man-made service sluice. Its finite motor run is audible; the open passage changes the return route without silencing or ordering any patrol.")
  actuator.merge({"optional":true,"completion_open_structure":"witness_service_sluice","completion_emission":{"radius":1100.0,"label":"SERVICE SLUICE MOTOR","duration":8.0}});m.objectives=[actuator]
  m.required_site_ids=["witness_packet"]
  m.corridors=[{"pos":m.extraction,"name":"CONCEALED RECOVERY BASIN","route":"concealed"}]
- m.brief="Confluence's concealed passage leads to a witness store beyond the southern overhang. Recover its local packet and return to the southeast basin. The long western detour works with the service sluice shut and needs no transmission or machinery. Alternatively, operate the charted SERVICE SLUICE CONTROL on its north side: an audible motor permanently opens the man-made passage for a shorter return. It never closes or crushes craft. Quietus can operate it in four seconds; a fitted drone sampler can work independently in eight audible seconds, if it survives. The actuator is optional and does not replace the witness. Decide whether the changed route is worth making the machinery heard, then bring the packet home. Active tools remain available; no hidden purity score invalidates recovery."
+ m.brief="Confluence's concealed passage leads to a witness store beyond the southern overhang. WINCH its occupied witness capsule onto Quietus or either bare drone: settle below 2m/s within 60m with clear line of sight for one audible four-second winch. Carry the living witness to the southeast basin and explicitly LAND WITNESS there; Quietus must also return. If a carrier is lost, its sealed pressure pod ejects at that own-craft position and the same witness can be winched aboard another craft. The occupied pod remains sealed for recovery. Recovered kit at the same wreck shares that single winch. The long western detour works with the service sluice shut and needs no transmission or machinery. Alternatively, operate the charted SERVICE SLUICE CONTROL on its north side: an audible motor permanently opens the man-made passage for a shorter return. It never closes or crushes craft. Quietus can operate it in four seconds; a fitted drone sampler can work independently in eight audible seconds, if it survives. The actuator is optional and does not replace the witness. Decide whether the changed route is worth making the machinery heard, then bring the occupied capsule home. Active tools remain available; no hidden purity score invalidates recovery."
  m.record="The witness record returns without forwarding its source through the warning chain. The service sluice, if opened, remains an actual route through the overhang; the unannounced western detour remains a valid alternative. This resolves the concealed operation, not the fate of the ocean."
  _patrol(m,Vector2(700,1140),[Vector2(700,1140),Vector2(700,700),Vector2(780,480),Vector2(820,1900)])
  _patrol(m,Vector2(1780,1780),[Vector2(1780,1780),Vector2(2100,1780),Vector2(2100,1580),Vector2(1380,1580)])
