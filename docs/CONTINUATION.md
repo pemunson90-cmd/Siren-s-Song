@@ -1,8 +1,8 @@
 # Continuation
-Current production base: `f646e666e19cb06d8eca71b6408844eccba57995`.
+Current production base: `982199a85d3fd9835da5c938462d77f42c1d926e`.
 Read docs/USER_DIRECTIVES.md first; the latest order correction governs.
 
-## Next — physical drone-module recovery and whole-game evaluation
+## Next — physical Deep Rendezvous and whole-game evaluation
 The rough campaign, four endings, craft upgrades and functional V7 rows are built.
 Stakes integrates operation endurance, independent acquisitions and targeting feedback.
 The authored Confluence operation is integrated after review and its PR game-smoke gate.
@@ -19,11 +19,12 @@ unresolved hazards retain destinations and stop for a genuine exploration decisi
 A genuine drone-led campaign reached Hidden Harbour on its frozen earlier source;
 its final travel interval was unobserved during a controller interruption.
 Other genuine journeys continue; preserve restored checkpoints and distinguish execution gaps.
-Build physical recovery of fitted drone modules: local salvage, carried cargo and
-explicit departure consequences, with bare replacement drones and Quietus fallback.
-The genuine campaign critic ranked absent lasting drone-loss consequences first.
-Model and presentation have separate feature ownership; integrate through one review.
-Compare real reference footage by dimension with source labels withheld.
+Physical module recovery is integrated: noisy local salvage, inactive carried cargo,
+explicit departure choices and lasting optional-kit loss; bare frames remain available.
+A returning player is testing first exposure through explicitly staged access.
+Build a physical Deep Rendezvous tender with local release, sensed transit and
+intercept/refuge decoding; preserve the quiet berth and Quietus-only completion.
+Model and presentation have separate ownership and one combined integration review.
 The user chooses when to playtest; development never waits for it.
 
 ## Preserve and integrate

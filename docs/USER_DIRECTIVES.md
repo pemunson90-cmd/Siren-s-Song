@@ -14,8 +14,8 @@ Placeholder art/text/audio and rough balance are accepted. Drop legacy-save comp
 One blocker-focused reviewer per merge: crashes, softlocks, unfinishable branches and corruption of current saves. Features use PRs with game-smoke passing.
 No routine label/layout polish, save-validation expansion, evidence packets or governance tooling during Pass 0.
 Stakes, the authored Confluence and practical fleet instruments are integrated.
-Earned-course continuity is integrated. Continue genuine whole-game evaluation and physical module recovery;
-its persistent fleet consequence addresses the completed campaign critic’s highest-ranked weakness.
+Earned-course continuity and physical module recovery are integrated; optional kit now has a lasting fleet consequence.
+Continue genuine whole-game evaluation and the physical Deep Rendezvous tender, preserving its quiet fallback.
 Genuine full-game journeys continue; focused Confluence play uses explicitly staged access.
 The user’s camera-control tweak is implemented: FOCUS/FIT/zoom live under FLEET → VIEW; direct drag/pinch remain.
 Observed-task automation, TASK/NONE and new chapter IDs stay shelved on their published branches.
