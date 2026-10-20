@@ -29,13 +29,16 @@ func run():
     game.sim.units[0].pos=Vector2(1840,1080)
     check(game.sim.command("camera"),"ordinary transmission begins")
     step(game.sim,6.2)
-   game.sim.units[0].pos=Vector2(1840,800) if id==12 else Vector2(1840,580)
+   game.sim.units[0].pos=Vector2(1840,800) if id==12 else Vector2(1740,440)
    step(game.sim,.9)
    check(game.sim.command("salvage",{"item":"witness_capsule"}) if id==12 else game.sim.command("camera"),"ordinary physical winch or final reply reception begins")
    step(game.sim,4.2)
+   if id==13:
+    game.sim.units[0].pos=Vector2(1840,380);game.sim.units[0].vel=Vector2.ZERO
+    check(game.sim.command("warning_gate") and game.sim.command("warning_depart",{"course":"sheltered"}),"actual recipient release precedes earned ending")
    game.sim.units[0].pos=game.sim.mission.extraction;game.sim.units[0].vel=Vector2.ZERO
    if id==12:check(game.sim.command("witness_land"),"actual occupied capsule is explicitly landed before final recovery")
-   step(game.sim,.1)
+   step(game.sim,55.0 if id==13 else .1)
    check(game.sim.outcome=="won","final operation reaches its real extraction transition")
    game._process(0.)
    var expected={"deepconcealed":"silent_exodus","deepovert":"beacon_pact","shelfconcealed":"hidden_harbour","shelfovert":"surface_reckoning"}[thread+route]

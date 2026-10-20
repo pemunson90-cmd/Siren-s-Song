@@ -1,5 +1,5 @@
 # Continuation
-Current reconciled production base: `c2db5eb6764db14fcf7ea2185f6c8e4f04bb36dd`.
+Current reconciled production base: `95267406b3e397c6cc21ff899fe16ccdf3b7a9e4`.
 Read docs/USER_DIRECTIVES.md first; the latest order correction governs.
 
 ## Next — whole-game evaluation and physical campaign consequences
@@ -25,8 +25,8 @@ Craft-anchored rings replace detached cards; deliberate STATUS retains exact fle
 Critical reserves, work/cargo/power and full touch targets remain; chart gestures pass through.
 Concealed Record integrates physical pod rescue, local landing and Q recovery.
 Engine sound now follows through-water thrust, including stationkeeping and free drift.
-Open Warning recipient/transit consequences are in development; continue both genuine journeys.
-Maintain the whole-game adversarial inventory and investigate independent domain disagreements.
+Open Warning now requires actual recipient transit/arrival and Q recovery; prior service proof opens its gate.
+Next evaluate both courses and campaign payoff; sheltered policy advantage remains open, alongside the full inventory.
 The user chooses when to playtest; development never waits for it.
 
 ## Preserve and integrate
