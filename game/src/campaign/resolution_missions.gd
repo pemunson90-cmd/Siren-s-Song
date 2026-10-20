@@ -48,6 +48,12 @@ static func _confluence(m:Dictionary)->void:
  m.record="A living dispatch links the evacuation route and the warning chain. Quietus recovered enough to choose an operation, not a target list. The chosen physical passage commits this thread's next job."
  _patrol(m,Vector2(760,1110),[Vector2(760,1110),Vector2(720,780),Vector2(420,620),Vector2(760,1640)])
  _patrol(m,Vector2(1590,1060),[Vector2(1590,1060),Vector2(1590,1640),Vector2(2180,1640),Vector2(2180,680)])
+ if deep:
+  m.sirens[0].type="sentinel";m.sirens[0]["tether"]=190.0
+  m.brief+=" Your deep approach rejoins a sentinel-held live-memory arm and an eastern patrol."
+ else:
+  m.sirens[1].type="hunter"
+  m.brief+=" Your shelf approach rejoins a western patrol and a fast hunter in the eastern arm."
 
 static func _concealed(m:Dictionary)->void:
  m.world_size=Vector2(2400,3000);m.start=Vector2(2060,2680);m.extraction=Vector2(2260,2700)
@@ -63,6 +69,8 @@ static func _concealed(m:Dictionary)->void:
  m.record="The witness record returns without forwarding its source through the warning chain. The service sluice, if opened, remains an actual route through the overhang; the unannounced western detour remains a valid alternative. This resolves the concealed operation, not the fate of the ocean."
  _patrol(m,Vector2(700,1140),[Vector2(700,1140),Vector2(700,700),Vector2(780,480),Vector2(820,1900)])
  _patrol(m,Vector2(1780,1780),[Vector2(1780,1780),Vector2(2100,1780),Vector2(2100,1580),Vector2(1380,1580)])
+ m.sirens[1].type="sentinel";m.sirens[1]["tether"]=190.0
+ m.brief+=" A sentinel holds the water north of the sluice; the western route has a moving patrol."
 
 static func _overt(m:Dictionary)->void:
  m.world_size=Vector2(2800,2600);m.start=Vector2(420,2320);m.extraction=Vector2(2420,240)
@@ -77,6 +85,9 @@ static func _overt(m:Dictionary)->void:
  _patrol(m,Vector2(760,1140),[Vector2(760,1140),Vector2(460,1140),Vector2(460,1460),Vector2(900,1460)])
  _patrol(m,Vector2(2020,1340),[Vector2(2020,1340),Vector2(1840,1520),Vector2(2320,1520),Vector2(2320,1120)])
  _patrol(m,Vector2(1720,600),[Vector2(1720,600),Vector2(1900,460),Vector2(2240,460),Vector2(2060,680)])
+ m.sirens[1].type="hunter"
+ m.sirens[2].type="sentinel";m.sirens[2]["tether"]=190.0
+ m.brief+=" An eastern hunter reacts to local evidence while a sentinel holds the northern response basin."
 
 static func _source(id:String,label:String,pos:Vector2,evidence:String,cadence:Array,confirm:bool=true)->Dictionary:
  return {"id":id,"label":label,"pos":pos,"optical":"divergence_"+id,"evidence":evidence,"located":false,"cadence":cadence,"confirm":confirm,"sampler_compatible":confirm}

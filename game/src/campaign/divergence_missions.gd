@@ -24,6 +24,8 @@ static func make(index:int)->Dictionary:
   m.record="Deep rendezvous confirmed: the hulls are organizing an evacuation, but the destination remains unresolved. Quietus has a route farther down the trench."
   _patrol(m,Vector2(1280,1430),[Vector2(1280,1430),Vector2(1700,1430),Vector2(1780,1940),Vector2(1360,1940)])
   _patrol(m,Vector2(650,800),[Vector2(650,800),Vector2(460,800),Vector2(460,460),Vector2(680,560)])
+  m.sirens[1].type="sentinel";m.sirens[1]["tether"]=190.0
+  m.brief+=" A sentinel holds the berthing basin and returns to its post after an investigation."
  else:
   m.start=Vector2(1920,600);m.extraction=Vector2(220,2180)
   m.rocks=[Rect2(1280,280,300,1000),Rect2(580,1000,420,300),Rect2(940,1600,1280,200),Rect2(100,460,620,200),Rect2(340,1600,300,240),Rect2(1680,920,600,220)]
@@ -33,6 +35,8 @@ static func make(index:int)->Dictionary:
   m.record="The shelf receiver acknowledges the fracture warning. Quietus has opened a channel toward human water without handing command a target list."
   _patrol(m,Vector2(1760,760),[Vector2(1760,760),Vector2(1940,780),Vector2(1940,1240),Vector2(1660,1420)])
   _patrol(m,Vector2(800,1510),[Vector2(800,1510),Vector2(1150,1510),Vector2(730,1900),Vector2(180,1940)])
+  m.sirens[0].type="hunter"
+  m.brief+=" A fast hunter listens along the eastern approach; cover breaks its visual pursuit."
  return m
 static func _source(id:String,label:String,pos:Vector2,evidence:String)->Dictionary:
  return {"id":id,"label":label,"pos":pos,"evidence":evidence,"located":false}
