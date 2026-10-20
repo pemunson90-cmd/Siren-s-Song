@@ -99,6 +99,9 @@ jobs:
           concealed_harbour_tests|CONCEALED HARBOUR
           concealed_harbour_journey_tests|CONCEALED HARBOUR JOURNEY
           concealed_harbour_ui_tests|CONCEALED HARBOUR UI
+          shelf_habitat_tests|SHELF HABITAT
+          shelf_habitat_journey_tests|SHELF HABITAT JOURNEY
+          shelf_habitat_ui_tests|SHELF HABITAT UI
           witness_evacuation_tests|WITNESS EVACUATION
           witness_evacuation_journey_tests|WITNESS EVACUATION JOURNEY
           witness_evacuation_ui_tests|WITNESS EVACUATION UI

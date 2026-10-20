@@ -201,13 +201,15 @@ func _start_mission(index: int) -> void:
 func _primary_action() -> void:
 	if decoy_armed or knock_armed:
 		decoy_armed=false;knock_armed=false;map_gesture.cancel();knock_press.clear();sim.message="Targeting cancelled";_refresh();return
+	var shelter=preload("res://src/presentation/shelf_habitat_view.gd").nearest(sim)
+	if not shelter.is_empty():mission_hud.open("habitat",shelter);return
 	var station=WarningChain.nearest_station(sim)
 	if not station.is_empty():mission_hud.open("plant",station);return
 	var witness=WitnessView.site(sim)
 	if not witness.is_empty() and (not advanced_orders or mission_hud.page=="craft"):mission_hud.open("salvage",{"kind":"salvage","item":witness.item,"name":witness.name.to_upper(),"pos":witness.pos});return
-	var recipient=RecipientView.status(sim)
-	if not recipient.is_empty() and recipient.informed and recipient.recipient.known and (not advanced_orders or mission_hud.page=="craft"):
-		mission_hud.open("object",RecipientView.subject(recipient.recipient,"recipient"));return
+	var recipient=RecipientView.primary_subject(sim)
+	if not recipient.is_empty() and (not advanced_orders or mission_hud.page=="craft"):
+		mission_hud.open("object",recipient);_refresh();return
 	_order("camera")
 func _recovery_route() -> void:
 	var destinations=sim.extraction_corridors()
@@ -373,7 +375,7 @@ func _map_event(event: InputEvent,local_event: bool=false) -> bool:
 		var context=ocean.pick_context(action.tap-ocean.global_position,ui_touch_height)
 		if not context.is_empty():
 			if context.kind=="craft" and context.unit!=sim.selected:_order("select",{"unit":context.unit})
-			mission_hud.open("inspect" if context.get("subkind","")=="concealed" else "object" if context.kind=="objective" else "salvage" if context.kind=="salvage" else "fleet" if context.kind=="fleet" else "craft",context);return true
+			mission_hud.open("inspect" if context.get("subkind","")=="concealed" else "habitat" if context.kind=="habitat" else "object" if context.kind=="objective" else "salvage" if context.kind=="salvage" else "fleet" if context.kind=="fleet" else "craft",context);return true
 		var world=ocean.map_position(action.tap-ocean.global_position)
 		if Rect2(Vector2.ZERO,ocean.world_size()).has_point(world): _order("route",{"point":world})
 	if action.has("ended") or action.has("tap"):knock_press.clear()

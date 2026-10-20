@@ -30,14 +30,9 @@ static func make(index:int)->Dictionary:
   m.brief+=" A sentinel holds the berthing basin and returns to its post after an investigation."
   m.brief+=" The packet is aboard a physical unarmed tender. It stays at the berth unless you explicitly RELEASE BERTH from the locally discovered control. That one audible control transmission sends it along the announced western lane to the northern refuge, where it remains available. A drone can operate the control while Quietus stages elsewhere; Quietus can operate it alone. Quiet reception at the original berth also works. Survey locates nearby hulls and machinery; a measured vessel fix grows stale when no receiver can still sense it."
  else:
-  m.start=Vector2(1920,600);m.extraction=Vector2(220,2180)
-  m.rocks=[Rect2(1280,280,300,1000),Rect2(580,1000,420,300),Rect2(940,1600,1280,200),Rect2(100,460,620,200),Rect2(340,1600,300,240),Rect2(1680,920,600,220)]
-  m.objectives=[{"pos":Vector2(1080,1480),"name":"SHELTERED WARNING RECEIVER","site_id":"warning_receiver","optical":"divergence_warning","captured":false,"kind":"receiver","required_unit":0,"duration":4.0,"evidence":"Quietus forwards the verified fracture warning through the sheltered shelf receiver. Acknowledgement returns from human water; this channel can carry a warning rather than a firing solution."}]
-  m["corridors"]=[{"pos":m.extraction,"name":"WEST SHELF RECOVERY","route":"shelf"}]
-  m.brief="Bring the verified warning along the outer shelf. The receiving station is charted in the central lee, south of the long eastern basalt wall. Only Quietus can transmit the packet: reach the SHELTERED WARNING RECEIVER and use CAMERA / LISTEN. Drones can scout either side while Quietus carries the packet toward the western recovery basin. The exposed outer return is direct; the lower western bend breaks sight. Return west with the acknowledgement."
-  m.record="The shelf receiver acknowledges the fracture warning. Quietus has opened a channel toward human water without handing command a target list."
-  _patrol(m,Vector2(1760,760),[Vector2(1760,760),Vector2(1940,780),Vector2(1940,1240),Vector2(1660,1420)])
-  _patrol(m,Vector2(800,1510),[Vector2(800,1510),Vector2(1150,1510),Vector2(730,1900),Vector2(180,1940)])
+  preload("res://src/simulation/shelf_habitat.gd").build(m)
+  _patrol(m,Vector2(1510,1510),[Vector2(1510,1510),Vector2(2010,1510),Vector2(2080,700),Vector2(1500,700)])
+  _patrol(m,Vector2(660,920),[Vector2(660,920),Vector2(620,1280),Vector2(1000,1400),Vector2(620,1650)])
   m.sirens[0].type="hunter"
   m.brief+=" A fast hunter listens along the eastern approach; cover breaks its visual pursuit."
  return m

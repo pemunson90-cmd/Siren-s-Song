@@ -99,6 +99,9 @@ campaign_equipment_save_tests|CAMPAIGN EQUIPMENT SAVE
 onward_mission_tests|ONWARD MISSIONS
 warning_chain_tests|WARNING CHAIN
 warning_chain_journey_tests|WARNING CHAIN JOURNEY
+shelf_habitat_tests|SHELF HABITAT
+shelf_habitat_journey_tests|SHELF HABITAT JOURNEY
+shelf_habitat_ui_tests|SHELF HABITAT UI
 rendezvous_transport_tests|RENDEZVOUS TRANSPORT
 rendezvous_ui_tests|RENDEZVOUS UI
 resolution_content_tests|RESOLUTION CONTENT
