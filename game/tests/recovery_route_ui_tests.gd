@@ -9,12 +9,14 @@ func check(ok:bool,label:String):
 func _initialize():call_deferred("run")
 func settle():
  for frame in 6:await process_frame
-func touch(point:Vector2,down:bool,id:int=0):
- var e=InputEventScreenTouch.new();e.index=id;e.position=point;e.pressed=down;root.push_input(e,true);await process_frame
+func touch(point:Vector2,down:bool,id:int=0,canceled:bool=false):
+ var e=InputEventScreenTouch.new();e.index=id;e.position=point;e.pressed=down;e.canceled=canceled;root.push_input(e,true);await process_frame
+func mouse_button(point:Vector2,down:bool,device:int=InputEvent.DEVICE_ID_EMULATION):
+ var e=InputEventMouseButton.new();e.device=device;e.position=point;e.button_index=MOUSE_BUTTON_LEFT;e.pressed=down;root.push_input(e,true);await process_frame
 func tap(point:Vector2):
  for down in [true,false]:
   await touch(point,down)
-  var e=InputEventMouseButton.new();e.device=InputEvent.DEVICE_ID_EMULATION;e.position=point;e.button_index=MOUSE_BUTTON_LEFT;e.pressed=down;root.push_input(e,true);await process_frame
+  await mouse_button(point,down)
  await settle()
 func click(button):await tap(button.get_global_rect().get_center())
 func drag(point:Vector2,delta:Vector2,id:int=0):
@@ -101,6 +103,24 @@ func run():
      await touch(point+Vector2(100,0),true,1);await touch(point,false);await touch(point+Vector2(100,0),false,1)
     await settle()
    check(not g.advanced_orders and not g.map_gesture.active() and s.snapshot()==before,"recovery choice "+gesture+" preserves all orders, resources and pause "+label)
+  # A native GUI press must not bypass the touch gesture's drag/cancel verdict.
+  # Keep the emulated release inside the button: the previous long raw-only drag missed this protocol.
+  for gesture in ["short drag","canceled touch"]:
+   await begin(g,10);s=g.sim;before=s.snapshot();await home(g)
+   var point=choices(g)[0].get_global_rect().get_center()
+   await touch(point,true);await mouse_button(point,true)
+   if gesture=="short drag":
+    await drag(point,Vector2(20,0));await touch(point+Vector2(20,0),false);await mouse_button(point+Vector2(20,0),false)
+   else:
+    await touch(point,false,0,true);await mouse_button(point,false)
+   await settle()
+   check(s.snapshot()==before,"recovery choice "+gesture+" followed by inside emulated release issues no order "+label)
+   g.mission_hud.dismiss();await settle()
+  # Native mouse clicks remain a deliberate choice through the same tap owner.
+  await begin(g,10);s=g.sim;await home(g)
+  var mouse_point=named(g,"WEST SERVICE RECOVERY").get_global_rect().get_center()
+  await mouse_button(mouse_point,true,0);await mouse_button(mouse_point,false,0);await settle()
+  check(s.route_goals().size()==1 and s.route_goals()[0].pos==Vector2(180,1000) and s.units[0].silent and not g.advanced_orders,"native mouse deliberately chooses nonprimary WEST without forcing Cruise "+label)
   # Narrative forks retain their author-provided names, never PRIMARY/NEAREST.
   await begin(g,11);s=g.sim;before=s.snapshot();await home(g)
   check(named(g,"CONCEALED ASCENT")!=null and named(g,"OPEN WARNING PASSAGE")!=null and s.snapshot()==before,"Confluence offers both named narrative forks without committing one "+label)
