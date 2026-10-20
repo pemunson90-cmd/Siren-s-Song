@@ -1,0 +1,69 @@
+INTERNAL CHECKPOINT — DEPTH/SONAR SHARED SYSTEMS + SHELF SIGNAL
+Worker /root/depth_sonar_foundation; requested Sol6.1 Medium; backend telemetry unavailable.
+Tree /workspace/Siren-s-Song-play-frozen; branch gauntlet/release/depth-sonar.
+Start a6b6701459989d9cb50c0c62993dd8ed51057f11; foundation landed production fb4cf105.
+Latest user correction: continue SAME branch to integrated opening0–5 milestone.
+This is an internal checkpoint, NOT source release, review request or merge approval.
+Other source trees/profiles, genuine journeys, signer, main and refs untouched.
+
+API / defaults
+simulation.command("depth", {band:0|1|2}), depth_feedback(); actors store band + transition.
+Adjacent transitions take4s stationary, occupying both bands; route goals survive.
+Geometry defaults inherit; mission.depth_geometry[band].rocks/structures author overrides.
+Structures remain physical across bands, with additional authored per-band structures.
+Added-band charts are measured locally; pre-existing middle chart semantics retained.
+Machinery/camera/extraction require settled MIDDLE. Wreck cargo retains its actual band.
+Thermal cross-band sound factors .42 adjacent/.18 far; deep pump extra .025O2/s
+and .035 drone battery/s. Legitimately acquired depth drives enemy pursuit.
+command("sonar_mode",{sector:"all"|"forward",power:"low"|"high"}); command("ping").
+Low440m/.4 reserve, high720m/1.2; signature750/1300m for2.5s; cooldown3.5s.
+Forward sector90deg; game-scale propagation300m/s; deterministic diffraction/occlusion.
+Passive local bearings/class confidence/history72; motion masking1+radius/180.
+Triangulation baseline75m, cross>=.14, age<=3s from movement/independent craft.
+Stable actual motor tones correlate; same-tone ambiguity suppresses false fixes.
+Pending packets preserve emission-time geometry/source/depth and arrival bearing.
+Indirect returns provide corner bearings, never hidden true positions. Receiver movement
+or layer changes can lose returns. Stale echoes never replace newer optical contacts.
+Sweeper:2.5s windup, actual delayed returns, stale strike1.5s later,12s cooldown;
+22 hull/28 battery local pressure strike, acquired band and water path required.
+EMP interrupts; motion/depth can evade. Reports reach one peer through local water.
+Only received emission creates local history/audio; no unconditional source reveal.
+UI: craft-local acoustic ring, shared gesture guard, bearing/age/confidence waterfall,
+local world bearing fans, band/transition status. Unlimited pause and finite tools remain.
+New snapshots roundtrip strict band/transition/sonar; no old-save compatibility/migration.
+
+Evidence / checks
+Godot4.6.3, Compatibility. Logs and captures adjacent to this report.
+Final current targeted: accepted-state.log57/0; last-ui.log42/0 actual input/rendering
+on2520x1080 cover with136px safe inset and2184x1968 inner.
+last-captures were visually inspected: received echo, bearing, age, confidence readable.
+policy-ui.log118/0: source-known injected-input baseline-fleet policies on BOTH views;
+quiet/deep82.333s hull100 EMP2; coordinated active68.35s hull100 EMP0.
+These118 checks precede the last emitter-band/echo-precedence fixes; current42 UI
+and57 state checks cover those deltas. No blind-player/balance/preference claim.
+Command policy31/0 includes matched staged same-position exposure: middle loses22hull,
+deep no return/no damage; active coordination has real reserve/exposure/tool costs.
+Module55/0; knockdown59/0; delivery60/0 incl historical poses TEST-ONLY staged onto
+current model (immutable old fixture unchanged; not migration or an earned journey).
+Affected witness49, Concealed77, recipient69, Chain49, contact36, catalog199, audio8
+all pass; Wake31 + finite-loop journey58, tender61, Shelf28, Confluence4,endings48 pass.
+Inherited ending ObjectDB exit warning remains; inherited density817/12 not rerun.
+Broad final checkpoint core/runtime result recorded below when complete.
+Registered new suites in both runners, local toolchain and existing game-smoke.
+Commands: godot --headless --path game --script res://tests/{run_tests,runtime_tests,
+depth_sonar_tests,sweeper_tests,depth_policy_journeys,blackwater_delivery_tests}.gd;
+DISPLAY=:528 godot --path game --script res://tests/{depth_sonar_ui_tests,
+depth_policy_ui_tests}.gd. Tests use separate external XDG_DATA_HOME profiles.
+Guidance structural check and git diff --check pass.
+
+Remaining same-milestone work
+Operations1–5 still need distinct authored depth/sonar/stealth decisions, baseline fleet
+completion, teaching/escalation and integrated arc checks. Preserve Blackwater custody,
+Foundry thermal/departure, Well signature, finale decoding/recovery and fair charts.
+Next: author Split Channel's separated-band crossing/coordination through shared config.
+At full0–5 boundary accumulate regression/performance/adversarial checks, same reviewer,
+final-head CI and normal PR; root owns those boundaries. No isolated subtask integration.
+Broader28core/12optional, four further enemy roles, fleet/economy, production frontend/
+audio, replay/challenges, expeditions and career remain unfinished release scope.
+Bounded tactical approximations are deliberate, not a wave solver. No physical device,
+headphone, native APK or fresh critic evidence claimed.
