@@ -43,3 +43,7 @@ static func make(id:int,history:Dictionary={})->Dictionary:
 static func supports_config(config:Dictionary)->bool:
  var source=config.get("source_id",-1)
  return config.size()==2 and config.get("history")==true and source in [9,10]
+
+# Identity-bound authored helpers remain on their original operation.
+static func supports_identity(id:int,config:Dictionary)->bool:
+ return id==config.source_id or config.source_id==10

@@ -24,6 +24,9 @@ static func run(t):
   var sim=Sim.new();sim.start(definition.id)
   t.check(Sim.valid_snapshot(sim.snapshot()),"reused physical configuration saves "+str(source))
   var restored=Sim.new();t.check(restored.restore(sim.snapshot()),"reused physical configuration restores "+str(source))
+ for source in [3,4,5,8,9]:
+  var alias=Catalog.definition(source);alias.id=200+source
+  t.check(not Catalog.register_definition(alias),"identity-bound legacy factory rejects alias "+str(source))
  var invalid=Catalog.definition(10);invalid.id=40;invalid.config.source_id=999
  t.check(not Catalog.register_definition(invalid),"unsupported positive source configuration rejects")
  invalid=Catalog.definition(10);invalid.id=40;invalid.behaviors.erase("warning_plant")

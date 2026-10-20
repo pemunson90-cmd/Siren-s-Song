@@ -47,6 +47,8 @@ static func valid_definition(d)->bool:
  for key in d.required_facts:
   if key not in fact_keys() or not d.required_facts[key] is String:return false
  var factory=load(d.factory)
+ # Legacy factories declare which source layouts support a different identity.
+ if d.id!=d.config.source_id and factory.has_method("supports_identity") and not factory.supports_identity(d.id,d.config):return false
  if not factory.has_method("supports_config") or not factory.supports_config(d.config):return false
  for key in ["behaviors","prerequisites","facts","records"]:
   if not d[key] is Array:return false

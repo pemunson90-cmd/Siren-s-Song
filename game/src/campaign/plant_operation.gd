@@ -7,7 +7,7 @@ const STATIONS=["inlet","panel","mast","recovery"]
 static func supports_config(c:Dictionary)->bool:
  if c.size()!=KEYS.size() or not c.has_all(KEYS) or c.source_id!=10 or c.history!=true:return false
  if not c.title is String or c.title.is_empty() or not c.brief is String or c.brief.is_empty():return false
- if not c.world_size is Vector2 or not c.world_size.is_finite() or c.world_size.x<800 or c.world_size.y<800:return false
+ if not preload("res://src/simulation/world_region.gd").valid_dimensions(c.world_size) or c.world_size.x<800 or c.world_size.y<800:return false
  var bounds=Rect2(Vector2.ONE*40,c.world_size-Vector2.ONE*80)
  if not c.start is Vector2 or not c.extraction is Vector2 or not c.start.is_finite() or not c.extraction.is_finite() or not bounds.has_point(c.start) or not bounds.has_point(c.extraction):return false
  if not c.rocks is Array or not c.plant is Dictionary or c.plant.size()!=5 or not c.plant.has_all(STATIONS+["shutter"]):return false

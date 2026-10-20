@@ -233,6 +233,7 @@ func command_controls() -> Array:
   "view":return [focus_button,host.zoom_buttons[2],host.zoom_buttons[1],host.zoom_buttons[0]]
   "fleet":return host.unit_buttons+([extra.arrivals] if Expedition.active(host.sim) else [])+[extra.view_menu,host.order_buttons.menu]
   "object":
+   if subject.get("subkind","")=="wake_repeater":return [extra.wake_playback,extra.route_here,extra.inspect]
    if subject.get("subkind","")=="concealed":return ([extra.concealed_seat] if not subject.get("seat","").is_empty() else [extra.concealed_attach,extra.concealed_release])+[extra.route_here,extra.inspect]
    if subject.get("subkind","")=="warning_recipient":return [extra.warning_exposed,extra.warning_sheltered,host.order_buttons.camera,extra.route_here,extra.inspect]
    if subject.get("subkind","")=="warning_gate":return [extra.warning_gate,host.order_buttons.camera,extra.route_here,extra.inspect]

@@ -5,7 +5,7 @@ Read USER_DIRECTIVES.md and CURRENT_GAME_SPEC.md for approved scope.
 |---|---|
 |Pass0/V7 rough campaign|Preserved; full branch evaluation incomplete|
 |Wake completed candidate|28f2b97 merged normally into foundation batch|
-|Reusable release foundations|Implemented; independent review/PR integration next|
+|Reusable release foundations|Review repairs: reachable Wake playback, safe aliases/world bounds; re-review next|
 |Depth-aware stealth/sonar/enemies/fleet|Next implementation batch|
 |Integrated six-operation opening arc|Planned after shared systems|
 |28 core/12 optional campaign + replay/challenges|Approved; not yet authored|

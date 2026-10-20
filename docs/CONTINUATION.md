@@ -23,7 +23,8 @@ Broader critics run sequentially at substantial milestones; no routine APK.
 `operation_catalog.gd`: CONTENT entries, registered_ids/definition/supports,
 make, register_definition, accessible, fact_keys/record_keys.
 Factories expose make(source_id[,history]) or build(config,history), plus
-supports_config(config); plant_operation.gd accepts validated authored geography.
+supports_config(config); identity-bound legacy sources explicitly refuse aliases.
+plant_operation.gd shares WorldRegion dimension admission with runtime saves.
 Declare behaviors, known facts/records, route/fact requirements and prerequisite
 IDs (ALL by default; explicit ANY for Confluence). Physical validators remain.
 Add authored content through one entry and its supported factory configuration.

@@ -44,3 +44,6 @@ static func run(t):
  t.check(not Catalog.register_definition(bad),"authored layout cannot spawn a drone beyond world bounds")
  bad=d.duplicate(true);bad.id=52;bad.config.extraction=d.config.plant.shutter.get_center()
  t.check(not Catalog.register_definition(bad),"authored extraction cannot lie inside the closed physical shutter")
+ for dimensions in [Vector2(2401,2400),Vector2(6040,2400)]:
+  bad=d.duplicate(true);bad.id=330;bad.config.world_size=dimensions
+  t.check(not Catalog.register_definition(bad),"authored dimensions share runtime grid and maximum bounds "+str(dimensions))

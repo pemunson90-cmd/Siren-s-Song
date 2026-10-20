@@ -9,13 +9,15 @@ static func grid_size(mission:Dictionary)->Vector2i:
  return Vector2i(size_of(mission)/TILE)
 static func contains(point:Vector2,size:Vector2)->bool:
  return point.is_finite() and point.x>=0 and point.y>=0 and point.x<size.x and point.y<size.y
+static func valid_dimensions(dimensions)->bool:
+ if not dimensions is Vector2 or not dimensions.is_finite():return false
+ if dimensions.x<400 or dimensions.y<400 or dimensions.x>6000 or dimensions.y>6000:return false
+ return fmod(dimensions.x,TILE)==0 and fmod(dimensions.y,TILE)==0
 static func valid(data:Dictionary)->bool:
  var mission:Dictionary=data.mission
  if not mission.has("world_size"):return not mission.has("region_revision")
  var dimensions=mission.world_size
- if not dimensions is Vector2 or not dimensions.is_finite() or not mission.get("region_revision") is int or mission.region_revision!=1:return false
- if dimensions.x<400 or dimensions.y<400 or dimensions.x>6000 or dimensions.y>6000:return false
- if fmod(dimensions.x,TILE)!=0 or fmod(dimensions.y,TILE)!=0:return false
+ if not valid_dimensions(dimensions) or not mission.get("region_revision") is int or mission.region_revision!=1:return false
  if mission.has("survey_origin") and (not mission.survey_origin is Vector2 or not contains(mission.survey_origin,dimensions)):return false
  if not mission.get("start") is Vector2 or not contains(mission.start,dimensions) or not contains(mission.extraction,dimensions):return false
  for objective in mission.objectives:
