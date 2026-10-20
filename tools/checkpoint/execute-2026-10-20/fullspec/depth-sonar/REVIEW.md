@@ -2,7 +2,25 @@
 
 Reviewer: /root/release_integration_review, sole independent integration reviewer in this restored session. Requested routing gpt-6.1-sol / medium; backend telemetry unavailable. Date: 20 October 2026.
 
-**APPROVE accumulated head `7c8398b7ba1751ae59ed3352987ccd26dcb01c3c` against production base `fb4cf10542ba61fb47d4b71a95b0ea0448d302bf`. No unresolved integration blocker established.** Root owns mandatory exact-head game-smoke CI, PR and protected integration; this is an independent integration verdict, not a formal GitHub approval or complete-release/balance acceptance.
+**APPROVE accumulated head `ea645d31ccb7e1a296f033306ed2905ffaddc4e2` against production base `fb4cf10542ba61fb47d4b71a95b0ea0448d302bf`. No unresolved integration blocker established.** Root owns mandatory exact-head game-smoke CI, PR and protected integration; this is an independent integration verdict, not a formal GitHub approval or complete-release/balance acceptance.
+
+## Final CI-fixture re-review — ea645d3
+
+Accumulated approval carries forward to exact head `ea645d31ccb7e1a296f033306ed2905ffaddc4e2` vs production `fb4cf10542ba61fb47d4b71a95b0ea0448d302bf`. No new blocker. Prior7c8398b approval preserved in REVIEW.7c8398b.APPROVE.md; the gameplay review and unresolved risks below remain applicable because no production gameplay code changed.
+
+I inspected the entire two-file7c8398b..ea645d3 diff and builder report. The source-known earned-course test replaces operation0's geometry and therefore must remove its authored depth override and initialize the per-band chart lookup after constructing its earned chart. These changes correctly repair fixture setup for the new shared depth interface. All24 existing behavior assertions remain, including live earned travel, physical stops, public-chart/hidden-geometry invariance, independent held drone, binary restore and crossflow deterministic completion. They are not weakened or skipped.
+
+Independently ran the exact final workflow wrapper from /workspace/Siren-s-Song-play-frozen (bash login=false):
+
+```
+XDG_DATA_HOME=/workspace/work/depth-independent-earned-final-xdg timeout --kill-after=10s 480s scripts/toolchain/headless.sh --script res://tests/earned_course_continuity_tests.gd
+```
+
+Exit0; **EARNED COURSE CONTINUITY CHECKS24 FAILURES0**, no script/engine errors; raw log independent/earned-course-final.log. Independently compared workflow heredocs against7c8398b: all54 ordered scenario/summary pairs identical. Extracted edited runtime shell passes bash -n. Existing set-e/pipefail, explicit script-error rejection and positive zero-failure summary checks remain. Job budget35min and per-scenario480s/10s kill grace bound hangs while allowing measured suite duration; neither bypasses failures.
+
+Prior final-head CI39503984057 timed out and is not treated as passing. Builder's repaired fixture24/0 and remaining13 suites495/0 are separately attributed in REPORT/ci-repair-logs. This narrow independent review does not substitute for root's required new exact-head game-smoke run. Root refreshed unchanged production guidance for this boundary. No broad replay/profile/new audit was warranted for this fixture/workflow-only correction.
+
+Final release: HEAD verifiedea645d31ccb7e1a296f033306ed2905ffaddc4e2, tracked clean; generated221UIDs preserved. All owned Godot processes exited; no Xvfb started. Read-only source RELEASED to root for mandatory final-head CI/PR/integration and substantial new content. All remaining risks below and in INVENTORY stay open.
 
 ## Review scope and provenance
 
@@ -40,7 +58,7 @@ All unresolved accumulated risks remain open and are retained in INVENTORY. Modu
 
 Well tool-free33.6hull route/balance and first-use assessment; FIT/craft-selection/toolbar friction; dense small inner sonar axes; inherited density817/12 and ObjectDB exit warning; native lifecycle/performance, headphone audio, physical Fold ergonomics and human enjoyment remain unresolved. Prior full0–5 rendered/source-known journeys and bounded performance are builder-reported historical evidence, not my fresh blind play/balance approval. No duplicate full journeys/profile/performance run was justified by this bounded lifecycle repair. Full28core/12optional content, four further enemy roles, fleet/economy/research/progression, production presentation/frontend/audio, replay/challenges and further modes remain unfinished. Integration approval allows the next substantial content batch under current user priority.
 
-## Exact fresh final-head checks and release
+## Prior gameplay-head checks and release — 7c8398b
 
 Godot4.6.3; bash login=false; cwd /workspace/Siren-s-Song-play-frozen:
 
@@ -51,4 +69,4 @@ XDG_DATA_HOME=/workspace/work/depth-independent-probe-final-xdg godot --headless
 
 Both exit0. `independent/sweeper-final.log`: SWEEPER CHECKS38 FAILURES0, no script/engine errors. `independent/sweeper_snare-final.log`: semantic values above inspected, not accepted merely for diagnostic exit0. Original red probe/log preserved. Earlier accumulated fresh commands/logs and review details remain in REVIEW.25b64e7.HOLD.md and independent/.
 
-All reviewer-owned Godot processes exited; no Xvfb started. `git status --porcelain --untracked-files=no` empty; untracked generated UID files preserved. **Read-only source released at7c8398b7ba1751ae59ed3352987ccd26dcb01c3c.** Root proceeds to final-head CI/normal milestone PR/integration and substantial new content.
+All reviewer-owned Godot processes exited; no Xvfb started. `git status --porcelain --untracked-files=no` empty; untracked generated UID files preserved. **Prior gameplay-head source release was7c8398b7ba1751ae59ed3352987ccd26dcb01c3c; latest exact-head release is recorded above.** Root proceeds to final-head CI/normal milestone PR/integration and substantial new content.

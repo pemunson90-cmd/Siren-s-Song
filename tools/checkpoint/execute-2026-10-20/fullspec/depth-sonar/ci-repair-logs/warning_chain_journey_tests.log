@@ -1,0 +1,7 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PLANT JOURNEY solo-service outcome=won time=52.1499999999983 hull=100.0 EMP=3 torpedoes=0 connected=-1.0 lost=-1.0 alive=[true, false, false]
+PLANT JOURNEY solo-mast outcome=won time=48.3166666666652 hull=100.0 EMP=3 torpedoes=1 connected=-1.0 lost=-1.0 alive=[true, false, false]
+PLANT JOURNEY dual-service outcome=won time=70.5666666666639 hull=100.0 EMP=2 torpedoes=1 connected=34.866666666666 lost=-1.0 alive=[true, true, true]
+PLANT JOURNEY lost-power-service outcome=won time=107.516666666662 hull=100.0 EMP=0 torpedoes=1 connected=34.866666666666 lost=51.766666666665 alive=[true, false, false]
+WARNING CHAIN JOURNEY CHECKS 35 FAILURES 0

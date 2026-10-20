@@ -165,3 +165,8 @@ Fresh independent reviewer /root/release_integration_review reviewed accumulated
 ## Exact-head sweeper repair and accumulated approval — 7c8398b
 
 Sole independent reviewer /root/release_integration_review **APPROVES accumulated7c8398b7ba1751ae59ed3352987ccd26dcb01c3c vs productionfb4cf10542ba61fb47d4b71a95b0ea0448d302bf**; [final REVIEW](depth-sonar/REVIEW.md). Prior HOLD preserved in REVIEW.25b64e7.HOLD.md. P2 sweeper permanent pin/save defect independently verified fixed: original real-projectile probe now2s PINNED pin=stun6.45/valid and12s pin=stun0 RETURN STRIKE/valid. Fresh lifecycle38/0 covers physical impact, paused clock, acquired pin presentation, actual checksummed partial-pin save/restore, expiry/resumed AI and longerEMP overlap. Validation invariants unchanged. No unresolved integration blocker established; root owns final-head CI/PR/integration. All prior content, control, balance, sonar readability, native/headphone/Fold and selected-geometry recovery-content risks remain open as documented; no complete-release or blind-play acceptance inferred.
+
+
+## CI-fixture exact-head review — ea645d3
+
+Sole independent reviewer carries accumulated APPROVE to ea645d31ccb7e1a296f033306ed2905ffaddc4e2 vs productionfb4cf10542ba61fb47d4b71a95b0ea0448d302bf. No gameplay change in7c..ea; source-known earned-course fixture now initializes correct band/chart state. Independent exact workflow wrapper24/0, all54 ordered scenario/summary pairs preserved, edited shell syntax passes. Earlier timed-out CI is not a pass; root must obtain new final-head game-smoke. All prior unresolved risks remain open. Full attribution/evidence in depth-sonar/REVIEW.md.

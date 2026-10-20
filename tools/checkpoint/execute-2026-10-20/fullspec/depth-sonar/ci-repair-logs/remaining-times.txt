@@ -1,0 +1,13 @@
+current_motion_tests: 1.67s exit=0 CURRENT MOTION CHECKS 17 FAILURES 0
+module_recovery_tests: 2.87s exit=0 MODULE RECOVERY CHECKS 55 FAILURES 0
+module_recovery_ui_tests: 11.60s exit=0 MODULE RECOVERY UI CHECKS 37 FAILURES 0
+module_recovery_runtime_ui_tests: 8.54s exit=0 MODULE RECOVERY RUNTIME UI CHECKS 22 FAILURES 0
+module_inventory_main_tests: 6.94s exit=0 MODULE INVENTORY MAIN CHECKS 18 FAILURES 0
+rendezvous_transport_tests: 9.44s exit=0 RENDEZVOUS TRANSPORT CHECKS 61 FAILURES 0
+rendezvous_ui_tests: 12.60s exit=0 RENDEZVOUS UI CHECKS 57 FAILURES 0
+briefing_scroll_fitting_ui_tests: 12.96s exit=0 BRIEFING SCROLL FITTING UI CHECKS 50 FAILURES 0
+warning_chain_tests: 4.68s exit=0 WARNING CHAIN CHECKS 49 FAILURES 0
+warning_chain_journey_tests: 25.15s exit=0 WARNING CHAIN JOURNEY CHECKS 35 FAILURES 0
+warning_chain_ui_tests: 25.54s exit=0 WARNING CHAIN UI CHECKS 68 FAILURES 0
+warning_chain_audio_tests: 1.87s exit=0 WARNING CHAIN AUDIO CHECKS 13 FAILURES 0
+warning_chain_world_ui_tests: 7.30s exit=0 WARNING CHAIN WORLD UI CHECKS 13 FAILURES 0

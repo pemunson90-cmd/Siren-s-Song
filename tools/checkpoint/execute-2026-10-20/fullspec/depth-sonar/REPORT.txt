@@ -217,3 +217,64 @@ selected-geometry departure seam as future content-authoring risk: no authored
 consequence established; deliberately outside this confirmed repair. Other
 reported Well/control/native/headphone limits remain. All owned processes
 exited; generated untracked UIDs preserved on disk outside commit.
+
+
+Mandatory CI gate repair — ea645d31ccb7e1a296f033306ed2905ffaddc4e2
+Same milestone branch/worktree, parent7c8398b7ba1751ae59ed3352987ccd26dcb01c3c.
+PR48 remains unmerged. CI run39503984057 timed out at20m after green core and
+first40 ordered runtime suites; earned_course_continuity_tests then raised Nil
+observe/segment_safe at22:12:21 and hung until cancellation22:13:52. Full original
+log retained outside source in ci-run.log. No earlier passing suite repeated.
+
+Bounded fresh reproduction: XDG_DATA_HOME=/workspace/work/depth-ci-earned-xdg
+timeout --kill-after=3s 12s godot --headless --path game --script
+res://tests/earned_course_continuity_tests.gd; same two Nil errors; exit124.
+Root cause is fixture initialization, not live gameplay: start(0) initializes
+depth_charts[1]=null for precharted MIDDLE. Fixture subsequently creates a new
+earned terrain_chart, but first route command switches via _use_band(1), replacing
+it with the old null slot. Fixture now replaces authored depth geometry with its
+intended source-known wall and initializes both terrain and per-band chart layers.
+All24 original earned-course assertions retained and pass, including safe-prefix
+travel, unresolved stops, live earning, surveyed detours, hidden-geometry fairness,
+cache reuse, pause/restore/determinism, independent drone hold and physical flow.
+No simulation implementation, snapshot validation or production band rules changed.
+
+Edited existing game-smoke job budget20→35minutes. Observed prior longest
+completed scenario interval227.392s; each scenario is now bounded at480s with
+10s kill grace, retaining set-e/pipefail, error-log and positive-summary checks.
+All54 ordered scenario/summary pairs and required job/check names unchanged;
+extracted edited shell block passes bash -n. No sharding or new CI framework.
+Exact wrapper also checked: XDG_DATA_HOME=/workspace/work/depth-ci-earned-xdg
+timeout --kill-after=10s 480s scripts/toolchain/headless.sh --script
+res://tests/earned_course_continuity_tests.gd →24/0, no script/engine errors.
+
+Ran previously-unreached13 suites ONCE, sequentially, using preserved external
+ci-repair-logs/run-remaining.py; subprocess timeout600s and independent
+XDG_DATA_HOME=/workspace/work/depth-ci-<suite>-xdg per suite. Each invokes
+godot --headless --path game --script res://tests/<suite>.gd from source cwd.
+Every exit0, positive summary inspected and script/engine errors absent.
+current_motion_tests: 1.67s exit=0 CURRENT MOTION CHECKS 17 FAILURES 0
+module_recovery_tests: 2.87s exit=0 MODULE RECOVERY CHECKS 55 FAILURES 0
+module_recovery_ui_tests: 11.60s exit=0 MODULE RECOVERY UI CHECKS 37 FAILURES 0
+module_recovery_runtime_ui_tests: 8.54s exit=0 MODULE RECOVERY RUNTIME UI CHECKS 22 FAILURES 0
+module_inventory_main_tests: 6.94s exit=0 MODULE INVENTORY MAIN CHECKS 18 FAILURES 0
+rendezvous_transport_tests: 9.44s exit=0 RENDEZVOUS TRANSPORT CHECKS 61 FAILURES 0
+rendezvous_ui_tests: 12.60s exit=0 RENDEZVOUS UI CHECKS 57 FAILURES 0
+briefing_scroll_fitting_ui_tests: 12.96s exit=0 BRIEFING SCROLL FITTING UI CHECKS 50 FAILURES 0
+warning_chain_tests: 4.68s exit=0 WARNING CHAIN CHECKS 49 FAILURES 0
+warning_chain_journey_tests: 25.15s exit=0 WARNING CHAIN JOURNEY CHECKS 35 FAILURES 0
+warning_chain_ui_tests: 25.54s exit=0 WARNING CHAIN UI CHECKS 68 FAILURES 0
+warning_chain_audio_tests: 1.87s exit=0 WARNING CHAIN AUDIO CHECKS 13 FAILURES 0
+warning_chain_world_ui_tests: 7.30s exit=0 WARNING CHAIN WORLD UI CHECKS 13 FAILURES 0
+Total tail:495 checks/0 failures,131.16s measured sequential process time;
+including earned-course:519 checks/0 failures. Raw logs and remaining-times.txt
+retain exact results. Inherited ObjectDB exit warnings observed in module inventory
+and briefing fitting suites; not a new blocker. Prior complete-core/first40 CI
+evidence reused; this is not a claim that final-head full CI has passed. Root
+owns independent review and new final-head run before protected integration.
+
+Only2 tracked files changed. No gameplay refinement/audit, broad local repeat,
+profile/save edit, APK, extra worker, PR creation or merge. Generated221 untracked
+UIDs remain preserved outside commit. All owned Godot processes ended. Source
+release continues toward substantial playable new content after the existing
+review/CI/integration boundary.
