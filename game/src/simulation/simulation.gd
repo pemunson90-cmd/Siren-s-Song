@@ -618,9 +618,38 @@ func _repair_current_leg(u:Dictionary) -> bool:
 func propulsion_speed(u:Dictionary) -> float:
 	# Engine effort is through water; u.vel remains actual chart/ground motion.
 	return u.get("water_velocity",u.vel).length()
+func current_at(point:Vector2) -> Vector2:
+	return preload("res://src/simulation/current_field.gd").sample(mission.get("currents",[]),point)
+func current_feedback() -> Array:
+	var result=[]
+	for id in units.size():
+		var u=units[id];var flow=current_at(u.pos)
+		if not u.alive or flow.length()<0.1:continue
+		result.append({"unit":id,"pos":u.pos,"flow":flow,"ground_velocity":u.vel,"water_velocity":u.get("water_velocity",u.vel-flow),"effort":propulsion_speed(u)})
+	return result
+func _current_step(u:Dictionary,dt:float,desired_ground:Vector2,speed:float,flow:Vector2,report_collision:bool,player_craft:bool) -> void:
+	# Independent vector thrusters have the same bounded acceleration and total
+	# through-water speed budget as ordinary motion. Hull turning stays physical.
+	var water:Vector2=u.get("water_velocity",u.vel-flow)
+	water=water.move_toward((desired_ground-flow).limit_length(speed),42.0*dt)
+	u["water_velocity"]=water
+	var ground:Vector2=water+flow
+	var next:Vector2=u.pos+ground*dt
+	if not blocked(next,12) and segment_safe(u.pos,next,12):
+		u.pos=next;u.vel=ground
+	else:
+		u.vel=Vector2.ZERO;u.route.clear();u["current_station"]=u.pos
+		if player_craft:RouteProgram.clear(u)
+		if report_collision:message="%s autopilot stopped at unsafe terrain. Replot in open water."%u.name
 func _move(u: Dictionary,dt: float,speed: float,holding: bool,report_collision: bool=true,player_craft: bool=false) -> void:
 	var desired=Vector2.ZERO
 	if player_craft: speed=_craft_speed(u,speed)
+	var flowing=not mission.get("currents",[]).is_empty()
+	var flow=current_at(u.pos) if flowing else Vector2.ZERO
+	if flowing:
+		if holding or u.route.is_empty():
+			if not u.has("current_station"):u["current_station"]=u.pos
+		else:u.erase("current_station")
 	if player_craft and not holding and not u.route.is_empty() and not _player_leg_safe(u.pos,u.route[0].pos):
 		if _repair_current_leg(u):
 			if report_collision: message="%s · course adjusted around charted terrain"%u.name
@@ -635,12 +664,16 @@ func _move(u: Dictionary,dt: float,speed: float,holding: bool,report_collision: 
 		if not mode_boundary and not dest.stop and u.route.size()>1 and delta.length()<28 and segment_safe(u.pos,u.route[1].pos,24): arrival=28.0
 		if delta.length()<arrival:
 			if dest.stop and u.vel.length()>2:
+				if flowing:
+					_current_step(u,dt,(dest.pos-u.pos).limit_length(6.0),speed,flow,report_collision,player_craft)
+					return
 				u.vel=u.vel.move_toward(Vector2.ZERO,100*dt)
 				var braking:Vector2=u.pos+u.vel*dt
 				if not blocked(braking,12): u.pos=braking
 				return
 			u.route.pop_front()
 			if player_craft: RouteProgram.arrived(u,dest); speed=_craft_speed(u,speed)
+			if flowing and dest.stop and u.route.is_empty():u["current_station"]=dest.pos
 			if dest.stop: u.vel=u.vel.move_toward(Vector2.ZERO,120*dt)
 		if not u.route.is_empty():
 			delta=u.route[0].pos-u.pos
@@ -661,6 +694,14 @@ func _move(u: Dictionary,dt: float,speed: float,holding: bool,report_collision: 
 				if corner>0.3: target_speed=minf(target_speed,20+sqrt(delta.length()*35))
 			u.angle=rotate_toward(u.angle,target_angle,1.8*dt)
 			desired=Vector2.from_angle(u.angle)*target_speed
+			if flowing and not (u.route[0].stop and delta.length()<12.0+u.vel.length_squared()/70.0):
+				# Cancel crossflow; retain useful assistance/opposition along the leg.
+				desired+=flow.project(delta.normalized())
+	if flowing:
+		if (holding or u.route.is_empty()) and u.has("current_station"):
+			desired=((u.current_station-u.pos)*2.0).limit_length(12.0)
+		_current_step(u,dt,desired,speed,flow,report_collision,player_craft)
+		return
 	u.vel=u.vel.move_toward(desired,42*dt)
 	var next:Vector2=u.pos+u.vel*dt
 	if not blocked(next,12): u.pos=next
