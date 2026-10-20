@@ -138,6 +138,7 @@ planner_navigation_ui_tests|PLANNER NAVIGATION
 planner_space_ui_tests|PLANNER SPACE UI
 playfield_hud_tests|PLAYFIELD HUD
 fleet_instruments_ui_tests|FLEET INSTRUMENTS UI
+fleet_ring_ui_tests|FLEET RING UI
 route_telemetry_touch_tests|ROUTE TELEMETRY TOUCH
 module_recovery_ui_tests|MODULE RECOVERY UI
 module_recovery_runtime_ui_tests|MODULE RECOVERY RUNTIME UI

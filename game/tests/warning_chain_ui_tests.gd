@@ -40,6 +40,9 @@ func station(game,index:int):
  await tap(game.ocean.global_position+point)
 func craft(game):
  game.mission_hud.dismiss();game.ocean.focus_craft();game._refresh();await settle();await click(game.mission_hud.fleet.buttons[game.sim.selected])
+ # Co-located physical craft now require a deliberate choice, rather than
+ # depending on independently displaced station handles.
+ if game.mission_hud.page=="fleet":await click(game.unit_buttons[game.sim.selected])
 func primary(game):
  await craft(game);await click(game.order_buttons.camera)
 func run():
