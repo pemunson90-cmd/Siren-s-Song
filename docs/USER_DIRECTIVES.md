@@ -9,7 +9,7 @@ Only the user ends the Gauntlet; complete tasks automatically dispatch the next 
 ## Active full-game scope
 Build the fixed [Pass 0 campaign](PASS0_CAMPAIGN_PLAN.md) and functional V7 recovery under [the living game specification](CURRENT_GAME_SPEC.md) and [parity ledger](V7_TO_GODOT_PARITY.md).
 The rough campaign nodes, four endings, general craft upgrades and mixed enemy rosters are implemented. Full branch touch journeys remain unfinished.
-V7 recovery still includes currents, sensor-earned terrain, an evidence-driven pressure floor, threat heartbeat/vignette and photographic grading. Recover coherent rough functionality before the later quality passes; preserve accepted Godot adaptations and fair information.
+The coherent V7 integration candidate builds currents, sensor-earned terrain, an evidence-driven local pressure floor, threat heartbeat/vignette and photographic grading. Merge through the PR gate, then evaluate the whole game before the later quality passes; preserve accepted Godot adaptations and fair information.
 Placeholder art/text/audio and rough balance are accepted. Drop legacy-save compatibility and reject incompatible saves cleanly.
 One blocker-focused reviewer per merge: crashes, softlocks, unfinishable branches and corruption of current saves. Features use PRs with game-smoke passing.
 No routine label/layout polish, save-validation expansion, evidence packets or governance tooling during Pass 0.
