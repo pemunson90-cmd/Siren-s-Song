@@ -615,6 +615,9 @@ func _repair_current_leg(u:Dictionary) -> bool:
 	leg[leg.size()-1]=destination.duplicate(true)
 	leg.append_array(u.route.slice(1));u.route=leg
 	return true
+func propulsion_speed(u:Dictionary) -> float:
+	# Engine effort is through water; u.vel remains actual chart/ground motion.
+	return u.get("water_velocity",u.vel).length()
 func _move(u: Dictionary,dt: float,speed: float,holding: bool,report_collision: bool=true,player_craft: bool=false) -> void:
 	var desired=Vector2.ZERO
 	if player_craft: speed=_craft_speed(u,speed)
