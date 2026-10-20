@@ -15,7 +15,8 @@ Read USER_DIRECTIVES.md and CURRENT_GAME_SPEC.md for scope.
 
 Keep the complete region on gauntlet/release/glass-reach through review/repairs.
 Root owns one independent accumulated review, exact-head game-smoke and normal PR;
-none is claimed complete for this candidate. External Glass REPORT holds evidence.
+none is claimed complete for this candidate. Decoder locality repaired after HOLD;
+same reviewer rechecks worker-local fitting benefits. External REPORT holds evidence.
 Bare Quietus/no finite tools is demonstrated technical viability, not difficulty
 or enjoyment approval. Journeys use explicit source-known access, not genuine saves.
 Actual custody/recovery owns material rewards; discovery grants no entitlement.

@@ -7,15 +7,15 @@ static func item(sim)->String:return "glass_"+artifact(sim).get("id","")
 static func sites(sim)->Array:
  var a=artifact(sim)
  return [{"item":item(sim),"name":a.id.replace("_"," ").to_upper(),"pos":a.pos,"band":a.band}] if not a.is_empty() and a.state in ["site","wreck"] else []
-static func decoder(sim)->bool:return sim.mission.launch_equipment.get("quietus","")=="quietus_decoder"
+static func decoder(sim,unit:int)->bool:return sim.Equipment.item_for(sim.mission.launch_equipment,unit)=="quietus_decoder"
 static func context(sim,action:String,unit:int=-1)->Dictionary:
  var result={"ready":false,"reason":"No Reach task here","pos":Vector2.ZERO,"duration":8.,"active":false,"elapsed":0.,"claimed_by":-1,"distance":0.,"range":60.,"noise_radius":520.}
  if not applies(sim.mission):return result
  if unit<0:unit=sim.selected
  var state=sim.mission.glass_reach;var body=sim.units[unit];var a=state.artifact
  result.pos=a.pos if action=="recover" and not a.is_empty() else state.work_pos
- result.duration=4. if action=="recover" else 2. if action=="gate" and decoder(sim) else 8.
- result.distance=body.pos.distance_to(result.pos);result.range=120. if action=="gate" and decoder(sim) else 60.
+ result.duration=4. if action=="recover" else 2. if action=="gate" and decoder(sim,unit) else 8.
+ result.distance=body.pos.distance_to(result.pos);result.range=120. if action=="gate" and decoder(sim,unit) else 60.
  var band=a.band if action=="recover" and not a.is_empty() else 1
  if not sim.outcome.is_empty():result.reason="Dive ended"
  elif not body.alive:result.reason="Craft lost"
@@ -27,11 +27,11 @@ static func context(sim,action:String,unit:int=-1)->Dictionary:
  elif not state.job.is_empty():
   result.active=state.job.unit==unit;result.claimed_by=state.job.unit;result.elapsed=state.job.elapsed;result.reason="Reach work in progress"
  elif body.band!=band or not body.transition.is_empty():result.reason="Settle at this work's recorded depth"
- elif body.pos.distance_to(result.pos)>(120. if action=="gate" and decoder(sim) else 60.):result.reason="Meet local work within60m (decoder gate120m)"
+ elif body.pos.distance_to(result.pos)>(120. if action=="gate" and decoder(sim,unit) else 60.):result.reason="Meet local work within60m (decoder gate120m)"
  elif not sim.Depth.clear(sim,body.pos,result.pos,body.band):result.reason="Terrain blocks local work"
  elif body.vel.length()>=2:result.reason="Settle below2m/s"
  elif not sim.captures[unit].is_empty() or not sim.module_recovery_status().jobs[unit].is_empty() or sim.Delivery.busy(sim,unit) or sim.Witness.busy(sim,unit):result.reason="Finish this craft's active work"
- else:result.ready=true;result.reason="RECOVER material ·4s audible" if action=="recover" else "LOCAL DECODER ·2s quiet" if action=="gate" and decoder(sim) else "LOCAL MACHINERY ·8s audible"
+ else:result.ready=true;result.reason="RECOVER material ·4s audible" if action=="recover" else "LOCAL DECODER ·2s quiet" if action=="gate" and decoder(sim,unit) else "LOCAL MACHINERY ·8s audible"
  return result
 static func command(sim,args:Dictionary)->bool:
  if not applies(sim.mission):return false
@@ -45,7 +45,7 @@ static func command(sim,args:Dictionary)->bool:
  if not c.ready:sim.message=c.reason;return false
  sim.mission.glass_reach.job={"unit":sim.selected,"action":action,"elapsed":0.,"duration":c.duration,"pos":c.pos,"band":sim.units[sim.selected].band}
  sim.units[sim.selected].hold="HOLD"
- if not (action=="gate" and decoder(sim)):sim._noise(sim.units[sim.selected].pos,520.,"RECOVERY WINCH" if action=="recover" else "REACH MACHINERY",c.duration,sim.units[sim.selected].band)
+ if not (action=="gate" and decoder(sim,sim.selected)):sim._noise(sim.units[sim.selected].pos,520.,"RECOVERY WINCH" if action=="recover" else "REACH MACHINERY",c.duration,sim.units[sim.selected].band)
  sim.message=c.reason;return true
 static func transfer(sim,carrier)->bool:
  var a=artifact(sim)
@@ -70,7 +70,7 @@ static func tick(sim,dt:float):
  if state.job.is_empty():return
  var job=state.job;var u=sim.units[job.unit]
  var custody=job.action!="recover" or (a.state in ["site","wreck"] and a.band==job.band and a.pos==job.pos)
- if not u.alive or u.hold!="HOLD" or u.band!=job.band or not u.transition.is_empty() or not custody or u.pos.distance_to(job.pos)>(120. if job.action=="gate" and decoder(sim) else 60.) or not sim.Depth.clear(sim,u.pos,job.pos,u.band):
+ if not u.alive or u.hold!="HOLD" or u.band!=job.band or not u.transition.is_empty() or not custody or u.pos.distance_to(job.pos)>(120. if job.action=="gate" and decoder(sim,job.unit) else 60.) or not sim.Depth.clear(sim,u.pos,job.pos,u.band):
   state.job={}
   if u.hold=="HOLD":u.hold=""
   sim.message="Reach work interrupted";return
