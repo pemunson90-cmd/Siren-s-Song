@@ -54,6 +54,10 @@ static func samples(cue: String) -> PackedFloat32Array:
 				var beat=exp(-pow((time-.045)/.025,2))+0.65*exp(-pow((time-.19)/.035,2))
 				value=sin(TAU*62*time)*beat*.28
 			"camera": value=(sin(TAU*170*time)*0.12+rng.randf_range(-0.2,0.2))*envelope
+			"salvage":
+				# Short winch engagement: rising motor and ratcheting cable, below alerts.
+				filtered=lerpf(filtered,rng.randf_range(-1,1),0.1)
+				value=(sin(TAU*(62*time+8*time*time))*0.16+sin(TAU*155*time)*0.045+filtered*0.06)*(0.75+0.25*pow(maxf(0,cos(TAU*14*time)),4))*envelope
 			"emp": value=(sin(TAU*(140*time-45*time*time))*0.3+rng.randf_range(-0.14,0.14))*envelope
 			"snare": value=(sin(TAU*160*time)*0.12+sin(TAU*320*time)*0.08+rng.randf_range(-0.06,0.06))*envelope
 			"knock": value=sin(TAU*(90*time-(52.0/1.1)*time*time))*0.3*envelope
@@ -84,7 +88,7 @@ func _ready() -> void:
 		if AudioServer.get_bus_effect(0,i).resource_name=="SirenPeakGuard": guarded=true
 	if not guarded:
 		var limiter=AudioEffectLimiter.new(); limiter.resource_name="SirenPeakGuard"; limiter.threshold_db=-3; limiter.ceiling_db=-1; AudioServer.add_bus_effect(0,limiter)
-	for cue in ["ping","camera","emp","knock","snare","record","loss","extraction","alert","recon","decoy","creak","beam","factory","carrier_received","return_received","heartbeat"]: cues[cue]=stream(cue)
+	for cue in ["ping","camera","emp","knock","snare","salvage","record","loss","extraction","alert","recon","decoy","creak","beam","factory","carrier_received","return_received","heartbeat"]: cues[cue]=stream(cue)
 	ambience=AudioStreamPlayer.new(); ambience.stream=stream("ambience"); ambience.bus=AMBIENCE_BUS; add_child(ambience); ambience.play()
 	engine=AudioStreamPlayer.new(); engine.stream=stream("engine"); engine.bus=EFFECTS_BUS; add_child(engine); engine.play()
 	for n in 5:
