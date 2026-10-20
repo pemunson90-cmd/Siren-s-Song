@@ -52,6 +52,8 @@ static func begin(sim,item:String)->bool:
  sim._noise(sim.units[sim.selected].pos,NOISE,"RECOVERY WINCH",DURATION)
  sim.events.append({"type":"salvage","pos":sim.units[sim.selected].pos,"item":item});sim.message="%s · recover %s · audible winch 4s"%[sim.units[sim.selected].name,_name(item)]
  return true
+static func cancel_released(sim,unit_id:int)->void:
+ if sim.mission.has("module_recovery") and sim.units[unit_id].hold!="HOLD":sim.mission.module_recovery.jobs[unit_id]={}
 static func tick(sim,dt:float)->void:
  if not sim.mission.has("module_recovery"):return
  var state=sim.mission.module_recovery
@@ -103,6 +105,7 @@ static func valid(data:Dictionary)->bool:
  if not mission.has("module_recovery"):return true
  var state=mission.module_recovery
  if not state is Dictionary or state.size()!=4 or not state.get("modules") is Dictionary or not state.get("jobs") is Array or state.jobs.size()!=3 or not state.get("result") is Dictionary or not state.get("deferred") is String:return false
+ if not mission.get("launch_equipment",{}) is Dictionary:return false
  var launched=[]
  for id in [1,2]:
   var item=Catalog.item_for(mission.get("launch_equipment",{}),id)

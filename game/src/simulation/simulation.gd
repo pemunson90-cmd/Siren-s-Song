@@ -319,6 +319,9 @@ func command(order: String,args: Dictionary={}) -> bool:
 	if order=="depart":
 		var context=departure_context()
 		if not context.available or not args.get("confirm") is bool:return false
+		if args.has("corridor"):
+			var expected=args.corridor
+			if not expected is Dictionary or expected.get("pos")!=context.corridor.pos or expected.get("route","")!=context.corridor.get("route",""):return false
 		if not args.confirm:ModuleRecovery.defer(self,context);message="Recovery continues · route remaining module carriers, then depart";return true
 		return _try_extract(context.corridor,true)
 	var u=units[selected]
@@ -422,6 +425,7 @@ func command(order: String,args: Dictionary={}) -> bool:
 				_noise(u.pos,520,"CAMERA");noises.back()["record"]=context.target
 			events.append({"type":"camera","pos":u.pos})
 		_: return false
+	ModuleRecovery.cancel_released(self,selected)
 	return true
 # Public read-only operator intent; legacy navigation corners are not editor rows.
 func route_goals(unit_id:int=-1) -> Array:
