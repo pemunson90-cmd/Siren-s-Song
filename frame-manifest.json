@@ -1,0 +1,1943 @@
+{
+  "created_utc": "2026-10-20T11:25:56.189405+00:00",
+  "governing_production": "8e0eb35cd87279b51f40cd4616cdd7fba66725ce",
+  "archive_root": "/workspace",
+  "scope": "Original top-level session PNG bytes and original witness UI capture PNG bytes only; no cache/database/keystore or campaign profile. Root owns thin logs/profiles checkpoint.",
+  "pending_active_session": "critic-current-cautious-isolated-inner-20261020",
+  "pending_included": false,
+  "sessions": [
+    {
+      "session": "stakes-resumed-inner-20261020",
+      "source_record_sha256": "e8b4c872989b6da7ab9db271e01ba2821a80c065263fc0050a4d49fb400a5b35",
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44",
+      "game_tree": "10a100a73dc676c4267409fa11f2eec2f4fcb09d",
+      "fixture": "420dpi recorded Android safearea; desktop rendering/input, not native/human acceptance",
+      "profile_origin": {
+        "original": "/workspace/Siren-s-Song-gauntlet-archives/recovery-20261020/immutable-profiles/stakes-confluence-mid-genuine-0ee/quietus.save",
+        "sha256": "9dfb837d4250a6245b33f9d3593bbd1bcffa15cbd91c2ab19da63d7bfa70cab1",
+        "copied_to": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/stakes-resumed-inner-20261020/data/godot/app_userdata/Siren's Song/quietus.save"
+      },
+      "normal_quit_response_recorded": true,
+      "process_state_at_packaging": "Z",
+      "post_quit_note": "A later unanswered status request exists after the quit in the original shared-display Stakes session."
+    },
+    {
+      "session": "stakes-resumed-isolated-inner-20261020",
+      "source_record_sha256": "c284058f283f6c7cc8f0b41b823b808cc4e251c3a91420a9d720b4740dc93d71",
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44",
+      "game_tree": "10a100a73dc676c4267409fa11f2eec2f4fcb09d",
+      "fixture": "420dpi recorded Android safearea; desktop rendering/input, not native/human acceptance",
+      "profile_origin": {
+        "original": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/stakes-resumed-inner-20261020/data/godot/app_userdata/Siren's Song/quietus.save",
+        "sha256": "fa331aa3c1b96f4005d033fb83a5e9646e22df56b8f5a4d19bb432932c408a0e",
+        "copied_to": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/stakes-resumed-isolated-inner-20261020/data/godot/app_userdata/Siren's Song/quietus.save"
+      },
+      "normal_quit_response_recorded": true,
+      "process_state_at_packaging": "Z",
+      "post_quit_note": null
+    },
+    {
+      "session": "drone-resumed-inner-20261020",
+      "source_record_sha256": "234a915061f1550cb611206560caf3898c392d929a16b404ace09f70a34e58fe",
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44",
+      "game_tree": "10a100a73dc676c4267409fa11f2eec2f4fcb09d",
+      "fixture": "420dpi recorded Android safearea; desktop rendering/input, not native/human acceptance",
+      "profile_origin": {
+        "original": "/workspace/Siren-s-Song-gauntlet-archives/recovery-20261020/immutable-profiles/drone-split-mid-genuine-0ee/quietus.save",
+        "sha256": "495037428f2d1a4d0d5a067f75249e9266dcca4de54a301685b9d757d871536f",
+        "copied_to": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-inner-20261020/data/godot/app_userdata/Siren's Song/quietus.save"
+      },
+      "normal_quit_response_recorded": true,
+      "process_state_at_packaging": "Z",
+      "post_quit_note": null
+    },
+    {
+      "session": "drone-resumed-isolated-inner-20261020",
+      "source_record_sha256": "a1536158c0dd6c84d369b5b7e22f0c57f96244690ced3da8f985f0757b0479a1",
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44",
+      "game_tree": "10a100a73dc676c4267409fa11f2eec2f4fcb09d",
+      "fixture": "420dpi recorded Android safearea; desktop rendering/input, not native/human acceptance",
+      "profile_origin": {
+        "original": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-inner-20261020/data/godot/app_userdata/Siren's Song/quietus.save",
+        "sha256": "bdfc21aabd582b3c507a0d802165722b154f5728673810821afe47acb01b7722",
+        "copied_to": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-isolated-inner-20261020/data/godot/app_userdata/Siren's Song/quietus.save"
+      },
+      "normal_quit_response_recorded": true,
+      "process_state_at_packaging": "Z",
+      "post_quit_note": null
+    },
+    {
+      "session": "critic-current-cautious-inner-20261020",
+      "source_record_sha256": "a7511fdb75ef3421c8aa1e4788960fa27072a00e0fd66c3f83baffaae9a1da8a",
+      "source_sha": "e3a541fb24c2a3f136121150b7a0d2960546fda7",
+      "game_tree": "10a100a73dc676c4267409fa11f2eec2f4fcb09d",
+      "fixture": "420dpi recorded Android safearea; desktop rendering/input, not native/human acceptance",
+      "profile_origin": null,
+      "normal_quit_response_recorded": true,
+      "process_state_at_packaging": "Z",
+      "post_quit_note": null
+    }
+  ],
+  "ui_report_path": "/workspace/work/gauntlet-execution-20261020/witness-ui/report.txt",
+  "ui_report_sha256": "bcc49cc4f7617651d70eaab9d4b6462e0aea06428669abebc9f8eb553ded81dd",
+  "files": [
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/stakes-resumed-inner-20261020/1792494409032448048.png",
+      "session": "stakes-resumed-inner-20261020",
+      "size": 956132,
+      "sha256": "411229db49e5a212b577d217ffc3f36ff4d0ba74f79e9495be3f1a2e19375867",
+      "mtime_ns": 1792494409888383080,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/stakes-resumed-inner-20261020/1792494416769742522.png",
+      "session": "stakes-resumed-inner-20261020",
+      "size": 956724,
+      "sha256": "4d6bf2f3b2919e7078d42ab57fcc58069ad28555b8f24b14c0b69edc720d60d6",
+      "mtime_ns": 1792494417378069506,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/stakes-resumed-inner-20261020/1792494417468085434.png",
+      "session": "stakes-resumed-inner-20261020",
+      "size": 967421,
+      "sha256": "fbb63f22a1f5e4d40d86cb4d64e03e8027545c9675d279a4b2403e02b9d6de72",
+      "mtime_ns": 1792494418128730567,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/stakes-resumed-inner-20261020/1792494418251789400.png",
+      "session": "stakes-resumed-inner-20261020",
+      "size": 929705,
+      "sha256": "9770e3069d11e5996f1dc42eb884095680c1b1eebb166255f05f722d9bf0e081",
+      "mtime_ns": 1792494422832739076,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/stakes-resumed-inner-20261020/1792494423057276622.png",
+      "session": "stakes-resumed-inner-20261020",
+      "size": 932012,
+      "sha256": "8292a0659d8f771d5de7d5ba30e96934b34d39bddecb598af10fb5458b522e42",
+      "mtime_ns": 1792494423694076413,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/stakes-resumed-inner-20261020/1792494431247913168.png",
+      "session": "stakes-resumed-inner-20261020",
+      "size": 914237,
+      "sha256": "4fe5cb5ac2eca1bb494b6ebc2697587fdfd5841920e6f4bd899f3e4f8107a99e",
+      "mtime_ns": 1792494432411763187,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/stakes-resumed-inner-20261020/1792494439832928830.png",
+      "session": "stakes-resumed-inner-20261020",
+      "size": 965813,
+      "sha256": "97a2d29d9c0f3587c37a561c71d2b3fdc38a66c7a4b50b146b880f68afe82abd",
+      "mtime_ns": 1792494440571156759,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/stakes-resumed-inner-20261020/1792494449797778511.png",
+      "session": "stakes-resumed-inner-20261020",
+      "size": 913723,
+      "sha256": "5b6f89b8e9bfc8d28922548f566b3127926d9dba6a175e5f5d55f6ea9a21792b",
+      "mtime_ns": 1792494450571174354,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/stakes-resumed-inner-20261020/1792494450756882642.png",
+      "session": "stakes-resumed-inner-20261020",
+      "size": 932343,
+      "sha256": "73fed5bbc4b23949be10115cb47339d8e6b3d5fa2b54a3361eb75b2ffc3c9c14",
+      "mtime_ns": 1792494451475090910,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/stakes-resumed-inner-20261020/1792494461689148802.png",
+      "session": "stakes-resumed-inner-20261020",
+      "size": 897858,
+      "sha256": "70c5c81f369f771b2ee199fe8648173e60eb3ad593c9aca081070d8eab05542b",
+      "mtime_ns": 1792494462365588566,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/stakes-resumed-inner-20261020/1792494473511809155.png",
+      "session": "stakes-resumed-inner-20261020",
+      "size": 931969,
+      "sha256": "ac230c847556c6d9817b6eae738ffd37d735f01cc57d2cd4b145f2804aed1808",
+      "mtime_ns": 1792494474203863655,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/stakes-resumed-inner-20261020/1792494474374835199.png",
+      "session": "stakes-resumed-inner-20261020",
+      "size": 914110,
+      "sha256": "e7954ef242971cee8183bd55832e8ce0fdf1a91363c828b871556c88b359a7e1",
+      "mtime_ns": 1792494475069162700,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/stakes-resumed-inner-20261020/1792494475242083616.png",
+      "session": "stakes-resumed-inner-20261020",
+      "size": 884060,
+      "sha256": "65cae697395fdd8d9887a78d123ea8999cbb9895c3f47ef10d3580a74675ed58",
+      "mtime_ns": 1792494475925532004,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/stakes-resumed-inner-20261020/1792494488121376501.png",
+      "session": "stakes-resumed-inner-20261020",
+      "size": 913734,
+      "sha256": "be1df950a1f5515ddc7448054726c9f996157c76e1dd2274d4b9a64ad6cb8445",
+      "mtime_ns": 1792494488895778061,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/stakes-resumed-inner-20261020/1792494489110743503.png",
+      "session": "stakes-resumed-inner-20261020",
+      "size": 932082,
+      "sha256": "7bdf8a84e485bc007dee4a336a10fea6539a65e8a9bc5677f9cfebb735112d42",
+      "mtime_ns": 1792494490337057714,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/stakes-resumed-inner-20261020/1792494490613513053.png",
+      "session": "stakes-resumed-inner-20261020",
+      "size": 897290,
+      "sha256": "22d5bd8a48b9327d4cd4d931ae0da3b6b99cbc20efd70b096db02d521a8bb77b",
+      "mtime_ns": 1792494492045300501,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/stakes-resumed-inner-20261020/1792494492462157872.png",
+      "session": "stakes-resumed-inner-20261020",
+      "size": 860306,
+      "sha256": "7985035f6c3cfd41d440b211c5c86fdd0e50b2761d3034f38858adfec3d672ed",
+      "mtime_ns": 1792494493391210565,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/stakes-resumed-inner-20261020/1792494500749446600.png",
+      "session": "stakes-resumed-inner-20261020",
+      "size": 1586467,
+      "sha256": "12633b9955049cda0eb10eb3c94a47bef13db62e9c0a599bfad47f26cceda8c5",
+      "mtime_ns": 1792494504396224330,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/stakes-resumed-inner-20261020/1792494516770568471.png",
+      "session": "stakes-resumed-inner-20261020",
+      "size": 1605390,
+      "sha256": "dcec7fb3f0ec47b801c815a807407825d322d244536021023b5c5b47c51e8fcd",
+      "mtime_ns": 1792494518454872421,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/stakes-resumed-inner-20261020/1792494518609653217.png",
+      "session": "stakes-resumed-inner-20261020",
+      "size": 1724549,
+      "sha256": "5759a09afe36d8dad2e646dcb60ed2b17771d299a3e89be3153a6971f2e0b649",
+      "mtime_ns": 1792494519932648040,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/stakes-resumed-inner-20261020/1792494520137025499.png",
+      "session": "stakes-resumed-inner-20261020",
+      "size": 1614237,
+      "sha256": "c506de6e7ec03520b766e8465501fd60e8bf68335de8fd77aede19c7c0b5d826",
+      "mtime_ns": 1792494521404686466,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/stakes-resumed-inner-20261020/1792494534231163191.png",
+      "session": "stakes-resumed-inner-20261020",
+      "size": 1724639,
+      "sha256": "d5f19267c3e5da75725c1233a4c2b1ac4abea458237e3e272609adfeb8dc1e8d",
+      "mtime_ns": 1792494535814361911,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/stakes-resumed-inner-20261020/1792494535966961248.png",
+      "session": "stakes-resumed-inner-20261020",
+      "size": 1618764,
+      "sha256": "91443c38f56a25272ad3a42bf3f7d89eca493461d87baf9e6a9e4367605fea63",
+      "mtime_ns": 1792494537273022753,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/stakes-resumed-inner-20261020/1792494548062728367.png",
+      "session": "stakes-resumed-inner-20261020",
+      "size": 1732906,
+      "sha256": "e1225de038c37e80cc632d1c8a27d996226b3fe84bf1c8c7a5f61e73bb1a3fd5",
+      "mtime_ns": 1792494549364751439,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/stakes-resumed-inner-20261020/1792494549578784107.png",
+      "session": "stakes-resumed-inner-20261020",
+      "size": 1598327,
+      "sha256": "e1dd7c71652e469b24e4005f33291dcd4da10908dae9e6ed5081dd1733de2582",
+      "mtime_ns": 1792494550728987643,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/stakes-resumed-inner-20261020/1792494561718544525.png",
+      "session": "stakes-resumed-inner-20261020",
+      "size": 1474639,
+      "sha256": "07dfb27ba9aa8489a3e4836510d4e9a3a3845bd530ad1b26be8084d3e3271df6",
+      "mtime_ns": 1792494562833820944,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/stakes-resumed-inner-20261020/1792494583788147842.png",
+      "session": "stakes-resumed-inner-20261020",
+      "size": 1600240,
+      "sha256": "32a235bde341d52762061ebf3874749194aa5e263c87687f45148776d1620d16",
+      "mtime_ns": 1792494585274216462,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/stakes-resumed-inner-20261020/1792494585512949251.png",
+      "session": "stakes-resumed-inner-20261020",
+      "size": 1732791,
+      "sha256": "eedc8a9c8ebcf3935042a1ee34fc762183cb64b4dc830df74570232a03ea056e",
+      "mtime_ns": 1792494586800281917,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/stakes-resumed-inner-20261020/1792494598540554614.png",
+      "session": "stakes-resumed-inner-20261020",
+      "size": 1599835,
+      "sha256": "e1b8bfb5dc17a44c5aea2bcccd194ab81ddd7e812f9c1907a8cc3b1ce404d6b9",
+      "mtime_ns": 1792494599797358658,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/stakes-resumed-inner-20261020/1792494613493575708.png",
+      "session": "stakes-resumed-inner-20261020",
+      "size": 1616445,
+      "sha256": "d7353dc5ac0317f14effa8a71063f8fa9fb83ed372356d8e191d16754fa41e85",
+      "mtime_ns": 1792494614785036983,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/stakes-resumed-inner-20261020/1792494628754326172.png",
+      "session": "stakes-resumed-inner-20261020",
+      "size": 1727242,
+      "sha256": "838d5278787c4bfa94b59ca756d9ff340e08beb95e9fde5113e57268cc071a47",
+      "mtime_ns": 1792494630338643560,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/stakes-resumed-inner-20261020/1792494630547211419.png",
+      "session": "stakes-resumed-inner-20261020",
+      "size": 1603048,
+      "sha256": "d75d27e00517796113c5d89f3eb480b7aab16d96b92559dc3544c742a568b60c",
+      "mtime_ns": 1792494631979601003,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/stakes-resumed-inner-20261020/1792494632132990465.png",
+      "session": "stakes-resumed-inner-20261020",
+      "size": 1722308,
+      "sha256": "409a0bf686a2cf82c920077c93d6cb64232bb556e0554e7a58570468ee01df63",
+      "mtime_ns": 1792494633717972367,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/stakes-resumed-inner-20261020/1792494650025562215.png",
+      "session": "stakes-resumed-inner-20261020",
+      "size": 1722338,
+      "sha256": "fb0b5ab9ee2060281c173278e19cb94276f88a7e5dd01f4743320587ad647d96",
+      "mtime_ns": 1792494651770023058,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/stakes-resumed-inner-20261020/1792494651879750988.png",
+      "session": "stakes-resumed-inner-20261020",
+      "size": 1718464,
+      "sha256": "1d2645284b9125c6986b80e9ef47c6f90a096a5557d3efb8c0f2a7817b653958",
+      "mtime_ns": 1792494653630271266,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/stakes-resumed-inner-20261020/1792494653717392496.png",
+      "session": "stakes-resumed-inner-20261020",
+      "size": 1739898,
+      "sha256": "2e01e5380bb7d0a2454d972a067e26400cc01879bb490c4790becd33aad24b1a",
+      "mtime_ns": 1792494660784594301,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/stakes-resumed-inner-20261020/1792494660882506777.png",
+      "session": "stakes-resumed-inner-20261020",
+      "size": 1743943,
+      "sha256": "d0df1b1af87fc6de05aa7119fc35dbafb55f220c3762e47d26c342cb783e10a5",
+      "mtime_ns": 1792494662396279726,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/stakes-resumed-inner-20261020/1792494664996177174.png",
+      "session": "stakes-resumed-inner-20261020",
+      "size": 1743960,
+      "sha256": "0f31e6b47fc03d20c273ea0315fd59b1c26a34a6a846642c3c516aabd8ef7c75",
+      "mtime_ns": 1792494666388888043,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/stakes-resumed-inner-20261020/1792494673993441572.png",
+      "session": "stakes-resumed-inner-20261020",
+      "size": 562832,
+      "sha256": "5d850a37c4a55a3688f5067a3184e8fbca97b16923f3296f242ad82eb2430db4",
+      "mtime_ns": 1792494674745104646,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/stakes-resumed-inner-20261020/1792494681205387238.png",
+      "session": "stakes-resumed-inner-20261020",
+      "size": 562826,
+      "sha256": "1c6dd0e1854d2d62b3aea73c25b1c731a03dea70d5e989d90743cfb927e28951",
+      "mtime_ns": 1792494681867958073,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/stakes-resumed-inner-20261020/initial.png",
+      "session": "stakes-resumed-inner-20261020",
+      "size": 577157,
+      "sha256": "167262670cc1c1c30a979cc8dc0e5b03a78e57652d41345e3e04b5327749aa19",
+      "mtime_ns": 1792494400618013620,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/stakes-resumed-isolated-inner-20261020/1792494879664670107.png",
+      "session": "stakes-resumed-isolated-inner-20261020",
+      "size": 1739505,
+      "sha256": "6db147845ce76fda26a19e4336f495c0085379be29190aadd78420d6a245e57f",
+      "mtime_ns": 1792494881423463446,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/stakes-resumed-isolated-inner-20261020/1792494895176042692.png",
+      "session": "stakes-resumed-isolated-inner-20261020",
+      "size": 1717440,
+      "sha256": "0fd921959432a62e09ea8991a9733d77275a282ad48bb30d2a6a1087e4a4d061",
+      "mtime_ns": 1792494896793041935,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/stakes-resumed-isolated-inner-20261020/1792494905493946292.png",
+      "session": "stakes-resumed-isolated-inner-20261020",
+      "size": 1717305,
+      "sha256": "136d609aff31b208383f39eec6761691aeed0f297a47f407b0e9d5618d04ba32",
+      "mtime_ns": 1792494907566659565,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/stakes-resumed-isolated-inner-20261020/1792494907729489958.png",
+      "session": "stakes-resumed-isolated-inner-20261020",
+      "size": 1716181,
+      "sha256": "e0d09e0518e9cfe04cb8bd19c0270ea8f685c32c39233fa4c8a7e2d042333d91",
+      "mtime_ns": 1792494909686975635,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/stakes-resumed-isolated-inner-20261020/1792494909922169854.png",
+      "session": "stakes-resumed-isolated-inner-20261020",
+      "size": 1724970,
+      "sha256": "0e677c30d9d11b6829c1a8260f1adff4bbfe84b87de623175a70c60174a8c2a5",
+      "mtime_ns": 1792494917692895235,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/stakes-resumed-isolated-inner-20261020/1792494917901774853.png",
+      "session": "stakes-resumed-isolated-inner-20261020",
+      "size": 1724530,
+      "sha256": "04278ca42d5d07e1175b372775ce43795022c1ccea9f3cfb8843ce297ea6d3b4",
+      "mtime_ns": 1792494919796229283,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/stakes-resumed-isolated-inner-20261020/1792494922831732966.png",
+      "session": "stakes-resumed-isolated-inner-20261020",
+      "size": 1724651,
+      "sha256": "cf32c21cf4f84d43fcae672821c9b5526c92334e896f96b02f59dbd7c73b8459",
+      "mtime_ns": 1792494924894669395,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/stakes-resumed-isolated-inner-20261020/1792494941284294281.png",
+      "session": "stakes-resumed-isolated-inner-20261020",
+      "size": 1724583,
+      "sha256": "f18b0a130db33896e135cbe35d9f0f03cdd3280d0154fe106e5582d45c7ebe1f",
+      "mtime_ns": 1792494943192706845,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/stakes-resumed-isolated-inner-20261020/1792494943433660853.png",
+      "session": "stakes-resumed-isolated-inner-20261020",
+      "size": 1725173,
+      "sha256": "c93d1fee8139a950661252b786495027a7bd862b99ab38812f92793e10a5268a",
+      "mtime_ns": 1792494945522724848,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/stakes-resumed-isolated-inner-20261020/1792494945741951098.png",
+      "session": "stakes-resumed-isolated-inner-20261020",
+      "size": 1742376,
+      "sha256": "56639d46ba11afc6751754aa16806b654e674c742b6fdd23da72f74ef97378ee",
+      "mtime_ns": 1792494952887204803,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/stakes-resumed-isolated-inner-20261020/1792494953028634063.png",
+      "session": "stakes-resumed-isolated-inner-20261020",
+      "size": 1756001,
+      "sha256": "d5f76b74dd0be085da1ec554fccc503e659724fd32811e28a3f383e715e8f6b7",
+      "mtime_ns": 1792494955193527964,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/stakes-resumed-isolated-inner-20261020/1792494965044164598.png",
+      "session": "stakes-resumed-isolated-inner-20261020",
+      "size": 1755385,
+      "sha256": "8a24954473bff03cc6ed9984e3112bfce9230a3f17d6b934279936e2fa96bb70",
+      "mtime_ns": 1792494967708540791,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/stakes-resumed-isolated-inner-20261020/1792494968200445009.png",
+      "session": "stakes-resumed-isolated-inner-20261020",
+      "size": 1755518,
+      "sha256": "6f681d853c90eb27ded09d14f80076b2011a074b5926349329c69b987b0011ca",
+      "mtime_ns": 1792494970401878820,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/stakes-resumed-isolated-inner-20261020/1792494970629144593.png",
+      "session": "stakes-resumed-isolated-inner-20261020",
+      "size": 1743265,
+      "sha256": "e91896e3b71f5e0ca0c6ad5ac79e1896211464dca36b4168ee8146585c9eb2db",
+      "mtime_ns": 1792494973394004325,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/stakes-resumed-isolated-inner-20261020/1792494973589754363.png",
+      "session": "stakes-resumed-isolated-inner-20261020",
+      "size": 575745,
+      "sha256": "d23be0d56b11ff5562b985c90c3b95ba09875ea8f0c1a420c3c985d472b27ea7",
+      "mtime_ns": 1792494982582814366,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/stakes-resumed-isolated-inner-20261020/1792495010304771674.png",
+      "session": "stakes-resumed-isolated-inner-20261020",
+      "size": 816309,
+      "sha256": "54472a8a74aafeb28c9963bb2f20ec3d1df783628dab46ec55a781af49122072",
+      "mtime_ns": 1792495011280670158,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/stakes-resumed-isolated-inner-20261020/1792495025887803044.png",
+      "session": "stakes-resumed-isolated-inner-20261020",
+      "size": 547762,
+      "sha256": "ad562d683916b72fc20840fcac6e5b88225ae0887ecc8c0ab70007350f4a82c2",
+      "mtime_ns": 1792495027682592711,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/stakes-resumed-isolated-inner-20261020/1792495027915970471.png",
+      "session": "stakes-resumed-isolated-inner-20261020",
+      "size": 547760,
+      "sha256": "0c12d0ac21537382feef6762166ec8e981ac874df99398728455460619dfee32",
+      "mtime_ns": 1792495029019155955,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/stakes-resumed-isolated-inner-20261020/initial.png",
+      "session": "stakes-resumed-isolated-inner-20261020",
+      "size": 522386,
+      "sha256": "462a549c9282c79d1ce5942c43148a51a5599a7b025e087ef98e7d2d1a0e6be3",
+      "mtime_ns": 1792494874481490448,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-inner-20261020/1792494419678793528.png",
+      "session": "drone-resumed-inner-20261020",
+      "size": 890714,
+      "sha256": "ac861655000a1f17bfdbe76aefa61f922d9c099a8ab8b117f6fcec11dd40e74c",
+      "mtime_ns": 1792494420226280725,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-inner-20261020/1792494428734240956.png",
+      "session": "drone-resumed-inner-20261020",
+      "size": 2861071,
+      "sha256": "a3b6fb7ea9e4bb4559c668c11a80376a0db00c584c38255b2ed8b1cd84a98db6",
+      "mtime_ns": 1792494430286117120,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-inner-20261020/1792494442423031853.png",
+      "session": "drone-resumed-inner-20261020",
+      "size": 2607311,
+      "sha256": "78a63749af522f473e0cfad060016d5b85ffedf51a45f2c34db7bcd719ed16f3",
+      "mtime_ns": 1792494443741401876,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-inner-20261020/1792494451576260786.png",
+      "session": "drone-resumed-inner-20261020",
+      "size": 2573073,
+      "sha256": "29a7ff00011071f6ab9060c841ba11119f95c3a41b65a8b48a1293a7bae99d29",
+      "mtime_ns": 1792494452696969051,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-inner-20261020/1792494462261012987.png",
+      "session": "drone-resumed-inner-20261020",
+      "size": 2837682,
+      "sha256": "eb5d4450284ec5a25001054095d0b3656504affe4ba83dc75cdc9d60c3ac9f54",
+      "mtime_ns": 1792494463569228356,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-inner-20261020/1792494468075014508.png",
+      "session": "drone-resumed-inner-20261020",
+      "size": 2577720,
+      "sha256": "7d1ba0bccc0033b41586e0d74b722814efc2ea7172d03c31724f7523bb886971",
+      "mtime_ns": 1792494469366328259,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-inner-20261020/1792494479831335261.png",
+      "session": "drone-resumed-inner-20261020",
+      "size": 2837290,
+      "sha256": "43002e25bc745c44f91a9b9d084d9575ce3ea64458232216459b08c09f9e38a4",
+      "mtime_ns": 1792494481182818457,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-inner-20261020/1792494481350644128.png",
+      "session": "drone-resumed-inner-20261020",
+      "size": 2436214,
+      "sha256": "5200c6ba0d990ed6d6b35871033bd2ad31314d6658b839c1ccbe2b4449d0289c",
+      "mtime_ns": 1792494482675800866,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-inner-20261020/1792494493308222552.png",
+      "session": "drone-resumed-inner-20261020",
+      "size": 2240693,
+      "sha256": "36ac0d6838b7a3883381659f1157ec7f11021d5466ea1d1caeafd2983f1ed00e",
+      "mtime_ns": 1792494495094578263,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-inner-20261020/1792494511344276658.png",
+      "session": "drone-resumed-inner-20261020",
+      "size": 2436625,
+      "sha256": "03083a2b5473c0ccec6d53fc702384aa91439fa06dd3ba6f56e2fd9fe3ba2fa9",
+      "mtime_ns": 1792494513637358788,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-inner-20261020/1792494514061460140.png",
+      "session": "drone-resumed-inner-20261020",
+      "size": 2837425,
+      "sha256": "4cd0259d07dd26d1f6e71d61bbc78a2a68137540feab4ee42b6986925ce0215f",
+      "mtime_ns": 1792494515353627365,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-inner-20261020/1792494515530579477.png",
+      "session": "drone-resumed-inner-20261020",
+      "size": 2830133,
+      "sha256": "cea656a5bcb488ca1936e85fded9530a68ab2985d10f4e241d87bd9508e092af",
+      "mtime_ns": 1792494516672498111,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-inner-20261020/1792494522553074188.png",
+      "session": "drone-resumed-inner-20261020",
+      "size": 2829868,
+      "sha256": "4abdcd2b31146d723ca4d2f8bb61e0b13fb502e13c5388ab3e9199a7d96acc8c",
+      "mtime_ns": 1792494523464758260,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-inner-20261020/1792494523579117364.png",
+      "session": "drone-resumed-inner-20261020",
+      "size": 2811690,
+      "sha256": "2a21f2da0df6095959137bb68488798c430d4bef460d0c3f2e0653b7597b369c",
+      "mtime_ns": 1792494524653016176,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-inner-20261020/1792494524760965119.png",
+      "session": "drone-resumed-inner-20261020",
+      "size": 2831180,
+      "sha256": "f8434160e4f8d3902b31df1eb11dc58aef7c12150b253d4e96cd5fe507c6caef",
+      "mtime_ns": 1792494526261646096,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-inner-20261020/1792494526346572586.png",
+      "session": "drone-resumed-inner-20261020",
+      "size": 2836614,
+      "sha256": "b2f8e8826a76b915e1d0130daf1d1a17daea4769a6ac1b4ec20fb17a843c1439",
+      "mtime_ns": 1792494527318099899,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-inner-20261020/1792494541199291276.png",
+      "session": "drone-resumed-inner-20261020",
+      "size": 2718330,
+      "sha256": "7e1a81948bc46b036dc327308eeb2243c74c29f4ec8c066664be9dc3b61ac7f4",
+      "mtime_ns": 1792494542401125567,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-inner-20261020/1792494542545490169.png",
+      "session": "drone-resumed-inner-20261020",
+      "size": 2682599,
+      "sha256": "cc422d4b731b121ed68c4d58ba9ca41de211f47a0d3835748b43f4ad7d347351",
+      "mtime_ns": 1792494543698249516,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-inner-20261020/1792494555341255110.png",
+      "session": "drone-resumed-inner-20261020",
+      "size": 278046,
+      "sha256": "79d7c37e973cb99059a33b61f13e492535b06828943f093395ead2375b8e02c7",
+      "mtime_ns": 1792494556104358566,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-inner-20261020/1792494556292266581.png",
+      "session": "drone-resumed-inner-20261020",
+      "size": 278048,
+      "sha256": "d25eb66367bb458c9d35ecdc3e7668b562cb725051e05a01f784e8b76604afa1",
+      "mtime_ns": 1792494556925997116,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-inner-20261020/1792494572094908861.png",
+      "session": "drone-resumed-inner-20261020",
+      "size": 279308,
+      "sha256": "d52db578eaf862060b229a539c79974bd472f9ee3298cea6e7987ca86c4480b8",
+      "mtime_ns": 1792494573076189683,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-inner-20261020/1792494573281605150.png",
+      "session": "drone-resumed-inner-20261020",
+      "size": 295831,
+      "sha256": "2921929c73aab4edb8f99d071d2a1af1a4bc39c9bfe6d7d0475e1f5671cd5e14",
+      "mtime_ns": 1792494574183644433,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-inner-20261020/1792494600688584554.png",
+      "session": "drone-resumed-inner-20261020",
+      "size": 297099,
+      "sha256": "3ec4e8a210aed87407db175609809b56fa4362362eae44d586227c4664e436a7",
+      "mtime_ns": 1792494602078654340,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-inner-20261020/1792494602288000496.png",
+      "session": "drone-resumed-inner-20261020",
+      "size": 303076,
+      "sha256": "e9a503c56072115ca98f5a5ff06b0f6139b450f26690741cae7e0416ffed871b",
+      "mtime_ns": 1792494603251098406,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-inner-20261020/1792494603388406064.png",
+      "session": "drone-resumed-inner-20261020",
+      "size": 304710,
+      "sha256": "ec99cd882ab8b5e13ea5c08a28566575ce71a3a161688f83f69ce4f6ae58c7ac",
+      "mtime_ns": 1792494604369791721,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-inner-20261020/1792494604568931188.png",
+      "session": "drone-resumed-inner-20261020",
+      "size": 305007,
+      "sha256": "ac92957fdada4e396057ff812f8554d3e63d51891d8299f7facb79386ec417dc",
+      "mtime_ns": 1792494605506288941,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-inner-20261020/1792494605657609297.png",
+      "session": "drone-resumed-inner-20261020",
+      "size": 304314,
+      "sha256": "f881a0732f56e0c075a42983a5043976dc392d09647e699483ec48d848150bcb",
+      "mtime_ns": 1792494606617973184,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-inner-20261020/1792494606837366032.png",
+      "session": "drone-resumed-inner-20261020",
+      "size": 2833187,
+      "sha256": "709986eed38bc743feb0c0f08fcf108bf46beb4399a99d1bb13c43c8c187b21a",
+      "mtime_ns": 1792494608266195873,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-inner-20261020/1792494614059188181.png",
+      "session": "drone-resumed-inner-20261020",
+      "size": 2719042,
+      "sha256": "898145ae7169cc3f888bd42ef74493d99394e3f4d059e4744124b578b69afac4",
+      "mtime_ns": 1792494615499711217,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-inner-20261020/1792494627389658374.png",
+      "session": "drone-resumed-inner-20261020",
+      "size": 279704,
+      "sha256": "1f177810785d7bd5cb350acd692ce6e64f56fe556db42d441397a8a3389fe260",
+      "mtime_ns": 1792494628315209603,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-inner-20261020/1792494648120246630.png",
+      "session": "drone-resumed-inner-20261020",
+      "size": 279058,
+      "sha256": "bac525fd2fe8a2a3ed167d5a452990e13adba0434ab9cd77039d8e8132942584",
+      "mtime_ns": 1792494648942559920,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-inner-20261020/1792494649174528038.png",
+      "session": "drone-resumed-inner-20261020",
+      "size": 295671,
+      "sha256": "6466f1f6d1c45c485f5f4337c1aec5d48b7b6ce1dd4fa9d79c61cbc426196fc0",
+      "mtime_ns": 1792494650077466490,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-inner-20261020/1792494650354646857.png",
+      "session": "drone-resumed-inner-20261020",
+      "size": 294070,
+      "sha256": "c3c180d53717d51e1b813ca2302a54006e2caccc0a0946a95a6aaa96a1d937ad",
+      "mtime_ns": 1792494651407317996,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-inner-20261020/1792494651563152689.png",
+      "session": "drone-resumed-inner-20261020",
+      "size": 301201,
+      "sha256": "c2324a6cf036a9beebf49f2a1e250aabb61fdf9acc34f58489db799bdb15034c",
+      "mtime_ns": 1792494652587921857,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-inner-20261020/1792494652819785720.png",
+      "session": "drone-resumed-inner-20261020",
+      "size": 302234,
+      "sha256": "672d76fd7edd7eb8bb3884a6a3f5ad3f0e3af18f84a9b6ce6e2d8adca225b5b6",
+      "mtime_ns": 1792494653921487922,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-inner-20261020/1792494654114674919.png",
+      "session": "drone-resumed-inner-20261020",
+      "size": 302537,
+      "sha256": "36f0bb59cc5c33863c6f560808f9a71e78c851603f2db1d03303b38dd8e47a49",
+      "mtime_ns": 1792494655150088355,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-inner-20261020/1792494655331745669.png",
+      "session": "drone-resumed-inner-20261020",
+      "size": 303864,
+      "sha256": "21115e8f2868ca26cccec30653657ec6b323f11488f98749ad1a5b9c344564ed",
+      "mtime_ns": 1792494656885291774,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-inner-20261020/1792494657267934792.png",
+      "session": "drone-resumed-inner-20261020",
+      "size": 305664,
+      "sha256": "fc12192b14b5b09fcbf8078dbab64c40d30bbd5b118570b1aa413843b5925670",
+      "mtime_ns": 1792494659483294818,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-inner-20261020/1792494659824491162.png",
+      "session": "drone-resumed-inner-20261020",
+      "size": 304773,
+      "sha256": "9efdf1949a6c2d3b32d47e1d94d7034b7c5fff4e0cd1f5c44bf2f6048fcca359",
+      "mtime_ns": 1792494660895030187,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-inner-20261020/1792494661203489868.png",
+      "session": "drone-resumed-inner-20261020",
+      "size": 2847772,
+      "sha256": "5fa3db8900d64887bb5b615dd49fcf3cb9dab914a1f3570c4cb42b65840a256a",
+      "mtime_ns": 1792494662564948081,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-inner-20261020/1792494662768316727.png",
+      "session": "drone-resumed-inner-20261020",
+      "size": 2847703,
+      "sha256": "68535576e0daddc1f3cf143ddee171ae83847497dfb83bc708893a847b167519",
+      "mtime_ns": 1792494664053890254,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-inner-20261020/1792494664193453270.png",
+      "session": "drone-resumed-inner-20261020",
+      "size": 2845818,
+      "sha256": "58e5e3deb0f4455f3028f7658491b406cdae45e1af98a212cba34538da8cb6b1",
+      "mtime_ns": 1792494665395290730,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-inner-20261020/1792494665489265666.png",
+      "session": "drone-resumed-inner-20261020",
+      "size": 2812597,
+      "sha256": "8d9121b73f23172a7c2f4983d302008c8bfedcb739382a5b83d24741ccb0bde7",
+      "mtime_ns": 1792494668475904623,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-inner-20261020/1792494668592752304.png",
+      "session": "drone-resumed-inner-20261020",
+      "size": 2816668,
+      "sha256": "0324dcd03318e2444a45705e1ab0ae2039121a7099713842f577379317b0c94c",
+      "mtime_ns": 1792494669644502632,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-inner-20261020/1792494675988239729.png",
+      "session": "drone-resumed-inner-20261020",
+      "size": 897584,
+      "sha256": "9c1743a243bbe39708e44e720119f04dc0d11c1cef38d82ca4edfe952db9489f",
+      "mtime_ns": 1792494676845984182,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-inner-20261020/1792494688151431558.png",
+      "session": "drone-resumed-inner-20261020",
+      "size": 971094,
+      "sha256": "7d63ecf0bd2795cc7e4da2c49c851f1220a6f1a42350648d2c83de2f998e9554",
+      "mtime_ns": 1792494689664851795,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-inner-20261020/1792494699682934715.png",
+      "session": "drone-resumed-inner-20261020",
+      "size": 971083,
+      "sha256": "fb26c6f913c179de361ff8db0dc12853983e3b5d200849ff378488695a85842c",
+      "mtime_ns": 1792494700806404096,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-inner-20261020/1792494722160745501.png",
+      "session": "drone-resumed-inner-20261020",
+      "size": 971082,
+      "sha256": "939a3016317d911a4583cab5d3fdbb564311aba6777ecb0af072f6d500514fea",
+      "mtime_ns": 1792494722812974700,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-inner-20261020/initial.png",
+      "session": "drone-resumed-inner-20261020",
+      "size": 890674,
+      "sha256": "8e604fe91d846eb26186e7f10ab0fdd624b6301ebd9de8f18ed8f55e0567ba7c",
+      "mtime_ns": 1792494418144666760,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-isolated-inner-20261020/1792494874249769358.png",
+      "session": "drone-resumed-isolated-inner-20261020",
+      "size": 893231,
+      "sha256": "45274cb55b8bd2613992e7d66be6c5307f6436df1719c05df37a97c76ae84a09",
+      "mtime_ns": 1792494883657636588,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-isolated-inner-20261020/1792494889973205800.png",
+      "session": "drone-resumed-isolated-inner-20261020",
+      "size": 2816851,
+      "sha256": "3ee4e9992c0b7a60718b78b07b27b8375ee84854f3e9f7a60e36dce56c6fa55d",
+      "mtime_ns": 1792494891515146837,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-isolated-inner-20261020/1792494898640320889.png",
+      "session": "drone-resumed-isolated-inner-20261020",
+      "size": 2816825,
+      "sha256": "40d21aaa7da2c42c6932ef4cf468aa2dd7d125c7c4e1f059e1867393cad375d7",
+      "mtime_ns": 1792494899882886143,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-isolated-inner-20261020/1792494899977180303.png",
+      "session": "drone-resumed-isolated-inner-20261020",
+      "size": 2813329,
+      "sha256": "09d504ba78f711675b06fdac686abea8503fadd0329c684d92bca209c8fab247",
+      "mtime_ns": 1792494901369389390,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-isolated-inner-20261020/1792494901471852162.png",
+      "session": "drone-resumed-isolated-inner-20261020",
+      "size": 2840441,
+      "sha256": "a77dd5376b3d8af8cb57ad439ed70d5290aa617f7a2813711d01cd203315024d",
+      "mtime_ns": 1792494906176788493,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-isolated-inner-20261020/1792494906402795365.png",
+      "session": "drone-resumed-isolated-inner-20261020",
+      "size": 2846713,
+      "sha256": "438109c381382f46be94b9133b8cb063e89c78e3359ea7bdd8c26f788107d3bb",
+      "mtime_ns": 1792494908138641616,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-isolated-inner-20261020/1792494916213003435.png",
+      "session": "drone-resumed-isolated-inner-20261020",
+      "size": 2536597,
+      "sha256": "110fb65eeff3be37c39b22baa62b1595482e16dbc9a8e25bc4092e438de26986",
+      "mtime_ns": 1792494918227025703,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-isolated-inner-20261020/1792494936701317009.png",
+      "session": "drone-resumed-isolated-inner-20261020",
+      "size": 2846874,
+      "sha256": "2ce9939843665688daebd15c9882033fbd92aac8d92c72c01e73a9dc4f286722",
+      "mtime_ns": 1792494938129738342,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-isolated-inner-20261020/1792494938386201383.png",
+      "session": "drone-resumed-isolated-inner-20261020",
+      "size": 2548542,
+      "sha256": "fbee3654b49e5cdc7a4f68981eda4bc889e9481434d5d0b35e647d716f91180a",
+      "mtime_ns": 1792494940083220292,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-isolated-inner-20261020/1792494954125327688.png",
+      "session": "drone-resumed-isolated-inner-20261020",
+      "size": 2562716,
+      "sha256": "58ac45ad43ea80967153b4192f04c66fbbe4f0c47dc694dffb0072d23e8428a7",
+      "mtime_ns": 1792494956081727971,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-isolated-inner-20261020/1792494974399767821.png",
+      "session": "drone-resumed-isolated-inner-20261020",
+      "size": 2857323,
+      "sha256": "47b011da0a531d151dda8b84bd2e3c22c64469e753abee626aeb99311653fbda",
+      "mtime_ns": 1792494976345146016,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-isolated-inner-20261020/1792494997438349221.png",
+      "session": "drone-resumed-isolated-inner-20261020",
+      "size": 2552418,
+      "sha256": "39ca6899071c2c205bace3c1a764c87ca99d20988f417442d51a7ee446256a21",
+      "mtime_ns": 1792494999010898147,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-isolated-inner-20261020/1792494999199535089.png",
+      "session": "drone-resumed-isolated-inner-20261020",
+      "size": 2721748,
+      "sha256": "3fe7d1222b1db16404c5d81877de3d4ec7cfa82f24771280799c1c3e64176903",
+      "mtime_ns": 1792495001584172339,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-isolated-inner-20261020/1792495025846086948.png",
+      "session": "drone-resumed-isolated-inner-20261020",
+      "size": 2721875,
+      "sha256": "18759a81a8b00324f0242281ee4722296e2a94e04e11bf5ce1671a24cef64aec",
+      "mtime_ns": 1792495027556170901,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-isolated-inner-20261020/1792495027706049282.png",
+      "session": "drone-resumed-isolated-inner-20261020",
+      "size": 2725014,
+      "sha256": "f7757816926b737f6d532f353a238fb22b2ac14c6cb5e9c875ade912d4f2affa",
+      "mtime_ns": 1792495029891131327,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-isolated-inner-20261020/1792495030101073746.png",
+      "session": "drone-resumed-isolated-inner-20261020",
+      "size": 2716330,
+      "sha256": "b5799b1d1b4a274c957e1cc1b81ea78af8891b5c27351b5e963be598aa4ad42a",
+      "mtime_ns": 1792495034231008748,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-isolated-inner-20261020/1792495034391335423.png",
+      "session": "drone-resumed-isolated-inner-20261020",
+      "size": 2726299,
+      "sha256": "ea35490eb9dd8d6e13599f776341afd0b24c0bd98f64f80603addc23de7fbb62",
+      "mtime_ns": 1792495035643314160,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-isolated-inner-20261020/1792495045584587719.png",
+      "session": "drone-resumed-isolated-inner-20261020",
+      "size": 2726386,
+      "sha256": "0675589d428afa88ab7a51ee87ec83cf8b9c3f4a50f46a7c2313a746c4129551",
+      "mtime_ns": 1792495046952146691,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-isolated-inner-20261020/1792495047106094387.png",
+      "session": "drone-resumed-isolated-inner-20261020",
+      "size": 2709809,
+      "sha256": "e3df8e2f7ceb36fd284bb2c0a9dc0831b37b3c92db82829aa1198e389edb13c8",
+      "mtime_ns": 1792495048918595234,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-isolated-inner-20261020/1792495049044014307.png",
+      "session": "drone-resumed-isolated-inner-20261020",
+      "size": 2834687,
+      "sha256": "daff101a2bbe340e4cf62120950cd7d376de8cc1604a50d84762b99928294be2",
+      "mtime_ns": 1792495052184678363,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-isolated-inner-20261020/1792495052343956623.png",
+      "session": "drone-resumed-isolated-inner-20261020",
+      "size": 2806015,
+      "sha256": "4bbd6b82724090c50dcaa766509e40d822dacde0b63d2224b381f86d48446431",
+      "mtime_ns": 1792495053814458347,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-isolated-inner-20261020/1792495065893783024.png",
+      "session": "drone-resumed-isolated-inner-20261020",
+      "size": 2531980,
+      "sha256": "f042b52d59dd5fed9ff2cfb1179d49e4ba144de6a931afae458cf71ff891c130",
+      "mtime_ns": 1792495067401542004,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-isolated-inner-20261020/1792495067691510505.png",
+      "session": "drone-resumed-isolated-inner-20261020",
+      "size": 2557963,
+      "sha256": "31eca585dcfe546e1894c67b598354ac6756d05780c58192afa7367df3b95836",
+      "mtime_ns": 1792495069430040890,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-isolated-inner-20261020/1792495085396692965.png",
+      "session": "drone-resumed-isolated-inner-20261020",
+      "size": 248471,
+      "sha256": "a8e4b53e6371b7d690bc89bcac8ad02f754e717494a0c94b71119bc5a48eb870",
+      "mtime_ns": 1792495086643909221,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-isolated-inner-20261020/1792495101996429336.png",
+      "session": "drone-resumed-isolated-inner-20261020",
+      "size": 266114,
+      "sha256": "b4b50e56a06557b27ecb8ef9b022d647783b8ff790a0dd2cdb8387215b76bccc",
+      "mtime_ns": 1792495103336907980,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-isolated-inner-20261020/1792495120919955406.png",
+      "session": "drone-resumed-isolated-inner-20261020",
+      "size": 282189,
+      "sha256": "5bfa0c0810cc787aa825b29c6e06b265586602a308646ebc5e3b136865b5ce7e",
+      "mtime_ns": 1792495121845404786,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-isolated-inner-20261020/1792495122182763101.png",
+      "session": "drone-resumed-isolated-inner-20261020",
+      "size": 284003,
+      "sha256": "359432d989bdf9302f48d14b5e2581c688a0ac347815ba713fe6459fc883c754",
+      "mtime_ns": 1792495123134217738,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-isolated-inner-20261020/1792495123431294113.png",
+      "session": "drone-resumed-isolated-inner-20261020",
+      "size": 290578,
+      "sha256": "cbbe170522c646454294c90d4b0322112b04920b4447182ddde71847340ec25d",
+      "mtime_ns": 1792495124501314437,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-isolated-inner-20261020/1792495124821693653.png",
+      "session": "drone-resumed-isolated-inner-20261020",
+      "size": 289908,
+      "sha256": "9438e9c2a92382eedd09678287a4039722dec1647884befc7e960029b0c0cba6",
+      "mtime_ns": 1792495126232560117,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-isolated-inner-20261020/1792495126699803240.png",
+      "session": "drone-resumed-isolated-inner-20261020",
+      "size": 2799383,
+      "sha256": "18ab53b49882c29ff78987007146ffbec2fdde4df4ce9566dfc1e5aca6c2183f",
+      "mtime_ns": 1792495128558890436,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-isolated-inner-20261020/1792495129217722896.png",
+      "session": "drone-resumed-isolated-inner-20261020",
+      "size": 2799418,
+      "sha256": "97271ab8987a65f1f93465ae48ce3eae064a2210852f0d1f94e3e6ba620c9778",
+      "mtime_ns": 1792495130555643135,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-isolated-inner-20261020/1792495130635230704.png",
+      "session": "drone-resumed-isolated-inner-20261020",
+      "size": 2796197,
+      "sha256": "ee0e832175b6a028797f7d3efe601582a7c3c0c5fa260c050d8fd371c32cf277",
+      "mtime_ns": 1792495131796413217,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-isolated-inner-20261020/1792495131988719412.png",
+      "session": "drone-resumed-isolated-inner-20261020",
+      "size": 2834323,
+      "sha256": "4b8f17e835219e3893b3de331bb45dbca33e532d037f13ea6bfe0961042e21ac",
+      "mtime_ns": 1792495136896279489,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-isolated-inner-20261020/1792495137049264635.png",
+      "session": "drone-resumed-isolated-inner-20261020",
+      "size": 2814319,
+      "sha256": "0748ed9162d4c87b8d4b83adc83621897b06a49727482a7096abcc9c7f3f486e",
+      "mtime_ns": 1792495137980251115,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-isolated-inner-20261020/1792495146303763054.png",
+      "session": "drone-resumed-isolated-inner-20261020",
+      "size": 2814500,
+      "sha256": "fb42a6eab297c1ab04f01db8dc998309b2e3acccce75bf3d827028076d186499",
+      "mtime_ns": 1792495147202063925,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-isolated-inner-20261020/1792495147332723559.png",
+      "session": "drone-resumed-isolated-inner-20261020",
+      "size": 2833879,
+      "sha256": "d7a08ef39f63adafcbc491c4f9e9c88ee27f1f1bc8ffb415f1fe051476a2decd",
+      "mtime_ns": 1792495148318617136,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-isolated-inner-20261020/1792495148429326365.png",
+      "session": "drone-resumed-isolated-inner-20261020",
+      "size": 2845212,
+      "sha256": "941aba2b875f1754604fb2cb66becaf99db354a9159ad2857af5d3597aef9df5",
+      "mtime_ns": 1792495153466370180,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-isolated-inner-20261020/1792495153546907731.png",
+      "session": "drone-resumed-isolated-inner-20261020",
+      "size": 2850203,
+      "sha256": "c06a13e11a12e2b8ee76b977ca60523743850ad97541b511e28f91d63681187a",
+      "mtime_ns": 1792495154586564954,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-isolated-inner-20261020/1792495167537238818.png",
+      "session": "drone-resumed-isolated-inner-20261020",
+      "size": 2533812,
+      "sha256": "c6d3e5944d7e379c8fdcb33a1c92220ca9a38c5c7482587d4fd53b77fd392767",
+      "mtime_ns": 1792495169189568087,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-isolated-inner-20261020/1792495184280234935.png",
+      "session": "drone-resumed-isolated-inner-20261020",
+      "size": 2555398,
+      "sha256": "700ef1b4b09de92559015be1c873d49980326a115c5fe80053d98365aa88fcca",
+      "mtime_ns": 1792495186791218281,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-isolated-inner-20261020/1792495187173647649.png",
+      "session": "drone-resumed-isolated-inner-20261020",
+      "size": 2533291,
+      "sha256": "83ac8d499f623779be2390e416fded8cd7291d899c65a67b3e07715c7e211d72",
+      "mtime_ns": 1792495189628637239,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-isolated-inner-20261020/1792495204646628267.png",
+      "session": "drone-resumed-isolated-inner-20261020",
+      "size": 2834568,
+      "sha256": "20db67a961c4220261f216f2a587af102dfb7bd9e6963237a3bce045fab7c6ab",
+      "mtime_ns": 1792495206282516365,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-isolated-inner-20261020/1792495226503251553.png",
+      "session": "drone-resumed-isolated-inner-20261020",
+      "size": 2851136,
+      "sha256": "45a86f033e85dcfb53df897463cc6b42dcb8f1f2e977cc136f6ac994f408add1",
+      "mtime_ns": 1792495227801289258,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-isolated-inner-20261020/1792495228184254868.png",
+      "session": "drone-resumed-isolated-inner-20261020",
+      "size": 2851112,
+      "sha256": "8f87ba7ad7060e9414498cbc6a267f8f8dabe8e9ba96ce98cc2459206139ddac",
+      "mtime_ns": 1792495229415805205,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-isolated-inner-20261020/1792495229521746312.png",
+      "session": "drone-resumed-isolated-inner-20261020",
+      "size": 2840600,
+      "sha256": "5d5d4eb3cac4a64a4b926de5f88737704144aace7cb1e0d0add6d1fc332709c2",
+      "mtime_ns": 1792495230765272831,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-isolated-inner-20261020/1792495230881672764.png",
+      "session": "drone-resumed-isolated-inner-20261020",
+      "size": 2808090,
+      "sha256": "984b2a4be581a52b7894cf436fbb5065dd4d9b4472afb5f2739a65aa5cb80f06",
+      "mtime_ns": 1792495232538487875,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-isolated-inner-20261020/1792495232634584574.png",
+      "session": "drone-resumed-isolated-inner-20261020",
+      "size": 2807036,
+      "sha256": "86831b95142cfeeda04dc73b5278e5709a89da405023da6211279a480da686c3",
+      "mtime_ns": 1792495234077829931,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-isolated-inner-20261020/1792495244901328796.png",
+      "session": "drone-resumed-isolated-inner-20261020",
+      "size": 2806903,
+      "sha256": "7f44ae2f91e8f254855f2d66f3518ac31b0df9b7c0cdb109539a4e1393489e4b",
+      "mtime_ns": 1792495246374380758,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-isolated-inner-20261020/1792495246524293968.png",
+      "session": "drone-resumed-isolated-inner-20261020",
+      "size": 2814863,
+      "sha256": "2f13ab8b4000bb0e091bb69aecd238cf6c19331ba9ce88c7d04b9f04de8fbac6",
+      "mtime_ns": 1792495248601653702,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-isolated-inner-20261020/1792495248787140604.png",
+      "session": "drone-resumed-isolated-inner-20261020",
+      "size": 2833470,
+      "sha256": "737256c7e037830df15a8170f2caa68118f553c74912704dcaf2c3ee26cc95ea",
+      "mtime_ns": 1792495253721758644,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-isolated-inner-20261020/1792495253906933109.png",
+      "session": "drone-resumed-isolated-inner-20261020",
+      "size": 2836893,
+      "sha256": "ac6127835a0d86a67ecbbe03485d20107893ae2c0284338af49c8c96f56f20a8",
+      "mtime_ns": 1792495255489633665,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-isolated-inner-20261020/1792495264436807821.png",
+      "session": "drone-resumed-isolated-inner-20261020",
+      "size": 2836540,
+      "sha256": "d811c66011e4717af71c41c09a528dbc4e30cc75b4668a2de299549a2d9b222d",
+      "mtime_ns": 1792495265794184790,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-isolated-inner-20261020/1792495283989790835.png",
+      "session": "drone-resumed-isolated-inner-20261020",
+      "size": 2836415,
+      "sha256": "a69280ec980730182b7b1259e19211d260a3f081dc1e4e291f79ee3c635660f3",
+      "mtime_ns": 1792495284886350814,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-isolated-inner-20261020/1792495285017220472.png",
+      "session": "drone-resumed-isolated-inner-20261020",
+      "size": 2834450,
+      "sha256": "67416efd9656b7c2ce9f6299a3bfa027cc6c3d1d24b0a99a0280cea5d7eef937",
+      "mtime_ns": 1792495286300576953,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-isolated-inner-20261020/1792495286439135552.png",
+      "session": "drone-resumed-isolated-inner-20261020",
+      "size": 2821085,
+      "sha256": "01fad0bb4868f34909effdcf870e4d0eac527e26f92c71334af95801410d0b12",
+      "mtime_ns": 1792495290912957974,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-isolated-inner-20261020/1792495291100280523.png",
+      "session": "drone-resumed-isolated-inner-20261020",
+      "size": 2823609,
+      "sha256": "112a6348cce2b5899e02a90dc3968ae0ffca9d63eda89228700bc80a41c311a8",
+      "mtime_ns": 1792495292632385846,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-isolated-inner-20261020/1792495314636079809.png",
+      "session": "drone-resumed-isolated-inner-20261020",
+      "size": 2823274,
+      "sha256": "2a59a2914f6fe2f3579b3b62ff26f55195377291c0006cefbeab852b6b45fa1a",
+      "mtime_ns": 1792495315753917424,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-isolated-inner-20261020/1792495315838285802.png",
+      "session": "drone-resumed-isolated-inner-20261020",
+      "size": 2821618,
+      "sha256": "4f1db5d4dde7d671fcf097a51492cbf3c989d24049f6a2f3aafefc03e0692a57",
+      "mtime_ns": 1792495316969633743,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-isolated-inner-20261020/1792495317115013995.png",
+      "session": "drone-resumed-isolated-inner-20261020",
+      "size": 948732,
+      "sha256": "ba4a3d646357ed832154cf53b5dc31f19d32ea919efd5f1c1d40658f80831aed",
+      "mtime_ns": 1792495319757830031,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-isolated-inner-20261020/1792495353693920295.png",
+      "session": "drone-resumed-isolated-inner-20261020",
+      "size": 939549,
+      "sha256": "25dc8c869e1bd4448c482b64b46aaa272cb049cce516c09bbb36693fe2da23ef",
+      "mtime_ns": 1792495354912291118,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-isolated-inner-20261020/1792495364706279182.png",
+      "session": "drone-resumed-isolated-inner-20261020",
+      "size": 939582,
+      "sha256": "1024fc94ca6bb8b1e7d5cdb0482923cfcd8a2def5586421deda5d4527c9ac171",
+      "mtime_ns": 1792495365181938564,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-isolated-inner-20261020/initial.png",
+      "session": "drone-resumed-isolated-inner-20261020",
+      "size": 893237,
+      "sha256": "ca8f3e86533ab74f4227b188f52da745e6753ccb1871bedcc84db5db5c6acfd6",
+      "mtime_ns": 1792494882887415755,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/critic-current-cautious-inner-20261020/1792494386035223096.png",
+      "session": "critic-current-cautious-inner-20261020",
+      "size": 1380909,
+      "sha256": "9753b98c5b68878c074f8581a57fe3a1e4576bec91b29ce631a5b94541a25069",
+      "mtime_ns": 1792494386896815612,
+      "source_sha": "e3a541fb24c2a3f136121150b7a0d2960546fda7"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/critic-current-cautious-inner-20261020/1792494394805617884.png",
+      "session": "critic-current-cautious-inner-20261020",
+      "size": 1398703,
+      "sha256": "008476c14f31254e9c0bcc8e3149bbf022dd9ad56bc2afc41e97b44e0f6b22b7",
+      "mtime_ns": 1792494395953219207,
+      "source_sha": "e3a541fb24c2a3f136121150b7a0d2960546fda7"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/critic-current-cautious-inner-20261020/1792494402907815415.png",
+      "session": "critic-current-cautious-inner-20261020",
+      "size": 1464659,
+      "sha256": "9247b7cf997f9def06d9c2d5a4a8c19e037cd18c1ac9aedc3d33b481095f2b66",
+      "mtime_ns": 1792494403758816270,
+      "source_sha": "e3a541fb24c2a3f136121150b7a0d2960546fda7"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/critic-current-cautious-inner-20261020/1792494414213457344.png",
+      "session": "critic-current-cautious-inner-20261020",
+      "size": 1399492,
+      "sha256": "a897c74e5f7b3e42266ea2f5139e61a004affa97f27263ee48acd19b4a963ec8",
+      "mtime_ns": 1792494414992706367,
+      "source_sha": "e3a541fb24c2a3f136121150b7a0d2960546fda7"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/critic-current-cautious-inner-20261020/1792494425227012925.png",
+      "session": "critic-current-cautious-inner-20261020",
+      "size": 1368858,
+      "sha256": "2284655ca20c5048a563e57b1cb17259b39f6abc83a71ab7fe78b71517f9dc78",
+      "mtime_ns": 1792494426222269353,
+      "source_sha": "e3a541fb24c2a3f136121150b7a0d2960546fda7"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/critic-current-cautious-inner-20261020/1792494435464223934.png",
+      "session": "critic-current-cautious-inner-20261020",
+      "size": 1042948,
+      "sha256": "ad49d8b3bd40ce195d514d91f4b7178a4897d289bdfc768759c65d056a5ec8dd",
+      "mtime_ns": 1792494436090044791,
+      "source_sha": "e3a541fb24c2a3f136121150b7a0d2960546fda7"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/critic-current-cautious-inner-20261020/1792494446995296085.png",
+      "session": "critic-current-cautious-inner-20261020",
+      "size": 1064565,
+      "sha256": "6807cdfde47f81f56f85194c11d058239744c0c29fa20524a59aa27f13fc9ac6",
+      "mtime_ns": 1792494447918761904,
+      "source_sha": "e3a541fb24c2a3f136121150b7a0d2960546fda7"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/critic-current-cautious-inner-20261020/1792494455799514303.png",
+      "session": "critic-current-cautious-inner-20261020",
+      "size": 1159216,
+      "sha256": "da845bbe67f1c45d343bfb26ffb452842b871c7703ff17d14a34a1b81c3137f4",
+      "mtime_ns": 1792494456556284169,
+      "source_sha": "e3a541fb24c2a3f136121150b7a0d2960546fda7"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/critic-current-cautious-inner-20261020/1792494471651260394.png",
+      "session": "critic-current-cautious-inner-20261020",
+      "size": 1087313,
+      "sha256": "e0264640533a1eea7bce00e1faca433abf1327ecf6718d81c8ba987ad116dc85",
+      "mtime_ns": 1792494472465659722,
+      "source_sha": "e3a541fb24c2a3f136121150b7a0d2960546fda7"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/critic-current-cautious-inner-20261020/1792494486712711459.png",
+      "session": "critic-current-cautious-inner-20261020",
+      "size": 1158750,
+      "sha256": "8dcbe0d5981aa90b9627077a7dd0f228130f5f9c1ebcfa08188fed2c9914b889",
+      "mtime_ns": 1792494487599025404,
+      "source_sha": "e3a541fb24c2a3f136121150b7a0d2960546fda7"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/critic-current-cautious-inner-20261020/1792494487750189504.png",
+      "session": "critic-current-cautious-inner-20261020",
+      "size": 1136266,
+      "sha256": "2dce7debe75118ec6e54cb0c23c99c126fd8bc7d6340669388436375a5fe8735",
+      "mtime_ns": 1792494488588256289,
+      "source_sha": "e3a541fb24c2a3f136121150b7a0d2960546fda7"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/critic-current-cautious-inner-20261020/1792494488751288945.png",
+      "session": "critic-current-cautious-inner-20261020",
+      "size": 1135783,
+      "sha256": "90e9ab79e8a7ccf3bc3622f90c015dfd9063f4f766724d8824226df17c088260",
+      "mtime_ns": 1792494489527994444,
+      "source_sha": "e3a541fb24c2a3f136121150b7a0d2960546fda7"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/critic-current-cautious-inner-20261020/1792494489637492527.png",
+      "session": "critic-current-cautious-inner-20261020",
+      "size": 1130251,
+      "sha256": "7941b17494a7f64cc3bd5c2ab5a610ee70ffe4df80fa56d94a0c95c2f795976f",
+      "mtime_ns": 1792494490433967607,
+      "source_sha": "e3a541fb24c2a3f136121150b7a0d2960546fda7"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/critic-current-cautious-inner-20261020/1792494490534078106.png",
+      "session": "critic-current-cautious-inner-20261020",
+      "size": 1126979,
+      "sha256": "52c7f40b3a47254bac1e80af5022c25fee515ed0938774622bc41775ffb9af8b",
+      "mtime_ns": 1792494501713861739,
+      "source_sha": "e3a541fb24c2a3f136121150b7a0d2960546fda7"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/critic-current-cautious-inner-20261020/1792494501835088988.png",
+      "session": "critic-current-cautious-inner-20261020",
+      "size": 1145236,
+      "sha256": "755eb1d8a96073fed15a601954e4e4a907c07c7df3cb185aadc7d0169da78f66",
+      "mtime_ns": 1792494502769421299,
+      "source_sha": "e3a541fb24c2a3f136121150b7a0d2960546fda7"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/critic-current-cautious-inner-20261020/1792494516241084462.png",
+      "session": "critic-current-cautious-inner-20261020",
+      "size": 1145307,
+      "sha256": "5fdc44db43bab3f99414740402440cc63dc7b84e2d71ec5e7ad5995a4d146835",
+      "mtime_ns": 1792494516803628307,
+      "source_sha": "e3a541fb24c2a3f136121150b7a0d2960546fda7"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/critic-current-cautious-inner-20261020/1792494516939687359.png",
+      "session": "critic-current-cautious-inner-20261020",
+      "size": 1127291,
+      "sha256": "116f73aff08e8491d1c9285578092b84872eda255ded06c95874e7ff416f9148",
+      "mtime_ns": 1792494517546370472,
+      "source_sha": "e3a541fb24c2a3f136121150b7a0d2960546fda7"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/critic-current-cautious-inner-20261020/1792494517671594697.png",
+      "session": "critic-current-cautious-inner-20261020",
+      "size": 1136668,
+      "sha256": "03be8b5d99afd6639c2852eed10c05e9ab62b5d72c2205292ee91b033a478e91",
+      "mtime_ns": 1792494524239732469,
+      "source_sha": "e3a541fb24c2a3f136121150b7a0d2960546fda7"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/critic-current-cautious-inner-20261020/1792494524360348921.png",
+      "session": "critic-current-cautious-inner-20261020",
+      "size": 1149602,
+      "sha256": "307200131cb9d781e3cf4f78d2d0d80c9459f13e964fbe014292a1179617dc4a",
+      "mtime_ns": 1792494524893997650,
+      "source_sha": "e3a541fb24c2a3f136121150b7a0d2960546fda7"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/critic-current-cautious-inner-20261020/1792494540110743195.png",
+      "session": "critic-current-cautious-inner-20261020",
+      "size": 1142745,
+      "sha256": "ecc65d1367969d3627ebb5fb9f07bf7297edcb636b5d8a7d0b4d1c10b65f797b",
+      "mtime_ns": 1792494540761224653,
+      "source_sha": "e3a541fb24c2a3f136121150b7a0d2960546fda7"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/critic-current-cautious-inner-20261020/1792494540950649896.png",
+      "session": "critic-current-cautious-inner-20261020",
+      "size": 1142988,
+      "sha256": "6b64579616772fc7a3a83d5cbf76c4b555bf238ccbaee4d464836338bff5e056",
+      "mtime_ns": 1792494541619345323,
+      "source_sha": "e3a541fb24c2a3f136121150b7a0d2960546fda7"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/critic-current-cautious-inner-20261020/1792494541755638238.png",
+      "session": "critic-current-cautious-inner-20261020",
+      "size": 1131458,
+      "sha256": "95d9ca87770ba75e2d6765f0b4ea7c4806bb89ab4cc66320b091dd33e8bf8b9a",
+      "mtime_ns": 1792494542308039221,
+      "source_sha": "e3a541fb24c2a3f136121150b7a0d2960546fda7"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/critic-current-cautious-inner-20261020/1792494542378985279.png",
+      "session": "critic-current-cautious-inner-20261020",
+      "size": 1142367,
+      "sha256": "049a43c094693594c336965e6587e7a23f48dfd68ce1e32333a39608cf0ef84a",
+      "mtime_ns": 1792494552877976788,
+      "source_sha": "e3a541fb24c2a3f136121150b7a0d2960546fda7"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/critic-current-cautious-inner-20261020/1792494552948934211.png",
+      "session": "critic-current-cautious-inner-20261020",
+      "size": 1154542,
+      "sha256": "def17451aec63bafc22ce147cab5b4e27763d9977ea795c557b01dfc37bb0746",
+      "mtime_ns": 1792494553718772794,
+      "source_sha": "e3a541fb24c2a3f136121150b7a0d2960546fda7"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/critic-current-cautious-inner-20261020/1792494565758351929.png",
+      "session": "critic-current-cautious-inner-20261020",
+      "size": 1154213,
+      "sha256": "1f11173385f6ba8972de4f27897de488b568f0b9f792fab7b8209dc64ac8a39b",
+      "mtime_ns": 1792494566816836431,
+      "source_sha": "e3a541fb24c2a3f136121150b7a0d2960546fda7"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/critic-current-cautious-inner-20261020/1792494566913462933.png",
+      "session": "critic-current-cautious-inner-20261020",
+      "size": 1142000,
+      "sha256": "f6edbd4871b507d3c0827838cf43d5d2d7d634da766e41757593136a1a15f98f",
+      "mtime_ns": 1792494567599302543,
+      "source_sha": "e3a541fb24c2a3f136121150b7a0d2960546fda7"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/critic-current-cautious-inner-20261020/1792494567714074095.png",
+      "session": "critic-current-cautious-inner-20261020",
+      "size": 1141508,
+      "sha256": "11141ec06b9fe0bab4ba9ce794c595f7305d9f52048e86c54ffb6f4baef5af95",
+      "mtime_ns": 1792494569247764534,
+      "source_sha": "e3a541fb24c2a3f136121150b7a0d2960546fda7"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/critic-current-cautious-inner-20261020/1792494569391174195.png",
+      "session": "critic-current-cautious-inner-20261020",
+      "size": 1154015,
+      "sha256": "3d170c15fe85b778cf7f066bd5cfa131196e95b0676abca094c908c27b1beb81",
+      "mtime_ns": 1792494569928989433,
+      "source_sha": "e3a541fb24c2a3f136121150b7a0d2960546fda7"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/critic-current-cautious-inner-20261020/1792494570026280592.png",
+      "session": "critic-current-cautious-inner-20261020",
+      "size": 996558,
+      "sha256": "ed65e65f452f6629800625fc9cd28dced959e8dce2c562d1daea328259899e7a",
+      "mtime_ns": 1792494570691652597,
+      "source_sha": "e3a541fb24c2a3f136121150b7a0d2960546fda7"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/critic-current-cautious-inner-20261020/1792494582627824077.png",
+      "session": "critic-current-cautious-inner-20261020",
+      "size": 1128148,
+      "sha256": "f1a34505474a7aa9c14472f7bcfa1385e619a930a503b19ce7a89fe436f366d9",
+      "mtime_ns": 1792494583635108649,
+      "source_sha": "e3a541fb24c2a3f136121150b7a0d2960546fda7"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/critic-current-cautious-inner-20261020/1792494595732049292.png",
+      "session": "critic-current-cautious-inner-20261020",
+      "size": 1127134,
+      "sha256": "c1ff8c8cd58192a91fefa8bb241c94868dc0d26fa86134309d0836bcbe27d1cb",
+      "mtime_ns": 1792494596386758756,
+      "source_sha": "e3a541fb24c2a3f136121150b7a0d2960546fda7"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/critic-current-cautious-inner-20261020/1792494596506337427.png",
+      "session": "critic-current-cautious-inner-20261020",
+      "size": 1123574,
+      "sha256": "159998448e36ece61e2c89b3ae6b47d9cc085b360e0405dbe414d97165c02c1d",
+      "mtime_ns": 1792494597219288436,
+      "source_sha": "e3a541fb24c2a3f136121150b7a0d2960546fda7"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/critic-current-cautious-inner-20261020/1792494597282347127.png",
+      "session": "critic-current-cautious-inner-20261020",
+      "size": 1161963,
+      "sha256": "e8e27e12d3c847e90bc4c0c2b1b322c47f76a49e248883d8409ac45cf9d28794",
+      "mtime_ns": 1792494602073078872,
+      "source_sha": "e3a541fb24c2a3f136121150b7a0d2960546fda7"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/critic-current-cautious-inner-20261020/1792494602173278309.png",
+      "session": "critic-current-cautious-inner-20261020",
+      "size": 1173270,
+      "sha256": "6e3a2871b51c595a70ef06a8f09051d2287a8d5b7ccc23f41d30b8311fc46907",
+      "mtime_ns": 1792494602890925048,
+      "source_sha": "e3a541fb24c2a3f136121150b7a0d2960546fda7"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/critic-current-cautious-inner-20261020/1792494617892810407.png",
+      "session": "critic-current-cautious-inner-20261020",
+      "size": 935434,
+      "sha256": "f1fba4436e6e4504cde5e03ccbc49d9dbe6c554b2aa755c48651cee8cd1eb681",
+      "mtime_ns": 1792494618587627606,
+      "source_sha": "e3a541fb24c2a3f136121150b7a0d2960546fda7"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/critic-current-cautious-inner-20261020/1792494629859805417.png",
+      "session": "critic-current-cautious-inner-20261020",
+      "size": 741763,
+      "sha256": "3127408ec39e916bc23cf874193a7b11aaef19524f4bc00048cfb9dc7fddcedd",
+      "mtime_ns": 1792494630482564888,
+      "source_sha": "e3a541fb24c2a3f136121150b7a0d2960546fda7"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/critic-current-cautious-inner-20261020/1792494642345436220.png",
+      "session": "critic-current-cautious-inner-20261020",
+      "size": 754350,
+      "sha256": "1451b5a1fb199d3808d66ee8e70b2b38d83640f0ea177b64131abf8369f1a366",
+      "mtime_ns": 1792494643161572719,
+      "source_sha": "e3a541fb24c2a3f136121150b7a0d2960546fda7"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/critic-current-cautious-inner-20261020/1792494653620275003.png",
+      "session": "critic-current-cautious-inner-20261020",
+      "size": 754359,
+      "sha256": "931257b71ee78d7148c2c20391dd3b38ade5749b5ccd834229ee6e74dac8d049",
+      "mtime_ns": 1792494654176542493,
+      "source_sha": "e3a541fb24c2a3f136121150b7a0d2960546fda7"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/critic-current-cautious-inner-20261020/1792494676281176173.png",
+      "session": "critic-current-cautious-inner-20261020",
+      "size": 945055,
+      "sha256": "d1ed9e39ed7240df0214318781fe0bbf4b64a64806d35e9d5c972c0fee2ab5af",
+      "mtime_ns": 1792494677025678250,
+      "source_sha": "e3a541fb24c2a3f136121150b7a0d2960546fda7"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/critic-current-cautious-inner-20261020/1792494689551532936.png",
+      "session": "critic-current-cautious-inner-20261020",
+      "size": 738370,
+      "sha256": "bd0fff95bf646a91cf81a6d70c39ed1dbe02db60516e218a9c904b6e803d1216",
+      "mtime_ns": 1792494690214918179,
+      "source_sha": "e3a541fb24c2a3f136121150b7a0d2960546fda7"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/critic-current-cautious-inner-20261020/1792494700798809846.png",
+      "session": "critic-current-cautious-inner-20261020",
+      "size": 295074,
+      "sha256": "9a39128d3fe68b0315d26ca4a8a1465a4749d1cf4719e9180faa305bae7b4b5d",
+      "mtime_ns": 1792494701506253149,
+      "source_sha": "e3a541fb24c2a3f136121150b7a0d2960546fda7"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/critic-current-cautious-inner-20261020/1792494712964714550.png",
+      "session": "critic-current-cautious-inner-20261020",
+      "size": 295122,
+      "sha256": "b957303bffa8976099d710da06c7a74def36f7c105d355acbd232ff40556137e",
+      "mtime_ns": 1792494713332757222,
+      "source_sha": "e3a541fb24c2a3f136121150b7a0d2960546fda7"
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/critic-current-cautious-inner-20261020/initial.png",
+      "session": "critic-current-cautious-inner-20261020",
+      "size": 1028436,
+      "sha256": "cf379b1e3c33d4a1a3e2e43df9f3d4fd977b2451c7be23529487ea674c0b7a88",
+      "mtime_ns": 1792494373247559419,
+      "source_sha": "e3a541fb24c2a3f136121150b7a0d2960546fda7"
+    },
+    {
+      "path": "work/gauntlet-execution-20261020/witness-ui/captures/cover-already-home-arrival.png",
+      "cohort": "witness-ui/captures",
+      "size": 292255,
+      "sha256": "829c5ccaeecb16891010f4c95fd2d28d59f9a95adc809f68b676dc383a6fcfde",
+      "mtime_ns": 1792495056807748604,
+      "source_sha": null,
+      "source_provenance": "Earlier working-tree renderer; exact uncommitted source state not independently reconstructable from the PNG. Preserve original alongside renderer.log and report."
+    },
+    {
+      "path": "work/gauntlet-execution-20261020/witness-ui/captures/cover-landed-harbour.png",
+      "cohort": "witness-ui/captures",
+      "size": 346492,
+      "sha256": "ee5e2df9f7afe25eb18df2b109afd94ab7fbeb70b6723622c09120b54336610d",
+      "mtime_ns": 1792495041422805678,
+      "source_sha": null,
+      "source_provenance": "Earlier working-tree renderer; exact uncommitted source state not independently reconstructable from the PNG. Preserve original alongside renderer.log and report."
+    },
+    {
+      "path": "work/gauntlet-execution-20261020/witness-ui/captures/cover-occupied-berth.png",
+      "cohort": "witness-ui/captures",
+      "size": 925086,
+      "sha256": "abaca113a051b8165634398965414b656a61bf80933212e8adc541f672f6c943",
+      "mtime_ns": 1792495022566520889,
+      "source_sha": null,
+      "source_provenance": "Earlier working-tree renderer; exact uncommitted source state not independently reconstructable from the PNG. Preserve original alongside renderer.log and report."
+    },
+    {
+      "path": "work/gauntlet-execution-20261020/witness-ui/captures/cover-shared-wreck-rescue.png",
+      "cohort": "witness-ui/captures",
+      "size": 875903,
+      "sha256": "5eef6992587eb3dfc96107b9603eab8f9d88ca8f79972d5d789525733c8235d0",
+      "mtime_ns": 1792495050112062305,
+      "source_sha": null,
+      "source_provenance": "Earlier working-tree renderer; exact uncommitted source state not independently reconstructable from the PNG. Preserve original alongside renderer.log and report."
+    },
+    {
+      "path": "work/gauntlet-execution-20261020/witness-ui/captures/inner-already-home-arrival.png",
+      "cohort": "witness-ui/captures",
+      "size": 568357,
+      "sha256": "e9d658496297f8433f01f5e5466105eca147889881209b9cab36afa5092d8ada",
+      "mtime_ns": 1792495129980684543,
+      "source_sha": null,
+      "source_provenance": "Earlier working-tree renderer; exact uncommitted source state not independently reconstructable from the PNG. Preserve original alongside renderer.log and report."
+    },
+    {
+      "path": "work/gauntlet-execution-20261020/witness-ui/captures/inner-landed-harbour.png",
+      "cohort": "witness-ui/captures",
+      "size": 413993,
+      "sha256": "29901ea7565471f40b90b395862a0e235787ae0b34bb866088c5e80dea054c0a",
+      "mtime_ns": 1792495109438390698,
+      "source_sha": null,
+      "source_provenance": "Earlier working-tree renderer; exact uncommitted source state not independently reconstructable from the PNG. Preserve original alongside renderer.log and report."
+    },
+    {
+      "path": "work/gauntlet-execution-20261020/witness-ui/captures/inner-occupied-berth.png",
+      "cohort": "witness-ui/captures",
+      "size": 1019226,
+      "sha256": "d37eab2f9a1818672eb7212fc8f02fefef5c1b88e51173435bc2c635c8b52a2c",
+      "mtime_ns": 1792495082218122055,
+      "source_sha": null,
+      "source_provenance": "Earlier working-tree renderer; exact uncommitted source state not independently reconstructable from the PNG. Preserve original alongside renderer.log and report."
+    },
+    {
+      "path": "work/gauntlet-execution-20261020/witness-ui/captures/inner-shared-wreck-rescue.png",
+      "cohort": "witness-ui/captures",
+      "size": 1031454,
+      "sha256": "6acbe04b679a27b62d3ac0862e4212a3f4ce844e8084c6a27ea546557f9c5a20",
+      "mtime_ns": 1792495119797064379,
+      "source_sha": null,
+      "source_provenance": "Earlier working-tree renderer; exact uncommitted source state not independently reconstructable from the PNG. Preserve original alongside renderer.log and report."
+    },
+    {
+      "path": "work/gauntlet-execution-20261020/witness-ui/captures-final/cover-already-home-arrival.png",
+      "cohort": "witness-ui/captures-final",
+      "size": 292102,
+      "sha256": "a390d53a1f43e455979e22d517b8f47c1f73d6fcb0e1e23a2b5f2d88e24691e1",
+      "mtime_ns": 1792495214875549897,
+      "source_sha": "49d4d35590fb67bd900aba14b7342b4179c600d7",
+      "source_provenance": "Final exact-source renderer per retained witness-ui/report.txt"
+    },
+    {
+      "path": "work/gauntlet-execution-20261020/witness-ui/captures-final/cover-landed-harbour.png",
+      "cohort": "witness-ui/captures-final",
+      "size": 337337,
+      "sha256": "9afa8d306edc8e8edb3192068407b206f5c674692a4e4dc797cb4c4d937a8c54",
+      "mtime_ns": 1792495200883670876,
+      "source_sha": "49d4d35590fb67bd900aba14b7342b4179c600d7",
+      "source_provenance": "Final exact-source renderer per retained witness-ui/report.txt"
+    },
+    {
+      "path": "work/gauntlet-execution-20261020/witness-ui/captures-final/cover-occupied-berth.png",
+      "cohort": "witness-ui/captures-final",
+      "size": 923355,
+      "sha256": "4d256241bec68e5c58e4c256edd41b600b6e1fc9c27bebcbde7a1feb20197510",
+      "mtime_ns": 1792495174051339174,
+      "source_sha": "49d4d35590fb67bd900aba14b7342b4179c600d7",
+      "source_provenance": "Final exact-source renderer per retained witness-ui/report.txt"
+    },
+    {
+      "path": "work/gauntlet-execution-20261020/witness-ui/captures-final/cover-shared-wreck-rescue.png",
+      "cohort": "witness-ui/captures-final",
+      "size": 870584,
+      "sha256": "8eb087bad37149624c652db1e59b40f7e824fc7e3cdcb0b42442d1fba52fad40",
+      "mtime_ns": 1792495208747247745,
+      "source_sha": "49d4d35590fb67bd900aba14b7342b4179c600d7",
+      "source_provenance": "Final exact-source renderer per retained witness-ui/report.txt"
+    },
+    {
+      "path": "work/gauntlet-execution-20261020/witness-ui/captures-final/inner-already-home-arrival.png",
+      "cohort": "witness-ui/captures-final",
+      "size": 562106,
+      "sha256": "18e4b302a3c81525d251d3f0f5ff34737c6dd24ab93689627c127afa8cca17b3",
+      "mtime_ns": 1792495293180101885,
+      "source_sha": "49d4d35590fb67bd900aba14b7342b4179c600d7",
+      "source_provenance": "Final exact-source renderer per retained witness-ui/report.txt"
+    },
+    {
+      "path": "work/gauntlet-execution-20261020/witness-ui/captures-final/inner-landed-harbour.png",
+      "cohort": "witness-ui/captures-final",
+      "size": 398930,
+      "sha256": "cbc142c204e3d0460907684a874b25d7e329b09849aae246626c0f5c470ce612",
+      "mtime_ns": 1792495271717495848,
+      "source_sha": "49d4d35590fb67bd900aba14b7342b4179c600d7",
+      "source_provenance": "Final exact-source renderer per retained witness-ui/report.txt"
+    },
+    {
+      "path": "work/gauntlet-execution-20261020/witness-ui/captures-final/inner-occupied-berth.png",
+      "cohort": "witness-ui/captures-final",
+      "size": 1015787,
+      "sha256": "577bfb1dc08d6eaa9364a005d0db005b8bea802a62c68f6e1967c3d2083e9692",
+      "mtime_ns": 1792495244140814235,
+      "source_sha": "49d4d35590fb67bd900aba14b7342b4179c600d7",
+      "source_provenance": "Final exact-source renderer per retained witness-ui/report.txt"
+    },
+    {
+      "path": "work/gauntlet-execution-20261020/witness-ui/captures-final/inner-shared-wreck-rescue.png",
+      "cohort": "witness-ui/captures-final",
+      "size": 1025902,
+      "sha256": "a9bf4cd8fc491853fe1d18349c384c8bfb69a919bf379b6476b8091d2dcef1f5",
+      "mtime_ns": 1792495283716855889,
+      "source_sha": "49d4d35590fb67bd900aba14b7342b4179c600d7",
+      "source_provenance": "Final exact-source renderer per retained witness-ui/report.txt"
+    }
+  ],
+  "file_count": 230,
+  "original_bytes": 360690397
+}

@@ -1,0 +1,63 @@
+{
+  "created_utc": "2026-10-20T11:33:36.654356+00:00",
+  "scope": "Closed-session original screenshots preserved byte-exact through verified lossless RGB indices plus original named/exception PNG archive. Active finalcritic excluded pending explicit normal-quit confirmation.",
+  "branch": "archive/gauntlet-cold-frames-execution-2026-10-20",
+  "frame_manifest": "frame-manifest.json",
+  "original_file_count": 230,
+  "original_bytes": 360690397,
+  "stored_media_bytes": 70279947,
+  "reduction_fraction": 0.8051515993091438,
+  "archives": [
+    {
+      "archive_file": "execution-closed-2184x1968-rgb.mkv",
+      "kind": "lossless_rgb_index",
+      "manifest": "execution-closed-2184x1968-rgb.json",
+      "archive_bytes": 54427931,
+      "sha256": "aa385c81ba9c8b9c217caa703fef77ecdad1597a2c358efcc8db1f2ed004b46e",
+      "parts": [
+        {
+          "path": "media/execution-closed-2184x1968-rgb.mkv.part001",
+          "size": 41943040,
+          "sha256": "4c5f6c89258cd649ca4e0d3be2e8449f675f85347a9ea9c780fadd42dff2c909"
+        },
+        {
+          "path": "media/execution-closed-2184x1968-rgb.mkv.part002",
+          "size": 12484891,
+          "sha256": "fda6b9abb93c0c911b30c1e4717466291c2be8298d02b812ef03a73a5b70aebb"
+        }
+      ]
+    },
+    {
+      "archive_file": "execution-closed-2520x1080-rgb.mkv",
+      "kind": "lossless_rgb_index",
+      "manifest": "execution-closed-2520x1080-rgb.json",
+      "archive_bytes": 1375106,
+      "sha256": "a320c745456756fdf378035184cde990b2830537cb1f90c29e2791897e434c8d",
+      "parts": [
+        {
+          "path": "media/execution-closed-2520x1080-rgb.mkv.part001",
+          "size": 1375106,
+          "sha256": "a320c745456756fdf378035184cde990b2830537cb1f90c29e2791897e434c8d"
+        }
+      ]
+    },
+    {
+      "archive_file": "execution-named-exceptions.tar.gz",
+      "kind": "original_png_tar",
+      "manifest": "named-exceptions-manifest.json",
+      "archive_bytes": 14476910,
+      "sha256": "75995d8918097eb139e28b9b8f26cd74a91bc8979a4a267f71841bca25db1de9",
+      "parts": [
+        {
+          "path": "media/execution-named-exceptions.tar.gz.part001",
+          "size": 14476910,
+          "sha256": "75995d8918097eb139e28b9b8f26cd74a91bc8979a4a267f71841bca25db1de9"
+        }
+      ]
+    }
+  ],
+  "restoration_verifier_sha256": "b76502060fd59c9c371546ff1b0334805d16a929245ac0d20ff0f161261b8e41",
+  "pinned_godot": "4.6.3.stable.official.7d41c59c4",
+  "storage_frame_clock": "Synthetic25fps index only. Never interpret MKVs as gameplay timing; original filename/session provenance and root-owned raw logs retain original timing evidence.",
+  "original_pngs_evicted": false
+}

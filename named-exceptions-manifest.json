@@ -1,0 +1,340 @@
+{
+  "archive_file": "execution-named-exceptions.tar.gz",
+  "archive_sha256": "75995d8918097eb139e28b9b8f26cd74a91bc8979a4a267f71841bca25db1de9",
+  "archive_bytes": 14476910,
+  "original_bytes": 14810759,
+  "files": [
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/stakes-resumed-inner-20261020/initial.png",
+      "session": "stakes-resumed-inner-20261020",
+      "size": 577157,
+      "sha256": "167262670cc1c1c30a979cc8dc0e5b03a78e57652d41345e3e04b5327749aa19",
+      "mtime_ns": 1792494400618013620,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44",
+      "image_size": [
+        2184,
+        1968
+      ],
+      "image_mode": "RGBA",
+      "format": 5,
+      "alpha_opaque": true
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/stakes-resumed-isolated-inner-20261020/initial.png",
+      "session": "stakes-resumed-isolated-inner-20261020",
+      "size": 522386,
+      "sha256": "462a549c9282c79d1ce5942c43148a51a5599a7b025e087ef98e7d2d1a0e6be3",
+      "mtime_ns": 1792494874481490448,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44",
+      "image_size": [
+        2184,
+        1968
+      ],
+      "image_mode": "RGBA",
+      "format": 5,
+      "alpha_opaque": true
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-inner-20261020/initial.png",
+      "session": "drone-resumed-inner-20261020",
+      "size": 890674,
+      "sha256": "8e604fe91d846eb26186e7f10ab0fdd624b6301ebd9de8f18ed8f55e0567ba7c",
+      "mtime_ns": 1792494418144666760,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44",
+      "image_size": [
+        2184,
+        1968
+      ],
+      "image_mode": "RGBA",
+      "format": 5,
+      "alpha_opaque": true
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-isolated-inner-20261020/initial.png",
+      "session": "drone-resumed-isolated-inner-20261020",
+      "size": 893237,
+      "sha256": "ca8f3e86533ab74f4227b188f52da745e6753ccb1871bedcc84db5db5c6acfd6",
+      "mtime_ns": 1792494882887415755,
+      "source_sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44",
+      "image_size": [
+        2184,
+        1968
+      ],
+      "image_mode": "RGBA",
+      "format": 5,
+      "alpha_opaque": true
+    },
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/critic-current-cautious-inner-20261020/initial.png",
+      "session": "critic-current-cautious-inner-20261020",
+      "size": 1028436,
+      "sha256": "cf379b1e3c33d4a1a3e2e43df9f3d4fd977b2451c7be23529487ea674c0b7a88",
+      "mtime_ns": 1792494373247559419,
+      "source_sha": "e3a541fb24c2a3f136121150b7a0d2960546fda7",
+      "image_size": [
+        2184,
+        1968
+      ],
+      "image_mode": "RGBA",
+      "format": 5,
+      "alpha_opaque": true
+    },
+    {
+      "path": "work/gauntlet-execution-20261020/witness-ui/captures/cover-already-home-arrival.png",
+      "cohort": "witness-ui/captures",
+      "size": 292255,
+      "sha256": "829c5ccaeecb16891010f4c95fd2d28d59f9a95adc809f68b676dc383a6fcfde",
+      "mtime_ns": 1792495056807748604,
+      "source_sha": null,
+      "source_provenance": "Earlier working-tree renderer; exact uncommitted source state not independently reconstructable from the PNG. Preserve original alongside renderer.log and report.",
+      "image_size": [
+        2520,
+        1080
+      ],
+      "image_mode": "RGBA",
+      "format": 5,
+      "alpha_opaque": true
+    },
+    {
+      "path": "work/gauntlet-execution-20261020/witness-ui/captures/cover-landed-harbour.png",
+      "cohort": "witness-ui/captures",
+      "size": 346492,
+      "sha256": "ee5e2df9f7afe25eb18df2b109afd94ab7fbeb70b6723622c09120b54336610d",
+      "mtime_ns": 1792495041422805678,
+      "source_sha": null,
+      "source_provenance": "Earlier working-tree renderer; exact uncommitted source state not independently reconstructable from the PNG. Preserve original alongside renderer.log and report.",
+      "image_size": [
+        2520,
+        1080
+      ],
+      "image_mode": "RGBA",
+      "format": 5,
+      "alpha_opaque": true
+    },
+    {
+      "path": "work/gauntlet-execution-20261020/witness-ui/captures/cover-occupied-berth.png",
+      "cohort": "witness-ui/captures",
+      "size": 925086,
+      "sha256": "abaca113a051b8165634398965414b656a61bf80933212e8adc541f672f6c943",
+      "mtime_ns": 1792495022566520889,
+      "source_sha": null,
+      "source_provenance": "Earlier working-tree renderer; exact uncommitted source state not independently reconstructable from the PNG. Preserve original alongside renderer.log and report.",
+      "image_size": [
+        2520,
+        1080
+      ],
+      "image_mode": "RGBA",
+      "format": 5,
+      "alpha_opaque": true
+    },
+    {
+      "path": "work/gauntlet-execution-20261020/witness-ui/captures/cover-shared-wreck-rescue.png",
+      "cohort": "witness-ui/captures",
+      "size": 875903,
+      "sha256": "5eef6992587eb3dfc96107b9603eab8f9d88ca8f79972d5d789525733c8235d0",
+      "mtime_ns": 1792495050112062305,
+      "source_sha": null,
+      "source_provenance": "Earlier working-tree renderer; exact uncommitted source state not independently reconstructable from the PNG. Preserve original alongside renderer.log and report.",
+      "image_size": [
+        2520,
+        1080
+      ],
+      "image_mode": "RGBA",
+      "format": 5,
+      "alpha_opaque": true
+    },
+    {
+      "path": "work/gauntlet-execution-20261020/witness-ui/captures/inner-already-home-arrival.png",
+      "cohort": "witness-ui/captures",
+      "size": 568357,
+      "sha256": "e9d658496297f8433f01f5e5466105eca147889881209b9cab36afa5092d8ada",
+      "mtime_ns": 1792495129980684543,
+      "source_sha": null,
+      "source_provenance": "Earlier working-tree renderer; exact uncommitted source state not independently reconstructable from the PNG. Preserve original alongside renderer.log and report.",
+      "image_size": [
+        2184,
+        1968
+      ],
+      "image_mode": "RGBA",
+      "format": 5,
+      "alpha_opaque": true
+    },
+    {
+      "path": "work/gauntlet-execution-20261020/witness-ui/captures/inner-landed-harbour.png",
+      "cohort": "witness-ui/captures",
+      "size": 413993,
+      "sha256": "29901ea7565471f40b90b395862a0e235787ae0b34bb866088c5e80dea054c0a",
+      "mtime_ns": 1792495109438390698,
+      "source_sha": null,
+      "source_provenance": "Earlier working-tree renderer; exact uncommitted source state not independently reconstructable from the PNG. Preserve original alongside renderer.log and report.",
+      "image_size": [
+        2184,
+        1968
+      ],
+      "image_mode": "RGBA",
+      "format": 5,
+      "alpha_opaque": true
+    },
+    {
+      "path": "work/gauntlet-execution-20261020/witness-ui/captures/inner-occupied-berth.png",
+      "cohort": "witness-ui/captures",
+      "size": 1019226,
+      "sha256": "d37eab2f9a1818672eb7212fc8f02fefef5c1b88e51173435bc2c635c8b52a2c",
+      "mtime_ns": 1792495082218122055,
+      "source_sha": null,
+      "source_provenance": "Earlier working-tree renderer; exact uncommitted source state not independently reconstructable from the PNG. Preserve original alongside renderer.log and report.",
+      "image_size": [
+        2184,
+        1968
+      ],
+      "image_mode": "RGBA",
+      "format": 5,
+      "alpha_opaque": true
+    },
+    {
+      "path": "work/gauntlet-execution-20261020/witness-ui/captures/inner-shared-wreck-rescue.png",
+      "cohort": "witness-ui/captures",
+      "size": 1031454,
+      "sha256": "6acbe04b679a27b62d3ac0862e4212a3f4ce844e8084c6a27ea546557f9c5a20",
+      "mtime_ns": 1792495119797064379,
+      "source_sha": null,
+      "source_provenance": "Earlier working-tree renderer; exact uncommitted source state not independently reconstructable from the PNG. Preserve original alongside renderer.log and report.",
+      "image_size": [
+        2184,
+        1968
+      ],
+      "image_mode": "RGBA",
+      "format": 5,
+      "alpha_opaque": true
+    },
+    {
+      "path": "work/gauntlet-execution-20261020/witness-ui/captures-final/cover-already-home-arrival.png",
+      "cohort": "witness-ui/captures-final",
+      "size": 292102,
+      "sha256": "a390d53a1f43e455979e22d517b8f47c1f73d6fcb0e1e23a2b5f2d88e24691e1",
+      "mtime_ns": 1792495214875549897,
+      "source_sha": "49d4d35590fb67bd900aba14b7342b4179c600d7",
+      "source_provenance": "Final exact-source renderer per retained witness-ui/report.txt",
+      "image_size": [
+        2520,
+        1080
+      ],
+      "image_mode": "RGBA",
+      "format": 5,
+      "alpha_opaque": true
+    },
+    {
+      "path": "work/gauntlet-execution-20261020/witness-ui/captures-final/cover-landed-harbour.png",
+      "cohort": "witness-ui/captures-final",
+      "size": 337337,
+      "sha256": "9afa8d306edc8e8edb3192068407b206f5c674692a4e4dc797cb4c4d937a8c54",
+      "mtime_ns": 1792495200883670876,
+      "source_sha": "49d4d35590fb67bd900aba14b7342b4179c600d7",
+      "source_provenance": "Final exact-source renderer per retained witness-ui/report.txt",
+      "image_size": [
+        2520,
+        1080
+      ],
+      "image_mode": "RGBA",
+      "format": 5,
+      "alpha_opaque": true
+    },
+    {
+      "path": "work/gauntlet-execution-20261020/witness-ui/captures-final/cover-occupied-berth.png",
+      "cohort": "witness-ui/captures-final",
+      "size": 923355,
+      "sha256": "4d256241bec68e5c58e4c256edd41b600b6e1fc9c27bebcbde7a1feb20197510",
+      "mtime_ns": 1792495174051339174,
+      "source_sha": "49d4d35590fb67bd900aba14b7342b4179c600d7",
+      "source_provenance": "Final exact-source renderer per retained witness-ui/report.txt",
+      "image_size": [
+        2520,
+        1080
+      ],
+      "image_mode": "RGBA",
+      "format": 5,
+      "alpha_opaque": true
+    },
+    {
+      "path": "work/gauntlet-execution-20261020/witness-ui/captures-final/cover-shared-wreck-rescue.png",
+      "cohort": "witness-ui/captures-final",
+      "size": 870584,
+      "sha256": "8eb087bad37149624c652db1e59b40f7e824fc7e3cdcb0b42442d1fba52fad40",
+      "mtime_ns": 1792495208747247745,
+      "source_sha": "49d4d35590fb67bd900aba14b7342b4179c600d7",
+      "source_provenance": "Final exact-source renderer per retained witness-ui/report.txt",
+      "image_size": [
+        2520,
+        1080
+      ],
+      "image_mode": "RGBA",
+      "format": 5,
+      "alpha_opaque": true
+    },
+    {
+      "path": "work/gauntlet-execution-20261020/witness-ui/captures-final/inner-already-home-arrival.png",
+      "cohort": "witness-ui/captures-final",
+      "size": 562106,
+      "sha256": "18e4b302a3c81525d251d3f0f5ff34737c6dd24ab93689627c127afa8cca17b3",
+      "mtime_ns": 1792495293180101885,
+      "source_sha": "49d4d35590fb67bd900aba14b7342b4179c600d7",
+      "source_provenance": "Final exact-source renderer per retained witness-ui/report.txt",
+      "image_size": [
+        2184,
+        1968
+      ],
+      "image_mode": "RGBA",
+      "format": 5,
+      "alpha_opaque": true
+    },
+    {
+      "path": "work/gauntlet-execution-20261020/witness-ui/captures-final/inner-landed-harbour.png",
+      "cohort": "witness-ui/captures-final",
+      "size": 398930,
+      "sha256": "cbc142c204e3d0460907684a874b25d7e329b09849aae246626c0f5c470ce612",
+      "mtime_ns": 1792495271717495848,
+      "source_sha": "49d4d35590fb67bd900aba14b7342b4179c600d7",
+      "source_provenance": "Final exact-source renderer per retained witness-ui/report.txt",
+      "image_size": [
+        2184,
+        1968
+      ],
+      "image_mode": "RGBA",
+      "format": 5,
+      "alpha_opaque": true
+    },
+    {
+      "path": "work/gauntlet-execution-20261020/witness-ui/captures-final/inner-occupied-berth.png",
+      "cohort": "witness-ui/captures-final",
+      "size": 1015787,
+      "sha256": "577bfb1dc08d6eaa9364a005d0db005b8bea802a62c68f6e1967c3d2083e9692",
+      "mtime_ns": 1792495244140814235,
+      "source_sha": "49d4d35590fb67bd900aba14b7342b4179c600d7",
+      "source_provenance": "Final exact-source renderer per retained witness-ui/report.txt",
+      "image_size": [
+        2184,
+        1968
+      ],
+      "image_mode": "RGBA",
+      "format": 5,
+      "alpha_opaque": true
+    },
+    {
+      "path": "work/gauntlet-execution-20261020/witness-ui/captures-final/inner-shared-wreck-rescue.png",
+      "cohort": "witness-ui/captures-final",
+      "size": 1025902,
+      "sha256": "a9bf4cd8fc491853fe1d18349c384c8bfb69a919bf379b6476b8091d2dcef1f5",
+      "mtime_ns": 1792495283716855889,
+      "source_sha": "49d4d35590fb67bd900aba14b7342b4179c600d7",
+      "source_provenance": "Final exact-source renderer per retained witness-ui/report.txt",
+      "image_size": [
+        2184,
+        1968
+      ],
+      "image_mode": "RGBA",
+      "format": 5,
+      "alpha_opaque": true
+    }
+  ],
+  "verification": "All21 named/exception PNGs fully reconstructed and byte-compared to originals; no originals removed."
+}

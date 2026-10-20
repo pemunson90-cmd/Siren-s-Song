@@ -1,0 +1,53 @@
+{
+  "archive": "/workspace/work/gauntlet-execution-20261020/media-archive/execution-closed-2520x1080-rgb.mkv",
+  "archive_file": "execution-closed-2520x1080-rgb.mkv",
+  "frames": [
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/critic-current-cautious-inner-20261020/1792494617892810407.png",
+      "session": "critic-current-cautious-inner-20261020",
+      "size": 935434,
+      "sha256": "f1fba4436e6e4504cde5e03ccbc49d9dbe6c554b2aa755c48651cee8cd1eb681",
+      "mtime_ns": 1792494618587627606,
+      "source_sha": "e3a541fb24c2a3f136121150b7a0d2960546fda7",
+      "image_size": [
+        2520,
+        1080
+      ],
+      "image_mode": "RGBA",
+      "format": 5,
+      "alpha_opaque": true,
+      "relative_path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/critic-current-cautious-inner-20261020/1792494617892810407.png",
+      "index": 1,
+      "bytes": 935434
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/critic-current-cautious-inner-20261020/1792494629859805417.png",
+      "session": "critic-current-cautious-inner-20261020",
+      "size": 741763,
+      "sha256": "3127408ec39e916bc23cf874193a7b11aaef19524f4bc00048cfb9dc7fddcedd",
+      "mtime_ns": 1792494630482564888,
+      "source_sha": "e3a541fb24c2a3f136121150b7a0d2960546fda7",
+      "image_size": [
+        2520,
+        1080
+      ],
+      "image_mode": "RGBA",
+      "format": 5,
+      "alpha_opaque": true,
+      "relative_path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/critic-current-cautious-inner-20261020/1792494629859805417.png",
+      "index": 2,
+      "bytes": 741763
+    }
+  ],
+  "encoding": "libx264rgb CRF0 bgr24; lossless RGB, original Godot format restored per frame",
+  "storage_frame_clock": "Synthetic25fps archive index ONLY; original timing remains in preserved filenames and root-owned raw logs. This is not gameplay-timing footage.",
+  "scope": "Confirmed normally-quit sessions; numeric opaqueRGBA/RGB frames only. All original PNGs retained. Named initial/UI captures stored separately.",
+  "godot_version": "4.6.3.stable.official.7d41c59c4",
+  "original_bytes": 1677197,
+  "archive_sha256": "a320c745456756fdf378035184cde990b2830537cb1f90c29e2791897e434c8d",
+  "archive_bytes": 1375106,
+  "verification": "Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org\n\nEXACT ORIGINAL PNG RECONSTRUCTION 2 FAILURES 0\n",
+  "verification_exit_code": 0,
+  "verified_utc": "2026-10-20T11:32:27.275844+00:00",
+  "restoration": "ffmpeg -v error -i ARCHIVE -fps_mode passthrough SCRATCH/%06d.png; godot --headless --path GAME --script verify-frame-archive.gd -- MANIFEST SCRATCH --restore. The verifier checks reconstructed PNG bytes before writing and refuses changed originals."
+}
