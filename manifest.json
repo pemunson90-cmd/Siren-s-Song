@@ -1,0 +1,1535 @@
+{
+  "archive_name": "whole-game-cautious-1-0001.tar.xz",
+  "archive_sha256": "11be743397c270085008a890fcd306eb77810a36e4a441cf1a36a90fba027859",
+  "parts": [
+    {
+      "name": "whole-game-cautious-1-0001.part001",
+      "size": 41943040,
+      "sha256": "77a700bd6f372a222c938cae0b02cbc27d0cc210f066e3cb22717c01f2c8368c"
+    },
+    {
+      "name": "whole-game-cautious-1-0001.part002",
+      "size": 41943040,
+      "sha256": "3fbd8a730a8d083d15f46821f326bf3404a9b1748a337031ab48ef09b1131424"
+    },
+    {
+      "name": "whole-game-cautious-1-0001.part003",
+      "size": 41943040,
+      "sha256": "cb8e300135559c5a6a8c8001e4aa446045ada4e536f97e3c78a547ce4b55f942"
+    },
+    {
+      "name": "whole-game-cautious-1-0001.part004",
+      "size": 41943040,
+      "sha256": "796b204abf6116b97846732d0afb65377770abfcf26ebcc7a0bfef6d7ddda582"
+    },
+    {
+      "name": "whole-game-cautious-1-0001.part005",
+      "size": 20837432,
+      "sha256": "e37862c2a81f63b034e595e5e2ac9ecd82dbd584ce1a01ab45298f2e26e09c77"
+    }
+  ],
+  "original_frame_manifest": {
+    "archive": "/workspace/Siren-s-Song-gauntlet-archives/cold-frames/whole-game-cautious-1-0001.tar.xz",
+    "archive_sha256": "11be743397c270085008a890fcd306eb77810a36e4a441cf1a36a90fba027859",
+    "restore": "tar -xJf /workspace/Siren-s-Song-gauntlet-archives/cold-frames/whole-game-cautious-1-0001.tar.xz -C /workspace/Siren-s-Song-gauntlet-archives",
+    "scope": "Closed historical session immutable numeric PNGs only. Each original byte hash independently verified from archive before eviction. Saves, logs, named keyframes, reference/build/signing artifacts untouched.",
+    "files": [
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792457782463145400.png",
+        "sha256": "0044936573731d70a4a91821872af947c02f8b2d0c19fda96a8a4370053f4316",
+        "size": 410488,
+        "mtime_ns": 1792457782956161852,
+        "inode": 1591988
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792457789705686477.png",
+        "sha256": "faa7a39dc6e2f31e5d8ea992b54d6e2d17bc2a4e2c926ee77203175bc3566a88",
+        "size": 451560,
+        "mtime_ns": 1792457790617036222,
+        "inode": 1591998
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792457796303852779.png",
+        "sha256": "84b864cc0557b1340dd3a0d2a5f552a5138093447cee96c551dae000676ccb27",
+        "size": 589796,
+        "mtime_ns": 1792457796888932350,
+        "inode": 1585988
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792457803098875892.png",
+        "sha256": "04ffe90852b791ec1a6b7387f2ca02f20e65a3958c47f6ebe0aee8e80663dea5",
+        "size": 524489,
+        "mtime_ns": 1792457803577408179,
+        "inode": 1592013
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792457811838313120.png",
+        "sha256": "a41fb731fcdfce19a6579bc781a5fed4da3aca228ef42383e25b26df1b9e5831",
+        "size": 497417,
+        "mtime_ns": 1792457812279787484,
+        "inode": 1592036
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792457818316768223.png",
+        "sha256": "ddbc0bc0d5c866bd72b509a303da3edaecbc527a0359dc0e69c2c1bc8d262a6d",
+        "size": 802181,
+        "mtime_ns": 1792457818798627963,
+        "inode": 1592043
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792457826717467090.png",
+        "sha256": "c97dfc2815b04bde7f1b6b95265124a5c5b21202a8622c4ee44cf69b38b633a9",
+        "size": 912842,
+        "mtime_ns": 1792457827212233549,
+        "inode": 1591790
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792457835045069130.png",
+        "sha256": "94998539f03241972ce6ae0c1a7c37612cb346c1f79475a7c7d52e7dfdb26a59",
+        "size": 841743,
+        "mtime_ns": 1792457835539347355,
+        "inode": 1592064
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792457849653917640.png",
+        "sha256": "22cfab31d92c7d14104203299e5f972d71626d4a0a9c25bb39f533a4bd9ae3d3",
+        "size": 930482,
+        "mtime_ns": 1792457850182045237,
+        "inode": 1592089
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792457850266990900.png",
+        "sha256": "b671aedc8969a2c06a2c08d9ff51ea6ccdbd9ac4ea1d69430a42a565e3874e67",
+        "size": 814595,
+        "mtime_ns": 1792457850796411747,
+        "inode": 1592039
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792457857742040506.png",
+        "sha256": "0aba571d747085e7ecd2512ff1fcf125da88e09deb26513f74fb9b239408fbc6",
+        "size": 921328,
+        "mtime_ns": 1792457858288678125,
+        "inode": 1592078
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792457868219723671.png",
+        "sha256": "0108367aea60d993bd30044b9ab6d0775c6e67f4369d0d1caf5d42630f936cbc",
+        "size": 917507,
+        "mtime_ns": 1792457868701466050,
+        "inode": 1592048
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792457868753616598.png",
+        "sha256": "dcff3c5dac4776bae5816c5b37b1933880e186b253eff9932ffa750b1b8f72b0",
+        "size": 944088,
+        "mtime_ns": 1792457881165914741,
+        "inode": 1592129
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792457881211852386.png",
+        "sha256": "7b530336402f554766d23afb171a0a3707177017cf5b9c8742bbee6e1f8b6ee3",
+        "size": 950727,
+        "mtime_ns": 1792457881662186042,
+        "inode": 1592088
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792457891338423368.png",
+        "sha256": "3d337eba82c3759140fd1a5cf1b5276fd659205d04d657eeb5f77b6744e0c2a4",
+        "size": 945508,
+        "mtime_ns": 1792457891868841440,
+        "inode": 1592110
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792457891944126906.png",
+        "sha256": "774f135e3f2557d6371b039e8928cacc53539ef5d3da12b18fafc5b39546d754",
+        "size": 958437,
+        "mtime_ns": 1792457896317041281,
+        "inode": 1592101
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792457896425565029.png",
+        "sha256": "66b0c4ee8aacedf0b83a98258766cbf702ce35ee08f20d89df3d4c1838740da1",
+        "size": 963882,
+        "mtime_ns": 1792457896968975542,
+        "inode": 1592142
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792457905680322154.png",
+        "sha256": "e095451051f9e7fcc00950807ddba55ff5db72b7b8ea33a7f18a1081a2eca046",
+        "size": 814667,
+        "mtime_ns": 1792457906256179923,
+        "inode": 1592158
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792457914127881346.png",
+        "sha256": "2fb721e2586718df01ba24506591843a14d6cf4651105474e3708151a2adcb7d",
+        "size": 952942,
+        "mtime_ns": 1792457914627402310,
+        "inode": 1592140
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792457923633734140.png",
+        "sha256": "bb1c179b04c1b478748365b87c9378614c174306ab2a4b0444872c4a9917fa35",
+        "size": 948155,
+        "mtime_ns": 1792457924142901284,
+        "inode": 1592049
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792457924243890170.png",
+        "sha256": "27f684ce4e357737cc6e976958d9948dac6b1ef91c19701554d5b811bdc08a83",
+        "size": 400824,
+        "mtime_ns": 1792457929561730373,
+        "inode": 1592184
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792457929628321648.png",
+        "sha256": "dfcbdcad0f8b5bf157a24f1240fbcab56a842e4008a3dcc87934f569ed5f9e9f",
+        "size": 400804,
+        "mtime_ns": 1792457930046494440,
+        "inode": 1592203
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792457944227628065.png",
+        "sha256": "4b10396b8f1609c266cdf63fc269d3a9196ec064f0424e7078353bb3fb7ff0e5",
+        "size": 333008,
+        "mtime_ns": 1792457945197819165,
+        "inode": 1592219
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792457953198471962.png",
+        "sha256": "ea29f15dd6f97df3436b48a36a453e1d03506e077f2a64e4bb3663672d090803",
+        "size": 429672,
+        "mtime_ns": 1792457953687860551,
+        "inode": 1592202
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792457962146500106.png",
+        "sha256": "b6bb48d9b227c7edcd9cb89084bc61b70fac283e8b81851be63bb160a54b959e",
+        "size": 457839,
+        "mtime_ns": 1792457963086042139,
+        "inode": 1592235
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792457973907171178.png",
+        "sha256": "24a8e52d0e163b0b76dda5d36b3d646aac3c5dfb6c732bdce460136b34da8e5c",
+        "size": 497463,
+        "mtime_ns": 1792457974492735526,
+        "inode": 1592193
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792457986817076288.png",
+        "sha256": "a4c864085eab8a39574043219303e72313383bb57cd5830f27616b3654eb0a75",
+        "size": 443861,
+        "mtime_ns": 1792457987242880167,
+        "inode": 1592263
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792457999684028278.png",
+        "sha256": "947c6d48f53a056ca13c83cf35214daf1a59f701998065fc1f9b137f21d5bf56",
+        "size": 415080,
+        "mtime_ns": 1792458000150522667,
+        "inode": 1592282
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458012282986653.png",
+        "sha256": "cb41375c4809cddec9ce79c7d40bd81b0508b5b4fd6a1867069794510276455a",
+        "size": 992942,
+        "mtime_ns": 1792458012850665379,
+        "inode": 1592127
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458031334749781.png",
+        "sha256": "883d45b9e5c912a0afaed9dfc405b05755f0a593ee34919f5b5aa9cdee7be803",
+        "size": 1048536,
+        "mtime_ns": 1792458031865398974,
+        "inode": 1592258
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458031945844957.png",
+        "sha256": "6c443ee9c5edef6f3db756801145c0a905cf84d5c9116e2713c9fbce196e8577",
+        "size": 840479,
+        "mtime_ns": 1792458032495821816,
+        "inode": 1592315
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458042823705570.png",
+        "sha256": "999bf3999f28277ed3b2674db34586058350236318d5ae40f066a61119bcc199",
+        "size": 1043219,
+        "mtime_ns": 1792458043416703403,
+        "inode": 1592248
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458053671697610.png",
+        "sha256": "d285a442c5bd21f1d34473e86bac9a0f0e01a4ae228ad17e11e68022ab44c11e",
+        "size": 884165,
+        "mtime_ns": 1792458054248216150,
+        "inode": 1592334
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458065718247212.png",
+        "sha256": "66d3e0e8d1baad4b5c7223d2694ff1316c4628905ab9ca35b818af835ffc9d2f",
+        "size": 907866,
+        "mtime_ns": 1792458066257121098,
+        "inode": 1592330
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458078551633731.png",
+        "sha256": "e0f0ad093c65bc42229f735460f903e50b624254eec113933c89b3af0b90bdbb",
+        "size": 1055630,
+        "mtime_ns": 1792458079075463461,
+        "inode": 1592351
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458079157994910.png",
+        "sha256": "2d6453c4a601bcf1182fda2fbdf1c9d38698d49e1893b694ee71dcf9453ef11f",
+        "size": 868317,
+        "mtime_ns": 1792458079750199733,
+        "inode": 1592342
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458091902225081.png",
+        "sha256": "55812d69fab80a5e4043ff023bedbcc3c858d84a599550475c903ede07ff6cae",
+        "size": 1050284,
+        "mtime_ns": 1792458092502954517,
+        "inode": 1592325
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458107119177074.png",
+        "sha256": "f6eda49bb7229726e401ffe6e32d021f6d3a49cce44add03f0bce6d3a15f2861",
+        "size": 885096,
+        "mtime_ns": 1792458107673467351,
+        "inode": 1592353
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458121354289710.png",
+        "sha256": "c25fccee3ce97842d616885bd152366f868847c0637e7a6bddc58a91a5fe2b1c",
+        "size": 904287,
+        "mtime_ns": 1792458121905014097,
+        "inode": 1592390
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458140029925520.png",
+        "sha256": "c0313abfa933b1ad859dc351855dc1981a51a5193e9dd3d343cd4e5a06c2b541",
+        "size": 1057676,
+        "mtime_ns": 1792458140597613201,
+        "inode": 1592399
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458140718195107.png",
+        "sha256": "9d9f68aa74c3d92f0a6d2d807b81d92db39bcc3af7d5a274b857fc300900e90a",
+        "size": 878839,
+        "mtime_ns": 1792458141232859254,
+        "inode": 1592423
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458155226130017.png",
+        "sha256": "1685ef7f0c1d8961213b9d5a2cee36091b739be8ff0c6a1960c9693e46990a40",
+        "size": 1052555,
+        "mtime_ns": 1792458155778041372,
+        "inode": 1592366
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458168590846106.png",
+        "sha256": "f57cd0807977b583c6e268b64bc614cb8454c0947d0683c84cdca49c5c146166",
+        "size": 1049621,
+        "mtime_ns": 1792458169103839060,
+        "inode": 1592012
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458169205220436.png",
+        "sha256": "32f612e1ab15e87197594feafd4db351ddf21f6362967aa35abfe98a250598df",
+        "size": 1094283,
+        "mtime_ns": 1792458189658035798,
+        "inode": 1592015
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458189784451890.png",
+        "sha256": "08a6fea7ad907c9f153ed2a0b3e42b1d68afbae0f57b1868feb93cadc488dde5",
+        "size": 1098142,
+        "mtime_ns": 1792458190352992777,
+        "inode": 1592014
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458210962704693.png",
+        "sha256": "e22aee4ebb3b669e09c395c3bba32b72cb6352a1182dc5ff37fada83ac43061c",
+        "size": 1093187,
+        "mtime_ns": 1792458211611539326,
+        "inode": 1592456
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458211752370373.png",
+        "sha256": "8c2b480a94f24e956cda72b02cac1d005003efb531163fb8aca712cfc7d5fc5c",
+        "size": 1101500,
+        "mtime_ns": 1792458217218640058,
+        "inode": 1592461
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458217375284296.png",
+        "sha256": "86d5af82a7d0a5f983b113c8739a234a6c91c8548eec5d16c2cdc63c15bcbf16",
+        "size": 1104872,
+        "mtime_ns": 1792458217981713528,
+        "inode": 1592469
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458230625055279.png",
+        "sha256": "65d6494d4473421150f5ccf779b9ab53e140b4598dcd49a4304953f03cd4dbe3",
+        "size": 935546,
+        "mtime_ns": 1792458231267932730,
+        "inode": 1592483
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458244177072015.png",
+        "sha256": "fa6b1b490f2422a9ef8034468add60c77dfb26cc0e3f49c47d36bcc08f0f3880",
+        "size": 1128796,
+        "mtime_ns": 1792458244848389760,
+        "inode": 1592120
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458262815050921.png",
+        "sha256": "e759a0d0ad80e2391dfec4bc5d3c12bdddd7ec46f4cc0b09010cc3be41c94e2e",
+        "size": 911163,
+        "mtime_ns": 1792458263413027127,
+        "inode": 1592131
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458276631508391.png",
+        "sha256": "867f4c204b0b2d8b695c767fedef3f3884c3290ee7a2b4aadb74053a431d9edb",
+        "size": 1118157,
+        "mtime_ns": 1792458277205062074,
+        "inode": 1592133
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458292826158112.png",
+        "sha256": "94fcd452551bbe3fa11e2e3eb02ee28bb14f4f90d237f7687f3b674f9671e3b9",
+        "size": 1115691,
+        "mtime_ns": 1792458293716320239,
+        "inode": 1592179
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458293884426334.png",
+        "sha256": "e89cfc9714fa211126d98e5e02eb93352ba56cb931cb73ea4c56069727c96446",
+        "size": 1047374,
+        "mtime_ns": 1792458300433535598,
+        "inode": 1592337
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458300654515156.png",
+        "sha256": "75ef11540db20df2f225aed9893a8d27dad491cfd6ada07929e1c212671e3d2c",
+        "size": 1148203,
+        "mtime_ns": 1792458302453067919,
+        "inode": 1592465
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458322180193422.png",
+        "sha256": "49056f04911d3e0db5fd1af477db113d69f33e05ce89899240cdda92d1351ee6",
+        "size": 947662,
+        "mtime_ns": 1792458323732317464,
+        "inode": 1592153
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458342489903472.png",
+        "sha256": "f30fdda27dd0767054584f9f101abe6cf69472268ea9f478f486becadf1a3955",
+        "size": 1127327,
+        "mtime_ns": 1792458343949721242,
+        "inode": 1592554
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458361166279165.png",
+        "sha256": "35973d8856759af393d2103990e76f908373ae3424eb21aaaaf12f124479f0a2",
+        "size": 947536,
+        "mtime_ns": 1792458361857369488,
+        "inode": 1592572
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458362048494490.png",
+        "sha256": "fa6c08bb084e1995222b1a94b65ad19aab22573deb409b126f0c85b8eef3d134",
+        "size": 1127285,
+        "mtime_ns": 1792458362817707286,
+        "inode": 1592236
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458381889842279.png",
+        "sha256": "60a65e5d9688400e882c4e0fcca18435f3e6d0086bb6fda10684509c84660450",
+        "size": 895409,
+        "mtime_ns": 1792458382521613323,
+        "inode": 1592284
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458402244615296.png",
+        "sha256": "b08f1a2c0fcf08490934d3e124cf4dafa02847b74b36bbf11094a6c1a33f4130",
+        "size": 1117924,
+        "mtime_ns": 1792458403864953003,
+        "inode": 1592297
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458423026356156.png",
+        "sha256": "18a879f56fce40822b47dc821fca1caad1f545af562404d2669d2e0df0c3885d",
+        "size": 949627,
+        "mtime_ns": 1792458423732165029,
+        "inode": 1592283
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458423872641186.png",
+        "sha256": "59ab4745e8e831d89fada6df76928806a55f10c1cb9ca3d571fa5b9552ad253b",
+        "size": 926774,
+        "mtime_ns": 1792458424585644510,
+        "inode": 1592436
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458440678247681.png",
+        "sha256": "98f4baaab75300ec8fd3f378133d635eb529cde17e5016712509dfc3f3667caf",
+        "size": 1126436,
+        "mtime_ns": 1792458441418558258,
+        "inode": 1592350
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458459182157573.png",
+        "sha256": "277b931ae7a528a8c422fad5cbeeface082476c1383630528f6172f41a0cbe8a",
+        "size": 1117885,
+        "mtime_ns": 1792458459742608996,
+        "inode": 1592299
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458459806672938.png",
+        "sha256": "1aedb0ef88dca7985a36891cd81fb23917a8d79c7dbcf555176579518c361fea",
+        "size": 1116092,
+        "mtime_ns": 1792458460392883046,
+        "inode": 1592623
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458460496802912.png",
+        "sha256": "8851b6981fbd2f5a38f1f58a59d679017065ae577dfaa6242363294827c9a7da",
+        "size": 1030591,
+        "mtime_ns": 1792458471175658879,
+        "inode": 1592634
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458471284647815.png",
+        "sha256": "63376d9b3be203e967b2be5adba374ce028e2f4d7d32bbc2d7453b0bc2d5e427",
+        "size": 1035960,
+        "mtime_ns": 1792458472034828916,
+        "inode": 1592638
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458499865184930.png",
+        "sha256": "cc8e72324ab36778417db1516e4bc83c58458b4285f85fcaef1036ddee37d2e2",
+        "size": 808971,
+        "mtime_ns": 1792458500519209204,
+        "inode": 1593241
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458519169602800.png",
+        "sha256": "78b9cd481335d70b47dc37ed6defc1637882e7d2643babd29186c5c806f1a2e5",
+        "size": 783388,
+        "mtime_ns": 1792458519678140388,
+        "inode": 1592383
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458537770936518.png",
+        "sha256": "8e3aa75eeda34e40e975e940ba293f14286648060ef28f2ab7999531c8ae6289",
+        "size": 1053594,
+        "mtime_ns": 1792458538383466127,
+        "inode": 1592117
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458557266852020.png",
+        "sha256": "4c9b863b8137466b37d701fe54fdf7ff983fa2c7ab8814e7ae9d40bbfb0f08b4",
+        "size": 808984,
+        "mtime_ns": 1792458557815026399,
+        "inode": 1592027
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458557878302887.png",
+        "sha256": "49c693ed1401b972c25ea27bb327acc603f1e1927f53d22afb00ddc9c3a9f6bf",
+        "size": 782800,
+        "mtime_ns": 1792458558410383505,
+        "inode": 1578711
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458558495376270.png",
+        "sha256": "64aff5048524ee7aab02ceab468f744c08ff1c1d8632ca52f50992b01574cef9",
+        "size": 1050219,
+        "mtime_ns": 1792458559180603817,
+        "inode": 1592371
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458575770436810.png",
+        "sha256": "b0a392ed1de4eddbdfbae3d3eb7df51a7c8d05449aa1ecbf1c747037bc99a3e4",
+        "size": 1050082,
+        "mtime_ns": 1792458576346711095,
+        "inode": 1592478
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458595234146856.png",
+        "sha256": "63827c967044bea017af92acf1d84c4c10b2e0e0a6978fe7546d45643a7f9950",
+        "size": 1055117,
+        "mtime_ns": 1792458595842167206,
+        "inode": 1592475
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458595928983179.png",
+        "sha256": "df3367cc6320649325a4820c386e299e721b3e725d351649c8998afe36e97889",
+        "size": 1144416,
+        "mtime_ns": 1792458596520082635,
+        "inode": 1592050
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458596625438473.png",
+        "sha256": "49e3d991a578b113730498d2ac82206eda5c808233d891c6ed38b9b367567c8c",
+        "size": 1060009,
+        "mtime_ns": 1792458602138666789,
+        "inode": 1593474
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458602248289276.png",
+        "sha256": "7b1e8ea495dd7fed0e3025926edb124b4f315d4344e9c753b508406a209b0ade",
+        "size": 1140679,
+        "mtime_ns": 1792458602880817134,
+        "inode": 1592622
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458633630866098.png",
+        "sha256": "7135919fe64dce2af6e159e04042b9abcec4009f1c2a19ad156c69ffccd77b14",
+        "size": 895920,
+        "mtime_ns": 1792458634226219272,
+        "inode": 1593891
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458634350053954.png",
+        "sha256": "64531562771e33472778dc5d31b2ee3f4a630eab16e11f4ad2f5c365e4efdd73",
+        "size": 1130117,
+        "mtime_ns": 1792458635033493266,
+        "inode": 1593893
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458653062514745.png",
+        "sha256": "f242e2a77a48c1399c9cc195f80da15fa40d800cc3201426525db37d67aa8ed2",
+        "size": 1126664,
+        "mtime_ns": 1792458653615367018,
+        "inode": 1592137
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458653685762517.png",
+        "sha256": "f61a00de1032418fdd454cf4e1469d5c828b65db9ce55f92b99f8cf49d47d955",
+        "size": 1117521,
+        "mtime_ns": 1792458669072415533,
+        "inode": 1592273
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458669155669681.png",
+        "sha256": "34438a417bc05a76ff3fee17b6725ea74cdb06863f3af8d829622a25cb335d01",
+        "size": 1120623,
+        "mtime_ns": 1792458669688376581,
+        "inode": 1592128
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458687697267354.png",
+        "sha256": "c362ca6f810d5369d4684b1f57a8417a2f51b90bb60f518adfaaf96a56f33fea",
+        "size": 1117734,
+        "mtime_ns": 1792458688238550859,
+        "inode": 1592577
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458688462053422.png",
+        "sha256": "901ff3f892abe02686e6673beb8643e042f16d6f176bba3ddcfdb1a978b23ab6",
+        "size": 1089796,
+        "mtime_ns": 1792458700896598547,
+        "inode": 1592210
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458711457508133.png",
+        "sha256": "d347f678fc53653e477327a630bd5f535153a3f6b8cdcd49d16feb92f64d76af",
+        "size": 1104841,
+        "mtime_ns": 1792458712166034636,
+        "inode": 1592553
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458724082466114.png",
+        "sha256": "a9628e180b84acc43fe563e1d7b2e913305ac4b275a62356a4cda2805beb5e65",
+        "size": 894812,
+        "mtime_ns": 1792458724620777399,
+        "inode": 1591990
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458725383952176.png",
+        "sha256": "ddd27fce8e563c0a16dbf2e0d98ce386ebc9dcf29997821553edd59d8fc6bb16",
+        "size": 1131510,
+        "mtime_ns": 1792458725958870988,
+        "inode": 1592437
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458738607155917.png",
+        "sha256": "27c9c6509954022c536718c2afc5d2ecf581ea12ec111c09bd0d90f60507dc32",
+        "size": 1128916,
+        "mtime_ns": 1792458739173717187,
+        "inode": 1593921
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458739433219974.png",
+        "sha256": "1e1bf7f99233d6c0fcb4fef1943077939cb294a9850848b0489efd723dcff9ed",
+        "size": 1107341,
+        "mtime_ns": 1792458744828649063,
+        "inode": 1592055
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458745068878695.png",
+        "sha256": "23600c711b9b3260e2708444aa500f035ee671243feac470356a3090093abd50",
+        "size": 1110791,
+        "mtime_ns": 1792458745606174629,
+        "inode": 1593898
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458756526842306.png",
+        "sha256": "abdad8d7400d404d5bda93a9bfbcd63cc648d67b5d2f950a8f8280d9f6049754",
+        "size": 856323,
+        "mtime_ns": 1792458757019587217,
+        "inode": 1593932
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458757779445682.png",
+        "sha256": "eceb590539b7ec53237f466e2708a24fcd8d25449d7f2c6238219ca8a8b6fef9",
+        "size": 1104276,
+        "mtime_ns": 1792458758370986571,
+        "inode": 1592580
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458772420490331.png",
+        "sha256": "85c772abd26ceddb0e5690d39515da036815a1e66de950321a34184d659152e8",
+        "size": 1100380,
+        "mtime_ns": 1792458772973640480,
+        "inode": 1592566
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458773164720335.png",
+        "sha256": "b0f2c279403f4a928489602048684789cb3806cc35f0750a648d25f2bc252ac1",
+        "size": 1048101,
+        "mtime_ns": 1792458803592870759,
+        "inode": 1592385
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458823424669277.png",
+        "sha256": "28b7dae82d510093e6a10d4bb5dc28db905ed0834243008cb9fdecfab6a7fe8f",
+        "size": 242655,
+        "mtime_ns": 1792458823842237124,
+        "inode": 1592270
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458840687607923.png",
+        "sha256": "20e21d902540246e73874bea35039ac88c9617c17476c7a06d691b8e0e080cc5",
+        "size": 298501,
+        "mtime_ns": 1792458841112672489,
+        "inode": 1592616
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458855139419663.png",
+        "sha256": "69658aa5e3b9ffb617228c6a59f5844bffeef4563473b6124333b16f6d521823",
+        "size": 506732,
+        "mtime_ns": 1792458855785054551,
+        "inode": 1592598
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458870680884190.png",
+        "sha256": "deb43984a2d71dc8239a147ebf1cd0da857ae88838d5210db5db19626daa5b3c",
+        "size": 443793,
+        "mtime_ns": 1792458871461238828,
+        "inode": 1593974
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458872017712221.png",
+        "sha256": "1388860ccf9bc30149e361e3efaf0ad258e026014f16a48495cc5bed2a13f603",
+        "size": 414875,
+        "mtime_ns": 1792458872626792120,
+        "inode": 1593963
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458873169481018.png",
+        "sha256": "d41072bd4e9c69cc967cecd9685f7e8cd6e5fdec80c1950e5558acfa7c9862ad",
+        "size": 992936,
+        "mtime_ns": 1792458873816002372,
+        "inode": 1592592
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458874530886488.png",
+        "sha256": "814cb60f83fdcc4ff08f777ed1f00501ea46bc25e738087e5c7805f198b85ff7",
+        "size": 1056591,
+        "mtime_ns": 1792458875158247183,
+        "inode": 1593981
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458893074046416.png",
+        "sha256": "24fbf91227275ae8b362bcc66a1ab1fc11ca8ea6ab6f36bace1a9896d1e76d3b",
+        "size": 883783,
+        "mtime_ns": 1792458893595113188,
+        "inode": 1593445
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458894424878929.png",
+        "sha256": "4787e2dfb5f4f078cdeca8fa6ae3c91cc9c9f4da4f788c5e8ba26b8d1e1c283a",
+        "size": 906897,
+        "mtime_ns": 1792458895124678905,
+        "inode": 1593993
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458895813442380.png",
+        "sha256": "09166980dd1cdb6038ffbd234c3e5d4a848419ede2906a0a3ef2be46d2d7d9da",
+        "size": 1054666,
+        "mtime_ns": 1792458896386891186,
+        "inode": 1592415
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458896891244164.png",
+        "sha256": "aca4bc5f05f779e63a0675b7c08ba1c3627460e6a2912b32ac54f9c9e5fa7d56",
+        "size": 867227,
+        "mtime_ns": 1792458897429631645,
+        "inode": 1592416
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458897942210842.png",
+        "sha256": "593ad87e34d778361a5d137ca98ebf75dd156f7ea3fee3012a989c3f8ba10541",
+        "size": 1049414,
+        "mtime_ns": 1792458898529043687,
+        "inode": 1593439
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458916565524417.png",
+        "sha256": "16d3f1ba2eed6844fe7033dd71b5e49c4869a2e280254acda409cbf6fd9d6e7e",
+        "size": 884636,
+        "mtime_ns": 1792458917119184894,
+        "inode": 1592094
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458917419411908.png",
+        "sha256": "2d4e71b4d20e2bacb2828819ae8e74d846b61a7f3feb9b1f298009a2a7ce2d71",
+        "size": 903300,
+        "mtime_ns": 1792458918040902863,
+        "inode": 1592166
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458918354774222.png",
+        "sha256": "c92c080f98c3d403810fa1abbc668cd919805a59c4f179962ea1e86141ab4e10",
+        "size": 1056497,
+        "mtime_ns": 1792458918969710546,
+        "inode": 1592146
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458919231733468.png",
+        "sha256": "be997655d514b98c34917b3391ee9ccce18b7d244a18db8cc968cf474b73d4fe",
+        "size": 877621,
+        "mtime_ns": 1792458919830145913,
+        "inode": 1592118
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458920078109683.png",
+        "sha256": "f7f32a3a9fea559123e0c8450e63d65c6050e429f9dccc10384b72ad583365b0",
+        "size": 1051347,
+        "mtime_ns": 1792458920627981185,
+        "inode": 1592327
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458934526682919.png",
+        "sha256": "0e652c5979047337f8371a101ef63adf6c90baefbf408af1584050ecf52e932a",
+        "size": 1048586,
+        "mtime_ns": 1792458935028157250,
+        "inode": 1594004
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458935266243479.png",
+        "sha256": "eab83f1fb656c894352168965f8c49c9c5a9133d55b31c4e9e6f61c6667b91ea",
+        "size": 1097825,
+        "mtime_ns": 1792458958778934545,
+        "inode": 1594016
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458958955834239.png",
+        "sha256": "d1317e636ba9b7dd4215d5c7f842a377122926e1ffe3c21c87770bcd48c014aa",
+        "size": 1102426,
+        "mtime_ns": 1792458959575669269,
+        "inode": 1592609
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458976113647544.png",
+        "sha256": "a0902ad06c6c2f20e028ccb1113669b34ae71b3a40f721be5eaf78cbc8b3e6a0",
+        "size": 909492,
+        "mtime_ns": 1792458976752080616,
+        "inode": 1593452
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458976965921196.png",
+        "sha256": "44a35db06319200f2e6a81ce629b780c1f86be9142c78838d7fe474d1b4d22f5",
+        "size": 1143498,
+        "mtime_ns": 1792458977651189980,
+        "inode": 1593450
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458978389217225.png",
+        "sha256": "5c9c7b999de21aaafcb3aedc123099dcd81379e7b8924e269bf9e5065dfbe016",
+        "size": 1141233,
+        "mtime_ns": 1792458979071042893,
+        "inode": 1594028
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458979282829319.png",
+        "sha256": "947f0e25e7149391af44245aa11e7b54a6899ead583e24f71993b5946db9f3a9",
+        "size": 1043970,
+        "mtime_ns": 1792458984028609507,
+        "inode": 1592519
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792458984274856123.png",
+        "sha256": "3f1e69cb0a8a078712ddd95f5c9d2cc4f39549af7b8182840a66bd62c2689e35",
+        "size": 1049532,
+        "mtime_ns": 1792458984885832542,
+        "inode": 1593461
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459002018070892.png",
+        "sha256": "a53fcf214a1adffd451236fe7ede1ba513e2fd09b8a61a6bbd471252c0afd26b",
+        "size": 834062,
+        "mtime_ns": 1792459002757670511,
+        "inode": 1594029
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459003057298368.png",
+        "sha256": "549465621a0bbbbddf3dc021e7548501a469ef56273ebf274699cc5a631ab509",
+        "size": 805315,
+        "mtime_ns": 1792459003820238004,
+        "inode": 1593476
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459004121468369.png",
+        "sha256": "10422db8376ac5b0792f1a22113526fd07f535b7a8f17e405119afe052d36b9d",
+        "size": 1052323,
+        "mtime_ns": 1792459004887375779,
+        "inode": 1594000
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459022647663144.png",
+        "sha256": "b301f1ea51a10bab2d74eb81d630d2903cd672ecaba723df1ab826ce31280dc7",
+        "size": 1041894,
+        "mtime_ns": 1792459023580236164,
+        "inode": 1592480
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459040325351063.png",
+        "sha256": "79d3dd820e64d641e746f09e789c99439e2368b68f229303e3d915f3770018d8",
+        "size": 859953,
+        "mtime_ns": 1792459041164183242,
+        "inode": 1592215
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459041426374736.png",
+        "sha256": "7fa557e5cfc1f6de2a4408f79445fa488a93f3599d82e087d5b9c656cd80eb0b",
+        "size": 1054252,
+        "mtime_ns": 1792459042221320471,
+        "inode": 1593905
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459042950787897.png",
+        "sha256": "3ed9bd869706150c38bfad75fe5129ccfd6143b9eba94adec4c66ccdcefd3d00",
+        "size": 858310,
+        "mtime_ns": 1792459043763235379,
+        "inode": 1592511
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459060479154301.png",
+        "sha256": "1193a3773eb1e3206942131af181a7c433f3a0385c6f820b50e5b328dbeb2451",
+        "size": 1050665,
+        "mtime_ns": 1792459061269687177,
+        "inode": 1592542
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459061563271394.png",
+        "sha256": "00f69ed710e57dc099319e04aec7cf993fc82c0cd223bda479f0fdb188074051",
+        "size": 795916,
+        "mtime_ns": 1792459062357789632,
+        "inode": 1594069
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459062634983765.png",
+        "sha256": "d64fd554867b24b782880f680028b27e7ff2fa7396cffb33e52b1d52400de045",
+        "size": 1044601,
+        "mtime_ns": 1792459063570918030,
+        "inode": 1593953
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459064315086484.png",
+        "sha256": "8f9dbdbe51ed57fbd49fcfed9c642986b89a8f7d4a644290b2cb2d4f1d831673",
+        "size": 1127326,
+        "mtime_ns": 1792459065099123105,
+        "inode": 1594049
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459065444624230.png",
+        "sha256": "e58bd3a46c8332bf35d10c42adbf13e783b65c0fc953eb224ee5c9d36e3b458a",
+        "size": 1125242,
+        "mtime_ns": 1792459076174611198,
+        "inode": 1594084
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459076474800685.png",
+        "sha256": "84cf28057f6f16a17e8728cec05561b82e1abd3ebe06466f52e35b1908bc0e3f",
+        "size": 1129998,
+        "mtime_ns": 1792459077364272747,
+        "inode": 1593242
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459095122409728.png",
+        "sha256": "e0f0807da786eed2327938afe8e1230a2293a90f710c5663650f903ac500b4c6",
+        "size": 1127750,
+        "mtime_ns": 1792459097338703075,
+        "inode": 1594099
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459097728083065.png",
+        "sha256": "7a44dcdda89c4278c1b134132c2bc89d05350be0228ec433a83b62f45bb742e2",
+        "size": 1132157,
+        "mtime_ns": 1792459109846041434,
+        "inode": 1593908
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459110133377264.png",
+        "sha256": "e05a02c55641d14be9d6c3491cb25ba5b18e02f3ab3c290f493c7abf35acd3ff",
+        "size": 1135870,
+        "mtime_ns": 1792459111450969128,
+        "inode": 1594103
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459128250377034.png",
+        "sha256": "cdca426bcf9354c0902a6f287da7d8dc8bf92f838b767e0e2b759983c0f15643",
+        "size": 898257,
+        "mtime_ns": 1792459129625555052,
+        "inode": 1593931
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459130423656153.png",
+        "sha256": "a9e7d320e099c61324fa758b085eef913c20a2777cca9bf9f6c622dc52978b02",
+        "size": 1154150,
+        "mtime_ns": 1792459132181475912,
+        "inode": 1593933
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459149026324487.png",
+        "sha256": "4d5fe5b975207890b4f3c0896b9f87217d8fa6c7dc619f4f3b4f650bbdf46496",
+        "size": 1151131,
+        "mtime_ns": 1792459149816961343,
+        "inode": 1594091
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459150150042151.png",
+        "sha256": "ca181bb097d5b8f27cdf316f5e82600fac6196624e6868358d532657f14f088c",
+        "size": 1041906,
+        "mtime_ns": 1792459157121557966,
+        "inode": 1592586
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459157439961883.png",
+        "sha256": "53c1bd6b248b907251ede616145afc306008bb16d183234de9b50aa484b31829",
+        "size": 1048006,
+        "mtime_ns": 1792459158118178913,
+        "inode": 1593954
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459175295812849.png",
+        "sha256": "425c0a3359ea6de5b576f37aefb5160e8dbaf19acceb14536bc51d680bac26fa",
+        "size": 814089,
+        "mtime_ns": 1792459175901768738,
+        "inode": 1593935
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459176121065035.png",
+        "sha256": "407c3fb7fee5c8726ef63d2f0f905a1e95c7be58e24b84e66eb7661346ec8273",
+        "size": 788543,
+        "mtime_ns": 1792459176711760268,
+        "inode": 1592567
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459177015770430.png",
+        "sha256": "de676c1590ed311e978b68dec5b528b92dc69f036d89360c9f6d841b681c0c33",
+        "size": 1049745,
+        "mtime_ns": 1792459177613006383,
+        "inode": 1593917
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459178403829849.png",
+        "sha256": "601f97e157b70f6e01604bb1471db4ec30eb8dcaa9e08a554954b3c7a7bbb210",
+        "size": 1040323,
+        "mtime_ns": 1792459179067176464,
+        "inode": 1594142
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459197731880720.png",
+        "sha256": "89e53b8c4ef3c827252cc4d97cfcb2003ecca067f12e7f3312da1a1d768f8eed",
+        "size": 1122776,
+        "mtime_ns": 1792459198352137594,
+        "inode": 1594152
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459198557462826.png",
+        "sha256": "6adf32c94a2cc48c3bf27a93ac690b0472f320e2e14258d01e3f06d8e8439c55",
+        "size": 1117499,
+        "mtime_ns": 1792459210994815936,
+        "inode": 1592633
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459211268601638.png",
+        "sha256": "228a2d62162b887193e4309a442a66d1b841805139e80f985b61aa936366b9aa",
+        "size": 1120186,
+        "mtime_ns": 1792459211930831991,
+        "inode": 1594157
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459232629940210.png",
+        "sha256": "29ff821b4e0851535b451854347798060f4dd4294e74c61326045de285f0d7cd",
+        "size": 1116557,
+        "mtime_ns": 1792459233243015272,
+        "inode": 1593975
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459233444661228.png",
+        "sha256": "63372b9407cdf584dfdfa96656ee8cf0b061dd47228a5812efcaeeb61aab6160",
+        "size": 242683,
+        "mtime_ns": 1792459248996739600,
+        "inode": 1593960
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459249613878847.png",
+        "sha256": "e35d89ce16b1ae04645d91e266952287872ec354c10c2bc8c5ec1433c4cdc0cb",
+        "size": 242617,
+        "mtime_ns": 1792459250042307667,
+        "inode": 1594185
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459280613160775.png",
+        "sha256": "45233882ed2d145f552a634554d6c2025baafed5cdf61db4d6d02dcc17c3c129",
+        "size": 269075,
+        "mtime_ns": 1792459281112004099,
+        "inode": 1593448
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459328631234613.png",
+        "sha256": "6f46b44be6635e2b6e0463a56acbde675f81f849ea18a6bbbe5a0f6472719b40",
+        "size": 292255,
+        "mtime_ns": 1792459329601333957,
+        "inode": 1592428
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459344353324922.png",
+        "sha256": "71dd281f3f0dc554a8d2c5c3f6572a11e896dcb22cf0dbe6fe2e9bf27b8f2de8",
+        "size": 258411,
+        "mtime_ns": 1792459345486190055,
+        "inode": 1592311
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459360671928469.png",
+        "sha256": "b77359af06a83860be7d69694198cf447e007db8248a3a0d6814d4cc9cf39c5a",
+        "size": 747855,
+        "mtime_ns": 1792459361132542378,
+        "inode": 1593995
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459378567927567.png",
+        "sha256": "ffab6ef394432980f4ecf493b9394adb14759b260ad7263e58893c08cc1f3cc6",
+        "size": 696414,
+        "mtime_ns": 1792459379032040565,
+        "inode": 1594215
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459379232809942.png",
+        "sha256": "de60ec3fe9f6b92ba25f04f2e1de7a47a7ed6c95e4b0b2a25858c72e9fc0ae7d",
+        "size": 669431,
+        "mtime_ns": 1792459379689660825,
+        "inode": 1594214
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459379903707587.png",
+        "sha256": "c703f7ce5db49aee68e7069c08de04e4c8d09de162ea43f8d0bf4b835ece0b78",
+        "size": 780033,
+        "mtime_ns": 1792459380384091686,
+        "inode": 1593966
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459380551017554.png",
+        "sha256": "4521889e3cac4ebf8a97ce5b4f8cbca68a49674f7017276843a8e1c8efa0c118",
+        "size": 896978,
+        "mtime_ns": 1792459381039432111,
+        "inode": 1594220
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459403171178337.png",
+        "sha256": "b1a70925b20b9bacd0ad844108c6705bfa6b99ed4b64b56bbdde0cba4cd77ec6",
+        "size": 817633,
+        "mtime_ns": 1792459403675594833,
+        "inode": 1594019
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459403944338688.png",
+        "sha256": "6c6222f653c5d0920b6b394d027b68084a4d6e0a45af6e66f06a5937c17a44e7",
+        "size": 922549,
+        "mtime_ns": 1792459404485710213,
+        "inode": 1594023
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459404685401535.png",
+        "sha256": "37ff8b704777d26967bf685f67b62f1e1e6f399d60e4a1e03f8f9cce7dc8dd13",
+        "size": 915969,
+        "mtime_ns": 1792459405178652387,
+        "inode": 1594058
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459405750926745.png",
+        "sha256": "55505ec023f0bb11630ba4d01458b4407e1f897672ecdd6ff76e3342bff380a6",
+        "size": 767318,
+        "mtime_ns": 1792459406268671987,
+        "inode": 1594114
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459426141320572.png",
+        "sha256": "4797233734d242d75de852c657642c1ff7e9b1e6530ef8204623c224b050c96e",
+        "size": 898977,
+        "mtime_ns": 1792459426713404831,
+        "inode": 1594045
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459427019338357.png",
+        "sha256": "da0722cf03fe33ac08b84b6e064b750c703b20a7c6fcdb24fc2a3a4ad8d0ef2b",
+        "size": 887868,
+        "mtime_ns": 1792459427544727746,
+        "inode": 1594054
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459428275175162.png",
+        "sha256": "570d5cb7885cf1bdc986c9fa7750e46515c1bb228dc0877005da13ad5bba6f40",
+        "size": 882900,
+        "mtime_ns": 1792459428840126893,
+        "inode": 1594097
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459429081579492.png",
+        "sha256": "368a28383e26d5f6d7d0bae842a8d17df469961e848f3edd77dcbe04b585e2af",
+        "size": 932754,
+        "mtime_ns": 1792459441508015493,
+        "inode": 1594047
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459441763987075.png",
+        "sha256": "707c41ab40de13050b1d024c402aed726764abfc88f2cb055c2bfbda75fb2bd4",
+        "size": 937678,
+        "mtime_ns": 1792459442390798086,
+        "inode": 1593438
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459460469651849.png",
+        "sha256": "b82f0cfb5616c6cbd26737e0794c41b9822b9d36abb585d2e43a7cccc64f4a94",
+        "size": 769423,
+        "mtime_ns": 1792459461050296010,
+        "inode": 1594078
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459461554263273.png",
+        "sha256": "9db2a16b14c43544151f7f617f8b65a2a685baef51f768c52eebbb71efedf90f",
+        "size": 915339,
+        "mtime_ns": 1792459462113392989,
+        "inode": 1594250
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459487995916403.png",
+        "sha256": "e32ccabc0d03a9a616c0257451d727ffca9704b3b75a73ff7ae7609ed355ff1b",
+        "size": 912369,
+        "mtime_ns": 1792459488515368359,
+        "inode": 1593925
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459488721263988.png",
+        "sha256": "32e6a5d25cd1e3d9e856ea4a89e23b86f41957b7f40dca4ad9cc962384a20daa",
+        "size": 956614,
+        "mtime_ns": 1792459491373594363,
+        "inode": 1592525
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459491548587207.png",
+        "sha256": "ece265f25cbde543be3f6f2bcc19a7241985207e52fd611ff0c5f2db4399bcad",
+        "size": 961705,
+        "mtime_ns": 1792459492082907579,
+        "inode": 1594104
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459492770401572.png",
+        "sha256": "b2b6b80ea35f386748568948a393070fc2641a3b027ae90e984614bb0951cb2b",
+        "size": 932832,
+        "mtime_ns": 1792459493292916350,
+        "inode": 1594269
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459513423501548.png",
+        "sha256": "df5a5ea7b548b5daad92264dfe075b1090da2d151a837cd019b392873ba55071",
+        "size": 928402,
+        "mtime_ns": 1792459513948054654,
+        "inode": 1594087
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459514168687757.png",
+        "sha256": "8277d258c237b4c0308712e8c06a265ecd225a59103659640f40d8f8f0133bfd",
+        "size": 966615,
+        "mtime_ns": 1792459519499280936,
+        "inode": 1594072
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459519772589592.png",
+        "sha256": "d2dde9c95095f37f74d227b32339e4fce73516bcecf7074b3e2904cb6af9aa93",
+        "size": 961672,
+        "mtime_ns": 1792459520252325572,
+        "inode": 1594090
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459540142562482.png",
+        "sha256": "91ee1d19c9e271458ef9f5e1e960f5d715f260b1b39e602b3a268688b540e59c",
+        "size": 956037,
+        "mtime_ns": 1792459540771459526,
+        "inode": 1594020
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459541142311081.png",
+        "sha256": "aea9edaac1de4df66e274fc502de4c513a25470a76b99104117587dedb83f2ab",
+        "size": 948675,
+        "mtime_ns": 1792459544579932290,
+        "inode": 1594178
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459544922996445.png",
+        "sha256": "fed374469aad525c5d5baa7c691f48c076be1798472dcc21322813d496b9fe0c",
+        "size": 952981,
+        "mtime_ns": 1792459545550772576,
+        "inode": 1593985
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459564896456641.png",
+        "sha256": "9e304d9e8d210a969c09cd9b94066d6e9e536a66ff06e68c371b9316234f3f2e",
+        "size": 748874,
+        "mtime_ns": 1792459565436412052,
+        "inode": 1594297
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459584961325591.png",
+        "sha256": "2c097922b7ddab2a465f52f111c2476d893ef771a76c2d918157ad0e6b76ed29",
+        "size": 734103,
+        "mtime_ns": 1792459585527761450,
+        "inode": 1594301
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459585817011222.png",
+        "sha256": "7bed4ce16b3e7fe3b32c471c1540755e4846a3509dcb8ef07a95c4bdd90635de",
+        "size": 961581,
+        "mtime_ns": 1792459586429472820,
+        "inode": 1594162
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459587268380715.png",
+        "sha256": "462bed08840b28b468a72814196bc1810d60e8ab5f2b5f122cce37b1c2764aae",
+        "size": 748805,
+        "mtime_ns": 1792459588034766931,
+        "inode": 1594309
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459588364795784.png",
+        "sha256": "5ada6b743e83cd1edd45fca44e5e78ab5ec361e36ff70e83d1089f0930984229",
+        "size": 939297,
+        "mtime_ns": 1792459589122369637,
+        "inode": 1593951
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459589827172314.png",
+        "sha256": "5cc48f6f54c720f45ae1099081c5c2c244c0060a9e06aff6e429fb2af5096e0f",
+        "size": 938939,
+        "mtime_ns": 1792459590390606425,
+        "inode": 1594303
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459590662000730.png",
+        "sha256": "7f9e25e975eda61742939c3a6a156698b85ff577dc039f7ed6d9adade8c3c34b",
+        "size": 341219,
+        "mtime_ns": 1792459593362152298,
+        "inode": 1594295
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459593676713873.png",
+        "sha256": "95cf7b219d4feba434a8f1858b67301f3d430aa3d912615fc775ba4b94842468",
+        "size": 341214,
+        "mtime_ns": 1792459594123160967,
+        "inode": 1594315
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459618905495016.png",
+        "sha256": "bb968ecd57e26044dc03fecae7d68f2c2c1f339c038fe445812ffc9a4fbe930c",
+        "size": 279638,
+        "mtime_ns": 1792459619873794934,
+        "inode": 1594184
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459634929066549.png",
+        "sha256": "a5f14fd4e7927d74def93e5aa226dea2e92142bf458174f984ee11cb9a586020",
+        "size": 354740,
+        "mtime_ns": 1792459635434406275,
+        "inode": 1594155
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459652009293161.png",
+        "sha256": "16cada28cb0571e953abb8827541c828fef5fcd4835ffb2fe3b939c6279a1144",
+        "size": 393232,
+        "mtime_ns": 1792459652990127073,
+        "inode": 1593508
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459669769686700.png",
+        "sha256": "a45c39e0296206e54cb9879b91749a633181970c2356cbfb4af5ab711a3dcecf",
+        "size": 316109,
+        "mtime_ns": 1792459670253271028,
+        "inode": 1594338
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459688191404154.png",
+        "sha256": "bc2d278c00da5d3eb906788fa8c73712b45c41ea97299f3d5e13192de19b62c7",
+        "size": 383291,
+        "mtime_ns": 1792459688631599163,
+        "inode": 1594337
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459704553806311.png",
+        "sha256": "fa47e1f1559a158e39d4121780ba8cf78257fc2597348d21df2c8e007a306582",
+        "size": 396871,
+        "mtime_ns": 1792459705513254166,
+        "inode": 1594192
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459723571332417.png",
+        "sha256": "82b7399cf0469ee1e88c9b538feea2d866fdba0fe56ff7f9d9511b15ce36d35c",
+        "size": 426606,
+        "mtime_ns": 1792459724504556794,
+        "inode": 1594369
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459747184500351.png",
+        "sha256": "a4c77d1e9e9cd5eb7ee2389affa717373abc745d7f4bc42d5f71e17ba8a79361",
+        "size": 1271411,
+        "mtime_ns": 1792459747958404740,
+        "inode": 1594382
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459772124854639.png",
+        "sha256": "8e138b6949658751f2f75df415de5d42697e49fc008bfbd88f64749368408d45",
+        "size": 1221783,
+        "mtime_ns": 1792459772641537677,
+        "inode": 1593919
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459772828948175.png",
+        "sha256": "3b1452792020e4b8cdc2e56cc627a3a02a81b686419dbf26a87ea05d8a38475b",
+        "size": 1197986,
+        "mtime_ns": 1792459773342918959,
+        "inode": 1592631
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459773557571905.png",
+        "sha256": "9b8fce84137de350ad2b1c6580f366eaed2ecf3b2d1661eabcd6ab021c833d3b",
+        "size": 1650977,
+        "mtime_ns": 1792459774149560482,
+        "inode": 1594102
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459774567713810.png",
+        "sha256": "f38ad558d2868b7a5b27abe062a9266543e45b1c4df8d113c291112f3e5510b8",
+        "size": 1872168,
+        "mtime_ns": 1792459775195783023,
+        "inode": 1594171
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459805852474795.png",
+        "sha256": "25e73df76c5df820a79d113cd07e2d77e3edb42303167df08afe9473ecf5eb25",
+        "size": 1695740,
+        "mtime_ns": 1792459806522188642,
+        "inode": 1594226
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459806740661895.png",
+        "sha256": "105f8b9bd6371468aca3d083188d747eafbb568c20e40b1723f6fbd4a88e00ea",
+        "size": 1889013,
+        "mtime_ns": 1792459807375262372,
+        "inode": 1594273
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459807543249741.png",
+        "sha256": "2e1d06679412d86f1e4ebe9e5a69e042e2fe744ea3855f84384cbb99c698f857",
+        "size": 1883268,
+        "mtime_ns": 1792459808174715717,
+        "inode": 1594115
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459808930218301.png",
+        "sha256": "86cd64dedcdd029b48da316db589ff4e312601ca06e4d7a89d9bd24ec03bc50a",
+        "size": 1675570,
+        "mtime_ns": 1792459809562697881,
+        "inode": 1594219
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459809751574114.png",
+        "sha256": "5141a71fda53ea2560fb823261a409285530003e1a4f278beba41efda4f7bb38",
+        "size": 1879303,
+        "mtime_ns": 1792459810402414337,
+        "inode": 1594389
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459810642713512.png",
+        "sha256": "99f09b5ce9f24a6978282e90bad864c690d67eb90c7c631906e9edd81ccf58e2",
+        "size": 1871780,
+        "mtime_ns": 1792459811293936596,
+        "inode": 1594391
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459811954413410.png",
+        "sha256": "8b09b8846b09b33d3298981fa4f93d7e045c9deb939507f3cc0b1d7947973150",
+        "size": 1867815,
+        "mtime_ns": 1792459812557924382,
+        "inode": 1594095
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459812767033835.png",
+        "sha256": "5f8a3c5ea43aa42b3844c85235036904d891fff3bb317ddde02464e4cc018339",
+        "size": 1914945,
+        "mtime_ns": 1792459818270699809,
+        "inode": 1594395
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459818482544162.png",
+        "sha256": "ae7c73f59b2a08bde1cb82a4bbf1269637cad7bea4fcb25803d68eb3e1706d15",
+        "size": 1919943,
+        "mtime_ns": 1792459819110327147,
+        "inode": 1594398
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459847008078196.png",
+        "sha256": "814728b8e287d8447a918e217eb0455dfacf4cfe4dab840beab883d4f4a87454",
+        "size": 1725667,
+        "mtime_ns": 1792459847681286397,
+        "inode": 1594244
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459847897376221.png",
+        "sha256": "a46bee4c2c73279519dacaeb7b7b1bf8a7ca0793b12f09a8bddb8621d5887585",
+        "size": 1924482,
+        "mtime_ns": 1792459848494907683,
+        "inode": 1594080
+      },
+      {
+        "path": "live-input-harness-demand/sessions/whole-game-cautious-1/1792459848726512247.png",
+        "sha256": "c1fa6fe8bdfdcd237c298f7f57bbf2c0b123ee5cae9ec9ab9be1a43d95ac555b",
+        "size": 1711349,
+        "mtime_ns": 1792459849359656546,
+        "inode": 1594401
+      }
+    ],
+    "original_bytes": 202644860,
+    "archive_bytes": 188609592,
+    "free_before": 692510720,
+    "free_after": 669057024
+  },
+  "restore": "Download parts from the pinned archive commit, concatenate in manifest order, verify archive_sha256, then use original_frame_manifest.restore."
+}
