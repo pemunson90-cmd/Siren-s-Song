@@ -106,6 +106,8 @@ earned_equipment_tests|EARNED EQUIPMENT
 cadence_correlator_tests|CADENCE CORRELATOR
 field_sampler_tests|FIELD SAMPLER
 capture_feedback_tests|CAPTURE FEEDBACK
+independent_capture_tests|INDEPENDENT CAPTURE
+independent_capture_ui_tests|INDEPENDENT CAPTURE UI
 turn_safe_navigation_tests|TURN SAFE NAVIGATION
 expanded_region_tests|EXPANDED REGION
 expanded_region_journeys|EXPANDED JOURNEYS

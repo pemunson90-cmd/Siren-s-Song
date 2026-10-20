@@ -49,9 +49,15 @@ var tools := {"emp":2,"decoy":3,"recon":2,"knock":2}
 var ping_time := 0.0
 var ping_origin := Vector2.ZERO
 var recon_time := 0.0
-var capture_time := 0.0
-var capture_unit := -1
-var capture_target := -1
+var captures:Array=[{},{},{}]
+# Foreground projection for diagnostics and single-station consumers. Exposure
+# ownership and clocks live only in captures, independently of selection.
+var capture_unit:int:
+	get:return _capture_station()
+var capture_target:int:
+	get:return captures[capture_unit].target if capture_unit>=0 else -1
+var capture_time:float:
+	get:return captures[capture_unit].elapsed if capture_unit>=0 else 0.0
 var accumulator := 0.0
 var sensor_clock := 0.0
 var navigation: AStarGrid2D
@@ -68,7 +74,7 @@ func start(index: int, upgrade: String = "endurance", launch:Dictionary={}) -> v
 	sirens = mission.sirens.duplicate(true)
 	known = {}; contacts = {}; events = []; noises = []; projectiles=[]
 	elapsed=0.0; oxygen=100.0; hull=100.0; paused=true; selected=0; queue_mode=false; pass_through=true; outcome=""
-	ping_time=0.0; recon_time=0.0; capture_time=0.0; capture_unit=-1; capture_target=-1; accumulator=0.0
+	ping_time=0.0; recon_time=0.0; captures=[{},{},{}]; accumulator=0.0
 	tools={"emp":2,"decoy":3,"recon":2,"knock":2}
 	if upgrade=="disruption": tools.emp += 1
 	if upgrade=="survey": tools.recon += 1
@@ -154,9 +160,20 @@ func operation_context()->Dictionary:
 	return Operations.feedback(self)
 func recon_feedback()->Dictionary:
 	return Recon.feedback(self)
-func capture_feedback()->Dictionary:
-	if capture_unit<0 or capture_target<0 or capture_target>=mission.objectives.size():return {"duration":0.0,"elapsed":0.0,"unit":-1,"target":-1}
-	return {"duration":_capture_duration(mission.objectives[capture_target],capture_unit),"elapsed":capture_time,"unit":capture_unit,"target":capture_target}
+func _capture_station()->int:
+	if not captures[selected].is_empty():return selected
+	for id in captures.size():
+		if not captures[id].is_empty():return id
+	return -1
+func capture_feedback(unit_id:int=-1)->Dictionary:
+	var id=_capture_station() if unit_id<0 else unit_id
+	if id<0 or id>=captures.size() or captures[id].is_empty():return {"duration":0.0,"elapsed":0.0,"unit":-1,"target":-1}
+	var work=captures[id]
+	return {"duration":_capture_duration(mission.objectives[work.target],id),"elapsed":work.elapsed,"unit":id,"target":work.target}
+func capture_at_target(target:int)->Dictionary:
+	for id in captures.size():
+		if not captures[id].is_empty() and captures[id].target==target:return capture_feedback(id)
+	return {"duration":0.0,"elapsed":0.0,"unit":-1,"target":-1}
 func equipment_feedback()->Dictionary:
 	return {"fitted":mission.get("launch_equipment",Consequences.EMPTY_FIT).duplicate(true),"correlation":correlation.duplicate(true)}
 func _capture_duration(objective:Dictionary,unit_id:int)->float:
@@ -271,7 +288,7 @@ func command(order: String,args: Dictionary={}) -> bool:
 			if not _install_program(u,plan,append,append and not u.route.is_empty()): message="Rock or unsafe clearance. Choose open water."; return false
 			if not append:
 				u.hold=""
-				if capture_unit==selected: capture_unit=-1
+				captures[selected]={}
 			if order=="emergency":
 				queue_mode=false; u.silent=false; u.erase("route_undo")
 				if selected>0 and u.has("drone_drive"):u.drone_drive="transit"
@@ -342,11 +359,11 @@ func command(order: String,args: Dictionary={}) -> bool:
 			var context=camera_context()
 			if not context.ready: message=context.text; return false
 			var target=mission.objectives[context.target]
-			capture_unit=selected; capture_target=context.target; capture_time=0.0; u.hold="HOLD"
-			Operations.begin(self,target)
+			captures[selected]={"target":context.target,"elapsed":0.0}; u.hold="HOLD"
+			Operations.begin(self,target,selected)
 			message="%s · hold %.0f seconds"%["Hydrophone reception" if target.get("kind","")=="exchange" else ("Passive hydrophone decode" if target.get("kind","")=="receiver" else ("Archive uplink" if target.get("kind","")=="uplink" else "Warning transmission" if Operations.own_origin(target) else "Camera exposure")),_capture_duration(target,selected)]
 			if target.get("kind","") not in ["receiver","exchange","transmitter"] or not Sampler.capture_spec(selected,mission.get("launch_equipment",{}),target).is_empty():
-				_noise(u.pos,520,"CAMERA");noises.back()["record"]=capture_target
+				_noise(u.pos,520,"CAMERA");noises.back()["record"]=context.target
 			events.append({"type":"camera","pos":u.pos})
 		_: return false
 	return true
@@ -428,12 +445,13 @@ func _blackwater_context_text(target:int,station:int) -> String:
 	var learned=mission.objectives.any(func(o):return o.captured)
 	return "%s · %dm / quiet %.0fm%s"%[name,c.distance,c.quiet_range," · learned: SONAR + SAMPLE within 240m" if learned else " · move closer to listen"]
 func camera_context() -> Dictionary:
-	if capture_unit>=0:
-		var active=mission.objectives[capture_target]
+	var work=capture_feedback(selected)
+	if work.unit>=0:
+		var active=mission.objectives[work.target]
 		if active.get("kind","")=="exchange":
-			var c=blackwater_context(capture_target,capture_unit)
-			return {"target":capture_target,"ready":false,"text":"%s · %s · %s %.1f/2s"%[units[capture_unit].name,"REPLY CARRIER" if c.get("source","")=="courier" else active.name,"receiving" if c.settled else "settling",capture_time]}
-		return {"target":capture_target,"ready":false,"text":"%s · %s %.1f / %.0fs"%[units[capture_unit].name,active.name,capture_time,_capture_duration(active,capture_unit)]}
+			var c=blackwater_context(work.target,selected)
+			return {"target":work.target,"ready":false,"text":"%s · %s · %s %.1f/2s"%[units[selected].name,"REPLY CARRIER" if c.get("source","")=="courier" else active.name,"receiving" if c.settled else "settling",work.elapsed]}
+		return {"target":work.target,"ready":false,"text":"%s · %s %.1f / %.0fs"%[units[selected].name,active.name,work.elapsed,work.duration]}
 	if mission.has("expedition_revision") and mission.objectives.all(func(o):return o.captured) and not mission.objectives.any(func(o):return Operations.own_origin(o)):
 		var facts=mission.expedition_facts.keys()
 		return {"target":-1,"ready":false,"text":"No exact source located · listen from another position or spend local RECON" if facts.is_empty() and mission.id!=8 else "Observed %s · choose an available named recovery corridor"%", ".join(facts)}
@@ -451,6 +469,9 @@ func camera_context() -> Dictionary:
 		if d<distance: nearest=id; distance=d
 		if best<0 and d<240 and line_clear(unit.pos,objective.pos): best=id
 	if nearest<0: return {"target":-1,"ready":false,"text":"Archive aboard · return Quietus to extraction."}
+	var candidate=best if best>=0 else nearest
+	var owner=capture_at_target(candidate)
+	if owner.unit>=0:return {"target":candidate,"ready":false,"text":"%s · %s already acquiring this record"%[mission.objectives[candidate].name,units[owner.unit].name]}
 	if mission.get("blackwater_revision",0)==1:
 		var id=best if best>=0 else nearest
 		return {"target":id,"ready":blackwater_context(id).ready,"text":_blackwater_context_text(id,selected)}
@@ -551,21 +572,20 @@ func _tick(dt: float) -> void:
 	sensor_clock-=dt
 	if sensor_clock<=0:
 		_observe(); SignalField.observe(self); Consequences.observe(self); sensor_clock=0.15
-	if capture_unit>=0:
-		var u=units[capture_unit]; var o=mission.objectives[capture_target]
+	for station in captures.size():
+		if captures[station].is_empty():continue
+		var work=captures[station];var u=units[station]; var o=mission.objectives[work.target]
 		var exchange=o.get("kind","")=="exchange" and mission.get("blackwater_revision",0)==1
-		var receiver=blackwater_context(capture_target,capture_unit) if exchange else {}
-		if not u.alive or (exchange and not receiver.ready) or (Operations.own_origin(o) and not Operations.receiving(self,o,capture_unit)) or (not exchange and not Operations.own_origin(o) and (u.pos.distance_to(o.pos)>240 or not line_clear(u.pos,o.pos))):
-			capture_unit=-1
-			if exchange:capture_time=0.0
-			message="Reception interrupted · move closer or SONAR for a local replay" if exchange else "Exposure interrupted · regain clear view"
-		elif exchange and not receiver.settled:capture_time=0.0
-		elif not Sampler.capture_spec(capture_unit,mission.get("launch_equipment",{}),o).is_empty() and u.vel.length()>=12:capture_time=0.0
+		var receiver=blackwater_context(work.target,station) if exchange else {}
+		if not u.alive or (exchange and not receiver.ready) or (Operations.own_origin(o) and not Operations.receiving(self,o,station)) or (not exchange and not Operations.own_origin(o) and (u.pos.distance_to(o.pos)>240 or not line_clear(u.pos,o.pos))):
+			captures[station]={}
+			message=u.name+" · "+("Reception interrupted · move closer or SONAR for a local replay" if exchange else "Exposure interrupted · regain clear view")
+		elif exchange and not receiver.settled:work.elapsed=0.0
+		elif not Sampler.capture_spec(station,mission.get("launch_equipment",{}),o).is_empty() and u.vel.length()>=12:work.elapsed=0.0
 		else:
-			capture_time+=dt
-			if capture_time+(0.0000001 if exchange else 0.0)>=_capture_duration(o,capture_unit):
-				if exchange:capture_time=o.duration
-				o.captured=true; u.hold=""; var completed_unit=capture_unit; capture_unit=-1; _record_secured(o,completed_unit)
+			work.elapsed+=dt
+			if work.elapsed+(0.0000001 if exchange else 0.0)>=_capture_duration(o,station):
+				o.captured=true; u.hold=""; captures[station]={}; _record_secured(o,station)
 	if mission.get("expedition_revision",0)==2:
 		var was=correlation.get("status","")
 		correlation=Correlator.advance(correlation,signal_readings(),mission.get("launch_context",{}).get("references",{}).get("return_cadence",[]),units[0].pos,units[0].vel.length(),elapsed,dt,units[0].alive and Equipment.item_for(mission.get("launch_equipment",{}),0)=="quietus_correlator")
@@ -982,7 +1002,7 @@ func all_records() -> bool:
 		if not o.captured and not o.get("optional",false): return false
 	return true
 func snapshot() -> Dictionary:
-	var data={"mission":mission.duplicate(true),"units":units.duplicate(true),"sirens":sirens.duplicate(true),"known":known.duplicate(true),"contacts":contacts.duplicate(true),"noises":noises.duplicate(true),"elapsed":elapsed,"oxygen":oxygen,"hull":hull,"paused":paused,"selected":selected,"tools":tools.duplicate(),"outcome":outcome,"ping_time":ping_time,"ping_origin":ping_origin,"recon_time":recon_time,"capture_time":capture_time,"capture_unit":capture_unit,"capture_target":capture_target}
+	var data={"mission":mission.duplicate(true),"units":units.duplicate(true),"sirens":sirens.duplicate(true),"known":known.duplicate(true),"contacts":contacts.duplicate(true),"noises":noises.duplicate(true),"elapsed":elapsed,"oxygen":oxygen,"hull":hull,"paused":paused,"selected":selected,"tools":tools.duplicate(),"outcome":outcome,"ping_time":ping_time,"ping_origin":ping_origin,"recon_time":recon_time,"captures":captures.duplicate(true)}
 	if not correlation.is_empty():data["correlation"]=correlation.duplicate(true)
 	if not projectiles.is_empty(): data["projectiles"]=projectiles.duplicate(true)
 	return data
@@ -991,7 +1011,7 @@ func restore(data: Dictionary) -> bool:
 	correlation=data.get("correlation",{}).duplicate(true)
 	mission=data.mission.duplicate(true); units=data.units.duplicate(true); sirens=data.sirens.duplicate(true); known=data.known.duplicate(true); contacts=data.get("contacts",{}).duplicate(true); noises=data.get("noises",[]).duplicate(true); projectiles=data.get("projectiles",[]).duplicate(true)
 	elapsed=float(data.get("elapsed",0)); oxygen=float(data.get("oxygen",100)); hull=float(data.get("hull",100)); selected=clampi(int(data.get("selected",0)),0,2); tools=data.tools.duplicate(); outcome=data.get("outcome",""); paused=true; queue_mode=false
-	ping_time=data.get("ping_time",0.0); ping_origin=data.get("ping_origin",Vector2.ZERO); recon_time=data.get("recon_time",0.0); capture_time=data.get("capture_time",0.0); capture_unit=data.get("capture_unit",-1); capture_target=data.get("capture_target",-1); accumulator=0.0
+	ping_time=data.get("ping_time",0.0); ping_origin=data.get("ping_origin",Vector2.ZERO); recon_time=data.get("recon_time",0.0); captures=data.captures.duplicate(true); accumulator=0.0
 	_build_navigation(); _configure_terrain(); message="Mission restored · paused for review"; return true
 
 static func valid_snapshot(data: Dictionary) -> bool:
@@ -1018,6 +1038,18 @@ static func valid_snapshot(data: Dictionary) -> bool:
 			if not structure is Rect2: return false
 	for o in data.mission.objectives:
 		if not o is Dictionary or not o.has_all(["pos","name","captured"]) or not o.pos is Vector2: return false
+	if not data.get("captures") is Array or data.captures.size()!=3:return false
+	var exposed=[]
+	for id in data.captures.size():
+		var work=data.captures[id]
+		if not work is Dictionary:return false
+		if work.is_empty():continue
+		if work.size()!=2 or not work.has_all(["target","elapsed"]) or not work.target is int or work.target<0 or work.target>=data.mission.objectives.size() or work.target in exposed:return false
+		if not (work.elapsed is float or work.elapsed is int) or not is_finite(float(work.elapsed)) or work.elapsed<0:return false
+		var site=data.mission.objectives[work.target]
+		var duration=Sampler.capture_spec(id,data.mission.get("launch_equipment",{}),site).get("duration",site.get("duration",4.0))
+		if work.elapsed>duration or (site.captured and not Operations.own_origin(site)):return false
+		exposed.append(work.target)
 	if not WorldRegion.valid(data):return false
 	if data.mission.get("earned_terrain",false):
 		if not data.mission.get("launch_seed") is Rect2 or not TerrainChart.valid_state(data.mission.get("terrain_chart"),data.mission):return false
@@ -1049,10 +1081,6 @@ static func valid_snapshot(data: Dictionary) -> bool:
 			if o.get("kind","")!="exchange" or o.get("duration",0)!=2.0:return false
 			var until=o.get("replay_until",null)
 			if not (until is float or until is int) or not is_finite(float(until)) or until<0 or until>time+3.001:return false
-		var station=data.get("capture_unit",-1);var target=data.get("capture_target",-1);var progress=data.get("capture_time",0.0)
-		if not station is int or station< -1 or station>2 or not target is int or target< -1 or target>1:return false
-		if station>=0 and target<0:return false
-		if not (progress is float or progress is int) or not is_finite(float(progress)) or progress<0 or progress>2.01:return false
 	if data.has("projectiles"):
 		if not data.projectiles is Array or data.projectiles.size()>2 or (not data.projectiles.is_empty() and not data.tools.has("knock")): return false
 		for p in data.projectiles:

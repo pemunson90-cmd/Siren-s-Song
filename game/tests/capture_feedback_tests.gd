@@ -17,7 +17,7 @@ func _initialize():
  check(sample.duration==8 and sample.elapsed>0.99 and sample.elapsed<1.01 and sample.unit==1 and sample.target==0,"sampler progress reports real eight-second work")
  var restored=Sim.new();check(restored.restore(sim.snapshot()) and restored.capture_feedback()==sample,"restored fitted progress retains effective duration")
  for id in [0,2]:
-  var legacy=Sim.new();legacy.start(id);legacy.capture_unit=0;legacy.capture_target=0
+  var legacy=Sim.new();legacy.start(id);legacy.captures[0]={"target":0,"elapsed":0.0}
   check(legacy.capture_feedback().duration==(2.0 if id==2 else 4.0),"legacy photograph/exchange duration unchanged")
  print("CAPTURE FEEDBACK CHECKS ",checks," FAILURES ",failures)
  quit(1 if failures else 0)
