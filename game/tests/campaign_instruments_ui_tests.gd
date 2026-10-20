@@ -1,5 +1,6 @@
 extends SceneTree
 const Equipment=preload("res://src/presentation/equipment_context.gd")
+const Catalog=preload("res://src/equipment/equipment_catalog.gd")
 var checks=0
 var failures=0
 var requests=[]
@@ -20,6 +21,44 @@ func picture(name:String):
  if folder.is_empty() or DisplayServer.get_name()=="headless":return
  await RenderingServer.frame_post_draw
  root.get_texture().get_image().save_png(folder.path_join(name+".png"))
+func menu_button(game,action:String,item:String=""):
+ for child in game.panel_box.get_children()+game.menu_footer.get_children():
+  if child is Button and child.get_meta("action","")==action and (item.is_empty() or item in child.text):return child
+ return null
+func menu_tap(game,button):
+ if game.scroll.is_ancestor_of(button):game.scroll.ensure_control_visible(button);await settle()
+ await tap(button.get_global_rect().get_center())
+func live_fitting(game):
+ # Staged earned stock isolates presentation: actual fitting callbacks freeze
+ # the launch, then actual craft/STATUS taps inspect its public snapshot.
+ game.completed=[0,1,2,3,4,5];game.unlocked=5;game.expedition={"completed":[6,7,8],"entitlements":["quietus_correlator","drone_sampler"]}
+ for id in ["quietus_baffles","quietus_vector_drive","drone_survey_array","drone_deep_cells"]:
+  var item=Catalog.ITEMS[id];var slot=item.compatible_slots[0];var unit=Catalog.SLOTS.find(slot)
+  game.fitted_equipment={"quietus":"","drone_a":"","drone_b":""};game._briefing(0);await settle()
+  await menu_tap(game,menu_button(game,"fit_"+slot,item.name))
+  check(game.fitted_equipment[slot]==id,"actual fitting row selects canonical "+item.name)
+  await menu_tap(game,menu_button(game,"begin"));await settle()
+  var sim=game.sim;sim.sirens=[]
+  check(sim.equipment_feedback().fitted[slot]==id,"actual ENTER WATER freezes launched "+item.name)
+  await tap(game.mission_hud.fleet.buttons[unit].get_global_rect().get_center())
+  if not game.advanced_orders:await tap(game.mission_hud.fleet.buttons[unit].get_global_rect().get_center())
+  await tap(game.mission_hud.extra.inspect.get_global_rect().get_center())
+  check(Equipment.status(sim)==Equipment.SLOTS[slot]+" · "+item.name.to_upper() and item.name.to_upper() in game.mission_hud.instrument_info.text,"actual selected-craft STATUS names launched "+item.name)
+  if id=="quietus_vector_drive":
+   var active=sim.snapshot();game._briefing(0);await settle()
+   await menu_tap(game,menu_button(game,"fit_"+slot,item.name))
+   check(game.fitted_equipment[slot].is_empty() and sim.snapshot()==active and item.name.to_upper() in Equipment.status(sim),"unfitting the next launch cannot relabel the active immutable vector drive")
+   game._show_campaign();await settle();await menu_tap(game,menu_button(game,"resume"))
+   check(game.screen=="mission" and sim.snapshot()==active and item.name.to_upper() in Equipment.status(sim),"actual RESUME retains the launched identity after next-fit change")
+  game.mission_hud.dismiss();await settle()
+ # Old specialized details remain independent of this canonical status name.
+ var sim=load("res://src/simulation/simulation.gd").new()
+ sim.start(7,"endurance",{"fitted":{"quietus":"quietus_correlator","drone_a":"drone_sampler","drone_b":""}})
+ check("CADENCE CORRELATOR" in Equipment.status(sim),"existing correlator retains its named specialized status")
+ sim.command("select",{"unit":1});check("FIELD SAMPLER" in Equipment.status(sim),"existing field sampler retains its named specialized status")
+ sim.command("select",{"unit":2});check(Equipment.status(sim).is_empty(),"bare station still has no fitted-equipment status")
+ game.fitted_equipment={"quietus":"","drone_a":"","drone_b":""};game._briefing(0);await settle();await menu_tap(game,menu_button(game,"begin"));await settle()
+ check(Equipment.status(game.sim).is_empty(),"actual BARE launch clears the previous hardware identity")
 func run():
  for arg in OS.get_cmdline_user_args():
   if arg.begins_with("--folder="):folder=arg.trim_prefix("--folder=");DirAccess.make_dir_recursive_absolute(folder)
@@ -41,6 +80,7 @@ func run():
   check(requests==[["quietus",""]] and g.sim.snapshot()==before,"ordinary fit-row touch requests BARE once without touching active dive or granting equipment")
   var name="cover" if dimensions.x==2520 else "inner"
   await picture(name+"-fitting-fixture")
+  await live_fitting(g)
   g._start_mission(7);await settle()
   # Local acquisition geometry fixture: real passive reception earns site first.
   g.sim.units[0].pos=Vector2(540,800);g.sim.units[0].vel=Vector2.ZERO;g.sim.paused=false;g.sim.advance(.1);g.sim.paused=true
