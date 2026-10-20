@@ -110,6 +110,61 @@ func run():
  var archive={"version":1,"unlocked":5,"completed":[0,1,2,3,4,5],"upgrade":"endurance","settings":{},"expedition":deep,"active":s.snapshot()}
  check(store.save(archive) and store.load_game()==archive,"actual binary save preserves the new completed consequence and first history")
  for suffix in ["",".bak",".tmp"]:DirAccess.remove_absolute(store.path+suffix)
+ baffle_pod_recovery()
  finish()
 func finish():
  print("CONCEALED HARBOUR CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)
+
+func move_body(s,id:int,point:Vector2)->bool:
+ s.command("select",{"unit":id})
+ if not s.command("route",{"point":point}):return false
+ for n in 2400:
+  if not s.units[id].alive or not s.outcome.is_empty():return false
+  if s.units[id].pos.distance_to(point)<10 and s.units[id].vel.length()<2:return true
+  if s.units[id].has("chart_stop") and n%30==0:s.command("route",{"point":point})
+  step(s,1./60.)
+ return false
+func baffle_pod_recovery():
+ # Relocated ordinary sentinel is a controlled custody-loss fixture, NOT a
+ # claimed natural authored guard policy. The beam and drone route are real.
+ var s=Sim.new();s.start(12,"endurance",{"context":{"thread":"shelf","facts":{},"completed":[6,8,10,11],"references":{}},"fitted":{"quietus":"","drone_a":"drone_deep_cells","drone_b":""}})
+ var guard=s.sirens[1].duplicate(true);s.sirens=[]
+ s.units[1].pos=Vector2(1840,800);s.units[1].vel=Vector2.ZERO;s.command("select",{"unit":1});step(s,.02)
+ check(s.command("salvage",{"item":"witness_capsule"}),"enclosure regression begins real occupied-drone winch")
+ step(s,4.1)
+ s.command("select",{"unit":0});s.units[0].pos=Vector2(1940,1040);s.units[0].vel=Vector2.ZERO;s.units[0].silent=true
+ check(s.command("concealed_tow",{"action":"attach"}),"enclosure regression folds and attaches actual screen")
+ s.units[0].pos=Vector2(1970,1010);s.units[0].vel=Vector2.ZERO;step(s,.02)
+ check(move_body(s,1,Vector2(2140,970)),"occupied drone physically routes into future north-screen footprint")
+ s.command("select",{"unit":0})
+ check(not s.concealed_status().actions.seats.filter(func(p):return p.id=="baffle")[0].ready,"living occupied carrier already prevents unfolding")
+ guard.pos=Vector2(2260,970);guard.home=guard.pos;guard.goal=guard.pos;guard.route=[];guard.patrol_points=[];s.sirens=[guard]
+ step(s,4.3)
+ check(not s.units[1].alive and s.events.any(func(e):return e.type=="beam") and s.mission.witness_evacuation.state=="salvage","ordinary actual beam loss ejects the same required living pod")
+ var pod=s.mission.witness_evacuation.pos
+ check(Rect2(2040,940,200,60).has_point(pod) and s.salvage_sites().any(func(site):return site.get("witness",false)),"required occupied pod and actual fitted kit remain at real own wreck inside future screen")
+ var store=Store.new();store.path="user://concealed-baffle-custody.save"
+ var archive={"version":1,"unlocked":5,"completed":[0,1,2,3,4,5],"upgrade":"endurance","settings":{},"expedition":progress("shelf"),"active":s.snapshot()}
+ check(store.save(archive) and store.load_game()==archive,"real binary save preserves actual beam loss before unfolding decision")
+ var restored=Sim.new();check(restored.restore(store.load_game().get("active",{})),"binary lost-carrier state restores before north-screen decision")
+ s=restored;s.command("select",{"unit":0})
+ var safe=not s.concealed_status().actions.seats.filter(func(p):return p.id=="baffle")[0].ready
+ check(safe,"ejected occupied pod still prevents unfolding after current binary restoration")
+ var refused=not s.command("concealed_tow",{"action":"baffle"})
+ check(refused and not s.blocked(pod) and s.mission.concealed_harbour.phase=="towing","rejected unfolding preserves required pod access and reversible tow")
+ if refused:
+  archive.active=s.snapshot()
+  check(store.save(archive) and store.load_game()==archive,"rejected screen decision leaves a valid reloadable current save")
+  var after=Sim.new();check(after.restore(store.load_game().active),"refusal survives actual binary reload")
+  s=after;s.command("select",{"unit":0});s.command("silent")
+  check(s.command("emp"),"ordinary finite disruption protects recovery from fixture sentinel")
+  check(move_body(s,0,pod),"actual Quietus can still approach required living pod in open water")
+  var site=s.salvage_sites().filter(func(v):return v.get("witness",false))[0]
+  check(s.command("salvage",{"item":site.item}),"actual local shared winch recovers occupied pod and colocated kit")
+  step(s,4.1)
+  check(s.witness_status().capsule.state=="carried" and s.witness_status().capsule.carrier==0 and s.witness_status().capsule.rescues==1 and s.module_recovery_status().cargo[0].has("drone_deep_cells") and not s.units[1].alive,"same living witness and real kit recover without concealing original carrier loss")
+  check(not s.concealed_status().actions.seats.filter(func(p):return p.id=="baffle")[0].ready,"recovered occupied carrier inside unfolding footprint remains protected")
+  check(move_body(s,0,Vector2(1970,1010)),"actual carrier and tow physically clear the unfolding screen")
+  check(s.command("concealed_tow",{"action":"baffle"}) and not s.blocked(s.units[0].pos) and s.witness_status().capsule.carrier==0,"genuine later baffle seating succeeds with the required living pod safely aboard outside")
+  check(Sim.valid_snapshot(s.snapshot()),"recovered-pod baffle state remains a valid current dive")
+ for suffix in ["",".bak",".tmp"]:DirAccess.remove_absolute(store.path+suffix)

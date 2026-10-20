@@ -54,6 +54,9 @@ static func context(sim)->Dictionary:
    option.reason="Move the attached tow within65m of this cradle and settle"
    if option.id=="baffle" and sim.units.any(func(u):return u.alive and Rect2(2040,940,200,60).grow(12).has_point(u.pos)):
     option.ready=false;option.reason="Move every living craft clear of the unfolding north screen"
+   var pod=sim.mission.witness_evacuation
+   if option.id=="baffle" and pod.state=="salvage" and Rect2(2040,940,200,60).grow(12).has_point(pod.pos):
+    option.ready=false;option.reason="Recover the occupied pressure pod clear of the unfolding north screen"
    result.seats.append(option)
   return result
  # Quietus has the towing hardpoint. Drones remain independent scouts/receivers,
@@ -79,7 +82,8 @@ static func command(sim,action:String)->bool:
   if not c.release:return false
   state.phase="ready";state.carrier=-1;state.trail=[];sim.message="Tow released at its actual water position · reattach locally";return true
  var seats=c.seats.filter(func(p):return p.id==action)
- if seats.is_empty() or not seats[0].ready:sim.message="Bring the attached tow locally to its cradle and settle";return false
+ if seats.is_empty():sim.message="Bring the attached tow locally to its cradle and settle";return false
+ if not seats[0].ready:sim.message=seats[0].reason;return false
  state.phase="seated";state.carrier=-1;state.trail=[];state.placement=action;state.pos=seats[0].pos;state.reply_time=sim.elapsed+2.0 if state.thread=="shelf" else state.reply_time
  if state.thread=="shelf" and action=="baffle":
   sim.mission.structures.append(Rect2(2040,940,200,60));sim._build_navigation();sim.opened_terrain(Rect2(1800,860,440,400))
