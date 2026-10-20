@@ -1,4 +1,5 @@
 extends RefCounted
+const Endurance=preload("res://src/simulation/operation_endurance.gd")
 const Recon=preload("res://src/simulation/recon_consequences.gd")
 const PolygonContainment=preload("res://src/simulation/polygon_containment.gd")
 const Operations=preload("res://src/simulation/resolution_operations.gd")
@@ -60,6 +61,7 @@ var rock_bounds:Array=[]
 var acoustic_paths=Acoustics.new()
 func start(index: int, upgrade: String = "endurance", launch:Dictionary={}) -> void:
 	mission = Missions.make(index,launch.get("context",{}))
+	mission["endurance"]=Endurance.profile(index)
 	correlation={}
 	mission["launch_equipment"]=launch.get("fitted",Consequences.EMPTY_FIT).duplicate(true)
 	units.clear()
@@ -524,7 +526,7 @@ func advance(dt: float) -> void:
 		_tick(STEP); accumulator-=STEP
 func _tick(dt: float) -> void:
 	Departure.emit(self)
-	elapsed+=dt; oxygen=maxf(0,oxygen-dt/18.0)
+	elapsed+=dt; oxygen=maxf(0,oxygen-Endurance.oxygen_drain(mission,dt))
 	Recon.tick(mission,dt)
 	if mission.get("phase","")=="response": mission.response_time=mission.get("response_time",0.0)+dt
 	ping_time=maxf(0,ping_time-dt); recon_time=maxf(0,recon_time-dt)
@@ -544,7 +546,7 @@ func _tick(dt: float) -> void:
 				if units[j].alive and not units[j].route.is_empty(): holding=true
 		_move(u,dt,(42.0 if u.silent else 78.0) if i==0 else 96.0,holding,true,true)
 		if i>0:
-			u.battery=maxf(0,u.battery-CraftUpgrades.battery_drain(mission.get("launch_equipment",{}),i,dt))
+			u.battery=maxf(0,u.battery-Endurance.battery_drain(mission,i,propulsion_speed(u),dt))
 			if u.battery<=0: u.alive=false; events.append({"type":"loss","pos":u.pos}); message=("%s battery exhausted · Quietus can SAMPLE either relay." if mission.get("blackwater_revision",0)==1 else "%s battery exhausted. Quietus camera remains available.")%u.name
 	_advance_projectiles(dt)
 	_threats(dt)
