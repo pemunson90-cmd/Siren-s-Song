@@ -1,0 +1,19 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+FAIL new operation initial depth/network/custody snapshot 14
+FAIL new operation restores 14
+FAIL new operation initial depth/network/custody snapshot 15
+FAIL new operation restores 15
+FAIL new operation initial depth/network/custody snapshot 16
+FAIL new operation restores 16
+FAIL new operation initial depth/network/custody snapshot 17
+FAIL new operation restores 17
+FAIL new operation initial depth/network/custody snapshot 18
+FAIL new operation restores 18
+FAIL new operation initial depth/network/custody snapshot 19
+FAIL new operation restores 19
+FAIL new operation initial depth/network/custody snapshot 20
+FAIL new operation restores 20
+FAIL new operation initial depth/network/custody snapshot 21
+FAIL new operation restores 21
+GLASS REACH CHECKS 34 FAILURES 16

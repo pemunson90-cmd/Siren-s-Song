@@ -1,5 +1,5 @@
 # Gauntlet recovery checkpoint
 
-Read [fullspec/CURRENT_HANDOFF.md](fullspec/CURRENT_HANDOFF.md), then [Glass Reach task](fullspec/glass-reach/TASK.md).
+Read [fullspec/CURRENT_HANDOFF.md](fullspec/CURRENT_HANDOFF.md), then [Glass Reach report](fullspec/glass-reach/REPORT.txt).
 
-PR48 depth/sonar milestone is merged and verified at production3578c068; approved ea645d31 passed mandatory CI39507624482. Same builder now owns gauntlet/release/glass-reach for six core/two optional operations, network enemies and useful physical artifacts. Historical source in this checkpoint is not current production.
+Depth/sonar PR48 is merged and fully verified at production3578c068. Glass Reach complete candidate404a1ab3 is published on gauntlet/release/glass-reach; same independent reviewer owns accumulated review. Eight technical journeys, two practical recovered rewards and cover/inner rendered input pass; no Glass approval/CI/merge claimed. Historical source in this checkpoint is not current production.

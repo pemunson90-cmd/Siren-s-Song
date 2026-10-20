@@ -1,0 +1,9 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+SCRIPT ERROR: Invalid call to function 'get' in base 'Array'. Expected 1 argument(s).
+          at: valid (res://src/simulation/advanced_sonar.gd:139)
+          GDScript backtrace (most recent call first):
+              [0] valid (res://src/simulation/advanced_sonar.gd:139)
+              [1] valid_snapshot (res://src/simulation/simulation.gd:1295)
+              [2] _initialize (res://tests/module_recovery_tests.gd:126)
+MODULE RECOVERY CHECKS 55 FAILURES 0

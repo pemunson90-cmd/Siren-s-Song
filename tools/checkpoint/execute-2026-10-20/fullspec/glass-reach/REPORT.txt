@@ -1,0 +1,167 @@
+GLASS REACH — ACCUMULATED IMPLEMENTATION CANDIDATE, 20 OCTOBER 2026
+Source: /workspace/Siren-s-Song-play-frozen
+Branch: gauntlet/release/glass-reach (same branch throughout)
+Production base: 3578c0681c87fe867bdd919d61b77198a9232bd3 (PR48 complete)
+Recovery checkpoint: 2f534ed81674b24045220949ea784cb8e599f993 (published)
+Final candidate: 404a1ab3e675d33c4de5899e828e1f924b1637b5 (committed and pushed)
+Ownership: sole implementation worker /root/depth_sonar_foundation.
+Requested routing Sol6.1 Medium; backend/effort telemetry unavailable.
+Root owns independent accumulated review, exact-head CI, PR and merge. No Glass
+approval, final-head CI pass or integration is claimed by this report.
+
+DELIVERED CONTENT
+Eight real authored 2400x2400 operations:14 Glass Fence,15 Needle Strait,
+16 Furnace Drift,17 Silt Archive,18 Lantern Anchorage,19 Last Carrier,
+20 Prism Grave,21 Keeper's Cache. Six core plus two optional, with distinct basalt,
+depth paths, thermal/current crossing, network and mixed existing enemy roles.
+Either recovered12/13 unlocks14; linear core and optional after16/17. Narrative
+uses received earlier outcome, recurring Ilen/Sava and local received accounts.
+Ordinary ending Continue, regional debrief/replay, fitting/research information,
+craft/material contextual work and acquired LISTENER/RELAY presentation integrated.
+New launches clear the prior mission's contextual subject.
+
+Stationary buoy hears physical motion/emission through depth/terrain/masking;
+relay forwards only received frozen uncertain reports. Delays2s/3s, finite12s
+packet lifetime, bounded2 relay hops, deferred dispatch and physical link paths.
+No craft query by relays; no hidden current position in cached report preview.
+Earned charging classification and differing existing acoustic cues, distinct
+circle/stem buoy and diamond/arm relay. Stronger investigator attention survives
+new network reports; own network tones do not invent propulsion evidence.
+
+Interruptible worker-local machinery,4s winch, real same-band local transfer,
+loss-position/band wreck cargo and actual selected-mouth fleet recovery. Settled
+MIDDLE and physical line clearance required; no remote grants for discovery.
+Route/depth/loss/cover interrupt; peer selection and pause/restore retain valid work.
+Eight-second bare service/sever work changes actual local geometry/reporting;
+first recovered18 choice changes19 shutter and relay topology. Bare outer route
+and explicit no-reward withdrawal remain. New recovery departure uses worker's
+own depth geometry (does not extend the retained old departure seam).
+
+Two optional physically recovered materials consume once in separate research
+ledger with received regional record: prism_core+16 atlas -> Quietus prism;
+keeper_wafer+17 ledger -> Quietus decoder. Replay cannot farm/re-spend materials.
+Prism occupies fitting slot, extends directional reach40%, doubles pulse reserve
+and increases emission25%; actual600m echo versus bare440m demonstrated.
+Decoder gives quiet2s local gate work120m versus bare audible8s/60m; demonstrated
+on real19 gate. Bare approaches remain. Existing cadence references not repurposed.
+Current snapshot/save validation includes required Glass payload and bounded network;
+malformed fitting fails cleanly rather than calling Dictionary.get on an Array.
+
+FOCUSED RELEASE COMMANDS / FINAL SOURCE
+Working directory above. Godot /usr/local/bin/godot4.6.3, isolated external XDG data;
+no original player/critic profile edited. For each named new suite executed:
+XDG_DATA_HOME=/workspace/work/glass-release-<suite>-xdg timeout --kill-after=10s 480s /usr/local/bin/godot --headless --path game --script res://tests/<suite>.gd
+Logs release-<suite>.log include exact expanded command; process status0, summary
+and SCRIPT ERROR/ERROR scan required. Results:
+ glass_reach_tests42/0; glass_network_tests14/0; glass_work_tests17/0;
+ glass_research_tests9/0; glass_reach_journeys72/0; glass_reach_ui_tests28/0.
+These checks cover all8 identities/current restores/open-water enemy placement,
+physical delayed bounded network/expiry/terrain/depth/EMP/pause/hidden feedback,
+work custody/interruption/missing-payload rejection, real costs/reward effects,
+ordinary Continue/replay, later physical gate and recovered campaign/save behavior.
+
+ACCUMULATED BOUNDARY CHECKS (RETAINED PASSES, NOT REPEATED WHOLE SUITE)
+Invocation: XDG_DATA_HOME=<isolated directory below> /usr/local/bin/godot --headless --path game --script res://tests/<suite>.gd
+ glass-final-core-xdg: run_tests -> final-run_tests.log CHECKS750/0.
+ glass-final-runtime-xdg: runtime_tests -> final-runtime_tests.log641/0.
+ glass-final-focused-xdg: campaign_equipment_save_tests10/0,
+ campaign_endings_tests48/0, module_recovery_ui_tests37/0,
+ module_inventory_main_tests18/0 (each final-<suite>.log).
+ glass-module-final-xdg: module_recovery_tests -> module-malformed-fixed.log55/0.
+All listed acceptance logs have no SCRIPT ERROR or ERROR lines. Core/runtime were
+run before final presentation/launch-context/fitting-type-guard changes; scoped
+new UI and module checks cover those final changes. No full54-suite local repeat;
+required exact-head mandatory CI remains root's next integration gate.
+Workflow/local test script add all6 new suites, preserving previous54 ordered
+scenarios/summary checks (now60); existing35m total/480s per-scenario budget kept.
+python3 scripts/toolchain/check-gauntlet-guidance.py --root . PASS.
+python3 scripts/toolchain/test-check-gauntlet-guidance.py 8/0.
+bash -n scripts/toolchain/test.sh PASS; git diff --check PASS.
+Both live handoffs26 lines; meaningful next action after landing is more content.
+
+JOURNEYS / EVIDENCE LIMITS
+Source-known staged access, no genuine blind/earned full-campaign claim. Controller
+uses production commands/physics and live authored enemies, Quietus alone (peers
+explicitly marked lost), no finite tools or advanced fittings; actual Campaign
+recover advances prerequisites. No victory injection, material grant or profile edit.
+ id / seconds / final hull / O2 (endurance baseline)
+14 87.15 100 107.8958
+15 259.7333 100 83.9259
+16 170.7667 100 96.2824
+20 286.20 100 80.25
+17 189.35 100 93.7014
+21 169.5833 84.10 96.4468
+18 250.9667 100 85.1435
+19 204.6833 100 91.5718
+All core technical completions succeed, both optional actual material returns pay
+entitlements. Actual checksummed accumulated campaign/research save roundtrips.
+Original ending family retained; existing48 ending checks preserve all4 families.
+Service/sever produces different real19 water/network. First-fact handling reuses
+existing recovered campaign facts. Full blind alternate-choice journey not claimed.
+Bare full-hull route demonstrates technical viability, not balance or enjoyment.
+
+REPRESENTATIVE ACTUAL WINDOW/INPUT
+Headless final UI28/0 includes concealed12 cover and overt13 inner Continue,
+ordinary craft/service, drone material tap/winch/transfer/carrier cue, sonar earned
+network charging and prism reserve label. ScreenTouch plus native-style emulated
+mouse release uses shared Godot input path, not direct button callback invocation.
+Window cover2520x1080 and inner2184x1968,420DPI fixture, no explicit136px inset.
+Rendered final ui-rendered-release.log:28/0, exit0, no script/engine errors. Four PNG captures
+show service and acquired network at both dimensions. Software X11/Compatibility
+llvmpipe establishes rendered/input behavior, not Android device or headphone audio.
+
+RED/GREEN AND CONSEQUENTIAL FIXES (RAW LOGS RETAINED)
+catalog-red missing content; catalog-first exposed role/thermal validators.
+network-red missing runtime; network-first exposed investigator hearing allied
+comm tones as propulsion; excluded own reports from ordinary motion investigation.
+work-red interface missing; work-first exposed artifact field count5 vs6 and restore
+cascade; corrected schema and guarded test continuation. work-paused-red16/1 exposed
+accepted paused route retaining job; now immediate cancellation. work-payload-red17/1
+exposed omitted required payload acceptance; now catalog capability requires state.
+research-red missing ledger, then costs and actual prism effects green9/0.
+ui-red missing Continue/work. ui-first touch promotion corrected to actual emulation
+path. ui-cargo-network24/0 also had context.distance script errors (not acceptance);
+added truthful distance/range context. Capture inspection exposed stale prior material
+subject on new launch; reset subject/page, visually rechecked. Old captures preserved.
+journeys-first direct15 shortest path killed Q; briefed outside/east/south route
+succeeds without tuning combat. journeys-outer controller mishandled early legitimate
+auto-extraction; corrected controller only. Decoder probe initially inside actual
+closed gate correctly rejected; corrected physical north100m approach, decoder-green
+acceptedtrue/gate_opentrue/structures0/snapshotvalid/no new emission, finaljourney checks.
+final-module_recovery_tests55/0 nevertheless emitted malformed Array fitting script
+error; added Dictionary type guard, module-malformed-fixed55/0 clean. Never treat
+summary-only55 as that earlier log's success. First rendered ui-rendered.log lost
+its X connection mid-inner; same-shell display lifetime/trap fixed and full subsequent
+rendered runs exit0. Guidance final rewrite initially missed literal next; reconciled.
+
+RISKS / NEXT OWNER
+No blocker known from scoped implementation checks. Independent accumulated review
+still required. Agent routes, sonar classification and software captures do not
+establish compelling play, difficulty, blind discovery, story payoff or audio taste.
+Existing FIT/craft handle friction, Well balance, dense sonar axes, retained ObjectDB
+warning, old departure selected-band seam with no demonstrated old authored effect,
+Android/headphone/Fold ergonomics and wider campaign/fleet/economy/presentation/audio
+expansion remain; no speculative refinement undertaken. New enemy use includes
+technical triggered investigator consequence; no blind full region critic claimed.
+Preserve all old refs/profiles/signer and generated untracked UIDs; none staged.
+Root next: same independent reviewer -> consequential samebranch repairs if any ->
+exact-head mandatory CI -> normal milestone PR/integration. After landing prioritize
+substantial new playable campaign content toward28 core/12 optional, no governance task.
+
+EXACT FINAL RENDERED INVOCATION / RELEASE
+LD_LIBRARY_PATH=/workspace/tools/display-runtime/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
+/workspace/tools/display-runtime/usr/bin/Xvfb :614 -screen 0 3000x2200x24 -nolisten tcp
+After xdpyinfo readiness, with kill+wait EXIT trap owning that display:
+DISPLAY=:614 LIBGL_ALWAYS_SOFTWARE=1 XDG_DATA_HOME=/workspace/work/glass-rendered-release-xdg timeout --kill-after=10s 120s /usr/local/bin/godot --path game --display-driver x11 --rendering-method gl_compatibility --audio-driver Dummy --script res://tests/glass_reach_ui_tests.gd -- --capture-dir=/workspace/work/gauntlet-fullspec-20261020/glass-reach/captures-release
+Result GLASS REACH UI CHECKS28 FAILURES0, exit0; final capture inspected, no stale
+prior-mission material subject. Four final PNGs retained. VSync unsupported warning
+is specific to software display; no error line. Both dimensions/current test variants
+covered on final source, including inner overt13 Continue and material cue change.
+
+git commit -m "Complete playable Glass Reach campaign region and physical research"
+git push origin gauntlet/release/glass-reach ->2f534ed..404a1ab success.
+Final tracked source clean; git diff --check passes. All221 untracked generated UIDs
+preserved outside commit. No live owned Godot/display/test process. Two already
+exited Xvfb zombies5317/5440 are parented toPID1; no active server/socket remains
+from them, and last display614 was killed/reaped by its owning shell. No APK/PR/merge.
+Source RELEASED for parent's existing independent reviewer at404a1ab.

@@ -1,0 +1,4 @@
+COMMAND: XDG_DATA_HOME=/workspace/work/glass-release-glass_work_tests-xdg timeout --kill-after=10s 480s /usr/local/bin/godot --headless --path game --script res://tests/glass_work_tests.gd
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+GLASS WORK CHECKS 17 FAILURES 0
