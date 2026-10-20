@@ -160,6 +160,26 @@ func extraction_corridors() -> Array:
 	return Consequences.corridors(self) if mission.get("expedition_revision",0)==2 else SignalField.corridors(self) if mission.has("expedition_revision") else [{"pos":mission.extraction,"name":"RECOVERY","route":"","available":all_records()}]
 func operation_context()->Dictionary:
 	return Operations.feedback(self)
+func confluence_context()->Dictionary:
+	if mission.id!=11:return {}
+	var result={"landmarks":[],"gates":[],"currents":mission.get("currents",[]).duplicate(true)}
+	for landmark in mission.get("landmarks",[]):
+		if mission.signal_sources.any(func(source):return source.id==landmark.source_id and source.located):result.landmarks.append(landmark.duplicate(true))
+	for gate in mission.get("physical_gates",[]):
+		if mission.signal_sources.any(func(source):return source.id==gate.site_id and source.located):result.gates.append({"id":gate.id,"pos":gate.closed_shape.get_center(),"rect":gate.closed_shape,"opened":gate.opened})
+	return result
+func confluence_resolution()->Dictionary:
+	if mission.id!=11 or not mission.get("recovered",false):return {}
+	var result={"route":mission.chosen_route,"thread":mission.launch_context.get("thread",""),"service_opened":mission.get("physical_gates",[]).any(func(gate):return gate.opened),"facts":mission.expedition_facts.duplicate(true)}
+	for corridor in mission.corridors:
+		if corridor.route==mission.chosen_route:result["exit"]=corridor.pos
+	return result
+func opened_terrain(rect:Rect2)->void:
+	if terrain_chart==null:return
+	var shapes=rock_shapes.duplicate(true)
+	for structure in mission.get("structures",[]):shapes.append(PackedVector2Array([structure.position,Vector2(structure.end.x,structure.position.y),structure.end,Vector2(structure.position.x,structure.end.y)]))
+	terrain_chart.open_structure(rect,shapes)
+	known=terrain_chart.clear_cells.duplicate();mission["terrain_chart"]=terrain_chart.snapshot()
 func recon_feedback()->Dictionary:
 	return Recon.feedback(self)
 func _capture_station()->int:
@@ -1033,7 +1053,7 @@ static func valid_snapshot(data: Dictionary) -> bool:
 	if not data.mission.id is int or data.mission.id<0 or data.mission.id>13: return false
 	if not data.mission.rocks is Array or not data.mission.objectives is Array or not data.mission.extraction is Vector2: return false
 	for r in data.mission.rocks:
-		if not r is Rect2: return false
+		if not PolygonContainment.valid_shape(r): return false
 	if data.mission.has("structures"):
 		if not data.mission.structures is Array: return false
 		for structure in data.mission.structures:
@@ -1118,7 +1138,8 @@ static func valid_snapshot(data: Dictionary) -> bool:
 				if not point is Vector2: return false
 	return true
 
-static func rock_polygon(r: Rect2) -> PackedVector2Array:
+static func rock_polygon(r) -> PackedVector2Array:
+	if r is PackedVector2Array:return r
 	var normalized=[Vector2(0.18,0.0),Vector2(0.62,0.03),Vector2(0.88,0.0),Vector2(1.0,0.22),Vector2(0.94,0.51),Vector2(1.0,0.78),Vector2(0.79,1.0),Vector2(0.43,0.94),Vector2(0.18,1.0),Vector2(0.0,0.8),Vector2(0.04,0.44),Vector2(0.0,0.2)]
 	var result=PackedVector2Array()
 	for p in normalized: result.append(r.position+p*r.size)

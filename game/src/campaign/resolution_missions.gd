@@ -37,25 +37,7 @@ static func _base(index:int,history:Dictionary)->Dictionary:
  return {"id":index,"title":{11:"Confluence",12:"The Concealed Record",13:"The Open Warning"}[index],"depth":{11:4720,12:5180,13:3420}[index],"darkness":index==12,"world_size":Vector2(2400,2800),"region_revision":1,"acoustic_revision":1,"expedition_revision":2,"resolution_revision":1,"launch_context":context,"objectives":[],"sirens":[],"signal_sources":[],"signal_observations":[],"expedition_facts":{},"next_signal_time":0.0,"chosen_route":"","recovered":false,"withdrawal_armed":false,"required_site_ids":[]}
 
 static func _confluence(m:Dictionary)->void:
- var deep=m.launch_context.thread=="deep" or (m.launch_context.thread.is_empty() and 9 in m.launch_context.completed)
- m.start=Vector2(2100,2460) if deep else Vector2(280,2460)
- m.extraction=Vector2(280,220)
- m["currents"]=[{"center":Vector2(1120,1820),"radius":360.0,"velocity":Vector2(0,-24)}]
- m.rocks=[Rect2(-100,1950,950,220),Rect2(1370,1950,1200,220),Rect2(980,620,380,1120),Rect2(180,1180,400,300),Rect2(1680,1180,400,300),Rect2(940,-100,400,460)]
- m.signal_sources=[_source("confluence_packet","LIVE CONFLUENCE MEMORY",Vector2(600,760),"The recovered return and the surface acknowledgement meet in the same dispatch memory. The fracture warning can be brought out as a concealed witness record, or forwarded through the open warning chain. Neither carrier says that the guarded water is safe.",[.8,1.6,.8]),_source("confluence_repeater","ABANDONED DISPATCH REPEATER",Vector2(1880,720),"This station repeats an old dispatch. Its clear voice is a retained recording, not the living packet needed at Confluence.",[1.6,.8,1.6],false)]
- m.required_site_ids=["confluence_packet"]
- m.corridors=[{"pos":m.extraction,"name":"CONCEALED ASCENT","route":"concealed"},{"pos":Vector2(2080,220),"name":"OPEN WARNING PASSAGE","route":"overt"}]
- m.brief="The routes rejoin around a divided listening basin. Two carriers occupy the divided basin; one is an old repeater. Their positions are not charted, and the southern staging water may receive neither. Move your receivers to investigate the arms. Find and recover the live dispatch memory. If a cadence is actually received, a recovered RETURN reference and fitted correlator can compare it; MATCH identifies a pattern, not a safe route or a guaranteed early cue. Without it, investigate the two arms or spend a finite local survey. Only the live memory completes this job. Then take Quietus through CONCEALED ASCENT to recover a private witness, or OPEN WARNING PASSAGE to commit the next job to forwarding the warning. The physical exit is the choice; replay does not rewrite an already committed thread."
- m.record="A living dispatch links the evacuation route and the warning chain. Quietus recovered enough to choose an operation, not a target list. The chosen physical passage commits this thread's next job."
- m.brief+=" A north-setting current crosses the southern saddle. It assists the northbound passage; holding position uses audible counterthrust."
- _patrol(m,Vector2(760,1110),[Vector2(760,1110),Vector2(720,780),Vector2(420,620),Vector2(760,1640)])
- _patrol(m,Vector2(1590,1060),[Vector2(1590,1060),Vector2(1590,1640),Vector2(2180,1640),Vector2(2180,680)])
- if deep:
-  m.sirens[0].type="sentinel";m.sirens[0]["tether"]=190.0
-  m.brief+=" Your deep approach rejoins a sentinel-held live-memory arm and an eastern patrol."
- else:
-  m.sirens[1].type="hunter"
-  m.brief+=" Your shelf approach rejoins a western patrol and a fast hunter in the eastern arm."
+ preload("res://src/campaign/confluence_region.gd").build(m)
 
 static func _concealed(m:Dictionary)->void:
  m.world_size=Vector2(2400,3000);m.start=Vector2(2060,2680);m.extraction=Vector2(2260,2700)

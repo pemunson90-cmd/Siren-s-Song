@@ -14,7 +14,7 @@ static func valid(data:Dictionary)->bool:
  if not mission.has("world_size"):return not mission.has("region_revision")
  var dimensions=mission.world_size
  if not dimensions is Vector2 or not dimensions.is_finite() or not mission.get("region_revision") is int or mission.region_revision!=1:return false
- if dimensions.x<400 or dimensions.y<400 or dimensions.x>4000 or dimensions.y>4000:return false
+ if dimensions.x<400 or dimensions.y<400 or dimensions.x>6000 or dimensions.y>6000:return false
  if fmod(dimensions.x,TILE)!=0 or fmod(dimensions.y,TILE)!=0:return false
  if mission.has("survey_origin") and (not mission.survey_origin is Vector2 or not contains(mission.survey_origin,dimensions)):return false
  if not mission.get("start") is Vector2 or not contains(mission.start,dimensions) or not contains(mission.extraction,dimensions):return false
