@@ -233,3 +233,6 @@ Remote exact head verified f4f4d000ccffc19356bf994b7c39eb1576d71f7f.
 Tracked tree clean; all221 generated untracked UIDs preserved/excluded. No live
 Godot/display processes. Source RELEASED for same independent reviewer re-review
 atf4f4d00. No PR/APK/merge or final-head CI/approval claimed.
+
+ROOT INTEGRATION COMPLETE
+PR49 merged16b1a5052a270f2c6c69b500ed664ec0c3a2a30d after exact-head CI39515575589 guidance/game-smoke success; full log61zero-failure summaries(core+60runtime). Independent accumulated APPROVEf4f4d000 vs3578c068 relayed at PR49#issuecomment-6304176687, final gate6304472043. Entire production root tree20696a47c092980dc52bbe7ebc420af6810560a0 and gameb2e1f77d9e065aa8a089a60b2ae31e26b9471c6e match approved candidate. Primary fast-forwarded clean. Same source worktree reused for Iron Choir from landed16b,221UIDs byte-for-byte preserved; Glass branch remains. No balance/enjoyment/native acceptance inferred.

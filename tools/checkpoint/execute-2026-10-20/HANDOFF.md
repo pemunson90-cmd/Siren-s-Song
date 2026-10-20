@@ -1,5 +1,5 @@
 # Gauntlet recovery checkpoint
 
-Read [fullspec/CURRENT_HANDOFF.md](fullspec/CURRENT_HANDOFF.md), [Glass Reach report](fullspec/glass-reach/REPORT.txt) and [independent review](fullspec/glass-reach/REVIEW.md).
+Read [fullspec/CURRENT_HANDOFF.md](fullspec/CURRENT_HANDOFF.md), then [Iron Choir task](fullspec/iron-choir/TASK.md).
 
-Depth/sonar PR48 merged and fully verified at production3578c068. Complete Glass Reach f4f4d000 is independently APPROVED; remote decoder benefit blocker fixed. PR49 is open, mandatory exact-head CI39515575589 running; no merge claimed. Root owns CI/protected integration, then immediately more substantive content. Historical checkpoint source is not current production.
+Glass Reach PR49 is merged and fully verified at production16b1a505; approved f4f4d000 passed mandatory CI39515575589(core/all60runtime). Same builder now owns gauntlet/release/iron-choir for four core/four optional industrial jobs22-29, interceptor/warden and practical physical rewards. Existing worker was reactivated after temporary environment unavailability. Historical source in this checkpoint is not current production.
