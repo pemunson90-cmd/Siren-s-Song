@@ -1,0 +1,90 @@
+{
+  "archive": "/workspace/work/gauntlet-execution-20261020/media-archive/execution-final-critic-2520x1080-rgb.mkv",
+  "archive_file": "execution-final-critic-2520x1080-rgb.mkv",
+  "frames": [
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/critic-current-cautious-isolated-inner-20261020/1792497196515172125.png",
+      "session": "critic-current-cautious-isolated-inner-20261020",
+      "size": 469219,
+      "sha256": "79aff321f00095239555705eac12f20339c161449d34cd2917befbee552337a0",
+      "mtime_ns": 1792497197127559372,
+      "source_sha": "e3a541fb24c2a3f136121150b7a0d2960546fda7",
+      "image_size": [
+        2520,
+        1080
+      ],
+      "image_mode": "RGBA",
+      "format": 5,
+      "alpha_opaque": true,
+      "relative_path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/critic-current-cautious-isolated-inner-20261020/1792497196515172125.png",
+      "index": 1,
+      "bytes": 469219
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/critic-current-cautious-isolated-inner-20261020/1792497197224577937.png",
+      "session": "critic-current-cautious-isolated-inner-20261020",
+      "size": 469261,
+      "sha256": "270f18f7694a31452da0163c3f2f43a4cb72785b591612fec7b8f2d7d39d21cf",
+      "mtime_ns": 1792497197602497766,
+      "source_sha": "e3a541fb24c2a3f136121150b7a0d2960546fda7",
+      "image_size": [
+        2520,
+        1080
+      ],
+      "image_mode": "RGBA",
+      "format": 5,
+      "alpha_opaque": true,
+      "relative_path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/critic-current-cautious-isolated-inner-20261020/1792497197224577937.png",
+      "index": 2,
+      "bytes": 469261
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/critic-current-cautious-isolated-inner-20261020/1792497220664665044.png",
+      "session": "critic-current-cautious-isolated-inner-20261020",
+      "size": 469134,
+      "sha256": "640a8894179daabaf68de2f45ba3826401d3eaebda338ab03c0180219029b887",
+      "mtime_ns": 1792497221172037350,
+      "source_sha": "e3a541fb24c2a3f136121150b7a0d2960546fda7",
+      "image_size": [
+        2520,
+        1080
+      ],
+      "image_mode": "RGBA",
+      "format": 5,
+      "alpha_opaque": true,
+      "relative_path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/critic-current-cautious-isolated-inner-20261020/1792497220664665044.png",
+      "index": 3,
+      "bytes": 469134
+    }
+  ],
+  "encoding": "libx264rgb CRF0 bgr24; lossless RGB, original Godot format restored per frame",
+  "storage_frame_clock": "Synthetic25fps archive index ONLY; original timing remains in preserved filenames and root-owned raw logs. This is not gameplay-timing footage.",
+  "scope": "Final critic session after acknowledged normal quit; numeric opaqueRGBA/RGB frames only. All original PNGs retained. Named exceptions stored separately.",
+  "session_provenance": {
+    "session": "critic-current-cautious-isolated-inner-20261020",
+    "source_record_sha256": "be94047c555d4ce245682b242459b675b97a5ef17ff03afdb0c79bebc0b50c22",
+    "source_sha": "e3a541fb24c2a3f136121150b7a0d2960546fda7",
+    "game_tree": "10a100a73dc676c4267409fa11f2eec2f4fcb09d",
+    "fixture": "420dpi recorded Android safearea; desktop rendering/input, not native/human acceptance",
+    "profile_origin": {
+      "original": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/critic-current-cautious-inner-20261020/data/godot/app_userdata/Siren's Song/quietus.save",
+      "sha256": "662117f63a2553b5d9202c0219170711e780382d559bcaf1635e3cd46266e330",
+      "copied_to": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/critic-current-cautious-isolated-inner-20261020/data/godot/app_userdata/Siren's Song/quietus.save"
+    },
+    "final_save_sha256": "789ffa98e67bf45ff2b32206285f59e9d4a8617f385a1d26bdc60ed8c706b572",
+    "normal_quit_response_recorded": true,
+    "process_state_at_packaging": "Z",
+    "root_normal_quit_confirmed": true,
+    "critique_path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/critic-current-cautious-isolated-inner-20261020/CRITIQUE.txt",
+    "critique_sha256": "b0c383caa54865692cdbec4e91d1be368e3694952441146b1e61f2bfdf406402"
+  },
+  "governing_production_at_archival": "c2db5eb6764db14fcf7ea2185f6c8e4f04bb36dd",
+  "godot_version": "4.6.3.stable.official.7d41c59c4",
+  "original_bytes": 1407614,
+  "archive_sha256": "67ad4d50a67dd8add583162b7b02730e31b7db91b8b2e731dc3aa4af13edd998",
+  "archive_bytes": 537636,
+  "verification": "Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org\n\nEXACT ORIGINAL PNG RECONSTRUCTION 3 FAILURES 0\n",
+  "verification_exit_code": 0,
+  "verified_utc": "2026-10-20T12:01:58.281193+00:00",
+  "restoration": "ffmpeg -v error -i ARCHIVE -fps_mode passthrough SCRATCH/%06d.png; godot --headless --path GAME --script verify-frame-archive.gd -- MANIFEST SCRATCH --restore. Verifier checks original PNG hash before optional write and refuses changed originals."
+}

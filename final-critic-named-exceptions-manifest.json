@@ -1,0 +1,24 @@
+{
+  "archive_file": "execution-final-critic-named-exceptions.tar.gz",
+  "archive_sha256": "ed4c4e1a055290767e6240b5db52e347af7ac797452a5cbac09e378bcd1bf76d",
+  "archive_bytes": 379794,
+  "original_bytes": 401130,
+  "files": [
+    {
+      "path": "Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/critic-current-cautious-isolated-inner-20261020/initial.png",
+      "session": "critic-current-cautious-isolated-inner-20261020",
+      "size": 401130,
+      "sha256": "6d891216669de5f552865a48734b2140d8130ed36d5efaef0e85470b1e047abb",
+      "mtime_ns": 1792494887945714449,
+      "source_sha": "e3a541fb24c2a3f136121150b7a0d2960546fda7",
+      "image_size": [
+        2184,
+        1968
+      ],
+      "image_mode": "RGBA",
+      "format": 5,
+      "alpha_opaque": true
+    }
+  ],
+  "verification": "All named/exception PNGs fully reconstructed and byte-compared; original screenshots unchanged."
+}

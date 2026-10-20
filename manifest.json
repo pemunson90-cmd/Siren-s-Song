@@ -1,12 +1,12 @@
 {
   "created_utc": "2026-10-20T11:33:36.654356+00:00",
-  "scope": "Closed-session original screenshots preserved byte-exact through verified lossless RGB indices plus original named/exception PNG archive. Active finalcritic excluded pending explicit normal-quit confirmation.",
+  "scope": "All six normally-quit touch sessions plus prior/final Witness UI original screenshots; verified lossless RGB indices and original named exceptions. No active session remains excluded.",
   "branch": "archive/gauntlet-cold-frames-execution-2026-10-20",
   "frame_manifest": "frame-manifest.json",
-  "original_file_count": 230,
-  "original_bytes": 360690397,
-  "stored_media_bytes": 70279947,
-  "reduction_fraction": 0.8051515993091438,
+  "original_file_count": 467,
+  "original_bytes": 961180637,
+  "stored_media_bytes": 125013158,
+  "reduction_fraction": 0.8699379146981298,
   "archives": [
     {
       "archive_file": "execution-closed-2184x1968-rgb.mkv",
@@ -54,11 +54,62 @@
           "sha256": "75995d8918097eb139e28b9b8f26cd74a91bc8979a4a267f71841bca25db1de9"
         }
       ]
+    },
+    {
+      "archive_file": "execution-final-critic-2184x1968-rgb.mkv",
+      "kind": "lossless_rgb_index",
+      "manifest": "execution-final-critic-2184x1968-rgb.json",
+      "archive_bytes": 53815781,
+      "sha256": "dcd4af70834e94f33d2b801a43ccfc33667acb89d61f2b98758209f130afe6f7",
+      "parts": [
+        {
+          "path": "media/execution-final-critic-2184x1968-rgb.mkv.part001",
+          "size": 41943040,
+          "sha256": "663491d843fca5d315a272d15663db3dcc76df5c8829385789c257fc97860c56"
+        },
+        {
+          "path": "media/execution-final-critic-2184x1968-rgb.mkv.part002",
+          "size": 11872741,
+          "sha256": "039bd2ec59cc9b73278e88abe58a951e11f54a6ffdc082322d203e50b5cd8195"
+        }
+      ]
+    },
+    {
+      "archive_file": "execution-final-critic-2520x1080-rgb.mkv",
+      "kind": "lossless_rgb_index",
+      "manifest": "execution-final-critic-2520x1080-rgb.json",
+      "archive_bytes": 537636,
+      "sha256": "67ad4d50a67dd8add583162b7b02730e31b7db91b8b2e731dc3aa4af13edd998",
+      "parts": [
+        {
+          "path": "media/execution-final-critic-2520x1080-rgb.mkv.part001",
+          "size": 537636,
+          "sha256": "67ad4d50a67dd8add583162b7b02730e31b7db91b8b2e731dc3aa4af13edd998"
+        }
+      ]
+    },
+    {
+      "archive_file": "execution-final-critic-named-exceptions.tar.gz",
+      "kind": "original_png_tar",
+      "manifest": "final-critic-named-exceptions-manifest.json",
+      "archive_bytes": 379794,
+      "sha256": "ed4c4e1a055290767e6240b5db52e347af7ac797452a5cbac09e378bcd1bf76d",
+      "parts": [
+        {
+          "path": "media/execution-final-critic-named-exceptions.tar.gz.part001",
+          "size": 379794,
+          "sha256": "ed4c4e1a055290767e6240b5db52e347af7ac797452a5cbac09e378bcd1bf76d"
+        }
+      ]
     }
   ],
   "restoration_verifier_sha256": "b76502060fd59c9c371546ff1b0334805d16a929245ac0d20ff0f161261b8e41",
   "pinned_godot": "4.6.3.stable.official.7d41c59c4",
   "storage_frame_clock": "Synthetic25fps index only. Never interpret MKVs as gameplay timing; original filename/session provenance and root-owned raw logs retain original timing evidence.",
   "original_pngs_evicted": false,
-  "source_helpers": "provenance/source-helpers.json"
+  "source_helpers": "provenance/source-helpers.json",
+  "all_requested_sessions_closed_and_included": true,
+  "session_count": 6,
+  "final_append_governing_production": "c2db5eb6764db14fcf7ea2185f6c8e4f04bb36dd",
+  "updated_utc": "2026-10-20T12:03:04.695629+00:00"
 }
