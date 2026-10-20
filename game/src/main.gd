@@ -90,7 +90,7 @@ func _ready() -> void:
 		var order=o[0]
 		order_buttons[order]=_button(hud,o[1],func(): _primary_action() if order=="camera" else _order(order))
 	advanced_button=_button(hud,"MORE ORDERS",_toggle_advanced)
-	order_buttons["home"]=_button(hud,"EXTRACT",func(): _order("emergency",{"point":sim.mission.extraction}))
+	order_buttons["home"]=_button(hud,"EXTRACT",_recovery_route)
 	order_buttons["menu"]=_button(hud,"OPERATIONS",func(): sim.paused=true; _show_campaign())
 	for button in [pause_button,advanced_button]+unit_buttons+order_buttons.values():
 		button.minimum_size_changed.connect(_queue_mission_reflow)
@@ -186,6 +186,12 @@ func _primary_action() -> void:
 	var station=WarningChain.nearest_station(sim)
 	if not station.is_empty():mission_hud.open("plant",station);return
 	_order("camera")
+func _recovery_route() -> void:
+	var destinations=sim.extraction_corridors()
+	if preload("res://src/presentation/expedition_view.gd").entry(sim):
+		destinations.append({"pos":sim.mission.extraction,"name":"INCOMPLETE WITHDRAWAL","withdrawal":true})
+	if destinations.size()==1:_order("route",{"point":destinations[0].pos})
+	elif not destinations.is_empty():mission_hud.open_recovery(destinations)
 func _order(order: String,args: Dictionary={}) -> void:
 	if advanced_orders and order!="select":
 		mission_hud.dismiss()
