@@ -1,8 +1,8 @@
 # Continuation
-Current production base: `b127b7815c6aa2478b8b14b9becf3aff42f447c9`.
+Current production base: `44bd2c094361f2004082ab69bd8ba330d44496dd`.
 Read docs/USER_DIRECTIVES.md first; the latest order correction governs.
 
-## Next — practical fleet instruments and whole-game evaluation
+## Next — earned-course continuity and whole-game evaluation
 The rough campaign, four endings, craft upgrades and functional V7 rows are built.
 Stakes integrates operation endurance, independent acquisitions and targeting feedback.
 The authored Confluence operation is integrated after review and its PR game-smoke gate.
@@ -15,8 +15,13 @@ Fresh critics continue genuine full-game touch journeys on their recorded frozen
 A separate Confluence touch critic uses an explicitly staged operation-access fixture;
 that focused session does not establish earned full-campaign completion.
 Continue every branch and ending without resetting genuine journeys.
-Build practical fleet instruments for separated craft and simultaneous acquisitions,
-with safe selection, compact status and readable threat/route information.
+Practical fleet instruments are integrated: separated craft, acquisition progress,
+offscreen focus, contextual verbs and targeting range feedback.
+Repair premature route stops using certified water while preserving the intended destination.
+A focused Confluence touch journey identified repeated unchanged-goal replots.
+A genuine drone-led campaign reached Hidden Harbour on its frozen earlier source;
+its final travel interval was unobserved during a controller interruption.
+Other genuine journeys continue; preserve restored checkpoints and distinguish execution gaps.
 Rank actual whole-game weaknesses, improve the largest, then repeat.
 Compare real reference footage by dimension with source labels withheld.
 The user chooses when to playtest; development never waits for it.
