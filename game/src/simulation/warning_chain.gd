@@ -81,6 +81,7 @@ static func command(sim,action:String)->bool:
    if service and sim.acoustic_paths.arrivals(Plant.CHAIN_INLET,origin,1400).is_empty():
     sim.message="No service receipt · the powered NORTH MAST remains available";return true
    s.result={"output":s.output,"proof":"local_receipt" if service else "mast_transmission","time":sim.elapsed,"origin":origin};_record(sim,2,id)
+   sim.mission.record="SERVICE RECEIPT / The western branch received this warning through the opened crosslink. One local acknowledgement is proved; the wider population remains unobserved." if service else "MAST TRANSMISSION / Powered northern hardware sent the warning; external reception unknown. Quietus recovered a transmission record, not proof that an inhabited shore answered."
  sim.events.append({"type":"plant_control","action":action,"unit":id,"pos":sim.units[id].pos});sim.message=context(sim,id).text;return true
 static func cancel_released(sim,order:String)->void:
  if not applies(sim.mission) or sim.mission.warning_chain.power!="umbilical":return
