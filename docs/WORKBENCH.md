@@ -1,5 +1,5 @@
 # Siren’s Song · campaign build
-Read docs/USER_DIRECTIVES.md. Pass 0 rows are built at rough quality; the V7 candidate is at the PR gate.
+Read docs/USER_DIRECTIVES.md. Pass 0 rows are built at rough quality; V7 recovery is integrated.
 
 | Node | Status |
 |---|---|
