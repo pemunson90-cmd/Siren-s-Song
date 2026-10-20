@@ -36,11 +36,17 @@ func run():
   root.add_child(g);await settle();g.set_process(false);g._start_mission(9);await settle()
   check(not g.sim.wake_context().known,"first launch never reveals the unmeasured empty branch or its controls")
   var b=await prepare(g);var h=g.mission_hud
+  h.dismiss();await settle();var before_site=g.sim.snapshot()
+  await tap(g.ocean.global_position+g.ocean.screen_position(Vector2(1520,620)))
+  check(g.advanced_orders and h.subject.get("subkind","")=="wake_repeater" and g.sim.snapshot()==before_site,"ordinary touch on measured hardware opens its local orders without issuing a water route")
   check(h.subject.get("subkind","")=="wake_repeater" and b.visible and not b.disabled and not g.order_buttons.camera.visible,"actual measured repeater owns a distinct local playback rather than a capture hold")
   check(b.text.contains("ONCE") and b.text.contains("15s"),"one-use duration is visible before committing")
   await capture(str(shape.x)+"-local-orders")
   h.open("inspect");await settle()
   check(h.instrument_info.text.begins_with("OLD DEPARTURE LOOP") and h.instrument_info.text.contains("1100m") and h.instrument_info.text.contains("empty"),"first status text contains the real cost and keeper account without generic record-prefix flooding")
+  check(not g.title_label.visible and not g.detail_label.visible,"local account owns its first screen instead of generic mission and raw source-ID detail")
+  h.sheet_scroll.scroll_vertical=100;h.open("object",h.subject);h.open("inspect");await settle()
+  check(h.sheet_scroll.scroll_vertical==0,"reopening local account starts with its decision and keeper voice")
   await capture(str(shape.x)+"-keeper-account")
   for kind in ["cancel","short drag","drag off","pinch"]:
    b=await prepare(g);var before=g.sim.snapshot();var queue=g.sim.queue_mode;var p=b.get_global_rect().get_center()

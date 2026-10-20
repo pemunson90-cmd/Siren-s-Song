@@ -110,6 +110,7 @@ func open(next:String="craft",context:Dictionary={}):
  if next=="object":
   var wake=Wake.subject(host.sim,subject)
   if not wake.is_empty():subject=wake
+ if next in ["object","inspect"] and subject.get("subkind","")=="wake_repeater":sheet_scroll.scroll_vertical=0
  page=next;instruments_open=page in ["inspect","signals"];host.advanced_orders=true;host._layout()
 func dismiss():
  draining_popup=not owned_touches.is_empty()
@@ -336,7 +337,9 @@ func refresh():
  if not wake.is_empty():
   extra.wake_playback.disabled=not wake.ready
   extra.wake_playback.text="PLAYING\n%ds LEFT"%ceili(wake.remaining) if wake.active else "PLAYBACK\nSPENT" if wake.used else "PLAY OLD LOOP\nONCE ·15s"
-  if subject.get("subkind","")=="wake_repeater":instrument_info.text=Wake.detail(sim)
+  if subject.get("subkind","")=="wake_repeater":
+   instrument_info.text=Wake.detail(sim)
+   if page=="inspect":host.title_label.hide();host.detail_label.hide()
  if not tender.is_empty():
   var receiver=sim.rendezvous_receiver()
   host.order_buttons.camera.text="DECODE\n4s PASSIVE";host.order_buttons.camera.disabled=not receiver.ready
