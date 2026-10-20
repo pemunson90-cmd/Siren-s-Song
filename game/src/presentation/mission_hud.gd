@@ -342,6 +342,9 @@ func blocks(point:Vector2) -> bool:
 func occupied_rects() -> Array:
  var result=[]
  for c in action_controls().values():result.append(c.get_global_rect())
+ # Visual placement avoids the whole plate; blocks() owns only real controls.
+ if fleet!=null and fleet.is_visible_in_tree():
+  for reading in fleet.readouts:result.append(Rect2(fleet.global_position+reading.rect.position,reading.rect.size))
  if intent.visible:result.append(intent.get_global_rect())
  if alarm.visible:result.append(alarm.get_global_rect())
  if host.advanced_orders:result.append(Rect2(center-Vector2.ONE*(ring_radius+touch_height*.65),Vector2.ONE*(ring_radius+touch_height*.65)*2))

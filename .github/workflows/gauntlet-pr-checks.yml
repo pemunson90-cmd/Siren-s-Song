@@ -92,6 +92,7 @@ jobs:
           done <<'UI_SCENARIOS'
           runtime_tests|RUNTIME
           fleet_instruments_ui_tests|FLEET INSTRUMENTS UI
+          route_telemetry_touch_tests|ROUTE TELEMETRY TOUCH
           earned_course_continuity_tests|EARNED COURSE CONTINUITY
           current_motion_tests|CURRENT MOTION
           module_recovery_tests|MODULE RECOVERY

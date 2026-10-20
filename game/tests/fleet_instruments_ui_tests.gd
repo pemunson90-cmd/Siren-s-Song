@@ -45,7 +45,7 @@ func run():
   check(fleet!=null,"distributed fleet instruments exist on actual chart")
   if fleet==null:game.queue_free();await settle();continue
   check(fleet.buttons.size()==3 and fleet.buttons.all(func(b):return b.is_visible_in_tree()),"every living craft remains reachable without FLEET menu")
-  check("WEST RELAY" in fleet.buttons[1].text and "EAST RELAY" in fleet.buttons[2].text and "25%" in fleet.buttons[1].text,"simultaneous exposures identify owner target and actual progress")
+  check("WEST RELAY" in fleet.telemetry[1].text and "EAST RELAY" in fleet.telemetry[2].text and "25%" in fleet.telemetry[1].text,"simultaneous exposures identify owner target and actual progress")
   for b in fleet.buttons:
    check(b.size.y+.1>=game.ui_touch_height and game.get_global_rect().encloses(b.get_global_rect()),"instrument retains bounded full-size touch target "+name+" "+b.text+" "+str(b.get_global_rect())+" bounds "+str(game.get_global_rect()))
   for id in fleet.buttons.size():
@@ -79,7 +79,7 @@ func run():
   # Actual snapshot restoration must preserve parallel work and its readouts.
   var snapshot=s.snapshot();check(s.restore(snapshot),"actual partial multi-craft state restores")
   game._refresh();await settle()
-  check("25%" in fleet.buttons[1].text and "25%" in fleet.buttons[2].text,"restored instruments retain per-craft exposure clocks")
+  check("25%" in fleet.telemetry[1].text and "25%" in fleet.telemetry[2].text,"restored instruments retain per-craft exposure clocks")
   var enemy=s.sirens[0];enemy.pos=s.units[2].pos+Vector2(130,0);enemy.stun=0.;enemy.lock=2.;enemy.target=2;enemy.mode="ACQUIRE"
   s._observe();game._refresh();await settle();await capture(name+"-danger")
   check(game.ocean.contact_entries().any(func(e):return e.urgent and "DRONE B" in e.text) and not "BEAM" in hud.alarm.text,"fresh beam warning retains craft attribution in its single contact readout")
@@ -87,20 +87,20 @@ func run():
   hud.open("craft");await settle();await capture(name+"-danger-context")
   check(hud.alarm.visible and "BEAM" in hud.alarm.text and not game.ocean.contact_readout_entries().any(func(e):return e.urgent),"popup transfers fresh warning above projection without duplicating it")
   hud.dismiss();await settle()
-  var live=s.sirens;var texts=fleet.buttons.map(func(b):return b.text);var warnings=game.ocean.contact_entries();s.sirens=[];game._refresh()
-  check(texts==fleet.buttons.map(func(b):return b.text) and warnings==game.ocean.contact_entries(),"instruments and warnings depend on own state and cached observations rather than hidden live roster")
+  var live=s.sirens;var texts=fleet.telemetry.map(func(b):return b.text);var warnings=game.ocean.contact_entries();s.sirens=[];game._refresh()
+  check(texts==fleet.telemetry.map(func(b):return b.text) and warnings==game.ocean.contact_entries(),"instruments and warnings depend on own state and cached observations rather than hidden live roster")
   s.sirens=live
   s.captures[1]={};s.units[1].hold="SCOUT_STOP";game._refresh();await settle()
-  check("SCOUT STOP" in fleet.buttons[1].text,"own SCOUT stop stays legible while another craft is selected")
+  check("SCOUT STOP" in fleet.telemetry[1].text,"own SCOUT stop stays legible while another craft is selected")
   s.units[1].alive=false;game._refresh();await settle()
   check(not fleet.buttons[1].is_visible_in_tree(),"lost craft cannot remain an actionable live marker")
   s.captures[2]={};game._refresh();await settle()
-  check(not "\n" in fleet.buttons[0].text,"idle peer instrument stays a compact single line")
+  check(not "\n" in fleet.telemetry[0].text,"idle peer instrument stays a compact single line")
   for fixture in [{"mission":12,"unit":0,"verb":"ACTUATE","fitted":{}},{"mission":12,"unit":1,"verb":"FIELD SAMPLE","fitted":{"quietus":"","drone_a":"drone_sampler","drone_b":""}},{"mission":13,"unit":0,"verb":"TRANSMIT","fitted":{}}]:
    s.start(fixture.mission,"endurance",{"fitted":fixture.fitted});s.sirens=[]
    s.units[fixture.unit].pos=Vector2(1830,1080) if fixture.mission==13 else s.mission.objectives[0].pos+Vector2(0,80)
    s.command("select",{"unit":fixture.unit});check(s.command("camera"),"actual "+fixture.verb+" fixture begins")
    game._refresh();await settle()
-   check(fleet.buttons[fixture.unit].text.contains(fixture.verb+" 0%"),"public operation/equipment context names "+fixture.verb+" correctly")
+   check(fleet.telemetry[fixture.unit].text.contains(fixture.verb+" 0%"),"public operation/equipment context names "+fixture.verb+" correctly")
   game.queue_free();await settle()
  print("FLEET INSTRUMENTS UI CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)

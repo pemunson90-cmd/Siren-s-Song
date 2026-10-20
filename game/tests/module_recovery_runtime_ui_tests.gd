@@ -45,11 +45,13 @@ func run():
   check(sim.module_recovery_status().jobs[0].get("item","")=="drone_deep_cells" and sim.noises.any(func(n):return n.label=="RECOVERY WINCH"),"ordinary touch starts real local audible winch work")
   advance(sim,2.);game._refresh();await settle()
   await tap(game.mission_hud.fleet.buttons[2].get_global_rect().get_center())
-  check(sim.selected==2 and "RECOVER" in game.mission_hud.fleet.buttons[0].text and "DEEP CELLS" in game.mission_hud.fleet.buttons[0].text,"background craft keeps its actual module job visible after another station is selected")
+  check(sim.selected==2 and "RECOVER" in game.mission_hud.fleet.telemetry[0].text and "DEEP CELLS" in game.mission_hud.fleet.telemetry[0].text,"background craft keeps its actual module job visible after another station is selected")
+  var plates=game.mission_hud.fleet.readouts.map(func(reading):return reading.rect)
+  check(game.ocean.salvage_markers().all(func(marker):return not plates.any(func(plate):return plate.intersects(marker.rect))),"salvage badges avoid the full visual telemetry plate even though only station handles block chart input")
   await capture(label+"-recovery-progress")
   advance(sim,2.1);game._refresh();await settle()
   check(sim.module_recovery_status().cargo[0]==["drone_deep_cells"] and sim.mission.launch_equipment.quietus.is_empty(),"real completed retrieval carries an inert module without installing it on Quietus")
-  var card=game.mission_hud.fleet.buttons[0]
+  var card=game.mission_hud.fleet.telemetry[0]
   check("CARGO" in card.text and "INACTIVE" in card.text and game.get_global_rect().encloses(card.get_global_rect()),"remote carried module remains identifiable inactive and fully on screen")
   var available=card.size.x-card.get_theme_stylebox("normal").get_minimum_size().x
   check(Array(card.text.split("\n")).all(func(line):return card.get_theme_font("font").get_string_size(line,HORIZONTAL_ALIGNMENT_LEFT,-1,card.get_theme_font_size("font_size")).x<=available),"actual cargo state and complete module identity fit without ellipsis on either screen")

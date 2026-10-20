@@ -364,7 +364,7 @@ func _draw_local_current()->void:
 
 func ship_instrument_layout() -> Array:
 	if fleet_instruments==null:return []
-	return fleet_instruments.readouts.map(func(reading):return {"text":fleet_instruments.buttons[reading.unit].text,"rect":reading.rect})
+	return fleet_instruments.readouts.map(func(reading):return {"text":reading.text,"rect":reading.rect})
 func ship_instrument_rects() -> Array:
 	return ship_instrument_layout().map(func(reading):return reading.rect) if fleet_instruments!=null and fleet_instruments.visible else []
 func _finale_array(mass: Rect2) -> void:
