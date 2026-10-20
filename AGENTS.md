@@ -1,3 +1,5 @@
+Milestone = a complete playable game. Each cycle: a fresh critic plays it with no build notes, the audit ranks its biggest weakness, the next version fixes it, repeat. The user's playtest gates nothing. The loop ends only when the user ends it or usage runs out, in which case write PAUSED, RESUME REQUIRED with the exact next command.
+
 # Siren's Song — Gauntlet operating instructions
 
 ## The objective
