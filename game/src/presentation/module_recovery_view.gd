@@ -1,5 +1,6 @@
 extends RefCounted
 const Catalog=preload("res://src/equipment/equipment_catalog.gd")
+const Delivery=preload("res://src/presentation/blackwater_delivery_view.gd")
 # Own-module projection only. Recovery and inventory mutation belong to commands
 # and FleetInventory; a carried fitting is never an operational installation.
 static func status(sim)->Dictionary:
@@ -19,25 +20,37 @@ static func cargo(sim,unit:int)->String:
 static func task(sim,unit:int)->String:
  var job=work(sim,unit)
  if job.unit<0:return ""
- return "RECOVER %d%% · %s"%[clampi(floori(job.elapsed/maxf(.01,job.duration)*100),0,100),name(job.item)]
+ var data=Delivery.wreck_cargo(sim,job.item)
+ return "RECOVER %d%% · %s"%[clampi(floori(job.elapsed/maxf(.01,job.duration)*100),0,100),name(job.item)]+("\n"+data if not data.is_empty() else "")
 static func active(sim,unit:int)->bool:
  return work(sim,unit).unit>=0 or not cargo(sim,unit).is_empty()
 static func short_name(item:String)->String:
  return {"drone_sampler":"FIELD SAMPLER","drone_survey_array":"SURVEY ARRAY","drone_deep_cells":"DEEP CELLS"}.get(item,name(item))
+static func site_lines(sim,site:Dictionary)->Array:
+ var packets=site.get("packets",[])
+ if packets.is_empty():return ["MODULE SALVAGE",short_name(site.item)]
+ var lines=["WRECK RECOVERY"]
+ if Catalog.ITEMS.has(site.item):lines.append(short_name(site.item))
+ for module in status(sim).get("modules",[]):
+  if module.state=="salvage" and module.pos.distance_to(site.pos)<=1. and not short_name(module.item) in lines:lines.append(short_name(module.item))
+ for packet in Delivery.status(sim).get("packets",[]):
+  if packet.id in packets:lines.append(packet.name+" BUFFER")
+ return lines
 static func markers(ocean,sim,touch:float)->Array:
  var result=[]
  if not sim.has_method("salvage_sites"):return result
  var occupied=ocean.ui_blocked_rects.duplicate();occupied.append_array(ocean.own_craft_rects())
  var bounds=Rect2(Vector2(12,touch+24),ocean.size-Vector2(24,touch*2+48))
- var extent=Vector2(minf(touch*3.,bounds.size.x),touch)
  for site in sim.salvage_sites():
+  var lines=site_lines(sim,site)
+  var extent=Vector2(minf(touch*3.,bounds.size.x),maxf(touch,lines.size()*(ocean.feedback_font_size+6)+16))
   var anchor=ocean.screen_position(site.pos)
   if not Rect2(Vector2.ZERO,ocean.size).has_point(anchor):continue
   var box=Rect2((anchor+Vector2(touch*.9,-touch*.5)).clamp(bounds.position,bounds.end-extent),extent)
   for offset in [Vector2(.9,-.5),Vector2(-3.9,-.5),Vector2(-1.5,-1.8),Vector2(-1.5,.8),Vector2(.9,1.),Vector2(-3.9,1.)]:
    var candidate=Rect2((anchor+offset*touch).clamp(bounds.position,bounds.end-extent),extent)
    if not occupied.any(func(r):return r.intersects(candidate.grow(5))):box=candidate;break
-  result.append({"rect":box,"anchor":anchor,"site":site});occupied.append(box)
+  result.append({"rect":box,"anchor":anchor,"site":site,"lines":lines});occupied.append(box)
  return result
 static func draw(ocean,sim)->void:
  var font=ThemeDB.fallback_font;var size=ocean.feedback_font_size;var color=Color("d9b475")
@@ -46,10 +59,13 @@ static func draw(ocean,sim)->void:
   ocean.draw_line(anchor,anchor.clamp(box.position,box.end),Color(color,.5),1.5)
   ocean.draw_rect(Rect2(anchor-Vector2(7,5),Vector2(14,10)),Color("314d51"));ocean.draw_rect(Rect2(anchor-Vector2(7,5),Vector2(14,10)),color,false,1.5)
   ocean.draw_rect(box,Color(.025,.065,.075,.94));ocean.draw_rect(box,color,false,1)
-  ocean.draw_string(font,box.position+Vector2(10,size+8),"MODULE SALVAGE",HORIZONTAL_ALIGNMENT_LEFT,box.size.x-20,size,Color("8eb1b3"))
-  ocean.draw_string(font,box.position+Vector2(10,size*2+14),short_name(marker.site.item),HORIZONTAL_ALIGNMENT_LEFT,box.size.x-20,size,color)
+  for row in marker.lines.size():
+   ocean.draw_string(font,box.position+Vector2(10,size+8+row*(size+6)),marker.lines[row],HORIZONTAL_ALIGNMENT_LEFT,box.size.x-20,size,Color("8eb1b3") if row==0 else color)
 static func detail(sim,item:String)->String:
  var context=sim.salvage_context(item)
+ for site in sim.salvage_sites():
+  if site.item==item and not site.get("packets",[]).is_empty():
+   return "\n".join(site_lines(sim,site))+"\n"+context.reason+"\nONE WINCH · 4s settled · 60m · clear line of sight\nAUDIBLE · 520m open-water estimate\nQuietus receives recovered buffers aboard. A drone carries them until local TRANSFER to Quietus."+("\nRecovered kit stays inactive cargo until its carrier reaches recovery." if Catalog.ITEMS.has(item) else "")
  return name(item)+"\n"+context.reason+"\nRECOVER · 4s settled · within 60m · clear line of sight\nAUDIBLE WINCH · 520m open-water estimate\nCarried cargo stays inactive. Bring its carrier to Quietus's chosen recovery mouth."
 static func departure_signature(context:Dictionary)->String:
  var left=[]
