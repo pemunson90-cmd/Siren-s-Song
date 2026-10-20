@@ -1,0 +1,41 @@
+{
+  "audited_source": "56ef1f07dbdce72dd22aa32296a72cc6a8e36146",
+  "audit_sha256": "d11cc7b1c1a806c987f8fea2cf57e43138ff85cd8788e5b91ec0353a221ed61b",
+  "refs": [
+    {
+      "branch": "gauntlet/checkpoint/resolution-proof-detached",
+      "sha": "257cff3c6ad707dba6df97418c2d6023cc0f2d24"
+    },
+    {
+      "branch": "gauntlet/checkpoint/touch-play-2026-10-20",
+      "sha": "7e194e4373fb5adfa7d428dea6092dba156319e5"
+    },
+    {
+      "branch": "gauntlet/feature/campaign-endings",
+      "sha": "a824280b14b5a20b0dfb9e8c4380edc710f61bd8"
+    },
+    {
+      "branch": "gauntlet/feature/campaign-upgrades",
+      "sha": "3a0f02a270de8043ab3b417103add1acf3910d41"
+    },
+    {
+      "branch": "gauntlet/feature/pass0-encounters",
+      "sha": "01d11bc586acd927ed05ab581faf9c623f59e55d"
+    },
+    {
+      "branch": "gauntlet/feature/view-controls-menu",
+      "sha": "24f1b4069ae96e581e856172d339e8fe1448df19"
+    },
+    {
+      "branch": "gauntlet/production",
+      "sha": "814e21fcc8c419400e0fbb7efa4fc701e9c79942"
+    },
+    {
+      "branch": "gauntlet/test/pass0-route-contract",
+      "sha": "f7f0264bd1ef953df56895d0246ee88bd4126aee"
+    }
+  ],
+  "play_checkpoint": "tools/checkpoint/play-profiles/CHECKPOINTS.json on gauntlet/checkpoint/touch-play-2026-10-20",
+  "status": "All live critics paused, saved and quit. Production preserved. No full campaign ending reached through critic input yet.",
+  "order": "Latest user correction: Pass0 and V7 full-game directive first; then Stakes, One real operation, Instruments. User chooses playtest timing; it never gates development."
+}

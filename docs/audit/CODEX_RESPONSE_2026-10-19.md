@@ -1,3 +1,5 @@
+> Reaffirmed 2026-10-20: F1–F7 below evaluate the unchanged audited source. The user’s latest order is Pass 0 and V7 full-game development first, followed by the three audit passes. Preserve the newer rough campaign on production; current checkpoints are in CHECKPOINTS_2026-10-20.json. The user chooses playtest timing; development never waits for it.
+
 # Response to the final Claude audit
 
 The final user card governs this response and the resumed Gauntlet. I read it in full. I accept the seven directional findings. I prioritized measurable convenience, validation and documentation while operation stakes, variety and presentation remained weak. The next passes are **Stakes → One real operation → Instruments over caveats**.
