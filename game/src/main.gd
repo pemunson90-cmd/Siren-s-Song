@@ -54,6 +54,7 @@ var advanced_orders:=false
 var decoy_armed:=false
 var decoy_unit:=-1
 var knock_armed:=false
+var targeting_feedback:=""
 var knock_press:Dictionary={}
 var ui_touch_height:=48.0
 var mission_row_heights:=Vector3.ZERO
@@ -170,7 +171,7 @@ func _start_mission(index: int) -> void:
 	active_started=true; mission_index=index; sim.start(index,upgrade,{"context":_launch_context(index),"fitted":fitted_equipment}); ocean.sim=sim; ocean.focus_craft(); screen="mission"; menu.hide(); hud.show(); _refresh()
 func _primary_action() -> void:
 	if decoy_armed or knock_armed:
-		decoy_armed=false;knock_armed=false;map_gesture.cancel();knock_press.clear();_refresh();return
+		decoy_armed=false;knock_armed=false;map_gesture.cancel();knock_press.clear();sim.message="Targeting cancelled";_refresh();return
 	_order("camera")
 func _order(order: String,args: Dictionary={}) -> void:
 	if advanced_orders and order!="select":
@@ -182,11 +183,13 @@ func _order(order: String,args: Dictionary={}) -> void:
 		print("SS_SCREEN program paused=",sim.paused)
 		route_editor.open(self); call_deferred("_report_targets"); _save_archive(); return
 	if order=="decoy" and not args.has("point"):
+		targeting_feedback=""
 		map_gesture.cancel(); knock_armed=false; ocean.knock_targeting=false
 		if sim.units[sim.selected].alive and sim.tools.decoy>0 and sim.outcome.is_empty():decoy_armed=not decoy_armed;decoy_unit=sim.selected
 		else:decoy_armed=false;sim.message="Decoy unavailable · no charge spent"
 		_refresh(); print("SS_DECOY_AIM armed=",decoy_armed," selected=",sim.selected); call_deferred("_report_targets"); return
 	if order=="knock" and not args.has("target"):
+		targeting_feedback=""
 		map_gesture.cancel();decoy_armed=false;ocean.decoy_targeting=false
 		if sim.selected==0 and sim.units[0].alive and sim.tools.get("knock",0)>0 and sim.outcome.is_empty(): knock_armed=not knock_armed
 		else: knock_armed=false; sim.message="Knockdown: Quietus launcher or torpedoes unavailable."
@@ -197,6 +200,7 @@ func _order(order: String,args: Dictionary={}) -> void:
 	var accepted=sim.command(order,args)
 	if order=="knock" and not accepted: knock_armed=aiming
 	if order=="decoy" and not accepted:decoy_armed=aiming_decoy
+	if not accepted and (knock_armed or decoy_armed):targeting_feedback=sim.message
 	print("SS_ORDER ",order," accepted=",accepted," selected=",sim.selected," queued=",sim.queue_mode)
 	_refresh(); _save_archive()
 	if accepted and order=="camera": call_deferred("_report_targets")
@@ -219,6 +223,7 @@ func _refresh() -> void:
 	ocean.decoy_targeting=decoy_armed
 	if knock_armed and (screen!="mission" or sim.selected!=0 or not sim.units[0].alive or not sim.outcome.is_empty()): knock_armed=false
 	ocean.knock_targeting=knock_armed; ocean.knock_touch_size=ui_touch_height
+	if not knock_armed and not decoy_armed:targeting_feedback=""
 	title_label.text="SIREN'S SONG    /    %02d  %s"%[mission_index+1,sim.mission.title.to_upper()]
 	status_label.text="DEPTH %dm    O₂ %03d%%    HULL %03d%%    RECORDS %d / %d    %s"%[sim.mission.depth,int(sim.oxygen),int(sim.hull),sim.mission.objectives.filter(func(o): return o.captured).size(),sim.mission.objectives.size(),"TACTICAL PAUSE" if sim.paused else "REAL TIME"]
 	pause_button.text="▶ RESUME" if sim.paused else "Ⅱ PAUSE"
@@ -331,7 +336,15 @@ func _map_event(event: InputEvent,local_event: bool=false) -> bool:
 func _target_knockdown(point: Vector2,intended:int=-2) -> void:
 	var chosen=ocean.knock_aim_key(point-ocean.global_position) if intended==-2 else intended
 	if chosen<0 or not ocean.knock_visible_targets().any(func(c):return c.key==chosen):
-		sim.message="Choose an S# FIRE box or a clear contact · no torpedo spent"; _refresh(); return
+		sim.message="Choose an S# FIRE box or a clear contact · no torpedo spent"
+		for id in sim.contacts:
+			var contact=sim.contacts[id]
+			if sim.elapsed-contact.time>=.3:continue
+			if ocean.screen_position(contact.pos).distance_to(point-ocean.global_position)>maxf(ui_touch_height/2,43*ocean.world_scale):continue
+			if contact.get("mode","") in ["DISRUPTED","PINNED"]:
+				sim.message="S%d %s · shot declined · no torpedo spent"%[int(id)+1,"disrupted" if contact.mode=="DISRUPTED" else "already snared"]
+				break
+		targeting_feedback=sim.message; _refresh(); return
 	_order("knock",{"target":chosen})
 func _chart_zoom(factor: float) -> void:
 	map_gesture.cancel(); ocean.zoom_at(factor,ocean.size/2); _view_changed()

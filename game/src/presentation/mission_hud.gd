@@ -201,7 +201,7 @@ func refresh():
  host.pause_button.text="PAUSED\n▶ RUN" if sim.paused else "Ⅱ\nPAUSE"
  host.advanced_button.text="FLEET"
  focus_button.text="FOLLOW" if host.ocean.chart_camera.mode=="follow" else "FOCUS"
- intent.text="%s · %s · %s"%[sim.units[sim.selected].name,"QUEUE" if sim.queue_mode else "REPLACE",("DECOY · TAP CLEAR WATER ≤160m · TAP CANCEL" if host.decoy_armed else "TORPEDO · TAP FRESH CONTACT · TAP CANCEL" if host.knock_armed else sim.message)]
+ intent.text="%s · %s · %s"%[sim.units[sim.selected].name,"QUEUE" if sim.queue_mode else "REPLACE",(host.targeting_feedback if not host.targeting_feedback.is_empty() else "DECOY · TAP CLEAR WATER ≤160m · TAP CANCEL" if host.decoy_armed else "TORPEDO · TAP FRESH CONTACT · TAP CANCEL" if host.knock_armed else sim.message)]
  host.title_label.visible=page!="signals";host.detail_label.visible=page!="signals"
  host.order_buttons.home.text="WITHDRAW" if Expedition.entry(sim) else "EXTRACT"
  extra.route_here.text="PLOT ROUTE" if subject.has("subkind") else "ROUTE HERE"

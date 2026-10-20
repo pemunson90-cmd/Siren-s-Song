@@ -75,6 +75,7 @@ while IFS='|' read -r scenario summary; do
         echo "Missing successful $scenario summary" >&2; exit 1;
     }
 done <<'TACTICAL_SCENARIOS'
+targeting_feedback_tests|TARGETING FEEDBACK
 beam_emission_tests|BEAM EMISSION
 recon_consequences_tests|RECON CONSEQUENCES
 recon_grade_main_tests|RECON GRADE MAIN
