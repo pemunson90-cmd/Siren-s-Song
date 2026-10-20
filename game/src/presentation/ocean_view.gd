@@ -1,4 +1,5 @@
 extends Control
+const EarnedChart=preload("res://src/presentation/earned_chart_view.gd")
 const Expedition=preload("res://src/presentation/expedition_view.gd")
 var sim
 var optical_feed
@@ -139,6 +140,7 @@ func _draw() -> void:
 	draw_rect(Rect2(Vector2.ZERO,size),Color("050f17"))
 	draw_set_transform(world_offset,0,Vector2.ONE*world_scale)
 	var region=sim.world_size()
+	var earned=EarnedChart.chart(sim)
 	draw_texture_rect_region(ocean,Rect2(Vector2.ZERO,region),Rect2(Vector2.ZERO,region/2.0))
 	# Cartographic graticule, subordinate to the physical water and stone.
 	for x in range(0,int(region.x)+1,160):
@@ -146,7 +148,7 @@ func _draw() -> void:
 	for y in range(0,int(region.y)+1,160):
 		draw_line(Vector2(0,y),Vector2(region.x,y),Color(0.3,0.65,0.67,0.06),1)
 	# Depth contours and abyssal fissures occupy the navigable seabed.
-	for n in int(ceil(region.y/135.0)):
+	for n in (int(ceil(region.y/135.0)) if earned.is_empty() else 0):
 		var points=PackedVector2Array()
 		for k in int(ceil(region.x/38.0))+1:
 			points.append(Vector2(k*38,80+n*135+sin(k*0.19+n)*32))
@@ -161,7 +163,9 @@ func _draw() -> void:
 			_label(area.position+Vector2(120,106),"COLD FRONT",Color(0.46,0.7,0.78,0.8),14)
 	_draw_departure()
 	# Bedrock and columnar basalt are original deterministic constructions.
-	for r in sim.mission.rocks: _rock(r)
+	if earned.is_empty():
+		for r in sim.mission.rocks: _rock(r)
+	else:EarnedChart.draw_terrain(self,earned,world_scale)
 	for o in observable_sites():
 		if o.get("own_origin",false):continue
 		if o.get("kind","")=="receiver":
@@ -169,15 +173,15 @@ func _draw() -> void:
 			draw_line(o.pos-Vector2(17,0),o.pos+Vector2(17,0),Color("80bdb6"),2)
 			draw_line(o.pos-Vector2(0,17),o.pos+Vector2(0,17),Color("80bdb6"),2)
 		else: _installation(o.pos,o.captured)
-	if sim.mission.has("factory_rect"):
+	if earned.is_empty() and sim.mission.has("factory_rect"):
 		var mass:Rect2=sim.mission.factory_rect
 		draw_rect(mass,Color("102630")); draw_rect(mass,Color("486268"),false,3)
 		draw_set_transform(world_offset+mass.get_center()*world_scale,PI/2,Vector2.ONE*world_scale)
 		draw_texture_rect(foundry,Rect2(-mass.size.y/2,-mass.size.x/2,mass.size.y,mass.size.x),false,Color(0.8,0.95,1))
 		draw_set_transform(world_offset,0,Vector2.ONE*world_scale)
-	elif sim.mission.has("array_rect"):
+	elif earned.is_empty() and sim.mission.has("array_rect"):
 		_finale_array(sim.mission.array_rect)
-	elif sim.mission.id in [3,4]:
+	elif earned.is_empty() and sim.mission.id in [3,4]:
 		draw_texture_rect(foundry,Rect2(1080,-100,540,360),false,Color(0.65,0.8,0.82,0.8))
 	# Intelligence marks are briefed coordinates, not live contact observations.
 	for o in observable_sites():
@@ -191,14 +195,14 @@ func _draw() -> void:
 	var low=Vector2i((-world_offset/world_scale)/40.0).max(Vector2i.ZERO)
 	var high=Vector2i((size-world_offset)/world_scale/40.0)+Vector2i.ONE
 	high=high.min(Vector2i(region/40.0))
-	for y in range(low.y,high.y):
+	for y in (range(low.y,high.y) if earned.is_empty() else []):
 		for x in range(low.x,high.x):
 			var key=Vector2i(x,y); var p=Vector2(x*40+20,y*40+20)
 			var alpha=0.38 if not sim.known.has(key) else (0.0 if sim.visible(p) else 0.20)
 			if alpha>0: draw_rect(Rect2(x*40,y*40,40,40),Color(0.005,0.014,0.025,alpha))
 	preload("res://src/presentation/blackwater_courier_view.gd").draw(self,sim)
 	# Sonar rays stop at actual cover, producing explicit acoustic shadows.
-	if sim.ping_time>0:
+	if earned.is_empty() and sim.ping_time>0:
 		var radius=(3.5-sim.ping_time)*210
 		for n in 180:
 			var direction=Vector2.from_angle(n*TAU/180)
@@ -213,7 +217,7 @@ func _draw() -> void:
 	# listeners. Dotted amber radius is subordinate to later foreground beam cues.
 	if sim.mission.get("acoustic_revision",0)==1:
 		var own=sim.units[sim.selected]
-		var radius=preload("res://src/simulation/acoustic_paths.gd").motion_radius(own.vel.length())
+		var radius=sim.motion_radius(sim.selected)
 		if own.alive and radius>8:
 			for n in 48:
 				var a=float(n)/48*TAU
@@ -224,11 +228,12 @@ func _draw() -> void:
 	for i in sim.units.size():
 		var u=sim.units[i]
 		if not u.alive: continue
+		if not earned.is_empty():EarnedChart.draw_course(self,EarnedChart.segments(sim,i),world_scale,i==sim.selected)
 		if not u.route.is_empty():
 			var last=u.pos
 			for n in u.route.size():
 				var dest=u.route[n]
-				_dash(last,dest.pos,Color(CYAN,0.75 if i==sim.selected else 0.22),2)
+				if earned.is_empty():_dash(last,dest.pos,Color(CYAN,0.75 if i==sim.selected else 0.22),2)
 				if dest.stop:
 					draw_arc(dest.pos,10,0,TAU,24,CYAN,2); draw_circle(dest.pos,3,CYAN)
 				last=dest.pos
@@ -289,6 +294,8 @@ func _draw() -> void:
 		draw_circle(p,0.7+float(i%3)*0.35,Color(0.48,0.7,0.7,0.11))
 	draw_rect(Rect2(Vector2.ZERO,region),Color(0.3,0.7,0.7,0.19),false,2)
 	draw_set_transform(Vector2.ZERO,0,Vector2.ONE)
+	_draw_pressure_overlay()
+	_draw_local_current()
 	_draw_ship_instrument()
 	# Short screen-sized tags preserve observed identity without long world labels.
 	for entry in observed:
@@ -305,6 +312,35 @@ func _draw() -> void:
 		draw_rect(box,Color(0.04,0.07,0.09,0.94))
 		draw_string(ThemeDB.fallback_font,box.position+Vector2(8,feedback_font_size),entry.text,HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size,Color("ffac8c") if entry.urgent else Color("ed8e79") if entry.fresh else Color("b09a94"))
 
+func _draw_pressure_overlay()->void:
+	var pressure=sim.recon_feedback()
+	if pressure.hunt>0:
+		var text="OP PRESSURE · %s"%pressure.stage
+		draw_string(ThemeDB.fallback_font,Vector2(14,size.y-18),text,HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size,Color("c9ab79"))
+	var threat=float(pressure.threat)
+	if threat<.1:return
+	var pulse=.75+.25*sin(sim.elapsed*7)
+	var color=Color("e26a50") if threat>=.75 else Color("cb9959")
+	for edge in 8:
+		var thickness=float(8-edge)*5
+		var alpha=threat*pulse*.018*(1.0-float(edge)/10)
+		var tint=Color(color,alpha)
+		draw_rect(Rect2(0,0,size.x,thickness),tint)
+		draw_rect(Rect2(0,size.y-thickness,size.x,thickness),tint)
+		draw_rect(Rect2(0,0,thickness,size.y),tint)
+		draw_rect(Rect2(size.x-thickness,0,thickness,size.y),tint)
+func _draw_local_current()->void:
+	if not sim.has_method("current_feedback"):return
+	for reading in sim.current_feedback():
+		if reading.unit!=sim.selected or reading.flow.length()<.1:continue
+		var anchor=screen_position(reading.pos)+Vector2(0,70)
+		var direction:Vector2=reading.flow.normalized()
+		var tip=anchor+direction*clampf(reading.flow.length()*2,12,60)
+		draw_line(anchor,tip,Color("81c7b8"),2)
+		draw_line(tip,tip-direction.rotated(.5)*10,Color("81c7b8"),2)
+		draw_line(tip,tip-direction.rotated(-.5)*10,Color("81c7b8"),2)
+		draw_string(ThemeDB.fallback_font,anchor+Vector2(12,18),"FLOW %.0f · ENGINE %.0f"%[reading.flow.length(),reading.effort],HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size,Color("a1d8cc"))
+
 func ship_instrument_layout() -> Array:
 	if sim==null:return []
 	var own=sim.units[sim.selected];var p=screen_position(own.pos)
@@ -312,7 +348,7 @@ func ship_instrument_layout() -> Array:
 	var font=ThemeDB.fallback_font;var text_size=feedback_font_size
 	var radius=maxf(instrument_height*1.1,(72 if sim.selected==0 else 24)*world_scale+12)
 	var top="QUIETUS · HULL %d · O₂ %d"%[roundi(sim.hull),roundi(sim.oxygen)] if sim.selected==0 else "%s · BAT %d%% · %s · %s"%[own.name,roundi(own.battery),"LOW" if own.silent else "OPEN","QUIET42" if own.get("drone_drive","transit")=="quiet" else "TRANSIT96"]
-	var noise=preload("res://src/simulation/acoustic_paths.gd").motion_radius(own.vel.length())
+	var noise=sim.motion_radius(sim.selected)
 	var lower="MOTION ~%dm · open water"%roundi(noise) if sim.mission.get("acoustic_revision",0)==1 else "MOTION · %dm/s"%roundi(own.vel.length())
 	var pulses=sim.acoustic_feedback().pulses
 	var hint="reception unknown · tap craft" if pulses.is_empty() else "PULSES %d · reception unknown"%pulses.size()
@@ -321,6 +357,8 @@ func ship_instrument_layout() -> Array:
 		if scout.state=="armed":hint="SCOUT · own contact stops · route kept"
 		elif scout.state=="stopped":hint="SCOUT %s · route kept · tap craft"%("braking" if own.vel.length()>2 else "holding")
 		elif scout.state=="legacy":hint="FLEET GUARD · any fresh contact holds"
+	var course=EarnedChart.status(sim,sim.selected)
+	if not course.is_empty():hint=course
 	var blocked=ui_blocked_rects.duplicate()
 	for id in sim.units.size():
 		if id==sim.selected or not sim.units[id].alive:continue

@@ -1,5 +1,5 @@
 # Siren’s Song · campaign build
-Read docs/USER_DIRECTIVES.md. Next: finish Pass 0 + V7, then the three audit passes.
+Read docs/USER_DIRECTIVES.md. Pass 0 rows are built at rough quality; the V7 candidate is at the PR gate.
 
 | Node | Status |
 |---|---|
@@ -21,8 +21,11 @@ Read docs/USER_DIRECTIVES.md. Next: finish Pass 0 + V7, then the three audit pas
 |Quietus baffles|rough|
 |Drone deep cells|rough|
 |Drone survey array|rough|
-|V7 current fields|unbuilt|
-|V7 sensor-earned terrain|unbuilt|
-|V7 evidence-floor pressure|unbuilt|
-|V7 threat heartbeat/vignette|unbuilt|
-|V7 photographic grading|unbuilt|
+|V7 current fields|rough|
+|V7 sensor-earned terrain|rough|
+|V7 evidence-floor pressure|rough|
+|V7 threat heartbeat/vignette|rough|
+|V7 photographic grading|rough|
+
+Next: fresh full-game touch journeys, rank the biggest player-facing weakness, then improve it.
+User playtest timing never gates development.

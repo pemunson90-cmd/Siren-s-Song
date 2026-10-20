@@ -27,6 +27,8 @@ static func debrief(main)->bool:
  if main.sim.outcome=="won" and mission.get("recovered",false):
   main._menu_text("EXPEDITION RECOVERED",32)
   main._menu_text(mission.record,22)
+  var grade=preload("res://src/simulation/recon_consequences.gd").grade(mission.get("objectives",[]))
+  if grade.photos>0:main._menu_text("INTEL PHOTO GRADE %s · %d photographs"%[grade.grade,grade.photos],20)
   if mission.id==6:
    main._menu_text("PHYSICAL ROUTE / %s\nRecovered carrier facts: %s"%[mission.chosen_route.to_upper(),", ".join(mission.expedition_facts.keys())],17)
   for item in main.expedition.get("entitlements",[]):
