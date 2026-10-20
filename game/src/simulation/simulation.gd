@@ -10,6 +10,7 @@ const Sampler=preload("res://src/equipment/field_sampler.gd")
 const Consequences=preload("res://src/campaign/campaign_consequences.gd")
 const SignalField=preload("res://src/simulation/signal_field.gd")
 const Courier=preload("res://src/simulation/blackwater_courier.gd")
+const Rendezvous=preload("res://src/simulation/rendezvous_transport.gd")
 const Departure=preload("res://src/simulation/foundry_departure.gd")
 const DroneOperations=preload("res://src/simulation/drone_operations.gd")
 const ContactReports=preload("res://src/simulation/contact_reports.gd")
@@ -301,6 +302,7 @@ func command(order: String,args: Dictionary={}) -> bool:
 	if not u.alive and order!="select":
 		selected=0; queue_mode=false; message="Selected drone lost. Quietus selected; reissue the order."; return false
 	match order:
+		"rendezvous_release":return Rendezvous.release(self)
 		"select":
 			var id=int(args.get("unit",0))
 			if id<0 or id>=units.size() or not units[id].alive: return false
@@ -480,6 +482,7 @@ func camera_context() -> Dictionary:
 			var c=blackwater_context(work.target,selected)
 			return {"target":work.target,"ready":false,"text":"%s · %s · %s %.1f/2s"%[units[selected].name,"REPLY CARRIER" if c.get("source","")=="courier" else active.name,"receiving" if c.settled else "settling",work.elapsed]}
 		return {"target":work.target,"ready":false,"text":"%s · %s %.1f / %.0fs"%[units[selected].name,active.name,work.elapsed,work.duration]}
+	if Rendezvous.applies(mission):return rendezvous_receiver()
 	if mission.has("expedition_revision") and mission.objectives.all(func(o):return o.captured) and not mission.objectives.any(func(o):return Operations.own_origin(o)):
 		var facts=mission.expedition_facts.keys()
 		return {"target":-1,"ready":false,"text":"No exact source located · listen from another position or spend local RECON" if facts.is_empty() and mission.id!=8 else "Observed %s · choose an available named recovery corridor"%", ".join(facts)}
@@ -549,6 +552,8 @@ func _noise(p: Vector2,radius: float,label: String,duration: float=2.0) -> void:
 	if pressure>0:Recon.action(mission,pressure)
 func courier_feedback() -> Dictionary:
 	return Courier.feedback(self)
+func rendezvous_context(unit_id:int=-1)->Dictionary:return Rendezvous.feedback(self,selected if unit_id<0 else unit_id)
+func rendezvous_receiver(unit_id:int=-1)->Dictionary:return Rendezvous.receiver(self,selected if unit_id<0 else unit_id)
 func departure_feedback() -> Dictionary:
 	return Departure.feedback(self)
 # Own known emissions only. Reception and enemy reaction remain sensor evidence.
@@ -561,7 +566,7 @@ func acoustic_feedback() -> Dictionary:
 			result.motion.append({"name":u.name,"pos":u.pos,"radius":motion_radius(units.find(u)) if mission.get("acoustic_revision",0)==1 else 430.0,"speed":propulsion_speed(u)})
 	for n in noises:
 		if n.time<=0: continue
-		if n.label in ["DECOY","ACTIVE SONAR","RECON UPLINK","DISRUPTION","CAMERA","KNOCKDOWN","TORPEDO RUN","WARNING CHAIN TRANSMISSION","SERVICE SLUICE MOTOR"]:
+		if n.label in ["DECOY","ACTIVE SONAR","RECON UPLINK","DISRUPTION","CAMERA","KNOCKDOWN","TORPEDO RUN","WARNING CHAIN TRANSMISSION","SERVICE SLUICE MOTOR","BERTH RELEASE"]:
 			result.pulses.append({"label":n.label,"pos":n.pos,"time":n.time})
 		elif n.label=="FACTORY RESPONSE" and visible(n.pos):
 			result.responses.append({"label":n.label,"pos":n.pos,"time":n.time})
@@ -604,8 +609,9 @@ func _tick(dt: float) -> void:
 		if captures[station].is_empty():continue
 		var work=captures[station];var u=units[station]; var o=mission.objectives[work.target]
 		var exchange=o.get("kind","")=="exchange" and mission.get("blackwater_revision",0)==1
-		var receiver=blackwater_context(work.target,station) if exchange else {}
-		if not u.alive or (exchange and not receiver.ready) or (Operations.own_origin(o) and not Operations.receiving(self,o,station)) or (not exchange and not Operations.own_origin(o) and (u.pos.distance_to(o.pos)>240 or not line_clear(u.pos,o.pos))):
+		var mobile=Rendezvous.applies(mission) and o.get("site_id","")=="rendezvous"
+		var receiver=rendezvous_receiver(station) if mobile else blackwater_context(work.target,station) if exchange else {}
+		if not u.alive or ((exchange or mobile) and not receiver.ready) or (Operations.own_origin(o) and not Operations.receiving(self,o,station)) or (not exchange and not mobile and not Operations.own_origin(o) and (u.pos.distance_to(o.pos)>240 or not line_clear(u.pos,o.pos))):
 			captures[station]={}
 			message=u.name+" · "+("Reception interrupted · move closer or SONAR for a local replay" if exchange else "Exposure interrupted · regain clear view")
 		elif exchange and not receiver.settled:work.elapsed=0.0
@@ -1084,6 +1090,7 @@ static func valid_snapshot(data: Dictionary) -> bool:
 		if work.elapsed>duration or (site.captured and not Operations.own_origin(site)):return false
 		exposed.append(work.target)
 	if not WorldRegion.valid(data):return false
+	if not Rendezvous.valid(data.mission,float(data.get("elapsed",0))):return false
 	if data.mission.get("earned_terrain",false):
 		if not data.mission.get("launch_seed") is Rect2 or not TerrainChart.valid_state(data.mission.get("terrain_chart"),data.mission):return false
 	if data.mission.get("expedition_revision",0)==2:

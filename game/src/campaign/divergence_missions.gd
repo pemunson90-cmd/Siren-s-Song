@@ -19,6 +19,8 @@ static func make(index:int)->Dictionary:
   m.rocks=[Rect2(1000,1600,1400,260),Rect2(840,680,320,720),Rect2(-100,1000,580,280),Rect2(1260,900,300,350),Rect2(120,300,260,340),Rect2(760,-100,300,500)]
   var source=_source("rendezvous","BERTHING CARRIER",Vector2(540,640),"Unarmed hulls exchange low berthing corrections. The rendezvous is assembling an evacuation line farther down the trench.")
   source["confirm"]=true;source["cadence"]=[0.8,1.6,0.8];m.signal_sources=[source]
+  m["rendezvous_transport"]=preload("res://src/simulation/rendezvous_transport.gd").initial()
+  m["structures"]=[Rect2(500,480,300,80)] # Sheltered mooring; western listening water stays open.
   m["corridors"]=[{"pos":m.extraction,"name":"NORTH TRENCH RECOVERY","route":"deep"}]
   m.brief="Enter from the lower trench. Locate the berthing carrier in the western basin, then bring Quietus within clear receiver reach and use CAMERA / LISTEN to confirm the evacuation rendezvous. Drones can find its carrier while Quietus crosses the covered central saddle. Recovery lies north, beyond the berth. The long southern wall separates the lower staging basin from the central saddle. A drone can watch its western tip while Quietus crosses."
   m.record="Deep rendezvous confirmed: the hulls are organizing an evacuation, but the destination remains unresolved. Quietus has a route farther down the trench."
@@ -26,6 +28,7 @@ static func make(index:int)->Dictionary:
   _patrol(m,Vector2(650,800),[Vector2(650,800),Vector2(460,800),Vector2(460,460),Vector2(680,560)])
   m.sirens[1].type="sentinel";m.sirens[1]["tether"]=190.0
   m.brief+=" A sentinel holds the berthing basin and returns to its post after an investigation."
+  m.brief+=" The packet is aboard a physical unarmed tender. It stays at the berth unless you explicitly RELEASE BERTH from the locally discovered control. That one audible control transmission sends it along the announced western lane to the northern refuge, where it remains available. A drone can operate the control while Quietus stages elsewhere; Quietus can operate it alone. Quiet reception at the original berth also works. Survey locates nearby hulls and machinery; a measured vessel fix grows stale when no receiver can still sense it."
  else:
   m.start=Vector2(1920,600);m.extraction=Vector2(220,2180)
   m.rocks=[Rect2(1280,280,300,1000),Rect2(580,1000,420,300),Rect2(940,1600,1280,200),Rect2(100,460,620,200),Rect2(340,1600,300,240),Rect2(1680,920,600,220)]
