@@ -48,6 +48,25 @@ func intent(s)->Dictionary:
 func target_fits(g,button,label:String):
  var scale=Vector2(root.size)/root.get_visible_rect().size
  check(g.get_global_rect().encloses(button.get_global_rect()) and button.size.x*scale.x>=125.99 and button.size.y*scale.y>=125.99,label+" retains a full48dp safe-area target")
+func pending_gate_actions(g,label:String):
+ var s=g.sim;var h=g.mission_hud;var pending=s.snapshot()
+ # The newly added ordinary-camera fallback must share the same tap owner as
+ # contextual entry and physical release; native GUI release is insufficient.
+ for gesture in ["cancel","short drag","drag off","pinch"]:
+  check(s.restore(pending),"restore pending acknowledgement for "+gesture+" "+label)
+  await open_craft(g);await tap(g.order_buttons.camera.get_global_rect().get_center())
+  await rejected(g,g.order_buttons.camera,gesture,"pending camera/listen "+label)
+  if gesture=="cancel":check(g.advanced_orders and h.page=="object","canceled camera/listen keeps gate context open "+label)
+ for protocol in ["touch","mouse"]:
+  check(s.restore(pending),"restore pending acknowledgement for deliberate "+protocol+" "+label)
+  await open_craft(g);await tap(g.order_buttons.camera.get_global_rect().get_center())
+  var at=g.order_buttons.camera.get_global_rect().get_center()
+  if protocol=="touch":await tap(at)
+  else:await mouse(at,true,false);await mouse(at,false,false);await settle()
+  var clock=s.capture_feedback()
+  check(clock.unit==0 and clock.elapsed==0 and s.paused and not s.warning_recipient_status().informed and not s.warning_recipient_status().gate.opened,"deliberate "+protocol+" starts actual paused LISTEN without opening gate "+label)
+  advance(s,4.2)
+  check(s.warning_recipient_status().informed and not s.warning_recipient_status().gate.opened,"gate context "+protocol+" LISTEN receives real acknowledgement without releasing gate "+label)
 func overlap_gate(g,label:String):
  var s=g.sim;var h=g.mission_hud;var initial=s.snapshot()
  g.ocean.focus_craft();g._refresh();await settle()
@@ -93,6 +112,8 @@ func overlap_gate(g,label:String):
  check(intent(s)==retained,"local entry and release preserve route/profile/queue and tactical pause "+label)
  g._refresh();await settle();await open_craft(g)
  check(primary.text=="RECIPIENT\nCONTROLS" and not primary.disabled,"opened gate restores earned recipient craft primary "+label)
+ await rejected(g,primary,"cancel","earned recipient entry "+label)
+ check(g.advanced_orders and h.page=="craft","canceled recipient entry preserves craft context "+label)
  await tap(primary.get_global_rect().get_center())
  check(h.subject.get("subkind","")=="warning_recipient","earned recipient primary remains available after gate work "+label)
  check(s.restore(pre_release),"restore closed gate only for the independent badge/native-mouse fixture "+label)
@@ -126,8 +147,7 @@ func run():
   s.units[0].pos=PANEL;s.units[0].vel=Vector2.ZERO;advance(s,.8);g.ocean.focus_craft();g._refresh();await settle();await open_craft(g)
   await tap(g.order_buttons.camera.get_global_rect().get_center())
   check(h.subject.get("subkind","")=="warning_gate" and not g.order_buttons.camera.disabled and g.order_buttons.camera.text in ["CAMERA","CAMERA\nLISTEN"],"nearby closed gate context retains actual pending camera/listen "+label)
-  await tap(g.order_buttons.camera.get_global_rect().get_center());advance(s,4.2)
-  check(s.warning_recipient_status().informed and not s.warning_recipient_status().gate.opened,"gate context LISTEN receives real acknowledgement without releasing gate "+label)
+  await pending_gate_actions(g,label)
   s.units[0].pos=BERTH+Vector2(-100,0);s.units[0].vel=Vector2.ZERO
   g.ocean.focus_craft();g._refresh();await settle()
   await tap(g.ocean.global_position+g.ocean.screen_position(BERTH))

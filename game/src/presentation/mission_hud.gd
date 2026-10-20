@@ -162,7 +162,7 @@ func recovery_button_at(point:Vector2) -> Button:
 func witness_button_at(point:Vector2) -> Button:
  # These consequential local actions have one tap owner, including the mouse
  # events Android emulates after a canceled touch or short drag.
- if page=="craft" and not Recipient.primary_subject(host.sim).is_empty():
+ if (page=="craft" and not Recipient.primary_subject(host.sim).is_empty()) or (page=="object" and subject.get("subkind","")=="warning_gate"):
   var primary=host.order_buttons.camera
   if primary.is_visible_in_tree() and primary.get_global_rect().has_point(point):return primary
  for button in [extra.witness_land,extra.salvage,extra.warning_exposed,extra.warning_sheltered,extra.warning_gate,extra.shelf_warn,extra.shelf_alarm]:
@@ -233,7 +233,7 @@ func command_controls() -> Array:
 func layout(bounds:Vector2,h:float):
  position=Vector2.ZERO;size=bounds;touch_height=h
  var font=maxi(14,roundi(h*.26))
- var recipient_primary=page=="craft" and not Recipient.primary_subject(host.sim).is_empty()
+ var recipient_primary=(page=="craft" and not Recipient.primary_subject(host.sim).is_empty()) or (page=="object" and subject.get("subkind","")=="warning_gate")
  for b in host.order_buttons.values()+host.unit_buttons+extra.values()+[close_button,focus_button,host.pause_button,host.advanced_button]+host.zoom_buttons:
   b.mouse_filter=Control.MOUSE_FILTER_IGNORE if page=="plant" and b in command_controls() else Control.MOUSE_FILTER_STOP
   if b in [extra.witness_land,extra.warning_exposed,extra.warning_sheltered,extra.warning_gate,extra.shelf_warn,extra.shelf_alarm] or (b==extra.salvage and Witness.site_for_item(host.sim,subject.get("item",""))):b.mouse_filter=Control.MOUSE_FILTER_IGNORE
