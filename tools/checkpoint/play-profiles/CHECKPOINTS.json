@@ -1,0 +1,412 @@
+[
+  {
+    "player": "cover-cautious",
+    "session": "critic-cover-cautious-demand",
+    "profile": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/critic-cover-cautious-demand/data/godot/app_userdata/Siren's Song/quietus.save",
+    "sha256": "26d76b9133db2b7fc60a9149b17cafc64021d180add37f84a49a4e079f43cecd",
+    "source": {
+      "source": "/workspace/Siren-s-Song-guidance-current",
+      "sha": "9d30dc83a1a2709dfa29948b35e72ee5b2297684",
+      "game_tree": "a85bb1b30274b66d5471d6ced080daa19220bfc8",
+      "profile": {
+        "original": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness/sessions/critic-cover-cautious-live/data/godot/app_userdata/Siren's Song/quietus.save",
+        "sha256": "26d76b9133db2b7fc60a9149b17cafc64021d180add37f84a49a4e079f43cecd",
+        "copied_to": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/critic-cover-cautious-demand/data/godot/app_userdata/Siren's Song/quietus.save"
+      },
+      "pid": 185447,
+      "command": [
+        "godot",
+        "--path",
+        "/workspace/Siren-s-Song-guidance-current/game",
+        "--audio-driver",
+        "Dummy",
+        "--rendering-method",
+        "gl_compatibility",
+        "--script",
+        "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/live_driver.gd"
+      ],
+      "fixture": "420dpi recorded Android safearea; desktop rendering/input, not native/human acceptance",
+      "audio": "Dummy output; audio listening not evaluated"
+    },
+    "metrics": {
+      "elapsed": 229.116666666741,
+      "hull": 100.0,
+      "mission": 1,
+      "outcome": "won",
+      "own_craft": [
+        {
+          "alive": true,
+          "battery": 100.0,
+          "goals": [
+            {
+              "mode": "inherit",
+              "pos": [
+                222.222076416016,
+                2173.33325195312
+              ],
+              "stop": true
+            }
+          ],
+          "hold": "",
+          "name": "QUIETUS",
+          "position": [
+            229.832473754883,
+            2172.22387695312
+          ],
+          "speed": 10.7050104141235,
+          "unit": 0
+        },
+        {
+          "alive": false,
+          "battery": 97.6452380952443,
+          "goals": [],
+          "hold": "",
+          "name": "DRONE A",
+          "position": [
+            673.311645507812,
+            991.617919921875
+          ],
+          "speed": 0.0,
+          "unit": 1
+        },
+        {
+          "alive": true,
+          "battery": 83.6345238095666,
+          "goals": [],
+          "hold": "",
+          "name": "DRONE B",
+          "position": [
+            360.0,
+            2180.0
+          ],
+          "speed": 0.0,
+          "unit": 2
+        }
+      ],
+      "oxygen": 107.271296296286,
+      "paused": true,
+      "screen": "menu",
+      "selected": 0,
+      "tools": {
+        "decoy": 3,
+        "emp": 0,
+        "knock": 1,
+        "recon": 1
+      }
+    }
+  },
+  {
+    "player": "inner-aggressive",
+    "session": "critic-inner-aggressive-demand",
+    "profile": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/critic-inner-aggressive-demand/data/godot/app_userdata/Siren's Song/quietus.save",
+    "sha256": "1e48f3a33db0a9499c88097cb8c7322259a94a9a5c67d90e8736debc8b91da27",
+    "source": {
+      "source": "/workspace/Siren-s-Song-guidance-current",
+      "sha": "9d30dc83a1a2709dfa29948b35e72ee5b2297684",
+      "game_tree": "a85bb1b30274b66d5471d6ced080daa19220bfc8",
+      "profile": {
+        "original": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness/sessions/critic-inner-aggressive-repaired/data/godot/app_userdata/Siren's Song/quietus.save",
+        "sha256": "da075a150b1dcd5d0b146c316a875a0c70e9554605d9e8e8ffae22588f746329",
+        "copied_to": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/critic-inner-aggressive-demand/data/godot/app_userdata/Siren's Song/quietus.save"
+      },
+      "pid": 184021,
+      "command": [
+        "godot",
+        "--path",
+        "/workspace/Siren-s-Song-guidance-current/game",
+        "--audio-driver",
+        "Dummy",
+        "--rendering-method",
+        "gl_compatibility",
+        "--script",
+        "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/live_driver.gd"
+      ],
+      "fixture": "420dpi recorded Android safearea; desktop rendering/input, not native/human acceptance",
+      "audio": "Dummy output; audio listening not evaluated"
+    },
+    "metrics": {
+      "elapsed": 37.7499999999991,
+      "hull": 73.3000000000003,
+      "mission": 1,
+      "outcome": "",
+      "own_craft": [
+        {
+          "alive": true,
+          "battery": 100.0,
+          "goals": [],
+          "hold": "",
+          "name": "QUIETUS",
+          "position": [
+            1102.95581054688,
+            1661.00024414062
+          ],
+          "speed": 0.0,
+          "unit": 0
+        },
+        {
+          "alive": true,
+          "battery": 97.3035714285785,
+          "goals": [
+            {
+              "mode": "inherit",
+              "pos": [
+                420.0,
+                400.0
+              ],
+              "stop": true
+            }
+          ],
+          "hold": "",
+          "name": "DRONE A",
+          "position": [
+            662.327209472656,
+            537.700866699219
+          ],
+          "speed": 0.0,
+          "unit": 1
+        },
+        {
+          "alive": true,
+          "battery": 97.3035714285785,
+          "goals": [
+            {
+              "mode": "inherit",
+              "pos": [
+                1497.736328125,
+                926.829284667969
+              ],
+              "stop": true
+            }
+          ],
+          "hold": "",
+          "name": "DRONE B",
+          "position": [
+            1156.51318359375,
+            1043.81042480469
+          ],
+          "speed": 0.0,
+          "unit": 2
+        }
+      ],
+      "oxygen": 117.902777777776,
+      "paused": true,
+      "screen": "mission",
+      "selected": 0,
+      "tools": {
+        "decoy": 3,
+        "emp": 1,
+        "knock": 2,
+        "recon": 2
+      }
+    }
+  },
+  {
+    "player": "drone-campaign",
+    "session": "critic-drone-campaign-demand",
+    "profile": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/critic-drone-campaign-demand/data/godot/app_userdata/Siren's Song/quietus.save",
+    "sha256": "46f9df43482a91f61dd1baaf81afd161023d100f546b1ecf9788a7ee7d19eb6f",
+    "source": {
+      "source": "/workspace/Siren-s-Song-resolution-operations",
+      "sha": "a824280b14b5a20b0dfb9e8c4380edc710f61bd8",
+      "game_tree": "805d337b05201e4629e795e48da62bb5ed33fb32",
+      "profile": {
+        "original": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness/sessions/critic-drone-campaign/data/godot/app_userdata/Siren's Song/quietus.save",
+        "sha256": "6a1b492cc8dd28e43edc149a9fc5f46aa32fdf6fa67ce60e32969e8260b4c3d6",
+        "copied_to": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/critic-drone-campaign-demand/data/godot/app_userdata/Siren's Song/quietus.save"
+      },
+      "pid": 184692,
+      "command": [
+        "godot",
+        "--path",
+        "/workspace/Siren-s-Song-resolution-operations/game",
+        "--audio-driver",
+        "Dummy",
+        "--rendering-method",
+        "gl_compatibility",
+        "--script",
+        "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/live_driver.gd"
+      ],
+      "fixture": "420dpi recorded Android safearea; desktop rendering/input, not native/human acceptance",
+      "audio": "Dummy output; audio listening not evaluated"
+    },
+    "metrics": {
+      "elapsed": 134.516666666666,
+      "hull": 76.9000000000002,
+      "mission": 1,
+      "outcome": "",
+      "own_craft": [
+        {
+          "alive": true,
+          "battery": 100.0,
+          "goals": [
+            {
+              "mode": "inherit",
+              "pos": [
+                693.333129882812,
+                733.333312988281
+              ],
+              "stop": true
+            }
+          ],
+          "hold": "",
+          "name": "QUIETUS",
+          "position": [
+            678.541442871094,
+            710.695434570312
+          ],
+          "speed": 40.7489433288574,
+          "unit": 0
+        },
+        {
+          "alive": false,
+          "battery": 96.1904761904862,
+          "goals": [
+            {
+              "mode": "inherit",
+              "pos": [
+                420.0,
+                400.0
+              ],
+              "stop": true
+            }
+          ],
+          "hold": "",
+          "name": "DRONE A",
+          "position": [
+            406.904968261719,
+            764.875061035156
+          ],
+          "speed": 96.0,
+          "unit": 1
+        },
+        {
+          "alive": false,
+          "battery": 97.8964285714341,
+          "goals": [],
+          "hold": "",
+          "name": "DRONE B",
+          "position": [
+            693.790771484375,
+            784.919067382812
+          ],
+          "speed": 0.0,
+          "unit": 2
+        }
+      ],
+      "oxygen": 112.526851851846,
+      "paused": true,
+      "screen": "mission",
+      "selected": 0,
+      "tools": {
+        "decoy": 3,
+        "emp": 1,
+        "knock": 2,
+        "recon": 2
+      }
+    }
+  },
+  {
+    "player": "quietus-campaign",
+    "session": "critic-quietus-campaign-demand",
+    "profile": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/critic-quietus-campaign-demand/data/godot/app_userdata/Siren's Song/quietus.save",
+    "sha256": "bb2e233a37270a0dcc2a355382a8a48b24e5bbceca3fc8ba2419b85cf9f91ff1",
+    "source": {
+      "source": "/workspace/Siren-s-Song-resolution-operations",
+      "sha": "a824280b14b5a20b0dfb9e8c4380edc710f61bd8",
+      "game_tree": "805d337b05201e4629e795e48da62bb5ed33fb32",
+      "profile": {
+        "original": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness/sessions/critic-quietus-campaign/data/godot/app_userdata/Siren's Song/quietus.save",
+        "sha256": "4a1e83c08d31ef1229f42025a4c42d770032c94064b9a310ee68848f8587e09c",
+        "copied_to": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/critic-quietus-campaign-demand/data/godot/app_userdata/Siren's Song/quietus.save"
+      },
+      "pid": 184367,
+      "command": [
+        "godot",
+        "--path",
+        "/workspace/Siren-s-Song-resolution-operations/game",
+        "--audio-driver",
+        "Dummy",
+        "--rendering-method",
+        "gl_compatibility",
+        "--script",
+        "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/live_driver.gd"
+      ],
+      "fixture": "420dpi recorded Android safearea; desktop rendering/input, not native/human acceptance",
+      "audio": "Dummy output; audio listening not evaluated"
+    },
+    "metrics": {
+      "elapsed": 72.4999999999972,
+      "hull": 20.2000000000006,
+      "mission": 1,
+      "outcome": "",
+      "own_craft": [
+        {
+          "alive": true,
+          "battery": 100.0,
+          "goals": [
+            {
+              "mode": "inherit",
+              "pos": [
+                1143.95324707031,
+                768.292724609375
+              ],
+              "stop": false
+            },
+            {
+              "mode": "inherit",
+              "pos": [
+                192.398208618164,
+                1024.39025878906
+              ],
+              "stop": true
+            }
+          ],
+          "hold": "",
+          "name": "QUIETUS",
+          "position": [
+            1071.05627441406,
+            774.801086425781
+          ],
+          "speed": 71.0193176269531,
+          "unit": 0
+        },
+        {
+          "alive": true,
+          "battery": 94.8214285714421,
+          "goals": [],
+          "hold": "",
+          "name": "DRONE A",
+          "position": [
+            220.0,
+            2080.0
+          ],
+          "speed": 0.0,
+          "unit": 1
+        },
+        {
+          "alive": true,
+          "battery": 94.8214285714421,
+          "goals": [],
+          "hold": "",
+          "name": "DRONE B",
+          "position": [
+            360.0,
+            2180.0
+          ],
+          "speed": 0.0,
+          "unit": 2
+        }
+      ],
+      "oxygen": 115.972222222219,
+      "paused": true,
+      "screen": "mission",
+      "selected": 0,
+      "tools": {
+        "decoy": 3,
+        "emp": 1,
+        "knock": 1,
+        "recon": 2
+      }
+    }
+  }
+]
