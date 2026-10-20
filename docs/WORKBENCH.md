@@ -12,12 +12,12 @@ Campaign plan: docs/PASS0_CAMPAIGN_PLAN.md. Next: build every unbuilt node.
 |11 Confluence: concealed or overt|rough|
 |12 Concealed Record|rough|
 |13 Open Warning|rough|
-|Deep+12 · Silent Exodus ending|unbuilt|
-|Deep+13 · Beacon Pact ending|unbuilt|
-|Shelf+12 · Hidden Harbour ending|unbuilt|
-|Shelf+13 · Surface Reckoning ending|unbuilt|
-|Fresh-campaign replay|unbuilt|
-|Quietus vector drive|unbuilt|
-|Quietus baffles|unbuilt|
-|Drone deep cells|unbuilt|
-|Drone survey array|unbuilt|
+|Deep+12 · Silent Exodus ending|rough|
+|Deep+13 · Beacon Pact ending|rough|
+|Shelf+12 · Hidden Harbour ending|rough|
+|Shelf+13 · Surface Reckoning ending|rough|
+|Fresh-campaign replay|rough|
+|Quietus vector drive|rough|
+|Quietus baffles|rough|
+|Drone deep cells|rough|
+|Drone survey array|rough|

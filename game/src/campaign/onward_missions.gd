@@ -12,6 +12,8 @@ static func make(id:int,history:Dictionary={})->Dictionary:
   m.record="The recovered wake packet places an evacuation line beyond the fork. The return pattern has become usable evidence across dives, without becoming a target identifier."
   Divergence._patrol(m,Vector2(620,850),[Vector2(620,850),Vector2(620,520),Vector2(780,420),Vector2(760,1400)])
   Divergence._patrol(m,Vector2(1340,850),[Vector2(1340,850),Vector2(1340,450),Vector2(1220,300),Vector2(1250,1430)])
+  m.sirens[1].type="hunter"
+  m.brief+=" A hunter holds the eastern listening basin; the western arm has a moving patrol."
  else:
   m.rocks=[Rect2(880,800,240,800),Rect2(140,520,500,220),Rect2(1360,520,500,220),Rect2(300,1230,320,200),Rect2(1380,1230,320,200)]
   for item in [[Vector2(480,1000),"WEST WARNING PREPARATION","chain_west"],[Vector2(1520,1000),"EAST WARNING PREPARATION","chain_east"]]:
@@ -21,4 +23,6 @@ static func make(id:int,history:Dictionary={})->Dictionary:
   m.record="The two warning preparations agree. Quietus sends a verified fracture warning toward inhabited water while the evacuation continues below. Disclosure has become a tactical choice with a physical departure."
   Divergence._patrol(m,Vector2(740,1080),[Vector2(740,1080),Vector2(700,760),Vector2(740,380),Vector2(800,1700)])
   Divergence._patrol(m,Vector2(1280,800),[Vector2(1280,800),Vector2(1250,1250),Vector2(1250,1700),Vector2(1280,400)])
+  m.sirens[0].type="sentinel";m.sirens[0]["tether"]=190.0
+  m.brief+=" A sentinel defends the western preparation; the eastern arm is patrolled."
  return m

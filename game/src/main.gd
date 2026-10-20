@@ -1,4 +1,6 @@
 extends Control
+const Endings=preload("res://src/campaign/endings.gd")
+const CraftUpgrades=preload("res://src/equipment/craft_upgrades.gd")
 const ExpeditionOperations=preload("res://src/presentation/expedition_operations.gd")
 const ExpeditionCampaign=preload("res://src/campaign/expedition_campaign.gd")
 const Simulation = preload("res://src/simulation/simulation.gd")
@@ -373,6 +375,8 @@ func _show_campaign() -> void:
 		b.disabled=i>unlocked
 		b.set_meta("action","mission%d"%i)
 	ExpeditionOperations.operations(self)
+	if not Endings.resolve(expedition).is_empty():_button(panel_box,"VIEW CAMPAIGN ENDING",_show_ending,"ending")
+	_button(panel_box,"NEW CAMPAIGN",_confirm_new_campaign,"new_campaign")
 	if not recovered_evidence.is_empty(): _button(panel_box,"REVIEW FIELD RECORDS",func(): _evidence_gallery(0),"evidence")
 	_menu_text("Field records remain reviewable after loss or abandonment. Only successful extraction advances the campaign.",14)
 	var stock=_loadout_stock(upgrade)
@@ -401,7 +405,7 @@ func _briefing(index: int) -> void:
 	_menu_text("SPACE / PAUSE grants unlimited planning time. Silent running is slower and quieter. Disruption interrupts nearby Sirens for 12 seconds. Quietus torpedoes travel noisily up to 150m; impact pins one Siren for 8s. Cover blocks sonar, enemy sight and torpedoes.",17)
 	var stock=_loadout_stock(upgrade)
 	_menu_text("NEXT DIVE / RETRY · %s\nO₂ %d%% · DISRUPT %d · SURVEY %d · 3 DECOYS · 2 DRONES · 2 TORPEDOES"%[upgrade.to_upper(),stock[0],stock[1],stock[2]],17)
-	if index>=6:preload("res://src/presentation/equipment_context.gd").fitting(self,_equipment_context(),func(slot,item):_choose_equipment(slot,item,index))
+	if not _equipment_entitlements().is_empty():preload("res://src/presentation/equipment_context.gd").fitting(self,_equipment_context(),func(slot,item):_choose_equipment(slot,item,index))
 	_button(menu_footer,"ENTER WATER\nSTART PAUSED",func(): _start_mission(index); _enter_water(),"begin")
 	_button(menu_footer,"BACK TO\nOPERATIONS",_show_campaign,"back")
 	menu_footer.show()
@@ -410,10 +414,13 @@ func _launch_context(index:int)->Dictionary:
 	var context=preload("res://src/campaign/campaign_consequences.gd").context(expedition)
 	if index in [9,10]:context.thread="deep" if index==9 else "shelf"
 	return context
+func _equipment_entitlements()->Array:
+	return CraftUpgrades.recovered(completed,expedition)
 func _equipment_context()->Dictionary:
-	return {"slots":fitted_equipment.duplicate(true),"available":expedition.get("entitlements",[]).duplicate(),"catalog":preload("res://src/equipment/equipment_catalog.gd").public_catalog(expedition.get("entitlements",[]))}
+	var available=_equipment_entitlements()
+	return {"slots":fitted_equipment.duplicate(true),"available":available,"catalog":preload("res://src/equipment/equipment_catalog.gd").public_catalog(available)}
 func _choose_equipment(slot:String,item:String,index:int)->void:
-	var choice=preload("res://src/equipment/equipment_catalog.gd").choose(fitted_equipment,slot,item,expedition.get("entitlements",[]))
+	var choice=preload("res://src/equipment/equipment_catalog.gd").choose(fitted_equipment,slot,item,_equipment_entitlements())
 	if not choice.ok:return
 	fitted_equipment=choice.fitted
 	_save_archive();_briefing(index)
@@ -425,6 +432,7 @@ func _debrief() -> void:
 		_retain_evidence()
 		if mission_index not in completed: completed.append(mission_index)
 		unlocked=mini(5,maxi(unlocked,mission_index+1))
+		_sync_craft_upgrades()
 		_menu_text("ARCHIVE RECOVERED",32)
 		_menu_text(sim.mission.record,22)
 		_menu_text("Dive time %02d:%02d  /  Hull %d%%  /  Life support %d%%"%[int(sim.elapsed)/60,int(sim.elapsed)%60,int(sim.hull),int(sim.oxygen)],17)
@@ -443,6 +451,30 @@ func _debrief() -> void:
 	_button(panel_box,"OPERATIONS ARCHIVE",_show_campaign,"back")
 	_save_archive()
 	call_deferred("_layout")
+func _sync_craft_upgrades()->void:
+	if not expedition.is_empty():expedition.entitlements=_equipment_entitlements()
+func _show_ending()->void:
+	var ending=Endings.resolve(expedition)
+	if ending.is_empty():_show_campaign();return
+	sim.paused=true;screen="ending";_clear_menu()
+	_menu_text("SIREN'S SONG / CAMPAIGN COMPLETE",18)
+	_menu_text(ending.title,36)
+	_menu_text(ending.outcome,24)
+	_menu_text(ending.story,21)
+	_button(panel_box,"NEW CAMPAIGN / CHOOSE ANOTHER ROUTE",_confirm_new_campaign,"new_campaign")
+	_button(panel_box,"OPERATIONS ARCHIVE",_show_campaign,"back")
+	_save_archive();call_deferred("_layout")
+func _confirm_new_campaign()->void:
+	sim.paused=true;screen="new_campaign";_clear_menu()
+	_menu_text("START A NEW CAMPAIGN?",30)
+	_menu_text("This replaces this campaign's progress, equipment and field records. Audio settings stay. Both route choices can be played again.",20)
+	_button(panel_box,"START NEW CAMPAIGN",_new_campaign,"confirm_new_campaign")
+	_button(panel_box,"KEEP CURRENT CAMPAIGN",_show_campaign,"back")
+	call_deferred("_layout")
+func _new_campaign()->void:
+	completed=[];unlocked=0;expedition={};recovered_evidence={}
+	fitted_equipment={"quietus":"","drone_a":"","drone_b":""};upgrade="endurance"
+	_start_mission(0);_save_archive();_show_campaign()
 func _scenario(name: String) -> void:
 	if name=="menu": _show_campaign(); return
 	sim.command("route",{"point":Vector2(1000,800)})
@@ -501,6 +533,7 @@ func _archive() -> Dictionary:
 	return data
 func _save_archive() -> void:
 	if not capture_scenario.is_empty() or sim.mission==null: return
+	_sync_craft_upgrades()
 	if store.save(_archive()): print("SS_SAVE ok mission=",mission_index," time=",snappedf(sim.elapsed,0.01)," paused=",sim.paused," completed=",completed," unlocked=",unlocked)
 	else: sim.message=store.warning
 func _load_archive() -> void:

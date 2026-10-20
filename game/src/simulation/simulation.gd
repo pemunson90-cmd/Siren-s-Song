@@ -1,6 +1,7 @@
 extends RefCounted
 const PolygonContainment=preload("res://src/simulation/polygon_containment.gd")
 const Operations=preload("res://src/simulation/resolution_operations.gd")
+const CraftUpgrades=preload("res://src/equipment/craft_upgrades.gd")
 const Equipment=preload("res://src/equipment/equipment_catalog.gd")
 const Correlator=preload("res://src/equipment/cadence_correlator.gd")
 const Sampler=preload("res://src/equipment/field_sampler.gd")
@@ -57,7 +58,7 @@ var acoustic_paths=Acoustics.new()
 func start(index: int, upgrade: String = "endurance", launch:Dictionary={}) -> void:
 	mission = Missions.make(index,launch.get("context",{}))
 	correlation={}
-	if index>=6:mission["launch_equipment"]=launch.get("fitted",Consequences.EMPTY_FIT).duplicate(true)
+	mission["launch_equipment"]=launch.get("fitted",Consequences.EMPTY_FIT).duplicate(true)
 	units.clear()
 	for i in 3:
 		units.append({"pos":mission.get("start",Vector2(140,800))+[Vector2.ZERO,Vector2(0,-100),Vector2(140,0)][i],"vel":Vector2.ZERO,"angle":-0.3,"route":[],"alive":true,"hold":"","silent":true,"battery":100.0,"name":["QUIETUS","DRONE A","DRONE B"][i]})
@@ -86,6 +87,14 @@ func equipment_feedback()->Dictionary:
 	return {"fitted":mission.get("launch_equipment",Consequences.EMPTY_FIT).duplicate(true),"correlation":correlation.duplicate(true)}
 func _capture_duration(objective:Dictionary,unit_id:int)->float:
 	return Sampler.capture_spec(unit_id,mission.get("launch_equipment",{}),objective).get("duration",objective.get("duration",4.0))
+func passive_range(unit_id:int)->float:
+	return CraftUpgrades.passive_range(mission.get("launch_equipment",{}),unit_id)*(0.65 if mission.darkness else 1.0)
+func motion_radius(unit_id:int)->float:
+	return CraftUpgrades.motion_radius(mission.get("launch_equipment",{}),unit_id,units[unit_id].vel.length())
+func _craft_speed(unit:Dictionary,fallback:float)->float:
+	var quietus=unit.name=="QUIETUS"
+	var speed=RouteProgram.speed(unit,fallback,quietus)
+	return CraftUpgrades.cruise_speed(mission.get("launch_equipment",{})) if quietus and not unit.silent else speed
 func world_size() -> Vector2:
 	return WorldRegion.size_of(mission)
 func _build_navigation() -> void:
@@ -325,13 +334,14 @@ func knockdown_targets() -> Array:
 func blackwater_context(target:int,station:int=-1) -> Dictionary:
 	if station<0:station=selected
 	var u=units[station];var o=mission.objectives[target]
-	var radius=(240.0 if station==0 else 330.0)*(0.65 if mission.darkness else 1.0)
+	var radius=passive_range(station)
 	var distance=u.pos.distance_to(o.pos);var clear=line_clear(u.pos,o.pos)
 	var replay=maxf(0.0,o.get("replay_until",0.0)-elapsed) if u.alive and clear and distance<240 else 0.0
 	var fixed={"distance":distance,"quiet_range":radius,"clear":clear,"quiet":u.alive and clear and distance<radius,"replay":replay,"ready":u.alive and clear and (distance<radius or replay>0),"settled":u.vel.length()<2,"source":"relay","origin":o.pos}
 	if target==1 and not fixed.ready:
 		var moving=Courier.receiver(self,station)
-		if not moving.is_empty():return moving
+		if not moving.is_empty():
+			moving.quiet_range=passive_range(station);return moving
 	return fixed
 func _blackwater_context_text(target:int,station:int) -> String:
 	var c=blackwater_context(target,station);var name=mission.objectives[target].name
@@ -421,7 +431,7 @@ func acoustic_feedback() -> Dictionary:
 	for u in units:
 		# Match actual movement hearing, including residual speed after SILENT.
 		if u.alive and (u.vel.length()>0.0 if mission.get("acoustic_revision",0)==1 else u.vel.length()>50):
-			result.motion.append({"name":u.name,"pos":u.pos,"radius":Acoustics.motion_radius(u.vel.length()) if mission.get("acoustic_revision",0)==1 else 430.0,"speed":u.vel.length()})
+			result.motion.append({"name":u.name,"pos":u.pos,"radius":motion_radius(units.find(u)) if mission.get("acoustic_revision",0)==1 else 430.0,"speed":u.vel.length()})
 	for n in noises:
 		if n.time<=0: continue
 		if n.label in ["DECOY","ACTIVE SONAR","RECON UPLINK","DISRUPTION","CAMERA","KNOCKDOWN","TORPEDO RUN","WARNING CHAIN TRANSMISSION","SERVICE SLUICE MOTOR"]:
@@ -455,7 +465,7 @@ func _tick(dt: float) -> void:
 				if units[j].alive and not units[j].route.is_empty(): holding=true
 		_move(u,dt,(42.0 if u.silent else 78.0) if i==0 else 96.0,holding,true,true)
 		if i>0:
-			u.battery=maxf(0,u.battery-dt/14.0)
+			u.battery=maxf(0,u.battery-CraftUpgrades.battery_drain(mission.get("launch_equipment",{}),i,dt))
 			if u.battery<=0: u.alive=false; events.append({"type":"loss","pos":u.pos}); message=("%s battery exhausted · Quietus can SAMPLE either relay." if mission.get("blackwater_revision",0)==1 else "%s battery exhausted. Quietus camera remains available.")%u.name
 	_advance_projectiles(dt)
 	_threats(dt)
@@ -534,7 +544,7 @@ func _repair_current_leg(u:Dictionary) -> bool:
 	return true
 func _move(u: Dictionary,dt: float,speed: float,holding: bool,report_collision: bool=true,player_craft: bool=false) -> void:
 	var desired=Vector2.ZERO
-	if player_craft: speed=RouteProgram.speed(u,speed,u.name=="QUIETUS")
+	if player_craft: speed=_craft_speed(u,speed)
 	if player_craft and not holding and not u.route.is_empty() and not _player_leg_safe(u.pos,u.route[0].pos):
 		if _repair_current_leg(u):
 			if report_collision: message="%s · course adjusted around charted terrain"%u.name
@@ -554,7 +564,7 @@ func _move(u: Dictionary,dt: float,speed: float,holding: bool,report_collision: 
 				if not blocked(braking,12): u.pos=braking
 				return
 			u.route.pop_front()
-			if player_craft: RouteProgram.arrived(u,dest); speed=RouteProgram.speed(u,speed,u.name=="QUIETUS")
+			if player_craft: RouteProgram.arrived(u,dest); speed=_craft_speed(u,speed)
 			if dest.stop: u.vel=u.vel.move_toward(Vector2.ZERO,120*dt)
 		if not u.route.is_empty():
 			delta=u.route[0].pos-u.pos
@@ -609,7 +619,7 @@ func passive_receivers(point:Vector2)->Array:
 	for i in units.size():
 		var u=units[i]
 		if not u.alive:continue
-		var radius=(240.0 if i==0 else 330.0)*(0.65 if mission.darkness else 1.0)
+		var radius=passive_range(i)
 		if mission.get("thermal_revision",0)==1:radius*=Thermal.transmission(PackedVector2Array([u.pos,point]),mission.thermal_fronts)
 		if u.pos.distance_to(point)<radius and line_clear(u.pos,point):receivers.append(i)
 	return receivers
@@ -626,7 +636,7 @@ func contact_visible(enemy:Dictionary)->bool:
 	for i in units.size():
 		var u=units[i]
 		if not u.alive: continue
-		var radius=(240.0 if i==0 else 330.0)*(0.65 if mission.darkness else 1.0)
+		var radius=passive_range(i)
 		radius*=Thermal.transmission(PackedVector2Array([u.pos,enemy.pos]),mission.thermal_fronts)
 		if u.pos.distance_to(enemy.pos)<radius and line_clear(u.pos,enemy.pos): return true
 	var ping_range=650*Thermal.transmission(PackedVector2Array([ping_origin,enemy.pos]),mission.thermal_fronts)
@@ -642,8 +652,7 @@ func visible(p: Vector2) -> bool:
 	for i in units.size():
 		var u=units[i]
 		if not u.alive: continue
-		var radius=240.0 if i==0 else 330.0
-		if mission.darkness: radius*=0.65
+		var radius=passive_range(i)
 		if u.pos.distance_to(p)<radius and line_clear(u.pos,p): return true
 	if ping_time>0 and ping_origin.distance_to(p)<650 and line_clear(ping_origin,p): return true
 	return false
@@ -747,7 +756,7 @@ func _heard_arrival(s:Dictionary)->Dictionary:
 	var best:Dictionary={}
 	for u in units:
 		if not u.alive:continue
-		var arrival=Acoustics.choose(acoustic_paths.arrivals(s.pos,u.pos,Acoustics.motion_radius(u.vel.length())),int(s.patrol))
+		var arrival=Acoustics.choose(acoustic_paths.arrivals(s.pos,u.pos,motion_radius(units.find(u))),int(s.patrol))
 		if not arrival.is_empty() and (best.is_empty() or arrival.strength>best.strength):
 			best=arrival;best["suspicion"]=0.3
 	for noise in noises:
@@ -841,7 +850,7 @@ static func valid_snapshot(data: Dictionary) -> bool:
 	if not data.mission is Dictionary or not data.units is Array or not data.sirens is Array or not data.known is Dictionary or not data.tools is Dictionary: return false
 	if not Operations.valid(data.mission,float(data.get("elapsed",0))):return false
 	if not Correlator.valid_state(data.get("correlation",{}),float(data.get("elapsed",0))):return false
-	if data.mission.has("launch_equipment") and not Consequences.fitting_valid(data.mission.launch_equipment):return false
+	if data.mission.has("launch_equipment") and (not Equipment.valid_fitting(data.mission.launch_equipment) or not data.mission.launch_equipment.has_all(Equipment.SLOTS)):return false
 	if data.mission.has("consequence_revision"):
 		if data.mission.id not in [7,8] or data.mission.consequence_revision!=1:return false
 		if data.mission.id==7:
