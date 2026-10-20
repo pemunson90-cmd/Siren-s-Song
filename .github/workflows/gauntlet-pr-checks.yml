@@ -107,6 +107,7 @@ jobs:
           briefing_scroll_fitting_ui_tests|BRIEFING SCROLL FITTING UI
           warning_chain_ui_tests|WARNING CHAIN UI
           warning_chain_audio_tests|WARNING CHAIN AUDIO
+          warning_chain_world_ui_tests|WARNING CHAIN WORLD UI
           UI_SCENARIOS
       - name: Docs-only change; no Godot run
         if: steps.changes.outputs.game == 'false'

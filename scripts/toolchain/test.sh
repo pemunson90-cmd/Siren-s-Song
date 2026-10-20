@@ -172,4 +172,5 @@ tactics_composition_tests|TACTICS COMPOSITION
 briefing_scroll_fitting_ui_tests|BRIEFING SCROLL FITTING UI
 warning_chain_ui_tests|WARNING CHAIN UI
 warning_chain_audio_tests|WARNING CHAIN AUDIO
+warning_chain_world_ui_tests|WARNING CHAIN WORLD UI
 TACTICAL_SCENARIOS

@@ -370,8 +370,8 @@ func _draw():
  elif subject.get("subkind","")=="rendezvous_hull":
   var hull=Rendezvous.projection(host.sim).hull
   if not hull.is_empty():caption=str(hull.phase).to_upper()+" · LOCAL FIX" if hull.live else "STALE · %ds AGO"%floori(hull.age)
- for n in 2:
-  var text=title if n==0 else caption;var width=font.get_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,-1,text_size).x
+ for n in (3 if page=="plant" else 2):
+  var text=title if n==0 else caption if n==1 else WarningChain.radial_state(WarningChain.context(host.sim));var width=font.get_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,-1,text_size).x
   draw_string(font,center+Vector2(-width/2,-h*.65+n*(text_size+5)),text,HORIZONTAL_ALIGNMENT_LEFT,-1,text_size,Color("a8d9d5"))
 func action_controls() -> Dictionary:
  var result={}
