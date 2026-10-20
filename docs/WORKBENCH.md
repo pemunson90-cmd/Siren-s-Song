@@ -6,7 +6,7 @@ Read docs/USER_DIRECTIVES.md. Pass 0 rows are built at rough quality; V7 recover
 |0–5 Tutorial|rough|
 |6 Divergence: deep or shelf|rough|
 |7 Deep Rendezvous: physical tender and quiet fallback|rough integrated|
-|8 Shelf Return|rough|
+|8 Shelf Return|inhabited refuge expansion in development|
 |9 Wake Crossing|rough|
 |10 Warning Chain: physical power and output machinery|rough integrated|
 |11 Confluence: authored region and physical return choices|rough integrated|
@@ -36,4 +36,4 @@ Physical module salvage integrated: return cargo or lose optional kit; bare fram
 Blackwater delivery integrated: raw buffers return to Q through local transfer or recovery.
 Warning Chain integrated: shore supply/backup, service/mast output and physical exits.
 Concealed Record integrates witness rescue; Open Warning now requires a living recipient's real crossing.
-Next: evaluate finale course choices and full-game gaps; save-failure feedback repair is in development.
+Save failures now persist with retry. Next: expand Shelf Return; continue genuine play and the full-game inventory.

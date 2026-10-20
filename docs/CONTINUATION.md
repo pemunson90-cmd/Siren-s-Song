@@ -1,5 +1,5 @@
 # Continuation
-Current reconciled production base: `95267406b3e397c6cc21ff899fe16ccdf3b7a9e4`.
+Current reconciled production base: `9ebaec5a160c697431f7f7fac6f0ab89eff80412`.
 Read docs/USER_DIRECTIVES.md first; the latest order correction governs.
 
 ## Next — whole-game evaluation and physical campaign consequences
@@ -24,9 +24,9 @@ The route planner retains existing charted terrain, targets, recovery and shutte
 Craft-anchored rings replace detached cards; deliberate STATUS retains exact fleet detail.
 Critical reserves, work/cargo/power and full touch targets remain; chart gestures pass through.
 Concealed Record integrates physical pod rescue, local landing and Q recovery.
-Engine sound now follows through-water thrust, including stationkeeping and free drift.
+Engine sound follows thrust; unsaved progress and archive recovery now stay visible with explicit retry.
 Open Warning now requires actual recipient transit/arrival and Q recovery; prior service proof opens its gate.
-Next evaluate both courses and campaign payoff; sheltered policy advantage remains open, alongside the full inventory.
+Next expand inhabited Shelf Return; continue real journeys and the full inventory, including sheltered-course advantage.
 The user chooses when to playtest; development never waits for it.
 
 ## Preserve and integrate

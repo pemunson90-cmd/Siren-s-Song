@@ -19,6 +19,12 @@ var sim = Simulation.new()
 var store=SaveStore.new()
 var sound
 var save_clock:=0.0
+var save_error:=""
+var archive_warning:=""
+var archive_status:VBoxContainer
+var archive_status_text:Label
+var save_retry_button:Button
+var archive_dismiss_button:Button
 var settings={"music":0.5,"effects":0.8,"mute":false}
 var scroll: ScrollContainer
 var ocean
@@ -102,6 +108,15 @@ func _ready() -> void:
 	# Reapply the window bounds once that minimum settles.
 	menu.minimum_size_changed.connect(_layout,CONNECT_DEFERRED)
 	var stack=VBoxContainer.new(); stack.add_theme_constant_override("separation",12); menu.add_child(stack)
+	# Archive state belongs to the session, outside disposable menu contents and
+	# transient world messages. Keep it visible above the menu's scrolling body.
+	archive_status=VBoxContainer.new();archive_status.name="ArchiveStatus";stack.add_child(archive_status)
+	archive_status_text=_label(archive_status,"",17);archive_status_text.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+	archive_status_text.add_theme_color_override("font_color",Color("efc28d"))
+	var archive_actions=HBoxContainer.new();archive_actions.add_theme_constant_override("separation",12);archive_status.add_child(archive_actions)
+	save_retry_button=_button(archive_actions,"RETRY SAVE",_save_archive,"retry_save");save_retry_button.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+	archive_dismiss_button=_button(archive_actions,"DISMISS NOTICE",_dismiss_archive_warning,"ack_archive_warning");archive_dismiss_button.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+	_update_archive_status()
 	scroll=ScrollContainer.new(); scroll.size_flags_vertical=Control.SIZE_EXPAND_FILL; scroll.horizontal_scroll_mode=ScrollContainer.SCROLL_MODE_DISABLED; stack.add_child(scroll)
 	scroll_report_timer=Timer.new(); scroll_report_timer.one_shot=true; scroll_report_timer.wait_time=0.15; add_child(scroll_report_timer)
 	scroll_report_timer.timeout.connect(_report_targets)
@@ -168,6 +183,7 @@ func _layout(cancel_gesture:bool=true) -> void:
 		ocean.ui_blocked_rects=mission_hud.occupied_rects().map(func(r):return Rect2(r.position-ocean.global_position,r.size))
 	if menu!=null:
 		menu.position=Vector2(maxf(24,(size.x-800)/2),24); menu.size=Vector2(minf(800,size.x-48),size.y-48)
+		if archive_status_text!=null:archive_status_text.add_theme_font_size_override("font_size",maxi(17,roundi(h*.26)))
 		for button in menu.find_children("*","Button",true,false):
 			button.custom_minimum_size.y=h; button.add_theme_font_size_override("font_size",maxi(17,roundi(h*0.29)))
 		for slider in menu.find_children("*","Slider",true,false): slider.custom_minimum_size.y=h
@@ -621,8 +637,23 @@ func _archive() -> Dictionary:
 func _save_archive() -> void:
 	if not capture_scenario.is_empty() or sim.mission==null: return
 	_sync_craft_upgrades()
-	if store.save(_archive()): print("SS_SAVE ok mission=",mission_index," time=",snappedf(sim.elapsed,0.01)," paused=",sim.paused," completed=",completed," unlocked=",unlocked)
-	else: sim.message=store.warning
+	if store.save(_archive()):
+		save_error=""
+		print("SS_SAVE ok mission=",mission_index," time=",snappedf(sim.elapsed,0.01)," paused=",sim.paused," completed=",completed," unlocked=",unlocked)
+	else:
+		save_error=store.warning;sim.message=save_error
+	_update_archive_status()
+func _dismiss_archive_warning()->void:
+	archive_warning="";_update_archive_status()
+func _update_archive_status()->void:
+	if archive_status==null:return
+	var lines=[]
+	if not save_error.is_empty():lines.append("PROGRESS NOT SAVED\n"+save_error+"\nCurrent progress is held in this session only.")
+	if not archive_warning.is_empty():lines.append("ARCHIVE NOTICE\n"+archive_warning)
+	var text="\n\n".join(lines);var changed=archive_status_text.text!=text
+	archive_status_text.text=text;archive_status.visible=not text.is_empty()
+	save_retry_button.visible=not save_error.is_empty();archive_dismiss_button.visible=not archive_warning.is_empty()
+	if changed:call_deferred("_layout")
 func _load_archive() -> void:
 	var saved=store.load_game()
 	if not saved.is_empty():
@@ -640,7 +671,8 @@ func _load_archive() -> void:
 			if chart_view is Dictionary:ocean.chart_camera.restore(chart_view)
 			print("SS_RESTORE ok mission=",mission_index," time=",snappedf(sim.elapsed,0.01)," paused=",sim.paused," completed=",completed," unlocked=",unlocked)
 	sound.music_volume=settings.get("music",0.5); sound.effects_volume=settings.get("effects",0.8); sound.muted=settings.get("mute",false)
-	if not store.warning.is_empty(): sim.message=store.warning
+	if not store.warning.is_empty():archive_warning=store.warning;sim.message=store.warning
+	_update_archive_status()
 func _settings_menu() -> void:
 	_clear_menu(); screen="settings"
 	_menu_text("QUIETUS / AUDIO",30)
