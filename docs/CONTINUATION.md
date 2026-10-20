@@ -1,5 +1,5 @@
 # Continuation
-Current production base: `aaaa3756516ab65073df956a13a244e8bdc5306f`.
+Current production base: `8e0eb35cd87279b51f40cd4616cdd7fba66725ce`.
 Read docs/USER_DIRECTIVES.md first; the latest order correction governs.
 
 ## Next — whole-game evaluation and physical campaign consequences
