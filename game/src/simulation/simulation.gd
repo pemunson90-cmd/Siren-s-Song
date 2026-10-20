@@ -124,16 +124,16 @@ func _course_block(u:Dictionary,reason:String)->void:
 	if not u.has("chart_stop"):
 		u.chart_stop=reason;message="%s · %s · replot retained course"%[u.name,reason]
 func _course_prepare(u:Dictionary,speed:float,holding:bool)->Dictionary:
-	if terrain_chart==null:return {"speed":speed,"holding":holding,"earned":false}
+	if terrain_chart==null:return {"speed":speed,"holding":holding,"earned":false,"ground_cap":-1.0}
 	if not u.route.is_empty() and not terrain_chart.segment_safe(u.pos,u.route[0].pos):_course_block(u,"New terrain")
 	if u.has("chart_stop"):holding=true
-	if u.route.is_empty():return {"speed":speed,"holding":holding,"earned":true}
+	if u.route.is_empty():return {"speed":speed,"holding":holding,"earned":true,"ground_cap":-1.0}
 	var direction:Vector2=u.pos.direction_to(u.route[0].pos)
 	var distance=terrain_chart.clear_distance(u.pos,u.pos+direction*maxf(500.0,u.pos.distance_to(u.route[0].pos)))
 	if u.vel.length()>0.01:distance=minf(distance,terrain_chart.clear_distance(u.pos,u.pos+u.vel.normalized()*500.0))
 	var latency=0.15+STEP*2
 	var safe_speed=maxf(0,sqrt(84.0*maxf(0,distance-12.0)+pow(42.0*latency,2))-42.0*latency)
-	return {"speed":0.0 if u.vel.length()>safe_speed else minf(speed,safe_speed),"holding":holding,"earned":true}
+	return {"speed":0.0 if u.vel.length()>safe_speed else minf(speed,safe_speed),"holding":holding,"earned":true,"ground_cap":safe_speed}
 func _course_segment_safe(a:Vector2,b:Vector2,margin:float=24.0)->bool:
 	return terrain_chart.segment_safe(a,b,margin) if terrain_chart!=null else segment_safe(a,b,margin)
 func _course_turn_clear(point:Vector2,radius:float)->bool:
