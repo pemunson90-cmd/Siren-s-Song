@@ -97,6 +97,45 @@ func handoff_guards()->void:
  check(not sim.blackwater_handoff_context(1).ready,"actual intervening structure blocks a local transfer despite nearby own coordinates")
  sim.mission.structures=[];sim.units[1].pos=sim.units[0].pos+Vector2(61,0)
  check(not sim.blackwater_handoff_context(1).ready,"data link cannot exceed its physical60m range")
+func binary_roundtrip(sim)->bool:
+ var store=Store.new();store.path="user://blackwater-concurrent-tests.save"
+ var data={"version":1,"unlocked":5,"completed":[0,1,2,3,4,5],"upgrade":"endurance","settings":{},"active":sim.snapshot()}
+ var saved=store.save(data);var loaded=store.load_game() if saved else {};var copy=Sim.new()
+ var valid=saved and loaded==data and copy.restore(loaded.active)
+ for suffix in ["",".bak",".tmp"]:DirAccess.remove_absolute(store.path+suffix)
+ return valid
+func concurrent_samples():
+ var sim=Sim.new();sim.start(2);sim.sirens=[]
+ sim.command("select",{"unit":1});sim.units[1].pos=Vector2(760,330);sim.command("camera");tick(sim,2.1)
+ sim.command("select",{"unit":0});sim.units[0].pos=Vector2(1360,610);sim.command("camera");tick(sim,2.1)
+ sim.command("select",{"unit":2});sim.units[2].pos=Vector2(760,330);sim.units[2].vel=Vector2.ZERO
+ check(sim.command("route",{"point":Vector2(700,330)}) and sim.command("camera") and Sim.valid_snapshot(sim.snapshot()),"peer may hold its accepted route to resample REQUEST until its raw buffer reaches Quietus")
+ sim.paused=true
+ return sim
+func concurrent_delivery()->void:
+ var sim=concurrent_samples();sim.units[0].pos=sim.mission.extraction;sim.units[0].vel=Vector2.ZERO
+ sim.units[1].pos=sim.units[0].pos+Vector2(30,0);sim.units[1].vel=Vector2.ZERO;sim.command("select",{"unit":1})
+ var routes=sim.units.map(func(u):return u.route.duplicate(true));var tools=sim.tools.duplicate();var elapsed=sim.elapsed
+ check(sim.command("blackwater_handoff",{"carrier":1}) and sim.captures[2].is_empty() and sim.units[2].hold=="","paused local delivery immediately ends the peer's now-redundant SAMPLE")
+ check(sim.units.map(func(u):return u.route)==routes and sim.tools==tools and sim.elapsed==elapsed and sim.selected==1,"ending redundant work preserves accepted routes, tools, simulation time and selection")
+ check(binary_roundtrip(sim),"same-time local handoff with a peer resampler roundtrips the real binary archive before ticking")
+ tick(sim,Sim.STEP)
+ check(sim.outcome=="won" and binary_roundtrip(sim),"normal extraction after concurrent handoff remains a restorable finished archive")
+ for fitted in [{"quietus":"","drone_a":"","drone_b":""},{"quietus":"","drone_a":"drone_deep_cells","drone_b":""}]:
+  var wreck=Sim.new();wreck.start(2,"endurance",{"fitted":fitted});wreck.sirens=[]
+  wreck.command("select",{"unit":1});wreck.units[1].pos=Vector2(760,330);wreck.command("camera");tick(wreck,2.1)
+  wreck.units[1].alive=false;tick(wreck,Sim.STEP)
+  wreck.units[0].pos=Vector2(760,360);wreck.units[0].vel=Vector2.ZERO;wreck.command("select",{"unit":0})
+  check(wreck.command("salvage",{"item":wreck.salvage_sites()[0].item}),"ordinary data or combined-kit winch starts while the field packet remains missing")
+  tick(wreck,3.8);wreck.command("select",{"unit":2});wreck.units[2].pos=Vector2(760,330);wreck.units[2].vel=Vector2.ZERO
+  check(wreck.command("camera"),"peer resampling may start during an existing wreck winch")
+  tick(wreck,.3);wreck.paused=true
+  check(wreck.blackwater_delivery_status().packets[0].aboard and wreck.captures[2].is_empty() and wreck.units[2].hold=="" and binary_roundtrip(wreck),"data-only and combined-kit collection end redundant resampling before the same-tick binary save")
+ var other=Sim.new();other.start(2);other.sirens=[]
+ other.command("select",{"unit":1});other.units[1].pos=Vector2(760,330);other.command("camera");tick(other,2.1)
+ other.command("select",{"unit":2});other.units[2].pos=Vector2(1360,610);check(other.command("camera"),"a different packet may still be received during local REQUEST delivery")
+ other.units[1].pos=other.units[0].pos+Vector2(30,0);other.units[1].vel=Vector2.ZERO;other.command("select",{"unit":1});other.paused=true
+ check(other.command("blackwater_handoff",{"carrier":1}) and not other.captures[2].is_empty() and other.captures[2].target==1 and other.units[2].hold=="HOLD" and binary_roundtrip(other),"delivering REQUEST leaves an unrelated REPLY SAMPLE running and restorable")
 func finish()->void:
  print("BLACKWATER DELIVERY CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)
 func _initialize():
@@ -126,5 +165,5 @@ func _initialize():
   check(solo.command("camera"),"Quietus-only actual fixed receiver SAMPLE remains available")
   tick(solo,2.1)
  check(solo.blackwater_delivery_status().complete and solo.all_records() and solo.mission.courier_launch>=0,"Quietus directly carries both genuine samples and REQUEST still launches the accepted glider")
- loss_and_resample();combined_wreck();glider_buffer();data_winch_and_save();physical_return();handoff_guards()
+ loss_and_resample();combined_wreck();glider_buffer();data_winch_and_save();physical_return();handoff_guards();concurrent_delivery()
  finish()

@@ -41,12 +41,13 @@ static func handoff(sim,carrier:int)->bool:
  if sim.selected not in [0,carrier]:sim.message="Select Quietus or this data carrier";return false
  var state=sim.mission.blackwater_delivery
  for packet in context.packets:state.aboard.append(packet);state.carriers[carrier].erase(packet)
- state.aboard.sort();sim.message="Raw exchange transferred locally · "+status(sim).text
+ state.aboard.sort();_cancel_redundant_samples(sim);sim.message="Raw exchange transferred locally · "+status(sim).text
  sim.events.append({"type":"data_handoff","pos":sim.units[0].pos,"carrier":carrier});return true
 static func sampled(sim,packet:int,unit:int)->void:
  if not applies(sim.mission):return
  var state=sim.mission.blackwater_delivery;var cargo=state.aboard if unit==0 else state.carriers[unit]
  if packet not in cargo:cargo.append(packet);cargo.sort()
+ _cancel_redundant_samples(sim)
  sim.message=("REQUEST" if packet==0 else "REPLY")+" field record retained · raw buffer "+("aboard Quietus" if unit==0 else "carried by "+sim.units[unit].name+" · local TRANSFER to Quietus within60m")
  sim.message+=" · "+("REPLY" if packet==0 else "REQUEST")+": quiet SAMPLE or settled SONAR replay within240m with a clear line"
  if packet==0 and sim.mission.courier_launch>=0:sim.message+=" · southern REPLY CARRIER announced; fixed relay remains available"
@@ -86,6 +87,13 @@ static func valid(data:Dictionary)->bool:
  return data.get("outcome","")!="won" or (0 in state.aboard and 1 in state.aboard)
 static func needs_sample(sim,packet:int,unit:int)->bool:
  return applies(sim.mission) and packet not in sim.mission.blackwater_delivery.aboard and packet not in sim.mission.blackwater_delivery.carriers[unit]
+static func _cancel_redundant_samples(sim)->void:
+ # Delivery can finish while another receiver resamples the same field record.
+ # Settle that work in this transition, including paused handoff commands.
+ for id in sim.captures.size():
+  if sim.captures[id].is_empty() or needs_sample(sim,sim.captures[id].target,id):continue
+  sim.captures[id]={}
+  if sim.units[id].hold=="HOLD":sim.units[id].hold=""
 static func busy(sim,unit:int)->bool:return applies(sim.mission) and not sim.mission.blackwater_delivery.jobs[unit].is_empty()
 static func losses(sim)->void:
  if not applies(sim.mission):return
@@ -150,7 +158,7 @@ static func collect_at(sim,unit:int,pos:Vector2)->void:
   for packet in state.wrecks[item].packets:
    if packet not in cargo:cargo.append(packet)
   state.wrecks.erase(item)
- cargo.sort()
+ cargo.sort();_cancel_redundant_samples(sim)
 static func cancel_released(sim,unit:int)->void:
  if applies(sim.mission) and sim.units[unit].hold!="HOLD":sim.mission.blackwater_delivery.jobs[unit]={}
 static func tick(sim,dt:float)->void:
