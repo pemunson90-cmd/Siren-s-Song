@@ -44,6 +44,21 @@ func expose_fittings():
   if game.scroll.get_global_rect().encloses(fitting("drone_b").get_global_rect()):break
   var area=game.scroll.get_global_rect();var start=Vector2(area.get_center().x,area.end.y-20)
   await drag(start,Vector2(start.x,area.position.y+30))
+func change_loadout(label:String):
+ game._show_campaign();await settle()
+ for n in 8:
+  if game.scroll.get_global_rect().encloses(action("loadout").get_global_rect()):break
+  var area=game.scroll.get_global_rect();var start=Vector2(area.get_center().x,area.end.y-20)
+  await drag(start,Vector2(start.x,area.position.y+30))
+ var before=game.scroll.scroll_vertical;var active=game.sim.snapshot();var previous=game.upgrade
+ check(before>0 and game.scroll.get_global_rect().encloses(action("loadout").get_global_rect()),label+" loadout control reached by ordinary operations scrolling")
+ await capture(label+"-loadout-before")
+ await tap(action("loadout").get_global_rect().get_center())
+ check(game.upgrade!=previous,label+" loadout tap changes next-dive supplies")
+ check(game.scroll.scroll_vertical>0 and absf(game.scroll.scroll_vertical-before)<=game.ui_touch_height,label+" cycling loadout retains operations reading location")
+ check(game.scroll.get_global_rect().encloses(action("loadout").get_global_rect()),label+" loadout remains fully visible for another comparison")
+ check(game.screen=="menu" and game.sim.snapshot()==active,label+" loadout change preserves the active dive")
+ await capture(label+"-loadout-after")
 func capture(name:String):
  if folder.is_empty() or DisplayServer.get_name()=="headless":return
  await RenderingServer.frame_post_draw;root.get_texture().get_image().save_png(folder.path_join(name+".png"))
@@ -80,6 +95,7 @@ func run():
   await tap(action("begin").get_global_rect().get_center())
   check(game.screen=="mission" and game.sim.equipment_feedback().fitted.drone_a=="drone_deep_cells" and game.sim.equipment_feedback().fitted.drone_b=="","ENTER WATER freezes the chosen fitting after scrolling and several changes")
   game._briefing(0);await settle();check(game.scroll.scroll_vertical==0,"opening a different fresh briefing still resets to its beginning")
+  await change_loadout(label)
   game.queue_free();await settle()
  Input.set_emulate_touch_from_mouse(previous_emulation)
  print("BRIEFING SCROLL FITTING UI CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)
