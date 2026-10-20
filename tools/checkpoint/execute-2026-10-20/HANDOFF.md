@@ -1,5 +1,5 @@
 # Gauntlet recovery checkpoint
 
-Current continuation: [fullspec/CURRENT_HANDOFF.md](fullspec/CURRENT_HANDOFF.md).
+Read [fullspec/CURRENT_HANDOFF.md](fullspec/CURRENT_HANDOFF.md), then [Glass Reach task](fullspec/glass-reach/TASK.md).
 
-Depth/sonar candidate ea645d31 independently approved; PR48 awaits successful exact-head CI39507624482. Prior timed-out CI, fixture repair and reviewer provenance are preserved. Production is fb4cf105. Checkpoint game source is historical; do not run it as production.
+PR48 depth/sonar milestone is merged and verified at production3578c068; approved ea645d31 passed mandatory CI39507624482. Same builder now owns gauntlet/release/glass-reach for six core/two optional operations, network enemies and useful physical artifacts. Historical source in this checkpoint is not current production.

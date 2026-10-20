@@ -170,3 +170,8 @@ Sole independent reviewer /root/release_integration_review **APPROVES accumulate
 ## CI-fixture exact-head review — ea645d3
 
 Sole independent reviewer carries accumulated APPROVE to ea645d31ccb7e1a296f033306ed2905ffaddc4e2 vs productionfb4cf10542ba61fb47d4b71a95b0ea0448d302bf. No gameplay change in7c..ea; source-known earned-course fixture now initializes correct band/chart state. Independent exact workflow wrapper24/0, all54 ordered scenario/summary pairs preserved, edited shell syntax passes. Earlier timed-out CI is not a pass; root must obtain new final-head game-smoke. All prior unresolved risks remain open. Full attribution/evidence in depth-sonar/REVIEW.md.
+
+
+## Integrated opening / new-content dispatch — 20 October 2026
+PR48 landed3578c068 after independent ea645d31 approval and successful exact-head CI39507624482. Full landed tree matched approved candidate. Original targeting/recovery and subsequent sweeper-pin/save blockers resolved; CI's earned-chart fixture compatibility repaired with unchanged assertions/coverage. Existing usability, Well balance, density/ObjectDB, native/audio/Fold and broader release deficiencies remain.
+Glass Reach is now the active new-content milestone (glass-reach/TASK.md), not implemented content:6 core +2 optional operations, two network enemy roles and two physically recovered practical artifact rewards. No claimed campaign count or quality gain until built/observed.
