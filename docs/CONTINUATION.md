@@ -1,12 +1,12 @@
 # Continuation
-Current production base: `bcda4c418d8833292d0de0bcc00fde38eaa28d94`.
+Current production base: `7cd606ed7192c33381cd8f5493a933837d34a563`.
 Read docs/USER_DIRECTIVES.md first; the latest order correction governs.
 
 ## Next — whole-game evaluation
 The rough campaign, four endings, general upgrades and mixed rosters are built.
-The coherent V7 candidate adds currents, earned terrain, local evidence pressure,
-threat feedback and photo grading. Merge through its PR after game-smoke passes.
-Then fresh critics play the complete running game through real touch, without builder notes.
+The integrated V7 recovery adds currents, earned terrain, local evidence pressure,
+threat feedback and photo grading. Its review and PR game-smoke gate passed.
+Fresh critics play the complete running game through real touch, without builder notes.
 Continue genuine saved journeys through every branch and ending; preserve their source versions.
 Rank the biggest actual weakness and build the next version, following the audit quality passes.
 Stakes → One real operation → Instruments remains the subsequent design direction.
