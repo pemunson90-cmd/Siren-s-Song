@@ -49,8 +49,9 @@ func _initialize():
  check(not readings.is_empty() and readings[0].flow.x>20 and readings[0].effort>20,"own craft publishes its local flow and counterthrust effort")
  check(not readings[0].has("center") and not readings[0].has("radius") and not readings[0].has("fields"),"local current instrument does not disclose the hidden field map")
  var operation=Sim.new();operation.start(11);operation.sirens=[]
- operation.mission["currents"]=[{"center":Vector2(600,900),"radius":400.0,"velocity":Vector2(0,24)}]
- operation.units[0].pos=Vector2(600,900);operation.units[0].vel=Vector2.ZERO;operation.units[0]["water_velocity"]=Vector2(0,-24)
+ var receiver:Vector2=operation.mission.signal_sources.filter(func(source):return source.id=="confluence_packet")[0].pos
+ operation.mission["currents"]=[{"center":receiver,"radius":400.0,"velocity":Vector2(0,24)}]
+ operation.units[0].pos=receiver;operation.units[0].vel=Vector2.ZERO;operation.units[0]["water_velocity"]=Vector2(0,-24)
  operation.paused=false;operation.advance(.2)
  check(operation.camera_context().ready and operation.command("camera"),"ground-stationary counterthrust allows the real receiver action")
  for tick in 300:operation.advance(1.0/60)
