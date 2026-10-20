@@ -54,6 +54,7 @@ func backup_loss_and_gear()->void:
  var s=fresh();at(s,1,WEST);s.command("chain_power",{"mode":"connect"});at(s,0,EAST);s.units[1].battery=.0001;tick(s,Sim.STEP)
  check(not s.units[1].alive and s.warning_chain_context().power.source=="off" and not s.command("chain_route",{"output":"mast"}),"actual battery loss removes remote power and leaves the unfinished job intact")
  at(s,0,WEST);check(s.command("chain_power",{"mode":"backup"}),"bare Quietus can locally restart the authored backup after losing its power craft")
+ check(s.acoustic_feedback().pulses.any(func(p):return p.label=="BACKUP GENERATOR START" and p.pos==WEST and p.radius==900),"public acoustic feedback exposes the actual finite backup start")
  var before=s.snapshot();check(not s.command("chain_power",{"mode":"backup"}) and s.snapshot()==before,"backup start is a once-only finite plant emission")
  at(s,0,EAST);s.command("chain_route",{"output":"mast"});check(s.command("chain_send") and s.warning_chain_context().result.proof=="mast_transmission" and s.blocked(GATE.get_center()),"powered northern hardware proves transmission without inventing external receipt or opening service water")
  check(binary_roundtrip(s),"lost helper, backup supply and mast transmission form a valid current binary save")
@@ -62,6 +63,35 @@ func backup_loss_and_gear()->void:
  at(fit,1,EAST);check(fit.command("chain_route",{"output":"service"}) and fit.command("chain_send"),"the recovered fitted sampler operates the remote plant while Quietus takes another physical role")
  var busy=fresh({"quietus":"","drone_a":"drone_sampler","drone_b":"drone_deep_cells"});at(busy,1,WEST);busy.command("chain_power",{"mode":"connect"});at(busy,2,WEST+Vector2(30,0));busy.units[2].battery=.0001;tick(busy,Sim.STEP);busy.command("select",{"unit":1})
  check(not busy.salvage_context("drone_deep_cells").ready and not busy.command("salvage",{"item":"drone_deep_cells"}),"a connected power body cannot simultaneously begin a module winch")
+func physical_outputs()->void:
+ for output in ["service","mast"]:
+  var s=Sim.new();s.start(10);at(s,1,WEST);s.command("chain_power",{"mode":"connect"});at(s,0,EAST);s.command("chain_route",{"output":output});s.command("chain_send");tick(s,Sim.STEP)
+  var origin=EAST if output=="service" else Vector2(1000,400)
+  check(s.acoustic_feedback().pulses.any(func(p):return p.pos==origin and p.label==("SERVICE WARNING" if output=="service" else "NORTH MAST WARNING")),"public %s footprint matches the source actually heard by guards"%output)
+  if output=="service":check(s.acoustic_feedback().pulses.any(func(p):return p.label=="SERVICE SHUTTER" and p.pos==GATE.get_center()),"public machinery footprint includes the short physical shutter opening")
+  check(s.sirens.all(func(g):return g.target==-1 and g.mode=="INVESTIGATE" and g.goal.distance_to(origin)<80),"actual %s output sends both guards toward heard hardware without a visual target"%output)
+ var blocked=fresh();at(blocked,0,WEST);blocked.command("chain_power",{"mode":"backup"});at(blocked,0,EAST);blocked.command("chain_route",{"output":"service"})
+ # A mechanical obstructed-receiver fixture, not an authored reachable save.
+ blocked.mission.structures=[GATE];blocked._build_navigation()
+ check(blocked.command("chain_send") and not blocked.all_records() and blocked.warning_chain_context().result.is_empty(),"an actual obstructed acoustic path cannot manufacture a service receipt")
+ blocked.mission.structures=[];blocked._build_navigation();blocked.command("chain_route",{"output":"mast"})
+ check(blocked.command("chain_send") and blocked.warning_chain_context().result.proof=="mast_transmission" and binary_roundtrip(blocked),"failed local service still has a complete powered mast fallback without repeating a lure")
+ var s=fresh();at(s,0,WEST);var before=s.snapshot()
+ check(not s.command("chain_route",{"output":"connect"}) and not s.command("chain_power",{"mode":"send"}) and s.snapshot()==before,"public power and selector commands reject each other's action IDs without side effects")
+ s.units[0].vel=Vector2(2,0);check(not s.command("chain_power",{"mode":"connect"}),"shore connection requires settled ground velocity")
+ s.units[0].vel=Vector2.ZERO;s.command("chain_power",{"mode":"connect"});check(s.command("hold") and s.warning_chain_context().power.source=="off","ordinary manual release disconnects the exact power body before any physics tick")
+ check(s.observable_sites().size()==2 and s.observable_sites()[0].site_id=="chain_west" and s.observable_sites()[1].site_id=="chain_east" and s.warning_chain_context(3).is_empty(),"only two genuine control stations enter public world input; invalid craft projection stays empty")
+ for value in [[],{}, {"power":"umbilical","unit":3,"output":"","opened":false,"sends":[],"result":{}}]:
+  var bad=s.snapshot();bad.mission.warning_chain=value;check(not Sim.valid_snapshot(bad),"malformed current plant state rejects cleanly")
+func movement_release()->void:
+ for order in ["queued_route","route_edit","route_insert","route_delete","route_undo"]:
+  var s=fresh();at(s,1,WEST);s.command("route",{"point":WEST+Vector2(100,0)});s.command("route_edit",{"index":0,"point":WEST+Vector2(140,0)});s.command("chain_power",{"mode":"connect"})
+  var accepted=false
+  if order=="queued_route":s.command("queue");accepted=s.command("route",{"point":WEST+Vector2(180,0)})
+  else:accepted=s.command(order,{"index":0,"point":WEST+Vector2(180,0)})
+  check(accepted and s.warning_chain_context().power.source=="off" and s.units[1].hold=="" and Sim.valid_snapshot(s.snapshot()),"accepted paused %s releases only the supplying craft's connection"%order)
+ var s=fresh();at(s,1,WEST);s.command("chain_power",{"mode":"connect"});s.command("select",{"unit":0})
+ check(s.command("route",{"point":Vector2(1000,1800)}) and s.warning_chain_context().power.source=="umbilical" and s.units[1].hold=="HOLD","another craft's accepted movement cannot disconnect the actual power body")
 func finish()->void:
  print("WARNING CHAIN CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)
 func _initialize():
@@ -71,4 +101,4 @@ func _initialize():
  for o in s.mission.objectives:o.captured=true
  check(not s.all_records(),"old collection flags cannot substitute for a commissioned physical warning output")
  var other=Sim.new();other.start(9);check(other.warning_chain_context().is_empty(),"the plant's model applies only to the existing Warning Chain chapter")
- power_and_service();backup_loss_and_gear();finish()
+ power_and_service();backup_loss_and_gear();physical_outputs();movement_release();finish()
