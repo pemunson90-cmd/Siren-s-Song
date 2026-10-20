@@ -151,7 +151,7 @@ func refresh(blocked:Array):
   var critical=reserves.any(func(r):return r.critical)
   var show_detail=id==sim.selected and (sim.paused or sim.elapsed<detail_until)
   if show_detail or critical:
-   if not show_detail:reading.text=" · ".join(reserves.filter(func(r):return r.critical).map(func(r):return "%s %d%s"%[r.label,roundi(r.value),"%" if id>0 else ""]))
+   if not show_detail:reading.text=["Q","A","B"][id]+" · "+" · ".join(reserves.filter(func(r):return r.critical).map(func(r):return "%s %d%s"%[r.label,roundi(r.value),"%" if id>0 else ""]))
    var plate=StyleBoxFlat.new();plate.bg_color=Color(.015,.045,.06,.78);plate.set_content_margin_all(8);plate.border_width_bottom=1;plate.border_color=Color("b78565") if critical else Color("4a7779")
    reading.add_theme_stylebox_override("normal",plate);reading.add_theme_font_size_override("font_size",font_size)
    reading.add_theme_color_override("font_color",Color("ffc097") if critical else Color("b6dcd7"))
@@ -171,10 +171,20 @@ func refresh(blocked:Array):
   var bounds=box.merge(cue_rect) if cue_rect.has_area() else box
   if reading.visible:bounds=bounds.merge(reading.get_rect())
   readouts.append({"unit":id,"rect":bounds,"handle_rect":box,"text_rect":reading.get_rect() if reading.visible else Rect2(),"text":reading.text if reading.visible else ["Q","A","B"][id]+" · "+" · ".join(captions),"anchor":at,"offscreen":offscreen,"direction":bearing,"progress":progress,"ring":not offscreen,"reserves":reserves,"cues":cues,"captions":captions,"active":active,"detail_visible":reading.visible})
+ for reading in readouts:
+  # Near-coincident bodies must not masquerade as whichever badge painted last.
+  reading.cluster=[]
+  for other in readouts:
+   if other.unit==reading.unit or (not reading.offscreen and not other.offscreen and reading.anchor.distance_to(other.anchor)<h*.2):reading.cluster.append(other.unit)
+  reading.identity=["Q","A","B"][reading.unit]+(" +%d"%(reading.cluster.size()-1) if reading.cluster.size()>1 else "")
  queue_redraw();progress_layer.queue_redraw()
+func _paint_order()->Array:
+ var result=readouts.duplicate();var selected=host.sim.selected
+ result.sort_custom(func(a,b):return a.unit<b.unit if (a.unit==selected)==(b.unit==selected) else a.unit!=selected)
+ return result
 func _draw():
  var h=host.ui_touch_height if host!=null else 48.;var text_size=maxi(14,roundi(h*.26))
- for reading in readouts:
+ for reading in _paint_order():
   var center:Vector2=reading.handle_rect.get_center();var id:int=reading.unit;var selected=id==host.sim.selected;var ink=Color("c0e8df") if selected else Color("8ec3c2")
   if reading.offscreen:
    draw_style_box(_edge_style(selected),reading.handle_rect)
@@ -184,7 +194,13 @@ func _draw():
    draw_arc(center,h*.44,0,TAU,64,Color(.01,.045,.055,.7),6,true)
   Ring.draw_gauge(self,center,h*.44,reading.reserves,selected)
   if not reading.offscreen:
-   var badge=center+Vector2(-h*.32,-h*.32);draw_circle(badge,text_size*.7,Color("102e37"));_text(["Q","A","B"][id],badge+Vector2(0,text_size*.35),text_size,ink)
+   var representative=host.sim.selected if host.sim.selected in reading.cluster else reading.cluster.back()
+   if id==representative:
+    if reading.cluster.size()>1:
+     var small=maxi(14,roundi(h*.2));var at=center+Vector2(0,-h*.23);var width=ThemeDB.fallback_font.get_string_size(reading.identity,HORIZONTAL_ALIGNMENT_LEFT,-1,small).x
+     draw_rect(Rect2(at-Vector2(width/2+5,small),Vector2(width+10,small+5)),Color("102e37"));_text(reading.identity,at,small,ink)
+    else:
+     var badge=center+Vector2(-h*.32,-h*.32);draw_circle(badge,text_size*.7,Color("102e37"));_text(reading.identity,badge+Vector2(0,text_size*.35),text_size,ink)
   for n in reading.cues.size():
    var cue=reading.cues[n] if reading.offscreen else reading.captions[n]
    if reading.offscreen:cue={"DATA":"ABOARD" if id==0 else "RAW","SCOUT BRAKE":"BRAKE","SCOUT HOLD":"SCOUT","CHART STOP":"CHART"}.get(cue,cue)
@@ -198,7 +214,7 @@ func _text(text:String,at:Vector2,font_size:int,color:Color):
 func _edge_style(selected:bool)->StyleBoxFlat:
  var style=StyleBoxFlat.new();style.bg_color=Color(.015,.06,.075,.92);style.border_color=Color("83d7ce") if selected else Color("476f79");style.set_border_width_all(1);style.set_corner_radius_all(8);return style
 func _draw_progress():
- for reading in readouts:
+ for reading in _paint_order():
   var progress=reading.progress
   if progress.unit>=0:
    var fraction=clampf(progress.elapsed/maxf(.01,progress.duration),0,1)

@@ -79,6 +79,7 @@ func run():
   check(tactical(s)==before and not game.advanced_orders,"ring pinch never issues an order")
   # All full-size targets share one physical location: never choose the first ID.
   s.units[1].pos=s.units[0].pos;s.units[2].pos=s.units[0].pos;ocean.fit_chart();game._refresh();await settle()
+  check(row(fleet,s.selected).get("cluster",[]).size()==3 and row(fleet,s.selected).get("identity","")=="A +2","coincident craft show the selected identity and the other-body count")
   await tap(ocean.global_position+ocean.screen_position(s.units[0].pos))
   check(game.advanced_orders and hud.page=="fleet","true craft overlap requests explicit fleet choice")
   check(tactical(s).units[0].pos==s.units[0].pos,"overlap does not issue a route")
