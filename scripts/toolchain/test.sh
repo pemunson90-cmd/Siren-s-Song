@@ -132,6 +132,7 @@ contact_reports_ui_tests|CONTACT REPORT UI
 blackwater_courier_tests|COURIER
 blackwater_delivery_tests|BLACKWATER DELIVERY
 witness_evacuation_tests|WITNESS EVACUATION
+witness_evacuation_journey_tests|WITNESS EVACUATION JOURNEY
 blackwater_delivery_ui_tests|BLACKWATER DELIVERY UI
 blackwater_delivery_runtime_ui_tests|BLACKWATER DELIVERY RUNTIME UI
 route_program_ui_tests|ROUTE PROGRAM UI
