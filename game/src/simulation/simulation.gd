@@ -347,8 +347,8 @@ func command(order: String,args: Dictionary={}) -> bool:
 	if not u.alive and order!="select":
 		selected=0; queue_mode=false; message="Selected drone lost. Quietus selected; reissue the order."; return false
 	match order:
-		"chain_power":return Chain.command(self,args.get("mode","") if args.get("mode") is String else "")
-		"chain_route":return Chain.command(self,args.get("output","") if args.get("output") is String else "")
+		"chain_power":return Chain.command(self,args.mode) if args.get("mode") in ["connect","disconnect","backup"] else false
+		"chain_route":return Chain.command(self,args.output) if args.get("output") in ["service","mast"] else false
 		"chain_send":return Chain.command(self,"send")
 		"blackwater_handoff":
 			if not args.get("carrier") is int:return false
@@ -453,7 +453,7 @@ func command(order: String,args: Dictionary={}) -> bool:
 		_: return false
 	ModuleRecovery.cancel_released(self,selected)
 	Delivery.cancel_released(self,selected)
-	Chain.cancel_released(self)
+	Chain.cancel_released(self,order)
 	return true
 # Public read-only operator intent; legacy navigation corners are not editor rows.
 func route_goals(unit_id:int=-1) -> Array:
@@ -625,8 +625,8 @@ func acoustic_feedback() -> Dictionary:
 			result.motion.append({"name":u.name,"pos":u.pos,"radius":motion_radius(units.find(u)) if mission.get("acoustic_revision",0)==1 else 430.0,"speed":propulsion_speed(u)})
 	for n in noises:
 		if n.time<=0: continue
-		if n.label in ["DECOY","ACTIVE SONAR","RECON UPLINK","DISRUPTION","CAMERA","KNOCKDOWN","TORPEDO RUN","WARNING CHAIN TRANSMISSION","SERVICE SLUICE MOTOR","RECOVERY WINCH","BERTH RELEASE"]:
-			result.pulses.append({"label":n.label,"pos":n.pos,"time":n.time})
+		if n.label in ["DECOY","ACTIVE SONAR","RECON UPLINK","DISRUPTION","CAMERA","KNOCKDOWN","TORPEDO RUN","WARNING CHAIN TRANSMISSION","SERVICE SLUICE MOTOR","RECOVERY WINCH","BERTH RELEASE","BACKUP GENERATOR START","SERVICE SHUTTER","SERVICE WARNING","NORTH MAST WARNING"]:
+			result.pulses.append({"label":n.label,"pos":n.pos,"time":n.time,"radius":n.radius})
 		elif n.label=="FACTORY RESPONSE" and visible(n.pos):
 			result.responses.append({"label":n.label,"pos":n.pos,"time":n.time})
 	return result
