@@ -13,6 +13,7 @@ const DroneOperations=preload("res://src/simulation/drone_operations.gd")
 const ContactReports=preload("res://src/simulation/contact_reports.gd")
 const Thermal=preload("res://src/simulation/thermal_front.gd")
 const Acoustics = preload("res://src/simulation/acoustic_paths.gd")
+const TerrainChart=preload("res://src/simulation/terrain_chart.gd")
 const RouteProgram=preload("res://src/simulation/route_program.gd")
 const Missions = preload("res://src/campaign/missions.gd")
 const STEP := 1.0/60.0
@@ -24,6 +25,7 @@ const TORPEDO_SPEED := 180.0
 const TORPEDO_TURN := 3.0
 const TORPEDO_LIFE := 3.0
 const WorldRegion=preload("res://src/simulation/world_region.gd")
+var terrain_chart
 var correlation:Dictionary={}
 var mission: Dictionary
 var units: Array = []
@@ -71,7 +73,76 @@ func start(index: int, upgrade: String = "endurance", launch:Dictionary={}) -> v
 	if upgrade=="survey": tools.recon += 1
 	if upgrade=="endurance": oxygen=120.0
 	_build_navigation()
+	_configure_terrain()
 	_observe()
+# Physical terrain still serves enemies, collision and sound. Player routes
+# and presentation share only this locally measured chart in Confluence.
+func _configure_terrain()->void:
+	terrain_chart=null
+	if not mission.get("earned_terrain",false):return
+	terrain_chart=TerrainChart.new()
+	var shapes=rock_shapes.duplicate(true)
+	for r in mission.get("structures",[]):shapes.append(PackedVector2Array([r.position,Vector2(r.end.x,r.position.y),r.end,Vector2(r.position.x,r.end.y)]))
+	terrain_chart.configure(mission,shapes,mission.get("terrain_chart",{}))
+	known=terrain_chart.clear_cells.duplicate();mission["terrain_chart"]=terrain_chart.snapshot()
+func public_chart()->Dictionary:
+	return terrain_chart.public_chart() if terrain_chart!=null else {}
+func player_path(a:Vector2,b:Vector2)->Array:
+	return terrain_chart.player_path(a,b) if terrain_chart!=null else path(a,b)
+func course_status(unit_id:int=-1)->Dictionary:
+	if terrain_chart==null:return {}
+	var id=selected if unit_id<0 else unit_id
+	if id>=units.size():return {}
+	var u=units[id]
+	if u.has("chart_stop"):return {"state":"blocked","reason":u.chart_stop,"clear_distance":0.0}
+	if u.route.is_empty():return {"state":"charted","reason":"","clear_distance":0.0}
+	var distance=terrain_chart.clear_distance(u.pos,u.route[0].pos)
+	return {"state":"charted" if distance+0.01>=u.pos.distance_to(u.route[0].pos) else ("frontier" if distance<20 else "tentative"),"clear_distance":distance}
+func course_segments(unit_id:int=-1)->Array:
+	var result=[]
+	if terrain_chart==null:return result
+	var id=selected if unit_id<0 else unit_id
+	if id>=units.size():return result
+	var origin:Vector2=units[id].pos
+	for node in units[id].route:
+		var distance=origin.distance_to(node.pos);var clear=terrain_chart.clear_distance(origin,node.pos)
+		var frontier=origin.move_toward(node.pos,clear)
+		if clear>0.001:result.append({"from":origin,"to":frontier,"confirmed":true})
+		if clear+0.001<distance:result.append({"from":frontier,"to":node.pos,"confirmed":false})
+		origin=node.pos
+	return result
+func _terrain_observe()->void:
+	if terrain_chart==null or paused:return
+	var receivers=[]
+	for i in units.size():
+		if units[i].alive:receivers.append({"pos":units[i].pos,"radius":passive_range(i)})
+	if ping_time>0:receivers.append({"pos":ping_origin,"radius":650.0})
+	var survey={"pos":mission.get("survey_origin",units[0].pos),"radius":560.0} if recon_time>0 else {}
+	terrain_chart.observe(receivers,survey)
+	known=terrain_chart.clear_cells.duplicate();mission["terrain_chart"]=terrain_chart.snapshot()
+func _course_block(u:Dictionary,reason:String)->void:
+	if not u.has("chart_stop"):
+		u.chart_stop=reason;message="%s · %s · replot retained course"%[u.name,reason]
+func _course_prepare(u:Dictionary,speed:float,holding:bool)->Dictionary:
+	if terrain_chart==null:return {"speed":speed,"holding":holding,"earned":false}
+	if not u.route.is_empty() and not terrain_chart.segment_safe(u.pos,u.route[0].pos):_course_block(u,"New terrain")
+	if u.has("chart_stop"):holding=true
+	if u.route.is_empty():return {"speed":speed,"holding":holding,"earned":true}
+	var direction:Vector2=u.pos.direction_to(u.route[0].pos)
+	var distance=terrain_chart.clear_distance(u.pos,u.pos+direction*maxf(500.0,u.pos.distance_to(u.route[0].pos)))
+	if u.vel.length()>0.01:distance=minf(distance,terrain_chart.clear_distance(u.pos,u.pos+u.vel.normalized()*500.0))
+	var latency=0.15+STEP*2
+	var safe_speed=maxf(0,sqrt(84.0*maxf(0,distance-12.0)+pow(42.0*latency,2))-42.0*latency)
+	return {"speed":0.0 if u.vel.length()>safe_speed else minf(speed,safe_speed),"holding":holding,"earned":true}
+func _course_segment_safe(a:Vector2,b:Vector2,margin:float=24.0)->bool:
+	return terrain_chart.segment_safe(a,b,margin) if terrain_chart!=null else segment_safe(a,b,margin)
+func _course_turn_clear(point:Vector2,radius:float)->bool:
+	return terrain_chart.clear_disk(point,radius) if terrain_chart!=null else not blocked(point,radius)
+func _course_ground_safe(a:Vector2,b:Vector2)->bool:
+	return terrain_chart==null or (terrain_chart.is_clear(b) and terrain_chart.clear_distance(a,b)+0.0001>=a.distance_to(b))
+func _course_collision(u:Dictionary,physical:bool=false)->void:
+	u.vel=Vector2.ZERO
+	if physical:_course_block(u,"Physical clearance stop")
 func observable_sites() -> Array:
 	return mission.objectives.duplicate(true)
 func signal_readings() -> Array:
@@ -280,7 +351,7 @@ func route_goals(unit_id:int=-1) -> Array:
 	return RouteProgram.goals(units[selected if unit_id<0 else unit_id])
 func _install_program(u:Dictionary,plan:Array,remember:bool=true,append:bool=false) -> bool:
 	if not RouteProgram.valid_goals(plan,world_size()): return false
-	var compiled=RouteProgram.compile(u.route.back().pos,[plan.back()],path,world_size()) if append else RouteProgram.compile(u.pos,plan,path,world_size())
+	var compiled=RouteProgram.compile(u.route.back().pos,[plan.back()],player_path,world_size()) if append else RouteProgram.compile(u.pos,plan,player_path,world_size())
 	if not compiled.ok: return false
 	if append:
 		var prefix:Array=u.route.duplicate(true)
@@ -296,6 +367,7 @@ func _install_program(u:Dictionary,plan:Array,remember:bool=true,append:bool=fal
 		u.route_undo=history
 	else: u.erase("route_undo")
 	u.route_plan=plan.duplicate(true); u.route=compiled.route
+	if terrain_chart!=null and not append:u.erase("chart_stop")
 	return true
 func _edit_program(order:String,args:Dictionary) -> bool:
 	var u=units[selected]; var plan=route_goals()
@@ -507,6 +579,7 @@ func _tick(dt: float) -> void:
 # pairs are an edge intersection or a rock vertex vs this leg. No convexity
 # assumption is made, and bounds follow blocked()'s current world contract.
 func _player_leg_safe(a:Vector2,b:Vector2) -> bool:
+	if terrain_chart!=null:return terrain_chart.segment_safe(a,b)
 	if blocked(a,12) or blocked(b,12): return false
 	for structure in mission.get("structures",[]):
 		if _leg_enters_rect(a,b,structure.grow(12)): return false
@@ -534,7 +607,7 @@ func _leg_enters_rect(a:Vector2,b:Vector2,rect:Rect2) -> bool:
 # an unobstructed leg. This is player autopilot, not enemy pursuit steering.
 func _repair_current_leg(u:Dictionary) -> bool:
 	var destination:Dictionary=u.route[0]
-	var leg=path(u.pos,destination.pos)
+	var leg=player_path(u.pos,destination.pos)
 	if leg.is_empty() or not _player_leg_safe(u.pos,leg[0].pos): return false
 	for node in leg:
 		# Keep a near-wall recovery safety STOP, distinct from operator arrival.
@@ -593,7 +666,9 @@ func _move(u: Dictionary,dt: float,speed: float,holding: bool,report_collision: 
 		if player_craft: RouteProgram.clear(u)
 		if report_collision: message="%s autopilot stopped at unsafe terrain. Replot in open water."%u.name
 func _observe() -> void:
-	if mission.has("world_size"):
+	_terrain_observe()
+	if terrain_chart!=null:pass # Only the unpaused sensor pulse stamps terrain.
+	elif mission.has("world_size"):
 		for cell in WorldRegion.observation_cells(self):
 			if visible(Vector2(cell)*TILE+Vector2.ONE*TILE/2):known[cell]=true
 	else:
@@ -843,7 +918,7 @@ func restore(data: Dictionary) -> bool:
 	mission=data.mission.duplicate(true); units=data.units.duplicate(true); sirens=data.sirens.duplicate(true); known=data.known.duplicate(true); contacts=data.get("contacts",{}).duplicate(true); noises=data.get("noises",[]).duplicate(true); projectiles=data.get("projectiles",[]).duplicate(true)
 	elapsed=float(data.get("elapsed",0)); oxygen=float(data.get("oxygen",100)); hull=float(data.get("hull",100)); selected=clampi(int(data.get("selected",0)),0,2); tools=data.tools.duplicate(); outcome=data.get("outcome",""); paused=true; queue_mode=false
 	ping_time=data.get("ping_time",0.0); ping_origin=data.get("ping_origin",Vector2.ZERO); recon_time=data.get("recon_time",0.0); capture_time=data.get("capture_time",0.0); capture_unit=data.get("capture_unit",-1); capture_target=data.get("capture_target",-1); accumulator=0.0
-	_build_navigation(); message="Mission restored · paused for review"; return true
+	_build_navigation(); _configure_terrain(); message="Mission restored · paused for review"; return true
 
 static func valid_snapshot(data: Dictionary) -> bool:
 	if not data.has_all(["mission","units","sirens","known","tools"]): return false
@@ -870,6 +945,8 @@ static func valid_snapshot(data: Dictionary) -> bool:
 	for o in data.mission.objectives:
 		if not o is Dictionary or not o.has_all(["pos","name","captured"]) or not o.pos is Vector2: return false
 	if not WorldRegion.valid(data):return false
+	if data.mission.get("earned_terrain",false):
+		if not data.mission.get("launch_seed") is Rect2 or not TerrainChart.valid_state(data.mission.get("terrain_chart"),data.mission):return false
 	if data.mission.get("expedition_revision",0)==2:
 		if not Consequences.valid_mission(data.mission,float(data.get("elapsed",0))):return false
 	elif not SignalField.valid(data.mission,float(data.get("elapsed",0))):return false
