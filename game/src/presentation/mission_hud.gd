@@ -300,6 +300,8 @@ func refresh():
   intent.text=sim.units[sim.selected].name+" · "+host.targeting_feedback
  var fitted=Equipment.status(sim)
  if not fitted.is_empty():instrument_info.text+="\n\n"+fitted
+ if page=="inspect" and subject.get("kind","") in ["craft","fleet"]:
+  instrument_info.text=sim.units[sim.selected].name+"\n"+fleet.status(sim.selected)+"\n\n"+instrument_info.text
  if page=="inspect" and sim.selected==0:
   var correlation=Equipment.correlation_detail(sim)
   if not correlation.is_empty():instrument_info.text+="\n\n"+correlation
