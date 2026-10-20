@@ -33,5 +33,7 @@ User playtest timing never gates development.
 Stakes integrated: mission endurance, concurrent craft exposures, visible targeting refusals.
 Current play: fresh cover/inner journeys plus drone-heavy and Quietus-only continuations.
 Confluence integrated: authored region, noisy physical sluice, earned world art and departure.
-Current build: practical fleet instruments for separated craft and simultaneous acquisitions.
+Fleet instruments integrated: separated craft, task progress, offscreen focus and range feedback.
+Current build: continue intended courses through certified water; stop at unresolved hazards.
+Genuine drone-led journey reached Hidden Harbour; its final travel interval was unobserved.
 Focused Confluence touch play uses explicitly staged access; genuine campaign journeys continue.
