@@ -11,7 +11,7 @@ Read docs/USER_DIRECTIVES.md. Pass 0 rows are built at rough quality; V7 recover
 |10 Warning Chain: physical power and output machinery|rough integrated|
 |11 Confluence: authored region and physical return choices|rough integrated|
 |12 Concealed Record|rough|
-|13 Open Warning|rough|
+|13 Open Warning: vulnerable recipient, physical courses and arrival|rough integrated|
 |Deep+12 · Silent Exodus ending|rough|
 |Deep+13 · Beacon Pact ending|rough|
 |Shelf+12 · Hidden Harbour ending|rough|
@@ -35,5 +35,5 @@ Genuine journeys reached Hidden Harbour, Surface Reckoning and Silent Exodus.
 Physical module salvage integrated: return cargo or lose optional kit; bare frames remain.
 Blackwater delivery integrated: raw buffers return to Q through local transfer or recovery.
 Warning Chain integrated: shore supply/backup, service/mast output and physical exits.
-Concealed Record integrates witness rescue. Open Warning recipient consequences are in development.
-Engine sound follows through-water thrust. Next: evaluate the finale expansion against the full-game inventory.
+Concealed Record integrates witness rescue; Open Warning now requires a living recipient's real crossing.
+Next: evaluate finale course choices and full-game gaps; save-failure feedback repair is in development.

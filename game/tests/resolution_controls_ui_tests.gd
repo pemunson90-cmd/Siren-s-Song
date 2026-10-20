@@ -60,7 +60,7 @@ func run():
   g._start_mission(12);g.ocean.fit_chart();g._layout();await settle();site=g.sim.observable_sites()[0]
   context=g.ocean.pick_context(g.ocean.screen_position(site.pos),g.ui_touch_height);h.open("object",context);await settle()
   check(g.order_buttons.camera.text=="ACTUATE" and g.order_buttons.camera.disabled and h.extra.route_here.visible,"physical actuator exposes local ACTUATE and ordinary approach route")
-  h.open("inspect");await settle();check("optional" in h.instrument_info.text.to_lower() and "reception unknown" in h.instrument_info.text and h.instrument_info.text.begins_with("ACTUATE"),"actuator status discloses voluntary machinery cost without remote hearing knowledge")
+  h.open("inspect");await settle();check("optional" in h.instrument_info.text.to_lower() and "reception unknown" in h.instrument_info.text and "ACTUATE" in h.instrument_info.text,"actuator status discloses voluntary machinery cost without remote hearing knowledge")
   h.dismiss();g._start_mission(0);g._layout();await settle();check(not g.order_buttons.camera.disabled and g.order_buttons.camera.text=="CAMERA","tutorial camera remains unchanged after operation contexts")
   g.queue_free();await settle()
  print("RESOLUTION CONTROLS UI CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)

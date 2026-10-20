@@ -1,6 +1,6 @@
 extends RefCounted
 # Only cached observations enter this readout. A stale mode is never live truth.
-static func entries(contacts: Dictionary,elapsed: float,units: Array,clear_view: Callable=Callable()) -> Array:
+static func entries(contacts: Dictionary,elapsed: float,units: Array,clear_view: Callable=Callable(),target_lookup:Callable=Callable()) -> Array:
 	var result: Array=[]
 	for id in contacts:
 		var c=contacts[id];var age=maxf(0,elapsed-float(c.time))
@@ -10,9 +10,10 @@ static func entries(contacts: Dictionary,elapsed: float,units: Array,clear_view:
 		var fresh=age<0.3;var urgent=false
 		var text="%s %s · %s"%[tag,role,c.mode] if fresh else "%s %s · LAST SEEN %ds"%[tag,role,int(age)]
 		var target=int(c.get("target",-1))
-		if fresh and c.lock>0 and target>=0 and target<units.size() and units[target].alive and (not clear_view.is_valid() or clear_view.call(c.pos,units[target].pos)):
+		var victim=target_lookup.call(c) if target_lookup.is_valid() else units[target] if target>=0 and target<units.size() else {}
+		if fresh and c.lock>0 and not victim.is_empty() and victim.alive and (not clear_view.is_valid() or clear_view.call(c.pos,victim.pos)):
 			urgent=true
-			text="%s %s → %s · %s"%[tag,role,units[target].name,"FIRING" if c.lock>=4 else "BEAM %.1fs"%(4-c.lock)]
+			text="%s %s → %s · %s"%[tag,role,victim.name,"FIRING" if c.lock>=4 else "BEAM %.1fs"%(4-c.lock)]
 		if fresh and c.get("report_remaining",0)>0:text+=" · REPORT %.1fs"%c.report_remaining
 		elif fresh and c.get("report_sent",false):text+=" · REPORT SENT"
 		result.append({"key":id,"tag":tag,"text":text,"pos":c.pos,"fresh":fresh,"urgent":urgent,"order":result.size()})

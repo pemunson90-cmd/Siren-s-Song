@@ -15,7 +15,7 @@ func authored_sim(id:int,history:Dictionary={}):
  sim._build_navigation()
  return sim
 func vantage(sim,point:Vector2)->Vector2:
- for offset in [Vector2(0,180),Vector2(-180,0),Vector2(180,0),Vector2(0,-180),Vector2(0,120)]:
+ for offset in [Vector2(0,180),Vector2(-180,0),Vector2(180,0),Vector2(0,-180),Vector2(0,120),Vector2(-100,0)]:
   var at=point+offset
   if not sim.blocked(at,25) and sim.line_clear(at,point) and not sim.path(sim.mission.start,at).is_empty():return at
  return Vector2.INF

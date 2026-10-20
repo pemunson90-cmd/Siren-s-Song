@@ -19,4 +19,14 @@ static func resolve(progress:Dictionary)->Dictionary:
   var carrier={"quietus":"QUIETUS","drone_a":"DRONE A","drone_b":"DRONE B"}[arrival]
   result.outcome="The living witness reaches the concealed harbour."
   result.story=carrier+" physically lands the occupied witness capsule in the southeast refuge. Quietus returns with the survivor's account, keeping the passage outside the fleet's targeting network. This witness has a safe harbour; the fate of other shelter craft remains beyond our observations. "+progress.facts.get("witness_recovery","")
+ var warning=progress.get("facts",{}).get("warning_arrival","")
+ if id in ["beacon_pact","surface_reckoning"] and warning in ["exposed","sheltered"]:
+  var passage="the sheltered service passage" if warning=="sheltered" else "the exposed eastern channel"
+  var first="The warned recipient reaches the northern refuge through "+passage+". Quietus returns after receiving its arrival. "
+  if id=="beacon_pact":
+   result.outcome="A warned passage becomes the first public pact."
+   result.story=first+"The deep-water witness account travels aboard the surviving launch. At the refuge, its crew and the human watch agree on a common channel: no firing on the departing unarmed hulls. The first escort sails beside the craft it was sent to hunt. A pact begins with that difficult crossing, and grows as each vessel answers."
+  else:
+   result.outcome="The shelf warning reaches the people who can act."
+   result.story=first+"The launch carries the shelf shelters’ warning into the surface watch. Its crew marks the inhabited passages on the fleet’s charts; ships turn clear while shelter pilots bring their people through. By morning the industrial lights are dark and the refuge is crowded. The public crossing has exposed the corridor, and neither side can deny who lived beneath it."
  return result

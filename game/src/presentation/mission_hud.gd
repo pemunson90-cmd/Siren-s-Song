@@ -6,6 +6,7 @@ const Recovery=preload("res://src/presentation/module_recovery_view.gd")
 const Rendezvous=preload("res://src/presentation/rendezvous_view.gd")
 const WarningChain=preload("res://src/presentation/warning_chain_view.gd")
 const Delivery=preload("res://src/presentation/blackwater_delivery_view.gd")
+const Recipient=preload("res://src/presentation/warning_recipient_view.gd")
 const Witness=preload("res://src/presentation/witness_evacuation_view.gd")
 # A tap opens an object-owned projection. A separate tap chooses an action.
 var host
@@ -56,6 +57,8 @@ func setup(owner):
  focus_button=host._button(self,"FOCUS",host._focus_craft,"focus")
  close_button=host._button(self,"BACK",_back,"radial_back")
  for entry in [["tools_menu","TOOLS"],["route_menu","ROUTE"],["guard_menu","GUARD"],["inspect","STATUS"],["route_here","ROUTE HERE"],["arrivals","ARRIVALS"],["view_menu","VIEW"],["salvage","RECOVER\n4s AUDIBLE"],["rendezvous_release","RELEASE BERTH\n950m / 6s"]]:
+  var key=entry[0];extra[key]=host._button(self,entry[1],func():_extra(key),key)
+ for entry in [["warning_exposed","EXPOSED\nUNGATED COURSE"],["warning_sheltered","SHELTERED\nSERVICE COURSE"],["warning_gate","OPEN SERVICE\n650m / 6s"]]:
   var key=entry[0];extra[key]=host._button(self,entry[1],func():_extra(key),key)
  instrument_button=extra.inspect
  extra.witness_land=host._button(self,"LAND\nWITNESS",func():host._order("witness_land"),"witness_land")
@@ -111,6 +114,8 @@ func _back():
  elif page in ["craft","object","fleet","salvage","plant","recovery"]:dismiss()
  else:open("plant" if subject.get("kind","")=="plant" else "object" if subject.get("kind","")=="objective" else "salvage" if subject.get("kind","")=="salvage" else "craft")
 func _extra(key:String):
+ if key=="warning_gate":host._order("warning_gate");return
+ if key in ["warning_exposed","warning_sheltered"]:host._order("warning_depart",{"course":key.trim_prefix("warning_")});return
  if key.begins_with("chain_"):
   var action=key.trim_prefix("chain_");var retained=subject.duplicate(true)
   if action in ["connect","disconnect","backup"]:host._order("chain_power",{"mode":action})
@@ -153,7 +158,7 @@ func recovery_button_at(point:Vector2) -> Button:
 func witness_button_at(point:Vector2) -> Button:
  # These physical custody actions have one tap owner, including the mouse
  # events Android emulates after a canceled touch or short drag.
- for button in [extra.witness_land,extra.salvage]:
+ for button in [extra.witness_land,extra.salvage,extra.warning_exposed,extra.warning_sheltered,extra.warning_gate]:
   if button==extra.salvage and not Witness.site_for_item(host.sim,subject.get("item","")):continue
   if button.is_visible_in_tree() and button.get_global_rect().has_point(point):return button
  return null
@@ -203,7 +208,10 @@ func command_controls() -> Array:
   "guard":return [host.order_buttons.contact_hold,host.order_buttons.wait_drone,host.order_buttons.hold]
   "view":return [focus_button,host.zoom_buttons[2],host.zoom_buttons[1],host.zoom_buttons[0]]
   "fleet":return host.unit_buttons+([extra.arrivals] if Expedition.active(host.sim) else [])+[extra.view_menu,host.order_buttons.menu]
-  "object":return ([extra.witness_land] if Witness.harbour_subject(host.sim,subject) else [])+([extra.rendezvous_release,extra.route_here,extra.inspect] if subject.get("subkind","")=="berth_control" else ([] if subject.get("subkind","")=="transmission" else [extra.route_here])+([] if subject.get("subkind","") in ["corridor","withdrawal"] else [host.order_buttons.camera])+[extra.inspect,host.order_buttons.program,host.order_buttons.queue])
+  "object":
+   if subject.get("subkind","")=="warning_recipient":return [extra.warning_exposed,extra.warning_sheltered,host.order_buttons.camera,extra.route_here,extra.inspect]
+   if subject.get("subkind","")=="warning_gate":return [extra.warning_gate,extra.route_here,extra.inspect]
+   return ([extra.witness_land] if Witness.harbour_subject(host.sim,subject) else [])+([extra.rendezvous_release,extra.route_here,extra.inspect] if subject.get("subkind","")=="berth_control" else ([] if subject.get("subkind","")=="transmission" else [extra.route_here])+([] if subject.get("subkind","") in ["corridor","withdrawal"] else [host.order_buttons.camera])+[extra.inspect,host.order_buttons.program,host.order_buttons.queue])
   "plant":return ([extra.chain_connect,extra.chain_disconnect,extra.chain_backup] if subject.get("station","")=="inlet" else [extra.chain_service,extra.chain_mast,extra.chain_send])+[extra.route_here,extra.inspect]
   "salvage":return [extra.salvage,extra.route_here,extra.inspect]
   "delivery":return [extra.blackwater_a,extra.blackwater_b,extra.inspect]
@@ -219,7 +227,7 @@ func layout(bounds:Vector2,h:float):
  var font=maxi(14,roundi(h*.26))
  for b in host.order_buttons.values()+host.unit_buttons+extra.values()+[close_button,focus_button,host.pause_button,host.advanced_button]+host.zoom_buttons:
   b.mouse_filter=Control.MOUSE_FILTER_IGNORE if page=="plant" and b in command_controls() else Control.MOUSE_FILTER_STOP
-  if b==extra.witness_land or (b==extra.salvage and Witness.site_for_item(host.sim,subject.get("item",""))):b.mouse_filter=Control.MOUSE_FILTER_IGNORE
+  if b in [extra.witness_land,extra.warning_exposed,extra.warning_sheltered,extra.warning_gate] or (b==extra.salvage and Witness.site_for_item(host.sim,subject.get("item",""))):b.mouse_filter=Control.MOUSE_FILTER_IGNORE
   b.hide();b.custom_minimum_size=Vector2(h*1.55,h);b.size=Vector2(h*1.55,h);b.add_theme_font_size_override("font_size",font)
   b.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
   var normal=StyleBoxFlat.new();normal.bg_color=Color(0,0,0,0);normal.set_content_margin_all(2)
@@ -272,7 +280,7 @@ func _fit_sheet():
  host.call_deferred("_report_targets")
 func refresh():
  var sim=host.sim
- subject=Rendezvous.refresh_subject(sim,subject)
+ subject=Recipient.refresh_subject(sim,Rendezvous.refresh_subject(sim,subject))
  host.pause_button.text="PAUSED\n▶ RUN" if sim.paused else "Ⅱ\nPAUSE"
  host.advanced_button.text="FLEET"
  focus_button.text="FOLLOW" if host.ocean.chart_camera.mode=="follow" else "FOCUS"
@@ -331,6 +339,12 @@ func refresh():
   for pair in [[1,extra.blackwater_a],[2,extra.blackwater_b]]:
    var context=sim.blackwater_handoff_context(pair[0]);pair[1].disabled=not context.ready
    pair[1].text="TRANSFER %s\nTO Q"%["A" if pair[0]==1 else "B"]
+ var recipient=Recipient.status(sim)
+ if not recipient.is_empty():
+  extra.warning_exposed.disabled=not recipient.actions.depart.ready
+  extra.warning_sheltered.disabled=not recipient.actions.depart.ready or not recipient.gate.opened
+  extra.warning_gate.disabled=not recipient.actions.gate.ready
+  if subject.get("subkind","") in ["warning_recipient","warning_gate"]:instrument_info.text=Recipient.detail(sim,subject)
  var witness=Witness.status(sim)
  if not witness.is_empty():
   extra.witness_land.disabled=not sim.witness_context().land.ready

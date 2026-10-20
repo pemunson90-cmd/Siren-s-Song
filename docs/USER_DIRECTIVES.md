@@ -19,6 +19,7 @@ The physical Deep Rendezvous tender is integrated with its quiet fallback.
 Route-first fleet interaction and Blackwater packet delivery are integrated. Collected raw buffers now require local delivery to Quietus.
 Warning Chain now integrates positional power, physical outputs and withdrawal choices; continue genuine and explicitly staged first-exposure evaluation.
 Craft-anchored rings now replace detached cards, preserving critical reserves, work/cargo/power and full touch targets. Named recovery choices retain drive/profile and ordinary route intent. Concealed Record now requires physical witness cargo, local landing and Quietus recovery; evaluate its return journey while preserving genuine campaign continuity.
+Open Warning now requires a vulnerable recipient's physical transit and received arrival before Quietus recovers. Earned service proof can operate its gate; bare Quietus has a manual fallback. Evaluate the actual course tradeoff and narrative payoff rather than treating technical finishability as compelling play.
 Genuine full-game journeys continue; focused Confluence play uses explicitly staged access.
 The user’s camera-control tweak is implemented: FOCUS/FIT/zoom live under FLEET → VIEW; direct drag/pinch remain.
 Observed-task automation, TASK/NONE and new chapter IDs stay shelved on their published branches.
