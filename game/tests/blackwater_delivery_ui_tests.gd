@@ -103,6 +103,8 @@ func run():
   var markers=game.ocean.salvage_markers()
   check(markers.size()==1,"one public co-located kit and data site has one wreck marker")
   check(markers[0].lines.has("DEEP CELLS") and markers[0].lines.has("SURVEY ARRAY") and markers[0].lines.has("REQUEST BUFFER") and markers[0].lines.has("REPLY BUFFER"),"one wreck marker names all public co-located kit and packet contents")
+  var plates=h.fleet.readouts.map(func(reading):return h.fleet.telemetry[reading.unit].get_rect().merge(h.fleet.buttons[reading.unit].get_rect()))
+  check(h.fleet.readouts.all(func(reading):return reading.rect.encloses(h.fleet.telemetry[reading.unit].get_rect())) and markers.all(func(marker):return not plates.any(func(plate):return plate.intersects(marker.rect))),"two-kit and two-buffer badge avoids full actual telemetry bounds rather than undersized estimates")
   await tap(game.ocean.global_position+markers[0].rect.get_center())
   check(h.page=="salvage" and h.extra.salvage.visible,"combined wreck reuses the ordinary local recovery action")
   h.open("inspect");await settle()

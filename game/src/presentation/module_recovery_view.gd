@@ -36,6 +36,24 @@ static func site_lines(sim,site:Dictionary)->Array:
  for packet in Delivery.status(sim).get("packets",[]):
   if packet.id in packets:lines.append(packet.name+" BUFFER")
  return lines
+static func nearest_clear_rect(box:Rect2,bounds:Rect2,occupied:Array)->Rect2:
+ # If preferred tethers are crowded, a clear rectangle can be placed along
+ # an obstacle or boundary edge. Search those edges, preserving full plates.
+ var xs=[box.position.x,bounds.position.x,bounds.end.x-box.size.x]
+ var ys=[box.position.y,bounds.position.y,bounds.end.y-box.size.y]
+ for obstacle in occupied:
+  for x in [obstacle.position.x-box.size.x-5,obstacle.end.x+5]:
+   var value=clampf(x,bounds.position.x,bounds.end.x-box.size.x)
+   if not value in xs:xs.append(value)
+  for y in [obstacle.position.y-box.size.y-5,obstacle.end.y+5]:
+   var value=clampf(y,bounds.position.y,bounds.end.y-box.size.y)
+   if not value in ys:ys.append(value)
+ var best=box;var distance=INF
+ for x in xs:
+  for y in ys:
+   var candidate=Rect2(Vector2(x,y),box.size);var cost=candidate.position.distance_squared_to(box.position)
+   if cost<distance and not occupied.any(func(r):return r.intersects(candidate.grow(5))):best=candidate;distance=cost
+ return best
 static func markers(ocean,sim,touch:float)->Array:
  var result=[]
  if not sim.has_method("salvage_sites"):return result
@@ -47,9 +65,11 @@ static func markers(ocean,sim,touch:float)->Array:
   var anchor=ocean.screen_position(site.pos)
   if not Rect2(Vector2.ZERO,ocean.size).has_point(anchor):continue
   var box=Rect2((anchor+Vector2(touch*.9,-touch*.5)).clamp(bounds.position,bounds.end-extent),extent)
+  var clear=false
   for offset in [Vector2(.9,-.5),Vector2(-3.9,-.5),Vector2(-1.5,-1.8),Vector2(-1.5,.8),Vector2(.9,1.),Vector2(-3.9,1.)]:
    var candidate=Rect2((anchor+offset*touch).clamp(bounds.position,bounds.end-extent),extent)
-   if not occupied.any(func(r):return r.intersects(candidate.grow(5))):box=candidate;break
+   if not occupied.any(func(r):return r.intersects(candidate.grow(5))):box=candidate;clear=true;break
+  if not clear:box=nearest_clear_rect(box,bounds,occupied)
   result.append({"rect":box,"anchor":anchor,"site":site,"lines":lines});occupied.append(box)
  return result
 static func draw(ocean,sim)->void:
