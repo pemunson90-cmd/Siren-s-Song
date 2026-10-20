@@ -28,3 +28,13 @@ godot --headless --path /PATH/TO/GAME --script "$PWD/verify-frame-archive.gd" --
 ```
 
 Repeat for the2520x1080 JSON/MKV using separate scratch. The unchanged verifier restores each original image format, checks exact original PNG bytes, and refuses to overwrite a changed original. It writes the original `/workspace` paths recorded per frame. Finally run `cd /workspace` then `sha256sum -c /PATH/TO/ARCHIVE/ORIGINAL-PNG-SHA256SUMS`. Source/playback timing must never be inferred from the MKV frame rate.
+
+## Codec and helper provenance
+
+Pinned Godot: `4.6.3.stable.official.7d41c59c4`. Each frame JSON records its original Godot image format (`4` RGB or `5` RGBA), original path/name, size, SHA256 and source/session provenance. Numeric frames were checked to have opaque alpha before RGB encoding. Exceptions preserve original PNG bytes directly. Exact encoding used:
+
+```sh
+ffmpeg -v error -f concat -safe 0 -i frames.concat -fps_mode passthrough -c:v libx264rgb -crf 0 -preset veryfast -pix_fmt bgr24 -threads 2 ARCHIVE.mkv
+```
+
+Concat records use original manifest order and duration0.04 solely as a storage index. They do not preserve live wall/simulation timing. Restore with the decode/verifier commands above; no codec guessing is required. `provenance/source-helpers.json` pins the original checkpoint/helper Git blobs and SHA256s. The unchanged reconstruction verifier is executable recovery code. `provenance/archive-cold-frames-losslessly.py` is preserved **for historical recipe provenance only: do not execute it**. It contains a stale session whitelist and original eviction code; current packaging used its verified encoding/decoding recipe without running its eviction code. All originals remain locally.

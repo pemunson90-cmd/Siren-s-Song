@@ -59,5 +59,6 @@
   "restoration_verifier_sha256": "b76502060fd59c9c371546ff1b0334805d16a929245ac0d20ff0f161261b8e41",
   "pinned_godot": "4.6.3.stable.official.7d41c59c4",
   "storage_frame_clock": "Synthetic25fps index only. Never interpret MKVs as gameplay timing; original filename/session provenance and root-owned raw logs retain original timing evidence.",
-  "original_pngs_evicted": false
+  "original_pngs_evicted": false,
+  "source_helpers": "provenance/source-helpers.json"
 }

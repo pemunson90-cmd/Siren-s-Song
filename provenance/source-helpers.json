@@ -1,0 +1,27 @@
+{
+  "source_repository": "pemunson90-cmd/Siren-s-Song",
+  "source_checkpoint_commit": "20339513f25c00742a6258788f9e82849dae6d91",
+  "helpers": [
+    {
+      "original_path": "tools/checkpoint/storage/archive-cold-frames-losslessly.py",
+      "git_blob": "aee492570c20b9cb33e9f581610e2aa67aa4ceda",
+      "archive_path": "provenance/archive-cold-frames-losslessly.py",
+      "sha256": "85d2d34b4f4e359ba75520b240ef9f72ed37c322f07c7238ccf59695d0161ddb",
+      "usage": "Historical recipe only. NOT executed: hardcoded old-session whitelist, age/link eviction guards and deletion code are inapplicable. Do not run it to restore this package."
+    },
+    {
+      "original_path": "tools/checkpoint/storage/verify-frame-archive.gd",
+      "git_blob": "ce457eeb77a7fe583e4cb2ce2b30b8ee9ab40397",
+      "archive_path": "verify-frame-archive.gd",
+      "sha256": "b76502060fd59c9c371546ff1b0334805d16a929245ac0d20ff0f161261b8e41",
+      "usage": "Unchanged verifier actually executed against every encoded frame; restores original Godot image format and checks PNG byte SHA256 before optional write."
+    }
+  ],
+  "adaptation": "One-off encoding reuses original ffmpeg encode/decode commands and unchanged verifier. Only confirmed normally-quit opaque RGB/RGBA numeric screenshots grouped by dimensions. No cache/database/keystore; no original eviction. Named/noncanonical PNGs preserved as original-byte tar.gz exceptions.",
+  "encoding_command": "ffmpeg -v error -f concat -safe 0 -i frames.concat -fps_mode passthrough -c:v libx264rgb -crf 0 -preset veryfast -pix_fmt bgr24 -threads 2 ARCHIVE.mkv",
+  "concat_input": "Original paths in per-frame manifest order; each has duration0.04; synthetic25fps index ONLY.",
+  "decoding_command": "ffmpeg -v error -i ARCHIVE.mkv -fps_mode passthrough SCRATCH/%06d.png",
+  "verification_command": "godot --headless --path GAME --script verify-frame-archive.gd -- MANIFEST SCRATCH",
+  "restore_command": "godot --headless --path GAME --script verify-frame-archive.gd -- MANIFEST SCRATCH --restore",
+  "godot_version": "4.6.3.stable.official.7d41c59c4"
+}
