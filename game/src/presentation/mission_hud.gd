@@ -38,6 +38,8 @@ var sector_press:Button
 var popup_gesture=preload("res://src/input/map_gesture.gd").new()
 var touch_height=48.
 var fleet
+var recovery_box:VBoxContainer
+var recovery_buttons:Array=[]
 func setup(owner):
  host=owner;mouse_filter=Control.MOUSE_FILTER_IGNORE
  blocker=Control.new();blocker.mouse_filter=Control.MOUSE_FILTER_STOP;add_child(blocker);blocker.gui_input.connect(_outside)
@@ -67,6 +69,7 @@ func setup(owner):
  host.title_label.reparent(body);host.title_label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
  host.detail_label.reparent(body);host.detail_label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
  instrument_info=host._label(body,"",18);instrument_info.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+ recovery_box=VBoxContainer.new();recovery_box.add_theme_constant_override("separation",8);body.add_child(recovery_box);recovery_box.hide()
  alarm=host._label(self,"",18);alarm.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;alarm.mouse_filter=Control.MOUSE_FILTER_IGNORE
  var alert_style=StyleBoxFlat.new();alert_style.bg_color=Color(.12,.025,.015,.94);alert_style.border_color=Color("b26b52");alert_style.set_border_width_all(1);alert_style.content_margin_left=10;alert_style.content_margin_right=10;alarm.add_theme_stylebox_override("normal",alert_style)
  warning_style=alert_style
@@ -75,6 +78,15 @@ func setup(owner):
  fleet=preload("res://src/presentation/fleet_instruments.gd").new();add_child(fleet);fleet.setup(host);host.ocean.fleet_instruments=fleet
 func _selected_craft():
  if host.advanced_orders:open("craft",{"kind":"craft","unit":host.sim.selected,"pos":host.sim.units[host.sim.selected].pos})
+func open_recovery(destinations:Array):
+ for b in recovery_buttons:b.free()
+ recovery_buttons.clear()
+ for destination in destinations:
+  var point:Vector2=destination.pos
+  var readiness="FIELD NOTES ONLY" if destination.get("withdrawal",false) else "RECOVERY AVAILABLE" if destination.get("available",false) else "APPROACH · NOT READY"
+  var b=host._button(recovery_box,destination.name+"\n"+readiness,func():host._order("route",{"point":point}),"recovery_%d"%recovery_buttons.size())
+  recovery_buttons.append(b)
+ open("recovery",{"kind":"craft","unit":host.sim.selected,"pos":host.sim.units[host.sim.selected].pos})
 func open(next:String="craft",context:Dictionary={}):
  for id in host.map_gesture.touches:owned_touches[id]=true
  host.map_gesture.cancel();host.knock_press.clear();popup_gesture.cancel();sheet_pointers.clear();sector_press=null;host.knock_armed=false;host.decoy_armed=false
@@ -92,7 +104,7 @@ func _back():
   if details_return=="water":dismiss()
   else:open(details_return)
  elif page=="view":open("fleet")
- elif page in ["craft","object","fleet","salvage","plant"]:dismiss()
+ elif page in ["craft","object","fleet","salvage","plant","recovery"]:dismiss()
  else:open("plant" if subject.get("kind","")=="plant" else "object" if subject.get("kind","")=="objective" else "salvage" if subject.get("kind","")=="salvage" else "craft")
 func _extra(key:String):
  if key.begins_with("chain_"):
@@ -120,7 +132,7 @@ func owns_pointer(event) -> bool:
  if draining and (event is InputEventScreenTouch or event is InputEventScreenDrag or (event is InputEventMouse and event.device==InputEvent.DEVICE_ID_EMULATION)):return true
  return false
 func sector_at(point:Vector2) -> Button:
- if not host.advanced_orders or page in ["inspect","signals"] or ring_buttons.is_empty():return null
+ if not host.advanced_orders or page in ["inspect","signals","recovery"] or ring_buttons.is_empty():return null
  var local=point-global_position-center;var distance=local.length()
  if distance<ring_radius-touch_height*.65 or distance>ring_radius+touch_height*.6:return null
  var turn=fposmod(local.angle()+PI/2,TAU)
@@ -177,7 +189,7 @@ func command_controls() -> Array:
   "plant":return ([extra.chain_connect,extra.chain_disconnect,extra.chain_backup] if subject.get("station","")=="inlet" else [extra.chain_service,extra.chain_mast,extra.chain_send])+[extra.route_here,extra.inspect]
   "salvage":return [extra.salvage,extra.route_here,extra.inspect]
   "delivery":return [extra.blackwater_a,extra.blackwater_b,extra.inspect]
-  "inspect","signals":return []
+  "inspect","signals","recovery":return []
  var controls=[host.order_buttons.camera,host.order_buttons.ping,host.order_buttons.silent,host.order_buttons.program,extra.route_menu,extra.tools_menu,extra.guard_menu,extra.inspect]
  if not Delivery.status(host.sim).is_empty():
   if host.sim.selected==0:controls.append(extra.blackwater_data)
@@ -206,13 +218,16 @@ func layout(bounds:Vector2,h:float):
  var edge=Vector2(h*3.1,h*2.9)
  var minimum=Vector2(edge.x,minf(h*3.85+20,bounds.y-edge.y))
  center=anchor.clamp(minimum,bounds-edge)
- if page in ["inspect","signals"]:center=Vector2(bounds.x*.5,bounds.y*.5)
+ if page in ["inspect","signals","recovery"]:center=Vector2(bounds.x*.5,bounds.y*.5)
  if host.advanced_orders:
   for i in ring_buttons.size():
    var b=ring_buttons[i];var a=-PI/2+TAU*i/ring_buttons.size()
    b.position=center+Vector2.from_angle(a)*ring_radius-b.size/2;b.show();b.move_to_front()
   close_button.position=center+Vector2(-h*.775,h*.15);close_button.show();close_button.move_to_front()
- sheet.visible=host.advanced_orders and page in ["inspect","signals"]
+ recovery_box.visible=host.advanced_orders and page=="recovery"
+ for b in recovery_buttons:
+  b.custom_minimum_size.y=h;b.add_theme_font_size_override("font_size",font)
+ sheet.visible=host.advanced_orders and page in ["inspect","signals","recovery"]
  if sheet.visible:
   sheet.position=Vector2(maxf(12,center.x-minf(400,bounds.x*.4)),h+24)
   sheet.size=Vector2(minf(800,bounds.x-24),h*2)
@@ -242,7 +257,7 @@ func refresh():
  host.advanced_button.text="FLEET"
  focus_button.text="FOLLOW" if host.ocean.chart_camera.mode=="follow" else "FOCUS"
  intent.text="%s · %s · %s"%[sim.units[sim.selected].name,"QUEUE" if sim.queue_mode else "REPLACE",(host.targeting_feedback if not host.targeting_feedback.is_empty() else "DECOY · TAP CLEAR WATER ≤160m · TAP CANCEL" if host.decoy_armed else "TORPEDO · TAP FRESH CONTACT · TAP CANCEL" if host.knock_armed else sim.message)]
- host.title_label.visible=page!="signals";host.detail_label.visible=page!="signals"
+ host.title_label.visible=page not in ["signals","recovery"];host.detail_label.visible=page not in ["signals","recovery"]
  host.order_buttons.home.text="WITHDRAW" if Expedition.entry(sim) else "EXTRACT"
  extra.route_here.text="PLOT ROUTE" if subject.has("subkind") else "ROUTE HERE"
  extra.arrivals.text="ARRIVALS\n%d"%Expedition.measurements(sim).size()
@@ -305,6 +320,7 @@ func refresh():
  if page=="inspect" and sim.selected==0:
   var correlation=Equipment.correlation_detail(sim)
   if not correlation.is_empty():instrument_info.text+="\n\n"+correlation
+ if page=="recovery":instrument_info.text="%s · CHOOSE RECOVERY\n%s APPROACH"%[sim.units[sim.selected].name,"QUEUE" if sim.queue_mode else "REPLACE"]
  if not host.advanced_orders:
   extra.arrivals.hide()
   if Expedition.active(sim):
@@ -341,7 +357,7 @@ func refresh():
  host.ocean.ui_blocked_rects=occupied_rects().map(func(r):return Rect2(r.position-host.ocean.global_position,r.size))
  if host.decoy_armed or host.knock_armed:
   close_button.text="CANCEL";close_button.position=Vector2(size.x/2-touch_height*.775,size.y-touch_height-12);close_button.show()
- else:close_button.text="BACK";close_button.visible=host.advanced_orders
+ else:close_button.text="CANCEL" if page=="recovery" else "BACK";close_button.visible=host.advanced_orders
  queue_redraw()
 func _draw():
  if host==null or not host.advanced_orders:return
@@ -349,7 +365,7 @@ func _draw():
  var tether=anchor.clamp(Vector2.ONE*12,size-Vector2.ONE*12)
  draw_line(tether,center,Color(.3,.8,.8,.32),1.5)
  draw_circle(tether,5,Color("80cbc8"),false,1.5)
- if page in ["inspect","signals"]:return
+ if page in ["inspect","signals","recovery"]:return
  draw_circle(center,ring_radius-h*.7,Color(.012,.038,.055,.78))
  for i in ring_buttons.size():
   var points=PackedVector2Array();var from=-PI/2+TAU*(i-.5)/ring_buttons.size()+.012;var until=-PI/2+TAU*(i+.5)/ring_buttons.size()-.012
