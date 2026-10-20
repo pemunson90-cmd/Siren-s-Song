@@ -1,5 +1,6 @@
 extends RefCounted
 const Shelf=preload("res://src/simulation/shelf_habitat.gd")
+const Wake=preload("res://src/simulation/wake_crossing.gd")
 const Endurance=preload("res://src/simulation/operation_endurance.gd")
 const Recon=preload("res://src/simulation/recon_consequences.gd")
 const PolygonContainment=preload("res://src/simulation/polygon_containment.gd")
@@ -366,6 +367,7 @@ func command(order: String,args: Dictionary={}) -> bool:
 	if not u.alive and order!="select":
 		selected=0; queue_mode=false; message="Selected drone lost. Quietus selected; reissue the order."; return false
 	match order:
+		"wake_playback":return Wake.play(self)
 		"shelf_warn":return Shelf.command(self,"local",args.get("site",""))
 		"shelf_alarm":return Shelf.command(self,"common")
 		"chain_power":return Chain.command(self,args.mode) if args.get("mode") in ["connect","disconnect","backup"] else false
@@ -1161,6 +1163,7 @@ func all_records() -> bool:
 	for o in mission.objectives:
 		if not o.captured and not o.get("optional",false): return false
 	return true
+func wake_context()->Dictionary:return Wake.context(self)
 func snapshot() -> Dictionary:
 	var data={"mission":mission.duplicate(true),"units":units.duplicate(true),"sirens":sirens.duplicate(true),"known":known.duplicate(true),"contacts":contacts.duplicate(true),"noises":noises.duplicate(true),"elapsed":elapsed,"oxygen":oxygen,"hull":hull,"paused":paused,"selected":selected,"tools":tools.duplicate(),"outcome":outcome,"ping_time":ping_time,"ping_origin":ping_origin,"recon_time":recon_time,"captures":captures.duplicate(true)}
 	if not correlation.is_empty():data["correlation"]=correlation.duplicate(true)
@@ -1217,6 +1220,7 @@ static func valid_snapshot(data: Dictionary) -> bool:
 	if not Recipient.valid(data):return false
 	if not Delivery.valid(data):return false
 	if not Shelf.valid(data):return false
+	if not Wake.valid(data):return false
 	if not Chain.valid(data):return false
 	if not Rendezvous.valid(data.mission,float(data.get("elapsed",0))):return false
 	if data.mission.get("earned_terrain",false):

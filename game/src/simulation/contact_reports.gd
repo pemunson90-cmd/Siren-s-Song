@@ -38,7 +38,7 @@ static func advance(sim,observations:Array,fresh:Array,dt:float)->void:
   for id in sim.sirens.size():
    var peer=sim.sirens[id]
    if id==report.sender or id in assigned or fresh[id] or peer.stun>0 or peer.get("pin_time",0)>0:continue
-   var arrivals=sim.acoustic_paths.arrivals(peer.pos,source.pos,RANGE)
+   var arrivals=sim.acoustic_paths.arrivals(peer.pos,source.pos,650.0 if sim.mission.id==9 else RANGE)
    for arrival in arrivals:
     if arrival.strength>strength:strength=arrival.strength;recipient=id
   if recipient<0:continue
@@ -49,7 +49,7 @@ static func advance(sim,observations:Array,fresh:Array,dt:float)->void:
   peer.suspicion=maxf(peer.suspicion,0.3);peer.mode="INVESTIGATE";peer.path_time=0.0;peer.route.clear()
 static func valid(data:Dictionary)->bool:
  var enabled=data.mission.has("contact_report_revision")
- if enabled and (data.mission.get("id",-1)!=5 or not data.mission.contact_report_revision is int or data.mission.contact_report_revision!=1 or data.mission.get("acoustic_revision",0)!=1):return false
+ if enabled and (data.mission.get("id",-1) not in [5,9] or not data.mission.contact_report_revision is int or data.mission.contact_report_revision!=1 or data.mission.get("acoustic_revision",0)!=1):return false
  for s in data.sirens:
   if s is Dictionary and s.has("report_interest"):
    var interest=s.report_interest
@@ -58,7 +58,8 @@ static func valid(data:Dictionary)->bool:
   if not enabled or not s.report is Dictionary or s.report.size()!=5 or not s.report.has_all(["target","point","charge","cooldown","sent"]):return false
   var r=s.report
   if not r.target is int or r.target< -1 or r.target>=3 or not r.point is Vector2 or not r.point.is_finite():return false
-  if r.point.x<0 or r.point.x>1600 or r.point.y<0 or r.point.y>960:return false
+  var bounds=data.mission.get("world_size",Vector2(1600,960))
+  if r.point.x<0 or r.point.x>bounds.x or r.point.y<0 or r.point.y>bounds.y:return false
   for key in ["charge","cooldown","sent"]:
    if not (r[key] is int or r[key] is float) or not is_finite(float(r[key])) or r[key]<0:return false
   if r.charge>CHARGE or r.cooldown>MEMORY or r.sent>1.0 or (r.charge>0 and (r.target<0 or r.cooldown>0)):return false

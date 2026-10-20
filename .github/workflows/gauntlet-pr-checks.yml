@@ -102,6 +102,15 @@ jobs:
           shelf_habitat_tests|SHELF HABITAT
           shelf_habitat_journey_tests|SHELF HABITAT JOURNEY
           shelf_habitat_ui_tests|SHELF HABITAT UI
+          wake_crossing_tests|WAKE CROSSING
+          wake_crossing_journey_tests|WAKE CROSSING JOURNEY
+          wake_crossing_ui_tests|WAKE CROSSING UI
+          onward_mission_tests|ONWARD MISSIONS
+          cadence_correlator_tests|CADENCE CORRELATOR
+          contact_reports_tests|CONTACT REPORT
+          contact_reports_ui_tests|CONTACT REPORT UI
+          campaign_consequence_tests|CAMPAIGN CONSEQUENCES
+          campaign_equipment_save_tests|CAMPAIGN EQUIPMENT SAVE
           witness_evacuation_tests|WITNESS EVACUATION
           witness_evacuation_journey_tests|WITNESS EVACUATION JOURNEY
           witness_evacuation_ui_tests|WITNESS EVACUATION UI

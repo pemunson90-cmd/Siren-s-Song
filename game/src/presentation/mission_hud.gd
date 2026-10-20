@@ -1,5 +1,6 @@
 extends Control
 const Shelf=preload("res://src/presentation/shelf_habitat_view.gd")
+const Wake=preload("res://src/presentation/wake_crossing_view.gd")
 const Operations=preload("res://src/presentation/operation_instruments.gd")
 const Equipment=preload("res://src/presentation/equipment_context.gd")
 const Expedition=preload("res://src/presentation/expedition_view.gd")
@@ -62,6 +63,7 @@ func setup(owner):
   var key=entry[0];extra[key]=host._button(self,entry[1],func():_extra(key),key)
  extra.shelf_warn=host._button(self,"LOCAL WARNING\n100m / QUIETUS",func():host._order("shelf_warn",{"site":subject.get("site","")}),"shelf_warn")
  extra.shelf_alarm=host._button(self,"SOUND ALARM\n1200m / ONCE",func():host._order("shelf_alarm"),"shelf_alarm")
+ extra.wake_playback=host._button(self,"PLAY OLD LOOP\nONCE ·15s",func():host._order("wake_playback"),"wake_playback")
  for entry in [["warning_exposed","EXPOSED\nUNGATED COURSE"],["warning_sheltered","SHELTERED\nSERVICE COURSE"],["warning_gate","OPEN SERVICE\n650m / 6s"]]:
   var key=entry[0];extra[key]=host._button(self,entry[1],func():_extra(key),key)
  for entry in [["concealed_attach","ATTACH TOW"],["concealed_release","RELEASE TOW"],["concealed_seat","SEAT HERE"],["concealed_work","WITNESS ACCOUNT"]]:
@@ -108,6 +110,10 @@ func open(next:String="craft",context:Dictionary={}):
  var station=WarningChain.station_subject(host.sim,subject) if next=="object" else {}
  if not station.is_empty():next="plant";subject=station
  if subject.get("kind","")=="habitat" and next=="object":next="habitat"
+ if next=="object":
+  var wake=Wake.subject(host.sim,subject)
+  if not wake.is_empty():subject=wake
+ if next in ["object","inspect"] and subject.get("subkind","")=="wake_repeater":sheet_scroll.scroll_vertical=0
  page=next;instruments_open=page in ["inspect","signals"]
  if page=="inspect" and subject.get("subkind","")=="concealed":sheet_scroll.scroll_vertical=0
  host.advanced_orders=true;host._layout()
@@ -176,7 +182,7 @@ func witness_button_at(point:Vector2) -> Button:
  if (page=="craft" and not Recipient.primary_subject(host.sim).is_empty()) or (page=="object" and subject.get("subkind","")=="warning_gate"):
   var primary=host.order_buttons.camera
   if primary.is_visible_in_tree() and primary.get_global_rect().has_point(point):return primary
- for button in [extra.witness_land,extra.salvage,extra.warning_exposed,extra.warning_sheltered,extra.warning_gate,extra.shelf_warn,extra.shelf_alarm,extra.concealed_attach,extra.concealed_release,extra.concealed_seat,extra.concealed_work]:
+ for button in [extra.witness_land,extra.salvage,extra.warning_exposed,extra.warning_sheltered,extra.warning_gate,extra.shelf_warn,extra.shelf_alarm,extra.concealed_attach,extra.concealed_release,extra.concealed_seat,extra.concealed_work,extra.wake_playback]:
   if button==extra.salvage and not Witness.site_for_item(host.sim,subject.get("item","")):continue
   if button.is_visible_in_tree() and button.get_global_rect().has_point(point):return button
  return null
@@ -249,7 +255,7 @@ func layout(bounds:Vector2,h:float):
  var recipient_primary=(page=="craft" and not Recipient.primary_subject(host.sim).is_empty()) or (page=="object" and subject.get("subkind","")=="warning_gate")
  for b in host.order_buttons.values()+host.unit_buttons+extra.values()+[close_button,focus_button,host.pause_button,host.advanced_button]+host.zoom_buttons:
   b.mouse_filter=Control.MOUSE_FILTER_IGNORE if page=="plant" and b in command_controls() else Control.MOUSE_FILTER_STOP
-  if b in [extra.witness_land,extra.warning_exposed,extra.warning_sheltered,extra.warning_gate,extra.shelf_warn,extra.shelf_alarm,extra.concealed_attach,extra.concealed_release,extra.concealed_seat,extra.concealed_work] or (b==extra.salvage and Witness.site_for_item(host.sim,subject.get("item",""))):b.mouse_filter=Control.MOUSE_FILTER_IGNORE
+  if b in [extra.witness_land,extra.warning_exposed,extra.warning_sheltered,extra.warning_gate,extra.shelf_warn,extra.shelf_alarm,extra.concealed_attach,extra.concealed_release,extra.concealed_seat,extra.concealed_work,extra.wake_playback] or (b==extra.salvage and Witness.site_for_item(host.sim,subject.get("item",""))):b.mouse_filter=Control.MOUSE_FILTER_IGNORE
   if b==host.order_buttons.camera and recipient_primary:b.mouse_filter=Control.MOUSE_FILTER_IGNORE
   b.hide();b.custom_minimum_size=Vector2(h*1.55,h);b.size=Vector2(h*1.55,h);b.add_theme_font_size_override("font_size",font)
   b.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
@@ -339,6 +345,13 @@ func refresh():
   host.detail_label.text=sim.units[sim.selected].name+" · "+("OWN TRANSMITTER" if operation.label=="TRANSMIT" else "LOCAL MACHINERY CONTROL")
   if sim.capture_feedback().unit>=0:intent.text=sim.units[sim.selected].name+" · "+operation.detail.get_slice("\n",0)
  var tender=Rendezvous.context(sim)
+ var wake=Wake.context(sim)
+ if not wake.is_empty():
+  extra.wake_playback.disabled=not wake.ready
+  extra.wake_playback.text="PLAYING\n%ds LEFT"%ceili(wake.remaining) if wake.active else "PLAYBACK\nSPENT" if wake.used else "PLAY OLD LOOP\nONCE ·15s"
+  if subject.get("subkind","")=="wake_repeater":
+   instrument_info.text=Wake.detail(sim)
+   if page=="inspect":host.title_label.hide();host.detail_label.hide()
  if not tender.is_empty():
   var receiver=sim.rendezvous_receiver()
   host.order_buttons.camera.text="DECODE\n4s PASSIVE";host.order_buttons.camera.disabled=not receiver.ready
@@ -470,6 +483,7 @@ func _draw():
   var context=host.sim.salvage_context(subject.item)
   caption=host.sim.units[host.sim.selected].name+" · %dm / 60m"%roundi(context.distance)
  if subject.get("subkind","")=="berth_control":caption="AUDIBLE 950m / 6s"
+ elif subject.get("subkind","")=="wake_repeater":caption="ONE PLAYBACK · LOCAL65m" if not Wake.context(host.sim).used else "LAST PLAYBACK SPENT"
  elif subject.get("subkind","")=="rendezvous_hull":
   var hull=Rendezvous.projection(host.sim).hull
   if not hull.is_empty():caption=str(hull.phase).to_upper()+" · LOCAL FIX" if hull.live else "STALE · %ds AGO"%floori(hull.age)
