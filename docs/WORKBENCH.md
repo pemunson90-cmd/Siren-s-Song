@@ -5,7 +5,7 @@ Read docs/USER_DIRECTIVES.md. Pass 0 rows are built at rough quality; V7 recover
 |---|---|
 |0–5 Tutorial|rough|
 |6 Divergence: deep or shelf|rough|
-|7 Deep Rendezvous|rough|
+|7 Deep Rendezvous: physical tender and quiet fallback|rough integrated|
 |8 Shelf Return|rough|
 |9 Wake Crossing|rough|
 |10 Warning Chain|rough|
@@ -34,6 +34,6 @@ Current play: fresh cover/inner journeys plus drone-heavy and Quietus-only conti
 Confluence integrated: authored region, noisy physical sluice, earned world art and departure.
 Fleet instruments integrated: separated craft, task progress, offscreen focus and range feedback.
 Earned-course continuity integrated: retained goals, certified-water repairs, real hazard stops.
-Genuine drone-led journey reached Hidden Harbour; its final travel interval was unobserved.
+Genuine journeys reached Hidden Harbour and Surface Reckoning on frozen earlier sources.
 Physical module salvage integrated: return cargo or lose optional kit; bare frames remain.
-Next: Deep Rendezvous tender, local release, sensed transit and refuge decoding.
+Next: route-first fleet telemetry interaction; investigate distinct Warning Chain jobs.
