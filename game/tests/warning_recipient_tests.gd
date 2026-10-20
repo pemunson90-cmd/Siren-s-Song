@@ -163,7 +163,7 @@ func run():
  check(not lethal.mission.warning_recipient.body.alive and lethal.outcome=="lost","real recipient destruction fails operation instead of granting an invulnerable arrival")
  victim.command("emp");var hull=victim.mission.warning_recipient.body.hull;advance(victim,1)
  check(victim.mission.warning_recipient.body.hull==hull and victim.sirens[0].lock==0,"ordinary disruption interrupts actual recipient beam damage")
- 
+
  var qlost=fresh();transmit(qlost);acknowledge(qlost);qlost.units[0].pos=PANEL;qlost.command("warning_gate");qlost.command("warning_depart",{"course":"sheltered"})
  qlost.hull=0;advance(qlost,.02)
  check(qlost.outcome=="lost" and not qlost.warning_recipient_status().receipt,"Quietus loss cannot award a successful recipient operation")
