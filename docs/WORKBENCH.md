@@ -26,9 +26,8 @@ Read docs/USER_DIRECTIVES.md. Pass 0 rows are built at rough quality; V7 recover
 |V7 evidence-floor pressure|rough|
 |V7 threat heartbeat/vignette|rough|
 |V7 photographic grading|rough|
-User playtest timing never gates development.
-Stakes integrated: mission endurance, concurrent craft exposures, visible targeting refusals.
-Current play: two preserved genuine journeys and an independent cautious current-game critic.
+Stakes integrated: endurance, concurrent exposures and targeting feedback. User play gates nothing.
+Current play: two preserved genuine journeys; independent whole-game domain critics continue.
 Confluence integrated: authored region, noisy physical sluice, earned world art and departure.
 Craft-anchored rings integrated; named recovery routes retain drive/profile and route intent.
 Earned-course continuity integrated: retained goals, certified-water repairs, real hazard stops.
@@ -36,4 +35,5 @@ Genuine journeys reached Hidden Harbour, Surface Reckoning and Silent Exodus.
 Physical module salvage integrated: return cargo or lose optional kit; bare frames remain.
 Blackwater delivery integrated: raw buffers return to Q through local transfer or recovery.
 Warning Chain integrated: shore supply/backup, service/mast output and physical exits.
-Concealed Record integrates physical witness rescue; next evaluate it and continue genuine branches.
+Concealed Record integrates witness rescue. Open Warning recipient consequences are in development.
+Engine sound follows through-water thrust; full-game adversarial findings remain cumulative and open.

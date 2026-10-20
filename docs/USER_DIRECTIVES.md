@@ -30,6 +30,9 @@ Use the existing task-boundary refresh procedure. No new orchestration framework
 Current user directions outrank historical workflow prose. Preserve older directives as provenance instead of silently rewriting their text.
 
 ## Audit and checkpoints
+The user's current adversarial mandate requires a cumulative, whole-game deficiency inventory against a commercially competitive Android release before selecting the next improvement. Inspect the specification, campaign, running game, progression, endings, controls, visuals, audio and technical behavior; keep genuine campaigns and substantive implementation running in parallel.
+For each material finding retain evidence, player consequence, severity, expected quality, substantive remedy and whether it blocks progress, needs expansion or is later polish. Distinguish implemented, observed, untested, incomplete and aspirational. Independent domain critics may disagree; investigate evidence and preserve unresolved findings rather than reducing the audit to the selected repair.
+Compare actual gameplay with strong shipped references and disclose comparison limits. Challenge optimistic completeness claims, unearned outcomes, shallow choices/progression and functioning features without compelling play. This expands quality investigation, not the one-reviewer integration gate, and creates no additional governance machinery.
 The unchanged Claude audit, audited source, F1–F7 response and checkpoint refs are on archive/claude-audit-2026-10-19 under docs/audit/.
 Genuine critic saves and raw input are published on gauntlet/checkpoint/touch-play-2026-10-20; source and session provenance remain explicit.
 Agent play and software renders support game development; human enjoyment, headphone audio and physical Fold7 ergonomics require their own evidence.
