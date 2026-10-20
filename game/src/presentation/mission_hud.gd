@@ -11,6 +11,8 @@ var instrument_button:Button
 var instrument_info:Label
 var intent:Label
 var alarm:Label
+var warning_style:StyleBoxFlat
+var pressure_style:StyleBoxFlat
 var measurement_style:StyleBoxFlat
 var sheet_body:VBoxContainer
 var sheet_fit_pending=false
@@ -31,6 +33,7 @@ var draining_popup=false
 var sector_press:Button
 var popup_gesture=preload("res://src/input/map_gesture.gd").new()
 var touch_height=48.
+var fleet
 func setup(owner):
  host=owner;mouse_filter=Control.MOUSE_FILTER_IGNORE
  blocker=Control.new();blocker.mouse_filter=Control.MOUSE_FILTER_STOP;add_child(blocker);blocker.gui_input.connect(_outside)
@@ -58,7 +61,10 @@ func setup(owner):
  instrument_info=host._label(body,"",18);instrument_info.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
  alarm=host._label(self,"",18);alarm.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;alarm.mouse_filter=Control.MOUSE_FILTER_IGNORE
  var alert_style=StyleBoxFlat.new();alert_style.bg_color=Color(.12,.025,.015,.94);alert_style.border_color=Color("b26b52");alert_style.set_border_width_all(1);alert_style.content_margin_left=10;alert_style.content_margin_right=10;alarm.add_theme_stylebox_override("normal",alert_style)
+ warning_style=alert_style
+ pressure_style=StyleBoxFlat.new();pressure_style.bg_color=Color(0,0,0,0);pressure_style.content_margin_left=10;pressure_style.content_margin_right=10
  intent=host._label(self,"",18);intent.mouse_filter=Control.MOUSE_FILTER_IGNORE;intent.text_overrun_behavior=TextServer.OVERRUN_TRIM_ELLIPSIS
+ fleet=preload("res://src/presentation/fleet_instruments.gd").new();add_child(fleet);fleet.setup(host);host.ocean.fleet_instruments=fleet
 func _selected_craft():
  if host.advanced_orders:open("craft",{"kind":"craft","unit":host.sim.selected,"pos":host.sim.units[host.sim.selected].pos})
 func open(next:String="craft",context:Dictionary={}):
@@ -245,10 +251,28 @@ func refresh():
    if badge.has_area():
     extra.arrivals.position=badge.position;extra.arrivals.size=badge.size;extra.arrivals.show();extra.arrivals.text="ARRIVALS\n%d"%Expedition.measurements(sim,sim.selected).size()
     if extra.arrivals.get_theme_stylebox("normal")!=measurement_style:extra.arrivals.add_theme_stylebox_override("normal",measurement_style)
+ # Water contact readouts own warnings; a popup transfers them above its
+ # projection. The quiet top instrument owns only our operation estimate.
+ var pressure=sim.recon_feedback()
  var warnings=[]
  for entry in host.ocean.contact_entries():
   if entry.urgent or (entry.fresh and "REPORT" in entry.text):warnings.append(entry.text)
- alarm.text="\n".join(warnings);alarm.visible=not warnings.is_empty()
+ host.ocean.warnings_in_hud=host.advanced_orders
+ alarm.text="\n".join(warnings) if host.advanced_orders else "OP PRESSURE · %s"%pressure.stage
+ alarm.visible=not warnings.is_empty() if host.advanced_orders else pressure.hunt>0
+ alarm.add_theme_stylebox_override("normal",warning_style if host.advanced_orders else pressure_style)
+ alarm.add_theme_color_override("font_color",Color("ffb99b") if host.advanced_orders else Color("bbaa82"))
+ var alert_font=alarm.get_theme_font_size("font_size")
+ alarm.size=Vector2(maxf(1,size.x-touch_height*6.-64),touch_height) if host.advanced_orders else Vector2(minf(size.x-touch_height*3.1-56,ThemeDB.fallback_font.get_string_size(alarm.text,HORIZONTAL_ALIGNMENT_LEFT,-1,alert_font).x+22),ThemeDB.fallback_font.get_height(alert_font)+8)
+ var blocked=[]
+ for button in action_controls().values():
+  if button not in fleet.buttons:blocked.append(Rect2(button.global_position-global_position,button.size))
+ for label in [intent,alarm]:
+  if label.visible:blocked.append(label.get_rect())
+ for rect in host.ocean.contact_readout_rects():blocked.append(rect)
+ if host.ocean.optical_feed.is_visible_in_tree():blocked.append(host.ocean.optical_feed.get_rect())
+ fleet.visible=not host.advanced_orders and not host.decoy_armed and not host.knock_armed
+ fleet.refresh(blocked)
  host.ocean.ui_blocked_rects=occupied_rects().map(func(r):return Rect2(r.position-host.ocean.global_position,r.size))
  if host.decoy_armed or host.knock_armed:
   close_button.text="CANCEL";close_button.position=Vector2(size.x/2-touch_height*.775,size.y-touch_height-12);close_button.show()

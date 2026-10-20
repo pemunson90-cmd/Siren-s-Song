@@ -279,6 +279,7 @@ func _toggle_advanced() -> void:
 func _input(event:InputEvent) -> void:
 	if screen!="mission":return
 	if mission_hud.owns_pointer(event):get_viewport().set_input_as_handled();return
+	if mission_hud.fleet.handle_input(event):get_viewport().set_input_as_handled();return
 	if advanced_orders:
 		map_gesture.cancel();knock_press.clear()
 		if mission_hud.popup_input(event):get_viewport().set_input_as_handled()
@@ -342,6 +343,10 @@ func _target_knockdown(point: Vector2,intended:int=-2) -> void:
 			if ocean.screen_position(contact.pos).distance_to(point-ocean.global_position)>maxf(ui_touch_height/2,43*ocean.world_scale):continue
 			if contact.get("mode","") in ["DISRUPTED","PINNED"]:
 				sim.message="S%d %s · shot declined · no torpedo spent"%[int(id)+1,"disrupted" if contact.mode=="DISRUPTED" else "already snared"]
+				break
+			var distance=sim.units[0].pos.distance_to(contact.pos)
+			if distance>sim.KNOCK_RANGE:
+				sim.message="S%d out of range · %dm / %dm · no torpedo spent"%[int(id)+1,ceili(distance),roundi(sim.KNOCK_RANGE)]
 				break
 		targeting_feedback=sim.message; _refresh(); return
 	_order("knock",{"target":chosen})
