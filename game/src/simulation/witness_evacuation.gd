@@ -132,21 +132,25 @@ static func valid(data:Dictionary)->bool:
  var state=mission.get("witness_evacuation")
  if not state is Dictionary or state.size()!=7 or state.get("state") not in ["at_berth","carried","salvage","landed"] or not state.get("pos") is Vector2 or not state.pos.is_finite() or not Rect2(Vector2.ZERO,mission.world_size).has_point(state.pos):return false
  if not state.get("carrier") is int or not state.get("landed_by") is int or not state.get("rescues") is int or state.rescues<0 or state.rescues>2 or not state.get("losses") is Array or state.losses.size()>2 or not state.get("job") is Dictionary:return false
+ if data.units.size()!=3 or data.units.any(func(u):return not u is Dictionary or not u.get("alive") is bool):return false
  var ids=[]
  for id in state.losses:
-  if id not in [1,2] or id in ids:return false
+  if not id is int or id not in [1,2] or id in ids or data.units[id].alive:return false
   ids.append(id)
- if state.rescues>state.losses.size():return false
+ if state.state=="salvage":
+  if state.losses.is_empty() or state.rescues!=state.losses.size()-1:return false
+ elif state.rescues!=state.losses.size():return false
+ if state.state!="landed" and state.pos!=(BERTH if state.losses.is_empty() else data.units[state.losses.back()].pos):return false
  if state.state=="carried":
   if state.carrier not in [0,1,2] or not data.units[state.carrier].alive:return false
  elif state.carrier!=-1:return false
  if state.state=="at_berth" and (state.pos!=BERTH or not state.losses.is_empty() or state.rescues!=0):return false
  if state.state=="landed":
-  if state.pos!=HARBOUR or state.landed_by not in [0,1,2]:return false
+  if state.pos!=HARBOUR or state.landed_by not in [0,1,2] or state.landed_by in state.losses:return false
  elif state.landed_by!=-1:return false
  if not state.job.is_empty():
   var job=state.job
   if job.size()!=3 or not job.get("unit") is int or job.unit not in [0,1,2] or not job.get("item") is String or state.state not in ["at_berth","salvage"] or not (job.get("elapsed") is float or job.get("elapsed") is int) or not is_finite(job.elapsed) or job.elapsed<0 or job.elapsed>DURATION:return false
-  if not data.captures[job.unit].is_empty() or not mission.module_recovery.jobs[job.unit].is_empty():return false
+  if not data.units[job.unit].alive or data.units[job.unit].get("hold","")!="HOLD" or not data.captures[job.unit].is_empty() or not mission.get("module_recovery",{}).get("jobs",[{},{},{}])[job.unit].is_empty():return false
  if state.state in ["carried","landed"] and not mission.objectives.any(func(o):return o.get("site_id","")=="witness_packet" and o.captured):return false
  return data.get("outcome","")!="won" or state.state=="landed"
