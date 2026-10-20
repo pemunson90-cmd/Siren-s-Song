@@ -1,8 +1,8 @@
 # Continuation
-Current production base: `9400d8aae8b488ce989c660d2af11cc069056cac`.
+Current production base: `b814e41ccce9bcd4c7abe48db2ed4a28d41e6583`.
 Read docs/USER_DIRECTIVES.md first; the latest order correction governs.
 
-## Next — Blackwater packet delivery and whole-game evaluation
+## Next — physical Warning Chain machinery and whole-game evaluation
 The rough campaign, four endings, craft upgrades and functional V7 rows are built.
 Stakes integrates operation endurance, independent acquisitions and targeting feedback.
 The authored Confluence operation is integrated after review and its PR game-smoke gate.
@@ -13,9 +13,9 @@ Practical fleet instruments are integrated: separated craft, acquisition progres
 offscreen focus, contextual verbs and targeting range feedback.
 Earned courses now advance through certified water and repair wholly surveyed detours;
 unresolved hazards retain destinations and stop for a genuine exploration decision.
-Genuine drone-led and Quietus-only journeys reached Hidden Harbour and Surface
-Reckoning on older frozen sources; the drone finale includes an unobserved interval.
-Other genuine journeys continue. Preserve checkpoints and distinguish execution gaps.
+Genuine journeys reached Hidden Harbour, Surface Reckoning and Silent Exodus on
+older frozen sources; the drone finale includes an unobserved interval.
+The remaining genuine journey continues past its completed tutorial on current source.
 Physical module recovery is integrated: noisy local salvage, inactive carried cargo,
 explicit departure choices and lasting optional-kit loss; bare frames remain available.
 Returning-player recovery reached a next-launch fit; continuation retains staged provenance.
@@ -23,9 +23,9 @@ Deep Rendezvous now has local berth release, sensed tender transit and permanent
 refuge decoding; quiet berth and Quietus-only completion remain available.
 Fleet selection now uses bounded Q/A/B handles; read-only telemetry allows chart
 input through while preserving radial commands, visual placement and pan/pinch.
-Two genuine drone-led Blackwater runs ended before their intended return leg.
-Build local delivery of sampled raw packets to Quietus, with carrier return,
-Quietus rendezvous, known-wreck recovery or fixed-relay resampling. Keep the glider.
+Blackwater raw packets now travel aboard their collector until local delivery to Q;
+known-wreck winching and fixed-relay resampling preserve recoverable alternatives.
+Next build Warning Chain as positional power, physical output choice and withdrawal.
 The user chooses when to playtest; development never waits for it.
 
 ## Preserve and integrate

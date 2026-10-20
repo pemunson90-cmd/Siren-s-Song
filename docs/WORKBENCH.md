@@ -26,7 +26,6 @@ Read docs/USER_DIRECTIVES.md. Pass 0 rows are built at rough quality; V7 recover
 |V7 evidence-floor pressure|rough|
 |V7 threat heartbeat/vignette|rough|
 |V7 photographic grading|rough|
-
 User playtest timing never gates development.
 
 Stakes integrated: mission endurance, concurrent craft exposures, visible targeting refusals.
@@ -34,6 +33,7 @@ Current play: fresh cover/inner journeys plus drone-heavy and Quietus-only conti
 Confluence integrated: authored region, noisy physical sluice, earned world art and departure.
 Fleet instruments integrated: bounded craft handles, read-only status and route-first gestures.
 Earned-course continuity integrated: retained goals, certified-water repairs, real hazard stops.
-Genuine journeys reached Hidden Harbour and Surface Reckoning on frozen earlier sources.
+Genuine journeys reached Hidden Harbour, Surface Reckoning and Silent Exodus.
 Physical module salvage integrated: return cargo or lose optional kit; bare frames remain.
-Next: Blackwater raw-packet delivery, local rendezvous and recoverable carrier losses.
+Blackwater delivery integrated: raw buffers return to Q through local transfer or recovery.
+Next: Warning Chain positional power, output machinery and tactical withdrawal.
