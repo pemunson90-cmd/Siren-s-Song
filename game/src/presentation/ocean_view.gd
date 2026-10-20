@@ -1,5 +1,6 @@
 extends Control
 const Shelf=preload("res://src/presentation/shelf_habitat_view.gd")
+const Wake=preload("res://src/presentation/wake_crossing_view.gd")
 const Recipient=preload("res://src/presentation/warning_recipient_view.gd")
 const Witness=preload("res://src/presentation/witness_evacuation_view.gd")
 const EarnedChart=preload("res://src/presentation/earned_chart_view.gd")
@@ -88,6 +89,8 @@ func pick_context(point:Vector2,touch:float) -> Dictionary:
 	if not tender.is_empty():return tender
 	return objective_context(point,touch)
 func objective_context(point:Vector2,touch:float)->Dictionary:
+	var wake=Wake.pick(self,sim,point,touch)
+	if not wake.is_empty():return wake
 	var shelter=Shelf.pick(self,sim,point,touch)
 	if not shelter.is_empty():return shelter
 	var recipient=Recipient.pick(self,sim,point,touch)
@@ -220,7 +223,7 @@ func _draw() -> void:
 	for o in observable_sites():
 		if sim.mission.id==8:continue
 		if o.get("own_origin",false):continue
-		if Rendezvous.replaces_site(sim,o) or WarningChain.replaces_site(sim,o) or Witness.replaces_site(sim,o) or Recipient.replaces_site(sim,o):continue
+		if Wake.replaces_site(sim,o) or Rendezvous.replaces_site(sim,o) or WarningChain.replaces_site(sim,o) or Witness.replaces_site(sim,o) or Recipient.replaces_site(sim,o):continue
 		if o.get("kind","")=="receiver":
 			draw_arc(o.pos,26,0,TAU,40,Color("80bdb6"),2)
 			draw_line(o.pos-Vector2(17,0),o.pos+Vector2(17,0),Color("80bdb6"),2)
@@ -240,7 +243,7 @@ func _draw() -> void:
 	for o in observable_sites():
 		if sim.mission.id==8:continue
 		if o.get("own_origin",false):continue
-		if Rendezvous.replaces_site(sim,o) or WarningChain.replaces_site(sim,o) or Witness.replaces_site(sim,o) or Recipient.replaces_site(sim,o):continue
+		if Wake.replaces_site(sim,o) or Rendezvous.replaces_site(sim,o) or WarningChain.replaces_site(sim,o) or Witness.replaces_site(sim,o) or Recipient.replaces_site(sim,o):continue
 		var c=CYAN if o.captured else Color("e1b66e")
 		draw_arc(o.pos,43,0,TAU,40,Color(c,0.35),1.4)
 		draw_line(o.pos+Vector2(-14,0),o.pos+Vector2(14,0),c,1)
@@ -257,6 +260,7 @@ func _draw() -> void:
 			if alpha>0: draw_rect(Rect2(x*40,y*40,40,40),Color(0.005,0.014,0.025,alpha))
 	preload("res://src/presentation/blackwater_courier_view.gd").draw(self,sim)
 	Shelf.draw_world(self,sim)
+	Wake.draw(self,sim)
 	Rendezvous.draw(self,sim)
 	WarningChain.draw_world(self,sim)
 	Witness.draw_world(self,sim)

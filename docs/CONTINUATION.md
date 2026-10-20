@@ -19,7 +19,6 @@ Blackwater requires local packet delivery; wreck winching and relay resampling p
 Warning Chain now uses a craft-held shore supply or finite noisy backup generator,
 physical service shutter or remote mast, explicit output selection/send and two exits.
 Its record distinguishes actual local receipt from transmission with external reception unknown.
-Source-known physical journeys establish finishability; first-exposure touch play evaluates it.
 The route planner retains existing charted terrain, targets, recovery and shutter state.
 Craft-anchored rings replace detached cards; deliberate STATUS retains exact fleet detail.
 Critical reserves, work/cargo/power and full touch targets remain; chart gestures pass through.
@@ -27,7 +26,8 @@ Concealed Record integrates physical pod rescue, local landing and Q recovery.
 Engine sound follows thrust; unsaved progress and archive recovery now stay visible with explicit retry.
 Open Warning requires recipient transit/arrival; nearby gate work remains accessible through craft controls.
 Shelf Return now warns two occupied galleries through local delivery or a risky common alarm.
-Next evaluate its actual play; expand route-specific concealed consequences and retain the full inventory.
+Wake Crossing adds a local finite diversion and stale watch reports; evaluate actual crossing choices.
+Retain the full inventory and distinct concealed work preserved on its separate reviewed branch.
 
 ## Preserve and integrate
 The unchanged audit and F1–F7 response are on archive/claude-audit-2026-10-19.

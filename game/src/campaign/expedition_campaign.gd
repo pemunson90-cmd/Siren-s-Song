@@ -26,6 +26,8 @@ static func recover(previous:Dictionary,mission:Dictionary)->Dictionary:
   if result.route.is_empty():result.route=mission.chosen_route
   if result.route not in result.routes:result.routes.append(result.route)
  result=Consequences.recovered(result,mission)
+ if mission.id==9 and first_recovery and mission.has("wake_crossing"):
+  result.facts["wake_crossing"]="repeater_played" if mission.wake_crossing.played_at>=0 else "repeater_unused"
  if mission.id==8 and first_recovery:
   var shelter=preload("res://src/simulation/shelf_habitat.gd").result(mission)
   if not shelter.is_empty():result.facts["shelf_warning"]=shelter
