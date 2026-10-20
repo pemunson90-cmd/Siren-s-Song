@@ -1,4 +1,5 @@
 extends RefCounted
+const Shelf=preload("res://src/simulation/shelf_habitat.gd")
 const Endurance=preload("res://src/simulation/operation_endurance.gd")
 const Recon=preload("res://src/simulation/recon_consequences.gd")
 const PolygonContainment=preload("res://src/simulation/polygon_containment.gd")
@@ -202,6 +203,7 @@ func contact_target(contact:Dictionary)->Dictionary:
 func module_recovery_status()->Dictionary:return ModuleRecovery.status(self)
 func blackwater_delivery_status()->Dictionary:return Delivery.status(self)
 func blackwater_handoff_context(carrier:int)->Dictionary:return Delivery.handoff_context(self,carrier)
+func shelf_context()->Dictionary:return Shelf.context(self)
 func warning_chain_context(unit_id:int=-1)->Dictionary:return Chain.context(self,selected if unit_id<0 else unit_id)
 func _warning_chain_busy(unit_id:int)->bool:return Chain.connected(self,unit_id)
 func departure_context()->Dictionary:
@@ -362,6 +364,8 @@ func command(order: String,args: Dictionary={}) -> bool:
 	if not u.alive and order!="select":
 		selected=0; queue_mode=false; message="Selected drone lost. Quietus selected; reissue the order."; return false
 	match order:
+		"shelf_warn":return Shelf.command(self,"local",args.get("site",""))
+		"shelf_alarm":return Shelf.command(self,"common")
 		"chain_power":return Chain.command(self,args.mode) if args.get("mode") in ["connect","disconnect","backup"] else false
 		"chain_route":return Chain.command(self,args.output) if args.get("output") in ["service","mast"] else false
 		"chain_send":return Chain.command(self,"send")
@@ -553,6 +557,7 @@ func _blackwater_context_text(target:int,station:int) -> String:
 	var learned=mission.objectives.any(func(o):return o.captured)
 	return "%s · %dm / quiet %.0fm%s"%[name,c.distance,c.quiet_range," · learned: SONAR + SAMPLE within 240m" if learned else " · move closer to listen"]
 func camera_context() -> Dictionary:
+	if Shelf.applies(mission):return {"target":-1,"ready":false,"text":Shelf.context(self).account}
 	if Chain.applies(mission):return {"target":-1,"ready":false,"text":Chain.context(self,selected).text}
 	var work=capture_feedback(selected)
 	if work.unit>=0:
@@ -683,6 +688,7 @@ func _tick(dt: float) -> void:
 	_advance_projectiles(dt)
 	Recipient.tick(self,dt)
 	_threats(dt)
+	Shelf.tick(self)
 	Chain.tick(self)
 	Delivery.losses(self)
 	Witness.losses(self)
@@ -1140,6 +1146,7 @@ func _search_approach(s: Dictionary) -> Array:
 			if not route.is_empty(): s.goal=point; return route
 	return []
 func all_records() -> bool:
+	if not Shelf.complete(self):return false
 	if not Recipient.complete(self):return false
 	if not Witness.complete(self):return false
 	if not Chain.complete(self):return false
@@ -1203,6 +1210,7 @@ static func valid_snapshot(data: Dictionary) -> bool:
 	if not Witness.valid(data):return false
 	if not Recipient.valid(data):return false
 	if not Delivery.valid(data):return false
+	if not Shelf.valid(data):return false
 	if not Chain.valid(data):return false
 	if not Rendezvous.valid(data.mission,float(data.get("elapsed",0))):return false
 	if data.mission.get("earned_terrain",false):

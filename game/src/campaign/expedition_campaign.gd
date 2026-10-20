@@ -19,12 +19,16 @@ static func recover(previous:Dictionary,mission:Dictionary)->Dictionary:
  if mission.get("expedition_revision",0) not in [1,2] or not mission.get("recovered",false):return Consequences.retain(result,mission)
  if mission.id!=6 and (result.is_empty() or not valid(result)):return result
  if result.is_empty():result={"version":1,"route":"","routes":[],"facts":{},"completed":[]}
- if mission.id not in result.completed:result.completed.append(mission.id)
+ var first_recovery=mission.id not in result.completed
+ if first_recovery:result.completed.append(mission.id)
  for fact in mission.expedition_facts:result.facts[fact]=mission.expedition_facts[fact]
  if mission.id==6:
   if result.route.is_empty():result.route=mission.chosen_route
   if result.route not in result.routes:result.routes.append(result.route)
  result=Consequences.recovered(result,mission)
+ if mission.id==8 and first_recovery:
+  var shelter=preload("res://src/simulation/shelf_habitat.gd").result(mission)
+  if not shelter.is_empty():result.facts["shelf_warning"]=shelter
  var ending=preload("res://src/campaign/endings.gd").resolve(result)
  if not ending.is_empty():result["ending"]=ending.id
  return result

@@ -85,10 +85,20 @@ func _initialize():
  check(not stale.command("depart",{"confirm":true,"corridor":{"pos":Vector2(900,800),"route":""}}) and stale.outcome.is_empty(),"a stale confirmation for another physical recovery mouth cannot commit departure")
  for index in [8,11]:
   var expedition=Sim.new();expedition.start(index,"endurance",{"fitted":{"quietus":"","drone_a":"drone_deep_cells","drone_b":""},"fleet_commit":true});expedition.sirens=[]
-  if index==11:
+  if index==8:
+   expedition.units[0].pos=expedition.mission.corridors[0].pos;expedition.units[0].vel=Vector2.ZERO;advance(expedition,Sim.STEP)
+   check(expedition.outcome.is_empty() and not expedition.departure_context().available,"Shelf hardware recovery cannot replace an undelivered shelter account")
+   # Earn both gallery deliveries and receiver-owned replies before testing the
+   # independent hardware decision; a captured flag alone is not Shelf work.
+   for gallery in preload("res://src/simulation/shelf_habitat.gd").GALLERIES:
+    expedition.units[0].pos=gallery.pos+Vector2(0,40);expedition.units[0].vel=Vector2.ZERO;advance(expedition,.25)
+    check(expedition.command("shelf_warn",{"site":gallery.id}),"module fixture physically delivers the local "+gallery.id+" shelter warning")
+    advance(expedition,3.)
+   check(expedition.shelf_context().receipts.size()==2 and expedition.mission.objectives[0].captured,"module fixture earns both actual shelter replies before extraction")
+  else:
    var source=expedition.mission.signal_sources[0];expedition.units[0].pos=source.pos;preload("res://src/campaign/campaign_consequences.gd").observe(expedition,true)
-  for o in expedition.mission.objectives:
-   if not o.get("optional",false):o.captured=true
+   for o in expedition.mission.objectives:
+    if not o.get("optional",false):o.captured=true
   var corridor=expedition.mission.corridors[0];expedition.units[0].pos=corridor.pos;expedition.units[0].vel=Vector2.ZERO;advance(expedition,Sim.STEP)
   check(expedition.outcome.is_empty() and expedition.departure_context().confirmation_required,"authored expedition%d extraction also waits for the real hardware decision"%index)
   check(expedition.command("depart",{"confirm":true,"corridor":corridor}) and expedition.mission.recovered and expedition.mission.chosen_route==corridor.route,"authored expedition%d commits its actual physical route when departure is confirmed"%index)
