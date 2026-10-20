@@ -32,9 +32,9 @@ func _initialize()->void:
  check(fixture(8).sirens.any(func(s):return s.type=="hunter"),"Shelf approach includes a mobile hunter")
  check(fixture(10).sirens.any(func(s):return s.type=="sentinel"),"parallel warning fieldwork includes a stationary defender")
  var deep=fixture(11,"deep");var shelf=fixture(11,"shelf")
- check(deep.sirens.any(func(s):return s.type=="sentinel") and not deep.sirens.any(func(s):return s.type=="hunter"),"deep context reaches a defended live-memory arm")
- check(shelf.sirens.any(func(s):return s.type=="hunter") and not shelf.sirens.any(func(s):return s.type=="sentinel"),"shelf context encounters a mobile eastern response")
- check(deep.mission.start!=shelf.mission.start and deep.mission.rocks==shelf.mission.rocks,"thread changes physical entry and roster within one shared Confluence")
+ check(deep.sirens.any(func(s):return s.type=="sentinel") and deep.sirens.any(func(s):return s.type=="hunter") and deep.sirens.any(func(s):return s.type=="patroller"),"deep entry retains all three physical Confluence threat jobs")
+ check(shelf.sirens.any(func(s):return s.type=="hunter") and shelf.sirens.any(func(s):return s.type=="sentinel") and shelf.sirens.any(func(s):return s.type=="patroller"),"shelf entry retains all three physical Confluence threat jobs")
+ check(deep.mission.start!=shelf.mission.start and deep.mission.rocks==shelf.mission.rocks,"thread changes physical entry within one shared Confluence")
  check(fixture(12).sirens.any(func(s):return s.type=="sentinel"),"sluice operation has a local station defender")
  check(fixture(13).sirens.any(func(s):return s.type=="hunter") and fixture(13).sirens.any(func(s):return s.type=="sentinel"),"open warning combines mobile response and guarded receiver")
  # A closed sluice still permits a quiet physical route; opening only removes

@@ -31,6 +31,7 @@ func _initialize()->void:
  var live_return=s.mission.signal_sources[0].pos+Vector2(0,180)
  var closed_return=length_of(s.path(live_return,s.mission.corridors[1].pos),live_return)
  check(not s.line_clear(west,east),"closed service sluice really blocks cross-island sight")
+ check(not s.acoustic_paths.arrivals(west,east,3000).any(func(a):return a.direct),"closed door also blocks the direct acoustic path")
  var repeater=s.mission.signal_sources.filter(func(source):return source.id=="confluence_repeater")[0]
  s.units[0].pos=repeater.pos;s.units[0].vel=Vector2.ZERO
  Consequences.observe(s,true)
@@ -49,6 +50,7 @@ func _initialize()->void:
  check(before>0,"local receiver earns the actual closed service door face")
  site.captured=true;s._record_secured(site,0)
  check(gate.opened and not s.mission.structures.has(gate.closed_shape),"completing optional operation permanently opens physical passage")
+ check(s.acoustic_paths.arrivals(west,east,3000).any(func(a):return a.direct),"open passage uses the same direct acoustic geography")
  check(s.line_clear(west,east) and length_of(s.path(west,east),west)+900<closed,"service choice earns a materially shorter return across the divide")
  check(length_of(s.path(live_return,s.mission.corridors[1].pos),live_return)+700<closed_return,"service discovery shortens the actual live-memory eastern withdrawal")
  check(s.noises.any(func(n):return n.pos==site.pos and n.radius>=1100),"opening discloses the real actuator position through local sound")
