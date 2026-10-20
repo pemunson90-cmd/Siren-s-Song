@@ -456,8 +456,15 @@ func _equipment_context()->Dictionary:
 func _choose_equipment(slot:String,item:String,index:int)->void:
 	var choice=preload("res://src/equipment/equipment_catalog.gd").choose(fitted_equipment,slot,item,FleetInventory.available(_equipment_entitlements(),fleet))
 	if not choice.ok:return
+	var reading_position=scroll.scroll_vertical
 	fitted_equipment=choice.fitted
 	_save_archive();_briefing(index)
+	var heading=panel_box.get_child(0)
+	(func():
+		# Wait for wrapped text to establish the rebuilt scroll range.
+		await get_tree().process_frame
+		if is_instance_valid(heading) and heading.get_parent()==panel_box:scroll.scroll_vertical=reading_position
+	).call_deferred()
 func _debrief() -> void:
 	screen="debrief"; _clear_menu()
 	# Capture first completion before either classic or expedition debrief writes
