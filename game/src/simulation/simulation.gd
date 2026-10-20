@@ -134,7 +134,13 @@ func _course_block(u:Dictionary,reason:String)->void:
 		u.chart_stop=reason;message="%s · %s · replot retained course"%[u.name,reason]
 func _course_prepare(u:Dictionary,speed:float,holding:bool)->Dictionary:
 	if terrain_chart==null:return {"speed":speed,"holding":holding,"earned":false,"ground_cap":-1.0}
-	if not u.route.is_empty() and not terrain_chart.segment_safe(u.pos,u.route[0].pos):_course_block(u,"New terrain")
+	if not holding and not u.route.is_empty() and u.get("chart_stop","") in ["","New terrain"]:
+		if not terrain_chart.segment_safe(u.pos,u.route[0].pos):
+			if _repair_current_leg(u,true):
+				u.erase("chart_stop");message="%s · course adjusted through surveyed water"%u.name
+			elif terrain_chart.clear_distance(u.pos,u.route[0].pos)<=20.0:_course_block(u,"New terrain")
+			else:u.erase("chart_stop") # Retain useful travel before an unresolved return.
+		else:u.erase("chart_stop")
 	if u.has("chart_stop"):holding=true
 	if u.route.is_empty():return {"speed":speed,"holding":holding,"earned":true,"ground_cap":-1.0}
 	var direction:Vector2=u.pos.direction_to(u.route[0].pos)
@@ -654,15 +660,20 @@ func _leg_enters_rect(a:Vector2,b:Vector2,rect:Rect2) -> bool:
 # Physical turns can leave the line compiled at order time. Repair only a dirty
 # current leg; keep every accepted node/goal after it and never re-run AStar for
 # an unobstructed leg. This is player autopilot, not enemy pursuit steering.
-func _repair_current_leg(u:Dictionary) -> bool:
-	var destination:Dictionary=u.route[0]
-	var leg=player_path(u.pos,destination.pos)
+func _repair_current_leg(u:Dictionary,confirmed_only:bool=false) -> bool:
+	var index=0
+	# Earned returns can invalidate generated corners. Rejoin the same accepted
+	# goal through surveyed water, preserving every later operator waypoint.
+	if confirmed_only and u.has("route_plan"):
+		while index<u.route.size()-1 and not u.route[index].get("goal",false):index+=1
+	var destination:Dictionary=u.route[index]
+	var leg=terrain_chart.known_path(u.pos,destination.pos) if confirmed_only else player_path(u.pos,destination.pos)
 	if leg.is_empty() or not _player_leg_safe(u.pos,leg[0].pos): return false
 	for node in leg:
 		# Keep a near-wall recovery safety STOP, distinct from operator arrival.
 		if destination.has("mode"): node.mode=destination.mode
 	leg[leg.size()-1]=destination.duplicate(true)
-	leg.append_array(u.route.slice(1));u.route=leg
+	leg.append_array(u.route.slice(index+1));u.route=leg
 	return true
 func propulsion_speed(u:Dictionary) -> float:
 	# Engine effort is through water; u.vel remains actual chart/ground motion.
