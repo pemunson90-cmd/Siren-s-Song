@@ -1,0 +1,14 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+WINCH=true
+ATTACH=true
+REAL_DRONE_ROUTE=true
+DRONE_ARRIVED=(2133.132, 972.1284) speed=0.66457802057266 witness=carried carrier=1
+BEFORE_LOSS baffle_ready=false
+ACTUAL_BEAM_LOSS alive=false guard_mode=BEAM pod=salvage pos=(2133.132, 972.1284) valid=true
+SEAT_BAFFLE=true pod_blocked=true phase=seated can_attach=false can_release=false all_records=false valid=true
+BINARY_SAVE=true equal=true RESTORE=true error=
+LEGAL_WATER (2020.0, 970.0) blocked=false line_to_pod=false
+LEGAL_WATER (2260.0, 970.0) blocked=false line_to_pod=false
+LEGAL_WATER (2140.0, 820.0) blocked=false line_to_pod=false
+LEGAL_WATER (2140.0, 1120.0) blocked=false line_to_pod=false

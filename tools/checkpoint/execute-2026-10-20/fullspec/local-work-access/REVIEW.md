@@ -1,0 +1,19 @@
+# PR45 OW1 local work access — sole independent review
+
+**APPROVE exact head `566bacd29942738491983d9676a348a634b52761` against production `6778fadb1b3b63f29570f712e7ae37eb04d507fa`.** Final game tree: `2307561b9100777121f716483d4c85bad6e9c7fc`. No remaining blocker found within this change's scope. New exact-head CI 39449631929 remains root's separate merge gate; no CI-success claim is made here. Reviewer: `/root/pr37_integration_review`, the same sole integration-review lane. Requested routing: gpt-6.1-sol; backend/effort telemetry unavailable. Current production AGENTS.md, USER_DIRECTIVES and living spec were read at the review boundary; guidance remained unchanged on rebind.
+
+## Initial blocker and disposition
+
+**B1 resolved.** Parent head `24522b2f29a7dcf7a2d28de929f6bb1abd4fb6d8` exposed CAMERA/LISTEN in the gate object context while leaving it outside guarded ownership. My real-Main probe actually transmitted the warning, moved to the measured panel with ACK pending, and canceled touch followed by emulated mouse release. It started capture target 1 and dismissed the popup without a completed tap. Original probe and failure: `review_pending_listen_cancel.gd`, `review-pending-listen-cancel.log`.
+
+The child changes only two matching HUD ownership conditions and existing recipient tests. Gate-object CAMERA/LISTEN now uses the same guarded hit-test and mouse-ignore contract as contextual craft entry. Shelf warning/alarm remain in both guarded lists. No new dispatch, model, route, persistence or schema behavior is introduced. I inspected the full child diff, including negative gesture cases and deliberate timed ACK acquisition.
+
+## Independent evidence
+
+- **Exact-child original reproduction, headless and actual X11/Compatibility Window: PASS**, exit 0. Both now retain the full snapshot, empty captures and open gate popup after cancellation. Logs: `review-pending-listen-cancel-final.log` and `review-pending-listen-cancel-final-window.log`. Window emitted only unsupported V-Sync-setting driver warning; no script errors.
+- **Exact-child expanded recipient scenario: 134/0 headless**, exit 0/no SCRIPT ERROR/ERROR, `review-recipient-final-headless.log`. Both cover/inner fixtures reject canceled touch, short drag, drag-off, pinch and emulated release; deliberate touch and ordinary mouse start real paused LISTEN and earn the timed ACK without opening the gate. Earned recipient entry also rejects cancellation. The owner's separate headless run reported an ObjectDB shutdown warning; that warning did not recur in this independent final run. This is not a general shutdown-leak fix claim.
+- **Independent parent actual Window evidence retained for unchanged paths:** recipient 102/0 and Shelf 69/0, exit 0, `review-recipient-window.log` and `review-shelf-window.log`. Real PLOT ROUTE settled 7.290495m from the panel at speed 0 on both shapes. These establish local entry/release reachability, one physical release/noise, preserved selection/route/profile/queue/pause, actual ACK and sheltered arrival, plus both Shelf finite-action contracts. Those original counts omitted B1; they were not used to override it.
+
+I also inspected six retained local-entry/control/prerequisite frames. Full diff whitespace and tracked-clean checks passed. All reviewer processes ended normally; :532 Xvfb, player displays/profiles, worktrees and generated UIDs remain preserved.
+
+Separate inherited canceled PLOT ROUTE/STATUS/Back findings remain open: root independently reproduced them on production 6778, and these controls are unchanged here. Approval does not certify universal pointer correctness or close broader crowding findings. These staged source-known technical fixtures are not blind campaign play, physical Fold7 ergonomics, native Android or whole-game-completion evidence. No broad density rerun, source edit, checkout, PR action, merge or APK was performed by this reviewer.

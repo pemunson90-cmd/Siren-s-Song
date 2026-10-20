@@ -1,0 +1,58 @@
+CONCEALED CONSEQUENCES — BUILDER HANDOFF (not independent approval)
+
+Source: /workspace/Siren-s-Song-play-frozen, gauntlet/feature/concealed-consequences.
+Base 1de0dcc5d843b31e88ad88a21b68d46a0773774d. Governing guidance reread at that base and changed USER_DIRECTIVES reconciled against fetched6778fadb. No composition of current production/Shelf44 yet.
+Feature freeze01c8de33e2677f479a513179c408461418d2dd22; game e716325710c790c38c98a5e0b8706acda831e771.
+Final child4fde36b719c84e3d6934313d298d5a6b99d2d698; game58680dbdb49963535a1d764ef00a38996d71d87c.
+Requested model routing Sol6.1; actual backend/effort telemetry unavailable.
+
+WHAT CHANGED
+- Existing operation12 and physical occupied-pod rescue remain. Boarding now yields the navigator's or harbour keeper's specific practical account; the survivor changes what the player understands and does.
+- Deep: a physically taut trace cable blocks the departure throat. A real float samples departure traffic along acoustic paths. Attaching/releasing in place solves nothing. Hauling the same float90m out of its socket disconnects that surface trace, retracts the cable and causes the local station to open its own solid shutter and emit a finite reply. Actual received reply plus occupied-witness landing and Quietus recovery earn Silent Exodus. Local cast-off works: an unnecessary authored cradle was removed, not padded into mandatory work.
+- Shelf: folding the collapsed screen onto Quietus removes an actual solid mouth obstruction. Service placement preserves the short, acoustically open north approach; baffle placement closes it and leaves a longer lower route. The changed physical sound path changes whether the ordinary local watch hears the station's reply. Both placements remain valid. Unfolding refuses to enclose any living craft. Occupied bays, shutters and pressure-world silhouettes appear from local sensing; received admission establishes a refuge for shelter families. Hidden Harbour resolves a receiving place, distinct from deep departures.
+- Tow follows Quietus's actual travelled water, caps cruise/silent speeds at40/26m/s and emits drag only during movement. A stop does not become an infinite lure. Local release/reattachment consumes no finite tool; craft cannot teleport the tow through solid water at coupling/seating. Bare Quietus can finish; drones remain optional independent witness carriers, scouts, receivers, defenders and fitted sluice workers.
+- Prior tender, gallery-warning and verified service-receipt facts receive selective acknowledgement. Missing facts do not invent those prior actions. This is a limited continuity consumer, not campaign-wide reactivity.
+- New first-success consequence is immutable on replay. A previously committed current ending without new work retains its original account; it is not rewritten as newly performed work. Incompatible old active12 snapshots reject cleanly, with no migration or revision flags.
+- Both existing test.sh and existing game-smoke CI register all three new model/journey/UI suites. One spec paragraph; no new chapter, grant, difficulty framework, save framework or governance.
+
+ACTUAL TECHNICAL VOYAGES — FROZEN01c8, ORDINARY GUARDS
+Source-known scripted voyages from launch, real movement/custody/noise/guard transitions; NOT blind play, human enjoyment or balanced preference acceptance. All four use bare Q, zero finite tools, no living drones, Endurance stock. No tow clipping observed.
+Policy                         elapsed     work*      hull     O2       local reply heard/investigated by watch
+Deep western haul/cast-off       242.867s    57.767s    100.0    62.175   no/no
+Deep short haul/cast-off         202.183s    17.100s    100.0    71.861   no/no
+Shelf open service              204.917s    17.283s     79.9    71.210   yes/yes
+Shelf lower baffle              207.083s    19.400s     77.5    70.694   no/no
+*Work includes haul and physical approach to inspect/receive the resulting station, before withdrawal.
+The baffle changes actual guard information; these similar times and worse baffle hull DO NOT establish a balanced player preference or a universally superior tactic. Western deep hauling had no demonstrated benefit; the extra destination was removed. The shorter cast-off is legitimate.
+Existing actual occupied-pod voyages also passed: detour192.417s/hull100; sluice175.917s/hull100 (oneEMP, actual motor investigation); beam-loss rescue319.833s/hull100/O2 43.849 (oneEMP/one torpedo, actual drone loss, same living pod and recovered kit). These retained probes precede the final text-only child.
+
+VERIFICATION / SOURCE PROVENANCE
+Frozen01c8: model57/0, real journeys43/0, actual cover+inner renderer/UI72/0, witness model49/0, resolution hooks19/0, resolution content44/0. No tracked source edits during these frozen runs.
+New binary SaveStore checks include a partially hauled still-connected trace/trail, ordinary restore and matching next simulated state, completed consequence and first committed history. Attach/release-in-place counterpolicy, foreign-craft unfolding safety, both geometry/acoustic choices, old active rejection and prior-ending non-rewrite are tested. Some content predicate fixtures are literal unit data; they are not voyage evidence.
+Affected existing consumer runs: witness journey32/0, witness UI108/0; campaign endings48/0, consequences14/0, equipment-save10/0; divergence-save12/0; resolution geometry23/0, operations18/0; recovery-route UI68/0; module recovery51/0, module inventory18/0. Module inventory emitted an ObjectDB instances-leaked-at-exit warning; not hidden as a pristine output. No full unrelated test.sh run/green-suite claim.
+Final child changes only briefing distribution/account ordering/transition and its UI assertion. The first-screen account assertion failed4/4 before repair, then headless UI76/0 passed. Actual final renderer is the relevant rerun; final status appended below. Model/geometry/campaign evidence is retained from01c8, not mislabeled as rerun on the child.
+
+FAILURES AND CORRECTIONS, PRESERVED IN DRAFT LOGS
+- Initial coupling solved the trace immediately and left arbitrary parking. Root challenged it; actual90m haul now changes cable geometry and station state, with free cast-off.
+- Initial local watch placement heard the winch and killed the bare route before its new choice. Final authored watch is outside the receiving approach; source-known pilot initially also crossed its post unnecessarily. Revised legal covered approach/lower withdrawal actually finished. Failed voyages remain in journeys1..7 logs; no global AI nerf or tool refund.
+- A controller aimed60m from the eye but returned within25m of its goal, sometimes still outside65m. Corrected controller endpoints, not action range.
+- Existing structure validation initially rejected legitimate moved screen geometry. Narrow expected-structure handling now covers this operation; active and completed snapshots validate.
+- Unfolding could enclose a peer; failing test reproduced it, then local readiness/clear segments prevented it.
+- Initial WITNESS ACCOUNT opened controls with prose behind STATUS. Direct account sheet repaired that, but first actual render still showed old LAND instructions prepended and BACK overwriting LOCAL ORDERS. Child fix leads with survivor prose, resets that sheet, preserves LOCAL ORDERS and moves both-route briefing detail into local context. Default scene occlusion remains separate.
+
+LIMITS / CUMULATIVE INVENTORY
+This addresses D2 for newly earned concealed resolutions and bounded D3/D5 continuity/voice. Every other D/A/P/T inventory finding remains visible in INVENTORY.md and CAMPAIGN_DESIGN_CRITIC.md. D11/OW7 instruction debt remains beyond the narrow distribution repair. Finite resources/permanent loss and optional fleet agency remain intentional; genuine earlier-player fleet successes are counterevidence to blanket flatness.
+World art is still schematic. At default focused cover view, craft cards/ARRIVALS obscure much of the little occupied bays and some labels overlap; panning can expose them. These captures do not establish polished inhabited-world readability. Occupant silhouettes are local scenery, not an independently simulated crowd or total fleet rescue. Epilogues extend the earned local opening/account, not a proved global victory.
+Actual captures are controlled own-position UI fixtures with neutralized guards, NOT screenshots of the above voyages. No Android APK, physical Fold ergonomics, human preference or headphone/audio-quality verdict. Builder is not the independent reviewer.
+
+STAGED ACCESS (ONLY PROFILE/INTERFACE TO A FRESH CRITIC)
+Immutable originals: staged-deep-access.save and staged-shelf-access.save beside this report. Explicitly synthetic prior tutorial/branch/Confluence history; operation12 NOT complete, no active dive, all fittings BARE. Each validated and round-tripped through real SaveStore; ordinary Operations offers operation12. Never substitute these for a genuine earned profile. Give critics copies, not this report/routes/costs.
+Deep SHA25667433d9460af2e614860eca2218fdd18ab8fb7029498e9e1a48b286ff94ca891
+Shelf SHA256b1300ac3c8a18f205ad41b45bf83728d4a3d792aa0961c2d04ea16eb66d78458
+Root owns composing current production/Shelf44/local-control work and the sole independent review/PR/CI. No push, merge, APK or genuine save change performed here.
+
+FINAL CHILD STATUS / OWNERSHIP RELEASE
+Final actual GLES renderer/UI at4fde36b:76 checks/0 failures, no script/errors. render-final/ contains12 actual cover/inner account, local-order and consequence images. Both branches' first account screens were visually inspected on both shapes; survivor prose and LOCAL ORDERS are visible, and injected ordinary taps reach the ready local tow controls. Canceled/short-drag/second-finger plus emulated release tests cover attach, release and seating. Source remained unchanged throughout this final run. Process exited normally; no owned Godot renderer remains. Xvfb528 is left idle intact. Tracked tree remains clean; unrelated preserved generated UIDs remain unstaged. Root now owns mutation/composition of this tree.
+
+RETURNING-PLAYER COUNTEREVIDENCE / ACCEPTANCE QUESTIONS
+Read WITNESS_CURRENT_RETURNING_PLAYER.md after the feature froze. Its source1de0 current-pod assessment supersedes the obsolete frozen0ee broad-escape complaint: actual physical rescue and narrowly worded current witness safety were already earned. That familiar quiet staged policy won139.933s, hull100/O2 86.683; bare A did distant rescue/return at96m/s and~60% battery, Q moved~192m at the end, B idle and all tools unused. This is legitimate quiet fleet agency, not proof of universal triviality. The new separate Quietus environmental role and specific witness account are plausible expansion responses; added hauling/receipt do not demonstrate compelling play by themselves. Independent actual first exposure must assess whether the problems/choices/aftermath are meaningful, whether either shelf approach offers a worthwhile preference and whether the survivor/refuge feel concrete despite schematic/occluded presentation. No forced damage, tool expenditure, mandatory drones or extra distance was added to manufacture acceptance.

@@ -1,0 +1,31 @@
+PR45 REVIEW REPAIR — CURRENT FROZEN HEAD566bacd29942738491983d9676a348a634b52761
+Direct child of root-composed24522b2f29a7dcf7a2d28de929f6bb1abd4fb6d8. Published to gauntlet/fix/local-work-access; PR45 now holds this head; new game-smoke39449631929 is in progress. Root owns sole re-review/merge.
+Only mission_hud.gd and existing warning_recipient_ui_tests.gd changed. Both guard-hit selection and mouse-ignore scope now include the added gate-context CAMERA/LISTEN fallback. Shelf guards and root handoffs are preserved.
+Original reviewer repro reused unchanged on actual X11/Compatibility: revision-red-window.log starts capture target1 after cancel; revision-green-window.log leaves exact snapshot unchanged, empty captures and open popup. Green Window warning: unsupported V-Sync only.
+Expanded existing recipient scenario134/0 on both420dpi layouts: cancel, inside short drag, drag-off, pinch and emulated release issue no pending-camera work; deliberate real touch and native mouse each earn actual timed ACK; earned-recipient return rejects cancel. Shelf69/0. Logs: revision-warning_recipient_ui_tests.log and revision-shelf_habitat_ui_tests.log.
+Recipient headless shutdown printed an ObjectDB-instance warning; no script error. Retained original RED also printed that warning; fixed original Window probe did not. No claim of a general shutdown-leak repair.
+Neighbor audit retained in revision-actions-red.log: inherited gate PLOT ROUTE cancel changes route; inherited STATUS cancel opens inspect; inherited Back cancel dismisses. Those controls predate PR45 in6778 and remain separate findings, per root scope.
+Current governing guidance6778 refreshed at completion; boundary checker passed. All owned processes ended, :533 socket/lock absent. Tracked source clean; generated UIDs preserved. Mutation ownership released; no further edits planned.
+
+Prior OW1 implementation evidence follows (historical head):
+
+OW1 local-work access repair — frozen 02d0282ca5532cf7f4c6fd6dfb55ce1f0513da8b
+Branch: gauntlet/fix/local-work-access; base1de0dcc5d843b31e88ad88a21b68d46a0773774d.
+Initial governing instructions1de; refreshed current AGENTS/USER_DIRECTIVES and changed handoffs/spec at6778fadb1b3b63f29570f712e7ae37eb04d507fa. Existing boundary completion passed.
+Requested routing: gpt-6.1-sol; backend/effort telemetry unavailable.
+
+Known closed service gate within60m of the selected living craft now offers GATE CONTROLS through its existing primary. Own craft body selection and plotted destinations remain unchanged. Entry only opens the existing gate context; explicit OPEN SERVICE retains actual readiness and audible release. The context also retains ordinary CAMERA/LISTEN/TRANSMIT. Earned recipient primary is labeled/enabled to match its existing destination after gate work. Unknown gates and remote selected drones gain no local gate action.
+The contextual primary uses the existing single gesture owner and ignores emulated GUI releases, matching actual gate custody actions. No model, save, schema, route or automation changes.
+
+Files: game/src/main.gd; game/src/presentation/mission_hud.gd; game/src/presentation/warning_recipient_view.gd; game/tests/warning_recipient_ui_tests.gd.
+The expanded existing recipient scenario is already executed by game-smoke; no CI/framework change.
+
+RED: actual X11/Compatibility Window32 checks/2 expected missing-gate-entry failures, both shapes (red-window.log).
+GREEN: actual Window102/0, raw ScreenTouch + established emulated mouse, native mouse, both2520x1080 cover with136px inset and2184x1968 inner at420dpi (green-window.log).
+Physical PLOT ROUTE settles7.2905m from the gate panel, speed0, on both shapes. Tests preserve actual route/program, profile, queue and pause; reject cancel/short-drag/drag-off/pinch for entry and release; verify only explicit release opens physical water and emits one noise. Pending real local acknowledgement, restored recipient primary, remote-drone context, disabled readiness/visible STATUS, independent badge and actual sheltered arrival remain covered.
+Affected focused headless consumers: witness108/0; resolution/physical-site controls32/0; module-recovery UI37/0. Logs named for those scripts.
+The intermediate headless log retains a corrected overly strict LISTEN-label assertion; final Window validates the ordinary CAMERA/LISTEN contract and real received acknowledgement.
+
+Inspected six new craft-entry/gate-context/prerequisite frames in green-captures/ across both shapes; reachable actions and settling reason fit. Staged source-known technical fixtures, not blind play/native ergonomics or a closure of global OW8/P01 crowding. Dummy audio; only driver warning is unsupported V-Sync. No script errors.
+Composition: branch intentionally starts at1de; preserve Shelf5c699's guarded shelf_warn/shelf_alarm additions when composing mission_hud.gd. Root owns sole review/newCI/PR; no push/merge/APK.
+All owned Godot/Xvfb processes ended normally; :533 socket/lock absent. Tracked tree clean; generated untracked UIDs preserved. Mutation ownership released; no further edits planned.
