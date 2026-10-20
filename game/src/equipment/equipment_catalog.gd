@@ -8,7 +8,7 @@ const ITEMS={
  "drone_survey_array":{"id":"drone_survey_array","name":"Drone survey array","compatible_slots":["drone_a","drone_b"],"benefit":"Extend this drone's ordinary passive and chart reach from330m to460m.","cost":"Uses one drone hardware slot."},
  "drone_deep_cells":{"id":"drone_deep_cells","name":"Drone deep cells","compatible_slots":["drone_a","drone_b"],"benefit":"Double this drone's operating endurance.","cost":"Uses one drone hardware slot."},
  "quietus_correlator":{"id":"quietus_correlator","name":"Cadence correlator","compatible_slots":["quietus"],"benefit":"Compare fresh received cadence with a recovered reference before close source acquisition.","cost":"Settle below 12m/s for 6 seconds. Matching cadence does not prove identity, range or safety."},
- "drone_sampler":{"id":"drone_sampler","name":"Field sampler pod","compatible_slots":["drone_a","drone_b"],"benefit":"Prepare compatible field receivers remotely while Quietus takes another task.","cost":"One pod on one drone. An 8-second local exposure emits camera noise; Quietus can prepare the same receiver in 4 seconds."}
+ "drone_sampler":{"id":"drone_sampler","name":"Field sampler pod","compatible_slots":["drone_a","drone_b"],"benefit":"Prepare compatible field receivers and operate the powered Warning Chain panel while Quietus takes another task.","cost":"One pod on one drone. Receiver exposure takes8 audible seconds; Quietus takes4. Plant switches require a settled local connection."}
 }
 static func valid_fitting(value)->bool:
  if not value is Dictionary:return false
