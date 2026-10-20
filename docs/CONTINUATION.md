@@ -1,15 +1,18 @@
 # Continuation
-Current production base: `6f4e342238f891d1432c4ad32723b12fb0d317f8`.
+Current production base: `b915b5c0e58356f940ef3a2b9daece78368bf504`.
 Read docs/USER_DIRECTIVES.md first; the latest order correction governs.
 
-## Next — Stakes candidate and whole-game evaluation
+## Next — Confluence operation and whole-game evaluation
 The rough campaign, four endings, general upgrades and mixed rosters are built.
 The integrated V7 recovery adds currents, earned terrain, local evidence pressure,
 threat feedback and photo grading. Its review and PR game-smoke gate passed.
 Fresh critics play the complete running game through real touch, without builder notes.
 Continue genuine saved journeys through every branch and ending; preserve their source versions.
-The Stakes candidate combines operation-sized endurance, independent craft acquisitions,
-and visible rejected targeting results. Finish its single review and PR gate.
+Stakes now combines operation-sized endurance, independent craft acquisitions,
+and visible rejected targeting results; its review and PR gate passed.
+Build the authored polygon Confluence operation with distinct approaches and return routes,
+functional optional discovery, mixed threats, earned world presentation and a resolution scene.
+Preserve both campaign entries and both ending routes; add no chapter IDs.
 Rank actual whole-game weaknesses and continue the audit quality passes.
 Stakes → One real operation → Instruments remains the subsequent design direction.
 Compare real reference footage by dimension with source labels withheld.
