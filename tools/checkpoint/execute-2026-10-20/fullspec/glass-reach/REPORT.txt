@@ -165,3 +165,71 @@ preserved outside commit. No live owned Godot/display/test process. Two already
 exited Xvfb zombies5317/5440 are parented toPID1; no active server/socket remains
 from them, and last display614 was killed/reaped by its owning shell. No APK/PR/merge.
 Source RELEASED for parent's existing independent reviewer at404a1ab.
+
+
+DECODER LOCALITY REPAIR AFTER INDEPENDENT HOLD404a1ab —20 OCTOBER2026
+Independent original REVIEW.md/HOLD and independent/adversarial.gd/.log preserved
+unchanged. Same sole builder/worktree/branch; root freshly dispatched unchanged
+production3578. Source repair head: f4f4d000ccffc19356bf994b7c39eb1576d71f7f (committed/pushed).
+
+Reproduced original17checks/2failures at decoder-review-red.log: bare DroneA100m
+from actual19 gate, Q at ordinary(250,2100) start; changing only Q fitting granted
+A2s/120m quiet gate work. Added focused work regressions before source fix:
+decoder-work-red.log39checks/9failures, covering both bare drones inheriting range,
+duration and silence plus ongoing manual worker range. No script/engine errors in
+red logs; expected behavioral assertions fail.
+
+Root cause: Glass.decoder read only global quietus launch fitting. Repair reuses
+existing Equipment.item_for(fitting,unit), passing explicit context worker or
+command actor, and recorded job.unit for ongoing range validation. Every decoder
+benefit call now uses actual worker, not selected peer or remote Quietus. No new
+equipment framework, save schema or validator relaxation. Existing physical clear
+water/depth/custody/route/loss interruptions preserved. Live handoffs27lines each
+now identify repair and same-reviewer re-review, retaining next new-content action.
+
+Exact commands, cwd /workspace/Siren-s-Song-play-frozen, bash login=false:
+XDG_DATA_HOME=/workspace/work/glass-decoder-red-xdg timeout --kill-after=10s 120s /usr/local/bin/godot --headless --path game --script /workspace/work/gauntlet-fullspec-20261020/glass-reach/independent/adversarial.gd
+ -> decoder-review-red.log17/2, original confirmed failure before source edit.
+XDG_DATA_HOME=/workspace/work/glass-decoder-work-red-xdg timeout --kill-after=10s 120s /usr/local/bin/godot --headless --path game --script res://tests/glass_work_tests.gd
+ -> decoder-work-red.log39/9 before source fix.
+XDG_DATA_HOME=/workspace/work/glass-decoder-work-green-xdg timeout --kill-after=10s 120s /usr/local/bin/godot --headless --path game --script res://tests/glass_work_tests.gd
+ -> decoder-work-green.log39/0, exit0.
+XDG_DATA_HOME=/workspace/work/glass-decoder-work-final-xdg timeout --kill-after=10s 120s /usr/local/bin/godot --headless --path game --script res://tests/glass_work_tests.gd
+ -> decoder-work-final.log40/0, exit0 (also asserts bare Q rejects beyond60m).
+XDG_DATA_HOME=/workspace/work/glass-decoder-review-green-xdg timeout --kill-after=10s 120s /usr/local/bin/godot --headless --path game --script /workspace/work/gauntlet-fullspec-20261020/glass-reach/independent/adversarial.gd
+ -> decoder-review-green.log17/0, exit0, original unmodified reviewer probe.
+XDG_DATA_HOME=/workspace/work/glass-decoder-research-xdg timeout --kill-after=10s 120s /usr/local/bin/godot --headless --path game --script res://tests/glass_research_tests.gd
+ -> decoder-research.log9/0, exit0.
+XDG_DATA_HOME=/workspace/work/glass-decoder-ui-xdg timeout --kill-after=10s 120s /usr/local/bin/godot --headless --path game --script res://tests/glass_reach_ui_tests.gd
+ -> decoder-ui.log28/0, exit0. Known ObjectDB instances leaked at exit warning
+ occurred here; no SCRIPT ERROR or ERROR. Not hidden by passing summary.
+python3 scripts/toolchain/check-gauntlet-guidance.py --root . PASS.
+git diff --check PASS. Acceptance logs scanned for SCRIPT ERROR/ERROR, none.
+
+Regression evidence: only fitted Q gets ready2s/120m at100m; both bare drones
+reject100m even with decoder remotely onQ. BareQ/A/B local35m starts real520m
+audible8s work, remains physically closed after2.2s, partial active snapshot
+restores with peer selected, then actual structure disappears at8s and snapshot
+valid. FittedQ100m emits nothing, saves at.8s, completes at2.2s while DEEP peer
+selected; actual gate structure removed and current snapshot valid. BareA moved
+from35m to100m during work cancels even when fittedQ selected. Physical intervening
+terrain still rejects decoder work. Existing material interruptions/pause/custody
+checks remain within40.
+
+Scoped verification only; no old full core/journeys/performance repeat. Independent
+prior campaign39/0, rendered28/0 and other accumulated evidence remain separately
+attributed; same reviewer must re-review final repair head and root still owns
+final-head mandatory CI/PR/merge. No second blocker established. This repair does
+not prove balance, enjoyment, blind campaign discovery or native/headphone quality.
+Correction to earlier retained-risk prose: independent review found the old module
+departure seam already repaired by worker-local Depth.clear and demonstrated
+selection-invariant departure; do not represent it as a current confirmed blocker.
+All other content/ergonomic/balance/native/release limits remain.
+
+Repair publication/release:
+git commit -m "Keep Glass decoder benefits on the actual working craft"
+git push origin gauntlet/release/glass-reach ->404a1ab..f4f4d00 success.
+Remote exact head verified f4f4d000ccffc19356bf994b7c39eb1576d71f7f.
+Tracked tree clean; all221 generated untracked UIDs preserved/excluded. No live
+Godot/display processes. Source RELEASED for same independent reviewer re-review
+atf4f4d00. No PR/APK/merge or final-head CI/approval claimed.

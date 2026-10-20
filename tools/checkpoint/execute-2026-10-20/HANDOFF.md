@@ -1,5 +1,5 @@
 # Gauntlet recovery checkpoint
 
-Read [fullspec/CURRENT_HANDOFF.md](fullspec/CURRENT_HANDOFF.md), then [Glass Reach report](fullspec/glass-reach/REPORT.txt).
+Read [fullspec/CURRENT_HANDOFF.md](fullspec/CURRENT_HANDOFF.md), [Glass Reach report](fullspec/glass-reach/REPORT.txt) and [independent review](fullspec/glass-reach/REVIEW.md).
 
-Depth/sonar PR48 is merged and fully verified at production3578c068. Glass Reach complete candidate404a1ab3 is published on gauntlet/release/glass-reach; same independent reviewer owns accumulated review. Eight technical journeys, two practical recovered rewards and cover/inner rendered input pass; no Glass approval/CI/merge claimed. Historical source in this checkpoint is not current production.
+Depth/sonar PR48 merged and fully verified at production3578c068. Complete Glass Reach f4f4d000 is independently APPROVED; remote decoder benefit blocker fixed. PR49 is open, mandatory exact-head CI39515575589 running; no merge claimed. Root owns CI/protected integration, then immediately more substantive content. Historical checkpoint source is not current production.

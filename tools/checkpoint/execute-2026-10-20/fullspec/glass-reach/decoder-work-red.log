@@ -1,0 +1,12 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+FAIL only actual decoder carrier gets extended quiet gate context unit=1
+FAIL remote Quietus hardware cannot admit bare drone at100m unit=1
+FAIL only actual decoder carrier gets extended quiet gate context unit=2
+FAIL remote Quietus hardware cannot admit bare drone at100m unit=2
+FAIL bare local worker starts audible8s manual gate unit=1
+FAIL bare manual work cannot open gate at decoder timing unit=1
+FAIL bare local worker starts audible8s manual gate unit=2
+FAIL bare manual work cannot open gate at decoder timing unit=2
+FAIL ongoing bare drone range stays60m while fitted Quietus selected
+GLASS WORK CHECKS 39 FAILURES 9

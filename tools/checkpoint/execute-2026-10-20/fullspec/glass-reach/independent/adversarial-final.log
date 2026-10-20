@@ -1,0 +1,22 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+REMOTE DECODER fitted=false Q=(250.0, 2100.0) worker=(1200.0, 700.0) context={ "ready": false, "reason": "Meet local work within60m (decoder gate120m)", "pos": (1200.0, 800.0), "duration": 8.0, "active": false, "elapsed": 0.0, "claimed_by": -1, "distance": 100.0, "range": 60.0, "noise_radius": 520.0 }
+PASS remote bare drone lacks Quietus-only decoder beyond manual range fitted=false
+PASS remote bare drone cannot quietly open real gate fitted=false
+REMOTE DECODER fitted=true Q=(250.0, 2100.0) worker=(1200.0, 700.0) context={ "ready": false, "reason": "Meet local work within60m (decoder gate120m)", "pos": (1200.0, 800.0), "duration": 8.0, "active": false, "elapsed": 0.0, "claimed_by": -1, "distance": 100.0, "range": 60.0, "noise_radius": 520.0 }
+PASS remote bare drone lacks Quietus-only decoder beyond manual range fitted=true
+PASS remote bare drone cannot quietly open real gate fitted=true
+PASS live bare drone starts real local material winch
+PASS unselected active material worker restores current save
+PASS peer selection and restore preserve actual physical material custody
+PASS lost material remains at carrier's actual depth
+PASS MIDDLE Quietus cannot winch DEEP physical material
+PASS same-band Quietus can resume physical wreck winch
+PASS recovered deep material maintains valid current custody
+PASS new mouth material/fleet receipt invariant under selected band=0
+PASS new mouth material/fleet receipt invariant under selected band=2
+PASS actual buoy snare impact preserves valid finite physical state
+PASS buoy finite snare expires and listening/report AI resumes
+PASS actual relay snare impact preserves valid finite physical state
+PASS relay finite snare expires and listening/report AI resumes
+INDEPENDENT GLASS CHECKS 17 FAILURES 0
