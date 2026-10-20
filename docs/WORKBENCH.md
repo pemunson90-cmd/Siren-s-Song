@@ -32,8 +32,8 @@ User playtest timing never gates development.
 Stakes integrated: mission endurance, concurrent craft exposures, visible targeting refusals.
 Current play: fresh cover/inner journeys plus drone-heavy and Quietus-only continuations.
 Confluence integrated: authored region, noisy physical sluice, earned world art and departure.
-Fleet instruments integrated: separated craft, task progress, offscreen focus and range feedback.
+Fleet instruments integrated: bounded craft handles, read-only status and route-first gestures.
 Earned-course continuity integrated: retained goals, certified-water repairs, real hazard stops.
 Genuine journeys reached Hidden Harbour and Surface Reckoning on frozen earlier sources.
 Physical module salvage integrated: return cargo or lose optional kit; bare frames remain.
-Next: route-first fleet telemetry interaction; investigate distinct Warning Chain jobs.
+Next: Blackwater raw-packet delivery, local rendezvous and recoverable carrier losses.
