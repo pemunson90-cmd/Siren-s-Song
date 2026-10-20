@@ -57,6 +57,17 @@ func solo_refuge()->void:
  var recovered=Campaign.recover(progress,solo.mission)
  check(Campaign.valid(recovered) and 9 in Campaign.available([0,1,2,3,4,5],recovered) and recovered.references.return_cadence==[.8,1.6,.8],"tender recovery preserves the actual Deep-to-Wake campaign handoff")
  check(Campaign.recover(recovered,solo.mission)==recovered,"replaying tender recovery does not duplicate or rewrite earned campaign state")
+func paused_release_save()->void:
+ var sim=fresh();sim.units[1].pos=Vector2(650,1120);sim.command("select",{"unit":1})
+ advance(sim,.25);sim.paused=true
+ check(sim.command("recon"),"paused local Survey acquires the berth at the current simulation instant")
+ var measured=sim.mission.rendezvous_transport.seen.duplicate(true);var time=sim.elapsed
+ check(sim.command("rendezvous_release") and sim.elapsed==time,"paused berth release consumes no simulation time after Survey")
+ check(sim.mission.rendezvous_transport.seen==measured,"release preserves the preceding physical observation without inventing a new measurement")
+ var store=Store.new();store.path="user://rendezvous-paused-release-tests.save"
+ var data={"version":1,"unlocked":5,"completed":[0,1,2,3,4,5],"upgrade":"disruption","settings":{},"expedition":{"version":1,"route":"deep","routes":["deep"],"facts":{"deep":"carrier"},"completed":[6]},"active":sim.snapshot()}
+ check(store.save(data) and store.load_game()==data,"same-time paused Survey then release roundtrips through the actual binary save store")
+ for suffix in ["",".bak",".tmp"]:DirAccess.remove_absolute(store.path+suffix)
 func save_integrity(snap:Dictionary)->void:
  var store=Store.new();store.path="user://rendezvous-transport-tests.save"
  var progress={"version":1,"route":"deep","routes":["deep"],"facts":{"deep":"carrier"},"completed":[6]}
@@ -127,5 +138,5 @@ func _initialize():
  blocked.units[0].pos=Vector2(380,760);advance(blocked,.8);blocked.command("camera");advance(blocked,.5)
  blocked.units[0].pos=Vector2(1800,2180);advance(blocked,.1)
  check(blocked.capture_feedback().unit<0 and not blocked.all_records(),"leaving actual local range interrupts partial tender reception despite a known marker")
- guard_choice();solo_refuge();save_integrity(snap)
+ guard_choice();solo_refuge();save_integrity(snap);paused_release_save()
  finish()

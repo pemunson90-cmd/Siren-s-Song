@@ -25,7 +25,8 @@ static func position(mission:Dictionary,time:float)->Vector2:
  return POINTS.back()
 static func phase(mission:Dictionary,time:float)->String:
  var release=mission.rendezvous_transport.released_at
- return "moored" if release<0 or time<release else ("transit" if time-release<duration() else "refuge")
+ # Paused release has no elapsed motion; an observation at that instant stays true.
+ return "moored" if release<0 or time<=release else ("transit" if time-release<duration() else "refuge")
 static func _angle(mission:Dictionary,time:float)->float:
  if phase(mission,time)=="moored":return (POINTS[1]-POINTS[0]).angle()
  var pos=position(mission,time);var next=position(mission,time+.01)
