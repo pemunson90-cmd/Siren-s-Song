@@ -1,0 +1,5 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+target=[{ "key": 0, "pos": (1380.0, 820.0), "tag": "S1" }] launch=true
+after2s pin=8.0 stun=6.45000000000001 mode=DISRUPTED valid=false projectiles=0
+after12s pin=8.0 stun=0.0 mode=DISRUPTED valid=false
