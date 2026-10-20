@@ -21,6 +21,13 @@ The user decides when to playtest; user play never gates development. Agents kee
 5. Validate primarily in Godot, locally or through GitHub. Batch broad regression at meaningful integrated passes. Android APKs require an explicit request or a concrete Android-specific risk that Godot cannot resolve. Reuse the canonical Git-tracked debug signer.
 6. Evaluate actual gains and costs, then immediately continue. Every hour of simulation, layout and encounter work should outweigh an hour of documentation.
 
+## Merge handoff and reviewer provenance (existing boundaries)
+At the usual PR review/merge boundary, root fetches the live production tip and the exact proposed head. The SHA in `docs/CONTINUATION.md` is the **last reconciled source baseline**, not a self-referential promise to equal the merge commit containing the document; the freshly fetched Git ref identifies live production. A different SHA alone is not a stale-document failure. Reconcile substantive state and next work rather than making follow-up commits merely to chase HEAD.
+
+For each feature PR, root records a linkable, attributable independent reviewer verdict in the PR before merge: reviewer identity/role, reviewed head (and production base), blocker findings or none, their disposition, and the relevant CI run. Use a submitted GitHub review where possible; otherwise copy the review into a PR comment or description with its original provenance and explicitly label it a **relayed review**, not a formal GitHub approval. Passing CI establishes test success, not independent criticism.
+
+At each merge, root checks the short `docs/CONTINUATION.md` and `docs/WORKBENCH.md` handoffs against the integrated feature, and includes the needed status/next-action corrections in the normal feature PR. If no game state, ownership or next action changed, record that decision in the PR instead of creating a meaningless document edit. After merging, fetch the new production tip, confirm the landed source, and continue the next authorized task. Apply this during **existing** task/review/merge boundaries; do not reset active workers, gate user playtesting, introduce a new CI gate or build an additional orchestration layer.
+
 ## Critics stand in for players
 Fresh critics start without builder history, explanations or winning routes. They inspect the actual running game and play full operations through real injected touch on actual cover and inner views. Give distinct cautious, aggressive, drone-heavy and Quietus-only strategies. Record their actual routes, time, losses, confusion and unused options. Button callbacks and scripted controllers remain useful technical tests with their narrower scope.
 
