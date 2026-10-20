@@ -39,6 +39,7 @@ func _draw() -> void:
 		if not context.settled:draw_string(ThemeDB.fallback_font,picture.position+Vector2(8,picture.size.y-8),"SETTLING · wait for rest",HORIZONTAL_ALIGNMENT_LEFT,-1,receiver_font_size,Color("e0bf83"))
 	elif ReceiverScene.applies(sim.mission.id,objective):
 		if objective.get("own_origin",false):ReceiverScene.draw_transmitter(self,picture,sim.capture_feedback())
+		elif objective.get("site_id","")=="rendezvous" and not preload("res://src/presentation/rendezvous_view.gd").context(sim).is_empty():ReceiverScene.draw_rendezvous(self,picture,preload("res://src/presentation/rendezvous_view.gd").receiver_lines(sim,sim.capture_unit))
 		else:ReceiverScene.draw(self,picture,sim.signal_readings(),sim.capture_unit)
 	elif well_site:
 		_draw_well_site(picture,objective)

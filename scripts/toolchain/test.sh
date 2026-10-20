@@ -97,6 +97,8 @@ expedition_menu_tests|EXPEDITION MENU
 campaign_consequence_tests|CAMPAIGN CONSEQUENCES
 campaign_equipment_save_tests|CAMPAIGN EQUIPMENT SAVE
 onward_mission_tests|ONWARD MISSIONS
+rendezvous_transport_tests|RENDEZVOUS TRANSPORT
+rendezvous_ui_tests|RENDEZVOUS UI
 resolution_content_tests|RESOLUTION CONTENT
 confluence_operation_tests|CONFLUENCE OPERATION
 confluence_presentation_tests|CONFLUENCE PRESENTATION
