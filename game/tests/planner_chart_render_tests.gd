@@ -27,6 +27,13 @@ func run():
  check(img.get_pixelv(rock)!=img.get_pixelv(water),"charted basalt differs visibly from adjacent open water in the route planner")
  check(sim.snapshot()==before,"reading and drawing planning context preserve the actual mission")
  capture(img,"charted-warning")
+ var closed=img.get_pixelv(Vector2i(preview.screen_position(Vector2(1000,1020))))
+ sim.units[0].pos=Vector2(480,1000)
+ var powered=sim.command("chain_power",{"mode":"backup"});sim.units[0].pos=Vector2(1520,1000)
+ check(powered and sim.command("chain_route",{"output":"service"}),"actual local plant controls open the charted service shutter")
+ preview.queue_redraw();await frame();var opened=image_of(preview)
+ check(opened.get_pixelv(Vector2i(preview.screen_position(Vector2(1000,1020))))!=closed,"the planner visibly distinguishes the actual closed shutter from open water")
+ capture(opened,"opened-warning")
  sim.start(11);preview.fit_chart();preview.queue_redraw();await frame();var earned=image_of(preview)
  # This source-known fixture changes an unmeasured private obstacle, leaving
  # the actual public chart intact. It must produce no new planning silhouette.

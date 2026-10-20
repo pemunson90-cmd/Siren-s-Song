@@ -104,6 +104,8 @@ func _draw():
   for key in ["factory_rect","array_rect"]:
    if sim.mission.has(key):
     draw_rect(sim.mission[key],Color("18333c"));draw_rect(sim.mission[key],Color("78928f"),false,1./scale)
+  var plant_view=preload("res://src/presentation/warning_chain_view.gd")
+  plant_view.draw_crosslink(self,plant_view.context(sim),scale)
   draw_set_transform(Vector2.ZERO,0,Vector2.ONE)
  var chart_font=ThemeDB.fallback_font
  for site in sim.observable_sites():
