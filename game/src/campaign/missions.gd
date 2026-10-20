@@ -79,8 +79,9 @@ static func make(index: int,history:Dictionary={}) -> Dictionary:
 	result["acoustic_revision"]=1
 	if i==2:
 		result["blackwater_revision"]=1;result["courier_revision"]=1;result["courier_launch"]=-1.0
+		result["blackwater_delivery"]=preload("res://src/simulation/blackwater_delivery.gd").initial()
 		objectives[0].evidence+=" The request announces a ballast-driven archive glider carrying a copy of the eastern REPLY around the southern basalt corridor to a buried western intake. The recovered chart marks its course. Intercept its local carrier with a settled SAMPLE 2s before it submerges at the intake; it never visits this REQUEST. This optional return-leg interception replaces the eastern approach, not the record. The fixed REPLY and its SONAR replay remain available if you miss it."
-		result.brief+=" A recovered request may announce an archive carrier. Its route is an interception opportunity; the fixed relays remain available in either order."
+		result.brief+=" A recovered request may announce an archive carrier. Its route is an interception opportunity; the fixed relays remain available in either order. Blackwater breaks the bulk uplink: field notes are retained, but raw exchange data stays on the sampling craft. Bring a data carrier within60m of Quietus, settle both below2m/s with a clear line, then TRANSFER. You may move Quietus to a meeting point. Lost buffers remain at the known wreck; one audible local4s winch recovers data and co-located kit, or Quietus can SAMPLE the fixed relay again. Quietus sampling directly puts data aboard; spare drones need not return."
 	if i==3:
 		result["departure_revision"]=1
 		result["thermal_revision"]=1;result["thermal_fronts"]=preload("res://src/simulation/thermal_front.gd").foundry()

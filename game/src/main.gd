@@ -10,6 +10,7 @@ const Soundscape=preload("res://src/audio/soundscape.gd")
 const MetricsTransport=preload("res://src/diagnostics/metrics_transport.gd")
 const OceanView = preload("res://src/presentation/ocean_view.gd")
 const ModuleRecovery=preload("res://src/presentation/module_recovery_view.gd")
+const BlackwaterDelivery=preload("res://src/presentation/blackwater_delivery_view.gd")
 const FleetInventory=preload("res://src/campaign/fleet_inventory.gd")
 var sim = Simulation.new()
 var store=SaveStore.new()
@@ -431,7 +432,7 @@ func _briefing(index: int) -> void:
 	_menu_text(briefing.brief,20)
 	if ExpeditionOperations.briefing(self,index):pass
 	elif briefing.get("blackwater_revision",0)==1:
-		_menu_text("ORDERS\nTap a craft for its command ring; FLEET chooses a station. Empty water plots its route. ROUTE → REPLACE / QUEUE changes append intent. PAUSE stays available. Settle and SAMPLE for two seconds. Quietus receives within156m; drones within214.5m. Cover blocks reception. An audible SONAR may prompt a local relay replay; a decoded packet explains its partner's handshake. Return Quietus after both records.",17)
+		_menu_text("ORDERS\nTap a craft for its command ring; FLEET chooses a station. Empty water plots its route. ROUTE → REPLACE / QUEUE changes append intent. PAUSE stays available. Settle and SAMPLE for two seconds. Quietus receives within156m; drones within214.5m. Cover blocks reception. An audible SONAR may prompt a local relay replay; a decoded packet explains its partner's handshake. Drone buffers TRANSFER locally to Quietus: both settled, within60m, clear link. Return with both packets aboard.",17)
 	else:
 		_menu_text("ORDERS\nTap a craft for its command ring; FLEET chooses a station. Tap empty water to replace its route. Craft → ROUTE → REPLACE / QUEUE changes append intent. PAUSE stays available. Drag / pinch inspects freely; FOCUS follows the craft and FIT shows the region. CAMERA works within 240m of a gold record marker. Return Quietus after all records are secured.",17)
 	_menu_text("SPACE / PAUSE grants unlimited planning time. Silent running is slower and quieter. Disruption interrupts nearby Sirens for 12 seconds. Quietus torpedoes travel noisily up to 150m; impact pins one Siren for 8s. Cover blocks sonar, enemy sight and torpedoes.",17)
@@ -474,6 +475,7 @@ func _debrief() -> void:
 		_sync_craft_upgrades()
 		_menu_text("ARCHIVE RECOVERED",32)
 		_menu_text(sim.mission.record,22)
+		BlackwaterDelivery.debrief(self)
 		ModuleRecovery.debrief(self)
 		_show_photo_grade(sim.mission.objectives)
 		_menu_text("Dive time %02d:%02d  /  Hull %d%%  /  Life support %d%%"%[int(sim.elapsed)/60,int(sim.elapsed)%60,int(sim.hull),int(sim.oxygen)],17)
@@ -488,6 +490,7 @@ func _debrief() -> void:
 		else: _button(panel_box,"NEXT DIVE",func(): _briefing(mission_index+1),"next_dive")
 	else:
 		_menu_text("SIGNAL LOST",32); _menu_text(sim.message,22); _menu_text("Field records remain reviewable after loss or abandonment. Only successful extraction advances the campaign.",17)
+		BlackwaterDelivery.debrief(self)
 		ModuleRecovery.debrief(self)
 	_button(panel_box,"RETRY DIVE",func(): _briefing(mission_index),"retry")
 	_button(panel_box,"OPERATIONS ARCHIVE",_show_campaign,"back")

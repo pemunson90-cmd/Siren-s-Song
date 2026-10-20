@@ -93,6 +93,9 @@ jobs:
           runtime_tests|RUNTIME
           fleet_instruments_ui_tests|FLEET INSTRUMENTS UI
           route_telemetry_touch_tests|ROUTE TELEMETRY TOUCH
+          blackwater_delivery_ui_tests|BLACKWATER DELIVERY UI
+          blackwater_delivery_runtime_ui_tests|BLACKWATER DELIVERY RUNTIME UI
+          blackwater_delivery_tests|BLACKWATER DELIVERY
           earned_course_continuity_tests|EARNED COURSE CONTINUITY
           current_motion_tests|CURRENT MOTION
           module_recovery_tests|MODULE RECOVERY

@@ -1,6 +1,7 @@
 extends Control
 const Operations=preload("res://src/presentation/operation_instruments.gd")
 const Recovery=preload("res://src/presentation/module_recovery_view.gd")
+const Delivery=preload("res://src/presentation/blackwater_delivery_view.gd")
 # Own telemetry and bounded station handles, separate from physical craft.
 var host
 var buttons:Array=[]
@@ -56,9 +57,11 @@ func _activate(id:int):
   host._focus_craft()
 func task(id:int)->String:
  var recovery=Recovery.task(host.sim,id)
- if not recovery.is_empty():return recovery
- var detail=_ordinary_task(id);var cargo=Recovery.cargo(host.sim,id)
- return detail+("\n"+cargo if not cargo.is_empty() else "")
+ if recovery.is_empty():recovery=Delivery.task(host.sim,id)
+ var detail=recovery if not recovery.is_empty() else _ordinary_task(id)
+ for cargo in [Recovery.cargo(host.sim,id),Delivery.cargo(host.sim,id)]:
+  if not cargo.is_empty():detail+="\n"+cargo
+ return detail
 func _ordinary_task(id:int)->String:
  var sim=host.sim;var u=sim.units[id];var work=sim.capture_feedback(id)
  if work.unit>=0:
@@ -102,7 +105,7 @@ func refresh(blocked:Array):
   var reserve="HULL %d · O₂ %d"%[roundi(sim.hull),roundi(sim.oxygen)] if id==0 else "BAT %d%%"%roundi(u.battery)
   var title=reserve
   var detail=task(id)
-  var active=sim.capture_feedback(id).unit>=0 or sim.scout_context(id).state=="stopped" or u.has("chart_stop") or Recovery.active(sim,id)
+  var active=sim.capture_feedback(id).unit>=0 or sim.scout_context(id).state=="stopped" or u.has("chart_stop") or Recovery.active(sim,id) or Delivery.active(sim,id)
   # Idle peers remain short, spatial identifiers; work expands in place.
   var compact=id!=sim.selected and not active
   if compact:
@@ -111,10 +114,16 @@ func refresh(blocked:Array):
   reading.text=title+("\n"+detail if not detail.is_empty() else "")
   b.text=["Q","A","B"][id]+("\n"+direction if offscreen else "")
   b.tooltip_text=u.name+"\n"+reading.text
+  var style=StyleBoxFlat.new();style.bg_color=Color(.015,.045,.06,.9);style.border_color=Color("81b7b6") if id==sim.selected else Color("3f6d76");style.set_border_width_all(1);style.set_corner_radius_all(5);style.set_content_margin_all(10)
+  if sim.scout_context(id).state=="stopped":style.border_color=Color("deb075")
+  # Measure the real Label after font, spacing and padding apply. This full
+  # visual reservation remains separate from the bounded station handle.
+  var plate=style.duplicate();plate.bg_color=Color(.015,.045,.06,.78);plate.set_border_width_all(0);plate.border_width_bottom=1;plate.set_corner_radius_all(0)
+  reading.add_theme_stylebox_override("normal",plate);reading.add_theme_font_size_override("font_size",font_size)
   var measured=0.
   for line in reading.text.split("\n"):measured=maxf(measured,font.get_string_size(line,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x)
   var width=minf(clampf(measured+24,h*1.7,h*4.7),maxf(h,safe.size.x-h-8))
-  var extent=Vector2(h+8+width,maxf(h,font.get_height(font_size)*(reading.text.count("\n")+1)+16))
+  var extent=Vector2(h+8+width,maxf(h,reading.get_combined_minimum_size().y))
   var desired=at+Vector2(-extent.x/2,-h-28*ocean.world_scale)
   if offscreen:
    var reach=minf((safe.size.x-extent.x)/2/maxf(.001,absf(bearing.x)),(safe.size.y-extent.y)/2/maxf(.001,absf(bearing.y)))
@@ -134,18 +143,13 @@ func refresh(blocked:Array):
   for candidate in candidates:
    if not occupied.any(func(r):return r.intersects(candidate.grow(4))):box=candidate;break
   b.position=box.position+Vector2(0,(box.size.y-h)*.5);b.custom_minimum_size=Vector2.ONE*h;b.size=Vector2.ONE*h;b.alignment=HORIZONTAL_ALIGNMENT_CENTER;b.add_theme_font_size_override("font_size",font_size)
-  reading.position=box.position+Vector2(h+8,0);reading.size=Vector2(width,box.size.y);reading.add_theme_font_size_override("font_size",font_size)
-  var style=StyleBoxFlat.new();style.bg_color=Color(.015,.045,.06,.9);style.border_color=Color("81b7b6") if id==sim.selected else Color("3f6d76");style.set_border_width_all(1);style.set_corner_radius_all(5);style.set_content_margin_all(10)
-  if sim.scout_context(id).state=="stopped":style.border_color=Color("deb075")
-  # The outlined station handle is the control. The adjacent open-edged plate
-  # is read-only telemetry: its pixels never acquire chart pointers.
-  var plate=style.duplicate();plate.bg_color=Color(.015,.045,.06,.78);plate.set_border_width_all(0);plate.border_width_bottom=1;plate.set_corner_radius_all(0)
-  reading.add_theme_stylebox_override("normal",plate)
+  reading.position=box.position+Vector2(h+8,0);reading.size=Vector2(width,box.size.y)
   style.set_border_width_all(2);style.bg_color=Color(.025,.095,.12,.96)
   b.add_theme_stylebox_override("normal",style);b.add_theme_stylebox_override("hover",style);b.add_theme_stylebox_override("pressed",style)
   b.add_theme_color_override("font_color",Color("c4e2df") if id==sim.selected else Color("99c2c5"))
   reading.add_theme_color_override("font_color",Color("c4e2df") if id==sim.selected else Color("99c2c5"))
   var progress=Recovery.work(sim,id)
+  if progress.unit<0:progress=Delivery.work(sim,id)
   if progress.unit<0:progress=sim.capture_feedback(id)
   readouts.append({"unit":id,"rect":box,"handle_rect":b.get_rect(),"text_rect":reading.get_rect(),"text":reading.text,"anchor":at,"offscreen":offscreen,"direction":bearing,"progress":progress})
   occupied.append(box.grow(5))
