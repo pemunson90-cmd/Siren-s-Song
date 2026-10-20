@@ -1,3 +1,5 @@
+Milestone = a complete playable game. Each cycle: a fresh critic plays it with no build notes, the audit ranks its biggest weakness, the next version fixes it, repeat. The user's playtest gates nothing. The loop ends only when the user ends it or usage runs out, in which case write PAUSED, RESUME REQUIRED with the exact next command.
+
 # Siren’s Song — Gauntlet operating instructions
 
 Continually assess the whole playable game, identify its most consequential weakness, improve it, evaluate actual player experience, and repeat. Build toward AAA-caliber Android content and execution. The user alone ends the Gauntlet. Milestones, passing checks and internally assessed readiness lead to the next highest-value work.
