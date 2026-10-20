@@ -1,0 +1,24 @@
+# Resumed execution — 20 October 2026
+
+Latest user handoff governs older checkpoint prose. Execution restarted in a fresh instance containing only Command-Library. Root found no Siren checkout under /workspace, /tmp, /mnt or /home, then restored published production fb4cf10542ba61fb47d4b71a95b0ea0448d302bf and milestone d73b9fa0aa539ea86f81b65f44c25df675138ea4. No reset/clean was performed. ~30 GiB free initially. Godot 4.6.3 available.
+
+Checkpoint 83de8c3e27be76f73c6cd6dea3a842e99d0c983a supplied STATE.txt, INVENTORY.md and depth-sonar/REPORT.txt. Its source is historical. Original CURRENT_HANDOFF.md, REVIEW.md, independent probes/logs and repair red log were never published and are unavailable here. The user's report that the previous worker reproduced both blockers remains handoff evidence, not a fresh local result. The unverified test append cannot be recovered from published d73b9fa; restored source is clean and ends at the pending-listening-window regression.
+
+No prior agents are live. followup_task to /root/depth_sonar_foundation returned 'live agent path not found'. Restore only the sole builder and sole independent reviewer, requested gpt-6.1-sol / medium. Builder owns source until commit/check/report/process release; reviewer then reviews the accumulated milestone. Same branch throughout, no micro-PR. Root handles continuity, exact-head CI and protected integration.
+
+## Current repair assignment — sole builder
+
+Tree /workspace/Siren-s-Song-play-frozen; branch gauntlet/release/depth-sonar. Read AGENTS.md and docs/USER_DIRECTIVES.md here plus current production guidance (boundary fetched fb4cf105), CURRENT_GAME_SPEC, architecture/GAUNTLET, SOURCE_AUTHORITY and V7_TO_GODOT_PARITY. Use existing REPORT.txt for accumulated scope. No subagents; root supplies the independent reviewer.
+
+1. Torpedo preview/admission currently assumes MIDDLE via visible(point). Reproduce authored Well4: DEEP Quietus (1280,820), DEEP sweeper (1380,820), clear water and optical sight, yet no target. Conversely MIDDLE drone observation can offer a MIDDLE guard to DEEP Quietus and spend a useless DEEP torpedo. Preview must use permitted cached observations and occupied-band reachability, never hidden enemy truth. Launch must enforce physical conditions and legitimately acquired target. Cover SHALLOW/DEEP, same-band allied observation, cross-band rejection, both occupied transition bands, terrain, no ammo spend on invalid launch and hidden-truth invariance.
+2. Blackwater ongoing recovery uses selected-craft geometry through sim.line_clear(). Reproduce operation2: DEEP Q (550,540), DEEP lost buffer (550,500), recovery succeeds after4.2s while Q selected; selecting only MIDDLE drone2 cancels it. Use working-craft/custody-local geometry. Audit analogous ongoing work/recovery calls. Preserve interruption on movement, loss, depth change, blocked water and custody change.
+
+Prior independent adversarial run reported16 checks/4 failures; two P2 blockers. Prior review also checked earlier pending-echo, repeated-depth-toggle and unsafe INSERT fixes. Reproduce meaningful red cases here, implement repairs, run affected checks, commit on same branch, append exact commands/SHA/risks to existing REPORT.txt, stop owned processes and release source. Do not repeat full rendered journeys/performance automatically. Keep concise continuation/workbench status correct in this milestone.
+
+## Preserved limits and campaign status
+
+All0–5 source-known rendered journeys both layouts were reported complete/all3alive; historical builder core672/0/runtime563/0, opening72/0, Shelf118/0, combined404/0, Song82/0, sonar42/0, routeUI44/0/state35/0. These are published report evidence, not rerun in this instance. Full release remains unfinished. Retain FIT/craft-handle friction, Well balance/first-use (tool-free33.6hull), small dense inner sonar axes, inherited density817/12, ObjectDB exit warning and native/headphone/Fold limits.
+
+Latest genuine drone campaign is user-reported Warning Chain10 recovery71.1667s, allcraftalive, hull55.9/O2 76.2778, batteries86.8042/85.083, western local receipt, tools3decoy/0EMP/2torpedo/2survey. Frozen source a6b6701; session drone-continuation-20261020-7; receipt warning-chain-earned-a6b6701.save, SHA dea48a26dfea3b7e99128cb6f8cbf6bdec469a0d4137fe14bc4041b6bcc17426. Receipt bytes/JSON were not published and are unavailable here. Do not rewind to checkpoint's older active Warning Chain or Shelf save, fabricate bytes, edit or migrate saves. Genuine campaign continuation awaits that exact receipt; substantive development proceeds.
+
+Checkpointed staged Deep/Shelf and older genuine profiles remain preserved remotely; restore immutable copies only when needed. Preserve signer, branches and unique evidence. No APK requested. User alone ends Gauntlet.

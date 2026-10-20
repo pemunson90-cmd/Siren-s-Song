@@ -1,3 +1,5 @@
+> Latest resumed execution: read [CURRENT_HANDOFF.md](fullspec/CURRENT_HANDOFF.md) first. New instance restored published source; two P2 repairs remain on the same milestone branch. Original local-only review/receipt files are unavailable; preserved checkpoint prose below is historical.
+
 # Siren’s Song — release execution handoff
 
 Read current production AGENTS.md and docs/USER_DIRECTIVES.md first. Repository pemunson90-cmd/Siren-s-Song; Command-Library is only the permissions environment. Preserve newer work. [STATE.txt](fullspec/STATE.txt) contains exact owners, freezes, profiles and continuation requirements.

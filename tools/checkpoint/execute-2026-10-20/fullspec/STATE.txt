@@ -1,3 +1,5 @@
+LATEST RESUME — fresh instance on 2026-10-20; published refs restored, old local-only files unavailable. See CURRENT_HANDOFF.md and depth-sonar/REVIEW_HANDOFF.md. Prior review HOLD with two P2 blockers; sole restored /root/depth_sonar_foundation owns same-branch repair at d73b9fa. Next: release source, restored sole independent reviewer, full milestone approval and exact-head CI/PR. Newest genuine Warning Chain earned save dea48a26… is unavailable here; never resume older checkpoint save as latest. No old profile was reset or migrated.
+
 CURRENT EXECUTION — 20 October 2026; release foundation integrated
 Repository pemunson90-cmd/Siren-s-Song; Command-Library is only the permission environment.
 Read production AGENTS.md and docs/USER_DIRECTIVES.md first. Preserve newer work.
