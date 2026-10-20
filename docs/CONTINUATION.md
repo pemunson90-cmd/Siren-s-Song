@@ -1,15 +1,12 @@
 # Continuation
-Current production base: `44bd2c094361f2004082ab69bd8ba330d44496dd`.
+Current production base: `f646e666e19cb06d8eca71b6408844eccba57995`.
 Read docs/USER_DIRECTIVES.md first; the latest order correction governs.
 
-## Next — earned-course continuity and whole-game evaluation
+## Next — physical drone-module recovery and whole-game evaluation
 The rough campaign, four endings, craft upgrades and functional V7 rows are built.
 Stakes integrates operation endurance, independent acquisitions and targeting feedback.
 The authored Confluence operation is integrated after review and its PR game-smoke gate.
-Its polygon geography separates approaches, mixed threats and physical return choices.
 The optional noisy service sluice changes collision, sight, sound and withdrawal distance.
-Factory and terrain presentation follow earned measurements; recovery has a departure scene.
-Replays preserve their committed campaign continuation and describe it truthfully.
 Ordinary operation pacing and endurance pressure still need player evaluation.
 Fresh critics continue genuine full-game touch journeys on their recorded frozen sources.
 A separate Confluence touch critic uses an explicitly staged operation-access fixture;
@@ -17,12 +14,15 @@ that focused session does not establish earned full-campaign completion.
 Continue every branch and ending without resetting genuine journeys.
 Practical fleet instruments are integrated: separated craft, acquisition progress,
 offscreen focus, contextual verbs and targeting range feedback.
-Repair premature route stops using certified water while preserving the intended destination.
-A focused Confluence touch journey identified repeated unchanged-goal replots.
+Earned courses now advance through certified water and repair wholly surveyed detours;
+unresolved hazards retain destinations and stop for a genuine exploration decision.
 A genuine drone-led campaign reached Hidden Harbour on its frozen earlier source;
 its final travel interval was unobserved during a controller interruption.
 Other genuine journeys continue; preserve restored checkpoints and distinguish execution gaps.
-Rank actual whole-game weaknesses, improve the largest, then repeat.
+Build physical recovery of fitted drone modules: local salvage, carried cargo and
+explicit departure consequences, with bare replacement drones and Quietus fallback.
+The genuine campaign critic ranked absent lasting drone-loss consequences first.
+Model and presentation have separate feature ownership; integrate through one review.
 Compare real reference footage by dimension with source labels withheld.
 The user chooses when to playtest; development never waits for it.
 
