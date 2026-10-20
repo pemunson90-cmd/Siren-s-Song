@@ -1,9 +1,10 @@
 extends Control
 const Operations=preload("res://src/presentation/operation_instruments.gd")
 const Recovery=preload("res://src/presentation/module_recovery_view.gd")
-# Own telemetry only. These chart projections are controls, never craft sprites.
+# Own telemetry and bounded station handles, separate from physical craft.
 var host
 var buttons:Array=[]
+var telemetry:Array=[]
 var readouts:Array=[]
 var progress_layer:Control
 var gesture=preload("res://src/input/map_gesture.gd").new()
@@ -16,6 +17,9 @@ func setup(owner):
   button.autowrap_mode=TextServer.AUTOWRAP_OFF;button.text_overrun_behavior=TextServer.OVERRUN_TRIM_ELLIPSIS
   button.mouse_filter=Control.MOUSE_FILTER_IGNORE
   button.alignment=HORIZONTAL_ALIGNMENT_LEFT;buttons.append(button)
+  var reading=Label.new();reading.mouse_filter=Control.MOUSE_FILTER_IGNORE
+  reading.autowrap_mode=TextServer.AUTOWRAP_OFF;reading.text_overrun_behavior=TextServer.OVERRUN_TRIM_ELLIPSIS
+  add_child(reading);telemetry.append(reading)
  progress_layer=Control.new();progress_layer.mouse_filter=Control.MOUSE_FILTER_IGNORE;add_child(progress_layer);progress_layer.draw.connect(_draw_progress)
 func handle_input(event)->bool:
  if event is InputEventMouse and event.device==InputEvent.DEVICE_ID_EMULATION:return false
@@ -90,13 +94,13 @@ func refresh(blocked:Array):
  # place the flexible tethers, so two remote tasks never occlude each other.
  order.sort_custom(func(a,b):return a<b if viewport.has_point(positions[a])==viewport.has_point(positions[b]) else not viewport.has_point(positions[a]))
  for id in order:
-  var b=buttons[id];var u=sim.units[id];b.visible=visible and u.alive
+  var b=buttons[id];var reading=telemetry[id];var u=sim.units[id];b.visible=visible and u.alive;reading.visible=b.visible
   if not b.visible:continue
   var at=ocean.screen_position(u.pos);var offscreen=not Rect2(Vector2.ZERO,size).has_point(at)
   var bearing=(at-safe.get_center()).normalized()
   var direction=["→","↘","↓","↙","←","↖","↑","↗"][posmod(roundi(bearing.angle()/(PI/4)),8)] if offscreen else ""
   var reserve="HULL %d · O₂ %d"%[roundi(sim.hull),roundi(sim.oxygen)] if id==0 else "BAT %d%%"%roundi(u.battery)
-  var title=["Q","A","B"][id]+(" "+direction if offscreen else "")+" · "+reserve
+  var title=reserve
   var detail=task(id)
   var active=sim.capture_feedback(id).unit>=0 or sim.scout_context(id).state=="stopped" or u.has("chart_stop") or Recovery.active(sim,id)
   # Idle peers remain short, spatial identifiers; work expands in place.
@@ -104,11 +108,13 @@ func refresh(blocked:Array):
   if compact:
    title+=" · "+("GUARD" if not u.hold.is_empty() else "ROUTE" if not u.route.is_empty() else "READY")
    detail=""
-  b.text=title+("\n"+detail if not detail.is_empty() else "")
+  reading.text=title+("\n"+detail if not detail.is_empty() else "")
+  b.text=["Q","A","B"][id]+("\n"+direction if offscreen else "")
+  b.tooltip_text=u.name+"\n"+reading.text
   var measured=0.
-  for line in b.text.split("\n"):measured=maxf(measured,font.get_string_size(line,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x)
-  var width=clampf(measured+24,h*2.7,h*4.7)
-  var extent=Vector2(minf(width,safe.size.x),maxf(h,font.get_height(font_size)*(b.text.count("\n")+1)+16))
+  for line in reading.text.split("\n"):measured=maxf(measured,font.get_string_size(line,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x)
+  var width=minf(clampf(measured+24,h*1.7,h*4.7),maxf(h,safe.size.x-h-8))
+  var extent=Vector2(h+8+width,maxf(h,font.get_height(font_size)*(reading.text.count("\n")+1)+16))
   var desired=at+Vector2(-extent.x/2,-h-28*ocean.world_scale)
   if offscreen:
    var reach=minf((safe.size.x-extent.x)/2/maxf(.001,absf(bearing.x)),(safe.size.y-extent.y)/2/maxf(.001,absf(bearing.y)))
@@ -127,14 +133,21 @@ func refresh(blocked:Array):
    candidates.append(Rect2((box.position+offset*(extent+Vector2(10,10))).clamp(safe.position,safe.end-extent),extent))
   for candidate in candidates:
    if not occupied.any(func(r):return r.intersects(candidate.grow(4))):box=candidate;break
-  b.position=box.position;b.custom_minimum_size=Vector2.ZERO;b.size=box.size;b.add_theme_font_size_override("font_size",font_size)
+  b.position=box.position+Vector2(0,(box.size.y-h)*.5);b.custom_minimum_size=Vector2.ONE*h;b.size=Vector2.ONE*h;b.alignment=HORIZONTAL_ALIGNMENT_CENTER;b.add_theme_font_size_override("font_size",font_size)
+  reading.position=box.position+Vector2(h+8,0);reading.size=Vector2(width,box.size.y);reading.add_theme_font_size_override("font_size",font_size)
   var style=StyleBoxFlat.new();style.bg_color=Color(.015,.045,.06,.9);style.border_color=Color("81b7b6") if id==sim.selected else Color("3f6d76");style.set_border_width_all(1);style.set_corner_radius_all(5);style.set_content_margin_all(10)
   if sim.scout_context(id).state=="stopped":style.border_color=Color("deb075")
+  # The outlined station handle is the control. The adjacent open-edged plate
+  # is read-only telemetry: its pixels never acquire chart pointers.
+  var plate=style.duplicate();plate.bg_color=Color(.015,.045,.06,.78);plate.set_border_width_all(0);plate.border_width_bottom=1;plate.set_corner_radius_all(0)
+  reading.add_theme_stylebox_override("normal",plate)
+  style.set_border_width_all(2);style.bg_color=Color(.025,.095,.12,.96)
   b.add_theme_stylebox_override("normal",style);b.add_theme_stylebox_override("hover",style);b.add_theme_stylebox_override("pressed",style)
   b.add_theme_color_override("font_color",Color("c4e2df") if id==sim.selected else Color("99c2c5"))
+  reading.add_theme_color_override("font_color",Color("c4e2df") if id==sim.selected else Color("99c2c5"))
   var progress=Recovery.work(sim,id)
   if progress.unit<0:progress=sim.capture_feedback(id)
-  readouts.append({"unit":id,"rect":box,"anchor":at,"offscreen":offscreen,"direction":bearing,"progress":progress})
+  readouts.append({"unit":id,"rect":box,"handle_rect":b.get_rect(),"text_rect":reading.get_rect(),"text":reading.text,"anchor":at,"offscreen":offscreen,"direction":bearing,"progress":progress})
   occupied.append(box.grow(5))
  queue_redraw();progress_layer.queue_redraw()
 func _draw():
