@@ -82,8 +82,10 @@ static func command(sim,action:String)->bool:
     sim.message="No service receipt · the powered NORTH MAST remains available";return true
    s.result={"output":s.output,"proof":"local_receipt" if service else "mast_transmission","time":sim.elapsed,"origin":origin};_record(sim,2,id)
  sim.events.append({"type":"plant_control","action":action,"unit":id,"pos":sim.units[id].pos});sim.message=context(sim,id).text;return true
-static func cancel_released(sim)->void:
- if applies(sim.mission) and sim.mission.warning_chain.power=="umbilical" and sim.units[sim.mission.warning_chain.unit].hold!="HOLD":_release(sim)
+static func cancel_released(sim,order:String)->void:
+ if not applies(sim.mission) or sim.mission.warning_chain.power!="umbilical":return
+ var id:int=sim.mission.warning_chain.unit
+ if sim.units[id].hold!="HOLD" or (sim.selected==id and order in ["route","emergency","route_edit","route_insert","route_delete","route_undo"]):_release(sim)
 static func tick(sim)->void:
  if not applies(sim.mission) or sim.mission.warning_chain.power!="umbilical":return
  var id:int=sim.mission.warning_chain.unit

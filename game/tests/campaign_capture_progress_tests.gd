@@ -15,10 +15,10 @@ func run():
  check(caption.ends_with("…") and ThemeDB.fallback_font.get_string_size(caption,HORIZONTAL_ALIGNMENT_LEFT,-1,25).x<=270.,"long receiver caption preserves reserved percentage space at unchanged font size")
  check(Feed.fit_caption("BERTH",270.,25)=="BERTH","short receiver captions remain complete")
  var sim=Sim.new()
- # Isolated capture-clock fixtures, not earned journeys or exposure outcomes.
+ # The retained compatible sluice is a capture-clock fixture; Warning Chain now uses plant controls.
  for unit in [1,0]:
-  sim.start(10,"disruption",{"fitted":{"quietus":"","drone_a":"drone_sampler","drone_b":""}});sim.sirens=[]
-  sim.units[unit].pos=Vector2(480,1080);sim.units[unit].vel=Vector2.ZERO;sim.command("select",{"unit":unit})
+  sim.start(12,"disruption",{"fitted":{"quietus":"","drone_a":"drone_sampler","drone_b":""}});sim.sirens=[]
+  sim.units[unit].pos=sim.mission.objectives[0].pos+Vector2(0,80);sim.units[unit].vel=Vector2.ZERO;sim.command("select",{"unit":unit})
   check(sim.command("camera"),"actual compatible receiver starts for unit%d"%unit)
   sim.paused=false
   for n in (40 if unit==1 else 20):sim.advance(.1)
