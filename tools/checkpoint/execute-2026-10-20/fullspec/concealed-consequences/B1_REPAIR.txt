@@ -1,0 +1,41 @@
+PR46 occupied-pod enclosure repair
+
+Frozen child: 818fe8c2a67236261cc93ca22f3ab4ac2f4fb92b
+Parent: fc8a2804b54976f3e1e5d5de3b01391e49b09d9e
+Only concealed_harbour.gd and its already-registered model test changed.
+
+Reproduced reviewer B1 on the parent: a real routed occupied drone entered the
+future baffle footprint, and an ordinary sentinel's actual beam killed it.
+The relocated sentinel is an explicit controlled custody-loss fixture, not a
+claim about natural authored routes. Seating then enclosed the required living
+salvage pod; actual binary reload preserved that valid but unfinishable state.
+Retained parent evidence: repair-probe-red.log / baffle-regression-red.log.
+
+Repair refuses baffle unfolding while the actual occupied salvage pod lies
+within the existing screen-clearance footprint. It reports the specific reason
+and preserves reversible towing. Carried pods retain the old wreck position in
+their state, so only the salvage state uses that position; live-carrier geometry
+continues to govern carried pods. Berth and landing positions are outside the
+screen. No compatibility, global collision or save-validation changes.
+
+Fresh narrow checks on the final committed source (no edits during these runs):
+- Reviewer original probe: seating refused, pod_blocked=false, phase=towing,
+  can_release=true, valid=true; binary save/equality/restore all true.
+- Concealed model:77 checks /0 failures. New regression first failed67/2 before
+  the guard; now actually saves/reloads the loss, refuses enclosure, uses an
+  ordinary finite disruption to protect recovery from the fixture guard,
+  physically winches the SAME pod plus colocated deep-cells kit, preserves A's
+  death, clears the footprint and seats legitimately afterward.
+- Concealed ordinary-guard journeys:43/0, retaining both deep and both shelf
+  no-drone/no-tool completion policies and their previously reported costs.
+- Concealed headless UI:76/0, including canceled/drag/two-finger/emulated-release
+  controls. Existing ObjectDB exit-leak warning remains; no new control added.
+- Witness evacuation model:49/0. git diff --check clean.
+Fresh logs are b1-probe/model/journey/ui/witness.log, with separate synthetic
+XDG_DATA_HOME directories. Genuine profiles were not touched. No new renderer
+was needed for this local eligibility/refusal repair; prior rendered evidence
+remains explicitly tied to its earlier source head. No full-suite green claim.
+
+All repair test processes ended before release. No source mutation after this
+freeze. Existing independent reviewer and exact-head game-smoke CI remain the
+integration boundary; these checks establish technical repair, not enjoyment.

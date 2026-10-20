@@ -1,0 +1,7 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+CONCEALED JOURNEY deep/cast-off/north outcome=won elapsed=242.866666666752 work_seconds=57.7666666666992 metres=10842.9593675708 hull=100.0 oxygen=62.1746031746163 drag_reaction=false reply_heard=false reply_investigation=false tow_clipped=false state=ready receipt=true
+CONCEALED JOURNEY deep/cast-off/south outcome=won elapsed=202.183333333386 work_seconds=17.1000000000001 metres=9678.78806104642 hull=100.0 oxygen=71.8611111111221 drag_reaction=false reply_heard=false reply_investigation=false tow_clipped=false state=ready receipt=true
+CONCEALED JOURNEY shelf/service/north outcome=won elapsed=204.916666666722 work_seconds=17.2833333333359 metres=9570.9421065636 hull=79.9000000000002 oxygen=71.2103174603286 drag_reaction=false reply_heard=true reply_investigation=true tow_clipped=false state=seated receipt=true
+CONCEALED JOURNEY shelf/baffle/north outcome=won elapsed=207.08333333339 work_seconds=19.4000000000043 metres=9613.09203251638 hull=77.5000000000002 oxygen=70.6944444444557 drag_reaction=false reply_heard=false reply_investigation=false tow_clipped=false state=seated receipt=true
+CONCEALED HARBOUR JOURNEY CHECKS 43 FAILURES 0
