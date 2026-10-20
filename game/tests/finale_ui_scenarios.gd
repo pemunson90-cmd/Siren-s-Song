@@ -1,9 +1,9 @@
 extends RefCounted
 static func run(t,game) -> void:
 	var old_path=game.store.path
+	var current=game.sim.snapshot()
 	game.store.path="res://tests/fixtures/accepted-finale.archive"; game._load_archive(); game._refresh()
-	t.check(game.sim.mission.objectives[2].get("kind","")!="receiver" and game.completed==[0,1,2,3,4] and game.recovered_evidence.has("furnace"),"accepted APK active finale and campaign evidence load without silent replacement")
-	t.check(game.order_buttons.camera.text=="CAMERA","legacy finale does not advertise a newly required listen step")
+	t.check(game.sim.snapshot()==current and not game.store.warning.is_empty(),"incompatible finale save is rejected without replacing the current mission")
 	game.store.path=old_path
 	game._start_mission(5)
 	game.sim=preload("res://tests/finale_command_plan.gd").play(true,"receiver"); game.ocean.sim=game.sim; game._refresh()

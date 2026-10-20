@@ -1,6 +1,6 @@
 extends RefCounted
 const Simulation=preload("res://src/simulation/simulation.gd")
-const MAGIC := "QUIETUS_ARCHIVE_1"
+const MAGIC := "QUIETUS_PASS0"
 var path := "user://quietus.save"
 var warning := ""
 func valid(data: Dictionary) -> bool:
@@ -11,7 +11,7 @@ func valid(data: Dictionary) -> bool:
 	if data.has("equipment"):
 		if not preload("res://src/campaign/campaign_consequences.gd").fitting_valid(data.equipment):return false
 		for item in data.equipment.values():
-			if not item.is_empty() and item not in data.get("expedition",{}).get("entitlements",[]):return false
+			if not item.is_empty() and item not in preload("res://src/equipment/craft_upgrades.gd").recovered(data.completed,data.get("expedition",{})):return false
 	if data.has("evidence"):
 		if not data.evidence is Dictionary: return false
 		for key in data.evidence:
@@ -22,7 +22,7 @@ func valid(data: Dictionary) -> bool:
 		if data.active.mission.id>=6 and data.active.mission.id not in preload("res://src/campaign/expedition_campaign.gd").available(data.completed,data.get("expedition",{})):return false
 		var fitted=data.active.mission.get("launch_equipment",{})
 		for item in fitted.values():
-			if not item.is_empty() and item not in data.get("expedition",{}).get("entitlements",[]):return false
+			if not item.is_empty() and item not in preload("res://src/equipment/craft_upgrades.gd").recovered(data.completed,data.get("expedition",{})):return false
 		var references=data.active.mission.get("launch_context",{}).get("references",{})
 		if not references.is_empty() and references!=data.get("expedition",{}).get("references",{}):return false
 	return true

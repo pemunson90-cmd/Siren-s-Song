@@ -7,9 +7,9 @@ const FIELD_RECORDS=["resolution_witness_sluice","resolution_warning_transmissio
 static func available(completed:Array,progress:Dictionary)->Array:
  if not [0,1,2,3,4,5].all(func(id):return id in completed):return []
  var result=[6]
- for route in progress.get("routes",[]):result.append(7 if route=="deep" else 8)
+ if progress.get("route","") in ["deep","shelf"]:result.append(7 if progress.route=="deep" else 8)
  for id in [9,10]:
-  if id-2 in progress.get("completed",[]):result.append(id)
+  if id-2 in progress.get("completed",[]) and progress.get("route","")==("deep" if id==9 else "shelf"):result.append(id)
  if RESOLUTION_READY and (9 in progress.get("completed",[]) or 10 in progress.get("completed",[])):result.append(11)
  var route=progress.get("facts",{}).get("confluence_route","")
  if RESOLUTION_READY and 11 in progress.get("completed",[]) and route in ["concealed","overt"]:result.append(12 if route=="concealed" else 13)
@@ -22,9 +22,12 @@ static func recover(previous:Dictionary,mission:Dictionary)->Dictionary:
  if mission.id not in result.completed:result.completed.append(mission.id)
  for fact in mission.expedition_facts:result.facts[fact]=mission.expedition_facts[fact]
  if mission.id==6:
-  result.route=mission.chosen_route
+  if result.route.is_empty():result.route=mission.chosen_route
   if result.route not in result.routes:result.routes.append(result.route)
- return Consequences.recovered(result,mission)
+ result=Consequences.recovered(result,mission)
+ var ending=preload("res://src/campaign/endings.gd").resolve(result)
+ if not ending.is_empty():result["ending"]=ending.id
+ return result
 static func valid(value)->bool:
  if not value is Dictionary:return false
  if value.is_empty():return true
