@@ -158,7 +158,8 @@ func _layout(cancel_gesture:bool=true) -> void:
 	_apply_safe_area()
 	ui_touch_height=preload("res://src/presentation/layout_metrics.gd").touch_height(get_viewport_rect().size,Vector2(get_window().size),ui_density_dpi())
 	var h=ui_touch_height
-	ocean.position=Vector2.ZERO;ocean.size=size;ocean.feedback_font_size=maxi(14,roundi(h*.26));ocean.instrument_top=h+24;ocean.instrument_height=h;ocean.oxygen_capacity=120. if upgrade=="endurance" else 100.
+	# One maximum-stock reserve scale; NEXT-dive supplies never rescale a live dive.
+	ocean.position=Vector2.ZERO;ocean.size=size;ocean.feedback_font_size=maxi(14,roundi(h*.26));ocean.instrument_top=h+24;ocean.instrument_height=h;ocean.oxygen_capacity=120.
 	_refresh()
 	if mission_hud!=null:
 		mission_hud.layout(size,h);mission_row_heights=_measured_mission_rows()
