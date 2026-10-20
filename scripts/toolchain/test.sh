@@ -98,6 +98,7 @@ campaign_consequence_tests|CAMPAIGN CONSEQUENCES
 campaign_equipment_save_tests|CAMPAIGN EQUIPMENT SAVE
 onward_mission_tests|ONWARD MISSIONS
 warning_chain_tests|WARNING CHAIN
+warning_chain_journey_tests|WARNING CHAIN JOURNEY
 rendezvous_transport_tests|RENDEZVOUS TRANSPORT
 rendezvous_ui_tests|RENDEZVOUS UI
 resolution_content_tests|RESOLUTION CONTENT
