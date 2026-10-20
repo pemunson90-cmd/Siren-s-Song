@@ -35,5 +35,5 @@ Genuine journeys reached Hidden Harbour, Surface Reckoning and Silent Exodus.
 Physical module salvage integrated: return cargo or lose optional kit; bare frames remain.
 Blackwater delivery integrated: raw buffers return to Q through local transfer or recovery.
 Warning Chain integrated: shore supply/backup, service/mast output and physical exits.
-Concealed Record integrates witness rescue; Open Warning now requires a living recipient's real crossing.
+Concealed Record integrates witness rescue; Open Warning has real crossing and accessible local gate controls.
 Save failures persist with retry. Next: evaluate inhabited Shelf; develop distinct concealed consequences.

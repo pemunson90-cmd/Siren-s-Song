@@ -1,5 +1,5 @@
 # Continuation
-Current reconciled production base: `1de0dcc5d843b31e88ad88a21b68d46a0773774d`.
+Current reconciled production base: `6778fadb1b3b63f29570f712e7ae37eb04d507fa`.
 Read docs/USER_DIRECTIVES.md first; the latest order correction governs.
 
 ## Next — whole-game evaluation and physical campaign consequences
@@ -25,7 +25,7 @@ Craft-anchored rings replace detached cards; deliberate STATUS retains exact fle
 Critical reserves, work/cargo/power and full touch targets remain; chart gestures pass through.
 Concealed Record integrates physical pod rescue, local landing and Q recovery.
 Engine sound follows thrust; unsaved progress and archive recovery now stay visible with explicit retry.
-Open Warning now requires actual recipient transit/arrival and Q recovery; prior service proof opens its gate.
+Open Warning requires recipient transit/arrival; nearby gate work remains accessible through craft controls.
 Shelf Return now warns two occupied galleries through local delivery or a risky common alarm.
 Next evaluate its actual play; expand route-specific concealed consequences and retain the full inventory.
 

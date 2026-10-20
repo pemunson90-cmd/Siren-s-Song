@@ -162,6 +162,9 @@ func recovery_button_at(point:Vector2) -> Button:
 func witness_button_at(point:Vector2) -> Button:
  # These consequential local actions have one tap owner, including the mouse
  # events Android emulates after a canceled touch or short drag.
+ if (page=="craft" and not Recipient.primary_subject(host.sim).is_empty()) or (page=="object" and subject.get("subkind","")=="warning_gate"):
+  var primary=host.order_buttons.camera
+  if primary.is_visible_in_tree() and primary.get_global_rect().has_point(point):return primary
  for button in [extra.witness_land,extra.salvage,extra.warning_exposed,extra.warning_sheltered,extra.warning_gate,extra.shelf_warn,extra.shelf_alarm]:
   if button==extra.salvage and not Witness.site_for_item(host.sim,subject.get("item","")):continue
   if button.is_visible_in_tree() and button.get_global_rect().has_point(point):return button
@@ -214,7 +217,7 @@ func command_controls() -> Array:
   "fleet":return host.unit_buttons+([extra.arrivals] if Expedition.active(host.sim) else [])+[extra.view_menu,host.order_buttons.menu]
   "object":
    if subject.get("subkind","")=="warning_recipient":return [extra.warning_exposed,extra.warning_sheltered,host.order_buttons.camera,extra.route_here,extra.inspect]
-   if subject.get("subkind","")=="warning_gate":return [extra.warning_gate,extra.route_here,extra.inspect]
+   if subject.get("subkind","")=="warning_gate":return [extra.warning_gate,host.order_buttons.camera,extra.route_here,extra.inspect]
    return ([extra.witness_land] if Witness.harbour_subject(host.sim,subject) else [])+([extra.rendezvous_release,extra.route_here,extra.inspect] if subject.get("subkind","")=="berth_control" else ([] if subject.get("subkind","")=="transmission" else [extra.route_here])+([] if subject.get("subkind","") in ["corridor","withdrawal"] else [host.order_buttons.camera])+[extra.inspect,host.order_buttons.program,host.order_buttons.queue])
   "habitat":return ([extra.shelf_alarm] if subject.get("site","")=="alarm" else [extra.shelf_warn])+[extra.route_here,extra.inspect]
   "plant":return ([extra.chain_connect,extra.chain_disconnect,extra.chain_backup] if subject.get("station","")=="inlet" else [extra.chain_service,extra.chain_mast,extra.chain_send])+[extra.route_here,extra.inspect]
@@ -230,9 +233,11 @@ func command_controls() -> Array:
 func layout(bounds:Vector2,h:float):
  position=Vector2.ZERO;size=bounds;touch_height=h
  var font=maxi(14,roundi(h*.26))
+ var recipient_primary=(page=="craft" and not Recipient.primary_subject(host.sim).is_empty()) or (page=="object" and subject.get("subkind","")=="warning_gate")
  for b in host.order_buttons.values()+host.unit_buttons+extra.values()+[close_button,focus_button,host.pause_button,host.advanced_button]+host.zoom_buttons:
   b.mouse_filter=Control.MOUSE_FILTER_IGNORE if page=="plant" and b in command_controls() else Control.MOUSE_FILTER_STOP
   if b in [extra.witness_land,extra.warning_exposed,extra.warning_sheltered,extra.warning_gate,extra.shelf_warn,extra.shelf_alarm] or (b==extra.salvage and Witness.site_for_item(host.sim,subject.get("item",""))):b.mouse_filter=Control.MOUSE_FILTER_IGNORE
+  if b==host.order_buttons.camera and recipient_primary:b.mouse_filter=Control.MOUSE_FILTER_IGNORE
   b.hide();b.custom_minimum_size=Vector2(h*1.55,h);b.size=Vector2(h*1.55,h);b.add_theme_font_size_override("font_size",font)
   b.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
   var normal=StyleBoxFlat.new();normal.bg_color=Color(0,0,0,0);normal.set_content_margin_all(2)
@@ -358,6 +363,10 @@ func refresh():
   extra.warning_sheltered.disabled=not recipient.actions.depart.ready or not recipient.gate.opened
   extra.warning_gate.disabled=not recipient.actions.gate.ready
   if subject.get("subkind","") in ["warning_recipient","warning_gate"]:instrument_info.text=Recipient.detail(sim,subject)
+  var recipient_primary=Recipient.primary_subject(sim)
+  if page=="craft" and not recipient_primary.is_empty():
+   host.order_buttons.camera.text="GATE\nCONTROLS" if recipient_primary.subkind=="warning_gate" else "RECIPIENT\nCONTROLS";host.order_buttons.camera.disabled=false
+   instrument_info.text=Recipient.detail(sim,recipient_primary)
  var witness=Witness.status(sim)
  if not witness.is_empty():
   extra.witness_land.disabled=not sim.witness_context().land.ready

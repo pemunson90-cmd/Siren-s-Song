@@ -207,9 +207,9 @@ func _primary_action() -> void:
 	if not station.is_empty():mission_hud.open("plant",station);return
 	var witness=WitnessView.site(sim)
 	if not witness.is_empty() and (not advanced_orders or mission_hud.page=="craft"):mission_hud.open("salvage",{"kind":"salvage","item":witness.item,"name":witness.name.to_upper(),"pos":witness.pos});return
-	var recipient=RecipientView.status(sim)
-	if not recipient.is_empty() and recipient.informed and recipient.recipient.known and (not advanced_orders or mission_hud.page=="craft"):
-		mission_hud.open("object",RecipientView.subject(recipient.recipient,"recipient"));return
+	var recipient=RecipientView.primary_subject(sim)
+	if not recipient.is_empty() and (not advanced_orders or mission_hud.page=="craft"):
+		mission_hud.open("object",recipient);_refresh();return
 	_order("camera")
 func _recovery_route() -> void:
 	var destinations=sim.extraction_corridors()

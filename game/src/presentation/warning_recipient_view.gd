@@ -9,6 +9,18 @@ static func replaces_site(sim,site:Dictionary)->bool:
  return not status(sim).is_empty() and site.get("site_id","")=="warning_reply" and site.captured
 static func subject(data:Dictionary,kind:String)->Dictionary:
  return {"kind":"objective","subkind":"warning_"+kind,"name":"WARNING RECIPIENT" if kind=="recipient" else "SERVICE GATE","pos":data.pos}
+static func local_gate_subject(sim)->Dictionary:
+ var info=status(sim)
+ if info.is_empty() or not info.gate.known or info.gate.opened:return {}
+ var craft=sim.units[sim.selected]
+ if not craft.alive or craft.pos.distance_to(info.gate.pos)>60:return {}
+ return subject(info.gate,"gate")
+static func primary_subject(sim)->Dictionary:
+ var local_gate=local_gate_subject(sim)
+ if not local_gate.is_empty():return local_gate
+ var info=status(sim)
+ if info.is_empty() or not sim.units[sim.selected].alive or not info.informed or not info.recipient.known:return {}
+ return subject(info.recipient,"recipient")
 static func markers(view,sim,touch:float)->Array:
  var info=status(sim);var result=[]
  if info.is_empty():return result
