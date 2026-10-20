@@ -1,3 +1,5 @@
+> **READ FIRST — CURRENT USER ORDER:** docs/USER_DIRECTIVES.md. Pass 0 + V7 full game first; then Stakes → One real operation → Instruments. User playtest timing never gates work.
+
 # Siren's Song — current project entry
 
 **Gauntlet process:** [AGENTS.md](../AGENTS.md) — canonical orchestration and continuous-improvement instructions.

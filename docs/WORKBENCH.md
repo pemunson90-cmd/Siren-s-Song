@@ -1,5 +1,5 @@
 # Siren’s Song · campaign build
-Campaign plan: docs/PASS0_CAMPAIGN_PLAN.md. Next: build every unbuilt node.
+Read docs/USER_DIRECTIVES.md. Next: finish Pass 0 + V7, then the three audit passes.
 
 | Node | Status |
 |---|---|
@@ -21,3 +21,8 @@ Campaign plan: docs/PASS0_CAMPAIGN_PLAN.md. Next: build every unbuilt node.
 |Quietus baffles|rough|
 |Drone deep cells|rough|
 |Drone survey array|rough|
+|V7 current fields|unbuilt|
+|V7 sensor-earned terrain|unbuilt|
+|V7 evidence-floor pressure|unbuilt|
+|V7 threat heartbeat/vignette|unbuilt|
+|V7 photographic grading|unbuilt|
