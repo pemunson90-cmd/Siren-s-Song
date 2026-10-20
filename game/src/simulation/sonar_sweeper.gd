@@ -3,6 +3,7 @@ const Depth=preload("res://src/simulation/depth_bands.gd")
 const Sonar=preload("res://src/simulation/advanced_sonar.gd")
 static func advance(sim,enemy,dt):
  if not enemy.has("sweep"):enemy.sweep={"cooldown":0.,"charge":0.,"emitting":0.,"pending":[],"strike":{}}
+ enemy["attention_time"]=maxf(0.,enemy.get("attention_time",0.)-dt)
  var state=enemy.sweep
  state.emitting=maxf(0,state.emitting-dt)
  if enemy.stun>0 or enemy.get("pin_time",0)>0:

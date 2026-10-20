@@ -272,7 +272,8 @@ func layout(bounds:Vector2,h:float):
  host.status_label.hide();host.log_label.hide()
  host.pause_button.show();host.pause_button.position=Vector2(12,12);host.pause_button.size=Vector2(h*1.55,h)
  host.advanced_button.visible=not host.advanced_orders;host.advanced_button.position=Vector2(bounds.x-1.55*h-12,12);host.advanced_button.size=Vector2(h*1.55,h)
- intent.position=Vector2(16,bounds.y-font*2-14);intent.size=Vector2(bounds.x-32,font*2+8);intent.add_theme_font_size_override("font_size",font)
+ var line_height=ceili(intent.get_theme_font("font").get_height(font))
+ intent.position=Vector2(16,bounds.y-line_height*2-14);intent.size=Vector2(bounds.x-32,line_height*2+8);intent.add_theme_font_size_override("font_size",font)
  intent.visible=not host.advanced_orders
  blocker.position=Vector2.ZERO;blocker.size=bounds;blocker.visible=host.advanced_orders
  ring_buttons=command_controls()
@@ -473,6 +474,7 @@ func refresh():
  for rect in host.ocean.contact_readout_rects():blocked.append(rect)
  if host.ocean.optical_feed.is_visible_in_tree():blocked.append(host.ocean.optical_feed.get_rect())
  fleet.visible=not host.advanced_orders and not host.decoy_armed and not host.knock_armed
+ if not host.decoy_armed and not host.knock_armed:intent.text+="\n"+sim.Depth.context(sim)
  fleet.refresh(blocked)
  host.ocean.ui_blocked_rects=occupied_rects().map(func(r):return Rect2(r.position-host.ocean.global_position,r.size))
  if host.decoy_armed or host.knock_armed:

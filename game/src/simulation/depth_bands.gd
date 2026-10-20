@@ -108,7 +108,21 @@ static func cargo_bands(sim):
    if not delivery.carriers[id].is_empty():bands["blackwater_buffer_%d"%id]=sim.units[id].band
 static func cargo_band(sim,item:String)->int:
  return sim.mission.get("depth_cargo",{}).get(item,1)
+# State-aware reminders use own orders/custody and received evidence only.
+static func context(sim)->String:
+ var u=sim.units[sim.selected]
+ if not u.transition.is_empty():return "Depth change · stationary4s · exposed in BOTH bands until settled."
+ var delivery=sim.mission.get("blackwater_delivery",{})
+ if not delivery.is_empty() and sim.selected>0 and not delivery.carriers[sim.selected].is_empty():return "RAW BUFFER aboard · meet Quietus at SAME settled depth within60m to TRANSFER."
+ if sim.all_records() and sim.Delivery.complete(sim):return "Archive ready · recover Quietus settled in MIDDLE; retained kit still needs its carrier."
+ if u.band!=1 and sim.mission.objectives.any(func(o):return not o.captured and u.pos.distance_to(o.pos)<240):return "Local record nearby · settle in MIDDLE to CAMERA / SAMPLE; shifting exposes both bands."
+ var rows=sim.Sonar.feedback(sim,sim.selected).rows
+ if rows.any(func(row):return sim.elapsed-row.time<3 and row.classification in ["SWEEP WINDUP","ACTIVE SWEEP","RETURN CHARGE"]):return "Sweep heard locally · move from the old return or disrupt; a layer shift takes4s."
+ if sim.sonar.pending.any(func(packet):return packet.station==sim.selected):return "Echoes travelling · moving160m or leaving the emitter band can lose your return."
+ if sim.motion_radius(sim.selected)>180:return "Own motion masks passive bearings · slow down or listen from an independent craft."
+ return sim.mission.get("depth_hint","Craft → DEPTH / SONAR · bearings need movement or a second receiver; depth costs time.")
 static func valid(data)->bool:
+ if data.mission.has("depth_hint") and not data.mission.depth_hint is String:return false
  if not data.get("noises") is Array:return false
  for noise in data.noises:
   if not noise is Dictionary or not noise.get("band") is int or noise.band not in [0,1,2]:return false

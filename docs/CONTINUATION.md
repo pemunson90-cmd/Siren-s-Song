@@ -16,7 +16,9 @@ Implemented candidate:
 - Sector/power selection, reserve cost, delayed emission-time echoes and occlusion.
 - Receiver-owned sweeper audio, windup/return-strike windows and local stale reports.
 - Craft-local controls, shared gesture ownership, waterfall and band feedback.
-- Shelf Signal depth encounter; source-known quiet/deep and active/scout policies.
+- All opening0–5 author distinct band crossings, local threats and ascent cover.
+- Blackwater physical custody, Foundry thermal/motor, Well comparison, finale decode.
+- Briefings are concise; own-state/received-evidence hints teach choices in play.
 
 API: simulation.depth_feedback(), command("depth",{band}),
 command("sonar_mode",{sector,power}), command("ping").
@@ -25,10 +27,11 @@ Machinery remains inherited across bands; local sites/recovery use MIDDLE.
 Wreck custody retains its actual band. Current snapshots require depth/sonar state;
 older journeys remain playable only on their preserved source, without migration.
 
-Next on this SAME branch before review: develop the complete six-operation opening arc,
-including encounter pacing, authored band choices, equipment/enemy interplay and
-received story consequences; assess substantial playable milestones sequentially.
-Internal checkpoint: only Shelf Signal has a new depth encounter. Remaining original
-operations retain baseline middle-band solutions; their whole arc is unfinished.
-28 core/12 optional operations, fleet/economy/research/frontend/presentation/audio,
-challenges/replay, then expeditions and naval career remain the approved program.
+Internal checkpoint: source-known baseline command journeys finish opening0–5;
+new1–5 policies spend no finite tool. Core659/runtime550, interaction59 and
+cover/inner context60 pass. Complete touch-policy and affected checks in progress.
+Next on SAME branch: finish accumulated validation and meaningful fixes, then root
+requests the SAME independent reviewer against the whole opening milestone.
+Only after that review/fixes: final-head CI and normal milestone PR.
+28 core/12 optional, fleet/economy/research/frontend/presentation/audio,
+challenges/replay, expeditions and naval career remain the approved program.

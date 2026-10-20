@@ -116,5 +116,6 @@ func run() -> void:
 	preload("res://tests/operation_catalog_scenarios.gd").run(self)
 	preload("res://tests/depth_sonar_scenarios.gd").run(self)
 	preload("res://tests/sweeper_scenarios.gd").run(self)
+	preload("res://tests/opening_depth_scenarios.gd").run(self)
 	print("RUNTIME CHECKS ",checks," FAILURES ",failures)
 	quit(1 if failures else 0)

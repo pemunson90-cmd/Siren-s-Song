@@ -19,7 +19,7 @@ func _initialize():
  check(not restored.noises.any(func(n):return n.label=="DEEP MOTOR") and restored.departure_feedback().is_empty(),"old Foundry has no industrial source or cue")
  var paused=s.snapshot();s.advance(30);check(s.snapshot()==paused,"pause freezes event progression and all observations")
  # Receiver is placed in ordinary clear staging water. No listener truth reaches feedback.
- s.units[2].pos=Vector2(1040,860);s.elapsed=24.1
+ s.units[2].band=2;s.units[2].pos=Vector2(1040,860);s.elapsed=24.1
  var heard=s.departure_feedback()
  check(not heard.is_empty() and heard.moving and heard.receivers.has(2),"current moving motor is heard through supported thermal/terrain transmission")
  check(heard.get("lit",false) and heard.has("pos"),"lit deep hull is shown only inside own physical range and clear sight")
@@ -42,13 +42,13 @@ func _initialize():
  bad=active.duplicate(true);bad.mission.id=4;check(not Sim.valid_snapshot(bad),"departure cannot activate in another chapter")
  bad=active.duplicate(true);bad.elapsed=NAN;check(not Sim.valid_snapshot(bad),"invalid event clock rejects before recovery")
  # Existing industrial timbre is reused only for an actual selected receiver.
- var audio=Sim.new();audio.start(3);audio.elapsed=24.0;audio.units[2].pos=Vector2(1040,860);audio.selected=2;audio.paused=false;tick(audio,0.1)
+ var audio=Sim.new();audio.start(3);audio.elapsed=24.0;audio.units[2].band=2;audio.units[2].pos=Vector2(1040,860);audio.selected=2;audio.paused=false;tick(audio,0.1)
  check(audio.events.filter(func(e):return e.get("industrial",false)).size()==1,"locally received departure has one restrained existing factory audio cue")
  tick(audio,1);check(audio.events.filter(func(e):return e.get("industrial",false)).size()==1,"industrial audio does not spam on each motor emission")
  var remote=Sim.new();remote.start(3);remote.elapsed=24.0;remote.paused=false;tick(remote,0.1)
  check(not remote.events.any(func(e):return e.get("industrial",false)),"unreceived industry does not create an omniscient player sound")
  # A bright real player target keeps ordinary beam acquisition despite the motor.
- var combat=Sim.new();combat.start(3);combat.elapsed=24.0;combat.units[0].pos=Vector2(1200,840)
+ var combat=Sim.new();combat.start(3);combat.elapsed=24.0;combat.units[0].band=2;combat.units[0].pos=Vector2(1200,840)
  combat.units[1].alive=false;combat.units[2].alive=false;combat.paused=false;tick(combat,0.2)
  check(combat.sirens[1].target==0 and combat.sirens[1].lock>0,"motor cannot override a legitimate optical lock")
  for chapter in [0,1,2,4,5]:

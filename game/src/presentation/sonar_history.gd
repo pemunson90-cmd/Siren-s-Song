@@ -28,7 +28,7 @@ static func detail(sim)->String:
   var degrees=fposmod(rad_to_deg(atan2(row.direction.x,-row.direction.y)),360.)
   text+="\n%03d° ±%d° · %.1fs · %d%% · %s"%[roundi(degrees)%360,roundi(lerpf(28,5,row.confidence)),maxf(0,sim.elapsed-row.time),roundi(row.confidence*100),row.classification]
  if rows.is_empty():text+="\nNo received signals. Move quietly or separate craft for independent bearing rays."
- return text+"\nBearings alone give no range, band or clear passage. Echoes keep their original reflection time."
+ return text+"\n"+sim.Depth.context(sim)+"\nBearings alone give no range, band or clear passage. Echoes keep their original reflection time."
 static func draw_bearings(canvas,sim):
  var feedback=sim.Sonar.feedback(sim,sim.selected)
  var drawn={}

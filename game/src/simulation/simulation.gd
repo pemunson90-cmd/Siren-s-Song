@@ -100,6 +100,7 @@ func start(index: int, upgrade: String = "endurance", launch:Dictionary={}) -> v
 	Depth.initialize(self);sonar=Sonar.initial();depth_charts={};geometry_band=1
 	known = {}; contacts = {}; events = []; noises = []; projectiles=[]
 	elapsed=0.0; oxygen=100.0; hull=100.0; paused=true; selected=0; queue_mode=false; pass_through=true; outcome=""
+	message="Chart loaded. Tap a craft for DEPTH / SONAR; tap water to plot a route."
 	ping_time=0.0; recon_time=0.0; captures=[{},{},{}]; accumulator=0.0
 	tools={"emp":2,"decoy":3,"recon":2,"knock":2}
 	if upgrade=="disruption": tools.emp += 1
@@ -505,7 +506,7 @@ func command(order: String,args: Dictionary={}) -> bool:
 			if mission.get("blackwater_revision",0)==1:
 				var answered=false
 				for target in mission.objectives:
-					if not target.captured and u.pos.distance_to(target.pos)<240 and line_clear(u.pos,target.pos):
+					if not target.captured and u.band==1 and u.pos.distance_to(target.pos)<240 and Depth.clear(self,u.pos,target.pos,1) and Sonar.in_sector(u.pos,target.pos,u.angle,sonar.sector):
 						target.replay_until=elapsed+3.0;answered=true
 				if answered:message="SONAR emitted · local relay replay 3s · settle and SAMPLE"
 		"recon":
@@ -681,14 +682,14 @@ func camera_context() -> Dictionary:
 func _well_signature_observe() -> void:
 	if mission.get("well_revision",0)!=1 or not mission.objectives[0].captured:return
 	var emitter=units[0];var aperture:Vector2=mission.objectives[1].pos
-	if mission.well_reference.is_empty() and emitter.alive and propulsion_speed(emitter)>50 and emitter.pos.distance_to(aperture)<240 and line_clear(emitter.pos,aperture):
+	if mission.well_reference.is_empty() and emitter.alive and emitter.band==1 and emitter.transition.is_empty() and propulsion_speed(emitter)>50 and emitter.pos.distance_to(aperture)<240 and line_clear(emitter.pos,aperture):
 		mission.well_reference={"time":elapsed,"speed":propulsion_speed(emitter),"pos":emitter.pos}
 		message="Quietus engine reference recorded · compare locally at RETURN ARCHIVE"
 	if mission.well_reference.is_empty() or not mission.well_observation.is_empty():return
 	var origin:Vector2=mission.objectives[2].pos
 	for id in units.size():
 		var receiver=units[id];var radius=(240.0 if id==0 else 330.0)*(0.65 if mission.darkness else 1.0)
-		if receiver.alive and receiver.pos.distance_to(origin)<radius and line_clear(receiver.pos,origin):
+		if receiver.alive and receiver.band==1 and receiver.transition.is_empty() and receiver.pos.distance_to(origin)<radius and Depth.clear(self,receiver.pos,origin,1):
 			mission.well_observation={"time":elapsed,"unit":id,"pos":origin}
 			mission.record="A returned pattern matches Quietus' moving engine cadence. Its source and intent remain unresolved."
 			message="Returned cadence matches Quietus reference · comparison recorded"
@@ -1120,6 +1121,7 @@ func _threats(dt: float) -> void:
 			if s.route.is_empty(): s.angle=rotate_toward(s.angle,s.pos.angle_to_point(victim.pos),1.8*dt)
 			var previous_lock:float=s.lock
 			s.target=detected; s.goal=victim.pos; s["last_known"]=s.goal; s["attention_time"]=12.0; s["search_index"]=0; s.lock+=dt; s.suspicion=minf(1,s.suspicion+dt*0.3); s.mode="LOCKING" if s.lock<4 else "BEAM"
+			if not s.transition.is_empty():s.lock=0.0;s.mode="CHANGING DEPTH"
 			if s.lock>=4:
 				if previous_lock<4: events.append({"type":"beam","pos":victim.pos})
 				if recipient_seen:Recipient.damage(self,dt*18)
