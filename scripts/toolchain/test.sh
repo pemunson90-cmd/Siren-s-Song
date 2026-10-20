@@ -128,6 +128,7 @@ drone_operations_ui_tests|DRONE OPERATIONS UI
 contact_reports_tests|CONTACT REPORT
 contact_reports_ui_tests|CONTACT REPORT UI
 blackwater_courier_tests|COURIER
+blackwater_delivery_tests|BLACKWATER DELIVERY
 route_program_ui_tests|ROUTE PROGRAM UI
 planner_navigation_ui_tests|PLANNER NAVIGATION
 planner_space_ui_tests|PLANNER SPACE UI

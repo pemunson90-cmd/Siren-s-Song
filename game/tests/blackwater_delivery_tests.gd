@@ -17,7 +17,9 @@ func loss_and_resample()->void:
  check(sites.size()==1 and sites[0].item=="blackwater_buffer_1" and sites[0].pos==position and sites[0].packets==[0],"lost data carrier leaves one known own-position buffer wreck without erasing the field record")
  lost.units[0].pos=Vector2(760,330);lost.units[0].vel=Vector2.ZERO;lost.command("select",{"unit":0})
  check(lost.camera_context().ready and lost.command("camera"),"Quietus can reacquire an already recorded missing packet at the original receiver")
+ var record=lost.mission.objectives[0].duplicate(true);var launch=lost.mission.courier_launch;var record_events=lost.events.filter(func(e):return e.type=="record").size()
  tick(lost,2.1)
+ check(lost.mission.objectives[0]==record and lost.mission.courier_launch==launch and lost.events.filter(func(e):return e.type=="record").size()==record_events,"resample preserves the first field evidence and glider launch without a duplicate archive event")
  check(lost.blackwater_delivery_status().packets[0].aboard and lost.salvage_sites().is_empty(),"real resample secures Q's packet while redundant wreck data no longer blocks the mission")
 func combined_wreck()->void:
  var sim=Sim.new();sim.start(2,"endurance",{"fitted":{"quietus":"","drone_a":"drone_sampler","drone_b":""}});sim.sirens=[]
@@ -56,11 +58,45 @@ func data_winch_and_save()->void:
  for suffix in ["",".bak",".tmp"]:DirAccess.remove_absolute(store.path+suffix)
  tick(sim,3.3);tick(copy,3.3)
  check(sim.all_records() and copy.all_records() and sim.salvage_sites().is_empty() and Sim.valid_snapshot(copy.snapshot()),"restored one-winch recovery delivers both packet buffers without a duplicate or extra wait")
+ var impossible=before.duplicate(true);impossible.mission.blackwater_delivery.wrecks={};impossible.mission.blackwater_delivery.jobs=[{},{},{}]
+ check(not Sim.valid_snapshot(impossible),"recorded current packets must still have physical custody or actual Quietus delivery")
+ impossible=before.duplicate(true);impossible.captures[0]={"target":0,"elapsed":.5}
+ check(not Sim.valid_snapshot(impossible),"a current craft cannot restore simultaneous buffer winch and SAMPLE work")
+ var cancelled=Sim.new();cancelled.restore(before)
+ check(cancelled.command("route",{"point":cancelled.units[0].pos+Vector2(100,100)}) and cancelled.blackwater_delivery_status().jobs[0].is_empty(),"accepted paused route replacement immediately cancels buffer winch")
+ tick(cancelled,4)
+ check(not cancelled.all_records(),"cancelled physical recovery cannot later grant missing data")
+ cancelled.units[0].pos=Vector2(760,330);cancelled.units[0].vel=Vector2.ZERO;cancelled.command("camera");tick(cancelled,.5);cancelled.paused=true
+ var resumed=Sim.new()
+ check(Sim.valid_snapshot(cancelled.snapshot()) and resumed.restore(bytes_to_var(var_to_bytes(cancelled.snapshot()))),"partial resample of retained evidence restores with physical raw buffer still missing")
+ tick(resumed,1.6)
+ check(resumed.blackwater_delivery_status().packets[0].aboard and not resumed.blackwater_delivery_status().packets[1].aboard,"restored resample secures exactly its own missing packet")
  var bad=before.duplicate(true);bad.mission.erase("blackwater_delivery")
  check(not Sim.valid_snapshot(bad),"current Blackwater save cannot delete physical delivery state")
  for value in [[],{}, {"aboard":[0,0],"carriers":[[],[],[]],"wrecks":{},"jobs":[{},{},{}]}]:
   bad=before.duplicate(true);bad.mission.blackwater_delivery=value
   check(not Sim.valid_snapshot(bad),"malformed or duplicated packet custody rejects cleanly")
+func physical_return()->void:
+ var sim=Observed.make();sim.mission.blackwater_delivery.carriers=[[],[0],[1]]
+ for carrier in [1,2]:
+  sim.command("select",{"unit":carrier});check(sim.command("route",{"point":sim.units[0].pos}),"observed distant carrier accepts a real homeward route with original guards and spent EMPs")
+ sim.paused=false
+ for step in 2700:
+  sim.advance(Sim.STEP)
+  for carrier in [1,2]:
+   if sim.blackwater_handoff_context(carrier).ready:sim.command("select",{"unit":carrier});sim.command("blackwater_handoff",{"carrier":carrier})
+  if not sim.outcome.is_empty():break
+ check(sim.outcome=="won" and sim.hull==100 and sim.units.all(func(u):return u.alive) and sim.tools.emp==0 and sim.elapsed>25,"original15.63s state completes its expected physical return with real guards and no restored resources")
+ print("OBSERVED RETURN outcome=",sim.outcome," elapsed=",sim.elapsed," hull=",sim.hull," EMP=",sim.tools.emp)
+func handoff_guards()->void:
+ var sim=Sim.new();sim.start(2);sim.mission.objectives[0].captured=true;sim.mission.blackwater_delivery.carriers[1]=[0];sim.units[1].pos=sim.units[0].pos+Vector2(30,0)
+ check(sim.blackwater_handoff_context(1).ready,"a local settled own-data carrier exposes handoff readiness")
+ sim.units[1].vel=Vector2(2,0);check(not sim.blackwater_handoff_context(1).ready,"carrier ground motion blocks local data connection")
+ sim.units[1].vel=Vector2.ZERO;sim.units[0].vel=Vector2(0,2);check(not sim.blackwater_handoff_context(1).ready,"Quietus ground motion also blocks local data connection")
+ sim.units[0].vel=Vector2.ZERO;sim.mission.structures=[Rect2(151,780,8,40)]
+ check(not sim.blackwater_handoff_context(1).ready,"actual intervening structure blocks a local transfer despite nearby own coordinates")
+ sim.mission.structures=[];sim.units[1].pos=sim.units[0].pos+Vector2(61,0)
+ check(not sim.blackwater_handoff_context(1).ready,"data link cannot exceed its physical60m range")
 func finish()->void:
  print("BLACKWATER DELIVERY CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)
 func _initialize():
@@ -78,16 +114,17 @@ func _initialize():
  check(s.snapshot()==before,"delivery and salvage feedback are read-only")
  s.units[1].pos=s.units[0].pos+Vector2(30,0);s.units[1].vel=Vector2.ZERO;s.command("select",{"unit":1})
  check(s.command("blackwater_handoff",{"carrier":1}) and s.blackwater_delivery_status().packets[0].aboard and not s.blackwater_delivery_status().complete,"one actual local transfer puts only that carried packet aboard Quietus")
+ check(not s.command("blackwater_handoff",{"carrier":1}) and s.blackwater_delivery_status().cargo[0]==[0],"repeated handoff cannot duplicate a packet or completion credit")
  s.units[2].pos=s.units[0].pos+Vector2(0,-30);s.units[2].vel=Vector2.ZERO;s.command("select",{"unit":2})
  var routes=s.units.map(func(u):return u.route.duplicate(true));var holds=s.units.map(func(u):return u.hold)
  check(s.command("blackwater_handoff",{"carrier":2}) and s.blackwater_delivery_status().complete and s.units.map(func(u):return u.route)==routes and s.units.map(func(u):return u.hold)==holds,"explicit local transfer finishes delivery without rewriting routes or holds")
  tick(s,Sim.STEP)
  check(s.outcome=="won" and Sim.valid_snapshot(s.snapshot()),"normal recovery completes only after actual exchange reaches home Quietus with valid current state")
- var solo=Sim.new();solo.start(2);solo.sirens=[];solo.units[1].alive=false;solo.units[2].alive=false
+ var solo=Sim.new();solo.start(2);check("retained" not in solo.blackwater_delivery_status().text,"fresh operation status does not claim unrecorded field notes");solo.sirens=[];solo.units[1].alive=false;solo.units[2].alive=false
  for site in [0,1]:
   solo.units[0].pos=solo.mission.objectives[site].pos+Vector2(0,130);solo.units[0].vel=Vector2.ZERO
   check(solo.command("camera"),"Quietus-only actual fixed receiver SAMPLE remains available")
   tick(solo,2.1)
  check(solo.blackwater_delivery_status().complete and solo.all_records() and solo.mission.courier_launch>=0,"Quietus directly carries both genuine samples and REQUEST still launches the accepted glider")
- loss_and_resample();combined_wreck();glider_buffer();data_winch_and_save()
+ loss_and_resample();combined_wreck();glider_buffer();data_winch_and_save();physical_return();handoff_guards()
  finish()

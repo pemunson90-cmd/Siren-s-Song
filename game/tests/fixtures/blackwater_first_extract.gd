@@ -697,9 +697,15 @@ const OBJECTIVES=[{
 "pos": Vector2(1360, 480),
 "replay_until": 0.0
 }]
+const RECON={
+"delay": 6.0,
+"floor": 16.0,
+"hunt": 24.400000000000063,
+"secured": [0, 1]
+}
 const COURIER_LAUNCH=14.6333333333336
 static func make():
  var s=Sim.new();s.start(2)
  for key in STATE:s.set(key,STATE[key].duplicate(true) if STATE[key] is Array or STATE[key] is Dictionary else STATE[key])
- s.mission.objectives=OBJECTIVES.duplicate(true);s.mission.courier_launch=COURIER_LAUNCH;s.paused=true
+ s.mission.objectives=OBJECTIVES.duplicate(true);s.mission.reconnaissance=RECON.duplicate(true);s.mission.courier_launch=COURIER_LAUNCH;s.paused=true
  return s
