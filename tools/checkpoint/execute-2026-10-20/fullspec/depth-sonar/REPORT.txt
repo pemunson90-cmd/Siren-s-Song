@@ -67,3 +67,44 @@ Broader28core/12optional, four further enemy roles, fleet/economy, production fr
 audio, replay/challenges, expeditions and career remain unfinished release scope.
 Bounded tactical approximations are deliberate, not a wave solver. No physical device,
 headphone, native APK or fresh critic evidence claimed.
+
+Internal checkpoint dc9fce2439a9b0069e38f68c1d8042cbcd1c1ce8:
+freeze-core.log591/0; freeze-runtime.log491/0; freeze-delivery.log60/0.
+NOT released: same sole worker continues opening0–5 on same branch.
+Split focused geometry9/0; actual tool-free coordinated deep journey9/0:
+66.7667s hull100 O2~96.4265, all three craft alive, no finite tools spent.
+First direct unknown-water intent stalled at a real overhang; corrected player route
+with explicit waypoints rather than granting the planner hidden terrain knowledge.
+
+ACCUMULATED OPENING0–5 INTERNAL CHECKPOINT (continuation, not release)
+Generic opening_depth_operations factory selects catalog-configured encounter profiles.
+Data authors band rock edits, threats, sweepers and concise briefing/context hints.
+Split: deep southern shelf and shallow northern saddle; deep eastern patrol.
+Blackwater: western deep/northern shallow alternatives; quiet approach/fast withdrawal,
+physical carrier rendezvous and same-band custody; local replay respects band/sector.
+Foundry: deep spine/spur passage, all-layer factory, deep recovery sentinel/motor,
+retained horizontal thermal front; quiet drone photography plus Quietus transit.
+Well: shallow western crossing/ascent baffle, deep eastern opening/sweeper;
+middle hunter and real middle-only moving reference/received comparison.
+Song: deep crown crossing, protected middle ascent, shallow eastern baffles,
+deep sill/threats; original middle lee, two observations,6s Quietus decode/return.
+Ordinary local reports now carry first-observed band and area over receiver-band
+water paths. Hidden new depth is never read. Transitioning enemies cannot hold beam lock.
+Added same-position staged active/no-pulse counterpolicy probes for each1–5:
+all five change actual acquired enemy depth and spend1.2 reserve for high active.
+New contextual HUD uses own state/custody/received signals, no hidden threat queries.
+Actual screenshot inspection caught font-height second-line clipping and stale prior
+operation order text; fixed both. New actual cover/inner context checks60/0.
+Focused state/interaction/counterpolicy59/0. Accumulated core659/0, runtime550/0.
+Both existing baseline six-operation solo campaign paths still finish in core.
+Source-known new command policies (no finite tools; all3 craft alive):
+Split66.7667s hull100; Blackwater133.2167s hull100; Foundry83.6167s hull100;
+Well102.9s hull33.6 unverified signature; Song118.3167s hull100.
+These are technical policy evidence, not blind criticism or balance acceptance.
+New complete-touch journeys still being verified: the first FIT-world plotting attempt
+hit a craft handle in tall Split; use existing real paused planner for unambiguous
+route placement rather than altering gameplay state or granting hidden pathing.
+Affected report36/0, thermal22/0, Wellshape9/0. Departure fixture needs explicit deep
+receiver/target bands now that its motor/recovery sentinel actually occupy DEEP.
+Next same-milestone task: finish complete cover/inner touch journeys, affected checks,
+bounded performance/adversarial checks and final handoff to root's SAME reviewer.

@@ -1,0 +1,74 @@
+{
+  "session": "concealed-deep-cover-20261020",
+  "source": "fc8a2804b54976f3e1e5d5de3b01391e49b09d9e",
+  "profile_sha256": "eda6ca71090dba7faa611ad1aeb87a39158d705857e69cf417fa72a1c5de0aad",
+  "normal_quit": true,
+  "process_state": "Zs",
+  "metrics": {
+    "elapsed": 228.11666666674,
+    "hull": 96.7,
+    "mission": 12,
+    "outcome": "",
+    "own_craft": [
+      {
+        "alive": true,
+        "battery": 100.0,
+        "goals": [],
+        "hold": "",
+        "name": "QUIETUS",
+        "position": [
+          1780.67797851562,
+          2531.69140625
+        ],
+        "speed": 0.0,
+        "unit": 0
+      },
+      {
+        "alive": true,
+        "battery": 58.0468608100855,
+        "goals": [
+          {
+            "mode": "inherit",
+            "pos": [
+              1782.15307617188,
+              2546.74243164062
+            ],
+            "stop": true
+          }
+        ],
+        "hold": "",
+        "name": "DRONE A",
+        "position": [
+          1752.82788085938,
+          2431.5068359375
+        ],
+        "speed": 90.2712783813477,
+        "unit": 1
+      },
+      {
+        "alive": true,
+        "battery": 73.3863888888483,
+        "goals": [],
+        "hold": "",
+        "name": "DRONE B",
+        "position": [
+          2200.0,
+          2680.0
+        ],
+        "speed": 0.0,
+        "unit": 2
+      }
+    ],
+    "oxygen": 65.6865079365203,
+    "paused": true,
+    "screen": "program",
+    "selected": 1,
+    "tools": {
+      "decoy": 3,
+      "emp": 1,
+      "knock": 2,
+      "recon": 2
+    }
+  },
+  "provenance": "Root preserved exact paused228.1167s craft/task state through ordinary quit; no simulation advance, manual profile edit, retry or source update. Witness remains aboardA, unlanded; explicit staged run, not genuine journey. Only idle game process ended to release measured CPU."
+}

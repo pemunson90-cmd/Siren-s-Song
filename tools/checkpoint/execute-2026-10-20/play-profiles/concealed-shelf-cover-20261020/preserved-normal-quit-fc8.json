@@ -1,0 +1,65 @@
+{
+  "session": "concealed-shelf-cover-20261020",
+  "source": "fc8a2804b54976f3e1e5d5de3b01391e49b09d9e",
+  "profile_sha256": "b1300ac3c8a18f205ad41b45bf83728d4a3d792aa0961c2d04ea16eb66d78458",
+  "normal_quit": true,
+  "process_state": "Zs",
+  "metrics": {
+    "elapsed": 0.0,
+    "hull": 100.0,
+    "mission": 0,
+    "outcome": "",
+    "own_craft": [
+      {
+        "alive": true,
+        "battery": 100.0,
+        "goals": [],
+        "hold": "",
+        "name": "QUIETUS",
+        "position": [
+          140.0,
+          800.0
+        ],
+        "speed": 0.0,
+        "unit": 0
+      },
+      {
+        "alive": true,
+        "battery": 100.0,
+        "goals": [],
+        "hold": "",
+        "name": "DRONE A",
+        "position": [
+          140.0,
+          700.0
+        ],
+        "speed": 0.0,
+        "unit": 1
+      },
+      {
+        "alive": true,
+        "battery": 100.0,
+        "goals": [],
+        "hold": "",
+        "name": "DRONE B",
+        "position": [
+          280.0,
+          800.0
+        ],
+        "speed": 0.0,
+        "unit": 2
+      }
+    ],
+    "oxygen": 120.0,
+    "paused": true,
+    "screen": "briefing",
+    "selected": 0,
+    "tools": {
+      "decoy": 3,
+      "emp": 2,
+      "knock": 2,
+      "recon": 2
+    }
+  },
+  "provenance": "Root preserved exact paused elapsed/craft/task state through ordinary quit; no simulation advance, manual profile edit, retry or source update. Completed player models stay idle; only idle game process ended to release measured CPU. Explicitly staged history, not a genuine journey. Shelf pending Concealed briefing had unlaunched mission0 backing simulation; no full-operation play established."
+}
