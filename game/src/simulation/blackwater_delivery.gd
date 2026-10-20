@@ -18,7 +18,9 @@ static func status(sim)->Dictionary:
  var jobs=state.jobs.duplicate(true)
  for job in jobs:
   if not job.is_empty():job["duration"]=4.0
- return {"packets":packets,"cargo":cargo,"jobs":jobs,"complete":complete(sim),"text":"Exchange aboard Quietus · return to recovery" if complete(sim) else "Field records are retained · bring raw exchange buffers to Quietus for local TRANSFER"}
+ var text="Exchange aboard Quietus · return to recovery" if complete(sim) else "SAMPLE REQUEST and REPLY · raw exchange must return to Quietus"
+ if not complete(sim) and packets.any(func(packet):return packet.recorded):text="Field notes %d/2 · Quietus buffers %d/2 · local TRANSFER or recover/resample missing data"%[packets.filter(func(packet):return packet.recorded).size(),state.aboard.size()]
+ return {"packets":packets,"cargo":cargo,"jobs":jobs,"complete":complete(sim),"text":text}
 static func handoff_context(sim,carrier:int)->Dictionary:
  var result={"carrier":carrier,"ready":false,"reason":"No exchange buffer available","packets":[],"distance":0.0,"range":RANGE}
  if not applies(sim.mission) or carrier not in [1,2]:return result
@@ -46,6 +48,7 @@ static func sampled(sim,packet:int,unit:int)->void:
  var state=sim.mission.blackwater_delivery;var cargo=state.aboard if unit==0 else state.carriers[unit]
  if packet not in cargo:cargo.append(packet);cargo.sort()
  sim.message=("REQUEST" if packet==0 else "REPLY")+" field record retained · raw buffer "+("aboard Quietus" if unit==0 else "carried by "+sim.units[unit].name+" · local TRANSFER to Quietus within60m")
+ sim.message+=" · "+("REPLY" if packet==0 else "REQUEST")+": quiet SAMPLE or settled SONAR replay within240m with a clear line"
  if packet==0 and sim.mission.courier_launch>=0:sim.message+=" · southern REPLY CARRIER announced; fixed relay remains available"
 static func _packets(value,objectives:Array)->bool:
  if not value is Array or value.size()>2:return false
@@ -74,6 +77,12 @@ static func valid(data:Dictionary)->bool:
   if job.is_empty():continue
   if job.size()!=2 or not job.get("item") in state.wrecks or job.item in claimed or not (job.get("elapsed") is int or job.get("elapsed") is float) or not is_finite(job.elapsed) or job.elapsed<0 or job.elapsed>4:return false
   claimed.append(job.item)
+ for packet in 2:
+  if mission.objectives[packet].captured and packet not in state.aboard and not state.carriers.any(func(cargo):return packet in cargo) and not state.wrecks.values().any(func(wreck):return packet in wreck.packets):return false
+ for id in 3:
+  var work=data.captures[id]
+  if not state.jobs[id].is_empty() and (not work.is_empty() or not mission.get("module_recovery",{}).get("jobs",[{},{},{}])[id].is_empty()):return false
+  if not work.is_empty() and (work.target in state.aboard or work.target in state.carriers[id]):return false
  return data.get("outcome","")!="won" or (0 in state.aboard and 1 in state.aboard)
 static func needs_sample(sim,packet:int,unit:int)->bool:
  return applies(sim.mission) and packet not in sim.mission.blackwater_delivery.aboard and packet not in sim.mission.blackwater_delivery.carriers[unit]
