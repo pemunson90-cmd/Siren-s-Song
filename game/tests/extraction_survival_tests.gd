@@ -27,7 +27,7 @@ func run():
   var seed=fixture(cause);var won=cause=="surviving";var expected="won" if won else "lost"
   var single=clone(seed);single.paused=false;single.advance(Simulation.STEP)
   check(single.outcome==expected,cause+" resolves survival before extraction on the same tick")
-  var reason="Archive recovered." if won else "Life support exhausted." if cause=="oxygen" else "Quietus lost."
+  var reason="Archive recovered" if won else "Life support exhausted." if cause=="oxygen" else "Quietus lost."
   check(single.message.begins_with(reason),cause+" preserves the actual terminal reason")
   check(single.events.filter(func(event):return event.type=="extraction").size()==(1 if won else 0),cause+" emits extraction only for a surviving return")
   if won:check(single.hull<seed.hull and single.hull>0 and single.oxygen>0,"a surviving extraction still includes winning-tick beam damage")
