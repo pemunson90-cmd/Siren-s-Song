@@ -1,4 +1,5 @@
 extends Control
+const Recon=preload("res://src/simulation/recon_consequences.gd")
 const Endings=preload("res://src/campaign/endings.gd")
 const CraftUpgrades=preload("res://src/equipment/craft_upgrades.gd")
 const ExpeditionOperations=preload("res://src/presentation/expedition_operations.gd")
@@ -41,6 +42,7 @@ var frame := 0
 var capture_path := ""
 var menu_buttons: Array=[]
 var recovered_evidence: Dictionary={}
+var photo_records: Dictionary={}
 var diagnostic_ready := ""
 var diagnostic_records: Dictionary={}
 var diagnostic_roles: Dictionary={}
@@ -435,6 +437,7 @@ func _debrief() -> void:
 		_sync_craft_upgrades()
 		_menu_text("ARCHIVE RECOVERED",32)
 		_menu_text(sim.mission.record,22)
+		_show_photo_grade(sim.mission.objectives)
 		_menu_text("Dive time %02d:%02d  /  Hull %d%%  /  Life support %d%%"%[int(sim.elapsed)/60,int(sim.elapsed)%60,int(sim.hull),int(sim.oxygen)],17)
 		if mission_index==5:
 			_menu_text("YOUR FIELD RECORD · ACROSS DIVES",14)
@@ -453,6 +456,9 @@ func _debrief() -> void:
 	call_deferred("_layout")
 func _sync_craft_upgrades()->void:
 	if not expedition.is_empty():expedition.entitlements=_equipment_entitlements()
+func _show_photo_grade(records:Array)->void:
+	var grade=Recon.grade(records)
+	if grade.photos>0:_menu_text("INTEL PHOTO GRADE %s · %d photographs · %d%% quality"%[grade.grade,grade.photos,roundi(grade.quality*100)],20)
 func _show_ending()->void:
 	var ending=Endings.resolve(expedition)
 	if ending.is_empty():_show_campaign();return
@@ -461,6 +467,7 @@ func _show_ending()->void:
 	_menu_text(ending.title,36)
 	_menu_text(ending.outcome,24)
 	_menu_text(ending.story,21)
+	_show_photo_grade(photo_records.values())
 	_button(panel_box,"NEW CAMPAIGN / CHOOSE ANOTHER ROUTE",_confirm_new_campaign,"new_campaign")
 	_button(panel_box,"OPERATIONS ARCHIVE",_show_campaign,"back")
 	_save_archive();call_deferred("_layout")
@@ -472,7 +479,7 @@ func _confirm_new_campaign()->void:
 	_button(panel_box,"KEEP CURRENT CAMPAIGN",_show_campaign,"back")
 	call_deferred("_layout")
 func _new_campaign()->void:
-	completed=[];unlocked=0;expedition={};recovered_evidence={}
+	completed=[];unlocked=0;expedition={};recovered_evidence={};photo_records={}
 	fitted_equipment={"quietus":"","drone_a":"","drone_b":""};upgrade="endurance"
 	_start_mission(0);_save_archive();_show_campaign()
 func _scenario(name: String) -> void:
@@ -528,6 +535,7 @@ func _scenario(name: String) -> void:
 
 func _archive() -> Dictionary:
 	var data={"version":1,"unlocked":unlocked,"completed":completed.duplicate(),"upgrade":upgrade,"settings":settings.duplicate(),"evidence":recovered_evidence.duplicate(true),"active":sim.snapshot(),"chart_view":ocean.chart_camera.snapshot()}
+	if not photo_records.is_empty():data["photo_records"]=photo_records.duplicate(true)
 	if not expedition.is_empty():data["expedition"]=expedition.duplicate(true)
 	if not fitted_equipment.values().all(func(item):return item.is_empty()):data["equipment"]=fitted_equipment.duplicate(true)
 	return data
@@ -543,6 +551,7 @@ func _load_archive() -> void:
 		expedition=saved.get("expedition",{}).duplicate(true)
 		fitted_equipment=saved.get("equipment",{"quietus":"","drone_a":"","drone_b":""}).duplicate(true)
 		recovered_evidence=saved.get("evidence",{})
+		photo_records=saved.get("photo_records",{}).duplicate(true)
 		if saved.get("active") is Dictionary and sim.restore(saved.active):
 			active_started=true; mission_index=sim.mission.id; ocean.sim=sim
 			ocean._sync_camera()
@@ -683,8 +692,13 @@ func _evidence_is_text(entry:Dictionary) -> bool:
 	return entry.optical in ExpeditionCampaign.FIELD_RECORDS or entry.optical in ["well_pattern","well_signature"]
 func _retain_evidence() -> void:
 	for objective in sim.mission.objectives:
+		if objective.captured and objective.has("photo_quality"):
+			var key="%d:%d"%[sim.mission.id,sim.mission.objectives.find(objective)]
+			if objective.photo_quality>=photo_records.get(key,{}).get("photo_quality",0):photo_records[key]={"photo_quality":objective.photo_quality,"photo_craft":objective.photo_craft,"photo_distance":objective.photo_distance}
 		if objective.captured and objective.has("optical"):
 			recovered_evidence[objective.optical]={"name":objective.name,"caption":objective.evidence,"optical":objective.optical}
+			for field in ["photo_quality","photo_craft","photo_distance"]:
+				if objective.has(field):recovered_evidence[objective.optical][field]=objective[field]
 	var signature=sim.well_signature_evidence()
 	if not signature.is_empty():recovered_evidence[signature.optical]=signature
 func _evidence_gallery(index: int) -> void:
@@ -698,6 +712,7 @@ func _evidence_gallery(index: int) -> void:
 		var image=TextureRect.new(); image.texture=preload("res://src/presentation/evidence_catalog.gd").IMAGES[entry.optical]
 		image.expand_mode=TextureRect.EXPAND_IGNORE_SIZE; image.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED; image.custom_minimum_size=Vector2(0,minf(320,size.y*0.4)); panel_box.add_child(image)
 	_menu_text(entry.caption,19)
+	_show_photo_grade([entry])
 	if keys.size()>1: _button(panel_box,"NEXT RECORD",func(): _evidence_gallery((index+1)%keys.size()),"next_record")
 	_button(menu_footer,"BACK TO OPERATIONS",_show_campaign,"back"); menu_footer.show()
 	call_deferred("_layout")

@@ -11,13 +11,14 @@ var voices: Array=[]
 var panners: Array=[]
 var cues: Dictionary={}
 var received_cues=preload("res://src/audio/received_cues.gd").new()
+var heartbeat_timer := 0.0
 var alert_timer := 0.0
 var creak_timer := 11.0
 var system_suspended := false
 static func engine_gain(speed: float,silent: bool) -> float:
 	return clampf(speed/78.0,0,1)*(0.13 if silent else 0.35)
 static func samples(cue: String) -> PackedFloat32Array:
-	var duration={"ambience":8.0,"engine":2.0,"creak":1.6,"beam":1.7,"loss":2.0,"decoy":2.5,"extraction":2.4,"factory":4.8,"knock":0.55,"snare":0.4,"carrier_received":1.4,"return_received":1.6}.get(cue,1.1)
+	var duration={"ambience":8.0,"engine":2.0,"creak":1.6,"beam":1.7,"loss":2.0,"decoy":2.5,"extraction":2.4,"factory":4.8,"heartbeat":0.38,"knock":0.55,"snare":0.4,"carrier_received":1.4,"return_received":1.6}.get(cue,1.1)
 	var result=PackedFloat32Array(); result.resize(int(RATE*duration))
 	var rng=RandomNumberGenerator.new(); rng.seed=cue.hash()
 	var filtered=0.0
@@ -49,6 +50,9 @@ static func samples(cue: String) -> PackedFloat32Array:
 					var local=time-start;var length=.23 if cue=="carrier_received" else (.48 if start<.1 else .15)
 					if local>=0 and local<length:pulse+=sin(PI*local/length)*sin(TAU*(320. if cue=="carrier_received" else 400.)*time)*.19
 				value=pulse
+			"heartbeat":
+				var beat=exp(-pow((time-.045)/.025,2))+0.65*exp(-pow((time-.19)/.035,2))
+				value=sin(TAU*62*time)*beat*.28
 			"camera": value=(sin(TAU*170*time)*0.12+rng.randf_range(-0.2,0.2))*envelope
 			"emp": value=(sin(TAU*(140*time-45*time*time))*0.3+rng.randf_range(-0.14,0.14))*envelope
 			"snare": value=(sin(TAU*160*time)*0.12+sin(TAU*320*time)*0.08+rng.randf_range(-0.06,0.06))*envelope
@@ -80,7 +84,7 @@ func _ready() -> void:
 		if AudioServer.get_bus_effect(0,i).resource_name=="SirenPeakGuard": guarded=true
 	if not guarded:
 		var limiter=AudioEffectLimiter.new(); limiter.resource_name="SirenPeakGuard"; limiter.threshold_db=-3; limiter.ceiling_db=-1; AudioServer.add_bus_effect(0,limiter)
-	for cue in ["ping","camera","emp","knock","snare","record","loss","extraction","alert","recon","decoy","creak","beam","factory","carrier_received","return_received"]: cues[cue]=stream(cue)
+	for cue in ["ping","camera","emp","knock","snare","record","loss","extraction","alert","recon","decoy","creak","beam","factory","carrier_received","return_received","heartbeat"]: cues[cue]=stream(cue)
 	ambience=AudioStreamPlayer.new(); ambience.stream=stream("ambience"); ambience.bus=AMBIENCE_BUS; add_child(ambience); ambience.play()
 	engine=AudioStreamPlayer.new(); engine.stream=stream("engine"); engine.bus=EFFECTS_BUS; add_child(engine); engine.play()
 	for n in 5:
@@ -105,6 +109,10 @@ func update(sim,dt: float,active_dive: bool=true) -> void:
 	for voice in voices: voice.stream_paused=sim.paused and active_dive
 	alert_timer=maxf(0,alert_timer-dt)
 	if active_dive and not sim.paused:
+		heartbeat_timer=maxf(0,heartbeat_timer-dt)
+		var pressure=sim.recon_feedback()
+		if pressure.threat>.1 and heartbeat_timer<=0:
+			play("heartbeat");heartbeat_timer=.45 if pressure.hostile else .9
 		creak_timer-=dt
 		if creak_timer<=0: play("creak"); creak_timer=13.0+sin(sim.elapsed)*3
 		for contact in sim.contacts.values():

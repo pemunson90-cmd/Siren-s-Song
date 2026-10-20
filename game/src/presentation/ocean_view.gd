@@ -217,7 +217,7 @@ func _draw() -> void:
 	# listeners. Dotted amber radius is subordinate to later foreground beam cues.
 	if sim.mission.get("acoustic_revision",0)==1:
 		var own=sim.units[sim.selected]
-		var radius=preload("res://src/simulation/acoustic_paths.gd").motion_radius(own.vel.length())
+		var radius=sim.motion_radius(sim.selected)
 		if own.alive and radius>8:
 			for n in 48:
 				var a=float(n)/48*TAU
@@ -294,6 +294,8 @@ func _draw() -> void:
 		draw_circle(p,0.7+float(i%3)*0.35,Color(0.48,0.7,0.7,0.11))
 	draw_rect(Rect2(Vector2.ZERO,region),Color(0.3,0.7,0.7,0.19),false,2)
 	draw_set_transform(Vector2.ZERO,0,Vector2.ONE)
+	_draw_pressure_overlay()
+	_draw_local_current()
 	_draw_ship_instrument()
 	# Short screen-sized tags preserve observed identity without long world labels.
 	for entry in observed:
@@ -310,6 +312,35 @@ func _draw() -> void:
 		draw_rect(box,Color(0.04,0.07,0.09,0.94))
 		draw_string(ThemeDB.fallback_font,box.position+Vector2(8,feedback_font_size),entry.text,HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size,Color("ffac8c") if entry.urgent else Color("ed8e79") if entry.fresh else Color("b09a94"))
 
+func _draw_pressure_overlay()->void:
+	var pressure=sim.recon_feedback()
+	if pressure.hunt>0:
+		var text="OP PRESSURE · %s"%pressure.stage
+		draw_string(ThemeDB.fallback_font,Vector2(14,size.y-18),text,HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size,Color("c9ab79"))
+	var threat=float(pressure.threat)
+	if threat<.1:return
+	var pulse=.75+.25*sin(sim.elapsed*7)
+	var color=Color("e26a50") if threat>=.75 else Color("cb9959")
+	for edge in 8:
+		var thickness=float(8-edge)*5
+		var alpha=threat*pulse*.018*(1.0-float(edge)/10)
+		var tint=Color(color,alpha)
+		draw_rect(Rect2(0,0,size.x,thickness),tint)
+		draw_rect(Rect2(0,size.y-thickness,size.x,thickness),tint)
+		draw_rect(Rect2(0,0,thickness,size.y),tint)
+		draw_rect(Rect2(size.x-thickness,0,thickness,size.y),tint)
+func _draw_local_current()->void:
+	if not sim.has_method("current_feedback"):return
+	for reading in sim.current_feedback():
+		if reading.unit!=sim.selected or reading.flow.length()<.1:continue
+		var anchor=screen_position(reading.pos)+Vector2(0,70)
+		var direction:Vector2=reading.flow.normalized()
+		var tip=anchor+direction*clampf(reading.flow.length()*2,12,60)
+		draw_line(anchor,tip,Color("81c7b8"),2)
+		draw_line(tip,tip-direction.rotated(.5)*10,Color("81c7b8"),2)
+		draw_line(tip,tip-direction.rotated(-.5)*10,Color("81c7b8"),2)
+		draw_string(ThemeDB.fallback_font,anchor+Vector2(12,18),"FLOW %.0f · ENGINE %.0f"%[reading.flow.length(),reading.effort],HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size,Color("a1d8cc"))
+
 func ship_instrument_layout() -> Array:
 	if sim==null:return []
 	var own=sim.units[sim.selected];var p=screen_position(own.pos)
@@ -317,7 +348,7 @@ func ship_instrument_layout() -> Array:
 	var font=ThemeDB.fallback_font;var text_size=feedback_font_size
 	var radius=maxf(instrument_height*1.1,(72 if sim.selected==0 else 24)*world_scale+12)
 	var top="QUIETUS · HULL %d · O₂ %d"%[roundi(sim.hull),roundi(sim.oxygen)] if sim.selected==0 else "%s · BAT %d%% · %s · %s"%[own.name,roundi(own.battery),"LOW" if own.silent else "OPEN","QUIET42" if own.get("drone_drive","transit")=="quiet" else "TRANSIT96"]
-	var noise=preload("res://src/simulation/acoustic_paths.gd").motion_radius(own.vel.length())
+	var noise=sim.motion_radius(sim.selected)
 	var lower="MOTION ~%dm · open water"%roundi(noise) if sim.mission.get("acoustic_revision",0)==1 else "MOTION · %dm/s"%roundi(own.vel.length())
 	var pulses=sim.acoustic_feedback().pulses
 	var hint="reception unknown · tap craft" if pulses.is_empty() else "PULSES %d · reception unknown"%pulses.size()
