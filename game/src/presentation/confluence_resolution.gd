@@ -33,6 +33,10 @@ static func present(main)->bool:
  if not main.sim.has_method("confluence_resolution"):return false
  var data=recovery(main.sim.confluence_resolution(),main.sim.units,main.expedition.get("facts",{}).get("confluence_route",""))
  if data.is_empty():return false
+ var modules=preload("res://src/presentation/module_recovery_view.gd").status(main.sim)
+ if not modules.get("result",{}).is_empty():data.drones=modules.result.get("recovered_drones",[]).duplicate()
+ var fleet=preload("res://src/presentation/module_recovery_view.gd").consequence(main.sim)
+ if not fleet.is_empty():data.story+="\n"+fleet
  var scene=load("res://src/presentation/confluence_resolution.gd").new()
  scene.name="ConfluenceResolution";scene.consequence=data;scene.host=main
  main.add_child(scene);scene.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)

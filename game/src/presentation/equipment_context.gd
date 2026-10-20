@@ -6,11 +6,11 @@ static func rows(context:Dictionary)->Array:
  var result=[];var slots=context.get("slots",{});var available=context.get("available",[])
  for slot in SLOTS:
   for item in context.get("catalog",[]):
-   if item.id not in available or slot not in item.compatible_slots:continue
+   if slot not in item.compatible_slots:continue
    var other=""
    for key in SLOTS:
     if key!=slot and slots.get(key,"")==item.id:other=key
-   result.append({"slot":slot,"station":SLOTS[slot],"id":item.id,"name":item.name,"current":slots.get(slot,""),"benefit":item.benefit,"cost":item.cost,"blocked_by":SLOTS.get(other,"")})
+   result.append({"slot":slot,"station":SLOTS[slot],"id":item.id,"name":item.name,"current":slots.get(slot,""),"benefit":item.benefit,"cost":item.cost,"blocked_by":SLOTS.get(other,""),"unavailable":item.id not in available})
  return result
 static func fitting(main,context:Dictionary,choose:Callable)->Array:
  var options=rows(context);var buttons=[]
@@ -23,8 +23,9 @@ static func fitting(main,context:Dictionary,choose:Callable)->Array:
    main._menu_text("%s\n%s\nCOST · %s"%[row.name,row.benefit,row.cost],16);described.append(row.id)
   var fitted=row.current==row.id
   var title="%s · %s → BARE"%[row.station,row.name] if fitted else "%s · BARE → FIT %s"%[row.station,row.name]
-  var blocked=not fitted and not row.blocked_by.is_empty()
+  var blocked=row.unavailable or (not fitted and not row.blocked_by.is_empty())
   if blocked:title="%s · %s ON %s"%[row.station,row.name,row.blocked_by]
+  if row.unavailable:title="%s · %s UNAVAILABLE · LEFT BEHIND"%[row.station,row.name]
   var slot=row.slot;var id="" if fitted else row.id
   var button=main._button(main.panel_box,title,func():choose.call(slot,id),"fit_"+slot)
   button.disabled=blocked;buttons.append(button)
