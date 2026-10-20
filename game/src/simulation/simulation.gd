@@ -169,8 +169,19 @@ func signal_readings() -> Array:
 	return SignalField.readings(self)
 func extraction_corridors() -> Array:
 	return Consequences.corridors(self) if mission.get("expedition_revision",0)==2 else SignalField.corridors(self) if mission.has("expedition_revision") else [{"pos":mission.extraction,"name":"RECOVERY","route":"","available":all_records()}]
-func salvage_sites()->Array:return ModuleRecovery.sites(self)
-func salvage_context(item:String,unit_id:int=-1)->Dictionary:return ModuleRecovery.context(self,item,selected if unit_id<0 else unit_id)
+func salvage_sites()->Array:return Delivery.sites(self,ModuleRecovery.sites(self))
+func salvage_context(item:String,unit_id:int=-1)->Dictionary:
+	var id=selected if unit_id<0 else unit_id
+	if item.begins_with("blackwater_buffer_"):return Delivery.context(self,item,id)
+	var context=ModuleRecovery.context(self,item,id)
+	if Delivery.applies(mission):
+		for site in salvage_sites():
+			if site.item==item:context["packets"]=site.packets
+	return context
+func _blackwater_recovery_busy(unit_id:int)->bool:return Delivery.busy(self,unit_id)
+func _collect_blackwater_wreck(unit_id:int,pos:Vector2)->bool:
+	if not Delivery.applies(mission):return false
+	ModuleRecovery.collect_at(self,unit_id,pos);Delivery.collect_at(self,unit_id,pos);return true
 func module_recovery_status()->Dictionary:return ModuleRecovery.status(self)
 func blackwater_delivery_status()->Dictionary:return Delivery.status(self)
 func blackwater_handoff_context(carrier:int)->Dictionary:return Delivery.handoff_context(self,carrier)
@@ -337,7 +348,7 @@ func command(order: String,args: Dictionary={}) -> bool:
 			return Delivery.handoff(self,args.carrier)
 		"salvage":
 			if not args.get("item") is String:return false
-			return ModuleRecovery.begin(self,args.item)
+			return Delivery.begin(self,args.item) if args.item.begins_with("blackwater_buffer_") else ModuleRecovery.begin(self,args.item)
 		"rendezvous_release":return Rendezvous.release(self)
 		"select":
 			var id=int(args.get("unit",0))
@@ -422,7 +433,7 @@ func command(order: String,args: Dictionary={}) -> bool:
 			if not decoy_target_valid(point): message="Decoy needs clear water within 160m and a clear path · no charge spent"; return false
 			tools.decoy-=1; _noise(point,1100,"DECOY",15.0); message="Decoy launched · 15s transmission"; events.append({"type":"decoy","pos":u.pos})
 		"camera":
-			if not module_recovery_status().jobs[selected].is_empty():message="Finish this craft's module recovery first";return false
+			if not module_recovery_status().jobs[selected].is_empty() or Delivery.busy(self,selected):message="Finish this craft's wreck recovery first";return false
 			var context=camera_context()
 			if not context.ready: message=context.text; return false
 			var target=mission.objectives[context.target]
@@ -434,6 +445,7 @@ func command(order: String,args: Dictionary={}) -> bool:
 			events.append({"type":"camera","pos":u.pos})
 		_: return false
 	ModuleRecovery.cancel_released(self,selected)
+	Delivery.cancel_released(self,selected)
 	return true
 # Public read-only operator intent; legacy navigation corners are not editor rows.
 func route_goals(unit_id:int=-1) -> Array:
@@ -527,7 +539,7 @@ func camera_context() -> Dictionary:
 	var unit=units[selected]; var best=-1; var nearest=-1; var distance=INF
 	for id in mission.objectives.size():
 		var objective=mission.objectives[id]
-		if objective.captured and not Operations.own_origin(objective): continue
+		if objective.captured and not Operations.own_origin(objective) and not Delivery.needs_sample(self,id,selected): continue
 		if Operations.own_origin(objective):
 			if nearest<0:nearest=id
 			if Operations.ready(self,objective,selected):best=id;break
@@ -537,7 +549,7 @@ func camera_context() -> Dictionary:
 		if not reception.is_empty() and reception.ready and best<0:best=id
 		if d<distance: nearest=id; distance=d
 		if best<0 and d<240 and line_clear(unit.pos,objective.pos): best=id
-	if nearest<0: return {"target":-1,"ready":false,"text":"Archive aboard · return Quietus to extraction."}
+	if nearest<0: return {"target":-1,"ready":false,"text":Delivery.status(self).text if Delivery.applies(mission) else "Archive aboard · return Quietus to extraction."}
 	var candidate=best if best>=0 else nearest
 	var owner=capture_at_target(candidate)
 	if owner.unit>=0:return {"target":candidate,"ready":false,"text":"%s · %s already acquiring this record"%[mission.objectives[candidate].name,units[owner.unit].name]}
@@ -640,7 +652,9 @@ func _tick(dt: float) -> void:
 			if u.battery<=0: u.alive=false; events.append({"type":"loss","pos":u.pos}); message=("%s battery exhausted · Quietus can SAMPLE either relay." if mission.get("blackwater_revision",0)==1 else "%s battery exhausted. Quietus camera remains available.")%u.name
 	_advance_projectiles(dt)
 	_threats(dt)
+	Delivery.losses(self)
 	ModuleRecovery.tick(self,dt)
+	Delivery.tick(self,dt)
 	sensor_clock-=dt
 	if sensor_clock<=0:
 		_observe(); SignalField.observe(self); Consequences.observe(self); sensor_clock=0.15
@@ -658,7 +672,10 @@ func _tick(dt: float) -> void:
 		else:
 			work.elapsed+=dt
 			if work.elapsed+(0.0000001 if exchange else 0.0)>=_capture_duration(o,station):
-				o.captured=true; u.hold=""; captures[station]={}; _record_secured(o,station)
+				var first=not o.captured
+				o.captured=true; u.hold=""; captures[station]={}
+				if first or not Delivery.applies(mission):_record_secured(o,station)
+				else:Delivery.sampled(self,work.target,station)
 	if mission.get("expedition_revision",0)==2:
 		var was=correlation.get("status","")
 		correlation=Correlator.advance(correlation,signal_readings(),mission.get("launch_context",{}).get("references",{}).get("return_cadence",[]),units[0].pos,units[0].vel.length(),elapsed,dt,units[0].alive and Equipment.item_for(mission.get("launch_equipment",{}),0)=="quietus_correlator")
@@ -1128,7 +1145,7 @@ static func valid_snapshot(data: Dictionary) -> bool:
 		if not (work.elapsed is float or work.elapsed is int) or not is_finite(float(work.elapsed)) or work.elapsed<0:return false
 		var site=data.mission.objectives[work.target]
 		var duration=Sampler.capture_spec(id,data.mission.get("launch_equipment",{}),site).get("duration",site.get("duration",4.0))
-		if work.elapsed>duration or (site.captured and not Operations.own_origin(site)):return false
+		if work.elapsed>duration or (site.captured and not Operations.own_origin(site) and not (data.mission.id==2 and data.mission.has("blackwater_delivery"))):return false
 		exposed.append(work.target)
 	if not WorldRegion.valid(data):return false
 	if not Delivery.valid(data):return false
