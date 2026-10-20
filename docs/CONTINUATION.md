@@ -1,11 +1,12 @@
 # Continuation
-Playable base: `7e731371a700921cc18ed280dd403b9b9651add2`.
+Playable base: `137bf44d27f85c67d2e25208d29b39069ca8c1b0`.
 
 Current user directive: Pass0 before further audit tuning.
-Build docs/PASS0_CAMPAIGN_PLAN.md at rough quality, then evaluate the whole game.
+All planned nodes are implemented at rough quality. Next: real-input critics reach all four endings, then evaluate the whole game.
 Preserve shelved task, chart and chapter branches.
 
-Next task: implement the campaign nodes with this ownership:
+Next task: complete all four branch journeys through actual touch.
+Implementation ownership is released; preserve these feature scopes:
 - Campaign upgrades: Sim, equipment catalog and craft-upgrade module.
 - Campaign endings: Main, progress, ending screens, fresh campaign and current saves.
 - Campaign encounters: existing divergence/onward/resolution mission data.
