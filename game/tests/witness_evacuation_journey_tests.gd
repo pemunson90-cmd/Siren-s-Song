@@ -51,6 +51,15 @@ func winch(s,id:int)->bool:
   if s.witness_status().capsule.state=="carried":return s.witness_status().capsule.carrier==id
   if not s.outcome.is_empty():return false
  return false
+func solve_local(s)->bool:
+ # Additional actual Quietus voyage, not a staged completion flag.
+ s.command("select",{"unit":0})
+ if not go(s,0,Vector2(1380,850)) or not go(s,0,Vector2(1840,1010)):return false
+ if not s.command("concealed_tow",{"action":"attach"}):return false
+ if not go(s,0,Vector2(1840,850)):return false
+ if not s.command("concealed_tow",{"action":"release"}):return false
+ for n in 130:tick(s)
+ return s.concealed_status().receipt
 func setup():
  var s=Sim.new();s.start(12,"endurance");s.units[1].alive=false;s.units[2].alive=false
  last_defense=-10;distance=0;reacted=false;return s
@@ -61,6 +70,7 @@ func run_solo(service:bool):
  check(reached and s.witness_status().known,"solo route physically discovers the occupied berth under original guards")
  if not reached:return
  check(winch(s,0),"solo Quietus loads the living witness with an actual local four-second winch")
+ check(solve_local(s),"rescued witness guides actual local trace hauling and received station reply")
  var loaded_at=s.elapsed;var start_distance=distance
  if service:
   check(go(s,0,Vector2(1380,1940)) and go(s,0,Vector2(1780,2040)),"loaded craft physically approaches the authored optional actuator")
@@ -105,6 +115,7 @@ func run_rescue():
  check(go(s,0,wreck),"bare Quietus physically reaches the known lost carrier site under the remaining guard")
  check(winch(s,0),"bare Quietus rescues the actual witness and colocated inert kit with one exposed winch")
  check(s.witness_status().capsule.rescues==1 and s.module_recovery_status().cargo[0]==["drone_deep_cells"] and not s.units[1].alive,"actual rescue retains its real carrier loss and unique equipment custody")
+ check(solve_local(s),"rescued occupant guides a real bare-Q trace disconnection after carrier loss")
  check(go(s,0,Vector2(1380,1940)) and go(s,0,Vector2(580,1900),false) and go(s,0,HOME,false),"loaded fallback Quietus physically takes the closed-sluice western return")
  s.command("select",{"unit":0});check(s.command("witness_land"),"rescued living witness is explicitly landed at actual local harbour")
  tick(s)

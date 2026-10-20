@@ -375,7 +375,7 @@ func _map_event(event: InputEvent,local_event: bool=false) -> bool:
 		var context=ocean.pick_context(action.tap-ocean.global_position,ui_touch_height)
 		if not context.is_empty():
 			if context.kind=="craft" and context.unit!=sim.selected:_order("select",{"unit":context.unit})
-			mission_hud.open("habitat" if context.kind=="habitat" else "object" if context.kind=="objective" else "salvage" if context.kind=="salvage" else "fleet" if context.kind=="fleet" else "craft",context);return true
+			mission_hud.open("inspect" if context.get("subkind","")=="concealed" else "habitat" if context.kind=="habitat" else "object" if context.kind=="objective" else "salvage" if context.kind=="salvage" else "fleet" if context.kind=="fleet" else "craft",context);return true
 		var world=ocean.map_position(action.tap-ocean.global_position)
 		if Rect2(Vector2.ZERO,ocean.world_size()).has_point(world): _order("route",{"point":world})
 	if action.has("ended") or action.has("tap"):knock_press.clear()
@@ -559,7 +559,7 @@ func _show_ending()->void:
 	_menu_text("SIREN'S SONG / CAMPAIGN COMPLETE",18)
 	_menu_text(ending.title,36)
 	_menu_text(ending.outcome,24)
-	if sim.outcome=="won":WitnessView.arrival(self);RecipientView.arrival(self)
+	if sim.outcome=="won":WitnessView.arrival(self);RecipientView.arrival(self);preload("res://src/presentation/concealed_harbour_view.gd").debrief(self)
 	_menu_text(ending.story,21)
 	if sim.outcome=="won" and sim.mission.id in [12,13]:ModuleRecovery.debrief(self)
 	_show_photo_grade(photo_records.values())

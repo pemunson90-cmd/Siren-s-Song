@@ -36,6 +36,7 @@ func run():
    if id==13:
     game.sim.units[0].pos=Vector2(1840,380);game.sim.units[0].vel=Vector2.ZERO
     check(game.sim.command("warning_gate") and game.sim.command("warning_depart",{"course":"sheltered"}),"actual recipient release precedes earned ending")
+   if id==12:preload("res://tests/concealed_fixture.gd").solve(game.sim)
    game.sim.units[0].pos=game.sim.mission.extraction;game.sim.units[0].vel=Vector2.ZERO
    if id==12:check(game.sim.command("witness_land"),"actual occupied capsule is explicitly landed before final recovery")
    step(game.sim,55.0 if id==13 else .1)

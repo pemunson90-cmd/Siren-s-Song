@@ -97,6 +97,7 @@ static func valid(m:Dictionary,time:float=0.0)->bool:
   elif actuators.size()!=1 or actuators[0].captured!=gate.opened or actuators[0].get("completion_open_structure","")!=gate.id:return false
   var structures=baseline.structures.duplicate()
   if gate.opened:structures.erase(gate.closed_shape)
+  if m.id==12:structures=preload("res://src/simulation/concealed_harbour.gd").expected_structures(m,structures,time)
   if m.structures!=structures:return false
  else:
   var senders=m.objectives.filter(func(o):return o.get("site_id","")=="warning_transmission")

@@ -26,6 +26,7 @@ func progress()->Dictionary:
 func run():
  var abstract=fresh()
  abstract.command("camera");step(abstract,4.2)
+ preload("res://tests/concealed_fixture.gd").solve(abstract)
  abstract.units[0].pos=HOME;abstract.units[0].vel=Vector2.ZERO;step(abstract,.02)
  check(abstract.outcome.is_empty(),"a remote captured witness record cannot finish evacuation at home Quietus")
  for site in abstract.mission.objectives:
@@ -62,6 +63,7 @@ func run():
  check(sim.witness_context().land.ready and sim.command("witness_land"),"actual local living carrier explicitly lands its passenger")
  check(sim.witness_status().landed and sim.witness_status().cargo==[[],[],[]] and sim.witness_status().capsule.landed_by==1,"landing secures the one capsule in harbour and empties only its carrier")
  step(sim,.02);check(sim.outcome.is_empty(),"a drone landing does not extract a distant Quietus")
+ preload("res://tests/concealed_fixture.gd").solve(sim)
  sim.units[0].pos=HOME;sim.units[0].vel=Vector2.ZERO;step(sim,.02)
  check(sim.outcome=="won" and Sim.valid_snapshot(sim.snapshot()),"physical witness landing plus normal Quietus recovery completes a valid current dive")
  check(not sim.command("witness_land"),"a landed witness cannot be duplicated by repeating LAND")
@@ -95,6 +97,7 @@ func run():
  step(lost,4.1)
  check(lost.witness_status().cargo[0]==["witness_capsule"] and lost.module_recovery_status().cargo[0]==["drone_deep_cells"] and lost.salvage_sites().is_empty(),"one physical winch recovers exactly one living pod and the actual inert kit")
  check(lost.witness_status().capsule.rescues==1 and lost.units[1].alive==false,"recovery preserves the real carrier loss rather than resurrecting a drone")
+ preload("res://tests/concealed_fixture.gd").solve(lost)
  lost.units[2].alive=false;lost.units[0].pos=HOME;lost.units[0].vel=Vector2.ZERO
  check(lost.command("witness_land"),"Quietus can land the survivor after losing every helper")
  step(lost,.02);check(lost.outcome=="won" and lost.mission.physical_gates[0].opened==false,"bare Quietus and the quiet closed-sluice route retain permanent finishability")

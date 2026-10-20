@@ -19,6 +19,14 @@ static func resolve(progress:Dictionary)->Dictionary:
   var carrier={"quietus":"QUIETUS","drone_a":"DRONE A","drone_b":"DRONE B"}[arrival]
   result.outcome="The living witness reaches the concealed harbour."
   result.story=carrier+" physically lands the occupied witness capsule in the southeast refuge. Quietus returns with the survivor's account, keeping the passage outside the fleet's targeting network. This witness has a safe harbour; the fate of other shelter craft remains beyond our observations. "+progress.facts.get("witness_recovery","")
+ var concealed=progress.get("facts",{}).get("concealed_consequence","")
+ if id=="silent_exodus" and concealed=="deep_trace_severed":
+  result.outcome="The deep departure line gains a hidden crossing."
+  result.story=carrier_name(arrival)+" lands the living navigator. Guided by the survivor’s account, Quietus removes the listening float from the departure mouth and physically severs its surface trace. The departure station reports its own line dark and opens its local shutter. The first deep crossing begins beyond that silent mouth; the berthing corrections Quietus recorded now lead unarmed hulls away from the fracture. Their destination belongs to the people aboard them. "+progress.facts.get("witness_recovery","")
+ elif id=="hidden_harbour" and concealed in ["shelf_service","shelf_baffle"]:
+  result.outcome="The pressure-shelter families gain a concealed harbour."
+  var mouth="The short service approach stays open, a direct route for arrivals and for sound." if concealed=="shelf_service" else "The screen now shields the north entrance. Arriving families take the longer lower turn into quieter water."
+  result.story=carrier_name(arrival)+" lands the living harbour keeper. The survivor reveals why the occupied pressure shelters cannot leave together. Quietus clears the collapsed screen from their receiving refuge; its watch acknowledges the open mouth and begins admitting families into the lit bays. "+mouth+" By the next watch, sleeping berths and warm-water nurseries share a crowded harbour beneath the industrial shelf. The hidden passage has become a place to live while the evacuation continues. "+progress.facts.get("witness_recovery","")
  var warning=progress.get("facts",{}).get("warning_arrival","")
  if id in ["beacon_pact","surface_reckoning"] and warning in ["exposed","sheltered"]:
   var passage="the sheltered service passage" if warning=="sheltered" else "the exposed eastern channel"
@@ -30,3 +38,5 @@ static func resolve(progress:Dictionary)->Dictionary:
    result.outcome="The shelf warning reaches the people who can act."
    result.story=first+"The launch carries the shelf shelters’ warning into the surface watch. Its crew marks the inhabited passages on the fleet’s charts; ships turn clear while shelter pilots bring their people through. By morning the industrial lights are dark and the refuge is crowded. The public crossing has exposed the corridor, and neither side can deny who lived beneath it."
  return result
+
+static func carrier_name(arrival:String)->String:return {"quietus":"QUIETUS","drone_a":"DRONE A","drone_b":"DRONE B"}.get(arrival,"The rescue craft")

@@ -10,7 +10,7 @@ Read docs/USER_DIRECTIVES.md. Pass 0 rows are built at rough quality; V7 recover
 |9 Wake Crossing|rough|
 |10 Warning Chain: physical power and output machinery|rough integrated|
 |11 Confluence: authored region and physical return choices|rough integrated|
-|12 Concealed Record|rough|
+|12 Concealed Record: rescue and distinct witness-guided consequences|rough integrated|
 |13 Open Warning: vulnerable recipient, physical courses and arrival|rough integrated|
 |Deep+12 · Silent Exodus ending|rough|
 |Deep+13 · Beacon Pact ending|rough|
@@ -36,4 +36,4 @@ Physical module salvage integrated: return cargo or lose optional kit; bare fram
 Blackwater delivery integrated: raw buffers return to Q through local transfer or recovery.
 Warning Chain integrated: shore supply/backup, service/mast output and physical exits.
 Concealed Record integrates witness rescue; Open Warning has real crossing and accessible local gate controls.
-Save failures persist with retry. Next: evaluate inhabited Shelf; develop distinct concealed consequences.
+Save failures persist with retry. Next: play both concealed routes; expand remaining full-game deficiencies.

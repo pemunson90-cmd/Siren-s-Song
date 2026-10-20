@@ -19,7 +19,7 @@ static func available(history:Dictionary)->Array:
 static func resolution(mission:Dictionary)->String:
  if not mission.get("recovered",false):return ""
  var id=mission.get("id",-1)
- if id==12 and mission.get("witness_evacuation",{}).get("state","")!="landed":return ""
+ if id==12 and (mission.get("witness_evacuation",{}).get("state","")!="landed" or preload("res://src/simulation/concealed_harbour.gd").recovered_facts(mission).is_empty()):return ""
  if id==13 and not mission.get("warning_recipient",{}).get("receipt",false):return ""
  var required=["witness_packet"] if id==12 else (["warning_transmission","warning_reply"] if id==13 else [])
  if required.is_empty():return ""
@@ -53,13 +53,18 @@ static func _concealed(m:Dictionary)->void:
  var actuator=_receiver("witness_sluice","SERVICE SLUICE CONTROL",Vector2(1780,2040),"The local actuator retracts the man-made service sluice. Its finite motor run is audible; the open passage changes the return route without silencing or ordering any patrol.")
  actuator.merge({"optional":true,"completion_open_structure":"witness_service_sluice","completion_emission":{"radius":1100.0,"label":"SERVICE SLUICE MOTOR","duration":8.0}});m.objectives=[actuator]
  m.required_site_ids=["witness_packet"]
+ preload("res://src/simulation/concealed_harbour.gd").build(m)
  m.corridors=[{"pos":m.extraction,"name":"CONCEALED RECOVERY BASIN","route":"concealed"}]
  m.brief="Confluence's concealed passage leads to a witness store beyond the southern overhang. WINCH its occupied witness capsule onto Quietus or either bare drone: settle below 2m/s within 60m with clear line of sight for one audible four-second winch. Carry the living witness to the southeast basin and explicitly LAND WITNESS there; Quietus must also return. If a carrier is lost, its sealed pressure pod ejects at that own-craft position and the same witness can be winched aboard another craft. The occupied pod remains sealed for recovery. Recovered kit at the same wreck shares that single winch. The long western detour works with the service sluice shut and needs no transmission or machinery. Alternatively, operate the charted SERVICE SLUICE CONTROL on its north side: an audible motor permanently opens the man-made passage for a shorter return. It never closes or crushes craft. Quietus can operate it in four seconds; a fitted drone sampler can work independently in eight audible seconds, if it survives. The actuator is optional and does not replace the witness. Decide whether the changed route is worth making the machinery heard, then bring the occupied capsule home. Active tools remain available; no hidden purity score invalidates recovery."
+ m.brief+=" The living navigator knows a danger at the departure throat. Reserve air to act on the survivor’s account before bringing the occupied witness home." if m.concealed_harbour.thread=="deep" else " The living harbour keeper knows why this refuge cannot receive the shelter families. Reserve air to act on the survivor’s account before bringing the occupied witness home."
  m.record="The witness record returns without forwarding its source through the warning chain. The service sluice, if opened, remains an actual route through the overhang; the unannounced western detour remains a valid alternative. This resolves the concealed operation, not the fate of the ocean."
  _patrol(m,Vector2(700,1140),[Vector2(700,1140),Vector2(700,700),Vector2(780,480),Vector2(820,1900)])
  _patrol(m,Vector2(1780,1780),[Vector2(1780,1780),Vector2(2100,1780),Vector2(2100,1580),Vector2(1380,1580)])
  m.sirens[1].type="sentinel";m.sirens[1]["tether"]=190.0
- m.brief+=" A sentinel holds the water north of the sluice; the western route has a moving patrol."
+ if m.concealed_harbour.thread=="shelf":
+  var watch=m.sirens[1];watch.pos=Vector2(1320,1070);watch.home=watch.pos;watch.goal=watch.pos;watch.patrol_points=[watch.pos]
+  m.brief+=" A sentinel listens outside the receiving refuge. The western return has a moving patrol."
+ else:m.brief+=" A sentinel holds the water north of the sluice; the western route has a moving patrol."
 
 static func _overt(m:Dictionary)->void:
  m["warning_recipient"]=Recipient.initial()

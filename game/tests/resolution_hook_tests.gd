@@ -24,6 +24,7 @@ func _initialize():
  check(not Sim.valid_snapshot(bad),"phase cannot disagree with missing closed structure and captured actuator")
  var quiet=Sim.new();quiet.start(12);quiet.units[0].pos=quiet.mission.signal_sources[0].pos+Vector2(0,40)
  advance(quiet,0.1);quiet.command("salvage",{"item":"witness_capsule"});advance(quiet,4.1)
+ preload("res://tests/concealed_fixture.gd").solve(quiet)
  quiet.units[0].pos=quiet.mission.extraction;quiet.units[0].vel=Vector2.ZERO;quiet.command("witness_land")
  check(quiet.all_records() and not quiet.mission.physical_gates[0].opened,"quiet witness recovery does not require optional sluice operation")
  var inactive=Sim.new();inactive.start(13);inactive.units[0].pos=inactive.mission.signal_sources[0].pos+Vector2(0,100);inactive.command("recon");advance(inactive,0.1)

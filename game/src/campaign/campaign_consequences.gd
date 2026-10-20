@@ -30,6 +30,7 @@ static func recovered(previous:Dictionary,mission:Dictionary)->Dictionary:
   p.facts["warning_chain"]="service_local_receipt" if mission.warning_chain.result.proof=="local_receipt" else "mast_transmission_external_unknown"
  if mission.id==12 and not p.history.any(func(h):return h.mission==12):
   var arrival=preload("res://src/simulation/witness_evacuation.gd").recovered_facts(mission)
+  arrival.merge(preload("res://src/simulation/concealed_harbour.gd").recovered_facts(mission))
   for key in arrival:p.facts[key]=arrival[key]
  if mission.id==13 and not p.history.any(func(h):return h.mission==13):
   var arrival=preload("res://src/simulation/warning_recipient.gd").recovered_facts(mission)

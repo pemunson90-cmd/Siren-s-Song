@@ -8,6 +8,7 @@ const Rendezvous=preload("res://src/presentation/rendezvous_view.gd")
 const WarningChain=preload("res://src/presentation/warning_chain_view.gd")
 const Delivery=preload("res://src/presentation/blackwater_delivery_view.gd")
 const Recipient=preload("res://src/presentation/warning_recipient_view.gd")
+const Concealed=preload("res://src/presentation/concealed_harbour_view.gd")
 const Witness=preload("res://src/presentation/witness_evacuation_view.gd")
 # A tap opens an object-owned projection. A separate tap chooses an action.
 var host
@@ -63,6 +64,8 @@ func setup(owner):
  extra.shelf_alarm=host._button(self,"SOUND ALARM\n1200m / ONCE",func():host._order("shelf_alarm"),"shelf_alarm")
  for entry in [["warning_exposed","EXPOSED\nUNGATED COURSE"],["warning_sheltered","SHELTERED\nSERVICE COURSE"],["warning_gate","OPEN SERVICE\n650m / 6s"]]:
   var key=entry[0];extra[key]=host._button(self,entry[1],func():_extra(key),key)
+ for entry in [["concealed_attach","ATTACH TOW"],["concealed_release","RELEASE TOW"],["concealed_seat","SEAT HERE"],["concealed_work","WITNESS ACCOUNT"]]:
+  var key=entry[0];extra[key]=host._button(self,entry[1],func():_extra(key),key)
  instrument_button=extra.inspect
  extra.witness_land=host._button(self,"LAND\nWITNESS",func():host._order("witness_land"),"witness_land")
  for entry in [["blackwater_handoff","TRANSFER\nTO Q"],["blackwater_data","DATA\nTRANSFER"],["blackwater_a","TRANSFER A\nTO QUIETUS"],["blackwater_b","TRANSFER B\nTO QUIETUS"]]:
@@ -105,7 +108,9 @@ func open(next:String="craft",context:Dictionary={}):
  var station=WarningChain.station_subject(host.sim,subject) if next=="object" else {}
  if not station.is_empty():next="plant";subject=station
  if subject.get("kind","")=="habitat" and next=="object":next="habitat"
- page=next;instruments_open=page in ["inspect","signals"];host.advanced_orders=true;host._layout()
+ page=next;instruments_open=page in ["inspect","signals"]
+ if page=="inspect" and subject.get("subkind","")=="concealed":sheet_scroll.scroll_vertical=0
+ host.advanced_orders=true;host._layout()
 func dismiss():
  draining_popup=not owned_touches.is_empty()
  host.map_gesture.cancel();host.knock_press.clear();popup_gesture.cancel();sheet_pointers.clear();sector_press=null;host.advanced_orders=false;instruments_open=false;host._layout()
@@ -118,6 +123,12 @@ func _back():
  elif page in ["craft","object","fleet","salvage","plant","habitat","recovery"]:dismiss()
  else:open("habitat" if subject.get("kind","")=="habitat" else "plant" if subject.get("kind","")=="plant" else "object" if subject.get("kind","")=="objective" else "salvage" if subject.get("kind","")=="salvage" else "craft")
 func _extra(key:String):
+ if key=="concealed_work":
+  var sites=Concealed.subjects(host.sim)
+  if not sites.is_empty():open("inspect",sites[0])
+  return
+ if key.begins_with("concealed_"):
+  host._order("concealed_tow",{"action":subject.get("seat","") if key=="concealed_seat" else key.trim_prefix("concealed_")});return
  if key=="warning_gate":host._order("warning_gate");return
  if key in ["warning_exposed","warning_sheltered"]:host._order("warning_depart",{"course":key.trim_prefix("warning_")});return
  if key.begins_with("chain_"):
@@ -165,7 +176,7 @@ func witness_button_at(point:Vector2) -> Button:
  if (page=="craft" and not Recipient.primary_subject(host.sim).is_empty()) or (page=="object" and subject.get("subkind","")=="warning_gate"):
   var primary=host.order_buttons.camera
   if primary.is_visible_in_tree() and primary.get_global_rect().has_point(point):return primary
- for button in [extra.witness_land,extra.salvage,extra.warning_exposed,extra.warning_sheltered,extra.warning_gate,extra.shelf_warn,extra.shelf_alarm]:
+ for button in [extra.witness_land,extra.salvage,extra.warning_exposed,extra.warning_sheltered,extra.warning_gate,extra.shelf_warn,extra.shelf_alarm,extra.concealed_attach,extra.concealed_release,extra.concealed_seat,extra.concealed_work]:
   if button==extra.salvage and not Witness.site_for_item(host.sim,subject.get("item","")):continue
   if button.is_visible_in_tree() and button.get_global_rect().has_point(point):return button
  return null
@@ -216,6 +227,7 @@ func command_controls() -> Array:
   "view":return [focus_button,host.zoom_buttons[2],host.zoom_buttons[1],host.zoom_buttons[0]]
   "fleet":return host.unit_buttons+([extra.arrivals] if Expedition.active(host.sim) else [])+[extra.view_menu,host.order_buttons.menu]
   "object":
+   if subject.get("subkind","")=="concealed":return ([extra.concealed_seat] if not subject.get("seat","").is_empty() else [extra.concealed_attach,extra.concealed_release])+[extra.route_here,extra.inspect]
    if subject.get("subkind","")=="warning_recipient":return [extra.warning_exposed,extra.warning_sheltered,host.order_buttons.camera,extra.route_here,extra.inspect]
    if subject.get("subkind","")=="warning_gate":return [extra.warning_gate,host.order_buttons.camera,extra.route_here,extra.inspect]
    return ([extra.witness_land] if Witness.harbour_subject(host.sim,subject) else [])+([extra.rendezvous_release,extra.route_here,extra.inspect] if subject.get("subkind","")=="berth_control" else ([] if subject.get("subkind","")=="transmission" else [extra.route_here])+([] if subject.get("subkind","") in ["corridor","withdrawal"] else [host.order_buttons.camera])+[extra.inspect,host.order_buttons.program,host.order_buttons.queue])
@@ -226,6 +238,7 @@ func command_controls() -> Array:
   "inspect","signals","recovery":return []
  var controls=[host.order_buttons.camera,host.order_buttons.ping,host.order_buttons.silent,host.order_buttons.program,extra.route_menu,extra.tools_menu,extra.guard_menu,extra.inspect]
  if Witness.carries(host.sim,host.sim.selected):controls[0]=extra.witness_land
+ if Concealed.status(host.sim).get("known",false):controls.append(extra.concealed_work)
  if not Delivery.status(host.sim).is_empty():
   if host.sim.selected==0:controls.append(extra.blackwater_data)
   elif not host.sim.blackwater_handoff_context(host.sim.selected).packets.is_empty():controls.append(extra.blackwater_handoff)
@@ -236,7 +249,7 @@ func layout(bounds:Vector2,h:float):
  var recipient_primary=(page=="craft" and not Recipient.primary_subject(host.sim).is_empty()) or (page=="object" and subject.get("subkind","")=="warning_gate")
  for b in host.order_buttons.values()+host.unit_buttons+extra.values()+[close_button,focus_button,host.pause_button,host.advanced_button]+host.zoom_buttons:
   b.mouse_filter=Control.MOUSE_FILTER_IGNORE if page=="plant" and b in command_controls() else Control.MOUSE_FILTER_STOP
-  if b in [extra.witness_land,extra.warning_exposed,extra.warning_sheltered,extra.warning_gate,extra.shelf_warn,extra.shelf_alarm] or (b==extra.salvage and Witness.site_for_item(host.sim,subject.get("item",""))):b.mouse_filter=Control.MOUSE_FILTER_IGNORE
+  if b in [extra.witness_land,extra.warning_exposed,extra.warning_sheltered,extra.warning_gate,extra.shelf_warn,extra.shelf_alarm,extra.concealed_attach,extra.concealed_release,extra.concealed_seat,extra.concealed_work] or (b==extra.salvage and Witness.site_for_item(host.sim,subject.get("item",""))):b.mouse_filter=Control.MOUSE_FILTER_IGNORE
   if b==host.order_buttons.camera and recipient_primary:b.mouse_filter=Control.MOUSE_FILTER_IGNORE
   b.hide();b.custom_minimum_size=Vector2(h*1.55,h);b.size=Vector2(h*1.55,h);b.add_theme_font_size_override("font_size",font)
   b.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
@@ -290,7 +303,7 @@ func _fit_sheet():
  host.call_deferred("_report_targets")
 func refresh():
  var sim=host.sim
- subject=Recipient.refresh_subject(sim,Rendezvous.refresh_subject(sim,subject))
+ subject=Concealed.refresh_subject(sim,Recipient.refresh_subject(sim,Rendezvous.refresh_subject(sim,subject)))
  host.pause_button.text="PAUSED\n▶ RUN" if sim.paused else "Ⅱ\nPAUSE"
  host.advanced_button.text="FLEET"
  focus_button.text="FOLLOW" if host.ocean.chart_camera.mode=="follow" else "FOCUS"
@@ -367,6 +380,13 @@ func refresh():
   if page=="craft" and not recipient_primary.is_empty():
    host.order_buttons.camera.text="GATE\nCONTROLS" if recipient_primary.subkind=="warning_gate" else "RECIPIENT\nCONTROLS";host.order_buttons.camera.disabled=false
    instrument_info.text=Recipient.detail(sim,recipient_primary)
+ var concealed=Concealed.status(sim)
+ if concealed.get("known",false):
+  intent.text=Concealed.summary(sim)+" · "+intent.text
+  extra.concealed_attach.disabled=not concealed.actions.tow
+  extra.concealed_release.disabled=not concealed.actions.release
+  extra.concealed_seat.disabled=not concealed.actions.seats.any(func(p):return p.id==subject.get("seat","") and p.ready)
+  if subject.get("subkind","")=="concealed" or page=="inspect":instrument_info.text=Concealed.detail(sim,subject)+"\n\n"+instrument_info.text
  var witness=Witness.status(sim)
  if not witness.is_empty():
   extra.witness_land.disabled=not sim.witness_context().land.ready
@@ -374,7 +394,7 @@ func refresh():
   if Witness.site_for_item(sim,subject.get("item","")):
    var winch=sim.salvage_context(subject.item)
    extra.salvage.text="WINCH\nWITNESS" if not winch.active else "WINCH\n%d%%"%floori(winch.elapsed/winch.duration*100)
-  if page=="inspect" or Witness.harbour_subject(sim,subject):instrument_info.text=Witness.detail(sim)+"\n\n"+instrument_info.text
+  if (page=="inspect" and subject.get("subkind","")!="concealed") or Witness.harbour_subject(sim,subject):instrument_info.text=Witness.detail(sim)+"\n\n"+instrument_info.text
   if not Witness.site(sim).is_empty() and subject.get("kind","")=="craft":host.order_buttons.camera.text="WITNESS\nWINCH"
  if (host.knock_armed or host.decoy_armed) and not host.targeting_feedback.is_empty():
   intent.text=sim.units[sim.selected].name+" · "+host.targeting_feedback
@@ -422,7 +442,7 @@ func refresh():
  host.ocean.ui_blocked_rects=occupied_rects().map(func(r):return Rect2(r.position-host.ocean.global_position,r.size))
  if host.decoy_armed or host.knock_armed:
   close_button.text="CANCEL";close_button.position=Vector2(size.x/2-touch_height*.775,size.y-touch_height-12);close_button.show()
- else:close_button.text="CANCEL" if page=="recovery" else "BACK";close_button.visible=host.advanced_orders
+ else:close_button.text="CANCEL" if page=="recovery" else "LOCAL ORDERS" if page=="inspect" and subject.get("subkind","")=="concealed" else "BACK";close_button.visible=host.advanced_orders
  queue_redraw()
 func _draw():
  if host==null or not host.advanced_orders:return

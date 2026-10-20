@@ -134,6 +134,9 @@ contact_reports_tests|CONTACT REPORT
 contact_reports_ui_tests|CONTACT REPORT UI
 blackwater_courier_tests|COURIER
 blackwater_delivery_tests|BLACKWATER DELIVERY
+concealed_harbour_tests|CONCEALED HARBOUR
+concealed_harbour_journey_tests|CONCEALED HARBOUR JOURNEY
+concealed_harbour_ui_tests|CONCEALED HARBOUR UI
 witness_evacuation_tests|WITNESS EVACUATION
 witness_evacuation_journey_tests|WITNESS EVACUATION JOURNEY
 witness_evacuation_ui_tests|WITNESS EVACUATION UI

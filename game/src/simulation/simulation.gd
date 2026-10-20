@@ -4,6 +4,7 @@ const Endurance=preload("res://src/simulation/operation_endurance.gd")
 const Recon=preload("res://src/simulation/recon_consequences.gd")
 const PolygonContainment=preload("res://src/simulation/polygon_containment.gd")
 const Operations=preload("res://src/simulation/resolution_operations.gd")
+const Concealed=preload("res://src/simulation/concealed_harbour.gd")
 const Witness=preload("res://src/simulation/witness_evacuation.gd")
 const Recipient=preload("res://src/simulation/warning_recipient.gd")
 const CraftUpgrades=preload("res://src/equipment/craft_upgrades.gd")
@@ -189,6 +190,7 @@ func _collect_shared_wreck(unit_id:int,pos:Vector2)->bool:
 	if not Delivery.applies(mission) and not (Witness.available(self) and mission.witness_evacuation.pos.distance_to(pos)<=1):return false
 	ModuleRecovery.collect_at(self,unit_id,pos);Delivery.collect_at(self,unit_id,pos);Witness.collect_at(self,unit_id,pos);return true
 func _witness_recovery_busy(unit_id:int)->bool:return Witness.busy(self,unit_id)
+func concealed_status()->Dictionary:return Concealed.status(self)
 func witness_status()->Dictionary:return Witness.status(self)
 func witness_context(unit_id:int=-1)->Dictionary:return Witness.context(self,selected if unit_id<0 else unit_id)
 func warning_recipient_status()->Dictionary:return Recipient.status(self)
@@ -268,7 +270,7 @@ func motion_radius(unit_id:int)->float:
 func _craft_speed(unit:Dictionary,fallback:float)->float:
 	var quietus=unit.name=="QUIETUS"
 	var speed=RouteProgram.speed(unit,fallback,quietus)
-	return CraftUpgrades.cruise_speed(mission.get("launch_equipment",{})) if quietus and not unit.silent else speed
+	return Concealed.speed(self,CraftUpgrades.cruise_speed(mission.get("launch_equipment",{})) if quietus and not unit.silent else speed,unit)
 func world_size() -> Vector2:
 	return WorldRegion.size_of(mission)
 func _build_navigation() -> void:
@@ -372,6 +374,7 @@ func command(order: String,args: Dictionary={}) -> bool:
 		"blackwater_handoff":
 			if not args.get("carrier") is int:return false
 			return Delivery.handoff(self,args.carrier)
+		"concealed_tow":return Concealed.command(self,args.get("action",""))
 		"witness_land":return Witness.land(self)
 		"warning_gate":return Recipient.open_gate(self)
 		"warning_depart":return Recipient.depart(self,args.get("course",""))
@@ -695,6 +698,7 @@ func _tick(dt: float) -> void:
 	ModuleRecovery.tick(self,dt)
 	Delivery.tick(self,dt)
 	Witness.tick(self,dt)
+	Concealed.tick(self,dt)
 	sensor_clock-=dt
 	if sensor_clock<=0:
 		_observe(); SignalField.observe(self); Consequences.observe(self); sensor_clock=0.15
@@ -1149,6 +1153,7 @@ func all_records() -> bool:
 	if not Shelf.complete(self):return false
 	if not Recipient.complete(self):return false
 	if not Witness.complete(self):return false
+	if not Concealed.complete(self):return false
 	if not Chain.complete(self):return false
 	if not Delivery.complete(self):return false
 	for id in mission.get("required_site_ids",[]):
@@ -1208,6 +1213,7 @@ static func valid_snapshot(data: Dictionary) -> bool:
 		exposed.append(work.target)
 	if not WorldRegion.valid(data):return false
 	if not Witness.valid(data):return false
+	if not Concealed.valid(data):return false
 	if not Recipient.valid(data):return false
 	if not Delivery.valid(data):return false
 	if not Shelf.valid(data):return false
