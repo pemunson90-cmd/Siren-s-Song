@@ -1,4 +1,5 @@
 extends RefCounted
+const Recon=preload("res://src/simulation/recon_consequences.gd")
 const PolygonContainment=preload("res://src/simulation/polygon_containment.gd")
 const Operations=preload("res://src/simulation/resolution_operations.gd")
 const CraftUpgrades=preload("res://src/equipment/craft_upgrades.gd")
@@ -80,6 +81,8 @@ func extraction_corridors() -> Array:
 	return Consequences.corridors(self) if mission.get("expedition_revision",0)==2 else SignalField.corridors(self) if mission.has("expedition_revision") else [{"pos":mission.extraction,"name":"RECOVERY","route":"","available":all_records()}]
 func operation_context()->Dictionary:
 	return Operations.feedback(self)
+func recon_feedback()->Dictionary:
+	return Recon.feedback(self)
 func capture_feedback()->Dictionary:
 	if capture_unit<0 or capture_target<0 or capture_target>=mission.objectives.size():return {"duration":0.0,"elapsed":0.0,"unit":-1,"target":-1}
 	return {"duration":_capture_duration(mission.objectives[capture_target],capture_unit),"elapsed":capture_time,"unit":capture_unit,"target":capture_target}
@@ -90,7 +93,7 @@ func _capture_duration(objective:Dictionary,unit_id:int)->float:
 func passive_range(unit_id:int)->float:
 	return CraftUpgrades.passive_range(mission.get("launch_equipment",{}),unit_id)*(0.65 if mission.darkness else 1.0)
 func motion_radius(unit_id:int)->float:
-	return CraftUpgrades.motion_radius(mission.get("launch_equipment",{}),unit_id,units[unit_id].vel.length())
+	return CraftUpgrades.motion_radius(mission.get("launch_equipment",{}),unit_id,propulsion_speed(units[unit_id]))
 func _craft_speed(unit:Dictionary,fallback:float)->float:
 	var quietus=unit.name=="QUIETUS"
 	var speed=RouteProgram.speed(unit,fallback,quietus)
@@ -271,7 +274,8 @@ func command(order: String,args: Dictionary={}) -> bool:
 			capture_unit=selected; capture_target=context.target; capture_time=0.0; u.hold="HOLD"
 			Operations.begin(self,target)
 			message="%s · hold %.0f seconds"%["Hydrophone reception" if target.get("kind","")=="exchange" else ("Passive hydrophone decode" if target.get("kind","")=="receiver" else ("Archive uplink" if target.get("kind","")=="uplink" else "Warning transmission" if Operations.own_origin(target) else "Camera exposure")),_capture_duration(target,selected)]
-			if target.get("kind","") not in ["receiver","exchange","transmitter"] or not Sampler.capture_spec(selected,mission.get("launch_equipment",{}),target).is_empty(): _noise(u.pos,520,"CAMERA")
+			if target.get("kind","") not in ["receiver","exchange","transmitter"] or not Sampler.capture_spec(selected,mission.get("launch_equipment",{}),target).is_empty():
+				_noise(u.pos,520,"CAMERA");noises.back()["record"]=capture_target
 			events.append({"type":"camera","pos":u.pos})
 		_: return false
 	return true
@@ -397,8 +401,8 @@ func camera_context() -> Dictionary:
 func _well_signature_observe() -> void:
 	if mission.get("well_revision",0)!=1 or not mission.objectives[0].captured:return
 	var emitter=units[0];var aperture:Vector2=mission.objectives[1].pos
-	if mission.well_reference.is_empty() and emitter.alive and emitter.vel.length()>50 and emitter.pos.distance_to(aperture)<240 and line_clear(emitter.pos,aperture):
-		mission.well_reference={"time":elapsed,"speed":emitter.vel.length(),"pos":emitter.pos}
+	if mission.well_reference.is_empty() and emitter.alive and propulsion_speed(emitter)>50 and emitter.pos.distance_to(aperture)<240 and line_clear(emitter.pos,aperture):
+		mission.well_reference={"time":elapsed,"speed":propulsion_speed(emitter),"pos":emitter.pos}
 		message="Quietus engine reference recorded · compare locally at RETURN ARCHIVE"
 	if mission.well_reference.is_empty() or not mission.well_observation.is_empty():return
 	var origin:Vector2=mission.objectives[2].pos
@@ -420,6 +424,8 @@ func decoy_target_valid(point:Variant) -> bool:
 	return origin.alive and outcome.is_empty() and tools.decoy>0 and Rect2(Vector2(6,6),world_size()-Vector2(12,12)).has_point(point) and origin.pos.distance_to(point)<=DECOY_RANGE+0.001 and not blocked(point,6) and segment_safe(origin.pos,point,6)
 func _noise(p: Vector2,radius: float,label: String,duration: float=2.0) -> void:
 	noises.append({"pos":p,"radius":radius,"time":duration,"label":label})
+	var pressure={"ACTIVE SONAR":5.0,"DISRUPTION":4.0,"KNOCKDOWN":4.0,"DECOY":4.0,"RECON UPLINK":4.0}.get(label,0.0)
+	if pressure>0:Recon.action(mission,pressure)
 func courier_feedback() -> Dictionary:
 	return Courier.feedback(self)
 func departure_feedback() -> Dictionary:
@@ -430,8 +436,8 @@ func acoustic_feedback() -> Dictionary:
 	var result={"motion":[],"pulses":[],"responses":[],"revision":mission.get("acoustic_revision",0),"thermal":mission.get("thermal_revision",0)==1}
 	for u in units:
 		# Match actual movement hearing, including residual speed after SILENT.
-		if u.alive and (u.vel.length()>0.0 if mission.get("acoustic_revision",0)==1 else u.vel.length()>50):
-			result.motion.append({"name":u.name,"pos":u.pos,"radius":motion_radius(units.find(u)) if mission.get("acoustic_revision",0)==1 else 430.0,"speed":u.vel.length()})
+		if u.alive and (propulsion_speed(u)>0.0 if mission.get("acoustic_revision",0)==1 else propulsion_speed(u)>50):
+			result.motion.append({"name":u.name,"pos":u.pos,"radius":motion_radius(units.find(u)) if mission.get("acoustic_revision",0)==1 else 430.0,"speed":propulsion_speed(u)})
 	for n in noises:
 		if n.time<=0: continue
 		if n.label in ["DECOY","ACTIVE SONAR","RECON UPLINK","DISRUPTION","CAMERA","KNOCKDOWN","TORPEDO RUN","WARNING CHAIN TRANSMISSION","SERVICE SLUICE MOTOR"]:
@@ -447,6 +453,7 @@ func advance(dt: float) -> void:
 func _tick(dt: float) -> void:
 	Departure.emit(self)
 	elapsed+=dt; oxygen=maxf(0,oxygen-dt/18.0)
+	Recon.tick(mission,dt)
 	if mission.get("phase","")=="response": mission.response_time=mission.get("response_time",0.0)+dt
 	ping_time=maxf(0,ping_time-dt); recon_time=maxf(0,recon_time-dt)
 	for n in noises: n.time-=dt
@@ -486,7 +493,7 @@ func _tick(dt: float) -> void:
 			capture_time+=dt
 			if capture_time+(0.0000001 if exchange else 0.0)>=_capture_duration(o,capture_unit):
 				if exchange:capture_time=o.duration
-				o.captured=true; u.hold=""; capture_unit=-1; _record_secured(o)
+				o.captured=true; u.hold=""; var completed_unit=capture_unit; capture_unit=-1; _record_secured(o,completed_unit)
 	if mission.get("expedition_revision",0)==2:
 		var was=correlation.get("status","")
 		correlation=Correlator.advance(correlation,signal_readings(),mission.get("launch_context",{}).get("references",{}).get("return_cadence",[]),units[0].pos,units[0].vel.length(),elapsed,dt,units[0].alive and Equipment.item_for(mission.get("launch_equipment",{}),0)=="quietus_correlator")
@@ -704,14 +711,14 @@ func _threats(dt: float) -> void:
 			var u=units[i]
 			if not u.alive: continue
 			var dist=s.pos.distance_to(u.pos)
-			var radius=180.0 if u.silent else 290.0
+			var radius=(180.0 if u.silent else 290.0)*Recon.readiness(s)
 			if dist<radius and line_clear(s.pos,u.pos): detected=i; break
-			if mission.get("acoustic_revision",0)!=1 and u.vel.length()>50 and dist<430:
+			if mission.get("acoustic_revision",0)!=1 and propulsion_speed(u)>50 and dist<430*Recon.readiness(s):
 				s.goal=u.pos; heard=true; s.mode="INVESTIGATE"; s.suspicion=maxf(s.suspicion,0.3)
 		if mission.get("acoustic_revision",0)==1:
 			var arrival=_heard_arrival(s)
 			if not arrival.is_empty():
-				s.goal=arrival.goal;heard=true;s.mode="INVESTIGATE";s.suspicion=maxf(s.suspicion,arrival.suspicion)
+				s.goal=arrival.goal;heard=true;s.mode="INVESTIGATE";s.suspicion=maxf(s.suspicion,arrival.suspicion);Recon.heard(s,arrival)
 		else:
 			for noise in noises:
 				var acoustic=1.0 if line_clear(s.pos,noise.pos) else 0.36
@@ -722,6 +729,7 @@ func _threats(dt: float) -> void:
 		observations.append(detected);fresh.append(heard or detected>=0)
 		if detected>=0:
 			if s.target!=detected: s.lock=0.0
+			Recon.seen(s)
 			if s.get("type","patroller")=="patroller": s.route.clear()
 			else: _visual_pursuit(s,units[detected].pos,dt)
 			if s.route.is_empty(): s.angle=rotate_toward(s.angle,s.pos.angle_to_point(units[detected].pos),1.8*dt)
@@ -732,8 +740,8 @@ func _threats(dt: float) -> void:
 				if detected==0: hull=maxf(0,hull-dt*18)
 				else: units[detected].alive=false; s.lock=0; events.append({"type":"loss","pos":units[detected].pos}); message="%s lost · submarine camera remains available"%units[detected].name
 		else:
-			s.target=-1; s.lock=maxf(0,s.lock-dt*3); s.suspicion=maxf(0,s.suspicion-dt*0.015)
-			if s.get("type","patroller")!="patroller":
+			s.target=-1; s.lock=maxf(0,s.lock-dt*3); s.suspicion=maxf(float(s.get("alert_floor",0)),s.suspicion-dt*0.015)
+			if s.get("type","patroller")!="patroller" or s.get("attention_time",0)>0:
 				_station_intent(s,heard,dt)
 			else:
 				if s.pos.distance_to(s.goal)<35:
@@ -750,8 +758,11 @@ func _threats(dt: float) -> void:
 					s.path_time=2.0
 		var speed=48.0 if s.suspicion>0.1 else 25.0
 		if s.get("type","")=="hunter": speed=38.0 if s.mode in ["RETURN","DORMANT"] else 64.0
+		speed*=1.0+float(s.get("alert_floor",0))*.2
 		_move(s,dt,speed,false,false)
 	ContactReports.advance(self,observations,fresh,dt)
+	for guard in sirens:
+		if guard.has("report_interest"):Recon.seen(guard)
 
 func _heard_arrival(s:Dictionary)->Dictionary:
 	# Never consult player contacts or a hidden exact destination. A listener
@@ -759,13 +770,14 @@ func _heard_arrival(s:Dictionary)->Dictionary:
 	var best:Dictionary={}
 	for u in units:
 		if not u.alive:continue
-		var arrival=Acoustics.choose(acoustic_paths.arrivals(s.pos,u.pos,motion_radius(units.find(u))),int(s.patrol))
+		var arrival=Acoustics.choose(acoustic_paths.arrivals(s.pos,u.pos,motion_radius(units.find(u))*Recon.readiness(s)),int(s.patrol))
 		if not arrival.is_empty() and (best.is_empty() or arrival.strength>best.strength):
 			best=arrival;best["suspicion"]=0.3
 	for noise in noises:
-		var arrival=Acoustics.choose(acoustic_paths.arrivals(s.pos,noise.pos,noise.radius),int(s.patrol))
+		var arrival=Acoustics.choose(acoustic_paths.arrivals(s.pos,noise.pos,noise.radius*Recon.readiness(s)),int(s.patrol))
 		if not arrival.is_empty() and (best.is_empty() or arrival.strength>best.strength):
-			best=arrival;best["suspicion"]=0.45
+			best=arrival;best["suspicion"]=0.45;best["pulse"]=true
+			if noise.has("record"):best["record"]=noise.record
 	return best
 
 func _visual_pursuit(s: Dictionary,target: Vector2,dt: float) -> void:
@@ -958,7 +970,8 @@ func has_live_contact() -> bool:
 		if elapsed-contact.time<0.3: return true
 	return false
 
-func _record_secured(record: Dictionary) -> void:
+func _record_secured(record: Dictionary,unit_id:int=-1) -> void:
+	Recon.secured(self,record,unit_id)
 	if mission.id==7 and mission.get("consequence_revision",0)==1 and record.get("site_id","")=="rendezvous":mission["measured_reference"]=mission.signal_sources[0].cadence.duplicate()
 	if mission.get("expedition_revision",0)==2:Operations.complete(self,record)
 	events.append({"type":"record","pos":record.pos})
