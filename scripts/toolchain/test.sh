@@ -106,6 +106,12 @@ opening_depth_tests|OPENING DEPTH
 opening_depth_journeys|OPENING JOURNEY
 opening_depth_ui_tests|OPENING DEPTH UI
 opening_depth_policy_ui_tests|OPENING POLICY UI
+glass_reach_tests|GLASS REACH
+glass_network_tests|GLASS NETWORK
+glass_work_tests|GLASS WORK
+glass_research_tests|GLASS RESEARCH
+glass_reach_journeys|GLASS JOURNEY
+glass_reach_ui_tests|GLASS REACH UI
 onward_mission_tests|ONWARD MISSIONS
 wake_crossing_tests|WAKE CROSSING
 wake_crossing_journey_tests|WAKE CROSSING JOURNEY

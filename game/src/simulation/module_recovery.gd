@@ -39,7 +39,7 @@ static func context(sim,item:String,unit_id:int)->Dictionary:
  if not sim.outcome.is_empty():result.reason="Dive ended"
  elif not unit.alive:result.reason="Craft lost"
  elif result.claimed_by>=0:result.reason="Recovery in progress"
- elif not state.jobs[unit_id].is_empty() or not sim.captures[unit_id].is_empty() or sim._blackwater_recovery_busy(unit_id) or sim._warning_chain_busy(unit_id) or sim._witness_recovery_busy(unit_id):result.reason="Finish this craft's active work first"
+ elif not state.jobs[unit_id].is_empty() or not sim.captures[unit_id].is_empty() or sim._blackwater_recovery_busy(unit_id) or sim._warning_chain_busy(unit_id) or sim._witness_recovery_busy(unit_id) or sim.Glass.busy(sim,unit_id):result.reason="Finish this craft's active work first"
  elif result.distance>RANGE:result.reason="Move within 60m"
  elif unit.band!=sim.Depth.cargo_band(sim,item) or not unit.transition.is_empty():result.reason="Salvage requires its recorded depth band"
  elif not sim.Depth.clear(sim,unit.pos,module.pos,unit.band):result.reason="Terrain blocks recovery"
@@ -84,7 +84,7 @@ static func departure(sim,corridor:Dictionary)->Dictionary:
  var home=[0]
  for id in [1,2]:
   var unit=sim.units[id]
-  if unit.alive and unit.band==1 and unit.transition.is_empty() and unit.pos.distance_to(corridor.pos)<65 and unit.vel.length()<12 and sim.line_clear(unit.pos,corridor.pos):home.append(id);result.recovered_drones.append(id)
+  if unit.alive and unit.band==1 and unit.transition.is_empty() and unit.pos.distance_to(corridor.pos)<65 and unit.vel.length()<12 and sim.Depth.clear(sim,unit.pos,corridor.pos,unit.band):home.append(id);result.recovered_drones.append(id)
  for module in status(sim).modules:
   if module.unit in home:result.recovered.append(module.item)
   else:

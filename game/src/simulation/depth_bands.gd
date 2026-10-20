@@ -54,9 +54,9 @@ static func command(sim,band)->bool:
   sim.message="Release the physical tow before changing depth";return false
  # Soundings only reveal this local vertical clearance; never a remote detour.
  var held=u.hold
- var working=not sim.captures[sim.selected].is_empty() or not sim.module_recovery_status().jobs[sim.selected].is_empty() or sim.Delivery.busy(sim,sim.selected) or sim.Witness.busy(sim,sim.selected) or sim.Chain.connected(sim,sim.selected)
+ var working=not sim.captures[sim.selected].is_empty() or not sim.module_recovery_status().jobs[sim.selected].is_empty() or sim.Delivery.busy(sim,sim.selected) or sim.Witness.busy(sim,sim.selected) or sim.Chain.connected(sim,sim.selected) or sim.Glass.busy(sim,sim.selected)
  u.transition={"to":band,"remaining":DURATION};u.vel=Vector2.ZERO;u.hold=""
- sim.ModuleRecovery.cancel_released(sim,sim.selected);sim.Delivery.cancel_released(sim,sim.selected);sim.Witness.cancel_released(sim,sim.selected)
+ sim.ModuleRecovery.cancel_released(sim,sim.selected);sim.Delivery.cancel_released(sim,sim.selected);sim.Witness.cancel_released(sim,sim.selected);sim.Glass.cancel_released(sim,sim.selected)
  sim.Chain.cancel_released(sim,"depth")
  if not working:u.hold=held
  sim.captures[sim.selected]={};sim.message="%s · %s → %s · 4s exposed transition"%[u.name,NAMES[u.band],NAMES[band]]

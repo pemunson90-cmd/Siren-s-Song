@@ -197,7 +197,9 @@ func _start_mission(index: int) -> void:
 	diagnostic_ready=""; diagnostic_records.clear(); diagnostic_roles.clear(); diagnostic_role_route_ready=false; map_gesture.cancel(); advanced_orders=false; knock_armed=false; ocean.knock_targeting=false; decoy_armed=false; ocean.decoy_targeting=false
 	call_deferred("_layout")
 	if route_editor!=null: route_editor.hide()
-	active_started=true; mission_index=index; sim.start(index,upgrade,launch.launch); ocean.sim=sim; ocean.focus_craft(); screen="mission"; menu.hide(); hud.show(); _refresh()
+	active_started=true; mission_index=index; sim.start(index,upgrade,launch.launch)
+	if mission_hud!=null:mission_hud.subject={};mission_hud.page="craft"
+	ocean.sim=sim; ocean.focus_craft(); screen="mission"; menu.hide(); hud.show(); _refresh()
 func _primary_action() -> void:
 	if decoy_armed or knock_armed:
 		decoy_armed=false;knock_armed=false;map_gesture.cancel();knock_press.clear();sim.message="Targeting cancelled";_refresh();return
@@ -556,13 +558,14 @@ func _show_ending()->void:
 	var ending=Endings.resolve(expedition)
 	if ending.is_empty():_show_campaign();return
 	sim.paused=true;screen="ending";_clear_menu()
-	_menu_text("SIREN'S SONG / CAMPAIGN COMPLETE",18)
+	_menu_text("SIREN'S SONG / RECOVERED OUTCOME",18)
 	_menu_text(ending.title,36)
 	_menu_text(ending.outcome,24)
 	if sim.outcome=="won":WitnessView.arrival(self);RecipientView.arrival(self);preload("res://src/presentation/concealed_harbour_view.gd").debrief(self)
 	_menu_text(ending.story,21)
 	if sim.outcome=="won" and sim.mission.id in [12,13]:ModuleRecovery.debrief(self)
 	_show_photo_grade(photo_records.values())
+	if 14 in ExpeditionCampaign.available(completed,expedition):_button(panel_box,"CONTINUE / GLASS REACH",func():_briefing(14),"continue_glass")
 	_button(panel_box,"NEW CAMPAIGN / CHOOSE ANOTHER ROUTE",_confirm_new_campaign,"new_campaign")
 	_button(panel_box,"OPERATIONS ARCHIVE",_show_campaign,"back")
 	_save_archive();call_deferred("_layout")

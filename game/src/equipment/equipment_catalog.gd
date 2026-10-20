@@ -3,6 +3,8 @@ extends RefCounted
 # catalog cannot award them or change equipment on an already launched mission.
 const SLOTS=["quietus","drone_a","drone_b"]
 const ITEMS={
+ "quietus_prism":{"id":"quietus_prism","name":"Reach directional prism","compatible_slots":["quietus"],"benefit":"Forward SONAR reaches40% farther.","cost":"Forward pulses cost double reserve and emit25% farther. Uses Quietus hardware slot; all-around sonar unchanged."},
+ "quietus_decoder":{"id":"quietus_decoder","name":"Keeper service decoder","compatible_slots":["quietus"],"benefit":"Open nearby Reach service gates quietly in2s within120m, after measuring their local position.","cost":"Uses Quietus hardware slot. Bare manual work takes8 audible seconds within60m; outside routes remain available."},
  "quietus_baffles":{"id":"quietus_baffles","name":"Quietus acoustic baffles","compatible_slots":["quietus"],"benefit":"Reduce propulsion sound by45% at the same actual speed.","cost":"Uses Quietus hardware slot."},
  "quietus_vector_drive":{"id":"quietus_vector_drive","name":"Quietus vector drive","compatible_slots":["quietus"],"benefit":"Cruise at112m/s instead of78m/s; silent speed remains42m/s.","cost":"Fast cruise makes more motion noise. Uses Quietus hardware slot."},
  "drone_survey_array":{"id":"drone_survey_array","name":"Drone survey array","compatible_slots":["drone_a","drone_b"],"benefit":"Extend this drone's ordinary passive and chart reach from330m to460m.","cost":"Uses one drone hardware slot."},

@@ -28,6 +28,8 @@ const RouteProgram=preload("res://src/simulation/route_program.gd")
 const ModuleRecovery=preload("res://src/simulation/module_recovery.gd")
 const Missions = preload("res://src/campaign/missions.gd")
 const Depth=preload("res://src/simulation/depth_bands.gd")
+const Glass=preload("res://src/simulation/glass_reach_work.gd")
+const Network=preload("res://src/simulation/acoustic_network.gd")
 const Sweeper=preload("res://src/simulation/sonar_sweeper.gd")
 const Sonar=preload("res://src/simulation/advanced_sonar.gd")
 var sonar:Dictionary={}
@@ -97,7 +99,7 @@ func start(index: int, upgrade: String = "endurance", launch:Dictionary={}) -> v
 	mission["module_recovery"]=ModuleRecovery.initial(mission.launch_equipment,units)
 	mission["fleet_commit"]=launch.get("fleet_commit",false)
 	sirens = mission.sirens.duplicate(true)
-	Depth.initialize(self);sonar=Sonar.initial();depth_charts={};geometry_band=1
+	Depth.initialize(self);Network.initialize(self);sonar=Sonar.initial();depth_charts={};geometry_band=1
 	known = {}; contacts = {}; events = []; noises = []; projectiles=[]
 	elapsed=0.0; oxygen=100.0; hull=100.0; paused=true; selected=0; queue_mode=false; pass_through=true; outcome=""
 	message="Chart loaded. Tap a craft for DEPTH / SONAR; tap water to plot a route."
@@ -134,6 +136,8 @@ func _use_band(band:int)->void:
 	geometry_band=band
 	if not depth_charts.is_empty():terrain_chart=depth_charts.get(band)
 	if not band_navigation.is_empty():navigation=band_navigation.get(band,navigation)
+func glass_context()->Dictionary:return Glass.status(self)
+func network_feedback()->Array:return Network.feedback(self)
 func depth_feedback()->Dictionary:
 	var u=units[selected]
 	return {"band":u.band,"name":Depth.NAMES[u.band],"transition":u.transition.duplicate(),"sonar":Sonar.feedback(self,selected)}
@@ -212,12 +216,14 @@ func signal_readings() -> Array:
 func extraction_corridors() -> Array:
 	return Consequences.corridors(self) if mission.get("expedition_revision",0)==2 else SignalField.corridors(self) if mission.has("expedition_revision") else [{"pos":mission.extraction,"name":"RECOVERY","route":"","available":all_records()}]
 func salvage_sites()->Array:
-	var sites=Witness.sites(self,Delivery.sites(self,ModuleRecovery.sites(self)))
-	for site in sites:site["band"]=Depth.cargo_band(self,site.item)
+	var sites=Witness.sites(self,Delivery.sites(self,ModuleRecovery.sites(self)))+Glass.sites(self)
+	for site in sites:
+		if not site.has("band"):site["band"]=Depth.cargo_band(self,site.item)
 	return sites
 func salvage_context(item:String,unit_id:int=-1)->Dictionary:
 	var id=selected if unit_id<0 else unit_id
 	if units[id].band!=Depth.cargo_band(self,item) or not units[id].transition.is_empty():return {"ready":false,"reason":"Salvage requires its recorded depth band","distance":0.,"active":false,"claimed_by":-1}
+	if item.begins_with("glass_"):return Glass.context(self,"recover",id)
 	if Witness.handles(self,item):return Witness.context(self,id,item).winch
 	if item.begins_with("blackwater_buffer_"):return Delivery.context(self,item,id)
 	var context=ModuleRecovery.context(self,item,id)
@@ -259,6 +265,8 @@ func _try_extract(corridor:Dictionary,confirmed:bool=false)->bool:
 	if not context.available or context.corridor.pos!=corridor.pos or context.corridor.get("route","")!=corridor.get("route",""):return false
 	if context.confirmation_required and not confirmed:
 		message=context.text;return false
+	if not Glass.can_extract(self,corridor):message="Bring the physical Reach material carrier to this recovery mouth in MIDDLE";return false
+	Glass.recover(self,corridor)
 	ModuleRecovery.record(self,context)
 	if mission.has("expedition_revision"):mission.chosen_route=corridor.route;mission.recovered=true
 	outcome="won";paused=true;message="Archive recovered / "+corridor.name;events.append({"type":"extraction","pos":units[0].pos});return true
@@ -429,6 +437,7 @@ func command(order: String,args: Dictionary={}) -> bool:
 	if order in ["camera","chain_power","chain_route","chain_send","concealed_tow","witness_land","warning_gate","warning_depart","rendezvous_release","wake_playback","shelf_warn","shelf_alarm"] and (u.band!=1 or not u.transition.is_empty()):
 		message="Ascend to MIDDLE and settle for local work";return false
 	match order:
+		"glass_action":return Glass.command(self,args)
 		"depth":return Depth.command(self,args.get("band"))
 		"sonar_mode":return Sonar.configure(self,args)
 		"wake_playback":return Wake.play(self)
@@ -447,6 +456,7 @@ func command(order: String,args: Dictionary={}) -> bool:
 		"salvage":
 			if not args.get("item") is String:return false
 			if not salvage_context(args.item).get("ready",false):message=salvage_context(args.item).get("reason","Salvage unavailable");return false
+			if args.item.begins_with("glass_"):return Glass.command(self,{"action":"recover"})
 			if Witness.handles(self,args.item):return Witness.begin(self,args.item)
 			return Delivery.begin(self,args.item) if args.item.begins_with("blackwater_buffer_") else ModuleRecovery.begin(self,args.item)
 		"rendezvous_release":return Rendezvous.release(self)
@@ -535,7 +545,7 @@ func command(order: String,args: Dictionary={}) -> bool:
 			if not decoy_target_valid(point): message="Decoy needs clear water within 160m and a clear path · no charge spent"; return false
 			tools.decoy-=1; _noise(point,1100,"DECOY",15.0,u.band); message="Decoy launched · 15s transmission"; events.append({"type":"decoy","pos":u.pos})
 		"camera":
-			if not module_recovery_status().jobs[selected].is_empty() or Delivery.busy(self,selected) or Witness.busy(self,selected):message="Finish this craft's wreck recovery first";return false
+			if not module_recovery_status().jobs[selected].is_empty() or Delivery.busy(self,selected) or Witness.busy(self,selected) or Glass.busy(self,selected):message="Finish this craft's wreck recovery first";return false
 			var context=camera_context()
 			if not context.ready: message=context.text; return false
 			var target=mission.objectives[context.target]
@@ -546,7 +556,7 @@ func command(order: String,args: Dictionary={}) -> bool:
 				_noise(u.pos,520,"CAMERA",2.0,u.band);noises.back()["record"]=context.target
 			events.append({"type":"camera","pos":u.pos})
 		_: return false
-	ModuleRecovery.cancel_released(self,selected)
+	ModuleRecovery.cancel_released(self,selected);Glass.cancel_released(self,selected)
 	Delivery.cancel_released(self,selected)
 	Witness.cancel_released(self,selected)
 	Chain.cancel_released(self,order)
@@ -768,6 +778,8 @@ func _tick(dt: float) -> void:
 	_advance_projectiles(dt)
 	Recipient.tick(self,dt)
 	_threats(dt)
+	Network.advance(self,dt)
+	Glass.tick(self,dt)
 	Depth.cargo_bands(self)
 	Shelf.tick(self)
 	Chain.tick(self)
@@ -1079,6 +1091,8 @@ func _threats(dt: float) -> void:
 	var observations=[];var fresh=[]
 	for s in sirens:
 		_use_band(s.band)
+		if s.get("type","") in Network.ROLES:
+			observations.append(-1);fresh.append(false);continue
 		Depth.pursue(self,s)
 		if s.get("type","")=="sweeper":
 			Sweeper.advance(self,s,dt);observations.append(-1);fresh.append(false);continue
@@ -1175,6 +1189,7 @@ func _heard_arrival(s:Dictionary)->Dictionary:
 		if not arrival.is_empty() and (best.is_empty() or arrival.strength>best.strength):
 			best=arrival;best["suspicion"]=0.3
 	for noise in noises:
+		if noise.label in ["BUOY REPORT WINDUP","RELAY FORWARD"]:continue
 		var arrival=Acoustics.choose(band_acoustics[s.band].arrivals(s.pos,noise.pos,noise.radius*Recon.readiness(s)*Depth.transmission(s,noise)),int(s.patrol))
 		if not arrival.is_empty() and (best.is_empty() or arrival.strength>best.strength):
 			best=arrival;best["suspicion"]=0.45;best["pulse"]=true
@@ -1244,6 +1259,7 @@ func _search_approach(s: Dictionary) -> Array:
 			if not route.is_empty(): s.goal=point; return route
 	return []
 func all_records() -> bool:
+	if not Glass.complete(self):return false
 	if not Shelf.complete(self):return false
 	if not Recipient.complete(self):return false
 	if not Witness.complete(self):return false
@@ -1287,6 +1303,8 @@ static func valid_snapshot(data: Dictionary) -> bool:
 			var ref=data.mission.get("measured_reference",null)
 			if not ref is Array or (not ref.is_empty() and (ref!=[0.8,1.6,0.8] or not data.mission.objectives.any(func(o):return o.get("site_id","")=="rendezvous" and o.captured))):return false
 	if not DroneOperations.valid(data):return false
+	if not Glass.valid(data):return false
+	if not Network.valid(data):return false
 	if not ContactReports.valid(data):return false
 	if not data.mission.has_all(["id","rocks","objectives","extraction","title","darkness","depth"]): return false
 	if not data.mission.id is int or data.mission.id not in Missions.Catalog.registered_ids(): return false
@@ -1375,7 +1393,7 @@ static func valid_snapshot(data: Dictionary) -> bool:
 		if e.has("pin_time"):
 			if not (e.pin_time is float or e.pin_time is int) or not is_finite(e.pin_time) or e.pin_time<0 or e.pin_time>KNOCK_TIME: return false
 			if e.pin_time>0 and (not (e.stun is float or e.stun is int) or not is_finite(e.stun) or e.stun+0.001<e.pin_time): return false
-		if e.has("type") and e.type not in ["patroller","sentinel","hunter","sweeper"]: return false
+		if e.has("type") and e.type not in ["patroller","sentinel","hunter","sweeper","buoy","relay"]: return false
 		if e.has("tether") and (not (e.tether is float or e.tether is int) or e.tether<=0): return false
 		if e.has("attention_time") and (not (e.attention_time is float or e.attention_time is int) or e.attention_time<0): return false
 		if e.has("last_known") and not e.last_known is Vector2: return false
@@ -1406,6 +1424,7 @@ func has_live_contact() -> bool:
 	return false
 
 func _record_secured(record: Dictionary,unit_id:int=-1) -> void:
+	Glass.recorded(self,record)
 	Recon.secured(self,record,unit_id)
 	if Rendezvous.applies(mission) and mission.get("consequence_revision",0)==1 and record.get("site_id","")=="rendezvous":mission["measured_reference"]=mission.signal_sources[0].cadence.duplicate()
 	if mission.get("expedition_revision",0)==2:Operations.complete(self,record)

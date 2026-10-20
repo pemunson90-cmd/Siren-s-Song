@@ -3,7 +3,10 @@
 ## Latest priority — substantial playable content
 Prioritize substantial new playable content; concentrate regression, bug hunting and refinement at meaningful integration boundaries or when continuing would become prohibitively difficult or expensive. Preserve current-milestone independent approval, final-head CI, physical rules and fair information.
 
-## Latest execution correction — six-operation milestone
+## Current content batch — Glass Reach
+Opening depth/sonar landed via PR48 with independent approval and final-head CI. Continue the approved program with six core operations14–19, two optional20–21, buoy/relay roles, physical artifact research and ordinary campaign continuation. Same sole builder/branch through internal checkpoints; review/CI/PR only for the complete accumulated batch.
+
+## Prior execution correction — completed six-operation milestone
 First milestone: integrated depth, sonar and stealth across opening operations0–5. One builder continues on the same milestone branch after each internal task/checkpoint. Author distinct encounters through shared systems, preserve baseline-fleet completion and existing physical evidence/cargo/recovery. Use focused checks during tasks; accumulate broad regression, performance and adversarial checks at the complete milestone boundary. Review the accumulated branch with the same independent reviewer, fix/re-review there, then mandatory final-head game-smoke CI and a normal PR. Do not integrate isolated subtasks or move to fleet/economy before this milestone. This supersedes older per-feature merge wording; the full-release program below remains authorized.
 
 ## Approved order — full-release execution

@@ -103,3 +103,16 @@ The current connected implementation horizon, feature states and ownership are m
 **Development signing — user ratified:** permanently preserve and reuse the established debug signing identity. Store the non-production debug keystore in version control outside the exported game, recover the existing installed-build certificate identity when possible, and remove automatic generation on cache miss. Build/cache problems must not silently rotate the key. This is explicitly authorized debug-key persistence, not production/release signing.
 
 Current spec is revisable by new user direction and evidence-driven Gauntlet improvements. Each such improvement must be integrated into this living spec with source/rationale. No frozen exhaustive checklist can substitute for continued qualitative reevaluation.
+
+Glass Reach is the current integrated content batch after the depth/sonar opening.
+Operations14–19 and optional20–21 add authored mineral/thermal crossings, a physical
+listening-buoy/communications-relay network, local service choices and two recoverable
+materials for optional practical research. The accumulated candidate implements all
+eight operations, ordinary continuation/replay, physical local work and material-cost
+research. Source-known Quietus-only production-physics journeys finish every core
+without finite tools or advanced fittings and both optional material returns; reward
+uses, choice-dependent finale topology, current saves and representative cover/inner
+input are checked. These establish technical viability, not balance or enjoyment.
+Either recovered12/13 outcome leads onward without replacing its committed history.
+Independent accumulated review and mandatory exact-head CI remain integration gates;
+after landing, continue substantial playable campaign content toward the release scope.

@@ -12,6 +12,10 @@ static func operations(main)->void:
   main._button(main.panel_box,"%s · %s"%[mission.title,status],func():main._briefing(id),"expedition%d"%id)
 static func briefing(main,index:int)->bool:
  if index<6:return false
+ if index>=14:
+  main._menu_text("GLASS REACH / Local craft → REACH WORK opens machinery, material and transfer controls. Status gives exact local distance/depth/readiness. The southern mouth also permits explicit incomplete withdrawal. First recovered anchorage choice shapes Last Carrier; failed dives and replays do not replace it.",17)
+  main._menu_text(preload("res://src/campaign/glass_research.gd").detail(main.expedition),17)
+  return true
  if index==10:main._menu_text("PLANT ORDERS\nCONNECT a settled craft at WEST for quiet shore power, or START BACKUP once with a 900m / 6s audible start. Quietus or a fitted sampler selects the output at EAST. OPEN SERVICE opens the physical crosslink; NORTH MAST leaves its opening unchanged. Then use SEND WARNING separately. Service requires a local receipt; mast telemetry proves transmission with external reception unknown. Recover Quietus by either mouth after commissioning.",17)
  elif index==8:main._menu_text("SHELTER ORDERS\nTap a measured gallery or the charted communal resonator for its local warning action and exact readiness. Watch the occupied windows, then hear the returning shelter call. No camera hold is required.",17)
  else:main._menu_text("OBSERVATION ORDERS\nArrival arcs show where a carrier reached that receiver; sound may bend around basalt. They are not exact target bearings. Close clear passive reception or local RECON earns a precise source mark. Pause gives planning time, never new passive samples. Named recovery corridors show which interpretations you have confirmed.",17)
@@ -20,7 +24,7 @@ static func briefing(main,index:int)->bool:
  return true
 static func debrief(main)->bool:
  var mission=main.sim.mission
- if mission.id<6 or mission.id>13:return false
+ if mission.id not in preload("res://src/campaign/operation_catalog.gd").campaign_ids():return false
  main._retain_evidence()
  var previous=main.expedition.duplicate(true)
  main.expedition=Campaign.recover(main.expedition,mission)
@@ -59,5 +63,6 @@ static func debrief(main)->bool:
  if not main.recovered_evidence.is_empty():main._button(main.panel_box,"REVIEW FIELD RECORDS",func():main._evidence_gallery(0),"evidence")
  main._button(main.panel_box,"RETRY EXPEDITION",func():main._briefing(mission.id),"retry")
  main._button(main.panel_box,"OPERATIONS ARCHIVE",main._show_campaign,"back")
+ if mission.id>=14:main._menu_text(preload("res://src/campaign/glass_research.gd").detail(main.expedition),17)
  main._save_archive();main.call_deferred("_layout")
  return true

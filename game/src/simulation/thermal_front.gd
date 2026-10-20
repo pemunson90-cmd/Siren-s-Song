@@ -5,7 +5,7 @@ static func foundry() -> Array:
  return [{"area":Rect2(1000,780,320,120),"transmission":0.55,"close_range":120.0}]
 static func valid_mission(mission:Dictionary)->bool:
  if not mission.has("thermal_revision") and not mission.has("thermal_fronts"):return true
- if mission.get("id",-1) not in [3,8] or mission.get("acoustic_revision",0)!=1 or not mission.get("thermal_revision") is int or mission.thermal_revision!=1:return false
+ if (mission.get("id",-1) not in [3,8] and not preload("res://src/campaign/operation_catalog.gd").supports(mission.get("id",-1),"thermal")) or mission.get("acoustic_revision",0)!=1 or not mission.get("thermal_revision") is int or mission.thermal_revision!=1:return false
  var fronts=mission.get("thermal_fronts")
  if not fronts is Array or fronts.size()!=1:return false
  for front in fronts:

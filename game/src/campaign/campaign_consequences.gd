@@ -36,13 +36,14 @@ static func recovered(previous:Dictionary,mission:Dictionary)->Dictionary:
  if Catalog.supports(mission.id,"recipient") and not p.history.any(func(h):return h.mission==mission.id):
   var arrival=preload("res://src/simulation/warning_recipient.gd").recovered_facts(mission)
   for key in arrival:p.facts[key]=arrival[key]
+ p=preload("res://src/campaign/glass_research.gd").recovered(p,mission)
  if Catalog.supports(mission.id,"history"):p=commit(p,mission.id,mission.get("launch_equipment",EMPTY_FIT))
  var resolution=preload("res://src/campaign/resolution_missions.gd").resolution(mission)
  if not resolution.is_empty():p.facts["resolution"]=resolution
  if mission.id==11 and not p.facts.has("confluence_route") and mission.get("chosen_route","") in ["concealed","overt"]:p.facts["confluence_route"]=mission.chosen_route
  return p
 static func context(p:Dictionary)->Dictionary:
- return {"thread":p.get("selected_thread",""),"completed":p.get("completed",[]).duplicate(),"facts":p.get("facts",{}).duplicate(true),"references":p.get("references",{}).duplicate(true)}
+ return {"research":p.get("research",{}).duplicate(true),"thread":p.get("selected_thread",""),"completed":p.get("completed",[]).duplicate(),"facts":p.get("facts",{}).duplicate(true),"references":p.get("references",{}).duplicate(true)}
 static func commit(previous:Dictionary,id:int,fitted:Dictionary)->Dictionary:
  var p=upgrade(previous)
  if p.is_empty() or not Catalog.supports(id,"history"):return p
@@ -58,6 +59,7 @@ static func cadence_valid(value)->bool:
   if not (interval is int or interval is float) or not is_finite(interval) or interval<=0 or interval>10:return false
  return true
 static func valid(p:Dictionary)->bool:
+ if not preload("res://src/campaign/glass_research.gd").valid(p):return false
  if not p.has_all(["notes","entitlements","references","history","selected_thread"]) or not p.notes is Dictionary or p.notes.size()>Catalog.fact_keys().size() or not p.entitlements is Array or p.entitlements.size()>Equipment.ITEMS.size() or not p.references is Dictionary or not p.history is Array or p.history.size()>Catalog.ids_with("history").size() or p.selected_thread not in ["","deep","shelf"]:return false
  for key in p.notes:
   if key not in Catalog.fact_keys() or not p.notes[key] is String:return false

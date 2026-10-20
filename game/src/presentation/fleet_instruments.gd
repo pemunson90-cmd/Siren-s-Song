@@ -142,7 +142,9 @@ func refresh(blocked:Array):
   if progress.unit<0:progress=sim.capture_feedback(id)
   var cues=[]
   if WarningChain.connected(sim,id):cues.append("PWR")
-  if not Recovery.cargo(sim,id).is_empty():cues.append("KIT")
+  if not sim.module_recovery_status().cargo[id].is_empty():cues.append("KIT")
+  var material=sim.Glass.artifact(sim)
+  if not material.is_empty() and material.state=="cargo" and material.carrier==id:cues.append("MATERIAL")
   if not Delivery.cargo(sim,id).is_empty():cues.append("DATA")
   if Witness.carries(sim,id):cues.append("WITNESS")
   if sim.scout_context(id).state=="stopped":cues.append("SCOUT BRAKE" if u.vel.length()>2 else "SCOUT HOLD")
