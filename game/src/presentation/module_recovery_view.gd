@@ -1,6 +1,7 @@
 extends RefCounted
 const Catalog=preload("res://src/equipment/equipment_catalog.gd")
 const Delivery=preload("res://src/presentation/blackwater_delivery_view.gd")
+const Witness=preload("res://src/presentation/witness_evacuation_view.gd")
 # Own-module projection only. Recovery and inventory mutation belong to commands
 # and FleetInventory; a carried fitting is never an operational installation.
 static func status(sim)->Dictionary:
@@ -27,6 +28,7 @@ static func active(sim,unit:int)->bool:
 static func short_name(item:String)->String:
  return {"drone_sampler":"FIELD SAMPLER","drone_survey_array":"SURVEY ARRAY","drone_deep_cells":"DEEP CELLS"}.get(item,name(item))
 static func site_lines(sim,site:Dictionary)->Array:
+ if site.get("witness",false):return Witness.site_lines(sim,site)
  var packets=site.get("packets",[])
  if packets.is_empty():return ["MODULE SALVAGE",short_name(site.item)]
  var lines=["WRECK RECOVERY"]
@@ -82,6 +84,7 @@ static func draw(ocean,sim)->void:
   for row in marker.lines.size():
    ocean.draw_string(font,box.position+Vector2(10,size+8+row*(size+6)),marker.lines[row],HORIZONTAL_ALIGNMENT_LEFT,box.size.x-20,size,Color("8eb1b3") if row==0 else color)
 static func detail(sim,item:String)->String:
+ if Witness.site_for_item(sim,item):return Witness.salvage_detail(sim,item)
  var context=sim.salvage_context(item)
  for site in sim.salvage_sites():
   if site.item==item and not site.get("packets",[]).is_empty():

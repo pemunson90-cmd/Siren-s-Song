@@ -6,6 +6,7 @@ const Recovery=preload("res://src/presentation/module_recovery_view.gd")
 const Rendezvous=preload("res://src/presentation/rendezvous_view.gd")
 const WarningChain=preload("res://src/presentation/warning_chain_view.gd")
 const Delivery=preload("res://src/presentation/blackwater_delivery_view.gd")
+const Witness=preload("res://src/presentation/witness_evacuation_view.gd")
 # A tap opens an object-owned projection. A separate tap chooses an action.
 var host
 var blocker:Control
@@ -57,6 +58,7 @@ func setup(owner):
  for entry in [["tools_menu","TOOLS"],["route_menu","ROUTE"],["guard_menu","GUARD"],["inspect","STATUS"],["route_here","ROUTE HERE"],["arrivals","ARRIVALS"],["view_menu","VIEW"],["salvage","RECOVER\n4s AUDIBLE"],["rendezvous_release","RELEASE BERTH\n950m / 6s"]]:
   var key=entry[0];extra[key]=host._button(self,entry[1],func():_extra(key),key)
  instrument_button=extra.inspect
+ extra.witness_land=host._button(self,"LAND\nWITNESS",func():host._order("witness_land"),"witness_land")
  for entry in [["blackwater_handoff","TRANSFER\nTO Q"],["blackwater_data","DATA\nTRANSFER"],["blackwater_a","TRANSFER A\nTO QUIETUS"],["blackwater_b","TRANSFER B\nTO QUIETUS"]]:
   var key=entry[0];extra[key]=host._button(self,entry[1],func():_extra(key),key)
  for entry in [["connect","CONNECT\nSHORE"],["disconnect","DISCONNECT"],["backup","START BACKUP\n900m / 6s"],["service","OPEN SERVICE"],["mast","NORTH MAST"],["send","SEND WARNING"]]:
@@ -148,6 +150,13 @@ func recovery_button_at(point:Vector2) -> Button:
  for button in recovery_buttons:
   if button.is_visible_in_tree() and button.get_global_rect().has_point(point):return button
  return null
+func witness_button_at(point:Vector2) -> Button:
+ # These physical custody actions have one tap owner, including the mouse
+ # events Android emulates after a canceled touch or short drag.
+ for button in [extra.witness_land,extra.salvage]:
+  if button==extra.salvage and not Witness.site_for_item(host.sim,subject.get("item","")):continue
+  if button.is_visible_in_tree() and button.get_global_rect().has_point(point):return button
+ return null
 func label_at(point:Vector2) -> bool:
  return action_controls().values().any(func(b):return b.get_global_rect().has_point(point))
 func popup_input(event) -> bool:
@@ -166,7 +175,8 @@ func popup_input(event) -> bool:
  elif event is InputEventMouseMotion and popup_gesture.active():
   point=event.position;action=popup_gesture.feed("move",-1,point)
  if pressed:
-  sector_press=recovery_button_at(point) if page=="recovery" else plant_button_at(point) if page=="plant" else null if label_at(point) else sector_at(point)
+  sector_press=witness_button_at(point)
+  if sector_press==null:sector_press=recovery_button_at(point) if page=="recovery" else plant_button_at(point) if page=="plant" else null if label_at(point) else sector_at(point)
   if sheet.visible and sheet.get_global_rect().has_point(point) and not label_at(point):sheet_pointers[pointer]=true
  if sheet_pointers.has(pointer):
   if event is InputEventScreenTouch and not event.pressed:sheet_pointers.erase(pointer)
@@ -175,7 +185,9 @@ func popup_input(event) -> bool:
  if action.has("pan") or action.has("zoom"):dismiss();return true
  if action.has("tap") and sector_press!=null:
   var chosen=sector_press;sector_press=null
-  if chosen==(recovery_button_at(point) if page=="recovery" else plant_button_at(point) if page=="plant" else sector_at(point)) and not chosen.disabled:chosen.pressed.emit()
+  var released=witness_button_at(point)
+  if released==null:released=recovery_button_at(point) if page=="recovery" else plant_button_at(point) if page=="plant" else sector_at(point)
+  if chosen==released and not chosen.disabled:chosen.pressed.emit()
   return true
  return false
 func _outside(event):
@@ -191,12 +203,13 @@ func command_controls() -> Array:
   "guard":return [host.order_buttons.contact_hold,host.order_buttons.wait_drone,host.order_buttons.hold]
   "view":return [focus_button,host.zoom_buttons[2],host.zoom_buttons[1],host.zoom_buttons[0]]
   "fleet":return host.unit_buttons+([extra.arrivals] if Expedition.active(host.sim) else [])+[extra.view_menu,host.order_buttons.menu]
-  "object":return [extra.rendezvous_release,extra.route_here,extra.inspect] if subject.get("subkind","")=="berth_control" else ([] if subject.get("subkind","")=="transmission" else [extra.route_here])+([] if subject.get("subkind","") in ["corridor","withdrawal"] else [host.order_buttons.camera])+[extra.inspect,host.order_buttons.program,host.order_buttons.queue]
+  "object":return ([extra.witness_land] if Witness.harbour_subject(host.sim,subject) else [])+([extra.rendezvous_release,extra.route_here,extra.inspect] if subject.get("subkind","")=="berth_control" else ([] if subject.get("subkind","")=="transmission" else [extra.route_here])+([] if subject.get("subkind","") in ["corridor","withdrawal"] else [host.order_buttons.camera])+[extra.inspect,host.order_buttons.program,host.order_buttons.queue])
   "plant":return ([extra.chain_connect,extra.chain_disconnect,extra.chain_backup] if subject.get("station","")=="inlet" else [extra.chain_service,extra.chain_mast,extra.chain_send])+[extra.route_here,extra.inspect]
   "salvage":return [extra.salvage,extra.route_here,extra.inspect]
   "delivery":return [extra.blackwater_a,extra.blackwater_b,extra.inspect]
   "inspect","signals","recovery":return []
  var controls=[host.order_buttons.camera,host.order_buttons.ping,host.order_buttons.silent,host.order_buttons.program,extra.route_menu,extra.tools_menu,extra.guard_menu,extra.inspect]
+ if Witness.carries(host.sim,host.sim.selected):controls[0]=extra.witness_land
  if not Delivery.status(host.sim).is_empty():
   if host.sim.selected==0:controls.append(extra.blackwater_data)
   elif not host.sim.blackwater_handoff_context(host.sim.selected).packets.is_empty():controls.append(extra.blackwater_handoff)
@@ -206,6 +219,7 @@ func layout(bounds:Vector2,h:float):
  var font=maxi(14,roundi(h*.26))
  for b in host.order_buttons.values()+host.unit_buttons+extra.values()+[close_button,focus_button,host.pause_button,host.advanced_button]+host.zoom_buttons:
   b.mouse_filter=Control.MOUSE_FILTER_IGNORE if page=="plant" and b in command_controls() else Control.MOUSE_FILTER_STOP
+  if b==extra.witness_land or (b==extra.salvage and Witness.site_for_item(host.sim,subject.get("item",""))):b.mouse_filter=Control.MOUSE_FILTER_IGNORE
   b.hide();b.custom_minimum_size=Vector2(h*1.55,h);b.size=Vector2(h*1.55,h);b.add_theme_font_size_override("font_size",font)
   b.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
   var normal=StyleBoxFlat.new();normal.bg_color=Color(0,0,0,0);normal.set_content_margin_all(2)
@@ -317,6 +331,15 @@ func refresh():
   for pair in [[1,extra.blackwater_a],[2,extra.blackwater_b]]:
    var context=sim.blackwater_handoff_context(pair[0]);pair[1].disabled=not context.ready
    pair[1].text="TRANSFER %s\nTO Q"%["A" if pair[0]==1 else "B"]
+ var witness=Witness.status(sim)
+ if not witness.is_empty():
+  extra.witness_land.disabled=not sim.witness_context().land.ready
+  extra.witness_land.tooltip_text=sim.witness_context().land.reason
+  if Witness.site_for_item(sim,subject.get("item","")):
+   var winch=sim.salvage_context(subject.item)
+   extra.salvage.text="WINCH\nWITNESS" if not winch.active else "WINCH\n%d%%"%floori(winch.elapsed/winch.duration*100)
+  if page=="inspect" or Witness.harbour_subject(sim,subject):instrument_info.text=Witness.detail(sim)+"\n\n"+instrument_info.text
+  if not Witness.site(sim).is_empty() and subject.get("kind","")=="craft":host.order_buttons.camera.text="WITNESS\nWINCH"
  if (host.knock_armed or host.decoy_armed) and not host.targeting_feedback.is_empty():
   intent.text=sim.units[sim.selected].name+" · "+host.targeting_feedback
  var fitted=Equipment.status(sim)

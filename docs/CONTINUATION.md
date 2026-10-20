@@ -1,5 +1,5 @@
 # Continuation
-Current production base: `e3a541fb24c2a3f136121150b7a0d2960546fda7`.
+Current production base: `aaaa3756516ab65073df956a13a244e8bdc5306f`.
 Read docs/USER_DIRECTIVES.md first; the latest order correction governs.
 
 ## Next — whole-game evaluation and physical campaign consequences
@@ -10,7 +10,7 @@ Earned courses retain intent, repair certified detours and stop at unresolved ha
 Recovery orders preserve drive/profile and offer explicit named mouths for route choices.
 Genuine journeys reached Hidden Harbour, Surface Reckoning and Silent Exodus on
 older frozen sources; the drone finale includes an unobserved interval.
-The remaining genuine journey continues on current source after its earned tutorial.
+Two genuine journeys continue from unchanged saves on their recorded frozen source.
 Focused staged-access operations retain separate provenance from genuine journeys.
 Physical module recovery makes local salvage and extraction affect later kit availability.
 Bare craft and Quietus preserve finishability; returning players recovered and refitted gear.
@@ -25,7 +25,7 @@ Source-known physical journeys establish finishability; first-exposure touch pla
 The route planner retains existing charted terrain, targets, recovery and shutter state.
 Craft-anchored rings replace detached cards; deliberate STATUS retains exact fleet detail.
 Critical reserves, work/cargo/power and full touch targets remain; chart gestures pass through.
-Next continue the genuine campaign and develop a lived evacuation from whole-game evidence.
+Next evaluate Concealed Record's physical pod rescue, local landing and Q recovery; continue genuine campaigns.
 The user chooses when to playtest; development never waits for it.
 
 ## Preserve and integrate
