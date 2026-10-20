@@ -7,7 +7,11 @@ static func drag(t,index: int,p: Vector2,delta: Vector2) -> void:
 	t.root.push_input(event,true); await t.process_frame
 static func press(t,button:Button)->void:
 	var point=button.get_global_rect().get_center()
-	await touch(t,0,point,true);await touch(t,0,point,false);await t.process_frame
+	for down in [true,false]:
+		var touch_event=InputEventScreenTouch.new();touch_event.index=0;touch_event.position=point;touch_event.pressed=down;t.root.push_input(touch_event,true)
+		var mouse=InputEventMouseButton.new();mouse.device=InputEvent.DEVICE_ID_EMULATION;mouse.position=point;mouse.button_index=MOUSE_BUTTON_LEFT;mouse.pressed=down;t.root.push_input(mouse,true)
+		await t.process_frame
+	for frame in 3:await t.process_frame
 static func open_view(t,game)->void:
 	await press(t,game.advanced_button)
 	await press(t,game.mission_hud.extra.view_menu)

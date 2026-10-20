@@ -77,6 +77,12 @@ while IFS='|' read -r scenario summary; do
 done <<'TACTICAL_SCENARIOS'
 recon_consequences_tests|RECON CONSEQUENCES
 recon_grade_main_tests|RECON GRADE MAIN
+current_propulsion_tests|CURRENT PROPULSION
+current_motion_tests|CURRENT MOTION
+current_chart_seam_tests|CURRENT CHART SEAM
+v7_earned_region_tests|V7 EARNED REGION
+v7_terrain_chart_tests|V7 TERRAIN CHART
+v7_earned_view_tests|V7 EARNED VIEW
 craft_upgrades_tests|CRAFT UPGRADES
 craft_upgrade_sim_tests|CRAFT UPGRADE SIM
 campaign_endings_tests|CAMPAIGN ENDINGS
