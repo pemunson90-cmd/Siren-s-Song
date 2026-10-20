@@ -1,16 +1,14 @@
 # Continuation
-Current production base: `ad0789b677960bfd12016ee438e9e4fb19c6c9d9`.
+Current production base: `9400d8aae8b488ce989c660d2af11cc069056cac`.
 Read docs/USER_DIRECTIVES.md first; the latest order correction governs.
 
-## Next — route-first fleet interaction and distinct operation jobs
+## Next — Blackwater packet delivery and whole-game evaluation
 The rough campaign, four endings, craft upgrades and functional V7 rows are built.
 Stakes integrates operation endurance, independent acquisitions and targeting feedback.
 The authored Confluence operation is integrated after review and its PR game-smoke gate.
 The optional noisy service sluice changes collision, sight, sound and withdrawal distance.
-Ordinary operation pacing and endurance pressure still need player evaluation.
 Fresh critics continue genuine full-game touch journeys on their recorded frozen sources.
 Focused staged-access sessions retain separate provenance from genuine journeys.
-Continue every branch and ending without resetting genuine journeys.
 Practical fleet instruments are integrated: separated craft, acquisition progress,
 offscreen focus, contextual verbs and targeting range feedback.
 Earned courses now advance through certified water and repair wholly surveyed detours;
@@ -20,12 +18,14 @@ Reckoning on older frozen sources; the drone finale includes an unobserved inter
 Other genuine journeys continue. Preserve checkpoints and distinguish execution gaps.
 Physical module recovery is integrated: noisy local salvage, inactive carried cargo,
 explicit departure choices and lasting optional-kit loss; bare frames remain available.
-A returning player is testing first exposure through explicitly staged access.
+Returning-player recovery reached a next-launch fit; continuation retains staged provenance.
 Deep Rendezvous now has local berth release, sensed tender transit and permanent
 refuge decoding; quiet berth and Quietus-only completion remain available.
-Separate full-size fleet selection handles from read-only telemetry so chart input
-can pass through reserve/task text. Preserve craft radial commands and pan/pinch.
-Investigate a distinct Warning Chain job beyond two similar required collections.
+Fleet selection now uses bounded Q/A/B handles; read-only telemetry allows chart
+input through while preserving radial commands, visual placement and pan/pinch.
+Two genuine drone-led Blackwater runs ended before their intended return leg.
+Build local delivery of sampled raw packets to Quietus, with carrier return,
+Quietus rendezvous, known-wreck recovery or fixed-relay resampling. Keep the glider.
 The user chooses when to playtest; development never waits for it.
 
 ## Preserve and integrate
