@@ -1,0 +1,19 @@
+Bounded redundant-artifact cleanup completed20October2026
+
+Maintenance branch:gauntlet/maintenance/redundant-assets-2026-10-20
+Commit:02d6cd4f0509231b58b52d9b9d567b05d0b066d2
+Base:aaaa3756516ab65073df956a13a244e8bdc5306f
+Worktree:/workspace/Siren-s-Song-connected-campaign-review (clean)
+No PR/merge/push performed. Root owns designated review and integration.
+
+PDF consolidation: removed only references/visual/SIRENS_SONG_CONCEPT_ART_IMAGE_REVIEW_HANDOFF.pdf and added141-byte README linking canonical sources copy. Both PDFs independently verified SHA2564d39691d89d36f77224dc0fae9b1c2ecf36ca9e08868fb9dfb532046f86b1bc5/blob7ca516e204576e8376cc34c599cc5cd6318bf8f9,37833406bytes. No inbound references to removed path; manifest already points canonical. Canonical PDF, manifest, historical prose, game and scripts unchanged. Relative README target exists; git diff--check passes. Production game tree393e8f4bb77f7a5e7ba7052618ef316e1a14db65 unchanged. Task boundary complete structurally passed; governance revision unchanged.
+
+Local checkout saving:37833265net logical bytes (37833406removed,141added), approximately36.1MiB. Per-file allocated block reduction37830656bytes. Git-history reclamation:0; PDF remains canonically stored and historical refs retained. No original local APK/cache deletion. Approximately1.308GB of newly-created temporary verification APK/ZIP downloads were removed after hashes/manifests/signatures were recorded; this reverses audit overhead, not additional preexisting-space reclamation. External receipts consume a small amount of local storage and shared disk changed concurrently.
+
+Remote artifact cleanup: deleted12172267647,12164513915,12164107347,12163537137, reclaiming265497442GitHub-reported artifact bytes (253.2MiB). HTTP204 then GET404 verified; artifact count105→101, APK count23→19. All non-APK artifact IDs and all other APK IDs unchanged. Latest12210501978 and canonical signer fallback12165339461 retained. Retained newer equivalents12172489600,12165339461,12164418637,12163548770 respectively.
+
+Deletion basis: exact source game/export presets/installer/configure/build/common inputs agree within each pair; source compare changes only historical notes and post-build native-test/evidence tooling. Actual archived ZIP digest verified against metadata; actual APK signatures verified. Four pairs use same canonical certificate32bcb2287acd01c1f58c26997c7639f3072c74c6b03ab2a24656dc7cd1c7dc3c. All payload entries match except four bytes in generated main.scn and sparsePCK index; exact APK/archive bytes differ, so these are superseded same-input exports, not bit-identical binaries. Full source comparisons/package hash manifests/signature output retained here. No rebuilds.
+
+Additional pair12161098244→12161727935 has DIFFERENT certificates(e4403bbb... vs5aecb5d1...), so both retained. All13 singleton/distinct-game APKs retained; no attempt to remove any separate baseline. Native evidence, screenshots, summaries, signing artifact, refs, saves, local logs and canonical signer preserved.
+
+Raw gh artifact redirect downloads were denied; supported GitHub connector downloads succeeded without changing network policy. No temporary signed URLs retained in these receipts.

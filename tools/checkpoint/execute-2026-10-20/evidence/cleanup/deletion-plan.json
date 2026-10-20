@@ -1,0 +1,197 @@
+{
+  "created_utc": "2026-10-20T11:21:39.818683+00:00",
+  "artifacts": [
+    {
+      "delete": {
+        "id": 12172267647,
+        "node_id": "MDg6QXJ0aWZhY3QxMjE3MjI2NzY0Nw==",
+        "name": "sirens-song-debug-apk",
+        "size_in_bytes": 68969696,
+        "url": "https://api.github.com/repos/pemunson90-cmd/Siren-s-Song/actions/artifacts/12172267647",
+        "archive_download_url": "https://api.github.com/repos/pemunson90-cmd/Siren-s-Song/actions/artifacts/12172267647/zip",
+        "expired": false,
+        "digest": "sha256:86dba91bd75901b7153dcf68005e5caa651a7453a12c29ec0eb37fcd18f7c640",
+        "created_at": "2026-10-19T08:28:40Z",
+        "updated_at": "2026-10-19T08:28:40Z",
+        "expires_at": "2026-11-02T08:28:37Z",
+        "workflow_run": {
+          "id": 39222413584,
+          "repository_id": 1424172504,
+          "head_repository_id": 1424172504,
+          "head_branch": "gauntlet/production",
+          "head_sha": "bc95b4de13b3140bcde07e35a30c82a81887b82c"
+        }
+      },
+      "retained_equivalent": {
+        "id": 12172489600,
+        "node_id": "MDg6QXJ0aWZhY3QxMjE3MjQ4OTYwMA==",
+        "name": "sirens-song-debug-apk",
+        "size_in_bytes": 68969718,
+        "url": "https://api.github.com/repos/pemunson90-cmd/Siren-s-Song/actions/artifacts/12172489600",
+        "archive_download_url": "https://api.github.com/repos/pemunson90-cmd/Siren-s-Song/actions/artifacts/12172489600/zip",
+        "expired": false,
+        "digest": "sha256:7de64f07b6d27447d3c523c1c1703eb6c3d46631d28ea539111180483d07d872",
+        "created_at": "2026-10-19T08:39:27Z",
+        "updated_at": "2026-10-19T08:39:27Z",
+        "expires_at": "2026-11-02T08:39:24Z",
+        "workflow_run": {
+          "id": 39223713376,
+          "repository_id": 1424172504,
+          "head_repository_id": 1424172504,
+          "head_branch": "gauntlet/production",
+          "head_sha": "a7aa65c94610ffdea127533399f9dbf163b2a92e"
+        }
+      },
+      "same_game_tree": "92a2d62b0f77b12fac5b0a12bebdf04c6f3f11b9",
+      "native_build_inputs": "Same game/export presets/installer/configure/build/common/signing inputs; only docs and post-build native-test/evidence-collection changes in compare. Same Godot4.6.3, workflow APK build step unchanged.",
+      "package_verification": "All packaged entries match except four bytes at offset692\u2013695 of generated main.scn and its sparsePCK index entry. Exact signed APK/archive hashes differ: these are same-input canonical-signer reruns, not byte-identical binaries.",
+      "signer_sha256": "32bcb2287acd01c1f58c26997c7639f3072c74c6b03ab2a24656dc7cd1c7dc3c",
+      "rationale": "Superseded same-input debug export; newer canonical-signer equivalent retained. Preserve all native evidence/screenshots and13 distinct-game APKs; preserve latest12210501978 and fallback12165339461. No historical native failure evidence deleted."
+    },
+    {
+      "delete": {
+        "id": 12164513915,
+        "node_id": "MDg6QXJ0aWZhY3QxMjE2NDUxMzkxNQ==",
+        "name": "sirens-song-debug-apk",
+        "size_in_bytes": 65521690,
+        "url": "https://api.github.com/repos/pemunson90-cmd/Siren-s-Song/actions/artifacts/12164513915",
+        "archive_download_url": "https://api.github.com/repos/pemunson90-cmd/Siren-s-Song/actions/artifacts/12164513915/zip",
+        "expired": false,
+        "digest": "sha256:673d1ee27221d5bacf209a75c201fb345f3586d76d99816c3fa849aaa36b9ae6",
+        "created_at": "2026-10-19T05:30:19Z",
+        "updated_at": "2026-10-19T05:30:19Z",
+        "expires_at": "2026-11-02T05:30:17Z",
+        "workflow_run": {
+          "id": 39204224960,
+          "repository_id": 1424172504,
+          "head_repository_id": 1424172504,
+          "head_branch": "gauntlet/production",
+          "head_sha": "92625acdf55a6e45c55903a7943aef994ba334a7"
+        }
+      },
+      "retained_equivalent": {
+        "id": 12165339461,
+        "node_id": "MDg6QXJ0aWZhY3QxMjE2NTMzOTQ2MQ==",
+        "name": "sirens-song-debug-apk",
+        "size_in_bytes": 65521671,
+        "url": "https://api.github.com/repos/pemunson90-cmd/Siren-s-Song/actions/artifacts/12165339461",
+        "archive_download_url": "https://api.github.com/repos/pemunson90-cmd/Siren-s-Song/actions/artifacts/12165339461/zip",
+        "expired": false,
+        "digest": "sha256:693c876944d5cc72613a62f8ecf115270c19e03aca720dee6afbce6595a9ca4d",
+        "created_at": "2026-10-19T05:45:50Z",
+        "updated_at": "2026-10-19T05:45:50Z",
+        "expires_at": "2026-11-02T05:45:48Z",
+        "workflow_run": {
+          "id": 39205478335,
+          "repository_id": 1424172504,
+          "head_repository_id": 1424172504,
+          "head_branch": "gauntlet/production",
+          "head_sha": "f1ea536636293ca8b9a2744eea865b6bdfe88e2d"
+        }
+      },
+      "same_game_tree": "943f5a2d399ea6d1864da440df88466fd7346a4b",
+      "native_build_inputs": "Same game/export presets/installer/configure/build/common/signing inputs; only docs and post-build native-test/evidence-collection changes in compare. Same Godot4.6.3, workflow APK build step unchanged.",
+      "package_verification": "All packaged entries match except four bytes at offset692\u2013695 of generated main.scn and its sparsePCK index entry. Exact signed APK/archive hashes differ: these are same-input canonical-signer reruns, not byte-identical binaries.",
+      "signer_sha256": "32bcb2287acd01c1f58c26997c7639f3072c74c6b03ab2a24656dc7cd1c7dc3c",
+      "rationale": "Superseded same-input debug export; newer canonical-signer equivalent retained. Preserve all native evidence/screenshots and13 distinct-game APKs; preserve latest12210501978 and fallback12165339461. No historical native failure evidence deleted."
+    },
+    {
+      "delete": {
+        "id": 12164107347,
+        "node_id": "MDg6QXJ0aWZhY3QxMjE2NDEwNzM0Nw==",
+        "name": "sirens-song-debug-apk",
+        "size_in_bytes": 65504011,
+        "url": "https://api.github.com/repos/pemunson90-cmd/Siren-s-Song/actions/artifacts/12164107347",
+        "archive_download_url": "https://api.github.com/repos/pemunson90-cmd/Siren-s-Song/actions/artifacts/12164107347/zip",
+        "expired": false,
+        "digest": "sha256:52c39e87c94175345b9057d96c1051fbc8e054e0cdff8e58c032fbe10885943b",
+        "created_at": "2026-10-19T04:54:29Z",
+        "updated_at": "2026-10-19T04:54:29Z",
+        "expires_at": "2026-11-02T04:54:27Z",
+        "workflow_run": {
+          "id": 39201435045,
+          "repository_id": 1424172504,
+          "head_repository_id": 1424172504,
+          "head_branch": "gauntlet/production",
+          "head_sha": "f19bbcd9cc6519e58cdadbacc1991aaaa92f1fdf"
+        }
+      },
+      "retained_equivalent": {
+        "id": 12164418637,
+        "node_id": "MDg6QXJ0aWZhY3QxMjE2NDQxODYzNw==",
+        "name": "sirens-song-debug-apk",
+        "size_in_bytes": 65504001,
+        "url": "https://api.github.com/repos/pemunson90-cmd/Siren-s-Song/actions/artifacts/12164418637",
+        "archive_download_url": "https://api.github.com/repos/pemunson90-cmd/Siren-s-Song/actions/artifacts/12164418637/zip",
+        "expired": false,
+        "digest": "sha256:c731ee79b1e0547bc3d29b5d674b61df7d73aba711f49c75cd14fe2c0195c2e4",
+        "created_at": "2026-10-19T05:04:55Z",
+        "updated_at": "2026-10-19T05:04:55Z",
+        "expires_at": "2026-11-02T05:04:52Z",
+        "workflow_run": {
+          "id": 39202066103,
+          "repository_id": 1424172504,
+          "head_repository_id": 1424172504,
+          "head_branch": "gauntlet/production",
+          "head_sha": "93b86310d91054feaef437ce659135aaab970b88"
+        }
+      },
+      "same_game_tree": "fb666b123fceca710e4b3a3b296b50349c70dc28",
+      "native_build_inputs": "Same game/export presets/installer/configure/build/common/signing inputs; only docs and post-build native-test/evidence-collection changes in compare. Same Godot4.6.3, workflow APK build step unchanged.",
+      "package_verification": "All packaged entries match except four bytes at offset692\u2013695 of generated main.scn and its sparsePCK index entry. Exact signed APK/archive hashes differ: these are same-input canonical-signer reruns, not byte-identical binaries.",
+      "signer_sha256": "32bcb2287acd01c1f58c26997c7639f3072c74c6b03ab2a24656dc7cd1c7dc3c",
+      "rationale": "Superseded same-input debug export; newer canonical-signer equivalent retained. Preserve all native evidence/screenshots and13 distinct-game APKs; preserve latest12210501978 and fallback12165339461. No historical native failure evidence deleted."
+    },
+    {
+      "delete": {
+        "id": 12163537137,
+        "node_id": "MDg6QXJ0aWZhY3QxMjE2MzUzNzEzNw==",
+        "name": "sirens-song-debug-apk",
+        "size_in_bytes": 65502045,
+        "url": "https://api.github.com/repos/pemunson90-cmd/Siren-s-Song/actions/artifacts/12163537137",
+        "archive_download_url": "https://api.github.com/repos/pemunson90-cmd/Siren-s-Song/actions/artifacts/12163537137/zip",
+        "expired": false,
+        "digest": "sha256:15deda68cc263929904884d017cb884e7df1988caaedabe65113cd3ff3499a80",
+        "created_at": "2026-10-19T04:33:08Z",
+        "updated_at": "2026-10-19T04:33:08Z",
+        "expires_at": "2026-11-02T04:33:05Z",
+        "workflow_run": {
+          "id": 39199537776,
+          "repository_id": 1424172504,
+          "head_repository_id": 1424172504,
+          "head_branch": "gauntlet/production",
+          "head_sha": "322d23c2201300eee80f80ef4d719cb516781c41"
+        }
+      },
+      "retained_equivalent": {
+        "id": 12163548770,
+        "node_id": "MDg6QXJ0aWZhY3QxMjE2MzU0ODc3MA==",
+        "name": "sirens-song-debug-apk",
+        "size_in_bytes": 65502019,
+        "url": "https://api.github.com/repos/pemunson90-cmd/Siren-s-Song/actions/artifacts/12163548770",
+        "archive_download_url": "https://api.github.com/repos/pemunson90-cmd/Siren-s-Song/actions/artifacts/12163548770/zip",
+        "expired": false,
+        "digest": "sha256:d596412c6206af48343f52cfb2bd016b581f5f03c6af88dec4276de237cb9d51",
+        "created_at": "2026-10-19T04:44:22Z",
+        "updated_at": "2026-10-19T04:44:22Z",
+        "expires_at": "2026-11-02T04:44:19Z",
+        "workflow_run": {
+          "id": 39200256192,
+          "repository_id": 1424172504,
+          "head_repository_id": 1424172504,
+          "head_branch": "gauntlet/production",
+          "head_sha": "3caa274d83d0c0a757965246412c61dedf459deb"
+        }
+      },
+      "same_game_tree": "c01ae7ac36370576e2e0efc0c32b32dc1bb16f80",
+      "native_build_inputs": "Same game/export presets/installer/configure/build/common/signing inputs; only docs and post-build native-test/evidence-collection changes in compare. Same Godot4.6.3, workflow APK build step unchanged.",
+      "package_verification": "All packaged entries match except four bytes at offset692\u2013695 of generated main.scn and its sparsePCK index entry. Exact signed APK/archive hashes differ: these are same-input canonical-signer reruns, not byte-identical binaries.",
+      "signer_sha256": "32bcb2287acd01c1f58c26997c7639f3072c74c6b03ab2a24656dc7cd1c7dc3c",
+      "rationale": "Superseded same-input debug export; newer canonical-signer equivalent retained. Preserve all native evidence/screenshots and13 distinct-game APKs; preserve latest12210501978 and fallback12165339461. No historical native failure evidence deleted."
+    }
+  ],
+  "retained_different_signers": [
+    12161098244,
+    12161727935
+  ]
+}

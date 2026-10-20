@@ -1,0 +1,19 @@
+Runtime and profile recovery, 20 October2026
+
+Recovered nine checkpoint files unchanged from20339513f25c00742a6258788f9e82849dae6d91. Every byte hash was recomputed after writing; originals and harness files are0444. Profile directories are0555. Hashes, remote blob identities, paths and sizes are in receipt.json. Current production directives were reread at e3a541fb24c2a3f136121150b7a0d2960546fda7.
+
+Godot4.6.3 official7d41c59c4 reused. Missing Xvfb was installed by extracting a3.2MB Debian package into this recovery directory because sudo is absent; no system/cache deletion or source changes. Existing libraries resolved. Display:527 is running at2520x1968,24-bit, TCP disabled. xdpyinfo and an isolated2184x1968 Godot Compatibility color/pixel render passed (exit0); logs and PNG retained. llvmpipe software rendering establishes usable graphical execution, not device performance. No game source, genuine profile or campaign was started; no gameplay advancement occurred.
+
+Stakes immutable profile SHA256:9dfb837d4250a6245b33f9d3593bbd1bcffa15cbd91c2ab19da63d7bfa70cab1
+Drone immutable profile SHA256:495037428f2d1a4d0d5a067f75249e9266dcca4de54a301685b9d757d871536f
+Demand harness at../live-input-harness-demand/. Use that directory explicitly: retained historical README examples name the older non-demand harness.
+
+Historical gap retained: these two sessions' original raw input/response logs, source.json, player notes, local handoffs and299+167 recorded frames were not recovered. Published saves, checkpoint metadata and global handoff survive; unrelated older logs cannot replace missing evidence. Do not claim fresh blindness or restored prior observations.
+
+COMMANDS.txt contains display restart and unexecuted unique-session continuation templates. Root owns frozen source restoration; independent players own actual continuation. Preserve source0eea954 and game tree10a100a; ordinary visible RESUME must confirm checkpoint state before movement. Root must check current actual source path before using templates.
+
+Independent player displays restored 2026-10-20T11:11:03.493425+00:00
+Main intentionally pauses/saves on window focus loss. Keep:527 for UI renders/tests. Stakes uses:528; drone uses:529; fresh critic uses:530. Each independent Xvfb has2520x1968x24 framebuffer, TCP disabled, same verified private binary; xdpyinfo succeeded for each. Player processes and inputs were untouched. Root/players own normal save/quit and migration of current working profile into new uniquely named sessions; do not reset campaigns.
+{"display": ":528", "owner": "stakes", "pid": 6845, "command": ["/workspace/Siren-s-Song-gauntlet-archives/recovery-20261020/runtime/root/usr/bin/Xvfb", ":528", "-screen", "0", "2520x1968x24", "-nolisten", "tcp", "-ac"], "framebuffer": "2520x1968x24", "tcp_listening": false, "xdpyinfo_exit_code": 0, "verified_utc": "2026-10-20T11:11:03.473074+00:00"}
+{"display": ":529", "owner": "drone", "pid": 6846, "command": ["/workspace/Siren-s-Song-gauntlet-archives/recovery-20261020/runtime/root/usr/bin/Xvfb", ":529", "-screen", "0", "2520x1968x24", "-nolisten", "tcp", "-ac"], "framebuffer": "2520x1968x24", "tcp_listening": false, "xdpyinfo_exit_code": 0, "verified_utc": "2026-10-20T11:11:03.482088+00:00"}
+{"display": ":530", "owner": "fresh-critic", "pid": 6847, "command": ["/workspace/Siren-s-Song-gauntlet-archives/recovery-20261020/runtime/root/usr/bin/Xvfb", ":530", "-screen", "0", "2520x1968x24", "-nolisten", "tcp", "-ac"], "framebuffer": "2520x1968x24", "tcp_listening": false, "xdpyinfo_exit_code": 0, "verified_utc": "2026-10-20T11:11:03.490390+00:00"}

@@ -1,0 +1,24 @@
+## Purpose
+Make the **existing** review/merge boundary source-bound and traceable without introducing a new CI gate or interrupting live feature branches.
+
+- Treat the SHA embedded in CONTINUATION as the **last reconciled source baseline**: the current production tip comes from Git itself. A commit cannot include its own final SHA in its committed document.
+- Require the existing designated reviewer’s verdict, reviewed head/base, blockers/disposition and CI link to be attributed on the PR; distinguish a relayed reviewer report from a submitted GitHub review.
+- During each normal merge, reconcile CONTINUATION and WORKBENCH where state/next work changes, or record that neither needs an update; fetch landed production and continue dispatching.
+
+## Safety / integration
+**Docs-only (AGENTS.md and docs/AGENT_BRIEF.md).** No gameplay, toolchain, CI workflow, signing, current production state, active worker branches or current open gameplay PR changed. Existing `guidance` and docs-only `game-smoke` checks remain the only gates. Deliberately left as a **draft PR** for review and integration at a normal boundary, without asking any active agent to stop. Root should check the latest user directive and production tip before accepting. No human playtest gate.
+
+Base at drafting: `92814c21132d3e9babb649172024ca67881b1df9`.
+
+## Relayed independent review — not a formal GitHub approval
+
+Reviewer: automated agent `/root/pr37_integration_review`, the designated sole integration reviewer (Sol6.1 requested). Root relays its source review here with original provenance.
+
+Reviewed head: `54c4a31c36271e3dc97d2f52cb327c1d47009781`. Reviewed production base: `92814c21132d3e9babb649172024ca67881b1df9`.
+
+Verdict: **APPROVED; no blockers**. The two-file documentation diff preserves one reviewer and the existing gates, clarifies drafting-baseline versus live-production SHA and truthful relayed-review attribution, and introduces no permission pause, worker reset or new framework. No corrective source change was needed. Original report: `/workspace/work/gauntlet-execution-20261020/pr40-final-review.txt`.
+
+Root validation: seven guidance-detector tests passed; structural guidance check passed; `git diff --check` passed. The game, toolchain and workflow diff is empty. [Exact-head CI39416063695](https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/39416063695) passed both guidance and the existing docs-only game-smoke path; no gameplay test rerun or APK build.
+
+Handoff reconciliation: CONTINUATION and WORKBENCH already describe the integrated witness rescue and ongoing genuine campaign evaluation. This policy clarification changes no game state, ownership or next action, so neither requires a source edit. Active play/worker branches are preserved. Root will fetch landed production and continue the authorized Gauntlet work after merge.
+

@@ -1,0 +1,21 @@
+Completed execution screenshot archive — 20 October 2026
+
+Branch: archive/gauntlet-cold-frames-execution-2026-10-20
+Final verified remote commit: 2b6fdd7a3cba90251a0ca4bcb091388b87f77db0
+Previous closed-only commit preserved: d83c45a07be1cacc97c2618d5e5e992b7dc3e556
+Receipt: REMOTE_RECEIPT.json
+Summary: FINAL_SUMMARY.json
+Exact restore instructions: publish/README.md
+Local thin publisher: /workspace/work/gauntlet-execution-20261020/media-archive/publish
+
+All six requested touch sessions closed normally and are included, together with 16 prior/final Witness UI PNGs. Total: 467 original PNGs, 961,180,637 bytes. Stored lossless media totals 125,013,158 bytes (87.0% reduction), in eight ordered parts no larger than 40 MiB. All original local PNGs remain intact.
+
+Exact reconstruction proof: 445 numeric PNGs passed the unchanged Godot 4.6.3 byte-hash verifier, with zero failures. All 22 named/initial/UI exceptions were extracted from lossless tar.gz and byte-compared with originals. The final critic contributes 237 PNGs (600,490,240 bytes) represented by 54,733,211 media bytes: 233 inner numeric frames, three cover numeric frames and one original named PNG. Its normal quit and final save hash 789ffa98e67bf45ff2b32206285f59e9d4a8617f385a1d26bdc60ed8c706b572 were independently verified. Root separately preserves profile/raw logs/critique text.
+
+All 22 final remote files are verified. Twelve new/changed blobs totaling 55,273,352 bytes were independently downloaded at the exact final commit and matched expected size/SHA256. Unchanged immutable media blobs retain their earlier independent remote-download receipts. All six reassembled archive hashes were checked. Publication was a normal fast-forward; earlier archive refs and production/source remain unchanged. The existing cold-frame negative fetch refspec excludes this media branch from routine source fetches.
+
+The README explicitly covers all six archive series: earlier inner/cover/named exceptions plus final-critic inner/cover/named exceptions. It includes ordered concatenation, SHA256 checks, ffmpeg decoding, matching JSON/Godot restoration commands and the final all-467 original PNG checksum check. The unchanged verifier refuses to replace changed originals. Source helper checkpoint/blob/hash provenance is preserved. The historical Python archiver is reference-only and must not be executed because it contains stale selection and eviction logic; current packaging never ran its deletion code.
+
+MKVs use lossless libx264rgb CRF 0, bgr24, veryfast, two threads. The synthetic 25 fps clock is ONLY an image storage index, not gameplay timing. Original filenames/session metadata and separately retained raw logs preserve timing provenance. Actual frozen sources remain explicit, including the final critic's e3a541f source; this is distinct from current production. Earlier UI captures retain explicit uncertainty about uncommitted source state; final UI captures bind to 49d4d35590fb67bd900aba14b7342b4179c600d7.
+
+Completion boundary passed at c2db5eb6764db14fcf7ea2185f6c8e4f04bb36dd. Current AGENTS, AGENT_BRIEF and directives were read. No source/handoff changes arose from archival work. No encoder, decoder, verifier or other archive background job remains. Persistent X display services are separate runtime infrastructure. This bounded task is COMPLETED; root owns the final text/profile checkpoint and further orchestration.

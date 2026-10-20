@@ -1,0 +1,21 @@
+# Graphical display, already running; restart only if no server owns :527.
+/workspace/Siren-s-Song-gauntlet-archives/recovery-20261020/runtime/root/usr/bin/Xvfb :527 -screen 0 2520x1968x24 -nolisten tcp -ac
+xdpyinfo -display :527
+
+# Future genuine sessions: for the designated independent player ONLY.
+# Not executed during recovery. Confirm frozen source HEAD and game tree first.
+# Supply fresh UNIQUE session names; harness copies immutable originals.
+python3 /workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/play.py --session stakes-recovered-UNIQUE start --shape inner --source /workspace/Siren-s-Song-play-frozen --profile /workspace/Siren-s-Song-gauntlet-archives/recovery-20261020/immutable-profiles/stakes-confluence-mid-genuine-0ee/quietus.save --display :528
+python3 /workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/play.py --session drone-recovered-UNIQUE start --shape inner --source /workspace/Siren-s-Song-play-frozen --profile /workspace/Siren-s-Song-gauntlet-archives/recovery-20261020/immutable-profiles/drone-split-mid-genuine-0ee/quietus.save --display :529
+
+# Both are saved after normal quit; use visible RESUME, inspect paused metrics.
+# No old pixel coordinates; preserve independent player context.
+# Source must be 0eea954dc94762b9a87565e40d3a9d98db2c8c44.
+# HEAD:game must be 10a100a73dc676c4267409fa11f2eec2f4fcb09d.
+
+# Runtime isolation: :527 UI/tests; :528 Stakes; :529 drone; :530 fresh critic.
+# The immutable-profile commands above describe INITIAL recovery only.
+# Continuing sessions must normally save/quit and copy their CURRENT working
+# profile into a new session on the assigned dedicated display; do not reset
+# progress by copying an older immutable checkpoint again.
+# Display commands/PIDs: isolated-display-services.json.

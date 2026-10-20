@@ -1,0 +1,10 @@
+{
+  "head": "97f2b2607835e2d4983656c454831c5340a64ff1",
+  "base": "e3a541fb24c2a3f136121150b7a0d2960546fda7",
+  "ci_run": 39412402161,
+  "merge": {
+    "sha": "aaaa3756516ab65073df956a13a244e8bdc5306f",
+    "merged": true,
+    "message": "Pull Request successfully merged"
+  }
+}

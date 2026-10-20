@@ -1,0 +1,11 @@
+{
+  "base_sha": "aaaa3756516ab65073df956a13a244e8bdc5306f",
+  "removed": "references/visual/SIRENS_SONG_CONCEPT_ART_IMAGE_REVIEW_HANDOFF.pdf",
+  "retained": "references/package/sources/SIRENS_SONG_CONCEPT_ART_IMAGE_REVIEW_HANDOFF.pdf",
+  "sha256": "4d39691d89d36f77224dc0fae9b1c2ecf36ca9e08868fb9dfb532046f86b1bc5",
+  "bytes_removed": 37833406,
+  "allocated_file_bytes_removed": 37834752,
+  "canonical_git_blob": "7ca516e204576e8376cc34c599cc5cd6318bf8f9",
+  "inbound_reference_check": "rg exact PDF name plus visual directory; only canonical package manifest references PDF; no inbound references to redundant visual PDF. Historical prose and manifest untouched.",
+  "readme_bytes_added": 141
+}

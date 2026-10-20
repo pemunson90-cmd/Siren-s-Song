@@ -1,0 +1,37 @@
+{
+  "production": "c2db5eb6764db14fcf7ea2185f6c8e4f04bb36dd",
+  "game_tree": "af0556f8a2601c76eb09249bf4f16b069e5dd8e8",
+  "pull_requests": [
+    {
+      "pr": 37,
+      "url": "https://github.com/pemunson90-cmd/Siren-s-Song/pull/37",
+      "head": "97f2b2607835e2d4983656c454831c5340a64ff1",
+      "merged": true,
+      "merge_commit": "aaaa3756516ab65073df956a13a244e8bdc5306f",
+      "merged_at": "2026-10-20T11:11:36Z"
+    },
+    {
+      "pr": 38,
+      "url": "https://github.com/pemunson90-cmd/Siren-s-Song/pull/38",
+      "head": "02d6cd4f0509231b58b52d9b9d567b05d0b066d2",
+      "merged": true,
+      "merge_commit": "8e0eb35cd87279b51f40cd4616cdd7fba66725ce",
+      "merged_at": "2026-10-20T11:22:39Z"
+    },
+    {
+      "pr": 39,
+      "url": "https://github.com/pemunson90-cmd/Siren-s-Song/pull/39",
+      "head": "e8c1241e9e9269000660d2f1d97f923eb490f08a",
+      "merged": true,
+      "merge_commit": "92814c21132d3e9babb649172024ca67881b1df9",
+      "merged_at": "2026-10-20T11:31:05Z"
+    },
+    {
+      "pr": 40,
+      "url": "https://github.com/pemunson90-cmd/Siren-s-Song/pull/40",
+      "head": "54c4a31c36271e3dc97d2f52cb327c1d47009781",
+      "merged": true,
+      "merge_commit": "c2db5eb6764db14fcf7ea2185f6c8e4f04bb36dd"
+    }
+  ]
+}

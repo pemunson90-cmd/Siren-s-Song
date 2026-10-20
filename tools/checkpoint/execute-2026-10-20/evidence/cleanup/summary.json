@@ -1,0 +1,28 @@
+{
+  "artifact_count_before": 105,
+  "artifact_count_after": 101,
+  "apk_count_after": 19,
+  "deleted_artifacts": [
+    12163537137,
+    12164107347,
+    12164513915,
+    12172267647
+  ],
+  "remote_artifact_bytes_removed": 265497442,
+  "remote_total_bytes_before": 3631557490,
+  "remote_total_bytes_after": 3366060048,
+  "all_non_apk_artifacts_unchanged": true,
+  "all_other_apk_artifacts_retained": true,
+  "temporary_verification_bytes_removed": 1308041414,
+  "local_pdf_logical_bytes_removed": 37833406,
+  "local_readme_logical_bytes_added": 141,
+  "local_pdf_net_logical_reduction": 37833265,
+  "local_pdf_net_allocated_file_reduction": 37830656,
+  "git_history_bytes_reclaimed": 0,
+  "maintenance_commit": "02d6cd4f0509231b58b52d9b9d567b05d0b066d2",
+  "worktree": "/workspace/Siren-s-Song-connected-campaign-review",
+  "boundary_complete": "Passed at aaaa3756516ab65073df956a13a244e8bdc5306f; no changed guidance. Semantic review: current production directives continue campaign/evacuation work; this bounded authorized cleanup preserves game, canonical reference, provenance and signer. Root owns next dispatch.",
+  "worktree_clean": true,
+  "game_tree_unchanged": "393e8f4bb77f7a5e7ba7052618ef316e1a14db65",
+  "deleted_artifact_status": "All four DELETE responses HTTP204; subsequent GET404; exact before/after ID sets differ only by those four IDs."
+}

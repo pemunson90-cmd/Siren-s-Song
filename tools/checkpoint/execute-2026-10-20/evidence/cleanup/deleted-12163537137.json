@@ -1,0 +1,9 @@
+{
+  "artifact_id": 12163537137,
+  "deleted_utc": "2026-10-20T11:21:43.642575+00:00",
+  "exit_code": 0,
+  "http_status": "HTTP/2.0 204 No Content",
+  "bytes": 65502045,
+  "retained_equivalent": 12163548770,
+  "subsequent_get_http_status": 404
+}

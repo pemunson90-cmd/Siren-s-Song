@@ -1,0 +1,392 @@
+[
+  {
+    "path": "sessions/critic-current-cautious-inner-20261020/CRITIQUE.txt",
+    "bytes": 2785,
+    "sha256": "68af583a3bad318c7a45e4707144ce806e129397e9cd6e156077e39cf503a601"
+  },
+  {
+    "path": "sessions/critic-current-cautious-inner-20261020/data/godot/app_userdata/Siren's Song/quietus.save",
+    "bytes": 12421,
+    "sha256": "662117f63a2553b5d9202c0219170711e780382d559bcaf1635e3cd46266e330"
+  },
+  {
+    "path": "sessions/critic-current-cautious-inner-20261020/data/godot/app_userdata/Siren's Song/quietus.save.bak",
+    "bytes": 12337,
+    "sha256": "899ecf24b3e0c64161a67fb5fbe4cf8fcafb31d56ec7ad02adbb28ec99a376d1"
+  },
+  {
+    "path": "sessions/critic-current-cautious-inner-20261020/end-metrics.json",
+    "bytes": 585,
+    "sha256": "d928d5d72d24b5f271bf44b2efa1a91d33bf012ba5ffd49a5d793e9fae9bdc42"
+  },
+  {
+    "path": "sessions/critic-current-cautious-inner-20261020/godot.log",
+    "bytes": 61809,
+    "sha256": "5e82a969109701a0b85a75292603e4d2d69d7742d56ccbff46b13da4afd667ad"
+  },
+  {
+    "path": "sessions/critic-current-cautious-inner-20261020/import.log",
+    "bytes": 18163,
+    "sha256": "9d6a64ad14504e4acbed686c141d6414a6097cf46664d7fb19959021afaef1a3"
+  },
+  {
+    "path": "sessions/critic-current-cautious-inner-20261020/inbox.json",
+    "bytes": 92,
+    "sha256": "b1483d283dae6fd0f01e7862f5352c7d38dc85155a366fd6063f11205da05c9f"
+  },
+  {
+    "path": "sessions/critic-current-cautious-inner-20261020/input-events.jsonl",
+    "bytes": 44811,
+    "sha256": "69bfa4177c0b288f926b937aaa6db59fecf726691203928db1d5d4fdc1d71b18"
+  },
+  {
+    "path": "sessions/critic-current-cautious-inner-20261020/ready.json",
+    "bytes": 845,
+    "sha256": "0c97d0707e56f73909447e76d88cb88bc1f876446ba76724f27e2aff689dde65"
+  },
+  {
+    "path": "sessions/critic-current-cautious-inner-20261020/reply.json",
+    "bytes": 948,
+    "sha256": "d677150a73f62053b492e4aa39add6ac54338b88fd04934205f620dcb7d422f5"
+  },
+  {
+    "path": "sessions/critic-current-cautious-inner-20261020/requests.jsonl",
+    "bytes": 4606,
+    "sha256": "3a8248d498edb8045a05ee55dda162e5e005ec568ef2480f5e67f5cd1b175a3f"
+  },
+  {
+    "path": "sessions/critic-current-cautious-inner-20261020/responses.jsonl",
+    "bytes": 44307,
+    "sha256": "c1a95a56945ab2758c7fd0e54be8f811f7024d11414da25930c856388c54d963"
+  },
+  {
+    "path": "sessions/critic-current-cautious-inner-20261020/source.json",
+    "bytes": 593,
+    "sha256": "a7511fdb75ef3421c8aa1e4788960fa27072a00e0fd66c3f83baffaae9a1da8a"
+  },
+  {
+    "path": "sessions/critic-current-cautious-isolated-inner-20261020/CRITIQUE.txt",
+    "bytes": 11497,
+    "sha256": "9e212441885ad58597421c7d08a2a27735a9f2550db8022238ca7c69f8031be9"
+  },
+  {
+    "path": "sessions/critic-current-cautious-isolated-inner-20261020/data/godot/app_userdata/Siren's Song/quietus.save",
+    "bytes": 38837,
+    "sha256": "789ffa98e67bf45ff2b32206285f59e9d4a8617f385a1d26bdc60ed8c706b572"
+  },
+  {
+    "path": "sessions/critic-current-cautious-isolated-inner-20261020/data/godot/app_userdata/Siren's Song/quietus.save.bak",
+    "bytes": 38613,
+    "sha256": "feaa8ba086340e2809112f4c82380bd677eb5e7fc9c7069b4634e813fa60b3e3"
+  },
+  {
+    "path": "sessions/critic-current-cautious-isolated-inner-20261020/end-metrics.json",
+    "bytes": 699,
+    "sha256": "2788acd8d34c986210aea57f455201651fcc8cd1ae2c17f00d2be7f8486fd49f"
+  },
+  {
+    "path": "sessions/critic-current-cautious-isolated-inner-20261020/godot.log",
+    "bytes": 231794,
+    "sha256": "6d91860aab69cdaf0a6dce4d4fe9c944b7a0e12d4155130beb7e30a3f5de10de"
+  },
+  {
+    "path": "sessions/critic-current-cautious-isolated-inner-20261020/import.log",
+    "bytes": 1074,
+    "sha256": "3fecb0dc3a61cff278542aed0db46b9add56a0928d5dfb4facb11c8d44a847c8"
+  },
+  {
+    "path": "sessions/critic-current-cautious-isolated-inner-20261020/inbox.json",
+    "bytes": 92,
+    "sha256": "0b4dbd6df0718064ad0772305fc77c522c4c335b55ac8e3556779b802690081d"
+  },
+  {
+    "path": "sessions/critic-current-cautious-isolated-inner-20261020/input-events.jsonl",
+    "bytes": 268957,
+    "sha256": "80457cf1ac9189f8a394a757140b27b9f400a537ea5987382add4cad27aa4cd6"
+  },
+  {
+    "path": "sessions/critic-current-cautious-isolated-inner-20261020/ready.json",
+    "bytes": 921,
+    "sha256": "e5c1249123ee37fb6b083384d07002425156cb623c533d1ed90fcbf7fab6d54e"
+  },
+  {
+    "path": "sessions/critic-current-cautious-isolated-inner-20261020/reply.json",
+    "bytes": 1070,
+    "sha256": "fee981c2dd8d019a39780fe87927e87a115797dd5ef0ef6d64fd282e38d625bc"
+  },
+  {
+    "path": "sessions/critic-current-cautious-isolated-inner-20261020/requests.jsonl",
+    "bytes": 25805,
+    "sha256": "000556478c3c7ac8ac870ec086b2338df68ebfbf68ad408c93d8c080c148c076"
+  },
+  {
+    "path": "sessions/critic-current-cautious-isolated-inner-20261020/responses.jsonl",
+    "bytes": 303336,
+    "sha256": "ef9d7d8cc0624c400ef8d853d3957c61b9004c32809cb43378ee12f8af023035"
+  },
+  {
+    "path": "sessions/critic-current-cautious-isolated-inner-20261020/source.json",
+    "bytes": 1039,
+    "sha256": "be94047c555d4ce245682b242459b675b97a5ef17ff03afdb0c79bebc0b50c22"
+  },
+  {
+    "path": "sessions/drone-resumed-inner-20261020/data/godot/app_userdata/Siren's Song/quietus.save",
+    "bytes": 41685,
+    "sha256": "bdfc21aabd582b3c507a0d802165722b154f5728673810821afe47acb01b7722"
+  },
+  {
+    "path": "sessions/drone-resumed-inner-20261020/data/godot/app_userdata/Siren's Song/quietus.save.bak",
+    "bytes": 40517,
+    "sha256": "8ec71b3a4e26e374d26ebc5f738f2dde2dc8cd27e8e30fc66bc52bca093d2fc8"
+  },
+  {
+    "path": "sessions/drone-resumed-inner-20261020/end-metrics.json",
+    "bytes": 1387,
+    "sha256": "1ee43db36fe6d5a2f7d10a815323b8662145dabb0d59857817781da0fc3bd877"
+  },
+  {
+    "path": "sessions/drone-resumed-inner-20261020/godot.log",
+    "bytes": 160429,
+    "sha256": "31ded8d8fc2fb490451fffe76c26b83c69ec687cc7c9e8cf531f0ed81cf852d9"
+  },
+  {
+    "path": "sessions/drone-resumed-inner-20261020/import.log",
+    "bytes": 1074,
+    "sha256": "3fecb0dc3a61cff278542aed0db46b9add56a0928d5dfb4facb11c8d44a847c8"
+  },
+  {
+    "path": "sessions/drone-resumed-inner-20261020/inbox.json",
+    "bytes": 91,
+    "sha256": "e73ae0c0e93ce1e7278ef7e7566e8495012526e0674a757adb2297c36d3ceb7e"
+  },
+  {
+    "path": "sessions/drone-resumed-inner-20261020/input-events.jsonl",
+    "bytes": 154537,
+    "sha256": "ec4b4773a4d541f93832551c38eab2bc6b7fb8bbd318c206b3dd54d2c51e75f1"
+  },
+  {
+    "path": "sessions/drone-resumed-inner-20261020/player-notes.txt",
+    "bytes": 1687,
+    "sha256": "672ba2f4df54100517b0913d1a0ade45c29d444af143ff4151b46c03fc34b386"
+  },
+  {
+    "path": "sessions/drone-resumed-inner-20261020/ready.json",
+    "bytes": 1169,
+    "sha256": "f64e8017df1e7986ad4ca7ab5110b03e3a90e690369b63b3ee0943bf20d222f7"
+  },
+  {
+    "path": "sessions/drone-resumed-inner-20261020/reply.json",
+    "bytes": 1740,
+    "sha256": "a83b16a2b9f31761588b5489fdc5039e9abb788e31c2dfc3de0c3871c086cefa"
+  },
+  {
+    "path": "sessions/drone-resumed-inner-20261020/requests.jsonl",
+    "bytes": 5513,
+    "sha256": "7eb150f2c19780d9584c2b26aaecad6cc94b4936bc29f3de2fb2508dc4e1e9b9"
+  },
+  {
+    "path": "sessions/drone-resumed-inner-20261020/responses.jsonl",
+    "bytes": 74295,
+    "sha256": "abfcf319d1d1e41bb330271ca0eed99bfbb64635ccf2ebf7a6ba9c2e1e19049e"
+  },
+  {
+    "path": "sessions/drone-resumed-inner-20261020/source.json",
+    "bytes": 968,
+    "sha256": "234a915061f1550cb611206560caf3898c392d929a16b404ace09f70a34e58fe"
+  },
+  {
+    "path": "sessions/drone-resumed-isolated-inner-20261020/data/godot/app_userdata/Siren's Song/quietus.save",
+    "bytes": 38897,
+    "sha256": "391b8db9a96e4f14ed7f23ec8de186fb35a94f1280662c6d4da173912d10e7f8"
+  },
+  {
+    "path": "sessions/drone-resumed-isolated-inner-20261020/data/godot/app_userdata/Siren's Song/quietus.save.bak",
+    "bytes": 38733,
+    "sha256": "2ca8aeb380fcbd7151b5e976c84b854a015bafebd9c09aa3d0dd101ce43fd1b1"
+  },
+  {
+    "path": "sessions/drone-resumed-isolated-inner-20261020/end-metrics.json",
+    "bytes": 813,
+    "sha256": "36369bf64d75fc5630d5aed04f32c282e92185b8441379a243bade3f8371d3ec"
+  },
+  {
+    "path": "sessions/drone-resumed-isolated-inner-20261020/godot.log",
+    "bytes": 96703,
+    "sha256": "685f19a274274d73aad261b4d42bbafdfa524f9846919acf390d3332fd708be4"
+  },
+  {
+    "path": "sessions/drone-resumed-isolated-inner-20261020/import.log",
+    "bytes": 1074,
+    "sha256": "3fecb0dc3a61cff278542aed0db46b9add56a0928d5dfb4facb11c8d44a847c8"
+  },
+  {
+    "path": "sessions/drone-resumed-isolated-inner-20261020/inbox.json",
+    "bytes": 92,
+    "sha256": "f869fdc1b63e4e5dca97b46d8a8e8bafecd50dcbc3e31aa794fad28bc204bb43"
+  },
+  {
+    "path": "sessions/drone-resumed-isolated-inner-20261020/input-events.jsonl",
+    "bytes": 83543,
+    "sha256": "774a3e1a5da80b3e78f73370b9c178f9949016a32b9ffa6901ee0812b3cea908"
+  },
+  {
+    "path": "sessions/drone-resumed-isolated-inner-20261020/player-notes.txt",
+    "bytes": 3784,
+    "sha256": "f69d8a3d04c5eaf8beea3ff48702292f024983f7d4f1f910cefb2e531f5c596b"
+  },
+  {
+    "path": "sessions/drone-resumed-isolated-inner-20261020/ready.json",
+    "bytes": 1713,
+    "sha256": "587e6e52e81983e3e22b3768982e2d1fe1134d82248f7bf49768bda854baf666"
+  },
+  {
+    "path": "sessions/drone-resumed-isolated-inner-20261020/reply.json",
+    "bytes": 1175,
+    "sha256": "ccd97fe3b9a1736d1e95fa96a5fb78e1c926ac17cb7f9de76ec212267260f3f9"
+  },
+  {
+    "path": "sessions/drone-resumed-isolated-inner-20261020/requests.jsonl",
+    "bytes": 6560,
+    "sha256": "2776deaf677514204b6bed9250b59aae4b64da7da370fe1060444783d9167728"
+  },
+  {
+    "path": "sessions/drone-resumed-isolated-inner-20261020/responses.jsonl",
+    "bytes": 101331,
+    "sha256": "2959fe9f94909f3c9c90dcedfb594e167c7e982528bf266f0af578623b4c52f4"
+  },
+  {
+    "path": "sessions/drone-resumed-isolated-inner-20261020/source.json",
+    "bytes": 1013,
+    "sha256": "a1536158c0dd6c84d369b5b7e22f0c57f96244690ced3da8f985f0757b0479a1"
+  },
+  {
+    "path": "sessions/stakes-resumed-inner-20261020/PLAYER_NOTES.txt",
+    "bytes": 2775,
+    "sha256": "0a1e694a9f03588fb332a0e0bb172a6ff4672d9add0d20aee71bab3a241bc65f"
+  },
+  {
+    "path": "sessions/stakes-resumed-inner-20261020/data/godot/app_userdata/Siren's Song/quietus.save",
+    "bytes": 126009,
+    "sha256": "fa331aa3c1b96f4005d033fb83a5e9646e22df56b8f5a4d19bb432932c408a0e"
+  },
+  {
+    "path": "sessions/stakes-resumed-inner-20261020/data/godot/app_userdata/Siren's Song/quietus.save.bak",
+    "bytes": 126009,
+    "sha256": "52a0bac34606e352a94bdc05b33039e2c0e1e000e612f462801472f295035b05"
+  },
+  {
+    "path": "sessions/stakes-resumed-inner-20261020/end-metrics.json",
+    "bytes": 727,
+    "sha256": "35239c021cd0df5bf605a200d47e07ea2c131e7227cc5344ee46fcd1e7c58a70"
+  },
+  {
+    "path": "sessions/stakes-resumed-inner-20261020/godot.log",
+    "bytes": 76821,
+    "sha256": "fe45a2a66a324f1de8654ff99bfcfe80e47f038b2b7ba9cecb4f891b2f16f335"
+  },
+  {
+    "path": "sessions/stakes-resumed-inner-20261020/import.log",
+    "bytes": 18163,
+    "sha256": "9d6a64ad14504e4acbed686c141d6414a6097cf46664d7fb19959021afaef1a3"
+  },
+  {
+    "path": "sessions/stakes-resumed-inner-20261020/inbox.json",
+    "bytes": 94,
+    "sha256": "e3cce61fd5197af22a06434907a5963d5847d15ff440604b4b50ac4def43137d"
+  },
+  {
+    "path": "sessions/stakes-resumed-inner-20261020/input-events.jsonl",
+    "bytes": 55485,
+    "sha256": "70310f2a26b5044e272ecd94e0d6db289bdead4076d8b01a8ad8e43ea9b8b232"
+  },
+  {
+    "path": "sessions/stakes-resumed-inner-20261020/ready.json",
+    "bytes": 1118,
+    "sha256": "6d6530e910c8747875ba01f87fa1bdfe59b5096592c119d783ce98e4280f853f"
+  },
+  {
+    "path": "sessions/stakes-resumed-inner-20261020/reply.json",
+    "bytes": 1081,
+    "sha256": "e72aea2624e9a999c7f9d4869daa0e506afc7259415b4535b9d1e513d9f45039"
+  },
+  {
+    "path": "sessions/stakes-resumed-inner-20261020/requests.jsonl",
+    "bytes": 4567,
+    "sha256": "b0f5ba7217e5e7000e4a4063961e9d17cbf0cea1c437263db23c0549d818dcfb"
+  },
+  {
+    "path": "sessions/stakes-resumed-inner-20261020/responses.jsonl",
+    "bytes": 47811,
+    "sha256": "7b75f6197ce3d4d1d294d247e2e1dd3044dbfd11d3018bc2b6cff2cd7f9eb41f"
+  },
+  {
+    "path": "sessions/stakes-resumed-inner-20261020/source.json",
+    "bytes": 975,
+    "sha256": "e8b4c872989b6da7ab9db271e01ba2821a80c065263fc0050a4d49fb400a5b35"
+  },
+  {
+    "path": "sessions/stakes-resumed-isolated-inner-20261020/PLAYER_NOTES.txt",
+    "bytes": 3851,
+    "sha256": "3e7ce316b1ad3ea6999437e6b3c439e28eb2c7108f02a98d00e16d48a23af27a"
+  },
+  {
+    "path": "sessions/stakes-resumed-isolated-inner-20261020/data/godot/app_userdata/Siren's Song/quietus.save",
+    "bytes": 126697,
+    "sha256": "3415f86fc733e365756cc8e44f94f1f3b7a941ed8f483bbe9fcb24933359e956"
+  },
+  {
+    "path": "sessions/stakes-resumed-isolated-inner-20261020/data/godot/app_userdata/Siren's Song/quietus.save.bak",
+    "bytes": 126117,
+    "sha256": "ea873c626ed437713fd857ae6dbd74caeed6f2998364e9fd7ed6bb7d1aca832e"
+  },
+  {
+    "path": "sessions/stakes-resumed-isolated-inner-20261020/end-metrics.json",
+    "bytes": 738,
+    "sha256": "2a33dc2025925e6a9fdb838de2a1a6fc3d31cb9d69e77f06073305477bca8f9a"
+  },
+  {
+    "path": "sessions/stakes-resumed-isolated-inner-20261020/godot.log",
+    "bytes": 25225,
+    "sha256": "596ec272bf0bf73dd9d7a4d76c7110cb2b537d612d093dc8522a9a6e33aba414"
+  },
+  {
+    "path": "sessions/stakes-resumed-isolated-inner-20261020/import.log",
+    "bytes": 1017,
+    "sha256": "9572934ad4d57fbab2c09b2c82f3821584fba7ba71d7e1dec5055bc7fa531f3f"
+  },
+  {
+    "path": "sessions/stakes-resumed-isolated-inner-20261020/inbox.json",
+    "bytes": 91,
+    "sha256": "41c79b9896e5032440052568f86ee16a3337344d9440a70a7f411121cc4224a1"
+  },
+  {
+    "path": "sessions/stakes-resumed-isolated-inner-20261020/input-events.jsonl",
+    "bytes": 12852,
+    "sha256": "254adcb2539496051c54ed7c385740d7c8aacb7b30874a4edbd3a658e602045d"
+  },
+  {
+    "path": "sessions/stakes-resumed-isolated-inner-20261020/ready.json",
+    "bytes": 1054,
+    "sha256": "bb7db4d50fbe239f72b7e8ae5b657d18b0e5c7708bccabe9aadb0aeb5428e849"
+  },
+  {
+    "path": "sessions/stakes-resumed-isolated-inner-20261020/reply.json",
+    "bytes": 1101,
+    "sha256": "ba8f111734672f87d792db7f17f76f5f133f4d39b7b4865c5f9eb130958a9adb"
+  },
+  {
+    "path": "sessions/stakes-resumed-isolated-inner-20261020/requests.jsonl",
+    "bytes": 1902,
+    "sha256": "2aee29fb9e2a5af45df60025804dd592cd912d8d802efa69044b3b46ac476379"
+  },
+  {
+    "path": "sessions/stakes-resumed-isolated-inner-20261020/responses.jsonl",
+    "bytes": 21733,
+    "sha256": "33dfe1afb185dfedad8081fd550ac405e2fcf2216acf1e6dc40d9bfe1a2d5106"
+  },
+  {
+    "path": "sessions/stakes-resumed-isolated-inner-20261020/source.json",
+    "bytes": 1015,
+    "sha256": "c284058f283f6c7cc8f0b41b823b808cc4e251c3a91420a9d720b4740dc93d71"
+  }
+]

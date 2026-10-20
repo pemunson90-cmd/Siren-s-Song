@@ -1,0 +1,16 @@
+PR40 exact-head policy review
+
+VERDICT: APPROVED for head 54c4a31c36271e3dc97d2f52cb327c1d47009781 against current production/base 92814c21132d3e9babb649172024ca67881b1df9. No blockers found.
+Reviewer: /root/pr37_integration_review, the existing sole integration reviewer, independent of the PR author/integrator. This external report is not a submitted GitHub review. If root copies it into GitHub, identify it as a relayed review with this original provenance and the exact head/base.
+
+Refreshed the normal review boundary at production 92814c21132d3e9babb649172024ca67881b1df9. Read current production USER_DIRECTIVES and AGENTS before the complete proposed AGENTS/AGENT_BRIEF diff; read the full resulting worker brief and inspected the unchanged existing guidance checker. Independently re-fetched live production and PR40 metadata immediately before verdict: exact base/head still match above.
+
+Findings/disposition: none requiring correction.
+- The change distinguishes CONTINUATION's last reconciled drafting/source baseline from the live production Git ref. It still requires semantic reconciliation of substantive state and next action; a different embedded SHA alone does not trigger a needless follow-up commit or conceal actual stale state.
+- The one designated reviewer and existing PR/CI behavior remain. Reviewer identity/role, reviewed head/base, blockers/disposition and relevant CI run must be attributable in the PR before merge. Relayed records are explicitly distinguished from formal GitHub approval; CI is not presented as independent criticism.
+- Concise CONTINUATION/WORKBENCH corrections belong in the normal feature PR when state/next work changes. A no-change decision can be recorded on the PR. Fetching landed production and continuing work remain the closeout action.
+- No new framework, CI gate, extra reviewer, user approval/playtest pause or worker reset is introduced. Live workers and unrelated active trees are expressly preserved. The user's explicit request authorizes this narrow policy clarification.
+
+Scope verification: exactly AGENTS.md and docs/AGENT_BRIEF.md changed, 9 insertions/2 deletions. No game, toolchain, workflow, USER_DIRECTIVES, CONTINUATION or WORKBENCH changes. Both base and head game trees equal af0556f8a2601c76eb09249bf4f16b069e5dd8e8. Fresh git diff --check exited zero.
+
+Root owns existing checks, exact-head guidance/docs-only game-smoke CI, recording this attributable verdict on PR40, and final production/head/base freshness before merge. No CI success or merge claimed by this reviewer. No gameplay rerun was needed or performed. No source edits, checkout, active-worker/process changes, branch/archive deletion, PR comments/reviews, push or merge performed; only this external review report was written.

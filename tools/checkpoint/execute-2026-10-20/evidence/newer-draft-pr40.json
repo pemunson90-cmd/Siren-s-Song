@@ -1,0 +1,16 @@
+{
+  "number": 40,
+  "url": "https://github.com/pemunson90-cmd/Siren-s-Song/pull/40",
+  "title": "Clarify source-bound merge handoffs and reviewer traceability",
+  "body": "## Purpose\nMake the **existing** review/merge boundary source-bound and traceable without introducing a new CI gate or interrupting live feature branches.\n\n- Treat the SHA embedded in CONTINUATION as the **last reconciled source baseline**: the current production tip comes from Git itself. A commit cannot include its own final SHA in its committed document.\n- Require the existing designated reviewer\u2019s verdict, reviewed head/base, blockers/disposition and CI link to be attributed on the PR; distinguish a relayed reviewer report from a submitted GitHub review.\n- During each normal merge, reconcile CONTINUATION and WORKBENCH where state/next work changes, or record that neither needs an update; fetch landed production and continue dispatching.\n\n## Safety / integration\n**Docs-only (AGENTS.md and docs/AGENT_BRIEF.md).** No gameplay, toolchain, CI workflow, signing, current production state, active worker branches or current open gameplay PR changed. Existing `guidance` and docs-only `game-smoke` checks remain the only gates. Deliberately left as a **draft PR** for review and integration at a normal boundary, without asking any active agent to stop. Root should check the latest user directive and production tip before accepting. No human playtest gate.\n\nBase at drafting: `92814c21132d3e9babb649172024ca67881b1df9`.",
+  "head": "54c4a31c36271e3dc97d2f52cb327c1d47009781",
+  "head_ref": "gauntlet/maintenance/handoff-evidence-20261020-0724",
+  "base": "92814c21132d3e9babb649172024ca67881b1df9",
+  "draft": true,
+  "state": "open",
+  "files": [
+    "AGENTS.md",
+    "docs/AGENT_BRIEF.md"
+  ],
+  "ownership": "Created outside this execution task; preserved unchanged, no review/merge claimed."
+}

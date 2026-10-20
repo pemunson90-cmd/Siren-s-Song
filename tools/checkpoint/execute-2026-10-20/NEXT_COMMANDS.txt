@@ -1,0 +1,8 @@
+# Continue the genuine drone campaign from its actual win, not the old mid-dive profile.
+# First confirm display :529 is alive; a shared display can pause another live game.
+python3 /workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/play.py --session drone-continuation-20261020-2 start --shape inner --source /workspace/Siren-s-Song-play-frozen --profile "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/drone-resumed-isolated-inner-20261020/data/godot/app_userdata/Siren's Song/quietus.save" --display :529
+# Use ordinary menus to continue Blackwater Relay. Inspect fresh screenshots.
+
+# Continue Stakes from the actual loss via ordinary operation/retry UI.
+python3 /workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/play.py --session stakes-continuation-20261020-2 start --shape inner --source /workspace/Siren-s-Song-play-frozen --profile "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/stakes-resumed-isolated-inner-20261020/data/godot/app_userdata/Siren's Song/quietus.save" --display :528
+# Never reset to the earlier pre-loss profile, change saved resources, or supply winning routes.

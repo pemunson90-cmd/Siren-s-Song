@@ -1,0 +1,105 @@
+{
+  "scope": "Only temporary verification downloads created by this cleanup; not counted as net reclaimed original workspace bytes.",
+  "files": [
+    {
+      "path": "/workspace/work/gauntlet-execution-20261020/cleanup/verification-downloads/12172267647.zip",
+      "bytes": 68969696,
+      "sha256": "86dba91bd75901b7153dcf68005e5caa651a7453a12c29ec0eb37fcd18f7c640"
+    },
+    {
+      "path": "/workspace/work/gauntlet-execution-20261020/cleanup/verification-downloads/12172267647.apk",
+      "bytes": 69355896,
+      "sha256": "77c3e50127f06cfe92ff9382c88ee2f28fbe6135cb4d1f5f655ebf7c558c8dd9"
+    },
+    {
+      "path": "/workspace/work/gauntlet-execution-20261020/cleanup/verification-downloads/12172489600.zip",
+      "bytes": 68969718,
+      "sha256": "7de64f07b6d27447d3c523c1c1703eb6c3d46631d28ea539111180483d07d872"
+    },
+    {
+      "path": "/workspace/work/gauntlet-execution-20261020/cleanup/verification-downloads/12172489600.apk",
+      "bytes": 69355896,
+      "sha256": "a87e2764dccbd0ef5b0c7dc33afde0f7ac2853f57b390cd943d7e761cac1b1c2"
+    },
+    {
+      "path": "/workspace/work/gauntlet-execution-20261020/cleanup/verification-downloads/12164513915.zip",
+      "bytes": 65521690,
+      "sha256": "673d1ee27221d5bacf209a75c201fb345f3586d76d99816c3fa849aaa36b9ae6"
+    },
+    {
+      "path": "/workspace/work/gauntlet-execution-20261020/cleanup/verification-downloads/12164513915.apk",
+      "bytes": 65903635,
+      "sha256": "2b6baf12f29f3e2d062e6da03c2b848c061ec1a521fa3ebc505138c94eae6b88"
+    },
+    {
+      "path": "/workspace/work/gauntlet-execution-20261020/cleanup/verification-downloads/12165339461.zip",
+      "bytes": 65521671,
+      "sha256": "693c876944d5cc72613a62f8ecf115270c19e03aca720dee6afbce6595a9ca4d"
+    },
+    {
+      "path": "/workspace/work/gauntlet-execution-20261020/cleanup/verification-downloads/12165339461.apk",
+      "bytes": 65903635,
+      "sha256": "e3c8fa1b838a1fb561cb118b5e6470c680d344a75c979b9dc6ed456f62c396d6"
+    },
+    {
+      "path": "/workspace/work/gauntlet-execution-20261020/cleanup/verification-downloads/12164107347.zip",
+      "bytes": 65504011,
+      "sha256": "52c39e87c94175345b9057d96c1051fbc8e054e0cdff8e58c032fbe10885943b"
+    },
+    {
+      "path": "/workspace/work/gauntlet-execution-20261020/cleanup/verification-downloads/12164107347.apk",
+      "bytes": 65882139,
+      "sha256": "e1d6e552898df6741cc1a95ea65c75f8320e49f33e8906a27f3214f595af18d4"
+    },
+    {
+      "path": "/workspace/work/gauntlet-execution-20261020/cleanup/verification-downloads/12164418637.zip",
+      "bytes": 65504001,
+      "sha256": "c731ee79b1e0547bc3d29b5d674b61df7d73aba711f49c75cd14fe2c0195c2e4"
+    },
+    {
+      "path": "/workspace/work/gauntlet-execution-20261020/cleanup/verification-downloads/12164418637.apk",
+      "bytes": 65882139,
+      "sha256": "4be4f056a65def993dca34170c2b02fb8e4342a1adac3baa01abcdecc42dcb4e"
+    },
+    {
+      "path": "/workspace/work/gauntlet-execution-20261020/cleanup/verification-downloads/12163537137.zip",
+      "bytes": 65502045,
+      "sha256": "15deda68cc263929904884d017cb884e7df1988caaedabe65113cd3ff3499a80"
+    },
+    {
+      "path": "/workspace/work/gauntlet-execution-20261020/cleanup/verification-downloads/12163537137.apk",
+      "bytes": 65877874,
+      "sha256": "e4f38c1ee05f19dbf78bea83c2aa283cd09796528d7d44f0d6716a43cdd08080"
+    },
+    {
+      "path": "/workspace/work/gauntlet-execution-20261020/cleanup/verification-downloads/12163548770.zip",
+      "bytes": 65502019,
+      "sha256": "d596412c6206af48343f52cfb2bd016b581f5f03c6af88dec4276de237cb9d51"
+    },
+    {
+      "path": "/workspace/work/gauntlet-execution-20261020/cleanup/verification-downloads/12163548770.apk",
+      "bytes": 65877874,
+      "sha256": "8d67bb5d8699a306859e687e40efd7192fe09441dc66fa8fc1eeaf6d23799672"
+    },
+    {
+      "path": "/workspace/work/gauntlet-execution-20261020/cleanup/verification-downloads/12161098244.zip",
+      "bytes": 60564008,
+      "sha256": "896b0f2697b7b6ea0aeb525d90d53b57a164c31be0b7f4d28ca88d32fe401d64"
+    },
+    {
+      "path": "/workspace/work/gauntlet-execution-20261020/cleanup/verification-downloads/12161098244.apk",
+      "bytes": 60939719,
+      "sha256": "a8a40bdf82bfd9a9fb2ba691c5307d0b62a0339e3cccadf1a3e8a98e17e667f2"
+    },
+    {
+      "path": "/workspace/work/gauntlet-execution-20261020/cleanup/verification-downloads/12161727935.zip",
+      "bytes": 60564029,
+      "sha256": "b3a0b9a91d0f815e44abac0985e169e47a10f198f357a0ad4f6c2d6f15d4e6e1"
+    },
+    {
+      "path": "/workspace/work/gauntlet-execution-20261020/cleanup/verification-downloads/12161727935.apk",
+      "bytes": 60939719,
+      "sha256": "a4ea21686348933e7180a294a7512e3166b818aa032b3b584a32ecd8ee299a39"
+    }
+  ]
+}

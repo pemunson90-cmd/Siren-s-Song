@@ -1,0 +1,26 @@
+{
+  "head": "54c4a31c36271e3dc97d2f52cb327c1d47009781",
+  "base": "92814c21132d3e9babb649172024ca67881b1df9",
+  "local_guidance_detector_tests": {
+    "tests": 7,
+    "failures": 0,
+    "exit_code": 0
+  },
+  "local_guidance_checker": "PASS",
+  "diff_check_exit_code": 0,
+  "game_tooling_workflow_diff": "empty",
+  "checks": [
+    {
+      "name": "guidance",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/39416063695/job/118605245799"
+    },
+    {
+      "name": "game-smoke",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/39416063695/job/118605245416"
+    }
+  ]
+}

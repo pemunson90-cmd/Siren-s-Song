@@ -1,0 +1,154 @@
+{
+  "branch": "archive/gauntlet-cold-frames-execution-2026-10-20",
+  "commit": "d83c45a07be1cacc97c2618d5e5e992b7dc3e556",
+  "verified_utc": "2026-10-20T11:38:58.697075+00:00",
+  "remote_head_verified": true,
+  "remote_recursive_tree_truncated": false,
+  "remote_file_count": 15,
+  "remote_bytes_downloaded": 70606842,
+  "files": [
+    {
+      "path": "ORIGINAL-PNG-SHA256SUMS",
+      "git_blob": "7dd71cc8582836506e4ac03438ffdf3aae28d483",
+      "bytes": 43145,
+      "sha256": "7d481c63fe63dfe1094e1cae637e4e8e2408d1e06de15ca9470e57a880672f9d",
+      "matches_local": true,
+      "immutable_blob_byte_verified_at_commit": "648272f3c83a2917760bdf60e1295f7707c24cad"
+    },
+    {
+      "path": "README.md",
+      "git_blob": "ed5b87b4507e5aa7b8994c9bb30dc3a663b53acd",
+      "bytes": 3908,
+      "sha256": "f2e34c4eaf0c6fbe7fad57612559c0f764ef84837a98f89e92cdb1acd03f2e42",
+      "matches_local": true,
+      "immutable_blob_byte_verified_at_commit": "d83c45a07be1cacc97c2618d5e5e992b7dc3e556"
+    },
+    {
+      "path": "SHA256SUMS",
+      "git_blob": "48d9b5ddd7b998ad8bda952cd4f3e5c8b320ef0f",
+      "bytes": 1390,
+      "sha256": "de2f10caf63aee86fb43852deea831baf71c7048a0e0dfa9e7af31478a8bc2f0",
+      "matches_local": true,
+      "immutable_blob_byte_verified_at_commit": "d83c45a07be1cacc97c2618d5e5e992b7dc3e556"
+    },
+    {
+      "path": "execution-closed-2184x1968-rgb.json",
+      "git_blob": "6edc505688638727c346538e98233ca690bf5f7b",
+      "bytes": 157765,
+      "sha256": "eeed8123594c68476baca10b061a4eb8af0ae3ad44bc89f9d60d33a4b0861314",
+      "matches_local": true,
+      "immutable_blob_byte_verified_at_commit": "648272f3c83a2917760bdf60e1295f7707c24cad"
+    },
+    {
+      "path": "execution-closed-2520x1080-rgb.json",
+      "git_blob": "bac2d109edd7a2ed2f3a2c9ef2749a4fdcd5daa0",
+      "bytes": 2841,
+      "sha256": "33e0cc0995b026a0f7acd676bfbcccc271b0937aa0a4433611c11d4457f8b6e7",
+      "matches_local": true,
+      "immutable_blob_byte_verified_at_commit": "648272f3c83a2917760bdf60e1295f7707c24cad"
+    },
+    {
+      "path": "frame-manifest.json",
+      "git_blob": "ae67422f86f14e1fd9c91c7192b3b08ebc8a3823",
+      "bytes": 102512,
+      "sha256": "0920125eb88e9c2765835378b95e88e62532aa9af1e0e07262e778e1c32f4a4c",
+      "matches_local": true,
+      "immutable_blob_byte_verified_at_commit": "648272f3c83a2917760bdf60e1295f7707c24cad"
+    },
+    {
+      "path": "manifest.json",
+      "git_blob": "4f730ded19530d84003a845f79329ab45135a6d8",
+      "bytes": 2712,
+      "sha256": "fa47808d8472ea9bb515907f8d70996c7106bc109414316b63c3a66f7c2ee1dd",
+      "matches_local": true,
+      "immutable_blob_byte_verified_at_commit": "d83c45a07be1cacc97c2618d5e5e992b7dc3e556"
+    },
+    {
+      "path": "media/execution-closed-2184x1968-rgb.mkv.part001",
+      "git_blob": "ea3de5621d5c60a3fa5ee902a6f161d652eb2b07",
+      "bytes": 41943040,
+      "sha256": "4c5f6c89258cd649ca4e0d3be2e8449f675f85347a9ea9c780fadd42dff2c909",
+      "matches_local": true,
+      "immutable_blob_byte_verified_at_commit": "648272f3c83a2917760bdf60e1295f7707c24cad"
+    },
+    {
+      "path": "media/execution-closed-2184x1968-rgb.mkv.part002",
+      "git_blob": "1e095724d98a227c30021635af0fe38f7a0523d1",
+      "bytes": 12484891,
+      "sha256": "fda6b9abb93c0c911b30c1e4717466291c2be8298d02b812ef03a73a5b70aebb",
+      "matches_local": true,
+      "immutable_blob_byte_verified_at_commit": "648272f3c83a2917760bdf60e1295f7707c24cad"
+    },
+    {
+      "path": "media/execution-closed-2520x1080-rgb.mkv.part001",
+      "git_blob": "3c95ee0aab9e172d442cb43b5e2feac8c5bef475",
+      "bytes": 1375106,
+      "sha256": "a320c745456756fdf378035184cde990b2830537cb1f90c29e2791897e434c8d",
+      "matches_local": true,
+      "immutable_blob_byte_verified_at_commit": "648272f3c83a2917760bdf60e1295f7707c24cad"
+    },
+    {
+      "path": "media/execution-named-exceptions.tar.gz.part001",
+      "git_blob": "e419f9001914e828f1b683bb06ed150b4aded7d7",
+      "bytes": 14476910,
+      "sha256": "75995d8918097eb139e28b9b8f26cd74a91bc8979a4a267f71841bca25db1de9",
+      "matches_local": true,
+      "immutable_blob_byte_verified_at_commit": "648272f3c83a2917760bdf60e1295f7707c24cad"
+    },
+    {
+      "path": "named-exceptions-manifest.json",
+      "git_blob": "923c4d36013ef09c5a6514692b2e3da02a1bc126",
+      "bytes": 12976,
+      "sha256": "0a107921ce7625f964d05aaeb805dc7aebfbb485c4a7f5c80725aa7242be32f4",
+      "matches_local": true,
+      "immutable_blob_byte_verified_at_commit": "648272f3c83a2917760bdf60e1295f7707c24cad"
+    },
+    {
+      "path": "provenance/archive-cold-frames-losslessly.py",
+      "git_blob": "aee492570c20b9cb33e9f581610e2aa67aa4ceda",
+      "bytes": 3950,
+      "sha256": "85d2d34b4f4e359ba75520b240ef9f72ed37c322f07c7238ccf59695d0161ddb",
+      "matches_local": true,
+      "immutable_blob_byte_verified_at_commit": "d83c45a07be1cacc97c2618d5e5e992b7dc3e556"
+    },
+    {
+      "path": "provenance/source-helpers.json",
+      "git_blob": "74252ba7c52f18686816f606fc7b9d271ed141ae",
+      "bytes": 2086,
+      "sha256": "56b93cc6dad8b169b5bcf242dc05496f83237db3e4d7d75921991fa3d209d789",
+      "matches_local": true,
+      "immutable_blob_byte_verified_at_commit": "d83c45a07be1cacc97c2618d5e5e992b7dc3e556"
+    },
+    {
+      "path": "verify-frame-archive.gd",
+      "git_blob": "ce457eeb77a7fe583e4cb2ce2b30b8ee9ab40397",
+      "bytes": 1126,
+      "sha256": "b76502060fd59c9c371546ff1b0334805d16a929245ac0d20ff0f161261b8e41",
+      "matches_local": true,
+      "immutable_blob_byte_verified_at_commit": "648272f3c83a2917760bdf60e1295f7707c24cad"
+    }
+  ],
+  "archives": [
+    {
+      "archive_file": "execution-closed-2184x1968-rgb.mkv",
+      "bytes": 54427931,
+      "sha256": "aa385c81ba9c8b9c217caa703fef77ecdad1597a2c358efcc8db1f2ed004b46e",
+      "remote_parts_reassembled_hash_verified": true
+    },
+    {
+      "archive_file": "execution-closed-2520x1080-rgb.mkv",
+      "bytes": 1375106,
+      "sha256": "a320c745456756fdf378035184cde990b2830537cb1f90c29e2791897e434c8d",
+      "remote_parts_reassembled_hash_verified": true
+    },
+    {
+      "archive_file": "execution-named-exceptions.tar.gz",
+      "bytes": 14476910,
+      "sha256": "75995d8918097eb139e28b9b8f26cd74a91bc8979a4a267f71841bca25db1de9",
+      "remote_parts_reassembled_hash_verified": true
+    }
+  ],
+  "scope": "Closed five sessions+UI only; sixth critic remains active and excluded. Every remote blob independently downloaded at pinned commit and SHA/size matched. All original local PNGs retained.",
+  "additional_remote_bytes_downloaded": 14046,
+  "parent_verification_commit": "648272f3c83a2917760bdf60e1295f7707c24cad"
+}

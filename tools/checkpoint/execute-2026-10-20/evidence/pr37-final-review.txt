@@ -1,0 +1,66 @@
+PR 37 exact-head integration review
+
+VERDICT: SOURCE APPROVED for 97f2b2607835e2d4983656c454831c5340a64ff1.
+No consequential blocker remains in the inspected composition. This is the sole
+integration review, bound to this full commit. New exact-head remote CI remains
+a separate root merge gate; this verdict does not claim final CI success or merge.
+
+Governing production: e3a541fb24c2a3f136121150b7a0d2960546fda7, independently
+rechecked through GitHub during this review. Read current AGENTS, USER_DIRECTIVES,
+full CURRENT_GAME_SPEC, SOURCE_AUTHORITY, parity ledger and architecture. The
+boundary policy cache omitted USER_DIRECTIVES and SOURCE_AUTHORITY, so those were
+read directly with git show at the exact governing production SHA.
+
+Composition verified in /workspace/Siren-s-Song-integration:
+- HEAD: 97f2b2607835e2d4983656c454831c5340a64ff1; tracked working tree clean.
+- Parent: 6489d028a8a0cb77708899005703264d53c1cc81.
+- Metadata-only amendment supersedes the unpublished prior final candidate
+  26acaf79bab699d971e3b2a72b24053668885e98 after GitHub GH007. Both commits
+  have root tree 4efbe09d2f7553eb84faa484f3e158daad171550 and the same parent;
+  fresh git diff between them is empty. Final approval binds only to 97f2b260.
+- HEAD:game: 393e8f4bb77f7a5e7ba7052618ef316e1a14db65, exactly the retained
+  reviewed tree and published provider 09b66ea04730008fd84eae843808c1d66d4475b9.
+- git diff 09b66ea04730008fd84eae843808c1d66d4475b9 HEAD -- game is empty.
+- Provider and composed pointer-fix stable patch IDs both equal
+  a802293abe2e9a97f962c73accf7d9f39d2f6b6c.
+- Inspected all additional provider-to-HEAD changes: recovery harness registered
+  in the existing PR workflow and test.sh, plus CONTINUATION/USER_DIRECTIVES/
+  WORKBENCH status updates. No additional game source or save/model changes.
+- Fresh git diff --check on the composed commit and bash -n test.sh exited zero.
+  CONTINUATION and WORKBENCH remain 39 lines each.
+
+Source assessment:
+Ordinary recovery uses route commands, preserving the selected craft's drive,
+profile, Queue/Replace and planner history. Named mouths remain explicit choices;
+planning does not commit a campaign branch or bypass physical extraction.
+The pointer fix makes recovery Buttons ignore native GUI mouse input and uses
+popup_gesture plus same-visible-button hit testing to own commitment. This closes
+the retained short-inside-drag/cancelled-touch emulated-release blocker without
+changing simulation, persistence or save schema. Current-save integrity follows
+the unchanged authoritative model and existing command/save path.
+
+Retained evidence inspected locally; unchanged suites were not rerun:
+Checkpoint 8a6144cef0bbb4ddce6d1263d88cd33c639a1118, work/ handoff and probe.
+Original pointer RED: 4 checks / 4 failures, cover and inner.
+Fixed pointer OpenGL probe: 4 / 0, Godot 4.6.3 Compatibility / Mesa llvmpipe.
+Expanded recovery suite: 68 / 0, including native mouse, cancellation, named
+mouths, propulsion, Queue/undo and no branch commitment before physical arrival.
+No SCRIPT ERROR or ERROR lines in the retained fixed logs.
+SHA256 recovery-pointer-valid-red.log:
+19f8d5c47a6537a2eeca900e153dc1298ebd0f75f40233c9416854e282a34ebb
+SHA256 recovery-pointer-fixed-gl.log:
+a7e599571a5b91c803a7304ae651552f18c190be9232d053972ef10a5d7d4980
+SHA256 recovery-final-suite.log:
+2cea4cb139755e1b5cc476fbe7c7f8270ab1991e09e53000333b29ffa302820d
+
+Limits and remaining gate:
+Retained logs are source-known technical checks, not new final-head test runs,
+blind play, physical Fold7 ergonomics or headphone acceptance. Desktop VSync and
+headless ObjectDB shutdown warnings remain disclosed. Readiness text may lag
+monotonic acquisition while RUN continues; this does not change routing or
+physical extraction and is not a blocker under the current directive.
+Old CI 39385021682 certifies only 6489d028a8a0cb77708899005703264d53c1cc81.
+Root must verify new guidance/game-smoke SUCCESS for the exact composed HEAD,
+refresh production/head/base immediately before merge, and reconcile movement.
+No broad retest, second reviewer or APK is required by this unchanged composition.
+No source edits, push, GitHub review/comment or merge performed by this reviewer.

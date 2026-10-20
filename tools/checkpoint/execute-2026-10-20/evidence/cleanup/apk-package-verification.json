@@ -1,0 +1,122 @@
+[
+  {
+    "artifact_id": 12172267647,
+    "archive_sha256": "86dba91bd75901b7153dcf68005e5caa651a7453a12c29ec0eb37fcd18f7c640",
+    "apk_sha256": "77c3e50127f06cfe92ff9382c88ee2f28fbe6135cb4d1f5f655ebf7c558c8dd9",
+    "apk_bytes": 69355896,
+    "signers": [
+      "32bcb2287acd01c1f58c26997c7639f3072c74c6b03ab2a24656dc7cd1c7dc3c"
+    ],
+    "package_payload_manifest_sha256": "60f81c1393dacde0e05a61b389d5852649394c999ae6b37597c67c25125349e5",
+    "payload_entries": 219,
+    "signature_verification_exit": 0
+  },
+  {
+    "artifact_id": 12172489600,
+    "archive_sha256": "7de64f07b6d27447d3c523c1c1703eb6c3d46631d28ea539111180483d07d872",
+    "apk_sha256": "a87e2764dccbd0ef5b0c7dc33afde0f7ac2853f57b390cd943d7e761cac1b1c2",
+    "apk_bytes": 69355896,
+    "signers": [
+      "32bcb2287acd01c1f58c26997c7639f3072c74c6b03ab2a24656dc7cd1c7dc3c"
+    ],
+    "package_payload_manifest_sha256": "c7aae46adf523f5c1e608028eb37ec9dd47ac2a23a1f8fd8796e4da0501bee6d",
+    "payload_entries": 219,
+    "signature_verification_exit": 0
+  },
+  {
+    "artifact_id": 12164513915,
+    "archive_sha256": "673d1ee27221d5bacf209a75c201fb345f3586d76d99816c3fa849aaa36b9ae6",
+    "apk_sha256": "2b6baf12f29f3e2d062e6da03c2b848c061ec1a521fa3ebc505138c94eae6b88",
+    "apk_bytes": 65903635,
+    "signers": [
+      "32bcb2287acd01c1f58c26997c7639f3072c74c6b03ab2a24656dc7cd1c7dc3c"
+    ],
+    "package_payload_manifest_sha256": "73403b911608e38781033f60060d509a2405be3acd25b4c72bd06b64849a3c56",
+    "payload_entries": 181,
+    "signature_verification_exit": 0
+  },
+  {
+    "artifact_id": 12165339461,
+    "archive_sha256": "693c876944d5cc72613a62f8ecf115270c19e03aca720dee6afbce6595a9ca4d",
+    "apk_sha256": "e3c8fa1b838a1fb561cb118b5e6470c680d344a75c979b9dc6ed456f62c396d6",
+    "apk_bytes": 65903635,
+    "signers": [
+      "32bcb2287acd01c1f58c26997c7639f3072c74c6b03ab2a24656dc7cd1c7dc3c"
+    ],
+    "package_payload_manifest_sha256": "fc02b0f9436b6713b00b83137f73fdd9ab0a25e02eca29038d99b6233886b608",
+    "payload_entries": 181,
+    "signature_verification_exit": 0
+  },
+  {
+    "artifact_id": 12164107347,
+    "archive_sha256": "52c39e87c94175345b9057d96c1051fbc8e054e0cdff8e58c032fbe10885943b",
+    "apk_sha256": "e1d6e552898df6741cc1a95ea65c75f8320e49f33e8906a27f3214f595af18d4",
+    "apk_bytes": 65882139,
+    "signers": [
+      "32bcb2287acd01c1f58c26997c7639f3072c74c6b03ab2a24656dc7cd1c7dc3c"
+    ],
+    "package_payload_manifest_sha256": "eb69612c04d50b241f8384dbe193ab83a994386cffb541aa645b6924c5b86d4f",
+    "payload_entries": 169,
+    "signature_verification_exit": 0
+  },
+  {
+    "artifact_id": 12164418637,
+    "archive_sha256": "c731ee79b1e0547bc3d29b5d674b61df7d73aba711f49c75cd14fe2c0195c2e4",
+    "apk_sha256": "4be4f056a65def993dca34170c2b02fb8e4342a1adac3baa01abcdecc42dcb4e",
+    "apk_bytes": 65882139,
+    "signers": [
+      "32bcb2287acd01c1f58c26997c7639f3072c74c6b03ab2a24656dc7cd1c7dc3c"
+    ],
+    "package_payload_manifest_sha256": "4ce07f189544bd9707f574ad2a7ce2052590691cce6372bb71d7f80af26d4541",
+    "payload_entries": 169,
+    "signature_verification_exit": 0
+  },
+  {
+    "artifact_id": 12163537137,
+    "archive_sha256": "15deda68cc263929904884d017cb884e7df1988caaedabe65113cd3ff3499a80",
+    "apk_sha256": "e4f38c1ee05f19dbf78bea83c2aa283cd09796528d7d44f0d6716a43cdd08080",
+    "apk_bytes": 65877874,
+    "signers": [
+      "32bcb2287acd01c1f58c26997c7639f3072c74c6b03ab2a24656dc7cd1c7dc3c"
+    ],
+    "package_payload_manifest_sha256": "17913f31ac191599e18e4caf52374064bf94d4457852f477022a309b0cb1a7fb",
+    "payload_entries": 167,
+    "signature_verification_exit": 0
+  },
+  {
+    "artifact_id": 12163548770,
+    "archive_sha256": "d596412c6206af48343f52cfb2bd016b581f5f03c6af88dec4276de237cb9d51",
+    "apk_sha256": "8d67bb5d8699a306859e687e40efd7192fe09441dc66fa8fc1eeaf6d23799672",
+    "apk_bytes": 65877874,
+    "signers": [
+      "32bcb2287acd01c1f58c26997c7639f3072c74c6b03ab2a24656dc7cd1c7dc3c"
+    ],
+    "package_payload_manifest_sha256": "d91b887fee51be627acfca9aaab1b34458272fbc8696ba2cf89ad8b54aacc180",
+    "payload_entries": 167,
+    "signature_verification_exit": 0
+  },
+  {
+    "artifact_id": 12161098244,
+    "archive_sha256": "896b0f2697b7b6ea0aeb525d90d53b57a164c31be0b7f4d28ca88d32fe401d64",
+    "apk_sha256": "a8a40bdf82bfd9a9fb2ba691c5307d0b62a0339e3cccadf1a3e8a98e17e667f2",
+    "apk_bytes": 60939719,
+    "signers": [
+      "e4403bbb6f25b33b7d165bfb258ece308fc0a30e68ca0ea8057bfa85f5117b5a"
+    ],
+    "package_payload_manifest_sha256": "842168190a0e6e1826810b958a5f686d4f6fa5c3da1e1bd5b279c71026549930",
+    "payload_entries": 139,
+    "signature_verification_exit": 0
+  },
+  {
+    "artifact_id": 12161727935,
+    "archive_sha256": "b3a0b9a91d0f815e44abac0985e169e47a10f198f357a0ad4f6c2d6f15d4e6e1",
+    "apk_sha256": "a4ea21686348933e7180a294a7512e3166b818aa032b3b584a32ecd8ee299a39",
+    "apk_bytes": 60939719,
+    "signers": [
+      "5aecb5d14247e4064249273f0f7663b05d27fa142acf83b2857cac98e96b49d9"
+    ],
+    "package_payload_manifest_sha256": "e2c858c51591cd57551deaa7ba85ec0877fb12fe0bd1397008770c6221af6773",
+    "payload_entries": 139,
+    "signature_verification_exit": 0
+  }
+]

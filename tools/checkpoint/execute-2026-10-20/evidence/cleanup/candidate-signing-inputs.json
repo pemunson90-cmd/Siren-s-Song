@@ -1,0 +1,72 @@
+[
+  {
+    "artifact_id": 12172267647,
+    "sha": "bc95b4de13b3140bcde07e35a30c82a81887b82c",
+    "signing_and_export_paths": [
+      {
+        "path": "game/export_presets.cfg",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "5e08be83ab58d7b3151f4f24f3f198d8c1c91f29",
+        "size": 907,
+        "url": "https://api.github.com/repos/pemunson90-cmd/Siren-s-Song/git/blobs/5e08be83ab58d7b3151f4f24f3f198d8c1c91f29"
+      }
+    ]
+  },
+  {
+    "artifact_id": 12164513915,
+    "sha": "92625acdf55a6e45c55903a7943aef994ba334a7",
+    "signing_and_export_paths": [
+      {
+        "path": "game/export_presets.cfg",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "5e08be83ab58d7b3151f4f24f3f198d8c1c91f29",
+        "size": 907,
+        "url": "https://api.github.com/repos/pemunson90-cmd/Siren-s-Song/git/blobs/5e08be83ab58d7b3151f4f24f3f198d8c1c91f29"
+      }
+    ]
+  },
+  {
+    "artifact_id": 12164107347,
+    "sha": "f19bbcd9cc6519e58cdadbacc1991aaaa92f1fdf",
+    "signing_and_export_paths": [
+      {
+        "path": "game/export_presets.cfg",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "5e08be83ab58d7b3151f4f24f3f198d8c1c91f29",
+        "size": 907,
+        "url": "https://api.github.com/repos/pemunson90-cmd/Siren-s-Song/git/blobs/5e08be83ab58d7b3151f4f24f3f198d8c1c91f29"
+      }
+    ]
+  },
+  {
+    "artifact_id": 12163537137,
+    "sha": "322d23c2201300eee80f80ef4d719cb516781c41",
+    "signing_and_export_paths": [
+      {
+        "path": "game/export_presets.cfg",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "5e08be83ab58d7b3151f4f24f3f198d8c1c91f29",
+        "size": 907,
+        "url": "https://api.github.com/repos/pemunson90-cmd/Siren-s-Song/git/blobs/5e08be83ab58d7b3151f4f24f3f198d8c1c91f29"
+      }
+    ]
+  },
+  {
+    "artifact_id": 12161098244,
+    "sha": "446344638ed98cba7549b4daccb93e1f978354ad",
+    "signing_and_export_paths": [
+      {
+        "path": "game/export_presets.cfg",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "5e08be83ab58d7b3151f4f24f3f198d8c1c91f29",
+        "size": 907,
+        "url": "https://api.github.com/repos/pemunson90-cmd/Siren-s-Song/git/blobs/5e08be83ab58d7b3151f4f24f3f198d8c1c91f29"
+      }
+    ]
+  }
+]

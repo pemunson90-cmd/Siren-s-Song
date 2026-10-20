@@ -1,0 +1,38 @@
+Witness rescue exact-head integration review
+
+VERDICT: SOURCE APPROVED for e8c1241e9e9269000660d2f1d97f923eb490f08a.
+No consequential blocker found under the crash/softlock/finishability/current-save/input scope. This is the same sole integration reviewer as PR37. Root retains the separate new exact-head guidance/game-smoke CI and merge-freshness gates; no final CI success or merge is claimed here.
+
+Governing production: 8e0eb35cd87279b51f40cd4616cdd7fba66725ce, independently rechecked through GitHub immediately before verdict. Review boundary refreshed. Current AGENTS and USER_DIRECTIVES read first; source authority, full living specification, parity and architecture apply. The four concise proposed live-doc updates were inspected. CONTINUATION and WORKBENCH remain 39 lines each. The original unpublished witness design/result files are absent; no provenance was invented or recreated.
+
+Exact composition:
+- Final HEAD e8c1241e9e9269000660d2f1d97f923eb490f08a has worker 49d4d35590fb67bd900aba14b7342b4179c600d7 and production 8e0eb35cd87279b51f40cd4616cdd7fba66725ce as parents.
+- Final and frozen tested worker game trees both equal af0556f8a2601c76eb09249bf4f16b069e5dd8e8; direct game diff is empty.
+- Worker-to-final changes are the already-reviewed PDF cleanup and CONTINUATION base SHA update. Tracked source is clean; generated untracked UIDs were preserved.
+- Model/campaign source is byte-identical to published 72a22bc85e98c794175ee263eebfcf031d6a66e0, whose completed model behavior was reviewed directly.
+- Fresh diff --check and test.sh bash-n exit 0. The existing strict PR workflow registers model, journey and UI witness harnesses; no new CI framework.
+
+Source assessment:
+The occupied pod is one custody object on an actual craft, not a fourth combat body. Unknown berth picking/drawing is suppressed until the model earns its measurement. Known own wreck/cargo and briefed harbour coordinates remain legitimate projections. Presenter additions use public witness status/context, shared salvage queries and ordinary commands, with no UI model/save/schema additions.
+
+Local audible winch and shared kit/pod rescue retain one target/job; the actual carrier owns cargo/work. Carrier loss ejects the same occupied pod. Explicit local LAND is available on the carrier/harbour, rejects remote or ineligible use, and cannot substitute for normal Quietus recovery. Physical camera-only completion remains blocked. Bare Quietus and the closed-sluice route preserve finishability after helper loss. Optional sluice OPERATE retains its own object action and is not intercepted by known witness cargo.
+
+WINCH/LAND ignore native GUI commitment and share gesture-owned same-button validation, including short drag, cancellation and emulated releases. PR37 recovery route intent and pointer ownership remain preserved. Current-dive arrival illustration reads actual landed_by; same-frame ending does not erase it. Replay retains first committed campaign facts. A landed passenger can remain visibly safe after Quietus loss without granting a successful campaign arrival. No additional consequential source-specific gap requiring another runtime probe was identified.
+
+Evidence independently read/checked, not re-executed by this reviewer:
+Final exact-source Compatibility renderer 108/0 and headless UI 108/0; model 49/0; original-guard journeys 29/0; core 303/0; recovery 68/0; Fleet 114/0; module runtime 22/0. Each retained log contains its expected positive zero-failure summary, with no FAIL, SCRIPT ERROR or ERROR lines. Worker reports final renderer exit 0; the final complete log supersedes the earlier 120-second timed-out renderer, which is not accepted as completed evidence.
+
+Final renderer log SHA256:
+3f0f0ec433dfa1add4d5e0e20db64090106bf3be9aabfbe15ecab5a22b05f1cf
+Headless UI log SHA256:
+5c597db54defe13a555527956411355dee5ee9884460a6ad9f229db95647ac3c
+Model journey log SHA256:
+60248062bf8644b83474b6429f5100219a9427f5b831753d21e4788b6badf5c5
+
+Independently viewed all 8 final frames in witness-ui/captures-final: cover 2520x1080 and inner 2184x1968, each with occupied berth, shared wreck rescue, landed harbour and already-home arrival. Actions, actual living cargo versus inert kit, physical landed pod and persistent actual-carrier arrival are visible. No consequential visual obstruction found.
+
+Scope/limits:
+UI fixtures use source-known staged own positions and ordinary injected touch/emulated mouse input; they do not establish blind tactical preference or earned campaign pacing. The original-guard controllers establish source-known physical finishability: quiet detour 157.15s, sluice 139.17s with 1 EMP and a real reacting guard, loaded-drone beam loss/rescue 250.25s with 2 torpedoes. All three finish hull 100. They are not blind touch journeys. Desktop Godot 4.6.3 Compatibility/Mesa software rendering and Dummy audio do not certify physical Fold7 ergonomics, native performance or headphone experience. Final renderer VSync-support warning and module harness ObjectDB shutdown warning remain disclosed.
+
+Evidence directory: /workspace/work/gauntlet-execution-20261020/witness-ui/.
+No broad duplicate tests, APK, source edits, push, PR comments/reviews or merge performed by this reviewer. Approval is bound only to the exact final HEAD above; source/base movement requires delta reconciliation and renewed SHA binding before merge.

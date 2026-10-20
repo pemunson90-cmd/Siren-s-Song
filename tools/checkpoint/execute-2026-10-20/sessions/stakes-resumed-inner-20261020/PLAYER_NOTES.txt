@@ -1,0 +1,14 @@
+GENUINE STAKES CAMPAIGN CONTINUATION, 2026-10-20
+Player scope: screenshots, ordinary touch/key input, own-state harness metrics only. No game source, tests, winning routes, state edits, callbacks or restarts.
+Frozen source supplied as 0eea954dc94762b9a87565e40d3a9d98db2c8c44 / game tree10a100a73dc676c4267409fa11f2eec2f4fcb09d. Governing instructions supplied as production e3a541fb24c2a3f136121150b7a0d2960546fda7; read AGENTS.md and USER_DIRECTIVES.md.
+Recovery context limit: earlier local logs and 299 frames unavailable. Inherited only exact genuine save state and planned next four-second burst with A survey already spent2->1. No invented earlier observations.
+Started unique stakes-resumed-inner-20261020 on display:527 with immutable profile copied by harness. Menu and ordinary RESUME both showed mission11,63.6666666666643s,hull100,O2 92.4206349206366,paused,both drones alive, survey1.
+Inherited four-second burst finished paused at68.4333333333307s,hull100,O2 91.8531746031765. A settled at1902.7601,1002.8682. No additional survey charge used.
+Inspected A status: 12 CONFLUENCE; Observed confluence_repeater; choose an available named recovery corridor. Known sites1,recorded1. Repeated menu exploration while paused; no time advancement.
+Used FLEET -> VIEW -> FIT. Full map revealed Concealed Ascent at bottom-left and Open Warning Passage at bottom-right. B was near bottom-left, Q/A near top. Chose Concealed Ascent on this own-screen evidence.
+Concealed status while B selected: RECOVERY NOT READY, approach only; only Quietus settled arrival commits corridor. Selected Quietus through fleet radial and plotted Concealed Ascent approach. Goal440,4510; drawn route had a short cyan part and long dashed continuation through unrevealed terrain. Did not choose based on engineering branch requirements.
+Five-second burst ended paused at74.3166666666637s,hull100,O2 91.1527777777798. Q barely moved to2017.8071,1142.4021,speed0.377; route may be blocked or affected by shared display focus. No collision/loss/outcome observed.
+Root reported three sessions sharing display:527 could steal focus and trigger safety pause. Stopped advancement immediately, Escape to menu, harness quit normally. Quit metrics equal pre-quit metrics exactly; process listing found no matching session process. This infrastructure risk limits conclusions about movement, not a demonstrated game defect.
+Final A battery95.978629992213 alive; B92.8966334452203 alive; tools decoy3,emp3,knock2,recon1.
+Working save SHA256 fa331aa3c1b96f4005d033fb83a5e9646e22df56b8f5a4d19bb432932c408a0e.
+Pending: resume exact progressed working save in stakes-resumed-isolated-inner-20261020 on dedicated:528 once root signals readiness. Preserve this session/raw input and original immutable profile.

@@ -1,0 +1,24 @@
+{
+  "head": "e8c1241e9e9269000660d2f1d97f923eb490f08a",
+  "base": "8e0eb35cd87279b51f40cd4616cdd7fba66725ce",
+  "ci_run": 39414624447,
+  "merge": {
+    "sha": "92814c21132d3e9babb649172024ca67881b1df9",
+    "merged": true,
+    "message": "Pull Request successfully merged"
+  },
+  "checks": [
+    {
+      "name": "game-smoke",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/39414624447/job/118600506843"
+    },
+    {
+      "name": "guidance",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/39414624447/job/118600506474"
+    }
+  ]
+}

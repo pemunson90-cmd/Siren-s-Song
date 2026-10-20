@@ -1,0 +1,21 @@
+{
+  "status": "COMPLETED",
+  "branch": "archive/gauntlet-cold-frames-execution-2026-10-20",
+  "commit": "2b6fdd7a3cba90251a0ca4bcb091388b87f77db0",
+  "previous_closed_only_commit": "d83c45a07be1cacc97c2618d5e5e992b7dc3e556",
+  "sessions": 6,
+  "ui_pngs": 16,
+  "pngs": 467,
+  "numeric_pngs_byte_reconstructed": 445,
+  "named_pngs_byte_reconstructed": 22,
+  "original_bytes": 961180637,
+  "media_bytes": 125013158,
+  "media_parts": 8,
+  "max_part_bytes": 41943040,
+  "reduction_percent": 86.99,
+  "all_original_pngs_retained": true,
+  "no_active_archive_jobs": true,
+  "receipt": "/workspace/work/gauntlet-execution-20261020/media-archive/REMOTE_RECEIPT.json",
+  "restore_instructions": "/workspace/work/gauntlet-execution-20261020/media-archive/publish/README.md",
+  "completion_production": "c2db5eb6764db14fcf7ea2185f6c8e4f04bb36dd"
+}

@@ -1,0 +1,45 @@
+Witness rescue UI implementation — 20 October 2026
+Branch: gauntlet/feature/witness-rescue-ui
+Worktree: /workspace/Siren-s-Song-berth-instruments
+Final HEAD: 49d4d35590fb67bd900aba14b7342b4179c600d7
+Game tree: af0556f8a2601c76eb09249bf4f16b069e5dd8e8
+Prepared baseline: 023025eb150d3c7f406d24071b8aeacfa6a9c0be
+Governing production refreshed during work: aaaa3756516ab65073df956a13a244e8bdc5306f
+Prepared baseline includes reviewed PR37 and published witness model78f0409/72a22bc.
+
+Behavior
+New presenter consumes only witness_status/context and shared salvage projections.
+Measured berth and own known wreck use one physical pod/site; generic original witness marker/picking is replaced.
+Actual carrier displays attached pod, living cargo cue and one shared pod/kit work arc.
+Existing contextual WINCH and carrier/harbour LAND use real commands, full-size targets and a single gesture owner.
+EXTRACT retains PR37 route/drive/profile/queue behavior. Optional sluice OPERATE remains independent.
+Persistent arrival illustration names actual current landing craft even with Q already home.
+Replay keeps first campaign history; failed Q recovery can show a safely landed passenger without awarding campaign arrival.
+No model API, save schema, compatibility flag, permanent button row or APK added.
+Root-authored four living-doc updates included in the commit.
+
+Verification
+Initial RED: red.log — 6 checks / 4 expected UI failures.
+Sluice RED: sluice-red.log — 96 / 4 expected interception/opening failures.
+Final headless UI: final-headless.log — 108 / 0, exit0.
+Final exact-source Compatibility renderer: renderer-final.log — 108 / 0, exit0, no FAIL/SCRIPT ERROR/ERROR.
+Godot4.6.3, DISPLAY:527, gl_compatibility, Dummy audio.
+Core: core.log — 303 / 0.
+Witness model baseline: model-baseline.log — 49 / 0.
+Original-guard model journeys: model-journey.log — 29 / 0.
+Recovery routes: recovery-route.log — 68 / 0.
+Fleet rings: fleet-ring.log — 114 / 0.
+Module recovery runtime: module-runtime.log — 22 / 0; that harness also reports ObjectDB instances leaked at exit.
+Git diff check and governing guidance structural checker pass.
+
+All eight final screenshots visually inspected:
+captures-final/{cover,inner}-{occupied-berth,shared-wreck-rescue,landed-harbour,already-home-arrival}.png
+Initial screenshots and renderer.log retained; that earlier renderer hit120s timeout after its eight captures and has no completed summary.
+The final renderer used240s timeout and completed normally.
+
+Limits
+Source-known staged UI fixtures prove input/state composition, not blind campaign pacing or player preference.
+Original-guard journeys are source-known simulation controllers, not genuine touch journeys.
+Desktop software rendering does not certify physical Fold7 ergonomics, native performance or headphone experience.
+Generated untracked import UIDs were preserved, not staged. No production push or merge performed.
+Single integration reviewer and exact-head PR CI remain root-owned.

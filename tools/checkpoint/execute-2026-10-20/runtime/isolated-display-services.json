@@ -1,0 +1,59 @@
+[
+  {
+    "display": ":528",
+    "owner": "stakes",
+    "pid": 6845,
+    "command": [
+      "/workspace/Siren-s-Song-gauntlet-archives/recovery-20261020/runtime/root/usr/bin/Xvfb",
+      ":528",
+      "-screen",
+      "0",
+      "2520x1968x24",
+      "-nolisten",
+      "tcp",
+      "-ac"
+    ],
+    "framebuffer": "2520x1968x24",
+    "tcp_listening": false,
+    "xdpyinfo_exit_code": 0,
+    "verified_utc": "2026-10-20T11:11:03.473074+00:00"
+  },
+  {
+    "display": ":529",
+    "owner": "drone",
+    "pid": 6846,
+    "command": [
+      "/workspace/Siren-s-Song-gauntlet-archives/recovery-20261020/runtime/root/usr/bin/Xvfb",
+      ":529",
+      "-screen",
+      "0",
+      "2520x1968x24",
+      "-nolisten",
+      "tcp",
+      "-ac"
+    ],
+    "framebuffer": "2520x1968x24",
+    "tcp_listening": false,
+    "xdpyinfo_exit_code": 0,
+    "verified_utc": "2026-10-20T11:11:03.482088+00:00"
+  },
+  {
+    "display": ":530",
+    "owner": "fresh-critic",
+    "pid": 6847,
+    "command": [
+      "/workspace/Siren-s-Song-gauntlet-archives/recovery-20261020/runtime/root/usr/bin/Xvfb",
+      ":530",
+      "-screen",
+      "0",
+      "2520x1968x24",
+      "-nolisten",
+      "tcp",
+      "-ac"
+    ],
+    "framebuffer": "2520x1968x24",
+    "tcp_listening": false,
+    "xdpyinfo_exit_code": 0,
+    "verified_utc": "2026-10-20T11:11:03.490390+00:00"
+  }
+]

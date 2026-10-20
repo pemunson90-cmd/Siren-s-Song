@@ -1,0 +1,8 @@
+Maintenance exact-head review
+
+VERDICT: APPROVED for 02d6cd4f0509231b58b52d9b9d567b05d0b066d2.
+Governing production/base: aaaa3756516ab65073df956a13a244e8bdc5306f; review boundary refreshed, unchanged current directives apply.
+
+The only changes delete the redundant references/visual PDF and add its 141-byte README linking to the canonical source. The deleted and retained PDFs have identical Git blob 7ca516e204576e8376cc34c599cc5cd6318bf8f9. Independently compared exact bytes (37833406 bytes), SHA256 4d39691d89d36f77224dc0fae9b1c2ecf36ca9e08868fb9dfb532046f86b1bc5. The retained canonical PDF and references/package/MANIFEST.json are unchanged. The README relative link resolves exactly to the retained file. Tracked-source reference search finds only the canonical manifest entry and new README link, with no inbound link to the deleted path. No game, tooling, workflow or canonical-package delta; git diff --check exited zero. Game tree remains 393e8f4bb77f7a5e7ba7052618ef316e1a14db65.
+
+No consequential concern found. No gameplay rerun needed for this documentation/storage-only delta. Root must verify fresh standard CI and production/head/base freshness before merge. If the base advances, inspect the actual composition and rebind the exact head. No CI success or merge claimed. No source edit, push, PR comment/review or merge performed by this reviewer.

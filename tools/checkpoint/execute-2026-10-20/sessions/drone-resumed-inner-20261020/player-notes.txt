@@ -1,0 +1,8 @@
+Genuine drone-led continuation, 20 October 2026.
+Recovered only brief and immutable save; old local logs/167 frames unavailable. No claims about pre-recovery route or observations.
+Ordinary RESUME preserved mission1 Split Channel elapsed59.0833333333313 hull73.3 O2 100.30555555554 and all craft alive. Object status showed RECORDS2/3; uplink NOT RECORDED.
+Fresh view showed S2 aiming at Drone B, BEAM2.7s. Used Drone B DISRUPT via visible tools ring, spending last EMP; first short burst showed S2 DISRUPTED without loss. Quietus continued inherited uplink route.
+Learning route rings required several paused taps. PLAN ROUTE preview made waypoints explicit and allowed a retreat round visible cover. A routed south west of central rock, B toward corridor between central and east rocks, both toward recovery via gap below central rock. Routes remain in progress, not claims of safe completion.
+Two bounded bursts total advanced elapsed to63.2666666666644. No hull loss or craft loss in recovered segment. A83.6948845984114 battery, B85.0724564470533. Tools decoy3 EMP0 torpedo2 survey2. Quietus reached1099.9188,1659.9313 near uplink but uplink still pending at last visible screenshot.
+Root identified shared display:527 focus-steal/safety-pause risk. Immediately stopped advancement, Escape menu then harness quit normally; final elapsed unchanged63.2666666666644, paused, process absent. Initial interval evidence carries shared-display interruption limitation; not a gameplay defect conclusion.
+Current progressed save sha256 bdfc21aabd582b3c507a0d802165722b154f5728673810821afe47acb01b7722. Immutable original untouched. Await dedicated display:529 for exact-current-save resume.

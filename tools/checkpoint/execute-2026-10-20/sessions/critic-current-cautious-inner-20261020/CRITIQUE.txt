@@ -1,0 +1,15 @@
+Fresh cautious player, current source e3a541fb24c2a3f136121150b7a0d2960546fda7.
+Read only mandatory AGENTS.md/USER_DIRECTIVES.md and live-input harness README/help. Disregarded build/quality claims; no source, tests, solutions, other reviews or campaign save contents read.
+Real Window key/touch input, full screenshots viewed; unlimited in-game pause; burst.py for bounded raw Space run/pause. Audio Dummy, no audio/hardware-ergonomics verdict.
+
+Initial session critic-current-cautious-inner-20261020; fresh profile, inner 2184x1968, display :527. Runtime root discovered shared-display risk; preserving progress and migrating to dedicated display, NOT restarting. Display resize/viewport observations are excluded from game verdict because of this harness confound.
+
+Play record before migration:
+- Operations archive: Shelf Signal available, five named locked operations. Opened Shelf Signal. Briefing clearly states photo spire, return Quietus; explains quiet movement, sonar warning, pause, water routing, command ring and 240m camera limit. Scrolled to read costs/capabilities. Reading is dense but manageable with pause.
+- Entered paused at extraction. Initial camera was close; objective offscreen. FLEET -> VIEW -> FIT revealed region. Quietus silent was already checked. Command ring showed CAMERA, SONAR, SILENT, PLAN ROUTE, ROUTE, TOOLS, GUARD, STATUS.
+- Quietus alone routed southeast of central rock through two manually chosen water destinations, using 10s, 6s, 10s and 1s real run bursts. Drones remained at extraction. No threat ever visibly encountered; no sonar or tools used.
+- CAMERA at position near spire began 0% exposure, bottom instruction held 4 seconds. One 4s burst secured record; visible order changed to return Quietus, spire changed gold to cyan. OP PRESSURE DORMANT appeared. No damage. Clear action/completion feedback.
+- Inspected cover with ordinary resize while paused, then inner. Subsequent render used partial-height viewport; shared display confound, not game defect.
+- FLEET -> MENU displayed RESUME ACTIVE MISSION. Normal harness quit returned ok. No game session process remained. Elapsed34.2167s, hull100, O2~100.99, drones~93.35 battery; all alive. Tools unchanged (3 decoys,2 disrupt,2 survey,2 torpedoes). Exact save retained under data/godot/app_userdata/Siren's Song/quietus.save. Continuing same progress on dedicated display.
+
+Provisional experience notes (first operation not yet extracted): Clear objective and camera feedback. Map rocks/physical route meaningful enough to navigate, but no enemy encounter or reason yet to use the two drones or finite tools. Most thought so far spent on finding region view and ring navigation, while actual travel/exposure calm. No accidental water command yet. No verdict about later content.

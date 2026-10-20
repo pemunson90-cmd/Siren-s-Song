@@ -1,0 +1,6 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+WITNESS JOURNEY solo-detour outcome=won time=157.150000000017 loaded_return=78.1666666666871 loaded_metres=4325.56661371328 hull=100.0 oxygen=82.5833333333418 EMP=2 torpedoes=2 guard_reacted=false
+WITNESS JOURNEY solo-sluice outcome=won time=139.16666666667 loaded_return=60.1833333333394 loaded_metres=2554.49934571981 hull=100.0 oxygen=86.8650793650869 EMP=1 torpedoes=2 guard_reacted=true
+WITNESS JOURNEY beam-loss-rescue outcome=won time=250.250000000091 hull=100.0 oxygen=60.4166666666802 EMP=2 torpedoes=0 wreck=(1774.402, 1775.448) losses=[1]
+WITNESS EVACUATION JOURNEY CHECKS 29 FAILURES 0
