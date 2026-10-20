@@ -16,7 +16,8 @@ No routine label/layout polish, save-validation expansion, evidence packets or g
 Stakes, the authored Confluence and practical fleet instruments are integrated.
 Earned-course continuity and physical module recovery are integrated; optional kit now has a lasting fleet consequence.
 The physical Deep Rendezvous tender is integrated with its quiet fallback.
-Continue genuine whole-game evaluation, route-first fleet interaction and distinct existing-operation jobs.
+Route-first fleet interaction is integrated. Continue genuine whole-game evaluation and Blackwater packet delivery.
+The delivery experiment responds to two actual drone-led wins that cut off the intended return leg.
 Genuine full-game journeys continue; focused Confluence play uses explicitly staged access.
 The user’s camera-control tweak is implemented: FOCUS/FIT/zoom live under FLEET → VIEW; direct drag/pinch remain.
 Observed-task automation, TASK/NONE and new chapter IDs stay shelved on their published branches.
