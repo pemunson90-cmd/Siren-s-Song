@@ -15,7 +15,10 @@ static func status(sim)->Dictionary:
   for item in state.wrecks:
    if packet in state.wrecks[item].packets:salvage.append(item)
   packets.append({"id":packet,"name":["REQUEST","REPLY"][packet],"recorded":sim.mission.objectives[packet].captured,"aboard":packet in state.aboard,"carriers":carriers,"salvage":salvage})
- return {"packets":packets,"cargo":cargo,"jobs":state.jobs.duplicate(true),"complete":complete(sim),"text":"Exchange aboard Quietus · return to recovery" if complete(sim) else "Field records are retained · bring raw exchange buffers to Quietus for local TRANSFER"}
+ var jobs=state.jobs.duplicate(true)
+ for job in jobs:
+  if not job.is_empty():job["duration"]=4.0
+ return {"packets":packets,"cargo":cargo,"jobs":jobs,"complete":complete(sim),"text":"Exchange aboard Quietus · return to recovery" if complete(sim) else "Field records are retained · bring raw exchange buffers to Quietus for local TRANSFER"}
 static func handoff_context(sim,carrier:int)->Dictionary:
  var result={"carrier":carrier,"ready":false,"reason":"No exchange buffer available","packets":[],"distance":0.0,"range":RANGE}
  if not applies(sim.mission) or carrier not in [1,2]:return result
@@ -72,3 +75,89 @@ static func valid(data:Dictionary)->bool:
   if job.size()!=2 or not job.get("item") in state.wrecks or job.item in claimed or not (job.get("elapsed") is int or job.get("elapsed") is float) or not is_finite(job.elapsed) or job.elapsed<0 or job.elapsed>4:return false
   claimed.append(job.item)
  return data.get("outcome","")!="won" or (0 in state.aboard and 1 in state.aboard)
+static func needs_sample(sim,packet:int,unit:int)->bool:
+ return applies(sim.mission) and packet not in sim.mission.blackwater_delivery.aboard and packet not in sim.mission.blackwater_delivery.carriers[unit]
+static func busy(sim,unit:int)->bool:return applies(sim.mission) and not sim.mission.blackwater_delivery.jobs[unit].is_empty()
+static func losses(sim)->void:
+ if not applies(sim.mission):return
+ var state=sim.mission.blackwater_delivery
+ for id in [1,2]:
+  if sim.units[id].alive or state.carriers[id].is_empty():continue
+  state.wrecks["blackwater_buffer_%d"%id]={"pos":sim.units[id].pos,"packets":state.carriers[id].duplicate()};state.carriers[id].clear()
+  sim.message="Raw exchange buffer at lost craft position · recover the wreck or SAMPLE the fixed relay again"
+static func packets_at(sim,pos:Vector2)->Array:
+ var result=[]
+ if not applies(sim.mission):return result
+ var state=sim.mission.blackwater_delivery
+ for wreck in state.wrecks.values():
+  if wreck.pos.distance_to(pos)>1:continue
+  for packet in wreck.packets:
+   if packet not in state.aboard and packet not in result:result.append(packet)
+ result.sort();return result
+static func sites(sim,modules:Array)->Array:
+ if not applies(sim.mission):return modules
+ var result=[]
+ for module in modules:
+  var same=result.filter(func(site):return site.pos.distance_to(module.pos)<=1)
+  if same.is_empty():result.append(module.duplicate(true))
+  else:same[0].name+=" + "+module.name
+ for site in result:
+  site["packets"]=packets_at(sim,site.pos)
+  if not site.packets.is_empty():site.name+=" + raw "+"/".join(site.packets.map(func(p):return ["REQUEST","REPLY"][p]))
+ var state=sim.mission.blackwater_delivery
+ for item in state.wrecks:
+  var wreck=state.wrecks[item];var packets=packets_at(sim,wreck.pos)
+  if packets.is_empty() or result.any(func(site):return site.pos.distance_to(wreck.pos)<=1):continue
+  result.append({"item":item,"name":"Raw "+"/".join(packets.map(func(p):return ["REQUEST","REPLY"][p]))+" buffer","pos":wreck.pos,"packets":packets})
+ return result
+static func context(sim,item:String,unit:int)->Dictionary:
+ var result={"item":item,"unit":unit,"ready":false,"reason":"Buffer unavailable","active":false,"claimed_by":-1,"elapsed":0.0,"duration":4.0,"distance":0.0,"range":RANGE,"noise_radius":520.0,"packets":[]}
+ if not applies(sim.mission) or unit not in [0,1,2]:return result
+ var state=sim.mission.blackwater_delivery
+ if not state.wrecks.has(item):return result
+ var pos=state.wrecks[item].pos;result.packets=packets_at(sim,pos);result.distance=sim.units[unit].pos.distance_to(pos)
+ for id in 3:
+  if not state.jobs[id].is_empty() and state.jobs[id].item==item:result.claimed_by=id;result.active=id==unit;result.elapsed=state.jobs[id].elapsed
+ if not sim.outcome.is_empty():result.reason="Dive ended"
+ elif not sim.units[unit].alive:result.reason="Craft lost"
+ elif result.packets.is_empty():result.reason="This data is already aboard Quietus"
+ elif result.claimed_by>=0:result.reason="Recovery in progress"
+ elif busy(sim,unit) or not sim.module_recovery_status().jobs[unit].is_empty() or not sim.captures[unit].is_empty():result.reason="Finish this craft's active work first"
+ elif result.distance>RANGE:result.reason="Move within60m"
+ elif not sim.line_clear(sim.units[unit].pos,pos):result.reason="Terrain blocks recovery"
+ elif sim.units[unit].vel.length()>=2:result.reason="Settle below2m/s"
+ else:result.ready=true;result.reason="Recover raw buffer · audible winch4s"
+ return result
+static func begin(sim,item:String)->bool:
+ var c=context(sim,item,sim.selected)
+ if not c.ready:sim.message=c.reason;return false
+ sim.mission.blackwater_delivery.jobs[sim.selected]={"item":item,"elapsed":0.0};sim.units[sim.selected].hold="HOLD"
+ sim._noise(sim.units[sim.selected].pos,520,"RECOVERY WINCH",4);sim.events.append({"type":"salvage","pos":sim.units[sim.selected].pos,"item":item});sim.message=c.reason;return true
+static func collect_at(sim,unit:int,pos:Vector2)->void:
+ if not applies(sim.mission):return
+ var state=sim.mission.blackwater_delivery;var cargo=state.aboard if unit==0 else state.carriers[unit]
+ for item in state.wrecks.keys():
+  if state.wrecks[item].pos.distance_to(pos)>1:continue
+  for packet in state.wrecks[item].packets:
+   if packet not in cargo:cargo.append(packet)
+  state.wrecks.erase(item)
+ cargo.sort()
+static func cancel_released(sim,unit:int)->void:
+ if applies(sim.mission) and sim.units[unit].hold!="HOLD":sim.mission.blackwater_delivery.jobs[unit]={}
+static func tick(sim,dt:float)->void:
+ if not applies(sim.mission):return
+ losses(sim);var state=sim.mission.blackwater_delivery
+ for id in 3:
+  var job=state.jobs[id]
+  if job.is_empty():continue
+  var unit=sim.units[id]
+  if not unit.alive or unit.hold!="HOLD" or not state.wrecks.has(job.item) or unit.pos.distance_to(state.wrecks[job.item].pos)>RANGE or not sim.line_clear(unit.pos,state.wrecks[job.item].pos):
+   state.jobs[id]={}
+   if unit.hold=="HOLD":unit.hold=""
+   sim.message="Buffer recovery interrupted"
+  elif unit.vel.length()>=2:job.elapsed=0.0
+  else:
+   job.elapsed+=dt
+   if job.elapsed+0.0000001>=4:
+    sim._collect_blackwater_wreck(id,state.wrecks[job.item].pos);state.jobs[id]={};unit.hold=""
+    sim.message="Raw buffer recovered · "+("aboard Quietus" if id==0 else "local TRANSFER to Quietus still required")
