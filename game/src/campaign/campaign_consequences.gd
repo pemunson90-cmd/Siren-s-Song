@@ -81,6 +81,8 @@ static func observe(sim,active:bool=false)->void:
     source.located=true;m.expedition_facts[source.id]=source.evidence
     var site={"pos":source.pos,"name":source.label,"site_id":source.id,"captured":not source.get("confirm",false),"evidence":source.evidence,"optical":source.get("optical",source.id)}
     if source.get("confirm",false):site.merge({"kind":"receiver","required_unit":0,"duration":4.0,"sampler_compatible":source.get("sampler_compatible",false)})
+    for key in ["optional","completion_open_structure","completion_emission"]:
+     if source.has(key):site[key]=source[key].duplicate(true) if source[key] is Dictionary else source[key]
     m.objectives.append(site);sim.message=source.label+" locally identified · packet reception is a separate task" if source.get("confirm",false) else source.label+" locally identified · field note retained"
   for receiver in sim.units.size():
    var unit=sim.units[receiver]

@@ -11,6 +11,8 @@ All game drawing, noise materials, and procedural audio are original work produc
 
 Generated material fidelity and viewpoint continuity remain subject to the independent visual review and continued art direction.
 
+- `src/presentation/confluence_world.gd` and `confluence_resolution.gd`: original authored procedural basalt relief, seafloor sediment, factory architecture, articulated hunter and recovered-passage scene. Reuse the original basalt, foundry and Quietus production assets above; no concept scene is used as a game background. Live Confluence relief consumes only measured surface patches and confirmed water; the factory appears only after local discovery.
+
 - `craft/siren_ray.png`: original transparent sprite generation `exec-af79225c-9265-4868-b093-e263da9fe36d`, using the approved angular-ray study as design reference. Separate physical asset; beam/target/impact remain live simulation-driven overlays.
 
 - `evidence/foundry_furnace.png`: original generation `exec-f460f3af-6053-4fcb-87ce-252e2990c60d`, 19 October 2026. Close optical view of molten hollow forms and ribbed industrial enclosure; earned by photographing FURNACE VENT.
