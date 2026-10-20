@@ -1,0 +1,4 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PREARRIVAL hidden=false elapsed=0.0 contacts=0 rows=0 own_feedback={ "rows": [], "own_noise": 0.0, "sector": "all", "power": "high", "listening": 4.8 } other_pending=<null> internal_packets=1
+PREARRIVAL hidden=true elapsed=0.0 contacts=0 rows=0 own_feedback={ "rows": [], "own_noise": 0.0, "sector": "all", "power": "high", "listening": 4.8 } other_pending=<null> internal_packets=2

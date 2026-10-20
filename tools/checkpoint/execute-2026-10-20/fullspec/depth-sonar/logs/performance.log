@@ -1,0 +1,9 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PERF op=0 launch_ms=39.032 mean_step_ms=1.3255925 p95_ms=10.095 p99_ms=11.484 max_ms=30.074 wall_ms=1767.31 pending=2 history=0 noises=2
+PERF op=1 launch_ms=218.213 mean_step_ms=1.14997916666667 p95_ms=7.596 p99_ms=11.478 max_ms=25.102 wall_ms=2498.223 pending=2 history=0 noises=1
+PERF op=2 launch_ms=47.384 mean_step_ms=1.93726166666667 p95_ms=14.327 p99_ms=19.555 max_ms=75.074 wall_ms=2569.3 pending=2 history=2 noises=2
+PERF op=3 launch_ms=73.025 mean_step_ms=2.06545416666667 p95_ms=15.659 p99_ms=24.804 max_ms=35.014 wall_ms=2787.419 pending=2 history=0 noises=1
+PERF op=4 launch_ms=67.571 mean_step_ms=2.03209166666667 p95_ms=14.754 p99_ms=21.214 max_ms=88.533 wall_ms=2703.473 pending=3 history=28 noises=2
+PERF op=5 launch_ms=48.856 mean_step_ms=2.58489333333333 p95_ms=15.411 p99_ms=19.26 max_ms=27.45 wall_ms=3373.838 pending=2 history=2 noises=2
+BOUNDED PERFORMANCE PROBE failures=0

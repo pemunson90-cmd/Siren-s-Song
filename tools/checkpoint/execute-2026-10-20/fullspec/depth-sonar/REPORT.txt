@@ -1,110 +1,119 @@
-INTERNAL CHECKPOINT — DEPTH/SONAR SHARED SYSTEMS + SHELF SIGNAL
+INTEGRATED OPENING0–5 DEPTH / SONAR / STEALTH — FINAL VALIDATION
 Worker /root/depth_sonar_foundation; requested Sol6.1 Medium; backend telemetry unavailable.
 Tree /workspace/Siren-s-Song-play-frozen; branch gauntlet/release/depth-sonar.
-Start a6b6701459989d9cb50c0c62993dd8ed51057f11; foundation landed production fb4cf105.
-Latest user correction: continue SAME branch to integrated opening0–5 milestone.
-This is an internal checkpoint, NOT source release, review request or merge approval.
-Other source trees/profiles, genuine journeys, signer, main and refs untouched.
+Base a6b6701459989d9cb50c0c62993dd8ed51057f11 (productionfb4cf105).
+Internal checkpoints dc9fce2439a9b0069e38f68c1d8042cbcd1c1ce8 and
+15bc945f8f2a4f3feea92db0176a6973de9b2b5e; previous report preserved separately.
+Internal repair checkpoint4b1fc188a3a4973514a1ff100ef2283c9f328618.
+FROZEN / RELEASED final SHA d73b9fa0aa539ea86f81b65f44c25df675138ea4.
+Tracked source clean; generated untracked .gd.uid files retained. Owned Godot processes:0.
+Shared display and other frozen source/profile trees remain untouched.
+One accumulated milestone; root owns SAME reviewer, final-head CI and normal PR.
+Other trees/profiles/main/signer untouched. No APK, migration or approval gate.
 
 API / defaults
-simulation.command("depth", {band:0|1|2}), depth_feedback(); actors store band + transition.
-Adjacent transitions take4s stationary, occupying both bands; route goals survive.
-Geometry defaults inherit; mission.depth_geometry[band].rocks/structures author overrides.
-Structures remain physical across bands, with additional authored per-band structures.
-Added-band charts are measured locally; pre-existing middle chart semantics retained.
-Machinery/camera/extraction require settled MIDDLE. Wreck cargo retains its actual band.
-Thermal cross-band sound factors .42 adjacent/.18 far; deep pump extra .025O2/s
-and .035 drone battery/s. Legitimately acquired depth drives enemy pursuit.
+command("depth",{band:0|1|2}), depth_feedback(); actors store band + transition.
+Adjacent4s stationary transitions occupy both layers and retain route goals.
+Geometry inherits original rocks; depth_geometry[band].rocks replaces, structures adds
+onto inherited machinery. Added-band charts measure locally; no hidden-terrain pathing.
+Local work/extract require settled MIDDLE; wreck/cargo/handoff retain physical layers.
+Deep pumps .025O2/s/.035 droneBAT/s; band sound .42 adjacent/.18 far plus thermal fronts.
+Pursuit uses acquired depth; unseen new player depth is never read.
 command("sonar_mode",{sector:"all"|"forward",power:"low"|"high"}); command("ping").
-Low440m/.4 reserve, high720m/1.2; signature750/1300m for2.5s; cooldown3.5s.
-Forward sector90deg; game-scale propagation300m/s; deterministic diffraction/occlusion.
-Passive local bearings/class confidence/history72; motion masking1+radius/180.
-Triangulation baseline75m, cross>=.14, age<=3s from movement/independent craft.
-Stable actual motor tones correlate; same-tone ambiguity suppresses false fixes.
-Pending packets preserve emission-time geometry/source/depth and arrival bearing.
-Indirect returns provide corner bearings, never hidden true positions. Receiver movement
-or layer changes can lose returns. Stale echoes never replace newer optical contacts.
-Sweeper:2.5s windup, actual delayed returns, stale strike1.5s later,12s cooldown;
-22 hull/28 battery local pressure strike, acquired band and water path required.
-EMP interrupts; motion/depth can evade. Reports reach one peer through local water.
-Only received emission creates local history/audio; no unconditional source reveal.
-UI: craft-local acoustic ring, shared gesture guard, bearing/age/confidence waterfall,
-local world bearing fans, band/transition status. Unlimited pause and finite tools remain.
-New snapshots roundtrip strict band/transition/sonar; no old-save compatibility/migration.
+Sonar.POWERS shares range/cost/signature: low440m/.4/750m; high720m/1.2/1300m.
+Signature2.5s,cooldown3.5s,forward90deg,tactical propagation300m/s; bounded occlusion.
+Local bearing/classification history72; own-motion masking1+radius/180; triangulation
+baseline75m/cross>=.14/age<=3s from movement/independent craft. Actual stable motor tones
+correlate; same-tone ambiguity suppresses invented fixes. Packets retain emission-time
+source/depth/geometry/arrival bearing; indirect returns give corner bearings, not fixes.
+Moving160m/leaving emitter layer can lose returns; stale echoes cannot replace optical.
+Public listening clock belongs to its emitter; internal packets remain save-authoritative.
+Current strict saves roundtrip depth/transition/sonar; older journeys stay on frozen sources.
+Sweeper2.5s windup, actual delayed returns,1.5s stale strike,12s cooldown,22hull/28BAT.
+Acquired layer/local water required; reports one local peer. Movement/depth evade, EMP
+interrupts; audio/emission appears only when actually received. UI uses craft ring,
+shared gesture guard, history/waterfall, band/reserves and contextual evidence/own state.
 
-Evidence / checks
-Godot4.6.3, Compatibility. Logs and captures adjacent to this report.
-Final current targeted: accepted-state.log57/0; last-ui.log42/0 actual input/rendering
-on2520x1080 cover with136px safe inset and2184x1968 inner.
-last-captures were visually inspected: received echo, bearing, age, confidence readable.
-policy-ui.log118/0: source-known injected-input baseline-fleet policies on BOTH views;
-quiet/deep82.333s hull100 EMP2; coordinated active68.35s hull100 EMP0.
-These118 checks precede the last emitter-band/echo-precedence fixes; current42 UI
-and57 state checks cover those deltas. No blind-player/balance/preference claim.
-Command policy31/0 includes matched staged same-position exposure: middle loses22hull,
-deep no return/no damage; active coordination has real reserve/exposure/tool costs.
-Module55/0; knockdown59/0; delivery60/0 incl historical poses TEST-ONLY staged onto
-current model (immutable old fixture unchanged; not migration or an earned journey).
-Affected witness49, Concealed77, recipient69, Chain49, contact36, catalog199, audio8
-all pass; Wake31 + finite-loop journey58, tender61, Shelf28, Confluence4,endings48 pass.
-Inherited ending ObjectDB exit warning remains; inherited density817/12 not rerun.
-Broad final checkpoint core/runtime result recorded below when complete.
-Registered new suites in both runners, local toolchain and existing game-smoke.
-Commands: godot --headless --path game --script res://tests/{run_tests,runtime_tests,
-depth_sonar_tests,sweeper_tests,depth_policy_journeys,blackwater_delivery_tests}.gd;
-DISPLAY=:528 godot --path game --script res://tests/{depth_sonar_ui_tests,
-depth_policy_ui_tests}.gd. Tests use separate external XDG_DATA_HOME profiles.
-Guidance structural check and git diff --check pass.
+Authored catalog/config progression
+Shelf0: deep underarch/shallow sill; sweeper opening with retained patroller.
+Split1: deep south shelf/shallow north saddle; separated receivers/deep east patrol;
+coordinated fleet transit, middle uplink/recovery. Blackwater2: deep west/north shallow
+choices, shallow sill/deep sweeper; physical carrier rendezvous and same-band custody.
+Foundry3: deep spine/spur passage/shallow south alternative, all-layer factory, deep
+motor/recovery sentinel, actual thermal masking and drone photography. Well4: shallow
+west/ascent baffle/deep east, middle hunter/deep sweeper; optional real middle-only
+moving reference/received comparison. Song5: deep crown/protected middle ascent/shallow
+east baffles/deep sill and threats; two records,6s middle Quietus decode and return.
+Existing middle-water baseline paths finish alongside new tool-free coordination routes.
 
-Remaining same-milestone work
-Operations1–5 still need distinct authored depth/sonar/stealth decisions, baseline fleet
-completion, teaching/escalation and integrated arc checks. Preserve Blackwater custody,
-Foundry thermal/departure, Well signature, finale decoding/recovery and fair charts.
-Next: author Split Channel's separated-band crossing/coordination through shared config.
-At full0–5 boundary accumulate regression/performance/adversarial checks, same reviewer,
-final-head CI and normal PR; root owns those boundaries. No isolated subtask integration.
-Broader28core/12optional, four further enemy roles, fleet/economy, production frontend/
-audio, replay/challenges, expeditions and career remain unfinished release scope.
-Bounded tactical approximations are deliberate, not a wave solver. No physical device,
-headphone, native APK or fresh critic evidence claimed.
+Policy evidence (source-known, accelerated time; no blind/balance acceptance claim)
+Shelf0 actual input BOTH views: quiet/deep82.333s hull100 EMP2 remaining; coordinated
+active68.35s hull100 EMP0. CURRENT rendered118/0: logs/final-shelf-planner-ui.log,
+using shared ordinary planner input. First direct-map driver failure is retained in
+final-shelf-policy-ui.log; prior checkpoint118/0 remains separately in policy-ui.log.
+New command1–5 all win with3alive/no finite tools: Split66.7667s hull100;
+Blackwater133.2167s hull100; Foundry83.6167s hull100; Well102.9s hull33.6/unverified
+signature; Song118.3167s hull100. Logs/*-depth-journey.log. Actual rendered input below.
+Rendered1–4 BOTH views complete: Split68.8167s/hull100; Blackwater132.7s/hull100;
+Foundry83.4167s/hull100; Well102.7167s/hull33.6. All3alive/no finite tools.
+logs/opening-policy-ui.log retains old Song toolbar-driver failure; terminated after
+inner1–4 completed rather than repeat the known old Song driver. Corrected rendered
+Song BOTH views117.9167s/hull100/all3alive/no finite tools; actual suite82/0
+(logs/final-song-policy-ui.log). Rendered1–4 started before equivalent POWERS
+constant extraction/context copy; current state72 and rendered Song/Shelf cover those
+changes. Clean combined headless input run404/0 (final-all-policy-ui-headless.log);
+final shared-driver extraction only relocates identical input helpers and passes
+one-frame compile smoke. All current full suites exit normally; owned processes ended.
+All consequential commands enter viewport through touch/emulated release/planner/zoom/
+pan, no command/state bypass. Mission access is staged, not an earned unlock claim.
+Matched staged poses: Shelf middle loses22hull vs deep no return/damage; every1–5 high
+pulse changes actual acquired enemy depth and spends1.2 reserve. These are matched
+exposure probes, not complete alternate input journeys.
 
-Internal checkpoint dc9fce2439a9b0069e38f68c1d8042cbcd1c1ce8:
-freeze-core.log591/0; freeze-runtime.log491/0; freeze-delivery.log60/0.
-NOT released: same sole worker continues opening0–5 on same branch.
-Split focused geometry9/0; actual tool-free coordinated deep journey9/0:
-66.7667s hull100 O2~96.4265, all three craft alive, no finite tools spent.
-First direct unknown-water intent stalled at a real overhang; corrected player route
-with explicit waypoints rather than granting the planner hidden terrain knowledge.
+Self-audit / fixes
+Reproduced pending leak BEFORE change: identical known state with0/1 hidden reflector
+showed pending1/2, also to nonemitter (logs/pending-leak-before.log). Count and contextual
+pending predicate removed; own nominal listening window only. After log and regressions
+assert full feedback/history/context hidden-roster and receiver invariance; saves retain
+internal differences. Removed newly introduced transition beam-lock reset that enabled
+repeated depth-toggle immunity; acquired overlapping-band targets remain vulnerable.
+Actual Split INSERT invented80m/midpoint inside rock; now duplicates previous accepted
+operator point until explicitly placed. Song driver hit zoom toolbar; corrected driver
+uses ordinary zoom/pan; failed first log retained. Refreshed Shelf direct map tap hit an
+idle craft handle; shared ordinary planner input avoids that ambiguity. This fallback
+establishes finishability; FIT/craft-handle overlap remains observed first-use control
+friction, not a solved interaction-quality finding. Screenshots caught clipped second-line
+context and stale previous order; actual font-height layout/message reset fixed.
 
-ACCUMULATED OPENING0–5 INTERNAL CHECKPOINT (continuation, not release)
-Generic opening_depth_operations factory selects catalog-configured encounter profiles.
-Data authors band rock edits, threats, sweepers and concise briefing/context hints.
-Split: deep southern shelf and shallow northern saddle; deep eastern patrol.
-Blackwater: western deep/northern shallow alternatives; quiet approach/fast withdrawal,
-physical carrier rendezvous and same-band custody; local replay respects band/sector.
-Foundry: deep spine/spur passage, all-layer factory, deep recovery sentinel/motor,
-retained horizontal thermal front; quiet drone photography plus Quietus transit.
-Well: shallow western crossing/ascent baffle, deep eastern opening/sweeper;
-middle hunter and real middle-only moving reference/received comparison.
-Song: deep crown crossing, protected middle ascent, shallow eastern baffles,
-deep sill/threats; original middle lee, two observations,6s Quietus decode/return.
-Ordinary local reports now carry first-observed band and area over receiver-band
-water paths. Hidden new depth is never read. Transitioning enemies cannot hold beam lock.
-Added same-position staged active/no-pulse counterpolicy probes for each1–5:
-all five change actual acquired enemy depth and spend1.2 reserve for high active.
-New contextual HUD uses own state/custody/received signals, no hidden threat queries.
-Actual screenshot inspection caught font-height second-line clipping and stale prior
-operation order text; fixed both. New actual cover/inner context checks60/0.
-Focused state/interaction/counterpolicy59/0. Accumulated core659/0, runtime550/0.
-Both existing baseline six-operation solo campaign paths still finish in core.
-Source-known new command policies (no finite tools; all3 craft alive):
-Split66.7667s hull100; Blackwater133.2167s hull100; Foundry83.6167s hull100;
-Well102.9s hull33.6 unverified signature; Song118.3167s hull100.
-These are technical policy evidence, not blind criticism or balance acceptance.
-New complete-touch journeys still being verified: the first FIT-world plotting attempt
-hit a craft handle in tall Split; use existing real paused planner for unambiguous
-route placement rather than altering gameplay state or granting hidden pathing.
-Affected report36/0, thermal22/0, Wellshape9/0. Departure fixture needs explicit deep
-receiver/target bands now that its motor/recovery sentinel actually occupy DEEP.
-Next same-milestone task: finish complete cover/inner touch journeys, affected checks,
-bounded performance/adversarial checks and final handoff to root's SAME reviewer.
+Checks / commands / limits
+Godot4.6.3 Compatibility, isolated external XDG_DATA_HOME per suite.
+Cover2520x1080/safe136px; inner2184x1968; Android density420 fixture, not native device.
+Current cover/inner sonar history and both policy renders visually inspected.
+Core672/0 and runtime563/0: logs/final-run_tests.log, final-runtime_tests.log. Precede
+behavior-equivalent POWERS extraction; fresh focused72/0 covers shared constants/state.
+Depth57/0,sweeper6/0,opening72/0,delivery60/0,finiteWake58/0,reports36/0,
+actual sonar UI42/0,route editor UI44/0 and route program35/0,
+Foundrydeparture25/0,thermal22/0,Wellshape9/0. Earlier module55,knockdown59,witness49,
+Concealed77,recipient69,Chain49,catalog199,audio8,Wake31,tender61,Shelf28,Confluence4,
+endings48 all0failures. Historical delivery poses are explicitly TEST-ONLY staged;
+immutable fixture/genuine saves unchanged. Inherited ending ObjectDB warning remains;
+inherited density817/12 not rerun/claimed fixed. Both baseline solo campaign paths finish.
+New suites registered in BOTH state runners/local toolchain/existing game-smoke.
+Run godot --headless --path game --script res://tests/<suite>.gd; rendered UI uses
+DISPLAY=:528 and -- --capture-dir=<external-directory>; suite names match logs/runners.
+Bounded performance already completed:6ops20s each,24 paused save roundtrips,0fails;
+max pending3/history28/noises2. Desktop mean1.15–2.585ms,p99<=24.804ms,max88.533ms.
+Concurrent viewport work/load affected timing; root removed two unrelated paused players
+using~1.3cores. No speedup/native60fps claim. logs/performance.log. SAME reviewer owns
+independent performance/adversarial investigation; no duplicate profiling requested.
+
+Risks / next
+Well new tool-free route retains33.6hull; independent balance/first-exposure assessment
+remains. Unknown terrain may stop intent until measured/replanned. No physical Fold,
+native lifecycle, headphone or human-enjoyment evidence. One dense active inner history
+capture has small text-rendering artifacts; retain for reviewer readability assessment
+(final-shelf-planner-captures/2184-received-scout-history.png). Tactical acoustics are bounded
+approximations. Full28core/12optional, four further roles, fleet/economy/research,
+production frontend/world/audio, replay/challenges, expeditions/career remain unfinished.
+Next: root activates SAME independent accumulated review vs productionfb4; fixes
+remain on SAME milestone branch, then root owns final-head CI/PR. No next-milestone switch.
