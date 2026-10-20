@@ -1,4 +1,6 @@
-> Current user contract: AGENTS.md and the final card on archive/claude-audit-2026-10-19 govern. Gameplay features integrate through PRs with passing game-smoke CI. Fresh independent critics play full operations through actual injected touch and compare anonymously against real reference footage. Current priorities are Stakes → One real operation → Instruments over caveats. Task completion immediately advances the loop; the user plays after explicitly stopping it. The mechanisms below support that contract.
+> **READ FIRST — CURRENT USER ORDER:** docs/USER_DIRECTIVES.md. Pass 0 + V7 full game first; then Stakes → One real operation → Instruments. User playtest timing never gates work.
+
+> Current user contract: AGENTS.md and the final card on archive/claude-audit-2026-10-19 govern. Gameplay features integrate through PRs with passing game-smoke CI. Fresh independent critics play full operations through actual injected touch and compare anonymously against real reference footage. Current priorities are Pass 0 and V7 full-game recovery, followed by Stakes → One real operation → Instruments over caveats. Task completion immediately advances the loop; the user chooses when to playtest, without gating development. The mechanisms below support that contract.
 
 # Gauntlet boundary refresh
 

@@ -1,0 +1,1 @@
+Order of work: finish Pass 0 and the V7 full-game directive first. Pass 1 (Stakes, One real operation, Instruments) starts only after Pass 0's rows are all built. Nothing else in the pause changes. My play test will not be until I say so so do not gate anything on that

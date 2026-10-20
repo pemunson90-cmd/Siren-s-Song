@@ -1,24 +1,26 @@
 # Continuation
-Playable base: `137bf44d27f85c67d2e25208d29b39069ca8c1b0`.
+Playable base: `814e21fcc8c419400e0fbb7efa4fc701e9c79942`.
+Read docs/USER_DIRECTIVES.md first; the latest order correction governs.
 
-Current user directive: Pass0 before further audit tuning.
-All planned nodes are implemented at rough quality. Next: real-input critics reach all four endings, then evaluate the whole game.
-Preserve shelved task, chart and chapter branches.
+## Next — finish Pass 0 and V7 full game
+Preserve the implemented rough campaign, four endings, general upgrades and mixed rosters.
+Recover currents, sensor-earned terrain, evidence-floor pressure, threat feedback and photo grading.
+Use actual V7 implementation and the living parity ledger; preserve accepted Godot adaptations.
+Resume genuine saved critic journeys through all branches and endings using raw touch.
+Keep source versions and software-render timing limits explicit; critics receive no builder routes.
+Published saves and drivers are on gauntlet/checkpoint/touch-play-2026-10-20.
 
-Next task: complete all four branch journeys through actual touch.
-Implementation ownership is released; preserve these feature scopes:
-- Campaign upgrades: Sim, equipment catalog and craft-upgrade module.
-- Campaign endings: Main, progress, ending screens, fresh campaign and current saves.
-- Campaign encounters: existing divergence/onward/resolution mission data.
-- Live input: external raw-touch driver for full-operation critics.
-- Root: integration and continuous dispatch; one reviewer per merge.
+## After all Pass 0 rows are built
+Evaluate the whole running game on its own merits.
+Improve Stakes, then One real operation, then Instruments over caveats, guided by that evaluation.
+Compare real reference footage by dimension with source labels withheld.
+The user chooses when to playtest; development never waits for it.
 
-Graph: tutorial0–5 →6→ deep7→9 or shelf8→10 →11→ concealed12 or overt13.
-Four contextual endings, general Quietus/drone upgrades and mixed post-tutorial enemies.
-Rough presentation and balance can merge. Fix crashes, softlocks, unfinishable branches and current-save corruption.
-Gameplay PRs require passing game-smoke. Test relevant changed behavior in Godot.
-Drop legacy-save compatibility; reject incompatible archives cleanly.
-No new compatibility revision flags, polish, evidence packets or governance tooling during Pass0.
-Fresh critics must play every branch to every ending through actual injected touch on both phone views.
-Then evaluate the whole game and continue the highest-value improvement automatically.
-User play begins only after the user explicitly stops the Gauntlet.
+## Preserve and integrate
+The unchanged audit and F1–F7 response are on archive/claude-audit-2026-10-19.
+Observed-task automation, TASK/NONE and new chapters stay shelved on published branches.
+Use feature branches, one blocker-focused review and PR game-smoke gates.
+Accept placeholders and rough balance; fix crashes, softlocks, unfinishable branches and current-save corruption.
+Drop legacy compatibility; reject incompatible saves cleanly. Preserve the canonical debug signer.
+Refresh current user instructions at task boundaries, reconcile stale handoffs, then execute the next task.
+Only the user ends the Gauntlet. Actual resource exhaustion requires a durable checkpoint and exact resumption command.

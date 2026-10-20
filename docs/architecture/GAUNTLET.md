@@ -1,3 +1,5 @@
+> **READ FIRST — CURRENT USER ORDER:** docs/USER_DIRECTIVES.md. Pass 0 + V7 full game first; then Stakes → One real operation → Instruments. User playtest timing never gates work.
+
 # Siren's Song — technical production architecture
 
 The Gauntlet's **single operating contract** is `../../AGENTS.md`; the **living intended game** is `../CURRENT_GAME_SPEC.md`. This file preserves technical constraints and gameplay architecture, not an independent workflow, mandatory critic quota, stage-gate schedule or current next-task assignment. Those belong to AGENTS and CONTINUATION. Source authority and ratified player decisions govern implementation.
