@@ -1,0 +1,20 @@
+{
+  "source": "6778fadb1b3b63f29570f712e7ae37eb04d507fa",
+  "session": "drone-continuation-20261020-5",
+  "profile_sha256": "1904eb722ad693adbe32e778d9b12f584379128367238a1a3aaa07497ccd44e2",
+  "mission": 8,
+  "outcome": "won",
+  "elapsed": 90.0499999999962,
+  "hull": 100,
+  "oxygen": 69.9833333333094,
+  "both_drones_physically_recovered": true,
+  "tools_remaining": {
+    "decoy": 3,
+    "emp": 0,
+    "knock": 2,
+    "recon": 2
+  },
+  "normal_quit": true,
+  "process_state": "Zs",
+  "provenance": "Genuine unchanged campaign history; original player chose quiet local gallery warnings. Root resumed its newer live68.2333s state after transport failure and followed the existing recovery route through raw bounded input. No replay, source update, manual save editing or new tool use; not fresh independent criticism."
+}

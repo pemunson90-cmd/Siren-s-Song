@@ -1,0 +1,69 @@
+RELEASE FOUNDATION — builder handoff; independent review remains root-owned.
+Owned tree: /workspace/Siren-s-Song-local-controls
+Branch: gauntlet/release/operation-foundation
+Requested routing: Sol6.1 Medium; backend/effort telemetry not available.
+Base36d8cbe; normal Wake merge ddd21e5 contains frozen28f2b97 and preserves concealed repair.
+Final frozen head: 1ec29a297f8a1542ab5d22fc5f8c5588ad0ed816.
+
+Implemented seam: operation_catalog.gd CONTENT/registered_ids/definition/supports,
+make/register_definition, accessible/prerequisites_met, fact_keys/record_keys.
+Definitions declare factory+supported config, behaviors, campaign membership,
+known facts/records, route/fact requirements and ALL(default)/ANY prerequisites.
+Legacy factories preserve their source-ID builds. Dedicated plant_operation.gd
+build(config,history) validates authored title/brief/world/start/extraction/rocks
+and physical inlet/panel/mast/shutter/recovery. Plant state validates against
+registered layout. No central new-chapter dispatch branches are needed.
+
+Campaign limits now derive from registered operation/content and equipment_catalog.
+Unknown IDs/content/configs reject; recovered progression, physical plant/witness/
+recipient requirements, unique history/gear, prerequisites and first outcomes remain.
+Tests alone register higher IDs; real catalog remains implemented0–13. No claim
+that planned28 core/12 optional operations are authored. The test-only changed-world
+plant travels ordinary routes, restores while powered, earns acoustic reception,
+opens collision, extracts and roundtrips current/completed checksummed saves.
+
+Guidance: live entry headers reconciled to release order; prior limits explicitly
+historical. Existing boundary helper now carries/refuses-missing USER_DIRECTIVES;
+directive-only/missing-directive regressions RED→GREEN. CONTINUATION32/WORKBENCH27
+lines point next to shared physical depth bands and sonar/stealth foundations.
+
+Commands/results (Godot4.6.3; isolated XDG_DATA_HOME per suite):
+  godot --headless --path game --script res://tests/<suite>.gd
+  Final integrated run_tests499/0; runtime_tests402/0; warning_chain49/0;
+  campaign_consequence14/0; wake_crossing31/0; campaign_equipment_save10/0;
+  divergence_save12/0. Two final config bounds guards followed this integrated
+  run; final operation_catalog suite192/0 covers those and all authored seams.
+  Earlier affected batch: endings48/0 (ObjectDB exit warning), delivery60/0,
+  tender61/0, recipient69/0, witness49/0, concealed harbour77/0, Wake journeys58/0,
+  resolution content44/0 and hooks19/0. The earlier consequence/Wake receipt
+  fixtures were repaired to carry captured/actually recovered records; final
+  affected runs above pass. Tests are registered in BOTH scene runners,
+  scripts/toolchain/test.sh and existing game-smoke.
+  python3 scripts/toolchain/test-gauntlet-boundary.py:16/0;
+  python3 scripts/toolchain/test-check-gauntlet-guidance.py:8/0;
+  python3 scripts/toolchain/check-gauntlet-guidance.py:PASS; git diff --check:PASS.
+Raw final logs: final-checks/. No APK.
+Known limits: inherited density817/12 not rerun or claimed fixed. Existing ending
+suite emits ObjectDB exit-leak warning. No new blind-play/presentation/native
+quality claim. Root owns independent source review, exact-head CI, PR and merge.
+
+Tracked tree clean after commit; inherited generated UIDs and Python cache are
+preserved unstaged. All owned Godot/test processes ended. Other trees/profiles,
+branches, main and signer untouched. Mutation ownership RELEASED to root for
+one independent reviewer, exact-head CI/PR integration and next depth/sonar batch.
+
+Independent-review repair child (same sole builder, 20 October):
+Wake measured hardware now projects PLAY OLD LOOP in command_controls, using
+its existing consequential gesture guard. Legacy identity-bound helpers in
+sources3/4/5/8/9 explicitly reject reidentification through factory-local
+supports_identity; other supported aliases and authored plant extension remain.
+WorldRegion.valid_dimensions is the shared admission/runtime authority for grid,
+finite dimensions and maximum6000m; plant minimum800m remains its content rule.
+Added regression assertions for all5 rejected aliases and both invalid worlds.
+Repair verification: operation_catalog199/0 (new regressions included), Wake
+state31/0; actual-window Wake UI37/0, cover+inner captures visually inspected.
+The review's alias/helper probe adapted only to the authorized rejection policy
+passes25/0. Original invalid-world configs now both reject at registration;
+probe preserves current operation on rejected launch and its save remains valid.
+Raw commands/logs/captures: release-foundation/repair/. Guidance checker PASS,
+diff whitespace PASS; CONTINUATION33/WORKBENCH27 lines. No broad repeat/APK.
