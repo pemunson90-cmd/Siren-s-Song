@@ -85,6 +85,7 @@ func refresh(blocked:Array):
  var sim=host.sim;var ocean=host.ocean;var h=host.ui_touch_height;var font_size=maxi(14,roundi(h*.26));var font=ThemeDB.fallback_font
  var safe=Rect2(Vector2(12,h+24),Vector2(maxf(1,size.x-24),maxf(h,size.y-h*2-54)))
  var occupied=blocked.duplicate()
+ occupied.append_array(ocean.objective_touch_rects(h))
  # Keep physical hulls distinct from the projected instruments.
  for id in sim.units.size():
   var u=sim.units[id]
