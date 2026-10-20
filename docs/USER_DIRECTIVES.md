@@ -18,7 +18,7 @@ Earned-course continuity and physical module recovery are integrated; optional k
 The physical Deep Rendezvous tender is integrated with its quiet fallback.
 Route-first fleet interaction and Blackwater packet delivery are integrated. Collected raw buffers now require local delivery to Quietus.
 Warning Chain now integrates positional power, physical outputs and withdrawal choices; continue genuine and explicitly staged first-exposure evaluation.
-Next develop craft-anchored fleet rings and deliberate exact readouts from actual campaign control interference, preserving critical information and full touch targets.
+Craft-anchored rings now replace detached cards, preserving critical reserves, work/cargo/power and full touch targets. Continue current-source campaign evaluation; develop a physical evacuation consequence from whole-game evidence.
 Genuine full-game journeys continue; focused Confluence play uses explicitly staged access.
 The user’s camera-control tweak is implemented: FOCUS/FIT/zoom live under FLEET → VIEW; direct drag/pinch remain.
 Observed-task automation, TASK/NONE and new chapter IDs stay shelved on their published branches.

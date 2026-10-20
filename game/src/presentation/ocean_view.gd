@@ -76,6 +76,9 @@ func pick_context(point:Vector2,touch:float) -> Dictionary:
 	if choices.size()==1:return {"kind":"craft","unit":choices[0],"pos":sim.units[choices[0]].pos}
 	tender=Rendezvous.pick(self,sim,point,touch)
 	if not tender.is_empty():return tender
+	return objective_context(point,touch)
+func objective_context(point:Vector2,touch:float)->Dictionary:
+	# Fixed public sites share their marker's actual hit area with fleet rings.
 	for id in observable_sites().size():
 		var site=observable_sites()[id]
 		if Rendezvous.replaces_site(sim,site):continue
@@ -446,7 +449,7 @@ func _craft(u: Dictionary,index: int) -> void:
 			draw_polyline(heading,Color("a7c7c3"),feedback_font_size*0.15/world_scale,true)
 	var label_y=63 if index==0 else 45
 	if (world_offset+p*world_scale).y+label_y*world_scale>size.y-8: label_y=-36
-	if index!=sim.selected:_label(p+Vector2(-8,label_y),["Q","A","B"][index],Color("7e9da4"),18)
+	if index!=sim.selected and (fleet_instruments==null or not fleet_instruments.is_visible_in_tree()):_label(p+Vector2(-8,label_y),["Q","A","B"][index],Color("7e9da4"),18)
 func selected_heading_marker() -> PackedVector2Array:
 	if sim==null or sim.selected!=0 or sim.units.is_empty(): return PackedVector2Array()
 	var u=sim.units[sim.selected]

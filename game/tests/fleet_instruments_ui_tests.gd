@@ -95,7 +95,7 @@ func run():
   s.units[1].alive=false;game._refresh();await settle()
   check(not fleet.buttons[1].is_visible_in_tree(),"lost craft cannot remain an actionable live marker")
   s.captures[2]={};game._refresh();await settle()
-  check(not "\n" in fleet.telemetry[0].text,"idle peer instrument stays a compact single line")
+  check(not fleet.telemetry[0].visible,"idle peer keeps its spatial gauge without a permanent detail plate")
   for fixture in [{"mission":12,"unit":0,"verb":"ACTUATE","fitted":{}},{"mission":12,"unit":1,"verb":"FIELD SAMPLE","fitted":{"quietus":"","drone_a":"drone_sampler","drone_b":""}},{"mission":13,"unit":0,"verb":"TRANSMIT","fitted":{}}]:
    s.start(fixture.mission,"endurance",{"fitted":fixture.fitted});s.sirens=[]
    s.units[fixture.unit].pos=Vector2(1830,1080) if fixture.mission==13 else s.mission.objectives[0].pos+Vector2(0,80)

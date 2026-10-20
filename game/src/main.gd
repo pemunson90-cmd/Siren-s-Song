@@ -158,7 +158,8 @@ func _layout(cancel_gesture:bool=true) -> void:
 	_apply_safe_area()
 	ui_touch_height=preload("res://src/presentation/layout_metrics.gd").touch_height(get_viewport_rect().size,Vector2(get_window().size),ui_density_dpi())
 	var h=ui_touch_height
-	ocean.position=Vector2.ZERO;ocean.size=size;ocean.feedback_font_size=maxi(14,roundi(h*.26));ocean.instrument_top=h+24;ocean.instrument_height=h;ocean.oxygen_capacity=120. if upgrade=="endurance" else 100.
+	# One maximum-stock reserve scale; NEXT-dive supplies never rescale a live dive.
+	ocean.position=Vector2.ZERO;ocean.size=size;ocean.feedback_font_size=maxi(14,roundi(h*.26));ocean.instrument_top=h+24;ocean.instrument_height=h;ocean.oxygen_capacity=120.
 	_refresh()
 	if mission_hud!=null:
 		mission_hud.layout(size,h);mission_row_heights=_measured_mission_rows()
@@ -423,10 +424,19 @@ func _show_campaign() -> void:
 		rows.append("%s · %d%% / %d / %d"%[choice.to_upper(),supplies[0],supplies[1],supplies[2]])
 	_menu_text("\n".join(rows),14)
 	_menu_text("ALL: 3 DECOYS · 2 DRONES · 2 TORPEDOES\nDISRUPT: 12s · SURVEY: 8s, audible",14)
-	_button(panel_box,"CYCLE LOADOUT · endurance / disruption / survey",func(): upgrade=["endurance","disruption","survey"][( ["endurance","disruption","survey"].find(upgrade)+1)%3]; _show_campaign(),"loadout")
+	_button(panel_box,"CYCLE LOADOUT · endurance / disruption / survey",_cycle_loadout,"loadout")
 	_button(panel_box,"AUDIO / SETTINGS",_settings_menu,"settings")
 	print("SS_SCREEN operations window=",get_window().size," viewport=",get_viewport_rect().size," root=",size," unlocked=",unlocked," active_time=",snappedf(sim.elapsed,0.01))
 	call_deferred("_layout")
+func _cycle_loadout()->void:
+	var reading_position=scroll.scroll_vertical
+	upgrade=["endurance","disruption","survey"][( ["endurance","disruption","survey"].find(upgrade)+1)%3]
+	_show_campaign()
+	var heading=panel_box.get_child(0)
+	(func():
+		await get_tree().process_frame
+		if is_instance_valid(heading) and heading.get_parent()==panel_box:scroll.scroll_vertical=reading_position
+	).call_deferred()
 func _briefing(index: int) -> void:
 	if index>=6 and index not in ExpeditionCampaign.available(completed,expedition):return
 	screen="briefing"; sim.paused=true; _clear_menu()

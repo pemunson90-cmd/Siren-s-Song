@@ -23,6 +23,7 @@ func craft(game,unit:int):
  game.mission_hud.dismiss();await settle()
  if game.sim.selected!=unit or game.ocean.chart_camera.mode!="follow":await tap(game.mission_hud.fleet.buttons[unit].get_global_rect().get_center())
  if not game.advanced_orders:await tap(game.mission_hud.fleet.buttons[unit].get_global_rect().get_center())
+ if game.mission_hud.page=="fleet":await tap(game.unit_buttons[unit].get_global_rect().get_center())
 func sample(game,unit:int,index:int):
  game.sim.units[unit].pos=game.sim.mission.objectives[index].pos+Vector2(0,130);game.sim.units[unit].vel=Vector2.ZERO;game._refresh();await settle()
  await craft(game,unit);check(not game.order_buttons.camera.disabled,"actual local SAMPLE is available for receiver/resample")
@@ -74,8 +75,8 @@ func run():
   check("RAW DATA" in h.fleet.telemetry[0].text and "REQUEST" in h.fleet.telemetry[0].text,"combined winch identifies its needed packet as well as the recoverable kit during work")
   await craft(game,0);check(game.order_buttons.camera.disabled,"active winch blocks overlapping SAMPLE through public readiness")
   h.dismiss();await settle()
-  var plates=h.fleet.readouts.map(func(reading):return h.fleet.telemetry[reading.unit].get_rect().merge(h.fleet.buttons[reading.unit].get_rect()))
-  check(h.fleet.readouts.all(func(reading):return reading.rect.encloses(h.fleet.telemetry[reading.unit].get_rect())),"combined task reservation encloses the actual Label including font line spacing and style padding")
+  var plates=h.fleet.readouts.map(func(reading):return reading.rect)
+  check(h.fleet.readouts.all(func(reading):return not reading.detail_visible or reading.rect.encloses(h.fleet.telemetry[reading.unit].get_rect())),"combined task reservation encloses each actually visible exact readout")
   check(game.ocean.salvage_markers().all(func(site):return not plates.any(func(plate):return plate.intersects(site.rect))),"combined data badge avoids every full expanded task readout while only actual station handles block water input")
   print("COMBINED_PLATE_BOUNDS ",label," reserved=",h.fleet.readouts.filter(func(reading):return reading.unit==0)[0].rect," actual=",h.fleet.telemetry[0].get_rect()," minimum=",h.fleet.telemetry[0].get_combined_minimum_size()," marker=",game.ocean.salvage_markers()[0].rect)
   await capture(label+"-combined-winch")
