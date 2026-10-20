@@ -50,6 +50,15 @@ func world_size() -> Vector2:
 	return sim.world_size() if sim!=null and sim.has_method("world_size") else Vector2(1600,960)
 func observable_sites() -> Array:
 	return sim.observable_sites() if sim.has_method("observable_sites") else sim.mission.objectives
+# The same observable site targets used by picking must remain reachable
+# beneath projected station handles. Fixed unseen sites are excluded here.
+func objective_touch_rects(touch:float)->Array:
+	_sync_camera();var result:Array=[]
+	var radius=maxf(touch*.5,38*world_scale)
+	for site in observable_sites():
+		if Rendezvous.replaces_site(sim,site) or site.get("own_origin",false):continue
+		result.append(Rect2(screen_position(site.pos)-Vector2.ONE*radius,Vector2.ONE*radius*2))
+	return result
 func pick_context(point:Vector2,touch:float) -> Dictionary:
 	_sync_camera();var choices=[]
 	for marker in salvage_markers():

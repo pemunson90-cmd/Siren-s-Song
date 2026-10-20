@@ -167,4 +167,5 @@ thermal_ui_tests|THERMAL UI
 terminal_tick_tests|TERMINAL TICK
 extraction_survival_tests|EXTRACTION SURVIVAL
 tactics_composition_tests|TACTICS COMPOSITION
+briefing_scroll_fitting_ui_tests|BRIEFING SCROLL FITTING UI
 TACTICAL_SCENARIOS

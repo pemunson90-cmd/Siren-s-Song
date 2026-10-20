@@ -104,6 +104,7 @@ jobs:
           module_inventory_main_tests|MODULE INVENTORY MAIN
           rendezvous_transport_tests|RENDEZVOUS TRANSPORT
           rendezvous_ui_tests|RENDEZVOUS UI
+          briefing_scroll_fitting_ui_tests|BRIEFING SCROLL FITTING UI
           UI_SCENARIOS
       - name: Docs-only change; no Godot run
         if: steps.changes.outputs.game == 'false'
