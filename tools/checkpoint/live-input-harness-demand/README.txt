@@ -34,3 +34,12 @@ Input events go through Window.push_input; game callbacks/commands are not calle
 These are420dpi Godot desktop display fixtures. Audio uses Dummy; no audio verdict.
 Source/save provenance is recorded automatically. Strategy and route decisions
 belong to the player. No named-action API, winning route or gameplay edits exist.
+
+Bounded manual run: python3 burst.py --session NAME --seconds N (0<N<=10).
+Start from the paused active mission. The same OS process issues raw Space,
+waits the chosen interval, then raw pause in finally. No tactical/actor writes.
+Read final.metrics.paused and use final.screenshot. Render/transport overhead
+adds live time beyond N; use short intervals near danger. Verified in ordinary
+Stakes touch play and source-known Confluence continuation. This reduces
+controller-interruption risk; a killed OS process or broken input transport can
+still prevent cleanup. Keep original sessions/profiles and qualify such gaps.
