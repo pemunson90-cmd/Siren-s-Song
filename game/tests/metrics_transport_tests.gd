@@ -40,10 +40,14 @@ func run() -> void:
  root.size=Vector2i(2520,1080);await process_frame;await process_frame
  var game=load("res://scenes/main.tscn").instantiate();game.set_script(preload("res://tests/density_main.gd"));game.capture_scenario="transport-fixture";root.add_child(game)
  await process_frame;await process_frame;game._start_mission(0);await process_frame;await process_frame;await process_frame
+ var water=game._ui_metrics()
+ check(water.controls.map(func(control):return control.action).size()==2 and ["pause","more_orders"].all(func(action):return action in water.controls.map(func(control):return control.action)),"water transports actual visible pause and fleet controls")
+ verify(water,"water-fixture",3)
+ game.mission_hud.open("view");await process_frame;await process_frame
  var snapshot=game._ui_metrics();var payload=JSON.stringify(snapshot)
  var actions=snapshot.controls.map(func(control):return control.action)
  var visible=game.mission_hud.action_controls()
- check(payload.to_utf8_buffer().size()>1023 and ["pause","focus","fit","more_orders"].all(func(action):return action in actions) and visible.keys().all(func(action):return action in actions) and actions.size()==visible.size(),"actual minimal water HUD exceeds old boundary and transports every visible safety/view/fleet action")
+ check(payload.to_utf8_buffer().size()>1023 and ["pause","radial_back","focus","fit","zoom_in","zoom_out"].all(func(action):return action in actions) and visible.keys().all(func(action):return action in actions) and actions.size()==visible.size(),"actual VIEW menu exceeds old boundary and transports every visible camera and safety action")
  var records=verify(snapshot,"hud-fixture",1)
  for arg in OS.get_cmdline_user_args():
   if arg.begins_with("--fixture-log="):

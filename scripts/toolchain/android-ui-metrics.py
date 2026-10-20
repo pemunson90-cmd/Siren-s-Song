@@ -19,12 +19,13 @@ SECONDARY_ACTIONS = 'pause,sub,droneA,droneB,zoom_out,zoom_in,fit,more_orders,pr
 
 
 RADIAL_ACTIONS = {
-    'water': 'pause,focus,fit,more_orders',
+    'water': 'pause,more_orders',
     'craft': 'pause,radial_back,camera,ping,silent,program,route_menu,tools_menu,guard_menu,inspect',
     'tools': 'pause,radial_back,decoy,emp,recon,knock',
     'route': 'pause,radial_back,queue,hold,waypoint_mode,home,program',
     'guard': 'pause,radial_back,contact_hold,wait_drone,hold',
-    'fleet': 'pause,radial_back,sub,droneA,droneB,menu',
+    'fleet': 'pause,radial_back,sub,droneA,droneB,view_menu,menu',
+    'view': 'pause,radial_back,focus,fit,zoom_in,zoom_out',
     'object': 'pause,radial_back,route_here,camera,inspect,program,queue',
     'inspect': 'pause,radial_back',
     'signals': 'pause,radial_back',

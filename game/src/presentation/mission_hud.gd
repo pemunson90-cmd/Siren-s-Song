@@ -41,9 +41,11 @@ func setup(owner):
  host.pause_button.reparent(self);host.pause_button.set_meta("action","pause")
  host.advanced_button.reparent(self);host.advanced_button.set_meta("action","more_orders")
  host.advanced_button.pressed.disconnect(host._toggle_advanced);host.advanced_button.pressed.connect(func():open("fleet"),CONNECT_DEFERRED)
+ for i in host.zoom_buttons.size():
+  host.zoom_buttons[i].reparent(self);host.zoom_buttons[i].set_meta("action",["zoom_out","zoom_in","fit"][i])
  focus_button=host._button(self,"FOCUS",host._focus_craft,"focus")
  close_button=host._button(self,"BACK",_back,"radial_back")
- for entry in [["tools_menu","TOOLS"],["route_menu","ROUTE"],["guard_menu","GUARD"],["inspect","STATUS"],["route_here","ROUTE HERE"],["arrivals","ARRIVALS"]]:
+ for entry in [["tools_menu","TOOLS"],["route_menu","ROUTE"],["guard_menu","GUARD"],["inspect","STATUS"],["route_here","ROUTE HERE"],["arrivals","ARRIVALS"],["view_menu","VIEW"]]:
   var key=entry[0];extra[key]=host._button(self,entry[1],func():_extra(key),key)
  instrument_button=extra.inspect
  sheet=PanelContainer.new();add_child(sheet)
@@ -73,6 +75,7 @@ func _back():
  if page=="signals":
   if details_return=="water":dismiss()
   else:open(details_return)
+ elif page=="view":open("fleet")
  elif page=="craft" or page=="object" or page=="fleet":dismiss()
  else:open("object" if subject.get("kind","")=="objective" else "craft")
 func _extra(key:String):
@@ -80,7 +83,7 @@ func _extra(key:String):
   details_return="fleet" if host.advanced_orders else "water"
   open("signals",{"kind":"signals","receiver":-1 if host.advanced_orders else host.sim.selected});return
  if key=="route_here":host._order("route",{"point":subject.pos});return
- open({"tools_menu":"tools","route_menu":"route","guard_menu":"guard","inspect":"inspect"}[key])
+ open({"tools_menu":"tools","route_menu":"route","guard_menu":"guard","inspect":"inspect","view_menu":"view"}[key])
 func owns_pointer(event) -> bool:
  var draining=draining_popup
  if (host.advanced_orders or draining) and event is InputEventScreenTouch:
@@ -137,7 +140,8 @@ func command_controls() -> Array:
   "tools":return [host.order_buttons.decoy,host.order_buttons.emp,host.order_buttons.recon,host.order_buttons.knock]
   "route":return [host.order_buttons.queue,host.order_buttons.hold,host.order_buttons.waypoint_mode,host.order_buttons.home,host.order_buttons.program]
   "guard":return [host.order_buttons.contact_hold,host.order_buttons.wait_drone,host.order_buttons.hold]
-  "fleet":return host.unit_buttons+([extra.arrivals] if Expedition.active(host.sim) else [])+[host.order_buttons.menu]
+  "view":return [focus_button,host.zoom_buttons[2],host.zoom_buttons[1],host.zoom_buttons[0]]
+  "fleet":return host.unit_buttons+([extra.arrivals] if Expedition.active(host.sim) else [])+[extra.view_menu,host.order_buttons.menu]
   "object":return ([] if subject.get("subkind","")=="transmission" else [extra.route_here])+([] if subject.get("subkind","") in ["corridor","withdrawal"] else [host.order_buttons.camera])+[extra.inspect,host.order_buttons.program,host.order_buttons.queue]
   "inspect","signals":return []
  return [host.order_buttons.camera,host.order_buttons.ping,host.order_buttons.silent,host.order_buttons.program,extra.route_menu,extra.tools_menu,extra.guard_menu,extra.inspect]
@@ -153,8 +157,6 @@ func layout(bounds:Vector2,h:float):
   b.add_theme_color_override("font_outline_color",Color("041019"));b.add_theme_constant_override("outline_size",3)
  host.status_label.hide();host.log_label.hide()
  host.pause_button.show();host.pause_button.position=Vector2(12,12);host.pause_button.size=Vector2(h*1.55,h)
- focus_button.visible=not host.advanced_orders;focus_button.position=Vector2(bounds.x-4.45*h-24,12);focus_button.size=Vector2(h*1.55,h)
- var fit=host.zoom_buttons[2];fit.visible=not host.advanced_orders;fit.position=Vector2(bounds.x-2.85*h-18,12);fit.custom_minimum_size=Vector2(h,h);fit.size=Vector2(h,h)
  host.advanced_button.visible=not host.advanced_orders;host.advanced_button.position=Vector2(bounds.x-1.55*h-12,12);host.advanced_button.size=Vector2(h*1.55,h)
  intent.position=Vector2(16,bounds.y-font*2-14);intent.size=Vector2(bounds.x-32,font*2+8);intent.add_theme_font_size_override("font_size",font)
  intent.visible=not host.advanced_orders
