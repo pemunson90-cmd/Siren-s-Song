@@ -25,7 +25,7 @@ func _initialize():
  check(launched.selected_thread=="deep" and launched.history.size()==1,"recovery commits one selected downstream history")
  var opposite={"id":6,"expedition_revision":1,"recovered":true,"chosen_route":"shelf","expedition_facts":{"shelf":"other"}}
  var replayed=Campaign.recover(launched,opposite)
- check(replayed.selected_thread=="deep" and replayed.history==launched.history and "shelf" in replayed.routes,"opposite replay adds access without rewriting selected history")
+ check(replayed.selected_thread=="deep" and replayed.history==launched.history and replayed.routes==launched.routes and 8 not in Campaign.available([0,1,2,3,4,5],replayed),"replay preserves the chosen campaign branch; a new campaign selects the other route")
  var failed9={"id":9,"expedition_revision":2,"recovered":false,"expedition_facts":{"wake_packet":"field only"}}
  var uncommitted=Campaign.recover(earned,failed9)
  check(uncommitted.selected_thread.is_empty() and uncommitted.history.is_empty(),"failed onward dive does not commit selected history")
