@@ -94,6 +94,27 @@ func _draw():
   for cell in sim.known:
    var world=Vector2(cell)*40
    draw_rect(Rect2(chart_camera.to_screen(world),Vector2(40,40)*scale),Color("2b3b40") if sim.blocked(world+Vector2(20,20),0) else Color("102c36"))
+  # Authored precharted silhouettes already exist on the main chart. Keep
+  # them in the planning instrument; earned maps retain measured faces above.
+  draw_set_transform(chart_camera.offset,0,Vector2.ONE*scale)
+  for rock in sim.mission.rocks:
+   var outline=sim.rock_polygon(rock)
+   draw_colored_polygon(outline,Color("203b43"))
+   var edge=outline.duplicate();edge.append(outline[0]);draw_polyline(edge,Color("78928f"),1./scale)
+  for key in ["factory_rect","array_rect"]:
+   if sim.mission.has(key):
+    draw_rect(sim.mission[key],Color("18333c"));draw_rect(sim.mission[key],Color("78928f"),false,1./scale)
+  draw_set_transform(Vector2.ZERO,0,Vector2.ONE)
+ var chart_font=ThemeDB.fallback_font
+ for site in sim.observable_sites():
+  if site.get("own_origin",false) or preload("res://src/presentation/rendezvous_view.gd").replaces_site(sim,site):continue
+  var at=chart_camera.to_screen(site.pos);var color=Color("72d9d3") if site.captured else Color("e1b66e")
+  draw_circle(at,6,color,false,1.5)
+  draw_string(chart_font,at+Vector2(10,-8),site.name,HORIZONTAL_ALIGNMENT_LEFT,maxf(1,size.x-at.x-18),navigation_font_size,color)
+ for mouth in sim.extraction_corridors():
+  var at=chart_camera.to_screen(mouth.pos);var color=Color("72d9d3") if mouth.available else Color("718387")
+  draw_circle(at,maxf(8,64*scale),color,false,1.5)
+  draw_string(chart_font,at+Vector2(10,16),mouth.name,HORIZONTAL_ALIGNMENT_LEFT,maxf(1,size.x-at.x-18),navigation_font_size,color)
  var u=sim.units[sim.selected];var previous=chart_camera.to_screen(u.pos)
  if earned.is_empty():
   for node in u.route:
