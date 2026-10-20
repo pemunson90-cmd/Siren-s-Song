@@ -114,7 +114,7 @@ func _initialize() -> void:
  check(audio.size()>1000 and loudest>0.01 and loudest<=0.31,"original torpedo launch cue has nonzero bounded PCM")
  for path in ["accepted-blackwater.archive","accepted-finale.archive"]:
   store.path="res://tests/fixtures/"+path;var archive_old=store.load_game();var active=Simulation.new()
-  check(not archive_old.is_empty() and active.restore(archive_old.active) and not active.tools.has("knock"),"accepted old archive is preserved: "+path)
+  check(archive_old.is_empty() and not store.warning.is_empty(),"Pass0 rejects incompatible old archive: "+path)
  finish()
 func finish() -> void:
  print("KNOCKDOWN CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)

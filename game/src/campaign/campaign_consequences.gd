@@ -1,6 +1,6 @@
 extends RefCounted
 # Small recovered campaign extension. Notes never enter launch knowledge or grants.
-const ITEMS=["quietus_correlator","drone_sampler"]
+const ITEMS=["quietus_correlator","drone_sampler","quietus_vector_drive","quietus_baffles","drone_deep_cells","drone_survey_array"]
 const EMPTY_FIT={"quietus":"","drone_a":"","drone_b":""}
 static func upgrade(previous:Dictionary)->Dictionary:
  var p=previous.duplicate(true)
@@ -41,18 +41,14 @@ static func commit(previous:Dictionary,id:int,fitted:Dictionary)->Dictionary:
  if not p.history.any(func(h):return h.mission==id):p.history.append({"mission":id,"thread":p.selected_thread,"fitted":fitted.duplicate(true)})
  return p
 static func fitting_valid(fit)->bool:
- if not fit is Dictionary or fit.size()!=3 or not fit.has_all(EMPTY_FIT.keys()):return false
- if fit.quietus not in ["","quietus_correlator"]:return false
- for slot in ["drone_a","drone_b"]:
-  if fit[slot] not in ["","drone_sampler"]:return false
- return fit.drone_a.is_empty() or fit.drone_b.is_empty()
+ return fit is Dictionary and fit.size()==3 and fit.has_all(EMPTY_FIT.keys()) and preload("res://src/equipment/equipment_catalog.gd").valid_fitting(fit)
 static func cadence_valid(value)->bool:
  if not value is Array or value.size()<2 or value.size()>8:return false
  for interval in value:
   if not (interval is int or interval is float) or not is_finite(interval) or interval<=0 or interval>10:return false
  return true
 static func valid(p:Dictionary)->bool:
- if not p.has_all(["notes","entitlements","references","history","selected_thread"]) or not p.notes is Dictionary or p.notes.size()>16 or not p.entitlements is Array or p.entitlements.size()>2 or not p.references is Dictionary or not p.history is Array or p.history.size()>5 or p.selected_thread not in ["","deep","shelf"]:return false
+ if not p.has_all(["notes","entitlements","references","history","selected_thread"]) or not p.notes is Dictionary or p.notes.size()>16 or not p.entitlements is Array or p.entitlements.size()>6 or not p.references is Dictionary or not p.history is Array or p.history.size()>5 or p.selected_thread not in ["","deep","shelf"]:return false
  for key in p.notes:
   if not key is String or not p.notes[key] is String:return false
  var seen=[]

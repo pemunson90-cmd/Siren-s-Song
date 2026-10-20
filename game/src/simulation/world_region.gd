@@ -38,7 +38,7 @@ static func observation_cells(sim)->Dictionary:
  for i in sim.units.size():
   var unit=sim.units[i]
   if not unit.alive:continue
-  var radius=(240.0 if i==0 else 330.0)*(0.65 if sim.mission.darkness else 1.0)
+  var radius=sim.passive_range(i)
   _disk(result,unit.pos,radius,cells)
  if sim.recon_time>0:_disk(result,sim.mission.get("survey_origin",sim.units[0].pos),SURVEY_RANGE,cells)
  if sim.ping_time>0:_disk(result,sim.ping_origin,650.0,cells)

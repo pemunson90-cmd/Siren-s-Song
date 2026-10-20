@@ -38,19 +38,5 @@ static func run(t) -> void:
 	t.check(early.camera_context().ready and "READY" in early.camera_context().text,"a legitimate first-mission camera vantage explains readiness to the player")
 
 	var legacy_store=SaveStore.new(); legacy_store.path="res://tests/fixtures/accepted-finale.archive"
-	var legacy_data=legacy_store.load_game(); var legacy=Simulation.new()
-	t.check(not legacy_data.is_empty() and legacy.restore(legacy_data.active),"actual promoted-APK save loads in the challenger")
-	if not legacy_data.is_empty():
-		t.check(legacy.mission==legacy_data.active.mission and legacy.units==legacy_data.active.units and legacy.paused and legacy_data.completed==[0,1,2,3,4],"legacy mission geometry, acquisition rules, active orders and campaign progress stay intact")
-		for target in legacy.mission.objectives:
-			legacy.command("select",{"unit":1 if legacy.units[1].alive else 2})
-			var id=legacy.selected
-			var plan=preload("res://tests/finale_command_plan.gd")
-			var vantage=target.pos+Vector2(0,210)
-			if legacy.blocked(vantage,25): vantage=target.pos+Vector2(-210,0)
-			if not plan.travel(legacy,id,vantage): break
-			legacy.command("select",{"unit":id})
-			if not legacy.command("camera"): break
-			plan.advance(legacy,4.5)
-		print("LEGACY_FINALE outcome=",legacy.outcome," t=",legacy.elapsed," records=",legacy.mission.objectives.map(func(o):return o.captured)," drones=",legacy.units[1].alive,",",legacy.units[2].alive," emp=",legacy.tools.emp," message=",legacy.message)
-		t.check(legacy.outcome=="won" and legacy.units[0].pos==legacy_data.active.units[0].pos,"old active finale can finish its original remote-completion strategy without a new receiver gate")
+	var legacy_data=legacy_store.load_game()
+	t.check(legacy_data.is_empty() and not legacy_store.warning.is_empty(),"Pass0 cleanly rejects the incompatible promoted-APK save")

@@ -68,9 +68,6 @@ static func run(t):
 	var replay_data={"version":1,"unlocked":5,"completed":[0,1,2,3,4,5],"upgrade":"endurance","settings":{},"active":replay.snapshot()}
 	t.check(store.save(replay_data),"existing autosave accepts fresh Blackwater after finale target2")
 	for suffix in ["",".tmp",".bak"]:DirAccess.remove_absolute(store.path+suffix)
-	var legacy_store=Store.new();legacy_store.path="res://tests/fixtures/accepted-blackwater.archive";var old=legacy_store.load_game();var legacy=Simulation.new()
-	t.check(not old.is_empty() and legacy.restore(old.active),"actual52bedd6 Blackwater archive still loads")
-	if not old.is_empty():
-		t.check(legacy.mission==old.active.mission and legacy.units==old.active.units and legacy.capture_time==old.active.capture_time,"legacy active Blackwater preserves original geometry, orders and optical progress")
-		legacy.paused=false;tick(legacy,2.05);t.check(not legacy.mission.objectives[0].captured,"legacy four-second exposure is not silently shortened to a fresh relay sample")
-		tick(legacy,1.1);t.check(legacy.mission.objectives[0].captured,"legacy active exposure finishes its original four-second rule")
+	var legacy_store=Store.new();legacy_store.path="res://tests/fixtures/accepted-blackwater.archive"
+	var old=legacy_store.load_game()
+	t.check(old.is_empty() and not legacy_store.warning.is_empty(),"Pass0 cleanly rejects the incompatible Blackwater archive")

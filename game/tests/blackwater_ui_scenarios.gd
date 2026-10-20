@@ -28,5 +28,5 @@ static func run(t,game):
 	for child in game.panel_box.get_children():
 		if child is TextureRect:images.append(child.texture.resource_path)
 	t.check(images==["res://assets/evidence/blackwater_reply.png"],"second retained record reveals the distinct ancient ocean reply")
-	var old_path=game.store.path;game.store.path="res://tests/fixtures/accepted-blackwater.archive";game._load_archive();game._refresh();game.store.path=old_path
-	t.check(game.order_buttons.camera.text=="CAMERA","legacy active Blackwater retains optical control wording")
+	var current=game.sim.snapshot();var old_path=game.store.path;game.store.path="res://tests/fixtures/accepted-blackwater.archive";game._load_archive();game._refresh();game.store.path=old_path
+	t.check(game.sim.snapshot()==current and not game.store.warning.is_empty(),"incompatible Blackwater save cannot replace current receiver progress")

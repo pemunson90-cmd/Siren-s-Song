@@ -6,7 +6,7 @@ static func operations(main)->void:
  if available.is_empty():return
  main._menu_text("BEYOND THE WARNING / EXPEDITIONS",22)
  for id in available:
-  var mission=Missions.make(id)
+  var mission=Missions.make(id,preload("res://src/campaign/campaign_consequences.gd").context(main.expedition))
   if mission.id!=id:continue
   var status="RECOVERED" if id in main.expedition.get("completed",[]) else "AVAILABLE"
   main._button(main.panel_box,"%s · %s"%[mission.title,status],func():main._briefing(id),"expedition%d"%id)
@@ -22,6 +22,8 @@ static func debrief(main)->bool:
  main._retain_evidence()
  var previous=main.expedition.duplicate(true)
  main.expedition=Campaign.recover(main.expedition,mission)
+ if main.sim.outcome=="won" and mission.id in [12,13] and not preload("res://src/campaign/endings.gd").resolve(main.expedition).is_empty():
+  main._show_ending();return true
  if main.sim.outcome=="won" and mission.get("recovered",false):
   main._menu_text("EXPEDITION RECOVERED",32)
   main._menu_text(mission.record,22)
@@ -32,7 +34,7 @@ static func debrief(main)->bool:
   var thread=main.expedition.get("selected_thread","")
   if mission.id in [9,10] and not thread.is_empty():main._menu_text("COMMITTED THREAD · %s\nThis recovered history carries forward. Both onward dives remain replayable."%thread.to_upper(),17)
   for next in Campaign.continuations(main.expedition,mission.id):
-   var next_mission=Missions.make(next)
+   var next_mission=Missions.make(next,preload("res://src/campaign/campaign_consequences.gd").context(main.expedition))
    if next_mission.id!=next:continue
    main._button(main.panel_box,"CONTINUE / %s"%next_mission.title,func():main._briefing(next),"next_expedition")
   main._menu_text("Dive time %02d:%02d / Hull %d%%"%[int(main.sim.elapsed)/60,int(main.sim.elapsed)%60,int(main.sim.hull)],17)
