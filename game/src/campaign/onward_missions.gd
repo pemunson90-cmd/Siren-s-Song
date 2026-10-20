@@ -1,5 +1,10 @@
 extends RefCounted
 const Divergence=preload("res://src/campaign/divergence_missions.gd")
+const CHAIN_INLET=Vector2(480,1000)
+const CHAIN_PANEL=Vector2(1520,1000)
+const CHAIN_MAST=Vector2(1000,400)
+const CHAIN_SHUTTER=Rect2(880,960,240,120)
+const CHAIN_RECOVERY=Vector2(180,1000)
 static func make(id:int,history:Dictionary={})->Dictionary:
  var wake=id==9
  var m={"id":id,"title":"Wake Crossing" if wake else "Warning Chain","brief":"","record":"","depth":5100 if wake else 2600,"darkness":false,"region_revision":1,"world_size":Vector2(2000,2080),"start":Vector2(1000,1880),"extraction":Vector2(1000,180),"rocks":[],"objectives":[],"sirens":[],"acoustic_revision":1,"expedition_revision":2,"signal_sources":[],"signal_observations":[],"expedition_facts":{},"next_signal_time":0.0,"chosen_route":"","recovered":false,"withdrawal_armed":false,"required_site_ids":[],"launch_context":history.duplicate(true)}
@@ -15,12 +20,14 @@ static func make(id:int,history:Dictionary={})->Dictionary:
   m.sirens[1].type="hunter"
   m.brief+=" A hunter holds the eastern listening basin; the western arm has a moving patrol."
  else:
-  m.rocks=[Rect2(880,800,240,800),Rect2(140,520,500,220),Rect2(1360,520,500,220),Rect2(300,1230,320,200),Rect2(1380,1230,320,200)]
-  for item in [[Vector2(480,1000),"WEST WARNING PREPARATION","chain_west"],[Vector2(1520,1000),"EAST WARNING PREPARATION","chain_east"]]:
-   m.objectives.append({"pos":item[0],"name":item[1],"site_id":item[2],"captured":false,"kind":"receiver","required_unit":0,"sampler_compatible":true,"duration":4.0,"optical":item[2],"evidence":"A local warning station stores the verified packet for the upper relay. A fitted drone can acquire it slowly under an audible camera exposure; Quietus can receive it passively."})
-  m.objectives.append({"pos":Vector2(1000,400),"name":"OUTBOUND WARNING RELAY","site_id":"chain_relay","captured":false,"kind":"uplink","required_unit":0,"duration":4.0,"requires":[0,1],"optical":"chain_relay","evidence":"Quietus combines both station receipts and transmits the warning toward inhabited water. The emission discloses this station, not a live hull tracker.","completion_emission":{"radius":1100.0,"label":"WARNING CHAIN TRANSMISSION","duration":8.0}})
-  m.brief="The recovered shelf acknowledgement opens two separated warning preparations. Both receipts are needed before Quietus can transmit at the northern relay. Quietus can receive either station quietly in four seconds. A recovered, fitted drone sampler can do the same local task in eight seconds with an audible camera exposure, letting the pilot divide the two arms while Quietus approaches the relay. Unfitted drones still scout; Quietus remains the complete fallback. The final transmission is audible: plan the northern departure before sending it."
-  m.record="The two warning preparations agree. Quietus sends a verified fracture warning toward inhabited water while the evacuation continues below. Disclosure has become a tactical choice with a physical departure."
+  m.rocks=[Rect2(880,800,240,160),Rect2(880,1080,240,520),Rect2(140,520,500,220),Rect2(1360,520,500,220),Rect2(300,1230,320,200),Rect2(1380,1230,320,200)]
+  m.structures=[CHAIN_SHUTTER]
+  m.warning_chain={"power":"off","unit":-1,"output":"","opened":false,"sends":[],"result":{}}
+  for item in [[CHAIN_INLET,"WEST SERVICE INLET","chain_west","The preparations belong to one warning plant. A local craft can supply its service bus; the backup generator frees that body but discloses the western inlet."],[CHAIN_PANEL,"EAST ROUTING PANEL","chain_east","The powered panel can route a narrow service warning across the shutter or energize the northern mast. A service receipt proves one local branch; mast telemetry proves transmission, not an external audience."],[CHAIN_PANEL,"WARNING PLANT OPERATING RECORD","chain_relay","The warning plant was commissioned. The returned operating record distinguishes a verified local service receipt from a mast transmission with external reception unknown."]]:
+   m.objectives.append({"pos":item[0],"name":item[1],"site_id":item[2],"captured":false,"kind":"plant","optical":item[2],"evidence":item[3]})
+  m.corridors.append({"pos":CHAIN_RECOVERY,"name":"WEST SERVICE RECOVERY","route":"shelf"})
+  m.brief="The shelf warning has reached an unpowered industrial relay plant. At WEST SERVICE INLET, CONNECT any settled craft within60m: that body's umbilical powers the distant panel until it releases, moves or is lost. START BACKUP is the complete solo alternative; one audible generator start frees the power craft. At EAST ROUTING PANEL, Quietus or a recovered fitted field sampler can select the output and SEND WARNING through the powered plant. SERVICE opens a real water and sound crosslink and sends from EAST; the western branch must actually receive it. NORTH MAST sends from northern hardware; its telemetry proves transmission, while external reception stays unknown. No camera hold is needed. Once commissioned, disconnect the helper and choose north or west service recovery. Both routes lead onward; an equipped craft still has its ordinary recovery stakes."
+  m.record="The warning plant works again. Its operating record preserves exactly what Quietus proved: a local service acknowledgement or a northern mast transmission whose wider audience remains unknown."
   Divergence._patrol(m,Vector2(740,1080),[Vector2(740,1080),Vector2(700,760),Vector2(740,380),Vector2(800,1700)])
   Divergence._patrol(m,Vector2(1280,800),[Vector2(1280,800),Vector2(1250,1250),Vector2(1250,1700),Vector2(1280,400)])
   m.sirens[0].type="sentinel";m.sirens[0]["tether"]=190.0
