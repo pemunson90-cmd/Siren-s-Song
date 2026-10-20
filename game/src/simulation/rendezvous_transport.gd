@@ -27,6 +27,7 @@ static func phase(mission:Dictionary,time:float)->String:
  var release=mission.rendezvous_transport.released_at
  return "moored" if release<0 or time<release else ("transit" if time-release<duration() else "refuge")
 static func _angle(mission:Dictionary,time:float)->float:
+ if phase(mission,time)=="moored":return (POINTS[1]-POINTS[0]).angle()
  var pos=position(mission,time);var next=position(mission,time+.01)
  return pos.angle_to_point(next) if next.distance_squared_to(pos)>.000001 else (POINTS[-1]-POINTS[-2]).angle()
 static func source_position(sim,source:Dictionary)->Vector2:
@@ -94,7 +95,7 @@ static func receiver(sim,station:int)->Dictionary:
  else:result.ready=true;result.text="READY · RENDEZVOUS HULL · passive decode4s"
  return result
 static func valid(mission:Dictionary,time:float)->bool:
- if not mission.has("rendezvous_transport"):return true
+ if not mission.has("rendezvous_transport"):return mission.get("id")!=7
  if mission.get("id")!=7 or not is_finite(time) or time<0:return false
  var state=mission.rendezvous_transport
  if not state is Dictionary or state.size()!=3 or not state.get("control_known") is bool or not state.get("seen") is Dictionary or not (state.get("released_at") is float or state.get("released_at") is int):return false
