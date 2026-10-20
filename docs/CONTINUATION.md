@@ -32,7 +32,7 @@ new1–5 policies spend no finite tool. Core672/runtime563, interaction72, conte
 Shelf input118, remaining input404 and rendered Song82 pass.
 Fresh repair: band-aware cached torpedo aims/physical launches and craft-local recovery;
 witness/module custody and plant continuity covered. Root independently reviews accumulated
-source next. FIT/craft-handle friction and Well balance remain findings.
+source next, including bounded sweeper pin/save repair. FIT/Well findings remain.
 Only after that review/fixes: final-head CI and normal milestone PR.
-28 core/12 optional, fleet/economy/research/frontend/presentation/audio,
-challenges/replay, expeditions and naval career remain the approved program.
+After approval/CI/integration: build the next substantial playable campaign batch
+toward28 core/12 optional; wider fleet/replay/modes remain the approved program.

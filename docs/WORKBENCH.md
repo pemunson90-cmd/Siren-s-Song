@@ -23,9 +23,11 @@ Sonar separates bearings, triangulated fixes, optical contacts and stale echoes.
 Sweeper returns/reporting use acquired snapshots, with a real disruption/evasion window.
 
 Fresh blockers reproduced/repaired: band-aware torpedo admission and craft-local
-Blackwater/witness winching, module custody and plant continuity.
+Blackwater/witness winching, module custody/plant continuity; sweeper pin/save recheck.
 Root owns one independent reviewer, final-head game-smoke, PR and merge
 after the complete opening0–5 milestone; internal tasks continue on this branch.
 Keep other profiles/trees, main, signer, evidence and recovery refs untouched.
 No routine APK, new governance framework or user-playtest gate.
 Only the user ends the Gauntlet; integration continues into the next approved batch.
+After approval/CI/integration: author the next substantial playable campaign batch
+toward28 core/12 optional operations, using the shared depth/sonar foundation.

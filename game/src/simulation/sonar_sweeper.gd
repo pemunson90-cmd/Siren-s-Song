@@ -6,8 +6,9 @@ static func advance(sim,enemy,dt):
  enemy["attention_time"]=maxf(0.,enemy.get("attention_time",0.)-dt)
  var state=enemy.sweep
  state.emitting=maxf(0,state.emitting-dt)
+ if enemy.get("pin_time",0)>0:enemy.pin_time=maxf(0,enemy.pin_time-dt)
  if enemy.stun>0 or enemy.get("pin_time",0)>0:
-  enemy.stun=maxf(0,enemy.stun-dt);state.charge=0.;state.pending=[];state.strike={};enemy.mode="DISRUPTED";enemy.lock=0.;enemy.target=-1;return
+  enemy.stun=maxf(0,enemy.stun-dt);state.charge=0.;state.pending=[];state.strike={};enemy.mode="PINNED" if enemy.get("pin_time",0)>0 else "DISRUPTED";enemy.lock=0.;enemy.target=-1;return
  for n in range(state.pending.size()-1,-1,-1):
   var packet=state.pending[n]
   if packet.due>sim.elapsed:continue
