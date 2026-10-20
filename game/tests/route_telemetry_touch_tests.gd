@@ -87,16 +87,19 @@ func run():
   # Returning Warning Chain play lost a relay tap to B's projected handle
   # (1792474021079711943). These own positions isolate that real failure;
   # mission machinery, context picking and injected input remain actual.
+  # Plant replaces the old north upload: retain the same B-to-control offset
+  # at its publicly observable EAST panel, without an internal third marker.
   game._start_mission(10);await settle()
   sim=game.sim;h=game.mission_hud;fleet=h.fleet
-  sim.units[0].pos=Vector2(480,1000);sim.units[1].pos=Vector2(1000,1880);sim.units[2].pos=Vector2(1285,605)
+  var station=sim.observable_sites()[1]
+  sim.units[0].pos=Vector2(480,1000);sim.units[1].pos=Vector2(1000,1880);sim.units[2].pos=station.pos+Vector2(285,205)
   game.ocean.fit_chart();game._refresh();await settle()
-  var relay=game.ocean.global_position+game.ocean.screen_position(sim.mission.objectives[2].pos)
+  var relay=game.ocean.global_position+game.ocean.screen_position(station.pos)
   var relay_touch=Rect2(relay-Vector2.ONE*game.ui_touch_height*.5,Vector2.ONE*game.ui_touch_height)
   check(not fleet.buttons.any(func(b):return b.get_global_rect().intersects(relay_touch)),"projected fleet handles leave the visible warning relay touch target accessible")
   await capture(name+"-relay-clear")
   before=sim.snapshot();await tap(relay)
-  check(game.advanced_orders and h.page=="object" and sim.selected==0 and sim.snapshot()==before,"relay-center touch opens its actual operation without changing craft or routing")
+  check(game.advanced_orders and h.page=="plant" and h.subject.get("station","")=="panel" and sim.selected==0 and sim.snapshot()==before,"public station-center touch opens its actual plant operation without changing craft or routing")
   h.dismiss();await settle();await tap(fleet.buttons[2].get_global_rect().get_center())
   check(sim.selected==2 and game.ocean.chart_camera.mode=="follow" and not game.advanced_orders,"repositioned station handle remains a full independent select/focus control")
   await capture(name+"-relay-access")

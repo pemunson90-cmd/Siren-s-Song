@@ -97,6 +97,8 @@ expedition_menu_tests|EXPEDITION MENU
 campaign_consequence_tests|CAMPAIGN CONSEQUENCES
 campaign_equipment_save_tests|CAMPAIGN EQUIPMENT SAVE
 onward_mission_tests|ONWARD MISSIONS
+warning_chain_tests|WARNING CHAIN
+warning_chain_journey_tests|WARNING CHAIN JOURNEY
 rendezvous_transport_tests|RENDEZVOUS TRANSPORT
 rendezvous_ui_tests|RENDEZVOUS UI
 resolution_content_tests|RESOLUTION CONTENT
@@ -168,4 +170,7 @@ terminal_tick_tests|TERMINAL TICK
 extraction_survival_tests|EXTRACTION SURVIVAL
 tactics_composition_tests|TACTICS COMPOSITION
 briefing_scroll_fitting_ui_tests|BRIEFING SCROLL FITTING UI
+warning_chain_ui_tests|WARNING CHAIN UI
+warning_chain_audio_tests|WARNING CHAIN AUDIO
+warning_chain_world_ui_tests|WARNING CHAIN WORLD UI
 TACTICAL_SCENARIOS

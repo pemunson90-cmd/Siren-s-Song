@@ -18,7 +18,7 @@ var system_suspended := false
 static func engine_gain(speed: float,silent: bool) -> float:
 	return clampf(speed/78.0,0,1)*(0.13 if silent else 0.35)
 static func samples(cue: String) -> PackedFloat32Array:
-	var duration={"ambience":8.0,"engine":2.0,"creak":1.6,"beam":1.7,"loss":2.0,"decoy":2.5,"extraction":2.4,"factory":4.8,"heartbeat":0.38,"knock":0.55,"snare":0.4,"carrier_received":1.4,"return_received":1.6,"berth_release":1.8}.get(cue,1.1)
+	var duration={"ambience":8.0,"engine":2.0,"creak":1.6,"beam":1.7,"loss":2.0,"decoy":2.5,"extraction":2.4,"factory":4.8,"heartbeat":0.38,"knock":0.55,"snare":0.4,"carrier_received":1.4,"return_received":1.6,"berth_release":1.8,"plant_switch":.24}.get(cue,1.1)
 	var result=PackedFloat32Array(); result.resize(int(RATE*duration))
 	var rng=RandomNumberGenerator.new(); rng.seed=cue.hash()
 	var filtered=0.0
@@ -58,6 +58,11 @@ static func samples(cue: String) -> PackedFloat32Array:
 				# Short winch engagement: rising motor and ratcheting cable, below alerts.
 				filtered=lerpf(filtered,rng.randf_range(-1,1),0.1)
 				value=(sin(TAU*(62*time+8*time*time))*0.16+sin(TAU*155*time)*0.045+filtered*0.06)*(0.75+0.25*pow(maxf(0,cos(TAU*14*time)),4))*envelope
+			"plant_switch":
+				# Accepted local console switch only. Physical warning/machinery
+				# origins and reception remain the plant model/public telemetry.
+				filtered=lerpf(filtered,rng.randf_range(-1,1),.25)
+				value=(sin(TAU*145*time)*.15+filtered*.16)*minf(1,time*140)*exp(-k*14)
 			"berth_release":
 				# The selected operator engages machinery once; no remote hull
 				# movement, hidden arrival or successful reception sound follows.
@@ -93,7 +98,7 @@ func _ready() -> void:
 		if AudioServer.get_bus_effect(0,i).resource_name=="SirenPeakGuard": guarded=true
 	if not guarded:
 		var limiter=AudioEffectLimiter.new(); limiter.resource_name="SirenPeakGuard"; limiter.threshold_db=-3; limiter.ceiling_db=-1; AudioServer.add_bus_effect(0,limiter)
-	for cue in ["ping","camera","emp","knock","snare","salvage","record","loss","extraction","alert","recon","decoy","creak","beam","factory","carrier_received","return_received","heartbeat","berth_release"]: cues[cue]=stream(cue)
+	for cue in ["ping","camera","emp","knock","snare","salvage","record","loss","extraction","alert","recon","decoy","creak","beam","factory","carrier_received","return_received","heartbeat","berth_release","plant_switch"]: cues[cue]=stream(cue)
 	ambience=AudioStreamPlayer.new(); ambience.stream=stream("ambience"); ambience.bus=AMBIENCE_BUS; add_child(ambience); ambience.play()
 	engine=AudioStreamPlayer.new(); engine.stream=stream("engine"); engine.bus=EFFECTS_BUS; add_child(engine); engine.play()
 	for n in 5:
@@ -115,7 +120,6 @@ func update(sim,dt: float,active_dive: bool=true) -> void:
 	ambience.stream_paused=frozen; engine.stream_paused=frozen
 	var speed: float=sim.units[0].vel.length()
 	engine.volume_db=linear_to_db(maxf(0.0001,engine_gain(speed,sim.units[0].silent))); engine.pitch_scale=0.75+speed/100.0
-	for voice in voices: voice.stream_paused=sim.paused and active_dive
 	alert_timer=maxf(0,alert_timer-dt)
 	if active_dive and not sim.paused:
 		heartbeat_timer=maxf(0,heartbeat_timer-dt)
@@ -128,10 +132,14 @@ func update(sim,dt: float,active_dive: bool=true) -> void:
 			if contact.lock>0.1 and sim.elapsed-contact.time<0.4 and alert_timer<=0:
 				play("alert",contact.pos-sim.units[sim.selected].pos); alert_timer=3.0
 	for event in sim.events:
-		if event.type in ["carrier_received","return_received"]:
+		if event.type=="plant_control":play("plant_switch")
+		elif event.type in ["carrier_received","return_received"]:
 			var received=received_cues.take(event,sim.selected,sim.elapsed,active_dive and not sim.paused)
 			if not received.is_empty():play(received.cue,received.relative)
 		else:play(event.type,event.get("pos",sim.units[sim.selected].pos)-sim.units[sim.selected].pos)
+	# play() starts a fresh voice unpaused. Apply the tactical freeze after
+	# event dispatch too, including a switch accepted while planning.
+	for voice in voices: voice.stream_paused=sim.paused and active_dive
 	sim.events.clear()
 func play(cue: String,relative_position: Vector2=Vector2.ZERO) -> void:
 	if muted or system_suspended or not cues.has(cue): return

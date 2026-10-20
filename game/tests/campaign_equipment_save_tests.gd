@@ -17,7 +17,7 @@ func _initialize():
  var progress={"version":1,"route":"deep","routes":["deep"],"facts":{"deep":"carrier"},"completed":[6,7]}
  var data={"version":1,"unlocked":5,"completed":[0,1,2,3,4,5],"upgrade":"disruption","settings":{},"expedition":progress,"active":sim.snapshot()}
  check(not Store.new().valid(data),"unearned active hardware/reference rejected despite earned mission access")
- var sampler=Sim.new();sampler.start(10,"disruption",{"fitted":{"quietus":"","drone_a":"drone_sampler","drone_b":""}})
+ var sampler=Sim.new();sampler.start(12,"disruption",{"fitted":{"quietus":"","drone_a":"drone_sampler","drone_b":""}})
  sampler.units[1].pos=sampler.mission.objectives[0].pos+Vector2(0,80);sampler.command("select",{"unit":1})
  check(sampler.camera_context().ready,"equipped drone may operate explicit compatible receiver")
  check("AUDIBLE" in sampler.camera_context().text,"drone receiver context truthfully labels audible field sampling")

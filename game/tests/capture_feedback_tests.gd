@@ -6,7 +6,7 @@ func check(ok:bool,label:String):
  checks+=1
  if not ok:failures+=1;print("FAIL ",label)
 func _initialize():
- var sim=Sim.new();sim.start(10,"disruption",{"fitted":{"quietus":"","drone_a":"drone_sampler","drone_b":""}})
+ var sim=Sim.new();sim.start(12,"disruption",{"fitted":{"quietus":"","drone_a":"drone_sampler","drone_b":""}})
  check(sim.has_method("capture_feedback"),"capture exposes actual duration to presentation")
  if not sim.has_method("capture_feedback"):quit(1);return
  check(sim.capture_feedback().duration==0,"inactive capture has no progress duration")

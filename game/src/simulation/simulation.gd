@@ -11,6 +11,7 @@ const Consequences=preload("res://src/campaign/campaign_consequences.gd")
 const SignalField=preload("res://src/simulation/signal_field.gd")
 const Courier=preload("res://src/simulation/blackwater_courier.gd")
 const Delivery=preload("res://src/simulation/blackwater_delivery.gd")
+const Chain=preload("res://src/simulation/warning_chain.gd")
 const Rendezvous=preload("res://src/simulation/rendezvous_transport.gd")
 const Departure=preload("res://src/simulation/foundry_departure.gd")
 const DroneOperations=preload("res://src/simulation/drone_operations.gd")
@@ -164,6 +165,7 @@ func _course_collision(u:Dictionary,physical:bool=false)->void:
 	u.vel=Vector2.ZERO
 	if physical:_course_block(u,"Physical clearance stop")
 func observable_sites() -> Array:
+	if Chain.applies(mission):return mission.objectives.slice(0,2).duplicate(true)
 	return mission.objectives.duplicate(true)
 func signal_readings() -> Array:
 	return SignalField.readings(self)
@@ -185,6 +187,8 @@ func _collect_blackwater_wreck(unit_id:int,pos:Vector2)->bool:
 func module_recovery_status()->Dictionary:return ModuleRecovery.status(self)
 func blackwater_delivery_status()->Dictionary:return Delivery.status(self)
 func blackwater_handoff_context(carrier:int)->Dictionary:return Delivery.handoff_context(self,carrier)
+func warning_chain_context(unit_id:int=-1)->Dictionary:return Chain.context(self,selected if unit_id<0 else unit_id)
+func _warning_chain_busy(unit_id:int)->bool:return Chain.connected(self,unit_id)
 func departure_context()->Dictionary:
 	if outcome.is_empty() and units[0].alive and units[0].vel.length()<12:
 		for corridor in extraction_corridors():
@@ -343,6 +347,9 @@ func command(order: String,args: Dictionary={}) -> bool:
 	if not u.alive and order!="select":
 		selected=0; queue_mode=false; message="Selected drone lost. Quietus selected; reissue the order."; return false
 	match order:
+		"chain_power":return Chain.command(self,args.mode) if args.get("mode") in ["connect","disconnect","backup"] else false
+		"chain_route":return Chain.command(self,args.output) if args.get("output") in ["service","mast"] else false
+		"chain_send":return Chain.command(self,"send")
 		"blackwater_handoff":
 			if not args.get("carrier") is int:return false
 			return Delivery.handoff(self,args.carrier)
@@ -446,6 +453,7 @@ func command(order: String,args: Dictionary={}) -> bool:
 		_: return false
 	ModuleRecovery.cancel_released(self,selected)
 	Delivery.cancel_released(self,selected)
+	Chain.cancel_released(self,order)
 	return true
 # Public read-only operator intent; legacy navigation corners are not editor rows.
 func route_goals(unit_id:int=-1) -> Array:
@@ -525,6 +533,7 @@ func _blackwater_context_text(target:int,station:int) -> String:
 	var learned=mission.objectives.any(func(o):return o.captured)
 	return "%s · %dm / quiet %.0fm%s"%[name,c.distance,c.quiet_range," · learned: SONAR + SAMPLE within 240m" if learned else " · move closer to listen"]
 func camera_context() -> Dictionary:
+	if Chain.applies(mission):return {"target":-1,"ready":false,"text":Chain.context(self,selected).text}
 	var work=capture_feedback(selected)
 	if work.unit>=0:
 		var active=mission.objectives[work.target]
@@ -616,8 +625,8 @@ func acoustic_feedback() -> Dictionary:
 			result.motion.append({"name":u.name,"pos":u.pos,"radius":motion_radius(units.find(u)) if mission.get("acoustic_revision",0)==1 else 430.0,"speed":propulsion_speed(u)})
 	for n in noises:
 		if n.time<=0: continue
-		if n.label in ["DECOY","ACTIVE SONAR","RECON UPLINK","DISRUPTION","CAMERA","KNOCKDOWN","TORPEDO RUN","WARNING CHAIN TRANSMISSION","SERVICE SLUICE MOTOR","RECOVERY WINCH","BERTH RELEASE"]:
-			result.pulses.append({"label":n.label,"pos":n.pos,"time":n.time})
+		if n.label in ["DECOY","ACTIVE SONAR","RECON UPLINK","DISRUPTION","CAMERA","KNOCKDOWN","TORPEDO RUN","WARNING CHAIN TRANSMISSION","SERVICE SLUICE MOTOR","RECOVERY WINCH","BERTH RELEASE","BACKUP GENERATOR START","SERVICE SHUTTER","SERVICE WARNING","NORTH MAST WARNING"]:
+			result.pulses.append({"label":n.label,"pos":n.pos,"time":n.time,"radius":n.radius})
 		elif n.label=="FACTORY RESPONSE" and visible(n.pos):
 			result.responses.append({"label":n.label,"pos":n.pos,"time":n.time})
 	return result
@@ -652,6 +661,7 @@ func _tick(dt: float) -> void:
 			if u.battery<=0: u.alive=false; events.append({"type":"loss","pos":u.pos}); message=("%s battery exhausted · Quietus can SAMPLE either relay." if mission.get("blackwater_revision",0)==1 else "%s battery exhausted. Quietus camera remains available.")%u.name
 	_advance_projectiles(dt)
 	_threats(dt)
+	Chain.tick(self)
 	Delivery.losses(self)
 	ModuleRecovery.tick(self,dt)
 	Delivery.tick(self,dt)
@@ -1091,6 +1101,7 @@ func _search_approach(s: Dictionary) -> Array:
 			if not route.is_empty(): s.goal=point; return route
 	return []
 func all_records() -> bool:
+	if not Chain.complete(self):return false
 	if not Delivery.complete(self):return false
 	for id in mission.get("required_site_ids",[]):
 		if not mission.objectives.any(func(o):return o.get("site_id","")==id and o.captured):return false
@@ -1149,6 +1160,7 @@ static func valid_snapshot(data: Dictionary) -> bool:
 		exposed.append(work.target)
 	if not WorldRegion.valid(data):return false
 	if not Delivery.valid(data):return false
+	if not Chain.valid(data):return false
 	if not Rendezvous.valid(data.mission,float(data.get("elapsed",0))):return false
 	if data.mission.get("earned_terrain",false):
 		if not data.mission.get("launch_seed") is Rect2 or not TerrainChart.valid_state(data.mission.get("terrain_chart"),data.mission):return false
