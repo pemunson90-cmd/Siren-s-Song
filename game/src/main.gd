@@ -10,6 +10,7 @@ const Soundscape=preload("res://src/audio/soundscape.gd")
 const MetricsTransport=preload("res://src/diagnostics/metrics_transport.gd")
 const OceanView = preload("res://src/presentation/ocean_view.gd")
 const ModuleRecovery=preload("res://src/presentation/module_recovery_view.gd")
+const WarningChain=preload("res://src/presentation/warning_chain_view.gd")
 const BlackwaterDelivery=preload("res://src/presentation/blackwater_delivery_view.gd")
 const FleetInventory=preload("res://src/campaign/fleet_inventory.gd")
 var sim = Simulation.new()
@@ -181,6 +182,8 @@ func _start_mission(index: int) -> void:
 func _primary_action() -> void:
 	if decoy_armed or knock_armed:
 		decoy_armed=false;knock_armed=false;map_gesture.cancel();knock_press.clear();sim.message="Targeting cancelled";_refresh();return
+	var station=WarningChain.nearest_station(sim)
+	if not station.is_empty():mission_hud.open("plant",station);return
 	_order("camera")
 func _order(order: String,args: Dictionary={}) -> void:
 	if advanced_orders and order!="select":

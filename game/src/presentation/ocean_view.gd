@@ -2,6 +2,7 @@ extends Control
 const EarnedChart=preload("res://src/presentation/earned_chart_view.gd")
 const Expedition=preload("res://src/presentation/expedition_view.gd")
 const Confluence=preload("res://src/presentation/confluence_world.gd")
+const WarningChain=preload("res://src/presentation/warning_chain_view.gd")
 const Rendezvous=preload("res://src/presentation/rendezvous_view.gd")
 var sim
 var optical_feed
@@ -197,7 +198,7 @@ func _draw() -> void:
 	else:EarnedChart.draw_terrain(self,earned,world_scale)
 	for o in observable_sites():
 		if o.get("own_origin",false):continue
-		if Rendezvous.replaces_site(sim,o):continue
+		if Rendezvous.replaces_site(sim,o) or WarningChain.replaces_site(sim,o):continue
 		if o.get("kind","")=="receiver":
 			draw_arc(o.pos,26,0,TAU,40,Color("80bdb6"),2)
 			draw_line(o.pos-Vector2(17,0),o.pos+Vector2(17,0),Color("80bdb6"),2)
@@ -216,7 +217,7 @@ func _draw() -> void:
 	# Intelligence marks are briefed coordinates, not live contact observations.
 	for o in observable_sites():
 		if o.get("own_origin",false):continue
-		if Rendezvous.replaces_site(sim,o):continue
+		if Rendezvous.replaces_site(sim,o) or WarningChain.replaces_site(sim,o):continue
 		var c=CYAN if o.captured else Color("e1b66e")
 		draw_arc(o.pos,43,0,TAU,40,Color(c,0.35),1.4)
 		draw_line(o.pos+Vector2(-14,0),o.pos+Vector2(14,0),c,1)
@@ -233,6 +234,7 @@ func _draw() -> void:
 			if alpha>0: draw_rect(Rect2(x*40,y*40,40,40),Color(0.005,0.014,0.025,alpha))
 	preload("res://src/presentation/blackwater_courier_view.gd").draw(self,sim)
 	Rendezvous.draw(self,sim)
+	WarningChain.draw_world(self,sim)
 	# Sonar rays stop at actual cover, producing explicit acoustic shadows.
 	if earned.is_empty() and sim.ping_time>0:
 		var radius=(3.5-sim.ping_time)*210

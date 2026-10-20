@@ -4,6 +4,7 @@ const Equipment=preload("res://src/presentation/equipment_context.gd")
 const Expedition=preload("res://src/presentation/expedition_view.gd")
 const Recovery=preload("res://src/presentation/module_recovery_view.gd")
 const Rendezvous=preload("res://src/presentation/rendezvous_view.gd")
+const WarningChain=preload("res://src/presentation/warning_chain_view.gd")
 const Delivery=preload("res://src/presentation/blackwater_delivery_view.gd")
 # A tap opens an object-owned projection. A separate tap chooses an action.
 var host
@@ -56,6 +57,8 @@ func setup(owner):
  instrument_button=extra.inspect
  for entry in [["blackwater_handoff","TRANSFER\nTO Q"],["blackwater_data","DATA\nTRANSFER"],["blackwater_a","TRANSFER A\nTO QUIETUS"],["blackwater_b","TRANSFER B\nTO QUIETUS"]]:
   var key=entry[0];extra[key]=host._button(self,entry[1],func():_extra(key),key)
+ for entry in [["connect","CONNECT\nSHORE"],["disconnect","DISCONNECT"],["backup","START BACKUP\n900m / 6s"],["service","OPEN SERVICE"],["mast","NORTH MAST"],["send","SEND WARNING"]]:
+  var key="chain_"+entry[0];extra[key]=host._button(self,entry[1],func():_extra(key),key)
  sheet=PanelContainer.new();add_child(sheet)
  var style=StyleBoxFlat.new();style.bg_color=Color(.018,.055,.075,.94);style.border_color=Color("477b80");style.set_border_width_all(1);style.content_margin_left=18;style.content_margin_right=18;style.content_margin_top=16;style.content_margin_bottom=16;sheet.add_theme_stylebox_override("panel",style)
  measurement_style=StyleBoxFlat.new();measurement_style.bg_color=Color(.018,.055,.075,.92);measurement_style.border_color=Color("477b80");measurement_style.set_border_width_all(1);measurement_style.set_corner_radius_all(8)
@@ -77,6 +80,8 @@ func open(next:String="craft",context:Dictionary={}):
  host.map_gesture.cancel();host.knock_press.clear();popup_gesture.cancel();sheet_pointers.clear();sector_press=null;host.knock_armed=false;host.decoy_armed=false
  if not context.is_empty():subject=context
  elif subject.is_empty() or next=="fleet":subject={"kind":"craft","unit":host.sim.selected,"pos":host.sim.units[host.sim.selected].pos}
+ var station=WarningChain.station_subject(host.sim,subject) if next=="object" else {}
+ if not station.is_empty():next="plant";subject=station
  page=next;instruments_open=page in ["inspect","signals"];host.advanced_orders=true;host._layout()
 func dismiss():
  draining_popup=not owned_touches.is_empty()
@@ -87,9 +92,15 @@ func _back():
   if details_return=="water":dismiss()
   else:open(details_return)
  elif page=="view":open("fleet")
- elif page in ["craft","object","fleet","salvage"]:dismiss()
- else:open("object" if subject.get("kind","")=="objective" else "salvage" if subject.get("kind","")=="salvage" else "craft")
+ elif page in ["craft","object","fleet","salvage","plant"]:dismiss()
+ else:open("plant" if subject.get("kind","")=="plant" else "object" if subject.get("kind","")=="objective" else "salvage" if subject.get("kind","")=="salvage" else "craft")
 func _extra(key:String):
+ if key.begins_with("chain_"):
+  var action=key.trim_prefix("chain_");var retained=subject.duplicate(true)
+  if action in ["connect","disconnect","backup"]:host._order("chain_power",{"mode":action})
+  elif action in ["service","mast"]:host._order("chain_route",{"output":action});open("plant",retained)
+  elif action=="send":host._order("chain_send")
+  return
  if key=="arrivals":
   details_return="fleet" if host.advanced_orders else "water"
   open("signals",{"kind":"signals","receiver":-1 if host.advanced_orders else host.sim.selected});return
@@ -115,6 +126,10 @@ func sector_at(point:Vector2) -> Button:
  var turn=fposmod(local.angle()+PI/2,TAU)
  var index=posmod(roundi(turn/TAU*ring_buttons.size()),ring_buttons.size())
  return ring_buttons[index]
+func plant_button_at(point:Vector2) -> Button:
+ for button in ring_buttons:
+  if button.get_global_rect().has_point(point):return button
+ return sector_at(point)
 func label_at(point:Vector2) -> bool:
  return action_controls().values().any(func(b):return b.get_global_rect().has_point(point))
 func popup_input(event) -> bool:
@@ -133,7 +148,7 @@ func popup_input(event) -> bool:
  elif event is InputEventMouseMotion and popup_gesture.active():
   point=event.position;action=popup_gesture.feed("move",-1,point)
  if pressed:
-  sector_press=null if label_at(point) else sector_at(point)
+  sector_press=plant_button_at(point) if page=="plant" else null if label_at(point) else sector_at(point)
   if sheet.visible and sheet.get_global_rect().has_point(point) and not label_at(point):sheet_pointers[pointer]=true
  if sheet_pointers.has(pointer):
   if event is InputEventScreenTouch and not event.pressed:sheet_pointers.erase(pointer)
@@ -142,7 +157,7 @@ func popup_input(event) -> bool:
  if action.has("pan") or action.has("zoom"):dismiss();return true
  if action.has("tap") and sector_press!=null:
   var chosen=sector_press;sector_press=null
-  if chosen==sector_at(point) and not chosen.disabled:chosen.pressed.emit()
+  if chosen==(plant_button_at(point) if page=="plant" else sector_at(point)) and not chosen.disabled:chosen.pressed.emit()
   return true
  return false
 func _outside(event):
@@ -159,6 +174,7 @@ func command_controls() -> Array:
   "view":return [focus_button,host.zoom_buttons[2],host.zoom_buttons[1],host.zoom_buttons[0]]
   "fleet":return host.unit_buttons+([extra.arrivals] if Expedition.active(host.sim) else [])+[extra.view_menu,host.order_buttons.menu]
   "object":return [extra.rendezvous_release,extra.route_here,extra.inspect] if subject.get("subkind","")=="berth_control" else ([] if subject.get("subkind","")=="transmission" else [extra.route_here])+([] if subject.get("subkind","") in ["corridor","withdrawal"] else [host.order_buttons.camera])+[extra.inspect,host.order_buttons.program,host.order_buttons.queue]
+  "plant":return ([extra.chain_connect,extra.chain_disconnect,extra.chain_backup] if subject.get("station","")=="inlet" else [extra.chain_service,extra.chain_mast,extra.chain_send])+[extra.route_here,extra.inspect]
   "salvage":return [extra.salvage,extra.route_here,extra.inspect]
   "delivery":return [extra.blackwater_a,extra.blackwater_b,extra.inspect]
   "inspect","signals":return []
@@ -171,6 +187,7 @@ func layout(bounds:Vector2,h:float):
  position=Vector2.ZERO;size=bounds;touch_height=h
  var font=maxi(14,roundi(h*.26))
  for b in host.order_buttons.values()+host.unit_buttons+extra.values()+[close_button,focus_button,host.pause_button,host.advanced_button]+host.zoom_buttons:
+  b.mouse_filter=Control.MOUSE_FILTER_IGNORE if page=="plant" and b in command_controls() else Control.MOUSE_FILTER_STOP
   b.hide();b.custom_minimum_size=Vector2(h*1.55,h);b.size=Vector2(h*1.55,h);b.add_theme_font_size_override("font_size",font)
   b.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
   var normal=StyleBoxFlat.new();normal.bg_color=Color(0,0,0,0);normal.set_content_margin_all(2)
@@ -264,6 +281,12 @@ func refresh():
    extra.rendezvous_release.text="BERTH\nRELEASED" if tender.control.get("used",false) else "RELEASE BERTH\n950m / 6s"
   if subject.get("subkind","") in ["berth_control","rendezvous_hull"]:instrument_info.text=Rendezvous.detail(sim,subject)
   if subject.get("subkind","")=="rendezvous_hull" and tender.vessel.known and not tender.vessel.live:extra.route_here.text="PLOT\nLAST FIX"
+ var plant=WarningChain.context(sim)
+ if not plant.is_empty():
+  host.order_buttons.camera.text="PLANT\nCONTROLS";host.order_buttons.camera.disabled=false
+  intent.text=WarningChain.summary(sim)+" · "+intent.text
+  for row in plant.actions:extra["chain_"+row.id].disabled=not row.ready
+  if subject.get("kind","")=="plant":instrument_info.text=WarningChain.detail(sim,subject.station)
  var delivery=Delivery.status(sim)
  if not delivery.is_empty():
   intent.text=Delivery.summary(sim)+" · "+intent.text
@@ -336,8 +359,9 @@ func _draw():
  for i in ring_buttons.size():
   var a=-PI/2+TAU*(i-.5)/ring_buttons.size();var d=Vector2.from_angle(a)
   draw_line(center+d*(ring_radius-h*.65),center+d*(ring_radius+h*.6),Color(.3,.72,.74,.4),1)
- var title=subject.get("name","SITE") if subject.get("kind","") in ["objective","salvage"] else host.sim.units[host.sim.selected].name
+ var title=subject.get("name","SITE") if subject.get("kind","") in ["objective","salvage","plant"] else host.sim.units[host.sim.selected].name
  var caption=page.to_upper() if page!="craft" else ("COMMAND · SITES %d"%host.ocean.observable_sites().size() if Expedition.active(host.sim) else "COMMAND · %d/%d"%[host.ocean.observable_sites().filter(func(o):return o.captured).size(),host.ocean.observable_sites().size()])
+ if page=="plant":caption=WarningChain.power_label(host.sim,WarningChain.context(host.sim))+" · LOCAL 60m"
  if page=="delivery":caption="LOCAL LINK · 60m · SETTLED"
  if page=="salvage":
   var context=host.sim.salvage_context(subject.item)

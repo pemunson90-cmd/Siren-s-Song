@@ -12,7 +12,8 @@ static func operations(main)->void:
   main._button(main.panel_box,"%s · %s"%[mission.title,status],func():main._briefing(id),"expedition%d"%id)
 static func briefing(main,index:int)->bool:
  if index<6:return false
- main._menu_text("OBSERVATION ORDERS\nArrival arcs show where a carrier reached that receiver; sound may bend around basalt. They are not exact target bearings. Close clear passive reception or local RECON earns a precise source mark. Pause gives planning time, never new passive samples. Named recovery corridors show which interpretations you have confirmed.",17)
+ if index==10:main._menu_text("PLANT ORDERS\nCONNECT a settled craft at WEST for quiet shore power, or START BACKUP once with a 900m / 6s audible start. Quietus or a fitted sampler selects the output at EAST. OPEN SERVICE opens the physical crosslink; NORTH MAST leaves its opening unchanged. Then use SEND WARNING separately. Service requires a local receipt; mast telemetry proves transmission with external reception unknown. Recover Quietus by either mouth after commissioning.",17)
+ else:main._menu_text("OBSERVATION ORDERS\nArrival arcs show where a carrier reached that receiver; sound may bend around basalt. They are not exact target bearings. Close clear passive reception or local RECON earns a precise source mark. Pause gives planning time, never new passive samples. Named recovery corridors show which interpretations you have confirmed.",17)
  if index in [9,10]:main._menu_text("RECOVERED THREAD / Your first successful recovery from Wake Crossing or Warning Chain selects the history carried into Confluence. The other dive remains replayable; replay does not rewrite a launched dive or the committed thread. Failed dives retain field notes, never the new fitting or continuation.",17)
  if index==6:main._menu_text("Choose a physical exit with Quietus after its carrier is identified. Investigating both retains both facts; your exit selects the continuation. The southern basin permits incomplete withdrawal after departure, without completing an expedition route.",17)
  return true
@@ -29,6 +30,8 @@ static func debrief(main)->bool:
  if main.sim.outcome=="won" and mission.get("recovered",false):
   main._menu_text("EXPEDITION RECOVERED",32)
   main._menu_text(mission.record,22)
+  var plant=preload("res://src/presentation/warning_chain_view.gd").debrief_text(main.sim)
+  if not plant.is_empty():main._menu_text(plant,19)
   preload("res://src/presentation/module_recovery_view.gd").debrief(main)
   var grade=preload("res://src/simulation/recon_consequences.gd").grade(mission.get("objectives",[]))
   if grade.photos>0:main._menu_text("INTEL PHOTO GRADE %s · %d photographs"%[grade.grade,grade.photos],20)
