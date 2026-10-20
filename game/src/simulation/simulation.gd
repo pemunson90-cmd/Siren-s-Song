@@ -627,30 +627,41 @@ func current_feedback() -> Array:
 		if not u.alive or flow.length()<0.1:continue
 		result.append({"unit":id,"pos":u.pos,"flow":flow,"ground_velocity":u.vel,"water_velocity":u.get("water_velocity",u.vel-flow),"effort":propulsion_speed(u)})
 	return result
-func _current_step(u:Dictionary,dt:float,desired_ground:Vector2,speed:float,flow:Vector2,report_collision:bool,player_craft:bool) -> void:
+func _current_step(u:Dictionary,dt:float,desired_ground:Vector2,speed:float,flow:Vector2,report_collision:bool,player_craft:bool,ground_cap:float=-1.0) -> void:
 	# Independent vector thrusters have the same bounded acceleration and total
 	# through-water speed budget as ordinary motion. Hull turning stays physical.
+	if ground_cap>=0:desired_ground=desired_ground.limit_length(ground_cap)
 	var water:Vector2=u.get("water_velocity",u.vel-flow)
 	water=water.move_toward((desired_ground-flow).limit_length(speed),42.0*dt)
 	u["water_velocity"]=water
 	var ground:Vector2=water+flow
 	var next:Vector2=u.pos+ground*dt
+	if player_craft and not _course_ground_safe(u.pos,next):
+		_course_collision(u);u["water_velocity"]=-flow
+		return
 	if not blocked(next,12) and segment_safe(u.pos,next,12):
 		u.pos=next;u.vel=ground
 	else:
+		if player_craft and terrain_chart!=null:
+			_course_collision(u,true);u["water_velocity"]=-flow
+			return
 		u.vel=Vector2.ZERO;u.route.clear();u["current_station"]=u.pos
 		if player_craft:RouteProgram.clear(u)
 		if report_collision:message="%s autopilot stopped at unsafe terrain. Replot in open water."%u.name
 func _move(u: Dictionary,dt: float,speed: float,holding: bool,report_collision: bool=true,player_craft: bool=false) -> void:
 	var desired=Vector2.ZERO
 	if player_craft: speed=_craft_speed(u,speed)
+	var thrust_capacity=speed
+	var course=_course_prepare(u,speed,holding) if player_craft else {"speed":speed,"holding":holding,"earned":false}
+	speed=course.speed;holding=course.holding
+	var ground_cap:float=course.get("ground_cap",-1.0)
 	var flowing=not mission.get("currents",[]).is_empty()
 	var flow=current_at(u.pos) if flowing else Vector2.ZERO
 	if flowing:
 		if holding or u.route.is_empty():
 			if not u.has("current_station"):u["current_station"]=u.pos
 		else:u.erase("current_station")
-	if player_craft and not holding and not u.route.is_empty() and not _player_leg_safe(u.pos,u.route[0].pos):
+	if player_craft and not course.earned and not holding and not u.route.is_empty() and not _player_leg_safe(u.pos,u.route[0].pos):
 		if _repair_current_leg(u):
 			if report_collision: message="%s · course adjusted around charted terrain"%u.name
 		else:
@@ -661,15 +672,17 @@ func _move(u: Dictionary,dt: float,speed: float,holding: bool,report_collision: 
 		var delta:Vector2=dest.pos-u.pos
 		var arrival=9.0 if dest.stop else 11.0
 		var mode_boundary=player_craft and dest.get("goal",false) and u.route.size()>1 and u.route[1].get("mode","inherit")!="inherit" and u.route[1].get("mode","inherit")!=dest.get("mode","inherit")
-		if not mode_boundary and not dest.stop and u.route.size()>1 and delta.length()<28 and segment_safe(u.pos,u.route[1].pos,24): arrival=28.0
+		if not mode_boundary and not dest.stop and u.route.size()>1 and delta.length()<28 and (_course_segment_safe(u.pos,u.route[1].pos,24) if player_craft else segment_safe(u.pos,u.route[1].pos,24)): arrival=28.0
 		if delta.length()<arrival:
 			if dest.stop and u.vel.length()>2:
 				if flowing:
-					_current_step(u,dt,(dest.pos-u.pos).limit_length(6.0),speed,flow,report_collision,player_craft)
+					_current_step(u,dt,(dest.pos-u.pos).limit_length(6.0),thrust_capacity,flow,report_collision,player_craft,ground_cap)
 					return
 				u.vel=u.vel.move_toward(Vector2.ZERO,100*dt)
 				var braking:Vector2=u.pos+u.vel*dt
-				if not blocked(braking,12): u.pos=braking
+				if player_craft and not _course_ground_safe(u.pos,braking):_course_collision(u)
+				elif not blocked(braking,12): u.pos=braking
+				elif course.earned:_course_collision(u,true)
 				return
 			u.route.pop_front()
 			if player_craft: RouteProgram.arrived(u,dest); speed=_craft_speed(u,speed)
@@ -686,8 +699,8 @@ func _move(u: Dictionary,dt: float,speed: float,holding: bool,report_collision: 
 				# Reserve hull room for the remaining turn and current momentum.
 				# Withhold thrust, retaining normal braking/rotation until the arc fits.
 				var maneuver_room=12.0+target_speed*turn/1.8+u.vel.length_squared()/84.0
-				if blocked(u.pos,maneuver_room): target_speed=0.0
-			if turn>0.15 and blocked(u.pos,24): target_speed=0.0 # Thruster-turn away before a near-wall restart.
+				if not _course_turn_clear(u.pos,maneuver_room): target_speed=0.0
+			if turn>0.15 and (not _course_turn_clear(u.pos,24) if player_craft else blocked(u.pos,24)): target_speed=0.0
 			if u.route.size()>1:
 				var next_direction:Vector2=u.route[1].pos-u.route[0].pos
 				var corner=absf(delta.angle_to(next_direction))
@@ -700,12 +713,15 @@ func _move(u: Dictionary,dt: float,speed: float,holding: bool,report_collision: 
 	if flowing:
 		if (holding or u.route.is_empty()) and u.has("current_station"):
 			desired=((u.current_station-u.pos)*2.0).limit_length(12.0)
-		_current_step(u,dt,desired,speed,flow,report_collision,player_craft)
+		_current_step(u,dt,desired,thrust_capacity,flow,report_collision,player_craft,ground_cap)
 		return
 	u.vel=u.vel.move_toward(desired,42*dt)
 	var next:Vector2=u.pos+u.vel*dt
+	if player_craft and not _course_ground_safe(u.pos,next):
+		_course_collision(u);return
 	if not blocked(next,12): u.pos=next
 	else:
+		if course.earned:_course_collision(u,true);return
 		u.vel=Vector2.ZERO; u.route.clear()
 		if player_craft: RouteProgram.clear(u)
 		if report_collision: message="%s autopilot stopped at unsafe terrain. Replot in open water."%u.name
