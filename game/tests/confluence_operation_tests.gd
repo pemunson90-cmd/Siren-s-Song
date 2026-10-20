@@ -26,8 +26,10 @@ func _initialize()->void:
  if gates.is_empty():
   print("CONFLUENCE OPERATION CHECKS ",checks," FAILURES ",failures);quit(1);return
  var gate=gates[0]
- var west=Vector2(1050,2900);var east=Vector2(2680,2900)
+ var west=Vector2(1050,2300);var east=Vector2(2680,2300)
  var closed=length_of(s.path(west,east),west)
+ var live_return=s.mission.signal_sources[0].pos+Vector2(0,180)
+ var closed_return=length_of(s.path(live_return,s.mission.corridors[1].pos),live_return)
  check(not s.line_clear(west,east),"closed service sluice really blocks cross-island sight")
  var repeater=s.mission.signal_sources.filter(func(source):return source.id=="confluence_repeater")[0]
  s.units[0].pos=repeater.pos;s.units[0].vel=Vector2.ZERO
@@ -42,12 +44,13 @@ func _initialize()->void:
  check(site.get("completion_open_structure","")==gate.id,"discovery and actuator share the actual door")
  # Earn the actual closed door face, then remove it through the same completion
  # hook used by quiet Quietus and an independently fitted noisy drone sampler.
- s.paused=false;s.units[0].pos=Vector2(2600,2900);s._terrain_observe()
+ s.paused=false;s.units[0].pos=Vector2(2600,2300);s._terrain_observe()
  var before=s.public_chart().return_cells.size()
  check(before>0,"local receiver earns the actual closed service door face")
  site.captured=true;s._record_secured(site,0)
  check(gate.opened and not s.mission.structures.has(gate.closed_shape),"completing optional operation permanently opens physical passage")
  check(s.line_clear(west,east) and length_of(s.path(west,east),west)+900<closed,"service choice earns a materially shorter return across the divide")
+ check(length_of(s.path(live_return,s.mission.corridors[1].pos),live_return)+700<closed_return,"service discovery shortens the actual live-memory eastern withdrawal")
  check(s.noises.any(func(n):return n.pos==site.pos and n.radius>=1100),"opening discloses the real actuator position through local sound")
  check(s.public_chart().return_cells.size()<before,"earned chart retires the removed door rather than preserving a phantom blocker")
  var restored=Sim.new()
