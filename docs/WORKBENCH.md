@@ -1,5 +1,5 @@
 # Siren’s Song · campaign build
-Campaign plan: docs/PASS0_CAMPAIGN_PLAN.md.
+Campaign plan: docs/PASS0_CAMPAIGN_PLAN.md. Next: build every unbuilt node.
 
 | Node | Status |
 |---|---|

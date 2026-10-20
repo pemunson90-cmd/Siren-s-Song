@@ -5,7 +5,7 @@ Current user directive: Pass0 before further audit tuning.
 Build docs/PASS0_CAMPAIGN_PLAN.md at rough quality, then evaluate the whole game.
 Preserve shelved task, chart and chapter branches.
 
-Active ownership:
+Next task: implement the campaign nodes with this ownership:
 - Campaign upgrades: Sim, equipment catalog and craft-upgrade module.
 - Campaign endings: Main, progress, ending screens, fresh campaign and current saves.
 - Campaign encounters: existing divergence/onward/resolution mission data.
