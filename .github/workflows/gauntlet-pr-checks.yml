@@ -27,7 +27,8 @@ jobs:
   game-smoke:
     name: game-smoke
     runs-on: ubuntu-24.04
-    timeout-minutes: 20
+    # The complete ordered milestone suite already needs over20m.
+    timeout-minutes: 35
     env:
       TOOLCHAIN_CACHE: ${{ github.workspace }}/../sirens-song-toolchain
     steps:
@@ -86,7 +87,7 @@ jobs:
           set -euo pipefail
           while IFS='|' read -r scenario summary; do
             log="artifacts/pr-$scenario.log"
-            scripts/toolchain/headless.sh --script "res://tests/$scenario.gd" 2>&1 | tee "$log"
+            timeout --kill-after=10s 480s scripts/toolchain/headless.sh --script "res://tests/$scenario.gd" 2>&1 | tee "$log"
             if grep -nE 'SCRIPT ERROR:|(^|[[:space:]])ERROR:' "$log"; then exit 1; fi
             grep -Eq "^$summary CHECKS [1-9][0-9]* FAILURES 0$" "$log"
           done <<'UI_SCENARIOS'

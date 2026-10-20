@@ -8,10 +8,12 @@ func check(ok:bool,label:String)->void:
  checks+=1
  if not ok:failures+=1;printerr("FAIL: ",label)
 func fixture(wall:bool=true):
+ # Source-known wall fixture replaces the authored encounter in every band.
  var s=Sim.new();s.start(0);s.sirens=[]
- s.mission.rocks=[];s.mission.structures=[Rect2(800,380,80,240)] if wall else []
+ s.mission.erase("depth_geometry");s.mission.rocks=[];s.mission.structures=[Rect2(800,380,80,240)] if wall else []
  s.mission.world_size=Vector2(1600,960);s.mission.region_revision=1;s.mission.start=Vector2(240,500);s.mission.earned_terrain=true;s.mission.launch_seed=Rect2(80,80,640,800)
- s._build_navigation();s._configure_terrain()
+ # Route commands switch through the band lookup, which must own this new chart.
+ s._build_navigation();s._configure_terrain();s._configure_depth_charts()
  s.units[0].pos=Vector2(240,500);s.units[0].angle=0;s.units[1].alive=false;s.units[2].alive=false
  return s
 func measure_wall(s)->void:
