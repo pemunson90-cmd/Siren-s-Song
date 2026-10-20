@@ -118,7 +118,7 @@ func update(sim,dt: float,active_dive: bool=true) -> void:
 	AudioServer.set_bus_volume_db(effects_index,linear_to_db(maxf(0.001,effects_volume)))
 	var frozen=sim.paused or not active_dive
 	ambience.stream_paused=frozen; engine.stream_paused=frozen
-	var speed: float=sim.units[0].vel.length()
+	var speed: float=sim.propulsion_speed(sim.units[0])
 	engine.volume_db=linear_to_db(maxf(0.0001,engine_gain(speed,sim.units[0].silent))); engine.pitch_scale=0.75+speed/100.0
 	alert_timer=maxf(0,alert_timer-dt)
 	if active_dive and not sim.paused:
