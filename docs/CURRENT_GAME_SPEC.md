@@ -1,3 +1,5 @@
+> Current user priority: build the rough complete campaign in docs/PASS0_CAMPAIGN_PLAN.md before further quality passes. One blocker-focused review; accept placeholders and rough balance; drop legacy-save compatibility. Fresh real-input critics play every branch to every ending before whole-game evaluation.
+
 # Siren's Song — current intended game specification
 **Status:** Active living production specification · adopted 2026-10-19
 **Supersedes for current design:** historical `SIRENS_SONG_functional_spec.md`, pressure-design notes and single-level prototype briefs. Originals remain immutable as provenance and executable historical references, especially playable v7. The current user, this living spec, current design bible and ratified concept references govern interpretation; see SOURCE_AUTHORITY.
