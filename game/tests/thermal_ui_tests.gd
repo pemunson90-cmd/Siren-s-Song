@@ -18,7 +18,7 @@ func run():
   var game=load("res://scenes/main.tscn").instantiate()
   if dimensions.x>1280:game.set_script(preload("res://tests/density_main.gd"))
   game.capture_scenario="thermal-contact-clearance";root.add_child(game);game._start_mission(3)
-  game.sim.command("ping");game.sim.capture_unit=2;game.sim.capture_target=1
+  game.sim.command("ping");game.sim.captures[2]={"target":1,"elapsed":0.0}
   for id in 3:game.sim.contacts[id]={"pos":game.sim.units[0].pos+Vector2(30+id*40,20),"time":0.0,"mode":"LOCKING" if id==2 else "PATROL","lock":2.0 if id==2 else 0.0,"angle":0.0,"target":0 if id==2 else -1,"type":"sentinel"}
   for n in 4:await process_frame
   game._layout();await process_frame

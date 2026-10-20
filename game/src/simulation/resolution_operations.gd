@@ -6,9 +6,9 @@ const Authored=preload("res://src/campaign/resolution_missions.gd")
 static func own_origin(site:Dictionary)->bool:return site.get("own_origin",false)==true
 static func ready(sim,site:Dictionary,unit:int)->bool:
  return unit==0 and sim.units[0].alive and site.get("origin_region",Rect2()).has_point(sim.units[0].pos) and sim.units[0].vel.length()<12
-static func begin(sim,site:Dictionary)->void:
+static func begin(sim,site:Dictionary,unit:int)->void:
  if sim.mission.id in [12,13] and (own_origin(site) or site.has("completion_open_structure")):
-  site["attempt_origin"]=sim.units[sim.capture_unit].pos
+  site["attempt_origin"]=sim.units[unit].pos
 static func receiving(sim,site:Dictionary,unit:int)->bool:
  # Old unpublished in-flight snapshots recorded this attempt under the old key.
  var origin=site.get("attempt_origin",site.get("transmission_origin",Vector2.INF))
@@ -37,15 +37,16 @@ static func feedback(sim)->Dictionary:
  for index in sites.size():
   var site:Dictionary=sites[index]
   if not own_origin(site) and not site.has("completion_open_structure"):continue
-  var active=sim.capture_target==index and sim.capture_unit>=0
-  var unit:int=sim.capture_unit if active else sim.selected
+  var work=sim.capture_at_target(index)
+  var active=work.unit>=0
+  var unit:int=work.unit if active else sim.selected
   if not active and unit!=site.get("required_unit",unit) and Sampler.capture_spec(unit,sim.mission.get("launch_equipment",{}),site).is_empty():unit=site.get("required_unit",unit)
   var cost:Dictionary=site.get("completion_emission",{})
   var operation={"site_id":site.site_id,"name":site.name,"action":"TRANSMIT" if own_origin(site) else "ACTUATE","unit":unit,"duration":sim._capture_duration(site,unit),"optional":site.get("optional",false),"repeatable":own_origin(site),"completed":site.captured,"emission":cost.duplicate(true),"qualification":"Open-water emission reach; reception remains unknown."}
   var sampler=Sampler.capture_spec(unit,sim.mission.get("launch_equipment",{}),site)
   if not sampler.is_empty():operation["start_emission"]={"radius":sampler.noise_radius,"duration":2.0,"label":"CAMERA"}
   if active:
-   operation["attempt"]={"unit":unit,"elapsed":sim.capture_time,"duration":operation.duration}
+   operation["attempt"]={"unit":unit,"elapsed":work.elapsed,"duration":operation.duration}
    if site.has("attempt_origin"):operation.attempt["origin"]=site.attempt_origin
    elif own_origin(site) and site.has("transmission_origin"):operation.attempt["origin"]=site.transmission_origin
   if site.has("completed_emission"):
