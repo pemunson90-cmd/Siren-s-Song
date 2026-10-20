@@ -1,18 +1,21 @@
 extends RefCounted
 const SURVEY=preload("res://src/simulation/world_region.gd")
+const Rendezvous=preload("res://src/simulation/rendezvous_transport.gd")
 static func observe(sim,active:bool=false)->void:
  var m=sim.mission
  if m.get("expedition_revision",0)!=1:return
  if not active and sim.elapsed<float(m.next_signal_time):return
  if not active:m.next_signal_time=sim.elapsed+0.75
+ Rendezvous.observe(sim,active)
  var observations=[]
  for source in m.signal_sources:
-  var receivers=sim.passive_receivers(source.pos)
-  if not receivers.is_empty() or (active and SURVEY.survey_visible(sim,source.pos)):_locate(sim,source)
+  var pos=Rendezvous.source_position(sim,source)
+  var receivers=sim.passive_receivers(pos)
+  if not receivers.is_empty() or (active and SURVEY.survey_visible(sim,pos)) or (Rendezvous.applies(m) and Rendezvous.observed(sim)):_locate(sim,source,pos)
   for id in sim.units.size():
    var unit=sim.units[id]
    if not unit.alive:continue
-   var arrivals=sim.acoustic_paths.arrivals(unit.pos,source.pos,900.0)
+   var arrivals=sim.acoustic_paths.arrivals(unit.pos,pos,900.0)
    if arrivals.is_empty():continue
    var arrival=arrivals[0];var direction:Vector2=unit.pos.direction_to(arrival.goal)
    observations.append({"receiver":id,"origin":unit.pos,"direction":direction,"time":sim.elapsed,"uncertainty":0.18 if arrival.direct else 0.65,"label":source.label})
@@ -20,11 +23,12 @@ static func observe(sim,active:bool=false)->void:
  for old in m.signal_observations:
   if sim.elapsed-old.time<30 and not observations.any(func(r):return r.receiver==old.receiver and r.label==old.label):observations.append(old)
  m.signal_observations=observations
-static func _locate(sim,source:Dictionary)->void:
+static func _locate(sim,source:Dictionary,pos:Vector2)->void:
  if source.located:return
  source.located=true
  sim.mission.expedition_facts[source.id]=source.evidence
- var objective={"pos":source.pos,"name":source.label,"site_id":source.id,"captured":not source.get("confirm",false),"evidence":source.evidence,"optical":"divergence_"+source.id}
+ var objective={"pos":pos,"name":source.label,"site_id":source.id,"captured":not source.get("confirm",false),"evidence":source.evidence,"optical":"divergence_"+source.id}
+ if Rendezvous.applies(sim.mission):objective["observed_at"]=sim.elapsed
  if source.get("confirm",false):objective.merge({"kind":"receiver","required_unit":0,"duration":4.0})
  sim.mission.objectives.append(objective)
  sim.message="%s located · %s"%[source.label,"Quietus LISTEN confirms the rendezvous" if source.get("confirm",false) else "route interpretation recorded; choose its physical exit or investigate the other carrier"]
@@ -70,7 +74,7 @@ static func valid(m:Dictionary,time:float)->bool:
   if not sources.has(fact) or not sources[fact].located or m.expedition_facts[fact]!=sources[fact].evidence:return false
  for source in m.signal_sources:
   if source.located!=m.expedition_facts.has(source.id):return false
-  var sites=m.objectives.filter(func(o):return o.get("site_id","")==source.id and o.pos==source.pos)
+  var sites=m.objectives.filter(func(o):return o.get("site_id","")==source.id and o.pos==Rendezvous.known_source_position(m,source))
   if sites.size()!=(1 if source.located else 0):return false
  for reading in m.signal_observations:
   if not reading is Dictionary or not reading.has_all(["receiver","origin","direction","time","uncertainty","label"]):return false
