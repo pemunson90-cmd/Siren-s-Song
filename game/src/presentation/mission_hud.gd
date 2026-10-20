@@ -160,9 +160,9 @@ func recovery_button_at(point:Vector2) -> Button:
   if button.is_visible_in_tree() and button.get_global_rect().has_point(point):return button
  return null
 func witness_button_at(point:Vector2) -> Button:
- # These physical custody actions have one tap owner, including the mouse
+ # These consequential local actions have one tap owner, including the mouse
  # events Android emulates after a canceled touch or short drag.
- for button in [extra.witness_land,extra.salvage,extra.warning_exposed,extra.warning_sheltered,extra.warning_gate]:
+ for button in [extra.witness_land,extra.salvage,extra.warning_exposed,extra.warning_sheltered,extra.warning_gate,extra.shelf_warn,extra.shelf_alarm]:
   if button==extra.salvage and not Witness.site_for_item(host.sim,subject.get("item","")):continue
   if button.is_visible_in_tree() and button.get_global_rect().has_point(point):return button
  return null
@@ -232,7 +232,7 @@ func layout(bounds:Vector2,h:float):
  var font=maxi(14,roundi(h*.26))
  for b in host.order_buttons.values()+host.unit_buttons+extra.values()+[close_button,focus_button,host.pause_button,host.advanced_button]+host.zoom_buttons:
   b.mouse_filter=Control.MOUSE_FILTER_IGNORE if page=="plant" and b in command_controls() else Control.MOUSE_FILTER_STOP
-  if b in [extra.witness_land,extra.warning_exposed,extra.warning_sheltered,extra.warning_gate] or (b==extra.salvage and Witness.site_for_item(host.sim,subject.get("item",""))):b.mouse_filter=Control.MOUSE_FILTER_IGNORE
+  if b in [extra.witness_land,extra.warning_exposed,extra.warning_sheltered,extra.warning_gate,extra.shelf_warn,extra.shelf_alarm] or (b==extra.salvage and Witness.site_for_item(host.sim,subject.get("item",""))):b.mouse_filter=Control.MOUSE_FILTER_IGNORE
   b.hide();b.custom_minimum_size=Vector2(h*1.55,h);b.size=Vector2(h*1.55,h);b.add_theme_font_size_override("font_size",font)
   b.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
   var normal=StyleBoxFlat.new();normal.bg_color=Color(0,0,0,0);normal.set_content_margin_all(2)
