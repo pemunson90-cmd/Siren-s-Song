@@ -1,5 +1,6 @@
 extends Control
 const Shelf=preload("res://src/presentation/shelf_habitat_view.gd")
+const Recipient=preload("res://src/presentation/warning_recipient_view.gd")
 const Witness=preload("res://src/presentation/witness_evacuation_view.gd")
 const EarnedChart=preload("res://src/presentation/earned_chart_view.gd")
 const Expedition=preload("res://src/presentation/expedition_view.gd")
@@ -60,9 +61,10 @@ func objective_touch_rects(touch:float)->Array:
 	var radius=maxf(touch*.5,38*world_scale)
 	for site in observable_sites():
 		if sim.mission.id==8:continue
-		if Rendezvous.replaces_site(sim,site) or Witness.replaces_site(sim,site) or site.get("own_origin",false):continue
+		if Rendezvous.replaces_site(sim,site) or Witness.replaces_site(sim,site) or Recipient.replaces_site(sim,site) or site.get("own_origin",false):continue
 		result.append(Rect2(screen_position(site.pos)-Vector2.ONE*radius,Vector2.ONE*radius*2))
 	result.append_array(Witness.touch_rects(self,sim,touch))
+	result.append_array(Recipient.touch_rects(self,sim,touch))
 	return result
 func pick_context(point:Vector2,touch:float) -> Dictionary:
 	_sync_camera();var choices=[]
@@ -70,6 +72,8 @@ func pick_context(point:Vector2,touch:float) -> Dictionary:
 		if marker.rect.has_point(point):return {"kind":"salvage","item":marker.site.item,"name":marker.site.name.to_upper(),"pos":marker.site.pos}
 	var shelter=Shelf.pick(self,sim,point,touch,false)
 	if not shelter.is_empty():return shelter
+	var recipient=Recipient.pick(self,sim,point,touch,false)
+	if not recipient.is_empty():return recipient
 	var tender=Rendezvous.pick(self,sim,point,touch,false)
 	if not tender.is_empty():return tender
 	for id in sim.units.size():
@@ -86,13 +90,15 @@ func pick_context(point:Vector2,touch:float) -> Dictionary:
 func objective_context(point:Vector2,touch:float)->Dictionary:
 	var shelter=Shelf.pick(self,sim,point,touch)
 	if not shelter.is_empty():return shelter
+	var recipient=Recipient.pick(self,sim,point,touch)
+	if not recipient.is_empty():return recipient
 	var witness=Witness.pick(self,sim,point,touch)
 	if not witness.is_empty():return witness
 	# Fixed public sites share their marker's actual hit area with fleet rings.
 	for id in observable_sites().size():
 		var site=observable_sites()[id]
 		if sim.mission.id==8:continue
-		if Rendezvous.replaces_site(sim,site) or Witness.replaces_site(sim,site):continue
+		if Rendezvous.replaces_site(sim,site) or Witness.replaces_site(sim,site) or Recipient.replaces_site(sim,site):continue
 		if site.get("own_origin",false):continue
 		if point.distance_to(screen_position(site.pos))<=maxf(touch*.5,38*world_scale):return {"kind":"objective","subkind":"actuator","index":id,"name":site.name,"pos":site.pos} if site.get("site_id","")=="witness_sluice" else {"kind":"objective","index":id,"name":site.name,"pos":site.pos}
 	return Expedition.pick(self,sim,point,touch)
@@ -120,7 +126,7 @@ func _process(dt: float) -> void:
 func acoustic_rows() -> Array:
 	return preload("res://src/presentation/acoustic_feedback.gd").rows(sim.acoustic_feedback()) if sim!=null else []
 func contact_entries() -> Array:
-	return preload("res://src/presentation/contact_feedback.gd").entries(sim.contacts,sim.elapsed,sim.units,sim.line_clear) if sim!=null else []
+	return preload("res://src/presentation/contact_feedback.gd").entries(sim.contacts,sim.elapsed,sim.units,sim.line_clear,sim.contact_target) if sim!=null else []
 func contact_readout_entries() -> Array:
 	return contact_entries().filter(func(entry):return not warnings_in_hud or not (entry.urgent or (entry.fresh and "REPORT" in entry.text)))
 func contact_readout_rects() -> Array:
@@ -162,7 +168,7 @@ func knock_aim_targets() -> Array:
 
 	for entry in contact_entries():
 		if not entry.urgent:continue
-		var c=sim.contacts[entry.key];var aim=screen_position(sim.units[c.target].pos);var anchor=screen_position(c.pos)
+		var c=sim.contacts[entry.key];var aim=screen_position(sim.contact_target(c).pos);var anchor=screen_position(c.pos)
 		blocked.append(Rect2(Vector2(minf(anchor.x,aim.x),minf(anchor.y,aim.y)),Vector2(absf(anchor.x-aim.x),absf(anchor.y-aim.y))).grow(8))
 	return preload("res://src/presentation/torpedo_aim.gd").layout(targets,Rect2(Vector2.ONE*8,size-Vector2.ONE*16),knock_touch_size,blocked)
 func knock_aim_key(point:Vector2) -> int:
@@ -214,7 +220,7 @@ func _draw() -> void:
 	for o in observable_sites():
 		if sim.mission.id==8:continue
 		if o.get("own_origin",false):continue
-		if Rendezvous.replaces_site(sim,o) or WarningChain.replaces_site(sim,o) or Witness.replaces_site(sim,o):continue
+		if Rendezvous.replaces_site(sim,o) or WarningChain.replaces_site(sim,o) or Witness.replaces_site(sim,o) or Recipient.replaces_site(sim,o):continue
 		if o.get("kind","")=="receiver":
 			draw_arc(o.pos,26,0,TAU,40,Color("80bdb6"),2)
 			draw_line(o.pos-Vector2(17,0),o.pos+Vector2(17,0),Color("80bdb6"),2)
@@ -234,7 +240,7 @@ func _draw() -> void:
 	for o in observable_sites():
 		if sim.mission.id==8:continue
 		if o.get("own_origin",false):continue
-		if Rendezvous.replaces_site(sim,o) or WarningChain.replaces_site(sim,o) or Witness.replaces_site(sim,o):continue
+		if Rendezvous.replaces_site(sim,o) or WarningChain.replaces_site(sim,o) or Witness.replaces_site(sim,o) or Recipient.replaces_site(sim,o):continue
 		var c=CYAN if o.captured else Color("e1b66e")
 		draw_arc(o.pos,43,0,TAU,40,Color(c,0.35),1.4)
 		draw_line(o.pos+Vector2(-14,0),o.pos+Vector2(14,0),c,1)
@@ -254,6 +260,7 @@ func _draw() -> void:
 	Rendezvous.draw(self,sim)
 	WarningChain.draw_world(self,sim)
 	Witness.draw_world(self,sim)
+	Recipient.draw_world(self,sim)
 	# Sonar rays stop at actual cover, producing explicit acoustic shadows.
 	if earned.is_empty() and sim.ping_time>0:
 		var radius=(3.5-sim.ping_time)*210
@@ -317,13 +324,12 @@ func _draw() -> void:
 	for entry in observed:
 		var c=sim.contacts[entry.key]; var fresh=entry.fresh
 		var aim=float(c.angle)
-		var observed_target=int(c.get("target",-1))
-		if fresh and c.lock>0 and observed_target>=0 and observed_target<sim.units.size(): aim=c.pos.angle_to_point(sim.units[observed_target].pos)
+		var observed_target=sim.contact_target(c)
+		if fresh and c.lock>0 and not observed_target.is_empty(): aim=c.pos.angle_to_point(observed_target.pos)
 		_siren(c.pos,aim,fresh,c.get("type","patroller"),maxf(0,float(c.get("pin_time",0))-(sim.elapsed-c.time)) if fresh else 0.0)
 		if fresh and c.lock>0:
-			var target_id=int(c.get("target",-1))
-			if target_id>=0 and target_id<sim.units.size() and sim.units[target_id].alive and sim.line_clear(c.pos,sim.units[target_id].pos):
-				var target:Vector2=sim.units[target_id].pos
+			if not observed_target.is_empty() and observed_target.alive and sim.line_clear(c.pos,observed_target.pos):
+				var target:Vector2=observed_target.pos
 				var origin:Vector2=c.pos+Vector2.from_angle(aim)*62
 				if c.lock>=4:
 					draw_line(origin,target,Color(1,0.22,0.09,0.23),10)

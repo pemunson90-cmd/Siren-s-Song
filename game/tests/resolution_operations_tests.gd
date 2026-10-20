@@ -45,7 +45,7 @@ func _initialize()->void:
  if warning.signal_sources.size()==1:
   var sim=Sim.new();sim.start(0);sim.mission=warning;sim._build_navigation()
   var reply=warning.signal_sources[0]
-  check(sim.acoustic_paths.arrivals(Vector2(500,1120),reply.pos,900).is_empty() and not sim.acoustic_paths.arrivals(Vector2(1840,1080),reply.pos,900).is_empty(),"eastern transmission origin can receive the activated reply before the early western origin")
+  check(sim.acoustic_paths.arrivals(Vector2(500,1120),reply.pos,900).is_empty() and not sim.acoustic_paths.arrivals(Vector2(1740,440),reply.pos,900).is_empty(),"approaching the berth receives its reply through actual water before the distant western origin")
   check(not sim.acoustic_paths.arrivals(reply.pos,Vector2(500,1120),tx.completion_emission.radius).is_empty() and not sim.acoustic_paths.arrivals(reply.pos,Vector2(1840,1080),tx.completion_emission.radius).is_empty(),"both declared transmission choices physically deliver the actual warning to the responder")
  print("RESOLUTION OPERATIONS CHECKS ",checks," FAILURES ",failures)
  quit(1 if failures else 0)

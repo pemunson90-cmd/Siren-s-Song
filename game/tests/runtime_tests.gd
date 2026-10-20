@@ -110,6 +110,7 @@ func run() -> void:
 	for child in game.panel_box.get_children():
 		if child is TextureRect: photos.append(child.texture.resource_path)
 	check(photos==["res://assets/evidence/foundry_cradle.png"] and game.store.valid(game._archive()),"distinct departure evidence persists across dives in a valid campaign archive")
+	await preload("res://tests/save_feedback_scenarios.gd").run(self)
 	game.queue_free(); await process_frame
 	await create_timer(0.5).timeout
 	print("RUNTIME CHECKS ",checks," FAILURES ",failures)

@@ -37,7 +37,7 @@ func _initialize():
  check(tx.mission.signal_sources[0].active,"complete local warning enables exactly its authored response")
  check(tx.noises.any(func(n):return n.label=="WARNING CHAIN TRANSMISSION" and n.pos==Vector2(1840,1080)),"finite transmission is emitted at actual chosen origin")
  advance(tx,0.8) # Existing 0.75s receiver clock must run after the completed transmission.
- check(not tx.signal_readings().is_empty() and tx.mission.expedition_facts.is_empty(),"eastern origin receives uncertain reply before any exact passive source fix")
+ check(tx.signal_readings().is_empty() and tx.mission.expedition_facts.is_empty(),"new physical berth breakwater attenuates the remote reply until real approach")
  check(tx.camera_context().ready,"completed broadcast remains explicitly retryable without claiming reception")
  check(Sim.valid_snapshot(tx.snapshot()),"completed origin and activation save consistently")
  bad=tx.snapshot();bad.mission.signal_sources[0].active=false

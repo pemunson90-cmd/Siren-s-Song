@@ -5,6 +5,7 @@ const Recon=preload("res://src/simulation/recon_consequences.gd")
 const PolygonContainment=preload("res://src/simulation/polygon_containment.gd")
 const Operations=preload("res://src/simulation/resolution_operations.gd")
 const Witness=preload("res://src/simulation/witness_evacuation.gd")
+const Recipient=preload("res://src/simulation/warning_recipient.gd")
 const CraftUpgrades=preload("res://src/equipment/craft_upgrades.gd")
 const Equipment=preload("res://src/equipment/equipment_catalog.gd")
 const Correlator=preload("res://src/equipment/cadence_correlator.gd")
@@ -190,6 +191,15 @@ func _collect_shared_wreck(unit_id:int,pos:Vector2)->bool:
 func _witness_recovery_busy(unit_id:int)->bool:return Witness.busy(self,unit_id)
 func witness_status()->Dictionary:return Witness.status(self)
 func witness_context(unit_id:int=-1)->Dictionary:return Witness.context(self,selected if unit_id<0 else unit_id)
+func warning_recipient_status()->Dictionary:return Recipient.status(self)
+# Public target endpoint: a recipient beam is drawn only with a current local
+# hull fix. Target ownership never aliases the three pilot-controlled craft.
+func contact_target(contact:Dictionary)->Dictionary:
+	if contact.get("recipient_target",false):
+		var vessel=Recipient.status(self).get("recipient",{})
+		return vessel if vessel.get("known",false) and vessel.get("live",false) else {}
+	var id=int(contact.get("target",-1))
+	return units[id] if id>=0 and id<units.size() else {}
 func module_recovery_status()->Dictionary:return ModuleRecovery.status(self)
 func blackwater_delivery_status()->Dictionary:return Delivery.status(self)
 func blackwater_handoff_context(carrier:int)->Dictionary:return Delivery.handoff_context(self,carrier)
@@ -363,6 +373,8 @@ func command(order: String,args: Dictionary={}) -> bool:
 			if not args.get("carrier") is int:return false
 			return Delivery.handoff(self,args.carrier)
 		"witness_land":return Witness.land(self)
+		"warning_gate":return Recipient.open_gate(self)
+		"warning_depart":return Recipient.depart(self,args.get("course",""))
 		"salvage":
 			if not args.get("item") is String:return false
 			if Witness.handles(self,args.item):return Witness.begin(self,args.item)
@@ -434,7 +446,7 @@ func command(order: String,args: Dictionary={}) -> bool:
 			if tools.emp<=0: return false
 			tools.emp-=1
 			for s in sirens:
-				if s.pos.distance_to(u.pos)<340: s.stun=12.0; s.lock=0.0; s.target=-1; s.mode="PINNED" if s.get("pin_time",0)>0 else "DISRUPTED"
+				if s.pos.distance_to(u.pos)<340: s.stun=12.0; s.lock=0.0; s.target=-1; s.erase("recipient_target"); s.mode="PINNED" if s.get("pin_time",0)>0 else "DISRUPTED"
 			_noise(u.pos,650,"DISRUPTION"); message="Disruption pulse · 12 second recovery window"; events.append({"type":"emp","pos":u.pos})
 		"knock":
 			var id=args.get("target",null)
@@ -674,6 +686,7 @@ func _tick(dt: float) -> void:
 			u.battery=maxf(0,u.battery-Endurance.battery_drain(mission,i,propulsion_speed(u),dt))
 			if u.battery<=0: u.alive=false; events.append({"type":"loss","pos":u.pos}); message=("%s battery exhausted · Quietus can SAMPLE either relay." if mission.get("blackwater_revision",0)==1 else "%s battery exhausted. Quietus camera remains available.")%u.name
 	_advance_projectiles(dt)
+	Recipient.tick(self,dt)
 	_threats(dt)
 	Shelf.tick(self)
 	Chain.tick(self)
@@ -876,6 +889,7 @@ func _move(u: Dictionary,dt: float,speed: float,holding: bool,report_collision: 
 		if report_collision: message="%s autopilot stopped at unsafe terrain. Replot in open water."%u.name
 func _observe() -> void:
 	_terrain_observe()
+	Recipient.observe(self)
 	if terrain_chart!=null:pass # Only the unpaused sensor pulse stamps terrain.
 	elif mission.has("world_size"):
 		for cell in WorldRegion.observation_cells(self):
@@ -889,6 +903,7 @@ func _observe() -> void:
 		if contact_visible(sirens[i]):
 			contacts[i]={"pos":sirens[i].pos,"time":elapsed,"mode":sirens[i].mode,"lock":sirens[i].lock,"angle":sirens[i].angle,"target":sirens[i].target,"type":sirens[i].get("type","patroller")}
 			contacts[i]["seen_by"]=passive_receivers(sirens[i].pos)
+			if sirens[i].get("recipient_target",false):contacts[i]["recipient_target"]=true
 			if sirens[i].get("report",{}).get("charge",0)>0:contacts[i]["report_remaining"]=ContactReports.CHARGE-sirens[i].report.charge
 			if sirens[i].get("report",{}).get("sent",0)>0:contacts[i]["report_sent"]=true
 			if sirens[i].get("pin_time",0)>0: contacts[i]["pin_time"]=sirens[i].pin_time
@@ -929,6 +944,7 @@ func contact_visible(enemy:Dictionary)->bool:
 		if ping_time>0 and ping_origin.distance_to(enemy.pos)<ping_range and line_clear(ping_origin,enemy.pos): return true
 	# The actual charging line is an observable emission. Never infer a remote
 	# or decaying lock, a stunned attacker, or a beam behind physical cover.
+	if enemy.get("recipient_target",false):return false
 	var target=int(enemy.get("target",-1))
 	if enemy.get("lock",0)<=0 or enemy.get("stun",0)>0 or target<0 or target>=units.size(): return false
 	var craft=units[target]
@@ -962,7 +978,7 @@ func _advance_projectiles(dt: float) -> void:
 				hit=id; nearest=point.distance_to(p.pos)
 		if hit>=0:
 			var struck=sirens[hit]
-			struck.stun=maxf(struck.stun,KNOCK_TIME); struck["pin_time"]=KNOCK_TIME; struck.mode="PINNED"; struck.vel=Vector2.ZERO; struck.lock=0.0; struck.target=-1
+			struck.stun=maxf(struck.stun,KNOCK_TIME); struck["pin_time"]=KNOCK_TIME; struck.mode="PINNED"; struck.vel=Vector2.ZERO; struck.lock=0.0; struck.target=-1; struck.erase("recipient_target")
 			struck.suspicion=maxf(struck.suspicion,0.45)
 			projectiles.remove_at(n)
 			if visible(struck.pos):
@@ -977,6 +993,7 @@ func _threats(dt: float) -> void:
 		if s.get("pin_time",0)>0: s.pin_time=maxf(0,s.pin_time-dt)
 		if s.stun>0:
 			s.stun-=dt; s.lock=0.0; s.target=-1
+			s.erase("recipient_target")
 			s.mode="PINNED" if s.get("pin_time",0)>0 else "DISRUPTED"
 			observations.append(-1);fresh.append(false)
 			continue
@@ -991,6 +1008,8 @@ func _threats(dt: float) -> void:
 			if dist<radius and line_clear(s.pos,u.pos): detected=i; break
 			if mission.get("acoustic_revision",0)!=1 and propulsion_speed(u)>50 and dist<430*Recon.readiness(s):
 				s.goal=u.pos; heard=true; s.mode="INVESTIGATE"; s.suspicion=maxf(s.suspicion,0.3)
+		var recipient=Recipient.body(self);var recipient_seen=false
+		if detected<0 and not recipient.is_empty() and recipient.alive and s.pos.distance_to(recipient.pos)<180.*Recon.readiness(s) and line_clear(s.pos,recipient.pos):recipient_seen=true
 		if mission.get("acoustic_revision",0)==1:
 			var arrival=_heard_arrival(s)
 			if not arrival.is_empty():
@@ -1002,20 +1021,25 @@ func _threats(dt: float) -> void:
 					s.goal=noise.pos; heard=true; s.mode="INVESTIGATE"; s.suspicion=maxf(s.suspicion,0.45)
 		if heard:
 			s["last_known"]=s.goal; s["attention_time"]=12.0; s["search_index"]=0
-		observations.append(detected);fresh.append(heard or detected>=0)
-		if detected>=0:
-			if s.target!=detected: s.lock=0.0
+		observations.append(detected);fresh.append(heard or detected>=0 or recipient_seen)
+		if detected>=0 or recipient_seen:
+			var victim=recipient if recipient_seen else units[detected]
+			if s.target!=detected or s.get("recipient_target",false)!=recipient_seen:s.lock=0.0
+			if recipient_seen:s["recipient_target"]=true
+			else:s.erase("recipient_target")
 			Recon.seen(s)
 			if s.get("type","patroller")=="patroller": s.route.clear()
-			else: _visual_pursuit(s,units[detected].pos,dt)
-			if s.route.is_empty(): s.angle=rotate_toward(s.angle,s.pos.angle_to_point(units[detected].pos),1.8*dt)
+			else: _visual_pursuit(s,victim.pos,dt)
+			if s.route.is_empty(): s.angle=rotate_toward(s.angle,s.pos.angle_to_point(victim.pos),1.8*dt)
 			var previous_lock:float=s.lock
-			s.target=detected; s.goal=units[detected].pos; s["last_known"]=s.goal; s["attention_time"]=12.0; s["search_index"]=0; s.lock+=dt; s.suspicion=minf(1,s.suspicion+dt*0.3); s.mode="LOCKING" if s.lock<4 else "BEAM"
+			s.target=detected; s.goal=victim.pos; s["last_known"]=s.goal; s["attention_time"]=12.0; s["search_index"]=0; s.lock+=dt; s.suspicion=minf(1,s.suspicion+dt*0.3); s.mode="LOCKING" if s.lock<4 else "BEAM"
 			if s.lock>=4:
-				if previous_lock<4: events.append({"type":"beam","pos":units[detected].pos})
-				if detected==0: hull=maxf(0,hull-dt*18)
+				if previous_lock<4: events.append({"type":"beam","pos":victim.pos})
+				if recipient_seen:Recipient.damage(self,dt*18)
+				elif detected==0: hull=maxf(0,hull-dt*18)
 				else: units[detected].alive=false; s.lock=0; events.append({"type":"loss","pos":units[detected].pos}); message="%s lost · submarine camera remains available"%units[detected].name
 		else:
+			s.erase("recipient_target")
 			s.target=-1; s.lock=maxf(0,s.lock-dt*3); s.suspicion=maxf(float(s.get("alert_floor",0)),s.suspicion-dt*0.015)
 			if s.get("type","patroller")!="patroller" or s.get("attention_time",0)>0:
 				_station_intent(s,heard,dt)
@@ -1044,6 +1068,10 @@ func _heard_arrival(s:Dictionary)->Dictionary:
 	# Never consult player contacts or a hidden exact destination. A listener
 	# receives only supported water-path arrivals; visual acquisition stays separate.
 	var best:Dictionary={}
+	var recipient=Recipient.body(self)
+	if not recipient.is_empty() and recipient.alive and recipient.vel.length()>1:
+		var arrival=Acoustics.choose(acoustic_paths.arrivals(s.pos,recipient.pos,recipient.vel.length_squared()*.12*Recon.readiness(s)),int(s.patrol))
+		if not arrival.is_empty():best=arrival;best["suspicion"]=0.3
 	for u in units:
 		if not u.alive:continue
 		var arrival=Acoustics.choose(acoustic_paths.arrivals(s.pos,u.pos,motion_radius(units.find(u))*Recon.readiness(s)),int(s.patrol))
@@ -1119,6 +1147,7 @@ func _search_approach(s: Dictionary) -> Array:
 	return []
 func all_records() -> bool:
 	if not Shelf.complete(self):return false
+	if not Recipient.complete(self):return false
 	if not Witness.complete(self):return false
 	if not Chain.complete(self):return false
 	if not Delivery.complete(self):return false
@@ -1179,6 +1208,7 @@ static func valid_snapshot(data: Dictionary) -> bool:
 		exposed.append(work.target)
 	if not WorldRegion.valid(data):return false
 	if not Witness.valid(data):return false
+	if not Recipient.valid(data):return false
 	if not Delivery.valid(data):return false
 	if not Shelf.valid(data):return false
 	if not Chain.valid(data):return false

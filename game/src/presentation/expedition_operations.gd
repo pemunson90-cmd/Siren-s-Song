@@ -31,6 +31,7 @@ static func debrief(main)->bool:
  if main.sim.outcome=="won" and mission.get("recovered",false):
   main._menu_text("EXPEDITION RECOVERED",32)
   preload("res://src/presentation/witness_evacuation_view.gd").arrival(main)
+  preload("res://src/presentation/warning_recipient_view.gd").arrival(main)
   main._menu_text(mission.record,22)
   var plant=preload("res://src/presentation/warning_chain_view.gd").debrief_text(main.sim)
   if not plant.is_empty():main._menu_text(plant,19)
@@ -51,6 +52,7 @@ static func debrief(main)->bool:
  else:
   main._menu_text("INCOMPLETE WITHDRAWAL" if main.sim.outcome=="withdrawn" else "EXPEDITION LOST",30)
   preload("res://src/presentation/witness_evacuation_view.gd").arrival(main)
+  preload("res://src/presentation/warning_recipient_view.gd").arrival(main)
   main._menu_text(main.sim.message,20)
   main._menu_text("Field observations remain in the archive. This dive grants no new recovered fitting, continuation or committed history.",17)
   preload("res://src/presentation/module_recovery_view.gd").debrief(main)

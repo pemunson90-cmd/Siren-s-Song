@@ -6,12 +6,12 @@ Read docs/USER_DIRECTIVES.md. Pass 0 rows are built at rough quality; V7 recover
 |0–5 Tutorial|rough|
 |6 Divergence: deep or shelf|rough|
 |7 Deep Rendezvous: physical tender and quiet fallback|rough integrated|
-|8 Shelf Return|rough|
+|8 Shelf Return: occupied galleries, actual warnings and masked return|rough integrated|
 |9 Wake Crossing|rough|
 |10 Warning Chain: physical power and output machinery|rough integrated|
 |11 Confluence: authored region and physical return choices|rough integrated|
 |12 Concealed Record|rough|
-|13 Open Warning|rough|
+|13 Open Warning: vulnerable recipient, physical courses and arrival|rough integrated|
 |Deep+12 · Silent Exodus ending|rough|
 |Deep+13 · Beacon Pact ending|rough|
 |Shelf+12 · Hidden Harbour ending|rough|
@@ -27,7 +27,7 @@ Read docs/USER_DIRECTIVES.md. Pass 0 rows are built at rough quality; V7 recover
 |V7 threat heartbeat/vignette|rough|
 |V7 photographic grading|rough|
 Stakes integrated: endurance, concurrent exposures and targeting feedback. User play gates nothing.
-Current play: two preserved genuine journeys; independent whole-game domain critics continue.
+Current play: Stakes reached Silent Exodus; drone continues unchanged; staged critics evaluate new work.
 Confluence integrated: authored region, noisy physical sluice, earned world art and departure.
 Craft-anchored rings integrated; named recovery routes retain drive/profile and route intent.
 Earned-course continuity integrated: retained goals, certified-water repairs, real hazard stops.
@@ -35,5 +35,5 @@ Genuine journeys reached Hidden Harbour, Surface Reckoning and Silent Exodus.
 Physical module salvage integrated: return cargo or lose optional kit; bare frames remain.
 Blackwater delivery integrated: raw buffers return to Q through local transfer or recovery.
 Warning Chain integrated: shore supply/backup, service/mast output and physical exits.
-Concealed Record integrates witness rescue. Open Warning recipient consequences are in development.
-Engine sound follows through-water thrust. Next: evaluate the finale expansion against the full-game inventory.
+Concealed Record integrates witness rescue; Open Warning now requires a living recipient's real crossing.
+Save failures persist with retry. Next: evaluate inhabited Shelf; develop distinct concealed consequences.
