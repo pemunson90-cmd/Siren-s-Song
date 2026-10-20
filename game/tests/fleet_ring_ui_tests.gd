@@ -29,6 +29,32 @@ func row(fleet,id:int)->Dictionary:
  for r in fleet.readouts:
   if r.unit==id:return r
  return {}
+func menu_tap(game,action:String):
+ var controls=game.panel_box.find_children("*","Button",true,false)+game.menu_footer.find_children("*","Button",true,false)
+ var button=controls.filter(func(b):return b.get_meta("action","")==action)[0]
+ if game.scroll.is_ancestor_of(button):game.scroll.ensure_control_visible(button);await settle()
+ await tap(button.get_global_rect().get_center())
+func stock_reference(game):
+ # Loadouts change starting supply, not the shared maximum-stock scale.
+ # Exercise the real menu, then a real binary archive with a different NEXT fit.
+ for choice in ["endurance","disruption","survey"]:
+  game.upgrade=choice;game._start_mission(0);await settle()
+  var sim=game.sim;var fleet=game.mission_hud.fleet;var stock=120. if choice=="endurance" else 100.
+  check(is_equal_approx(row(fleet,0).reserves[1].fraction,stock/120.),"actual "+choice+" supply uses the same120-unit reference")
+  sim.oxygen=27.;sim.command("select",{"unit":1});game._refresh();await settle()
+  var before=sim.snapshot();var warning=row(fleet,0).reserves[1]
+  check(warning.capacity==120. and warning.critical and fleet.telemetry[0].visible and "27" in fleet.telemetry[0].text,"active low oxygen has an unselected numeric warning")
+  game._show_campaign();await settle();await menu_tap(game,"loadout")
+  check(game.upgrade!=choice and sim.snapshot()==before,"actual NEXT loadout cycle preserves the active supply and physics")
+  await menu_tap(game,"resume")
+  check(game.screen=="mission" and sim.snapshot()==before and row(fleet,0).reserves[1]==warning and fleet.telemetry[0].visible,"actual RESUME cannot rescale or hide the active oxygen warning")
+  var store=preload("res://src/persistence/save_store.gd").new();store.path="user://fleet-ring-stock-test.save"
+  var archive={"version":1,"unlocked":0,"completed":[],"upgrade":game.upgrade,"settings":{},"active":sim.snapshot()}
+  check(store.save(archive) and store.load_game()==archive,"binary archive preserves low active supply beside different NEXT supplies")
+  var saved=store.load_game();check(sim.restore(saved.active),"actual low-stock binary snapshot restores")
+  game._refresh();await settle()
+  check(sim.snapshot()==before and row(fleet,0).reserves[1]==warning and fleet.telemetry[0].visible,"binary restore retains the same reserve scale and numeric critical state")
+  for suffix in ["",".bak",".tmp"]:DirAccess.remove_absolute(store.path+suffix)
 func run():
  for arg in OS.get_cmdline_user_args():
   if arg.begins_with("--capture-dir="):capture_dir=arg.trim_prefix("--capture-dir=")
@@ -47,7 +73,7 @@ func run():
     check(fleet.buttons[id].get_rect().get_center().distance_to(ocean.screen_position(s.units[id].pos))<1,"visible craft target stays centred on body "+name)
     check(r.get("ring",false),"visible reserve is a spatial ring "+name)
    check(fleet.buttons[id].size.x>=game.ui_touch_height and fleet.buttons[id].size.y>=game.ui_touch_height,"rings preserve full touch size")
-  check(is_equal_approx(row(fleet,0).get("reserves",[{},{}])[1].get("fraction",0.),1.),"oxygen gauge uses actual upgraded capacity")
+  check(is_equal_approx(row(fleet,0).get("reserves",[{},{}])[1].get("fraction",0.),1.),"endurance stock fills the shared oxygen reference")
   # Measured centres of the old Q floating handle, inside charted clear water.
   # Replay the same world tap on baseline and challenger, not a new UI target.
   var water=Vector2(55.3334,578.4445) if dimensions.x==2520 else Vector2(234.6574,778.5394)
@@ -121,5 +147,6 @@ func run():
   await tap(start)
   check(tactical(s)==before and s.selected==0,"aim tap at a former ring cannot select a craft or route")
   await tap(hud.close_button.get_global_rect().get_center());check(not game.knock_armed,"explicit aim cancellation stays reachable")
+  await stock_reference(game)
   game.queue_free();await settle()
  print("FLEET RING UI CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)
