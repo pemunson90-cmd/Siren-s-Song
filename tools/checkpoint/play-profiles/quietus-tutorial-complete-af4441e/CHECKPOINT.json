@@ -1,0 +1,16 @@
+{
+  "save_sha256": "421b343c6fff5101d329c203c4b0b756109932e16c3fe926db3ff54ffcf87309",
+  "source_sha": "af4441e4d98b4b33d27fdbb50272e2fba4329b0f",
+  "session": "critic-quietus-campaign-v7",
+  "provenance": "Genuine Quietus-only real-input journey. Final tutorial debrief completed, operations archive visibly confirms all six recovered and Divergence available. No drone orders. Active continuation uses older frozen V7 source; incompatible scalar capture saves must remain on that source.",
+  "final_tutorial_metrics": {
+    "mission": 5,
+    "elapsed": 76.5,
+    "hull": 19.0,
+    "oxygen": 115.0,
+    "grade": "C /45%",
+    "emp_spent": 2,
+    "torpedoes_spent": 2
+  },
+  "next_action": "Resume through actual menu on frozen source, choose Beyond the Warning / The Divergence. The original worker has already continued independently; this published file preserves the completed tutorial boundary."
+}
