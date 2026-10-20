@@ -29,3 +29,6 @@ Read docs/USER_DIRECTIVES.md. Pass 0 rows are built at rough quality; V7 recover
 
 Next: fresh full-game touch journeys, rank the biggest player-facing weakness, then improve it.
 User playtest timing never gates development.
+
+Stakes candidate: mission endurance, concurrent craft exposures, visible targeting refusals.
+Current play: fresh cover/inner journeys plus drone-heavy and Quietus-only continuations.

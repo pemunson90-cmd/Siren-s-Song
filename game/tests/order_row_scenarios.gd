@@ -47,7 +47,7 @@ func run() -> void:
    if not capture_dir.is_empty() and not (state.task=="READY" or (state.task=="EXPOSING" and profile.name=="cover")):continue
    ui._start_mission(state.mission);await settle()
    if state.task=="ROUTE":ui.sim.command("route",{"point":Vector2(320,800)})
-   elif state.has("target"):ui.sim.capture_unit=0;ui.sim.capture_target=state.target
+   elif state.has("target"):ui.sim.captures[0]={"target":state.target,"elapsed":0.0}
    elif state.task=="LOST":ui.sim.units[1].alive=false
    elif state.task in ["CONTACT","DRONE"]:ui.sim.units[0].hold=state.task
    ui.sim.tools={"emp":state.stock,"recon":state.stock,"decoy":state.stock};ui.sim.queue_mode=state.stock==0;ui.sim.pass_through=state.stock!=1;ui.sim.units[0].silent=state.stock!=2;ui._refresh();await settle()
@@ -69,7 +69,7 @@ func run() -> void:
   check(ui.map_gesture.active() and ui.target_reports==reports,"%s stable refresh preserves chart drag without repeated relayout reports"%profile.name)
   await end_drag(point)
   check(ui.sim.snapshot()==before,"%s chart drag/release creates no accidental order"%profile.name)
-  point=await begin_drag(ui);var previous_chart=ui.ocean.get_global_rect();ui.sim.capture_unit=0;ui._refresh();await settle()
+  point=await begin_drag(ui);var previous_chart=ui.ocean.get_global_rect();ui.sim.captures[0]={"target":0,"elapsed":0.0};ui._refresh();await settle()
   check(ui.map_gesture.active()==(ui.ocean.get_global_rect()==previous_chart),"%s dynamic task reflow cancels drag only if chart bounds change"%profile.name)
   await end_drag(point);ui._start_mission(0);await settle();before=ui.sim.snapshot()
   await click(ui.advanced_button.get_global_rect().get_center())

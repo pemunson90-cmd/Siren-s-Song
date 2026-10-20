@@ -75,6 +75,8 @@ while IFS='|' read -r scenario summary; do
         echo "Missing successful $scenario summary" >&2; exit 1;
     }
 done <<'TACTICAL_SCENARIOS'
+operation_endurance_tests|OPERATION ENDURANCE
+targeting_feedback_tests|TARGETING FEEDBACK
 beam_emission_tests|BEAM EMISSION
 recon_consequences_tests|RECON CONSEQUENCES
 recon_grade_main_tests|RECON GRADE MAIN
@@ -106,6 +108,8 @@ earned_equipment_tests|EARNED EQUIPMENT
 cadence_correlator_tests|CADENCE CORRELATOR
 field_sampler_tests|FIELD SAMPLER
 capture_feedback_tests|CAPTURE FEEDBACK
+independent_capture_tests|INDEPENDENT CAPTURE
+independent_capture_ui_tests|INDEPENDENT CAPTURE UI
 turn_safe_navigation_tests|TURN SAFE NAVIGATION
 expanded_region_tests|EXPANDED REGION
 expanded_region_journeys|EXPANDED JOURNEYS
