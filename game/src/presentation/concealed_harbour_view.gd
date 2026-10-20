@@ -33,6 +33,7 @@ static func detail(sim,subject:Dictionary={})->String:
   if subject.get("seat","").is_empty() or subject.seat==seat.id:lines.append(seat.name+" · "+seat.description)
  for seat in s.actions.seats:
   if seat.id==subject.get("seat",""):lines.append(seat.reason)
+ lines.append("TOW ·40m/s CRUISE /26m/s SILENT · moving cable audible. The station’s first reply is audible1200m for2s through actual water paths. If missed, approach within local passive reach for quiet reception.")
  lines.append("Quietus tows. Drones can scout each approach, receive the station reply, protect the tow or carry the occupied witness independently. Release leaves the equipment in actual water for local reattachment. No finite tool is required.")
  if s.receipt:lines.append("RECEIVED LOCAL ACCOUNT · "+("Departure station reports trace current zero and opens its own departure shutter." if s.thread=="deep" else "Refuge watch admits pressure-shelter families through the cleared mouth."))
  return "\n".join(lines)

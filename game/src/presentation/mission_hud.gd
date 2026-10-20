@@ -104,7 +104,9 @@ func open(next:String="craft",context:Dictionary={}):
  elif subject.is_empty() or next=="fleet":subject={"kind":"craft","unit":host.sim.selected,"pos":host.sim.units[host.sim.selected].pos}
  var station=WarningChain.station_subject(host.sim,subject) if next=="object" else {}
  if not station.is_empty():next="plant";subject=station
- page=next;instruments_open=page in ["inspect","signals"];host.advanced_orders=true;host._layout()
+ page=next;instruments_open=page in ["inspect","signals"]
+ if page=="inspect" and subject.get("subkind","")=="concealed":sheet_scroll.scroll_vertical=0
+ host.advanced_orders=true;host._layout()
 func dismiss():
  draining_popup=not owned_touches.is_empty()
  host.map_gesture.cancel();host.knock_press.clear();popup_gesture.cancel();sheet_pointers.clear();sector_press=null;host.advanced_orders=false;instruments_open=false;host._layout()
@@ -292,7 +294,6 @@ func _fit_sheet():
 func refresh():
  var sim=host.sim
  subject=Concealed.refresh_subject(sim,Recipient.refresh_subject(sim,Rendezvous.refresh_subject(sim,subject)))
- close_button.text="LOCAL ORDERS" if page=="inspect" and subject.get("subkind","")=="concealed" else "BACK"
  host.pause_button.text="PAUSED\n▶ RUN" if sim.paused else "Ⅱ\nPAUSE"
  host.advanced_button.text="FLEET"
  focus_button.text="FOLLOW" if host.ocean.chart_camera.mode=="follow" else "FOCUS"
@@ -371,7 +372,7 @@ func refresh():
   if Witness.site_for_item(sim,subject.get("item","")):
    var winch=sim.salvage_context(subject.item)
    extra.salvage.text="WINCH\nWITNESS" if not winch.active else "WINCH\n%d%%"%floori(winch.elapsed/winch.duration*100)
-  if page=="inspect" or Witness.harbour_subject(sim,subject):instrument_info.text=Witness.detail(sim)+"\n\n"+instrument_info.text
+  if (page=="inspect" and subject.get("subkind","")!="concealed") or Witness.harbour_subject(sim,subject):instrument_info.text=Witness.detail(sim)+"\n\n"+instrument_info.text
   if not Witness.site(sim).is_empty() and subject.get("kind","")=="craft":host.order_buttons.camera.text="WITNESS\nWINCH"
  if (host.knock_armed or host.decoy_armed) and not host.targeting_feedback.is_empty():
   intent.text=sim.units[sim.selected].name+" · "+host.targeting_feedback
@@ -419,7 +420,7 @@ func refresh():
  host.ocean.ui_blocked_rects=occupied_rects().map(func(r):return Rect2(r.position-host.ocean.global_position,r.size))
  if host.decoy_armed or host.knock_armed:
   close_button.text="CANCEL";close_button.position=Vector2(size.x/2-touch_height*.775,size.y-touch_height-12);close_button.show()
- else:close_button.text="CANCEL" if page=="recovery" else "BACK";close_button.visible=host.advanced_orders
+ else:close_button.text="CANCEL" if page=="recovery" else "LOCAL ORDERS" if page=="inspect" and subject.get("subkind","")=="concealed" else "BACK";close_button.visible=host.advanced_orders
  queue_redraw()
 func _draw():
  if host==null or not host.advanced_orders:return
