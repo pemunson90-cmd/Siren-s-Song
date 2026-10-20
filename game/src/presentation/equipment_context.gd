@@ -1,6 +1,7 @@
 extends RefCounted
 # A read-only projection of successfully recovered equipment. Main owns fitting,
 # uniqueness, persistence and the launch snapshot; this view grants nothing.
+const Catalog=preload("res://src/equipment/equipment_catalog.gd")
 const SLOTS={"quietus":"QUIETUS","drone_a":"DRONE A","drone_b":"DRONE B"}
 static func rows(context:Dictionary)->Array:
  var result=[];var slots=context.get("slots",{});var available=context.get("available",[])
@@ -35,7 +36,7 @@ static func status(sim)->String:
  var feedback=sim.equipment_feedback();var slots=feedback.get("fitted",{});var index=clampi(sim.selected,0,2);var slot=SLOTS.keys()[index]
  var id=slots.get(slot,"")
  if id.is_empty():return ""
- return "%s · %s"%[SLOTS[slot],{"quietus_correlator":"CADENCE CORRELATOR","drone_sampler":"FIELD SAMPLER"}.get(id,"FITTED EQUIPMENT")]
+ return "%s · %s"%[SLOTS[slot],Catalog.ITEMS.get(id,{}).get("name","FITTED EQUIPMENT").to_upper()]
 
 static func correlation(sim)->Dictionary:
  if not sim.has_method("equipment_feedback"):return {}
