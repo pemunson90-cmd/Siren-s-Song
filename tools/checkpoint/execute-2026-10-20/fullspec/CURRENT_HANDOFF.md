@@ -1,3 +1,5 @@
+APPROVED MILESTONE / CI RUNNING — final7c8398b7ba1751ae59ed3352987ccd26dcb01c3c independently APPROVED by same reviewer vsfb4cf105; all original and sweeper save blockers fixed. PR48 is open: https://github.com/pemunson90-cmd/Siren-s-Song/pull/48 . Required final-head CI39503984057 in progress (guidance and import/core passed; runtime batch running). Both workers released source/processes. NEXT: inspect exact-head CI, relay attributable review with CI link, merge using expected head, verify entire landed tree/fast-forward primary, then immediately select/execute substantial new playable campaign content. Do not restart repairs or claim current milestone merged yet.
+
 # Resumed execution — 20 October 2026
 
 Latest user handoff governs older checkpoint prose. Execution restarted in a fresh instance containing only Command-Library. Root found no Siren checkout under /workspace, /tmp, /mnt or /home, then restored published production fb4cf10542ba61fb47d4b71a95b0ea0448d302bf and milestone d73b9fa0aa539ea86f81b65f44c25df675138ea4. No reset/clean was performed. ~30 GiB free initially. Godot 4.6.3 available.

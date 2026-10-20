@@ -1,53 +1,54 @@
-# Independent accumulated integration review — HOLD
+# Independent accumulated integration review — APPROVE
 
-Reviewer: /root/release_integration_review, sole independent integration reviewer in this newly restored session. Requested routing gpt-6.1-sol / medium; backend routing/effort telemetry unavailable. Review date: 20 October 2026.
+Reviewer: /root/release_integration_review, sole independent integration reviewer in this restored session. Requested routing gpt-6.1-sol / medium; backend telemetry unavailable. Date: 20 October 2026.
 
-Reviewed head: `25b64e792decfd5ba0adfac542a5af828974c4e5` (`gauntlet/release/depth-sonar`). Production base: `fb4cf10542ba61fb47d4b71a95b0ea0448d302bf`. Accumulated scope: 52 changed files, opening operations0–5 and shared depth/sonar/stealth, presentation, persistence and physical-work consequences. Source tree: `/workspace/Siren-s-Song-play-frozen`.
+**APPROVE accumulated head `7c8398b7ba1751ae59ed3352987ccd26dcb01c3c` against production base `fb4cf10542ba61fb47d4b71a95b0ea0448d302bf`. No unresolved integration blocker established.** Root owns mandatory exact-head game-smoke CI, PR and protected integration; this is an independent integration verdict, not a formal GitHub approval or complete-release/balance acceptance.
 
-Read current production AGENTS/USER_DIRECTIVES, then milestone guidance, living specification, source authority, architecture and V7 parity; reconciled latest content priority and complete-milestone requirement. Read CURRENT_HANDOFF, REPORT and REVIEW_HANDOFF. The latter is an explicitly relayed prior HOLD; missing original evidence is not represented as recovered or as my own earlier work. I own this fresh source assessment and the commands/probes below. Tracked implementation remained read-only.
+## Review scope and provenance
 
-## Blocking finding
+This verdict carries forward my fresh accumulated review at25b64e792decfd5ba0adfac542a5af828974c4e5, preserved unchanged in REVIEW.25b64e7.HOLD.md, and independently checks the complete four-file25b64e7..7c8398b repair. The accumulated milestone covers depth/sonar/stealth across operations0–5 and shared simulation/presentation/audio/custody/persistence consequences, not just the final sweeper function. Prior review read current production and milestone guidance, living spec, source authority, V7 parity and architecture; latest content priority and full-milestone requirement govern. Root refreshed unchanged production guidance at this re-review boundary. Original pre-restoration review remains explicitly historical user-relayed evidence in REVIEW_HANDOFF.md, not recovered original evidence.
 
-**P2 — actual torpedo impact permanently disables a sweeper and invalidates current saves.** `game/src/simulation/sonar_sweeper.gd:9–10` tests `pin_time > 0` but only decrements `stun`. Unlike ordinary threats in simulation.gd, it never advances the eight-second pin clock. Physical projectile impact sets both to8. The next sweeper update lowers stun while pin remains8, violating valid_snapshot's `stun >= pin_time` invariant. After stun expires, pin remains8 and the early return permanently prevents normal AI. This occurs on the newly authored Well DEEP sweeper, through normal command admission and actual projectile movement/impact.
+I inspected final diff, appended builder report, lifecycle regressions, shared physical-impact/EMP dispatch, snapshot invariants and cached-pin presentation. Read-only source tree: /workspace/Siren-s-Song-play-frozen. HEAD verified7c8398b; tracked source clean. No tracked implementation edits, native/APK, profile/signer change, subagents or broad speculative audit.
 
-Independent self-contained reproduction: start operation4; stage Quietus at(1280,820), DEEP, facing east; retain the authored sweeper at(1380,820), DEEP; disable peers to isolate receipt; refresh legitimate observations; command knock target0; advance real fixed simulation ticks. Log:
+## Blocker dispositions
 
-```
-target=[{key:0,pos:(1380,820),tag:S1}] launch=true
-after2s pin=8.0 stun=6.45000000000001 mode=DISRUPTED valid=false projectiles=0
-after12s pin=8.0 stun=0.0 mode=DISRUPTED valid=false
-```
+**P2 sweeper permanent pin/current-save invalidation — FIXED, independently verified on final head.** Sweeper now decrements pin_time once per simulation tick before disruption handling, while independently decrementing stun. It exposes PINNED only during the physical pin, then DISRUPTED if longer EMP remains. Snapshot invariants were not relaxed. This matches retained ordinary-role clock semantics.
 
-Evidence: `independent/sweeper_snare_probe.gd` and `.log`. This probe does not assign pin/stun or bypass physical projectile impact. Its staged mission access is not an earned campaign claim. Player consequence: a legitimate finite countermeasure permanently suppresses the new role, and an otherwise ordinary active save cannot restore. Repair required on same milestone branch: preserve bounded snare lifetime and ordinary/EMP disruption semantics for sweepers; verify actual impact, a valid partial-pin snapshot/restore, expiry/resumed AI, and longer EMP overlapping pin. Also keep physical pin presentation consistent with the retained mechanic. Do not weaken snapshot validation to admit broken clocks.
-
-## Prior blocker / earlier repair dispositions
-
-- Prior same-band torpedo rejection/cross-band spend: **repair verified at reviewed head**. Preview iterates acquired contacts and cached band/transition only; _knock_band uses own occupied bands and geometry without reading live Sirens. Launch rechecks legitimate current acquisition, shared physical projectile band, range, stun and clear3m corridor before spending. Fresh depth95/0 includes SHALLOW/DEEP optical, hidden-roster/position/band/stun invariance, allied observation, both target transition bands, launcher transition, terrain and no-spend cases. The newly found lifetime defect above is a downstream physical-impact/persistence failure, not a rejection of the targeting repair.
-- Prior Blackwater selection interruption: **repair verified**. Recovery context/tick use working craft and custody-local Depth.clear; the fresh95/0 reproduces deep buffer recovery with Quietus versus MIDDLE peer selected, and movement/route/loss/depth/transition/cover/custody interruptions. Analogous module/witness/plant repair source inspected and exercised in that focused suite. Actual work remains interruptible.
-- Pending-return information leak: **repair verified** by source and fresh opening72/0. Public feedback exposes emitter-owned nominal listening time and received rows; matched hidden queues yield identical feedback/context for emitters and nonemitters while authoritative pending packets still save/restore.
-- Repeated depth-toggle beam immunity: **repair verified** in fresh opening72/0, including repeated stationary changes and overlap-band attacks. No transition command resets beam lock.
-- Unsafe INSERT: **repair verified** by source and fresh actual headless viewport input44/0 on both target layouts. INSERT duplicates the preceding accepted operator point; it no longer invents an80m step/chord through unknown or blocked water. This does not resolve general craft-handle/FIT usability.
-
-## Accumulated interfaces and additional risk assessment
-
-Inspected authored0–5 operation/configuration progression, per-band geometry/navigation/charts, physical4s transitions and independent craft routes; pressure/motion sensing, acquired-depth pursuit/reports, delayed emission-time sonar/terrain, bearing/triangulation uncertainty, sweeper receipt/strike and local peer reports; presentation/audio permitted evidence; command admission, salvage/custody/extraction, and snapshot reconstruction/validation. New factories use existing catalog/config seams. Baseline MIDDLE work/recovery and independent fleet fallbacks remain represented in source and existing campaign evidence. Fresh95/0 includes registered-operation roundtrips, in-flight echoes/transitions, deep wreck recovery and settled-depth extraction.
-
-A concrete residual selected-geometry seam remains in `module_recovery.gd:87`: recovery classifies MIDDLE drones using sim.line_clear(), whose band follows selection. An independent scan over all registered authored recovery corridors and valid MIDDLE points within65m (10m grid offsets) found **no authored opposing-band obstruction mismatch**. Thus no current player consequence was established and this is **not an additional integration blocker**. Retain as a content-authoring/custody risk if future recovery mouths diverge by depth; local physical recovery should eventually use the recovering craft's band. Evidence: independent/recovery_probe.gd/.log. This bounded scan does not prove continuous geometric equivalence.
-
-No additional blocker established in this review. I did not replay the full source-known rendered journeys or broad regression/performance: prior report already supplies those and no new uncertainty justified repeating them before the confirmed lifetime repair. Existing reported full0–5 finishability remains builder evidence, not independent blind play/balance approval. Existing Well33.6hull tool-free route, first-use balance, FIT/craft-selection/toolbar friction, dense small inner sonar axes, inherited density817/12, ObjectDB exit warning, native lifecycle/performance, headphone audio, physical Fold ergonomics and human enjoyment remain unresolved. Full28/12 content, four further enemy roles, wider fleet/economy/progression/presentation/modes remain unfinished. Approval here would only concern accumulated integration, not complete-release acceptance.
-
-## Fresh commands / outcomes
-
-Godot4.6.3, bash login=false, working directory source tree above. All XDG data is external; original profiles/signer untouched.
+My original self-contained actual-impact probe was rerun unchanged: authored operation4 DEEP sweeper at(1380,820), Quietus at(1280,820), real observed target/command/physical torpedo travel and collision. No pin/stun assignments. Final semantic output:
 
 ```
-XDG_DATA_HOME=/workspace/work/depth-independent-depth_sonar_tests-xdg godot --headless --path game --script res://tests/depth_sonar_tests.gd
-XDG_DATA_HOME=/workspace/work/depth-independent-opening_depth_tests-xdg godot --headless --path game --script res://tests/opening_depth_tests.gd
-XDG_DATA_HOME=/workspace/work/depth-independent-route_program_ui_tests-xdg godot --headless --path game --script res://tests/route_program_ui_tests.gd
-XDG_DATA_HOME=/workspace/work/depth-independent-xdg godot --headless --path game --script /workspace/work/gauntlet-fullspec-20261020/depth-sonar/independent/recovery_probe.gd
-XDG_DATA_HOME=/workspace/work/depth-independent-xdg godot --headless --path game --script /workspace/work/gauntlet-fullspec-20261020/depth-sonar/independent/sweeper_snare_probe.gd
+launch=true
+after2s pin=6.45000000000001 stun=6.45000000000001 mode=PINNED valid=true projectiles=0
+after12s pin=0.0 stun=0.0 mode=RETURN STRIKE valid=true
 ```
 
-Fresh results: depth95/0; opening72/0; route viewport input44/0 (both layouts, headless; inherited ObjectDB exit warning); authored recovery scan NO AUTHORED MISMATCH; sweeper actual-impact probe confirms invalid snapshots at2s and12s/permanent pin. All processes exit0; the diagnostic probe prints semantic failure rather than using its exit status as acceptance. Raw logs are in independent/ with matching suite names. No native/render-quality claim and no APK. No broad replay/profile repeat.
+The previously red probe now demonstrates bounded actual impact and normal resumed AI/valid save. Independently executed and inspected focused lifecycle suite **38 checks/0 failures** for authored sweeper and ordinary patroller: actual impact/finite stock, immobility, decaying pin/received contact state, unlimited paused freeze, valid partial pin, real checksummed SaveStore roundtrip and simulation restore, retained remaining lifetime/expiry and resumed AI, longer12s EMP overlapping8s pin without resetting it, independent resurfacing then EMP expiry, valid snapshots throughout. Source presentation at ocean_view.gd339/498 reads cached observed pin_time with observed age and uses the existing cable/descent/fade/resurface transform for sweepers too. No new visual rendering claim; received PINNED state and declining clock are exercised by the focused suite. No consequential new breakage established in the narrow repair.
 
-Release: all reviewer-owned Godot processes exited; no Xvfb started. Source HEAD remains25b64e7; `git status --porcelain --untracked-files=no` empty. Generated untracked UID files preserved. **Read-only source released to root for same-builder repair. HOLD until P2 sweeper pin/save defect is repaired and independently rechecked on the exact new head.** Root owns builder reactivation, final-head CI and protected PR integration.
+Earlier dispositions remain **verified repaired** from my accumulated review at25b64e7 (unchanged related source at final head):
+
+- Cached SHALLOW/DEEP torpedo previews and physical acquired launch admission; hidden truth invariance, occupied transition bands, allied acquisition, terrain and invalid-launch no-spend.
+- Working-craft/custody-local Blackwater/witness/module recovery and plant continuity, preserving actual motion/route/loss/depth/transition/terrain/custody interruption.
+- Hidden pending-echo information leak: public emitter-local nominal listening state and received evidence only, private authoritative pending queue.
+- Repeated depth-toggle beam immunity: no command lock reset; occupied-band vulnerability and acquired pursuit remain.
+- Unsafe planner INSERT: preceding accepted operator position, followed by explicit player placement; actual headless viewport input on both layouts verified.
+
+Prior fresh targeted results supporting those dispositions: depth95/0, opening72/0, route input44/0. The final diff changes only sweeper lifecycle plus its targeted tests and concise next-action docs; no unnecessary broad suite was repeated for this re-review. Builder final-head depth95/opening72 results remain separately attributed in REPORT.
+
+## Remaining risks and limits
+
+All unresolved accumulated risks remain open and are retained in INVENTORY. ModuleRecovery.departure still uses selected-band sim.line_clear to classify settled MIDDLE drone recovery. My bounded all-authored-corridor10m-grid scan inside65m found no current opposing-band obstruction mismatch, so no existing player consequence or integration blocker established; retain as a future depth-divergent recovery-content risk, not a continuous-geometry proof.
+
+Well tool-free33.6hull route/balance and first-use assessment; FIT/craft-selection/toolbar friction; dense small inner sonar axes; inherited density817/12 and ObjectDB exit warning; native lifecycle/performance, headphone audio, physical Fold ergonomics and human enjoyment remain unresolved. Prior full0–5 rendered/source-known journeys and bounded performance are builder-reported historical evidence, not my fresh blind play/balance approval. No duplicate full journeys/profile/performance run was justified by this bounded lifecycle repair. Full28core/12optional content, four further enemy roles, fleet/economy/research/progression, production presentation/frontend/audio, replay/challenges and further modes remain unfinished. Integration approval allows the next substantial content batch under current user priority.
+
+## Exact fresh final-head checks and release
+
+Godot4.6.3; bash login=false; cwd /workspace/Siren-s-Song-play-frozen:
+
+```
+XDG_DATA_HOME=/workspace/work/depth-independent-pin-final-xdg godot --headless --path game --script res://tests/sweeper_tests.gd
+XDG_DATA_HOME=/workspace/work/depth-independent-probe-final-xdg godot --headless --path game --script /workspace/work/gauntlet-fullspec-20261020/depth-sonar/independent/sweeper_snare_probe.gd
+```
+
+Both exit0. `independent/sweeper-final.log`: SWEEPER CHECKS38 FAILURES0, no script/engine errors. `independent/sweeper_snare-final.log`: semantic values above inspected, not accepted merely for diagnostic exit0. Original red probe/log preserved. Earlier accumulated fresh commands/logs and review details remain in REVIEW.25b64e7.HOLD.md and independent/.
+
+All reviewer-owned Godot processes exited; no Xvfb started. `git status --porcelain --untracked-files=no` empty; untracked generated UID files preserved. **Read-only source released at7c8398b7ba1751ae59ed3352987ccd26dcb01c3c.** Root proceeds to final-head CI/normal milestone PR/integration and substantial new content.

@@ -172,3 +172,48 @@ at meaningful boundaries or when continuation otherwise becomes prohibitive.
 All owned Godot processes exited; no display process started. Generated221
 untracked UIDs preserved on disk and excluded from commit per root; tracked UIDs
 unchanged. Root owns sole independent accumulated review, final-head CI and PR.
+
+
+Independent HOLD repair — sweeper physical pin / 20 October 2026
+Released source7c8398b7ba1751ae59ed3352987ccd26dcb01c3c on SAME
+gauntlet/release/depth-sonar; parent25b64e792decfd5ba0adfac542a5af828974c4e5.
+Read REVIEW.25b64e7.HOLD.md and original independent sweeper_snare_probe.
+Fresh replay before fix matched its defect exactly: at2s pin8/stun6.45, mode
+DISRUPTED, invalid snapshot; at12s pin8/stun0, permanently disabled/invalid.
+Cause: sweeper early-return path decremented stun but never the physical pin.
+Fix decrements pin before disruption handling and presents PINNED only while
+that physical interval remains. Snapshot validation unchanged. Existing shared
+renderer now receives declining pin_time and correct acquired PINNED mode.
+
+Focused new actual-impact lifecycle regressions run for authored Well sweeper
+and ordinary patroller: finite torpedo/physical impact, independent pin clock,
+immobility, acquired presentation, paused clock, valid partial-pin snapshot,
+real checksummed SaveStore roundtrip + restore, remaining lifetime/expiry,
+resumed AI and post-expiry valid snapshot. EMP overlap retains12s disruption
+without restarting8s pin; pin expires first, then ordinary AI resumes.
+Initial red35/9 included one overstrict whole-snapshot equality assertion for
+ordinary restore; corrected to remaining-lifetime/expiry behavior BEFORE source
+fix. Final red36/8: only sweeper defect assertions fail (restore-dependent
+checks skipped on failed restore). Green38/0 executes all restore checks.
+
+Exact commands, cwd /workspace/Siren-s-Song-play-frozen, bash login=false:
+XDG_DATA_HOME=/workspace/work/depth-pin-repair-xdg godot --headless --path game --script res://tests/sweeper_tests.gd
+XDG_DATA_HOME=/workspace/work/depth-pin-probe-xdg godot --headless --path game --script /workspace/work/gauntlet-fullspec-20261020/depth-sonar/independent/sweeper_snare_probe.gd
+XDG_DATA_HOME=/workspace/work/depth-pin-depth_sonar_tests-xdg godot --headless --path game --script res://tests/depth_sonar_tests.gd
+XDG_DATA_HOME=/workspace/work/depth-pin-opening_depth_tests-xdg godot --headless --path game --script res://tests/opening_depth_tests.gd
+Logs pin-repair-logs/: red.log, red-final.log, green.log, probe-red.log,
+probe-green.log, depth_sonar_tests.log, opening_depth_tests.log. Original
+independent probe/log unchanged. Fresh green probe: after2s pin6.45/stun6.45,
+modePINNED valid=true, projectiles0; after12s pin0/stun0, modeRETURN STRIKE
+valid=true. Focused sweeper38/0, depth95/0, opening72/0; no script/engine errors.
+Probe semantic results inspected explicitly; its exit0 alone is not acceptance.
+
+CONTINUATION38/WORKBENCH33 lines now state after-approval/CI/integration next
+action: substantial playable campaign expansion toward28core/12optional.
+No approval/merge claimed. Root owns same independent re-review/final-head CI
+and protected integration. No broad replay/profiling, new audit, APK, extra
+worker, save migration, frozen-profile edit, push or PR. Retain reviewer-found
+selected-geometry departure seam as future content-authoring risk: no authored
+consequence established; deliberately outside this confirmed repair. Other
+reported Well/control/native/headphone limits remain. All owned processes
+exited; generated untracked UIDs preserved on disk outside commit.

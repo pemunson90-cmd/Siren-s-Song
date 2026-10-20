@@ -1,0 +1,12 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+FAIL sweeper pin clock advances while physical pin remains presented and immobile
+FAIL sweeper acquired contact presents current physical pin to shared renderer
+FAIL sweeper actual partial-pin snapshot validates without relaxing invariants
+FAIL sweeper partial pin roundtrips real checksummed save and simulation restore
+FAIL sweeper bounded pin expires and live AI resumes with valid save
+FAIL sweeper overlapping longer EMP leaves independent pin lifetime and valid clocks
+FAIL sweeper pin resurfaces on time while longer EMP remains
+FAIL sweeper AI resumes after overlapping EMP expires
+FAIL patroller restored partial pin expires identically to uninterrupted simulation
+SWEEPER CHECKS 35 FAILURES 9
