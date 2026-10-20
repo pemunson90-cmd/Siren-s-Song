@@ -36,4 +36,4 @@ Fleet instruments integrated: separated craft, task progress, offscreen focus an
 Earned-course continuity integrated: retained goals, certified-water repairs, real hazard stops.
 Genuine drone-led journey reached Hidden Harbour; its final travel interval was unobserved.
 Physical module salvage integrated: return cargo or lose optional kit; bare frames remain.
-Current build: Deep Rendezvous tender, local release, sensed transit and refuge decoding.
+Next: Deep Rendezvous tender, local release, sensed transit and refuge decoding.
