@@ -38,7 +38,7 @@ static func status(sim)->Dictionary:
  else:
   var shared=_shared_work(sim)
   if not shared.is_empty():jobs[shared.unit]=shared
- var text={"at_berth":"Living witness awaits local WINCH · bring the occupied capsule to southeast harbour","carried":"Living witness aboard transport · explicitly LAND at southeast harbour","salvage":"Occupied pressure pod ejected at own lost-craft position · recover locally","landed":"Living witness landed safely · return Quietus to recovery"}[state.state] if located else "Locate the witness berth by local observation or Survey"
+ var text={"at_berth":"Living witness awaits local WINCH · bring the occupied capsule to southeast harbour","carried":"Living witness aboard transport · explicitly LAND at southeast harbour","salvage":"Occupied pressure pod ejected at own lost-craft position · recover locally","landed":"Living witness landed · local station account and Quietus recovery required"}[state.state] if located else "Locate the witness berth by local observation or Survey"
  return {"known":located,"capsule":capsule,"cargo":cargo,"jobs":jobs,"landed":state.state=="landed","harbour":{"id":"witness_harbour","name":"CONCEALED RECOVERY BASIN","pos":HARBOUR,"range":RANGE},"text":text}
 static func sites(sim,modules:Array)->Array:
  if not available(sim):return modules
@@ -87,7 +87,7 @@ static func land(sim)->bool:
  if not c.get("ready",false):sim.message=c.get("reason","Witness unavailable");return false
  var state=sim.mission.witness_evacuation;state.landed_by=sim.selected;state.carrier=-1;state.pos=HARBOUR;state.state="landed"
  sim.mission.record="The living witness was physically landed in the concealed southeast harbour by "+sim.units[sim.selected].name+". The account is preserved without broadcasting the passage."
- sim.events.append({"type":"witness_landed","pos":HARBOUR});sim.message="Living witness landed safely · return Quietus to recovery";return true
+ sim.events.append({"type":"witness_landed","pos":HARBOUR});sim.message="Living witness landed safely · "+("return Quietus to recovery" if preload("res://src/simulation/concealed_harbour.gd").complete(sim) else "complete the witness-guided local work and receive its station reply");return true
 static func losses(sim)->void:
  if not applies(sim.mission):return
  var state=sim.mission.witness_evacuation

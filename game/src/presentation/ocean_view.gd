@@ -1,5 +1,6 @@
 extends Control
 const Recipient=preload("res://src/presentation/warning_recipient_view.gd")
+const Concealed=preload("res://src/presentation/concealed_harbour_view.gd")
 const Witness=preload("res://src/presentation/witness_evacuation_view.gd")
 const EarnedChart=preload("res://src/presentation/earned_chart_view.gd")
 const Expedition=preload("res://src/presentation/expedition_view.gd")
@@ -62,6 +63,7 @@ func objective_touch_rects(touch:float)->Array:
 		if Rendezvous.replaces_site(sim,site) or Witness.replaces_site(sim,site) or Recipient.replaces_site(sim,site) or site.get("own_origin",false):continue
 		result.append(Rect2(screen_position(site.pos)-Vector2.ONE*radius,Vector2.ONE*radius*2))
 	result.append_array(Witness.touch_rects(self,sim,touch))
+	result.append_array(Concealed.touch_rects(self,sim,touch))
 	result.append_array(Recipient.touch_rects(self,sim,touch))
 	return result
 func pick_context(point:Vector2,touch:float) -> Dictionary:
@@ -86,6 +88,8 @@ func pick_context(point:Vector2,touch:float) -> Dictionary:
 func objective_context(point:Vector2,touch:float)->Dictionary:
 	var recipient=Recipient.pick(self,sim,point,touch)
 	if not recipient.is_empty():return recipient
+	var work=Concealed.pick(self,sim,point,touch)
+	if not work.is_empty():return work
 	var witness=Witness.pick(self,sim,point,touch)
 	if not witness.is_empty():return witness
 	# Fixed public sites share their marker's actual hit area with fleet rings.
@@ -249,6 +253,7 @@ func _draw() -> void:
 	Rendezvous.draw(self,sim)
 	WarningChain.draw_world(self,sim)
 	Witness.draw_world(self,sim)
+	Concealed.draw_world(self,sim)
 	Recipient.draw_world(self,sim)
 	# Sonar rays stop at actual cover, producing explicit acoustic shadows.
 	if earned.is_empty() and sim.ping_time>0:

@@ -44,7 +44,9 @@ func _initialize()->void:
  concealed.objectives=[{"site_id":"witness_packet","captured":true}]
  check(content.resolution(concealed).is_empty(),"an abstract captured flag cannot replace a physically landed living witness")
  concealed.witness_evacuation.state="landed"
- check(content.resolution(concealed)=="concealed_recovery","physically landed recovered witness completes the concealed job")
+ check(content.resolution(concealed).is_empty(),"physically landed witness still needs its newly promised local consequence")
+ concealed.concealed_harbour.connected=false;concealed.concealed_harbour.receipt=true
+ check(content.resolution(concealed)=="concealed_recovery","landed witness and earned local consequence complete the concealed job")
  overt.recovered=true
  for objective in overt.objectives:objective.captured=true
  overt.objectives.append({"site_id":"warning_reply","captured":true})

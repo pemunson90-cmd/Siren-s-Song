@@ -7,6 +7,7 @@ const Rendezvous=preload("res://src/presentation/rendezvous_view.gd")
 const WarningChain=preload("res://src/presentation/warning_chain_view.gd")
 const Delivery=preload("res://src/presentation/blackwater_delivery_view.gd")
 const Recipient=preload("res://src/presentation/warning_recipient_view.gd")
+const Concealed=preload("res://src/presentation/concealed_harbour_view.gd")
 const Witness=preload("res://src/presentation/witness_evacuation_view.gd")
 # A tap opens an object-owned projection. A separate tap chooses an action.
 var host
@@ -59,6 +60,8 @@ func setup(owner):
  for entry in [["tools_menu","TOOLS"],["route_menu","ROUTE"],["guard_menu","GUARD"],["inspect","STATUS"],["route_here","ROUTE HERE"],["arrivals","ARRIVALS"],["view_menu","VIEW"],["salvage","RECOVER\n4s AUDIBLE"],["rendezvous_release","RELEASE BERTH\n950m / 6s"]]:
   var key=entry[0];extra[key]=host._button(self,entry[1],func():_extra(key),key)
  for entry in [["warning_exposed","EXPOSED\nUNGATED COURSE"],["warning_sheltered","SHELTERED\nSERVICE COURSE"],["warning_gate","OPEN SERVICE\n650m / 6s"]]:
+  var key=entry[0];extra[key]=host._button(self,entry[1],func():_extra(key),key)
+ for entry in [["concealed_attach","ATTACH TOW"],["concealed_release","RELEASE TOW"],["concealed_seat","SEAT HERE"],["concealed_work","WITNESS ACCOUNT"]]:
   var key=entry[0];extra[key]=host._button(self,entry[1],func():_extra(key),key)
  instrument_button=extra.inspect
  extra.witness_land=host._button(self,"LAND\nWITNESS",func():host._order("witness_land"),"witness_land")
@@ -114,6 +117,12 @@ func _back():
  elif page in ["craft","object","fleet","salvage","plant","recovery"]:dismiss()
  else:open("plant" if subject.get("kind","")=="plant" else "object" if subject.get("kind","")=="objective" else "salvage" if subject.get("kind","")=="salvage" else "craft")
 func _extra(key:String):
+ if key=="concealed_work":
+  var sites=Concealed.subjects(host.sim)
+  if not sites.is_empty():open("inspect",sites[0])
+  return
+ if key.begins_with("concealed_"):
+  host._order("concealed_tow",{"action":subject.get("seat","") if key=="concealed_seat" else key.trim_prefix("concealed_")});return
  if key=="warning_gate":host._order("warning_gate");return
  if key in ["warning_exposed","warning_sheltered"]:host._order("warning_depart",{"course":key.trim_prefix("warning_")});return
  if key.begins_with("chain_"):
@@ -158,7 +167,7 @@ func recovery_button_at(point:Vector2) -> Button:
 func witness_button_at(point:Vector2) -> Button:
  # These physical custody actions have one tap owner, including the mouse
  # events Android emulates after a canceled touch or short drag.
- for button in [extra.witness_land,extra.salvage,extra.warning_exposed,extra.warning_sheltered,extra.warning_gate]:
+ for button in [extra.witness_land,extra.salvage,extra.warning_exposed,extra.warning_sheltered,extra.warning_gate,extra.concealed_attach,extra.concealed_release,extra.concealed_seat,extra.concealed_work]:
   if button==extra.salvage and not Witness.site_for_item(host.sim,subject.get("item","")):continue
   if button.is_visible_in_tree() and button.get_global_rect().has_point(point):return button
  return null
@@ -209,6 +218,7 @@ func command_controls() -> Array:
   "view":return [focus_button,host.zoom_buttons[2],host.zoom_buttons[1],host.zoom_buttons[0]]
   "fleet":return host.unit_buttons+([extra.arrivals] if Expedition.active(host.sim) else [])+[extra.view_menu,host.order_buttons.menu]
   "object":
+   if subject.get("subkind","")=="concealed":return ([extra.concealed_seat] if not subject.get("seat","").is_empty() else [extra.concealed_attach,extra.concealed_release])+[extra.route_here,extra.inspect]
    if subject.get("subkind","")=="warning_recipient":return [extra.warning_exposed,extra.warning_sheltered,host.order_buttons.camera,extra.route_here,extra.inspect]
    if subject.get("subkind","")=="warning_gate":return [extra.warning_gate,extra.route_here,extra.inspect]
    return ([extra.witness_land] if Witness.harbour_subject(host.sim,subject) else [])+([extra.rendezvous_release,extra.route_here,extra.inspect] if subject.get("subkind","")=="berth_control" else ([] if subject.get("subkind","")=="transmission" else [extra.route_here])+([] if subject.get("subkind","") in ["corridor","withdrawal"] else [host.order_buttons.camera])+[extra.inspect,host.order_buttons.program,host.order_buttons.queue])
@@ -218,6 +228,7 @@ func command_controls() -> Array:
   "inspect","signals","recovery":return []
  var controls=[host.order_buttons.camera,host.order_buttons.ping,host.order_buttons.silent,host.order_buttons.program,extra.route_menu,extra.tools_menu,extra.guard_menu,extra.inspect]
  if Witness.carries(host.sim,host.sim.selected):controls[0]=extra.witness_land
+ if Concealed.status(host.sim).get("known",false):controls.append(extra.concealed_work)
  if not Delivery.status(host.sim).is_empty():
   if host.sim.selected==0:controls.append(extra.blackwater_data)
   elif not host.sim.blackwater_handoff_context(host.sim.selected).packets.is_empty():controls.append(extra.blackwater_handoff)
@@ -227,7 +238,7 @@ func layout(bounds:Vector2,h:float):
  var font=maxi(14,roundi(h*.26))
  for b in host.order_buttons.values()+host.unit_buttons+extra.values()+[close_button,focus_button,host.pause_button,host.advanced_button]+host.zoom_buttons:
   b.mouse_filter=Control.MOUSE_FILTER_IGNORE if page=="plant" and b in command_controls() else Control.MOUSE_FILTER_STOP
-  if b in [extra.witness_land,extra.warning_exposed,extra.warning_sheltered,extra.warning_gate] or (b==extra.salvage and Witness.site_for_item(host.sim,subject.get("item",""))):b.mouse_filter=Control.MOUSE_FILTER_IGNORE
+  if b in [extra.witness_land,extra.warning_exposed,extra.warning_sheltered,extra.warning_gate,extra.concealed_attach,extra.concealed_release,extra.concealed_seat,extra.concealed_work] or (b==extra.salvage and Witness.site_for_item(host.sim,subject.get("item",""))):b.mouse_filter=Control.MOUSE_FILTER_IGNORE
   b.hide();b.custom_minimum_size=Vector2(h*1.55,h);b.size=Vector2(h*1.55,h);b.add_theme_font_size_override("font_size",font)
   b.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
   var normal=StyleBoxFlat.new();normal.bg_color=Color(0,0,0,0);normal.set_content_margin_all(2)
@@ -280,7 +291,8 @@ func _fit_sheet():
  host.call_deferred("_report_targets")
 func refresh():
  var sim=host.sim
- subject=Recipient.refresh_subject(sim,Rendezvous.refresh_subject(sim,subject))
+ subject=Concealed.refresh_subject(sim,Recipient.refresh_subject(sim,Rendezvous.refresh_subject(sim,subject)))
+ close_button.text="LOCAL ORDERS" if page=="inspect" and subject.get("subkind","")=="concealed" else "BACK"
  host.pause_button.text="PAUSED\n▶ RUN" if sim.paused else "Ⅱ\nPAUSE"
  host.advanced_button.text="FLEET"
  focus_button.text="FOLLOW" if host.ocean.chart_camera.mode=="follow" else "FOCUS"
@@ -345,6 +357,13 @@ func refresh():
   extra.warning_sheltered.disabled=not recipient.actions.depart.ready or not recipient.gate.opened
   extra.warning_gate.disabled=not recipient.actions.gate.ready
   if subject.get("subkind","") in ["warning_recipient","warning_gate"]:instrument_info.text=Recipient.detail(sim,subject)
+ var concealed=Concealed.status(sim)
+ if concealed.get("known",false):
+  intent.text=Concealed.summary(sim)+" · "+intent.text
+  extra.concealed_attach.disabled=not concealed.actions.tow
+  extra.concealed_release.disabled=not concealed.actions.release
+  extra.concealed_seat.disabled=not concealed.actions.seats.any(func(p):return p.id==subject.get("seat","") and p.ready)
+  if subject.get("subkind","")=="concealed" or page=="inspect":instrument_info.text=Concealed.detail(sim,subject)+"\n\n"+instrument_info.text
  var witness=Witness.status(sim)
  if not witness.is_empty():
   extra.witness_land.disabled=not sim.witness_context().land.ready

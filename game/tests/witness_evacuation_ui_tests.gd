@@ -129,6 +129,7 @@ func berth_and_custody(dimensions:Vector2i,label:String):
   advance(s,.02);g._process(0);await settle()
   check(s.outcome.is_empty() and g.screen=="mission" and s.witness_status().landed,"drone landing leaves real Quietus recovery pending "+label)
   await capture(label+"-landed-harbour")
+  preload("res://tests/concealed_fixture.gd").solve(s)
   s.units[0].pos=HOME;s.units[0].vel=Vector2.ZERO;advance(s,.02);g._process(0);await settle()
   var arrival=g.menu.find_child("WitnessArrival",true,false)
   check(s.outcome=="won" and g.screen=="ending" and arrival!=null,"later Quietus recovery retains genuine visible witness arrival "+label)
@@ -156,6 +157,7 @@ func shared_wreck(dimensions:Vector2i,label:String):
 func already_home(dimensions:Vector2i,label:String):
  var g=await game_for(dimensions);var s=g.sim;await measure(g)
  check(s.command("salvage",{"item":"witness_capsule"}),"controlled arrival fixture loads real occupied pod "+label);advance(s,4.1)
+ preload("res://tests/concealed_fixture.gd").solve(s)
  s.units[0].pos=HOME;s.units[0].vel=Vector2.ZERO;s.units[1].pos=HOME+Vector2(0,35);s.units[1].vel=Vector2.ZERO
  g.ocean.focus_craft();g._refresh();await settle();await select_craft(g,1,true)
  var land=g.mission_hud.extra.get("witness_land")
@@ -183,12 +185,13 @@ func optional_sluice(dimensions:Vector2i,label:String):
 func committed_quietus()->Dictionary:
  # Earn the first arrival through actual model loading, landing and recovery.
  var s=Sim.new();s.start(12,"endurance");s.sirens=[];s.units[0].pos=BERTH+Vector2(0,40);s.units[0].vel=Vector2.ZERO;advance(s,.02)
- s.command("salvage",{"item":"witness_capsule"});advance(s,4.1);s.units[0].pos=HOME;s.units[0].vel=Vector2.ZERO;s.command("witness_land");advance(s,.02)
+ s.command("salvage",{"item":"witness_capsule"});advance(s,4.1);preload("res://tests/concealed_fixture.gd").solve(s);s.units[0].pos=HOME;s.units[0].vel=Vector2.ZERO;s.command("witness_land");advance(s,.02)
  return Campaign.recover(progress(),s.mission)
 func retained_truth(dimensions:Vector2i,label:String):
  var first=committed_quietus();check(first.facts.get("witness_arrival","")=="quietus","replay fixture earns its first Quietus arrival through physical model actions "+label)
  var g=await game_for(dimensions,false,first);var s=g.sim;await measure(g)
  s.command("salvage",{"item":"witness_capsule"});advance(s,4.1)
+ preload("res://tests/concealed_fixture.gd").solve(s)
  s.units[0].pos=HOME;s.units[0].vel=Vector2.ZERO;s.units[1].pos=HOME+Vector2(0,35);s.units[1].vel=Vector2.ZERO;g.ocean.focus_craft();g._refresh();await settle();await select_craft(g,1,true)
  var land=g.mission_hud.extra.get("witness_land")
  check(land!=null and land.is_visible_in_tree() and not land.disabled,"completed replay retains actual local carrier landing interaction "+label)
