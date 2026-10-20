@@ -94,6 +94,8 @@ jobs:
           fleet_instruments_ui_tests|FLEET INSTRUMENTS UI
           earned_course_continuity_tests|EARNED COURSE CONTINUITY
           current_motion_tests|CURRENT MOTION
+          rendezvous_transport_tests|RENDEZVOUS TRANSPORT
+          rendezvous_ui_tests|RENDEZVOUS UI
           UI_SCENARIOS
       - name: Docs-only change; no Godot run
         if: steps.changes.outputs.game == 'false'
