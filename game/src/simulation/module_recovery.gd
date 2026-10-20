@@ -111,7 +111,8 @@ static func valid(data:Dictionary)->bool:
   var item=Catalog.item_for(mission.get("launch_equipment",{}),id)
   if not item.is_empty():launched.append(item)
  if state.modules.size()!=launched.size():return false
- var dimensions=preload("res://src/simulation/world_region.gd").size_of(mission)
+ var dimensions=mission.get("world_size",preload("res://src/simulation/world_region.gd").LEGACY_SIZE)
+ if not dimensions is Vector2 or not dimensions.is_finite():return false
  for item in state.modules:
   var module=state.modules[item]
   if item not in launched or not module is Dictionary or module.size()!=3 or not module.get("state") in ["fitted","salvage","cargo"] or not module.get("unit") is int or not module.get("pos") is Vector2 or not module.pos.is_finite() or not Rect2(Vector2.ZERO,dimensions).has_point(module.pos):return false
