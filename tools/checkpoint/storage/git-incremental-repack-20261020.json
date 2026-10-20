@@ -1,0 +1,7 @@
+{
+  "operation": "git repack -d (incremental; no object expiration, no reflog expiration, no prune)",
+  "before": "count: 7438\nsize: 424720\nin-pack: 1967\npacks: 1\nsize-pack: 190219\nprune-packable: 0\ngarbage: 1\nsize-garbage: 4\n",
+  "free_before": 1180774400,
+  "after": "count: 284\nsize: 1660\nin-pack: 9121\npacks: 2\nsize-pack: 562108\nprune-packable: 0\ngarbage: 1\nsize-garbage: 4\n",
+  "free_after": 1216655360
+}
