@@ -4,6 +4,15 @@ extends RefCounted
 static func applies(mission:int,objective:Dictionary)->bool:
  return mission>=6 and (objective.get("kind","") in ["receiver","uplink","transmitter"] or (mission==7 and objective.get("site_id","")=="rendezvous"))
 static func title()->String:return "RECEIVER · ANALYTICAL"
+static func draw_rendezvous(view,picture:Rect2,lines:Array)->void:
+ var font=ThemeDB.fallback_font;var ink=Color("8cdcd3");var fs=mini(view.receiver_font_size,16)
+ var center=picture.position+picture.size*Vector2(.19,.52);var radius=minf(picture.size.y*.24,picture.size.x*.12)
+ for n in 3:view.draw_arc(center,radius*(.45+n*.28),-PI*.45,PI*.45,24,ink,1.5)
+ view.draw_circle(center,3,ink)
+ var column=picture.position+Vector2(picture.size.x*.40,fs*1.6)
+ # Brief status only; the full public readiness reason lives in craft STATUS.
+ for line in [lines[0],lines[-2] if lines.size()>3 else "REGAIN LOCAL RECEPTION",lines[-1]]:
+  view.draw_string(font,column,line,HORIZONTAL_ALIGNMENT_LEFT,picture.size.x*.6-6,fs,ink);column.y+=fs*1.8
 static func draw(view,picture:Rect2,readings:Array,receiver:int)->void:
  var font=ThemeDB.fallback_font;var ink=Color("8cdcd3");var muted=Color("4d7c83")
  var fs=mini(view.receiver_font_size,16);var center=picture.position+picture.size*Vector2(.27,.55)

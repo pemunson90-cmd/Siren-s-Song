@@ -98,6 +98,8 @@ jobs:
           module_recovery_ui_tests|MODULE RECOVERY UI
           module_recovery_runtime_ui_tests|MODULE RECOVERY RUNTIME UI
           module_inventory_main_tests|MODULE INVENTORY MAIN
+          rendezvous_transport_tests|RENDEZVOUS TRANSPORT
+          rendezvous_ui_tests|RENDEZVOUS UI
           UI_SCENARIOS
       - name: Docs-only change; no Godot run
         if: steps.changes.outputs.game == 'false'

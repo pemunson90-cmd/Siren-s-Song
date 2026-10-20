@@ -2,6 +2,7 @@ extends Control
 const EarnedChart=preload("res://src/presentation/earned_chart_view.gd")
 const Expedition=preload("res://src/presentation/expedition_view.gd")
 const Confluence=preload("res://src/presentation/confluence_world.gd")
+const Rendezvous=preload("res://src/presentation/rendezvous_view.gd")
 var sim
 var optical_feed
 var siren_ray=preload("res://assets/craft/siren_ray.png")
@@ -53,6 +54,8 @@ func pick_context(point:Vector2,touch:float) -> Dictionary:
 	_sync_camera();var choices=[]
 	for marker in salvage_markers():
 		if marker.rect.has_point(point):return {"kind":"salvage","item":marker.site.item,"name":marker.site.name.to_upper(),"pos":marker.site.pos}
+	var tender=Rendezvous.pick(self,sim,point,touch,false)
+	if not tender.is_empty():return tender
 	for id in sim.units.size():
 		var u=sim.units[id]
 		if not u.alive:continue
@@ -61,8 +64,11 @@ func pick_context(point:Vector2,touch:float) -> Dictionary:
 		if Rect2(-half,half*2).grow(touch*.32).has_point(local):choices.append(id)
 	if choices.size()>1:return {"kind":"fleet","pos":map_position(point)}
 	if choices.size()==1:return {"kind":"craft","unit":choices[0],"pos":sim.units[choices[0]].pos}
+	tender=Rendezvous.pick(self,sim,point,touch)
+	if not tender.is_empty():return tender
 	for id in observable_sites().size():
 		var site=observable_sites()[id]
+		if Rendezvous.replaces_site(sim,site):continue
 		if site.get("own_origin",false):continue
 		if point.distance_to(screen_position(site.pos))<=maxf(touch*.5,38*world_scale):return {"kind":"objective","subkind":"actuator","index":id,"name":site.name,"pos":site.pos} if site.get("site_id","")=="witness_sluice" else {"kind":"objective","index":id,"name":site.name,"pos":site.pos}
 	return Expedition.pick(self,sim,point,touch)
@@ -182,6 +188,7 @@ func _draw() -> void:
 	else:EarnedChart.draw_terrain(self,earned,world_scale)
 	for o in observable_sites():
 		if o.get("own_origin",false):continue
+		if Rendezvous.replaces_site(sim,o):continue
 		if o.get("kind","")=="receiver":
 			draw_arc(o.pos,26,0,TAU,40,Color("80bdb6"),2)
 			draw_line(o.pos-Vector2(17,0),o.pos+Vector2(17,0),Color("80bdb6"),2)
@@ -200,6 +207,7 @@ func _draw() -> void:
 	# Intelligence marks are briefed coordinates, not live contact observations.
 	for o in observable_sites():
 		if o.get("own_origin",false):continue
+		if Rendezvous.replaces_site(sim,o):continue
 		var c=CYAN if o.captured else Color("e1b66e")
 		draw_arc(o.pos,43,0,TAU,40,Color(c,0.35),1.4)
 		draw_line(o.pos+Vector2(-14,0),o.pos+Vector2(14,0),c,1)
@@ -215,6 +223,7 @@ func _draw() -> void:
 			var alpha=0.38 if not sim.known.has(key) else (0.0 if sim.visible(p) else 0.20)
 			if alpha>0: draw_rect(Rect2(x*40,y*40,40,40),Color(0.005,0.014,0.025,alpha))
 	preload("res://src/presentation/blackwater_courier_view.gd").draw(self,sim)
+	Rendezvous.draw(self,sim)
 	# Sonar rays stop at actual cover, producing explicit acoustic shadows.
 	if earned.is_empty() and sim.ping_time>0:
 		var radius=(3.5-sim.ping_time)*210

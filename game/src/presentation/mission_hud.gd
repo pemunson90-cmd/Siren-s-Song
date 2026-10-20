@@ -3,6 +3,7 @@ const Operations=preload("res://src/presentation/operation_instruments.gd")
 const Equipment=preload("res://src/presentation/equipment_context.gd")
 const Expedition=preload("res://src/presentation/expedition_view.gd")
 const Recovery=preload("res://src/presentation/module_recovery_view.gd")
+const Rendezvous=preload("res://src/presentation/rendezvous_view.gd")
 # A tap opens an object-owned projection. A separate tap chooses an action.
 var host
 var blocker:Control
@@ -49,7 +50,7 @@ func setup(owner):
   host.zoom_buttons[i].reparent(self);host.zoom_buttons[i].set_meta("action",["zoom_out","zoom_in","fit"][i])
  focus_button=host._button(self,"FOCUS",host._focus_craft,"focus")
  close_button=host._button(self,"BACK",_back,"radial_back")
- for entry in [["tools_menu","TOOLS"],["route_menu","ROUTE"],["guard_menu","GUARD"],["inspect","STATUS"],["route_here","ROUTE HERE"],["arrivals","ARRIVALS"],["view_menu","VIEW"],["salvage","RECOVER\n4s AUDIBLE"]]:
+ for entry in [["tools_menu","TOOLS"],["route_menu","ROUTE"],["guard_menu","GUARD"],["inspect","STATUS"],["route_here","ROUTE HERE"],["arrivals","ARRIVALS"],["view_menu","VIEW"],["salvage","RECOVER\n4s AUDIBLE"],["rendezvous_release","RELEASE BERTH\n950m / 6s"]]:
   var key=entry[0];extra[key]=host._button(self,entry[1],func():_extra(key),key)
  instrument_button=extra.inspect
  sheet=PanelContainer.new();add_child(sheet)
@@ -91,6 +92,7 @@ func _extra(key:String):
   open("signals",{"kind":"signals","receiver":-1 if host.advanced_orders else host.sim.selected});return
  if key=="route_here":host._order("route",{"point":subject.pos});return
  if key=="salvage":host._order("salvage",{"item":subject.item});return
+ if key=="rendezvous_release":host._order("rendezvous_release");return
  open({"tools_menu":"tools","route_menu":"route","guard_menu":"guard","inspect":"inspect","view_menu":"view"}[key])
 func owns_pointer(event) -> bool:
  var draining=draining_popup
@@ -150,7 +152,7 @@ func command_controls() -> Array:
   "guard":return [host.order_buttons.contact_hold,host.order_buttons.wait_drone,host.order_buttons.hold]
   "view":return [focus_button,host.zoom_buttons[2],host.zoom_buttons[1],host.zoom_buttons[0]]
   "fleet":return host.unit_buttons+([extra.arrivals] if Expedition.active(host.sim) else [])+[extra.view_menu,host.order_buttons.menu]
-  "object":return ([] if subject.get("subkind","")=="transmission" else [extra.route_here])+([] if subject.get("subkind","") in ["corridor","withdrawal"] else [host.order_buttons.camera])+[extra.inspect,host.order_buttons.program,host.order_buttons.queue]
+  "object":return [extra.rendezvous_release,extra.route_here,extra.inspect] if subject.get("subkind","")=="berth_control" else ([] if subject.get("subkind","")=="transmission" else [extra.route_here])+([] if subject.get("subkind","") in ["corridor","withdrawal"] else [host.order_buttons.camera])+[extra.inspect,host.order_buttons.program,host.order_buttons.queue]
   "salvage":return [extra.salvage,extra.route_here,extra.inspect]
   "inspect","signals":return []
  return [host.order_buttons.camera,host.order_buttons.ping,host.order_buttons.silent,host.order_buttons.program,extra.route_menu,extra.tools_menu,extra.guard_menu,extra.inspect]
@@ -207,6 +209,7 @@ func _fit_sheet():
  host.call_deferred("_report_targets")
 func refresh():
  var sim=host.sim
+ subject=Rendezvous.refresh_subject(sim,subject)
  host.pause_button.text="PAUSED\n▶ RUN" if sim.paused else "Ⅱ\nPAUSE"
  host.advanced_button.text="FLEET"
  focus_button.text="FOLLOW" if host.ocean.chart_camera.mode=="follow" else "FOCUS"
@@ -241,6 +244,15 @@ func refresh():
   instrument_info.text=Operations.detail(sim,operation.target)+"\n\n"+summary+"\n"+"\n".join(host.ocean.acoustic_rows())
   host.detail_label.text=sim.units[sim.selected].name+" · "+("OWN TRANSMITTER" if operation.label=="TRANSMIT" else "LOCAL MACHINERY CONTROL")
   if sim.capture_feedback().unit>=0:intent.text=sim.units[sim.selected].name+" · "+operation.detail.get_slice("\n",0)
+ var tender=Rendezvous.context(sim)
+ if not tender.is_empty():
+  var receiver=sim.rendezvous_receiver()
+  host.order_buttons.camera.text="DECODE\n4s PASSIVE";host.order_buttons.camera.disabled=not receiver.ready
+  if subject.get("subkind","")=="berth_control":
+   extra.rendezvous_release.disabled=not tender.control.ready
+   extra.rendezvous_release.text="BERTH\nRELEASED" if tender.control.get("used",false) else "RELEASE BERTH\n950m / 6s"
+  if subject.get("subkind","") in ["berth_control","rendezvous_hull"]:instrument_info.text=Rendezvous.detail(sim,subject)
+  if subject.get("subkind","")=="rendezvous_hull" and tender.vessel.known and not tender.vessel.live:extra.route_here.text="PLOT\nLAST FIX"
  if (host.knock_armed or host.decoy_armed) and not host.targeting_feedback.is_empty():
   intent.text=sim.units[sim.selected].name+" · "+host.targeting_feedback
  var fitted=Equipment.status(sim)
@@ -309,6 +321,10 @@ func _draw():
  if page=="salvage":
   var context=host.sim.salvage_context(subject.item)
   caption=host.sim.units[host.sim.selected].name+" · %dm / 60m"%roundi(context.distance)
+ if subject.get("subkind","")=="berth_control":caption="AUDIBLE 950m / 6s"
+ elif subject.get("subkind","")=="rendezvous_hull":
+  var hull=Rendezvous.projection(host.sim).hull
+  if not hull.is_empty():caption=str(hull.phase).to_upper()+" · LOCAL FIX" if hull.live else "STALE · %ds AGO"%floori(hull.age)
  for n in 2:
   var text=title if n==0 else caption;var width=font.get_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,-1,text_size).x
   draw_string(font,center+Vector2(-width/2,-h*.65+n*(text_size+5)),text,HORIZONTAL_ALIGNMENT_LEFT,-1,text_size,Color("a8d9d5"))

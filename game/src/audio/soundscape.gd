@@ -18,7 +18,7 @@ var system_suspended := false
 static func engine_gain(speed: float,silent: bool) -> float:
 	return clampf(speed/78.0,0,1)*(0.13 if silent else 0.35)
 static func samples(cue: String) -> PackedFloat32Array:
-	var duration={"ambience":8.0,"engine":2.0,"creak":1.6,"beam":1.7,"loss":2.0,"decoy":2.5,"extraction":2.4,"factory":4.8,"heartbeat":0.38,"knock":0.55,"snare":0.4,"carrier_received":1.4,"return_received":1.6}.get(cue,1.1)
+	var duration={"ambience":8.0,"engine":2.0,"creak":1.6,"beam":1.7,"loss":2.0,"decoy":2.5,"extraction":2.4,"factory":4.8,"heartbeat":0.38,"knock":0.55,"snare":0.4,"carrier_received":1.4,"return_received":1.6,"berth_release":1.8}.get(cue,1.1)
 	var result=PackedFloat32Array(); result.resize(int(RATE*duration))
 	var rng=RandomNumberGenerator.new(); rng.seed=cue.hash()
 	var filtered=0.0
@@ -58,6 +58,11 @@ static func samples(cue: String) -> PackedFloat32Array:
 				# Short winch engagement: rising motor and ratcheting cable, below alerts.
 				filtered=lerpf(filtered,rng.randf_range(-1,1),0.1)
 				value=(sin(TAU*(62*time+8*time*time))*0.16+sin(TAU*155*time)*0.045+filtered*0.06)*(0.75+0.25*pow(maxf(0,cos(TAU*14*time)),4))*envelope
+			"berth_release":
+				# The selected operator engages machinery once; no remote hull
+				# movement, hidden arrival or successful reception sound follows.
+				filtered=lerpf(filtered,rng.randf_range(-1,1),0.06)
+				value=(sin(TAU*(58*time+12*time*time))*.16+sin(TAU*116*time)*.06+filtered*.06)*(0.65+0.35*pow(maxf(0,cos(TAU*5*time)),4))*sin(PI*k)
 			"emp": value=(sin(TAU*(140*time-45*time*time))*0.3+rng.randf_range(-0.14,0.14))*envelope
 			"snare": value=(sin(TAU*160*time)*0.12+sin(TAU*320*time)*0.08+rng.randf_range(-0.06,0.06))*envelope
 			"knock": value=sin(TAU*(90*time-(52.0/1.1)*time*time))*0.3*envelope
@@ -88,7 +93,7 @@ func _ready() -> void:
 		if AudioServer.get_bus_effect(0,i).resource_name=="SirenPeakGuard": guarded=true
 	if not guarded:
 		var limiter=AudioEffectLimiter.new(); limiter.resource_name="SirenPeakGuard"; limiter.threshold_db=-3; limiter.ceiling_db=-1; AudioServer.add_bus_effect(0,limiter)
-	for cue in ["ping","camera","emp","knock","snare","salvage","record","loss","extraction","alert","recon","decoy","creak","beam","factory","carrier_received","return_received","heartbeat"]: cues[cue]=stream(cue)
+	for cue in ["ping","camera","emp","knock","snare","salvage","record","loss","extraction","alert","recon","decoy","creak","beam","factory","carrier_received","return_received","heartbeat","berth_release"]: cues[cue]=stream(cue)
 	ambience=AudioStreamPlayer.new(); ambience.stream=stream("ambience"); ambience.bus=AMBIENCE_BUS; add_child(ambience); ambience.play()
 	engine=AudioStreamPlayer.new(); engine.stream=stream("engine"); engine.bus=EFFECTS_BUS; add_child(engine); engine.play()
 	for n in 5:
