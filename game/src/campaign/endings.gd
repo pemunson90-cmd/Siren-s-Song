@@ -13,4 +13,10 @@ static func resolve(progress:Dictionary)->Dictionary:
  if route=="concealed" and 12 in done:id="silent_exodus" if thread=="deep" else "hidden_harbour" if thread=="shelf" else ""
  if route=="overt" and 13 in done:id="beacon_pact" if thread=="deep" else "surface_reckoning" if thread=="shelf" else ""
  if id.is_empty():return {}
- var result=STORIES[id].duplicate(true);result["id"]=id;return result
+ var result=STORIES[id].duplicate(true);result["id"]=id
+ var arrival=progress.get("facts",{}).get("witness_arrival","")
+ if id in ["silent_exodus","hidden_harbour"] and arrival in ["quietus","drone_a","drone_b"]:
+  var carrier={"quietus":"QUIETUS","drone_a":"DRONE A","drone_b":"DRONE B"}[arrival]
+  result.outcome="The living witness reaches the concealed harbour."
+  result.story=carrier+" physically lands the occupied witness capsule in the southeast refuge. Quietus returns with the survivor's account, keeping the passage outside the fleet's targeting network. This witness has a safe harbour; the fate of other shelter craft remains beyond our observations. "+progress.facts.get("witness_recovery","")
+ return result

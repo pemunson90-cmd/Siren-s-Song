@@ -3,6 +3,7 @@ const Operations=preload("res://src/presentation/operation_instruments.gd")
 const Recovery=preload("res://src/presentation/module_recovery_view.gd")
 const WarningChain=preload("res://src/presentation/warning_chain_view.gd")
 const Delivery=preload("res://src/presentation/blackwater_delivery_view.gd")
+const Witness=preload("res://src/presentation/witness_evacuation_view.gd")
 const Ring=preload("res://src/presentation/fleet_ring.gd")
 # Craft-anchored status; only offscreen craft acquire bounded edge handles.
 var host
@@ -60,8 +61,8 @@ func handle_input(event)->bool:
  if action.has("pan") or action.has("zoom"):host._refresh()
  if action.has("tap") and pressed_unit>=0 and buttons[pressed_unit].get_global_rect().has_point(point):
   var local=point-host.ocean.global_position;var site=host.ocean.objective_context(local,host.ui_touch_height)
-  var site_closer=not readouts.any(func(r):return r.unit==pressed_unit and r.offscreen) and site.get("kind","")=="objective" and pressed_units.all(func(id):return local.distance_to(host.ocean.screen_position(site.pos))<local.distance_to(host.ocean.screen_position(host.sim.units[id].pos)))
-  if site_closer:host.mission_hud.open("object",site)
+  var site_closer=not readouts.any(func(r):return r.unit==pressed_unit and r.offscreen) and site.get("kind","") in ["objective","salvage"] and pressed_units.all(func(id):return local.distance_to(host.ocean.screen_position(site.pos))<local.distance_to(host.ocean.screen_position(host.sim.units[id].pos)))
+  if site_closer:host.mission_hud.open("salvage" if site.kind=="salvage" else "object",site)
   elif pressed_units.size()>1:host.mission_hud.open("fleet",{"kind":"fleet","pos":host.ocean.map_position(point-host.ocean.global_position)})
   else:_activate(pressed_unit)
  if not gesture.active():pressed_unit=-1
@@ -76,11 +77,12 @@ func _activate(id:int):
   if host.sim.selected!=id:host._order("select",{"unit":id})
   host._focus_craft()
 func task(id:int)->String:
- var recovery=Recovery.task(host.sim,id)
+ var recovery=Witness.task(host.sim,id)
+ if recovery.is_empty():recovery=Recovery.task(host.sim,id)
  if recovery.is_empty():recovery=Delivery.task(host.sim,id)
  if recovery.is_empty():recovery=WarningChain.task(host.sim,id)
  var detail=recovery if not recovery.is_empty() else _ordinary_task(id)
- for cargo in [Recovery.cargo(host.sim,id),Delivery.cargo(host.sim,id)]:
+ for cargo in [Witness.cargo(host.sim,id),Recovery.cargo(host.sim,id),Delivery.cargo(host.sim,id)]:
   if not cargo.is_empty():detail+="\n"+cargo
  return detail
 func status(id:int)->String:
@@ -131,14 +133,16 @@ func refresh(blocked:Array):
   b.position=box.position;b.custom_minimum_size=Vector2.ONE*h;b.size=Vector2.ONE*h;b.text="";b.add_theme_stylebox_override("normal",StyleBoxEmpty.new());b.add_theme_stylebox_override("hover",StyleBoxEmpty.new());b.add_theme_stylebox_override("pressed",StyleBoxEmpty.new());b.add_theme_stylebox_override("focus",StyleBoxEmpty.new())
   var reserves=Ring.reserves(sim,id,ocean.oxygen_capacity)
   reading.text=status(id);b.tooltip_text=u.name+"\n"+reading.text
-  var active=sim.capture_feedback(id).unit>=0 or sim.scout_context(id).state=="stopped" or u.has("chart_stop") or Recovery.active(sim,id) or Delivery.active(sim,id) or WarningChain.connected(sim,id)
-  var progress=Recovery.work(sim,id)
+  var active=sim.capture_feedback(id).unit>=0 or sim.scout_context(id).state=="stopped" or u.has("chart_stop") or Recovery.active(sim,id) or Delivery.active(sim,id) or WarningChain.connected(sim,id) or Witness.active(sim,id)
+  var progress=Witness.work(sim,id)
+  if progress.unit<0:progress=Recovery.work(sim,id)
   if progress.unit<0:progress=Delivery.work(sim,id)
   if progress.unit<0:progress=sim.capture_feedback(id)
   var cues=[]
   if WarningChain.connected(sim,id):cues.append("PWR")
   if not Recovery.cargo(sim,id).is_empty():cues.append("KIT")
   if not Delivery.cargo(sim,id).is_empty():cues.append("DATA")
+  if Witness.carries(sim,id):cues.append("WITNESS")
   if sim.scout_context(id).state=="stopped":cues.append("SCOUT BRAKE" if u.vel.length()>2 else "SCOUT HOLD")
   elif u.has("chart_stop"):cues.append("CHART STOP")
   var captions=cues.map(func(cue):return {"PWR":"SHORE POWER","KIT":"INERT KIT","DATA":"DATA ABOARD" if id==0 else "RAW DATA"}.get(cue,cue))

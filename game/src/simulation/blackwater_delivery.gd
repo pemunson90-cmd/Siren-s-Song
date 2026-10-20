@@ -176,5 +176,5 @@ static func tick(sim,dt:float)->void:
   else:
    job.elapsed+=dt
    if job.elapsed+0.0000001>=4:
-    sim._collect_blackwater_wreck(id,state.wrecks[job.item].pos);state.jobs[id]={};unit.hold=""
+    sim._collect_shared_wreck(id,state.wrecks[job.item].pos);state.jobs[id]={};unit.hold=""
     sim.message="Raw buffer recovered · "+("aboard Quietus" if id==0 else "local TRANSFER to Quietus still required")

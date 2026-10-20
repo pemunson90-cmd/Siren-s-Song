@@ -1,4 +1,5 @@
 extends Control
+const Witness=preload("res://src/presentation/witness_evacuation_view.gd")
 const EarnedChart=preload("res://src/presentation/earned_chart_view.gd")
 const Expedition=preload("res://src/presentation/expedition_view.gd")
 const Confluence=preload("res://src/presentation/confluence_world.gd")
@@ -57,8 +58,9 @@ func objective_touch_rects(touch:float)->Array:
 	_sync_camera();var result:Array=[]
 	var radius=maxf(touch*.5,38*world_scale)
 	for site in observable_sites():
-		if Rendezvous.replaces_site(sim,site) or site.get("own_origin",false):continue
+		if Rendezvous.replaces_site(sim,site) or Witness.replaces_site(sim,site) or site.get("own_origin",false):continue
 		result.append(Rect2(screen_position(site.pos)-Vector2.ONE*radius,Vector2.ONE*radius*2))
+	result.append_array(Witness.touch_rects(self,sim,touch))
 	return result
 func pick_context(point:Vector2,touch:float) -> Dictionary:
 	_sync_camera();var choices=[]
@@ -78,10 +80,12 @@ func pick_context(point:Vector2,touch:float) -> Dictionary:
 	if not tender.is_empty():return tender
 	return objective_context(point,touch)
 func objective_context(point:Vector2,touch:float)->Dictionary:
+	var witness=Witness.pick(self,sim,point,touch)
+	if not witness.is_empty():return witness
 	# Fixed public sites share their marker's actual hit area with fleet rings.
 	for id in observable_sites().size():
 		var site=observable_sites()[id]
-		if Rendezvous.replaces_site(sim,site):continue
+		if Rendezvous.replaces_site(sim,site) or Witness.replaces_site(sim,site):continue
 		if site.get("own_origin",false):continue
 		if point.distance_to(screen_position(site.pos))<=maxf(touch*.5,38*world_scale):return {"kind":"objective","subkind":"actuator","index":id,"name":site.name,"pos":site.pos} if site.get("site_id","")=="witness_sluice" else {"kind":"objective","index":id,"name":site.name,"pos":site.pos}
 	return Expedition.pick(self,sim,point,touch)
@@ -201,7 +205,7 @@ func _draw() -> void:
 	else:EarnedChart.draw_terrain(self,earned,world_scale)
 	for o in observable_sites():
 		if o.get("own_origin",false):continue
-		if Rendezvous.replaces_site(sim,o) or WarningChain.replaces_site(sim,o):continue
+		if Rendezvous.replaces_site(sim,o) or WarningChain.replaces_site(sim,o) or Witness.replaces_site(sim,o):continue
 		if o.get("kind","")=="receiver":
 			draw_arc(o.pos,26,0,TAU,40,Color("80bdb6"),2)
 			draw_line(o.pos-Vector2(17,0),o.pos+Vector2(17,0),Color("80bdb6"),2)
@@ -220,7 +224,7 @@ func _draw() -> void:
 	# Intelligence marks are briefed coordinates, not live contact observations.
 	for o in observable_sites():
 		if o.get("own_origin",false):continue
-		if Rendezvous.replaces_site(sim,o) or WarningChain.replaces_site(sim,o):continue
+		if Rendezvous.replaces_site(sim,o) or WarningChain.replaces_site(sim,o) or Witness.replaces_site(sim,o):continue
 		var c=CYAN if o.captured else Color("e1b66e")
 		draw_arc(o.pos,43,0,TAU,40,Color(c,0.35),1.4)
 		draw_line(o.pos+Vector2(-14,0),o.pos+Vector2(14,0),c,1)
@@ -238,6 +242,7 @@ func _draw() -> void:
 	preload("res://src/presentation/blackwater_courier_view.gd").draw(self,sim)
 	Rendezvous.draw(self,sim)
 	WarningChain.draw_world(self,sim)
+	Witness.draw_world(self,sim)
 	# Sonar rays stop at actual cover, producing explicit acoustic shadows.
 	if earned.is_empty() and sim.ping_time>0:
 		var radius=(3.5-sim.ping_time)*210
@@ -441,6 +446,7 @@ func _craft(u: Dictionary,index: int) -> void:
 		draw_line(Vector2(-9,-6),Vector2(-9,6),Color("b69251"),3)
 		draw_line(Vector2(9,-5),Vector2(9,5),Color("8a9b9d"),1)
 		draw_circle(Vector2(18,0),3,Color("7edfe4")); draw_line(Vector2(-20,-9),Vector2(-16,9),Color("506e77"),2)
+	Witness.draw_carried(self,sim,index)
 	draw_set_transform(world_offset,0,Vector2.ONE*world_scale)
 	if index==0 and index==sim.selected:
 		var heading=selected_heading_marker()
