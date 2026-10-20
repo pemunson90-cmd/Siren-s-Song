@@ -5,6 +5,15 @@ static func touch(t,index: int,p: Vector2,pressed: bool) -> void:
 static func drag(t,index: int,p: Vector2,delta: Vector2) -> void:
 	var event=InputEventScreenDrag.new(); event.index=index; event.position=p; event.relative=delta
 	t.root.push_input(event,true); await t.process_frame
+static func press(t,button:Button)->void:
+	var point=button.get_global_rect().get_center()
+	await touch(t,0,point,true);await touch(t,0,point,false);await t.process_frame
+static func open_view(t,game)->void:
+	await press(t,game.advanced_button)
+	await press(t,game.mission_hud.extra.view_menu)
+static func close_view(t,game)->void:
+	await press(t,game.mission_hud.close_button)
+	await press(t,game.mission_hud.close_button)
 static func run(t,game) -> void:
 	t.check(game.ocean.has_method("zoom_at"),"chart has presentation-only anchored zoom")
 	if not game.ocean.has_method("zoom_at"): return
@@ -17,7 +26,12 @@ static func run(t,game) -> void:
 	var point=Vector2(800,480)
 	t.check(ocean.map_position(ocean.screen_position(point)).distance_to(point)<0.01,"world and input transform agree after zoom and pan")
 	t.check(game.sim.snapshot()==snapshot,"chart navigation does not change paused simulation or observations")
-	t.check(game.zoom_buttons[2].is_visible_in_tree() and game.mission_hud.focus_button.is_visible_in_tree() and game.zoom_buttons[2].size.y>=44,"FIT and FOCUS have visible touch targets; pinch owns zoom")
+	t.check(not game.zoom_buttons[2].is_visible_in_tree() and not game.mission_hud.focus_button.is_visible_in_tree(),"camera buttons live in VIEW while water keeps direct gestures")
+	await open_view(t,game)
+	t.check(game.mission_hud.page=="view" and game.zoom_buttons[2].is_visible_in_tree() and game.mission_hud.focus_button.is_visible_in_tree() and game.zoom_buttons[2].size.y>=44,"actual FLEET to VIEW exposes full-size camera targets")
+	await press(t,game.mission_hud.focus_button)
+	t.check(ocean.chart_camera.mode=="follow","actual VIEW FOCUS restores selected-craft follow")
+	await close_view(t,game)
 	ocean.fit_chart(); game.sim.command("queue")
 	var destination=Vector2(480,850); var p=ocean.global_position+ocean.screen_position(destination)
 	await touch(t,0,p,true); await touch(t,0,p,false)
@@ -54,8 +68,10 @@ static func run(t,game) -> void:
 	var wheel=InputEventMouseButton.new();wheel.button_index=MOUSE_BUTTON_WHEEL_UP;wheel.position=ocean.global_position+ocean.size/2;wheel.pressed=true;t.root.push_input(wheel,true);await t.process_frame
 	t.check(ocean.chart_camera.zoom>1,"actual chart wheel input zooms the chart")
 	wheel=wheel.duplicate();wheel.pressed=false;t.root.push_input(wheel,true);await t.process_frame
-	await t.click(game.zoom_buttons[2].get_global_rect().get_center())
-	t.check(is_equal_approx(ocean.chart_camera.zoom,1),"actual FIT tap restores the overview")
+	await open_view(t,game)
+	await press(t,game.zoom_buttons[2])
+	t.check(is_equal_approx(ocean.chart_camera.zoom,1),"actual VIEW FIT tap restores the overview")
+	await close_view(t,game)
 	ocean.zoom_at(100,ocean.size/2); t.check(ocean.chart_camera.zoom==4,"chart zoom has a useful upper bound")
 	ocean.zoom_at(0.001,ocean.size/2); t.check(ocean.chart_camera.zoom==1,"zooming out cannot lose the entire chart")
 	orders=game.sim.units[0].route.duplicate(true)
