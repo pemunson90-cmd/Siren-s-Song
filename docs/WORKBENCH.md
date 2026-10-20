@@ -27,7 +27,6 @@ Read docs/USER_DIRECTIVES.md. Pass 0 rows are built at rough quality; V7 recover
 |V7 threat heartbeat/vignette|rough|
 |V7 photographic grading|rough|
 
-Next: fresh full-game touch journeys, rank the biggest player-facing weakness, then improve it.
 User playtest timing never gates development.
 
 Stakes integrated: mission endurance, concurrent craft exposures, visible targeting refusals.

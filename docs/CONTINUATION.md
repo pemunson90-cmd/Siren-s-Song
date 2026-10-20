@@ -25,7 +25,6 @@ A returning player is testing first exposure through explicitly staged access.
 Build a physical Deep Rendezvous tender with local release, sensed transit and
 intercept/refuge decoding; preserve the quiet berth and Quietus-only completion.
 Model and presentation have separate ownership and one combined integration review.
-Compare real reference footage by dimension with source labels withheld.
 The user chooses when to playtest; development never waits for it.
 
 ## Preserve and integrate
