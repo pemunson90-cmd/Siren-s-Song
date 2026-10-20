@@ -1,8 +1,8 @@
 # Continuation
-Current production base: `3e93d4b1cbe1e9739d73fca63cabaff5e057aa6a`.
+Current production base: `6c674871e4b7fd9b4ba4dd65e1731e3763e71a48`.
 Read docs/USER_DIRECTIVES.md first; the latest order correction governs.
 
-## Next — craft-anchored instruments and whole-game evaluation
+## Next — whole-game evaluation and physical campaign consequences
 The rough campaign, four endings, craft upgrades and functional V7 rows are built.
 Stakes integrates operation endurance, independent acquisitions and targeting feedback.
 Confluence has an authored region, earned terrain, physical mouths and noisy sluice.
@@ -23,8 +23,9 @@ physical service shutter or remote mast, explicit output selection/send and two 
 Its record distinguishes actual local receipt from transmission with external reception unknown.
 Source-known physical journeys establish finishability; first-exposure touch play evaluates it.
 The route planner retains existing charted terrain, targets, recovery and shutter state.
-Next replace detached fleet cards with craft-anchored rings and deliberate exact detail.
-Keep critical reserves, work/cargo/power, warnings, full touch targets and free chart gestures.
+Craft-anchored rings replace detached cards; deliberate STATUS retains exact fleet detail.
+Critical reserves, work/cargo/power and full touch targets remain; chart gestures pass through.
+Next continue the genuine campaign and develop a lived evacuation from whole-game evidence.
 The user chooses when to playtest; development never waits for it.
 
 ## Preserve and integrate

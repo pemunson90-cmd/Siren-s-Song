@@ -27,13 +27,13 @@ Read docs/USER_DIRECTIVES.md. Pass 0 rows are built at rough quality; V7 recover
 |V7 threat heartbeat/vignette|rough|
 |V7 photographic grading|rough|
 User playtest timing never gates development.
-
 Stakes integrated: mission endurance, concurrent craft exposures, visible targeting refusals.
 Current play: remaining genuine journey and focused current operations.
 Confluence integrated: authored region, noisy physical sluice, earned world art and departure.
-Next: craft-anchored rings, transient exact readouts and direct contextual actions.
+Craft-anchored rings integrated: transient exact readouts and direct contextual actions.
 Earned-course continuity integrated: retained goals, certified-water repairs, real hazard stops.
 Genuine journeys reached Hidden Harbour, Surface Reckoning and Silent Exodus.
 Physical module salvage integrated: return cargo or lose optional kit; bare frames remain.
 Blackwater delivery integrated: raw buffers return to Q through local transfer or recovery.
 Warning Chain integrated: shore supply/backup, service/mast output and physical exits.
+Next: genuine campaign continuation and a physical evacuation consequence in an existing finale.
