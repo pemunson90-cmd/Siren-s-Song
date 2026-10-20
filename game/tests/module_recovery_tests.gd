@@ -114,6 +114,9 @@ func _initialize():
  check(not Sim.valid_snapshot(bad),"current snapshot rejects unlaunched duplicated module state")
  bad=depart.snapshot();bad.mission.launch_equipment=[]
  check(not Sim.valid_snapshot(bad),"malformed launch equipment rejects before typed module lookup")
+ for dimensions in [[],"1600x960",Vector2(INF,960)]:
+  bad=depart.snapshot();bad.mission.world_size=dimensions
+  check(not Sim.valid_snapshot(bad),"malformed world dimensions reject before typed recovery bounds lookup")
  var launch=Fleet.launch({"quietus":"","drone_a":"","drone_b":""},earned,inventory,1,[0]);var replacements=Sim.new();replacements.start(1,"endurance",launch.launch)
  check(replacements.units[1].alive and replacements.units[2].alive and replacements.units[1].battery==100 and replacements.units[2].battery==100,"losing equipment never removes the guaranteed fresh bare replacement drones")
  finish()
