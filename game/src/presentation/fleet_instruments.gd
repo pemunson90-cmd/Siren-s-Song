@@ -33,6 +33,10 @@ func handle_input(event)->bool:
   for id in buttons.size():
    if buttons[id].is_visible_in_tree() and buttons[id].get_global_rect().has_point(point):pressed_unit=id;break
   if pressed_unit<0:return false
+  # A water finger that was already down belongs to this whole gesture too.
+  # Preserve its multi-touch history before transferring ownership from map.
+  for pointer in host.map_gesture.touches:
+   gesture.feed("press",pointer,host.map_gesture.touches[pointer])
   host.map_gesture.cancel();host.knock_press.clear()
  var action=gesture.feed(kind,index,point)
  if action.has("tap") and pressed_unit>=0 and buttons[pressed_unit].get_global_rect().has_point(point):_activate(pressed_unit)
