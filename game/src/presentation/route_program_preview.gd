@@ -110,7 +110,7 @@ func _draw():
   if site.get("own_origin",false) or preload("res://src/presentation/rendezvous_view.gd").replaces_site(sim,site):continue
   var at=chart_camera.to_screen(site.pos);var color=Color("72d9d3") if site.captured else Color("e1b66e")
   draw_circle(at,6,color,false,1.5)
-  draw_string(chart_font,at+Vector2(10,-8),site.name,HORIZONTAL_ALIGNMENT_LEFT,maxf(1,size.x-at.x-18),navigation_font_size,color)
+  draw_string(chart_font,at+Vector2(10,navigation_font_size+8),site.name,HORIZONTAL_ALIGNMENT_LEFT,maxf(1,size.x-at.x-18),navigation_font_size,color)
  for mouth in sim.extraction_corridors():
   var at=chart_camera.to_screen(mouth.pos);var color=Color("72d9d3") if mouth.available else Color("718387")
   draw_circle(at,maxf(8,64*scale),color,false,1.5)
