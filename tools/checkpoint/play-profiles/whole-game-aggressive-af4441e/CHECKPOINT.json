@@ -1,0 +1,8 @@
+{
+  "source": "af4441e4d98b4b33d27fdbb50272e2fba4329b0f",
+  "profile_sha256": "6f7909e483b22d9486ee1772bf62094ba8702233050836c597ed10eed74cc8ff",
+  "state": "M02 attempt7 paused53.12s hull100 O2 117.05 fulltools bothdronesalive; M01won79.82s; six priorlosses, attempt4transport",
+  "reason": "frozen-source critic assignment replaced by fresh current-version player; Gauntlet continues",
+  "raw_archive": "/workspace/Siren-s-Song-gauntlet-archives/pass0-play/whole-game-aggressive",
+  "next_command": "python3 /workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/play.py --session resume-aggressive-af4441e start --shape inner --source /workspace/Siren-s-Song-next-capability --profile tools/checkpoint/play-profiles/whole-game-aggressive-af4441e/quietus.save"
+}
