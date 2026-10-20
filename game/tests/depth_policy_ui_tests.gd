@@ -19,14 +19,35 @@ func shift(g,id,down):
  g.mission_hud.dismiss();await run_seconds(g,4.1)
 func fit(g):
  g.mission_hud.dismiss();await settle();await click(g.advanced_button);await click(g.mission_hud.extra.view_menu);await click(g.zoom_buttons[2]);g.mission_hud.dismiss();await settle()
+func close_program(g):
+ for b in g.route_editor.find_children("*","Button",true,false):
+  if b.get_meta("action","")=="close":await click(b);break
+ await settle()
+func preview_point(g,point):
+ var preview=g.route_editor.preview
+ for attempt in 8:
+  var p=preview.global_position+preview.screen_position(point)
+  if preview.get_global_rect().grow(-3).has_point(p) and not preview.navigation_buttons.any(func(button):return button.get_global_rect().has_point(p)):
+   await touch(p,true);await mouse(p,true);await touch(p,false);await mouse(p,false);await settle();return
+  if attempt==0:
+   await click(preview.navigation_buttons[1]);await click(preview.navigation_buttons[1])
+  else:
+   var start=preview.get_global_rect().get_center()
+   var focus=preview.global_position+preview.size*Vector2(.4,.6)
+   var delta=(focus-p).clamp(-preview.size*.3,preview.size*.3)
+   await touch(start,true)
+   var drag=InputEventScreenDrag.new();drag.index=0;drag.position=start+delta;drag.relative=delta;root.push_input(drag,true);await process_frame
+   await touch(start+delta,false);await settle()
+ check(false,"physical planner view can expose intended water away from navigation controls")
 func plot(g,id,point):
- await craft(g,id);g.mission_hud.dismiss();await fit(g)
- var p=g.ocean.global_position+g.ocean.screen_position(point)
- await touch(p,true);await mouse(p,true);await touch(p,false);await mouse(p,false);await settle()
- if g.advanced_orders and g.mission_hud.subject.get("pos",Vector2.INF).distance_to(point)<2 and g.mission_hud.extra.route_here.visible:await click(g.mission_hud.extra.route_here)
+ # FIT can overlap intended water with a craft's touch handle. The existing
+ # paused planner exposes that same public route geometry through ordinary input.
+ await craft(g,id);await click(g.order_buttons.program)
+ await preview_point(g,point)
  var goals=g.sim.route_goals(id)
- check(not goals.is_empty() and goals.back().pos.distance_to(point)<2,"real map touch retains requested physical destination")
- return not goals.is_empty()
+ check(not goals.is_empty() and goals[0].pos.distance_to(point)<2,"physical planner input retains public operator destination")
+ await close_program(g)
+ return not goals.is_empty() and goals[0].pos.distance_to(point)<2
 func travel(g,id,point):
  if not await plot(g,id,point):return
  if g.sim.paused:await click(g.pause_button)

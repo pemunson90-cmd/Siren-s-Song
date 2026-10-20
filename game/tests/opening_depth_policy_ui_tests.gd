@@ -1,35 +1,6 @@
 extends "res://tests/depth_policy_ui_tests.gd"
 # Source-known complete opening1–5 journeys. Commands enter through viewport
 # touch plus emulated releases; only simulation time is accelerated.
-func close_program(g):
- for b in g.route_editor.find_children("*","Button",true,false):
-  if b.get_meta("action","")=="close":await click(b);break
- await settle()
-func preview_point(g,point):
- var preview=g.route_editor.preview
- for attempt in 8:
-  var p=preview.global_position+preview.screen_position(point)
-  if preview.get_global_rect().grow(-3).has_point(p) and not preview.navigation_buttons.any(func(button):return button.get_global_rect().has_point(p)):
-   await touch(p,true);await mouse(p,true);await touch(p,false);await mouse(p,false);await settle();return
-  if attempt==0:
-   await click(preview.navigation_buttons[1]);await click(preview.navigation_buttons[1])
-  else:
-   var start=preview.get_global_rect().get_center()
-   var focus=preview.global_position+preview.size*Vector2(.4,.6)
-   var delta=(focus-p).clamp(-preview.size*.3,preview.size*.3)
-   await touch(start,true)
-   var drag=InputEventScreenDrag.new();drag.index=0;drag.position=start+delta;drag.relative=delta;root.push_input(drag,true);await process_frame
-   await touch(start+delta,false);await settle()
- check(false,"physical planner view can expose intended water away from navigation controls")
-func plot(g,id,point):
- # In the tall Split region FIT makes distant water overlap a craft's touch
- # handle. The existing paused planner exposes that same route geometry safely.
- await craft(g,id);await click(g.order_buttons.program)
- await preview_point(g,point)
- var goals=g.sim.route_goals(id)
- check(not goals.is_empty() and goals[0].pos.distance_to(point)<2,"physical planner input retains public operator destination")
- await close_program(g)
- return not goals.is_empty() and goals[0].pos.distance_to(point)<2
 func mode(g,wanted):
  await craft(g,g.sim.selected);await click(g.order_buttons.program)
  var panel=g.route_editor

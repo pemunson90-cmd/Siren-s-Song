@@ -5,10 +5,10 @@ Read USER_DIRECTIVES.md and CURRENT_GAME_SPEC.md for governing scope.
 |---|---|
 |Pass0/V7 and physical finales|Preserved; complete fresh branch evaluation remains|
 |Reusable operation/config foundation|Landed production fb4cf105|
-|Physical depth / advanced sonar|Integrated opening candidate; accumulated validation|
+|Physical depth / advanced sonar|Builder verified opening; independent review pending|
 |First new enemy: active sweeper|Shelf/Blackwater/Well/finale; four further roles remain|
 |Opening policy evidence|Source-known command and injected-input journeys; no blind preference claim|
-|Complete six-operation opening arc|Authored0–5; tool-free command policies pass; touch/affected validation active|
+|Complete six-operation opening arc|Authored0–5; command/input policies pass both views; review pending|
 |28 core/12 optional + replay/challenges|Approved; not yet authored|
 |Fleet/economy/research/artifacts|Approved broader expansion unfinished|
 |World/audio/frontend/settings/accessibility|Approved production expansion unfinished|

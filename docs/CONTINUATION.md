@@ -14,7 +14,7 @@ Implemented candidate:
 - Acquired enemy depth memory; existing beams remain conditional on current sight.
 - Local bearing histories, motion/drone triangulation, own-noise/thermal masking.
 - Sector/power selection, reserve cost, delayed emission-time echoes and occlusion.
-- Receiver-owned sweeper audio, windup/return-strike windows and local stale reports.
+- Receiver-owned listening clocks/sweeper audio, return-strike windows and stale reports.
 - Craft-local controls, shared gesture ownership, waterfall and band feedback.
 - All opening0–5 author distinct band crossings, local threats and ascent cover.
 - Blackwater physical custody, Foundry thermal/motor, Well comparison, finale decode.
@@ -27,11 +27,11 @@ Machinery remains inherited across bands; local sites/recovery use MIDDLE.
 Wreck custody retains its actual band. Current snapshots require depth/sonar state;
 older journeys remain playable only on their preserved source, without migration.
 
-Internal checkpoint: source-known baseline command journeys finish opening0–5;
-new1–5 policies spend no finite tool. Core659/runtime550, interaction59 and
-cover/inner context60 pass. Complete touch-policy and affected checks in progress.
-Next on SAME branch: finish accumulated validation and meaningful fixes, then root
-requests the SAME independent reviewer against the whole opening milestone.
+Builder verification: all0–5 source-known input/render journeys finish on both views;
+new1–5 policies spend no finite tool. Core672/runtime563, interaction72, context60,
+Shelf input118, remaining input404 and rendered Song82 pass.
+Next: root requests the SAME independent reviewer against this accumulated milestone;
+review fixes stay on SAME branch. FIT/craft-handle friction and balance remain findings.
 Only after that review/fixes: final-head CI and normal milestone PR.
 28 core/12 optional, fleet/economy/research/frontend/presentation/audio,
 challenges/replay, expeditions and naval career remain the approved program.
