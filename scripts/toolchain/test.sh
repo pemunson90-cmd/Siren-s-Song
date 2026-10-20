@@ -115,6 +115,7 @@ independent_capture_tests|INDEPENDENT CAPTURE
 independent_capture_ui_tests|INDEPENDENT CAPTURE UI
 turn_safe_navigation_tests|TURN SAFE NAVIGATION
 earned_course_continuity_tests|EARNED COURSE CONTINUITY
+module_recovery_tests|MODULE RECOVERY
 expanded_region_tests|EXPANDED REGION
 expanded_region_journeys|EXPANDED JOURNEYS
 route_program_tests|ROUTE PROGRAM
