@@ -98,6 +98,7 @@ campaign_consequence_tests|CAMPAIGN CONSEQUENCES
 campaign_equipment_save_tests|CAMPAIGN EQUIPMENT SAVE
 onward_mission_tests|ONWARD MISSIONS
 resolution_content_tests|RESOLUTION CONTENT
+confluence_operation_tests|CONFLUENCE OPERATION
 resolution_geometry_tests|RESOLUTION GEOMETRY
 resolution_operations_tests|RESOLUTION OPERATIONS
 resolution_hook_tests|RESOLUTION HOOKS

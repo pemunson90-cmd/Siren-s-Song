@@ -27,6 +27,18 @@ func configure(mission:Dictionary,shapes:Array,saved:Dictionary={})->void:
   var rect=_rect(cell)
   if seed.encloses(rect) and _water(rect.grow(CLEARANCE)):_clear(cell)
  _build_grid()
+# A witnessed opening retires measurements of that physical door. It does not
+# certify the water beyond it; live sensors still have to earn that water.
+func open_structure(rect:Rect2,shapes:Array)->void:
+ _shapes=shapes.duplicate(true);_bounds=[]
+ for polygon in _shapes:_bounds.append(_box(polygon))
+ for cell in return_cells.keys():
+  if rect.grow(1).intersects(_rect(cell),true):return_cells.erase(cell)
+ var retained=[];_surface_keys={}
+ for segment in surface_segments:
+  if rect.grow(1).has_point(segment[0]) and rect.grow(1).has_point(segment[1]):continue
+  retained.append(segment);_surface_keys[_segment_key(segment)]=true
+ surface_segments=retained;generation+=1;_grid_generation=-1
 func snapshot()->Dictionary:
  return {"generation":generation,"clear_cells":clear_cells.duplicate(),"return_cells":return_cells.duplicate(),"surface_segments":surface_segments.duplicate(true)}
 func public_chart()->Dictionary:
