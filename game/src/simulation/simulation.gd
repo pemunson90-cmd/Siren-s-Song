@@ -556,7 +556,7 @@ func command(order: String,args: Dictionary={}) -> bool:
 				_noise(u.pos,520,"CAMERA",2.0,u.band);noises.back()["record"]=context.target
 			events.append({"type":"camera","pos":u.pos})
 		_: return false
-	ModuleRecovery.cancel_released(self,selected)
+	ModuleRecovery.cancel_released(self,selected);Glass.cancel_released(self,selected)
 	Delivery.cancel_released(self,selected)
 	Witness.cancel_released(self,selected)
 	Chain.cancel_released(self,order)

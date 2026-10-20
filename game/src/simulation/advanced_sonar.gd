@@ -92,7 +92,7 @@ static func advance(sim,dt):
    if network:
     row.classification=("LISTENER UPLINK" if enemy.type=="buoy" else "RELAY FORWARDING") if enemy.get("network",{}).get("charge",0)>0 else "STATION TONE"
     if enemy.get("network",{}).get("charge",0)>0 and not sim.sonar.history.any(func(old):return old.station==station and old.enemy==id and old.classification==row.classification and sim.elapsed-old.time<3.):
-     sim.events.append({"type":"carrier_received","receiver":station,"direction":direction,"identity":"network","time":sim.elapsed})
+     sim.events.append({"type":"carrier_received" if enemy.type=="buoy" else "return_received","receiver":station,"direction":direction,"identity":"network","time":sim.elapsed})
    # Correlate an actual received motor tone; indistinguishable received
    # sources suppress positional inference instead of inventing a unique fix.
    var ambiguous=sim.sonar.history.any(func(old):return old.tone==row.tone and old.enemy!=id and sim.elapsed-old.time<=3.)
@@ -128,6 +128,8 @@ static func feedback(sim,station:int)->Dictionary:
   if row.station==station and sim.elapsed-row.time<=20:rows.append(row.duplicate())
  return {"rows":rows,"own_noise":sim.motion_radius(station),"sector":sim.sonar.sector,"power":sim.sonar.power,"listening":maxf(0.,sim.sonar.listening_until[station]-sim.elapsed)}
 static func valid(data)->bool:
+ var fitting=data.mission.get("launch_equipment",{})
+ if not fitting is Dictionary:return false
  var state=data.get("sonar")
  if not state is Dictionary or not state.has_all(["sector","power","pending","history","fixes","clock","listening_until"]) or state.sector not in ["all","forward"] or state.power not in ["low","high"]:return false
  if not state.pending is Array or state.pending.size()>128 or not state.history is Array or state.history.size()>MAX_HISTORY or not state.fixes is Dictionary:return false
@@ -136,11 +138,11 @@ static func valid(data)->bool:
  if not state.listening_until is Array or state.listening_until.size()!=3:return false
  for station in 3:
   var until=state.listening_until[station]
-  var reach=POWERS.high.radius*(1.4 if station==0 and data.mission.get("launch_equipment",{}).get("quietus","")=="quietus_prism" else 1.)
+  var reach=POWERS.high.radius*(1.4 if station==0 and fitting.get("quietus","")=="quietus_prism" else 1.)
   if not _number(until) or (until!=-1. and (until<0 or until>time+2*reach/SOUND_SPEED+.001)):return false
  for packet in state.pending:
   if not packet is Dictionary or not packet.has_all(["kind","due","time","station","band","origin"]) or packet.kind not in ["echo","terrain"]:return false
-  if not _number(packet.due) or not _number(packet.time) or packet.time<0 or packet.time>time or packet.due<time or packet.due>time+2*POWERS.high.radius*(1.4 if packet.get("station",-1)==0 and data.mission.get("launch_equipment",{}).get("quietus","")=="quietus_prism" else 1.)/SOUND_SPEED+.001:return false
+  if not _number(packet.due) or not _number(packet.time) or packet.time<0 or packet.time>time or packet.due<time or packet.due>time+2*POWERS.high.radius*(1.4 if packet.get("station",-1)==0 and fitting.get("quietus","")=="quietus_prism" else 1.)/SOUND_SPEED+.001:return false
   if not packet.station is int or packet.station<0 or packet.station>2 or not packet.band is int or packet.band<0 or packet.band>2 or not packet.origin is Vector2 or not packet.origin.is_finite():return false
   if packet.kind=="echo":
    if not packet.get("emitter_band") is int or packet.emitter_band not in [0,1,2] or not packet.get("enemy") is int or packet.enemy<0 or packet.enemy>=data.sirens.size() or not packet.get("pos") is Vector2 or not packet.pos.is_finite() or not _number(packet.get("tone")) or packet.tone<40 or packet.tone>2000 or not packet.get("direction") is Vector2 or not packet.direction.is_finite() or packet.direction.length()<.99 or packet.direction.length()>1.01 or not packet.get("direct") is bool or packet.get("type") not in ["patroller","sentinel","hunter","sweeper","buoy","relay"]:return false

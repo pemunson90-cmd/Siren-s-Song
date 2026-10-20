@@ -71,6 +71,9 @@ func objective_touch_rects(touch:float)->Array:
 	return result
 func pick_context(point:Vector2,touch:float) -> Dictionary:
 	_sync_camera();var choices=[]
+	if sim.mission.has("glass_reach") and sim.mission.glass_reach.artifact.is_empty():
+		var pos=sim.mission.glass_reach.work_pos
+		if point.distance_to(screen_position(pos))<maxf(touch*.5,24*world_scale):return {"kind":"objective","subkind":"glass_work","name":"REACH MACHINERY","pos":pos}
 	for marker in salvage_markers():
 		if marker.rect.has_point(point):return {"kind":"salvage","item":marker.site.item,"name":marker.site.name.to_upper(),"pos":marker.site.pos}
 	var shelter=Shelf.pick(self,sim,point,touch,false)
@@ -307,6 +310,10 @@ func _draw() -> void:
 					draw_arc(dest.pos,10,0,TAU,24,CYAN,2); draw_circle(dest.pos,3,CYAN)
 				last=dest.pos
 		_craft(u,i)
+	if sim.mission.has("glass_reach") and sim.mission.glass_reach.artifact.is_empty():
+		var at=sim.mission.glass_reach.work_pos
+		draw_rect(Rect2(at-Vector2.ONE*20,Vector2.ONE*40),Color("d8c591"),false,2./world_scale)
+		draw_line(at-Vector2(30,0),at+Vector2(30,0),Color("d8c591"),1.5/world_scale)
 	# Only own launcher range and legitimately cached targets; beams draw afterward.
 	if knock_targeting and sim.selected==0 and sim.units[0].alive:
 		draw_arc(sim.units[0].pos,sim.KNOCK_RANGE,0,TAU,64,Color(0.7,0.85,0.8,0.5),1.5/world_scale)

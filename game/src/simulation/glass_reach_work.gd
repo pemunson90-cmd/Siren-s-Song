@@ -9,12 +9,13 @@ static func sites(sim)->Array:
  return [{"item":item(sim),"name":a.id.replace("_"," ").to_upper(),"pos":a.pos,"band":a.band}] if not a.is_empty() and a.state in ["site","wreck"] else []
 static func decoder(sim)->bool:return sim.mission.launch_equipment.get("quietus","")=="quietus_decoder"
 static func context(sim,action:String,unit:int=-1)->Dictionary:
- var result={"ready":false,"reason":"No Reach task here","pos":Vector2.ZERO,"duration":8.,"active":false,"elapsed":0.,"claimed_by":-1}
+ var result={"ready":false,"reason":"No Reach task here","pos":Vector2.ZERO,"duration":8.,"active":false,"elapsed":0.,"claimed_by":-1,"distance":0.,"range":60.,"noise_radius":520.}
  if not applies(sim.mission):return result
  if unit<0:unit=sim.selected
  var state=sim.mission.glass_reach;var body=sim.units[unit];var a=state.artifact
  result.pos=a.pos if action=="recover" and not a.is_empty() else state.work_pos
  result.duration=4. if action=="recover" else 2. if action=="gate" and decoder(sim) else 8.
+ result.distance=body.pos.distance_to(result.pos);result.range=120. if action=="gate" and decoder(sim) else 60.
  var band=a.band if action=="recover" and not a.is_empty() else 1
  if not sim.outcome.is_empty():result.reason="Dive ended"
  elif not body.alive:result.reason="Craft lost"
@@ -57,6 +58,8 @@ static func open_gate(sim):
  var state=sim.mission.glass_reach
  if not state.has("gate"):return
  sim.mission.structures.erase(state.gate);state.gate_open=true;sim._build_navigation();sim.opened_terrain(state.gate);sim._use_band(sim.units[sim.selected].band)
+static func cancel_released(sim,id:int):
+ if busy(sim,id) and sim.units[id].hold!="HOLD":sim.mission.glass_reach.job={}
 static func tick(sim,dt:float):
  if not applies(sim.mission):return
  var state=sim.mission.glass_reach;var a=state.artifact
@@ -111,7 +114,8 @@ static func status(sim)->Dictionary:
  return {"actions":actions,"artifact":a.duplicate(true),"work_pos":sim.mission.glass_reach.work_pos,"choice":sim.mission.glass_reach.choice,"detail":"REACH WORK · "+("material "+a.get("state","")+" / "+a.get("id","") if not a.is_empty() else "local machinery / "+sim.mission.glass_reach.choice)+"\n"+"\n".join(actions.keys().map(func(k):return k.to_upper()+" · "+actions[k].reason))}
 static func valid(data:Dictionary)->bool:
  var m=data.mission
- if not applies(m):return not m.has("glass_reach")
+ if not preload("res://src/campaign/operation_catalog.gd").supports(m.get("id",-1),"glass_reach"):return not m.has("glass_reach")
+ if not m.get("glass_reach") is Dictionary:return false
  var state=m.glass_reach
  if not state is Dictionary or not state.has_all(["work_pos","job","choice","gate_open","artifact","retrieved"]) or not state.work_pos is Vector2 or not state.job is Dictionary or state.choice not in ["","service","sever","vane"] or not state.gate_open is bool or not state.artifact is Dictionary or not state.retrieved is bool:return false
  var a=state.artifact

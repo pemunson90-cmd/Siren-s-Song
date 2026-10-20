@@ -69,7 +69,7 @@ static func valid_definition(d)->bool:
  var sample=factory.build(d.config,{}) if factory.has_method("build") else factory.make(d.config.source_id,{}) if d.config.history else factory.make(d.config.source_id)
  if not sample is Dictionary or not sample.has_all(["id","objectives","sirens","extraction","rocks"]):return false
  if d.campaign!=sample.has("expedition_revision"):return false
- var payloads={"packet_delivery":"blackwater_delivery","tender":"rendezvous_transport","warning_plant":"warning_chain","witness":"witness_evacuation","recipient":"warning_recipient","resolution":"resolution_revision"}
+ var payloads={"packet_delivery":"blackwater_delivery","tender":"rendezvous_transport","warning_plant":"warning_chain","witness":"witness_evacuation","recipient":"warning_recipient","resolution":"resolution_revision","glass_reach":"glass_reach"}
  for behavior in payloads:
   if (behavior in d.behaviors)!=sample.has(payloads[behavior]):return false
  if ("signals_v1" in d.behaviors)!=(sample.get("expedition_revision",0)==1) or ("signals_v2" in d.behaviors)!=(sample.get("expedition_revision",0)==2):return false

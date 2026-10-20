@@ -107,7 +107,12 @@ Current spec is revisable by new user direction and evidence-driven Gauntlet imp
 Glass Reach is the current integrated content batch after the depth/sonar opening.
 Operations14–19 and optional20–21 add authored mineral/thermal crossings, a physical
 listening-buoy/communications-relay network, local service choices and two recoverable
-materials for optional practical research. Source is under construction; authored
-layouts and focused runtime checks do not establish full journeys or balance.
+materials for optional practical research. The accumulated candidate implements all
+eight operations, ordinary continuation/replay, physical local work and material-cost
+research. Source-known Quietus-only production-physics journeys finish every core
+without finite tools or advanced fittings and both optional material returns; reward
+uses, choice-dependent finale topology, current saves and representative cover/inner
+input are checked. These establish technical viability, not balance or enjoyment.
 Either recovered12/13 outcome leads onward without replacing its committed history.
-Bare Quietus completion without finite tools remains required for each new core dive.
+Independent accumulated review and mandatory exact-head CI remain integration gates;
+after landing, continue substantial playable campaign content toward the release scope.

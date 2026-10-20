@@ -16,6 +16,8 @@ func fixture(id=20):
 func _initialize():
  var s=fixture();check(s.has_method("glass_context"),"local material and machinery work exists")
  if not s.has_method("glass_context"):finish();return
+ var missing=s.snapshot();missing.mission.erase("glass_reach")
+ check(not Sim.valid_snapshot(missing),"current new-region snapshot cannot omit its physical work/custody payload")
  check(s.command("glass_action",{"action":"recover"}),"actual local carrier starts audible material winch")
  tick(s,1);var before=s.snapshot();check(Sim.valid_snapshot(before),"partial material recovery is a valid current snapshot")
  var restored=Sim.new();var restored_ok=restored.restore(before);check(restored_ok,"partial material recovery restores")
@@ -27,7 +29,9 @@ func _initialize():
  check(s.command("glass_action",{"action":"transfer","carrier":1}) and s.mission.glass_reach.artifact.carrier==0,"real local same-depth transfer puts material on Quietus")
  for kind in ["route","loss","band","blocked"]:
   s=fixture();s.command("glass_action",{"action":"recover"});tick(s,1.)
-  if kind=="route":s.command("route",{"point":s.units[1].pos+Vector2(0,160)})
+  if kind=="route":
+   s.command("route",{"point":s.units[1].pos+Vector2(0,160)})
+   check(s.mission.glass_reach.job.is_empty(),"accepted paused route immediately releases material work")
   if kind=="loss":s.units[1].alive=false
   if kind=="band":s.units[1].band=2
   if kind=="blocked":s.mission.structures.append(Rect2(s.units[1].pos-Vector2(10,20),Vector2(20,10)))

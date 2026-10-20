@@ -16,6 +16,7 @@ func _initialize():
   check(s.mission.id==id and not s.mission.objectives.is_empty() and s.mission.world_size.x>=2000,"real playable Glass Reach operation "+str(id))
   check(Sim.valid_snapshot(s.snapshot()),"new operation initial depth/network/custody snapshot "+str(id))
   var restored=Sim.new();check(restored.restore(s.snapshot()),"new operation restores "+str(id))
+  check(s.sirens.all(func(e):return s.Depth.clear(s,e.pos,e.pos,e.band,16)),"authored network and guards occupy real open water "+str(id))
   shapes.append(var_to_str(s.mission.rocks))
  check(shapes.size()==8 and shapes.count(shapes[0])==1 if not shapes.is_empty() else false,"eight separately authored physical topologies")
  check(Catalog.prerequisites_met(14,[12]) and Catalog.prerequisites_met(14,[13]) and not Catalog.prerequisites_met(14,[11]),"region follows either received old outcome")

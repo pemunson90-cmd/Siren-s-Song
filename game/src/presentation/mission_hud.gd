@@ -66,6 +66,8 @@ func setup(owner):
  extra.shelf_alarm=host._button(self,"SOUND ALARM\n1200m / ONCE",func():host._order("shelf_alarm"),"shelf_alarm")
  for entry in [["depth_menu","DEPTH / SONAR"],["depth_up","SHALLOWER"],["depth_down","DEEPER"],["sonar_sector","SECTOR"],["sonar_power","POWER"],["sonar_emit","EMIT SONAR"],["sonar_history","HISTORY"]]:
   var key=entry[0];extra[key]=host._button(self,entry[1],func():_extra(key),key)
+ for pair in [["work","REACH WORK"],["recover","RECOVER\nMATERIAL"],["transfer","TRANSFER\nTO QUIETUS"],["service","RESTORE\nSERVICE"],["sever","SEVER\nSPUR"],["vane","RELEASE\nVANE"],["gate","OPEN\nLOCAL GATE"],["withdraw","WITHDRAW\nAT SOUTH"],["route","ROUTE TO\nREACH WORK"]]:
+  var key="glass_"+pair[0];extra[key]=host._button(self,pair[1],func():_extra(key),key)
  extra.wake_playback=host._button(self,"PLAY OLD LOOP\nONCE ·15s",func():host._order("wake_playback"),"wake_playback")
  for entry in [["warning_exposed","EXPOSED\nUNGATED COURSE"],["warning_sheltered","SHELTERED\nSERVICE COURSE"],["warning_gate","OPEN SERVICE\n650m / 6s"]]:
   var key=entry[0];extra[key]=host._button(self,entry[1],func():_extra(key),key)
@@ -133,6 +135,14 @@ func _back():
  elif page in ["craft","object","fleet","salvage","plant","habitat","recovery"]:dismiss()
  else:open("habitat" if subject.get("kind","")=="habitat" else "plant" if subject.get("kind","")=="plant" else "object" if subject.get("kind","")=="objective" else "salvage" if subject.get("kind","")=="salvage" else "craft")
 func _extra(key:String):
+ if key=="glass_work":open("glass");return
+ if key=="glass_route":
+  var state=host.sim.glass_context();var a=state.artifact
+  host._order("route",{"point":a.pos if not a.is_empty() and a.state in ["site","wreck"] else state.work_pos});return
+ if key.begins_with("glass_"):
+  var args={"action":key.trim_prefix("glass_")}
+  if args.action=="transfer":args["carrier"]=host.sim.glass_context().artifact.get("carrier",-1)
+  host._order("glass_action",args);return
  if key=="depth_menu":open("acoustics");return
  if key in ["depth_up","depth_down"]:
   host._order("depth",{"band":host.sim.units[host.sim.selected].band+(-1 if key=="depth_up" else 1)});open("acoustics");return
@@ -234,6 +244,13 @@ func _outside(event):
  if (event is InputEventScreenTouch and event.pressed) or (event is InputEventMouseButton and event.pressed):dismiss();accept_event()
 func command_controls() -> Array:
  match page:
+  "glass":
+   var a=host.sim.glass_context().artifact;var controls=[]
+   if not a.is_empty():controls.append(extra.glass_recover if a.state in ["site","wreck"] else extra.glass_transfer)
+   if host.sim.mission.id==15:controls.append(extra.glass_vane)
+   if host.sim.mission.id==18:controls.append_array([extra.glass_service,extra.glass_sever])
+   if host.sim.mission.id in [18,19]:controls.append(extra.glass_gate)
+   return controls+[extra.glass_route,extra.glass_withdraw,extra.inspect]
   "acoustics":return [extra.depth_up,extra.depth_down,extra.sonar_emit,extra.sonar_sector,extra.sonar_power,extra.sonar_history]
   "tools":return [host.order_buttons.decoy,host.order_buttons.emp,host.order_buttons.recon,host.order_buttons.knock]
   "route":return [host.order_buttons.queue,host.order_buttons.hold,host.order_buttons.waypoint_mode,host.order_buttons.home,host.order_buttons.program]
@@ -241,6 +258,7 @@ func command_controls() -> Array:
   "view":return [focus_button,host.zoom_buttons[2],host.zoom_buttons[1],host.zoom_buttons[0]]
   "fleet":return host.unit_buttons+([extra.arrivals] if Expedition.active(host.sim) else [])+[extra.view_menu,host.order_buttons.menu]
   "object":
+   if subject.get("subkind","")=="glass_work":return [extra.glass_work,extra.route_here,extra.inspect]
    if subject.get("subkind","")=="wake_repeater":return [extra.wake_playback,extra.route_here,extra.inspect]
    if subject.get("subkind","")=="concealed":return ([extra.concealed_seat] if not subject.get("seat","").is_empty() else [extra.concealed_attach,extra.concealed_release])+[extra.route_here,extra.inspect]
    if subject.get("subkind","")=="warning_recipient":return [extra.warning_exposed,extra.warning_sheltered,host.order_buttons.camera,extra.route_here,extra.inspect]
@@ -252,6 +270,7 @@ func command_controls() -> Array:
   "delivery":return [extra.blackwater_a,extra.blackwater_b,extra.inspect]
   "inspect","signals","recovery":return []
  var controls=[host.order_buttons.camera,extra.depth_menu,host.order_buttons.silent,host.order_buttons.program,extra.route_menu,extra.tools_menu,extra.guard_menu,extra.inspect]
+ if not host.sim.glass_context().is_empty():controls.append(extra.glass_work)
  if Witness.carries(host.sim,host.sim.selected):controls[0]=extra.witness_land
  if Concealed.status(host.sim).get("known",false):controls.append(extra.concealed_work)
  if not Delivery.status(host.sim).is_empty():
@@ -323,7 +342,8 @@ func refresh():
  extra.depth_down.text="↓ "+sim.Depth.NAMES[mini(2,u.band+1)];extra.depth_down.disabled=u.band==2 or not transition.is_empty()
  extra.sonar_sector.text="SECTOR\n"+("ALL360°" if sim.sonar.sector=="all" else "FORWARD90°")
  extra.sonar_power.text="POWER\n"+sim.sonar.power.to_upper()
- extra.sonar_emit.text="EMIT\n"+("%.1f RESERVE"%sim.Sonar.POWERS[sim.sonar.power].cost);extra.sonar_emit.disabled=sim.ping_time>0 or not transition.is_empty()
+ var prism_pulse=sim.selected==0 and sim.mission.launch_equipment.get("quietus","")=="quietus_prism" and sim.sonar.sector=="forward"
+ extra.sonar_emit.text="EMIT\n"+("%.1f RESERVE"%(sim.Sonar.POWERS[sim.sonar.power].cost*(2. if prism_pulse else 1.)));extra.sonar_emit.disabled=sim.ping_time>0 or not transition.is_empty()
  subject=Concealed.refresh_subject(sim,Recipient.refresh_subject(sim,Rendezvous.refresh_subject(sim,subject)))
  host.pause_button.text="PAUSED\n▶ RUN" if sim.paused else "Ⅱ\nPAUSE"
  host.advanced_button.text="FLEET"
@@ -433,6 +453,14 @@ func refresh():
  if page=="inspect" and sim.selected==0:
   var correlation=Equipment.correlation_detail(sim)
   if not correlation.is_empty():instrument_info.text+="\n\n"+correlation
+ var reach=sim.glass_context()
+ if not reach.is_empty():
+  for action in reach.actions:
+   var button=extra["glass_"+action];button.disabled=not reach.actions[action].ready;button.tooltip_text=reach.actions[action].reason
+  extra.glass_transfer.disabled=reach.artifact.get("state","")!="cargo" or reach.artifact.get("carrier",-1)<1
+  extra.glass_withdraw.disabled=sim.selected!=0 or sim.units[0].band!=1 or sim.units[0].pos.distance_to(sim.mission.extraction)>65
+  if page=="glass":instrument_info.text=reach.detail+"\n"+sim.message
+  elif not reach.artifact.is_empty() and reach.artifact.get("carrier",-1)==sim.selected:instrument_info.text+="\nMATERIAL ABOARD · "+reach.artifact.id+" · recover this carrier"
  if page=="recovery":instrument_info.text="%s · CHOOSE RECOVERY\n%s APPROACH"%[sim.units[sim.selected].name+" · "+sim.Depth.NAMES[sim.units[sim.selected].band],"QUEUE" if sim.queue_mode else "REPLACE"]
  if not host.advanced_orders:
   extra.arrivals.hide()

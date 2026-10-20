@@ -57,7 +57,7 @@ static func advance(sim,dt:float):
     if packet.hops>=2 or state.cooldown>0 or not state.packet.is_empty() or state.last==key(packet):continue
     state.packet=packet.duplicate(true);state.packet.hops+=1;state.last=key(packet);state.charge=0.
     sim._noise(peer.pos,380.,"BUOY REPORT WINDUP",3.,peer.band)
-   elif peer.get("type","") not in ROLES and peer.get("target",-1)<0:
+   elif peer.get("type","") not in ROLES and peer.get("target",-1)<0 and peer.get("attention_time",0)<=0:
     peer.goal=packet.point;peer["last_known"]=packet.point;peer["known_band"]=packet.band
     peer["attention_time"]=minf(8.,packet.expires-sim.elapsed);peer.suspicion=maxf(peer.suspicion,.35);peer.mode="INVESTIGATE";peer.path_time=0.;peer.route=[]
 static func feedback(sim)->Array:
