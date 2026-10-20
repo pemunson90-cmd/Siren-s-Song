@@ -1,6 +1,7 @@
 extends Control
 const EarnedChart=preload("res://src/presentation/earned_chart_view.gd")
 const Expedition=preload("res://src/presentation/expedition_view.gd")
+const Confluence=preload("res://src/presentation/confluence_world.gd")
 var sim
 var optical_feed
 var siren_ray=preload("res://assets/craft/siren_ray.png")
@@ -165,6 +166,11 @@ func _draw() -> void:
 	# Bedrock and columnar basalt are original deterministic constructions.
 	if earned.is_empty():
 		for r in sim.mission.rocks: _rock(r)
+	elif sim.mission.id==11:
+		Confluence.draw_terrain(self,earned,world_scale,Rect2(-world_offset/world_scale,size/world_scale))
+		if sim.has_method("confluence_context"):
+			var context=sim.confluence_context();context["surface_segments"]=earned.get("surface_segments",[])
+			Confluence.draw_landmarks(self,context,world_scale)
 	else:EarnedChart.draw_terrain(self,earned,world_scale)
 	for o in observable_sites():
 		if o.get("own_origin",false):continue
@@ -480,8 +486,9 @@ func _siren(p: Vector2,angle: float,fresh: bool,role: String="patroller",pin_tim
 		# The same original biological material has distinct station/response profiles.
 		var body=Rect2(-67,-40,134,80)
 		if role=="sentinel": body=Rect2(-58,-53,116,106)
-		elif role=="hunter": body=Rect2(-79,-30,158,60)
-		draw_texture_rect(siren_ray,body,false,Color(lerpf(0.25,1.0,depth),lerpf(0.44,1.0,depth),lerpf(0.55,1.0,depth),lerpf(0.45,1.0,depth)))
+		var shade=Color(lerpf(0.25,1.0,depth),lerpf(0.44,1.0,depth),lerpf(0.55,1.0,depth),lerpf(0.45,1.0,depth))
+		if role=="hunter":Confluence.draw_hunter(self,sim.elapsed,shade)
+		else:draw_texture_rect(siren_ray,body,false,shade)
 		if pin_time>0:
 			for x in [-25.0,0.0,25.0]:
 				draw_arc(Vector2(x,0),26,-PI*0.45,PI*0.45,16,Color("85b1b4"),2.0)
@@ -490,9 +497,6 @@ func _siren(p: Vector2,angle: float,fresh: bool,role: String="patroller",pin_tim
 		if role=="sentinel":
 			for side in [-1,1]:
 				draw_line(Vector2(-18,side*39),Vector2(14,side*48),Color("b6a58b"),2)
-		elif role=="hunter":
-			draw_line(Vector2(-57,-15),Vector2(-76,-26),Color("b6a58b"),2)
-			draw_line(Vector2(-57,15),Vector2(-76,26),Color("b6a58b"),2)
 	else:
 		draw_arc(Vector2.ZERO,24,0,TAU,6,Color("956d63"),1.5)
 		draw_line(Vector2(-12,0),Vector2(12,0),Color("956d63"),1)

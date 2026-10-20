@@ -362,6 +362,8 @@ func _unhandled_key_input(event: InputEvent) -> void:
 			elif knock_armed or decoy_armed:_primary_action()
 			else:sim.paused=true;_show_campaign()
 func _clear_menu() -> void:
+	var resolution=get_node_or_null("ConfluenceResolution")
+	if resolution!=null:remove_child(resolution);resolution.queue_free()
 	advanced_orders=false
 	if mission_hud!=null:mission_hud.instruments_open=false
 	if route_editor!=null: route_editor.hide()
@@ -621,6 +623,9 @@ func _report_targets() -> void:
 			if control.is_visible_in_tree() and control.has_meta("action"): buttons[control.get_meta("action")]=control
 	elif hud.visible:
 		buttons=mission_hud.action_controls()
+	elif get_node_or_null("ConfluenceResolution")!=null:
+		for child in get_node("ConfluenceResolution").actions.get_children():
+			if child is Button and child.has_meta("action"):buttons[child.get_meta("action")]=child
 	else:
 		for child in panel_box.get_children()+menu_footer.get_children():
 			if child is Button and child.has_meta("action"): buttons[child.get_meta("action")]=child
@@ -753,6 +758,9 @@ func _ui_metrics(capture_phase: String="layout_only") -> Dictionary:
 			if control.has_meta("action"): targets[control.get_meta("action")]=control
 	elif hud.visible:
 		targets=mission_hud.action_controls()
+	elif get_node_or_null("ConfluenceResolution")!=null:
+		for child in get_node("ConfluenceResolution").actions.get_children():
+			if child is Button and child.has_meta("action"):targets[child.get_meta("action")]=child
 	else:
 		var candidates=menu.find_children("*","Button",true,false)+menu.find_children("*","Slider",true,false)
 		for control in candidates: targets[control.get_meta("action",control.get_meta("ui_action",str(control.get_instance_id())))]=control
