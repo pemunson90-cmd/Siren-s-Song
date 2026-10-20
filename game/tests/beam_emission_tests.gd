@@ -24,6 +24,8 @@ func _initialize():
  check(not s.contact_visible(e),"disrupted attacker grants no beam emission")
  e.stun=0.;s.mission.structures=[Rect2(970,800,20,100)];s._build_navigation()
  check(not s.contact_visible(e),"physical cover blocks emission observation")
+ s=fixture();s.mission.darkness=false;s.units[0].silent=false;e=s.sirens[0];e.pos=Vector2(1170,840);e.target=0;e.lock=1.
+ check(not s.visible(e.pos) and s.contact_visible(e),"cruise-range beam emission remains visible outside ordinary passive reach")
  s=fixture();e=s.sirens[0];e.pos=Vector2(1100,840);e.target=0;e.lock=1.;e.alert_floor=.24
  check(s.contact_visible(e),"earned hostile readiness range shares the same observable charge rule")
  e.pos=Vector2(1300,840)
