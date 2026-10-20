@@ -775,22 +775,24 @@ func scout_context(unit_id:int=-1)->Dictionary:
 # Chart/optical visibility stays independent. Thermal masking affects receiver
 # contacts, not terrain knowledge, photography or a visible beam on our craft.
 func contact_visible(enemy:Dictionary)->bool:
-	if mission.get("thermal_revision",0)!=1: return visible(enemy.pos)
-	if WorldRegion.survey_visible(self,enemy.pos): return true
-	for i in units.size():
-		var u=units[i]
-		if not u.alive: continue
-		var radius=passive_range(i)
-		radius*=Thermal.transmission(PackedVector2Array([u.pos,enemy.pos]),mission.thermal_fronts)
-		if u.pos.distance_to(enemy.pos)<radius and line_clear(u.pos,enemy.pos): return true
-	var ping_range=650*Thermal.transmission(PackedVector2Array([ping_origin,enemy.pos]),mission.thermal_fronts)
-	if ping_time>0 and ping_origin.distance_to(enemy.pos)<ping_range and line_clear(ping_origin,enemy.pos): return true
+	if mission.get("thermal_revision",0)!=1:
+		if visible(enemy.pos):return true
+	else:
+		if WorldRegion.survey_visible(self,enemy.pos): return true
+		for i in units.size():
+			var u=units[i]
+			if not u.alive: continue
+			var radius=passive_range(i)
+			radius*=Thermal.transmission(PackedVector2Array([u.pos,enemy.pos]),mission.thermal_fronts)
+			if u.pos.distance_to(enemy.pos)<radius and line_clear(u.pos,enemy.pos): return true
+		var ping_range=650*Thermal.transmission(PackedVector2Array([ping_origin,enemy.pos]),mission.thermal_fronts)
+		if ping_time>0 and ping_origin.distance_to(enemy.pos)<ping_range and line_clear(ping_origin,enemy.pos): return true
 	# The actual charging line is an observable emission. Never infer a remote
 	# or decaying lock, a stunned attacker, or a beam behind physical cover.
 	var target=int(enemy.get("target",-1))
 	if enemy.get("lock",0)<=0 or enemy.get("stun",0)>0 or target<0 or target>=units.size(): return false
 	var craft=units[target]
-	return craft.alive and craft.pos.distance_to(enemy.pos)<(180.0 if craft.silent else 290.0) and line_clear(craft.pos,enemy.pos)
+	return craft.alive and craft.pos.distance_to(enemy.pos)<(180.0 if craft.silent else 290.0)*Recon.readiness(enemy) and line_clear(craft.pos,enemy.pos)
 func visible(p: Vector2) -> bool:
 	if WorldRegion.survey_visible(self,p): return true
 	for i in units.size():
