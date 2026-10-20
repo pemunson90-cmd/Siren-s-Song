@@ -8,7 +8,7 @@ Read docs/USER_DIRECTIVES.md. Pass 0 rows are built at rough quality; V7 recover
 |7 Deep Rendezvous: physical tender and quiet fallback|rough integrated|
 |8 Shelf Return|rough|
 |9 Wake Crossing|rough|
-|10 Warning Chain|rough|
+|10 Warning Chain: physical power and output machinery|rough integrated|
 |11 Confluence: authored region and physical return choices|rough integrated|
 |12 Concealed Record|rough|
 |13 Open Warning|rough|
@@ -29,11 +29,11 @@ Read docs/USER_DIRECTIVES.md. Pass 0 rows are built at rough quality; V7 recover
 User playtest timing never gates development.
 
 Stakes integrated: mission endurance, concurrent craft exposures, visible targeting refusals.
-Current play: fresh cover/inner journeys plus drone-heavy and Quietus-only continuations.
+Current play: remaining genuine journey and focused current operations.
 Confluence integrated: authored region, noisy physical sluice, earned world art and departure.
-Fleet instruments integrated: bounded craft handles, read-only status and route-first gestures.
+Next: craft-anchored rings, transient exact readouts and direct contextual actions.
 Earned-course continuity integrated: retained goals, certified-water repairs, real hazard stops.
 Genuine journeys reached Hidden Harbour, Surface Reckoning and Silent Exodus.
 Physical module salvage integrated: return cargo or lose optional kit; bare frames remain.
 Blackwater delivery integrated: raw buffers return to Q through local transfer or recovery.
-Next: Warning Chain positional power, output machinery and tactical withdrawal.
+Warning Chain integrated: shore supply/backup, service/mast output and physical exits.

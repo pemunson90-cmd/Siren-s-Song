@@ -17,7 +17,8 @@ Stakes, the authored Confluence and practical fleet instruments are integrated.
 Earned-course continuity and physical module recovery are integrated; optional kit now has a lasting fleet consequence.
 The physical Deep Rendezvous tender is integrated with its quiet fallback.
 Route-first fleet interaction and Blackwater packet delivery are integrated. Collected raw buffers now require local delivery to Quietus.
-Continue genuine whole-game evaluation and develop Warning Chain through positional power, physical outputs and withdrawal choices.
+Warning Chain now integrates positional power, physical outputs and withdrawal choices; continue genuine and explicitly staged first-exposure evaluation.
+Next develop craft-anchored fleet rings and deliberate exact readouts from actual campaign control interference, preserving critical information and full touch targets.
 Genuine full-game journeys continue; focused Confluence play uses explicitly staged access.
 The user’s camera-control tweak is implemented: FOCUS/FIT/zoom live under FLEET → VIEW; direct drag/pinch remain.
 Observed-task automation, TASK/NONE and new chapter IDs stay shelved on their published branches.
