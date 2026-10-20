@@ -1,0 +1,2176 @@
+{
+  "archive": "/workspace/Siren-s-Song-gauntlet-archives/cold-frames/whole-game-cautious-reconnected-1-rgb-0001.mkv",
+  "frames": [
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792467957315313471.png",
+      "index": 1,
+      "format": 5,
+      "sha256": "01d87ef7939c4d3f379247eb2e43fd0eaccaf9fb89f9565d28ebacf7095bc094",
+      "bytes": 930410,
+      "inode": 1710793,
+      "mtime_ns": 1792467958379596472
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792467982493310823.png",
+      "index": 2,
+      "format": 5,
+      "sha256": "fc9efdb2174194a3e038030c626ee822f68731ffedcecaf2884e23003295223d",
+      "bytes": 973624,
+      "inode": 1710807,
+      "mtime_ns": 1792467983009914134
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468004376918347.png",
+      "index": 3,
+      "format": 5,
+      "sha256": "e8f0586afe3725696705d6cea84aba7ecd71787f9c1332613c9fe13c261bec85",
+      "bytes": 948970,
+      "inode": 1711549,
+      "mtime_ns": 1792468005370533947
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468005582059687.png",
+      "index": 4,
+      "format": 5,
+      "sha256": "dc28c35f8248f8ef21a448280a5b2732396ef4af415a7cf1fa144377357cbf6e",
+      "bytes": 940738,
+      "inode": 1711551,
+      "mtime_ns": 1792468006444533234
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468022989173993.png",
+      "index": 5,
+      "format": 5,
+      "sha256": "2d50697f8a3c885080b860d8702fdf9bfe6c46e13537a8c8f345700d35502845",
+      "bytes": 1011611,
+      "inode": 1711560,
+      "mtime_ns": 1792468023631566675
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468060640089130.png",
+      "index": 6,
+      "format": 5,
+      "sha256": "5849684ef16f1f7c0642bac2875d81134604375f06cd51f14c59b636cac73479",
+      "bytes": 1035883,
+      "inode": 1711559,
+      "mtime_ns": 1792468061985093719
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468062238734004.png",
+      "index": 7,
+      "format": 5,
+      "sha256": "00ca91549fe8053ebf88fc12445f0c097f4ac2a5536dbafaaeb0c1ce77a3f920",
+      "bytes": 1061923,
+      "inode": 1711575,
+      "mtime_ns": 1792468062993807810
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468079682405260.png",
+      "index": 8,
+      "format": 5,
+      "sha256": "338fbac4093ad6e7ff5f78fa584e583a6612846c5cbf501120e734d95d13e02f",
+      "bytes": 1043700,
+      "inode": 1711589,
+      "mtime_ns": 1792468080734505555
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468080981849915.png",
+      "index": 9,
+      "format": 5,
+      "sha256": "2510cbe1c5061740e4e3723d2209e4aaea79eddd4a839587ce75c35bd2d611fa",
+      "bytes": 1022336,
+      "inode": 1711591,
+      "mtime_ns": 1792468081748738841
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468099373965501.png",
+      "index": 10,
+      "format": 5,
+      "sha256": "8ab00855cf7a2e063c342874e80b5f1228b83cc23099df32adf7afdb19879f7b",
+      "bytes": 1028177,
+      "inode": 1711600,
+      "mtime_ns": 1792468100695571454
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468100896277395.png",
+      "index": 11,
+      "format": 5,
+      "sha256": "b813d9072cd5935c64975105cc5ff9c8fe1e4cdbfbcf4de980059de46d018f21",
+      "bytes": 1034952,
+      "inode": 1711602,
+      "mtime_ns": 1792468101690572578
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468118683632934.png",
+      "index": 12,
+      "format": 5,
+      "sha256": "84c71080da2dc3b816398430931ec42b01ee77d4783f8dc206824c5bebc33ac7",
+      "bytes": 318244,
+      "inode": 1711625,
+      "mtime_ns": 1792468119289094323
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468141985676408.png",
+      "index": 13,
+      "format": 5,
+      "sha256": "50878207c4e37afe5fd0e8d4bcc1810ce5fb473b5ae75ce4a1f569c42f3704d9",
+      "bytes": 270290,
+      "inode": 1711654,
+      "mtime_ns": 1792468142462708822
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468160651641093.png",
+      "index": 14,
+      "format": 5,
+      "sha256": "2cd2859d362a794f38ffe9567639cd085e6f27991a0141af734d54fdab302a3e",
+      "bytes": 230900,
+      "inode": 1711662,
+      "mtime_ns": 1792468161051781942
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468177277545515.png",
+      "index": 15,
+      "format": 5,
+      "sha256": "405fe1b6b67fb164fbc65ca1704a30b097068e9dd33dbf3ff7fdaca0e4a12e16",
+      "bytes": 798695,
+      "inode": 1710554,
+      "mtime_ns": 1792468177864930575
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468196233358252.png",
+      "index": 16,
+      "format": 5,
+      "sha256": "f23bcc30c92b55bb1e93545aac96cee0f077fc3d9fc3409536da241590e1f9e8",
+      "bytes": 1057838,
+      "inode": 1710573,
+      "mtime_ns": 1792468196785509542
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468223567771181.png",
+      "index": 17,
+      "format": 5,
+      "sha256": "a151c0fd88e26678c38d6682c51ad9b54d19f102f9e1094b20029958b1192f21",
+      "bytes": 872359,
+      "inode": 1711696,
+      "mtime_ns": 1792468224073846601
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468249455680663.png",
+      "index": 18,
+      "format": 5,
+      "sha256": "3dbd8a8fce41e44ab0945d862116284d901ecff1e88fbd72a041182732c257eb",
+      "bytes": 881108,
+      "inode": 1711716,
+      "mtime_ns": 1792468250589005207
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468268211722180.png",
+      "index": 19,
+      "format": 5,
+      "sha256": "e049adb5919c4c6bbf446a2fe049b5542439d825f6ab4bf25cb585afe2b748c8",
+      "bytes": 1069859,
+      "inode": 1711714,
+      "mtime_ns": 1792468268766925456
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468268921556532.png",
+      "index": 20,
+      "format": 5,
+      "sha256": "4794e19013318bbc5c1847af5832e188b84ec32cccf4d2f0a1b7306cfe1f3d8c",
+      "bytes": 899308,
+      "inode": 1711729,
+      "mtime_ns": 1792468269497056162
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468289520778483.png",
+      "index": 21,
+      "format": 5,
+      "sha256": "030e12cac86ab8d3086dd3551c6b44a120e8db618d24f87398a74c7b9bebc897",
+      "bytes": 1063871,
+      "inode": 1710779,
+      "mtime_ns": 1792468290328723098
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468312907035952.png",
+      "index": 22,
+      "format": 5,
+      "sha256": "4bb1ed0bc9bea8b8bd952cde0a97f23b5de3846ff25fcae33137d76c45ee64ca",
+      "bytes": 872460,
+      "inode": 1711553,
+      "mtime_ns": 1792468313423690801
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468313634761279.png",
+      "index": 23,
+      "format": 5,
+      "sha256": "ea6daf22926ac75d42d6570ef13a6b780acad7e107004fcf636787a48f352db9",
+      "bytes": 856813,
+      "inode": 1711603,
+      "mtime_ns": 1792468314233107881
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468314432953042.png",
+      "index": 24,
+      "format": 5,
+      "sha256": "5678af3c79f9fac6e344469a583c0bb485d5df9553bb5c5c13d537bb872129f3",
+      "bytes": 1065336,
+      "inode": 1711592,
+      "mtime_ns": 1792468314945799106
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468315152959350.png",
+      "index": 25,
+      "format": 5,
+      "sha256": "7b3b39693ecb6971822d0eff4db19e5050233b9a717e145692222b8f7f742f88",
+      "bytes": 1061467,
+      "inode": 1710777,
+      "mtime_ns": 1792468315729112949
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468339133497190.png",
+      "index": 26,
+      "format": 5,
+      "sha256": "10c14486d9a64c2ead4782ae60b7e5b7a41487c4d059dc2769e558953569c9e4",
+      "bytes": 848190,
+      "inode": 1711665,
+      "mtime_ns": 1792468339671889204
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468339864621609.png",
+      "index": 27,
+      "format": 5,
+      "sha256": "fb7aa6e5ec6cf6c9e28f4cc6554e52bec3818d96045894a33debf9affb55be7e",
+      "bytes": 881024,
+      "inode": 1711548,
+      "mtime_ns": 1792468340478983161
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468340664182893.png",
+      "index": 28,
+      "format": 5,
+      "sha256": "fca1bde73bb6bebe37efa402e460a2b0a11243157ac0fe9f7cad430b7f678e90",
+      "bytes": 1060281,
+      "inode": 1710803,
+      "mtime_ns": 1792468341232118780
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468341455236575.png",
+      "index": 29,
+      "format": 5,
+      "sha256": "9b0b4eb8cc620859692f6771f4cf443760a513a185dc8f756b6b70b0acf51f2f",
+      "bytes": 1053312,
+      "inode": 1710792,
+      "mtime_ns": 1792468342083423844
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468366556893224.png",
+      "index": 30,
+      "format": 5,
+      "sha256": "8e8eafd82e3b9a703d752398880d786ac30147dda6901e3d3b6c8f9e2b04e255",
+      "bytes": 1050132,
+      "inode": 1711767,
+      "mtime_ns": 1792468367100037704
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468367283776216.png",
+      "index": 31,
+      "format": 5,
+      "sha256": "5e2181ee36d0e5d478b84c86d6d67d796103f8afecd145d95243820cdb939834",
+      "bytes": 1063730,
+      "inode": 1711764,
+      "mtime_ns": 1792468373895617840
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468374110219828.png",
+      "index": 32,
+      "format": 5,
+      "sha256": "9e7d3dc759944dc98fadc92b424c522d1a56233c832bf75e06de62aa70b38a6c",
+      "bytes": 1066210,
+      "inode": 1710808,
+      "mtime_ns": 1792468374608924269
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468395705994824.png",
+      "index": 33,
+      "format": 5,
+      "sha256": "978ffc11be5fa4f25237706e664b5dd944c228136ae07d1c333b007c1f263d12",
+      "bytes": 1063995,
+      "inode": 1711562,
+      "mtime_ns": 1792468396269546183
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468396517841947.png",
+      "index": 34,
+      "format": 5,
+      "sha256": "1d767204a8d8d4f79117787741317822f37fdbd73f0bf10a6d3007214bdacea4",
+      "bytes": 1074528,
+      "inode": 1711785,
+      "mtime_ns": 1792468400970347852
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468401186469061.png",
+      "index": 35,
+      "format": 5,
+      "sha256": "51f3c10294e670075dbbc76ffd44be637a18c06fd8f5f8068d5044660273b959",
+      "bytes": 1078475,
+      "inode": 1711775,
+      "mtime_ns": 1792468401767858306
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468423030471691.png",
+      "index": 36,
+      "format": 5,
+      "sha256": "d854b8907adb8f08e8d0937b471c4d52a4f6004d7b2c2f28963b250df40c77f3",
+      "bytes": 826829,
+      "inode": 1711558,
+      "mtime_ns": 1792468423558182677
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468446348328017.png",
+      "index": 37,
+      "format": 5,
+      "sha256": "0d8c9a313155313d4776873d88d2168d6201095b2855408298db61fae96dd153",
+      "bytes": 1087561,
+      "inode": 1710805,
+      "mtime_ns": 1792468446920778375
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468447157737693.png",
+      "index": 38,
+      "format": 5,
+      "sha256": "29fbb7db457dee2823a172991586ca86042b7aefcb6a380e00169773019f8970",
+      "bytes": 1080179,
+      "inode": 1711666,
+      "mtime_ns": 1792468447778591757
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468447950161061.png",
+      "index": 39,
+      "format": 5,
+      "sha256": "175d078282dffb4e042933e8453d2c29f1076ae1d2ef309f7a74c24e132f313a",
+      "bytes": 1080163,
+      "inode": 1711581,
+      "mtime_ns": 1792468448513964332
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468448844685700.png",
+      "index": 40,
+      "format": 5,
+      "sha256": "a1e2d3eaf88d489a3b7dfabee1bc5054e076c246f0d73d47004a939ee8a66fe3",
+      "bytes": 1079196,
+      "inode": 1711798,
+      "mtime_ns": 1792468449404570631
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468467363980260.png",
+      "index": 41,
+      "format": 5,
+      "sha256": "c035c4d375e2a381e6825cf03e03973edebbdd4f862cb620552e8fd0f490e47b",
+      "bytes": 808861,
+      "inode": 1711800,
+      "mtime_ns": 1792468468002020955
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468487418273509.png",
+      "index": 42,
+      "format": 5,
+      "sha256": "27880ed16ea2fbf47b13f7e3acd5f0f80f66186efff265232988a180dc7621cd",
+      "bytes": 808336,
+      "inode": 1711807,
+      "mtime_ns": 1792468488018995306
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468506066897481.png",
+      "index": 43,
+      "format": 5,
+      "sha256": "2759066d5b1756fa73abd300527328f6915b0784aa0f9f868ff4fb186a9c77b6",
+      "bytes": 1083752,
+      "inode": 1711622,
+      "mtime_ns": 1792468506590452017
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468506815359853.png",
+      "index": 44,
+      "format": 5,
+      "sha256": "97420a622455fb292d3be9c58b9f9b1d2b9e7e4a69f84ec6a6821a6705ac83c5",
+      "bytes": 1077599,
+      "inode": 1711656,
+      "mtime_ns": 1792468507383846984
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468528293646403.png",
+      "index": 45,
+      "format": 5,
+      "sha256": "1cea9eebd107a1f8aa02203a5e06a8d21ee290dbc3b5f3116f0605291d204fc8",
+      "bytes": 827205,
+      "inode": 1711803,
+      "mtime_ns": 1792468528922920395
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468529102457598.png",
+      "index": 46,
+      "format": 5,
+      "sha256": "5b6a11739ebe21618c3d3c9cda8d844f4f80b33ea165a4842701190f1991830e",
+      "bytes": 1086476,
+      "inode": 1711616,
+      "mtime_ns": 1792468529744538267
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468529934595662.png",
+      "index": 47,
+      "format": 5,
+      "sha256": "71598cae98d384bd967f8b14341c56ef5a49a3e9751170ba390dd12d7baf139d",
+      "bytes": 1080939,
+      "inode": 1711806,
+      "mtime_ns": 1792468530519024626
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468550008149477.png",
+      "index": 48,
+      "format": 5,
+      "sha256": "9321f3fb6d1df13aca6f546ce0c14466878e47c1e160b24c256768a6715133c8",
+      "bytes": 1079141,
+      "inode": 1711664,
+      "mtime_ns": 1792468550547427640
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468550727851217.png",
+      "index": 49,
+      "format": 5,
+      "sha256": "37ffb448254d0fccca0218d86f987b94fba916cfad3fae5653051d2920099fda",
+      "bytes": 1068864,
+      "inode": 1708836,
+      "mtime_ns": 1792468555238261888
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468555463233370.png",
+      "index": 50,
+      "format": 5,
+      "sha256": "4fd085eaf8009cccab78bc3b09c3b96ef4a3c391a7b5003e3cf0209ee378c716",
+      "bytes": 1081187,
+      "inode": 1711990,
+      "mtime_ns": 1792468556012230685
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468575090637265.png",
+      "index": 51,
+      "format": 5,
+      "sha256": "e0b7ada3667c4acae9cb6ab51a2193a7d289b062bfdae114533163af46e59232",
+      "bytes": 1079921,
+      "inode": 1711678,
+      "mtime_ns": 1792468575664168157
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468598723810540.png",
+      "index": 52,
+      "format": 5,
+      "sha256": "71ea61e89b6326c303a7c3ad91ab5f29cc53ca6b3ecba00266e7e07469da23bf",
+      "bytes": 1077573,
+      "inode": 1712009,
+      "mtime_ns": 1792468599314089514
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468599527086478.png",
+      "index": 53,
+      "format": 5,
+      "sha256": "5bd32c886454bf0549cc4b32f53952d7804add8144e4ecd11889d03d46702e80",
+      "bytes": 1111850,
+      "inode": 1711672,
+      "mtime_ns": 1792468603951926701
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468604167342284.png",
+      "index": 54,
+      "format": 5,
+      "sha256": "b350cfcc54e49f9126dedda3f45aa9e449f1760fe519fa42fcb425788730339b",
+      "bytes": 1119373,
+      "inode": 1711674,
+      "mtime_ns": 1792468604711167303
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468635942232270.png",
+      "index": 55,
+      "format": 5,
+      "sha256": "22a15b9948207dd4cc8b94ce0f2cf429619144b513c400633aa8f95bb1bb68d6",
+      "bytes": 792260,
+      "inode": 1710535,
+      "mtime_ns": 1792468636722698800
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468637024425282.png",
+      "index": 56,
+      "format": 5,
+      "sha256": "aa48919bef4f248ba8675352ffc159be9d49efc178ecfe211638f5408d10a276",
+      "bytes": 1087942,
+      "inode": 1712031,
+      "mtime_ns": 1792468637678843607
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468637929324318.png",
+      "index": 57,
+      "format": 5,
+      "sha256": "45d159aae01028b97ca0204c81518e5c809bb4e8215f656ee15de41d13d104e6",
+      "bytes": 883268,
+      "inode": 1712131,
+      "mtime_ns": 1792468638763008799
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468662296080844.png",
+      "index": 58,
+      "format": 5,
+      "sha256": "38845194319cbdf5d2626508a2a0ba8bb772e1d5df6b6e1d1c6eef3408d48923",
+      "bytes": 1083086,
+      "inode": 1711826,
+      "mtime_ns": 1792468662927964798
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468686020696701.png",
+      "index": 59,
+      "format": 5,
+      "sha256": "8581057d56bb98458e292f95d1bc9323ad5285ea6caf5489434edbae66da6f2e",
+      "bytes": 1081719,
+      "inode": 1711718,
+      "mtime_ns": 1792468686644596496
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468686837477117.png",
+      "index": 60,
+      "format": 5,
+      "sha256": "359f4c3a9550cf3c50055e80f6d080ae9b1353fc65d2cef26f564c914979256a",
+      "bytes": 1005692,
+      "inode": 1712171,
+      "mtime_ns": 1792468695215871347
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468695446521231.png",
+      "index": 61,
+      "format": 5,
+      "sha256": "4ef7501521f363370a2b05f0ab466e77b22502454b3629b7bb8ab8557a42b41b",
+      "bytes": 1005415,
+      "inode": 1712170,
+      "mtime_ns": 1792468695994269523
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468742665310763.png",
+      "index": 62,
+      "format": 5,
+      "sha256": "8618a388ebb29efabb84137c1f6b8be4c4f72cf546a78c09a4a54dce63e006ad",
+      "bytes": 765822,
+      "inode": 1712196,
+      "mtime_ns": 1792468743204180843
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468743371205140.png",
+      "index": 63,
+      "format": 5,
+      "sha256": "0ab67610eb532040ff6ab49c1b5e55b3662aebd080fd017a155908049813e1ea",
+      "bytes": 742765,
+      "inode": 1712195,
+      "mtime_ns": 1792468743955988298
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468744176711607.png",
+      "index": 64,
+      "format": 5,
+      "sha256": "fbaf16c28dd7446b10eb9f5896c83dca83715be4b311d04c60fb55c70a2d4570",
+      "bytes": 1028025,
+      "inode": 1711720,
+      "mtime_ns": 1792468744799805947
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468776040260154.png",
+      "index": 65,
+      "format": 5,
+      "sha256": "e4bdfc0f21e2253c594b78c10c9060738981b188f5f026aa21009f31f67884a9",
+      "bytes": 1028037,
+      "inode": 1712199,
+      "mtime_ns": 1792468776537883178
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468776650693010.png",
+      "index": 66,
+      "format": 5,
+      "sha256": "c8245968b0edab72a9c4a6d3c942927f915652525113c6bd671bd66d0004525f",
+      "bytes": 1100237,
+      "inode": 1712220,
+      "mtime_ns": 1792468777180460742
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468777256381053.png",
+      "index": 67,
+      "format": 5,
+      "sha256": "95edfc7173baa535be18d710432ad5779c884de7773699ab069d594292aef8d5",
+      "bytes": 1099470,
+      "inode": 1712161,
+      "mtime_ns": 1792468785690419213
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468785736550211.png",
+      "index": 68,
+      "format": 5,
+      "sha256": "9e774bc8bacd8ccdf118929e0b5239684ac2d97459476e5c366da56d1736bad7",
+      "bytes": 1103827,
+      "inode": 1712223,
+      "mtime_ns": 1792468786225495929
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468824874253951.png",
+      "index": 69,
+      "format": 5,
+      "sha256": "572b97fc263f8a4951e040071ba6789712284e1d6a6536fb127575001a4aabb3",
+      "bytes": 1103742,
+      "inode": 1712240,
+      "mtime_ns": 1792468825291768448
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468825397067604.png",
+      "index": 70,
+      "format": 5,
+      "sha256": "618eca27666d0e4db20485c1667ae2213f2cd7b5afdeb1d5656270b50ae517ae",
+      "bytes": 1102039,
+      "inode": 1712222,
+      "mtime_ns": 1792468825919812467
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468825999263068.png",
+      "index": 71,
+      "format": 5,
+      "sha256": "03e6f9e11b1cf347452c170706b7e691171dc3910466ee0957e607557e6bfbef",
+      "bytes": 1093742,
+      "inode": 1712248,
+      "mtime_ns": 1792468834406247790
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468834486662925.png",
+      "index": 72,
+      "format": 5,
+      "sha256": "033d3b32164db656b1804c085e33c8129cee00543b81ecaa063448bed8ebf86b",
+      "bytes": 1097261,
+      "inode": 1712243,
+      "mtime_ns": 1792468834951571721
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468853557309924.png",
+      "index": 73,
+      "format": 5,
+      "sha256": "3e7aafe8adf8e0c37dbef4f16746292752d1be77f08cab8413196ae53ad7527e",
+      "bytes": 1097468,
+      "inode": 1712241,
+      "mtime_ns": 1792468853957170704
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468854005759233.png",
+      "index": 74,
+      "format": 5,
+      "sha256": "583e2b5058d453d2979a2aea096c6f08629bfc7840d4ec2d0e311ec52a1c98d5",
+      "bytes": 1093826,
+      "inode": 1712247,
+      "mtime_ns": 1792468854483772154
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468854529960059.png",
+      "index": 75,
+      "format": 5,
+      "sha256": "18be484f58b2a95a8d8440a39e7ead21396074ebd41c118350a3d817ee47c3bf",
+      "bytes": 1102139,
+      "inode": 1712266,
+      "mtime_ns": 1792468863020763433
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468863078796562.png",
+      "index": 76,
+      "format": 5,
+      "sha256": "a17916884d7e49c04f17f76f7c17c87826a4956c4d61d85060344c62f7522c91",
+      "bytes": 1105961,
+      "inode": 1712264,
+      "mtime_ns": 1792468863614683757
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468884634937001.png",
+      "index": 77,
+      "format": 5,
+      "sha256": "7a9aa9d7e28ae96918d50ed8df1c934659fb36e38faedb1e6ae72a33f196e4fa",
+      "bytes": 1105975,
+      "inode": 1712284,
+      "mtime_ns": 1792468885063061030
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468885164927827.png",
+      "index": 78,
+      "format": 5,
+      "sha256": "2cab78852cd01ddcf622189333ecb0a1db7cf0a21ad448033294eccdd9deebb4",
+      "bytes": 1102471,
+      "inode": 1712265,
+      "mtime_ns": 1792468885683071940
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468885774061626.png",
+      "index": 79,
+      "format": 5,
+      "sha256": "07a3c0be7c97de358e71e58ead2a355e31de0740a0fd0fe5fcf8a5a4d35f462a",
+      "bytes": 1098347,
+      "inode": 1712288,
+      "mtime_ns": 1792468892167185970
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468892234595078.png",
+      "index": 80,
+      "format": 5,
+      "sha256": "0aa44b366b6de558ec49c1eff09b24fd4e17427d562c84d8a63f106bbf9b6743",
+      "bytes": 1101220,
+      "inode": 1712273,
+      "mtime_ns": 1792468892715195597
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468912748914183.png",
+      "index": 81,
+      "format": 5,
+      "sha256": "e8efb5c4c32024e1255c87d12a24718882c6a95f4b285bc27db6b7907d4be9ca",
+      "bytes": 1101252,
+      "inode": 1712303,
+      "mtime_ns": 1792468913631563217
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468913752999571.png",
+      "index": 82,
+      "format": 5,
+      "sha256": "447caf39152123a56b8930abc57e1229e41bbf9fa44d3e7e8965333812eb20c2",
+      "bytes": 1095699,
+      "inode": 1712305,
+      "mtime_ns": 1792468914435583984
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468914591069272.png",
+      "index": 83,
+      "format": 5,
+      "sha256": "d93b820f0b79c7abf5aca18baf4c40a6c72418b31a8718e231c21d299fc388c3",
+      "bytes": 215827,
+      "inode": 1712307,
+      "mtime_ns": 1792468916096028941
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792468982918504881.png",
+      "index": 84,
+      "format": 5,
+      "sha256": "4adfcfd07bc0d173b901b427f76591bf705a2806d695211600588ec7483c121c",
+      "bytes": 250432,
+      "inode": 1712336,
+      "mtime_ns": 1792468983376634967
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469003722159779.png",
+      "index": 85,
+      "format": 5,
+      "sha256": "eb0ee3ac2edaf23dd153d20a51363a9e3649253fd77605bdfb8aa1d3155b4258",
+      "bytes": 258395,
+      "inode": 1712346,
+      "mtime_ns": 1792469004863149010
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469005090280581.png",
+      "index": 86,
+      "format": 5,
+      "sha256": "4ca1aed17046c1d0fcc49bd03486a81cb714fc57faba703c8c5352992ad533c5",
+      "bytes": 267337,
+      "inode": 1712345,
+      "mtime_ns": 1792469005714521928
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469024290949242.png",
+      "index": 87,
+      "format": 5,
+      "sha256": "8adc6b54d862714ac6b7f868555d4fa65b3f079714203215283986a2b39545eb",
+      "bytes": 269220,
+      "inode": 1712355,
+      "mtime_ns": 1792469025392404321
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469025566841557.png",
+      "index": 88,
+      "format": 5,
+      "sha256": "f8a79a072e3494a914f8ef1243d6f47ec8288951f26cbb5d57be91f69582f934",
+      "bytes": 274615,
+      "inode": 1712358,
+      "mtime_ns": 1792469026221270155
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469045540400786.png",
+      "index": 89,
+      "format": 5,
+      "sha256": "01461657c0db281561fe6117f24a66e66632669187cacab429a1507034c84719",
+      "bytes": 307855,
+      "inode": 1712168,
+      "mtime_ns": 1792469046012012094
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469068015298419.png",
+      "index": 90,
+      "format": 5,
+      "sha256": "7faaecbb5c0d4a76b85f7235afea9dd277cb8d0f5f98477d00670b1e72b18be8",
+      "bytes": 267005,
+      "inode": 1712244,
+      "mtime_ns": 1792469068407268604
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469068587991609.png",
+      "index": 91,
+      "format": 5,
+      "sha256": "b6e2f0f0c39bfa921b835661c57843ef4f3edd0228aad047f4b1b03e57c0e9be",
+      "bytes": 226596,
+      "inode": 1712365,
+      "mtime_ns": 1792469069013655148
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469069220910197.png",
+      "index": 92,
+      "format": 5,
+      "sha256": "2def24b309b4eb32e5926e4b2f6e6a85b2e70ddba210ec229e90487b07c14813",
+      "bytes": 781084,
+      "inode": 1712140,
+      "mtime_ns": 1792469069738546315
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469069940838027.png",
+      "index": 93,
+      "format": 5,
+      "sha256": "ab961603ed37e1b9a2dbce56f4f5c5dec2bddf7826b97fe1b757825b14f0de00",
+      "bytes": 976852,
+      "inode": 1712361,
+      "mtime_ns": 1792469070475149120
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469107241445323.png",
+      "index": 94,
+      "format": 5,
+      "sha256": "ddbb4496ceb4915e17946878e92b47301c1d7064a228306f77e1bf9a788333da",
+      "bytes": 846680,
+      "inode": 1712173,
+      "mtime_ns": 1792469107762560066
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469107999210207.png",
+      "index": 95,
+      "format": 5,
+      "sha256": "e611221fb0fe4a3f2ae24389764cb94483b619dd460fb33f5775953752e1a0e9",
+      "bytes": 899984,
+      "inode": 1712144,
+      "mtime_ns": 1792469108523354847
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469108712962074.png",
+      "index": 96,
+      "format": 5,
+      "sha256": "83c6dd4e6649bba81a53cc4c35b605747625dce0add93469db746e99fc94535c",
+      "bytes": 986768,
+      "inode": 1712204,
+      "mtime_ns": 1792469109233150260
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469109446943379.png",
+      "index": 97,
+      "format": 5,
+      "sha256": "753bca714e3997ebb9a65c52eb82ffc1d8fe5afb676e80b4ac5217564b764011",
+      "bytes": 983105,
+      "inode": 1712322,
+      "mtime_ns": 1792469109970294177
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469131221722505.png",
+      "index": 98,
+      "format": 5,
+      "sha256": "1f47a2cad16ae5321bc98eb9a0e4f93f47876bdf167b3fde4805693dbd8f0592",
+      "bytes": 885593,
+      "inode": 1712197,
+      "mtime_ns": 1792469131827442761
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469132031349951.png",
+      "index": 99,
+      "format": 5,
+      "sha256": "49fc2af9c056c4b6ba9fe5ba3929395003f00dcf8e89f29f6a0b56dd68f30671",
+      "bytes": 861318,
+      "inode": 1712376,
+      "mtime_ns": 1792469132738227611
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469132929962401.png",
+      "index": 100,
+      "format": 5,
+      "sha256": "1b0a38b4e1186fbb644f7f6db15ad58a57b9e96f5b49f69db085dee6970f34ae",
+      "bytes": 975130,
+      "inode": 1712395,
+      "mtime_ns": 1792469133465358322
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469133648934097.png",
+      "index": 101,
+      "format": 5,
+      "sha256": "0f12f252d8d3248eeec12f2076117b58c58d2123d50fc367406620cb60480b16",
+      "bytes": 970243,
+      "inode": 1712397,
+      "mtime_ns": 1792469134162790513
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469157159779231.png",
+      "index": 102,
+      "format": 5,
+      "sha256": "554bb4920a1308e87a32cd7b94c091076c0830b4bed690181fd0f080cd953c5c",
+      "bytes": 970182,
+      "inode": 1712150,
+      "mtime_ns": 1792469157584326438
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469157692865598.png",
+      "index": 103,
+      "format": 5,
+      "sha256": "832c34a449db3b527c35eca6104f44531a2971b122bb19eb01ff0e51a4df7392",
+      "bytes": 966444,
+      "inode": 1712216,
+      "mtime_ns": 1792469158136990557
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469158214357375.png",
+      "index": 104,
+      "format": 5,
+      "sha256": "4080c447820fb7d05026bd3a211c4658912a283fa186c77d2341abe4041c1255",
+      "bytes": 976327,
+      "inode": 1712228,
+      "mtime_ns": 1792469166592865505
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469166697324786.png",
+      "index": 105,
+      "format": 5,
+      "sha256": "ce110bbe73730dde38617bdc2f61d854cdb03d516ae4785f934e535997174518",
+      "bytes": 979981,
+      "inode": 1712257,
+      "mtime_ns": 1792469167097601510
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469264976276631.png",
+      "index": 106,
+      "format": 5,
+      "sha256": "94bbdb6b20cbe8e74b4241364b3c9e7f653bbb6ff6817fbac7208e12310e3e72",
+      "bytes": 980007,
+      "inode": 1712277,
+      "mtime_ns": 1792469265415720941
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469269569797913.png",
+      "index": 107,
+      "format": 5,
+      "sha256": "3565b3cb77ba98bf11c2c2262f4a4ec85d883f63de5eaebeabc63c36b538cb50",
+      "bytes": 980026,
+      "inode": 1712259,
+      "mtime_ns": 1792469269964671180
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469270017226104.png",
+      "index": 108,
+      "format": 5,
+      "sha256": "5be6d9565b52fbf2aaa814eec90c5097d295d8fb92059cbe7b49c9ea9647c401",
+      "bytes": 964868,
+      "inode": 1712262,
+      "mtime_ns": 1792469270443163038
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469270539048882.png",
+      "index": 109,
+      "format": 5,
+      "sha256": "56ea2fda60a53a311628d0b7c75d308410d1cc6a53cba0d47689a9a672ee234b",
+      "bytes": 982930,
+      "inode": 1712134,
+      "mtime_ns": 1792469275916186258
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469275982000605.png",
+      "index": 110,
+      "format": 5,
+      "sha256": "fa350403de8fef48e91f23310a95fca737626305aa1144b95bf5c54b1bb785a6",
+      "bytes": 986984,
+      "inode": 1712294,
+      "mtime_ns": 1792469276430519480
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469282510219334.png",
+      "index": 111,
+      "format": 5,
+      "sha256": "d3931d1423b90c6d19a94ad7cf12313df08bf22d08f90cf7ff87d20f2742969a",
+      "bytes": 986978,
+      "inode": 1712226,
+      "mtime_ns": 1792469282901051060
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469282949063870.png",
+      "index": 112,
+      "format": 5,
+      "sha256": "3da0906325a1987eee664a953fc53f1a7e864d9651c6cca1e20476c4f0d83afc",
+      "bytes": 982939,
+      "inode": 1712337,
+      "mtime_ns": 1792469283383076935
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469283469691530.png",
+      "index": 113,
+      "format": 5,
+      "sha256": "5e56c27775d1449d2b972a58099418129aec650534b9d42fb82e3ef507b8fc77",
+      "bytes": 987988,
+      "inode": 1712313,
+      "mtime_ns": 1792469289051377511
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469289227411142.png",
+      "index": 114,
+      "format": 5,
+      "sha256": "c0936eca4ba136bdb579cafb29afae75217bb9ca1648072d6582763f13071e39",
+      "bytes": 990212,
+      "inode": 1712309,
+      "mtime_ns": 1792469289836209451
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469298742900042.png",
+      "index": 115,
+      "format": 5,
+      "sha256": "24002d5d9e5c4ecb81472c9614d48f6f72d54ff423e493bfd3b616f06543c3aa",
+      "bytes": 990898,
+      "inode": 1712427,
+      "mtime_ns": 1792469299339384340
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469305281375018.png",
+      "index": 116,
+      "format": 5,
+      "sha256": "06f4d8641a78d8bc1bd50e2fa5cab5e39a57a74664be5769e8cc8509419e0fa7",
+      "bytes": 834752,
+      "inode": 1712304,
+      "mtime_ns": 1792469305834618039
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469306488418368.png",
+      "index": 117,
+      "format": 5,
+      "sha256": "17d8fc529914345a68e10e551cbde18b1cf39fbd495680a774bcf865561bcf4a",
+      "bytes": 1000200,
+      "inode": 1712432,
+      "mtime_ns": 1792469307023171790
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469307509988003.png",
+      "index": 118,
+      "format": 5,
+      "sha256": "4277efb1be91dffd5f417493850fc4d9623d476b5cb8a70911220fb7c875f2f5",
+      "bytes": 993823,
+      "inode": 1712434,
+      "mtime_ns": 1792469308158876926
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469317172664285.png",
+      "index": 119,
+      "format": 5,
+      "sha256": "5112ff316614fba82d9b85a3a5b83e7ffd1116f310c61d65073dc3a4b69c772b",
+      "bytes": 993613,
+      "inode": 1712318,
+      "mtime_ns": 1792469317596526451
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469317703770608.png",
+      "index": 120,
+      "format": 5,
+      "sha256": "964bb31bc39e4341a2accddaf5c65a14a13e2ba3094540e7bbdeff3bf33987a8",
+      "bytes": 991125,
+      "inode": 1712437,
+      "mtime_ns": 1792469318163797006
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469318236774550.png",
+      "index": 121,
+      "format": 5,
+      "sha256": "c9a75300be7fa5204ce4c1a462c6dd240bf47c5791584f3cbf877539c20809c4",
+      "bytes": 991139,
+      "inode": 1712442,
+      "mtime_ns": 1792469322653514396
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469322703181122.png",
+      "index": 122,
+      "format": 5,
+      "sha256": "758fb8f06ddeb43550718f408ed8d179cafd33ae5ee191cd74ccd9d397e29ba2",
+      "bytes": 992956,
+      "inode": 1712447,
+      "mtime_ns": 1792469323188948051
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469330662173275.png",
+      "index": 123,
+      "format": 5,
+      "sha256": "670c01503d98294be1227cac8904d991197e0429f8f556fd76e6ffbb5c19568f",
+      "bytes": 992957,
+      "inode": 1712449,
+      "mtime_ns": 1792469331215453305
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469338004429231.png",
+      "index": 124,
+      "format": 5,
+      "sha256": "14cbd09773781ea47b1d649f74826c6e530b28b6d408b3b2aa7ad63958974065",
+      "bytes": 816466,
+      "inode": 1712300,
+      "mtime_ns": 1792469338611065316
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469344951378238.png",
+      "index": 125,
+      "format": 5,
+      "sha256": "112b7e976f3f43fa61c2e92cc76f4f1b7d3e1ee8f98bd147bb203b3e5b90832d",
+      "bytes": 764718,
+      "inode": 1712236,
+      "mtime_ns": 1792469345565816703
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469357187146847.png",
+      "index": 126,
+      "format": 5,
+      "sha256": "fb085d70d9040b177529490e28c271142b4eeecc770f98c927455f985525da12",
+      "bytes": 816372,
+      "inode": 1712332,
+      "mtime_ns": 1792469357709443216
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469358413638076.png",
+      "index": 127,
+      "format": 5,
+      "sha256": "15382b947b2e6652355b8436f94d39d76d3a0096a30b19a5161ed71651a505e2",
+      "bytes": 1020455,
+      "inode": 1712330,
+      "mtime_ns": 1792469358917064229
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469364924554203.png",
+      "index": 128,
+      "format": 5,
+      "sha256": "e512d01362ded7bba8060371b0cf090cabe22265f1ca11275a32e84100d7c957",
+      "bytes": 834448,
+      "inode": 1712335,
+      "mtime_ns": 1792469365465873534
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469366139581017.png",
+      "index": 129,
+      "format": 5,
+      "sha256": "841467f0806fde7889b7ed3d6cd49517c769c95ca0f8a81cd72d20e175b9a28f",
+      "bytes": 808895,
+      "inode": 1712308,
+      "mtime_ns": 1792469366673299740
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469373923159125.png",
+      "index": 130,
+      "format": 5,
+      "sha256": "7079452345963f8b60431f283c5bb941360a50922e61a48ef8eaf81b6dbb9c7a",
+      "bytes": 1083237,
+      "inode": 1712439,
+      "mtime_ns": 1792469374531696242
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469390449216750.png",
+      "index": 131,
+      "format": 5,
+      "sha256": "ab62d342547290a437279e91a4a1c564b9f66de357d1e166e4d411fdb71d1706",
+      "bytes": 1069822,
+      "inode": 1712348,
+      "mtime_ns": 1792469391000974839
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469391688828384.png",
+      "index": 132,
+      "format": 5,
+      "sha256": "519a5e2d697d49397657c2d3d7c8573471c140655ab2b954ee56807a4e67de31",
+      "bytes": 870904,
+      "inode": 1712472,
+      "mtime_ns": 1792469392258446941
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469392816041738.png",
+      "index": 133,
+      "format": 5,
+      "sha256": "2da0143d207bb0814ebf85314391c32d0810e69598c5dfe55b34535705adb319",
+      "bytes": 1063142,
+      "inode": 1712475,
+      "mtime_ns": 1792469393344973917
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469393887965666.png",
+      "index": 134,
+      "format": 5,
+      "sha256": "f9afda3e6525477ac98a361fb901bc65836a83219144e4dec9d0e1a3643b7d83",
+      "bytes": 856381,
+      "inode": 1712474,
+      "mtime_ns": 1792469394414357260
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469403000424369.png",
+      "index": 135,
+      "format": 5,
+      "sha256": "d1c01a8fc0a03144cb61d13c4c7b74d8e6d5bfeeea4d8ceea1fec64b578446ff",
+      "bytes": 1057920,
+      "inode": 1712342,
+      "mtime_ns": 1792469403578853944
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469404342149896.png",
+      "index": 136,
+      "format": 5,
+      "sha256": "b7a19825aefd46c2f629e6df21478468e6832d6a31e013b881dcc8a6fa631507",
+      "bytes": 1057832,
+      "inode": 1712246,
+      "mtime_ns": 1792469404745832466
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469404865749351.png",
+      "index": 137,
+      "format": 5,
+      "sha256": "e4a81d882e65c104aef80dbdf9e55e62a966f04afa0a6387a653ca81a22ef51b",
+      "bytes": 1053852,
+      "inode": 1712302,
+      "mtime_ns": 1792469405332885810
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469405387365647.png",
+      "index": 138,
+      "format": 5,
+      "sha256": "d1d30e97ec0ae5e4d016aa30f5fb0909c7da3ba808fa37b5c8bfeb9e99b69f93",
+      "bytes": 1051809,
+      "inode": 1712486,
+      "mtime_ns": 1792469412731602514
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469412836723133.png",
+      "index": 139,
+      "format": 5,
+      "sha256": "ebfa8194e752d3bed208918e82f8d9434668ee7106a79e80b6fabe9ee1029760",
+      "bytes": 1055051,
+      "inode": 1712488,
+      "mtime_ns": 1792469413255842554
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469422585245062.png",
+      "index": 140,
+      "format": 5,
+      "sha256": "8f03b1b9b8f2201b3bf63912cf99b1d0c84470f4c3a2787707c1776b28d1c110",
+      "bytes": 1055053,
+      "inode": 1712357,
+      "mtime_ns": 1792469423001516084
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469423106494177.png",
+      "index": 141,
+      "format": 5,
+      "sha256": "fecb07cbcd87e1013ae625df187c1d13707040cda39d2446c11fe35d5b6d75a3",
+      "bytes": 1052309,
+      "inode": 1712482,
+      "mtime_ns": 1792469423544584381
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469423636241660.png",
+      "index": 142,
+      "format": 5,
+      "sha256": "3960a76c771707d3f69721f1266b7e8491ef04b73e66f66dfe22bf8678336963",
+      "bytes": 1024329,
+      "inode": 1712485,
+      "mtime_ns": 1792469431121555507
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469431243802824.png",
+      "index": 143,
+      "format": 5,
+      "sha256": "18901704cf999072a7c5a24ca9b9ae078d8bb647d85dbac9d65cffe7f06a02f7",
+      "bytes": 1025977,
+      "inode": 1712495,
+      "mtime_ns": 1792469431734761970
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469438701692704.png",
+      "index": 144,
+      "format": 5,
+      "sha256": "46b408045f2814526d52a8454e80eeff2d477e513b9d95706d55abd513f362af",
+      "bytes": 1025969,
+      "inode": 1712502,
+      "mtime_ns": 1792469439140390519
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469439226375808.png",
+      "index": 145,
+      "format": 5,
+      "sha256": "eec89207f0f5ccb1841afc84f35779cded85083dd9a651d381a1909804862e4f",
+      "bytes": 1021836,
+      "inode": 1712494,
+      "mtime_ns": 1792469439700072867
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469439751220356.png",
+      "index": 146,
+      "format": 5,
+      "sha256": "25d69d28933176176d81ef0a91607a435cf77266281549bfd2ce5436ac98236e",
+      "bytes": 1007897,
+      "inode": 1712506,
+      "mtime_ns": 1792469444152469165
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469444208027486.png",
+      "index": 147,
+      "format": 5,
+      "sha256": "a6f457cba60223c52ff2d299f4655458e42d76b54b87e93f432552df80c708e1",
+      "bytes": 1012285,
+      "inode": 1712501,
+      "mtime_ns": 1792469444674841493
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469454468638838.png",
+      "index": 148,
+      "format": 5,
+      "sha256": "c833c7704653d5257a428b9304595f0a2925e0463b919235892c7b26f1e3dc7d",
+      "bytes": 1012349,
+      "inode": 1712503,
+      "mtime_ns": 1792469454907037895
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469455006511982.png",
+      "index": 149,
+      "format": 5,
+      "sha256": "aa06232620bd03ab6ea795c0939ff4327e5ebbfd6782f1fd59072ff36d789ebe",
+      "bytes": 1008377,
+      "inode": 1712505,
+      "mtime_ns": 1792469455499618055
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469455605360811.png",
+      "index": 150,
+      "format": 5,
+      "sha256": "50b9551f7e073840fbcd529d686d409fd73bb0167ad9481f587712892d9105bb",
+      "bytes": 964544,
+      "inode": 1712516,
+      "mtime_ns": 1792469459012301856
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469459093939216.png",
+      "index": 151,
+      "format": 5,
+      "sha256": "b7b9ece8552442e841abde90733a82bfdd1f247c4700e67284c5a4a38fc7aeeb",
+      "bytes": 971384,
+      "inode": 1712362,
+      "mtime_ns": 1792469459599201549
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469468574687055.png",
+      "index": 152,
+      "format": 5,
+      "sha256": "b459404ef691c1855f213d4c32b40931c48310a23870b941e57f616d22cfa75e",
+      "bytes": 796751,
+      "inode": 1712368,
+      "mtime_ns": 1792469469352048805
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469470191850602.png",
+      "index": 153,
+      "format": 5,
+      "sha256": "bf2473878bb79766c014c19a906b3eda71409d09a4c6284ac80c76964bbf379a",
+      "bytes": 775562,
+      "inode": 1712527,
+      "mtime_ns": 1792469471169926595
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469471852386669.png",
+      "index": 154,
+      "format": 5,
+      "sha256": "e2ba315f5b795544820b1f7da9f62add9e161547a4754840935a5d8edc85e8bf",
+      "bytes": 994998,
+      "inode": 1712514,
+      "mtime_ns": 1792469472717088896
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469482173418870.png",
+      "index": 155,
+      "format": 5,
+      "sha256": "11be21e8caa7f2972658ca14e1fb494012470999306e8ee4efc6f6402aec9c0e",
+      "bytes": 994982,
+      "inode": 1712536,
+      "mtime_ns": 1792469482745594480
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469482866423827.png",
+      "index": 156,
+      "format": 5,
+      "sha256": "3aaa76dd3e62e1fa7c9ed370d605c1bd2fc11387556cd8a62b44b106e5e48ab4",
+      "bytes": 1035121,
+      "inode": 1712538,
+      "mtime_ns": 1792469483373605485
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469483467448091.png",
+      "index": 157,
+      "format": 5,
+      "sha256": "7036727f50fd19e8c4dcafc89551efffca4c760794511a5ac01e77dda3faf5fd",
+      "bytes": 1032108,
+      "inode": 1712541,
+      "mtime_ns": 1792469485871627552
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469485919390596.png",
+      "index": 158,
+      "format": 5,
+      "sha256": "13a03df3f47fce801291f165584f02de6b337062da5739fa3d35e6a88f5a2fb7",
+      "bytes": 1034945,
+      "inode": 1712382,
+      "mtime_ns": 1792469486351122796
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469495113387714.png",
+      "index": 159,
+      "format": 5,
+      "sha256": "a0460ca431a794571a10fc843ec61a2d6faff03f1a98019f5ce4d3a507895051",
+      "bytes": 857600,
+      "inode": 1712378,
+      "mtime_ns": 1792469495680359983
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469496419176015.png",
+      "index": 160,
+      "format": 5,
+      "sha256": "1148743bcb7ad6c67a83ff955112a40ed2f600936f808e541c5af6027f2e2504",
+      "bytes": 1082470,
+      "inode": 1712544,
+      "mtime_ns": 1792469497041845034
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469505202078927.png",
+      "index": 161,
+      "format": 5,
+      "sha256": "80dd1da2ed7c3758a6137f8806dbb5ed80de1ad562c58082565a15a64d3e2274",
+      "bytes": 1082418,
+      "inode": 1712205,
+      "mtime_ns": 1792469505623692694
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469505726493220.png",
+      "index": 162,
+      "format": 5,
+      "sha256": "f5a3ceb32e8daa5ddc0bee992962a307aef13bc833f65d101f0080470b53c316",
+      "bytes": 1080282,
+      "inode": 1712534,
+      "mtime_ns": 1792469506264735294
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469506343565097.png",
+      "index": 163,
+      "format": 5,
+      "sha256": "f6be6fc9de441ebf54f9fea5e6bab3f56041978b627f22b051a08147d5bf2ebe",
+      "bytes": 1032520,
+      "inode": 1712402,
+      "mtime_ns": 1792469510702874427
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469510798804300.png",
+      "index": 164,
+      "format": 5,
+      "sha256": "caf54790b4e7fa99871967afa638962b0b2376fbdf489f1c0f543ab1b20871b4",
+      "bytes": 1036215,
+      "inode": 1712551,
+      "mtime_ns": 1792469511286660192
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469520530231218.png",
+      "index": 165,
+      "format": 5,
+      "sha256": "05778c485742b1877cca3186015992c9f7f9bb8bdfbadea1fa3b6a8caa809371",
+      "bytes": 852263,
+      "inode": 1712153,
+      "mtime_ns": 1792469521035414964
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469533331981455.png",
+      "index": 166,
+      "format": 5,
+      "sha256": "0375cbbe4302beea528439197e02ed9a3f90201972b9706fb3de3f5a71df9e75",
+      "bytes": 1025602,
+      "inode": 1712381,
+      "mtime_ns": 1792469533879442920
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469534595699886.png",
+      "index": 167,
+      "format": 5,
+      "sha256": "8cf96ef254cbc7869b913cb7bc84aec014763513ce4664f37f2f005665963e68",
+      "bytes": 1025624,
+      "inode": 1712387,
+      "mtime_ns": 1792469534998509738
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469535111336825.png",
+      "index": 168,
+      "format": 5,
+      "sha256": "df720e2d600f421d400ba029e151a1425e14e44b78c2633b676cee0e282b0826",
+      "bytes": 1022243,
+      "inode": 1712417,
+      "mtime_ns": 1792469535555173381
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469535634307400.png",
+      "index": 169,
+      "format": 5,
+      "sha256": "3cc3dae79552f97db3e214fd0dc310dfed2d8eec03aef8184721a6332d08c58c",
+      "bytes": 1046926,
+      "inode": 1712556,
+      "mtime_ns": 1792469542054639927
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469542106289586.png",
+      "index": 170,
+      "format": 5,
+      "sha256": "414b6911a2f84f41a175e7c0dc842278f12385bf061633c67d992d8f58c371c2",
+      "bytes": 1050968,
+      "inode": 1712451,
+      "mtime_ns": 1792469542560713880
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469551909553122.png",
+      "index": 171,
+      "format": 5,
+      "sha256": "e0bbd1c740034e4246aa574124b9ce5dcee97962a455340ea757579b092a8fdc",
+      "bytes": 1050921,
+      "inode": 1712560,
+      "mtime_ns": 1792469552346811640
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469552446957766.png",
+      "index": 172,
+      "format": 5,
+      "sha256": "558b5f7143d7196b1ca41dbc79a35a78cc656c104b214f202687dc162158ce67",
+      "bytes": 1047029,
+      "inode": 1712555,
+      "mtime_ns": 1792469552995462381
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469553049371959.png",
+      "index": 173,
+      "format": 5,
+      "sha256": "20f72fd9a817a8cef81452d306d005c902a45ac4257da66d84393eb9da7c8aa1",
+      "bytes": 250754,
+      "inode": 1712571,
+      "mtime_ns": 1792469560275350543
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469600848787584.png",
+      "index": 174,
+      "format": 5,
+      "sha256": "cbad76f3235d471fbebf358903eb943f99bf4fc26c07e03e39701ed235c85b6d",
+      "bytes": 227112,
+      "inode": 1712580,
+      "mtime_ns": 1792469601810551757
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469602371932598.png",
+      "index": 175,
+      "format": 5,
+      "sha256": "c1545311dae13c47473849589135e1fa8bdf31c6f3105aa0035aefcfe29416ab",
+      "bytes": 185746,
+      "inode": 1712583,
+      "mtime_ns": 1792469603105165775
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469610815854506.png",
+      "index": 176,
+      "format": 5,
+      "sha256": "8255f3dd50bb45a6eb81718fdd583abbc1276e3822ccfe822fcebd309825574d",
+      "bytes": 277371,
+      "inode": 1712588,
+      "mtime_ns": 1792469611271793086
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469621566731793.png",
+      "index": 177,
+      "format": 5,
+      "sha256": "8c56c427a0f8fa3fa55926d0fccff82b3cda0fd97febc5042829b1923c039576",
+      "bytes": 292661,
+      "inode": 1712590,
+      "mtime_ns": 1792469622929788676
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469623495355444.png",
+      "index": 178,
+      "format": 5,
+      "sha256": "fb68873266acd49570f8e1736491dcce12fa3237ae13c5a21718b9e5438410ce",
+      "bytes": 314663,
+      "inode": 1712593,
+      "mtime_ns": 1792469624247118669
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469634722806546.png",
+      "index": 179,
+      "format": 5,
+      "sha256": "1abd579f59e290689dbb297aa8a34f8d0988369ae5f2ff45a7ae2cd327c95e7a",
+      "bytes": 308033,
+      "inode": 1712410,
+      "mtime_ns": 1792469636673171500
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469637365079278.png",
+      "index": 180,
+      "format": 5,
+      "sha256": "f4ee1b8353cfaea6ac0474360c708dd1a0c44f541070bb001be4ee15a8f9ae78",
+      "bytes": 312255,
+      "inode": 1712601,
+      "mtime_ns": 1792469638423238035
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469649089190482.png",
+      "index": 181,
+      "format": 5,
+      "sha256": "401b6c491ad1948e99877d25cfe51882d7119611a99b77a48126f29274c00145",
+      "bytes": 283874,
+      "inode": 1712221,
+      "mtime_ns": 1792469650782617551
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469651429485704.png",
+      "index": 182,
+      "format": 5,
+      "sha256": "b4880dabdaabb2bb1ecb2d7949c2ee4a86f38a2b620d19b27f109c294f822bf5",
+      "bytes": 296646,
+      "inode": 1712418,
+      "mtime_ns": 1792469652192852681
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469663768684294.png",
+      "index": 183,
+      "format": 5,
+      "sha256": "d584ff6c9c7855359b831cc4782646dc7901fdd9204e9de0a696031ae554346d",
+      "bytes": 295964,
+      "inode": 1712422,
+      "mtime_ns": 1792469665458166337
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469666013243312.png",
+      "index": 184,
+      "format": 5,
+      "sha256": "0a6cd4c7cd7a368f26be7c3911da832ec1b7bab187aeab5c65de83df4374221b",
+      "bytes": 324425,
+      "inode": 1712420,
+      "mtime_ns": 1792469666799137011
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469676847423198.png",
+      "index": 185,
+      "format": 5,
+      "sha256": "8bd694f2dd6fa03d67d8fe49b9f1434bddf4061b06ca04c26c5ed5b8035b4c80",
+      "bytes": 307255,
+      "inode": 1712435,
+      "mtime_ns": 1792469678624683532
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469679273520694.png",
+      "index": 186,
+      "format": 5,
+      "sha256": "44485841bb5d482e496e04b388b3ea52f56d5c7374ddd2930352fe69ac7d4913",
+      "bytes": 310474,
+      "inode": 1712610,
+      "mtime_ns": 1792469680044036692
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469691842056020.png",
+      "index": 187,
+      "format": 5,
+      "sha256": "ffef1b7993323915ada946a96e2fe94901f2f3bedf56be6b1fbfc6812f344d16",
+      "bytes": 296082,
+      "inode": 1712446,
+      "mtime_ns": 1792469693456476601
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469694086564476.png",
+      "index": 188,
+      "format": 5,
+      "sha256": "145f938c6eebb416649665a29bba6d605b2ab5bc0a4a4f42f7f24ebe4312329a",
+      "bytes": 289658,
+      "inode": 1712440,
+      "mtime_ns": 1792469694829060363
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469706348392307.png",
+      "index": 189,
+      "format": 5,
+      "sha256": "b26c07721cc5b0d3e479d9ad1ab403f90f30de574109d5249ab01b3c12b41604",
+      "bytes": 269643,
+      "inode": 1712421,
+      "mtime_ns": 1792469707987640360
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469708591093535.png",
+      "index": 190,
+      "format": 5,
+      "sha256": "8e2359159a9b9c0c59301882cb7874cef8cdbd02c87c1ec2840ed4283502280f",
+      "bytes": 276852,
+      "inode": 1712621,
+      "mtime_ns": 1792469709356598718
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469723610980463.png",
+      "index": 191,
+      "format": 5,
+      "sha256": "acd3ec99ea307909aa29124c7f9dfed7d276e20b622d073c7f1c09afdaea0b9b",
+      "bytes": 277375,
+      "inode": 1712458,
+      "mtime_ns": 1792469724042021946
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469724584225717.png",
+      "index": 192,
+      "format": 5,
+      "sha256": "84a847366d2566170244dbc88bf826e08da516e00ed7bfdc6a1d112d09d1546d",
+      "bytes": 292661,
+      "inode": 1712271,
+      "mtime_ns": 1792469726212209298
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469726845742021.png",
+      "index": 193,
+      "format": 5,
+      "sha256": "2a5d3feba5ebe4d8f6bc1dc312a718d136e8cdfa38910c76cdd8a0aabd179b10",
+      "bytes": 305666,
+      "inode": 1712459,
+      "mtime_ns": 1792469727572324064
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469742234701072.png",
+      "index": 194,
+      "format": 5,
+      "sha256": "2ddeeb5746859722f754dc14d91f7ded520fb781ee1247d45545a8e0ec7d0e6d",
+      "bytes": 274110,
+      "inode": 1712622,
+      "mtime_ns": 1792469742830204880
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469743380710497.png",
+      "index": 195,
+      "format": 5,
+      "sha256": "424655a5bf710dc7128cd28f1cd51068a6deba64ad7e16676544b44775612bca",
+      "bytes": 323267,
+      "inode": 1712639,
+      "mtime_ns": 1792469744647801009
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469757689062145.png",
+      "index": 196,
+      "format": 5,
+      "sha256": "4be0256bfb71c131654772e4b2795f6e68cf877d39893bbd25c6676916ef70a0",
+      "bytes": 229103,
+      "inode": 1712428,
+      "mtime_ns": 1792469759082302349
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469759690090627.png",
+      "index": 197,
+      "format": 5,
+      "sha256": "9f8c36d78ab063e70b45ba54ed05a9d9a7f1f41dafc1a5129a497f1268c27322",
+      "bytes": 229100,
+      "inode": 1712469,
+      "mtime_ns": 1792469760489051743
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469772514206689.png",
+      "index": 198,
+      "format": 5,
+      "sha256": "0877c39f47d4c92bdeeb3e10ef453d99a1c6e341715f7b4129373e75548fd104",
+      "bytes": 271894,
+      "inode": 1712338,
+      "mtime_ns": 1792469774235941229
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469774925800709.png",
+      "index": 199,
+      "format": 5,
+      "sha256": "9531461d3d1c78174500d123a2981102a15c66025bb35c8b48e5444274227d25",
+      "bytes": 271489,
+      "inode": 1712385,
+      "mtime_ns": 1792469775723246981
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469787518070564.png",
+      "index": 200,
+      "format": 5,
+      "sha256": "4f1467b07b1e5827330cb82253fc3a3a504458bf42444daf6cd7d0c9b622c63a",
+      "bytes": 277390,
+      "inode": 1712628,
+      "mtime_ns": 1792469788065817072
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469788643709298.png",
+      "index": 201,
+      "format": 5,
+      "sha256": "8e4944fdf56aeccf1423ece4b7d5cab88351b87c5a67cec82f512c5064e2a195",
+      "bytes": 229505,
+      "inode": 1712363,
+      "mtime_ns": 1792469790031760077
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469803911432859.png",
+      "index": 202,
+      "format": 5,
+      "sha256": "93dada7b9f62d29d7cb3925e0cd3e93e64b210a2e63613cdafd7abf552c99aa1",
+      "bytes": 281542,
+      "inode": 1712504,
+      "mtime_ns": 1792469805314987139
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469818228566833.png",
+      "index": 203,
+      "format": 5,
+      "sha256": "e4ac81159f2e38ea12f25a4effae2202b4d7f81cb9db2653ac79f32f822268db",
+      "bytes": 310628,
+      "inode": 1712500,
+      "mtime_ns": 1792469818654395337
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469829341904828.png",
+      "index": 204,
+      "format": 5,
+      "sha256": "75235dcaef93edec830144dd34129af7978744ded151ce0b831e58bfb64945c9",
+      "bytes": 268738,
+      "inode": 1703966,
+      "mtime_ns": 1792469829751930520
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469830372983822.png",
+      "index": 205,
+      "format": 5,
+      "sha256": "8c7c5cc3457b5fd7dd6d27568b6e90c43349eccd80d3ebc1e50c1797276df760",
+      "bytes": 228977,
+      "inode": 1703959,
+      "mtime_ns": 1792469830757622156
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469840517385423.png",
+      "index": 206,
+      "format": 5,
+      "sha256": "e367dd73c1906838a0a15a6699332a2a87ad7d6db43312ed2cac8f810af30b9b",
+      "bytes": 668885,
+      "inode": 1708146,
+      "mtime_ns": 1792469841018427437
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469841692842564.png",
+      "index": 207,
+      "format": 5,
+      "sha256": "2d2475280d1aeda20ae3b9873f4802789def1489a1abbea86a054a310db4237c",
+      "bytes": 938482,
+      "inode": 1708151,
+      "mtime_ns": 1792469842194977063
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469856664687165.png",
+      "index": 208,
+      "format": 5,
+      "sha256": "d8beb1b6ac336b35d7fc1f5a81a5bff1898229f5427f2cad470b29d24f220965",
+      "bytes": 938630,
+      "inode": 1708141,
+      "mtime_ns": 1792469857063086708
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469857120023360.png",
+      "index": 209,
+      "format": 5,
+      "sha256": "922d8f8d699a6e2895405aafac648f9d623c0f23aaa381fb726e4b3f6f9814c7",
+      "bytes": 934934,
+      "inode": 1708139,
+      "mtime_ns": 1792469857586026223
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469857647555351.png",
+      "index": 210,
+      "format": 5,
+      "sha256": "bc0e4f93189c6446562bd94b4958ee30b1135e5c51c8af50a1850724c1c23780",
+      "bytes": 951289,
+      "inode": 1707458,
+      "mtime_ns": 1792469864071406064
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469864154206618.png",
+      "index": 211,
+      "format": 5,
+      "sha256": "a1aab5a905d69d4fc3d74b045a2f101703dff111b7cbda9ca99ae61524b67627",
+      "bytes": 955812,
+      "inode": 1708142,
+      "mtime_ns": 1792469864574860793
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469875852962099.png",
+      "index": 212,
+      "format": 5,
+      "sha256": "d65bf3f981f646b3978d3d9bfb94d0836a8d34473d43f9ebf6a940cdab2d4d08",
+      "bytes": 723902,
+      "inode": 1708140,
+      "mtime_ns": 1792469876341441872
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469877063064848.png",
+      "index": 213,
+      "format": 5,
+      "sha256": "f0dbec1fc3d325cc4b1a31ba9cd89332887295bac57ed745b196f72b4d678437",
+      "bytes": 580808,
+      "inode": 1708138,
+      "mtime_ns": 1792469877571090388
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469897841836806.png",
+      "index": 214,
+      "format": 5,
+      "sha256": "cf45740c7c99805e5f362ccebbfc3ec406e2b5be1a11051c2b06777a7a3ff524",
+      "bytes": 723905,
+      "inode": 1704804,
+      "mtime_ns": 1792469898449543835
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469899192827919.png",
+      "index": 215,
+      "format": 5,
+      "sha256": "0dd1c4cf852047236f93d6890ff83c7eb22d1c576f5eb3364944b6491144475c",
+      "bytes": 717467,
+      "inode": 1705834,
+      "mtime_ns": 1792469899862095289
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469900520311244.png",
+      "index": 216,
+      "format": 5,
+      "sha256": "c41d373dc4a4fbb4da193441cc8b59415ef1f1a21d52e2ac0ba41fc2d7f8ee12",
+      "bytes": 633407,
+      "inode": 1706401,
+      "mtime_ns": 1792469901156361777
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469916332637326.png",
+      "index": 217,
+      "format": 5,
+      "sha256": "50590d712ba921e61b3be44f65ced4515dd90ea795f78b86756a96048daf7d51",
+      "bytes": 717570,
+      "inode": 1706400,
+      "mtime_ns": 1792469916832476792
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469917561024698.png",
+      "index": 218,
+      "format": 5,
+      "sha256": "6b75e3fb2853c11f98b83ca357822f26174d21ad92f2e9a8524aa458ccfdbcba",
+      "bytes": 906766,
+      "inode": 1707454,
+      "mtime_ns": 1792469918093507717
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469918623816297.png",
+      "index": 219,
+      "format": 5,
+      "sha256": "fe245d4131c8f0652dc6b95947a9fb115b4598ff109d66a718ae1a9694b887f8",
+      "bytes": 900050,
+      "inode": 1708143,
+      "mtime_ns": 1792469919207931509
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469930310787159.png",
+      "index": 220,
+      "format": 5,
+      "sha256": "69149524d08e03eb16d9b301c2d4803ea98b4fab25a38554432809f359ae74dd",
+      "bytes": 900084,
+      "inode": 1707451,
+      "mtime_ns": 1792469930714134184
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469930764360905.png",
+      "index": 221,
+      "format": 5,
+      "sha256": "90db783dc86814a986707f29fb3fbbf45e0a2a4bc07103470356c4d71d5fc961",
+      "bytes": 895643,
+      "inode": 1706991,
+      "mtime_ns": 1792469931203398978
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469931293737302.png",
+      "index": 222,
+      "format": 5,
+      "sha256": "c212dc93c4243c163d325fd4058e72eee85ee43ab66ce0fc0a817c8d9cb98270",
+      "bytes": 941398,
+      "inode": 1708147,
+      "mtime_ns": 1792469937727024846
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469937852038010.png",
+      "index": 223,
+      "format": 5,
+      "sha256": "ee42fdfd9bdf73cfdb2c6b308ff3846c758303a5af46e687f00f324622ac4780",
+      "bytes": 944869,
+      "inode": 1706996,
+      "mtime_ns": 1792469938288650673
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469955553531331.png",
+      "index": 224,
+      "format": 5,
+      "sha256": "7f606d897cacf7df111350cdeb9ae030d6c7f34fcd387326fdc01ab617008165",
+      "bytes": 739178,
+      "inode": 1706412,
+      "mtime_ns": 1792469956118900627
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469956850239905.png",
+      "index": 225,
+      "format": 5,
+      "sha256": "d77b8d83b3dc993f39159a61fd6521995cb17a5d64e1b11d3a4315ad132b1bfc",
+      "bytes": 943219,
+      "inode": 1706410,
+      "mtime_ns": 1792469957463612561
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469971392131056.png",
+      "index": 226,
+      "format": 5,
+      "sha256": "27645f4f4076226d3d6fb1df2ea7bac25a2c4957eab78c5ce8a6cd06d1c9286e",
+      "bytes": 739306,
+      "inode": 1706992,
+      "mtime_ns": 1792469971946674500
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469972607880514.png",
+      "index": 227,
+      "format": 5,
+      "sha256": "de1283e297aaade877c6c595fdc925f3869d819b06dab95ad261d66d991d2dd6",
+      "bytes": 943497,
+      "inode": 1706994,
+      "mtime_ns": 1792469973190710168
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469973768236988.png",
+      "index": 228,
+      "format": 5,
+      "sha256": "ba260ccc106f3f994bcd4bb35b32ff1988c425c4e0d554eab5586ec094ef9eb2",
+      "bytes": 943549,
+      "inode": 1706411,
+      "mtime_ns": 1792469974209814489
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469974296863392.png",
+      "index": 229,
+      "format": 5,
+      "sha256": "53b8ccdd86de7330e75f7356aae9ed4a5c34f8205bb7f55a478a89c08cb63345",
+      "bytes": 951586,
+      "inode": 1706988,
+      "mtime_ns": 1792469974750291463
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469974819753064.png",
+      "index": 230,
+      "format": 5,
+      "sha256": "95dc1ef7911052e8784db44246e73741638b0b73a7dcd93ad5d59a744a0d1aa6",
+      "bytes": 940508,
+      "inode": 1706413,
+      "mtime_ns": 1792469979214311900
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469979298223165.png",
+      "index": 231,
+      "format": 5,
+      "sha256": "335f56245a7e94ee72884ba59e50578df17b283f3dd2a0baa0db0ca530b5a994",
+      "bytes": 942442,
+      "inode": 1706406,
+      "mtime_ns": 1792469979726320903
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469995114352452.png",
+      "index": 232,
+      "format": 5,
+      "sha256": "37f8e5078c4d19232021078b6b7066ec5f53299f919466a2f2c5ec25daad020e",
+      "bytes": 942439,
+      "inode": 1706403,
+      "mtime_ns": 1792469995518598615
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469995645191077.png",
+      "index": 233,
+      "format": 5,
+      "sha256": "988423acb361e5fc0ccdf62e266626893e000b373aba1fc2b282c4154eb28b82",
+      "bytes": 954481,
+      "inode": 1705848,
+      "mtime_ns": 1792469996182610292
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469996249979848.png",
+      "index": 234,
+      "format": 5,
+      "sha256": "efb58f3a8f659b3e8c22815581a9878a00733272cbe298a166d2bf4a1f88460f",
+      "bytes": 909146,
+      "inode": 1705845,
+      "mtime_ns": 1792469999674671698
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792469999741141477.png",
+      "index": 235,
+      "format": 5,
+      "sha256": "be8baada9bb9cbc124e5b83cc1bb40007b6b9a2aa5b0d51a22de99136e63b1a8",
+      "bytes": 911363,
+      "inode": 1706404,
+      "mtime_ns": 1792470000202680982
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792470020809701217.png",
+      "index": 236,
+      "format": 5,
+      "sha256": "addf8d1857bb082193ce12299b9ff9e7f7c280c01fbafd307348db7916d6724e",
+      "bytes": 727246,
+      "inode": 1704405,
+      "mtime_ns": 1792470021308445194
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792470021963822538.png",
+      "index": 237,
+      "format": 5,
+      "sha256": "52f3f656c6635922e9f88ccce6782c5a1156cd60720c6295832064139dbcb3dc",
+      "bytes": 698603,
+      "inode": 1705266,
+      "mtime_ns": 1792470022479871882
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792470022972137034.png",
+      "index": 238,
+      "format": 5,
+      "sha256": "1e03a41c4e42ed82bc44a1bb71bb9f2f294a6c13e9927f5d2834fd34cade4883",
+      "bytes": 919758,
+      "inode": 1705843,
+      "mtime_ns": 1792470023565603615
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792470024070524043.png",
+      "index": 239,
+      "format": 5,
+      "sha256": "39499ed9db4c3cbaa9a24906bfa72d2dde55ce5ccd8bac84c890344ce136834a",
+      "bytes": 908439,
+      "inode": 1705844,
+      "mtime_ns": 1792470024655436620
+    },
+    {
+      "path": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/whole-game-cautious-reconnected-1/1792470038967873734.png",
+      "index": 240,
+      "format": 5,
+      "sha256": "778c7f6d001a9e0d5639c756bbf8c03c254af18b99672e27834dfc0974983800",
+      "bytes": 711682,
+      "inode": 1705841,
+      "mtime_ns": 1792470039470603470
+    }
+  ],
+  "scope": "Closed-session immutable numeric PNGs; every original PNG byte hash independently reconstructed from lossless RGB video using pinned Godot4.6.3 before local eviction. Source, saves, logs, named keyframes, builds and signer untouched.",
+  "encoding": "libx264rgb CRF0 bgr24; lossless RGB; Godot Image format restored per frame",
+  "original_bytes": 201778246,
+  "free_before": 574922752,
+  "godot_version": "4.6.3.stable.official.7d41c59c4",
+  "archive_sha256": "91cae4a26c722e6207024ca12feff4f0d3cad27adfcc89c60b5b9922d26d0e3a",
+  "archive_bytes": 52319203,
+  "verification": "Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org\n\nEXACT ORIGINAL PNG RECONSTRUCTION 240 FAILURES 0\n",
+  "restoration": "Decode all frames with ffmpeg -i ARCHIVE -fps_mode passthrough SCRATCH/%06d.png; then godot --headless --path GAME --script verify-frame-archive.gd -- MANIFEST SCRATCH --restore. Original PNG SHA256 is checked before write; changed originals are never replaced.",
+  "free_after": 719130624,
+  "storage_frame_clock": "Synthetic25fps archive index; original screenshot timing remains in filenames and unchanged input logs."
+}
