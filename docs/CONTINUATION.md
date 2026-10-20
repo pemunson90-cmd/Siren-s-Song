@@ -1,14 +1,16 @@
 # Continuation
-Current production base: `7cd606ed7192c33381cd8f5493a933837d34a563`.
+Current production base: `6f4e342238f891d1432c4ad32723b12fb0d317f8`.
 Read docs/USER_DIRECTIVES.md first; the latest order correction governs.
 
-## Next — whole-game evaluation
+## Next — Stakes candidate and whole-game evaluation
 The rough campaign, four endings, general upgrades and mixed rosters are built.
 The integrated V7 recovery adds currents, earned terrain, local evidence pressure,
 threat feedback and photo grading. Its review and PR game-smoke gate passed.
 Fresh critics play the complete running game through real touch, without builder notes.
 Continue genuine saved journeys through every branch and ending; preserve their source versions.
-Rank the biggest actual weakness and build the next version, following the audit quality passes.
+The Stakes candidate combines operation-sized endurance, independent craft acquisitions,
+and visible rejected targeting results. Finish its single review and PR gate.
+Rank actual whole-game weaknesses and continue the audit quality passes.
 Stakes → One real operation → Instruments remains the subsequent design direction.
 Compare real reference footage by dimension with source labels withheld.
 The user chooses when to playtest; development never waits for it.

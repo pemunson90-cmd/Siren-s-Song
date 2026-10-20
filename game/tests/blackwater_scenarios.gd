@@ -40,7 +40,7 @@ static func run(t):
 	s=make();place(s,0);s.units[0].vel=Vector2(80,0);s.command("camera");s.paused=false;tick(s,0.25)
 	t.check(s.capture_time==0,"moving craft must settle before reception accumulates")
 	s=make();place(s,0);s.command("camera");s.command("select",{"unit":1});s.paused=false;tick(s,1.0)
-	t.check(s.capture_feedback(0).unit==0 and "QUIETUS" not in s.camera_context().text,"station handoff keeps remote reception while readiness follows selected craft")
+	t.check(s.capture_feedback(0).unit==0 and s.capture_feedback(1).unit<0 and not s.camera_context().ready,"station handoff keeps remote reception while readiness follows selected craft")
 	s.paused=true;before=s.snapshot();s.advance(100);t.check(before==s.snapshot(),"tactical pause freezes partial reception and all relay clocks")
 	var restored=Simulation.new();t.check(restored.restore(s.snapshot()) and restored.paused,"partial receiver sample restores paused through the existing snapshot")
 	restored.paused=false;tick(restored,1.05);t.check(restored.mission.objectives[0].captured,"restored partial sample finishes its remaining reception")

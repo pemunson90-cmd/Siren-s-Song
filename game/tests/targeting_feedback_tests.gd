@@ -9,7 +9,7 @@ func settle():
  for n in 4:await process_frame
 func run():
  root.size=Vector2i(1280,720)
- var game=load("res://scenes/main.tscn").instantiate();root.add_child(game);await settle()
+ var game=load("res://scenes/main.tscn").instantiate();game.capture_scenario="targeting-feedback";root.add_child(game);await settle()
  game.set_process(false);game._start_mission(0);await settle()
  game._order("decoy");var charges=game.sim.tools.decoy
  game._order("decoy",{"point":Vector2(1500,900)});await settle()
@@ -25,5 +25,9 @@ func run():
  check("disrupt" in game.mission_hud.intent.text.to_lower() and game.sim.tools.knock==shots,"observed disrupted target explains rejection without spending")
  game._primary_action();await settle()
  check(not game.knock_armed and not game.decoy_armed and "disrupted" not in game.mission_hud.intent.text.to_lower(),"cancel clears the old targeting result")
+ game.fitted_equipment={"quietus":"","drone_a":"drone_sampler","drone_b":""};game._start_mission(10)
+ game.sim.units[1].pos=game.sim.mission.objectives[0].pos+Vector2(0,100);game.sim.command("select",{"unit":1});game._refresh()
+ game._order("decoy");game._order("decoy",{"point":Vector2(1900,1900)});await settle()
+ check(game.sim.message in game.mission_hud.intent.text,"rejected deployment takes precedence over field-sampler readiness")
  game.queue_free();await settle()
  print("TARGETING FEEDBACK CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)
