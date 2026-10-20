@@ -1,3 +1,5 @@
+> Current user priority: build the rough complete campaign in docs/PASS0_CAMPAIGN_PLAN.md before further quality passes. One blocker-focused review; accept placeholders and rough balance; drop legacy-save compatibility. Fresh real-input critics play every branch to every ending before whole-game evaluation.
+
 Current user contract: read AGENTS.md and the final audit card on archive/claude-audit-2026-10-19. Gameplay features use PRs with passing game-smoke CI. Player critics start fresh, play full operations through actual injected touch, and compare against anonymized real reference footage under docs/CRITIC_BRIEF.md. The user plays after explicitly stopping the Gauntlet.
 
 # Siren's Song — worker and reviewer brief
