@@ -39,6 +39,7 @@ func _initialize()->void:
  check(sites.size()==1 and sites[0].get("optional",false) and not sites[0].captured,"finding the old repeater offers an optional physical operation")
  if s.has_method("confluence_context"):
   check(s.confluence_context().gates.size()==1 and s.confluence_context().landmarks.is_empty(),"only actually discovered service machinery enters the chart")
+ check(s.operation_context().gates.size()==1 and not s.operation_context().gates[0].has("rect") and not s.confluence_context().gates[0].has("rect"),"discovered remote actuator exposes its state without unmeasured gate geometry")
  if sites.is_empty():
   print("CONFLUENCE OPERATION CHECKS ",checks," FAILURES ",failures);quit(1);return
  var site=sites[0]
@@ -50,6 +51,7 @@ func _initialize()->void:
  check(before>0,"local receiver earns the actual closed service door face")
  site.captured=true;s._record_secured(site,0)
  check(gate.opened and not s.mission.structures.has(gate.closed_shape),"completing optional operation permanently opens physical passage")
+ check(s.operation_context().gates[0].opened and not s.operation_context().gates[0].has("rect"),"operated gate reports open without certifying remote passage geometry")
  check(s.acoustic_paths.arrivals(west,east,3000).any(func(a):return a.direct),"open passage uses the same direct acoustic geography")
  check(s.line_clear(west,east) and length_of(s.path(west,east),west)+900<closed,"service choice earns a materially shorter return across the divide")
  check(length_of(s.path(live_return,s.mission.corridors[1].pos),live_return)+700<closed_return,"service discovery shortens the actual live-memory eastern withdrawal")

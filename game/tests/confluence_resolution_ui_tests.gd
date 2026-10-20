@@ -38,5 +38,14 @@ func run():
    var point=button.get_global_rect().get_center()
    await tap(point)
    check(game.screen=="briefing" and game.get_node_or_null("ConfluenceResolution")==null,"actual Continue touch disposes recovery scene and opens the chosen continuation")
+  # A recovered replay may use the other physical mouth, while campaign history
+  # keeps its first committed continuation. The scene must describe both truthfully.
+  game._start_mission(11)
+  game.sim.mission.recovered=true;game.sim.mission.chosen_route="overt" if route=="concealed" else "concealed"
+  game.sim.mission.expedition_facts={"confluence_packet":game.sim.mission.signal_sources[0].evidence}
+  game.sim.outcome="won";game._debrief();game._layout();await settle()
+  scene=game.get_node_or_null("ConfluenceResolution")
+  var next_title="The Concealed Record" if route=="concealed" else "Open Warning"
+  check(scene!=null and scene.consequence.story.contains("replay") and scene.consequence.story.contains(next_title),"opposite-exit replay describes its actual departure and committed campaign continuation")
   game.queue_free();await settle()
  print("CONFLUENCE RESOLUTION UI CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)

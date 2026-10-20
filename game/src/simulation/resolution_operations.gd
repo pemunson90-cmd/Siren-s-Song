@@ -34,8 +34,12 @@ static func complete(sim,site:Dictionary)->void:
 static func feedback(sim)->Dictionary:
  var result={"gates":[],"operations":[]}
  for gate in sim.mission.get("physical_gates",[]):
-  if sim.mission.id==11 and not sim.mission.signal_sources.any(func(source):return source.id==gate.site_id and source.located):continue
-  result.gates.append({"id":gate.id,"pos":gate.closed_shape.get_center(),"rect":gate.closed_shape,"opened":gate.opened})
+  if sim.mission.id==11:
+   if sim.mission.signal_sources.any(func(source):return source.id==gate.site_id and source.located):
+    # The discovered control reports machinery state, not the remote footprint.
+    # Confluence's physical material is drawn from measured chart faces.
+    result.gates.append({"id":gate.id,"opened":gate.opened})
+  else:result.gates.append({"id":gate.id,"pos":gate.closed_shape.get_center(),"rect":gate.closed_shape,"opened":gate.opened})
  var sites=sim.observable_sites()
  for index in sites.size():
   var site:Dictionary=sites[index]

@@ -166,7 +166,7 @@ func confluence_context()->Dictionary:
 	for landmark in mission.get("landmarks",[]):
 		if mission.signal_sources.any(func(source):return source.id==landmark.source_id and source.located):result.landmarks.append(landmark.duplicate(true))
 	for gate in mission.get("physical_gates",[]):
-		if mission.signal_sources.any(func(source):return source.id==gate.site_id and source.located):result.gates.append({"id":gate.id,"pos":gate.closed_shape.get_center(),"rect":gate.closed_shape,"opened":gate.opened})
+		if mission.signal_sources.any(func(source):return source.id==gate.site_id and source.located):result.gates.append({"id":gate.id,"opened":gate.opened})
 	return result
 func confluence_resolution()->Dictionary:
 	if mission.id!=11 or not mission.get("recovered",false):return {}

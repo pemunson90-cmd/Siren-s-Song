@@ -12,12 +12,14 @@ var actions:HBoxContainer
 var art_rect=Rect2()
 var touch_height=0.
 
-static func recovery(data:Dictionary,units:Array)->Dictionary:
+static func recovery(data:Dictionary,units:Array,committed_route:String="")->Dictionary:
  var route=data.get("route","")
  if route not in ["concealed","overt"] or not data.get("facts",{}).has("confluence_packet"):return {}
  var result=data.duplicate(true)
  result["title"]="CONCEALED RECOVERY" if route=="concealed" else "WARNING PASSAGE"
  result["story"]="The living dispatch is aboard. Quietus chose the concealed passage; the witness store is now available." if route=="concealed" else "The living dispatch is aboard. Quietus chose the warning passage; the next operation will send it and listen for an answer."
+ if committed_route in ["concealed","overt"] and committed_route!=route:
+  result.story="The living dispatch is aboard. This replay used the %s passage; your campaign continues to %s."%["concealed" if route=="concealed" else "warning","The Concealed Record" if committed_route=="concealed" else "Open Warning"]
  result["service_known"]=data.get("service_opened",false) or data.get("facts",{}).has("confluence_repeater")
  result["service"]=("The cross-island sluice stands opened. Your motor run left a passage through the basalt." if data.get("service_opened",false) else "The cross-island sluice remains shut. Quietus returned around the island.") if result.service_known else ""
  if result.service_known:
@@ -29,7 +31,7 @@ static func recovery(data:Dictionary,units:Array)->Dictionary:
 
 static func present(main)->bool:
  if not main.sim.has_method("confluence_resolution"):return false
- var data=recovery(main.sim.confluence_resolution(),main.sim.units)
+ var data=recovery(main.sim.confluence_resolution(),main.sim.units,main.expedition.get("facts",{}).get("confluence_route",""))
  if data.is_empty():return false
  var scene=load("res://src/presentation/confluence_resolution.gd").new()
  scene.name="ConfluenceResolution";scene.consequence=data;scene.host=main
