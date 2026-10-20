@@ -96,6 +96,9 @@ jobs:
           campaign_instruments_ui_tests|CAMPAIGN INSTRUMENT UI
           route_telemetry_touch_tests|ROUTE TELEMETRY TOUCH
           recovery_route_ui_tests|RECOVERY ROUTE UI
+          shelf_habitat_tests|SHELF HABITAT
+          shelf_habitat_journey_tests|SHELF HABITAT JOURNEY
+          shelf_habitat_ui_tests|SHELF HABITAT UI
           witness_evacuation_tests|WITNESS EVACUATION
           witness_evacuation_journey_tests|WITNESS EVACUATION JOURNEY
           witness_evacuation_ui_tests|WITNESS EVACUATION UI

@@ -1,5 +1,5 @@
 # Continuation
-Current reconciled production base: `9ebaec5a160c697431f7f7fac6f0ab89eff80412`.
+Current reconciled production base: `6778fadb1b3b63f29570f712e7ae37eb04d507fa`.
 Read docs/USER_DIRECTIVES.md first; the latest order correction governs.
 
 ## Next — whole-game evaluation and physical campaign consequences
@@ -9,7 +9,7 @@ Confluence has an authored region, earned terrain, physical mouths and noisy slu
 Earned courses retain intent, repair certified detours and stop at unresolved hazards.
 Recovery orders preserve drive/profile and offer explicit named mouths for route choices.
 Older frozen-source journeys reached three endings; the drone finale has an unobserved interval.
-Two genuine journeys continue from unchanged saves on their recorded frozen source.
+Genuine Stakes reached Silent Exodus on frozen0ee; drone continued unchanged into current source.
 Focused staged-access operations retain separate provenance from genuine journeys.
 Physical module recovery makes local salvage and extraction affect later kit availability.
 Bare craft and Quietus preserve finishability; returning players recovered and refitted gear.
@@ -25,9 +25,9 @@ Craft-anchored rings replace detached cards; deliberate STATUS retains exact fle
 Critical reserves, work/cargo/power and full touch targets remain; chart gestures pass through.
 Concealed Record integrates physical pod rescue, local landing and Q recovery.
 Engine sound follows thrust; unsaved progress and archive recovery now stay visible with explicit retry.
-Open Warning now requires actual recipient transit/arrival and Q recovery; prior service proof opens its gate.
-Next expand inhabited Shelf Return; continue real journeys and the full inventory, including sheltered-course advantage.
-The user chooses when to playtest; development never waits for it.
+Open Warning requires recipient transit/arrival; nearby gate work remains accessible through craft controls.
+Shelf Return now warns two occupied galleries through local delivery or a risky common alarm.
+Next evaluate its actual play; expand route-specific concealed consequences and retain the full inventory.
 
 ## Preserve and integrate
 The unchanged audit and F1–F7 response are on archive/claude-audit-2026-10-19.
