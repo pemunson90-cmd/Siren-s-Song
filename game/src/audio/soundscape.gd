@@ -40,6 +40,7 @@ static func samples(cue: String) -> PackedFloat32Array:
 			"factory":
 				var strike=pow(maxf(0,cos(time*TAU*0.8)),12)
 				value=(sin(TAU*54*time)*0.18+sin(TAU*81*time)*0.11+sin(TAU*(216*time+3*sin(time*1.7)))*0.08)*(0.3+strike*0.7)*sin(PI*k)
+			"sweep_received": value=(sin(TAU*(880*time-250*time*time))*.18+sin(TAU*(440*time-90*time*time))*.11)*envelope
 			"ping": value=(sin(TAU*(710*time-110*time*time))+sin(TAU*1240*time)*0.2)*0.28*envelope
 			"carrier_received","return_received":
 				# Two low pulses versus a long-short answer; independent of an
@@ -98,7 +99,7 @@ func _ready() -> void:
 		if AudioServer.get_bus_effect(0,i).resource_name=="SirenPeakGuard": guarded=true
 	if not guarded:
 		var limiter=AudioEffectLimiter.new(); limiter.resource_name="SirenPeakGuard"; limiter.threshold_db=-3; limiter.ceiling_db=-1; AudioServer.add_bus_effect(0,limiter)
-	for cue in ["ping","camera","emp","knock","snare","salvage","record","loss","extraction","alert","recon","decoy","creak","beam","factory","carrier_received","return_received","heartbeat","berth_release","plant_switch"]: cues[cue]=stream(cue)
+	for cue in ["ping","camera","emp","knock","snare","salvage","record","loss","extraction","alert","recon","decoy","creak","beam","factory","carrier_received","return_received","sweep_received","heartbeat","berth_release","plant_switch"]: cues[cue]=stream(cue)
 	ambience=AudioStreamPlayer.new(); ambience.stream=stream("ambience"); ambience.bus=AMBIENCE_BUS; add_child(ambience); ambience.play()
 	engine=AudioStreamPlayer.new(); engine.stream=stream("engine"); engine.bus=EFFECTS_BUS; add_child(engine); engine.play()
 	for n in 5:
@@ -133,7 +134,7 @@ func update(sim,dt: float,active_dive: bool=true) -> void:
 				play("alert",contact.pos-sim.units[sim.selected].pos); alert_timer=3.0
 	for event in sim.events:
 		if event.type=="plant_control":play("plant_switch")
-		elif event.type in ["carrier_received","return_received"]:
+		elif event.type in ["carrier_received","return_received","sweep_received"]:
 			var received=received_cues.take(event,sim.selected,sim.elapsed,active_dive and not sim.paused)
 			if not received.is_empty():play(received.cue,received.relative)
 		else:play(event.type,event.get("pos",sim.units[sim.selected].pos)-sim.units[sim.selected].pos)

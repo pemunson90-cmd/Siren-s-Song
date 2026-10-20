@@ -8,7 +8,7 @@ static func run(t,game) -> void:
 	t.check(lines.any(func(line):return "reception unknown" in line),"instrument explicitly preserves uncertainty about enemy reception")
 	t.check(lines.any(func(line):return "OPEN WATER" in line and "basalt" in line),"own acoustic estimate preserves its honest terrain qualification")
 	game.sim.command("ping"); game._refresh()
-	t.check(rows(game).any(func(line):return "SONAR" in line and "2s" in line),"own sonar pulse has a finite explained transmission timer")
+	t.check(rows(game).any(func(line):return "SONAR" in line and "3s" in line),"own sonar pulse has a finite explained transmission timer")
 	lines=rows(game)
 	game._show_campaign(); await t.process_frame
 	t.check(rows(game)==lines and game.sim.paused,"operations menu pauses the same finite transmission feedback")

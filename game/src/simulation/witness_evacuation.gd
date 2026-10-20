@@ -71,7 +71,8 @@ static func context(sim,unit:int,item:String=ITEM)->Dictionary:
  var land={"ready":false,"reason":"This craft does not carry the witness","distance":body.pos.distance_to(HARBOUR),"range":RANGE}
  if not sim.outcome.is_empty():land.reason="Dive ended"
  elif body.alive and state.state=="carried" and state.carrier==unit:
-  if land.distance>RANGE:land.reason="Bring the occupied capsule within 60m of southeast harbour"
+  if body.band!=1 or not body.transition.is_empty():land.reason="Ascend to MIDDLE and settle for harbour landing"
+  elif land.distance>RANGE:land.reason="Bring the occupied capsule within 60m of southeast harbour"
   elif not sim.line_clear(body.pos,HARBOUR):land.reason="Terrain blocks harbour landing"
   elif body.vel.length()>=2:land.reason="Settle below 2m/s to land the witness"
   elif not sim.captures[unit].is_empty() or not sim.module_recovery_status().jobs[unit].is_empty() or sim._blackwater_recovery_busy(unit) or busy(sim,unit):land.reason="Finish this craft's active work first"
@@ -81,7 +82,7 @@ static func begin(sim,item:String)->bool:
  var c=context(sim,sim.selected,item).get("winch",{})
  if not c.get("ready",false):sim.message=c.get("reason","Witness unavailable");return false
  sim.mission.witness_evacuation.job={"unit":sim.selected,"item":item,"elapsed":0.0};sim.units[sim.selected].hold="HOLD"
- sim._noise(sim.units[sim.selected].pos,520.0,"RECOVERY WINCH",DURATION);sim.events.append({"type":"salvage","pos":sim.units[sim.selected].pos,"item":item})
+ sim._noise(sim.units[sim.selected].pos,520.0,"RECOVERY WINCH",DURATION,sim.units[sim.selected].band);sim.events.append({"type":"salvage","pos":sim.units[sim.selected].pos,"item":item})
  sim.message="Occupied pressure pod · living witness aboard · audible winch4s";return true
 static func land(sim)->bool:
  var c=context(sim,sim.selected).get("land",{})
@@ -96,7 +97,7 @@ static func losses(sim)->void:
   var id=state.carrier;state.pos=sim.units[id].pos;state.state="salvage";state.carrier=-1;state.losses.append(id)
   sim.events.append({"type":"witness_ejected","pos":state.pos});sim.message="Transport lost · occupied sealed pressure pod ejected at its last own position · recover locally"
 static func collect_at(sim,unit:int,pos:Vector2)->void:
- if not available(sim) or sim.mission.witness_evacuation.pos.distance_to(pos)>1:return
+ if not available(sim) or sim.mission.witness_evacuation.pos.distance_to(pos)>1 or sim.units[unit].band!=sim.Depth.cargo_band(sim,ITEM):return
  var state=sim.mission.witness_evacuation
  if state.state=="salvage":state.rescues+=1
  else:

@@ -11,7 +11,7 @@ func tick(s,seconds:float)->void:
  s.paused=false
  for n in roundi(seconds*60):s.advance(Sim.STEP)
 func loss_and_resample()->void:
- var lost=Observed.make();lost.sirens=[];lost.mission.blackwater_delivery.carriers=[[],[0],[1]]
+ var lost=current_observed_fixture();lost.sirens=[];lost.mission.blackwater_delivery.carriers=[[],[0],[1]]
  var position=lost.units[1].pos;lost.units[1].alive=false;tick(lost,Sim.STEP)
  var sites=lost.salvage_sites()
  check(sites.size()==1 and sites[0].item=="blackwater_buffer_1" and sites[0].pos==position and sites[0].packets==[0],"lost data carrier leaves one known own-position buffer wreck without erasing the field record")
@@ -76,8 +76,17 @@ func data_winch_and_save()->void:
  for value in [[],{}, {"aboard":[0,0],"carriers":[[],[],[]],"wrecks":{},"jobs":[{},{},{}]}]:
   bad=before.duplicate(true);bad.mission.blackwater_delivery=value
   check(not Sim.valid_snapshot(bad),"malformed or duplicated packet custody rejects cleanly")
+func current_observed_fixture():
+ # Explicit source-known mechanic staging from historical poses, NOT a save
+ # migration or a new earned journey. Keep the immutable observed export intact.
+ var sim=Observed.make()
+ for actor in sim.units+sim.sirens:actor["band"]=1;actor["transition"]={}
+ for id in sim.sirens.size():sim.sirens[id]["acoustic_tone"]=180.+id*17.
+ for noise in sim.noises:noise["band"]=1
+ sim.sonar=sim.Sonar.initial();sim._build_navigation();sim._configure_terrain();sim._configure_depth_charts()
+ return sim
 func physical_return()->void:
- var sim=Observed.make();sim.mission.blackwater_delivery.carriers=[[],[0],[1]]
+ var sim=current_observed_fixture();sim.mission.blackwater_delivery.carriers=[[],[0],[1]]
  for carrier in [1,2]:
   sim.command("select",{"unit":carrier});check(sim.command("route",{"point":sim.units[0].pos}),"observed distant carrier accepts a real homeward route with original guards and spent EMPs")
  sim.paused=false
@@ -86,7 +95,7 @@ func physical_return()->void:
   for carrier in [1,2]:
    if sim.blackwater_handoff_context(carrier).ready:sim.command("select",{"unit":carrier});sim.command("blackwater_handoff",{"carrier":carrier})
   if not sim.outcome.is_empty():break
- check(sim.outcome=="won" and sim.hull==100 and sim.units.all(func(u):return u.alive) and sim.tools.emp==0 and sim.elapsed>25,"original15.63s state completes its expected physical return with real guards and no restored resources")
+ check(sim.outcome=="won" and sim.hull==100 and sim.units.all(func(u):return u.alive) and sim.tools.emp==0 and sim.elapsed>25,"historical15.63s poses staged in current model complete physical return with real guards and unchanged resources")
  print("OBSERVED RETURN outcome=",sim.outcome," elapsed=",sim.elapsed," hull=",sim.hull," EMP=",sim.tools.emp)
 func handoff_guards()->void:
  var sim=Sim.new();sim.start(2);sim.mission.objectives[0].captured=true;sim.mission.blackwater_delivery.carriers[1]=[0];sim.units[1].pos=sim.units[0].pos+Vector2(30,0)
@@ -139,7 +148,7 @@ func concurrent_delivery()->void:
 func finish()->void:
  print("BLACKWATER DELIVERY CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)
 func _initialize():
- var s=Observed.make()
+ var s=current_observed_fixture()
  check(s.has_method("blackwater_delivery_status"),"Blackwater exposes physically carried exchange delivery separately from locally retained records")
  if not s.has_method("blackwater_delivery_status"):finish();return
  # Replay the observed first-extraction condition with the measured records

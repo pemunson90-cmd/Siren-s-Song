@@ -97,6 +97,11 @@ expedition_menu_tests|EXPEDITION MENU
 campaign_consequence_tests|CAMPAIGN CONSEQUENCES
 campaign_equipment_save_tests|CAMPAIGN EQUIPMENT SAVE
 operation_catalog_tests|OPERATION CATALOG
+depth_sonar_tests|DEPTH SONAR
+sweeper_tests|SWEEPER
+depth_policy_journeys|DEPTH POLICY
+depth_sonar_ui_tests|DEPTH SONAR UI
+depth_policy_ui_tests|DEPTH POLICY UI
 onward_mission_tests|ONWARD MISSIONS
 wake_crossing_tests|WAKE CROSSING
 wake_crossing_journey_tests|WAKE CROSSING JOURNEY

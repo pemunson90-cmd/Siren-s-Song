@@ -4,7 +4,7 @@ extends RefCounted
 const BEHAVIORS=["packet_delivery","tender","warning_plant","witness","recipient","resolution","signals_v1","signals_v2","history"]
 static var _entries:Dictionary={}
 const CONTENT=[
- {"id":0,"factory":"res://src/campaign/tutorial_missions.gd","config":{"source_id":0,"history":false},"behaviors":[],"prerequisites":[],"facts":[],"records":[],"campaign":false,"route":"","required_facts":{}},
+ {"id":0,"factory":"res://src/campaign/shelf_signal_operation.gd","config":{"source_id":0,"history":false},"behaviors":[],"prerequisites":[],"facts":[],"records":[],"campaign":false,"route":"","required_facts":{}},
  {"id":1,"factory":"res://src/campaign/tutorial_missions.gd","config":{"source_id":1,"history":false},"behaviors":[],"prerequisites":[],"facts":[],"records":[],"campaign":false,"route":"","required_facts":{}},
  {"id":2,"factory":"res://src/campaign/tutorial_missions.gd","config":{"source_id":2,"history":false},"behaviors":["packet_delivery"],"prerequisites":[],"facts":[],"records":["blackwater_request","blackwater_reply"],"campaign":false,"route":"","required_facts":{}},
  {"id":3,"factory":"res://src/campaign/tutorial_missions.gd","config":{"source_id":3,"history":false},"behaviors":[],"prerequisites":[],"facts":[],"records":["furnace","cradle"],"campaign":false,"route":"","required_facts":{}},

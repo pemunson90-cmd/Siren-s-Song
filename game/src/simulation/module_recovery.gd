@@ -41,7 +41,7 @@ static func context(sim,item:String,unit_id:int)->Dictionary:
  elif result.claimed_by>=0:result.reason="Recovery in progress"
  elif not state.jobs[unit_id].is_empty() or not sim.captures[unit_id].is_empty() or sim._blackwater_recovery_busy(unit_id) or sim._warning_chain_busy(unit_id) or sim._witness_recovery_busy(unit_id):result.reason="Finish this craft's active work first"
  elif result.distance>RANGE:result.reason="Move within 60m"
- elif not sim.line_clear(unit.pos,module.pos):result.reason="Terrain blocks recovery"
+ elif not sim.Depth.clear(sim,unit.pos,module.pos,unit.band):result.reason="Terrain blocks recovery"
  elif unit.vel.length()>=2.0:result.reason="Settle below 2m/s"
  else:result.ready=true;result.reason="Recover module · audible winch 4s"
  return result
@@ -49,7 +49,7 @@ static func begin(sim,item:String)->bool:
  var c=context(sim,item,sim.selected)
  if not c.ready:sim.message=c.reason;return false
  var state=_state(sim);state.jobs[sim.selected]={"item":item,"elapsed":0.0};sim.units[sim.selected].hold="HOLD"
- sim._noise(sim.units[sim.selected].pos,NOISE,"RECOVERY WINCH",DURATION)
+ sim._noise(sim.units[sim.selected].pos,NOISE,"RECOVERY WINCH",DURATION,sim.units[sim.selected].band)
  sim.events.append({"type":"salvage","pos":sim.units[sim.selected].pos,"item":item});sim.message="%s · recover %s · audible winch 4s"%[sim.units[sim.selected].name,_name(item)]
  return true
 static func cancel_released(sim,unit_id:int)->void:
@@ -66,7 +66,7 @@ static func tick(sim,dt:float)->void:
   var job=state.jobs[id]
   if job.is_empty():continue
   var unit=sim.units[id];var module=state.modules[job.item]
-  if not unit.alive or unit.hold!="HOLD" or module.state!="salvage" or unit.pos.distance_to(module.pos)>RANGE or not sim.line_clear(unit.pos,module.pos):
+  if not unit.alive or unit.hold!="HOLD" or module.state!="salvage" or unit.pos.distance_to(module.pos)>RANGE or not sim.Depth.clear(sim,unit.pos,module.pos,unit.band):
    state.jobs[id]={}
    if unit.hold=="HOLD":unit.hold=""
    sim.message="%s · module recovery interrupted"%unit.name
@@ -83,7 +83,7 @@ static func departure(sim,corridor:Dictionary)->Dictionary:
  var home=[0]
  for id in [1,2]:
   var unit=sim.units[id]
-  if unit.alive and unit.pos.distance_to(corridor.pos)<65 and unit.vel.length()<12 and sim.line_clear(unit.pos,corridor.pos):home.append(id);result.recovered_drones.append(id)
+  if unit.alive and unit.band==1 and unit.transition.is_empty() and unit.pos.distance_to(corridor.pos)<65 and unit.vel.length()<12 and sim.line_clear(unit.pos,corridor.pos):home.append(id);result.recovered_drones.append(id)
  for module in status(sim).modules:
   if module.unit in home:result.recovered.append(module.item)
   else:
@@ -137,5 +137,6 @@ static func valid(data:Dictionary)->bool:
 
 static func collect_at(sim,unit_id:int,pos:Vector2)->void:
  if not sim.mission.has("module_recovery"):return
- for module in sim.mission.module_recovery.modules.values():
-  if module.state=="salvage" and module.pos.distance_to(pos)<=1:module.state="cargo";module.unit=unit_id
+ for item in sim.mission.module_recovery.modules:
+  var module=sim.mission.module_recovery.modules[item]
+  if module.state=="salvage" and module.pos.distance_to(pos)<=1 and sim.Depth.cargo_band(sim,item)==sim.units[unit_id].band:module.state="cargo";module.unit=unit_id

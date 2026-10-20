@@ -3,7 +3,7 @@ const Simulation=preload("res://src/simulation/simulation.gd")
 static func advance(s,seconds: float) -> void:
 	for n in int(round(seconds*10)): s.advance(0.1)
 static func fixture(role: String):
-	var s=Simulation.new(); s.start(0)
+	var s=Simulation.new(); s.start(0); s.sirens=s.sirens.slice(0,1)
 	# Exact historical heard-point assertions preserve legacy active-role archives.
 	# Fresh terrain-arrival rules are exercised in acoustic_hearing_tests.gd.
 	s.mission.erase("acoustic_revision")
@@ -65,7 +65,7 @@ static func run(t) -> void:
 		s.mission.rocks=[Rect2(740,200,100,600)]; s._build_navigation()
 		s.units[0].pos=Vector2(660,500); s._noise(s.units[0].pos,700,"TEST",0.2); advance(s,0.3)
 		t.check(s.sirens[0].target==-1 and s.sirens[0].pos.distance_to(s.sirens[0].home)<1,"%s cannot hear a quiet occluded stimulus or see through cover"%role)
-		s.command("ping"); advance(s,0.2)
+		s.command("sonar_mode",{"sector":"all","power":"high"}); s.command("ping"); advance(s,0.2)
 		t.check(s.sirens[0].mode=="INVESTIGATE" and s.sirens[0].target==-1 and not s.sirens[0].route.is_empty(),"%s follows a loud occluded sound via navigable water without visual lock"%role)
 
 	for role in ["sentinel","hunter"]:

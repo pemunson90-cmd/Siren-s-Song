@@ -8,7 +8,7 @@ func observe_clock(time:float)->void:
  last_time=time
 func take(event:Dictionary,selected:int,time:float,running:bool)->Dictionary:
  observe_clock(time)
- if not running or event.get("type","") not in ["carrier_received","return_received"]:return {}
+ if not running or event.get("type","") not in ["carrier_received","return_received","sweep_received"]:return {}
  if event.get("receiver",-1)!=selected or not event.get("direction",null) is Vector2:return {}
  var at=event.get("time",-100.)
  if not (at is float or at is int) or not is_finite(at) or at>time or time-at>.25:return {}

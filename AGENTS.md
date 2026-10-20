@@ -1,4 +1,4 @@
-Milestone = a complete playable game. Build coherent release batches with one implementation worker and one independent integration reviewer; fresh broader critics assess substantial milestones sequentially. The user's playtest gates nothing. The loop ends only when the user ends it or usage runs out, in which case write PAUSED, RESUME REQUIRED with the exact next command.
+Current first milestone = integrated depth, sonar and stealth across the complete six-operation opening0–5. Keep one implementation worker on the same milestone branch through internal checkpoints, then one independent integration reviewer against the accumulated branch; fresh broader critics assess substantial milestones sequentially. The user's playtest gates nothing. The loop ends only when the user ends it or usage runs out, in which case write PAUSED, RESUME REQUIRED with the exact next command.
 
 > **READ FIRST — CURRENT USER ORDER:** docs/USER_DIRECTIVES.md. Implement the approved full-release expansion; preserve accepted Pass0/V7 systems. User playtest timing never gates work.
 
@@ -17,7 +17,7 @@ The user decides when to playtest; user play never gates development. Agents kee
 1. Rank player-facing weaknesses across tactics, stakes, operations, controls, story, world, art, sound and technical quality. Examine actual source, playable v7 and relevant successful games.
 2. Develop coherent gains on dedicated feature branches/worktrees with explicit ownership. Reuse inactive worktrees and one shared toolchain. Preserve other workers’ edits and all unique evidence.
 3. Use one designated integration reviewer for actual source changes, gameplay consequences, current-save integrity and relevant targeted checks. Fix consequential regressions before integration.
-4. Integrate every gameplay feature through a pull request to gauntlet/production with the existing game-smoke CI passing. Preserve main as the protected accepted recovery baseline; promote through deliberate tested PRs. Preserve all published work and recovery refs.
+4. Complete the integrated six-operation opening milestone on its existing branch before review, final-head game-smoke CI and a normal pull request to gauntlet/production. Internal task checkpoints do not create isolated feature PRs. Subsequent coherent milestones use the same review/CI/PR boundary. Preserve main as the protected accepted recovery baseline; promote through deliberate tested PRs. Preserve all published work and recovery refs.
 5. Validate primarily in Godot, locally or through GitHub. Batch broad regression at meaningful integrated passes. Android APKs require an explicit request or a concrete Android-specific risk that Godot cannot resolve. Reuse the canonical Git-tracked debug signer.
 6. Evaluate actual gains and costs, then immediately continue. Every hour of simulation, layout and encounter work should outweigh an hour of documentation.
 
