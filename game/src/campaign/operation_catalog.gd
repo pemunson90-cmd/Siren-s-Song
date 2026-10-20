@@ -1,7 +1,7 @@
 extends RefCounted
 # Authored content registry. Factories retain their existing physical implementations.
 # A definition selects a factory/configuration, supported behaviors and progression.
-const BEHAVIORS=["packet_delivery","tender","warning_plant","witness","recipient","resolution","signals_v1","signals_v2","history"]
+const BEHAVIORS=["packet_delivery","tender","warning_plant","witness","recipient","resolution","signals_v1","signals_v2","history","glass_reach","thermal"]
 static var _entries:Dictionary={}
 const CONTENT=[
  {"id":0,"factory":"res://src/campaign/shelf_signal_operation.gd","config":{"source_id":0,"history":false},"behaviors":[],"prerequisites":[],"facts":[],"records":[],"campaign":false,"route":"","required_facts":{}},
@@ -19,9 +19,15 @@ const CONTENT=[
  {"id":12,"factory":"res://src/campaign/resolution_missions.gd","config":{"source_id":12,"history":true},"behaviors":["witness","resolution","signals_v2","history"],"prerequisites":[11],"facts":["witness_packet","witness_repeater","witness_sluice","witness_arrival","witness_recovery","concealed_consequence","resolution"],"records":["divergence_witness_packet","divergence_witness_repeater","resolution_witness_sluice"],"campaign":true,"route":"","required_facts":{"confluence_route":"concealed"}},
  {"id":13,"factory":"res://src/campaign/resolution_missions.gd","config":{"source_id":13,"history":true},"behaviors":["recipient","resolution","signals_v2","history"],"prerequisites":[11],"facts":["warning_west","warning_east","warning_uplink","warning_transmission","warning_reply","warning_arrival","warning_arrival_hull","warning_service","resolution"],"records":["resolution_warning_transmission","divergence_warning_reply","resolution_warning_west","resolution_warning_east","resolution_warning_uplink"],"campaign":true,"route":"","required_facts":{"confluence_route":"overt"}}
 ]
+static func _glass_entries()->Array:
+ var result=[]
+ for id in range(14,22):
+  var prerequisites=[12,13] if id==14 else [16] if id==20 else [17] if id==21 else [id-1]
+  result.append({"id":id,"factory":"res://src/campaign/glass_reach_operations.gd","config":{"source_id":id,"history":true},"behaviors":["signals_v2","history","glass_reach"]+(["thermal"] if id==16 else []),"prerequisites":prerequisites,"prerequisite_mode":"any" if id==14 else "all","facts":["glass_record_"+str(id)]+(["glass_choice"] if id==18 else []),"records":["glass_record_"+str(id)],"campaign":true,"route":"","required_facts":{}})
+ return result
 static func _ensure():
  if not _entries.is_empty():return
- for entry in CONTENT:_entries[entry.id]=entry.duplicate(true)
+ for entry in CONTENT+_glass_entries():_entries[entry.id]=entry.duplicate(true)
 static func registered_ids()->Array:
  _ensure();var result=_entries.keys();result.sort();return result
 static func definition(id:int)->Dictionary:

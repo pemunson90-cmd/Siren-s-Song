@@ -505,7 +505,13 @@ func _siren(p: Vector2,angle: float,fresh: bool,role: String="patroller",pin_tim
 		if role=="sweeper": body=Rect2(-70,-50,140,100)
 		if role=="sentinel": body=Rect2(-58,-53,116,106)
 		var shade=Color(lerpf(0.25,1.0,depth),lerpf(0.44,1.0,depth),lerpf(0.55,1.0,depth),lerpf(0.45,1.0,depth))
-		if role=="hunter":Confluence.draw_hunter(self,sim.elapsed,shade)
+		if role=="buoy":
+			draw_line(Vector2(0,-36),Vector2(0,48),Color("d5b77c"),4.)
+			draw_circle(Vector2.ZERO,20,Color("193a40"));draw_arc(Vector2.ZERO,22,0,TAU,24,Color("d5b77c"),3.)
+		elif role=="relay":
+			draw_colored_polygon(PackedVector2Array([Vector2(0,-35),Vector2(23,0),Vector2(0,35),Vector2(-23,0)]),Color("578c99"))
+			for side in [-1,1]:draw_line(Vector2(side*20,0),Vector2(side*47,-20),Color("dbcfa5"),3.)
+		elif role=="hunter":Confluence.draw_hunter(self,sim.elapsed,shade)
 		else:draw_texture_rect(siren_ray,body,false,shade)
 		if role=="sweeper":
 			for radius in [30,43,56]:draw_arc(Vector2(25,0),radius,-PI*.45,PI*.45,20,Color("e4b273"),2.)

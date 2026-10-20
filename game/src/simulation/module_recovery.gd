@@ -84,7 +84,7 @@ static func departure(sim,corridor:Dictionary)->Dictionary:
  var home=[0]
  for id in [1,2]:
   var unit=sim.units[id]
-  if unit.alive and unit.band==1 and unit.transition.is_empty() and unit.pos.distance_to(corridor.pos)<65 and unit.vel.length()<12 and sim.line_clear(unit.pos,corridor.pos):home.append(id);result.recovered_drones.append(id)
+  if unit.alive and unit.band==1 and unit.transition.is_empty() and unit.pos.distance_to(corridor.pos)<65 and unit.vel.length()<12 and sim.Depth.clear(sim,unit.pos,corridor.pos,unit.band):home.append(id);result.recovered_drones.append(id)
  for module in status(sim).modules:
   if module.unit in home:result.recovered.append(module.item)
   else:

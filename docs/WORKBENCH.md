@@ -1,33 +1,24 @@
 # Siren’s Song · approved full-release build
-Read USER_DIRECTIVES.md and CURRENT_GAME_SPEC.md for governing scope.
+Read USER_DIRECTIVES.md and CURRENT_GAME_SPEC.md for scope.
 
-| Delivery stage | Actual state |
+| Delivery | State |
 |---|---|
-|Pass0/V7 and physical finales|Preserved; complete fresh branch evaluation remains|
-|Reusable operation/config foundation|Landed production fb4cf105|
-|Physical depth / advanced sonar|Opening verified; torpedo/recovery repair; review next|
-|First new enemy: active sweeper|Shelf/Blackwater/Well/finale; four further roles remain|
-|Opening policy evidence|Source-known command and injected-input journeys; no blind preference claim|
-|Complete six-operation opening arc|Authored0–5; command/input policies pass both views; review pending|
-|28 core/12 optional + replay/challenges|Approved; not yet authored|
-|Fleet/economy/research/artifacts|Approved broader expansion unfinished|
-|World/audio/frontend/settings/accessibility|Approved production expansion unfinished|
-|Roguelite expeditions|After campaign/replay|
-|Persistent naval career|After expeditions|
+|Pass0/V7, physical finales and branching outcomes|Preserved|
+|Depth/sonar/stealth opening0–5|Integrated PR48 / production3578c068|
+|Glass Reach core14–19 + optional20–21|Sole builder actively implementing|
+|Listening buoy / communications relay|Runtime and focused checks; journey use next|
+|Physical artifacts / practical research|Custody/work/ledger source; reward journeys next|
+|Ordinary ending Continue / regional replay|Implementation and input checks next|
+|Full28 core/12 optional, replay/challenges|Further content remains|
+|Wider fleet/economy/research/presentation/audio|Approved expansion unfinished|
+|Roguelite expeditions, then naval career|After campaign/replay|
 
-Current batch preserves finite tools, unlimited pause, earned charts, camera and
-physical cargo/recovery, the recipient/witness enclosure repair and finite Wake.
-Bands reuse original geometry unless an operation explicitly overrides it.
-New depth charts and routes use local measurements; transitions retain route goals.
-Sonar separates bearings, triangulated fixes, optical contacts and stale echoes.
-Sweeper returns/reporting use acquired snapshots, with a real disruption/evasion window.
-
-Fresh blockers reproduced/repaired: band-aware torpedo admission and craft-local
-Blackwater/witness winching, module custody/plant continuity; sweeper pin/save recheck.
-Root owns one independent reviewer, final-head game-smoke, PR and merge
-after the complete opening0–5 milestone; internal tasks continue on this branch.
-Keep other profiles/trees, main, signer, evidence and recovery refs untouched.
-No routine APK, new governance framework or user-playtest gate.
-Only the user ends the Gauntlet; integration continues into the next approved batch.
-After approval/CI/integration: author the next substantial playable campaign batch
-toward28 core/12 optional operations, using the shared depth/sonar foundation.
+Keep this complete region on gauntlet/release/glass-reach through internal
+checkpoints. Root requests one independent accumulated review at source release,
+then exact-head game-smoke and normal PR. Checkpoints are source recovery only.
+New encounters must remain finishable by bare Quietus without finite tools;
+actual custody/recovery owns material rewards, never discovery alone.
+Prior four outcomes and first recovered choices remain authoritative.
+New work/recovery uses working-craft depth geometry and permits real interruption.
+No old UI polish, routine APK, new governance layer or human-playtest gate.
+After this region lands, continue substantial new playable campaign content.

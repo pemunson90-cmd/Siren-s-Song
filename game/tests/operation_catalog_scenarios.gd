@@ -50,8 +50,8 @@ static func run(t):
  graph=Catalog.definition(10);graph.id=43;graph.prerequisite_mode="invented"
  t.check(not Catalog.register_definition(graph),"unknown prerequisite mode rejects")
  var progress=Consequences.upgrade({"version":1,"route":"deep","routes":["deep"],"facts":{"deep":"carrier"},"completed":[6,7]})
- for id in range(14,24):
-  var d=Catalog.definition(10);d.id=id;d.route="deep";d.prerequisites=[7] if id==14 else [id-1];d.facts.append("synthetic_"+str(id))
+ for id in range(1014,1024):
+  var d=Catalog.definition(10);d.id=id;d.route="deep";d.prerequisites=[7] if id==1014 else [id-1];d.facts.append("synthetic_"+str(id))
   t.check(Catalog.register_definition(d),"isolated authored registry entry accepted: "+str(id))
   var sim=Sim.new();sim.start(id)
   t.check(sim.mission.id==id and Sim.valid_snapshot(sim.snapshot()),"extension normal runtime and snapshot: "+str(id))
@@ -59,7 +59,7 @@ static func run(t):
   t.check(not sim.warning_chain_context().is_empty(),"registered plant behavior participates in runtime")
   var data={"version":1,"unlocked":5,"completed":[0,1,2,3,4,5],"upgrade":"endurance","settings":{},"expedition":progress,"active":sim.snapshot()}
   t.check(Store.new().valid(data),"extension active current-save admission")
-  if id==14:
+  if id==1014:
    var store=Store.new();store.path="user://operation-catalog-test.save"
    t.check(store.save(data) and store.load_game()==data,"extension actual checksummed active save roundtrip")
    for suffix in ["",".bak",".tmp"]:DirAccess.remove_absolute(store.path+suffix)
@@ -86,7 +86,7 @@ static func run(t):
  t.check(store.save(data) and store.load_game()==data,"expanded recovered progression survives checksummed save")
  for suffix in ["",".bak",".tmp"]:DirAccess.remove_absolute(store.path+suffix)
  t.check(progress.completed.size()>8 and progress.history.size()>5,"registered content exceeds old completion/history capacities")
- var replay=Missions.make(23)
+ var replay=Missions.make(1023)
  for site in replay.objectives:site.captured=true
  replay.recovered=true;replay.chosen_route="shelf";replay.warning_chain.result={"proof":"local_receipt"}
  replay.expedition_facts={"chain_west":"rewritten by replay"}
@@ -102,6 +102,6 @@ static func run(t):
  t.check(not Campaign.valid(malformed),"malformed history identity rejects without runtime error")
  malformed=progress.duplicate(true);malformed.completed[0]=6.0
  t.check(not Campaign.valid(malformed),"noninteger completion identity rejects")
- malformed=progress.duplicate(true);malformed.completed.erase(14)
+ malformed=progress.duplicate(true);malformed.completed.erase(1014)
  t.check(not Campaign.valid(malformed),"registered prerequisite integrity enforced")
  preload("res://tests/authored_plant_scenarios.gd").run(t)

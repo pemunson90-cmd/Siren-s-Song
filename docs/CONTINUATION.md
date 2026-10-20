@@ -1,38 +1,26 @@
-# Siren’s Song · release depth and sonar handoff
+# Siren’s Song · Glass Reach implementation
 Read AGENTS.md, USER_DIRECTIVES.md and CURRENT_GAME_SPEC.md first.
-Approved full-release program remains active; human playtesting gates nothing.
+Last reconciled production baseline3578c068; depth/sonar PR48 complete,
+independently approved at ea645d31, mandatory CI39507624482 passed.
+Current branch gauntlet/release/glass-reach; sole builder owns source.
+Root owns accumulated independent review, exact-head CI, PR and integration.
 
-Last reconciled source baseline: foundation a6b6701, landed as production fb4cf105.
-Current milestone: integrated depth, sonar and stealth across opening0–5.
-Same sole builder and branch gauntlet/release/depth-sonar through internal checkpoints.
-Root owns independent exact-head review, game-smoke CI, PR and integration.
-Other source trees, earned profiles, main, signer and recovery refs stay frozen.
+Current batch: six core14–19 plus optional20–21; new listening buoy and relay,
+physical artifact custody/research, ordinary Continue/replay after either12/13.
+Authored Glass Fence, Needle Strait, Furnace Drift, Silt Archive,
+Lantern Anchorage, Last Carrier, Prism Grave and Keeper's Cache.
+Layouts exist; full playable journeys and regional balance are not yet demonstrated.
+New runtime: physical uncertain delayed network reports; local work/cargo recovery;
+material/research ledger separate from retained field observations and cadence.
+Focused catalog/network/work/research checks run during implementation.
+Still implementing ordinary menus/interactions, reward uses and campaign journeys.
 
-Implemented candidate:
-- Shared SHALLOW/MIDDLE/DEEP; adjacent stationary4s transitions occupy both bands.
-- Inherited terrain plus authored per-band overrides, clearance and measured charts.
-- Acquired enemy depth memory; existing beams remain conditional on current sight.
-- Local bearing histories, motion/drone triangulation, own-noise/thermal masking.
-- Sector/power selection, reserve cost, delayed emission-time echoes and occlusion.
-- Receiver-owned listening clocks/sweeper audio, return-strike windows and stale reports.
-- Craft-local controls, shared gesture ownership, waterfall and band feedback.
-- All opening0–5 author distinct band crossings, local threats and ascent cover.
-- Blackwater physical custody, Foundry thermal/motor, Well comparison, finale decode.
-- Briefings are concise; own-state/received-evidence hints teach choices in play.
-
-API: simulation.depth_feedback(), command("depth",{band}),
-command("sonar_mode",{sector,power}), command("ping").
-Factories may author depth_geometry[band].rocks/structures; omitted rocks inherit.
-Machinery remains inherited across bands; local sites/recovery use MIDDLE.
-Wreck custody retains its actual band. Current snapshots require depth/sonar state;
-older journeys remain playable only on their preserved source, without migration.
-
-Builder verification: all0–5 source-known input/render journeys finish on both views;
-new1–5 policies spend no finite tool. Core672/runtime563, interaction72, context60,
-Shelf input118, remaining input404 and rendered Song82 pass.
-Fresh repair: band-aware cached torpedo aims/physical launches and craft-local recovery;
-witness/module custody and plant continuity covered. Root independently reviews accumulated
-source next, including bounded sweeper pin/save repair. FIT/Well findings remain.
-Only after that review/fixes: final-head CI and normal milestone PR.
-After approval/CI/integration: build the next substantial playable campaign batch
-toward28 core/12 optional; wider fleet/replay/modes remain the approved program.
+Next: finish the full batch on this branch, then demonstrate bare core completion,
+optional material recoveries/reward uses, choice consequence and representative
+cover/inner input. One reviewer evaluates the accumulated playable region;
+only after fixes/approval run final-head CI and normal milestone PR.
+After integration continue substantial playable content toward28core/12optional.
+Preserve all old outcome families, committed facts, profiles, signer and refs.
+Known FIT/craft-handle friction, Well balance, dense sonar axes, ObjectDB warning,
+native/headphone/Fold and human-enjoyment limits remain; no refinement project.
+No APK, micro-PRs, save migrations or user-playtest gate.
