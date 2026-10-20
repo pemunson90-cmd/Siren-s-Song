@@ -2,6 +2,7 @@ extends Control
 const Operations=preload("res://src/presentation/operation_instruments.gd")
 const Equipment=preload("res://src/presentation/equipment_context.gd")
 const Expedition=preload("res://src/presentation/expedition_view.gd")
+const Recovery=preload("res://src/presentation/module_recovery_view.gd")
 # A tap opens an object-owned projection. A separate tap chooses an action.
 var host
 var blocker:Control
@@ -48,7 +49,7 @@ func setup(owner):
   host.zoom_buttons[i].reparent(self);host.zoom_buttons[i].set_meta("action",["zoom_out","zoom_in","fit"][i])
  focus_button=host._button(self,"FOCUS",host._focus_craft,"focus")
  close_button=host._button(self,"BACK",_back,"radial_back")
- for entry in [["tools_menu","TOOLS"],["route_menu","ROUTE"],["guard_menu","GUARD"],["inspect","STATUS"],["route_here","ROUTE HERE"],["arrivals","ARRIVALS"],["view_menu","VIEW"]]:
+ for entry in [["tools_menu","TOOLS"],["route_menu","ROUTE"],["guard_menu","GUARD"],["inspect","STATUS"],["route_here","ROUTE HERE"],["arrivals","ARRIVALS"],["view_menu","VIEW"],["salvage","RECOVER\n4s AUDIBLE"]]:
   var key=entry[0];extra[key]=host._button(self,entry[1],func():_extra(key),key)
  instrument_button=extra.inspect
  sheet=PanelContainer.new();add_child(sheet)
@@ -82,13 +83,14 @@ func _back():
   if details_return=="water":dismiss()
   else:open(details_return)
  elif page=="view":open("fleet")
- elif page=="craft" or page=="object" or page=="fleet":dismiss()
- else:open("object" if subject.get("kind","")=="objective" else "craft")
+ elif page in ["craft","object","fleet","salvage"]:dismiss()
+ else:open("object" if subject.get("kind","")=="objective" else "salvage" if subject.get("kind","")=="salvage" else "craft")
 func _extra(key:String):
  if key=="arrivals":
   details_return="fleet" if host.advanced_orders else "water"
   open("signals",{"kind":"signals","receiver":-1 if host.advanced_orders else host.sim.selected});return
  if key=="route_here":host._order("route",{"point":subject.pos});return
+ if key=="salvage":host._order("salvage",{"item":subject.item});return
  open({"tools_menu":"tools","route_menu":"route","guard_menu":"guard","inspect":"inspect","view_menu":"view"}[key])
 func owns_pointer(event) -> bool:
  var draining=draining_popup
@@ -149,6 +151,7 @@ func command_controls() -> Array:
   "view":return [focus_button,host.zoom_buttons[2],host.zoom_buttons[1],host.zoom_buttons[0]]
   "fleet":return host.unit_buttons+([extra.arrivals] if Expedition.active(host.sim) else [])+[extra.view_menu,host.order_buttons.menu]
   "object":return ([] if subject.get("subkind","")=="transmission" else [extra.route_here])+([] if subject.get("subkind","") in ["corridor","withdrawal"] else [host.order_buttons.camera])+[extra.inspect,host.order_buttons.program,host.order_buttons.queue]
+  "salvage":return [extra.salvage,extra.route_here,extra.inspect]
   "inspect","signals":return []
  return [host.order_buttons.camera,host.order_buttons.ping,host.order_buttons.silent,host.order_buttons.program,extra.route_menu,extra.tools_menu,extra.guard_menu,extra.inspect]
 func layout(bounds:Vector2,h:float):
@@ -220,6 +223,11 @@ func refresh():
   var site=host.ocean.observable_sites()[subject.index]
   instrument_info.text=site.name+" · "+("RECORDED" if site.captured else "NOT RECORDED")+"\n"+site.get("requirement","")+"\n"+site.get("unit_requirement","")+"\n"+instrument_info.text
  if subject.get("subkind","") in ["corridor","withdrawal"]:instrument_info.text=Expedition.context_detail(sim,subject)+"\n\n"+instrument_info.text
+ if subject.get("kind","")=="salvage" and sim.has_method("salvage_context"):
+  var salvage=sim.salvage_context(subject.item)
+  extra.salvage.text="RECOVER\n4s AUDIBLE" if not salvage.active else "RECOVERING\n%d%%"%floori(salvage.elapsed/salvage.duration*100)
+  extra.salvage.disabled=not salvage.ready
+  instrument_info.text=Recovery.detail(sim,subject.item)
  if page=="signals":instrument_info.text=Expedition.detail(sim,subject.get("receiver",-1))
  var sampling=Equipment.sample_detail(sim)
  if not sampling.is_empty():
@@ -296,8 +304,11 @@ func _draw():
  for i in ring_buttons.size():
   var a=-PI/2+TAU*(i-.5)/ring_buttons.size();var d=Vector2.from_angle(a)
   draw_line(center+d*(ring_radius-h*.65),center+d*(ring_radius+h*.6),Color(.3,.72,.74,.4),1)
- var title=host.sim.units[host.sim.selected].name if subject.get("kind","")!="objective" else subject.get("name","SITE")
+ var title=subject.get("name","SITE") if subject.get("kind","") in ["objective","salvage"] else host.sim.units[host.sim.selected].name
  var caption=page.to_upper() if page!="craft" else ("COMMAND · SITES %d"%host.ocean.observable_sites().size() if Expedition.active(host.sim) else "COMMAND · %d/%d"%[host.ocean.observable_sites().filter(func(o):return o.captured).size(),host.ocean.observable_sites().size()])
+ if page=="salvage":
+  var context=host.sim.salvage_context(subject.item)
+  caption=host.sim.units[host.sim.selected].name+" · %dm / 60m"%roundi(context.distance)
  for n in 2:
   var text=title if n==0 else caption;var width=font.get_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,-1,text_size).x
   draw_string(font,center+Vector2(-width/2,-h*.65+n*(text_size+5)),text,HORIZONTAL_ALIGNMENT_LEFT,-1,text_size,Color("a8d9d5"))
