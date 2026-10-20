@@ -34,6 +34,6 @@ Stakes integrated: mission endurance, concurrent craft exposures, visible target
 Current play: fresh cover/inner journeys plus drone-heavy and Quietus-only continuations.
 Confluence integrated: authored region, noisy physical sluice, earned world art and departure.
 Fleet instruments integrated: separated craft, task progress, offscreen focus and range feedback.
-Current build: continue intended courses through certified water; stop at unresolved hazards.
+Earned-course continuity integrated: retained goals, certified-water repairs, real hazard stops.
 Genuine drone-led journey reached Hidden Harbour; its final travel interval was unobserved.
-Focused Confluence touch play uses explicitly staged access; genuine campaign journeys continue.
+Current build: physical module salvage and explicit extraction consequences; bare drones remain.
