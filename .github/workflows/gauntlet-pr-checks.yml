@@ -79,6 +79,20 @@ jobs:
           scripts/toolchain/headless.sh --script res://tests/run_tests.gd 2>&1 | tee artifacts/pr-core.log
           if grep -nE 'SCRIPT ERROR:|(^|[[:space:]])ERROR:' artifacts/pr-core.log; then exit 1; fi
           grep -Eq '^CHECKS [1-9][0-9]* FAILURES 0$' artifacts/pr-core.log
+      - name: Validate fleet and touch runtime regressions
+        if: steps.changes.outputs.game == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          while IFS='|' read -r scenario summary; do
+            log="artifacts/pr-$scenario.log"
+            scripts/toolchain/headless.sh --script "res://tests/$scenario.gd" 2>&1 | tee "$log"
+            if grep -nE 'SCRIPT ERROR:|(^|[[:space:]])ERROR:' "$log"; then exit 1; fi
+            grep -Eq "^$summary CHECKS [1-9][0-9]* FAILURES 0$" "$log"
+          done <<'UI_SCENARIOS'
+          runtime_tests|RUNTIME
+          fleet_instruments_ui_tests|FLEET INSTRUMENTS UI
+          UI_SCENARIOS
       - name: Docs-only change; no Godot run
         if: steps.changes.outputs.game == 'false'
         run: echo 'No active Godot game or gameplay change. Guidance is checked separately.'

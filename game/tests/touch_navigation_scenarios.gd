@@ -64,6 +64,10 @@ static func run(t,game) -> void:
 	ocean.fit_chart(); game.sound.resume()
 	var root_position=game.position; game.position+=Vector2(60,0)
 	game.sim.command("route",{"point":Vector2(240,800)})
+	# This processing-disabled fixture changes camera/inset directly. Refresh
+	# projected controls as Main normally does before testing a water touch.
+	game._refresh()
+	for frame in 4:await t.process_frame
 	p=ocean.global_position+ocean.screen_position(destination)
 	await touch(t,0,p,true); await touch(t,0,p,false)
 	t.check(game.sim.units[0].route[-1].pos.distance_to(destination)<1,"cutout-inset root maps global touch release to the same world destination")

@@ -22,6 +22,8 @@ var instrument_top:=64.0
 var ui_blocked_rects:Array=[]
 var instrument_height=48.
 var oxygen_capacity=100.
+var fleet_instruments
+var warnings_in_hud=false
 var chart_camera=preload("res://src/presentation/chart_camera.gd").new()
 const CYAN := Color("72d9d3")
 const INK := Color("07141c")
@@ -85,10 +87,12 @@ func acoustic_rows() -> Array:
 	return preload("res://src/presentation/acoustic_feedback.gd").rows(sim.acoustic_feedback()) if sim!=null else []
 func contact_entries() -> Array:
 	return preload("res://src/presentation/contact_feedback.gd").entries(sim.contacts,sim.elapsed,sim.units,sim.line_clear) if sim!=null else []
+func contact_readout_entries() -> Array:
+	return contact_entries().filter(func(entry):return not warnings_in_hud or not (entry.urgent or (entry.fresh and "REPORT" in entry.text)))
 func contact_readout_rects() -> Array:
 	var result: Array=[]
 	var top=instrument_top+10
-	for entry in contact_entries():
+	for entry in contact_readout_entries():
 		var width=ThemeDB.fallback_font.get_string_size(entry.text,HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size).x+20
 		result.append(Rect2(12,top,minf(width,size.x-24),feedback_font_size+6))
 		top+=feedback_font_size+8
@@ -302,7 +306,6 @@ func _draw() -> void:
 	draw_set_transform(Vector2.ZERO,0,Vector2.ONE)
 	_draw_pressure_overlay()
 	_draw_local_current()
-	_draw_ship_instrument()
 	# Short screen-sized tags preserve observed identity without long world labels.
 	for entry in observed:
 		var anchor=chart_camera.to_screen(entry.pos)+Vector2(12,-18)
@@ -313,16 +316,14 @@ func _draw() -> void:
 		if n.label=="DECOY":
 			draw_string(ThemeDB.fallback_font,chart_camera.to_screen(n.pos)+Vector2(12,-12),"%ds"%ceili(n.time),HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size,Color("e1b66e"))
 	var readout=contact_readout_rects()
-	for i in observed.size():
-		var entry=observed[i];var box=readout[i]
+	var listed=contact_readout_entries()
+	for i in listed.size():
+		var entry=listed[i];var box=readout[i]
 		draw_rect(box,Color(0.04,0.07,0.09,0.94))
 		draw_string(ThemeDB.fallback_font,box.position+Vector2(8,feedback_font_size),entry.text,HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size,Color("ffac8c") if entry.urgent else Color("ed8e79") if entry.fresh else Color("b09a94"))
 
 func _draw_pressure_overlay()->void:
 	var pressure=sim.recon_feedback()
-	if pressure.hunt>0:
-		var text="OP PRESSURE · %s"%pressure.stage
-		draw_string(ThemeDB.fallback_font,Vector2(14,size.y-18),text,HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size,Color("c9ab79"))
 	var threat=float(pressure.threat)
 	if threat<.1:return
 	var pulse=.75+.25*sin(sim.elapsed*7)
@@ -348,55 +349,10 @@ func _draw_local_current()->void:
 		draw_string(ThemeDB.fallback_font,anchor+Vector2(12,18),"FLOW %.0f · ENGINE %.0f"%[reading.flow.length(),reading.effort],HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size,Color("a1d8cc"))
 
 func ship_instrument_layout() -> Array:
-	if sim==null:return []
-	var own=sim.units[sim.selected];var p=screen_position(own.pos)
-	if not own.alive or not Rect2(Vector2.ZERO,size).has_point(p):return []
-	var font=ThemeDB.fallback_font;var text_size=feedback_font_size
-	var radius=maxf(instrument_height*1.1,(72 if sim.selected==0 else 24)*world_scale+12)
-	var top="QUIETUS · HULL %d · O₂ %d"%[roundi(sim.hull),roundi(sim.oxygen)] if sim.selected==0 else "%s · BAT %d%% · %s · %s"%[own.name,roundi(own.battery),"LOW" if own.silent else "OPEN","QUIET42" if own.get("drone_drive","transit")=="quiet" else "TRANSIT96"]
-	var noise=sim.motion_radius(sim.selected)
-	var lower="MOTION ~%dm · open water"%roundi(noise) if sim.mission.get("acoustic_revision",0)==1 else "MOTION · %dm/s"%roundi(own.vel.length())
-	var pulses=sim.acoustic_feedback().pulses
-	var hint="reception unknown · tap craft" if pulses.is_empty() else "PULSES %d · reception unknown"%pulses.size()
-	if sim.selected>0:
-		var scout=sim.scout_context()
-		if scout.state=="armed":hint="SCOUT · own contact stops · route kept"
-		elif scout.state=="stopped":hint="SCOUT %s · route kept · tap craft"%("braking" if own.vel.length()>2 else "holding")
-		elif scout.state=="legacy":hint="FLEET GUARD · any fresh contact holds"
-	var course=EarnedChart.status(sim,sim.selected)
-	if not course.is_empty():hint=course
-	var blocked=ui_blocked_rects.duplicate()
-	for id in sim.units.size():
-		if id==sim.selected or not sim.units[id].alive:continue
-		var at=screen_position(sim.units[id].pos);var half=(Vector2(70,24) if id==0 else Vector2(24,15))*world_scale
-		blocked.append(Rect2(at-half,half*2).grow(8))
-	var result=[];var lower_y=minf(p.y+radius+text_size+10,size.y-text_size*4-28)
-	for i in 3:
-		var text=[top,lower,hint][i];var extent=font.get_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,-1,text_size)
-		var preferred=p.y-radius-2*text_size-12 if i==0 else lower_y+(i-1)*(ceilf(font.get_height(text_size))+8)
-		var x=clampf(p.x-extent.x/2,12,maxf(12,size.x-extent.x-12))
-		for step in [0,-1,-2,1,2,-3,3,-4,4,-5,5,-6,6]:
-			var baseline=clampf(preferred+step*(text_size+8),instrument_top+text_size,size.y-2*text_size-18)
-			var area=Rect2(Vector2(x,baseline-font.get_ascent(text_size)),extent)
-			if not blocked.any(func(r):return r.intersects(area.grow(3))):
-				result.append({"text":text,"position":Vector2(x,baseline),"rect":area,"color":Color("9cc6c7") if i==0 else Color("bfac82") if i==1 else Color("87a7a9")});blocked.append(area);break
-	return result
-func ship_instrument_rects() -> Array:return ship_instrument_layout().map(func(line):return line.rect)
-func _draw_ship_instrument() -> void:
-	var own=sim.units[sim.selected];var p=screen_position(own.pos)
-	if not own.alive or not Rect2(Vector2.ZERO,size).has_point(p):return
-	var radius=maxf(instrument_height*1.1,(72 if sim.selected==0 else 24)*world_scale+12)
-	# Labelled screen-readable instrument arcs; real acoustic range stays amber
-	# in world space and follows actual speed, not propulsion intent.
-	for side in [-1,1]:
-		var start=-PI*.9 if side<0 else -PI*.4;var end=start+PI*.3
-		draw_arc(p,radius,start,end,28,Color(.22,.46,.5,.4),3)
-		var amount=clampf((sim.hull/100. if side<0 else sim.oxygen/oxygen_capacity) if sim.selected==0 else own.battery/100.,0.,1.)
-		draw_arc(p,radius,start,start+(end-start)*amount,28,Color("8bd3cb") if side<0 else Color("7aa8c5"),3)
-	for line in ship_instrument_layout():
-		draw_string_outline(ThemeDB.fallback_font,line.position,line.text,HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size,4,Color(.01,.03,.04,.95))
-		draw_string(ThemeDB.fallback_font,line.position,line.text,HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size,line.color)
-
+	if fleet_instruments==null:return []
+	return fleet_instruments.readouts.map(func(reading):return {"text":fleet_instruments.buttons[reading.unit].text,"rect":reading.rect})
+func ship_instrument_rects() -> Array:
+	return ship_instrument_layout().map(func(reading):return reading.rect) if fleet_instruments!=null and fleet_instruments.visible else []
 func _finale_array(mass: Rect2) -> void:
 	draw_rect(mass,Color("142930")); draw_texture_rect(basalt,mass,false,Color(0.45,0.58,0.6))
 	draw_rect(mass,Color("627a7d"),false,3)
