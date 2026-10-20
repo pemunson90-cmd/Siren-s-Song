@@ -36,4 +36,4 @@ Physical module salvage integrated: return cargo or lose optional kit; bare fram
 Blackwater delivery integrated: raw buffers return to Q through local transfer or recovery.
 Warning Chain integrated: shore supply/backup, service/mast output and physical exits.
 Concealed Record integrates witness rescue. Open Warning recipient consequences are in development.
-Engine sound follows through-water thrust; full-game adversarial findings remain cumulative and open.
+Engine sound follows through-water thrust. Next: evaluate the finale expansion against the full-game inventory.
