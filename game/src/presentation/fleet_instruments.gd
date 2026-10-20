@@ -1,6 +1,7 @@
 extends Control
 const Operations=preload("res://src/presentation/operation_instruments.gd")
 const Recovery=preload("res://src/presentation/module_recovery_view.gd")
+const Delivery=preload("res://src/presentation/blackwater_delivery_view.gd")
 # Own telemetry and bounded station handles, separate from physical craft.
 var host
 var buttons:Array=[]
@@ -56,9 +57,11 @@ func _activate(id:int):
   host._focus_craft()
 func task(id:int)->String:
  var recovery=Recovery.task(host.sim,id)
- if not recovery.is_empty():return recovery
- var detail=_ordinary_task(id);var cargo=Recovery.cargo(host.sim,id)
- return detail+("\n"+cargo if not cargo.is_empty() else "")
+ if recovery.is_empty():recovery=Delivery.task(host.sim,id)
+ var detail=recovery if not recovery.is_empty() else _ordinary_task(id)
+ for cargo in [Recovery.cargo(host.sim,id),Delivery.cargo(host.sim,id)]:
+  if not cargo.is_empty():detail+="\n"+cargo
+ return detail
 func _ordinary_task(id:int)->String:
  var sim=host.sim;var u=sim.units[id];var work=sim.capture_feedback(id)
  if work.unit>=0:
@@ -102,7 +105,7 @@ func refresh(blocked:Array):
   var reserve="HULL %d · O₂ %d"%[roundi(sim.hull),roundi(sim.oxygen)] if id==0 else "BAT %d%%"%roundi(u.battery)
   var title=reserve
   var detail=task(id)
-  var active=sim.capture_feedback(id).unit>=0 or sim.scout_context(id).state=="stopped" or u.has("chart_stop") or Recovery.active(sim,id)
+  var active=sim.capture_feedback(id).unit>=0 or sim.scout_context(id).state=="stopped" or u.has("chart_stop") or Recovery.active(sim,id) or Delivery.active(sim,id)
   # Idle peers remain short, spatial identifiers; work expands in place.
   var compact=id!=sim.selected and not active
   if compact:
@@ -146,6 +149,7 @@ func refresh(blocked:Array):
   b.add_theme_color_override("font_color",Color("c4e2df") if id==sim.selected else Color("99c2c5"))
   reading.add_theme_color_override("font_color",Color("c4e2df") if id==sim.selected else Color("99c2c5"))
   var progress=Recovery.work(sim,id)
+  if progress.unit<0:progress=Delivery.work(sim,id)
   if progress.unit<0:progress=sim.capture_feedback(id)
   readouts.append({"unit":id,"rect":box,"handle_rect":b.get_rect(),"text_rect":reading.get_rect(),"text":reading.text,"anchor":at,"offscreen":offscreen,"direction":bearing,"progress":progress})
   occupied.append(box.grow(5))

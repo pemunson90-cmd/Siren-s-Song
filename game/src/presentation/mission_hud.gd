@@ -4,6 +4,7 @@ const Equipment=preload("res://src/presentation/equipment_context.gd")
 const Expedition=preload("res://src/presentation/expedition_view.gd")
 const Recovery=preload("res://src/presentation/module_recovery_view.gd")
 const Rendezvous=preload("res://src/presentation/rendezvous_view.gd")
+const Delivery=preload("res://src/presentation/blackwater_delivery_view.gd")
 # A tap opens an object-owned projection. A separate tap chooses an action.
 var host
 var blocker:Control
@@ -53,6 +54,8 @@ func setup(owner):
  for entry in [["tools_menu","TOOLS"],["route_menu","ROUTE"],["guard_menu","GUARD"],["inspect","STATUS"],["route_here","ROUTE HERE"],["arrivals","ARRIVALS"],["view_menu","VIEW"],["salvage","RECOVER\n4s AUDIBLE"],["rendezvous_release","RELEASE BERTH\n950m / 6s"]]:
   var key=entry[0];extra[key]=host._button(self,entry[1],func():_extra(key),key)
  instrument_button=extra.inspect
+ for entry in [["blackwater_handoff","TRANSFER\nTO Q"],["blackwater_data","DATA\nTRANSFER"],["blackwater_a","TRANSFER A\nTO QUIETUS"],["blackwater_b","TRANSFER B\nTO QUIETUS"]]:
+  var key=entry[0];extra[key]=host._button(self,entry[1],func():_extra(key),key)
  sheet=PanelContainer.new();add_child(sheet)
  var style=StyleBoxFlat.new();style.bg_color=Color(.018,.055,.075,.94);style.border_color=Color("477b80");style.set_border_width_all(1);style.content_margin_left=18;style.content_margin_right=18;style.content_margin_top=16;style.content_margin_bottom=16;sheet.add_theme_stylebox_override("panel",style)
  measurement_style=StyleBoxFlat.new();measurement_style.bg_color=Color(.018,.055,.075,.92);measurement_style.border_color=Color("477b80");measurement_style.set_border_width_all(1);measurement_style.set_corner_radius_all(8)
@@ -93,6 +96,9 @@ func _extra(key:String):
  if key=="route_here":host._order("route",{"point":subject.pos});return
  if key=="salvage":host._order("salvage",{"item":subject.item});return
  if key=="rendezvous_release":host._order("rendezvous_release");return
+ if key=="blackwater_data":open("delivery");return
+ if key in ["blackwater_handoff","blackwater_a","blackwater_b"]:
+  host._order("blackwater_handoff",{"carrier":host.sim.selected if key=="blackwater_handoff" else 1 if key=="blackwater_a" else 2});return
  open({"tools_menu":"tools","route_menu":"route","guard_menu":"guard","inspect":"inspect","view_menu":"view"}[key])
 func owns_pointer(event) -> bool:
  var draining=draining_popup
@@ -154,8 +160,13 @@ func command_controls() -> Array:
   "fleet":return host.unit_buttons+([extra.arrivals] if Expedition.active(host.sim) else [])+[extra.view_menu,host.order_buttons.menu]
   "object":return [extra.rendezvous_release,extra.route_here,extra.inspect] if subject.get("subkind","")=="berth_control" else ([] if subject.get("subkind","")=="transmission" else [extra.route_here])+([] if subject.get("subkind","") in ["corridor","withdrawal"] else [host.order_buttons.camera])+[extra.inspect,host.order_buttons.program,host.order_buttons.queue]
   "salvage":return [extra.salvage,extra.route_here,extra.inspect]
+  "delivery":return [extra.blackwater_a,extra.blackwater_b,extra.inspect]
   "inspect","signals":return []
- return [host.order_buttons.camera,host.order_buttons.ping,host.order_buttons.silent,host.order_buttons.program,extra.route_menu,extra.tools_menu,extra.guard_menu,extra.inspect]
+ var controls=[host.order_buttons.camera,host.order_buttons.ping,host.order_buttons.silent,host.order_buttons.program,extra.route_menu,extra.tools_menu,extra.guard_menu,extra.inspect]
+ if not Delivery.status(host.sim).is_empty():
+  if host.sim.selected==0:controls.append(extra.blackwater_data)
+  elif not host.sim.blackwater_handoff_context(host.sim.selected).packets.is_empty():controls.append(extra.blackwater_handoff)
+ return controls
 func layout(bounds:Vector2,h:float):
  position=Vector2.ZERO;size=bounds;touch_height=h
  var font=maxi(14,roundi(h*.26))
@@ -253,6 +264,15 @@ func refresh():
    extra.rendezvous_release.text="BERTH\nRELEASED" if tender.control.get("used",false) else "RELEASE BERTH\n950m / 6s"
   if subject.get("subkind","") in ["berth_control","rendezvous_hull"]:instrument_info.text=Rendezvous.detail(sim,subject)
   if subject.get("subkind","")=="rendezvous_hull" and tender.vessel.known and not tender.vessel.live:extra.route_here.text="PLOT\nLAST FIX"
+ var delivery=Delivery.status(sim)
+ if not delivery.is_empty():
+  intent.text=Delivery.summary(sim)+" · "+intent.text
+  host.order_buttons.camera.disabled=not sim.camera_context().ready
+  if page=="delivery" or (page=="inspect" and subject.get("kind","")!="salvage"):instrument_info.text=Delivery.detail(sim)+"\n\n"+instrument_info.text
+  if sim.selected>0:extra.blackwater_handoff.disabled=not sim.blackwater_handoff_context(sim.selected).ready
+  for pair in [[1,extra.blackwater_a],[2,extra.blackwater_b]]:
+   var context=sim.blackwater_handoff_context(pair[0]);pair[1].disabled=not context.ready
+   pair[1].text="TRANSFER %s\nTO Q"%["A" if pair[0]==1 else "B"]
  if (host.knock_armed or host.decoy_armed) and not host.targeting_feedback.is_empty():
   intent.text=sim.units[sim.selected].name+" · "+host.targeting_feedback
  var fitted=Equipment.status(sim)
@@ -318,6 +338,7 @@ func _draw():
   draw_line(center+d*(ring_radius-h*.65),center+d*(ring_radius+h*.6),Color(.3,.72,.74,.4),1)
  var title=subject.get("name","SITE") if subject.get("kind","") in ["objective","salvage"] else host.sim.units[host.sim.selected].name
  var caption=page.to_upper() if page!="craft" else ("COMMAND · SITES %d"%host.ocean.observable_sites().size() if Expedition.active(host.sim) else "COMMAND · %d/%d"%[host.ocean.observable_sites().filter(func(o):return o.captured).size(),host.ocean.observable_sites().size()])
+ if page=="delivery":caption="LOCAL LINK · 60m · SETTLED"
  if page=="salvage":
   var context=host.sim.salvage_context(subject.item)
   caption=host.sim.units[host.sim.selected].name+" · %dm / 60m"%roundi(context.distance)
