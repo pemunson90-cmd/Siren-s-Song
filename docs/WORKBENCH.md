@@ -30,7 +30,7 @@ User playtest timing never gates development.
 Stakes integrated: mission endurance, concurrent craft exposures, visible targeting refusals.
 Current play: remaining genuine journey and focused current operations.
 Confluence integrated: authored region, noisy physical sluice, earned world art and departure.
-Craft-anchored rings integrated: transient exact readouts and direct contextual actions.
+Craft-anchored rings integrated; named recovery routes retain drive/profile and route intent.
 Earned-course continuity integrated: retained goals, certified-water repairs, real hazard stops.
 Genuine journeys reached Hidden Harbour, Surface Reckoning and Silent Exodus.
 Physical module salvage integrated: return cargo or lose optional kit; bare frames remain.
