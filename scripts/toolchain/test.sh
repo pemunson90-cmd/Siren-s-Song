@@ -115,6 +115,7 @@ independent_capture_tests|INDEPENDENT CAPTURE
 independent_capture_ui_tests|INDEPENDENT CAPTURE UI
 turn_safe_navigation_tests|TURN SAFE NAVIGATION
 earned_course_continuity_tests|EARNED COURSE CONTINUITY
+module_recovery_tests|MODULE RECOVERY
 expanded_region_tests|EXPANDED REGION
 expanded_region_journeys|EXPANDED JOURNEYS
 route_program_tests|ROUTE PROGRAM
@@ -130,6 +131,9 @@ planner_navigation_ui_tests|PLANNER NAVIGATION
 planner_space_ui_tests|PLANNER SPACE UI
 playfield_hud_tests|PLAYFIELD HUD
 fleet_instruments_ui_tests|FLEET INSTRUMENTS UI
+module_recovery_ui_tests|MODULE RECOVERY UI
+module_recovery_runtime_ui_tests|MODULE RECOVERY RUNTIME UI
+module_inventory_main_tests|MODULE INVENTORY MAIN
 radial_hud_tests|RADIAL HUD
 view_controls_menu_tests|VIEW CONTROLS MENU
 expedition_instruments_ui_tests|EXPEDITION INSTRUMENT UI

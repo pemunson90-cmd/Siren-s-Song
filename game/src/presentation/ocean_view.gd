@@ -51,6 +51,8 @@ func observable_sites() -> Array:
 	return sim.observable_sites() if sim.has_method("observable_sites") else sim.mission.objectives
 func pick_context(point:Vector2,touch:float) -> Dictionary:
 	_sync_camera();var choices=[]
+	for marker in salvage_markers():
+		if marker.rect.has_point(point):return {"kind":"salvage","item":marker.site.item,"name":marker.site.name.to_upper(),"pos":marker.site.pos}
 	for id in sim.units.size():
 		var u=sim.units[id]
 		if not u.alive:continue
@@ -64,6 +66,8 @@ func pick_context(point:Vector2,touch:float) -> Dictionary:
 		if site.get("own_origin",false):continue
 		if point.distance_to(screen_position(site.pos))<=maxf(touch*.5,38*world_scale):return {"kind":"objective","subkind":"actuator","index":id,"name":site.name,"pos":site.pos} if site.get("site_id","")=="witness_sluice" else {"kind":"objective","index":id,"name":site.name,"pos":site.pos}
 	return Expedition.pick(self,sim,point,touch)
+func salvage_markers()->Array:
+	return preload("res://src/presentation/module_recovery_view.gd").markers(self,sim,instrument_height)
 func _sync_camera() -> void:
 	chart_camera.configure(size,world_size())
 	if chart_camera.mode=="follow" and sim!=null:chart_camera.follow(sim.units[sim.selected].pos)
@@ -306,6 +310,7 @@ func _draw() -> void:
 	draw_set_transform(Vector2.ZERO,0,Vector2.ONE)
 	_draw_pressure_overlay()
 	_draw_local_current()
+	preload("res://src/presentation/module_recovery_view.gd").draw(self,sim)
 	# Short screen-sized tags preserve observed identity without long world labels.
 	for entry in observed:
 		var anchor=chart_camera.to_screen(entry.pos)+Vector2(12,-18)

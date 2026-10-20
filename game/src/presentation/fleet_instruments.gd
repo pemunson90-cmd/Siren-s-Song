@@ -1,5 +1,6 @@
 extends Control
 const Operations=preload("res://src/presentation/operation_instruments.gd")
+const Recovery=preload("res://src/presentation/module_recovery_view.gd")
 # Own telemetry only. These chart projections are controls, never craft sprites.
 var host
 var buttons:Array=[]
@@ -50,6 +51,11 @@ func _activate(id:int):
   if host.sim.selected!=id:host._order("select",{"unit":id})
   host._focus_craft()
 func task(id:int)->String:
+ var recovery=Recovery.task(host.sim,id)
+ if not recovery.is_empty():return recovery
+ var detail=_ordinary_task(id);var cargo=Recovery.cargo(host.sim,id)
+ return detail+("\n"+cargo if not cargo.is_empty() else "")
+func _ordinary_task(id:int)->String:
  var sim=host.sim;var u=sim.units[id];var work=sim.capture_feedback(id)
  if work.unit>=0:
   var site=sim.mission.objectives[work.target]
@@ -92,15 +98,17 @@ func refresh(blocked:Array):
   var reserve="HULL %d · O₂ %d"%[roundi(sim.hull),roundi(sim.oxygen)] if id==0 else "BAT %d%%"%roundi(u.battery)
   var title=["Q","A","B"][id]+(" "+direction if offscreen else "")+" · "+reserve
   var detail=task(id)
-  var active=sim.capture_feedback(id).unit>=0 or sim.scout_context(id).state=="stopped" or u.has("chart_stop")
+  var active=sim.capture_feedback(id).unit>=0 or sim.scout_context(id).state=="stopped" or u.has("chart_stop") or Recovery.active(sim,id)
   # Idle peers remain short, spatial identifiers; work expands in place.
   var compact=id!=sim.selected and not active
   if compact:
    title+=" · "+("GUARD" if not u.hold.is_empty() else "ROUTE" if not u.route.is_empty() else "READY")
    detail=""
   b.text=title+("\n"+detail if not detail.is_empty() else "")
-  var width=clampf(maxf(font.get_string_size(title,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x,font.get_string_size(detail,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x)+24,h*2.7,h*4.7)
-  var extent=Vector2(minf(width,safe.size.x),h)
+  var measured=0.
+  for line in b.text.split("\n"):measured=maxf(measured,font.get_string_size(line,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x)
+  var width=clampf(measured+24,h*2.7,h*4.7)
+  var extent=Vector2(minf(width,safe.size.x),maxf(h,font.get_height(font_size)*(b.text.count("\n")+1)+16))
   var desired=at+Vector2(-extent.x/2,-h-28*ocean.world_scale)
   if offscreen:
    var reach=minf((safe.size.x-extent.x)/2/maxf(.001,absf(bearing.x)),(safe.size.y-extent.y)/2/maxf(.001,absf(bearing.y)))
@@ -124,7 +132,9 @@ func refresh(blocked:Array):
   if sim.scout_context(id).state=="stopped":style.border_color=Color("deb075")
   b.add_theme_stylebox_override("normal",style);b.add_theme_stylebox_override("hover",style);b.add_theme_stylebox_override("pressed",style)
   b.add_theme_color_override("font_color",Color("c4e2df") if id==sim.selected else Color("99c2c5"))
-  readouts.append({"unit":id,"rect":box,"anchor":at,"offscreen":offscreen,"direction":bearing,"progress":sim.capture_feedback(id)})
+  var progress=Recovery.work(sim,id)
+  if progress.unit<0:progress=sim.capture_feedback(id)
+  readouts.append({"unit":id,"rect":box,"anchor":at,"offscreen":offscreen,"direction":bearing,"progress":progress})
   occupied.append(box.grow(5))
  queue_redraw();progress_layer.queue_redraw()
 func _draw():

@@ -46,7 +46,7 @@ static func extract(sim)->void:
  if sim.units[0].vel.length()>=12:return
  for corridor in corridors(sim):
   if corridor.available and sim.units[0].pos.distance_to(corridor.pos)<65:
-   m.chosen_route=corridor.route;m.recovered=true;sim.outcome="won";sim.paused=true;sim.message="%s reached · expedition archive recovered"%corridor.name;sim.events.append({"type":"extraction","pos":sim.units[0].pos});return
+   sim._try_extract(corridor);return
  if m.id==6 and m.withdrawal_armed and sim.units[0].pos.distance_to(m.extraction)<65:
   sim.outcome="withdrawn";sim.paused=true;sim.message="Incomplete withdrawal · field observations retained; expedition route incomplete"
 static func valid(m:Dictionary,time:float)->bool:

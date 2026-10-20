@@ -107,7 +107,7 @@ static func extract(sim)->void:
  if sim.mission.get("expedition_revision",0)!=2 or not sim.outcome.is_empty() or sim.units[0].vel.length()>=12:return
  for corridor in corridors(sim):
   if corridor.available and sim.units[0].pos.distance_to(corridor.pos)<65:
-   sim.mission.chosen_route=corridor.route;sim.mission.recovered=true;sim.outcome="won";sim.paused=true;sim.message="Recovered / "+corridor.name;sim.events.append({"type":"extraction","pos":sim.units[0].pos});return
+   sim._try_extract(corridor);return
 static func valid_mission(m:Dictionary,time:float)->bool:
  if m.get("expedition_revision",0)!=2 or m.id not in [9,10,11,12,13] or not is_finite(time) or time<0:return false
  if not m.has_all(["signal_sources","signal_observations","expedition_facts","next_signal_time","chosen_route","recovered","corridors","required_site_ids","launch_context"]):return false

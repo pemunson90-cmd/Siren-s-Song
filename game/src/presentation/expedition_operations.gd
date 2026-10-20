@@ -29,6 +29,7 @@ static func debrief(main)->bool:
  if main.sim.outcome=="won" and mission.get("recovered",false):
   main._menu_text("EXPEDITION RECOVERED",32)
   main._menu_text(mission.record,22)
+  preload("res://src/presentation/module_recovery_view.gd").debrief(main)
   var grade=preload("res://src/simulation/recon_consequences.gd").grade(mission.get("objectives",[]))
   if grade.photos>0:main._menu_text("INTEL PHOTO GRADE %s · %d photographs"%[grade.grade,grade.photos],20)
   if mission.id==6:
@@ -46,6 +47,7 @@ static func debrief(main)->bool:
   main._menu_text("INCOMPLETE WITHDRAWAL" if main.sim.outcome=="withdrawn" else "EXPEDITION LOST",30)
   main._menu_text(main.sim.message,20)
   main._menu_text("Field observations remain in the archive. This dive grants no new recovered fitting, continuation or committed history.",17)
+  preload("res://src/presentation/module_recovery_view.gd").debrief(main)
  if not main.recovered_evidence.is_empty():main._button(main.panel_box,"REVIEW FIELD RECORDS",func():main._evidence_gallery(0),"evidence")
  main._button(main.panel_box,"RETRY EXPEDITION",func():main._briefing(mission.id),"retry")
  main._button(main.panel_box,"OPERATIONS ARCHIVE",main._show_campaign,"back")
