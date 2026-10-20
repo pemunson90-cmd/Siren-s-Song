@@ -105,6 +105,8 @@ jobs:
           rendezvous_transport_tests|RENDEZVOUS TRANSPORT
           rendezvous_ui_tests|RENDEZVOUS UI
           briefing_scroll_fitting_ui_tests|BRIEFING SCROLL FITTING UI
+          warning_chain_ui_tests|WARNING CHAIN UI
+          warning_chain_audio_tests|WARNING CHAIN AUDIO
           UI_SCENARIOS
       - name: Docs-only change; no Godot run
         if: steps.changes.outputs.game == 'false'
