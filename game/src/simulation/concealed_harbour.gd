@@ -1,4 +1,5 @@
 extends RefCounted
+const OperationsCatalog=preload("res://src/campaign/operation_catalog.gd")
 # Witness-guided environmental work. The tow follows the actual body trail;
 # only authored seating unfolds a screen into solid/acoustic geometry.
 const DEEP_FLOAT=Vector2(1840,1040)
@@ -9,7 +10,7 @@ const SCREEN=Rect2(1980,940,60,260)
 const REPLY_DEEP=Vector2(2180,800)
 const REPLY_SHELF=Vector2(2300,970)
 const RANGE=65.0
-static func applies(m:Dictionary)->bool:return m.get("id")==12 and m.has("concealed_harbour")
+static func applies(m:Dictionary)->bool:return OperationsCatalog.supports(m.get("id",-1),"witness") and m.has("concealed_harbour")
 static func build(m:Dictionary)->void:
  var thread="shelf" if m.launch_context.get("thread","")=="shelf" else "deep"
  m["concealed_harbour"]={"thread":thread,"known":false,"phase":"waiting","pos":SHELF_SCREEN if thread=="shelf" else DEEP_FLOAT,"carrier":-1,"trail":[],"placement":"","connected":thread=="deep","heard_departures":0,"next_trace":0.0,"next_noise":0.0,"reply_time":-1.0,"receipt":false,"account":"","station_seen":{},"folded":false,"reply_sent":false}
@@ -144,7 +145,7 @@ static func recovered_facts(m:Dictionary)->Dictionary:
  return {"concealed_consequence":"deep_trace_severed" if state.thread=="deep" else "shelf_"+state.placement}
 static func valid(data:Dictionary)->bool:
  var m=data.mission
- if m.get("id")!=12:return not m.has("concealed_harbour")
+ if not OperationsCatalog.supports(m.get("id",-1),"witness"):return not m.has("concealed_harbour")
  var s=m.get("concealed_harbour",{})
  if not s is Dictionary or not s.has_all(["thread","known","phase","pos","carrier","trail","placement","connected","heard_departures","next_trace","next_noise","reply_time","receipt","account","station_seen","folded","reply_sent"]):return false
  if s.thread not in ["deep","shelf"] or not s.known is bool or s.phase not in ["waiting","ready","towing","seated"] or not s.pos is Vector2 or not s.pos.is_finite() or not Rect2(Vector2.ZERO,m.world_size).has_point(s.pos) or not s.carrier is int or not s.trail is Array or not s.connected is bool or not s.receipt is bool or not s.account is String:return false

@@ -1,4 +1,5 @@
 extends RefCounted
+const OperationsCatalog=preload("res://src/campaign/operation_catalog.gd")
 # The same packet can be received at its watched berth, on its actual voyage,
 # or at permanent refuge. Presentation gets only measured/locally sensed fixes.
 const Region=preload("res://src/simulation/world_region.gd")
@@ -8,7 +9,7 @@ const CONTROL_RANGE=120.0
 const NOISE=950.0
 const NOISE_TIME=6.0
 const POINTS=[Vector2(540,640),Vector2(440,640),Vector2(440,300),Vector2(420,180)]
-static func applies(mission:Dictionary)->bool:return mission.id==7 and mission.has("rendezvous_transport")
+static func applies(mission:Dictionary)->bool:return OperationsCatalog.supports(mission.get("id",-1),"tender") and mission.has("rendezvous_transport")
 static func initial()->Dictionary:return {"released_at":-1.0,"control_known":false,"seen":{}}
 static func duration()->float:
  var length=0.0
@@ -96,8 +97,8 @@ static func receiver(sim,station:int)->Dictionary:
  else:result.ready=true;result.text="READY · RENDEZVOUS HULL · passive decode4s"
  return result
 static func valid(mission:Dictionary,time:float)->bool:
- if not mission.has("rendezvous_transport"):return mission.get("id")!=7
- if mission.get("id")!=7 or not is_finite(time) or time<0:return false
+ if not mission.has("rendezvous_transport"):return not OperationsCatalog.supports(mission.get("id",-1),"tender")
+ if not OperationsCatalog.supports(mission.get("id",-1),"tender") or not is_finite(time) or time<0:return false
  var state=mission.rendezvous_transport
  if not state is Dictionary or state.size()!=3 or not state.get("control_known") is bool or not state.get("seen") is Dictionary or not (state.get("released_at") is float or state.get("released_at") is int):return false
  if not is_finite(state.released_at) or (state.released_at<0 and state.released_at!=-1) or state.released_at>time or (state.released_at>=0 and not state.control_known):return false

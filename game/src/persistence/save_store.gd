@@ -17,10 +17,10 @@ func valid(data: Dictionary) -> bool:
 		if not data.evidence is Dictionary: return false
 		for key in data.evidence:
 			var entry=data.evidence[key]
-			if key not in preload("res://src/campaign/expedition_campaign.gd").FIELD_RECORDS+["furnace","cradle","transmitter","departure","warning","blackwater_request","blackwater_reply","well_pattern","well_signature"] or not entry is Dictionary or not entry.has_all(["name","caption","optical"]) or entry.optical!=key or not entry.name is String or not entry.caption is String: return false
+			if key not in preload("res://src/campaign/operation_catalog.gd").record_keys() or not entry is Dictionary or not entry.has_all(["name","caption","optical"]) or entry.optical!=key or not entry.name is String or not entry.caption is String: return false
 	if data.has("active") and data.active!=null:
 		if not data.active is Dictionary or not Simulation.valid_snapshot(data.active): return false
-		if data.active.mission.id>=6 and data.active.mission.id not in preload("res://src/campaign/expedition_campaign.gd").available(data.completed,data.get("expedition",{})):return false
+		if preload("res://src/campaign/operation_catalog.gd").definition(data.active.mission.id).campaign and data.active.mission.id not in preload("res://src/campaign/expedition_campaign.gd").available(data.completed,data.get("expedition",{})):return false
 		var fitted=data.active.mission.get("launch_equipment",{})
 		for item in fitted.values():
 			if not item.is_empty() and item not in preload("res://src/equipment/craft_upgrades.gd").recovered(data.completed,data.get("expedition",{})):return false

@@ -1,6 +1,7 @@
 extends RefCounted
 # Small recovered campaign extension. Notes never enter launch knowledge or grants.
-const ITEMS=["quietus_correlator","drone_sampler","quietus_vector_drive","quietus_baffles","drone_deep_cells","drone_survey_array"]
+const Catalog=preload("res://src/campaign/operation_catalog.gd")
+const Equipment=preload("res://src/equipment/equipment_catalog.gd")
 const EMPTY_FIT={"quietus":"","drone_a":"","drone_b":""}
 static func upgrade(previous:Dictionary)->Dictionary:
  var p=previous.duplicate(true)
@@ -14,7 +15,7 @@ static func upgrade(previous:Dictionary)->Dictionary:
  return p
 static func retain(previous:Dictionary,mission:Dictionary)->Dictionary:
  var p=upgrade(previous)
- if p.is_empty():return p
+ if p.is_empty() or not Catalog.valid_facts(mission.get("id",-1),mission.get("expedition_facts",{})):return p
  for key in mission.get("expedition_facts",{}):p.notes[key]=mission.expedition_facts[key]
  return p
 static func recovered(previous:Dictionary,mission:Dictionary)->Dictionary:
@@ -26,16 +27,16 @@ static func recovered(previous:Dictionary,mission:Dictionary)->Dictionary:
    p.references.return_cadence=mission.measured_reference.duplicate()
   if mission.id==8 and mission.objectives.all(func(o):return o.captured):
    if "drone_sampler" not in p.entitlements:p.entitlements.append("drone_sampler")
- if mission.id==10 and not p.history.any(func(h):return h.mission==10) and not mission.get("warning_chain",{}).get("result",{}).is_empty():
+ if Catalog.supports(mission.id,"warning_plant") and not p.history.any(func(h):return h.mission==mission.id) and not mission.get("warning_chain",{}).get("result",{}).is_empty():
   p.facts["warning_chain"]="service_local_receipt" if mission.warning_chain.result.proof=="local_receipt" else "mast_transmission_external_unknown"
- if mission.id==12 and not p.history.any(func(h):return h.mission==12):
+ if Catalog.supports(mission.id,"witness") and not p.history.any(func(h):return h.mission==mission.id):
   var arrival=preload("res://src/simulation/witness_evacuation.gd").recovered_facts(mission)
   arrival.merge(preload("res://src/simulation/concealed_harbour.gd").recovered_facts(mission))
   for key in arrival:p.facts[key]=arrival[key]
- if mission.id==13 and not p.history.any(func(h):return h.mission==13):
+ if Catalog.supports(mission.id,"recipient") and not p.history.any(func(h):return h.mission==mission.id):
   var arrival=preload("res://src/simulation/warning_recipient.gd").recovered_facts(mission)
   for key in arrival:p.facts[key]=arrival[key]
- if mission.id>=9:p=commit(p,mission.id,mission.get("launch_equipment",EMPTY_FIT))
+ if Catalog.supports(mission.id,"history"):p=commit(p,mission.id,mission.get("launch_equipment",EMPTY_FIT))
  var resolution=preload("res://src/campaign/resolution_missions.gd").resolution(mission)
  if not resolution.is_empty():p.facts["resolution"]=resolution
  if mission.id==11 and not p.facts.has("confluence_route") and mission.get("chosen_route","") in ["concealed","overt"]:p.facts["confluence_route"]=mission.chosen_route
@@ -44,8 +45,8 @@ static func context(p:Dictionary)->Dictionary:
  return {"thread":p.get("selected_thread",""),"completed":p.get("completed",[]).duplicate(),"facts":p.get("facts",{}).duplicate(true),"references":p.get("references",{}).duplicate(true)}
 static func commit(previous:Dictionary,id:int,fitted:Dictionary)->Dictionary:
  var p=upgrade(previous)
- if p.is_empty() or id<9:return p
- if p.selected_thread.is_empty():p.selected_thread="deep" if id==9 else "shelf"
+ if p.is_empty() or not Catalog.supports(id,"history"):return p
+ if p.selected_thread.is_empty():p.selected_thread=p.get("route","")
  # Only successful recovery calls this commitment. Replays keep the first outcome.
  if not p.history.any(func(h):return h.mission==id):p.history.append({"mission":id,"thread":p.selected_thread,"fitted":fitted.duplicate(true)})
  return p
@@ -57,12 +58,12 @@ static func cadence_valid(value)->bool:
   if not (interval is int or interval is float) or not is_finite(interval) or interval<=0 or interval>10:return false
  return true
 static func valid(p:Dictionary)->bool:
- if not p.has_all(["notes","entitlements","references","history","selected_thread"]) or not p.notes is Dictionary or p.notes.size()>16 or not p.entitlements is Array or p.entitlements.size()>6 or not p.references is Dictionary or not p.history is Array or p.history.size()>5 or p.selected_thread not in ["","deep","shelf"]:return false
+ if not p.has_all(["notes","entitlements","references","history","selected_thread"]) or not p.notes is Dictionary or p.notes.size()>Catalog.fact_keys().size() or not p.entitlements is Array or p.entitlements.size()>Equipment.ITEMS.size() or not p.references is Dictionary or not p.history is Array or p.history.size()>Catalog.ids_with("history").size() or p.selected_thread not in ["","deep","shelf"]:return false
  for key in p.notes:
-  if not key is String or not p.notes[key] is String:return false
+  if key not in Catalog.fact_keys() or not p.notes[key] is String:return false
  var seen=[]
  for item in p.entitlements:
-  if item not in ITEMS or item in seen:return false
+  if item not in Equipment.ITEMS or item in seen:return false
   seen.append(item)
  if p.references.size()>1:return false
  if not p.references.is_empty() and (not p.references.has("return_cadence") or not cadence_valid(p.references.return_cadence) or "quietus_correlator" not in p.entitlements):return false
@@ -70,7 +71,7 @@ static func valid(p:Dictionary)->bool:
  if "drone_sampler" in p.entitlements and 8 not in p.completed:return false
  seen=[]
  for h in p.history:
-  if not h is Dictionary or not h.has_all(["mission","thread","fitted"]) or h.mission not in [9,10,11,12,13] or h.mission in seen or h.mission not in p.completed or h.thread not in ["deep","shelf"] or h.thread!=p.selected_thread or not fitting_valid(h.fitted):return false
+  if not h is Dictionary or not h.has_all(["mission","thread","fitted"]) or not h.mission is int or not Catalog.supports(h.mission,"history") or h.mission in seen or h.mission not in p.completed or h.thread not in ["deep","shelf"] or h.thread!=p.selected_thread or not fitting_valid(h.fitted):return false
   for item in h.fitted.values():
    if not item.is_empty() and item not in p.entitlements:return false
   seen.append(h.mission)
@@ -118,8 +119,9 @@ static func extract(sim)->void:
   if corridor.available and sim.units[0].pos.distance_to(corridor.pos)<65:
    sim._try_extract(corridor);return
 static func valid_mission(m:Dictionary,time:float)->bool:
- if m.get("expedition_revision",0)!=2 or m.id not in [9,10,11,12,13] or not is_finite(time) or time<0:return false
+ if m.get("expedition_revision",0)!=2 or not Catalog.supports(m.id,"signals_v2") or not is_finite(time) or time<0:return false
  if not m.has_all(["signal_sources","signal_observations","expedition_facts","next_signal_time","chosen_route","recovered","corridors","required_site_ids","launch_context"]):return false
+ if not Catalog.valid_facts(m.id,m.expedition_facts):return false
  if not m.signal_sources is Array or m.signal_sources.size()>4 or not m.signal_observations is Array or m.signal_observations.size()>12 or not m.expedition_facts is Dictionary or not m.launch_context is Dictionary:return false
  if not m.recovered is bool or m.chosen_route not in ["","deep","shelf","concealed","overt"]:return false
  if not (m.next_signal_time is int or m.next_signal_time is float) or not is_finite(m.next_signal_time) or m.next_signal_time<0 or m.next_signal_time>time+0.751:return false
@@ -127,7 +129,7 @@ static func valid_mission(m:Dictionary,time:float)->bool:
  var bounds=Rect2(Vector2.ZERO,dimensions)
  var ids=[]
  for source in m.signal_sources:
-  if not source is Dictionary or not source.has_all(["id","label","pos","evidence","located","cadence"]) or not source.id is String or source.id in ids or not source.label is String or not source.evidence is String or not source.located is bool or not source.pos is Vector2 or not bounds.has_point(source.pos) or not cadence_valid(source.cadence):return false
+  if not source is Dictionary or not source.has_all(["id","label","pos","evidence","located","cadence"]) or not source.id is String or source.id not in Catalog.definition(m.id).facts or source.id in ids or not source.label is String or not source.evidence is String or not source.located is bool or not source.pos is Vector2 or not bounds.has_point(source.pos) or not cadence_valid(source.cadence):return false
   if source.has("range") and (not (source.range is int or source.range is float) or not is_finite(source.range) or source.range<1 or source.range>2400):return false
   ids.append(source.id)
   if source.located!=m.expedition_facts.has(source.id):return false

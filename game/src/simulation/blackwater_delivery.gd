@@ -1,9 +1,10 @@
 extends RefCounted
+const OperationsCatalog=preload("res://src/campaign/operation_catalog.gd")
 # Raw exchange records remain with their own receiver until a local handoff.
 # Field evidence is retained immediately; mission delivery has separate custody.
 const RANGE=60.0
 static func initial()->Dictionary:return {"aboard":[],"carriers":[[],[],[]],"wrecks":{},"jobs":[{},{},{}]}
-static func applies(mission:Dictionary)->bool:return mission.id==2 and mission.has("blackwater_delivery")
+static func applies(mission:Dictionary)->bool:return OperationsCatalog.supports(mission.get("id",-1),"packet_delivery") and mission.has("blackwater_delivery")
 static func complete(sim)->bool:return not applies(sim.mission) or (0 in sim.mission.blackwater_delivery.aboard and 1 in sim.mission.blackwater_delivery.aboard)
 static func status(sim)->Dictionary:
  if not applies(sim.mission):return {}
@@ -60,7 +61,7 @@ static func _packets(value,objectives:Array)->bool:
  return true
 static func valid(data:Dictionary)->bool:
  var mission=data.mission
- if mission.get("id")!=2:return not mission.has("blackwater_delivery")
+ if not OperationsCatalog.supports(mission.get("id",-1),"packet_delivery"):return not mission.has("blackwater_delivery")
  if not mission.get("blackwater_delivery") is Dictionary or not mission.get("objectives") is Array or mission.objectives.size()!=2:return false
  for objective in mission.objectives:
   if not objective is Dictionary or not objective.get("captured") is bool:return false

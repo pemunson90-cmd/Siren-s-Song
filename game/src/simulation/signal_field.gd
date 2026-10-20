@@ -1,4 +1,5 @@
 extends RefCounted
+const Catalog=preload("res://src/campaign/operation_catalog.gd")
 const SURVEY=preload("res://src/simulation/world_region.gd")
 const Rendezvous=preload("res://src/simulation/rendezvous_transport.gd")
 static func observe(sim,active:bool=false)->void:
@@ -54,9 +55,9 @@ static func extract(sim)->void:
  if m.id==6 and m.withdrawal_armed and sim.units[0].pos.distance_to(m.extraction)<65:
   sim.outcome="withdrawn";sim.paused=true;sim.message="Incomplete withdrawal · field observations retained; expedition route incomplete"
 static func valid(m:Dictionary,time:float)->bool:
- if not m.has("expedition_revision"):return m.id<6
+ if not m.has("expedition_revision"):return m.id in Catalog.registered_ids() and not Catalog.supports(m.id,"signals_v1") and not Catalog.supports(m.id,"signals_v2")
  if not is_finite(time) or time<0:return false
- if m.id not in [6,7,8] or m.expedition_revision!=1:return false
+ if not Catalog.supports(m.id,"signals_v1") or m.expedition_revision!=1:return false
  if not m.has_all(["signal_sources","signal_observations","expedition_facts","next_signal_time","chosen_route","recovered","withdrawal_armed","corridors"]):return false
  if not m.signal_sources is Array or m.signal_sources.size()>2 or not m.signal_observations is Array or m.signal_observations.size()>6 or not m.expedition_facts is Dictionary:return false
  if not m.recovered is bool or not m.withdrawal_armed is bool or m.chosen_route not in ["","deep","shelf"]:return false
@@ -68,7 +69,7 @@ static func valid(m:Dictionary,time:float)->bool:
  for source in m.signal_sources:
   if sources.has(source.id):return false
   sources[source.id]=source
- var expected=["deep","shelf"] if m.id==6 else (["rendezvous"] if m.id==7 else [])
+ var expected=Catalog.make(m.id).get("signal_sources",[]).map(func(source):return source.id)
  if sources.size()!=expected.size() or not expected.all(func(id):return sources.has(id)):return false
  for fact in m.expedition_facts:
   if not sources.has(fact) or not sources[fact].located or m.expedition_facts[fact]!=sources[fact].evidence:return false

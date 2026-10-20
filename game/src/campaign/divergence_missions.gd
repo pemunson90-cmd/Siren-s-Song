@@ -40,3 +40,11 @@ static func _source(id:String,label:String,pos:Vector2,evidence:String)->Diction
  return {"id":id,"label":label,"pos":pos,"evidence":evidence,"located":false}
 static func _patrol(m:Dictionary,pos:Vector2,points:Array)->void:
  m.sirens.append({"pos":pos,"home":pos,"goal":pos,"vel":Vector2.ZERO,"route":[],"angle":0.0,"mode":"PATROL","suspicion":0.0,"stun":0.0,"lock":0.0,"target":-1,"patrol":m.sirens.size(),"path_time":0.0,"type":"patroller","patrol_points":points,"patrol_index":0})
+
+static func supports_config(config:Dictionary)->bool:
+ var source=config.get("source_id",-1)
+ return config.size()==2 and config.get("history")==false and source in IDS
+
+# Identity-bound authored helpers remain on their original operation.
+static func supports_identity(id:int,config:Dictionary)->bool:
+ return id==config.source_id or config.source_id in [6,7]

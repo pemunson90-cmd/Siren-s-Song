@@ -10,15 +10,20 @@ static func make(id:int,history:Dictionary={})->Dictionary:
  var m={"id":id,"title":"Wake Crossing" if wake else "Warning Chain","brief":"","record":"","depth":5100 if wake else 2600,"darkness":false,"region_revision":1,"world_size":Vector2(2000,2080),"start":Vector2(1000,1880),"extraction":Vector2(1000,180),"rocks":[],"objectives":[],"sirens":[],"acoustic_revision":1,"expedition_revision":2,"signal_sources":[],"signal_observations":[],"expedition_facts":{},"next_signal_time":0.0,"chosen_route":"","recovered":false,"withdrawal_armed":false,"required_site_ids":[],"launch_context":history.duplicate(true)}
  m.corridors=[{"pos":m.extraction,"name":"NORTH WATER RECOVERY","route":"deep" if wake else "shelf"}]
  if wake:
+  m.wake_crossing=preload("res://src/simulation/wake_crossing.gd").initial();m.contact_report_revision=1
   m.rocks=[Rect2(880,660,240,820),Rect2(100,1020,420,220),Rect2(1480,1020,420,220),Rect2(120,300,420,180),Rect2(1460,300,420,180)]
   m.signal_sources=[{"id":"wake_packet","label":"RETURN RECEIVER","pos":Vector2(480,620),"evidence":"The measured return cadence belongs to a moving evacuation network. Quietus recovers the onward wake corridor without publishing its hull positions.","located":false,"confirm":true,"range":1600.0,"cadence":[0.8,1.6,0.8]}, {"id":"wake_repeater","label":"ABANDONED REPEATER","pos":Vector2(1520,620),"evidence":"A surviving repeater carries an older unequal cadence. Its close packet identifies it as an empty branch; cadence resemblance alone would never prove a friendly hull.","located":false,"range":1600.0,"cadence":[1.6,0.8,1.6]}]
   m.required_site_ids=["wake_packet"]
-  m.brief="Two high-power unlabeled evacuation carriers reach the southern listening lee around the central spine. Neither bearing is a source location. If you recovered and fitted the berthing correlator, settle Quietus for six seconds to compare their intervals with the measured RETURN reference; a pattern match does not establish identity or range. Without it, send a drone close to either basin or spend finite local RECON. Recover the live receiver packet with Quietus, then cross into northern recovery. The empty repeater remains a legitimate finding, not the onward packet. Both western and eastern passages are navigable."
-  m.record="The recovered wake packet places an evacuation line beyond the fork. The return pattern has become usable evidence across dives, without becoming a target identifier."
+  m.signal_sources[1].evidence=preload("res://src/simulation/wake_crossing.gd").ACCOUNT
+  m.signal_sources[0].evidence="The measured return is a private berthing correction, not a hull address. The old eastern departure call was deliberately left in emptied berths while families took this lane. Automatic watchers still exchange sightings across the northern saddle; the evacuation and its watch machinery no longer serve the same purpose."
+  if history.get("facts",{}).has("rendezvous"):m.signal_sources[0].evidence+=" Your recovered tender account used this same correction channel at the berth; the old public call served a different road."
+  m.brief="Find the live return receiver, recover its onward packet with Quietus, then cross to northern recovery. Two unlabeled carriers reach the southern lee. A fitted berthing correlator can compare the recovered RETURN reference after six settled seconds; without it, close scouting or finite RECON still identifies either source. Neither cadence nor a bearing guarantees safety. The eastern old call may offer a local diversion; inspect its hardware before spending it. Reserve air for the crossing and any independent drone's return."
+  m.record="The empty eastern berths were deliberately left calling while families used the private return lane. Their automatic watchers still trade local sightings. An abandoned call can be useful cover without becoming a friendly vessel; the onward packet and Quietus have crossed that watch line."
   Divergence._patrol(m,Vector2(620,850),[Vector2(620,850),Vector2(620,520),Vector2(780,420),Vector2(760,1400)])
   Divergence._patrol(m,Vector2(1340,850),[Vector2(1340,850),Vector2(1340,450),Vector2(1220,300),Vector2(1250,1430)])
   m.sirens[1].type="hunter"
-  m.brief+=" A hunter holds the eastern listening basin; the western arm has a moving patrol."
+  m.sirens[1].pos=Vector2(900,380);m.sirens[1].home=m.sirens[1].pos;m.sirens[1].goal=m.sirens[1].pos
+  m.brief+=" A patrol and northern hunter can report local sightings. The long western outside water remains a solo route without tools or playback."
  else:
   m.rocks=[Rect2(880,800,240,160),Rect2(880,1080,240,520),Rect2(140,520,500,220),Rect2(1360,520,500,220),Rect2(300,1230,320,200),Rect2(1380,1230,320,200)]
   m.structures=[CHAIN_SHUTTER]
@@ -34,3 +39,11 @@ static func make(id:int,history:Dictionary={})->Dictionary:
   m.sirens[0].type="sentinel";m.sirens[0]["tether"]=190.0
   m.brief+=" A sentinel defends the western preparation; the eastern arm is patrolled."
  return m
+
+static func supports_config(config:Dictionary)->bool:
+ var source=config.get("source_id",-1)
+ return config.size()==2 and config.get("history")==true and source in [9,10]
+
+# Identity-bound authored helpers remain on their original operation.
+static func supports_identity(id:int,config:Dictionary)->bool:
+ return id==config.source_id or config.source_id==10

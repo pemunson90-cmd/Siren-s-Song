@@ -96,7 +96,11 @@ divergence_save_tests|DIVERGENCE SAVE
 expedition_menu_tests|EXPEDITION MENU
 campaign_consequence_tests|CAMPAIGN CONSEQUENCES
 campaign_equipment_save_tests|CAMPAIGN EQUIPMENT SAVE
+operation_catalog_tests|OPERATION CATALOG
 onward_mission_tests|ONWARD MISSIONS
+wake_crossing_tests|WAKE CROSSING
+wake_crossing_journey_tests|WAKE CROSSING JOURNEY
+wake_crossing_ui_tests|WAKE CROSSING UI
 warning_chain_tests|WARNING CHAIN
 warning_chain_journey_tests|WARNING CHAIN JOURNEY
 shelf_habitat_tests|SHELF HABITAT

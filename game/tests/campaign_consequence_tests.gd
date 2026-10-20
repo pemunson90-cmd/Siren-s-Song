@@ -14,23 +14,23 @@ func _initialize():
  var failed={"id":7,"consequence_revision":1,"expedition_revision":1,"recovered":false,"expedition_facts":{"rendezvous":"note"},"measured_reference":[0.8,1.6,0.8]}
  var notes=Consequences.retain(migrated,failed)
  check(notes.notes.has("rendezvous") and notes.entitlements.is_empty(),"failed field notes retain observation without reward")
- var recovered=failed.duplicate(true);recovered.recovered=true
+ var recovered=failed.duplicate(true);recovered.recovered=true;recovered.objectives=[{"captured":true}]
  var earned=Campaign.recover(notes,recovered)
  check("quietus_correlator" in earned.entitlements and earned.references.return_cadence==[0.8,1.6,0.8],"successful confirmed recovery earns measured kit")
  check(9 in Campaign.available([0,1,2,3,4,5],earned),"Deep recovery opens actual onward task")
- var launched=Campaign.recover(earned,{"id":9,"expedition_revision":2,"recovered":true,"expedition_facts":{},"launch_equipment":{"quietus":"quietus_correlator","drone_a":"","drone_b":""}})
+ var launched=Campaign.recover(earned,{"id":9,"expedition_revision":2,"recovered":true,"objectives":[{"captured":true}],"expedition_facts":{},"launch_equipment":{"quietus":"quietus_correlator","drone_a":"","drone_b":""}})
  check(11 in Campaign.available([0,1,2,3,4,5],launched),"recovered onward job opens reviewed Confluence")
  check(11 not in Campaign.available([0,1,2,3,4,5],earned),"equipment recovery alone cannot skip the onward job")
  check(12 not in Campaign.available([0,1,2,3,4,5],launched) and 13 not in Campaign.available([0,1,2,3,4,5],launched),"Confluence departure must precede either distinct operation")
  check(launched.selected_thread=="deep" and launched.history.size()==1,"recovery commits one selected downstream history")
- var opposite={"id":6,"expedition_revision":1,"recovered":true,"chosen_route":"shelf","expedition_facts":{"shelf":"other"}}
+ var opposite={"id":6,"expedition_revision":1,"recovered":true,"objectives":[{"captured":true}],"chosen_route":"shelf","expedition_facts":{"shelf":"other"}}
  var replayed=Campaign.recover(launched,opposite)
  check(replayed.selected_thread=="deep" and replayed.history==launched.history and replayed.routes==launched.routes and 8 not in Campaign.available([0,1,2,3,4,5],replayed),"replay preserves the chosen campaign branch; a new campaign selects the other route")
  var failed9={"id":9,"expedition_revision":2,"recovered":false,"expedition_facts":{"wake_packet":"field only"}}
  var uncommitted=Campaign.recover(earned,failed9)
  check(uncommitted.selected_thread.is_empty() and uncommitted.history.is_empty(),"failed onward dive does not commit selected history")
- replayed=Campaign.recover(replayed,{"id":9,"expedition_revision":2,"recovered":true,"expedition_facts":{},"launch_equipment":launched.history[0].fitted})
- var confluence={"id":11,"expedition_revision":2,"recovered":true,"chosen_route":"concealed","expedition_facts":{}}
+ replayed=Campaign.recover(replayed,{"id":9,"expedition_revision":2,"recovered":true,"objectives":[{"captured":true}],"expedition_facts":{},"launch_equipment":launched.history[0].fitted})
+ var confluence={"id":11,"expedition_revision":2,"recovered":true,"objectives":[{"captured":true}],"chosen_route":"concealed","expedition_facts":{}}
  var selected=Campaign.recover(replayed,confluence)
  check(Campaign.valid(selected),"committed recovered history remains a valid archive")
  confluence.chosen_route="overt"

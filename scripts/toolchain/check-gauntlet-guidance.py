@@ -11,6 +11,7 @@ import sys
 
 FILES = (
     "AGENTS.md",
+    "docs/USER_DIRECTIVES.md",
     "README.md",
     "docs/START_HERE.md",
     "docs/SOURCE_AUTHORITY.md",
