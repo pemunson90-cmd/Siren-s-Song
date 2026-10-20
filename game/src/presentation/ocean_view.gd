@@ -1,4 +1,5 @@
 extends Control
+const Shelf=preload("res://src/presentation/shelf_habitat_view.gd")
 const Witness=preload("res://src/presentation/witness_evacuation_view.gd")
 const EarnedChart=preload("res://src/presentation/earned_chart_view.gd")
 const Expedition=preload("res://src/presentation/expedition_view.gd")
@@ -58,6 +59,7 @@ func objective_touch_rects(touch:float)->Array:
 	_sync_camera();var result:Array=[]
 	var radius=maxf(touch*.5,38*world_scale)
 	for site in observable_sites():
+		if sim.mission.id==8:continue
 		if Rendezvous.replaces_site(sim,site) or Witness.replaces_site(sim,site) or site.get("own_origin",false):continue
 		result.append(Rect2(screen_position(site.pos)-Vector2.ONE*radius,Vector2.ONE*radius*2))
 	result.append_array(Witness.touch_rects(self,sim,touch))
@@ -66,6 +68,8 @@ func pick_context(point:Vector2,touch:float) -> Dictionary:
 	_sync_camera();var choices=[]
 	for marker in salvage_markers():
 		if marker.rect.has_point(point):return {"kind":"salvage","item":marker.site.item,"name":marker.site.name.to_upper(),"pos":marker.site.pos}
+	var shelter=Shelf.pick(self,sim,point,touch,false)
+	if not shelter.is_empty():return shelter
 	var tender=Rendezvous.pick(self,sim,point,touch,false)
 	if not tender.is_empty():return tender
 	for id in sim.units.size():
@@ -80,11 +84,14 @@ func pick_context(point:Vector2,touch:float) -> Dictionary:
 	if not tender.is_empty():return tender
 	return objective_context(point,touch)
 func objective_context(point:Vector2,touch:float)->Dictionary:
+	var shelter=Shelf.pick(self,sim,point,touch)
+	if not shelter.is_empty():return shelter
 	var witness=Witness.pick(self,sim,point,touch)
 	if not witness.is_empty():return witness
 	# Fixed public sites share their marker's actual hit area with fleet rings.
 	for id in observable_sites().size():
 		var site=observable_sites()[id]
+		if sim.mission.id==8:continue
 		if Rendezvous.replaces_site(sim,site) or Witness.replaces_site(sim,site):continue
 		if site.get("own_origin",false):continue
 		if point.distance_to(screen_position(site.pos))<=maxf(touch*.5,38*world_scale):return {"kind":"objective","subkind":"actuator","index":id,"name":site.name,"pos":site.pos} if site.get("site_id","")=="witness_sluice" else {"kind":"objective","index":id,"name":site.name,"pos":site.pos}
@@ -187,7 +194,7 @@ func _draw() -> void:
 		draw_polyline(points,Color(0.12,0.3,0.33,0.11),1.2)
 	# Briefed environment only; no listener positions or hidden arrival paths.
 	# Kept below stone, fog, craft and the foreground charging/beam warnings.
-	if sim.mission.get("thermal_revision",0)==1:
+	if sim.mission.get("thermal_revision",0)==1 and sim.mission.id!=8:
 		for front in sim.mission.thermal_fronts:
 			var area:Rect2=front.area
 			draw_rect(area,Color(0.22,0.54,0.7,0.07))
@@ -196,14 +203,16 @@ func _draw() -> void:
 	_draw_departure()
 	# Bedrock and columnar basalt are original deterministic constructions.
 	if earned.is_empty():
-		for r in sim.mission.rocks: _rock(r)
+		for r in (sim.mission.rocks if sim.mission.id!=8 else []): _rock(r)
 	elif sim.mission.id==11:
 		Confluence.draw_terrain(self,earned,world_scale,Rect2(-world_offset/world_scale,size/world_scale))
 		if sim.has_method("confluence_context"):
 			var context=sim.confluence_context();context["surface_segments"]=earned.get("surface_segments",[])
 			Confluence.draw_landmarks(self,context,world_scale)
 	else:EarnedChart.draw_terrain(self,earned,world_scale)
+	Shelf.draw_ground(self,sim)
 	for o in observable_sites():
+		if sim.mission.id==8:continue
 		if o.get("own_origin",false):continue
 		if Rendezvous.replaces_site(sim,o) or WarningChain.replaces_site(sim,o) or Witness.replaces_site(sim,o):continue
 		if o.get("kind","")=="receiver":
@@ -223,6 +232,7 @@ func _draw() -> void:
 		draw_texture_rect(foundry,Rect2(1080,-100,540,360),false,Color(0.65,0.8,0.82,0.8))
 	# Intelligence marks are briefed coordinates, not live contact observations.
 	for o in observable_sites():
+		if sim.mission.id==8:continue
 		if o.get("own_origin",false):continue
 		if Rendezvous.replaces_site(sim,o) or WarningChain.replaces_site(sim,o) or Witness.replaces_site(sim,o):continue
 		var c=CYAN if o.captured else Color("e1b66e")
@@ -240,6 +250,7 @@ func _draw() -> void:
 			var alpha=0.38 if not sim.known.has(key) else (0.0 if sim.visible(p) else 0.20)
 			if alpha>0: draw_rect(Rect2(x*40,y*40,40,40),Color(0.005,0.014,0.025,alpha))
 	preload("res://src/presentation/blackwater_courier_view.gd").draw(self,sim)
+	Shelf.draw_world(self,sim)
 	Rendezvous.draw(self,sim)
 	WarningChain.draw_world(self,sim)
 	Witness.draw_world(self,sim)

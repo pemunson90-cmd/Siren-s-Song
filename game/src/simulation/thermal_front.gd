@@ -5,13 +5,13 @@ static func foundry() -> Array:
  return [{"area":Rect2(1000,780,320,120),"transmission":0.55,"close_range":120.0}]
 static func valid_mission(mission:Dictionary)->bool:
  if not mission.has("thermal_revision") and not mission.has("thermal_fronts"):return true
- if mission.get("id",-1)!=3 or mission.get("acoustic_revision",0)!=1 or not mission.get("thermal_revision") is int or mission.thermal_revision!=1:return false
+ if mission.get("id",-1) not in [3,8] or mission.get("acoustic_revision",0)!=1 or not mission.get("thermal_revision") is int or mission.thermal_revision!=1:return false
  var fronts=mission.get("thermal_fronts")
  if not fronts is Array or fronts.size()!=1:return false
  for front in fronts:
   if not front is Dictionary or not front.has_all(["area","transmission","close_range"]) or front.size()!=3:return false
   if not front.area is Rect2 or not front.area.position.is_finite() or not front.area.size.is_finite() or front.area.size.x<=0 or front.area.size.y<=0:return false
-  if not Rect2(0,0,1600,960).encloses(front.area):return false
+  if not Rect2(Vector2.ZERO,mission.get("world_size",Vector2(1600,960))).encloses(front.area):return false
   for key in ["transmission","close_range"]:
    if not (front[key] is int or front[key] is float) or not is_finite(float(front[key])):return false
   if front.transmission<=0 or front.transmission>1 or front.close_range<0 or front.close_range>650:return false
