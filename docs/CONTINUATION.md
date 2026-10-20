@@ -1,13 +1,13 @@
 # Continuation
-Current production base: `6c674871e4b7fd9b4ba4dd65e1731e3763e71a48`.
+Current production base: `e3a541fb24c2a3f136121150b7a0d2960546fda7`.
 Read docs/USER_DIRECTIVES.md first; the latest order correction governs.
 
 ## Next — whole-game evaluation and physical campaign consequences
 The rough campaign, four endings, craft upgrades and functional V7 rows are built.
 Stakes integrates operation endurance, independent acquisitions and targeting feedback.
 Confluence has an authored region, earned terrain, physical mouths and noisy sluice.
-Earned courses retain intent, advance through certified water and repair measured detours.
-Unresolved hazards stop for a real exploration decision.
+Earned courses retain intent, repair certified detours and stop at unresolved hazards.
+Recovery orders preserve drive/profile and offer explicit named mouths for route choices.
 Genuine journeys reached Hidden Harbour, Surface Reckoning and Silent Exodus on
 older frozen sources; the drone finale includes an unobserved interval.
 The remaining genuine journey continues on current source after its earned tutorial.
