@@ -1,6 +1,6 @@
 > **READ FIRST — CURRENT USER ORDER:** docs/USER_DIRECTIVES.md. Pass 0 + V7 full game first; then Stakes → One real operation → Instruments. User playtest timing never gates work.
 
-> Current user priority: build the rough complete campaign in docs/PASS0_CAMPAIGN_PLAN.md before further quality passes. One blocker-focused review; accept placeholders and rough balance; drop legacy-save compatibility. Fresh real-input critics play every branch to every ending before whole-game evaluation.
+> Current user priority: finish Pass 0 and V7 recovery, with genuine branch-to-ending play, substantive implementation and whole-game adversarial evaluation continuing in parallel under docs/USER_DIRECTIVES.md. One blocker-focused integration review; accept placeholders and rough balance; drop legacy-save compatibility.
 
 # Siren's Song — current intended game specification
 **Status:** Active living production specification · adopted 2026-10-19
