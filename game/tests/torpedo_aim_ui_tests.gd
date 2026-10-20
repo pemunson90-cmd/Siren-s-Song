@@ -19,7 +19,7 @@ func click(p:Vector2,touch:bool=false):
  await pointer(p,true,touch);await pointer(p,false,touch);await frames()
 func setup(g):
  g._start_mission(4);g.sim.units[0].pos=Vector2(600,750)
- for i in 2:g.sim.sirens[i].pos=Vector2(710+2*i,750);g.sim.sirens[i].vel=Vector2.ZERO
+ for i in 2:g.sim.sirens[i].pos=Vector2(710+2*i,750);g.sim.sirens[i].vel=Vector2.ZERO;g.sim.sirens[i].band=1;g.sim.sirens[i].transition={}
  g.sim.paused=false
  for i in 24:g.sim.advance(1./60)
  g.sim.paused=true;g.sim._observe();g._toggle_advanced();g._order("knock");g._refresh();await frames()
@@ -75,7 +75,7 @@ func run():
    if invalid=="stale":g.sim.contacts[0].time=-1.
    if invalid=="range":g.sim.sirens[0].pos=Vector2(1500,900)
    if invalid=="pinned":g.sim.sirens[0].stun=8.
-   if invalid=="cover":g.sim.mission.rocks.append(Rect2(650,735,20,30));g.sim._build_navigation()
+   if invalid=="cover":g.sim.mission.depth_geometry[1].rocks.append(Rect2(650,735,20,30));g.sim._build_navigation()
    await pointer(p,false,true);await frames()
    check(g.sim.tools.knock==2 and g.sim.projectiles.is_empty() and g.sim.units.all(func(u):return u.route.is_empty()),"changed "+invalid+" cannot spend or retarget another fresh contact")
   for order in ["knock","select","program"]:

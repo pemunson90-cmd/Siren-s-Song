@@ -1,33 +1,38 @@
-# Continuation
-Last reconciled production base: `ce157219271cbc4447393070c829e370ae20c2a9`.
-Read USER_DIRECTIVES.md and the approved release scope in CURRENT_GAME_SPEC.md.
+# Siren’s Song · release depth and sonar handoff
+Read AGENTS.md, USER_DIRECTIVES.md and CURRENT_GAME_SPEC.md first.
+Approved full-release program remains active; human playtesting gates nothing.
 
-## Delivered foundation (pending independent review/PR integration)
-Frozen Wake28f2b97 merged normally; concealed-harbour repair preserved.
-Operation catalog owns implemented0–13 dispatch, behavior eligibility,
-progression prerequisites, known facts/records and content-derived save limits.
-Synthetic registrations above13 exercise runtime, physical commands, recovery,
-checksummed saves and progression beyond the former completion/history limits.
-They exist only in isolated tests;28 core/12 optional operations remain a target.
+Last reconciled source baseline: foundation a6b6701, landed as production fb4cf105.
+Current milestone: integrated depth, sonar and stealth across opening0–5.
+Same sole builder and branch gauntlet/release/depth-sonar through internal checkpoints.
+Root owns independent exact-head review, game-smoke CI, PR and integration.
+Other source trees, earned profiles, main, signer and recovery refs stay frozen.
 
-## Next authorized implementation
-Build shared shallow/middle/deep tactical bands and depth-aware sonar/stealth:
-physical clearance/transitions, own-noise/masking, earned bearings/classification,
-then differentiated enemy sensing and fleet budgets; adapt the opening arc.
-Campaign/replay/challenges first, expeditions then persistent naval career.
-Production art/audio/frontend/settings remain approved unfinished release work.
-Use Sol6.1 Medium, one implementation worker and one integration reviewer.
-Broader critics run sequentially at substantial milestones; no routine APK.
+Implemented candidate:
+- Shared SHALLOW/MIDDLE/DEEP; adjacent stationary4s transitions occupy both bands.
+- Inherited terrain plus authored per-band overrides, clearance and measured charts.
+- Acquired enemy depth memory; existing beams remain conditional on current sight.
+- Local bearing histories, motion/drone triangulation, own-noise/thermal masking.
+- Sector/power selection, reserve cost, delayed emission-time echoes and occlusion.
+- Receiver-owned listening clocks/sweeper audio, return-strike windows and stale reports.
+- Craft-local controls, shared gesture ownership, waterfall and band feedback.
+- All opening0–5 author distinct band crossings, local threats and ascent cover.
+- Blackwater physical custody, Foundry thermal/motor, Well comparison, finale decode.
+- Briefings are concise; own-state/received-evidence hints teach choices in play.
 
-## Extension seam and preservation
-`operation_catalog.gd`: CONTENT entries, registered_ids/definition/supports,
-make, register_definition, accessible, fact_keys/record_keys.
-Factories expose make(source_id[,history]) or build(config,history), plus
-supports_config(config); identity-bound legacy sources explicitly refuse aliases.
-plant_operation.gd shares WorldRegion dimension admission with runtime saves.
-Declare behaviors, known facts/records, route/fact requirements and prerequisite
-IDs (ALL by default; explicit ANY for Confluence). Physical validators remain.
-Add authored content through one entry and its supported factory configuration.
-Keep real profiles, source trees, branches, main, evidence and signer intact.
-Root owns independent review, final-head game-smoke and PR integration.
-Human playtesting gates nothing. Only the user ends the Gauntlet.
+API: simulation.depth_feedback(), command("depth",{band}),
+command("sonar_mode",{sector,power}), command("ping").
+Factories may author depth_geometry[band].rocks/structures; omitted rocks inherit.
+Machinery remains inherited across bands; local sites/recovery use MIDDLE.
+Wreck custody retains its actual band. Current snapshots require depth/sonar state;
+older journeys remain playable only on their preserved source, without migration.
+
+Builder verification: all0–5 source-known input/render journeys finish on both views;
+new1–5 policies spend no finite tool. Core672/runtime563, interaction72, context60,
+Shelf input118, remaining input404 and rendered Song82 pass.
+Fresh repair: band-aware cached torpedo aims/physical launches and craft-local recovery;
+witness/module custody and plant continuity covered. Root independently reviews accumulated
+source next, including bounded sweeper pin/save repair. FIT/Well findings remain.
+Only after that review/fixes: final-head CI and normal milestone PR.
+After approval/CI/integration: build the next substantial playable campaign batch
+toward28 core/12 optional; wider fleet/replay/modes remain the approved program.

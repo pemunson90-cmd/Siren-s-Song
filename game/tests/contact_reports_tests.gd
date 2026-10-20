@@ -10,11 +10,11 @@ func check(ok:bool,label:String):
  if not ok:failures+=1;printerr("FAIL ",label)
 func fixture():
  # Explicit mechanic fixture; ordinary authored finale trace is separate.
- var s=Sim.new();s.start(5);s.mission.rocks=[];s.mission.structures=[];s._build_navigation()
+ var s=Sim.new();s.start(5);s.mission.rocks=[];s.mission.structures=[];s.mission.depth_geometry={};s._build_navigation()
  for i in 3:s.units[i].pos=Vector2(700,600);s.units[i].alive=i==0;s.units[i].vel=Vector2.ZERO
  s.sirens=s.sirens.slice(0,2)
  for i in 2:
-  var e=s.sirens[i];e.pos=Vector2(550-i*300,600);e.home=e.pos;e.goal=e.pos;e.type="sentinel";e.route=[];e.patrol_points=[];e.stun=0.0;e.lock=0.0;e.target=-1;e.suspicion=0.0
+  var e=s.sirens[i];e.band=1;e.pos=Vector2(550-i*300,600);e.home=e.pos;e.goal=e.pos;e.type="sentinel";e.route=[];e.patrol_points=[];e.stun=0.0;e.lock=0.0;e.target=-1;e.suspicion=0.0
  return s
 func sight(s,seconds:float):
  for n in int(round(seconds*60)):Reports.advance(s,[0,-1],[true,false],1.0/60)

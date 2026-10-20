@@ -29,9 +29,10 @@ static func handoff_context(sim,carrier:int)->Dictionary:
  result.packets=state.carriers[carrier].filter(func(p):return p not in state.aboard);result.distance=unit.pos.distance_to(quietus.pos)
  if not sim.outcome.is_empty():result.reason="Dive ended"
  elif not unit.alive or not quietus.alive:result.reason="Both transfer craft must be alive"
+ elif unit.band!=quietus.band or not unit.transition.is_empty() or not quietus.transition.is_empty():result.reason="Meet at the same settled depth"
  elif result.packets.is_empty():pass
  elif result.distance>RANGE:result.reason="Meet Quietus within60m for local TRANSFER"
- elif not sim.line_clear(unit.pos,quietus.pos):result.reason="Terrain blocks the local data connection"
+ elif not sim.Depth.clear(sim,unit.pos,quietus.pos,unit.band):result.reason="Terrain blocks the local data connection"
  elif unit.vel.length()>=2 or quietus.vel.length()>=2:result.reason="Settle both craft below2m/s"
  elif not sim.captures[carrier].is_empty() or not sim.captures[0].is_empty() or not sim.module_recovery_status().jobs[carrier].is_empty() or not sim.module_recovery_status().jobs[0].is_empty() or not state.jobs[carrier].is_empty() or not state.jobs[0].is_empty():result.reason="Finish active work before local TRANSFER"
  else:result.ready=true;result.reason="TRANSFER · raw exchange buffers to Quietus"
@@ -142,7 +143,8 @@ static func context(sim,item:String,unit:int)->Dictionary:
  elif result.claimed_by>=0:result.reason="Recovery in progress"
  elif busy(sim,unit) or not sim.module_recovery_status().jobs[unit].is_empty() or not sim.captures[unit].is_empty():result.reason="Finish this craft's active work first"
  elif result.distance>RANGE:result.reason="Move within60m"
- elif not sim.line_clear(sim.units[unit].pos,pos):result.reason="Terrain blocks recovery"
+ elif sim.units[unit].band!=sim.Depth.cargo_band(sim,item) or not sim.units[unit].transition.is_empty():result.reason="Salvage requires its recorded depth band"
+ elif not sim.Depth.clear(sim,sim.units[unit].pos,pos,sim.units[unit].band):result.reason="Terrain blocks recovery"
  elif sim.units[unit].vel.length()>=2:result.reason="Settle below2m/s"
  else:result.ready=true;result.reason="Recover raw buffer · audible winch4s"
  return result
@@ -150,12 +152,12 @@ static func begin(sim,item:String)->bool:
  var c=context(sim,item,sim.selected)
  if not c.ready:sim.message=c.reason;return false
  sim.mission.blackwater_delivery.jobs[sim.selected]={"item":item,"elapsed":0.0};sim.units[sim.selected].hold="HOLD"
- sim._noise(sim.units[sim.selected].pos,520,"RECOVERY WINCH",4);sim.events.append({"type":"salvage","pos":sim.units[sim.selected].pos,"item":item});sim.message=c.reason;return true
+ sim._noise(sim.units[sim.selected].pos,520,"RECOVERY WINCH",4,sim.units[sim.selected].band);sim.events.append({"type":"salvage","pos":sim.units[sim.selected].pos,"item":item});sim.message=c.reason;return true
 static func collect_at(sim,unit:int,pos:Vector2)->void:
  if not applies(sim.mission):return
  var state=sim.mission.blackwater_delivery;var cargo=state.aboard if unit==0 else state.carriers[unit]
  for item in state.wrecks.keys():
-  if state.wrecks[item].pos.distance_to(pos)>1:continue
+  if state.wrecks[item].pos.distance_to(pos)>1 or sim.Depth.cargo_band(sim,item)!=sim.units[unit].band:continue
   for packet in state.wrecks[item].packets:
    if packet not in cargo:cargo.append(packet)
   state.wrecks.erase(item)
@@ -169,7 +171,7 @@ static func tick(sim,dt:float)->void:
   var job=state.jobs[id]
   if job.is_empty():continue
   var unit=sim.units[id]
-  if not unit.alive or unit.hold!="HOLD" or not state.wrecks.has(job.item) or unit.pos.distance_to(state.wrecks[job.item].pos)>RANGE or not sim.line_clear(unit.pos,state.wrecks[job.item].pos):
+  if not unit.alive or unit.hold!="HOLD" or not state.wrecks.has(job.item) or unit.pos.distance_to(state.wrecks[job.item].pos)>RANGE or unit.band!=sim.Depth.cargo_band(sim,job.item) or not unit.transition.is_empty() or not sim.Depth.clear(sim,unit.pos,state.wrecks[job.item].pos,unit.band):
    state.jobs[id]={}
    if unit.hold=="HOLD":unit.hold=""
    sim.message="Buffer recovery interrupted"

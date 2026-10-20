@@ -17,6 +17,7 @@ var blocker:Control
 var close_button:Button
 var focus_button:Button
 var instrument_button:Button
+var sonar_waterfall:Control
 var instrument_info:Label
 var intent:Label
 var alarm:Label
@@ -63,6 +64,8 @@ func setup(owner):
   var key=entry[0];extra[key]=host._button(self,entry[1],func():_extra(key),key)
  extra.shelf_warn=host._button(self,"LOCAL WARNING\n100m / QUIETUS",func():host._order("shelf_warn",{"site":subject.get("site","")}),"shelf_warn")
  extra.shelf_alarm=host._button(self,"SOUND ALARM\n1200m / ONCE",func():host._order("shelf_alarm"),"shelf_alarm")
+ for entry in [["depth_menu","DEPTH / SONAR"],["depth_up","SHALLOWER"],["depth_down","DEEPER"],["sonar_sector","SECTOR"],["sonar_power","POWER"],["sonar_emit","EMIT SONAR"],["sonar_history","HISTORY"]]:
+  var key=entry[0];extra[key]=host._button(self,entry[1],func():_extra(key),key)
  extra.wake_playback=host._button(self,"PLAY OLD LOOP\nONCE ·15s",func():host._order("wake_playback"),"wake_playback")
  for entry in [["warning_exposed","EXPOSED\nUNGATED COURSE"],["warning_sheltered","SHELTERED\nSERVICE COURSE"],["warning_gate","OPEN SERVICE\n650m / 6s"]]:
   var key=entry[0];extra[key]=host._button(self,entry[1],func():_extra(key),key)
@@ -81,6 +84,7 @@ func setup(owner):
  sheet_body=VBoxContainer.new();var body=sheet_body;body.size_flags_horizontal=Control.SIZE_EXPAND_FILL;body.add_theme_constant_override("separation",8);sheet_scroll.add_child(body);body.minimum_size_changed.connect(_schedule_sheet_fit)
  host.title_label.reparent(body);host.title_label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
  host.detail_label.reparent(body);host.detail_label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+ sonar_waterfall=preload("res://src/presentation/sonar_history.gd").new();sonar_waterfall.custom_minimum_size=Vector2(220,100);sonar_waterfall.mouse_filter=Control.MOUSE_FILTER_IGNORE;body.add_child(sonar_waterfall);sonar_waterfall.hide()
  instrument_info=host._label(body,"",18);instrument_info.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
  recovery_box=VBoxContainer.new();recovery_box.add_theme_constant_override("separation",8);body.add_child(recovery_box);recovery_box.hide()
  alarm=host._label(self,"",18);alarm.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;alarm.mouse_filter=Control.MOUSE_FILTER_IGNORE
@@ -129,6 +133,14 @@ func _back():
  elif page in ["craft","object","fleet","salvage","plant","habitat","recovery"]:dismiss()
  else:open("habitat" if subject.get("kind","")=="habitat" else "plant" if subject.get("kind","")=="plant" else "object" if subject.get("kind","")=="objective" else "salvage" if subject.get("kind","")=="salvage" else "craft")
 func _extra(key:String):
+ if key=="depth_menu":open("acoustics");return
+ if key in ["depth_up","depth_down"]:
+  host._order("depth",{"band":host.sim.units[host.sim.selected].band+(-1 if key=="depth_up" else 1)});open("acoustics");return
+ if key in ["sonar_sector","sonar_power"]:
+  var state=host.sim.sonar
+  host._order("sonar_mode",{"sector":("forward" if state.sector=="all" else "all") if key=="sonar_sector" else state.sector,"power":("high" if state.power=="low" else "low") if key=="sonar_power" else state.power});open("acoustics");return
+ if key=="sonar_emit":host._order("ping");open("acoustics");return
+ if key=="sonar_history":details_return="acoustics";open("inspect",{"subkind":"sonar"});return
  if key=="concealed_work":
   var sites=Concealed.subjects(host.sim)
   if not sites.is_empty():open("inspect",sites[0])
@@ -177,13 +189,8 @@ func recovery_button_at(point:Vector2) -> Button:
   if button.is_visible_in_tree() and button.get_global_rect().has_point(point):return button
  return null
 func witness_button_at(point:Vector2) -> Button:
- # These consequential local actions have one tap owner, including the mouse
- # events Android emulates after a canceled touch or short drag.
- if (page=="craft" and not Recipient.primary_subject(host.sim).is_empty()) or (page=="object" and subject.get("subkind","")=="warning_gate"):
-  var primary=host.order_buttons.camera
-  if primary.is_visible_in_tree() and primary.get_global_rect().has_point(point):return primary
- for button in [extra.witness_land,extra.salvage,extra.warning_exposed,extra.warning_sheltered,extra.warning_gate,extra.shelf_warn,extra.shelf_alarm,extra.concealed_attach,extra.concealed_release,extra.concealed_seat,extra.concealed_work,extra.wake_playback]:
-  if button==extra.salvage and not Witness.site_for_item(host.sim,subject.get("item","")):continue
+ # Every projected command has the same tap owner. New actions need no list.
+ for button in command_controls():
   if button.is_visible_in_tree() and button.get_global_rect().has_point(point):return button
  return null
 func label_at(point:Vector2) -> bool:
@@ -227,6 +234,7 @@ func _outside(event):
  if (event is InputEventScreenTouch and event.pressed) or (event is InputEventMouseButton and event.pressed):dismiss();accept_event()
 func command_controls() -> Array:
  match page:
+  "acoustics":return [extra.depth_up,extra.depth_down,extra.sonar_emit,extra.sonar_sector,extra.sonar_power,extra.sonar_history]
   "tools":return [host.order_buttons.decoy,host.order_buttons.emp,host.order_buttons.recon,host.order_buttons.knock]
   "route":return [host.order_buttons.queue,host.order_buttons.hold,host.order_buttons.waypoint_mode,host.order_buttons.home,host.order_buttons.program]
   "guard":return [host.order_buttons.contact_hold,host.order_buttons.wait_drone,host.order_buttons.hold]
@@ -243,7 +251,7 @@ func command_controls() -> Array:
   "salvage":return [extra.salvage,extra.route_here,extra.inspect]
   "delivery":return [extra.blackwater_a,extra.blackwater_b,extra.inspect]
   "inspect","signals","recovery":return []
- var controls=[host.order_buttons.camera,host.order_buttons.ping,host.order_buttons.silent,host.order_buttons.program,extra.route_menu,extra.tools_menu,extra.guard_menu,extra.inspect]
+ var controls=[host.order_buttons.camera,extra.depth_menu,host.order_buttons.silent,host.order_buttons.program,extra.route_menu,extra.tools_menu,extra.guard_menu,extra.inspect]
  if Witness.carries(host.sim,host.sim.selected):controls[0]=extra.witness_land
  if Concealed.status(host.sim).get("known",false):controls.append(extra.concealed_work)
  if not Delivery.status(host.sim).is_empty():
@@ -253,11 +261,8 @@ func command_controls() -> Array:
 func layout(bounds:Vector2,h:float):
  position=Vector2.ZERO;size=bounds;touch_height=h
  var font=maxi(14,roundi(h*.26))
- var recipient_primary=(page=="craft" and not Recipient.primary_subject(host.sim).is_empty()) or (page=="object" and subject.get("subkind","")=="warning_gate")
  for b in host.order_buttons.values()+host.unit_buttons+extra.values()+[close_button,focus_button,host.pause_button,host.advanced_button]+host.zoom_buttons:
-  b.mouse_filter=Control.MOUSE_FILTER_IGNORE if page=="plant" and b in command_controls() else Control.MOUSE_FILTER_STOP
-  if b in [extra.witness_land,extra.warning_exposed,extra.warning_sheltered,extra.warning_gate,extra.shelf_warn,extra.shelf_alarm,extra.concealed_attach,extra.concealed_release,extra.concealed_seat,extra.concealed_work,extra.wake_playback] or (b==extra.salvage and Witness.site_for_item(host.sim,subject.get("item",""))):b.mouse_filter=Control.MOUSE_FILTER_IGNORE
-  if b==host.order_buttons.camera and recipient_primary:b.mouse_filter=Control.MOUSE_FILTER_IGNORE
+  b.mouse_filter=Control.MOUSE_FILTER_IGNORE if b in command_controls() else Control.MOUSE_FILTER_STOP
   b.hide();b.custom_minimum_size=Vector2(h*1.55,h);b.size=Vector2(h*1.55,h);b.add_theme_font_size_override("font_size",font)
   b.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
   var normal=StyleBoxFlat.new();normal.bg_color=Color(0,0,0,0);normal.set_content_margin_all(2)
@@ -267,7 +272,8 @@ func layout(bounds:Vector2,h:float):
  host.status_label.hide();host.log_label.hide()
  host.pause_button.show();host.pause_button.position=Vector2(12,12);host.pause_button.size=Vector2(h*1.55,h)
  host.advanced_button.visible=not host.advanced_orders;host.advanced_button.position=Vector2(bounds.x-1.55*h-12,12);host.advanced_button.size=Vector2(h*1.55,h)
- intent.position=Vector2(16,bounds.y-font*2-14);intent.size=Vector2(bounds.x-32,font*2+8);intent.add_theme_font_size_override("font_size",font)
+ var line_height=ceili(intent.get_theme_font("font").get_height(font))
+ intent.position=Vector2(16,bounds.y-line_height*2-14);intent.size=Vector2(bounds.x-32,line_height*2+8);intent.add_theme_font_size_override("font_size",font)
  intent.visible=not host.advanced_orders
  blocker.position=Vector2.ZERO;blocker.size=bounds;blocker.visible=host.advanced_orders
  ring_buttons=command_controls()
@@ -310,11 +316,19 @@ func _fit_sheet():
  host.call_deferred("_report_targets")
 func refresh():
  var sim=host.sim
+ sonar_waterfall.visible=page=="inspect" and subject.get("subkind","")=="sonar"
+ sonar_waterfall.sim=sim;sonar_waterfall.queue_redraw()
+ var u=sim.units[sim.selected];var transition=u.transition
+ extra.depth_up.text="↑ "+sim.Depth.NAMES[maxi(0,u.band-1)];extra.depth_up.disabled=u.band==0 or not transition.is_empty()
+ extra.depth_down.text="↓ "+sim.Depth.NAMES[mini(2,u.band+1)];extra.depth_down.disabled=u.band==2 or not transition.is_empty()
+ extra.sonar_sector.text="SECTOR\n"+("ALL360°" if sim.sonar.sector=="all" else "FORWARD90°")
+ extra.sonar_power.text="POWER\n"+sim.sonar.power.to_upper()
+ extra.sonar_emit.text="EMIT\n"+("%.1f RESERVE"%sim.Sonar.POWERS[sim.sonar.power].cost);extra.sonar_emit.disabled=sim.ping_time>0 or not transition.is_empty()
  subject=Concealed.refresh_subject(sim,Recipient.refresh_subject(sim,Rendezvous.refresh_subject(sim,subject)))
  host.pause_button.text="PAUSED\n▶ RUN" if sim.paused else "Ⅱ\nPAUSE"
  host.advanced_button.text="FLEET"
  focus_button.text="FOLLOW" if host.ocean.chart_camera.mode=="follow" else "FOCUS"
- intent.text="%s · %s · %s"%[sim.units[sim.selected].name,"QUEUE" if sim.queue_mode else "REPLACE",(host.targeting_feedback if not host.targeting_feedback.is_empty() else "DECOY · TAP CLEAR WATER ≤160m · TAP CANCEL" if host.decoy_armed else "TORPEDO · TAP FRESH CONTACT · TAP CANCEL" if host.knock_armed else sim.message)]
+ intent.text="%s · %s · %s"%[sim.units[sim.selected].name+" · "+sim.Depth.NAMES[sim.units[sim.selected].band],"QUEUE" if sim.queue_mode else "REPLACE",(host.targeting_feedback if not host.targeting_feedback.is_empty() else "DECOY · TAP CLEAR WATER ≤160m · TAP CANCEL" if host.decoy_armed else "TORPEDO · TAP FRESH CONTACT · TAP CANCEL" if host.knock_armed else sim.message)]
  host.title_label.visible=page not in ["signals","recovery"];host.detail_label.visible=page not in ["signals","recovery"]
  host.order_buttons.home.text="WITHDRAW" if Expedition.entry(sim) else "EXTRACT"
  extra.route_here.text="PLOT ROUTE" if subject.has("subkind") else "ROUTE HERE"
@@ -419,7 +433,7 @@ func refresh():
  if page=="inspect" and sim.selected==0:
   var correlation=Equipment.correlation_detail(sim)
   if not correlation.is_empty():instrument_info.text+="\n\n"+correlation
- if page=="recovery":instrument_info.text="%s · CHOOSE RECOVERY\n%s APPROACH"%[sim.units[sim.selected].name,"QUEUE" if sim.queue_mode else "REPLACE"]
+ if page=="recovery":instrument_info.text="%s · CHOOSE RECOVERY\n%s APPROACH"%[sim.units[sim.selected].name+" · "+sim.Depth.NAMES[sim.units[sim.selected].band],"QUEUE" if sim.queue_mode else "REPLACE"]
  if not host.advanced_orders:
   extra.arrivals.hide()
   if Expedition.active(sim):
@@ -440,6 +454,14 @@ func refresh():
  host.ocean.warnings_in_hud=host.advanced_orders
  alarm.text="\n".join(warnings) if host.advanced_orders else "OP PRESSURE · %s"%pressure.stage
  alarm.visible=not warnings.is_empty() if host.advanced_orders else pressure.hunt>0
+ var received=sim.Sonar.feedback(sim,sim.selected).rows.duplicate();received.reverse()
+ for row in received:
+  if sim.elapsed-row.time>1.2 or row.classification not in ["SWEEP WINDUP","ACTIVE SWEEP","RETURN CHARGE"]:continue
+  var bearing=fposmod(rad_to_deg(atan2(row.direction.x,-row.direction.y)),360.)
+  var heard="HEARD %s · %03d° · %.1fs"%[row.classification,roundi(bearing)%360,sim.elapsed-row.time]
+  if host.advanced_orders:alarm.text=(alarm.text+"\n" if alarm.visible else "")+heard
+  elif warnings.is_empty():alarm.text=heard
+  alarm.visible=true;break
  alarm.add_theme_stylebox_override("normal",warning_style if host.advanced_orders else pressure_style)
  alarm.add_theme_color_override("font_color",Color("ffb99b") if host.advanced_orders else Color("bbaa82"))
  var alert_font=alarm.get_theme_font_size("font_size")
@@ -452,12 +474,18 @@ func refresh():
  for rect in host.ocean.contact_readout_rects():blocked.append(rect)
  if host.ocean.optical_feed.is_visible_in_tree():blocked.append(host.ocean.optical_feed.get_rect())
  fleet.visible=not host.advanced_orders and not host.decoy_armed and not host.knock_armed
+ if not host.decoy_armed and not host.knock_armed:intent.text+="\n"+sim.Depth.context(sim)
  fleet.refresh(blocked)
  host.ocean.ui_blocked_rects=occupied_rects().map(func(r):return Rect2(r.position-host.ocean.global_position,r.size))
  if host.decoy_armed or host.knock_armed:
   close_button.text="CANCEL";close_button.position=Vector2(size.x/2-touch_height*.775,size.y-touch_height-12);close_button.show()
  else:close_button.text="CANCEL" if page=="recovery" else "LOCAL ORDERS" if page=="inspect" and subject.get("subkind","")=="concealed" else "BACK";close_button.visible=host.advanced_orders
  queue_redraw()
+ if page=="acoustics" or sonar_waterfall.visible:
+  if sonar_waterfall.visible:host.title_label.hide();host.detail_label.hide()
+  instrument_info.text=preload("res://src/presentation/sonar_history.gd").detail(sim)
+  if not transition.is_empty():instrument_info.text="%s → %s · %.1fs remaining\n"%[sim.Depth.NAMES[u.band],sim.Depth.NAMES[transition.to],transition.remaining]+instrument_info.text
+
 func _draw():
  if host==null or not host.advanced_orders:return
  var h=touch_height;var font=ThemeDB.fallback_font;var text_size=maxi(14,roundi(h*.26))
@@ -478,6 +506,9 @@ func _draw():
   draw_line(center+d*(ring_radius-h*.65),center+d*(ring_radius+h*.6),Color(.3,.72,.74,.4),1)
  var title=subject.get("name","SITE") if subject.get("kind","") in ["objective","salvage","plant","habitat"] else host.sim.units[host.sim.selected].name
  var caption=page.to_upper() if page!="craft" else ("COMMAND · SITES %d"%host.ocean.observable_sites().size() if Expedition.active(host.sim) else "COMMAND · %d/%d"%[host.ocean.observable_sites().filter(func(o):return o.captured).size(),host.ocean.observable_sites().size()])
+ if page=="acoustics":
+  var body=host.sim.units[host.sim.selected];caption=host.sim.Depth.NAMES[body.band]
+  if not body.transition.is_empty():caption+=" → "+host.sim.Depth.NAMES[body.transition.to]+" %.1fs"%body.transition.remaining
  if page=="plant":caption=WarningChain.power_label(host.sim,WarningChain.context(host.sim))+" · LOCAL 60m"
  if page=="delivery":caption="LOCAL LINK · 60m · SETTLED"
  if page=="salvage":

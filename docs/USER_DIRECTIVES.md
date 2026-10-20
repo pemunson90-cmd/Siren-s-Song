@@ -1,6 +1,12 @@
 # Current user directives — read before accepting work
 
-## Latest approved order — full-release execution
+## Latest priority — substantial playable content
+Prioritize substantial new playable content; concentrate regression, bug hunting and refinement at meaningful integration boundaries or when continuing would become prohibitively difficult or expensive. Preserve current-milestone independent approval, final-head CI, physical rules and fair information.
+
+## Latest execution correction — six-operation milestone
+First milestone: integrated depth, sonar and stealth across opening operations0–5. One builder continues on the same milestone branch after each internal task/checkpoint. Author distinct encounters through shared systems, preserve baseline-fleet completion and existing physical evidence/cargo/recovery. Use focused checks during tasks; accumulate broad regression, performance and adversarial checks at the complete milestone boundary. Review the accumulated branch with the same independent reviewer, fix/re-review there, then mandatory final-head game-smoke CI and a normal PR. Do not integrate isolated subtasks or move to fleet/economy before this milestone. This supersedes older per-feature merge wording; the full-release program below remains authorized.
+
+## Approved order — full-release execution
 Implement the approved full-release expansion in docs/CURRENT_GAME_SPEC.md. The user approved campaign/replay first, then roguelite expeditions and naval career, three tactical depth bands, persistent recoverable costs by default with refill/heavy-attrition settings, and24–30 core operations (production target28) plus12 optional operations. This order supersedes prior rough-only/one-operation scope limits and authorizes new campaign content and substantive release polish. Preserve accepted Pass0/V7 work and all saved evidence.
 
 Use Sol6.1 Medium with one implementation worker and one integration reviewer, short task-specific context, coherent feature batches, affected checks and required final-head CI. Wider impartial reviewers run sequentially at substantive complete-game boundaries. No new governance framework, routine APK cycle or further design-approval gate. Preserve native risk validation, canonical signer, branches, saves and fair information. Human playtesting never gates development; only the user ends the Gauntlet.

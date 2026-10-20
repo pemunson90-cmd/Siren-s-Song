@@ -216,7 +216,7 @@ func _draw() -> void:
 	_draw_departure()
 	# Bedrock and columnar basalt are original deterministic constructions.
 	if earned.is_empty():
-		for r in (sim.mission.rocks if sim.mission.id!=8 else []): _rock(r)
+		for r in (sim.mission.get("depth_geometry",{}).get(sim.units[sim.selected].band,{}).get("rocks",sim.mission.rocks) if sim.mission.id!=8 else []): _rock(r)
 	elif sim.mission.id==11:
 		Confluence.draw_terrain(self,earned,world_scale,Rect2(-world_offset/world_scale,size/world_scale))
 		if sim.has_method("confluence_context"):
@@ -329,6 +329,7 @@ func _draw() -> void:
 		var heading=Vector2.from_angle(projectile.angle)
 		draw_line(projectile.pos-heading*17,projectile.pos+heading*5,Color("a7c7c3"),3/world_scale)
 		draw_circle(projectile.pos+heading*5,2.2/world_scale,Color("ddede2"))
+	preload("res://src/presentation/sonar_history.gd").draw_bearings(self,sim)
 	var observed=contact_entries()
 	for entry in observed:
 		var c=sim.contacts[entry.key]; var fresh=entry.fresh
@@ -501,10 +502,13 @@ func _siren(p: Vector2,angle: float,fresh: bool,role: String="patroller",pin_tim
 	if fresh:
 		# The same original biological material has distinct station/response profiles.
 		var body=Rect2(-67,-40,134,80)
+		if role=="sweeper": body=Rect2(-70,-50,140,100)
 		if role=="sentinel": body=Rect2(-58,-53,116,106)
 		var shade=Color(lerpf(0.25,1.0,depth),lerpf(0.44,1.0,depth),lerpf(0.55,1.0,depth),lerpf(0.45,1.0,depth))
 		if role=="hunter":Confluence.draw_hunter(self,sim.elapsed,shade)
 		else:draw_texture_rect(siren_ray,body,false,shade)
+		if role=="sweeper":
+			for radius in [30,43,56]:draw_arc(Vector2(25,0),radius,-PI*.45,PI*.45,20,Color("e4b273"),2.)
 		if pin_time>0:
 			for x in [-25.0,0.0,25.0]:
 				draw_arc(Vector2(x,0),26,-PI*0.45,PI*0.45,16,Color("85b1b4"),2.0)

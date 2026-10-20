@@ -118,7 +118,10 @@ func toggle_arrival():
 func insert_after():
  var goals=host.sim.route_goals();var index=0 if goals.is_empty() else selected_goal+1
  var a:Vector2=host.sim.units[host.sim.selected].pos if goals.is_empty() else goals[selected_goal].pos
- var p:Vector2=a+Vector2(80,0) if index>=goals.size() else a.lerp(goals[index].pos,0.5)
+ # Only the preceding accepted position is guaranteed measured/valid. An
+ # invented80m step or chord midpoint may be rock in this operating band.
+ # Insert there, select it, then the operator places the new goal on the chart.
+ var p:Vector2=a
  var before=goals.size();apply("route_insert",{"index":index,"point":p})
  if host.sim.route_goals().size()>before:selected_goal=index;refresh()
 func close():

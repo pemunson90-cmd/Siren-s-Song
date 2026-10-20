@@ -24,7 +24,7 @@ static func run(t):
 	s=make();place(s,0,210)
 	t.check(not s.command("camera"),"Quietus210m standoff cannot silently use its156m passive receiver")
 	t.check(s.command("ping") and s.command("camera"),"accepted existing SONAR permits local clear standoff replay sampling")
-	t.check(s.ping_time==3.5 and s.noises.any(func(n):return n.label=="ACTIVE SONAR" and n.radius==950),"replay retains production sonar cooldown and acoustic emission")
+	t.check(s.ping_time==3.5 and s.noises.any(func(n):return n.label=="ACTIVE SONAR" and n.radius==750),"replay retains selected default low-power sonar cooldown and750m emission")
 	s.paused=false;tick(s,2.05);t.check(s.mission.objectives[0].captured,"audible standoff earns the same request in two settled seconds")
 	s=make();place(s,0,230,1);s.command("select",{"unit":1})
 	t.check(not s.command("camera"),"drone230m is outside actual214.5m passive reach")

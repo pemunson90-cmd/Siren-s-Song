@@ -11,7 +11,7 @@ static func run(t) -> void:
 			s.paused=false # Restoring a dive intentionally enters tactical pause.
 		for siren in s.sirens:
 			var points=siren.get("patrol_points",[])
-			t.check(points.size()>=3,"mission %d has an authored legible circulation route"%mission)
+			t.check(siren.get("type","")=="sweeper" or points.size()>=3,"mission %d has authored mobile circulation or a stationary sweeper"%mission)
 			for point in points:
 				t.check(not s.blocked(point,24) and (siren.pos.distance_to(point)<35 or not s.path(siren.pos,point).is_empty()),"authored patrol waypoint has physical clearance and reachable terrain")
 		var travel=[]; var last=[]

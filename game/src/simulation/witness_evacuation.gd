@@ -65,14 +65,16 @@ static func context(sim,unit:int,item:String=ITEM)->Dictionary:
   elif winch.claimed_by>=0:winch.reason="Occupied capsule recovery in progress"
   elif not sim.captures[unit].is_empty() or not sim.module_recovery_status().jobs[unit].is_empty() or sim._blackwater_recovery_busy(unit) or sim._warning_chain_busy(unit):winch.reason="Finish this craft's active work first"
   elif winch.distance>RANGE:winch.reason="Move within 60m of the occupied pod"
-  elif not sim.line_clear(body.pos,state.pos):winch.reason="Terrain blocks the winch"
+  elif body.band!=sim.Depth.cargo_band(sim,ITEM) or not body.transition.is_empty():winch.reason="Salvage requires its recorded depth band"
+  elif not sim.Depth.clear(sim,body.pos,state.pos,body.band):winch.reason="Terrain blocks the winch"
   elif body.vel.length()>=2:winch.reason="Settle below 2m/s"
   else:winch.ready=true;winch.reason="WINCH occupied capsule · 4s audible · 520m open-water reach"
  var land={"ready":false,"reason":"This craft does not carry the witness","distance":body.pos.distance_to(HARBOUR),"range":RANGE}
  if not sim.outcome.is_empty():land.reason="Dive ended"
  elif body.alive and state.state=="carried" and state.carrier==unit:
-  if land.distance>RANGE:land.reason="Bring the occupied capsule within 60m of southeast harbour"
-  elif not sim.line_clear(body.pos,HARBOUR):land.reason="Terrain blocks harbour landing"
+  if body.band!=1 or not body.transition.is_empty():land.reason="Ascend to MIDDLE and settle for harbour landing"
+  elif land.distance>RANGE:land.reason="Bring the occupied capsule within 60m of southeast harbour"
+  elif not sim.Depth.clear(sim,body.pos,HARBOUR,body.band):land.reason="Terrain blocks harbour landing"
   elif body.vel.length()>=2:land.reason="Settle below 2m/s to land the witness"
   elif not sim.captures[unit].is_empty() or not sim.module_recovery_status().jobs[unit].is_empty() or sim._blackwater_recovery_busy(unit) or busy(sim,unit):land.reason="Finish this craft's active work first"
   else:land.ready=true;land.reason="LAND living witness · local harbour"
@@ -81,7 +83,7 @@ static func begin(sim,item:String)->bool:
  var c=context(sim,sim.selected,item).get("winch",{})
  if not c.get("ready",false):sim.message=c.get("reason","Witness unavailable");return false
  sim.mission.witness_evacuation.job={"unit":sim.selected,"item":item,"elapsed":0.0};sim.units[sim.selected].hold="HOLD"
- sim._noise(sim.units[sim.selected].pos,520.0,"RECOVERY WINCH",DURATION);sim.events.append({"type":"salvage","pos":sim.units[sim.selected].pos,"item":item})
+ sim._noise(sim.units[sim.selected].pos,520.0,"RECOVERY WINCH",DURATION,sim.units[sim.selected].band);sim.events.append({"type":"salvage","pos":sim.units[sim.selected].pos,"item":item})
  sim.message="Occupied pressure pod · living witness aboard · audible winch4s";return true
 static func land(sim)->bool:
  var c=context(sim,sim.selected).get("land",{})
@@ -96,7 +98,7 @@ static func losses(sim)->void:
   var id=state.carrier;state.pos=sim.units[id].pos;state.state="salvage";state.carrier=-1;state.losses.append(id)
   sim.events.append({"type":"witness_ejected","pos":state.pos});sim.message="Transport lost · occupied sealed pressure pod ejected at its last own position · recover locally"
 static func collect_at(sim,unit:int,pos:Vector2)->void:
- if not available(sim) or sim.mission.witness_evacuation.pos.distance_to(pos)>1:return
+ if not available(sim) or sim.mission.witness_evacuation.pos.distance_to(pos)>1 or sim.units[unit].band!=sim.Depth.cargo_band(sim,ITEM):return
  var state=sim.mission.witness_evacuation
  if state.state=="salvage":state.rescues+=1
  else:
@@ -111,7 +113,7 @@ static func tick(sim,dt:float)->void:
  losses(sim);var state=sim.mission.witness_evacuation
  if state.job.is_empty():return
  var job=state.job;var body=sim.units[job.unit]
- if not body.alive or body.hold!="HOLD" or not available(sim) or body.pos.distance_to(state.pos)>RANGE or not sim.line_clear(body.pos,state.pos):
+ if not body.alive or body.hold!="HOLD" or not available(sim) or body.pos.distance_to(state.pos)>RANGE or body.band!=sim.Depth.cargo_band(sim,ITEM) or not body.transition.is_empty() or not sim.Depth.clear(sim,body.pos,state.pos,body.band):
   state.job={}
   if body.hold=="HOLD":body.hold=""
   sim.message="Occupied pod winch interrupted"

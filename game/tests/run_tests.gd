@@ -32,5 +32,8 @@ func _initialize() -> void:
 	preload("res://tests/observed_contact_scenarios.gd").run(self)
 	preload("res://tests/blackwater_scenarios.gd").run(self)
 	preload("res://tests/operation_catalog_scenarios.gd").run(self)
+	preload("res://tests/depth_sonar_scenarios.gd").run(self)
+	preload("res://tests/sweeper_scenarios.gd").run(self)
+	preload("res://tests/opening_depth_scenarios.gd").run(self)
 	print("CHECKS ", checks, " FAILURES ", failures)
 	quit(1 if failures else 0)

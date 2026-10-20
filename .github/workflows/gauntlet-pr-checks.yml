@@ -27,7 +27,8 @@ jobs:
   game-smoke:
     name: game-smoke
     runs-on: ubuntu-24.04
-    timeout-minutes: 20
+    # The complete ordered milestone suite already needs over20m.
+    timeout-minutes: 35
     env:
       TOOLCHAIN_CACHE: ${{ github.workspace }}/../sirens-song-toolchain
     steps:
@@ -86,7 +87,7 @@ jobs:
           set -euo pipefail
           while IFS='|' read -r scenario summary; do
             log="artifacts/pr-$scenario.log"
-            scripts/toolchain/headless.sh --script "res://tests/$scenario.gd" 2>&1 | tee "$log"
+            timeout --kill-after=10s 480s scripts/toolchain/headless.sh --script "res://tests/$scenario.gd" 2>&1 | tee "$log"
             if grep -nE 'SCRIPT ERROR:|(^|[[:space:]])ERROR:' "$log"; then exit 1; fi
             grep -Eq "^$summary CHECKS [1-9][0-9]* FAILURES 0$" "$log"
           done <<'UI_SCENARIOS'
@@ -106,6 +107,15 @@ jobs:
           wake_crossing_journey_tests|WAKE CROSSING JOURNEY
           wake_crossing_ui_tests|WAKE CROSSING UI
           operation_catalog_tests|OPERATION CATALOG
+          depth_sonar_tests|DEPTH SONAR
+          sweeper_tests|SWEEPER
+          depth_policy_journeys|DEPTH POLICY
+          depth_sonar_ui_tests|DEPTH SONAR UI
+          depth_policy_ui_tests|DEPTH POLICY UI
+          opening_depth_tests|OPENING DEPTH
+          opening_depth_journeys|OPENING JOURNEY
+          opening_depth_ui_tests|OPENING DEPTH UI
+          opening_depth_policy_ui_tests|OPENING POLICY UI
           onward_mission_tests|ONWARD MISSIONS
           cadence_correlator_tests|CADENCE CORRELATOR
           contact_reports_tests|CONTACT REPORT

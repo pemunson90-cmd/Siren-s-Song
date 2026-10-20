@@ -1,27 +1,33 @@
-# Siren’s Song · full-release build
-Read USER_DIRECTIVES.md and CURRENT_GAME_SPEC.md for approved scope.
+# Siren’s Song · approved full-release build
+Read USER_DIRECTIVES.md and CURRENT_GAME_SPEC.md for governing scope.
 
 | Delivery stage | Actual state |
 |---|---|
-|Pass0/V7 rough campaign|Preserved; full branch evaluation incomplete|
-|Wake completed candidate|28f2b97 merged normally into foundation batch|
-|Reusable release foundations|Review repairs: reachable Wake playback, safe aliases/world bounds; re-review next|
-|Depth-aware stealth/sonar/enemies/fleet|Next implementation batch|
-|Integrated six-operation opening arc|Planned after shared systems|
-|28 core/12 optional campaign + replay/challenges|Approved; not yet authored|
-|Production world/audio/frontend/settings/accessibility|Approved unfinished work|
+|Pass0/V7 and physical finales|Preserved; complete fresh branch evaluation remains|
+|Reusable operation/config foundation|Landed production fb4cf105|
+|Physical depth / advanced sonar|Opening verified; torpedo/recovery repair; review next|
+|First new enemy: active sweeper|Shelf/Blackwater/Well/finale; four further roles remain|
+|Opening policy evidence|Source-known command and injected-input journeys; no blind preference claim|
+|Complete six-operation opening arc|Authored0–5; command/input policies pass both views; review pending|
+|28 core/12 optional + replay/challenges|Approved; not yet authored|
+|Fleet/economy/research/artifacts|Approved broader expansion unfinished|
+|World/audio/frontend/settings/accessibility|Approved production expansion unfinished|
 |Roguelite expeditions|After campaign/replay|
 |Persistent naval career|After expeditions|
-|Native/whole-game verification|At meaningful milestones; criticism continues|
 
-Foundation: registered implemented IDs0–13; catalog-driven factory/behavior,
-prerequisites and known fact/record validation; content-derived persistence limits.
-Tests temporarily register higher IDs and prove physical recovery/current saves.
-No synthetic operation is exposed in the real campaign.
-API/configuration seam: see CONTINUATION.md and operation_catalog.gd.
-Next: three physical tactical depth bands, shared sonar and stealth foundations.
-Preserve fair information, baseline fleet solutions and recoverable physical costs.
-Economy: recoverable persistent costs(default), refill and heavy-attrition presets.
-One implementation worker + one integration reviewer, requested Sol6.1 Medium.
-Preserve profiles, branches, canonical signer and cumulative deficiencies.
-Human playtesting never gates development; the user alone ends the Gauntlet.
+Current batch preserves finite tools, unlimited pause, earned charts, camera and
+physical cargo/recovery, the recipient/witness enclosure repair and finite Wake.
+Bands reuse original geometry unless an operation explicitly overrides it.
+New depth charts and routes use local measurements; transitions retain route goals.
+Sonar separates bearings, triangulated fixes, optical contacts and stale echoes.
+Sweeper returns/reporting use acquired snapshots, with a real disruption/evasion window.
+
+Fresh blockers reproduced/repaired: band-aware torpedo admission and craft-local
+Blackwater/witness winching, module custody/plant continuity; sweeper pin/save recheck.
+Root owns one independent reviewer, final-head game-smoke, PR and merge
+after the complete opening0–5 milestone; internal tasks continue on this branch.
+Keep other profiles/trees, main, signer, evidence and recovery refs untouched.
+No routine APK, new governance framework or user-playtest gate.
+Only the user ends the Gauntlet; integration continues into the next approved batch.
+After approval/CI/integration: author the next substantial playable campaign batch
+toward28 core/12 optional operations, using the shared depth/sonar foundation.

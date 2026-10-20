@@ -88,7 +88,9 @@ func task(id:int)->String:
 func status(id:int)->String:
  var sim=host.sim
  var reserve="HULL %d · O₂ %d"%[roundi(sim.hull),roundi(sim.oxygen)] if id==0 else "BAT %d%%"%roundi(sim.units[id].battery)
- return reserve+"\n"+task(id)
+ var u=sim.units[id];var band=sim.Depth.NAMES[u.band]
+ if not u.transition.is_empty():band+=" → "+sim.Depth.NAMES[u.transition.to]+" %.1fs"%u.transition.remaining
+ return reserve+" · "+band+"\n"+task(id)
 func _ordinary_task(id:int)->String:
  var sim=host.sim;var u=sim.units[id];var work=sim.capture_feedback(id)
  if work.unit>=0:
