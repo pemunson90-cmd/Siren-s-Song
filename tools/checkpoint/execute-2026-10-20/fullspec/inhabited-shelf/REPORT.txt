@@ -1,0 +1,37 @@
+SHELF RETURN — IMPLEMENTATION HANDOFF, 20 OCTOBER 2026
+Owner: /root/campaign_design_critic, now implementation owner, not independent reviewer of this change.
+Frozen source: 80b4ec2b50368a77b1356f76cb9f0f7f613d67d3
+Branch/tree: gauntlet/feature/inhabited-shelf, /workspace/Siren-s-Song-critic-current
+Game tree: 0d3d795c8702d86b9eeddf5a356be70a3fa3dfc8
+Base:95267406b3e397c6cc21ff899fe16ccdf3b7a9e4. Root will compose newer production/PR42/T1.
+No push, PR, merge, APK or genuine-profile mutation. Root owns integration and sole independent review.
+
+CHANGED PLAY
+Shelf Return8 now visits two occupied pressure galleries instead of one generic4s receiver. Quietus can make two close local warnings or sound one communal1200m/8s alarm. Actual outgoing acoustic paths determine which inhabitants receive it; their response takes time, and an actual live own receiver must hear each local reply. Common alarm is finite; local warnings remain available. These are separate commands, not new camera holds.
+Measured inhabitants/work-lights withdraw, pressure shutters close and vent blades fold because a warning arrived. Their account introduces occupied sleeping berths/warm-water nurseries and pressure homes that need sealing before abandonment. Actual site instruments explain physical range, sight, settling and reply state.
+The authored pale shelf escarpment, pressure bays, service decks, portholes, ducts and communal resonator supply functional place identity. Collision outlines remain authoritative; gallery artwork sits in existing rock and connects to an outside listening lip. The short inner exhaust trench weakens sound/passive reception in both directions without changing optical sight/beam truth. Its visual projection is earned locally; outer contour preserves information.
+First recovered shelter method feeds Warning Chain10's briefing and remains fixed on replay. Existing graph, sampler/survey rewards, bare fittings, independent craft and physical module-recovery rules remain. No new chapter, escort, powered-plant puzzle, winch, economy, global alert buff, compatibility flag or general save-validation expansion.
+
+MEASURED ORDINARY-GUARD POLICIES (source-known simulation commands, NOT blind/genuine input campaigns)
+Both start fresh8 with bare Quietus, both drones disabled, no finite tools; ordinary authored guards remain.
+Common:96.8833s, hull22.6, O2 87.7056 from Endurance120; both shelter replies; physical extraction.
+Quiet:192.1000s, hull100, O2 55.9667; two close visits, longer outer route; both replies; physical extraction.
+Common is materially shorter for these policies and causes a real hunter investigation, at substantial hull risk; quiet consumes95.2s more travel/air. This is NOT an optimized-route or balanced-preference verdict. A first proposed quiet-return endpoint lay inside the eastern cliff and was correctly refused; corrected to ordinary open water before the final28/0 journey run. That failed attempt is disclosed, not counted as completed evidence. A direct inner quiet continuation earlier died to the hunter; the final no-tools fallback uses a genuinely different route.
+
+VERIFICATION
+Final source-focused tests: Shelf model23/0; source-known guard journeys28/0; actual Window touch UI13/0 at2520x1080 and2184x1968 using420dpi fixtures, isolated display532, guards removed/repositioned local UI fixtures (not full natural campaigns). Paused time, received proof, actual alarm investigation, reciprocal front behavior, optical exception, first-history/replay, state restore and incompatible old active8 rejection are covered. Explicit red/green regressions cover bent reply bearing and private-state leakage.
+Relevant regressions: thermal12/0; campaign consequences14/0; Divergence saves12/0; post-tutorial roster59/0.
+Actual frozen80b4 SaveStore binary save/load/Sim restore probe during the one-second resident-response interval passed; restored replies completed afterward. Deliberately staged/no guards. active-archive.log and mid-warning.save retained.
+Existing full scripts/toolchain/test.sh development run: core309/0, runtime191/0, loadout38/0, navigation45/0, Well-save-shape9/0; stopped at density817 checks/12 failures. Nine blank fleet-handle font assertions and three legacy emergency/home expectations fail in operation0. Re-running ONLY that density harness with original9526 Main/HUD/ocean reproduced the exact same12 failures. Original feature bytes restored exactly. See full-tests.log and density-baseline.log. This broad run began before the final leak/art changes and is NOT claimed as a frozen-head full green. Root's composed exact-head CI is still needed; no inherited density repair was attempted.
+No other relevant errors remained in final feature/targeted logs. git diff --check passed; tracked tree is clean. Generated/untracked UIDs and prior preserved files remain unstaged and untouched rather than swept into the feature.
+
+PROJECTION FIXES DURING DEVELOPMENT
+Reply audio/event bearing now follows the actual received first water-path goal, not a through-rock source vector. A stale gallery's context cannot expose unseen remote warning delivery via action readiness or advance its shutter state; only a received own reply or current local observation supports that knowledge. Initial procedural flats were replaced with tinted textured shelf geology and distinct physical pressure assemblies. The latest frames are under render-final/ (same source bytes as80b4, immediately precommit, no subsequent source changes); original-resolution before/response cover/inner frames and ui.log retained. Their intentional simplified procedural appearance is a real limit, not a polished-art claim. Earlier intermediate captures remain in the parent feature folder.
+
+STAGED FIRST-EXPOSURE ACCESS (send profile/interface ONLY, not this report, source or routes)
+staged-shelf-access.save SHA256d0d9f331d65f44f5c0b1aeb3e43ec5e1d6c5fc52e3e1d92bde8d39e675d68cee
+Valid actual SaveStore archive: synthetic tutorial0–5+6 completed, shelf selected,8NOT completed, no active dive, all fittings BARE, Endurance. Normal Main opens Operations; select Shelf Return through its ordinary briefing. This is authored staged access, not earned campaign continuity. Original chmod444; copy into a new isolated critic session. No genuine profile was read/changed for construction. Generator retained outside source; do not rerun over the immutable original.
+
+REMAINING LIMITS / OWNERSHIP
+Actual first-exposure tactical preference and comprehension remain untested; root dispatches a fresh critic without builder knowledge. No physical Fold7, audio listening, native performance, human enjoyment, commercial-readiness or complete-campaign claim. D2 distinct concealed endings, broader discovery consumers/growth/enemy ecology/replay/accessibility/presentation findings remain open in cumulative inventory. This operation does not retire those gaps.
+All owner Godot/model/render processes have exited. Display532's isolated Xvfb server remains idle and available; no game attached. Mutation ownership of the exclusive worktree is RELEASED TO ROOT for composition/review. This owner will make no further source changes unless redispatched.

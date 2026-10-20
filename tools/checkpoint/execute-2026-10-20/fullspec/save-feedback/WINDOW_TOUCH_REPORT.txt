@@ -1,0 +1,18 @@
+T1 builder Window + touch verification
+Frozen source: 23791adb10788a644b4bb09a41b2ff4f79f1eb49; governing directives 95267406b3e397c6cc21ff899fe16ccdf3b7a9e4.
+Actual Godot4.6.3 X11 Window, Compatibility renderer (gl_compatibility), recorded 420dpi density fixture. Owned isolated Xvfb :531; live :528/:529/:530 were not used.
+Cover 2520x1080 with recorded 136px left safe area; inner 2184x1968. Fresh Main per shape avoids carrying old safe-area offsets across resize.
+
+Result: SAVE WINDOW TOUCH CHECKS 46 FAILURES 0, process exit 0. No source changes were needed; tracked tree remains clean at frozen 23791adb.
+Actual valid binary backup -> corrupt primary -> startup recovery notice; actual missing-directory FileAccess failure -> simultaneous unsaved notice. Long storage copy was augmented after that genuine failure solely as a layout stress fixture; this does not simulate a physical full disk.
+Raw ScreenTouch/ScreenDrag plus the existing evaluator's touch-emulated mouse protocol drove native GUI controls. Failed retry retained both notices; touch dismissal cleared only archive history; corrected disposable path + touch retry saved/reloaded exact current campaign/simulation state and cleared the verified error. No pressed.emit or direct retry/dismiss callbacks were used for those actions.
+
+Measured fit with BOTH notices plus long error:
+- cover: notice 479 logical height (see JSON), menu scroll viewport 137 logical = 205.5px; retry/dismiss height 147.0px = 56.0dp.
+- inner: notice 403 logical height (see JSON), menu scroll viewport 646 logical = 1102.6px; retry/dismiss height 148.5px = 56.6dp.
+All new notice text/actions fit within safe content. Both touch targets exceed 48dp. Actual touch scrolling reached the exact bottom: cover 1422 (=1559-137), inner 803 (=1449-646), without menu activation; status/action rectangles stayed fixed while content scrolled. Cover's deliberately long notices occupy much of its height, but the remaining 205.5px viewport fits a full 147px menu action; AUDIO/SETTINGS was fully visible at the bottom.
+All 8 PNGs inspected: both-long, scrolled, dismissed and saved for both shapes. Text wraps without truncation; both new actions are visible together; dismiss expands available menu area; successful retry removes the status and restores full scroll height. Ordinary clipping of offscreen menu content remains inside its ScrollContainer.
+
+Evidence: window-touch.log; window_touch_probe.gd; window-touch/layout-touch.json; window-touch/input-events.jsonl; window-touch/{cover,inner}-{both-long,scrolled,dismissed,saved}.png.
+No SCRIPT ERROR or ERROR. Xvfb driver emitted only unsupported V-Sync warning; this is layout/input evidence, not native frame pacing or physical Fold ergonomics. Builder verification, not independent approval.
+Godot exited normally; owned Xvfb was stopped by SIGTERM and its stale owned socket/lock removed. No active :531 display or probe process remains. Unique disposable save files were cleaned. No live campaign, real save, displays :528/:529/:530, source, signer or APK was touched.

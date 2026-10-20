@@ -1,0 +1,24 @@
+PR44 Shelf blocker repair — builder verification
+Frozen repaired head: 5c699e425af5989002ee8b0ccde19f162cd0fad9
+Branch: gauntlet/feature/inhabited-shelf
+Parent: 38e8615c3ded06a79bb0f1650d744dabc1907e10
+Governing production: 1de0dcc5d843b31e88ad88a21b68d46a0773774d
+
+Changed only game/src/presentation/mission_hud.gd, game/tests/shelf_habitat_ui_tests.gd and game/tests/module_recovery_tests.gd.
+Both Shelf actions now join the existing guarded local-action hit test and mouse_filter=IGNORE list. Popup gesture ownership alone can emit their action. No alternate input/command path, model change, schema change, refactor or assertion removal.
+
+Actual Window evidence (Godot 4.6.3, X11, gl_compatibility, Dummy audio):
+- RED 61 checks/8 failures at original HUD on both 420dpi cover 2520x1080 with 136px safe inset and inner 2184x1968: pointer-red-window.log. Rejected gestures spent finite actions/noise/state exactly as reported.
+- Added explicit drag-off preservation coverage requested by reviewer; final GREEN 69/0, exit 0: pointer-green-window.log.
+- Existing Shelf UI scenario and CI entry now cover both actions: canceled touch, short inside drag, drag-off and pinch followed by synthetic mouse release; deliberate raw ScreenTouch+emulated mouse; ordinary native mouse. Rejection preserves full snapshot and Queue; accepted actions produce one real warning and preserve tactical pause, profile and queued route. Original earned-observation and resident-response assertions remain.
+- Owned display :533 was stopped normally by SIGTERM/wait; socket/lock absent. No other display or live play process was used. Driver emitted unsupported V-Sync warning only; no script errors. This is builder technical input verification, not a player journey or independent review.
+
+Targeted affected checks (all exit 0, no SCRIPT ERROR/ERROR):
+- WITNESS EVACUATION UI 108/0: pointer-witness.log.
+- WARNING RECIPIENT UI 28/0: pointer-recipient.log.
+- RECOVERY ROUTE UI 68/0: pointer-recovery.log.
+- MODULE RECOVERY RED 51/2 -> GREEN 55/0: module-fixture-red.log, module-fixture-green.log.
+
+CI module failure was stale setup: objective.captured alone correctly cannot satisfy Shelf's actual shelter receipts. The fixture now proves extraction unavailable before the account, measures each gallery, issues both real shelf_warn commands, advances for actual receiver-owned replies, and only then exercises recovery. The two original hardware-confirmation and chosen-route assertions are unchanged. No direct receipt/captured stamping is used for Shelf 8. Confluence 11 fixture behavior is unchanged. No further failure appeared in the targeted checks; full fresh CI remains root's integration gate.
+
+git diff --check and current completion boundary passed (pointer-boundary.log). Tracked tree is clean. No push, merge, docs edit, broad matrix or APK. Berth-instruments frozen first-exposure tree was never accessed for mutation. Root and sole reviewer pr37_integration_review must bind approval and new CI to repaired final head before merge.

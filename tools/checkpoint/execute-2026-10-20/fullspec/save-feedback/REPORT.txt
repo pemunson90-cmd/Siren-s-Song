@@ -1,0 +1,21 @@
+T1 — Persistent archive failure feedback
+Branch: gauntlet/fix/visible-save-failure
+Head: 23791adb10788a644b4bb09a41b2ff4f79f1eb49
+Base/governing production: 95267406b3e397c6cc21ff899fe16ccdf3b7a9e4
+
+Changed files: game/src/main.gd; game/tests/runtime_tests.gd; game/tests/save_feedback_scenarios.gd.
+Main keeps write failure and archive-load notice independently of transient mission messages. A fixed menu status above scrolling content survives operations, settings and briefing. RETRY SAVE uses ordinary SaveStore.save and clears failure only after verified success. Backup/unreadable startup notices remain visible through transitions and successful saves until DISMISS NOTICE; dismissing one cannot clear a write failure.
+SaveStore, save schema/validation, atomic backup behavior and save cadence are unchanged. Existing explicit OS-close behavior is preserved at root's instruction. Current simulation, resources, route, elapsed time, campaign and binary reload are checked. New scenario is included automatically by the existing runtime_tests.gd CI entry.
+
+Evidence (Godot4.6.3, headless, Dummy audio):
+- Focused RED16 checks/11 expected failures -> GREEN21/0; red.log, green.log. Actual missing-directory FileAccess write-open failure, not a physical disk-full experiment.
+- Runtime212/0, exit0; runtime.log (includes 21 new checks).
+- Core309/0, exit0; core.log (one completed run).
+- Campaign equipment-save10/0, exit0; campaign-save.log.
+- Completed logs have no SCRIPT ERROR, ERROR or cleanup warnings. Staged diff check and completion boundary passed; boundary.log.
+- probe.gd invokes only the focused scenario; callback tests are technical fixtures, not genuine input journeys.
+
+Tracked tree clean after commit. Audio branch 056f391ccbeccd2e90b46bc34d13a9afdb4c253e, witness branch e8c1241e9e9269000660d2f1d97f923eb490f08a and generated untracked UIDs are preserved. Only disposable unique user://save-feedback-* paths were used and cleaned; no real campaign/display/signer was touched.
+Merge coordination: ID13 worker confirmed its adjacent Main recipient/ending hooks are independent of these _ready/_layout/save/load/status changes; _clear_menu remains untouched. Recompose and bind sole review to final integrated head. Root owns spec/shortdocs, PR/CI and reviewer; no APK, push or PR created here.
+
+Builder Window/touch follow-up: WINDOW_TOUCH_REPORT.txt records frozen 23791adb, Compatibility, 420dpi, cover/inner 46/0, 8 inspected PNGs and raw input/geometry evidence. No source change.

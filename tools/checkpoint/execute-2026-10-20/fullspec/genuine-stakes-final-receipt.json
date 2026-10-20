@@ -1,0 +1,74 @@
+{
+  "ending": "SILENT EXODUS",
+  "campaign_complete": true,
+  "final_profile": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/stakes-continuation-20261020-3/data/godot/app_userdata/Siren's Song/quietus.save",
+  "sha256": "2dfc28ead6fc30b8ddbe47a4daa3cff39e091da25229e833f29aede6b467f5fb",
+  "end_metrics": {
+    "elapsed": 171.716666666695,
+    "hull": 100.0,
+    "mission": 12,
+    "outcome": "won",
+    "own_craft": [
+      {
+        "alive": true,
+        "battery": 100.0,
+        "goals": [
+          {
+            "mode": "inherit",
+            "pos": [
+              2257.84033203125,
+              2701.79931640625
+            ],
+            "stop": true
+          }
+        ],
+        "hold": "",
+        "name": "QUIETUS",
+        "position": [
+          2250.61108398438,
+          2699.21240234375
+        ],
+        "speed": 10.6768798828125,
+        "unit": 0
+      },
+      {
+        "alive": true,
+        "battery": 79.9663888888583,
+        "goals": [],
+        "hold": "",
+        "name": "DRONE A",
+        "position": [
+          2060.0,
+          2580.0
+        ],
+        "speed": 0.0,
+        "unit": 1
+      },
+      {
+        "alive": true,
+        "battery": 79.9663888888583,
+        "goals": [],
+        "hold": "",
+        "name": "DRONE B",
+        "position": [
+          2200.0,
+          2680.0
+        ],
+        "speed": 0.0,
+        "unit": 2
+      }
+    ],
+    "oxygen": 59.1150793650887,
+    "paused": true,
+    "screen": "menu",
+    "selected": 0,
+    "tools": {
+      "decoy": 3,
+      "emp": 1,
+      "knock": 2,
+      "recon": 1
+    }
+  },
+  "exit_evidence": "source.json pid28423 observed [godot] <defunct>, no active frozen-source process; ordinary play.py quit completed",
+  "notes": "/workspace/Siren-s-Song-gauntlet-archives/live-input-harness-demand/sessions/stakes-continuation-20261020-3/PLAYER_NOTES.txt"
+}
