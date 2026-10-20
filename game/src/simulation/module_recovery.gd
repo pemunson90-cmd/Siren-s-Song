@@ -39,7 +39,7 @@ static func context(sim,item:String,unit_id:int)->Dictionary:
  if not sim.outcome.is_empty():result.reason="Dive ended"
  elif not unit.alive:result.reason="Craft lost"
  elif result.claimed_by>=0:result.reason="Recovery in progress"
- elif not state.jobs[unit_id].is_empty() or not sim.captures[unit_id].is_empty() or sim._blackwater_recovery_busy(unit_id) or sim._warning_chain_busy(unit_id):result.reason="Finish this craft's active work first"
+ elif not state.jobs[unit_id].is_empty() or not sim.captures[unit_id].is_empty() or sim._blackwater_recovery_busy(unit_id) or sim._warning_chain_busy(unit_id) or sim._witness_recovery_busy(unit_id):result.reason="Finish this craft's active work first"
  elif result.distance>RANGE:result.reason="Move within 60m"
  elif not sim.line_clear(unit.pos,module.pos):result.reason="Terrain blocks recovery"
  elif unit.vel.length()>=2.0:result.reason="Settle below 2m/s"
@@ -74,7 +74,7 @@ static func tick(sim,dt:float)->void:
   else:
    job.elapsed+=dt
    if job.elapsed+0.0000001>=DURATION:
-    if not sim._collect_blackwater_wreck(id,module.pos):module.state="cargo";module.unit=id
+    if not sim._collect_shared_wreck(id,module.pos):module.state="cargo";module.unit=id
     state.jobs[id]={};unit.hold=""
     sim.message="%s carries %s · bring carrier to recovery"%[unit.name,_name(job.item)]
  if not sim.departure_context().available:state.deferred=""
