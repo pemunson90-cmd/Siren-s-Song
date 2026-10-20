@@ -1121,7 +1121,6 @@ func _threats(dt: float) -> void:
 			if s.route.is_empty(): s.angle=rotate_toward(s.angle,s.pos.angle_to_point(victim.pos),1.8*dt)
 			var previous_lock:float=s.lock
 			s.target=detected; s.goal=victim.pos; s["last_known"]=s.goal; s["attention_time"]=12.0; s["search_index"]=0; s.lock+=dt; s.suspicion=minf(1,s.suspicion+dt*0.3); s.mode="LOCKING" if s.lock<4 else "BEAM"
-			if not s.transition.is_empty():s.lock=0.0;s.mode="CHANGING DEPTH"
 			if s.lock>=4:
 				if previous_lock<4: events.append({"type":"beam","pos":victim.pos})
 				if recipient_seen:Recipient.damage(self,dt*18)

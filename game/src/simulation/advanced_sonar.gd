@@ -3,8 +3,9 @@ const Depth=preload("res://src/simulation/depth_bands.gd")
 const Chart=preload("res://src/simulation/terrain_chart.gd")
 const SOUND_SPEED=300.0 # Tactical time scale, bounded two-way travel; not calibrated ocean acoustics.
 const MAX_HISTORY=72
+const POWERS={"low":{"radius":440.,"cost":.4,"signature":750.},"high":{"radius":720.,"cost":1.2,"signature":1300.}}
 static func initial()->Dictionary:
- return {"sector":"all","power":"low","pending":[],"history":[],"fixes":{},"clock":0.0}
+ return {"sector":"all","power":"low","pending":[],"history":[],"fixes":{},"clock":0.0,"listening_until":[-1.,-1.,-1.]}
 static func configure(sim,args)->bool:
  if args.get("sector") not in ["all","forward"] or args.get("power") not in ["low","high"]:return false
  sim.sonar.sector=args.sector;sim.sonar.power=args.power
@@ -21,12 +22,14 @@ static func water_path(sim,receiver:Dictionary,source:Dictionary,radius:float)->
 static func emit(sim,station:int)->bool:
  var u=sim.units[station]
  if not u.transition.is_empty():sim.message="Settle depth before emitting";return false
- var high=sim.sonar.power=="high";var cost=1.2 if high else .4
+ var settings=POWERS[sim.sonar.power];var cost=settings.cost
  if (sim.oxygen if station==0 else u.battery)<cost:return false
  if station==0:sim.oxygen-=cost
  else:u.battery-=cost
- var radius=720.0 if high else 440.0
- sim._noise(u.pos,1300.0 if high else 750.0,"ACTIVE SONAR",2.5,u.band)
+ var radius=settings.radius
+ # Receiver knows its own emission window, never how many hidden returns exist.
+ sim.sonar.listening_until[station]=sim.elapsed+2*radius/SOUND_SPEED
+ sim._noise(u.pos,settings.signature,"ACTIVE SONAR",2.5,u.band)
  var sector=sim.sonar.sector;var angle=u.angle
  for id in sim.sirens.size():
   var enemy=sim.sirens[id]
@@ -116,16 +119,19 @@ static func feedback(sim,station:int)->Dictionary:
  var rows=[]
  for row in sim.sonar.history:
   if row.station==station and sim.elapsed-row.time<=20:rows.append(row.duplicate())
- return {"rows":rows,"own_noise":sim.motion_radius(station),"sector":sim.sonar.sector,"power":sim.sonar.power,"pending":sim.sonar.pending.size()}
+ return {"rows":rows,"own_noise":sim.motion_radius(station),"sector":sim.sonar.sector,"power":sim.sonar.power,"listening":maxf(0.,sim.sonar.listening_until[station]-sim.elapsed)}
 static func valid(data)->bool:
  var state=data.get("sonar")
- if not state is Dictionary or not state.has_all(["sector","power","pending","history","fixes","clock"]) or state.sector not in ["all","forward"] or state.power not in ["low","high"]:return false
+ if not state is Dictionary or not state.has_all(["sector","power","pending","history","fixes","clock","listening_until"]) or state.sector not in ["all","forward"] or state.power not in ["low","high"]:return false
  if not state.pending is Array or state.pending.size()>128 or not state.history is Array or state.history.size()>MAX_HISTORY or not state.fixes is Dictionary:return false
  if not _number(state.clock) or state.clock<0 or state.clock>.601:return false
  var time=data.get("elapsed",0.)
+ if not state.listening_until is Array or state.listening_until.size()!=3:return false
+ for until in state.listening_until:
+  if not _number(until) or (until!=-1. and (until<0 or until>time+2*POWERS.high.radius/SOUND_SPEED+.001)):return false
  for packet in state.pending:
   if not packet is Dictionary or not packet.has_all(["kind","due","time","station","band","origin"]) or packet.kind not in ["echo","terrain"]:return false
-  if not _number(packet.due) or not _number(packet.time) or packet.time<0 or packet.time>time or packet.due<time or packet.due>time+5:return false
+  if not _number(packet.due) or not _number(packet.time) or packet.time<0 or packet.time>time or packet.due<time or packet.due>time+2*POWERS.high.radius/SOUND_SPEED+.001:return false
   if not packet.station is int or packet.station<0 or packet.station>2 or not packet.band is int or packet.band<0 or packet.band>2 or not packet.origin is Vector2 or not packet.origin.is_finite():return false
   if packet.kind=="echo":
    if not packet.get("emitter_band") is int or packet.emitter_band not in [0,1,2] or not packet.get("enemy") is int or packet.enemy<0 or packet.enemy>=data.sirens.size() or not packet.get("pos") is Vector2 or not packet.pos.is_finite() or not _number(packet.get("tone")) or packet.tone<40 or packet.tone>2000 or not packet.get("direction") is Vector2 or not packet.direction.is_finite() or packet.direction.length()<.99 or packet.direction.length()>1.01 or not packet.get("direct") is bool or packet.get("type") not in ["patroller","sentinel","hunter","sweeper"]:return false

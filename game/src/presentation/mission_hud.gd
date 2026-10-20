@@ -323,7 +323,7 @@ func refresh():
  extra.depth_down.text="↓ "+sim.Depth.NAMES[mini(2,u.band+1)];extra.depth_down.disabled=u.band==2 or not transition.is_empty()
  extra.sonar_sector.text="SECTOR\n"+("ALL360°" if sim.sonar.sector=="all" else "FORWARD90°")
  extra.sonar_power.text="POWER\n"+sim.sonar.power.to_upper()
- extra.sonar_emit.text="EMIT\n"+("1.2 RESERVE" if sim.sonar.power=="high" else "0.4 RESERVE");extra.sonar_emit.disabled=sim.ping_time>0 or not transition.is_empty()
+ extra.sonar_emit.text="EMIT\n"+("%.1f RESERVE"%sim.Sonar.POWERS[sim.sonar.power].cost);extra.sonar_emit.disabled=sim.ping_time>0 or not transition.is_empty()
  subject=Concealed.refresh_subject(sim,Recipient.refresh_subject(sim,Rendezvous.refresh_subject(sim,subject)))
  host.pause_button.text="PAUSED\n▶ RUN" if sim.paused else "Ⅱ\nPAUSE"
  host.advanced_button.text="FLEET"

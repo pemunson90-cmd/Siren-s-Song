@@ -5,12 +5,27 @@ func close_program(g):
  for b in g.route_editor.find_children("*","Button",true,false):
   if b.get_meta("action","")=="close":await click(b);break
  await settle()
+func preview_point(g,point):
+ var preview=g.route_editor.preview
+ for attempt in 8:
+  var p=preview.global_position+preview.screen_position(point)
+  if preview.get_global_rect().grow(-3).has_point(p) and not preview.navigation_buttons.any(func(button):return button.get_global_rect().has_point(p)):
+   await touch(p,true);await mouse(p,true);await touch(p,false);await mouse(p,false);await settle();return
+  if attempt==0:
+   await click(preview.navigation_buttons[1]);await click(preview.navigation_buttons[1])
+  else:
+   var start=preview.get_global_rect().get_center()
+   var focus=preview.global_position+preview.size*Vector2(.4,.6)
+   var delta=(focus-p).clamp(-preview.size*.3,preview.size*.3)
+   await touch(start,true)
+   var drag=InputEventScreenDrag.new();drag.index=0;drag.position=start+delta;drag.relative=delta;root.push_input(drag,true);await process_frame
+   await touch(start+delta,false);await settle()
+ check(false,"physical planner view can expose intended water away from navigation controls")
 func plot(g,id,point):
  # In the tall Split region FIT makes distant water overlap a craft's touch
  # handle. The existing paused planner exposes that same route geometry safely.
  await craft(g,id);await click(g.order_buttons.program)
- var panel=g.route_editor;var p=panel.preview.global_position+panel.preview.screen_position(point)
- await touch(p,true);await mouse(p,true);await touch(p,false);await mouse(p,false);await settle()
+ await preview_point(g,point)
  var goals=g.sim.route_goals(id)
  check(not goals.is_empty() and goals[0].pos.distance_to(point)<2,"physical planner input retains public operator destination")
  await close_program(g)
@@ -40,12 +55,47 @@ func band(g,id,wanted):await shift(g,id,g.sim.units[id].band<wanted)
 func take(g,id,target):
  await craft(g,id);await click(g.order_buttons.camera);g.mission_hud.dismiss();await run_seconds(g,g.sim.mission.objectives[target].get("duration",4.)+.3)
  check(g.sim.mission.objectives[target].captured,"actual local input retains required record")
+func append_goals(g,id,points):
+ await plot(g,id,points[0]);await craft(g,id);await click(g.order_buttons.program)
+ var panel=g.route_editor
+ for point in points.slice(1):
+  for button in panel.find_children("*","Button",true,false):
+   if button.get_meta("action","")=="insert":await click(button);break
+  await preview_point(g,point)
+ check(g.sim.route_goals(id).size()==points.size(),"physical planner retains all deliberate crossing/return waypoints")
+ await close_program(g)
+func start_shift(g,id,down):
+ await acoustics(g,id);await click(g.mission_hud.extra.depth_down if down else g.mission_hud.extra.depth_up);g.mission_hud.dismiss();await settle()
 func arc_split(g):
- await plot(g,1,Vector2(420,580));await plot(g,2,Vector2(1550,940))
- await band(g,0,2);await go(g,0,Vector2(660,2100));await go(g,0,Vector2(900,1730))
- await go(g,1,Vector2(420,580));await take(g,1,0);await go(g,1,Vector2(680,580));await plot(g,1,Vector2(680,1700))
- await go(g,2,Vector2(1550,940));await take(g,2,1);await plot(g,2,g.sim.mission.extraction)
- await band(g,0,1);await take(g,0,2);await band(g,0,2);await go(g,0,Vector2(660,2100));await go(g,0,g.sim.mission.extraction);await band(g,0,1)
+ await plot(g,1,Vector2(420,580));await plot(g,2,Vector2(1550,940));await band(g,0,2)
+ await append_goals(g,0,[Vector2(660,2100),Vector2(900,1730)])
+ var returned={1:false,2:false};var returning=false;var home=false
+ await click(g.pause_button)
+ for n in 1300:
+  g.sim.advance(.1)
+  for id in [1,2]:
+   var u=g.sim.units[id];var o=g.sim.mission.objectives[id-1]
+   if not u.alive:continue
+   if not o.captured and g.sim.captures[id].is_empty() and u.pos.distance_to(o.pos)<230:
+    await craft(g,id);await click(g.order_buttons.camera);g.mission_hud.dismiss()
+   if o.captured and not returned[id]:
+    if id==1:await append_goals(g,id,[Vector2(680,580),Vector2(680,1700),Vector2(620,2020),g.sim.mission.extraction])
+    else:await plot(g,id,g.sim.mission.extraction)
+    returned[id]=true
+  var q=g.sim.units[0]
+  if not returning and q.pos.distance_to(Vector2(900,1730))<20 and q.vel.length()<2 and q.transition.is_empty():
+   if q.band==2:await start_shift(g,0,false)
+   elif g.sim.captures[0].is_empty() and g.sim.mission.objectives[0].captured and g.sim.mission.objectives[1].captured:
+    await craft(g,0);await click(g.order_buttons.camera);g.mission_hud.dismiss()
+  if g.sim.all_records() and not returning:
+   await start_shift(g,0,true);await append_goals(g,0,[Vector2(660,2100),g.sim.mission.extraction]);returning=true
+  if returning and not home and q.pos.distance_to(g.sim.mission.extraction)<25 and q.vel.length()<2 and q.transition.is_empty():await start_shift(g,0,false);home=true
+  if g.sim.paused and g.sim.outcome.is_empty():await click(g.pause_button)
+  if n%10==0:g._refresh();await process_frame
+  if not g.sim.outcome.is_empty():break
+ if not g.sim.paused:await click(g.pause_button)
+ g._refresh();await settle()
+ check(returning and home,"real simultaneous fleet input completes relay/link and depth recovery")
 func arc_blackwater(g):
  await band(g,0,2);await go(g,0,Vector2(300,800))
  await go(g,1,Vector2(760,400),"silent");await take(g,1,0)

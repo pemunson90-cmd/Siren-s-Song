@@ -118,7 +118,7 @@ static func context(sim)->String:
  if u.band!=1 and sim.mission.objectives.any(func(o):return not o.captured and u.pos.distance_to(o.pos)<240):return "Local record nearby · settle in MIDDLE to CAMERA / SAMPLE; shifting exposes both bands."
  var rows=sim.Sonar.feedback(sim,sim.selected).rows
  if rows.any(func(row):return sim.elapsed-row.time<3 and row.classification in ["SWEEP WINDUP","ACTIVE SWEEP","RETURN CHARGE"]):return "Sweep heard locally · move from the old return or disrupt; a layer shift takes4s."
- if sim.sonar.pending.any(func(packet):return packet.station==sim.selected):return "Echoes travelling · moving160m or leaving the emitter band can lose your return."
+ if sim.Sonar.feedback(sim,sim.selected).listening>0:return "Listening for returns · moving160m or leaving the emitter band can lose your return."
  if sim.motion_radius(sim.selected)>180:return "Own motion masks passive bearings · slow down or listen from an independent craft."
  return sim.mission.get("depth_hint","Craft → DEPTH / SONAR · bearings need movement or a second receiver; depth costs time.")
 static func valid(data)->bool:

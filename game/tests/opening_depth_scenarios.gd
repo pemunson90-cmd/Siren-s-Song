@@ -31,6 +31,7 @@ static func run(t):
  well(t)
  reports(t)
  counterpolicies(t)
+ private_listening(t)
 static func blackwater(t):
  var s=Sim.new();s.start(2);s.units[0].pos=Vector2(760,340);s.units[0].band=2
  t.check(s.command("ping") and s.mission.objectives[0].replay_until==0,"deep pulse cannot trigger a middle relay's local handshake")
@@ -79,13 +80,13 @@ static func reports(t):
  t.check(s.units[0].band==0 and s.sirens[1].get("known_band",-1)==report_band,"after sight breaks, report cannot read hidden new player layer")
  t.check(Sim.valid_snapshot(s.snapshot()),"cross-layer report, hidden depth change and enemy pursuit save correctly")
 
- # Controlled visible actors: a pressure transition cannot hold a beam steady.
+ # Controlled visible actors: both occupied bands remain physical attack water.
  var moving=Sim.new();moving.start(0);moving.sirens=moving.sirens.slice(0,1)
  moving.units[0].pos=Vector2(760,650);moving.units[0].band=1
  moving.sirens[0].pos=Vector2(800,650);moving.sirens[0].band=1
- moving.sirens[0].transition={"to":2,"remaining":3.};moving.sirens[0].lock=4.5
+ moving.sirens[0].transition={"to":2,"remaining":3.};moving.sirens[0].lock=4.5;moving.sirens[0].target=0
  tick(moving,.2)
- t.check(moving.hull==100 and moving.sirens[0].lock==0,"enemy physical depth transition loses beam lock while remaining exposed")
+ t.check(moving.hull<100 and moving.sirens[0].lock>4,"a visible shared-band target remains vulnerable while the enemy changes depth")
 
 static func counterpolicies(t):
  # Matched source-known staged poses; ONLY pulse policy changes.
@@ -106,3 +107,27 @@ static func counterpolicies(t):
   t.check(not results[0].sirens[example.enemy].has("known_band") and results[1].sirens[example.enemy].get("known_band",-1)==example.band,"matched staged active policy changes real acquired depth, operation "+str(example.id))
   t.check(results[0].oxygen-results[1].oxygen>=1.19,"same-position high active information has real reserve cost, operation "+str(example.id))
   t.check(Sim.valid_snapshot(results[0].snapshot()) and Sim.valid_snapshot(results[1].snapshot()),"both matched sensing policies save valid actual threat state, operation "+str(example.id))
+
+ var exploit=Sim.new();exploit.start(0);exploit.sirens=exploit.sirens.slice(0,1)
+ exploit.units[0].pos=Vector2(760,650);exploit.sirens[0].pos=Vector2(800,650)
+ for id in [1,2]:exploit.units[id].alive=false
+ for n in 3:
+  exploit.command("depth",{"band":2 if exploit.units[0].band==1 else 1});tick(exploit,4.1)
+ t.check(exploit.hull<70,"adversarial repeated depth toggling cannot make stationary craft invulnerable to acquired beam pursuit")
+
+static func private_listening(t):
+ for emitter in [0,1]:
+  var results=[]
+  for hidden in [false,true]:
+   var s=Sim.new();s.start(0);var reflector=s.sirens[0].duplicate(true);s.sirens=[]
+   s.units[0].pos=Vector2(300,800);s.units[0].band=2
+   s.units[1].pos=s.units[0].pos;s.units[1].band=2;s.units[1].alive=emitter==1;s.units[2].alive=false
+   if hidden:reflector.pos=Vector2(700,800);reflector.band=2;s.sirens=[reflector]
+   s.command("select",{"unit":emitter});s.command("sonar_mode",{"sector":"all","power":"high"});s.command("ping");results.append(s)
+  t.check(results[0].contacts.is_empty() and results[1].contacts.is_empty() and results[0].sonar.pending.size()!=results[1].sonar.pending.size(),"matched pre-arrival fixture really has different hidden internal packets")
+  for receiver in [0,1]:
+   t.check(results[0].Sonar.feedback(results[0],receiver)==results[1].Sonar.feedback(results[1],receiver),"pre-arrival player feedback is invariant to hidden roster, receiver "+str(receiver))
+  for s in results:s.command("select",{"unit":0})
+  t.check(preload("res://src/presentation/sonar_history.gd").detail(results[0])==preload("res://src/presentation/sonar_history.gd").detail(results[1]),"entire selected history/context text cannot leak hidden pending roster")
+  t.check(results[0].Sonar.feedback(results[0],emitter).listening>4.79 and results[0].Sonar.feedback(results[0],1-emitter).listening==0,"listening window belongs only to its actual emitter")
+  t.check(Sim.valid_snapshot(results[1].snapshot()) and Sim.new().restore(results[1].snapshot()),"internal delayed packets and own listening clock remain save-authoritative")
