@@ -2,6 +2,7 @@ extends RefCounted
 # Working fiction. Registry, recovered-thread commits and runtime hooks belong
 # to the campaign owner; this module consumes their recovered launch context.
 const Witness=preload("res://src/simulation/witness_evacuation.gd")
+const Recipient=preload("res://src/simulation/warning_recipient.gd")
 const IDS=[11,12,13]
 const FIELD_RECORDS=["divergence_confluence_packet","divergence_confluence_repeater","divergence_witness_packet","resolution_witness_sluice","resolution_warning_transmission","divergence_warning_reply"]
 
@@ -19,6 +20,7 @@ static func resolution(mission:Dictionary)->String:
  if not mission.get("recovered",false):return ""
  var id=mission.get("id",-1)
  if id==12 and mission.get("witness_evacuation",{}).get("state","")!="landed":return ""
+ if id==13 and not mission.get("warning_recipient",{}).get("receipt",false):return ""
  var required=["witness_packet"] if id==12 else (["warning_transmission","warning_reply"] if id==13 else [])
  if required.is_empty():return ""
  var sites=mission.get("objectives",[])
@@ -60,18 +62,23 @@ static func _concealed(m:Dictionary)->void:
  m.brief+=" A sentinel holds the water north of the sluice; the western route has a moving patrol."
 
 static func _overt(m:Dictionary)->void:
+ m["warning_recipient"]=Recipient.initial()
  m.world_size=Vector2(2800,2600);m.start=Vector2(420,2320);m.extraction=Vector2(2420,240)
  m.rocks=[Rect2(1080,980,600,860),Rect2(100,700,700,220),Rect2(1960,800,940,220),Rect2(1000,-100,500,400),Rect2(280,1530,500,220),Rect2(1880,1880,520,200)]
+ # A real sheltered berth prevents a forced pre-release escort timer. The
+ # western access remains open to a bare Quietus; east transit leaves cover.
+ m.rocks.append_array([Rect2(1600,520,500,100),Rect2(1600,340,80,60),Rect2(1600,240,200,100),Rect2(1960,240,260,100),Rect2(2100,340,100,280)])
+ m.physical_gates=[{"id":"warning_service_gate","site_id":"warning_service","closed_shape":Recipient.GATE,"opened":false}];m.structures=[Recipient.GATE]
  var sector=Rect2(300,1000,2200,700)
  m.objectives=[{"site_id":"warning_transmission","name":"WARNING TRANSMISSION SECTOR","pos":Vector2(500,1120),"kind":"transmitter","own_origin":true,"origin_region":sector,"required_unit":0,"duration":6.0,"captured":false,"unit_requirement":"Quietus must carry and transmit the recovered warning.","optical":"resolution_warning_transmission","evidence":"Quietus sends the recovered Confluence packet from its actual chosen position. A local receiver begins replying; the return identifies reception, not the receiver's allegiance or safe water.","completion_emission":{"radius":2000.0,"label":"WARNING CHAIN TRANSMISSION","duration":8.0},"completion_enable_source":"warning_reply"}]
- var reply=_source("warning_reply","LOCAL WARNING ACKNOWLEDGEMENT",Vector2(1840,440),"Quietus receives the local acknowledgement after sending Confluence's warning. The station has answered; its identity, intent and the wider chain remain uncertain.",[1.2,.6,1.2]);reply.active=false;m.signal_sources=[reply]
+ var reply=_source("warning_reply","LOCAL WARNING ACKNOWLEDGEMENT",Vector2(1840,440),"The berth station acknowledges this delivered warning. Its waiting launch offers an exposed eastern crossing or the sheltered north service route; departure remains a separate local order.",[1.2,.6,1.2]);reply.active=false;m.signal_sources=[reply]
  m.required_site_ids=["warning_transmission","warning_reply"]
  m.corridors=[{"pos":m.extraction,"name":"NORTHEAST WARNING RECOVERY","route":"overt"}]
- m.brief="Confluence's warning is already aboard. Choose where Quietus will speak inside the charted transmission sector: its western arm offers an early origin, while the eastern arm brings the submarine closer to the northern response water. The central breakwater separates approaches and sound paths. CAMERA / TRANSMIT uses Quietus's actual position, not a fixed uplink: settle for six seconds while the warning is sent. The long-range warning has a finite 2000m source radius at that actual origin; rock and bends still weaken its arrival. A station can answer only a warning that reaches it. Only then does a local station begin replying. Use actual received bearings or a close observation to find and receive that acknowledgement, then return Quietus through northeast recovery. Drones may investigate the response or cover another approach; they cannot speak for Quietus. A reply does not certify identity, allegiance or a safe withdrawal."
- m.record="Quietus chose where to send the warning, received a local answer, and returned with that exchange. The receiver has become an active participant rather than an unexplained chart mark. The message offers a warning instead of a firing solution; what the wider chain does with it remains unresolved."
+ m.brief="Confluence’s warning is aboard. Choose Quietus’s transmission origin inside the charted sector; settle and use CAMERA / TRANSMIT for six seconds. The 2000m warning follows actual water paths: a completed emission can miss behind terrain, so reposition and retry if no reply arrives. Find the local acknowledgement by received bearings or close observation, then receive it with Quietus. A vulnerable recipient launch waits in the northern breakwater berth. It never leaves automatically. Tap its measured hull and deliberately choose EXPOSED, an ungated passage around the south breakwater into the eastern watch, or SHELTERED, a longer route through the north service gate. Open that physical gate locally within 60m, clear line and below 2m/s; its release is audible 650m for six seconds. An earned Warning Chain service receipt can instead ride this newly received warning to operate the connected gate. Bare Quietus needs no proof, fitted kit or finite tool for the manual sheltered route. Drones can scout, release the gate, protect the launch or observe its arrival; Quietus must transmit, receive the initial reply and recover independently. Protect the recipient’s actual hull with terrain or finite tools. Receive its real arrival at the northeast refuge and recover Quietus there. Recipient destruction fails the dive; retry remains available. Announced courses are plans, never live tracking."
+ m.record="The warning reached the berth. Its recipient made the chosen physical crossing to the northern refuge, and Quietus recovered after receiving the actual arrival. A crew who can carry Confluence’s account now stands before the surface watch."
  _patrol(m,Vector2(760,1140),[Vector2(760,1140),Vector2(460,1140),Vector2(460,1460),Vector2(900,1460)])
  _patrol(m,Vector2(2020,1340),[Vector2(2020,1340),Vector2(1840,1520),Vector2(2320,1520),Vector2(2320,1120)])
- _patrol(m,Vector2(1720,600),[Vector2(1720,600),Vector2(1900,460),Vector2(2240,460),Vector2(2060,680)])
+ _patrol(m,Vector2(2260,440),[Vector2(2260,440)])
  m.sirens[1].type="hunter"
  m.sirens[2].type="sentinel";m.sirens[2]["tether"]=190.0
  m.brief+=" An eastern hunter reacts to local evidence while a sentinel holds the northern response basin."

@@ -48,7 +48,9 @@ func _initialize()->void:
  overt.recovered=true
  for objective in overt.objectives:objective.captured=true
  overt.objectives.append({"site_id":"warning_reply","captured":true})
- check(content.resolution(overt)=="overt_warning","recovered prepared uplink completes the different warning job")
+ check(content.resolution(overt).is_empty(),"a recovered warning and ACK cannot replace physical recipient arrival")
+ overt.warning_recipient.receipt=true
+ check(content.resolution(overt)=="overt_warning","actual recipient receipt and recovered Q complete the overt job")
  overt.objectives[1].captured=false
  check(content.resolution(overt).is_empty(),"preparation notes alone cannot claim the warning was forwarded")
  finish()

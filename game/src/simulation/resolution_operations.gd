@@ -26,6 +26,7 @@ static func complete(sim,site:Dictionary)->void:
    var origin:Vector2=site.get("transmission_origin",site.pos)
    if not sim.acoustic_paths.arrivals(source.pos,origin,site.completion_emission.radius).is_empty():
     source.active=true;source["request_origin"]=origin;source["request_time"]=sim.elapsed
+    if sim.mission.id==13:preload("res://src/simulation/warning_recipient.gd").delivered(sim)
  if site.has("completion_emission"):
   var sound=site.completion_emission
   var origin:Vector2=site.get("transmission_origin",site.pos)
@@ -34,6 +35,7 @@ static func complete(sim,site:Dictionary)->void:
 static func feedback(sim)->Dictionary:
  var result={"gates":[],"operations":[]}
  for gate in sim.mission.get("physical_gates",[]):
+  if sim.mission.id==13:continue # Recipient's measured hardware projection owns this gate.
   if sim.mission.id==11:
    if sim.mission.signal_sources.any(func(source):return source.id==gate.site_id and source.located):
     # The discovered control reports machinery state, not the remote footprint.

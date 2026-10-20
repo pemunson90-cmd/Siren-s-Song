@@ -12,6 +12,7 @@ const OceanView = preload("res://src/presentation/ocean_view.gd")
 const ModuleRecovery=preload("res://src/presentation/module_recovery_view.gd")
 const WarningChain=preload("res://src/presentation/warning_chain_view.gd")
 const BlackwaterDelivery=preload("res://src/presentation/blackwater_delivery_view.gd")
+const RecipientView=preload("res://src/presentation/warning_recipient_view.gd")
 const WitnessView=preload("res://src/presentation/witness_evacuation_view.gd")
 const FleetInventory=preload("res://src/campaign/fleet_inventory.gd")
 var sim = Simulation.new()
@@ -188,6 +189,9 @@ func _primary_action() -> void:
 	if not station.is_empty():mission_hud.open("plant",station);return
 	var witness=WitnessView.site(sim)
 	if not witness.is_empty() and (not advanced_orders or mission_hud.page=="craft"):mission_hud.open("salvage",{"kind":"salvage","item":witness.item,"name":witness.name.to_upper(),"pos":witness.pos});return
+	var recipient=RecipientView.status(sim)
+	if not recipient.is_empty() and recipient.informed and recipient.recipient.known and (not advanced_orders or mission_hud.page=="craft"):
+		mission_hud.open("object",RecipientView.subject(recipient.recipient,"recipient"));return
 	_order("camera")
 func _recovery_route() -> void:
 	var destinations=sim.extraction_corridors()
@@ -537,7 +541,7 @@ func _show_ending()->void:
 	_menu_text("SIREN'S SONG / CAMPAIGN COMPLETE",18)
 	_menu_text(ending.title,36)
 	_menu_text(ending.outcome,24)
-	if sim.outcome=="won":WitnessView.arrival(self)
+	if sim.outcome=="won":WitnessView.arrival(self);RecipientView.arrival(self)
 	_menu_text(ending.story,21)
 	if sim.outcome=="won" and sim.mission.id in [12,13]:ModuleRecovery.debrief(self)
 	_show_photo_grade(photo_records.values())

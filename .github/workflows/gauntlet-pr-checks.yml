@@ -99,6 +99,9 @@ jobs:
           witness_evacuation_tests|WITNESS EVACUATION
           witness_evacuation_journey_tests|WITNESS EVACUATION JOURNEY
           witness_evacuation_ui_tests|WITNESS EVACUATION UI
+          warning_recipient_tests|WARNING RECIPIENT
+          warning_recipient_journey_tests|WARNING RECIPIENT JOURNEY
+          warning_recipient_ui_tests|WARNING RECIPIENT UI
           blackwater_delivery_ui_tests|BLACKWATER DELIVERY UI
           blackwater_delivery_runtime_ui_tests|BLACKWATER DELIVERY RUNTIME UI
           blackwater_delivery_tests|BLACKWATER DELIVERY

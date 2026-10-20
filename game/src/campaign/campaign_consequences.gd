@@ -31,6 +31,9 @@ static func recovered(previous:Dictionary,mission:Dictionary)->Dictionary:
  if mission.id==12 and not p.history.any(func(h):return h.mission==12):
   var arrival=preload("res://src/simulation/witness_evacuation.gd").recovered_facts(mission)
   for key in arrival:p.facts[key]=arrival[key]
+ if mission.id==13 and not p.history.any(func(h):return h.mission==13):
+  var arrival=preload("res://src/simulation/warning_recipient.gd").recovered_facts(mission)
+  for key in arrival:p.facts[key]=arrival[key]
  if mission.id>=9:p=commit(p,mission.id,mission.get("launch_equipment",EMPTY_FIT))
  var resolution=preload("res://src/campaign/resolution_missions.gd").resolution(mission)
  if not resolution.is_empty():p.facts["resolution"]=resolution
