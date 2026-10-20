@@ -1,0 +1,1824 @@
+{
+  "preserved_original_zip": "/workspace/Siren-s-Song-gauntlet/work/android-39229219785/runtime.zip",
+  "zip_sha256": "db3fbe463b32a94ed486bdab4cef5d40b243937c11f80c6feb725d59b69b0279",
+  "verified_cached_members_removed": [
+    {
+      "path": "sirens-song-debug.apk.sha256",
+      "sha256": "43081236e6d3fb7155106fdadcdbadf7d3ab5db96f1c9314c89cebeafc4ba208",
+      "bytes": 88
+    },
+    {
+      "path": "apk-signature.txt",
+      "sha256": "e42a1e385cbe7ec4ab599b8ec076a305f45e9c455a6e0735756b54952eeed9df",
+      "bytes": 1043
+    },
+    {
+      "path": "emulator-acceleration.txt",
+      "sha256": "8c28fd53a073c6f33c6dfa5e1dad8d233c670239a0862b816fb24a64cd7b76a5",
+      "bytes": 91
+    },
+    {
+      "path": "import.log",
+      "sha256": "3fecb0dc3a61cff278542aed0db46b9add56a0928d5dfb4facb11c8d44a847c8",
+      "bytes": 1074
+    },
+    {
+      "path": "runtime-tests.log",
+      "sha256": "8e879a7f42ee6b1bebcf4b4740c61061cff98f38d10007f35b791f23d94f68ae",
+      "bytes": 163976
+    },
+    {
+      "path": "density-geometry-tests.log",
+      "sha256": "06727172a3ffb042767c14ef3231e6971c832dbd74e50b989105b8794ebae269",
+      "bytes": 73566
+    },
+    {
+      "path": "emulator-gpu-help.txt",
+      "sha256": "e65ac5d05b3df7419bc519935f382991010503414f8b03e5c617bc4d7702cb53",
+      "bytes": 707
+    },
+    {
+      "path": "build.log",
+      "sha256": "a6563c7c5d1a220f54541a4b63625f7dc0329afcdc6003c6912c9343dc15689c",
+      "bytes": 9785
+    },
+    {
+      "path": "density-scroll-tests.log",
+      "sha256": "f59149ac5d7ae89fb18c52afd93d9f2ee5ce9cc9e1cc480c171a667ee4335911",
+      "bytes": 23026
+    },
+    {
+      "path": "emulator-version.txt",
+      "sha256": "f57e0d7db0c298855ff2c5a933c71e67d9d07674eb1996ec5a07cc0d778fa662",
+      "bytes": 676
+    },
+    {
+      "path": "emulator-package.txt",
+      "sha256": "ba13085f647fb8389a4d06a1de0e4104ac4e841733e50f67223ac230e1ce685a",
+      "bytes": 103
+    },
+    {
+      "path": "emulator-shared-libraries.txt",
+      "sha256": "93dc896bba2e8f7eb21156b32c3d56f06178aa0e390b8baf0a57af81bd589144",
+      "bytes": 1513
+    },
+    {
+      "path": "tests.log",
+      "sha256": "1d885ccfd786464431a1fefb8590691a17a7d5c8833327edd917af1270b6a15a",
+      "bytes": 1011
+    },
+    {
+      "path": "density-menu-tests.log",
+      "sha256": "cea893f60573a9d07651eefd4267784337f74c6e63ef9cdcf5861edf1801f680",
+      "bytes": 18737
+    },
+    {
+      "path": "density-transport-tests.log",
+      "sha256": "bcc5be6c1f482755f319d4d81f21604e6481ec219752707bf58774a8488ce013",
+      "bytes": 12687
+    },
+    {
+      "path": "android-smoke/ui-metrics-cover-primary-restored.txt.attempt-1.txt",
+      "sha256": "963ad416ef83e895610e66aec19367150182d1397444c8803b6a9c8b9246cc20",
+      "bytes": 6096146
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-cover-settings-volume_effects.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/interaction-cover-begin.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/ui-metrics-inner-secondary-initial.txt.attempt-1.txt",
+      "sha256": "e2db40ffb535d7707b7da3aab1b4c574ccca796165877c59228915506e1e477c",
+      "bytes": 10407726
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-cover-settings-back.json",
+      "sha256": "c511cf05d9bb2d3ff73a99f23f1aa09d9ac127f29d8080897f233575e06c9867",
+      "bytes": 3085
+    },
+    {
+      "path": "android-smoke/interaction-role-observer-route.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/prelaunch-cover-resume.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/target-cover-drone.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/launch-cover.txt",
+      "sha256": "2bf33e60f0aeceba89470b85baba7622f51c86029b4067054f3a3aa7caad4d86",
+      "bytes": 200
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-cover-returned.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/wait-campaign-saved.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/logcat.txt",
+      "sha256": "9ece9c7c1a5d2864e0b8ba65717f18d0933c8eaefcc18423de5f203205d3349d",
+      "bytes": 11767021
+    },
+    {
+      "path": "android-smoke/before-kill-cover.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/target-inner-route.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/interaction-completion-drone.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-inner-settings-mute.txt",
+      "sha256": "38f01e47cd00d107eeece3b4727824a9204472f280009b217cfe4e8833e145e5",
+      "bytes": 8607585
+    },
+    {
+      "path": "android-smoke/target-completion-fit.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-inner-initial.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/ui-metrics-cover-secondary-initial.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/readiness-inner.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-cover-initial.json",
+      "sha256": "ab77285f5de6a467ab9365f682d8314d5c93e416eff8646ff98afb0751e161b2",
+      "bytes": 3597
+    },
+    {
+      "path": "android-smoke/target-inner-pause.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-cover-before.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/interaction-role-fixture-sub.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-cover-returned.txt",
+      "sha256": "f8981d942f1aaaeea4a2fa7a544cd37d867bdeadd32272ab011839f4a59f4572",
+      "bytes": 3606684
+    },
+    {
+      "path": "android-smoke/interaction-inner-detail.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/pid-role-fixture-entry.txt",
+      "sha256": "f2c7116239a4cf2aeba19018c4c8e92aa9697e659b408ca71d43abbdcd1ed868",
+      "bytes": 5
+    },
+    {
+      "path": "android-smoke/density-inner.txt",
+      "sha256": "c4d910beb2bd2a0e1934a659e6f50c1ce400c0186723be9ba5dacf57bc99b11e",
+      "bytes": 22
+    },
+    {
+      "path": "android-smoke/launch-inner-resume.txt",
+      "sha256": "f964c199786fbdc015751cf8ccbe751a7720cd82acdda6a86cb1c604c3715685",
+      "bytes": 275
+    },
+    {
+      "path": "android-smoke/interaction-cover-unpause.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/target-inner-pan.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/target-cover-restored-mission.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/target-inner-menu.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/target-inner-drone.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/pid-wait-campaign-saved.txt",
+      "sha256": "b0b67d67edcd109b3dd13f46a026a95b46d53b5b985886b49ea921ed8c4a914b",
+      "bytes": 5
+    },
+    {
+      "path": "android-smoke/target-inner-sub.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-cover-settings.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/godot-events.txt",
+      "sha256": "fbd18c454b2e12a3eb5429e417273445c90ab61097b6cf009626acf5f32ae7a6",
+      "bytes": 417772
+    },
+    {
+      "path": "android-smoke/interaction-completion-approach.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/ui-metrics-cover-primary-initial.txt.attempt-1.txt",
+      "sha256": "74def90cdfb3352d143c87a96e5dfbbaa35ff28babfecc0b26f9a6172d9d965a",
+      "bytes": 5666881
+    },
+    {
+      "path": "android-smoke/target-completion-camera.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-inner-returned.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-inner-settings-mute.txt.attempt-1.txt",
+      "sha256": "38f01e47cd00d107eeece3b4727824a9204472f280009b217cfe4e8833e145e5",
+      "bytes": 8607585
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-cover-settings-back.txt",
+      "sha256": "4c76f8427682b47251a508c271c4d87b273cb57b06c37b96111222fcfb92beab",
+      "bytes": 3497116
+    },
+    {
+      "path": "android-smoke/launch-role-genuine-archive-restored.txt",
+      "sha256": "d3a046fd29a64d753a170a8e387480c4c50ff91dd65285f9ca12a56b21546840",
+      "bytes": 200
+    },
+    {
+      "path": "android-smoke/role-before-observer.txt.attempt-1.txt",
+      "sha256": "7c04d440a6283cf9397d1e55990291b6562af24f4c08bfe7b0254fcf80adb91e",
+      "bytes": 11571798
+    },
+    {
+      "path": "android-smoke/role-before-genuine-restore.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/ui-metrics-cover-primary-initial.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/ui-metrics-inner-secondary-initial.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-cover-settings-mute.txt.attempt-1.txt",
+      "sha256": "d0fb6d18e09d284e4fad1d7bbc977dfd8b59d26a6174f56a470183fab5063368",
+      "bytes": 3371805
+    },
+    {
+      "path": "android-smoke/interaction-completion-camera.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-inner-settings-mute.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/target-role-response-resume.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-cover-scroll-0.txt",
+      "sha256": "5f80ea7ee2930e69169cbff103d74d9cc2b27cfda22350c5b8ac64fdd65a3265",
+      "bytes": 3125273
+    },
+    {
+      "path": "android-smoke/readiness-inner-resume.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/interaction-cover-primary-page.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/role-before-observer.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-cover-settings-volume_effects-scroll-0.json",
+      "sha256": "e8ac271cb53e9c4ce478a11e0133612aeb81fdbed4ced9199e02675d74b79bc1",
+      "bytes": 3095
+    },
+    {
+      "path": "android-smoke/launch-inner-restart.txt",
+      "sha256": "b20832b12ef60da0f1c8a20713eb66c2308a8a4adbd6a4d22fec4d70fd88bf96",
+      "bytes": 278
+    },
+    {
+      "path": "android-smoke/launcher-component.txt",
+      "sha256": "90523346774997526a3c56f3dbf9ee2b112b199b1b0f8ad348e7a44df9adc176",
+      "bytes": 52
+    },
+    {
+      "path": "android-smoke/interaction-inner-first-in.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/ui-metrics-cover-secondary-initial.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/pid-wait-role-genuine-restore.txt",
+      "sha256": "6bb6920eee77b5a9685a451ef466c29106815973d50955fe13871b9cdeb52f33",
+      "bytes": 5
+    },
+    {
+      "path": "android-smoke/navigation-before-inner.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/interaction-role-fixture-fit.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/interaction-cover-fit.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/system-dialog-dump.txt",
+      "sha256": "1a373a38bc7c42787ef1a4ba85da4065a9452425024807ce6ef17f63b2d1d368",
+      "bytes": 53
+    },
+    {
+      "path": "android-smoke/target-role-observer-route.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/wait-role-genuine-restore.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/target-inner-overview.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/rotation-inner.txt",
+      "sha256": "dcc87f9ec6efaa80018a52723f7c2dbbeef918824e6a66716fa4c1b3f7b168e2",
+      "bytes": 7
+    },
+    {
+      "path": "android-smoke/role-before-lure.txt.attempt-1.txt",
+      "sha256": "dbc3d3599a12022d95a81c95e3e8c74751aac6c3a8ff8b74b0dbf5317e9d1a8d",
+      "bytes": 11735438
+    },
+    {
+      "path": "android-smoke/target-inner-secondary-page.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-cover-settings-mute.txt",
+      "sha256": "d0fb6d18e09d284e4fad1d7bbc977dfd8b59d26a6174f56a470183fab5063368",
+      "bytes": 3371805
+    },
+    {
+      "path": "android-smoke/wait-role-home-return.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/view-check-inner-overview.txt",
+      "sha256": "2ec5a90926926df1482146f06cda81b5e0ec45e1bfe26a9fd2bc39237b127e31",
+      "bytes": 47
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-cover-initial.txt.attempt-1.txt",
+      "sha256": "3b0fdb2b73e40186de669b8b925deeb7020d5d118e7f263584b3bba1be4e4e9a",
+      "bytes": 2909486
+    },
+    {
+      "path": "android-smoke/ui-metrics-cover-primary-restored.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/rotation-inner-restart.txt",
+      "sha256": "dcc87f9ec6efaa80018a52723f7c2dbbeef918824e6a66716fa4c1b3f7b168e2",
+      "bytes": 7
+    },
+    {
+      "path": "android-smoke/view-check-inner-pan.txt",
+      "sha256": "e434ed3cd83aa53430e09868f13d5964bcb667d0924fdbb4f343b305a946a1b5",
+      "bytes": 51
+    },
+    {
+      "path": "android-smoke/prelaunch-inner-restart.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/prelaunch-cover.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-inner-settings.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/role-fixture-generation.txt",
+      "sha256": "851852e64c7a70f7c1d7f26e5788ad6a96a533b9975984321743cccc6cb93e21",
+      "bytes": 305
+    },
+    {
+      "path": "android-smoke/interaction-inner-overview.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/pid-wait-campaign-restored.txt",
+      "sha256": "2320c7d5ef1f7e5e4369b549b221879fba00c4692780447a4417624d9fef81fb",
+      "bytes": 5
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-inner-before.txt",
+      "sha256": "dfee3e44a9d5bae2ae5aa4c72b6ca67e9e620a352da8c522f6ec603b6454be5e",
+      "bytes": 8465559
+    },
+    {
+      "path": "android-smoke/checkpoint-completed-campaign.txt.attempt-1.txt",
+      "sha256": "7281e46ef3246ba76b469b463186775402e299b17d81b784517089c7b75712e4",
+      "bytes": 11260698
+    },
+    {
+      "path": "android-smoke/runtime-state-before-completed-restart.txt",
+      "sha256": "753eb5c6b1532299a2b6b982d5018b7afe56d00fde179a27917f65b7ba1a7c7d",
+      "bytes": 1624
+    },
+    {
+      "path": "android-smoke/readiness-cover-restart.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/pid-inner.txt",
+      "sha256": "8c4533445df7910748662e4fba56fd529df8b2b4603a6b3364309b20c3965436",
+      "bytes": 5
+    },
+    {
+      "path": "android-smoke/target-inner-second-in.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/interaction-completion-mission0.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-cover-settings-volume_effects-scroll-0.txt",
+      "sha256": "dfbf14f43a01e65364ead99eeb823bb053927893845692ea34f92c8d11395b39",
+      "bytes": 3318474
+    },
+    {
+      "path": "android-smoke/readiness-role-genuine-archive-restored.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/target-inner-mission0.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/target-role-return-pause.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-cover-returned.txt.attempt-1.txt",
+      "sha256": "f8981d942f1aaaeea4a2fa7a544cd37d867bdeadd32272ab011839f4a59f4572",
+      "bytes": 3606684
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-cover-settings.txt.attempt-1.txt",
+      "sha256": "7a219db33b382b758ef9c7294c1b5b84b9e451a3eccd9c4222ff98e2a8ca13b0",
+      "bytes": 3209363
+    },
+    {
+      "path": "android-smoke/interaction-inner-second-in.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/system-dialog-before.xml",
+      "sha256": "976d84a1495260395c148ab154f733d993b2d8d50549d3097454b8f4e98ce13f",
+      "bytes": 2635
+    },
+    {
+      "path": "android-smoke/pid-wait-record-secured.txt",
+      "sha256": "b0b67d67edcd109b3dd13f46a026a95b46d53b5b985886b49ea921ed8c4a914b",
+      "bytes": 5
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-inner-settings-volume_effects.txt",
+      "sha256": "ec199872be4b91b7edc21169acfed790141e6e292557fa4464d8d600357198af",
+      "bytes": 8595437
+    },
+    {
+      "path": "android-smoke/target-cover-sub.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/checkpoint-completed-campaign.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/interaction-cover-detail.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/launch-cover-resume.txt",
+      "sha256": "309f9366d445a5b0f80cb558af0f7733de678668d77b097b84890b84a4b3ebc9",
+      "bytes": 277
+    },
+    {
+      "path": "android-smoke/view-check-inner-second-in.txt",
+      "sha256": "3bd80095d12cbe10bba7cc7430f9c0d78c0de7045c0401e6083cba196d498d13",
+      "bytes": 47
+    },
+    {
+      "path": "android-smoke/rotation-completed-campaign-restart.txt",
+      "sha256": "dcc87f9ec6efaa80018a52723f7c2dbbeef918824e6a66716fa4c1b3f7b168e2",
+      "bytes": 7
+    },
+    {
+      "path": "android-smoke/target-cover-first-in.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/target-role-secondary-orders.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/launch-cover-restart.txt",
+      "sha256": "6fd2ef021b6624734de33b92370e9b99d6720a946d08a4ca8f4fcef098a9b13a",
+      "bytes": 278
+    },
+    {
+      "path": "android-smoke/completion-before-run.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/ui-metrics-inner-primary-restored.txt.attempt-1.txt",
+      "sha256": "a7195fa683b6137f6d5ccd3995d3ea4e2a551ee698738e769894b8a9524b11e1",
+      "bytes": 10448237
+    },
+    {
+      "path": "android-smoke/ui-metrics-inner-primary-restored.json",
+      "sha256": "fae05462a842061815a0abb2662a0963292261b45a276e74ae5153fc0b439da6",
+      "bytes": 8357
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-inner-scroll-0.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-cover-scroll-0.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/interaction-completion-exposure-resume.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-inner-settings-baseline.json",
+      "sha256": "c5c413dac1070a5440b3a2a8ba81416c0aed911432a66383cf85d7a0cac1e2cc",
+      "bytes": 5224
+    },
+    {
+      "path": "android-smoke/rotation-cover-restart.txt",
+      "sha256": "dcc87f9ec6efaa80018a52723f7c2dbbeef918824e6a66716fa4c1b3f7b168e2",
+      "bytes": 7
+    },
+    {
+      "path": "android-smoke/target-role-fixture-resume.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/runtime-state-after-completed-restart.txt",
+      "sha256": "ae5b04eebe731c8d5fc00c5fdc240a7b8afd84adb4ce54109f5798ece23e80d4",
+      "bytes": 1624
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-inner-initial.txt",
+      "sha256": "183067013bdae3d6c12b506cd105b276fda9f90cd38c44663ca3c250b7adace9",
+      "bytes": 8507562
+    },
+    {
+      "path": "android-smoke/pid-wait-inner-pan.txt",
+      "sha256": "8c4533445df7910748662e4fba56fd529df8b2b4603a6b3364309b20c3965436",
+      "bytes": 5
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-cover-before.txt",
+      "sha256": "f6665c10024d78333934c521a0c28a56e5ed53be6ca6968f79bf51ad1da6138e",
+      "bytes": 2890282
+    },
+    {
+      "path": "android-smoke/ui-metrics-inner-primary-restored.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/pid-wait-extraction-won.txt",
+      "sha256": "b0b67d67edcd109b3dd13f46a026a95b46d53b5b985886b49ea921ed8c4a914b",
+      "bytes": 5
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-inner-initial.txt.attempt-1.txt",
+      "sha256": "183067013bdae3d6c12b506cd105b276fda9f90cd38c44663ca3c250b7adace9",
+      "bytes": 8507562
+    },
+    {
+      "path": "android-smoke/role-before-observer.txt",
+      "sha256": "7c04d440a6283cf9397d1e55990291b6562af24f4c08bfe7b0254fcf80adb91e",
+      "bytes": 11571798
+    },
+    {
+      "path": "android-smoke/interaction-inner-sub.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/view-check-inner-fit.txt",
+      "sha256": "2ec5a90926926df1482146f06cda81b5e0ec45e1bfe26a9fd2bc39237b127e31",
+      "bytes": 47
+    },
+    {
+      "path": "android-smoke/ui-metrics-inner-secondary-initial.json",
+      "sha256": "d25d5f33e780f2b3bd073dc9f8a9809e932da7d9cf720cc4b096e719aa798e54",
+      "bytes": 8381
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-inner-settings-back.json",
+      "sha256": "6c1e26b88086ae4ccb52110e89b82c5e99088c601108e4c8316e4b2978d48ae9",
+      "bytes": 3181
+    },
+    {
+      "path": "android-smoke/interaction-cover-second-in.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/final-display.png",
+      "sha256": "7acf9cd302e022d44116da31a1bf4f478b78a35346c2434df646abe6f3c45e9e",
+      "bytes": 424629
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-inner-initial.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/readiness-inner-restart.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/ui-metrics-cover-primary-initial.txt",
+      "sha256": "74def90cdfb3352d143c87a96e5dfbbaa35ff28babfecc0b26f9a6172d9d965a",
+      "bytes": 5666881
+    },
+    {
+      "path": "android-smoke/target-inner-first-in.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/target-cover-pause.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/launch-inner.txt",
+      "sha256": "7a48edcb8e3e1357690c62061e2409e7c2e20a91efa4cc72b18b819127549270",
+      "bytes": 299
+    },
+    {
+      "path": "android-smoke/app-memory-before-completed-restart.txt",
+      "sha256": "4415115cb07815a7806d9ec3d4d51eb5d46fea83520ceb0f434247e9ee97756d",
+      "bytes": 3181
+    },
+    {
+      "path": "android-smoke/ui-metrics-cover-primary-restored.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/role-before-genuine-restore.txt",
+      "sha256": "57d028930101ac2c2764539b260491e39510d62730d9910fec1fabc2dbc210c2",
+      "bytes": 11627624
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-inner-settings-back.txt",
+      "sha256": "c6945d3cf950fd35458c5771f11e07dbc11efa9f9d0117f6f2d61b7a66e83642",
+      "bytes": 8615424
+    },
+    {
+      "path": "android-smoke/install.txt",
+      "sha256": "39b8f817de457ac2a4c7b6ae3bc3745e50a0173bb7c05bc0b7c95b66343f8dc7",
+      "bytes": 87
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-cover-settings-back.txt.attempt-1.txt",
+      "sha256": "4c76f8427682b47251a508c271c4d87b273cb57b06c37b96111222fcfb92beab",
+      "bytes": 3497116
+    },
+    {
+      "path": "android-smoke/interaction-inner-primary-page.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-cover-initial.txt",
+      "sha256": "3b0fdb2b73e40186de669b8b925deeb7020d5d118e7f263584b3bba1be4e4e9a",
+      "bytes": 2909486
+    },
+    {
+      "path": "android-smoke/ui-metrics-cover-primary-initial.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/interaction-role-fixture-resume.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/role-response.txt.attempt-1.txt",
+      "sha256": "47cd836bd82d21daf559101f3dfa91551bb8241217c12bddbe79a642953cae75",
+      "bytes": 11618325
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-cover-settings.json",
+      "sha256": "bd387c958e18d0b8d1cbef5aae8667d3b95d923bdc5f2a7ca983087a41d368d7",
+      "bytes": 2608
+    },
+    {
+      "path": "android-smoke/interaction-inner-unpause.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/interaction-cover-pause.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/target-completion-menu.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/role-response.txt",
+      "sha256": "47cd836bd82d21daf559101f3dfa91551bb8241217c12bddbe79a642953cae75",
+      "bytes": 11618325
+    },
+    {
+      "path": "android-smoke/prelaunch-role-fixture-entry.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/role-archive-hashes.txt",
+      "sha256": "a77633e3dd72943623cd85e657cf9ef87470fbd6364dd31a656214c11119f33d",
+      "bytes": 319
+    },
+    {
+      "path": "android-smoke/ui-metrics-inner-secondary-initial.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/rotation-role-fixture-entry.txt",
+      "sha256": "dcc87f9ec6efaa80018a52723f7c2dbbeef918824e6a66716fa4c1b3f7b168e2",
+      "bytes": 7
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-inner-returned.txt",
+      "sha256": "b724c30efd3edd0b9e6806a101ddbaaa0e9d534a141e55d8dd8f29fc21122e80",
+      "bytes": 8644478
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-cover-settings-volume_effects-scroll-0.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/interaction-inner-drone.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/view-check-cover-pan.txt",
+      "sha256": "dea6982695516af0b63619bb1548a8b265732f2e8cfe6b877175608320935d0f",
+      "bytes": 50
+    },
+    {
+      "path": "android-smoke/pid-inner-resume.txt",
+      "sha256": "8c4533445df7910748662e4fba56fd529df8b2b4603a6b3364309b20c3965436",
+      "bytes": 5
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-inner-settings-mute.json",
+      "sha256": "e1da5f56790aff6e832b38de4b787764426f1342eb24b1d5db0b5929088c7502",
+      "bytes": 3181
+    },
+    {
+      "path": "android-smoke/wait-inner-pan.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-inner-returned.json",
+      "sha256": "287384c5bcd66c538e67c3779dd51969e876f2ee1c8fb42b5f0ed22315611c3f",
+      "bytes": 5224
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-cover-scroll-0.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/ui-metrics-inner-primary-initial.json",
+      "sha256": "fae05462a842061815a0abb2662a0963292261b45a276e74ae5153fc0b439da6",
+      "bytes": 8357
+    },
+    {
+      "path": "android-smoke/pid-cover-resume.txt",
+      "sha256": "1a13c1239ae29962f3f79269d52d1df963fafd1f3f0d60cdc9495d99ef2f31ff",
+      "bytes": 5
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-cover-settings.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/wait-campaign-restored.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/target-cover-second-in.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/interaction-cover-route.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/readiness-role-fixture-entry.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/ui-metrics-cover-secondary-initial.txt.attempt-1.txt",
+      "sha256": "97fa46bd18eed488f6763d3a3cd021f274f5c17495a78830272a1c18432176aa",
+      "bytes": 5855988
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-inner-scroll-0.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/ui-metrics-inner-primary-initial.txt.attempt-1.txt",
+      "sha256": "7d46b38aad396d0e92fce1a8aa37ad5ec9939c0901f227dddb484aa64f36e65b",
+      "bytes": 10373915
+    },
+    {
+      "path": "android-smoke/view-check-cover-first-in.txt",
+      "sha256": "3bd80095d12cbe10bba7cc7430f9c0d78c0de7045c0401e6083cba196d498d13",
+      "bytes": 47
+    },
+    {
+      "path": "android-smoke/view-check-completion-fit.txt",
+      "sha256": "2ec5a90926926df1482146f06cda81b5e0ec45e1bfe26a9fd2bc39237b127e31",
+      "bytes": 47
+    },
+    {
+      "path": "android-smoke/target-completion-camera-pause.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/interaction-completion-travel.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/target-cover-mission0.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-inner-before.txt.attempt-1.txt",
+      "sha256": "dfee3e44a9d5bae2ae5aa4c72b6ca67e9e620a352da8c522f6ec603b6454be5e",
+      "bytes": 8465559
+    },
+    {
+      "path": "android-smoke/target-role-ordinary-decoy.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/role-response.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/pid-cover-restart.txt",
+      "sha256": "8c4533445df7910748662e4fba56fd529df8b2b4603a6b3364309b20c3965436",
+      "bytes": 5
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-cover-settings-volume_effects-scroll-0.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-cover-returned.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/target-completion-exposure-resume.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/interaction-role-secondary-orders.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-inner-scroll-0.json",
+      "sha256": "548ed82dc3d77aabdf15cfc1678577b457919c964008761d8f72870f01bc7103",
+      "bytes": 5710
+    },
+    {
+      "path": "android-smoke/navigation-before-cover.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/target-completion-approach.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-cover-settings-mute.json",
+      "sha256": "6cb990e41a422da1a54c742573742d076452e8633d800765ff796cfafcdf09b8",
+      "bytes": 3085
+    },
+    {
+      "path": "android-smoke/ui-metrics-inner-primary-restored.txt",
+      "sha256": "a7195fa683b6137f6d5ccd3995d3ea4e2a551ee698738e769894b8a9524b11e1",
+      "bytes": 10448237
+    },
+    {
+      "path": "android-smoke/pid-wait-role-observer-ready.txt",
+      "sha256": "f2c7116239a4cf2aeba19018c4c8e92aa9697e659b408ca71d43abbdcd1ed868",
+      "bytes": 5
+    },
+    {
+      "path": "android-smoke/target-inner-fit.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/pid-inner-restart.txt",
+      "sha256": "b0b67d67edcd109b3dd13f46a026a95b46d53b5b985886b49ea921ed8c4a914b",
+      "bytes": 5
+    },
+    {
+      "path": "android-smoke/view-check-cover-second-in.txt",
+      "sha256": "3bd80095d12cbe10bba7cc7430f9c0d78c0de7045c0401e6083cba196d498d13",
+      "bytes": 47
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-inner-returned.txt.attempt-1.txt",
+      "sha256": "b724c30efd3edd0b9e6806a101ddbaaa0e9d534a141e55d8dd8f29fc21122e80",
+      "bytes": 8644478
+    },
+    {
+      "path": "android-smoke/target-cover-pan.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-cover-settings-volume_effects.json",
+      "sha256": "57e8f6fb46cc3a46151f0256cae9d0f05fad64bd42785ce556ee962862adf66b",
+      "bytes": 2688
+    },
+    {
+      "path": "android-smoke/logcat.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/before-kill-inner.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/interaction-inner-mission0.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-inner-returned.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/wait-camera-ready.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-inner-initial.json",
+      "sha256": "c5c413dac1070a5440b3a2a8ba81416c0aed911432a66383cf85d7a0cac1e2cc",
+      "bytes": 5224
+    },
+    {
+      "path": "android-smoke/target-inner-detail.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-inner-settings-volume_effects.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/pid-role-genuine-archive-restored.txt",
+      "sha256": "6bb6920eee77b5a9685a451ef466c29106815973d50955fe13871b9cdeb52f33",
+      "bytes": 5
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-inner-settings-volume_effects.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/interaction-role-lure-pause.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/role-before-genuine-restore.txt.attempt-1.txt",
+      "sha256": "57d028930101ac2c2764539b260491e39510d62730d9910fec1fabc2dbc210c2",
+      "bytes": 11627624
+    },
+    {
+      "path": "android-smoke/view-check-cover-fit.txt",
+      "sha256": "2ec5a90926926df1482146f06cda81b5e0ec45e1bfe26a9fd2bc39237b127e31",
+      "bytes": 47
+    },
+    {
+      "path": "android-smoke/interaction-role-ordinary-decoy.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/target-inner-unpause.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/interaction-cover-sub.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/target-completion-mission0.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/ui-metrics-inner-primary-restored.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/runtime-state-start.txt",
+      "sha256": "4a2cd9d1cd83de6d921bc145f6d26e6c41aafd59db7671d0d66a6091ec6d4643",
+      "bytes": 1624
+    },
+    {
+      "path": "android-smoke/ui-metrics-cover-secondary-initial.txt",
+      "sha256": "97fa46bd18eed488f6763d3a3cd021f274f5c17495a78830272a1c18432176aa",
+      "bytes": 5855988
+    },
+    {
+      "path": "android-smoke/interaction-cover-first-in.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/interaction-inner-fit.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/interaction-role-observer-travel.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/interaction-cover-overview.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/wait-role-observer-ready.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/view-check-inner-first-in.txt",
+      "sha256": "3bd80095d12cbe10bba7cc7430f9c0d78c0de7045c0401e6083cba196d498d13",
+      "bytes": 47
+    },
+    {
+      "path": "android-smoke/role-before-lure.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-inner-settings.json",
+      "sha256": "6c1e26b88086ae4ccb52110e89b82c5e99088c601108e4c8316e4b2978d48ae9",
+      "bytes": 3181
+    },
+    {
+      "path": "android-smoke/interaction-cover-restored-mission.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/target-completion-begin.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/ui-metrics-inner-primary-initial.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-inner-settings.txt",
+      "sha256": "c73c793a2f23d7ab6ea8466bda3ba99ee515b5a941dbb60bd91b4c83fa26ca5e",
+      "bytes": 8582340
+    },
+    {
+      "path": "android-smoke/wait-record-secured.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-cover-returned.json",
+      "sha256": "a68f03c7a530db8bebb4ee5064a1e1bbb5d5de8806c361aa63fc9765ee55f353",
+      "bytes": 3110
+    },
+    {
+      "path": "android-smoke/pid-cover.txt",
+      "sha256": "1a13c1239ae29962f3f79269d52d1df963fafd1f3f0d60cdc9495d99ef2f31ff",
+      "bytes": 5
+    },
+    {
+      "path": "android-smoke/role-save-path.txt",
+      "sha256": "0749cca5b60a1ab6cd5078fb733c1062a6ca826f1e0a9380429185eb7c629b44",
+      "bytes": 19
+    },
+    {
+      "path": "android-smoke/role-before-lure.txt",
+      "sha256": "dbc3d3599a12022d95a81c95e3e8c74751aac6c3a8ff8b74b0dbf5317e9d1a8d",
+      "bytes": 11735438
+    },
+    {
+      "path": "android-smoke/interaction-cover-secondary-page.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-inner-settings-back.txt.attempt-1.txt",
+      "sha256": "c6945d3cf950fd35458c5771f11e07dbc11efa9f9d0117f6f2d61b7a66e83642",
+      "bytes": 8615424
+    },
+    {
+      "path": "android-smoke/target-cover-primary-page.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/runtime-errors.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/restoration-inner.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/interaction-cover-drone.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/target-cover-secondary-page.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/wait-cover-pan.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/interaction-role-silent-withdrawal.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/view-check-inner-detail.txt",
+      "sha256": "74a749e0abf2d485a2711f4070750db6263f34952c3cdf6740aa1e28ee37be65",
+      "bytes": 48
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-cover-settings-volume_effects.txt.attempt-1.txt",
+      "sha256": "9d4d44b1f056ae3585ab805404044e2c5a71c5188688d46cb4675f4fa710fdbc",
+      "bytes": 3266070
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-inner-settings-mute.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-cover-settings-back.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-cover-settings.txt",
+      "sha256": "7a219db33b382b758ef9c7294c1b5b84b9e451a3eccd9c4222ff98e2a8ca13b0",
+      "bytes": 3209363
+    },
+    {
+      "path": "android-smoke/pid-after-kill-cover.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/fingerprint.txt",
+      "sha256": "ecaa89ac61a70e9d390f52cb428e1398be3d198a8ce2e1f0c17d17e9cf036426",
+      "bytes": 85
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-inner-before.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/interaction-completion-menu.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-cover-settings-mute.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-cover-scroll-0.json",
+      "sha256": "74cf5d8ac533875501300d55747244b57b15884d97175a3aac52c30276d1e9dd",
+      "bytes": 3562
+    },
+    {
+      "path": "android-smoke/launch-role-fixture-entry.txt",
+      "sha256": "be77d520a086464ed0dd1ff9b79f81a0e619ddb41ca1ff0ca31d52fca9d32576",
+      "bytes": 200
+    },
+    {
+      "path": "android-smoke/interaction-completion-camera-pause.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/interaction-inner-menu.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-inner-settings-back.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/interaction-role-return-pause.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/pid-completed-campaign-restart.txt",
+      "sha256": "2320c7d5ef1f7e5e4369b549b221879fba00c4692780447a4417624d9fef81fb",
+      "bytes": 5
+    },
+    {
+      "path": "android-smoke/interaction-role-response-resume.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/interaction-inner-route.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/checkpoint-completed-campaign.txt",
+      "sha256": "7281e46ef3246ba76b469b463186775402e299b17d81b784517089c7b75712e4",
+      "bytes": 11260698
+    },
+    {
+      "path": "android-smoke/interaction-cover-mission0.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-inner-scroll-0.txt.attempt-1.txt",
+      "sha256": "d6e0a66a575c057a903ea69c2ee186bc581cc56b814f9ca47544018d0c728f79",
+      "bytes": 8546436
+    },
+    {
+      "path": "android-smoke/target-inner-restored-mission.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/system-dialog-window.txt",
+      "sha256": "9875ba4321e4a4e004dc9f78b72ab6ab926cec05ef60d7328f5e4bb317d39bf9",
+      "bytes": 43106
+    },
+    {
+      "path": "android-smoke/density-cover.txt",
+      "sha256": "c4d910beb2bd2a0e1934a659e6f50c1ce400c0186723be9ba5dacf57bc99b11e",
+      "bytes": 22
+    },
+    {
+      "path": "android-smoke/prelaunch-completed-campaign-restart.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/restoration-cover.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-inner-settings.txt.attempt-1.txt",
+      "sha256": "c73c793a2f23d7ab6ea8466bda3ba99ee515b5a941dbb60bd91b4c83fa26ca5e",
+      "bytes": 8582340
+    },
+    {
+      "path": "android-smoke/view-check-cover-detail.txt",
+      "sha256": "74a749e0abf2d485a2711f4070750db6263f34952c3cdf6740aa1e28ee37be65",
+      "bytes": 48
+    },
+    {
+      "path": "android-smoke/ui-metrics-cover-secondary-initial.json",
+      "sha256": "f91a2aa2fc17d06b6452c0b11bd833e237eb0f727ec9705f2df6dad2e24e29f1",
+      "bytes": 7393
+    },
+    {
+      "path": "android-smoke/rotation-role-genuine-archive-restored.txt",
+      "sha256": "dcc87f9ec6efaa80018a52723f7c2dbbeef918824e6a66716fa4c1b3f7b168e2",
+      "bytes": 7
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-cover-settings-back.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/pid-wait-cover-pan.txt",
+      "sha256": "1a13c1239ae29962f3f79269d52d1df963fafd1f3f0d60cdc9495d99ef2f31ff",
+      "bytes": 5
+    },
+    {
+      "path": "android-smoke/view-check-cover-overview.txt",
+      "sha256": "2ec5a90926926df1482146f06cda81b5e0ec45e1bfe26a9fd2bc39237b127e31",
+      "bytes": 47
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-cover-initial.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/ui-metrics-inner-primary-initial.txt",
+      "sha256": "7d46b38aad396d0e92fce1a8aa37ad5ec9939c0901f227dddb484aa64f36e65b",
+      "bytes": 10373915
+    },
+    {
+      "path": "android-smoke/pid-after-kill-inner.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/ui-metrics-cover-primary-restored.json",
+      "sha256": "1de26d0802e8ae1755126ce9a0cf1dfed9f91b7d58146eefd811f801ab58011f",
+      "bytes": 7369
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-inner-settings-volume_effects.json",
+      "sha256": "4367b046c0aa69f97df35ec2ae0d18c85e19dfb6ac79de882bb3cddce6b352d3",
+      "bytes": 3190
+    },
+    {
+      "path": "android-smoke/target-cover-detail.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/target-role-fixture-fit.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/wait-extraction-won.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/target-inner-begin.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/interaction-completion-begin.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-inner-settings-volume_effects.txt.attempt-1.txt",
+      "sha256": "ec199872be4b91b7edc21169acfed790141e6e292557fa4464d8d600357198af",
+      "bytes": 8595437
+    },
+    {
+      "path": "android-smoke/target-completion-drone.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/interaction-inner-begin.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/target-role-observer-travel.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/progress.txt",
+      "sha256": "0ae75655b4b9e4e0faf2ed1729722b551d217bc1a6120f5a16046dbe211e3cba",
+      "bytes": 11907
+    },
+    {
+      "path": "android-smoke/target-cover-unpause.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-cover-settings-baseline.json",
+      "sha256": "ab77285f5de6a467ab9365f682d8314d5c93e416eff8646ff98afb0751e161b2",
+      "bytes": 3597
+    },
+    {
+      "path": "android-smoke/interaction-inner-restored-mission.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/role-fixture.save",
+      "sha256": "97346ad1c344d03e2f08ac0febc197aebe7a3e0dee81589e475c85c9a053144f",
+      "bytes": 9137
+    },
+    {
+      "path": "android-smoke/ui-metrics-cover-primary-initial.json",
+      "sha256": "1de26d0802e8ae1755126ce9a0cf1dfed9f91b7d58146eefd811f801ab58011f",
+      "bytes": 7369
+    },
+    {
+      "path": "android-smoke/target-role-fixture-sub.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/interaction-inner-pause.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-cover-settings-volume_effects-scroll-0.txt.attempt-1.txt",
+      "sha256": "dfbf14f43a01e65364ead99eeb823bb053927893845692ea34f92c8d11395b39",
+      "bytes": 3318474
+    },
+    {
+      "path": "android-smoke/target-cover-begin.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-inner-settings.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/role-response.json",
+      "sha256": "b66aad42d0daf982b8a96a0b1a974dbeb5f571f27717fbe4cbcb5bdc395133ed",
+      "bytes": 337
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-cover-scroll-0.txt.attempt-1.txt",
+      "sha256": "5f80ea7ee2930e69169cbff103d74d9cc2b27cfda22350c5b8ac64fdd65a3265",
+      "bytes": 3125273
+    },
+    {
+      "path": "android-smoke/target-inner-primary-page.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-inner-settings-back.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/prelaunch-cover-restart.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/readiness-cover.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/pid-wait-camera-ready.txt",
+      "sha256": "b0b67d67edcd109b3dd13f46a026a95b46d53b5b985886b49ea921ed8c4a914b",
+      "bytes": 5
+    },
+    {
+      "path": "android-smoke/prelaunch-inner.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-cover-settings-mute.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/ui-metrics-cover-primary-restored.txt",
+      "sha256": "963ad416ef83e895610e66aec19367150182d1397444c8803b6a9c8b9246cc20",
+      "bytes": 6096146
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-cover-initial.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/target-cover-fit.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/target-role-silent-withdrawal.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/ui-metrics-inner-secondary-initial.txt",
+      "sha256": "e2db40ffb535d7707b7da3aab1b4c574ccca796165877c59228915506e1e477c",
+      "bytes": 10407726
+    },
+    {
+      "path": "android-smoke/rotation-inner-resume.txt",
+      "sha256": "dcc87f9ec6efaa80018a52723f7c2dbbeef918824e6a66716fa4c1b3f7b168e2",
+      "bytes": 7
+    },
+    {
+      "path": "android-smoke/prelaunch-role-genuine-archive-restored.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/ui-metrics-inner-primary-initial.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/role-fixture-hash.txt",
+      "sha256": "fab08d285703ad703e72afce6145ac9a50b65ea391f870570ee3aadd6ae900b4",
+      "bytes": 152
+    },
+    {
+      "path": "android-smoke/interaction-completion-fit.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/target-completion-travel.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-cover-settings-volume_effects.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-inner-scroll-0.txt",
+      "sha256": "d6e0a66a575c057a903ea69c2ee186bc581cc56b814f9ca47544018d0c728f79",
+      "bytes": 8546436
+    },
+    {
+      "path": "android-smoke/target-cover-route.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-cover-before.txt.attempt-1.txt",
+      "sha256": "f6665c10024d78333934c521a0c28a56e5ed53be6ca6968f79bf51ad1da6138e",
+      "bytes": 2890282
+    },
+    {
+      "path": "android-smoke/target-cover-overview.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/completion-before-exposure.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/readiness-cover-resume.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/interaction-inner-secondary-page.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/readiness-completed-campaign-restart.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/rotation-cover.txt",
+      "sha256": "960d3718d7914f5f8e9dd068da0bb6da51ba808b88cb6fc96915eedbd016f5e2",
+      "bytes": 7
+    },
+    {
+      "path": "android-smoke/pid-after-kill-completed.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/rotation-cover-resume.txt",
+      "sha256": "dcc87f9ec6efaa80018a52723f7c2dbbeef918824e6a66716fa4c1b3f7b168e2",
+      "bytes": 7
+    },
+    {
+      "path": "android-smoke/ui-metrics-menu-cover-settings-volume_effects.txt",
+      "sha256": "9d4d44b1f056ae3585ab805404044e2c5a71c5188688d46cb4675f4fa710fdbc",
+      "bytes": 3266070
+    },
+    {
+      "path": "android-smoke/prelaunch-inner-resume.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/launch-completed-campaign-restart.txt",
+      "sha256": "47d8c8f43a39d62923c78ed95d463553157ba8f8a54928af09cedb6c4af12c6a",
+      "bytes": 278
+    },
+    {
+      "path": "android-smoke/completion-before-kill.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "android-smoke/pid-wait-role-home-return.txt",
+      "sha256": "f2c7116239a4cf2aeba19018c4c8e92aa9697e659b408ca71d43abbdcd1ed868",
+      "bytes": 5
+    },
+    {
+      "path": "android-smoke/target-role-lure-pause.txt.attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    }
+  ],
+  "unique_or_modified_members_retained": [],
+  "restore": "unzip -o /workspace/Siren-s-Song-gauntlet/work/android-39229219785/runtime.zip -d /workspace/Siren-s-Song-gauntlet/work/android-39229219785/runtime",
+  "scope": "Only byte-identical derived runtime extraction caches evicted. Original ZIP, APKs, signers, cover/inner screenshots and unique/modified files preserved."
+}

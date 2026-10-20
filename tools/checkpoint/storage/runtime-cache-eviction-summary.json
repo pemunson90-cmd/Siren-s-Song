@@ -1,0 +1,30 @@
+{
+  "free_before": 1292120064,
+  "free_after": 2303143936,
+  "runs": [
+    {
+      "run": "android-39229219785",
+      "files": 363,
+      "logical_bytes": 421950927,
+      "unmatched_retained": 0
+    },
+    {
+      "run": "android-39244955064",
+      "files": 378,
+      "logical_bytes": 497816047,
+      "unmatched_retained": 0
+    },
+    {
+      "run": "android-39251216827",
+      "files": 401,
+      "logical_bytes": 509116234,
+      "unmatched_retained": 0
+    },
+    {
+      "run": "android-39261365076",
+      "files": 405,
+      "logical_bytes": 565475694,
+      "unmatched_retained": 0
+    }
+  ]
+}
