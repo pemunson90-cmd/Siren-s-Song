@@ -109,6 +109,7 @@ planner_navigation_ui_tests|PLANNER NAVIGATION
 planner_space_ui_tests|PLANNER SPACE UI
 playfield_hud_tests|PLAYFIELD HUD
 radial_hud_tests|RADIAL HUD
+view_controls_menu_tests|VIEW CONTROLS MENU
 expedition_instruments_ui_tests|EXPEDITION INSTRUMENT UI
 campaign_instruments_tests|CAMPAIGN INSTRUMENT
 campaign_instruments_ui_tests|CAMPAIGN INSTRUMENT UI

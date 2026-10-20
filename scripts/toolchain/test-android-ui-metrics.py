@@ -32,10 +32,11 @@ class TouchMetricsTests(unittest.TestCase):
 
     def test_radial_page_contract_uses_actual_persistent_and_context_controls(self):
         pages = {
-            'water': 'pause,focus,fit,more_orders',
+            'water': 'pause,more_orders',
             'craft': 'pause,radial_back,camera,ping,silent,program,route_menu,tools_menu,guard_menu,inspect',
             'tools': 'pause,radial_back,decoy,emp,recon,knock',
-            'fleet': 'pause,radial_back,sub,droneA,droneB,menu',
+            'fleet': 'pause,radial_back,sub,droneA,droneB,view_menu,menu',
+            'view': 'pause,radial_back,focus,fit,zoom_in,zoom_out',
             'signals': 'pause,radial_back',
         }
         for page, actions in pages.items():
