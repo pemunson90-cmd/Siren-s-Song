@@ -13,11 +13,14 @@ var _bounds:Array=[]
 var _surface_keys:Dictionary={}
 var _grid:AStarGrid2D
 var _grid_generation=-1
+var _known_grid:AStarGrid2D
+var _known_generation=-1
+var _known_paths:Dictionary={}
 func configure(mission:Dictionary,shapes:Array,saved:Dictionary={})->void:
  dimensions=mission.world_size
  _shapes=shapes.duplicate(true);_bounds=[]
  for polygon in _shapes:_bounds.append(_box(polygon))
- clear_cells={};return_cells={};surface_segments=[];_surface_keys={};generation=0;_grid_generation=-1
+ clear_cells={};return_cells={};surface_segments=[];_surface_keys={};generation=0;_grid_generation=-1;_known_generation=-1;_known_paths={}
  if not saved.is_empty():
   clear_cells=saved.clear_cells.duplicate();return_cells=saved.return_cells.duplicate();surface_segments=saved.surface_segments.duplicate(true);generation=saved.generation
   for segment in surface_segments:_surface_keys[_segment_key(segment)]=true
@@ -197,6 +200,34 @@ func player_path(a:Vector2,b:Vector2)->Array:
   var furthest=-1
   for n in range(at,raw.size()):
    if segment_safe(origin,raw[n]):furthest=n
+  if furthest<0:return []
+  result.append({"pos":raw[furthest],"stop":furthest==raw.size()-1});origin=raw[furthest];at=furthest+1
+ return result
+# Autonomous correction uses only whole certified hull footprints. A new
+# speculative detour belongs to the pilot's next order, never to the autopilot.
+# Cache cell paths for one chart generation so a dirty leg cannot run AStar
+# every physics frame; exact-origin smoothing still checks each returned leg.
+func known_path(a:Vector2,b:Vector2)->Array:
+ if not is_clear(a) or not is_clear(b):return []
+ if clear_distance(a,b)+0.0001>=a.distance_to(b):return [{"pos":b,"stop":true}]
+ if _known_generation!=generation:
+  _known_grid=AStarGrid2D.new();_known_grid.region=Rect2i(Vector2i.ZERO,Vector2i(dimensions/TILE));_known_grid.cell_size=Vector2.ONE*TILE;_known_grid.offset=Vector2.ONE*TILE/2
+  _known_grid.diagonal_mode=AStarGrid2D.DIAGONAL_MODE_ONLY_IF_NO_OBSTACLES;_known_grid.update()
+  _known_grid.fill_solid_region(_known_grid.region,true)
+  for cell in clear_cells:_known_grid.set_point_solid(cell,false)
+  _known_paths={};_known_generation=generation
+ var first=Vector2i((a/TILE).floor());var last=Vector2i((b/TILE).floor());var key=Vector4i(first.x,first.y,last.x,last.y)
+ if not _known_paths.has(key):_known_paths[key]=_known_grid.get_point_path(first,last)
+ var points:PackedVector2Array=_known_paths[key]
+ if points.is_empty():return []
+ var raw:Array=[]
+ for n in range(1,points.size()):raw.append(points[n])
+ raw.append(b)
+ var result=[];var origin=a;var at=0
+ while at<raw.size():
+  var furthest=-1
+  for n in range(at,raw.size()):
+   if clear_distance(origin,raw[n])+0.0001>=origin.distance_to(raw[n]):furthest=n
   if furthest<0:return []
   result.append({"pos":raw[furthest],"stop":furthest==raw.size()-1});origin=raw[furthest];at=furthest+1
  return result
