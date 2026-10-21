@@ -7,9 +7,11 @@ const Witness=preload("res://src/presentation/witness_evacuation_view.gd")
 static func status(sim)->Dictionary:
  return sim.module_recovery_status() if sim.has_method("module_recovery_status") else {"modules":[],"cargo":[[],[],[]],"jobs":[{},{},{}],"result":{}}
 static func name(item:String)->String:
- if item.begins_with("glass_"):return item.trim_prefix("glass_").replace("_"," ").to_upper()
+ if item.begins_with("glass_") or item.begins_with("choir_"):return item.trim_prefix("glass_").trim_prefix("choir_").replace("_"," ").to_upper()
  return Catalog.ITEMS.get(item,{"name":item}).name.to_upper()
 static func work(sim,unit:int)->Dictionary:
+ if sim.Choir.busy(sim,unit):
+  var result=sim.mission.iron_choir.jobs[unit].duplicate(true);result.unit=unit;result.item="choir_"+result.action;return result
  if sim.Glass.busy(sim,unit):
   var result=sim.mission.glass_reach.job.duplicate(true);result["item"]=sim.Glass.item(sim);return result
  var jobs=status(sim).get("jobs",[])
@@ -17,6 +19,10 @@ static func work(sim,unit:int)->Dictionary:
  var result=jobs[unit].duplicate(true);result.unit=unit;return result
 static func cargo(sim,unit:int)->String:
  var names=[]
+ if sim.Choir.applies(sim.mission):
+  var industrial=sim.mission.iron_choir.artifact
+  if not industrial.is_empty() and industrial.state=="cargo" and industrial.carrier==unit:names.append("CHOIR MATERIAL · "+industrial.id.replace("_"," ").to_upper())
+  if sim.Choir.towing(sim,unit):names.append("PHYSICAL TOW · "+sim.Choir.body(sim).name)
  var a=sim.Glass.artifact(sim)
  if not a.is_empty() and a.state=="cargo" and a.carrier==unit:names.append("REACH MATERIAL · "+a.id.replace("_"," ").to_upper())
  var loads=status(sim).get("cargo",[])
@@ -27,7 +33,7 @@ static func task(sim,unit:int)->String:
  var job=work(sim,unit)
  if job.unit<0:return ""
  var data=Delivery.wreck_cargo(sim,job.item)
- return "RECOVER %d%% · %s"%[clampi(floori(job.elapsed/maxf(.01,job.duration)*100),0,100),name(job.item)]+("\n"+data if not data.is_empty() else "")
+ return ("WORK %d%% · %s" if job.item.begins_with("choir_") else "RECOVER %d%% · %s")%[clampi(floori(job.elapsed/maxf(.01,job.duration)*100),0,100),name(job.item)]+("\n"+data if not data.is_empty() else "")
 static func active(sim,unit:int)->bool:
  return work(sim,unit).unit>=0 or not cargo(sim,unit).is_empty()
 static func short_name(item:String)->String:

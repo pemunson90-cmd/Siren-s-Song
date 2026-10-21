@@ -112,6 +112,12 @@ glass_work_tests|GLASS WORK
 glass_research_tests|GLASS RESEARCH
 glass_reach_journeys|GLASS JOURNEY
 glass_reach_ui_tests|GLASS REACH UI
+iron_choir_tests|IRON CHOIR
+industrial_jobs_tests|INDUSTRIAL JOBS
+industrial_threats_tests|INDUSTRIAL THREATS
+iron_research_tests|IRON RESEARCH
+iron_choir_journeys|IRON JOURNEY
+iron_choir_ui_tests|IRON CHOIR UI
 onward_mission_tests|ONWARD MISSIONS
 wake_crossing_tests|WAKE CROSSING
 wake_crossing_journey_tests|WAKE CROSSING JOURNEY

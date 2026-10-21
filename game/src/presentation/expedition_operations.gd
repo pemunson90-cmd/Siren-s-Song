@@ -12,6 +12,10 @@ static func operations(main)->void:
   main._button(main.panel_box,"%s · %s"%[mission.title,status],func():main._briefing(id),"expedition%d"%id)
 static func briefing(main,index:int)->bool:
  if index<6:return false
+ if index>=22:
+  main._menu_text("IRON CHOIR / Craft → CHOIR WORK or tap acquired machinery and physical loads. Start voyages deliberately, observe actual arrival, tow locally and LAND people at refuge. All machinery/cargo follows its working craft and real depth. Bare Quietus can complete every core job sequentially without finite tools; fitted drones buy alternate narrow load routes.",17)
+  main._menu_text(preload("res://src/campaign/glass_research.gd").detail(main.expedition),17)
+  return true
  if index>=14:
   main._menu_text("GLASS REACH / Local craft → REACH WORK opens machinery, material and transfer controls. Status gives exact local distance/depth/readiness. The southern mouth also permits explicit incomplete withdrawal. First recovered anchorage choice shapes Last Carrier; failed dives and replays do not replace it.",17)
   main._menu_text(preload("res://src/campaign/glass_research.gd").detail(main.expedition),17)

@@ -82,6 +82,8 @@ static func advance(sim,dt):
    var enemy=sim.sirens[id]
    # Propulsion and genuine sweeper emission, never fabricated ghosts.
    var emission=900.0 if enemy.get("sweep",{}).get("emitting",0)>0 else 650.0 if not enemy.get("sweep",{}).get("strike",{}).is_empty() else 350.0 if enemy.get("sweep",{}).get("charge",0)>0 else 510.0
+   var industry=enemy.get("type","") in ["interceptor","warden"]
+   if industry:emission=450. if enemy.industry.phase=="windup" else 510. if enemy.industry.phase=="burst" else 110.
    var network=enemy.get("type","") in ["buoy","relay"]
    if network:emission=420. if enemy.get("network",{}).get("charge",0)>0 else 95.
    var path=water_path(sim,u,enemy,emission/masking)
@@ -89,6 +91,8 @@ static func advance(sim,dt):
    var direction=u.pos.direction_to(path.points[1])
    var confidence=clampf((path.strength-1.)*.45,.12,.85)
    var row={"station":station,"enemy":id,"origin":u.pos,"direction":direction,"time":sim.elapsed,"band":-1,"confidence":confidence,"tone":enemy.acoustic_tone,"classification":("ACTIVE SWEEP" if enemy.get("sweep",{}).get("emitting",0)>0 else "RETURN CHARGE" if not enemy.get("sweep",{}).get("strike",{}).is_empty() else "SWEEP WINDUP" if enemy.get("sweep",{}).get("charge",0)>0 else "MACHINERY" if confidence<.5 else "PROPULSION"),"direct":path.direct,"kind":"bearing"}
+   if industry:
+    row.classification=("BURST WINDUP" if enemy.type=="interceptor" else "PRESSURE CHARGE") if enemy.industry.phase=="windup" else "COMMITTED BURST" if enemy.industry.phase=="burst" else "STATION TONE"
    if network:
     row.classification=("LISTENER UPLINK" if enemy.type=="buoy" else "RELAY FORWARDING") if enemy.get("network",{}).get("charge",0)>0 else "STATION TONE"
     if enemy.get("network",{}).get("charge",0)>0 and not sim.sonar.history.any(func(old):return old.station==station and old.enemy==id and old.classification==row.classification and sim.elapsed-old.time<3.):

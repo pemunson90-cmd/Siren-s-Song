@@ -6,7 +6,7 @@ static func entries(contacts: Dictionary,elapsed: float,units: Array,clear_view:
 		var c=contacts[id];var age=maxf(0,elapsed-float(c.time))
 		if age>20:continue
 		var tag="S%d"%(int(id)+1)
-		var role={"hunter":"HUNTER","sentinel":"GUARD","sweeper":"SWEEPER","buoy":"LISTENER","relay":"RELAY","unknown":"UNCLASSIFIED"}.get(c.get("type","patroller"),"PATROL")
+		var role={"hunter":"HUNTER","sentinel":"GUARD","sweeper":"SWEEPER","buoy":"LISTENER","relay":"RELAY","interceptor":"INTERCEPTOR","warden":"WARDEN","unknown":"UNCLASSIFIED"}.get(c.get("type","patroller"),"PATROL")
 		var fresh=age<0.3;var urgent=false
 		var text="%s %s · %s"%[tag,role,c.mode] if fresh else "%s %s · LAST SEEN %ds"%[tag,role,int(age)]
 		if c.get("source","") in ["active","triangulation"]:text+=" · %d%%"%roundi(c.get("confidence",0.)*100)

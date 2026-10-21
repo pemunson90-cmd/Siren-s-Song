@@ -17,6 +17,8 @@ func fixture(role):
 func _initialize():
  check(ResourceLoader.exists("res://src/simulation/industrial_threats.gd"),"industrial enemy state machines exist")
  if not ResourceLoader.exists("res://src/simulation/industrial_threats.gd"):finish();return
+ var distant=fixture("interceptor");distant.units[0].pos=Vector2(600,1800);distant._noise(distant.units[0].pos,600.,"ACTIVE SONAR",1.,1);tick(distant,.9)
+ check(distant.sonar.history.any(func(row):return row.classification=="BURST WINDUP") and distant.contacts.is_empty(),"physically heard distant burst windup has visual bearing equivalent without hidden contact")
  var s=fixture("interceptor");tick(s,.1)
  check(s.sirens[0].industry.phase=="windup","interceptor winds up from legitimate local sight")
  var aim=s.sirens[0].industry.aim;s.units[0].pos=Vector2(350,2050);tick(s,.5)
@@ -34,6 +36,10 @@ func _initialize():
   s.units[0].band=1;s.units[0].pos=s.sirens[0].pos-Vector2(120,0);s.units[0].angle=0;s.contacts={};s._observe()
   check(s.command("knock",{"target":0}),"real torpedo launches at acquired "+role);tick(s,1.)
   check(s.sirens[0].get("pin_time",0)>7. and Sim.valid_snapshot(s.snapshot()),"physical pin save is finite "+role)
-  tick(s,9.);check(s.sirens[0].get("pin_time",0)==0 and s.sirens[0].stun==0,"physical pin expires "+role)
+  check(s.command("emp"),"real EMP overlaps physical snare "+role);tick(s,2.)
+  check(s.sirens[0].stun>s.sirens[0].pin_time and s.sirens[0].industry.patches.is_empty() and Sim.valid_snapshot(s.snapshot()),"longer EMP remains active without permanent pin/pressure "+role)
+  tick(s,11.);check(s.sirens[0].get("pin_time",0)==0 and s.sirens[0].stun==0,"physical pin and longer EMP expire "+role)
+  s=fixture(role);s.units[0].pos=Vector2(350,350);s.mission.iron_choir.load.pos=Vector2(600,2050);s.mission.iron_choir.load.hull=10.;tick(s,5.)
+  check(s.outcome=="lost" and not s.mission.iron_choir.load.alive and s.hull==100.,"real "+role+" attack can destroy physical NPC load independently of Quietus")
  finish()
 func finish():print("INDUSTRIAL THREATS CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)

@@ -17,7 +17,8 @@ func _initialize():
  var s=fixture(23);s.units[1].pos=s.mission.iron_choir.sites[0].pos+Vector2(0,35);s.command("select",{"unit":1})
  check(s.command("choir_action",{"action":"lock_a"}),"actual local drone starts equalizer")
  tick(s,1.);s.units[2].band=2;s.command("select",{"unit":2});var copy=Sim.new()
- check(copy.restore(s.snapshot()),"partial unselected equalizer restores")
+ var restored=copy.restore(s.snapshot());check(restored,"partial unselected equalizer restores")
+ if not restored:finish();return
  var before=s.snapshot();s.advance(2.);check(before==s.snapshot(),"pause freezes machinery work")
  tick(s,7.2);tick(copy,7.2)
  check(s.mission.iron_choir.sites[0].done and copy.mission.iron_choir.sites[0].done and s.mission.structures.size()==2,"unselected local worker opens actual shutter after restore")
@@ -42,5 +43,15 @@ func _initialize():
  check(a.state=="wreck" and a.band==2 and a.carrier==-1,"artifact loss retains actual deep wreck")
  var malformed=s.snapshot();malformed.mission.erase("iron_choir")
  check(not Sim.valid_snapshot(malformed),"new current save requires physical industrial state")
+ s=fixture(23);malformed=s.snapshot();malformed.mission.iron_choir.sites=[]
+ check(not Sim.valid_snapshot(malformed),"industrial current save cannot omit authored locks")
+ s=fixture(22);malformed=s.snapshot();malformed.mission.iron_choir.load.trail=[7]
+ check(not Sim.valid_snapshot(malformed),"physical tow trail rejects non-point current save")
+ malformed=s.snapshot();malformed.mission.iron_choir.load.state="transit"
+ check(not Sim.valid_snapshot(malformed),"moving freight requires an actual bounded destination")
+ var active=Sim.new();active.start(23,"endurance",{"fitted":{"quietus":"","drone_a":"drone_survey_array","drone_b":""}});active.sirens=[]
+ active.units[0].pos=active.mission.iron_choir.sites[0].pos+Vector2(0,35);active.units[1].pos=active.units[0].pos+Vector2(30,0);active.units[1].alive=false;tick(active,.1)
+ check(active.command("choir_action",{"action":"lock_a"}),"local equalizer claims worker before other salvage")
+ check(not active.command("salvage",{"item":"drone_survey_array"}),"industrial worker cannot simultaneously recover another physical module")
  finish()
 func finish():print("INDUSTRIAL JOBS CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)

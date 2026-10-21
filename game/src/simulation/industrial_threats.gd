@@ -33,7 +33,13 @@ static func advance(sim,e:Dictionary,dt:float):
   e.angle=e.pos.angle_to_point(state.aim);e.mode="BURST WINDUP" if e.type=="interceptor" else "PRESSURE CHARGE"
   sim._noise(e.pos,450.,"INTERCEPTOR WINDUP" if e.type=="interceptor" else "WARDEN CHARGE",state.remaining,e.band)
   # Only local physical reception earns this consequential cue.
-  for id in sim.passive_receivers(e.pos,e.band):sim.events.append({"type":"carrier_received" if e.type=="interceptor" else "factory","receiver":id,"pos":e.pos,"direction":sim.units[id].pos.direction_to(e.pos),"time":sim.elapsed})
+  for id in sim.units.size():
+   var u=sim.units[id]
+   if not u.alive:continue
+   var arrivals=sim.band_acoustics[u.band].arrivals(u.pos,e.pos,450.*sim.Depth.transmission(u,e))
+   if arrivals.is_empty():continue
+   var direction=u.pos.direction_to(arrivals[0].goal)
+   sim.events.append({"type":"carrier_received" if e.type=="interceptor" else "factory","receiver":id,"pos":u.pos+direction*180.,"direction":direction,"time":sim.elapsed})
   return
  state.remaining=maxf(0.,state.remaining-dt)
  if state.phase=="windup":

@@ -565,6 +565,7 @@ func _show_ending()->void:
 	_menu_text(ending.story,21)
 	if sim.outcome=="won" and sim.mission.id in [12,13]:ModuleRecovery.debrief(self)
 	_show_photo_grade(photo_records.values())
+	if 22 in ExpeditionCampaign.available(completed,expedition):_button(panel_box,"CONTINUE / IRON CHOIR",func():_briefing(22),"continue_choir")
 	if 14 in ExpeditionCampaign.available(completed,expedition):_button(panel_box,"CONTINUE / GLASS REACH",func():_briefing(14),"continue_glass")
 	_button(panel_box,"NEW CAMPAIGN / CHOOSE ANOTHER ROUTE",_confirm_new_campaign,"new_campaign")
 	_button(panel_box,"OPERATIONS ARCHIVE",_show_campaign,"back")

@@ -145,6 +145,10 @@ func refresh(blocked:Array):
   if not sim.module_recovery_status().cargo[id].is_empty():cues.append("KIT")
   var material=sim.Glass.artifact(sim)
   if not material.is_empty() and material.state=="cargo" and material.carrier==id:cues.append("MATERIAL")
+  if sim.Choir.towing(sim,id):cues.append("TOW")
+  if sim.Choir.applies(sim.mission):
+   var industrial=sim.mission.iron_choir.artifact
+   if not industrial.is_empty() and industrial.state=="cargo" and industrial.carrier==id:cues.append("MATERIAL")
   if not Delivery.cargo(sim,id).is_empty():cues.append("DATA")
   if Witness.carries(sim,id):cues.append("WITNESS")
   if sim.scout_context(id).state=="stopped":cues.append("SCOUT BRAKE" if u.vel.length()>2 else "SCOUT HOLD")

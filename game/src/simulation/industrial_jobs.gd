@@ -131,10 +131,11 @@ static func observe(sim):
  if not load.is_empty() and sim.visible(load.pos,load.band):
   state.seen={"pos":load.pos,"angle":load.angle,"hull":load.hull,"alive":load.alive,"band":load.band,"state":load.state,"carrier":load.carrier,"time":sim.elapsed,"name":load.name}
   if state.arrived:state.receipt=true
-static func complete(sim)->bool:
- if not applies(sim.mission):return true
- var state=sim.mission.iron_choir
- match sim.mission.id:
+static func complete(sim)->bool:return complete_mission(sim.mission)
+static func complete_mission(m:Dictionary)->bool:
+ if not applies(m):return true
+ var state=m.iron_choir
+ match m.id:
   22,25:return state.receipt
   23:return state.sites.all(func(site):return site.done)
   24,29:return not state.choice.is_empty()
@@ -164,6 +165,13 @@ static func valid(data:Dictionary)->bool:
  var state=data.mission.get("iron_choir")
  if not state is Dictionary or not state.has_all(["sites","jobs","load","seen","choice","arrived","receipt","artifact","retrieved","route_choice","people_landed"]):return false
  if not state.sites is Array or state.sites.size()>3 or not state.jobs is Array or state.jobs.size()!=3 or not state.load is Dictionary or not state.seen is Dictionary or not state.artifact is Dictionary or state.choice not in ["","bypass","isolate","reconnect","dismantle"] or state.route_choice not in ["","east","west"]:return false
+ var template=Catalog.make(data.mission.id,data.mission.get("launch_context",{})).iron_choir
+ var bounds=Rect2(Vector2.ZERO,data.mission.world_size)
+ if state.size()!=template.size() or state.sites.size()!=template.sites.size() or state.load.is_empty()!=template.load.is_empty() or state.artifact.is_empty()!=template.artifact.is_empty():return false
+ for index in state.sites.size():
+  if not state.sites[index] is Dictionary:return false
+  for key in ["id","pos","band","shape"]:
+   if state.sites[index].get(key)!=template.sites[index][key]:return false
  for flag in ["arrived","receipt","retrieved","people_landed"]:
   if not state[flag] is bool:return false
  for site in state.sites:
@@ -172,15 +180,27 @@ static func valid(data:Dictionary)->bool:
   var job=state.jobs[id]
   if not job is Dictionary:return false
   if job.is_empty():continue
-  if not job.has_all(["action","pos","band","elapsed","duration"]) or not job.action is String or not job.pos is Vector2 or job.band not in [0,1,2] or not data.units[id].alive or data.units[id].hold!="HOLD":return false
-  if not number(job.elapsed) or not number(job.duration) or job.duration not in [4.,8.] or job.elapsed<0 or job.elapsed>job.duration:return false
+  if job.size()!=5 or not job.has_all(["action","pos","band","elapsed","duration"]) or not job.action is String or not job.pos is Vector2 or job.band not in [0,1,2] or not data.units[id].alive or data.units[id].hold!="HOLD":return false
+  if job.action not in state.sites.map(func(site):return site.id)+["recover"] or not bounds.has_point(job.pos):return false
+  if not number(job.elapsed) or not number(job.duration) or job.duration!=(4. if job.action=="recover" else 8.) or job.elapsed<0 or job.elapsed>job.duration:return false
  if not state.load.is_empty():
   var load=state.load
   if not load.has_all(["pos","vel","angle","route","alive","hull","band","transition","kind","state","carrier","trail"]) or not load.pos is Vector2 or not load.vel is Vector2 or not load.route is Array or not load.trail is Array or load.trail.size()>256 or load.band not in [0,1,2] or not number(load.hull) or load.hull<0 or load.hull>100:return false
+  if not bounds.has_point(load.pos) or not load.vel.is_finite() or not number(load.angle) or not load.alive is bool or load.kind!=template.load.kind or not load.transition is Dictionary or not load.transition.is_empty():return false
+  for point in load.trail:
+   if not point is Vector2 or not bounds.has_point(point):return false
+  for waypoint in load.route:
+   if not waypoint is Dictionary or not waypoint.get("pos") is Vector2 or not bounds.has_point(waypoint.pos) or not waypoint.get("stop") is bool:return false
+  if load.state in ["transit","arrived"] and (not load.get("destination") is Vector2 or not bounds.has_point(load.destination)):return false
   if load.state not in ["moored","free","towed","transit","arrived","seated"] or load.carrier not in [-1,0,1,2] or (load.state=="towed")!=(load.carrier>=0):return false
  if not state.artifact.is_empty():
   var a=state.artifact
   if not a.has_all(["id","pos","band","state","carrier"]) or a.id not in ["pressure_spindle","traction_core"] or not a.pos is Vector2 or a.band not in [0,1,2] or a.state not in ["sealed","site","wreck","cargo","recovered"] or a.carrier not in [-1,0,1,2] or (a.state=="cargo")!=(a.carrier>=0):return false
+  if not bounds.has_point(a.pos) or a.id!=template.artifact.id or (a.state=="cargo" and not data.units[a.carrier].alive):return false
   if state.retrieved!=(a.state=="recovered"):return false
+ if not state.seen.is_empty():
+  var seen=state.seen
+  if not seen.has_all(["pos","angle","hull","alive","band","state","carrier","time","name"]) or not seen.pos is Vector2 or not bounds.has_point(seen.pos) or not number(seen.time) or seen.time<0 or seen.time>data.get("elapsed",0.) or not number(seen.angle) or not number(seen.hull) or seen.hull<0 or seen.hull>100 or not seen.alive is bool or seen.band not in [0,1,2]:return false
+ if data.mission.get("recovered",false) and not complete_mission(data.mission):return false
  return true
 static func number(n)->bool:return (n is int or n is float) and is_finite(n)
