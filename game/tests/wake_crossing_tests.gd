@@ -61,7 +61,7 @@ func history_case():
  var used=Campaign.recover(progress(),m)
  check(used.facts.get("wake_crossing","")=="repeater_played","fresh recovered playback commits its actual local action without claiming remote safety")
  var next=preload("res://src/campaign/missions.gd").make(11,{"thread":"deep","completed":[6,7,9],"facts":used.facts,"references":{}})
- check(next.signal_sources[0].evidence.contains("spent a wrecked rig"),"later live factory account selectively recognizes the actually spent old loop")
+ check(next.signal_sources[0].evidence.contains("you spent a wrecked rig's beacon"),"later live factory account selectively recognizes the actually spent old beacon")
  var legacy=p.duplicate(true);legacy.facts.erase("wake_crossing")
  check(not Campaign.recover(legacy,m).facts.has("wake_crossing"),"already committed pre-expansion history does not fabricate newly performed work")
  legacy.history=[]
