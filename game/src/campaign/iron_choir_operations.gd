@@ -1,15 +1,8 @@
 extends RefCounted
 const Patrol=preload("res://src/campaign/divergence_missions.gd")
 const TITLES={22:"Hammerwake",23:"Pressure Stair",24:"Choir Cut",25:"Last Shift",26:"The Cold Hammer",27:"Counterweight Grave",28:"Names in the Bell",29:"Spare Lung"}
-const ROCKS={
- 22:[Rect2(1050,700,450,1100),Rect2(1800,800,450,1000),Rect2(1500,1050,300,400)],
- 23:[Rect2(800,550,400,700),Rect2(1400,1450,450,750),Rect2(1900,550,450,400)],
- 24:[Rect2(1100,700,450,1400),Rect2(1850,700,400,650),Rect2(2250,1100,350,250)],
- 25:[Rect2(1000,800,500,1000),Rect2(1800,650,500,750),Rect2(1900,1850,600,250)],
- 26:[Rect2(900,500,400,1500),Rect2(1650,850,550,400),Rect2(1800,1700,450,450)],
- 27:[Rect2(1000,1000,550,450),Rect2(1700,500,450,1400),Rect2(2300,1350,300,350)],
- 28:[Rect2(1100,600,450,1250),Rect2(1850,1150,550,400),Rect2(1700,650,500,250)],
- 29:[Rect2(900,900,650,500),Rect2(1750,600,450,1200),Rect2(2250,1700,400,400)]}
+const L=preload("res://src/campaign/encounters/iron_layouts.gd")
+const T=preload("res://src/campaign/encounters/terrain.gd")
 const ACCOUNTS={
  22:"Foreman Rill / The hammer train is stalled, not abandoned. Release its actual sled by the western service lane or the eastern shipping lane, observe the dock arrival, then bring your account home. The forked interceptors commit to what they last acquired; change your water during their windup.",
  23:"Lock keeper Nera / Three equalizers vent into separate pressure locks. Work them in any safe sequence; shutters truly open. A crowned warden charges local pressure from received evidence. Wait out its finite discharge, break its acquisition or use another band. Quietus alone can cycle every lock.",
@@ -27,14 +20,14 @@ static func body(pos:Vector2,kind:String)->Dictionary:
 static func build(c:Dictionary,history:Dictionary={})->Dictionary:
  if not supports_config(c):return {}
  var id=c.source_id;var start=Vector2(300,2350)
- var m={"id":id,"title":TITLES[id],"depth":4600,"darkness":false,"region_revision":1,"world_size":Vector2(3000,2720),"start":start,"extraction":start,"rocks":ROCKS[id].duplicate(true),"structures":[],"sirens":[],"acoustic_revision":1,"expedition_revision":2,"signal_sources":[],"signal_observations":[],"expedition_facts":{},"next_signal_time":0.,"chosen_route":"","recovered":false,"withdrawal_armed":false,"required_site_ids":[],"launch_context":history.duplicate(true),"endurance":{"oxygen_seconds":1000.,"drone_seconds":720.},"record":ACCOUNTS[id],"objectives":[],"corridors":[{"pos":start,"name":"CHOIR SOUTH RECOVERY","route":"deep"}]}
- m.depth_geometry={0:{"rocks":ROCKS[id].slice(1)},2:{"rocks":ROCKS[id].slice(0,2)}}
+ var m={"id":id,"title":TITLES[id],"depth":4600,"darkness":false,"region_revision":1,"world_size":Vector2(3000,2720),"start":start,"extraction":start,"rocks":[],"structures":[],"sirens":[],"acoustic_revision":1,"expedition_revision":2,"signal_sources":[],"signal_observations":[],"expedition_facts":{},"next_signal_time":0.,"chosen_route":"","recovered":false,"withdrawal_armed":false,"required_site_ids":[],"launch_context":history.duplicate(true),"endurance":{"oxygen_seconds":1000.,"drone_seconds":720.},"record":ACCOUNTS[id],"objectives":[],"corridors":[{"pos":start,"name":"CHOIR SOUTH RECOVERY","route":"deep"}]}
+ T.apply(m,L.entries(id))
  var state={"sites":[],"jobs":[{},{},{}],"load":{},"seen":{},"choice":"","arrived":false,"receipt":false,"artifact":{},"retrieved":false,"route_choice":"","people_landed":false}
  match id:
   22:
    state.load=body(Vector2(750,2100),"freight sled");state.sites=[site("release",Vector2(750,2050))]
   23:
-   state.sites=[site("lock_a",Vector2(650,1900),1,Rect2(500,1750,300,70)),site("lock_b",Vector2(1250,1350),1,Rect2(1180,1160,500,70)),site("lock_c",Vector2(2400,650),1,Rect2(2250,450,400,70))]
+   state.sites=[site("lock_a",Vector2(650,1900),1,Rect2(500,1750,300,70)),site("lock_b",Vector2(1250,1350),0,Rect2(1180,1160,500,70)),site("lock_c",Vector2(2400,650),2,Rect2(2250,450,400,70))]
   24:
    state.load=body(Vector2(750,2100),"ballast");state.sites=[site("bypass",Vector2(2450,500)),site("isolate",Vector2(2500,1850))]
   25:
@@ -48,21 +41,15 @@ static func build(c:Dictionary,history:Dictionary={})->Dictionary:
    state.artifact={"id":"traction_core","pos":Vector2(1250,650),"band":1,"state":"sealed","carrier":-1}
   28:
    state.load=body(Vector2(750,2100),"occupied maintenance bell");state.sites=[site("land",Vector2(700,500))]
-  29:state.sites=[site("reconnect",Vector2(2450,500)),site("dismantle",Vector2(2450,500))]
+  29:state.sites=[site("reconnect",Vector2(2450,500)),site("dismantle",Vector2(700,1250))]
  for work in state.sites:
   if work.shape.has_area() and not work.done:m.structures.append(work.shape)
- if id==24:m.structures.append_array([Rect2(1550,1400,100,600),Rect2(1700,1400,150,600)])
- if id==25:m.structures.append_array([Rect2(1500,1400,100,350),Rect2(1650,1400,150,350)])
+ m.structures.append_array(L.structures(id))
  m.iron_choir=state
  if id==25:
   if history.get("facts",{}).get("choir_plant","")=="reconnect":
    m.currents=[{"center":Vector2(650,1300),"radius":650.,"velocity":Vector2(0,-12)}];m.thermal_revision=1;m.thermal_fronts=[{"area":Rect2(400,600,450,1450),"transmission":.55,"close_range":90.}]
   m.record+=" Recovered workers staff the service berth." if history.get("facts",{}).get("choir_people","")=="landed" else " No recovered crew landing is assumed; local manual service is available."
- Patrol._patrol(m,Vector2(1600,2200),[Vector2(1600,2200),Vector2(1650,2300)]);m.sirens[-1].type="interceptor";m.sirens[-1].band=1
- Patrol._patrol(m,Vector2(2450,1500) if id==24 else Vector2(2450,1200),[]);m.sirens[-1].type="warden";m.sirens[-1].band=2 if id in [23,26] else 1
- if id in [24,25]:
-  Patrol._patrol(m,Vector2(1650,550),[]);m.sirens[-1].type="relay"
-  if id==25 and history.get("facts",{}).get("choir_choice","")=="isolate":m.sirens.pop_back()
- if id==25 and history.get("facts",{}).get("choir_plant","")=="dismantle":m.sirens.remove_at(1)
+ L.roster(m,id,history)
  m.brief=ACCOUNTS[id]+"\nCraft → CHOIR WORK, or tap acquired machinery/load. All work is local and interruptible; peer selection does not move equipment or cargo. Manual Quietus towing uses wide water; a fitted drone yoke buys a narrower slower noisy load route. Release a tow before changing depth. No receiver exposure substitutes for physical work. The south recovery mouth stays available after the job."
  return m
