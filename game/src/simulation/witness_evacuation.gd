@@ -39,7 +39,7 @@ static func status(sim)->Dictionary:
  else:
   var shared=_shared_work(sim)
   if not shared.is_empty():jobs[shared.unit]=shared
- var text={"at_berth":"Living witness awaits local WINCH · bring the occupied capsule to southeast harbour","carried":"Living witness aboard transport · explicitly LAND at southeast harbour","salvage":"Occupied pressure pod ejected at own lost-craft position · recover locally","landed":"Living witness landed · local station account and Quietus recovery required"}[state.state] if located else "Locate the witness berth by local observation or Survey"
+ var text={"at_berth":"Living witness awaits local WINCH · bring the occupied capsule to southeast lift point","carried":"Living witness aboard transport · explicitly LAND at southeast lift point","salvage":"Occupied pressure pod ejected at own lost-craft position · recover locally","landed":"Living witness landed · local station account and Quietus recovery required"}[state.state] if located else "Locate the witness berth by local observation or Survey"
  return {"known":located,"capsule":capsule,"cargo":cargo,"jobs":jobs,"landed":state.state=="landed","harbour":{"id":"witness_harbour","name":"CONCEALED RECOVERY BASIN","pos":HARBOUR,"range":RANGE},"text":text}
 static func sites(sim,modules:Array)->Array:
  if not available(sim):return modules
@@ -72,12 +72,12 @@ static func context(sim,unit:int,item:String=ITEM)->Dictionary:
  var land={"ready":false,"reason":"This craft does not carry the witness","distance":body.pos.distance_to(HARBOUR),"range":RANGE}
  if not sim.outcome.is_empty():land.reason="Dive ended"
  elif body.alive and state.state=="carried" and state.carrier==unit:
-  if body.band!=1 or not body.transition.is_empty():land.reason="Ascend to MIDDLE and settle for harbour landing"
-  elif land.distance>RANGE:land.reason="Bring the occupied capsule within 60m of southeast harbour"
-  elif not sim.Depth.clear(sim,body.pos,HARBOUR,body.band):land.reason="Terrain blocks harbour landing"
+  if body.band!=1 or not body.transition.is_empty():land.reason="Ascend to MIDDLE and settle for lift-point landing"
+  elif land.distance>RANGE:land.reason="Bring the occupied capsule within 60m of southeast lift point"
+  elif not sim.Depth.clear(sim,body.pos,HARBOUR,body.band):land.reason="Terrain blocks lift-point landing"
   elif body.vel.length()>=2:land.reason="Settle below 2m/s to land the witness"
   elif not sim.captures[unit].is_empty() or not sim.module_recovery_status().jobs[unit].is_empty() or sim._blackwater_recovery_busy(unit) or busy(sim,unit):land.reason="Finish this craft's active work first"
-  else:land.ready=true;land.reason="LAND living witness · local harbour"
+  else:land.ready=true;land.reason="LAND living witness · lift point"
  return {"unit":unit,"winch":winch,"land":land}
 static func begin(sim,item:String)->bool:
  var c=context(sim,sim.selected,item).get("winch",{})
@@ -89,7 +89,7 @@ static func land(sim)->bool:
  var c=context(sim,sim.selected).get("land",{})
  if not c.get("ready",false):sim.message=c.get("reason","Witness unavailable");return false
  var state=sim.mission.witness_evacuation;state.landed_by=sim.selected;state.carrier=-1;state.pos=HARBOUR;state.state="landed"
- sim.mission.record="The living witness was physically landed in the concealed southeast harbour by "+sim.units[sim.selected].name+". The account is preserved without broadcasting the passage."
+ sim.mission.record="The living witness was physically landed in the concealed southeast lift point by "+sim.units[sim.selected].name+". The account is preserved without broadcasting the passage."
  sim.events.append({"type":"witness_landed","pos":HARBOUR});sim.message="Living witness landed safely · "+("return Quietus to recovery" if preload("res://src/simulation/concealed_harbour.gd").complete(sim) else "complete the witness-guided local work and receive its station reply");return true
 static func losses(sim)->void:
  if not applies(sim.mission):return
@@ -105,7 +105,7 @@ static func collect_at(sim,unit:int,pos:Vector2)->void:
   for site in sim.mission.objectives:
    if site.get("site_id","")=="witness_packet":site.captured=true;sim._record_secured(site,unit);break
  state.state="carried";state.carrier=unit;state.job={}
- sim.events.append({"type":"witness_boarded","pos":sim.units[unit].pos});sim.message=sim.units[unit].name+" carries the occupied witness capsule · LAND at southeast harbour"
+ sim.events.append({"type":"witness_boarded","pos":sim.units[unit].pos});sim.message=sim.units[unit].name+" carries the occupied witness capsule · LAND at southeast lift point"
 static func cancel_released(sim,unit:int)->void:
  if busy(sim,unit) and sim.units[unit].hold!="HOLD":sim.mission.witness_evacuation.job={}
 static func tick(sim,dt:float)->void:

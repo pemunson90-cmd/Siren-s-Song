@@ -1,7 +1,7 @@
 extends RefCounted
 const OperationsCatalog=preload("res://src/campaign/operation_catalog.gd")
 # The same packet can be received at its watched berth, on its actual voyage,
-# or at permanent refuge. Presentation gets only measured/locally sensed fixes.
+# or at permanent mooring. Presentation gets only measured/locally sensed fixes.
 const Region=preload("res://src/simulation/world_region.gd")
 const SPEED=24.0
 const CONTROL=Vector2(650,1000)
@@ -58,13 +58,13 @@ static func release_context(sim,station:int)->Dictionary:
  result.merge({"pos":CONTROL,"range":CONTROL_RANGE,"used":state.released_at>=0,"noise_radius":NOISE,"noise_duration":NOISE_TIME})
  var unit=sim.units[station]
  if not sim.outcome.is_empty():result.reason="Dive ended"
- elif result.used:result.reason="Berth released · announced refuge remains available"
+ elif result.used:result.reason="Berth released · announced mooring remains available"
  elif not unit.alive:result.reason="Craft lost"
  elif not sim.captures[station].is_empty():result.reason="Finish this craft's packet reception first"
  elif unit.pos.distance_to(CONTROL)>CONTROL_RANGE:result.reason="Reach berth control within120m"
  elif not sim.line_clear(unit.pos,CONTROL):result.reason="Cover blocks the control link"
  elif unit.vel.length()>=12:result.reason="Settle below12m/s"
- else:result.ready=true;result.reason="RELEASE BERTH · audible950m /6s · tender goes to north refuge"
+ else:result.ready=true;result.reason="RELEASE BERTH · audible950m /6s · tender goes to north mooring"
  return result
 static func release(sim)->bool:
  if not applies(sim.mission):return false
@@ -72,7 +72,7 @@ static func release(sim)->bool:
  if not context.ready:sim.message=context.reason;return false
  sim.mission.rendezvous_transport.released_at=sim.elapsed
  sim._noise(CONTROL,NOISE,"BERTH RELEASE",NOISE_TIME);sim.events.append({"type":"berth_release","pos":CONTROL})
- sim.message="Berth released · tender departs toward northern refuge · machinery audible; route is announced, not a live tracker"
+ sim.message="Berth released · tender departs toward northern mooring · machinery audible; route is announced, not a live tracker"
  return true
 static func feedback(sim,station:int)->Dictionary:
  if not applies(sim.mission):return {}

@@ -1447,14 +1447,14 @@ func _record_secured(record: Dictionary,unit_id:int=-1) -> void:
 		if mission.get("courier_revision",0)==1 and record==mission.objectives[0] and not all_records():message="REQUEST decoded · southern REPLY CARRIER announced · intercept + SAMPLE, or SONAR / quiet eastern relay"
 		Delivery.sampled(self,mission.objectives.find(record),unit_id)
 	if mission.id==5 and record.get("kind","")=="receiver":
-		mission["phase"]="warning"; message="Warning decoded: deep fracture; outbound hulls are leaving. Bring Quietus and this packet home."
+		mission["phase"]="warning"; message="Bearings decoded: every loud site on this coast the night of the strike. Bring Quietus and this packet home."
 	if mission.id==3:
 		message="Furnace record secured. Review observations in FIELD RECORDS."
 		if all_records() and mission.get("phase","")!="response":
 			mission["phase"]="response"; mission["response_time"]=0.0
 			var origin:Vector2=mission.objectives[1].pos
 			_noise(origin,1150,"FACTORY RESPONSE",8.0); events.append({"type":"factory","pos":origin})
-			message="The factory answers the camera. Carrier pulse at the departure cradle · plan your recovery route."
+			message="The Siren base answers the camera. A heavy pulse from its frames · plan your recovery route."
 
 func nearest_navigation_cell(point: Vector2) -> Vector2i:
 	var cells=WorldRegion.grid_size(mission)

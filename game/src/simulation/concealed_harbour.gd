@@ -24,15 +24,15 @@ static func complete(sim)->bool:return not applies(sim.mission) or (sim.mission.
 static func reply_pos(state:Dictionary)->Vector2:return REPLY_DEEP if state.thread=="deep" else REPLY_SHELF
 static func placements(state:Dictionary)->Array:
  if state.thread=="deep":return []
- return [{"id":"service","name":"CLEAR SERVICE MOUTH","pos":Vector2(1900,970),"description":"Park the folded screen on the western service cradle. Both approaches stay open: the northern entrance is short and direct, and carries sound directly into the refuge."},{"id":"baffle","name":"SHELTERED LOWER MOUTH","pos":Vector2(2010,970),"description":"Unfold the screen across the north entrance. Close the short straight approach; the longer lower turn stays open and bends sound around the inner wall. This placement cannot trap Quietus."}]
+ return [{"id":"service","name":"CLEAR SERVICE MOUTH","pos":Vector2(1900,970),"description":"Park the folded screen on the western service cradle. Both approaches stay open: the northern entrance is short and direct, and carries sound directly into the bunker."},{"id":"baffle","name":"SHELTERED LOWER MOUTH","pos":Vector2(2010,970),"description":"Unfold the screen across the north entrance. Close the short straight approach; the longer lower turn stays open and bends sound around the inner wall. This placement cannot trap Quietus."}]
 static func account(sim)->String:
  var state=sim.mission.concealed_harbour;var facts=sim.mission.launch_context.get("facts",{})
  if state.thread=="deep":
-  var text="NAVIGATOR: That float straddles the departure throat. Its submerged pickup feeds berthing traffic into a surface trace: listening hardware, not a departing hull. Take its tow eye, then actually haul it at least90m from the socket: the surface trace breaks and its taut cable clears the departure throat. Merely attaching and releasing does nothing. Cast off in clear water once the cable is clear. The departure station can confirm its own disconnected line and open its local shutter."
-  if facts.has("rendezvous"):text+=" Your berthing tender account names the same correction channel; the float copied that traffic without joining the convoy."
+  var text="KESTREL'S SONAR OPERATOR: That float straddles the trench mouth. Its submerged pickup feeds berthing traffic into a surface trace: listening hardware, nothing more. Take its tow eye, then actually haul it at least90m from the socket: the surface trace breaks and its taut cable clears the mouth. Merely attaching and releasing does nothing. Cast off in clear water once the cable is clear. The crew below can confirm their own disconnected line and open the local shutter."
+  if facts.has("rendezvous"):text+=" Your berthing tender account names the same correction channel; the float copied that traffic without being part of it."
   return text
- var text="HARBOUR KEEPER: The factory made departure hulls, but pressure-bound families need a harbour first. The collapsed screen blocks this refuge mouth. Tow its folded boom to either cradle: preserve the short open service approach, or unfold a sound baffle and admit families through the longer lower turn."
- if facts.has("shelf_warning"):text+=" Your gallery warning bought time to seal nurseries; these lit bays are the next receiving harbour for those households."
+ var text="KESTREL'S SONAR OPERATOR: The blast door is not the only thing in the way. The collapsed screen blocks the bunker mouth. Tow its folded boom to either cradle: preserve the short open service approach, or unfold a sound baffle and take the longer lower turn."
+ if facts.has("shelf_warning"):text+=" Your warning bought the watch crew time to seal the bunker; the lit sections behind this mouth are theirs."
  if facts.get("warning_chain","")=="service_local_receipt":text+=" You verified a local service receipt at the warning plant. That preparation did not clear this physical mouth."
  return text
 static func reveal(sim)->void:
@@ -78,7 +78,7 @@ static func command(sim,action:String)->bool:
   if state.thread=="shelf" and sim.mission.structures.has(SCREEN):
    sim.mission.structures.erase(SCREEN);state.folded=true;sim._build_navigation();sim.opened_terrain(SCREEN)
   state.phase="towing";state.carrier=0;state.trail=[sim.units[0].pos]
-  sim._noise(state.pos,420.0,"TOW COUPLING",2.0);sim.message="Tow attached · HAUL90m to pull the trace from its socket" if state.thread=="deep" else "Screen folded onto tow · refuge mouth physically clear";return true
+  sim._noise(state.pos,420.0,"TOW COUPLING",2.0);sim.message="Tow attached · HAUL90m to pull the trace from its socket" if state.thread=="deep" else "Screen folded onto tow · bunker mouth physically clear";return true
  if action=="release":
   if not c.release:return false
   state.phase="ready";state.carrier=-1;state.trail=[];sim.message="Tow released at its actual water position · reattach locally";return true
@@ -119,11 +119,11 @@ static func tick(sim,dt:float)->void:
  if state.thread=="deep" and state.connected and state.pos.distance_to(DEEP_FLOAT)>=90.0:
   state.connected=false;state.reply_time=sim.elapsed+2.0
   sim.mission.structures.erase(TRACE_BLOCK);sim._build_navigation();sim.opened_terrain(TRACE_BLOCK)
-  sim.message="Trace hauled out of its socket · taut cable clears departure throat · receive the local station reply"
+  sim.message="Trace hauled out of its socket · taut cable clears the mouth · receive the local station reply"
  if state.thread=="deep" and not state.connected and state.reply_time>=0 and sim.elapsed>=state.reply_time and sim.mission.structures.has(DEPARTURE_SHUTTER):
   sim.mission.structures.erase(DEPARTURE_SHUTTER);sim._build_navigation();sim.opened_terrain(DEPARTURE_SHUTTER)
  if state.reply_time>=0 and not state.reply_sent and sim.elapsed>=state.reply_time:
-  state.reply_sent=true;sim._noise(reply_pos(state),1200.0,"DEPARTURE STATION REPLY" if state.thread=="deep" else "REFUGE WATCH REPLY",2.0)
+  state.reply_sent=true;sim._noise(reply_pos(state),1200.0,"SURVIVORS REPLY" if state.thread=="deep" else "BUNKER WATCH REPLY",2.0)
  if state.reply_time>=0 and not state.receipt and sim.elapsed>=state.reply_time:
   for id in sim.units.size():
    if not sim.units[id].alive:continue
@@ -132,7 +132,7 @@ static func tick(sim,dt:float)->void:
    if arrivals.is_empty():continue
    state.receipt=true
    sim.events.append({"type":"return_received","receiver":id,"direction":sim.units[id].pos.direction_to(arrivals[0].goal),"identity":"return","time":sim.elapsed})
-   sim.message="DEPARTURE STATION: Surface trace current is zero. Our local departure shutter is open; the first deep crossing can begin." if state.thread=="deep" else "HARBOUR WATCH: Mouth clear. Families from the pressure shelters are being admitted into the lit refuge bays."
+   sim.message="SURVIVORS: Surface trace current is zero. Our shutter is open; the first deep crossing can begin." if state.thread=="deep" else "BUNKER WATCH: Mouth clear. The watch crew is coming out through the cleared approach."
    break
 static func status(sim)->Dictionary:
  if not applies(sim.mission):return {}

@@ -28,7 +28,7 @@ static func make(index:int)->Dictionary:
   _patrol(m,Vector2(650,800),[Vector2(650,800),Vector2(460,800),Vector2(460,460),Vector2(680,560)])
   m.sirens[1].type="sentinel";m.sirens[1]["tether"]=190.0
   m.brief+=" A Siren sentinel holds the berthing basin and returns to its post after an investigation."
-  m.brief+=" The bell's lift packet is aboard a physical support tender. It stays at the berth unless you explicitly RELEASE BERTH from the locally discovered control. That one audible control transmission, the kind of sound that brought the Sirens down the first time, sends it along the announced western lane to the northern refuge, where it remains available. A drone can operate the control while Quietus stages elsewhere; Quietus can operate it alone. Quiet reception at the original berth also works. Survey locates nearby hulls and machinery; a measured vessel fix grows stale when no receiver can still sense it."
+  m.brief+=" The bell's lift packet is aboard a physical support tender. It stays at the berth unless you explicitly RELEASE BERTH from the locally discovered control. That one audible control transmission, the kind of sound that brought the Sirens down the first time, sends it along the announced western lane to the northern mooring, where it remains available. A drone can operate the control while Quietus stages elsewhere; Quietus can operate it alone. Quiet reception at the original berth also works. Survey locates nearby hulls and machinery; a measured vessel fix grows stale when no receiver can still sense it."
  else:
   preload("res://src/simulation/shelf_habitat.gd").build(m)
   _patrol(m,Vector2(1510,1510),[Vector2(1510,1510),Vector2(2010,1510),Vector2(2080,700),Vector2(1500,700)])

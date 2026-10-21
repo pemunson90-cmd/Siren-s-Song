@@ -412,7 +412,7 @@ func refresh():
   if subject.get("subkind","")=="rendezvous_hull" and tender.vessel.known and not tender.vessel.live:extra.route_here.text="PLOT\nLAST FIX"
  var shelter=Shelf.context(sim)
  if not shelter.is_empty():
-  host.order_buttons.camera.text="SHELTER\nORDERS";host.order_buttons.camera.disabled=false
+  host.order_buttons.camera.text="WATCH\nORDERS";host.order_buttons.camera.disabled=false
   extra.shelf_alarm.disabled=not shelter.alarm.ready
   extra.shelf_warn.disabled=true
   for row in shelter.galleries:
