@@ -1,3 +1,12 @@
+## 21 October 2026 — user pause, story rulings and orchestration handoff
+
+**PAUSED: ORCHESTRATION HANDED TO CLAUDE.** The user's direct pause handoff overrides conflicting autonomous-continuation and worker-orientation instructions below and in other governing documents. Finish or park only the already in-flight Iron Choir work, publish the requested pause checkpoint, then stop. No follow-on task, cycle or worker. See [pause checkpoint](PAUSE_CHECKPOINT_2026-10-21.md).
+
+- **Story ruling:** the Siren-evacuation / human-fleet-threat arc is rejected as unratified AI fabrication and will be stripped. Rescue subjects are **human survivors from both deep-sea drilling/oil-rig operations and military installations**. Sirens strike those sites because drilling and military activity register as potential threats. Quietus must reach the survivors while avoiding becoming a threat itself; noisy rescue work attracts Siren attention. Sirens remain superior aliens who kill perceived threats; tools protect the player but never permanently disable a Siren. **Do not author new narrative text.** Claude orchestrates the rewrite; the user approves characters, site sequence and ending conditions before they land.
+- **No cleanup now:** preserve branches and governing documents apart from these explicitly requested pause additions. Do not start a branch-retirement or documentation-reconciliation pass.
+- **Permanent worker scoping:** each worker receives a tightly bounded task brief and reads only that brief, the short guidance it names, and directly relevant source files. No whole-codebase or full-governance orientation. If context is missing, fix the brief.
+- **After the checkpoint:** Claude is root orchestrator; Codex works only in Claude-assigned review, criticism or nonoverlapping implementation lanes. Production is frozen at the published pause-checkpoint tip, with no direct pushes. Claude creates `claude/integration` from that tip; lanes publish file ownership, branch from it and return by PR. The user approves coherent promotions to production. Keep Godot 4.6.3/Compatibility, physical movement, fair information, finite tools, unlimited pause, green CI before merges, original v7 and existing branches. No automatic APKs.
+
 # Current user directives — read before accepting work
 
 ## Latest priority — substantial playable content
