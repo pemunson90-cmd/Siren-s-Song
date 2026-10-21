@@ -1,0 +1,430 @@
+COMMAND: XDG_DATA_HOME=/workspace/work/iron-boundary-campaign_endings_tests-xdg timeout --kill-after=10s 480s /usr/local/bin/godot --headless --path game --script res://tests/campaign_endings_tests.gd
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+SS_SCREEN operations window=(64, 64) viewport=(1280.0, 1280.0) root=(1280.0, 1280.0) unlocked=0 active_time=0.0
+SS_OBJECTIVE_RECORDED mission=12 objective=1
+SS_DEBRIEF outcome=won mission=12
+SS_SAVE ok mission=12 time=7.33 paused=true completed=[0, 1, 2, 3, 4, 5] unlocked=5
+SS_SAVE ok mission=0 time=0.0 paused=true completed=[] unlocked=0
+SS_SCREEN operations window=(64, 64) viewport=(1280.0, 1280.0) root=(1280.0, 1280.0) unlocked=0 active_time=0.0
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":0,"hud_visible":false,"menu_visible":true,"mission":0,"optical_visible":true,"paused":true,"phase":"layout_only","selected":0},"chart_rect":[0.0,0.0,1280.0,1280.0],"chart_view":{"center":[299.999969482422,660.0],"mode":"follow","zoom":2.66666666666667},"context_page":"water","context_subject_kind":"","controls":[],"density_dpi":96.0,"density_source":"desktop_display_server_dpi","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,64.0,64.0],"schema":1,"screen":"menu","scroll_rect":[268.0,46.0,744.0,1188.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1280.0,1280.0],"window":[64.0,64.0]}
+SS_TARGET resume center=636,11068 viewport=1280,1280
+SS_TARGET mission0 center=636,14616 viewport=1280,1280
+SS_TARGET mission1 center=636,16112 viewport=1280,1280
+SS_TARGET mission2 center=636,17736 viewport=1280,1280
+SS_TARGET mission3 center=636,19360 viewport=1280,1280
+SS_TARGET mission4 center=636,21118 viewport=1280,1280
+SS_TARGET mission5 center=636,22742 viewport=1280,1280
+SS_TARGET new_campaign center=636,23838 viewport=1280,1280
+SS_TARGET loadout center=636,41872 viewport=1280,1280
+SS_TARGET settings center=636,43508 viewport=1280,1280
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":0,"hud_visible":false,"menu_visible":true,"mission":0,"optical_visible":true,"paused":true,"phase":"layout_only","selected":0},"chart_rect":[0.0,0.0,1280.0,1280.0],"chart_view":{"center":[299.999969482422,660.0],"mode":"follow","zoom":2.66666666666667},"context_page":"water","context_subject_kind":"","controls":[],"density_dpi":96.0,"density_source":"desktop_display_server_dpi","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,64.0,64.0],"schema":1,"screen":"menu","scroll_rect":[268.0,46.0,744.0,1188.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1280.0,1280.0],"window":[64.0,64.0]}
+SS_TARGET resume center=636,11068 viewport=1280,1280
+SS_TARGET mission0 center=636,14616 viewport=1280,1280
+SS_TARGET mission1 center=636,16112 viewport=1280,1280
+SS_TARGET mission2 center=636,17736 viewport=1280,1280
+SS_TARGET mission3 center=636,19360 viewport=1280,1280
+SS_TARGET mission4 center=636,21118 viewport=1280,1280
+SS_TARGET mission5 center=636,22742 viewport=1280,1280
+SS_TARGET new_campaign center=636,23838 viewport=1280,1280
+SS_TARGET loadout center=636,41872 viewport=1280,1280
+SS_TARGET settings center=636,43508 viewport=1280,1280
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":0,"hud_visible":false,"menu_visible":true,"mission":0,"optical_visible":true,"paused":true,"phase":"layout_only","selected":0},"chart_rect":[0.0,0.0,1280.0,1280.0],"chart_view":{"center":[299.999969482422,660.0],"mode":"follow","zoom":2.66666666666667},"context_page":"water","context_subject_kind":"","controls":[],"density_dpi":96.0,"density_source":"desktop_display_server_dpi","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,64.0,64.0],"schema":1,"screen":"menu","scroll_rect":[268.0,46.0,744.0,1188.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1280.0,1280.0],"window":[64.0,64.0]}
+SS_TARGET resume center=636,11068 viewport=1280,1280
+SS_TARGET mission0 center=636,14616 viewport=1280,1280
+SS_TARGET mission1 center=636,16112 viewport=1280,1280
+SS_TARGET mission2 center=636,17736 viewport=1280,1280
+SS_TARGET mission3 center=636,19360 viewport=1280,1280
+SS_TARGET mission4 center=636,21118 viewport=1280,1280
+SS_TARGET mission5 center=636,22742 viewport=1280,1280
+SS_TARGET new_campaign center=636,23838 viewport=1280,1280
+SS_TARGET loadout center=636,41872 viewport=1280,1280
+SS_TARGET settings center=636,43508 viewport=1280,1280
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":0,"hud_visible":false,"menu_visible":true,"mission":0,"optical_visible":true,"paused":true,"phase":"layout_only","selected":0},"chart_rect":[0.0,0.0,1280.0,1280.0],"chart_view":{"center":[299.999969482422,660.0],"mode":"follow","zoom":2.66666666666667},"context_page":"water","context_subject_kind":"","controls":[],"density_dpi":96.0,"density_source":"desktop_display_server_dpi","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,64.0,64.0],"schema":1,"screen":"menu","scroll_rect":[268.0,46.0,744.0,1188.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1280.0,1280.0],"window":[64.0,64.0]}
+SS_TARGET resume center=636,11068 viewport=1280,1280
+SS_TARGET mission0 center=636,14616 viewport=1280,1280
+SS_TARGET mission1 center=636,16112 viewport=1280,1280
+SS_TARGET mission2 center=636,17736 viewport=1280,1280
+SS_TARGET mission3 center=636,19360 viewport=1280,1280
+SS_TARGET mission4 center=636,21118 viewport=1280,1280
+SS_TARGET mission5 center=636,22742 viewport=1280,1280
+SS_TARGET new_campaign center=636,23838 viewport=1280,1280
+SS_TARGET loadout center=636,41872 viewport=1280,1280
+SS_TARGET settings center=636,43508 viewport=1280,1280
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":0,"hud_visible":false,"menu_visible":true,"mission":0,"optical_visible":true,"paused":true,"phase":"layout_only","selected":0},"chart_rect":[0.0,0.0,1280.0,1280.0],"chart_view":{"center":[299.999969482422,660.0],"mode":"follow","zoom":2.66666666666667},"context_page":"water","context_subject_kind":"","controls":[],"density_dpi":96.0,"density_source":"desktop_display_server_dpi","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,64.0,64.0],"schema":1,"screen":"menu","scroll_rect":[268.0,46.0,744.0,1188.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1280.0,1280.0],"window":[64.0,64.0]}
+SS_TARGET resume center=636,11068 viewport=1280,1280
+SS_TARGET mission0 center=636,14616 viewport=1280,1280
+SS_TARGET mission1 center=636,16112 viewport=1280,1280
+SS_TARGET mission2 center=636,17736 viewport=1280,1280
+SS_TARGET mission3 center=636,19360 viewport=1280,1280
+SS_TARGET mission4 center=636,21118 viewport=1280,1280
+SS_TARGET mission5 center=636,22742 viewport=1280,1280
+SS_TARGET new_campaign center=636,23838 viewport=1280,1280
+SS_TARGET loadout center=636,41872 viewport=1280,1280
+SS_TARGET settings center=636,43508 viewport=1280,1280
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":0,"hud_visible":false,"menu_visible":true,"mission":0,"optical_visible":true,"paused":true,"phase":"layout_only","selected":0},"chart_rect":[0.0,0.0,1280.0,1280.0],"chart_view":{"center":[299.999969482422,660.0],"mode":"follow","zoom":2.66666666666667},"context_page":"water","context_subject_kind":"","controls":[],"density_dpi":96.0,"density_source":"desktop_display_server_dpi","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,64.0,64.0],"schema":1,"screen":"menu","scroll_rect":[268.0,46.0,744.0,1188.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1280.0,1280.0],"window":[64.0,64.0]}
+SS_TARGET resume center=636,11068 viewport=1280,1280
+SS_TARGET mission0 center=636,14616 viewport=1280,1280
+SS_TARGET mission1 center=636,16112 viewport=1280,1280
+SS_TARGET mission2 center=636,17736 viewport=1280,1280
+SS_TARGET mission3 center=636,19360 viewport=1280,1280
+SS_TARGET mission4 center=636,21118 viewport=1280,1280
+SS_TARGET mission5 center=636,22742 viewport=1280,1280
+SS_TARGET new_campaign center=636,23838 viewport=1280,1280
+SS_TARGET loadout center=636,41872 viewport=1280,1280
+SS_TARGET settings center=636,43508 viewport=1280,1280
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":0,"hud_visible":false,"menu_visible":true,"mission":0,"optical_visible":true,"paused":true,"phase":"layout_only","selected":0},"chart_rect":[0.0,0.0,1280.0,1280.0],"chart_view":{"center":[299.999969482422,660.0],"mode":"follow","zoom":2.66666666666667},"context_page":"water","context_subject_kind":"","controls":[],"density_dpi":96.0,"density_source":"desktop_display_server_dpi","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,64.0,64.0],"schema":1,"screen":"menu","scroll_rect":[268.0,46.0,744.0,1188.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1280.0,1280.0],"window":[64.0,64.0]}
+SS_TARGET resume center=636,11068 viewport=1280,1280
+SS_TARGET mission0 center=636,14616 viewport=1280,1280
+SS_TARGET mission1 center=636,16112 viewport=1280,1280
+SS_TARGET mission2 center=636,17736 viewport=1280,1280
+SS_TARGET mission3 center=636,19360 viewport=1280,1280
+SS_TARGET mission4 center=636,21118 viewport=1280,1280
+SS_TARGET mission5 center=636,22742 viewport=1280,1280
+SS_TARGET new_campaign center=636,23838 viewport=1280,1280
+SS_TARGET loadout center=636,41872 viewport=1280,1280
+SS_TARGET settings center=636,43508 viewport=1280,1280
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":0,"hud_visible":false,"menu_visible":true,"mission":0,"optical_visible":true,"paused":true,"phase":"layout_only","selected":0},"chart_rect":[0.0,0.0,1280.0,1280.0],"chart_view":{"center":[299.999969482422,660.0],"mode":"follow","zoom":2.66666666666667},"context_page":"water","context_subject_kind":"","controls":[],"density_dpi":96.0,"density_source":"desktop_display_server_dpi","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,64.0,64.0],"schema":1,"screen":"menu","scroll_rect":[268.0,46.0,744.0,1188.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1280.0,1280.0],"window":[64.0,64.0]}
+SS_TARGET resume center=636,11068 viewport=1280,1280
+SS_TARGET mission0 center=636,14616 viewport=1280,1280
+SS_TARGET mission1 center=636,16112 viewport=1280,1280
+SS_TARGET mission2 center=636,17736 viewport=1280,1280
+SS_TARGET mission3 center=636,19360 viewport=1280,1280
+SS_TARGET mission4 center=636,21118 viewport=1280,1280
+SS_TARGET mission5 center=636,22742 viewport=1280,1280
+SS_TARGET new_campaign center=636,23838 viewport=1280,1280
+SS_TARGET loadout center=636,41872 viewport=1280,1280
+SS_TARGET settings center=636,43508 viewport=1280,1280
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":0,"hud_visible":false,"menu_visible":true,"mission":0,"optical_visible":true,"paused":true,"phase":"layout_only","selected":0},"chart_rect":[0.0,0.0,1280.0,1280.0],"chart_view":{"center":[299.999969482422,660.0],"mode":"follow","zoom":2.66666666666667},"context_page":"water","context_subject_kind":"","controls":[],"density_dpi":96.0,"density_source":"desktop_display_server_dpi","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,64.0,64.0],"schema":1,"screen":"menu","scroll_rect":[268.0,46.0,744.0,1188.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1280.0,1280.0],"window":[64.0,64.0]}
+SS_TARGET resume center=636,11068 viewport=1280,1280
+SS_TARGET mission0 center=636,14616 viewport=1280,1280
+SS_TARGET mission1 center=636,16112 viewport=1280,1280
+SS_TARGET mission2 center=636,17736 viewport=1280,1280
+SS_TARGET mission3 center=636,19360 viewport=1280,1280
+SS_TARGET mission4 center=636,21118 viewport=1280,1280
+SS_TARGET mission5 center=636,22742 viewport=1280,1280
+SS_TARGET new_campaign center=636,23838 viewport=1280,1280
+SS_TARGET loadout center=636,41872 viewport=1280,1280
+SS_TARGET settings center=636,43508 viewport=1280,1280
+SS_SCREEN operations window=(64, 64) viewport=(1280.0, 1280.0) root=(1280.0, 1280.0) unlocked=0 active_time=0.0
+SS_OBJECTIVE_RECORDED mission=13 objective=0
+SS_OBJECTIVE_RECORDED mission=13 objective=1
+SS_DEBRIEF outcome=won mission=13
+SS_SAVE ok mission=13 time=42.68 paused=true completed=[0, 1, 2, 3, 4, 5] unlocked=5
+SS_SAVE ok mission=0 time=0.0 paused=true completed=[] unlocked=0
+SS_SCREEN operations window=(64, 64) viewport=(1280.0, 1280.0) root=(1280.0, 1280.0) unlocked=0 active_time=0.0
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":0,"hud_visible":false,"menu_visible":true,"mission":0,"optical_visible":false,"paused":true,"phase":"layout_only","selected":0},"chart_rect":[0.0,0.0,1280.0,1280.0],"chart_view":{"center":[299.999969482422,660.0],"mode":"follow","zoom":2.66666666666667},"context_page":"water","context_subject_kind":"","controls":[],"density_dpi":96.0,"density_source":"desktop_display_server_dpi","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,64.0,64.0],"schema":1,"screen":"menu","scroll_rect":[268.0,46.0,744.0,1188.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1280.0,1280.0],"window":[64.0,64.0]}
+SS_TARGET resume center=636,11068 viewport=1280,1280
+SS_TARGET mission0 center=636,14616 viewport=1280,1280
+SS_TARGET mission1 center=636,16112 viewport=1280,1280
+SS_TARGET mission2 center=636,17736 viewport=1280,1280
+SS_TARGET mission3 center=636,19360 viewport=1280,1280
+SS_TARGET mission4 center=636,21118 viewport=1280,1280
+SS_TARGET mission5 center=636,22742 viewport=1280,1280
+SS_TARGET new_campaign center=636,23838 viewport=1280,1280
+SS_TARGET loadout center=636,41872 viewport=1280,1280
+SS_TARGET settings center=636,43508 viewport=1280,1280
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":0,"hud_visible":false,"menu_visible":true,"mission":0,"optical_visible":false,"paused":true,"phase":"layout_only","selected":0},"chart_rect":[0.0,0.0,1280.0,1280.0],"chart_view":{"center":[299.999969482422,660.0],"mode":"follow","zoom":2.66666666666667},"context_page":"water","context_subject_kind":"","controls":[],"density_dpi":96.0,"density_source":"desktop_display_server_dpi","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,64.0,64.0],"schema":1,"screen":"menu","scroll_rect":[268.0,46.0,744.0,1188.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1280.0,1280.0],"window":[64.0,64.0]}
+SS_TARGET resume center=636,11068 viewport=1280,1280
+SS_TARGET mission0 center=636,14616 viewport=1280,1280
+SS_TARGET mission1 center=636,16112 viewport=1280,1280
+SS_TARGET mission2 center=636,17736 viewport=1280,1280
+SS_TARGET mission3 center=636,19360 viewport=1280,1280
+SS_TARGET mission4 center=636,21118 viewport=1280,1280
+SS_TARGET mission5 center=636,22742 viewport=1280,1280
+SS_TARGET new_campaign center=636,23838 viewport=1280,1280
+SS_TARGET loadout center=636,41872 viewport=1280,1280
+SS_TARGET settings center=636,43508 viewport=1280,1280
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":0,"hud_visible":false,"menu_visible":true,"mission":0,"optical_visible":false,"paused":true,"phase":"layout_only","selected":0},"chart_rect":[0.0,0.0,1280.0,1280.0],"chart_view":{"center":[299.999969482422,660.0],"mode":"follow","zoom":2.66666666666667},"context_page":"water","context_subject_kind":"","controls":[],"density_dpi":96.0,"density_source":"desktop_display_server_dpi","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,64.0,64.0],"schema":1,"screen":"menu","scroll_rect":[268.0,46.0,744.0,1188.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1280.0,1280.0],"window":[64.0,64.0]}
+SS_TARGET resume center=636,11068 viewport=1280,1280
+SS_TARGET mission0 center=636,14616 viewport=1280,1280
+SS_TARGET mission1 center=636,16112 viewport=1280,1280
+SS_TARGET mission2 center=636,17736 viewport=1280,1280
+SS_TARGET mission3 center=636,19360 viewport=1280,1280
+SS_TARGET mission4 center=636,21118 viewport=1280,1280
+SS_TARGET mission5 center=636,22742 viewport=1280,1280
+SS_TARGET new_campaign center=636,23838 viewport=1280,1280
+SS_TARGET loadout center=636,41872 viewport=1280,1280
+SS_TARGET settings center=636,43508 viewport=1280,1280
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":0,"hud_visible":false,"menu_visible":true,"mission":0,"optical_visible":false,"paused":true,"phase":"layout_only","selected":0},"chart_rect":[0.0,0.0,1280.0,1280.0],"chart_view":{"center":[299.999969482422,660.0],"mode":"follow","zoom":2.66666666666667},"context_page":"water","context_subject_kind":"","controls":[],"density_dpi":96.0,"density_source":"desktop_display_server_dpi","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,64.0,64.0],"schema":1,"screen":"menu","scroll_rect":[268.0,46.0,744.0,1188.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1280.0,1280.0],"window":[64.0,64.0]}
+SS_TARGET resume center=636,11068 viewport=1280,1280
+SS_TARGET mission0 center=636,14616 viewport=1280,1280
+SS_TARGET mission1 center=636,16112 viewport=1280,1280
+SS_TARGET mission2 center=636,17736 viewport=1280,1280
+SS_TARGET mission3 center=636,19360 viewport=1280,1280
+SS_TARGET mission4 center=636,21118 viewport=1280,1280
+SS_TARGET mission5 center=636,22742 viewport=1280,1280
+SS_TARGET new_campaign center=636,23838 viewport=1280,1280
+SS_TARGET loadout center=636,41872 viewport=1280,1280
+SS_TARGET settings center=636,43508 viewport=1280,1280
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":0,"hud_visible":false,"menu_visible":true,"mission":0,"optical_visible":false,"paused":true,"phase":"layout_only","selected":0},"chart_rect":[0.0,0.0,1280.0,1280.0],"chart_view":{"center":[299.999969482422,660.0],"mode":"follow","zoom":2.66666666666667},"context_page":"water","context_subject_kind":"","controls":[],"density_dpi":96.0,"density_source":"desktop_display_server_dpi","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,64.0,64.0],"schema":1,"screen":"menu","scroll_rect":[268.0,46.0,744.0,1188.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1280.0,1280.0],"window":[64.0,64.0]}
+SS_TARGET resume center=636,11068 viewport=1280,1280
+SS_TARGET mission0 center=636,14616 viewport=1280,1280
+SS_TARGET mission1 center=636,16112 viewport=1280,1280
+SS_TARGET mission2 center=636,17736 viewport=1280,1280
+SS_TARGET mission3 center=636,19360 viewport=1280,1280
+SS_TARGET mission4 center=636,21118 viewport=1280,1280
+SS_TARGET mission5 center=636,22742 viewport=1280,1280
+SS_TARGET new_campaign center=636,23838 viewport=1280,1280
+SS_TARGET loadout center=636,41872 viewport=1280,1280
+SS_TARGET settings center=636,43508 viewport=1280,1280
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":0,"hud_visible":false,"menu_visible":true,"mission":0,"optical_visible":false,"paused":true,"phase":"layout_only","selected":0},"chart_rect":[0.0,0.0,1280.0,1280.0],"chart_view":{"center":[299.999969482422,660.0],"mode":"follow","zoom":2.66666666666667},"context_page":"water","context_subject_kind":"","controls":[],"density_dpi":96.0,"density_source":"desktop_display_server_dpi","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,64.0,64.0],"schema":1,"screen":"menu","scroll_rect":[268.0,46.0,744.0,1188.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1280.0,1280.0],"window":[64.0,64.0]}
+SS_TARGET resume center=636,11068 viewport=1280,1280
+SS_TARGET mission0 center=636,14616 viewport=1280,1280
+SS_TARGET mission1 center=636,16112 viewport=1280,1280
+SS_TARGET mission2 center=636,17736 viewport=1280,1280
+SS_TARGET mission3 center=636,19360 viewport=1280,1280
+SS_TARGET mission4 center=636,21118 viewport=1280,1280
+SS_TARGET mission5 center=636,22742 viewport=1280,1280
+SS_TARGET new_campaign center=636,23838 viewport=1280,1280
+SS_TARGET loadout center=636,41872 viewport=1280,1280
+SS_TARGET settings center=636,43508 viewport=1280,1280
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":0,"hud_visible":false,"menu_visible":true,"mission":0,"optical_visible":false,"paused":true,"phase":"layout_only","selected":0},"chart_rect":[0.0,0.0,1280.0,1280.0],"chart_view":{"center":[299.999969482422,660.0],"mode":"follow","zoom":2.66666666666667},"context_page":"water","context_subject_kind":"","controls":[],"density_dpi":96.0,"density_source":"desktop_display_server_dpi","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,64.0,64.0],"schema":1,"screen":"menu","scroll_rect":[268.0,46.0,744.0,1188.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1280.0,1280.0],"window":[64.0,64.0]}
+SS_TARGET resume center=636,11068 viewport=1280,1280
+SS_TARGET mission0 center=636,14616 viewport=1280,1280
+SS_TARGET mission1 center=636,16112 viewport=1280,1280
+SS_TARGET mission2 center=636,17736 viewport=1280,1280
+SS_TARGET mission3 center=636,19360 viewport=1280,1280
+SS_TARGET mission4 center=636,21118 viewport=1280,1280
+SS_TARGET mission5 center=636,22742 viewport=1280,1280
+SS_TARGET new_campaign center=636,23838 viewport=1280,1280
+SS_TARGET loadout center=636,41872 viewport=1280,1280
+SS_TARGET settings center=636,43508 viewport=1280,1280
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":0,"hud_visible":false,"menu_visible":true,"mission":0,"optical_visible":false,"paused":true,"phase":"layout_only","selected":0},"chart_rect":[0.0,0.0,1280.0,1280.0],"chart_view":{"center":[299.999969482422,660.0],"mode":"follow","zoom":2.66666666666667},"context_page":"water","context_subject_kind":"","controls":[],"density_dpi":96.0,"density_source":"desktop_display_server_dpi","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,64.0,64.0],"schema":1,"screen":"menu","scroll_rect":[268.0,46.0,744.0,1188.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1280.0,1280.0],"window":[64.0,64.0]}
+SS_TARGET resume center=636,11068 viewport=1280,1280
+SS_TARGET mission0 center=636,14616 viewport=1280,1280
+SS_TARGET mission1 center=636,16112 viewport=1280,1280
+SS_TARGET mission2 center=636,17736 viewport=1280,1280
+SS_TARGET mission3 center=636,19360 viewport=1280,1280
+SS_TARGET mission4 center=636,21118 viewport=1280,1280
+SS_TARGET mission5 center=636,22742 viewport=1280,1280
+SS_TARGET new_campaign center=636,23838 viewport=1280,1280
+SS_TARGET loadout center=636,41872 viewport=1280,1280
+SS_TARGET settings center=636,43508 viewport=1280,1280
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":0,"hud_visible":false,"menu_visible":true,"mission":0,"optical_visible":false,"paused":true,"phase":"layout_only","selected":0},"chart_rect":[0.0,0.0,1280.0,1280.0],"chart_view":{"center":[299.999969482422,660.0],"mode":"follow","zoom":2.66666666666667},"context_page":"water","context_subject_kind":"","controls":[],"density_dpi":96.0,"density_source":"desktop_display_server_dpi","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,64.0,64.0],"schema":1,"screen":"menu","scroll_rect":[268.0,46.0,744.0,1188.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1280.0,1280.0],"window":[64.0,64.0]}
+SS_TARGET resume center=636,11068 viewport=1280,1280
+SS_TARGET mission0 center=636,14616 viewport=1280,1280
+SS_TARGET mission1 center=636,16112 viewport=1280,1280
+SS_TARGET mission2 center=636,17736 viewport=1280,1280
+SS_TARGET mission3 center=636,19360 viewport=1280,1280
+SS_TARGET mission4 center=636,21118 viewport=1280,1280
+SS_TARGET mission5 center=636,22742 viewport=1280,1280
+SS_TARGET new_campaign center=636,23838 viewport=1280,1280
+SS_TARGET loadout center=636,41872 viewport=1280,1280
+SS_TARGET settings center=636,43508 viewport=1280,1280
+SS_SCREEN operations window=(64, 64) viewport=(1280.0, 1280.0) root=(1280.0, 1280.0) unlocked=0 active_time=0.0
+SS_OBJECTIVE_RECORDED mission=12 objective=1
+SS_DEBRIEF outcome=won mission=12
+SS_SAVE ok mission=12 time=7.33 paused=true completed=[0, 1, 2, 3, 4, 5] unlocked=5
+SS_SAVE ok mission=0 time=0.0 paused=true completed=[] unlocked=0
+SS_SCREEN operations window=(64, 64) viewport=(1280.0, 1280.0) root=(1280.0, 1280.0) unlocked=0 active_time=0.0
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":0,"hud_visible":false,"menu_visible":true,"mission":0,"optical_visible":false,"paused":true,"phase":"layout_only","selected":0},"chart_rect":[0.0,0.0,1280.0,1280.0],"chart_view":{"center":[299.999969482422,660.0],"mode":"follow","zoom":2.66666666666667},"context_page":"water","context_subject_kind":"","controls":[],"density_dpi":96.0,"density_source":"desktop_display_server_dpi","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,64.0,64.0],"schema":1,"screen":"menu","scroll_rect":[268.0,46.0,744.0,1188.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1280.0,1280.0],"window":[64.0,64.0]}
+SS_TARGET resume center=636,11068 viewport=1280,1280
+SS_TARGET mission0 center=636,14616 viewport=1280,1280
+SS_TARGET mission1 center=636,16112 viewport=1280,1280
+SS_TARGET mission2 center=636,17736 viewport=1280,1280
+SS_TARGET mission3 center=636,19360 viewport=1280,1280
+SS_TARGET mission4 center=636,21118 viewport=1280,1280
+SS_TARGET mission5 center=636,22742 viewport=1280,1280
+SS_TARGET new_campaign center=636,23838 viewport=1280,1280
+SS_TARGET loadout center=636,41872 viewport=1280,1280
+SS_TARGET settings center=636,43508 viewport=1280,1280
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":0,"hud_visible":false,"menu_visible":true,"mission":0,"optical_visible":false,"paused":true,"phase":"layout_only","selected":0},"chart_rect":[0.0,0.0,1280.0,1280.0],"chart_view":{"center":[299.999969482422,660.0],"mode":"follow","zoom":2.66666666666667},"context_page":"water","context_subject_kind":"","controls":[],"density_dpi":96.0,"density_source":"desktop_display_server_dpi","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,64.0,64.0],"schema":1,"screen":"menu","scroll_rect":[268.0,46.0,744.0,1188.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1280.0,1280.0],"window":[64.0,64.0]}
+SS_TARGET resume center=636,11068 viewport=1280,1280
+SS_TARGET mission0 center=636,14616 viewport=1280,1280
+SS_TARGET mission1 center=636,16112 viewport=1280,1280
+SS_TARGET mission2 center=636,17736 viewport=1280,1280
+SS_TARGET mission3 center=636,19360 viewport=1280,1280
+SS_TARGET mission4 center=636,21118 viewport=1280,1280
+SS_TARGET mission5 center=636,22742 viewport=1280,1280
+SS_TARGET new_campaign center=636,23838 viewport=1280,1280
+SS_TARGET loadout center=636,41872 viewport=1280,1280
+SS_TARGET settings center=636,43508 viewport=1280,1280
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":0,"hud_visible":false,"menu_visible":true,"mission":0,"optical_visible":false,"paused":true,"phase":"layout_only","selected":0},"chart_rect":[0.0,0.0,1280.0,1280.0],"chart_view":{"center":[299.999969482422,660.0],"mode":"follow","zoom":2.66666666666667},"context_page":"water","context_subject_kind":"","controls":[],"density_dpi":96.0,"density_source":"desktop_display_server_dpi","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,64.0,64.0],"schema":1,"screen":"menu","scroll_rect":[268.0,46.0,744.0,1188.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1280.0,1280.0],"window":[64.0,64.0]}
+SS_TARGET resume center=636,11068 viewport=1280,1280
+SS_TARGET mission0 center=636,14616 viewport=1280,1280
+SS_TARGET mission1 center=636,16112 viewport=1280,1280
+SS_TARGET mission2 center=636,17736 viewport=1280,1280
+SS_TARGET mission3 center=636,19360 viewport=1280,1280
+SS_TARGET mission4 center=636,21118 viewport=1280,1280
+SS_TARGET mission5 center=636,22742 viewport=1280,1280
+SS_TARGET new_campaign center=636,23838 viewport=1280,1280
+SS_TARGET loadout center=636,41872 viewport=1280,1280
+SS_TARGET settings center=636,43508 viewport=1280,1280
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":0,"hud_visible":false,"menu_visible":true,"mission":0,"optical_visible":false,"paused":true,"phase":"layout_only","selected":0},"chart_rect":[0.0,0.0,1280.0,1280.0],"chart_view":{"center":[299.999969482422,660.0],"mode":"follow","zoom":2.66666666666667},"context_page":"water","context_subject_kind":"","controls":[],"density_dpi":96.0,"density_source":"desktop_display_server_dpi","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,64.0,64.0],"schema":1,"screen":"menu","scroll_rect":[268.0,46.0,744.0,1188.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1280.0,1280.0],"window":[64.0,64.0]}
+SS_TARGET resume center=636,11068 viewport=1280,1280
+SS_TARGET mission0 center=636,14616 viewport=1280,1280
+SS_TARGET mission1 center=636,16112 viewport=1280,1280
+SS_TARGET mission2 center=636,17736 viewport=1280,1280
+SS_TARGET mission3 center=636,19360 viewport=1280,1280
+SS_TARGET mission4 center=636,21118 viewport=1280,1280
+SS_TARGET mission5 center=636,22742 viewport=1280,1280
+SS_TARGET new_campaign center=636,23838 viewport=1280,1280
+SS_TARGET loadout center=636,41872 viewport=1280,1280
+SS_TARGET settings center=636,43508 viewport=1280,1280
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":0,"hud_visible":false,"menu_visible":true,"mission":0,"optical_visible":false,"paused":true,"phase":"layout_only","selected":0},"chart_rect":[0.0,0.0,1280.0,1280.0],"chart_view":{"center":[299.999969482422,660.0],"mode":"follow","zoom":2.66666666666667},"context_page":"water","context_subject_kind":"","controls":[],"density_dpi":96.0,"density_source":"desktop_display_server_dpi","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,64.0,64.0],"schema":1,"screen":"menu","scroll_rect":[268.0,46.0,744.0,1188.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1280.0,1280.0],"window":[64.0,64.0]}
+SS_TARGET resume center=636,11068 viewport=1280,1280
+SS_TARGET mission0 center=636,14616 viewport=1280,1280
+SS_TARGET mission1 center=636,16112 viewport=1280,1280
+SS_TARGET mission2 center=636,17736 viewport=1280,1280
+SS_TARGET mission3 center=636,19360 viewport=1280,1280
+SS_TARGET mission4 center=636,21118 viewport=1280,1280
+SS_TARGET mission5 center=636,22742 viewport=1280,1280
+SS_TARGET new_campaign center=636,23838 viewport=1280,1280
+SS_TARGET loadout center=636,41872 viewport=1280,1280
+SS_TARGET settings center=636,43508 viewport=1280,1280
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":0,"hud_visible":false,"menu_visible":true,"mission":0,"optical_visible":false,"paused":true,"phase":"layout_only","selected":0},"chart_rect":[0.0,0.0,1280.0,1280.0],"chart_view":{"center":[299.999969482422,660.0],"mode":"follow","zoom":2.66666666666667},"context_page":"water","context_subject_kind":"","controls":[],"density_dpi":96.0,"density_source":"desktop_display_server_dpi","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,64.0,64.0],"schema":1,"screen":"menu","scroll_rect":[268.0,46.0,744.0,1188.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1280.0,1280.0],"window":[64.0,64.0]}
+SS_TARGET resume center=636,11068 viewport=1280,1280
+SS_TARGET mission0 center=636,14616 viewport=1280,1280
+SS_TARGET mission1 center=636,16112 viewport=1280,1280
+SS_TARGET mission2 center=636,17736 viewport=1280,1280
+SS_TARGET mission3 center=636,19360 viewport=1280,1280
+SS_TARGET mission4 center=636,21118 viewport=1280,1280
+SS_TARGET mission5 center=636,22742 viewport=1280,1280
+SS_TARGET new_campaign center=636,23838 viewport=1280,1280
+SS_TARGET loadout center=636,41872 viewport=1280,1280
+SS_TARGET settings center=636,43508 viewport=1280,1280
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":0,"hud_visible":false,"menu_visible":true,"mission":0,"optical_visible":false,"paused":true,"phase":"layout_only","selected":0},"chart_rect":[0.0,0.0,1280.0,1280.0],"chart_view":{"center":[299.999969482422,660.0],"mode":"follow","zoom":2.66666666666667},"context_page":"water","context_subject_kind":"","controls":[],"density_dpi":96.0,"density_source":"desktop_display_server_dpi","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,64.0,64.0],"schema":1,"screen":"menu","scroll_rect":[268.0,46.0,744.0,1188.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1280.0,1280.0],"window":[64.0,64.0]}
+SS_TARGET resume center=636,11068 viewport=1280,1280
+SS_TARGET mission0 center=636,14616 viewport=1280,1280
+SS_TARGET mission1 center=636,16112 viewport=1280,1280
+SS_TARGET mission2 center=636,17736 viewport=1280,1280
+SS_TARGET mission3 center=636,19360 viewport=1280,1280
+SS_TARGET mission4 center=636,21118 viewport=1280,1280
+SS_TARGET mission5 center=636,22742 viewport=1280,1280
+SS_TARGET new_campaign center=636,23838 viewport=1280,1280
+SS_TARGET loadout center=636,41872 viewport=1280,1280
+SS_TARGET settings center=636,43508 viewport=1280,1280
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":0,"hud_visible":false,"menu_visible":true,"mission":0,"optical_visible":false,"paused":true,"phase":"layout_only","selected":0},"chart_rect":[0.0,0.0,1280.0,1280.0],"chart_view":{"center":[299.999969482422,660.0],"mode":"follow","zoom":2.66666666666667},"context_page":"water","context_subject_kind":"","controls":[],"density_dpi":96.0,"density_source":"desktop_display_server_dpi","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,64.0,64.0],"schema":1,"screen":"menu","scroll_rect":[268.0,46.0,744.0,1188.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1280.0,1280.0],"window":[64.0,64.0]}
+SS_TARGET resume center=636,11068 viewport=1280,1280
+SS_TARGET mission0 center=636,14616 viewport=1280,1280
+SS_TARGET mission1 center=636,16112 viewport=1280,1280
+SS_TARGET mission2 center=636,17736 viewport=1280,1280
+SS_TARGET mission3 center=636,19360 viewport=1280,1280
+SS_TARGET mission4 center=636,21118 viewport=1280,1280
+SS_TARGET mission5 center=636,22742 viewport=1280,1280
+SS_TARGET new_campaign center=636,23838 viewport=1280,1280
+SS_TARGET loadout center=636,41872 viewport=1280,1280
+SS_TARGET settings center=636,43508 viewport=1280,1280
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":0,"hud_visible":false,"menu_visible":true,"mission":0,"optical_visible":false,"paused":true,"phase":"layout_only","selected":0},"chart_rect":[0.0,0.0,1280.0,1280.0],"chart_view":{"center":[299.999969482422,660.0],"mode":"follow","zoom":2.66666666666667},"context_page":"water","context_subject_kind":"","controls":[],"density_dpi":96.0,"density_source":"desktop_display_server_dpi","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,64.0,64.0],"schema":1,"screen":"menu","scroll_rect":[268.0,46.0,744.0,1188.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1280.0,1280.0],"window":[64.0,64.0]}
+SS_TARGET resume center=636,11068 viewport=1280,1280
+SS_TARGET mission0 center=636,14616 viewport=1280,1280
+SS_TARGET mission1 center=636,16112 viewport=1280,1280
+SS_TARGET mission2 center=636,17736 viewport=1280,1280
+SS_TARGET mission3 center=636,19360 viewport=1280,1280
+SS_TARGET mission4 center=636,21118 viewport=1280,1280
+SS_TARGET mission5 center=636,22742 viewport=1280,1280
+SS_TARGET new_campaign center=636,23838 viewport=1280,1280
+SS_TARGET loadout center=636,41872 viewport=1280,1280
+SS_TARGET settings center=636,43508 viewport=1280,1280
+SS_SCREEN operations window=(64, 64) viewport=(1280.0, 1280.0) root=(1280.0, 1280.0) unlocked=0 active_time=0.0
+SS_OBJECTIVE_RECORDED mission=13 objective=0
+SS_OBJECTIVE_RECORDED mission=13 objective=1
+SS_DEBRIEF outcome=won mission=13
+SS_SAVE ok mission=13 time=42.68 paused=true completed=[0, 1, 2, 3, 4, 5] unlocked=5
+SS_SAVE ok mission=0 time=0.0 paused=true completed=[] unlocked=0
+SS_SCREEN operations window=(64, 64) viewport=(1280.0, 1280.0) root=(1280.0, 1280.0) unlocked=0 active_time=0.0
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":0,"hud_visible":false,"menu_visible":true,"mission":0,"optical_visible":false,"paused":true,"phase":"layout_only","selected":0},"chart_rect":[0.0,0.0,1280.0,1280.0],"chart_view":{"center":[299.999969482422,660.0],"mode":"follow","zoom":2.66666666666667},"context_page":"water","context_subject_kind":"","controls":[],"density_dpi":96.0,"density_source":"desktop_display_server_dpi","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,64.0,64.0],"schema":1,"screen":"menu","scroll_rect":[268.0,46.0,744.0,1188.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1280.0,1280.0],"window":[64.0,64.0]}
+SS_TARGET resume center=636,11068 viewport=1280,1280
+SS_TARGET mission0 center=636,14616 viewport=1280,1280
+SS_TARGET mission1 center=636,16112 viewport=1280,1280
+SS_TARGET mission2 center=636,17736 viewport=1280,1280
+SS_TARGET mission3 center=636,19360 viewport=1280,1280
+SS_TARGET mission4 center=636,21118 viewport=1280,1280
+SS_TARGET mission5 center=636,22742 viewport=1280,1280
+SS_TARGET new_campaign center=636,23838 viewport=1280,1280
+SS_TARGET loadout center=636,41872 viewport=1280,1280
+SS_TARGET settings center=636,43508 viewport=1280,1280
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":0,"hud_visible":false,"menu_visible":true,"mission":0,"optical_visible":false,"paused":true,"phase":"layout_only","selected":0},"chart_rect":[0.0,0.0,1280.0,1280.0],"chart_view":{"center":[299.999969482422,660.0],"mode":"follow","zoom":2.66666666666667},"context_page":"water","context_subject_kind":"","controls":[],"density_dpi":96.0,"density_source":"desktop_display_server_dpi","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,64.0,64.0],"schema":1,"screen":"menu","scroll_rect":[268.0,46.0,744.0,1188.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1280.0,1280.0],"window":[64.0,64.0]}
+SS_TARGET resume center=636,11068 viewport=1280,1280
+SS_TARGET mission0 center=636,14616 viewport=1280,1280
+SS_TARGET mission1 center=636,16112 viewport=1280,1280
+SS_TARGET mission2 center=636,17736 viewport=1280,1280
+SS_TARGET mission3 center=636,19360 viewport=1280,1280
+SS_TARGET mission4 center=636,21118 viewport=1280,1280
+SS_TARGET mission5 center=636,22742 viewport=1280,1280
+SS_TARGET new_campaign center=636,23838 viewport=1280,1280
+SS_TARGET loadout center=636,41872 viewport=1280,1280
+SS_TARGET settings center=636,43508 viewport=1280,1280
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":0,"hud_visible":false,"menu_visible":true,"mission":0,"optical_visible":false,"paused":true,"phase":"layout_only","selected":0},"chart_rect":[0.0,0.0,1280.0,1280.0],"chart_view":{"center":[299.999969482422,660.0],"mode":"follow","zoom":2.66666666666667},"context_page":"water","context_subject_kind":"","controls":[],"density_dpi":96.0,"density_source":"desktop_display_server_dpi","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,64.0,64.0],"schema":1,"screen":"menu","scroll_rect":[268.0,46.0,744.0,1188.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1280.0,1280.0],"window":[64.0,64.0]}
+SS_TARGET resume center=636,11068 viewport=1280,1280
+SS_TARGET mission0 center=636,14616 viewport=1280,1280
+SS_TARGET mission1 center=636,16112 viewport=1280,1280
+SS_TARGET mission2 center=636,17736 viewport=1280,1280
+SS_TARGET mission3 center=636,19360 viewport=1280,1280
+SS_TARGET mission4 center=636,21118 viewport=1280,1280
+SS_TARGET mission5 center=636,22742 viewport=1280,1280
+SS_TARGET new_campaign center=636,23838 viewport=1280,1280
+SS_TARGET loadout center=636,41872 viewport=1280,1280
+SS_TARGET settings center=636,43508 viewport=1280,1280
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":0,"hud_visible":false,"menu_visible":true,"mission":0,"optical_visible":false,"paused":true,"phase":"layout_only","selected":0},"chart_rect":[0.0,0.0,1280.0,1280.0],"chart_view":{"center":[299.999969482422,660.0],"mode":"follow","zoom":2.66666666666667},"context_page":"water","context_subject_kind":"","controls":[],"density_dpi":96.0,"density_source":"desktop_display_server_dpi","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,64.0,64.0],"schema":1,"screen":"menu","scroll_rect":[268.0,46.0,744.0,1188.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1280.0,1280.0],"window":[64.0,64.0]}
+SS_TARGET resume center=636,11068 viewport=1280,1280
+SS_TARGET mission0 center=636,14616 viewport=1280,1280
+SS_TARGET mission1 center=636,16112 viewport=1280,1280
+SS_TARGET mission2 center=636,17736 viewport=1280,1280
+SS_TARGET mission3 center=636,19360 viewport=1280,1280
+SS_TARGET mission4 center=636,21118 viewport=1280,1280
+SS_TARGET mission5 center=636,22742 viewport=1280,1280
+SS_TARGET new_campaign center=636,23838 viewport=1280,1280
+SS_TARGET loadout center=636,41872 viewport=1280,1280
+SS_TARGET settings center=636,43508 viewport=1280,1280
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":0,"hud_visible":false,"menu_visible":true,"mission":0,"optical_visible":false,"paused":true,"phase":"layout_only","selected":0},"chart_rect":[0.0,0.0,1280.0,1280.0],"chart_view":{"center":[299.999969482422,660.0],"mode":"follow","zoom":2.66666666666667},"context_page":"water","context_subject_kind":"","controls":[],"density_dpi":96.0,"density_source":"desktop_display_server_dpi","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,64.0,64.0],"schema":1,"screen":"menu","scroll_rect":[268.0,46.0,744.0,1188.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1280.0,1280.0],"window":[64.0,64.0]}
+SS_TARGET resume center=636,11068 viewport=1280,1280
+SS_TARGET mission0 center=636,14616 viewport=1280,1280
+SS_TARGET mission1 center=636,16112 viewport=1280,1280
+SS_TARGET mission2 center=636,17736 viewport=1280,1280
+SS_TARGET mission3 center=636,19360 viewport=1280,1280
+SS_TARGET mission4 center=636,21118 viewport=1280,1280
+SS_TARGET mission5 center=636,22742 viewport=1280,1280
+SS_TARGET new_campaign center=636,23838 viewport=1280,1280
+SS_TARGET loadout center=636,41872 viewport=1280,1280
+SS_TARGET settings center=636,43508 viewport=1280,1280
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":0,"hud_visible":false,"menu_visible":true,"mission":0,"optical_visible":false,"paused":true,"phase":"layout_only","selected":0},"chart_rect":[0.0,0.0,1280.0,1280.0],"chart_view":{"center":[299.999969482422,660.0],"mode":"follow","zoom":2.66666666666667},"context_page":"water","context_subject_kind":"","controls":[],"density_dpi":96.0,"density_source":"desktop_display_server_dpi","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,64.0,64.0],"schema":1,"screen":"menu","scroll_rect":[268.0,46.0,744.0,1188.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1280.0,1280.0],"window":[64.0,64.0]}
+SS_TARGET resume center=636,11068 viewport=1280,1280
+SS_TARGET mission0 center=636,14616 viewport=1280,1280
+SS_TARGET mission1 center=636,16112 viewport=1280,1280
+SS_TARGET mission2 center=636,17736 viewport=1280,1280
+SS_TARGET mission3 center=636,19360 viewport=1280,1280
+SS_TARGET mission4 center=636,21118 viewport=1280,1280
+SS_TARGET mission5 center=636,22742 viewport=1280,1280
+SS_TARGET new_campaign center=636,23838 viewport=1280,1280
+SS_TARGET loadout center=636,41872 viewport=1280,1280
+SS_TARGET settings center=636,43508 viewport=1280,1280
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":0,"hud_visible":false,"menu_visible":true,"mission":0,"optical_visible":false,"paused":true,"phase":"layout_only","selected":0},"chart_rect":[0.0,0.0,1280.0,1280.0],"chart_view":{"center":[299.999969482422,660.0],"mode":"follow","zoom":2.66666666666667},"context_page":"water","context_subject_kind":"","controls":[],"density_dpi":96.0,"density_source":"desktop_display_server_dpi","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,64.0,64.0],"schema":1,"screen":"menu","scroll_rect":[268.0,46.0,744.0,1188.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1280.0,1280.0],"window":[64.0,64.0]}
+SS_TARGET resume center=636,11068 viewport=1280,1280
+SS_TARGET mission0 center=636,14616 viewport=1280,1280
+SS_TARGET mission1 center=636,16112 viewport=1280,1280
+SS_TARGET mission2 center=636,17736 viewport=1280,1280
+SS_TARGET mission3 center=636,19360 viewport=1280,1280
+SS_TARGET mission4 center=636,21118 viewport=1280,1280
+SS_TARGET mission5 center=636,22742 viewport=1280,1280
+SS_TARGET new_campaign center=636,23838 viewport=1280,1280
+SS_TARGET loadout center=636,41872 viewport=1280,1280
+SS_TARGET settings center=636,43508 viewport=1280,1280
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":0,"hud_visible":false,"menu_visible":true,"mission":0,"optical_visible":false,"paused":true,"phase":"layout_only","selected":0},"chart_rect":[0.0,0.0,1280.0,1280.0],"chart_view":{"center":[299.999969482422,660.0],"mode":"follow","zoom":2.66666666666667},"context_page":"water","context_subject_kind":"","controls":[],"density_dpi":96.0,"density_source":"desktop_display_server_dpi","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,64.0,64.0],"schema":1,"screen":"menu","scroll_rect":[268.0,46.0,744.0,1188.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1280.0,1280.0],"window":[64.0,64.0]}
+SS_TARGET resume center=636,11068 viewport=1280,1280
+SS_TARGET mission0 center=636,14616 viewport=1280,1280
+SS_TARGET mission1 center=636,16112 viewport=1280,1280
+SS_TARGET mission2 center=636,17736 viewport=1280,1280
+SS_TARGET mission3 center=636,19360 viewport=1280,1280
+SS_TARGET mission4 center=636,21118 viewport=1280,1280
+SS_TARGET mission5 center=636,22742 viewport=1280,1280
+SS_TARGET new_campaign center=636,23838 viewport=1280,1280
+SS_TARGET loadout center=636,41872 viewport=1280,1280
+SS_TARGET settings center=636,43508 viewport=1280,1280
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":0,"hud_visible":false,"menu_visible":true,"mission":0,"optical_visible":false,"paused":true,"phase":"layout_only","selected":0},"chart_rect":[0.0,0.0,1280.0,1280.0],"chart_view":{"center":[299.999969482422,660.0],"mode":"follow","zoom":2.66666666666667},"context_page":"water","context_subject_kind":"","controls":[],"density_dpi":96.0,"density_source":"desktop_display_server_dpi","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,64.0,64.0],"schema":1,"screen":"menu","scroll_rect":[268.0,46.0,744.0,1188.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1280.0,1280.0],"window":[64.0,64.0]}
+SS_TARGET resume center=636,11068 viewport=1280,1280
+SS_TARGET mission0 center=636,14616 viewport=1280,1280
+SS_TARGET mission1 center=636,16112 viewport=1280,1280
+SS_TARGET mission2 center=636,17736 viewport=1280,1280
+SS_TARGET mission3 center=636,19360 viewport=1280,1280
+SS_TARGET mission4 center=636,21118 viewport=1280,1280
+SS_TARGET mission5 center=636,22742 viewport=1280,1280
+SS_TARGET new_campaign center=636,23838 viewport=1280,1280
+SS_TARGET loadout center=636,41872 viewport=1280,1280
+SS_TARGET settings center=636,43508 viewport=1280,1280
+SS_SCREEN operations window=(64, 64) viewport=(1280.0, 1280.0) root=(1280.0, 1280.0) unlocked=0 active_time=0.0
+SS_SAVE ok mission=0 time=0.0 paused=true completed=[0, 1, 2, 3, 4, 5] unlocked=5
+SS_SAVE ok mission=0 time=0.0 paused=true completed=[0, 1, 2, 3, 4, 5] unlocked=5
+SS_SAVE ok mission=6 time=0.0 paused=true completed=[0, 1, 2, 3, 4, 5] unlocked=5
+CAMPAIGN ENDINGS CHECKS 48 FAILURES 0

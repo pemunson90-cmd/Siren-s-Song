@@ -1,0 +1,201 @@
+IRON CHOIR — COMPLETE ACCUMULATED IMPLEMENTATION CANDIDATE,21 OCTOBER2026
+Source /workspace/Siren-s-Song-play-frozen, gauntlet/release/iron-choir.
+Base16b1a5052a270f2c6c69b500ed664ec0c3a2a30d: Glass PR49 independently approved
+atf4f4d000, mandatory CI39515575589 passed guidance/core/all60 runtime scenarios.
+Foundation checkpointa36e13799c6e5309a89d0bc0f63a74bfaa284a1b published.
+Playable checkpoint47fec4b4d53dd5f58795d574dcfa3732bef3c88d published.
+Final candidate e5306e246a9205b871c4ff1490eedc8ea8a77e02 (committed/pushed).
+Sole builder /root/depth_sonar_foundation; requested Sol6.1 Medium, backend/effort
+telemetry unavailable. Samebranch throughout; no extra agents, APK, PR or merge.
+Root owns same independent reviewer, final-head CI and protected integration.
+No independent approval, mandatory final-head CI or merge claimed for Iron Choir.
+
+IMPLEMENTED PLAYABLE REGION
+22 Hammerwake: actual freight hull, deliberate east/west voyage through physical
+water, locally observed dock arrival before Quietus recovery.23 Pressure Stair:
+three worker-local sequential equalizers remove real shutters; no mandatory
+simultaneous switch.24 Choir Cut: real trail-followed ballast tow, local receiving
+socket chooses bypass versus isolate; first recovered choice changes25.25 Last
+Shift: actual occupied evacuation sled, deliberate refuge course, optional prior
+people/plant/ballast consequences, manual service alternative and actual arrival.
+26 The Cold Hammer: deep pressure spindle winch/custody/recovery, optional local
+cooling release versus outside approach.27 Counterweight Grave: move real weight
+to cradle to expose traction core, then physical material return.28 Names in the
+Bell: occupied physical bell tow/landing, returned people staff later service
+berth.29 Spare Lung: actual reconnect/dismantle work changes25's current/masking
+versus powered warden. All8 authored distinct basalt/industrial/depth layouts,
+3000x2720, reuse navigation/physics/sensing architecture rather than scaled maps.
+Ordinary recovered19 unlocks22;23–25 core chain;26after22,27/28after23,29after24.
+
+Physical industrial jobs are mandatory completion, not receiver exposure. NPC
+loads have independent hull, real movement/collision, local tow/custody, bounded
+travelled trails and loss. No announced route becomes a live tracker: permitted
+body status freezes last sighting until another legitimate observation. Physical
+arrival alone does not supply remote receipt. Local work uses worker's band and
+actual clearance, pause freezes clocks, peer selection retains working actor;
+route/depth/loss/blocked water interrupts. Lost carrier leaves material at actual
+position/depth. Another local job cannot concurrently use the same craft.
+Current snapshots require authored lock payload, bounded valid trails/destination,
+actual partial work/body/cargo/threat state; no schema migration or old validation
+relaxation. Empty receiver lists are accepted only for catalog industrial jobs,
+whose physical complete_mission requirement gates campaign/extraction.
+
+NEW ENEMY ROLES / PRESENTATION
+Interceptor legitimately acquires by own sight/physical hearing or received stale
+report, commits frozen aim through2s windup then finite200m/s physical burst,
+followed by4s recovery/cooldown. No hidden-current-position steering. Warden uses
+legitimately acquired local point,2.5s charge and finite6s85m pressure patch;
+terrain/depth restrict danger, bounded2 patches, cooldown and real disruption.
+Both decrement physical8s pin independently of overlapping longer EMP, expire
+normally, retain partial current saves and can damage/destroy physical NPC hulls.
+Actor transitions remain vulnerable in both occupied bands. Acquired visual
+bearing classifications BURST WINDUP/PRESSURE CHARGE accompany genuinely received
+water-path sound; no contact/hidden target is fabricated. Forked needle/crowned
+radial silhouettes, earned cached role readouts and visible finite pressure field.
+Industrial controls/shutter state and observed freight/ballast/crew hulls have
+world representations; actual worker progress, TOW/MATERIAL carrier feedback and
+new actions reuse spatial rings with full touch sizes.
+
+PRACTICAL ARTIFACTS / HISTORY
+Actual recovered pressure_spindle + returned hammer proof funds Quietus pressure
+sleeve:2.5s adjacent transition versus4s,0.75 actual reserve/pump cost and250m
+emission, shared Q slot, both-band exposure preserved. Actual traction_core +
+returned lock proof funds a drone traction yoke: only fitted drone tows load,
+16m stabilized envelope through authored50m service slot versus32m broad manual
+Quietus envelope,22m/s tow cap versus bareQ28, greater actual propulsion noise.
+Zero added tow noise when stationary. Equipment follows actual fitted/working
+craft across peer selection/restore. Existing material/spent/projects ledger
+extends to4 recipes; no cadence-reference abuse or farming/economy framework.
+Actual later sleeve transition and unselected fitted-drone physical narrow-slot
+tow demonstrated after both actual optional material returns. Baseline routes
+remain without fittings/tools/optional assistance. First recovered facts/history
+survive actual opposite-choice replay work and physical recovery. Earlier four
+outcome families remain authoritative; no old profile/receipt fabricated.
+
+DEMONSTRATED JOURNEYS — SOURCE-KNOWN TECHNICAL STAGING
+All8 production movement/commands with live authored threats, bare Quietus alone
+(peers explicitly lost), no finite tools or fitted hardware. Initial campaign
+access is explicitly staged; original saved campaign/critic profiles untouched.
+Real jobs/arrival/cargo/extraction and Campaign.recover advance new prerequisites.
+No victory, material entitlement or recovered mission result injected.
+ id / simulated seconds / hull / final O2 (endurance baseline)
+22 264.1000 100 93.5900
+26 167.6333 100 103.0267
+23 208.5833 100 99.1417
+27 152.2833 100 104.7717
+28 134.9667 100 106.5033
+24 304.7333 100 89.5267
+29 245.6500 100 95.4350
+25 146.3167 100 105.3683 (returned people/plant aid)
+25 232.0833 100 96.7917 (no optional people/plant aid; bare manual service)
+journeys-final.log IRON JOURNEY CHECKS92 FAILURES0, exit0. Includes physical
+opposite24 socket work+return (explicit staged local access, enemies removed for
+that replay probe), retained first choice/history, actual later people/current/
+powered-threat topology, actual optional returns and material-funded benefits,
+real unselected narrow-water drone tow (enemies removed to isolate reward), and
+actual checksummed accumulated campaign/research/people save roundtrip.
+All-core full-hull routes establish technical viability, not balanced pressure,
+compelling alternatives, genuine blind play, narrative payoff or human enjoyment.
+
+COMMANDS / COMPLETE-BOUNDARY CHECKS
+Godot4.6.3 /usr/local/bin/godot, bash /bin/bash login=false; cwd source above.
+All tests use isolated external XDG_DATA_HOME; no original user:// profile touched.
+Core exact invocation:
+XDG_DATA_HOME=/workspace/work/iron-boundary-core-xdg timeout --kill-after=10s 480s /usr/local/bin/godot --headless --path game --script res://tests/run_tests.gd
+ -> boundary-core.log CHECKS758/0, exit0, no script/engine errors.
+Runtime exact invocation:
+XDG_DATA_HOME=/workspace/work/iron-boundary-runtime-xdg timeout --kill-after=10s 480s /usr/local/bin/godot --headless --path game --script res://tests/runtime_tests.gd
+ -> boundary-runtime.log RUNTIME649/0, no script/engine errors.
+For each named boundary suite, exact expanded command is first line of its log:
+XDG_DATA_HOME=/workspace/work/iron-boundary-<suite>-xdg timeout --kill-after=10s 480s /usr/local/bin/godot --headless --path game --script res://tests/<suite>.gd
+ -> boundary-<suite>.log, each exit0 and no SCRIPT ERROR/ERROR:
+ iron_choir_tests52/0; industrial_jobs_tests20/0;
+ industrial_threats_tests23/0; iron_research_tests13/0;
+ operation_catalog_tests199/0; depth_sonar_tests111/0;
+ glass_network_tests14/0; glass_work_tests40/0; glass_research_tests9/0;
+ module_recovery_tests55/0; module_recovery_ui_tests37/0;
+ campaign_endings_tests48/0; campaign_equipment_save_tests10/0.
+Journeys command:
+XDG_DATA_HOME=/workspace/work/iron-journeys-xdg timeout --kill-after=10s 480s /usr/local/bin/godot --headless --path game --script res://tests/iron_choir_journeys.gd
+ -> journeys-final.log92/0, exit0, no script/engine errors.
+No full local66-scenario repeat or automatic profiling; targeted checks during
+implementation and this accumulated core/runtime/affected pass are separate from
+root's mandatory final-head CI. All previous60 workflow scenario/summary pairs
+retained,6 new industrial suites added in workflow and local script (now66).
+Existing35m aggregate/480s per-scenario budget retained. No test/check name dropped.
+python3 scripts/toolchain/check-gauntlet-guidance.py --root . PASS.
+python3 scripts/toolchain/test-check-gauntlet-guidance.py8/0.
+bash -n scripts/toolchain/test.sh PASS; git diff --check PASS.
+
+ACTUAL WINDOW/INPUT — REPRESENTATIVE COVER AND INNER
+Headless ui-progress-green.log24/0 through ScreenTouch plus native-style emulated
+mouse release, not direct Button callback invocation. Ordinary campaign archive
+opens23 briefing; actual craft local equalizer work/full touch sizes/progress,
+observed ballast body interaction and actual tow attach, acquired interceptor
+windup and visible finite warden pressure. Software window2520x1080 and2184x1968,
+420DPI fixture, no explicit136px safe inset. No Android device/ergonomic claim.
+Exact final display command (owning shell checks xdpyinfo, EXIT trap kill+wait):
+LD_LIBRARY_PATH=/workspace/tools/display-runtime/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
+/workspace/tools/display-runtime/usr/bin/Xvfb :616 -screen 0 3000x2200x24 -nolisten tcp
+DISPLAY=:616 LIBGL_ALWAYS_SOFTWARE=1 XDG_DATA_HOME=/workspace/work/iron-rendered-final-xdg timeout --kill-after=10s 120s /usr/local/bin/godot --path game --display-driver x11 --rendering-method gl_compatibility --audio-driver Dummy --script res://tests/iron_choir_ui_tests.gd -- --capture-dir=/workspace/work/gauntlet-fullspec-20261020/iron-choir/captures-final
+ -> ui-rendered-final.log24/0 exit0, no script/engine errors. Six PNGs, three states
+at both dimensions. Inspected initial inner lock/cover warden and final inner work
+progress; actual0% progress replaces generic HOLD, pressure circle/remaining and
+crowned body visible. Software llvmpipe/VSync unsupported warning not native proof.
+First ui-rendered.log22/0 and captures/ retained before progress cue addition.
+
+RED/GREEN / CONSEQUENTIAL INTEGRATION FINDINGS
+catalog-red10/10 missing8operations/unlocks. catalog-first52/9: invalid2700 world
+height violates40m grid, plus one enemy inside24rock; corrected2720/open-water
+placement, catalog-green/roles/boundary52/0. jobs-red1/1 missing runtime, then15/0.
+threats-red1/1 missing role helpers, then16/0. research-red4/3 missing2 material
+recipes/fittings, then13/0 with actual costs/locality/narrow clearance.
+journeys-first22won but campaign refused empty receiver list; recovered physical
+complete_mission now gates industrial-only adaptation, complete jobs proceed92/0.
+ui-red initially included erroneous test-only pick_object name and hung; stopped
+owned process, corrected to actual pick_context, ui-red-clean10/4 expected missing
+new controls/body. ui-first20/0; acquired warden state added22/0.
+New distant charge-cue probe17/1 showed missing visual bearing equivalent; added
+physical windup emission/classification/water-path directional audio,17/0.
+Jobs-integration-red20/4 exposed missing authored locks/invalid tow trail/transit
+without destination acceptance and concurrent module winch on industrial worker.
+Added bounded authored state validation and worker exclusion. First green attempt
+miscounted state keys12 vs11, caused restore failure/cascading unguarded test errors;
+stopped process, use template.size and guard failed restore, jobs-bounded-green20/0.
+New roles actual EMP+NPC hull loss checks finish23/0. Capture inspection showed
+generic HOLD after work command; ui-progress-red24/2, then actual progress/cargo/tow
+feedback added, ui-progress-green/finalrender24/0. Raw earlier failures retained;
+never treat summary-only/error logs as acceptance. Known ObjectDB exit warning
+occurred in ui-progress-red; inherited warning remains a retained whole-game risk.
+
+LIMITS / NEXT OWNER
+No blocker known from scoped implementation evidence. Same independent accumulated
+review remains required. All source-known/staged claims stay distinct from genuine
+campaign chronology; unavailable newer saved receipt never invented/edited/migrated.
+Sparse pressure on safe outside/full-hull baseline routes does not prove balance or
+compelling industry tactics. Story remains received foreman/keeper accounts and
+physical people/infrastructure outcomes, not finished dramatic/narrative quality.
+Crowded spatial UI/selection/FIT friction, dense sonar labels, Well balance,
+inherited density/ObjectDB, native lifecycle/performance, headphone audio, Fold
+ergonomics and human enjoyment remain; no old-game refinement project undertaken.
+Further28core/12optional, fleet/chassis/economy/manufacturing/research depth,
+frontend/accessibility/replay/challenges/expeditions/career/audio remain unfinished.
+Root next: sole independent complete review -> samebranch consequential repairs ->
+exact-head mandatory CI -> normal PR/integration/full landed-tree verification.
+After integration continue substantial new playable content. Profiles/refs/canonical
+signer and221 generated untracked UIDs preserved; UIDs excluded from commits.
+Final publication/process/source release appended below.
+
+FINAL PUBLICATION / RELEASE
+git commit -m "Record completed Iron Choir candidate and onward content handoff"
+git push origin gauntlet/release/iron-choir ->47fec4b..e5306e2 success.
+Remote exacthead verified e5306e246a9205b871c4ff1490eedc8ea8a77e02.
+Final commit changes only3 concise handoff/spec documents; game/toolchain/workflow
+trees equal tested47fec4b, confirmed by git diff --exit-code47fec4b HEAD paths.
+Tracked tree clean; git diff --check PASS. All221 generated untracked UIDs remain
+on disk and outside commits. Removed only own generated guidance Python cache.
+No live owned Godot/display/test process. Last Xvfb616 killed/reaped by owning trap;
+older exited zombies5317/5440 underPID1 remain inert, as previously disclosed.
+CONTINUATION28lines, WORKBENCH26lines; root's independent accumulated review and
+mandatory final-head CI remain next, no review/CI pass/merge claimed by builder.
+Source RELEASED to root/existing reviewer at e5306e2.

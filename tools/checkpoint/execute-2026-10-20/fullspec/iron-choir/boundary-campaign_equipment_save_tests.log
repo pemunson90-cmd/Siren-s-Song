@@ -1,0 +1,4 @@
+COMMAND: XDG_DATA_HOME=/workspace/work/iron-boundary-campaign_equipment_save_tests-xdg timeout --kill-after=10s 480s /usr/local/bin/godot --headless --path game --script res://tests/campaign_equipment_save_tests.gd
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+CAMPAIGN EQUIPMENT SAVE CHECKS 10 FAILURES 0
