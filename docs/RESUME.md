@@ -3,6 +3,8 @@
 Status: RUNNING (resumed 21 Oct after usage ended; earlier lane workers had died, WIP snapshotted and pushed, fresh workers dispatched). Branch: `claude/integration`. Lane table: docs/LANES.md.
 Orchestrator brief: Pat's kickoff (21 Oct): root merges lane PRs into claude/integration after green CI; Pat approves promotion to gauntlet/production; no APKs; more game than docs; story is provisionally approved (docs/STORY_BIBLE_DRAFT.md).
 
+Standing orders from Pat (21 Oct, later): story minutiae and old-save compatibility are irrelevant until the game is finished; the five S3 placeholders and ending wording are accepted; do not hold work for story or polish. Priority is finishing the whole functional game, then critically evaluating it and finding the next improvement. Indefinite loop, nothing is ever good enough. Never wait on Pat; only a true blocker needing his input stops work. Notes: C1 ops 14-21 share one core objective (depth gap, follow up after C2). Reviews: C1 approved (PR 55), S3 HOLD then fixes (PR 56), P1 review pending (PR 57). C2 stacked on lane-c1-glass.
+
 Merged into integration (tip 31bded5, core suite 758/0): X4 seam #52, X2 probes #53, X3 audio #54 (each CI green, relayed independent approval).
 Resumed (WIP pushed to branches, workers re-dispatched, no PRs yet): lane-c1-glass, lane-p1-fittings, lane-s3-rewrite. Codex owns lane-t-pressure (brief issued). lane-a1-art and lane-f1-frontend have no work yet and are parked.
 X3 carries CC-BY attribution: frontend lane must surface Soundscape.ATTRIBUTION in credits. X2 baseline (ops 14-29, 4 policies) is in PR #53; T reruns it on its own head.
