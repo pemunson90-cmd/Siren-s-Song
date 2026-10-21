@@ -104,7 +104,8 @@ The current connected implementation horizon, feature states and ownership are m
 
 Current spec is revisable by new user direction and evidence-driven Gauntlet improvements. Each such improvement must be integrated into this living spec with source/rationale. No frozen exhaustive checklist can substitute for continued qualitative reevaluation.
 
-Glass Reach is the current integrated content batch after the depth/sonar opening.
+Glass Reach landed through independently approved PR49/production16b1a505 with
+mandatory CI39515575589 passing all60 runtime scenarios after the depth/sonar opening.
 Operations14–19 and optional20–21 add authored mineral/thermal crossings, a physical
 listening-buoy/communications-relay network, local service choices and two recoverable
 materials for optional practical research. The accumulated candidate implements all
@@ -114,5 +115,15 @@ without finite tools or advanced fittings and both optional material returns; re
 uses, choice-dependent finale topology, current saves and representative cover/inner
 input are checked. These establish technical viability, not balance or enjoyment.
 Either recovered12/13 outcome leads onward without replacing its committed history.
-Independent accumulated review and mandatory exact-head CI remain integration gates;
-after landing, continue substantial playable campaign content toward the release scope.
+Technical viability remains distinct from balance and enjoyment; wider release
+content and quality work continues.
+
+Iron Choir is the active next batch: four core22–25 and optional26–29 continue
+recovered19 through moving freight, sequential pressure locks, physical ballast
+placement, deliberate evacuation, artifact salvage and people/plant consequences.
+Interceptor committed stale-goal bursts and finite depth-aware warden pressure
+fields add the final two approved roles. Material-cost pressure sleeve and drone
+traction yoke add local reserve/noise/slot and towing tradeoffs. Foundation source
+and focused checks exist; full jobs, onward input and journeys remain underway.
+Complete this same accumulated region before independent review and final-head CI;
+after landing continue substantial new playable content toward the release scope.

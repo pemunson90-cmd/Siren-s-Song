@@ -3,6 +3,8 @@ extends RefCounted
 # catalog cannot award them or change equipment on an already launched mission.
 const SLOTS=["quietus","drone_a","drone_b"]
 const ITEMS={
+ "quietus_pressure_sleeve":{"id":"quietus_pressure_sleeve","name":"Choir pressure sleeve","compatible_slots":["quietus"],"benefit":"Adjacent depth transition takes2.5s instead of4s, still exposed in both bands.","cost":"Each change spends0.75 reserve and emits a250m pump pulse. Uses Quietus hardware slot."},
+ "drone_traction_yoke":{"id":"drone_traction_yoke","name":"Choir traction yoke","compatible_slots":["drone_a","drone_b"],"benefit":"This drone can tow industrial loads through narrow service water.","cost":"Tow speed capped22m/s with extra propulsion noise; uses drone slot. Bare Quietus tows wider water at28m/s."},
  "quietus_prism":{"id":"quietus_prism","name":"Reach directional prism","compatible_slots":["quietus"],"benefit":"Forward SONAR reaches40% farther.","cost":"Forward pulses cost double reserve and emit25% farther. Uses Quietus hardware slot; all-around sonar unchanged."},
  "quietus_decoder":{"id":"quietus_decoder","name":"Keeper service decoder","compatible_slots":["quietus"],"benefit":"Open nearby Reach service gates quietly in2s within120m, after measuring their local position.","cost":"Uses Quietus hardware slot. Bare manual work takes8 audible seconds within60m; outside routes remain available."},
  "quietus_baffles":{"id":"quietus_baffles","name":"Quietus acoustic baffles","compatible_slots":["quietus"],"benefit":"Reduce propulsion sound by45% at the same actual speed.","cost":"Uses Quietus hardware slot."},

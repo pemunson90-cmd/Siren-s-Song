@@ -1,10 +1,11 @@
 extends RefCounted
 # Actual recovered material is consumed once with received regional evidence.
-const RECIPES={"prism_core":{"item":"quietus_prism","evidence":"glass_record_16","operation":20},"keeper_wafer":{"item":"quietus_decoder","evidence":"glass_record_17","operation":21}}
+const RECIPES={"pressure_spindle":{"item":"quietus_pressure_sleeve","evidence":"choir_22","operation":26},"traction_core":{"item":"drone_traction_yoke","evidence":"choir_23","operation":27},"prism_core":{"item":"quietus_prism","evidence":"glass_record_16","operation":20},"keeper_wafer":{"item":"quietus_decoder","evidence":"glass_record_17","operation":21}}
 static func recovered(previous:Dictionary,mission:Dictionary)->Dictionary:
  var p=previous.duplicate(true)
- if not mission.get("recovered",false) or not mission.get("glass_reach",{}).get("retrieved",false):return p
- var artifact=mission.glass_reach.get("artifact",{})
+ var state=mission.get("glass_reach",mission.get("iron_choir",{}))
+ if not mission.get("recovered",false) or not state.get("retrieved",false):return p
+ var artifact=state.get("artifact",{})
  if artifact.get("state","")!="recovered" or artifact.get("id","") not in RECIPES:return p
  if not p.has("research"):p.research={"materials":[],"spent":[],"projects":[]}
  if artifact.id not in p.research.materials:p.research.materials.append(artifact.id)
@@ -16,11 +17,11 @@ static func recovered(previous:Dictionary,mission:Dictionary)->Dictionary:
  return p
 static func valid(p:Dictionary)->bool:
  var earned=p.get("entitlements",[])
- if not p.has("research"):return "quietus_prism" not in earned and "quietus_decoder" not in earned
+ if not p.has("research"):return not RECIPES.values().any(func(recipe):return recipe.item in earned)
  var state=p.research
  if not state is Dictionary or state.size()!=3:return false
  for key in ["materials","spent","projects"]:
-  if not state.get(key) is Array or state[key].size()>2:return false
+  if not state.get(key) is Array or state[key].size()>RECIPES.size():return false
   var seen=[]
   for value in state[key]:
    if not value is String or value in seen:return false
@@ -32,9 +33,9 @@ static func valid(p:Dictionary)->bool:
  for project in state.projects:
   var matches=RECIPES.keys().filter(func(material):return RECIPES[material].item==project and material in state.spent)
   if matches.size()!=1 or project not in earned:return false
- for project in ["quietus_prism","quietus_decoder"]:
+ for project in RECIPES.values().map(func(recipe):return recipe.item):
   if (project in earned)!=(project in state.projects):return false
  return true
 static func detail(p:Dictionary)->String:
- if not p.has("research"):return "Reach research needs physically recovered material and a received regional account."
+ if not p.has("research"):return "Research needs physically recovered material and a received regional account."
  return "RECOVERED MATERIAL %s\nCONSUMED IN RESEARCH %s\nOPTIONAL FITTINGS %s"%[", ".join(p.research.materials),", ".join(p.research.spent),", ".join(p.research.projects)]

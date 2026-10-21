@@ -1,27 +1,25 @@
-# Siren’s Song · Glass Reach candidate
+# Siren’s Song · Iron Choir implementation
 Read AGENTS.md, USER_DIRECTIVES.md and CURRENT_GAME_SPEC.md first.
-Last reconciled production baseline3578c068; depth/sonar PR48 complete,
-independently approved at ea645d31, mandatory CI39507624482 passed.
-Current branch gauntlet/release/glass-reach; accumulated candidate built.
-Decoder locality repaired after HOLD404a1ab; benefits follow the actual worker.
-Root owns independent review, exact-head CI, PR and integration; none claimed yet.
+Last reconciled production16b1a505; Glass Reach PR49 complete, independently
+approved atf4f4d000; mandatory CI39515575589 passed all60 runtime scenarios.
+Current branch gauntlet/release/iron-choir; sole builder owns source.
+Root owns complete accumulated review, exact-head CI, PR and integration.
 
-Six core14–19 and optional20–21 are implemented: Glass Fence, Needle Strait,
-Furnace Drift, Silt Archive, Lantern Anchorage, Last Carrier, Prism Grave,
-and Keeper's Cache. Buoy/relay reports are physical, delayed and uncertain.
-Local machinery, interruptible artifact custody/recovery and two material-cost
-research rewards are integrated with ordinary Continue/replay after either12/13.
-Source-known Quietus-only journeys finish all eight with actual production physics;
-all core dives use no finite tools or advanced fittings. Both rewards have actual
-later-use checks; recovered choice changes finale water and relay topology.
-These prove technical viability, not balance, enjoyment or genuine blind campaigns.
-Representative cover/inner touch and rendered checks pass; current saves roundtrip.
-Core750, runtime641 and focused accumulated checks pass; see external Glass report.
+Current batch: four core22–25 and optional26–29, continuing recovered19.
+Hammerwake, Pressure Stair, Choir Cut, Last Shift, The Cold Hammer,
+Counterweight Grave, Names in the Bell and Spare Lung layouts exist.
+Runtime foundation: physical freight/tow/locks/people/plant work and custody,
+legitimate interceptor burst/recovery and finite warden pressure patches.
+Recovered material research adds local pressure sleeve and drone traction yoke;
+focused effects/geometry/save tests pass. Full jobs/journeys not yet demonstrated.
+Still building ordinary spatial actions/presentation and complete campaign routes.
 
-Next: same independent accumulated re-review, consequential same-branch fixes,
-then exact-head mandatory CI and normal milestone PR. After integration continue
-substantial new playable campaign content toward28 core/12 optional operations.
+Next: finish this same full batch; demonstrate all8 physical jobs, bare Quietus
+core completion without finite tools, real artifact returns/later reward uses,
+people/infrastructure/first-choice consequences, saves and cover/inner input.
+Then one accumulated independent review, fixes, exact-head CI and normal PR.
+After integration continue substantial playable content toward28 core/12 optional.
 Preserve old outcome families, first recovered facts, profiles, signer and refs.
-Known FIT/craft-handle friction, Well balance, dense sonar axes, ObjectDB warning,
+Known control/ring friction, Well balance, dense sonar axes, density/ObjectDB,
 native/headphone/Fold and human-enjoyment limits remain; no refinement project.
 No APK, micro-PRs, save migrations or user-playtest gate.
