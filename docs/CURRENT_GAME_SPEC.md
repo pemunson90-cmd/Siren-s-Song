@@ -118,12 +118,18 @@ Either recovered12/13 outcome leads onward without replacing its committed histo
 Technical viability remains distinct from balance and enjoyment; wider release
 content and quality work continues.
 
-Iron Choir is the active next batch: four core22–25 and optional26–29 continue
+Iron Choir is the current accumulated candidate: four core22–25 and optional26–29 continue
 recovered19 through moving freight, sequential pressure locks, physical ballast
 placement, deliberate evacuation, artifact salvage and people/plant consequences.
 Interceptor committed stale-goal bursts and finite depth-aware warden pressure
 fields add the final two approved roles. Material-cost pressure sleeve and drone
-traction yoke add local reserve/noise/slot and towing tradeoffs. Foundation source
-and focused checks exist; full jobs, onward input and journeys remain underway.
-Complete this same accumulated region before independent review and final-head CI;
+traction yoke add local reserve/noise/slot and towing tradeoffs. All8 physical
+jobs finish in source-known production-physics journeys with live threats, bare
+Quietus and no finite tools; an unassisted finale also finishes. Actual artifact
+returns fund later pressure timing and narrow drone-tow uses. Physical opposite
+ballast replay preserves committed history; people/plant returns change actual
+finale access, current and powered threats. Current campaign saves and ordinary
+onward/replay plus representative cover/inner input/render checks pass. Technical
+viability does not establish balance, compelling drama, blind play or enjoyment.
+Independent accumulated review and final-head CI remain required before integration;
 after landing continue substantial new playable content toward the release scope.
