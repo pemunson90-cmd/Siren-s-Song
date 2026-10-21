@@ -15,9 +15,9 @@ characters, site sequence and endings before any rewrite lands.
 | C content, de-template | Claude agent | claude/lane-c-content | open (geometry and objectives only; text waits for S3) | `campaign/glass_reach_operations.gd`, `campaign/iron_choir_operations.gd`, `simulation/glass_reach_work.gd`, `simulation/industrial_jobs.gd`, new encounter modules |
 | T pressure and tuning | Claude agent | claude/lane-t-pressure | blocked on X2 and X4 | threat sections of `simulation/simulation.gd`, `simulation/industrial_threats.gd`, `simulation/sonar_sweeper.gd` |
 | X1 review | Codex | per PR | on request | read only |
-| X2 pressure probes | Codex | claude/lane-x2-probes | to assign | new test files only |
-| X3 audio | Codex | claude/lane-x3-audio | to assign | `audio/*`, new audio assets |
-| X4 endpoint seam | Codex | claude/lane-x4-seam | to assign | files that show the ordinary-beam / industrial-load bug |
+| X2 pressure probes | Codex | claude/lane-x2-probes | merged | new test files only |
+| X3 audio | Codex | claude/lane-x3-audio | merged | `audio/*`, new audio assets |
+| X4 endpoint seam | Codex | claude/lane-x4-seam | merged | files that show the ordinary-beam / industrial-load bug |
 
 Overlap notes: C places rosters, T edits threat logic. P and C both touch briefing data, so P owns schema and C owns operation tables.
 Later (delivery order): challenges, roguelite (rename code "expedition" first), naval career, frontend, settings and accessibility, art.
