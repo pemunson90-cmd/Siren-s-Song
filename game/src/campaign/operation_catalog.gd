@@ -1,7 +1,7 @@
 extends RefCounted
 # Authored content registry. Factories retain their existing physical implementations.
 # A definition selects a factory/configuration, supported behaviors and progression.
-const BEHAVIORS=["packet_delivery","tender","warning_plant","witness","recipient","resolution","signals_v1","signals_v2","history","glass_reach","thermal"]
+const BEHAVIORS=["packet_delivery","tender","warning_plant","witness","recipient","resolution","signals_v1","signals_v2","history","glass_reach","iron_choir","thermal"]
 static var _entries:Dictionary={}
 const CONTENT=[
  {"id":0,"factory":"res://src/campaign/shelf_signal_operation.gd","config":{"source_id":0,"history":false},"behaviors":[],"prerequisites":[],"facts":[],"records":[],"campaign":false,"route":"","required_facts":{}},
@@ -25,9 +25,16 @@ static func _glass_entries()->Array:
   var prerequisites=[12,13] if id==14 else [16] if id==20 else [17] if id==21 else [id-1]
   result.append({"id":id,"factory":"res://src/campaign/glass_reach_operations.gd","config":{"source_id":id,"history":true},"behaviors":["signals_v2","history","glass_reach"]+(["thermal"] if id==16 else []),"prerequisites":prerequisites,"prerequisite_mode":"any" if id==14 else "all","facts":["glass_record_"+str(id)]+(["glass_choice"] if id==18 else []),"records":["glass_record_"+str(id)],"campaign":true,"route":"","required_facts":{}})
  return result
+static func _iron_entries()->Array:
+ var result=[]
+ for id in range(22,30):
+  var prerequisite={22:19,26:22,27:23,28:23,29:24}.get(id,id-1)
+  var facts=["choir_"+str(id)]+(["choir_choice"] if id==24 else ["choir_people"] if id==28 else ["choir_plant"] if id==29 else [])
+  result.append({"id":id,"factory":"res://src/campaign/iron_choir_operations.gd","config":{"source_id":id,"history":true},"behaviors":["signals_v2","history","iron_choir"]+(["thermal"] if id==25 else []),"prerequisites":[prerequisite],"facts":facts,"records":[],"campaign":true,"route":"","required_facts":{}})
+ return result
 static func _ensure():
  if not _entries.is_empty():return
- for entry in CONTENT+_glass_entries():_entries[entry.id]=entry.duplicate(true)
+ for entry in CONTENT+_glass_entries()+_iron_entries():_entries[entry.id]=entry.duplicate(true)
 static func registered_ids()->Array:
  _ensure();var result=_entries.keys();result.sort();return result
 static func definition(id:int)->Dictionary:
@@ -69,7 +76,7 @@ static func valid_definition(d)->bool:
  var sample=factory.build(d.config,{}) if factory.has_method("build") else factory.make(d.config.source_id,{}) if d.config.history else factory.make(d.config.source_id)
  if not sample is Dictionary or not sample.has_all(["id","objectives","sirens","extraction","rocks"]):return false
  if d.campaign!=sample.has("expedition_revision"):return false
- var payloads={"packet_delivery":"blackwater_delivery","tender":"rendezvous_transport","warning_plant":"warning_chain","witness":"witness_evacuation","recipient":"warning_recipient","resolution":"resolution_revision","glass_reach":"glass_reach"}
+ var payloads={"packet_delivery":"blackwater_delivery","tender":"rendezvous_transport","warning_plant":"warning_chain","witness":"witness_evacuation","recipient":"warning_recipient","resolution":"resolution_revision","glass_reach":"glass_reach","iron_choir":"iron_choir"}
  for behavior in payloads:
   if (behavior in d.behaviors)!=sample.has(payloads[behavior]):return false
  if ("signals_v1" in d.behaviors)!=(sample.get("expedition_revision",0)==1) or ("signals_v2" in d.behaviors)!=(sample.get("expedition_revision",0)==2):return false

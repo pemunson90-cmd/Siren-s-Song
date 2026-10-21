@@ -68,9 +68,12 @@ func objective_touch_rects(touch:float)->Array:
 	result.append_array(Witness.touch_rects(self,sim,touch))
 	result.append_array(Concealed.touch_rects(self,sim,touch))
 	result.append_array(Recipient.touch_rects(self,sim,touch))
+	result.append_array(preload("res://src/presentation/industrial_view.gd").touch_rects(self,sim,touch))
 	return result
 func pick_context(point:Vector2,touch:float) -> Dictionary:
 	_sync_camera();var choices=[]
+	var industrial=preload("res://src/presentation/industrial_view.gd").pick(self,sim,point,touch)
+	if not industrial.is_empty():return industrial
 	if sim.mission.has("glass_reach") and sim.mission.glass_reach.artifact.is_empty():
 		var pos=sim.mission.glass_reach.work_pos
 		if point.distance_to(screen_position(pos))<maxf(touch*.5,24*world_scale):return {"kind":"objective","subkind":"glass_work","name":"REACH MACHINERY","pos":pos}
@@ -314,6 +317,7 @@ func _draw() -> void:
 		var at=sim.mission.glass_reach.work_pos
 		draw_rect(Rect2(at-Vector2.ONE*20,Vector2.ONE*40),Color("d8c591"),false,2./world_scale)
 		draw_line(at-Vector2(30,0),at+Vector2(30,0),Color("d8c591"),1.5/world_scale)
+	preload("res://src/presentation/industrial_view.gd").draw(self,sim)
 	# Only own launcher range and legitimately cached targets; beams draw afterward.
 	if knock_targeting and sim.selected==0 and sim.units[0].alive:
 		draw_arc(sim.units[0].pos,sim.KNOCK_RANGE,0,TAU,64,Color(0.7,0.85,0.8,0.5),1.5/world_scale)
@@ -518,6 +522,14 @@ func _siren(p: Vector2,angle: float,fresh: bool,role: String="patroller",pin_tim
 		elif role=="relay":
 			draw_colored_polygon(PackedVector2Array([Vector2(0,-35),Vector2(23,0),Vector2(0,35),Vector2(-23,0)]),Color("578c99"))
 			for side in [-1,1]:draw_line(Vector2(side*20,0),Vector2(side*47,-20),Color("dbcfa5"),3.)
+		elif role=="interceptor":
+			draw_colored_polygon(PackedVector2Array([Vector2(70,0),Vector2(-45,-24),Vector2(-25,-5),Vector2(-60,0),Vector2(-25,5),Vector2(-45,24)]),Color("67868e"))
+			for side in [-1,1]:draw_line(Vector2(-40,side*20),Vector2(-65,side*28),Color("d87961"),4.)
+		elif role=="warden":
+			draw_circle(Vector2.ZERO,30,Color("37535d"))
+			for n in 6:
+				var spoke=Vector2.from_angle(n*TAU/6);draw_line(spoke*24,spoke*55,Color("d1ad72"),6.)
+			draw_arc(Vector2.ZERO,40,0,TAU,24,Color("b87864"),3.)
 		elif role=="hunter":Confluence.draw_hunter(self,sim.elapsed,shade)
 		else:draw_texture_rect(siren_ray,body,false,shade)
 		if role=="sweeper":

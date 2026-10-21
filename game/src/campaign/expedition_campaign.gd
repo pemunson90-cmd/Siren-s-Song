@@ -12,9 +12,10 @@ static func recover(previous:Dictionary,mission:Dictionary)->Dictionary:
  if not mission.get("id") is int or mission.id not in Catalog.campaign_ids() or not Catalog.valid_facts(mission.id,mission.get("expedition_facts",{})):return result
  if mission.get("expedition_revision",0) not in [1,2] or not mission.get("recovered",false):return Consequences.retain(result,mission)
  if mission.id!=6 and (result.is_empty() or not valid(result) or mission.id not in available([0,1,2,3,4,5],result)):return result
- if not mission.get("objectives") is Array or mission.objectives.is_empty() or not mission.objectives.all(func(o):return o.get("captured",false) or o.get("optional",false)):return result
+ if not mission.get("objectives") is Array or (mission.objectives.is_empty() and not Catalog.supports(mission.id,"iron_choir")) or not mission.objectives.all(func(o):return o.get("captured",false) or o.get("optional",false)):return result
  for site in mission.get("required_site_ids",[]):
   if not mission.objectives.any(func(o):return o.get("site_id","")==site and o.get("captured",false)):return result
+ if Catalog.supports(mission.id,"iron_choir") and not preload("res://src/simulation/industrial_jobs.gd").complete_mission(mission):return result
  if Catalog.supports(mission.id,"warning_plant") and mission.get("warning_chain",{}).get("result",{}).is_empty():return result
  if Catalog.supports(mission.id,"witness") and (mission.get("witness_evacuation",{}).get("state","")!="landed" or not mission.get("concealed_harbour",{}).get("receipt",false)):return result
  if Catalog.supports(mission.id,"recipient") and not mission.get("warning_recipient",{}).get("receipt",false):return result

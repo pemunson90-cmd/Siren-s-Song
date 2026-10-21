@@ -68,6 +68,9 @@ func setup(owner):
   var key=entry[0];extra[key]=host._button(self,entry[1],func():_extra(key),key)
  for pair in [["work","REACH WORK"],["recover","RECOVER\nMATERIAL"],["transfer","TRANSFER\nTO QUIETUS"],["service","RESTORE\nSERVICE"],["sever","SEVER\nSPUR"],["vane","RELEASE\nVANE"],["gate","OPEN\nLOCAL GATE"],["withdraw","WITHDRAW\nAT SOUTH"],["route","ROUTE TO\nREACH WORK"]]:
   var key="glass_"+pair[0];extra[key]=host._button(self,pair[1],func():_extra(key),key)
+ for action in ["work","route","attach","release","east","west","lock_a","lock_b","lock_c","bypass","isolate","service","cooling","cradle","land","reconnect","dismantle","recover"]:
+  var key="choir_"+action;var text={"work":"CHOIR WORK","route":"ROUTE TO\nLOCAL WORK","east":"START EAST\nVOYAGE","west":"START WEST\nVOYAGE","attach":"ATTACH\nPHYSICAL TOW","release":"RELEASE\nTOW","recover":"WINCH\nMATERIAL"}.get(action,action.replace("_"," ").to_upper())
+  extra[key]=host._button(self,text,func():_extra(key),key)
  extra.wake_playback=host._button(self,"PLAY OLD LOOP\nONCE ·15s",func():host._order("wake_playback"),"wake_playback")
  for entry in [["warning_exposed","EXPOSED\nUNGATED COURSE"],["warning_sheltered","SHELTERED\nSERVICE COURSE"],["warning_gate","OPEN SERVICE\n650m / 6s"]]:
   var key=entry[0];extra[key]=host._button(self,entry[1],func():_extra(key),key)
@@ -135,6 +138,12 @@ func _back():
  elif page in ["craft","object","fleet","salvage","plant","habitat","recovery"]:dismiss()
  else:open("habitat" if subject.get("kind","")=="habitat" else "plant" if subject.get("kind","")=="plant" else "object" if subject.get("kind","")=="objective" else "salvage" if subject.get("kind","")=="salvage" else "craft")
 func _extra(key:String):
+ if key=="choir_work":open("choir");return
+ if key=="choir_route":
+  var targets=preload("res://src/presentation/industrial_view.gd").targets(host.sim)
+  if not targets.is_empty():host._order("route",{"point":subject.pos if subject.get("subkind","")=="choir" else targets[0].pos})
+  return
+ if key.begins_with("choir_"):host._order("choir_action",{"action":key.trim_prefix("choir_")});return
  if key=="glass_work":open("glass");return
  if key=="glass_route":
   var state=host.sim.glass_context();var a=state.artifact
@@ -244,6 +253,10 @@ func _outside(event):
  if (event is InputEventScreenTouch and event.pressed) or (event is InputEventMouseButton and event.pressed):dismiss();accept_event()
 func command_controls() -> Array:
  match page:
+  "choir":
+   var controls=[]
+   for action in host.sim.Choir.actions(host.sim):controls.append(extra["choir_"+action])
+   return controls+[extra.choir_route,extra.inspect]
   "glass":
    var a=host.sim.glass_context().artifact;var controls=[]
    if not a.is_empty():controls.append(extra.glass_recover if a.state in ["site","wreck"] else extra.glass_transfer)
@@ -258,6 +271,7 @@ func command_controls() -> Array:
   "view":return [focus_button,host.zoom_buttons[2],host.zoom_buttons[1],host.zoom_buttons[0]]
   "fleet":return host.unit_buttons+([extra.arrivals] if Expedition.active(host.sim) else [])+[extra.view_menu,host.order_buttons.menu]
   "object":
+   if subject.get("subkind","")=="choir":return [extra.choir_work,extra.route_here,extra.inspect]
    if subject.get("subkind","")=="glass_work":return [extra.glass_work,extra.route_here,extra.inspect]
    if subject.get("subkind","")=="wake_repeater":return [extra.wake_playback,extra.route_here,extra.inspect]
    if subject.get("subkind","")=="concealed":return ([extra.concealed_seat] if not subject.get("seat","").is_empty() else [extra.concealed_attach,extra.concealed_release])+[extra.route_here,extra.inspect]
@@ -270,6 +284,7 @@ func command_controls() -> Array:
   "delivery":return [extra.blackwater_a,extra.blackwater_b,extra.inspect]
   "inspect","signals","recovery":return []
  var controls=[host.order_buttons.camera,extra.depth_menu,host.order_buttons.silent,host.order_buttons.program,extra.route_menu,extra.tools_menu,extra.guard_menu,extra.inspect]
+ if not host.sim.choir_context().is_empty():controls.append(extra.choir_work)
  if not host.sim.glass_context().is_empty():controls.append(extra.glass_work)
  if Witness.carries(host.sim,host.sim.selected):controls[0]=extra.witness_land
  if Concealed.status(host.sim).get("known",false):controls.append(extra.concealed_work)
@@ -453,6 +468,12 @@ func refresh():
  if page=="inspect" and sim.selected==0:
   var correlation=Equipment.correlation_detail(sim)
   if not correlation.is_empty():instrument_info.text+="\n\n"+correlation
+ var industry=sim.choir_context()
+ if not industry.is_empty():
+  for action in industry.actions:
+   extra["choir_"+action].disabled=not industry.actions[action].ready;extra["choir_"+action].tooltip_text=industry.actions[action].reason
+  extra.choir_route.disabled=preload("res://src/presentation/industrial_view.gd").targets(sim).is_empty()
+  if page=="choir":instrument_info.text=industry.detail+"\n"+sim.message
  var reach=sim.glass_context()
  if not reach.is_empty():
   for action in reach.actions:

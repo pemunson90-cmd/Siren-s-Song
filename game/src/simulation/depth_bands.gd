@@ -50,16 +50,21 @@ static func command(sim,band)->bool:
  var u=sim.units[sim.selected]
  if not u.transition.is_empty() or absi(band-u.band)!=1 or not clear(sim,u.pos,u.pos,band,24):
   sim.message="Depth unavailable · adjacent band and local clearance required";return false
- if sim.mission.get("concealed_harbour",{}).get("carrier",-1)==sim.selected:
+ if sim.Choir.towing(sim,sim.selected) or sim.mission.get("concealed_harbour",{}).get("carrier",-1)==sim.selected:
   sim.message="Release the physical tow before changing depth";return false
  # Soundings only reveal this local vertical clearance; never a remote detour.
  var held=u.hold
- var working=not sim.captures[sim.selected].is_empty() or not sim.module_recovery_status().jobs[sim.selected].is_empty() or sim.Delivery.busy(sim,sim.selected) or sim.Witness.busy(sim,sim.selected) or sim.Chain.connected(sim,sim.selected) or sim.Glass.busy(sim,sim.selected)
- u.transition={"to":band,"remaining":DURATION};u.vel=Vector2.ZERO;u.hold=""
- sim.ModuleRecovery.cancel_released(sim,sim.selected);sim.Delivery.cancel_released(sim,sim.selected);sim.Witness.cancel_released(sim,sim.selected);sim.Glass.cancel_released(sim,sim.selected)
+ var working=not sim.captures[sim.selected].is_empty() or not sim.module_recovery_status().jobs[sim.selected].is_empty() or sim.Delivery.busy(sim,sim.selected) or sim.Witness.busy(sim,sim.selected) or sim.Chain.connected(sim,sim.selected) or sim.Glass.busy(sim,sim.selected) or sim.Choir.busy(sim,sim.selected)
+ var sleeve=sim.Equipment.item_for(sim.mission.launch_equipment,sim.selected)=="quietus_pressure_sleeve"
+ var duration=2.5 if sleeve else DURATION
+ if sleeve:
+  if sim.oxygen<.75:sim.message="Insufficient pressure-sleeve reserve";return false
+  sim.oxygen-=.75;sim._noise(u.pos,250.,"PRESSURE SLEEVE",duration,u.band)
+ u.transition={"to":band,"remaining":duration};u.vel=Vector2.ZERO;u.hold=""
+ sim.ModuleRecovery.cancel_released(sim,sim.selected);sim.Delivery.cancel_released(sim,sim.selected);sim.Witness.cancel_released(sim,sim.selected);sim.Glass.cancel_released(sim,sim.selected);sim.Choir.cancel_released(sim,sim.selected)
  sim.Chain.cancel_released(sim,"depth")
  if not working:u.hold=held
- sim.captures[sim.selected]={};sim.message="%s · %s → %s · 4s exposed transition"%[u.name,NAMES[u.band],NAMES[band]]
+ sim.captures[sim.selected]={};sim.message="%s · %s → %s · %.1fs exposed transition"%[u.name,NAMES[u.band],NAMES[band],duration]
  return true
 static func advance(sim,dt):
  for u in sim.units+sim.sirens:

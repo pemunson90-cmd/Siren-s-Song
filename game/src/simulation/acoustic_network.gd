@@ -17,7 +17,7 @@ static func heard(sim,e:Dictionary)->Dictionary:
   if u.alive and e.band in sim.Depth.occupied(u) and sim.propulsion_speed(u)>12:
    candidates.append({"pos":u.pos,"radius":minf(650.,sim.motion_radius(id)*1.6)})
  for noise in sim.noises:
-  if noise.band==e.band and noise.label in ["ACTIVE SONAR","CAMERA","DISRUPTION","KNOCKDOWN","TORPEDO RUN","DECOY","RECOVERY WINCH","REACH MACHINERY"]:candidates.append(noise)
+  if noise.band==e.band and noise.label in ["ACTIVE SONAR","CAMERA","DISRUPTION","KNOCKDOWN","TORPEDO RUN","DECOY","RECOVERY WINCH","REACH MACHINERY","CHOIR MACHINERY","CHOIR BERTH RELEASE","PRESSURE SLEEVE"]:candidates.append(noise)
  for candidate in candidates:
   var arrivals=sim.band_acoustics[e.band].arrivals(e.pos,candidate.pos,candidate.radius)
   if arrivals.is_empty():continue
