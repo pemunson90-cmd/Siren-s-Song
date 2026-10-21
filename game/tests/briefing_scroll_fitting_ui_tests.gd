@@ -40,7 +40,7 @@ func action(id:String):
   if control is Button and control.get_meta("action","")==id:return control
  return null
 func expose_fittings():
- for n in 8:
+ for n in 20:
   if game.scroll.get_global_rect().encloses(fitting("drone_b").get_global_rect()):break
   var area=game.scroll.get_global_rect();var start=Vector2(area.get_center().x,area.end.y-20)
   await drag(start,Vector2(start.x,area.position.y+30))

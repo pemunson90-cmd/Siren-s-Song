@@ -348,7 +348,7 @@ func motion_radius(unit_id:int)->float:
 func _craft_speed(unit:Dictionary,fallback:float)->float:
 	var quietus=unit.name=="QUIETUS"
 	var speed=RouteProgram.speed(unit,fallback,quietus)
-	return Choir.speed(self,units.find(unit),Concealed.speed(self,CraftUpgrades.cruise_speed(mission.get("launch_equipment",{})) if quietus and not unit.silent else speed,unit))
+	return Choir.speed(self,units.find(unit),Concealed.speed(self,CraftUpgrades.cruise_speed(mission.get("launch_equipment",{})) if quietus and not unit.silent else CraftUpgrades.frame_speed(mission.get("launch_equipment",{}),units.find(unit),speed),unit))
 func world_size() -> Vector2:
 	return WorldRegion.size_of(mission)
 func _build_navigation() -> void:
@@ -840,7 +840,7 @@ func _tick(dt: float) -> void:
 				else:Delivery.sampled(self,work.target,station)
 	if mission.get("expedition_revision",0)==2:
 		var was=correlation.get("status","")
-		correlation=Correlator.advance(correlation,signal_readings(),mission.get("launch_context",{}).get("references",{}).get("return_cadence",[]),units[0].pos,units[0].vel.length(),elapsed,dt,units[0].alive and Equipment.item_for(mission.get("launch_equipment",{}),0)=="quietus_correlator")
+		correlation=Correlator.advance(correlation,signal_readings(),mission.get("launch_context",{}).get("references",{}).get("return_cadence",[]),units[0].pos,units[0].vel.length(),elapsed,dt,units[0].alive and Equipment.has(mission.get("launch_equipment",{}),0,"quietus_correlator"))
 		if was!="match" and correlation.get("status","")=="match":
 			var direction=correlation.arrivals.filter(func(r):return r.classification=="match")[0].direction
 			events.append({"type":"return_received","receiver":0,"direction":direction,"identity":"return","time":elapsed})

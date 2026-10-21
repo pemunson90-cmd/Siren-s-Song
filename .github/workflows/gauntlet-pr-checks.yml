@@ -108,6 +108,7 @@ jobs:
           wake_crossing_ui_tests|WAKE CROSSING UI
           operation_catalog_tests|OPERATION CATALOG
           depth_sonar_tests|DEPTH SONAR
+          sonar_zero_bearing_tests|SONAR ZERO BEARING
           sweeper_tests|SWEEPER
           depth_policy_journeys|DEPTH POLICY
           depth_sonar_ui_tests|DEPTH SONAR UI
@@ -153,6 +154,7 @@ jobs:
           rendezvous_transport_tests|RENDEZVOUS TRANSPORT
           rendezvous_ui_tests|RENDEZVOUS UI
           briefing_scroll_fitting_ui_tests|BRIEFING SCROLL FITTING UI
+          loadout_frames_tests|LOADOUT FRAMES
           warning_chain_tests|WARNING CHAIN
           warning_chain_journey_tests|WARNING CHAIN JOURNEY
           warning_chain_ui_tests|WARNING CHAIN UI
