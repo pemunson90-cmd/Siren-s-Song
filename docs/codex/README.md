@@ -11,6 +11,8 @@ Your code work happens on a separate lane branch named in the handoff, and retur
 1. `git fetch origin codex/handoffs` and read `docs/codex/` from `origin/codex/handoffs` (use `git show origin/codex/handoffs:docs/codex/<file>` or check the branch out in a separate worktree).
 2. Handoff files are named `NNN-short-name.md` with a three digit number. Each has a line `Status: OPEN`, `CLAIMED`, `DONE` or `BLOCKED` near the top.
 3. Take the highest-numbered file whose status is exactly `OPEN`. Ignore everything else. If two are OPEN, take the higher number and leave the other alone.
+4. Read its `Precondition:` line and obey it. If the precondition says a Claude worker may be active (newest commit on the branch under 90 minutes old), do not claim it; move to the next-highest OPEN handoff. If none are left, go to step 2 below and tell Pat.
+5. Read its `Codex may merge:` line. Where it says yes, you may merge that handoff's pull request into `claude/integration` (never production, never main) with a merge commit, but only after GitHub's `guidance` and `game-smoke` are both green on the exact head and the pull request is mergeable.
 
 ## Step 2: if there is no OPEN handoff
 Do nothing else. Do not guess. Do not resume a CLAIMED or older task. Reply to Pat in plain language, no jargon, with exactly:
