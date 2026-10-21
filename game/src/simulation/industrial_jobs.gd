@@ -3,7 +3,7 @@ const Catalog=preload("res://src/campaign/operation_catalog.gd")
 static func applies(m:Dictionary)->bool:return Catalog.supports(m.get("id",-1),"iron_choir") and m.get("iron_choir") is Dictionary
 static func busy(sim,id:int)->bool:return applies(sim.mission) and not sim.mission.iron_choir.jobs[id].is_empty()
 static func body(sim)->Dictionary:return sim.mission.iron_choir.load if applies(sim.mission) else {}
-static func yoke(sim,id:int)->bool:return sim.Equipment.item_for(sim.mission.launch_equipment,id)=="drone_traction_yoke"
+static func yoke(sim,id:int)->bool:return sim.Equipment.has(sim.mission.launch_equipment,id,"drone_traction_yoke")
 static func towing(sim,id:int)->bool:return not body(sim).is_empty() and body(sim).state=="towed" and body(sim).carrier==id
 static func speed(sim,id:int,speed_value:float)->float:return minf(speed_value,22. if yoke(sim,id) else 28.) if towing(sim,id) else speed_value
 static func noise(sim,id:int)->float:return minf(240.,sim.propulsion_speed(sim.units[id])*(8. if yoke(sim,id) else 4.)) if towing(sim,id) else 0.

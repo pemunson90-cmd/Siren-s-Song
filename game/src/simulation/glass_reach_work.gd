@@ -7,7 +7,7 @@ static func item(sim)->String:return "glass_"+artifact(sim).get("id","")
 static func sites(sim)->Array:
  var a=artifact(sim)
  return [{"item":item(sim),"name":a.id.replace("_"," ").to_upper(),"pos":a.pos,"band":a.band}] if not a.is_empty() and a.state in ["site","wreck"] else []
-static func decoder(sim,unit:int)->bool:return sim.Equipment.item_for(sim.mission.launch_equipment,unit)=="quietus_decoder"
+static func decoder(sim,unit:int)->bool:return sim.Equipment.has(sim.mission.launch_equipment,unit,"quietus_decoder")
 static func context(sim,action:String,unit:int=-1)->Dictionary:
  var result={"ready":false,"reason":"No Reach task here","pos":Vector2.ZERO,"duration":8.,"active":false,"elapsed":0.,"claimed_by":-1,"distance":0.,"range":60.,"noise_radius":520.}
  if not applies(sim.mission):return result

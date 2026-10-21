@@ -25,5 +25,5 @@ func _initialize():
   var cards=kit.public_catalog(["quietus_correlator"])
   check(cards.size()==1 and cards[0].id=="quietus_correlator" and cards[0].has_all(["name","compatible_slots","benefit","cost"]),"public catalog describes only genuinely available benefit and cost")
   cards[0].name="bad";check(kit.public_catalog(["quietus_correlator"])[0].name!="bad","presentation cannot mutate shared catalog")
-  check(kit.item_for({},0)=="" and kit.item_for(selected.fitted,0)=="quietus_correlator" and kit.item_for(selected.fitted,1)=="","legacy absent fit and per-craft lookup stay isolated")
+  check(kit.items_for({},0).is_empty() and kit.has(selected.fitted,0,"quietus_correlator") and kit.items_for(selected.fitted,1).is_empty(),"legacy absent fit and per-craft lookup stay isolated")
  print("EARNED EQUIPMENT CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)
