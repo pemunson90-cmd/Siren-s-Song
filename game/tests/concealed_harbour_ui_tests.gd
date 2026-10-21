@@ -89,8 +89,8 @@ func run_case(dimensions:Vector2i,thread:String):
  var work=g.mission_hud.extra.concealed_work
  check(work.is_visible_in_tree(),"living witness contributes reachable account control "+label)
  await tap(work.get_global_rect().get_center())
- check(g.mission_hud.subject.get("subkind","")=="concealed" and "NAVIGATOR" in g.mission_hud.instrument_info.text if thread=="deep" else "HARBOUR KEEPER" in g.mission_hud.instrument_info.text,"account is attached to actual local problem "+label)
- check(g.mission_hud.instrument_info.text.begins_with("NAVIGATOR:" if thread=="deep" else "HARBOUR KEEPER:") and g.mission_hud.close_button.text=="LOCAL ORDERS" and g.mission_hud.sheet.visible,"first account panel leads with the survivor and identifies its local-order transition "+label)
+ check(g.mission_hud.subject.get("subkind","")=="concealed" and "SONAR OPERATOR" in g.mission_hud.instrument_info.text if thread=="deep" else "SONAR OPERATOR" in g.mission_hud.instrument_info.text,"account is attached to actual local problem "+label)
+ check(g.mission_hud.instrument_info.text.begins_with("KESTREL'S SONAR OPERATOR:") and g.mission_hud.close_button.text=="LOCAL ORDERS" and g.mission_hud.sheet.visible,"first account panel leads with the survivor and identifies its local-order transition "+label)
  await capture(label+"-witness-account")
  await tap(g.mission_hud.close_button.get_global_rect().get_center())
  var attach=g.mission_hud.extra.concealed_attach
