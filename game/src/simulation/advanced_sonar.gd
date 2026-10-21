@@ -1,5 +1,7 @@
 extends RefCounted
 const Depth=preload("res://src/simulation/depth_bands.gd")
+const Equipment=preload("res://src/equipment/equipment_catalog.gd")
+const Upgrades=preload("res://src/equipment/craft_upgrades.gd")
 const Chart=preload("res://src/simulation/terrain_chart.gd")
 const SOUND_SPEED=300.0 # Tactical time scale, bounded two-way travel; not calibrated ocean acoustics.
 const MAX_HISTORY=72
@@ -22,8 +24,8 @@ static func water_path(sim,receiver:Dictionary,source:Dictionary,radius:float)->
 static func emit(sim,station:int)->bool:
  var u=sim.units[station]
  if not u.transition.is_empty():sim.message="Settle depth before emitting";return false
- var settings=POWERS[sim.sonar.power];var prism=station==0 and sim.mission.launch_equipment.get("quietus","")=="quietus_prism" and sim.sonar.sector=="forward"
- var cost=settings.cost*(2. if prism else 1.)
+ var settings=POWERS[sim.sonar.power];var prism=station==0 and Equipment.has(sim.mission.launch_equipment,0,"quietus_prism") and sim.sonar.sector=="forward"
+ var cost=settings.cost*(2. if prism else 1.)*Upgrades.pulse_cost(sim.mission.launch_equipment,station)
  if (sim.oxygen if station==0 else u.battery)<cost:return false
  if station==0:sim.oxygen-=cost
  else:u.battery-=cost
@@ -145,11 +147,11 @@ static func valid(data)->bool:
  if not state.listening_until is Array or state.listening_until.size()!=3:return false
  for station in 3:
   var until=state.listening_until[station]
-  var reach=POWERS.high.radius*(1.4 if station==0 and fitting.get("quietus","")=="quietus_prism" else 1.)
+  var reach=POWERS.high.radius*(1.4 if station==0 and Equipment.has(fitting,0,"quietus_prism") else 1.)
   if not _number(until) or (until!=-1. and (until<0 or until>time+2*reach/SOUND_SPEED+.001)):return false
  for packet in state.pending:
   if not packet is Dictionary or not packet.has_all(["kind","due","time","station","band","origin"]) or packet.kind not in ["echo","terrain"]:return false
-  if not _number(packet.due) or not _number(packet.time) or packet.time<0 or packet.time>time or packet.due<time or packet.due>time+2*POWERS.high.radius*(1.4 if packet.get("station",-1)==0 and fitting.get("quietus","")=="quietus_prism" else 1.)/SOUND_SPEED+.001:return false
+  if not _number(packet.due) or not _number(packet.time) or packet.time<0 or packet.time>time or packet.due<time or packet.due>time+2*POWERS.high.radius*(1.4 if packet.get("station",-1)==0 and Equipment.has(fitting,0,"quietus_prism") else 1.)/SOUND_SPEED+.001:return false
   if not packet.station is int or packet.station<0 or packet.station>2 or not packet.band is int or packet.band<0 or packet.band>2 or not packet.origin is Vector2 or not packet.origin.is_finite():return false
   if packet.kind=="echo":
    if not packet.get("emitter_band") is int or packet.emitter_band not in [0,1,2] or not packet.get("enemy") is int or packet.enemy<0 or packet.enemy>=data.sirens.size() or not packet.get("pos") is Vector2 or not packet.pos.is_finite() or not _number(packet.get("tone")) or packet.tone<40 or packet.tone>2000 or not packet.get("direction") is Vector2 or not packet.direction.is_finite() or packet.direction.length()<.99 or packet.direction.length()>1.01 or not packet.get("direct") is bool or packet.get("type") not in ["patroller","sentinel","hunter","sweeper","buoy","relay","interceptor","warden"]:return false

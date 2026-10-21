@@ -55,7 +55,7 @@ static func command(sim,band)->bool:
  # Soundings only reveal this local vertical clearance; never a remote detour.
  var held=u.hold
  var working=not sim.captures[sim.selected].is_empty() or not sim.module_recovery_status().jobs[sim.selected].is_empty() or sim.Delivery.busy(sim,sim.selected) or sim.Witness.busy(sim,sim.selected) or sim.Chain.connected(sim,sim.selected) or sim.Glass.busy(sim,sim.selected) or sim.Choir.busy(sim,sim.selected)
- var sleeve=sim.Equipment.item_for(sim.mission.launch_equipment,sim.selected)=="quietus_pressure_sleeve"
+ var sleeve=sim.Equipment.has(sim.mission.launch_equipment,sim.selected,"quietus_pressure_sleeve")
  var duration=2.5 if sleeve else DURATION
  if sleeve:
   if sim.oxygen<.75:sim.message="Insufficient pressure-sleeve reserve";return false
