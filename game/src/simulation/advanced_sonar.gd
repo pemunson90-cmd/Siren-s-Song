@@ -34,6 +34,8 @@ static func emit(sim,station:int)->bool:
  var sector=sim.sonar.sector;var angle=u.angle
  for id in sim.sirens.size():
   var enemy=sim.sirens[id]
+  # Exact overlap has no horizontal bearing; do not invent one for the echo.
+  if u.pos==enemy.pos:continue
   var path=water_path(sim,u,enemy,radius)
   if path.is_empty() or not in_sector(u.pos,path.points[1],angle,sector):continue
   # The returning packet contains only the emission-time reflection.
@@ -80,6 +82,7 @@ static func advance(sim,dt):
   var masking=1.+own/180.
   for id in sim.sirens.size():
    var enemy=sim.sirens[id]
+   if u.pos==enemy.pos:continue
    # Propulsion and genuine sweeper emission, never fabricated ghosts.
    var emission=900.0 if enemy.get("sweep",{}).get("emitting",0)>0 else 650.0 if not enemy.get("sweep",{}).get("strike",{}).is_empty() else 350.0 if enemy.get("sweep",{}).get("charge",0)>0 else 510.0
    var industry=enemy.get("type","") in ["interceptor","warden"]
