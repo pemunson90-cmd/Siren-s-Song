@@ -52,5 +52,8 @@ func _initialize():
 	check(s.command("route",{"point":Vector2(570,500)}),"existing waypoint at another craft accepts normally")
 	tick(s,8.)
 	check(u.pos.distance_to(Vector2(570,500))<12 and u.route.is_empty(),"hull impact slows the craft without adding permanent waypoint exclusion")
+	s=fixture();s.units[0].vel=Vector2.ZERO;s.units[1].alive=true;s.units[1].pos=Vector2(530,500);s.units[1].vel=Vector2(-78,0)
+	tick(s,.4)
+	check(s.hull<100.,"incoming moving hull damages stationary Quietus")
 	print("COLLISION BOUNDARIES CHECKS ",checks," FAILURES ",failures)
 	quit(1 if failures else 0)

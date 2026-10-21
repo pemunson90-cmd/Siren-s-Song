@@ -240,15 +240,19 @@ func _hull_contacts(u:Dictionary,origin:Vector2,velocity:Vector2)->void:
 	var bodies=units.slice(1)+sirens
 	for body in [Recipient.body(self),Choir.body(self)]:
 		if not body.is_empty():bodies.append(body)
-	if Rendezvous.applies(mission):bodies.append({"pos":Rendezvous.position(mission,elapsed),"band":1,"vel":Vector2.ZERO})
+	if Rendezvous.applies(mission):
+		var point=Rendezvous.position(mission,elapsed)
+		bodies.append({"pos":point,"band":1,"vel":(point-Rendezvous.position(mission,maxf(0.,elapsed-STEP)))/STEP})
 	for body in bodies:
 		if not body.get("alive",true) or not Depth.overlap(u,body):continue
 		# Apply one contact impulse on entry. Existing overlapping craft remain
 		# able to separate; hull contact adds no permanent waypoint exclusion.
-		if origin.distance_to(body.pos)<COLLISION_HULL_CLEARANCE:continue
-		var closest=Geometry2D.get_closest_point_to_segment(body.pos,origin,u.pos)
-		if closest.distance_to(body.pos)>=COLLISION_HULL_CLEARANCE:continue
-		var closing=(velocity-body.get("vel",Vector2.ZERO)).dot(origin.direction_to(body.pos))
+		var other_velocity:Vector2=body.get("vel",Vector2.ZERO)
+		var separation:Vector2=body.pos-other_velocity*STEP-origin
+		if separation.length()<COLLISION_HULL_CLEARANCE:continue
+		var closest=Geometry2D.get_closest_point_to_segment(Vector2.ZERO,-separation,u.pos-body.pos)
+		if closest.length()>=COLLISION_HULL_CLEARANCE:continue
+		var closing=(velocity-other_velocity).dot(separation.normalized())
 		if closing<=0:continue # Separating or coincident hulls do not invent impacts.
 		_hull_strike(u,closing);u.vel*=COLLISION_SPEED_RETAINED
 		if u.has("water_velocity"):u.water_velocity=u.vel-current_at(u.pos)
@@ -801,6 +805,7 @@ func advance(dt: float) -> void:
 	while accumulator+0.0000001>=STEP and outcome.is_empty():
 		_tick(STEP); accumulator-=STEP
 func _tick(dt: float) -> void:
+	var hull_origin:Vector2=units[0].pos;var hull_velocity:Vector2=units[0].vel
 	Departure.emit(self)
 	elapsed+=dt
 	Depth.advance(self,dt);Sonar.advance(self,dt); oxygen=maxf(0,oxygen-Endurance.oxygen_drain(mission,dt))
@@ -830,6 +835,7 @@ func _tick(dt: float) -> void:
 	var vaporized=_threats(dt)
 	Network.advance(self,dt)
 	Glass.tick(self,dt);Choir.tick(self,dt)
+	_hull_contacts(units[0],hull_origin,hull_velocity)
 	Depth.cargo_bands(self)
 	Shelf.tick(self)
 	Chain.tick(self)
@@ -959,10 +965,8 @@ func _current_step(u:Dictionary,dt:float,desired_ground:Vector2,speed:float,flow
 		if player_craft:RouteProgram.clear(u)
 		if report_collision:message="%s autopilot stopped at unsafe terrain. Replot in open water."%u.name
 func _move(u: Dictionary,dt: float,speed: float,holding: bool,report_collision: bool=true,player_craft: bool=false) -> void:
-	var origin:Vector2=u.pos;var velocity:Vector2=u.vel
 	_use_band(u.get("band",1))
 	_move_in_band(u,dt,speed,holding or not u.get("transition",{}).is_empty(),report_collision,player_craft)
-	if player_craft and u==units[0]:_hull_contacts(u,origin,velocity)
 	_use_band(units[selected].band)
 func _move_in_band(u: Dictionary,dt: float,speed: float,holding: bool,report_collision: bool=true,player_craft: bool=false) -> void:
 	var desired=Vector2.ZERO

@@ -29,8 +29,10 @@ func _initialize():
  s=beam_fixture();e=s.sirens[0];run(s,3.0)
  s.mission.structures=[Rect2(970,700,20,300)];s._build_navigation();run(s,4.0)
  check(s.outcome.is_empty() and e.lock<1.0,"cover breaks the lock before it fires")
- # EMP-style knockdown zeroes the lock.
- s=beam_fixture();e=s.sirens[0];run(s,3.0);e.stun=12.0;e.lock=0.0;run(s,3.0)
+ # The real finite EMP command breaks the warning before the beam fires.
+ s=beam_fixture();e=s.sirens[0];run(s,3.0)
+ check(s.command("emp") and s.tools.emp==1,"finite EMP is accepted during a real lock")
+ run(s,3.0)
  check(s.outcome.is_empty() and s.hull==100.0,"disrupted siren cannot fire")
  # Drones still die at once to a beam.
  s=beam_fixture();s.units[1].alive=true;s.units[1].pos=Vector2(900,840);s.units[0].pos=Vector2(400,2000);e=s.sirens[0];run(s,6.0)
