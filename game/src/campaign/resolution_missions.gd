@@ -1,5 +1,5 @@
 extends RefCounted
-# S3 PLACEHOLDERS (bible silent): unnamed "Kestrel sonar operator" witness role, "old ridge survey repeater" (service sluice), "old tracking float" (deep trace), Brannock launch pickup. Aesthetics pass later.
+# S3 PLACEHOLDERS (bible silent): unnamed "Kestrel sonar operator" witness role, "old ridge survey repeater" (service sluice), "old tracking float" (deep trace), a wrecked rig with a still-calling beacon (op 9 decoy), plant frames/feed line and a moving load in ops 3 and 5 (mechanics need an object, bible silent), the shelf variant's screen/baffle mechanic mapped onto the bunker blast-door approach, Brannock launch pickup. Aesthetics pass later.
 # Working fiction. Registry, recovered-thread commits and runtime hooks belong
 # to the campaign owner; this module consumes their recovered launch context.
 const Witness=preload("res://src/simulation/witness_evacuation.gd")
@@ -60,14 +60,14 @@ static func _concealed(m:Dictionary)->void:
  preload("res://src/simulation/concealed_harbour.gd").build(m)
  m.corridors=[{"pos":m.extraction,"name":"CONCEALED RECOVERY BASIN","route":"concealed"}]
  m.brief="Confluence's concealed passage leads to Kestrel's escape capsule beyond the southern overhang. WINCH its occupied witness capsule onto Quietus or either bare drone: settle below 2m/s within 60m with clear line of sight for one audible four-second winch. Carry the living witness to the southeast basin and explicitly LAND WITNESS there; Quietus must also return. If a carrier is lost, its sealed pressure pod ejects at that own-craft position and the same witness can be winched aboard another craft. The occupied pod remains sealed for recovery. Recovered kit at the same wreck shares that single winch. The long western detour works with the service sluice shut and needs no transmission or machinery. Alternatively, operate the charted SERVICE SLUICE CONTROL on its north side: an audible motor permanently opens the man-made passage for a shorter return. It never closes or crushes craft. Quietus can operate it in four seconds; a fitted drone sampler can work independently in eight audible seconds, if it survives. The actuator is optional and does not replace the witness. Decide whether the changed route is worth making the machinery heard, then bring the occupied capsule home. Active tools remain available; no hidden purity score invalidates recovery."
- m.brief+=" Kestrel's sonar operator knows what holds the trench mouth: an old tracking float, still sending. Reserve air to act on her account before bringing the capsule home." if m.concealed_harbour.thread=="deep" else " Kestrel's sonar operator knows why Port Ardent's crew cannot reach their lock: a collapsed screen across its mouth. Reserve air to act on her account before bringing the capsule home."
+ m.brief+=" Kestrel's sonar operator knows what holds the trench mouth: an old tracking float, still sending. Reserve air to act on her account before bringing the capsule home." if m.concealed_harbour.thread=="deep" else " Kestrel's sonar operator knows how Port Ardent's shore-end bunker can be opened from the water: its blast door must be cut, and the cutter is loud. Reserve air to act on her account before bringing the capsule home."
  m.record="The sailors' account returns without being forwarded through the warning chain. The service sluice, if opened, remains an actual route through the overhang; the unannounced western detour remains a valid alternative. This resolves the concealed operation, not who else is still down there."
  _patrol(m,Vector2(700,1140),[Vector2(700,1140),Vector2(700,700),Vector2(780,480),Vector2(820,1900)])
  _patrol(m,Vector2(1780,1780),[Vector2(1780,1780),Vector2(2100,1780),Vector2(2100,1580),Vector2(1380,1580)])
  m.sirens[1].type="sentinel";m.sirens[1]["tether"]=190.0
  if m.concealed_harbour.thread=="shelf":
   var watch=m.sirens[1];watch.pos=Vector2(1320,1070);watch.home=watch.pos;watch.goal=watch.pos;watch.patrol_points=[watch.pos]
-  m.brief+=" A Siren sentinel listens outside the lock. The western return has a moving patrol."
+  m.brief+=" A Siren sentinel listens outside the bunker approach. The western return has a moving patrol."
  else:m.brief+=" A Siren sentinel holds the water north of the sluice; the western route has a moving patrol."
 
 static func _overt(m:Dictionary)->void:

@@ -19,7 +19,7 @@ static func apply(mission:Dictionary)->void:
  west.pos=Vector2(420,400);east.pos=Vector2(1550,760);link.pos=Vector2(1110,1660)
  west["evidence"]="WEST CORRECTION: the relay compensates for a blind sector behind the central basalt spine. The northern saddle links the two arms; the lower west passage returns toward the recovery basin. A separate drone can observe the eastern relay while Quietus stays under cover at the uplink."
  east["evidence"]="EAST CORRECTION: the eastern relay listens into open water beside the long outer wall. Its return points toward the covered UPLINK ANCHOR south of the spine. Combine both records there with Quietus."
- link["evidence"]="Joined, the two logs line up: the rig held station until 02:14, then drifted east on a parted riser. Return through either southern passage; Quietus must recover the log."
+ link["evidence"]="Joined, the two logs agree on the moment the riser parted. Return through either southern passage; Quietus must recover the log."
  mission.brief="Corran Bank's two positioning transponders sit on either side of a branching basalt trench. Recover WEST and EAST relay images, then bring Quietus to the covered UPLINK ANCHOR for a six-second CAMERA / LINK. The western arm bends through cover; the eastern arm opens beside a long wall. The northern saddle crosses between them. Drones can work opposite arms while Quietus stages at the uplink; a lone submarine can make the circuit. Return to the southern recovery basin. Sonar is local. RECON surveys 560m around its launch point for eight seconds, including behind cover; distant water stays unknown."
  var homes=[Vector2(420,700),Vector2(1690,1050)]
  var circuits=[

@@ -4,15 +4,15 @@ const BRIEFS = [
 	"Corran Bank's beacon is still pinging from the shelf. Photograph the signal spire, then bring Quietus home. Your charts show rock, not what waits behind it. Sonar shows you the water and tells everything in it where you are.",
 	"Two seabed transponders, two halves of the rig's log. Photograph the WEST and EAST relays. Bring Quietus to the covered UPLINK ANCHOR and use CAMERA / LINK to join their records. Drones are faster and can expose a relay while the submarine moves. Lose them and the submarine goes the long way alone. Return with the joined log.",
 	"The two relays still trade packets. Blackwater swallows passive returns. Settle within passive reach and SAMPLE the REQUEST and REPLY relays. Drones hear farther; Quietus can recover either record if they are lost. Sonar can make a relay answer, but everything nearby hears the ping. Bring the exchange home.",
-	"Enter from the western shelf. Our recovery buoy is past the southern factory wall. Image the FURNACE VENT first, then the LAUNCH CRADLE. The basalt spine gives cover; the factory perimeter does not. Station guards hold the furnace and the recovery channel. A live decoy draws them out; they return when it stops. Cameras can draw a response. Plan Quietus' route before you expose the second record. Drones can take either photograph; the submarine is your fallback.",
+	"Enter from the western shelf. Our recovery buoy is past the southern plant wall. Image the FURNACE VENT first, then the LAUNCH CRADLE. The basalt spine gives cover; the plant perimeter does not. Siren sentinels hold the furnace vent and the recovery channel. A live decoy draws them out; they return when it stops. Cameras can draw a response. Plan Quietus' route before you expose the second record. Drones can take either photograph; the submarine is your fallback.",
 	"The well records what it hears. Collect three records from its rim. A fast responder waits in the inner water. Noise draws it out; when sight breaks it searches the last place it heard or saw you. Break sight before its beam resolves. Silence is a route too.",
-	"The transmitter crown faces the trench; the wakes run deeper, away from us. Photograph both. Bring Quietus through the southern basalt lee to the LEE RECEIVER and use CAMERA / LISTEN for six quiet seconds. Only the submarine carries the low-frequency hydrophones for this packet. Drones can scout the exposed crown and wakes while Quietus moves under cover; the submarine can take either image if they are lost. Return to the western buoy with what you heard."
+	"The transmitter crown faces the trench; the wake lines run deeper, away from us. Photograph both. Bring Quietus through the southern basalt lee to the LEE RECEIVER and use CAMERA / LISTEN for six quiet seconds. Only the submarine carries the low-frequency hydrophones for this packet. Drones can scout the exposed crown and wakes while Quietus moves under cover; the submarine can take either image if they are lost. Return to the western buoy with what you heard."
 ]
 const RECORDS = [
 	"Corran Bank's emergency beacon, still on battery. Under it the broken drill string rings each time the swell moves the wreck.",
-	"Both transponders logged the night of the strike. Their clocks agree: the riser parted at 02:14, eleven seconds after the first Siren contact.",
+	"Both transponders logged the night of the strike. Their clocks agree on the moment the riser parted.",
 	"The reply is the driller's log. The last entry is a pressure reading, then nothing.",
-	"The furnace pours smooth hollow forms. In the cradles the same forms hang finished. One cradle is empty.",
+	"The furnace vent feeds a line of open steel frames to the south. All of it is still warm.",
 	"Our engine note comes back in the well's next transmission.",
 	"The packet is a list of bearings, one for every loud site on this coast. Two of them still make noise."
 ]
@@ -48,15 +48,15 @@ static func make(i: int) -> Dictionary:
 		objectives[1]["evidence"]="DRILLER'S LOG: the eastern reply carries the rig's last log. The REQUEST uses the same handshake: settle within passive reach and SAMPLE 2s, or settle, SONAR under 240m with a clear line, then SAMPLE during the 3s local replay. Either packet can be recovered first."
 	if i==3:
 		objectives[0].name="FURNACE VENT"; objectives[0]["optical"]="furnace"
-		objectives[0]["evidence"]="Molten material runs into smooth hollow forms. The line feeds the cradles to the south."
+		objectives[0]["evidence"]="Heat pours from the vent into a feed line that runs south to the frames."
 		objectives[1].name="LAUNCH CRADLE"; objectives[1]["optical"]="cradle"; objectives[1]["requires"]=[0]
-		objectives[1]["requirement"]="Record the furnace first, so the cradle images can be matched to its castings."
-		objectives[1]["evidence"]="Long smooth hulls hang in open frames, lit from inside. One frame is empty. Its rails run down toward the trench."
+		objectives[1]["requirement"]="Record the furnace first, so the frame images can be matched to its feed line."
+		objectives[1]["evidence"]="Open steel frames stand on rails that end at the trench edge. All of it is still warm."
 	if i==5:
 		objectives[0].name="TRANSMITTER CROWN"; objectives[0]["optical"]="transmitter"
 		objectives[0]["evidence"]="Nested resonator vanes point into the trench. They repeat one low pulse, over and over."
 		objectives[1].name="OUTBOUND WAKES"; objectives[1]["optical"]="departure"
-		objectives[1]["evidence"]="Smooth hulls descend away from the shelf. Past a warm fracture in the trench floor their wakes split: one line runs south down the trench, one turns west along the shelf."
+		objectives[1]["evidence"]="Disturbed water runs out from the shelf. Past a warm fracture in the trench floor it splits: one line runs south down the trench, one turns west along the shelf."
 		objectives[2].name="LEE RECEIVER"; objectives[2]["kind"]="receiver"; objectives[2]["required_unit"]=0; objectives[2]["duration"]=6.0; objectives[2]["requires"]=[0,1]; objectives[2]["optical"]="warning"
 		objectives[2]["requirement"]="Need both observations: TRANSMITTER CROWN + OUTBOUND WAKES."
 		objectives[2]["unit_requirement"]="Quietus hydrophones required · small drones cannot resolve this packet."
@@ -78,7 +78,7 @@ static func make(i: int) -> Dictionary:
 		result["departure_revision"]=1
 		result["thermal_revision"]=1;result["thermal_fronts"]=preload("res://src/simulation/thermal_front.gd").foundry()
 		result.brief+=" A charted cold-water front crosses the southern channel. Sound and passive contacts weaken across it in both directions. Waiting west of it may protect a staging drone, but costs information and time. Close sight and visible beam charges still expose you; optical photography remains noisy."
-		result.brief+=" The cradle motors warm up, then one hull leaves southeast. Its lit return comes from below our operating depth: it is not cover or an obstacle. Listen and watch the guards before you cross. Waiting costs time; crossing early and loud may need a disruption. Sight still outranks the factory noise."
+		result.brief+=" The plant's motors cycle up, then a load moves out southeast. Its lit return comes from below our operating depth: it is not cover or an obstacle. Listen and watch the Siren guards before you cross. Waiting costs time; crossing early and loud may need a disruption. Sight still outranks the plant noise."
 		var factory=Rect2(1120,140,400,600)
 		result["structures"]=[factory]; result["factory_rect"]=factory; result["phase"]="approach"; result["response_time"]=0.0
 		result.extraction=Vector2(1420,880)

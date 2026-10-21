@@ -25,8 +25,8 @@ const PROFILES={
   "source":3,
   "bands":{0:{"remove":[3],"add":[Rect2(1020,720,100,120)]},2:{"remove":[2,4],"add":[]}},
   "threats":{1:{"band":2}},
-  "hint":"Cold front weakens sound · factory solid at all depths · deep motor gives no cover.",
-  "brief":"Photograph FURNACE, then LAUNCH CRADLE; recover Quietus past the southern wall. DEEP passes beneath the central spine, but the factory stays solid. The furnace sentinel holds MIDDLE; the recovery sentinel and the launched hull's motor work DEEP. The cold front weakens sound in addition to layer loss. Wait quietly for a crossing, or coordinate a drone sounding while Quietus moves. Use craft → DEPTH / SONAR; image and recover in MIDDLE."
+  "hint":"Cold front weakens sound · plant solid at all depths · deep motor gives no cover.",
+  "brief":"Photograph FURNACE, then LAUNCH CRADLE; recover Quietus past the southern wall. DEEP passes beneath the central spine, but the plant stays solid. The furnace sentinel holds MIDDLE; the recovery sentinel and the plant's deep motor work DEEP. The cold front weakens sound in addition to layer loss. Wait quietly for a crossing, or coordinate a drone sounding while Quietus moves. Use craft → DEPTH / SONAR; image and recover in MIDDLE."
  },
  "well_interpretation":{
   "source":4,
