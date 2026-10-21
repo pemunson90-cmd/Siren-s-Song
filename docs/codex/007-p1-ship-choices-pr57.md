@@ -1,9 +1,9 @@
 # Handoff 007: fix the three failing checks on the ship choices pull request
 
-Status: OPEN
+Status: DONE
 Claimed at:
 Claimed by:
-Finished at:
+Finished at: 2026-10-21 22:53 UTC
 
 Precondition: run `git log -1 --format=%cr origin/claude/lane-p1-fittings`. If the newest commit is under 90 minutes old, a Claude worker may still be active on this branch: do not claim, skip to the next OPEN handoff, and if none remain tell Pat.
 Codex may merge: yes. After you push, once GitHub's `guidance` and `game-smoke` are both green on the exact head and the pull request is mergeable, merge it into `claude/integration` with a merge commit, then mark DONE.
@@ -30,4 +30,4 @@ Import, core tests, and `bash docs/codex/run_ci_scenarios.sh` all clean (every l
 Push the branch, and the existing pull request updates itself. Wait for GitHub's checks.
 
 ## Completion
-(Codex fills this in.)
+Pull request #57 was merged into claude/integration by another party (merge commit on integration) before this handoff was started. Nothing left to do. Closed by Claude.
