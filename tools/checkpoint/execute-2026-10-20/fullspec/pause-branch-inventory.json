@@ -1,0 +1,691 @@
+{
+  "production": "16b1a5052a270f2c6c69b500ed664ec0c3a2a30d",
+  "branches": [
+    {
+      "name": "archive/claude-audit-2026-10-19",
+      "sha": "251fc48559c1204b53e1a90fb32013c74d371f16",
+      "ancestor_of_production": false,
+      "subject": "Reaffirm audit findings and preserve the current full-game checkpoints"
+    },
+    {
+      "name": "archive/claude-current-audit-2026-10-19",
+      "sha": "3adf4be7c6a691378b7742327f11546d69c4f23c",
+      "ancestor_of_production": false,
+      "subject": "Provide bounded independent Claude audit brief and current qualified views"
+    },
+    {
+      "name": "archive/gauntlet-cold-frames-2026-10-20",
+      "sha": "f31bc8af91c340d4d131f457595f523ce0b75285",
+      "ancestor_of_production": false,
+      "subject": "archive: preserve byte-verified frozen play frames"
+    },
+    {
+      "name": "archive/gauntlet-cold-frames-execution-2026-10-20",
+      "sha": "2b6fdd7a3cba90251a0ca4bcb091388b87f77db0",
+      "ancestor_of_production": false,
+      "subject": "archive: append closed final critic screenshots with exact reconstruction"
+    },
+    {
+      "name": "archive/gauntlet-evidence-2026-10-19",
+      "sha": "a855cc1dab407d1851003be8029c65de00128b44",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "archive/gauntlet-evidence-2026-10-19-planner-71f10cf",
+      "sha": "71f10cffb83f8f3eea724b3fdb30114fa8d57b68",
+      "ancestor_of_production": false,
+      "subject": "test: retain reviewed navigable planner and native probe handoff"
+    },
+    {
+      "name": "archive/gauntlet-evidence-2026-10-19-stage2",
+      "sha": "522c801db6656d2f146b035ca5851bb45fd1e513",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "archive/gauntlet-governance-acceptance-2026-10-19",
+      "sha": "3c3937f4b09ac71526b12b367bfe9c37d9d7264b",
+      "ancestor_of_production": false,
+      "subject": "audit: preserve focused governance acceptance and retire exhaustive read queue"
+    },
+    {
+      "name": "archive/gauntlet-program-audit-2026-10-19",
+      "sha": "715043c54c14072cd8ae48a4b129b7231276875e",
+      "ancestor_of_production": false,
+      "subject": "Archive sequential independent and adversarial program audits"
+    },
+    {
+      "name": "audit/gauntlet-exhaustive-2026-10-19",
+      "sha": "f7b4f90fd09debe037c76c696f9e73f24f2cd03b",
+      "ancestor_of_production": false,
+      "subject": "audit: batch 25 [skip ci]"
+    },
+    {
+      "name": "checkpoint/patrol-recovery-8d8635a",
+      "sha": "8d8635aa2a1d7dc64c3d0f9f933972c1504aec1e",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "docs/playable-milestone-main-sync-20261019",
+      "sha": "1cb839f634e5332d922e3da304ec27741a0adb6d",
+      "ancestor_of_production": false,
+      "subject": "docs: put user-directed playable-milestone loop first in default-branch AGENTS"
+    },
+    {
+      "name": "gauntlet/checkpoint/execute-2026-10-20",
+      "sha": "73bbec6ec26bf567d7b5211a116e05eb907dce55",
+      "ancestor_of_production": false,
+      "subject": "Preserve Iron Choir occupied-band review repair and final re-review assignment"
+    },
+    {
+      "name": "gauntlet/checkpoint/pre-claude-guidance",
+      "sha": "66c88d19fdfc2a4e32f39f5761bfd08cf9650435",
+      "ancestor_of_production": false,
+      "subject": "Bind corrected integrated regression and incoming outside audit handoff"
+    },
+    {
+      "name": "gauntlet/checkpoint/recovery-route-review-2026-10-20",
+      "sha": "8a6144cef0bbb4ddce6d1263d88cd33c639a1118",
+      "ancestor_of_production": false,
+      "subject": "Checkpoint recovery route review and verified pointer fix"
+    },
+    {
+      "name": "gauntlet/checkpoint/resolution-proof-detached",
+      "sha": "257cff3c6ad707dba6df97418c2d6023cc0f2d24",
+      "ancestor_of_production": false,
+      "subject": "Compose frozen resolution hooks with authored ordinary proof source"
+    },
+    {
+      "name": "gauntlet/checkpoint/touch-play-2026-10-20",
+      "sha": "20339513f25c00742a6258788f9e82849dae6d91",
+      "ancestor_of_production": false,
+      "subject": "checkpoint: requested context handoff with exact integration and play resumption"
+    },
+    {
+      "name": "gauntlet/docs/claude-replan",
+      "sha": "8310f56b9f9ddb2d33a46aed4d331ace4ad71832",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/docs/confluence-integrated",
+      "sha": "a283a1a6e50c4e95bf0a775556925370c97548c4",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/docs/current-game-handoff",
+      "sha": "f034954845dce6c3051eb51bad6c0c1de52640fc",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/docs/earned-course-integrated",
+      "sha": "98f4b3555f0471e144cd96086b16db4397e44fa7",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/docs/fleet-integrated",
+      "sha": "289ef105ac024803a8fef6d10e07d25f806e61dc",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/docs/navigation-handoff",
+      "sha": "7f394bee65dfa24578a045924a8917892cff4e52",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/docs/pass0-build-status",
+      "sha": "57280ef1bf27439eea9bfbf30a576421cff30191",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/docs/pass0-built",
+      "sha": "d74ed47e9ea3c31ee46f0f50323448364c9941ae",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/docs/pass0-plan",
+      "sha": "9d30dc83a1a2709dfa29948b35e72ee5b2297684",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/docs/playable-milestone-critic-loop-20261019",
+      "sha": "5129b332f82d158ddbfd16cc5750132e4956aeee",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/docs/recovery-next-operation",
+      "sha": "fe43f90fa63e7a8f9d80e427dba193e81045b380",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/docs/scrolling-playfield-priority",
+      "sha": "4a0ae5f0e4a4194ac9d94df4b9803a6374c5240d",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/docs/stakes-integrated",
+      "sha": "7aa77c52cc21ad5b184de5acfdfbc6e98920e4c0",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/docs/telemetry-blackwater-loop",
+      "sha": "ccca7a5dd34f1f09e0fb79303d5fc59325d5e47d",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/docs/tender-next-operation",
+      "sha": "c76ebfd8028302e76d846dbc73d7a949b20cd448",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/docs/user-directive-order",
+      "sha": "f887c35d79f672838e25f12de58ae39ce63cd6f9",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/feature/acoustic-paths",
+      "sha": "2b068150863f5ab85c0ba6b78dcfb7502e591c07",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/feature/blackwater-data-delivery",
+      "sha": "83cdc7253967cba554e15b404a1098f7aea86142",
+      "ancestor_of_production": false,
+      "subject": "End redundant Blackwater resampling on delivery"
+    },
+    {
+      "name": "gauntlet/feature/blackwater-delivery-ui",
+      "sha": "a81d77a1b4aebb6d8344cf27440a0c5adb802568",
+      "ancestor_of_production": false,
+      "subject": "Reserve actual telemetry bounds and clear crowded wreck badges"
+    },
+    {
+      "name": "gauntlet/feature/blind-passage-content",
+      "sha": "7fe12f824c8e1ae2e4d839a417eaa39da3030390",
+      "ancestor_of_production": false,
+      "subject": "Author Blind Passage carried-evidence navigation region"
+    },
+    {
+      "name": "gauntlet/feature/blind-passage-main",
+      "sha": "166081fcc14fc56dbed2bf57cb67a1ffb6a0b076",
+      "ancestor_of_production": false,
+      "subject": "Verify gated passage entry and update debrief host context"
+    },
+    {
+      "name": "gauntlet/feature/briefing-scroll-fit",
+      "sha": "06db9f244cc921e37e5565d7ef6a78cf7b94cec3",
+      "ancestor_of_production": false,
+      "subject": "Keep briefing scroll when fitting recovered equipment"
+    },
+    {
+      "name": "gauntlet/feature/campaign-endings",
+      "sha": "a824280b14b5a20b0dfb9e8c4380edc710f61bd8",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/feature/campaign-evidence-recap",
+      "sha": "109a705beb4a7a09d87447f0e40ddb8ed68329b4",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/feature/campaign-upgrades",
+      "sha": "3a0f02a270de8043ab3b417103add1acf3910d41",
+      "ancestor_of_production": false,
+      "subject": "Apply fitted craft upgrades to movement sensing hearing and endurance"
+    },
+    {
+      "name": "gauntlet/feature/concealed-consequences",
+      "sha": "818fe8c2a67236261cc93ca22f3ab4ac2f4fb92b",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/feature/confluence-operation",
+      "sha": "7caac2db01a026ebf1b2cd56de106debca6c7b10",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/feature/confluence-world-art",
+      "sha": "3018495df7a7203e76b5005734c7384d6c18061f",
+      "ancestor_of_production": false,
+      "subject": "Render earned Confluence industry and recovered departure scene"
+    },
+    {
+      "name": "gauntlet/feature/contact-instrument-clearance",
+      "sha": "8f32ca655f2d438e8cefc5907f4cfb914d213cb9",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/feature/craft-anchored-fleet",
+      "sha": "0f145880a1bfe70dc512a16262ef3e3dd1d3edbb",
+      "ancestor_of_production": false,
+      "subject": "Attribute coincident fleet rings to the selected craft"
+    },
+    {
+      "name": "gauntlet/feature/deep-rendezvous-tender",
+      "sha": "79b54dca96b18f202f758f0f157f94aa077e12ca",
+      "ancestor_of_production": false,
+      "subject": "Preserve paused tender observation at berth release instant"
+    },
+    {
+      "name": "gauntlet/feature/deep-rendezvous-ui",
+      "sha": "ab509bd0a9932e060a42d5666df02b4940e533ab",
+      "ancestor_of_production": false,
+      "subject": "Expose sensed Deep Rendezvous tender and explicit berth release"
+    },
+    {
+      "name": "gauntlet/feature/drone-operational-investigation",
+      "sha": "d625e5614b4dbbe1c165b410d0537bc570d253b6",
+      "ancestor_of_production": false,
+      "subject": "Record drone operation reference and rejected listening-post probe [skip ci]"
+    },
+    {
+      "name": "gauntlet/feature/drone-operations",
+      "sha": "4144d0ba6ff38d2871eea6a7f64f20c52007ab75",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/feature/drone-recovery-ui",
+      "sha": "62a548e681070e87deb3eaf9372f7dc5d18ca64e",
+      "ancestor_of_production": false,
+      "subject": "Expose module recovery cargo and explicit departure consequences"
+    },
+    {
+      "name": "gauntlet/feature/drone-thrust-prototype",
+      "sha": "c1b96fc5149430125b9dedcd723833d52ffda240",
+      "ancestor_of_production": false,
+      "subject": "Record rejected bounded drone-thrust prototype [skip ci]"
+    },
+    {
+      "name": "gauntlet/feature/earned-chart-world",
+      "sha": "55bc0b06d8cdcb0beb4bba6b6f0c51b57d9da301",
+      "ancestor_of_production": false,
+      "subject": "Checkpoint earned-chart view restore coverage at user pause"
+    },
+    {
+      "name": "gauntlet/feature/earned-course-continuity",
+      "sha": "b29cb839983347339412eebc9d50dfbe3c27c591",
+      "ancestor_of_production": false,
+      "subject": "Keep earned courses moving through certified water"
+    },
+    {
+      "name": "gauntlet/feature/earned-terrain-chart",
+      "sha": "71d8fc234dd52c7ded10b59d22e874fafb06c93f",
+      "ancestor_of_production": false,
+      "subject": "Require versioned campaign schema for retained terrain notes"
+    },
+    {
+      "name": "gauntlet/feature/embodied-discovery",
+      "sha": "423b0237108937685d91883387eff3acca67c734",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/feature/fit-label-layout",
+      "sha": "dd09f5b47dd2078b564768cc245832a2c9c5f1d1",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/feature/fleet-instruments",
+      "sha": "e638fa76d3cb1be9aecb9c55cef4e0e94b5156e0",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/feature/foundry-departure-cycle",
+      "sha": "5d021e1ac176c3a2b0b87cca4ce06879257093fd",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/feature/foundry-thermal-lee",
+      "sha": "a5fe5e639fd6c1b827a1ffc2e596273a981504a9",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/feature/independent-capture",
+      "sha": "5023c1cbdf58f97ba04b0b0ba4ab740762acc60d",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/feature/inhabited-shelf",
+      "sha": "5c699e425af5989002ee8b0ccde19f162cd0fad9",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/feature/live-fitting-identity",
+      "sha": "aeeb5b0ea08176a3a2d688c601b3e07620a3e9d2",
+      "ancestor_of_production": false,
+      "subject": "Name live fittings from launched catalog hardware"
+    },
+    {
+      "name": "gauntlet/feature/local-contact-reports",
+      "sha": "5dda434282dd4f78e2d86d212d99631b4ce388ed",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/feature/observed-task-controls",
+      "sha": "8f7978b88a280848977c5a9b22e74425b0d69c12",
+      "ancestor_of_production": false,
+      "subject": "Bound task summaries and retain full details in scroll choices"
+    },
+    {
+      "name": "gauntlet/feature/observed-task-execution",
+      "sha": "09e458ea5cfa1e7ef41a7f7957ad3adffebbb419",
+      "ancestor_of_production": false,
+      "subject": "Preserve manual capture when removing obsolete task bookkeeping"
+    },
+    {
+      "name": "gauntlet/feature/open-warning-outcome",
+      "sha": "cd2bc37defcf1b6082e4ec156f7353fc2215a8d1",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/feature/operation-endurance",
+      "sha": "9dfd0a5367aec8f85cb83f8dd8850fdf74d5d4f5",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/feature/order-row-layout",
+      "sha": "767309fd2d6e359c0322bd8c31868b4f6618963f",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/feature/pass0-encounters",
+      "sha": "01d11bc586acd927ed05ab581faf9c623f59e55d",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/feature/physical-module-recovery",
+      "sha": "ae33fc0d9b69b24e4c0252e8f5cccb64239b080a",
+      "ancestor_of_production": false,
+      "subject": "Reject malformed module recovery world bounds cleanly"
+    },
+    {
+      "name": "gauntlet/feature/planner-chart-context",
+      "sha": "975d513cd38d81df3b0e77dadeaf24196c3d4da8",
+      "ancestor_of_production": false,
+      "subject": "fix: place planner site names below navigation controls"
+    },
+    {
+      "name": "gauntlet/feature/planner-chart-navigation",
+      "sha": "8e130431498c928d04832110219e2b440966a729",
+      "ancestor_of_production": false,
+      "subject": "feat: navigate the paused route-program preview precisely"
+    },
+    {
+      "name": "gauntlet/feature/programmed-waypoints",
+      "sha": "5ee955547502511589b0aaf9b48026fb97af14e0",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/feature/recovery-route-intent",
+      "sha": "09b66ea04730008fd84eae843808c1d66d4475b9",
+      "ancestor_of_production": false,
+      "subject": "fix: require valid tap for recovery choice"
+    },
+    {
+      "name": "gauntlet/feature/relay-touch-access",
+      "sha": "c0b12d5ac1715ff68887a50f5339b9688626cf23",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/feature/route-first-telemetry",
+      "sha": "b4f575de294f44f5db13d2a473b52195f9416276",
+      "ancestor_of_production": false,
+      "subject": "Keep salvage badges clear of read-only fleet telemetry"
+    },
+    {
+      "name": "gauntlet/feature/targeted-knockdown",
+      "sha": "ad64e42c80c5f9bc72fe4883f5c67b0e70b97297",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/feature/torpedo-contact-aiming",
+      "sha": "029885c7e6416bc4cbe3fa17cfd45807ce682cd4",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/feature/v7-currents",
+      "sha": "8767b85d0f4a05f5ae6526c693ac09d71e017a97",
+      "ancestor_of_production": false,
+      "subject": "Respect observed-water frontier without discarding current-assisted course"
+    },
+    {
+      "name": "gauntlet/feature/v7-earned-region",
+      "sha": "e30ccbbe63744e8f31473738e6b079384bebbd28",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/feature/v7-recon-consequences",
+      "sha": "b266bd8fbc8c20ec839b532dcc3df15b53587a54",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/feature/view-controls-menu",
+      "sha": "24f1b4069ae96e581e856172d339e8fe1448df19",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/feature/warning-chain-plant",
+      "sha": "9ec9931430b993c2f30c60f995d90574a5ad46ab",
+      "ancestor_of_production": false,
+      "subject": "Verify physical plant journeys and retain exact warning proof"
+    },
+    {
+      "name": "gauntlet/feature/warning-chain-ui",
+      "sha": "2111a2119bab14ca6ae33cd847e7d074b8b76e51",
+      "ancestor_of_production": false,
+      "subject": "Keep plant send proof and hardware readouts distinct"
+    },
+    {
+      "name": "gauntlet/feature/well-acquisition-context",
+      "sha": "fa0fa7ec1fd36fe91ee7e4393a55458003733ddb",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/feature/witness-evacuation",
+      "sha": "72a22bc85e98c794175ee263eebfcf031d6a66e0",
+      "ancestor_of_production": false,
+      "subject": "Verify physical witness rescue through real guards and restore"
+    },
+    {
+      "name": "gauntlet/feature/witness-rescue-ui",
+      "sha": "e8c1241e9e9269000660d2f1d97f923eb490f08a",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/fix/current-engine-audio",
+      "sha": "056f391ccbeccd2e90b46bc34d13a9afdb4c253e",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/fix/field-record-language",
+      "sha": "d35569d1549edfda374e00fbefd638a9d92c2811",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/fix/local-work-access",
+      "sha": "566bacd29942738491983d9676a348a634b52761",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/fix/observable-beam-warning",
+      "sha": "2087d8dcefc95ca8d9d6b246218eec3c4c965361",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/fix/save-tick-phase",
+      "sha": "640e399011b09c34bd32751359c257cbdb7478cb",
+      "ancestor_of_production": false,
+      "subject": "Preserve optional sensor and fractional tick phase across saves"
+    },
+    {
+      "name": "gauntlet/fix/targeting-feedback",
+      "sha": "be938170492726efbe0e4f9307cccc3b4b580d24",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/fix/visible-save-failure",
+      "sha": "cfa2ce7041c6af080366043a2099ae9becfe7f9c",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/integration/blackwater-data-delivery",
+      "sha": "5e43728967f92eadb0b560808ba1ae3d70ede818",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/integration/confluence-operation",
+      "sha": "f5c58fdd971e94de4780f93fb80d47f3df0662e6",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/integration/connected-campaign",
+      "sha": "64d9621c70d5edf589553e5639433120325ac985",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/integration/craft-anchored-batch",
+      "sha": "0eea954dc94762b9a87565e40d3a9d98db2c8c44",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/integration/deep-rendezvous",
+      "sha": "133228f57f0582592769c00374a29adba1c8e3cb",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/integration/earned-course-continuity",
+      "sha": "da494f4600dfeabf4b615e0ef8391b73a00a6e39",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/integration/fleet-instruments",
+      "sha": "83725a4812c1d81b799a9e0f0716acddc5b2e8d7",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/integration/physical-module-recovery",
+      "sha": "c72dd3a74fed71adb365f40494111a33056e78d6",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/integration/recovery-route-intent",
+      "sha": "97f2b2607835e2d4983656c454831c5340a64ff1",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/integration/route-first-telemetry",
+      "sha": "1840732bd8a013f468b5725b3d0262a43a46725c",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/integration/stakes",
+      "sha": "9957c7edd657157a66b86695ee742fb6ca0186f1",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/integration/v7-full-game",
+      "sha": "af4441e4d98b4b33d27fdbb50272e2fba4329b0f",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/integration/warning-chain-plant",
+      "sha": "0c619adf5f7436ae0562862d6cfda8f27e64c00f",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/maintenance/handoff-evidence-20261020-0724",
+      "sha": "54c4a31c36271e3dc97d2f52cb327c1d47009781",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/maintenance/redundant-assets-2026-10-20",
+      "sha": "02d6cd4f0509231b58b52d9b9d567b05d0b066d2",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/play/confluence-focused",
+      "sha": "f5c58fdd971e94de4780f93fb80d47f3df0662e6",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/play/stakes-whole-game",
+      "sha": "b915b5c0e58356f940ef3a2b9daece78368bf504",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/play/v7-whole-game",
+      "sha": "af4441e4d98b4b33d27fdbb50272e2fba4329b0f",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/production",
+      "sha": "16b1a5052a270f2c6c69b500ed664ec0c3a2a30d",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/release/depth-sonar",
+      "sha": "ea645d31ccb7e1a296f033306ed2905ffaddc4e2",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/release/glass-reach",
+      "sha": "f4f4d000ccffc19356bf994b7c39eb1576d71f7f",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/release/iron-choir",
+      "sha": "707822ebbce68f961d44be28718301163b59e8bd",
+      "ancestor_of_production": false,
+      "subject": "Acquire industrial threats in legitimately shared transition bands"
+    },
+    {
+      "name": "gauntlet/release/operation-foundation",
+      "sha": "a6b6701459989d9cb50c0c62993dd8ed51057f11",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "gauntlet/review/blind-passage-main-play",
+      "sha": "4bc2746ef79ba3e2118383abf88a912a56c19dc2",
+      "ancestor_of_production": false,
+      "subject": "Enable Blind Passage only for isolated Main proof projection"
+    },
+    {
+      "name": "gauntlet/review/observed-task-and-save",
+      "sha": "49fb5941757a53a5ac5fa8ff4a462ccbdf72975a",
+      "ancestor_of_production": false,
+      "subject": "Canonicalize discarded frame time when a dive ends"
+    },
+    {
+      "name": "gauntlet/test/pass0-route-contract",
+      "sha": "f7f0264bd1ef953df56895d0246ee88bd4126aee",
+      "ancestor_of_production": true
+    },
+    {
+      "name": "main",
+      "sha": "a2300840505652168309aca0b6edf8fde9d63d0d",
+      "ancestor_of_production": false,
+      "subject": "docs: make playable-milestone critic loop top-level on main"
+    },
+    {
+      "name": "maintenance/gauntlet-audit-retirement-2026-10-19",
+      "sha": "de6d671c2c0f591e27986d8a0bd5953c78b04b0e",
+      "ancestor_of_production": false,
+      "subject": "docs: record focused acceptance and retire exhaustive audit queue"
+    },
+    {
+      "name": "maintenance/gauntlet-default-branch-sync-20261019",
+      "sha": "84b72247329ead94468b9565e60ac95e00f48258",
+      "ancestor_of_production": false,
+      "subject": "docs: route default branch to perpetual production Gauntlet"
+    },
+    {
+      "name": "maintenance/gauntlet-staleness-continuity-20261019",
+      "sha": "74dc66698783534d6a3a0bd41c79e842e7b37985",
+      "ancestor_of_production": false,
+      "subject": "ci: skip cache save when shared toolchain cache already exists"
+    },
+    {
+      "name": "maintenance/main-gauntlet-check-bootstrap-20261019",
+      "sha": "50dd9878a90bdd38403517b59024298c21de24db",
+      "ancestor_of_production": false,
+      "subject": "ci: bootstrap default-branch guidance and gameplay PR checks"
+    }
+  ]
+}

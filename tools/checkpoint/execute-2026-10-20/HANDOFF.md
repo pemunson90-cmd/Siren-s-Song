@@ -1,5 +1,9 @@
-# Gauntlet recovery checkpoint
+# PAUSED: ORCHESTRATION HANDED TO CLAUDE
 
-Read [current handoff](fullspec/CURRENT_HANDOFF.md), [Iron Choir report](fullspec/iron-choir/REPORT.txt), and [original independent HOLD](fullspec/iron-choir/REVIEW.e5306e2.HOLD.md).
+Frozen production: `ca4735e4a1bdb990ed813c2382fda559eb3139c6`.
 
-Glass Reach PR49 is complete at production16b1a505, independently approved with mandatory CI39515575589 and full landed-tree verification. Iron Choir707822ebbce68f961d44be28718301163b59e8bd is published; same reviewer is re-reviewing the accumulated milestone after the sole P2 occupied-band acquisition repair. Original probe4/2 becomes4/0; expanded threats91/0/research13/0. Builder released clean source/processes;221UIDs preserved. Full original independent physical/campaign/tow/render evidence and HOLD are preserved here; current re-review is not snapshotted mid-write. No Iron approval, PR or merge claimed. Root next requires accumulated approval, new exact-head CI, protected PR merge and complete tree verification, then immediately substantial new campaign content. Checkpoint game source is historical, never current production.
+Read the [production pause checkpoint](https://github.com/pemunson90-cmd/Siren-s-Song/blob/ca4735e4a1bdb990ed813c2382fda559eb3139c6/docs/PAUSE_CHECKPOINT_2026-10-21.md), [current handoff](fullspec/CURRENT_HANDOFF.md), and [user's direct pause handoff](fullspec/HANDOFF_CODEX_PAUSE_2026-10-21.md). Earlier automatic-continuation instructions are superseded.
+
+Iron PR50 finished with independent approval at707822e and exact-head CI39522443964 success, then landed80b0fcfa with complete tree verification. PR51 added exactly one requested docs-only commit, after CI39525384428 passed, producing the frozen tip above; gameplay is unchanged. Both workers released source and are idle. No next milestone or worker was dispatched, no narrative rewrite/cleanup begun, and no Claude integration branch created. No gameplay task remains parked or in flight.
+
+Claude owns orchestration from the frozen checkpoint; lane branches have explicit file ownership and return by PR to claude/integration, with user approval for production promotion. Codex resumes only under a specific Claude assignment. The user's rejected story framing and corrected human-survivor premise govern future narrative. Preserve branches, original v7, unique evidence, profiles and signer. Checkpoint game source is historical, never current production.
