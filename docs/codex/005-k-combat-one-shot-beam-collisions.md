@@ -13,6 +13,10 @@ Pat decided (Option A plus collisions). (1) When a Siren's beam fires at Quietus
 
 Do not change detection or suspicion rules, drone rules or any story text. Update old tests that assumed the slow beam drain or no collision damage, narrowly, and say which and why. Authored bare-Quietus journeys for operations 0 to 29 must still finish; if one does not, report it instead of editing the route. Add a focused new test (beam kills on fire; a broken lock does not; fast collision damages, slow bump barely does; cooldown works) and register it in .github/workflows/gauntlet-pr-checks.yml.
 
+## Added 21 Oct by Claude (Codex audit findings 1 and 5, Pat said continue the loop)
+(a) Strike targeting rule. Today each delivered sonar return replaces the armed strike and resets its countdown, so a second craft's echo changes the outcome (stationary Quietus: 78 hull alone, 100 hull with a second craft). Make it explicit: an armed strike keeps its target and countdown; later returns do not replace or reset it until it fires, expires or is broken. Put the rule in a comment and a focused test. This is a targeting tiebreak, not a change to who gets detected; say so in the PR and flag it to Pat as reversible.
+(b) After the combat work lands on your branch, update the pressure probe (docs/codex/run_ci_scenarios.sh lists it; test files from lane X2). All four policies reject their first route in operation 14 at time zero because the controller assumes old map dimensions. Read dimensions from the operation data, rerun ops 14 to 29 for all four policies, and put the resulting difficulty curve table in your completion note. Probe files only; no tuning of game numbers, report them to Pat instead.
+
 ## Base and branch
 Work on the existing branch `claude/lane-k-combat`. First `git fetch origin` and merge `origin/claude/integration` into it, resolving conflicts and keeping both sides. Do not rewrite history or force push.
 
