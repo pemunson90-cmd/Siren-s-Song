@@ -86,7 +86,7 @@ static func reports(t):
  moving.sirens[0].pos=Vector2(800,650);moving.sirens[0].band=1
  moving.sirens[0].transition={"to":2,"remaining":3.};moving.sirens[0].lock=4.5;moving.sirens[0].target=0
  tick(moving,.2)
- t.check(moving.hull<100 and moving.sirens[0].lock>4,"a visible shared-band target remains vulnerable while the enemy changes depth")
+ t.check(moving.outcome=="lost" and moving.hull==0 and moving.sirens[0].lock>4,"a visible shared-band target remains vulnerable while the enemy changes depth")
 
 static func counterpolicies(t):
  # Matched source-known staged poses; ONLY pulse policy changes.

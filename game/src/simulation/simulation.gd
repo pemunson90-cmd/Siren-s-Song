@@ -49,6 +49,16 @@ const KNOCK_TIME := 8.0
 const TORPEDO_SPEED := 180.0
 const TORPEDO_TURN := 3.0
 const TORPEDO_LIFE := 3.0
+# Combat tuning (Pat tunes these). A fired Siren beam destroys Quietus outright;
+# the 4s lock build before it is the fair warning. Collision hull damage scales
+# with impact speed (m/s): bumps at or under the safe speed are free, damage is
+# per m/s over it, capped per hit so one strike never destroys Quietus, with a
+# cooldown so grinding contact is not a per-frame drain.
+const VAPORIZED_TEXT := "VAPORIZED · Siren beam struck Quietus. Your previous campaign records remain safe."
+const COLLISION_SAFE_SPEED := 12.0
+const COLLISION_DAMAGE_PER_SPEED := 0.45
+const COLLISION_MAX_DAMAGE := 35.0
+const COLLISION_COOLDOWN := 1.0
 const WorldRegion=preload("res://src/simulation/world_region.gd")
 var terrain_chart
 var correlation:Dictionary={}
@@ -208,9 +218,19 @@ func _course_turn_clear(point:Vector2,radius:float)->bool:
 	return terrain_chart.clear_disk(point,radius) if terrain_chart!=null else not blocked(point,radius)
 func _course_ground_safe(a:Vector2,b:Vector2)->bool:
 	return terrain_chart==null or (terrain_chart.is_clear(b) and terrain_chart.clear_distance(a,b)+0.0001>=a.distance_to(b))
-func _course_collision(u:Dictionary,physical:bool=false)->void:
+func collision_damage(impact:float)->float:
+	return clampf((impact-COLLISION_SAFE_SPEED)*COLLISION_DAMAGE_PER_SPEED,0.0,COLLISION_MAX_DAMAGE)
+func _course_collision(u:Dictionary,physical:bool=false,impact:float=-1.0)->void:
+	_hull_strike(u,impact)
 	u.vel=Vector2.ZERO
 	if physical:_course_block(u,"Physical clearance stop")
+func _hull_strike(u:Dictionary,impact:float=-1.0)->void:
+	if impact<0:impact=u.vel.length()
+	if u.name=="QUIETUS" and u.alive and outcome.is_empty() and elapsed-float(u.get("hit_at",-100.0))>=COLLISION_COOLDOWN:
+		var damage:=collision_damage(impact)
+		if damage>0.0:
+			hull=maxf(0.0,hull-damage);u["hit_at"]=elapsed;print("DBGHIT ",elapsed," ",impact," ",damage)
+			events.append({"type":"creak","pos":u.pos});message="Hull strike %dm/s · hull -%d%%"%[roundi(impact),roundi(damage)]
 func observable_sites() -> Array:
 	if Chain.applies(mission):return mission.objectives.slice(0,2).duplicate(true)
 	return mission.objectives.duplicate(true)
@@ -829,7 +849,7 @@ func _tick(dt: float) -> void:
 	if not units[selected].alive:
 		selected=0; queue_mode=false; message="Drone lost · Quietus selected · SAMPLE remains available." if mission.get("blackwater_revision",0)==1 else "Drone lost · Quietus command restored. Submarine camera remains available."
 	if oxygen<=0: outcome="lost"; message="Life support exhausted. The archive is silent."
-	if hull<=0: outcome="lost"; message="Quietus lost. Your previous campaign records remain safe."
+	if hull<=0 and message!=VAPORIZED_TEXT: outcome="lost"; message="Quietus lost. Your previous campaign records remain safe."
 	SignalField.extract(self)
 	Consequences.extract(self)
 	if not mission.has("expedition_revision") and outcome.is_empty() and all_records() and units[0].pos.distance_to(mission.extraction)<65 and units[0].vel.length()<12:
@@ -902,14 +922,15 @@ func _current_step(u:Dictionary,dt:float,desired_ground:Vector2,speed:float,flow
 	var ground:Vector2=water+flow
 	var next:Vector2=u.pos+ground*dt
 	if player_craft and not _course_ground_safe(u.pos,next):
-		_course_collision(u);u["water_velocity"]=-flow
+		_course_collision(u,false,maxf(u.vel.length(),ground.length()));u["water_velocity"]=-flow
 		return
 	if not blocked(next,12) and segment_safe(u.pos,next,12):
 		u.pos=next;u.vel=ground
 	else:
 		if player_craft and terrain_chart!=null:
-			_course_collision(u,true);u["water_velocity"]=-flow
+			_course_collision(u,true,maxf(u.vel.length(),ground.length()));u["water_velocity"]=-flow
 			return
+		if player_craft:_hull_strike(u,maxf(u.vel.length(),ground.length()))
 		u.vel=Vector2.ZERO;u.route.clear();u["current_station"]=u.pos
 		if player_craft:RouteProgram.clear(u)
 		if report_collision:message="%s autopilot stopped at unsafe terrain. Replot in open water."%u.name
@@ -995,6 +1016,7 @@ func _move_in_band(u: Dictionary,dt: float,speed: float,holding: bool,report_col
 	if not blocked(next,12): u.pos=next
 	else:
 		if course.earned:_course_collision(u,true);return
+		if player_craft:_hull_strike(u)
 		u.vel=Vector2.ZERO; u.route.clear()
 		if player_craft: RouteProgram.clear(u)
 		if report_collision: message="%s autopilot stopped at unsafe terrain. Replot in open water."%u.name
@@ -1157,7 +1179,7 @@ func _threats(dt: float) -> void:
 				if recipient_seen:
 					if Choir.applies(mission):Choir.damage(self,dt*18)
 					else:Recipient.damage(self,dt*18)
-				elif detected==0: hull=maxf(0,hull-dt*18)
+				elif detected==0: hull=0.0; outcome="lost"; message=VAPORIZED_TEXT; events.append({"type":"loss","pos":victim.pos})
 				else: units[detected].alive=false; s.lock=0; events.append({"type":"loss","pos":units[detected].pos}); message="%s lost · submarine camera remains available"%units[detected].name
 		else:
 			s.erase("recipient_target")

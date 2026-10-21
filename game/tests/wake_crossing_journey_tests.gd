@@ -13,6 +13,7 @@ var peer_seconds=0.0
 func check(ok:bool,label:String):
  checks+=1
  if not ok:failures+=1;printerr("FAIL ",label)
+var control_run=false
 func tick(s):
  var previous=s.units[0].pos;s.paused=false;s.advance(1./60.);s.paused=true
  distance+=previous.distance_to(s.units[0].pos)
@@ -23,7 +24,8 @@ func route(s,id:int,points:Array):
  s.command("select",{"unit":id})
  for n in points.size():
   if n==1:s.command("queue")
-  check(s.command("route",{"point":points[n]}),"ordinary physical waypoint accepted")
+  # The unwinnable-by-design control is now vaporized once seen, after which commands are refused.
+  check(s.command("route",{"point":points[n]}) or (control_run and not s.outcome.is_empty()),"ordinary physical waypoint accepted")
  if points.size()>1:s.command("queue")
 func arrived(s,id:int,point:Vector2)->bool:return s.units[id].pos.distance_to(point)<12 and s.units[id].vel.length()<2
 func until(s,id:int,point:Vector2):
@@ -31,7 +33,7 @@ func until(s,id:int,point:Vector2):
   if not s.outcome.is_empty() or not s.units[id].alive or arrived(s,id,point):break
   tick(s)
 func run_case(name:String,playback:bool,control:bool=false):
- distance=0;sight_seconds=0;played=-1;lure_reaction=false;peer_seconds=0
+ control_run=control;distance=0;sight_seconds=0;played=-1;lure_reaction=false;peer_seconds=0
  var s=Sim.new();s.start(9,"endurance")
  if not playback:s.units[1].alive=false
  s.units[2].alive=false
