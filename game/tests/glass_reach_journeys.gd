@@ -36,7 +36,6 @@ const COURSES={
  21:[["go",Vector2(2300,1500)],["go",Vector2(1950,800)],["go",Vector2(1700,1200)],["camera"],["go",Vector2(1635,1300)],["depth",2],["recover"],["depth",1],["go",Vector2(1950,800)],["go",Vector2(2300,1500)],["exit"]]}
 func course(s,id)->bool:
  for step in COURSES[id]:
-  print("DBG ",id," ",step," pos ",s.units[0].pos.round()," band ",s.units[0].band," hull ",s.hull," t ",snappedf(s.elapsed,.1)," ",s.outcome," ",s.message)
   match step[0]:
    "go":if not go(s,step[1]):check(false,"bare course reaches "+str(step[1])+" "+str(id));return false
    "depth":if not dive(s,step[1]):check(false,"bare depth crossing to band "+str(step[1])+" "+str(id));return false
