@@ -2,6 +2,7 @@ extends RefCounted
 const OperationsCatalog=preload("res://src/campaign/operation_catalog.gd")
 # One occupied sealed pod travels on real fleet bodies. It is not a fourth
 # combat actor: ordinary carrier sight, beams, loss and salvage remain physical.
+const ModuleRecovery=preload("res://src/simulation/module_recovery.gd")
 const ITEM="witness_capsule"
 const BERTH=Vector2(1840,760)
 const HARBOUR=Vector2(2260,2700)
@@ -50,6 +51,9 @@ static func sites(sim,modules:Array)->Array:
   for extra in same.slice(1):same[0].name+=" + "+extra.name;result.erase(extra)
   same[0]["witness"]=true;same[0].name+=" + occupied witness capsule"
  return result
+# The capsule takes one winch place, the same capacity rule module salvage obeys.
+static func free_places(sim,unit:int)->int:
+ return ModuleRecovery.capacity(sim,unit)-ModuleRecovery.carried(sim,unit)
 static func context(sim,unit:int,item:String=ITEM)->Dictionary:
  if not applies(sim.mission) or unit not in [0,1,2]:return {}
  var state=sim.mission.witness_evacuation;var body=sim.units[unit]
@@ -64,6 +68,7 @@ static func context(sim,unit:int,item:String=ITEM)->Dictionary:
   elif not handles(sim,item):winch.reason="This item is not the occupied pod site"
   elif winch.claimed_by>=0:winch.reason="Occupied capsule recovery in progress"
   elif not sim.captures[unit].is_empty() or not sim.module_recovery_status().jobs[unit].is_empty() or sim._blackwater_recovery_busy(unit) or sim._warning_chain_busy(unit):winch.reason="Finish this craft's active work first"
+  elif free_places(sim,unit)<1:winch.reason="No free cargo place · the occupied capsule needs one"
   elif winch.distance>RANGE:winch.reason="Move within 60m of the occupied pod"
   elif body.band!=sim.Depth.cargo_band(sim,ITEM) or not body.transition.is_empty():winch.reason="Salvage requires its recorded depth band"
   elif not sim.Depth.clear(sim,body.pos,state.pos,body.band):winch.reason="Terrain blocks the winch"
