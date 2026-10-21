@@ -2,15 +2,11 @@ extends Node
 const RATE := 22050
 const AMBIENCE_BUS := "SirenAmbience"
 const EFFECTS_BUS := "SirenEffects"
-const ATTRIBUTION := preload("res://assets/audio/attribution.tres")
 var music_volume := 0.5
 var effects_volume := 0.8
 var muted := false
 var ambience: AudioStreamPlayer
 var engine: AudioStreamPlayer
-var tension: AudioStreamPlayer
-var tension_level := 0.0
-var last_clock := -1.0
 var voices: Array=[]
 var panners: Array=[]
 var cues: Dictionary={}
@@ -21,42 +17,75 @@ var creak_timer := 11.0
 var system_suspended := false
 static func engine_gain(speed: float,silent: bool) -> float:
 	return clampf(speed/78.0,0,1)*(0.13 if silent else 0.35)
-# Imported mono 16-bit recordings: no runtime oscillators, noise generation or PCM allocation.
-# Preloads keep the complete asset set in exported builds. See assets/audio/ATTRIBUTION.md.
-const RECORDINGS := {
-	"alert": preload("res://assets/audio/alert.wav"),
-	"ambience": preload("res://assets/audio/ambience.wav"),
-	"beam": preload("res://assets/audio/beam.wav"),
-	"berth_release": preload("res://assets/audio/berth_release.wav"),
-	"camera": preload("res://assets/audio/camera.wav"),
-	"carrier_received": preload("res://assets/audio/carrier_received.wav"),
-	"creak": preload("res://assets/audio/creak.wav"),
-	"decoy": preload("res://assets/audio/decoy.wav"),
-	"emp": preload("res://assets/audio/emp.wav"),
-	"engine": preload("res://assets/audio/engine.wav"),
-	"extraction": preload("res://assets/audio/extraction.wav"),
-	"factory": preload("res://assets/audio/factory.wav"),
-	"heartbeat": preload("res://assets/audio/heartbeat.wav"),
-	"knock": preload("res://assets/audio/knock.wav"),
-	"loss": preload("res://assets/audio/loss.wav"),
-	"ping": preload("res://assets/audio/ping.wav"),
-	"plant_switch": preload("res://assets/audio/plant_switch.wav"),
-	"recon": preload("res://assets/audio/recon.wav"),
-	"record": preload("res://assets/audio/record.wav"),
-	"return_received": preload("res://assets/audio/return_received.wav"),
-	"salvage": preload("res://assets/audio/salvage.wav"),
-	"snare": preload("res://assets/audio/snare.wav"),
-	"sweep_received": preload("res://assets/audio/sweep_received.wav"),
-	"tension": preload("res://assets/audio/tension.wav"),
-}
 static func samples(cue: String) -> PackedFloat32Array:
-	# Compatibility/inspection API. Runtime players share imported resources directly.
-	var wav=stream(cue)
-	var result=PackedFloat32Array(); result.resize(wav.data.size()/2)
-	for n in result.size(): result[n]=float(wav.data.decode_s16(n*2))/32768.0
+	var duration={"ambience":8.0,"engine":2.0,"creak":1.6,"beam":1.7,"loss":2.0,"decoy":2.5,"extraction":2.4,"factory":4.8,"heartbeat":0.38,"knock":0.55,"snare":0.4,"carrier_received":1.4,"return_received":1.6,"berth_release":1.8,"plant_switch":.24}.get(cue,1.1)
+	var result=PackedFloat32Array(); result.resize(int(RATE*duration))
+	var rng=RandomNumberGenerator.new(); rng.seed=cue.hash()
+	var filtered=0.0
+	for n in result.size():
+		var time=float(n)/RATE; var k=time/duration
+		var envelope=sin(PI*k) if cue=="ambience" else minf(1,time*40)*exp(-k*5)
+		var value=0.0
+		match cue:
+			"ambience":
+				filtered=lerpf(filtered,rng.randf_range(-1,1),0.01)
+				value=(sin(TAU*42*time)*0.11+sin(TAU*63*time+sin(time*0.4))*0.045+filtered*0.25)*envelope
+			"engine":
+				filtered=lerpf(filtered,rng.randf_range(-1,1),0.07)
+				value=sin(TAU*44*time)*0.21+sin(TAU*88*time)*0.06+sin(TAU*132*time)*0.02+filtered*0.03*sin(PI*k)
+			"creak":
+				filtered=lerpf(filtered,rng.randf_range(-1,1),0.13)
+				value=(sin(TAU*(73*time+0.6*sin(time*11)))*0.17+sin(TAU*147*time)*0.05+filtered*0.12)*sin(PI*k)*exp(-k*2)
+			"beam": value=(sin(TAU*(430*time+13*time*time))*0.17+sin(TAU*437*time)*0.13+sin(TAU*960*time)*0.045)*envelope
+			"factory":
+				var strike=pow(maxf(0,cos(time*TAU*0.8)),12)
+				value=(sin(TAU*54*time)*0.18+sin(TAU*81*time)*0.11+sin(TAU*(216*time+3*sin(time*1.7)))*0.08)*(0.3+strike*0.7)*sin(PI*k)
+			"sweep_received": value=(sin(TAU*(880*time-250*time*time))*.18+sin(TAU*(440*time-90*time*time))*.11)*envelope
+			"ping": value=(sin(TAU*(710*time-110*time*time))+sin(TAU*1240*time)*0.2)*0.28*envelope
+			"carrier_received","return_received":
+				# Two low pulses versus a long-short answer; independent of an
+				# unobserved source and well below the existing alert's level.
+				var pulse=0.0
+				var starts=[.05,.47] if cue=="carrier_received" else [.05,.74]
+				for start in starts:
+					var local=time-start;var length=.23 if cue=="carrier_received" else (.48 if start<.1 else .15)
+					if local>=0 and local<length:pulse+=sin(PI*local/length)*sin(TAU*(320. if cue=="carrier_received" else 400.)*time)*.19
+				value=pulse
+			"heartbeat":
+				var beat=exp(-pow((time-.045)/.025,2))+0.65*exp(-pow((time-.19)/.035,2))
+				value=sin(TAU*62*time)*beat*.28
+			"camera": value=(sin(TAU*170*time)*0.12+rng.randf_range(-0.2,0.2))*envelope
+			"salvage":
+				# Short winch engagement: rising motor and ratcheting cable, below alerts.
+				filtered=lerpf(filtered,rng.randf_range(-1,1),0.1)
+				value=(sin(TAU*(62*time+8*time*time))*0.16+sin(TAU*155*time)*0.045+filtered*0.06)*(0.75+0.25*pow(maxf(0,cos(TAU*14*time)),4))*envelope
+			"plant_switch":
+				# Accepted local console switch only. Physical warning/machinery
+				# origins and reception remain the plant model/public telemetry.
+				filtered=lerpf(filtered,rng.randf_range(-1,1),.25)
+				value=(sin(TAU*145*time)*.15+filtered*.16)*minf(1,time*140)*exp(-k*14)
+			"berth_release":
+				# The selected operator engages machinery once; no remote hull
+				# movement, hidden arrival or successful reception sound follows.
+				filtered=lerpf(filtered,rng.randf_range(-1,1),0.06)
+				value=(sin(TAU*(58*time+12*time*time))*.16+sin(TAU*116*time)*.06+filtered*.06)*(0.65+0.35*pow(maxf(0,cos(TAU*5*time)),4))*sin(PI*k)
+			"emp": value=(sin(TAU*(140*time-45*time*time))*0.3+rng.randf_range(-0.14,0.14))*envelope
+			"snare": value=(sin(TAU*160*time)*0.12+sin(TAU*320*time)*0.08+rng.randf_range(-0.06,0.06))*envelope
+			"knock": value=sin(TAU*(90*time-(52.0/1.1)*time*time))*0.3*envelope
+			"recon": value=sin(TAU*(1200 if int(time/0.08)%2==0 else 960)*time)*0.19*envelope
+			"decoy": value=(sin(TAU*90*time)*0.17+sin(TAU*174*time)*0.08)*(0.35+pow(cos(time*9),2)*0.65)*envelope
+			"loss": value=(sin(TAU*(170*time-30*time*time))*0.3+sin(TAU*63*time)*0.12)*envelope
+			"record": value=(sin(TAU*440*time)+sin(TAU*554.37*time)*0.6+sin(TAU*659.25*time)*0.4)*0.15*envelope
+			"extraction": value=(sin(TAU*220*time)*0.11+sin(TAU*329.63*time)*0.08+sin(TAU*440*time)*0.06)*sin(PI*k)
+			_: value=(sin(TAU*210*time)+sin(TAU*215*time))*0.16*envelope
+		result[n]=value
 	return result
 static func stream(cue: String) -> AudioStreamWAV:
-	return RECORDINGS.get(cue,RECORDINGS.alert)
+	var values=samples(cue); var bytes=PackedByteArray(); bytes.resize(values.size()*2)
+	for n in values.size(): bytes.encode_s16(n*2,int(clampf(values[n],-0.95,0.95)*32767))
+	var wav=AudioStreamWAV.new(); wav.format=AudioStreamWAV.FORMAT_16_BITS; wav.mix_rate=RATE; wav.data=bytes
+	if cue in ["ambience","engine"]: wav.loop_mode=AudioStreamWAV.LOOP_FORWARD; wav.loop_end=values.size()-1 # Godot WAV mixer includes this endpoint; keep it inside PCM data.
+	return wav
 func _bus(name: String,send_to: String="Master") -> int:
 	var index=AudioServer.get_bus_index(name)
 	if index<0:
@@ -64,7 +93,6 @@ func _bus(name: String,send_to: String="Master") -> int:
 	return index
 func _ready() -> void:
 	process_mode=Node.PROCESS_MODE_ALWAYS
-	set_meta("audio_attribution",ATTRIBUTION)
 	_bus(AMBIENCE_BUS); _bus(EFFECTS_BUS)
 	var guarded=false
 	for i in AudioServer.get_bus_effect_count(0):
@@ -72,10 +100,8 @@ func _ready() -> void:
 	if not guarded:
 		var limiter=AudioEffectLimiter.new(); limiter.resource_name="SirenPeakGuard"; limiter.threshold_db=-3; limiter.ceiling_db=-1; AudioServer.add_bus_effect(0,limiter)
 	for cue in ["ping","camera","emp","knock","snare","salvage","record","loss","extraction","alert","recon","decoy","creak","beam","factory","carrier_received","return_received","sweep_received","heartbeat","berth_release","plant_switch"]: cues[cue]=stream(cue)
-	ambience=AudioStreamPlayer.new(); ambience.stream=stream("ambience"); ambience.bus=AMBIENCE_BUS; ambience.volume_db=-17; add_child(ambience); ambience.play()
-	tension=AudioStreamPlayer.new(); tension.stream=stream("tension"); tension.bus=AMBIENCE_BUS; tension.volume_db=-80; add_child(tension); tension.play()
-	engine=AudioStreamPlayer.new(); engine.stream=stream("engine"); engine.bus=EFFECTS_BUS; engine.volume_db=-80; add_child(engine); engine.play()
-	for bed in [ambience,engine,tension]: bed.stream_paused=true
+	ambience=AudioStreamPlayer.new(); ambience.stream=stream("ambience"); ambience.bus=AMBIENCE_BUS; add_child(ambience); ambience.play()
+	engine=AudioStreamPlayer.new(); engine.stream=stream("engine"); engine.bus=EFFECTS_BUS; add_child(engine); engine.play()
 	for n in 5:
 		var bus_name="SirenVoice%d"%n; var index=_bus(bus_name,EFFECTS_BUS)
 		var panner: AudioEffectPanner
@@ -86,28 +112,13 @@ func _ready() -> void:
 		var voice=AudioStreamPlayer.new(); voice.bus=bus_name; voice.volume_db=-7.5; add_child(voice); voices.append(voice)
 func update(sim,dt: float,active_dive: bool=true) -> void:
 	received_cues.observe_clock(sim.elapsed)
-	if ambience==null: return
+	if ambience==null or system_suspended: return
 	var ambience_index=AudioServer.get_bus_index(AMBIENCE_BUS); var effects_index=AudioServer.get_bus_index(EFFECTS_BUS)
 	AudioServer.set_bus_mute(ambience_index,muted or music_volume<=0); AudioServer.set_bus_mute(effects_index,muted or effects_volume<=0)
 	AudioServer.set_bus_volume_db(ambience_index,linear_to_db(maxf(0.001,music_volume)))
 	AudioServer.set_bus_volume_db(effects_index,linear_to_db(maxf(0.001,effects_volume)))
-	var frozen=sim.paused or not active_dive or system_suspended
+	var frozen=sim.paused or not active_dive
 	ambience.stream_paused=frozen; engine.stream_paused=frozen
-	if sim.elapsed<last_clock: tension_level=0.0
-	last_clock=sim.elapsed
-	if tension!=null:
-		tension.stream_paused=frozen
-		if not frozen:
-			# Only the public, fresh received-contact threat channel is eligible.
-			# Hunt, source positions, hidden locks and enemy rosters are never read.
-			var target=clampf(float(sim.recon_feedback().get("threat",0.0)),0.0,1.0)
-			var seconds=.7 if target>tension_level else 4.0
-			tension_level=lerpf(tension_level,target,1.0-exp(-maxf(dt,0.0)/seconds))
-		tension.volume_db=linear_to_db(maxf(.0001,tension_level*.24))
-	if system_suspended or not active_dive:
-		for voice in voices: voice.stream_paused=true
-		sim.events.clear()
-		return
 	var speed: float=sim.propulsion_speed(sim.units[0])
 	engine.volume_db=linear_to_db(maxf(0.0001,engine_gain(speed,sim.units[0].silent))); engine.pitch_scale=0.75+speed/100.0
 	alert_timer=maxf(0,alert_timer-dt)
@@ -129,10 +140,10 @@ func update(sim,dt: float,active_dive: bool=true) -> void:
 		else:play(event.type,event.get("pos",sim.units[sim.selected].pos)-sim.units[sim.selected].pos)
 	# play() starts a fresh voice unpaused. Apply the tactical freeze after
 	# event dispatch too, including a switch accepted while planning.
-	for voice in voices: voice.stream_paused=frozen
+	for voice in voices: voice.stream_paused=sim.paused and active_dive
 	sim.events.clear()
 func play(cue: String,relative_position: Vector2=Vector2.ZERO) -> void:
-	if muted or effects_volume<=0 or system_suspended or not cues.has(cue): return
+	if muted or system_suspended or not cues.has(cue): return
 	for i in voices.size():
 		var voice=voices[i]
 		if not voice.playing:
@@ -141,17 +152,10 @@ func suspend() -> void:
 	system_suspended=true
 	if ambience!=null: ambience.stream_paused=true
 	if engine!=null: engine.stream_paused=true
-	if tension!=null: tension.stream_paused=true
 	for voice in voices: voice.stream_paused=true
 func resume() -> void: system_suspended=false
 func _exit_tree() -> void:
 	if ambience!=null: ambience.stop(); ambience.stream=null
 	if engine!=null: engine.stop(); engine.stream=null
-	if tension!=null: tension.stop(); tension.stream=null
 	for voice in voices: voice.stop(); voice.stream=null
 	cues.clear()
-	# stop() queues fade-out/deletion on the audio thread. Finish its pending
-	# mix block before a rapid scene/application exit releases imported WAVs.
-	# This bounded wait runs only during teardown, never during play or pause.
-	var drain_seconds=clampf(AudioServer.get_time_to_next_mix(),0.0,.1)+.03
-	OS.delay_usec(int(drain_seconds*1000000.0))

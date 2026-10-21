@@ -243,13 +243,10 @@ func concealed_status()->Dictionary:return Concealed.status(self)
 func witness_status()->Dictionary:return Witness.status(self)
 func witness_context(unit_id:int=-1)->Dictionary:return Witness.context(self,selected if unit_id<0 else unit_id)
 func warning_recipient_status()->Dictionary:return Recipient.status(self)
-# Public non-player beam endpoints require a current local hull fix.
-# Target ownership never aliases the three pilot-controlled craft.
+# Public target endpoint: a recipient beam is drawn only with a current local
+# hull fix. Target ownership never aliases the three pilot-controlled craft.
 func contact_target(contact:Dictionary)->Dictionary:
 	if contact.get("recipient_target",false):
-		if Choir.applies(mission):
-			var industrial=Choir.status(self).get("load",{})
-			return industrial if industrial.get("time",-1.)==elapsed and industrial.get("alive",false) else {}
 		var vessel=Recipient.status(self).get("recipient",{})
 		return vessel if vessel.get("known",false) and vessel.get("live",false) else {}
 	var id=int(contact.get("target",-1))
