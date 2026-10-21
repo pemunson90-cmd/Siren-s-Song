@@ -9,7 +9,10 @@ static func evidence(sim,e:Dictionary)->Dictionary:
  var load=sim.Choir.body(sim)
  if not load.is_empty():candidates.append(load)
  for u in candidates:
-  if u.get("alive",false) and e.pos.distance_to(u.pos)<(180. if u.silent else 290.) and sim.Depth.sight(sim,e,u):return {"pos":u.pos,"band":u.band}
+  if not u.get("alive",false) or e.pos.distance_to(u.pos)>=(180. if u.silent else 290.):continue
+  # Sight earns a point in a shared clear volume, including an incoming band.
+  for band in sim.Depth.occupied(e):
+   if band in sim.Depth.occupied(u) and sim.Depth.clear(sim,e.pos,u.pos,band):return {"pos":u.pos,"band":band}
  var heard=sim._heard_arrival(e)
  if not heard.is_empty():return {"pos":heard.goal,"band":heard.get("band",e.band)}
  if e.get("attention_time",0)>0:return {"pos":e.goal,"band":e.get("known_band",e.band)}

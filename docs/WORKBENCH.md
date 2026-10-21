@@ -15,7 +15,9 @@ Read USER_DIRECTIVES.md and CURRENT_GAME_SPEC.md for scope.
 |Wider fleet/economy/research/presentation/audio|Approved expansion unfinished|
 |Roguelite expeditions, then naval career|After campaign/replay|
 
-Next: root-owned accumulated independent review, consequential samebranch repairs,
+Occupied-band acquisition repaired after HOLDe5306e2; shared clear-band sight
+retains incoming exposure without committed retargeting.
+Next: root-owned accumulated independent re-review, consequential samebranch repairs,
 exact-head game-smoke and normal PR. These are not claimed complete for Iron Choir.
 After integration build further substantial playable campaign/replay content.
 Bare Quietus/no finite tools and full-hull routes demonstrate technical viability,

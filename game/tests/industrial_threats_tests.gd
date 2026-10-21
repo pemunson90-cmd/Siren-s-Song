@@ -41,5 +41,31 @@ func _initialize():
   tick(s,11.);check(s.sirens[0].get("pin_time",0)==0 and s.sirens[0].stun==0,"physical pin and longer EMP expire "+role)
   s=fixture(role);s.units[0].pos=Vector2(350,350);s.mission.iron_choir.load.pos=Vector2(600,2050);s.mission.iron_choir.load.hull=10.;tick(s,5.)
   check(s.outcome=="lost" and not s.mission.iron_choir.load.alive and s.hull==100.,"real "+role+" attack can destroy physical NPC load independently of Quietus")
+ occupied_acquisition()
  finish()
+func occupied_acquisition():
+ var examples=[{"op":22,"role":"interceptor","band":1,"pos":Vector2(1550,2200),"transitions":[[0,1],[1,0],[2,1],[1,2]]},{"op":23,"role":"warden","band":2,"pos":Vector2(2400,1200),"transitions":[[1,2],[2,1]]}]
+ for example in examples:
+  for fitted in [false,true]:
+   for transition in example.transitions:
+    var s=Sim.new();s.start(example.op,"endurance",{"fitted":{"quietus":"quietus_pressure_sleeve" if fitted else "","drone_a":"","drone_b":""}})
+    s.sirens=s.sirens.filter(func(e):return e.type==example.role);s.units[1].alive=false;s.units[2].alive=false;s.units[0].pos=example.pos;s.units[0].band=transition[0]
+    var label=example.role+" "+str(transition)+(" sleeve" if fitted else " bare")
+    check(s.command("depth",{"band":transition[1]}) and s.Depth.sight(s,s.sirens[0],s.units[0]),"actual transition occupies visible enemy water "+label)
+    tick(s,.5);var state=s.sirens[0].industry
+    check(state.phase=="windup" and state.band==example.band and state.aim==example.pos,"acquisition retains legitimately shared observed band "+label)
+    var restored=Sim.new();var ok=restored.restore(s.snapshot())
+    check(ok,"partly occupied acquisition snapshot restores "+label)
+    if not ok:continue
+    restored.units[0].pos=Vector2(350,350);tick(restored,1.)
+    check(restored.sirens[0].industry.aim==example.pos and restored.sirens[0].industry.band==example.band,"lost-sight transition cannot retarget committed aim or depth "+label)
+    tick(restored,9.)
+    check(restored.sirens[0].industry.phase=="idle" and restored.sirens[0].industry.patches.is_empty() and Sim.valid_snapshot(restored.snapshot()),"incoming acquisition preserves finite attack/pressure lifecycle "+label)
+ for role in ["interceptor","warden"]:
+  var s=fixture(role);s.sirens[0].band=2;s.units[0].band=0
+  check(s.command("depth",{"band":1}),"disjoint-band transition starts "+role);tick(s,.5)
+  check(s.sirens[0].industry.phase=="idle","no shared occupied band does not grant visual acquisition "+role)
+  s=fixture(role);s.units[0].band=0;s.mission.structures.append(Rect2(590,2100,20,20));s._build_navigation()
+  check(s.command("depth",{"band":1}),"covered incoming transition starts "+role);tick(s,.5)
+  check(s.sirens[0].industry.phase=="idle","terrain blocks acquisition despite shared occupied band "+role)
 func finish():print("INDUSTRIAL THREATS CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)

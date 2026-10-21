@@ -3,6 +3,7 @@ Read AGENTS.md, USER_DIRECTIVES.md and CURRENT_GAME_SPEC.md first.
 Last reconciled production16b1a505; Glass Reach PR49 complete, independently
 approved atf4f4d000; mandatory CI39515575589 passed all60 runtime scenarios.
 Current branch gauntlet/release/iron-choir; accumulated region candidate built.
+Occupied-band acquisition repaired after HOLDe5306e2; same reviewer re-review next.
 Root owns complete accumulated review, exact-head CI, PR and integration.
 
 Four core22–25 and optional26–29 continue recovered19: Hammerwake, Pressure Stair,
@@ -18,7 +19,7 @@ Ordinary onward/replay and cover/inner input/render checks demonstrate new actio
 work progress, industrial silhouettes, acquired attacks and finite pressure fields.
 These prove technical viability, not balance, blind play or enjoyment.
 
-Next: one independent accumulated review, consequential fixes on this same branch,
+Next: same independent accumulated re-review, consequential same-branch fixes,
 then exact-head mandatory CI and normal milestone PR. No approval claimed yet.
 After integration continue substantial playable campaign/replay content toward
 28 core/12 optional and the approved fleet/progression program.
