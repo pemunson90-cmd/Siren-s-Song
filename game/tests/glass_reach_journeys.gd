@@ -60,7 +60,7 @@ func _initialize():
   check(id in p.completed and Campaign.valid(p),"real recovered result advances valid regional campaign "+str(id))
   if failures>0:break
  var store=load("res://src/persistence/save_store.gd").new();store.path="user://glass-complete-campaign.save"
- var envelope={"version":1,"unlocked":5,"completed":[0,1,2,3,4,5],"upgrade":"endurance","settings":{},"expedition":p,"active":null}
+ var envelope={"version":2,"unlocked":5,"completed":[0,1,2,3,4,5],"upgrade":"endurance","settings":{},"expedition":p,"active":null}
  check(store.save(envelope) and store.load_game()==envelope,"actual accumulated region progression/research roundtrips checksummed campaign save")
  check(Endings.resolve(p).id==original,"new region preserves committed earlier outcome family")
  check(p.get("research",{}).get("spent",[]).size()==2 and "quietus_prism" in p.entitlements and "quietus_decoder" in p.entitlements,"both actual optional material returns produce useful research entitlements")

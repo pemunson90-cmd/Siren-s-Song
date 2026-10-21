@@ -109,6 +109,6 @@ func _initialize():
   tow.paused=true;check(accepted and tow.units[1].pos.distance_to(point)<25 and tow.mission.iron_choir.load.carrier==1,"actual unselected fitted drone moves real later load through service water "+str(point));tow.command("select",{"unit":1})
  check(tow.mission.iron_choir.load.pos.y<1400 and Sim.valid_snapshot(tow.snapshot()),"actual yoke envelope crosses narrow machinery and current state remains valid")
  var store=load("res://src/persistence/save_store.gd").new();store.path="user://iron-completed-campaign.save"
- var envelope={"version":1,"unlocked":5,"completed":[0,1,2,3,4,5],"upgrade":"endurance","settings":{},"expedition":p,"active":null}
+ var envelope={"version":2,"unlocked":5,"completed":[0,1,2,3,4,5],"upgrade":"endurance","settings":{},"expedition":p,"active":null}
  check(store.save(envelope) and store.load_game()==envelope,"actual accumulated industrial campaign/material/people choices roundtrip checksummed save")
  print("IRON JOURNEY CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)

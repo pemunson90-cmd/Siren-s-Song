@@ -52,7 +52,7 @@ func _initialize():
  var duplicated=before.duplicate(true);duplicated.captures[2].target=duplicated.captures[1].target
  check(not Sim.valid_snapshot(duplicated),"current save cannot assign the same record to two craft")
  var store=Store.new();store.path="user://test-independent-capture.save"
- var archive={"version":1,"unlocked":1,"completed":[0],"upgrade":"endurance","settings":{},"active":before}
+ var archive={"version":2,"unlocked":1,"completed":[0],"upgrade":"endurance","settings":{},"active":before}
  check(store.save(archive),"current archive writes simultaneous partial exposures")
  var loaded=store.load_game();var restored=Sim.new()
  check(not loaded.is_empty() and restored.restore(loaded.active) and restored.paused,"current archive restores both exposures paused")

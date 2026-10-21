@@ -21,7 +21,7 @@ func progress()->Dictionary:
  return {"version":2,"route":"shelf","routes":["shelf"],"facts":{"shelf":"Recovered shelf warning"},"completed":[6,8],"notes":{},"references":{},"entitlements":["drone_sampler"],"history":[],"selected_thread":""}
 func binary_roundtrip(s)->bool:
  var store=Store.new();store.path="user://warning-chain-tests.save"
- var data={"version":1,"unlocked":5,"completed":[0,1,2,3,4,5],"upgrade":"disruption","settings":{},"expedition":progress(),"active":s.snapshot()}
+ var data={"version":2,"unlocked":5,"completed":[0,1,2,3,4,5],"upgrade":"disruption","settings":{},"expedition":progress(),"active":s.snapshot()}
  var saved=store.save(data);var loaded=store.load_game() if saved else {};var copy=Sim.new()
  var valid=saved and loaded==data and copy.restore(loaded.active)
  for suffix in ["",".bak",".tmp"]:DirAccess.remove_absolute(store.path+suffix)

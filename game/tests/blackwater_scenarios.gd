@@ -49,7 +49,7 @@ static func run(t):
 	s=make();place(s,0,130,1);s.command("select",{"unit":1});s.command("camera");s.units[1].alive=false;s.paused=false;tick(s,0.05)
 	t.check(s.selected==0 and "SAMPLE" in s.message,"lost Blackwater station names the actual Quietus SAMPLE fallback")
 	s=make();place(s,0,210);s.command("ping");s.paused=false;tick(s,0.4);s.paused=true
-	var data={"version":1,"unlocked":2,"completed":[0,1],"upgrade":"endurance","settings":{},"active":s.snapshot(),"evidence":{"blackwater_request":{"name":"REQUEST RELAY","caption":"Replay protocol","optical":"blackwater_request"}}}
+	var data={"version":2,"unlocked":2,"completed":[0,1],"upgrade":"endurance","settings":{},"active":s.snapshot(),"evidence":{"blackwater_request":{"name":"REQUEST RELAY","caption":"Replay protocol","optical":"blackwater_request"}}}
 	var store=Store.new();store.path="user://test-blackwater.save"
 	t.check(store.save(data) and store.load_game()==data,"actual archive retains new request evidence and remaining replay lifetime")
 	var persisted=store.load_game()
@@ -65,7 +65,7 @@ static func run(t):
 	var replay=preload("res://tests/finale_command_plan.gd").play(false,"warning",true)
 	replay.start(2)
 	t.check(Simulation.valid_snapshot(replay.snapshot()),"replaying Blackwater after ordinary finale completion yields a valid fresh snapshot")
-	var replay_data={"version":1,"unlocked":5,"completed":[0,1,2,3,4,5],"upgrade":"endurance","settings":{},"active":replay.snapshot()}
+	var replay_data={"version":2,"unlocked":5,"completed":[0,1,2,3,4,5],"upgrade":"endurance","settings":{},"active":replay.snapshot()}
 	t.check(store.save(replay_data),"existing autosave accepts fresh Blackwater after finale target2")
 	for suffix in ["",".tmp",".bak"]:DirAccess.remove_absolute(store.path+suffix)
 	var legacy_store=Store.new();legacy_store.path="res://tests/fixtures/accepted-blackwater.archive"

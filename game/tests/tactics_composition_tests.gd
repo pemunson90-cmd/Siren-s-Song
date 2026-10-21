@@ -33,7 +33,7 @@ func run():
  check(s.command("knock",{"target":0}),"new acoustic mission launches physical torpedo alongside programmed route")
  s.paused=false;s.advance(0.1);s.paused=true
  var snapshot=s.snapshot();var store=Store.new();store.path="user://tactics-composition-test.save"
- var archive={"version":1,"unlocked":4,"completed":[],"settings":{},"upgrade":"endurance","active":snapshot}
+ var archive={"version":2,"unlocked":4,"completed":[],"settings":{},"upgrade":"endurance","active":snapshot}
  check(store.save(archive),"combined flight/program/acoustic state writes actual archive")
  var restored=Sim.new();var loaded=store.load_game()
  check(not loaded.is_empty() and restored.restore(loaded.active) and restored.snapshot()==snapshot,"binary restore preserves flight, programmed intent and acoustic revision together")

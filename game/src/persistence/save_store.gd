@@ -1,18 +1,21 @@
 extends RefCounted
 const Simulation=preload("res://src/simulation/simulation.gd")
 const MAGIC := "QUIETUS_PASS0"
+const VERSION := 2
 var path := "user://quietus.save"
 var warning := ""
 func valid(data: Dictionary) -> bool:
-	if data.get("version",0)!=1: return false
+	# Version 2 carries hull, chassis and typed mount loadouts; version 1
+	# archives held single slot fittings and are rejected, never migrated.
+	if data.get("version",0)!=VERSION: return false
 	if not data.get("unlocked") is int or data.unlocked<0 or data.unlocked>5: return false
 	if not data.get("completed") is Array or not data.get("settings") is Dictionary or not data.get("upgrade") is String: return false
 	if data.has("expedition") and not preload("res://src/campaign/expedition_campaign.gd").valid(data.expedition):return false
 	if data.has("fleet") and not preload("res://src/campaign/fleet_inventory.gd").valid(data.fleet,preload("res://src/equipment/craft_upgrades.gd").recovered(data.completed,data.get("expedition",{})),data.completed+data.get("expedition",{}).get("completed",[])):return false
 	if data.has("equipment"):
 		if not preload("res://src/campaign/campaign_consequences.gd").fitting_valid(data.equipment):return false
-		for item in data.equipment.values():
-			if not item.is_empty() and item not in preload("res://src/equipment/craft_upgrades.gd").recovered(data.completed,data.get("expedition",{})):return false
+		for item in preload("res://src/equipment/equipment_catalog.gd").all_items(data.equipment):
+			if item not in preload("res://src/equipment/craft_upgrades.gd").recovered(data.completed,data.get("expedition",{})):return false
 	if data.has("evidence"):
 		if not data.evidence is Dictionary: return false
 		for key in data.evidence:
@@ -22,8 +25,8 @@ func valid(data: Dictionary) -> bool:
 		if not data.active is Dictionary or not Simulation.valid_snapshot(data.active): return false
 		if preload("res://src/campaign/operation_catalog.gd").definition(data.active.mission.id).campaign and data.active.mission.id not in preload("res://src/campaign/expedition_campaign.gd").available(data.completed,data.get("expedition",{})):return false
 		var fitted=data.active.mission.get("launch_equipment",{})
-		for item in fitted.values():
-			if not item.is_empty() and item not in preload("res://src/equipment/craft_upgrades.gd").recovered(data.completed,data.get("expedition",{})):return false
+		for item in preload("res://src/equipment/equipment_catalog.gd").all_items(fitted):
+			if item not in preload("res://src/equipment/craft_upgrades.gd").recovered(data.completed,data.get("expedition",{})):return false
 		var references=data.active.mission.get("launch_context",{}).get("references",{})
 		if not references.is_empty() and references!=data.get("expedition",{}).get("references",{}):return false
 	return true

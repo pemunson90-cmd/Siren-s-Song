@@ -15,7 +15,7 @@ func _initialize():
  var bad=sim.snapshot();bad.mission.launch_equipment.drone_a="drone_sampler";bad.mission.launch_equipment.drone_b="drone_sampler"
  check(not Sim.valid_snapshot(bad),"one physical sampler cannot be duplicated in active save")
  var progress={"version":1,"route":"deep","routes":["deep"],"facts":{"deep":"carrier"},"completed":[6,7]}
- var data={"version":1,"unlocked":5,"completed":[0,1,2,3,4,5],"upgrade":"disruption","settings":{},"expedition":progress,"active":sim.snapshot()}
+ var data={"version":2,"unlocked":5,"completed":[0,1,2,3,4,5],"upgrade":"disruption","settings":{},"expedition":progress,"active":sim.snapshot()}
  check(not Store.new().valid(data),"unearned active hardware/reference rejected despite earned mission access")
  var sampler=Sim.new();sampler.start(12,"disruption",{"fitted":{"quietus":"","drone_a":"drone_sampler","drone_b":""}})
  sampler.units[1].pos=sampler.mission.objectives[0].pos+Vector2(0,80);sampler.command("select",{"unit":1})

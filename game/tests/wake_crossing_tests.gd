@@ -35,7 +35,7 @@ func run():
  step(s,.2)
  check(guard.mode=="INVESTIGATE" and guard.goal.distance_to(Vector2(1520,620))<100,"ordinary hunter physically hears and investigates actual playback water")
  var store=Store.new();store.path="user://wake-crossing-test.save"
- var archive={"version":1,"unlocked":5,"completed":[0,1,2,3,4,5],"upgrade":"endurance","settings":{},"expedition":progress(),"active":s.snapshot()}
+ var archive={"version":2,"unlocked":5,"completed":[0,1,2,3,4,5],"upgrade":"endurance","settings":{},"expedition":progress(),"active":s.snapshot()}
  check(store.save(archive) and store.load_game()==archive,"actual checksummed binary archive preserves active finite playback")
  var restored=Sim.new();check(restored.restore(store.load_game().active) and restored.wake_context().used,"current restore cannot refund spent hardware")
  step(restored,16);check(not restored.noises.any(func(n):return n.label=="OLD DEPARTURE LOOP"),"playback really expires rather than sustaining an infinite lure")

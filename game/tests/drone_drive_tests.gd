@@ -30,7 +30,7 @@ func _initialize():
  var legacy=Sim.new();legacy.restore(old);ticks(legacy,90)
  check(legacy.units[1].vel.length()>42.01 and not legacy.units[1].has("drone_drive"),"untouched inherited low-profile drone keeps legacy transit thrust without new state")
  var store=load("res://src/persistence/save_store.gd").new();store.path="user://drone-drive-test.save"
- var archive={"version":1,"unlocked":0,"completed":[],"settings":{},"upgrade":"endurance","active":s.snapshot()}
+ var archive={"version":2,"unlocked":0,"completed":[],"settings":{},"upgrade":"endurance","active":s.snapshot()}
  check(store.save(archive) and store.load_game()==archive,"actual atomic save store retains optional drive without schema migration")
  for suffix in ["",".tmp",".bak"]:DirAccess.remove_absolute(store.path+suffix)
  var p=Sim.new();p.start(0);p.command("select",{"unit":1});p.command("route",{"point":Vector2(300,700)});p.command("queue");p.command("route",{"point":Vector2(700,800)})

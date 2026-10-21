@@ -6,42 +6,91 @@ const SLOTS={"quietus":"QUIETUS","drone_a":"DRONE A","drone_b":"DRONE B"}
 static func rows(context:Dictionary)->Array:
  var result=[];var slots=context.get("slots",{});var available=context.get("available",[])
  for slot in SLOTS:
+  var unit=Catalog.SLOTS.find(slot)
   for item in context.get("catalog",[]):
    if slot not in item.compatible_slots:continue
-   var other=""
-   for key in SLOTS:
-    if key!=slot and slots.get(key,"")==item.id:other=key
-   result.append({"slot":slot,"station":SLOTS[slot],"id":item.id,"name":item.name,"current":slots.get(slot,""),"benefit":item.benefit,"cost":item.cost,"blocked_by":SLOTS.get(other,""),"unavailable":item.id not in available})
+   var holder=Catalog.key_of(slots,item.id);var other=Catalog._unit_of(holder) if not holder.is_empty() else ""
+   var here=other==slot
+   var refusal="";var replaces=""
+   if not here and other.is_empty() and item.id in available and Catalog.ITEMS.has(item.id):
+    var attempt=Catalog.choose(slots,slot,item.id,available)
+    if not attempt.ok:refusal=attempt.get("reason","")
+    else:
+     for previous in Catalog.items_for(slots,unit):
+      if previous not in Catalog.items_for(attempt.fitted,unit):replaces=Catalog.ITEMS[previous].name
+   result.append({"slot":slot,"station":SLOTS[slot],"id":item.id,"name":item.name,"current":item.id if here else "","key":holder if here else slot,"benefit":item.benefit,"cost":item.cost,"mount":Catalog.ITEMS.get(item.id,{}).get("mount",""),"power":Catalog.ITEMS.get(item.id,{}).get("power",0),"cargo":Catalog.ITEMS.get(item.id,{}).get("cargo",0),"blocked_by":SLOTS.get(other,"") if not here else "","refused":refusal,"replaces":replaces,"unavailable":item.id not in available,"unit":unit})
  return result
 static func fitting(main,context:Dictionary,choose:Callable)->Array:
  var options=rows(context);var buttons=[]
  if options.is_empty():return buttons
  main._menu_text("RECOVERED FITTINGS / NEXT LAUNCH",19)
- main._menu_text("BARE remains available. A launch fixes its equipment; resuming keeps the active dive’s fit.",15)
+ main._menu_text("BARE remains available. A launch fixes its equipment; resuming keeps the active dive’s fit. Each fitting takes a typed mount and draws power from its craft.",15)
  var described=[]
  for row in options:
   if row.id not in described:
-   main._menu_text("%s\n%s\nCOST · %s"%[row.name,row.benefit,row.cost],16);described.append(row.id)
+   var needs="%s MOUNT · %d POWER"%[row.mount,row.power]+(" · %d CARGO"%row.cargo if row.cargo>0 else "") if not row.mount.is_empty() else ""
+   main._menu_text("%s\n%s\nCOST · %s"%[row.name,row.benefit,row.cost]+("\n"+needs if not needs.is_empty() else ""),16);described.append(row.id)
   var fitted=row.current==row.id
-  var title="%s · %s → BARE"%[row.station,row.name] if fitted else "%s · BARE → FIT %s"%[row.station,row.name]
-  var blocked=row.unavailable or (not fitted and not row.blocked_by.is_empty())
-  if blocked:title="%s · %s ON %s"%[row.station,row.name,row.blocked_by]
+  var title="%s · %s → BARE"%[row.station,row.name] if fitted else ("%s · BARE → FIT %s"%[row.station,row.name] if row.replaces.is_empty() else "%s · FIT %s · REPLACES %s"%[row.station,row.name,row.replaces])
+  var blocked=row.unavailable or (not fitted and (not row.blocked_by.is_empty() or not row.refused.is_empty()))
+  if not fitted and not row.refused.is_empty():title="%s · %s REFUSED · %s"%[row.station,row.name,row.refused.to_upper()]
+  if not fitted and not row.blocked_by.is_empty():title="%s · %s ON %s"%[row.station,row.name,row.blocked_by]
   if row.unavailable:title="%s · %s UNAVAILABLE · LEFT BEHIND"%[row.station,row.name]
-  var slot=row.slot;var id="" if fitted else row.id
-  var button=main._button(main.panel_box,title,func():choose.call(slot,id),"fit_"+slot)
+  var key=row.key;var id="" if fitted else row.id
+  var button=main._button(main.panel_box,title,func():choose.call(key,id),"fit_"+row.slot)
   button.disabled=blocked;buttons.append(button)
+ return buttons
+# Hull and chassis frames with typed mounts and budget bars. Returns frame buttons.
+static func _bar(main,parent:Node,label:String,value:float,cap:float,text:String,over:bool)->void:
+ var column=VBoxContainer.new();column.size_flags_horizontal=Control.SIZE_EXPAND_FILL;column.mouse_filter=Control.MOUSE_FILTER_PASS;parent.add_child(column)
+ var caption=Label.new();caption.text="%s %s"%[label,text];caption.add_theme_font_size_override("font_size",roundi(13*main.ui_touch_height/48.0));column.add_child(caption)
+ var bar=ProgressBar.new();bar.show_percentage=false;bar.max_value=maxf(cap,0.001);bar.value=minf(value,cap);bar.mouse_filter=Control.MOUSE_FILTER_PASS
+ bar.custom_minimum_size=Vector2(0,maxf(8,main.ui_touch_height*0.18))
+ var fill=StyleBoxFlat.new();fill.bg_color=Color("e08a5c") if over else Color("6bd5cb");var back=StyleBoxFlat.new();back.bg_color=Color("17323a")
+ bar.add_theme_stylebox_override("fill",fill);bar.add_theme_stylebox_override("background",back);column.add_child(bar)
+static func frame_summary(fit:Dictionary,unit:int)->String:
+ var b=Catalog.budget(fit,unit);var parts=[]
+ for mount in b.mounts:parts.append("%s %s"%[mount.type,Catalog.ITEMS[mount.item].name if not mount.item.is_empty() else "empty"])
+ return "%s · %s\n%s\nMOUNTS · %s"%[SLOTS[Catalog.SLOTS[unit]],b.name.to_upper(),Catalog.frame(fit,unit).summary," · ".join(parts)]
+static func next_frame(fit:Dictionary,unit:int)->Dictionary:
+ var ids=Catalog.frames(unit).keys();var key=Catalog.FRAME_KEYS[Catalog.SLOTS[unit]];var index=ids.find(Catalog.frame_id(fit,unit));var first=""
+ for step in range(1,ids.size()):
+  var id=ids[(index+step)%ids.size()];var attempt=Catalog.choose(fit,key,id,[])
+  if attempt.ok:return {"key":key,"id":id,"reason":""}
+  if first.is_empty():first="%s refused · %s"%[Catalog.frames(unit)[id].name,attempt.reason]
+ return {"key":key,"id":"","reason":first}
+static func loadout(main,fit:Dictionary,choose:Callable)->Array:
+ var buttons=[]
+ main._menu_text("HULL AND DRONE FRAMES / NEXT LAUNCH",19)
+ main._menu_text("POWER and CARGO are hard limits. NOISE scales motion sound, ENDURANCE scales life support or battery. A bus drawn to capacity makes SONAR pulses cost half again as much.",15)
+ for unit in 3:
+  var b=Catalog.budget(fit,unit)
+  main._menu_text(frame_summary(fit,unit),16)
+  var strip=HBoxContainer.new();strip.mouse_filter=Control.MOUSE_FILTER_PASS;strip.custom_minimum_size.x=minf(610,main.size.x-120);strip.add_theme_constant_override("separation",12);main.panel_box.add_child(strip)
+  _bar(main,strip,"POWER",b.power,b.power_cap,"%d / %d"%[b.power,b.power_cap],b.power>=b.power_cap and b.power>0)
+  _bar(main,strip,"CARGO",b.cargo,b.cargo_cap,"%d / %d"%[b.cargo,b.cargo_cap],b.cargo_cap>0 and b.cargo>=b.cargo_cap)
+  _bar(main,strip,"NOISE",b.noise,1.5,"%d%%"%roundi(b.noise*100),b.noise>1.0)
+  _bar(main,strip,"ENDURANCE",b.endurance,2.0,"%d%%"%roundi(b.endurance*100),b.endurance<1.0)
+  var next=next_frame(fit,unit);var title
+  if next.id.is_empty():title="%s · %s · CHANGE REFUSED · %s"%[SLOTS[Catalog.SLOTS[unit]],b.name.to_upper(),next.reason.to_upper()]
+  else:title="%s · %s → %s"%[SLOTS[Catalog.SLOTS[unit]],b.name.to_upper(),Catalog.frames(unit)[next.id].name.to_upper()]
+  var key=next.key;var id=next.id
+  var button=main._button(main.panel_box,title,func():choose.call(key,id),"frame_"+Catalog.SLOTS[unit])
+  button.disabled=id.is_empty();buttons.append(button)
  return buttons
 static func status(sim)->String:
  if not sim.has_method("equipment_feedback"):return ""
- var feedback=sim.equipment_feedback();var slots=feedback.get("fitted",{});var index=clampi(sim.selected,0,2);var slot=SLOTS.keys()[index]
- var id=slots.get(slot,"")
- if id.is_empty():return ""
- return "%s · %s"%[SLOTS[slot],Catalog.ITEMS.get(id,{}).get("name","FITTED EQUIPMENT").to_upper()]
+ var feedback=sim.equipment_feedback();var fit=feedback.get("fitted",{});var index=clampi(sim.selected,0,2);var slot=SLOTS.keys()[index]
+ var parts=[]
+ if Catalog.frame_id(fit,index)!="standard" and Catalog.valid_fitting(fit):parts.append(Catalog.frame(fit,index).name.to_upper())
+ for id in Catalog.items_for(fit,index):parts.append(Catalog.ITEMS.get(id,{}).get("name","FITTED EQUIPMENT").to_upper())
+ if parts.is_empty():return ""
+ return "%s · %s"%[SLOTS[slot]," · ".join(parts)]
 
 static func correlation(sim)->Dictionary:
  if not sim.has_method("equipment_feedback"):return {}
  var feedback=sim.equipment_feedback()
- return feedback.get("correlation",{}) if feedback.get("fitted",{}).get("quietus","")=="quietus_correlator" else {}
+ return feedback.get("correlation",{}) if Catalog.has(feedback.get("fitted",{}),0,"quietus_correlator") else {}
 static func correlation_detail(sim)->String:
  var result=correlation(sim)
  if result.is_empty():return ""
@@ -60,8 +109,7 @@ static func cadence_text(cadence:Array)->String:
  return "PULSES "+" / ".join(parts)+"s" if not parts.is_empty() else "Cadence unresolved"
 static func sample_detail(sim)->String:
  if sim.selected not in [1,2] or not sim.has_method("equipment_feedback"):return ""
- var slot="drone_a" if sim.selected==1 else "drone_b"
- if sim.equipment_feedback().get("fitted",{}).get(slot,"")!="drone_sampler":return ""
+ if not Catalog.has(sim.equipment_feedback().get("fitted",{}),sim.selected,"drone_sampler"):return ""
  var active=sim.capture_unit==sim.selected
  var context=sim.camera_context();var target=sim.capture_target if active else context.get("target",-1)
  var sites=sim.observable_sites()

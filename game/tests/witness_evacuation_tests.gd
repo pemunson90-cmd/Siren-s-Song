@@ -51,7 +51,7 @@ func run():
  var held=sim.snapshot();check(not sim.command("route",{"point":Vector2(1000,1000)}) and sim.snapshot().mission.witness_evacuation==held.mission.witness_evacuation,"rejected rock route preserves active occupied-pod work")
  step(sim,1.5);check(sim.witness_status().jobs[1].elapsed>1.4,"actual partial capsule work advances on its own carrier")
  var paused=sim.snapshot();sim.advance(10);check(sim.snapshot()==paused,"tactical pause freezes occupied pod and partial winch")
- var archive={"version":1,"unlocked":5,"completed":[0,1,2,3,4,5],"upgrade":"endurance","settings":{},"expedition":progress(),"active":paused}
+ var archive={"version":2,"unlocked":5,"completed":[0,1,2,3,4,5],"upgrade":"endurance","settings":{},"expedition":progress(),"active":paused}
  var store=Store.new();store.path="user://occupied-witness-test.save"
  check(store.save(archive) and store.load_game()==archive,"real current binary archive preserves a partial occupied-pod winch")
  var restored=Sim.new();check(restored.restore(store.load_game().active),"partial winch binary snapshot restores")

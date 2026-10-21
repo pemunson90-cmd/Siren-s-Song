@@ -65,13 +65,13 @@ func paused_release_save()->void:
  check(sim.command("rendezvous_release") and sim.elapsed==time,"paused berth release consumes no simulation time after Survey")
  check(sim.mission.rendezvous_transport.seen==measured,"release preserves the preceding physical observation without inventing a new measurement")
  var store=Store.new();store.path="user://rendezvous-paused-release-tests.save"
- var data={"version":1,"unlocked":5,"completed":[0,1,2,3,4,5],"upgrade":"disruption","settings":{},"expedition":{"version":1,"route":"deep","routes":["deep"],"facts":{"deep":"carrier"},"completed":[6]},"active":sim.snapshot()}
+ var data={"version":2,"unlocked":5,"completed":[0,1,2,3,4,5],"upgrade":"disruption","settings":{},"expedition":{"version":1,"route":"deep","routes":["deep"],"facts":{"deep":"carrier"},"completed":[6]},"active":sim.snapshot()}
  check(store.save(data) and store.load_game()==data,"same-time paused Survey then release roundtrips through the actual binary save store")
  for suffix in ["",".bak",".tmp"]:DirAccess.remove_absolute(store.path+suffix)
 func save_integrity(snap:Dictionary)->void:
  var store=Store.new();store.path="user://rendezvous-transport-tests.save"
  var progress={"version":1,"route":"deep","routes":["deep"],"facts":{"deep":"carrier"},"completed":[6]}
- var data={"version":1,"unlocked":5,"completed":[0,1,2,3,4,5],"upgrade":"disruption","settings":{},"expedition":progress,"active":snap}
+ var data={"version":2,"unlocked":5,"completed":[0,1,2,3,4,5],"upgrade":"disruption","settings":{},"expedition":progress,"active":snap}
  check(store.save(data) and store.load_game()==data,"mid-transit capture and stale/measured state survive the ordinary checksummed binary archive")
  for suffix in ["",".bak",".tmp"]:DirAccess.remove_absolute(store.path+suffix)
  var missing=fresh().snapshot();missing.mission.erase("rendezvous_transport")

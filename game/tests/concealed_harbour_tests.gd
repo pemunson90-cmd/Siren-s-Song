@@ -50,7 +50,7 @@ func run():
  check(hook(s) and s.concealed_status().connected,"coupling alone leaves the real trace socket connected")
  s.units[0].pos=Vector2(1840,970);s.units[0].vel=Vector2.ZERO;step(s,.02)
  var midstore=Store.new();midstore.path="user://concealed-mid-tow.save"
- var midarchive={"version":1,"unlocked":5,"completed":[0,1,2,3,4,5],"upgrade":"endurance","settings":{},"expedition":progress("deep"),"active":s.snapshot()}
+ var midarchive={"version":2,"unlocked":5,"completed":[0,1,2,3,4,5],"upgrade":"endurance","settings":{},"expedition":progress("deep"),"active":s.snapshot()}
  check(midstore.save(midarchive) and midstore.load_game()==midarchive,"actual current binary save preserves partially hauled connected trace and real trail")
  var resumed=Sim.new();check(resumed.restore(midstore.load_game().get("active",{})),"partial connected tow restores through ordinary snapshot validation")
  step(s,.3);step(resumed,.3)
@@ -107,7 +107,7 @@ func run():
  var retained=Campaign.recover(prior,s.mission)
  check(Campaign.valid(prior) and not retained.facts.has("concealed_consequence") and Endings.resolve(retained)==old_ending,"committed prior ending is not rewritten as newly performed environmental work")
  var store=Store.new();store.path="user://concealed-harbour-test.save"
- var archive={"version":1,"unlocked":5,"completed":[0,1,2,3,4,5],"upgrade":"endurance","settings":{},"expedition":deep,"active":s.snapshot()}
+ var archive={"version":2,"unlocked":5,"completed":[0,1,2,3,4,5],"upgrade":"endurance","settings":{},"expedition":deep,"active":s.snapshot()}
  check(store.save(archive) and store.load_game()==archive,"actual binary save preserves the new completed consequence and first history")
  for suffix in ["",".bak",".tmp"]:DirAccess.remove_absolute(store.path+suffix)
  baffle_pod_recovery()
@@ -144,7 +144,7 @@ func baffle_pod_recovery():
  var pod=s.mission.witness_evacuation.pos
  check(Rect2(2040,940,200,60).has_point(pod) and s.salvage_sites().any(func(site):return site.get("witness",false)),"required occupied pod and actual fitted kit remain at real own wreck inside future screen")
  var store=Store.new();store.path="user://concealed-baffle-custody.save"
- var archive={"version":1,"unlocked":5,"completed":[0,1,2,3,4,5],"upgrade":"endurance","settings":{},"expedition":progress("shelf"),"active":s.snapshot()}
+ var archive={"version":2,"unlocked":5,"completed":[0,1,2,3,4,5],"upgrade":"endurance","settings":{},"expedition":progress("shelf"),"active":s.snapshot()}
  check(store.save(archive) and store.load_game()==archive,"real binary save preserves actual beam loss before unfolding decision")
  var restored=Sim.new();check(restored.restore(store.load_game().get("active",{})),"binary lost-carrier state restores before north-screen decision")
  s=restored;s.command("select",{"unit":0})

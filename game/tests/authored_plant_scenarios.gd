@@ -31,7 +31,7 @@ static func run(t):
  var progress={"version":2,"route":"deep","routes":["deep"],"facts":{"deep":"carrier"},"completed":[6,7],"notes":{},"references":{},"entitlements":[],"history":[],"selected_thread":""}
  progress=Campaign.recover(progress,sim.mission)
  var store=Store.new();store.path="user://authored-plant-test.save"
- var data={"version":1,"unlocked":5,"completed":[0,1,2,3,4,5],"upgrade":"endurance","settings":{},"expedition":progress,"active":sim.snapshot()}
+ var data={"version":2,"unlocked":5,"completed":[0,1,2,3,4,5],"upgrade":"endurance","settings":{},"expedition":progress,"active":sim.snapshot()}
  t.check(50 in progress.completed and Campaign.valid(progress) and store.save(data) and store.load_game()==data,"authored operation recovery and current save roundtrip end to end")
  for suffix in ["",".bak",".tmp"]:DirAccess.remove_absolute(store.path+suffix)
  var bad=d.duplicate(true);bad.id=51;bad.config.plant.inlet=Vector2(-100,0)
