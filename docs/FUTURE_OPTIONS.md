@@ -3,7 +3,7 @@
 ## Siren active sonar (Pat, 21 Oct: keep as a possible later mode)
 V7 Sirens have no sonar. They notice Quietus by proximity plus line of sight, by hearing throttle noise, and by hearing Quietus pings. The current "active-sonar sweeper" was a later addition and is being rebuilt on V7 senses (handoff 009). The original design is preserved here as an option. Pat's note: it drastically changes gameplay and is more difficult and threatening, so it may return as a hard mode, a late-game enemy, or a challenge modifier.
 
-Preserved code: git tag `future/siren-active-sonar-sweeper` (file `game/src/simulation/sonar_sweeper.gd`, wiring in `simulation.gd`).
+Preserved code: git branch `claude/future-siren-active-sonar-sweeper` (do not delete) (file `game/src/simulation/sonar_sweeper.gd`, wiring in `simulation.gd`).
 
 How it works at that tag:
 - Charges 2.5 s, then emits an ACTIVE SWEEP for 1.5 s (12 s cooldown). The emission is itself noise (radius 900) that other units can hear.
