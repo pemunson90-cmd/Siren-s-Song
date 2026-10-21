@@ -1,8 +1,8 @@
 # Handoff 001: fix the sonar save bug when an enemy sits exactly on Quietus
 
-Status: OPEN
-Claimed at:
-Claimed by:
+Status: CLAIMED
+Claimed at: 2026-10-21 19:18:47 UTC
+Claimed by: codex
 Finished at:
 
 ## Task (plain language)
