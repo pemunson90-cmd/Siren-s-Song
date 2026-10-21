@@ -15,10 +15,7 @@ static func advance(sim,enemy,dt):
   state.pending.remove_at(n)
   if enemy.pos.distance_to(packet.origin)>160 or packet.emitter_band not in Depth.occupied(enemy):continue
   enemy["last_known"]=packet.pos;enemy.goal=packet.pos;enemy["known_band"]=packet.band;enemy["attention_time"]=7.;enemy.suspicion=.6
-  # Targeting tiebreak only: the first processed return commits the strike until
-  # it fires/expires or disruption breaks it; later returns still update detection and peers.
-  if state.strike.is_empty():
-   state.strike={"pos":packet.pos,"band":packet.band,"remaining":1.5};enemy.mode="RETURN STRIKE"
+  state.strike={"pos":packet.pos,"band":packet.band,"remaining":1.5};enemy.mode="RETURN STRIKE"
   # A single peer receives a local stale report over its own physical water path.
   for peer in sim.sirens:
    if peer==enemy or peer.stun>0 or peer.get("attention_time",0)>0:continue
