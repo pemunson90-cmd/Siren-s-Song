@@ -416,7 +416,8 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		if event is InputEventKey and event.pressed and event.keycode==KEY_ESCAPE: route_editor.close()
 		return
 	if event is InputEventKey and event.pressed and not event.echo:
-		if event.keycode==KEY_SPACE: _pause()
+		# SPACE pauses only live play; menus, briefing and settings never touch mission pause.
+		if event.keycode==KEY_SPACE and screen=="mission": _pause()
 		if event.keycode==KEY_ESCAPE:
 			if advanced_orders:_toggle_advanced()
 			elif knock_armed or decoy_armed:_primary_action()
