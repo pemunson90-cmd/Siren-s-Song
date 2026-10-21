@@ -105,7 +105,7 @@ func _initialize() -> void:
   var malformed=fixture().snapshot();malformed.tools.knock=value
   check(not Simulation.valid_snapshot(malformed),"new optional stock rejects malformed value "+str(value))
  var store=SaveStore.new();store.path="user://knockdown-test.save"
- var archive={"version":2,"unlocked":0,"completed":[],"settings":{},"upgrade":"endurance","active":saved}
+ var archive={"version":1,"unlocked":0,"completed":[],"settings":{},"upgrade":"endurance","active":saved}
  check(store.save(archive) and store.load_game().active.tools.knock==1,"actual binary archive retains spent stock and partial pin")
  archive.active=in_flight
  check(store.save(archive) and store.load_game().active.projectiles.size()==1,"actual binary archive retains an in-flight torpedo")

@@ -42,7 +42,7 @@ func post_arrival_loss(arrival:Dictionary):
  var s=Sim.new();check(s.restore(arrival),"observed refuge arrival restores before post-arrival threat")
  var store=Store.new();store.path="user://warning-recipient-post-arrival.save"
  for suffix in ["",".bak",".tmp"]:DirAccess.remove_absolute(store.path+suffix)
- var archive={"version":2,"unlocked":5,"completed":[0,1,2,3,4,5],"upgrade":"endurance","settings":{},"expedition":progress(),"active":s.snapshot()}
+ var archive={"version":1,"unlocked":5,"completed":[0,1,2,3,4,5],"upgrade":"endurance","settings":{},"expedition":progress(),"active":s.snapshot()}
  check(store.save(archive) and store.load_game()==archive,"active recipient arrival binary archive round-trips before Quietus recovery")
  var template=Sim.new();template.start(13);var guard=template.sirens[2].duplicate(true)
  guard.pos=HOME+Vector2(130,0);guard.home=guard.pos;guard.goal=guard.pos;guard.route=[];guard.patrol_points=[]
@@ -99,7 +99,7 @@ func run():
  check(s.warning_recipient_status().recipient.pos.distance_to(at)>1 and s.warning_recipient_status().recipient.pos.distance_to(HOME)>100,"recipient moves continuously rather than jumping to refuge")
  var snapshot=s.snapshot();s.advance(20);check(s.snapshot()==snapshot,"tactical pause freezes recipient motion and hull")
  var store=Store.new();store.path="user://warning-recipient-test.save"
- var archive={"version":2,"unlocked":5,"completed":[0,1,2,3,4,5],"upgrade":"endurance","settings":{},"expedition":progress(),"active":snapshot}
+ var archive={"version":1,"unlocked":5,"completed":[0,1,2,3,4,5],"upgrade":"endurance","settings":{},"expedition":progress(),"active":snapshot}
  check(store.save(archive) and store.load_game()==archive,"actual current binary archive preserves mid-transit hull and gate")
  var restored=Sim.new();check(restored.restore(store.load_game().active),"mid-transit binary snapshot restores")
  for suffix in ["",".bak",".tmp"]:DirAccess.remove_absolute(store.path+suffix)

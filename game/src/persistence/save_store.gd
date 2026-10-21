@@ -5,9 +5,9 @@ const VERSION := 2
 var path := "user://quietus.save"
 var warning := ""
 func valid(data: Dictionary) -> bool:
-	# Version 2 carries hull, chassis and typed mount loadouts; version 1
-	# archives held single slot fittings and are rejected, never migrated.
-	if data.get("version",0)!=VERSION: return false
+	# Version 2 adds hull, chassis and typed mount loadouts. Version 1 archives
+	# stay loadable: their single slot fittings read as standard frames.
+	if data.get("version",0) not in [1,VERSION]: return false
 	if not data.get("unlocked") is int or data.unlocked<0 or data.unlocked>5: return false
 	if not data.get("completed") is Array or not data.get("settings") is Dictionary or not data.get("upgrade") is String: return false
 	if data.has("expedition") and not preload("res://src/campaign/expedition_campaign.gd").valid(data.expedition):return false

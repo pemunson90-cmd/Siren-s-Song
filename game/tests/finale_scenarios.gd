@@ -30,7 +30,7 @@ static func run(t) -> void:
 	for n in 35: restored.advance(0.1)
 	t.check(restored.mission.objectives[2].captured and restored.outcome.is_empty(),"resolved warning is earned but still needs Quietus returned to the buoy")
 	t.check("fracture" in restored.mission.objectives[2].evidence and restored.mission.objectives[2].get("optical","")=="warning","final interpretation retains inspectable geological warning evidence")
-	var data={"version":2,"unlocked":5,"completed":[0],"upgrade":"disruption","settings":{},"active":restored.snapshot(),"evidence":{"warning":{"name":"WARNING PACKET","caption":restored.mission.objectives[2].evidence,"optical":"warning"}}}
+	var data={"version":1,"unlocked":5,"completed":[0],"upgrade":"disruption","settings":{},"active":restored.snapshot(),"evidence":{"warning":{"name":"WARNING PACKET","caption":restored.mission.objectives[2].evidence,"optical":"warning"}}}
 	var store=SaveStore.new(); store.path="user://test-finale.save"
 	t.check(store.save(data) and store.load_game()==data,"new warning evidence and partially returned mission survive actual archive roundtrip")
 	for suffix in ["",".tmp",".bak"]: DirAccess.remove_absolute(store.path+suffix)

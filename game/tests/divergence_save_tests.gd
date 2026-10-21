@@ -14,7 +14,7 @@ func _initialize():
  var snap=sim.snapshot();var restored=Sim.new();check(restored.restore(snap),"ordinary precise signal record is a valid active save")
  restored.paused=false;sim.advance(0.2);restored.advance(0.2)
  check(restored.snapshot()==sim.snapshot(),"signal clocks and received observations replay deterministically")
- var data={"version":2,"unlocked":5,"completed":[0,1,2,3,4,5],"upgrade":"disruption","settings":{},"active":sim.snapshot(),"evidence":{"divergence_deep":{"name":"DEEP CARRIER","caption":sim.mission.expedition_facts.deep,"optical":"divergence_deep"}}}
+ var data={"version":1,"unlocked":5,"completed":[0,1,2,3,4,5],"upgrade":"disruption","settings":{},"active":sim.snapshot(),"evidence":{"divergence_deep":{"name":"DEEP CARRIER","caption":sim.mission.expedition_facts.deep,"optical":"divergence_deep"}}}
  check(store.valid(data),"retained field note after incomplete investigation is valid without branch entitlement")
  check(Campaign.available(data.completed,data.get("expedition",{}))==[6],"field note does not unlock a continuation or module")
  data.expedition={"version":1,"route":"shelf","routes":["shelf"],"facts":{},"completed":[6]}

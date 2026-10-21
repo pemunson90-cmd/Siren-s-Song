@@ -96,7 +96,7 @@ func run_rescue():
  if not reached:return
  check(winch(s,1),"real drone boards the same occupied capsule before its exposed return")
  # A carried snapshot is real current binary data before any loss.
- var archive={"version":2,"unlocked":5,"completed":[0,1,2,3,4,5],"upgrade":"endurance","settings":{},"expedition":{"version":2,"route":"deep","routes":["deep"],"facts":{"deep":"Recovered branch","confluence_route":"concealed"},"completed":[6,7,9,11],"notes":{},"references":{},"entitlements":["drone_deep_cells"],"history":[],"selected_thread":"deep"},"active":s.snapshot()}
+ var archive={"version":1,"unlocked":5,"completed":[0,1,2,3,4,5],"upgrade":"endurance","settings":{},"expedition":{"version":2,"route":"deep","routes":["deep"],"facts":{"deep":"Recovered branch","confluence_route":"concealed"},"completed":[6,7,9,11],"notes":{},"references":{},"entitlements":["drone_deep_cells"],"history":[],"selected_thread":"deep"},"active":s.snapshot()}
  var store=Store.new();store.path="user://occupied-witness-journey.save"
  check(store.save(archive) and store.load_game()==archive,"actual loaded drone voyage survives a current binary archive roundtrip")
  var restored=Sim.new();check(restored.restore(store.load_game().active) and restored.witness_status()==s.witness_status(),"actual transit restore retains its exact carrier, occupied cargo and live guards")

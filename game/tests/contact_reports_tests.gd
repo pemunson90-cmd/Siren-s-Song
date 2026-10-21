@@ -30,7 +30,7 @@ func _initialize():
  check(rows.any(func(r):return r.text.contains("REPORT")),"earned witness contact explains report countdown")
  var partial=s.snapshot();var restored=Sim.new();check(restored.restore(partial),"partial report restores")
  var store=SaveStore.new();store.path="user://contact-report-test-%d.save"%OS.get_process_id()
- var archive={"version":2,"unlocked":5,"completed":[],"settings":{},"upgrade":"endurance","active":partial}
+ var archive={"version":1,"unlocked":5,"completed":[],"settings":{},"upgrade":"endurance","active":partial}
  check(store.save(archive) and store.load_game().active==partial,"real checksummed archive retains partial report without a schema change")
  for suffix in ["",".bak",".tmp"]:DirAccess.remove_absolute(store.path+suffix)
  var frozen=restored.snapshot();restored.advance(4);check(restored.snapshot()==frozen,"pause freezes partial report")

@@ -117,7 +117,7 @@ func _initialize():
  check(Fleet.recover({},forged,"won").is_empty(),"departure cannot spend a module that was never launched")
  var Store=preload("res://src/persistence/save_store.gd");var Campaign=preload("res://src/campaign/expedition_campaign.gd")
  var progress=Campaign.recover({"version":1,"route":"shelf","routes":["shelf"],"facts":{"shelf":"carrier"},"completed":[6]},{"id":8,"expedition_revision":1,"consequence_revision":1,"recovered":true,"expedition_facts":{},"objectives":[{"captured":true}]})
- var archive={"version":2,"unlocked":5,"completed":[0,1,2,3,4,5],"upgrade":"endurance","settings":{},"expedition":progress,"fleet":inventory,"active":depart.snapshot()}
+ var archive={"version":1,"unlocked":5,"completed":[0,1,2,3,4,5],"upgrade":"endurance","settings":{},"expedition":progress,"fleet":inventory,"active":depart.snapshot()}
  var store=Store.new();store.path="user://module-recovery-test.save"
  check(store.save(archive) and store.load_game()==archive,"validated binary archive keeps committed lost stock beside immutable launch fitting and historical entitlements")
  var bad=depart.snapshot();bad.mission.module_recovery.modules.drone_survey_array=bad.mission.module_recovery.modules.drone_sampler.duplicate(true)

@@ -5,7 +5,7 @@ static func run(t) -> void:
 	var store=SaveStore.new(); store.path="user://test-quietus.save"
 	for suffix in ["",".bak",".tmp"]: DirAccess.remove_absolute(store.path+suffix)
 	var s=Simulation.new(); s.start(2); s.command("select",{"unit":1}); s.command("route",{"point":Vector2(780,780)})
-	var data={"version":2,"unlocked":2,"completed":[0,1],"upgrade":"survey","settings":{"music":0.5,"effects":0.8},"active":s.snapshot(),"evidence":{"furnace":{"name":"FURNACE VENT","caption":"Recovered hollow castings.","optical":"furnace"}}}
+	var data={"version":1,"unlocked":2,"completed":[0,1],"upgrade":"survey","settings":{"music":0.5,"effects":0.8},"active":s.snapshot(),"evidence":{"furnace":{"name":"FURNACE VENT","caption":"Recovered hollow castings.","optical":"furnace"}}}
 	t.check(store.save(data),"versioned save writes atomically")
 	var loaded=store.load_game()
 	t.check(loaded==data,"campaign, settings, vectors and drone orders round-trip")

@@ -40,7 +40,7 @@ func _initialize():
  tick(s,0.8);s.paused=true;before=s.snapshot();s.advance(100)
  check(before==s.snapshot(),"pause freezes carrier motion and partial reception")
  var store=preload("res://src/persistence/save_store.gd").new();store.path="user://test-courier.save"
- var data={"version":2,"unlocked":2,"completed":[0,1],"upgrade":"endurance","settings":{},"active":s.snapshot()}
+ var data={"version":1,"unlocked":2,"completed":[0,1],"upgrade":"endurance","settings":{},"active":s.snapshot()}
  var persisted=store.save(data);var saved=store.load_game()
  check(persisted and saved==data,"actual archive persists launch time and partial moving reception")
  for suffix in ["",".tmp",".bak"]:DirAccess.remove_absolute(store.path+suffix)

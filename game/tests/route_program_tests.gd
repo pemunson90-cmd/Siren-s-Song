@@ -53,7 +53,7 @@ func _initialize():
  check(copy.restore(old) and copy.snapshot()==old,"legacy active routes restore without adding or rewriting fields")
  check(copy.route_goals().size()==1 and copy.units[0].route==old.units[0].route,"legacy inspector shows final goal without mistaking navigation corners for operator goals")
  var store=Store.new();store.path="user://route-program-test.save"
- var archive={"version":2,"unlocked":0,"completed":[],"settings":{},"upgrade":"endurance","active":snap}
+ var archive={"version":1,"unlocked":0,"completed":[],"settings":{},"upgrade":"endurance","active":snap}
  check(store.save(archive) and store.load_game()==archive,"actual save store round-trips program and undo without a schema migration")
  for suffix in ["",".tmp",".bak"]:DirAccess.remove_absolute(store.path+suffix)
  var legacy_queued=Sim.new();legacy_queued.restore(old)

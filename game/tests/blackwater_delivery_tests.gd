@@ -52,7 +52,7 @@ func data_winch_and_save()->void:
  sim.paused=true;var before=sim.snapshot();sim.advance(100)
  check(sim.snapshot()==before,"pause freezes partial buffer recovery")
  var store=Store.new();store.path="user://blackwater-delivery-tests.save"
- var data={"version":2,"unlocked":2,"completed":[0,1],"upgrade":"endurance","settings":{},"active":sim.snapshot()}
+ var data={"version":1,"unlocked":2,"completed":[0,1],"upgrade":"endurance","settings":{},"active":sim.snapshot()}
  check(store.save(data) and store.load_game()==data,"ordinary checksummed binary save roundtrips carried/dropped data and partial buffer winch")
  var copy=Sim.new();check(copy.restore(store.load_game().get("active",{})),"partial buffer winch restores through ordinary current snapshot")
  for suffix in ["",".bak",".tmp"]:DirAccess.remove_absolute(store.path+suffix)
@@ -108,7 +108,7 @@ func handoff_guards()->void:
  check(not sim.blackwater_handoff_context(1).ready,"data link cannot exceed its physical60m range")
 func binary_roundtrip(sim)->bool:
  var store=Store.new();store.path="user://blackwater-concurrent-tests.save"
- var data={"version":2,"unlocked":5,"completed":[0,1,2,3,4,5],"upgrade":"endurance","settings":{},"active":sim.snapshot()}
+ var data={"version":1,"unlocked":5,"completed":[0,1,2,3,4,5],"upgrade":"endurance","settings":{},"active":sim.snapshot()}
  var saved=store.save(data);var loaded=store.load_game() if saved else {};var copy=Sim.new()
  var valid=saved and loaded==data and copy.restore(loaded.active)
  for suffix in ["",".bak",".tmp"]:DirAccess.remove_absolute(store.path+suffix)

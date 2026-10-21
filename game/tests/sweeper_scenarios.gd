@@ -44,7 +44,7 @@ static func pin_lifecycle(t,role:String):
  t.check(s.snapshot()==saved,role+" tactical pause freezes partial pin")
  t.check(Sim.valid_snapshot(saved),role+" actual partial-pin snapshot validates without relaxing invariants")
  var store=preload("res://src/persistence/save_store.gd").new();store.path="user://pin-lifecycle-"+role+".save"
- var envelope={"version":2,"unlocked":5,"completed":[0,1,2,3,4],"upgrade":"endurance","settings":{},"active":saved}
+ var envelope={"version":1,"unlocked":5,"completed":[0,1,2,3,4],"upgrade":"endurance","settings":{},"active":saved}
  var persisted=store.save(envelope);var loaded=store.load_game() if persisted else {};var copy=Sim.new()
  var restored=persisted and loaded==envelope and copy.restore(loaded.active)
  t.check(restored,role+" partial pin roundtrips real checksummed save and simulation restore")

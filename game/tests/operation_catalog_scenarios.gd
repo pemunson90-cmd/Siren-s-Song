@@ -57,7 +57,7 @@ static func run(t):
   t.check(sim.mission.id==id and Sim.valid_snapshot(sim.snapshot()),"extension normal runtime and snapshot: "+str(id))
   var restored=Sim.new();t.check(restored.restore(sim.snapshot()),"extension restore: "+str(id))
   t.check(not sim.warning_chain_context().is_empty(),"registered plant behavior participates in runtime")
-  var data={"version":2,"unlocked":5,"completed":[0,1,2,3,4,5],"upgrade":"endurance","settings":{},"expedition":progress,"active":sim.snapshot()}
+  var data={"version":1,"unlocked":5,"completed":[0,1,2,3,4,5],"upgrade":"endurance","settings":{},"expedition":progress,"active":sim.snapshot()}
   t.check(Store.new().valid(data),"extension active current-save admission")
   if id==1014:
    var store=Store.new();store.path="user://operation-catalog-test.save"
@@ -82,7 +82,7 @@ static func run(t):
  for key in Catalog.fact_keys():progress.notes[key]="retained field note"
  t.check(progress.notes.size()>16 and Campaign.valid(progress),"registered note content exceeds old sixteen-note capacity")
  var store=Store.new();store.path="user://operation-catalog-completed.save"
- var data={"version":2,"unlocked":5,"completed":[0,1,2,3,4,5],"upgrade":"endurance","settings":{},"expedition":progress,"active":null}
+ var data={"version":1,"unlocked":5,"completed":[0,1,2,3,4,5],"upgrade":"endurance","settings":{},"expedition":progress,"active":null}
  t.check(store.save(data) and store.load_game()==data,"expanded recovered progression survives checksummed save")
  for suffix in ["",".bak",".tmp"]:DirAccess.remove_absolute(store.path+suffix)
  t.check(progress.completed.size()>8 and progress.history.size()>5,"registered content exceeds old completion/history capacities")

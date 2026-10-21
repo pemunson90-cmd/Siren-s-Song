@@ -49,7 +49,7 @@ func stock_reference(game):
   await menu_tap(game,"resume")
   check(game.screen=="mission" and sim.snapshot()==before and row(fleet,0).reserves[1]==warning and fleet.telemetry[0].visible,"actual RESUME cannot rescale or hide the active oxygen warning")
   var store=preload("res://src/persistence/save_store.gd").new();store.path="user://fleet-ring-stock-test.save"
-  var archive={"version":2,"unlocked":0,"completed":[],"upgrade":game.upgrade,"settings":{},"active":sim.snapshot()}
+  var archive={"version":1,"unlocked":0,"completed":[],"upgrade":game.upgrade,"settings":{},"active":sim.snapshot()}
   check(store.save(archive) and store.load_game()==archive,"binary archive preserves low active supply beside different NEXT supplies")
   var saved=store.load_game();check(sim.restore(saved.active),"actual low-stock binary snapshot restores")
   game._refresh();await settle()

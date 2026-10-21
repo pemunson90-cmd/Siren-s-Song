@@ -99,12 +99,10 @@ func saves():
  var loaded=store.load_game()
  check(loaded.equipment==data.equipment and loaded.active.mission.launch_equipment.hull=="fast" and loaded.active.mission.launch_equipment.chassis_b=="heavy","hull, chassis and mounts round-trip through the binary archive")
  var restored=Sim.new();check(restored.restore(loaded.active) and restored.mission.launch_equipment==s.mission.launch_equipment and absf(Upgrades.cruise_speed(restored.mission.launch_equipment)-112*1.15)<0.001,"restored dive keeps its launched hull budget")
- var old=data.duplicate(true);old.version=1
- check(not store.valid(old),"version 1 single-slot archives are rejected, not migrated")
+ var old={"version":1,"unlocked":1,"completed":[0],"upgrade":"endurance","settings":{},"equipment":{"quietus":"","drone_a":"","drone_b":""}}
+ check(store.valid(old),"version 1 single-slot archives stay valid within a campaign")
  for suffix in [".tmp",".bak"]:DirAccess.remove_absolute(path+suffix)
- var legacy=Store.new();legacy.path=path
- var raw=var_to_bytes(old);var file=FileAccess.open(path,FileAccess.WRITE);file.store_pascal_string(Store.MAGIC);file.store_pascal_string(raw.hex_encode().sha256_text());file.store_32(raw.size());file.store_buffer(raw);file.close()
- check(legacy.load_game().is_empty() and not legacy.warning.is_empty(),"an old archive on disk is cleanly rejected with a notice")
+ check(store.save(old) and store.load_game()==old and Kit.valid_fitting(Kit.canonical(store.load_game().equipment)),"a version 1 archive loads and reads as standard frames")
  var over=data.duplicate(true);over.equipment=Kit.canonical({"hull":"quiet","quietus":"quietus_vector_drive"})
  check(not store.valid(over),"an archive with a wrong-mount loadout is rejected")
  var heavy=data.duplicate(true);heavy.active.mission.launch_equipment.quietus_2="quietus_prism";heavy.active.mission.launch_equipment.quietus_3="quietus_decoder";heavy.active.mission.launch_equipment.quietus_4="quietus_pressure_sleeve"
