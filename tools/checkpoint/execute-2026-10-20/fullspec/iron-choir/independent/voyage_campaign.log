@@ -1,0 +1,39 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS empty receivers cannot auto-complete unfinished physical op=22
+PASS empty receivers cannot auto-complete unfinished physical op=23
+PASS empty receivers cannot auto-complete unfinished physical op=24
+PASS empty receivers cannot auto-complete unfinished physical op=25
+PASS empty receivers cannot auto-complete unfinished physical op=26
+PASS empty receivers cannot auto-complete unfinished physical op=27
+PASS empty receivers cannot auto-complete unfinished physical op=28
+PASS empty receivers cannot auto-complete unfinished physical op=29
+PASS freight voyage starts only after local deliberate command
+PASS actual in-flight freight partial snapshot restores
+FREIGHT RESULT pos=(2492.767, 449.4339) state=arrived hull=100.0 receipt=false
+PASS physical freight reaches real destination through authored water
+PASS restored freight continues to identical actual arrival
+PASS hidden arrival grants no remote receipt or live presentation tracking
+PASS local physical arrival observation earns actual dock receipt
+PASS actual completed physical job permits valid recovery op=22
+PASS new recovered freight advances valid history without changing old ending
+PASS actual equalizer starts lock_a
+PASS unselected actual equalizer partial save restores lock_a
+PASS worker-local shutter opens after selection/restore lock_a
+PASS actual equalizer starts lock_b
+PASS unselected actual equalizer partial save restores lock_b
+PASS worker-local shutter opens after selection/restore lock_b
+PASS actual equalizer starts lock_c
+PASS unselected actual equalizer partial save restores lock_c
+PASS worker-local shutter opens after selection/restore lock_c
+PASS actual completed physical job permits valid recovery op=23
+PASS empty-objective industrial completion requires all real locks and current recovery
+PASS spindle carrier physically descends
+PASS actual deep material winch starts
+PASS actual deep material remains physical cargo with valid save
+PASS material carrier physically returns to recovery band
+PASS actual completed physical job permits valid recovery op=26
+PASS actual returned material and dock proof fund one pressure sleeve
+PASS replayed receipt cannot duplicate material or research spend
+PASS physical campaign/research/current recovered payload roundtrips checksummed save
+INDEPENDENT IRON VOYAGE CHECKS 35 FAILURES 0

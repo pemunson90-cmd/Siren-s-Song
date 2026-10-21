@@ -199,3 +199,71 @@ older exited zombies5317/5440 underPID1 remain inert, as previously disclosed.
 CONTINUATION28lines, WORKBENCH26lines; root's independent accumulated review and
 mandatory final-head CI remain next, no review/CI pass/merge claimed by builder.
 Source RELEASED to root/existing reviewer at e5306e2.
+
+
+OCCUPIED-BAND ACQUISITION REPAIR AFTER HOLDe5306e2 —21 OCTOBER2026
+Same sole builder/branch/worktree; root dispatch freshly fetched unchanged16b1a505.
+Consolidated original REVIEW.md, REVIEW.e5306e2.HOLD.md and independent original
+occupied_acquisition.gd/.log preserved unchanged. One confirmed P2 only.
+Repair candidate 707822ebbce68f961d44be28718301163b59e8bd (committed/pushed).
+
+Reproduced original authored22 MIDDLE interceptor ignoring Q SHALLOW→MIDDLE and
+authored23 DEEP warden ignoring Q MIDDLE→DEEP despite true sight and shared occupied
+water. Original probe4checks/2failures/exit1. Added production regressions before
+source edit: industrial_threats_tests91checks/12failures/exit1, expected destination
+acquisition/frozen target failures for both bare and sleeve variants; no script
+or engine errors in red logs. Source-band exit cases already worked.
+
+Root cause: evidence() called occupied-volume Depth.sight but recorded u.band, the
+source band; advance then correctly rejected a point in a different enemy band.
+Repair iterates the observer's occupied bands, intersects target occupied bands
+and checks physical clear water in that same band, storing that observed band.
+No attack-phase/hearing/report/snapshot schema changes, no hidden-depth sampling
+after lost sight, no committed retargeting or blanket cross-band acquisition.
+
+Exact commands, cwd /workspace/Siren-s-Song-play-frozen, bash login=false:
+XDG_DATA_HOME=/workspace/work/iron-occupied-review-red-xdg timeout --kill-after=10s 120s /usr/local/bin/godot --headless --path game --script /workspace/work/gauntlet-fullspec-20261020/iron-choir/independent/occupied_acquisition.gd
+ -> occupied-review-red.log4/2, exit1 (original unmodified probe before source fix).
+XDG_DATA_HOME=/workspace/work/iron-occupied-regression-red-xdg timeout --kill-after=10s 120s /usr/local/bin/godot --headless --path game --script res://tests/industrial_threats_tests.gd
+ -> occupied-regression-red.log91/12, exit1 before source fix.
+XDG_DATA_HOME=/workspace/work/iron-occupied-regression-green-xdg timeout --kill-after=10s 120s /usr/local/bin/godot --headless --path game --script res://tests/industrial_threats_tests.gd
+ -> occupied-regression-green.log91/0, exit0.
+XDG_DATA_HOME=/workspace/work/iron-occupied-review-green-xdg timeout --kill-after=10s 120s /usr/local/bin/godot --headless --path game --script /workspace/work/gauntlet-fullspec-20261020/iron-choir/independent/occupied_acquisition.gd
+ -> occupied-review-green.log4/0, exit0, all authored settled/incoming controls windup
+ at.5s and valid current snapshots. Original probe not modified.
+XDG_DATA_HOME=/workspace/work/iron-occupied-research-xdg timeout --kill-after=10s 120s /usr/local/bin/godot --headless --path game --script res://tests/iron_research_tests.gd
+ -> occupied-research.log13/0, exit0, pressure-sleeve duration/resource/noise/slot
+ and both-band partial transition remain valid; actual fitting locality retained.
+Acceptance logs scanned for SCRIPT ERROR/ERROR/warnings, none.
+
+Expanded production regression uses authored poses/fresh missions and real depth
+commands. Interceptor covers0→1,1→0,2→1,1→2; authored DEEP warden covers1→2,2→1.
+Each uses bare and sleeve-fittedQ, actual shared sight at transition start, acquired
+shared point/band at.5s, valid partial restore, relocation after lost sight with
+frozen original aim/band, then actual finite attack/patch expiry/current snapshot.
+Both roles also reject quiet no-overlap transitions and terrain-blocked incoming
+sight. Existing23 checks continue: legitimate distant windup bearing without hidden
+contact, pause/restore, relocation miss, finite patch, real torpedo/overlapping
+longer EMP and expiry, and actual NPC hull loss.
+
+Scoped repair checks only; no old66-suite, full core/runtime/journey/render replay,
+profiling, APK, new agent, branch switch or additional audit. Prior independently
+passed voyage/campaign35/0, tow/custody16/0, rendered24/0 and focused52/20/23/13 remain
+separately attributed REVIEW evidence. Root still owns same-reviewer accumulated
+final-head re-review and mandatory CI/normal PR/merge/tree verification.
+Future ordinary-beam/load endpoint presentation seam from review is retained as
+nonblocking: contact_target still resolves old recipient endpoint; current authored
+Iron enemies are interceptor/warden/relay. No demonstrated current authored beam
+failure or extra repair assigned. All prior balance, outside-route, story/drama,
+UI/ergonomics, ObjectDB/density, native/audio/Fold and enjoyment limits remain.
+Live handoffs identify repair/re-review and meaningful substantial new content after
+integration, without claiming approval or merge. Final publication/release below.
+
+Repair publication/release:
+git commit -m "Acquire industrial threats in legitimately shared transition bands"
+git push origin gauntlet/release/iron-choir ->e5306e2..707822e success.
+Remote exacthead707822ebbce68f961d44be28718301163b59e8bd verified. Tracked tree clean;
+221 generated untracked UIDs preserved/excluded. No live owned Godot/display/test
+process. guidance structural audit and git diff --check pass. CONTINUATION29lines,
+WORKBENCH28lines. Source RELEASED to root for same-reviewer accumulated re-review;
+no mandatory final-head CI, independent approval, PR or merge claimed by builder.

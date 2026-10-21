@@ -1,0 +1,15 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+FAIL acquisition retains legitimately shared observed band interceptor [0, 1] bare
+FAIL lost-sight transition cannot retarget committed aim or depth interceptor [0, 1] bare
+FAIL acquisition retains legitimately shared observed band interceptor [2, 1] bare
+FAIL lost-sight transition cannot retarget committed aim or depth interceptor [2, 1] bare
+FAIL acquisition retains legitimately shared observed band interceptor [0, 1] sleeve
+FAIL lost-sight transition cannot retarget committed aim or depth interceptor [0, 1] sleeve
+FAIL acquisition retains legitimately shared observed band interceptor [2, 1] sleeve
+FAIL lost-sight transition cannot retarget committed aim or depth interceptor [2, 1] sleeve
+FAIL acquisition retains legitimately shared observed band warden [1, 2] bare
+FAIL lost-sight transition cannot retarget committed aim or depth warden [1, 2] bare
+FAIL acquisition retains legitimately shared observed band warden [1, 2] sleeve
+FAIL lost-sight transition cannot retarget committed aim or depth warden [1, 2] sleeve
+INDUSTRIAL THREATS CHECKS 91 FAILURES 12

@@ -1,0 +1,19 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS DEEP drone starts actual material winch
+PASS DEEP material work saves with MIDDLE peer selected
+PASS deep winch finishes independently of selection/restoration
+PASS lost deep carrier leaves valid physical material wreck
+PASS wrong-depth Quietus cannot collect deep wreck
+PASS same-band Quietus can recover lost real material
+PASS recovered material changes custody without duplicate reward or bad snapshot
+PASS remote yoke on peer cannot let bare B attach
+PASS actual fitted A attaches physical ballast
+PASS physical tow cannot be depth-teleported
+PASS tow worker receives ordinary physical route
+PASS active unselected trail-followed tow restores
+PASS pause freezes real load and travelled trail
+PASS real fitted tow follows identical travelled water after selection/restore
+PASS physical load stays bounded in actual water with valid current state
+PASS actual tow-craft loss leaves unteleported free load and valid save
+INDEPENDENT IRON TOW CHECKS 16 FAILURES 0
