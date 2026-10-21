@@ -114,8 +114,16 @@ static func reason(value)->String:
   var why=_unit_reason(value,slot)
   if not why.is_empty():return why
  return ""
+# Hot simulation paths ask per tick, so legality is memoised by loadout content.
+static var _legal:Dictionary={}
 static func valid_fitting(value)->bool:
- return reason(value).is_empty()
+ if not value is Dictionary:return false
+ var key=value.hash()
+ if _legal.has(key):return _legal[key]
+ var ok=reason(value).is_empty()
+ if _legal.size()>512:_legal.clear()
+ _legal[key]=ok
+ return ok
 # key is a unit or mount key for an item (empty item clears that mount), or a
 # frame key with a hull/chassis id. Choosing an item for a unit uses a free
 # mount, else swaps the unit's item of the same mount type.
