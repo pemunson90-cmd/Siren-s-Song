@@ -150,3 +150,8 @@ func _exit_tree() -> void:
 	if tension!=null: tension.stop(); tension.stream=null
 	for voice in voices: voice.stop(); voice.stream=null
 	cues.clear()
+	# stop() queues fade-out/deletion on the audio thread. Finish its pending
+	# mix block before a rapid scene/application exit releases imported WAVs.
+	# This bounded wait runs only during teardown, never during play or pause.
+	var drain_seconds=clampf(AudioServer.get_time_to_next_mix(),0.0,.1)+.03
+	OS.delay_usec(int(drain_seconds*1000000.0))
