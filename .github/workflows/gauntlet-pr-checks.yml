@@ -2,7 +2,7 @@ name: Gauntlet PR checks
 
 on:
   pull_request:
-    branches: ['main', 'gauntlet/production']
+    branches: ['main', 'gauntlet/production', 'claude/integration']
   workflow_dispatch:
 
 permissions:
