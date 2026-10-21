@@ -1,6 +1,6 @@
 extends RefCounted
 const STORIES={
- "silent_exodus":{"title":"UNHEARD","outcome":"Drill crews and divers out by craft. No surface ship came.","story":"Quietus brought them up the trench a few at a time, pumps throttled, under the layer. Okafor counted each one aboard Brannock out loud. On the trench floor the patrols kept their circuits. None of them turned toward Quietus."},
+ "silent_exodus":{"title":"UNHEARD","outcome":"Drill crews and divers out by craft. No surface ship came.","story":"Quietus brought them up the trench a few at a time, pumps throttled, under the layer. Okafor counted each one off over the radio, out loud. On the trench floor the patrols kept their circuits. None of them turned toward Quietus."},
  "beacon_pact":{"title":"OPEN WATER","outcome":"The most people out, by surface ship on an open channel.","story":"Brannock came in on the broadcast channel and lifted everyone Quietus had found. The Sirens heard all of it: the call, the engines, the winches. They came close, listened, and left. On the next dive a patrol passed Quietus at two hundred meters and kept going."},
  "hidden_harbour":{"title":"STANDING DOWN","outcome":"The military survivors out quietly. Their weapons stay dark on the bottom.","story":"Quietus carried Port Ardent's watch crew and Kestrel's sailors out without one active ping. The station's test array is cold and Kestrel's tubes are shut. On the shelf the patrols kept their circuits. None of them turned toward Quietus."},
  "surface_reckoning":{"title":"MARKED","outcome":"Everyone out by surface ship. The call went out from a military post.","story":"Port Ardent's mast put the call out and Brannock came straight in. Every survivor Quietus had found went up the ladder. Then the Sirens came to the mast, and then to every place Quietus had held station. Okafor pulled it out with eleven minutes of air. Quietus cannot dive near them again."}
@@ -22,7 +22,7 @@ static func resolve(progress:Dictionary)->Dictionary:
  var concealed=progress.get("facts",{}).get("concealed_consequence","")
  if id=="silent_exodus" and concealed=="deep_trace_severed":
   result.outcome="The trench mouth went quiet and Tessaly's bell started up."
-  result.story=carrier_name(arrival)+" landed Kestrel's sonar operator alive. On her word Quietus hauled the Siren pickup off the trench mouth and broke its surface trace. Kade came on the bell channel: \"It's gone quiet. We're starting the slow lift.\" Okafor counted four voices. "+progress.facts.get("witness_recovery","")
+  result.story=carrier_name(arrival)+" landed Kestrel's sonar operator alive. On her word Quietus hauled the old tracking float off the trench mouth and broke its surface trace. Kade came on the bell channel: \"It's gone quiet. We're starting the slow lift.\" Okafor counted four voices. "+progress.facts.get("witness_recovery","")
  elif id=="hidden_harbour" and concealed in ["shelf_service","shelf_baffle"]:
   result.outcome="Port Ardent's watch crew reached their seabed lock."
   var mouth="The short service approach stays open: a direct route for the crew, and for sound." if concealed=="shelf_service" else "The screen now baffles the north entrance. The crew take the longer lower turn through quieter water."
