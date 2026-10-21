@@ -34,7 +34,7 @@ static func _action(sim,action:String,id:int)->Dictionary:
    a.reason=_local(sim,id,layout(sim.mission).inlet)
    if a.reason.is_empty() and sim.units[id].hold not in ["","HOLD"]:a.reason="Release this craft's conditional hold first"
  else:
-  if id!=0 and Catalog.item_for(sim.mission.launch_equipment,id)!="drone_sampler":a.reason="Quietus or a fitted field sampler must operate this panel"
+  if id!=0 and not Catalog.has(sim.mission.launch_equipment,id,"drone_sampler"):a.reason="Quietus or a fitted field sampler must operate this panel"
   elif s.power=="off":a.reason="Plant unpowered · CONNECT a craft or START BACKUP at WEST"
   else:
    a.reason=_local(sim,id,layout(sim.mission).panel)
