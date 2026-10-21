@@ -20,6 +20,11 @@ func _initialize():
  check(s.outcome.is_empty() and s.hull==100.0 and e.lock>1.0,"lock builds with no harm during the warning")
  run(s,3.5)
  check(s.outcome=="lost" and s.hull==0.0 and s.message==Sim.VAPORIZED_TEXT,"fired beam vaporizes Quietus at once")
+ s=beam_fixture();e=s.sirens[0];e.type="sentinel";e.angle=PI;e.lock=4.;e.target=0
+ s.units[1].alive=true;s.units[1].pos=Vector2(1400,840)
+ var second=e.duplicate(true);second.pos=Vector2(1560,840);second.home=second.pos;second.goal=second.pos;second.target=1;s.sirens.append(second)
+ run(s,Sim.STEP)
+ check(s.hull==0 and not s.units[1].alive and s.message==Sim.VAPORIZED_TEXT,"simultaneous drone beam loss preserves Quietus vaporization cause")
  # Broken lock: losing line of sight drains the lock and nothing dies.
  s=beam_fixture();e=s.sirens[0];run(s,3.0)
  s.mission.structures=[Rect2(970,700,20,300)];s._build_navigation();run(s,4.0)

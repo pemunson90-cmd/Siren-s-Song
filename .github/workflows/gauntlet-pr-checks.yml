@@ -127,6 +127,8 @@ jobs:
           industrial_jobs_tests|INDUSTRIAL JOBS
           industrial_threats_tests|INDUSTRIAL THREATS
           combat_rules_tests|COMBAT RULES
+          collision_boundaries_tests|COLLISION BOUNDARIES
+          sweeper_commit_tests|SWEEPER COMMIT
           iron_research_tests|IRON RESEARCH
           iron_choir_journeys|IRON JOURNEY
           iron_choir_ui_tests|IRON CHOIR UI

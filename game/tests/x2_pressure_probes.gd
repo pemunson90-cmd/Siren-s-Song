@@ -2,6 +2,7 @@ extends SceneTree
 # Bounded live-physics probe. Source-known authored journey routes, not human play.
 # No state edits after launch. Run with -- --out=/absolute/report/directory.
 const Sim = preload("res://src/simulation/simulation.gd")
+const GlassJourneys = preload("res://tests/glass_reach_journeys.gd")
 const BUDGET = 900.0
 var sim
 var policy = ""
@@ -69,6 +70,9 @@ func tick(seconds: float):
 
 func go(point: Vector2) -> bool:
 	if not running(): return sim.outcome == "won"
+	# Region dimensions come from operation data, including the tall/wide Reach maps.
+	if not Rect2(Vector2.ZERO, sim.world_size()).has_point(point):
+		stop_reason = "controller_route_out_of_bounds"; return false
 	if not issue("route", {"point":point}): stop_reason = "controller_route_rejected"; return false
 	# Independent, simultaneous drone legs. Quietus selection does not drive them.
 	if policy == "drone_heavy":
@@ -97,27 +101,33 @@ func work(order: String, action: String, seconds: float = 8.25) -> bool:
 	tick(seconds)
 	return running()
 
-func outside(point: Vector2) -> bool:
-	if sim.units[0].pos.x < 600 and point.x < 600: return course([Vector2(250,point.y),point])
-	if sim.units[0].pos.x < 600:
-		if not course([Vector2(250,2250),Vector2(2200,2250)]): return false
-	elif sim.units[0].pos.x < 1900:
-		if not go(Vector2(2200,sim.units[0].pos.y)): return false
-	if point.x < 600: return course([Vector2(2200,2250),Vector2(250,2250),point])
-	return course([Vector2(2200,point.y),point])
-
 func glass(id: int):
-	if id in [15,18]:
-		if not outside(sim.mission.glass_reach.work_pos + Vector2(0,35)): return
-		if not work("glass_action", "vane" if id == 15 else "service"): return
-	if not sim.mission.objectives[0].captured:
-		if not outside(sim.mission.objectives[0].pos + Vector2(0,80)): return
-		if not issue("camera"): stop_reason = "controller_camera_rejected"; return
-		tick(sim.mission.objectives[0].duration + .25)
-	if id in [17,20,21]:
-		if not outside(sim.mission.glass_reach.work_pos + Vector2(0,35)): return
-		if not work("glass_action", "recover",4.25): return
-	outside(sim.mission.extraction)
+	# Replay the current authored baseline's exact geometry/depth crossings.
+	# No hidden enemy state enters route or defensive policy decisions.
+	for step in GlassJourneys.COURSES[id]:
+		if not running(): return
+		match step[0]:
+			"go":
+				if not go(step[1]): return
+			"depth":
+				if not issue("depth", {"band":step[1]}): stop_reason = "controller_depth_rejected"; return
+				tick(4.2)
+				if running() and (sim.units[0].band != step[1] or not sim.units[0].transition.is_empty()):
+					stop_reason = "controller_depth_incomplete"; return
+			"work":
+				if not work("glass_action", step[1], 8.2): return
+			"camera":
+				if not issue("camera"): stop_reason = "controller_camera_rejected"; return
+				tick(sim.mission.objectives[0].duration + .2)
+				if running() and not sim.mission.objectives[0].captured:
+					stop_reason = "controller_camera_incomplete"; return
+			"recover":
+				if not work("glass_action", "recover", 4.2): return
+				var artifact = sim.mission.glass_reach.artifact
+				if artifact.state != "cargo" or artifact.carrier != 0:
+					stop_reason = "controller_recovery_incomplete"; return
+			"exit":
+				if not go(sim.mission.corridors[step[1] if step.size() > 1 else 0].pos): return
 
 func iron(id: int):
 	match id:
@@ -168,9 +178,10 @@ func opening():
 
 func run_probe(id: int, name: String):
 	policy = name; stop_reason = ""; next_policy = 0; last_defense = -100
-	row = {"operation":id,"policy":name,"budget_seconds":BUDGET,"route_knowledge":"source-known authored journeys; opening direct authored objective coordinates","commands":[],"accepted":{},"peak_lock":0.0,"quietus_locked_seconds":0.0,"quietus_beam_seconds":0.0}
+	row = {"operation":id,"policy":name,"budget_seconds":BUDGET,"route_knowledge":"source-known current GlassJourneys.COURSES for 14-21; authored Iron Choir paths for 22-29; opening direct authored objective coordinates; operation-data dimensions","commands":[],"accepted":{},"peak_lock":0.0,"quietus_locked_seconds":0.0,"quietus_beam_seconds":0.0}
 	sim = Sim.new()
 	sim.start(id,"endurance")
+	row.world_size = [sim.world_size().x, sim.world_size().y]
 	if policy == "quietus_only":
 		# Initial scenario only: absent drones, not losses or earned profile.
 		sim.units[1].alive = false; sim.units[2].alive = false
