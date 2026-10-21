@@ -153,6 +153,8 @@ jobs:
           rendezvous_transport_tests|RENDEZVOUS TRANSPORT
           rendezvous_ui_tests|RENDEZVOUS UI
           briefing_scroll_fitting_ui_tests|BRIEFING SCROLL FITTING UI
+          economy_tests|ECONOMY
+          economy_ui_tests|ECONOMY UI
           loadout_frames_tests|LOADOUT FRAMES
           warning_chain_tests|WARNING CHAIN
           warning_chain_journey_tests|WARNING CHAIN JOURNEY

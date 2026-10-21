@@ -48,6 +48,8 @@ var unlocked := 0
 var completed: Array=[]
 var expedition:Dictionary={}
 var fleet:Dictionary={}
+const Economy=preload("res://src/campaign/economy.gd")
+var economy:Dictionary=Economy.new_state()
 var fitted_equipment:Dictionary=preload("res://src/equipment/equipment_catalog.gd").default_loadout()
 var upgrade := "endurance"
 var capture_scenario := ""
@@ -458,6 +460,7 @@ func _show_campaign() -> void:
 	_menu_text("\n".join(rows),14)
 	_menu_text("ALL: 3 DECOYS · 2 DRONES · 2 TORPEDOES\nDISRUPT: 12s · SURVEY: 8s, audible",14)
 	_button(panel_box,"CYCLE LOADOUT · endurance / disruption / survey",_cycle_loadout,"loadout")
+	preload("res://src/presentation/economy_panel.gd").summary(self)
 	_button(panel_box,"AUDIO / SETTINGS",_settings_menu,"settings")
 	print("SS_SCREEN operations window=",get_window().size," viewport=",get_viewport_rect().size," root=",size," unlocked=",unlocked," active_time=",snappedf(sim.elapsed,0.01))
 	call_deferred("_layout")
@@ -487,10 +490,25 @@ func _briefing(index: int) -> void:
 	# Frames open after the first dive; recovered fittings appear once earned.
 	if 0 in completed or not _equipment_entitlements().is_empty():preload("res://src/presentation/equipment_context.gd").loadout(self,_equipment_context().slots,func(key,id):_choose_equipment(key,id,index))
 	if not _equipment_entitlements().is_empty():preload("res://src/presentation/equipment_context.gd").fitting(self,_equipment_context(),func(slot,item):_choose_equipment(slot,item,index))
-	_button(menu_footer,"ENTER WATER\nSTART PAUSED",func(): _start_mission(index); _enter_water(),"begin")
+	preload("res://src/presentation/economy_panel.gd").panel(self,index)
+	var launch_cost=Economy.refit_cost(economy,_equipment_context().slots)
+	var enter=_button(menu_footer,"ENTER WATER\nSTART PAUSED" if Economy.can_pay(economy,launch_cost) else "NEED %s\nOR FIT BARE"%Economy.shortfall(economy,launch_cost),func(): _launch_dive(index),"begin")
+	enter.disabled=not Economy.can_pay(economy,launch_cost)
 	_button(menu_footer,"BACK TO\nOPERATIONS",_show_campaign,"back")
 	menu_footer.show()
 	call_deferred("_layout")
+func _launch_dive(index:int)->void:
+	fitted_equipment=FleetInventory.reconcile_fitting(fitted_equipment,FleetInventory.available(_equipment_entitlements(),fleet))
+	if not Economy.charge_launch(economy,fitted_equipment):return
+	_start_mission(index);Economy.apply_launch(economy,sim);_enter_water()
+func _refresh_briefing(index:int)->void:
+	var reading_position=scroll.scroll_vertical
+	_save_archive();_briefing(index)
+	var heading=panel_box.get_child(0)
+	(func():
+		await get_tree().process_frame
+		if is_instance_valid(heading) and heading.get_parent()==panel_box:scroll.scroll_vertical=reading_position
+	).call_deferred()
 func _launch_context(index:int)->Dictionary:
 	var context=preload("res://src/campaign/campaign_consequences.gd").context(expedition)
 	if index in [9,10]:context.thread="deep" if index==9 else "shelf"
@@ -514,12 +532,18 @@ func _choose_equipment(slot:String,item:String,index:int)->void:
 		await get_tree().process_frame
 		if is_instance_valid(heading) and heading.get_parent()==panel_box:scroll.scroll_vertical=reading_position
 	).call_deferred()
+func _settle_economy(first_recovery:bool)->void:
+	var mission=sim.mission;var state=mission.get("glass_reach",mission.get("iron_choir",{}))
+	var artifact=mission.get("recovered",false) and state.get("retrieved",false) and state.get("artifact",{}).get("state","")=="recovered" and state.artifact.get("id","") not in expedition.get("research",{}).get("materials",[])
+	Economy.settle(economy,{"outcome":sim.outcome,"hull":sim.hull,"alive":[sim.units[1].alive,sim.units[2].alive],"first":first_recovery and sim.outcome=="won","recovered":mission.get("module_recovery",{}).get("result",{}).get("recovered",[]).size() if first_recovery else 0,"artifact":artifact,"key":"%d:%s:%.2f"%[mission_index,sim.outcome,sim.elapsed]})
 func _debrief() -> void:
 	screen="debrief"; _clear_menu()
 	# Capture first completion before either classic or expedition debrief writes
 	# progress. The launch's fleet_commit also freezes replay intent across saves.
 	var first_recovery=mission_index not in _campaign_completed()
-	if first_recovery:fleet=FleetInventory.recover(fleet,sim.mission,sim.outcome)
+	var fleet_before=fleet.duplicate(true)
+	if first_recovery:fleet=Economy.absorb_losses(economy,fleet_before,FleetInventory.recover(fleet,sim.mission,sim.outcome))
+	_settle_economy(first_recovery)
 	fitted_equipment=FleetInventory.reconcile_fitting(fitted_equipment,FleetInventory.available(_equipment_entitlements(),fleet))
 	print("SS_DEBRIEF outcome=",sim.outcome," mission=",mission_index)
 	if ExpeditionOperations.debrief(self):return
@@ -581,7 +605,7 @@ func _confirm_new_campaign()->void:
 	call_deferred("_layout")
 func _new_campaign()->void:
 	completed=[];unlocked=0;expedition={};recovered_evidence={};photo_records={}
-	fleet={}
+	fleet={};economy=Economy.new_state()
 	fitted_equipment=preload("res://src/equipment/equipment_catalog.gd").default_loadout();upgrade="endurance"
 	_start_mission(0);_save_archive();_show_campaign()
 func _scenario(name: String) -> void:
@@ -640,6 +664,7 @@ func _archive() -> Dictionary:
 	if not photo_records.is_empty():data["photo_records"]=photo_records.duplicate(true)
 	if not expedition.is_empty():data["expedition"]=expedition.duplicate(true)
 	if not fleet.is_empty():data["fleet"]=fleet.duplicate(true)
+	data["economy"]=economy.duplicate(true)
 	data["equipment"]=preload("res://src/equipment/equipment_catalog.gd").canonical(fitted_equipment)
 	return data
 func _save_archive() -> void:
@@ -668,6 +693,7 @@ func _load_archive() -> void:
 		unlocked=saved.unlocked; completed=saved.completed; upgrade=saved.upgrade; settings=saved.settings
 		expedition=saved.get("expedition",{}).duplicate(true)
 		fleet=saved.get("fleet",{}).duplicate(true)
+		economy=saved.get("economy",Economy.new_state()).duplicate(true)
 		fitted_equipment=preload("res://src/equipment/equipment_catalog.gd").canonical(saved.get("equipment",{}))
 		fitted_equipment=FleetInventory.reconcile_fitting(fitted_equipment,FleetInventory.available(_equipment_entitlements(),fleet))
 		recovered_evidence=saved.get("evidence",{})

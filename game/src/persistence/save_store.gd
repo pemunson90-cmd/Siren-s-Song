@@ -12,6 +12,7 @@ func valid(data: Dictionary) -> bool:
 	if not data.get("completed") is Array or not data.get("settings") is Dictionary or not data.get("upgrade") is String: return false
 	if data.has("expedition") and not preload("res://src/campaign/expedition_campaign.gd").valid(data.expedition):return false
 	if data.has("fleet") and not preload("res://src/campaign/fleet_inventory.gd").valid(data.fleet,preload("res://src/equipment/craft_upgrades.gd").recovered(data.completed,data.get("expedition",{})),data.completed+data.get("expedition",{}).get("completed",[])):return false
+	if data.has("economy") and not preload("res://src/campaign/economy.gd").valid(data.economy):return false
 	if data.has("equipment"):
 		if not preload("res://src/campaign/campaign_consequences.gd").fitting_valid(data.equipment):return false
 		for item in preload("res://src/equipment/equipment_catalog.gd").all_items(data.equipment):

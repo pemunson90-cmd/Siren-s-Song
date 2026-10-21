@@ -32,6 +32,7 @@ static func debrief(main)->bool:
  main._retain_evidence()
  var previous=main.expedition.duplicate(true)
  main.expedition=Campaign.recover(main.expedition,mission)
+ main.expedition=preload("res://src/campaign/economy.gd").after_recover(main.economy,previous,main.expedition)
  if main.sim.outcome=="won" and mission.id in [12,13] and not preload("res://src/campaign/endings.gd").resolve(main.expedition).is_empty():
   main._show_ending();return true
  if main.sim.outcome=="won" and mission.get("recovered",false) and mission.id==11 and preload("res://src/presentation/confluence_resolution.gd").present(main):

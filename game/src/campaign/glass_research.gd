@@ -10,11 +10,28 @@ static func recovered(previous:Dictionary,mission:Dictionary)->Dictionary:
  if not p.has("research"):p.research={"materials":[],"spent":[],"projects":[]}
  if artifact.id not in p.research.materials:p.research.materials.append(artifact.id)
  for material in p.research.materials:
+  if material in pending(p):_spend(p,material)
+ return p
+static func _spend(p:Dictionary,material:String)->void:
+ var recipe=RECIPES[material]
+ p.research.spent.append(material);p.research.projects.append(recipe.item)
+ if recipe.item not in p.entitlements:p.entitlements.append(recipe.item)
+# Recovered material whose evidence is received and which awaits research.
+static func pending(p:Dictionary)->Array:
+ var result=[]
+ if not p.has("research") or not p.has("facts") or not p.has("completed"):return result
+ for material in p.research.materials:
   var recipe=RECIPES[material]
   if material in p.research.spent or recipe.evidence not in p.facts or recipe.operation not in p.completed:continue
-  p.research.spent.append(material);p.research.projects.append(recipe.item)
-  if recipe.item not in p.entitlements:p.entitlements.append(recipe.item)
+  result.append(material)
+ return result
+# Deliberate research of one pending material (the economy charges for it).
+static func start(previous:Dictionary,material:String)->Dictionary:
+ var p=previous.duplicate(true)
+ if material in pending(p):_spend(p,material)
  return p
+static func item_of(material:String)->String:
+ return RECIPES.get(material,{}).get("item","")
 static func valid(p:Dictionary)->bool:
  var earned=p.get("entitlements",[])
  if not p.has("research"):return not RECIPES.values().any(func(recipe):return recipe.item in earned)
