@@ -6,16 +6,18 @@ static func available(earned:Array,fleet:Dictionary={})->Array:
  var lost=[]
  for result in fleet.get("outcomes",{}).values():lost.append_array(result.lost)
  return earned.filter(func(item):return item not in lost)
+# Frames are always available; only missing mount items return to empty.
 static func reconcile_fitting(fitted:Dictionary,available_items:Array)->Dictionary:
  var result=fitted.duplicate(true)
- for slot in result:
-  if result[slot] not in available_items:result[slot]=""
+ for key in result:
+  if key in Catalog.FRAME_KEYS.values():continue
+  if result[key] not in available_items:result[key]=""
  return result
 static func launch(fitted:Dictionary,earned:Array,fleet:Dictionary,mission_id:int,completed:Array)->Dictionary:
  var missing=[];var stock=available(earned,fleet)
  if not Catalog.valid_fitting(fitted):return {"ok":false,"missing":missing,"launch":{}}
- for item in fitted.values():
-  if not item.is_empty() and item not in stock:missing.append(item)
+ for item in Catalog.all_items(fitted):
+  if item not in stock:missing.append(item)
  return {"ok":missing.is_empty(),"missing":missing,"launch":{"fitted":fitted.duplicate(true),"fleet_commit":mission_id not in completed}}
 static func recover(previous:Dictionary,mission:Dictionary,outcome:String)->Dictionary:
  var result=previous.duplicate(true)
@@ -23,9 +25,7 @@ static func recover(previous:Dictionary,mission:Dictionary,outcome:String)->Dict
  var recovery=mission.get("module_recovery",{}).get("result",{})
  if recovery.is_empty():return result
  var launched=[]
- for slot in ["drone_a","drone_b"]:
-  var item=mission.get("launch_equipment",{}).get(slot,"")
-  if not item.is_empty():launched.append(item)
+ for id in [1,2]:launched.append_array(Catalog.items_for(mission.get("launch_equipment",{}),id))
  if not _partition(recovery.get("recovered"),recovery.get("lost"),launched):return result
  if not result.has("outcomes"):result.outcomes={}
  result.outcomes[mission.id]={"recovered":recovery.recovered.duplicate(),"lost":recovery.lost.duplicate()}

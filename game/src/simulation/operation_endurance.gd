@@ -5,7 +5,7 @@ static func profile(id:int)->Dictionary:
  return Budgets.for_mission(id)
 static func oxygen_drain(mission:Dictionary,dt:float)->float:
  var budget=mission.get("endurance",profile(mission.id))
- return dt*100.0/budget.oxygen_seconds
+ return dt*100.0/budget.oxygen_seconds*CraftUpgrades.life_support(mission.get("launch_equipment",{}))
 static func battery_drain(mission:Dictionary,unit_id:int,propulsion_speed:float,dt:float)->float:
  var budget=mission.get("endurance",profile(mission.id))
  # Electronics remain active at HOLD. Through-water effort includes real

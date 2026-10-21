@@ -1,5 +1,6 @@
 extends RefCounted
 const ROLES=["interceptor","warden"]
+const WINDUP_CUE_RADIUS=650. # Covers the full500m clear-water engagement.
 static func initial()->Dictionary:return {"phase":"idle","remaining":0.,"cooldown":0.,"aim":Vector2.ZERO,"band":1,"patches":[],"hit":[]}
 static func initialize(sim):
  for e in sim.sirens:
@@ -12,13 +13,14 @@ static func evidence(sim,e:Dictionary)->Dictionary:
   if not u.get("alive",false) or e.pos.distance_to(u.pos)>=(180. if u.silent else 290.):continue
   # Sight earns a point in a shared clear volume, including an incoming band.
   for band in sim.Depth.occupied(e):
-   if band in sim.Depth.occupied(u) and sim.Depth.clear(sim,e.pos,u.pos,band):return {"pos":u.pos,"band":band}
+   if band in sim.Depth.occupied(u) and sim.Depth.clear(sim,e.pos,u.pos,band):return {"pos":u.pos,"band":band,"vel":u.vel}
  var heard=sim._heard_arrival(e)
  if not heard.is_empty():return {"pos":heard.goal,"band":heard.get("band",e.band)}
  if e.get("attention_time",0)>0:return {"pos":e.goal,"band":e.get("known_band",e.band)}
  return {}
 static func advance(sim,e:Dictionary,dt:float):
  var state=e.industry
+ var patrol_velocity:Vector2=e.vel
  e.vel=Vector2.ZERO;e.lock=0.;e.target=-1
  state.cooldown=maxf(0.,state.cooldown-dt);e["attention_time"]=maxf(0.,e.get("attention_time",0.)-dt)
  if e.get("pin_time",0)>0:e.pin_time=maxf(0.,e.pin_time-dt)
@@ -31,15 +33,38 @@ static func advance(sim,e:Dictionary,dt:float):
   e.mode="INTERCEPT LISTEN" if e.type=="interceptor" else "WARDEN IDLE"
   if state.cooldown>0:return
   var received=evidence(sim,e)
-  if received.is_empty() or received.band!=e.band or e.pos.distance_to(received.pos)>500 or not sim.Depth.clear(sim,e.pos,received.pos,e.band,12):return
+  if received.is_empty():
+   # Honor only a patrol anchored at this station, never procedural roaming.
+   if e.type=="interceptor" and not e.get("patrol_points",[]).is_empty() and e.patrol_points[0]==e.home:
+    e.mode="PATROL"
+    if e.route.is_empty():
+     for attempt in e.patrol_points.size():
+      var index=int(e.get("patrol_index",0))%e.patrol_points.size()
+      e.patrol_index=(index+1)%e.patrol_points.size()
+      var point:Vector2=e.patrol_points[index]
+      if e.pos.distance_to(point)<35:continue
+      var route=sim.path(e.pos,point)
+      if not route.is_empty():e.goal=point;e.route=route;break
+    e.vel=patrol_velocity
+    sim._move(e,dt,25.,false,false)
+   return
+  if received.band!=e.band or e.pos.distance_to(received.pos)>500 or not sim.Depth.clear(sim,e.pos,received.pos,e.band,12):return
   state.aim=received.pos;state.band=received.band;state.phase="windup";state.remaining=2. if e.type=="interceptor" else 2.5;state.hit=[]
+  # Lead only currently seen motion. Heard/report points carry no velocity.
+  # This single commit stays frozen throughout the warning and burst.
+  if e.type=="interceptor" and received.has("vel"):
+   var flight=e.pos.distance_to(received.pos)/200.
+   for n in 4:flight=e.pos.distance_to(received.pos+received.vel*(state.remaining+flight))/200.
+   var predicted:Vector2=received.pos+received.vel*(state.remaining+flight)
+   if flight<=2. and sim.Depth.clear(sim,received.pos,predicted,state.band,12) and sim.Depth.clear(sim,e.pos,predicted,state.band,16):state.aim=predicted
+  e.route=[];e.vel=Vector2.ZERO
   e.angle=e.pos.angle_to_point(state.aim);e.mode="BURST WINDUP" if e.type=="interceptor" else "PRESSURE CHARGE"
-  sim._noise(e.pos,450.,"INTERCEPTOR WINDUP" if e.type=="interceptor" else "WARDEN CHARGE",state.remaining,e.band)
+  sim._noise(e.pos,WINDUP_CUE_RADIUS,"INTERCEPTOR WINDUP" if e.type=="interceptor" else "WARDEN CHARGE",state.remaining,e.band)
   # Only local physical reception earns this consequential cue.
   for id in sim.units.size():
    var u=sim.units[id]
    if not u.alive:continue
-   var arrivals=sim.band_acoustics[u.band].arrivals(u.pos,e.pos,450.*sim.Depth.transmission(u,e))
+   var arrivals=sim.band_acoustics[u.band].arrivals(u.pos,e.pos,WINDUP_CUE_RADIUS*sim.Depth.transmission(u,e))
    if arrivals.is_empty():continue
    var direction=u.pos.direction_to(arrivals[0].goal)
    sim.events.append({"type":"carrier_received" if e.type=="interceptor" else "factory","receiver":id,"pos":u.pos+direction*180.,"direction":direction,"time":sim.elapsed})
