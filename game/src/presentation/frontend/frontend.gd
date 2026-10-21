@@ -61,6 +61,8 @@ func setup(main: Control) -> bool:
 	_title_screen()
 	return column != null
 func _process(delta: float) -> void:
+	# Any host navigation away from the boot menu (mission, briefing, ending) supersedes the overlay.
+	if host != null and host.get("screen") != "menu": _dismiss(); return
 	if title_label == null or not is_instance_valid(title_label) or screen != "title": return
 	if FrontendSettings.reduced_motion(): drift = 0.0; title_label.modulate.a = 1.0; return
 	drift += delta
