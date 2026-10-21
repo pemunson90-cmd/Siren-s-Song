@@ -13,6 +13,12 @@ Pat DECIDED (21 Oct): Option A. A fired Siren beam destroys Quietus outright (lo
 
 Pat priority (21 Oct): for future missions and expansions, briefings and story interjections are short placeholders, just enough to know the tasks; spend effort on mission design, layout, complete functional gameplay and UI. Story and polish only where consequential.
 
+## STATE AT USAGE LIMIT (21 Oct, ~91% of session)
+Integration tip includes merged: X2, X3, X4, T (PR 58, Codex). Open PRs into claude/integration: 55 (C1 Glass Reach, fix 7a5c4ee pushed, CI re-running), 56 (S3 text, wake_crossing test fix pending), 57 (P1 ship choices, three test problems pending). Unfinished lane branches with WIP pushed: lane-c2-iron (Iron Choir), lane-f1-frontend (title/settings/credits, tree equals 0c59a95), lane-k-combat (one-shot beam + collisions, Pat decided), lane-s3b-text (plot leftovers, renames). Codex: handoffs 001 (sonar bug, claimed) and 002-008 on branch codex/handoffs, docs/codex/README.md is the protocol; Pat just says "continue". Merge order: 55, then 57, then 56; then F1, K, C2, S3b.
+Standing rules: merge when both GitHub checks (guidance, game-smoke) are green; always run the full scenario list before pushing (docs/codex/run_ci_scenarios.sh on codex/handoffs); no per-lane reviewers; a whole-game harsh fresh-eyes review happens only once the game is provisionally complete; never change combat/detection/story design without Pat (combat decision A is recorded above); story text stays placeholder; Pat's plain-language rule applies.
+Next after the open PRs land: more content (arc 6 Calder Trench, optional ops to reach 28 core and 12 optional), economy (P2), challenges mode, art lane, Glass Reach objective variety, then the harsh whole-game review.
+First command on resume: git fetch origin && git log --oneline origin/claude/integration -5 && read docs/LANES.md and this block; check PR checks for 55, 56, 57.
+
 Merged into integration (tip 31bded5, core suite 758/0): X4 seam #52, X2 probes #53, X3 audio #54 (each CI green, relayed independent approval).
 Resumed (WIP pushed to branches, workers re-dispatched, no PRs yet): lane-c1-glass, lane-p1-fittings, lane-s3-rewrite. Codex owns lane-t-pressure (brief issued). lane-a1-art and lane-f1-frontend have no work yet and are parked.
 X3 carries CC-BY attribution: frontend lane must surface Soundscape.ATTRIBUTION in credits. X2 baseline (ops 14-29, 4 policies) is in PR #53; T reruns it on its own head.
