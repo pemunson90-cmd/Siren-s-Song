@@ -18,15 +18,15 @@ const PROFILES={
   "bands":{0:{"remove":[1],"add":[Rect2(650,650,360,120)]},2:{"remove":[0],"add":[]}},
   "threats":{0:{"patrol_points":[Vector2(620,130),Vector2(760,100),Vector2(760,180),Vector2(600,180)]},1:{"band":0}},
   "sweepers":[{"pos":Vector2(1120,570),"band":2}],
-  "hint":"Buffers stay on craft · SAMPLE in MIDDLE · TRANSFER at same depth within60m.",
-  "brief":"SAMPLE REQUEST and REPLY, then bring both raw buffers aboard Quietus and return. DEEP opens the western underpass; SHALLOW opens the northern reply approach but blocks the southern carrier lane. A shallow patrol and deep sweeper guard different waters. SAMPLE in MIDDLE; meet in the same settled band within60m to TRANSFER drone buffers. Quietus can sample directly. Craft → DEPTH / SONAR shows received bearings, not promised positions."
+  "hint":"Buffers stay on craft · SAMPLE in MIDDLE · TRANSFER at same depth within 60m.",
+  "brief":"SAMPLE REQUEST and REPLY, then bring both raw buffers aboard Quietus and return. DEEP opens the western underpass; SHALLOW opens the northern reply approach but blocks the southern glider lane. A shallow patrol and deep sweeper guard different waters. SAMPLE in MIDDLE; meet in the same settled band within 60m to TRANSFER drone buffers. Quietus can sample directly. Craft → DEPTH / SONAR shows received bearings, not promised positions."
  },
  "foundry_layers":{
   "source":3,
   "bands":{0:{"remove":[3],"add":[Rect2(1020,720,100,120)]},2:{"remove":[2,4],"add":[]}},
   "threats":{1:{"band":2}},
-  "hint":"Cold front weakens sound · factory solid at all depths · deep motor is not cover.",
-  "brief":"Photograph FURNACE, then DEPARTURE CRADLE; recover Quietus beyond the southern wall. DEEP passes beneath the central spine, but the factory remains solid. The furnace sentinel holds MIDDLE; the recovery sentinel and departing motor work DEEP. The cold front weakens sound in addition to layer loss. Wait quietly for a crossing, or coordinate a drone sounding while Quietus moves. Use craft → DEPTH / SONAR; image and recover in MIDDLE."
+  "hint":"Cold front weakens sound · factory solid at all depths · deep motor gives no cover.",
+  "brief":"Photograph FURNACE, then LAUNCH CRADLE; recover Quietus past the southern wall. DEEP passes beneath the central spine, but the factory stays solid. The furnace sentinel holds MIDDLE; the recovery sentinel and the launched hull's motor work DEEP. The cold front weakens sound in addition to layer loss. Wait quietly for a crossing, or coordinate a drone sounding while Quietus moves. Use craft → DEPTH / SONAR; image and recover in MIDDLE."
  },
  "well_interpretation":{
   "source":4,
@@ -41,8 +41,8 @@ const PROFILES={
   "bands":{0:{"remove":[2],"add":[Rect2(1030,120,90,80),Rect2(1260,600,140,100)]},1:{"remove":[],"add":[Rect2(1030,120,90,80)]},2:{"remove":[1],"add":[Rect2(760,700,240,190)]}},
   "threats":{0:{"pos":Vector2(970,300),"home":Vector2(970,300),"goal":Vector2(970,300),"patrol_points":[Vector2(970,300),Vector2(1080,400),Vector2(920,560),Vector2(900,300)]},1:{"band":0},2:{"band":2}},
   "sweepers":[{"pos":Vector2(1100,700),"band":2}],
-  "hint":"Two images → Quietus LISTEN 6s in MIDDLE lee → physical return with warning.",
-  "brief":"Photograph TRANSMITTER CROWN and OUTBOUND WAKES; Quietus must LISTEN six seconds at LEE RECEIVER, then return with the warning. DEEP opens the central crossing but closes the southern lee; SHALLOW opens the eastern approach. Different patrols and a deep sweeper cover different layers. MIDDLE retains the covered lee route. Break sight to interrupt local reports; reports carry an old area and observed depth. Coordinate drones or take observations alone. Work and recover in MIDDLE."
+  "hint":"Two images → Quietus LISTEN 6s in MIDDLE lee → physical return with the packet.",
+  "brief":"Photograph TRANSMITTER CROWN and OUTBOUND WAKES; Quietus must LISTEN six seconds at LEE RECEIVER, then return with the packet. DEEP opens the central crossing but closes the southern lee; SHALLOW opens the eastern approach. Different patrols and a deep sweeper cover different layers. MIDDLE retains the covered lee route. Break sight to interrupt local reports; reports carry an old area and observed depth. Coordinate drones or take observations alone. Work and recover in MIDDLE."
  }
 }
 static func supports_config(config:Dictionary)->bool:
