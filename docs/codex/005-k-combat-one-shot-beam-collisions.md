@@ -1,9 +1,9 @@
 # Handoff 005: one-shot beam and collision damage
 
-Status: CLAIMED
+Status: BLOCKED
 Claimed at: 2026-10-21 22:57:52 UTC
 Claimed by: codex
-Finished at:
+Finished at: 2026-10-21 23:55:17 UTC
 
 Precondition: run `git log -1 --format=%cr origin/claude/lane-k-combat`. If the newest commit is under 90 minutes old, a Claude worker may still be active on this branch: do not claim, skip to the next OPEN handoff, and if none remain tell Pat.
 Codex may merge: yes, same rule, after you open the pull request into claude/integration.
@@ -37,4 +37,62 @@ Push the branch, then open a pull request into claude/integration. Wait for GitH
 Pat decides design: do not alter anything beyond what is written here.
 
 ## Completion
-(Codex fills this in.)
+
+BLOCKED. Pat's chosen combat rules are implemented locally, but the required authored bare-Quietus returns do not all finish. No routes were changed. README step 4 requires every CI scenario to be ok before pushing code, and this handoff explicitly says to report failed authored routes instead of editing them. Consequently no lane push, pull request, hosted CI run or merge was made. There is no CI run link for this local head.
+
+The recoverable code is in `/workspace/Sirens-combat`, branch `claude/lane-k-combat`, local head `623427ec79f83d644c97da5cb6c23a12768b8eb2`. Integration `d09378c` was merged without rewriting history. A complete net patch against that integration is `/tmp/k-local-review.patch`. The final production and probe source is byte-identical to `75dc0ad6eb863db66cf4cea6e377ca726162aa08`; the two subsequent commits change tests only.
+
+Quietus now loses immediately when the ordinary beam fires after the existing warning. Broken locks and finite defensive tools still work, drones retain instant beam death, and a simultaneous drone loss cannot overwrite VAPORIZED. Quietus terrain and hull impacts have named speed, damage and cooldown constants, retain quarter-speed slowdown, and do not turn chart navigation stops into impacts. Relative hull movement includes incoming craft and respects depth. Existing overlapping craft can separate without permanent exclusion. Current-relative velocity retains the impulse. Other damage amounts and detection rules were not tuned. The existing hull readout already consumes hull changes. Cooldown timestamps are optional on restore; old snapshots remain accepted without migration or a schema version change.
+
+A sonar sweeper keeps an armed target and countdown through later echoes. Detection and delivered reports continue normally. The first processed same-tick return wins, documented and tested as a reversible targeting tiebreak. No new persisted sweeper state was added.
+
+Import was clean. Core: `CHECKS 759 FAILURES 0`. All 71 registered CI scenarios ran once to completion: 64 ok, seven FAIL, zero ERR. Two failures were obsolete collision assumptions, fixed narrowly and rerun: blackwater delivery `CHECKS 63 FAILURES 0` (same route wins at 30.03s with 76.72 hull, all craft alive, original spent EMPs), and loadout frames `CHECKS 69 FAILURES 0` (move a parked drone aside in the isolated speed fixture, preserve the speed requirement and require undamaged hulls). Thus 66 scenarios have passing evidence and five remain failing. The full 71-scenario command was not rerun after those two test-only corrections; each corrected script was run in full. Raw full run: `/tmp/k-final-scenarios.log`; targeted reruns: `/tmp/k-blackwater-delivery-final.log` and `/tmp/k-loadout-final.log`.
+
+Remaining failures, deliberately left intact:
+
+- `opening_depth_journeys`: 48 checks, 2 failures. Operation 4 Well uncertain/depth return loses at 88.92s after obtaining records.
+- `opening_depth_policy_ui_tests`: 404 checks, 4 failures. The same operation 4 physical return fails at both tested viewport sizes.
+- `shelf_habitat_journey_tests`: 28 checks, 11 failures. Operation 8 common bare-Quietus route loses at 54.62s, with beam firing and downstream progress unavailable. The quiet route passes at 192.10s with 100 hull.
+- `concealed_harbour_journey_tests`: 43 checks, 4 failures. Operation 12 shelf/service and shelf/baffle no-tools returns lose at 155.38s and 157.23s. Deep and cast-off alternatives pass.
+- `glass_reach_journeys`: 70 checks, 3 failures. The campaign-linked operation 19 bare return is VAPORIZED at 83.95s. The other seven Glass journeys pass. This campaign-linked trial differs from the default-history pressure trial below.
+
+An interim collision implementation also broke operation 5 and waypoint behavior; that implementation was repaired, without changing those assertions. Those are not remaining blockers. Final core and opening journey evidence confirms operation 5 finishes.
+
+New focused CI coverage passes: combat 17 checks, collision boundaries 20 checks, sweeper commitment 33 checks, all zero failures. It covers warning and lock break, finite EMP, beam victim identity, cooldown and restore/pause, terrain versus chart stops, depth, currents, incoming hulls and overlapping waypoint travel. Additional checks pass: industrial ordinary-beam endpoint seam 16/0, beam emission 11/0, T pressure regression 31/0. The known industrial victim/contact endpoint seam did not reappear in that focused test. Final measurement snapshots were valid for all 64 pressure trials.
+
+Existing tests were changed only for deliberately changed assumptions: beam emission, depth sonar and opening depth expect the firing beam to be fatal; wake crossing stops its intended losing control at VAPORIZED rather than issuing commands after death; T pressure separately verifies the unchanged 20-point interceptor burst and the subsequent physical ram; blackwater delivery attributes each new hull loss to a bounded physical collision; loadout frames isolates speed from a parked hull. No winning authored route was edited. The workflow registers the three new focused suites. No test was deleted or skipped.
+
+The pressure probe now reads operation dimensions and replays the current authored Glass courses, including depth, work and exit steps. All 64 operation/policy pairs are present and report integrity passes. Totals: 54 wins, nine losses and one controller finding. Cautious wins 16/16; aggressive 14/16; drone-heavy 9/16 with six losses and one controller rejection; Quietus-only 15/16, losing operation 19. No game numbers were tuned from these results. Quietus-only safety is not uniform: operation 15 finishes with 19.05 hull, operation 19 loses, and several later operations still show no ordinary lock time despite collision or industrial damage. Drone-heavy is substantially less robust under this particular scripted controller.
+
+Operation 16 drone-heavy rejects a Quietus waypoint at 37.95s. A bounded diagnostic confirms selected unit 0, matching deep geometry and chart, physically clear destination (1400,1560), but an uncertified chart cell adjacent to a measured return is conservatively blocked. This is a controller/navigation-knowledge finding, not a combat loss or a selection-band mismatch. No navigation code was changed. Diagnostic: `/tmp/k-op16-diagnose-fixed.log`.
+
+These are single scripted trials using endurance, no fittings and default history, not human play, balance proof or enjoyment evidence. Policies use source-known authored routes and react only to fresh observed contacts. Lock and beam seconds measure ordinary enemy targeting and do not cover every industrial attack or collision. Drone losses include exhaustion; causes are not separately classified. No APK, device play, human play or hosted exact-head checks were verified. Continuous simulation, tactical pause and finite tools were retained. No campaign tables, story, equipment or save schema files were edited.
+
+Pressure artifacts remain outside Git in `/tmp/k-pressure-final/`: `rows.json`, `rows.csv`, `summary.txt`, `difficulty-curve.md`, `source.txt` and `op16-controller-finding.txt`. All rows measure production/probe source 75dc0ad; interrupted operation 17 was replaced with a complete same-source rerun, with no interim-source results mixed in.
+
+Source: `75dc0ad6eb863db66cf4cea6e377ca726162aa08`
+
+Each cell: result/outcome; hull; seconds; drone losses; locked seconds; beam seconds):
+operation | cautious | aggressive | drone_heavy | quietus_only
+--- | --- | --- | --- | ---
+14 | win/won; 100.00; 139.92; 0; 0.00; 0.00 | win/won; 100.00; 93.55; 0; 0.00; 0.00 | win/won; 100.00; 139.92; 2; 0.00; 0.00 | win/won; 100.00; 139.92; 0; 0.00; 0.00
+15 | win/won; 6.92; 161.87; 0; 0.00; 0.00 | loss/lost; 0.00; 49.40; 0; 1.45; 0.00 | loss/lost; 0.00; 74.68; 0; 0.00; 0.00 | win/won; 19.05; 161.62; 0; 0.00; 0.00
+16 | win/won; 100.00; 151.22; 0; 0.00; 0.00 | win/won; 78.00; 101.87; 0; 1.00; 0.00 | controller finding/controller_route_rejected; 100.00; 37.95; 0; 0.00; 0.00 | win/won; 100.00; 151.22; 0; 0.00; 0.00
+17 | win/won; 100.00; 220.78; 0; 0.00; 0.00 | win/won; 100.00; 144.77; 0; 1.00; 0.00 | win/won; 100.00; 220.78; 2; 30.33; 0.00 | win/won; 100.00; 220.78; 0; 0.00; 0.00
+18 | win/won; 100.00; 119.07; 0; 0.00; 0.00 | win/won; 100.00; 75.17; 0; 0.00; 0.00 | win/won; 19.89; 120.07; 0; 0.00; 0.00 | win/won; 100.00; 119.07; 0; 0.00; 0.00
+19 | win/won; 48.76; 167.85; 0; 1.25; 0.00 | loss/lost; 0.00; 46.37; 0; 2.45; 0.00 | loss/lost; 0.00; 113.65; 2; 7.00; 0.00 | loss/lost; 0.00; 125.50; 0; 4.02; 0.02
+20 | win/won; 45.00; 85.57; 0; 0.00; 0.00 | win/won; 90.93; 54.90; 0; 0.00; 0.00 | win/won; 53.08; 85.57; 0; 0.00; 0.00 | win/won; 45.00; 85.57; 0; 0.00; 0.00
+21 | win/won; 100.00; 170.38; 0; 1.03; 0.00 | win/won; 100.00; 111.28; 0; 2.85; 0.00 | loss/lost; 0.00; 125.57; 1; 5.02; 0.02 | win/won; 100.00; 170.38; 0; 1.03; 0.00
+22 | win/won; 81.16; 264.70; 0; 0.00; 0.00 | win/won; 64.97; 215.62; 0; 0.00; 0.00 | win/won; 2.94; 264.97; 0; 0.00; 0.00 | win/won; 94.60; 264.42; 0; 0.00; 0.00
+23 | win/won; 45.00; 209.97; 0; 0.00; 0.00 | win/won; 100.00; 134.77; 0; 0.00; 0.00 | win/won; 1.53; 210.72; 0; 0.00; 0.00 | win/won; 45.00; 209.97; 0; 0.00; 0.00
+24 | win/won; 100.00; 305.47; 0; 0.00; 0.00 | win/won; 93.87; 252.52; 0; 0.00; 0.00 | loss/lost; 0.00; 99.68; 0; 0.00; 0.00 | win/won; 100.00; 305.47; 0; 0.00; 0.00
+25 | win/won; 69.82; 233.17; 0; 0.00; 0.00 | win/won; 45.78; 172.07; 0; 0.00; 0.00 | loss/lost; 0.00; 186.48; 0; 0.00; 0.00 | win/won; 94.60; 232.38; 0; 0.00; 0.00
+26 | win/won; 75.14; 168.72; 0; 0.00; 0.00 | win/won; 50.98; 104.43; 0; 0.00; 0.00 | win/won; 58.05; 169.00; 0; 0.00; 0.00 | win/won; 100.00; 168.20; 0; 0.00; 0.00
+27 | win/won; 81.85; 153.65; 0; 0.00; 0.00 | win/won; 65.66; 121.70; 0; 0.00; 0.00 | win/won; 36.23; 154.17; 0; 0.00; 0.00 | win/won; 95.24; 153.37; 0; 0.00; 0.00
+28 | win/won; 82.51; 135.65; 0; 0.00; 0.00 | win/won; 66.33; 109.27; 0; 0.00; 0.00 | win/won; 38.91; 136.43; 0; 0.00; 0.00 | win/won; 95.93; 135.38; 0; 0.00; 0.00
+29 | win/won; 45.00; 246.97; 0; 0.00; 0.00 | win/won; 100.00; 149.27; 0; 0.00; 0.00 | loss/lost; 0.00; 144.40; 0; 0.00; 0.00 | win/won; 45.00; 246.97; 0; 0.00; 0.00
+
+
+Needed outside the permitted route-edit scope, and not touched: authored route definitions in `game/tests/opening_depth_journeys.gd`, `game/tests/opening_depth_policy_ui_tests.gd`, `game/tests/shelf_habitat_journey_tests.gd`, `game/tests/concealed_harbour_journey_tests.gd` and `game/tests/glass_reach_journeys.gd`. Narrow historical beam/no-collision test updates, workflow registration and probe repairs above were explicitly authorized by this handoff. No other ownership exception was taken.
+
+Recommended next: Pat decides whether to authorize narrow updates to those failed authored routes and UI counterparts while retaining the chosen combat rules. Then rerun import, core and every scenario, push only the combat lane, open its PR into integration, and require green guidance/game-smoke on the exact head before any permitted merge. Keep this code unmerged while the route checks remain red.
