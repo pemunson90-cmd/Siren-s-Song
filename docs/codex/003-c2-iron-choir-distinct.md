@@ -1,8 +1,8 @@
 # Handoff 003: make Iron Choir operations 22 to 29 each play differently
 
-Status: OPEN
+Status: CLAIMED
 Claimed at:
-Claimed by:
+Claimed by: claude agent (21 Oct)
 Finished at:
 
 Precondition: run `git log -1 --format=%cr origin/claude/lane-c2-iron`. If the newest commit is under 90 minutes old, a Claude worker may still be active on this branch: do not claim, skip to the next OPEN handoff, and if none remain tell Pat.
