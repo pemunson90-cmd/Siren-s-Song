@@ -4,14 +4,14 @@ const TITLES={22:"Hammerwake",23:"Pressure Stair",24:"Choir Cut",25:"Last Shift"
 const L=preload("res://src/campaign/encounters/iron_layouts.gd")
 const T=preload("res://src/campaign/encounters/terrain.gd")
 const ACCOUNTS={
- 22:"Foreman Rill / Release the hammer sled from its stall and beat it down its lane: it jams against the shut lane gate and takes damage until you work that gate. West lane gate is LOCK A, east is LOCK B.",
- 23:"Lock keeper Nera / Cycle LOCK A, then B, then C: each equalizer opens the next shutter at its own depth. A crowned warden charges pressure from received evidence; wait out its discharge or break its acquisition.",
- 24:"Rill / The ballast is the switch. Tow it to BYPASS to restore the short gallery and keep the reporting bus supplied, or to ISOLATE to cut the bus and keep the long outside water. The first recovered placement commits Last Shift's route.",
- 25:"Nera / Escort the evacuation sled to its refuge: it only advances while a craft stays within 200m, and it holds the moment you leave. Choose the east shipping refuge or the west service berth, then watch it arrive.",
- 26:"Rill / Lift the pressure spindle from the deep sump. Lifting restarts the hammer and the west mouth seals in 100s, so leave by the mouth or work COOLING for the south return. Recover the physical spindle.",
- 27:"Nera / A loose counterweight slides back downhill. Tow it up to the ledge, chock it at LOCK A, tow it on to the cradle, then winch the exposed traction core.",
- 28:"Rill / The occupied bell must be towed through the S gallery with two decompression stops at LOCK A and LOCK B, then landed at the western refuge. Quietus can carry the job alone.",
- 29:"Nera / Two sites, one window. Throw the far breaker LOCK C, then RECONNECT the plant within 150s; or DISMANTLE the security feed in the west room alone. Recover your chosen local work account."}
+ 22:"Foreman Rill / The hammer train is stalled, not abandoned. Release its actual sled by the western service lane or the eastern shipping lane, observe the dock arrival, then bring your account home. The forked interceptors commit to what they last acquired; change your water during their windup.",
+ 23:"Lock keeper Nera / Three equalizers vent into separate pressure locks. Work them in any safe sequence; shutters truly open. A crowned warden charges local pressure from received evidence. Wait out its finite discharge, break its acquisition or use another band. Quietus alone can cycle every lock.",
+ 24:"Rill / The ballast is the switch. Tow it to BYPASS to restore the short gallery and leave the reporting bus supplied, or to ISOLATE to cut the bus and keep the long outside water. The first recovered placement commits Last Shift's actual route and relay support.",
+ 25:"Nera / Last shift is aboard the evacuation sled. Deliberately choose its east shipping refuge or west service refuge. No departure countdown runs before your order. Watch its actual arrival; the course announcement is not a tracker. Your returned ballast, people and plant accounts change local water, not distant fate.",
+ 26:"Rill / A pressure spindle rests in the deep cooling sump. A local noisy release opens the direct return; the longer outside passage needs no release. Recover the physical spindle, not its photograph. Our hammer measurements can turn it into a faster but louder pressure sleeve.",
+ 27:"Nera / Move the grounded counterweight to its receiving cradle, then winch the exposed traction core. Our pressure-lock measurements and the recovered material can build one drone traction yoke. A yoke steadies a load through service water; it cannot move a remote load.",
+ 28:"Rill / The maintenance bell is occupied. Attach locally, tow it through real water and LAND it at the western refuge. A returned landing account staffs Last Shift's west service berth. Quietus can carry the job alone; a fitted drone frees its pilot to scout.",
+ 29:"Nera / Reconnect the plant and Last Shift gains a current-assisted masked gallery, but its reporting feed stays alive. Dismantle the security feed and the powered western warden goes dark; no remote shield appears. Recover your chosen local work account."}
 static func supports_config(c:Dictionary)->bool:return c.size()==2 and c.get("history")==true and c.get("source_id",-1) in TITLES
 static func supports_identity(id:int,c:Dictionary)->bool:return id==c.source_id
 static func site(id:String,pos:Vector2,band:int=1,shape:Rect2=Rect2())->Dictionary:return {"id":id,"pos":pos,"band":band,"shape":shape,"done":false}
@@ -22,10 +22,10 @@ static func build(c:Dictionary,history:Dictionary={})->Dictionary:
  var id=c.source_id;var start=Vector2(300,2350)
  var m={"id":id,"title":TITLES[id],"depth":4600,"darkness":false,"region_revision":1,"world_size":Vector2(3000,2720),"start":start,"extraction":start,"rocks":[],"structures":[],"sirens":[],"acoustic_revision":1,"expedition_revision":2,"signal_sources":[],"signal_observations":[],"expedition_facts":{},"next_signal_time":0.,"chosen_route":"","recovered":false,"withdrawal_armed":false,"required_site_ids":[],"launch_context":history.duplicate(true),"endurance":{"oxygen_seconds":1000.,"drone_seconds":720.},"record":ACCOUNTS[id],"objectives":[],"corridors":[{"pos":start,"name":"CHOIR SOUTH RECOVERY","route":"deep"}]}
  T.apply(m,L.entries(id))
- var state={"sites":[],"jobs":[{},{},{}],"load":{},"seen":{},"choice":"","arrived":false,"receipt":false,"artifact":{},"retrieved":false,"route_choice":"","people_landed":false,"stamp":-1.,"sealed":false}
+ var state={"sites":[],"jobs":[{},{},{}],"load":{},"seen":{},"choice":"","arrived":false,"receipt":false,"artifact":{},"retrieved":false,"route_choice":"","people_landed":false}
  match id:
   22:
-   state.load=body(Vector2(750,2100),"freight sled");state.sites=[site("release",Vector2(750,2050)),site("lock_a",Vector2(1800,390)),site("lock_b",Vector2(2800,1300))]
+   state.load=body(Vector2(750,2100),"freight sled");state.sites=[site("release",Vector2(750,2050))]
   23:
    state.sites=[site("lock_a",Vector2(650,1900),1,Rect2(500,1750,300,70)),site("lock_b",Vector2(1250,1350),0,Rect2(1180,1160,500,70)),site("lock_c",Vector2(2400,650),2,Rect2(2250,450,400,70))]
   24:
@@ -37,11 +37,11 @@ static func build(c:Dictionary,history:Dictionary={})->Dictionary:
    state.sites=[site("cooling",Vector2(1400,600),2,Rect2(1300,700,350,70))]
    state.artifact={"id":"pressure_spindle","pos":Vector2(1450,500),"band":2,"state":"site","carrier":-1}
   27:
-   state.load=body(Vector2(750,1750),"counterweight");state.sites=[site("lock_a",Vector2(750,1250)),site("cradle",Vector2(1250,700))]
+   state.load=body(Vector2(750,1750),"counterweight");state.sites=[site("cradle",Vector2(1250,700))]
    state.artifact={"id":"traction_core","pos":Vector2(1250,650),"band":1,"state":"sealed","carrier":-1}
   28:
-   state.load=body(Vector2(750,2100),"occupied maintenance bell");state.sites=[site("lock_a",Vector2(650,1250)),site("lock_b",Vector2(900,850)),site("land",Vector2(700,500))]
-  29:state.sites=[site("lock_c",Vector2(700,2250)),site("reconnect",Vector2(2450,500)),site("dismantle",Vector2(700,1250))]
+   state.load=body(Vector2(750,2100),"occupied maintenance bell");state.sites=[site("land",Vector2(700,500))]
+  29:state.sites=[site("reconnect",Vector2(2450,500)),site("dismantle",Vector2(700,1250))]
  for work in state.sites:
   if work.shape.has_area() and not work.done:m.structures.append(work.shape)
  m.structures.append_array(L.structures(id))

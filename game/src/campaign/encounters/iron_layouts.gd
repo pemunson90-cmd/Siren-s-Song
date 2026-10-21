@@ -51,7 +51,7 @@ static func structures(id:int)->Array:
 static func roster(m:Dictionary,id:int,history:Dictionary)->void:
  match id:
   22:R.add(m,[R.guard("interceptor",Vector2(950,1250)),R.guard("interceptor",Vector2(2550,1500)),R.guard("warden",Vector2(1700,2300))])
-  23:R.add(m,[R.guard("interceptor",Vector2(2400,1500)),R.guard("warden",Vector2(1500,850),2)])
+  23:R.add(m,[R.guard("interceptor",Vector2(2400,1500)),R.guard("warden",Vector2(1500,950),2)])
   24:R.add(m,[R.guard("interceptor",Vector2(1600,2200),1,[Vector2(1600,2200),Vector2(1650,2300)]),R.guard("warden",Vector2(2450,1500)),R.guard("relay",Vector2(1650,550))])
   25:
    R.add(m,[R.guard("interceptor",Vector2(1600,2200),1,[Vector2(1600,2200),Vector2(1650,2300)]),R.guard("warden",Vector2(2450,1200)),R.guard("relay",Vector2(1650,550))])
