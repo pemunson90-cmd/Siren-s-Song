@@ -25,3 +25,5 @@ Later (delivery order): challenges, roguelite (rename code "expedition" first), 
 ## Update 21 Oct (Pat away; Claude runs all lanes, Codex lanes done by Claude agents)
 Running: C1 glass, P1 fittings, S3 rewrite, X4 seam, X2 probes, X3 audio, A1 art, F1 frontend. Next: C2 Iron Choir, S3b glass/iron text, T pressure, P2 economy.
 Open questions for Pat: docs/QUESTIONS_FOR_PAT.md
+
+Codex work queue: branch codex/handoffs, folder docs/codex/ (README is the protocol). Lane T merged (PR 58).

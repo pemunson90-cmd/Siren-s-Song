@@ -48,7 +48,7 @@ var unlocked := 0
 var completed: Array=[]
 var expedition:Dictionary={}
 var fleet:Dictionary={}
-var fitted_equipment:Dictionary={"quietus":"","drone_a":"","drone_b":""}
+var fitted_equipment:Dictionary=preload("res://src/equipment/equipment_catalog.gd").default_loadout()
 var upgrade := "endurance"
 var capture_scenario := ""
 var frame := 0
@@ -490,6 +490,8 @@ func _briefing(index: int) -> void:
 	_menu_text("SPACE / PAUSE grants unlimited planning time. Silent running is slower and quieter. Disruption interrupts nearby Sirens for 12 seconds. Quietus torpedoes travel noisily up to 150m; impact pins one Siren for 8s. Cover blocks sonar, enemy sight and torpedoes.",17)
 	var stock=_loadout_stock(upgrade)
 	_menu_text("NEXT DIVE / RETRY · %s\nO₂ %d%% · DISRUPT %d · SURVEY %d · 3 DECOYS · 2 DRONES · 2 TORPEDOES"%[upgrade.to_upper(),stock[0],stock[1],stock[2]],17)
+	# Frames open after the first dive; recovered fittings appear once earned.
+	if 0 in completed or not _equipment_entitlements().is_empty():preload("res://src/presentation/equipment_context.gd").loadout(self,_equipment_context().slots,func(key,id):_choose_equipment(key,id,index))
 	if not _equipment_entitlements().is_empty():preload("res://src/presentation/equipment_context.gd").fitting(self,_equipment_context(),func(slot,item):_choose_equipment(slot,item,index))
 	_button(menu_footer,"ENTER WATER\nSTART PAUSED",func(): _start_mission(index); _enter_water(),"begin")
 	_button(menu_footer,"BACK TO\nOPERATIONS",_show_campaign,"back")
@@ -586,7 +588,7 @@ func _confirm_new_campaign()->void:
 func _new_campaign()->void:
 	completed=[];unlocked=0;expedition={};recovered_evidence={};photo_records={}
 	fleet={}
-	fitted_equipment={"quietus":"","drone_a":"","drone_b":""};upgrade="endurance"
+	fitted_equipment=preload("res://src/equipment/equipment_catalog.gd").default_loadout();upgrade="endurance"
 	_start_mission(0);_save_archive();_show_campaign()
 func _scenario(name: String) -> void:
 	if name=="menu": _show_campaign(); return
@@ -640,11 +642,11 @@ func _scenario(name: String) -> void:
 		sim.paused=true
 
 func _archive() -> Dictionary:
-	var data={"version":1,"unlocked":unlocked,"completed":completed.duplicate(),"upgrade":upgrade,"settings":settings.duplicate(),"evidence":recovered_evidence.duplicate(true),"active":sim.snapshot(),"chart_view":ocean.chart_camera.snapshot()}
+	var data={"version":SaveStore.VERSION,"unlocked":unlocked,"completed":completed.duplicate(),"upgrade":upgrade,"settings":settings.duplicate(),"evidence":recovered_evidence.duplicate(true),"active":sim.snapshot(),"chart_view":ocean.chart_camera.snapshot()}
 	if not photo_records.is_empty():data["photo_records"]=photo_records.duplicate(true)
 	if not expedition.is_empty():data["expedition"]=expedition.duplicate(true)
 	if not fleet.is_empty():data["fleet"]=fleet.duplicate(true)
-	if not fitted_equipment.values().all(func(item):return item.is_empty()):data["equipment"]=fitted_equipment.duplicate(true)
+	data["equipment"]=preload("res://src/equipment/equipment_catalog.gd").canonical(fitted_equipment)
 	return data
 func _save_archive() -> void:
 	if not capture_scenario.is_empty() or sim.mission==null: return
@@ -672,7 +674,7 @@ func _load_archive() -> void:
 		unlocked=saved.unlocked; completed=saved.completed; upgrade=saved.upgrade; settings=saved.settings
 		expedition=saved.get("expedition",{}).duplicate(true)
 		fleet=saved.get("fleet",{}).duplicate(true)
-		fitted_equipment=saved.get("equipment",{"quietus":"","drone_a":"","drone_b":""}).duplicate(true)
+		fitted_equipment=preload("res://src/equipment/equipment_catalog.gd").canonical(saved.get("equipment",{}))
 		fitted_equipment=FleetInventory.reconcile_fitting(fitted_equipment,FleetInventory.available(_equipment_entitlements(),fleet))
 		recovered_evidence=saved.get("evidence",{})
 		photo_records=saved.get("photo_records",{}).duplicate(true)
