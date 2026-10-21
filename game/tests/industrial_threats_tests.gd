@@ -44,7 +44,7 @@ func _initialize():
  occupied_acquisition()
  finish()
 func occupied_acquisition():
- var examples=[{"op":22,"role":"interceptor","band":1,"pos":Vector2(1550,2200),"transitions":[[0,1],[1,0],[2,1],[1,2]]},{"op":23,"role":"warden","band":2,"pos":Vector2(2400,1200),"transitions":[[1,2],[2,1]]}]
+ var examples=[{"op":22,"role":"interceptor","band":1,"pos":Vector2(950,1250),"transitions":[[0,1],[1,0],[2,1],[1,2]]},{"op":23,"role":"warden","band":2,"pos":Vector2(1500,950),"transitions":[[1,2],[2,1]]}]
  for example in examples:
   for fitted in [false,true]:
    for transition in example.transitions:

@@ -42,12 +42,12 @@ func run():
    check(g.mission_hud.extra.choir_work.visible,"body input exposes its industrial work menu")
    await tap(g.mission_hud.extra.choir_work);await tap(g.mission_hud.extra.choir_attach)
    check(g.sim.mission.iron_choir.load.carrier==0,"actual ballast attach input binds physical Quietus tow")
-  g._start_mission(22);g._enter_water();g.sim.units[0].pos=Vector2(1600,2050);g.sim.units[0].vel=Vector2.ZERO;g.sim.units[1].alive=false;g.sim.units[2].alive=false;g._focus_craft();g.sim.paused=false
+  g._start_mission(22);g._enter_water();g.sim.units[0].pos=Vector2(950,1400);g.sim.units[0].vel=Vector2.ZERO;g.sim.units[1].alive=false;g.sim.units[2].alive=false;g._focus_craft();g.sim.paused=false
   for n in 12:g.sim.advance(g.sim.STEP)
   g.sim.paused=true;g.sim._observe();g._refresh();await frames()
   check(g.sim.contacts.values().any(func(c):return c.type=="interceptor" and c.mode=="BURST WINDUP"),"actual acquired interceptor windup has earned visible readout")
   if not captures.is_empty() and DisplayServer.get_name()!="headless":await RenderingServer.frame_post_draw;root.get_texture().get_image().save_png(captures.path_join("iron-interceptor-"+str(dimensions.x)+".png"))
-  g._start_mission(23);g._enter_water();g.sim.units[0].pos=Vector2(2300,1200);g.sim.units[0].band=2;g.sim.units[1].alive=false;g.sim.units[2].alive=false;g._focus_craft();g.sim.paused=false
+  g._start_mission(23);g._enter_water();g.sim.units[0].pos=Vector2(1500,950);g.sim.units[0].band=2;g.sim.units[1].alive=false;g.sim.units[2].alive=false;g._focus_craft();g.sim.paused=false
   for n in 168:g.sim.advance(g.sim.STEP)
   g.sim.paused=true;g.sim._observe();g._refresh();await frames()
   check(not g.sim.Industry.patches(g.sim).is_empty() and g.sim.contacts.values().any(func(c):return c.type=="warden"),"actual acquired finite warden pressure has visible equivalent")
