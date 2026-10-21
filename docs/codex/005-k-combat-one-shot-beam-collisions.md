@@ -1,8 +1,8 @@
 # Handoff 005: one-shot beam and collision damage
 
-Status: OPEN
-Claimed at:
-Claimed by:
+Status: CLAIMED
+Claimed at: 2026-10-21 22:57:52 UTC
+Claimed by: codex
 Finished at:
 
 Precondition: run `git log -1 --format=%cr origin/claude/lane-k-combat`. If the newest commit is under 90 minutes old, a Claude worker may still be active on this branch: do not claim, skip to the next OPEN handoff, and if none remain tell Pat.
