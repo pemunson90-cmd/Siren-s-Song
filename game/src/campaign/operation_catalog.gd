@@ -32,9 +32,15 @@ static func _iron_entries()->Array:
   var facts=["choir_"+str(id)]+(["choir_choice"] if id==24 else ["choir_people"] if id==28 else ["choir_plant"] if id==29 else [])
   result.append({"id":id,"factory":"res://src/campaign/iron_choir_operations.gd","config":{"source_id":id,"history":true},"behaviors":["signals_v2","history","iron_choir"]+(["thermal"] if id==25 else []),"prerequisites":[prerequisite],"facts":facts,"records":[],"campaign":true,"route":"","required_facts":{}})
  return result
+static func _calder_entries()->Array:
+ var result=[]
+ for id in range(30,40):
+  var prerequisites={30:[25],31:[30],32:[30],33:[31,32],34:[30],35:[31],36:[32],37:[31],38:[32],39:[33]}[id]
+  result.append({"id":id,"factory":"res://src/campaign/calder_trench_operations.gd","config":{"source_id":id,"history":true},"behaviors":["signals_v2","history","glass_reach"]+(["thermal"] if id in [31,32] else []),"prerequisites":prerequisites,"facts":[],"records":[],"campaign":true,"route":"","required_facts":{}})
+ return result
 static func _ensure():
  if not _entries.is_empty():return
- for entry in CONTENT+_glass_entries()+_iron_entries():_entries[entry.id]=entry.duplicate(true)
+ for entry in CONTENT+_glass_entries()+_iron_entries()+_calder_entries():_entries[entry.id]=entry.duplicate(true)
 static func registered_ids()->Array:
  _ensure();var result=_entries.keys();result.sort();return result
 static func definition(id:int)->Dictionary:

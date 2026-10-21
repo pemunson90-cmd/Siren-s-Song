@@ -129,6 +129,7 @@ jobs:
           iron_research_tests|IRON RESEARCH
           iron_choir_journeys|IRON JOURNEY
           iron_choir_ui_tests|IRON CHOIR UI
+          calder_trench_journeys|CALDER JOURNEY
           onward_mission_tests|ONWARD MISSIONS
           cadence_correlator_tests|CADENCE CORRELATOR
           contact_reports_tests|CONTACT REPORT
