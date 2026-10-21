@@ -106,7 +106,24 @@ static func recover(sim,corridor:Dictionary):
  if a.is_empty():return
  a.state="recovered";a.carrier=-1;a.band=1;a.pos=corridor.pos;sim.mission.glass_reach.retrieved=true
 static func recorded(sim,o:Dictionary):
- if applies(sim.mission) and o.get("site_id","").begins_with("glass_record_"):sim.mission.expedition_facts[o.site_id]=o.evidence
+ if not applies(sim.mission):return
+ if o.get("site_id","").begins_with("glass_record_"):sim.mission.expedition_facts[o.site_id]=o.evidence
+ if o.get("glass_effect") is Dictionary:apply_effect(sim,o)
+# Authored machinery (encounters/work_sites.gd machine) changes real water once.
+static func apply_effect(sim,o:Dictionary):
+ var effect=o.glass_effect;var opened=[]
+ for shape in effect.get("open",[]):
+  if shape in sim.mission.structures:sim.mission.structures.erase(shape);opened.append(shape)
+ if not opened.is_empty():
+  sim._build_navigation()
+  for shape in opened:sim.opened_terrain(shape)
+  sim._use_band(sim.units[sim.selected].band)
+ if effect.has("quiet"):
+  for enemy in sim.sirens:
+   if enemy.get("type","") in ["buoy","relay"] and enemy.pos.distance_to(o.pos)<=effect.quiet:enemy.stun=maxf(enemy.stun,effect.get("quiet_time",90.));enemy.network.packet={};enemy.network.charge=0.
+ if effect.has("calm"):
+  for current in sim.mission.get("currents",[]):current.velocity*=effect.calm
+ if effect.has("noise"):sim._noise(o.pos,effect.noise.radius,effect.noise.label,effect.noise.duration,1)
 static func status(sim)->Dictionary:
  if not applies(sim.mission):return {}
  var a=artifact(sim);var actions={}

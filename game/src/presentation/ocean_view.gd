@@ -441,11 +441,14 @@ func _finale_array(mass: Rect2) -> void:
 		_dash(Vector2(1410,720),Vector2(1250,880),Color("80bdb6"),3)
 		draw_line(Vector2(1250,880),Vector2(1256,850),Color("80bdb6"),3)
 		draw_line(Vector2(1250,880),Vector2(1280,873),Color("80bdb6"),3)
-func _rock(r: Rect2) -> void:
+func _rock(r) -> void:
 	var poly=sim.rock_polygon(r)
+	var origin:Vector2=r.position if r is Rect2 else poly[0]
+	if r is PackedVector2Array:
+		for p in poly:origin=Vector2(minf(origin.x,p.x),minf(origin.y,p.y))
 	var lower=PackedVector2Array(); var uv=PackedVector2Array()
 	for p in poly:
-		lower.append(p+Vector2(9,23)); uv.append((p-r.position)/Vector2(400,400))
+		lower.append(p+Vector2(9,23)); uv.append((p-origin)/Vector2(400,400))
 	draw_colored_polygon(lower,Color("030b11"))
 	draw_colored_polygon(poly,Color("31474c"))
 	draw_polygon(poly,PackedColorArray([Color(0.72,0.85,0.86)]),uv,basalt)
