@@ -55,17 +55,17 @@ const TEXT := {
 	"window_open": "%s OPEN · %ds left",
 	"window_wait": "%s OPENS IN %ds",
 	"problems": "PHOTO PROBLEMS · %s",
-	"optics": "Your optics: %s.",
+	"optics": "OPTICS · %s",
 }
 
 # Briefing "photo problems", one or two placeholder lines per operation. These
 # describe what the subject asks for; the fit line is appended from the fitting.
 const PROBLEMS := {
-	0: "The drill string and the lee plating resolve only from close in; the plating faces away from you.",
-	1: "The west relay's clock is dark: a drone cannot light it, the submarine must close in or flash.",
-	3: "The vent lining needs a close, steady frame inside sentinel sight. The frame bays open in a cycle.",
-	4: "The rib count shows only in its cycle. Film is short: plan the frames.",
-	5: "The warm fracture shows only to a thermal imager or up close. The crown throat needs a close, held frame.",
+	0: "the lee plating faces away; fine detail needs a close, held frame.",
+	1: "the west relay clock is dark; only the submarine can light it.",
+	3: "vent lining needs a close frame; frame bays open in a cycle.",
+	4: "rib count shows only in its cycle; film is short.",
+	5: "warm fracture needs thermal or a close look; throat needs a held frame.",
 }
 
 # First-play prompts (ids carry the priced_ prefix so a saved list stays valid
@@ -83,18 +83,18 @@ const HINTS := {
 # Quietus still finishes every core job; these edits price the bonus intel.
 const EDITS := [
 	# Op 0 Shelf Signal: the lee plating and drill string ask for a held, close frame.
-	{"op": 0, "obj": 0, "feature": "drill", "set": {"dwell": 3.0}},
-	{"op": 0, "obj": 0, "feature": "scoring", "set": {"dwell": 3.5}},
+	{"op": 0, "obj": 0, "feature": "drill", "set": {"detail": 0.5, "dwell": 3.0}},
+	{"op": 0, "obj": 0, "feature": "scoring", "set": {"detail": 0.6, "dwell": 3.5}},
 	# Op 1 Split Channel: the west relay is dark; Quietus must close in, flash or wait. A drone lamp cannot do it.
 	{"op": 1, "obj": 0, "subject": {"glow": 0.1}},
-	{"op": 1, "obj": 0, "feature": "clock", "set": {"need": "light", "dwell": 2.5}},
-	{"op": 1, "obj": 1, "feature": "clock", "set": {"detail": 0.44, "dwell": 2.5}},
+	{"op": 1, "obj": 0, "feature": "clock", "set": {"detail": 0.5, "need": "light", "dwell": 2.5}},
+	{"op": 1, "obj": 1, "feature": "clock", "set": {"detail": 0.55, "dwell": 2.5}},
 	# Op 3 Cold Foundry: held lining, and the open frames show only in a cycle.
-	{"op": 3, "obj": 0, "feature": "lining", "set": {"dwell": 3.0}},
-	{"op": 3, "obj": 1, "feature": "frames", "set": {"window": [26.0, 10.0, 4.0], "dwell": 3.0}},
+	{"op": 3, "obj": 0, "feature": "lining", "set": {"detail": 0.58, "dwell": 3.0}},
+	{"op": 3, "obj": 1, "feature": "frames", "set": {"detail": 0.55, "window": [26.0, 10.0, 4.0], "dwell": 3.0}},
 	# Op 4 Listening Well: the rib count shows only in its own cycle.
-	{"op": 4, "obj": 0, "feature": "count", "set": {"window": [20.0, 8.0, 0.0], "dwell": 2.5}},
+	{"op": 4, "obj": 0, "feature": "count", "set": {"detail": 0.55, "window": [20.0, 8.0, 0.0], "dwell": 2.5}},
 	# Op 5 Siren's Song: held frames for the throat and the warm fracture.
-	{"op": 5, "obj": 0, "feature": "throat", "set": {"dwell": 2.5}},
-	{"op": 5, "obj": 1, "feature": "fracture", "set": {"dwell": 2.0}},
+	{"op": 5, "obj": 0, "feature": "throat", "set": {"detail": 0.6, "dwell": 2.5}},
+	{"op": 5, "obj": 1, "feature": "fracture", "set": {"detail": 0.45, "dwell": 2.0}},
 ]

@@ -13,6 +13,10 @@ static func _armed(sim)->Dictionary:
 # The id due now, or "". `seen` tells whether an id was already shown.
 static func wanted(sim,op:int,seen:Callable)->String:
 	if applies("priced_film",op) and not seen.call("priced_film") and Pricing.film_used(sim)>=2:return "priced_film"
+	var due:=false
+	for id in ["priced_light","priced_window","priced_reach"]:
+		if applies(id,op) and not seen.call(id):due=true
+	if not due:return ""
 	var view:Dictionary=_armed(sim)
 	if view.is_empty():return ""
 	var r:Dictionary=Pricing.readout(sim,int(view.unit),view.o)

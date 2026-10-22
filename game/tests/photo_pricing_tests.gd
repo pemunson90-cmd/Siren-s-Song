@@ -143,7 +143,7 @@ func _initialize():
 	var b0=Briefing.line(0,plain_fit)
 	check(b0.contains("PHOTO PROBLEMS") and b0.contains("standard lens"),"op 0 briefing names the photo problem and the optics")
 	var tele_fit=Equipment.canonical({"quietus":"quietus_tele_lens","drone_a":"","drone_b":""})
-	check(Briefing.line(3,tele_fit).contains("tele lens") and Briefing.line(2,tele_fit).is_empty(),"the line follows the fitting and skips unphotographed ops")
+	check(Briefing.line(3,tele_fit).contains("tele 360m") and Briefing.line(2,tele_fit).is_empty(),"the line follows the fitting and skips unphotographed ops")
 	check(b0.split("\n").size()<=2,"the briefing line is at most two lines")
 	# 12 / Hints: once-only ids, kept valid without the module.
 	check(Hints.applies("priced_reach",0) and Hints.applies("priced_light",1) and Hints.applies("priced_window",3) and Hints.applies("priced_film",4),"four hints over ops 0 to 4")
@@ -166,7 +166,22 @@ func _initialize():
 			for rr in f.rows:
 				if rr.id in o.subject.required and not rr.ready and not str(rr.why).begins_with("WAITING"):ok=false
 			check(ok,"op %d objective %d required feature resolves for bare Quietus at 90m"%[id,i])
-	# 14 / Probes restore everything on a fresh mission.
+	# 14 / The data pass prices bonus intel: bare stands inside Siren sight, tele and thermal open standoff.
+	var sp=fresh(0);var so=sp.mission.objectives[0]
+	var tl=fresh(0);tl.mission.launch_equipment=Equipment.canonical({"quietus":"quietus_tele_lens","drone_a":"","drone_b":""})
+	for f in so.subject.features:
+		var side=so.pos+Vector2.from_angle(float(so.subject.facing)+float(f.bearing))*100.0
+		sp.units[0].pos=side;tl.units[0].pos=side
+		if f.id=="beacon":continue
+		var bare_reach=Pricing.reach_of(sp,0,so,f.id,false);var tele_reach=Pricing.reach_of(tl,0,tl.mission.objectives[0],f.id,false)
+		check(bare_reach>80.0 and bare_reach<=180.0,"bare Quietus resolves %s only inside silent Siren sight (%d)"%[f.id,bare_reach])
+		check(tele_reach>180.0 and tele_reach<=Table.SIREN_SIGHT,"tele resolves %s from outside silent sight but inside the shutter ring (%d)"%[f.id,tele_reach])
+	var wk=fresh(5);var wo=wk.mission.objectives[1]
+	var th=fresh(5);th.mission.launch_equipment=Equipment.canonical({"quietus":"thermal_imager","drone_a":"","drone_b":""})
+	var wside=wo.pos+Vector2.from_angle(float(wo.subject.facing))*100.0
+	wk.units[0].pos=wside;th.units[0].pos=wside
+	check(Pricing.reach_of(th,0,th.mission.objectives[1],"fracture",false)>2.0*Pricing.reach_of(wk,0,wo,"fracture",false),"the thermal imager opens the warm fracture from far beyond a bare approach")
+	# 15 / Probes restore everything on a fresh mission.
 	var clean=fresh(0);put(clean,0,at(spire,facing+PI,150),facing)
 	Pricing.reach_of(clean,0,clean.mission.objectives[0],"scoring",true)
 	check(not clean.mission.has("photo") and clean.units[0].pos==at(spire,facing+PI,150),"probing does not create photo state or move the craft")
