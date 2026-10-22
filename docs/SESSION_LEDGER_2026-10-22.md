@@ -15,6 +15,8 @@ PR 65 PHOTO1 (viewpoint camera, archive, intel, gear), PR 66 ONBOARD1 (teaching 
 - Codex batch 1 to 3 on branch codex/handoffs (board: docs/codex/BOARD.md). Handoff 017 (PRIORITY) lands 69, 70, 71; 018 DEPTH1; 019 ARCH1; 020 CAMPAIGN M1; 014 challenge mode, 015 performance, 016 test list are the earlier batch.
 - Builder agents die when a session ends; their branches survive. Nothing else is running.
 
+Codex queue (22 Oct, written to last 5+ hours): 017 PRIORITY land PRs, then 014 to 020, then buffer batch 021 route map, 022 route clearance, 023 ARCH2, 024 photography audio, 025 landmarks, 026 self-play review (read-only). Board: docs/codex/BOARD.md on codex/handoffs. When two of three in a batch are DONE, write the next three.
+
 ## 4. Decisions made by Pat today
 Priced Shots design approved (film 8/4, optional-only fitting gating, tele cannot hide the 520 m shutter, oxygen ops 0 and 3 unchanged, Disrupt 12 s and 2 charges, wasted exposures cost film). Depth-band photos: deep oxygen 0.075/s, shutter ring varies by band, Sirens studied only from their own band, two patrol loops on ops 1 and 2, SIREN TELL deferred. True ALL-STOP for Quietus approved. Findings may shift rules small and readable. Order-confirm rule kept. First-warning tutorial pause yes. Handoff 009 taken by Claude. ARCH1 approved. Everything else Claude recommended is approved.
 
