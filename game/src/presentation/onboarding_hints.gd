@@ -3,6 +3,7 @@ extends Control
 # moment it matters. A prompt never pauses, blocks or auto-advances play; GOT IT only hides it.
 const Text = preload("res://src/campaign/onboarding_text.gd")
 const SWEEP := ["SWEEP WINDUP", "ACTIVE SWEEP", "RETURN CHARGE"]
+const PricedHints = preload("res://src/presentation/photo_pricing/photo_pricing_hints.gd")
 var host
 var panel: PanelContainer
 var label: Label
@@ -48,7 +49,7 @@ func _wanted() -> String:
 	if not seen("move") and Text.applies("move", op) and sim.elapsed < 1.0 and not any_route: return "move"
 	if not seen("pause") and Text.applies("pause", op) and not sim.paused and sim.elapsed > 0.5 and sim.elapsed < 12.0: return "pause"
 	if not seen("drone") and Text.applies("drone", op) and seen("move") and seen("pause") and sim.elapsed > 4.0 and sim.units[1].route.is_empty() and sim.units[2].route.is_empty() and not sim.paused: return "drone"
-	return ""
+	return PricedHints.wanted(sim, op, seen)
 func refresh(bounds: Vector2, h: float, font: int, top: float) -> void:
 	var sim = host.sim
 	if host.screen != "mission" or host.advanced_orders or host.decoy_armed or host.knock_armed:
@@ -56,6 +57,7 @@ func refresh(bounds: Vector2, h: float, font: int, top: float) -> void:
 	# A step the player has already taken retires its own prompt.
 	if current == "move" and sim.units.any(func(u): return not u.route.is_empty()): dismiss()
 	if current == "drone" and (not sim.units[1].route.is_empty() or not sim.units[2].route.is_empty()): dismiss()
+	if current.begins_with("priced_") and PricedHints.stale(sim, current): dismiss()
 	var wanted := _wanted()
 	if not wanted.is_empty() and wanted != current and (current.is_empty() or wanted in ["sweep", "noise"]): show_hint(wanted)
 	if current == "sweep" and extra_line.is_empty(): extra_line = _sweep_cue()
