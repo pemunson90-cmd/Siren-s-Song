@@ -3,8 +3,13 @@ extends RefCounted
 # hears throttle noise, pings and loud tools through the shared Siren loop, and attacks only
 # through the normal lock then beam route. What differs from a patroller is a wider ear, a
 # longer investigation and a slower walk. Quiet play, cover and decoys all beat it.
-# Seam: simulation.gd asks this file for four numbers or answers (ear, attention, speed,
-# stands_to_lock / walks_lane) and records note_heard. All tuning lives in PROFILES.
+# All tuning lives in PROFILES. Edit points in simulation.gd (for ARCH1 to fold into one
+# registration point), all in _threats, _heard_arrival and valid_snapshot:
+#  1 legacy hearing radius (ear)        2 legacy noise radius (ear)
+#  3 note_heard and attention on a hearing   4 stands_to_lock on sight
+#  5 attention on sight                  6 walks_lane for the idle patrol branch
+#  7 speed override                      8 ear on the three _heard_arrival arrivals
+#  (plus valid on each siren in valid_snapshot)
 const WARNING:="SWEEPER INVESTIGATING"
 const DEFAULT:={"ear":1.0,"attention":12.0,"patrol_speed":null,"investigate_speed":null,"stands":false,"lane_needs_points":false}
 # Per-role tunables. A role absent here behaves exactly as before this file existed.

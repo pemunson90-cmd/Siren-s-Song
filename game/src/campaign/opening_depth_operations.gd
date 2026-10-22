@@ -31,7 +31,7 @@ const PROFILES={
  "well_interpretation":{
   "source":4,
   "bands":{0:{"remove":[0],"add":[Rect2(660,640,380,90),Rect2(760,440,90,90)]},1:{"remove":[],"add":[Rect2(760,440,90,90)]},2:{"remove":[1],"add":[]}},
-  "threats":{0:{"band":0,"pos":Vector2(420,180),"home":Vector2(420,180),"goal":Vector2(420,180),"patrol_points":[Vector2(420,180),Vector2(460,200),Vector2(420,260),Vector2(360,200)]}},
+  "threats":{0:{"band":0,"pos":Vector2(420,180),"home":Vector2(420,180),"goal":Vector2(420,180),"patrol_points":[Vector2(420,180),Vector2(460,200),Vector2(420,260),Vector2(360,200)]},1:{"pos":Vector2(1050,680),"home":Vector2(1050,680),"goal":Vector2(1050,680)}},
   "sweepers":[{"pos":Vector2(1380,820),"band":2}],
   "hint":"Optional comparison: moving Quietus at MIDDLE aperture, then local MIDDLE receiver.",
   "brief":"Recover three perimeter records and return. SHALLOW clears western basalt but closes the southern record; DEEP clears the eastern wall under a sweeper. The fast hunter holds MIDDLE. An unverified archive is valid. Optional comparison: cruise Quietus past PROFILE APERTURE in MIDDLE after PATTERN, then receive near RETURN ARCHIVE in MIDDLE. A deep pass is no engine reference. Craft → DEPTH / SONAR compares received bearing history."
