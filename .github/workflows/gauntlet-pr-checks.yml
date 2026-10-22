@@ -177,6 +177,8 @@ jobs:
           photo_depth_tests|PHOTO DEPTH
           photo_rules_tests|PHOTO RULES
           photo_rules_ui_tests|PHOTO RULES UI
+          all_stop_tests|ALL STOP
+          all_stop_ui_tests|ALL STOP UI
           UI_SCENARIOS
       - name: Docs-only change; no Godot run
         if: steps.changes.outputs.game == 'false'
