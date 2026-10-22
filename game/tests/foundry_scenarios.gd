@@ -11,13 +11,14 @@ static func run(t) -> void:
 	t.check(s.blocked(building.get_center()) and not s.line_clear(building.position-Vector2(30,-200),Vector2(building.end.x+30,building.position.y+200)),"factory movement and sight agree with its solid footprint")
 	for siren in s.sirens: siren.stun=30.0
 	# Isolate acquisition/response semantics; ordinary solvability is exercised separately.
-	s.units[0].pos=s.mission.objectives[1].pos+Vector2(0,80)
+	s.units[0].pos=s.mission.objectives[1].pos+Vector2(-200,0)
 	t.check(not s.command("camera"),"departure interpretation requires the furnace observation first")
 	for id in 2:
-		s.units[0].pos=s.mission.objectives[id].pos+Vector2(-160,0)
+		var face=float(s.mission.objectives[id].subject.facing)
+		s.units[0].pos=s.mission.objectives[id].pos+Vector2.from_angle(face)*120;s.units[0].angle=face+PI;s.units[0].vel=Vector2.ZERO
 		t.check(s.command("camera"),"factory observation %d starts from a valid clear vantage"%id)
 		s.paused=false
-		for n in 45: s.advance(0.1)
+		for n in 90: s.advance(0.1)
 		t.check(s.mission.objectives[id].captured and not s.mission.objectives[id].get("evidence","").is_empty(),"captured factory record retains the detail supporting its interpretation")
 	t.check(s.mission.get("phase","")=="response" and s.noises.any(func(n): return n.label=="FACTORY RESPONSE"),"discovery creates a real explained acoustic return consequence")
 	var restored=Simulation.new(); restored.restore(s.snapshot())
