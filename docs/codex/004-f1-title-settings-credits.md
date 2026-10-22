@@ -1,8 +1,8 @@
 # Handoff 004: finish the title screen, settings and credits, open the pull request
 
-Status: OPEN
-Claimed at:
-Claimed by:
+Status: CLAIMED
+Claimed at: 2026-10-22 00:01:18 UTC
+Claimed by: codex
 Finished at:
 
 Precondition: run `git log -1 --format=%cr origin/claude/lane-f1-frontend`. If the newest commit is under 90 minutes old, a Claude worker may still be active on this branch: do not claim, skip to the next OPEN handoff, and if none remain tell Pat.
