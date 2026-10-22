@@ -38,6 +38,18 @@ Work order is numeric: finish 013 (batch 1) first, then 014, 015, 016.
 
 | 16 | 027 final pair of ops and photo-wall ending (M3b) | OPEN | | | |
 
+## BATCH 5 (22 Oct evening, written at about 77% of Claude's session usage)
+| Order | Handoff | Status | PR | Finished (UTC) | One-line result |
+|---|---|---|---|---|---|
+| F | 028 FALLBACK: land Claude's PR 74 if Claude is gone (only if the branch is idle 90+ min) | OPEN | | | |
+| 17 | 029 ONBOARD2 short briefings ops 4 to 29 | OPEN | | | |
+| 18 | 030 SAVE1 profiles, copy/clear, export/import | OPEN | | | |
+| 19 | 031 A11Y1 audio-only/color-only cue equivalents | OPEN | | | |
+| 20 | 032 ART1 silhouettes (Pat judges) | OPEN | | | |
+| 21 | 033 DOCS1 MODULES.md and spec refresh | OPEN | | | |
+
+Dependency note: 016, 019, 020, 023 to 027 wait on PR 74 (handoff 018). 021 waits on 020. Work available without PR 74: 022, 029, 030, 031, 032. Pick the lowest OPEN handoff whose precondition is met.
+
 Take 017 first (PRIORITY) if any of PRs 69, 70, 71 is open; otherwise numeric order 014 to 020. Designs live in docs/design/ on this branch. Beyond 020 see docs/SESSION_LEDGER_2026-10-22.md on claude/integration, section Next.
 
 ## Claude-held
