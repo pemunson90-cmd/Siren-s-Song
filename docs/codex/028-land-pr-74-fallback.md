@@ -1,9 +1,9 @@
 # Handoff 028: PRIORITY fallback: land Claude's DEPTH1 PR 74 if Claude is gone
 
-Status: OPEN
+Status: DONE
 Claimed at:
 Claimed by:
-Finished at:
+Finished at: 2026-10-22 23:30 UTC (not needed; Claude merged PR 74)
 
 Precondition: use the GitHub tools to list open pull requests. If PR 74 (branch claude/depth1) is already merged, mark this DONE with one line and move on. If it is open AND the last commit on claude/depth1 is more than 90 minutes old, take over; otherwise skip this handoff for now and do other OPEN work.
 Codex may merge: yes, into claude/integration only, after GitHub guidance and game-smoke are both green on the exact head and the PR is mergeable. Merge with a merge commit, then mark DONE and update docs/codex/BOARD.md.

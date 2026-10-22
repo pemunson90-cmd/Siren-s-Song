@@ -1,10 +1,10 @@
 # Handoff 018: DEPTH1, depth-band photos, findings displays, all-stop
 
-Status: CLAIMED
+Status: DONE
 Note: PR 74 is the result. If Claude is absent, handoff 028 lets Codex land it.
 Claimed at: 2026-10-22 21:10 UTC
 Claimed by: claude (builder on branch claude/depth1; Codex skip 018, 020 and 019 wait on it)
-Finished at:
+Finished at: 2026-10-22 23:30 UTC (PR 74 merged by Claude as bc95d8a)
 
 Precondition: handoff 017 must be DONE (Priced Shots and the sweeper are in).
 Codex may merge: yes, into claude/integration only, after GitHub guidance and game-smoke are both green on the exact head and the PR is mergeable. Merge with a merge commit, then mark DONE and update docs/codex/BOARD.md.

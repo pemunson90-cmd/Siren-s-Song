@@ -22,7 +22,7 @@ Work order is numeric: finish 013 (batch 1) first, then 014, 015, 016.
 | Order | Handoff | Status | PR | Finished (UTC) | One-line result |
 |---|---|---|---|---|---|
 | P | 017 PRIORITY: land PRs 69, 70, 71 | DONE | [69](https://github.com/pemunson90-cmd/Siren-s-Song/pull/69), [70](https://github.com/pemunson90-cmd/Siren-s-Song/pull/70), [71](https://github.com/pemunson90-cmd/Siren-s-Song/pull/71) | 2026-10-22 20:18:10 UTC | All three merged on green; basic Quietus completes Well without drones or tools. |
-| 7 | 018 DEPTH1 depth-band photos, findings, all-stop | CLAIMED by Claude | | | |
+| 7 | 018 DEPTH1 depth-band photos, findings, all-stop | DONE | [74](https://github.com/pemunson90-cmd/Siren-s-Song/pull/74) | 2026-10-22 23:30 UTC | Merged by Claude: photo_depth, photo_rules, all_stop; each has an off switch. Preconditions of 016, 019, 020, 023 to 027, 033 on 018 are now met. |
 | 8 | 019 ARCH1 refactor steps 2 to 4 | OPEN | | | |
 | 9 | 020 CAMPAIGN M1 photo rows ops 6 to 29 | OPEN | | | |
 
@@ -41,7 +41,7 @@ Work order is numeric: finish 013 (batch 1) first, then 014, 015, 016.
 ## BATCH 5 (22 Oct evening, written at about 77% of Claude's session usage)
 | Order | Handoff | Status | PR | Finished (UTC) | One-line result |
 |---|---|---|---|---|---|
-| F | 028 FALLBACK: land Claude's PR 74 if Claude is gone (only if the branch is idle 90+ min) | OPEN | | | |
+| F | 028 FALLBACK: land PR 74 | DONE (not needed; Claude merged PR 74) | | | |
 | 17 | 029 ONBOARD2 short briefings ops 4 to 29 | OPEN | | | |
 | 18 | 030 SAVE1 profiles, copy/clear, export/import | OPEN | | | |
 | 19 | 031 A11Y1 audio-only/color-only cue equivalents | OPEN | | | |
