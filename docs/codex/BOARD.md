@@ -30,7 +30,7 @@ Work order is numeric: finish 013 (batch 1) first, then 014, 015, 016.
 | Order | Handoff | Status | PR | Finished (UTC) | One-line result |
 |---|---|---|---|---|---|
 | 10 | 021 route map screen (M2) | OPEN | | | |
-| 11 | 022 route clearance (NAV1) | CLAIMED | [75](https://github.com/pemunson90-cmd/Siren-s-Song/pull/75) | 2026-10-22 23:13:46 UTC | Pushed f3ba134; measuring corner clearance at fixed steps before source changes. |
+| 11 | 022 route clearance (NAV1) | CLAIMED | [75](https://github.com/pemunson90-cmd/Siren-s-Song/pull/75) | 2026-10-22 23:13:46 UTC | Pushed d8860ff; reproduced 11.80m clip, fixed to 20m; touch UI 17/0; affected checks running. |
 | 12 | 023 ARCH2 main.gd and HUD contract | OPEN | | | |
 | 13 | 024 photography and all-stop audio | OPEN | | | |
 | 14 | 025 landmarks for thin ops (M3a) | OPEN | | | |

@@ -26,8 +26,12 @@ Either a proven planner clearance fix with a preview indicator, or a report plus
 PR into claude/integration; merge per the line above; mark DONE and update the board.
 
 ## Completion
-Work in progress. Branch: `claude/lane-nav-clearance`. Last pushed SHA: `f3ba134d2ac1eee5041119eb23d7a81109b05b40`. Draft PR: https://github.com/pemunson90-cmd/Siren-s-Song/pull/75.
+Work in progress. Branch: `claude/lane-nav-clearance`. Last pushed SHA: `d8860ffb1a52b1eba6e02e8641748683729241d2`. Draft PR: https://github.com/pemunson90-cmd/Siren-s-Song/pull/75.
 
-Independent geometric probe: 1145 accepted lines, zero below the 12 m hull radius. Some are below the requested 24 m planner margin (minimum 20 m). Isolated bare-Quietus motion fixtures: 18/0 at 60, 16 and 4 frame updates/sec, fixed 60 Hz simulation, no hull loss. Near-corner starts are being checked before choosing a source fix. Cold review did not preserve exact tap coordinates; these are source-known reconstructed cases. No source/gameplay changes yet.
+Reproduced a real unsafe plotted leg at fixed steps. Cold Foundry (index 3, display operation 4), start (889.6,800), destination extraction (1420,880): geometric minimum 11.803 m, inside the 12 m hull. The first safe AStar grid point was discarded, then the physical failsafe cancelled the accepted course. Exact original cold-review tap coordinates were not preserved; these are source-known reconstructed cases, not that original input trace.
 
-016 remains blocked until Pat releases it; 018 remains Claude-owned.
+Player-only flag retains the safe grid entry and validates emitted legs with the existing continuous hull guard. Original common non-player path is explicitly pinned unchanged. Regression first RED 6/2, now GREEN 7/0, minimum 20 m and arrival with full hull. Corner-start sweep first 607/1, then 607/0. Normal endpoint sweep 1145/0 before fix; final rerun pending. Initial isolated motion matrix 18/0 at 60/16/4 frame updates per second; expanded matrix pending. These remove threats/other hulls to isolate navigation, not prove live mission finishability.
+
+Self-contained `presentation/route_clearance/hull_band.gd` holds the footprint style table, read-only geometry and revert note. One draw call each in the main chart and route-program preview shows the physical 12 m radius band. Touch UI first RED 9/3, now GREEN 17/0 on cover/inner: actual waypoint tap, touch zoom, no simulation mutation, and Android Back cancellation. Back originally left the route panel open over the campaign menu; a deferred route-panel close now matches Escape and cancels pending touch. No keyboard-only path added.
+
+No collision, damage, hull or Siren rules/numbers changed. No photo-owned logic changed. Import clean; core and affected route/turn/collision/UI checks running. Physical Android hardware and rendered screenshot verification unavailable in this workspace so far. Preview reads only own accepted nodes, never hidden terrain. New test registration is deferred to 016 to avoid its shared-runner overlap with PR74. 016 stays blocked until Pat releases it; 018 stays Claude-owned.
