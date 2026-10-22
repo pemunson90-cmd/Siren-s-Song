@@ -21,6 +21,7 @@ const Equipment=preload("res://src/equipment/equipment_catalog.gd")
 const Thermal=preload("res://src/simulation/thermal_front.gd")
 const Findings=preload("res://src/simulation/photo_findings.gd")
 const Pricing=preload("res://src/simulation/photo_pricing/photo_pricing.gd")
+const BandPhoto=preload("res://src/photo_depth/band_photo.gd")
 const COLS:=36
 const MAX_SHOTS:=24
 const TURN_RATE:=1.8
@@ -147,7 +148,8 @@ static func seen_before(sim,oi:int)->Array:
 	return ids
 static func frame(sim,uid:int,o:Dictionary,t:float=0.0,with_view:bool=false)->Dictionary:
 	var u=sim.units[uid];var s:Dictionary=o.subject;var op=optics(sim,uid);var cfg=settings(sim,uid)
-	var pos:Vector2=o.pos;var dist:float=u.pos.distance_to(pos)
+	var bm:Dictionary=BandPhoto.mods(sim,u,o)
+	var pos:Vector2=o.pos;var dist:float=BandPhoto.slant(bm,u.pos.distance_to(pos))
 	var bearing:float=u.pos.angle_to_point(pos)
 	var off:float=angle_difference(u.angle,bearing)
 	var pivot:float=maxf(0.0,absf(off)-float(op.gimbal))
@@ -157,16 +159,16 @@ static func frame(sim,uid:int,o:Dictionary,t:float=0.0,with_view:bool=false)->Di
 	var aspect:float=angle_difference(float(s.get("facing",0.0)),(u.pos-pos).angle())
 	# Light: dark water, own lamp, flash, glow of the subject and low-light film.
 	var depth_dark:float=clampf(float(sim.mission.get("depth",2000))/4800.0,0.0,1.0)
-	var ambient:float=(0.16-0.12*depth_dark)*(0.55 if sim.mission.get("darkness",false) else 1.0)
+	var ambient:float=(0.16-0.12*depth_dark)*(0.55 if sim.mission.get("darkness",false) else 1.0)*float(bm.light)
 	var lamp:float=float(op.lamp)/(1.0+pow(dist/110.0,2.0))
 	var flashing:bool=bool(cfg.flash) and bool(op.flash) and flash_left(sim,uid)>0
 	var flash:float=0.75/(1.0+pow(dist/170.0,2.0)) if flashing else 0.0
 	var light:float=clampf(ambient+lamp+flash+float(s.get("glow",0.0)),0.0,1.0)
 	var speed:float=u.vel.length()
-	var steady:float=clampf(1.0-speed/(14.0/float(op.blur)),0.25,1.0)
+	var steady:float=clampf((1.0-speed/(14.0/BandPhoto.blur(bm,float(op.blur))))*float(bm.swell),0.25,1.0)
 	if float(op.integrate)>0.0 and steady>0.85:light=clampf(light+float(op.integrate)*minf(t,8.0)/8.0,0.0,1.0)
 	# Water: distance haze, plus shimmer where the line crosses a thermal front.
-	var turbidity:float=float(sim.mission.get("turbidity",0.0016))
+	var turbidity:float=float(sim.mission.get("turbidity",0.0016))*float(bm.haze)
 	var clarity:float=exp(-turbidity*dist)
 	var shimmer:float=1.0
 	if sim.mission.get("thermal_revision",0)==1 and not op.thermal:
@@ -198,7 +200,7 @@ static func frame(sim,uid:int,o:Dictionary,t:float=0.0,with_view:bool=false)->Di
 		var why:String=""
 		var local:float=clampf(sharp+float(f.get("glow",0.0))*0.35,0.0,1.0)
 		if need=="thermal":
-			if op.thermal:local=clampf(res*steady+0.2,0.0,1.0)
+			if op.thermal:local=clampf(res*steady*float(bm.thermal)+0.2,0.0,1.0)
 			elif dist>=90.0:why="HEAT SHIMMER · needs a thermal imager or close approach"
 		elif need=="light" and light<0.35:why="TOO DARK · add light or close in"
 		if not inframe:why="CROPPED"
@@ -210,13 +212,16 @@ static func frame(sim,uid:int,o:Dictionary,t:float=0.0,with_view:bool=false)->Di
 		var ready:bool=why.is_empty()
 		rows.append({"id":f.id,"label":f.label,"art":str(f.get("art","")),"y":float(f.get("y",0.4)),"ready":ready,"why":why,"apparent":inframe and side,"x":x/maxf(half,1.0),"q":clampf((local-detail*0.6)/(1.0-detail*0.6),0.0,1.0) if ready else 0.0,"dwell":float(f.get("dwell",1.2))})
 	var result={"unit":uid,"craft":u.name,"dist":dist,"bearing":bearing,"off":off,"aim":aim,"pivot":pivot,"aspect":aspect,"fov":fov,"mode":cfg.mode,"focus":focus,"flash":flashing,"light":light,"clarity":clarity,"shimmer":shimmer,"sharp":sharp,"steady":steady,"res":res,"range":op.range,"in_range":dist<=float(op.range),"rows":rows,"size":size,"facing":float(s.get("facing",0.0)),"heading":u.angle,"pos":u.pos,"glow":float(s.get("glow",0.0)),"depth":depth_dark,"thermal":bool(op.thermal)}
-	if with_view:result["cols"]=view(sim,u.pos,aim,fov,float(op.range)*1.25)
+	result["band"]=int(u.get("band",1))
+	if with_view:result["cols"]=view(sim,u.pos,aim,fov,float(op.range)*1.25,int(u.get("band",1)))
 	return result
 # One-dimensional depth profile of the real terrain across the frame.
-static func view(sim,origin:Vector2,aim:float,fov:float,far:float)->Array:
+static func view(sim,origin:Vector2,aim:float,fov:float,far:float,band:int=1)->Array:
 	var cols:Array=[]
 	var shapes:Array=sim.rock_shapes.duplicate();var bounds:Array=sim.rock_bounds.duplicate()
-	for rect in sim.Depth.structures(sim,sim.geometry_band):
+	if band!=1 and sim.band_shapes.has(band):
+		shapes=sim.band_shapes[band].duplicate();bounds=sim.band_bounds[band].duplicate()
+	for rect in sim.Depth.structures(sim,band if band!=1 else sim.geometry_band):
 		shapes.append(PackedVector2Array([rect.position,Vector2(rect.end.x,rect.position.y),rect.end,Vector2(rect.position.x,rect.end.y)]));bounds.append(rect)
 	for i in COLS:
 		var a:float=aim+(float(i)/(COLS-1)-0.5)*fov
@@ -240,7 +245,7 @@ static func begin(sim,uid:int,oi:int)->void:
 		st.flash[uid]=int(st.flash[uid])-1;st.acc[uid].flash=true
 static func noise_radius(sim,uid:int)->float:
 	var acc=peek(sim).acc.get(uid,{})
-	return 760.0 if acc.get("flash",false) else 520.0
+	return BandPhoto.ring(sim,uid,acc.get("flash",false))
 # Advances one step. False while the craft is still turning onto the subject.
 static func tick(sim,uid:int,o:Dictionary,dt:float)->bool:
 	var st=state(sim);var u=sim.units[uid];var oi=index_of(sim,o)
@@ -301,6 +306,7 @@ static func finish(sim,uid:int,o:Dictionary)->Dictionary:
 		for m in marks:
 			for fd in found:
 				if str(fd.id).ends_with(":"+str(m.id)) or (m.id=="gait" and str(fd.id).begins_with("loop_")) or (m.id=="array" and str(fd.id).begins_with("post_")):m["find"]=str(fd.kind)
+	shot["band"]=int(f.band)
 	st.next=int(st.next)+1
 	st.shots.append(shot)
 	while st.shots.size()>MAX_SHOTS:st.shots.remove_at(_weakest(st.shots))
@@ -349,10 +355,10 @@ static func discover(sim)->void:
 		if o.get("unknown",false) and o.has("lead") and not o.get("sighted",false):
 			for uid in sim.units.size():
 				var u=sim.units[uid]
-				if not u.alive or u.band!=1 or not u.transition.is_empty():continue
+				if not BandPhoto.can_shoot(sim,u):continue
 				var op=optics(sim,uid)
 				var sight:float=float(o.lead.get("sight",170.0))*(0.65 if sim.mission.get("darkness",false) else 1.0)
-				if u.pos.distance_to(o.pos)>sight or absf(angle_difference(u.angle,u.pos.angle_to_point(o.pos)))>float(op.fov)*0.5+0.3 or not sim.Depth.clear(sim,u.pos,o.pos,1):continue
+				if u.pos.distance_to(o.pos)>sight or absf(angle_difference(u.angle,u.pos.angle_to_point(o.pos)))>float(op.fov)*0.5+0.3 or not sim.Depth.clear(sim,u.pos,o.pos,u.band):continue
 				o["sighted"]=true
 				sim.message="%s sighted something ahead · %s · unidentified"%[u.name,"bearing %d"%roundi(fposmod(rad_to_deg(u.pos.angle_to_point(o.pos)),360.0))]
 				sim.events.append({"type":"sighting","pos":o.pos})
@@ -362,12 +368,12 @@ static func discover(sim)->void:
 		if h.get("found",false):continue
 		for uid in sim.units.size():
 			var u=sim.units[uid]
-			if not u.alive or u.band!=1 or not u.transition.is_empty():continue
+			if not BandPhoto.can_shoot(sim,u):continue
 			var op=optics(sim,uid)
 			var sight:float=float(h.get("sight",170.0))*(0.65 if sim.mission.get("darkness",false) else 1.0)
 			if u.pos.distance_to(h.pos)>sight:continue
 			if absf(angle_difference(u.angle,u.pos.angle_to_point(h.pos)))>float(op.fov)*0.5+0.3:continue
-			if not sim.Depth.clear(sim,u.pos,h.pos,1):continue
+			if not sim.Depth.clear(sim,u.pos,h.pos,u.band):continue
 			h.found=true
 			var o={"pos":h.pos,"name":str(h.get("seen_as","UNIDENTIFIED SHAPE")),"captured":false,"optional":true,"unknown":true,"kind":"","subject":h.subject.duplicate(true),"optical":h.key,"site_id":h.key,"evidence":str(h.get("evidence",""))}
 			sim.mission.objectives.append(o)
@@ -408,12 +414,12 @@ static func valid(mission:Dictionary)->bool:
 		for study in p.studies:
 			if not study is Dictionary or not study.has_all(["pos","name","captured","siren","subject"]) or not study.pos is Vector2 or not study.siren is int:return false
 	for shot in p.shots:
-		if not shot is Dictionary or not shot.has_all(["id","obj","key","q","features","frame"]) or not shot.frame is Dictionary or not shot.frame.get("cols") is Array or shot.frame.cols.size()!=COLS:return false
+		if not shot is Dictionary or not shot.has_all(["id","obj","key","q","features","frame"]) or not shot.frame is Dictionary or not shot.frame.get("cols") is Array or shot.frame.cols.size()!=COLS or not BandPhoto.valid_shot(shot):return false
 	return true
 
 # The subject a craft would photograph next, for the live viewfinder.
 static func preview(sim,uid:int)->Dictionary:
-	if uid<0 or uid>=sim.units.size() or not sim.units[uid].alive or sim.units[uid].band!=1:return {}
+	if uid<0 or uid>=sim.units.size() or not BandPhoto.can_shoot(sim,sim.units[uid]):return {}
 	var ctx=sim.camera_context()
 	var t=int(ctx.get("target",-1))
 	if t==-2:
@@ -421,5 +427,5 @@ static func preview(sim,uid:int)->Dictionary:
 		return {"o":{"pos":s.pos,"name":"S%d %s"%[i+1,str(s.get("type","patroller")).to_upper()],"subject":siren_subject(s),"siren":i},"index":-2,"unit":uid,"ctx":ctx}
 	if t>=0 and t<sim.mission.objectives.size() and applies(sim.mission.objectives[t]):
 		var o=sim.mission.objectives[t]
-		if sim.units[uid].pos.distance_to(o.pos)<=reach(sim,uid)*1.5:return {"o":o,"index":t,"unit":uid,"ctx":ctx}
+		if sim.units[uid].pos.distance_to(o.pos)<=reach(sim,uid)*1.5 and BandPhoto.can_shoot(sim,sim.units[uid],o):return {"o":o,"index":t,"unit":uid,"ctx":ctx}
 	return {}

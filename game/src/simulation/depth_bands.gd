@@ -2,6 +2,8 @@ extends RefCounted
 # Three discrete water volumes. Transitions occupy BOTH volumes until settled.
 const NAMES=["SHALLOW","MIDDLE","DEEP"]
 const DURATION=4.0
+const BandPhoto=preload("res://src/photo_depth/band_photo.gd")
+const BandHint=preload("res://src/photo_depth/band_hint.gd")
 static func initialize(sim):
  sim.mission["depth_cargo"]={};sim.mission["depth_openings"]=[]
  for body in sim.units+sim.sirens:
@@ -85,6 +87,7 @@ static func advance(sim,dt):
  if sim.units[0].alive and sim.units[0].band==2:sim.oxygen=maxf(0,sim.oxygen-dt*.025)
  for i in [1,2]:
   if sim.units[i].alive and sim.units[i].band==2:sim.units[i].battery=maxf(0,sim.units[i].battery-dt*.035)
+ BandPhoto.deep_cost(sim,dt)
 static func transmission(a:Dictionary,b:Dictionary)->float:
  if overlap(a,b):return 1.0
  return .42 if absi(a.get("band",1)-b.get("band",1))==1 else .18
@@ -120,6 +123,8 @@ static func context(sim)->String:
  var delivery=sim.mission.get("blackwater_delivery",{})
  if not delivery.is_empty() and sim.selected>0 and not delivery.carriers[sim.selected].is_empty():return "RAW BUFFER aboard · meet Quietus at SAME settled depth within60m to TRANSFER."
  if sim.all_records() and sim.Delivery.complete(sim):return "Archive ready · recover Quietus settled in MIDDLE; retained kit still needs its carrier."
+ var local=BandHint.local_record(sim,u)
+ if not local.is_empty():return local
  if u.band!=1 and sim.mission.objectives.any(func(o):return not o.captured and u.pos.distance_to(o.pos)<240):return "Local record nearby · settle in MIDDLE to CAMERA / SAMPLE; shifting exposes both bands."
  var rows=sim.Sonar.feedback(sim,sim.selected).rows
  if rows.any(func(row):return sim.elapsed-row.time<3 and row.classification==preload("res://src/simulation/sweeper_senses.gd").WARNING):return "Sweeper heard locally · it is walking to the last noise it heard; go quiet or leave, or drop a decoy."

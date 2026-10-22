@@ -36,6 +36,7 @@ const Sweeper=preload("res://src/simulation/sweeper_senses.gd")
 const Sonar=preload("res://src/simulation/advanced_sonar.gd")
 const Photo=preload("res://src/simulation/photo_capture.gd")
 const Pricing=preload("res://src/simulation/photo_pricing/photo_pricing.gd")
+const BandPhoto=preload("res://src/photo_depth/band_photo.gd")
 var sonar:Dictionary={}
 var depth_charts:Dictionary={}
 var band_acoustics:Dictionary={}
@@ -489,7 +490,7 @@ func command(order: String,args: Dictionary={}) -> bool:
 	_use_band(u.band)
 	if not u.alive and order!="select":
 		selected=0; queue_mode=false; message="Selected drone lost. Quietus selected; reissue the order."; return false
-	if order in ["camera","chain_power","chain_route","chain_send","concealed_tow","witness_land","warning_gate","warning_depart","rendezvous_release","wake_playback","shelf_warn","shelf_alarm"] and (u.band!=1 or not u.transition.is_empty()):
+	if order in ["camera","chain_power","chain_route","chain_send","concealed_tow","witness_land","warning_gate","warning_depart","rendezvous_release","wake_playback","shelf_warn","shelf_alarm"] and ((u.band!=1 and not (order=="camera" and BandPhoto.can_shoot(self,u))) or not u.transition.is_empty()):
 		message="Ascend to MIDDLE and settle for local work";return false
 	match order:
 		"choir_action":return Choir.command(self,args)
@@ -715,9 +716,10 @@ func _blackwater_context_text(target:int,station:int) -> String:
 	var learned=mission.objectives.any(func(o):return o.captured)
 	return "%s · %dm / quiet %.0fm%s"%[name,c.distance,c.quiet_range," · learned: SONAR + SAMPLE within 240m" if learned else " · move closer to listen"]
 func camera_context() -> Dictionary:
-	return Pricing.annotate(self,_camera_context_base())
+	return Pricing.annotate(self,BandPhoto.gate(self,_camera_context_base()))
 func _camera_context_base() -> Dictionary:
-	if units[selected].band!=1 or not units[selected].transition.is_empty():return {"ready":false,"target":-1,"text":"MIDDLE band and settled depth required"}
+	var closed:String=BandPhoto.unready(self,units[selected])
+	if not closed.is_empty():return {"ready":false,"target":-1,"text":closed}
 	if Shelf.applies(mission):return {"target":-1,"ready":false,"text":Shelf.context(self).account}
 	if Chain.applies(mission):return {"target":-1,"ready":false,"text":Chain.context(self,selected).text}
 	var work=capture_feedback(selected)
@@ -894,7 +896,7 @@ func _tick(dt: float) -> void:
 		var exchange=o.get("kind","")=="exchange" and mission.get("blackwater_revision",0)==1
 		var mobile=Rendezvous.applies(mission) and o.get("site_id","")=="rendezvous"
 		var receiver=rendezvous_receiver(station) if mobile else blackwater_context(work.target,station) if exchange else {}
-		if not u.alive or u.band!=1 or not u.transition.is_empty() or ((exchange or mobile) and not receiver.ready) or (Operations.own_origin(o) and not Operations.receiving(self,o,station)) or (not exchange and not mobile and not Operations.own_origin(o) and (u.pos.distance_to(o.pos)>Photo.reach(self,station) or not line_clear(u.pos,o.pos) or (o.has("siren") and not contact_visible(sirens[o.siren])))):
+		if not BandPhoto.can_shoot(self,u,o) or ((exchange or mobile) and not receiver.ready) or (Operations.own_origin(o) and not Operations.receiving(self,o,station)) or (not exchange and not mobile and not Operations.own_origin(o) and (u.pos.distance_to(o.pos)>Photo.reach(self,station) or not line_clear(u.pos,o.pos) or (o.has("siren") and not contact_visible(sirens[o.siren])))):
 			captures[station]={}
 			message=u.name+" · "+("Reception interrupted · move closer or SONAR for a local replay" if exchange else "Exposure interrupted · regain clear view")
 		elif exchange and not receiver.settled:work.elapsed=0.0
