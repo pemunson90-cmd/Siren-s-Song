@@ -9,6 +9,9 @@ Pat (owner, not a professional developer) decides how the game feels and any cha
 ## Standing engineering rule (Pat, 22 Oct)
 Keep every change as self-contained as possible so it can be changed or reverted without breaking much else. Modular, scalable, upgradeable, consistent, easy to work on, without losing fidelity or competency: new systems in their own files with one narrow documented seam, tunable numbers in data tables, optional validated save fields, tests beside the feature, match the style of surrounding code, no duplicated logic. Report places where existing structure makes this hard instead of working around it.
 
+## Input priority (Pat, 22 Oct)
+Primary release target is ANDROID, so everything is touch-first: on-screen controls of at least 48 dp, tap/hold/drag/pinch, the Android back gesture or button as the Escape equivalent, no hover, no keyboard-only paths. Keyboard is a working fallback only. Verify new UI with the real-touch harness at the Fold7 cover and inner shapes, not just keyboard events. (Example: an Escape fix must also work for back.)
+
 ## Settled rules you must not break
 - A fired Siren beam destroys Quietus outright; the 4 s lock warning stays and can be broken; drones die to a beam; collisions cost hull by speed with a cooldown. Do not change these.
 - V7 Sirens have no sonar of their own. They sense by proximity plus line of sight, throttle noise (speed squared), and Quietus pings and loud tools. Claude is rebuilding the sweeper on this (handoff 009, branch claude/lane-t2-sweeper).
