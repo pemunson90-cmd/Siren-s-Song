@@ -69,7 +69,7 @@ static func run(t: SceneTree) -> void:
 	t.check(FrontendSettings.current.high_contrast and persisted.load_settings().high_contrast, "settings screen changes apply live and persist")
 	front._continue()
 	t.check(front.get_parent() == null, "continue dismisses the overlay")
-	front.free(); host.free()
+	front.free(); host.sound.free(); host.theme = null; host.free()
 	FrontendSettings.apply(SettingsStore.DEFAULTS)
 	for suffix in ["", ".bak", ".incompatible-42"]: DirAccess.remove_absolute(save_path + suffix)
 static func _actions(node: Node) -> Array:
