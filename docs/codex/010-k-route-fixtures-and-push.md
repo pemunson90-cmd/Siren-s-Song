@@ -1,8 +1,8 @@
 # Handoff 010: land the combat lane (fix the five failing authored-route tests)
 
-Status: OPEN
-Claimed at:
-Claimed by:
+Status: CLAIMED
+Claimed at: 2026-10-22 01:05:01 UTC
+Claimed by: codex
 Finished at:
 
 Precondition: none. Replaces blocked 005. Read the Completion section of 005 first; it is your own evidence.
