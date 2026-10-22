@@ -2,16 +2,16 @@ extends RefCounted
 const T=preload("res://src/campaign/encounters/terrain.gd")
 const R=preload("res://src/campaign/encounters/roster.gd")
 const W=preload("res://src/campaign/encounters/work_sites.gd")
-const TITLES={14:"Glass Fence",15:"Needle Strait",16:"Furnace Drift",17:"Silt Archive",18:"Lantern Anchorage",19:"Last Carrier",20:"Prism Grave",21:"Keeper's Cache"}
+const TITLES={14:"Glass Fence",15:"Needle Strait",16:"Furnace Drift",17:"Silt Archive",18:"Lantern Lock",19:"Last Boat Out",20:"Prism Grave",21:"Range Locker"}
 const ACCOUNTS={
- 14:"Keeper Ilen / These floats listen to engines, not loyalties. Their lamps rise before a report. Deep water under the western teeth gives a slow quiet passage; the central opening is shorter and watched.",
- 15:"Ilen / The shallow strain vanes feed the listening fence. Release one locally and the western strait falls quiet. Deep water bypasses the vane wall but reaches the eastern repeater. A disabled listener cannot finish its charged report.",
- 16:"Engineer Sava / This thermal atlas belongs to the basin's cooling plant. The crossflow carries hot exhaust and sound around the central piers. Take the measured atlas home; its material spectrum may explain the prisms in the western wreck field.",
- 17:"Sava / The archive spindle is a physical return ledger. Its reception note is not the spindle itself. Winch it to a living craft and bring that carrier to recovery; losing the carrier leaves the same spindle in that water.",
- 18:"Ilen / The occupied anchorage needs its service bus. Restore the sheltered passage and its families can use the short water, but the listening relay stays supplied. Sever the reporting spur and the watchers lose the channel; the arrivals take the longer outside passage. Quietus must carry the selected station account home.",
- 19:"Sava / The last carrier's local departure register is received. It names one living departure, not every vessel beyond the Reach. Cross the listening chain, hear the northern register, and choose either physical recovery mouth.",
- 20:"Sava / A cracked directional prism remains in the grave. A photograph identifies it; only the recovered crystal supplies the material. The furnace atlas lets us cut one Quietus fitting: greater directional reach at higher pulse cost and a shared hardware slot.",
- 21:"Ilen / The keeper's service wafer is still in its sealed cache. Recover that material with the silt ledger and we can cut a local decoder. It opens a measured service gate quietly from nearby; it is no remote authority over the network."}
+ 14:"Dr. Tomas Vey / These floats are the Varne range's hydrophone fence. They listen to engines, not loyalties. Their lamps rise before a report. Deep water under the western teeth gives a slow quiet passage; the central opening is shorter and watched.",
+ 15:"Vey / The shallow strain vanes hold the listening fence taut. Release one locally and the western strait falls quiet. Deep water bypasses the vane wall but reaches the eastern repeater. A disabled listener cannot finish its charged report.",
+ 16:"Vey / This thermal atlas belongs to the range's cooling plant. The crossflow carries hot exhaust and sound around the central piers. Take the measured atlas home; its material spectrum may explain the prisms in the western wreck field.",
+ 17:"Vey / The archive spindle is the range's physical record. Its reception note is not the spindle itself. Winch it to a living craft and bring that carrier to recovery; losing the carrier leaves the same spindle in that water.",
+ 18:"Vey / The sealed habitat's lock needs its service bus. Restore the sheltered passage and the survivors can use the short water, but the listening relay stays supplied. Sever the reporting spur and the fence loses the channel; they take the longer outside passage. Quietus must carry the selected station account home.",
+ 19:"Vey / The last boat's local register is received. It names one boat out, not every vessel beyond the Reach. Cross the listening chain, hear the northern register, and choose either physical recovery mouth.",
+ 20:"Vey / A cracked directional prism remains in the grave. A photograph identifies it; only the recovered crystal supplies the material. The furnace atlas lets us cut one Quietus fitting: greater directional reach at higher pulse cost and a shared hardware slot.",
+ 21:"Vey / The range's service wafer is still in its sealed locker. Recover that material with the silt ledger and we can cut a local decoder. It opens a measured service gate quietly from nearby; it is no remote authority over the network."}
 static func supports_config(c:Dictionary)->bool:return c.size()==2 and c.get("history")==true and c.get("source_id",-1) in TITLES
 static func supports_identity(id:int,c:Dictionary)->bool:return id==c.source_id
 static func corridor(pos:Vector2,name:String,route:String="deep")->Dictionary:return {"pos":pos,"name":name,"route":route}
@@ -32,13 +32,13 @@ static func build(c:Dictionary,history:Dictionary={})->Dictionary:
   21:_cache(m,key)
  m.extraction=m.corridors[0].pos
  if m.glass_reach.work_pos==Vector2.ZERO:m.glass_reach.work_pos=m.objectives[0].pos
- if id==19:m.record+=" The recovered anchorage account left the service water open." if prior=="service" else " The anchorage's reporting spur was severed; the outer return remains available." if prior=="sever" else " No recovered anchorage choice is assumed."
+ if id==19:m.record+=" The recovered Lantern Lock account left the service water open." if prior=="service" else " Lantern Lock's reporting spur was severed; the outer return remains available." if prior=="sever" else " No recovered anchorage choice is assumed."
  m.brief=ACCOUNTS[id]+"\nKeep Quietus and its account together. Local records and machinery work in settled MIDDLE. The bare outside water avoids the central network; other bands open shorter inner crossings. Buoys hear real engines and emissions; relays forward stale uncertain reports after a charge. Quiet, masking, terrain, depth, relocation or physical disruption can break that chain. Return to a named recovery mouth."
  if id in [15,18,19]:m.brief+=" Tap a craft → REACH WORK for local machinery. Manual work takes8 audible seconds; a recovered fitted decoder can open the18/19 service gate quietly."
  if id in [17,20,21]:m.brief+=" Tap the marked material → RECOVER, or craft → REACH WORK. Winch4s within60m; carriers must recover in MIDDLE within65m of the chosen mouth, or transfer locally to Quietus. A lost carrier leaves its physical cargo at the lost position."
- if id==18:m.brief+=" REACH WORK offers RESTORE SERVICE or SEVER SPUR. First recovery commits the real consequence in Last Carrier."
+ if id==18:m.brief+=" REACH WORK offers RESTORE SERVICE or SEVER SPUR. First recovery commits the real consequence in Last Boat Out."
  var resolution=history.get("facts",{}).get("resolution","")
- if not resolution.is_empty():m.brief+=" Previous received outcome: "+{"concealed_recovery":"a living witness reached the concealed harbour.","overt_warning":"a warned recipient reached its refuge."}.get(resolution,"the earlier local account remains in the archive.")
+ if not resolution.is_empty():m.brief+=" Previous received outcome: "+{"concealed_recovery":"Kestrel's survivors were carried out by craft.","overt_warning":"Brannock's launch reached the northeast pickup."}.get(resolution,"the earlier local account remains in the archive.")
  return m
 
 # 14 / A wide basin cut by one glass fence. MIDDLE: the western teeth are closed,

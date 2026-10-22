@@ -22,7 +22,8 @@ func run():
   root.size=dimensions;await frames()
   var g=load("res://scenes/main.tscn").instantiate();g.set_script(load("res://tests/density_main.gd"));g.store.path="user://iron-ui-"+str(dimensions.x)+".save"
   for suffix in ["",".bak",".tmp"]:DirAccess.remove_absolute(g.store.path+suffix)
-  root.add_child(g);await frames();g.set_process(false);g.completed=[0,1,2,3,4,5];g.unlocked=5;g.expedition=progress();g._show_campaign();await frames()
+  root.add_child(g);await frames();g.set_process(false);if g.get_node_or_null("Frontend")!=null:g.get_node("Frontend")._dismiss()
+  g.completed=[0,1,2,3,4,5];g.unlocked=5;g.expedition=progress();g._show_campaign();await frames()
   var buttons=g.panel_box.get_children().filter(func(c):return c is Button and c.get_meta("action","")=="expedition23")
   check(buttons.size()==1,"ordinary campaign archive offers industrial next job")
   if buttons.size()==1:g.scroll.ensure_control_visible(buttons[0]);await frames();await tap(buttons[0]);check(g.screen=="briefing","actual archive touch opens Iron briefing")

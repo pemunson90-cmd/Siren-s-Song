@@ -4,13 +4,13 @@ const TITLES={22:"Hammerwake",23:"Pressure Stair",24:"Choir Cut",25:"Last Shift"
 const L=preload("res://src/campaign/encounters/iron_layouts.gd")
 const T=preload("res://src/campaign/encounters/terrain.gd")
 const ACCOUNTS={
- 22:"Foreman Rill / Release the hammer sled from its stall and beat it down its lane: it jams against the shut lane gate and takes damage until you work that gate. West lane gate is LOCK A, east is LOCK B.",
- 23:"Lock keeper Nera / Cycle LOCK A, then B, then C: each equalizer opens the next shutter at its own depth. A crowned warden charges pressure from received evidence; wait out its discharge or break its acquisition.",
- 24:"Rill / The ballast is the switch. Tow it to BYPASS to restore the short gallery and keep the reporting bus supplied, or to ISOLATE to cut the bus and keep the long outside water. The first recovered placement commits Last Shift's route.",
- 25:"Nera / Escort the evacuation sled to its refuge: it only advances while a craft stays within 200m, and it holds the moment you leave. Choose the east shipping refuge or the west service berth, then watch it arrive.",
+ 22:"Foreman Dale Rill / Hollins Field's hammer sled is stalled, not abandoned. Release it and beat it down its lane: it jams against the shut lane gate and takes damage until you work that gate. West lane gate is LOCK A, east is LOCK B.",
+ 23:"Lock keeper Nera Ash / Cycle LOCK A, then B, then C: each equalizer opens the next shutter at its own depth. A crowned warden charges pressure from received evidence; wait out its discharge or break its acquisition.",
+ 24:"Rill / The ballast is the switch. Tow it to BYPASS to restore the short passage and keep the reporting bus supplied, or to ISOLATE to cut the bus and keep the long outside water. The first recovered placement commits the last shift's route.",
+ 25:"Nera / Escort the last shift's evacuation sled to its dock: it only advances while a craft stays within 200m, and it holds the moment you leave. Choose the east shipping dock or the west service dock, then watch it arrive.",
  26:"Rill / Lift the pressure spindle from the deep sump. Lifting restarts the hammer and the west mouth seals in 100s, so leave by the mouth or work COOLING for the south return. Recover the physical spindle.",
  27:"Nera / A loose counterweight slides back downhill. Tow it up to the ledge, chock it at LOCK A, tow it on to the cradle, then winch the exposed traction core.",
- 28:"Rill / The occupied bell must be towed through the S gallery with two decompression stops at LOCK A and LOCK B, then landed at the western refuge. Quietus can carry the job alone.",
+ 28:"Rill / The occupied bell must be towed through the S passage with two decompression stops at LOCK A and LOCK B, then landed at the western dock. Quietus can carry the job alone.",
  29:"Nera / Two sites, one window. Throw the far breaker LOCK C, then RECONNECT the plant within 150s; or DISMANTLE the security feed in the west room alone. Recover your chosen local work account."}
 static func supports_config(c:Dictionary)->bool:return c.size()==2 and c.get("history")==true and c.get("source_id",-1) in TITLES
 static func supports_identity(id:int,c:Dictionary)->bool:return id==c.source_id

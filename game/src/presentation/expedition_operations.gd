@@ -13,15 +13,15 @@ static func operations(main)->void:
 static func briefing(main,index:int)->bool:
  if index<6:return false
  if index>=22:
-  main._menu_text("IRON CHOIR / Craft → CHOIR WORK or tap acquired machinery and physical loads. Start voyages deliberately, observe actual arrival, tow locally and LAND people at refuge. All machinery/cargo follows its working craft and real depth. Bare Quietus can complete every core job sequentially without finite tools; fitted drones buy alternate narrow load routes.",17)
+  main._menu_text("IRON CHOIR / Craft → CHOIR WORK or tap acquired machinery and physical loads. Start voyages deliberately, observe actual arrival, tow locally and LAND people at the dock. All machinery/cargo follows its working craft and real depth. Bare Quietus can complete every core job sequentially without finite tools; fitted drones buy alternate narrow load routes.",17)
   main._menu_text(preload("res://src/campaign/glass_research.gd").detail(main.expedition),17)
   return true
  if index>=14:
-  main._menu_text("GLASS REACH / Local craft → REACH WORK opens machinery, material and transfer controls. Status gives exact local distance/depth/readiness. The southern mouth also permits explicit incomplete withdrawal. First recovered anchorage choice shapes Last Carrier; failed dives and replays do not replace it.",17)
+  main._menu_text("GLASS REACH / Local craft → REACH WORK opens machinery, material and transfer controls. Status gives exact local distance/depth/readiness. The southern mouth also permits explicit incomplete withdrawal. First recovered Lantern Lock choice shapes Last Boat Out; failed dives and replays do not replace it.",17)
   main._menu_text(preload("res://src/campaign/glass_research.gd").detail(main.expedition),17)
   return true
  if index==10:main._menu_text("PLANT ORDERS\nCONNECT a settled craft at WEST for quiet shore power, or START BACKUP once with a 900m / 6s audible start. Quietus or a fitted sampler selects the output at EAST. OPEN SERVICE opens the physical crosslink; NORTH MAST leaves its opening unchanged. Then use SEND WARNING separately. Service requires a local receipt; mast telemetry proves transmission with external reception unknown. Recover Quietus by either mouth after commissioning.",17)
- elif index==8:main._menu_text("SHELTER ORDERS\nTap a measured gallery or the charted communal resonator for its local warning action and exact readiness. Watch the occupied windows, then hear the returning shelter call. No camera hold is required.",17)
+ elif index==8:main._menu_text("WATCH ORDERS\nTap a measured bunker section or the charted bunker alarm for its local warning action and exact readiness. Watch the occupied windows, then hear the returning watch call. No camera hold is required.",17)
  else:main._menu_text("OBSERVATION ORDERS\nArrival arcs show where a carrier reached that receiver; sound may bend around basalt. They are not exact target bearings. Close clear passive reception or local RECON earns a precise source mark. Pause gives planning time, never new passive samples. Named recovery corridors show which interpretations you have confirmed.",17)
  if index in [9,10]:main._menu_text("RECOVERED THREAD / Your first successful recovery from Wake Crossing or Warning Chain selects the history carried into Confluence. The other dive remains replayable; replay does not rewrite a launched dive or the committed thread. Failed dives retain field notes, never the new fitting or continuation.",17)
  if index==6:main._menu_text("Choose a physical exit with Quietus after its carrier is identified. Investigating both retains both facts; your exit selects the continuation. The southern basin permits incomplete withdrawal after departure, without completing an expedition route.",17)

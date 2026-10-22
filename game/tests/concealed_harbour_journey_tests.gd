@@ -18,7 +18,7 @@ func tick(s):
  var work=s.mission.concealed_harbour
  if work.phase=="towing" and s.blocked(work.pos,18):tow_clip=true
  for noise in s.noises:
-  if noise.label=="REFUGE WATCH REPLY":
+  if noise.label=="BUNKER WATCH REPLY":
    for guard in s.sirens:
     var arrivals=s.acoustic_paths.arrivals(guard.pos,noise.pos,noise.radius)
     if not arrivals.is_empty():

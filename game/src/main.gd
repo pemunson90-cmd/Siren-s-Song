@@ -131,9 +131,15 @@ func _ready() -> void:
 		if arg.begins_with("--capture-path="): capture_path=arg.trim_prefix("--capture-path=")
 	_start_mission(0)
 	active_started=false
-	if capture_scenario.is_empty(): _load_archive(); _show_campaign()
+	if capture_scenario.is_empty(): _load_archive(); _show_campaign(); _boot_frontend()
 	else: _scenario(capture_scenario)
 	_layout()
+# Title/settings/credits overlay. Any failure leaves the original campaign menu as the boot screen.
+func _boot_frontend() -> void:
+	var script=load("res://src/presentation/frontend/frontend.gd")
+	if script==null or not script.can_instantiate(): return
+	var front=script.new(); add_child(front)
+	if not front.setup(self): remove_child(front); front.queue_free()
 func _theme() -> void:
 	var t=Theme.new(); t.default_font_size=17
 	var normal=StyleBoxFlat.new(); normal.bg_color=Color("102831"); normal.border_color=Color("36545d"); normal.set_border_width_all(1); normal.set_corner_radius_all(5); normal.content_margin_left=12; normal.content_margin_right=12; normal.content_margin_top=10; normal.content_margin_bottom=10
@@ -429,7 +435,7 @@ func _clear_menu() -> void:
 	menu_footer.hide()
 	menu.show(); hud.hide(); scroll.scroll_vertical=0
 func _menu_text(text: String,font_size: int=17) -> Label:
-	var l=_label(panel_box,text,roundi(font_size*ui_touch_height/48.0)); l.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART; l.custom_minimum_size.x=minf(610,size.x-120); return l
+	var l=_label(panel_box,text,roundi(font_size*ui_touch_height/48.0*preload("res://src/presentation/frontend/frontend_settings.gd").text_scale())); l.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART; l.custom_minimum_size.x=minf(610,size.x-120); return l
 func _loadout_stock(choice: String) -> Array:
 	return {"endurance":[120,2,2],"disruption":[100,3,2],"survey":[100,2,3]}.get(choice,[100,2,2])
 func _show_campaign() -> void:
@@ -540,8 +546,8 @@ func _debrief() -> void:
 			_menu_text(preload("res://src/campaign/archive_recap.gd").summary(recovered_evidence),14)
 		if not recovered_evidence.is_empty(): _button(panel_box,"REVIEW FIELD RECORDS",func(): _evidence_gallery(0),"evidence")
 		if mission_index==5:
-			var discovery="The crown points into the trench. Unarmed wakes lead away from the fracture. Quietus’ hydrophones resolve what the images could not: they are evacuating.\n\n" if sim.mission.get("finale_revision",0)==1 else ""
-			_menu_text("THE SONG CONTINUES\n\n"+discovery+"You return with a warning, not a firing solution. Above you, the fleet waits for orders. Below, the foundry lights go dark, one by one. For the first time since descent, Quietus hears only the ocean.\n\nIntroductory arc complete. Every dive remains replayable.",20)
+			var discovery="The crown is still sending its list: a bearing for every loud site on this coast. Two of them still answer. South down the trench, the drillship Tessaly. West on the shelf, the sonar station at Port Ardent.\n\n" if sim.mission.get("finale_revision",0)==1 else ""
+			_menu_text("THE SONG CONTINUES\n\n"+discovery+"Okafor, on Brannock: \"Two bearings. People at both, and air running down at both. Quietus can reach one first.\" Below, the plant lights go out one by one.\n\nIntroductory arc complete. Every dive remains replayable.",20)
 			if 6 in ExpeditionCampaign.available(completed,expedition):_button(panel_box,"BEYOND THE WARNING / THE DIVERGENCE",func():_briefing(6),"expedition6")
 		else: _button(panel_box,"NEXT DIVE",func(): _briefing(mission_index+1),"next_dive")
 	else:
