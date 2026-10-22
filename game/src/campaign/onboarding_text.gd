@@ -1,7 +1,7 @@
 extends RefCounted
 # Placeholder-quality first-play guidance. One verb per prompt, one or two lines.
 # Prompts are shown once per campaign (ids are saved) and never gate play or pause.
-const MAX_OPERATION := 2
+const MAX_OPERATION := 3
 # Short briefing lines for the opening operations. The full rules stay in the field manual.
 const GOALS := {
 	0: "GOAL: photograph the signal spire, then bring Quietus home.\nDANGER: Sirens hunt by sound. Go slowly and keep rock between you and them.",
@@ -13,6 +13,7 @@ const HINTS := {
 	"pause": {"text": "PAUSE is always at top left. Time stops, and you can plan, inspect and change orders as long as you like.", "ops": [0]},
 	"drone": {"text": "Send a drone ahead to look. Drones are expendable. Quietus is not.", "ops": [0]},
 	"sweep": {"text": "A sweeper Siren heard noise and is walking to that spot. The cue gives its bearing and seconds. Slow down or go SILENT, and keep rock between you and it.", "ops": [0, 1, 2]},
+	"warning": {"text": "A Siren has noticed you, so time is paused. Its warning shows the bearing and seconds left. Break line of sight, slow down or go SILENT, then press RUN.", "ops": [1, 2, 3]},
 	"noise": {"text": "Speed makes noise. Fast movement is heard from farther away. SILENT running is slower and quieter.", "ops": [0, 1, 2]}
 }
 static func goal(index: int) -> String:
