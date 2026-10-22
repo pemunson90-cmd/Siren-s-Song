@@ -42,6 +42,7 @@ func run() -> void:
    root.get_texture().get_image().save_png(capture_dir+"/"+profile.name+".png")
   var before=ui.sim.snapshot()
   ui.ocean.zoom_at(2.0,ui.ocean.size*0.5);ui.ocean.pan_chart(Vector2(24,12))
+  ui._refresh();ui._layout();await process_frame;await process_frame;await process_frame
   await click(ui.zoom_buttons[2].get_global_rect().get_center())
   check(is_equal_approx(ui.ocean.chart_camera.zoom,1.0),"%s actual FIT click returns zoom to overview"%profile.name)
   check(ui.sim.snapshot()==before,"%s FIT changes no simulation or orders"%profile.name)

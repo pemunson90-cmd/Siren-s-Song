@@ -9,7 +9,7 @@ func fixture(kind:String):
  # Restorable endgame state, with a real beam, drone route and sonar clocks.
  # Production _tick decides the result; no stub or preassigned outcome.
  var s=Simulation.new();s.start(0)
- s.sirens[0].pos=Vector2(220,800);s.sirens[0].goal=s.units[0].pos;s.sirens[0].route=[];s.sirens[0].target=0;s.sirens[0].lock=4.0
+ s.sirens[0].pos=Vector2(220,800);s.sirens[0].goal=s.units[0].pos;s.sirens[0].route=[];s.sirens[0].target=0;s.sirens[0].lock=4.0 if kind=="hull" else 0.0
  check(s.line_clear(s.sirens[0].pos,s.units[0].pos),"terminal fixture beam has physical line of sight")
  check(s.command("select",{"unit":1}) and s.command("route",{"point":Vector2(220,700)}) and s.command("select",{"unit":0}) and s.command("ping"),"terminal fixture uses actual route/select/sonar commands")
  if kind=="won":
@@ -30,7 +30,7 @@ func _initialize():
    var single=clone(seed);single.paused=false;single.advance(Simulation.STEP)
    check(single.outcome==("won" if kind=="won" else "lost") and is_equal_approx(single.elapsed,Simulation.STEP),label+" reaches the real terminal condition on first STEP")
    check(single.units[1].battery<seed.units[1].battery and single.ping_time<seed.ping_time and single.units[1].pos!=seed.units[1].pos,label+" terminal tick actually advances actors/resources before ending")
-   if kind=="won":check(single.hull<seed.hull and single.hull>0 and single.all_records(),"winning terminal tick retains real beam damage and earned-record extraction priority")
+   if kind=="won":check(single.hull==seed.hull and single.oxygen<seed.oxygen and single.all_records(),"winning terminal tick consumes life support and extracts before a beam charges")
    var reference=clone(seed);reference.paused=false
    for n in ceili(batch/Simulation.STEP):reference.advance(Simulation.STEP)
    check(state(reference)==state(single),label+" successive STEP calls stop at first terminal state")

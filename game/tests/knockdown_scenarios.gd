@@ -13,7 +13,8 @@ func fixture():
  s._observe();return s
 func tick(s,seconds: float) -> void:
  for i in ceili(seconds/Simulation.STEP):s.advance(Simulation.STEP)
-func _initialize() -> void:
+func _initialize() -> void:call_deferred("run")
+func run() -> void:
  var s=fixture();check(s.tools.get("knock",0)==2,"new dives carry exactly two knockdown torpedoes")
  var accepted=s.command("knock",{"target":0})
  check(accepted,"ordinary knock command launches at a current observed Siren in clear close range")
@@ -39,6 +40,8 @@ func _initialize() -> void:
  check(s.sirens[0].pos==held and s.sirens[0].stun>4.7 and s.sirens[0].stun<5.1,"pinned Siren stays physically fixed while eight-second clock runs")
  var saved=s.snapshot();var restored=Simulation.new();check(restored.restore(saved) and restored.tools.knock==1 and restored.sirens[0].mode=="PINNED","partial pin and finite stock restore paused without a schema migration")
  tick(restored,20);check(restored.sirens[0].stun==s.sirens[0].stun,"restored pause consumes no pin time")
+ # Keep the second live beam away from this isolated pin-expiry clock.
+ restored.sirens[1].pos=Vector2(1400,900)
  restored.paused=false;tick(restored,5.1)
  check(restored.sirens[0].stun<=0 and restored.sirens[0].mode!="PINNED","pin expires after eight simulation seconds and ordinary AI resumes")
  check(Simulation.valid_snapshot(restored.snapshot()),"ordinary post-pin expiry remains saveable")
@@ -75,7 +78,7 @@ func _initialize() -> void:
  check(miss.projectiles[0].aim==aim,"projectile never acquires a new target position beyond Quietus sensors")
  tick(miss,3.1);check(miss.projectiles.is_empty() and miss.tools.knock==1 and miss.sirens[0].stun==0,"a physical miss expires without refund or remote pin")
  check(miss.message=="Torpedo run ended · shot spent","own projectile expiry replaces launch history with spent-shot feedback")
- var wall=fixture();wall.sirens[0].pos=Vector2(600,650);wall.sirens[1].pos=Vector2(1400,900);wall.mission.rocks.append(Rect2(650,710,20,30));wall._build_navigation();wall._observe()
+ var wall=fixture();wall.sirens[0].pos=Vector2(600,650);wall.sirens[1].pos=Vector2(1400,900);add_rock(wall,Rect2(650,710,20,30));wall._build_navigation();wall._observe()
  check(wall.line_clear(wall.units[0].pos,wall.sirens[0].pos) and wall.command("knock",{"target":0}),"a clear target can be valid despite terrain in the initial bow direction")
  wall.paused=false;tick(wall,1.0)
  check(wall.projectiles.is_empty() and wall.sirens[0].stun==0 and wall.tools.knock==1,"turning physical torpedo can hit basalt instead of teleporting to target")
@@ -85,7 +88,7 @@ func _initialize() -> void:
  check(not Simulation.valid_snapshot(malformed_flight),"invalid projectile target rejects before restore")
  malformed_flight=in_flight.duplicate(true);malformed_flight.projectiles[0].life=-1
  check(not Simulation.valid_snapshot(malformed_flight),"expired invalid projectile rejects before restore")
- var shadow=fixture();shadow.units[0].pos=Vector2(600,690);shadow.sirens[0].pos=Vector2(704,680);shadow.sirens[1].pos=Vector2(1400,900);shadow.mission.rocks.append(Rect2(650,700,40,100));shadow._build_navigation();shadow._observe()
+ var shadow=fixture();shadow.units[0].pos=Vector2(600,690);shadow.sirens[0].pos=Vector2(704,680);shadow.sirens[1].pos=Vector2(1400,900);add_rock(shadow,Rect2(650,700,40,100));shadow._build_navigation();shadow._observe()
  check(shadow.command("knock",{"target":0}),"near-corner target launches with valid Quietus sight")
  var acquired=shadow.projectiles[0].aim;shadow.sirens[0].pos=Vector2(704,730);shadow.paused=false;tick(shadow,0.1)
  check(not shadow.line_clear(shadow.units[0].pos,shadow.sirens[0].pos) and shadow.projectiles[0].aim==acquired,"target behind rock within range cannot update projectile aim")
@@ -111,10 +114,15 @@ func _initialize() -> void:
  check(store.save(archive) and store.load_game().active.projectiles.size()==1,"actual binary archive retains an in-flight torpedo")
  var audio=preload("res://src/audio/soundscape.gd").samples("knock");var loudest=0.0
  for value in audio:loudest=maxf(loudest,absf(value))
- check(audio.size()>1000 and loudest>0.01 and loudest<=0.31,"original torpedo launch cue has nonzero bounded PCM")
+ var playback=preload("res://src/audio/soundscape.gd").new();root.add_child(playback);await process_frame
+ check(audio.size()>1000 and loudest>0.01 and playback.voices.all(func(voice):return loudest*db_to_linear(voice.volume_db)<=0.31),"imported torpedo cue has nonzero PCM and retains bounded real playback gain")
+ playback.queue_free();await process_frame;await create_timer(.1).timeout
  for path in ["accepted-blackwater.archive","accepted-finale.archive"]:
   store.path="res://tests/fixtures/"+path;var archive_old=store.load_game();var active=Simulation.new()
   check(archive_old.is_empty() and not store.warning.is_empty(),"Pass0 rejects incompatible old archive: "+path)
  finish()
+func add_rock(s,rect:Rect2):
+ s.mission.rocks.append(rect)
+ if s.mission.get("depth_geometry",{}).has(1) and not rect in s.mission.depth_geometry[1].get("rocks",[]):s.mission.depth_geometry[1].rocks.append(rect)
 func finish() -> void:
  print("KNOCKDOWN CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)
