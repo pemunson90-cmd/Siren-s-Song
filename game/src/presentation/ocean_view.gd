@@ -407,7 +407,7 @@ func _draw_observed_paths()->void:
 		for p in path.pts:points.append(Vector2(p[0],p[1]))
 		if points.size()<2:continue
 		for n in points.size()-1:draw_dashed_line(points[n],points[n+1],Color(0.9,0.55,0.35,0.7),2.0/world_scale,6.0/world_scale)
-		_label(points[-1]+Vector2(10,-8),"OBSERVED PATH · S%d"%(int(path.siren)+1),Color(0.9,0.62,0.45,0.9),14)
+		_label(points[-1]+Vector2(10,24),"OBSERVED PATH · S%d"%(int(path.siren)+1),Color(0.9,0.62,0.45,0.9),14)
 func _draw_pressure_overlay()->void:
 	var pressure=sim.recon_feedback()
 	var threat=float(pressure.threat)
