@@ -12,7 +12,7 @@ Codex: when you finish a handoff, update its row here in the same commit as `don
 ## BATCH 2 (22 Oct, released when 011 and 012 were DONE)
 | Order | Handoff | Status | PR | Finished (UTC) | One-line result |
 |---|---|---|---|---|---|
-| 4 | 014 challenge mode (12 curated challenges) | OPEN | | | |
+| 4 | 014 challenge mode (12 curated challenges) | CLAIMED | [72](https://github.com/pemunson90-cmd/Siren-s-Song/pull/72) | 2026-10-22 21:55 UTC | Pushed 5043a99; model 178/0, touch UI 86/0; waiting exact-head CI. |
 | 5 | 015 performance and leaks | OPEN | | | |
 | 6 | 016 one test list, fix stale tests | OPEN | | | |
 
