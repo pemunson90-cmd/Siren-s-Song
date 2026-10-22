@@ -13,6 +13,8 @@ Pat DECIDED (21 Oct): Option A. A fired Siren beam destroys Quietus outright (lo
 
 Pat priority (21 Oct): for future missions and expansions, briefings and story interjections are short placeholders, just enough to know the tasks; spend effort on mission design, layout, complete functional gameplay and UI. Story and polish only where consequential.
 
+## NEXT MILESTONE (Pat, 22 Oct): cold review once these merge: PR 61 (F1), PR 63 (Iron Choir), S3b text PR, Codex 005 (one-shot beam, collisions, probe) and 009 (sweeper on V7 senses; original active-sonar sweeper saved on branch claude/future-siren-active-sonar-sweeper, see docs/FUTURE_OPTIONS.md). Merged already: 55, 56, 57, 59, 60. Then: fresh critic with no build info plays the whole game from mission one via real touch input, judges as a publishable AAA stealth game against a shipped reference, harshly, ranked list of what to fix. Questions it must answer: are choices worth making, can a new player discover solutions, do fittings change routes, do ops after 13 pay off. Stop adding content until the report is read.
+
 ## STATE 21 Oct (resumed after Codex audit through 1423afa; PRs 55, 57, 59 merged)
 Codex audit findings: (1) stale pressure probe, (2) wrong SONAR cost display, (3) witness cargo ignores capacity, (4) menu SPACE flips hidden pause, (5) later sonar echoes reset an armed strike, (6) orphan tests outside CI. Running: Claude agents R1 (findings 2,3,4,6; branch claude/lane-r1-rules), S3 fix (PR 56 CI), C2 Iron Choir (handoff 003). Codex next: handoff 005 (one-shot beam, collisions, strike rule = finding 5, probe update = finding 1). After those land: F1 frontend, S3b, P2 economy, Calder arc, then the harsh whole-game review.
 
