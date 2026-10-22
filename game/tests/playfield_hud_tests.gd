@@ -10,6 +10,7 @@ func settle():
  for n in 8:await process_frame
 func click(button):
  var p=button.get_global_rect().get_center()
+ var move=InputEventMouseMotion.new();move.device=InputEvent.DEVICE_ID_EMULATION;move.position=p;move.global_position=p;root.push_input(move,true);await process_frame
  for down in [true,false]:
   await touch(p,down)
   var e=InputEventMouseButton.new();e.device=InputEvent.DEVICE_ID_EMULATION;e.position=p;e.button_index=MOUSE_BUTTON_LEFT;e.pressed=down;root.push_input(e,true);await process_frame
@@ -84,8 +85,12 @@ func run():
   var accepted=game.sim.route_goals().duplicate(true)
   await touch(latest,true);await touch(latest,false);await settle()
   check(game.mission_hud.guard.pending.get("point",Vector2.INF).distance_to(destination)<.1 and game.sim.route_goals()==accepted,"moving-course touch sets the transformed marker without silently replacing orders")
+  # A new campaign may show a once-only card above the confirmation panel.
+  for n in 6:
+   if not game.mission_hud.hints.panel.visible:break
+   await click(game.mission_hud.hints.dismiss_button)
+  check(not game.mission_hud.hints.panel.visible and game.sim.route_goals()==accepted,"acknowledging tutorial cards leaves the accepted route intact")
   await click(game.mission_hud.guard.go_button)
-  print("CONFIRMED FOLLOW pending=",game.mission_hud.guard.pending," goals=",game.sim.route_goals()," message=",game.sim.message," wanted=",destination)
   check(not game.sim.route_goals().is_empty() and game.sim.route_goals()[0].pos.distance_to(destination)<.1,"explicit route confirmation after physical follow uses latest camera transform")
   await click(game.pause_button);check(game.sim.paused,"persistent PAUSE remains immediate after actual moving play")
   var state=game.sim.snapshot();ocean.pan_chart(Vector2(-90,0));var manual=ocean.chart_camera.center
