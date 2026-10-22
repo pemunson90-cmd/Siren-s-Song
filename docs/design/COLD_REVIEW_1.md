@@ -1,0 +1,33 @@
+# COLD REVIEW 1 (fresh critic, no build notes)
+
+## Verdict
+The stealth and tactical-pause core is real and readable: warnings give bearings and countdowns, and the Cold Foundry looks like a game. But the camera is a pass/fail gate with a diagram for a picture, so the Iron Lung style "photo reveals the unknown" loop is missing. Most missions have one obvious answer (drones scout, Disrupt, then photograph), and the late bands I sampled looked emptier than the openers. Nothing is finished.
+
+## Photography findings (ranked)
+1. **The photograph is not an image, and examining it teaches nothing (BIG, central).** The viewfinder draws a flat panel with labelled icons and LUX/CLR/SHP bars. The archive shows the same panel plus text: "FRAME 1 OF 2 · QUALITY 67% ... RESOLVED: BROKEN DRILL STRING 62%". The target is already named on the chart before you arrive ("SIGNAL SPIRE"), so the camera confirms what you were told instead of revealing it. In Iron Lung the photo is the only way to learn what is out there. Here it is a quality meter. Remedy: make the subject unknown until framed. Render a real, lit, noisy image of the scene from the chosen angle (even a stylised 2D render), let features appear only when resolved, and make the archive hold clues (a seen route, a weakness, a person) that change a later plan. Hide target names until the frame resolves them.
+2. **Viewpoint does matter, but only as a number (BIG).** Distance, aspect, wide or tight and focus visibly change what resolves. At 148m, -21 degrees, tight: drill string. At 139m, -107 degrees, wide: beacon lamp. Light varied from 20% to 100%. Flash and thermal need fittings I never owned. Protect the model, but surface it: the outcome should differ in story and tactics, not only quality %.
+3. **Archive contradicts itself (MEDIUM).** Compare screen says "Quality +23 points" while frame 2 is 44% against frame 1 at 67%. The dive grade reported "45% quality" though the best frame was 67%.
+4. **Photographing a Siren in op 3 (Blackwater Relay) breaks the dive (BLOCKER for that action).** The camera auto-targeted a sweeper beside my drone. After the exposure the HUD reported "Save rejected: unsupported or invalid archive" and no autosave happened afterward. The log held 857 repeats of "Invalid access of index '2' on a base object of type: 'Array'" at blackwater_delivery.gd:130, every frame. Cause I confirmed by reading source: the Siren photo appends a third objective, and save validation requires exactly two. Progress is lost on any Android suspend. Remedy: store Siren frames outside the objective list. Also test every mission type, since other missions have similar size checks.
+5. **Drone camera is not told apart from the sub camera in the HUD (POLISH).** One button changes label (CAMERA, PHOTO, LISTEN, LINK, SAMPLE) by context. Good, but a new player cannot predict it.
+
+## Everything else (ranked)
+1. **No onboarding (BIG).** Op 1 briefing is a wall: depth layers, sweepers, "four stationary seconds exposed in both". I died in about 40s of play: "S1 PATROL → QUIETUS · BEAM 1.8s", then dead. Remedy: a first op that teaches one verb at a time, with the sweeper cue shown on screen.
+2. **One obvious solution (BIG).** Op 2: Drone A east, Drone B west, Quietus to uplink. Op 4: arrive, Disrupt, photograph (guard "DISRUPTED", record secured). Op 1 had a real route choice: northern approach got me hit, the southern loop was untouched. Remedy for the question to the owner: should threats force a trade between speed, noise and tool charges?
+3. **Plotted routes hit rock (BIG).** Hull strikes in ops 1, 4 and 5: "Hull strike 24m/s -5%", "18m/s -3%", "41m/s -13%". The dotted line passed through rock corners. Caveat: my software render ran about 16 fps, so time steps were coarse. Remedy: route around hull size and show the clearance. (Owner question: strike damage values.)
+4. **Fittings do not change approaches (BIG).** Briefing text says "Bare Quietus can complete every core job sequentially". The five owned items (sleeve, baffles, vector drive, yoke, cells) are conveniences. The fit list sits about 2,600px below the briefing text. Remedy: fittings that unlock routes (a gate only the sleeve passes), previewed on the chart.
+5. **Accidental orders and hidden modes (MEDIUM).** A tap on water with a craft selected reroutes at once; it happened to me twice. Queue vs replace and pass vs stop are inside the ROUTE submenu. No undo. Remedy: confirm by hold or show a one-tap undo chip.
+6. **Late bands feel thin (BIG, partial evidence).** Iron Choir "Pressure Stair" opened on four rocks and black water; nothing visible until sonar. Glass Reach "Needle Strait" was a narrow channel with listener buoys. The ending is a text card ("UNHEARD ... it can keep diving") and a Continue button. The 30 operations are a flat list, with no map showing branches. Remedy: an authored hub or route map, ending scenes, and bespoke art for each late op.
+7. **Readability (MEDIUM).** Status messages truncate ("within240m wit..."), and "OBSERVED PATH · S3 PHOTOGRAPHED" overprinted another label. Settings offer only volume and mute: no text size or colour options.
+8. **First-launch wording (POLISH).** A new player gets "RESUME ACTIVE MISSION" and "replaces this campaign's progress".
+9. **Enemy behaviour (not a main finding).** Fair when paused: "HEARD SWEEP WINDUP · 249° · 0.4s" gave real warning. Drones die in about 15s next to patrols and act as lures, which is interesting. A Siren stood beside my drone without noticing while it photographed.
+10. **Technical.** No crash or softlock. Errors only as in photography finding 4. Resume restored an active dive correctly. Performance not measurable here.
+
+## What works (protect)
+Cold Foundry art and scale; radial menus with real touch targets; unlimited pause and the route-programming panel; the viewfinder hint "TOO SOFT · closer, lit or still"; Siren sweep warnings with bearing and seconds; resume after restart; the drone scout and lure role; object tap giving ROUTE HERE.
+
+## Limits
+- Software rendering at 1600x720 on Xvfb; touch events were injected into the engine, not a phone. Phone text size, thumb reach and frame rate are unverified.
+- No audio judged.
+- Ops 1 to 3 were played in order. Op 4 and 5 I only entered through a script call and played briefly. Glass Reach and Iron Choir were sampled from test-created save fixtures, not earned play; I did not finish any late op.
+- Op 3 and 5 were not completed. I never owned flash, thermal, tele or low-light gear, so I could not test them.
+- No blind comparisons run. Time scale tricks failed, so all play was real time.

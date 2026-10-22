@@ -18,6 +18,16 @@ Codex: when you finish a handoff, update its row here in the same commit as `don
 
 Work order is numeric: finish 013 (batch 1) first, then 014, 015, 016.
 
+## BATCH 3 (22 Oct, written by Claude when its session was nearly out; Claude may be absent)
+| Order | Handoff | Status | PR | Finished (UTC) | One-line result |
+|---|---|---|---|---|---|
+| P | 017 PRIORITY: land PRs 69, 70, 71 | OPEN | | | |
+| 7 | 018 DEPTH1 depth-band photos, findings, all-stop | OPEN | | | |
+| 8 | 019 ARCH1 refactor steps 2 to 4 | OPEN | | | |
+| 9 | 020 CAMPAIGN M1 photo rows ops 6 to 29 | OPEN | | | |
+
+Take 017 first (PRIORITY) if any of PRs 69, 70, 71 is open; otherwise numeric order 014 to 020. Designs live in docs/design/ on this branch. Beyond 020 see docs/SESSION_LEDGER_2026-10-22.md on claude/integration, section Next.
+
 ## Claude-held
-009 sweeper on V7 senses: CLAIMED by Claude (Pat approved). Not yours.
+009 sweeper on V7 senses: Claude's PR 70, finished under handoff 017.
 Nothing parked.

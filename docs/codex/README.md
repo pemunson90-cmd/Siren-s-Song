@@ -19,6 +19,9 @@ Your code work happens on a separate lane branch named in the handoff, and retur
 4. Read its `Precondition:` line and obey it. If the precondition says a Claude worker may be active (newest commit on the branch under 90 minutes old), do not claim it; move to the next-highest OPEN handoff. If none are left, go to step 2 below and tell Pat.
 5. Read its `Codex may merge:` line. Where it says yes, you may merge that handoff's pull request into `claude/integration` (never production, never main) with a merge commit, but only after GitHub's `guidance` and `game-smoke` are both green on the exact head and the pull request is mergeable.
 
+## Claude may be absent (22 Oct)
+Claude's session can run out of usage. Then you continue alone: Pat's STANDING DELEGATION (top of docs/USER_DIRECTIVES.md on claude/integration) lets you build to the plan and merge your own green PRs. A handoff marked PRIORITY goes first. Ask Pat only at the decision points listed in the delegation. Read docs/SESSION_LEDGER_2026-10-22.md on claude/integration for the current state.
+
 ## Batch rule and reporting (22 Oct, Pat)
 Handoffs come in batches of three. Work them in numeric order. A file with `Status: HOLD` is not yours; ignore it. After each handoff: set its Status to DONE (or BLOCKED), fill Completion, and update its row in `docs/codex/BOARD.md` (status, PR link, UTC time, one line). Claude watches the board and writes the next batch when two of three are DONE. When no OPEN handoff is left, stop and tell Pat plainly which are DONE, then wait; do not invent work.
 
