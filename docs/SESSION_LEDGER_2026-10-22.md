@@ -8,14 +8,12 @@ STANDING DELEGATION: Pat approved building the game to spec on Claude's understa
 ## 2. Landed on claude/integration this session
 PR 65 PHOTO1 (viewpoint camera, archive, intel, gear), PR 66 ONBOARD1 (teaching prompts, order confirm and undo, text size, title wording), PR 67 PHOTO2 (rendered photographs, discovery, archive marks, Siren-study save bug fixed), PR 68 Codex handoff 011 (lock warning readability). Directive commits through bde5c0e.
 
-## 3. IN FLIGHT at write time (all pushed; check current state first)
-- PR 69 Priced Shots, branch claude/priced1 (head fdb6752 at write time, integration merged in): finite film, reach rings, light prices, timing windows, in photo_pricing folders. Was re-running CI.
-- PR 70 SWEEP1, branch claude/lane-t2-sweeper (head 26d90e9): sweeper on V7 senses plus first-warning tutorial pause. Known issue: Well op 4 bare-Quietus capture fails because the shutter wakes a hunter 296 m away. Decision made: data-only fix (move the hunter's dormant post or lengthen its first-hearing delay), update the "active-sonar sweeper" sentence in docs/CURRENT_GAME_SPEC.md. Builder was working on it.
-- PR 71 Codex handoff 013 controls friction, branch claude/lane-controls-friction (head e358377).
-- Codex batch 1 to 3 on branch codex/handoffs (board: docs/codex/BOARD.md). Handoff 017 (PRIORITY) lands 69, 70, 71; 018 DEPTH1; 019 ARCH1; 020 CAMPAIGN M1; 014 challenge mode, 015 performance, 016 test list are the earlier batch.
-- Builder agents die when a session ends; their branches survive. Nothing else is running.
-
-Codex queue (22 Oct, written to last 5+ hours): 017 PRIORITY land PRs, then 014 to 020, then buffer batch 021 route map, 022 route clearance, 023 ARCH2, 024 photography audio, 025 landmarks, 026 self-play review (read-only). Board: docs/codex/BOARD.md on codex/handoffs. When two of three in a batch are DONE, write the next three.
+## 3. STATE at about 7:10 PM EDT / 23:10 UTC (update 2)
+Landed on claude/integration since the first writing: PR 69 Priced Shots, PR 70 sweeper on V7 senses (with Well hunter post fix and first-warning tutorial pause), PR 71 controls friction (all three landed by Codex under 017), PR 72 challenge mode (Codex 014, results in a separate checksummed archive, Android Back handled), PR 73 performance and leaks (Codex 015).
+IN FLIGHT: PR 74 DEPTH1 (branch claude/depth1, handoff 018, claimed by Claude): photo_depth (shallow/middle/deep photos), photo_rules (loop clock, post return clock, window check, known lane, one deep-only optional seam on op 1), all_stop (ALL STOP button in the ROUTE ring). Each module has an off switch in its table and a revert note. At write time the builder was merging PR 73 into the branch and re-running CI; I was subscribed to the PR. MERGE RULE: only when guidance and game-smoke are green on the exact head AND the head contains the current integration tip. Fallback: Codex handoff 028 lands it if the branch is idle 90+ minutes.
+BLOCKED on PR 74: handoff 016 (one test list file; Codex stops while any open PR edits the workflow), and 019, 020, 023 to 027 (preconditions). Available to Codex now: 022, 029 to 032.
+After PR 74 merges (whoever does it): (a) tell Pat to tell Codex 016 is clear; (b) mark 018 DONE on the board; (c) run the SECOND COLD REVIEW (fresh critic, real touch input, Iron Lung comparison, include the five V7 differences from docs/codex/012 and the new depth-band/all-stop/film systems; output ranked fix list to Pat); (d) next Claude builds (see section 5).
+Agents are session-bound: the DEPTH1 builder dies when the session ends; its branch survives.
 
 ## 4. Decisions made by Pat today
 Priced Shots design approved (film 8/4, optional-only fitting gating, tele cannot hide the 520 m shutter, oxygen ops 0 and 3 unchanged, Disrupt 12 s and 2 charges, wasted exposures cost film). Depth-band photos: deep oxygen 0.075/s, shutter ring varies by band, Sirens studied only from their own band, two patrol loops on ops 1 and 2, SIREN TELL deferred. True ALL-STOP for Quietus approved. Findings may shift rules small and readable. Order-confirm rule kept. First-warning tutorial pause yes. Handoff 009 taken by Claude. ARCH1 approved. Everything else Claude recommended is approved.
@@ -25,6 +23,9 @@ Priced Shots design approved (film 8/4, optional-only fitting gating, tele canno
 
 ## 6. Story and ending decisions: ANSWERED by Pat (22 Oct, yes to all four recommendations)
 True ending moves to after op 25 with a final pair of ops; ops 12 and 13 stay the fork; person findings are human survivors, marks only; ending is an annotated photo wall first. Built by handoff 027 (after 025). Narrative text stays 1 to 2 line placeholders until Pat supplies it.
+
+## 6b. Standing Pat rules added this evening
+Touch-first: Android is the primary target (48 dp, Android Back as Escape, no keyboard-only paths, keyboard fallback only; top of docs/USER_DIRECTIVES.md). Codex must push WIP to its lane branch every 30 minutes (README). Pat relays prompts to Codex by hand; Codex runs only when he pastes the prompt (docs/codex/README.md).
 
 ## 7. Where things are
 Designs and the first cold review: docs/design/ on branch codex/handoffs (COLD_REVIEW_1, DESIGN_TRADES_FITTINGS, DESIGN_DEPTH_FINDINGS, DESIGN_CAMPAIGN_DEPTH, ARCH_AUDIT_1). Codex protocol: docs/codex/README.md, PLAN_SNAPSHOT.md, BOARD.md on codex/handoffs. Old ledger (still valid for setup and tooling): docs/SESSION_LEDGER_2026-10-21.md. Setup: `export PATH=$HOME/.cache/sirens-song-toolchain/bin:$PATH; scripts/toolchain/install-godot.sh; scripts/toolchain/headless.sh --editor --import --quit`; core tests `scripts/toolchain/headless.sh --script res://tests/run_tests.gd`. GitHub tools are mcp__github__*; no gh CLI. Tags cannot be pushed from the sandbox. Merge by PR with a merge commit. A "resources still in use at exit" line fails CI. Do not commit generated .uid files integration does not track. Parked WIP branches (safe, do not delete): claude/lane-n1-calder, claude/lane-p2-economy, claude/lane-c2-wip-b, claude/future-siren-active-sonar-sweeper.
