@@ -29,9 +29,12 @@ func run():
   if dimensions.x==2520:g.fixture_safe_area=Rect2(136,0,2384,1080)
   root.add_child(g);await settle();g.set_process(false);g._start_mission(0);await settle()
   var name="cover" if dimensions.x==2520 else "inner";var h=g.mission_hud
-  var extraction=g.sim.mission.extraction;var label_origin=extraction+Vector2(-120 if extraction.y>830 else -66,66 if extraction.y>830 else 90)
+  # Frame the chart before probing a world label or tapping a distant site.
+  g.ocean.fit_chart();g._view_changed();await settle()
+  var extraction=g.sim.mission.extraction;var label_origin=extraction+Vector2(-120,-66)
   check(g.ocean.world_label_position(label_origin,"EXTRACTION",18).is_finite(),"crowded recovery keeps its world label with safe relocated placement")
   await capture(name+"-water")
+  g._focus_craft();await settle()
   var before=g.sim.snapshot();var ship=g.ocean.global_position+g.ocean.screen_position(g.sim.units[0].pos)
   await tap(ship)
   check(g.advanced_orders and g.sim.snapshot()==before,"tap craft opens contextual projection without route or spend")
@@ -56,7 +59,7 @@ func run():
   g.ocean.pan_chart(Vector2(-60,0));var camera=g.ocean.chart_camera.snapshot();await click(g.unit_buttons[1])
   check(g.sim.selected==1 and g.ocean.chart_camera.mode=="free" and g.ocean.chart_camera.snapshot()==camera,"choosing a craft preserves FREE camera intent")
   h.dismiss();g.ocean.fit_chart();await settle();before=g.sim.snapshot()
-  var site=g.sim.mission.objectives[0];await tap(g.ocean.global_position+g.ocean.screen_position(site.pos))
+  var site=g.ocean.observable_sites()[0];await tap(g.ocean.global_position+g.ocean.screen_position(site.pos))
   check(g.advanced_orders and h.page=="object" and g.sim.snapshot()==before,"briefed-object tap opens observational context without remote action")
   await capture(name+"-site")
   h.dismiss();g._focus_craft();await settle();ship=g.ocean.global_position+g.ocean.screen_position(g.sim.units[g.sim.selected].pos)
