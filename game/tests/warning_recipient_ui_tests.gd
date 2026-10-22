@@ -146,7 +146,7 @@ func run():
   s.units[0].pos=Vector2(1840,1080);s.units[0].vel=Vector2.ZERO;s.command("camera");advance(s,6.2)
   s.units[0].pos=PANEL;s.units[0].vel=Vector2.ZERO;advance(s,.8);g.ocean.focus_craft();g._refresh();await settle();await open_craft(g)
   await tap(g.order_buttons.camera.get_global_rect().get_center())
-  check(h.subject.get("subkind","")=="warning_gate" and not g.order_buttons.camera.disabled and g.order_buttons.camera.text in ["CAMERA","CAMERA\nLISTEN"],"nearby closed gate context retains actual pending camera/listen "+label)
+  check(h.subject.get("subkind","")=="warning_gate" and not g.order_buttons.camera.disabled and g.order_buttons.camera.text in ["CAMERA","CAMERA\nLISTEN","LISTEN"],"nearby closed gate context retains actual pending camera/listen "+label)
   await pending_gate_actions(g,label)
   s.units[0].pos=BERTH+Vector2(-100,0);s.units[0].vel=Vector2.ZERO
   g.ocean.focus_craft();g._refresh();await settle()

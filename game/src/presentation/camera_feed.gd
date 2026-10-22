@@ -31,7 +31,7 @@ func _ready() -> void:
 func _process(dt: float) -> void:
 	time+=dt;_vm_age+=dt;queue_redraw()
 	if sim!=null and sim.mission.has("id"):
-		var shots:Array=Photo.state(sim).shots
+		var shots:Array=Photo.peek(sim).shots
 		if shots.size()!=_shot_count:
 			if shots.size()>_shot_count and _shot_count>=0 and not _shot_seen_reset:_filed_at=time;_filed=shots.back()
 			_shot_count=shots.size();_shot_seen_reset=false
@@ -63,7 +63,7 @@ func _draw_photo(t:Dictionary) -> void:
 	var font=ThemeDB.fallback_font;var fs:=maxi(12,mini(receiver_font_size,15))
 	draw_rect(Rect2(Vector2.ZERO,size),Color("07151d"));draw_rect(Rect2(Vector2.ZERO,size),Color("6b9d9f"),false,1)
 	var picture:=Rect2(8,36,size.x-16,size.y-36-50)
-	var acc:Dictionary=Photo.state(sim).acc.get(uid,{})
+	var acc:Dictionary=Photo.peek(sim).acc.get(uid,{})
 	var key:="%d:%d"%[uid,int(t.index)]
 	if _vm_age>0.2 or key!=_vm_key or _vm.is_empty():
 		_vm_key=key;_vm_age=0.0

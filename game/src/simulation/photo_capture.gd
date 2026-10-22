@@ -29,6 +29,11 @@ static func state(sim)->Dictionary:
 	if not sim.mission.get("photo") is Dictionary:
 		sim.mission["photo"]={"shots":[],"acc":{},"set":{},"next":1,"flash":FLASH_CHARGES.duplicate(),"paths":[]}
 	return sim.mission.photo
+# Read-only view: never writes into the mission, so drawing and context queries
+# cannot change a snapshot. Writers use state().
+static func peek(sim)->Dictionary:
+	if sim.mission.get("photo") is Dictionary:return sim.mission.photo
+	return {"shots":[],"acc":{},"set":{},"next":1,"flash":FLASH_CHARGES.duplicate(),"paths":[]}
 static func applies(o:Dictionary)->bool:
 	return o.get("subject") is Dictionary and not o.subject.is_empty()
 static func default_subject(facing:float=0.0,size:float=70.0)->Dictionary:
@@ -52,17 +57,20 @@ static func optics(sim,uid:int)->Dictionary:
 	if Equipment.has(fit,uid,"low_light_back"):o.integrate=0.42
 	return o
 static func settings(sim,uid:int)->Dictionary:
+	var st=peek(sim)
+	return st.set[uid] if st.set.has(uid) else {"mode":"wide","flash":false,"focus":""}
+static func _writable_settings(sim,uid:int)->Dictionary:
 	var st=state(sim)
 	if not st.set.has(uid):st.set[uid]={"mode":"wide","flash":false,"focus":""}
 	return st.set[uid]
 static func reach(sim,uid:int,o:Dictionary=Dictionary())->float:
 	return float(optics(sim,uid).range)
 static func flash_left(sim,uid:int)->int:
-	var charges=state(sim).flash
+	var charges=peek(sim).flash
 	return int(charges[uid]) if uid>=0 and uid<charges.size() else 0
 # Player framing choices, spent nothing until an exposure begins.
 static func set_frame(sim,uid:int,args:Dictionary)->bool:
-	var cfg=settings(sim,uid);var op=optics(sim,uid)
+	var cfg=_writable_settings(sim,uid);var op=optics(sim,uid)
 	if args.has("mode"):
 		if args.mode not in ["wide","tight"]:return false
 		cfg.mode=args.mode
@@ -88,7 +96,7 @@ static func _window(f:Dictionary,clock:float)->bool:
 	return fposmod(clock+float(w[2]),float(w[0]))<float(w[1])
 static func seen_before(sim,oi:int)->Array:
 	var ids=[]
-	for shot in state(sim).shots:
+	for shot in peek(sim).shots:
 		if int(shot.obj)==oi:
 			for id in shot.features:
 				if id not in ids:ids.append(id)
@@ -186,7 +194,7 @@ static func begin(sim,uid:int,oi:int)->void:
 	if bool(cfg.flash) and optics(sim,uid).flash and flash_left(sim,uid)>0:
 		st.flash[uid]=int(st.flash[uid])-1;st.acc[uid].flash=true
 static func noise_radius(sim,uid:int)->float:
-	var acc=state(sim).acc.get(uid,{})
+	var acc=peek(sim).acc.get(uid,{})
 	return 760.0 if acc.get("flash",false) else 520.0
 # Advances one step. False while the craft is still turning onto the subject.
 static func tick(sim,uid:int,o:Dictionary,dt:float)->bool:
@@ -209,7 +217,7 @@ static func tick(sim,uid:int,o:Dictionary,dt:float)->bool:
 	st.acc[uid]=acc
 	return true
 static func progress_text(sim,uid:int,o:Dictionary)->String:
-	var f=frame(sim,uid,o,float(state(sim).acc.get(uid,{}).get("t",0.0)))
+	var f=frame(sim,uid,o,float(peek(sim).acc.get(uid,{}).get("t",0.0)))
 	if f.pivot>0.0:return "TURNING onto subject · %d° off"%roundi(rad_to_deg(f.pivot))
 	return "SHARP %d%% · LIGHT %d%% · CLARITY %d%%"%[roundi(f.sharp*100),roundi(f.light*100),roundi(f.clarity*100)]
 # Resolves the exposure: appends a structured observation and updates the objective.
