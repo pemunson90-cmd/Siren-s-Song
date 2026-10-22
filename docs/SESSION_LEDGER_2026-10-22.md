@@ -8,6 +8,8 @@ STANDING DELEGATION: Pat approved building the game to spec on Claude's understa
 ## 2. Landed on claude/integration this session
 PR 65 PHOTO1 (viewpoint camera, archive, intel, gear), PR 66 ONBOARD1 (teaching prompts, order confirm and undo, text size, title wording), PR 67 PHOTO2 (rendered photographs, discovery, archive marks, Siren-study save bug fixed), PR 68 Codex handoff 011 (lock warning readability). Directive commits through bde5c0e.
 
+## 3a. UPDATE 7:30 PM EDT: PR 74 MERGED as bc95d8a (all checks green, head contained integration code tip). 016 is unblocked; the cold review 2 is running. Read section 3 below as history.
+
 ## 3. STATE at about 7:10 PM EDT / 23:10 UTC (update 2)
 Landed on claude/integration since the first writing: PR 69 Priced Shots, PR 70 sweeper on V7 senses (with Well hunter post fix and first-warning tutorial pause), PR 71 controls friction (all three landed by Codex under 017), PR 72 challenge mode (Codex 014, results in a separate checksummed archive, Android Back handled), PR 73 performance and leaks (Codex 015).
 IN FLIGHT: PR 74 DEPTH1 (branch claude/depth1, handoff 018, claimed by Claude): photo_depth (shallow/middle/deep photos), photo_rules (loop clock, post return clock, window check, known lane, one deep-only optional seam on op 1), all_stop (ALL STOP button in the ROUTE ring). Each module has an off switch in its table and a revert note. At write time the builder was merging PR 73 into the branch and re-running CI; I was subscribed to the PR. MERGE RULE: only when guidance and game-smoke are green on the exact head AND the head contains the current integration tip. Fallback: Codex handoff 028 lands it if the branch is idle 90+ minutes.

@@ -18,13 +18,13 @@ Setup: `export PATH=$HOME/.cache/sirens-song-toolchain/bin:$PATH; scripts/toolch
 
 ## 3. State at 23:20 UTC 22 Oct
 claude/integration tip: check `git log -1 origin/claude/integration`. Landed today: PRs 65 PHOTO1, 66 ONBOARD1, 67 PHOTO2, 68 lock warning, 69 Priced Shots, 70 sweeper on V7 senses, 71 controls friction, 72 challenge mode, 73 performance.
-OPEN: PR 74 DEPTH1 (branch claude/depth1, handoff 018, Claude's): depth-band photos, findings displays, ALL STOP. game-smoke was re-running on head f2278c3 (merged with PR 73). Merge when green per section 2. Fallback: Codex handoff 028 lands it if the branch is idle 90+ minutes.
-Waiting on PR 74: handoffs 016 (test list; Codex stops while any open PR edits the workflow file), 019, 020, 023 to 027. Available to Codex now: 022, 029, 030, 031, 032.
+MERGED 23:30 UTC: PR 74 DEPTH1 (bc95d8a): depth-band photos (photo_depth), timing aids (photo_rules), ALL STOP (all_stop). Handoffs 018 and 028 are DONE. No open Claude PRs. Second cold review was started at 23:35 UTC (see section 4 item 2).
+Now unblocked for Codex: 016, 019, 020, 022 to 027, 029 to 033 (021 after 020). Pat must tell Codex that 016 is clear.
 Parked WIP branches (safe, do not delete): claude/lane-n1-calder, claude/lane-p2-economy, claude/lane-c2-wip-b, claude/future-siren-active-sonar-sweeper (original active-sonar sweeper, a possible hard mode).
 Design documents (committed on branch codex/handoffs under docs/design/): COLD_REVIEW_1, DESIGN_TRADES_FITTINGS (Priced Shots), DESIGN_DEPTH_FINDINGS, DESIGN_CAMPAIGN_DEPTH, ARCH_AUDIT_1.
 
 ## 4. Next actions, in order (about the next 5 hours)
-1. Land PR 74 (watch checks; builder may be gone; use handoff 028 procedure). After it merges: mark 018 DONE on the board and tell Pat "Codex: 016 is clear".
+1. (done) PR 74 landed. 018 marked DONE on the board.
 2. SECOND COLD REVIEW (Claude): fresh critic agent with no build notes, real touch input, played from mission one, judged against Iron Lung and a publishable AAA stealth game; questions: is photography compelling and central, are the trades (film, light, band, all-stop) readable on a phone, can a new player discover solutions, any softlocks or save errors, plus the five V7 differences in docs/codex/012-v7-parity-gap-report.md Completion. Output a ranked fix list to Pat and the scratchpad; do not add content until it is read. Compare with Codex's own review (handoff 026) when done.
 3. Next Claude builds, one at a time, each its own branch and PR with a designated builder agent (briefs follow the pattern of earlier ones: read docs/USER_DIRECTIVES.md top, the design doc, only needed source; modular; push WIP often): (a) from the cold review's top finding; (b) SIREN TELL after sweeper settles (needs Pat); (c) sweeper lane walking via authored patrol points; (d) a band-guarded subject for the pressure sleeve if DEPTH1's single seam proves thin.
 4. Watch Codex: each time two of the three handoffs in a batch show DONE on docs/codex/BOARD.md, write the next three (see BOARD for numbering; designs in docs/design/). Keep at least 5 hours of OPEN work ahead of Codex.
