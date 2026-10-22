@@ -31,7 +31,7 @@ Follow the handoff exactly. It names the branch to create, the files you may edi
 - Branch from the base the handoff names (normally `origin/claude/integration`, fetched fresh).
 - Edit only your owned files. If you need a file outside them, do not touch it; write it in your completion note.
 - Mission briefings and story text are short placeholders only, enough to name the tasks. Gameplay, layout and UI come first; never write long story text. Never change combat, detection or damage rules unless the handoff says so. No em dashes in any text you add.
-- Before you push, run import, the core tests, and every CI scenario: `bash docs/codex/run_ci_scenarios.sh` from the repo root (copy it out of the `codex/handoffs` branch). Every line must read `ok`. It flags any script error too. Do not skip, loosen or delete tests to get green.
+- Before you push, run import, the core tests, and only the scenarios for the area you touched. Do NOT run the full scenario list locally (Pat, 22 Oct): GitHub's game-smoke runs it on the pull request and is the gate. If CI goes red, fix and push again. Never skip, loosen or delete tests to get green. Run the full list locally only if a handoff says so.
 - Push your lane branch and open a pull request into `claude/integration`. Wait for GitHub's `guidance` and `game-smoke` checks. Claude merges. You do not merge.
 - Setup if needed: `export PATH=$HOME/.cache/sirens-song-toolchain/bin:$PATH; scripts/toolchain/install-godot.sh; scripts/toolchain/headless.sh --editor --import --quit`
 
