@@ -1,9 +1,9 @@
 # Handoff 010: land the combat lane (fix the five failing authored-route tests)
 
-Status: CLAIMED
+Status: DONE
 Claimed at: 2026-10-22 01:05:01 UTC
 Claimed by: codex
-Finished at:
+Finished at: 2026-10-21 10:37 PM Eastern (PR 64 merged by Claude)
 
 Precondition: none. Replaces blocked 005. Read the Completion section of 005 first; it is your own evidence.
 Codex may merge: yes, after green guidance and game-smoke on the exact head and a mergeable PR.
