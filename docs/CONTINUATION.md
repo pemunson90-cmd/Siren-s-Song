@@ -1,3 +1,5 @@
+**CURRENT (22 Oct, 7:20 PM EDT): the single entry point is docs/RESUME.md. Open PR 74 (DEPTH1); Codex queue on branch codex/handoffs (BOARD.md).**
+
 **Codex continuing (22 Oct):** PRs 69 and 70 landed; the controls fix is included on this branch. Next: handoffs 014 to 020 on codex/handoffs. Current context is in docs/SESSION_LEDGER_2026-10-22.md.
 
 # Siren’s Song · Iron Choir candidate
