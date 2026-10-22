@@ -149,7 +149,8 @@ func _initialize():
 	copy.paused=false;run(copy,3)
 	check(copy.mission.objectives[0].captured,"restored exposure finishes")
 	# 12 / Sirens can be studied: movement is recorded as an observed path.
-	var st=Sim.new();st.start(0);st.units[1].alive=false;st.units[2].alive=false
+	# Keep the single studied actor for these matched front/back optics fixtures.
+	var st=Sim.new();st.start(0);st.sirens=st.sirens.slice(0,1);st.units[1].alive=false;st.units[2].alive=false
 	var guard=st.sirens[0];guard.pos=Vector2(780,560);guard.stun=100.0;guard.angle=0.0
 	put(st,0,Vector2(900,560),PI);run(st,0.4)
 	var ctx=st.camera_context()
@@ -160,7 +161,7 @@ func _initialize():
 	check(so.has("siren") and so.captured and last(st).type=="patroller","studying a Siren files its own record")
 	check("array" in last(st).features and last(st).path.size()>=4,"the front view resolves its array, a long watch records its movement")
 	check(st.mission.photo.paths.size()==1,"the observed path is kept for the chart")
-	var behind=Sim.new();behind.start(0);behind.units[1].alive=false;behind.units[2].alive=false
+	var behind=Sim.new();behind.start(0);behind.sirens=behind.sirens.slice(0,1);behind.units[1].alive=false;behind.units[2].alive=false
 	behind.sirens[0].pos=Vector2(780,560);behind.sirens[0].stun=100.0;behind.sirens[0].angle=PI
 	put(behind,0,Vector2(900,560),PI);run(behind,0.4);behind.command("camera");run(behind,9)
 	check("array" not in last(behind).features,"from behind its array is not visible")

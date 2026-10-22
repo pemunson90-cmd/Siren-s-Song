@@ -94,7 +94,8 @@ static func counterpolicies(t):
   {"id":1,"enemy":1,"point":Vector2(1690,1340),"band":1},
   {"id":2,"enemy":0,"point":Vector2(760,340),"band":2},
   {"id":3,"enemy":1,"point":Vector2(1410,940),"band":1},
-  {"id":4,"enemy":1,"point":Vector2(860,760),"band":2},
+  # Keep this staged emitter near the Well hunter's relocated, navigable post.
+  {"id":4,"enemy":1,"point":Vector2(1340,840),"band":2},
   {"id":5,"enemy":0,"point":Vector2(950,400),"band":2}
  ]
  for example in cases:
