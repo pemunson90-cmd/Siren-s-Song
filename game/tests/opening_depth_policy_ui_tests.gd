@@ -22,6 +22,11 @@ func go(g,id,point,drive=""):
  if not g.sim.paused:await click(g.pause_button)
  g._refresh();await settle()
  check(g.sim.units[id].alive and (g.sim.units[id].pos.distance_to(point)<18 or g.sim.outcome=="won"),"physical route arrives in actual authored band")
+const Patient=preload("res://tests/patient_play.gd")
+func lull(g,id,up,target,then=Vector2.INF,at=Vector2.INF):
+ for n in 40:
+  if Patient.rehearsal_survives(g.sim,id,up,target,then,at):return
+  await run_seconds(g,2.)
 func band(g,id,wanted):await shift(g,id,g.sim.units[id].band<wanted)
 func take(g,id,target):
  await craft(g,id);await click(g.order_buttons.camera);g.mission_hud.dismiss();await run_seconds(g,g.sim.mission.objectives[target].get("duration",4.)+.3)
@@ -75,25 +80,23 @@ func arc_blackwater(g):
  await craft(g,1);check(g.mission_hud.extra.blackwater_handoff.disabled,"physical carrier menu explains unavailable cross-band transfer")
  await band(g,1,2);await craft(g,1);await click(g.mission_hud.extra.blackwater_handoff)
  check(0 in g.sim.mission.blackwater_delivery.aboard,"actual transfer touch delivers physical raw buffer")
- await go(g,0,Vector2(720,540));await band(g,0,1);await go(g,0,Vector2(1360,340));await take(g,0,1)
- await band(g,0,2)
- for p in [Vector2(1400,540),Vector2(1120,540),Vector2(1120,720),Vector2(760,720),g.sim.mission.extraction]:await go(g,0,p)
- await band(g,0,1)
+ await go(g,0,Vector2(720,540));await lull(g,0,1,1);await band(g,0,1);await go(g,0,Vector2(1360,340));await take(g,0,1)
+ for p in [Vector2(1120,720),Vector2(760,720),g.sim.mission.extraction]:await go(g,0,p)
 func arc_foundry(g):
  await band(g,0,2);await go(g,0,Vector2(960,500))
  await go(g,1,Vector2(1090,580),"silent");await take(g,1,0);await plot(g,1,Vector2(1080,820));await mode(g,"cruise")
  await go(g,0,Vector2(1060,580));await go(g,0,Vector2(1060,820));await band(g,0,1);await go(g,0,Vector2(1110,820));await take(g,0,1);await go(g,0,g.sim.mission.extraction)
 func arc_well(g):
  await band(g,0,0);await go(g,0,Vector2(360,590));await go(g,0,Vector2(800,390));await band(g,0,1);await take(g,0,0)
- await band(g,0,2);await go(g,0,Vector2(1170,400));await band(g,0,1);await take(g,0,1)
- await band(g,0,2);await go(g,0,Vector2(1150,720));await go(g,0,Vector2(560,850));await band(g,0,1);await go(g,0,Vector2(620,835));await take(g,0,2);await go(g,0,g.sim.mission.extraction)
+ await band(g,0,2);await go(g,0,Vector2(1170,400));await lull(g,0,1,1,Vector2(1000,650));await band(g,0,1);await take(g,0,1)
+ await band(g,0,2);await go(g,0,Vector2(1000,650));await go(g,0,Vector2(560,850));await go(g,0,Vector2(620,835));await lull(g,0,1,2);await band(g,0,1);await take(g,0,2);await band(g,0,2);await go(g,0,g.sim.mission.extraction);await band(g,0,1)
  check(g.sim.mission.well_reference.is_empty() and g.sim.mission.well_observation.is_empty(),"physical quiet route retains honest unverified Well archive")
 func arc_song(g):
  await band(g,0,2)
  for p in [Vector2(360,650),Vector2(950,400),Vector2(1180,40)]:await go(g,0,p)
  await band(g,0,1);await take(g,0,0);await band(g,0,0)
  for p in [Vector2(1180,400),Vector2(1180,760),Vector2(1250,870)]:await go(g,0,p)
- await band(g,0,1);await take(g,0,1);await go(g,0,Vector2(690,780));await take(g,0,2);await go(g,0,g.sim.mission.extraction)
+ await band(g,0,1);await take(g,0,1);await go(g,0,Vector2(690,780));await take(g,0,2);await band(g,0,2);await go(g,0,g.sim.mission.extraction);await band(g,0,1)
 func run():
  var only=-1
  for arg in OS.get_cmdline_user_args():

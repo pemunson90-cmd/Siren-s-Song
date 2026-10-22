@@ -64,18 +64,18 @@ func journey(g,active,shape):
  if active:
   await shift(g,1,true);await plot(g,1,Vector2(1000,500));await craft(g,0);g.mission_hud.dismiss()
  else:await shift(g,0,true)
- for point in ([Vector2(360,650),Vector2(560,480),Vector2(760,620),Vector2(1190,490)] if not active else [Vector2(760,620),Vector2(1190,490)]):
+ for point in ([Vector2(360,650),Vector2(560,480),Vector2(760,620),Vector2(1190,490)] if not active else [Vector2(760,620),Vector2(940,570),Vector2(1190,490)]):
   await travel(g,0,point)
   if not active and point.x==560:await capture(str(shape.x)+"-quiet-under-shelf")
-  if active and point.x==760:
+  if active and point.x==940:
    await emp(g);await acoustics(g,1)
    await click(g.mission_hud.extra.sonar_power);await click(g.mission_hud.extra.sonar_emit);g.mission_hud.dismiss();await run_seconds(g,3)
    await acoustics(g,1);await click(g.mission_hud.extra.sonar_history);await capture(str(shape.x)+"-received-scout-history");g.mission_hud.dismiss()
  if not active:await shift(g,0,false)
  await craft(g,0);await click(g.order_buttons.camera);await run_seconds(g,4.2)
  check(g.sim.all_records(),"physical input earns the spire record")
+ await emp(g)
  if not active:await shift(g,0,true)
- else:await emp(g)
  for point in [Vector2(760,650),Vector2(360,750),Vector2(140,800)]:await travel(g,0,point)
  if not active:await shift(g,0,false)
  await run_seconds(g,.2)

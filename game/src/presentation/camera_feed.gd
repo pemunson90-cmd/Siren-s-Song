@@ -6,6 +6,7 @@ var foundry=preload("res://assets/structures/foundry.png")
 const ReceiverScene=preload("res://src/presentation/receiver_scene.gd")
 const PHOSPHOR=Color("8cdcd3")
 const PhotoView=preload("res://src/presentation/photo_view.gd")
+const Priced=preload("res://src/presentation/photo_pricing/photo_pricing_overlay.gd")
 const Photo=preload("res://src/simulation/photo_capture.gd")
 var _vm:Dictionary={}
 var _shot_count:=-1
@@ -70,6 +71,7 @@ func _draw_photo(t:Dictionary) -> void:
 		_frame=Photo.frame(sim,uid,o,float(acc.get("t",0.0)),true)
 		_vm=PhotoView.from_frame(_frame,"siren" if o.has("siren") else "site",str(o.get("optical",o.get("site_id",""))),str(o.subject.get("type","")) if o.has("siren") else "")
 	PhotoView.draw(self,picture,_vm,time,fs)
+	Priced.draw_viewfinder(self,sim,uid,o,picture,fs,_frame)
 	var since:=time-_filed_at
 	if since>=0.0 and since<4.6 and not _filed.is_empty():
 		# Shutter: the iris shuts, the lamp pops, then the plate comes up out of the dark.

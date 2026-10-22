@@ -1,3 +1,5 @@
+**Codex continuing (22 Oct):** PRs 69 and 70 landed; the controls fix is included on this branch. Next: handoffs 014 to 020 on codex/handoffs. Current context is in docs/SESSION_LEDGER_2026-10-22.md.
+
 # Siren’s Song · Iron Choir candidate
 22 Oct: Iron Choir landed (PR63). Identity correction: photographic recon is a core pillar (docs/PHOTO_RECON.md). Order: Codex 010/009, PHOTO1 milestone, cold review. Live state: docs/RESUME.md.
 Read AGENTS.md, USER_DIRECTIVES.md and CURRENT_GAME_SPEC.md first.

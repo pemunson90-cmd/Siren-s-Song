@@ -510,12 +510,15 @@ func _briefing(index: int) -> void:
 	var briefing=Simulation.Missions.make(index,_launch_context(index))
 	_menu_text("%02d / %s"%[index+1,briefing.title.to_upper()],30)
 	var goal=OnboardingText.goal(index)
+	var photo_problems:String=preload("res://src/simulation/photo_pricing/photo_pricing_briefing.gd").line(index,fitted_equipment)
 	if not goal.is_empty():
 		# Opening operations: a goal and one danger. Rules live in the optional field manual.
 		_menu_text(goal,20)
+		if not photo_problems.is_empty():_menu_text(photo_problems,17)
 		_button(panel_box,"FIELD MANUAL · full rules and orders",func(): _reference(index),"manual")
 	else:
 		_menu_text(briefing.brief,20)
+		if not photo_problems.is_empty():_menu_text(photo_problems,17)
 		if ExpeditionOperations.briefing(self,index):pass
 		else:
 			_menu_text(_orders_text(briefing),17)

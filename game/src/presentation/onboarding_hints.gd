@@ -1,8 +1,10 @@
 extends Control
 # One-verb-at-a-time prompts in the opening operations. Each appears once per campaign, at the
-# moment it matters. A prompt never pauses, blocks or auto-advances play; GOT IT only hides it.
+# moment it matters. A prompt never blocks or auto-advances play; GOT IT only hides it. The one
+# exception is the first Siren warning in operations 1 to 3, which pauses the game once.
 const Text = preload("res://src/campaign/onboarding_text.gd")
-const SWEEP := ["SWEEP WINDUP", "ACTIVE SWEEP", "RETURN CHARGE"]
+const SWEEP := [preload("res://src/simulation/sweeper_senses.gd").WARNING]
+const PricedHints = preload("res://src/presentation/photo_pricing/photo_pricing_hints.gd")
 var host
 var panel: PanelContainer
 var label: Label
@@ -38,9 +40,14 @@ func _sweep_cue() -> String:
 		var bearing := fposmod(rad_to_deg(atan2(row.direction.x, -row.direction.y)), 360.)
 		return "Now: %03d degrees, heard %.1fs ago." % [roundi(bearing) % 360, sim.elapsed - row.time]
 	return ""
+# A Siren warning is on screen: a lock or beam on one of our craft, or a heard sweeper cue.
+func _warning_now() -> bool:
+	if not host.ocean.contact_entries().filter(func(entry): return entry.urgent).is_empty(): return true
+	return not _sweep_cue().is_empty()
 func _wanted() -> String:
 	var sim = host.sim; var op: int = sim.mission.get("id", -1)
 	if sim.mission.get("id", -1) > Text.MAX_OPERATION or not sim.outcome.is_empty(): return ""
+	if not seen("warning") and Text.applies("warning", op) and _warning_now(): return "warning"
 	var cue := _sweep_cue()
 	if not cue.is_empty() and not seen("sweep") and Text.applies("sweep", op): extra_line = cue; return "sweep"
 	if not seen("noise") and Text.applies("noise", op) and sim.selected == 0 and sim.motion_radius(0) > 180: return "noise"
@@ -48,7 +55,7 @@ func _wanted() -> String:
 	if not seen("move") and Text.applies("move", op) and sim.elapsed < 1.0 and not any_route: return "move"
 	if not seen("pause") and Text.applies("pause", op) and not sim.paused and sim.elapsed > 0.5 and sim.elapsed < 12.0: return "pause"
 	if not seen("drone") and Text.applies("drone", op) and seen("move") and seen("pause") and sim.elapsed > 4.0 and sim.units[1].route.is_empty() and sim.units[2].route.is_empty() and not sim.paused: return "drone"
-	return ""
+	return PricedHints.wanted(sim, op, seen)
 func refresh(bounds: Vector2, h: float, font: int, top: float) -> void:
 	var sim = host.sim
 	if host.screen != "mission" or host.advanced_orders or host.decoy_armed or host.knock_armed:
@@ -56,8 +63,14 @@ func refresh(bounds: Vector2, h: float, font: int, top: float) -> void:
 	# A step the player has already taken retires its own prompt.
 	if current == "move" and sim.units.any(func(u): return not u.route.is_empty()): dismiss()
 	if current == "drone" and (not sim.units[1].route.is_empty() or not sim.units[2].route.is_empty()): dismiss()
+	if current.begins_with("priced_") and PricedHints.stale(sim, current): dismiss()
 	var wanted := _wanted()
-	if not wanted.is_empty() and wanted != current and (current.is_empty() or wanted in ["sweep", "noise"]): show_hint(wanted)
+	if not wanted.is_empty() and wanted != current and (current.is_empty() or wanted in ["warning", "sweep", "noise"]):
+		show_hint(wanted)
+		if wanted == "warning":
+			# Once per campaign: stop time so the player can read it. The sweep prompt would repeat this lesson.
+			if not seen("sweep"): host.hints_seen.append("sweep")
+			sim.paused = true; host.call_deferred("_refresh")
 	if current == "sweep" and extra_line.is_empty(): extra_line = _sweep_cue()
 	if current.is_empty():
 		panel.hide(); return

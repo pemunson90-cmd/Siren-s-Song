@@ -3,6 +3,7 @@ const Depth=preload("res://src/simulation/depth_bands.gd")
 const Equipment=preload("res://src/equipment/equipment_catalog.gd")
 const Upgrades=preload("res://src/equipment/craft_upgrades.gd")
 const Chart=preload("res://src/simulation/terrain_chart.gd")
+const Sweeper=preload("res://src/simulation/sweeper_senses.gd")
 const SOUND_SPEED=300.0 # Tactical time scale, bounded two-way travel; not calibrated ocean acoustics.
 const MAX_HISTORY=72
 const POWERS={"low":{"radius":440.,"cost":.4,"signature":750.},"high":{"radius":720.,"cost":1.2,"signature":1300.}}
@@ -90,8 +91,8 @@ static func advance(sim,dt):
   for id in sim.sirens.size():
    var enemy=sim.sirens[id]
    if u.pos==enemy.pos:continue
-   # Propulsion and genuine sweeper emission, never fabricated ghosts.
-   var emission=900.0 if enemy.get("sweep",{}).get("emitting",0)>0 else 650.0 if not enemy.get("sweep",{}).get("strike",{}).is_empty() else 350.0 if enemy.get("sweep",{}).get("charge",0)>0 else 510.0
+   # Propulsion only, never fabricated ghosts. No Siren emits sonar.
+   var emission=510.0
    var industry=enemy.get("type","") in ["interceptor","warden"]
    if industry:emission=450. if enemy.industry.phase=="windup" else 510. if enemy.industry.phase=="burst" else 110.
    var network=enemy.get("type","") in ["buoy","relay"]
@@ -100,7 +101,7 @@ static func advance(sim,dt):
    if path.is_empty():continue
    var direction=u.pos.direction_to(path.points[1])
    var confidence=clampf((path.strength-1.)*.45,.12,.85)
-   var row={"station":station,"enemy":id,"origin":u.pos,"direction":direction,"time":sim.elapsed,"band":-1,"confidence":confidence,"tone":enemy.acoustic_tone,"classification":("ACTIVE SWEEP" if enemy.get("sweep",{}).get("emitting",0)>0 else "RETURN CHARGE" if not enemy.get("sweep",{}).get("strike",{}).is_empty() else "SWEEP WINDUP" if enemy.get("sweep",{}).get("charge",0)>0 else "MACHINERY" if confidence<.5 else "PROPULSION"),"direct":path.direct,"kind":"bearing"}
+   var row={"station":station,"enemy":id,"origin":u.pos,"direction":direction,"time":sim.elapsed,"band":-1,"confidence":confidence,"tone":enemy.acoustic_tone,"classification":(Sweeper.WARNING if enemy.get("type","")=="sweeper" and enemy.get("mode","")=="INVESTIGATE" else "MACHINERY" if confidence<.5 else "PROPULSION"),"direct":path.direct,"kind":"bearing"}
    if industry:
     row.classification=("BURST WINDUP" if enemy.type=="interceptor" else "PRESSURE CHARGE") if enemy.industry.phase=="windup" else "COMMITTED BURST" if enemy.industry.phase=="burst" else "STATION TONE"
    if network:
@@ -124,7 +125,7 @@ static func advance(sim,dt):
      if fix==null or fix.distance_to(u.pos)>510 or (fix-u.pos).dot(direction)<0:continue
      # Independent rays support an uncertain fix, never live tracking.
      sim.sonar.fixes[id]={"pos":fix,"time":sim.elapsed,"confidence":minf(confidence,previous.confidence),"band":-1}
-   if row.classification=="ACTIVE SWEEP" and not sim.sonar.history.any(func(old):return old.enemy==id and old.station==station and old.classification=="ACTIVE SWEEP" and sim.elapsed-old.time<2.):
+   if row.classification==Sweeper.WARNING and not sim.sonar.history.any(func(old):return old.enemy==id and old.station==station and old.classification==Sweeper.WARNING and sim.elapsed-old.time<4.):
     sim.events.append({"type":"sweep_received","receiver":station,"direction":direction,"time":sim.elapsed})
    _remember(sim,row)
  for id in sim.sonar.fixes.keys():

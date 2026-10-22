@@ -93,6 +93,7 @@ jobs:
           done <<'UI_SCENARIOS'
           runtime_tests|RUNTIME
           onboarding_tests|ONBOARDING
+          siren_warning_pause_tests|SIREN WARNING PAUSE
           fleet_instruments_ui_tests|FLEET INSTRUMENTS UI
           fleet_ring_ui_tests|FLEET RING UI
           campaign_instruments_ui_tests|CAMPAIGN INSTRUMENT UI
@@ -171,6 +172,8 @@ jobs:
           photo_capture_ui_tests|PHOTO CAPTURE UI
           photo_study_save_tests|PHOTO STUDY SAVE
           photo_discovery_tests|PHOTO DISCOVERY
+          photo_pricing_tests|PHOTO PRICING
+          photo_pricing_ui_tests|PHOTO PRICING UI
           UI_SCENARIOS
       - name: Docs-only change; no Godot run
         if: steps.changes.outputs.game == 'false'
