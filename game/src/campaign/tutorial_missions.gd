@@ -1,20 +1,20 @@
 extends RefCounted
 const TITLES = ["Shelf Signal", "Split Channel", "Blackwater Relay", "Cold Foundry", "The Listening Well", "Siren's Song"]
 const BRIEFS = [
-	"A repeating signal rises from the shelf. Photograph the listening spire, then bring Quietus home. Your charts show rock, not what waits behind it. Sonar reveals water but announces your position.",
-	"Two channels. Two witnesses. Photograph the separated WEST and EAST relays. Bring Quietus to the sheltered UPLINK ANCHOR and use CAMERA / LINK to combine their records. Drones travel faster and can expose a relay while the submarine moves. Losing them leaves a longer solo-sub approach. Return with the combined archive.",
-	"The signal is a conversation. Blackwater absorbs passive returns. Settle within passive reach and SAMPLE the REQUEST and REPLY relays. Each packet describes its partner. Drones hear farther; Quietus can recover either record if they are lost. Sonar may solicit a local answer, but the ocean hears your emission. Bring the exchange home.",
-	"Enter from the western shelf. Our recovery buoy lies beyond the southern factory wall. First image the FURNACE VENT, then the DEPARTURE CRADLE. The basalt spine offers shelter; the industrial perimeter does not. Station guards hold the furnace and recovery channel. A live decoy can draw them out; they return when its signal ends. Cameras may provoke a carrier response. Plan Quietus’ passage before exposing the second record. Drones can take either photograph; the submarine remains your fallback.",
-	"The well is listening to us. Collect three records from its circumference. A fast responder waits in the inner water. Noise draws it out; broken sight leaves it searching the last heard or seen position. Break sight before its beam resolves. Silence is a route, too.",
-	"The transmission crown faces the trench; outbound wakes point deeper, away from us. Photograph both to separate their meanings. Bring Quietus through the southern basalt lee to the LEE RECEIVER and use CAMERA / LISTEN for six quiet seconds. Only the submarine carries the low-frequency hydrophones needed to resolve the packet. Drones can scout the exposed crown and wakes while Quietus moves under cover; the submarine can take either image if they are lost. Return to the western buoy with what you heard. Command will ask for targets. Bring evidence instead."
+	"Corran Bank's beacon is still pinging from the shelf. Photograph the signal spire, then bring Quietus home. Your charts show rock, not what waits behind it. Sonar shows you the water and tells everything in it where you are.",
+	"Two seabed transponders, two halves of the rig's log. Photograph the WEST and EAST relays. Bring Quietus to the covered UPLINK ANCHOR and use CAMERA / LINK to join their records. Drones are faster and can expose a relay while the submarine moves. Lose them and the submarine goes the long way alone. Return with the joined log.",
+	"The two relays still trade packets. Blackwater swallows passive returns. Settle within passive reach and SAMPLE the REQUEST and REPLY relays. Drones hear farther; Quietus can recover either record if they are lost. Sonar can make a relay answer, but everything nearby hears the ping. Bring the exchange home.",
+	"Enter from the western shelf. Our recovery buoy is past the southern plant wall. Image the FURNACE VENT first, then the LAUNCH CRADLE. The basalt spine gives cover; the plant perimeter does not. Siren sentinels hold the furnace vent and the recovery channel. A live decoy draws them out; they return when it stops. Cameras can draw a response. Plan Quietus' route before you expose the second record. Drones can take either photograph; the submarine is your fallback.",
+	"The well records what it hears. Collect three records from its rim. A fast responder waits in the inner water. Noise draws it out; when sight breaks it searches the last place it heard or saw you. Break sight before its beam resolves. Silence is a route too.",
+	"The transmitter crown faces the trench; the wake lines run deeper, away from us. Photograph both. Bring Quietus through the southern basalt lee to the LEE RECEIVER and use CAMERA / LISTEN for six quiet seconds. Only the submarine carries the low-frequency hydrophones for this packet. Drones can scout the exposed crown and wakes while Quietus moves under cover; the submarine can take either image if they are lost. Return to the western buoy with what you heard."
 ]
 const RECORDS = [
-	"A manufactured pulse. Something beneath the shelf is counting the seconds between our pings.",
-	"The relays exchange corrections. Their network is learning the shape of our instruments.",
-	"The carrier contains ocean temperatures from before humans existed. This installation has been waiting.",
-	"No weapons leave the furnaces. The machine is constructing vessels for a journey into deeper water.",
-	"Our engine note appears in the next transmission. They have heard the lone pilot inside Quietus.",
-	"The final packet describes a fracture below the mantle. The Sirens are leaving. Their song asks us to listen."
+	"Corran Bank's emergency beacon, still on battery. Under it the broken drill string rings each time the swell moves the wreck.",
+	"Both transponders logged the night of the strike. Their clocks agree on the moment the riser parted.",
+	"The reply is the driller's log. The last entry is a pressure reading, then nothing.",
+	"The furnace vent feeds a line of open steel frames to the south. All of it is still warm.",
+	"Our engine note comes back in the well's next transmission.",
+	"The packet is a list of bearings, one for every loud site on this coast. Two of them still make noise."
 ]
 static func make(i: int) -> Dictionary:
 	if i<0 or i>=TITLES.size():return {}
@@ -44,23 +44,23 @@ static func make(i: int) -> Dictionary:
 		for n in 2:
 			objectives[n].name=["REQUEST RELAY","REPLY RELAY"][n];objectives[n]["kind"]="exchange";objectives[n]["duration"]=2.0;objectives[n]["replay_until"]=0.0
 			objectives[n]["optical"]=["blackwater_request","blackwater_reply"][n]
-		objectives[0]["evidence"]="REPLY HANDSHAKE: settle and SAMPLE 2s within passive reach. For standoff, settle first, emit SONAR under 240m with a clear line, then SAMPLE 2s during its 3s reply. The western request asks its eastern partner for a missing ocean-temperature archive."
-		objectives[1]["evidence"]="ANCIENT OCEAN: the eastern reply carries temperature strata older than humanity. Its header identifies the requested climate archive. The REQUEST uses the same handshake: settle within passive reach and SAMPLE 2s, or settle, SONAR under 240m with a clear line, then SAMPLE during the 3s local replay. Either packet can be recovered first."
+		objectives[0]["evidence"]="REPLY HANDSHAKE: settle and SAMPLE 2s within passive reach. For standoff, settle first, emit SONAR under 240m with a clear line, then SAMPLE 2s during its 3s reply. The western unit asks its eastern partner for the log it lost when the riser parted."
+		objectives[1]["evidence"]="DRILLER'S LOG: the eastern reply carries the rig's last log. The REQUEST uses the same handshake: settle within passive reach and SAMPLE 2s, or settle, SONAR under 240m with a clear line, then SAMPLE during the 3s local replay. Either packet can be recovered first."
 	if i==3:
 		objectives[0].name="FURNACE VENT"; objectives[0]["optical"]="furnace"
-		objectives[0]["evidence"]="Molten material is drawn into smooth hollow forms. This is a construction line, not a weapon aperture."
-		objectives[1].name="DEPARTURE CRADLE"; objectives[1]["optical"]="cradle"; objectives[1]["requires"]=[0]
-		objectives[1]["requirement"]="Record the furnace first. Its casting pattern will identify what the cradles contain."
-		objectives[1]["evidence"]="Long smooth hulls hang in open frames. No visible armament. An empty cradle opens toward the deeper trench. They are preparing to leave."
+		objectives[0]["evidence"]="Heat pours from the vent into a feed line that runs south to the frames."
+		objectives[1].name="LAUNCH CRADLE"; objectives[1]["optical"]="cradle"; objectives[1]["requires"]=[0]
+		objectives[1]["requirement"]="Record the furnace first, so the frame images can be matched to its feed line."
+		objectives[1]["evidence"]="Open steel frames stand on rails that end at the trench edge. All of it is still warm."
 	if i==5:
 		objectives[0].name="TRANSMITTER CROWN"; objectives[0]["optical"]="transmitter"
-		objectives[0]["evidence"]="Nested resonator vanes point into the trench. Their repeated spacing matches a low-frequency carrier, not a gun aperture. The sound is directed below us."
+		objectives[0]["evidence"]="Nested resonator vanes point into the trench. They repeat one low pulse, over and over."
 		objectives[1].name="OUTBOUND WAKES"; objectives[1]["optical"]="departure"
-		objectives[1]["evidence"]="Smooth unarmed hulls descend away from the shelf. Their wakes converge beyond a warm fracture in the trench floor. This is a departure route, not an attack vector."
+		objectives[1]["evidence"]="Disturbed water runs out from the shelf. Past a warm fracture in the trench floor it splits: one line runs south down the trench, one turns west along the shelf."
 		objectives[2].name="LEE RECEIVER"; objectives[2]["kind"]="receiver"; objectives[2]["required_unit"]=0; objectives[2]["duration"]=6.0; objectives[2]["requires"]=[0,1]; objectives[2]["optical"]="warning"
 		objectives[2]["requirement"]="Need both observations: TRANSMITTER CROWN + OUTBOUND WAKES."
 		objectives[2]["unit_requirement"]="Quietus hydrophones required · small drones cannot resolve this packet."
-		objectives[2]["evidence"]="DECODED: a fracture is propagating below the mantle. The outbound hulls are evacuating, not assembling for attack. The carrier repeats the safe direction away from the fracture: listen, then leave."
+		objectives[2]["evidence"]="DECODED: a list of bearings, one for every loud site on this coast the night of the strike. Two still answer. South down the trench: the drillship Tessaly. West on the shelf: the sonar station at Port Ardent."
 	var patrols: Array = []
 	for n in (1 + i / 2):
 		patrols.append({"pos":Vector2(620 + n*270,130),"home":Vector2(620+n*270,130),"goal":Vector2(620+n*270,130),"vel":Vector2.ZERO,"route":[],"angle":0.0,"mode":"PATROL","suspicion":0.0,"stun":0.0,"lock":0.0,"target":-1,"patrol":n,"path_time":0.0,"type":"patroller"})
@@ -72,13 +72,13 @@ static func make(i: int) -> Dictionary:
 	if i==2:
 		result["blackwater_revision"]=1;result["courier_revision"]=1;result["courier_launch"]=-1.0
 		result["blackwater_delivery"]=preload("res://src/simulation/blackwater_delivery.gd").initial()
-		objectives[0].evidence+=" The request announces a ballast-driven archive glider carrying a copy of the eastern REPLY around the southern basalt corridor to a buried western intake. The recovered chart marks its course. Intercept its local carrier with a settled SAMPLE 2s before it submerges at the intake; it never visits this REQUEST. This optional return-leg interception replaces the eastern approach, not the record. The fixed REPLY and its SONAR replay remain available if you miss it."
-		result.brief+=" A recovered request may announce an archive carrier. Its route is an interception opportunity; the fixed relays remain available in either order. Blackwater breaks the bulk uplink: field notes are retained, but raw exchange data stays on the sampling craft. Bring a data carrier within60m of Quietus, settle both below2m/s with a clear line, then TRANSFER. You may move Quietus to a meeting point. Lost buffers remain at the known wreck; one audible local4s winch recovers data and co-located kit, or Quietus can SAMPLE the fixed relay again. Quietus sampling directly puts data aboard; spare drones need not return."
+		objectives[0].evidence+=" The request also announces a survey glider carrying a copy of the eastern REPLY around the southern basalt corridor to a buried western intake. The recovered chart marks its course. Intercept it with a settled SAMPLE 2s before it submerges at the intake; it never visits this REQUEST. Catching it on the way back replaces the eastern approach, not the record. The fixed REPLY and its SONAR replay stay available if you miss it."
+		result.brief+=" A recovered request may announce a survey glider; catching it is optional, and the fixed relays work in either order. Blackwater breaks the bulk uplink: field notes are kept, but raw data stays on the craft that sampled it. Bring that craft within 60m of Quietus, settle both below 2m/s with a clear line, then TRANSFER. Lost buffers stay at the wreck; one audible local 4s winch recovers data and kit there, or Quietus can SAMPLE the relay again. Data Quietus samples itself is already aboard; spare drones need not return."
 	if i==3:
 		result["departure_revision"]=1
 		result["thermal_revision"]=1;result["thermal_fronts"]=preload("res://src/simulation/thermal_front.gd").foundry()
 		result.brief+=" A charted cold-water front crosses the southern channel. Sound and passive contacts weaken across it in both directions. Waiting west of it may protect a staging drone, but costs information and time. Close sight and visible beam charges still expose you; optical photography remains noisy."
-		result.brief+=" The cradle motors warm up before one unarmed hull departs southeast. Its lit return is projected from below our operating depth: it is not cover or an obstacle. Listen locally and watch guard movement before choosing your crossing. Waiting costs time; a noisy early passage may need disruption. Sight still outranks the industrial sound."
+		result.brief+=" The plant's motors cycle up, then a load moves out southeast. Its lit return comes from below our operating depth: it is not cover or an obstacle. Listen and watch the Siren guards before you cross. Waiting costs time; crossing early and loud may need a disruption. Sight still outranks the plant noise."
 		var factory=Rect2(1120,140,400,600)
 		result["structures"]=[factory]; result["factory_rect"]=factory; result["phase"]="approach"; result["response_time"]=0.0
 		result.extraction=Vector2(1420,880)

@@ -20,7 +20,7 @@ static func run(t):
 	t.check("240" in objective.get("evidence","") and "SONAR" in objective.get("evidence",""),"retained request preserves the learned replay protocol")
 	s=make();place(s,1);s.command("camera");s.paused=false;tick(s,2.05)
 	t.check(s.mission.objectives[1].captured and "REQUEST" in s.message,"reverse reply-first order remains valid and teaches matching request action")
-	t.check("temperature" in s.mission.objectives[1].get("evidence","").to_lower(),"reply preserves the archival ocean-temperature discovery")
+	t.check("log" in s.mission.objectives[1].get("evidence","").to_lower(),"reply preserves the driller log discovery")
 	s=make();place(s,0,210)
 	t.check(not s.command("camera"),"Quietus210m standoff cannot silently use its156m passive receiver")
 	t.check(s.command("ping") and s.command("camera"),"accepted existing SONAR permits local clear standoff replay sampling")
