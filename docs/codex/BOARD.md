@@ -6,7 +6,7 @@ Codex: when you finish a handoff, update its row here in the same commit as `don
 | Order | Handoff | Status | PR | Finished (UTC) | One-line result |
 |---|---|---|---|---|---|
 | 1 | 011 lock warning readability | DONE | [68](https://github.com/pemunson90-cmd/Siren-s-Song/pull/68) | 2026-10-22 17:32:19 UTC | Clear observed-lock countdown, source link and accelerating audio; merged, CI green. |
-| 2 | 012 V7 parity gap report | OPEN | | | |
+| 2 | 012 V7 parity gap report | DONE | Report only; no PR | 2026-10-22 17:35:31 UTC | V7 comparison with immutable code anchors and five ranked differences; no game edits. |
 | 3 | 013 controls friction | OPEN | | | |
 
 ## Claude-held
