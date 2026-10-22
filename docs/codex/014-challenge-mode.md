@@ -1,9 +1,9 @@
 # Handoff 014: 12 curated challenges built on existing operations
 
-Status: OPEN
+Status: CLAIMED
 Note: BATCH 2 (released 22 Oct 17:45 UTC). Follow the standing engineering rule in PLAN_SNAPSHOT.md: self-contained module, one narrow seam, numbers in a data table, optional validated save fields, tests beside the feature.
-Claimed at:
-Claimed by:
+Claimed at: 2026-10-22 20:18:44 UTC
+Claimed by: codex
 Finished at:
 
 Precondition: handoff 013 must be DONE or BLOCKED.
