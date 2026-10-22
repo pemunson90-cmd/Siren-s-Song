@@ -6,6 +6,8 @@ Current user contract: read docs/USER_DIRECTIVES.md and AGENTS.md; the audit arc
 
 # Siren's Song — worker and reviewer brief
 
+> **Identity:** Quietus is a military photographic recon vessel; photography is a core pillar (docs/PHOTO_RECON.md). New ops should give photography a real role, with fair information.
+
 Every worker reads the latest `AGENTS.md`, `docs/CURRENT_GAME_SPEC.md`, `docs/SOURCE_AUTHORITY.md`, `docs/V7_TO_GODOT_PARITY.md` and `docs/CONTINUATION.md` from the current production tip before acting. The user has authorized autonomous, continuous game improvement. Each individual assignment contributes to the orchestrator's ongoing **whole-game evaluation → largest opportunity → improvement → reassessment** loop.
 
 **Implementer assignment:** name the dedicated branch/worktree, owned files, baseline source SHA, precise player-facing result, existing applicable v7/production references, interfaces and narrowly relevant tests. Research/reuse where suitable, deliver functioning coherent game changes, and tell the integrator what actually improved, broke or remains uncertain. Preserve other workers' changes. Store extensive captures and reports in a recoverable archive outside active production Git.

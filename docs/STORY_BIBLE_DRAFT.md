@@ -4,6 +4,8 @@ STATUS: PROVISIONALLY APPROVED by Pat (21 Oct 2026) as working direction. Specif
 
 Proposal only. Nothing here enters the game until Pat approves or edits it.
 
+> Precedence (22 Oct): the ratified premise is that Quietus is a military photographic RECON vessel investigating the Sirens (who were here first and built the factory/base). The rescue situation below is what recon discovers and then must respond to; it does not replace the reconnaissance identity. See docs/PHOTO_RECON.md.
+
 ## 1. Central situation
 The Sirens struck every deep drilling site and military installation along the coast in a single night, because drill strings, pile hammers, active sonar and weapons ranges sounded to them like an attack.
 People survived inside the wreckage: in pressure locks, diving bells, bunkers and sealed modules, with air running down.

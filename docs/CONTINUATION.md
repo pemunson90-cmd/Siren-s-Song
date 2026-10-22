@@ -1,4 +1,5 @@
 # Siren’s Song · Iron Choir candidate
+22 Oct: Iron Choir landed (PR63). Identity correction: photographic recon is a core pillar (docs/PHOTO_RECON.md). Order: Codex 010/009, PHOTO1 milestone, cold review. Live state: docs/RESUME.md.
 Read AGENTS.md, USER_DIRECTIVES.md and CURRENT_GAME_SPEC.md first.
 Last reconciled production16b1a505; Glass Reach PR49 complete, independently
 approved atf4f4d000; mandatory CI39515575589 passed all60 runtime scenarios.

@@ -14,6 +14,7 @@ Read USER_DIRECTIVES.md and CURRENT_GAME_SPEC.md for scope.
 |Full28 core/12 optional, replay/challenges|Further substantial content remains|
 |Wider fleet/economy/research/presentation/audio|Approved expansion unfinished|
 |Roguelite expeditions, then naval career|After campaign/replay|
+|Photographic recon pillar (PHOTO1)|Scheduled next; see docs/PHOTO_RECON.md|
 
 Occupied-band acquisition repaired after HOLDe5306e2; shared clear-band sight
 retains incoming exposure without committed retargeting.

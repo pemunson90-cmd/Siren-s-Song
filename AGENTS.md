@@ -1,3 +1,5 @@
+**Identity (user-ratified 22 Oct):** Siren's Song is first a military photographic reconnaissance game (Iron Lung influence); rescue, industrial and fleet work support it. Read docs/PHOTO_RECON.md. PHOTO1 is the next substantial milestone and the cold review follows it.
+
 Current milestone = Iron Choir: four core22–25 and optional26–29, moving industrial jobs, interceptor/warden roles and physical research. Glass Reach14–21 landed via PR49/production16b1a505 with independent approval and mandatory CI39515575589. One sole builder stays on the Iron Choir branch through checkpoints; one independent reviewer evaluates the complete accumulated batch. User playtesting gates nothing.
 
 > **READ FIRST — CURRENT USER ORDER:** docs/USER_DIRECTIVES.md. Implement the approved full-release expansion; preserve accepted Pass0/V7 systems. User playtest timing never gates work.
