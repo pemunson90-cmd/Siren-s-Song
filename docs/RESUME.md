@@ -13,6 +13,9 @@ Pat DECIDED (21 Oct): Option A. A fired Siren beam destroys Quietus outright (lo
 
 Pat priority (21 Oct): for future missions and expansions, briefings and story interjections are short placeholders, just enough to know the tasks; spend effort on mission design, layout, complete functional gameplay and UI. Story and polish only where consequential.
 
+## TESTING POLICY (Pat, 22 Oct): keep the safety net, stop over-testing interim work
+Lanes run import, the core suite and only the tests for the area they touched. They do NOT run the full scenario list locally before pushing; the PR's game-smoke job runs the full list anyway and is the gate. A red CI is fixed by one more push. Full local sweeps only at milestone boundaries and before the cold review. Do not add new test layers or tooling; do not write routes for every policy. No route-finding bot until after the cold review. Scripted journeys prove finishability only, never fun.
+
 ## NEXT MILESTONE (Pat, 22 Oct): cold review once these merge: PR 61 (F1), PR 63 (Iron Choir), S3b text PR, Codex 005 (one-shot beam, collisions, probe) and 009 (sweeper on V7 senses; original active-sonar sweeper saved on branch claude/future-siren-active-sonar-sweeper, see docs/FUTURE_OPTIONS.md). Merged already: 55, 56, 57, 59, 60. Then: fresh critic with no build info plays the whole game from mission one via real touch input, judges as a publishable AAA stealth game against a shipped reference, harshly, ranked list of what to fix. Questions it must answer: are choices worth making, can a new player discover solutions, do fittings change routes, do ops after 13 pay off. Stop adding content until the report is read.
 
 ## STATE 21 Oct (resumed after Codex audit through 1423afa; PRs 55, 57, 59 merged)
