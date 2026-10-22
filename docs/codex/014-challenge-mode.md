@@ -1,10 +1,10 @@
 # Handoff 014: 12 curated challenges built on existing operations
 
-Status: CLAIMED
+Status: DONE
 Note: BATCH 2 (released 22 Oct 17:45 UTC). Follow the standing engineering rule in PLAN_SNAPSHOT.md: self-contained module, one narrow seam, numbers in a data table, optional validated save fields, tests beside the feature.
 Claimed at: 2026-10-22 20:18:44 UTC
 Claimed by: codex
-Finished at:
+Finished at: 2026-10-22 22:26:25 UTC
 
 Precondition: handoff 013 must be DONE or BLOCKED.
 Codex may merge: yes, into claude/integration only, after GitHub's guidance and game-smoke are both green on the exact head and the PR is mergeable. Merge with a merge commit, then mark DONE.
@@ -31,6 +31,14 @@ Twelve working challenges, saved bests, menu entry, tests pass, existing saves u
 Open a PR into claude/integration, wait for guidance and game-smoke, merge when green, then write the Completion section and push to codex/handoffs.
 
 ## Completion
-Work in progress. Branch: `claude/lane-challenge-mode`. Last pushed SHA: `5043a993b884e6eb2c0e66ecfca219a6af6aada8`.
+Branch: `claude/lane-challenge-mode`. Last pushed SHA: `5043a993b884e6eb2c0e66ecfca219a6af6aada8`.
 
-PR: https://github.com/pemunson90-cmd/Siren-s-Song/pull/72. Model checks: 178 passed. Touch UI: 86 passed across cover/inner layouts. Completion, abandonment and Android suspend preserve campaign primary and backup byte-identically; Escape and Android Back close finished attempts. Challenge results use their own validated archive. Import passed; core 817/0; live Shelf challenge 9/0, 64 seconds, full hull, no tools. Expanded touch tests include repeated Android Back notifications, with no Godot errors. Exact-head CI pending. Tests for the new feature run locally; runner registration belongs to 016.
+PR: https://github.com/pemunson90-cmd/Siren-s-Song/pull/72. Merged into claude/integration as `ffde15e0f52528319bbac13704c9c7a15eb44f9a` after guidance and game-smoke both passed on that exact head (run 39861049380). Integration was current before merging.
+
+Added twelve completed-operation challenges with fixed basic loadouts, one rule each, pars, best/last/attempt records, and a touch-first frontend entry. Mode code inherits existing Simulation behavior; ordinary operations and campaign progression remain unchanged. Future rule/catalog entries provide the photo-challenge extension seam.
+
+At Pat's explicit correction, results live in a separate validated, checksummed challenge archive with its own `challenges` field. Attempts never write the campaign primary or backup. Tests compare both files byte-for-byte after completion, abandonment and Android suspend. Touch tests enter/abandon attempts and exercise Android Back notifications, repeated Back and Escape on both Fold layouts. Recorded attempts cannot reopen; Back navigation is deferred safely during notification traversal.
+
+Import clean; core 817/0; runtime 665/0; challenge models 178/0; touch UI 86/0; live Shelf journey 9/0, won at 64 seconds with full hull and no tools. No Godot errors or resource-leak lines in these checks. The live journey is completion evidence, not a difficulty/enjoyment judgment. Physical Android devices and OS gesture recognition were unavailable.
+
+No operation tables, combat/sensing/hull rules or photo save paths edited. Main has a small result-cache field and a lifecycle seam; SaveStore validates the optional field for compatibility. New suites (`challenges_tests`, `challenges_ui_tests`, `challenges_journey_tests`) were run locally; register them in 016, which owns the runners. Next: 015, then 016. Leave 018 to Claude.
