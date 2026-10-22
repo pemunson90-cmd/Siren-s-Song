@@ -1,3 +1,5 @@
+**Resume map (22 Oct): the project-wide entry point is docs/RESUME.md on origin/claude/integration (state, rules, next actions, caveats). This file is the Codex protocol. Board: docs/codex/BOARD.md. Designs: docs/design/. Short plan: docs/codex/PLAN_SNAPSHOT.md. If you were interrupted mid-handoff, your handoff file's Completion section names your branch and last pushed SHA: resume from there.**
+
 # Codex: how to continue (read this first, every time)
 
 Pat will say only "continue". This file is everything you need. Do the Step 0 orientation below, then read nothing else unless a handoff names it. Do not use any older task you remember. Follow these steps in order.
