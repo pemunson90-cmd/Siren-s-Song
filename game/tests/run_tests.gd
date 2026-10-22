@@ -21,6 +21,7 @@ func _initialize() -> void:
 	preload("res://tests/persistence_scenarios.gd").run(self)
 	preload("res://tests/campaign_scenarios.gd").run(self)
 	preload("res://tests/audio_scenarios.gd").run(self)
+	preload("res://tests/lock_warning_scenarios.gd").run(self)
 	preload("res://tests/attention_scenarios.gd").run(self)
 	preload("res://tests/split_channel_scenarios.gd").run(self)
 	preload("res://tests/waypoint_scenarios.gd").run(self)

@@ -16,7 +16,11 @@ var panners: Array=[]
 var cues: Dictionary={}
 var received_cues=preload("res://src/audio/received_cues.gd").new()
 var heartbeat_timer := 0.0
-var alert_timer := 0.0
+var lock_voice: AudioStreamPlayer
+var lock_interval := .7
+var lock_next := -1.0
+var lock_source := -1
+var lock_clock := -1.0
 var creak_timer := 11.0
 var system_suspended := false
 static func engine_gain(speed: float,silent: bool) -> float:
@@ -76,6 +80,7 @@ func _ready() -> void:
 	tension=AudioStreamPlayer.new(); tension.stream=stream("tension"); tension.bus=AMBIENCE_BUS; tension.volume_db=-80; add_child(tension); tension.play()
 	engine=AudioStreamPlayer.new(); engine.stream=stream("engine"); engine.bus=EFFECTS_BUS; engine.volume_db=-80; add_child(engine); engine.play()
 	for bed in [ambience,engine,tension]: bed.stream_paused=true
+	lock_voice=AudioStreamPlayer.new();lock_voice.stream=stream("alert");lock_voice.bus=EFFECTS_BUS;lock_voice.volume_db=-6;add_child(lock_voice)
 	for n in 5:
 		var bus_name="SirenVoice%d"%n; var index=_bus(bus_name,EFFECTS_BUS)
 		var panner: AudioEffectPanner
@@ -84,6 +89,22 @@ func _ready() -> void:
 		else: panner=AudioServer.get_bus_effect(index,0)
 		panners.append(panner)
 		var voice=AudioStreamPlayer.new(); voice.bus=bus_name; voice.volume_db=-7.5; add_child(voice); voices.append(voice)
+func _lock_update(sim,frozen:bool,active:bool)->void:
+	if lock_voice==null:return
+	var frames=preload("res://src/presentation/lock_warning.gd").frames(sim) if active else []
+	if sim.elapsed<lock_clock:lock_source=-1;lock_next=-1.
+	lock_clock=sim.elapsed
+	if frames.is_empty() or muted or effects_volume<=0:
+		lock_voice.stop();lock_source=-1;lock_next=-1.;return
+	lock_voice.stream_paused=frozen
+	if frozen:return
+	var frame=frames[0]
+	lock_interval=lerpf(.7,.16,frame.progress)
+	lock_voice.pitch_scale=lerpf(1.15,2.,frame.progress)
+	if lock_source!=frame.id or sim.elapsed>=lock_next:
+		lock_voice.play();lock_next=sim.elapsed+lock_interval;lock_source=frame.id
+	elif lock_voice.get_playback_position()>.09:
+		lock_voice.stop()
 func update(sim,dt: float,active_dive: bool=true) -> void:
 	received_cues.observe_clock(sim.elapsed)
 	if ambience==null: return
@@ -92,6 +113,7 @@ func update(sim,dt: float,active_dive: bool=true) -> void:
 	AudioServer.set_bus_volume_db(ambience_index,linear_to_db(maxf(0.001,music_volume)))
 	AudioServer.set_bus_volume_db(effects_index,linear_to_db(maxf(0.001,effects_volume)))
 	var frozen=sim.paused or not active_dive or system_suspended
+	_lock_update(sim,frozen,active_dive)
 	ambience.stream_paused=frozen; engine.stream_paused=frozen
 	if sim.elapsed<last_clock: tension_level=0.0
 	last_clock=sim.elapsed
@@ -110,7 +132,6 @@ func update(sim,dt: float,active_dive: bool=true) -> void:
 		return
 	var speed: float=sim.propulsion_speed(sim.units[0])
 	engine.volume_db=linear_to_db(maxf(0.0001,engine_gain(speed,sim.units[0].silent))); engine.pitch_scale=0.75+speed/100.0
-	alert_timer=maxf(0,alert_timer-dt)
 	if active_dive and not sim.paused:
 		heartbeat_timer=maxf(0,heartbeat_timer-dt)
 		var pressure=sim.recon_feedback()
@@ -118,9 +139,6 @@ func update(sim,dt: float,active_dive: bool=true) -> void:
 			play("heartbeat");heartbeat_timer=.45 if pressure.hostile else .9
 		creak_timer-=dt
 		if creak_timer<=0: play("creak"); creak_timer=13.0+sin(sim.elapsed)*3
-		for contact in sim.contacts.values():
-			if contact.lock>0.1 and sim.elapsed-contact.time<0.4 and alert_timer<=0:
-				play("alert",contact.pos-sim.units[sim.selected].pos); alert_timer=3.0
 	for event in sim.events:
 		if event.type=="plant_control":play("plant_switch")
 		elif event.type in ["carrier_received","return_received","sweep_received"]:
@@ -139,12 +157,14 @@ func play(cue: String,relative_position: Vector2=Vector2.ZERO) -> void:
 			panners[i].pan=clampf(relative_position.x/550.0,-0.8,0.8); voice.stream=cues[cue]; voice.play(); return
 func suspend() -> void:
 	system_suspended=true
+	if lock_voice!=null:lock_voice.stream_paused=true
 	if ambience!=null: ambience.stream_paused=true
 	if engine!=null: engine.stream_paused=true
 	if tension!=null: tension.stream_paused=true
 	for voice in voices: voice.stream_paused=true
 func resume() -> void: system_suspended=false
 func _exit_tree() -> void:
+	if lock_voice!=null:lock_voice.stop();lock_voice.stream=null
 	if ambience!=null: ambience.stop(); ambience.stream=null
 	if engine!=null: engine.stop(); engine.stream=null
 	if tension!=null: tension.stop(); tension.stream=null
