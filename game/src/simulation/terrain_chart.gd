@@ -84,6 +84,12 @@ func _first_surfaces(origin:Vector2,radius:float,survey:bool=false)->void:
     _return(Vector2i(first.lerp(last,0.5)/TILE))
 func _segment_key(segment:PackedVector2Array)->String:
  return str(segment[0])+":"+str(segment[1])
+# Seam for photo_rules/known_lane.gd: certifies one cell of open water along a lane
+# the player has photographed. Only water with the usual hull clearance counts.
+func certify(cell:Vector2i)->bool:
+ if not _inside(cell) or clear_cells.has(cell) or return_cells.has(cell):return false
+ if not _water(_rect(cell).grow(CLEARANCE)):return false
+ _clear(cell);return true
 func _clear(cell:Vector2i)->void:
  if return_cells.has(cell) or clear_cells.has(cell):return
  clear_cells[cell]=true;generation+=1

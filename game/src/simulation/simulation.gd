@@ -36,6 +36,9 @@ const Sweeper=preload("res://src/simulation/sweeper_senses.gd")
 const Sonar=preload("res://src/simulation/advanced_sonar.gd")
 const Photo=preload("res://src/simulation/photo_capture.gd")
 const Pricing=preload("res://src/simulation/photo_pricing/photo_pricing.gd")
+const BandPhoto=preload("res://src/photo_depth/band_photo.gd")
+const PhotoRules=preload("res://src/photo_rules/photo_rules.gd")
+const AllStop=preload("res://src/simulation/all_stop/all_stop.gd")
 var sonar:Dictionary={}
 var depth_charts:Dictionary={}
 var band_acoustics:Dictionary={}
@@ -372,7 +375,7 @@ func _capture_duration(objective:Dictionary,unit_id:int)->float:
 func passive_range(unit_id:int)->float:
 	return CraftUpgrades.passive_range(mission.get("launch_equipment",{}),unit_id)*(0.65 if mission.darkness else 1.0)
 func motion_radius(unit_id:int)->float:
-	return CraftUpgrades.motion_radius(mission.get("launch_equipment",{}),unit_id,propulsion_speed(units[unit_id]))+(130.0 if not units[unit_id].get("transition",{}).is_empty() else 0.0)+Choir.noise(self,unit_id)
+	return CraftUpgrades.motion_radius(mission.get("launch_equipment",{}),unit_id,propulsion_speed(units[unit_id]))*AllStop.noise_scale(units[unit_id])+(130.0 if not units[unit_id].get("transition",{}).is_empty() else 0.0)+Choir.noise(self,unit_id)
 func _craft_speed(unit:Dictionary,fallback:float)->float:
 	var quietus=unit.name=="QUIETUS"
 	var speed=RouteProgram.speed(unit,fallback,quietus)
@@ -489,7 +492,7 @@ func command(order: String,args: Dictionary={}) -> bool:
 	_use_band(u.band)
 	if not u.alive and order!="select":
 		selected=0; queue_mode=false; message="Selected drone lost. Quietus selected; reissue the order."; return false
-	if order in ["camera","chain_power","chain_route","chain_send","concealed_tow","witness_land","warning_gate","warning_depart","rendezvous_release","wake_playback","shelf_warn","shelf_alarm"] and (u.band!=1 or not u.transition.is_empty()):
+	if order in ["camera","chain_power","chain_route","chain_send","concealed_tow","witness_land","warning_gate","warning_depart","rendezvous_release","wake_playback","shelf_warn","shelf_alarm"] and ((u.band!=1 and not (order=="camera" and BandPhoto.can_shoot(self,u))) or not u.transition.is_empty()):
 		message="Ascend to MIDDLE and settle for local work";return false
 	match order:
 		"choir_action":return Choir.command(self,args)
@@ -610,6 +613,7 @@ func command(order: String,args: Dictionary={}) -> bool:
 			tools.decoy-=1; _noise(point,1100,"DECOY",15.0,u.band); message="Decoy launched · 15s transmission"; events.append({"type":"decoy","pos":u.pos})
 		"frame":
 			return Photo.set_frame(self,selected,args)
+		"all_stop":return AllStop.command(self)
 		"camera":
 			if not module_recovery_status().jobs[selected].is_empty() or Delivery.busy(self,selected) or Witness.busy(self,selected) or Glass.busy(self,selected) or Choir.busy(self,selected):message="Finish this craft's wreck recovery first";return false
 			var context=camera_context()
@@ -630,6 +634,7 @@ func command(order: String,args: Dictionary={}) -> bool:
 	Delivery.cancel_released(self,selected)
 	Witness.cancel_released(self,selected)
 	Chain.cancel_released(self,order)
+	AllStop.after_order(self,u,order)
 	return true
 # Public read-only operator intent; legacy navigation corners are not editor rows.
 func route_goals(unit_id:int=-1) -> Array:
@@ -715,9 +720,10 @@ func _blackwater_context_text(target:int,station:int) -> String:
 	var learned=mission.objectives.any(func(o):return o.captured)
 	return "%s · %dm / quiet %.0fm%s"%[name,c.distance,c.quiet_range," · learned: SONAR + SAMPLE within 240m" if learned else " · move closer to listen"]
 func camera_context() -> Dictionary:
-	return Pricing.annotate(self,_camera_context_base())
+	return Pricing.annotate(self,PhotoRules.camera_hint(self,BandPhoto.gate(self,_camera_context_base())))
 func _camera_context_base() -> Dictionary:
-	if units[selected].band!=1 or not units[selected].transition.is_empty():return {"ready":false,"target":-1,"text":"MIDDLE band and settled depth required"}
+	var closed:String=BandPhoto.unready(self,units[selected])
+	if not closed.is_empty():return {"ready":false,"target":-1,"text":closed}
 	if Shelf.applies(mission):return {"target":-1,"ready":false,"text":Shelf.context(self).account}
 	if Chain.applies(mission):return {"target":-1,"ready":false,"text":Chain.context(self,selected).text}
 	var work=capture_feedback(selected)
@@ -847,6 +853,7 @@ func _tick(dt: float) -> void:
 	var hull_origin:Vector2=units[0].pos;var hull_velocity:Vector2=units[0].vel
 	Departure.emit(self)
 	elapsed+=dt
+	AllStop.tick(self,dt)
 	Depth.advance(self,dt);Sonar.advance(self,dt); oxygen=maxf(0,oxygen-Endurance.oxygen_drain(mission,dt))
 	Recon.tick(mission,dt)
 	if mission.get("phase","")=="response": mission.response_time=mission.get("response_time",0.0)+dt
@@ -894,7 +901,7 @@ func _tick(dt: float) -> void:
 		var exchange=o.get("kind","")=="exchange" and mission.get("blackwater_revision",0)==1
 		var mobile=Rendezvous.applies(mission) and o.get("site_id","")=="rendezvous"
 		var receiver=rendezvous_receiver(station) if mobile else blackwater_context(work.target,station) if exchange else {}
-		if not u.alive or u.band!=1 or not u.transition.is_empty() or ((exchange or mobile) and not receiver.ready) or (Operations.own_origin(o) and not Operations.receiving(self,o,station)) or (not exchange and not mobile and not Operations.own_origin(o) and (u.pos.distance_to(o.pos)>Photo.reach(self,station) or not line_clear(u.pos,o.pos) or (o.has("siren") and not contact_visible(sirens[o.siren])))):
+		if not BandPhoto.can_shoot(self,u,o) or ((exchange or mobile) and not receiver.ready) or (Operations.own_origin(o) and not Operations.receiving(self,o,station)) or (not exchange and not mobile and not Operations.own_origin(o) and (u.pos.distance_to(o.pos)>Photo.reach(self,station) or not line_clear(u.pos,o.pos) or (o.has("siren") and not contact_visible(sirens[o.siren])))):
 			captures[station]={}
 			message=u.name+" · "+("Reception interrupted · move closer or SONAR for a local replay" if exchange else "Exposure interrupted · regain clear view")
 		elif exchange and not receiver.settled:work.elapsed=0.0
@@ -993,7 +1000,7 @@ func _current_step(u:Dictionary,dt:float,desired_ground:Vector2,speed:float,flow
 	# through-water speed budget as ordinary motion. Hull turning stays physical.
 	if ground_cap>=0:desired_ground=desired_ground.limit_length(ground_cap)
 	var water:Vector2=u.get("water_velocity",u.vel-flow)
-	water=water.move_toward((desired_ground-flow).limit_length(speed),42.0*dt)
+	water=water.move_toward((desired_ground-flow).limit_length(speed),AllStop.decel(u,42.0)*dt)
 	u["water_velocity"]=water
 	var ground:Vector2=water+flow
 	var next:Vector2=u.pos+ground*dt
@@ -1021,7 +1028,9 @@ func _move_in_band(u: Dictionary,dt: float,speed: float,holding: bool,report_col
 		u.vel=Vector2.ZERO
 		if not mission.get("currents",[]).is_empty():u["water_velocity"]=-current_at(u.pos)
 		return
-	if player_craft: speed=_craft_speed(u,speed)
+	if player_craft:
+		speed=_craft_speed(u,speed)
+		var engines:Dictionary=AllStop.shape(u,speed,holding);speed=engines.speed;holding=engines.holding
 	var thrust_capacity=speed
 	var course=_course_prepare(u,speed,holding) if player_craft else {"speed":speed,"holding":holding,"earned":false}
 	speed=course.speed;holding=course.holding
@@ -1086,7 +1095,7 @@ func _move_in_band(u: Dictionary,dt: float,speed: float,holding: bool,report_col
 			desired=((u.current_station-u.pos)*2.0).limit_length(12.0)
 		_current_step(u,dt,desired,thrust_capacity,flow,report_collision,player_craft,ground_cap)
 		return
-	u.vel=u.vel.move_toward(desired,42*dt)
+	u.vel=u.vel.move_toward(desired,AllStop.decel(u,42.0)*dt)
 	var next:Vector2=u.pos+u.vel*dt
 	if player_craft and not _course_ground_safe(u.pos,next):
 		_course_collision(u);return
@@ -1505,6 +1514,7 @@ static func valid_snapshot(data: Dictionary) -> bool:
 		for w in u.route:
 			if not w is Dictionary or not w.has_all(["pos","stop"]) or not w.pos is Vector2: return false
 		if not RouteProgram.valid_unit(u,u==data.units[0],WorldRegion.size_of(data.mission)): return false
+		if not AllStop.valid(u) or (u!=data.units[0] and u.has("all_stop")): return false
 	for e in data.sirens:
 		if not Sweeper.valid(e,float(data.get("elapsed",0))):return false
 		if not e is Dictionary or not e.has_all(["pos","home","goal","vel","route","angle","mode","suspicion","stun","lock","target","patrol","path_time"]): return false

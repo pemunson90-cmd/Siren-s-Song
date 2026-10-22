@@ -15,10 +15,14 @@ extends RefCounted
 #   camera_feed.gd       _draw_photo(): PricingOverlay.draw_viewfinder(...)
 #   ocean_view.gd        _draw(): PricingOverlay.draw_chart(...)
 #   main.gd              _briefing(): PricingBriefing line
+# Band: the shutter ring and the "if heard" estimate read photo_depth (BandPhoto.ring / hear_scale); remove those
+# reads with that module and the fixed 520 m and 760 m in photo_pricing_table.gd apply again.
 # Save: mission.photo_pricing = {"film":[q,d,d]} is optional. Absent means full
 # film, and a build without this module ignores the key.
 const Table=preload("res://src/simulation/photo_pricing/photo_pricing_table.gd")
 const Equipment=preload("res://src/equipment/equipment_catalog.gd")
+const BandPhoto=preload("res://src/photo_depth/band_photo.gd")
+const BandHint=preload("res://src/photo_depth/band_hint.gd")
 
 # --- film ----------------------------------------------------------------------
 static func cap(uid:int)->int:
@@ -112,7 +116,7 @@ static func readout(sim,uid:int,o:Dictionary)->Dictionary:
 	if uid<0 or uid>=sim.units.size():return {}
 	if _cache_owner!=sim.get_instance_id():_cache.clear();_cache_owner=sim.get_instance_id()
 	var u=sim.units[uid];var cfg:Dictionary=sim.Photo.settings(sim,uid)
-	var key="%d|%s|%d|%d|%d|%s|%s|%s|%d"%[uid,str(o.get("name","")),int(u.pos.x/Table.CACHE_POS),int(u.pos.y/Table.CACHE_POS),int(sim.elapsed/Table.CACHE_STEP),cfg.mode,str(cfg.flash),str(cfg.focus),film_left(sim,uid)]
+	var key="%d|%s|%d|%d|%d|%s|%s|%s|%d|%d"%[uid,str(o.get("name","")),int(u.pos.x/Table.CACHE_POS),int(u.pos.y/Table.CACHE_POS),int(sim.elapsed/Table.CACHE_STEP),cfg.mode,str(cfg.flash),str(cfg.focus),film_left(sim,uid),int(u.band)]
 	if _cache.has(key):return _cache[key]
 	if _cache.size()>48:_cache.clear()
 	var result:Dictionary=_compute(sim,uid,o,cfg)
@@ -124,10 +128,12 @@ static func _compute(sim,uid:int,o:Dictionary,cfg:Dictionary)->Dictionary:
 	var f:Dictionary=sim.Photo.frame(sim,uid,o,0.0)
 	var oi:int=sim.Photo.index_of(sim,o)
 	var done:Array=sim.Photo.seen_before(sim,oi) if oi>=0 else []
-	var lines:Array=[];var out={"film":film_left(sim,uid),"cap":cap(uid),"lines":lines,"light":false,"key":"","plain":0.0,"flash":0.0,"hidden":false,"heard":Table.SHUTTER_RING}
+	var lines:Array=[];var out={"film":film_left(sim,uid),"cap":cap(uid),"lines":lines,"light":false,"key":"","plain":0.0,"flash":0.0,"hidden":false,"heard":BandPhoto.ring(sim,uid,false)}
 	var flash_ok:bool=bool(op.flash) and sim.Photo.flash_left(sim,uid)>0
 	var flashing:bool=bool(cfg.flash) and flash_ok
-	out.heard=Table.FLASH_RING if flashing else Table.SHUTTER_RING
+	# The shutter ring is read from the craft's band (photo_depth), not fixed at 520 m.
+	var ring_plain:float=BandPhoto.ring(sim,uid,false);var ring_flash:float=BandPhoto.ring(sim,uid,true)
+	out.heard=ring_flash if flashing else ring_plain
 	# Key feature: the finest detail not yet on film; a feature that is dark or soft takes the light block.
 	var key:Dictionary={};var dark:Dictionary={}
 	for i in s.get("features",[]).size():
@@ -142,11 +148,11 @@ static func _compute(sim,uid:int,o:Dictionary,cfg:Dictionary)->Dictionary:
 		out.light=true;out.key=str(dark.label)
 		var d:float=f.dist
 		var flash_row:Dictionary=_row(probe(sim,uid,o,d,true,0.0),dark.id) if flash_ok else {}
-		if flash_ok:lines.append({"text":Table.TEXT.light_flash%[Table.TEXT.ok if _resolves(flash_row) else Table.TEXT.short,roundi(Table.FLASH_RING),sim.Photo.flash_left(sim,uid)],"warn":false})
+		if flash_ok:lines.append({"text":Table.TEXT.light_flash%[Table.TEXT.ok if _resolves(flash_row) else Table.TEXT.short,roundi(ring_flash),sim.Photo.flash_left(sim,uid)],"warn":false})
 		else:lines.append({"text":Table.TEXT.light_flash_none,"warn":true})
 		if float(op.integrate)>0.0:
 			var wait_row:Dictionary=_row(probe(sim,uid,o,d,flashing,Table.STILL_HOLD),dark.id)
-			lines.append({"text":Table.TEXT.light_wait%[roundi(Table.STILL_HOLD),Table.TEXT.ok if _resolves(wait_row) else Table.TEXT.short,roundi(Table.SHUTTER_RING)],"warn":false})
+			lines.append({"text":Table.TEXT.light_wait%[roundi(Table.STILL_HOLD),Table.TEXT.ok if _resolves(wait_row) else Table.TEXT.short,roundi(ring_plain)],"warn":false})
 		else:lines.append({"text":Table.TEXT.light_wait_none,"warn":true})
 		var close:float=reach_of(sim,uid,o,str(dark.id),false)
 		out.plain=close
@@ -162,6 +168,7 @@ static func _compute(sim,uid:int,o:Dictionary,cfg:Dictionary)->Dictionary:
 			out.flash=reach_of(sim,uid,o,str(key.id),true) if flash_ok else 0.0
 			var extra:String=Table.TEXT.reach_flash%roundi(out.flash) if flash_ok and out.flash>out.plain+1.0 else ""
 			lines.append({"text":Table.TEXT.reach%[str(key.label),roundi(out.plain),extra],"warn":false})
+	if int(u.band)!=1:lines.append({"text":BandHint.line(sim,uid),"warn":false})
 	lines.append({"text":heard,"warn":true})
 	return out
 static func _sight(sim,u)->float:
@@ -172,9 +179,12 @@ static func _heard(sim,u,ring:float)->String:
 	var best:=INF
 	for i in sim.contacts:
 		var c=sim.contacts[i]
-		if sim.elapsed-float(c.time)>Table.CONTACT_MAX_AGE or int(c.get("band",1)) not in [-1,u.band]:continue
+		if sim.elapsed-float(c.time)>Table.CONTACT_MAX_AGE:continue
+		# A listener in another band hears the shutter through the existing depth transmission.
+		var cb:int=int(c.get("band",1))
+		var hears:float=1.0 if cb in [-1,u.band] else BandPhoto.hear_scale(sim,int(u.band),cb)
 		var d:float=u.pos.distance_to(c.pos)
-		if d>ring:continue
+		if d>ring*hears:continue
 		var speed:float=float(Table.SIREN_SPEED.get(str(c.get("type","")),Table.SIREN_ALERT_SPEED))
 		best=minf(best,d/speed)
 	return text+(Table.TEXT.heard_eta%ceili(best) if best<INF else Table.TEXT.heard_none)
