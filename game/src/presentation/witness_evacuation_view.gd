@@ -1,6 +1,6 @@
 extends Control
 # Public custody and local readiness only. This presenter never advances work,
-# discovers a berth, changes progression or infers an unseen evacuation fleet.
+# discovers a berth, changes progression or infers an unseen rescue fleet.
 const KIT=preload("res://src/equipment/equipment_catalog.gd")
 const AMBER=Color("e3bd7c")
 const TEAL=Color("8ad6c9")
@@ -44,7 +44,7 @@ static func site_lines(sim,target:Dictionary)->Array:
 static func salvage_detail(sim,item:String)->String:
  var target=site(sim)
  if target.is_empty():return detail(sim)
- return "\n".join(site_lines(sim,target))+"\n"+sim.salvage_context(item).reason+"\nONE WINCH · 4s · within 60m · clear line · below 2m/s\nAUDIBLE · 520m open-water estimate\nThe living witness rides this real craft. LAND WITNESS at southeast harbour; Quietus must also recover. Colocated kit shares this winch and stays inactive cargo."
+ return "\n".join(site_lines(sim,target))+"\n"+sim.salvage_context(item).reason+"\nONE WINCH · 4s · within 60m · clear line · below 2m/s\nAUDIBLE · 520m open-water estimate\nThe living witness rides this real craft. LAND WITNESS at southeast lift point; Quietus must also recover. Colocated kit shares this winch and stays inactive cargo."
 static func detail(sim)->String:
  var info=status(sim)
  if info.is_empty():return ""
@@ -53,7 +53,7 @@ static func detail(sim)->String:
   if pod.state=="carried":lines.append("ACTUAL TRANSPORT · "+sim.units[pod.carrier].name)
   elif pod.state=="salvage":lines.append("OWN LOST TRANSPORT · same sealed occupied pod")
   elif pod.state=="landed":lines.append("LANDED BY · "+sim.units[pod.landed_by].name)
- lines.append("LAND WITNESS · selected carrier within 60m of southeast harbour, clear line, below 2m/s. Quietus recovery is separate.")
+ lines.append("LAND WITNESS · selected carrier within 60m of southeast lift point, clear line, below 2m/s. Quietus recovery is separate.")
  lines.append(sim.witness_context().land.reason)
  return "\n".join(lines)
 static func touch_rects(view,sim,touch:float)->Array:
@@ -69,7 +69,7 @@ static func draw_world(view,sim)->void:
  var info=status(sim)
  if info.is_empty():return
  var scale=maxf(.01,view.world_scale);var harbour:Vector2=info.harbour.pos
- # The refuge is briefed geography; the berth is drawn only after measurement.
+ # The lift point is briefed geography; the berth is drawn only after measurement.
  for side in [-1,1]:
   var edge=harbour+Vector2(-38,side*32)
   view.draw_line(edge,edge+Vector2(76,0),Color("547e7d"),3/scale)
@@ -100,8 +100,8 @@ static func arrival(main)->void:
  scene.name="WitnessArrival";scene.arrival_data=info.capsule.duplicate(true)
  scene.custom_minimum_size=Vector2(0,main.ui_touch_height*1.65);scene.mouse_filter=Control.MOUSE_FILTER_IGNORE
  main.panel_box.add_child(scene)
- main._menu_text("WITNESS LANDED · "+main.sim.units[info.capsule.landed_by].name+"\nTHIS RECOVERY · CONCEALED HARBOUR",20)
- if main.sim.outcome!="won":main._menu_text("The passenger reached harbour. Quietus did not recover; this dive grants no new campaign arrival.",17)
+ main._menu_text("WITNESS LANDED · "+main.sim.units[info.capsule.landed_by].name+"\nTHIS RECOVERY · CONCEALED LIFT POINT",20)
+ if main.sim.outcome!="won":main._menu_text("The passenger reached the lift point. Quietus did not recover; this dive grants no new campaign arrival.",17)
  elif info.capsule.rescues>0:main._menu_text("Same occupied pod rescued %d time(s) after actual transport loss."%info.capsule.rescues,17)
 func _ready():resized.connect(queue_redraw)
 func _draw():

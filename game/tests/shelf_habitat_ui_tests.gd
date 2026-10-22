@@ -81,7 +81,7 @@ func run()->void:
   check(hud.page=="habitat" and hud.subject.get("site","")=="east" and sim.snapshot()==before,"actual occupied-mouth tap opens its local action without changing course or time")
   check(hud.extra.shelf_warn.visible and not hud.extra.shelf_warn.disabled and not game.order_buttons.camera.visible,"local method is an explicit warning action rather than another camera hold")
   hud.open("inspect");await settle()
-  check("100m" in hud.instrument_info.text and "berths" in hud.instrument_info.text.to_lower(),"object status explains real local prerequisite and occupied place")
+  check("100m" in hud.instrument_info.text and "watch crew" in hud.instrument_info.text.to_lower(),"object status explains real local prerequisite and occupied place")
   if not folder.is_empty() and DisplayServer.get_name()!="headless":
    await RenderingServer.frame_post_draw;root.get_texture().get_image().save_png(folder.path_join(str(size.x)+"-local-status.png"))
   hud.open("habitat",hud.subject);await settle();await tap(hud.extra.shelf_warn.get_global_rect().get_center())

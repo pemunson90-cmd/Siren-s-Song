@@ -143,7 +143,7 @@ func ui():
   check(game.fitted_equipment.hull=="quiet" and game.screen=="briefing","tapping the hull row selects the low noise hull")
   await tap(fit_button("quietus","Reach directional prism"))
   check(Kit.has(game.fitted_equipment,0,"quietus_prism"),"prism fits the low noise hull sensor mount")
-  var decoder=fit_button("quietus","Keeper service decoder")
+  var decoder=fit_button("quietus","Range service decoder")
   check(decoder.disabled and "REFUSED" in decoder.text and "POWER" in decoder.text,"over budget decoder row is refused with its power reason: "+decoder.text)
   hull=frame_button("quietus")
   check(hull!=null and not hull.disabled and "FAST TRANSIT HULL" in hull.text,"hull cycle skips to the next legal frame")

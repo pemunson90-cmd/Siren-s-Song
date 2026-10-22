@@ -73,7 +73,7 @@ static func detail(sim,current:Dictionary)->String:
  if vessel.known:lines.append("LOCAL HULL · %s · %d%%"%[vessel.phase.to_upper(),roundi(vessel.hull)] if vessel.live else "LAST FIX · %ds AGO · position and hull at last observation"%floori(vessel.age))
  lines.append(info.actions.depart.reason)
  lines.append("EXPOSED: no gate release, but a longer passage around the south breakwater into the eastern watch. SHELTERED: shorter north service passage behind cover; open its real gate first.")
- lines.append("Choose locally within 240m, clear link, below 12m/s. No automatic departure. Protect with terrain, distraction, EMP or torpedo as needed. Reacquire the actual arrival at the northern refuge; Quietus recovery is separate.")
+ lines.append("Choose locally within 240m, clear link, below 12m/s. No automatic departure. Protect with terrain, distraction, EMP or torpedo as needed. Reacquire the actual arrival at the northeast pickup; Quietus recovery is separate.")
  return "\n".join(lines)
 static func draw_world(view,sim)->void:
  var info=status(sim)
@@ -112,9 +112,9 @@ static func arrival(main):
  var scene=load("res://src/presentation/warning_recipient_view.gd").new();scene.name="WarningArrival";scene.arrival_data=info
  scene.custom_minimum_size=Vector2(0,main.ui_touch_height*1.65);scene.mouse_filter=Control.MOUSE_FILTER_IGNORE;main.panel_box.add_child(scene)
  var deceased=not info.recipient.get("alive",true);var failed=main.sim.outcome!="won"
- var heading=("RECIPIENT LOST AFTER ARRIVAL" if deceased else "RECIPIENT ARRIVAL PREVIOUSLY RECEIVED") if failed else "RECIPIENT AT REFUGE"
+ var heading=("RECIPIENT LOST AFTER ARRIVAL" if deceased else "RECIPIENT ARRIVAL PREVIOUSLY RECEIVED") if failed else "RECIPIENT AT PICKUP"
  main._menu_text(heading+" · "+info.course.to_upper()+" COURSE\n"+("HISTORICAL ARRIVAL RECEIPT" if failed else "THIS CROSSING · ARRIVAL RECEIVED"),20)
- if failed:main._menu_text("The recipient was destroyed after its arrival was received. This dive grants no campaign outcome." if deceased else "The recipient reached refuge. Quietus did not recover; this dive grants no campaign outcome.",17)
+ if failed:main._menu_text("The recipient was destroyed after its arrival was received. This dive grants no campaign outcome." if deceased else "The recipient reached the pickup. Quietus did not recover; this dive grants no campaign outcome.",17)
 func _ready():resized.connect(queue_redraw)
 func _draw():
  if arrival_data.is_empty():return

@@ -6,7 +6,7 @@ static func subject(sim,value:Dictionary)->Dictionary:
  if not c.get("known",false):return {}
  var sites=sim.observable_sites();var index=value.get("index",-1)
  if value.get("subkind","")!="wake_repeater" and not (index>=0 and index<sites.size() and replaces_site(sim,sites[index])):return {}
- return {"kind":"objective","subkind":"wake_repeater","name":"OLD DEPARTURE LOOP","pos":c.pos}
+ return {"kind":"objective","subkind":"wake_repeater","name":"RIG BEACON LOOP","pos":c.pos}
 static func pick(view,sim,point:Vector2,touch:float)->Dictionary:
  var c=context(sim)
  if c.get("known",false) and point.distance_to(view.screen_position(c.pos))<=maxf(touch*.5,38*view.world_scale):return subject(sim,{"subkind":"wake_repeater"})
@@ -14,7 +14,7 @@ static func pick(view,sim,point:Vector2,touch:float)->Dictionary:
 static func detail(sim)->String:
  var c=context(sim)
  if not c.get("known",false):return ""
- return "OLD DEPARTURE LOOP · ONE USE\n"+("PLAYBACK TIMER ·%ds from your local order\n"%ceili(c.remaining) if c.active else "")+c.reason+"\n\n"+c.account+"\n\nAny bare craft can connect within65m, clear line, below2m/s. One1100m open-water emission lasts15s; basalt can weaken or block it. Ordinary listeners may investigate its water, but current sight and louder evidence take priority. No guard response is guaranteed. Time it against your own crossing, then recover the operator. A watch with sight can report after2 uninterrupted seconds; cover or disruption cancels. A reached peer searches a coarse old point, not your live position. The longer outer water remains available without playback or tools."
+ return "RIG BEACON LOOP · ONE USE\n"+("PLAYBACK TIMER ·%ds from your local order\n"%ceili(c.remaining) if c.active else "")+c.reason+"\n\n"+c.account+"\n\nAny bare craft can connect within65m, clear line, below2m/s. One1100m open-water emission lasts15s; basalt can weaken or block it. Ordinary listeners may investigate its water, but current sight and louder evidence take priority. No guard response is guaranteed. Time it against your own crossing, then recover the operator. A watch with sight can report after2 uninterrupted seconds; cover or disruption cancels. A reached peer searches a coarse old point, not your live position. The longer outer water remains available without playback or tools."
 static func draw(view,sim)->void:
  var c=context(sim)
  if not c.get("known",false):return

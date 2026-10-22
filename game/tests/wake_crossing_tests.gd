@@ -38,7 +38,7 @@ func run():
  var archive={"version":1,"unlocked":5,"completed":[0,1,2,3,4,5],"upgrade":"endurance","settings":{},"expedition":progress(),"active":s.snapshot()}
  check(store.save(archive) and store.load_game()==archive,"actual checksummed binary archive preserves active finite playback")
  var restored=Sim.new();check(restored.restore(store.load_game().active) and restored.wake_context().used,"current restore cannot refund spent hardware")
- step(restored,16);check(not restored.noises.any(func(n):return n.label=="OLD DEPARTURE LOOP"),"playback really expires rather than sustaining an infinite lure")
+ step(restored,16);check(not restored.noises.any(func(n):return n.label=="RIG BEACON LOOP"),"playback really expires rather than sustaining an infinite lure")
  check(not restored.wake_context().active and restored.wake_context().remaining==0,"own playback clock expires without implying a remote guard state")
  check(not restored.command("wake_playback"),"expired one-use hardware stays spent")
  var old=s.snapshot();old.mission.erase("wake_crossing");check(not Sim.valid_snapshot(old),"obsolete active9 is rejected without compatibility flags or fabricated new work")

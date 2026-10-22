@@ -5,7 +5,7 @@ const REPEATER=Vector2(1520,620)
 const SOUND_RANGE=1100.0
 const DURATION=15.0
 const LOCAL_RANGE=65.0
-const ACCOUNT="KEEPER'S LAST LOOP: I left the empty berths calling. The families took the measured return lane, not this old departure road. One charge remains in the repeater. Let the watchers come to an empty mouth while you cross, if that buys you water. Once it falls silent, I cannot call them back."
+const ACCOUNT="DRILLER'S LOG: The beacon is still calling from the empty rig. Nobody out there is waiting on it. One charge remains in the repeater. Let the watchers come to an empty mouth while you cross, if that buys you water. Once it falls silent, I cannot call them back."
 static func applies(m:Dictionary)->bool:return m.get("id")==9 and m.has("wake_crossing")
 static func initial()->Dictionary:return {"played_at":-1.0,"played_by":-1}
 static func context(sim)->Dictionary:
@@ -30,10 +30,10 @@ static func play(sim)->bool:
   if not c.is_empty():sim.message=c.reason
   return false
  sim.mission.wake_crossing.played_at=sim.elapsed;sim.mission.wake_crossing.played_by=sim.selected
- sim._noise(REPEATER,SOUND_RANGE,"OLD DEPARTURE LOOP",DURATION)
+ sim._noise(REPEATER,SOUND_RANGE,"RIG BEACON LOOP",DURATION)
  sim.events.append({"type":"wake_playback","pos":REPEATER})
  sim.events.append({"type":"plant_switch","pos":REPEATER})
- sim.message="Old departure loop plays from the empty eastern berths · one15s transmission · listen for actual watch movement"
+ sim.message="Rig beacon loop plays from the empty platform · one15s transmission · listen for actual watch movement"
  return true
 static func valid(data:Dictionary)->bool:
  var m=data.mission
