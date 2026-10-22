@@ -1,6 +1,7 @@
 # Handoff 014: 12 curated challenges built on existing operations
 
-Status: OPEN
+Status: HOLD
+Note: parked for BATCH 2. Claude changes Status to OPEN when batch 1 is reported finished. Until then, ignore this file.
 Claimed at:
 Claimed by:
 Finished at:
@@ -8,7 +9,7 @@ Finished at:
 Precondition: handoff 013 must be DONE or BLOCKED.
 Codex may merge: yes, into claude/integration only, after GitHub's guidance and game-smoke are both green on the exact head and the PR is mergeable. Merge with a merge commit, then mark DONE.
 Testing: import, core tests, and only the tests for what you touched. Do not run the full scenario list locally; GitHub runs it. Fix red CI by pushing again.
-Overlap warning: Claude's PHOTO1 builder is rewriting photography (simulation capture code, recon_consequences.gd, camera_feed.gd, evidence_catalog.gd, archive parts of main.gd, campaign/archive_recap.gd, campaign/encounters/work_sites.gd, equipment_catalog.gd, save_store.gd) on claude/photo1-recon and may land first. Do not edit those files except where this handoff says so. Always fetch origin/claude/integration fresh and merge it before you push; on conflict keep both sides.
+Overlap warning (22 Oct): PHOTO1 and ONBOARD1 are merged. Claude's PHOTO2 builder (branch claude/photo2-images) owns the camera, viewfinder, archive viewer, photo save paths, recon_consequences.gd, camera_feed.gd and evidence_catalog.gd. Claude's SWEEP1 builder (branch claude/lane-t2-sweeper) owns the sweeper code and its warning text, plus a first-warning tutorial pause in onboarding_hints.gd. Do not edit those files; write what you need in your Completion section instead.
 Never change combat, beam, collision, detection, damage or hull rules, story, or photography design (those are Pat's). No em dashes in any text you add. Briefings and story text stay short placeholders.
 
 ## Task (plain language)
