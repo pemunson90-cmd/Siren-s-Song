@@ -1,6 +1,7 @@
 extends RefCounted
 # One title-button seam into fixed replay mode; reuses the frontend's scroll and touch sizing.
 # Revert: remove that entry and this file plus challenge_session.gd. Campaign menus stay intact.
+const Archive=preload("res://src/campaign/challenges/challenge_archive.gd")
 const Catalog=preload("res://src/campaign/challenges/challenge_catalog.gd")
 const Records=preload("res://src/campaign/challenges/challenge_records.gd")
 const Session=preload("res://src/presentation/frontend/challenge_session.gd")
@@ -10,14 +11,15 @@ static func history(front)->Dictionary:
 	var value=front.host.get("challenge_records")
 	return value if value is Dictionary else {}
 static func show(front)->void:
+	Archive.restore(front.host)
 	front._reset("challenges")
 	front._text("CHALLENGES",32,Color("80d9cf"))
 	front._text("Replay recovered operations with a fixed fleet and one rule. Campaign progress stays as it was.",16)
 	var saved=history(front);var recovered=completed(front)
-	var error=front.host.get("save_error")
+	var error=front.host.get_meta("challenge_save_error","")
 	if error is String and not error.is_empty():
 		front._text("PROGRESS NOT SAVED\n"+error+"\nResults are held in this session.",16,Color("efc28d"))
-		front._button("RETRY SAVE",func():front.host._save_archive();show(front),"challenge_retry_save")
+		front._button("RETRY SAVE",func():Archive.persist(front.host);show(front),"challenge_retry_save")
 	for row in Catalog.all():
 		var id:String=row.id;var available=Catalog.unlocked(row,recovered)
 		var best=saved.get(id,{}).get("best",{})

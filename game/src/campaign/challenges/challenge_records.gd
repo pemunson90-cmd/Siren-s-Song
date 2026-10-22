@@ -1,7 +1,7 @@
 extends RefCounted
-# One optional profile field, "challenges". Values hold best, last and attempt count.
+# The challenge profile field "challenges" holds best, last and attempt count.
 # Unknown short ids remain readable when a row is removed. Results contain own-state data only.
-# Revert: remove the Main profile field and SaveStore validation line; older builds ignore the key.
+# ChallengeArchive persists these separately from the campaign.
 const Catalog=preload("res://src/campaign/challenges/challenge_catalog.gd")
 const MAX_RECORDS=128
 const MAX_ATTEMPTS=1000000000

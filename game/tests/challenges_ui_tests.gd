@@ -48,7 +48,7 @@ func shape_case(shape):
  root.size=shape;await settle()
  var path="user://challenges-ui-%d.save"%shape.x
  var settings_path="user://challenges-ui-%d-settings.json"%shape.x
- for file in [path,settings_path]:
+ for file in [path,path+".challenges",settings_path]:
   for suffix in ["",".bak",".tmp"]:DirAccess.remove_absolute(file+suffix)
  var game=load("res://scenes/main.tscn").instantiate();game.set_script(load("res://tests/density_main.gd"))
  game.capture_scenario="runtime-test";game.store.path=path
@@ -60,6 +60,8 @@ func shape_case(shape):
  var legacy=game.store.load_game();legacy.version=1
  check(game.store.save(legacy),"the fixture retains a readable older profile version")
  var before=game.store.load_game();var dive=game.sim.snapshot()
+ var campaign_bytes=FileAccess.get_file_as_bytes(path)
+ var backup_bytes=FileAccess.get_file_as_bytes(path+".bak")
  check(not before.is_empty(),"the campaign fixture is a valid ordinary profile")
  var front=Front.new();front.settings_store.path=settings_path;game.add_child(front);front.setup(game);await settle()
  var entry=button(front,"frontend_challenges")
@@ -83,26 +85,33 @@ func shape_case(shape):
       check(not session.sim.command("ping"),"the actual challenge session enforces its rule")
       session.sim.paused=false;session.sim.advance(.1);session.sim.paused=true;session._refresh()
       check(game.sim.snapshot()==dive and game.store.load_game()==before,"playing the challenge leaves the active dive and disk archive unchanged")
+      game.notification(Node.NOTIFICATION_APPLICATION_PAUSED);session.notification(Node.NOTIFICATION_APPLICATION_PAUSED)
+      check(FileAccess.get_file_as_bytes(path)==campaign_bytes and FileAccess.get_file_as_bytes(path+".bak")==backup_bytes,"Android suspend leaves the frozen campaign files byte-identical")
       # Staged win exercises the result boundary, not operation finishability.
       session.sim.outcome="won";session._process(0.0);await settle()
       var saved=game.store.load_game()
-      var history=saved.get("challenges",{})
-      check(history.has("shelf_passive"),"finishing writes an additive result into the profile")
+      check(FileAccess.get_file_as_bytes(path)==campaign_bytes and FileAccess.get_file_as_bytes(path+".bak")==backup_bytes,"completion leaves campaign primary and backup byte-identical")
+      var history=load("res://src/campaign/challenges/challenge_archive.gd").new()
+      history.path=path+".challenges"
+      history=history.load_game().get("challenges",{})
+      check(history.has("shelf_passive"),"finishing writes a separate challenge result")
       if campaign(saved)!=campaign(before) or game.sim.snapshot()!=dive:printerr("ISOLATION DIFF archive=",difference(campaign(before),campaign(saved))," dive=",difference(dive,game.sim.snapshot()))
-      check(campaign(saved)==campaign(before) and game.sim.snapshot()==dive,"completion changes only the challenge-results field")
+      check(campaign(saved)==campaign(before) and game.sim.snapshot()==dive,"completion preserves all campaign fields and live simulation")
       if history.has("shelf_passive"):
        check(not history.shelf_passive.best.loss and history.shelf_passive.attempts==1,"the successful best is saved once")
        session._debrief();await settle()
-       check(game.store.load_game().challenges.shelf_passive.attempts==1,"repeated debrief cannot duplicate an attempt")
+       check(game.challenge_records.shelf_passive.attempts==1,"repeated debrief cannot duplicate an attempt")
        if await press(session,"challenge_return"):
         check(game.get_node_or_null("ChallengeSession")==null and game.can_process(),"return restores the original campaign host")
         check(front.visible and front.screen=="challenges","return restores the challenge menu")
         game._save_archive()
-        check(game.store.load_game().challenges==history,"ordinary campaign saves retain challenge bests")
+        check(game.challenge_records==history,"ordinary campaign saves retain challenge bests")
         before=game.store.load_game()
+        campaign_bytes=FileAccess.get_file_as_bytes(path);backup_bytes=FileAccess.get_file_as_bytes(path+".bak")
         var loaded=load("res://scenes/main.tscn").instantiate();loaded.capture_scenario="runtime-test";loaded.store.path=path;root.add_child(loaded);await settle()
         loaded.capture_scenario="";loaded._load_archive()
-        check(loaded.get("challenge_records")==history,"profile reload restores the additive results")
+        load("res://src/campaign/challenges/challenge_archive.gd").restore(loaded)
+        check(loaded.get("challenge_records")==history,"profile reload restores the separate challenge results")
         loaded.queue_free();await settle()
         if await press(front,"challenge_shelf_passive"):
          if await press(front,"challenge_start"):
@@ -110,13 +119,16 @@ func shape_case(shape):
           if session!=null:
            session.set_process(false);session._show_campaign();await settle()
            if await press(session,"challenge_abandon"):
-            await escape_key()
-            check(game.get_node_or_null("ChallengeSession")==null and front.screen=="challenges","Escape leaves a finished attempt instead of resuming an already-recorded loss")
+            if shape.x==2520:await escape_key()
+            else:
+             game.notification(Node.NOTIFICATION_WM_GO_BACK_REQUEST);session.notification(Node.NOTIFICATION_WM_GO_BACK_REQUEST);await settle()
+            check(game.get_node_or_null("ChallengeSession")==null and front.screen=="challenges","Escape or Android Back leaves a finished attempt instead of reopening a recorded loss")
             var after=game.store.load_game()
-            check(after.challenges.shelf_passive.attempts==2 and after.challenges.shelf_passive.last.loss,"ending an unfinished attempt records its loss")
-            check(after.challenges.shelf_passive.best==history.shelf_passive.best and campaign(after)==campaign(before),"an abandoned attempt preserves the best and the campaign")
+            check(FileAccess.get_file_as_bytes(path)==campaign_bytes and FileAccess.get_file_as_bytes(path+".bak")==backup_bytes,"abandonment leaves campaign primary and backup byte-identical")
+            check(game.challenge_records.shelf_passive.attempts==2 and game.challenge_records.shelf_passive.last.loss,"ending an unfinished attempt records its loss")
+            check(game.challenge_records.shelf_passive.best==history.shelf_passive.best and campaign(after)==campaign(before),"an abandoned attempt preserves the best and the campaign")
  game.queue_free();await settle()
- for file in [path,settings_path]:
+ for file in [path,path+".challenges",settings_path]:
   for suffix in ["",".bak",".tmp"]:DirAccess.remove_absolute(file+suffix)
 func run():
  for shape in [Vector2i(2520,1080),Vector2i(2184,1968)]:await shape_case(shape)

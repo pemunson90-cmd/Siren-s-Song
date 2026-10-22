@@ -95,6 +95,17 @@ func _initialize():
 		check(store.valid(profile),"a profile accepts genuine challenge records")
 		store.path="user://challenge-records-test.save"
 		check(store.save(profile) and store.load_game()==profile,"challenge results survive the normal binary archive round trip")
+		var archive=load("res://src/campaign/challenges/challenge_archive.gd").new()
+		archive.path=store.path+".challenges"
+		var campaign_bytes=FileAccess.get_file_as_bytes(store.path)
+		check(archive.save({"version":1,"challenges":records}),"separate challenge archive accepts validated results")
+		check(archive.load_game().get("challenges")==records,"separate challenge results round trip")
+		check(FileAccess.get_file_as_bytes(store.path)==campaign_bytes,"record persistence leaves campaign bytes untouched")
+		check(not archive.save({"version":1,"challenges":"broken"}),"challenge archive rejects malformed history")
+		check(archive.load_game().get("challenges")==records,"a rejected save retains previous challenge records")
+		archive.path="user://missing-challenges-directory/results.save"
+		check(not archive.save({"version":1,"challenges":records}) and not archive.warning.is_empty(),"write failure reports an error for the retry interface")
+		for suffix in ["",".bak",".tmp"]:DirAccess.remove_absolute(store.path+".challenges"+suffix)
 		var broken=records.duplicate(true);broken[rows[0].id].last.time=NAN
 		check(not Records.valid(broken),"non-finite result values are rejected")
 		for suffix in ["",".bak",".tmp"]:DirAccess.remove_absolute(store.path+suffix)
