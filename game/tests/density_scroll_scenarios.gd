@@ -45,14 +45,15 @@ func gap_origin() -> Vector2:
 		if clear:return point
 	return Vector2(-1,-1)
 func reveal(control) -> void:
- # Growing settings can move an earlier slider above the viewport at rest.
- # Scroll that particular control into view through the actual drag path.
- for n in 6:
-  var body=game.scroll.get_global_rect();var rect=control.get_global_rect()
-  if body.encloses(rect):return
-  var start=Vector2(body.position.x+4,body.get_center().y)
-  var delta=clampf(body.get_center().y-rect.get_center().y,-200,200)
-  await drag(start,start+Vector2(0,delta))
+	# Growing settings can move an earlier slider above the viewport at rest.
+	# Scroll that particular control into view through the actual drag path.
+	for n in 12:
+		var body=game.scroll.get_global_rect();var rect=control.get_global_rect()
+		if body.encloses(rect):return
+		var start=gap_origin()
+		if start.x<0:return
+		var delta=clampf((body.get_center().y-rect.get_center().y)*.25,-40,40)
+		await drag(start,start+Vector2(0,delta))
 func run() -> void:
 	var previous_emulation=Input.is_emulating_touch_from_mouse();Input.set_emulate_touch_from_mouse(true)
 	root.size=Vector2i(2520,1080);await process_frame;await process_frame

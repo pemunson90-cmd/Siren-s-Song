@@ -64,6 +64,8 @@ func run():
   var follows=ocean.chart_camera.has_method("follow")
   check(follows,"default camera supports physical craft follow")
   if follows:check(ocean.chart_camera.mode=="follow" and ocean.chart_camera.zoom>1,"fresh dive starts in tactical FOLLOW rather than FIT")
+  # Keep the independent follow-camera probe clear of friendly hulls.
+  for drone in [1,2]:game.sim.units[drone].pos.y=600
   game._order("route",{"point":Vector2(620,800)});game.sim.paused=false
   var start=game.sim.units[0].pos;var camera_start=ocean.chart_camera.center
   for n in 600:game.sim.advance(1./60.)
@@ -73,6 +75,7 @@ func run():
   check(game.sim.units[0].pos.distance_to(start)>100 and ocean.chart_camera.center.distance_to(camera_start)>30,"actual physical movement scrolls the followed playfield")
   var destination=game.sim.units[0].pos+Vector2(220,-20);var latest=ocean.global_position+ocean.screen_position(destination)
   await touch(latest,true);await touch(latest,false);await settle()
+  print("FOLLOW TAP destination=",destination," point=",latest," goals=",game.sim.route_goals())
   check(not game.sim.route_goals().is_empty() and game.sim.route_goals()[0].pos.distance_to(destination)<.1,"ordinary route tap after physical follow uses latest camera transform")
   await click(game.pause_button);check(game.sim.paused,"persistent PAUSE remains immediate after actual moving play")
   var state=game.sim.snapshot();ocean.pan_chart(Vector2(-90,0));var manual=ocean.chart_camera.center

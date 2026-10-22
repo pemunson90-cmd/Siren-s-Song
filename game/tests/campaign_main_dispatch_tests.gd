@@ -32,6 +32,8 @@ func run():
    check(game.sim.command("chain_route",{"output":"service"}),"terminal10 fixture selects the actual service output")
    check(game.sim.command("chain_send") and game.sim.all_records(),"terminal10 fixture earns the actual local warning receipt")
   game.sim.units[0].pos=Vector2(180,1000) if id==10 else game.sim.mission.extraction;game.sim.units[0].vel=Vector2.ZERO;game.sim.advance(.1)
+  if game.sim.departure_context().get("confirmation_required",false):
+   check(game.sim.command("depart",{"confirm":true}),"terminal fixture explicitly confirms leaving remote carriers")
   check(game.sim.outcome=="won" and preload("res://src/simulation/simulation.gd").valid_snapshot(game.sim.snapshot()),"self-contained onward%d terminal fixture satisfies real save schema"%id)
   game._process(0.)
   check(game.screen=="debrief" and game.completed==tutorial and game.unlocked==5,"normal Main%d frame dispatch preserves tutorial completion IDs"%id)

@@ -7,9 +7,9 @@ func check(ok: bool,text: String) -> void:
  checks+=1
  if not ok:failures+=1;printerr("FAIL: ",text)
 func fixture():
- var s=Simulation.new();s.start(4);s.units[0].pos=Vector2(600,750);s.units[0].angle=0.0
+ var s=Simulation.new();s.start(4);s.units[0].band=1;s.units[0].pos=Vector2(600,750);s.units[0].angle=0.0
  for i in [0,1]:
-  s.sirens[i].pos=Vector2(700+i*30,750);s.sirens[i].vel=Vector2(8,3);s.sirens[i].route=[];s.sirens[i].home=s.sirens[i].pos;s.sirens[i].goal=s.sirens[i].pos
+  s.sirens[i].band=1;s.sirens[i].transition={};s.sirens[i].pos=Vector2(700+i*30,750);s.sirens[i].vel=Vector2(8,3);s.sirens[i].route=[];s.sirens[i].home=s.sirens[i].pos;s.sirens[i].goal=s.sirens[i].pos
  s._observe();return s
 func tick(s,seconds: float) -> void:
  for i in ceili(seconds/Simulation.STEP):s.advance(Simulation.STEP)

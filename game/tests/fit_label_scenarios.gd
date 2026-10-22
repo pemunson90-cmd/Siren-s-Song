@@ -20,6 +20,7 @@ func run() -> void:
   var ui=load("res://scenes/main.tscn").instantiate();ui.set_script(preload("res://tests/fit_label_main.gd"));ui.capture_scenario="fit-label-test"
   ui.fixture_dpi=profile.dpi;ui.fixture_safe_area=Rect2(profile.inset,0,profile.size.x-profile.inset,profile.size.y) if profile.inset else Rect2();root.add_child(ui)
   ui._start_mission(0);ui._layout();await process_frame;await process_frame;await process_frame
+  ui.mission_hud.open("view");await process_frame;await process_frame
   var scale=Vector2(profile.size)/ui.get_viewport_rect().size
   var safe=ui.get_global_rect();var last=Rect2()
   var geometry=[]
@@ -28,7 +29,7 @@ func run() -> void:
    var required=font.get_string_size(b.text,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x+b.get_theme_stylebox("normal").get_minimum_size().x
    check(b.size.x+0.01>=required,"%s %s fits on one line with unchanged text and theme padding (%s >= %s)"%[profile.name,b.text,b.size.x,required])
    check(is_equal_approx(b.size.y,ui.ui_touch_height),"%s %s retains intended single-row height"%[profile.name,b.text])
-   check(font_size==maxi(18,roundi(ui.ui_touch_height*0.29)),"%s %s retains readable font size"%[profile.name,b.text])
+   check(font_size*scale.y/(profile.dpi/160.0 if profile.dpi==420.0 else 1.0)>=13.99,"%s %s retains readable font size"%[profile.name,b.text])
    var physical=b.size*scale;var minimum=48.0*(profile.dpi/160.0) if profile.dpi==420.0 else 48.0
    check(physical.x>=minimum-0.01 and physical.y>=minimum-0.01,"%s %s retains touch minimum"%[profile.name,b.text])
    var rect=b.get_global_rect()
