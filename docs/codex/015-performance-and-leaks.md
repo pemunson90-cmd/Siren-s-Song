@@ -31,4 +31,6 @@ Before and after numbers, at least one real fix with identical behavior proven b
 Open a PR into claude/integration, wait for guidance and game-smoke, merge when green, then write the Completion section and push to codex/handoffs.
 
 ## Completion
-(Codex fills this in: what changed in plain language, PR link, test results, unverified items, anything for Pat.)
+Work in progress. Branch: `claude/lane-performance-and-leaks`. Last pushed SHA: `0e2e3caa73cfd27903141e7e97f5cdac6049e3f0`. Draft PR: https://github.com/pemunson90-cmd/Siren-s-Song/pull/73.
+
+Initial instrumented profile: operations 19, 29, 16, 30 simulated seconds each; 3/0. Main inclusive costs: threats, observation, movement. Full 180-second-per-operation baseline is running before any source edit. Candidate safe fix: avoid pure visibility recomputation for cells already marked known; preserve evaluation of false/unknown cells. Import retry passed after one fresh-worktree Godot import segfault; no cgroup OOM event. No game source edited yet.
