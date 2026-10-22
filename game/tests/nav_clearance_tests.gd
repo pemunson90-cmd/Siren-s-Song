@@ -11,6 +11,7 @@ func _initialize():
  var s=Sim.new();s.start(3,"endurance")
  var origin=Vector2(889.6,800);var target=s.mission.extraction
  check(Measure.leg_clearance(s,origin,origin)>=24.,"the staged near-corner start has the full requested planning margin")
+ check(s.path(origin,target)==[{"pos":Vector2(940,820),"stop":false},{"pos":target,"stop":true}],"the shared non-player path remains exactly as recorded before NAV1")
  var planned=s.player_path(origin,target)
  check(not planned.is_empty(),"the legal route remains reachable instead of rejecting every corner")
  var clearance=Measure.route_clearance(s,origin,planned)

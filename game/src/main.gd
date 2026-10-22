@@ -797,7 +797,13 @@ func _notification(what: int) -> void:
 	if what==NOTIFICATION_WM_CLOSE_REQUEST:
 		_save_archive(); get_tree().quit()
 	if what==NOTIFICATION_WM_GO_BACK_REQUEST:
-		sim.paused=true; _save_archive(); call_deferred("_show_campaign")
+		sim.paused=true; _save_archive(); call_deferred("_android_back")
+
+func _android_back()->void:
+	if not is_inside_tree():return
+	# Match Escape in the route instrument, after Android's notification traversal.
+	if screen=="program":route_editor.close()
+	else:_show_campaign()
 
 func _take_capture() -> void:
 	await RenderingServer.frame_post_draw
