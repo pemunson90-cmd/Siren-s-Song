@@ -66,6 +66,7 @@ func _unhandled_key_input(event:InputEvent)->void:
 		get_viewport().set_input_as_handled()
 	super._unhandled_key_input(event)
 func _show_campaign()->void:
+	if not is_inside_tree():return
 	if recorded or not sim.outcome.is_empty():_return();return
 	sim.paused=true;screen="challenge_menu";_clear_menu()
 	_menu_text(sim.definition.title,30);_menu_text(Challenges.description(sim.definition),20)

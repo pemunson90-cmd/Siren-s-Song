@@ -19,6 +19,9 @@ func escape_key():
  for down in [true,false]:
   var event=InputEventKey.new();event.keycode=KEY_ESCAPE;event.pressed=down;root.push_input(event,true);await process_frame
  await settle()
+func android_back(count=1):
+ for n in count:root.propagate_notification(Node.NOTIFICATION_WM_GO_BACK_REQUEST)
+ await settle()
 func button(node,id):
  for b in node.find_children("*","Button",true,false):
   if b.get_meta("ui_action","")==id and b.is_visible_in_tree():return b
@@ -113,20 +116,21 @@ func shape_case(shape):
         load("res://src/campaign/challenges/challenge_archive.gd").restore(loaded)
         check(loaded.get("challenge_records")==history,"profile reload restores the separate challenge results")
         loaded.queue_free();await settle()
-        if await press(front,"challenge_shelf_passive"):
-         if await press(front,"challenge_start"):
-          session=game.get_node_or_null("ChallengeSession")
-          if session!=null:
-           session.set_process(false);session._show_campaign();await settle()
-           if await press(session,"challenge_abandon"):
-            if shape.x==2520:await escape_key()
-            else:
-             game.notification(Node.NOTIFICATION_WM_GO_BACK_REQUEST);session.notification(Node.NOTIFICATION_WM_GO_BACK_REQUEST);await settle()
-            check(game.get_node_or_null("ChallengeSession")==null and front.screen=="challenges","Escape or Android Back leaves a finished attempt instead of reopening a recorded loss")
-            var after=game.store.load_game()
-            check(FileAccess.get_file_as_bytes(path)==campaign_bytes and FileAccess.get_file_as_bytes(path+".bak")==backup_bytes,"abandonment leaves campaign primary and backup byte-identical")
-            check(game.challenge_records.shelf_passive.attempts==2 and game.challenge_records.shelf_passive.last.loss,"ending an unfinished attempt records its loss")
-            check(game.challenge_records.shelf_passive.best==history.shelf_passive.best and campaign(after)==campaign(before),"an abandoned attempt preserves the best and the campaign")
+        for navigation in ["android","keyboard"]:
+         if await press(front,"challenge_shelf_passive"):
+          if await press(front,"challenge_start"):
+           session=game.get_node_or_null("ChallengeSession")
+           if session!=null:
+            session.set_process(false);await android_back()
+            check(session.screen=="challenge_menu","Android Back opens the attempt menu through the normal lifecycle notification")
+            if await press(session,"challenge_abandon"):
+             if navigation=="android":await android_back(2)
+             else:await escape_key()
+             check(game.get_node_or_null("ChallengeSession")==null and front.screen=="challenges","Escape or Android Back leaves a finished attempt instead of reopening a recorded loss")
+             var after=game.store.load_game()
+             check(FileAccess.get_file_as_bytes(path)==campaign_bytes and FileAccess.get_file_as_bytes(path+".bak")==backup_bytes,"abandonment leaves campaign primary and backup byte-identical")
+             check(game.challenge_records.shelf_passive.attempts==2+["android","keyboard"].find(navigation) and game.challenge_records.shelf_passive.last.loss,"ending an unfinished attempt records its loss")
+             check(game.challenge_records.shelf_passive.best==history.shelf_passive.best and campaign(after)==campaign(before),"an abandoned attempt preserves the best and the campaign")
  game.queue_free();await settle()
  for file in [path,path+".challenges",settings_path]:
   for suffix in ["",".bak",".tmp"]:DirAccess.remove_absolute(file+suffix)
