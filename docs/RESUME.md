@@ -18,7 +18,7 @@ Setup: `export PATH=$HOME/.cache/sirens-song-toolchain/bin:$PATH; scripts/toolch
 
 ## 3. State at 23:20 UTC 22 Oct
 claude/integration tip: check `git log -1 origin/claude/integration`. Landed today: PRs 65 PHOTO1, 66 ONBOARD1, 67 PHOTO2, 68 lock warning, 69 Priced Shots, 70 sweeper on V7 senses, 71 controls friction, 72 challenge mode, 73 performance.
-MERGED 23:30 UTC: PR 74 DEPTH1 (bc95d8a): depth-band photos (photo_depth), timing aids (photo_rules), ALL STOP (all_stop). Handoffs 018 and 028 are DONE. No open Claude PRs. Second cold review was started at 23:35 UTC (see section 4 item 2).
+MERGED 23:30 UTC: PR 74 DEPTH1 (bc95d8a): depth-band photos (photo_depth), timing aids (photo_rules), ALL STOP (all_stop). Handoffs 018 and 028 are DONE. No open Claude PRs. Second cold review (fresh critic agent) was started at 23:35 UTC; it saves drafts to docs/design/COLD_REVIEW_2.md on branch codex/handoffs. If that file is missing or marked partial when you resume, rerun the review (section 4 item 2).
 Now unblocked for Codex: 016, 019, 020, 022 to 027, 029 to 033 (021 after 020). Pat must tell Codex that 016 is clear.
 Parked WIP branches (safe, do not delete): claude/lane-n1-calder, claude/lane-p2-economy, claude/lane-c2-wip-b, claude/future-siren-active-sonar-sweeper (original active-sonar sweeper, a possible hard mode).
 Design documents (committed on branch codex/handoffs under docs/design/): COLD_REVIEW_1, DESIGN_TRADES_FITTINGS (Priced Shots), DESIGN_DEPTH_FINDINGS, DESIGN_CAMPAIGN_DEPTH, ARCH_AUDIT_1.
