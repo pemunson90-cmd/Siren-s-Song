@@ -1,8 +1,8 @@
 # Handoff 011: make the lethal beam warning unmistakable
 
-Status: OPEN
-Claimed at:
-Claimed by:
+Status: CLAIMED
+Claimed at: 2026-10-22 16:34:26 UTC
+Claimed by: codex
 Finished at:
 
 Precondition: none. This is the first handoff of BATCH 1 (011, 012, 013). Handoff 009 is claimed by Claude and does not block you.
