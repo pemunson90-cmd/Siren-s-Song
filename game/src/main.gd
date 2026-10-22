@@ -616,7 +616,7 @@ func _sync_craft_upgrades()->void:
 	if not expedition.is_empty():expedition.entitlements=_equipment_entitlements()
 func _show_photo_grade(records:Array)->void:
 	var grade=Recon.grade(records)
-	if grade.photos>0:_menu_text("INTEL PHOTO GRADE %s · %d photographs · %d%% quality"%[grade.grade,grade.photos,roundi(grade.quality*100)],20)
+	if grade.photos>0:_menu_text("INTEL PHOTO GRADE %s · %d %s · average %d%% of each record's best frame%s"%[grade.grade,grade.photos,"record" if grade.photos==1 else "records",roundi(grade.quality*100),"" if grade.photos==1 else " · sharpest record %d%%"%roundi(grade.best*100)],20)
 func _show_ending()->void:
 	var ending=Endings.resolve(expedition)
 	if ending.is_empty():_show_campaign();return
@@ -909,9 +909,9 @@ func _merge_shots(key:String) -> void:
 func _evidence_is_text(entry:Dictionary) -> bool:
 	return entry.optical in preload("res://src/campaign/operation_catalog.gd").record_keys(true) or entry.optical in ["well_pattern","well_signature"]
 func _retain_evidence() -> void:
-	for objective in sim.mission.objectives:
+	for objective in sim.mission.objectives+PhotoCapture.peek(sim).get("studies",[]):
 		if objective.captured and objective.has("photo_quality"):
-			var key="%d:%d"%[sim.mission.id,sim.mission.objectives.find(objective)]
+			var key="%d:%d"%[sim.mission.id,PhotoCapture.index_of(sim,objective)]
 			if objective.photo_quality>=photo_records.get(key,{}).get("photo_quality",0):photo_records[key]={"photo_quality":objective.photo_quality,"photo_craft":objective.photo_craft,"photo_distance":objective.photo_distance}
 		if objective.captured and objective.has("optical"):
 			var earlier:Array=recovered_evidence.get(objective.optical,{}).get("shots",[])
@@ -936,13 +936,15 @@ func _evidence_gallery(index: int,shot_index:int=-1,compare:bool=false) -> void:
 		for i in shots.size():
 			if float(shots[i].q)>float(shots[best].q):best=i
 		var at:int=best if shot_index<0 else clampi(shot_index,0,shots.size()-1)
-		var plate_height:float=minf(280.0,size.y*0.34)
+		var plate_height:float=minf(300.0,size.y*(0.42 if not compare else 0.34))
 		var row=HBoxContainer.new();row.add_theme_constant_override("separation",8);panel_box.add_child(row)
 		var other:int=(at+1)%shots.size()
 		for n in (2 if compare and shots.size()>1 else 1):
 			var plate=PhotoView.Plate.new();plate.vm=PhotoView.from_shot(shots[at if n==0 else other]);plate.title="FRAME %d"%((at if n==0 else other)+1)
 			plate.size_flags_horizontal=Control.SIZE_EXPAND_FILL;plate.custom_minimum_size=Vector2(0,plate_height);row.add_child(plate)
 		_menu_text(_shot_report(shots[at],at,shots.size()),16)
+		var learned:=_shot_findings(shots[at])
+		if not learned.is_empty():_menu_text(learned,17)
 		if compare and shots.size()>1:_menu_text(_shot_difference(shots[at],shots[other],at,other),16)
 		if shots.size()>1:
 			_button(panel_box,"NEXT FRAME",func(): _evidence_gallery(index,(at+1)%shots.size(),compare),"next_shot")
@@ -963,6 +965,14 @@ func _shot_report(shot:Dictionary,at:int,total:int) -> String:
 	var how:="%s · %dm · aspect %d° · %s%s"%[shot.craft,roundi(float(shot.dist)),roundi(rad_to_deg(float(shot.aspect))),str(shot.mode).to_upper()," · flash" if shot.flash else ""]
 	var water:="light %d%% · clarity %d%% · sharp %d%%"%[roundi(float(shot.light)*100),roundi(float(shot.clarity)*100),roundi(float(shot.sharp)*100)]
 	return "FRAME %d OF %d · QUALITY %d%%%s\n%s\n%s\nRESOLVED: %s"%[at+1,total,roundi(float(shot.q)*100),"" if shot.get("usable",true) else " · UNUSABLE",how,water,", ".join(seen) if not seen.is_empty() else "nothing identifiable"]
+# What this frame taught: each line is a mark the player can act on, drawn on the
+# chart of the operation it concerns once the frame resolved it.
+func _shot_findings(shot:Dictionary) -> String:
+	var lines:PackedStringArray=[]
+	for f in shot.get("findings",[]):
+		lines.append("%s · %s"%[str(f.kind).to_upper(),f.text])
+	if lines.is_empty():return ""
+	return "OBSERVED IN THIS FRAME · MARKED ON THE CHART\n"+"\n".join(lines)
 func _shot_difference(a:Dictionary,b:Dictionary,ia:int,ib:int) -> String:
 	var only_a:PackedStringArray=[];var only_b:PackedStringArray=[]
 	for id in a.features:
@@ -970,7 +980,8 @@ func _shot_difference(a:Dictionary,b:Dictionary,ia:int,ib:int) -> String:
 	for id in b.features:
 		if id not in a.features:only_b.append(str(id))
 	var lines:PackedStringArray=["FRAME %d vs %d"%[ia+1,ib+1]]
-	lines.append("Quality %+d points · distance %+dm · light %+d points · clarity %+d points"%[roundi((float(b.q)-float(a.q))*100),roundi(float(b.dist)-float(a.dist)),roundi((float(b.light)-float(a.light))*100),roundi((float(b.clarity)-float(a.clarity))*100)])
+	lines.append("QUALITY frame %d %d%% / frame %d %d%% · distance %dm / %dm · light %d%% / %d%% · clarity %d%% / %d%%"%[ia+1,roundi(float(a.q)*100),ib+1,roundi(float(b.q)*100),roundi(float(a.dist)),roundi(float(b.dist)),roundi(float(a.light)*100),roundi(float(b.light)*100),roundi(float(a.clarity)*100),roundi(float(b.clarity)*100)])
+	lines.append("Better frame: %s"%("frame %d"%(ia+1) if float(a.q)>=float(b.q) else "frame %d"%(ib+1)))
 	lines.append("Only in frame %d: %s"%[ia+1,", ".join(only_a) if not only_a.is_empty() else "none"])
 	lines.append("Only in frame %d: %s"%[ib+1,", ".join(only_b) if not only_b.is_empty() else "none"])
 	return "\n".join(lines)
