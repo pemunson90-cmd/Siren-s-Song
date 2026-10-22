@@ -61,7 +61,14 @@ static func apply_effects(m:Dictionary,id:int,context:Dictionary)->void:
 		var plug=preload("res://src/campaign/encounters/terrain.gd").ridge([Vector2(1100,1410),Vector2(1300,1400)],160,3)
 		m.rocks=m.rocks.filter(func(r):return r!=plug)
 		m.brief+=" Your Silt Archive photographs showed a scour cut under a glass line. The same cut opens the middle water here, between the west piers and the service gate, away from both buoys."
+		_mark(m,{"id":"scour_gap","kind":"gap","text":"SCOUR GAP · from your Silt Archive film","label":"SCOUR GAP · from your Silt Archive film","pos":[1200.0,1405.0],"r":110.0,"q":context.intel.silt_scour.q,"op":17})
 	if id==25 and ok(context,"exhaust_stack"):
 		m.thermal_revision=1;m.thermal_fronts=[{"area":Rect2(400,700,450,1250),"transmission":0.42,"close_range":90.0}]
 		m["photo_lane"]="WARM EXHAUST LANE"
+		_mark(m,{"id":"warm_lane","kind":"lane","text":"WARM EXHAUST LANE · from your Furnace Drift film","label":"WARM EXHAUST LANE · from your Furnace Drift film","rect":[400.0,700.0,450.0,1250.0],"q":context.intel.exhaust_stack.q,"op":16})
 		m.brief+=" Your Furnace Drift photographs placed warm exhaust along the west channel. The plant breathes the same way here: sound and passive contacts weaken inside that lane, which runs the length of the service channel."
+
+# Marks cut from earlier film: on the chart from the start, never before the film came home.
+static func _mark(m:Dictionary,mark:Dictionary)->void:
+	if not m.has("photo_marks"):m["photo_marks"]=[]
+	m.photo_marks.append(mark)

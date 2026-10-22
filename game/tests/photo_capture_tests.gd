@@ -156,7 +156,7 @@ func _initialize():
 	check(ctx.ready and ctx.target==-2,"a visible Siren in clear water is a photographic subject")
 	check(st.command("camera"),"camera order accepted on a Siren")
 	run(st,9)
-	var so=st.mission.objectives.back()
+	var so=st.mission.photo.studies.back()
 	check(so.has("siren") and so.captured and last(st).type=="patroller","studying a Siren files its own record")
 	check("array" in last(st).features and last(st).path.size()>=4,"the front view resolves its array, a long watch records its movement")
 	check(st.mission.photo.paths.size()==1,"the observed path is kept for the chart")
