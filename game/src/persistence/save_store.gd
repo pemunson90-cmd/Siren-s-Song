@@ -11,6 +11,7 @@ func valid(data: Dictionary) -> bool:
 	if not data.get("unlocked") is int or data.unlocked<0 or data.unlocked>5: return false
 	if not data.get("completed") is Array or not data.get("settings") is Dictionary or not data.get("upgrade") is String: return false
 	if data.has("hints_seen") and not preload("res://src/campaign/onboarding_text.gd").valid_seen(data.hints_seen):return false
+	if data.has("challenges") and not preload("res://src/campaign/challenges/challenge_records.gd").valid(data.challenges):return false
 	if data.has("intel") and not preload("res://src/campaign/photo_intel.gd").valid(data.intel):return false
 	if data.has("expedition") and not preload("res://src/campaign/expedition_campaign.gd").valid(data.expedition):return false
 	if data.has("fleet") and not preload("res://src/campaign/fleet_inventory.gd").valid(data.fleet,preload("res://src/equipment/craft_upgrades.gd").recovered(data.completed,data.get("expedition",{}),data.get("intel",{})),data.completed+data.get("expedition",{}).get("completed",[])):return false
