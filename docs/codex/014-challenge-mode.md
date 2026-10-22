@@ -31,6 +31,6 @@ Twelve working challenges, saved bests, menu entry, tests pass, existing saves u
 Open a PR into claude/integration, wait for guidance and game-smoke, merge when green, then write the Completion section and push to codex/handoffs.
 
 ## Completion
-Work in progress. Branch: `claude/lane-challenge-mode`. Last pushed SHA: `571d1c7bc4525d915a779967e4394c8b340de145`.
+Work in progress. Branch: `claude/lane-challenge-mode`. Last pushed SHA: `2d4b493b534ab0f70436d692680d1dc55a98d866`.
 
 PR: https://github.com/pemunson90-cmd/Siren-s-Song/pull/72. Model checks: 178 passed. Touch UI: 68 passed across cover/inner layouts. Completion, abandonment and Android suspend preserve campaign primary and backup byte-identically; Escape and Android Back close finished attempts. Challenge results use their own validated archive. Import passed; core and exact-head CI pending. Tests for the new feature run locally; runner registration belongs to 016.
