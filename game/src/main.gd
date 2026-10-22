@@ -51,6 +51,7 @@ var unlocked := 0
 var completed: Array=[]
 var expedition:Dictionary={}
 var fleet:Dictionary={}
+var challenge_records:Dictionary={}
 var fitted_equipment:Dictionary=preload("res://src/equipment/equipment_catalog.gd").default_loadout()
 var upgrade := "endurance"
 var capture_scenario := ""
@@ -780,6 +781,8 @@ func _set_text_scale(scale:float) -> void:
 	store_settings.save_settings(values)
 	_settings_menu()
 func _notification(what: int) -> void:
+	# The isolated challenge session owns lifecycle handling while the campaign is frozen.
+	if get_node_or_null("ChallengeSession")!=null:return
 	if what in [NOTIFICATION_APPLICATION_PAUSED,NOTIFICATION_APPLICATION_FOCUS_OUT,NOTIFICATION_WM_WINDOW_FOCUS_OUT]:
 		if sim.mission!=null:
 			knock_armed=false; ocean.knock_targeting=false; decoy_armed=false; ocean.decoy_targeting=false; map_gesture.cancel()
@@ -794,7 +797,7 @@ func _notification(what: int) -> void:
 	if what==NOTIFICATION_WM_CLOSE_REQUEST:
 		_save_archive(); get_tree().quit()
 	if what==NOTIFICATION_WM_GO_BACK_REQUEST:
-		sim.paused=true; _save_archive(); _show_campaign()
+		sim.paused=true; _save_archive(); call_deferred("_show_campaign")
 
 func _take_capture() -> void:
 	await RenderingServer.frame_post_draw
