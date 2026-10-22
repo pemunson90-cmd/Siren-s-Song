@@ -19,6 +19,7 @@ static func run(t,game) -> void:
 		var objectives=[] if id in [4,5] else s.mission.objectives.duplicate()
 		if id==2:objectives.reverse()
 		for objective in objectives:
+			if objective.get("optional",false):continue
 			var vantage=objective.pos+Vector2(0,140 if id==2 else 210)
 			if s.blocked(vantage,25): vantage=objective.pos+Vector2(-210,0)
 			if not Routes.move(s,vantage): break

@@ -34,6 +34,7 @@ const Glass=preload("res://src/simulation/glass_reach_work.gd")
 const Network=preload("res://src/simulation/acoustic_network.gd")
 const Sweeper=preload("res://src/simulation/sonar_sweeper.gd")
 const Sonar=preload("res://src/simulation/advanced_sonar.gd")
+const Photo=preload("res://src/simulation/photo_capture.gd")
 var sonar:Dictionary={}
 var depth_charts:Dictionary={}
 var band_acoustics:Dictionary={}
@@ -598,16 +599,22 @@ func command(order: String,args: Dictionary={}) -> bool:
 			var point=args.get("point",u.pos+Vector2(DECOY_RANGE,0))
 			if not decoy_target_valid(point): message="Decoy needs clear water within 160m and a clear path · no charge spent"; return false
 			tools.decoy-=1; _noise(point,1100,"DECOY",15.0,u.band); message="Decoy launched · 15s transmission"; events.append({"type":"decoy","pos":u.pos})
+		"frame":
+			return Photo.set_frame(self,selected,args)
 		"camera":
 			if not module_recovery_status().jobs[selected].is_empty() or Delivery.busy(self,selected) or Witness.busy(self,selected) or Glass.busy(self,selected) or Choir.busy(self,selected):message="Finish this craft's wreck recovery first";return false
 			var context=camera_context()
 			if not context.ready: message=context.text; return false
-			var target=mission.objectives[context.target]
-			captures[selected]={"target":context.target,"elapsed":0.0}; u.hold="HOLD"
+			var photo_target:int=context.target if context.target>=0 else Photo.siren_objective(self,context.siren)
+			var target=mission.objectives[photo_target]
+			captures[selected]={"target":photo_target,"elapsed":0.0}; u.hold="HOLD"
 			Operations.begin(self,target,selected)
+			if Photo.applies(target):
+				Photo.begin(self,selected,photo_target)
+				if target.captured:Recon.action(mission,3.0)
 			message="%s · hold %.0f seconds"%["Hydrophone reception" if target.get("kind","")=="exchange" else ("Passive hydrophone decode" if target.get("kind","")=="receiver" else ("Archive uplink" if target.get("kind","")=="uplink" else "Warning transmission" if Operations.own_origin(target) else "Camera exposure")),_capture_duration(target,selected)]
 			if target.get("kind","") not in ["receiver","exchange","transmitter"] or not Sampler.capture_spec(selected,mission.get("launch_equipment",{}),target).is_empty():
-				_noise(u.pos,520,"CAMERA",2.0,u.band);noises.back()["record"]=context.target
+				_noise(u.pos,Photo.noise_radius(self,selected) if Photo.applies(target) else 520,"CAMERA",2.0,u.band);noises.back()["record"]=photo_target
 			events.append({"type":"camera","pos":u.pos})
 		_: return false
 	ModuleRecovery.cancel_released(self,selected);Glass.cancel_released(self,selected);Choir.cancel_released(self,selected)
@@ -713,9 +720,13 @@ func camera_context() -> Dictionary:
 	if mission.has("expedition_revision") and mission.objectives.all(func(o):return o.captured) and not mission.objectives.any(func(o):return Operations.own_origin(o)):
 		var facts=mission.expedition_facts.keys()
 		return {"target":-1,"ready":false,"text":"No exact source located · listen from another position or spend local RECON" if facts.is_empty() and mission.id!=8 else "Observed %s · choose an available named recovery corridor"%", ".join(facts)}
-	var unit=units[selected]; var best=-1; var nearest=-1; var distance=INF
+	var unit=units[selected]; var best=-1; var nearest=-1; var distance=INF; var reshoot=-1; var best_score:=INF
 	for id in mission.objectives.size():
 		var objective=mission.objectives[id]
+		if objective.captured and Photo.applies(objective) and not Operations.own_origin(objective) and Photo.seen_before(self,id).size()<objective.subject.features.size():
+			# A resolved record can be re-shot from a better viewpoint for what it missed.
+			if reshoot<0 and unit.pos.distance_to(objective.pos)<Photo.reach(self,selected) and line_clear(unit.pos,objective.pos):reshoot=id
+			continue
 		if objective.captured and not Operations.own_origin(objective) and not Delivery.needs_sample(self,id,selected): continue
 		if Operations.own_origin(objective):
 			if nearest<0:nearest=id
@@ -725,8 +736,16 @@ func camera_context() -> Dictionary:
 		var d:float=reception.distance if not reception.is_empty() else unit.pos.distance_to(objective.pos)
 		if not reception.is_empty() and reception.ready and best<0:best=id
 		if d<distance: nearest=id; distance=d
-		if best<0 and d<240 and line_clear(unit.pos,objective.pos): best=id
-	if nearest<0: return {"target":-1,"ready":false,"text":Delivery.status(self).text if Delivery.applies(mission) else "Archive aboard · return Quietus to extraction."}
+		if d<Photo.reach(self,selected) and line_clear(unit.pos,objective.pos):
+			# Several subjects in reach: the one the craft is turned toward is framed.
+			var aim_score:float=absf(angle_difference(unit.angle,unit.pos.angle_to_point(objective.pos)))+d/2000.0
+			if best<0:best=id;best_score=aim_score
+			elif Photo.applies(objective) and Photo.applies(mission.objectives[best]) and aim_score<best_score:best=id;best_score=aim_score
+	if best<0 and reshoot>=0:best=reshoot
+	if best<0 and (nearest<0 or not Operations.own_origin(mission.objectives[nearest])):
+		var sighted=Photo.siren_candidate(self,selected)
+		if sighted>=0:return {"target":-2,"siren":sighted,"ready":true,"text":"READY · S%d %s · PHOTO %.0fs · observe its form and movement from clear water"%[sighted+1,str(sirens[sighted].get("type","patroller")).to_upper(),8.0]}
+	if nearest<0 and best<0: return {"target":-1,"ready":false,"text":Delivery.status(self).text if Delivery.applies(mission) else "Archive aboard · return Quietus to extraction."}
 	var candidate=best if best>=0 else nearest
 	if Witness.applies(mission) and mission.objectives[candidate].get("site_id","")=="witness_packet":return {"target":candidate,"ready":false,"text":Witness.context(self,selected).winch.reason}
 	var owner=capture_at_target(candidate)
@@ -738,7 +757,7 @@ func camera_context() -> Dictionary:
 		return {"target":nearest,"ready":false,"text":"TRANSMISSION SECTOR · Quietus chooses clear water inside the charted sector; settle below 12m/s"}
 	if best<0:
 		var target=mission.objectives[nearest]
-		return {"target":nearest,"ready":false,"text":"%s · %dm away / 240m range%s"%[target.name,roundi(distance)," · view blocked by cover" if not line_clear(unit.pos,target.pos) else ""]}
+		return {"target":nearest,"ready":false,"text":"%s · %dm away / %dm range%s"%[target.name,roundi(distance),roundi(Photo.reach(self,selected))," · view blocked by cover" if not line_clear(unit.pos,target.pos) else ""]}
 	var target=mission.objectives[best]
 	if target.get("required_unit",selected)!=selected and Sampler.capture_spec(selected,mission.get("launch_equipment",{}),target).is_empty():
 		return {"target":best,"ready":false,"text":target.get("unit_requirement","Quietus must operate the archive uplink. Bring the submarine to this anchor.")}
@@ -747,7 +766,15 @@ func camera_context() -> Dictionary:
 	for prerequisite in target.get("requires",[]):
 		if not mission.objectives[prerequisite].captured:
 			return {"target":best,"ready":false,"text":target.get("requirement","Uplink needs both relay records. Photograph WEST and EAST first.")}
-	return {"target":best,"ready":true,"text":"READY · %s · %s %.0fs"%[target.name,"FIELD SAMPLE · AUDIBLE" if not Sampler.capture_spec(selected,mission.get("launch_equipment",{}),target).is_empty() else "passive listen" if target.get("kind","")=="receiver" else "TRANSMIT · AUDIBLE" if Operations.own_origin(target) else "exposure",_capture_duration(target,selected)]}
+	var hint=""
+	if Photo.applies(target):
+		var framed=Photo.frame(self,selected,target)
+		hint=" · SHARP %d%% LIGHT %d%%%s"%[roundi(framed.sharp*100),roundi(framed.light*100)," · TURN %d°"%roundi(rad_to_deg(framed.pivot)) if framed.pivot>0 else ""]
+		var weak:PackedStringArray=[]
+		for r in framed.rows:
+			if r.id in target.subject.get("required",[]) and not r.ready and not r.why.is_empty():weak.append("%s %s"%[r.label,r.why.to_lower()])
+		if not weak.is_empty():hint+=" · WILL NOT RESOLVE: "+", ".join(weak)
+	return {"target":best,"ready":true,"text":"READY · %s · %s %.0fs%s"%[target.name,"FIELD SAMPLE · AUDIBLE" if not Sampler.capture_spec(selected,mission.get("launch_equipment",{}),target).is_empty() else "passive listen" if target.get("kind","")=="receiver" else "TRANSMIT · AUDIBLE" if Operations.own_origin(target) else "exposure",_capture_duration(target,selected),hint]}
 # Well-specific optional comparison. Own motion and local reception only;
 # no Siren query, extra acoustic source or forced enemy intent.
 func _well_signature_observe() -> void:
@@ -847,24 +874,32 @@ func _tick(dt: float) -> void:
 	Concealed.tick(self,dt)
 	sensor_clock-=dt
 	if sensor_clock<=0:
-		_observe(); SignalField.observe(self); Consequences.observe(self); sensor_clock=0.15
+		_observe(); SignalField.observe(self); Consequences.observe(self); Photo.discover(self); sensor_clock=0.15
 	for station in captures.size():
 		if captures[station].is_empty():continue
 		var work=captures[station];var u=units[station]; _use_band(u.band); var o=mission.objectives[work.target]
+		if o.has("siren") and int(o.siren)<sirens.size():o.pos=sirens[o.siren].pos
 		var exchange=o.get("kind","")=="exchange" and mission.get("blackwater_revision",0)==1
 		var mobile=Rendezvous.applies(mission) and o.get("site_id","")=="rendezvous"
 		var receiver=rendezvous_receiver(station) if mobile else blackwater_context(work.target,station) if exchange else {}
-		if not u.alive or u.band!=1 or not u.transition.is_empty() or ((exchange or mobile) and not receiver.ready) or (Operations.own_origin(o) and not Operations.receiving(self,o,station)) or (not exchange and not mobile and not Operations.own_origin(o) and (u.pos.distance_to(o.pos)>240 or not line_clear(u.pos,o.pos))):
+		if not u.alive or u.band!=1 or not u.transition.is_empty() or ((exchange or mobile) and not receiver.ready) or (Operations.own_origin(o) and not Operations.receiving(self,o,station)) or (not exchange and not mobile and not Operations.own_origin(o) and (u.pos.distance_to(o.pos)>Photo.reach(self,station) or not line_clear(u.pos,o.pos) or (o.has("siren") and not contact_visible(sirens[o.siren])))):
 			captures[station]={}
 			message=u.name+" · "+("Reception interrupted · move closer or SONAR for a local replay" if exchange else "Exposure interrupted · regain clear view")
 		elif exchange and not receiver.settled:work.elapsed=0.0
 		elif not Sampler.capture_spec(station,mission.get("launch_equipment",{}),o).is_empty() and u.vel.length()>=12:work.elapsed=0.0
 		else:
-			work.elapsed+=dt
+			if not Photo.applies(o) or Photo.tick(self,station,o,dt):work.elapsed+=dt
 			if work.elapsed+(0.0000001 if exchange else 0.0)>=_capture_duration(o,station):
 				var first=not o.captured
-				o.captured=true; u.hold=""; captures[station]={}
-				if first or not Delivery.applies(mission):_record_secured(o,station)
+				var usable=true
+				if Photo.applies(o):
+					var result=Photo.finish(self,station,o);usable=result.usable
+					if not usable:message="%s · exposure unusable: %s · retake from another angle"%[u.name,Photo.missing_text(Photo.frame(self,station,o),o.subject)];Recon.action(mission,3.0)
+				u.hold=""; captures[station]={}
+				if usable:o.captured=true
+				if not usable:pass
+				elif first or (not Delivery.applies(mission) and not Photo.applies(o)):_record_secured(o,station)
+				elif Photo.applies(o):message="Re-shot filed · %d frames of this subject in the archive"%Photo.shots_for(mission,str(o.get("optical",o.get("site_id",work.target)))).size()
 				else:Delivery.sampled(self,work.target,station)
 	if mission.get("expedition_revision",0)==2:
 		var was=correlation.get("status","")
@@ -1384,6 +1419,7 @@ static func valid_snapshot(data: Dictionary) -> bool:
 	for o in data.mission.objectives:
 		if not o is Dictionary or not o.has_all(["pos","name","captured"]) or not o.pos is Vector2: return false
 	if not data.get("captures") is Array or data.captures.size()!=3:return false
+	if not Photo.valid(data.mission):return false
 	var exposed=[]
 	for id in data.captures.size():
 		var work=data.captures[id]

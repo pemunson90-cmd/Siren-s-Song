@@ -55,7 +55,7 @@ func model():
  check(not frame.ok and "PROPULSION" in frame.reason,"a hull change that strands a fitting is refused")
  check(Kit.choose(base,"hull","fast",[]).ok and Kit.choose(base,"chassis_b","scout",[]).ok,"frames need no recovered entitlement")
  var b=Kit.budget({"hull":"fast","quietus":"quietus_prism"},0)
- check(b.power==2 and b.power_cap==5 and b.mounts.size()==5 and b.mounts[0].item=="quietus_prism","budget summary places items in typed mounts")
+ check(b.power==2 and b.power_cap==5 and b.mounts.size()==6 and b.mounts[0].item=="quietus_prism","budget summary places items in typed mounts")
 func budgets():
  # NOISE: the same actual drive makes less or more sound.
  var std=open({});var quiet=open({"hull":"quiet"});var loud=open({"hull":"fast","chassis_a":"heavy"})

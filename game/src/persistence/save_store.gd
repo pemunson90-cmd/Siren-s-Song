@@ -10,23 +10,25 @@ func valid(data: Dictionary) -> bool:
 	if data.get("version",0) not in [1,VERSION]: return false
 	if not data.get("unlocked") is int or data.unlocked<0 or data.unlocked>5: return false
 	if not data.get("completed") is Array or not data.get("settings") is Dictionary or not data.get("upgrade") is String: return false
+	if data.has("intel") and not preload("res://src/campaign/photo_intel.gd").valid(data.intel):return false
 	if data.has("expedition") and not preload("res://src/campaign/expedition_campaign.gd").valid(data.expedition):return false
-	if data.has("fleet") and not preload("res://src/campaign/fleet_inventory.gd").valid(data.fleet,preload("res://src/equipment/craft_upgrades.gd").recovered(data.completed,data.get("expedition",{})),data.completed+data.get("expedition",{}).get("completed",[])):return false
+	if data.has("fleet") and not preload("res://src/campaign/fleet_inventory.gd").valid(data.fleet,preload("res://src/equipment/craft_upgrades.gd").recovered(data.completed,data.get("expedition",{}),data.get("intel",{})),data.completed+data.get("expedition",{}).get("completed",[])):return false
 	if data.has("equipment"):
 		if not preload("res://src/campaign/campaign_consequences.gd").fitting_valid(data.equipment):return false
 		for item in preload("res://src/equipment/equipment_catalog.gd").all_items(data.equipment):
-			if item not in preload("res://src/equipment/craft_upgrades.gd").recovered(data.completed,data.get("expedition",{})):return false
+			if item not in preload("res://src/equipment/craft_upgrades.gd").recovered(data.completed,data.get("expedition",{}),data.get("intel",{})):return false
 	if data.has("evidence"):
 		if not data.evidence is Dictionary: return false
 		for key in data.evidence:
 			var entry=data.evidence[key]
 			if key not in preload("res://src/campaign/operation_catalog.gd").record_keys() or not entry is Dictionary or not entry.has_all(["name","caption","optical"]) or entry.optical!=key or not entry.name is String or not entry.caption is String: return false
+			if entry.has("shots") and not preload("res://src/presentation/photo_view.gd").valid_shots(entry.shots):return false
 	if data.has("active") and data.active!=null:
 		if not data.active is Dictionary or not Simulation.valid_snapshot(data.active): return false
 		if preload("res://src/campaign/operation_catalog.gd").definition(data.active.mission.id).campaign and data.active.mission.id not in preload("res://src/campaign/expedition_campaign.gd").available(data.completed,data.get("expedition",{})):return false
 		var fitted=data.active.mission.get("launch_equipment",{})
 		for item in preload("res://src/equipment/equipment_catalog.gd").all_items(fitted):
-			if item not in preload("res://src/equipment/craft_upgrades.gd").recovered(data.completed,data.get("expedition",{})):return false
+			if item not in preload("res://src/equipment/craft_upgrades.gd").recovered(data.completed,data.get("expedition",{}),data.get("intel",{})):return false
 		var references=data.active.mission.get("launch_context",{}).get("references",{})
 		if not references.is_empty() and references!=data.get("expedition",{}).get("references",{}):return false
 	return true

@@ -32,7 +32,7 @@ static func secured(sim,record:Dictionary,unit_id:int)->void:
     guard["alert_floor"]=minf(.9,float(guard.get("alert_floor",0))+.12)
     guard.suspicion=maxf(guard.suspicion,guard.alert_floor)
  sim.mission.reconnaissance=p
- if unit_id<0 or record.get("kind","") not in ["","photo"]:return
+ if unit_id<0 or record.get("kind","") not in ["","photo"] or record.get("subject") is Dictionary:return
  var distance=sim.units[unit_id].pos.distance_to(record.pos)
  var proximity=clampf(1.0-distance/240.0,0,1)
  record["photo_quality"]=(.55 if unit_id>0 else .25)+.45*proximity
@@ -45,7 +45,7 @@ static func grade(records:Array)->Dictionary:
    total+=float(record.photo_quality);count+=1
  if count==0:return {"photos":0,"quality":0.0,"grade":""}
  var quality=total/count
- return {"photos":count,"quality":quality,"grade":"A" if quality>=.95 else "B" if quality>=.7 else "C"}
+ return {"photos":count,"quality":quality,"grade":"A" if quality>=.85 else "B" if quality>=.6 else "C"}
 static func feedback(sim)->Dictionary:
  var intensity=0.0
  # Fresh received contacts only: hidden locks or unseen guards cannot drive cues.

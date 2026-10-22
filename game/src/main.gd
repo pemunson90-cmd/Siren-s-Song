@@ -56,6 +56,10 @@ var capture_path := ""
 var menu_buttons: Array=[]
 var recovered_evidence: Dictionary={}
 var photo_records: Dictionary={}
+var photo_intel: Dictionary={}
+const PhotoIntel=preload("res://src/campaign/photo_intel.gd")
+const PhotoView=preload("res://src/presentation/photo_view.gd")
+const PhotoCapture=preload("res://src/simulation/photo_capture.gd")
 var diagnostic_ready := ""
 var diagnostic_records: Dictionary={}
 var diagnostic_roles: Dictionary={}
@@ -280,11 +284,11 @@ func _refresh() -> void:
 	ocean.knock_targeting=knock_armed; ocean.knock_touch_size=ui_touch_height
 	if not knock_armed and not decoy_armed:targeting_feedback=""
 	title_label.text="SIREN'S SONG    /    %02d  %s"%[mission_index+1,sim.mission.title.to_upper()]
-	status_label.text="DEPTH %dm    O₂ %03d%%    HULL %03d%%    RECORDS %d / %d    %s"%[sim.mission.depth,int(sim.oxygen),int(sim.hull),sim.mission.objectives.filter(func(o): return o.captured).size(),sim.mission.objectives.size(),"TACTICAL PAUSE" if sim.paused else "REAL TIME"]
+	status_label.text="DEPTH %dm    O₂ %03d%%    HULL %03d%%    RECORDS %d / %d    %s"%[sim.mission.depth,int(sim.oxygen),int(sim.hull),sim.mission.objectives.filter(func(o): return o.captured and not o.get("optional",false)).size(),sim.mission.objectives.filter(func(o): return not o.get("optional",false)).size(),"TACTICAL PAUSE" if sim.paused else "REAL TIME"]
 	pause_button.text="▶ RESUME" if sim.paused else "Ⅱ PAUSE"
 	for i in 3:
 		var work=sim.capture_feedback(i)
-		var capture_task={"receiver":"LISTEN","exchange":"SAMPLE","uplink":"LINK"}.get(sim.mission.objectives[work.target].get("kind",""),"CAMERA") if work.unit>=0 else ""
+		var capture_task={"receiver":"LISTEN","exchange":"SAMPLE","uplink":"LINK"}.get(sim.mission.objectives[work.target].get("kind",""),"PHOTO" if PhotoCapture.applies(sim.mission.objectives[work.target]) else "CAMERA") if work.unit>=0 else ""
 		unit_buttons[i].modulate=Color("80d9cf") if sim.selected==i else Color.WHITE
 		unit_buttons[i].disabled=not sim.units[i].alive
 		var task="LOST" if not sim.units[i].alive else (capture_task if work.unit>=0 else (sim.units[i].hold if not sim.units[i].hold.is_empty() else ("ROUTE" if not sim.units[i].route.is_empty() else "READY")))
@@ -294,6 +298,9 @@ func _refresh() -> void:
 	order_buttons.waypoint_mode.text="PASS\nPOINTS" if sim.pass_through else "STOP AT\nPOINTS"
 	ocean.optical_feed.receiver_font_size=maxi(14,roundi(ui_touch_height*0.25))
 	order_buttons.camera.text="SAMPLE" if sim.mission.get("blackwater_revision",0)==1 else "CAMERA\nLISTEN" if sim.mission.get("finale_revision",0)==1 else ("CAMERA\nLINK" if mission_index==1 else "CAMERA")
+	var camera_target:int=int(sim.camera_context().get("target",-1))
+	if camera_target==-2 or (camera_target>=0 and PhotoCapture.applies(sim.mission.objectives[camera_target])):order_buttons.camera.text="PHOTO"
+	elif camera_target>=0 and sim.mission.objectives[camera_target].get("kind","")=="receiver" and sim.mission.get("blackwater_revision",0)!=1:order_buttons.camera.text="LISTEN"
 	order_buttons.queue.text="+ QUEUE ON" if sim.queue_mode else "REPLACE"
 	order_buttons.program.text="PLAN\nROUTE"
 	order_buttons.silent.text=("LOW\nPROFILE" if sim.units[sim.selected].silent else "OPEN\nPROFILE") if sim.selected>0 else ("SILENT ✓" if sim.units[0].silent else "CRUISE")
@@ -500,10 +507,11 @@ func _briefing(index: int) -> void:
 	call_deferred("_layout")
 func _launch_context(index:int)->Dictionary:
 	var context=preload("res://src/campaign/campaign_consequences.gd").context(expedition)
+	context["intel"]=photo_intel.duplicate(true)
 	if index in [9,10]:context.thread="deep" if index==9 else "shelf"
 	return context
 func _equipment_entitlements()->Array:
-	return CraftUpgrades.recovered(completed,expedition)
+	return CraftUpgrades.recovered(completed,expedition,photo_intel)
 func _campaign_completed()->Array:
 	return completed+expedition.get("completed",[])
 func _equipment_context()->Dictionary:
@@ -529,6 +537,9 @@ func _debrief() -> void:
 	if first_recovery:fleet=FleetInventory.recover(fleet,sim.mission,sim.outcome)
 	fitted_equipment=FleetInventory.reconcile_fitting(fitted_equipment,FleetInventory.available(_equipment_entitlements(),fleet))
 	print("SS_DEBRIEF outcome=",sim.outcome," mission=",mission_index)
+	if sim.outcome=="won":
+		_retain_evidence()
+		photo_intel=PhotoIntel.recover(photo_intel,sim.mission)
 	if ExpeditionOperations.debrief(self):return
 	if sim.outcome=="won":
 		_retain_evidence()
@@ -587,7 +598,7 @@ func _confirm_new_campaign()->void:
 	_button(panel_box,"KEEP CURRENT CAMPAIGN",_show_campaign,"back")
 	call_deferred("_layout")
 func _new_campaign()->void:
-	completed=[];unlocked=0;expedition={};recovered_evidence={};photo_records={}
+	completed=[];unlocked=0;expedition={};recovered_evidence={};photo_records={};photo_intel={}
 	fleet={}
 	fitted_equipment=preload("res://src/equipment/equipment_catalog.gd").default_loadout();upgrade="endurance"
 	_start_mission(0);_save_archive();_show_campaign()
@@ -645,6 +656,7 @@ func _scenario(name: String) -> void:
 func _archive() -> Dictionary:
 	var data={"version":SaveStore.VERSION,"unlocked":unlocked,"completed":completed.duplicate(),"upgrade":upgrade,"settings":settings.duplicate(),"evidence":recovered_evidence.duplicate(true),"active":sim.snapshot(),"chart_view":ocean.chart_camera.snapshot()}
 	if not photo_records.is_empty():data["photo_records"]=photo_records.duplicate(true)
+	if not photo_intel.is_empty():data["intel"]=photo_intel.duplicate(true)
 	if not expedition.is_empty():data["expedition"]=expedition.duplicate(true)
 	if not fleet.is_empty():data["fleet"]=fleet.duplicate(true)
 	data["equipment"]=preload("res://src/equipment/equipment_catalog.gd").canonical(fitted_equipment)
@@ -675,6 +687,7 @@ func _load_archive() -> void:
 		unlocked=saved.unlocked; completed=saved.completed; upgrade=saved.upgrade; settings=saved.settings
 		expedition=saved.get("expedition",{}).duplicate(true)
 		fleet=saved.get("fleet",{}).duplicate(true)
+		photo_intel=saved.get("intel",{}).duplicate(true)
 		fitted_equipment=preload("res://src/equipment/equipment_catalog.gd").canonical(saved.get("equipment",{}))
 		fitted_equipment=FleetInventory.reconcile_fitting(fitted_equipment,FleetInventory.available(_equipment_entitlements(),fleet))
 		recovered_evidence=saved.get("evidence",{})
@@ -819,6 +832,18 @@ func _observation_diagnostics() -> void:
 		diagnostic_ready=ready
 		if not ready.is_empty(): print("SS_CAMERA_READY ",ready)
 	if sim.mission.get("well_revision",0)==1 and not sim.mission.well_observation.is_empty() and not recovered_evidence.has("well_signature"):_retain_evidence()
+# Frames of one subject accumulate across dives: best frames kept, newest listed last.
+func _merge_shots(key:String) -> void:
+	var entry:Dictionary=recovered_evidence[key]
+	var shots:Array=entry.get("shots",[]).duplicate(true)
+	for shot in PhotoCapture.shots_for(sim.mission,key):
+		if not shots.any(func(old):return old.id==shot.id and old.op==shot.op and old.time==shot.time):shots.append(shot.duplicate(true))
+	while shots.size()>6:
+		var worst:=0
+		for i in shots.size():
+			if float(shots[i].q)+float(i)*0.002<float(shots[worst].q)+float(worst)*0.002:worst=i
+		shots.remove_at(worst)
+	if not shots.is_empty():entry["shots"]=shots
 func _evidence_is_text(entry:Dictionary) -> bool:
 	return entry.optical in preload("res://src/campaign/operation_catalog.gd").record_keys(true) or entry.optical in ["well_pattern","well_signature"]
 func _retain_evidence() -> void:
@@ -827,25 +852,78 @@ func _retain_evidence() -> void:
 			var key="%d:%d"%[sim.mission.id,sim.mission.objectives.find(objective)]
 			if objective.photo_quality>=photo_records.get(key,{}).get("photo_quality",0):photo_records[key]={"photo_quality":objective.photo_quality,"photo_craft":objective.photo_craft,"photo_distance":objective.photo_distance}
 		if objective.captured and objective.has("optical"):
+			var earlier:Array=recovered_evidence.get(objective.optical,{}).get("shots",[])
 			recovered_evidence[objective.optical]={"name":objective.name,"caption":objective.evidence,"optical":objective.optical}
+			if not earlier.is_empty():recovered_evidence[objective.optical]["shots"]=earlier
 			for field in ["photo_quality","photo_craft","photo_distance"]:
 				if objective.has(field):recovered_evidence[objective.optical][field]=objective[field]
+			_merge_shots(objective.optical)
 	var signature=sim.well_signature_evidence()
 	if not signature.is_empty():recovered_evidence[signature.optical]=signature
-func _evidence_gallery(index: int) -> void:
+func _evidence_gallery(index: int,shot_index:int=-1,compare:bool=false) -> void:
 	_retain_evidence()
 	if recovered_evidence.is_empty(): _show_campaign(); return
 	sim.paused=true; screen="evidence"; _clear_menu()
 	var keys=recovered_evidence.keys(); var entry=recovered_evidence[keys[index%keys.size()]]
-	_menu_text("FIELD %s RECORDS / %d OF %d"%["ACOUSTIC" if _evidence_is_text(entry) else ("HYDROPHONE" if entry.optical in ["blackwater_request","blackwater_reply"] else "OPTICAL"),index+1,keys.size()],18)
+	var shots:Array=entry.get("shots",[])
+	var kind="PHOTOGRAPH" if not shots.is_empty() else ("ACOUSTIC" if _evidence_is_text(entry) else ("HYDROPHONE" if entry.optical in ["blackwater_request","blackwater_reply"] else "OPTICAL"))
+	_menu_text("FIELD %s RECORDS / %d OF %d"%[kind,index+1,keys.size()],18)
 	_menu_text(entry.name,28)
-	if not _evidence_is_text(entry):
+	if not shots.is_empty():
+		var best:=0
+		for i in shots.size():
+			if float(shots[i].q)>float(shots[best].q):best=i
+		var at:int=best if shot_index<0 else clampi(shot_index,0,shots.size()-1)
+		var plate_height:float=minf(280.0,size.y*0.34)
+		var row=HBoxContainer.new();row.add_theme_constant_override("separation",8);panel_box.add_child(row)
+		var other:int=(at+1)%shots.size()
+		for n in (2 if compare and shots.size()>1 else 1):
+			var plate=PhotoView.Plate.new();plate.vm=PhotoView.from_shot(shots[at if n==0 else other]);plate.title="FRAME %d"%((at if n==0 else other)+1)
+			plate.size_flags_horizontal=Control.SIZE_EXPAND_FILL;plate.custom_minimum_size=Vector2(0,plate_height);row.add_child(plate)
+		_menu_text(_shot_report(shots[at],at,shots.size()),16)
+		if compare and shots.size()>1:_menu_text(_shot_difference(shots[at],shots[other],at,other),16)
+		if shots.size()>1:
+			_button(panel_box,"NEXT FRAME",func(): _evidence_gallery(index,(at+1)%shots.size(),compare),"next_shot")
+			_button(panel_box,"SINGLE FRAME" if compare else "COMPARE FRAMES",func(): _evidence_gallery(index,at,not compare),"compare_shots")
+	elif not _evidence_is_text(entry) and preload("res://src/presentation/evidence_catalog.gd").IMAGES.has(entry.optical):
 		var image=TextureRect.new(); image.texture=preload("res://src/presentation/evidence_catalog.gd").IMAGES[entry.optical]
 		image.expand_mode=TextureRect.EXPAND_IGNORE_SIZE; image.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED; image.custom_minimum_size=Vector2(0,minf(320,size.y*0.4)); panel_box.add_child(image)
 	_menu_text(entry.caption,19)
 	_show_photo_grade([entry])
 	if keys.size()>1: _button(panel_box,"NEXT RECORD",func(): _evidence_gallery((index+1)%keys.size()),"next_record")
+	_button(panel_box,"INTEL AND RESEARCH",_intel_screen,"intel")
 	_button(menu_footer,"BACK TO OPERATIONS",_show_campaign,"back"); menu_footer.show()
+	call_deferred("_layout")
+func _shot_report(shot:Dictionary,at:int,total:int) -> String:
+	var seen:PackedStringArray=[]
+	for mark in shot.frame.marks:
+		if float(mark.q)>0:seen.append("%s %d%%"%[mark.label,roundi(float(mark.q)*100)])
+	var how:="%s · %dm · aspect %d° · %s%s"%[shot.craft,roundi(float(shot.dist)),roundi(rad_to_deg(float(shot.aspect))),str(shot.mode).to_upper()," · flash" if shot.flash else ""]
+	var water:="light %d%% · clarity %d%% · sharp %d%%"%[roundi(float(shot.light)*100),roundi(float(shot.clarity)*100),roundi(float(shot.sharp)*100)]
+	return "FRAME %d OF %d · QUALITY %d%%%s\n%s\n%s\nRESOLVED: %s"%[at+1,total,roundi(float(shot.q)*100),"" if shot.get("usable",true) else " · UNUSABLE",how,water,", ".join(seen) if not seen.is_empty() else "nothing identifiable"]
+func _shot_difference(a:Dictionary,b:Dictionary,ia:int,ib:int) -> String:
+	var only_a:PackedStringArray=[];var only_b:PackedStringArray=[]
+	for id in a.features:
+		if id not in b.features:only_a.append(str(id))
+	for id in b.features:
+		if id not in a.features:only_b.append(str(id))
+	var lines:PackedStringArray=["FRAME %d vs %d"%[ia+1,ib+1]]
+	lines.append("Quality %+d points · distance %+dm · light %+d points · clarity %+d points"%[roundi((float(b.q)-float(a.q))*100),roundi(float(b.dist)-float(a.dist)),roundi((float(b.light)-float(a.light))*100),roundi((float(b.clarity)-float(a.clarity))*100)])
+	lines.append("Only in frame %d: %s"%[ia+1,", ".join(only_a) if not only_a.is_empty() else "none"])
+	lines.append("Only in frame %d: %s"%[ib+1,", ".join(only_b) if not only_b.is_empty() else "none"])
+	return "\n".join(lines)
+func _intel_screen() -> void:
+	sim.paused=true;screen="intel";_clear_menu()
+	_menu_text("PHOTOGRAPHIC INTELLIGENCE",28)
+	_menu_text("Only film that comes home counts. Each entry is the best frame of that feature.",16)
+	_menu_text(PhotoIntel.detail(photo_intel),18)
+	var pending:PackedStringArray=[]
+	for item in PhotoIntel.PROJECTS:
+		var p=PhotoIntel.PROJECTS[item]
+		var have:=float(photo_intel.get(p.intel,{}).get("q",0.0))
+		pending.append("%s %s · needs %s at %d%% (best %d%%)"%["CUT" if have>=p.q else "OPEN",preload("res://src/equipment/equipment_catalog.gd").ITEMS[item].name.to_upper(),PhotoIntel.label(p.intel),roundi(float(p.q)*100),roundi(have*100)])
+	_menu_text("CAMERA RESEARCH\n"+"\n".join(pending),17)
+	_button(menu_footer,"BACK TO FIELD RECORDS",func(): _evidence_gallery(0),"back");menu_footer.show()
 	call_deferred("_layout")
 
 func _rect_values(rect: Rect2) -> Array:

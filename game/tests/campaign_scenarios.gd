@@ -32,6 +32,7 @@ static func run(t) -> void:
 		var objectives=s.mission.objectives.duplicate()
 		if id==2:objectives.reverse()
 		for target in objectives:
+			if target.get("optional",false):continue
 			var vantage=target.pos+Vector2(0,140 if id==2 else 210)
 			if s.blocked(vantage,25): vantage=target.pos+Vector2(-210,0)
 			if not move(s,vantage): success=false; break

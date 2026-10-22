@@ -9,7 +9,7 @@ const Chassis=preload("res://src/equipment/chassis.gd")
 const SLOTS=["quietus","drone_a","drone_b"]
 const NAMES={"quietus":"QUIETUS","drone_a":"DRONE A","drone_b":"DRONE B"}
 const FRAME_KEYS={"quietus":"hull","drone_a":"chassis_a","drone_b":"chassis_b"}
-const MOUNT_KEYS={"quietus":["quietus","quietus_2","quietus_3","quietus_4","quietus_5"],"drone_a":["drone_a","drone_a_2","drone_a_3","drone_a_4"],"drone_b":["drone_b","drone_b_2","drone_b_3","drone_b_4"]}
+const MOUNT_KEYS={"quietus":["quietus","quietus_2","quietus_3","quietus_4","quietus_5","quietus_6"],"drone_a":["drone_a","drone_a_2","drone_a_3","drone_a_4","drone_a_5"],"drone_b":["drone_b","drone_b_2","drone_b_3","drone_b_4","drone_b_5"]}
 # power: draw on the craft bus; cargo: winch places the item occupies; noise and
 # endurance: additive changes to the frame multipliers.
 const ITEMS={
@@ -22,6 +22,10 @@ const ITEMS={
  "drone_survey_array":{"id":"drone_survey_array","name":"Drone survey array","compatible_slots":["drone_a","drone_b"],"mount":"SENSOR","power":1,"cargo":0,"noise":0.0,"endurance":0.0,"benefit":"Extend this drone's ordinary passive and chart reach from330m to460m.","cost":"Occupies the drone sensor mount."},
  "drone_deep_cells":{"id":"drone_deep_cells","name":"Drone deep cells","compatible_slots":["drone_a","drone_b"],"mount":"HARDWARE","power":0,"cargo":0,"noise":0.0,"endurance":0.0,"benefit":"Double this drone's operating endurance.","cost":"Occupies the drone hardware mount."},
  "quietus_correlator":{"id":"quietus_correlator","name":"Cadence correlator","compatible_slots":["quietus"],"mount":"SENSOR","power":1,"cargo":0,"noise":0.0,"endurance":0.0,"benefit":"Compare fresh received cadence with a recovered reference before close source acquisition.","cost":"Settle below 12m/s for 6 seconds. Matching cadence does not prove identity, range or safety."},
+ "quietus_tele_lens":{"id":"quietus_tele_lens","name":"Tele lens","compatible_slots":["quietus"],"mount":"OPTICS","power":1,"cargo":0,"noise":0.0,"endurance":0.0,"benefit":"Photograph from 50% farther with a narrower frame and a longer sweet spot.","cost":"Narrow field: close or wide subjects crop, and hull motion blurs the frame sooner."},
+ "photo_flash":{"id":"photo_flash","name":"Flash unit","compatible_slots":["quietus","drone_a","drone_b"],"mount":"OPTICS","power":1,"cargo":0,"noise":0.0,"endurance":0.0,"benefit":"Lights a subject within about 200m for a sharp frame in the dark. Four charges on Quietus, two on a drone.","cost":"Each flash exposure is a louder audible camera event and spends a charge."},
+ "thermal_imager":{"id":"thermal_imager","name":"Thermal imager","compatible_slots":["quietus","drone_a","drone_b"],"mount":"OPTICS","power":1,"cargo":0,"noise":0.0,"endurance":0.0,"benefit":"Resolves heat features at range and through thermal shimmer, with no light needed.","cost":"15% lower resolution on every other feature."},
+ "low_light_back":{"id":"low_light_back","name":"Low-light film back","compatible_slots":["quietus","drone_a","drone_b"],"mount":"OPTICS","power":0,"cargo":0,"noise":0.0,"endurance":0.0,"benefit":"A still exposure gathers light over eight seconds: dark subjects sharpen without a flash.","cost":"Gain is lost if the craft drifts or turns; short exposures see no benefit."},
  "drone_sampler":{"id":"drone_sampler","name":"Field sampler pod","compatible_slots":["drone_a","drone_b"],"mount":"UTILITY","power":1,"cargo":1,"noise":0.0,"endurance":0.0,"benefit":"Prepare compatible field receivers and operate the powered Warning Chain panel while Quietus takes another task.","cost":"One pod on one drone. Receiver exposure takes8 audible seconds; Quietus takes4. Plant switches require a settled local connection."}
 }
 static func default_loadout()->Dictionary:
