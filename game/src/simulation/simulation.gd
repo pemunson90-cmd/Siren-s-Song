@@ -35,6 +35,7 @@ const Network=preload("res://src/simulation/acoustic_network.gd")
 const Sweeper=preload("res://src/simulation/sweeper_senses.gd")
 const Sonar=preload("res://src/simulation/advanced_sonar.gd")
 const Photo=preload("res://src/simulation/photo_capture.gd")
+const Pricing=preload("res://src/simulation/photo_pricing/photo_pricing.gd")
 var sonar:Dictionary={}
 var depth_charts:Dictionary={}
 var band_acoustics:Dictionary={}
@@ -714,6 +715,8 @@ func _blackwater_context_text(target:int,station:int) -> String:
 	var learned=mission.objectives.any(func(o):return o.captured)
 	return "%s · %dm / quiet %.0fm%s"%[name,c.distance,c.quiet_range," · learned: SONAR + SAMPLE within 240m" if learned else " · move closer to listen"]
 func camera_context() -> Dictionary:
+	return Pricing.annotate(self,_camera_context_base())
+func _camera_context_base() -> Dictionary:
 	if units[selected].band!=1 or not units[selected].transition.is_empty():return {"ready":false,"target":-1,"text":"MIDDLE band and settled depth required"}
 	if Shelf.applies(mission):return {"target":-1,"ready":false,"text":Shelf.context(self).account}
 	if Chain.applies(mission):return {"target":-1,"ready":false,"text":Chain.context(self,selected).text}

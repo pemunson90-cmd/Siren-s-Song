@@ -93,6 +93,7 @@ static func make(id:int,history:Dictionary={})->Dictionary:
  if not m is Dictionary or not m.has_all(["id","objectives","sirens","extraction","rocks"]):return {}
  m.id=id
  preload("res://src/campaign/photo_ops.gd").apply(m,id,history)
+ preload("res://src/simulation/photo_pricing/photo_pricing_data.gd").apply(m,id)
  preload("res://src/campaign/photo_intel.gd").apply_effects(m,id,history)
  return m
 static func prerequisites_met(id:int,completed:Array)->bool:
