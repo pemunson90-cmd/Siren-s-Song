@@ -426,6 +426,7 @@ func _target_knockdown(point: Vector2,intended:int=-2) -> void:
 func _chart_zoom(factor: float) -> void:
 	map_gesture.cancel(); ocean.zoom_at(factor,ocean.size/2); _view_changed()
 func _view_changed() -> void:
+	_refresh()
 	_save_archive()
 	print("SS_VIEW zoom=",snappedf(ocean.chart_camera.zoom,0.01)," center=",ocean.chart_camera.center)
 	call_deferred("_report_targets")

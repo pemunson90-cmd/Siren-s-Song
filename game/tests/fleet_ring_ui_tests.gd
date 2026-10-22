@@ -55,6 +55,59 @@ func stock_reference(game):
   game._refresh();await settle()
   check(sim.snapshot()==before and row(fleet,0).reserves[1]==warning and fleet.telemetry[0].visible,"binary restore retains the same reserve scale and numeric critical state")
   for suffix in ["",".bak",".tmp"]:DirAccess.remove_absolute(store.path+suffix)
+func controls_friction(game,name:String):
+ var s=game.sim;var hud=game.mission_hud;var ocean=game.ocean;var fleet=hud.fleet
+ hud.dismiss();s.command("select",{"unit":0})
+ s.units[0].pos=Vector2(1000,1400);s.units[1].pos=Vector2(650,1220);s.units[2].pos=Vector2(1500,1100)
+ ocean.chart_camera.mode="free";ocean.chart_camera.center=s.units[0].pos;ocean.chart_camera.zoom=2.
+ game._refresh();await settle()
+ var before=s.snapshot()
+ await tap(ocean.global_position+ocean.screen_position(s.units[0].pos))
+ check(game.advanced_orders and hud.page=="craft","body tap opens the actual command ring "+name)
+ var body=ocean.own_craft_rects()[0]
+ var outer=hud.ring_radius+game.ui_touch_height*.65
+ var projection=Rect2(hud.center-Vector2.ONE*outer,Vector2.ONE*outer*2)
+ check(not projection.intersects(body),"command ring leaves its own craft visible "+name)
+ for b in hud.ring_buttons+[hud.close_button]:
+  check(not b.get_global_rect().intersects(game.pause_button.get_global_rect()),"command targets leave pause reachable "+name)
+  check(game.get_global_rect().encloses(b.get_global_rect()),"command targets stay inside safe content "+name)
+ await capture(name+"-clear-command-ring")
+ var heading=s.units[0].angle;s.units[0].angle=PI/2;game._refresh();await settle()
+ body=ocean.own_craft_rects()[0]
+ var rotated=Rect2(body.get_center()-Vector2(body.size.y,body.size.x)/2,Vector2(body.size.y,body.size.x))
+ projection=Rect2(hud.center-Vector2.ONE*outer,Vector2.ONE*outer*2)
+ check(not projection.intersects(rotated),"command ring also clears the craft when its hull turns vertical "+name)
+ s.units[0].angle=heading;game._refresh();await settle()
+ hud.dismiss();await settle()
+ await tap(game.advanced_button.get_global_rect().get_center());await tap(hud.extra.view_menu.get_global_rect().get_center())
+ check(hud.page=="view" and game.zoom_buttons[2].is_visible_in_tree(),"real FLEET then VIEW exposes FIT "+name)
+ var scale=Vector2(root.size)/game.get_viewport_rect().size
+ for b in hud.ring_buttons+[hud.close_button,game.pause_button]:
+  check(b.size.x*scale.x>=126.-.01 and b.size.y*scale.y>=126.-.01,"view targets retain at least48dp at420dpi "+name)
+  check(not b.get_global_rect().intersects(game.pause_button.get_global_rect()) or b==game.pause_button,"view targets do not overlap pause "+name)
+ check(not fleet.is_visible_in_tree(),"FIT popup owns touches while craft handles are hidden "+name)
+ await tap(game.zoom_buttons[2].get_global_rect().get_center())
+ check(ocean.chart_camera.mode=="overview" and s.snapshot()==before,"FIT touch changes only camera, never craft or route "+name)
+ projection=Rect2(hud.center-Vector2.ONE*outer,Vector2.ONE*outer*2)
+ check(not projection.intersects(ocean.own_craft_rects()[0]),"FIT immediately keeps the command ring clear of its craft "+name)
+ check(hud.anchor.distance_to(ocean.screen_position(s.units[0].pos))<1.,"FIT updates the ring tether to the actual craft position "+name)
+ await capture(name+"-fit-isolated")
+ hud.dismiss();await settle()
+ for id in 3:
+  var target=fleet.buttons[id]
+  if not target.is_visible_in_tree():continue
+  var offscreen=row(fleet,id).get("offscreen",false)
+  var camera=ocean.chart_camera.snapshot()
+  await tap(target.get_global_rect().get_center())
+  check(s.selected==id,"handle touch chooses its craft "+name)
+  check(ocean.chart_camera.mode=="follow" if offscreen else ocean.chart_camera.snapshot()==camera,"handle touch preserves view intent instead of fitting "+name)
+  check(not game.zoom_buttons[2].is_visible_in_tree(),"handle touch never exposes or presses FIT "+name)
+  hud.dismiss();await settle()
+ # A fully occupied nearest edge must use another free edge, not overlap.
+ var safe=Rect2(0,0,600,400);var h=80.
+ var rect=preload("res://src/presentation/fleet_ring.gd").edge_rect(Vector2(-100,200),safe,h,[Rect2(0,0,100,400)])
+ check(not rect.intersects(Rect2(0,0,100,400)) and safe.encloses(rect),"crowded edge handle finds another clear edge "+name)
+ check(s.snapshot().units[0].route==before.units[0].route,"ring and FIT inspections preserve route intent "+name)
 func run():
  for arg in OS.get_cmdline_user_args():
   if arg.begins_with("--capture-dir="):capture_dir=arg.trim_prefix("--capture-dir=")
@@ -147,6 +200,7 @@ func run():
   await tap(start)
   check(tactical(s)==before and s.selected==0,"aim tap at a former ring cannot select a craft or route")
   await tap(hud.close_button.get_global_rect().get_center());check(not game.knock_armed,"explicit aim cancellation stays reachable")
+  await controls_friction(game,name)
   await stock_reference(game)
   game.queue_free();await settle()
  print("FLEET RING UI CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)
