@@ -1105,10 +1105,14 @@ func _observe() -> void:
 	if depth_charts.get(1)!=null:pass # Only the unpaused sensor pulse stamps terrain.
 	elif mission.has("world_size"):
 		for cell in WorldRegion.observation_cells(self):
+			# Known water is permanent here. visible() is pure, and setting true
+			# again cannot change the archive; unknown/false cells still need sight.
+			if known.get(cell,false)==true:continue
 			if visible(Vector2(cell)*TILE+Vector2.ONE*TILE/2):known[cell]=true
 	else:
 		for y in 24:
 			for x in 40:
+				if known.get(Vector2i(x,y),false)==true:continue
 				var p=Vector2(x*40+20,y*40+20)
 				if visible(p): known[Vector2i(x,y)]=true
 	for i in sirens.size():
