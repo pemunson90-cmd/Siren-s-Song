@@ -1,8 +1,8 @@
 # Handoff 017 (PRIORITY): land PRs 69, 70 and 71 in order
 
-Status: OPEN
-Claimed at:
-Claimed by:
+Status: CLAIMED
+Claimed at: 2026-10-22 18:18:27 UTC
+Claimed by: codex
 Finished at:
 
 PRIORITY: take this BEFORE 014, 015 and 016 if any of PRs 69, 70 or 71 is still open. Claude's builders for 69 and 70 may be gone; their branches are pushed, and you are authorised to finish them. Push merge commits only (never rebase or force-push).
