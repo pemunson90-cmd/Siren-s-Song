@@ -1,9 +1,9 @@
 # Handoff 016: one test list, and fix or retire stale tests
 
-Status: OPEN
+Status: BLOCKED
 Claimed at:
 Claimed by:
-Finished at:
+Finished at: 2026-10-22 23:02:08 UTC
 
 Precondition: handoff 015 must be DONE or BLOCKED. Then run `gh`-free check: use the GitHub tools to list open pull requests. If any open PR edits scripts/toolchain/test.sh or .github/workflows/gauntlet-pr-checks.yml, do not start; set Status BLOCKED with a one-line reason and tell Pat (Claude will release you when those merge).
 Codex may merge: yes, into claude/integration only, after GitHub's guidance and game-smoke are both green on the exact head and the PR is mergeable. Merge with a merge commit, then mark DONE.
@@ -38,4 +38,12 @@ Import, core tests ending CHECKS N FAILURES 0, and GitHub's guidance and game-sm
 Pull request into claude/integration; merge it yourself per the Codex-may-merge line once green. Then mark DONE.
 
 ## Completion
-(Codex fills this in: what changed, pull request link, test results, unverified items, files outside ownership needed, recommended next.)
+Blocked before starting: open Claude PR #74 edits `.github/workflows/gauntlet-pr-checks.yml`, so the explicit precondition forbids starting this handoff.
+
+Verified with GitHub tools: searched all open repository PRs and listed PR74 changed filenames. PR: https://github.com/pemunson90-cmd/Siren-s-Song/pull/74. No `gh` used. No source, runner or workflow changes made for 016; no tests run for this unstarted task.
+
+Lane branch: `claude/lane-test-registry` was not created. Last pushed lane SHA: none (blocked before implementation). Handoff 015 is DONE, PR73 merged at `7db3a9fc7a5584953114e4233344832c3ee63060`.
+
+Resume only after overlapping PR74 merges and Claude releases 016, then branch from fresh integration. Preserve original suite order, audit unregistered files and fix the stale archive recap test per this brief. Include the newly passing suites from 014 (`challenges_tests`, `challenges_ui_tests`, `challenges_journey_tests`) and 015 (`performance_measurements`, short default; `known_water_observation_tests`).
+
+018 remains claimed by Claude and was not touched. Per README Keep going, stop at this BLOCKED handoff and report to Pat.

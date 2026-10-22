@@ -14,7 +14,7 @@ Codex: when you finish a handoff, update its row here in the same commit as `don
 |---|---|---|---|---|---|
 | 4 | 014 challenge mode (12 curated challenges) | DONE | [72](https://github.com/pemunson90-cmd/Siren-s-Song/pull/72) | 2026-10-22 22:26:25 UTC | Twelve challenges; isolated archive; touch/Android Back tests; merged on green 5043a99. |
 | 5 | 015 performance and leaks | DONE | [73](https://github.com/pemunson90-cmd/Siren-s-Song/pull/73) | 2026-10-22 23:01:31 UTC | Known-water observation cost reduced; ten identical state hashes; merged on green 9899a2c. |
-| 6 | 016 one test list, fix stale tests | OPEN | | | |
+| 6 | 016 one test list, fix stale tests | BLOCKED | [74](https://github.com/pemunson90-cmd/Siren-s-Song/pull/74) | 2026-10-22 23:02:08 UTC | Precondition: open Claude PR74 edits shared CI workflow; not started. Claude releases after merge. |
 
 Work order is numeric: finish 013 (batch 1) first, then 014, 015, 016.
 
