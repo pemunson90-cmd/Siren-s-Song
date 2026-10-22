@@ -1,9 +1,9 @@
 # Handoff 013: fix FIT and craft-handle overlap and ring friction
 
-Status: CLAIMED
+Status: DONE
 Claimed at: 2026-10-22 17:36:13 UTC
 Claimed by: codex
-Finished at:
+Finished at: 2026-10-22 20:17:41 UTC
 
 Precondition: handoff 012 must be DONE or BLOCKED.
 Codex may merge: yes, into claude/integration only, after GitHub's guidance and game-smoke are both green on the exact head and the PR is mergeable. Merge with a merge commit, then mark DONE.
@@ -30,4 +30,10 @@ Real-touch tests on both screen shapes show no overlap grabs and all targets lar
 Open a PR into claude/integration, wait for guidance and game-smoke, merge when green, then write the Completion section and push to codex/handoffs.
 
 ## Completion
-(Codex fills this in: what changed in plain language, PR link, test results, unverified items, anything for Pat.)
+Craft command rings now move together with their buttons and tether, stay clear of the selected hull and pause control, and reflow immediately after FIT or zoom. Crowded offscreen handles search the other edges for a clear full-size target; FLEET remains available if every edge is occupied. The main.gd layout change is one local refresh call. Routes, tools and simulation rules are unchanged.
+
+PR [71](https://github.com/pemunson90-cmd/Siren-s-Song/pull/71) merged as `dd9494ba139fdf23b92f5599d1aadcd487e2c637`, after guidance and game-smoke passed on `f71370cab344b1dba21817a0ccd72906133b0fa4`: [CI run](https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/39844515618). The refreshed head includes Priced Shots and SWEEP1.
+
+Validation: clean import; core 817, runtime 665, fleet-ring UI 212, fleet-instruments UI 78, route touch 46, onboarding 30, warning pause 15, pricing UI 11 and photo UI 9 checks, all zero failures. Injected touch passes on both logical Fold layouts, including targets of at least 48 dp, FIT/handle ownership, rotated-hull clearance and immediate camera reflow. Local guidance and its eight detector tests pass. Physical Fold7 ergonomics remain unverified.
+
+No game source outside the assigned files was needed. Handoff 017 separately authorizes the one-line CONTINUATION update included during integration. Next: handoff 014.

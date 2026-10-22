@@ -7,7 +7,7 @@ Codex: when you finish a handoff, update its row here in the same commit as `don
 |---|---|---|---|---|---|
 | 1 | 011 lock warning readability | DONE | [68](https://github.com/pemunson90-cmd/Siren-s-Song/pull/68) | 2026-10-22 17:32:19 UTC | Clear observed-lock countdown, source link and accelerating audio; merged, CI green. |
 | 2 | 012 V7 parity gap report | DONE | Report only; no PR | 2026-10-22 17:35:31 UTC | V7 comparison with immutable code anchors and five ranked differences; no game edits. |
-| 3 | 013 controls friction | CLAIMED | [71](https://github.com/pemunson90-cmd/Siren-s-Song/pull/71) | | Refreshed head passed local touch checks; final CI running. |
+| 3 | 013 controls friction | DONE | [71](https://github.com/pemunson90-cmd/Siren-s-Song/pull/71) | 2026-10-22 20:17:41 UTC | Clear rings and FIT/handle ownership on both screen shapes; merged, CI green. |
 
 ## BATCH 2 (22 Oct, released when 011 and 012 were DONE)
 | Order | Handoff | Status | PR | Finished (UTC) | One-line result |
