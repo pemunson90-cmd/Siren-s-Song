@@ -11,8 +11,8 @@ const LABELS={
 	"spire_wreck":"CORRAN SPIRE / DRILL STRING","spire_scoring":"CORRAN SPIRE / SCORED PLATING","relay_clock":"SPLIT CHANNEL / TRANSPONDER CLOCK",
 	"foundry_lining":"COLD FOUNDRY / VENT LINING","cradle_frames":"COLD FOUNDRY / OPEN FRAMES","base_cycle":"SIREN BASE / HATCH CYCLE",
 	"well_array":"LISTENING WELL / ARRAY RIBS","crown_throat":"TRANSMITTER / CROWN THROAT","wake_fracture":"OUTBOUND WAKES / WARM FRACTURE",
-	"silt_scour":"SILT ARCHIVE / SCOUR CUT","exhaust_stack":"FURNACE DRIFT / EXHAUST PLUME","prism_facets":"PRISM GRAVE / FACETS","choir_window":"HAMMERWAKE / LOCK WINDOW"}
-const EVIDENCE_KEYS=["spire","relay_west","relay_east","frame_cycle","well_aperture","well_return","silt_scour","exhaust_stack","prism_facets","choir_window"]
+	"silt_scour":"SILT ARCHIVE / SCOUR CUT","exhaust_stack":"FURNACE DRIFT / EXHAUST PLUME","prism_facets":"PRISM GRAVE / FACETS","choir_window":"HAMMERWAKE / LOCK WINDOW","deep_seam":"SPLIT CHANNEL / DEEP SEAM"}
+const EVIDENCE_KEYS=["spire","relay_west","relay_east","frame_cycle","well_aperture","well_return","silt_scour","exhaust_stack","prism_facets","choir_window","deep_seam"]
 static func intel_keys()->Array:
 	return LABELS.keys()
 static func intel_label(key:String)->String:
