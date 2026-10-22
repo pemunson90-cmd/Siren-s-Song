@@ -43,7 +43,7 @@ static func context(sim,unit:int=-1)->Dictionary:
   else:gate.ready=true;gate.reason="OPEN SERVICE · audible 650m / 6s"
   if state.delivered and _ack(sim):
    if not state.body.alive:depart.reason="Recipient lost"
-   elif state.arrived:depart.reason="Recipient at refuge"
+   elif state.arrived:depart.reason="Recipient at pickup"
    elif not state.course.is_empty() and not state.body.route.is_empty():depart.reason="Recipient already in transit"
    elif craft.pos.distance_to(state.body.pos)>240 or not sim.line_clear(craft.pos,state.body.pos):depart.reason="Reach recipient within 240m with clear local link"
    elif craft.vel.length()>=12:depart.reason="Settle below 12m/s"
@@ -67,7 +67,7 @@ static func depart(sim,course:String)->bool:
   route.append_array(leg);from=point
  for n in route.size():route[n].stop=n==route.size()-1
  state.body.route=route;state.course=course
- sim.events.append({"type":"warning_departure","pos":state.body.pos});sim.message="Warning recipient departs by "+course+" course · observe its refuge arrival, then recover Quietus";return true
+ sim.events.append({"type":"warning_departure","pos":state.body.pos});sim.message="Warning recipient departs by "+course+" course · observe its pickup arrival, then recover Quietus";return true
 static func observe(sim)->void:
  if not applies(sim.mission):return
  var state=sim.mission.warning_recipient;var vessel=state.body
@@ -75,7 +75,7 @@ static func observe(sim)->void:
  if not sim.visible(vessel.pos):return
  state.seen={"pos":vessel.pos,"angle":vessel.angle,"hull":vessel.hull,"alive":vessel.alive,"phase":_phase(state),"time":sim.elapsed}
  if state.arrived and vessel.alive and not state.receipt:
-  state.receipt=true;sim.events.append({"type":"warning_arrival","pos":vessel.pos});sim.message="Recipient arrival received at refuge · recover Quietus"
+  state.receipt=true;sim.events.append({"type":"warning_arrival","pos":vessel.pos});sim.message="Recipient arrival received at pickup · recover Quietus"
 static func tick(sim,dt:float)->void:
  if not applies(sim.mission):return
  var state=sim.mission.warning_recipient

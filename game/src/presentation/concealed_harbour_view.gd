@@ -5,7 +5,7 @@ static func status(sim)->Dictionary:return sim.concealed_status() if sim!=null a
 static func subjects(sim)->Array:
  var s=status(sim)
  if not s.get("known",false):return []
- var result=[{"kind":"objective","subkind":"concealed","name":"LISTENING FLOAT" if s.thread=="deep" else "COLLAPSED REFUGE SCREEN","pos":s.pos,"seat":""}]
+ var result=[{"kind":"objective","subkind":"concealed","name":"LISTENING FLOAT" if s.thread=="deep" else "COLLAPSED BUNKER SCREEN","pos":s.pos,"seat":""}]
  for seat in s.seats:result.append({"kind":"objective","subkind":"concealed","name":seat.name,"pos":seat.pos,"seat":seat.id})
  return result
 static func pick(view,sim,point:Vector2,touch:float)->Dictionary:
@@ -20,10 +20,10 @@ static func touch_rects(view,sim,touch:float)->Array:
 static func summary(sim)->String:
  var s=status(sim)
  if not s.get("known",false):return ""
- if s.receipt:return "LOCAL DEPARTURE ACK RECEIVED" if s.thread=="deep" else "REFUGE ADMISSION ACK RECEIVED"
+ if s.receipt:return "SURVIVORS ACK RECEIVED" if s.thread=="deep" else "BUNKER ACK RECEIVED"
  if s.phase=="towing":return "QUIETUS TOW · 40 CRUISE / 26 SILENT · MOVING CABLE AUDIBLE"
  if s.phase=="seated":return "SEATED · RECEIVE THE LOCAL STATION ACK"
- if s.thread=="deep" and not s.connected:return "TRACE SEVERED · RECEIVE THE LOCAL DEPARTURE ACK"
+ if s.thread=="deep" and not s.connected:return "TRACE SEVERED · RECEIVE THE SURVIVORS ACK"
  return s.text+" · WITNESS ACCOUNT / ATTACH LOCAL TOW"
 static func detail(sim,subject:Dictionary={})->String:
  var s=status(sim)
@@ -35,7 +35,7 @@ static func detail(sim,subject:Dictionary={})->String:
   if seat.id==subject.get("seat",""):lines.append(seat.reason)
  lines.append("TOW ·40m/s CRUISE /26m/s SILENT · moving cable audible. The station’s first reply is audible1200m for2s through actual water paths. If missed, approach within local passive reach for quiet reception.")
  lines.append("Quietus tows. Drones can scout each approach, receive the station reply, protect the tow or carry the occupied witness independently. Release leaves the equipment in actual water for local reattachment. No finite tool is required.")
- if s.receipt:lines.append("RECEIVED LOCAL ACCOUNT · "+("Departure station reports trace current zero and opens its own departure shutter." if s.thread=="deep" else "Refuge watch admits pressure-shelter families through the cleared mouth."))
+ if s.receipt:lines.append("RECEIVED LOCAL ACCOUNT · "+("The crew below reports trace current zero and opens its own shutter." if s.thread=="deep" else "The bunker watch comes out through the cleared mouth."))
  return "\n".join(lines)
 static func draw_world(view,sim)->void:
  var s=status(sim)
@@ -67,7 +67,7 @@ static func draw_world(view,sim)->void:
    for x in range(2050,2240,24):view.draw_line(Vector2(x,944),Vector2(x+14,994),TEAL,2/scale)
  if s.phase=="towing":
   view.draw_polyline(PackedVector2Array([p]+sim.mission.concealed_harbour.trail+[sim.units[0].pos]),AMBER,1.5/scale)
- view._label(p+Vector2(0,46),"TOW · "+("LISTENING FLOAT" if s.thread=="deep" else "REFUGE SCREEN"),AMBER,14)
+ view._label(p+Vector2(0,46),"TOW · "+("LISTENING FLOAT" if s.thread=="deep" else "BUNKER SCREEN"),AMBER,14)
  # Received acknowledgement establishes the station response; close samples
  # additionally show its local open/closed machinery and occupied bays.
  var seen=s.station_seen
@@ -89,12 +89,12 @@ static func draw_world(view,sim)->void:
  if seen.open:
   for side in [-1,1]:view.draw_line(station+Vector2(side*50,-25),station+Vector2(side*65,-42),TEAL,3/scale)
  else:view.draw_line(station+Vector2(-45,-25),station+Vector2(45,-25),AMBER,3/scale)
- view._label(station+Vector2(0,-65),("DEPARTURE SHUTTER" if s.thread=="deep" else "OCCUPIED REFUGE BAYS")+(" · OPEN" if seen.open else " · LOCAL FIX"),TEAL,13)
+ view._label(station+Vector2(0,-65),("SEALED SHUTTER" if s.thread=="deep" else "BUNKER MOUTH")+(" · OPEN" if seen.open else " · LOCAL FIX"),TEAL,13)
 static func debrief(main)->void:
  var s=status(main.sim)
  if not s.get("known",false):return
  main._menu_text(summary(main.sim),20)
- if main.sim.outcome=="won" and s.receipt:main._menu_text("THIS DIVE · "+("Surface trace physically disconnected; local departure station replied." if s.thread=="deep" else "Refuge mouth cleared · "+("SHORT SERVICE APPROACH" if s.placement=="service" else "SHELTERED LOWER APPROACH"))+"\nThe ending preserves the first committed campaign consequence.",17)
+ if main.sim.outcome=="won" and s.receipt:main._menu_text("THIS DIVE · "+("Surface trace physically disconnected; the crew below replied." if s.thread=="deep" else "Bunker mouth cleared · "+("SHORT SERVICE APPROACH" if s.placement=="service" else "SHELTERED LOWER APPROACH"))+"\nThe ending preserves the first committed campaign consequence.",17)
 
 static func refresh_subject(sim,subject:Dictionary)->Dictionary:
  if subject.get("subkind","")!="concealed" or not subject.get("seat","").is_empty():return subject

@@ -61,7 +61,7 @@ func post_arrival_loss(arrival:Dictionary):
  check(not Sim.valid_snapshot(invalid),"historical arrival cannot turn a destroyed recipient into a won dive")
  var debrief=ArrivalDebrief.new();debrief.sim=s
  preload("res://src/presentation/warning_recipient_view.gd").arrival(debrief)
- check(debrief.lines.any(func(line):return "LOST AFTER ARRIVAL" in line) and debrief.lines.any(func(line):return "no campaign outcome" in line) and not debrief.lines.any(func(line):return "RECIPIENT AT REFUGE" in line),"loss debrief distinguishes received historical arrival from the recipient's subsequent destruction")
+ check(debrief.lines.any(func(line):return "LOST AFTER ARRIVAL" in line) and debrief.lines.any(func(line):return "no campaign outcome" in line) and not debrief.lines.any(func(line):return "RECIPIENT AT PICKUP" in line),"loss debrief distinguishes received historical arrival from the recipient's subsequent destruction")
  check(debrief.panel_box.get_child_count()==1 and not debrief.panel_box.get_child(0).arrival_data.recipient.alive,"arrival illustration receives the observed deceased hull rather than a living recipient")
  debrief.panel_box.free()
  archive.active=lost;archive.expedition=Campaign.recover(progress(),s.mission)
@@ -122,7 +122,7 @@ func run():
  check(not Sim.valid_snapshot(malformed),"recipient delivery cannot load without its actual warning source")
  var recovered=Campaign.recover(progress(),s.mission)
  check(recovered.facts.get("warning_arrival","")=="sheltered" and recovered.facts.get("warning_service","")=="manual","first successful recovery commits actual recipient course and manual work")
- check(Endings.resolve(recovered).id=="surface_reckoning" and "recipient" in Endings.resolve(recovered).story.to_lower(),"Shelf ending retains distinct identity and depicts its achieved physical warning outcome")
+ check(Endings.resolve(recovered).id=="surface_reckoning" and "sheltered service passage" in Endings.resolve(recovered).story.to_lower(),"Shelf ending retains distinct identity and depicts its achieved physical warning outcome")
  var deep=Campaign.recover(progress("deep"),s.mission)
  check(Endings.resolve(deep).id=="beacon_pact" and Endings.resolve(deep).story!=Endings.resolve(recovered).story,"Deep outcome keeps its distinct authored aftermath after the same achieved transit")
  var independent=fresh();transmit(independent);acknowledge(independent)

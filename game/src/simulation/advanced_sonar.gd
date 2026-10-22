@@ -21,11 +21,16 @@ static func water_path(sim,receiver:Dictionary,source:Dictionary,radius:float)->
  if paths.is_empty():return {}
  paths.sort_custom(func(a,b):return a.strength>b.strength)
  return paths[0]
+static func prism_pulse(sim,station:int)->bool:
+ return station==0 and Equipment.has(sim.mission.launch_equipment,0,"quietus_prism") and sim.sonar.sector=="forward"
+# Single source of truth: the HUD shows exactly what emit() spends.
+static func pulse_cost(sim,station:int)->float:
+ return POWERS[sim.sonar.power].cost*(2. if prism_pulse(sim,station) else 1.)*Upgrades.pulse_cost(sim.mission.launch_equipment,station)
 static func emit(sim,station:int)->bool:
  var u=sim.units[station]
  if not u.transition.is_empty():sim.message="Settle depth before emitting";return false
- var settings=POWERS[sim.sonar.power];var prism=station==0 and Equipment.has(sim.mission.launch_equipment,0,"quietus_prism") and sim.sonar.sector=="forward"
- var cost=settings.cost*(2. if prism else 1.)*Upgrades.pulse_cost(sim.mission.launch_equipment,station)
+ var settings=POWERS[sim.sonar.power];var prism=prism_pulse(sim,station)
+ var cost=pulse_cost(sim,station)
  if (sim.oxygen if station==0 else u.battery)<cost:return false
  if station==0:sim.oxygen-=cost
  else:u.battery-=cost

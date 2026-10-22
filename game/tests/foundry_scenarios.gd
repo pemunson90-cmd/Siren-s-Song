@@ -4,7 +4,7 @@ static func run(t) -> void:
 	var s=Simulation.new(); s.start(3)
 	t.check(not s.mission.get("structures",[]).is_empty(),"Cold Foundry has physical industrial mass in its approach")
 	t.check(s.mission.extraction.distance_to(s.units[0].pos)>900,"far-side recovery gives Quietus a meaningful perimeter transit")
-	t.check(s.mission.objectives[0].name=="FURNACE VENT" and s.mission.objectives[1].name=="DEPARTURE CRADLE","factory records describe two different observations")
+	t.check(s.mission.objectives[0].name=="FURNACE VENT" and s.mission.objectives[1].name=="LAUNCH CRADLE","factory records describe two different observations")
 	if s.mission.get("structures",[]).is_empty(): return
 	t.check(not s.path(s.units[0].pos,Vector2(1090,570)).is_empty(),"assisted navigation reaches a clear vantage beside a factory wall")
 	var building:Rect2=s.mission.structures[0]

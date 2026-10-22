@@ -140,6 +140,11 @@ jobs:
           witness_evacuation_tests|WITNESS EVACUATION
           witness_evacuation_journey_tests|WITNESS EVACUATION JOURNEY
           witness_evacuation_ui_tests|WITNESS EVACUATION UI
+          rules_sonar_cost_tests|RULES SONAR COST
+          rules_witness_menu_tests|RULES WITNESS MENU
+          t_pressure_tuning_tests|T PRESSURE
+          ordinary_beam_industrial_tests|ORDINARY BEAM INDUSTRIAL
+          turn_safe_navigation_tests|TURN SAFE NAVIGATION
           warning_recipient_tests|WARNING RECIPIENT
           warning_recipient_journey_tests|WARNING RECIPIENT JOURNEY
           warning_recipient_ui_tests|WARNING RECIPIENT UI

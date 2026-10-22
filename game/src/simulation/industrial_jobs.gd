@@ -61,7 +61,7 @@ static func command(sim,args:Dictionary)->bool:
    route.append_array(leg);from=point
   for n in route.size():route[n].stop=n==route.size()-1
   load.route=route;load.state="transit";load.destination=destination;state.route_choice=action
-  sim._use_band(sim.units[id].band);sim._noise(c.pos,650.,"CHOIR BERTH RELEASE",6.,load.band);sim.message="Sled departs by "+action+" course · locally observe its actual refuge arrival";return true
+  sim._use_band(sim.units[id].band);sim._noise(c.pos,650.,"CHOIR BERTH RELEASE",6.,load.band);sim.message="Sled departs by "+action+" course · locally observe its actual dock arrival";return true
  state.jobs[id]={"action":action,"pos":c.pos,"band":sim.units[id].band,"elapsed":0.,"duration":c.duration};sim.units[id].hold="HOLD"
  sim._noise(c.pos,520.,"RECOVERY WINCH" if action=="recover" else "CHOIR MACHINERY",c.duration,sim.units[id].band);sim.message=c.reason;return true
 static func cancel_released(sim,id:int):
