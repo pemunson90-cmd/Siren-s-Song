@@ -1,9 +1,9 @@
 # Handoff 017 (PRIORITY): land PRs 69, 70 and 71 in order
 
-Status: CLAIMED
+Status: DONE
 Claimed at: 2026-10-22 18:18:27 UTC
 Claimed by: codex
-Finished at:
+Finished at: 2026-10-22 20:18:10 UTC
 
 PRIORITY: take this BEFORE 014, 015 and 016 if any of PRs 69, 70 or 71 is still open. Claude's builders for 69 and 70 may be gone; their branches are pushed, and you are authorised to finish them. Push merge commits only (never rebase or force-push).
 Precondition: none.
@@ -25,8 +25,16 @@ PRs 69, 70 and 71 merged, integration's core suite ends CHECKS N FAILURES 0, and
 Mark DONE in this file and in docs/codex/BOARD.md with the three PR links.
 
 ## Completion
-In progress. PR [69](https://github.com/pemunson90-cmd/Siren-s-Song/pull/69) merged as `8b6c2d1`; PR [70](https://github.com/pemunson90-cmd/Siren-s-Song/pull/70) merged as `567f0b2`, each after both exact-head checks passed. PR [71](https://github.com/pemunson90-cmd/Siren-s-Song/pull/71) is refreshed onto that integration at `f71370cab344b1dba21817a0ccd72906133b0fa4`; its final [CI run](https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/39844515618) is running. Guidance has passed. This handoff and 013 remain CLAIMED until 71 merges.
+All three PRs merged in the requested order, with both required checks green on each final head and mergeability verified:
 
-The Well hunter now has a reachable post outside the quiet capture approaches. Matched sensing fixtures follow the relocated post; isolated front/back photography fixtures retain the actor under study and keep every image/path assertion. All 84 CI suites were exercised locally across the integration, with the affected suites and initially failing fixtures rechecked successfully. On the refreshed controls head: core817, runtime665, ring UI212, fleet UI78, route touch46, onboarding30, warning pause15, pricing UI11 and photo UI9, all zero failures.
+- [69 Priced Shots](https://github.com/pemunson90-cmd/Siren-s-Song/pull/69): head `f4a9f5db82af9029a9749923033bc49aa40f85c5`, [CI 39831039898](https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/39831039898), merge `8b6c2d1177ed0e22667279142af7706b068400e5`.
+- [70 SWEEP1](https://github.com/pemunson90-cmd/Siren-s-Song/pull/70): head `3d7da2dae70943de81994780aeded52fc71592de`, [CI 39840361328](https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/39840361328), merge `567f0b270cb479fecdb081df8ad9ffffdd2dceb3`.
+- [71 controls](https://github.com/pemunson90-cmd/Siren-s-Song/pull/71): head `f71370cab344b1dba21817a0ccd72906133b0fa4`, [CI 39844515618](https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/39844515618), merge `dd9494ba139fdf23b92f5599d1aadcd487e2c637`.
 
-Strict bare-Quietus closeout: the existing Well journey with basic100 oxygen, both drones inactive and no fitted modules passed13 checks, returning at127.32s with full hull and45.12 oxygen; all finite tools remained unused. The ordinary touch journey also completed on both logical Fold shapes. Physical Fold ergonomics, headphone audio and human enjoyment remain unverified.
+The Well hunter's dormant post is now reachable clear water at (1480, 860), outside the quiet capture approaches. The matched active-sensing fixture follows that relocated post. The front/back optics fixtures retain only the actor under study, keeping every image and path assertion while excluding the second sweeper that interrupted the long exposure. No sensing, lock, beam, collision, damage or hull rule was changed beyond the approved SWEEP1 work. Both the photography prompts and once-only warning pause survive the integration. The requested spec sentence describes the V7-senses sweeper; CONTINUATION now points to the next handoffs.
+
+Validation: merged integration has exactly the tested controls-head tree. Import is clean; core 817, runtime 665, ring UI 212, fleet UI 78, route touch 46, onboarding 30, warning pause 15, pricing UI 11 and photo UI 9 checks all pass. The SWEEP1 pass also checked sweeper 52, pricing 64, lock warning 27 plus UI 14, opening journeys 49, opening touch 406, photo capture 52, study-save 45 and discovery 25, all zero failures. After the original red core run, all 84 current CI suites were exercised locally across the integration; the affected suites and initially failing fixtures were rechecked successfully. No tests were skipped, loosened or deleted.
+
+Strict bare-Quietus proof reuses the Well journey with basic 100 oxygen, both drones inactive and no fitted modules: 13 checks passed; recovery at 127.32 seconds, full hull and 45.12 oxygen, with every finite tool unused. The ordinary touch journey also completes on both logical Fold shapes. Physical Fold ergonomics, headphone audio and human enjoyment remain unverified.
+
+Handoff 013 and its board row are DONE in commit `036e215`. No APK or production/main change. SWEEP1's multiple legacy hooks remain documented in its module header for the planned ARCH1 cleanup in 019. Next: 014, then numeric order through the eligible OPEN queue.

@@ -21,7 +21,7 @@ Work order is numeric: finish 013 (batch 1) first, then 014, 015, 016.
 ## BATCH 3 (22 Oct, written by Claude when its session was nearly out; Claude may be absent)
 | Order | Handoff | Status | PR | Finished (UTC) | One-line result |
 |---|---|---|---|---|---|
-| P | 017 PRIORITY: land PRs 69, 70, 71 | CLAIMED | [69](https://github.com/pemunson90-cmd/Siren-s-Song/pull/69), [70](https://github.com/pemunson90-cmd/Siren-s-Song/pull/70), [71](https://github.com/pemunson90-cmd/Siren-s-Song/pull/71) | | 69 and 70 merged; 71 locally tested and in final CI. |
+| P | 017 PRIORITY: land PRs 69, 70, 71 | DONE | [69](https://github.com/pemunson90-cmd/Siren-s-Song/pull/69), [70](https://github.com/pemunson90-cmd/Siren-s-Song/pull/70), [71](https://github.com/pemunson90-cmd/Siren-s-Song/pull/71) | 2026-10-22 20:18:10 UTC | All three merged on green; basic Quietus completes Well without drones or tools. |
 | 7 | 018 DEPTH1 depth-band photos, findings, all-stop | OPEN | | | |
 | 8 | 019 ARCH1 refactor steps 2 to 4 | OPEN | | | |
 | 9 | 020 CAMPAIGN M1 photo rows ops 6 to 29 | OPEN | | | |
