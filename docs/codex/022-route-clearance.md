@@ -26,4 +26,8 @@ Either a proven planner clearance fix with a preview indicator, or a report plus
 PR into claude/integration; merge per the line above; mark DONE and update the board.
 
 ## Completion
-(Codex fills this in: what changed, PR link, test results, unverified items, files outside ownership needed, recommended next.)
+Work in progress. Branch: `claude/lane-nav-clearance`. Last pushed SHA: `f3ba134d2ac1eee5041119eb23d7a81109b05b40`. Draft PR: https://github.com/pemunson90-cmd/Siren-s-Song/pull/75.
+
+Independent geometric probe: 1145 accepted lines, zero below the 12 m hull radius. Some are below the requested 24 m planner margin (minimum 20 m). Isolated bare-Quietus motion fixtures: 18/0 at 60, 16 and 4 frame updates/sec, fixed 60 Hz simulation, no hull loss. Near-corner starts are being checked before choosing a source fix. Cold review did not preserve exact tap coordinates; these are source-known reconstructed cases. No source/gameplay changes yet.
+
+016 remains blocked until Pat releases it; 018 remains Claude-owned.
