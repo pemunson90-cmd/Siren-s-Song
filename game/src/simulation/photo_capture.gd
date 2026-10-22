@@ -20,6 +20,7 @@ extends RefCounted
 const Equipment=preload("res://src/equipment/equipment_catalog.gd")
 const Thermal=preload("res://src/simulation/thermal_front.gd")
 const Findings=preload("res://src/simulation/photo_findings.gd")
+const Pricing=preload("res://src/simulation/photo_pricing/photo_pricing.gd")
 const COLS:=36
 const MAX_SHOTS:=24
 const TURN_RATE:=1.8
@@ -234,6 +235,7 @@ static func view(sim,origin:Vector2,aim:float,fov:float,far:float)->Array:
 static func begin(sim,uid:int,oi:int)->void:
 	var st=state(sim);var o=obj(sim,oi);var cfg=settings(sim,uid)
 	st.acc[uid]={"obj":oi,"t":0.0,"sharp":0.0,"dwell":{},"fq":{},"path":[],"flash":false,"clock":0.0}
+	Pricing.spend(sim,uid)
 	if bool(cfg.flash) and optics(sim,uid).flash and flash_left(sim,uid)>0:
 		st.flash[uid]=int(st.flash[uid])-1;st.acc[uid].flash=true
 static func noise_radius(sim,uid:int)->float:
@@ -395,6 +397,7 @@ static func siren_objective(sim,i:int)->int:
 static func shots_for(mission:Dictionary,key:String)->Array:
 	return mission.get("photo",{}).get("shots",[]).filter(func(s):return s.key==key)
 static func valid(mission:Dictionary)->bool:
+	if not Pricing.valid(mission):return false
 	if not mission.has("photo"):return true
 	var p=mission.photo
 	if not p is Dictionary or not p.get("shots") is Array or p.shots.size()>MAX_SHOTS or not p.get("acc") is Dictionary or not p.get("set") is Dictionary:return false
