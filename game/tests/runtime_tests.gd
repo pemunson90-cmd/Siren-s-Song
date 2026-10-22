@@ -55,7 +55,7 @@ func run() -> void:
 	game._start_mission(0); game.sim.command("route",{"point":Vector2(360,800)}); game._show_campaign(); await process_frame
 	var has_resume=false
 	for child in game.panel_box.get_children():
-		if child is Button and child.text=="RESUME ACTIVE MISSION": has_resume=true
+		if child is Button and child.text.begins_with("RESUME DIVE"): has_resume=true
 	check(has_resume,"a paused zero-time plan remains resumable from operations")
 	var planned=game.sim.snapshot(); game._briefing(1); await process_frame; game._show_campaign(); await process_frame
 	check(game.sim.snapshot()==planned,"browsing another briefing then back preserves active mission and orders")

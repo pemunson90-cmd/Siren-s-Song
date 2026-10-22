@@ -55,6 +55,9 @@ static func run(t,game) -> void:
 	var target=ocean.map_position(ocean.size/2)
 	p=ocean.global_position+ocean.screen_position(target)
 	await touch(t,0,p,true); await touch(t,0,p,false)
+	# A tap over an existing plan marks the destination; the player then confirms it.
+	t.check(not game.mission_hud.guard.pending.is_empty() or game.sim.units[0].route[-1].pos.distance_to(target)<1,"tap over an existing route is held for confirmation")
+	if not game.mission_hud.guard.pending.is_empty(): game.mission_hud.guard.confirm(true)
 	t.check(not game.sim.units[0].route.is_empty() and game.sim.units[0].route[-1].pos.distance_to(target)<1,"tap after pan and pinch commands the intended world destination")
 	orders=game.sim.units[0].route.duplicate(true)
 	await touch(t,0,origin,true); await drag(t,0,ocean.global_position+ocean.size+Vector2(80,80),Vector2(500,500)); await touch(t,0,ocean.global_position+ocean.size+Vector2(80,80),false)
@@ -70,6 +73,7 @@ static func run(t,game) -> void:
 	for frame in 4:await t.process_frame
 	p=ocean.global_position+ocean.screen_position(destination)
 	await touch(t,0,p,true); await touch(t,0,p,false)
+	if not game.mission_hud.guard.pending.is_empty(): game.mission_hud.guard.confirm(false)
 	t.check(game.sim.units[0].route[-1].pos.distance_to(destination)<1,"cutout-inset root maps global touch release to the same world destination")
 	game.position=root_position
 	ocean.fit_chart()

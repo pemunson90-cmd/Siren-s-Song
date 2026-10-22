@@ -537,6 +537,14 @@ func command(order: String,args: Dictionary={}) -> bool:
 			message="%s · %s route" % [u.name,"queued" if append else "replaced"]
 		"route_edit", "route_insert", "route_delete", "route_undo":
 			if not _edit_program(order,args): return false
+		"order_undo":
+			# Presentation-held restore of the last plain route order: prior goals and hold only.
+			var prior=args.get("goals",[]);var prior_hold=args.get("hold","")
+			if not prior is Array or not prior_hold is String or prior_hold not in ["","HOLD","CONTACT","DRONE",DroneOperations.ARMED,DroneOperations.STOPPED]:return false
+			if prior.is_empty():
+				u.route=[];u.erase("route_plan");u.erase("route_undo")
+			elif not _install_program(u,prior,false):message="Previous course is no longer safe.";return false
+			u.hold=prior_hold;message="%s · last order undone"%u.name
 		"hold": u.hold="" if u.hold=="HOLD" else "HOLD"; message="Holding position" if u.hold!="" else "Route released"
 		"contact_hold":
 			if u.hold in ["CONTACT",DroneOperations.ARMED,DroneOperations.STOPPED]:

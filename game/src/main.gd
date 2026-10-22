@@ -15,6 +15,9 @@ const BlackwaterDelivery=preload("res://src/presentation/blackwater_delivery_vie
 const RecipientView=preload("res://src/presentation/warning_recipient_view.gd")
 const WitnessView=preload("res://src/presentation/witness_evacuation_view.gd")
 const FleetInventory=preload("res://src/campaign/fleet_inventory.gd")
+const OnboardingText=preload("res://src/campaign/onboarding_text.gd")
+const FrontendSettings=preload("res://src/presentation/frontend/frontend_settings.gd")
+const SettingsStore=preload("res://src/persistence/settings_store.gd")
 var sim = Simulation.new()
 var store=SaveStore.new()
 var sound
@@ -81,6 +84,7 @@ var scroll_report_timer: Timer
 var metrics_session:=""
 var metrics_serial:=0
 var departure_confirmation=""
+var hints_seen:Array=[]
 func _ready() -> void:
 	get_tree().auto_accept_quit=false
 	_theme()
@@ -186,16 +190,16 @@ func _layout(cancel_gesture:bool=true) -> void:
 	ui_touch_height=preload("res://src/presentation/layout_metrics.gd").touch_height(get_viewport_rect().size,Vector2(get_window().size),ui_density_dpi())
 	var h=ui_touch_height
 	# One maximum-stock reserve scale; NEXT-dive supplies never rescale a live dive.
-	ocean.position=Vector2.ZERO;ocean.size=size;ocean.feedback_font_size=maxi(14,roundi(h*.26));ocean.instrument_top=h+24;ocean.instrument_height=h;ocean.oxygen_capacity=120.
+	ocean.position=Vector2.ZERO;ocean.size=size;ocean.feedback_font_size=maxi(14,roundi(h*.26*FrontendSettings.text_scale()));ocean.instrument_top=h+24;ocean.instrument_height=h;ocean.oxygen_capacity=120.
 	_refresh()
 	if mission_hud!=null:
 		mission_hud.layout(size,h);mission_row_heights=_measured_mission_rows()
 		ocean.ui_blocked_rects=mission_hud.occupied_rects().map(func(r):return Rect2(r.position-ocean.global_position,r.size))
 	if menu!=null:
 		menu.position=Vector2(maxf(24,(size.x-800)/2),24); menu.size=Vector2(minf(800,size.x-48),size.y-48)
-		if archive_status_text!=null:archive_status_text.add_theme_font_size_override("font_size",maxi(17,roundi(h*.26)))
+		if archive_status_text!=null:archive_status_text.add_theme_font_size_override("font_size",maxi(17,roundi(h*.26*FrontendSettings.text_scale())))
 		for button in menu.find_children("*","Button",true,false):
-			button.custom_minimum_size.y=h; button.add_theme_font_size_override("font_size",maxi(17,roundi(h*0.29)))
+			button.custom_minimum_size.y=h; button.add_theme_font_size_override("font_size",maxi(17,roundi(h*0.29*FrontendSettings.text_scale())))
 		for slider in menu.find_children("*","Slider",true,false): slider.custom_minimum_size.y=h
 	if route_editor!=null and route_editor.visible: route_editor.configure(size,h)
 	call_deferred("_report_targets")
@@ -204,6 +208,7 @@ func _start_mission(index: int) -> void:
 	var launch=FleetInventory.launch(fitted_equipment,_equipment_entitlements(),fleet,index,_campaign_completed())
 	if not launch.ok:sim.message="Fitting unavailable · choose available hardware or BARE";return
 	launch.launch["context"]=_launch_context(index)
+	if mission_hud!=null and mission_hud.guard!=null:mission_hud.guard.reset()
 	diagnostic_ready=""; diagnostic_records.clear(); diagnostic_roles.clear(); diagnostic_role_route_ready=false; map_gesture.cancel(); advanced_orders=false; knock_armed=false; ocean.knock_targeting=false; decoy_armed=false; ocean.decoy_targeting=false
 	call_deferred("_layout")
 	if route_editor!=null: route_editor.hide()
@@ -253,7 +258,10 @@ func _order(order: String,args: Dictionary={}) -> void:
 	map_gesture.cancel()
 	var aiming=knock_armed;var aiming_decoy=decoy_armed
 	knock_armed=false; ocean.knock_targeting=false; decoy_armed=false; ocean.decoy_targeting=false
+	var undo_record={}
+	if order=="route" and sim.outcome.is_empty() and mission_hud!=null and mission_hud.guard!=null:undo_record=mission_hud.guard.capture()
 	var accepted=sim.command(order,args)
+	if accepted and not undo_record.is_empty():mission_hud.guard.arm_undo(undo_record)
 	if order=="knock" and not accepted: knock_armed=aiming
 	if order=="decoy" and not accepted:decoy_armed=aiming_decoy
 	if not accepted and (knock_armed or decoy_armed):targeting_feedback=sim.message
@@ -294,7 +302,7 @@ func _refresh() -> void:
 		var task="LOST" if not sim.units[i].alive else (capture_task if work.unit>=0 else (sim.units[i].hold if not sim.units[i].hold.is_empty() else ("ROUTE" if not sim.units[i].route.is_empty() else "READY")))
 		task={"SCOUT_STOP":"ALERT"}.get(task,task)
 		unit_buttons[i].text=["QUIETUS","DRONE A","DRONE B"][i]+"\n"+task
-		unit_buttons[i].add_theme_font_size_override("font_size",maxi(14,roundi(ui_touch_height*0.26)))
+		unit_buttons[i].add_theme_font_size_override("font_size",maxi(14,roundi(ui_touch_height*0.26*FrontendSettings.text_scale())))
 	order_buttons.waypoint_mode.text="PASS\nPOINTS" if sim.pass_through else "STOP AT\nPOINTS"
 	ocean.optical_feed.receiver_font_size=maxi(14,roundi(ui_touch_height*0.25))
 	order_buttons.camera.text="SAMPLE" if sim.mission.get("blackwater_revision",0)==1 else "CAMERA\nLISTEN" if sim.mission.get("finale_revision",0)==1 else ("CAMERA\nLINK" if mission_index==1 else "CAMERA")
@@ -392,7 +400,7 @@ func _map_event(event: InputEvent,local_event: bool=false) -> bool:
 			if context.kind=="craft" and context.unit!=sim.selected:_order("select",{"unit":context.unit})
 			mission_hud.open("inspect" if context.get("subkind","")=="concealed" else "habitat" if context.kind=="habitat" else "object" if context.kind=="objective" else "salvage" if context.kind=="salvage" else "fleet" if context.kind=="fleet" else "craft",context);return true
 		var world=ocean.map_position(action.tap-ocean.global_position)
-		if Rect2(Vector2.ZERO,ocean.world_size()).has_point(world): _order("route",{"point":world})
+		if Rect2(Vector2.ZERO,ocean.world_size()).has_point(world): mission_hud.guard.tap_water(world)
 	if action.has("ended") or action.has("tap"):knock_press.clear()
 	return true
 func _target_knockdown(point: Vector2,intended:int=-2) -> void:
@@ -451,8 +459,8 @@ func _show_campaign() -> void:
 	_menu_text("ONE PILOT. TWO DRONES. AN OCEAN THAT LISTENS.",14)
 	_menu_text("USS QUIETUS  /  OPERATIONS ARCHIVE",18)
 	if active_started and sim.outcome.is_empty():
-		_button(panel_box,"RESUME ACTIVE MISSION",_enter_water,"resume")
-		_menu_text("Resuming preserves the active dive's equipment.",14)
+		_button(panel_box,"RESUME DIVE · %02d %s"%[mission_index+1,sim.mission.title.to_upper()],_enter_water,"resume")
+		if not _campaign_pristine():_menu_text("Resuming keeps this dive's equipment and its place in time.",14)
 	for i in 6:
 		var id=i
 		var b=_button(panel_box,"%02d   %s   %s"%[i+1,Simulation.Missions.TITLES[i],"RECOVERED" if i in completed else ("AVAILABLE" if i<=unlocked else "LOCKED")],func(): print("SS_MISSION_SELECT ",id); _briefing(id))
@@ -460,7 +468,7 @@ func _show_campaign() -> void:
 		b.set_meta("action","mission%d"%i)
 	ExpeditionOperations.operations(self)
 	if not Endings.resolve(expedition).is_empty():_button(panel_box,"VIEW CAMPAIGN ENDING",_show_ending,"ending")
-	_button(panel_box,"NEW CAMPAIGN",_confirm_new_campaign,"new_campaign")
+	if not _campaign_pristine():_button(panel_box,"ERASE PROGRESS · NEW CAMPAIGN",_confirm_new_campaign,"new_campaign")
 	if not recovered_evidence.is_empty(): _button(panel_box,"REVIEW FIELD RECORDS",func(): _evidence_gallery(0),"evidence")
 	_menu_text("Field records remain reviewable after loss or abandonment. Only successful extraction advances the campaign.",14)
 	var stock=_loadout_stock(upgrade)
@@ -475,6 +483,9 @@ func _show_campaign() -> void:
 	_button(panel_box,"AUDIO / SETTINGS",_settings_menu,"settings")
 	print("SS_SCREEN operations window=",get_window().size," viewport=",get_viewport_rect().size," root=",size," unlocked=",unlocked," active_time=",snappedf(sim.elapsed,0.01))
 	call_deferred("_layout")
+# A campaign with nothing recovered yet has no progress to resume or replace.
+func _campaign_pristine()->bool:
+	return completed.is_empty() and unlocked==0 and expedition.is_empty() and recovered_evidence.is_empty() and photo_records.is_empty() and photo_intel.is_empty()
 func _cycle_loadout()->void:
 	var reading_position=scroll.scroll_vertical
 	upgrade=["endurance","disruption","survey"][( ["endurance","disruption","survey"].find(upgrade)+1)%3]
@@ -484,26 +495,55 @@ func _cycle_loadout()->void:
 		await get_tree().process_frame
 		if is_instance_valid(heading) and heading.get_parent()==panel_box:scroll.scroll_vertical=reading_position
 	).call_deferred()
+func _orders_text(briefing:Dictionary) -> String:
+	if briefing.get("blackwater_revision",0)==1:
+		return "ORDERS\nTap a craft for its command ring; FLEET chooses a station. Empty water plots its route; a craft that already has orders asks you to confirm. ROUTE → REPLACE / QUEUE changes append intent. PAUSE stays available. Settle and SAMPLE for two seconds. Quietus receives within156m; drones within214.5m. Cover blocks reception. An audible SONAR may prompt a local relay replay; a decoded packet explains its partner's handshake. Drone buffers TRANSFER locally to Quietus: both settled, within60m, clear link. Return with both packets aboard."
+	return "ORDERS\nTap a craft for its command ring; FLEET chooses a station. Tap empty water to plot a route; a craft that already has orders asks you to confirm. Craft → ROUTE → REPLACE / QUEUE changes append intent. PAUSE stays available. Drag / pinch inspects freely; FOCUS follows the craft and FIT shows the region. CAMERA works within 240m of a gold record marker. Return Quietus after all records are secured."
+const RULES_TEXT="SPACE / PAUSE grants unlimited planning time. Silent running is slower and quieter. Disruption interrupts nearby Sirens for 12 seconds. Quietus torpedoes travel noisily up to 150m; impact pins one Siren for 8s. Cover blocks sonar, enemy sight and torpedoes."
 func _briefing(index: int) -> void:
 	if index>=6 and index not in ExpeditionCampaign.available(completed,expedition):return
 	screen="briefing"; sim.paused=true; _clear_menu()
 	var briefing=Simulation.Missions.make(index,_launch_context(index))
 	_menu_text("%02d / %s"%[index+1,briefing.title.to_upper()],30)
-	_menu_text(briefing.brief,20)
-	if ExpeditionOperations.briefing(self,index):pass
-	elif briefing.get("blackwater_revision",0)==1:
-		_menu_text("ORDERS\nTap a craft for its command ring; FLEET chooses a station. Empty water plots its route. ROUTE → REPLACE / QUEUE changes append intent. PAUSE stays available. Settle and SAMPLE for two seconds. Quietus receives within156m; drones within214.5m. Cover blocks reception. An audible SONAR may prompt a local relay replay; a decoded packet explains its partner's handshake. Drone buffers TRANSFER locally to Quietus: both settled, within60m, clear link. Return with both packets aboard.",17)
+	var goal=OnboardingText.goal(index)
+	if not goal.is_empty():
+		# Opening operations: a goal and one danger. Rules live in the optional field manual.
+		_menu_text(goal,20)
+		_button(panel_box,"FIELD MANUAL · full rules and orders",func(): _reference(index),"manual")
 	else:
-		_menu_text("ORDERS\nTap a craft for its command ring; FLEET chooses a station. Tap empty water to replace its route. Craft → ROUTE → REPLACE / QUEUE changes append intent. PAUSE stays available. Drag / pinch inspects freely; FOCUS follows the craft and FIT shows the region. CAMERA works within 240m of a gold record marker. Return Quietus after all records are secured.",17)
-	_menu_text("SPACE / PAUSE grants unlimited planning time. Silent running is slower and quieter. Disruption interrupts nearby Sirens for 12 seconds. Quietus torpedoes travel noisily up to 150m; impact pins one Siren for 8s. Cover blocks sonar, enemy sight and torpedoes.",17)
+		_menu_text(briefing.brief,20)
+		if ExpeditionOperations.briefing(self,index):pass
+		else:
+			_menu_text(_orders_text(briefing),17)
+		_menu_text(RULES_TEXT,17)
 	var stock=_loadout_stock(upgrade)
 	_menu_text("NEXT DIVE / RETRY · %s\nO₂ %d%% · DISRUPT %d · SURVEY %d · 3 DECOYS · 2 DRONES · 2 TORPEDOES"%[upgrade.to_upper(),stock[0],stock[1],stock[2]],17)
-	# Frames open after the first dive; recovered fittings appear once earned.
+	# Frames open after the first dive; recovered fittings appear once earned. A toggle folds them away.
+	var fit_start=panel_box.get_child_count()
 	if 0 in completed or not _equipment_entitlements().is_empty():preload("res://src/presentation/equipment_context.gd").loadout(self,_equipment_context().slots,func(key,id):_choose_equipment(key,id,index))
 	if not _equipment_entitlements().is_empty():preload("res://src/presentation/equipment_context.gd").fitting(self,_equipment_context(),func(slot,item):_choose_equipment(slot,item,index))
+	if panel_box.get_child_count()>fit_start:
+		var fit_nodes=panel_box.get_children().slice(fit_start)
+		var holder=[]
+		var fold=_button(panel_box,"HIDE FRAMES AND FITTINGS",_fold_fit.bind(fit_nodes,holder),"fit_fold")
+		holder.append(fold);panel_box.move_child(fold,fit_start)
 	_button(menu_footer,"ENTER WATER\nSTART PAUSED",func(): _start_mission(index); _enter_water(),"begin")
 	_button(menu_footer,"BACK TO\nOPERATIONS",_show_campaign,"back")
 	menu_footer.show()
+	call_deferred("_layout")
+func _fold_fit(nodes:Array,holder:Array) -> void:
+	var show=not nodes[0].visible
+	for node in nodes:node.visible=show
+	holder[0].text="HIDE FRAMES AND FITTINGS" if show else "SHOW FRAMES AND FITTINGS"
+	call_deferred("_layout")
+func _reference(index:int) -> void:
+	screen="reference"; _clear_menu()
+	var briefing=Simulation.Missions.make(index,_launch_context(index))
+	var parts=OnboardingText.reference_text(briefing.brief).split("\n\n")
+	for n in parts.size():
+		_menu_text(parts[n],24 if n==0 else 17)
+	if briefing.get("blackwater_revision",0)==1:_menu_text(_orders_text(briefing),17)
+	_button(menu_footer,"BACK TO BRIEFING",func():_briefing(index),"back"); menu_footer.show()
 	call_deferred("_layout")
 func _launch_context(index:int)->Dictionary:
 	var context=preload("res://src/campaign/campaign_consequences.gd").context(expedition)
@@ -592,13 +632,13 @@ func _show_ending()->void:
 	_save_archive();call_deferred("_layout")
 func _confirm_new_campaign()->void:
 	sim.paused=true;screen="new_campaign";_clear_menu()
-	_menu_text("START A NEW CAMPAIGN?",30)
-	_menu_text("This replaces this campaign's progress, equipment and field records. Audio settings stay. Both route choices can be played again.",20)
-	_button(panel_box,"START NEW CAMPAIGN",_new_campaign,"confirm_new_campaign")
-	_button(panel_box,"KEEP CURRENT CAMPAIGN",_show_campaign,"back")
+	_menu_text("ERASE PROGRESS AND START OVER?",30)
+	_menu_text("This deletes your saved operations, equipment and field records and returns you to operation 1. Audio and display settings stay.",20)
+	_button(panel_box,"ERASE AND START OVER",_new_campaign,"confirm_new_campaign")
+	_button(panel_box,"KEEP MY PROGRESS",_show_campaign,"back")
 	call_deferred("_layout")
 func _new_campaign()->void:
-	completed=[];unlocked=0;expedition={};recovered_evidence={};photo_records={};photo_intel={}
+	completed=[];unlocked=0;expedition={};recovered_evidence={};photo_records={};photo_intel={};hints_seen=[]
 	fleet={}
 	fitted_equipment=preload("res://src/equipment/equipment_catalog.gd").default_loadout();upgrade="endurance"
 	_start_mission(0);_save_archive();_show_campaign()
@@ -659,6 +699,7 @@ func _archive() -> Dictionary:
 	if not photo_intel.is_empty():data["intel"]=photo_intel.duplicate(true)
 	if not expedition.is_empty():data["expedition"]=expedition.duplicate(true)
 	if not fleet.is_empty():data["fleet"]=fleet.duplicate(true)
+	if not hints_seen.is_empty():data["hints_seen"]=hints_seen.duplicate()
 	data["equipment"]=preload("res://src/equipment/equipment_catalog.gd").canonical(fitted_equipment)
 	return data
 func _save_archive() -> void:
@@ -692,6 +733,7 @@ func _load_archive() -> void:
 		fitted_equipment=FleetInventory.reconcile_fitting(fitted_equipment,FleetInventory.available(_equipment_entitlements(),fleet))
 		recovered_evidence=saved.get("evidence",{})
 		photo_records=saved.get("photo_records",{}).duplicate(true)
+		hints_seen=saved.get("hints_seen",[]).duplicate()
 		if saved.get("active") is Dictionary and sim.restore(saved.active):
 			active_started=true; mission_index=sim.mission.id; ocean.sim=sim
 			ocean._sync_camera()
@@ -703,7 +745,7 @@ func _load_archive() -> void:
 	_update_archive_status()
 func _settings_menu() -> void:
 	_clear_menu(); screen="settings"
-	_menu_text("QUIETUS / AUDIO",30)
+	_menu_text("QUIETUS / SETTINGS",30)
 	_menu_text("Actionable sound cues also appear in the tactical display. Audio pauses when you suspend the dive.",18)
 	for field in ["music","effects"]:
 		var key=field
@@ -711,8 +753,25 @@ func _settings_menu() -> void:
 		var slider=HSlider.new(); slider.min_value=0; slider.max_value=1; slider.step=0.05; slider.value=settings.get(key,0.5); slider.custom_minimum_size.y=ui_touch_height; slider.set_meta("ui_action","volume_"+key); panel_box.add_child(slider)
 		slider.value_changed.connect(func(value): settings[key]=value; sound.set(key+"_volume",value); _save_archive())
 	_button(panel_box,"MUTE: %s"%("ON" if sound.muted else "OFF"),func(): sound.muted=not sound.muted; settings.mute=sound.muted; _save_archive(); _settings_menu(),"mute")
+	_menu_text("TEXT SIZE · applies to menus and the dive display",17)
+	var sizes=HBoxContainer.new(); sizes.add_theme_constant_override("separation",8); panel_box.add_child(sizes)
+	for choice in [["NORMAL",1.0],["LARGE",1.3],["EXTRA LARGE",1.5]]:
+		var scale:float=choice[1]
+		var b=Button.new(); b.text=choice[0]; b.custom_minimum_size=Vector2(0,ui_touch_height); b.size_flags_horizontal=Control.SIZE_EXPAND_FILL; b.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+		b.focus_mode=Control.FOCUS_NONE; b.toggle_mode=true; b.button_pressed=is_equal_approx(FrontendSettings.text_scale(),scale)
+		b.set_meta("action","text_scale_%d"%roundi(scale*100)); b.set_meta("ui_action","text_scale_%d"%roundi(scale*100))
+		b.pressed.connect(_set_text_scale.bind(scale),CONNECT_DEFERRED); sizes.add_child(b)
+	_button(panel_box,"SHOW FIRST-DIVE TIPS AGAIN",func(): hints_seen=[]; _save_archive(); sim.message="Tips will show again in the opening operations"; _settings_menu(),"reset_tips")
 	_button(menu_footer,"BACK TO OPERATIONS",_show_campaign,"back"); menu_footer.show()
 	call_deferred("_layout")
+func _set_text_scale(scale:float) -> void:
+	var store_settings=SettingsStore.new()
+	var values=store_settings.load_settings()
+	values["text_scale"]=scale
+	values=SettingsStore.sanitize(values)
+	FrontendSettings.apply(values,self)
+	store_settings.save_settings(values)
+	_settings_menu()
 func _notification(what: int) -> void:
 	if what in [NOTIFICATION_APPLICATION_PAUSED,NOTIFICATION_APPLICATION_FOCUS_OUT,NOTIFICATION_WM_WINDOW_FOCUS_OUT]:
 		if sim.mission!=null:
