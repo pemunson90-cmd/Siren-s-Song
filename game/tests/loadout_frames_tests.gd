@@ -63,9 +63,10 @@ func budgets():
  check(absf(quiet.motion_radius(0)-std.motion_radius(0)*0.7)<0.01 and loud.motion_radius(0)>std.motion_radius(0) and loud.motion_radius(1)>std.motion_radius(1),"noise budget scales actual motion sound radius")
  # Speed of the hull frame.
  var fast=open({"hull":"fast"});std=open({})
- for s in [fast,std]:s.units[0].silent=false;s.command("route",{"point":Vector2(900,800)})
+ # Keep the speed comparison clear of the parked drone now that hull contact slows Quietus.
+ for s in [fast,std]:s.units[2].pos=Vector2(280,650);s.units[0].silent=false;s.command("route",{"point":Vector2(900,800)})
  advance(fast,3);advance(std,3)
- check(fast.units[0].pos.x>std.units[0].pos.x+8 and absf(fast.units[0].vel.length()-78*1.15)<0.5,"fast hull travels farther in the same time")
+ check(fast.hull==100 and std.hull==100 and fast.units[0].pos.x>std.units[0].pos.x+8 and absf(fast.units[0].vel.length()-78*1.15)<0.5,"fast hull travels farther in the same time")
  # ENDURANCE: Quietus life support and drone battery.
  var long=open({"hull":"quiet","chassis_a":"endurance"});std=open({})
  advance(long,20);advance(std,20)

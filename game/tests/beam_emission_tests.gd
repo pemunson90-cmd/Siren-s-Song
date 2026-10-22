@@ -35,6 +35,7 @@ func _initialize():
   var old=s.hull;s.advance(1./60.)
   if first_warning<0 and s.contacts.has(0) and s.contacts[0].lock>0:first_warning=s.elapsed
   if first_damage<0 and s.hull<old:first_damage=s.elapsed
- check(first_damage>0,"unbroken ordinary dark-water encounter reaches actual hull damage")
- check(first_warning>=0 and first_damage-first_warning>3.5,"actual sensor pulses expose the charge before hull damage")
+  if not s.outcome.is_empty():break
+ check(first_damage>0,"unbroken ordinary dark-water encounter vaporizes Quietus (one shot)")
+ check(first_warning>=0 and first_damage-first_warning>3.5,"actual sensor pulses expose the charge before the beam fires")
  print("BEAM EMISSION CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)

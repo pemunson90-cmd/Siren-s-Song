@@ -64,8 +64,11 @@ func committed_interception():
 	var s = moving_fixture()
 	var e = s.sirens[0]
 	check(e.industry.aim.x > s.units[0].pos.x + 50, "visual commit leads observed motion instead of harmlessly chasing its wake")
-	tick(s, 3.5)
-	check(s.hull == 80, "unchanged straight course intersects one committed burst")
+	var until = s.elapsed + 3.5
+	while s.hull == 100 and s.outcome.is_empty() and s.elapsed < until: tick(s, Sim.STEP)
+	check(s.hull == 80, "unchanged straight course intersects one 20-point committed burst")
+	tick(s, until - s.elapsed)
+	check(s.hull == 80 - Sim.COLLISION_MAX_DAMAGE and s.units[0].has("hit_at"), "subsequent physical hull contact adds capped collision damage")
 
 	s = moving_fixture()
 	e = s.sirens[0]

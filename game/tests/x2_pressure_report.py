@@ -28,7 +28,8 @@ required = {(id_, policy) for id_ in range(14, 30) for policy in
             ("cautious", "aggressive", "drone_heavy", "quietus_only")}
 assert required <= {(r["operation"], r["policy"]) for r in rows}, "Missing newer operations"
 lines = [f"X2 pressure probes: {len(rows)} rows, report integrity checks passed.",
-         "All runs use source-known objective/physical work/extraction routes, 900s budget, endurance, no fittings, default history.",
+         "All runs use source-known objective/physical work/extraction routes, operation-data dimensions, 900s budget, endurance, no fittings, default history.",
+         "Glass Reach operations14-21 replay the current glass_reach_journeys.gd COURSES, including authored depth crossings, work, material recovery and named exit selection.",
          "cautious: silent Quietus, parked live drones, fresh-contact defensive finite tools.",
          "aggressive: cruise Quietus, sonar every20s, recon at1/90s, knock/EMP/decoy defense.",
          "drone_heavy: silent Quietus, two independent open-profile transit scouts per Quietus leg, drone sonar attempts every25s (shared pulse cooldown) and recon, contact defense.",
@@ -36,7 +37,7 @@ lines = [f"X2 pressure probes: {len(rows)} rows, report integrity checks passed.
          "Metrics: lock/beam durations sample live enemy targets each1/60s for logging; policy reacts only to fresh observed contacts.",
          "Defense trigger is a fresh observed lock>=1s; it does not parse industrial windups. Industrial strikes/pressure can reduce hull/load hull while ordinary lock/beam metrics remain zero.",
          "Losses count dead launched drones, including battery exhaustion; causes/identities are not separately classified. Extraction can leave living drones; retrieval is not required by this policy.",
-         "One run per policy/operation; default launch history, no fittings, no earned-profile or statistical/player-skill claim. Fixed outer routes do not measure risk of every shortcut.",
+         "One run per policy/operation; default launch history, no fittings, no earned-profile or statistical/player-skill claim. Authored routes do not measure risk of every shortcut.",
          "Controller rejection/stops/timeouts are controller findings, not balance verdicts. Scripted policies are not human play.", "",
          "policy | rows | outcomes | mean hull | min hull | mean time | drone losses | tools spent (emp/decoy/recon/knock) | locked seconds / beam seconds"]
 for label, data in [("All operations", rows), ("Newer operations14-29", [r for r in rows if r["operation"] >= 14])]:
@@ -46,6 +47,17 @@ for label, data in [("All operations", rows), ("Newer operations14-29", [r for r
         outcomes = dict(collections.Counter(r["outcome"] for r in subset))
         tools = "/".join(str(sum(r["tools_spent"][tool] for r in subset)) for tool in ("emp", "decoy", "recon", "knock"))
         lines.append(f"{policy} | {len(subset)} | {outcomes} | {statistics.mean(r['hull'] for r in subset):.2f} | {min(r['hull'] for r in subset):.2f} | {statistics.mean(r['seconds'] for r in subset):.2f} | {sum(r['drone_losses'] for r in subset)} | {tools} | {sum(r['quietus_locked_seconds'] for r in subset):.2f} / {sum(r['quietus_beam_seconds'] for r in subset):.2f}")
+lines += ["", "Difficulty curve (each cell: result/outcome; hull; seconds; drone losses; locked seconds; beam seconds):",
+          "operation | cautious | aggressive | drone_heavy | quietus_only",
+          "--- | --- | --- | --- | ---"]
+by_key = {(r["operation"], r["policy"]): r for r in rows}
+for id_ in range(14, 30):
+    cells = []
+    for policy in ("cautious", "aggressive", "drone_heavy", "quietus_only"):
+        r = by_key[id_, policy]
+        result = "win" if r["outcome"] == "won" else "loss" if r["outcome"] == "lost" else "controller finding"
+        cells.append(f"{result}/{r['outcome']}; {r['hull']:.2f}; {r['seconds']:.2f}; {r['drone_losses']}; {r['quietus_locked_seconds']:.2f}; {r['quietus_beam_seconds']:.2f}")
+    lines.append(f"{id_} | " + " | ".join(cells))
 lines += ["", "Exceptions:"]
 for row in rows:
     if row["outcome"] != "won" or row["hull"] < 100 or row["drone_losses"] or row["rejected_scout_routes"]:

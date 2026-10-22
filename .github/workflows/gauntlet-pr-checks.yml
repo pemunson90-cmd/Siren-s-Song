@@ -126,6 +126,8 @@ jobs:
           iron_choir_tests|IRON CHOIR
           industrial_jobs_tests|INDUSTRIAL JOBS
           industrial_threats_tests|INDUSTRIAL THREATS
+          combat_rules_tests|COMBAT RULES
+          collision_boundaries_tests|COLLISION BOUNDARIES
           iron_research_tests|IRON RESEARCH
           iron_choir_journeys|IRON JOURNEY
           iron_choir_ui_tests|IRON CHOIR UI
