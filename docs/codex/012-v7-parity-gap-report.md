@@ -1,8 +1,8 @@
 # Handoff 012: read-only report: what V7 does that the Godot game lost or changed
 
-Status: OPEN
-Claimed at:
-Claimed by:
+Status: CLAIMED
+Claimed at: 2026-10-22 17:32:32 UTC
+Claimed by: codex
 Finished at:
 
 Precondition: handoff 011 must be DONE or BLOCKED.
