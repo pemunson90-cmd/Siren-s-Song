@@ -20,6 +20,7 @@ Keep every change as self-contained as possible so it can be changed or reverted
 Glass Reach ops 14 to 21; hulls, drones and fitting; sonar and rule fixes; story rewrite to the survivor premise; front end (title, settings, credits); Iron Choir ops 22 to 29; lethal-beam combat and collisions; PHOTO1 (viewpoint-dependent camera, archive, intel, gear); ONBOARD1 (teaching prompts, order confirm and undo, text size, clearer title).
 
 ## What is in flight (do not touch these areas)
+(22 Oct 17:45 UTC) PR 69 Priced Shots (new photo_pricing folders), the sweeper rebuild (sonar_sweeper.gd, branch claude/lane-t2-sweeper), then depth-band photos and an ARCH1 behavior-preserving refactor of simulation.gd and main.gd. Codex already landed PR 68 (lock warning readability).
 PHOTO2 (camera, viewfinder, archive, discovery), SWEEP1 (sweeper and its warning text, plus a tutorial pause on the first Siren warning). Next after those: a "Priced Shots" milestone (finite film, light and distance trades) and a photo depth-band choice, both Claude's.
 
 ## Where to read more (only if your handoff points there)

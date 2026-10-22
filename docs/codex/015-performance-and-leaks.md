@@ -1,7 +1,7 @@
 # Handoff 015: measure performance and fix leaks and slowdowns
 
-Status: HOLD
-Note: parked for BATCH 2. Claude changes Status to OPEN when batch 1 is reported finished. Until then, ignore this file.
+Status: OPEN
+Note: BATCH 2 (released 22 Oct 17:45 UTC). Follow the standing engineering rule in PLAN_SNAPSHOT.md: self-contained module, one narrow seam, numbers in a data table, optional validated save fields, tests beside the feature.
 Claimed at:
 Claimed by:
 Finished at:

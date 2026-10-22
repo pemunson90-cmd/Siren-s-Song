@@ -9,6 +9,15 @@ Codex: when you finish a handoff, update its row here in the same commit as `don
 | 2 | 012 V7 parity gap report | DONE | Report only; no PR | 2026-10-22 17:35:31 UTC | V7 comparison with immutable code anchors and five ranked differences; no game edits. |
 | 3 | 013 controls friction | OPEN | | | |
 
+## BATCH 2 (22 Oct, released when 011 and 012 were DONE)
+| Order | Handoff | Status | PR | Finished (UTC) | One-line result |
+|---|---|---|---|---|---|
+| 4 | 014 challenge mode (12 curated challenges) | OPEN | | | |
+| 5 | 015 performance and leaks | OPEN | | | |
+| 6 | 016 one test list, fix stale tests | OPEN | | | |
+
+Work order is numeric: finish 013 (batch 1) first, then 014, 015, 016.
+
 ## Claude-held
 009 sweeper on V7 senses: CLAIMED by Claude (Pat approved). Not yours.
-Parked for batch 2: 014 challenge mode, 015 performance and leaks (Status HOLD).
+Nothing parked.
