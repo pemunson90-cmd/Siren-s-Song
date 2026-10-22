@@ -85,6 +85,7 @@ var metrics_session:=""
 var metrics_serial:=0
 var departure_confirmation=""
 var hints_seen:Array=[]
+var lock_warning
 func _ready() -> void:
 	get_tree().auto_accept_quit=false
 	_theme()
@@ -111,6 +112,7 @@ func _ready() -> void:
 	for button in [pause_button,advanced_button]+unit_buttons+order_buttons.values():
 		button.minimum_size_changed.connect(_queue_mission_reflow)
 	mission_hud=preload("res://src/presentation/mission_hud.gd").new();hud.add_child(mission_hud);mission_hud.setup(self)
+	lock_warning=preload("res://src/presentation/lock_warning.gd").new();hud.add_child(lock_warning)
 	menu=PanelContainer.new(); add_child(menu)
 	# Shaped text can shrink a previous minimum after container reflow.
 	# Reapply the window bounds once that minimum settles.
@@ -286,6 +288,7 @@ func _process(dt: float) -> void:
 		elif sim.has_method("departure_context") and sim.departure_context().get("pending",false): _confirm_module_departure()
 		_refresh()
 func _refresh() -> void:
+	if lock_warning!=null:lock_warning.refresh(self)
 	if decoy_armed and (screen!="mission" or sim.selected!=decoy_unit or not sim.units[sim.selected].alive or sim.tools.decoy<=0 or not sim.outcome.is_empty()):decoy_armed=false
 	ocean.decoy_targeting=decoy_armed
 	if knock_armed and (screen!="mission" or sim.selected!=0 or not sim.units[0].alive or not sim.outcome.is_empty()): knock_armed=false
