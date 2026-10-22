@@ -19,6 +19,9 @@ Your code work happens on a separate lane branch named in the handoff, and retur
 4. Read its `Precondition:` line and obey it. If the precondition says a Claude worker may be active (newest commit on the branch under 90 minutes old), do not claim it; move to the next-highest OPEN handoff. If none are left, go to step 2 below and tell Pat.
 5. Read its `Codex may merge:` line. Where it says yes, you may merge that handoff's pull request into `claude/integration` (never production, never main) with a merge commit, but only after GitHub's `guidance` and `game-smoke` are both green on the exact head and the pull request is mergeable.
 
+## Push work in progress (22 Oct, Pat)
+Sessions and machines die without warning, and uncommitted work is lost. Commit and push your lane branch at least every 30 minutes and after every meaningful step, even when tests are red (a red WIP commit on your lane branch is fine; never merge red). Use a message starting `WIP:`. In your handoff file's Completion section, note the branch and the last pushed SHA so anyone can resume you. Open the PR as soon as the first coherent version exists (a draft is fine).
+
 ## Claude may be absent (22 Oct)
 Claude's session can run out of usage. Then you continue alone: Pat's STANDING DELEGATION (top of docs/USER_DIRECTIVES.md on claude/integration) lets you build to the plan and merge your own green PRs. A handoff marked PRIORITY goes first. Ask Pat only at the decision points listed in the delegation. Read docs/SESSION_LEDGER_2026-10-22.md on claude/integration for the current state.
 
