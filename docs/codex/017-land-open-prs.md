@@ -25,4 +25,8 @@ PRs 69, 70 and 71 merged, integration's core suite ends CHECKS N FAILURES 0, and
 Mark DONE in this file and in docs/codex/BOARD.md with the three PR links.
 
 ## Completion
-(Codex fills this in.)
+In progress. PR [69](https://github.com/pemunson90-cmd/Siren-s-Song/pull/69) merged as `8b6c2d1`; PR [70](https://github.com/pemunson90-cmd/Siren-s-Song/pull/70) merged as `567f0b2`, each after both exact-head checks passed. PR [71](https://github.com/pemunson90-cmd/Siren-s-Song/pull/71) is refreshed onto that integration at `f71370cab344b1dba21817a0ccd72906133b0fa4`; its final [CI run](https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/39844515618) is running. Guidance has passed. This handoff and 013 remain CLAIMED until 71 merges.
+
+The Well hunter now has a reachable post outside the quiet capture approaches. Matched sensing fixtures follow the relocated post; isolated front/back photography fixtures retain the actor under study and keep every image/path assertion. All 84 CI suites were exercised locally across the integration, with the affected suites and initially failing fixtures rechecked successfully. On the refreshed controls head: core817, runtime665, ring UI212, fleet UI78, route touch46, onboarding30, warning pause15, pricing UI11 and photo UI9, all zero failures.
+
+Strict bare-Quietus closeout: the existing Well journey with basic100 oxygen, both drones inactive and no fitted modules passed13 checks, returning at127.32s with full hull and45.12 oxygen; all finite tools remained unused. The ordinary touch journey also completed on both logical Fold shapes. Physical Fold ergonomics, headphone audio and human enjoyment remain unverified.

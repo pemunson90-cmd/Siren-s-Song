@@ -7,7 +7,7 @@ Codex: when you finish a handoff, update its row here in the same commit as `don
 |---|---|---|---|---|---|
 | 1 | 011 lock warning readability | DONE | [68](https://github.com/pemunson90-cmd/Siren-s-Song/pull/68) | 2026-10-22 17:32:19 UTC | Clear observed-lock countdown, source link and accelerating audio; merged, CI green. |
 | 2 | 012 V7 parity gap report | DONE | Report only; no PR | 2026-10-22 17:35:31 UTC | V7 comparison with immutable code anchors and five ranked differences; no game edits. |
-| 3 | 013 controls friction | OPEN | | | |
+| 3 | 013 controls friction | CLAIMED | [71](https://github.com/pemunson90-cmd/Siren-s-Song/pull/71) | | Refreshed head passed local touch checks; final CI running. |
 
 ## BATCH 2 (22 Oct, released when 011 and 012 were DONE)
 | Order | Handoff | Status | PR | Finished (UTC) | One-line result |
@@ -21,7 +21,7 @@ Work order is numeric: finish 013 (batch 1) first, then 014, 015, 016.
 ## BATCH 3 (22 Oct, written by Claude when its session was nearly out; Claude may be absent)
 | Order | Handoff | Status | PR | Finished (UTC) | One-line result |
 |---|---|---|---|---|---|
-| P | 017 PRIORITY: land PRs 69, 70, 71 | OPEN | | | |
+| P | 017 PRIORITY: land PRs 69, 70, 71 | CLAIMED | [69](https://github.com/pemunson90-cmd/Siren-s-Song/pull/69), [70](https://github.com/pemunson90-cmd/Siren-s-Song/pull/70), [71](https://github.com/pemunson90-cmd/Siren-s-Song/pull/71) | | 69 and 70 merged; 71 locally tested and in final CI. |
 | 7 | 018 DEPTH1 depth-band photos, findings, all-stop | OPEN | | | |
 | 8 | 019 ARCH1 refactor steps 2 to 4 | OPEN | | | |
 | 9 | 020 CAMPAIGN M1 photo rows ops 6 to 29 | OPEN | | | |
