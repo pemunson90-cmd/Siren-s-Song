@@ -26,6 +26,16 @@ Work order is numeric: finish 013 (batch 1) first, then 014, 015, 016.
 | 8 | 019 ARCH1 refactor steps 2 to 4 | OPEN | | | |
 | 9 | 020 CAMPAIGN M1 photo rows ops 6 to 29 | OPEN | | | |
 
+## BATCH 4 (buffer, 22 Oct; independent work so Codex does not run dry)
+| Order | Handoff | Status | PR | Finished (UTC) | One-line result |
+|---|---|---|---|---|---|
+| 10 | 021 route map screen (M2) | OPEN | | | |
+| 11 | 022 route clearance (NAV1) | OPEN | | | |
+| 12 | 023 ARCH2 main.gd and HUD contract | OPEN | | | |
+| 13 | 024 photography and all-stop audio | OPEN | | | |
+| 14 | 025 landmarks for thin ops (M3a) | OPEN | | | |
+| 15 | 026 self-play review of the opening (read-only) | OPEN | | | |
+
 Take 017 first (PRIORITY) if any of PRs 69, 70, 71 is open; otherwise numeric order 014 to 020. Designs live in docs/design/ on this branch. Beyond 020 see docs/SESSION_LEDGER_2026-10-22.md on claude/integration, section Next.
 
 ## Claude-held
