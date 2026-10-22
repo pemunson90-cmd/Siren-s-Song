@@ -40,4 +40,4 @@ Pull request into claude/integration; merge it yourself per the Codex-may-merge 
 ## Completion
 Resumed after Pat released 016 following PR74 merge. GitHub tools list only open PR75, whose changed filenames exclude the test runner and workflow. Precondition met; 015 is DONE.
 
-Lane branch: `claude/lane-test-registry` (creating from fresh integration). Last pushed lane SHA: none yet. Audit includes radial_hud_tests and drone_drive_ui_tests. Android touch and back are primary.
+Lane branch: `claude/lane-test-registry`. Last pushed lane SHA: `a05329c06d9a13478903a41bb39772acc6612cdd`. WIP pushed with central registry and stale fixture repairs. Core baseline 817/0. Exact flattened historical orders proven by dry-run: local 146 suites (including four density guards), CI 89 suites. Radial HUD 58/0, drone-drive UI 38/0, archive recap UI 8/0 after repairs. Audit of 94 previously unregistered standalone suites and post-change core is running. Android touch and back are primary.
