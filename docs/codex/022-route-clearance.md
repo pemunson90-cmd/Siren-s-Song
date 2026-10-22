@@ -1,8 +1,8 @@
 # Handoff 022: NAV1, planned courses stop clipping rock corners
 
-Status: OPEN
-Claimed at:
-Claimed by:
+Status: CLAIMED
+Claimed at: 2026-10-22 23:08:54 UTC
+Claimed by: codex
 Finished at:
 
 Precondition: handoff 017 must be DONE.
