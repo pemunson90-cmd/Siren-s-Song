@@ -359,7 +359,7 @@ func capture_feedback(unit_id:int=-1)->Dictionary:
 	var id=_capture_station() if unit_id<0 else unit_id
 	if id<0 or id>=captures.size() or captures[id].is_empty():return {"duration":0.0,"elapsed":0.0,"unit":-1,"target":-1}
 	var work=captures[id]
-	return {"duration":_capture_duration(mission.objectives[work.target],id),"elapsed":work.elapsed,"unit":id,"target":work.target}
+	return {"duration":_capture_duration(Photo.obj(self,work.target),id),"elapsed":work.elapsed,"unit":id,"target":work.target}
 func capture_at_target(target:int)->Dictionary:
 	for id in captures.size():
 		if not captures[id].is_empty() and captures[id].target==target:return capture_feedback(id)
@@ -606,7 +606,7 @@ func command(order: String,args: Dictionary={}) -> bool:
 			var context=camera_context()
 			if not context.ready: message=context.text; return false
 			var photo_target:int=context.target if context.target>=0 else Photo.siren_objective(self,context.siren)
-			var target=mission.objectives[photo_target]
+			var target=Photo.obj(self,photo_target)
 			captures[selected]={"target":photo_target,"elapsed":0.0}; u.hold="HOLD"
 			Operations.begin(self,target,selected)
 			if Photo.applies(target):
@@ -711,7 +711,7 @@ func camera_context() -> Dictionary:
 	if Chain.applies(mission):return {"target":-1,"ready":false,"text":Chain.context(self,selected).text}
 	var work=capture_feedback(selected)
 	if work.unit>=0:
-		var active=mission.objectives[work.target]
+		var active=Photo.obj(self,work.target)
 		if active.get("kind","")=="exchange":
 			var c=blackwater_context(work.target,selected)
 			return {"target":work.target,"ready":false,"text":"%s · %s · %s %.1f/2s"%[units[selected].name,"REPLY CARRIER" if c.get("source","")=="courier" else active.name,"receiving" if c.settled else "settling",work.elapsed]}
@@ -877,7 +877,7 @@ func _tick(dt: float) -> void:
 		_observe(); SignalField.observe(self); Consequences.observe(self); Photo.discover(self); sensor_clock=0.15
 	for station in captures.size():
 		if captures[station].is_empty():continue
-		var work=captures[station];var u=units[station]; _use_band(u.band); var o=mission.objectives[work.target]
+		var work=captures[station];var u=units[station]; _use_band(u.band); var o=Photo.obj(self,work.target)
 		if o.has("siren") and int(o.siren)<sirens.size():o.pos=sirens[o.siren].pos
 		var exchange=o.get("kind","")=="exchange" and mission.get("blackwater_revision",0)==1
 		var mobile=Rendezvous.applies(mission) and o.get("site_id","")=="rendezvous"
@@ -1425,9 +1425,9 @@ static func valid_snapshot(data: Dictionary) -> bool:
 		var work=data.captures[id]
 		if not work is Dictionary:return false
 		if work.is_empty():continue
-		if work.size()!=2 or not work.has_all(["target","elapsed"]) or not work.target is int or work.target<0 or work.target>=data.mission.objectives.size() or work.target in exposed:return false
+		if work.size()!=2 or not work.has_all(["target","elapsed"]) or not work.target is int or work.target<0 or not Photo.target_valid(data.mission,work.target) or work.target in exposed:return false
 		if not (work.elapsed is float or work.elapsed is int) or not is_finite(float(work.elapsed)) or work.elapsed<0:return false
-		var site=data.mission.objectives[work.target]
+		var site=Photo.target_in(data.mission,work.target)
 		var duration=Sampler.capture_spec(id,data.mission.get("launch_equipment",{}),site).get("duration",site.get("duration",4.0))
 		if work.elapsed>duration or (site.captured and not Operations.own_origin(site) and not (Delivery.applies(data.mission))):return false
 		exposed.append(work.target)
@@ -1527,6 +1527,10 @@ func has_live_contact() -> bool:
 	return false
 
 func _record_secured(record: Dictionary,unit_id:int=-1) -> void:
+	if record.has("siren"):
+		# A Siren study is film, not a charted record: it never advances an operation's own record logic.
+		Recon.secured(self,record,unit_id);events.append({"type":"record","pos":record.pos});message="Siren study filed · review it in FIELD RECORDS"
+		return
 	Glass.recorded(self,record)
 	Recon.secured(self,record,unit_id)
 	if Rendezvous.applies(mission) and mission.get("consequence_revision",0)==1 and record.get("site_id","")=="rendezvous":mission["measured_reference"]=mission.signal_sources[0].cadence.duplicate()

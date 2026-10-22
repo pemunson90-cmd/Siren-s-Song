@@ -230,10 +230,12 @@ func _draw() -> void:
 			Confluence.draw_landmarks(self,context,world_scale)
 	else:EarnedChart.draw_terrain(self,earned,world_scale)
 	Shelf.draw_ground(self,sim)
+	for o in sim.mission.get("photo",{}).get("studies",[]):
+		if o.captured:_siren_mark(o)
 	for o in observable_sites():
 		if sim.mission.id==8:continue
 		if o.get("own_origin",false):continue
-		if o.has("siren"):_siren_mark(o);continue
+		if o.has("siren"):continue
 		if Wake.replaces_site(sim,o) or Rendezvous.replaces_site(sim,o) or WarningChain.replaces_site(sim,o) or Witness.replaces_site(sim,o) or Recipient.replaces_site(sim,o):continue
 		if o.get("kind","")=="receiver":
 			draw_arc(o.pos,26,0,TAU,40,Color("80bdb6"),2)

@@ -40,7 +40,7 @@ func _process(dt: float) -> void:
 func subject_view() -> Dictionary:
 	if sim==null:return {}
 	if sim.capture_unit>=0 and sim.selected==sim.capture_unit:
-		var o=sim.mission.objectives[sim.capture_target]
+		var o=Photo.obj(sim,sim.capture_target)
 		return {"o":o,"index":sim.capture_target,"unit":sim.capture_unit,"live":true} if Photo.applies(o) else {}
 	if sim.capture_unit>=0:return {}
 	var preview=Photo.preview(sim,sim.selected)
@@ -113,7 +113,7 @@ func _draw() -> void:
 	var subject:=subject_view()
 	if not subject.is_empty():_draw_photo(subject);return
 	if sim.capture_unit<0: return
-	var objective=sim.mission.objectives[sim.capture_target]
+	var objective=Photo.obj(sim,sim.capture_target)
 	var well_site=sim.mission.get("well_revision",0)==1 and (not objective.has("optical") or objective.optical=="well_pattern")
 	var progress=acquisition_progress(sim)
 	draw_rect(Rect2(Vector2.ZERO,size),Color("07151d")); draw_rect(Rect2(Vector2.ZERO,size),Color("6b9d9f"),false,1)

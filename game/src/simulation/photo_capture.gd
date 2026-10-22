@@ -23,17 +23,39 @@ const COLS:=36
 const MAX_SHOTS:=24
 const TURN_RATE:=1.8
 const FLASH_CHARGES:=[4,2,2]
+const STUDY:=1000
+const MAX_STUDIES:=8
 const SIREN_TYPES:=["patroller","hunter","sentinel","warden","sweeper","interceptor","buoy","relay"]
 
 static func state(sim)->Dictionary:
 	if not sim.mission.get("photo") is Dictionary:
-		sim.mission["photo"]={"shots":[],"acc":{},"set":{},"next":1,"flash":FLASH_CHARGES.duplicate(),"paths":[]}
+		sim.mission["photo"]={"shots":[],"acc":{},"set":{},"next":1,"flash":FLASH_CHARGES.duplicate(),"paths":[],"studies":[]}
 	return sim.mission.photo
 # Read-only view: never writes into the mission, so drawing and context queries
 # cannot change a snapshot. Writers use state().
 static func peek(sim)->Dictionary:
 	if sim.mission.get("photo") is Dictionary:return sim.mission.photo
-	return {"shots":[],"acc":{},"set":{},"next":1,"flash":FLASH_CHARGES.duplicate(),"paths":[]}
+	return {"shots":[],"acc":{},"set":{},"next":1,"flash":FLASH_CHARGES.duplicate(),"paths":[],"studies":[]}
+# Objective addressing. Charted objectives keep their list index. Siren studies
+# are not charted objectives: they live in photo.studies and are addressed at
+# STUDY + n, so fixed-size objective checks of an operation never see them.
+static func obj(sim,i:int)->Dictionary:
+	if i>=STUDY:
+		var studies:Array=peek(sim).get("studies",[])
+		return studies[i-STUDY] if i-STUDY<studies.size() else {}
+	return sim.mission.objectives[i]
+static func index_of(sim,o:Dictionary)->int:
+	var at:int=sim.mission.objectives.find(o)
+	if at>=0:return at
+	var studies:Array=peek(sim).get("studies",[])
+	for n in studies.size():
+		if is_same(studies[n],o) or studies[n]==o:return STUDY+n
+	return -1
+static func target_valid(mission:Dictionary,t:int)->bool:
+	if t>=STUDY:return t-STUDY<mission.get("photo",{}).get("studies",[]).size()
+	return t>=0 and t<mission.objectives.size()
+static func target_in(mission:Dictionary,t:int)->Dictionary:
+	return mission.photo.studies[t-STUDY] if t>=STUDY else mission.objectives[t]
 static func applies(o:Dictionary)->bool:
 	return o.get("subject") is Dictionary and not o.subject.is_empty()
 static func default_subject(facing:float=0.0,size:float=70.0)->Dictionary:
@@ -87,6 +109,7 @@ static func set_frame(sim,uid:int,args:Dictionary)->bool:
 static func _focus_subject(sim,uid:int)->Dictionary:
 	var ctx=sim.camera_context() if uid==sim.selected else {}
 	var t=int(ctx.get("target",-1))
+	if t==-2:return siren_subject(sim.sirens[int(ctx.siren)])
 	if t>=0 and t<sim.mission.objectives.size() and applies(sim.mission.objectives[t]):return sim.mission.objectives[t].subject
 	return {}
 # --- the frame ---------------------------------------------------------------
@@ -135,7 +158,7 @@ static func frame(sim,uid:int,o:Dictionary,t:float=0.0,with_view:bool=false)->Di
 	var feats:Array=s.get("features",[])
 	var focus:String=str(cfg.focus)
 	if tight and (focus.is_empty() or not feats.any(func(f):return f.id==focus)):
-		var oi=sim.mission.objectives.find(o);var done=seen_before(sim,oi)
+		var oi=index_of(sim,o);var done=seen_before(sim,oi)
 		for f in feats:
 			if f.id not in done:focus=f.id;break
 		if focus.is_empty() and not feats.is_empty():focus=feats[0].id
@@ -189,7 +212,7 @@ static func view(sim,origin:Vector2,aim:float,fov:float,far:float)->Array:
 	return cols
 # --- exposure ----------------------------------------------------------------
 static func begin(sim,uid:int,oi:int)->void:
-	var st=state(sim);var o=sim.mission.objectives[oi];var cfg=settings(sim,uid)
+	var st=state(sim);var o=obj(sim,oi);var cfg=settings(sim,uid)
 	st.acc[uid]={"obj":oi,"t":0.0,"sharp":0.0,"dwell":{},"fq":{},"path":[],"flash":false,"clock":0.0}
 	if bool(cfg.flash) and optics(sim,uid).flash and flash_left(sim,uid)>0:
 		st.flash[uid]=int(st.flash[uid])-1;st.acc[uid].flash=true
@@ -198,7 +221,7 @@ static func noise_radius(sim,uid:int)->float:
 	return 760.0 if acc.get("flash",false) else 520.0
 # Advances one step. False while the craft is still turning onto the subject.
 static func tick(sim,uid:int,o:Dictionary,dt:float)->bool:
-	var st=state(sim);var u=sim.units[uid];var oi=sim.mission.objectives.find(o)
+	var st=state(sim);var u=sim.units[uid];var oi=index_of(sim,o)
 	var acc:Dictionary=st.acc.get(uid,{})
 	if acc.is_empty() or int(acc.obj)!=oi:
 		begin(sim,uid,oi);acc=st.acc[uid]
@@ -222,7 +245,7 @@ static func progress_text(sim,uid:int,o:Dictionary)->String:
 	return "SHARP %d%% · LIGHT %d%% · CLARITY %d%%"%[roundi(f.sharp*100),roundi(f.light*100),roundi(f.clarity*100)]
 # Resolves the exposure: appends a structured observation and updates the objective.
 static func finish(sim,uid:int,o:Dictionary)->Dictionary:
-	var st=state(sim);var acc:Dictionary=st.acc.get(uid,{});var oi=sim.mission.objectives.find(o)
+	var st=state(sim);var acc:Dictionary=st.acc.get(uid,{});var oi=index_of(sim,o)
 	var f=frame(sim,uid,o,float(acc.get("t",0.0)),true)
 	var s:Dictionary=o.subject;var seen:Array=[];var fq:Dictionary={};var intel:Dictionary={};var marks:Array=[]
 	var dwell:Dictionary=acc.get("dwell",{})
@@ -319,12 +342,14 @@ static func siren_candidate(sim,uid:int)->int:
 		if dist<=reach(sim,uid) and dist<d and sim.Depth.clear(sim,u.pos,s.pos,u.band):best=i;d=dist
 	return best
 static func siren_objective(sim,i:int)->int:
-	for n in sim.mission.objectives.size():
-		if sim.mission.objectives[n].get("siren",-1)==i:
-			return n
+	var st=state(sim)
+	for n in st.studies.size():
+		if st.studies[n].get("siren",-1)==i:return STUDY+n
 	var s=sim.sirens[i];var type=str(s.get("type","patroller"))
-	sim.mission.objectives.append({"pos":s.pos,"name":"S%d %s"%[i+1,type.to_upper()],"captured":false,"optional":true,"kind":"","duration":8.0,"siren":i,"subject":siren_subject(s),"optical":"siren_"+type,"site_id":"siren_"+type,"evidence":""})
-	return sim.mission.objectives.size()-1
+	var study={"pos":s.pos,"name":"S%d %s"%[i+1,type.to_upper()],"captured":false,"optional":true,"kind":"","duration":8.0,"siren":i,"subject":siren_subject(s),"optical":"siren_"+type,"site_id":"siren_"+type,"evidence":""}
+	if st.studies.size()>=MAX_STUDIES:st.studies.remove_at(0)
+	st.studies.append(study)
+	return STUDY+st.studies.size()-1
 # --- records -----------------------------------------------------------------
 static func shots_for(mission:Dictionary,key:String)->Array:
 	return mission.get("photo",{}).get("shots",[]).filter(func(s):return s.key==key)
@@ -333,6 +358,10 @@ static func valid(mission:Dictionary)->bool:
 	var p=mission.photo
 	if not p is Dictionary or not p.get("shots") is Array or p.shots.size()>MAX_SHOTS or not p.get("acc") is Dictionary or not p.get("set") is Dictionary:return false
 	if not p.get("flash") is Array or p.flash.size()!=3 or not p.get("paths") is Array or p.paths.size()>32:return false
+	if p.has("studies"):
+		if not p.studies is Array or p.studies.size()>MAX_STUDIES:return false
+		for study in p.studies:
+			if not study is Dictionary or not study.has_all(["pos","name","captured","siren","subject"]) or not study.pos is Vector2 or not study.siren is int:return false
 	for shot in p.shots:
 		if not shot is Dictionary or not shot.has_all(["id","obj","key","q","features","frame"]) or not shot.frame is Dictionary or not shot.frame.get("cols") is Array or shot.frame.cols.size()!=COLS:return false
 	return true

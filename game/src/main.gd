@@ -573,7 +573,7 @@ func _sync_craft_upgrades()->void:
 	if not expedition.is_empty():expedition.entitlements=_equipment_entitlements()
 func _show_photo_grade(records:Array)->void:
 	var grade=Recon.grade(records)
-	if grade.photos>0:_menu_text("INTEL PHOTO GRADE %s · %d photographs · %d%% quality"%[grade.grade,grade.photos,roundi(grade.quality*100)],20)
+	if grade.photos>0:_menu_text("INTEL PHOTO GRADE %s · %d %s · average %d%% of each record's best frame%s"%[grade.grade,grade.photos,"record" if grade.photos==1 else "records",roundi(grade.quality*100),"" if grade.photos==1 else " · sharpest record %d%%"%roundi(grade.best*100)],20)
 func _show_ending()->void:
 	var ending=Endings.resolve(expedition)
 	if ending.is_empty():_show_campaign();return
@@ -847,9 +847,9 @@ func _merge_shots(key:String) -> void:
 func _evidence_is_text(entry:Dictionary) -> bool:
 	return entry.optical in preload("res://src/campaign/operation_catalog.gd").record_keys(true) or entry.optical in ["well_pattern","well_signature"]
 func _retain_evidence() -> void:
-	for objective in sim.mission.objectives:
+	for objective in sim.mission.objectives+PhotoCapture.peek(sim).get("studies",[]):
 		if objective.captured and objective.has("photo_quality"):
-			var key="%d:%d"%[sim.mission.id,sim.mission.objectives.find(objective)]
+			var key="%d:%d"%[sim.mission.id,PhotoCapture.index_of(sim,objective)]
 			if objective.photo_quality>=photo_records.get(key,{}).get("photo_quality",0):photo_records[key]={"photo_quality":objective.photo_quality,"photo_craft":objective.photo_craft,"photo_distance":objective.photo_distance}
 		if objective.captured and objective.has("optical"):
 			var earlier:Array=recovered_evidence.get(objective.optical,{}).get("shots",[])
@@ -908,7 +908,8 @@ func _shot_difference(a:Dictionary,b:Dictionary,ia:int,ib:int) -> String:
 	for id in b.features:
 		if id not in a.features:only_b.append(str(id))
 	var lines:PackedStringArray=["FRAME %d vs %d"%[ia+1,ib+1]]
-	lines.append("Quality %+d points · distance %+dm · light %+d points · clarity %+d points"%[roundi((float(b.q)-float(a.q))*100),roundi(float(b.dist)-float(a.dist)),roundi((float(b.light)-float(a.light))*100),roundi((float(b.clarity)-float(a.clarity))*100)])
+	lines.append("QUALITY frame %d %d%% / frame %d %d%% · distance %dm / %dm · light %d%% / %d%% · clarity %d%% / %d%%"%[ia+1,roundi(float(a.q)*100),ib+1,roundi(float(b.q)*100),roundi(float(a.dist)),roundi(float(b.dist)),roundi(float(a.light)*100),roundi(float(b.light)*100),roundi(float(a.clarity)*100),roundi(float(b.clarity)*100)])
+	lines.append("Better frame: %s"%("frame %d"%(ia+1) if float(a.q)>=float(b.q) else "frame %d"%(ib+1)))
 	lines.append("Only in frame %d: %s"%[ia+1,", ".join(only_a) if not only_a.is_empty() else "none"])
 	lines.append("Only in frame %d: %s"%[ib+1,", ".join(only_b) if not only_b.is_empty() else "none"])
 	return "\n".join(lines)

@@ -1,4 +1,5 @@
 extends RefCounted
+const Photo=preload("res://src/simulation/photo_capture.gd")
 # V7 action/evidence pressure, adapted to local, earned hostile awareness.
 # The own operational estimate never supplies a remote guard's knowledge.
 static func state(m:Dictionary)->Dictionary:
@@ -23,7 +24,7 @@ static func readiness(guard:Dictionary)->float:
  var floor=float(guard.get("alert_floor",0))*100
  return 1.7 if floor>=90 else 1.5 if floor>=70 else 1.3 if floor>=45 else 1.15 if floor>=20 else 1.0
 static func secured(sim,record:Dictionary,unit_id:int)->void:
- var index=sim.mission.objectives.find(record)
+ var index=Photo.index_of(sim,record)
  var p=state(sim.mission).duplicate(true)
  if index not in p.secured:
   p.secured.append(index);p.floor=minf(100,p.secured.size()*8.0);p.hunt=maxf(p.floor,minf(100,p.hunt+8));p.delay=6.0
@@ -38,14 +39,16 @@ static func secured(sim,record:Dictionary,unit_id:int)->void:
  record["photo_quality"]=(.55 if unit_id>0 else .25)+.45*proximity
  record["photo_craft"]=sim.units[unit_id].name
  record["photo_distance"]=distance
+ # The grade is the mean of each record's best frame. best is the single
+ # sharpest record, so a summary can show both and never contradict a frame.
 static func grade(records:Array)->Dictionary:
- var total=0.0;var count=0
+ var total=0.0;var count=0;var best=0.0
  for record in records:
   if record.has("photo_quality"):
-   total+=float(record.photo_quality);count+=1
- if count==0:return {"photos":0,"quality":0.0,"grade":""}
+   total+=float(record.photo_quality);count+=1;best=maxf(best,float(record.photo_quality))
+ if count==0:return {"photos":0,"quality":0.0,"best":0.0,"grade":""}
  var quality=total/count
- return {"photos":count,"quality":quality,"grade":"A" if quality>=.85 else "B" if quality>=.6 else "C"}
+ return {"photos":count,"quality":quality,"best":best,"grade":"A" if quality>=.85 else "B" if quality>=.6 else "C"}
 static func feedback(sim)->Dictionary:
  var intensity=0.0
  # Fresh received contacts only: hidden locks or unseen guards cannot drive cues.
