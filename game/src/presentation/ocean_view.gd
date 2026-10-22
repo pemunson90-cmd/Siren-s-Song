@@ -133,8 +133,8 @@ func fit_chart() -> void:
 func _process(dt: float) -> void:
 	phase+=dt; camera_flash=maxf(0,camera_flash-dt);_sync_camera()
 	if optical_feed!=null:
-		optical_feed.sim=sim; optical_feed.visible=sim!=null and sim.capture_unit>=0 and sim.selected==sim.capture_unit
-		optical_feed.position=Vector2(14,maxf(instrument_top+40,size.y-380)); optical_feed.size=Vector2(minf(390,size.x*0.48),228)
+		optical_feed.sim=sim; optical_feed.visible=sim!=null and optical_feed.viewfinder_visible(sim)
+		optical_feed.position=Vector2(14,maxf(instrument_top+40,size.y-410)); optical_feed.size=Vector2(minf(420,size.x*0.52),258)
 	queue_redraw()
 func acoustic_rows() -> Array:
 	return preload("res://src/presentation/acoustic_feedback.gd").rows(sim.acoustic_feedback()) if sim!=null else []
@@ -218,7 +218,7 @@ func _draw() -> void:
 			var area:Rect2=front.area
 			draw_rect(area,Color(0.22,0.54,0.7,0.07))
 			draw_rect(area,Color(0.36,0.66,0.78,0.38),false,1.2/world_scale)
-			_label(area.position+Vector2(120,106),"COLD FRONT",Color(0.46,0.7,0.78,0.8),14)
+			_label(area.position+Vector2(120,106),str(sim.mission.get("photo_lane","COLD FRONT")),Color(0.46,0.7,0.78,0.8),14)
 	_draw_departure()
 	# Bedrock and columnar basalt are original deterministic constructions.
 	if earned.is_empty():

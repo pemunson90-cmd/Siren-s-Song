@@ -5,6 +5,14 @@ var optics=preload("res://src/presentation/evidence_catalog.gd").IMAGES
 var foundry=preload("res://assets/structures/foundry.png")
 const ReceiverScene=preload("res://src/presentation/receiver_scene.gd")
 const PHOSPHOR=Color("8cdcd3")
+const PhotoView=preload("res://src/presentation/photo_view.gd")
+const Photo=preload("res://src/simulation/photo_capture.gd")
+var _vm:Dictionary={}
+var _frame:Dictionary={}
+var _vm_age:=1.0
+var _vm_key:=""
+var _buttons:Array=[]
+var time:=0.0
 static func fit_caption(text:String,width:float,font_size:int)->String:
 	var font=ThemeDB.fallback_font
 	if font.get_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x<=width:return text
@@ -16,9 +24,73 @@ static func acquisition_progress(state)->float:
 	return clampf(clock.elapsed/clock.duration,0,1) if clock.duration>0 else 0.
 func _ready() -> void:
 	clip_contents=true; mouse_filter=Control.MOUSE_FILTER_STOP
-func _process(_dt: float) -> void: queue_redraw()
+func _process(dt: float) -> void:
+	time+=dt;_vm_age+=dt;queue_redraw()
+# The subject this panel shows: the live exposure, else the viewfinder of the
+# selected craft when it has a photographic subject near.
+func subject_view() -> Dictionary:
+	if sim==null:return {}
+	if sim.capture_unit>=0 and sim.selected==sim.capture_unit:
+		var o=sim.mission.objectives[sim.capture_target]
+		return {"o":o,"index":sim.capture_target,"unit":sim.capture_unit,"live":true} if Photo.applies(o) else {}
+	if sim.capture_unit>=0:return {}
+	var preview=Photo.preview(sim,sim.selected)
+	if preview.is_empty():return {}
+	preview["live"]=false
+	return preview
+static func viewfinder_visible(state) -> bool:
+	return state!=null and (state.capture_unit>=0 or not Photo.preview(state,state.selected).is_empty())
+func _gui_input(event: InputEvent) -> void:
+	var tap=(event is InputEventMouseButton and event.pressed and event.button_index==MOUSE_BUTTON_LEFT) or (event is InputEventScreenTouch and event.pressed)
+	if not tap or sim==null:return
+	var point=event.position
+	for button in _buttons:
+		if button.rect.has_point(point):
+			sim.command("frame",button.args);_vm_age=1.0;accept_event();return
+func _draw_photo(t:Dictionary) -> void:
+	var o:Dictionary=t.o;var uid:int=t.unit;var live:bool=t.get("live",false)
+	var font=ThemeDB.fallback_font;var fs:=maxi(12,mini(receiver_font_size,15))
+	draw_rect(Rect2(Vector2.ZERO,size),Color("07151d"));draw_rect(Rect2(Vector2.ZERO,size),Color("6b9d9f"),false,1)
+	var picture:=Rect2(8,36,size.x-16,size.y-36-50)
+	var acc:Dictionary=Photo.state(sim).acc.get(uid,{})
+	var key:="%d:%d"%[uid,int(t.index)]
+	if _vm_age>0.2 or key!=_vm_key or _vm.is_empty():
+		_vm_key=key;_vm_age=0.0
+		_frame=Photo.frame(sim,uid,o,float(acc.get("t",0.0)),true)
+		_vm=PhotoView.from_frame(_frame,"siren" if o.has("siren") else "site")
+	PhotoView.draw(self,picture,_vm,time,fs)
+	_buttons=[]
+	var cfg=Photo.settings(sim,uid);var op=Photo.optics(sim,uid)
+	var bx:=size.x-8.0;var bw:=maxf(70.0,fs*5.2);var bh:=28.0
+	var specs:Array=[["TIGHT" if cfg.mode=="tight" else "WIDE",{"mode":"wide" if cfg.mode=="tight" else "tight"}]]
+	if op.flash:specs.append(["FLASH %d"%Photo.flash_left(sim,uid) if cfg.flash else "NO FLASH",{"flash":not cfg.flash}])
+	if cfg.mode=="tight":specs.append(["FOCUS",{"cycle_focus":true}])
+	for spec in specs:
+		bx-=bw
+		var r:=Rect2(bx,4,bw-4,bh)
+		draw_rect(r,Color("12333a"));draw_rect(r,Color("8cdcd3") if spec[0]!="NO FLASH" else Color("4a6a6e"),false,1)
+		draw_string(font,r.position+Vector2(6,bh*0.7),spec[0],HORIZONTAL_ALIGNMENT_LEFT,r.size.x-8,fs-2,PHOSPHOR)
+		_buttons.append({"rect":r,"args":spec[1]})
+	draw_string(font,Vector2(10,24),"%s / %s"%["EXPOSING" if live else "VIEWFINDER",sim.units[uid].name],HORIZONTAL_ALIGNMENT_LEFT,maxf(40.0,bx-14),fs,PHOSPHOR)
+	var status:String
+	if live:status=Photo.progress_text(sim,uid,o)
+	else:
+		status=str(t.get("ctx",{}).get("text",""))
+		for r in _frame.get("rows",[]):
+			if r.apparent and not r.ready and not r.why.is_empty():status="%s: %s"%[r.label,r.why];break
+	status=fit_caption(status,size.x-20,fs-2)
+	draw_string(font,Vector2(10,size.y-30),fit_caption(str(o.name),size.x-90,fs),HORIZONTAL_ALIGNMENT_LEFT,-1,fs,Color("e0bf83"))
+	if live:
+		var progress:=acquisition_progress(sim)
+		draw_string(font,Vector2(size.x-62,size.y-30),"%02d%%"%int(progress*100),HORIZONTAL_ALIGNMENT_LEFT,-1,fs,PHOSPHOR)
+		draw_rect(Rect2(10,size.y-9,size.x-20,3),Color("25464b"));draw_rect(Rect2(10,size.y-9,(size.x-20)*progress,3),PHOSPHOR)
+	draw_string(font,Vector2(10,size.y-14),status,HORIZONTAL_ALIGNMENT_LEFT,-1,fs-2,Color("a9c9c7"))
 func _draw() -> void:
-	if sim==null or sim.capture_unit<0: return
+	_buttons=[]
+	if sim==null:return
+	var subject:=subject_view()
+	if not subject.is_empty():_draw_photo(subject);return
+	if sim.capture_unit<0: return
 	var objective=sim.mission.objectives[sim.capture_target]
 	var well_site=sim.mission.get("well_revision",0)==1 and (not objective.has("optical") or objective.optical=="well_pattern")
 	var progress=acquisition_progress(sim)

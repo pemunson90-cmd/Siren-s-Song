@@ -32,7 +32,7 @@ static func secured(sim,record:Dictionary,unit_id:int)->void:
     guard["alert_floor"]=minf(.9,float(guard.get("alert_floor",0))+.12)
     guard.suspicion=maxf(guard.suspicion,guard.alert_floor)
  sim.mission.reconnaissance=p
- if unit_id<0 or record.get("kind","") not in ["","photo"]:return
+ if unit_id<0 or record.get("kind","") not in ["","photo"] or record.get("subject") is Dictionary:return
  var distance=sim.units[unit_id].pos.distance_to(record.pos)
  var proximity=clampf(1.0-distance/240.0,0,1)
  record["photo_quality"]=(.55 if unit_id>0 else .25)+.45*proximity

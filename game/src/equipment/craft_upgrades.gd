@@ -2,12 +2,13 @@ extends RefCounted
 const Catalog=preload("res://src/equipment/equipment_catalog.gd")
 const Acoustics=preload("res://src/simulation/acoustic_paths.gd")
 # Recovery queries award general craft hardware; field notes do not award it.
-static func recovered(tutorial_completed:Array,expedition:Dictionary)->Array:
+static func recovered(tutorial_completed:Array,expedition:Dictionary,intel:Dictionary={})->Array:
  var result:Array=expedition.get("entitlements",[]).duplicate()
  var earned=[]
  if 5 in tutorial_completed:earned.append_array(["quietus_vector_drive","drone_deep_cells"])
  if 7 in expedition.get("completed",[]):earned.append("quietus_baffles")
  if 8 in expedition.get("completed",[]):earned.append("drone_survey_array")
+ earned.append_array(preload("res://src/campaign/photo_intel.gd").projects(intel))
  for item in earned:
   if item not in result:result.append(item)
  return result
