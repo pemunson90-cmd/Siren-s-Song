@@ -405,7 +405,7 @@ func _draw() -> void:
 func _siren_mark(o:Dictionary)->void:
 	var c=Color(0.9,0.42,0.34,0.7)
 	draw_polyline(PackedVector2Array([o.pos+Vector2(0,-16),o.pos+Vector2(14,0),o.pos+Vector2(0,16),o.pos+Vector2(-14,0),o.pos+Vector2(0,-16)]),c,1.6)
-	_label(o.pos+Vector2(22,-6),"%s · LAST PHOTOGRAPHED"%o.name,c,14)
+	_label(o.pos+Vector2(22,20),"%s · LAST PHOTOGRAPHED"%o.name,c,14)
 # An unresolved lead: an area from an earlier return, never an exact position or a name.
 func _lead_area(o:Dictionary)->void:
 	var c=Color(0.92,0.74,0.42,0.75);var r:float=float(o.get("lead_r",150.0))
