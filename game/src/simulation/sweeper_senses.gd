@@ -3,34 +3,47 @@ extends RefCounted
 # hears throttle noise, pings and loud tools through the shared Siren loop, and attacks only
 # through the normal lock then beam route. What differs from a patroller is a wider ear, a
 # longer investigation and a slower walk. Quiet play, cover and decoys all beat it.
-const EAR:=1.3
-const ATTENTION:=20.0
-const BASE_ATTENTION:=12.0
-const PATROL_SPEED:=22.0
-const INVESTIGATE_SPEED:=34.0
+# Seam: simulation.gd asks this file for four numbers or answers (ear, attention, speed,
+# stands_to_lock / walks_lane) and records note_heard. All tuning lives in PROFILES.
 const WARNING:="SWEEPER INVESTIGATING"
+const DEFAULT:={"ear":1.0,"attention":12.0,"patrol_speed":null,"investigate_speed":null,"stands":false,"lane_needs_points":false}
+# Per-role tunables. A role absent here behaves exactly as before this file existed.
+const PROFILES:={
+	"patroller":{"stands":true},
+	"sweeper":{"ear":1.3,"attention":20.0,"patrol_speed":22.0,"investigate_speed":34.0,"stands":true,"lane_needs_points":true},
+}
+static func profile(enemy)->Dictionary:
+ var p:Dictionary=DEFAULT.duplicate()
+ p.merge(PROFILES.get(enemy.get("type","patroller"),{}),true)
+ return p
 static func is_sweeper(enemy)->bool:
  return enemy.get("type","")=="sweeper"
-# Roles that stand, face and lock when they see Quietus instead of chasing.
+# Hearing radius multiplier applied to every noise a Siren can hear.
+static func ear(enemy)->float:
+ return float(profile(enemy).ear)
+# Seconds a Siren keeps searching after it last heard or saw Quietus.
+static func attention(enemy)->float:
+ return float(profile(enemy).attention)
+# Walking speed override, or the caller's base speed when the role has none.
+static func speed(enemy,base:float)->float:
+ var p:=profile(enemy)
+ var wanted=p.investigate_speed if enemy.suspicion>0.1 else p.patrol_speed
+ return base if wanted==null else float(wanted)
+# Stand, face and lock on sight instead of chasing.
 static func stands_to_lock(enemy)->bool:
- return enemy.get("type","patroller") in ["patroller","sweeper"]
-# Roles that walk their patrol lane while idle. A sweeper walks only a lane its operation authored;
-# otherwise it holds its post like other station roles, then returns to it after a search.
+ return bool(profile(enemy).stands)
+# Walk a patrol lane while idle. A sweeper walks only a lane its operation authored; otherwise
+# it holds its post like other station roles, then returns to it after a search.
 static func walks_lane(enemy)->bool:
  var type=enemy.get("type","patroller")
- return type=="patroller" or (type=="sweeper" and not enemy.get("patrol_points",[]).is_empty())
-static func ear(enemy)->float:
- return EAR if is_sweeper(enemy) else 1.0
-static func attention(enemy)->float:
- return ATTENTION if is_sweeper(enemy) else BASE_ATTENTION
-static func speed(enemy,base:float)->float:
- if not is_sweeper(enemy):return base
- return INVESTIGATE_SPEED if enemy.suspicion>0.1 else PATROL_SPEED
+ if type=="patroller":return true
+ return type=="sweeper" and not (profile(enemy).lane_needs_points and enemy.get("patrol_points",[]).is_empty())
 # Remember the last heard spot. It is a stale report: it moves only when something new is heard.
 static func note_heard(enemy,pos:Vector2,time:float)->void:
  if is_sweeper(enemy):enemy["listen"]={"pos":pos,"time":time}
+# Optional save field: absent on every other role and on old saves. The retired sonar state
+# (key "sweep") is the old shape and is rejected.
 static func valid(enemy,time)->bool:
- # The retired sonar state is the old save shape and is rejected.
  if enemy.has("sweep"):return false
  if not enemy.has("listen"):return true
  var state=enemy.listen

@@ -13,7 +13,7 @@ characters, site sequence and endings before any rewrite lands.
 | S3 rewrite + number spacing | Claude agent | claude/lane-s3-rewrite | blocked on S2 approval | `campaign/endings.gd`, text constants in `campaign/*_operations.gd`, `*_missions.gd`, briefing and record strings |
 | P progression foundation | Claude agent | claude/lane-p-progression | open | `equipment/*`, `campaign/glass_research.gd`, `campaign/fleet_inventory.gd`, fitting and briefing UI, save schema for these fields |
 | C content, de-template | Claude agent | claude/lane-c-content | open (geometry and objectives only; text waits for S3) | `campaign/glass_reach_operations.gd`, `campaign/iron_choir_operations.gd`, `simulation/glass_reach_work.gd`, `simulation/industrial_jobs.gd`, new encounter modules |
-| T pressure and tuning | Codex | claude/lane-t-pressure | running (X2, X4 landed) | threat sections of `simulation/simulation.gd`, `simulation/industrial_threats.gd`, `simulation/sonar_sweeper.gd` |
+| T pressure and tuning | Codex | claude/lane-t-pressure | running (X2, X4 landed) | threat sections of `simulation/simulation.gd`, `simulation/industrial_threats.gd`, `simulation/sweeper_senses.gd` |
 | X1 review | Codex | per PR | on request | read only |
 | X2 pressure probes | Codex | claude/lane-x2-probes | merged | new test files only |
 | X3 audio | Codex | claude/lane-x3-audio | merged | `audio/*`, new audio assets |

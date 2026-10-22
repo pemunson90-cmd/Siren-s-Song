@@ -3,7 +3,7 @@ extends Control
 # moment it matters. A prompt never blocks or auto-advances play; GOT IT only hides it. The one
 # exception is the first Siren warning in operations 1 to 3, which pauses the game once.
 const Text = preload("res://src/campaign/onboarding_text.gd")
-const SWEEP := ["SWEEPER INVESTIGATING"]
+const SWEEP := [preload("res://src/simulation/sweeper_senses.gd").WARNING]
 var host
 var panel: PanelContainer
 var label: Label

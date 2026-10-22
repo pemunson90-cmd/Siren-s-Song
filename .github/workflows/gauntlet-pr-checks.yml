@@ -93,6 +93,7 @@ jobs:
           done <<'UI_SCENARIOS'
           runtime_tests|RUNTIME
           onboarding_tests|ONBOARDING
+          siren_warning_pause_tests|SIREN WARNING PAUSE
           fleet_instruments_ui_tests|FLEET INSTRUMENTS UI
           fleet_ring_ui_tests|FLEET RING UI
           campaign_instruments_ui_tests|CAMPAIGN INSTRUMENT UI

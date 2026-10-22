@@ -64,7 +64,7 @@ func run() -> void:
 	await start(3)
 	game.hints_seen=["move","pause","drone","noise"]
 	var s=game.sim; s.sirens=s.sirens.slice(0,1); s.sirens[0].pos=Vector2(2000,2000)
-	s.sonar.history.append({"station":0,"enemy":0,"origin":s.units[0].pos,"direction":Vector2.UP,"time":s.elapsed,"band":-1,"confidence":.6,"tone":300.0,"classification":"SWEEPER INVESTIGATING","direct":true,"kind":"bearing"})
+	s.sonar.history.append({"station":0,"enemy":0,"origin":s.units[0].pos,"direction":Vector2.UP,"time":s.elapsed,"band":-1,"confidence":.6,"tone":300.0,"classification":preload("res://src/simulation/sweeper_senses.gd").WARNING,"direct":true,"kind":"bearing"})
 	game._refresh(); await settle()
 	check(hints.current=="warning" and game.sim.paused and "warning" in game.hints_seen,"a heard sweeper investigation also triggers the one-time pause")
 	print("SIREN WARNING PAUSE CHECKS ",checks," FAILURES ",failures)
