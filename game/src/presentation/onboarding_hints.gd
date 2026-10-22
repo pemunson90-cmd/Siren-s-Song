@@ -2,7 +2,7 @@ extends Control
 # One-verb-at-a-time prompts in the opening operations. Each appears once per campaign, at the
 # moment it matters. A prompt never pauses, blocks or auto-advances play; GOT IT only hides it.
 const Text = preload("res://src/campaign/onboarding_text.gd")
-const SWEEP := ["SWEEP WINDUP", "ACTIVE SWEEP", "RETURN CHARGE"]
+const SWEEP := ["SWEEPER INVESTIGATING"]
 var host
 var panel: PanelContainer
 var label: Label

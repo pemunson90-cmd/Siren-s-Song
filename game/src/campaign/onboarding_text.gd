@@ -12,7 +12,7 @@ const HINTS := {
 	"move": {"text": "Tap QUIETUS or a drone, then tap open water to plan a route. Nothing moves until you press RUN.", "ops": [0]},
 	"pause": {"text": "PAUSE is always at top left. Time stops, and you can plan, inspect and change orders as long as you like.", "ops": [0]},
 	"drone": {"text": "Send a drone ahead to look. Drones are expendable. Quietus is not.", "ops": [0]},
-	"sweep": {"text": "A Siren is charging a sweep. The cue gives its bearing and seconds. Break line of sight or move away from that bearing before the time runs out.", "ops": [0, 1, 2]},
+	"sweep": {"text": "A sweeper Siren heard noise and is walking to that spot. The cue gives its bearing and seconds. Slow down or go SILENT, and keep rock between you and it.", "ops": [0, 1, 2]},
 	"noise": {"text": "Speed makes noise. Fast movement is heard from farther away. SILENT running is slower and quieter.", "ops": [0, 1, 2]}
 }
 static func goal(index: int) -> String:
@@ -28,4 +28,4 @@ static func valid_seen(value: Variant) -> bool:
 		if not id is String or not HINTS.has(id): return false
 	return true
 static func reference_text(brief: String) -> String:
-	return "FIELD MANUAL\n\n" + brief + "\n\nORDERS\nTap a craft for its command ring; FLEET chooses a station. Tap empty water to mark a route, then confirm it if the craft already has orders. Craft → ROUTE → REPLACE / QUEUE changes append intent; PASS / STOP decides whether queued points are flown through or stopped at. PAUSE stays available. Drag / pinch inspects freely; FOCUS follows the craft and FIT shows the region.\n\nLAYERS AND NOISE\nSPACE / PAUSE grants unlimited planning time. Silent running is slower and quieter. Changing depth layer takes 4 stationary seconds during which the craft is exposed in both layers. Sweeper Sirens charge and sweep one bearing; their cue shows bearing and seconds. Disruption interrupts nearby Sirens for 12 seconds. Quietus torpedoes travel noisily up to 150m; impact pins one Siren for 8s. Cover blocks sonar, enemy sight and torpedoes."
+	return "FIELD MANUAL\n\n" + brief + "\n\nORDERS\nTap a craft for its command ring; FLEET chooses a station. Tap empty water to mark a route, then confirm it if the craft already has orders. Craft → ROUTE → REPLACE / QUEUE changes append intent; PASS / STOP decides whether queued points are flown through or stopped at. PAUSE stays available. Drag / pinch inspects freely; FOCUS follows the craft and FIT shows the region.\n\nLAYERS AND NOISE\nSPACE / PAUSE grants unlimited planning time. Silent running is slower and quieter. Changing depth layer takes 4 stationary seconds during which the craft is exposed in both layers. Sweeper Sirens hear farther than patrols and search longer, but follow only the last noise they heard; their cue shows bearing and seconds. Disruption interrupts nearby Sirens for 12 seconds. Quietus torpedoes travel noisily up to 150m; impact pins one Siren for 8s. Cover blocks sonar, enemy sight and torpedoes."

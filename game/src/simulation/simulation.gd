@@ -32,7 +32,7 @@ const Industry=preload("res://src/simulation/industrial_threats.gd")
 const Choir=preload("res://src/simulation/industrial_jobs.gd")
 const Glass=preload("res://src/simulation/glass_reach_work.gd")
 const Network=preload("res://src/simulation/acoustic_network.gd")
-const Sweeper=preload("res://src/simulation/sonar_sweeper.gd")
+const Sweeper=preload("res://src/simulation/sweeper_senses.gd")
 const Sonar=preload("res://src/simulation/advanced_sonar.gd")
 const Photo=preload("res://src/simulation/photo_capture.gd")
 var sonar:Dictionary={}
@@ -1200,8 +1200,6 @@ func _threats(dt: float) -> bool:
 		if s.get("type","") in Industry.ROLES:
 			Industry.advance(self,s,dt);observations.append(-1);fresh.append(false);continue
 		Depth.pursue(self,s)
-		if s.get("type","")=="sweeper":
-			Sweeper.advance(self,s,dt);observations.append(-1);fresh.append(false);continue
 		if s.get("pin_time",0)>0: s.pin_time=maxf(0,s.pin_time-dt)
 		if s.stun>0:
 			s.stun-=dt; s.lock=0.0; s.target=-1
@@ -1218,7 +1216,7 @@ func _threats(dt: float) -> bool:
 			var dist=s.pos.distance_to(u.pos)
 			var radius=(180.0 if u.silent else 290.0)*Recon.readiness(s)
 			if dist<radius and Depth.sight(self,s,u): detected=i; break
-			if mission.get("acoustic_revision",0)!=1 and propulsion_speed(u)>50 and dist<430*Recon.readiness(s)*Depth.transmission(s,u) and Depth.clear(self,s.pos,u.pos,s.band):
+			if mission.get("acoustic_revision",0)!=1 and propulsion_speed(u)>50 and dist<430*Recon.readiness(s)*Sweeper.ear(s)*Depth.transmission(s,u) and Depth.clear(self,s.pos,u.pos,s.band):
 				s.goal=u.pos; heard=true; s.mode="INVESTIGATE"; s.suspicion=maxf(s.suspicion,0.3)
 		var recipient=Choir.body(self) if not Choir.body(self).is_empty() else Recipient.body(self);var recipient_seen=false
 		if detected<0 and not recipient.is_empty() and recipient.alive and s.pos.distance_to(recipient.pos)<180.*Recon.readiness(s) and Depth.sight(self,s,recipient):recipient_seen=true
@@ -1231,10 +1229,10 @@ func _threats(dt: float) -> bool:
 		else:
 			for noise in noises:
 				var acoustic=1.0 if line_clear(s.pos,noise.pos) else 0.36
-				if s.pos.distance_to(noise.pos)<noise.radius*acoustic*Depth.transmission(s,noise):
+				if s.pos.distance_to(noise.pos)<noise.radius*acoustic*Sweeper.ear(s)*Depth.transmission(s,noise):
 					s.goal=noise.pos; heard=true; s.mode="INVESTIGATE"; s.suspicion=maxf(s.suspicion,0.45)
 		if heard:
-			s["last_known"]=s.goal; s["attention_time"]=12.0; s["search_index"]=0
+			s["last_known"]=s.goal; s["attention_time"]=Sweeper.attention(s); s["search_index"]=0; Sweeper.note_heard(s,s.goal,elapsed)
 		observations.append(detected);fresh.append(heard or detected>=0 or recipient_seen)
 		if detected>=0 or recipient_seen:
 			var victim=recipient if recipient_seen else units[detected]
@@ -1243,11 +1241,11 @@ func _threats(dt: float) -> bool:
 			else:s.erase("recipient_target")
 			s["known_band"]=victim.get("transition",{}).get("to",victim.get("band",1))
 			Recon.seen(s)
-			if s.get("type","patroller")=="patroller": s.route.clear()
+			if Sweeper.stands_to_lock(s): s.route.clear()
 			else: _visual_pursuit(s,victim.pos,dt)
 			if s.route.is_empty(): s.angle=rotate_toward(s.angle,s.pos.angle_to_point(victim.pos),1.8*dt)
 			var previous_lock:float=s.lock
-			s.target=detected; s.goal=victim.pos; s["last_known"]=s.goal; s["attention_time"]=12.0; s["search_index"]=0; s.lock+=dt; s.suspicion=minf(1,s.suspicion+dt*0.3); s.mode="LOCKING" if s.lock<4 else "BEAM"
+			s.target=detected; s.goal=victim.pos; s["last_known"]=s.goal; s["attention_time"]=Sweeper.attention(s); s["search_index"]=0; s.lock+=dt; s.suspicion=minf(1,s.suspicion+dt*0.3); s.mode="LOCKING" if s.lock<4 else "BEAM"
 			if s.lock>=4:
 				if previous_lock<4: events.append({"type":"beam","pos":victim.pos})
 				if recipient_seen:
@@ -1258,7 +1256,7 @@ func _threats(dt: float) -> bool:
 		else:
 			s.erase("recipient_target")
 			s.target=-1; s.lock=maxf(0,s.lock-dt*3); s.suspicion=maxf(float(s.get("alert_floor",0)),s.suspicion-dt*0.015)
-			if s.get("type","patroller")!="patroller" or s.get("attention_time",0)>0:
+			if not Sweeper.walks_lane(s) or s.get("attention_time",0)>0:
 				_station_intent(s,heard,dt)
 			else:
 				if s.pos.distance_to(s.goal)<35:
@@ -1275,6 +1273,7 @@ func _threats(dt: float) -> bool:
 					s.path_time=2.0
 		var speed=48.0 if s.suspicion>0.1 else 25.0
 		if s.get("type","")=="hunter": speed=38.0 if s.mode in ["RETURN","DORMANT"] else 64.0
+		speed=Sweeper.speed(s,speed)
 		speed*=1.0+float(s.get("alert_floor",0))*.2
 		_move(s,dt,speed,false,false)
 	_use_band(1)
@@ -1290,16 +1289,16 @@ func _heard_arrival(s:Dictionary)->Dictionary:
 	var best:Dictionary={}
 	var recipient=Choir.body(self) if not Choir.body(self).is_empty() else Recipient.body(self)
 	if not recipient.is_empty() and recipient.alive and recipient.vel.length()>1:
-		var arrival=Acoustics.choose(band_acoustics[s.band].arrivals(s.pos,recipient.pos,recipient.vel.length_squared()*.12*Recon.readiness(s)*Depth.transmission(s,recipient)),int(s.patrol))
+		var arrival=Acoustics.choose(band_acoustics[s.band].arrivals(s.pos,recipient.pos,recipient.vel.length_squared()*.12*Recon.readiness(s)*Sweeper.ear(s)*Depth.transmission(s,recipient)),int(s.patrol))
 		if not arrival.is_empty():best=arrival;best["suspicion"]=0.3
 	for u in units:
 		if not u.alive:continue
-		var arrival=Acoustics.choose(band_acoustics[s.band].arrivals(s.pos,u.pos,motion_radius(units.find(u))*Recon.readiness(s)*Depth.transmission(s,u)),int(s.patrol))
+		var arrival=Acoustics.choose(band_acoustics[s.band].arrivals(s.pos,u.pos,motion_radius(units.find(u))*Recon.readiness(s)*Sweeper.ear(s)*Depth.transmission(s,u)),int(s.patrol))
 		if not arrival.is_empty() and (best.is_empty() or arrival.strength>best.strength):
 			best=arrival;best["suspicion"]=0.3
 	for noise in noises:
 		if noise.label in ["BUOY REPORT WINDUP","RELAY FORWARD","INTERCEPTOR WINDUP","WARDEN CHARGE","WARDEN PRESSURE"]:continue
-		var arrival=Acoustics.choose(band_acoustics[s.band].arrivals(s.pos,noise.pos,noise.radius*Recon.readiness(s)*Depth.transmission(s,noise)),int(s.patrol))
+		var arrival=Acoustics.choose(band_acoustics[s.band].arrivals(s.pos,noise.pos,noise.radius*Recon.readiness(s)*Sweeper.ear(s)*Depth.transmission(s,noise)),int(s.patrol))
 		if not arrival.is_empty() and (best.is_empty() or arrival.strength>best.strength):
 			best=arrival;best["suspicion"]=0.45;best["pulse"]=true
 			if noise.has("record"):best["record"]=noise.record

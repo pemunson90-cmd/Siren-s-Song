@@ -518,7 +518,7 @@ func refresh():
  alarm.visible=not warnings.is_empty() if host.advanced_orders else pressure.hunt>0
  var received=sim.Sonar.feedback(sim,sim.selected).rows.duplicate();received.reverse()
  for row in received:
-  if sim.elapsed-row.time>1.2 or row.classification not in ["SWEEP WINDUP","ACTIVE SWEEP","RETURN CHARGE"]:continue
+  if sim.elapsed-row.time>1.2 or row.classification!="SWEEPER INVESTIGATING":continue
   var bearing=fposmod(rad_to_deg(atan2(row.direction.x,-row.direction.y)),360.)
   var heard="HEARD %s · %03d° · %.1fs"%[row.classification,roundi(bearing)%360,sim.elapsed-row.time]
   if host.advanced_orders:alarm.text=(alarm.text+"\n" if alarm.visible else "")+heard
