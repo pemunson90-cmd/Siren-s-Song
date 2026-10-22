@@ -18,7 +18,32 @@ static func edge_rect(anchor:Vector2,safe:Rect2,h:float,occupied:Array)->Rect2:
    candidates.append(Rect2((box.position+delta).clamp(safe.position,safe.end-box.size),box.size))
  for candidate in candidates:
   if not occupied.any(func(r):return r.intersects(candidate.grow(4))):return candidate
- return box
+ # The nearest edge may be full while another edge still has clear water.
+ for x in range(ceili(safe.size.x/(h*.5))+1):
+  for y in [safe.position.y,safe.end.y-h]:
+   candidates.append(Rect2(Vector2(clampf(safe.position.x+x*h*.5,safe.position.x,safe.end.x-h),y),Vector2.ONE*h))
+ for y in range(ceili(safe.size.y/(h*.5))+1):
+  for x in [safe.position.x,safe.end.x-h]:
+   candidates.append(Rect2(Vector2(x,clampf(safe.position.y+y*h*.5,safe.position.y,safe.end.y-h)),Vector2.ONE*h))
+ for candidate in candidates:
+  if safe.encloses(candidate) and not occupied.any(func(r):return r.intersects(candidate.grow(4))):return candidate
+ return Rect2()
+# Shared command-ring placement. Move the existing projection as one unit;
+# its canonical centre still drives drawing, sector picking and button input.
+static func command_center(anchor:Vector2,safe:Rect2,half:Vector2,protected:Array)->Vector2:
+ var low=safe.position+half;var high=(safe.end-half).max(low)
+ var desired=anchor.clamp(low,high);var best=desired;var distance=INF
+ var xs=[low.x,desired.x,high.x];var ys=[low.y,desired.y,high.y]
+ for rect in protected:
+  xs.append(clampf(rect.position.x-half.x-8,low.x,high.x));xs.append(clampf(rect.end.x+half.x+8,low.x,high.x))
+  ys.append(clampf(rect.position.y-half.y-8,low.y,high.y));ys.append(clampf(rect.end.y+half.y+8,low.y,high.y))
+ for x in xs:
+  for y in ys:
+   var candidate=Vector2(x,y);var box=Rect2(candidate-half,half*2)
+   if not safe.encloses(box) or protected.any(func(r):return r.intersects(box.grow(3))):continue
+   var score=candidate.distance_squared_to(anchor)
+   if score<distance:best=candidate;distance=score
+ return best
 static func draw_gauge(canvas:CanvasItem,center:Vector2,radius:float,rows:Array,selected:bool):
  var gap=.14;var width=3. if selected else 2.
  for i in rows.size():
