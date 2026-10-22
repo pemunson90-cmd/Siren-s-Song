@@ -1,9 +1,9 @@
 # Handoff 011: make the lethal beam warning unmistakable
 
-Status: CLAIMED
+Status: DONE
 Claimed at: 2026-10-22 16:34:26 UTC
 Claimed by: codex
-Finished at:
+Finished at: 2026-10-22 17:32:19 UTC
 
 Precondition: none. This is the first handoff of BATCH 1 (011, 012, 013). Handoff 009 is claimed by Claude and does not block you.
 Codex may merge: yes, into claude/integration only, after GitHub's guidance and game-smoke are both green on the exact head and the PR is mergeable. Merge with a merge commit, then mark DONE.
@@ -30,4 +30,11 @@ A player can tell within a second that a lock has started, how long is left, and
 Open a PR into claude/integration, wait for guidance and game-smoke, merge when green, then write the Completion section and push to codex/handoffs.
 
 ## Completion
-(Codex fills this in: what changed in plain language, PR link, test results, unverified items, anything for Pat.)
+
+Made a fresh observed lock on Quietus unmistakable: a shrinking remaining-time ring, source marker and line, a dedicated accelerating rising-pitch audio warning, and a short hint for the first three lock episodes. Cover and actual disruption/torpedo impacts are named; braking and depth changes are not promised as instant escapes. No simulation, detection, damage, hull or photography rules changed.
+
+PR: https://github.com/pemunson90-cmd/Siren-s-Song/pull/68 (merged into claude/integration after guidance and game-smoke passed on exact head 2b6f3253dd83e2f2b6b380e4dc4958315ffe7190; run 39819306138).
+
+Validation: Godot 4.6.3 import; core 803 checks, 0 failures; warning 27; warning UI 14; combat 17; audio retry 8; runtime 651, all zero failures. The first CI run exposed an old runtime-test timer reference; its replacement checks the actual audio voice stops in debrief, and the complete CI rerun passed. Cover and inner layouts rendered and inspected in a virtual display. Physical-device ergonomics and human audio perception remain unverified.
+
+No files outside ownership were needed. Claude-owned photo and sweeper files were untouched. Next: handoff 012, then 013.
