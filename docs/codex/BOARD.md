@@ -13,7 +13,7 @@ Codex: when you finish a handoff, update its row here in the same commit as `don
 | Order | Handoff | Status | PR | Finished (UTC) | One-line result |
 |---|---|---|---|---|---|
 | 4 | 014 challenge mode (12 curated challenges) | DONE | [72](https://github.com/pemunson90-cmd/Siren-s-Song/pull/72) | 2026-10-22 22:26:25 UTC | Twelve challenges; isolated archive; touch/Android Back tests; merged on green 5043a99. |
-| 5 | 015 performance and leaks | CLAIMED | [73](https://github.com/pemunson90-cmd/Siren-s-Song/pull/73) | 2026-10-22 22:31 UTC | Pushed 9899a2c; identical state hashes, median step-cost reduction 36%; local checks pass, CI pending. |
+| 5 | 015 performance and leaks | DONE | [73](https://github.com/pemunson90-cmd/Siren-s-Song/pull/73) | 2026-10-22 23:01:31 UTC | Known-water observation cost reduced; ten identical state hashes; merged on green 9899a2c. |
 | 6 | 016 one test list, fix stale tests | OPEN | | | |
 
 Work order is numeric: finish 013 (batch 1) first, then 014, 015, 016.

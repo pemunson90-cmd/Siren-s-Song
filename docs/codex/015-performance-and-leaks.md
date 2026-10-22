@@ -1,10 +1,10 @@
 # Handoff 015: measure performance and fix leaks and slowdowns
 
-Status: CLAIMED
+Status: DONE
 Note: BATCH 2 (released 22 Oct 17:45 UTC). Follow the standing engineering rule in PLAN_SNAPSHOT.md: self-contained module, one narrow seam, numbers in a data table, optional validated save fields, tests beside the feature.
 Claimed at: 2026-10-22 22:26:35 UTC
 Claimed by: codex
-Finished at:
+Finished at: 2026-10-22 23:01:31 UTC
 
 Precondition: handoff 014 must be DONE or BLOCKED.
 Codex may merge: yes, into claude/integration only, after GitHub's guidance and game-smoke are both green on the exact head and the PR is mergeable. Merge with a merge commit, then mark DONE.
@@ -31,7 +31,7 @@ Before and after numbers, at least one real fix with identical behavior proven b
 Open a PR into claude/integration, wait for guidance and game-smoke, merge when green, then write the Completion section and push to codex/handoffs.
 
 ## Completion
-Work in progress, exact-head CI pending. Branch: `claude/lane-performance-and-leaks`. Last pushed SHA: `9899a2c0272d3b2b44bc989df9a19d5c3cec4961`. PR: https://github.com/pemunson90-cmd/Siren-s-Song/pull/73 (ready).
+DONE. Both guidance and game-smoke passed on the exact pushed head. PR73 merged into claude/integration as `7db3a9fc7a5584953114e4233344832c3ee63060`; integration was current before merging and its resulting tree exactly matches the tested head. Branch: `claude/lane-performance-and-leaks`. Last pushed SHA: `9899a2c0272d3b2b44bc989df9a19d5c3cec4961`. PR: https://github.com/pemunson90-cmd/Siren-s-Song/pull/73 (ready).
 
 Measured first. Top inclusive costs on a 30-second operation-19 trace: threats 909 ms, observation 789 ms, movement 348 ms. Movement is nested inside threats; these must not be summed. Crowded operation 16 showed the same three costs (1120/770/1100 ms). Terrain-chart work was negligible, so it was left alone. Only observation had a small, clearly behavior-preserving fix: four added lines skip pure visibility queries for already-true known-water cells; false and unknown cells retain ordinary sight checks. No detection, movement, damage, photography or operation rules changed.
 
