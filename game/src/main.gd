@@ -874,7 +874,7 @@ func _evidence_gallery(index: int,shot_index:int=-1,compare:bool=false) -> void:
 		for i in shots.size():
 			if float(shots[i].q)>float(shots[best].q):best=i
 		var at:int=best if shot_index<0 else clampi(shot_index,0,shots.size()-1)
-		var plate_height:float=minf(280.0,size.y*0.34)
+		var plate_height:float=minf(300.0,size.y*(0.42 if not compare else 0.34))
 		var row=HBoxContainer.new();row.add_theme_constant_override("separation",8);panel_box.add_child(row)
 		var other:int=(at+1)%shots.size()
 		for n in (2 if compare and shots.size()>1 else 1):

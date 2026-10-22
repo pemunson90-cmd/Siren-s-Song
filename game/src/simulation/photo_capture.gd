@@ -62,7 +62,7 @@ static func default_subject(facing:float=0.0,size:float=70.0)->Dictionary:
 	return {"facing":facing,"size":size,"glow":0.0,"required":["overview"],"features":[{"id":"overview","label":"SUBJECT","bearing":0.0,"arc":3.2,"detail":0.06,"lat":0.0,"dwell":1.0}]}
 static func siren_subject(s:Dictionary)->Dictionary:
 	var type:String=s.get("type","patroller")
-	return {"facing":float(s.get("angle",0.0)),"size":56.0,"glow":0.1,"live":true,"required":["form"],"features":[
+	return {"facing":float(s.get("angle",0.0)),"size":56.0,"glow":0.1,"live":true,"type":type,"required":["form"],"features":[
 		{"id":"form","label":"BODY","bearing":0.0,"arc":3.2,"detail":0.08,"lat":0.0,"dwell":1.0,"gloss":"Angular body, red-lit seams."},
 		{"id":"array","label":"SENSOR ARRAY","bearing":0.0,"arc":0.9,"detail":0.42,"lat":-0.35,"dwell":1.5,"intel":"siren_"+type,"gloss":"A forward array, the part that listens."},
 		{"id":"gait","label":"MOVEMENT","bearing":0.0,"arc":3.2,"detail":0.2,"lat":0.35,"dwell":6.0,"gloss":"Its movement over several seconds."}]}
@@ -187,8 +187,8 @@ static func frame(sim,uid:int,o:Dictionary,t:float=0.0,with_view:bool=false)->Di
 		elif why.is_empty() and not _window(f,sim.elapsed):why="WAITING FOR ITS CYCLE"
 		elif why.is_empty() and local<detail:why="TOO SOFT · closer, lit or still"
 		var ready:bool=why.is_empty()
-		rows.append({"id":f.id,"label":f.label,"ready":ready,"why":why,"apparent":inframe and side,"x":x/maxf(half,1.0),"q":clampf((local-detail*0.6)/(1.0-detail*0.6),0.0,1.0) if ready else 0.0,"dwell":float(f.get("dwell",1.2))})
-	var result={"unit":uid,"craft":u.name,"dist":dist,"bearing":bearing,"off":off,"aim":aim,"pivot":pivot,"aspect":aspect,"fov":fov,"mode":cfg.mode,"focus":focus,"flash":flashing,"light":light,"clarity":clarity,"shimmer":shimmer,"sharp":sharp,"steady":steady,"res":res,"range":op.range,"in_range":dist<=float(op.range),"rows":rows,"size":size,"facing":float(s.get("facing",0.0)),"heading":u.angle,"pos":u.pos,"glow":float(s.get("glow",0.0))}
+		rows.append({"id":f.id,"label":f.label,"art":str(f.get("art","")),"y":float(f.get("y",0.4)),"ready":ready,"why":why,"apparent":inframe and side,"x":x/maxf(half,1.0),"q":clampf((local-detail*0.6)/(1.0-detail*0.6),0.0,1.0) if ready else 0.0,"dwell":float(f.get("dwell",1.2))})
+	var result={"unit":uid,"craft":u.name,"dist":dist,"bearing":bearing,"off":off,"aim":aim,"pivot":pivot,"aspect":aspect,"fov":fov,"mode":cfg.mode,"focus":focus,"flash":flashing,"light":light,"clarity":clarity,"shimmer":shimmer,"sharp":sharp,"steady":steady,"res":res,"range":op.range,"in_range":dist<=float(op.range),"rows":rows,"size":size,"facing":float(s.get("facing",0.0)),"heading":u.angle,"pos":u.pos,"glow":float(s.get("glow",0.0)),"depth":depth_dark,"thermal":bool(op.thermal)}
 	if with_view:result["cols"]=view(sim,u.pos,aim,fov,float(op.range)*1.25)
 	return result
 # One-dimensional depth profile of the real terrain across the frame.
@@ -255,9 +255,9 @@ static func finish(sim,uid:int,o:Dictionary)->Dictionary:
 		if held:
 			seen.append(r.id);fq[r.id]=snappedf(float(acc.fq[r.id]),0.01)
 			if feat.has("intel") and float(acc.fq[r.id])>=0.3:intel[str(feat.intel)]=snappedf(float(acc.fq[r.id]),0.01)
-			marks.append({"id":r.id,"x":snappedf(r.x,0.01),"q":fq[r.id],"label":r.label})
+			marks.append({"id":r.id,"x":snappedf(r.x,0.01),"q":fq[r.id],"label":r.label,"art":r.art,"y":snappedf(r.y,0.01)})
 		elif r.apparent:
-			marks.append({"id":r.id,"x":snappedf(r.x,0.01),"q":0.0,"label":""})
+			marks.append({"id":r.id,"x":snappedf(r.x,0.01),"q":0.0,"label":"","art":"","y":snappedf(r.y,0.01)})
 	var required:Array=s.get("required",[])
 	var usable:bool=required.all(func(id):return id in seen) if not required.is_empty() else not seen.is_empty()
 	if f.mode=="tight" and str(f.focus) in seen:usable=true
@@ -267,7 +267,7 @@ static func finish(sim,uid:int,o:Dictionary)->Dictionary:
 	for id in seen:gained+=float(fq[id])
 	var coverage:float=gained/maxf(1.0,1.0 if f.mode=="tight" else total)
 	var quality:float=clampf(mean_sharp*0.55+minf(1.0,coverage)*0.45,0.0,1.0) if usable else clampf(mean_sharp*0.3,0.0,0.4)
-	var shot={"id":int(st.next),"op":int(sim.mission.id),"obj":oi,"key":str(o.get("optical",o.get("site_id",oi))),"name":str(o.name),"unit":uid,"craft":str(f.craft),"pos":[snappedf(f.pos.x,0.1),snappedf(f.pos.y,0.1)],"heading":snappedf(f.heading,0.01),"dist":snappedf(f.dist,0.1),"aspect":snappedf(f.aspect,0.01),"mode":f.mode,"flash":f.flash,"q":snappedf(quality,0.01),"sharp":snappedf(mean_sharp,0.01),"light":snappedf(f.light,0.01),"clarity":snappedf(f.clarity,0.01),"shimmer":snappedf(f.shimmer,0.01),"features":seen,"fq":fq,"intel":intel,"usable":usable,"time":snappedf(sim.elapsed,0.1),"frame":{"fov":snappedf(f.fov,0.01),"aim":snappedf(f.aim,0.01),"cols":f.cols,"marks":marks,"size":s.get("size",70.0),"dist":snappedf(f.dist,1.0),"facing":snappedf(f.facing,0.01),"aspect":snappedf(f.aspect,0.01),"bearing":snappedf(f.bearing,0.01),"glow":snappedf(f.glow,0.01),"seed":int(st.next)*7919%1000,"kind":"siren" if o.has("siren") else "site"}}
+	var shot={"id":int(st.next),"op":int(sim.mission.id),"obj":oi,"key":str(o.get("optical",o.get("site_id",oi))),"name":str(o.name),"unit":uid,"craft":str(f.craft),"pos":[snappedf(f.pos.x,0.1),snappedf(f.pos.y,0.1)],"heading":snappedf(f.heading,0.01),"dist":snappedf(f.dist,0.1),"aspect":snappedf(f.aspect,0.01),"mode":f.mode,"flash":f.flash,"q":snappedf(quality,0.01),"sharp":snappedf(mean_sharp,0.01),"light":snappedf(f.light,0.01),"clarity":snappedf(f.clarity,0.01),"shimmer":snappedf(f.shimmer,0.01),"features":seen,"fq":fq,"intel":intel,"usable":usable,"time":snappedf(sim.elapsed,0.1),"frame":{"fov":snappedf(f.fov,0.01),"aim":snappedf(f.aim,0.01),"cols":f.cols,"marks":marks,"size":s.get("size",70.0),"dist":snappedf(f.dist,1.0),"facing":snappedf(f.facing,0.01),"aspect":snappedf(f.aspect,0.01),"bearing":snappedf(f.bearing,0.01),"glow":snappedf(f.glow,0.01),"seed":int(st.next)*7919%1000,"kind":"siren" if o.has("siren") else "site","depth":snappedf(f.depth,0.01),"thermal":f.thermal}}
 	if o.has("siren"):
 		shot["path"]=acc.get("path",[]);shot["siren"]=int(o.siren);shot["type"]=str(sim.sirens[o.siren].get("type","patroller"));shot["mode_seen"]=str(sim.sirens[o.siren].get("mode",""))
 		if shot.path.size()>=4:st.paths.append({"siren":int(o.siren),"pts":shot.path.duplicate(),"time":sim.elapsed})
