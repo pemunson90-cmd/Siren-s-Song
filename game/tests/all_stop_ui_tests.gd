@@ -18,24 +18,25 @@ func click(button):
 	var p=button.get_global_rect().get_center()
 	await touch(p,true);await mouse(p,true);await touch(p,false);await mouse(p,false);await settle()
 func run():
-	root.size=Vector2i(2520,1080);await settle()
-	var g=load("res://scenes/main.tscn").instantiate();g.set_script(load("res://tests/density_main.gd"));g.store.path="user://all-stop-ui.save"
-	g.fixture_safe_area=Rect2(136,0,2384,1080)
-	root.add_child(g);await settle();g.set_process(false);g._start_mission(0);await settle()
-	var h=g.mission_hud;var s=g.sim
-	check(h.extra.has("all_stop"),"the HUD builds an ALL STOP control")
-	h.open("craft",{"kind":"craft","unit":0,"pos":s.units[0].pos});await settle()
-	await click(h.extra.route_menu)
-	check(h.page=="route" and h.extra.all_stop.visible and h.extra.all_stop.text.begins_with("ALL STOP"),"the ROUTE menu offers ALL STOP with its oxygen price")
-	var oxygen:float=s.oxygen
-	await click(h.extra.all_stop)
-	check(AllStop.stopped(s.units[0]) and s.oxygen<oxygen,"a real tap shuts the engines down and draws oxygen")
-	check(h.page=="route" and h.extra.all_stop.text.begins_with("ENGINES"),"the menu stays open and now offers the restart")
-	await click(h.extra.all_stop)
-	check(AllStop.restarting(s.units[0]) and h.extra.all_stop.text.begins_with("ENGINES") and h.extra.all_stop.text.contains("6"),"a second tap orders the restart and shows the countdown")
-	s.selected=1;s.units[1].alive=true;g._refresh();h.open("craft",{"kind":"craft","unit":1,"pos":s.units[1].pos});await settle()
-	await click(h.extra.route_menu)
-	check(not h.extra.all_stop.visible,"a drone is not offered ALL STOP")
-	g.queue_free();await settle()
-	for suffix in ["",".bak",".tmp"]:DirAccess.remove_absolute("user://all-stop-ui.save"+suffix)
+	for dimensions in [Vector2i(2520,1080),Vector2i(2184,1968)]:
+		root.size=dimensions;await settle()
+		var g=load("res://scenes/main.tscn").instantiate();g.set_script(load("res://tests/density_main.gd"));g.store.path="user://all-stop-ui-%d.save"%dimensions.x
+		if dimensions.x==2520:g.fixture_safe_area=Rect2(136,0,2384,1080)
+		root.add_child(g);await settle();g.set_process(false);g._start_mission(0);await settle()
+		var h=g.mission_hud;var s=g.sim
+		check(h.extra.has("all_stop"),"the HUD builds an ALL STOP control")
+		h.open("craft",{"kind":"craft","unit":0,"pos":s.units[0].pos});await settle()
+		await click(h.extra.route_menu)
+		check(h.page=="route" and h.extra.all_stop.visible and h.extra.all_stop.get_global_rect().size.y>=48.0 and h.extra.all_stop.text.begins_with("ALL STOP"),"the ROUTE menu offers ALL STOP with its oxygen price")
+		var oxygen:float=s.oxygen
+		await click(h.extra.all_stop)
+		check(AllStop.stopped(s.units[0]) and s.oxygen<oxygen,"a real tap shuts the engines down and draws oxygen")
+		check(h.page=="route" and h.extra.all_stop.text.begins_with("ENGINES"),"the menu stays open and now offers the restart")
+		await click(h.extra.all_stop)
+		check(AllStop.restarting(s.units[0]) and h.extra.all_stop.text.begins_with("ENGINES") and h.extra.all_stop.text.contains("6"),"a second tap orders the restart and shows the countdown")
+		s.selected=1;s.units[1].alive=true;g._refresh();h.open("craft",{"kind":"craft","unit":1,"pos":s.units[1].pos});await settle()
+		await click(h.extra.route_menu)
+		check(not h.extra.all_stop.visible,"a drone is not offered ALL STOP")
+		g.queue_free();await settle()
+		for suffix in ["",".bak",".tmp"]:DirAccess.remove_absolute("user://all-stop-ui-%d.save"%dimensions.x+suffix)
 	print("ALL STOP UI CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)

@@ -38,6 +38,7 @@ const TEXT := {
 	"settle": "Settle at depth to frame a photograph",
 	"not_here": "%s · this band cannot frame it",
 	"only_in": "%s · seen only from %s",
+	"other_work": " · samples, links and listening need MIDDLE",
 	"siren_band": "A Siren can only be studied from its own band",
 	"line": "%s: %s, %s, heard %dm%s",
 	"cost_o2": ", costs %.1f%% oxygen per %ds",

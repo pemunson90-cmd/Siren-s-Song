@@ -144,5 +144,12 @@ func _initialize():
 	var bad=d.snapshot();bad.mission.photo.shots[0].band=7
 	var refused=Sim.new();refused.start(0,"endurance")
 	check(not refused.restore(bad),"a band outside 0 to 2 is refused")
+	# 15 / The required exposure of operations 0 and 3 can be taken from every band.
+	for op in [0,3]:
+		for band in 3:
+			var g=fresh(op);var target=g.mission.objectives[0];var face=float(target.subject.facing)
+			put(g,0,target.pos+Vector2.from_angle(face)*100.0,face+PI,band)
+			g.command("camera");run(g,8)
+			check(target.captured,"operation %d: the required frame is taken from band %d"%[op,band])
 	print("PHOTO DEPTH CHECKS ",checks," FAILURES ",failures)
 	quit()

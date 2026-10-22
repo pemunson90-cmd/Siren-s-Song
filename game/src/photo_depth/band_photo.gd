@@ -77,6 +77,8 @@ static func gate(sim, ctx: Dictionary) -> Dictionary:
 		var declared: Array = _declared(o)
 		if not declared.is_empty() and not (int(u.band) in declared):
 			ctx["text"] = str(ctx.get("text", "")) + " · seen only from " + _band_names(declared)
+		elif int(u.band) != 1:
+			ctx["text"] = str(ctx.get("text", "")) + Table.TEXT.other_work
 		return ctx
 	if o.is_empty():
 		if int(u.band) == 1:
