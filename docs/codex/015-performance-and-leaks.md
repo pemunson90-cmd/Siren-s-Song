@@ -1,9 +1,9 @@
 # Handoff 015: measure performance and fix leaks and slowdowns
 
-Status: OPEN
+Status: CLAIMED
 Note: BATCH 2 (released 22 Oct 17:45 UTC). Follow the standing engineering rule in PLAN_SNAPSHOT.md: self-contained module, one narrow seam, numbers in a data table, optional validated save fields, tests beside the feature.
-Claimed at:
-Claimed by:
+Claimed at: 2026-10-22 22:26:35 UTC
+Claimed by: codex
 Finished at:
 
 Precondition: handoff 014 must be DONE or BLOCKED.
