@@ -357,8 +357,7 @@ func refresh():
  extra.depth_down.text="↓ "+sim.Depth.NAMES[mini(2,u.band+1)];extra.depth_down.disabled=u.band==2 or not transition.is_empty()
  extra.sonar_sector.text="SECTOR\n"+("ALL360°" if sim.sonar.sector=="all" else "FORWARD90°")
  extra.sonar_power.text="POWER\n"+sim.sonar.power.to_upper()
- var prism_pulse=sim.selected==0 and preload("res://src/equipment/equipment_catalog.gd").has(sim.mission.launch_equipment,0,"quietus_prism") and sim.sonar.sector=="forward"
- extra.sonar_emit.text="EMIT\n"+("%.1f RESERVE"%(sim.Sonar.POWERS[sim.sonar.power].cost*(2. if prism_pulse else 1.)));extra.sonar_emit.disabled=sim.ping_time>0 or not transition.is_empty()
+ extra.sonar_emit.text="EMIT\n"+("%s RESERVE"%String.num(snappedf(sim.Sonar.pulse_cost(sim,sim.selected),0.01)));extra.sonar_emit.disabled=sim.ping_time>0 or not transition.is_empty()
  subject=Concealed.refresh_subject(sim,Recipient.refresh_subject(sim,Rendezvous.refresh_subject(sim,subject)))
  host.pause_button.text="PAUSED\n▶ RUN" if sim.paused else "Ⅱ\nPAUSE"
  host.advanced_button.text="FLEET"
