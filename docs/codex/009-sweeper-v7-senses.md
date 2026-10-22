@@ -1,8 +1,8 @@
 # Handoff 009: rebuild the sweeper on V7 senses
 
-Status: OPEN
-Claimed at:
-Claimed by:
+Status: CLAIMED
+Claimed at: 2026-10-22 16:20 UTC
+Claimed by: claude (Pat approved Claude taking 009, 22 Oct; Codex skip this one)
 Finished at:
 
 Precondition: handoff 010 must be DONE and merged (010 replaces blocked 005). If it is not, skip this one and take the next OPEN handoff.
