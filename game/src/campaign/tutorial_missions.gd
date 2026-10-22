@@ -1,10 +1,10 @@
 extends RefCounted
 const TITLES = ["Shelf Signal", "Split Channel", "Blackwater Relay", "Cold Foundry", "The Listening Well", "Siren's Song"]
 const BRIEFS = [
-	"Corran Bank's beacon is still pinging from the shelf. Photograph the signal spire, then bring Quietus home. Your charts show rock, not what waits behind it. Sonar shows you the water and tells everything in it where you are.",
-	"Two seabed transponders, two halves of the rig's log. Photograph the WEST and EAST relays. Bring Quietus to the covered UPLINK ANCHOR and use CAMERA / LINK to join their records. Drones are faster and can expose a relay while the submarine moves. Lose them and the submarine goes the long way alone. Return with the joined log.",
+	"Corran Bank's beacon is still pinging from the shelf. Find what is sending and photograph it, then bring Quietus home. Your charts show rock, not what waits behind it. Sonar shows you the water and tells everything in it where you are.",
+	"Two seabed returns, two halves of the rig's log. Find and photograph the WEST and EAST returns. Bring Quietus to the covered UPLINK ANCHOR and use CAMERA / LINK to join their records. Drones are faster and can expose a relay while the submarine moves. Lose them and the submarine goes the long way alone. Return with the joined log.",
 	"The two relays still trade packets. Blackwater swallows passive returns. Settle within passive reach and SAMPLE the REQUEST and REPLY relays. Drones hear farther; Quietus can recover either record if they are lost. Sonar can make a relay answer, but everything nearby hears the ping. Bring the exchange home.",
-	"Enter from the western shelf. Our recovery buoy is past the southern plant wall. Image the FURNACE VENT first, then the LAUNCH CRADLE. The basalt spine gives cover; the plant perimeter does not. Siren sentinels hold the furnace vent and the recovery channel. A live decoy draws them out; they return when it stops. Cameras can draw a response. Plan Quietus' route before you expose the second record. Drones can take either photograph; the submarine is your fallback.",
+	"Enter from the western shelf. Our recovery buoy is past the southern plant wall. Image the heat source first, then the structure its feed line reaches. The basalt spine gives cover; the plant perimeter does not. Siren sentinels hold the furnace vent and the recovery channel. A live decoy draws them out; they return when it stops. Cameras can draw a response. Plan Quietus' route before you expose the second record. Drones can take either photograph; the submarine is your fallback.",
 	"The well records what it hears. Collect three records from its rim. A fast responder waits in the inner water. Noise draws it out; when sight breaks it searches the last place it heard or saw you. Break sight before its beam resolves. Silence is a route too.",
 	"The transmitter crown faces the trench; the wake lines run deeper, away from us. Photograph both. Bring Quietus through the southern basalt lee to the LEE RECEIVER and use CAMERA / LISTEN for six quiet seconds. Only the submarine carries the low-frequency hydrophones for this packet. Drones can scout the exposed crown and wakes while Quietus moves under cover; the submarine can take either image if they are lost. Return to the western buoy with what you heard."
 ]
@@ -50,7 +50,7 @@ static func make(i: int) -> Dictionary:
 		objectives[0].name="FURNACE VENT"; objectives[0]["optical"]="furnace"
 		objectives[0]["evidence"]="Heat pours from the vent into a feed line that runs south to the frames."
 		objectives[1].name="LAUNCH CRADLE"; objectives[1]["optical"]="cradle"; objectives[1]["requires"]=[0]
-		objectives[1]["requirement"]="Record the furnace first, so the frame images can be matched to its feed line."
+		objectives[1]["requirement"]="Resolve the heat source first, so the frame images can be matched to its feed line."
 		objectives[1]["evidence"]="Open steel frames stand on rails that end at the trench edge. All of it is still warm."
 	if i==5:
 		objectives[0].name="TRANSMITTER CROWN"; objectives[0]["optical"]="transmitter"

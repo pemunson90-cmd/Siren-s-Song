@@ -40,7 +40,7 @@ func _process(dt: float) -> void:
 func subject_view() -> Dictionary:
 	if sim==null:return {}
 	if sim.capture_unit>=0 and sim.selected==sim.capture_unit:
-		var o=sim.mission.objectives[sim.capture_target]
+		var o=Photo.obj(sim,sim.capture_target)
 		return {"o":o,"index":sim.capture_target,"unit":sim.capture_unit,"live":true} if Photo.applies(o) else {}
 	if sim.capture_unit>=0:return {}
 	var preview=Photo.preview(sim,sim.selected)
@@ -68,19 +68,31 @@ func _draw_photo(t:Dictionary) -> void:
 	if _vm_age>0.2 or key!=_vm_key or _vm.is_empty():
 		_vm_key=key;_vm_age=0.0
 		_frame=Photo.frame(sim,uid,o,float(acc.get("t",0.0)),true)
-		_vm=PhotoView.from_frame(_frame,"siren" if o.has("siren") else "site")
+		_vm=PhotoView.from_frame(_frame,"siren" if o.has("siren") else "site",str(o.get("optical",o.get("site_id",""))),str(o.subject.get("type","")) if o.has("siren") else "")
 	PhotoView.draw(self,picture,_vm,time,fs)
 	var since:=time-_filed_at
-	if since>=0.0 and since<3.2 and not _filed.is_empty():
-		if since<0.18:draw_rect(picture,Color(1,1,1,0.85*(1.0-since/0.18)))
-		var good:bool=_filed.get("usable",true)
-		var bx0:=picture.position.x+8;var by0:=picture.position.y+picture.size.y*0.52
-		draw_rect(Rect2(bx0-4,by0-fs-4,picture.size.x-8,fs*2.6),Color(0.02,0.07,0.09,0.82))
-		draw_string(font,Vector2(bx0,by0),("FRAME %d FILED · QUALITY %d%%"%[int(_filed.id),roundi(float(_filed.q)*100)]) if good else "FRAME UNUSABLE · NOT FILED AS A RECORD",HORIZONTAL_ALIGNMENT_LEFT,picture.size.x-16,fs,Color("e0bf83") if good else Color("e08a73"))
-		var names:PackedStringArray=[]
-		for m in _filed.frame.marks:
-			if float(m.q)>0:names.append(str(m.label))
-		draw_string(font,Vector2(bx0,by0+fs+2),("RESOLVED " if not names.is_empty() else "NOTHING RESOLVED")+", ".join(names),HORIZONTAL_ALIGNMENT_LEFT,picture.size.x-16,fs-3,Color("a9c9c7"))
+	if since>=0.0 and since<4.6 and not _filed.is_empty():
+		# Shutter: the iris shuts, the lamp pops, then the plate comes up out of the dark.
+		if since<0.26:
+			var closed:float=sin(PI*since/0.26)
+			draw_rect(Rect2(picture.position,Vector2(picture.size.x,picture.size.y*0.5*closed)),Color(0,0,0,0.96))
+			draw_rect(Rect2(Vector2(picture.position.x,picture.end.y-picture.size.y*0.5*closed),Vector2(picture.size.x,picture.size.y*0.5*closed)),Color(0,0,0,0.96))
+			if since>0.1 and since<0.2:draw_rect(picture,Color(1,1,1,0.55*(1.0-absf(since-0.15)/0.05)))
+		else:
+			var good:bool=_filed.get("usable",true)
+			var inset:=Rect2(picture.position.x+picture.size.x*0.46,picture.position.y+picture.size.y*0.06,picture.size.x*0.52,picture.size.y*0.62)
+			var fade:float=clampf((4.6-since)/0.6,0,1)
+			draw_rect(inset.grow(4),Color(0.03,0.06,0.07,0.92*fade))
+			var model:=PhotoView.from_shot(_filed)
+			model["develop"]=clampf((since-0.26)/1.7,0,1);model["labels"]=false
+			PhotoView.draw(self,inset,model,since,maxi(10,fs-3))
+			draw_rect(inset.grow(4),Color(("e0bf83" if good else "e08a73")).darkened(0.1*(1.0-fade)),false,2)
+			var names:PackedStringArray=[]
+			for m in _filed.frame.marks:
+				if float(m.q)>0:names.append(str(m.label))
+			var cap:String=("FRAME %d FILED · %d%%"%[int(_filed.id),roundi(float(_filed.q)*100)]) if good else "UNUSABLE · NOT FILED"
+			draw_string(font,Vector2(inset.position.x,inset.end.y+fs+4),cap,HORIZONTAL_ALIGNMENT_LEFT,inset.size.x,fs-2,Color("e0bf83") if good else Color("e08a73"))
+			if since>1.4:draw_string(font,Vector2(inset.position.x,inset.end.y+2*fs+6),fit_caption(("RESOLVED " if not names.is_empty() else "NOTHING RESOLVED")+", ".join(names),inset.size.x,fs-3),HORIZONTAL_ALIGNMENT_LEFT,-1,fs-3,Color("a9c9c7"))
 	_buttons=[]
 	var cfg=Photo.settings(sim,uid);var op=Photo.optics(sim,uid)
 	var bx:=size.x-8.0;var bw:=maxf(70.0,fs*5.2);var bh:=28.0
@@ -101,7 +113,7 @@ func _draw_photo(t:Dictionary) -> void:
 		for r in _frame.get("rows",[]):
 			if r.apparent and not r.ready and not r.why.is_empty():status="%s: %s"%[r.label,r.why];break
 	status=fit_caption(status,size.x-20,fs-2)
-	draw_string(font,Vector2(10,size.y-30),fit_caption(str(o.name),size.x-90,fs),HORIZONTAL_ALIGNMENT_LEFT,-1,fs,Color("e0bf83"))
+	draw_string(font,Vector2(10,size.y-30),fit_caption(Photo.label(o) if Photo.applies(o) else str(o.name),size.x-90,fs),HORIZONTAL_ALIGNMENT_LEFT,-1,fs,Color("e0bf83"))
 	if live:
 		var progress:=acquisition_progress(sim)
 		draw_string(font,Vector2(size.x-62,size.y-30),"%02d%%"%int(progress*100),HORIZONTAL_ALIGNMENT_LEFT,-1,fs,PHOSPHOR)
@@ -113,7 +125,7 @@ func _draw() -> void:
 	var subject:=subject_view()
 	if not subject.is_empty():_draw_photo(subject);return
 	if sim.capture_unit<0: return
-	var objective=sim.mission.objectives[sim.capture_target]
+	var objective=Photo.obj(sim,sim.capture_target)
 	var well_site=sim.mission.get("well_revision",0)==1 and (not objective.has("optical") or objective.optical=="well_pattern")
 	var progress=acquisition_progress(sim)
 	draw_rect(Rect2(Vector2.ZERO,size),Color("07151d")); draw_rect(Rect2(Vector2.ZERO,size),Color("6b9d9f"),false,1)
