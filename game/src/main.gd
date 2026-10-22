@@ -51,6 +51,7 @@ var unlocked := 0
 var completed: Array=[]
 var expedition:Dictionary={}
 var fleet:Dictionary={}
+var challenge_records:Dictionary={}
 var fitted_equipment:Dictionary=preload("res://src/equipment/equipment_catalog.gd").default_loadout()
 var upgrade := "endurance"
 var capture_scenario := ""
@@ -647,6 +648,7 @@ func _confirm_new_campaign()->void:
 func _new_campaign()->void:
 	completed=[];unlocked=0;expedition={};recovered_evidence={};photo_records={};photo_intel={};hints_seen=[]
 	fleet={}
+	challenge_records={}
 	fitted_equipment=preload("res://src/equipment/equipment_catalog.gd").default_loadout();upgrade="endurance"
 	_start_mission(0);_save_archive();_show_campaign()
 func _scenario(name: String) -> void:
@@ -706,6 +708,7 @@ func _archive() -> Dictionary:
 	if not photo_intel.is_empty():data["intel"]=photo_intel.duplicate(true)
 	if not expedition.is_empty():data["expedition"]=expedition.duplicate(true)
 	if not fleet.is_empty():data["fleet"]=fleet.duplicate(true)
+	if not challenge_records.is_empty():data["challenges"]=challenge_records.duplicate(true)
 	if not hints_seen.is_empty():data["hints_seen"]=hints_seen.duplicate()
 	data["equipment"]=preload("res://src/equipment/equipment_catalog.gd").canonical(fitted_equipment)
 	return data
@@ -735,6 +738,7 @@ func _load_archive() -> void:
 		unlocked=saved.unlocked; completed=saved.completed; upgrade=saved.upgrade; settings=saved.settings
 		expedition=saved.get("expedition",{}).duplicate(true)
 		fleet=saved.get("fleet",{}).duplicate(true)
+		challenge_records=saved.get("challenges",{}).duplicate(true)
 		photo_intel=saved.get("intel",{}).duplicate(true)
 		fitted_equipment=preload("res://src/equipment/equipment_catalog.gd").canonical(saved.get("equipment",{}))
 		fitted_equipment=FleetInventory.reconcile_fitting(fitted_equipment,FleetInventory.available(_equipment_entitlements(),fleet))

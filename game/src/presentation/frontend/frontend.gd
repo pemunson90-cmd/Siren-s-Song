@@ -101,6 +101,7 @@ func _title_screen() -> void:
 		_button("CONTINUE", _continue, "frontend_continue", profile == Profile.UNREADABLE)
 		_button("ERASE PROGRESS · NEW CAMPAIGN", _new_campaign, "frontend_new_campaign")
 	_button("SETTINGS", _settings_screen, "frontend_settings")
+	_button("CHALLENGES", func():load("res://src/presentation/frontend/challenges_frontend.gd").show(self), "frontend_challenges", profile==Profile.UNREADABLE)
 	_button("CREDITS", _credits_screen, "frontend_credits")
 func _dismiss() -> void:
 	set_process(false)
