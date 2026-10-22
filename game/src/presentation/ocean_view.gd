@@ -233,6 +233,7 @@ func _draw() -> void:
 	for o in observable_sites():
 		if sim.mission.id==8:continue
 		if o.get("own_origin",false):continue
+		if o.has("siren"):_siren_mark(o);continue
 		if Wake.replaces_site(sim,o) or Rendezvous.replaces_site(sim,o) or WarningChain.replaces_site(sim,o) or Witness.replaces_site(sim,o) or Recipient.replaces_site(sim,o):continue
 		if o.get("kind","")=="receiver":
 			draw_arc(o.pos,26,0,TAU,40,Color("80bdb6"),2)
@@ -252,7 +253,7 @@ func _draw() -> void:
 	# Intelligence marks are briefed coordinates, not live contact observations.
 	for o in observable_sites():
 		if sim.mission.id==8:continue
-		if o.get("own_origin",false):continue
+		if o.get("own_origin",false) or o.has("siren"):continue
 		if Wake.replaces_site(sim,o) or Rendezvous.replaces_site(sim,o) or WarningChain.replaces_site(sim,o) or Witness.replaces_site(sim,o) or Recipient.replaces_site(sim,o):continue
 		var c=CYAN if o.captured else Color("e1b66e")
 		draw_arc(o.pos,43,0,TAU,40,Color(c,0.35),1.4)
@@ -288,6 +289,7 @@ func _draw() -> void:
 		draw_arc(ex,64,0,TAU,64,Color(CYAN,0.42),2)
 		_label(ex+Vector2(-120 if ex.y>830 else -66,66 if ex.y>830 else 90),"WITHDRAWAL" if Expedition.entry(sim) else "EXTRACTION",CYAN,18)
 	Expedition.draw(self,sim)
+	_draw_observed_paths()
 	# Own open-water estimate only; deliberately does not sample hidden terrain or
 	# listeners. Dotted amber radius is subordinate to later foreground beam cues.
 	if sim.mission.get("acoustic_revision",0)==1:
@@ -393,6 +395,19 @@ func _draw() -> void:
 		draw_rect(box,Color(0.04,0.07,0.09,0.94))
 		draw_string(ThemeDB.fallback_font,box.position+Vector2(8,feedback_font_size),entry.text,HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size,Color("ffac8c") if entry.urgent else Color("ed8e79") if entry.fresh else Color("b09a94"))
 
+# A Siren study keeps only where it was last photographed, never where it is.
+func _siren_mark(o:Dictionary)->void:
+	var c=Color(0.9,0.42,0.34,0.7)
+	draw_polyline(PackedVector2Array([o.pos+Vector2(0,-16),o.pos+Vector2(14,0),o.pos+Vector2(0,16),o.pos+Vector2(-14,0),o.pos+Vector2(0,-16)]),c,1.6)
+	_label(o.pos+Vector2(22,-6),"%s · LAST PHOTOGRAPHED"%o.name,c,14)
+# Paths the player actually photographed a Siren following; stale by definition.
+func _draw_observed_paths()->void:
+	for path in sim.mission.get("photo",{}).get("paths",[]):
+		var points=PackedVector2Array()
+		for p in path.pts:points.append(Vector2(p[0],p[1]))
+		if points.size()<2:continue
+		for n in points.size()-1:draw_dashed_line(points[n],points[n+1],Color(0.9,0.55,0.35,0.7),2.0/world_scale,6.0/world_scale)
+		_label(points[-1]+Vector2(10,-8),"OBSERVED PATH · S%d"%(int(path.siren)+1),Color(0.9,0.62,0.45,0.9),14)
 func _draw_pressure_overlay()->void:
 	var pressure=sim.recon_feedback()
 	var threat=float(pressure.threat)

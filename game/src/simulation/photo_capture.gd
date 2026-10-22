@@ -157,7 +157,7 @@ static func frame(sim,uid:int,o:Dictionary,t:float=0.0,with_view:bool=false)->Di
 		elif why.is_empty() and local<detail:why="TOO SOFT · closer, lit or still"
 		var ready:bool=why.is_empty()
 		rows.append({"id":f.id,"label":f.label,"ready":ready,"why":why,"apparent":inframe and side,"x":x/maxf(half,1.0),"q":clampf((local-detail*0.6)/(1.0-detail*0.6),0.0,1.0) if ready else 0.0,"dwell":float(f.get("dwell",1.2))})
-	var result={"unit":uid,"craft":u.name,"dist":dist,"bearing":bearing,"off":off,"aim":aim,"pivot":pivot,"aspect":aspect,"fov":fov,"mode":cfg.mode,"focus":focus,"flash":flashing,"light":light,"clarity":clarity,"shimmer":shimmer,"sharp":sharp,"steady":steady,"res":res,"range":op.range,"in_range":dist<=float(op.range),"rows":rows,"size":size,"facing":float(s.get("facing",0.0)),"heading":u.angle,"pos":u.pos}
+	var result={"unit":uid,"craft":u.name,"dist":dist,"bearing":bearing,"off":off,"aim":aim,"pivot":pivot,"aspect":aspect,"fov":fov,"mode":cfg.mode,"focus":focus,"flash":flashing,"light":light,"clarity":clarity,"shimmer":shimmer,"sharp":sharp,"steady":steady,"res":res,"range":op.range,"in_range":dist<=float(op.range),"rows":rows,"size":size,"facing":float(s.get("facing",0.0)),"heading":u.angle,"pos":u.pos,"glow":float(s.get("glow",0.0))}
 	if with_view:result["cols"]=view(sim,u.pos,aim,fov,float(op.range)*1.25)
 	return result
 # One-dimensional depth profile of the real terrain across the frame.
@@ -216,26 +216,27 @@ static func progress_text(sim,uid:int,o:Dictionary)->String:
 static func finish(sim,uid:int,o:Dictionary)->Dictionary:
 	var st=state(sim);var acc:Dictionary=st.acc.get(uid,{});var oi=sim.mission.objectives.find(o)
 	var f=frame(sim,uid,o,float(acc.get("t",0.0)),true)
-	var s:Dictionary=o.subject;var seen:Array=[];var fq:Dictionary={};var intel:Array=[];var marks:Array=[]
+	var s:Dictionary=o.subject;var seen:Array=[];var fq:Dictionary={};var intel:Dictionary={};var marks:Array=[]
 	var dwell:Dictionary=acc.get("dwell",{})
 	for i in f.rows.size():
 		var r=f.rows[i];var feat:Dictionary=s.features[i]
 		var held:bool=float(dwell.get(r.id,0.0))>=float(feat.get("dwell",1.2)) and float(acc.get("fq",{}).get(r.id,0.0))>0.0
 		if held:
 			seen.append(r.id);fq[r.id]=snappedf(float(acc.fq[r.id]),0.01)
-			if feat.has("intel") and float(acc.fq[r.id])>=0.3:intel.append(feat.intel)
+			if feat.has("intel") and float(acc.fq[r.id])>=0.3:intel[str(feat.intel)]=snappedf(float(acc.fq[r.id]),0.01)
 			marks.append({"id":r.id,"x":snappedf(r.x,0.01),"q":fq[r.id],"label":r.label})
 		elif r.apparent:
 			marks.append({"id":r.id,"x":snappedf(r.x,0.01),"q":0.0,"label":""})
 	var required:Array=s.get("required",[])
 	var usable:bool=required.all(func(id):return id in seen) if not required.is_empty() else not seen.is_empty()
+	if f.mode=="tight" and str(f.focus) in seen:usable=true
 	var mean_sharp:float=float(acc.get("sharp",0.0))/maxf(float(acc.get("t",0.0)),0.001)
 	var total:float=float(s.features.size())
 	var gained:float=0.0
 	for id in seen:gained+=float(fq[id])
 	var coverage:float=gained/maxf(1.0,1.0 if f.mode=="tight" else total)
 	var quality:float=clampf(mean_sharp*0.55+minf(1.0,coverage)*0.45,0.0,1.0) if usable else clampf(mean_sharp*0.3,0.0,0.4)
-	var shot={"id":int(st.next),"op":int(sim.mission.id),"obj":oi,"key":str(o.get("optical",o.get("site_id",oi))),"name":str(o.name),"unit":uid,"craft":str(f.craft),"pos":[snappedf(f.pos.x,0.1),snappedf(f.pos.y,0.1)],"heading":snappedf(f.heading,0.01),"dist":snappedf(f.dist,0.1),"aspect":snappedf(f.aspect,0.01),"mode":f.mode,"flash":f.flash,"q":snappedf(quality,0.01),"sharp":snappedf(mean_sharp,0.01),"light":snappedf(f.light,0.01),"clarity":snappedf(f.clarity,0.01),"shimmer":snappedf(f.shimmer,0.01),"features":seen,"fq":fq,"intel":intel,"usable":usable,"time":snappedf(sim.elapsed,0.1),"frame":{"fov":snappedf(f.fov,0.01),"aim":snappedf(f.aim,0.01),"cols":f.cols,"marks":marks,"size":s.get("size",70.0),"dist":snappedf(f.dist,1.0),"facing":snappedf(f.facing,0.01),"aspect":snappedf(f.aspect,0.01),"bearing":snappedf(f.bearing,0.01),"seed":int(st.next)*7919%1000,"kind":"siren" if o.has("siren") else "site"}}
+	var shot={"id":int(st.next),"op":int(sim.mission.id),"obj":oi,"key":str(o.get("optical",o.get("site_id",oi))),"name":str(o.name),"unit":uid,"craft":str(f.craft),"pos":[snappedf(f.pos.x,0.1),snappedf(f.pos.y,0.1)],"heading":snappedf(f.heading,0.01),"dist":snappedf(f.dist,0.1),"aspect":snappedf(f.aspect,0.01),"mode":f.mode,"flash":f.flash,"q":snappedf(quality,0.01),"sharp":snappedf(mean_sharp,0.01),"light":snappedf(f.light,0.01),"clarity":snappedf(f.clarity,0.01),"shimmer":snappedf(f.shimmer,0.01),"features":seen,"fq":fq,"intel":intel,"usable":usable,"time":snappedf(sim.elapsed,0.1),"frame":{"fov":snappedf(f.fov,0.01),"aim":snappedf(f.aim,0.01),"cols":f.cols,"marks":marks,"size":s.get("size",70.0),"dist":snappedf(f.dist,1.0),"facing":snappedf(f.facing,0.01),"aspect":snappedf(f.aspect,0.01),"bearing":snappedf(f.bearing,0.01),"glow":snappedf(f.glow,0.01),"seed":int(st.next)*7919%1000,"kind":"siren" if o.has("siren") else "site"}}
 	if o.has("siren"):
 		shot["path"]=acc.get("path",[]);shot["siren"]=int(o.siren);shot["type"]=str(sim.sirens[o.siren].get("type","patroller"));shot["mode_seen"]=str(sim.sirens[o.siren].get("mode",""))
 		if shot.path.size()>=4:st.paths.append({"siren":int(o.siren),"pts":shot.path.duplicate(),"time":sim.elapsed})
@@ -244,8 +245,18 @@ static func finish(sim,uid:int,o:Dictionary)->Dictionary:
 	while st.shots.size()>MAX_SHOTS:st.shots.remove_at(_weakest(st.shots))
 	st.acc.erase(uid)
 	if usable:
-		if float(o.get("photo_quality",0.0))<quality:
-			o["photo_quality"]=quality;o["photo_craft"]=f.craft;o["photo_distance"]=f.dist
+		# The record's grade rewards the sharpest frame and how much of the subject
+		# the whole set of frames has shown: circling a target improves its record.
+		var best_sharp:float=0.0;var union:Dictionary={}
+		for other in st.shots:
+			if int(other.obj)!=oi or not other.usable:continue
+			best_sharp=maxf(best_sharp,float(other.sharp))
+			for id in other.fq:union[id]=maxf(float(union.get(id,0.0)),float(other.fq[id]))
+		var union_gain:float=0.0
+		for id in union:union_gain+=float(union[id])
+		var record_quality:float=clampf(best_sharp*0.55+minf(1.0,union_gain/maxf(1.0,total))*0.45,0.0,1.0)
+		if float(o.get("photo_quality",0.0))<record_quality:
+			o["photo_quality"]=record_quality;o["photo_craft"]=f.craft;o["photo_distance"]=f.dist
 		var reveal=str(s.get("reveal",""))
 		if not reveal.is_empty() and o.get("unknown",false):
 			o.name=reveal;o.erase("unknown")
@@ -294,7 +305,7 @@ static func siren_candidate(sim,uid:int)->int:
 	var u=sim.units[uid];var best:=-1;var d:=INF
 	for i in sim.sirens.size():
 		var s=sim.sirens[i]
-		if s.get("stun",0.0)>0.0 or s.get("band",1)!=u.band or not s.get("transition",{}).is_empty():continue
+		if s.get("band",1)!=u.band or not s.get("transition",{}).is_empty():continue
 		if not sim.contacts.has(i) or sim.elapsed-float(sim.contacts[i].time)>0.6 or not sim.contact_visible(s):continue
 		var dist=u.pos.distance_to(s.pos)
 		if dist<=reach(sim,uid) and dist<d and sim.Depth.clear(sim,u.pos,s.pos,u.band):best=i;d=dist
@@ -304,7 +315,7 @@ static func siren_objective(sim,i:int)->int:
 		if sim.mission.objectives[n].get("siren",-1)==i:
 			return n
 	var s=sim.sirens[i];var type=str(s.get("type","patroller"))
-	sim.mission.objectives.append({"pos":s.pos,"name":"S%d %s"%[i+1,type.to_upper()],"captured":false,"optional":true,"kind":"","siren":i,"subject":siren_subject(s),"optical":"siren_"+type,"site_id":"siren_"+type,"evidence":""})
+	sim.mission.objectives.append({"pos":s.pos,"name":"S%d %s"%[i+1,type.to_upper()],"captured":false,"optional":true,"kind":"","duration":8.0,"siren":i,"subject":siren_subject(s),"optical":"siren_"+type,"site_id":"siren_"+type,"evidence":""})
 	return sim.mission.objectives.size()-1
 # --- records -----------------------------------------------------------------
 static func shots_for(mission:Dictionary,key:String)->Array:

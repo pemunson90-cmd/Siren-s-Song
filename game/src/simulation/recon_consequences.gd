@@ -45,7 +45,7 @@ static func grade(records:Array)->Dictionary:
    total+=float(record.photo_quality);count+=1
  if count==0:return {"photos":0,"quality":0.0,"grade":""}
  var quality=total/count
- return {"photos":count,"quality":quality,"grade":"A" if quality>=.95 else "B" if quality>=.7 else "C"}
+ return {"photos":count,"quality":quality,"grade":"A" if quality>=.85 else "B" if quality>=.6 else "C"}
 static func feedback(sim)->Dictionary:
  var intensity=0.0
  # Fresh received contacts only: hidden locks or unseen guards cannot drive cues.

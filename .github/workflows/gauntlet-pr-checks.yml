@@ -164,6 +164,7 @@ jobs:
           warning_chain_ui_tests|WARNING CHAIN UI
           warning_chain_audio_tests|WARNING CHAIN AUDIO
           warning_chain_world_ui_tests|WARNING CHAIN WORLD UI
+          photo_capture_tests|PHOTO CAPTURE
           UI_SCENARIOS
       - name: Docs-only change; no Godot run
         if: steps.changes.outputs.game == 'false'
