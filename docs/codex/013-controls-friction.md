@@ -1,8 +1,8 @@
 # Handoff 013: fix FIT and craft-handle overlap and ring friction
 
-Status: OPEN
-Claimed at:
-Claimed by:
+Status: CLAIMED
+Claimed at: 2026-10-22 17:36:13 UTC
+Claimed by: codex
 Finished at:
 
 Precondition: handoff 012 must be DONE or BLOCKED.
