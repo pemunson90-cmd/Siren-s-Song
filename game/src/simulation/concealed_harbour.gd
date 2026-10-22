@@ -138,7 +138,7 @@ static func status(sim)->Dictionary:
  if not applies(sim.mission):return {}
  var state=sim.mission.concealed_harbour
  if not state.known:return {"known":false,"text":"Rescue the witness to learn the local problem"}
- return {"known":true,"thread":state.thread,"phase":state.phase,"pos":state.pos,"carrier":state.carrier,"placement":state.placement,"connected":state.connected,"receipt":state.receipt,"account":state.account,"seats":placements(state),"reply_pos":reply_pos(state),"actions":context(sim),"text":("SURFACE TRACE CONNECTED" if state.connected else "TRACE PHYSICALLY DISCONNECTED") if state.thread=="deep" else ("REFUGE MOUTH BLOCKED" if state.phase=="ready" and sim.mission.structures.has(SCREEN) else "REFUGE MOUTH CLEAR"),"station_seen":state.station_seen.duplicate(true)}
+ return {"known":true,"thread":state.thread,"phase":state.phase,"pos":state.pos,"carrier":state.carrier,"placement":state.placement,"connected":state.connected,"receipt":state.receipt,"account":state.account,"seats":placements(state),"reply_pos":reply_pos(state),"actions":context(sim),"text":("SURFACE TRACE CONNECTED" if state.connected else "TRACE PHYSICALLY DISCONNECTED") if state.thread=="deep" else ("SHELTER MOUTH BLOCKED" if state.phase=="ready" and sim.mission.structures.has(SCREEN) else "SHELTER MOUTH CLEAR"),"station_seen":state.station_seen.duplicate(true)}
 static func recovered_facts(m:Dictionary)->Dictionary:
  if not applies(m) or not m.concealed_harbour.receipt:return {}
  var state=m.concealed_harbour
