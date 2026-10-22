@@ -90,12 +90,18 @@ func physical_return()->void:
  for carrier in [1,2]:
   sim.command("select",{"unit":carrier});check(sim.command("route",{"point":sim.units[0].pos}),"observed distant carrier accepts a real homeward route with original guards and spent EMPs")
  sim.paused=false
+ var impacts=0
  for step in 2700:
+  var old_hull=sim.hull
   sim.advance(Sim.STEP)
+  if sim.hull<old_hull:
+   check(sim.units[0].get("hit_at",-1)==sim.elapsed and old_hull-sim.hull<=Sim.COLLISION_MAX_DAMAGE,"return hull loss is a bounded physical collision")
+   impacts+=1
   for carrier in [1,2]:
    if sim.blackwater_handoff_context(carrier).ready:sim.command("select",{"unit":carrier});sim.command("blackwater_handoff",{"carrier":carrier})
   if not sim.outcome.is_empty():break
- check(sim.outcome=="won" and sim.hull==100 and sim.units.all(func(u):return u.alive) and sim.tools.emp==0 and sim.elapsed>25,"historical15.63s poses staged in current model complete physical return with real guards and unchanged resources")
+ check(sim.outcome=="won" and sim.hull>0 and sim.units.all(func(u):return u.alive) and sim.tools.emp==0 and sim.elapsed>25,"historical15.63s poses staged in current model complete physical return with real guards and spent EMPs")
+ check(impacts>0 and sim.hull<100,"incoming docking carriers now incur collision damage without changing the return route")
  print("OBSERVED RETURN outcome=",sim.outcome," elapsed=",sim.elapsed," hull=",sim.hull," EMP=",sim.tools.emp)
 func handoff_guards()->void:
  var sim=Sim.new();sim.start(2);sim.mission.objectives[0].captured=true;sim.mission.blackwater_delivery.carriers[1]=[0];sim.units[1].pos=sim.units[0].pos+Vector2(30,0)

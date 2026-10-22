@@ -85,7 +85,7 @@ func arc_foundry(g):
 func arc_well(g):
  await band(g,0,0);await go(g,0,Vector2(360,590));await go(g,0,Vector2(800,390));await band(g,0,1);await take(g,0,0)
  await band(g,0,2);await go(g,0,Vector2(1170,400));await band(g,0,1);await take(g,0,1)
- await band(g,0,2);await go(g,0,Vector2(1150,720));await go(g,0,Vector2(780,850));await band(g,0,1);await take(g,0,2);await go(g,0,g.sim.mission.extraction)
+ await band(g,0,2);await go(g,0,Vector2(1150,720));await go(g,0,Vector2(560,850));await band(g,0,1);await take(g,0,2);await go(g,0,g.sim.mission.extraction)
  check(g.sim.mission.well_reference.is_empty() and g.sim.mission.well_observation.is_empty(),"physical quiet route retains honest unverified Well archive")
 func arc_song(g):
  await band(g,0,2)

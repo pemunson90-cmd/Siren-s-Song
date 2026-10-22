@@ -55,7 +55,10 @@ static func run(t):
  s=fixture();s.units[0].band=2;s._use_band(2);s.sirens[0].pos=Vector2(350,700);s.sirens[0].home=s.sirens[0].pos;s.sirens[0].goal=s.sirens[0].pos
  tick(s,1);t.check(s.sirens[0].lock==0 and s.hull==100,"different-band guard cannot fire a planar beam through thermal separation")
  s.sirens[0].known_band=2;s.sirens[0].attention_time=10.;s.sirens[0].last_known=s.units[0].pos
- tick(s,4.2);t.check(s.sirens[0].band==2 and s.sirens[0].lock>0,"guard can deliberately follow acquired depth and resume its ordinary attack")
+ tick(s,1.)
+ t.check(s.sirens[0].transition.get("to",-1)==2 and s.sirens[0].lock>0 and s.hull==100,"guard follows acquired depth and starts its shared-band warning before firing")
+ tick(s,3.2)
+ t.check(s.outcome=="lost" and s.hull==0,"unbroken shared-band lock vaporizes during the depth pursuit")
  s=Sim.new();s.start(0)
  t.check(not Depth.clear(s,Vector2(560,480),Vector2(560,480),1,12) and Depth.clear(s,Vector2(560,480),Vector2(560,480),2,24),"authored deep passage passes beneath physically solid middle shelf")
  t.check(not Depth.clear(s,Vector2(550,650),Vector2(550,650),0,12) and Depth.clear(s,Vector2(550,650),Vector2(550,650),1,24),"shallow sill creates its own real clearance tradeoff")

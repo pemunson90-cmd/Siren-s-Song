@@ -49,6 +49,18 @@ const KNOCK_TIME := 8.0
 const TORPEDO_SPEED := 180.0
 const TORPEDO_TURN := 3.0
 const TORPEDO_LIFE := 3.0
+# Combat tuning (Pat tunes these). A fired Siren beam destroys Quietus outright;
+# the 4s lock build before it is the fair warning. Collision hull damage scales
+# with impact speed (m/s): bumps at or under the safe speed are free, damage is
+# per m/s over it, capped per hit so one strike never destroys Quietus, with a
+# cooldown so grinding contact is not a per-frame drain.
+const VAPORIZED_TEXT := "VAPORIZED · Siren beam struck Quietus. Your previous campaign records remain safe."
+const COLLISION_SAFE_SPEED := 12.0
+const COLLISION_DAMAGE_PER_SPEED := 0.45
+const COLLISION_MAX_DAMAGE := 35.0
+const COLLISION_COOLDOWN := 1.0
+const COLLISION_SPEED_RETAINED := 0.25
+const COLLISION_HULL_CLEARANCE := 24.0 # Two craft's existing 12m collision radii.
 const WorldRegion=preload("res://src/simulation/world_region.gd")
 var terrain_chart
 var correlation:Dictionary={}
@@ -208,9 +220,43 @@ func _course_turn_clear(point:Vector2,radius:float)->bool:
 	return terrain_chart.clear_disk(point,radius) if terrain_chart!=null else not blocked(point,radius)
 func _course_ground_safe(a:Vector2,b:Vector2)->bool:
 	return terrain_chart==null or (terrain_chart.is_clear(b) and terrain_chart.clear_distance(a,b)+0.0001>=a.distance_to(b))
-func _course_collision(u:Dictionary,physical:bool=false)->void:
-	u.vel=Vector2.ZERO
-	if physical:_course_block(u,"Physical clearance stop")
+func collision_damage(impact:float)->float:
+	return clampf((impact-COLLISION_SAFE_SPEED)*COLLISION_DAMAGE_PER_SPEED,0.0,COLLISION_MAX_DAMAGE)
+func _course_collision(u:Dictionary,physical:bool=false,impact:float=-1.0)->void:
+	# A chart frontier is a navigation stop, not contact with physical terrain.
+	if physical:
+		_hull_strike(u,impact);u.vel=u.vel*COLLISION_SPEED_RETAINED if u==units[0] else Vector2.ZERO
+		_course_block(u,"Physical clearance stop")
+	else:u.vel=Vector2.ZERO
+	if u==units[0] and u.has("water_velocity"):u.water_velocity=u.vel-current_at(u.pos)
+func _hull_strike(u:Dictionary,impact:float=-1.0)->void:
+	if impact<0:impact=u.vel.length()
+	if u.name=="QUIETUS" and u.alive and outcome.is_empty() and elapsed-float(u.get("hit_at",-100.0))>=COLLISION_COOLDOWN:
+		var damage:=collision_damage(impact)
+		if damage>0.0:
+			hull=maxf(0.0,hull-damage);u["hit_at"]=elapsed
+			events.append({"type":"creak","pos":u.pos});message="Hull strike %dm/s · hull -%d%%"%[roundi(impact),roundi(damage)]
+func _hull_contacts(u:Dictionary,origin:Vector2,velocity:Vector2)->void:
+	var bodies=units.slice(1)+sirens
+	for body in [Recipient.body(self),Choir.body(self)]:
+		if not body.is_empty():bodies.append(body)
+	if Rendezvous.applies(mission):
+		var point=Rendezvous.position(mission,elapsed)
+		bodies.append({"pos":point,"band":1,"vel":(point-Rendezvous.position(mission,maxf(0.,elapsed-STEP)))/STEP})
+	for body in bodies:
+		if not body.get("alive",true) or not Depth.overlap(u,body):continue
+		# Apply one contact impulse on entry. Existing overlapping craft remain
+		# able to separate; hull contact adds no permanent waypoint exclusion.
+		var other_velocity:Vector2=body.get("vel",Vector2.ZERO)
+		var separation:Vector2=body.pos-other_velocity*STEP-origin
+		if separation.length()<COLLISION_HULL_CLEARANCE:continue
+		var closest=Geometry2D.get_closest_point_to_segment(Vector2.ZERO,-separation,u.pos-body.pos)
+		if closest.length()>=COLLISION_HULL_CLEARANCE:continue
+		var closing=(velocity-other_velocity).dot(separation.normalized())
+		if closing<=0:continue # Separating or coincident hulls do not invent impacts.
+		_hull_strike(u,closing);u.vel*=COLLISION_SPEED_RETAINED
+		if u.has("water_velocity"):u.water_velocity=u.vel-current_at(u.pos)
+		return
 func observable_sites() -> Array:
 	if Chain.applies(mission):return mission.objectives.slice(0,2).duplicate(true)
 	return mission.objectives.duplicate(true)
@@ -759,6 +805,7 @@ func advance(dt: float) -> void:
 	while accumulator+0.0000001>=STEP and outcome.is_empty():
 		_tick(STEP); accumulator-=STEP
 func _tick(dt: float) -> void:
+	var hull_origin:Vector2=units[0].pos;var hull_velocity:Vector2=units[0].vel
 	Departure.emit(self)
 	elapsed+=dt
 	Depth.advance(self,dt);Sonar.advance(self,dt); oxygen=maxf(0,oxygen-Endurance.oxygen_drain(mission,dt))
@@ -785,9 +832,10 @@ func _tick(dt: float) -> void:
 			if u.battery<=0: u.alive=false; events.append({"type":"loss","pos":u.pos}); message=("%s battery exhausted · Quietus can SAMPLE either relay." if mission.get("blackwater_revision",0)==1 else "%s battery exhausted. Quietus camera remains available.")%u.name
 	_advance_projectiles(dt)
 	Recipient.tick(self,dt)
-	_threats(dt)
+	var vaporized=_threats(dt)
 	Network.advance(self,dt)
 	Glass.tick(self,dt);Choir.tick(self,dt)
+	_hull_contacts(units[0],hull_origin,hull_velocity)
 	Depth.cargo_bands(self)
 	Shelf.tick(self)
 	Chain.tick(self)
@@ -829,7 +877,8 @@ func _tick(dt: float) -> void:
 	if not units[selected].alive:
 		selected=0; queue_mode=false; message="Drone lost · Quietus selected · SAMPLE remains available." if mission.get("blackwater_revision",0)==1 else "Drone lost · Quietus command restored. Submarine camera remains available."
 	if oxygen<=0: outcome="lost"; message="Life support exhausted. The archive is silent."
-	if hull<=0: outcome="lost"; message="Quietus lost. Your previous campaign records remain safe."
+	if hull<=0:
+		outcome="lost";message=VAPORIZED_TEXT if vaporized else "Quietus lost. Your previous campaign records remain safe."
 	SignalField.extract(self)
 	Consequences.extract(self)
 	if not mission.has("expedition_revision") and outcome.is_empty() and all_records() and units[0].pos.distance_to(mission.extraction)<65 and units[0].vel.length()<12:
@@ -902,15 +951,17 @@ func _current_step(u:Dictionary,dt:float,desired_ground:Vector2,speed:float,flow
 	var ground:Vector2=water+flow
 	var next:Vector2=u.pos+ground*dt
 	if player_craft and not _course_ground_safe(u.pos,next):
-		_course_collision(u);u["water_velocity"]=-flow
+		_course_collision(u,false,maxf(u.vel.length(),ground.length()));u["water_velocity"]=u.vel-flow
 		return
 	if not blocked(next,12) and segment_safe(u.pos,next,12):
 		u.pos=next;u.vel=ground
 	else:
 		if player_craft and terrain_chart!=null:
-			_course_collision(u,true);u["water_velocity"]=-flow
+			_course_collision(u,true,maxf(u.vel.length(),ground.length()));u["water_velocity"]=u.vel-flow
 			return
-		u.vel=Vector2.ZERO;u.route.clear();u["current_station"]=u.pos
+		if player_craft:_hull_strike(u,maxf(u.vel.length(),ground.length()))
+		u.vel=u.vel*COLLISION_SPEED_RETAINED if player_craft and u==units[0] else Vector2.ZERO;u.route.clear();u["current_station"]=u.pos
+		if player_craft and u==units[0]:u.water_velocity=u.vel-flow
 		if player_craft:RouteProgram.clear(u)
 		if report_collision:message="%s autopilot stopped at unsafe terrain. Replot in open water."%u.name
 func _move(u: Dictionary,dt: float,speed: float,holding: bool,report_collision: bool=true,player_craft: bool=false) -> void:
@@ -995,7 +1046,8 @@ func _move_in_band(u: Dictionary,dt: float,speed: float,holding: bool,report_col
 	if not blocked(next,12): u.pos=next
 	else:
 		if course.earned:_course_collision(u,true);return
-		u.vel=Vector2.ZERO; u.route.clear()
+		if player_craft:_hull_strike(u)
+		u.vel=u.vel*COLLISION_SPEED_RETAINED if player_craft and u==units[0] else Vector2.ZERO; u.route.clear()
 		if player_craft: RouteProgram.clear(u)
 		if report_collision: message="%s autopilot stopped at unsafe terrain. Replot in open water."%u.name
 func _observe() -> void:
@@ -1095,7 +1147,8 @@ func _advance_projectiles(dt: float) -> void:
 		p.pos=next; p.noise_clock=maxf(0,p.noise_clock-dt)
 		if p.noise_clock<=0:
 			_noise(p.pos,430,"TORPEDO RUN",0.25,p.band); p.noise_clock=0.2
-func _threats(dt: float) -> void:
+func _threats(dt: float) -> bool:
+	var vaporized=false # Per-tick terminal cause survives other actors' messages.
 	var observations=[];var fresh=[]
 	for s in sirens:
 		_use_band(s.band)
@@ -1157,7 +1210,7 @@ func _threats(dt: float) -> void:
 				if recipient_seen:
 					if Choir.applies(mission):Choir.damage(self,dt*18)
 					else:Recipient.damage(self,dt*18)
-				elif detected==0: hull=maxf(0,hull-dt*18)
+				elif detected==0: hull=0.0; outcome="lost";vaporized=true; message=VAPORIZED_TEXT; events.append({"type":"loss","pos":victim.pos})
 				else: units[detected].alive=false; s.lock=0; events.append({"type":"loss","pos":units[detected].pos}); message="%s lost · submarine camera remains available"%units[detected].name
 		else:
 			s.erase("recipient_target")
@@ -1186,6 +1239,7 @@ func _threats(dt: float) -> void:
 	_use_band(units[selected].band)
 	for guard in sirens:
 		if guard.has("report_interest"):Recon.seen(guard)
+	return vaporized
 
 func _heard_arrival(s:Dictionary)->Dictionary:
 	# Never consult player contacts or a hidden exact destination. A listener
@@ -1396,6 +1450,7 @@ static func valid_snapshot(data: Dictionary) -> bool:
 	for u in data.units:
 		if not u is Dictionary or not u.has_all(["pos","vel","angle","route","alive","hold","silent","battery","name"]): return false
 		if not u.pos is Vector2 or not u.vel is Vector2 or not u.route is Array: return false
+		if u.has("hit_at") and (not Sonar._number(u.hit_at) or u.hit_at<0 or u.hit_at>data.get("elapsed",0.)):return false
 		for w in u.route:
 			if not w is Dictionary or not w.has_all(["pos","stop"]) or not w.pos is Vector2: return false
 		if not RouteProgram.valid_unit(u,u==data.units[0],WorldRegion.size_of(data.mission)): return false
