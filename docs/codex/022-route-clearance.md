@@ -26,7 +26,7 @@ Either a proven planner clearance fix with a preview indicator, or a report plus
 PR into claude/integration; merge per the line above; mark DONE and update the board.
 
 ## Completion
-Work in progress. Branch: `claude/lane-nav-clearance`. Last pushed SHA: `d8860ffb1a52b1eba6e02e8641748683729241d2`. Draft PR: https://github.com/pemunson90-cmd/Siren-s-Song/pull/75.
+Work in progress. Branch: `claude/lane-nav-clearance`. Last pushed SHA: `16387159bc9ac29c2b02f561242ce3d945a56c00`. Draft PR: https://github.com/pemunson90-cmd/Siren-s-Song/pull/75.
 
 Reproduced a real unsafe plotted leg at fixed steps. Cold Foundry (index 3, display operation 4), start (889.6,800), destination extraction (1420,880): geometric minimum 11.803 m, inside the 12 m hull. The first safe AStar grid point was discarded, then the physical failsafe cancelled the accepted course. Exact original cold-review tap coordinates were not preserved; these are source-known reconstructed cases, not that original input trace.
 
@@ -34,4 +34,6 @@ Player-only flag retains the safe grid entry and validates emitted legs with the
 
 Self-contained `presentation/route_clearance/hull_band.gd` holds the footprint style table, read-only geometry and revert note. One draw call each in the main chart and route-program preview shows the physical 12 m radius band. Touch UI first RED 9/3, now GREEN 17/0 on cover/inner: actual waypoint tap, touch zoom, no simulation mutation, and Android Back cancellation. Back originally left the route panel open over the campaign menu; a deferred route-panel close now matches Escape and cancels pending touch. No keyboard-only path added.
 
-No collision, damage, hull or Siren rules/numbers changed. No photo-owned logic changed. Import clean; core and affected route/turn/collision/UI checks running. Physical Android hardware and rendered screenshot verification unavailable in this workspace so far. Preview reads only own accepted nodes, never hidden terrain. New test registration is deferred to 016 to avoid its shared-runner overlap with PR74. 016 stays blocked until Pat releases it; 018 stays Claude-owned.
+No collision, damage, hull or Siren rules/numbers changed. No photo-owned logic changed. Before DEPTH1 refresh: import clean, core 817/0, turn 22/0, route 35/0, collision 20/0, route UI 44/0, planner UI 34/0, challenge UI 86/0, NAV1 UI 17/0, expanded motion 84/0, final normal sweep 1145/0, strict bare Well 13/0 (full hull/no tools). One pre-existing route-program failure was reproduced on the unchanged baseline: it drove Quietus into parked Drone B and misclassified the collision impulse as an acceleration failure. Only the fixture was moved clear; all 35 assertions retained. Passing logs have no errors or leaked-resource lines.
+
+PR74 landed during verification. Merged current integration `7a95070` into this lane without conflicts and pushed as 1638715. Re-running affected checks on that integrated head before exact-head CI; no changes to Claude-owned feature logic. Physical Android hardware and rendered screenshot verification unavailable in this workspace so far. Preview reads only own accepted nodes, never hidden terrain. New test registration is deferred to 016 to avoid its shared-runner overlap with PR74. 016 stays blocked until Pat releases it; 018 stays Claude-owned.
