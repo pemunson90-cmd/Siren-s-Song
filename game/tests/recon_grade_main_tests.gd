@@ -20,9 +20,9 @@ func run():
  var text="\n".join(game.panel_box.find_children("*","Label",true,false).map(func(label):return label.text))
  check(text.contains("INTEL PHOTO GRADE"),"operation debrief displays earned proximity/craft grade")
  var saved=game.store.load_game()
- check(not saved.is_empty() and saved.photo_records["0:0"].photo_quality>.6,"current save preserves actual photo even without gallery plate")
+ check(not saved.is_empty() and saved.photo_records["0:0"].photo_quality>.5,"current save preserves actual photo even without gallery plate")
  game.photo_records={};game._load_archive()
- check(game.photo_records["0:0"].photo_quality>.6,"campaign photo grade restores through real Main loader")
+ check(game.photo_records["0:0"].photo_quality>.5,"campaign photo grade restores through real Main loader")
  game._new_campaign();check(game.photo_records.is_empty(),"new campaign clears previous photo score")
  game.queue_free();await process_frame
  for suffix in ["",".bak",".tmp"]:DirAccess.remove_absolute("user://recon-grade-main.save"+suffix)

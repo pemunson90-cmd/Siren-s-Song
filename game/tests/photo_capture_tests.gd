@@ -50,7 +50,7 @@ func _initialize():
 	turn.command("camera");run(turn,2.5)
 	check(not turn.mission.objectives[0].captured,"turning onto the subject delays a four second exposure")
 	run(turn,3)
-	check(turn.mission.objectives[0].captured and absf(angle_difference(turn.units[0].angle,turn.units[0].pos.angle_to_point(spire)))<1.35,"exposure completes after the turn, hull within the gimbal arc of the subject")
+	check(turn.mission.objectives[0].captured and absf(angle_difference(turn.units[0].angle,turn.units[0].pos.angle_to_point(spire)))<2.3,"exposure completes after the turn, hull within the gimbal arc of the subject")
 	# 4 / Framing: tight frames resolve one feature; wide frames cannot resolve fine detail.
 	var tight=fresh(0);put(tight,0,at(spire,facing,100),facing+PI)
 	tight.command("frame",{"mode":"tight","focus":"drill"});shoot(tight)

@@ -38,34 +38,34 @@ static func apply(m:Dictionary,id:int,context:Dictionary)->void:
 	match id:
 		0:
 			_tag(objs[0],S(2.74,90.0,0.5,["beacon"],[
-				F("beacon","BEACON LAMP",0.0,PI,0.06,0.0,{"glow":0.5,"gloss":"The beacon still pulses on battery."}),
+				F("beacon","BEACON LAMP",0.0,PI,0.04,0.0,{"glow":0.5,"gloss":"The beacon still pulses on battery."}),
 				F("drill","BROKEN DRILL STRING",0.0,1.1,0.38,-0.6,{"intel":"spire_wreck","gloss":"A drill string, snapped clean, ringing in the swell."}),
 				F("scoring","SCORED PLATING",PI,1.0,0.5,0.5,{"intel":"spire_scoring","gloss":"Deep parallel scoring on the lee plating. Not tool marks."})]),"spire","Corran Bank's emergency beacon, still on battery.")
 		1:
 			for n in 2:
 				_tag(objs[n],S(1.57,60.0,0.3,["housing"],[
-					F("housing","TRANSPONDER HOUSING",0.0,PI,0.06,0.0,{"glow":0.3}),
+					F("housing","TRANSPONDER HOUSING",0.0,PI,0.04,0.0,{"glow":0.3}),
 					F("clock","STOPPED CLOCK",0.0,1.2,0.4,0.4,{"intel":"relay_clock","gloss":"Its clock stopped when the riser parted."})]),["relay_west","relay_east"][n],"A seabed transponder, its log intact.")
 		3:
 			_tag(objs[0],S(1.57,80.0,0.6,["mouth"],[
-				F("mouth","VENT MOUTH",0.0,PI,0.06,0.0,{"glow":0.6}),
+				F("mouth","VENT MOUTH",0.0,PI,0.04,0.0,{"glow":0.6}),
 				F("lining","VENT LINING",0.0,1.0,0.45,0.4,{"intel":"foundry_lining","gloss":"The lining is grown, not cast."})]))
 			_tag(objs[1],S(0.9,110.0,0.3,["rails"],[
-				F("rails","RAILS",0.0,PI,0.08,-0.4,{"glow":0.2}),
+				F("rails","RAILS",0.0,PI,0.04,-0.4,{"glow":0.2}),
 				F("frames","OPEN FRAMES",0.0,1.2,0.42,0.4,{"intel":"cradle_frames","gloss":"Open frames stand ready on the rails, all still warm."})]))
 			var hatch=S(1.57,70.0,0.25,["hatch"],[F("hatch","HATCH SEAM",0.0,1.4,0.3,0.0,{"glow":0.6,"dwell":3.0,"window":[30.0,7.0,0.0],"intel":"base_cycle","gloss":"Every hatch seam opens together, then closes. The cycle repeats on a count of thirty."})])
 			objs.append({"pos":Vector2(1480,790),"name":"FRAME BAY HATCHES","captured":false,"optional":true,"kind":"","duration":34.0,"optical":"frame_cycle","site_id":"frame_cycle","subject":hatch,"evidence":"The bay hatches of the Siren base. Watch them across a full cycle."})
 			m.brief+=" The base is theirs, and it keeps a rhythm. An optional long observation of its frame bays pays for patience: hold the camera across a whole cycle from outside its reach."
 		4:
-			_tag(objs[0],S(0.6,100.0,0.2,["ribs"],[F("ribs","ARRAY RIBS",0.0,PI,0.08),F("count","RIB COUNT",0.0,1.0,0.4,0.4,{"intel":"well_array","gloss":"The ribs repeat a count, not a word."})]))
-			_tag(objs[1],S(0.0,80.0,0.2,["face"],[F("face","APERTURE",0.0,PI,0.08)]),"well_aperture","A dark aperture in the rim.")
-			_tag(objs[2],S(0.0,80.0,0.2,["face"],[F("face","ARCHIVE FACE",0.0,PI,0.08)]),"well_return","The rim's return archive.")
+			_tag(objs[0],S(0.6,100.0,0.2,["ribs"],[F("ribs","ARRAY RIBS",0.0,PI,0.04),F("count","RIB COUNT",0.0,1.0,0.4,0.4,{"intel":"well_array","gloss":"The ribs repeat a count, not a word."})]))
+			_tag(objs[1],S(0.0,80.0,0.2,["face"],[F("face","APERTURE",0.0,PI,0.04)]),"well_aperture","A dark aperture in the rim.")
+			_tag(objs[2],S(0.0,80.0,0.2,["face"],[F("face","ARCHIVE FACE",0.0,PI,0.04)]),"well_return","The rim's return archive.")
 		5:
 			_tag(objs[0],S(1.2,100.0,0.4,["vanes"],[
-				F("vanes","RESONATOR VANES",0.0,PI,0.08,-0.3,{"glow":0.4}),
+				F("vanes","RESONATOR VANES",0.0,PI,0.04,-0.3,{"glow":0.4}),
 				F("throat","CROWN THROAT",0.0,0.9,0.5,0.4,{"intel":"crown_throat","gloss":"Every vane aims into the trench."})]))
 			_tag(objs[1],S(0.0,160.0,0.2,["lines"],[
-				F("lines","WAKE LINES",0.0,PI,0.1,-0.3),
+				F("lines","WAKE LINES",0.0,PI,0.04,-0.3),
 				F("fracture","WARM FRACTURE",0.0,PI,0.35,0.5,{"need":"thermal","glow":0.5,"intel":"wake_fracture","gloss":"A warm fracture splits the wakes."})]))
 		16:
 			m.brief+=" The plant has to vent somewhere. Vey: our survey never found where."

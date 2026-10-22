@@ -724,6 +724,10 @@ func camera_context() -> Dictionary:
 	if Photo.applies(target):
 		var framed=Photo.frame(self,selected,target)
 		hint=" · SHARP %d%% LIGHT %d%%%s"%[roundi(framed.sharp*100),roundi(framed.light*100)," · TURN %d°"%roundi(rad_to_deg(framed.pivot)) if framed.pivot>0 else ""]
+		var weak:PackedStringArray=[]
+		for r in framed.rows:
+			if r.id in target.subject.get("required",[]) and not r.ready and not r.why.is_empty():weak.append("%s %s"%[r.label,r.why.to_lower()])
+		if not weak.is_empty():hint+=" · WILL NOT RESOLVE: "+", ".join(weak)
 	return {"target":best,"ready":true,"text":"READY · %s · %s %.0fs%s"%[target.name,"FIELD SAMPLE · AUDIBLE" if not Sampler.capture_spec(selected,mission.get("launch_equipment",{}),target).is_empty() else "passive listen" if target.get("kind","")=="receiver" else "TRANSMIT · AUDIBLE" if Operations.own_origin(target) else "exposure",_capture_duration(target,selected),hint]}
 # Well-specific optional comparison. Own motion and local reception only;
 # no Siren query, extra acoustic source or forced enemy intent.

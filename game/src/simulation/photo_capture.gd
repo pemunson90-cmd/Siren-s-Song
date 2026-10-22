@@ -43,7 +43,7 @@ static func siren_subject(s:Dictionary)->Dictionary:
 static func optics(sim,uid:int)->Dictionary:
 	var fit:Dictionary=sim.mission.get("launch_equipment",{})
 	var q=uid==0
-	var o={"range":240.0,"fov":1.05 if q else 1.45,"res":1.0 if q else 0.82,"lamp":0.36 if q else 0.12,"gimbal":1.3 if q else 2.9,"blur":1.0,"thermal":false,"flash":false,"integrate":0.0,"sweet":0.35 if q else 0.28}
+	var o={"range":240.0,"fov":1.05 if q else 1.45,"res":1.0 if q else 0.82,"lamp":0.36 if q else 0.12,"gimbal":2.2 if q else 3.0,"blur":1.0,"thermal":false,"flash":false,"integrate":0.0,"sweet":0.35 if q else 0.28}
 	if Equipment.has(fit,uid,"quietus_tele_lens"):
 		o.range*=1.5;o.fov=0.58;o.blur=1.7;o.sweet=0.42
 	if Equipment.has(fit,uid,"photo_flash"):o.flash=true

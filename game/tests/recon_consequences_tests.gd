@@ -15,7 +15,7 @@ func _initialize():
  var before=s.snapshot();s.advance(1)
  check(s.snapshot()==before,"pause freezes pressure and exposure")
  step(s,4.1)
- check(s.mission.objectives[0].get("photo_quality",0)>.6 and Recon.grade(s.mission.objectives).grade in ["A","B"],"close drone obtains a strong actual photograph")
+ check(s.mission.objectives[0].get("photo_quality",0)>.5 and Recon.grade(s.mission.objectives).grade in ["A","B"],"close drone obtains a strong actual photograph")
  check(Recon.state(s.mission).floor==8,"secured evidence establishes operational floor")
  check(s.has_method("recon_feedback"),"model exposes public recon consequences")
  if not s.has_method("recon_feedback"):

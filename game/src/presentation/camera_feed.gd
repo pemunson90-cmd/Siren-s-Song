@@ -8,6 +8,10 @@ const PHOSPHOR=Color("8cdcd3")
 const PhotoView=preload("res://src/presentation/photo_view.gd")
 const Photo=preload("res://src/simulation/photo_capture.gd")
 var _vm:Dictionary={}
+var _shot_count:=-1
+var _shot_seen_reset:=true
+var _filed_at:=-10.0
+var _filed:Dictionary={}
 var _frame:Dictionary={}
 var _vm_age:=1.0
 var _vm_key:=""
@@ -26,6 +30,11 @@ func _ready() -> void:
 	clip_contents=true; mouse_filter=Control.MOUSE_FILTER_STOP
 func _process(dt: float) -> void:
 	time+=dt;_vm_age+=dt;queue_redraw()
+	if sim!=null and sim.mission.has("id"):
+		var shots:Array=Photo.state(sim).shots
+		if shots.size()!=_shot_count:
+			if shots.size()>_shot_count and _shot_count>=0 and not _shot_seen_reset:_filed_at=time;_filed=shots.back()
+			_shot_count=shots.size();_shot_seen_reset=false
 # The subject this panel shows: the live exposure, else the viewfinder of the
 # selected craft when it has a photographic subject near.
 func subject_view() -> Dictionary:
@@ -39,7 +48,9 @@ func subject_view() -> Dictionary:
 	preview["live"]=false
 	return preview
 static func viewfinder_visible(state) -> bool:
-	return state!=null and (state.capture_unit>=0 or not Photo.preview(state,state.selected).is_empty())
+	if state==null:return false
+	if state.capture_unit>=0:return state.selected==state.capture_unit
+	return not Photo.preview(state,state.selected).is_empty()
 func _gui_input(event: InputEvent) -> void:
 	var tap=(event is InputEventMouseButton and event.pressed and event.button_index==MOUSE_BUTTON_LEFT) or (event is InputEventScreenTouch and event.pressed)
 	if not tap or sim==null:return
@@ -59,6 +70,17 @@ func _draw_photo(t:Dictionary) -> void:
 		_frame=Photo.frame(sim,uid,o,float(acc.get("t",0.0)),true)
 		_vm=PhotoView.from_frame(_frame,"siren" if o.has("siren") else "site")
 	PhotoView.draw(self,picture,_vm,time,fs)
+	var since:=time-_filed_at
+	if since>=0.0 and since<3.2 and not _filed.is_empty():
+		if since<0.18:draw_rect(picture,Color(1,1,1,0.85*(1.0-since/0.18)))
+		var good:bool=_filed.get("usable",true)
+		var bx0:=picture.position.x+8;var by0:=picture.position.y+picture.size.y*0.52
+		draw_rect(Rect2(bx0-4,by0-fs-4,picture.size.x-8,fs*2.6),Color(0.02,0.07,0.09,0.82))
+		draw_string(font,Vector2(bx0,by0),("FRAME %d FILED · QUALITY %d%%"%[int(_filed.id),roundi(float(_filed.q)*100)]) if good else "FRAME UNUSABLE · NOT FILED AS A RECORD",HORIZONTAL_ALIGNMENT_LEFT,picture.size.x-16,fs,Color("e0bf83") if good else Color("e08a73"))
+		var names:PackedStringArray=[]
+		for m in _filed.frame.marks:
+			if float(m.q)>0:names.append(str(m.label))
+		draw_string(font,Vector2(bx0,by0+fs+2),("RESOLVED " if not names.is_empty() else "NOTHING RESOLVED")+", ".join(names),HORIZONTAL_ALIGNMENT_LEFT,picture.size.x-16,fs-3,Color("a9c9c7"))
 	_buttons=[]
 	var cfg=Photo.settings(sim,uid);var op=Photo.optics(sim,uid)
 	var bx:=size.x-8.0;var bw:=maxf(70.0,fs*5.2);var bh:=28.0
