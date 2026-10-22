@@ -1,7 +1,6 @@
 extends SceneTree
 # Isolated navigation fixture: unchanged operation terrain and bare Quietus, no threats/drones.
 const Sim=preload("res://src/simulation/simulation.gd")
-const Measure=preload("res://tests/nav_clearance_probe.gd")
 var checks=0
 var failures=0
 func _initialize():
