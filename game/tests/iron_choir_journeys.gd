@@ -27,55 +27,86 @@ func work(s,action:String,seconds=8.2)->bool:
  var accepted=s.command("choir_action",{"action":action})
  if not accepted:print("WORK REJECT ",action," ",s.message);return false
  tick(s,seconds);return true
+func escort(s,dest:Vector2):
+ # Keep Quietus just ahead of the sled; the sled only advances while a craft is near.
+ for n in 4000:
+  var l=s.mission.iron_choir.load
+  if s.mission.iron_choir.receipt or not s.outcome.is_empty():break
+  s.command("route",{"point":l.pos+(dest-l.pos).limit_length(120)});tick(s,.5)
 func progress():return {"version":2,"route":"deep","routes":["deep"],"completed":[6,7,9,11,12,14,15,16,17,18,19],"facts":{"deep":"received carrier","confluence_route":"concealed","resolution":"concealed_recovery"},"notes":{},"references":{},"entitlements":[],"history":[],"selected_thread":"deep"}
-func journey(id:int,p:Dictionary):
+func journey(id:int,p:Dictionary,variant:String=""):
  var s=Sim.new();s.start(id,"endurance",{"context":Sim.Consequences.context(p)})
  # Explicit source-known staged access; actual physics/live threats/no profile edits.
  s.units[1].alive=false;s.units[2].alive=false;var tools=s.tools.duplicate()
  match id:
-  22,25:
-   if id==25 and not s.mission.iron_choir.sites[1].done:
-    check(course(s,[Vector2(350,600),Vector2(750,600)]),"bare reaches service berth "+str(id));check(work(s,"service"),"bare manual service "+str(id))
-   check(course(s,[Vector2(750,2050)]),"bare reaches physical release "+str(id));check(s.command("choir_action",{"action":"west"}),"deliberate west voyage "+str(id))
-   check(course(s,[Vector2(750,600),Vector2(750,300)]+([Vector2(2500,450)] if id==22 else [])),"bare escorts toward announced refuge "+str(id))
+  22:
+   check(course(s,[Vector2(750,2050)]),"bare reaches physical release");check(s.command("choir_action",{"action":"west"}),"deliberate west course released")
+   check(course(s,[Vector2(750,600),Vector2(750,300),Vector2(1800,390)]),"bare outruns the sled to its west lane gate");check(s.mission.iron_choir.load.pos.distance_to(Vector2(1800,390))>150,"sled is still on its way when the gate is reached")
+   check(work(s,"lock_a"),"bare opens the lane gate ahead of the sled")
+   check(course(s,[Vector2(2500,450)]),"bare reaches the refuge")
    for n in 24000:
     if s.mission.iron_choir.receipt or not s.outcome.is_empty():break
     tick(s,Sim.STEP)
-   check(s.mission.iron_choir.receipt,"actual locally observed living arrival "+str(id))
-   check(course(s,[Vector2(350,300),Vector2(300,2350)]),"bare returns after actual arrival "+str(id))
+   check(s.mission.iron_choir.receipt and s.mission.iron_choir.load.hull>=100.,"actual locally observed undamaged arrival")
+   check(course(s,[Vector2(350,300),Vector2(300,2350)]),"bare returns after actual arrival")
+  25:
+   if not s.mission.iron_choir.sites[1].done:
+    check(course(s,[Vector2(350,600),Vector2(750,600)]),"bare reaches service berth");check(work(s,"service"),"bare manual service")
+   check(course(s,[Vector2(750,2050)]),"bare reaches physical release");check(s.command("choir_action",{"action":"west"}),"deliberate west voyage")
+   escort(s,Vector2(750,300))
+   check(s.mission.iron_choir.receipt and s.mission.iron_choir.load.hull>0.,"escorted sled actually arrives and is observed")
+   check(course(s,[Vector2(350,300),Vector2(300,2350)]),"bare returns after actual arrival")
   23:
-   for site in s.mission.iron_choir.sites:
-    check(go(s,site.pos+Vector2(0,35)),"bare reaches equalizer "+site.id);check(work(s,site.id),"bare physical equalizer "+site.id)
-   check(course(s,[Vector2(2750,700),Vector2(2750,2450),Vector2(300,2450),Vector2(300,2350)]),"bare return after lock work")
+   var st=s.mission.iron_choir.sites
+   check(go(s,st[0].pos+Vector2(0,35)),"bare reaches lock_a below first bulkhead");check(work(s,"lock_a"),"bare cycles lock_a at middle depth")
+   check(course(s,[Vector2(650,1785),Vector2(1250,1385)]),"bare climbs through opened bulkhead to the shallow valve")
+   check(s.command("depth",{"band":0}),"bare rises to shallow");tick(s,4.2);check(work(s,"lock_b"),"bare cycles lock_b from shallow")
+   check(course(s,[Vector2(1430,1195),Vector2(2400,800)]),"bare passes second bulkhead in shallow water")
+   check(s.command("depth",{"band":1}),"bare drops to middle");tick(s,4.2);check(s.command("depth",{"band":2}),"bare drops to deep");tick(s,4.2)
+   check(go(s,Vector2(2400,690)),"bare reaches deep valve");check(work(s,"lock_c"),"bare cycles lock_c from deep")
+   check(s.command("depth",{"band":1}),"bare surfaces to middle");tick(s,4.2)
+   check(course(s,[Vector2(1430,1195),Vector2(1430,1500),Vector2(650,1785),Vector2(650,2000),Vector2(300,2350)]),"bare returns down the opened stair")
   24:
    check(go(s,Vector2(750,2140)) and s.command("choir_action",{"action":"attach"}),"bare attaches ballast without gear")
    check(course(s,[Vector2(750,2450),Vector2(2750,2450),Vector2(2750,500),Vector2(2450,500)]),"bare moves actual broad ballast by outside water")
    check(work(s,"bypass"),"actual ballast socket chooses bypass")
    check(course(s,[Vector2(2750,500),Vector2(2750,2450),Vector2(300,2450),Vector2(300,2350)]),"bare ballast recovery return")
   26:
-   check(course(s,[Vector2(350,350),Vector2(1450,465)]),"actual spindle approach")
-   check(s.command("depth",{"band":2}),"physical spindle depth change");tick(s,4.2)
+   check(course(s,[Vector2(350,1000)]) and s.command("depth",{"band":2}),"bare dives outside the sump");tick(s,4.2)
+   check(course(s,[Vector2(350,425),Vector2(1100,425),Vector2(1450,470)]),"bare reaches spindle by the deep west opening")
    check(work(s,"recover",4.2),"actual deep spindle winch")
-   check(s.command("depth",{"band":1}),"material carrier returns middle");tick(s,4.2)
-   check(course(s,[Vector2(1450,350),Vector2(350,350),Vector2(300,2350)]),"physical material returns to recovery")
+   check(course(s,[Vector2(1100,425),Vector2(700,425)]) and s.command("depth",{"band":1}),"carrier leaves the basin before surfacing");tick(s,4.2)
+   check(course(s,[Vector2(350,350),Vector2(300,2350)]),"physical material returns to recovery")
   27:
    check(go(s,Vector2(750,1790)) and s.command("choir_action",{"action":"attach"}),"actual counterweight attach")
+   check(course(s,[Vector2(750,1250)]) and work(s,"lock_a"),"counterweight chocked on the ledge")
    check(course(s,[Vector2(750,700),Vector2(1250,700)]),"actual counterweight transport")
    check(work(s,"cradle"),"counterweight physically exposes core");check(work(s,"recover",4.2),"actual traction core winch")
    check(course(s,[Vector2(750,700),Vector2(350,700),Vector2(300,2350)]),"actual traction return")
   28:
    check(go(s,Vector2(750,2140)) and s.command("choir_action",{"action":"attach"}),"occupied bell attaches physically")
-   check(course(s,[Vector2(750,550),Vector2(700,500)]) and work(s,"land"),"occupied people physically land")
-   check(course(s,[Vector2(350,500),Vector2(300,2350)]),"crew landing account returns")
+   check(course(s,[Vector2(880,1980),Vector2(900,1500),Vector2(650,1250)]) and work(s,"lock_a"),"first decompression stop")
+   check(course(s,[Vector2(650,1100),Vector2(900,1050),Vector2(900,850)]) and work(s,"lock_b"),"second decompression stop")
+   check(course(s,[Vector2(700,760),Vector2(700,500)]) and work(s,"land"),"occupied people physically land through the S gallery")
+   check(course(s,[Vector2(450,500),Vector2(450,1500),Vector2(300,2350)]),"crew landing account returns")
   29:
-   check(course(s,[Vector2(300,2450),Vector2(2750,2450),Vector2(2750,500),Vector2(2450,500)]),"actual plant approach")
-   check(work(s,"reconnect"),"real plant reconnection")
-   check(course(s,[Vector2(2750,500),Vector2(2750,2450),Vector2(300,2450),Vector2(300,2350)]),"plant account recovers")
+   if variant=="dismantle":
+    check(course(s,[Vector2(500,2000),Vector2(850,1500),Vector2(700,1285)]),"bare reaches the western feed room")
+    check(work(s,"dismantle") and s.mission.iron_choir.choice=="dismantle","feed room dismantle commits")
+    check(course(s,[Vector2(850,1500),Vector2(500,2000),Vector2(300,2350)]),"dismantle account recovers")
+   else:
+    check(course(s,[Vector2(700,2250)]) and work(s,"lock_c"),"far breaker thrown")
+    check(course(s,[Vector2(300,2450),Vector2(2750,2450),Vector2(2750,500),Vector2(2450,500)]),"actual plant approach inside the window")
+    check(work(s,"reconnect"),"real plant reconnection")
+    check(course(s,[Vector2(2750,500),Vector2(2750,2450),Vector2(300,2450),Vector2(300,2350)]),"plant account recovers")
  check(s.outcome=="won" and s.hull>0 and s.tools==tools and s.mission.launch_equipment.values().all(func(v):return v==""),"actual baseline no-tool/no-fitting industrial finish "+str(id))
  check(Sim.valid_snapshot(s.snapshot()),"finished industrial state save valid "+str(id))
  print("IRON JOURNEY id=",id," outcome=",s.outcome," time=",s.elapsed," hull=",s.hull," oxygen=",s.oxygen," message=",s.message)
  return s
 func _initialize():
+ for arg in OS.get_cmdline_user_args():
+  if arg.begins_with("--only="):
+   var p=progress();p.completed.append_array([22,23,24]);p.facts.choir_choice="isolate";journey(int(arg.trim_prefix("--only=")),p);print("ONLY CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0);return
  var p=progress();check(Campaign.valid(p),"staged received history is a valid campaign")
  for id in [22,26,23,27,28,24,29,25]:
   check(id in Campaign.available([0,1,2,3,4,5],p),"ordinary recovered prerequisite offers "+str(id))
@@ -86,6 +117,8 @@ func _initialize():
  var bare_history=progress();bare_history.completed.append_array([22,23,24]);bare_history.facts.choir_choice="isolate"
  var bare_finale=journey(25,bare_history)
  check(bare_finale.outcome=="won" and bare_finale.mission.iron_choir.sites[1].done,"bare finale also finishes with no optional people/plant returns")
+ var plant_cut=journey(29,progress(),"dismantle")
+ check(plant_cut.mission.iron_choir.choice=="dismantle" and plant_cut.outcome=="won","29 splits into a distinct bare dismantle route")
  var opposite=Sim.new();opposite.start(24,"endurance",{"context":Sim.Consequences.context(p)});opposite.sirens=[]
  # Stage only the replay's local starting access; perform actual socket work/return.
  opposite.units[1].alive=false;opposite.units[2].alive=false;opposite.units[0].pos=Vector2(2500,1885);opposite.mission.iron_choir.load.pos=Vector2(2500,1850)
