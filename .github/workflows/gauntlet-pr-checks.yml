@@ -92,6 +92,7 @@ jobs:
             grep -Eq "^$summary CHECKS [1-9][0-9]* FAILURES 0$" "$log"
           done <<'UI_SCENARIOS'
           runtime_tests|RUNTIME
+          onboarding_tests|ONBOARDING
           fleet_instruments_ui_tests|FLEET INSTRUMENTS UI
           fleet_ring_ui_tests|FLEET RING UI
           campaign_instruments_ui_tests|CAMPAIGN INSTRUMENT UI

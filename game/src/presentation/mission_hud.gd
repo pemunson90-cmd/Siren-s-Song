@@ -46,6 +46,9 @@ var touch_height=48.
 var fleet
 var recovery_box:VBoxContainer
 var recovery_buttons:Array=[]
+var guard
+var hints
+var text_scale=1.0
 func setup(owner):
  host=owner;mouse_filter=Control.MOUSE_FILTER_IGNORE
  blocker=Control.new();blocker.mouse_filter=Control.MOUSE_FILTER_STOP;add_child(blocker);blocker.gui_input.connect(_outside)
@@ -96,8 +99,10 @@ func setup(owner):
  var alert_style=StyleBoxFlat.new();alert_style.bg_color=Color(.12,.025,.015,.94);alert_style.border_color=Color("b26b52");alert_style.set_border_width_all(1);alert_style.content_margin_left=10;alert_style.content_margin_right=10;alarm.add_theme_stylebox_override("normal",alert_style)
  warning_style=alert_style
  pressure_style=StyleBoxFlat.new();pressure_style.bg_color=Color(0,0,0,0);pressure_style.content_margin_left=10;pressure_style.content_margin_right=10
- intent=host._label(self,"",18);intent.mouse_filter=Control.MOUSE_FILTER_IGNORE;intent.text_overrun_behavior=TextServer.OVERRUN_TRIM_ELLIPSIS
+ intent=host._label(self,"",18);intent.mouse_filter=Control.MOUSE_FILTER_IGNORE;intent.text_overrun_behavior=TextServer.OVERRUN_NO_TRIMMING;intent.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
  fleet=preload("res://src/presentation/fleet_instruments.gd").new();add_child(fleet);fleet.setup(host);host.ocean.fleet_instruments=fleet
+ guard=preload("res://src/presentation/order_guard.gd").new();add_child(guard);guard.setup(host)
+ hints=preload("res://src/presentation/onboarding_hints.gd").new();add_child(hints);hints.setup(host)
 func _selected_craft():
  if host.advanced_orders:open("craft",{"kind":"craft","unit":host.sim.selected,"pos":host.sim.units[host.sim.selected].pos})
 func open_recovery(destinations:Array):
@@ -294,27 +299,28 @@ func command_controls() -> Array:
  return controls
 func layout(bounds:Vector2,h:float):
  position=Vector2.ZERO;size=bounds;touch_height=h
- var font=maxi(14,roundi(h*.26))
+ text_scale=preload("res://src/presentation/frontend/frontend_settings.gd").text_scale()
+ var font=maxi(14,roundi(h*.26*text_scale));var bw=h*1.55*text_scale;var bh=h*maxf(1.,text_scale*.9)
  for b in host.order_buttons.values()+host.unit_buttons+extra.values()+[close_button,focus_button,host.pause_button,host.advanced_button]+host.zoom_buttons:
   b.mouse_filter=Control.MOUSE_FILTER_IGNORE if b in command_controls() else Control.MOUSE_FILTER_STOP
-  b.hide();b.custom_minimum_size=Vector2(h*1.55,h);b.size=Vector2(h*1.55,h);b.add_theme_font_size_override("font_size",font)
+  b.hide();b.custom_minimum_size=Vector2(bw,bh);b.size=Vector2(bw,bh);b.add_theme_font_size_override("font_size",font)
   b.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
   var normal=StyleBoxFlat.new();normal.bg_color=Color(0,0,0,0);normal.set_content_margin_all(2)
   var hover=normal.duplicate();hover.bg_color=Color(.2,.62,.65,.14)
   b.add_theme_stylebox_override("normal",normal);b.add_theme_stylebox_override("hover",hover);b.add_theme_stylebox_override("pressed",hover);b.add_theme_stylebox_override("disabled",normal)
   b.add_theme_color_override("font_outline_color",Color("041019"));b.add_theme_constant_override("outline_size",3)
  host.status_label.hide();host.log_label.hide()
- host.pause_button.show();host.pause_button.position=Vector2(12,12);host.pause_button.size=Vector2(h*1.55,h)
- host.advanced_button.visible=not host.advanced_orders;host.advanced_button.position=Vector2(bounds.x-1.55*h-12,12);host.advanced_button.size=Vector2(h*1.55,h)
+ host.pause_button.show();host.pause_button.position=Vector2(12,12);host.pause_button.size=Vector2(bw,bh)
+ host.advanced_button.visible=not host.advanced_orders;host.advanced_button.position=Vector2(bounds.x-bw-12,12);host.advanced_button.size=Vector2(bw,bh)
  var line_height=ceili(intent.get_theme_font("font").get_height(font))
- intent.position=Vector2(16,bounds.y-line_height*2-14);intent.size=Vector2(bounds.x-32,line_height*2+8);intent.add_theme_font_size_override("font_size",font)
+ intent.position=Vector2(16,bounds.y-line_height*2-14);intent.size=Vector2(bounds.x-32,line_height*2+8);intent.add_theme_font_size_override("font_size",font);intent.custom_minimum_size=Vector2(bounds.x-32,line_height*2+8)
  intent.visible=not host.advanced_orders
  blocker.position=Vector2.ZERO;blocker.size=bounds;blocker.visible=host.advanced_orders
  ring_buttons=command_controls()
  anchor=host.ocean.screen_position(subject.get("pos",host.sim.units[host.sim.selected].pos))
- ring_radius=h*2.25
- var edge=Vector2(h*3.1,h*2.9)
- var minimum=Vector2(edge.x,minf(h*3.85+20,bounds.y-edge.y))
+ ring_radius=h*2.25*text_scale
+ var edge=Vector2(h*3.1,h*2.9)*text_scale
+ var minimum=Vector2(edge.x,minf(h*3.85*text_scale+20,bounds.y-edge.y))
  center=anchor.clamp(minimum,bounds-edge)
  if page in ["inspect","signals","recovery"]:center=Vector2(bounds.x*.5,bounds.y*.5)
  if host.advanced_orders:
@@ -332,8 +338,16 @@ func layout(bounds:Vector2,h:float):
   _schedule_sheet_fit()
   close_button.position=Vector2(center.x-h*.775,minf(bounds.y-h-16,sheet.position.y+sheet.size.y+8));sheet.move_to_front();close_button.move_to_front()
  for label in [host.title_label,host.detail_label,instrument_info]:label.add_theme_font_size_override("font_size",font)
- alarm.position=Vector2(h*1.55+32,12);alarm.size=Vector2(maxf(1,bounds.x-h*6.-64),h);alarm.add_theme_font_size_override("font_size",font)
+ alarm.position=Vector2(bw+32,12);alarm.size=Vector2(maxf(1,bounds.x-h*6.*text_scale-64),h);alarm.add_theme_font_size_override("font_size",font)
  host.pause_button.move_to_front();alarm.move_to_front();refresh();queue_redraw()
+# Status text wraps to as many lines as it needs (capped) and grows upward from the bottom edge.
+func _fit_intent():
+ if intent==null or not intent.visible or size.x<=0:return
+ var font=intent.get_theme_font_size("font_size");var line=ceili(intent.get_theme_font("font").get_height(font))
+ var wide=maxf(1.,size.x-32)
+ var needed=intent.get_theme_font("font").get_multiline_string_size(intent.text,HORIZONTAL_ALIGNMENT_LEFT,wide,font).y
+ var height=clampf(ceil(needed)+8,line*2+8,line*5+8)
+ intent.custom_minimum_size=Vector2(wide,height);intent.size=Vector2(wide,height);intent.position=Vector2(16,size.y-height-14)
 func _schedule_sheet_fit():
  if sheet_fit_pending:return
  sheet_fit_pending=true;call_deferred("_fit_sheet")
@@ -513,16 +527,22 @@ func refresh():
  alarm.add_theme_stylebox_override("normal",warning_style if host.advanced_orders else pressure_style)
  alarm.add_theme_color_override("font_color",Color("ffb99b") if host.advanced_orders else Color("bbaa82"))
  var alert_font=alarm.get_theme_font_size("font_size")
- alarm.size=Vector2(maxf(1,size.x-touch_height*6.-64),touch_height) if host.advanced_orders else Vector2(minf(size.x-touch_height*3.1-56,ThemeDB.fallback_font.get_string_size(alarm.text,HORIZONTAL_ALIGNMENT_LEFT,-1,alert_font).x+22),ThemeDB.fallback_font.get_height(alert_font)+8)
+ alarm.size=Vector2(maxf(1,size.x-touch_height*6.*text_scale-64),touch_height) if host.advanced_orders else Vector2(minf(size.x-touch_height*3.1*text_scale-56,ThemeDB.fallback_font.get_string_size(alarm.text,HORIZONTAL_ALIGNMENT_LEFT,-1,alert_font).x+22),ThemeDB.fallback_font.get_height(alert_font)+8)
  var blocked=[]
  for button in action_controls().values():
   if button not in fleet.buttons:blocked.append(Rect2(button.global_position-global_position,button.size))
  for label in [intent,alarm]:
   if label.visible:blocked.append(label.get_rect())
+ for aid in [guard.panel,guard.undo_button,hints.panel]:
+  if aid.visible:blocked.append(Rect2(aid.global_position-global_position,aid.size))
  for rect in host.ocean.contact_readout_rects():blocked.append(rect)
  if host.ocean.optical_feed.is_visible_in_tree():blocked.append(host.ocean.optical_feed.get_rect())
  fleet.visible=not host.advanced_orders and not host.decoy_armed and not host.knock_armed
  if not host.decoy_armed and not host.knock_armed:intent.text+="\n"+sim.Depth.context(sim)
+ _fit_intent()
+ var aid_font=maxi(14,roundi(touch_height*.26*text_scale))
+ guard.refresh(size,touch_height,aid_font,intent.position.y if intent.visible else size.y)
+ hints.refresh(size,touch_height,aid_font,host.ocean.instrument_top+touch_height+8)
  fleet.refresh(blocked)
  host.ocean.ui_blocked_rects=occupied_rects().map(func(r):return Rect2(r.position-host.ocean.global_position,r.size))
  if host.decoy_armed or host.knock_armed:
@@ -536,7 +556,7 @@ func refresh():
 
 func _draw():
  if host==null or not host.advanced_orders:return
- var h=touch_height;var font=ThemeDB.fallback_font;var text_size=maxi(14,roundi(h*.26))
+ var h=touch_height;var font=ThemeDB.fallback_font;var text_size=maxi(14,roundi(h*.26*text_scale))
  var tether=anchor.clamp(Vector2.ONE*12,size-Vector2.ONE*12)
  draw_line(tether,center,Color(.3,.8,.8,.32),1.5)
  draw_circle(tether,5,Color("80cbc8"),false,1.5)
@@ -567,9 +587,22 @@ func _draw():
  elif subject.get("subkind","")=="rendezvous_hull":
   var hull=Rendezvous.projection(host.sim).hull
   if not hull.is_empty():caption=str(hull.phase).to_upper()+" · LOCAL FIX" if hull.live else "STALE · %ds AGO"%floori(hull.age)
- for n in (3 if page=="plant" else 2):
-  var text=title if n==0 else caption if n==1 else WarningChain.radial_state(WarningChain.context(host.sim));var width=font.get_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,-1,text_size).x
+ var lines=[title,caption]
+ if page=="plant":lines.append(WarningChain.radial_state(WarningChain.context(host.sim)))
+ elif page=="craft" and host.order_buttons.camera in ring_buttons:lines.append_array(camera_caption())
+ for n in lines.size():
+  var text=lines[n];var width=font.get_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,-1,text_size).x
   draw_string(font,center+Vector2(-width/2,-h*.65+n*(text_size+5)),text,HORIZONTAL_ALIGNMENT_LEFT,-1,text_size,Color("a8d9d5"))
+# What the contextual action is and what it will aim at, shown before the tap (two short lines).
+func camera_caption() -> Array:
+ var sim=host.sim;var button=host.order_buttons.camera
+ var verb=button.text.replace("\n"," ")
+ var context=sim.camera_context();var target=int(context.get("target",-1))
+ if target==-2:return [verb,"▸ SIREN S%d"%(int(context.get("siren",0))+1)]
+ if target>=0 and target<sim.mission.objectives.size():
+  var site=sim.mission.objectives[target]
+  return [verb,"▸ %s %dm"%[str(site.name).to_upper().substr(0,16),roundi(sim.units[sim.selected].pos.distance_to(site.pos))]]
+ return [verb,"▸ NO SITE IN RANGE"]
 func action_controls() -> Dictionary:
  var result={}
  for c in find_children("*","Button",true,false)+host.zoom_buttons:
@@ -578,6 +611,7 @@ func action_controls() -> Dictionary:
  return result
 func blocks(point:Vector2) -> bool:
  if host.advanced_orders:return true
+ if guard!=null and (guard.blocks(point) or hints.blocks(point)):return true
  for b in action_controls().values():
   if b.get_global_rect().has_point(point):return true
  return host.ocean.optical_feed!=null and host.ocean.optical_feed.is_visible_in_tree() and host.ocean.optical_feed.get_global_rect().has_point(point)

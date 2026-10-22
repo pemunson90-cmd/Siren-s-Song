@@ -94,8 +94,12 @@ func _title_screen() -> void:
 	_text("ONE PILOT. TWO DRONES. AN OCEAN THAT LISTENS.", 14)
 	if not profile_message.is_empty():
 		var notice := _text(profile_message, 16, Color("efc28d")); notice.name = "ProfileNotice"
-	_button("CONTINUE", _continue, "frontend_continue", profile == Profile.NONE or profile == Profile.UNREADABLE)
-	_button("NEW CAMPAIGN", _new_campaign, "frontend_new_campaign")
+	if profile == Profile.NONE:
+		# First launch: there is nothing to continue and nothing to erase.
+		_button("START GAME", _new_campaign, "frontend_new_campaign")
+	else:
+		_button("CONTINUE", _continue, "frontend_continue", profile == Profile.UNREADABLE)
+		_button("ERASE PROGRESS · NEW CAMPAIGN", _new_campaign, "frontend_new_campaign")
 	_button("SETTINGS", _settings_screen, "frontend_settings")
 	_button("CREDITS", _credits_screen, "frontend_credits")
 func _dismiss() -> void:
