@@ -1,9 +1,9 @@
 # Handoff 002: remove old plot leftovers, apply renames, keep text as placeholders
 
-Status: OPEN
+Status: DONE
 Claimed at:
 Claimed by:
-Finished at:
+Finished at: 2026-10-22 (Claude agent, PR 62 merged)
 
 Precondition: run `git log -1 --format=%cr origin/claude/lane-s3b-text`. If the newest commit is under 90 minutes old, a Claude worker may still be active on this branch: do not claim, skip to the next OPEN handoff, and if none remain tell Pat.
 Codex may merge: yes, same rule, after you open the pull request into claude/integration.
