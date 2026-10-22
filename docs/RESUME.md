@@ -1,3 +1,5 @@
+**FIRST ACTION ON RESUME: read docs/SESSION_LEDGER_2026-10-21.md (full handoff, supersedes the older blocks below where they differ).**
+
 # RESUME (living handoff; updated at each merge; if usage ends this is the state)
 
 Status: RUNNING (resumed 21 Oct after usage ended; earlier lane workers had died, WIP snapshotted and pushed, fresh workers dispatched). Branch: `claude/integration`. Lane table: docs/LANES.md.
