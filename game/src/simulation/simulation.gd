@@ -260,7 +260,7 @@ func _hull_contacts(u:Dictionary,origin:Vector2,velocity:Vector2)->void:
 		return
 func observable_sites() -> Array:
 	if Chain.applies(mission):return mission.objectives.slice(0,2).duplicate(true)
-	return mission.objectives.duplicate(true)
+	return mission.objectives.map(func(o):return Photo.masked(o)).duplicate(true)
 func signal_readings() -> Array:
 	return SignalField.readings(self)
 func extraction_corridors() -> Array:
@@ -749,7 +749,7 @@ func camera_context() -> Dictionary:
 	var candidate=best if best>=0 else nearest
 	if Witness.applies(mission) and mission.objectives[candidate].get("site_id","")=="witness_packet":return {"target":candidate,"ready":false,"text":Witness.context(self,selected).winch.reason}
 	var owner=capture_at_target(candidate)
-	if owner.unit>=0:return {"target":candidate,"ready":false,"text":"%s · %s already acquiring this record"%[mission.objectives[candidate].name,units[owner.unit].name]}
+	if owner.unit>=0:return {"target":candidate,"ready":false,"text":"%s · %s already acquiring this record"%[Photo.label(mission.objectives[candidate]),units[owner.unit].name]}
 	if mission.get("blackwater_revision",0)==1:
 		var id=best if best>=0 else nearest
 		return {"target":id,"ready":blackwater_context(id).ready,"text":_blackwater_context_text(id,selected)}
@@ -757,7 +757,8 @@ func camera_context() -> Dictionary:
 		return {"target":nearest,"ready":false,"text":"TRANSMISSION SECTOR · Quietus chooses clear water inside the charted sector; settle below 12m/s"}
 	if best<0:
 		var target=mission.objectives[nearest]
-		return {"target":nearest,"ready":false,"text":"%s · %dm away / %dm range%s"%[target.name,roundi(distance),roundi(Photo.reach(self,selected))," · view blocked by cover" if not line_clear(unit.pos,target.pos) else ""]}
+		if Photo.stage(target)=="lead":return {"target":nearest,"ready":false,"text":"%s · search the marked area · the camera reaches %dm"%[Photo.label(target),roundi(Photo.reach(self,selected))]}
+		return {"target":nearest,"ready":false,"text":"%s · %dm away / %dm range%s"%[Photo.label(target),roundi(distance),roundi(Photo.reach(self,selected))," · view blocked by cover" if not line_clear(unit.pos,target.pos) else ""]}
 	var target=mission.objectives[best]
 	if target.get("required_unit",selected)!=selected and Sampler.capture_spec(selected,mission.get("launch_equipment",{}),target).is_empty():
 		return {"target":best,"ready":false,"text":target.get("unit_requirement","Quietus must operate the archive uplink. Bring the submarine to this anchor.")}
@@ -774,7 +775,7 @@ func camera_context() -> Dictionary:
 		for r in framed.rows:
 			if r.id in target.subject.get("required",[]) and not r.ready and not r.why.is_empty():weak.append("%s %s"%[r.label,r.why.to_lower()])
 		if not weak.is_empty():hint+=" · WILL NOT RESOLVE: "+", ".join(weak)
-	return {"target":best,"ready":true,"text":"READY · %s · %s %.0fs%s"%[target.name,"FIELD SAMPLE · AUDIBLE" if not Sampler.capture_spec(selected,mission.get("launch_equipment",{}),target).is_empty() else "passive listen" if target.get("kind","")=="receiver" else "TRANSMIT · AUDIBLE" if Operations.own_origin(target) else "exposure",_capture_duration(target,selected),hint]}
+	return {"target":best,"ready":true,"text":"READY · %s · %s %.0fs%s"%[Photo.label(target),"FIELD SAMPLE · AUDIBLE" if not Sampler.capture_spec(selected,mission.get("launch_equipment",{}),target).is_empty() else "passive listen" if target.get("kind","")=="receiver" else "TRANSMIT · AUDIBLE" if Operations.own_origin(target) else "exposure",_capture_duration(target,selected),hint]}
 # Well-specific optional comparison. Own motion and local reception only;
 # no Siren query, extra acoustic source or forced enemy intent.
 func _well_signature_observe() -> void:

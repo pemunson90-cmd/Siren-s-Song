@@ -11,12 +11,13 @@ static func valid_shots(shots)->bool:
 	for shot in shots:
 		if not shot is Dictionary or not shot.has_all(["q","features","key","frame"]) or not shot.frame is Dictionary:return false
 		if not shot.frame.get("cols") is Array or shot.frame.cols.size()!=COLS or not (shot.q is float or shot.q is int):return false
+		if shot.has("findings") and not preload("res://src/simulation/photo_findings.gd").valid_list(shot.findings):return false
 	return true
 # View model from a live Photo.frame() result.
 static func from_frame(f:Dictionary,kind:String="site",key:String="",type:String="")->Dictionary:
 	var marks=[]
 	for r in f.rows:
-		if r.apparent:marks.append({"id":r.id,"x":r.x,"q":r.q if r.ready else 0.0,"label":r.label if r.ready else "","why":r.why,"art":r.get("art",""),"y":r.get("y",0.4)})
+		if r.apparent:marks.append({"id":r.id,"x":r.x,"q":r.q if r.ready else 0.0,"label":r.label if r.ready else "","why":r.why,"art":r.get("art",""),"y":r.get("y",0.4),"find":""})
 	return {"cols":f.get("cols",[]),"fov":f.fov,"u":clampf(angle_difference(f.aim,f.bearing)/maxf(f.fov*0.5,0.01),-1.6,1.6),"dist":f.dist,"size":f.size,"aspect":f.aspect,"light":f.light,"clarity":f.clarity,"sharp":f.sharp,"marks":marks,"kind":kind,"key":key,"type":type,"seed":int(f.dist)%97,"mode":f.mode,"flash":f.flash,"craft":f.craft,"live":true,"pivot":f.pivot,"glow":f.get("glow",0.0),"depth":f.get("depth",0.5),"thermal":f.get("thermal",false)}
 # View model from a stored shot.
 static func from_shot(shot:Dictionary)->Dictionary:

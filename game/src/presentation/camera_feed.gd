@@ -113,7 +113,7 @@ func _draw_photo(t:Dictionary) -> void:
 		for r in _frame.get("rows",[]):
 			if r.apparent and not r.ready and not r.why.is_empty():status="%s: %s"%[r.label,r.why];break
 	status=fit_caption(status,size.x-20,fs-2)
-	draw_string(font,Vector2(10,size.y-30),fit_caption(str(o.name),size.x-90,fs),HORIZONTAL_ALIGNMENT_LEFT,-1,fs,Color("e0bf83"))
+	draw_string(font,Vector2(10,size.y-30),fit_caption(Photo.label(o) if Photo.applies(o) else str(o.name),size.x-90,fs),HORIZONTAL_ALIGNMENT_LEFT,-1,fs,Color("e0bf83"))
 	if live:
 		var progress:=acquisition_progress(sim)
 		draw_string(font,Vector2(size.x-62,size.y-30),"%02d%%"%int(progress*100),HORIZONTAL_ALIGNMENT_LEFT,-1,fs,PHOSPHOR)

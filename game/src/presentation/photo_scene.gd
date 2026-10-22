@@ -68,6 +68,10 @@ static func draw(ci:CanvasItem,rect:Rect2,vm:Dictionary,time:float,font_size:int
 			if art.is_empty():art=str(ART.get(str(mark.id),"none"))
 			var alpha:float=clampf((dev-visible_at)/0.15+0.4,0.4,1.0) if dev<1.0 else 1.0
 			_feature(ctx,art,Vector2(mx,my),q,alpha)
+			if not str(mark.get("find","")).is_empty():
+				var d:Vector2=Vector2(mx,my-22.0)
+				ci.draw_colored_polygon(PackedVector2Array([d+Vector2(0,-7),d+Vector2(7,0),d+Vector2(0,7),d+Vector2(-7,0)]),Color(AMBER,0.92*alpha))
+				ci.draw_string(font,d+Vector2(-3,4),"!",HORIZONTAL_ALIGNMENT_LEFT,-1,10,Color(0.05,0.07,0.08))
 			if font_size>=10 and not str(mark.label).is_empty() and bool(vm.get("labels",true)):
 				_tag(ci,font,rect,Vector2(mx,my),str(mark.label),font_size,index)
 		elif q<=0.0:

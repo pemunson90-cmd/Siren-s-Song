@@ -881,6 +881,8 @@ func _evidence_gallery(index: int,shot_index:int=-1,compare:bool=false) -> void:
 			var plate=PhotoView.Plate.new();plate.vm=PhotoView.from_shot(shots[at if n==0 else other]);plate.title="FRAME %d"%((at if n==0 else other)+1)
 			plate.size_flags_horizontal=Control.SIZE_EXPAND_FILL;plate.custom_minimum_size=Vector2(0,plate_height);row.add_child(plate)
 		_menu_text(_shot_report(shots[at],at,shots.size()),16)
+		var learned:=_shot_findings(shots[at])
+		if not learned.is_empty():_menu_text(learned,17)
 		if compare and shots.size()>1:_menu_text(_shot_difference(shots[at],shots[other],at,other),16)
 		if shots.size()>1:
 			_button(panel_box,"NEXT FRAME",func(): _evidence_gallery(index,(at+1)%shots.size(),compare),"next_shot")
@@ -901,6 +903,14 @@ func _shot_report(shot:Dictionary,at:int,total:int) -> String:
 	var how:="%s · %dm · aspect %d° · %s%s"%[shot.craft,roundi(float(shot.dist)),roundi(rad_to_deg(float(shot.aspect))),str(shot.mode).to_upper()," · flash" if shot.flash else ""]
 	var water:="light %d%% · clarity %d%% · sharp %d%%"%[roundi(float(shot.light)*100),roundi(float(shot.clarity)*100),roundi(float(shot.sharp)*100)]
 	return "FRAME %d OF %d · QUALITY %d%%%s\n%s\n%s\nRESOLVED: %s"%[at+1,total,roundi(float(shot.q)*100),"" if shot.get("usable",true) else " · UNUSABLE",how,water,", ".join(seen) if not seen.is_empty() else "nothing identifiable"]
+# What this frame taught: each line is a mark the player can act on, drawn on the
+# chart of the operation it concerns once the frame resolved it.
+func _shot_findings(shot:Dictionary) -> String:
+	var lines:PackedStringArray=[]
+	for f in shot.get("findings",[]):
+		lines.append("%s · %s"%[str(f.kind).to_upper(),f.text])
+	if lines.is_empty():return ""
+	return "OBSERVED IN THIS FRAME · MARKED ON THE CHART\n"+"\n".join(lines)
 func _shot_difference(a:Dictionary,b:Dictionary,ia:int,ib:int) -> String:
 	var only_a:PackedStringArray=[];var only_b:PackedStringArray=[]
 	for id in a.features:
