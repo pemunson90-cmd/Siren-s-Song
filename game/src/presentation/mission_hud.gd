@@ -542,7 +542,7 @@ func refresh():
  _fit_intent()
  var aid_font=maxi(14,roundi(touch_height*.26*text_scale))
  guard.refresh(size,touch_height,aid_font,intent.position.y if intent.visible else size.y)
- hints.refresh(size,touch_height,aid_font,host.ocean.instrument_top+touch_height+8)
+ hints.refresh(size,touch_height,aid_font,host.ocean.instrument_top+touch_height+34)
  fleet.refresh(blocked)
  host.ocean.ui_blocked_rects=occupied_rects().map(func(r):return Rect2(r.position-host.ocean.global_position,r.size))
  if host.decoy_armed or host.knock_armed:
@@ -601,7 +601,7 @@ func camera_caption() -> Array:
  if target==-2:return [verb,"▸ SIREN S%d"%(int(context.get("siren",0))+1)]
  if target>=0 and target<sim.mission.objectives.size():
   var site=sim.mission.objectives[target]
-  return [verb,"▸ %s %dm"%[str(site.name).to_upper().substr(0,16),roundi(sim.units[sim.selected].pos.distance_to(site.pos))]]
+  return [verb,"▸ %s"%str(site.name).to_upper().substr(0,18),("READY · " if context.get("ready",false) else "NOT READY · ")+"%dm"%roundi(sim.units[sim.selected].pos.distance_to(site.pos))]
  return [verb,"▸ NO SITE IN RANGE"]
 func action_controls() -> Dictionary:
  var result={}

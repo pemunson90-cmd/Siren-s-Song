@@ -26,7 +26,7 @@ func seen(id: String) -> bool:
 func show_hint(id: String) -> void:
 	current = id; extra_line = ""
 	if not seen(id):
-		host.hints_seen.append(id); host._save_archive()
+		host.hints_seen.append(id)  # saved with the next ordinary archive write
 func dismiss() -> void:
 	current = ""; panel.hide()
 func blocks(point: Vector2) -> bool:

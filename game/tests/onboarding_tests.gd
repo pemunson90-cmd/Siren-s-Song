@@ -63,17 +63,17 @@ func run() -> void:
 	check(not game.sim.units[0].route.is_empty(),"first plan on an idle craft is placed at once")
 	check(guard.undo_button.visible and guard.pending.is_empty(),"an undo chip follows the order")
 	var planned=game.sim.units[0].route.back().pos
-	await click(water_point(Vector2(900,300))); await settle()
+	await click(water_point(Vector2(780,640))); await settle()
 	check(not guard.pending.is_empty() and game.sim.units[0].route.back().pos==planned,"a tap over an existing route only sets a pending marker")
 	check(guard.panel.visible and guard.go_button.visible and guard.add_button.visible and guard.points_button.visible,"replace, add and pass/stop choices are on screen")
 	await click(guard.cancel_button.get_global_rect().get_center()); await settle()
 	check(guard.pending.is_empty() and game.sim.units[0].route.back().pos==planned,"cancel leaves the route untouched")
-	await click(water_point(Vector2(900,300))); await settle()
+	await click(water_point(Vector2(780,640))); await settle()
 	await click(guard.go_button.get_global_rect().get_center()); await settle()
-	check(guard.pending.is_empty() and game.sim.units[0].route.back().pos.distance_to(Vector2(900,300))<30,"REPLACE ROUTE applies the new route")
+	check(guard.pending.is_empty() and game.sim.units[0].route.back().pos.distance_to(Vector2(780,640))<30,"REPLACE ROUTE applies the new route")
 	await click(guard.undo_button.get_global_rect().get_center()); await settle()
 	check(game.sim.units[0].route.back().pos==planned,"undo restores the previous route")
-	await click(water_point(Vector2(900,300))); await settle()
+	await click(water_point(Vector2(780,640))); await settle()
 	var before=game.sim.route_goals().size()
 	await click(guard.add_button.get_global_rect().get_center()); await settle()
 	check(game.sim.route_goals().size()==before+1 and not game.sim.queue_mode,"ADD TO ROUTE extends without leaving queue mode on")
@@ -100,10 +100,10 @@ func run() -> void:
 	check(not hints.panel.visible and game.hints_seen.size()==count,"a prompt does not show twice")
 	# Contextual action reads before the tap.
 	var caption=game.mission_hud.camera_caption()
-	check(caption.size()==2 and "NO SITE" in caption[1],"the action button says it has no target before the tap")
+	check(caption.size()>=2 and caption.size()<=3 and (caption.size()==2 and "NO SITE" in caption[1] or "NOT READY" in caption[2]),"the action button says it is not ready before the tap")
 	game.sim.units[0].pos=game.sim.mission.objectives[0].pos+Vector2(60,0); game.sim.units[0].vel=Vector2.ZERO
 	game._refresh(); caption=game.mission_hud.camera_caption()
-	check(caption.size()==2 and game.sim.mission.objectives[0].name.to_upper().substr(0,16) in caption[1],"the action button names its target")
+	check(caption.size()==3 and game.sim.mission.objectives[0].name.to_upper().substr(0,18) in caption[1] and caption[2].begins_with("READY"),"the action button names its target and says it is ready")
 	# Text size reaches the dive HUD without shrinking touch targets.
 	var normal_font=game.mission_hud.host.pause_button.get_theme_font_size("font_size")
 	var h=game.ui_touch_height

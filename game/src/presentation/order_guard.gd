@@ -96,12 +96,12 @@ func refresh(bounds: Vector2, h: float, font: int, floor_y: float) -> void:
 			b.add_theme_font_size_override("font_size", font)
 			if b is Button: b.custom_minimum_size = Vector2(h * 1.55, h)
 		panel.custom_minimum_size = Vector2(width, 0); panel.reset_size()
-		panel.position = Vector2(12, maxf(h * 2, floor_y - panel.size.y - 10))
+		panel.position = Vector2((bounds.x - panel.size.x) / 2, maxf(h * 2, floor_y - panel.size.y - 10))
 	if undo_button.visible:
 		undo_button.text = "UNDO  ·  %s order" % undo.name
 		undo_button.add_theme_font_size_override("font_size", font)
 		undo_button.custom_minimum_size = Vector2(h * 3.2, h); undo_button.reset_size()
-		undo_button.position = Vector2(12, maxf(h * 2, floor_y - undo_button.size.y - 10))
+		undo_button.position = Vector2((bounds.x - undo_button.size.x) / 2, maxf(h * 2, floor_y - undo_button.size.y - 10))
 	queue_redraw()
 func _draw() -> void:
 	if pending.is_empty() or host == null or not panel.visible: return

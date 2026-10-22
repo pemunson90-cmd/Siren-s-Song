@@ -6,7 +6,7 @@ const MAX_OPERATION := 2
 const GOALS := {
 	0: "GOAL: photograph the signal spire, then bring Quietus home.\nDANGER: Sirens hunt by sound. Go slowly and keep rock between you and them.",
 	1: "GOAL: photograph the WEST and EAST relays, then link them at the uplink.\nDANGER: patrol Sirens cover both approaches. Scout with a drone first.",
-	2: "GOAL: sample the REQUEST and REPLY relays and bring both records home.\nDANGER: Sirens hear every sonar ping. Listen first."
+	2: "GOAL: SAMPLE the REQUEST and REPLY relays and bring both records home.\nDANGER: Sirens hear every sonar ping. Listen first."
 }
 const HINTS := {
 	"move": {"text": "Tap QUIETUS or a drone, then tap open water to plan a route. Nothing moves until you press RUN.", "ops": [0]},
