@@ -31,4 +31,6 @@ Twelve working challenges, saved bests, menu entry, tests pass, existing saves u
 Open a PR into claude/integration, wait for guidance and game-smoke, merge when green, then write the Completion section and push to codex/handoffs.
 
 ## Completion
-(Codex fills this in: what changed in plain language, PR link, test results, unverified items, anything for Pat.)
+Work in progress. Branch: `claude/lane-challenge-mode`. Last pushed SHA: `73cbf8b`.
+
+WIP implementation backed up as requested. Model checks: 172 passed. UI checks: 62 checks, 4 failures covering save isolation and Escape after abandonment. Fixing these before requesting green CI. Challenge results will use a separate archive so campaign bytes and backups remain untouched.
