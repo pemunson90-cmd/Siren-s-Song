@@ -59,7 +59,7 @@ static func apply(m:Dictionary,id:int,context:Dictionary)->void:
 		4:
 			_tag(objs[0],S(0.6,100.0,0.2,["ribs"],[F("ribs","ARRAY RIBS",0.0,PI,0.04),F("count","RIB COUNT",0.0,1.0,0.4,0.4,{"intel":"well_array","gloss":"The ribs repeat a count, not a word."})]))
 			_tag(objs[1],S(0.0,80.0,0.2,["face"],[F("face","APERTURE",0.0,PI,0.04)]),"well_aperture","A dark aperture in the rim.")
-			_tag(objs[2],S(0.0,80.0,0.2,["face"],[F("face","ARCHIVE FACE",0.0,PI,0.04)]),"well_return","The rim's return archive.")
+			_tag(objs[2],S(PI,80.0,0.2,["face"],[F("face","ARCHIVE FACE",0.0,PI,0.04)]),"well_return","The rim's return archive.")
 		5:
 			_tag(objs[0],S(1.2,100.0,0.4,["vanes"],[
 				F("vanes","RESONATOR VANES",0.0,PI,0.04,-0.3,{"glow":0.4}),
