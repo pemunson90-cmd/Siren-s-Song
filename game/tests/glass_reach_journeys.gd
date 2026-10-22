@@ -31,7 +31,8 @@ const COURSES={
  16:[["go",Vector2(1400,2250)],["depth",2],["go",Vector2(1400,1560)],["depth",1],["camera"],["depth",2],["go",Vector2(1400,2250)],["depth",1],["go",Vector2(700,2000)],["exit"]],
  17:[["depth",0],["go",Vector2(2700,1450)],["depth",1],["depth",2],["go",Vector2(2860,1395)],["recover"],["go",Vector2(2700,1450)],["depth",1],["go",Vector2(600,1350)],["go",Vector2(400,850)],["go",Vector2(2470,850)],["go",Vector2(2470,400)],["go",Vector2(2700,420)],["camera"],["exit",1]],
  18:[["go",Vector2(2650,1900)],["go",Vector2(2650,1150)],["go",Vector2(1400,935)],["work","service"],["go",Vector2(1400,1700)],["exit"]],
- 19:[["go",Vector2(1600,1700)],["go",Vector2(1600,1200)],["go",Vector2(1600,700)],["camera"],["go",Vector2(1600,1700)],["exit"]],
+ # Leave the observed patrol lane in SHALLOW, then settle in MIDDLE to recover.
+ 19:[["go",Vector2(1600,1700)],["go",Vector2(1600,1200)],["go",Vector2(1600,700)],["camera"],["depth",0],["go",Vector2(1600,1700)],["exit"],["depth",1]],
  20:[["go",Vector2(1150,1685)],["recover"],["go",Vector2(1200,1600)],["camera"],["exit"]],
  21:[["go",Vector2(2300,1500)],["go",Vector2(1950,800)],["go",Vector2(1700,1200)],["camera"],["go",Vector2(1635,1300)],["depth",2],["recover"],["depth",1],["go",Vector2(1950,800)],["go",Vector2(2300,1500)],["exit"]]}
 func course(s,id)->bool:

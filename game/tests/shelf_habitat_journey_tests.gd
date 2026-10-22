@@ -22,9 +22,16 @@ func run_method(common:bool):
  var s=Sim.new();s.start(8)
  s.units[1].alive=false;s.units[2].alive=false;s.tools={"emp":0,"knock":0,"decoy":0,"recon":0}
  if common:
-  for point in [Vector2(2140,1510),Vector2(1520,1640),Habitat.ALARM+Vector2(0,45)]:
+  # Clear the eastern wall below the guards, then rise at the alarm mouth.
+  check(s.command("depth",{"band":2}),"common route descends for the wall crossing")
+  advance(s,4.1)
+  for point in [Vector2(1700,700),Vector2(1700,1450),Vector2(1520,1640),Habitat.ALARM+Vector2(35,25)]:
    check(travel(s,point),"common approach reaches "+str(point))
+  check(s.command("depth",{"band":1}),"common route rises for the local alarm")
+  advance(s,4.1)
   check(s.command("shelf_alarm"),"ordinary bare-Q common alarm can be sounded")
+  check(s.command("depth",{"band":2}),"common return leaves the heard alarm in deep water")
+  advance(s,4.1)
   check(travel(s,Vector2(760,1600)),"common withdrawal starts through the masked inner trench")
  else:
   for point in [Vector2(1500,300),Vector2(640,300),Vector2(610,1050)]:
@@ -39,6 +46,9 @@ func run_method(common:bool):
  check(s.all_records(),"both actual shelter replies aboard before return")
  for point in ([Vector2(700,1600),Vector2(540,2020),s.mission.extraction] if common else [Vector2(1740,2080),Vector2(540,2080),s.mission.extraction]):
   check(travel(s,point),"physical return reaches "+str(point))
+ if common:
+  check(s.command("depth",{"band":1}),"common route rises at the actual recovery mouth")
+  advance(s,4.1)
  check(s.outcome=="won" and s.hull>0,"ordinary guards permit complete no-drone/no-tools "+("common" if common else "quiet")+" journey")
  print("SHELF METHOD ","common" if common else "quiet"," time=",s.elapsed," hull=",s.hull," oxygen=",s.oxygen," receipt=",s.mission.shelf_habitat.receipts," guards=",s.sirens.map(func(g):return {"pos":g.pos,"mode":g.mode}))
  return s

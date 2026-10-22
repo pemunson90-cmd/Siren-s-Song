@@ -77,10 +77,11 @@ func run_case(thread:String,placement:String,north:bool=true):
   check(reply_heard==(placement=="service"),"chosen physical mouth changes actual watch reception "+placement)
   if placement=="service":check(reply_investigation,"actual watch investigates the received station reply")
  var work_time=s.elapsed-work_started
- # Use the still-valid quiet western return; no machinery or finite tools.
- var withdrawal=[Vector2(1840,800),Vector2(1380,850),Vector2(1380,1940),Vector2(580,1900),Vector2(2260,2700)] if thread=="deep" else [Vector2(2300,1130),Vector2(1940,1130),Vector2(1740,1200),Vector2(1380,1940),Vector2(580,1900),Vector2(2260,2700)]
+ # The shelf return stays silent and crosses below the western patrol turn.
+ # Deep approaches retain their existing return; no machinery or finite tools.
+ var withdrawal=[Vector2(1840,800),Vector2(1380,850),Vector2(1380,1940),Vector2(580,1900),Vector2(2260,2700)] if thread=="deep" else [Vector2(2300,1130),Vector2(1940,1130),Vector2(1740,1200),Vector2(1380,1940),Vector2(1380,2120),Vector2(580,2120),Vector2(2260,2700)]
  for p in withdrawal:
-  if not go(s,p,false):success=false;break
+  if not go(s,p,thread=="shelf"):success=false;break
  check(success and s.command("witness_land"),"occupied witness still physically returns and lands "+thread)
  tick(s)
  check(s.outcome=="won" and Sim.valid_snapshot(s.snapshot()),"bare Q/no-tools final recovery remains finishable "+thread+" "+placement)

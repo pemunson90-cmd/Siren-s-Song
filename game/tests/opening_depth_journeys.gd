@@ -99,7 +99,7 @@ func well():
  check(shift(s,0,1) and record(s,0,0),"Well middle receiver physically records unassigned pattern")
  check(shift(s,0,2) and travel(s,0,Vector2(1170,400)),"Well deep east passage retains uncertain hunter information")
  check(shift(s,0,1) and record(s,0,1),"Well middle aperture image is real without promising moving reference")
- check(shift(s,0,2) and travel(s,0,Vector2(1150,720)) and travel(s,0,Vector2(780,850)),"Well moving deep withdrawal evades stale sweeper returns")
+ check(shift(s,0,2) and travel(s,0,Vector2(1150,720)) and travel(s,0,Vector2(560,850)),"Well moving deep withdrawal evades stale sweeper returns")
  check(shift(s,0,1) and record(s,0,2),"Well middle southern archive remains reachable across layer choices")
  check(s.mission.well_reference.is_empty() and s.mission.well_observation.is_empty(),"Well quiet policy retains honest unverified signature")
  check(travel(s,0,s.mission.extraction),"Well unverified archive physically returns")
