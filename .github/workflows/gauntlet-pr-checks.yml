@@ -175,6 +175,8 @@ jobs:
           photo_pricing_tests|PHOTO PRICING
           photo_pricing_ui_tests|PHOTO PRICING UI
           photo_depth_tests|PHOTO DEPTH
+          photo_rules_tests|PHOTO RULES
+          photo_rules_ui_tests|PHOTO RULES UI
           UI_SCENARIOS
       - name: Docs-only change; no Godot run
         if: steps.changes.outputs.game == 'false'

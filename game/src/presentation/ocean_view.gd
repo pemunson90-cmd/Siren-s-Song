@@ -1,6 +1,7 @@
 extends Control
 const Shelf=preload("res://src/presentation/shelf_habitat_view.gd")
 const Priced=preload("res://src/presentation/photo_pricing/photo_pricing_overlay.gd")
+const RuleOverlay=preload("res://src/photo_rules/rule_overlay.gd")
 const Wake=preload("res://src/presentation/wake_crossing_view.gd")
 const Recipient=preload("res://src/presentation/warning_recipient_view.gd")
 const Concealed=preload("res://src/presentation/concealed_harbour_view.gd")
@@ -297,6 +298,7 @@ func _draw() -> void:
 	Expedition.draw(self,sim)
 	_draw_observed_paths()
 	_draw_findings()
+	RuleOverlay.draw_chart(self,sim)
 	Priced.draw_chart(self,sim)
 	# Own open-water estimate only; deliberately does not sample hidden terrain or
 	# listeners. Dotted amber radius is subordinate to later foreground beam cues.

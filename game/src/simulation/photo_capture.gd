@@ -22,6 +22,7 @@ const Thermal=preload("res://src/simulation/thermal_front.gd")
 const Findings=preload("res://src/simulation/photo_findings.gd")
 const Pricing=preload("res://src/simulation/photo_pricing/photo_pricing.gd")
 const BandPhoto=preload("res://src/photo_depth/band_photo.gd")
+const Rules=preload("res://src/photo_rules/photo_rules.gd")
 const COLS:=36
 const MAX_SHOTS:=24
 const TURN_RATE:=1.8
@@ -303,6 +304,7 @@ static func finish(sim,uid:int,o:Dictionary)->Dictionary:
 		if o.has("siren"):found.append_array(Findings.from_siren(sim,shot,seen,fq))
 		shot["findings"]=found
 		Findings.file(sim,found)
+		Rules.on_findings(sim)
 		for m in marks:
 			for fd in found:
 				if str(fd.id).ends_with(":"+str(m.id)) or (m.id=="gait" and str(fd.id).begins_with("loop_")) or (m.id=="array" and str(fd.id).begins_with("post_")):m["find"]=str(fd.kind)
