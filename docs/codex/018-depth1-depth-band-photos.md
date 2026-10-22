@@ -1,8 +1,8 @@
 # Handoff 018: DEPTH1, depth-band photos, findings displays, all-stop
 
-Status: OPEN
-Claimed at:
-Claimed by:
+Status: CLAIMED
+Claimed at: 2026-10-22 21:10 UTC
+Claimed by: claude (builder on branch claude/depth1; Codex skip 018, 020 and 019 wait on it)
 Finished at:
 
 Precondition: handoff 017 must be DONE (Priced Shots and the sweeper are in).
