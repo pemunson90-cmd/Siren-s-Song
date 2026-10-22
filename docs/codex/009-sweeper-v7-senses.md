@@ -5,7 +5,7 @@ Claimed at:
 Claimed by:
 Finished at:
 
-Precondition: handoff 005 must be DONE (and merged). If it is not, skip this one and take the next OPEN handoff.
+Precondition: handoff 010 must be DONE and merged (010 replaces blocked 005). If it is not, skip this one and take the next OPEN handoff.
 Codex may merge: yes, after green guidance and game-smoke on the exact head.
 
 ## Task (plain language)
