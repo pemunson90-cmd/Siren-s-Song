@@ -1,6 +1,6 @@
 # Codex board (Claude reads this to know when to write the next batch)
 
-**MERGES CLEAR (Pat,23Oct latest): PR88 merged009f2b8; 035/PR86 merged d9a0bf7; 024/PR87 merged a63aeeb; PR90 sensors merged9ae3212 and PR91 route merged70b1f18; final019 photo mergeddb6b162; 036/PR93 mergedea78d3d; next037/PR94 and the eligible numeric queue. Reconcile newest integration into each proposed head and recheck if it moved. Use exact-head guidance/game-smoke and independent review before each merge.**
+**MERGES CLEAR (Pat,23Oct latest): PR88 merged009f2b8; 035/PR86 merged d9a0bf7; 024/PR87 merged a63aeeb; PR90 sensors merged9ae3212 and PR91 route merged70b1f18; final019 photo mergeddb6b162; 036/PR93 mergedea78d3d; 037/PR94 merged ef27d72; next existing020/PR85,021 and the eligible numeric queue. Reconcile newest integration into each proposed head and recheck if it moved. Use exact-head guidance/game-smoke and independent review before each merge.**
 
 Codex: when you finish a handoff, update its row here in the same commit as `done NNN`. Claude will write batch 2 when two of three rows show DONE.
 
@@ -62,7 +62,7 @@ Take 017 first (PRIORITY) if any of PRs 69, 70, 71 is open; otherwise numeric or
 
 ## BATCH 6 (23 Oct, Pat's decisions D1 and D2)
 | 36 | 036 first-Siren cue, ops 1 to 3 | DONE | [93](https://github.com/pemunson90-cmd/Siren-s-Song/pull/93) | 2026-10-23 21:38:53 UTC | Mergedea78d3d after exacta0f5cba guidance/game-smoke40023109430 green and independent approval/slow52 rerun; core818/0, normal/slow52/0.037 next. |
-| 37 | 037 early module reward | CLAIMED | [94](https://github.com/pemunson90-cmd/Siren-s-Song/pull/94) | | Final76e78d3 contains actual036ea78d3d; entire game equals tested29a97, final independent review approved. PR94 ready/mergeable,22:07UTC live integration unchanged/contained; exact40028410939 guidance green/game-smoke running. |
+| 37 | 037 early module reward | DONE | [94](https://github.com/pemunson90-cmd/Siren-s-Song/pull/94) | 2026-10-23 22:20:37 UTC | Merged ef27d72 after exact76e78d3 guidance/game-smoke40028410939 green and final independent approval; core818/0,reward36/0,Canvas40/0. Existing020 next. |
 
 ## Claude-held
 009 sweeper on V7 senses: Claude's PR 70, finished under handoff 017.

@@ -1,9 +1,9 @@
 # Handoff 037: EARLY MODULE REWARD (Pat approved 23 Oct, decision D2)
 
-Status: CLAIMED
+Status: DONE
 Claimed at: 2026-10-23 19:43:52 UTC
 Claimed by: codex
-Finished at:
+Finished at: 2026-10-23 22:20:37 UTC
 
 Codex may merge: yes, into claude/integration only, after GitHub guidance and game-smoke are both green on the exact head and the PR is mergeable. Merge with a merge commit, then mark DONE and update docs/codex/BOARD.md.
 Testing: import, core tests (CHECKS N FAILURES 0), and only the tests for what you touched. No full scenario list locally. Never skip, loosen or delete a test.
@@ -19,6 +19,10 @@ Tests: grant occurs once after op 1, persists through save and reload, Fittings 
 Base: origin/claude/integration. Branch: claude/early-module-reward
 
 ## Completion
+
+DONE. [PR94](https://github.com/pemunson90-cmd/Siren-s-Song/pull/94) merged into claude/integration with merge commit ef27d724e717e7ad1bfeb9668050f81a46c087ef. Branch claude/early-module-reward last pushed 76e78d315abf77ef9e6092fedc753b45f6ae977c. Exact-head guidance/game-smoke run 40028410939 both passed; actual ea78d3d was contained, and independent reviewer /root/review_integration approved this exact head against that base with no Critical/Important findings. Fresh fetched merge has the identical complete tree and verified two-parent ancestry. Mark DONE and BOARD together in this commit.
+
+Player gain: one existing Tele lens after operation1 succeeds, initially unequipped, announced as NEW FITTING and explained in Fittings. The small table-driven module grants once, validates optional archive state, preserves saved ownership when disabled, and uses existing fitting/fleet/launch checks. No Simulation, hardware rules, opening balance or story changes. Source-identical preparation passed clean import/core818/0, reward36/0, cue37/0, reward Canvas40/0, corrected cue52/0 and affected save/equipment checks; all six core campaign result lines matched. Final full hosted matrix passed. Main/SaveStore/Fittings seams needed by persistence and presentation are documented in the plan and PR. Physical Android, headphones and enjoyment remain unverified. Next resume existing020 draft85 on its recorded branch, reconcile actual ef27d72, final independent review and exact-head CI; then021 and the eligible numeric queue. Historical recovery checkpoints follow.
 
 Isolated D2 preparation after036 preparation/re-review, while92/93 hosted gates run. Base is actual integration70b1f18; merge92 then93 before037, reconcile their actual integration and obtain final independent review/exact-head CI. No precondition is unmet. Design is already approved by D2; choose an existing photographic/hiding module from code without changing rules.
 
