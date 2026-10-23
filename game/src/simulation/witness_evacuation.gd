@@ -111,8 +111,9 @@ static func collect_at(sim,unit:int,pos:Vector2)->void:
    if site.get("site_id","")=="witness_packet":site.captured=true;sim._record_secured(site,unit);break
  state.state="carried";state.carrier=unit;state.job={}
  sim.events.append({"type":"witness_boarded","pos":sim.units[unit].pos});sim.message=sim.units[unit].name+" carries the occupied witness capsule · LAND at southeast lift point"
-static func cancel_released(sim,unit:int)->void:
- if busy(sim,unit) and sim.units[unit].hold!="HOLD":sim.mission.witness_evacuation.job={}
+# JobRelease calls this only after the shared HOLD guard.
+static func release_if_unheld(sim,unit:int)->void:
+ if busy(sim,unit):sim.mission.witness_evacuation.job={}
 static func tick(sim,dt:float)->void:
  if not applies(sim.mission):return
  losses(sim);var state=sim.mission.witness_evacuation
