@@ -1,6 +1,6 @@
 # RESUME: operational entry
 
-**Execution:** development RESUMED by Pat (23 Oct 2026). Codex034/FIX1,035/FIX2 (PR86),024 audio (PR87) and019 save/cancel/weapons steps PR81/PR83/PR88/PR90/PR91 are merged. Pat cleared merges. Current order (23 Oct): final019 photo PR92, then036 (preparation in progress) and037, then036,037 and the eligible numeric queue. Live claims/completion remain on docs/codex/BOARD.md in codex/handoffs.
+**Execution:** development RESUMED by Pat (23 Oct 2026). Codex034/FIX1,035/FIX2 (PR86),024 audio (PR87) and019 save/cancel/weapons steps PR81/PR83/PR88/PR90/PR91 are merged. Pat cleared merges. Current order (23 Oct): final019 photo PR92, then036 (preparation in progress),037 and the eligible numeric queue. Live claims/completion remain on docs/codex/BOARD.md in codex/handoffs.
 
 **Current source checkpoint (036 preparation):** last reconciled integration70b1f18 includes route/drive PR91, sensors PR90, weapons PR88,035/FIX2 PR86 and024 audio PR87. Final019 photo PR92 is open separately and must merge first. This isolated lane prepares the approved D1 first-notice bearing/audio for ops1 to3; its observer uses existing acquisition decisions and changes no detection or combat rules. Reconcile the actual photo merge before final036 review/CI.019 remains CLAIMED until PR92 lands;036 is CLAIMED for this preparation. Then037 and the existing020 claim follow. No main/production promotion or APK.
 

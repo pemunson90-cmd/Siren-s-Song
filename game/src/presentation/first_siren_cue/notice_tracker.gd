@@ -24,8 +24,14 @@ func _notice(id:int,source:Vector2)->void:
  if not source.is_finite() or sim.units.is_empty():return
  var direction=(source-sim.units[sim.selected].pos).normalized()
  seen[id]=true
- var row={"id":id,"time":sim.elapsed,"direction":direction,"bearing":fposmod(rad_to_deg(atan2(direction.x,-direction.y)),360.)}
+ var row={"id":id,"unit":sim.selected,"time":sim.elapsed,"direction":direction,"bearing":fposmod(rad_to_deg(atan2(direction.x,-direction.y)),360.)}
  records.append(row);noticed.emit(row)
+func saved_seen()->Array:
+ _observe_clock()
+ return seen.keys()
+func restore_seen(ids:Array)->void:
+ _observe_clock();seen.clear();records.clear()
+ for id in ids:seen[id]=true
 func frames()->Array:
  if sim==null:return []
  _observe_clock()
