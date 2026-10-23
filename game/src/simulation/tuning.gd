@@ -19,3 +19,8 @@ const RECON_NOISE_TIME = 2.0
 # Drive readout values, unchanged.
 const DRONE_QUIET_SPEED = 42
 const DRONE_TRANSIT_SPEED = 96
+
+# Photo order values, unchanged.
+const REPEAT_PHOTO_ACTION = 3.0
+const PHOTO_FALLBACK_NOISE = 520
+const PHOTO_NOISE_TIME = 2.0
