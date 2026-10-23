@@ -1,8 +1,8 @@
 # Handoff 035 (PRIORITY): FIX2, concrete problems from the full cold review and the Marlow audit
 
-Status: OPEN
-Claimed at:
-Claimed by:
+Status: CLAIMED
+Claimed at: 2026-10-23 04:41:53 UTC
+Claimed by: codex
 Finished at:
 
 Precondition: none. Take this before 019's later steps if Codex is between steps; do not interrupt an in-progress PR (finish 019 step 1 / PR81 first).
@@ -35,3 +35,4 @@ Each item fixed or reported as not reproducing; real-touch tests at both Fold7 s
 PR into claude/integration; merge per the line above; mark DONE and update the board.
 
 ## Completion
+Claimed while019 step3 PR83 is in progress. Finish that green PR before later019 order-family PRs;035 now has priority. The existing camera-selector early returns also block020's optional photos on7/8. Item11 owns that routing repair, so020 stays data-only and its earlier ownership question is superseded by this new explicit assignment. Preserve ready mission jobs and active exposures. Save error is investigated first.
