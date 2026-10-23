@@ -1,4 +1,5 @@
 extends RefCounted
+const Orders=preload("res://src/simulation/orders/order_table.gd")
 const JobRelease=preload("res://src/simulation/job_release.gd")
 const SaveChecks=preload("res://src/persistence/save_checks.gd")
 const EnemyTypes=preload("res://src/simulation/enemy_types.gd")
@@ -502,6 +503,10 @@ func command(order: String,args: Dictionary={}) -> bool:
 		selected=0; queue_mode=false; message="Selected drone lost. Quietus selected; reissue the order."; return false
 	if order in ["camera","chain_power","chain_route","chain_send","concealed_tow","witness_land","warning_gate","warning_depart","rendezvous_release","wake_playback","shelf_warn","shelf_alarm"] and ((u.band!=1 and not (order=="camera" and BandPhoto.can_shoot(self,u))) or not u.transition.is_empty()):
 		message="Ascend to MIDDLE and settle for local work";return false
+	var handler=Orders.TABLE.get(order,[])
+	if not handler.is_empty():
+		var accepted:bool=handler[0].command(self,order,args)
+		return _finish_command(u,order) if accepted and handler[1] else accepted
 	match order:
 		"choir_action":return Choir.command(self,args)
 		"glass_action":return Glass.command(self,args)
@@ -598,27 +603,6 @@ func command(order: String,args: Dictionary={}) -> bool:
 			if tools.recon<=0: return false
 			if mission.has("world_size"):mission["survey_origin"]=u.pos
 			tools.recon-=1; recon_time=8.0; _noise(u.pos,1100,"RECON UPLINK",2.0,u.band); message="Local 560m survey · 8 seconds" if mission.has("world_size") else "Wide survey uplink · 8 seconds"; SignalField.observe(self,true); Consequences.observe(self,true); events.append({"type":"recon","pos":u.pos}); _observe()
-		"emp":
-			if tools.emp<=0: return false
-			tools.emp-=1
-			for s in sirens:
-				if s.pos.distance_to(u.pos)<340*Depth.transmission(u,s): s.stun=12.0; s.lock=0.0; s.target=-1; s.erase("recipient_target"); s.mode="PINNED" if s.get("pin_time",0)>0 else "DISRUPTED"
-			_noise(u.pos,650,"DISRUPTION",2.0,u.band); message="Disruption pulse · 12 second recovery window"; events.append({"type":"emp","pos":u.pos})
-		"knock":
-			var id=args.get("target",null)
-			var eligible=knockdown_targets().any(func(c):return c.key==id) if id is int else false
-			if tools.get("knock",0)<=0 or not eligible or id<0 or id>=sirens.size(): message="Knockdown needs a fresh contact within 150m and a clear path."; return false
-			var target=sirens[id]
-			var launch_band=_knock_band(contacts[id])
-			if target.stun>0 or launch_band not in Depth.occupied(target) or not contact_visible(target) or u.pos.distance_to(target.pos)>KNOCK_RANGE or not Depth.clear(self,u.pos,target.pos,launch_band,3): message="Knockdown target unavailable · no torpedo spent."; return false
-			tools.knock-=1
-			projectiles.append({"pos":u.pos,"angle":u.angle,"target":id,"aim":target.pos,"life":TORPEDO_LIFE,"noise_clock":0.0,"band":launch_band})
-			_noise(u.pos,650,"KNOCKDOWN",2.0,u.band); events.append({"type":"knock","pos":u.pos})
-			message="Torpedo launched at S%d · pin on impact · emission audible"%(id+1)
-		"decoy":
-			var point=args.get("point",u.pos+Vector2(DECOY_RANGE,0))
-			if not decoy_target_valid(point): message="Decoy needs clear water within 160m and a clear path · no charge spent"; return false
-			tools.decoy-=1; _noise(point,1100,"DECOY",15.0,u.band); message="Decoy launched · 15s transmission"; events.append({"type":"decoy","pos":u.pos})
 		"frame":
 			return Photo.set_frame(self,selected,args)
 		"all_stop":return AllStop.command(self)
@@ -639,6 +623,8 @@ func command(order: String,args: Dictionary={}) -> bool:
 				_noise(u.pos,Photo.noise_radius(self,selected) if Photo.applies(target) else 520,"CAMERA",2.0,u.band);noises.back()["record"]=photo_target
 			events.append({"type":"camera","pos":u.pos})
 		_: return false
+	return _finish_command(u,order)
+func _finish_command(u:Dictionary,order:String)->bool:
 	JobRelease.cancel(self,selected,order)
 	AllStop.after_order(self,u,order)
 	return true
