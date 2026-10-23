@@ -8,6 +8,7 @@ func shape_case(shape):
  var o=game.sim.mission.objectives[0];var u=game.sim.units[0]
  u.pos=o.pos+Vector2.from_angle(o.subject.facing)*100.;u.angle=u.pos.angle_to_point(o.pos);u.vel=Vector2.ZERO
  game._enter_water();game._refresh();await settle()
+ if game.mission_hud.hints.panel.visible:await press(game,"hint_dismiss")
  var feed=game.ocean.optical_feed
  var scale=float(root.size.x)/root.get_visible_rect().size.x
  var dp=scale*160./420.
