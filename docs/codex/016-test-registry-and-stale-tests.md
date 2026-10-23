@@ -38,14 +38,14 @@ Import, core tests ending CHECKS N FAILURES 0, and GitHub's guidance and game-sm
 Pull request into claude/integration; merge it yourself per the Codex-may-merge line once green. Then mark DONE.
 
 ## Completion
-In progress, draft PR76: https://github.com/pemunson90-cmd/Siren-s-Song/pull/76.
-Lane branch: `claude/lane-test-registry`. Last pushed lane SHA: `4840008a71151cc58a72614e6a416eaeaf6674f8`.
+In progress, PR76 ready for review: https://github.com/pemunson90-cmd/Siren-s-Song/pull/76.
+Lane branch: `claude/lane-test-registry`. Last pushed lane SHA: `1c681ad4da245cff1bbdd06df620848100015ce5`.
 
-PR74 merged and Pat explicitly released 016. GitHub tools listed only PR75 open when claiming; its filenames exclude the test runner and workflow. The lane now contains integration guidance through `335f082`.
+PR74 merged and Pat explicitly released 016. GitHub tools listed only PR75 open when claiming; its filenames exclude the test runner and workflow. The lane contains merged NAV1 integration `07eb8905d2cc70babe92e87a26dbddf3750bb0ab`.
 
-One registry replaces duplicated local and CI lists and repeated execution blocks. Historical orders were different, so each row has local and CI ranks. Exact old flattened prefixes match before and after, including the four local density guards: local 146 names, SHA256 `7762d0c0cedfe24966ac7ee468921a49a203992a70e505acf2f08259ab569aa2`; CI 89 names, SHA256 `790ace7031bf51e00dd3ec2f5f2d4f2ae43269bdf0ae5179b04188dc2705a7f4`. Names and original ranks remain recoverable in suites.txt. All original names and relative order retained; 94 missing standalone suites appended to CI. The CI profile now contains 183 suites and local 162, retaining their original profile membership and relative orders before appending the audited additions. Import clean; core before, after and final all CHECKS 817 FAILURES 0.
+One registry replaces duplicated local and CI lists and repeated execution blocks. Historical orders were different, so each row has local and CI ranks. Exact old flattened prefixes match before and after, including the four local density guards: local 146 names, SHA256 `7762d0c0cedfe24966ac7ee468921a49a203992a70e505acf2f08259ab569aa2`; CI 89 names, SHA256 `790ace7031bf51e00dd3ec2f5f2d4f2ae43269bdf0ae5179b04188dc2705a7f4`. Names and original ranks remain recoverable in suites.txt. All original names and relative order retained; 94 missing standalone suites appended to CI. After registering the four NAV1 regressions, the CI profile contains 187 suites and local 166, retaining their original profile membership and relative orders before appending the audited additions. Import clean; core before, after and final all CHECKS 817 FAILURES 0.
 
-The full inventory below accounts for all 160 GDScripts absent from original CI: 94 standalone suites, 38 reusable helpers, 6 scene/host subclasses, 20 capture/diagnostic utilities and 2 renderer-only regressions. No file deleted, no assertion skipped, no game source edited. No full scenario list run locally: only the unregistered-suite audit, core and affected repairs. Ninety-three standalone suites now pass; the existing route-program fixture repair is verified 35/0 in PR75, awaiting integration here.
+The full inventory below accounts for all 160 GDScripts absent from original CI: 94 standalone suites, 38 reusable helpers, 6 scene/host subclasses, 20 capture/diagnostic utilities and 2 renderer-only regressions. No file deleted, no assertion skipped, no game source edited. No full scenario list run locally: only the unregistered-suite audit, core and affected repairs. All 94 originally unregistered standalone suites now pass, including route-program 35/0 on this lane after NAV1 integration. Four added NAV1 harnesses also pass: focused7/0, follow84/0, default probe24/0, touch/Android-back17/0. The NAV1 measurement module is a helper. The post-NAV1 inventory therefore covers 165 files: 98 standalone harnesses, 39 helpers, 6 hosts, 20 tools and 2 renderer-only checks.
 
 Fixed stale assumptions: current recap story and two-bearing ending; unavailable fittings remain visible but disabled; imported audio measured through real playback gain with old headroom bounds retained; isolated startup then ordinary saving; public photo marker coordinates; depth-band torpedo fixtures; same-tick one-hit beam outcomes; MIDDLE/local plant controls; explicit recovery departure; current PHOTO/fleet captions; real touch scroll to each setting; current VIEW menu; floating order-control avoidance; explicit route marker and touch confirmation. Journey controllers now defend during actual exposure and confirm departure rather than expecting obsolete passive survival. Parallel Confluence uses the existing disruption loadout, spends two of three EMPs, and wins with the sampler drone alive. These are source-known test controllers, not blind player-quality claims.
 
@@ -53,7 +53,7 @@ Requested suites: radial_hud_tests 58/0, drone_drive_ui_tests 38/0, archive_reca
 
 Runner contract checked with eight controlled process probes: valid core summary accepted; zero-exit script error, resources-still-in-use, ObjectDB leak, wrong summary prefix, zero count, nonzero failures and nonzero process exit rejected. Strict original summary gates preserved and leak gates strengthened. docs/TESTING.md is under 30 lines. Renderer regressions require a Compatibility display; Xvfb/display unavailable here, so reported as unverified, preserved, and not run headlessly.
 
-Next: integrate merged NAV1, register its focused/motion/touch/probe suites, recheck affected navigation and core, finish exact-head guidance/game-smoke, then merge and mark DONE with BOARD in the same commit. Handoff 034 is PRIORITY after 016 per the new board, then lowest eligible numeric OPEN handoff. Do not resume 018.
+Next: finish post-NAV1 core and affected navigation verification (an environment reconnect interrupted the first core run), await exact-head guidance/game-smoke, then merge and mark DONE with BOARD in the same commit. Source and registry are fully pushed; PR76 is ready. Handoff022 is DONE, PR75 merged07eb890. Last status: guidance green and game-smoke running on1c681ad. Handoff 034 is PRIORITY after 016 per the new board, then lowest eligible numeric OPEN handoff. Do not resume 018.
 
 ### Inventory of every GDScript absent from the original CI list
 
@@ -195,7 +195,7 @@ Next: integrate merged NAV1, register its focused/motion/touch/probe suites, rec
 | `resolution_instruments_tests.gd` | Runs and passes, 9/0; registered. Evidence: 016-audit-resolution_instruments_tests.log. |
 | `resolution_operations_tests.gd` | Runs and passes, 18/0; registered. Evidence: 016-audit-resolution_operations_tests.log. |
 | `resume_metrics_main.gd` | Host/scene fixture subclass, not a standalone suite; preserved and exercised by its owning registered harness. |
-| `route_program_tests.gd` | Route-program fixture repair is in PR75 (35/0 there); baseline failure reproduced. Registering it here, awaiting NAV1 integration. |
+| `route_program_tests.gd` | Runs and passes 35/0 after NAV1 fixture integration; registered. Evidence: 016-nav-route_program_tests.log. |
 | `route_program_ui_tests.gd` | Runs and passes, 44/0; registered. Evidence: 016-audit-route_program_ui_tests.log. |
 | `save_feedback_scenarios.gd` | Reusable fixture/controller, not a standalone harness. Preserved; referenced by runtime_tests. |
 | `siren_role_scenarios.gd` | Reusable fixture/controller, not a standalone harness. Preserved; referenced by acoustic_path_affected_tests, run_tests. |
@@ -219,3 +219,13 @@ Next: integrate merged NAV1, register its focused/motion/touch/probe suites, rec
 | `well_camera_feed_render_tests.gd` | Renderer-only regression; explicitly rejects headless execution. No display/Xvfb available in this environment, so unverified and preserved outside the headless registry. Run with a Compatibility display. |
 | `well_signature_save_shape_tests.gd` | Runs and passes, 9/0; registered. Evidence: 016-audit-well_signature_save_shape_tests.log. |
 | `x2_pressure_probes.gd` | Capture/diagnostic tool without a CHECKS harness; preserved, not a headless pass/fail suite. |
+
+### NAV1 files added after the original inventory
+
+| File under game/tests | Classification and evidence |
+| --- | --- |
+| `nav_clearance_measure.gd` | Reusable RefCounted geometry helper used by the registered clearance harness and probes; not standalone. |
+| `nav_clearance_tests.gd` | Runs and passes7/0; registered. Evidence016-nav-nav_clearance_tests.log. |
+| `nav_following_probe.gd` | Runs and passes84/0; registered. Evidence016-nav-nav_following_probe.log. |
+| `nav_clearance_probe.gd` | Short default runs and passes24/0; registered. Evidence016-nav-nav_clearance_probe.log. |
+| `nav_clearance_ui_tests.gd` | Runs and passes17/0 with actual injected touch and Android Back notification; registered. Evidence016-nav-nav_clearance_ui_tests.log. |
