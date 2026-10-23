@@ -162,7 +162,8 @@ static func frame(sim,uid:int,o:Dictionary,t:float=0.0,with_view:bool=false)->Di
 	var depth_dark:float=clampf(float(sim.mission.get("depth",2000))/4800.0,0.0,1.0)
 	var ambient:float=(0.16-0.12*depth_dark)*(0.55 if sim.mission.get("darkness",false) else 1.0)*float(bm.light)
 	var lamp:float=float(op.lamp)/(1.0+pow(dist/110.0,2.0))
-	var flashing:bool=bool(cfg.flash) and bool(op.flash) and flash_left(sim,uid)>0
+	var active:Dictionary=peek(sim).acc.get(uid,{})
+	var flashing:bool=bool(active.get("flash",false)) if not active.is_empty() and int(active.get("obj",-1))==index_of(sim,o) else bool(cfg.flash) and bool(op.flash) and flash_left(sim,uid)>0
 	var flash:float=0.75/(1.0+pow(dist/170.0,2.0)) if flashing else 0.0
 	var light:float=clampf(ambient+lamp+flash+float(s.get("glow",0.0)),0.0,1.0)
 	var speed:float=u.vel.length()
@@ -352,15 +353,18 @@ static func missing_text(f:Dictionary,s:Dictionary)->String:
 # --- discovery ---------------------------------------------------------------
 # Unnamed phenomena are not objectives until a craft's own forward camera sees
 # them. Craft heading, clear water and the sight distance decide.
+static func can_sight(sim,uid:int,pos:Vector2,sight:float=170.0)->bool:
+	var u=sim.units[uid]
+	if not BandPhoto.can_shoot(sim,u):return false
+	var op=optics(sim,uid)
+	var distance:float=sight*(0.65 if sim.mission.get("darkness",false) else 1.0)
+	return u.pos.distance_to(pos)<=distance and absf(angle_difference(u.angle,u.pos.angle_to_point(pos)))<=float(op.fov)*0.5+0.3 and sim.Depth.clear(sim,u.pos,pos,u.band)
 static func discover(sim)->void:
 	for o in sim.mission.objectives:
 		if o.get("unknown",false) and o.has("lead") and not o.get("sighted",false):
 			for uid in sim.units.size():
 				var u=sim.units[uid]
-				if not BandPhoto.can_shoot(sim,u):continue
-				var op=optics(sim,uid)
-				var sight:float=float(o.lead.get("sight",170.0))*(0.65 if sim.mission.get("darkness",false) else 1.0)
-				if u.pos.distance_to(o.pos)>sight or absf(angle_difference(u.angle,u.pos.angle_to_point(o.pos)))>float(op.fov)*0.5+0.3 or not sim.Depth.clear(sim,u.pos,o.pos,u.band):continue
+				if not can_sight(sim,uid,o.pos,float(o.lead.get("sight",170.0))):continue
 				o["sighted"]=true
 				sim.message="%s sighted something ahead · %s · unidentified"%[u.name,"bearing %d"%roundi(fposmod(rad_to_deg(u.pos.angle_to_point(o.pos)),360.0))]
 				sim.events.append({"type":"sighting","pos":o.pos})
@@ -393,12 +397,14 @@ static func siren_candidate(sim,uid:int)->int:
 		if dist<=reach(sim,uid) and dist<d and sim.Depth.clear(sim,u.pos,s.pos,u.band):best=i;d=dist
 	return best
 static func siren_objective(sim,i:int)->int:
+	if i<0 or i>=sim.sirens.size():return -1
 	var st=state(sim)
 	for n in st.studies.size():
 		if st.studies[n].get("siren",-1)==i:return STUDY+n
 	var s=sim.sirens[i];var type=str(s.get("type","patroller"))
 	var study={"pos":s.pos,"name":"S%d %s"%[i+1,type.to_upper()],"captured":false,"optional":true,"kind":"","duration":8.0,"siren":i,"subject":siren_subject(s),"optical":"siren_"+type,"site_id":"siren_"+type,"evidence":""}
-	if st.studies.size()>=MAX_STUDIES:st.studies.remove_at(0)
+	# Study indices are persistent identities: never evict/reindex a live or archived subject.
+	if st.studies.size()>=maxi(MAX_STUDIES,sim.sirens.size()):return -1
 	st.studies.append(study)
 	return STUDY+st.studies.size()-1
 # --- records -----------------------------------------------------------------
@@ -412,7 +418,7 @@ static func valid(mission:Dictionary)->bool:
 	if not p.get("flash") is Array or p.flash.size()!=3 or not p.get("paths") is Array or p.paths.size()>32:return false
 	if p.has("findings") and not Findings.valid_list(p.findings):return false
 	if p.has("studies"):
-		if not p.studies is Array or p.studies.size()>MAX_STUDIES:return false
+		if not p.studies is Array or p.studies.size()>maxi(MAX_STUDIES,mission.get("sirens",[]).size()):return false
 		for study in p.studies:
 			if not study is Dictionary or not study.has_all(["pos","name","captured","siren","subject"]) or not study.pos is Vector2 or not study.siren is int:return false
 	for shot in p.shots:
@@ -429,5 +435,7 @@ static func preview(sim,uid:int)->Dictionary:
 		return {"o":{"pos":s.pos,"name":"S%d %s"%[i+1,str(s.get("type","patroller")).to_upper()],"subject":siren_subject(s),"siren":i},"index":-2,"unit":uid,"ctx":ctx}
 	if t>=0 and t<sim.mission.objectives.size() and applies(sim.mission.objectives[t]):
 		var o=sim.mission.objectives[t]
+		if not sim.Depth.clear(sim,sim.units[uid].pos,o.pos,sim.units[uid].band):return {}
+		if stage(o)=="lead" and not can_sight(sim,uid,o.pos,float(o.lead.get("sight",170.0))):return {}
 		if sim.units[uid].pos.distance_to(o.pos)<=reach(sim,uid)*1.5 and BandPhoto.can_shoot(sim,sim.units[uid],o):return {"o":o,"index":t,"unit":uid,"ctx":ctx}
 	return {}

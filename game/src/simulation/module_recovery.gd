@@ -21,6 +21,12 @@ static func carried(sim,unit_id:int)->int:
  var state=_state(sim);var count=0
  for item in state.modules:
   if state.modules[item].state=="cargo" and state.modules[item].unit==unit_id:count+=1
+ # Physical research material and occupied capsules use the same carriage.
+ for key in ["glass_reach","iron_choir"]:
+  var artifact:Dictionary=sim.mission.get(key,{}).get("artifact",{})
+  if artifact.get("state","")=="cargo" and artifact.get("carrier",-1)==unit_id:count+=1
+ var witness:Dictionary=sim.mission.get("witness_evacuation",{})
+ if witness.get("state","")=="carried" and witness.get("carrier",-1)==unit_id:count+=1
  return count
 static func status(sim)->Dictionary:
  var state=_state(sim);var result={"modules":[],"cargo":[[],[],[]],"jobs":[{},{},{}],"result":state.result.duplicate(true)}

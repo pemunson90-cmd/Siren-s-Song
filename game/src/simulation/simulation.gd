@@ -622,6 +622,7 @@ func command(order: String,args: Dictionary={}) -> bool:
 			var context=camera_context()
 			if not context.ready: message=context.text; return false
 			var photo_target:int=context.target if context.target>=0 else Photo.siren_objective(self,context.siren)
+			if photo_target<0:message="No available photographic subject";return false
 			var target=Photo.obj(self,photo_target)
 			captures[selected]={"target":photo_target,"elapsed":0.0}; u.hold="HOLD"
 			Operations.begin(self,target,selected)
@@ -723,7 +724,11 @@ func _blackwater_context_text(target:int,station:int) -> String:
 	var learned=mission.objectives.any(func(o):return o.captured)
 	return "%s · %dm / quiet %.0fm%s"%[name,c.distance,c.quiet_range," · learned: SONAR + SAMPLE within 240m" if learned else " · move closer to listen"]
 func camera_context() -> Dictionary:
-	return Pricing.annotate(self,PhotoRules.camera_hint(self,BandPhoto.gate(self,_camera_context_base())))
+	var context=BandPhoto.gate(self,_camera_context_base())
+	if not context.get("ready",false) and int(context.get("target",-1))<0 and captures[selected].is_empty() and BandPhoto.can_shoot(self,units[selected]):
+		var subject=Photo.siren_candidate(self,selected)
+		if subject>=0:context={"target":-2,"siren":subject,"ready":true,"text":"READY · S%d %s · PHOTO 8s · observe its form and movement from clear water"%[subject+1,str(sirens[subject].get("type","patroller")).to_upper()]}
+	return Pricing.annotate(self,PhotoRules.camera_hint(self,context))
 func _camera_context_base() -> Dictionary:
 	var closed:String=BandPhoto.unready(self,units[selected])
 	if not closed.is_empty():return {"ready":false,"target":-1,"text":closed}

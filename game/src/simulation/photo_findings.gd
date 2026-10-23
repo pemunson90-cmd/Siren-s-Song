@@ -26,31 +26,54 @@ static func make(id:String,kind:String,text:String,q:float,op:int,shot:int,extra
 	var f={"id":id,"kind":kind,"text":text,"label":text.get_slice(" · ",0),"q":snappedf(q,0.01),"op":op,"shot":shot}
 	f.merge(extra,true)
 	return f
-# Frames of a Siren: its loop from the gait, its post and behavior from the array.
+# Findings consume recorded optical samples, never the actor's authored route/home.
+const LOOP_MIN_TRAVEL=90.0
+const LOOP_CLOSURE=20.0
+const OBSERVED_STATION=10.0
+static func _observed_path(sim,shot:Dictionary)->Array:
+	var points:Array=[];var last_time:float=-INF
+	for record in sim.mission.get("photo",{}).get("paths",[]):
+		if int(record.get("siren",-1))!=int(shot.siren):continue
+		var path:Array=record.get("pts",[])
+		var end_time:float=float(record.get("time",0.0))
+		if points.size()>0 and (end_time-float(path.size())>last_time+2.0 or (not path.is_empty() and vec(points.back()).distance_to(vec(path[0]))>LOOP_CLOSURE)):
+			points=[]
+		points.append_array(path);last_time=end_time
+	var current:Array=shot.get("path",[])
+	if not current.is_empty() and (points.is_empty() or points.slice(maxi(0,points.size()-current.size()))!=current):
+		if not points.is_empty() and vec(points.back()).distance_to(vec(current[0]))>LOOP_CLOSURE:points=[]
+		points.append_array(current)
+	return points.slice(maxi(0,points.size()-40)).duplicate(true)
+static func _closed_observation(points:Array)->bool:
+	if points.size()<4 or vec(points[0]).distance_to(vec(points.back()))>LOOP_CLOSURE:return false
+	var travel:float=0.0;var extent:float=0.0;var axis:=Vector2.ZERO
+	for n in range(1,points.size()):
+		travel+=vec(points[n-1]).distance_to(vec(points[n]))
+		var offset:Vector2=vec(points[n])-vec(points[0])
+		if axis.length_squared()<1.0 and offset.length_squared()>=1.0:axis=offset
+		extent=maxf(extent,absf(offset.cross(axis)))
+	return travel>=LOOP_MIN_TRAVEL and extent>1.0
 static func from_siren(sim,shot:Dictionary,seen:Array,fq:Dictionary)->Array:
 	var result:Array=[]
 	var i:int=int(shot.siren)
-	if i>=sim.sirens.size():return result
-	var s:Dictionary=sim.sirens[i];var type:String=str(shot.type);var tag:="S%d"%(i+1)
+	if i<0 or i>=sim.sirens.size():return result
+	var type:String=str(shot.type);var tag:="S%d"%(i+1)
 	var op:int=int(shot.op);var sid:int=int(shot.id)
-	if "gait" in seen:
-		var points:Array=s.get("patrol_points",[])
+	var path:Array=_observed_path(sim,shot)
+	if "gait" in seen and path.size()>=3:
 		var q:float=float(fq.get("gait",0.0))
-		if points.size()>=2 and q>=0.45:
-			var loop:Array=points.map(func(p):return pt(p))
-			loop.append(loop[0])
-			result.append(make("loop_%d"%i,"loop","%s PATROL LOOP · %d turns"%[tag,points.size()],q,op,sid,{"pts":loop}))
-			file(sim,[result.back()])
-		elif shot.get("path",[]).size()>=3:
-			result.append(make("loop_%d"%i,"loop","%s OBSERVED PATH · loop not yet clear"%tag,q,op,sid,{"pts":shot.path.duplicate(true)}))
+		var closed:bool=q>=0.45 and _closed_observation(path)
+		var text:String="%s PATROL LOOP · observed circuit"%tag if closed else "%s OBSERVED PATH · loop not yet clear"%tag
+		result.append(make("loop_%d"%i,"loop",text,q,op,sid,{"pts":path}))
+		file(sim,[result.back()])
 		var gap:Dictionary=_gap(sim,i)
 		if not gap.is_empty():result.append(make("gap","gap",gap.text,q,op,sid,{"pos":pt(gap.pos),"r":gap.r}))
 	if "array" in seen:
 		var text:String=str(BEHAVIOR.get(type,"Its behavior is recorded in the archive."))
 		var extra:Dictionary={}
-		if s.has("tether"):
-			extra={"pos":pt(s.home),"r":float(s.tether)}
-			text+=" Tethered %dm to this water."%roundi(float(s.tether))
+		if type=="sentinel" and path.size()>=3 and path.all(func(p):return vec(p).distance_to(vec(path[0]))<=OBSERVED_STATION):
+			extra={"pos":path[0].duplicate(),"r":0.0}
+			text+=" Observed station; boundary unknown."
 		result.append(make("post_%d"%i,"post","%s %s · %s"%[tag,type.to_upper(),text],float(fq.get("array",0.0)),op,sid,extra))
 	return result
 # Clear water between two studied loops, at least GAP_MIN from both. Only loops the
@@ -59,8 +82,10 @@ const GAP_MIN:=90.0
 static func _gap(sim,latest:int)->Dictionary:
 	var loops:Array=[]
 	for f in sim.mission.get("photo",{}).get("findings",[]):
-		if f.kind=="loop" and f.has("pts") and f.pts.size()>=3:loops.append(f)
-	var mine:Array=sim.sirens[latest].get("patrol_points",[])
+		if f.kind=="loop" and str(f.text).contains("PATROL LOOP") and f.has("pts") and _closed_observation(f.pts):loops.append(f)
+	var mine:Array=[]
+	for f in loops:
+		if f.id=="loop_%d"%latest:mine=f.pts.map(func(p):return vec(p))
 	if mine.size()<2:return {}
 	var other:Array=[]
 	for f in loops:
@@ -76,7 +101,9 @@ static func _gap(sim,latest:int)->Dictionary:
 	var span:Vector2=(mid2-mid)
 	for k in range(1,12):
 		var p:Vector2=mid+span*float(k)/12.0
-		if sim.blocked(p,40.0):continue
+		var chart=sim.depth_charts.get(1)
+		# Only sensor-certified clear water can carry a positive gap claim.
+		if chart==null or not chart.clear_disk(p,40.0):continue
 		var d:float=minf(_dist_loop(p,a),_dist_loop(p,other))
 		if d>score:score=d;best=p
 	if score<GAP_MIN:return {}
