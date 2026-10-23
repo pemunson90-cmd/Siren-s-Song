@@ -34,6 +34,18 @@ func shape_case(shape):
  var clock=feed.time
  await settle()
  check(is_equal_approx(clock,feed.time),"reduced motion freezes decorative camera animation")
+ var Catalog=preload("res://src/equipment/equipment_catalog.gd")
+ game.sim.mission.launch_equipment=Catalog.choose(Catalog.default_loadout(),"quietus","photo_flash",["photo_flash"]).fitted
+ Photo.set_frame(game.sim,0,{"mode":"tight"})
+ Settings.current.text_scale=1.5;game._layout();await settle()
+ check(feed.quality_rect.has_area() and not feed.quality_rect.intersects(feed.picture_rect),"quality meters stay outside the picture and its finite-film badge")
+ check(feed._buttons.size()==3,"fitted flash and tight framing show all three camera controls")
+ for control in feed._buttons:
+  check(Rect2(Vector2.ZERO,feed.size).encloses(control.rect),"150 percent text keeps every full camera target inside the viewfinder")
+ var focus=Photo.settings(game.sim,0).focus
+ if feed._buttons.size()==3:
+  await tap(feed.global_position+feed._buttons[2].rect.get_center())
+  check(Photo.settings(game.sim,0).focus!=focus,"the large-text focus control responds to real touch")
  Settings.current=preload("res://src/persistence/settings_store.gd").DEFAULTS.duplicate()
  game._show_campaign();await settle()
  var menu_min=INF

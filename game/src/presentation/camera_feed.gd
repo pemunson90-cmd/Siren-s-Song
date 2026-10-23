@@ -19,6 +19,8 @@ var _frame:Dictionary={}
 var _vm_age:=1.0
 var _vm_key:=""
 var _buttons:Array=[]
+var quality_rect:=Rect2()
+var picture_rect:=Rect2()
 var time:=0.0
 static func fit_caption(text:String,width:float,font_size:int)->String:
 	var font=ThemeDB.fallback_font
@@ -63,14 +65,21 @@ func _gui_input(event: InputEvent) -> void:
 	for button in _buttons:
 		if button.rect.has_point(point):
 			sim.command("frame",button.args);_vm_age=1.0;accept_event();return
+func preferred_width()->float:
+	# Reserve the full flash + tight + focus row at the largest selected text size.
+	var button_width=maxf(maxf(48,touch_height)+4,maxi(17,receiver_font_size)*6.)
+	return maxf(480,maxf(touch_height*7.5,button_width*3+16))
 func _draw_photo(t:Dictionary) -> void:
 	var o:Dictionary=t.o;var uid:int=t.unit;var live:bool=t.get("live",false)
 	var font=ThemeDB.fallback_font;var fs:=maxi(17,receiver_font_size)
 	var bh:=maxf(48,touch_height)
 	var control_top:=float(fs+14)
 	draw_rect(Rect2(Vector2.ZERO,size),Color("07151d"));draw_rect(Rect2(Vector2.ZERO,size),Color("6b9d9f"),false,1)
-	var picture_top:=control_top+bh+8
+	var quality_top:=control_top+bh+8
+	var picture_top:=quality_top+fs+24
 	var picture:=Rect2(8,picture_top,size.x-16,maxf(20,size.y-picture_top-fs*2-22))
+	picture_rect=picture
+	quality_rect=Rect2(8,quality_top,size.x-16,fs+18)
 	var acc:Dictionary=Photo.peek(sim).acc.get(uid,{})
 	var key:="%d:%d"%[uid,int(t.index)]
 	if _vm_age>0.2 or key!=_vm_key or _vm.is_empty():
@@ -79,7 +88,7 @@ func _draw_photo(t:Dictionary) -> void:
 		_vm=PhotoView.from_frame(_frame,"siren" if o.has("siren") else "site",str(o.get("optical",o.get("site_id",""))),str(o.subject.get("type","")) if o.has("siren") else "")
 	PhotoView.draw(self,picture,_vm,time,fs)
 	Priced.draw_viewfinder(self,sim,uid,o,picture,fs,_frame)
-	_draw_quality(picture,fs)
+	_draw_quality(quality_rect,fs)
 	var since:=time-_filed_at
 	if not Settings.reduced_motion() and since>=0.0 and since<4.6 and not _filed.is_empty():
 		# Shutter: the iris shuts, the lamp pops, then the plate comes up out of the dark.

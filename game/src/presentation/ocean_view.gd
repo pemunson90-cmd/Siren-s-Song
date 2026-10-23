@@ -141,7 +141,7 @@ func _process(dt: float) -> void:
 	if optical_feed!=null:
 		optical_feed.sim=sim; optical_feed.visible=presenting_mission and sim!=null and sim.outcome.is_empty() and optical_feed.viewfinder_visible(sim)
 		var height=minf(maxf(300,optical_feed.touch_height*4.8),size.y-instrument_top-54)
-		optical_feed.size=Vector2(minf(size.x-28,maxf(480,optical_feed.touch_height*7.5)),height)
+		optical_feed.size=Vector2(minf(size.x-28,optical_feed.preferred_width()),height)
 		optical_feed.position=Vector2(14,maxf(instrument_top+40,size.y-height-14))
 	queue_redraw()
 func acoustic_rows() -> Array:
