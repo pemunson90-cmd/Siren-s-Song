@@ -28,6 +28,7 @@ func _initialize():
  for n in 600:
   forced.advance(Sim.STEP)
   if forced.message.begins_with("Hull strike") and not forced.message in impacts:impacts.append(forced.message)
+ check(absf(forced.hull-86.5012016296387)<.000001,"forced friendly impact preserves the measured pre-fix damage")
  check(forced.hull<100.0 and not impacts.is_empty(),"forced friendly impact retains physical hull damage")
  check(impacts.all(func(message):return "DRONE B" in message),"every friendly strike identifies Drone B")
  print("FORCED OPENING hull=",forced.hull," impacts=",impacts)
