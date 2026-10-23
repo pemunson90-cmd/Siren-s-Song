@@ -3,6 +3,7 @@ const Orders=preload("res://src/simulation/orders/order_table.gd")
 const JobRelease=preload("res://src/simulation/job_release.gd")
 const SaveChecks=preload("res://src/persistence/save_checks.gd")
 const EnemyTypes=preload("res://src/simulation/enemy_types.gd")
+const GradeOnSecure=preload("res://src/photo_grade/grade_on_secure.gd")
 const LaunchLayout=preload("res://src/simulation/opening_fleet/launch_layout.gd")
 const Shelf=preload("res://src/simulation/shelf_habitat.gd")
 const Wake=preload("res://src/simulation/wake_crossing.gd")
@@ -609,6 +610,7 @@ func command(order: String,args: Dictionary={}) -> bool:
 		_: return false
 	return _finish_command(u,order)
 func _finish_command(u:Dictionary,order:String)->bool:
+	if order=="emp":preload("res://src/simulation/observed_stun.gd").record(self)
 	JobRelease.cancel(self,selected,order)
 	AllStop.after_order(self,u,order)
 	return true
@@ -696,11 +698,7 @@ func _blackwater_context_text(target:int,station:int) -> String:
 	var learned=mission.objectives.any(func(o):return o.captured)
 	return "%s · %dm / quiet %.0fm%s"%[name,c.distance,c.quiet_range," · learned: SONAR + SAMPLE within 240m" if learned else " · move closer to listen"]
 func camera_context() -> Dictionary:
-	var context=BandPhoto.gate(self,_camera_context_base())
-	if not context.get("ready",false) and int(context.get("target",-1))<0 and captures[selected].is_empty() and not _warning_chain_busy(selected) and BandPhoto.can_shoot(self,units[selected]):
-		var subject=Photo.siren_candidate(self,selected)
-		if subject>=0:context={"target":-2,"siren":subject,"ready":true,"text":"READY · S%d %s · PHOTO 8s · observe its form and movement from clear water"%[subject+1,str(sirens[subject].get("type","patroller")).to_upper()]}
-	return Pricing.annotate(self,PhotoRules.camera_hint(self,context))
+	return Pricing.annotate(self,PhotoRules.camera_hint(self,BandPhoto.gate(self,preload("res://src/simulation/photo_context.gd").resolve(self,_camera_context_base()))))
 func _camera_context_base() -> Dictionary:
 	var closed:String=BandPhoto.unready(self,units[selected])
 	if not closed.is_empty():return {"ready":false,"target":-1,"text":closed}
@@ -1112,6 +1110,7 @@ func _observe() -> void:
 			if sirens[i].get("report",{}).get("charge",0)>0:contacts[i]["report_remaining"]=ContactReports.CHARGE-sirens[i].report.charge
 			if sirens[i].get("report",{}).get("sent",0)>0:contacts[i]["report_sent"]=true
 			if sirens[i].get("pin_time",0)>0: contacts[i]["pin_time"]=sirens[i].pin_time
+	preload("res://src/simulation/observed_stun.gd").record(self)
 	for i in sonar.fixes:
 		var fix=sonar.fixes[i]
 		if not contacts.has(i) or contacts[i].time<fix.time:
@@ -1427,7 +1426,7 @@ static func valid_snapshot(data: Dictionary) -> bool:
 		if not (work.elapsed is float or work.elapsed is int) or not is_finite(float(work.elapsed)) or work.elapsed<0:return false
 		var site=Photo.target_in(data.mission,work.target)
 		var duration=Sampler.capture_spec(id,data.mission.get("launch_equipment",{}),site).get("duration",site.get("duration",4.0))
-		if work.elapsed>duration or (site.captured and not Operations.own_origin(site) and not (Delivery.applies(data.mission))):return false
+		if work.elapsed>duration or (site.captured and not Photo.applies(site) and not Operations.own_origin(site) and not (Delivery.applies(data.mission))):return false
 		exposed.append(work.target)
 	if not SaveChecks.valid(data,"world"):return false
 	if data.mission.get("earned_terrain",false):
@@ -1516,6 +1515,9 @@ func has_live_contact() -> bool:
 	return false
 
 func _record_secured(record: Dictionary,unit_id:int=-1) -> void:
+	_record_secured_core(record,unit_id)
+	if not record.has("siren"):message+=GradeOnSecure.note(record)
+func _record_secured_core(record: Dictionary,unit_id:int=-1) -> void:
 	if record.has("siren"):
 		# A Siren study is film, not a charted record: it never advances an operation's own record logic.
 		Recon.secured(self,record,unit_id);events.append({"type":"record","pos":record.pos});message="Siren study filed · review it in FIELD RECORDS"

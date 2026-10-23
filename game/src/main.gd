@@ -23,6 +23,7 @@ var store=SaveStore.new()
 var sound
 var save_clock:=0.0
 var save_error:=""
+var save_retry_pending:=false
 var archive_warning:=""
 var archive_status:VBoxContainer
 var archive_status_text:Label
@@ -229,6 +230,8 @@ func _start_mission(index: int) -> void:
 func _primary_action() -> void:
 	if decoy_armed or knock_armed:
 		decoy_armed=false;knock_armed=false;map_gesture.cancel();knock_press.clear();sim.message="Targeting cancelled";_refresh();return
+	var photographic=sim.camera_context()
+	if photographic.get("ready",false) and preload("res://src/simulation/photo_context.gd").is_photo(sim,photographic):_order("camera");return
 	var shelter=preload("res://src/presentation/shelf_habitat_view.gd").nearest(sim)
 	if not shelter.is_empty():mission_hud.open("habitat",shelter);return
 	var station=WarningChain.nearest_station(sim)
@@ -316,7 +319,8 @@ func _refresh() -> void:
 		unit_buttons[i].text=["QUIETUS","DRONE A","DRONE B"][i]+"\n"+task
 		unit_buttons[i].add_theme_font_size_override("font_size",maxi(14,roundi(ui_touch_height*0.26*FrontendSettings.text_scale())))
 	order_buttons.waypoint_mode.text="PASS\nPOINTS" if sim.pass_through else "STOP AT\nPOINTS"
-	ocean.optical_feed.receiver_font_size=maxi(14,roundi(ui_touch_height*0.25))
+	ocean.optical_feed.receiver_font_size=maxi(17,roundi(ui_touch_height*0.29*FrontendSettings.text_scale()))
+	ocean.optical_feed.touch_height=ui_touch_height
 	order_buttons.camera.text="SAMPLE" if sim.mission.get("blackwater_revision",0)==1 else "CAMERA\nLISTEN" if sim.mission.get("finale_revision",0)==1 else ("CAMERA\nLINK" if mission_index==1 else "CAMERA")
 	var camera_target:int=int(sim.camera_context().get("target",-1))
 	if camera_target==-2 or (camera_target>=0 and PhotoCapture.applies(PhotoCapture.obj(sim,camera_target))):order_buttons.camera.text="PHOTO"
@@ -440,6 +444,8 @@ func _view_changed() -> void:
 	print("SS_VIEW zoom=",snappedf(ocean.chart_camera.zoom,0.01)," center=",ocean.chart_camera.center)
 	call_deferred("_report_targets")
 func _unhandled_key_input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed and not event.echo and event.keycode==KEY_ESCAPE:
+		if _frontend_back():get_viewport().set_input_as_handled();return
 	if screen=="program":
 		if event is InputEventKey and event.pressed and event.keycode==KEY_ESCAPE: route_editor.close()
 		return
@@ -471,15 +477,16 @@ func _show_campaign() -> void:
 	_menu_text("SIREN'S SONG",38).add_theme_color_override("font_color",Color("80d9cf"))
 	_menu_text("ONE PILOT. TWO DRONES. AN OCEAN THAT LISTENS.",14)
 	_menu_text("USS QUIETUS  /  OPERATIONS ARCHIVE",18)
-	if active_started and sim.outcome.is_empty():
-		_button(panel_box,"RESUME DIVE · %02d %s"%[mission_index+1,sim.mission.title.to_upper()],_enter_water,"resume")
-		if not _campaign_pristine():_menu_text("Resuming keeps this dive's equipment and its place in time.",14)
 	for i in 6:
 		var id=i
 		var b=_button(panel_box,"%02d   %s   %s"%[i+1,Simulation.Missions.TITLES[i],"RECOVERED" if i in completed else ("AVAILABLE" if i<=unlocked else "LOCKED")],func(): print("SS_MISSION_SELECT ",id); _briefing(id))
 		b.disabled=i>unlocked
 		b.set_meta("action","mission%d"%i)
 	ExpeditionOperations.operations(self)
+	if active_started and sim.outcome.is_empty():
+		_button(panel_box,"RESUME DIVE · %02d %s"%[mission_index+1,sim.mission.title.to_upper()],_enter_water,"resume")
+		if not _campaign_pristine():_menu_text("Resuming keeps this dive's equipment and its place in time.",14)
+	_button(panel_box,"FITTINGS / NEXT LAUNCH",_show_fittings,"fittings")
 	if not Endings.resolve(expedition).is_empty():_button(panel_box,"VIEW CAMPAIGN ENDING",_show_ending,"ending")
 	if not _campaign_pristine():_button(panel_box,"ERASE PROGRESS · NEW CAMPAIGN",_confirm_new_campaign,"new_campaign")
 	if not recovered_evidence.is_empty(): _button(panel_box,"REVIEW FIELD RECORDS",func(): _evidence_gallery(0),"evidence")
@@ -499,6 +506,8 @@ func _show_campaign() -> void:
 # A campaign with nothing recovered yet has no progress to resume or replace.
 func _campaign_pristine()->bool:
 	return completed.is_empty() and unlocked==0 and expedition.is_empty() and recovered_evidence.is_empty() and photo_records.is_empty() and photo_intel.is_empty()
+func _show_fittings()->void:
+	preload("res://src/presentation/fittings_menu.gd").show(self)
 func _cycle_loadout()->void:
 	var reading_position=scroll.scroll_vertical
 	upgrade=["endurance","disruption","survey"][( ["endurance","disruption","survey"].find(upgrade)+1)%3]
@@ -529,9 +538,7 @@ func _briefing(index: int) -> void:
 		_menu_text(briefing.brief,20)
 		if not photo_problems.is_empty():_menu_text(photo_problems,17)
 		if ExpeditionOperations.briefing(self,index):pass
-		else:
-			_menu_text(_orders_text(briefing),17)
-		_menu_text(RULES_TEXT,17)
+		_button(panel_box,"FIELD MANUAL · full rules and orders",func(): _reference(index),"manual")
 	var stock=_loadout_stock(upgrade)
 	_menu_text("NEXT DIVE / RETRY · %s\nO₂ %d%% · DISRUPT %d · SURVEY %d · 3 DECOYS · 2 DRONES · 2 TORPEDOES"%[upgrade.to_upper(),stock[0],stock[1],stock[2]],17)
 	# Frames open after the first dive; recovered fittings appear once earned. A toggle folds them away.
@@ -578,7 +585,9 @@ func _choose_equipment(slot:String,item:String,index:int)->void:
 	if not choice.ok:return
 	var reading_position=scroll.scroll_vertical
 	fitted_equipment=choice.fitted
-	_save_archive();_briefing(index)
+	_save_archive()
+	if index<0:_show_fittings()
+	else:_briefing(index)
 	var heading=panel_box.get_child(0)
 	(func():
 		# Wait for wrapped text to establish the rebuilt scroll range.
@@ -618,7 +627,7 @@ func _debrief() -> void:
 			if 6 in ExpeditionCampaign.available(completed,expedition):_button(panel_box,"BEYOND THE WARNING / THE DIVERGENCE",func():_briefing(6),"expedition6")
 		else: _button(panel_box,"NEXT DIVE",func(): _briefing(mission_index+1),"next_dive")
 	else:
-		_menu_text("SIGNAL LOST",32); _menu_text(sim.message,22); _menu_text("Field records remain reviewable after loss or abandonment. Only successful extraction advances the campaign.",17)
+		_menu_text("SIGNAL LOST",32); _menu_text(sim.message,22); _menu_text(preload("res://src/presentation/loss_summary.gd").line(sim),17); _menu_text("Field records remain reviewable after loss or abandonment. Only successful extraction advances the campaign.",17)
 		BlackwaterDelivery.debrief(self)
 		ModuleRecovery.debrief(self)
 	_button(panel_box,"RETRY DIVE",func(): _briefing(mission_index),"retry")
@@ -719,13 +728,24 @@ func _archive() -> Dictionary:
 	data["equipment"]=preload("res://src/equipment/equipment_catalog.gd").canonical(fitted_equipment)
 	return data
 func _save_archive() -> void:
-	if not capture_scenario.is_empty() or sim.mission==null: return
+	_write_archive(false)
+func _retry_archive()->void:
+	if not save_retry_pending:return
+	save_retry_pending=false
+	_write_archive(true)
+func _write_archive(retry:bool)->void:
+	if not capture_scenario.is_empty() or sim.mission==null:return
 	_sync_craft_upgrades()
 	if store.save(_archive()):
-		save_error=""
+		save_retry_pending=false;save_error=""
 		print("SS_SAVE ok mission=",mission_index," time=",snappedf(sim.elapsed,0.01)," paused=",sim.paused," completed=",completed," unlocked=",unlocked)
-	else:
+	elif retry:
 		save_error=store.warning;sim.message=save_error
+		print("SS_SAVE retry_failed reason=",store.warning," active.captures=",sim.captures)
+	else:
+		print("SS_SAVE retry_pending reason=",store.warning," active.captures=",sim.captures)
+		if not save_retry_pending:
+			save_retry_pending=true;call_deferred("_retry_archive")
 	_update_archive_status()
 func _dismiss_archive_warning()->void:
 	archive_warning="";_update_archive_status()
@@ -807,8 +827,13 @@ func _notification(what: int) -> void:
 	if what==NOTIFICATION_WM_GO_BACK_REQUEST:
 		sim.paused=true; _save_archive(); call_deferred("_android_back")
 
+func _frontend_back()->bool:
+	var front=get_node_or_null("Frontend")
+	if front==null or not front.has_method("back"):return false
+	front.back()
+	return true
 func _android_back()->void:
-	if not is_inside_tree():return
+	if not is_inside_tree() or _frontend_back():return
 	# Match Escape in the route instrument, after Android's notification traversal.
 	if screen=="program":route_editor.close()
 	elif screen=="mission" and advanced_orders:mission_hud._back()
