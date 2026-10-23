@@ -1,4 +1,4 @@
-extends RefCounted
+extends Node
 # Read-only touch explanations. Revert: remove ToolHelp seams in mission_hud.gd.
 const HOLD_SECONDS = .5
 const TEXT = {
@@ -10,15 +10,23 @@ const TEXT = {
  "sonar_power":"POWER: choose low or high sonar pulse power.",
  "sonar_history":"HISTORY: read the sonar signals this craft has received."
 }
-var generation=0
-func cancel():generation+=1
-func arm(hud,button):
+var hud
+var timer:Timer
+var key=""
+func setup(owner):
+ hud=owner
+ timer=Timer.new();timer.one_shot=true;timer.wait_time=HOLD_SECONDS;add_child(timer)
+ timer.timeout.connect(_show)
+func cancel():
+ key=""
+ if timer!=null:timer.stop()
+func arm(_hud,button):
  cancel()
  if button==null or not TEXT.has(button.get_meta("action","")):return
- var ticket=generation
- await hud.get_tree().create_timer(HOLD_SECONDS).timeout
- if not is_instance_valid(hud) or ticket!=generation or not hud.host.advanced_orders:return
+ key=button.get_meta("action");timer.start()
+func _show():
+ if not is_instance_valid(hud) or not hud.host.advanced_orders or not TEXT.has(key):return
  hud.help_return=hud.page
- hud.help_text=TEXT[button.get_meta("action")]
+ hud.help_text=TEXT[key]
  hud.help_consumed=true
  hud.open("order_help")

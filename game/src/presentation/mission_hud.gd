@@ -57,6 +57,7 @@ var help_text=""
 var help_consumed=false
 func setup(owner):
  host=owner;mouse_filter=Control.MOUSE_FILTER_IGNORE
+ add_child(tool_help);tool_help.setup(self)
  blocker=Control.new();blocker.mouse_filter=Control.MOUSE_FILTER_STOP;add_child(blocker);blocker.gui_input.connect(_outside)
  for key in host.order_buttons:
   var b=host.order_buttons[key];b.reparent(self);b.set_meta("action",key)
