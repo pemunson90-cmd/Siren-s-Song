@@ -2,9 +2,11 @@
 """Fetch/copy current instructions at an explicit or Git-hook task boundary."""
 import argparse, fcntl, hashlib, json, os, pathlib, re, signal, subprocess, sys, tempfile, time
 
-FILES=('AGENTS.md','docs/USER_DIRECTIVES.md','docs/CONTINUATION.md','docs/WORKBENCH.md','docs/architecture/GAUNTLET.md','docs/CURRENT_GAME_SPEC.md','docs/V7_TO_GODOT_PARITY.md')
-REF='refs/remotes/origin/gauntlet/production'
+FILES=('AGENTS.md','docs/USER_DIRECTIVES.md','docs/RESUME.md','docs/CONTINUATION.md','docs/WORKBENCH.md','docs/architecture/GAUNTLET.md','docs/CURRENT_GAME_SPEC.md','docs/V7_TO_GODOT_PARITY.md')
+INTEGRATION='refs/heads/claude/integration'
+REF='refs/remotes/origin/claude/integration'
 PRODUCTION='refs/heads/gauntlet/production'
+PRODUCTION_REF='refs/remotes/origin/gauntlet/production'
 
 def command(args, timeout=30):
     env=os.environ.copy();env['GIT_TERMINAL_PROMPT']='0'
@@ -45,7 +47,7 @@ def refresh(boundary, timeout, lock_timeout):
                     time.sleep(0.05)
             previous=json.loads(current.read_text()) if current.exists() else {}
             last=previous if previous.get('status')=='fresh' else previous.get('last_success',{})
-            command(['git','fetch','--no-tags','--no-recurse-submodules','origin','+'+PRODUCTION+':'+REF],timeout)
+            command(['git','fetch','--no-tags','--no-recurse-submodules','origin','+'+INTEGRATION+':'+REF],timeout)
             sha=command(['git','rev-parse',REF]).decode().strip();cache=state/'policies'/sha
             contents={name:command(['git','show',sha+':'+name]) for name in FILES}
             info={}
@@ -78,9 +80,9 @@ def dispatch(path, policy):
     agents=pathlib.Path(policy['files']['AGENTS.md']['cache_path']).read_text()
     match=re.search(r'^## Current execution contract[^\n]*\n(.*?)(?=^## |\Z)',agents,re.M|re.S)
     contract=agents[:match.end()].strip() if match else agents
-    prefix='Current fetched policy SHA: '+policy['policy_sha']+'\n'+contract+'\n\nRead and apply the FULL cached governing files before this task:\n'
+    prefix='Current fetched policy SHA: '+policy['policy_sha']+'\n'+contract+'\n\nCached governing files (root reconciles the full set; worker reads USER_DIRECTIVES plus task-relevant guidance named in the brief):\n'
     prefix+='\n'.join(name+': '+policy['files'][name]['cache_path'] for name in FILES)
-    prefix+='\nRead the cached CURRENT_GAME_SPEC.md and V7_TO_GODOT_PARITY.md alongside source authority before design or gameplay implementation; historical specifications remain provenance. Inherit docs/AGENT_BRIEF.md and docs/SOURCE_AUTHORITY.md; current explicit user direction has priority. Imported originals remain immutable. Sol6.1 Medium is the substantial-work default; one implementation worker and one independent integration reviewer; record requested routing separately from unavailable backend/cost telemetry. Preserve assigned ownership and strongest verified baseline.\n\nAssigned task:\n'
+    prefix+='\nFor design or gameplay implementation, apply the relevant cached CURRENT_GAME_SPEC.md and V7_TO_GODOT_PARITY.md sections alongside source authority; historical specifications remain provenance. Inherit docs/AGENT_BRIEF.md and docs/SOURCE_AUTHORITY.md; current explicit user direction has priority. Imported originals remain immutable. Sol6.1 Medium is the substantial-work default; one implementation worker and one independent integration reviewer; record requested routing separately from unavailable backend/cost telemetry. Preserve assigned ownership and strongest verified baseline.\n\nAssigned task:\n'
     task['message']=prefix+task['message']
     if not follow:task.setdefault('model','gpt-6.1-sol');task.setdefault('reasoning_effort','medium');task.setdefault('fork_turns','none')
     return {'tool':'collaboration.followup_task' if follow else 'collaboration.spawn_agent','arguments':task}
@@ -113,10 +115,15 @@ def guard_push(policy, updates):
         fields=line.split()
         if len(fields)!=4:raise ValueError('malformed pre-push update')
         local_ref,tip,remote_ref,old=fields
-        if remote_ref!=PRODUCTION:continue
-        if set(tip)=={'0'}:raise ValueError('production deletion refused')
-        r=subprocess.run(['git','merge-base','--is-ancestor',policy['policy_sha'],tip],capture_output=True,timeout=10)
-        if r.returncode:raise ValueError('newly fetched origin production must be an ancestor of proposed production tip; reconcile before push')
+        if remote_ref not in (INTEGRATION,PRODUCTION):continue
+        if set(tip)=={'0'}:raise ValueError('integration/production deletion refused')
+        required=[('integration',policy['policy_sha'])]
+        if remote_ref==PRODUCTION:
+            command(['git','fetch','--no-tags','--no-recurse-submodules','origin','+'+PRODUCTION+':'+PRODUCTION_REF])
+            required.append(('production',command(['git','rev-parse',PRODUCTION_REF]).decode().strip()))
+        for role,sha in required:
+            r=subprocess.run(['git','merge-base','--is-ancestor',sha,tip],capture_output=True,timeout=10)
+            if r.returncode:raise ValueError('newly fetched '+role+' must be an ancestor of proposed pushed tip; reconcile before push')
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)

@@ -1,5 +1,7 @@
 # Siren’s Song — Gauntlet visual reference package
 
+**Archive location:** raw concept images, original handoff ZIP and review PDF are preserved unchanged on [archive/reference-package-20261022](https://github.com/pemunson90-cmd/Siren-s-Song/tree/archive/reference-package-20261022/references/package), snapshot7089470. Paths below are relative to that archived package. MANIFEST.json records exact bytes, SHA-256 and commit-bound URLs. Active Markdown retains design direction and provenance; runtime assets remain in game/.
+
 ## Begin here
 
 Build the game described by the included design bible. Use this multi-image reference set to preserve Pat’s visual intent across playable situations. Continue the existing gauntlet workflow; this package completes the concept-art handoff.
@@ -39,3 +41,23 @@ Use the references to inform a playable Android milestone and the bible’s auto
 ## Package integrity
 
 MANIFEST.json lists file sizes and SHA-256 hashes. Original initial six experiments and superseded drifted scenes are retained under archive for provenance; primary references are under references.
+
+
+## Archived file links
+- [archive/exec-1b18dab7-3b7a-4dcf-b0e6-f4ab68673513.png](https://github.com/pemunson90-cmd/Siren-s-Song/blob/70894702610ba8499b696af072444c8c942e2476/references/package/archive/exec-1b18dab7-3b7a-4dcf-b0e6-f4ab68673513.png)
+- [archive/exec-46abe549-6077-402a-976e-8a0ff8f4e0f5.png](https://github.com/pemunson90-cmd/Siren-s-Song/blob/70894702610ba8499b696af072444c8c942e2476/references/package/archive/exec-46abe549-6077-402a-976e-8a0ff8f4e0f5.png)
+- [archive/exec-57daaf88-d61c-4588-b7a0-7a99bf725136.png](https://github.com/pemunson90-cmd/Siren-s-Song/blob/70894702610ba8499b696af072444c8c942e2476/references/package/archive/exec-57daaf88-d61c-4588-b7a0-7a99bf725136.png)
+- [archive/exec-59516071-0bd6-4b29-9da3-4f272c5d28ef.png](https://github.com/pemunson90-cmd/Siren-s-Song/blob/70894702610ba8499b696af072444c8c942e2476/references/package/archive/exec-59516071-0bd6-4b29-9da3-4f272c5d28ef.png)
+- [archive/exec-83aa9c1b-aaad-44b9-8751-4928adfcfbb6.png](https://github.com/pemunson90-cmd/Siren-s-Song/blob/70894702610ba8499b696af072444c8c942e2476/references/package/archive/exec-83aa9c1b-aaad-44b9-8751-4928adfcfbb6.png)
+- [archive/exec-cdf37b5e-620b-4f94-85d4-ecab266a1a98.png](https://github.com/pemunson90-cmd/Siren-s-Song/blob/70894702610ba8499b696af072444c8c942e2476/references/package/archive/exec-cdf37b5e-620b-4f94-85d4-ecab266a1a98.png)
+- [archive/exec-e9be7714-77fb-4f4e-9ab4-194e52689d2d.png](https://github.com/pemunson90-cmd/Siren-s-Song/blob/70894702610ba8499b696af072444c8c942e2476/references/package/archive/exec-e9be7714-77fb-4f4e-9ab4-194e52689d2d.png)
+- [archive/exec-f875a309-4ba5-49ba-b0b1-f8094d85a236.png](https://github.com/pemunson90-cmd/Siren-s-Song/blob/70894702610ba8499b696af072444c8c942e2476/references/package/archive/exec-f875a309-4ba5-49ba-b0b1-f8094d85a236.png)
+- [references/01_TOPDOWN_FACTORY_APPROACH.png](https://github.com/pemunson90-cmd/Siren-s-Song/blob/70894702610ba8499b696af072444c8c942e2476/references/package/references/01_TOPDOWN_FACTORY_APPROACH.png)
+- [references/02_TOPDOWN_SPLIT_CHANNEL.png](https://github.com/pemunson90-cmd/Siren-s-Song/blob/70894702610ba8499b696af072444c8c942e2476/references/package/references/02_TOPDOWN_SPLIT_CHANNEL.png)
+- [references/03_FACTORY_SCALE_QUIETUS_CORRECTED.png](https://github.com/pemunson90-cmd/Siren-s-Song/blob/70894702610ba8499b696af072444c8c942e2476/references/package/references/03_FACTORY_SCALE_QUIETUS_CORRECTED.png)
+- [references/04_BLACKWATER_QUIETUS_CORRECTED.png](https://github.com/pemunson90-cmd/Siren-s-Song/blob/70894702610ba8499b696af072444c8c942e2476/references/package/references/04_BLACKWATER_QUIETUS_CORRECTED.png)
+- [references/05_SIREN_ANGULAR_RAY.png](https://github.com/pemunson90-cmd/Siren-s-Song/blob/70894702610ba8499b696af072444c8c942e2476/references/package/references/05_SIREN_ANGULAR_RAY.png)
+- [references/06_SIREN_SERPENTINE.png](https://github.com/pemunson90-cmd/Siren-s-Song/blob/70894702610ba8499b696af072444c8c942e2476/references/package/references/06_SIREN_SERPENTINE.png)
+- [references/07_QUIETUS_EXTERIOR_REFERENCE_PDF_PAGE.png](https://github.com/pemunson90-cmd/Siren-s-Song/blob/70894702610ba8499b696af072444c8c942e2476/references/package/references/07_QUIETUS_EXTERIOR_REFERENCE_PDF_PAGE.png)
+- [sources/01-sirens_song_handoff.zip](https://github.com/pemunson90-cmd/Siren-s-Song/blob/70894702610ba8499b696af072444c8c942e2476/references/package/sources/01-sirens_song_handoff.zip)
+- [sources/SIRENS_SONG_CONCEPT_ART_IMAGE_REVIEW_HANDOFF.pdf](https://github.com/pemunson90-cmd/Siren-s-Song/blob/70894702610ba8499b696af072444c8c942e2476/references/package/sources/SIRENS_SONG_CONCEPT_ART_IMAGE_REVIEW_HANDOFF.pdf)

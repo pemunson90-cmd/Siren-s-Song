@@ -16,6 +16,9 @@ class GuidanceTests(unittest.TestCase):
              "staleness; task closeout; next highest-value; bible; CURRENT_GAME_SPEC.md; "
              "likely candidate; Quietus; Sirens" for p in module.FILES}
         d["README.md"] = "Active game development on gauntlet/production"
+        if active:
+            for name in ("AGENTS.md", "README.md", "docs/START_HERE.md", "docs/RESUME.md"):
+                d[name] = d.get(name, "") + "; claude/integration; RESUME.md; codex/handoffs"
         if not active:
             for name in (
                 "docs/CURRENT_GAME_SPEC.md", "docs/CONTINUATION.md",
@@ -36,6 +39,16 @@ class GuidanceTests(unittest.TestCase):
 
     def test_default_branch_redirect(self):
         self.assertEqual(self.scan(self.make_docs(False)), [])
+
+    def test_active_entry_cannot_point_only_to_frozen_production(self):
+        d = self.make_docs(True)
+        d["README.md"] = "Active production: gauntlet/production; RESUME.md"
+        self.assertTrue(any("README.md" in e and "integration" in e for e in self.scan(d)))
+
+    def test_missing_resume_rejected(self):
+        d = self.make_docs(True)
+        d.pop("docs/RESUME.md")
+        self.assertTrue(any("RESUME.md" in e for e in self.scan(d)))
 
     def test_stale_readme_rejected(self):
         d = self.make_docs(True)
