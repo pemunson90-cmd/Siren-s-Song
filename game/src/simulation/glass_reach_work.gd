@@ -58,8 +58,9 @@ static func open_gate(sim):
  var state=sim.mission.glass_reach
  if not state.has("gate"):return
  sim.mission.structures.erase(state.gate);state.gate_open=true;sim._build_navigation();sim.opened_terrain(state.gate);sim._use_band(sim.units[sim.selected].band)
-static func cancel_released(sim,id:int):
- if busy(sim,id) and sim.units[id].hold!="HOLD":sim.mission.glass_reach.job={}
+# JobRelease calls this only after the shared HOLD guard.
+static func release_if_unheld(sim,id:int):
+ if busy(sim,id):sim.mission.glass_reach.job={}
 static func tick(sim,dt:float):
  if not applies(sim.mission):return
  var state=sim.mission.glass_reach;var a=state.artifact
