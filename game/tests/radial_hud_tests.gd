@@ -83,7 +83,6 @@ func run():
   # another button beneath that card can be tapped.
   if h.hints.panel.visible and h.hints.current in ["warning","sweep"]:await click(h.hints.dismiss_button)
   await click(h.instrument_button)
-  print("STATUS DEBUG page=",h.page," sheet=",h.sheet.visible," hint=",h.hints.current," hint_visible=",h.hints.panel.visible," text=",h.instrument_info.text," status_rect=",h.instrument_button.get_global_rect()," hint_rect=",h.hints.panel.get_global_rect())
   check(h.sheet.visible and "RECORDS" in h.instrument_info.text and "reception unknown" in h.instrument_info.text,"STATUS exposes objective accounting and acoustic uncertainty")
   h.dismiss();g.sim.tools.emp=0;g.sim.tools.recon=0;g._refresh();h.open("tools");await settle()
   check(g.order_buttons.emp.visible and g.order_buttons.emp.disabled and g.order_buttons.recon.visible and g.order_buttons.recon.disabled,"depleted tools keep stable visible disabled slots and counts")

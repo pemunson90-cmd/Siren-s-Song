@@ -34,7 +34,10 @@ func lock_drone(op:int,busy:bool=false):
  s.paused=false;s.advance(.5);game._refresh();await settle()
  check(s.contacts.has(0) and s.contacts[0].target==1 and s.contacts[0].lock>0,"real own-drone lock fixture op%d"%op)
  check(s.paused and game.mission_hud.hints.panel.visible,"first drone warning pauses op%d"%op)
- if game.mission_hud.hints.panel.visible:await tap(game.mission_hud.hints.dismiss_button)
+ if game.mission_hud.hints.panel.visible:
+  check(game.get_global_rect().encloses(game.mission_hud.hints.panel.get_global_rect()),"warning card and acknowledgement fit the safe viewport")
+  await tap(game.mission_hud.hints.dismiss_button)
+  check(not game.mission_hud.hints.panel.visible,"touch GOT IT dismisses the visible warning card")
  s.paused=false;game._refresh();await settle()
  check(not s.paused,"warning is not repeated after acknowledgement op%d"%op)
 func run():

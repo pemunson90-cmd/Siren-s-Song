@@ -83,8 +83,13 @@ func refresh(bounds: Vector2, h: float, font: int, top: float) -> void:
 	if current == "sweep" and extra_line.is_empty(): extra_line = _sweep_cue()
 	if current.is_empty():
 		panel.hide(); return
+	# Give wrapped text its actual width before container minimum-size measurement.
+	# Otherwise the first frame can retain a one-character-wide, screen-tall card.
+	var width := minf(bounds.x - 24, 620.0)
+	label.custom_minimum_size.x = maxf(1, width - 40 - h * 1.4)
+	label.size.x = label.custom_minimum_size.x
 	label.text = Text.hint_text(current) + ("\n" + extra_line if not extra_line.is_empty() else "")
 	label.add_theme_font_size_override("font_size", font); dismiss_button.add_theme_font_size_override("font_size", font)
 	dismiss_button.custom_minimum_size = Vector2(h * 1.4, h)
-	panel.custom_minimum_size = Vector2(minf(bounds.x - 24, 620.0), 0); panel.reset_size()
+	panel.custom_minimum_size = Vector2(width, 0); panel.reset_size()
 	panel.position = Vector2(12, top); panel.show(); move_to_front()
