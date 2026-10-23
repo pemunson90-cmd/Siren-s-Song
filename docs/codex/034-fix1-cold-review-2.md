@@ -1,9 +1,9 @@
 # Handoff 034 (PRIORITY after 016): FIX1, concrete problems found by cold review 2
 
-Status: CLAIMED
+Status: DONE
 Claimed at: 2026-10-23 00:58:12 UTC
 Claimed by: codex
-Finished at:
+Finished at: 2026-10-23 02:52:10 UTC
 
 Precondition: none. Take this right after 016 (or before it if 016 is blocked).
 Codex may merge: yes, into claude/integration only, after GitHub guidance and game-smoke are both green on the exact head and the PR is mergeable. Merge with a merge commit, then mark DONE and update docs/codex/BOARD.md.
@@ -33,10 +33,22 @@ Each item fixed or reported as not reproducing, real-touch tests at both Fold7 s
 PR into claude/integration; merge per the line above; mark DONE and update the board.
 
 ## Completion
-Work in progress. Branch: `claude/fix1-cold-review-2`. Last pushed SHA: `9486974ed006e73dfbba0ebfd5f36b83a9cc26d7`. Draft PR78: https://github.com/pemunson90-cmd/Siren-s-Song/pull/78.
+DONE. Branch: `claude/fix1-cold-review-2`. Last pushed SHA: `9a7180ac1f6dc88925224b52d7092edbc66545d8`. [PR78](https://github.com/pemunson90-cmd/Siren-s-Song/pull/78) merged into claude/integration as `70894702610ba8499b696af072444c8c942e2476`. Exact-head guidance and game-smoke passed in [run39889490544](https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/39889490544). Fresh integration6229d09 was an ancestor before merge; landed merge tree equals the tested9a7180a tree.
 
-Item1 reproduced in all operations0–5: first eastward route hits DroneB and leaves86.5012016296387 hull. A new opening_fleet/launch_layout.gd data module moves DroneB off the lane for these six openings only; older saves keep their positions and later operations retain existing offsets. The hit message now names own friendly hulls; other hulls remain anonymous. No collision formula, threshold, cooldown or velocity response changed. Red32/7, green33/0 including a deliberately forced hit pinned to the identical pre-fix damage. All six new opening routes retain100 hull and all three live craft.
+1. Opening self-collision reproduced in all0–5. opening_fleet/launch_layout.gd places DroneB on the opposite flank for these new launches only; stored saves and later operations retain their positions. First eastward routes keep100 hull. Forced old alignment still causes exactly86.5012016296387 final hull and names DRONE B. Collision formulas, thresholds, cooldown and velocity response unchanged; first-decoy survival also verified.
+2. Fresh earned warnings pause once for any living own craft in opening0–3, including an open wheel/aiming UI. First heard-investigation cue pauses independently. GOT IT dismisses without resuming; existing saved flags prevent repeats. Mission start clears transient hint state. Warning cards and acknowledgement fit both phone safe areas.
+3. Public-chart goal_bearing module adds an offscreen arrow and distance using existing masked chart sites, then recovery mouths. No new discovery, private enemy inspection or simulation writes.
+4. Confirmations preserve whole words; pause action and teaching text consistently say RESUME.
+5. Screen-state presentation seam clears viewfinder, world beam overlays and lock warnings on loss/briefing/menu transitions.
+6. Read-only tool_help module explains DECOY, DISRUPT, SURVEY, EMIT, SECTOR, POWER and HISTORY on hold, including spent tools. Short taps retain actions; jitter is tolerated and pan/pinch/cancel safely stop the hold. Android Back returns to the source wheel; keyboard is fallback. HUD-owned Timer avoids pending-coroutine leaks. radial_layout/center_layout.gd places BACK clear of actual command rectangles and fits visible captions above it, including five-line photo captions. Screenshot inspected.
+7. Quietus primary ring retains eight choices and exposes ALL STOP with its existing oxygen cost; GUARD remains under ROUTE. Mechanics unchanged.
+8. Short briefing/manual/finding wording replaces lee-plating and passive-bearing jargon. Photography design unchanged.
+9. No archive scroll change needed: actual touch drag reaches initially-below-fold Intel on both shapes (956px cover/336px inner) and opens it. Actual first launches in separate fresh OS data directories have no recovery notice. A deliberately corrupt primary with valid backup reproduces the exact reported notice.
 
-Items2–9: reproductions and UI fixes in progress. Important discovered cause: the warning hint excludes opening index0, while the cold review starts there. Preserve existing tutorial coverage while covering the opening, any craft and first heard-investigation cue. Touch primary, Android Back equivalent, keyboard fallback.
+Validation: clean import; fresh core817/0; opening35/0; warning15/0; drone38/0; radial58/0; unchanged density883/0; rendered touch218/0 across both Fold7 shapes and desktop. Fresh depth-policy132/0 and opening-policy410/0: all10 opening1–5 journeys win with full hull, all3craft alive and no finite tools spent. Existing accelerated journey fixtures now touch GOT IT and RESUME rather than count paused travel; every original route/photo/completion assertion remains. Both isolated archive profiles9/0 and parent2/0. Strict error/leak scans clean.
 
-Import passed before the opening probe. Core run was interrupted by a provider/environment reconnect; not claiming a complete new core result yet. No full scenario list locally. Job budget60m accommodates additional coverage after the 189-suite baseline used nearly35m; per-suite480s and strict assertions unchanged. No APK/main/production changes.
+After prior red game-smoke, all191 later CI suites passed locally through strict canonical runners. Includes challenge model178/UI86/journey9, planner render5/0 and Well render14/0. No tests skipped, removed or loosened. Local prior density883/12 exposed BACK overlapping odd-count rings; fixed through actual geometry and permanent visible-caption/target checks. Job budget60m accommodates existing189-suite baseline plus new coverage; per-suite480s and strict checks unchanged.
+
+A relayed independent review at implementationb8d270e found no remaining blockers and independently ran touch173/0; later geometry9a7180a is covered by expanded218/0, density883/0 and final exact-head CI. No physical Android or headphone claim. No APK/main/production changes, no branches deleted. PR77 remains a separate Claude photo/cargo lane and was not mutated or merged.
+
+Pat requested pause before new tasks immediately after this merge. Closeout completed;019 not claimed or started. Resume only on a new user instruction, then fetch current board and take the lowest eligible OPEN handoff.

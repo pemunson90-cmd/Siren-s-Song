@@ -1,3 +1,5 @@
+> **CURRENT USER PAUSE:** Codex034/FIX1 finished and merged through PR78. Pat has paused gameplay development and authorized repository organization first. Preserve all queued handoffs; do not claim019 or resume implementation until Pat resumes development. The continuation protocol below applies after that resumption.
+
 **Resume map:** the project-wide entry point is docs/RESUME.md on origin/claude/integration (state, rules, next actions, caveats). This file is the Codex protocol. Board: docs/codex/BOARD.md. Designs: docs/design/. Short plan: docs/codex/PLAN_SNAPSHOT.md. If you were interrupted mid-handoff, your handoff file's Completion section names your branch and last pushed SHA: resume from there.**
 
 # Codex: how to continue (read this first, every time)
