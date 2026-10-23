@@ -1,9 +1,9 @@
 # Handoff 019: ARCH1, behavior-preserving cleanup of the shared choke points
 
-Status: CLAIMED
+Status: DONE
 Claimed at: 2026-10-23 03:35:16 UTC
 Claimed by: codex
-Finished at:
+Finished at: 2026-10-23 20:04:03 UTC
 
 Precondition: handoff 018 must be DONE (so the refactor does not collide with it) and handoff 016 DONE (the test list file exists).
 Codex may merge: yes, into claude/integration only, after GitHub guidance and game-smoke are both green on the exact head and the PR is mergeable. Merge with a merge commit, then mark DONE and update docs/codex/BOARD.md.
@@ -27,6 +27,14 @@ Each step merged with identical behavior (same check counts, CI green). Record t
 PRs into claude/integration; merge per the line above; mark DONE and update the board.
 
 ## Completion
+
+DONE: all required019 steps merged into claude/integration: save registry/enemy types PR81, cancellation helper PR83, weapons PR88, sensors PR90, route/drive PR91 and final photo/features PR92. CONVENTIONS is17lines. No rules, order behavior, mission rows or test assertions changed by the refactor.
+
+Final photo head a42114045e6811e31448bee21259bb82e4cfb9b0 passed exact guidance/game-smoke40010611700 and independent final review against70b1f18, then merged at db6b16246b8b5e4a328331ef4ad7a5d830b2490f. Fresh GitHub API branch refs, mergeability and exact run verified before merge; API transport substituted for unavailable shellGit credentials. Verified actual signed merge object SHA and whole tree equal reviewed head, updated local origin ref and confirmed landed ancestry. No forcepush, deletion, APK or frozen-branch change.
+
+Core before/after counts matched within every step:817 for the earlier save/cancel/weapons baseline;818 for sensors/route/photo after035 added its check. Affected tests and source-body/constant/guard/cleanup parity are recorded below; hostedCI green for every separately merged step. Final sensor c2d2876 merged9ae3212, routec86f8c9 merged70b1f18, photoa421140 mergeddb6b162. Reviewer /root/review_integration found no outstanding findings on each exact final head. No physical-phone/fullcampaign quality claim.
+
+Next036 draft93 preparation is independently approved at23dc197; reconcile actualdb6b162 then final review/CI and merge.037 draft94 preparation also approved; follows actual036. Existing020 claim stays preserved behind them.019 DONE and BOARD updated in this same commit.
 
 In progress, not DONE. Step 2 merged in PR81: https://github.com/pemunson90-cmd/Siren-s-Song/pull/81
 - claude/arch1-save-checks: c7c5cfd9e97d0ea1e6bb04b924a0e1ac4ae69948; exact-head CI39896278323 guidance/game-smoke green; merged4e89cc37bac9d55fc160c1a4e0e6797bee4f1ff8.

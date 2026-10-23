@@ -1,6 +1,6 @@
 # Codex board (Claude reads this to know when to write the next batch)
 
-**MERGES CLEAR (Pat,23Oct latest): PR88 merged009f2b8; 035/PR86 merged d9a0bf7; 024/PR87 merged a63aeeb; PR90 sensors merged9ae3212 and PR91 route merged70b1f18; next final019 photo,036,037 and the eligible numeric queue. Reconcile newest integration into each proposed head and recheck if it moved. Use exact-head guidance/game-smoke and independent review before each merge.**
+**MERGES CLEAR (Pat,23Oct latest): PR88 merged009f2b8; 035/PR86 merged d9a0bf7; 024/PR87 merged a63aeeb; PR90 sensors merged9ae3212 and PR91 route merged70b1f18; final019 photo mergeddb6b162; next036/PR93,037/PR94 and the eligible numeric queue. Reconcile newest integration into each proposed head and recheck if it moved. Use exact-head guidance/game-smoke and independent review before each merge.**
 
 Codex: when you finish a handoff, update its row here in the same commit as `done NNN`. Claude will write batch 2 when two of three rows show DONE.
 
@@ -25,8 +25,8 @@ Work order is numeric: finish 013 (batch 1) first, then 014, 015, 016.
 |---|---|---|---|---|---|
 | P | 017 PRIORITY: land PRs 69, 70, 71 | DONE | [69](https://github.com/pemunson90-cmd/Siren-s-Song/pull/69), [70](https://github.com/pemunson90-cmd/Siren-s-Song/pull/70), [71](https://github.com/pemunson90-cmd/Siren-s-Song/pull/71) | 2026-10-22 20:18:10 UTC | All three merged on green; basic Quietus completes Well without drones or tools. |
 | 7 | 018 DEPTH1 depth-band photos, findings, all-stop | DONE | [74](https://github.com/pemunson90-cmd/Siren-s-Song/pull/74) | 2026-10-22 23:30 UTC | Merged by Claude: photo_depth, photo_rules, all_stop; each has an off switch. Preconditions of 016, 019, 020, 023 to 027, 033 on 018 are now met. |
-| 8 | 019 ARCH1 refactor steps 2 to 4 | CLAIMED | [81](https://github.com/pemunson90-cmd/Siren-s-Song/pull/81), [83](https://github.com/pemunson90-cmd/Siren-s-Song/pull/83), [88](https://github.com/pemunson90-cmd/Siren-s-Song/pull/88), [90](https://github.com/pemunson90-cmd/Siren-s-Song/pull/90), [91](https://github.com/pemunson90-cmd/Siren-s-Song/pull/91), [92](https://github.com/pemunson90-cmd/Siren-s-Song/pull/92) | | 81/83/88/90/91 merged;035/024 DONE. Final photo PR92 a421140 contains actual70b1f18; core818/0 and affected Canvas/other checks source-identical, final independent approval; own CI40010611700 pending. Then019 DONE and036 next. |
-| 9 | 020 CAMPAIGN M1 photo rows ops 6 to 29 | CLAIMED | [85 draft](https://github.com/pemunson90-cmd/Siren-s-Song/pull/85) | | Prepared5e6ada5 includes019/FIX2/audio/D3; data byte-identical to prior approval;361/0,Iron57/0,core818/0,journeys108/0; fresh76pressure pairs identical; prepared CI39986176528 green. Still draft behind019,036,037. |
+| 8 | 019 ARCH1 refactor steps 2 to 4 | DONE | [81](https://github.com/pemunson90-cmd/Siren-s-Song/pull/81), [83](https://github.com/pemunson90-cmd/Siren-s-Song/pull/83), [88](https://github.com/pemunson90-cmd/Siren-s-Song/pull/88), [90](https://github.com/pemunson90-cmd/Siren-s-Song/pull/90), [91](https://github.com/pemunson90-cmd/Siren-s-Song/pull/91), [92](https://github.com/pemunson90-cmd/Siren-s-Song/pull/92) | 2026-10-23 20:04:03 UTC | All six steps merged, final92 atdb6b162 after exacta421140 bothgreen40010611700 and independent approval. Core count parity perstep, targeted checks and17line conventions;036 next. |
+| 9 | 020 CAMPAIGN M1 photo rows ops 6 to 29 | CLAIMED | [85 draft](https://github.com/pemunson90-cmd/Siren-s-Song/pull/85) | | Prepared5e6ada5 includes019/FIX2/audio/D3; data byte-identical to prior approval;361/0,Iron57/0,core818/0,journeys108/0; fresh76pressure pairs identical; prepared CI39986176528 green. Still draft behind036/037;019 DONE. |
 
 ## BATCH 4 (buffer, 22 Oct; independent work so Codex does not run dry)
 | Order | Handoff | Status | PR | Finished (UTC) | One-line result |
@@ -61,7 +61,7 @@ Take 017 first (PRIORITY) if any of PRs 69, 70, 71 is open; otherwise numeric or
 | P | 035 FIX2 full cold review fixes (save error first) | DONE | [86](https://github.com/pemunson90-cmd/Siren-s-Song/pull/86) | 2026-10-23 17:17:50 UTC | Mergedd9a0bf7 after exactfd2224a guidance/game-smoke39989872271 green and final independent approval; core818/0 and affected Canvas checks; all11 items fixed or reported. |
 
 ## BATCH 6 (23 Oct, Pat's decisions D1 and D2)
-| 36 | 036 first-Siren cue, ops 1 to 3 | CLAIMED | [93 draft](https://github.com/pemunson90-cmd/Siren-s-Song/pull/93) | | WIP23dc197; core818/0, functional37/0, rendered touch50/0 and affected checks pass. Initial review findings reproduced/fixed; independent preparation re-review approved. Merge92 first then reconcile actual integration. |
+| 36 | 036 first-Siren cue, ops 1 to 3 | CLAIMED | [93 draft](https://github.com/pemunson90-cmd/Siren-s-Song/pull/93) | | WIP23dc197; core818/0, functional37/0, rendered touch50/0 and affected checks pass. Initial review findings reproduced/fixed; independent preparation re-review approved. 019 DONE; reconcile actualdb6b162 then final review/CI. |
 | 37 | 037 early module reward | CLAIMED | [94 draft](https://github.com/pemunson90-cmd/Siren-s-Song/pull/94) | | Publishedcc808d3/local0c6e2f7 same tree; core818/0, functional36/0, rendered40/0 and affected checks pass. Independent preparation review approved; merge92/93 first. ShellGit auth unavailable, connected GitHub publication verified. |
 
 ## Claude-held
