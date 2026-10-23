@@ -27,7 +27,11 @@ rows, names, ranks = [], set(), [set(), set()]
 for line in pathlib.Path(path).read_text().splitlines():
     if not line.strip() or line.startswith("#"):
         continue
-    name, summary, local, ci = line.split("|")
+    fields = line.split("|")
+    assert len(fields) in (4, 5), line
+    name, summary, local, ci = fields[:4]
+    backend = fields[4] if len(fields) == 5 else "headless"
+    assert backend in ("headless", "render"), line
     assert re.fullmatch(r"[a-z0-9_]+", name) and name not in names, line
     assert re.fullmatch(r"[A-Z0-9 ]*", summary), line
     assert pathlib.Path(path).with_name(name + ".gd").is_file(), name
@@ -38,14 +42,14 @@ for line in pathlib.Path(path).read_text().splitlines():
             ranks[i].add(int(rank))
     rank = local if profile == "local" else ci
     if (selected and name == selected) or (not selected and rank != "-"):
-        rows.append((0 if selected else int(rank), name, summary))
+        rows.append((0 if selected else int(rank), name, summary, backend))
 assert not selected or selected in names, "Unknown suite: " + selected
-for _, name, summary in sorted(rows):
-    print(name + "|" + summary)
+for _, name, summary, backend in sorted(rows):
+    print(name + "|" + summary + "|" + backend)
 PYREGISTRY
 )
 if "$list"; then
-    while IFS='|' read -r scenario summary; do
+    while IFS='|' read -r scenario summary backend; do
         if "$skip_core" && [[ "$scenario" == run_tests ]]; then continue; fi
         echo "$scenario"
     done <<< "$selection"
@@ -66,10 +70,17 @@ if ! "$explicit"; then
     python3 "$(dirname -- "$0")/test-android-radial.py"
     python3 "$(dirname -- "$0")/test-android-planner.py"
 fi
-while IFS='|' read -r scenario summary; do
+while IFS='|' read -r scenario summary backend; do
     if "$skip_core" && [[ "$scenario" == run_tests ]]; then continue; fi
     log="$ARTIFACT_DIR/$scenario.log"
-    timeout --kill-after=10s 480s "$(dirname -- "$0")/headless.sh" --script "res://tests/$scenario.gd" 2>&1 | tee "$log"
+    if [[ "$backend" == render ]]; then
+        # Ubuntu's CI image provides Xvfb/xauth; require a real Canvas renderer.
+        runner=(xvfb-run -a -s '-screen 0 2520x1968x24' env LIBGL_ALWAYS_SOFTWARE=1
+            "$GODOT_BIN" --path "$GAME_DIR" --rendering-method gl_compatibility --audio-driver Dummy)
+    else
+        runner=("$(dirname -- "$0")/headless.sh")
+    fi
+    timeout --kill-after=10s 480s "${runner[@]}" --script "res://tests/$scenario.gd" 2>&1 | tee "$log"
     if grep -niE 'SCRIPT ERROR:|(^|[[:space:]])ERROR:|resources still in use|ObjectDB instances leaked' "$log"; then
         echo "Godot reported errors or leaks in $scenario" >&2; exit 1
     fi

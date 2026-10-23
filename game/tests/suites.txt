@@ -1,4 +1,4 @@
-# suite|summary prefix (empty for core)|local order|CI order
+# suite|summary prefix (empty for core)|local order|CI order[|render]
 # A dash excludes a profile. Keep existing ranks stable; append new suites.
 run_tests||1|1
 runtime_tests|RUNTIME|2|2
@@ -187,3 +187,5 @@ nav_clearance_tests|NAV CLEARANCE|163|184
 nav_following_probe|NAV FOLLOW|164|185
 nav_clearance_probe|NAV CLEARANCE PROBE|165|186
 nav_clearance_ui_tests|NAV CLEARANCE UI|166|187
+planner_chart_render_tests|PLANNER CHART RENDER|167|188|render
+well_camera_feed_render_tests|WELL CAMERA RENDER|168|189|render

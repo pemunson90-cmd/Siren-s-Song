@@ -1,4 +1,6 @@
 extends SceneTree
+# Compare the retained pre-PHOTO1 illustration path with legacy-shaped records,
+# then verify the current photographic view separately at a fixed display clock.
 var game
 var folder=""
 var checks=0
@@ -9,7 +11,9 @@ func check(ok:bool,label:String):
 	if not ok:failures+=1;print("FAIL ",label)
 	else:print("PASS ",label)
 func picture(name:String):
-	game.ocean.queue_redraw();game.ocean.optical_feed.queue_redraw()
+	var feed=game.ocean.optical_feed
+	feed.set_process(false);feed.time=0.0;feed._vm_age=1.0
+	game.ocean.queue_redraw();feed.queue_redraw()
 	for n in 3:await process_frame
 	await RenderingServer.frame_post_draw
 	var frame=root.get_texture().get_image()
@@ -26,10 +30,12 @@ func run():
 	root.size=Vector2i(1280,720);await process_frame;await process_frame
 	game=load("res://scenes/main.tscn").instantiate();game.capture_scenario="well-render-key-fixture";root.add_child(game);await process_frame
 	game._start_mission(4);game.set_process(false)
+	for site in game.sim.mission.objectives:site.erase("subject")
+	check(preload("res://src/simulation/simulation.gd").valid_snapshot(game.sim.snapshot()),"compatibility renderer fixture is a valid legacy-shaped snapshot")
 	# Explicit local camera fixture, not an ordinary travel/win or received-match claim.
 	game.sim.units[1].pos=Vector2(800,390);game.sim.units[1].vel=Vector2.ZERO
 	game.sim.command("select",{"unit":1});var accepted=game.sim.command("camera");game._refresh()
-	check(accepted and game.sim.capture_unit==1 and game.sim.capture_target==0,"real first-record CAMERA accepts the fresh Well text-only objective")
+	check(accepted and game.sim.capture_unit==1 and game.sim.capture_target==0,"real CAMERA accepts the legacy-shaped Well text-only objective")
 	var before=game.sim.snapshot();var objective=game.sim.mission.objectives[0]
 	var fresh=await picture("fresh-well")
 	check(game.ocean.optical_feed.visible,"actual main scene displays active first-record camera feed")
@@ -53,10 +59,23 @@ func run():
 	game.sim.sirens=enemies
 	check(game.sim.snapshot()==before,"rendering and temporary fixture metadata leave camera/simulation state unchanged")
 	for id in [1,2]:
-		game._start_mission(4);game.sim.units[1].pos=[Vector2(1150,450),Vector2(780,850)][id-1];game.sim.units[1].vel=Vector2.ZERO
+		game._start_mission(4)
+		game.sim.units[1].pos=[Vector2(1150,450),Vector2(780,850)][id-1];game.sim.units[1].vel=Vector2.ZERO
 		game.sim.command("select",{"unit":1});var starts=game.sim.command("camera");game._refresh()
 		var site=await picture("well-site-%d"%id)
-		game.sim.mission.erase("well_revision");var old=await picture("legacy-site-%d"%id)
+		game.sim.mission.erase("well_revision")
+		game.sim.mission.objectives[id].erase("subject");game.sim.mission.objectives[id].erase("optical")
+		var old=await picture("legacy-site-%d"%id)
 		check(starts and game.sim.capture_target==id and site!=old,"fresh Well site%d uses its own acquisition context while legacy keeps fallback"%id)
+	# Current PHOTO1 records retain their subject and render the live scene.
+	game._start_mission(4);game.sim.units[1].pos=Vector2(800,390);game.sim.units[1].vel=Vector2.ZERO
+	game.sim.command("select",{"unit":1});var live=game.sim.command("camera");game._refresh()
+	check(live and not game.ocean.optical_feed.subject_view().is_empty(),"current Well record uses the actual photographic view")
+	var live_before=game.sim.snapshot();var live_picture=await picture("current-photo")
+	var live_enemies=game.sim.sirens.duplicate(true)
+	for enemy in game.sim.sirens:enemy.pos=Vector2(1500,900);enemy.mode="ENGAGE"
+	check(await picture("current-photo-hidden-enemies")==live_picture,"fixed-time current photograph does not disclose hidden Siren state")
+	game.sim.sirens=live_enemies
+	check(game.sim.snapshot()==live_before,"current photo rendering preserves the complete simulation")
 	game.queue_free();await process_frame;await create_timer(.5).timeout
 	print("WELL CAMERA RENDER CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)

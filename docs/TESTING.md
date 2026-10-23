@@ -4,7 +4,9 @@
 `suite|summary prefix|local order|CI order`; the core prefix is empty.
 Ranks preserve the historical local and CI orders; `-` excludes a profile.
 Append a new standalone harness in one row with the next rank in both profiles.
-Helpers and renderer capture utilities are not standalone headless suites.
+Helpers and capture utilities are not standalone suites.
+An optional fifth field `render` selects Compatibility software GL via Xvfb;
+install Xvfb and xauth to run those tests. CI already provides both.
 
 Use `scripts/toolchain/test.sh --list --profile ci` to inspect the order.
 Use `scripts/toolchain/test.sh --suite NAME` for a targeted check.
