@@ -1,4 +1,5 @@
 extends RefCounted
+const EnemyTypes=preload("res://src/simulation/enemy_types.gd")
 # Sweeper role on V7 senses. A sweeper owns no sonar: it sees by proximity plus line of sight,
 # hears throttle noise, pings and loud tools through the shared Siren loop, and attacks only
 # through the normal lock then beam route. What differs from a patroller is a wider ear, a
@@ -22,7 +23,7 @@ static func profile(enemy)->Dictionary:
  p.merge(PROFILES.get(enemy.get("type","patroller"),{}),true)
  return p
 static func is_sweeper(enemy)->bool:
- return enemy.get("type","")=="sweeper"
+ return enemy.get("type","")==EnemyTypes.SWEEPER
 # Hearing radius multiplier applied to every noise a Siren can hear.
 static func ear(enemy)->float:
  return float(profile(enemy).ear)
@@ -42,7 +43,7 @@ static func stands_to_lock(enemy)->bool:
 static func walks_lane(enemy)->bool:
  var type=enemy.get("type","patroller")
  if type=="patroller":return true
- return type=="sweeper" and not (profile(enemy).lane_needs_points and enemy.get("patrol_points",[]).is_empty())
+ return type==EnemyTypes.SWEEPER and not (profile(enemy).lane_needs_points and enemy.get("patrol_points",[]).is_empty())
 # Remember the last heard spot. It is a stale report: it moves only when something new is heard.
 static func note_heard(enemy,pos:Vector2,time:float)->void:
  if is_sweeper(enemy):enemy["listen"]={"pos":pos,"time":time}
