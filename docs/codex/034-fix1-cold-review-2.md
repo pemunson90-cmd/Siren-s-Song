@@ -33,7 +33,7 @@ Each item fixed or reported as not reproducing, real-touch tests at both Fold7 s
 PR into claude/integration; merge per the line above; mark DONE and update the board.
 
 ## Completion
-Work in progress. Branch: `claude/fix1-cold-review-2`. Last pushed SHA: `9486974ed006e73dfbba0ebfd5f36b83a9cc26d7`. Draft PR77: https://github.com/pemunson90-cmd/Siren-s-Song/pull/77.
+Work in progress. Branch: `claude/fix1-cold-review-2`. Last pushed SHA: `9486974ed006e73dfbba0ebfd5f36b83a9cc26d7`. Draft PR78: https://github.com/pemunson90-cmd/Siren-s-Song/pull/78.
 
 Item1 reproduced in all operations0–5: first eastward route hits DroneB and leaves86.5012016296387 hull. A new opening_fleet/launch_layout.gd data module moves DroneB off the lane for these six openings only; older saves keep their positions and later operations retain existing offsets. The hit message now names own friendly hulls; other hulls remain anonymous. No collision formula, threshold, cooldown or velocity response changed. Red32/7, green33/0 including a deliberately forced hit pinned to the identical pre-fix damage. All six new opening routes retain100 hull and all three live craft.
 
