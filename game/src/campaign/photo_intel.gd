@@ -13,19 +13,19 @@ const Equipment=preload("res://src/equipment/equipment_catalog.gd")
 # new payoffs; no terrain, enemy, tool, story or progression state is changed.
 const RETURNED_FILM=[
  {"key":"tender_door","from":7,"ops":[9,12],"mark":{"kind":"route","text":"LOADING LANE · recorded door-side approach","pos":[820.0,760.0]}},
- {"key":"relay_blink","from":8,"ops":[10],"mark":{"kind":"note","text":"RELAY LAMP · recorded 6s gap in a 24s cycle; compare before work","pos":[520.0,1480.0],"period":24.0,"open":6.0,"phase":0.0}},
+ {"key":"relay_blink","from":8,"ops":[10],"mark":{"kind":"post","text":"RELAY LAMP · recorded 6s gap in a 24s cycle; compare before work","pos":[520.0,1480.0],"period":24.0,"open":6.0,"phase":0.0}},
  {"key":"structure_edge","from":11,"ops":[12,13],"mark":{"kind":"hazard","text":"STRUCTURE EDGE · film records wear, not a live patrol","pos":[1080.0,1840.0],"r":120.0}},
- {"key":"buoy_blind","from":14,"ops":[15],"mark":{"kind":"note","text":"LAMP BACK PLATE · compare this listener with the returned film","pos":[1000.0,2200.0]}},
+ {"key":"buoy_blind","from":14,"ops":[15],"mark":{"kind":"post","text":"LAMP BACK PLATE · compare this listener with the returned film","pos":[1000.0,2200.0]}},
  {"key":"vane_crack","from":15,"ops":[21],"mark":{"kind":"weak","text":"RELEASE SEAM · compare the latch with the strain-vane crack","pos":[1320.0,1080.0]}},
  {"key":"keel_mark","from":18,"ops":[19],"mark":{"kind":"route","text":"SHELTERED SIDE · prior keel mark names the outer approach","pos":[725.0,1400.0]}},
  {"key":"boat_keel","from":19,"ops":[22],"mark":{"kind":"route","text":"SERVICE LANE · compare the berth with the recovered keel mark","pos":[1800.0,1100.0]}},
  {"key":"locker_latch","from":21,"ops":[23],"mark":{"kind":"weak","text":"SHALLOW LATCH · returned film records the seam pattern","pos":[1250.0,1350.0]}},
- {"key":"shutter_order","from":23,"ops":[24],"mark":{"kind":"note","text":"LOCK SEQUENCE · A B C recorded in the returned lamp film","pos":[2180.0,1120.0]}},
- {"key":"bus_cable","from":24,"ops":[25],"mark":{"kind":"note","text":"REPORTING BRANCH · the ballast cable is recorded","pos":[1800.0,1100.0]}},
+ {"key":"shutter_order","from":23,"ops":[24],"mark":{"kind":"post","text":"LOCK SEQUENCE · A B C recorded in the returned lamp film","pos":[2180.0,1120.0]}},
+ {"key":"bus_cable","from":24,"ops":[25],"mark":{"kind":"post","text":"REPORTING BRANCH · the ballast cable is recorded","pos":[1800.0,1100.0]}},
  {"key":"spindle_wear","from":26,"ops":[25],"mark":{"kind":"weak","text":"SPINDLE COLLAR · tight scoring frame retained","pos":[850.0,1500.0]}},
  {"key":"slide_mark","from":27,"ops":[25],"mark":{"kind":"hazard","text":"COUNTERWEIGHT SCORE · recorded slide direction retained","pos":[1100.0,1400.0],"r":80.0}},
- {"key":"bell_name","from":28,"ops":[25],"mark":{"kind":"person","text":"HUMAN SURVIVOR MARKS · bell-window film retained","pos":[800.0,700.0]}},
- {"key":"feed_room","from":29,"ops":[25],"mark":{"kind":"note","text":"SECURITY FEED · terminal marks retained on film","pos":[2450.0,500.0]}}
+ {"key":"bell_name","from":28,"ops":[25],"mark":{"kind":"person","text":"HUMAN SURVIVOR MARKS · bell-berth nameplate retained","pos":[800.0,700.0]}},
+ {"key":"feed_room","from":29,"ops":[25],"mark":{"kind":"post","text":"SECURITY FEED · terminal marks retained on film","pos":[2450.0,500.0]}}
 ]
 const PROJECTS={
 	"photo_flash":{"intel":"foundry_lining","q":0.35,"text":"Foundry lining, resolved: a flash tuned to its glare."},

@@ -6,6 +6,7 @@ const Intel=preload("res://src/campaign/photo_intel.gd")
 const Pricing=preload("res://src/simulation/photo_pricing/photo_pricing.gd")
 const Photo=preload("res://src/simulation/photo_capture.gd")
 const Catalog=preload("res://src/campaign/operation_catalog.gd")
+const View=preload("res://src/presentation/ocean_view.gd")
 const EXPECTED={7:"tender_door",8:"relay_blink",11:"structure_edge",14:"buoy_blind",15:"vane_crack",18:"keel_mark",19:"boat_keel",21:"locker_latch",23:"shutter_order",24:"bus_cable",26:"spindle_wear",27:"slide_mark",28:"bell_name",29:"feed_room"}
 const RETURNS={"tender_door":[9,12],"relay_blink":[10],"structure_edge":[12,13],"buoy_blind":[15],"vane_crack":[21],"keel_mark":[19],"boat_keel":[22],"locker_latch":[23],"shutter_order":[24],"bus_cable":[25],"spindle_wear":[25],"slide_mark":[25],"bell_name":[25],"feed_room":[25]}
 var checks=0
@@ -44,6 +45,7 @@ func _initialize():
    check(h.get("unknown",false) and h.get("optional",false) and h.duration>=h.subject.features[1].window[0],"the optional lamp study starts unresolved and spans its full cycle")
   else:
    check(not h.found and not s.mission.objectives.any(func(o):return o.get("optical","")==key),"the new subject starts unresolved")
+  check(View.FINDING_COLORS.has(h.subject.features[1].finding.kind),"local %s finding uses a visible chart marker"%key)
   check(key in Ops.intel_keys() and key in Ops.evidence_keys(),"subject evidence and intel are registered")
   check(h.subject.features.any(func(f):return f.get("intel","")==key and f.has("finding")),"a resolved feature files an actionable finding")
   check(key in h.subject.required,"a usable optional record requires its informative feature")
@@ -79,6 +81,8 @@ func _initialize():
    var context={"intel":{key:{"q":0.8,"op":id}}}
    var informed=Catalog.make(later,context)
    check(informed.get("photo_marks",[]).size()>blank.get("photo_marks",[]).size(),"returned%s film adds a chart mark on%d"%[key,later])
+   var returned=informed.get("photo_marks",[]).filter(func(mark):return mark.id=="film_"+key)
+   check(returned.size()==1 and View.FINDING_COLORS.has(returned[0].kind),"returned%s film has a visible chart marker"%key)
    check(informed.rocks==blank.rocks and informed.get("structures",[])==blank.get("structures",[]) and informed.sirens==blank.sirens,"new film informs without changing terrain or enemy rules")
    check(informed.get("required_site_ids",[])==blank.get("required_site_ids",[]) and informed.get("corridors",[])==blank.get("corridors",[]),"core work and recovery remain independent of film")
   var unusable={"photo":{"shots":[{"usable":false,"intel":{key:0.9},"op":id}]}}
