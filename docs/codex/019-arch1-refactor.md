@@ -1,8 +1,8 @@
 # Handoff 019: ARCH1, behavior-preserving cleanup of the shared choke points
 
-Status: OPEN
-Claimed at:
-Claimed by:
+Status: CLAIMED
+Claimed at: 2026-10-23 03:35:16 UTC
+Claimed by: codex
 Finished at:
 
 Precondition: handoff 018 must be DONE (so the refactor does not collide with it) and handoff 016 DONE (the test list file exists).
