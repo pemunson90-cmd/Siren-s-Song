@@ -441,6 +441,8 @@ func _view_changed() -> void:
 	print("SS_VIEW zoom=",snappedf(ocean.chart_camera.zoom,0.01)," center=",ocean.chart_camera.center)
 	call_deferred("_report_targets")
 func _unhandled_key_input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed and not event.echo and event.keycode==KEY_ESCAPE:
+		if _frontend_back():get_viewport().set_input_as_handled();return
 	if screen=="program":
 		if event is InputEventKey and event.pressed and event.keycode==KEY_ESCAPE: route_editor.close()
 		return
@@ -819,8 +821,13 @@ func _notification(what: int) -> void:
 	if what==NOTIFICATION_WM_GO_BACK_REQUEST:
 		sim.paused=true; _save_archive(); call_deferred("_android_back")
 
+func _frontend_back()->bool:
+	var front=get_node_or_null("Frontend")
+	if front==null or not front.has_method("back"):return false
+	front.back()
+	return true
 func _android_back()->void:
-	if not is_inside_tree():return
+	if not is_inside_tree() or _frontend_back():return
 	# Match Escape in the route instrument, after Android's notification traversal.
 	if screen=="program":route_editor.close()
 	elif screen=="mission" and advanced_orders:mission_hud._back()

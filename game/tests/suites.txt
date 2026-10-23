@@ -192,3 +192,7 @@ well_camera_feed_render_tests|WELL CAMERA RENDER|168|189|render
 opening_fleet_tests|OPENING FLEET|169|190
 cold_review_ui_tests|COLD REVIEW UI|170|191|render
 cold_review_archive_tests|COLD REVIEW ARCHIVE|171|192
+fix2_save_tests|FIX2 SAVE|172|193
+fix2_save_ui_tests|FIX2 SAVE UI|173|194
+fix2_optional_recovery_tests|FIX2 OPTIONAL RECOVERY|174|195
+fix2_frontend_ui_tests|FIX2 FRONTEND UI|175|196|render
