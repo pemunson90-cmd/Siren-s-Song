@@ -103,7 +103,7 @@ static func losses(sim)->void:
   var id=state.carrier;state.pos=sim.units[id].pos;state.state="salvage";state.carrier=-1;state.losses.append(id)
   sim.events.append({"type":"witness_ejected","pos":state.pos});sim.message="Transport lost · occupied sealed pressure pod ejected at its last own position · recover locally"
 static func collect_at(sim,unit:int,pos:Vector2)->void:
- if not available(sim) or sim.mission.witness_evacuation.pos.distance_to(pos)>1 or sim.units[unit].band!=sim.Depth.cargo_band(sim,ITEM):return
+ if not available(sim) or free_places(sim,unit)<1 or sim.mission.witness_evacuation.pos.distance_to(pos)>1 or sim.units[unit].band!=sim.Depth.cargo_band(sim,ITEM):return
  var state=sim.mission.witness_evacuation
  if state.state=="salvage":state.rescues+=1
  else:
@@ -111,8 +111,9 @@ static func collect_at(sim,unit:int,pos:Vector2)->void:
    if site.get("site_id","")=="witness_packet":site.captured=true;sim._record_secured(site,unit);break
  state.state="carried";state.carrier=unit;state.job={}
  sim.events.append({"type":"witness_boarded","pos":sim.units[unit].pos});sim.message=sim.units[unit].name+" carries the occupied witness capsule · LAND at southeast lift point"
-static func cancel_released(sim,unit:int)->void:
- if busy(sim,unit) and sim.units[unit].hold!="HOLD":sim.mission.witness_evacuation.job={}
+# JobRelease calls this only after the shared HOLD guard.
+static func release_if_unheld(sim,unit:int)->void:
+ if busy(sim,unit):sim.mission.witness_evacuation.job={}
 static func tick(sim,dt:float)->void:
  if not applies(sim.mission):return
  losses(sim);var state=sim.mission.witness_evacuation

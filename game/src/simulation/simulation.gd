@@ -1,4 +1,7 @@
 extends RefCounted
+const JobRelease=preload("res://src/simulation/job_release.gd")
+const SaveChecks=preload("res://src/persistence/save_checks.gd")
+const EnemyTypes=preload("res://src/simulation/enemy_types.gd")
 const LaunchLayout=preload("res://src/simulation/opening_fleet/launch_layout.gd")
 const Shelf=preload("res://src/simulation/shelf_habitat.gd")
 const Wake=preload("res://src/simulation/wake_crossing.gd")
@@ -289,7 +292,7 @@ func salvage_context(item:String,unit_id:int=-1)->Dictionary:
 func _blackwater_recovery_busy(unit_id:int)->bool:return Delivery.busy(self,unit_id)
 func _collect_shared_wreck(unit_id:int,pos:Vector2)->bool:
 	if not Delivery.applies(mission) and not (Witness.available(self) and mission.witness_evacuation.pos.distance_to(pos)<=1):return false
-	ModuleRecovery.collect_at(self,unit_id,pos);Delivery.collect_at(self,unit_id,pos);Witness.collect_at(self,unit_id,pos);return true
+	Witness.collect_at(self,unit_id,pos);ModuleRecovery.collect_at(self,unit_id,pos);Delivery.collect_at(self,unit_id,pos);return true
 func _witness_recovery_busy(unit_id:int)->bool:return Witness.busy(self,unit_id)
 func concealed_status()->Dictionary:return Concealed.status(self)
 func witness_status()->Dictionary:return Witness.status(self)
@@ -619,10 +622,11 @@ func command(order: String,args: Dictionary={}) -> bool:
 			return Photo.set_frame(self,selected,args)
 		"all_stop":return AllStop.command(self)
 		"camera":
-			if not module_recovery_status().jobs[selected].is_empty() or Delivery.busy(self,selected) or Witness.busy(self,selected) or Glass.busy(self,selected) or Choir.busy(self,selected):message="Finish this craft's wreck recovery first";return false
+			if not module_recovery_status().jobs[selected].is_empty() or Delivery.busy(self,selected) or Witness.busy(self,selected) or Glass.busy(self,selected) or Choir.busy(self,selected) or _warning_chain_busy(selected):message="Finish this craft's wreck recovery first";return false
 			var context=camera_context()
 			if not context.ready: message=context.text; return false
 			var photo_target:int=context.target if context.target>=0 else Photo.siren_objective(self,context.siren)
+			if photo_target<0:message="No available photographic subject";return false
 			var target=Photo.obj(self,photo_target)
 			captures[selected]={"target":photo_target,"elapsed":0.0}; u.hold="HOLD"
 			Operations.begin(self,target,selected)
@@ -634,10 +638,7 @@ func command(order: String,args: Dictionary={}) -> bool:
 				_noise(u.pos,Photo.noise_radius(self,selected) if Photo.applies(target) else 520,"CAMERA",2.0,u.band);noises.back()["record"]=photo_target
 			events.append({"type":"camera","pos":u.pos})
 		_: return false
-	ModuleRecovery.cancel_released(self,selected);Glass.cancel_released(self,selected);Choir.cancel_released(self,selected)
-	Delivery.cancel_released(self,selected)
-	Witness.cancel_released(self,selected)
-	Chain.cancel_released(self,order)
+	JobRelease.cancel(self,selected,order)
 	AllStop.after_order(self,u,order)
 	return true
 # Public read-only operator intent; legacy navigation corners are not editor rows.
@@ -724,7 +725,11 @@ func _blackwater_context_text(target:int,station:int) -> String:
 	var learned=mission.objectives.any(func(o):return o.captured)
 	return "%s · %dm / quiet %.0fm%s"%[name,c.distance,c.quiet_range," · learned: SONAR + SAMPLE within 240m" if learned else " · move closer to listen"]
 func camera_context() -> Dictionary:
-	return Pricing.annotate(self,PhotoRules.camera_hint(self,BandPhoto.gate(self,_camera_context_base())))
+	var context=BandPhoto.gate(self,_camera_context_base())
+	if not context.get("ready",false) and int(context.get("target",-1))<0 and captures[selected].is_empty() and not _warning_chain_busy(selected) and BandPhoto.can_shoot(self,units[selected]):
+		var subject=Photo.siren_candidate(self,selected)
+		if subject>=0:context={"target":-2,"siren":subject,"ready":true,"text":"READY · S%d %s · PHOTO 8s · observe its form and movement from clear water"%[subject+1,str(sirens[subject].get("type","patroller")).to_upper()]}
+	return Pricing.annotate(self,PhotoRules.camera_hint(self,context))
 func _camera_context_base() -> Dictionary:
 	var closed:String=BandPhoto.unready(self,units[selected])
 	if not closed.is_empty():return {"ready":false,"target":-1,"text":closed}
@@ -1421,20 +1426,14 @@ static func valid_snapshot(data: Dictionary) -> bool:
 	if not data.has_all(["mission","units","sirens","known","tools"]): return false
 	if not data.mission is Dictionary or not data.units is Array or not data.sirens is Array or not data.known is Dictionary or not data.tools is Dictionary: return false
 	if not data.mission.get("id") is int or data.mission.id not in Missions.Catalog.registered_ids():return false
-	if not Depth.valid(data) or not Sonar.valid(data):return false
-	if not ModuleRecovery.valid(data):return false
-	if not Operations.valid(data.mission,float(data.get("elapsed",0))):return false
-	if not Correlator.valid_state(data.get("correlation",{}),float(data.get("elapsed",0))):return false
+	if not SaveChecks.valid(data,"initial"):return false
 	if data.mission.has("launch_equipment") and (not Equipment.valid_fitting(data.mission.launch_equipment) or not data.mission.launch_equipment.has_all(Equipment.SLOTS)):return false
 	if data.mission.has("consequence_revision"):
 		if data.mission.consequence_revision!=Missions.Catalog.make(data.mission.id).get("consequence_revision",-1):return false
 		if Rendezvous.applies(data.mission):
 			var ref=data.mission.get("measured_reference",null)
 			if not ref is Array or (not ref.is_empty() and (ref!=[0.8,1.6,0.8] or not data.mission.objectives.any(func(o):return o.get("site_id","")=="rendezvous" and o.captured))):return false
-	if not DroneOperations.valid(data):return false
-	if not Glass.valid(data) or not Choir.valid(data):return false
-	if not Network.valid(data) or not Industry.valid(data):return false
-	if not ContactReports.valid(data):return false
+	if not SaveChecks.valid(data,"features"):return false
 	if not data.mission.has_all(["id","rocks","objectives","extraction","title","darkness","depth"]): return false
 	if not data.mission.id is int or data.mission.id not in Missions.Catalog.registered_ids(): return false
 	if not data.mission.rocks is Array or not data.mission.objectives is Array or not data.mission.extraction is Vector2: return false
@@ -1447,7 +1446,7 @@ static func valid_snapshot(data: Dictionary) -> bool:
 	for o in data.mission.objectives:
 		if not o is Dictionary or not o.has_all(["pos","name","captured"]) or not o.pos is Vector2: return false
 	if not data.get("captures") is Array or data.captures.size()!=3:return false
-	if not Photo.valid(data.mission):return false
+	if not SaveChecks.valid(data,"photo"):return false
 	var exposed=[]
 	for id in data.captures.size():
 		var work=data.captures[id]
@@ -1459,23 +1458,13 @@ static func valid_snapshot(data: Dictionary) -> bool:
 		var duration=Sampler.capture_spec(id,data.mission.get("launch_equipment",{}),site).get("duration",site.get("duration",4.0))
 		if work.elapsed>duration or (site.captured and not Operations.own_origin(site) and not (Delivery.applies(data.mission))):return false
 		exposed.append(work.target)
-	if not WorldRegion.valid(data):return false
-	if not Witness.valid(data):return false
-	if not Concealed.valid(data):return false
-	if not Recipient.valid(data):return false
-	if not Delivery.valid(data):return false
-	if not Shelf.valid(data):return false
-	if not Wake.valid(data):return false
-	if not Chain.valid(data):return false
-	if not Rendezvous.valid(data.mission,float(data.get("elapsed",0))):return false
+	if not SaveChecks.valid(data,"world"):return false
 	if data.mission.get("earned_terrain",false):
 		if not data.mission.get("launch_seed") is Rect2 or not TerrainChart.valid_state(data.mission.get("terrain_chart"),data.mission):return false
 	if data.mission.get("expedition_revision",0)==2:
 		if not Consequences.valid_mission(data.mission,float(data.get("elapsed",0))):return false
 	elif not SignalField.valid(data.mission,float(data.get("elapsed",0))):return false
-	if not Departure.valid(data.mission,data.get("elapsed",0.0)):return false
-	if not Courier.valid(data.mission,data.get("elapsed",0.0)):return false
-	if not Thermal.valid_mission(data.mission):return false
+	if not SaveChecks.valid(data,"transport"):return false
 	if data.mission.has("acoustic_revision") and (not data.mission.acoustic_revision is int or data.mission.acoustic_revision!=1):return false
 	if data.mission.has("well_revision"):
 		if data.mission.id!=4 or not data.mission.well_revision is int or data.mission.well_revision!=1 or data.mission.objectives.size()!=3 or not data.mission.get("well_reference") is Dictionary or not data.mission.get("well_observation") is Dictionary:return false
@@ -1525,7 +1514,7 @@ static func valid_snapshot(data: Dictionary) -> bool:
 		if e.has("pin_time"):
 			if not (e.pin_time is float or e.pin_time is int) or not is_finite(e.pin_time) or e.pin_time<0 or e.pin_time>KNOCK_TIME: return false
 			if e.pin_time>0 and (not (e.stun is float or e.stun is int) or not is_finite(e.stun) or e.stun+0.001<e.pin_time): return false
-		if e.has("type") and e.type not in ["patroller","sentinel","hunter","sweeper","buoy","relay","interceptor","warden"]: return false
+		if e.has("type") and e.type not in EnemyTypes.ALL: return false
 		if e.has("tether") and (not (e.tether is float or e.tether is int) or e.tether<=0): return false
 		if e.has("attention_time") and (not (e.attention_time is float or e.attention_time is int) or e.attention_time<0): return false
 		if e.has("last_known") and not e.last_known is Vector2: return false

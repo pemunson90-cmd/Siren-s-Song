@@ -21,6 +21,12 @@ static func carried(sim,unit_id:int)->int:
  var state=_state(sim);var count=0
  for item in state.modules:
   if state.modules[item].state=="cargo" and state.modules[item].unit==unit_id:count+=1
+ # Physical research material and occupied capsules use the same carriage.
+ for key in ["glass_reach","iron_choir"]:
+  var artifact:Dictionary=sim.mission.get(key,{}).get("artifact",{})
+  if artifact.get("state","")=="cargo" and artifact.get("carrier",-1)==unit_id:count+=1
+ var witness:Dictionary=sim.mission.get("witness_evacuation",{})
+ if witness.get("state","")=="carried" and witness.get("carrier",-1)==unit_id:count+=1
  return count
 static func status(sim)->Dictionary:
  var state=_state(sim);var result={"modules":[],"cargo":[[],[],[]],"jobs":[{},{},{}],"result":state.result.duplicate(true)}
@@ -61,8 +67,9 @@ static func begin(sim,item:String)->bool:
  sim._noise(sim.units[sim.selected].pos,NOISE,"RECOVERY WINCH",DURATION,sim.units[sim.selected].band)
  sim.events.append({"type":"salvage","pos":sim.units[sim.selected].pos,"item":item});sim.message="%s · recover %s · audible winch 4s"%[sim.units[sim.selected].name,_name(item)]
  return true
-static func cancel_released(sim,unit_id:int)->void:
- if sim.mission.has("module_recovery") and sim.units[unit_id].hold!="HOLD":sim.mission.module_recovery.jobs[unit_id]={}
+# JobRelease calls this only after the shared HOLD guard.
+static func release_if_unheld(sim,unit_id:int)->void:
+ if sim.mission.has("module_recovery"):sim.mission.module_recovery.jobs[unit_id]={}
 static func tick(sim,dt:float)->void:
  if not sim.mission.has("module_recovery"):return
  var state=sim.mission.module_recovery
