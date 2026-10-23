@@ -24,7 +24,7 @@ Work order is numeric: finish 013 (batch 1) first, then 014, 015, 016.
 | P | 017 PRIORITY: land PRs 69, 70, 71 | DONE | [69](https://github.com/pemunson90-cmd/Siren-s-Song/pull/69), [70](https://github.com/pemunson90-cmd/Siren-s-Song/pull/70), [71](https://github.com/pemunson90-cmd/Siren-s-Song/pull/71) | 2026-10-22 20:18:10 UTC | All three merged on green; basic Quietus completes Well without drones or tools. |
 | 7 | 018 DEPTH1 depth-band photos, findings, all-stop | DONE | [74](https://github.com/pemunson90-cmd/Siren-s-Song/pull/74) | 2026-10-22 23:30 UTC | Merged by Claude: photo_depth, photo_rules, all_stop; each has an off switch. Preconditions of 016, 019, 020, 023 to 027, 033 on 018 are now met. |
 | 8 | 019 ARCH1 refactor steps 2 to 4 | CLAIMED | [81](https://github.com/pemunson90-cmd/Siren-s-Song/pull/81), [83](https://github.com/pemunson90-cmd/Siren-s-Song/pull/83) | | Source reviewed;81 and83 merged; four order-family lanes pushed;035 priority before remaining steps. |
-| 9 | 020 CAMPAIGN M1 photo rows ops 6 to 29 | CLAIMED | [85 draft](https://github.com/pemunson90-cmd/Siren-s-Song/pull/85) | | Data5b6fc9c reviewed;347/0 with035; content journeys green; waits035/019; pressure rerun pending. |
+| 9 | 020 CAMPAIGN M1 photo rows ops 6 to 29 | CLAIMED | [85 draft](https://github.com/pemunson90-cmd/Siren-s-Song/pull/85) | | Data5b6fc9c reviewed;347/0 with035; content journeys green; waits035/019; 76 pressure rows match every metric; existing controller failures retained. |
 
 ## BATCH 4 (buffer, 22 Oct; independent work so Codex does not run dry)
 | Order | Handoff | Status | PR | Finished (UTC) | One-line result |
@@ -32,7 +32,7 @@ Work order is numeric: finish 013 (batch 1) first, then 014, 015, 016.
 | 10 | 021 route map screen (M2) | OPEN | | | |
 | 11 | 022 route clearance (NAV1) | DONE | [75](https://github.com/pemunson90-cmd/Siren-s-Song/pull/75) | 2026-10-23 00:05:58 UTC | Merged07eb890; exact-head guidance/game-smoke green, clearance and touch/Back verified. |
 | 12 | 023 ARCH2 main.gd and HUD contract | OPEN | | | |
-| 13 | 024 photography and all-stop audio | OPEN | | | |
+| 13 | 024 photography and all-stop audio | CLAIMED | | | Independent audio prep during035 CI;035/019/020 merge priority retained. |
 | 14 | 025 landmarks for thin ops (M3a) | OPEN | | | |
 | 15 | 026 self-play review of the opening (read-only) | OPEN | | | |
 

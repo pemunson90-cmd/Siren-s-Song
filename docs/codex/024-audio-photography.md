@@ -1,8 +1,8 @@
 # Handoff 024: AUDIO1, sound for the camera and all-stop
 
-Status: OPEN
-Claimed at:
-Claimed by:
+Status: CLAIMED
+Claimed at: 2026-10-23 05:28 UTC
+Claimed by: codex
 Finished at:
 
 Precondition: handoff 018 must be DONE.
@@ -26,4 +26,4 @@ Cues play at the right moments in a headless event test; mute works; table docum
 PR into claude/integration; merge per the line above; mark DONE and update the board.
 
 ## Completion
-(Codex fills this in: what changed, PR link, test results, unverified items, files outside ownership needed, recommended next.)
+Claimed as the lowest OPEN eligible independent task while035 exact-head CI runs (021 waits020;023 waits019). Keep035 merge priority, then019/020 integration order. Audio work stays in its owning module plus one soundscape seam; no warning/music/combat edits.
