@@ -196,3 +196,4 @@ audit_photo_integrity_tests|AUDIT PHOTO INTEGRITY|172|193
 audit_photo_ui_tests|AUDIT PHOTO UI|173|194
 audit_findings_provenance_tests|AUDIT FINDINGS PROVENANCE|174|195
 audit_artifact_cargo_tests|AUDIT ARTIFACT CARGO|175|196
+grade_on_secure_tests|GRADE ON SECURE|176|197
