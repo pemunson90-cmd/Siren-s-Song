@@ -52,13 +52,6 @@ static func frame_summary(fit:Dictionary,unit:int)->String:
  var b=Catalog.budget(fit,unit);var parts=[]
  for mount in b.mounts:parts.append("%s %s"%[mount.type,Catalog.ITEMS[mount.item].name if not mount.item.is_empty() else "empty"])
  return "%s · %s\n%s\nMOUNTS · %s"%[SLOTS[Catalog.SLOTS[unit]],b.name.to_upper(),Catalog.frame(fit,unit).summary," · ".join(parts)]
-static func next_frame(fit:Dictionary,unit:int)->Dictionary:
- var ids=Catalog.frames(unit).keys();var key=Catalog.FRAME_KEYS[Catalog.SLOTS[unit]];var index=ids.find(Catalog.frame_id(fit,unit));var first=""
- for step in range(1,ids.size()):
-  var id=ids[(index+step)%ids.size()];var attempt=Catalog.choose(fit,key,id,[])
-  if attempt.ok:return {"key":key,"id":id,"reason":""}
-  if first.is_empty():first="%s refused · %s"%[Catalog.frames(unit)[id].name,attempt.reason]
- return {"key":key,"id":"","reason":first}
 static func loadout(main,fit:Dictionary,choose:Callable)->Array:
  var buttons=[]
  main._menu_text("HULL AND DRONE FRAMES / NEXT LAUNCH",19)
@@ -71,12 +64,14 @@ static func loadout(main,fit:Dictionary,choose:Callable)->Array:
   _bar(main,strip,"CARGO",b.cargo,b.cargo_cap,"%d / %d"%[b.cargo,b.cargo_cap],b.cargo_cap>0 and b.cargo>=b.cargo_cap)
   _bar(main,strip,"NOISE",b.noise,1.5,"%d%%"%roundi(b.noise*100),b.noise>1.0)
   _bar(main,strip,"ENDURANCE",b.endurance,2.0,"%d%%"%roundi(b.endurance*100),b.endurance<1.0)
-  var next=next_frame(fit,unit);var title
-  if next.id.is_empty():title="%s · %s · CHANGE REFUSED · %s"%[SLOTS[Catalog.SLOTS[unit]],b.name.to_upper(),next.reason.to_upper()]
-  else:title="%s · %s → %s"%[SLOTS[Catalog.SLOTS[unit]],b.name.to_upper(),Catalog.frames(unit)[next.id].name.to_upper()]
-  var key=next.key;var id=next.id
-  var button=main._button(main.panel_box,title,func():choose.call(key,id),"frame_"+Catalog.SLOTS[unit])
-  button.disabled=id.is_empty();buttons.append(button)
+  for id in Catalog.frames(unit):
+   var key=Catalog.FRAME_KEYS[Catalog.SLOTS[unit]]
+   var attempt=Catalog.choose(fit,key,id,[])
+   var selected=Catalog.frame_id(fit,unit)==id
+   var title="%s · %s%s"%[SLOTS[Catalog.SLOTS[unit]],Catalog.frames(unit)[id].name.to_upper()," · SELECTED" if selected else ""]
+   if not attempt.ok:title+=" · REFUSED · "+attempt.reason.to_upper()
+   var button=main._button(main.panel_box,title,func():choose.call(key,id),"frame_"+Catalog.SLOTS[unit]+"_"+id)
+   button.disabled=selected or not attempt.ok;buttons.append(button)
  return buttons
 static func status(sim)->String:
  if not sim.has_method("equipment_feedback"):return ""

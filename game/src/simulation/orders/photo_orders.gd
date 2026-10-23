@@ -10,10 +10,11 @@ static func command(sim, order: String, args: Dictionary) -> bool:
 		"frame":
 			return sim.Photo.set_frame(sim,sim.selected,args)
 		"camera":
-			if not sim.module_recovery_status().jobs[sim.selected].is_empty() or sim.Delivery.busy(sim,sim.selected) or sim.Witness.busy(sim,sim.selected) or sim.Glass.busy(sim,sim.selected) or sim.Choir.busy(sim,sim.selected):sim.message="Finish this craft's wreck recovery first";return false
+			if not sim.module_recovery_status().jobs[sim.selected].is_empty() or sim.Delivery.busy(sim,sim.selected) or sim.Witness.busy(sim,sim.selected) or sim.Glass.busy(sim,sim.selected) or sim.Choir.busy(sim,sim.selected) or sim._warning_chain_busy(sim.selected):sim.message="Finish this craft's wreck recovery first";return false
 			var context=sim.camera_context()
 			if not context.ready: sim.message=context.text; return false
 			var photo_target:int=context.target if context.target>=0 else sim.Photo.siren_objective(sim,context.siren)
+			if photo_target<0:sim.message="No available photographic subject";return false
 			var target=sim.Photo.obj(sim,photo_target)
 			sim.captures[sim.selected]={"target":photo_target,"elapsed":0.0}; u.hold="HOLD"
 			sim.Operations.begin(sim,target,sim.selected)

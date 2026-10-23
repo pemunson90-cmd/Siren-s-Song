@@ -107,7 +107,7 @@ func run():
  check(replay.facts.get("witness_arrival","")==recovered.facts.get("witness_arrival","") and replay.facts.get("witness_recovery","")==recovered.facts.get("witness_recovery",""),"completed replay cannot rewrite first committed physical arrival or loss")
  archive.active=lost.snapshot();archive.expedition=rescue
  check(store.save(archive) and store.load_game()==archive,"completed occupied-pod rescue and first-commit facts survive actual binary save")
- var twice=fresh(1,{"quietus":"","drone_a":"drone_deep_cells","drone_b":"drone_sampler"})
+ var twice=fresh(1,{"quietus":"","drone_a":"drone_deep_cells","drone_b":"drone_sampler","chassis_b":"heavy"})
  twice.command("salvage",{"item":"witness_capsule"});step(twice,4.1);twice.units[1].battery=0;step(twice,.02)
  twice.units[2].pos=twice.witness_status().capsule.pos+Vector2(0,20);twice.units[2].vel=Vector2.ZERO;twice.command("select",{"unit":2})
  check(twice.command("salvage",{"item":twice.salvage_sites()[0].item}),"surviving B can recover the original occupant and another drone's inert kit")
@@ -116,7 +116,14 @@ func run():
  twice.units[0].pos=twice.witness_status().capsule.pos+Vector2(0,20);twice.units[0].vel=Vector2.ZERO;twice.command("select",{"unit":0})
  check(twice.command("salvage",{"item":twice.salvage_sites()[0].item}),"bare Q can winch the combined two-loss wreck once")
  step(twice,4.1)
- check(twice.witness_status().capsule.rescues==2 and twice.witness_status().cargo==[["witness_capsule"],[],[]] and twice.module_recovery_status().cargo[0].size()==2 and twice.salvage_sites().is_empty() and Sim.valid_snapshot(twice.snapshot()),"repeated exposed rescue preserves one living witness, two real carrier losses and two unique modules")
+ check(twice.witness_status().capsule.rescues==2 and twice.witness_status().cargo==[["witness_capsule"],[],[]] and twice.module_recovery_status().cargo[0].size()==1 and twice.salvage_sites().size()==1 and twice.ModuleRecovery.carried(twice,0)==twice.ModuleRecovery.capacity(twice,0) and Sim.valid_snapshot(twice.snapshot()),"shared rescue prioritizes the occupant, fills two physical places and leaves excess hardware at the wreck")
+ var spare=twice.salvage_sites()[0]
+ twice.units[0].pos=HOME;twice.units[0].vel=Vector2.ZERO
+ check(twice.command("witness_land"),"landing the rescued occupant frees a carriage place")
+ twice.units[0].pos=spare.pos+Vector2(0,20);twice.units[0].vel=Vector2.ZERO
+ check(twice.command("salvage",{"item":spare.item}),"remaining hardware can be collected on a second physical trip")
+ step(twice,4.1)
+ check(twice.module_recovery_status().cargo[0].size()==2 and twice.salvage_sites().is_empty() and Sim.valid_snapshot(twice.snapshot()),"both unique modules remain recoverable after safely landing the witness")
  for suffix in ["",".bak",".tmp"]:DirAccess.remove_absolute(store.path+suffix)
  finish()
 func finish():

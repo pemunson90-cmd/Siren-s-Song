@@ -94,7 +94,7 @@ func status(id:int)->String:
 func _ordinary_task(id:int)->String:
  var sim=host.sim;var u=sim.units[id];var work=sim.capture_feedback(id)
  if work.unit>=0:
-  var site=sim.mission.objectives[work.target]
+  var site=preload("res://src/simulation/photo_capture.gd").obj(sim,work.target)
   var verb={"receiver":"LISTEN","exchange":"SAMPLE","uplink":"LINK","actuator":"OPERATE"}.get(site.get("kind",""),"PHOTO")
   var operation=Operations.operation(sim,work.target)
   if not operation.is_empty():verb=operation.action

@@ -496,6 +496,9 @@ func refresh():
   if not Witness.site(sim).is_empty() and subject.get("kind","")=="craft":host.order_buttons.camera.text="WITNESS\nWINCH"
  if (host.knock_armed or host.decoy_armed) and not host.targeting_feedback.is_empty():
   intent.text=sim.units[sim.selected].name+" · "+host.targeting_feedback
+ var photographic=sim.camera_context()
+ if preload("res://src/simulation/photo_context.gd").is_photo(sim,photographic):
+  host.order_buttons.camera.text="PHOTO";host.order_buttons.camera.disabled=not photographic.get("ready",false)
  var fitted=Equipment.status(sim)
  if not fitted.is_empty():instrument_info.text+="\n\n"+fitted
  if page=="inspect" and subject.get("kind","") in ["craft","fleet"]:
@@ -534,7 +537,7 @@ func refresh():
  var pressure=sim.recon_feedback()
  var warnings=[]
  for entry in host.ocean.contact_entries():
-  if entry.urgent or (entry.fresh and "REPORT" in entry.text):warnings.append(entry.text)
+  if entry.urgent or (entry.fresh and ("REPORT" in entry.text or "STUNNED" in entry.text)):warnings.append(entry.text)
  host.ocean.warnings_in_hud=host.advanced_orders
  alarm.text="\n".join(warnings) if host.advanced_orders else "OP PRESSURE · %s"%pressure.stage
  alarm.visible=not warnings.is_empty() if host.advanced_orders else pressure.hunt>0
@@ -628,7 +631,7 @@ func camera_caption() -> Array:
  if target==-2:return [verb,"▸ SIREN S%d"%(int(context.get("siren",0))+1)]
  if target>=0 and target<sim.mission.objectives.size():
   var site=sim.mission.objectives[target]
-  return [verb,"▸ %s"%str(site.name).to_upper().substr(0,18),("READY · " if context.get("ready",false) else "NOT READY · ")+"%dm"%roundi(sim.units[sim.selected].pos.distance_to(site.pos))]
+  return [verb,"▸ %s"%sim.Photo.label(site).to_upper().substr(0,18),("READY · " if context.get("ready",false) else "NOT READY · ")+"%dm"%roundi(sim.units[sim.selected].pos.distance_to(site.pos))]
  return [verb,"▸ NO SITE IN RANGE"]
 func action_controls() -> Dictionary:
  var result={}

@@ -192,3 +192,17 @@ well_camera_feed_render_tests|WELL CAMERA RENDER|168|189|render
 opening_fleet_tests|OPENING FLEET|169|190
 cold_review_ui_tests|COLD REVIEW UI|170|191|render
 cold_review_archive_tests|COLD REVIEW ARCHIVE|171|192
+audit_photo_integrity_tests|AUDIT PHOTO INTEGRITY|172|193
+audit_photo_ui_tests|AUDIT PHOTO UI|173|194
+audit_findings_provenance_tests|AUDIT FINDINGS PROVENANCE|174|195
+audit_artifact_cargo_tests|AUDIT ARTIFACT CARGO|175|196
+fix2_save_tests|FIX2 SAVE|176|197
+fix2_save_ui_tests|FIX2 SAVE UI|177|198
+fix2_optional_recovery_tests|FIX2 OPTIONAL RECOVERY|178|199
+fix2_frontend_ui_tests|FIX2 FRONTEND UI|179|200|render
+fix2_photo_routing_tests|FIX2 PHOTO ROUTING|180|201
+fix2_menu_ui_tests|FIX2 MENU UI|181|202|render
+fix2_camera_ui_tests|FIX2 CAMERA UI|182|203|render
+fix2_feedback_ui_tests|FIX2 FEEDBACK UI|183|204|render
+fix2_state_tests|FIX2 STATE|184|205
+fix2_study_ui_tests|FIX2 STUDY UI|185|206|render
