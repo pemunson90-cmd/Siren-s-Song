@@ -37,4 +37,20 @@ PR into claude/integration; merge per the line above; mark DONE and update the b
 ## Completion
 Claimed while019 step3 PR83 is in progress. Finish that green PR before later019 order-family PRs;035 now has priority. The existing camera-selector early returns also block020's optional photos on7/8. Item11 owns that routing repair, so020 stays data-only and its earlier ownership question is superseded by this new explicit assignment. Preserve ready mission jobs and active exposures. Save error is investigated first.
 
-Checkpoint: pushed claude/fix2-cold-review-full (see live branch for exact ref), based on integrationa7204e5. Save retake regression12/0, real I/O retry4/0, optional recovery20/0 (red first:3,3,2 failures respectively). Retakes now retain strict clock/type checks; optional photos cannot invalidate recovered dives or suppress their sampler entitlement. Android overlay Back work next. No DONE claim.
+Checkpoint: PR86 https://github.com/pemunson90-cmd/Siren-s-Song/pull/86; branch claude/fix2-cold-review-full pushed272eea93444e9cf19b2a11a4c19e84617e3e847b, integration basea7204e59d9ef5f9b5cfd5483a9c4bc1e015306ea. All implementation complete; exact-head CI39904552528 pending. NOT DONE until green merge.
+
+Item dispositions:
+1. Cause: legitimate incomplete-feature photographic retakes were rejected merely because the site was already captured. Narrow photo exemption preserves target/type/finite/duration/duplicate guards. Mid-retake real save/reload12/0; actual transient/persistent I/O retry4/0. Optional photos also exposed two old all-records assumptions; required-job strictness retained, optional recovery20/0.
+2,8. Android Back and Escape route overlay detail to list to title; Settings/list/detail Back at top; confirmed Erase moved into Settings. Real touch bothFold and960x432:63/0.
+3. Ops4–6 short GOAL/DANGER; generic repeated orders/rules afterop2 moved behind manual. Later unique operational procedures inspected/retained under conditional scope, no narrative rewrite.
+4. Separate Fittings; all named hull/chassis choices; Resume after mission rows. Real touch24/0; old frame selection test updated to explicit choices,73/0.
+5. Not reproduced: optional validated hints_seen already persists. Actual fresh-launch regression confirms seen hint remains. No redundant field added.
+6. Optional validated observed_stun only on already earned visible optical contacts, immediate post-Disrupt presentation and countdown; no enemy/rule writes. Real touch+hint reload12/0, strict state10/0.
+7. Camera font/touch/text scale and reduced motion; sharp/light bars and numbers in separate strip, film counter preserved. Suppress duplicate emulated mouse toggles.150percent text+flash+tight+focus tested by touch,54/0.
+9. Existing fleet and menu targets measure56.0dp cover,56.55dp inner at420dpi fixture, so reported undersize did not reproduce there. Camera targets raised above48dp. Desktop window pixels do not establish physical Android dp.
+10. Added classic/expedition loss line from own state/last observed range only; no hidden detection calculation. State tests10/0.
+11. Same-band Sirens work in every requested op6–10 and22–29 (83/0), cross-band rejected. UI overrides and study-index crashes also repaired; real touch study24/0. Optional photos on ids7/8 now route for020. Ready jobs, exposures and powered plant work retain precedence.
+
+Import clean; core818/0 (one additional target check for reset's Settings location). Existing focused passes: loadout38,briefing50,onboarding30,capture52/UI9,depth49,contact reports36,Shelf journey33,lockUI14,cold review218,challenges86. No tests removed or loosened. Independent read-only reviewer /root/review_fix2 (requested gpt-6.1-sol Medium, fresh context) approves exact272eea9 vsa7204e5: no remaining Critical/Important; two Important camera findings fixed/re-reviewed. Personally ran state10 androuting83; other counts parent-reported. Declined physical Android/render/audio/difficulty/CI judgement. Relayed review belongs in PR86 before merge.
+
+Resume: inspect exact-head guidance/game-smoke, fix any CI failure, merge only if mergeable and fresh integration is an ancestor. Then mark035 DONE and update BOARD in one commit, finish019's four remaining PRs, then020. Source recovery refs are pushed; no APK or physical-device claim.
