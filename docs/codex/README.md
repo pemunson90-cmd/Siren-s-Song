@@ -1,12 +1,12 @@
-**Resume map (22 Oct): the project-wide entry point is docs/RESUME.md on origin/claude/integration (state, rules, next actions, caveats). This file is the Codex protocol. Board: docs/codex/BOARD.md. Designs: docs/design/. Short plan: docs/codex/PLAN_SNAPSHOT.md. If you were interrupted mid-handoff, your handoff file's Completion section names your branch and last pushed SHA: resume from there.**
+**Resume map:** the project-wide entry point is docs/RESUME.md on origin/claude/integration (state, rules, next actions, caveats). This file is the Codex protocol. Board: docs/codex/BOARD.md. Designs: docs/design/. Short plan: docs/codex/PLAN_SNAPSHOT.md. If you were interrupted mid-handoff, your handoff file's Completion section names your branch and last pushed SHA: resume from there.**
 
 # Codex: how to continue (read this first, every time)
 
 Pat will say only "continue". This file is everything you need. Do the Step 0 orientation below, then read nothing else unless a handoff names it. Do not use any older task you remember. Follow these steps in order.
 
 ## Step 0: orient (every new Codex session, once)
-1. Read `docs/codex/PLAN_SNAPSHOT.md` on this branch. It is the short version of the whole plan, the settled rules and what Claude has in flight.
-2. Then fetch `origin/claude/integration` and read these there, in full, so you know the game, its identity and the current state: `AGENTS.md`, `docs/USER_DIRECTIVES.md`, `docs/CURRENT_GAME_SPEC.md`, `docs/PHOTO_RECON.md`, `docs/SESSION_LEDGER_2026-10-21.md`. Where the ledger and PLAN_SNAPSHOT disagree, PLAN_SNAPSHOT is newer.
+1. Fetch `origin/claude/integration` and `origin/codex/handoffs`. Read `docs/RESUME.md` on integration for the reconciled snapshot, then this protocol and PLAN_SNAPSHOT on handoffs. Live refs/PRs establish published state; the board owns claims. Preserve an existing running claim and use its Completion notes when explicitly resuming it.
+2. Read current USER_DIRECTIVES and the short guidance/source named by the task brief from integration. Root owns whole-guidance reconciliation; workers use bounded task context. AGENTS contains stable execution rules, CURRENT_GAME_SPEC intended behavior and PHOTO_RECON camera capabilities/gaps. Session ledgers are dated history; PLAN_SNAPSHOT carries no separate live work inventory.
 3. Open `docs/codex/BOARD.md`. When you have done 1 and 2, go straight to Step 1 and take the first OPEN handoff in order. Do not wait for Pat.
 
 ## Where handoffs live
@@ -25,7 +25,7 @@ Your code work happens on a separate lane branch named in the handoff, and retur
 Sessions and machines die without warning, and uncommitted work is lost. Commit and push your lane branch at least every 30 minutes and after every meaningful step, even when tests are red (a red WIP commit on your lane branch is fine; never merge red). Use a message starting `WIP:`. In your handoff file's Completion section, note the branch and the last pushed SHA so anyone can resume you. Open the PR as soon as the first coherent version exists (a draft is fine).
 
 ## Claude may be absent (22 Oct)
-Claude's session can run out of usage. Then you continue alone: Pat's STANDING DELEGATION (top of docs/USER_DIRECTIVES.md on claude/integration) lets you build to the plan and merge your own green PRs. A handoff marked PRIORITY goes first. Ask Pat only at the decision points listed in the delegation. Read docs/SESSION_LEDGER_2026-10-22.md on claude/integration for the current state.
+Claude's session can run out of usage. Then you continue alone: Pat's STANDING DELEGATION (top of docs/USER_DIRECTIVES.md on claude/integration) lets you build to the plan and merge your own green PRs. A handoff marked PRIORITY goes first. Ask Pat only at the decision points listed in the delegation. Read docs/RESUME.md on claude/integration for reconciled state and the live board for claims; the session ledger is historical.
 
 ## Batch rule and reporting (22 Oct, Pat)
 Handoffs come in batches of three. Work them in numeric order. A file with `Status: HOLD` is not yours; ignore it. After each handoff: set its Status to DONE (or BLOCKED), fill Completion, and update its row in `docs/codex/BOARD.md` (status, PR link, UTC time, one line). Claude watches the board and writes the next batch when two of three are DONE. When no OPEN handoff is left, stop and tell Pat plainly which are DONE, then wait; do not invent work.
@@ -51,7 +51,7 @@ Follow the handoff exactly. It names the branch to create, the files you may edi
 - Edit only your owned files. If you need a file outside them, do not touch it; write it in your completion note.
 - Mission briefings and story text are short placeholders only, enough to name the tasks. Gameplay, layout and UI come first; never write long story text. Never change combat, detection or damage rules unless the handoff says so. No em dashes in any text you add.
 - Before you push, run import, the core tests, and only the scenarios for the area you touched. Do NOT run the full scenario list locally (Pat, 22 Oct): GitHub's game-smoke runs it on the pull request and is the gate. If CI goes red, fix and push again. Never skip, loosen or delete tests to get green. Run the full list locally only if a handoff says so.
-- Push your lane branch and open a pull request into `claude/integration`. Wait for GitHub's `guidance` and `game-smoke` checks. Claude merges. You do not merge.
+- Push your lane branch and open a pull request into `claude/integration`. Wait for GitHub's `guidance` and `game-smoke` checks on the exact head, reconcile current integration, and preserve the required attributable independent review. Claude normally merges; Codex may merge only when the handoff/delegation permission in Step 1 allows it. Never promote to frozen `gauntlet/production` or protected `main` without Pat.
 - Setup if needed: `export PATH=$HOME/.cache/sirens-song-toolchain/bin:$PATH; scripts/toolchain/install-godot.sh; scripts/toolchain/headless.sh --editor --import --quit`
 
 ## Step 5: write your completion (always, even on failure)
