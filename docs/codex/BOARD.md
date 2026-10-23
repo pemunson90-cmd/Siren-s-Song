@@ -34,7 +34,7 @@ Work order is numeric: finish 013 (batch 1) first, then 014, 015, 016.
 | 10 | 021 route map screen (M2) | OPEN | | | |
 | 11 | 022 route clearance (NAV1) | DONE | [75](https://github.com/pemunson90-cmd/Siren-s-Song/pull/75) | 2026-10-23 00:05:58 UTC | Merged07eb890; exact-head guidance/game-smoke green, clearance and touch/Back verified. |
 | 12 | 023 ARCH2 main.gd and HUD contract | OPEN | | | |
-| 13 | 024 photography and all-stop audio | CLAIMED | [87](https://github.com/pemunson90-cmd/Siren-s-Song/pull/87) | | Current87a5f99 includes PR79; audio47/0/core817/0; CI39911965967; merge after current priority queue. |
+| 13 | 024 photography and all-stop audio | CLAIMED | [87](https://github.com/pemunson90-cmd/Siren-s-Song/pull/87) | | Prepared1b26249 includes035/weapons/D3; audio47/0,retry8/0,warning27/0; core/review running. Merge after PR88,PR86 with fresh integration/checks. |
 | 14 | 025 landmarks for thin ops (M3a) | OPEN | | | |
 | 15 | 026 self-play review of the opening (read-only) | OPEN | | | |
 
