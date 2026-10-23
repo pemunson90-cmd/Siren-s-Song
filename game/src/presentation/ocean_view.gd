@@ -1,4 +1,5 @@
 extends Control
+const HullBand=preload("res://src/presentation/route_clearance/hull_band.gd")
 const Shelf=preload("res://src/presentation/shelf_habitat_view.gd")
 const Priced=preload("res://src/presentation/photo_pricing/photo_pricing_overlay.gd")
 const RuleOverlay=preload("res://src/photo_rules/rule_overlay.gd")
@@ -317,6 +318,7 @@ func _draw() -> void:
 		if not u.alive: continue
 		if not earned.is_empty():EarnedChart.draw_course(self,EarnedChart.segments(sim,i),world_scale,i==sim.selected)
 		if not u.route.is_empty():
+			if i==sim.selected:HullBand.draw_world(self,sim,i)
 			var last=u.pos
 			for n in u.route.size():
 				var dest=u.route[n]
