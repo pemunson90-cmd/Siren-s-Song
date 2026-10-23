@@ -15,3 +15,7 @@ const RELAY_REPLAY_TIME = 3.0
 const RECON_TIME = 8.0
 const RECON_NOISE = 1100
 const RECON_NOISE_TIME = 2.0
+
+# Drive readout values, unchanged.
+const DRONE_QUIET_SPEED = 42
+const DRONE_TRANSIT_SPEED = 96
