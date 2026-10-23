@@ -4,7 +4,7 @@ import fcntl, importlib.util, json, os, pathlib, subprocess, sys, tempfile, time
 ROOT=pathlib.Path(__file__).resolve().parent
 HELPER=ROOT/'gauntlet-boundary.py'
 INSTALL=ROOT/'install-gauntlet-hooks.py'
-FILES=('AGENTS.md','docs/USER_DIRECTIVES.md','docs/CONTINUATION.md','docs/WORKBENCH.md','docs/architecture/GAUNTLET.md','docs/CURRENT_GAME_SPEC.md','docs/V7_TO_GODOT_PARITY.md')
+FILES=('AGENTS.md','docs/USER_DIRECTIVES.md','docs/RESUME.md','docs/CONTINUATION.md','docs/WORKBENCH.md','docs/architecture/GAUNTLET.md','docs/CURRENT_GAME_SPEC.md','docs/V7_TO_GODOT_PARITY.md')
 
 def run(*args,cwd=None,input=None):
  return subprocess.run(args,cwd=cwd,input=input,text=True,capture_output=True,timeout=15)
@@ -20,18 +20,18 @@ class BoundaryTests(unittest.TestCase):
   self.base=pathlib.Path(self.tmp.name);self.remote=self.base/'remote.git';self.seed=self.base/'seed';self.repo=self.base/'client'
   git(self.base,'init','--bare',str(self.remote));git(self.base,'init',str(self.seed))
   git(self.seed,'config','user.name','Test');git(self.seed,'config','user.email','test@example.invalid')
-  git(self.seed,'checkout','-b','gauntlet/production')
+  git(self.seed,'checkout','-b','claude/integration')
   for name in FILES:
    p=self.seed/name;p.parent.mkdir(parents=True,exist_ok=True);p.write_text('# '+name+'\n\n> LIVING GAME SPEC / PERPETUAL QUALITY RATCHET: read both living documents.\n\n## Current execution contract\nUser current contract.\n\n## History\nFULL TAIL\n')
-  git(self.seed,'add','.');git(self.seed,'commit','-m','initial');git(self.seed,'remote','add','origin',str(self.remote));git(self.seed,'push','origin','gauntlet/production')
-  git(self.base,'clone','-b','gauntlet/production',str(self.remote),str(self.repo));git(self.repo,'config','user.name','Test');git(self.repo,'config','user.email','test@example.invalid')
+  git(self.seed,'add','.');git(self.seed,'commit','-m','initial');git(self.seed,'remote','add','origin',str(self.remote));git(self.seed,'push','origin','claude/integration')
+  git(self.base,'clone','-b','claude/integration',str(self.remote),str(self.repo));git(self.repo,'config','user.name','Test');git(self.repo,'config','user.email','test@example.invalid')
   self.sha=git(self.seed,'rev-parse','HEAD')
  def invoke(self,*args,input=None):return run(sys.executable,str(HELPER),*args,cwd=self.repo,input=input)
  def receipt(self):
   p=self.repo/'.git/gauntlet-boundary/receipt.json';self.assertTrue(p.exists(),'Boundary must write an actual receipt');return json.loads(p.read_text())
  def update(self,name='AGENTS.md'):
   with (self.seed/name).open('a') as f:f.write('\nNEW USER DIRECTION\n')
-  git(self.seed,'commit','-am','new governance');git(self.seed,'push','origin','gauntlet/production');return git(self.seed,'rev-parse','HEAD')
+  git(self.seed,'commit','-am','new governance');git(self.seed,'push','origin','claude/integration');return git(self.seed,'rev-parse','HEAD')
  def install(self):return run(sys.executable,str(INSTALL),cwd=self.repo)
  def test_fetch_full_cache_change_and_dirty_branch_preserved(self):
   r=self.invoke('--boundary','resume');self.assertEqual(r.returncode,0,r.stderr);a=self.receipt();self.assertEqual(a['policy_sha'],self.sha)
@@ -39,14 +39,39 @@ class BoundaryTests(unittest.TestCase):
    self.assertIn(name,a['files']);self.assertEqual(pathlib.Path(a['files'][name]['cache_path']).read_bytes(),(self.seed/name).read_bytes())
   git(self.repo,'checkout','-b','feature');(self.repo/'AGENTS.md').write_text('DIRTY LOCAL');self.update();new=self.update('docs/CURRENT_GAME_SPEC.md')
   r=self.invoke('--boundary','review');self.assertEqual(r.returncode,0,r.stderr);self.assertEqual(self.receipt()['policy_sha'],new);self.assertIn('AGENTS.md',self.receipt()['changed_files']);self.assertIn('docs/CURRENT_GAME_SPEC.md',self.receipt()['changed_files']);self.assertEqual(git(self.repo,'branch','--show-current'),'feature');self.assertEqual((self.repo/'AGENTS.md').read_text(),'DIRTY LOCAL')
+ def test_refresh_uses_integration_instead_of_frozen_production(self):
+  git(self.seed,'branch','gauntlet/production',self.sha)
+  git(self.seed,'push','origin','gauntlet/production')
+  new=self.update('docs/USER_DIRECTIVES.md')
+  r=self.invoke();self.assertEqual(r.returncode,0,r.stderr)
+  self.assertEqual(self.receipt()['policy_sha'],new)
+  self.assertEqual(git(self.remote,'rev-parse','refs/heads/gauntlet/production'),self.sha)
+ def test_frozen_production_push_still_requires_integration_ancestry(self):
+  git(self.seed,'branch','gauntlet/production',self.sha);git(self.seed,'push','origin','gauntlet/production')
+  new=self.update()
+  updates=f'refs/heads/feature {self.sha} refs/heads/gauntlet/production {self.sha}\n'
+  r=self.invoke('--boundary','pre-push',input=updates)
+  self.assertNotEqual(r.returncode,0);self.assertIn('ancestor',r.stderr)
+ def test_missing_resume_is_stale_without_dispatch(self):
+  self.assert_missing_required_spec_stops_dispatch('docs/RESUME.md')
+ def test_production_only_commit_cannot_be_lost_by_force_push(self):
+  git(self.seed,'checkout','-b','gauntlet/production',self.sha)
+  (self.seed/'preserved.txt').write_text('production-only evidence')
+  git(self.seed,'add','preserved.txt');git(self.seed,'commit','-m','preservation')
+  git(self.seed,'push','origin','gauntlet/production')
+  git(self.seed,'checkout','claude/integration');new=self.update()
+  git(self.repo,'fetch','origin','claude/integration')
+  updates=f'refs/heads/feature {new} refs/heads/gauntlet/production {self.sha}\n'
+  r=self.invoke('--boundary','pre-push',input=updates)
+  self.assertNotEqual(r.returncode,0);self.assertIn('production',r.stderr)
  def test_failed_fetch_marks_stale_without_advancing_last_success(self):
   self.assertEqual(self.invoke().returncode,0);git(self.repo,'remote','set-url','origin',str(self.base/'missing.git'))
   r=self.invoke();self.assertNotEqual(r.returncode,0);d=self.receipt();self.assertEqual(d['status'],'stale');self.assertIsNone(d['policy_sha']);self.assertEqual(d['last_success']['policy_sha'],self.sha);self.assertIn('fetch',d['error'])
  def test_missing_remote_document_is_stale(self):
-  self.assertEqual(self.invoke().returncode,0);git(self.seed,'rm','docs/WORKBENCH.md');git(self.seed,'commit','-m','broken docs');git(self.seed,'push','origin','gauntlet/production')
+  self.assertEqual(self.invoke().returncode,0);git(self.seed,'rm','docs/WORKBENCH.md');git(self.seed,'commit','-m','broken docs');git(self.seed,'push','origin','claude/integration')
   self.assertNotEqual(self.invoke().returncode,0);self.assertEqual(self.receipt()['last_success']['policy_sha'],self.sha)
  def assert_missing_required_spec_stops_dispatch(self,name):
-  self.assertEqual(self.invoke().returncode,0);git(self.seed,'rm',name);git(self.seed,'commit','-m','missing required living document');git(self.seed,'push','origin','gauntlet/production')
+  self.assertEqual(self.invoke().returncode,0);git(self.seed,'rm',name);git(self.seed,'commit','-m','missing required living document');git(self.seed,'push','origin','claude/integration')
   p=self.base/'task.json';p.write_text(json.dumps({'target':'worker','message':'Task'}))
   r=self.invoke('--boundary','dispatch','--dispatch',str(p));self.assertNotEqual(r.returncode,0);self.assertEqual(r.stdout,'');d=self.receipt();self.assertEqual(d['status'],'stale');self.assertIsNone(d['policy_sha']);self.assertEqual(d['last_success']['policy_sha'],self.sha);self.assertIn(name,d['error'])
  def test_missing_user_directives_is_stale_without_dispatch(self):
@@ -95,10 +120,10 @@ class BoundaryTests(unittest.TestCase):
   (self.repo/'work.txt').write_text('preserved');git(self.repo,'add','work.txt');git(self.repo,'commit','-m','preserve completed work');self.assertEqual(git(self.repo,'log','-1','--format=%s'),'preserve completed work');self.assertEqual(self.receipt()['status'],'stale')
  def test_actual_pre_push_hook_rejects_stale_production(self):
   self.assertEqual(self.install().returncode,0);new=self.update();(self.repo/'local.txt').write_text('work');git(self.repo,'add','local.txt');git(self.repo,'commit','-m','divergent work')
-  r=run('git','push','--force','origin','gauntlet/production',cwd=self.repo);self.assertNotEqual(r.returncode,0);self.assertIn('ancestor',r.stderr);self.assertEqual(git(self.remote,'rev-parse','refs/heads/gauntlet/production'),new)
+  r=run('git','push','--force','origin','claude/integration',cwd=self.repo);self.assertNotEqual(r.returncode,0);self.assertIn('ancestor',r.stderr);self.assertEqual(git(self.remote,'rev-parse','refs/heads/claude/integration'),new)
  def test_production_push_rejects_remote_ahead_but_feature_push_can_refresh(self):
-  new=self.update();updates=f'refs/heads/gauntlet/production {self.sha} refs/heads/gauntlet/production {self.sha}\n'
+  new=self.update();updates=f'refs/heads/claude/integration {self.sha} refs/heads/claude/integration {self.sha}\n'
   r=self.invoke('--boundary','pre-push',input=updates);self.assertNotEqual(r.returncode,0);self.assertEqual(self.receipt()['policy_sha'],new);self.assertIn('ancestor',r.stderr)
   r=self.invoke('--boundary','pre-push',input=f'refs/heads/feature {self.sha} refs/heads/feature '+('0'*40)+'\n');self.assertEqual(r.returncode,0,r.stderr)
-  git(self.repo,'merge','--ff-only','origin/gauntlet/production');r=self.invoke('--boundary','pre-push',input=f'refs/heads/gauntlet/production {new} refs/heads/gauntlet/production {new}\n');self.assertEqual(r.returncode,0,r.stderr)
+  git(self.repo,'merge','--ff-only','origin/claude/integration');r=self.invoke('--boundary','pre-push',input=f'refs/heads/claude/integration {new} refs/heads/claude/integration {new}\n');self.assertEqual(r.returncode,0,r.stderr)
 if __name__=='__main__':unittest.main()

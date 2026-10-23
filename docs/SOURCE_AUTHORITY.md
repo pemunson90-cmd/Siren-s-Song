@@ -24,6 +24,10 @@ A newer proposal does not silently supersede an established decision. When docum
 
 **Authority reconciliation (2026-10-19):** The design bible v1's original internal authority ordering, and the visual plan v3's original approval/pending-generation language, are historical descriptions from their authored dates. The explicit current user direction and the living hierarchy above control production. The concept-selection ledger and portable package handoff contain later accepted visual exploration and supersede the plan's pending-generation status; preserve the plan as a comparative art reference. At every completed task agents audit the active handoff against the latest ratifications and automatically repair routine stale current-state wording through reviewed updates rather than asking the user to reconcile documents.
 
+## Operational authority
+
+Development integration is `claude/integration`; `gauntlet/production` is frozen pending Pat-authorized promotion and `main` remains the protected accepted baseline. RESUME is the sole reconciled operational snapshot. The codex/handoffs board and individual handoffs own worker claims; live Git refs and PR/check state establish what is actually published or merged. A dated snapshot may lag a live ref without changing design authority. Reconcile substantive differences at existing boundaries; an unexplained newer SHA alone is not a reason to rewrite a handoff. Session ledgers and earlier status blocks are historical evidence.
+
 ## Visual guidance
 
 Use candidate gameplay references for scene composition and world language, the recent Quietus exterior for silhouette continuity, and the review PDF for known image-generation failure modes. Concept-art engineering cutaways are exploratory. Keep physical terrain, vehicles, contacts, and route/sensor overlays legible and distinguishable on mobile.

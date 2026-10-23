@@ -1,3 +1,9 @@
+## 22 October 2026 (evening): guidance reconciliation
+
+Pat authorized correcting the audit's guidance findings while preserving current work. Prepare the changes on an isolated branch; reconcile at the existing integration boundary. Existing claims, ownership, handoff order, gameplay decisions and promotion permissions continue. The earlier 21 October temporary ban on documentation reconciliation is superseded for this authorized pass; its other preservation rules remain.
+
+Development integration is `claude/integration`; `gauntlet/production` remains the frozen promotion baseline and `main` the protected accepted baseline. Pat authorizes promotion. RESUME owns the operational snapshot and links live refs/PRs; the board on `codex/handoffs` owns Codex assignments and claims. Stable rules, intended behavior, dated history and current status retain distinct homes. Earlier milestone/next-action wording below records its dated phase; consult RESUME for actual work. Preserve original directives as provenance.
+
 ## 22 October 2026 (afternoon): decisions and a standing engineering rule
 
 **Decisions (user, "yes to everything"):** Priced Shots design approved: finite film (Quietus 8, drone 4; unusable or interrupted exposures cost film), light and distance trades, timing windows, fittings that open or reprice routes (sleeve, thermal imager and tele lens gate optional bonus features only; core jobs stay finishable bare), tele lens cannot hide the 520 m shutter noise, ops 0 and 3 oxygen unchanged, Disrupt stays 12 s and 2 charges. Photo depth-band choice approved (shallow and deep as clarity and risk trade-offs). Studying a subject may make small, readable rule shifts (for example a sentinel's patrol timing); both of these touch depth or detection, so a design is shown to Pat before building. Order taps keep the confirm-on-busy-craft rule. First Siren warning in ops 1 to 3 pauses once. Claude builds handoff 009 (sweeper).

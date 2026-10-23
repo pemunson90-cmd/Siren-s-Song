@@ -5,7 +5,7 @@
 **Gauntlet process:** [AGENTS.md](../AGENTS.md) — canonical orchestration and continuous-improvement instructions.
 **Intended game:** [CURRENT_GAME_SPEC.md](CURRENT_GAME_SPEC.md) — living game specification.
 **Source precedence and v7:** [SOURCE_AUTHORITY.md](SOURCE_AUTHORITY.md), [V7_TO_GODOT_PARITY.md](V7_TO_GODOT_PARITY.md).
-**Active execution:** [CONTINUATION.md](CONTINUATION.md) — integrated baseline, ownership, exact next task; [WORKBENCH.md](WORKBENCH.md) — player-facing status.
+**Active execution:** [RESUME.md](RESUME.md) owns the reconciled operational snapshot. Development integration is `claude/integration`; assignments and claims live on `codex/handoffs`. CONTINUATION and WORKBENCH point there.
 **Engine and runtime:** [architecture/GAUNTLET.md](architecture/GAUNTLET.md), [GAUNTLET_ORCHESTRATION.md](GAUNTLET_ORCHESTRATION.md).
 
 The Gauntlet continuously evaluates the whole game, identifies its most consequential weakness/opportunity, makes an improvement, assesses actual player gain, integrates with one reviewer, and repeats. Six missions, passing tests and APK builds are development checkpoints. The ultimate aspiration is AAA-caliber game content and execution, with the user controlling the game's creative identity.
@@ -17,4 +17,4 @@ Historical prototype wrappers, original specifications, past audits and validati
 
 ## Current operational closeout rule
 
-Every completed worker/review/merge task causes the orchestrator to fetch current production, run `python3 scripts/toolchain/gauntlet-boundary.py --boundary complete`, perform the semantic staleness comparison, repair obsolete active handoffs on a reviewed branch and delegate the next highest-value work. Status in archive/provenance documents is historical. `main` receives coherent tested promotions from the continuously reviewed `gauntlet/production` line; individual feature branches never skip reconciliation or testing to land directly on main. Only the user determines that the Gauntlet is finished.
+Every completed worker/review/merge task causes the orchestrator to fetch current integration, run `python3 scripts/toolchain/gauntlet-boundary.py --boundary complete`, perform the semantic staleness comparison, repair obsolete active handoffs on a reviewed branch and delegate the next highest-value work. Status in archive/provenance documents is historical. `claude/integration` receives reviewed feature PRs; `gauntlet/production` stays frozen pending Pat-authorized promotion, and protected `main` remains the accepted baseline; individual feature branches never skip reconciliation or testing to land directly on main. Only the user determines that the Gauntlet is finished.
