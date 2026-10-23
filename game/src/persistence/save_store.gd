@@ -11,14 +11,17 @@ func valid(data: Dictionary) -> bool:
 	if not data.get("unlocked") is int or data.unlocked<0 or data.unlocked>5: return false
 	if not data.get("completed") is Array or not data.get("settings") is Dictionary or not data.get("upgrade") is String: return false
 	if data.has("hints_seen") and not preload("res://src/campaign/onboarding_text.gd").valid_seen(data.hints_seen):return false
+	if not preload("res://src/campaign/early_reward/early_reward.gd").valid(data):return false
+	if not preload("res://src/presentation/first_siren_cue/cue_archive.gd").valid(data):return false
 	if data.has("challenges") and not preload("res://src/campaign/challenges/challenge_records.gd").valid(data.challenges):return false
 	if data.has("intel") and not preload("res://src/campaign/photo_intel.gd").valid(data.intel):return false
 	if data.has("expedition") and not preload("res://src/campaign/expedition_campaign.gd").valid(data.expedition):return false
-	if data.has("fleet") and not preload("res://src/campaign/fleet_inventory.gd").valid(data.fleet,preload("res://src/equipment/craft_upgrades.gd").recovered(data.completed,data.get("expedition",{}),data.get("intel",{})),data.completed+data.get("expedition",{}).get("completed",[])):return false
+	var earned=preload("res://src/campaign/early_reward/early_reward.gd").earned(data.get("early_reward",{}),preload("res://src/equipment/craft_upgrades.gd").recovered(data.completed,data.get("expedition",{}),data.get("intel",{})))
+	if data.has("fleet") and not preload("res://src/campaign/fleet_inventory.gd").valid(data.fleet,earned,data.completed+data.get("expedition",{}).get("completed",[])):return false
 	if data.has("equipment"):
 		if not preload("res://src/campaign/campaign_consequences.gd").fitting_valid(data.equipment):return false
 		for item in preload("res://src/equipment/equipment_catalog.gd").all_items(data.equipment):
-			if item not in preload("res://src/equipment/craft_upgrades.gd").recovered(data.completed,data.get("expedition",{}),data.get("intel",{})):return false
+			if item not in earned:return false
 	if data.has("evidence"):
 		if not data.evidence is Dictionary: return false
 		for key in data.evidence:
@@ -30,7 +33,7 @@ func valid(data: Dictionary) -> bool:
 		if preload("res://src/campaign/operation_catalog.gd").definition(data.active.mission.id).campaign and data.active.mission.id not in preload("res://src/campaign/expedition_campaign.gd").available(data.completed,data.get("expedition",{})):return false
 		var fitted=data.active.mission.get("launch_equipment",{})
 		for item in preload("res://src/equipment/equipment_catalog.gd").all_items(fitted):
-			if item not in preload("res://src/equipment/craft_upgrades.gd").recovered(data.completed,data.get("expedition",{}),data.get("intel",{})):return false
+			if item not in earned:return false
 		var references=data.active.mission.get("launch_context",{}).get("references",{})
 		if not references.is_empty() and references!=data.get("expedition",{}).get("references",{}):return false
 	return true
