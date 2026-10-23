@@ -164,7 +164,7 @@ func depth_feedback()->Dictionary:
 func public_chart()->Dictionary:
 	return terrain_chart.public_chart() if terrain_chart!=null else {}
 func player_path(a:Vector2,b:Vector2)->Array:
-	return terrain_chart.player_path(a,b) if terrain_chart!=null else path(a,b)
+	return terrain_chart.player_path(a,b) if terrain_chart!=null else path(a,b,true)
 func course_status(unit_id:int=-1)->Dictionary:
 	var id=selected if unit_id<0 else unit_id
 	if id>=units.size():return {}
@@ -437,17 +437,19 @@ func line_clear(a: Vector2,b: Vector2) -> bool:
 		for n in corners.size():
 			if Geometry2D.segment_intersects_segment(a,b,corners[n],corners[(n+1)%corners.size()]) != null: return false
 	return true
-func path(a: Vector2, b: Vector2) -> Array:
+func path(a: Vector2, b: Vector2, player_course:bool=false) -> Array:
 	var result: Array=[]
 	if blocked(b,24): return result
-	if blocked(a,24): return _near_wall_recovery(a,b)
-	if segment_safe(a,b,24): return [{"pos":b,"stop":true}]
+	if blocked(a,24): return _near_wall_recovery(a,b,player_course)
+	if segment_safe(a,b,24) and (not player_course or _player_leg_safe(a,b)): return [{"pos":b,"stop":true}]
 	var first=nearest_navigation_cell(a)
 	var last=nearest_navigation_cell(b)
 	if first.x<0 or last.x<0: return result
 	var grid_path=navigation.get_point_path(first,last)
 	var raw: Array=[]
-	for n in range(1,grid_path.size()): raw.append(grid_path[n])
+	# A legal off-grid start may need the first grid point to round a corner.
+	# Player courses retain that entry; the existing Siren path stays unchanged.
+	for n in range(0 if player_course else 1,grid_path.size()): raw.append(grid_path[n])
 	if raw.is_empty(): return result
 	raw.append(b)
 	var origin=a; var at=0
@@ -455,10 +457,11 @@ func path(a: Vector2, b: Vector2) -> Array:
 		var furthest=at
 		for n in range(at+1,raw.size()):
 			if segment_safe(origin,raw[n],24): furthest=n
+		if player_course and not _player_leg_safe(origin,raw[furthest]):return []
 		result.append({"pos":raw[furthest],"stop":furthest==raw.size()-1})
 		origin=raw[furthest]; at=furthest+1
 	return result
-func _near_wall_recovery(origin: Vector2,destination: Vector2) -> Array:
+func _near_wall_recovery(origin: Vector2,destination: Vector2,player_course:bool=false) -> Array:
 	# Inertia can leave a legal 12m hull inside the 24m routing comfort margin.
 	# Escape locally with increasing clearance; retain normal margins after entry.
 	if blocked(origin,12): return []
@@ -471,10 +474,10 @@ func _near_wall_recovery(origin: Vector2,destination: Vector2) -> Array:
 			for step in range(1,count+1):
 				var fraction=float(step)/count
 				if blocked(origin.lerp(entry,fraction),lerpf(12,24,fraction)): safe=false; break
-			if safe: candidates.append({"pos":entry,"cost":radius+entry.distance_to(destination)})
+			if safe and (not player_course or _player_leg_safe(origin,entry)): candidates.append({"pos":entry,"cost":radius+entry.distance_to(destination)})
 	candidates.sort_custom(func(a,b): return a.cost<b.cost)
 	for candidate in candidates:
-		var onward=path(candidate.pos,destination)
+		var onward=path(candidate.pos,destination,player_course)
 		if not onward.is_empty():
 			var route: Array=[{"pos":candidate.pos,"stop":true}]; route.append_array(onward); return route
 	return []
