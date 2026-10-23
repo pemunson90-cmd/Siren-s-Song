@@ -30,7 +30,7 @@ PRs into claude/integration; merge per the line above; mark DONE and update the 
 
 In progress, not DONE. Step 2 merged in PR81: https://github.com/pemunson90-cmd/Siren-s-Song/pull/81
 - claude/arch1-save-checks: c7c5cfd9e97d0ea1e6bb04b924a0e1ac4ae69948; exact-head CI39896278323 guidance/game-smoke green; merged4e89cc37bac9d55fc160c1a4e0e6797bee4f1ff8.
-- Step 3 PR83: https://github.com/pemunson90-cmd/Siren-s-Song/pull/83; claude/arch1-cancel-helper pushedfaff74e4189fb095ce2ecf23cd1af4d534c090d7; CI39898572326 pending.
+- Step 3 PR83: https://github.com/pemunson90-cmd/Siren-s-Song/pull/83; claude/arch1-cancel-helper pushedfaff74e4189fb095ce2ecf23cd1af4d534c090d7; CI39898572326 green; mergeda7204e59d9ef5f9b5cfd5483a9c4bc1e015306ea.
 - Prepared dependent lane claude/arch1-orders-weapons: 5893121.
 - Prepared dependent lane claude/arch1-orders-sensors: 3427ef0.
 - Prepared dependent lane claude/arch1-orders-route: 1474ba3.
@@ -41,4 +41,4 @@ Godot4.6.3 import clean; core817/0 before and after every prepared step. Save ch
 
 Source comparisons preserve original order bodies after resolving receivers/constants and expanding the shared leg-mode helper; all41 keys registered exactly once. Original guard ordering, early returns and cleanup are retained. No game rules, save shapes, inputs, mission rows or test assertions changed. New modules have revert notes; CONVENTIONS is under30 lines. Independent reviewer /root/review_arch1 (fresh context, requested gpt-6.1-sol Medium) approved sourcef25c5eb6a66212d589b94e134087f29b11410aef against7089470: no Critical/Important/Minor findings, declined-to-judge[]. Relayed verdict is recorded in PR81 and PR83; CI gates remain separate. One first import in the separate baseline worktree hit a Godot threaded-import crash; clean reimport and affected baseline tests subsequently passed. No tests were loosened or skipped.
 
-Resume: git fetch origin; inspect PR83 exact-head checks; if green and mergeable with current integration as ancestor, merge with a merge commit. Then merge fresh integration into claude/arch1-orders-weapons, open its own PR and continue through the dependent branches above. This task remains CLAIMED until every required step has merged. Mark DONE and update BOARD in one final commit only then.
+Resume:035 now has priority after merged PR83. Finish035, then merge fresh integration into claude/arch1-orders-weapons, open its own PR and continue through the dependent branches above. This task remains CLAIMED until every required step has merged. Mark DONE and update BOARD in one final commit only then.

@@ -36,3 +36,5 @@ PR into claude/integration; merge per the line above; mark DONE and update the b
 
 ## Completion
 Claimed while019 step3 PR83 is in progress. Finish that green PR before later019 order-family PRs;035 now has priority. The existing camera-selector early returns also block020's optional photos on7/8. Item11 owns that routing repair, so020 stays data-only and its earlier ownership question is superseded by this new explicit assignment. Preserve ready mission jobs and active exposures. Save error is investigated first.
+
+Checkpoint: pushed claude/fix2-cold-review-full (see live branch for exact ref), based on integrationa7204e5. Save retake regression12/0, real I/O retry4/0, optional recovery20/0 (red first:3,3,2 failures respectively). Retakes now retain strict clock/type checks; optional photos cannot invalidate recovered dives or suppress their sampler entitlement. Android overlay Back work next. No DONE claim.
