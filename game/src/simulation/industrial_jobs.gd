@@ -29,6 +29,7 @@ static func context(sim,action:String,id:int=-1)->Dictionary:
  result.duration=4. if action=="recover" else 8.
  if not sim.outcome.is_empty():result.reason="Dive ended"
  elif not u.alive:result.reason="Craft lost"
+ elif action=="recover" and sim.ModuleRecovery.carried(sim,id)>=sim.ModuleRecovery.capacity(sim,id):result.reason="No free cargo place · material needs one"
  elif busy(sim,id):result.active=true;result.elapsed=state.jobs[id].elapsed;result.reason="Industrial work in progress"
  elif u.band!=band or not u.transition.is_empty():result.reason="Settle at the work's physical depth"
  elif u.pos.distance_to(result.pos)>60 or not sim.Depth.clear(sim,u.pos,result.pos,u.band):result.reason="Reach within60m through clear local water"
@@ -67,14 +68,16 @@ static func command(sim,args:Dictionary)->bool:
   sim._use_band(sim.units[id].band);sim._noise(c.pos,650.,"CHOIR BERTH RELEASE",6.,load.band);sim.message="Sled departs by "+action+" course · locally observe its actual dock arrival";return true
  state.jobs[id]={"action":action,"pos":c.pos,"band":sim.units[id].band,"elapsed":0.,"duration":c.duration};sim.units[id].hold="HOLD"
  sim._noise(c.pos,520.,"RECOVERY WINCH" if action=="recover" else "CHOIR MACHINERY",c.duration,sim.units[id].band);sim.message=c.reason;return true
-static func cancel_released(sim,id:int):
- if busy(sim,id) and sim.units[id].hold!="HOLD":sim.mission.iron_choir.jobs[id]={}
+# JobRelease calls this only after the shared HOLD guard.
+static func release_if_unheld(sim,id:int):
+ if busy(sim,id):sim.mission.iron_choir.jobs[id]={}
 static func open_site(sim,site:Dictionary):
  site.done=true
  if site.shape.has_area():sim.mission.structures.erase(site.shape);sim._build_navigation();sim.opened_terrain(site.shape)
 static func complete_work(sim,id:int,job:Dictionary):
  var state=sim.mission.iron_choir;var action=job.action;var a=state.artifact
  if action=="recover":
+  if sim.ModuleRecovery.carried(sim,id)>=sim.ModuleRecovery.capacity(sim,id):return
   a.state="cargo";a.carrier=id;a.pos=sim.units[id].pos
   if Rules.SURGE.has(sim.mission.id) and state.stamp<0.:state.stamp=sim.elapsed
   return

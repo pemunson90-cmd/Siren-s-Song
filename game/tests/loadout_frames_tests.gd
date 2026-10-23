@@ -111,9 +111,9 @@ func saves():
  var unearned=data.duplicate(true);unearned.equipment.quietus_2="quietus_decoder"
  check(not store.valid(unearned),"unrecovered items in an extra mount are rejected")
  for suffix in ["",".tmp",".bak"]:DirAccess.remove_absolute(path+suffix)
-func frame_button(unit:String):
+func frame_button(unit:String,id:String="quiet") :
  for control in game.panel_box.get_children():
-  if control is Button and control.get_meta("action","")=="frame_"+unit:return control
+  if control is Button and control.get_meta("action","")=="frame_"+unit+"_"+id:return control
  return null
 func fit_button(slot:String,name:String):
  for control in game.panel_box.get_children():
@@ -137,7 +137,7 @@ func ui():
   game.completed=[0];game.unlocked=1;game.expedition={"completed":[],"entitlements":["quietus_prism","quietus_decoder"]}
   game._briefing(1);await settle()
   var hull=frame_button("quietus")
-  check(hull!=null and "STANDARD HULL → LOW NOISE HULL" in hull.text,"briefing offers the next hull")
+  check(hull!=null and "LOW NOISE HULL" in hull.text,"briefing lists the low noise hull directly")
   var width=game.scroll.get_global_rect()
   check(game.panel_box.get_children().all(func(c):return not c is Control or c.get_global_rect().size.x<=width.size.x+1),"frame rows and budget bars fit the briefing width")
   await tap(hull)
@@ -146,10 +146,10 @@ func ui():
   check(Kit.has(game.fitted_equipment,0,"quietus_prism"),"prism fits the low noise hull sensor mount")
   var decoder=fit_button("quietus","Range service decoder")
   check(decoder.disabled and "REFUSED" in decoder.text and "POWER" in decoder.text,"over budget decoder row is refused with its power reason: "+decoder.text)
-  hull=frame_button("quietus")
-  check(hull!=null and not hull.disabled and "FAST TRANSIT HULL" in hull.text,"hull cycle skips to the next legal frame")
-  await tap(frame_button("drone_a"))
-  check(game.fitted_equipment.chassis_a=="scout","drone A chassis cycles to scout")
+  hull=frame_button("quietus","fast")
+  check(hull!=null and not hull.disabled and "FAST TRANSIT HULL" in hull.text,"the legal fast hull stays available as a named choice")
+  await tap(frame_button("drone_a","scout"))
+  check(game.fitted_equipment.chassis_a=="scout","drone A chassis selects scout directly")
   game._start_mission(1);await settle()
   check(game.sim.mission.launch_equipment.hull=="quiet" and game.sim.mission.launch_equipment.chassis_a=="scout" and Kit.has(game.sim.mission.launch_equipment,0,"quietus_prism"),"launch freezes the chosen hull, chassis and mounts")
   check("LOW NOISE HULL" in View.status(game.sim) and "REACH DIRECTIONAL PRISM" in View.status(game.sim),"in-dive status names the launched hull and fitting")

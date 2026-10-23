@@ -99,7 +99,6 @@ func _title_screen() -> void:
 		_button("START GAME", _new_campaign, "frontend_new_campaign")
 	else:
 		_button("CONTINUE", _continue, "frontend_continue", profile == Profile.UNREADABLE)
-		_button("ERASE PROGRESS · NEW CAMPAIGN", _new_campaign, "frontend_new_campaign")
 	_button("SETTINGS", _settings_screen, "frontend_settings")
 	_button("CHALLENGES", func():load("res://src/presentation/frontend/challenges_frontend.gd").show(self), "frontend_challenges", profile==Profile.UNREADABLE)
 	_button("CREDITS", _credits_screen, "frontend_credits")
@@ -123,6 +122,7 @@ func _new_campaign() -> void:
 		_dismiss(); host._confirm_new_campaign()
 func _settings_screen() -> void:
 	_reset("settings")
+	_button("BACK", _title_screen, "frontend_back")
 	_text("SETTINGS", 32, Color("80d9cf"))
 	_text("Saved on this device, separate from your campaign.", 14)
 	if not settings_store.warning.is_empty(): _text(settings_store.warning, 15, Color("efc28d"))
@@ -143,7 +143,8 @@ func _settings_screen() -> void:
 		var key: String = row[0]; var label: String = row[1]
 		_button("%s: %s" % [label, "ON" if values[key] else "OFF"], func(): _set_value(key, not values[key]); _settings_screen(), "setting_" + key)
 	_button("RESET TO DEFAULTS", func(): values = SettingsStore.DEFAULTS.duplicate(); _set_value("master", 1.0); _settings_screen(), "settings_reset")
-	_button("BACK", _title_screen, "frontend_back")
+	if profile != Profile.NONE:
+		_button("ERASE PROGRESS · NEW CAMPAIGN", _new_campaign, "frontend_new_campaign")
 func _set_value(key: String, v: Variant) -> void:
 	values[key] = v
 	values = SettingsStore.sanitize(values)
@@ -154,8 +155,14 @@ func _persist() -> void:
 	settings_store.save_settings(values)
 func _credits_screen() -> void:
 	_reset("credits")
+	_button("BACK", _title_screen, "frontend_back")
 	_text("CREDITS", 32, Color("80d9cf"))
 	_text("SIREN'S SONG  /  AUDIO ATTRIBUTION", 14)
 	for line in CreditsText.lines(Soundscape.ATTRIBUTION):
 		_text(line.text, 20 if line.heading else 15, Color("80d9cf") if line.heading else Color(0, 0, 0, 0))
-	_button("BACK", _title_screen, "frontend_back")
+# Main routes Android Back and Escape here before changing the campaign underneath.
+func back() -> void:
+	if screen == "challenge_details":
+		load("res://src/presentation/frontend/challenges_frontend.gd").show(self)
+	elif screen != "title":
+		_title_screen()
