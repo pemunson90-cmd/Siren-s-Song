@@ -31,7 +31,7 @@ Work order is numeric: finish 013 (batch 1) first, then 014, 015, 016.
 ## BATCH 4 (buffer, 22 Oct; independent work so Codex does not run dry)
 | Order | Handoff | Status | PR | Finished (UTC) | One-line result |
 |---|---|---|---|---|---|
-| 10 | 021 route map screen (M2) | CLAIMED | [95](https://github.com/pemunson90-cmd/Siren-s-Song/pull/95) | | Published65260da on actualddc3361; core818/0,graph50/0,Canvas70/0 and neighboring menu checks pass. Final independent review plus personal50/70 rerun approved; PR ready, exact40039574968 guidance green/game-smoke running. No save fields or operation-table edits. |
+| 10 | 021 route map screen (M2) | CLAIMED | [95](https://github.com/pemunson90-cmd/Siren-s-Song/pull/95) | | Published65260da on actualddc3361; core818/0,graph50/0,Canvas70/0 and neighboring menu checks pass. Final independent review plus personal50/70 rerun approved; PR ready/mergeable.23:52 UTC recovery checkpoint: exact40039574968 guidance green, game-smoke now running touch regressions after import/core passed. No save fields or operation-table edits. |
 | 11 | 022 route clearance (NAV1) | DONE | [75](https://github.com/pemunson90-cmd/Siren-s-Song/pull/75) | 2026-10-23 00:05:58 UTC | Merged07eb890; exact-head guidance/game-smoke green, clearance and touch/Back verified. |
 | 12 | 023 ARCH2 main.gd and HUD contract | OPEN | | | |
 | 13 | 024 photography and all-stop audio | DONE | [87](https://github.com/pemunson90-cmd/Siren-s-Song/pull/87) | 2026-10-23 17:59:25 UTC | Mergeda63aeeb after exact9b2f665 guidance/game-smoke39993951569 green and final independent approval; core818/0,audio47/0; subjective sound unjudged. |
