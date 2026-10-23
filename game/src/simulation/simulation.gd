@@ -1,4 +1,6 @@
 extends RefCounted
+# Read-only D1 presentation seam. Existing acquisition decides when to publish.
+signal siren_notice(id:int, source_position:Vector2)
 const Orders=preload("res://src/simulation/orders/order_table.gd")
 const JobRelease=preload("res://src/simulation/job_release.gd")
 const SaveChecks=preload("res://src/persistence/save_checks.gd")
@@ -1172,6 +1174,7 @@ func _threats(dt: float) -> bool:
 					s.goal=noise.pos; heard=true; s.mode="INVESTIGATE"; s.suspicion=maxf(s.suspicion,0.45)
 		if heard:
 			s["last_known"]=s.goal; s["attention_time"]=Sweeper.attention(s); s["search_index"]=0; Sweeper.note_heard(s,s.goal,elapsed)
+		if heard or detected>=0:siren_notice.emit(sirens.find(s),s.pos)
 		observations.append(detected);fresh.append(heard or detected>=0 or recipient_seen)
 		if detected>=0 or recipient_seen:
 			var victim=recipient if recipient_seen else units[detected]

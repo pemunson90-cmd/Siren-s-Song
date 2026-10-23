@@ -143,6 +143,7 @@ func _ready() -> void:
 	menu_footer=HBoxContainer.new(); menu_footer.add_theme_constant_override("separation",12); stack.add_child(menu_footer); menu_footer.hide()
 	route_editor=preload("res://src/presentation/route_program_panel.gd").new(); add_child(route_editor)
 	sound=Soundscape.new(); add_child(sound)
+	preload("res://src/presentation/first_siren_cue/first_siren_cue.gd").install(self)
 	resized.connect(_layout)
 	for arg in OS.get_cmdline_user_args():
 		if arg.begins_with("--scenario="): capture_scenario=arg.get_slice("=",1)
