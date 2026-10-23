@@ -1,9 +1,9 @@
 # Handoff 020: CAMPAIGN M1, photography rows for ops 6 to 29
 
-Status: CLAIMED
+Status: DONE
 Claimed at: 2026-10-23 04:09:09 UTC
 Claimed by: codex
-Finished at:
+Finished at: 2026-10-23 23:02:29 UTC
 
 Precondition: handoff 018 must be DONE.
 Codex may merge: yes, into claude/integration only, after GitHub guidance and game-smoke are both green on the exact head and the PR is mergeable. Merge with a merge commit, then mark DONE and update docs/codex/BOARD.md.
@@ -24,6 +24,10 @@ Each band has at least two photo problems that matter; bare-Quietus fixtures for
 PR into claude/integration; merge per the line above; mark DONE and update the board.
 
 ## Completion
+
+DONE. [PR85](https://github.com/pemunson90-cmd/Siren-s-Song/pull/85) merged into claude/integration with merge commit ddc336132181191ed5db387899af8be4fc35b317. Branch claude/campaign-m1 last pushed fad2eba963f1fdf00f79e8c8b4d746ecb326fcbc. Exact-head guidance/game-smoke run40033091926 both passed; actualef27d72 was contained and independent /root/review_integration approved this exact head/base with no Critical/Important/Minor. Fresh fetched merge's complete tree equals reviewedfad2, with verified two-parent ancestry. Mark DONE and BOARD together in this commit.
+
+Player gain:14 optional subjects and16 returned-film marks across operations6 to29, with banded viewpoints and four tight shots using existing camera/priced-shot/depth systems. Informative features are required for usable records; generic outlines cannot grant the new intel. Film adds planning information without gating routes or changing core work, combat or detection. Data modules/tests match approved preparation. Clean import/core818/0,photo361/0,Iron57/0,journeys108/0, earlier focused bare-craft journeys and final full hosted matrix pass. Current-engine paired pressure on recordeda475/d82 refs matches all76 cases and1105commands per side, every field equal and all snapshots valid. Both retain31wins16losses25controller findings4timeouts; no failures counted as wins. Independent reviewer verified the pressure evidence without rerunning probes, and reviewed final immutable source/ancestry/registry/docs. No new camera engine, story, save-objective type or route gate. Tests/registry/RESUME are the supporting files outside the two data modules. Physical-device, full-campaign completion and enjoyment remain unverified. Next claim eligible021 route map, then continue the numeric queue, skipping unmet preconditions. Historical checkpoints retain exact evidence refs and limitations.
 
 CLAIMED, not DONE. Data branch claude/campaign-m1 pushedd9498b2ff97d7c6b12a7d4516f15d97098b90786. Draft PR85: https://github.com/pemunson90-cmd/Siren-s-Song/pull/85. Wait for035 PR86 merge, finish019, then merge fresh integration into this data lane and get exact-head CI before merging020.
 
