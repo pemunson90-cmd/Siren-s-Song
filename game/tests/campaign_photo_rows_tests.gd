@@ -37,12 +37,12 @@ func _initialize():
  for id in EXPECTED:
   var s=Sim.new();s.start(id)
   var key:String=EXPECTED[id]
-  var matches=s.mission.objectives.filter(func(o):return o.get("optical","")==key) if id in [8,23] else s.mission.get("photo_hidden",[]).filter(func(h):return h.key==key)
+  var matches=s.mission.objectives.filter(func(o):return o.get("optical","")==key) if id==8 else s.mission.get("photo_hidden",[]).filter(func(h):return h.key==key)
   check(matches.size()==1,"operation%d has its optional %s subject"%[id,key])
   if matches.size()!=1:continue
   var h=matches[0]
   var informative=h.subject.features.filter(func(feature):return feature.get("intel","")==key)[0]
-  if id in [8,23]:
+  if id==8:
    check(h.get("unknown",false) and h.get("optional",false) and h.duration>=informative.window[0],"the optional lamp study starts unresolved and spans its full cycle")
   else:
    check(not h.found and not s.mission.objectives.any(func(o):return o.get("optical","")==key),"the new subject starts unresolved")
