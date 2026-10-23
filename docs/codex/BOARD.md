@@ -34,7 +34,7 @@ Work order is numeric: finish 013 (batch 1) first, then 014, 015, 016.
 | 10 | 021 route map screen (M2) | OPEN | | | |
 | 11 | 022 route clearance (NAV1) | DONE | [75](https://github.com/pemunson90-cmd/Siren-s-Song/pull/75) | 2026-10-23 00:05:58 UTC | Merged07eb890; exact-head guidance/game-smoke green, clearance and touch/Back verified. |
 | 12 | 023 ARCH2 main.gd and HUD contract | OPEN | | | |
-| 13 | 024 photography and all-stop audio | CLAIMED | [87](https://github.com/pemunson90-cmd/Siren-s-Song/pull/87) | | Head3dd614b independently approved; audio47/0/core817/0; CI39908066605 running; merge held. |
+| 13 | 024 photography and all-stop audio | CLAIMED | [87](https://github.com/pemunson90-cmd/Siren-s-Song/pull/87) | | Headf566f15 includes PR77, independently re-approved; audio47/0; core rerun; CI39909154820 running; merge held. |
 | 14 | 025 landmarks for thin ops (M3a) | OPEN | | | |
 | 15 | 026 self-play review of the opening (read-only) | OPEN | | | |
 
@@ -58,7 +58,7 @@ Dependency note: 016, 019, 020, 023 to 027 wait on PR 74 (handoff 018). 021 wait
 Take 017 first (PRIORITY) if any of PRs 69, 70, 71 is open; otherwise numeric order 014 to 020. Designs live in docs/design/ on this branch. Beyond 020 see docs/SESSION_LEDGER_2026-10-22.md on claude/integration, section Next.
 
 ## PRIORITY after 019 step 1 (23 Oct)
-| P | 035 FIX2 full cold review fixes (save error first) | CLAIMED | [86](https://github.com/pemunson90-cmd/Siren-s-Song/pull/86) | | Source272eea9 independently approved; core818/0, touch regressions green; Head30737ff re-reviewed; debrief repair7/0,core818/0; CI39907999620 running; merge held. |
+| P | 035 FIX2 full cold review fixes (save error first) | CLAIMED | [86](https://github.com/pemunson90-cmd/Siren-s-Song/pull/86) | | Head58cdeed includes PR77, independently re-approved; core818/0; audit45/5/10/25, routing83/study24 pass; CI39909084084 running; merge held. |
 
 ## BATCH 6 (23 Oct, Pat's decisions D1 and D2)
 | 36 | 036 first-Siren cue, ops 1 to 3 | OPEN | | | |
