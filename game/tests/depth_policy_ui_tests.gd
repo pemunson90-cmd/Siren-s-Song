@@ -2,6 +2,7 @@ extends "res://tests/depth_sonar_ui_tests.gd"
 # Source-known, accelerated opening journeys. Every consequential order enters
 # through real viewport input; simulation travel is stepped faster than wall time.
 func craft(g,id):
+ await acknowledge_warning(g)
  g.mission_hud.dismiss();await settle();await click(g.advanced_button);await click(g.unit_buttons[id])
  check(g.sim.selected==id and g.mission_hud.page=="craft","physical fleet input chooses craft")
 func acoustics(g,id):
