@@ -27,4 +27,8 @@ Each step merged with identical behavior (same check counts, CI green). Record t
 PRs into claude/integration; merge per the line above; mark DONE and update the board.
 
 ## Completion
-(Codex fills this in.)
+In progress. Step 2 is PR 81: https://github.com/pemunson90-cmd/Siren-s-Song/pull/81
+Lane claude/arch1-save-checks, last pushed c7c5cfd9e97d0ea1e6bb04b924a0e1ac4ae69948.
+Import clean; core before/after 817/0; Well9/0, equipment10/0, divergence12/0, sweeper52/0 before/after. Exact-head GitHub checks pending. No game rules, save shapes, inputs, mission rows or test assertions changed. Next: cancellation helper, then weapons, sensors, route/drive and photo extraction, each its own PR.
+Resume: git fetch origin; git checkout claude/arch1-save-checks; inspect PR81 checks before merge.
+
