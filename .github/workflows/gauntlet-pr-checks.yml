@@ -27,8 +27,9 @@ jobs:
   game-smoke:
     name: game-smoke
     runs-on: ubuntu-24.04
-    # The complete ordered milestone suite already needs over20m.
-    timeout-minutes: 35
+    # All 189 ordered suites used nearly 35m before this batch.
+    # Keep per-suite caps and assertions strict while allowing added coverage.
+    timeout-minutes: 60
     env:
       TOOLCHAIN_CACHE: ${{ github.workspace }}/../sirens-song-toolchain
     steps:

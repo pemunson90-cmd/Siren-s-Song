@@ -32,7 +32,7 @@ func setup(owner) -> void:
 	undo_button.add_theme_stylebox_override("normal", chip)
 	panel.hide(); undo_button.hide()
 func _button(parent: Node, text: String, action: Callable, id: String) -> Button:
-	var b := Button.new(); b.text = text; b.focus_mode = Control.FOCUS_NONE; b.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	var b := Button.new(); b.text = text; b.focus_mode = Control.FOCUS_NONE; b.autowrap_mode = TextServer.AUTOWRAP_WORD
 	b.pressed.connect(action, CONNECT_DEFERRED); b.set_meta("action", id); b.set_meta("ui_action", id); parent.add_child(b); return b
 # True when a plain tap would discard something the player may still want.
 func replaces_plan() -> bool:
@@ -94,7 +94,10 @@ func refresh(bounds: Vector2, h: float, font: int, floor_y: float) -> void:
 		points_button.text = "ADDED POINTS: PASS THROUGH" if sim.pass_through else "ADDED POINTS: STOP AT EACH"
 		for b in [go_button, add_button, points_button, cancel_button, prompt]:
 			b.add_theme_font_size_override("font_size", font)
-			if b is Button: b.custom_minimum_size = Vector2(h * 1.55, h)
+			if b is Button:
+				var widest := 0.0
+				for word in b.text.split(" ", false): widest = maxf(widest, b.get_theme_font("font").get_string_size(word, HORIZONTAL_ALIGNMENT_LEFT, -1, font).x)
+				b.custom_minimum_size = Vector2(maxf(h * 1.55, widest + b.get_theme_stylebox("normal").get_minimum_size().x + 2), h)
 		panel.custom_minimum_size = Vector2(width, 0); panel.reset_size()
 		panel.position = Vector2((bounds.x - panel.size.x) / 2, maxf(h * 2, floor_y - panel.size.y - 10))
 	if undo_button.visible:

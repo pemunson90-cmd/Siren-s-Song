@@ -11,6 +11,7 @@ const Delivery=preload("res://src/presentation/blackwater_delivery_view.gd")
 const Recipient=preload("res://src/presentation/warning_recipient_view.gd")
 const Concealed=preload("res://src/presentation/concealed_harbour_view.gd")
 const Witness=preload("res://src/presentation/witness_evacuation_view.gd")
+const CenterLayout=preload("res://src/presentation/radial_layout/center_layout.gd")
 const AllStop=preload("res://src/simulation/all_stop/all_stop.gd")
 # A tap opens an object-owned projection. A separate tap chooses an action.
 var host
@@ -50,8 +51,14 @@ var recovery_buttons:Array=[]
 var guard
 var hints
 var text_scale=1.0
+var caption_rects:Array=[]
+var tool_help=preload("res://src/presentation/tool_help/tool_help.gd").new()
+var help_return="tools"
+var help_text=""
+var help_consumed=false
 func setup(owner):
  host=owner;mouse_filter=Control.MOUSE_FILTER_IGNORE
+ add_child(tool_help);tool_help.setup(self)
  blocker=Control.new();blocker.mouse_filter=Control.MOUSE_FILTER_STOP;add_child(blocker);blocker.gui_input.connect(_outside)
  for key in host.order_buttons:
   var b=host.order_buttons[key];b.reparent(self);b.set_meta("action",key)
@@ -119,6 +126,7 @@ func open_recovery(destinations:Array):
   recovery_buttons.append(b)
  open("recovery",{"kind":"craft","unit":host.sim.selected,"pos":host.sim.units[host.sim.selected].pos})
 func open(next:String="craft",context:Dictionary={}):
+ tool_help.cancel()
  for id in host.map_gesture.touches:owned_touches[id]=true
  host.map_gesture.cancel();host.knock_press.clear();popup_gesture.cancel();sheet_pointers.clear();sector_press=null;host.knock_armed=false;host.decoy_armed=false
  if not context.is_empty():subject=context
@@ -134,9 +142,11 @@ func open(next:String="craft",context:Dictionary={}):
  if page=="inspect" and subject.get("subkind","")=="concealed":sheet_scroll.scroll_vertical=0
  host.advanced_orders=true;host._layout()
 func dismiss():
+ tool_help.cancel()
  draining_popup=not owned_touches.is_empty()
  host.map_gesture.cancel();host.knock_press.clear();popup_gesture.cancel();sheet_pointers.clear();sector_press=null;host.advanced_orders=false;instruments_open=false;host._layout()
 func _back():
+ if page=="order_help":open(help_return);return
  if host.knock_armed or host.decoy_armed:host._primary_action();dismiss();return
  if page=="signals":
   if details_return=="water":dismiss()
@@ -200,7 +210,7 @@ func owns_pointer(event) -> bool:
  if draining and (event is InputEventScreenTouch or event is InputEventScreenDrag or (event is InputEventMouse and event.device==InputEvent.DEVICE_ID_EMULATION)):return true
  return false
 func sector_at(point:Vector2) -> Button:
- if not host.advanced_orders or page in ["inspect","signals","recovery"] or ring_buttons.is_empty():return null
+ if not host.advanced_orders or page in ["inspect","signals","recovery","order_help"] or ring_buttons.is_empty():return null
  var local=point-global_position-center;var distance=local.length()
  if distance<ring_radius-touch_height*.65 or distance>ring_radius+touch_height*.6:return null
  var turn=fposmod(local.angle()+PI/2,TAU)
@@ -222,10 +232,16 @@ func witness_button_at(point:Vector2) -> Button:
 func label_at(point:Vector2) -> bool:
  return action_controls().values().any(func(b):return b.get_global_rect().has_point(point))
 func popup_input(event) -> bool:
+ if (event is InputEventScreenTouch or event is InputEventScreenDrag or event is InputEventMouse) and hints.blocks(event.position):
+  tool_help.cancel();popup_gesture.cancel();sector_press=null;return false
+ if help_consumed:
+  if event is InputEventScreenTouch and not event.pressed:help_consumed=false
+  elif event is InputEventMouseButton and not event.pressed:help_consumed=false
+  return true
  if event is InputEventMouse and event.device==InputEvent.DEVICE_ID_EMULATION:return false
  var action={};var point=Vector2.ZERO;var pressed=false;var pointer=-1
  if event is InputEventScreenTouch and event.canceled:
-  popup_gesture.cancel();sector_press=null;sheet_pointers.erase(event.index);return true
+  tool_help.cancel();popup_gesture.cancel();sector_press=null;sheet_pointers.erase(event.index);return true
  if event is InputEventScreenTouch:
   point=event.position;pressed=event.pressed;pointer=event.index
   if pressed and popup_gesture.active() and not popup_gesture.touches.has(event.index):dismiss();return true
@@ -240,6 +256,8 @@ func popup_input(event) -> bool:
   sector_press=witness_button_at(point)
   if sector_press==null:sector_press=recovery_button_at(point) if page=="recovery" else plant_button_at(point) if page=="plant" else null if label_at(point) else sector_at(point)
   if sheet.visible and sheet.get_global_rect().has_point(point) and not label_at(point):sheet_pointers[pointer]=true
+  tool_help.arm(self,sector_press)
+ if not pressed and (event is InputEventScreenTouch or event is InputEventMouseButton):tool_help.cancel()
  if sheet_pointers.has(pointer):
   if event is InputEventScreenTouch and not event.pressed:sheet_pointers.erase(pointer)
   elif event is InputEventMouseButton and not event.pressed:sheet_pointers.erase(pointer)
@@ -273,7 +291,7 @@ func command_controls() -> Array:
    return controls+[extra.glass_route,extra.glass_withdraw,extra.inspect]
   "acoustics":return [extra.depth_up,extra.depth_down,extra.sonar_emit,extra.sonar_sector,extra.sonar_power,extra.sonar_history]
   "tools":return [host.order_buttons.decoy,host.order_buttons.emp,host.order_buttons.recon,host.order_buttons.knock]
-  "route":return [host.order_buttons.queue,host.order_buttons.hold,host.order_buttons.waypoint_mode,host.order_buttons.home,host.order_buttons.program]+([extra.all_stop] if AllStop.available(host.sim) else [])
+  "route":return [host.order_buttons.queue,host.order_buttons.hold,host.order_buttons.waypoint_mode,host.order_buttons.home,host.order_buttons.program]+([extra.all_stop] if AllStop.available(host.sim) else [])+([extra.guard_menu] if host.sim.selected==0 else [])
   "guard":return [host.order_buttons.contact_hold,host.order_buttons.wait_drone,host.order_buttons.hold]
   "view":return [focus_button,host.zoom_buttons[2],host.zoom_buttons[1],host.zoom_buttons[0]]
   "fleet":return host.unit_buttons+([extra.arrivals] if Expedition.active(host.sim) else [])+[extra.view_menu,host.order_buttons.menu]
@@ -289,8 +307,9 @@ func command_controls() -> Array:
   "plant":return ([extra.chain_connect,extra.chain_disconnect,extra.chain_backup] if subject.get("station","")=="inlet" else [extra.chain_service,extra.chain_mast,extra.chain_send])+[extra.route_here,extra.inspect]
   "salvage":return [extra.salvage,extra.route_here,extra.inspect]
   "delivery":return [extra.blackwater_a,extra.blackwater_b,extra.inspect]
-  "inspect","signals","recovery":return []
+  "inspect","signals","recovery","order_help":return []
  var controls=[host.order_buttons.camera,extra.depth_menu,host.order_buttons.silent,host.order_buttons.program,extra.route_menu,extra.tools_menu,extra.guard_menu,extra.inspect]
+ if host.sim.selected==0 and AllStop.available(host.sim):controls[6]=extra.all_stop
  if not host.sim.choir_context().is_empty():controls.append(extra.choir_work)
  if not host.sim.glass_context().is_empty():controls.append(extra.glass_work)
  if Witness.carries(host.sim,host.sim.selected):controls[0]=extra.witness_land
@@ -324,16 +343,16 @@ func layout(bounds:Vector2,h:float):
  var edge=Vector2(h*3.1,h*2.9)*text_scale
  var minimum=Vector2(edge.x,minf(h*3.85*text_scale+20,bounds.y-edge.y))
  center=anchor.clamp(minimum,bounds-edge)
- if page in ["inspect","signals","recovery"]:center=Vector2(bounds.x*.5,bounds.y*.5)
+ if page in ["inspect","signals","recovery","order_help"]:center=Vector2(bounds.x*.5,bounds.y*.5)
  if host.advanced_orders:
   for i in ring_buttons.size():
    var b=ring_buttons[i];var a=-PI/2+TAU*i/ring_buttons.size()
    b.position=center+Vector2.from_angle(a)*ring_radius-b.size/2;b.show();b.move_to_front()
-  close_button.position=center+Vector2(-h*.775,h*.15);close_button.show();close_button.move_to_front()
+  close_button.position=CenterLayout.back_rect(center,close_button.size,h,text_scale,ring_buttons).position;close_button.show();close_button.move_to_front()
  recovery_box.visible=host.advanced_orders and page=="recovery"
  for b in recovery_buttons:
   b.custom_minimum_size.y=h;b.add_theme_font_size_override("font_size",font)
- sheet.visible=host.advanced_orders and page in ["inspect","signals","recovery"]
+ sheet.visible=host.advanced_orders and page in ["inspect","signals","recovery","order_help"]
  if sheet.visible:
   sheet.position=Vector2(maxf(12,center.x-minf(400,bounds.x*.4)),h+24)
   sheet.size=Vector2(minf(800,bounds.x-24),h*2)
@@ -376,11 +395,11 @@ func refresh():
  extra.sonar_power.text="POWER\n"+sim.sonar.power.to_upper()
  extra.sonar_emit.text="EMIT\n"+("%s RESERVE"%String.num(snappedf(sim.Sonar.pulse_cost(sim,sim.selected),0.01)));extra.sonar_emit.disabled=sim.ping_time>0 or not transition.is_empty()
  subject=Concealed.refresh_subject(sim,Recipient.refresh_subject(sim,Rendezvous.refresh_subject(sim,subject)))
- host.pause_button.text="PAUSED\n▶ RUN" if sim.paused else "Ⅱ\nPAUSE"
+ host.pause_button.text="PAUSED\n▶ RESUME" if sim.paused else "Ⅱ\nPAUSE"
  host.advanced_button.text="FLEET"
  focus_button.text="FOLLOW" if host.ocean.chart_camera.mode=="follow" else "FOCUS"
  intent.text="%s · %s · %s"%[sim.units[sim.selected].name+" · "+sim.Depth.NAMES[sim.units[sim.selected].band],"QUEUE" if sim.queue_mode else "REPLACE",(host.targeting_feedback if not host.targeting_feedback.is_empty() else "DECOY · TAP CLEAR WATER ≤160m · TAP CANCEL" if host.decoy_armed else "TORPEDO · TAP FRESH CONTACT · TAP CANCEL" if host.knock_armed else sim.message)]
- host.title_label.visible=page not in ["signals","recovery"];host.detail_label.visible=page not in ["signals","recovery"]
+ host.title_label.visible=page not in ["signals","recovery","order_help"];host.detail_label.visible=page not in ["signals","recovery","order_help"]
  host.order_buttons.home.text="WITHDRAW" if Expedition.entry(sim) else "EXTRACT"
  extra.route_here.text="PLOT ROUTE" if subject.has("subkind") else "ROUTE HERE"
  extra.arrivals.text="ARRIVALS\n%d"%Expedition.measurements(sim).size()
@@ -551,6 +570,7 @@ func refresh():
  if host.decoy_armed or host.knock_armed:
   close_button.text="CANCEL";close_button.position=Vector2(size.x/2-touch_height*.775,size.y-touch_height-12);close_button.show()
  else:close_button.text="CANCEL" if page=="recovery" else "LOCAL ORDERS" if page=="inspect" and subject.get("subkind","")=="concealed" else "BACK";close_button.visible=host.advanced_orders
+ if page=="order_help":instrument_info.text=help_text;host.title_label.hide();host.detail_label.hide()
  queue_redraw()
  if page=="acoustics" or sonar_waterfall.visible:
   if sonar_waterfall.visible:host.title_label.hide();host.detail_label.hide()
@@ -558,12 +578,13 @@ func refresh():
   if not transition.is_empty():instrument_info.text="%s → %s · %.1fs remaining\n"%[sim.Depth.NAMES[u.band],sim.Depth.NAMES[transition.to],transition.remaining]+instrument_info.text
 
 func _draw():
+ caption_rects.clear()
  if host==null or not host.advanced_orders:return
  var h=touch_height;var font=ThemeDB.fallback_font;var text_size=maxi(14,roundi(h*.26*text_scale))
  var tether=anchor.clamp(Vector2.ONE*12,size-Vector2.ONE*12)
  draw_line(tether,center,Color(.3,.8,.8,.32),1.5)
  draw_circle(tether,5,Color("80cbc8"),false,1.5)
- if page in ["inspect","signals","recovery"]:return
+ if page in ["inspect","signals","recovery","order_help"]:return
  draw_circle(center,ring_radius-h*.7,Color(.012,.038,.055,.78))
  for i in ring_buttons.size():
   var points=PackedVector2Array();var from=-PI/2+TAU*(i-.5)/ring_buttons.size()+.012;var until=-PI/2+TAU*(i+.5)/ring_buttons.size()-.012
@@ -593,9 +614,12 @@ func _draw():
  var lines=[title,caption]
  if page=="plant":lines.append(WarningChain.radial_state(WarningChain.context(host.sim)))
  elif page=="craft" and host.order_buttons.camera in ring_buttons:lines.append_array(camera_caption())
+ var first_y=CenterLayout.first_baseline(center.y,close_button.get_rect(),h,text_scale,lines.size(),font,text_size)
  for n in lines.size():
   var text=lines[n];var width=font.get_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,-1,text_size).x
-  draw_string(font,center+Vector2(-width/2,-h*.65+n*(text_size+5)),text,HORIZONTAL_ALIGNMENT_LEFT,-1,text_size,Color("a8d9d5"))
+  var baseline=Vector2(center.x-width/2,first_y+n*(text_size+CenterLayout.STYLE.line_gap))
+  caption_rects.append(Rect2(baseline-Vector2(0,font.get_ascent(text_size)),Vector2(width,font.get_height(text_size))))
+  draw_string(font,baseline,text,HORIZONTAL_ALIGNMENT_LEFT,-1,text_size,Color("a8d9d5"))
 # What the contextual action is and what it will aim at, shown before the tap (two short lines).
 func camera_caption() -> Array:
  var sim=host.sim;var button=host.order_buttons.camera

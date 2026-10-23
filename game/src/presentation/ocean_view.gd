@@ -13,7 +13,9 @@ const Confluence=preload("res://src/presentation/confluence_world.gd")
 const WarningChain=preload("res://src/presentation/warning_chain_view.gd")
 const Rendezvous=preload("res://src/presentation/rendezvous_view.gd")
 var sim
+var presenting_mission=true
 var optical_feed
+var goal_marker
 var siren_ray=preload("res://assets/craft/siren_ray.png")
 var phase := 0.0
 var world_scale := 1.0
@@ -42,6 +44,7 @@ func _ready() -> void:
 	clip_contents=true
 	texture_repeat=CanvasItem.TEXTURE_REPEAT_ENABLED
 	optical_feed=preload("res://src/presentation/camera_feed.gd").new(); add_child(optical_feed)
+	goal_marker=preload("res://src/presentation/goal_bearing/goal_bearing.gd").new();goal_marker.ocean=self;add_child(goal_marker)
 	var noise=FastNoiseLite.new()
 	noise.seed=7319; noise.frequency=0.024; noise.fractal_octaves=4
 	var img=Image.create(800,480,false,Image.FORMAT_RGB8)
@@ -136,7 +139,7 @@ func fit_chart() -> void:
 func _process(dt: float) -> void:
 	phase+=dt; camera_flash=maxf(0,camera_flash-dt);_sync_camera()
 	if optical_feed!=null:
-		optical_feed.sim=sim; optical_feed.visible=sim!=null and optical_feed.viewfinder_visible(sim)
+		optical_feed.sim=sim; optical_feed.visible=presenting_mission and sim!=null and sim.outcome.is_empty() and optical_feed.viewfinder_visible(sim)
 		optical_feed.position=Vector2(14,maxf(instrument_top+40,size.y-410)); optical_feed.size=Vector2(minf(420,size.x*0.52),258)
 	queue_redraw()
 func acoustic_rows() -> Array:
@@ -233,6 +236,9 @@ func _draw() -> void:
 			Confluence.draw_landmarks(self,context,world_scale)
 	else:EarnedChart.draw_terrain(self,earned,world_scale)
 	Shelf.draw_ground(self,sim)
+	if not presenting_mission or not sim.outcome.is_empty():
+		draw_set_transform(Vector2.ZERO)
+		return
 	for o in sim.mission.get("photo",{}).get("studies",[]):
 		if o.captured:_siren_mark(o)
 	for h in sim.mission.get("photo_hidden",[]):

@@ -1,4 +1,5 @@
 extends RefCounted
+const LaunchLayout=preload("res://src/simulation/opening_fleet/launch_layout.gd")
 const Shelf=preload("res://src/simulation/shelf_habitat.gd")
 const Wake=preload("res://src/simulation/wake_crossing.gd")
 const Endurance=preload("res://src/simulation/operation_endurance.gd")
@@ -114,7 +115,7 @@ func start(index: int, upgrade: String = "endurance", launch:Dictionary={}) -> v
 	mission["launch_equipment"]=launch.get("fitted",Consequences.EMPTY_FIT).duplicate(true)
 	units.clear()
 	for i in 3:
-		units.append({"pos":mission.get("start",Vector2(140,800))+[Vector2.ZERO,Vector2(0,-100),Vector2(140,0)][i],"vel":Vector2.ZERO,"angle":-0.3,"route":[],"alive":true,"hold":"","silent":true,"battery":100.0,"name":["QUIETUS","DRONE A","DRONE B"][i]})
+		units.append({"pos":mission.get("start",Vector2(140,800))+LaunchLayout.offset(index,i),"vel":Vector2.ZERO,"angle":-0.3,"route":[],"alive":true,"hold":"","silent":true,"battery":100.0,"name":["QUIETUS","DRONE A","DRONE B"][i]})
 	mission["module_recovery"]=ModuleRecovery.initial(mission.launch_equipment,units)
 	mission["fleet_commit"]=launch.get("fleet_commit",false)
 	sirens = mission.sirens.duplicate(true)
@@ -234,13 +235,13 @@ func _course_collision(u:Dictionary,physical:bool=false,impact:float=-1.0)->void
 		_course_block(u,"Physical clearance stop")
 	else:u.vel=Vector2.ZERO
 	if u==units[0] and u.has("water_velocity"):u.water_velocity=u.vel-current_at(u.pos)
-func _hull_strike(u:Dictionary,impact:float=-1.0)->void:
+func _hull_strike(u:Dictionary,impact:float=-1.0,hit:String="terrain")->void:
 	if impact<0:impact=u.vel.length()
 	if u.name=="QUIETUS" and u.alive and outcome.is_empty() and elapsed-float(u.get("hit_at",-100.0))>=COLLISION_COOLDOWN:
 		var damage:=collision_damage(impact)
 		if damage>0.0:
 			hull=maxf(0.0,hull-damage);u["hit_at"]=elapsed
-			events.append({"type":"creak","pos":u.pos});message="Hull strike %dm/s · hull -%d%%"%[roundi(impact),roundi(damage)]
+			events.append({"type":"creak","pos":u.pos});message="Hull strike against %s · %dm/s · hull -%d%%"%[hit,roundi(impact),roundi(damage)]
 func _hull_contacts(u:Dictionary,origin:Vector2,velocity:Vector2)->void:
 	var bodies=units.slice(1)+sirens
 	for body in [Recipient.body(self),Choir.body(self)]:
@@ -259,7 +260,7 @@ func _hull_contacts(u:Dictionary,origin:Vector2,velocity:Vector2)->void:
 		if closest.length()>=COLLISION_HULL_CLEARANCE:continue
 		var closing=(velocity-other_velocity).dot(separation.normalized())
 		if closing<=0:continue # Separating or coincident hulls do not invent impacts.
-		_hull_strike(u,closing);u.vel*=COLLISION_SPEED_RETAINED
+		_hull_strike(u,closing,str(body.name) if body in units else "another hull");u.vel*=COLLISION_SPEED_RETAINED
 		if u.has("water_velocity"):u.water_velocity=u.vel-current_at(u.pos)
 		return
 func observable_sites() -> Array:

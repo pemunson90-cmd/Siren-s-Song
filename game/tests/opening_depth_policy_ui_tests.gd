@@ -17,7 +17,8 @@ func go(g,id,point,drive=""):
  if g.sim.paused:await click(g.pause_button)
  for n in 12000:
   g.sim.advance(1./60)
-  if n%120==0:g._refresh();await process_frame
+  if n%120==0:
+   g._refresh();await process_frame;await acknowledge_warning(g)
   if not g.sim.outcome.is_empty() or not g.sim.units[id].alive or (g.sim.units[id].pos.distance_to(point)<18 and g.sim.units[id].vel.length()<2):break
  if not g.sim.paused:await click(g.pause_button)
  g._refresh();await settle()
@@ -67,8 +68,10 @@ func arc_split(g):
   if g.sim.all_records() and not returning:
    await start_shift(g,0,true);await append_goals(g,0,[Vector2(660,2100),g.sim.mission.extraction]);returning=true
   if returning and not home and q.pos.distance_to(g.sim.mission.extraction)<25 and q.vel.length()<2 and q.transition.is_empty():await start_shift(g,0,false);home=true
+  await acknowledge_warning(g)
   if g.sim.paused and g.sim.outcome.is_empty():await click(g.pause_button)
-  if n%10==0:g._refresh();await process_frame
+  if n%10==0:
+   g._refresh();await process_frame;await acknowledge_warning(g)
   if not g.sim.outcome.is_empty():break
  if not g.sim.paused:await click(g.pause_button)
  g._refresh();await settle()
