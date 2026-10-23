@@ -162,7 +162,8 @@ func suspend() -> void:
 	if ambience!=null: ambience.stream_paused=true
 	if engine!=null: engine.stream_paused=true
 	if tension!=null: tension.stream_paused=true
-	for voice in voices: voice.stream_paused=true
+	# Module-owned players obey direct suspension too (for example entering a challenge).
+	for voice in find_children("*","AudioStreamPlayer",true,false): voice.stream_paused=true
 func resume() -> void: system_suspended=false
 func _exit_tree() -> void:
 	if lock_voice!=null:lock_voice.stop();lock_voice.stream=null
