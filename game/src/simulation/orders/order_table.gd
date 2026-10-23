@@ -4,6 +4,8 @@ extends RefCounted
 const Weapons=preload("res://src/simulation/orders/weapon_orders.gd")
 const Sensors=preload("res://src/simulation/orders/sensor_orders.gd")
 const Route=preload("res://src/simulation/orders/route_orders.gd")
+const Photo=preload("res://src/simulation/orders/photo_orders.gd")
+const Features=preload("res://src/simulation/orders/feature_orders.gd")
 const TABLE = {
 	"emp": [Weapons, true],
 	"knock": [Weapons, true],
@@ -26,4 +28,24 @@ const TABLE = {
 	"silent": [Route, true],
 	"drone_drive": [Route, true],
 	"all_stop": [Route, false],
+	"frame": [Photo, false],
+	"camera": [Photo, true],
+	"choir_action": [Features, false],
+	"glass_action": [Features, false],
+	"depth": [Features, false],
+	"sonar_mode": [Features, false],
+	"wake_playback": [Features, false],
+	"shelf_warn": [Features, false],
+	"shelf_alarm": [Features, false],
+	"chain_power": [Features, false],
+	"chain_route": [Features, false],
+	"chain_send": [Features, false],
+	"blackwater_handoff": [Features, false],
+	"concealed_tow": [Features, false],
+	"witness_land": [Features, false],
+	"warning_gate": [Features, false],
+	"warning_depart": [Features, false],
+	"salvage": [Features, false],
+	"rendezvous_release": [Features, false],
+	"depart": [Features, false],
 }

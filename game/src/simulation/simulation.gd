@@ -492,14 +492,7 @@ func _near_wall_recovery(origin: Vector2,destination: Vector2,player_course:bool
 	return []
 func command(order: String,args: Dictionary={}) -> bool:
 	if not outcome.is_empty(): return false
-	if order=="depart":
-		var context=departure_context()
-		if not context.available or not args.get("confirm") is bool:return false
-		if args.has("corridor"):
-			var expected=args.corridor
-			if not expected is Dictionary or expected.get("pos")!=context.corridor.pos or expected.get("route","")!=context.corridor.get("route",""):return false
-		if not args.confirm:ModuleRecovery.defer(self,context);message="Recovery continues · route remaining module carriers, then depart";return true
-		return _try_extract(context.corridor,true)
+	if order=="depart":return Orders.TABLE[order][0].command(self,order,args)
 	var u=units[selected]
 	_use_band(u.band)
 	if not u.alive and order!="select":
@@ -507,54 +500,9 @@ func command(order: String,args: Dictionary={}) -> bool:
 	if order in ["camera","chain_power","chain_route","chain_send","concealed_tow","witness_land","warning_gate","warning_depart","rendezvous_release","wake_playback","shelf_warn","shelf_alarm"] and ((u.band!=1 and not (order=="camera" and BandPhoto.can_shoot(self,u))) or not u.transition.is_empty()):
 		message="Ascend to MIDDLE and settle for local work";return false
 	var handler=Orders.TABLE.get(order,[])
-	if not handler.is_empty():
-		var accepted:bool=handler[0].command(self,order,args)
-		return _finish_command(u,order) if accepted and handler[1] else accepted
-	match order:
-		"choir_action":return Choir.command(self,args)
-		"glass_action":return Glass.command(self,args)
-		"depth":return Depth.command(self,args.get("band"))
-		"sonar_mode":return Sonar.configure(self,args)
-		"wake_playback":return Wake.play(self)
-		"shelf_warn":return Shelf.command(self,"local",args.get("site",""))
-		"shelf_alarm":return Shelf.command(self,"common")
-		"chain_power":return Chain.command(self,args.mode) if args.get("mode") in ["connect","disconnect","backup"] else false
-		"chain_route":return Chain.command(self,args.output) if args.get("output") in ["service","mast"] else false
-		"chain_send":return Chain.command(self,"send")
-		"blackwater_handoff":
-			if not args.get("carrier") is int:return false
-			return Delivery.handoff(self,args.carrier)
-		"concealed_tow":return Concealed.command(self,args.get("action",""))
-		"witness_land":return Witness.land(self)
-		"warning_gate":return Recipient.open_gate(self)
-		"warning_depart":return Recipient.depart(self,args.get("course",""))
-		"salvage":
-			if not args.get("item") is String:return false
-			if not salvage_context(args.item).get("ready",false):message=salvage_context(args.item).get("reason","Salvage unavailable");return false
-			if args.item.begins_with("glass_"):return Glass.command(self,{"action":"recover"})
-			if Witness.handles(self,args.item):return Witness.begin(self,args.item)
-			return Delivery.begin(self,args.item) if args.item.begins_with("blackwater_buffer_") else ModuleRecovery.begin(self,args.item)
-		"rendezvous_release":return Rendezvous.release(self)
-		"frame":
-			return Photo.set_frame(self,selected,args)
-		"camera":
-			if not module_recovery_status().jobs[selected].is_empty() or Delivery.busy(self,selected) or Witness.busy(self,selected) or Glass.busy(self,selected) or Choir.busy(self,selected) or _warning_chain_busy(selected):message="Finish this craft's wreck recovery first";return false
-			var context=camera_context()
-			if not context.ready: message=context.text; return false
-			var photo_target:int=context.target if context.target>=0 else Photo.siren_objective(self,context.siren)
-			if photo_target<0:message="No available photographic subject";return false
-			var target=Photo.obj(self,photo_target)
-			captures[selected]={"target":photo_target,"elapsed":0.0}; u.hold="HOLD"
-			Operations.begin(self,target,selected)
-			if Photo.applies(target):
-				Photo.begin(self,selected,photo_target)
-				if target.captured:Recon.action(mission,3.0)
-			message="%s · hold %.0f seconds"%["Hydrophone reception" if target.get("kind","")=="exchange" else ("Passive hydrophone decode" if target.get("kind","")=="receiver" else ("Archive uplink" if target.get("kind","")=="uplink" else "Warning transmission" if Operations.own_origin(target) else "Camera exposure")),_capture_duration(target,selected)]
-			if target.get("kind","") not in ["receiver","exchange","transmitter"] or not Sampler.capture_spec(selected,mission.get("launch_equipment",{}),target).is_empty():
-				_noise(u.pos,Photo.noise_radius(self,selected) if Photo.applies(target) else 520,"CAMERA",2.0,u.band);noises.back()["record"]=photo_target
-			events.append({"type":"camera","pos":u.pos})
-		_: return false
-	return _finish_command(u,order)
+	if handler.is_empty():return false
+	var accepted:bool=handler[0].command(self,order,args)
+	return _finish_command(u,order) if accepted and handler[1] else accepted
 func _finish_command(u:Dictionary,order:String)->bool:
 	if order=="emp":preload("res://src/simulation/observed_stun.gd").record(self)
 	JobRelease.cancel(self,selected,order)
