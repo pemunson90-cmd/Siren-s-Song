@@ -1,9 +1,9 @@
 # Handoff 022: NAV1, planned courses stop clipping rock corners
 
-Status: CLAIMED
+Status: DONE
 Claimed at: 2026-10-22 23:08:54 UTC
 Claimed by: codex
-Finished at:
+Finished at: 2026-10-23 00:05:58 UTC
 
 Precondition: handoff 017 must be DONE.
 Codex may merge: yes, into claude/integration only, after GitHub guidance and game-smoke are both green on the exact head and the PR is mergeable. Merge with a merge commit, then mark DONE and update docs/codex/BOARD.md.
@@ -39,3 +39,5 @@ No collision, damage, hull or Siren rules/numbers changed. No photo-owned logic 
 PR74 landed during verification. Merged current integration `7a95070` into this lane without conflicts and pushed as 1638715. Re-running affected checks on that integrated head before exact-head CI; no changes to Claude-owned feature logic. Physical Android hardware and rendered screenshot verification unavailable in this workspace so far. Preview reads only own accepted nodes, never hidden terrain. New test registration is deferred to 016 to avoid its shared-runner overlap with PR74. 016 stays blocked until Pat releases it; 018 stays Claude-owned.
 
 Latest checkpoint: current integration guidance through 335f082 merged; latest pushed head ecfd4ef18df1bf1107e9772dfafbdc2d090b7f33. Local integrated verification passed: core 817, route 35, collision 20, turn 22, route UI44, planner UI34, challenge UI86, all-stop UI12, photo-rules UI4; NAV7, follow84, normal sweep1145, corners607, touch/back17, strict bare Well13. All zero failures. PR75 ready for review, exact-head guidance green, game-smoke pending.
+
+Final: DONE. PR75 merged into claude/integration with merge commit `07eb8905d2cc70babe92e87a26dbddf3750bb0ab`. Exact head `ecfd4ef18df1bf1107e9772dfafbdc2d090b7f33` had guidance and game-smoke success, CI run39873627262. Fresh integration335f082 ancestry and mergeability verified immediately before merge. Branch and last pushed SHA remain as recorded above. No APK, production or main changes. NAV1 registration proceeds in claimed016.
