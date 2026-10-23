@@ -1,9 +1,9 @@
 # Handoff 016: one test list, and fix or retire stale tests
 
-Status: CLAIMED
+Status: DONE
 Claimed at: 2026-10-22 23:33:48 UTC
 Claimed by: codex
-Finished at:
+Finished at: 2026-10-23 00:57:56 UTC
 
 Precondition: handoff 015 must be DONE or BLOCKED. Then run `gh`-free check: use the GitHub tools to list open pull requests. If any open PR edits scripts/toolchain/test.sh or .github/workflows/gauntlet-pr-checks.yml, do not start; set Status BLOCKED with a one-line reason and tell Pat (Claude will release you when those merge).
 Codex may merge: yes, into claude/integration only, after GitHub's guidance and game-smoke are both green on the exact head and the PR is mergeable. Merge with a merge commit, then mark DONE.
@@ -38,7 +38,7 @@ Import, core tests ending CHECKS N FAILURES 0, and GitHub's guidance and game-sm
 Pull request into claude/integration; merge it yourself per the Codex-may-merge line once green. Then mark DONE.
 
 ## Completion
-In progress, PR76 ready for review: https://github.com/pemunson90-cmd/Siren-s-Song/pull/76.
+DONE. PR76 merged into claude/integration: https://github.com/pemunson90-cmd/Siren-s-Song/pull/76.
 Lane branch: `claude/lane-test-registry`. Last pushed lane SHA: `6564bb4e47a5ea6ff56ba57d16657b960d625e6b`.
 
 PR74 merged and Pat explicitly released 016. GitHub tools listed only PR75 open when claiming; its filenames exclude the test runner and workflow. The lane contains merged NAV1 integration `07eb8905d2cc70babe92e87a26dbddf3750bb0ab`.
@@ -53,7 +53,7 @@ Requested suites: radial_hud_tests 58/0, drone_drive_ui_tests 38/0, archive_reca
 
 Runner contract checked with eight controlled process probes: valid core summary accepted; zero-exit script error, resources-still-in-use, ObjectDB leak, wrong summary prefix, zero count, nonzero failures and nonzero process exit rejected. Strict original summary gates preserved and leak gates strengthened. docs/TESTING.md is under 30 lines. A user-local Xvfb binary enabled Compatibility software rendering without system installation. Planner renderer5/0 and Well renderer14/0 both passed through the registry runner. The optional fifth registry field `render` selects Xvfb/software GL; GitHub Ubuntu24.04 already supplies Xvfb/xauth. Original suite orders are unchanged. The Well fixture now explicitly supplies a valid legacy-shaped record for old illustration checks, freezes the presentation clock and invalidates its cached view model, then verifies current PHOTO1 rendering separately, including hidden-Siren invariance. No photo behavior was changed.
 
-Next: post-NAV1 core817/0, navigation45/0, follow-touch94/0 and turn-safe22/0 are verified after the reconnect; final runner-core rerun is also817/0 on6564bb4; await exact-head guidance/game-smoke, then merge and mark DONE with BOARD in the same commit. Source and registry are fully pushed; PR76 is ready. Handoff022 is DONE, PR75 merged07eb890. Last status: guidance green and game-smoke running on6564bb4. Handoff 034 is PRIORITY after 016 per the new board, then lowest eligible numeric OPEN handoff. Do not resume 018.
+Final gate: guidance and game-smoke both succeeded on exact head `6564bb4e47a5ea6ff56ba57d16657b960d625e6b`, run39877500024. PR76 merged with merge commit `6229d09f9188376edee0d9672f4a761c648a8061`. Fresh integration07eb890 ancestry and mergeability verified immediately before merge. DONE and BOARD updated in the same commit. Full CI ran all189 suites, including both renderers. No source or assertion failure was observed; the complete run used nearly the existing35-minute budget. Future added coverage may need more job time. Next is the board's034 PRIORITY after016, then eligible numeric OPEN handoffs;018 remains Claude-owned.
 
 ### Inventory of every GDScript absent from the original CI list
 
