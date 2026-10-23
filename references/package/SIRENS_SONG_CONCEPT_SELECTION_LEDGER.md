@@ -69,3 +69,7 @@ Corrected environment scenes → references/03_FACTORY_SCALE_QUIETUS_CORRECTED.p
 New Siren directions → references/05_SIREN_ANGULAR_RAY.png and references/06_SIREN_SERPENTINE.png
 
 Quietus exterior → references/07_QUIETUS_EXTERIOR_REFERENCE_PDF_PAGE.png (page 9 of review PDF; full PDF included).
+
+
+## Repository storage amendment, 22 October 2026
+The portable paths above resolve within [the preserved package at7089470](https://github.com/pemunson90-cmd/Siren-s-Song/tree/70894702610ba8499b696af072444c8c942e2476/references/package). Raw images, handoff ZIP and review PDF are retained there and on archive/reference-package-20261022; active START_HERE links each file, and MANIFEST records hashes/locations. Selection decisions and original generation identifiers above are unchanged.

@@ -2,7 +2,7 @@
 """Fail on known-stale Siren's Song entry points; never rewrite worktrees.
 
 This is a structural preflight, not a substitute for semantic agent review.
-Use --ref to check the freshly fetched production commit from any worktree.
+Use --ref to check the freshly fetched integration commit from any worktree.
 """
 import argparse
 import pathlib
@@ -12,6 +12,7 @@ import sys
 FILES = (
     "AGENTS.md",
     "docs/USER_DIRECTIVES.md",
+    "docs/RESUME.md",
     "README.md",
     "docs/START_HERE.md",
     "docs/SOURCE_AUTHORITY.md",
@@ -78,13 +79,18 @@ def scan(read):
         if body is not None and not any(term.lower() in body.lower() for term in terms):
             errors.append(path + ": " + reason)
     for path in ("AGENTS.md", "README.md", "docs/START_HERE.md"):
-        require(path, ("gauntlet/production",), "must point to current production authority")
+        require(path, ("gauntlet/production",), "must identify the preserved production baseline")
+        if not main:
+            require(path, ("claude/integration",), "must identify active development integration")
+            require(path, ("RESUME.md",), "must point to the single operational status entry")
     for path in ("AGENTS.md", "docs/START_HERE.md"):
         require(path, ("user alone", "only the user", "only pat"), "user-only Gauntlet termination missing")
     readme = docs.get("README.md") or ""
     if "preproduction and source import" in readme.lower() or "engine selection pending" in readme.lower():
         errors.append("README.md: obsolete preproduction/engine-pending status")
     if not main:
+        require("docs/RESUME.md", ("claude/integration",), "active integration authority missing")
+        require("docs/RESUME.md", ("codex/handoffs",), "worker queue authority missing")
         require("AGENTS.md", ("task completion", "task closeout"), "mandatory task-closeout transition missing")
         require("AGENTS.md", ("staleness", "stale"), "staleness reconciliation instruction missing")
         require("AGENTS.md", ("next highest-value", "next biggest"), "continuous next-action instruction missing")

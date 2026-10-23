@@ -2,7 +2,7 @@
 
 # Siren's Song — technical production architecture
 
-The Gauntlet's **single operating contract** is `../../AGENTS.md`; the **living intended game** is `../CURRENT_GAME_SPEC.md`. This file preserves technical constraints and gameplay architecture, not an independent workflow, mandatory critic quota, stage-gate schedule or current next-task assignment. Those belong to AGENTS and CONTINUATION. Source authority and ratified player decisions govern implementation.
+The Gauntlet's **single operating contract** is `../../AGENTS.md`; the **living intended game** is `../CURRENT_GAME_SPEC.md`. This file preserves technical constraints and gameplay architecture, not an independent workflow, mandatory critic quota, stage-gate schedule or current next-task assignment. Stable execution rules belong to AGENTS; operational status belongs to RESUME. Source authority and ratified player decisions govern implementation.
 
 ## Creative contract
 
@@ -60,4 +60,4 @@ Sound conveys engines/noise, ping and returns, proximity/threat, hull pressure, 
 
 Preserve deterministic simulation, observation fairness, input/gesture correctness, terrain pathing, authentic save/restore and regression prevention. Run targeted checks during feature development and affected regressions on integration; batch broad Godot gameplay regression at substantive playable milestones. Per current user preference, build Android packages only on explicit request or for concrete native problems that Godot cannot resolve; ordinary development and previews run directly in Godot or GitHub. Evidence and independent criticism support the Gauntlet's recurring **whole-game quality judgments**, not mandatory ceremony after each small change.
 
-Current feature status and next action: `../CONTINUATION.md`; project history and older external reference methods: recoverable archives. Protect previously accepted gameplay and keep developing the most consequential player-facing opportunity.
+Current operational status and next action: `../RESUME.md`; project history and older external reference methods: recoverable archives. Protect previously accepted gameplay and keep developing the most consequential player-facing opportunity.
