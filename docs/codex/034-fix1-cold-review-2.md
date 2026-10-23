@@ -1,8 +1,8 @@
 # Handoff 034 (PRIORITY after 016): FIX1, concrete problems found by cold review 2
 
-Status: OPEN
-Claimed at:
-Claimed by:
+Status: CLAIMED
+Claimed at: 2026-10-23 00:58:12 UTC
+Claimed by: codex
 Finished at:
 
 Precondition: none. Take this right after 016 (or before it if 016 is blocked).
@@ -33,4 +33,4 @@ Each item fixed or reported as not reproducing, real-touch tests at both Fold7 s
 PR into claude/integration; merge per the line above; mark DONE and update the board.
 
 ## Completion
-(Codex fills this in: per item fixed or not reproduced, PR link, branch and last pushed SHA, test results.)
+Claimed after016 DONE and022 DONE. Branch: `claude/fix1-cold-review-2` (creating from fresh integration). Last pushed SHA: none yet. Read the full partial cold review. Reproduce each item first; keep photo design, combat, sensing and damage rules unchanged. Use injected touch at both Fold shapes, software renderer where useful, and fresh user-data directories for startup checks.
