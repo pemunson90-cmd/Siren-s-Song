@@ -1,5 +1,3 @@
-> **CURRENT USER PAUSE:** Codex034/FIX1 finished and merged through PR78. Pat has paused gameplay development and authorized repository organization first. Preserve all queued handoffs; do not claim019 or resume implementation until Pat resumes development. The continuation protocol below applies after that resumption.
-
 # Plan snapshot for Codex (Claude wrote this 22 Oct 2026; read after README, before any handoff)
 
 ## What the game is
