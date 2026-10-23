@@ -6,11 +6,21 @@ func craft(g,id):
  check(g.sim.selected==id and g.mission_hud.page=="craft","physical fleet input chooses craft")
 func acoustics(g,id):
  await craft(g,id);await click(g.mission_hud.extra.depth_menu)
+# Opening warnings now pause for any craft. A player acknowledges and resumes
+# through real controls; accelerated travel must do the same before counting time.
+func acknowledge_warning(g):
+ for attempt in 2:
+  var hints=g.mission_hud.hints
+  if not g.sim.outcome.is_empty() or not g.sim.paused or not hints.panel.visible or hints.current not in ["warning","sweep"]:return
+  await click(hints.dismiss_button);await settle()
+  check(not hints.panel.visible and g.sim.paused,"real touch acknowledges warning without resuming")
+  await click(g.pause_button);await settle()
 func run_seconds(g,seconds):
  if g.sim.paused:await click(g.pause_button)
  for n in roundi(seconds*60):
   g.sim.advance(1./60)
-  if n%120==0:g._refresh();await process_frame
+  if n%120==0:
+   g._refresh();await process_frame;await acknowledge_warning(g)
  if not g.sim.paused:await click(g.pause_button)
  g._refresh();await settle()
 func shift(g,id,down):
@@ -53,7 +63,8 @@ func travel(g,id,point):
  if g.sim.paused:await click(g.pause_button)
  for n in 9000:
   g.sim.advance(1./60)
-  if n%120==0:g._refresh();await process_frame
+  if n%120==0:
+   g._refresh();await process_frame;await acknowledge_warning(g)
   if not g.sim.outcome.is_empty() or (g.sim.units[id].pos.distance_to(point)<15 and g.sim.units[id].vel.length()<2):break
  if not g.sim.paused:await click(g.pause_button)
  g._refresh();await settle()
