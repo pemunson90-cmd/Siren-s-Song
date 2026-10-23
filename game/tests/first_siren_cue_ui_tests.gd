@@ -29,11 +29,16 @@ func shape_case(shape):
   await RenderingServer.frame_post_draw
   root.get_texture().get_image().save_png(capture_dir+"/cue-%d.png"%shape.x)
  s.sirens.append(enemy.duplicate(true));s.sirens[1].pos+=Vector2(20,0)
+ # Stretch only this test sample so frame waits cannot finish it before pause.
+ # Production pitch/cutoff stay in the table; keep the real touch helper intact.
+ cue.voice.pitch_scale=.01
  s.siren_notice.emit(1,s.units[0].pos+Vector2.RIGHT*140)
  check(cue.voice.playing,"fresh warning is playing before real-touch pause")
  var pause=game.pause_button;await tap(pause.get_global_rect().get_center())
  check(s.paused,"real touch pause remains available with the mark")
  cue.refresh();check(cue.voice.stream_paused,"warning sound freezes while paused")
+ await settle();check(cue.voice.stream_paused,"paused warning remains suspended across rendered waits")
+ cue.voice.pitch_scale=cue.Table.AUDIO.pitch
  await android_back();check(game.screen!="mission" or s.paused,"Android Back keeps its existing safe behavior")
  game.screen="mission";game.hud.show();s.paused=false
  s.sirens.append(enemy.duplicate(true));s.sirens[2].pos+=Vector2(40,0)
