@@ -103,7 +103,7 @@ static func losses(sim)->void:
   var id=state.carrier;state.pos=sim.units[id].pos;state.state="salvage";state.carrier=-1;state.losses.append(id)
   sim.events.append({"type":"witness_ejected","pos":state.pos});sim.message="Transport lost · occupied sealed pressure pod ejected at its last own position · recover locally"
 static func collect_at(sim,unit:int,pos:Vector2)->void:
- if not available(sim) or sim.mission.witness_evacuation.pos.distance_to(pos)>1 or sim.units[unit].band!=sim.Depth.cargo_band(sim,ITEM):return
+ if not available(sim) or free_places(sim,unit)<1 or sim.mission.witness_evacuation.pos.distance_to(pos)>1 or sim.units[unit].band!=sim.Depth.cargo_band(sim,ITEM):return
  var state=sim.mission.witness_evacuation
  if state.state=="salvage":state.rescues+=1
  else:
