@@ -1,13 +1,13 @@
 # RESUME: operational entry
 
-**Execution:** development RESUMED by Pat (23 Oct 2026). Codex034/FIX1 and019 save/cancel steps PR81/PR83 are merged. Pat cleared merges after PR79 and ordered: finish019, then035 (PRIORITY),036,037. Live claims/completion remain on docs/codex/BOARD.md in codex/handoffs.
+**Execution:** development RESUMED by Pat (23 Oct 2026). Codex034/FIX1 and019 save/cancel steps PR81/PR83 are merged. Pat cleared merges. Current order (23 Oct): PR88 weapons, PR86 FIX2 (PRIORITY), PR87 audio, then the remaining019 sensor, route/drive and photo steps, then036,037 and the eligible numeric queue. Live claims/completion remain on docs/codex/BOARD.md in codex/handoffs.
 
-**019 source checkpoint:** last reconciled integration0df6796 includes PR77 and PR79. This lane extracts only weapons behind the shared order table, preserving behavior. Next: sensors, route/drive, then photo, each as its own reviewed, green PR after its parent merges. Prepared035/020/024 source stays separate. Reconcile the newest integration before each merge; no main/production promotion or APK.
+**019 source checkpoint:** last reconciled integration2ca9585 includes PR77, PR79 and PR89 (D3 frame grade). This lane extracts only weapons behind the shared order table, preserving behavior. After weapons:035 and024, then sensors, route/drive and photo, each as its own reviewed, green PR after its parent merges. Prepared035/020/024 source is preserved on its existing lanes. Reconcile the newest integration before each merge; no main/production promotion or APK.
 
 ## CHECKPOINT 23 Oct (updated after PR79 and PR80 merged)
 Integration holds PR77 (photo and cargo repairs), PR79 (this guidance and Pat's decisions D1 to D5), PR81 and PR83 (ARCH1 steps). PR80 is merged on codex/handoffs. PR82 and PR84 were folded into PR79 and closed. Codex merge hold is LIFTED (Pat tells Codex). Hooks: Pat reinstalls between Codex tasks (python3 scripts/toolchain/install-gauntlet-hooks.py).
-Codex queue (docs/codex/BOARD.md): 019 remaining ARCH1 steps, PRIORITY 035 FIX2 (full cold review fixes, save error first; report docs/design/COLD_REVIEW_2_FULL.md), 036 first-Siren cue (D1), 037 early module reward (D2), then 020, 021, 023 to 027, 029 to 033. Pat's rule: phone testing only after the game is feature complete and bug free; no APKs.
-D3 photo grade at "Record secured" is in PR (branch claude/grade-on-secure, switch GradeOnSecure.enabled). Next: review Codex PRs, re-run a cold review after 035 lands, and keep 5 hours of OPEN work ahead of Codex (write batch 7 when two of 035, 036, 037 are DONE).
+Codex queue (docs/codex/BOARD.md): PR88 weapons, PRIORITY035 FIX2 (PR86, full cold review fixes),024 audio (PR87), remaining019 steps,036 first-Siren cue (D1),037 early module reward (D2), then020,021,023,025 to027,029 to033 in numeric order when eligible. Pat's rule: phone testing only after the game is feature complete and bug free; no APKs.
+D3 photo grade at "Record secured" merged in PR89 (switch GradeOnSecure.enabled). Next: review Codex PRs, re-run a cold review after 035 lands, and keep 5 hours of OPEN work ahead of Codex (write batch 7 when two of 035, 036, 037 are DONE).
 Resume command: start Claude Code on claude/integration and say: "Read docs/RESUME.md, then continue the Gauntlet as root orchestrator." Pat is not a developer: plain language, Eastern times, no em dashes, no jargon.
 
 ## Authority and first action
@@ -24,7 +24,7 @@ Fetch `origin/claude/integration` and `origin/codex/handoffs`, inspect live PR/c
 
 Claude orchestrates; Codex continues its current handoff protocol and may merge only under its handoff/delegation permission. Preserve running claims and other workers' files. Branch retirement remains outside this pass.
 
-## Reconciled snapshot: 22 October 2026 evening
+## Historical reconciled snapshot: 22 October 2026 evening
 Integration baseline: `70894702610ba8499b696af072444c8c942e2476` (PR78). Queue observed at `ab293a7a998f541e61ef226129c552702928c311`. These are reconciliation anchors, not promises to equal the next merge commit.
 
 - Integrated: Iron Choir (PR63), PHOTO1/PHOTO2 (65/67), ONBOARD1 (66), lock warning (68), Priced Shots (69), V7-senses sweeper (70), controls (71), challenges (72), performance (73), DEPTH1/ALL STOP (74), route clearance (75), centralized test registry (76), opening safety/touch FIX1 (78). Completion evidence remains in those PRs and handoffs.
@@ -34,9 +34,9 @@ Integration baseline: `70894702610ba8499b696af072444c8c942e2476` (PR78). Queue o
 - Architecture019/023, later reconnaissance020, route map021, landmarks025 and final pair/photo-wall027 remain on the existing board, alongside the other authorized lanes. Read live eligibility and claims there instead of copying the queue here.
 
 ## Next actions
-1. Complete the authorized repository organization and reconcile the guidance drafts against the completed PR78 and current codex/handoffs. Branch classification and source locations: [REPOSITORY_MAP](REPOSITORY_MAP.md).
-2. Preserve queued work and unique branch tips. Pending audit game repairs PR77 stay separate from this organization pass; do not count them as integrated. Review/reconcile them before later architecture work.
-3. Development is resumed. 019 is underway in PR81; root reads the board for the next eligible assignment and writes a new batch when two of three handoffs in a batch show DONE. Second cold review (full campaign) is running; its ranked fixes go to Pat in chat. Existing hook copies adopt a reviewed helper only through explicit local reinstallation after integration.
+1. Merge PR88, then PRIORITY035/PR86, then024/PR87. Each head must contain current integration and have independent review plus green exact-head guidance/game-smoke.
+2. Finish019 sensors, route/drive and photo as separate PRs, each following its merged parent. Preserve all prepared lanes and recorded claims.
+3. Continue036,037,020,021,023,025 to027 and029 to033 in numeric order, skipping unmet preconditions. Update each completed handoff and BOARD together on codex/handoffs. No APKs or frozen-branch promotion.
 
 
 ## Verification and evidence
