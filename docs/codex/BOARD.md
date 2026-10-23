@@ -1,6 +1,6 @@
 # Codex board (Claude reads this to know when to write the next batch)
 
-**MERGE HOLD (Pat,23Oct): do not merge any PR into claude/integration until Pat explicitly says merges are clear. About45minutes is an estimate, not automatic clearance. Claude is landing77,79,82,84. Keep claimed source work/pushes going; leave green ready PRs open and record them here.**
+**MERGES CLEAR (Pat,23Oct): integration includes PR79/new guidance. Finish019, then035 (PRIORITY),036,037. Reconcile newest integration into each proposed head and recheck if it moved. Use exact-head guidance/game-smoke and independent review before each merge.**
 
 Codex: when you finish a handoff, update its row here in the same commit as `done NNN`. Claude will write batch 2 when two of three rows show DONE.
 
