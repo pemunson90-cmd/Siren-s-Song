@@ -1,6 +1,8 @@
 # RESUME: operational entry
 
-**Execution:** development RESUMED by Pat (23 Oct 2026). Codex034/FIX1 is merged; Codex has claimed handoff019 and opened [PR81](https://github.com/pemunson90-cmd/Siren-s-Song/pull/81) (branch `claude/arch1-save-checks`). Preserve that work.
+**Execution:** development RESUMED by Pat (23 Oct 2026). Codex034/FIX1 and ARCH1 save/cancel steps [81](https://github.com/pemunson90-cmd/Siren-s-Song/pull/81)/[83](https://github.com/pemunson90-cmd/Siren-s-Song/pull/83) are merged. Live Codex claims and completion status remain on docs/codex/BOARD.md in codex/handoffs.
+
+**Codex source checkpoint (23 Oct):** last reconciled integration0df6796 includes PR77 and PR79. This lane implements035/FIX2 in [PR86](https://github.com/pemunson90-cmd/Siren-s-Song/pull/86): retake saves, Android Back/Fittings/camera access, observed-stun/debrief feedback and late photo routing. All four remaining019 order families are prepared;020 data [PR85](https://github.com/pemunson90-cmd/Siren-s-Song/pull/85) and024 audio [PR87](https://github.com/pemunson90-cmd/Siren-s-Song/pull/87) remain isolated. Pat cleared merges and ordered: finish019, then035 (PRIORITY),036,037. Reconcile fresh integration and exact-head checks before each merge. Other prepared claims remain on BOARD.
 
 ## CHECKPOINT 23 Oct (written near Claude session usage limit, about 75%)
 Integration also holds PR77 (photo and cargo repairs, d5eae9d), PR81 and PR83 (ARCH1 steps). Codex was told to HOLD MERGES into claude/integration until Claude says clear; Claude is landing PR79 (this PR, also carries PR82 keystore note and PR84 Pat decisions D1 to D5), then PR80 (queue docs into codex/handoffs). When PR79 and PR80 are merged: close PR82 and PR84 as included, tell Pat "merges clear" so he can tell Codex, and tell him to reinstall hooks between Codex tasks (python3 scripts/toolchain/install-gauntlet-hooks.py).
