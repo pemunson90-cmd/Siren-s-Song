@@ -106,6 +106,7 @@ func _lock_update(sim,frozen:bool,active:bool)->void:
 	elif lock_voice.get_playback_position()>.09:
 		lock_voice.stop()
 func update(sim,dt: float,active_dive: bool=true) -> void:
+	var photo_engine=preload("res://src/audio/photo_audio/photo_audio.gd").sync(self,sim,dt,active_dive)
 	received_cues.observe_clock(sim.elapsed)
 	if ambience==null: return
 	var ambience_index=AudioServer.get_bus_index(AMBIENCE_BUS); var effects_index=AudioServer.get_bus_index(EFFECTS_BUS)
@@ -131,7 +132,7 @@ func update(sim,dt: float,active_dive: bool=true) -> void:
 		sim.events.clear()
 		return
 	var speed: float=sim.propulsion_speed(sim.units[0])
-	engine.volume_db=linear_to_db(maxf(0.0001,engine_gain(speed,sim.units[0].silent))); engine.pitch_scale=0.75+speed/100.0
+	engine.volume_db=linear_to_db(maxf(0.0001,engine_gain(speed,sim.units[0].silent)*photo_engine)); engine.pitch_scale=0.75+speed/100.0
 	if active_dive and not sim.paused:
 		heartbeat_timer=maxf(0,heartbeat_timer-dt)
 		var pressure=sim.recon_feedback()
@@ -161,7 +162,8 @@ func suspend() -> void:
 	if ambience!=null: ambience.stream_paused=true
 	if engine!=null: engine.stream_paused=true
 	if tension!=null: tension.stream_paused=true
-	for voice in voices: voice.stream_paused=true
+	# Module-owned players obey direct suspension too (for example entering a challenge).
+	for voice in find_children("*","AudioStreamPlayer",true,false): voice.stream_paused=true
 func resume() -> void: system_suspended=false
 func _exit_tree() -> void:
 	if lock_voice!=null:lock_voice.stop();lock_voice.stream=null
