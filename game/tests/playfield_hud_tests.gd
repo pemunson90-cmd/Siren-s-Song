@@ -10,9 +10,10 @@ func settle():
  for n in 8:await process_frame
 func click(button):
  var p=button.get_global_rect().get_center()
- var move=InputEventMouseMotion.new();move.position=p;root.push_input(move,true)
+ var move=InputEventMouseMotion.new();move.device=InputEvent.DEVICE_ID_EMULATION;move.position=p;move.global_position=p;root.push_input(move,true);await process_frame
  for down in [true,false]:
-  var e=InputEventMouseButton.new();e.position=p;e.button_index=MOUSE_BUTTON_LEFT;e.pressed=down;root.push_input(e,true);await process_frame
+  await touch(p,down)
+  var e=InputEventMouseButton.new();e.device=InputEvent.DEVICE_ID_EMULATION;e.position=p;e.button_index=MOUSE_BUTTON_LEFT;e.pressed=down;root.push_input(e,true);await process_frame
  await settle()
 func capture(name:String):
  if not capture_dir.is_empty() and DisplayServer.get_name()!="headless":
@@ -64,6 +65,9 @@ func run():
   var follows=ocean.chart_camera.has_method("follow")
   check(follows,"default camera supports physical craft follow")
   if follows:check(ocean.chart_camera.mode=="follow" and ocean.chart_camera.zoom>1,"fresh dive starts in tactical FOLLOW rather than FIT")
+  # Isolate camera transforms from warning/tutorial overlays and friendly hulls.
+  game.sim.sirens=[];game.sim.contacts={}
+  for drone in [1,2]:game.sim.units[drone].pos.y=600
   game._order("route",{"point":Vector2(620,800)});game.sim.paused=false
   var start=game.sim.units[0].pos;var camera_start=ocean.chart_camera.center
   for n in 600:game.sim.advance(1./60.)
@@ -71,9 +75,23 @@ func run():
   if not follows:game.queue_free();await settle();continue
   print("PLAYFIELD_SCROLL ",name," craft=",start," -> ",game.sim.units[0].pos," camera=",camera_start," -> ",ocean.chart_camera.center)
   check(game.sim.units[0].pos.distance_to(start)>100 and ocean.chart_camera.center.distance_to(camera_start)>30,"actual physical movement scrolls the followed playfield")
-  var destination=game.sim.units[0].pos+Vector2(220,-20);var latest=ocean.global_position+ocean.screen_position(destination)
+  var destination=Vector2.INF;var latest=Vector2.ZERO
+  for offset in [Vector2(180,-200),Vector2(-100,-200),Vector2(160,80),Vector2(-160,0)]:
+   var candidate=game.sim.units[0].pos+offset
+   var point=ocean.global_position+ocean.screen_position(candidate)
+   if ocean.get_global_rect().has_point(point) and not game.mission_hud.blocks(point) and not game.sim.blocked(candidate,24) and ocean.pick_context(point-ocean.global_position,game.ui_touch_height).is_empty():
+    destination=candidate;latest=point;break
+  check(destination.is_finite(),"follow fixture exposes a legal water destination outside HUD and markers")
+  var accepted=game.sim.route_goals().duplicate(true)
   await touch(latest,true);await touch(latest,false);await settle()
-  check(not game.sim.route_goals().is_empty() and game.sim.route_goals()[0].pos.distance_to(destination)<.1,"ordinary route tap after physical follow uses latest camera transform")
+  check(game.mission_hud.guard.pending.get("point",Vector2.INF).distance_to(destination)<.1 and game.sim.route_goals()==accepted,"moving-course touch sets the transformed marker without silently replacing orders")
+  # A new campaign may show a once-only card above the confirmation panel.
+  for n in 6:
+   if not game.mission_hud.hints.panel.visible:break
+   await click(game.mission_hud.hints.dismiss_button)
+  check(not game.mission_hud.hints.panel.visible and game.sim.route_goals()==accepted,"acknowledging tutorial cards leaves the accepted route intact")
+  await click(game.mission_hud.guard.go_button)
+  check(not game.sim.route_goals().is_empty() and game.sim.route_goals()[0].pos.distance_to(destination)<.1,"explicit route confirmation after physical follow uses latest camera transform")
   await click(game.pause_button);check(game.sim.paused,"persistent PAUSE remains immediate after actual moving play")
   var state=game.sim.snapshot();ocean.pan_chart(Vector2(-90,0));var manual=ocean.chart_camera.center
   game._order("select",{"unit":1});ocean._sync_camera()

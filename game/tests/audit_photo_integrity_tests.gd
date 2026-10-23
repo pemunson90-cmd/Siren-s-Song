@@ -16,6 +16,7 @@ func _initialize():
 	var ephemeral={"pos":o.pos,"subject":Photo.default_subject()}
 	check(Photo.frame(s,0,ephemeral).flash,"uncatalogued viewfinder subject previews an available flash")
 	var preview=Photo.frame(s,0,o)
+	s.captures[0]={"target":0,"elapsed":0.0}
 	Photo.begin(s,0,0)
 	var exposure=Photo.frame(s,0,o)
 	check(Photo.flash_left(s,0)==0 and exposure.flash,"last paid flash remains active during exposure")
@@ -23,8 +24,8 @@ func _initialize():
 	check(Photo.noise_radius(s,0)>=760.,"paid flash keeps its existing noise cost")
 	var copy=Sim.new();copy.restore(s.snapshot())
 	check(Photo.frame(copy,0,copy.mission.objectives[0]).flash,"committed last flash survives restore")
-	Photo.state(s).acc.erase(0)
-	check(not Photo.frame(s,0,o).flash,"exhausted flash adds no light outside a paid exposure")
+	check(s.command("route",{"point":u.pos+Vector2(40,0)}),"ordinary route command cancels the exposure")
+	check(not Photo.frame(s,0,o).flash,"cancelled last-charge exposure cannot keep lighting the viewfinder")
 	Photo.begin(s,0,0)
 	check(not Photo.frame(s,0,o).flash,"next exposure cannot reuse the spent flash")
 	var v=Sim.new();v.start(0);v.sirens=[];v.units[1].alive=false;v.units[2].alive=false
@@ -55,5 +56,10 @@ func _initialize():
 		check(Photo.siren_candidate(late,0)==0,"op%d fixture has a genuinely observed same-band subject"%op)
 		var ctx=late.camera_context()
 		check(ctx.get("target",-1)==-2 and ctx.ready and late.command("camera"),"op%d permits a Siren study when no ordinary camera job is ready"%op)
+	var powered=Sim.new();powered.start(10)
+	powered.units[0].pos=powered.sirens[0].pos;powered.units[0].band=powered.sirens[0].band
+	powered._use_band(powered.units[0].band);powered._observe()
+	powered.mission.warning_chain.power="umbilical";powered.mission.warning_chain.unit=0
+	check(not powered.camera_context().ready and not powered.command("camera"),"optional Siren study cannot displace a connected plant supply")
 	print("AUDIT PHOTO INTEGRITY CHECKS ",checks," FAILURES ",failures)
 	quit(1 if failures else 0)

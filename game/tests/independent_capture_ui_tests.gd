@@ -36,7 +36,7 @@ func run():
     for n in 60:game.sim.advance(1.0/60)
     game.sim.paused=true;game._refresh();await settle()
   var progress=game.sim.snapshot().captures.duplicate(true)
-  check(game.unit_buttons[1].text.ends_with("\nCAMERA") and game.unit_buttons[2].text.ends_with("\nCAMERA"),"%s fleet reports both cameras working"%dimensions)
+  check(game.mission_hud.fleet.status(1).contains("PHOTO") and game.mission_hud.fleet.status(2).contains("PHOTO"),"%s fleet reports both cameras working"%dimensions)
   for id in [2,1,0,1]:
    await choose(id)
    check(game.sim.selected==id,"%s touch switches optical station to craft%d"%[dimensions,id])

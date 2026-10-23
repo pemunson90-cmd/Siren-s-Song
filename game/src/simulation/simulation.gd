@@ -288,7 +288,7 @@ func salvage_context(item:String,unit_id:int=-1)->Dictionary:
 func _blackwater_recovery_busy(unit_id:int)->bool:return Delivery.busy(self,unit_id)
 func _collect_shared_wreck(unit_id:int,pos:Vector2)->bool:
 	if not Delivery.applies(mission) and not (Witness.available(self) and mission.witness_evacuation.pos.distance_to(pos)<=1):return false
-	ModuleRecovery.collect_at(self,unit_id,pos);Delivery.collect_at(self,unit_id,pos);Witness.collect_at(self,unit_id,pos);return true
+	Witness.collect_at(self,unit_id,pos);ModuleRecovery.collect_at(self,unit_id,pos);Delivery.collect_at(self,unit_id,pos);return true
 func _witness_recovery_busy(unit_id:int)->bool:return Witness.busy(self,unit_id)
 func concealed_status()->Dictionary:return Concealed.status(self)
 func witness_status()->Dictionary:return Witness.status(self)
@@ -618,7 +618,7 @@ func command(order: String,args: Dictionary={}) -> bool:
 			return Photo.set_frame(self,selected,args)
 		"all_stop":return AllStop.command(self)
 		"camera":
-			if not module_recovery_status().jobs[selected].is_empty() or Delivery.busy(self,selected) or Witness.busy(self,selected) or Glass.busy(self,selected) or Choir.busy(self,selected):message="Finish this craft's wreck recovery first";return false
+			if not module_recovery_status().jobs[selected].is_empty() or Delivery.busy(self,selected) or Witness.busy(self,selected) or Glass.busy(self,selected) or Choir.busy(self,selected) or _warning_chain_busy(selected):message="Finish this craft's wreck recovery first";return false
 			var context=camera_context()
 			if not context.ready: message=context.text; return false
 			var photo_target:int=context.target if context.target>=0 else Photo.siren_objective(self,context.siren)
@@ -725,7 +725,7 @@ func _blackwater_context_text(target:int,station:int) -> String:
 	return "%s · %dm / quiet %.0fm%s"%[name,c.distance,c.quiet_range," · learned: SONAR + SAMPLE within 240m" if learned else " · move closer to listen"]
 func camera_context() -> Dictionary:
 	var context=BandPhoto.gate(self,_camera_context_base())
-	if not context.get("ready",false) and int(context.get("target",-1))<0 and captures[selected].is_empty() and BandPhoto.can_shoot(self,units[selected]):
+	if not context.get("ready",false) and int(context.get("target",-1))<0 and captures[selected].is_empty() and not _warning_chain_busy(selected) and BandPhoto.can_shoot(self,units[selected]):
 		var subject=Photo.siren_candidate(self,selected)
 		if subject>=0:context={"target":-2,"siren":subject,"ready":true,"text":"READY · S%d %s · PHOTO 8s · observe its form and movement from clear water"%[subject+1,str(sirens[subject].get("type","patroller")).to_upper()]}
 	return Pricing.annotate(self,PhotoRules.camera_hint(self,context))

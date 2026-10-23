@@ -163,7 +163,9 @@ static func frame(sim,uid:int,o:Dictionary,t:float=0.0,with_view:bool=false)->Di
 	var ambient:float=(0.16-0.12*depth_dark)*(0.55 if sim.mission.get("darkness",false) else 1.0)*float(bm.light)
 	var lamp:float=float(op.lamp)/(1.0+pow(dist/110.0,2.0))
 	var active:Dictionary=peek(sim).acc.get(uid,{})
-	var flashing:bool=bool(active.get("flash",false)) if not active.is_empty() and int(active.get("obj",-1))==index_of(sim,o) else bool(cfg.flash) and bool(op.flash) and flash_left(sim,uid)>0
+	var target:int=index_of(sim,o)
+	var exposing:bool=not sim.captures[uid].is_empty() and int(sim.captures[uid].target)==target
+	var flashing:bool=bool(active.get("flash",false)) if exposing and int(active.get("obj",-1))==target else bool(cfg.flash) and bool(op.flash) and flash_left(sim,uid)>0
 	var flash:float=0.75/(1.0+pow(dist/170.0,2.0)) if flashing else 0.0
 	var light:float=clampf(ambient+lamp+flash+float(s.get("glow",0.0)),0.0,1.0)
 	var speed:float=u.vel.length()

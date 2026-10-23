@@ -30,18 +30,25 @@ static func make(id:String,kind:String,text:String,q:float,op:int,shot:int,extra
 const LOOP_MIN_TRAVEL=90.0
 const LOOP_CLOSURE=20.0
 const OBSERVED_STATION=10.0
+# Adjacent samples may be a full observed stride apart; closure has a different meaning.
+static func _sample_stride(points:Array)->float:
+	var stride:float=0.0
+	for n in range(1,points.size()):stride=maxf(stride,vec(points[n-1]).distance_to(vec(points[n])))
+	return stride
+static func _join_range(a:Array,b:Array)->float:
+	return maxf(LOOP_CLOSURE,_sample_stride(a)+_sample_stride(b))
 static func _observed_path(sim,shot:Dictionary)->Array:
 	var points:Array=[];var last_time:float=-INF
 	for record in sim.mission.get("photo",{}).get("paths",[]):
 		if int(record.get("siren",-1))!=int(shot.siren):continue
 		var path:Array=record.get("pts",[])
 		var end_time:float=float(record.get("time",0.0))
-		if points.size()>0 and (end_time-float(path.size())>last_time+2.0 or (not path.is_empty() and vec(points.back()).distance_to(vec(path[0]))>LOOP_CLOSURE)):
+		if points.size()>0 and (end_time-float(path.size())>last_time+2.0 or (not path.is_empty() and vec(points.back()).distance_to(vec(path[0]))>_join_range(points,path))):
 			points=[]
 		points.append_array(path);last_time=end_time
 	var current:Array=shot.get("path",[])
 	if not current.is_empty() and (points.is_empty() or points.slice(maxi(0,points.size()-current.size()))!=current):
-		if not points.is_empty() and vec(points.back()).distance_to(vec(current[0]))>LOOP_CLOSURE:points=[]
+		if not points.is_empty() and vec(points.back()).distance_to(vec(current[0]))>_join_range(points,current):points=[]
 		points.append_array(current)
 	return points.slice(maxi(0,points.size()-40)).duplicate(true)
 static func _closed_observation(points:Array)->bool:
@@ -140,7 +147,12 @@ static func file(sim,list:Array)->void:
 		for n in st.findings.size():
 			if st.findings[n].id==f.id:at=n
 		if at>=0:
-			if float(st.findings[at].q)<float(f.q):st.findings[at]=f
+			var prior:Dictionary=st.findings[at]
+			var old_loop:bool=str(prior.get("text","")).contains("PATROL LOOP") and _closed_observation(prior.get("pts",[]))
+			var new_loop:bool=str(f.get("text","")).contains("PATROL LOOP") and _closed_observation(f.get("pts",[]))
+			if prior.kind=="loop" and f.kind=="loop" and old_loop!=new_loop:
+				if new_loop:st.findings[at]=f
+			elif float(prior.q)<float(f.q) or (is_equal_approx(float(prior.q),float(f.q)) and f.get("pts",[]).size()>prior.get("pts",[]).size()):st.findings[at]=f
 		else:st.findings.append(f)
 	while st.findings.size()>MAX:st.findings.remove_at(0)
 static func valid_list(list)->bool:

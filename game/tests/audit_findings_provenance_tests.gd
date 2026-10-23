@@ -32,6 +32,19 @@ func _initialize():
 	s.mission.photo.findings=[]
 	var repeated=shot([[700.,500.],[700.,500.],[800.,500.],[800.,600.],[700.,600.],[700.,500.]])
 	check(Findings.from_siren(s,repeated,["gait"],{"gait":0.8}).any(func(f):return f.text.contains("PATROL LOOP")),"duplicate initial samples do not hide a genuinely observed circuit")
+	s.mission.photo.findings=[]
+	var partial=Findings.make("loop_0","loop","S1 OBSERVED PATH",0.9,3,1,{"pts":observed.path})
+	var full=Findings.make("loop_0","loop","S1 PATROL LOOP",0.6,3,2,{"pts":closed.path})
+	Findings.file(s,[partial]);Findings.file(s,[full])
+	check(s.mission.photo.findings[0].text.contains("PATROL LOOP"),"a complete observed circuit upgrades a sharper partial path")
+	partial.q=1.0;Findings.file(s,[partial])
+	check(s.mission.photo.findings[0].text.contains("PATROL LOOP"),"a sharper partial frame cannot erase the earned circuit")
+	var first:Array=[];var second:Array=[]
+	for n in 8:
+		first.append([float(600+n*25),500.]);second.append([float(800+n*25),500.])
+	s.mission.photo.paths=[{"siren":0,"pts":first,"time":8.0},{"siren":0,"pts":second,"time":16.0}]
+	var joined=Findings._observed_path(s,shot(second))
+	check(joined.size()==16 and joined[0]==first[0],"back-to-back observations join at the recorded 25m per second stride")
 	# A gap cannot consult unmeasured world geometry behind the same observed routes.
 	var paths=[Findings.make("loop_0","loop","S1 PATROL LOOP",0.8,3,1,{"pts":closed.path}),Findings.make("loop_1","loop","S2 PATROL LOOP",0.8,3,2,{"pts":[[1100.,500.],[1200.,500.],[1200.,600.],[1100.,600.],[1100.,500.]]})]
 	s.mission.photo.findings=paths.duplicate(true);s.known={};s.depth_charts={}

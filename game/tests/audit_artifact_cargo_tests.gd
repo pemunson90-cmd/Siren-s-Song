@@ -38,5 +38,17 @@ func _initialize():
 	var witness=Sim.new();witness.start(12)
 	witness.mission.witness_evacuation.state="carried";witness.mission.witness_evacuation.carrier=0
 	check(witness.ModuleRecovery.carried(witness,0)==1,"occupied capsule shares capacity with salvaged hardware")
+	var rescue=Sim.new();rescue.start(12,"endurance",{"fitted":Gear.canonical({"hull":"quiet","drone_a":"drone_deep_cells"})});rescue.sirens=[]
+	var pod=rescue.mission.witness_evacuation
+	rescue.units[0].pos=pod.pos+Vector2(0,40);rescue.units[0].vel=Vector2.ZERO
+	var hardware=rescue.mission.module_recovery.modules.drone_deep_cells
+	hardware.state="salvage";hardware.unit=-1;hardware.pos=pod.pos
+	rescue.units[1].alive=false;pod.state="salvage"
+	rescue.paused=false;rescue.advance(0.1);rescue.paused=true
+	check(rescue.command("salvage",{"item":"witness_capsule"}),"one-place Quietus begins an ordinary shared-wreck rescue")
+	rescue.paused=false
+	for n in 250:rescue.advance(1./60.)
+	rescue.paused=true
+	check(pod.state=="carried" and rescue.ModuleRecovery.carried(rescue,0)==1 and hardware.state=="salvage","occupied capsule takes the free place and excess hardware stays recoverable")
 	print("AUDIT ARTIFACT CARGO CHECKS ",checks," FAILURES ",failures)
 	quit(1 if failures else 0)

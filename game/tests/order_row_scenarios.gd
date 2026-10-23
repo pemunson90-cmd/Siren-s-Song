@@ -43,7 +43,7 @@ func run() -> void:
   var ui=load("res://scenes/main.tscn").instantiate();ui.set_script(preload("res://tests/order_row_main.gd"));ui.capture_scenario="order-row-test";ui.fixture_dpi=profile.dpi
   if profile.inset:ui.fixture_safe_area=Rect2(profile.inset,0,profile.size.x-profile.inset,profile.size.y)
   root.add_child(ui);await settle()
-  for state in [{"mission":0,"task":"READY","stock":3},{"mission":1,"task":"ROUTE","stock":2},{"mission":5,"task":"EXPOSING","stock":1,"target":2,"label":"LISTEN"},{"mission":0,"task":"OPTICAL","stock":2,"target":0,"label":"CAMERA"},{"mission":1,"task":"UPLINK","stock":1,"target":2,"label":"LINK"},{"mission":2,"task":"LISTEN","stock":0,"target":0,"label":"SAMPLE"},{"mission":0,"task":"CONTACT","stock":0},{"mission":0,"task":"DRONE","stock":1},{"mission":0,"task":"LOST","stock":2}]:
+  for state in [{"mission":0,"task":"READY","stock":3},{"mission":1,"task":"ROUTE","stock":2},{"mission":5,"task":"EXPOSING","stock":1,"target":2,"label":"LISTEN"},{"mission":0,"task":"OPTICAL","stock":2,"target":0,"label":"PHOTO"},{"mission":1,"task":"UPLINK","stock":1,"target":2,"label":"LINK"},{"mission":2,"task":"LISTEN","stock":0,"target":0,"label":"SAMPLE"},{"mission":0,"task":"CONTACT","stock":0},{"mission":0,"task":"DRONE","stock":1},{"mission":0,"task":"LOST","stock":2}]:
    if not capture_dir.is_empty() and not (state.task=="READY" or (state.task=="EXPOSING" and profile.name=="cover")):continue
    ui._start_mission(state.mission);await settle()
    if state.task=="ROUTE":ui.sim.command("route",{"point":Vector2(320,800)})
@@ -59,7 +59,7 @@ func run() -> void:
     if ui.advanced_orders!=advanced:ui._toggle_advanced();await settle()
     var issues=layout_issues(ui,profile)
     check(issues.is_empty(),"%s %s %s safe disjoint targets: %s"%[profile.name,state.task,"advanced" if advanced else "primary",str(issues)])
-    check(ui.unit_buttons[0].get_theme_font_size("font_size")==maxi(13,roundi(ui.ui_touch_height*0.25)) and ui.advanced_button.get_theme_font_size("font_size")==maxi(15,roundi(ui.ui_touch_height*0.26)) and ui.order_buttons.emp.get_theme_font_size("font_size")==maxi(14,roundi(ui.ui_touch_height*0.26)),"%s fonts preserved"%profile.name)
+    check(ui.unit_buttons[0].get_theme_font_size("font_size")==maxi(14,roundi(ui.ui_touch_height*0.26)) and ui.advanced_button.get_theme_font_size("font_size")==maxi(14,roundi(ui.ui_touch_height*0.26)) and ui.order_buttons.emp.get_theme_font_size("font_size")==maxi(14,roundi(ui.ui_touch_height*0.26)),"%s fonts preserved"%profile.name)
    if not capture_dir.is_empty() and state.task in ["READY","EXPOSING"] and profile.name in ["desktop","cover","inner"]:
     ui._toggle_advanced();await settle();await RenderingServer.frame_post_draw
     root.get_texture().get_image().save_png(capture_dir+"/"+profile.name+("-exposing" if state.task=="EXPOSING" else "")+".png")

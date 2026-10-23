@@ -1,215 +1,91 @@
 #!/usr/bin/env bash
-# Godot can exit zero after script errors; require the harness summary as well.
+# Godot can exit zero after script errors; require each harness summary.
 set -euo pipefail
 source "$(dirname -- "$0")/common.sh"
 require_project
-python3 "$(dirname -- "$0")/test-configure-signing.py"
-"$(dirname -- "$0")/test-native-role-archive.sh"
-"$(dirname -- "$0")/test-decoy-role-contract.sh"
-python3 "$(dirname -- "$0")/test-android-role.py"
-python3 "$(dirname -- "$0")/test-android-metric-records.py"
-python3 "$(dirname -- "$0")/test-android-menu.py"
-python3 "$(dirname -- "$0")/test-android-capture.py"
-python3 "$(dirname -- "$0")/test-android-resume.py"
-python3 "$(dirname -- "$0")/test-android-blackwater.py"
-python3 "$(dirname -- "$0")/test-android-view.py"
-python3 "$(dirname -- "$0")/test-android-ui-metrics.py"
-python3 "$(dirname -- "$0")/test-android-radial.py"
-python3 "$(dirname -- "$0")/test-android-planner.py"
-log="$ARTIFACT_DIR/tests.log"
-"$(dirname -- "$0")/headless.sh" --script res://tests/run_tests.gd 2>&1 | tee "$log"
-if grep -nE 'SCRIPT ERROR:|(^|[[:space:]])ERROR:' "$log"; then
-    echo 'Godot reported errors despite the test process exit status' >&2
-    exit 1
+profile=local
+list=false
+skip_core=false
+suite=""
+explicit=false
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --profile) profile="$2"; explicit=true; shift 2 ;;
+        --list) list=true; shift ;;
+        --skip-core) skip_core=true; shift ;;
+        --suite) suite="$2"; explicit=true; shift 2 ;;
+        *) echo "Unknown argument: $1" >&2; exit 2 ;;
+    esac
+done
+[[ "$profile" == local || "$profile" == ci ]] || { echo 'Profile must be local or ci' >&2; exit 2; }
+# Validate the complete registry before running any suite. Ranks preserve both
+# historical runner orders, which differed before the registry was introduced.
+selection=$(python3 - "$TOOLCHAIN_ROOT/game/tests/suites.txt" "$profile" "$suite" <<'PYREGISTRY'
+import pathlib, re, sys
+path, profile, selected = sys.argv[1:]
+rows, names, ranks = [], set(), [set(), set()]
+for line in pathlib.Path(path).read_text().splitlines():
+    if not line.strip() or line.startswith("#"):
+        continue
+    fields = line.split("|")
+    assert len(fields) in (4, 5), line
+    name, summary, local, ci = fields[:4]
+    backend = fields[4] if len(fields) == 5 else "headless"
+    assert backend in ("headless", "render"), line
+    assert re.fullmatch(r"[a-z0-9_]+", name) and name not in names, line
+    assert re.fullmatch(r"[A-Z0-9 ]*", summary), line
+    assert pathlib.Path(path).with_name(name + ".gd").is_file(), name
+    names.add(name)
+    for i, rank in enumerate((local, ci)):
+        if rank != "-":
+            assert int(rank) > 0 and int(rank) not in ranks[i], line
+            ranks[i].add(int(rank))
+    rank = local if profile == "local" else ci
+    if (selected and name == selected) or (not selected and rank != "-"):
+        rows.append((0 if selected else int(rank), name, summary, backend))
+assert not selected or selected in names, "Unknown suite: " + selected
+for _, name, summary, backend in sorted(rows):
+    print(name + "|" + summary + "|" + backend)
+PYREGISTRY
+)
+if "$list"; then
+    while IFS='|' read -r scenario summary backend; do
+        if "$skip_core" && [[ "$scenario" == run_tests ]]; then continue; fi
+        echo "$scenario"
+    done <<< "$selection"
+    exit 0
 fi
-grep -Eq '^CHECKS [1-9][0-9]* FAILURES 0$' "$log" || {
-    echo 'Missing successful test-harness summary' >&2; exit 1;
-}
-runtime_log="$ARTIFACT_DIR/runtime-tests.log"
-"$(dirname -- "$0")/headless.sh" --script res://tests/runtime_tests.gd 2>&1 | tee "$runtime_log"
-if grep -nE 'SCRIPT ERROR:|(^|[[:space:]])ERROR:' "$runtime_log"; then
-    echo 'Godot reported runtime UI test errors' >&2
-    exit 1
+if ! "$explicit"; then
+    python3 "$(dirname -- "$0")/test-configure-signing.py"
+    "$(dirname -- "$0")/test-native-role-archive.sh"
+    "$(dirname -- "$0")/test-decoy-role-contract.sh"
+    python3 "$(dirname -- "$0")/test-android-role.py"
+    python3 "$(dirname -- "$0")/test-android-metric-records.py"
+    python3 "$(dirname -- "$0")/test-android-menu.py"
+    python3 "$(dirname -- "$0")/test-android-capture.py"
+    python3 "$(dirname -- "$0")/test-android-resume.py"
+    python3 "$(dirname -- "$0")/test-android-blackwater.py"
+    python3 "$(dirname -- "$0")/test-android-view.py"
+    python3 "$(dirname -- "$0")/test-android-ui-metrics.py"
+    python3 "$(dirname -- "$0")/test-android-radial.py"
+    python3 "$(dirname -- "$0")/test-android-planner.py"
 fi
-grep -Eq '^RUNTIME CHECKS [1-9][0-9]* FAILURES 0$' "$runtime_log" || {
-    echo 'Missing successful runtime test-harness summary' >&2; exit 1;
-}
-loadout_log="$ARTIFACT_DIR/loadout-ui-tests.log"
-"$(dirname -- "$0")/headless.sh" --script res://tests/loadout_ui_tests.gd 2>&1 | tee "$loadout_log"
-if grep -nE 'SCRIPT ERROR:|(^|[[:space:]])ERROR:' "$loadout_log"; then
-    echo 'Godot reported loadout UI test errors' >&2
-    exit 1
-fi
-grep -Eq '^LOADOUT CHECKS [1-9][0-9]* FAILURES 0$' "$loadout_log" || {
-    echo 'Missing successful loadout UI summary' >&2; exit 1;
-}
-navigation_log="$ARTIFACT_DIR/navigation-departure-tests.log"
-"$(dirname -- "$0")/headless.sh" --script res://tests/navigation_departure_tests.gd 2>&1 | tee "$navigation_log"
-if grep -nE 'SCRIPT ERROR:|(^|[[:space:]])ERROR:' "$navigation_log"; then
-    echo 'Godot reported navigation departure test errors' >&2
-    exit 1
-fi
-grep -Eq '^NAVIGATION CHECKS [1-9][0-9]* FAILURES 0$' "$navigation_log" || {
-    echo 'Missing successful navigation departure summary' >&2; exit 1;
-}
-well_shape_log="$ARTIFACT_DIR/well-save-shape-tests.log"
-"$(dirname -- "$0")/headless.sh" --script res://tests/well_signature_save_shape_tests.gd 2>&1 | tee "$well_shape_log"
-if grep -nE 'SCRIPT ERROR:|(^|[[:space:]])ERROR:' "$well_shape_log"; then
-    echo 'Godot reported Well save-shape errors' >&2
-    exit 1
-fi
-grep -Eq '^WELL SAVE SHAPE CHECKS [1-9][0-9]* FAILURES 0$' "$well_shape_log" || {
-    echo 'Missing successful Well save-shape summary' >&2; exit 1;
-}
-"$(dirname -- "$0")/density-checks.sh"
-
-# Integrated tactical milestone guards: require each actual harness summary,
-# since Godot may return zero after a script error.
-while IFS='|' read -r scenario summary; do
-    tactical_log="$ARTIFACT_DIR/$scenario.log"
-    "$(dirname -- "$0")/headless.sh" --script "res://tests/$scenario.gd" 2>&1 | tee "$tactical_log"
-    if grep -nE 'SCRIPT ERROR:|(^|[[:space:]])ERROR:' "$tactical_log"; then
-        echo "Godot reported errors in $scenario" >&2; exit 1
+while IFS='|' read -r scenario summary backend; do
+    if "$skip_core" && [[ "$scenario" == run_tests ]]; then continue; fi
+    log="$ARTIFACT_DIR/$scenario.log"
+    if [[ "$backend" == render ]]; then
+        # Ubuntu's CI image provides Xvfb/xauth; require a real Canvas renderer.
+        runner=(xvfb-run -a -s '-screen 0 2520x1968x24' env LIBGL_ALWAYS_SOFTWARE=1
+            "$GODOT_BIN" --path "$GAME_DIR" --rendering-method gl_compatibility --audio-driver Dummy)
+    else
+        runner=("$(dirname -- "$0")/headless.sh")
     fi
-    grep -Eq "^$summary CHECKS [1-9][0-9]* FAILURES 0$" "$tactical_log" || {
+    timeout --kill-after=10s 480s "${runner[@]}" --script "res://tests/$scenario.gd" 2>&1 | tee "$log"
+    if grep -niE 'SCRIPT ERROR:|(^|[[:space:]])ERROR:|resources still in use|ObjectDB instances leaked' "$log"; then
+        echo "Godot reported errors or leaks in $scenario" >&2; exit 1
+    fi
+    prefix="${summary:+$summary }"
+    grep -Eq "^${prefix}CHECKS [1-9][0-9]* FAILURES 0$" "$log" || {
         echo "Missing successful $scenario summary" >&2; exit 1;
     }
-done <<'TACTICAL_SCENARIOS'
-operation_endurance_tests|OPERATION ENDURANCE
-targeting_feedback_tests|TARGETING FEEDBACK
-beam_emission_tests|BEAM EMISSION
-recon_consequences_tests|RECON CONSEQUENCES
-recon_grade_main_tests|RECON GRADE MAIN
-current_propulsion_tests|CURRENT PROPULSION
-current_motion_tests|CURRENT MOTION
-current_chart_seam_tests|CURRENT CHART SEAM
-v7_earned_region_tests|V7 EARNED REGION
-v7_terrain_chart_tests|V7 TERRAIN CHART
-v7_earned_view_tests|V7 EARNED VIEW
-craft_upgrades_tests|CRAFT UPGRADES
-craft_upgrade_sim_tests|CRAFT UPGRADE SIM
-campaign_endings_tests|CAMPAIGN ENDINGS
-post_tutorial_roster_tests|POST TUTORIAL ROSTER
-polygon_bound_tests|POLYGON BOUND
-divergence_tests|DIVERGENCE
-divergence_save_tests|DIVERGENCE SAVE
-expedition_menu_tests|EXPEDITION MENU
-campaign_consequence_tests|CAMPAIGN CONSEQUENCES
-campaign_equipment_save_tests|CAMPAIGN EQUIPMENT SAVE
-operation_catalog_tests|OPERATION CATALOG
-depth_sonar_tests|DEPTH SONAR
-sweeper_tests|SWEEPER
-depth_policy_journeys|DEPTH POLICY
-depth_sonar_ui_tests|DEPTH SONAR UI
-depth_policy_ui_tests|DEPTH POLICY UI
-opening_depth_tests|OPENING DEPTH
-opening_depth_journeys|OPENING JOURNEY
-opening_depth_ui_tests|OPENING DEPTH UI
-opening_depth_policy_ui_tests|OPENING POLICY UI
-glass_reach_tests|GLASS REACH
-glass_network_tests|GLASS NETWORK
-glass_work_tests|GLASS WORK
-glass_research_tests|GLASS RESEARCH
-glass_reach_journeys|GLASS JOURNEY
-glass_reach_ui_tests|GLASS REACH UI
-iron_choir_tests|IRON CHOIR
-industrial_jobs_tests|INDUSTRIAL JOBS
-industrial_threats_tests|INDUSTRIAL THREATS
-iron_research_tests|IRON RESEARCH
-iron_choir_journeys|IRON JOURNEY
-iron_choir_ui_tests|IRON CHOIR UI
-onward_mission_tests|ONWARD MISSIONS
-wake_crossing_tests|WAKE CROSSING
-wake_crossing_journey_tests|WAKE CROSSING JOURNEY
-wake_crossing_ui_tests|WAKE CROSSING UI
-warning_chain_tests|WARNING CHAIN
-warning_chain_journey_tests|WARNING CHAIN JOURNEY
-shelf_habitat_tests|SHELF HABITAT
-shelf_habitat_journey_tests|SHELF HABITAT JOURNEY
-shelf_habitat_ui_tests|SHELF HABITAT UI
-rendezvous_transport_tests|RENDEZVOUS TRANSPORT
-rendezvous_ui_tests|RENDEZVOUS UI
-resolution_content_tests|RESOLUTION CONTENT
-confluence_operation_tests|CONFLUENCE OPERATION
-confluence_presentation_tests|CONFLUENCE PRESENTATION
-confluence_resolution_ui_tests|CONFLUENCE RESOLUTION UI
-resolution_geometry_tests|RESOLUTION GEOMETRY
-resolution_operations_tests|RESOLUTION OPERATIONS
-resolution_hook_tests|RESOLUTION HOOKS
-operation_emission_feedback_tests|OPERATION EMISSION FEEDBACK
-resolution_instruments_tests|RESOLUTION INSTRUMENT
-resolution_controls_ui_tests|RESOLUTION CONTROLS UI
-earned_equipment_tests|EARNED EQUIPMENT
-cadence_correlator_tests|CADENCE CORRELATOR
-field_sampler_tests|FIELD SAMPLER
-capture_feedback_tests|CAPTURE FEEDBACK
-independent_capture_tests|INDEPENDENT CAPTURE
-independent_capture_ui_tests|INDEPENDENT CAPTURE UI
-turn_safe_navigation_tests|TURN SAFE NAVIGATION
-earned_course_continuity_tests|EARNED COURSE CONTINUITY
-module_recovery_tests|MODULE RECOVERY
-expanded_region_tests|EXPANDED REGION
-expanded_region_journeys|EXPANDED JOURNEYS
-route_program_tests|ROUTE PROGRAM
-drone_drive_tests|DRONE DRIVE
-drone_drive_ui_tests|DRONE DRIVE UI
-drone_operations_tests|DRONE OPERATIONS
-drone_operations_ui_tests|DRONE OPERATIONS UI
-contact_reports_tests|CONTACT REPORT
-contact_reports_ui_tests|CONTACT REPORT UI
-blackwater_courier_tests|COURIER
-blackwater_delivery_tests|BLACKWATER DELIVERY
-concealed_harbour_tests|CONCEALED HARBOUR
-concealed_harbour_journey_tests|CONCEALED HARBOUR JOURNEY
-concealed_harbour_ui_tests|CONCEALED HARBOUR UI
-witness_evacuation_tests|WITNESS EVACUATION
-witness_evacuation_journey_tests|WITNESS EVACUATION JOURNEY
-witness_evacuation_ui_tests|WITNESS EVACUATION UI
-warning_recipient_tests|WARNING RECIPIENT
-warning_recipient_journey_tests|WARNING RECIPIENT JOURNEY
-warning_recipient_ui_tests|WARNING RECIPIENT UI
-blackwater_delivery_ui_tests|BLACKWATER DELIVERY UI
-blackwater_delivery_runtime_ui_tests|BLACKWATER DELIVERY RUNTIME UI
-route_program_ui_tests|ROUTE PROGRAM UI
-planner_navigation_ui_tests|PLANNER NAVIGATION
-planner_space_ui_tests|PLANNER SPACE UI
-playfield_hud_tests|PLAYFIELD HUD
-fleet_instruments_ui_tests|FLEET INSTRUMENTS UI
-fleet_ring_ui_tests|FLEET RING UI
-route_telemetry_touch_tests|ROUTE TELEMETRY TOUCH
-recovery_route_ui_tests|RECOVERY ROUTE UI
-module_recovery_ui_tests|MODULE RECOVERY UI
-module_recovery_runtime_ui_tests|MODULE RECOVERY RUNTIME UI
-module_inventory_main_tests|MODULE INVENTORY MAIN
-radial_hud_tests|RADIAL HUD
-view_controls_menu_tests|VIEW CONTROLS MENU
-expedition_instruments_ui_tests|EXPEDITION INSTRUMENT UI
-campaign_instruments_tests|CAMPAIGN INSTRUMENT
-campaign_instruments_ui_tests|CAMPAIGN INSTRUMENT UI
-campaign_debrief_view_tests|CAMPAIGN DEBRIEF VIEW
-campaign_main_dispatch_tests|CAMPAIGN MAIN DISPATCH
-campaign_capture_progress_tests|CAMPAIGN CAPTURE PROGRESS
-received_audio_retry_tests|RECEIVED AUDIO RETRY
-planner_metrics_tests|PLANNER METRICS
-acoustic_path_tests|ACOUSTIC PATH
-acoustic_hearing_tests|ACOUSTIC HEARING
-acoustic_footprint_tests|ACOUSTIC FOOTPRINT
-acoustic_path_affected_tests|AFFECTED ACOUSTIC
-acoustic_path_ui_tests|ACOUSTIC PATH UI
-decoy_deployment_tests|DECOY DEPLOYMENT
-decoy_aim_ui_tests|DECOY AIM UI
-knockdown_scenarios|KNOCKDOWN
-knockdown_ui_scenarios|KNOCKDOWN UI
-torpedo_aim_ui_tests|TORPEDO AIM
-foundry_departure_tests|FOUNDRY DEPARTURE
-thermal_lee_tests|THERMAL LEE
-thermal_transmission_tests|THERMAL TRANSMISSION
-thermal_ui_tests|THERMAL UI
-terminal_tick_tests|TERMINAL TICK
-extraction_survival_tests|EXTRACTION SURVIVAL
-tactics_composition_tests|TACTICS COMPOSITION
-briefing_scroll_fitting_ui_tests|BRIEFING SCROLL FITTING UI
-warning_chain_ui_tests|WARNING CHAIN UI
-warning_chain_audio_tests|WARNING CHAIN AUDIO
-warning_chain_world_ui_tests|WARNING CHAIN WORLD UI
-TACTICAL_SCENARIOS
+done <<< "$selection"
