@@ -588,21 +588,6 @@ func command(order: String,args: Dictionary={}) -> bool:
 					node.mode=u.route_plan[0].mode
 					if node.get("goal",false):break
 			message="%s · %s · visual profile unchanged"%[u.name,"QUIET42" if mode=="quiet" else "TRANSIT96"]
-		"ping":
-			if ping_time>0: return false
-			if not Sonar.emit(self,selected):return false
-			ping_time=3.5; ping_origin=u.pos; events.append({"type":"ping","pos":u.pos}); message="Pulse away · wait for physical echoes · emission audible"
-			_observe()
-			if mission.get("blackwater_revision",0)==1:
-				var answered=false
-				for target in mission.objectives:
-					if not target.captured and u.band==1 and u.pos.distance_to(target.pos)<240 and Depth.clear(self,u.pos,target.pos,1) and Sonar.in_sector(u.pos,target.pos,u.angle,sonar.sector):
-						target.replay_until=elapsed+3.0;answered=true
-				if answered:message="SONAR emitted · local relay replay 3s · settle and SAMPLE"
-		"recon":
-			if tools.recon<=0: return false
-			if mission.has("world_size"):mission["survey_origin"]=u.pos
-			tools.recon-=1; recon_time=8.0; _noise(u.pos,1100,"RECON UPLINK",2.0,u.band); message="Local 560m survey · 8 seconds" if mission.has("world_size") else "Wide survey uplink · 8 seconds"; SignalField.observe(self,true); Consequences.observe(self,true); events.append({"type":"recon","pos":u.pos}); _observe()
 		"frame":
 			return Photo.set_frame(self,selected,args)
 		"all_stop":return AllStop.command(self)
