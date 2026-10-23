@@ -1,4 +1,8 @@
-## 22 October 2026 (night): development paused for repository organization
+## 23 October 2026: development RESUMED by Pat
+
+Pat has resumed development. The organization pass below is complete; Codex has claimed handoff 019 (PR81). Claude is root orchestrator again under the standing delegation. The pause described below is superseded and kept as dated history.
+
+## 22 October 2026 (night): development paused for repository organization (SUPERSEDED 23 Oct by resumption)
 
 Pat reports that all development is paused, Codex finished its current task, and Claude has not restarted. Organize and reconcile the repository first. This organization pass is authorized; gameplay implementation, next-handoff dispatch and autonomous continuation remain paused until Pat resumes development. The earlier continuation instructions below remain the standing workflow for that later resumption. Preserve completed work, queued tasks, parked work, saves, signing identity and historical sources.
 

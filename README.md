@@ -2,7 +2,7 @@
 
 # Siren's Song
 
-**Execution:** development paused for repository organization by Pat. Resume state: [RESUME](docs/RESUME.md). Repository layout and branch lifecycle: [repository map](docs/REPOSITORY_MAP.md).
+**Execution:** development resumed by Pat on 23 Oct 2026. Resume state: [RESUME](docs/RESUME.md). Repository layout and branch lifecycle: [repository map](docs/REPOSITORY_MAP.md).
 
 Original Android-first 2D tactical submarine-stealth and reconnaissance game. One pilot commands USS Quietus and two drones through alien industrial water, acoustic exposure, incomplete information and superior Siren threats.
 

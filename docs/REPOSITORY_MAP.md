@@ -34,7 +34,7 @@ Inventory snapshot:165 remote branches, fetched with full commit ancestry at int
 An ancestor relationship proves commit reachability, not that every historical behavior remains enabled. A non-ancestor tip can contain rebased/squashed equivalents, outdated experiments or unique evidence; it is not automatically unfinished feature work. No historical-unmerged branch is promoted by this inventory. The parked sweeper experiment is reachable historically but remains a different, unratified future direction.
 
 ## Pending reconciliation
-PR77 contains game repairs and stays separate. PR79 reconciles integration guidance and this map; PR80 reconciles handoff pointers on the queue branch. PR78 is merged. Preserve the queue while development is paused.
+PR77 contains game repairs and stays separate. PR79 reconciles integration guidance and this map; PR80 reconciles handoff pointers on the queue branch. PR78 is merged. Preserve the queue.
 
 ## Reference package
 Raw non-runtime concept images, source ZIP and review PDF are preserved at `archive/reference-package-20261022` (snapshot of7089470) with original paths and hashes. The active tree keeps source Markdown, the selection ledger, archive links and MANIFEST.json; shipped Godot assets stay in game/. See [visual package](../references/package/START_HERE.md). This changes checkout contents, not historical Git storage; no history rewrite is performed.

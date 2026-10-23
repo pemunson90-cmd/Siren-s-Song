@@ -1,5 +1,3 @@
-> **CURRENT EXECUTION OVERRIDE:** gameplay development is paused by Pat for repository organization. Complete the authorized reconciliation/organization only; preserve the queue and wait for Pat to resume development. See the newest USER_DIRECTIVES entry and RESUME.
-
 **Identity (user-ratified 22 Oct):** Siren's Song is first a military photographic reconnaissance game (Iron Lung influence); rescue, industrial and fleet work support it. Read docs/PHOTO_RECON.md. Implementation and evidence status live in docs/PHOTO_RECON.md; current work lives in docs/RESUME.md.
 
 **Development integration:** `claude/integration`. `gauntlet/production` is the frozen promotion baseline; `main` is the protected accepted baseline. Pat authorizes promotion to either. Operational status: docs/RESUME.md. Codex assignments and claims: docs/codex/BOARD.md on `codex/handoffs`.
