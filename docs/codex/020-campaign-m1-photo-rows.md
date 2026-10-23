@@ -1,8 +1,8 @@
 # Handoff 020: CAMPAIGN M1, photography rows for ops 6 to 29
 
-Status: OPEN
-Claimed at:
-Claimed by:
+Status: CLAIMED
+Claimed at: 2026-10-23 04:09:09 UTC
+Claimed by: codex
 Finished at:
 
 Precondition: handoff 018 must be DONE.
@@ -24,4 +24,4 @@ Each band has at least two photo problems that matter; bare-Quietus fixtures for
 PR into claude/integration; merge per the line above; mark DONE and update the board.
 
 ## Completion
-(Codex fills this in.)
+Preparing independent campaign data while019 source is complete and its separate PR gates run. No new orders or shared019/PR77 files. Preserve numeric integration priority; do not mark019 or020 DONE before their required merges.
