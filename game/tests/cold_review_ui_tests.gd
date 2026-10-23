@@ -16,6 +16,10 @@ func touch(point:Vector2,down:bool):
 func tap(button):
  var point=button.get_global_rect().get_center()
  await touch(point,true);await touch(point,false);await settle()
+func check_wheel(h,label:String):
+ check(not h.caption_rects.is_empty() and h.caption_rects.all(func(r):return Rect2(Vector2.ZERO,h.size).encloses(r)),label+" captions stay visible inside the safe area")
+ check(not h.caption_rects.is_empty() and h.caption_rects.all(func(r):return not r.intersects(h.close_button.get_rect())),label+" captions clear BACK")
+ check(h.ring_buttons.all(func(b):return not b.get_rect().intersects(h.close_button.get_rect())),label+" BACK clears every command target")
 func property(object,key:String):
  for field in object.get_property_list():
   if field.name==key:return object.get(key)
@@ -73,6 +77,8 @@ func run():
    for word in b.text.replace("\n"," ").split(" ",false):check(font.get_string_size(word,HORIZONTAL_ALIGNMENT_LEFT,-1,fs).x+padding<=b.size.x+.1,"confirmation word stays whole: "+word)
   game.sim.paused=true;game._refresh();await settle();check("RESUME" in game.pause_button.text and not "RUN" in game.pause_button.text,"pause action consistently says RESUME")
   await start();h=game.mission_hud;s=game.sim;h.open("tools");await settle()
+  for menu in ["craft","route","fleet","tools"]:
+   h.open(menu);await settle();check_wheel(h,menu)
   var rects=property(h,"caption_rects")
   check(rects!=null and not rects.is_empty(),"wheel exposes measured center text bounds")
   if rects!=null:check(rects.all(func(r):return not Rect2(h.global_position+r.position,r.size).intersects(h.close_button.get_global_rect())),"wheel center text does not overlap BACK")
@@ -108,7 +114,7 @@ func run():
   # Start a genuine local photo preview, then leave a terminal dive for briefing.
   await start();s=game.sim;var objective=s.mission.objectives[0]
   s.units[0].pos=objective.pos+Vector2(-140,0);s.units[0].angle=0.;s.units[0].vel=Vector2.ZERO;objective.unknown=false
-  game._focus_craft();await settle();h.open("craft");await settle();await tap(game.order_buttons.camera)
+  game._focus_craft();await settle();h.open("craft");await settle();check_wheel(h,"five-line photo caption");await tap(game.order_buttons.camera)
   check(game.ocean.optical_feed.is_visible_in_tree(),"photo fixture exposes the real viewfinder")
   s.outcome="lost";s.hull=0;game._debrief();game._briefing(0);await settle()
   check(not game.ocean.optical_feed.is_visible_in_tree() and not game.lock_warning.is_visible_in_tree(),"loss and briefing clear transient viewfinder and warning HUD")

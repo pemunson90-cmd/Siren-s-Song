@@ -11,6 +11,7 @@ const Delivery=preload("res://src/presentation/blackwater_delivery_view.gd")
 const Recipient=preload("res://src/presentation/warning_recipient_view.gd")
 const Concealed=preload("res://src/presentation/concealed_harbour_view.gd")
 const Witness=preload("res://src/presentation/witness_evacuation_view.gd")
+const CenterLayout=preload("res://src/presentation/radial_layout/center_layout.gd")
 const AllStop=preload("res://src/simulation/all_stop/all_stop.gd")
 # A tap opens an object-owned projection. A separate tap chooses an action.
 var host
@@ -347,7 +348,7 @@ func layout(bounds:Vector2,h:float):
   for i in ring_buttons.size():
    var b=ring_buttons[i];var a=-PI/2+TAU*i/ring_buttons.size()
    b.position=center+Vector2.from_angle(a)*ring_radius-b.size/2;b.show();b.move_to_front()
-  close_button.position=center+Vector2(-h*.775,h*.65*text_scale);close_button.show();close_button.move_to_front()
+  close_button.position=CenterLayout.back_rect(center,close_button.size,h,text_scale,ring_buttons).position;close_button.show();close_button.move_to_front()
  recovery_box.visible=host.advanced_orders and page=="recovery"
  for b in recovery_buttons:
   b.custom_minimum_size.y=h;b.add_theme_font_size_override("font_size",font)
@@ -613,9 +614,10 @@ func _draw():
  var lines=[title,caption]
  if page=="plant":lines.append(WarningChain.radial_state(WarningChain.context(host.sim)))
  elif page=="craft" and host.order_buttons.camera in ring_buttons:lines.append_array(camera_caption())
+ var first_y=CenterLayout.first_baseline(center.y,close_button.get_rect(),h,text_scale,lines.size(),font,text_size)
  for n in lines.size():
   var text=lines[n];var width=font.get_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,-1,text_size).x
-  var baseline=center+Vector2(-width/2,-h*.65+n*(text_size+5))
+  var baseline=Vector2(center.x-width/2,first_y+n*(text_size+CenterLayout.STYLE.line_gap))
   caption_rects.append(Rect2(baseline-Vector2(0,font.get_ascent(text_size)),Vector2(width,font.get_height(text_size))))
   draw_string(font,baseline,text,HORIZONTAL_ALIGNMENT_LEFT,-1,text_size,Color("a8d9d5"))
 # What the contextual action is and what it will aim at, shown before the tap (two short lines).
