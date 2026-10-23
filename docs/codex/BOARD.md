@@ -58,6 +58,10 @@ Take 017 first (PRIORITY) if any of PRs 69, 70, 71 is open; otherwise numeric or
 ## PRIORITY after 019 step 1 (23 Oct)
 | P | 035 FIX2 full cold review fixes (save error first) | OPEN | | | |
 
+## BATCH 6 (23 Oct, Pat's decisions D1 and D2)
+| 36 | 036 first-Siren cue, ops 1 to 3 | OPEN | | | |
+| 37 | 037 early module reward | OPEN | | | |
+
 ## Claude-held
 009 sweeper on V7 senses: Claude's PR 70, finished under handoff 017.
 Nothing parked.
