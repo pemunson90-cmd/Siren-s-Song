@@ -51,7 +51,7 @@ static func run(t: SceneTree) -> void:
 	var front = Frontend.new(); host.add_child(front)
 	t.check(front.setup(host), "frontend sets up")
 	var actions := _actions(front)
-	t.check(actions.has("frontend_continue") and actions.has("frontend_new_campaign") and actions.has("frontend_settings") and actions.has("frontend_credits"), "title offers continue, new campaign, settings, credits")
+	t.check(actions.has("frontend_continue") and not actions.has("frontend_new_campaign") and actions.has("frontend_settings") and actions.has("frontend_credits"), "title offers continue, settings and credits while reset lives in Settings")
 	t.check(front.find_child("ProfileNotice", true, false) != null and front.find_children("*", "Button", true, false)[0].disabled, "incompatible save shows notice and disables continue")
 	front._credits_screen()
 	var text := ""

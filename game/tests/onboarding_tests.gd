@@ -102,8 +102,10 @@ func run() -> void:
 	var caption=game.mission_hud.camera_caption()
 	check(caption.size()>=2 and caption.size()<=3 and (caption.size()==2 and "NO SITE" in caption[1] or "NOT READY" in caption[2]),"the action button says it is not ready before the tap")
 	game.sim.units[0].pos=game.sim.mission.objectives[0].pos+Vector2(60,0); game.sim.units[0].vel=Vector2.ZERO
+	game.sim.units[0].angle=PI
+	game.sim.Photo.discover(game.sim)
 	game._refresh(); caption=game.mission_hud.camera_caption()
-	check(caption.size()==3 and game.sim.mission.objectives[0].name.to_upper().substr(0,18) in caption[1] and caption[2].begins_with("READY"),"the action button names its target and says it is ready")
+	check(caption.size()==3 and game.sim.Photo.label(game.sim.mission.objectives[0]).to_upper().substr(0,18) in caption[1] and caption[2].begins_with("READY"),"the action button uses its target's known label and says it is ready")
 	# Text size reaches the dive HUD without shrinking touch targets.
 	var normal_font=game.mission_hud.host.pause_button.get_theme_font_size("font_size")
 	var h=game.ui_touch_height
