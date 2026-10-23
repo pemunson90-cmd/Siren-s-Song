@@ -2,7 +2,7 @@
 
 **Execution:** development RESUMED by Pat (23 Oct 2026). Codex034/FIX1 and019 save/cancel steps PR81/PR83 are merged. Pat cleared merges after PR79 and ordered: finish019, then035 (PRIORITY),036,037. Live claims/completion remain on docs/codex/BOARD.md in codex/handoffs.
 
-**019 source checkpoint:** last reconciled integration0df6796 includes PR77 and PR79. This lane extracts only weapons behind the shared order table, preserving behavior. Next: sensors, route/drive, then photo, each as its own reviewed, green PR after its parent merges. Prepared035/020/024 source stays separate. Reconcile the newest integration before each merge; no main/production promotion or APK.
+**019 prepared source checkpoint:** last reconciled integration0df6796 includes PR77 and PR79. This prepared head contains all41 player orders behind the shared table, preserving guards, bodies and cleanup. Weapon PR88 is first; sensor, route/drive and photo PRs each follow their merged parent. This head includes no035 fixes. Separate035/020/024 source remains published. Reconcile this checkpoint and the newest integration before each feature merge; no main/production promotion or APK.
 
 ## CHECKPOINT 23 Oct (written near Claude session usage limit, about 75%)
 Integration also holds PR77 (photo and cargo repairs, d5eae9d), PR81 and PR83 (ARCH1 steps). Codex was told to HOLD MERGES into claude/integration until Claude says clear; Claude is landing PR79 (this PR, also carries PR82 keystore note and PR84 Pat decisions D1 to D5), then PR80 (queue docs into codex/handoffs). When PR79 and PR80 are merged: close PR82 and PR84 as included, tell Pat "merges clear" so he can tell Codex, and tell him to reinstall hooks between Codex tasks (python3 scripts/toolchain/install-gauntlet-hooks.py).
