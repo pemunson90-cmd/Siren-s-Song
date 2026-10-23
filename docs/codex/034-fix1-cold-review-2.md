@@ -33,10 +33,12 @@ Each item fixed or reported as not reproducing, real-touch tests at both Fold7 s
 PR into claude/integration; merge per the line above; mark DONE and update the board.
 
 ## Completion
-Work in progress. Branch: `claude/fix1-cold-review-2`. Last pushed SHA: `9486974ed006e73dfbba0ebfd5f36b83a9cc26d7`. Draft PR78: https://github.com/pemunson90-cmd/Siren-s-Song/pull/78.
+Work in progress. Branch: `claude/fix1-cold-review-2`. Last pushed SHA: `8e10d1aaf1e49c6cc7952e2c0c1cf1d43f158ee3`. Draft PR78: https://github.com/pemunson90-cmd/Siren-s-Song/pull/78.
 
 Item1 reproduced in all operations0–5: first eastward route hits DroneB and leaves86.5012016296387 hull. A new opening_fleet/launch_layout.gd data module moves DroneB off the lane for these six openings only; older saves keep their positions and later operations retain existing offsets. The hit message now names own friendly hulls; other hulls remain anonymous. No collision formula, threshold, cooldown or velocity response changed. Red32/7, green33/0 including a deliberately forced hit pinned to the identical pre-fix damage. All six new opening routes retain100 hull and all three live craft.
 
 Items2–9: reproductions and UI fixes in progress. Important discovered cause: the warning hint excludes opening index0, while the cold review starts there. Preserve existing tutorial coverage while covering the opening, any craft and first heard-investigation cue. Touch primary, Android Back equivalent, keyboard fallback.
 
 Import passed before the opening probe. Core run was interrupted by a provider/environment reconnect; not claiming a complete new core result yet. No full scenario list locally. Job budget60m accommodates additional coverage after the 189-suite baseline used nearly35m; per-suite480s and strict assertions unchanged. No APK/main/production changes.
+
+Checkpoint 2026-10-23 01:37 UTC: pushed WIP8e10d1a. Items2–8 implemented; goal_bearing and tool_help are small read-only modules. Touch UI155/0 across both phone shapes and desktop, core817/0, opening35/0, warning15/0, drone38/0. Fresh OS data dirs: both archive profiles9/0, touch offsets956cover/336inner reach Intel; no notice clean, exact notice reproduced only with deliberately corrupt primary+valid backup. Opening DroneB now opposite flank (0,+100); the initial (140,-100) WIP exposed a drone to the first decoy investigation and was rejected by core, fixed without rule changes. Independent reviewer caught stale hint on mission transition and suppression in open ring, both fixed. Existing radial HUD58/2 still under investigation around warning acknowledgement and STATUS. Prior WIP CI red at core; will run all later CI suites locally as034 requires. Not DONE or mergeable evidence yet.
