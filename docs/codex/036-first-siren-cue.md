@@ -1,9 +1,9 @@
 # Handoff 036: FIRST-SIREN CUE (Pat approved 23 Oct, decision D1)
 
-Status: CLAIMED
+Status: DONE
 Claimed at: 2026-10-23 19:21:32 UTC
 Claimed by: codex
-Finished at:
+Finished at: 2026-10-23 21:38:53 UTC
 
 Codex may merge: yes, into claude/integration only, after GitHub guidance and game-smoke are both green on the exact head and the PR is mergeable. Merge with a merge commit, then mark DONE and update docs/codex/BOARD.md.
 Testing: import, core tests (CHECKS N FAILURES 0), and only the tests for what you touched. No full scenario list locally. Never skip, loosen or delete a test.
@@ -19,6 +19,10 @@ Module: game/src/presentation/first_siren_cue/ (name your choice) with data tabl
 Base: origin/claude/integration. Branch: claude/first-siren-cue
 
 ## Completion
+
+DONE. PR93 https://github.com/pemunson90-cmd/Siren-s-Song/pull/93 merged into claude/integration with merge commitea78d3dcc1cbc7647859dfb7e1b0b3e60fdf99cc. Final branch claude/first-siren-cue last pusheda0f5cbae23f33d7eeae127da96e5d68533488823 had both exact-head guidance/game-smoke success40023109430, actualdb6b162 contained, and attributable final independent approval by /root/review_integration with personally rerun slow52/0. Fresh fetched merge's entire tree equals approveda0f5; two parents/landed ancestry verified. Mark DONE and BOARD together in this commit.
+
+Player gain: ops1 to3 give one short bearing-only first-notice mark and soft sound per Siren per dive, before existing lock accumulation. Optional validated archive history prevents repeats on reload, environmental sounds cannot consume craft notice, audio respects immediate suspension/mute, FROM Q/A/B names the reference. Import/core818/0, functional37/0, normal and slow Canvas52/0, affected checks all0 and final full hosted matrix green; exit logs clean. The initial hosted pause-fixture timing failure was reproduced and fixed without changing production sound or removing/loosening assertions. Production combat/senses/state/contacts unchanged. Narrow main/SaveStore/acquisition seams needed by the feature are documented in the plan and PR. Physical Android, headphones and enjoyment unverified. Next resume already-claimed037/draft94 on its recorded branch, reconcile actualea78d3d, final review/exactCI then merge; existing020 follows. Historical checkpoints below preserve provenance.
 
 Claimed while final019 PR92 runs its own gate. All remaining019 PRs are now open in order;036 preparation is isolated from photo orders. Merge92 before036, then reconcile actual newest integration into036 and obtain exact-head review/CI.035 is DONE, so this handoff's precondition is met. Approved D1 supplies the design; no new rule, story or pillar decision is needed.
 
