@@ -531,65 +531,8 @@ func command(order: String,args: Dictionary={}) -> bool:
 			if Witness.handles(self,args.item):return Witness.begin(self,args.item)
 			return Delivery.begin(self,args.item) if args.item.begins_with("blackwater_buffer_") else ModuleRecovery.begin(self,args.item)
 		"rendezvous_release":return Rendezvous.release(self)
-		"select":
-			var id=int(args.get("unit",0))
-			if id<0 or id>=units.size() or not units[id].alive: return false
-			selected=id; _use_band(units[id].band); queue_mode=false
-			message="%s selected · next tap replaces route" % units[id].name
-		"waypoint_mode": pass_through=not pass_through; message="Queued waypoints PASS through" if pass_through else "Queued waypoints STOP before continuing"
-		"queue": queue_mode=not queue_mode; message="QUEUE: tap to add" if queue_mode else "REPLACE: tap to set route"
-		"route", "emergency":
-			var append=queue_mode and order!="emergency"
-			var plan=route_goals() if append else []
-			if append and not plan.is_empty() and not plan.back().get("arrival_set",false): plan.back().stop=not pass_through
-			plan.append({"pos":args.get("point",u.pos),"stop":true,"mode":"inherit"})
-			if not _install_program(u,plan,append,append and not u.route.is_empty()): message="Rock or unsafe clearance. Choose open water."; return false
-			if not append:
-				u.hold=""
-				captures[selected]={}
-			if order=="emergency":
-				queue_mode=false; u.silent=false; u.erase("route_undo")
-				if selected>0 and u.has("drone_drive"):u.drone_drive="transit"
-			message="%s · %s route" % [u.name,"queued" if append else "replaced"]
-		"route_edit", "route_insert", "route_delete", "route_undo":
-			if not _edit_program(order,args): return false
-		"order_undo":
-			# Presentation-held restore of the last plain route order: prior goals and hold only.
-			var prior=args.get("goals",[]);var prior_hold=args.get("hold","")
-			if not prior is Array or not prior_hold is String or prior_hold not in ["","HOLD","CONTACT","DRONE",DroneOperations.ARMED,DroneOperations.STOPPED]:return false
-			if prior.is_empty():
-				u.route=[];u.erase("route_plan");u.erase("route_undo")
-			elif not _install_program(u,prior,false):message="Previous course is no longer safe.";return false
-			u.hold=prior_hold;message="%s · last order undone"%u.name
-		"hold": u.hold="" if u.hold=="HOLD" else "HOLD"; message="Holding position" if u.hold!="" else "Route released"
-		"contact_hold":
-			if u.hold in ["CONTACT",DroneOperations.ARMED,DroneOperations.STOPPED]:
-				u.hold="";message="%s · condition released · retained route resumes"%u.name
-			elif selected==0:u.hold="CONTACT";message="Quietus fleet guard · hold while any fresh contact is observed"
-			else:u.hold=DroneOperations.ARMED;message="%s SCOUT · stop on its own passive contact · release or replot to continue"%u.name
-		"wait_drone": u.hold="" if u.hold=="DRONE" else "DRONE"; message="Wait until a live drone reaches its final waypoint"
-		"silent":
-			u.silent=not u.silent
-			# A direct propulsion command overrides the current programmed leg only.
-			if selected==0 and u.has("route_plan") and not u.route_plan.is_empty():
-				u.route_plan[0].mode="silent" if u.silent else "cruise"
-				for node in u.route:
-					node.mode=u.route_plan[0].mode
-					if node.get("goal",false): break
-			message=(("Low visual profile" if u.silent else "Open visual profile")+" · drone thrust target %dm/s"%(42 if u.get("drone_drive","transit")=="quiet" else 96)) if selected>0 else ("Silent running" if u.silent else "Cruise thrust · increased noise")
-		"drone_drive":
-			var mode=args.get("mode","")
-			if selected==0 or mode not in ["quiet","transit"]:return false
-			u.drone_drive=mode
-			if u.has("route_plan") and not u.route_plan.is_empty():
-				u.route_plan[0].mode="silent" if mode=="quiet" else "cruise"
-				for node in u.route:
-					node.mode=u.route_plan[0].mode
-					if node.get("goal",false):break
-			message="%s · %s · visual profile unchanged"%[u.name,"QUIET42" if mode=="quiet" else "TRANSIT96"]
 		"frame":
 			return Photo.set_frame(self,selected,args)
-		"all_stop":return AllStop.command(self)
 		"camera":
 			if not module_recovery_status().jobs[selected].is_empty() or Delivery.busy(self,selected) or Witness.busy(self,selected) or Glass.busy(self,selected) or Choir.busy(self,selected):message="Finish this craft's wreck recovery first";return false
 			var context=camera_context()
