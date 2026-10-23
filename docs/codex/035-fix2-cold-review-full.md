@@ -36,7 +36,7 @@ PR into claude/integration; merge per the line above; mark DONE and update the b
 
 ## Completion
 
-CLAIMED, source complete; PR86 remains open under Pat's merge hold. Branch claude/fix2-cold-review-full, exact head58cdeed69d627cacf34a733c9060310fc4207d28, base integrationd5eae9df1f889055ce86c59855bf4bcf0e2a90d4 including PR77. Current exact-head CI39909084084 is running. No integration merge or DONE claim until green and Pat explicitly clears merges.
+CLAIMED, source complete; PR86 remains open behind019 under Pat's revised order. Branch claude/fix2-cold-review-full, exact head33fbb20d3c7a4ff24c672268b2aa005c0f3bc4c8, base integration0df679650bfdc0de98503f162f181b613dcb7574 including PR77/79. Current exact-head CI39912616182 is running. Pat cleared merges and ordered019,035,036,037.
 
 Item dispositions:
 1. Legitimate incomplete-feature photo retakes were rejected because the site was already captured. Narrow photographic exemption preserves target/type/finite/duration/duplicate guards. Actual mid-retake save/reload12/0 and I/O retry4/0. Optional recovery exposed two mandatory-record assumptions; optional-only fixes retain required-job strictness,20/0.
@@ -52,6 +52,8 @@ Item dispositions:
 
 PR77 normal-merge reconciliation preserves its command guards, stable study identities, flash/provenance/cargo fixes. Fleet object helper is equivalent;035 modular routing is the superset. Registry retains4audit rows, then10FIX2 rows176–185 /197–206. Import clean/core818/0; one extra Settings target check explains the prior817 count. Focused audit45/5/10/25, loadout38,briefing50,onboarding30,capture52/UI9,depth49,contacts36,Shelf33,lockUI14,cold-review218,challenges86 all pass. No tests removed, skipped or loosened.
 
-Relayed independent review, not formal GitHub approval: /root/review_fix2, fresh-context requestedgpt-6.1-sol Medium, approves exact58cdeed againstd5eae9d, no remaining Critical/Important findings. Personally integrity45/routing83/state10/debrief7 clean. Two earlier camera findings and a CI-only partial-Outcome error were fixed/re-reviewed. Parent supplied the other counts, including the later actual Canvas verification. Physical Android, subjective audio/enjoyment and hosted CI remain separate evidence.
+Relayed independent review, not formal GitHub approval: /root/review_fix2, fresh-context requestedgpt-6.1-sol Medium, approves exact33fbb20 against0df6796, no remaining Critical/Important findings. Personally integrity45/routing83/state10/debrief7 clean. Two earlier camera findings and a CI-only partial-Outcome error were fixed/re-reviewed. Parent supplied the other counts, including the later actual Canvas verification. Physical Android, subjective audio/enjoyment and hosted CI remain separate evidence.
 
-Resume: finish exact-head CI, reconcile any newly landed integration within the lane, leave PR open/record green-ready on BOARD under the hold. Only after Pat clears, verify fresh integration ancestry and mergeability, merge035, then mark DONE and update BOARD in one commit. Continue019's four prepared families, then020. Source recovery refs pushed; no APK/main/production changes.
+Resume: finish019 first, then reconcile newly landed integration within this lane, re-review/recheck exact head and verify ancestry/mergeability before merging035, then mark DONE and update BOARD in one commit. Then036 and037, followed by the eligible queue. Source recovery refs pushed; no APK/main/production changes.
+
+Latest CI repair: ordinary tutorial PHOTO was disabled after operation-context switches. Preserve tap-for-readiness feedback by restoring its existing enabled state, without bypassing simulation guards. Existing resolution-controls test RED32/2 then GREEN32/0 unchanged; renderedstudy24/routing83 pass, core818/0. Reviewer independently re-approved33fbb20 and personally resolution32/routing83/state10 clean.
