@@ -41,11 +41,12 @@ func _initialize():
   check(matches.size()==1,"operation%d has its optional %s subject"%[id,key])
   if matches.size()!=1:continue
   var h=matches[0]
+  var informative=h.subject.features.filter(func(feature):return feature.get("intel","")==key)[0]
   if id in [8,23]:
-   check(h.get("unknown",false) and h.get("optional",false) and h.duration>=h.subject.features[1].window[0],"the optional lamp study starts unresolved and spans its full cycle")
+   check(h.get("unknown",false) and h.get("optional",false) and h.duration>=informative.window[0],"the optional lamp study starts unresolved and spans its full cycle")
   else:
    check(not h.found and not s.mission.objectives.any(func(o):return o.get("optical","")==key),"the new subject starts unresolved")
-  check(View.FINDING_COLORS.has(h.subject.features[1].finding.kind),"local %s finding uses a visible chart marker"%key)
+  check(View.FINDING_COLORS.has(informative.finding.kind),"local %s finding uses a visible chart marker"%key)
   check(key in Ops.intel_keys() and key in Ops.evidence_keys(),"subject evidence and intel are registered")
   check(h.subject.features.any(func(f):return f.get("intel","")==key and f.has("finding")),"a resolved feature files an actionable finding")
   check(key in h.subject.required,"a usable optional record requires its informative feature")
@@ -76,6 +77,13 @@ func _initialize():
     check(Pricing.film_left(s,0)==film-1,"the optional exposure spends exactly one film")
     check(Intel.recover({},s.mission).has(key),"actual returned %s film reaches campaign intel"%key)
     check(Sim.valid_snapshot(s.snapshot()),"the completed optional exposure preserves current saves")
+    # A stale generic focus must never file a usable outline-only new record.
+    Photo.set_frame(s,0,{"mode":"tight","focus":"outline"})
+    Photo.begin(s,0,at)
+    for tick in ceili(objective.get("duration",4.0)*60.0):
+     s.elapsed+=1./60;Photo.tick(s,0,objective,1./60)
+    var focused=Photo.finish(s,0,objective).shot
+    check(not focused.usable or focused.features.has(key),"a usable new%s frame cannot consist only of a generic outline"%key)
   for later in RETURNS[key]:
    var blank=Catalog.make(later,{})
    var context={"intel":{key:{"q":0.8,"op":id}}}
@@ -96,9 +104,9 @@ func _initialize():
  check(lens.Depth.clear(lens,point,point,1,24.0) and lens.Depth.clear(lens,point,crack.pos,1),"the lens comparison uses physically clear water")
  lens.units[0].pos=point;lens.units[0].angle=point.angle_to_point(crack.pos)
  Photo.set_frame(lens,0,{"mode":"tight","focus":"vane_crack"})
- var bare=Photo.frame(lens,0,crack).rows[1]
+ var bare=Photo.frame(lens,0,crack).rows.filter(func(row):return row.id=="vane_crack")[0]
  lens.mission.launch_equipment=lens.Equipment.canonical({"quietus":"quietus_tele_lens","drone_a":"","drone_b":""})
- var tele=Photo.frame(lens,0,crack).rows[1]
+ var tele=Photo.frame(lens,0,crack).rows.filter(func(row):return row.id=="vane_crack")[0]
  check(not bare.ready and tele.ready,"the optional vane crack rewards the tele lens at standoff")
  # The existing plant's three objective slots remain intact.
  var plant=Sim.new();plant.start(10)

@@ -133,7 +133,8 @@ static func _apply_campaign_rows(m:Dictionary,id:int)->void:
 		var config=CAMPAIGN_DEFAULTS.duplicate(true);config.merge(row,true)
 		var feature=F(row.key,row.feature,0.0,config.arc,config.detail,0.3,{"intel":row.key,"dwell":config.dwell,"gloss":row.finding.text,"finding":row.finding.duplicate(true)})
 		if row.has("window"):feature["window"]=row.window.duplicate()
-		var subject=S(row.facing,config.size,config.glow,[row.key],[F("outline","OUTLINE",0.0,PI,0.04,-0.3),feature],{"reveal":row.name,"band":row.band,"bands":[row.band]})
+		# Existing tight-focus rules may file any held feature: author only the informative one.
+		var subject=S(row.facing,config.size,config.glow,[row.key],[feature],{"reveal":row.name,"band":row.band,"bands":[row.band]})
 		if row.has("duration"):
 			var objective={"pos":row.pos,"name":row.name,"captured":false,"optional":true,"kind":"","duration":config.duration,"optical":row.key,"site_id":row.key,"evidence":row.name+" · recovered field frame.","subject":subject}
 			_unknown(objective,"UNKNOWN LAMP RETURN",180.0,Vector2(40,-40),config.sight)
