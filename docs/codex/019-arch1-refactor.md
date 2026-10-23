@@ -27,8 +27,18 @@ Each step merged with identical behavior (same check counts, CI green). Record t
 PRs into claude/integration; merge per the line above; mark DONE and update the board.
 
 ## Completion
-In progress. Step 2 is PR 81: https://github.com/pemunson90-cmd/Siren-s-Song/pull/81
-Lane claude/arch1-save-checks, last pushed c7c5cfd9e97d0ea1e6bb04b924a0e1ac4ae69948.
-Import clean; core before/after 817/0; Well9/0, equipment10/0, divergence12/0, sweeper52/0 before/after. Exact-head GitHub checks pending. No game rules, save shapes, inputs, mission rows or test assertions changed. Next: cancellation helper, then weapons, sensors, route/drive and photo extraction, each its own PR.
-Resume: git fetch origin; git checkout claude/arch1-save-checks; inspect PR81 checks before merge.
 
+In progress, not DONE. Step 2 is PR81: https://github.com/pemunson90-cmd/Siren-s-Song/pull/81
+- claude/arch1-save-checks: c7c5cfd9e97d0ea1e6bb04b924a0e1ac4ae69948; exact-head CI39896278323 pending, guidance green.
+- Prepared dependent lane claude/arch1-cancel-helper: 214aa3f.
+- Prepared dependent lane claude/arch1-orders-weapons: 5893121.
+- Prepared dependent lane claude/arch1-orders-sensors: 3427ef0.
+- Prepared dependent lane claude/arch1-orders-route: 1474ba3.
+- Prepared dependent lane claude/arch1-orders-photo: f25c5eb.
+All lanes pushed. Each dependent step must merge fresh integration and open its own PR only after its parent has merged; exact-head guidance/game-smoke and mergeability remain mandatory. No force pushes, APK, main or production changes.
+
+Godot4.6.3 import clean; core817/0 before and after every prepared step. Save checks: Well9/0, equipment10/0, divergence12/0, sweeper52/0. Cancellation: delivery63/0, witness UI108/0, module55/0 plus UI37/0 and runtime22/0, recipient69/0, Glass42/0+14/0+40/0+9/0+UI28/0, journey70/0; industry47/0, chain49/0, depth112/0. Weapons: combat17/0, knock59/0, decoy14/0, UI30/0. Sensors: depth112/0 and delivery63/0. Route: drone23/0, program35/0, all-stop31/0; real touch/UI route44/0, drone38/0, all-stop12/0, telemetry46/0. Photo: capture52/0, study save45/0, pricing64/0, depth49/0, rules49/0, UI9/0+11/0+4/0, departure45/0. Final injected-touch cold-review218/0 includes Android Back at cover/inner; headless locally, hosted CI owns rendered coverage. No physical-device claim.
+
+Source comparisons preserve original order bodies after resolving receivers/constants and expanding the shared leg-mode helper; all41 keys registered exactly once. Original guard ordering, early returns and cleanup are retained. No game rules, save shapes, inputs, mission rows or test assertions changed. New modules have revert notes; CONVENTIONS is under30 lines. A fresh reviewer is checking the accumulated source diff. One first import in the separate baseline worktree hit a Godot threaded-import crash; clean reimport and affected baseline tests subsequently passed. No tests were loosened or skipped.
+
+Resume: git fetch origin; inspect PR81 exact-head checks; if green and mergeable with current integration as ancestor, merge with a merge commit. Then merge fresh integration into claude/arch1-cancel-helper, open its own PR and continue through the dependent branches above. This task remains CLAIMED until every required step has merged. Mark DONE and update BOARD in one final commit only then.
