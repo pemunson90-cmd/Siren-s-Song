@@ -1,12 +1,12 @@
 # RESUME: operational entry
 
-**Execution:** development RESUMED by Pat (23 Oct 2026). Codex034/FIX1,035/FIX2 (PR86),024 audio (PR87) and019 save/cancel/weapons steps PR81/PR83/PR88/PR90/PR91 are merged. Pat cleared merges. Current order (23 Oct): final019 photo PR92,036 draft93,037 (preparation in progress) and the eligible numeric queue. Live claims/completion remain on docs/codex/BOARD.md in codex/handoffs.
+**Execution:** development RESUMED by Pat (23 Oct 2026). Codex034/FIX1,035/FIX2 (PR86),024 audio (PR87) and all019 ARCH1 steps PR81/PR83/PR88/PR90/PR91/PR92 are merged. Pat cleared merges. Current order (23 Oct): 036 cue PR93,037 reward draft94 and the eligible numeric queue. Live claims/completion remain on docs/codex/BOARD.md in codex/handoffs.
 
-**Current source checkpoint (037 preparation):** last reconciled integration70b1f18 includes019 route/drive PR91 after sensors PR90, weapons PR88,035/FIX2 PR86 and024 audio PR87. Final019 photo PR92 and approved036 cue preparation draft93 must land first. This isolated lane prepares D2: one existing Tele lens after operation1 wins, initially unequipped, with a debrief line and Fittings explanation. No module, opening balance or simulation rule changes. Reconcile the actual92/93 merges before final037 review/CI.019,036,037 and existing020 claims remain preserved. No APK or frozen-branch promotion.
+**Current source checkpoint (037 preparation):** last reconciled actual integrationdb6b162 contains final019 photo PR92. This preparation also contains approved036 cue head57806a3, still awaiting its exact-head checks and PR93 merge. D2 grants one existing Tele lens after operation1 wins, initially unequipped, with a debrief line and Fittings explanation. Both optional archive fields and all four focused test rows are preserved. Reconcile the actual036 merge into this branch before final037 review and exact-head CI. Existing020 draft85 follows. No APK or frozen-branch promotion.
 
 ## CHECKPOINT 23 Oct (updated after PR79 and PR80 merged)
-Integration holds PR77 (photo and cargo repairs), PR79 (this guidance and Pat's decisions D1 to D5), PR81, PR83, PR88, PR90 and PR91 (ARCH1 steps), and PR86 (035/FIX2), PR87 (024 audio). PR80 is merged on codex/handoffs. PR82 and PR84 were folded into PR79 and closed. Codex merge hold is LIFTED (Pat tells Codex). Hooks: Pat reinstalls between Codex tasks (python3 scripts/toolchain/install-gauntlet-hooks.py).
-Codex queue (docs/codex/BOARD.md): remaining019 steps,036 first-Siren cue (D1),037 early module reward (D2), then020,021,023,025 to027,029 to033 in numeric order when eligible. Pat's rule: phone testing only after the game is feature complete and bug free; no APKs.
+Integration holds PR77 (photo and cargo repairs), PR79 (this guidance and Pat's decisions D1 to D5), PR81, PR83, PR88, PR90, PR91 and PR92 (ARCH1 steps,019 DONE), and PR86 (035/FIX2), PR87 (024 audio). PR80 is merged on codex/handoffs. PR82 and PR84 were folded into PR79 and closed. Codex merge hold is LIFTED (Pat tells Codex). Hooks: Pat reinstalls between Codex tasks (python3 scripts/toolchain/install-gauntlet-hooks.py).
+Codex queue (docs/codex/BOARD.md): 036 first-Siren cue PR93 (D1),037 early module reward draft94 (D2), then020,021,023,025 to027,029 to033 in numeric order when eligible. Pat's rule: phone testing only after the game is feature complete and bug free; no APKs.
 D3 photo grade at "Record secured" merged in PR89 (switch GradeOnSecure.enabled). Next: review Codex PRs, re-run a cold review after 035 lands, and keep 5 hours of OPEN work ahead of Codex (write batch 7 when two of 035, 036, 037 are DONE).
 Resume command: start Claude Code on claude/integration and say: "Read docs/RESUME.md, then continue the Gauntlet as root orchestrator." Pat is not a developer: plain language, Eastern times, no em dashes, no jargon.
 
@@ -34,9 +34,9 @@ Integration baseline: `70894702610ba8499b696af072444c8c942e2476` (PR78). Queue o
 - Architecture019/023, later reconnaissance020, route map021, landmarks025 and final pair/photo-wall027 remain on the existing board, alongside the other authorized lanes. Read live eligibility and claims there instead of copying the queue here.
 
 ## Next actions
-1. PR88, PRIORITY035/PR86,024/PR87 and019 sensors PR90/route PR91 are merged. Finish019 photo PR92 next. Each head must contain current integration and have independent review plus green exact-head guidance/game-smoke.
-2. Then036 draft93, followed by037 after actual-parent reconciliation, independent review and exact-head CI for each. Preserve all prepared lanes and recorded claims.
-3. Continue036,037,020,021,023,025 to027 and029 to033 in numeric order, skipping unmet preconditions. Update each completed handoff and BOARD together on codex/handoffs. No APKs or frozen-branch promotion.
+1. All019 steps are merged and019 is DONE. Finish036 PR93 after actual-parent independent review and exact-head guidance/game-smoke.
+2. Reconcile actual036 integration into037 draft94, then review/check/merge it. Preserve the existing020 claim and prepared draft85.
+3. Continue020,021,023,025 to027 and029 to033 in numeric order, skipping unmet preconditions. Complete each handoff and BOARD together. No APKs or frozen-branch promotion.
 
 
 ## Verification and evidence

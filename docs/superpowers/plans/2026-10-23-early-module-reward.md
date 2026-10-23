@@ -22,9 +22,11 @@ Create game/src/campaign/early_reward/{reward_table,early_reward}.gd and functio
 - [x] Implement pure grant/state/entitlement helpers and narrow integration.
 - [x] Write/run failing actual-game touch checks: successful debrief line, failed/repeated reward, saved/reloaded ownership, ready fitting, explanation, equip/unequip, new campaign reset, both Fold7 shapes.
 - [x] Implement presentation and persistence; pass actual Canvas checks.
-- [ ] Import, core818/0 and affected fitting/save suites; compare all six core campaign wins/hull/time to baseline /tmp/ss-route-core.log. No full scenario list locally.
+- [x] Preparation import, core818/0 and affected fitting/save suites; compare all six core campaign wins/hull/time to baseline /tmp/ss-route-core.log. No full scenario list locally.
 - [ ] Push WIP, record SHA in037 Completion; independent review, actual-parent reconciliation and exact-head CI before merge; DONE plus BOARD in one commit.
 
 Builder choice: Tele lens changes an already implemented photographic choice without a combat rule or opening balance change. It is owned but initially unequipped; the player can retain BARE. Revert by table.enabled=false, retaining state/entitlement loading for saves.
 
 Execution ledger: missing-module RED then functional36/0; missing actual-campaign property RED then actual Canvas/injected-touch40/0 at both Fold7 shapes. Existing earned equipment12/0, equipment-save10/0, photo pricing64/0, FIX2 menu24/0. Import/exits clean; core running. Simulation tree equals integration70b1f18. Reward is optional and never auto-equips. Published recovery lives in037 Completion; one final designated reviewer checks the whole feature.
+
+Composition checkpoint: actual019 photo integrationdb6b162 and approved proposed036 head57806a3 are included by normal merge while PR93 checks run. Kept both archive writers/validators and cue188/189 plus reward190/191 test rows. Reward module/Fittings/tests equal approvedcc808d3; cue module/tests and complete Simulation equal approved57806a3. Clean actual Canvas40/0 and50/0 with explicit dummy audio driver; first invocation passed assertions but workspace ALSA startup failed, so rerun clean. Core/save checks running. Still reconcile actual036 merge and obtain final review/exact CI before037 merge.

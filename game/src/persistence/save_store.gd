@@ -12,6 +12,7 @@ func valid(data: Dictionary) -> bool:
 	if not data.get("completed") is Array or not data.get("settings") is Dictionary or not data.get("upgrade") is String: return false
 	if data.has("hints_seen") and not preload("res://src/campaign/onboarding_text.gd").valid_seen(data.hints_seen):return false
 	if not preload("res://src/campaign/early_reward/early_reward.gd").valid(data):return false
+	if not preload("res://src/presentation/first_siren_cue/cue_archive.gd").valid(data):return false
 	if data.has("challenges") and not preload("res://src/campaign/challenges/challenge_records.gd").valid(data.challenges):return false
 	if data.has("intel") and not preload("res://src/campaign/photo_intel.gd").valid(data.intel):return false
 	if data.has("expedition") and not preload("res://src/campaign/expedition_campaign.gd").valid(data.expedition):return false
