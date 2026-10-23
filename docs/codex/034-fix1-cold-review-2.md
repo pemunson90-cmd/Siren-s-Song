@@ -33,4 +33,10 @@ Each item fixed or reported as not reproducing, real-touch tests at both Fold7 s
 PR into claude/integration; merge per the line above; mark DONE and update the board.
 
 ## Completion
-Claimed after016 DONE and022 DONE. Branch: `claude/fix1-cold-review-2` (creating from fresh integration). Last pushed SHA: none yet. Read the full partial cold review. Reproduce each item first; keep photo design, combat, sensing and damage rules unchanged. Use injected touch at both Fold shapes, software renderer where useful, and fresh user-data directories for startup checks.
+Work in progress. Branch: `claude/fix1-cold-review-2`. Last pushed SHA: `9486974ed006e73dfbba0ebfd5f36b83a9cc26d7`. Draft PR77: https://github.com/pemunson90-cmd/Siren-s-Song/pull/77.
+
+Item1 reproduced in all operations0–5: first eastward route hits DroneB and leaves86.5012016296387 hull. A new opening_fleet/launch_layout.gd data module moves DroneB off the lane for these six openings only; older saves keep their positions and later operations retain existing offsets. The hit message now names own friendly hulls; other hulls remain anonymous. No collision formula, threshold, cooldown or velocity response changed. Red32/7, green33/0 including a deliberately forced hit pinned to the identical pre-fix damage. All six new opening routes retain100 hull and all three live craft.
+
+Items2–9: reproductions and UI fixes in progress. Important discovered cause: the warning hint excludes opening index0, while the cold review starts there. Preserve existing tutorial coverage while covering the opening, any craft and first heard-investigation cue. Touch primary, Android Back equivalent, keyboard fallback.
+
+Import passed before the opening probe. Core run was interrupted by a provider/environment reconnect; not claiming a complete new core result yet. No full scenario list locally. Job budget60m accommodates additional coverage after the 189-suite baseline used nearly35m; per-suite480s and strict assertions unchanged. No APK/main/production changes.
