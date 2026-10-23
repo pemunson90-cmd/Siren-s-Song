@@ -16,6 +16,9 @@ static func entries(contacts: Dictionary,elapsed: float,units: Array,clear_view:
 		if fresh and c.lock>0 and not victim.is_empty() and victim.alive and (not clear_view.is_valid() or clear_view.call(c.pos,victim.pos)):
 			urgent=true
 			text="%s %s → %s · %s"%[tag,role,victim.name,"FIRING" if c.lock>=4 else "BEAM %.1fs"%(4-c.lock)]
+		var stun=preload("res://src/simulation/observed_stun.gd").remaining(c,elapsed)
+		if fresh and stun>0:
+			urgent=false;text="%s %s · STUNNED %.1fs"%[tag,role,stun]
 		if fresh and c.get("report_remaining",0)>0:text+=" · REPORT %.1fs"%c.report_remaining
 		elif fresh and c.get("report_sent",false):text+=" · REPORT SENT"
 		result.append({"key":id,"tag":tag,"text":text,"pos":c.pos,"fresh":fresh,"urgent":urgent,"order":result.size()})

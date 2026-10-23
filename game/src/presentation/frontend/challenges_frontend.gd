@@ -13,6 +13,7 @@ static func history(front)->Dictionary:
 static func show(front)->void:
 	Archive.restore(front.host)
 	front._reset("challenges")
+	front._button("BACK",front._title_screen,"frontend_back")
 	front._text("CHALLENGES",32,Color("80d9cf"))
 	front._text("Replay recovered operations with a fixed fleet and one rule. Campaign progress stays as it was.",16)
 	var saved=history(front);var recovered=completed(front)
@@ -26,11 +27,11 @@ static func show(front)->void:
 		var detail=Records.summary(best) if available else "LOCKED · recover operation %02d"%[int(row.op)+1]
 		var b=front._button(row.title+"\n"+detail,func():details(front,id),"challenge_"+id,not available)
 		b.set_meta("challenge_id",id)
-	front._button("BACK",front._title_screen,"frontend_back")
 static func details(front,id:String)->void:
 	var row=Catalog.get_challenge(id)
 	if row.is_empty() or not Catalog.unlocked(row,completed(front)):return
 	front._reset("challenge_details")
+	front._button("BACK",func():show(front),"challenge_back")
 	front._text(row.title,30,Color("80d9cf"))
 	front._text(Catalog.description(row),20)
 	var stock=front.host._loadout_stock(row.loadout)
@@ -39,7 +40,6 @@ static func details(front,id:String)->void:
 	front._text("Best: "+Records.summary(history(front).get(id,{}).get("best",{})),16)
 	front._text("A new attempt starts fresh. Ending it records a loss; successful bests remain.",15)
 	front._button("START CHALLENGE · START PAUSED",func():start(front,id),"challenge_start")
-	front._button("BACK",func():show(front),"challenge_back")
 static func start(front,id:String)->void:
 	var row=Catalog.get_challenge(id)
 	if row.is_empty() or not Catalog.unlocked(row,completed(front)):return

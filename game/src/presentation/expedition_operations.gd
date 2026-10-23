@@ -62,6 +62,7 @@ static func debrief(main)->bool:
   preload("res://src/presentation/witness_evacuation_view.gd").arrival(main)
   preload("res://src/presentation/warning_recipient_view.gd").arrival(main)
   main._menu_text(main.sim.message,20)
+  main._menu_text(preload("res://src/presentation/loss_summary.gd").line(main.sim),17)
   main._menu_text("Field observations remain in the archive. This dive grants no new recovered fitting, continuation or committed history.",17)
   preload("res://src/presentation/module_recovery_view.gd").debrief(main)
  if not main.recovered_evidence.is_empty():main._button(main.panel_box,"REVIEW FIELD RECORDS",func():main._evidence_gallery(0),"evidence")

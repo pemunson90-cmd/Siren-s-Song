@@ -86,5 +86,5 @@ static func valid(m:Dictionary,time:float)->bool:
  if not m.corridors is Array or m.corridors.is_empty() or m.corridors.size()>2:return false
  for corridor in m.corridors:
   if not corridor is Dictionary or not corridor.has_all(["pos","name","route"]) or not corridor.pos is Vector2 or not SURVEY.contains(corridor.pos,dimensions) or not corridor.name is String or corridor.route not in ["deep","shelf"]:return false
- if m.recovered and (m.chosen_route.is_empty() or (m.id==6 and not m.expedition_facts.has(m.chosen_route)) or (m.id!=6 and (m.objectives.is_empty() or not m.objectives.all(func(o):return o.captured)))):return false
+ if m.recovered and (m.chosen_route.is_empty() or (m.id==6 and not m.expedition_facts.has(m.chosen_route)) or (m.id!=6 and (m.objectives.is_empty() or not m.objectives.all(func(o):return o.captured or o.get("optional",false))))):return false
  return true

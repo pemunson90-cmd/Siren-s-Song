@@ -293,7 +293,7 @@ func salvage_context(item:String,unit_id:int=-1)->Dictionary:
 func _blackwater_recovery_busy(unit_id:int)->bool:return Delivery.busy(self,unit_id)
 func _collect_shared_wreck(unit_id:int,pos:Vector2)->bool:
 	if not Delivery.applies(mission) and not (Witness.available(self) and mission.witness_evacuation.pos.distance_to(pos)<=1):return false
-	ModuleRecovery.collect_at(self,unit_id,pos);Delivery.collect_at(self,unit_id,pos);Witness.collect_at(self,unit_id,pos);return true
+	Witness.collect_at(self,unit_id,pos);ModuleRecovery.collect_at(self,unit_id,pos);Delivery.collect_at(self,unit_id,pos);return true
 func _witness_recovery_busy(unit_id:int)->bool:return Witness.busy(self,unit_id)
 func concealed_status()->Dictionary:return Concealed.status(self)
 func witness_status()->Dictionary:return Witness.status(self)
@@ -606,10 +606,11 @@ func command(order: String,args: Dictionary={}) -> bool:
 			return Photo.set_frame(self,selected,args)
 		"all_stop":return AllStop.command(self)
 		"camera":
-			if not module_recovery_status().jobs[selected].is_empty() or Delivery.busy(self,selected) or Witness.busy(self,selected) or Glass.busy(self,selected) or Choir.busy(self,selected):message="Finish this craft's wreck recovery first";return false
+			if not module_recovery_status().jobs[selected].is_empty() or Delivery.busy(self,selected) or Witness.busy(self,selected) or Glass.busy(self,selected) or Choir.busy(self,selected) or _warning_chain_busy(selected):message="Finish this craft's wreck recovery first";return false
 			var context=camera_context()
 			if not context.ready: message=context.text; return false
 			var photo_target:int=context.target if context.target>=0 else Photo.siren_objective(self,context.siren)
+			if photo_target<0:message="No available photographic subject";return false
 			var target=Photo.obj(self,photo_target)
 			captures[selected]={"target":photo_target,"elapsed":0.0}; u.hold="HOLD"
 			Operations.begin(self,target,selected)
@@ -623,6 +624,7 @@ func command(order: String,args: Dictionary={}) -> bool:
 		_: return false
 	return _finish_command(u,order)
 func _finish_command(u:Dictionary,order:String)->bool:
+	if order=="emp":preload("res://src/simulation/observed_stun.gd").record(self)
 	JobRelease.cancel(self,selected,order)
 	AllStop.after_order(self,u,order)
 	return true
@@ -710,7 +712,7 @@ func _blackwater_context_text(target:int,station:int) -> String:
 	var learned=mission.objectives.any(func(o):return o.captured)
 	return "%s · %dm / quiet %.0fm%s"%[name,c.distance,c.quiet_range," · learned: SONAR + SAMPLE within 240m" if learned else " · move closer to listen"]
 func camera_context() -> Dictionary:
-	return Pricing.annotate(self,PhotoRules.camera_hint(self,BandPhoto.gate(self,_camera_context_base())))
+	return Pricing.annotate(self,PhotoRules.camera_hint(self,BandPhoto.gate(self,preload("res://src/simulation/photo_context.gd").resolve(self,_camera_context_base()))))
 func _camera_context_base() -> Dictionary:
 	var closed:String=BandPhoto.unready(self,units[selected])
 	if not closed.is_empty():return {"ready":false,"target":-1,"text":closed}
@@ -1122,6 +1124,7 @@ func _observe() -> void:
 			if sirens[i].get("report",{}).get("charge",0)>0:contacts[i]["report_remaining"]=ContactReports.CHARGE-sirens[i].report.charge
 			if sirens[i].get("report",{}).get("sent",0)>0:contacts[i]["report_sent"]=true
 			if sirens[i].get("pin_time",0)>0: contacts[i]["pin_time"]=sirens[i].pin_time
+	preload("res://src/simulation/observed_stun.gd").record(self)
 	for i in sonar.fixes:
 		var fix=sonar.fixes[i]
 		if not contacts.has(i) or contacts[i].time<fix.time:
@@ -1437,7 +1440,7 @@ static func valid_snapshot(data: Dictionary) -> bool:
 		if not (work.elapsed is float or work.elapsed is int) or not is_finite(float(work.elapsed)) or work.elapsed<0:return false
 		var site=Photo.target_in(data.mission,work.target)
 		var duration=Sampler.capture_spec(id,data.mission.get("launch_equipment",{}),site).get("duration",site.get("duration",4.0))
-		if work.elapsed>duration or (site.captured and not Operations.own_origin(site) and not (Delivery.applies(data.mission))):return false
+		if work.elapsed>duration or (site.captured and not Photo.applies(site) and not Operations.own_origin(site) and not (Delivery.applies(data.mission))):return false
 		exposed.append(work.target)
 	if not SaveChecks.valid(data,"world"):return false
 	if data.mission.get("earned_terrain",false):

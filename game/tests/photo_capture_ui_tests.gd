@@ -17,6 +17,7 @@ func run():
 	game._start_mission(0);var s=game.sim;s.sirens=[]
 	var spire=Vector2(1300,300);var facing=2.74
 	s.units[0].pos=spire+Vector2.from_angle(facing)*110;s.units[0].angle=facing+PI
+	run_sim(s,0.2) # Let the actual forward-camera discovery pulse acquire the subject.
 	game.ocean.sim=s;game._refresh();game.ocean._process(0.0)
 	check(game.ocean.optical_feed.visible,"viewfinder opens when a subject is in reach, before any exposure")
 	check(game.order_buttons.camera.text=="PHOTO","camera control is labelled PHOTO for an optical subject")
