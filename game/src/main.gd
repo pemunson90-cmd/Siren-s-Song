@@ -143,6 +143,7 @@ func _ready() -> void:
 	menu_footer=HBoxContainer.new(); menu_footer.add_theme_constant_override("separation",12); stack.add_child(menu_footer); menu_footer.hide()
 	route_editor=preload("res://src/presentation/route_program_panel.gd").new(); add_child(route_editor)
 	sound=Soundscape.new(); add_child(sound)
+	preload("res://src/presentation/first_siren_cue/first_siren_cue.gd").install(self)
 	resized.connect(_layout)
 	for arg in OS.get_cmdline_user_args():
 		if arg.begins_with("--scenario="): capture_scenario=arg.get_slice("=",1)
@@ -725,6 +726,7 @@ func _archive() -> Dictionary:
 	if not expedition.is_empty():data["expedition"]=expedition.duplicate(true)
 	if not fleet.is_empty():data["fleet"]=fleet.duplicate(true)
 	if not hints_seen.is_empty():data["hints_seen"]=hints_seen.duplicate()
+	preload("res://src/presentation/first_siren_cue/cue_archive.gd").write(self,data)
 	data["equipment"]=preload("res://src/equipment/equipment_catalog.gd").canonical(fitted_equipment)
 	return data
 func _save_archive() -> void:
@@ -771,6 +773,7 @@ func _load_archive() -> void:
 		photo_records=saved.get("photo_records",{}).duplicate(true)
 		hints_seen=saved.get("hints_seen",[]).duplicate()
 		if saved.get("active") is Dictionary and sim.restore(saved.active):
+			preload("res://src/presentation/first_siren_cue/cue_archive.gd").restore(self,saved)
 			active_started=true; mission_index=sim.mission.id; ocean.sim=sim
 			ocean._sync_camera()
 			var chart_view=saved.get("chart_view",{})

@@ -208,3 +208,5 @@ fix2_feedback_ui_tests|FIX2 FEEDBACK UI|184|205|render
 fix2_state_tests|FIX2 STATE|185|206
 fix2_study_ui_tests|FIX2 STUDY UI|186|207|render
 photo_audio_tests|PHOTO AUDIO|187|208
+first_siren_cue_tests|FIRST SIREN CUE|188|209
+first_siren_cue_ui_tests|FIRST SIREN CUE UI|189|210|render

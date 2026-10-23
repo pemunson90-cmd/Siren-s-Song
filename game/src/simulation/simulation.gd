@@ -1,5 +1,8 @@
 extends RefCounted
+# Read-only D1 presentation seam. Existing acquisition decides when to publish.
+signal siren_notice(id:int, source_position:Vector2)
 const Orders=preload("res://src/simulation/orders/order_table.gd")
+const NoticeSources=preload("res://src/presentation/first_siren_cue/cue_table.gd")
 const JobRelease=preload("res://src/simulation/job_release.gd")
 const SaveChecks=preload("res://src/persistence/save_checks.gd")
 const EnemyTypes=preload("res://src/simulation/enemy_types.gd")
@@ -1096,6 +1099,7 @@ func _threats(dt: float) -> bool:
 			continue
 		var detected := -1
 		var heard := false
+		var craft_heard := false # Presentation provenance only; never changes hearing.
 		s["attention_time"]=maxf(0.0,float(s.get("attention_time",0.0))-dt)
 		for i in units.size():
 			var u=units[i]
@@ -1104,12 +1108,13 @@ func _threats(dt: float) -> bool:
 			var radius=(180.0 if u.silent else 290.0)*Recon.readiness(s)
 			if dist<radius and Depth.sight(self,s,u): detected=i; break
 			if mission.get("acoustic_revision",0)!=1 and propulsion_speed(u)>50 and dist<430*Recon.readiness(s)*Sweeper.ear(s)*Depth.transmission(s,u) and Depth.clear(self,s.pos,u.pos,s.band):
-				s.goal=u.pos; heard=true; s.mode="INVESTIGATE"; s.suspicion=maxf(s.suspicion,0.3)
+				s.goal=u.pos; heard=true; craft_heard=true; s.mode="INVESTIGATE"; s.suspicion=maxf(s.suspicion,0.3)
 		var recipient=Choir.body(self) if not Choir.body(self).is_empty() else Recipient.body(self);var recipient_seen=false
 		if detected<0 and not recipient.is_empty() and recipient.alive and s.pos.distance_to(recipient.pos)<180.*Recon.readiness(s) and Depth.sight(self,s,recipient):recipient_seen=true
 		if mission.get("acoustic_revision",0)==1:
 			var arrival=_heard_arrival(s)
 			if not arrival.is_empty():
+				craft_heard=arrival.get("player_craft",false)
 				s.goal=arrival.goal;
 				if arrival.has("band"):s["known_band"]=arrival.band
 				heard=true;s.mode="INVESTIGATE";s.suspicion=maxf(s.suspicion,arrival.suspicion);Recon.heard(s,arrival)
@@ -1117,9 +1122,11 @@ func _threats(dt: float) -> bool:
 			for noise in noises:
 				var acoustic=1.0 if line_clear(s.pos,noise.pos) else 0.36
 				if s.pos.distance_to(noise.pos)<noise.radius*acoustic*Sweeper.ear(s)*Depth.transmission(s,noise):
+					craft_heard=noise.label in NoticeSources.CRAFT_EMISSIONS
 					s.goal=noise.pos; heard=true; s.mode="INVESTIGATE"; s.suspicion=maxf(s.suspicion,0.45)
 		if heard:
 			s["last_known"]=s.goal; s["attention_time"]=Sweeper.attention(s); s["search_index"]=0; Sweeper.note_heard(s,s.goal,elapsed)
+		if craft_heard or detected>=0:siren_notice.emit(sirens.find(s),s.pos)
 		observations.append(detected);fresh.append(heard or detected>=0 or recipient_seen)
 		if detected>=0 or recipient_seen:
 			var victim=recipient if recipient_seen else units[detected]
@@ -1182,12 +1189,12 @@ func _heard_arrival(s:Dictionary)->Dictionary:
 		if not u.alive:continue
 		var arrival=Acoustics.choose(band_acoustics[s.band].arrivals(s.pos,u.pos,motion_radius(units.find(u))*Recon.readiness(s)*Sweeper.ear(s)*Depth.transmission(s,u)),int(s.patrol))
 		if not arrival.is_empty() and (best.is_empty() or arrival.strength>best.strength):
-			best=arrival;best["suspicion"]=0.3
+			best=arrival;best["suspicion"]=0.3;best["player_craft"]=true
 	for noise in noises:
 		if noise.label in ["BUOY REPORT WINDUP","RELAY FORWARD","INTERCEPTOR WINDUP","WARDEN CHARGE","WARDEN PRESSURE"]:continue
 		var arrival=Acoustics.choose(band_acoustics[s.band].arrivals(s.pos,noise.pos,noise.radius*Recon.readiness(s)*Sweeper.ear(s)*Depth.transmission(s,noise)),int(s.patrol))
 		if not arrival.is_empty() and (best.is_empty() or arrival.strength>best.strength):
-			best=arrival;best["suspicion"]=0.45;best["pulse"]=true
+			best=arrival;best["suspicion"]=0.45;best["pulse"]=true;best["player_craft"]=noise.label in NoticeSources.CRAFT_EMISSIONS
 			if noise.has("record"):best["record"]=noise.record
 			if noise.label in ["ACTIVE SONAR","ACTIVE SWEEP"] and arrival.direct:best["band"]=noise.get("band",1)
 	return best
