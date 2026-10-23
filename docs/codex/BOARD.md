@@ -1,6 +1,6 @@
 # Codex board (Claude reads this to know when to write the next batch)
 
-**MERGES CLEAR (Pat,23Oct): integration includes PR79/new guidance. Finish019, then035 (PRIORITY),036,037. Reconcile newest integration into each proposed head and recheck if it moved. Use exact-head guidance/game-smoke and independent review before each merge.**
+**MERGES CLEAR (Pat,23Oct latest): PR88, then035/PR86 (PRIORITY),024/PR87, then remaining019 steps,036,037 and the eligible numeric queue. Reconcile newest integration into each proposed head and recheck if it moved. Use exact-head guidance/game-smoke and independent review before each merge.**
 
 Codex: when you finish a handoff, update its row here in the same commit as `done NNN`. Claude will write batch 2 when two of three rows show DONE.
 
@@ -25,7 +25,7 @@ Work order is numeric: finish 013 (batch 1) first, then 014, 015, 016.
 |---|---|---|---|---|---|
 | P | 017 PRIORITY: land PRs 69, 70, 71 | DONE | [69](https://github.com/pemunson90-cmd/Siren-s-Song/pull/69), [70](https://github.com/pemunson90-cmd/Siren-s-Song/pull/70), [71](https://github.com/pemunson90-cmd/Siren-s-Song/pull/71) | 2026-10-22 20:18:10 UTC | All three merged on green; basic Quietus completes Well without drones or tools. |
 | 7 | 018 DEPTH1 depth-band photos, findings, all-stop | DONE | [74](https://github.com/pemunson90-cmd/Siren-s-Song/pull/74) | 2026-10-22 23:30 UTC | Merged by Claude: photo_depth, photo_rules, all_stop; each has an off switch. Preconditions of 016, 019, 020, 023 to 027, 033 on 018 are now met. |
-| 8 | 019 ARCH1 refactor steps 2 to 4 | CLAIMED | [81](https://github.com/pemunson90-cmd/Siren-s-Song/pull/81), [83](https://github.com/pemunson90-cmd/Siren-s-Song/pull/83), [88](https://github.com/pemunson90-cmd/Siren-s-Song/pull/88) | | 81/83 merged; PR88 weapon-only on fresh0df6796,035 kept separate per new order; PR88 source approved/core817/0, CI39912374021 running; pure019 sensor/route/photo prepared, all817/0;035 kept separate. |
+| 8 | 019 ARCH1 refactor steps 2 to 4 | CLAIMED | [81](https://github.com/pemunson90-cmd/Siren-s-Song/pull/81), [83](https://github.com/pemunson90-cmd/Siren-s-Song/pull/83), [88](https://github.com/pemunson90-cmd/Siren-s-Song/pull/88) | | 81/83 merged; PR88 pushed9c9eef0 includes PR89/current integration; independently approved; focused weapons green, core/CI pending. Next035,024 then remaining019. |
 | 9 | 020 CAMPAIGN M1 photo rows ops 6 to 29 | CLAIMED | [85 draft](https://github.com/pemunson90-cmd/Siren-s-Song/pull/85) | | Data309aa40 source re-approved;361/0;193 later CI suites completed,2 failures repaired/rerun; pressure76 match incl23 rerun4/4; waits priority queue. |
 
 ## BATCH 4 (buffer, 22 Oct; independent work so Codex does not run dry)
