@@ -27,3 +27,5 @@ PR into claude/integration; merge per the line above; mark DONE and update the b
 
 ## Completion
 Claimed as the lowest OPEN eligible independent task while035 exact-head CI runs (021 waits020;023 waits019). Keep035 merge priority, then019/020 integration order. Audio work stays in its owning module plus one soundscape seam; no warning/music/combat edits.
+
+Pat now holds all integration merges until explicit clearance while Claude lands77/79/82/84. Continue this claimed audio implementation and push WIP every30minutes; leave any green ready PR open and mark that state on BOARD.
