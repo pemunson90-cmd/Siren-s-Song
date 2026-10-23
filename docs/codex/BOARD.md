@@ -31,7 +31,7 @@ Work order is numeric: finish 013 (batch 1) first, then 014, 015, 016.
 ## BATCH 4 (buffer, 22 Oct; independent work so Codex does not run dry)
 | Order | Handoff | Status | PR | Finished (UTC) | One-line result |
 |---|---|---|---|---|---|
-| 10 | 021 route map screen (M2) | CLAIMED | | | Claimed after020 DONE; branch claude/lane-route-map, base ddc3361. Derived map only, no new save fields or operation-table edits. |
+| 10 | 021 route map screen (M2) | CLAIMED | | | Published0379e30 on claude/lane-route-map, base actualddc3361; core818/0,functional49/0,Canvas62/0. Derived map, no new save fields/table edits; polish/review/exactCI pending. |
 | 11 | 022 route clearance (NAV1) | DONE | [75](https://github.com/pemunson90-cmd/Siren-s-Song/pull/75) | 2026-10-23 00:05:58 UTC | Merged07eb890; exact-head guidance/game-smoke green, clearance and touch/Back verified. |
 | 12 | 023 ARCH2 main.gd and HUD contract | OPEN | | | |
 | 13 | 024 photography and all-stop audio | DONE | [87](https://github.com/pemunson90-cmd/Siren-s-Song/pull/87) | 2026-10-23 17:59:25 UTC | Mergeda63aeeb after exact9b2f665 guidance/game-smoke39993951569 green and final independent approval; core818/0,audio47/0; subjective sound unjudged. |
