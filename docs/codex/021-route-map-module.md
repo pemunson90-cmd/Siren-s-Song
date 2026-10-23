@@ -1,8 +1,8 @@
 # Handoff 021: CAMPAIGN M2, the route map screen
 
-Status: OPEN
-Claimed at:
-Claimed by:
+Status: CLAIMED
+Claimed at: 2026-10-23 23:03:00 UTC
+Claimed by: codex
 Finished at:
 
 Precondition: handoff 020 must be DONE.
@@ -26,4 +26,4 @@ Route map opens from the campaign screen, shows correct states on a fresh save a
 PR into claude/integration; merge per the line above; mark DONE and update the board.
 
 ## Completion
-(Codex fills this in: what changed, PR link, test results, unverified items, files outside ownership needed, recommended next.)
+Claimed after020/PR85 merged ddc336132181191ed5db387899af8be4fc35b317 and was marked DONE with BOARD. Base is that actual integration. Next create/resume claude/lane-route-map from fetched integration, inspect existing campaign availability/photo-intel/menu seams, then implement only the approved derived route-map module and focused touch/Back checks. No code pushed yet; branch/base/source checkpoint will be recorded after first coherent WIP.
