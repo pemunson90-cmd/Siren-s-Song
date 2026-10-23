@@ -62,7 +62,7 @@ Take 017 first (PRIORITY) if any of PRs 69, 70, 71 is open; otherwise numeric or
 
 ## BATCH 6 (23 Oct, Pat's decisions D1 and D2)
 | 36 | 036 first-Siren cue, ops 1 to 3 | CLAIMED | [93](https://github.com/pemunson90-cmd/Siren-s-Song/pull/93) | | Final57806a3 contains actualdb6b162; core818/0, functional37/0, rendered50/0 and affected checks pass. Independent final review approved. PR ready; exact CI40016621553 guidance green/game-smoke running. |
-| 37 | 037 early module reward | CLAIMED | [94 draft](https://github.com/pemunson90-cmd/Siren-s-Song/pull/94) | | Publishedcc808d3/local0c6e2f7 same tree; core818/0, functional36/0, rendered40/0 and affected checks pass. Independent preparation review approved; merge92/93 first. ShellGit auth unavailable, connected GitHub publication verified. |
+| 37 | 037 early module reward | CLAIMED | [94 draft](https://github.com/pemunson90-cmd/Siren-s-Song/pull/94) | | Publisheda475cb6 includes actual92 and proposed03657806a3; core818/0,both functional/Canvas and save checks pass. Composition review pending; actual93 merge then final reconciliation/review/CI required. |
 
 ## Claude-held
 009 sweeper on V7 senses: Claude's PR 70, finished under handoff 017.
