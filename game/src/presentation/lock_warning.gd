@@ -6,6 +6,7 @@ static func frames(sim)->Array:
  for id in sim.contacts:
   var c=sim.contacts[id];var age=sim.elapsed-float(c.time)
   if age<0 or age>=.3 or c.get("target",-1)!=0 or c.get("recipient_target",false):continue
+  if preload("res://src/simulation/observed_stun.gd").remaining(c,sim.elapsed)>0:continue
   if c.get("mode","")!="LOCKING" or c.get("lock",0)<=0 or c.lock>=4:continue
   if not preload("res://src/simulation/depth_bands.gd").sight(sim,c,sim.units[0]):continue
   result.append({"id":id,"pos":c.pos,"progress":c.lock/4.,"remaining":4.-c.lock})
