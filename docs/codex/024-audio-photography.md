@@ -1,9 +1,9 @@
 # Handoff 024: AUDIO1, sound for the camera and all-stop
 
-Status: CLAIMED
+Status: DONE
 Claimed at: 2026-10-23 05:28 UTC
 Claimed by: codex
-Finished at:
+Finished at: 2026-10-23 17:59:25 UTC
 
 Precondition: handoff 018 must be DONE.
 Codex may merge: yes, into claude/integration only, after GitHub guidance and game-smoke are both green on the exact head and the PR is mergeable. Merge with a merge commit, then mark DONE and update docs/codex/BOARD.md.
@@ -26,6 +26,8 @@ Cues play at the right moments in a headless event test; mute works; table docum
 PR into claude/integration; merge per the line above; mark DONE and update the board.
 
 ## Completion
+
+DONE: https://github.com/pemunson90-cmd/Siren-s-Song/pull/87 merged with merge commita63aeeb55f6fb5a4f46e769afc1e117cbe84335e. Last pushed branch claude/lane-audio-photo head9b2f665e901dcb8e8da8aeeaaa29e3a427116bc5 passed exact-head guidance/game-smoke39993951569 and final independent review /root/review_integration againstd9a0bf7, no outstanding findings. Fresh integration ancestry and mergeability verified; post-merge source confirmed. Own audio module/table/cache and one Soundscape seam add8cues, preserve mute/suspend/pause/reset correctness; no game rules/music/Siren audio/save changes. Identical source import/core818/0,audio47/0,retry8/0,lockwarning27/0; current hosted full gate green. Physical Android/subjective sound unverified. No APK/main/production/unowned-file changes. Next remaining019 then036,037 and eligible numeric queue. Earlier checkpoints below retain implementation/review evidence.
 
 CLAIMED, source complete; PR87 remains open behind the current priority queue. Branch claude/lane-audio-photo, exact head87a5f99bed616fa3fd80c18ebaea167a4a890eaa, base integration0df679650bfdc0de98503f162f181b613dcb7574 including PR77/79. Current exact-head CI39911965967 is running. Pat cleared merges; finish019,035,036,037 first.
 

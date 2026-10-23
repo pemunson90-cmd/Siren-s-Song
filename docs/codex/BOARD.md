@@ -1,6 +1,6 @@
 # Codex board (Claude reads this to know when to write the next batch)
 
-**MERGES CLEAR (Pat,23Oct latest): PR88 merged009f2b8; 035/PR86 merged d9a0bf7; next024/PR87, then remaining019 steps,036,037 and the eligible numeric queue. Reconcile newest integration into each proposed head and recheck if it moved. Use exact-head guidance/game-smoke and independent review before each merge.**
+**MERGES CLEAR (Pat,23Oct latest): PR88 merged009f2b8; 035/PR86 merged d9a0bf7; 024/PR87 merged a63aeeb; next remaining019 steps,036,037 and the eligible numeric queue. Reconcile newest integration into each proposed head and recheck if it moved. Use exact-head guidance/game-smoke and independent review before each merge.**
 
 Codex: when you finish a handoff, update its row here in the same commit as `done NNN`. Claude will write batch 2 when two of three rows show DONE.
 
@@ -25,7 +25,7 @@ Work order is numeric: finish 013 (batch 1) first, then 014, 015, 016.
 |---|---|---|---|---|---|
 | P | 017 PRIORITY: land PRs 69, 70, 71 | DONE | [69](https://github.com/pemunson90-cmd/Siren-s-Song/pull/69), [70](https://github.com/pemunson90-cmd/Siren-s-Song/pull/70), [71](https://github.com/pemunson90-cmd/Siren-s-Song/pull/71) | 2026-10-22 20:18:10 UTC | All three merged on green; basic Quietus completes Well without drones or tools. |
 | 7 | 018 DEPTH1 depth-band photos, findings, all-stop | DONE | [74](https://github.com/pemunson90-cmd/Siren-s-Song/pull/74) | 2026-10-22 23:30 UTC | Merged by Claude: photo_depth, photo_rules, all_stop; each has an off switch. Preconditions of 016, 019, 020, 023 to 027, 033 on 018 are now met. |
-| 8 | 019 ARCH1 refactor steps 2 to 4 | CLAIMED | [81](https://github.com/pemunson90-cmd/Siren-s-Song/pull/81), [83](https://github.com/pemunson90-cmd/Siren-s-Song/pull/83), [88](https://github.com/pemunson90-cmd/Siren-s-Song/pull/88) | | 81/83/88 merged; weapons009f2b8 after exact9c9eef0 green CI39984364375 and independent review. 035 is DONE; next024, then prepared reviewed sensor/route/photo steps (all818/0). |
+| 8 | 019 ARCH1 refactor steps 2 to 4 | CLAIMED | [81](https://github.com/pemunson90-cmd/Siren-s-Song/pull/81), [83](https://github.com/pemunson90-cmd/Siren-s-Song/pull/83), [88](https://github.com/pemunson90-cmd/Siren-s-Song/pull/88) | | 81/83/88 merged; weapons009f2b8 after exact9c9eef0 green CI39984364375 and independent review. 035/024 are DONE; next prepared reviewed sensor/route/photo steps (all818/0). |
 | 9 | 020 CAMPAIGN M1 photo rows ops 6 to 29 | CLAIMED | [85 draft](https://github.com/pemunson90-cmd/Siren-s-Song/pull/85) | | Prepared5e6ada5 includes019/FIX2/audio/D3; data byte-identical to prior approval;361/0,Iron57/0,core818/0,journeys108/0; fresh76pressure pairs identical; prepared CI39986176528 green. Still draft behind019,036,037. |
 
 ## BATCH 4 (buffer, 22 Oct; independent work so Codex does not run dry)
@@ -34,7 +34,7 @@ Work order is numeric: finish 013 (batch 1) first, then 014, 015, 016.
 | 10 | 021 route map screen (M2) | OPEN | | | |
 | 11 | 022 route clearance (NAV1) | DONE | [75](https://github.com/pemunson90-cmd/Siren-s-Song/pull/75) | 2026-10-23 00:05:58 UTC | Merged07eb890; exact-head guidance/game-smoke green, clearance and touch/Back verified. |
 | 12 | 023 ARCH2 main.gd and HUD contract | OPEN | | | |
-| 13 | 024 photography and all-stop audio | CLAIMED | [87](https://github.com/pemunson90-cmd/Siren-s-Song/pull/87) | | Final9b2f665 contains actuald9a0bf7/035; game tree equals tested/CI-green1b26249,core818/0,audio47/0; final independent review approved; CI39993951569 guidance/core green, full scenarios pending. Next merge, then remaining019. |
+| 13 | 024 photography and all-stop audio | DONE | [87](https://github.com/pemunson90-cmd/Siren-s-Song/pull/87) | 2026-10-23 17:59:25 UTC | Mergeda63aeeb after exact9b2f665 guidance/game-smoke39993951569 green and final independent approval; core818/0,audio47/0; subjective sound unjudged. |
 | 14 | 025 landmarks for thin ops (M3a) | OPEN | | | |
 | 15 | 026 self-play review of the opening (read-only) | OPEN | | | |
 
