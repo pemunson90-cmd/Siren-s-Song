@@ -63,8 +63,7 @@ static func command(sim,band)->bool:
   if sim.oxygen<.75:sim.message="Insufficient pressure-sleeve reserve";return false
   sim.oxygen-=.75;sim._noise(u.pos,250.,"PRESSURE SLEEVE",duration,u.band)
  u.transition={"to":band,"remaining":duration};u.vel=Vector2.ZERO;u.hold=""
- sim.ModuleRecovery.cancel_released(sim,sim.selected);sim.Delivery.cancel_released(sim,sim.selected);sim.Witness.cancel_released(sim,sim.selected);sim.Glass.cancel_released(sim,sim.selected);sim.Choir.cancel_released(sim,sim.selected)
- sim.Chain.cancel_released(sim,"depth")
+ sim.JobRelease.cancel(sim,sim.selected,"depth")
  if not working:u.hold=held
  sim.captures[sim.selected]={};sim.message="%s · %s → %s · %.1fs exposed transition"%[u.name,NAMES[u.band],NAMES[band],duration]
  return true

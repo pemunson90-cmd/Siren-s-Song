@@ -67,8 +67,9 @@ static func begin(sim,item:String)->bool:
  sim._noise(sim.units[sim.selected].pos,NOISE,"RECOVERY WINCH",DURATION,sim.units[sim.selected].band)
  sim.events.append({"type":"salvage","pos":sim.units[sim.selected].pos,"item":item});sim.message="%s · recover %s · audible winch 4s"%[sim.units[sim.selected].name,_name(item)]
  return true
-static func cancel_released(sim,unit_id:int)->void:
- if sim.mission.has("module_recovery") and sim.units[unit_id].hold!="HOLD":sim.mission.module_recovery.jobs[unit_id]={}
+# JobRelease calls this only after the shared HOLD guard.
+static func release_if_unheld(sim,unit_id:int)->void:
+ if sim.mission.has("module_recovery"):sim.mission.module_recovery.jobs[unit_id]={}
 static func tick(sim,dt:float)->void:
  if not sim.mission.has("module_recovery"):return
  var state=sim.mission.module_recovery

@@ -162,8 +162,9 @@ static func collect_at(sim,unit:int,pos:Vector2)->void:
    if packet not in cargo:cargo.append(packet)
   state.wrecks.erase(item)
  cargo.sort();_cancel_redundant_samples(sim)
-static func cancel_released(sim,unit:int)->void:
- if applies(sim.mission) and sim.units[unit].hold!="HOLD":sim.mission.blackwater_delivery.jobs[unit]={}
+# JobRelease calls this only after the shared HOLD guard.
+static func release_if_unheld(sim,unit:int)->void:
+ if applies(sim.mission):sim.mission.blackwater_delivery.jobs[unit]={}
 static func tick(sim,dt:float)->void:
  if not applies(sim.mission):return
  losses(sim);var state=sim.mission.blackwater_delivery
