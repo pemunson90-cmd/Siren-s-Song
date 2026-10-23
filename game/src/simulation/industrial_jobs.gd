@@ -67,8 +67,9 @@ static func command(sim,args:Dictionary)->bool:
   sim._use_band(sim.units[id].band);sim._noise(c.pos,650.,"CHOIR BERTH RELEASE",6.,load.band);sim.message="Sled departs by "+action+" course · locally observe its actual dock arrival";return true
  state.jobs[id]={"action":action,"pos":c.pos,"band":sim.units[id].band,"elapsed":0.,"duration":c.duration};sim.units[id].hold="HOLD"
  sim._noise(c.pos,520.,"RECOVERY WINCH" if action=="recover" else "CHOIR MACHINERY",c.duration,sim.units[id].band);sim.message=c.reason;return true
-static func cancel_released(sim,id:int):
- if busy(sim,id) and sim.units[id].hold!="HOLD":sim.mission.iron_choir.jobs[id]={}
+# JobRelease calls this only after the shared HOLD guard.
+static func release_if_unheld(sim,id:int):
+ if busy(sim,id):sim.mission.iron_choir.jobs[id]={}
 static func open_site(sim,site:Dictionary):
  site.done=true
  if site.shape.has_area():sim.mission.structures.erase(site.shape);sim._build_navigation();sim.opened_terrain(site.shape)

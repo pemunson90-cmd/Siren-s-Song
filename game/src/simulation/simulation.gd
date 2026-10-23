@@ -1,4 +1,5 @@
 extends RefCounted
+const JobRelease=preload("res://src/simulation/job_release.gd")
 const SaveChecks=preload("res://src/persistence/save_checks.gd")
 const EnemyTypes=preload("res://src/simulation/enemy_types.gd")
 const LaunchLayout=preload("res://src/simulation/opening_fleet/launch_layout.gd")
@@ -636,10 +637,7 @@ func command(order: String,args: Dictionary={}) -> bool:
 				_noise(u.pos,Photo.noise_radius(self,selected) if Photo.applies(target) else 520,"CAMERA",2.0,u.band);noises.back()["record"]=photo_target
 			events.append({"type":"camera","pos":u.pos})
 		_: return false
-	ModuleRecovery.cancel_released(self,selected);Glass.cancel_released(self,selected);Choir.cancel_released(self,selected)
-	Delivery.cancel_released(self,selected)
-	Witness.cancel_released(self,selected)
-	Chain.cancel_released(self,order)
+	JobRelease.cancel(self,selected,order)
 	AllStop.after_order(self,u,order)
 	return true
 # Public read-only operator intent; legacy navigation corners are not editor rows.
