@@ -25,7 +25,7 @@ static func recovered(previous:Dictionary,mission:Dictionary)->Dictionary:
   if mission.id==7 and cadence_valid(mission.get("measured_reference",[])):
    if "quietus_correlator" not in p.entitlements:p.entitlements.append("quietus_correlator")
    p.references.return_cadence=mission.measured_reference.duplicate()
-  if mission.id==8 and mission.objectives.all(func(o):return o.captured):
+  if mission.id==8 and mission.objectives.all(func(o):return o.captured or o.get("optional",false)):
    if "drone_sampler" not in p.entitlements:p.entitlements.append("drone_sampler")
  if Catalog.supports(mission.id,"warning_plant") and not p.history.any(func(h):return h.mission==mission.id) and not mission.get("warning_chain",{}).get("result",{}).is_empty():
   p.facts["warning_chain"]="service_local_receipt" if mission.warning_chain.result.proof=="local_receipt" else "mast_transmission_external_unknown"
