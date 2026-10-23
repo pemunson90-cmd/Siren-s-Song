@@ -25,6 +25,7 @@ const Glass=preload("res://src/simulation/glass_reach_work.gd")
 const Network=preload("res://src/simulation/acoustic_network.gd")
 const Sonar=preload("res://src/simulation/advanced_sonar.gd")
 const Photo=preload("res://src/simulation/photo_capture.gd")
+const ObservedStun=preload("res://src/simulation/observed_stun.gd")
 const WorldRegion=preload("res://src/simulation/world_region.gd")
 
 # phase, feature module, method, input shape
@@ -34,6 +35,7 @@ const save_checks = [
 	["initial", ModuleRecovery, "valid", "snapshot"],
 	["initial", Operations, "valid", "mission_time"],
 	["initial", Correlator, "valid_state", "correlation_time"],
+	["features", ObservedStun, "valid", "snapshot"],
 	["features", DroneOperations, "valid", "snapshot"],
 	["features", Glass, "valid", "snapshot"],
 	["features", Choir, "valid", "snapshot"],

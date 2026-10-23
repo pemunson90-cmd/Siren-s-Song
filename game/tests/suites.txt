@@ -196,4 +196,15 @@ audit_photo_integrity_tests|AUDIT PHOTO INTEGRITY|172|193
 audit_photo_ui_tests|AUDIT PHOTO UI|173|194
 audit_findings_provenance_tests|AUDIT FINDINGS PROVENANCE|174|195
 audit_artifact_cargo_tests|AUDIT ARTIFACT CARGO|175|196
-photo_audio_tests|PHOTO AUDIO|183|204
+grade_on_secure_tests|GRADE ON SECURE|176|197
+fix2_save_tests|FIX2 SAVE|177|198
+fix2_save_ui_tests|FIX2 SAVE UI|178|199
+fix2_optional_recovery_tests|FIX2 OPTIONAL RECOVERY|179|200
+fix2_frontend_ui_tests|FIX2 FRONTEND UI|180|201|render
+fix2_photo_routing_tests|FIX2 PHOTO ROUTING|181|202
+fix2_menu_ui_tests|FIX2 MENU UI|182|203|render
+fix2_camera_ui_tests|FIX2 CAMERA UI|183|204|render
+fix2_feedback_ui_tests|FIX2 FEEDBACK UI|184|205|render
+fix2_state_tests|FIX2 STATE|185|206
+fix2_study_ui_tests|FIX2 STUDY UI|186|207|render
+photo_audio_tests|PHOTO AUDIO|187|208
