@@ -61,7 +61,7 @@ const TEXT := {
 # Briefing "photo problems", one or two placeholder lines per operation. These
 # describe what the subject asks for; the fit line is appended from the fitting.
 const PROBLEMS := {
-	0: "the lee plating faces away; fine detail needs a close, held frame.",
+	0: "the sheltered side of the hull faces away; fine detail needs a close, held frame.",
 	1: "the west relay clock is dark; only the submarine can light it.",
 	3: "vent lining needs a close frame; frame bays open in a cycle.",
 	4: "rib count shows only in its cycle; film is short.",
@@ -82,7 +82,7 @@ const HINTS := {
 # patch the subject itself. Required features are never touched, so bare
 # Quietus still finishes every core job; these edits price the bonus intel.
 const EDITS := [
-	# Op 0 Shelf Signal: the lee plating and drill string ask for a held, close frame.
+	# Op 0 Shelf Signal: the sheltered side of the hull and drill string ask for a held, close frame.
 	{"op": 0, "obj": 0, "feature": "drill", "set": {"detail": 0.5, "dwell": 3.0}},
 	{"op": 0, "obj": 0, "feature": "scoring", "set": {"detail": 0.6, "dwell": 3.5}},
 	# Op 1 Split Channel: the west relay is dark; Quietus must close in, flash or wait. A drone lamp cannot do it.

@@ -2,6 +2,8 @@
 
 # Siren's Song
 
+**Execution:** development paused for repository organization by Pat. Resume state: [RESUME](docs/RESUME.md). Repository layout and branch lifecycle: [repository map](docs/REPOSITORY_MAP.md).
+
 Original Android-first 2D tactical submarine-stealth and reconnaissance game. One pilot commands USS Quietus and two drones through alien industrial water, acoustic exposure, incomplete information and superior Siren threats.
 
 **Development integration:** [`claude/integration`](https://github.com/pemunson90-cmd/Siren-s-Song/tree/claude/integration). `gauntlet/production` is the frozen promotion baseline; `main` is the protected accepted baseline. Pat authorizes promotions. Godot 4.6.3 / GDScript / Compatibility is the established engine. [RESUME.md](docs/RESUME.md) is the operational entry point; Codex claims and assignments live on [`codex/handoffs`](https://github.com/pemunson90-cmd/Siren-s-Song/tree/codex/handoffs/docs/codex).

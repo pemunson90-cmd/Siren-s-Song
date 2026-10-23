@@ -1,7 +1,7 @@
 extends Control
 # One-verb-at-a-time prompts in the opening operations. Each appears once per campaign, at the
 # moment it matters. A prompt never blocks or auto-advances play; GOT IT only hides it. The one
-# exception is the first Siren warning in operations 1 to 3, which pauses the game once.
+# exceptions are the first lock and heard-investigation warnings, which each pause once.
 const Text = preload("res://src/campaign/onboarding_text.gd")
 const SWEEP := [preload("res://src/simulation/sweeper_senses.gd").WARNING]
 const PricedHints = preload("res://src/presentation/photo_pricing/photo_pricing_hints.gd")
@@ -40,10 +40,17 @@ func _sweep_cue() -> String:
 		var bearing := fposmod(rad_to_deg(atan2(row.direction.x, -row.direction.y)), 360.)
 		return "Now: %03d degrees, heard %.1fs ago." % [roundi(bearing) % 360, sim.elapsed - row.time]
 	return ""
-# A Siren warning is on screen: a lock or beam on one of our craft, or a heard sweeper cue.
+# Read only fresh receiver-earned contacts; a lock on any living own craft matters.
 func _warning_now() -> bool:
-	if not host.ocean.contact_entries().filter(func(entry): return entry.urgent).is_empty(): return true
-	return not _sweep_cue().is_empty()
+	var sim = host.sim
+	for id in sim.contacts:
+		var c = sim.contacts[id]; var target = int(c.get("target", -1))
+		var age = sim.elapsed - float(c.time)
+		if age < 0 or age >= .3 or target < 0 or target >= sim.units.size(): continue
+		if c.get("recipient_target", false) or not sim.units[target].alive: continue
+		if c.get("mode", "") not in ["LOCKING", "BEAM"] or c.get("lock", 0) <= 0: continue
+		if sim.Depth.sight(sim, c, sim.units[target]): return true
+	return false
 func _wanted() -> String:
 	var sim = host.sim; var op: int = sim.mission.get("id", -1)
 	if sim.mission.get("id", -1) > Text.MAX_OPERATION or not sim.outcome.is_empty(): return ""
@@ -58,24 +65,31 @@ func _wanted() -> String:
 	return PricedHints.wanted(sim, op, seen)
 func refresh(bounds: Vector2, h: float, font: int, top: float) -> void:
 	var sim = host.sim
-	if host.screen != "mission" or host.advanced_orders or host.decoy_armed or host.knock_armed:
+	if host.screen != "mission":
 		panel.hide(); return
 	# A step the player has already taken retires its own prompt.
 	if current == "move" and sim.units.any(func(u): return not u.route.is_empty()): dismiss()
 	if current == "drone" and (not sim.units[1].route.is_empty() or not sim.units[2].route.is_empty()): dismiss()
 	if current.begins_with("priced_") and PricedHints.stale(sim, current): dismiss()
 	var wanted := _wanted()
+	var busy: bool = host.advanced_orders or host.decoy_armed or host.knock_armed
+	if busy and wanted not in ["warning", "sweep"] and current not in ["warning", "sweep"]:
+		panel.hide(); return
 	if not wanted.is_empty() and wanted != current and (current.is_empty() or wanted in ["warning", "sweep", "noise"]):
 		show_hint(wanted)
-		if wanted == "warning":
-			# Once per campaign: stop time so the player can read it. The sweep prompt would repeat this lesson.
-			if not seen("sweep"): host.hints_seen.append("sweep")
+		if wanted in ["warning", "sweep"]:
+			# Independent saved acknowledgements; GOT IT never resumes time.
 			sim.paused = true; host.call_deferred("_refresh")
 	if current == "sweep" and extra_line.is_empty(): extra_line = _sweep_cue()
 	if current.is_empty():
 		panel.hide(); return
+	# Give wrapped text its actual width before container minimum-size measurement.
+	# Otherwise the first frame can retain a one-character-wide, screen-tall card.
+	var width := minf(bounds.x - 24, 620.0)
+	label.custom_minimum_size.x = maxf(1, width - 40 - h * 1.4)
+	label.size.x = label.custom_minimum_size.x
 	label.text = Text.hint_text(current) + ("\n" + extra_line if not extra_line.is_empty() else "")
 	label.add_theme_font_size_override("font_size", font); dismiss_button.add_theme_font_size_override("font_size", font)
 	dismiss_button.custom_minimum_size = Vector2(h * 1.4, h)
-	panel.custom_minimum_size = Vector2(minf(bounds.x - 24, 620.0), 0); panel.reset_size()
-	panel.position = Vector2(12, top); panel.show()
+	panel.custom_minimum_size = Vector2(width, 0); panel.reset_size()
+	panel.position = Vector2(12, top); panel.show(); move_to_front()

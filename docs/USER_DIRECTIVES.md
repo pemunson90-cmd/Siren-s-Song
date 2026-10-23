@@ -1,3 +1,7 @@
+## 22 October 2026 (night): development paused for repository organization
+
+Pat reports that all development is paused, Codex finished its current task, and Claude has not restarted. Organize and reconcile the repository first. This organization pass is authorized; gameplay implementation, next-handoff dispatch and autonomous continuation remain paused until Pat resumes development. The earlier continuation instructions below remain the standing workflow for that later resumption. Preserve completed work, queued tasks, parked work, saves, signing identity and historical sources.
+
 ## 22 October 2026 (evening): guidance reconciliation
 
 Pat authorized correcting the audit's guidance findings while preserving current work. Prepare the changes on an isolated branch; reconcile at the existing integration boundary. Existing claims, ownership, handoff order, gameplay decisions and promotion permissions continue. The earlier 21 October temporary ban on documentation reconciliation is superseded for this authorized pass; its other preservation rules remain.
