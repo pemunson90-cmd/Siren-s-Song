@@ -189,3 +189,4 @@ nav_clearance_probe|NAV CLEARANCE PROBE|165|186
 nav_clearance_ui_tests|NAV CLEARANCE UI|166|187
 planner_chart_render_tests|PLANNER CHART RENDER|167|188|render
 well_camera_feed_render_tests|WELL CAMERA RENDER|168|189|render
+opening_fleet_tests|OPENING FLEET|169|190
