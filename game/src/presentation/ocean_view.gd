@@ -140,14 +140,16 @@ func _process(dt: float) -> void:
 	phase+=dt; camera_flash=maxf(0,camera_flash-dt);_sync_camera()
 	if optical_feed!=null:
 		optical_feed.sim=sim; optical_feed.visible=presenting_mission and sim!=null and sim.outcome.is_empty() and optical_feed.viewfinder_visible(sim)
-		optical_feed.position=Vector2(14,maxf(instrument_top+40,size.y-410)); optical_feed.size=Vector2(minf(420,size.x*0.52),258)
+		var height=minf(maxf(300,optical_feed.touch_height*4.8),size.y-instrument_top-54)
+		optical_feed.size=Vector2(minf(size.x-28,maxf(480,optical_feed.touch_height*7.5)),height)
+		optical_feed.position=Vector2(14,maxf(instrument_top+40,size.y-height-14))
 	queue_redraw()
 func acoustic_rows() -> Array:
 	return preload("res://src/presentation/acoustic_feedback.gd").rows(sim.acoustic_feedback()) if sim!=null else []
 func contact_entries() -> Array:
 	return preload("res://src/presentation/contact_feedback.gd").entries(sim.contacts,sim.elapsed,sim.units,sim.line_clear,sim.contact_target) if sim!=null else []
 func contact_readout_entries() -> Array:
-	return contact_entries().filter(func(entry):return not warnings_in_hud or not (entry.urgent or (entry.fresh and "REPORT" in entry.text)))
+	return contact_entries().filter(func(entry):return not warnings_in_hud or not (entry.urgent or (entry.fresh and ("REPORT" in entry.text or "STUNNED" in entry.text))))
 func contact_readout_rects() -> Array:
 	var result: Array=[]
 	var top=instrument_top+10

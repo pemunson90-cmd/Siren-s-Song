@@ -637,6 +637,7 @@ func command(order: String,args: Dictionary={}) -> bool:
 				_noise(u.pos,Photo.noise_radius(self,selected) if Photo.applies(target) else 520,"CAMERA",2.0,u.band);noises.back()["record"]=photo_target
 			events.append({"type":"camera","pos":u.pos})
 		_: return false
+	if order=="emp":preload("res://src/simulation/observed_stun.gd").record(self)
 	JobRelease.cancel(self,selected,order)
 	AllStop.after_order(self,u,order)
 	return true
@@ -724,7 +725,7 @@ func _blackwater_context_text(target:int,station:int) -> String:
 	var learned=mission.objectives.any(func(o):return o.captured)
 	return "%s · %dm / quiet %.0fm%s"%[name,c.distance,c.quiet_range," · learned: SONAR + SAMPLE within 240m" if learned else " · move closer to listen"]
 func camera_context() -> Dictionary:
-	return Pricing.annotate(self,PhotoRules.camera_hint(self,BandPhoto.gate(self,_camera_context_base())))
+	return Pricing.annotate(self,PhotoRules.camera_hint(self,BandPhoto.gate(self,preload("res://src/simulation/photo_context.gd").resolve(self,_camera_context_base()))))
 func _camera_context_base() -> Dictionary:
 	var closed:String=BandPhoto.unready(self,units[selected])
 	if not closed.is_empty():return {"ready":false,"target":-1,"text":closed}
@@ -1136,6 +1137,7 @@ func _observe() -> void:
 			if sirens[i].get("report",{}).get("charge",0)>0:contacts[i]["report_remaining"]=ContactReports.CHARGE-sirens[i].report.charge
 			if sirens[i].get("report",{}).get("sent",0)>0:contacts[i]["report_sent"]=true
 			if sirens[i].get("pin_time",0)>0: contacts[i]["pin_time"]=sirens[i].pin_time
+	preload("res://src/simulation/observed_stun.gd").record(self)
 	for i in sonar.fixes:
 		var fix=sonar.fixes[i]
 		if not contacts.has(i) or contacts[i].time<fix.time:

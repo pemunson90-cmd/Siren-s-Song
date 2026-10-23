@@ -196,3 +196,9 @@ fix2_save_tests|FIX2 SAVE|172|193
 fix2_save_ui_tests|FIX2 SAVE UI|173|194
 fix2_optional_recovery_tests|FIX2 OPTIONAL RECOVERY|174|195
 fix2_frontend_ui_tests|FIX2 FRONTEND UI|175|196|render
+fix2_photo_routing_tests|FIX2 PHOTO ROUTING|176|197
+fix2_menu_ui_tests|FIX2 MENU UI|177|198|render
+fix2_camera_ui_tests|FIX2 CAMERA UI|178|199|render
+fix2_feedback_ui_tests|FIX2 FEEDBACK UI|179|200|render
+fix2_state_tests|FIX2 STATE|180|201
+fix2_study_ui_tests|FIX2 STUDY UI|181|202|render
