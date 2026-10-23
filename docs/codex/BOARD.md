@@ -55,6 +55,13 @@ Dependency note: 016, 019, 020, 023 to 027 wait on PR 74 (handoff 018). 021 wait
 
 Take 017 first (PRIORITY) if any of PRs 69, 70, 71 is open; otherwise numeric order 014 to 020. Designs live in docs/design/ on this branch. Beyond 020 see docs/SESSION_LEDGER_2026-10-22.md on claude/integration, section Next.
 
+## PRIORITY after 019 step 1 (23 Oct)
+| P | 035 FIX2 full cold review fixes (save error first) | OPEN | | | |
+
+## BATCH 6 (23 Oct, Pat's decisions D1 and D2)
+| 36 | 036 first-Siren cue, ops 1 to 3 | OPEN | | | |
+| 37 | 037 early module reward | OPEN | | | |
+
 ## Claude-held
 009 sweeper on V7 senses: Claude's PR 70, finished under handoff 017.
 Nothing parked.
