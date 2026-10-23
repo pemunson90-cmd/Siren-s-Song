@@ -1,8 +1,8 @@
 # Handoff 037: EARLY MODULE REWARD (Pat approved 23 Oct, decision D2)
 
-Status: OPEN
-Claimed at:
-Claimed by:
+Status: CLAIMED
+Claimed at: 2026-10-23 19:43:52 UTC
+Claimed by: codex
 Finished at:
 
 Codex may merge: yes, into claude/integration only, after GitHub guidance and game-smoke are both green on the exact head and the PR is mergeable. Merge with a merge commit, then mark DONE and update docs/codex/BOARD.md.
@@ -19,3 +19,5 @@ Tests: grant occurs once after op 1, persists through save and reload, Fittings 
 Base: origin/claude/integration. Branch: claude/early-module-reward
 
 ## Completion
+
+Isolated D2 preparation after036 preparation/re-review, while92/93 hosted gates run. Base is actual integration70b1f18; merge92 then93 before037, reconcile their actual integration and obtain final independent review/exact-head CI. No precondition is unmet. Design is already approved by D2; choose an existing photographic/hiding module from code without changing rules.
