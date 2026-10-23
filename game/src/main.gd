@@ -2,6 +2,7 @@ extends Control
 const Recon=preload("res://src/simulation/recon_consequences.gd")
 const Endings=preload("res://src/campaign/endings.gd")
 const CraftUpgrades=preload("res://src/equipment/craft_upgrades.gd")
+const EarlyReward=preload("res://src/campaign/early_reward/early_reward.gd")
 const ExpeditionOperations=preload("res://src/presentation/expedition_operations.gd")
 const ExpeditionCampaign=preload("res://src/campaign/expedition_campaign.gd")
 const Simulation = preload("res://src/simulation/simulation.gd")
@@ -93,6 +94,7 @@ var metrics_session:=""
 var metrics_serial:=0
 var departure_confirmation=""
 var hints_seen:Array=[]
+var early_reward:Dictionary={}
 var lock_warning
 func _ready() -> void:
 	get_tree().auto_accept_quit=false
@@ -574,7 +576,7 @@ func _launch_context(index:int)->Dictionary:
 	if index in [9,10]:context.thread="deep" if index==9 else "shelf"
 	return context
 func _equipment_entitlements()->Array:
-	return CraftUpgrades.recovered(completed,expedition,photo_intel)
+	return EarlyReward.earned(early_reward,CraftUpgrades.recovered(completed,expedition,photo_intel))
 func _campaign_completed()->Array:
 	return completed+expedition.get("completed",[])
 func _equipment_context()->Dictionary:
@@ -613,6 +615,7 @@ func _debrief() -> void:
 		_sync_craft_upgrades()
 		_menu_text("ARCHIVE RECOVERED",32)
 		_menu_text(sim.mission.record,22)
+		EarlyReward.debrief(self)
 		BlackwaterDelivery.debrief(self)
 		ModuleRecovery.debrief(self)
 		_show_photo_grade(sim.mission.objectives)
@@ -663,6 +666,7 @@ func _confirm_new_campaign()->void:
 	_button(panel_box,"KEEP MY PROGRESS",_show_campaign,"back")
 	call_deferred("_layout")
 func _new_campaign()->void:
+	early_reward={}
 	completed=[];unlocked=0;expedition={};recovered_evidence={};photo_records={};photo_intel={};hints_seen=[]
 	fleet={}
 	fitted_equipment=preload("res://src/equipment/equipment_catalog.gd").default_loadout();upgrade="endurance"
@@ -725,6 +729,7 @@ func _archive() -> Dictionary:
 	if not expedition.is_empty():data["expedition"]=expedition.duplicate(true)
 	if not fleet.is_empty():data["fleet"]=fleet.duplicate(true)
 	if not hints_seen.is_empty():data["hints_seen"]=hints_seen.duplicate()
+	if not early_reward.is_empty():data["early_reward"]=early_reward.duplicate(true)
 	data["equipment"]=preload("res://src/equipment/equipment_catalog.gd").canonical(fitted_equipment)
 	return data
 func _save_archive() -> void:
@@ -762,6 +767,7 @@ func _load_archive() -> void:
 	var saved=store.load_game()
 	if not saved.is_empty():
 		unlocked=saved.unlocked; completed=saved.completed; upgrade=saved.upgrade; settings=saved.settings
+		early_reward=saved.get("early_reward",{}).duplicate(true)
 		expedition=saved.get("expedition",{}).duplicate(true)
 		fleet=saved.get("fleet",{}).duplicate(true)
 		photo_intel=saved.get("intel",{}).duplicate(true)
