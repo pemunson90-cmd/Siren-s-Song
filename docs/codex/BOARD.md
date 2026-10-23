@@ -58,7 +58,7 @@ Dependency note: 016, 019, 020, 023 to 027 wait on PR 74 (handoff 018). 021 wait
 Take 017 first (PRIORITY) if any of PRs 69, 70, 71 is open; otherwise numeric order 014 to 020. Designs live in docs/design/ on this branch. Beyond 020 see docs/SESSION_LEDGER_2026-10-22.md on claude/integration, section Next.
 
 ## PRIORITY after 019 step 1 (23 Oct)
-| P | 035 FIX2 full cold review fixes (save error first) | CLAIMED | [86](https://github.com/pemunson90-cmd/Siren-s-Song/pull/86) | | Finalfd2224a contains actual009f2b8/PR88; game tree equals testedad9cbb3,core818/0,touch green; exact final independent review approved, new CI pending. Next merge. |
+| P | 035 FIX2 full cold review fixes (save error first) | CLAIMED | [86](https://github.com/pemunson90-cmd/Siren-s-Song/pull/86) | | Finalfd2224a contains actual009f2b8/PR88; game tree equals testedad9cbb3,core818/0,touch green; exact final independent review approved; CI39989872271 guidance/core green, full scenarios pending. Next merge. |
 
 ## BATCH 6 (23 Oct, Pat's decisions D1 and D2)
 | 36 | 036 first-Siren cue, ops 1 to 3 | OPEN | | | |
