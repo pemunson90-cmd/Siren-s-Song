@@ -210,3 +210,5 @@ fix2_study_ui_tests|FIX2 STUDY UI|186|207|render
 photo_audio_tests|PHOTO AUDIO|187|208
 first_siren_cue_tests|FIRST SIREN CUE|188|209
 first_siren_cue_ui_tests|FIRST SIREN CUE UI|189|210|render
+early_reward_tests|EARLY REWARD|190|211
+early_reward_ui_tests|EARLY REWARD UI|191|212|render
