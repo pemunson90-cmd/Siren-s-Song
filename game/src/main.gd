@@ -23,6 +23,7 @@ var store=SaveStore.new()
 var sound
 var save_clock:=0.0
 var save_error:=""
+var save_retry_pending:=false
 var archive_warning:=""
 var archive_status:VBoxContainer
 var archive_status_text:Label
@@ -719,13 +720,24 @@ func _archive() -> Dictionary:
 	data["equipment"]=preload("res://src/equipment/equipment_catalog.gd").canonical(fitted_equipment)
 	return data
 func _save_archive() -> void:
-	if not capture_scenario.is_empty() or sim.mission==null: return
+	_write_archive(false)
+func _retry_archive()->void:
+	if not save_retry_pending:return
+	save_retry_pending=false
+	_write_archive(true)
+func _write_archive(retry:bool)->void:
+	if not capture_scenario.is_empty() or sim.mission==null:return
 	_sync_craft_upgrades()
 	if store.save(_archive()):
-		save_error=""
+		save_retry_pending=false;save_error=""
 		print("SS_SAVE ok mission=",mission_index," time=",snappedf(sim.elapsed,0.01)," paused=",sim.paused," completed=",completed," unlocked=",unlocked)
-	else:
+	elif retry:
 		save_error=store.warning;sim.message=save_error
+		print("SS_SAVE retry_failed reason=",store.warning," active.captures=",sim.captures)
+	else:
+		print("SS_SAVE retry_pending reason=",store.warning," active.captures=",sim.captures)
+		if not save_retry_pending:
+			save_retry_pending=true;call_deferred("_retry_archive")
 	_update_archive_status()
 func _dismiss_archive_warning()->void:
 	archive_warning="";_update_archive_status()

@@ -1453,7 +1453,7 @@ static func valid_snapshot(data: Dictionary) -> bool:
 		if not (work.elapsed is float or work.elapsed is int) or not is_finite(float(work.elapsed)) or work.elapsed<0:return false
 		var site=Photo.target_in(data.mission,work.target)
 		var duration=Sampler.capture_spec(id,data.mission.get("launch_equipment",{}),site).get("duration",site.get("duration",4.0))
-		if work.elapsed>duration or (site.captured and not Operations.own_origin(site) and not (Delivery.applies(data.mission))):return false
+		if work.elapsed>duration or (site.captured and not Photo.applies(site) and not Operations.own_origin(site) and not (Delivery.applies(data.mission))):return false
 		exposed.append(work.target)
 	if not SaveChecks.valid(data,"world"):return false
 	if data.mission.get("earned_terrain",false):
