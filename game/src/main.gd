@@ -43,7 +43,13 @@ var unit_buttons: Array=[]
 var order_buttons: Dictionary={}
 var menu: PanelContainer
 var panel_box: VBoxContainer
-var screen := "menu"
+var screen := "menu":
+	set(value):
+		screen = value
+		if ocean != null:
+			ocean.presenting_mission = value == "mission"
+			if value != "mission" and ocean.optical_feed != null: ocean.optical_feed.hide()
+		if value != "mission" and lock_warning != null: lock_warning.hide()
 var mission_index := 0
 var active_started := false
 var applying_safe_area := false
@@ -216,7 +222,9 @@ func _start_mission(index: int) -> void:
 	call_deferred("_layout")
 	if route_editor!=null: route_editor.hide()
 	active_started=true; mission_index=index; sim.start(index,upgrade,launch.launch)
-	if mission_hud!=null:mission_hud.subject={};mission_hud.page="craft"
+	if mission_hud!=null:
+		mission_hud.hints.dismiss();mission_hud.tool_help.cancel()
+		mission_hud.subject={};mission_hud.page="craft"
 	ocean.sim=sim; ocean.focus_craft(); screen="mission"; menu.hide(); hud.show(); _refresh()
 func _primary_action() -> void:
 	if decoy_armed or knock_armed:
@@ -439,7 +447,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		# SPACE pauses only live play; menus, briefing and settings never touch mission pause.
 		if event.keycode==KEY_SPACE and screen=="mission": _pause()
 		if event.keycode==KEY_ESCAPE:
-			if advanced_orders:_toggle_advanced()
+			if advanced_orders:mission_hud._back()
 			elif knock_armed or decoy_armed:_primary_action()
 			else:sim.paused=true;_show_campaign()
 func _clear_menu() -> void:
@@ -803,6 +811,7 @@ func _android_back()->void:
 	if not is_inside_tree():return
 	# Match Escape in the route instrument, after Android's notification traversal.
 	if screen=="program":route_editor.close()
+	elif screen=="mission" and advanced_orders:mission_hud._back()
 	else:_show_campaign()
 
 func _take_capture() -> void:

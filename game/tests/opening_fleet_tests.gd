@@ -19,6 +19,12 @@ func _initialize():
   for n in 600:s.advance(Sim.STEP)
   check(s.hull==100.0 and s.units.all(func(u):return u.alive),"opening%d eastward route does not strike an own craft"%operation)
   print("OPENING ",operation," hull=",s.hull," pos=",s.units[0].pos," message=",s.message)
+ # The changed opening must not put a stationary drone in the first decoy's
+ # investigation path. This previously exposed an unintended spawn regression.
+ var idle=Sim.new();idle.start(0);idle.command("decoy");idle.paused=false
+ for n in 960:idle.advance(Sim.STEP)
+ check(idle.units.all(func(u):return u.alive),"first decoy expires without exposing a stationary opening drone")
+ check(idle.noises.is_empty() and idle.message=="Decoy launched · 15s transmission","opening layout preserves historical decoy feedback")
  # Recreate the old spawn alignment deliberately: damage must remain real and
  # the message must identify the friendly hull instead of hiding its cause.
  var forced=Sim.new();forced.start(0);forced.sirens=[]
