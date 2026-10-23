@@ -24,7 +24,7 @@ static func build(completed:Array,progress:Dictionary,intel:Dictionary,unlocked:
   var prerequisite_known=id==0 or (id<6 and id-1 in completed) or (id==6 and [0,1,2,3,4,5].all(func(required):return required in completed)) or (id>6 and Catalog.prerequisites_met(id,recovered))
   var named=state!="LOCKED" and (id in recovered or id in known or prerequisite_known)
   var label=str(Catalog.make(id).title) if named else "UNKNOWN"
-  nodes.append({"id":id,"state":state,"label":label,"position":Table.POSITIONS.get(id,Vector2(id,5)),"route":definition.route,"required_facts":definition.required_facts.duplicate(true)})
+  nodes.append({"id":id,"state":state,"label":label,"can_open":named and state in ["AVAILABLE","RECOVERED"],"position":Table.POSITIONS.get(id,Vector2(id,5)),"route":definition.route,"required_facts":definition.required_facts.duplicate(true)})
   var prerequisites=[id-1] if id>0 and id<=6 else definition.prerequisites
   for prerequisite in prerequisites:edges.append({"from":prerequisite,"to":id})
  return {"enabled":Table.enabled,"nodes":nodes,"edges":edges,"rumors":rumors}

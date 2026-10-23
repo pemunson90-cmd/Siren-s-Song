@@ -25,6 +25,11 @@ func shape_case(shape):
  check(view.buttons[0].text.contains("AVAILABLE") and view.buttons[1].text.contains("UNKNOWN"),"fresh map names only the available first operation")
  check(view.buttons.values().all(func(b):return b.size.y>=game.ui_touch_height and b.size.x>=game.ui_touch_height),"all node targets meet Android minimums")
  check(button(game,"route_map_back").size.y>=game.ui_touch_height,"Back remains a full touch target")
+ var Preferences=load("res://src/presentation/frontend/frontend_settings.gd");var previous_preferences=Preferences.current.duplicate(true)
+ var original_font=view.buttons[0].get_theme_font_size("font_size")
+ Preferences.current.text_scale=1.5;await settle()
+ check(view.buttons[0].get_theme_font_size("font_size")>=original_font*1.45 and Rect2(Vector2.ZERO,view.size).encloses(Rect2(view.chart.position,view.chart.size)),"largest existing text setting enlarges labels without clipping the chart")
+ Preferences.current=previous_preferences;await settle()
  var alternate=Vector2i(2184,1968) if shape.x==2520 else Vector2i(2520,1080)
  root.size=alternate;await settle()
  check(view.buttons.values().all(func(b):return b.size.y>=game.ui_touch_height) and Rect2(Vector2.ZERO,view.size).encloses(Rect2(view.chart.position,view.chart.size)),"live resize keeps the chart and touch targets within the viewport")
@@ -51,6 +56,10 @@ func shape_case(shape):
  check(view.buttons[19].text.contains("KNOWN FROM PHOTOS") and not view.buttons[19].disabled,"returned film names an unreached operation without opening its route")
  await press(game,"route_map_op_19")
  check(game.screen=="route_map" and view.detail.text.contains("film") and not view.detail.text.contains("AVAILABLE"),"photo-known node explains information without starting a locked operation")
+ view.chart.scroll_horizontal=0;view.chart.scroll_vertical=0;await settle()
+ check(not view.chart.get_global_rect().intersects(view.buttons[18].get_global_rect()),"current-operation fixture begins away from the available branch")
+ await press(game,"route_map_current")
+ check(view.chart.get_global_rect().encloses(view.buttons[18].get_global_rect()),"CURRENT brings the next available operation fully into view")
  var captures=OS.get_environment("ROUTE_MAP_CAPTURE_DIR")
  if not captures.is_empty():
   await RenderingServer.frame_post_draw

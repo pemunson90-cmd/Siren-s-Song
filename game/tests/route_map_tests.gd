@@ -20,6 +20,7 @@ func _initialize():
  check(fresh.nodes.slice(1).all(func(row):return row.state=="LOCKED" and row.label=="UNKNOWN"),"fresh profile cannot learn later operation names")
  var incomplete=Graph.build([0],{}, {},3)
  check(node(incomplete,1).label!="UNKNOWN" and node(incomplete,2).label=="UNKNOWN","an unlock counter never discloses names beyond recovered prerequisites")
+ check(node(incomplete,1).get("can_open",false) and not node(incomplete,2).get("can_open",true),"an unknown name cannot leak through a map briefing action")
  var positions={}
  for row in fresh.nodes:positions[row.position]=true
  check(Table.POSITIONS.size()==30 and positions.size()==30,"layout covers thirty distinct node positions")
