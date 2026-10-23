@@ -61,7 +61,7 @@ Take 017 first (PRIORITY) if any of PRs 69, 70, 71 is open; otherwise numeric or
 | P | 035 FIX2 full cold review fixes (save error first) | DONE | [86](https://github.com/pemunson90-cmd/Siren-s-Song/pull/86) | 2026-10-23 17:17:50 UTC | Mergedd9a0bf7 after exactfd2224a guidance/game-smoke39989872271 green and final independent approval; core818/0 and affected Canvas checks; all11 items fixed or reported. |
 
 ## BATCH 6 (23 Oct, Pat's decisions D1 and D2)
-| 36 | 036 first-Siren cue, ops 1 to 3 | CLAIMED | [93](https://github.com/pemunson90-cmd/Siren-s-Song/pull/93) | | Final57806a3 contains actualdb6b162; core818/0, functional37/0, rendered50/0 and affected checks pass. Independent final review approved. PR ready; exact CI40016621553 guidance green/game-smoke running. |
+| 36 | 036 first-Siren cue, ops 1 to 3 | CLAIMED | [93](https://github.com/pemunson90-cmd/Siren-s-Song/pull/93) | | Final57806a3 contains actualdb6b162; core818/0, functional37/0, rendered50/0 and affected checks pass. Independent final review approved. PR ready/mergeable;20:35UTC live refs unchanged, exact CI40016621553 guidance green/game-smoke running. |
 | 37 | 037 early module reward | CLAIMED | [94 draft](https://github.com/pemunson90-cmd/Siren-s-Song/pull/94) | | Publisheda475cb6 includes actual92 and proposed03657806a3; core818/0,both functional/Canvas and save checks pass. Composition review approved; actual93 merge then final reconciliation/review/CI required. |
 
 ## Claude-held
