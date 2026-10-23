@@ -7,8 +7,8 @@ extends RefCounted
 #   hidden    phenomena that are not charted: they become objectives only after
 #             a craft's own camera sights them (see photo_capture.discover)
 # Story text here is short placeholder text.
-# M1 optional reconnaissance data. Revert by removing _apply_campaign_rows below
-# and these registrations; existing subjects and optional save fields stay valid.
+# M1 optional reconnaissance data. Revert by removing the _apply_campaign_rows call.
+# Retain subject/key registrations so recovered film and intel in old saves stay valid.
 # Long observations use the existing unknown optional objective shape, not a new kind.
 const CAMPAIGN_DEFAULTS={"size":80.0,"glow":0.35,"sight":210.0,"arc":1.0,"detail":0.45,"dwell":2.0,"duration":4.0}
 const CAMPAIGN_PHOTOS=[
@@ -144,24 +144,3 @@ static func _hidden(m:Dictionary,h:Dictionary)->void:
 	if not m.has("photo_hidden"):m["photo_hidden"]=[]
 	h["found"]=false
 	m.photo_hidden.append(h)
-# Optional M1 photos in these two operations need a selector fallthrough: their
-# legacy camera context serves a tender receiver or shelter account exclusively.
-# This reads current optics/geometry and never starts work or changes a mission job.
-# Revert this helper and its one camera_context hook to restore that old selector.
-const CONTEXT_FALLBACK_OPS=[7,8]
-static func optional_context(sim)->Dictionary:
-	if sim.mission.get("id",-1) not in CONTEXT_FALLBACK_OPS:return {}
-	var photo=preload("res://src/simulation/photo_capture.gd")
-	var u=sim.units[sim.selected];var best=-1;var score=INF
-	for index in sim.mission.objectives.size():
-		var objective=sim.mission.objectives[index]
-		if not objective.get("optional",false) or not photo.applies(objective):continue
-		if not CAMPAIGN_PHOTOS.any(func(row):return row.op==sim.mission.id and row.key==objective.get("optical","")):continue
-		if not sim.BandPhoto.can_shoot(sim,u,objective) or sim.capture_at_target(index).unit>=0:continue
-		var distance:float=u.pos.distance_to(objective.pos)
-		if distance>=photo.reach(sim,sim.selected) or not sim.Depth.clear(sim,u.pos,objective.pos,u.band):continue
-		var angle:float=absf(angle_difference(u.angle,u.pos.angle_to_point(objective.pos)))+distance/2000.0
-		if angle<score:best=index;score=angle
-	if best<0:return {}
-	var objective=sim.mission.objectives[best]
-	return {"target":best,"ready":true,"text":"READY · %s · PHOTO %.0fs"%[photo.label(objective),sim._capture_duration(objective,sim.selected)]}
