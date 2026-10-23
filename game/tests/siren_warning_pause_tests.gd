@@ -1,5 +1,5 @@
 extends SceneTree
-# Tutorial auto-pause: in operations 1 to 3 only, the first Siren warning pauses the game once,
+# Tutorial auto-pause: in opening operations 0 to 3 only, the first Siren warning pauses the game once,
 # shows a GOT IT prompt, and is remembered in the saved hint flags. UI flow only.
 var failures:=0
 var checks:=0
@@ -28,7 +28,7 @@ func run() -> void:
 	game=load("res://scenes/main.tscn").instantiate(); game.capture_scenario="runtime-test"; root.add_child(game)
 	await settle()
 	var Text=preload("res://src/campaign/onboarding_text.gd")
-	check(Text.applies("warning",1) and Text.applies("warning",3) and not Text.applies("warning",0) and not Text.applies("warning",4),"the warning prompt is limited to operations 1 to 3")
+	check(Text.applies("warning",1) and Text.applies("warning",3) and Text.applies("warning",0) and not Text.applies("warning",4),"the warning prompt is limited to opening operations 0 to 3")
 	check(Text.valid_seen(["warning"]) and Text.valid_seen(["move","sweep","warning"]),"the saved flag list accepts the warning flag")
 	# Operation 1: the first lock warning pauses once.
 	await start(1)
@@ -54,8 +54,12 @@ func run() -> void:
 	game._start_mission(2); await settle(); game.sim.paused=false
 	lock_on(); await settle()
 	check(not game.sim.paused and hints.current!="warning" and game.hints_seen.count("warning")==1 and kept.has("warning"),"a later warning in the same campaign does not pause")
-	# Outside operations 1 to 3 the prompt never fires.
-	for op in [0,4]:
+	# The opening uses the same once-only pause; later operations stay manual.
+	await start(0)
+	game.hints_seen=["move","pause","drone","noise","sweep"]
+	lock_on(); await settle()
+	check(game.sim.paused and hints.current=="warning","opening lock pauses once too")
+	for op in [4]:
 		await start(op)
 		game.hints_seen=["move","pause","drone","noise","sweep"]
 		lock_on(); await settle()
@@ -66,7 +70,7 @@ func run() -> void:
 	var s=game.sim; s.sirens=s.sirens.slice(0,1); s.sirens[0].pos=Vector2(2000,2000)
 	s.sonar.history.append({"station":0,"enemy":0,"origin":s.units[0].pos,"direction":Vector2.UP,"time":s.elapsed,"band":-1,"confidence":.6,"tone":300.0,"classification":preload("res://src/simulation/sweeper_senses.gd").WARNING,"direct":true,"kind":"bearing"})
 	game._refresh(); await settle()
-	check(hints.current=="warning" and game.sim.paused and "warning" in game.hints_seen,"a heard sweeper investigation also triggers the one-time pause")
+	check(hints.current=="sweep" and game.sim.paused and "sweep" in game.hints_seen,"a heard sweeper investigation also triggers the one-time pause")
 	print("SIREN WARNING PAUSE CHECKS ",checks," FAILURES ",failures)
 	game.queue_free(); await process_frame
 	quit(1 if failures>0 else 0)

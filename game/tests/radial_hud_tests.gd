@@ -79,6 +79,9 @@ func run():
   g.sim.contacts={0:{"pos":g.sim.units[g.sim.selected].pos+Vector2(150,0),"time":g.sim.elapsed,"mode":"LOCKING","lock":1.0,"angle":0.0,"target":g.sim.selected,"type":"sentinel","report_remaining":1.0}}
   g._refresh();h.open("craft");await settle()
   check(h.alarm.visible and "REPORT" in h.alarm.text and h.alarm.get_index()>h.blocker.get_index(),"earned imminent report warning stays above contextual projection")
+  # The new any-craft tutorial warning owns its own acknowledgement before
+  # another button beneath that card can be tapped.
+  if h.hints.panel.visible and h.hints.current in ["warning","sweep"]:await click(h.hints.dismiss_button)
   await click(h.instrument_button)
   check(h.sheet.visible and "RECORDS" in h.instrument_info.text and "reception unknown" in h.instrument_info.text,"STATUS exposes objective accounting and acoustic uncertainty")
   h.dismiss();g.sim.tools.emp=0;g.sim.tools.recon=0;g._refresh();h.open("tools");await settle()

@@ -44,7 +44,7 @@ static func apply(m:Dictionary,id:int,context:Dictionary)->void:
 			_tag(objs[0],S(2.74,90.0,0.5,["beacon"],[
 				F("beacon","BEACON LAMP",0.0,PI,0.04,0.0,{"glow":0.5,"gloss":"The beacon still pulses on battery."}),
 				F("drill","BROKEN DRILL STRING",0.0,1.1,0.38,-0.6,{"intel":"spire_wreck","gloss":"A drill string, snapped clean, ringing in the swell.","finding":{"kind":"route","text":"LEE CHANNEL · open water south of the wreck runs to the shelf edge","pts":[Vector2(1240,360),Vector2(1180,520),Vector2(900,540),Vector2(760,720),Vector2(480,760),Vector2(150,800)]}}),
-				F("scoring","SCORED PLATING",PI,1.0,0.5,0.5,{"intel":"spire_scoring","gloss":"Deep parallel scoring on the lee plating. Not tool marks.","finding":{"kind":"hazard","text":"SCORED LEE · something heavy works this bank","off":Vector2(-70,50),"r":110.0}})]),"spire","Corran Bank's emergency beacon, still on battery.")
+				F("scoring","SCORED PLATING",PI,1.0,0.5,0.5,{"intel":"spire_scoring","gloss":"Deep parallel scoring on the sheltered side of the hull. Not tool marks.","finding":{"kind":"hazard","text":"SCORED HULL · something heavy works this bank","off":Vector2(-70,50),"r":110.0}})]),"spire","Corran Bank's emergency beacon, still on battery.")
 			_unknown(objs[0],"UNKNOWN SIGNAL SOURCE",170.0,Vector2(-70,60))
 		1:
 			for n in 2:
