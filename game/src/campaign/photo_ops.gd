@@ -7,6 +7,26 @@ extends RefCounted
 #   hidden    phenomena that are not charted: they become objectives only after
 #             a craft's own camera sights them (see photo_capture.discover)
 # Story text here is short placeholder text.
+# M1 optional reconnaissance data. Revert by removing the _apply_campaign_rows call.
+# Retain subject/key registrations so recovered film and intel in old saves stay valid.
+# Long observations use the existing unknown optional objective shape, not a new kind.
+const CAMPAIGN_DEFAULTS={"size":80.0,"glow":0.35,"sight":210.0,"arc":1.0,"detail":0.45,"dwell":2.0,"duration":4.0}
+const CAMPAIGN_PHOTOS=[
+ {"op":7,"key":"tender_door","name":"RENDEZVOUS / BERTHING HULL DOOR","pos":Vector2(650,610),"facing":0.0,"band":1,"feature":"DOOR SIDE","finding":{"kind":"route","text":"LOADING LANE · the door faces the sheltered side","pts":[Vector2(650,610),Vector2(820,760)]}},
+ {"op":8,"key":"relay_blink","name":"SHELF RETURN / RELAY LAMP","pos":Vector2(1350,1680),"facing":PI,"band":1,"feature":"BLINK GAP","window":[24.0,6.0,0.0],"duration":28.0,"dwell":3.0,"finding":{"kind":"cycle","text":"RELAY LAMP · 6s opening in each 24s cycle","period":24.0,"open":6.0,"phase":0.0}},
+ {"op":11,"key":"structure_edge","name":"CONFLUENCE / SCORED STRUCTURE","pos":Vector2(3180,2810),"facing":PI,"band":2,"feature":"SCOUR EDGE","finding":{"kind":"hazard","text":"SCORED EDGE · recorded wear, not a live patrol contact","off":Vector2(-80,0),"r":120.0}},
+ {"op":14,"key":"buoy_blind","name":"GLASS FENCE / LISTENER LAMP","pos":Vector2(1700,1000),"facing":PI,"band":1,"feature":"LAMP ASPECT","finding":{"kind":"post","text":"LISTENER LAMP · the back plate hides its light","off":Vector2(-80,0)}},
+ {"op":15,"key":"vane_crack","name":"NEEDLE STRAIT / STRAIN VANE CRACK","pos":Vector2(850,2380),"facing":0.0,"band":1,"feature":"HAIRLINE CRACK","detail":0.68,"dwell":2.5,"sight":300.0,"finding":{"kind":"weak","text":"STRAIN VANE · a crack follows the release seam","off":Vector2(0,40)}},
+ {"op":18,"key":"keel_mark","name":"LANTERN LOCK / KEEL SERVICE MARK","pos":Vector2(1840,1220),"facing":PI,"band":0,"feature":"SERVICE MARK","finding":{"kind":"route","text":"INNER PASSAGE · a service mark faces sheltered water","pts":[Vector2(1840,1220),Vector2(2000,1350)]}},
+ {"op":19,"key":"boat_keel","name":"LAST BOAT OUT / KEEL PLATE","pos":Vector2(2200,2080),"facing":PI,"band":1,"feature":"BERTH MARK","finding":{"kind":"route","text":"OUTWARD BERTH · the keel mark points to the service lane","pts":[Vector2(2200,2080),Vector2(2400,2220)]}},
+ {"op":21,"key":"locker_latch","name":"RANGE LOCKER / SERVICE LATCH","pos":Vector2(1320,1080),"facing":PI,"band":0,"feature":"LATCH SEAM","finding":{"kind":"weak","text":"SHALLOW LATCH · the seam is visible above the door","off":Vector2(0,30)}},
+ {"op":23,"key":"shutter_order","name":"PRESSURE STAIR / SHUTTER LAMPS","pos":Vector2(700,1840),"facing":PI,"band":1,"feature":"LAMP ORDER A B C","window":[30.0,9.0,0.0],"dwell":3.0,"finding":{"kind":"cycle","text":"SHUTTER LAMPS · A then B then C across the recorded cycle","period":30.0,"open":9.0,"phase":0.0}},
+ {"op":24,"key":"bus_cable","name":"CHOIR CUT / BALLAST BUS CABLE","pos":Vector2(2320,1075),"facing":PI,"band":1,"feature":"REPORTING BRANCH","finding":{"kind":"post","text":"BUS CABLE · the marked branch feeds the reporting side","off":Vector2(60,0)}},
+ {"op":26,"key":"spindle_wear","name":"COLD HAMMER / SPINDLE WEAR","pos":Vector2(1300,780),"facing":PI,"band":2,"feature":"SPINDLE SCORING","detail":0.64,"dwell":2.5,"finding":{"kind":"weak","text":"SPINDLE WEAR · a tight frame resolves the scored collar","off":Vector2(0,30)}},
+ {"op":27,"key":"slide_mark","name":"COUNTERWEIGHT GRAVE / SLIDE MARK","pos":Vector2(1250,1000),"facing":PI,"band":1,"feature":"SLIDE SCORE","detail":0.64,"dwell":2.5,"finding":{"kind":"hazard","text":"SLIDE MARK · fresh scoring runs toward the cradle","off":Vector2(0,-50),"r":80.0}},
+ {"op":28,"key":"bell_name","name":"NAMES IN THE BELL / BERTH NAMEPLATE","pos":Vector2(1130,1150),"facing":PI,"band":1,"feature":"HUMAN SURVIVOR MARKS","detail":0.64,"dwell":2.5,"finding":{"kind":"person","text":"HUMAN SURVIVOR MARKS · on the bell-berth nameplate","off":Vector2(0,20)}},
+ {"op":29,"key":"feed_room","name":"SPARE LUNG / SECURITY FEED ROOM","pos":Vector2(2180,700),"facing":PI,"band":1,"feature":"FEED TERMINALS","detail":0.64,"dwell":2.5,"finding":{"kind":"post","text":"FEED ROOM · the terminal marks remain on the recovered film","off":Vector2(0,30)}}
+]
 const LABELS={
 	"spire_wreck":"CORRAN SPIRE / DRILL STRING","spire_scoring":"CORRAN SPIRE / SCORED PLATING","relay_clock":"SPLIT CHANNEL / TRANSPONDER CLOCK",
 	"foundry_lining":"COLD FOUNDRY / VENT LINING","cradle_frames":"COLD FOUNDRY / OPEN FRAMES","base_cycle":"SIREN BASE / HATCH CYCLE",
@@ -14,11 +34,14 @@ const LABELS={
 	"silt_scour":"SILT ARCHIVE / SCOUR CUT","exhaust_stack":"FURNACE DRIFT / EXHAUST PLUME","prism_facets":"PRISM GRAVE / FACETS","choir_window":"HAMMERWAKE / LOCK WINDOW","deep_seam":"SPLIT CHANNEL / DEEP SEAM"}
 const EVIDENCE_KEYS=["spire","relay_west","relay_east","frame_cycle","well_aperture","well_return","silt_scour","exhaust_stack","prism_facets","choir_window","deep_seam"]
 static func intel_keys()->Array:
-	return LABELS.keys()
+	return LABELS.keys()+CAMPAIGN_PHOTOS.map(func(row):return row.key)
 static func intel_label(key:String)->String:
+	for row in CAMPAIGN_PHOTOS:
+		if row.key==key:return row.name
 	return LABELS.get(key,key.to_upper())
 static func evidence_keys()->Array:
 	var result=EVIDENCE_KEYS.duplicate()
+	for row in CAMPAIGN_PHOTOS:result.append(row.key)
 	for type in preload("res://src/simulation/photo_capture.gd").SIREN_TYPES:result.append("siren_"+type)
 	return result
 static func F(id:String,label:String,bearing:float=0.0,arc:float=PI,detail:float=0.1,lat:float=0.0,extra:Dictionary={})->Dictionary:
@@ -102,6 +125,22 @@ static func apply(m:Dictionary,id:int,context:Dictionary)->void:
 				"subject":S(1.57,60.0,0.5,["window"],[
 					F("window","LIT WINDOW",0.0,PI,0.06,-0.2,{"glow":0.6}),
 					F("figure","FIGURE AT THE GLASS",0.0,1.2,0.42,0.4,{"intel":"choir_window","gloss":"Someone is at the glass, signalling by hand.","finding":{"kind":"person","text":"A FIGURE AT THE LOCK A WINDOW · signalling by hand","pos":Vector2(1800,390)}})],{"reveal":"LOCK A WINDOW"})})
+	_apply_campaign_rows(m,id)
+# One data seam; the camera, film, band and finding engines remain unchanged.
+static func _apply_campaign_rows(m:Dictionary,id:int)->void:
+	for row in CAMPAIGN_PHOTOS:
+		if row.op!=id:continue
+		var config=CAMPAIGN_DEFAULTS.duplicate(true);config.merge(row,true)
+		var feature=F(row.key,row.feature,0.0,config.arc,config.detail,0.3,{"intel":row.key,"dwell":config.dwell,"gloss":row.finding.text,"finding":row.finding.duplicate(true)})
+		if row.has("window"):feature["window"]=row.window.duplicate()
+		# Existing tight-focus rules may file any held feature: author only the informative one.
+		var subject=S(row.facing,config.size,config.glow,[row.key],[feature],{"reveal":row.name,"band":row.band,"bands":[row.band]})
+		if row.has("duration"):
+			var objective={"pos":row.pos,"name":row.name,"captured":false,"optional":true,"kind":"","duration":config.duration,"optical":row.key,"site_id":row.key,"evidence":row.name+" · recovered field frame.","subject":subject}
+			_unknown(objective,"UNKNOWN LAMP RETURN",180.0,Vector2(40,-40),config.sight)
+			m.objectives.append(objective)
+		else:
+			_hidden(m,{"key":row.key,"pos":row.pos,"sight":config.sight,"seen_as":"UNIDENTIFIED SHAPE","lead":{"r":180.0,"off":Vector2(40,-40),"alias":"UNKNOWN FIELD RETURN"},"evidence":row.name+" · recovered field frame.","subject":subject})
 static func _hidden(m:Dictionary,h:Dictionary)->void:
 	if not m.has("photo_hidden"):m["photo_hidden"]=[]
 	h["found"]=false

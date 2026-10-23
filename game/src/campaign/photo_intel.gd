@@ -9,6 +9,24 @@ const Ops=preload("res://src/campaign/photo_ops.gd")
 const Photo=preload("res://src/simulation/photo_capture.gd")
 const Equipment=preload("res://src/equipment/equipment_catalog.gd")
 # item <- intel key and the quality it must be resolved at.
+# M1 chart knowledge only. Revert this table and its apply loop to remove the
+# new payoffs; no terrain, enemy, tool, story or progression state is changed.
+const RETURNED_FILM=[
+ {"key":"tender_door","from":7,"ops":[9,12],"mark":{"kind":"route","text":"LOADING LANE · recorded door-side approach","pos":[820.0,760.0]}},
+ {"key":"relay_blink","from":8,"ops":[10],"mark":{"kind":"post","text":"RELAY LAMP · recorded 6s gap in a 24s cycle; compare before work","pos":[520.0,1480.0],"period":24.0,"open":6.0,"phase":0.0}},
+ {"key":"structure_edge","from":11,"ops":[12,13],"mark":{"kind":"hazard","text":"STRUCTURE EDGE · film records wear, not a live patrol","pos":[1080.0,1840.0],"r":120.0}},
+ {"key":"buoy_blind","from":14,"ops":[15],"mark":{"kind":"post","text":"LAMP BACK PLATE · compare this listener with the returned film","pos":[1000.0,2200.0]}},
+ {"key":"vane_crack","from":15,"ops":[21],"mark":{"kind":"weak","text":"RELEASE SEAM · compare the latch with the strain-vane crack","pos":[1320.0,1080.0]}},
+ {"key":"keel_mark","from":18,"ops":[19],"mark":{"kind":"route","text":"SHELTERED SIDE · prior keel mark names the outer approach","pos":[725.0,1400.0]}},
+ {"key":"boat_keel","from":19,"ops":[22],"mark":{"kind":"route","text":"SERVICE LANE · compare the berth with the recovered keel mark","pos":[1800.0,1100.0]}},
+ {"key":"locker_latch","from":21,"ops":[23],"mark":{"kind":"weak","text":"SHALLOW LATCH · returned film records the seam pattern","pos":[1250.0,1350.0]}},
+ {"key":"shutter_order","from":23,"ops":[24],"mark":{"kind":"post","text":"LOCK SEQUENCE · A B C recorded in the returned lamp film","pos":[2180.0,1120.0]}},
+ {"key":"bus_cable","from":24,"ops":[25],"mark":{"kind":"post","text":"REPORTING BRANCH · the ballast cable is recorded","pos":[1800.0,1100.0]}},
+ {"key":"spindle_wear","from":26,"ops":[25],"mark":{"kind":"weak","text":"SPINDLE COLLAR · tight scoring frame retained","pos":[850.0,1500.0]}},
+ {"key":"slide_mark","from":27,"ops":[25],"mark":{"kind":"hazard","text":"COUNTERWEIGHT SCORE · recorded slide direction retained","pos":[1100.0,1400.0],"r":80.0}},
+ {"key":"bell_name","from":28,"ops":[25],"mark":{"kind":"person","text":"HUMAN SURVIVOR MARKS · bell-berth nameplate retained","pos":[800.0,700.0]}},
+ {"key":"feed_room","from":29,"ops":[25],"mark":{"kind":"post","text":"SECURITY FEED · terminal marks retained on film","pos":[2450.0,500.0]}}
+]
 const PROJECTS={
 	"photo_flash":{"intel":"foundry_lining","q":0.35,"text":"Foundry lining, resolved: a flash tuned to its glare."},
 	"low_light_back":{"intel":"base_cycle","q":0.4,"text":"Base cycle, observed whole: film that gathers a slow exposure."},
@@ -56,6 +74,11 @@ static func detail(intel:Dictionary)->String:
 # Operation builders call this once. It changes the world or the brief only
 # when the archive actually holds the matching film.
 static func apply_effects(m:Dictionary,id:int,context:Dictionary)->void:
+	for row in RETURNED_FILM:
+		if id not in row.ops or not ok(context,row.key):continue
+		var mark=row.mark.duplicate(true)
+		mark.merge({"id":"film_"+row.key,"label":mark.text,"q":context.intel[row.key].q,"op":row.from})
+		_mark(m,mark)
 	if id==19 and ok(context,"silt_scour"):
 		# The scour cut under the glass line: the middle water gains a gap.
 		var plug=preload("res://src/campaign/encounters/terrain.gd").ridge([Vector2(1100,1410),Vector2(1300,1400)],160,3)
