@@ -4,10 +4,10 @@
 
 **019 source checkpoint:** last reconciled integration0df6796 includes PR77 and PR79. This lane extracts only weapons behind the shared order table, preserving behavior. Next: sensors, route/drive, then photo, each as its own reviewed, green PR after its parent merges. Prepared035/020/024 source stays separate. Reconcile the newest integration before each merge; no main/production promotion or APK.
 
-## CHECKPOINT 23 Oct (written near Claude session usage limit, about 75%)
-Integration also holds PR77 (photo and cargo repairs, d5eae9d), PR81 and PR83 (ARCH1 steps). Codex was told to HOLD MERGES into claude/integration until Claude says clear; Claude is landing PR79 (this PR, also carries PR82 keystore note and PR84 Pat decisions D1 to D5), then PR80 (queue docs into codex/handoffs). When PR79 and PR80 are merged: close PR82 and PR84 as included, tell Pat "merges clear" so he can tell Codex, and tell him to reinstall hooks between Codex tasks (python3 scripts/toolchain/install-gauntlet-hooks.py).
+## CHECKPOINT 23 Oct (updated after PR79 and PR80 merged)
+Integration holds PR77 (photo and cargo repairs), PR79 (this guidance and Pat's decisions D1 to D5), PR81 and PR83 (ARCH1 steps). PR80 is merged on codex/handoffs. PR82 and PR84 were folded into PR79 and closed. Codex merge hold is LIFTED (Pat tells Codex). Hooks: Pat reinstalls between Codex tasks (python3 scripts/toolchain/install-gauntlet-hooks.py).
 Codex queue (docs/codex/BOARD.md): 019 remaining ARCH1 steps, PRIORITY 035 FIX2 (full cold review fixes, save error first; report docs/design/COLD_REVIEW_2_FULL.md), 036 first-Siren cue (D1), 037 early module reward (D2), then 020, 021, 023 to 027, 029 to 033. Pat's rule: phone testing only after the game is feature complete and bug free; no APKs.
-Claude to build next: D3 photo grade shown at "Record secured" (UI only, own branch and PR, flag grade_on_secure). Then review Codex PRs, re-run a cold review after 035 lands, and keep 5 hours of OPEN work ahead of Codex (write batch 7 when two of 035, 036, 037 are DONE).
+D3 photo grade at "Record secured" is in PR (branch claude/grade-on-secure, switch GradeOnSecure.enabled). Next: review Codex PRs, re-run a cold review after 035 lands, and keep 5 hours of OPEN work ahead of Codex (write batch 7 when two of 035, 036, 037 are DONE).
 Resume command: start Claude Code on claude/integration and say: "Read docs/RESUME.md, then continue the Gauntlet as root orchestrator." Pat is not a developer: plain language, Eastern times, no em dashes, no jargon.
 
 ## Authority and first action
