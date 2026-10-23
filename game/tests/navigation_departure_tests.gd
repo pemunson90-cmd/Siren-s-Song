@@ -20,7 +20,10 @@ func _initialize():
  var setup=true
  for id in [0,1]:
   setup=setup and Routes.move(s,s.mission.objectives[id].pos+Vector2(0,140));setup=setup and s.command("camera")
-  for n in 45:s.advance(0.1)
+  for n in 45:
+   s.advance(0.1)
+   for contact in s.contacts.values():
+    if s.elapsed-contact.time<.3 and contact.lock>1.0 and s.tools.emp>0:s.command("emp");break
  check(setup and s.all_records(),"ordinary forward-order solo records acquired")
  for arg in OS.get_cmdline_user_args():
   if arg.begins_with("--save-fixture="):

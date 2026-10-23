@@ -14,7 +14,7 @@ func run():
   root.size=dimensions;await settle()
   var ui=load("res://scenes/main.tscn").instantiate();ui.set_script(load("res://tests/density_main.gd"));ui.capture_scenario="tactics-composition"
   if dimensions.x==2520:ui.fixture_safe_area=Rect2(136,0,2384,1080)
-  root.add_child(ui);await settle();ui.set_process(false);ui._start_mission(4);ui.sim.units[0].pos=Vector2(600,750);ui.sim.sirens[0].pos=Vector2(700,750);ui.sim._observe();ui._toggle_advanced();await settle()
+  root.add_child(ui);await settle();ui.set_process(false);ui._start_mission(4);ui.sim.units[0].pos=Vector2(600,750);ui.sim.sirens[0].band=1;ui.sim.sirens[0].pos=Vector2(700,750);ui.sim._observe();ui._toggle_advanced();await settle()
   var planner_visible=ui.order_buttons.program.is_visible_in_tree();ui.mission_hud.open("tools");await settle()
   check(planner_visible and ui.order_buttons.knock.is_visible_in_tree(),"craft planner and contextual torpedo remain independently accessible")
   ui.sim.command("route",{"point":Vector2(820,750)});ui.sim.command("route_edit",{"index":0,"mode":"silent"})
@@ -28,7 +28,7 @@ func run():
   var camera_visible=ui.order_buttons.camera.is_visible_in_tree();ui.mission_hud.open("tools");await settle()
   check(camera_visible and ui.order_buttons.emp.is_visible_in_tree(),"contextual camera and disruption remain accessible")
   ui.queue_free();await settle()
- var s=Sim.new();s.start(4);s.units[0].pos=Vector2(600,750);s.units[0].angle=0;s.sirens[0].pos=Vector2(700,750);s._observe()
+ var s=Sim.new();s.start(4);s.units[0].pos=Vector2(600,750);s.units[0].angle=0;s.sirens[0].band=1;s.sirens[0].pos=Vector2(700,750);s._observe()
  s.command("route",{"point":Vector2(820,750)});s.command("route_edit",{"index":0,"mode":"silent"})
  check(s.command("knock",{"target":0}),"new acoustic mission launches physical torpedo alongside programmed route")
  s.paused=false;s.advance(0.1);s.paused=true

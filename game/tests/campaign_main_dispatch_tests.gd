@@ -7,7 +7,7 @@ func check(ok:bool,label:String):
  if not ok:failures+=1;printerr("FAIL ",label)
 func run():
  for id in [9,10]:
-  var game=load("res://scenes/main.tscn").instantiate();game.store.path="user://campaign-dispatch%d-fixture.save"%id;root.add_child(game);game.set_process(false)
+  var game=load("res://scenes/main.tscn").instantiate();game.capture_scenario="campaign-dispatch-fixture";game.store.path="user://campaign-dispatch%d-fixture.save"%id;root.add_child(game);game.capture_scenario="";game.set_process(false)
   var tutorial=[0,1,2,3,4,5];game.completed=tutorial.duplicate();game.unlocked=5
   var branch="deep" if id==9 else "shelf"
   game.expedition=preload("res://src/campaign/campaign_consequences.gd").upgrade({"version":1,"route":branch,"routes":[branch],"facts":{branch:"fixture carrier"},"completed":[6,id-2]})
@@ -20,12 +20,20 @@ func run():
   # threats/position an actor only to obtain a valid production terminal state;
   # receive/capture/extract still run through the actual simulation commands.
   game.sim.sirens=[];game.sim.paused=false
-  var stations=[Vector2(480,620)] if id==9 else [Vector2(480,1000),Vector2(1520,1000),Vector2(1000,400)]
-  for station in stations:
-   game.sim.units[0].pos=station+Vector2(0,80);game.sim.units[0].vel=Vector2.ZERO;game.sim.advance(.1)
-   check(game.sim.command("camera"),"terminal%d fixture uses actual receiver acquisition"%id)
+  if id==9:
+   game.sim.units[0].pos=Vector2(480,700);game.sim.units[0].vel=Vector2.ZERO;game.sim.advance(.1)
+   check(game.sim.command("camera"),"terminal9 fixture uses actual receiver acquisition")
    for n in 45:game.sim.advance(.1)
-  game.sim.units[0].pos=game.sim.mission.extraction;game.sim.units[0].vel=Vector2.ZERO;game.sim.advance(.1)
+  else:
+   # Warning Chain replaced camera holds with explicit local plant controls.
+   game.sim.units[0].pos=Vector2(480,1000);game.sim.units[0].vel=Vector2.ZERO
+   check(game.sim.command("chain_power",{"mode":"backup"}),"terminal10 fixture powers the actual plant")
+   game.sim.units[0].pos=Vector2(1520,1000)
+   check(game.sim.command("chain_route",{"output":"service"}),"terminal10 fixture selects the actual service output")
+   check(game.sim.command("chain_send") and game.sim.all_records(),"terminal10 fixture earns the actual local warning receipt")
+  game.sim.units[0].pos=Vector2(180,1000) if id==10 else game.sim.mission.extraction;game.sim.units[0].vel=Vector2.ZERO;game.sim.advance(.1)
+  if game.sim.departure_context().get("confirmation_required",false):
+   check(game.sim.command("depart",{"confirm":true}),"terminal fixture explicitly confirms leaving remote carriers")
   check(game.sim.outcome=="won" and preload("res://src/simulation/simulation.gd").valid_snapshot(game.sim.snapshot()),"self-contained onward%d terminal fixture satisfies real save schema"%id)
   game._process(0.)
   check(game.screen=="debrief" and game.completed==tutorial and game.unlocked==5,"normal Main%d frame dispatch preserves tutorial completion IDs"%id)

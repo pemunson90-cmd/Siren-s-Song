@@ -30,7 +30,7 @@ func run():
  if equipment==null:finish();return
  var catalog=[{"id":"quietus_correlator","name":"CADENCE CORRELATOR","compatible_slots":["quietus"],"benefit":"Compare a received cadence with a recovered reference.","cost":"6s settled listening; identity and range unknown."},{"id":"drone_sampler","name":"FIELD SAMPLER","compatible_slots":["drone_a","drone_b"],"benefit":"Operate a compatible field receiver remotely.","cost":"8s exposed, versus Quietus4s; one sampler shared."}]
  var context={"slots":{},"catalog":catalog,"available":[]};var before=context.duplicate(true)
- check(equipment.rows(context).is_empty(),"field notes without recovered entitlement expose no fitting choice")
+ check(equipment.rows(context).size()==3 and equipment.rows(context).all(func(row):return row.unavailable and row.current.is_empty()),"unrecovered fittings remain visible as unavailable and cannot imply ownership")
  check(context==before,"view does not grant or mutate equipment")
  context.available=["quietus_correlator","drone_sampler"]
  var rows=equipment.rows(context)
@@ -80,9 +80,13 @@ func run():
  var sound=load("res://src/audio/soundscape.gd")
  var carrier=sound.samples("carrier_received");var answer=sound.samples("return_received")
  check(carrier!=answer and carrier!=sound.samples("alert"),"received carrier and RETURN have distinct non-alert sonic identities")
+ # Imported recordings replaced the old quiet procedural waveforms. Measure
+ # the real playback voice gain while retaining the original headroom bound.
+ var player=sound.new();root.add_child(player);await process_frame
  for values in [carrier,answer]:
   var energy=0.;var peak=0.
   for value in values:energy+=value*value;peak=maxf(peak,absf(value))
-  check(energy>1. and peak<.5,"received cue has audible energy and conservative clipping headroom")
+  check(energy>1. and player.voices.all(func(voice):return peak*db_to_linear(voice.volume_db)<.5),"received cue has audible energy and conservative clipping headroom")
+ player.queue_free();await process_frame;await create_timer(.1).timeout
  finish()
 func finish():print("CAMPAIGN INSTRUMENT CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)

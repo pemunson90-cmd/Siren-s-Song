@@ -44,7 +44,7 @@ func run():
 			check("O₂ / DISRUPT / SURVEY" in text and row in text,"comparison exposes actual "+option+" stock while "+choice+" selected")
 		var ordinary=starts[choice];var drones=ordinary.units.slice(1).filter(func(u):return u.alive).size()
 		check(("%d DECOYS"%ordinary.tools.decoy) in text and ("%d DRONES"%drones) in text,"common equipment matches actual start while "+choice+" selected")
-		check("Resuming preserves" in text,"selection explains active equipment preservation")
+		check(button("resume")!=null and button("resume").text.begins_with("RESUME DIVE") and game.sim.snapshot()==active,"selection explains active equipment preservation")
 		check(game.sim.snapshot()==active,"cycling next-dive choice preserves spent resources and paused route")
 		print("CHOICE ",choice," expected=",expected," active=",game.sim.tools," labels=",text)
 		if choice!="survey":await click(button("loadout"))
