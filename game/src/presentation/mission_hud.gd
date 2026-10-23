@@ -498,7 +498,7 @@ func refresh():
   intent.text=sim.units[sim.selected].name+" · "+host.targeting_feedback
  var photographic=sim.camera_context()
  if preload("res://src/simulation/photo_context.gd").is_photo(sim,photographic):
-  host.order_buttons.camera.text="PHOTO";host.order_buttons.camera.disabled=not photographic.get("ready",false)
+  host.order_buttons.camera.text="PHOTO";host.order_buttons.camera.disabled=false
  var fitted=Equipment.status(sim)
  if not fitted.is_empty():instrument_info.text+="\n\n"+fitted
  if page=="inspect" and subject.get("kind","") in ["craft","fleet"]:
