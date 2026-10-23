@@ -486,6 +486,7 @@ func _show_campaign() -> void:
 		b.disabled=i>unlocked
 		b.set_meta("action","mission%d"%i)
 	ExpeditionOperations.operations(self)
+	preload("res://src/presentation/route_map/route_map_view.gd").entry(self)
 	if active_started and sim.outcome.is_empty():
 		_button(panel_box,"RESUME DIVE · %02d %s"%[mission_index+1,sim.mission.title.to_upper()],_enter_water,"resume")
 		if not _campaign_pristine():_menu_text("Resuming keeps this dive's equipment and its place in time.",14)
