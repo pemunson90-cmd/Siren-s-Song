@@ -1,9 +1,9 @@
 # Handoff 035 (PRIORITY): FIX2, concrete problems from the full cold review and the Marlow audit
 
-Status: CLAIMED
+Status: DONE
 Claimed at: 2026-10-23 04:41:53 UTC
 Claimed by: codex
-Finished at:
+Finished at: 2026-10-23 17:17:50 UTC
 
 Precondition: none. Take this before 019's later steps if Codex is between steps; do not interrupt an in-progress PR (finish 019 step 1 / PR81 first).
 Codex may merge: yes, into claude/integration only, after GitHub guidance and game-smoke are both green on the exact head and the PR is mergeable. Merge with a merge commit, then mark DONE and update docs/codex/BOARD.md.
@@ -35,6 +35,8 @@ Each item fixed or reported as not reproducing; real-touch tests at both Fold7 s
 PR into claude/integration; merge per the line above; mark DONE and update the board.
 
 ## Completion
+
+DONE: https://github.com/pemunson90-cmd/Siren-s-Song/pull/86 merged with merge commitd9a0bf79535a2a32639dd32bf894a8a1970dfb73. Last pushed branch claude/fix2-cold-review-full headfd2224affdaad25d16b2cfc74b049ca032c379c6 passed exact-head guidance/game-smoke39989872271 and independent final review /root/review_integration against009f2b8, no outstanding findings. Fresh merge-boundary ancestry/mergeability verified; post-merge fetch confirms head landed. All11 items fixed or non-reproduction reported in dispositions below. Identical tested source import/core818/0 plus focused saves/feedback/routing and actual Fold-shape Canvas touch checks green. No tests weakened, no APK/main/production or unowned game-file changes in this completion. Physical Android/subjective quality unverified. Next024/PR87, then remaining019,036,037 and eligible queue. Earlier checkpoints below retain dated implementation/review evidence.
 
 CLAIMED, source complete; PR86 remains open behind019 under Pat's revised order. Branch claude/fix2-cold-review-full, exact head33fbb20d3c7a4ff24c672268b2aa005c0f3bc4c8, base integration0df679650bfdc0de98503f162f181b613dcb7574 including PR77/79. Current exact-head CI39912616182 is running. Pat cleared merges and ordered019,035,036,037.
 
