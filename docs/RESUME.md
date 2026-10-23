@@ -2,6 +2,12 @@
 
 **Execution:** development RESUMED by Pat (23 Oct 2026). Codex034/FIX1 is merged; Codex has claimed handoff019 and opened [PR81](https://github.com/pemunson90-cmd/Siren-s-Song/pull/81) (branch `claude/arch1-save-checks`). Preserve that work.
 
+## CHECKPOINT 23 Oct (written near Claude session usage limit, about 75%)
+Integration also holds PR77 (photo and cargo repairs, d5eae9d), PR81 and PR83 (ARCH1 steps). Codex was told to HOLD MERGES into claude/integration until Claude says clear; Claude is landing PR79 (this PR, also carries PR82 keystore note and PR84 Pat decisions D1 to D5), then PR80 (queue docs into codex/handoffs). When PR79 and PR80 are merged: close PR82 and PR84 as included, tell Pat "merges clear" so he can tell Codex, and tell him to reinstall hooks between Codex tasks (python3 scripts/toolchain/install-gauntlet-hooks.py).
+Codex queue (docs/codex/BOARD.md): 019 remaining ARCH1 steps, PRIORITY 035 FIX2 (full cold review fixes, save error first; report docs/design/COLD_REVIEW_2_FULL.md), 036 first-Siren cue (D1), 037 early module reward (D2), then 020, 021, 023 to 027, 029 to 033. Pat's rule: phone testing only after the game is feature complete and bug free; no APKs.
+Claude to build next: D3 photo grade shown at "Record secured" (UI only, own branch and PR, flag grade_on_secure). Then review Codex PRs, re-run a cold review after 035 lands, and keep 5 hours of OPEN work ahead of Codex (write batch 7 when two of 035, 036, 037 are DONE).
+Resume command: start Claude Code on claude/integration and say: "Read docs/RESUME.md, then continue the Gauntlet as root orchestrator." Pat is not a developer: plain language, Eastern times, no em dashes, no jargon.
+
 ## Authority and first action
 Read current USER_DIRECTIVES, then AGENTS for stable execution rules. Intended behavior lives in CURRENT_GAME_SPEC; camera implementation and gaps live in PHOTO_RECON. This file owns the reconciled operational snapshot. Session ledgers retain dated history. CONTINUATION and WORKBENCH are pointers.
 
