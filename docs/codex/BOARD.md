@@ -61,7 +61,7 @@ Take 017 first (PRIORITY) if any of PRs 69, 70, 71 is open; otherwise numeric or
 | P | 035 FIX2 full cold review fixes (save error first) | DONE | [86](https://github.com/pemunson90-cmd/Siren-s-Song/pull/86) | 2026-10-23 17:17:50 UTC | Mergedd9a0bf7 after exactfd2224a guidance/game-smoke39989872271 green and final independent approval; core818/0 and affected Canvas checks; all11 items fixed or reported. |
 
 ## BATCH 6 (23 Oct, Pat's decisions D1 and D2)
-| 36 | 036 first-Siren cue, ops 1 to 3 | CLAIMED | [93 draft](https://github.com/pemunson90-cmd/Siren-s-Song/pull/93) | | WIP0c3be16, functional32/0, rendered touch34/0, affected warnings/audio pass; core/review pending. Merge92 first then reconcile actual integration. |
+| 36 | 036 first-Siren cue, ops 1 to 3 | CLAIMED | [93 draft](https://github.com/pemunson90-cmd/Siren-s-Song/pull/93) | | WIP23dc197; core818/0, functional37/0, rendered touch50/0 and affected checks pass. Initial review findings reproduced/fixed; re-review pending. Merge92 first then reconcile actual integration. |
 | 37 | 037 early module reward | OPEN | | | |
 
 ## Claude-held
