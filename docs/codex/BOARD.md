@@ -51,7 +51,7 @@ Work order is numeric: finish 013 (batch 1) first, then 014, 015, 016.
 Dependency note: 016, 019, 020, 023 to 027 wait on PR 74 (handoff 018). 021 waits on 020. Work available without PR 74: 022, 029, 030, 031, 032. Pick the lowest OPEN handoff whose precondition is met.
 
 ## PRIORITY after 016 (22 Oct night)
-| P | 034 FIX1 concrete fixes from cold review 2 | CLAIMED | [78](https://github.com/pemunson90-cmd/Siren-s-Song/pull/78) | 2026-10-23 01:12:55 UTC | Pushed9486974; opening collision reproduced in all6 and fixed with unchanged forced damage; UI cases next. |
+| P | 034 FIX1 concrete fixes from cold review 2 | CLAIMED | [78](https://github.com/pemunson90-cmd/Siren-s-Song/pull/78) | 2026-10-23 01:43:04 UTC | Pushedb8d270e; core817/0, touch173/0, radial58/0 clean, both archive profiles9/0; exact-head review/CI pending. |
 
 Take 017 first (PRIORITY) if any of PRs 69, 70, 71 is open; otherwise numeric order 014 to 020. Designs live in docs/design/ on this branch. Beyond 020 see docs/SESSION_LEDGER_2026-10-22.md on claude/integration, section Next.
 
