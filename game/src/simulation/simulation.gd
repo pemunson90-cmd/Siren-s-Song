@@ -292,7 +292,7 @@ func salvage_context(item:String,unit_id:int=-1)->Dictionary:
 func _blackwater_recovery_busy(unit_id:int)->bool:return Delivery.busy(self,unit_id)
 func _collect_shared_wreck(unit_id:int,pos:Vector2)->bool:
 	if not Delivery.applies(mission) and not (Witness.available(self) and mission.witness_evacuation.pos.distance_to(pos)<=1):return false
-	ModuleRecovery.collect_at(self,unit_id,pos);Delivery.collect_at(self,unit_id,pos);Witness.collect_at(self,unit_id,pos);return true
+	Witness.collect_at(self,unit_id,pos);ModuleRecovery.collect_at(self,unit_id,pos);Delivery.collect_at(self,unit_id,pos);return true
 func _witness_recovery_busy(unit_id:int)->bool:return Witness.busy(self,unit_id)
 func concealed_status()->Dictionary:return Concealed.status(self)
 func witness_status()->Dictionary:return Witness.status(self)
@@ -622,10 +622,11 @@ func command(order: String,args: Dictionary={}) -> bool:
 			return Photo.set_frame(self,selected,args)
 		"all_stop":return AllStop.command(self)
 		"camera":
-			if not module_recovery_status().jobs[selected].is_empty() or Delivery.busy(self,selected) or Witness.busy(self,selected) or Glass.busy(self,selected) or Choir.busy(self,selected):message="Finish this craft's wreck recovery first";return false
+			if not module_recovery_status().jobs[selected].is_empty() or Delivery.busy(self,selected) or Witness.busy(self,selected) or Glass.busy(self,selected) or Choir.busy(self,selected) or _warning_chain_busy(selected):message="Finish this craft's wreck recovery first";return false
 			var context=camera_context()
 			if not context.ready: message=context.text; return false
 			var photo_target:int=context.target if context.target>=0 else Photo.siren_objective(self,context.siren)
+			if photo_target<0:message="No available photographic subject";return false
 			var target=Photo.obj(self,photo_target)
 			captures[selected]={"target":photo_target,"elapsed":0.0}; u.hold="HOLD"
 			Operations.begin(self,target,selected)
