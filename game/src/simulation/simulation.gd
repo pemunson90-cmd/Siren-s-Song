@@ -1,7 +1,9 @@
 extends RefCounted
+const Orders=preload("res://src/simulation/orders/order_table.gd")
 const JobRelease=preload("res://src/simulation/job_release.gd")
 const SaveChecks=preload("res://src/persistence/save_checks.gd")
 const EnemyTypes=preload("res://src/simulation/enemy_types.gd")
+const GradeOnSecure=preload("res://src/photo_grade/grade_on_secure.gd")
 const LaunchLayout=preload("res://src/simulation/opening_fleet/launch_layout.gd")
 const Shelf=preload("res://src/simulation/shelf_habitat.gd")
 const Wake=preload("res://src/simulation/wake_crossing.gd")
@@ -487,157 +489,18 @@ func _near_wall_recovery(origin: Vector2,destination: Vector2,player_course:bool
 	return []
 func command(order: String,args: Dictionary={}) -> bool:
 	if not outcome.is_empty(): return false
-	if order=="depart":
-		var context=departure_context()
-		if not context.available or not args.get("confirm") is bool:return false
-		if args.has("corridor"):
-			var expected=args.corridor
-			if not expected is Dictionary or expected.get("pos")!=context.corridor.pos or expected.get("route","")!=context.corridor.get("route",""):return false
-		if not args.confirm:ModuleRecovery.defer(self,context);message="Recovery continues · route remaining module carriers, then depart";return true
-		return _try_extract(context.corridor,true)
+	if order=="depart":return Orders.TABLE[order][0].command(self,order,args)
 	var u=units[selected]
 	_use_band(u.band)
 	if not u.alive and order!="select":
 		selected=0; queue_mode=false; message="Selected drone lost. Quietus selected; reissue the order."; return false
 	if order in ["camera","chain_power","chain_route","chain_send","concealed_tow","witness_land","warning_gate","warning_depart","rendezvous_release","wake_playback","shelf_warn","shelf_alarm"] and ((u.band!=1 and not (order=="camera" and BandPhoto.can_shoot(self,u))) or not u.transition.is_empty()):
 		message="Ascend to MIDDLE and settle for local work";return false
-	match order:
-		"choir_action":return Choir.command(self,args)
-		"glass_action":return Glass.command(self,args)
-		"depth":return Depth.command(self,args.get("band"))
-		"sonar_mode":return Sonar.configure(self,args)
-		"wake_playback":return Wake.play(self)
-		"shelf_warn":return Shelf.command(self,"local",args.get("site",""))
-		"shelf_alarm":return Shelf.command(self,"common")
-		"chain_power":return Chain.command(self,args.mode) if args.get("mode") in ["connect","disconnect","backup"] else false
-		"chain_route":return Chain.command(self,args.output) if args.get("output") in ["service","mast"] else false
-		"chain_send":return Chain.command(self,"send")
-		"blackwater_handoff":
-			if not args.get("carrier") is int:return false
-			return Delivery.handoff(self,args.carrier)
-		"concealed_tow":return Concealed.command(self,args.get("action",""))
-		"witness_land":return Witness.land(self)
-		"warning_gate":return Recipient.open_gate(self)
-		"warning_depart":return Recipient.depart(self,args.get("course",""))
-		"salvage":
-			if not args.get("item") is String:return false
-			if not salvage_context(args.item).get("ready",false):message=salvage_context(args.item).get("reason","Salvage unavailable");return false
-			if args.item.begins_with("glass_"):return Glass.command(self,{"action":"recover"})
-			if Witness.handles(self,args.item):return Witness.begin(self,args.item)
-			return Delivery.begin(self,args.item) if args.item.begins_with("blackwater_buffer_") else ModuleRecovery.begin(self,args.item)
-		"rendezvous_release":return Rendezvous.release(self)
-		"select":
-			var id=int(args.get("unit",0))
-			if id<0 or id>=units.size() or not units[id].alive: return false
-			selected=id; _use_band(units[id].band); queue_mode=false
-			message="%s selected · next tap replaces route" % units[id].name
-		"waypoint_mode": pass_through=not pass_through; message="Queued waypoints PASS through" if pass_through else "Queued waypoints STOP before continuing"
-		"queue": queue_mode=not queue_mode; message="QUEUE: tap to add" if queue_mode else "REPLACE: tap to set route"
-		"route", "emergency":
-			var append=queue_mode and order!="emergency"
-			var plan=route_goals() if append else []
-			if append and not plan.is_empty() and not plan.back().get("arrival_set",false): plan.back().stop=not pass_through
-			plan.append({"pos":args.get("point",u.pos),"stop":true,"mode":"inherit"})
-			if not _install_program(u,plan,append,append and not u.route.is_empty()): message="Rock or unsafe clearance. Choose open water."; return false
-			if not append:
-				u.hold=""
-				captures[selected]={}
-			if order=="emergency":
-				queue_mode=false; u.silent=false; u.erase("route_undo")
-				if selected>0 and u.has("drone_drive"):u.drone_drive="transit"
-			message="%s · %s route" % [u.name,"queued" if append else "replaced"]
-		"route_edit", "route_insert", "route_delete", "route_undo":
-			if not _edit_program(order,args): return false
-		"order_undo":
-			# Presentation-held restore of the last plain route order: prior goals and hold only.
-			var prior=args.get("goals",[]);var prior_hold=args.get("hold","")
-			if not prior is Array or not prior_hold is String or prior_hold not in ["","HOLD","CONTACT","DRONE",DroneOperations.ARMED,DroneOperations.STOPPED]:return false
-			if prior.is_empty():
-				u.route=[];u.erase("route_plan");u.erase("route_undo")
-			elif not _install_program(u,prior,false):message="Previous course is no longer safe.";return false
-			u.hold=prior_hold;message="%s · last order undone"%u.name
-		"hold": u.hold="" if u.hold=="HOLD" else "HOLD"; message="Holding position" if u.hold!="" else "Route released"
-		"contact_hold":
-			if u.hold in ["CONTACT",DroneOperations.ARMED,DroneOperations.STOPPED]:
-				u.hold="";message="%s · condition released · retained route resumes"%u.name
-			elif selected==0:u.hold="CONTACT";message="Quietus fleet guard · hold while any fresh contact is observed"
-			else:u.hold=DroneOperations.ARMED;message="%s SCOUT · stop on its own passive contact · release or replot to continue"%u.name
-		"wait_drone": u.hold="" if u.hold=="DRONE" else "DRONE"; message="Wait until a live drone reaches its final waypoint"
-		"silent":
-			u.silent=not u.silent
-			# A direct propulsion command overrides the current programmed leg only.
-			if selected==0 and u.has("route_plan") and not u.route_plan.is_empty():
-				u.route_plan[0].mode="silent" if u.silent else "cruise"
-				for node in u.route:
-					node.mode=u.route_plan[0].mode
-					if node.get("goal",false): break
-			message=(("Low visual profile" if u.silent else "Open visual profile")+" · drone thrust target %dm/s"%(42 if u.get("drone_drive","transit")=="quiet" else 96)) if selected>0 else ("Silent running" if u.silent else "Cruise thrust · increased noise")
-		"drone_drive":
-			var mode=args.get("mode","")
-			if selected==0 or mode not in ["quiet","transit"]:return false
-			u.drone_drive=mode
-			if u.has("route_plan") and not u.route_plan.is_empty():
-				u.route_plan[0].mode="silent" if mode=="quiet" else "cruise"
-				for node in u.route:
-					node.mode=u.route_plan[0].mode
-					if node.get("goal",false):break
-			message="%s · %s · visual profile unchanged"%[u.name,"QUIET42" if mode=="quiet" else "TRANSIT96"]
-		"ping":
-			if ping_time>0: return false
-			if not Sonar.emit(self,selected):return false
-			ping_time=3.5; ping_origin=u.pos; events.append({"type":"ping","pos":u.pos}); message="Pulse away · wait for physical echoes · emission audible"
-			_observe()
-			if mission.get("blackwater_revision",0)==1:
-				var answered=false
-				for target in mission.objectives:
-					if not target.captured and u.band==1 and u.pos.distance_to(target.pos)<240 and Depth.clear(self,u.pos,target.pos,1) and Sonar.in_sector(u.pos,target.pos,u.angle,sonar.sector):
-						target.replay_until=elapsed+3.0;answered=true
-				if answered:message="SONAR emitted · local relay replay 3s · settle and SAMPLE"
-		"recon":
-			if tools.recon<=0: return false
-			if mission.has("world_size"):mission["survey_origin"]=u.pos
-			tools.recon-=1; recon_time=8.0; _noise(u.pos,1100,"RECON UPLINK",2.0,u.band); message="Local 560m survey · 8 seconds" if mission.has("world_size") else "Wide survey uplink · 8 seconds"; SignalField.observe(self,true); Consequences.observe(self,true); events.append({"type":"recon","pos":u.pos}); _observe()
-		"emp":
-			if tools.emp<=0: return false
-			tools.emp-=1
-			for s in sirens:
-				if s.pos.distance_to(u.pos)<340*Depth.transmission(u,s): s.stun=12.0; s.lock=0.0; s.target=-1; s.erase("recipient_target"); s.mode="PINNED" if s.get("pin_time",0)>0 else "DISRUPTED"
-			_noise(u.pos,650,"DISRUPTION",2.0,u.band); message="Disruption pulse · 12 second recovery window"; events.append({"type":"emp","pos":u.pos})
-		"knock":
-			var id=args.get("target",null)
-			var eligible=knockdown_targets().any(func(c):return c.key==id) if id is int else false
-			if tools.get("knock",0)<=0 or not eligible or id<0 or id>=sirens.size(): message="Knockdown needs a fresh contact within 150m and a clear path."; return false
-			var target=sirens[id]
-			var launch_band=_knock_band(contacts[id])
-			if target.stun>0 or launch_band not in Depth.occupied(target) or not contact_visible(target) or u.pos.distance_to(target.pos)>KNOCK_RANGE or not Depth.clear(self,u.pos,target.pos,launch_band,3): message="Knockdown target unavailable · no torpedo spent."; return false
-			tools.knock-=1
-			projectiles.append({"pos":u.pos,"angle":u.angle,"target":id,"aim":target.pos,"life":TORPEDO_LIFE,"noise_clock":0.0,"band":launch_band})
-			_noise(u.pos,650,"KNOCKDOWN",2.0,u.band); events.append({"type":"knock","pos":u.pos})
-			message="Torpedo launched at S%d · pin on impact · emission audible"%(id+1)
-		"decoy":
-			var point=args.get("point",u.pos+Vector2(DECOY_RANGE,0))
-			if not decoy_target_valid(point): message="Decoy needs clear water within 160m and a clear path · no charge spent"; return false
-			tools.decoy-=1; _noise(point,1100,"DECOY",15.0,u.band); message="Decoy launched · 15s transmission"; events.append({"type":"decoy","pos":u.pos})
-		"frame":
-			return Photo.set_frame(self,selected,args)
-		"all_stop":return AllStop.command(self)
-		"camera":
-			if not module_recovery_status().jobs[selected].is_empty() or Delivery.busy(self,selected) or Witness.busy(self,selected) or Glass.busy(self,selected) or Choir.busy(self,selected) or _warning_chain_busy(selected):message="Finish this craft's wreck recovery first";return false
-			var context=camera_context()
-			if not context.ready: message=context.text; return false
-			var photo_target:int=context.target if context.target>=0 else Photo.siren_objective(self,context.siren)
-			if photo_target<0:message="No available photographic subject";return false
-			var target=Photo.obj(self,photo_target)
-			captures[selected]={"target":photo_target,"elapsed":0.0}; u.hold="HOLD"
-			Operations.begin(self,target,selected)
-			if Photo.applies(target):
-				Photo.begin(self,selected,photo_target)
-				if target.captured:Recon.action(mission,3.0)
-			message="%s · hold %.0f seconds"%["Hydrophone reception" if target.get("kind","")=="exchange" else ("Passive hydrophone decode" if target.get("kind","")=="receiver" else ("Archive uplink" if target.get("kind","")=="uplink" else "Warning transmission" if Operations.own_origin(target) else "Camera exposure")),_capture_duration(target,selected)]
-			if target.get("kind","") not in ["receiver","exchange","transmitter"] or not Sampler.capture_spec(selected,mission.get("launch_equipment",{}),target).is_empty():
-				_noise(u.pos,Photo.noise_radius(self,selected) if Photo.applies(target) else 520,"CAMERA",2.0,u.band);noises.back()["record"]=photo_target
-			events.append({"type":"camera","pos":u.pos})
-		_: return false
+	var handler=Orders.TABLE.get(order,[])
+	if handler.is_empty():return false
+	var accepted:bool=handler[0].command(self,order,args)
+	return _finish_command(u,order) if accepted and handler[1] else accepted
+func _finish_command(u:Dictionary,order:String)->bool:
 	if order=="emp":preload("res://src/simulation/observed_stun.gd").record(self)
 	JobRelease.cancel(self,selected,order)
 	AllStop.after_order(self,u,order)
@@ -1543,6 +1406,9 @@ func has_live_contact() -> bool:
 	return false
 
 func _record_secured(record: Dictionary,unit_id:int=-1) -> void:
+	_record_secured_core(record,unit_id)
+	if not record.has("siren"):message+=GradeOnSecure.note(record)
+func _record_secured_core(record: Dictionary,unit_id:int=-1) -> void:
 	if record.has("siren"):
 		# A Siren study is film, not a charted record: it never advances an operation's own record logic.
 		Recon.secured(self,record,unit_id);events.append({"type":"record","pos":record.pos});message="Siren study filed · review it in FIELD RECORDS"
