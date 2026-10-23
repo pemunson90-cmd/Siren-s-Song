@@ -12,19 +12,14 @@ Keep every change as self-contained as possible so it can be changed or reverted
 ## Input priority (Pat, 22 Oct)
 Primary release target is ANDROID, so everything is touch-first: on-screen controls of at least 48 dp, tap/hold/drag/pinch, the Android back gesture or button as the Escape equivalent, no hover, no keyboard-only paths. Keyboard is a working fallback only. Verify new UI with the real-touch harness at the Fold7 cover and inner shapes, not just keyboard events. (Example: an Escape fix must also work for back.)
 
-## Settled rules you must not break
-- A fired Siren beam destroys Quietus outright; the 4 s lock warning stays and can be broken; drones die to a beam; collisions cost hull by speed with a cooldown. Do not change these.
-- V7 Sirens have no sonar of their own. They sense by proximity plus line of sight, throttle noise (speed squared), and Quietus pings and loud tools. Claude is rebuilding the sweeper on this (handoff 009, branch claude/lane-t2-sweeper).
-- Photography is a core pillar; do not change how the camera works. Claude's PHOTO2 builder (branch claude/photo2-images) is making the photograph a real lit image with discovery and consequences.
-- Testing: import, core suite (ends CHECKS N FAILURES 0), and only tests for what you touched. Never run the full 73-scenario list locally; GitHub game-smoke (about 25 minutes) is the gate. A Godot "resources still in use at exit" line fails CI. Never skip, loosen or delete a test.
+## Stable preservation rules
+- Preserve beam lethality, the interruptible lock warning, physical collision and fair Siren sight/hearing unless the handoff records Pat's approval to change them. V7-senses sweepers have no sonar of their own.
+- Photography is a core pillar. Apply the ratified camera decisions and the exact assigned repair/content scope; capability limitations live in PHOTO_RECON on integration.
+- Test inventories and ordering come from `game/tests/suites.txt` on integration. Run focused local checks under README; GitHub owns the full registered matrix. Preserve meaningful assertions and explain stale-fixture corrections.
 - No em dashes. Story and briefing text stay 1 to 2 line placeholders. Gameplay, layout and UI come first.
 
-## What has landed on claude/integration (22 Oct)
-Glass Reach ops 14 to 21; hulls, drones and fitting; sonar and rule fixes; story rewrite to the survivor premise; front end (title, settings, credits); Iron Choir ops 22 to 29; lethal-beam combat and collisions; PHOTO1 (viewpoint-dependent camera, archive, intel, gear); ONBOARD1 (teaching prompts, order confirm and undo, text size, clearer title).
-
-## What is in flight (do not touch these areas)
-(22 Oct 17:45 UTC) PR 69 Priced Shots (new photo_pricing folders), the sweeper rebuild (sonar_sweeper.gd, branch claude/lane-t2-sweeper), then depth-band photos and an ARCH1 behavior-preserving refactor of simulation.gd and main.gd. Codex already landed PR 68 (lock warning readability).
-PHOTO2 (camera, viewfinder, archive, discovery), SWEEP1 (sweeper and its warning text, plus a tutorial pause on the first Siren warning). Next after those: a "Priced Shots" milestone (finite film, light and distance trades) and a photo depth-band choice, both Claude's.
+## Current state and ownership
+Use docs/RESUME.md on fetched `origin/claude/integration` for the reconciled source baseline and live PR links. Use the live board and each handoff's Status/Completion on `origin/codex/handoffs` for assignment, claim and recovery refs. This document carries no duplicated landed/in-flight list. Earlier dated snapshots are recoverable in Git history. No claim, completion, precondition or queue order is changed by this pointer reconciliation.
 
 ## Where to read more (only if your handoff points there)
-AGENTS.md, docs/USER_DIRECTIVES.md (newest first), docs/CURRENT_GAME_SPEC.md, docs/PHOTO_RECON.md, docs/SESSION_LEDGER_2026-10-21.md, docs/FUTURE_OPTIONS.md. Read these ON claude/integration, not on this branch.
+AGENTS.md, docs/USER_DIRECTIVES.md (current decisions and dated provenance), docs/CURRENT_GAME_SPEC.md, docs/PHOTO_RECON.md and docs/FUTURE_OPTIONS.md. Read these ON claude/integration, not on this branch.
