@@ -25,8 +25,8 @@ Work order is numeric: finish 013 (batch 1) first, then 014, 015, 016.
 |---|---|---|---|---|---|
 | P | 017 PRIORITY: land PRs 69, 70, 71 | DONE | [69](https://github.com/pemunson90-cmd/Siren-s-Song/pull/69), [70](https://github.com/pemunson90-cmd/Siren-s-Song/pull/70), [71](https://github.com/pemunson90-cmd/Siren-s-Song/pull/71) | 2026-10-22 20:18:10 UTC | All three merged on green; basic Quietus completes Well without drones or tools. |
 | 7 | 018 DEPTH1 depth-band photos, findings, all-stop | DONE | [74](https://github.com/pemunson90-cmd/Siren-s-Song/pull/74) | 2026-10-22 23:30 UTC | Merged by Claude: photo_depth, photo_rules, all_stop; each has an off switch. Preconditions of 016, 019, 020, 023 to 027, 033 on 018 are now met. |
-| 8 | 019 ARCH1 refactor steps 2 to 4 | CLAIMED | [81](https://github.com/pemunson90-cmd/Siren-s-Song/pull/81), [83](https://github.com/pemunson90-cmd/Siren-s-Song/pull/83) | | Source reviewed;81 and83 merged; four order-family lanes pushed;035 priority before remaining steps. |
-| 9 | 020 CAMPAIGN M1 photo rows ops 6 to 29 | CLAIMED | [85 draft](https://github.com/pemunson90-cmd/Siren-s-Song/pull/85) | | Dataff5f1e1 incorporates reviewed035+PR77;361/0/core818/0; actual-head re-review and post-failure local remainder running; waits035/019;76 pressure rows match. |
+| 8 | 019 ARCH1 refactor steps 2 to 4 | CLAIMED | [81](https://github.com/pemunson90-cmd/Siren-s-Song/pull/81), [83](https://github.com/pemunson90-cmd/Siren-s-Song/pull/83) | | 81/83 merged; all4 remaining families reconciled with035/PR77, independently re-approved at220fa18; core818/0 at each step;035 priority and merge hold. |
+| 9 | 020 CAMPAIGN M1 photo rows ops 6 to 29 | CLAIMED | [85 draft](https://github.com/pemunson90-cmd/Siren-s-Song/pull/85) | | Dataff5f1e1 incorporates reviewed035+PR77;361/0/core818/0; actual-head source approved; post-failure local remainder running; waits035/019;76 pressure rows match. |
 
 ## BATCH 4 (buffer, 22 Oct; independent work so Codex does not run dry)
 | Order | Handoff | Status | PR | Finished (UTC) | One-line result |
@@ -58,7 +58,7 @@ Dependency note: 016, 019, 020, 023 to 027 wait on PR 74 (handoff 018). 021 wait
 Take 017 first (PRIORITY) if any of PRs 69, 70, 71 is open; otherwise numeric order 014 to 020. Designs live in docs/design/ on this branch. Beyond 020 see docs/SESSION_LEDGER_2026-10-22.md on claude/integration, section Next.
 
 ## PRIORITY after 019 step 1 (23 Oct)
-| P | 035 FIX2 full cold review fixes (save error first) | CLAIMED | [86](https://github.com/pemunson90-cmd/Siren-s-Song/pull/86) | | Head58cdeed includes PR77, independently re-approved; core818/0; audit45/5/10/25, routing83/study24 pass; CI39909084084 running; merge held. |
+| P | 035 FIX2 full cold review fixes (save error first) | CLAIMED | [86](https://github.com/pemunson90-cmd/Siren-s-Song/pull/86) | | Head58cdeed includes PR77, independently re-approved; core818/0; actual Canvas touch63/24/54/12/24 pass; CI39909084084 running; merge held. |
 
 ## BATCH 6 (23 Oct, Pat's decisions D1 and D2)
 | 36 | 036 first-Siren cue, ops 1 to 3 | OPEN | | | |
