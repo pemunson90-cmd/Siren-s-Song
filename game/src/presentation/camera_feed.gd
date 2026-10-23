@@ -1,6 +1,8 @@
 extends Control
 var sim
-var receiver_font_size=14
+var receiver_font_size=17
+var touch_height=48.0
+const Settings=preload("res://src/presentation/frontend/frontend_settings.gd")
 var optics=preload("res://src/presentation/evidence_catalog.gd").IMAGES
 var foundry=preload("res://assets/structures/foundry.png")
 const ReceiverScene=preload("res://src/presentation/receiver_scene.gd")
@@ -17,6 +19,8 @@ var _frame:Dictionary={}
 var _vm_age:=1.0
 var _vm_key:=""
 var _buttons:Array=[]
+var quality_rect:=Rect2()
+var picture_rect:=Rect2()
 var time:=0.0
 static func fit_caption(text:String,width:float,font_size:int)->String:
 	var font=ThemeDB.fallback_font
@@ -30,7 +34,8 @@ static func acquisition_progress(state)->float:
 func _ready() -> void:
 	clip_contents=true; mouse_filter=Control.MOUSE_FILTER_STOP
 func _process(dt: float) -> void:
-	time+=dt;_vm_age+=dt;queue_redraw()
+	if not Settings.reduced_motion():time+=dt
+	_vm_age+=dt;queue_redraw()
 	if sim!=null and sim.mission.has("id"):
 		var shots:Array=Photo.peek(sim).shots
 		if shots.size()!=_shot_count:
@@ -53,17 +58,28 @@ static func viewfinder_visible(state) -> bool:
 	if state.capture_unit>=0:return state.selected==state.capture_unit
 	return not Photo.preview(state,state.selected).is_empty()
 func _gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.device==InputEvent.DEVICE_ID_EMULATION:return
 	var tap=(event is InputEventMouseButton and event.pressed and event.button_index==MOUSE_BUTTON_LEFT) or (event is InputEventScreenTouch and event.pressed)
 	if not tap or sim==null:return
 	var point=event.position
 	for button in _buttons:
 		if button.rect.has_point(point):
 			sim.command("frame",button.args);_vm_age=1.0;accept_event();return
+func preferred_width()->float:
+	# Reserve the full flash + tight + focus row at the largest selected text size.
+	var button_width=maxf(maxf(48,touch_height)+4,maxi(17,receiver_font_size)*6.)
+	return maxf(480,maxf(touch_height*7.5,button_width*3+16))
 func _draw_photo(t:Dictionary) -> void:
 	var o:Dictionary=t.o;var uid:int=t.unit;var live:bool=t.get("live",false)
-	var font=ThemeDB.fallback_font;var fs:=maxi(12,mini(receiver_font_size,15))
+	var font=ThemeDB.fallback_font;var fs:=maxi(17,receiver_font_size)
+	var bh:=maxf(48,touch_height)
+	var control_top:=float(fs+14)
 	draw_rect(Rect2(Vector2.ZERO,size),Color("07151d"));draw_rect(Rect2(Vector2.ZERO,size),Color("6b9d9f"),false,1)
-	var picture:=Rect2(8,36,size.x-16,size.y-36-50)
+	var quality_top:=control_top+bh+8
+	var picture_top:=quality_top+fs+24
+	var picture:=Rect2(8,picture_top,size.x-16,maxf(20,size.y-picture_top-fs*2-22))
+	picture_rect=picture
+	quality_rect=Rect2(8,quality_top,size.x-16,fs+18)
 	var acc:Dictionary=Photo.peek(sim).acc.get(uid,{})
 	var key:="%d:%d"%[uid,int(t.index)]
 	if _vm_age>0.2 or key!=_vm_key or _vm.is_empty():
@@ -72,8 +88,9 @@ func _draw_photo(t:Dictionary) -> void:
 		_vm=PhotoView.from_frame(_frame,"siren" if o.has("siren") else "site",str(o.get("optical",o.get("site_id",""))),str(o.subject.get("type","")) if o.has("siren") else "")
 	PhotoView.draw(self,picture,_vm,time,fs)
 	Priced.draw_viewfinder(self,sim,uid,o,picture,fs,_frame)
+	_draw_quality(quality_rect,fs)
 	var since:=time-_filed_at
-	if since>=0.0 and since<4.6 and not _filed.is_empty():
+	if not Settings.reduced_motion() and since>=0.0 and since<4.6 and not _filed.is_empty():
 		# Shutter: the iris shuts, the lamp pops, then the plate comes up out of the dark.
 		if since<0.26:
 			var closed:float=sin(PI*since/0.26)
@@ -97,30 +114,40 @@ func _draw_photo(t:Dictionary) -> void:
 			if since>1.4:draw_string(font,Vector2(inset.position.x,inset.end.y+2*fs+6),fit_caption(("RESOLVED " if not names.is_empty() else "NOTHING RESOLVED")+", ".join(names),inset.size.x,fs-3),HORIZONTAL_ALIGNMENT_LEFT,-1,fs-3,Color("a9c9c7"))
 	_buttons=[]
 	var cfg=Photo.settings(sim,uid);var op=Photo.optics(sim,uid)
-	var bx:=size.x-8.0;var bw:=maxf(70.0,fs*5.2);var bh:=28.0
+	var bx:=size.x-8.0;var bw:=maxf(bh+4,fs*6.0)
 	var specs:Array=[["TIGHT" if cfg.mode=="tight" else "WIDE",{"mode":"wide" if cfg.mode=="tight" else "tight"}]]
 	if op.flash:specs.append(["FLASH %d"%Photo.flash_left(sim,uid) if cfg.flash else "NO FLASH",{"flash":not cfg.flash}])
 	if cfg.mode=="tight":specs.append(["FOCUS",{"cycle_focus":true}])
 	for spec in specs:
 		bx-=bw
-		var r:=Rect2(bx,4,bw-4,bh)
+		var r:=Rect2(bx,control_top,bw-4,bh)
 		draw_rect(r,Color("12333a"));draw_rect(r,Color("8cdcd3") if spec[0]!="NO FLASH" else Color("4a6a6e"),false,1)
-		draw_string(font,r.position+Vector2(6,bh*0.7),spec[0],HORIZONTAL_ALIGNMENT_LEFT,r.size.x-8,fs-2,PHOSPHOR)
+		draw_string(font,r.position+Vector2(6,bh*0.7),spec[0],HORIZONTAL_ALIGNMENT_LEFT,r.size.x-8,fs,PHOSPHOR)
 		_buttons.append({"rect":r,"args":spec[1]})
-	draw_string(font,Vector2(10,24),"%s / %s"%["EXPOSING" if live else "VIEWFINDER",sim.units[uid].name],HORIZONTAL_ALIGNMENT_LEFT,maxf(40.0,bx-14),fs,PHOSPHOR)
+	draw_string(font,Vector2(10,fs+6),"%s / %s"%["EXPOSING" if live else "VIEWFINDER",sim.units[uid].name],HORIZONTAL_ALIGNMENT_LEFT,size.x-20,fs,PHOSPHOR)
 	var status:String
 	if live:status=Photo.progress_text(sim,uid,o)
 	else:
 		status=str(t.get("ctx",{}).get("text",""))
 		for r in _frame.get("rows",[]):
 			if r.apparent and not r.ready and not r.why.is_empty():status="%s: %s"%[r.label,r.why];break
-	status=fit_caption(status,size.x-20,fs-2)
-	draw_string(font,Vector2(10,size.y-30),fit_caption(Photo.label(o) if Photo.applies(o) else str(o.name),size.x-90,fs),HORIZONTAL_ALIGNMENT_LEFT,-1,fs,Color("e0bf83"))
+	status=fit_caption(status.split(" · SHARP")[0],size.x-20,fs)
+	draw_string(font,Vector2(10,size.y-fs-18),fit_caption(Photo.label(o) if Photo.applies(o) else str(o.name),size.x-90,fs),HORIZONTAL_ALIGNMENT_LEFT,-1,fs,Color("e0bf83"))
 	if live:
 		var progress:=acquisition_progress(sim)
-		draw_string(font,Vector2(size.x-62,size.y-30),"%02d%%"%int(progress*100),HORIZONTAL_ALIGNMENT_LEFT,-1,fs,PHOSPHOR)
+		draw_string(font,Vector2(size.x-70,size.y-fs-18),"%02d%%"%int(progress*100),HORIZONTAL_ALIGNMENT_LEFT,-1,fs,PHOSPHOR)
 		draw_rect(Rect2(10,size.y-9,size.x-20,3),Color("25464b"));draw_rect(Rect2(10,size.y-9,(size.x-20)*progress,3),PHOSPHOR)
-	draw_string(font,Vector2(10,size.y-14),status,HORIZONTAL_ALIGNMENT_LEFT,-1,fs-2,Color("a9c9c7"))
+	draw_string(font,Vector2(10,size.y-12),status,HORIZONTAL_ALIGNMENT_LEFT,-1,fs,Color("a9c9c7"))
+func _draw_quality(picture:Rect2,fs:int)->void:
+	var width=(picture.size.x-24)/2.
+	for n in 2:
+		var key=["sharp","light"][n];var value=clampf(float(_frame.get(key,0)),0,1)
+		var x=picture.position.x+8+n*(width+8)
+		var y=picture.position.y+fs+5
+		draw_rect(Rect2(x-4,picture.position.y,width+8,fs+18),Color(.02,.06,.08,.95))
+		draw_string(ThemeDB.fallback_font,Vector2(x,y),"%s %d%%"%[["SHARP","LIGHT"][n],roundi(value*100)],HORIZONTAL_ALIGNMENT_LEFT,-1,fs,PHOSPHOR)
+		draw_rect(Rect2(x,y+5,width,6),Color("25464b"))
+		draw_rect(Rect2(x,y+5,width*value,6),PHOSPHOR)
 func _draw() -> void:
 	_buttons=[]
 	if sim==null:return

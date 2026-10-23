@@ -6,6 +6,7 @@ extends RefCounted
 const PHOSPHOR=Color("8cdcd3")
 const AMBER=Color("e0bf83")
 const COLS=36
+const Settings=preload("res://src/presentation/frontend/frontend_settings.gd")
 static func valid_shots(shots)->bool:
 	if not shots is Array or shots.size()>8:return false
 	for shot in shots:
@@ -35,12 +36,13 @@ class Plate extends Control:
 		clip_contents=true
 		if custom_minimum_size.y<=0.0:custom_minimum_size=Vector2(0,170)
 	func _process(dt:float)->void:
-		age+=dt;queue_redraw()
+		if not Settings.reduced_motion():age+=dt
+		queue_redraw()
 	func _draw()->void:
 		if vm.is_empty():return
 		var R=preload("res://src/presentation/photo_view.gd")
 		var shown:Dictionary=vm.duplicate()
-		shown["develop"]=clampf(age/develop_seconds,0.0,1.0) if develop_seconds>0.0 else 1.0
-		R.draw(self,Rect2(Vector2.ZERO,size),shown,age,12)
+		shown["develop"]=clampf(age/develop_seconds,0.0,1.0) if develop_seconds>0.0 and not Settings.reduced_motion() else 1.0
+		R.draw(self,Rect2(Vector2.ZERO,size),shown,age,maxi(17,roundi(17*Settings.text_scale())))
 		draw_rect(Rect2(Vector2.ZERO,size),Color("6b9d9f"),false,1)
-		if not title.is_empty():draw_string(ThemeDB.fallback_font,Vector2(8,16),title,HORIZONTAL_ALIGNMENT_LEFT,-1,12,PHOSPHOR)
+		if not title.is_empty():draw_string(ThemeDB.fallback_font,Vector2(8,16),title,HORIZONTAL_ALIGNMENT_LEFT,-1,maxi(17,roundi(17*Settings.text_scale())),PHOSPHOR)
