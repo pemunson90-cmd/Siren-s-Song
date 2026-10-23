@@ -1,8 +1,8 @@
 # Handoff 036: FIRST-SIREN CUE (Pat approved 23 Oct, decision D1)
 
-Status: OPEN
-Claimed at:
-Claimed by:
+Status: CLAIMED
+Claimed at: 2026-10-23 19:21:32 UTC
+Claimed by: codex
 Finished at:
 
 Codex may merge: yes, into claude/integration only, after GitHub guidance and game-smoke are both green on the exact head and the PR is mergeable. Merge with a merge commit, then mark DONE and update docs/codex/BOARD.md.
@@ -19,3 +19,5 @@ Module: game/src/presentation/first_siren_cue/ (name your choice) with data tabl
 Base: origin/claude/integration. Branch: claude/first-siren-cue
 
 ## Completion
+
+Claimed while final019 PR92 runs its own gate. All remaining019 PRs are now open in order;036 preparation is isolated from photo orders. Merge92 before036, then reconcile actual newest integration into036 and obtain exact-head review/CI.035 is DONE, so this handoff's precondition is met. Approved D1 supplies the design; no new rule, story or pillar decision is needed.
