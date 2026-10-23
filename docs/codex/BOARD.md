@@ -23,8 +23,8 @@ Work order is numeric: finish 013 (batch 1) first, then 014, 015, 016.
 |---|---|---|---|---|---|
 | P | 017 PRIORITY: land PRs 69, 70, 71 | DONE | [69](https://github.com/pemunson90-cmd/Siren-s-Song/pull/69), [70](https://github.com/pemunson90-cmd/Siren-s-Song/pull/70), [71](https://github.com/pemunson90-cmd/Siren-s-Song/pull/71) | 2026-10-22 20:18:10 UTC | All three merged on green; basic Quietus completes Well without drones or tools. |
 | 7 | 018 DEPTH1 depth-band photos, findings, all-stop | DONE | [74](https://github.com/pemunson90-cmd/Siren-s-Song/pull/74) | 2026-10-22 23:30 UTC | Merged by Claude: photo_depth, photo_rules, all_stop; each has an off switch. Preconditions of 016, 019, 020, 023 to 027, 033 on 018 are now met. |
-| 8 | 019 ARCH1 refactor steps 2 to 4 | OPEN | | | |
-| 9 | 020 CAMPAIGN M1 photo rows ops 6 to 29 | OPEN | | | |
+| 8 | 019 ARCH1 refactor steps 2 to 4 | CLAIMED | [81](https://github.com/pemunson90-cmd/Siren-s-Song/pull/81), [83](https://github.com/pemunson90-cmd/Siren-s-Song/pull/83) | | Source reviewed;81 merged,83 CI running; four order-family lanes pushed. |
+| 9 | 020 CAMPAIGN M1 photo rows ops 6 to 29 | CLAIMED | [85 draft](https://github.com/pemunson90-cmd/Siren-s-Song/pull/85) | | Data ready;317 checks/2 selector failures; scope question pending, pressure64 rows unchanged. |
 
 ## BATCH 4 (buffer, 22 Oct; independent work so Codex does not run dry)
 | Order | Handoff | Status | PR | Finished (UTC) | One-line result |
