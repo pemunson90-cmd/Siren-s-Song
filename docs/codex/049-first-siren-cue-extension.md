@@ -1,8 +1,8 @@
 # Handoff 049: FIRST-SIREN CUE EXTENSION, op 1 and a one-time "new Siren type" note
 
-Status: OPEN
-Claimed at:
-Claimed by:
+Status: CLAIMED
+Claimed at: 2026-10-24 23:34:02 UTC
+Claimed by: claude (orchestrator, split with Codex by Pat 24 Oct)
 Finished at:
 
 RELEASED by Pat 24 Oct (approved with the sweeper patrol pass). Original note: Pat gate. This is adjacent to Siren perception (it reads the same notice event that follows Siren hearing and sight), so Pat must release it. Codex does not start this until Pat sets Status: OPEN here and on the board. Pat said earlier: nothing on Siren sight, hearing or lock timing. This handoff does not touch those, but the gate stands.
@@ -38,3 +38,6 @@ PR into claude/integration after Pat releases. Merge per the line above; mark DO
 
 ## Completion
 (Codex fills this in.)
+
+
+SUITE RANK BLOCK (Claude, 24 Oct): this handoff's new suites use local 228.. and CI 251.. (read suites.txt before committing and validate with scripts/toolchain/check-suites.py).

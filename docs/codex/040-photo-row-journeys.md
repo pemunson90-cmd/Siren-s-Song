@@ -1,6 +1,7 @@
 # Handoff 040: PHOTO ROW JOURNEYS, play evidence for the 14 campaign photo rows under live Sirens
 
 Status: OPEN
+Assigned to: codex (Pat split the queue 24 Oct; Codex takes this when Pat says continue)
 Claimed at:
 Claimed by:
 Finished at:
@@ -35,3 +36,6 @@ PR into claude/integration. Merge per the line above; mark DONE and update the b
 
 ## Completion
 (Codex fills this in.)
+
+
+SUITE RANK BLOCK (Claude, 24 Oct): Codex's new suites use local 240.. and CI 260.. so they cannot collide with Claude's blocks (local 228-239, CI 251-259). Validate with scripts/toolchain/check-suites.py before committing.

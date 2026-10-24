@@ -1,8 +1,8 @@
 # Handoff 050: HUNT RESTORE, V7 global Hunt pressure made visible
 
-Status: OPEN
-Claimed at:
-Claimed by:
+Status: CLAIMED
+Claimed at: 2026-10-24 23:34:02 UTC
+Claimed by: claude (orchestrator, split with Codex by Pat 24 Oct)
 Finished at:
 
 Precondition: handoff 023 is DONE or paused by Pat (it holds main.gd and HUD files), and the design PR for docs/design/HUNT_RESTORE.md is merged into claude/integration. If roadmap Phase G (AI state trace) has landed, log hunt stage changes through it; if not, build without it. Source of truth: docs/design/HUNT_RESTORE.md (read it fully; section 8 lists numbers Pat may still adjust, build them from the table so changes are one-line edits). Pat, 24 Oct: "we also need to restore the hunt mechanism from v7 parity". AI-DESIGNED details, Pat to ratify.

@@ -1,8 +1,8 @@
 # Handoff 047: CHALLENGE COMPLETIONS, one scripted completion per challenge row and route-aware pars
 
-Status: OPEN
-Claimed at:
-Claimed by:
+Status: CLAIMED
+Claimed at: 2026-10-24 23:34:02 UTC
+Claimed by: claude (orchestrator, split with Codex by Pat 24 Oct)
 Finished at:
 
 Precondition: none. Source: docs/design/COLD_REVIEW_3.md finding F11. Tests plus a Pat decision list; par values are NOT changed by this handoff.
@@ -45,3 +45,6 @@ PR into claude/integration. Merge per the line above; mark DONE and update the b
 
 ## Completion
 (Codex fills this in.)
+
+
+SUITE RANK BLOCK (Claude, 24 Oct): this handoff's new suites use local 233.. and CI 257.. (read suites.txt before committing and validate with scripts/toolchain/check-suites.py).

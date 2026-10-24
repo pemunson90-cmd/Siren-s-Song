@@ -50,7 +50,7 @@ Historical batch order:013,014,015,016 are all DONE. Current statuses and Pat's 
 | 18 | 030 SAVE1 profiles, copy/clear, export/import | DONE | [124](https://github.com/pemunson90-cmd/Siren-s-Song/pull/124) | 2026-10-24 16:38:27 UTC | Done030. Actual merged131ca0 verified; exact9f3 own40108698464 bothgreen, independent APPROVE. Core833/storage68+cold3/native150%UI168 and affectedall0.44file evidence daa851a, Windowsparent/child qualifications retained.031 next and claimed. |
 | 19 | 031 A11Y1 audio-only/color-only cue equivalents | DONE | [127](https://github.com/pemunson90-cmd/Siren-s-Song/pull/127) | 2026-10-24 18:32:23 UTC | Done031. Actual ad841f6 verified remotely and GitHub merged=true. Exact ec23 own40117286964 both green; independent APPROVE; current139 contained. Core835, nativeUI98, Back17 and affected checks all zero failures. Evidence f2d0512.032 next. |
 | 20 | 032 ART1 silhouettes (Pat judges) | DONE | [130](https://github.com/pemunson90-cmd/Siren-s-Song/pull/130) | 2026-10-24 22:01:15 UTC | Done032. Pat chose NEW. Actual f0fe890 verified remote/GitHub merged=true, exact093e/current2ce own40132818916 bothgreen and independent APPROVE. Core835/trace23/ART58/native48 all0; prior full proof retained. Evidence2e3b56c/C743 verified.033 deferred by Pat. |
-| 21 | 033 DOCS1 MODULES.md and spec refresh | OPEN | | | |
+| 21 | 033 DOCS1 MODULES.md and spec refresh | OPEN (assigned: Codex) | | | |
 
 Dependency note: 016, 019, 020, 023 to 027 wait on PR 74 (handoff 018). 021 waits on 020. Work available without PR 74: 022, 029, 030, 031, 032. Pick the lowest OPEN handoff whose precondition is met.
 
@@ -73,33 +73,33 @@ Codex033 is deferred by Pat. No unfinished Codex implementation claim remains.
 ## BATCH 7 (24 Oct, from docs/design/COLD_REVIEW_3.md; items needing Pat are NOT here)
 | Order | Handoff | Status | PR | Finished (UTC) | One-line result |
 |---|---|---|---|---|---|
-| P | 038 OPS HOME: next op, route map and fittings at top; fold recovered; Erase to Settings only | OPEN | | | Starts after 023 is DONE or paused. |
+| P | 038 OPS HOME: next op, route map and fittings at top; fold recovered; Erase to Settings only | OPEN (assigned: Codex) | | | Starts after 023 is DONE or paused. |
 | 38 | 039 CONSEQUENCE LINES for debriefs of ops15 to30 | DONE | [126](https://github.com/pemunson90-cmd/Siren-s-Song/pull/126) | 2026-10-24 19:24:11 UTC | Claude merged46a3be8; GitHub merged=true and current ancestry verified. Stale claim reconciled24October. |
-| 39 | 040 PHOTO ROW JOURNEYS under live Sirens (14 rows) | OPEN | | | |
+| 39 | 040 PHOTO ROW JOURNEYS under live Sirens (14 rows) | OPEN (assigned: Codex) | | | |
 Also: 029 now includes the F7 addendum (GOAL / DANGER / NEW THIS DIVE for ops 7 to 30). Held for Pat: ending at op 30, replay without erase, settings/title reachable from Operations, quit_on_go_back, early-reward count, anything on Siren senses or lock timing.
 
 ## BATCH 8 (24 Oct, Pat's decisions on cold review 3; AI-DESIGNED, Pat to adjust)
 | Order | Handoff | Status | PR | Finished (UTC) | One-line result |
 |---|---|---|---|---|---|
 | P | 041 BACK1: quit_on_go_back=false and press-Back-again-to-exit | DONE | [125](https://github.com/pemunson90-cmd/Siren-s-Song/pull/125) | 2026-10-24 17:34:15 UTC | Claude merged139f3e9; GitHub merged=true and current ancestry verified. Real phone unverified. |
-| 40 | 042 FINALE1 (provisional): END OF LINE screen and photo wall at first recovery of op 30 | OPEN | | | Pat: no answer yet, provisional repair. After 023. |
-| 41 | 043 SAVE2: 3 hard-save slots, automatic fork save states, replay from fork, truthful ending buttons | OPEN | | | Pat: yes. After 030 SAVE1. |
-| 42 | 044 MENU REACH: shared full settings, Title, Challenges, Credits from Operations | OPEN | | | Pat: yes. After 038. |
-| 43 | 045 EARLY REWARDS 2: three grants before op 7 (Tele lens, baffles, low-light back) | OPEN | | | Pat: pick a number with mechanical value; 3 chosen. |
+| 40 | 042 FINALE1 (provisional): END OF LINE screen and photo wall at first recovery of op 30 | OPEN (assigned: Codex) | | | Pat: no answer yet, provisional repair. After 023. |
+| 41 | 043 SAVE2: 3 hard-save slots, automatic fork save states, replay from fork, truthful ending buttons | OPEN (assigned: Codex) | | | Pat: yes. After 030 SAVE1. |
+| 42 | 044 MENU REACH: shared full settings, Title, Challenges, Credits from Operations | OPEN (assigned: Codex) | | | Pat: yes. After 038. |
+| 43 | 045 EARLY REWARDS 2: three grants before op 7 (Tele lens, baffles, low-light back) | CLAIMED (Claude) | | | Pat: pick a number with mechanical value; 3 chosen. |
 Still held for Pat: any change to Siren sight, hearing or lock timing (Pat: not yet).
 
 ## BATCH 9 (24 Oct, remaining cold review 3 polish items; AI-DESIGNED, Pat to adjust)
 | Order | Handoff | Status | PR | Finished (UTC) | One-line result |
 |---|---|---|---|---|---|
-| 44 | 046 DEATH CAUSE: one plain line on the loss debrief saying why the player was found (read-only) | OPEN | | | F9. Sim keeps no cause history; observer needed. |
-| 45 | 047 CHALLENGE COMPLETIONS: one scripted completion per row, route-aware par proposal | OPEN | | | F11. Par changes are Pat decisions; proposal file only. |
-| 46 | 048 HUD SAMENESS: operation-aware status text and explained ARRIVALS | OPEN | | | F14. Presentation only. |
-| 44 | 049 FIRST-SIREN CUE EXTENSION: op 1 and a one-time new Siren type note | OPEN | | | F8. Released by Pat 24 Oct. Presentation only: no change to Siren sight, hearing or lock timing. |
+| 44 | 046 DEATH CAUSE: one plain line on the loss debrief saying why the player was found (read-only) | CLAIMED (Claude) | | | F9. Sim keeps no cause history; observer needed. |
+| 45 | 047 CHALLENGE COMPLETIONS: one scripted completion per row, route-aware par proposal | CLAIMED (Claude) | | | F11. Par changes are Pat decisions; proposal file only. |
+| 46 | 048 HUD SAMENESS: operation-aware status text and explained ARRIVALS | CLAIMED (Claude) | | | F14. Presentation only. |
+| 44 | 049 FIRST-SIREN CUE EXTENSION: op 1 and a one-time new Siren type note | CLAIMED (Claude) | | | F8. Released by Pat 24 Oct. Presentation only: no change to Siren sight, hearing or lock timing. |
 
 ## BATCH 10 (24 Oct, Pat: restore the V7 Hunt; AI-DESIGNED, Pat to ratify numbers)
 | Order | Handoff | Status | PR | Finished (UTC) | One-line result |
 |---|---|---|---|---|---|
-| 47 | 050 HUNT RESTORE: global Hunt scales Siren notice radius, visible meter, stage cue, flag | OPEN | | | After 023 done or paused and design PR merged. Design: docs/design/HUNT_RESTORE.md. |
+| 47 | 050 HUNT RESTORE: global Hunt scales Siren notice radius, visible meter, stage cue, flag | CLAIMED (Claude) | | | After 023 done or paused and design PR merged. Design: docs/design/HUNT_RESTORE.md. |
 
 ## Verified stale-claim reconciliation, 24 October2026
 
@@ -117,3 +117,5 @@ Pat requested completion records be reconciled. GitHub merged=true and ancestry 
 Progress report: [CODEX_REPORT_2026-10-24.md](CODEX_REPORT_2026-10-24.md).033 and all genuinely unfinished handoffs remain OPEN. Do not interpret this record cleanup as resuming development.
 
 The same audit filled empty Completion sections in already-DONE002/PR62,004/PR61 and018/PR74 using verified merged references, and clarified001/PR59's already-satisfied merge recommendation. All50 status headers were checked:38DONE (including005superseded),12OPEN. No unfinished item was marked complete.
+
+## SPLIT 24 Oct (Pat): Claude claims 045, 046, 047, 048, 049, 050. Codex takes 033, 038, 040, 042, 043, 044 when Pat says continue. Rank blocks: Claude local 228-239 / CI 251-259; Codex local 240+ / CI 260+.

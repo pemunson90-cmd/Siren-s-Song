@@ -1,8 +1,8 @@
 # Handoff 046: DEATH CAUSE, one plain line saying why the player was found
 
-Status: OPEN
-Claimed at:
-Claimed by:
+Status: CLAIMED
+Claimed at: 2026-10-24 23:34:02 UTC
+Claimed by: claude (orchestrator, split with Codex by Pat 24 Oct)
 Finished at:
 
 Precondition: none. Source: docs/design/COLD_REVIEW_3.md finding F9 (continues COLD_REVIEW_2 B1). Presentation only, read-only from records that already exist. AI-DESIGNED proposal, Pat to adjust wording.
@@ -45,3 +45,6 @@ PR into claude/integration. Merge per the line above; mark DONE and update the b
 
 ## Completion
 (Codex fills this in.)
+
+
+SUITE RANK BLOCK (Claude, 24 Oct): this handoff's new suites use local 229.. and CI 253.. (read suites.txt before committing and validate with scripts/toolchain/check-suites.py).

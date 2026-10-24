@@ -1,8 +1,8 @@
 # Handoff 045: EARLY REWARDS 2, two more early fitting grants (three before op 7)
 
-Status: OPEN
-Claimed at:
-Claimed by:
+Status: CLAIMED
+Claimed at: 2026-10-24 23:34:02 UTC
+Claimed by: claude (orchestrator, split with Codex by Pat 24 Oct)
 Finished at:
 
 Precondition: none (extends the existing early_reward module from handoff 037). Pat, 24 Oct: no number given; "pick a reasonable number that has mechanical value". AI-DESIGNED choice below, Pat to adjust.
@@ -38,3 +38,6 @@ PR into claude/integration. Merge per the line above; mark DONE and update the b
 
 ## Completion
 (Codex fills this in.)
+
+
+SUITE RANK BLOCK (Claude, 24 Oct): this handoff's new suites use local 231.. and CI 255.. (read suites.txt before committing and validate with scripts/toolchain/check-suites.py).
