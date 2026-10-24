@@ -9,7 +9,7 @@ Pat's Windows PC. Pat stopped the cloud session on 23 October and said continue 
 ## Live source checkpoint
 
 Development integration is `claude/integration`, last reconciled baseline `97e48d33cb47375f9fb5bc90ad44f0cb5b941622`.
-This photo candidate includes the Windows hook repair PR99 through a planned
+This ARCH2 candidate includes the Windows hook repair PR99 through a planned
 predecessor merge. At preparation, published integration isca2bda0 and99 remains
 open. Publish its reviewed, successful exact head first. Live refs and the board
 determine published state; preparing a merge commit does not publish it.
