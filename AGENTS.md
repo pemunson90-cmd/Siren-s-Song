@@ -9,6 +9,8 @@
 Continually assess the whole playable game, identify its most consequential weakness, improve it, evaluate actual player experience, and repeat. Build toward AAA-caliber Android content and execution. The user alone ends the Gauntlet. Milestones, passing checks and internally assessed readiness lead to the next highest-value work.
 
 ## Current execution contract
+
+**Current user boundary (23 October Eastern):** finish PR96, save later ARCH2 preparations, reconcile stale documentation and prepare the Windows desktop handover, then STOP. Do not start metrics, the feature contract or the next handoff in this cloud session. Read docs/DESKTOP_HANDOFF.md and docs/RESUME.md. Resume only when Pat asks; this overrides automatic continuation below without declaring the project finished.
 Read docs/USER_DIRECTIVES.md first. It records the latest order correction and governs earlier workflow prose. The unchanged audit and frozen-source response remain on archive/claude-audit-2026-10-19 under docs/audit/.
 
 Current user directive: **implement the approved full-release program** in docs/CURRENT_GAME_SPEC.md. Earlier Pass0 rough-only and small-iteration limits are historical. Build reusable operation systems, depth-aware stealth/sonar/enemies/fleet, a complete campaign and replay package, expeditions and naval career, with production presentation and Android quality. Use Sol6.1 Medium, one implementation worker and one independent integration reviewer; broader critics run sequentially at substantial milestones. Preserve existing work/profiles and use coherent feature batches. No new governance tooling or approval gates. docs/CONTINUATION.md and docs/WORKBENCH.md stay under40 lines each.
@@ -20,7 +22,7 @@ The user decides when to playtest; user play never gates development. Agents kee
 2. Develop coherent gains on dedicated feature branches/worktrees with explicit ownership. Reuse inactive worktrees and one shared toolchain. Preserve other workers’ edits and all unique evidence.
 3. Use one designated integration reviewer for actual source changes, gameplay consequences, current-save integrity and relevant targeted checks. Fix consequential regressions before integration.
 4. Complete coherent assigned batches on their dedicated branches, with independent review and final-head guidance/game-smoke CI before PR integration into `claude/integration`. Reconcile the fetched integration tip into the proposed head and recheck when it moves. Claude orchestrates; Codex may merge only under its current handoff/delegation permission. Preserve the frozen `gauntlet/production` and protected `main` baselines; promotion requires Pat. Preserve all published work and recovery refs.
-5. Validate primarily in Godot, locally or through GitHub. Batch broad regression at meaningful integrated passes. Android APKs require an explicit request or a concrete Android-specific risk that Godot cannot resolve. Reuse the canonical Git-tracked debug signer.
+5. Validate primarily in Godot, locally or through GitHub. Batch broad regression at meaningful integrated passes. Current Pat rules prohibit Android APK builds and defer physical-phone testing until feature complete and bug free; native-specific risks do not grant an exception. Reuse the canonical Git-tracked debug signer.
 6. Evaluate actual gains and costs, then immediately continue. Every hour of simulation, layout and encounter work should outweigh an hour of documentation.
 
 ## Merge handoff and reviewer provenance (existing boundaries)

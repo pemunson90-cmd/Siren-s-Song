@@ -1,5 +1,10 @@
 # Pass 0 — the whole game, rough
 
+Historical Pass0 planning snapshot. The later approved full-release program in
+CURRENT_GAME_SPEC supersedes its rough-only acceptance and execution order.
+Current work/stop state is in RESUME and the codex/handoffs board; this document
+does not dispatch workers or override the cloud-to-Windows handover.
+
 Build this campaign once at rough quality, then evaluate the whole experience.
 
 ## Playable graph

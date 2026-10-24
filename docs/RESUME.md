@@ -1,55 +1,107 @@
 # RESUME: operational entry
 
-**Execution:** development RESUMED by Pat (23 Oct 2026). Codex034/FIX1,035/FIX2 (PR86),024 audio (PR87) and all019 ARCH1 steps PR81/PR83/PR88/PR90/PR91/PR92 are merged. Pat cleared merges. 036 cue PR93 and037 reward PR94 are also merged. 020 campaign photos PR85 and021 route map PR95 are also merged. Current order (24 Oct): claimed023, then the eligible numeric queue. Live claims/completion remain on docs/codex/BOARD.md in codex/handoffs.
+**Current execution boundary,23 October 2026 Eastern:** Pat explicitly chose
+finish PR96 only, preserve later023 preparations, update stale documentation and
+prepare a Windows desktop handover, then STOP. No further game implementation,
+metrics extraction, feature registry or new handoff is authorized in this cloud
+session. This is a requested stop, not platform exhaustion or project completion.
+Resume only when Pat asks. Read [DESKTOP_HANDOFF](DESKTOP_HANDOFF.md).
 
-**Current source checkpoint (023 ARCH2):** last reconciled actual integration b03dd69 contains completed021/PR95 and019/020/035/024/036/037. Handoff023 is CLAIMED on codex/handoffs. Branch claude/lane-arch2-campaign-flow moves nineteen campaign/menu functions into presentation/flow/campaign_flow.gd, keeping main's existing entry points as one-line forwarders. Main shrinks1106 to950 lines. Mechanical verification restores the complete original main byte for byte after undoing host qualification and forwarders; moved rules, numbers, text and callback/deferred ordering are preserved. No save shape or Simulation changes. Each main extraction and each later presentation feature gets a separate reviewed PR and its own exact-head guidance/game-smoke. Finish this step, then photo_review and ui_metrics, then the shared three-function feature contract one feature at a time. No APK or frozen-branch promotion.
+## Live source checkpoint
 
-## CHECKPOINT 23 Oct (updated after PR79 and PR80 merged)
-Integration holds PR77 (photo and cargo repairs), PR79 (this guidance and Pat's decisions D1 to D5), PR81, PR83, PR88, PR90, PR91 and PR92 (ARCH1 steps,019 DONE), and PR86 (035/FIX2), PR87 (024 audio), PR93 (036 first-Siren cue), PR94 (037 early reward), PR85 (020 campaign photos), PR95 (021 route map). PR80 is merged on codex/handoffs. PR82 and PR84 were folded into PR79 and closed. Codex merge hold is LIFTED (Pat tells Codex). Hooks: Pat reinstalls between Codex tasks (python3 scripts/toolchain/install-gauntlet-hooks.py).
-Codex queue (docs/codex/BOARD.md): claimed023,025 to027,029 to033 in numeric order when eligible. Pat's rule: phone testing only after the game is feature complete and bug free; no APKs.
-D3 photo grade at "Record secured" merged in PR89 (switch GradeOnSecure.enabled). Next: review Codex PRs, re-run a cold review after 035 lands, and keep 5 hours of OPEN work ahead of Codex (write batch 7 when two of 035, 036, 037 are DONE).
-Resume command: start Claude Code on claude/integration and say: "Read docs/RESUME.md, then continue the Gauntlet as root orchestrator." Pat is not a developer: plain language, Eastern times, no em dashes, no jargon.
+Last reconciled actual integration is `b03dd691a4775bbc07abfa1e87f4938ead653342`
+(PR95 route map). PR96's reviewed head is
+`3afb12f966efc2646c9b148ddf7de5aafe68c5c5`, based on that integration.
+At this documentation preparation checkpoint PR96 is ready, independently
+approved with no findings, and awaiting full hosted game-smoke 40043994511;
+guidance has passed. Do not merge until both checks pass on this exact head and
+fresh integration remains contained. Update this preparation checkpoint with
+the verified merge before final cloud closeout.
 
-## Authority and first action
-Read current USER_DIRECTIVES, then AGENTS for stable execution rules. Intended behavior lives in CURRENT_GAME_SPEC; camera implementation and gaps live in PHOTO_RECON. This file owns the reconciled operational snapshot. Session ledgers retain dated history. CONTINUATION and WORKBENCH are pointers.
+Development integration is `claude/integration`. `gauntlet/production` and `main`
+remain frozen under Pat's promotion authority. No branches are deleted.
+All code PRs target integration. Live Git refs/PRs/checks win over dated snapshots.
+A checkpoint SHA is the last reconciled source, not a demand that a document name
+its own containing merge commit.
 
-Fetch `origin/claude/integration` and `origin/codex/handoffs`, inspect live PR/check state, then reconcile this snapshot. Live refs establish published source; a newer SHA alone does not invalidate a recorded baseline. Check changed substantive instructions and ownership before continuing.
+## Current claim and saved work
 
-| Branch | Role | Publication |
-|---|---|---|
-| `claude/integration` | Active development integration | Reviewed feature PRs with required exact-head checks |
-| `codex/handoffs` | Codex protocol, queue, claims and completion | Existing claim/completion procedure |
-| `gauntlet/production` | Frozen promotion baseline | Pat-authorized coherent promotion |
-| `main` | Protected accepted baseline | Pat-authorized tested promotion |
+Ownership and completion are authoritative on `codex/handoffs` in
+`docs/codex/BOARD.md` and `023-arch2-main-and-hud.md`. Handoff023 stays CLAIMED and
+partially complete; do not mark it DONE after its first PR or re-claim it.
 
-Claude orchestrates; Codex continues its current handoff protocol and may merge only under its handoff/delegation permission. Preserve running claims and other workers' files. Branch retirement remains outside this pass.
+| Work | Published state |
+|---|---|
+| 023 campaign flow, first main extraction | PR96/head3afb12f, review approved; exact hosted check pending at preparation |
+| 023 photo review, second main extraction | `claude/lane-arch2-photo-review` at 52ba7d502b3e449180a4883eb570a2c80a9b94f5, prepared/tested, no PR or final review/hosted gate |
+| 023 metrics and shared presentation contract | Not implemented; one main file/feature per later PR |
+| Windows documentation handover | `claude/desktop-handoff-20261023`, reviewed docs-only followup after PR96 |
+| Portable cloud evidence | `archive/cloud-desktop-20261023` at 5407a241c9993b2c2e03fdfd83d03e334bc23368,551 files with manifest/hash and recovery refs |
 
-## Historical reconciled snapshot: 22 October 2026 evening
-Integration baseline: `70894702610ba8499b696af072444c8c942e2476` (PR78). Queue observed at `ab293a7a998f541e61ef226129c552702928c311`. These are reconciliation anchors, not promises to equal the next merge commit.
+PR96 moves nineteen campaign/menu functions into presentation/flow/campaign_flow
+with Main's original forwarded signatures and state ownership. Main1,106 to 950.
+Mechanical proof restores the entire original Main byte for byte. Before/after
+core 818/runtime 665/campaign dispatch 13/archive recap 8/Canvas route-map 70 all0;
+extra Canvas reward 40/menu 24 all0. Independent reviewer /root/review_integration
+verified source, callbacks/deferred lifetime and personally ran Canvas 40/0.
+Its attributable verdict is relayed in the PR. No rules, numbers, text, saves,
+Simulation or tests changed. No full local matrix or physical-phone evidence.
 
-- Integrated: Iron Choir (PR63), PHOTO1/PHOTO2 (65/67), ONBOARD1 (66), lock warning (68), Priced Shots (69), V7-senses sweeper (70), controls (71), challenges (72), performance (73), DEPTH1/ALL STOP (74), route clearance (75), centralized test registry (76), opening safety/touch FIX1 (78). Completion evidence remains in those PRs and handoffs.
-- Codex handoff034 FIX1 is DONE: [PR78](https://github.com/pemunson90-cmd/Siren-s-Song/pull/78) merged at7089470. Exact head9a7180a passed guidance/game-smoke run39889490544. Its Completion records targeted touch/render checks and all191 follow-on suites. Codex then claimed 019 (PR81 in progress).
-- Isolated audit repairs: draft [PR77](https://github.com/pemunson90-cmd/Siren-s-Song/pull/77), branch `audit/recon-cargo-fixes-20261022`. Camera-information/identity/lifecycle and physical cargo fixes are proposed; they are not integrated merely because local checks pass.
-- Cold Review2 on codex/handoffs is partial: operation1, four dives, software rendering/injected touch, no sound or physical phone. Merged FIX1 addresses its concrete opening findings; the wider campaign review remains owed.
-- Architecture019/023, later reconnaissance020, route map021, landmarks025 and final pair/photo-wall027 remain on the existing board, alongside the other authorized lanes. Read live eligibility and claims there instead of copying the queue here.
+The photo preparation keeps nine original forwarded entry points,950 to 864 Main
+lines. One explicit String preserves its inferred type. Import/core 818/runtime 665,
+dispatch 13/recap 8/capture UI 9/archive-parent 2/Canvas cold-review 218 all0. Its stale
+prepared RESUME must be reconciled with this handover before a future PR. Do not
+mistake this tested preparation for integrated or independently approved work.
 
-## Next actions
-1. 021/PR95,020,036,037 and all019 steps are merged/DONE. Continue claimed023 on claude/lane-arch2-* with one main extraction or presentation feature per PR, identical core/named UI counts, independent review and exact-head guidance/game-smoke.
-2. After023 DONE and BOARD are committed together, take eligible025 to027 and029 to033 in numeric order, skipping unmet preconditions.
-3. Preserve published source, existing saves and recorded evidence. No APKs or frozen-branch promotion.
+## Completed context
 
+019 ARCH1 is DONE through PR81/83/88/90/91/92.035/FIX2 PR86,024 audio PR87,
+036 cue PR93,037 reward PR94,020 M1 photo rows PR85 and021 route map PR95 are
+merged and DONE. PR77/79/89 are also integrated; PR80 reconciled handoff pointers.
+The board retains the full earlier history and exact completion facts. Do not
+restart those claims from an old lane table, source checkpoint or session ledger.
 
-## Verification and evidence
-Run import, core and affected suites; the full registered matrix runs in GitHub game-smoke. Inventory and local/CI ordering come from `game/tests/suites.txt`, not a copied count here. Reconcile current integration into a proposed code head and obtain exact-head guidance/game-smoke plus attributable independent review before merge. Preserve tests and explain corrected stale fixtures.
+Thirty operation IDs exist. M1 adds fourteen optional subjects and sixteen
+returned-film marks; PR95 adds a derived route map. These do not implement027's
+final pair/photo-wall or establish full cold campaign/physical-phone acceptance.
+Camera capability and limits: [PHOTO_RECON](PHOTO_RECON.md). Intended expansion
+remains [CURRENT_GAME_SPEC](CURRENT_GAME_SPEC.md), not a completed feature claim.
 
-No physical-phone or human-play evidence was established in this reconciliation. Synthetic touch/render results, scripted completion, balance, headphone experience and enjoyment remain distinct. Known camera and campaign limitations live in PHOTO_RECON and the existing review/handoff sources. Human play timing never gates authorized development.
+## Next action at the cloud boundary
 
-GitHub branch protection for active integration is a separate pending administration action: require PRs and existing guidance/game-smoke checks while preserving the authorized merge workflow. No ruleset or promotion permission is changed by this documentation PR.
+1. Finish PR96 only after current-base verification, exact-head both-green CI and
+   independent review; use a merge commit and verify the landed tree/parents.
+2. Publish the separately reviewed documentation handover through an integration
+   PR. Record final exact refs in the existing023 Completion and BOARD, then STOP.
+3. When Pat later asks on desktop, resume saved023 photo review, reconcile fresh
+   integration, obtain its own review/CI, then metrics and the shared feature
+   contract one feature per PR. Only after 023 DONE take eligible025 and the
+   numeric queue. The board owns eligibility; no further claim is made here.
 
-## Working rules kept from the earlier RESUME (restored 23 Oct)
-**Hard rules:** Android touch is primary (48 dp targets, Android Back = Escape, keyboard fallback only). Features are self-contained modules with one narrow seam, numbers in data tables, optional validated save fields, a revert note in the module header. Do not change combat (beam kills Quietus outright after a 4 s lock warning), collision, damage, hull or Siren sight/hearing without Pat. V7 Sirens have no sonar. Story text stays 1 to 2 line placeholders. No APKs. Only Pat promotes to gauntlet/production or main. Delete no branches. Plain language, Eastern times, no em dashes, no jargon for Pat.
-**Standing delegation:** build to spec on the plan; ask Pat only for changes to the rules above, story/characters/endings, new design pillars, irreversible things, or an unclear plan.
-**Testing:** `export PATH=$HOME/.cache/sirens-song-toolchain/bin:$PATH; scripts/toolchain/install-godot.sh; scripts/toolchain/headless.sh --editor --import --quit`; core suite `scripts/toolchain/headless.sh --script res://tests/run_tests.gd` must end `CHECKS N FAILURES 0`. Never run the full scenario list locally; GitHub game-smoke is the gate. A Godot "resources still in use at exit" line fails CI. Do not commit generated .uid files integration does not track. Merge into claude/integration with a merge commit only when guidance and game-smoke are green on the exact head AND the head contains the current integration tip.
-**Decision gates for Pat:** combat, beam, collision, damage, hull or Siren senses beyond approved items; new story text, characters or ending content; the SIREN TELL idea; promotion to production or main; art direction (handoff 032); any new design pillar.
-**Claude next builds (one branch and PR each):** (a) the full cold review's top finding; (b) SIREN TELL after the sweeper settles (needs Pat); (c) sweeper lane walking via authored patrol points; (d) a band-guarded subject for the pressure sleeve if DEPTH1's seam proves thin.
-**Known caveats:** no human or physical-device play yet; all checks are headless, software-rendered or injected touch. Band, film and all-stop numbers are first-pass. Codex runs only when Pat pastes its prompt (docs/codex/README.md on codex/handoffs). Claude builder agents die when a session ends; their branches survive. Parked WIP branches (do not delete): claude/lane-n1-calder, claude/lane-p2-economy, claude/lane-c2-wip-b, claude/future-siren-active-sonar-sweeper.
+## Verification and preservation
+
+Use Godot 4.6.3/GDScript/Compatibility. On Windows the existing Linux x86_64 scripts
+run through WSL2 Ubuntu; setup/role-specific notes are in DESKTOP_HANDOFF and
+CODEX_ENVIRONMENT. Import, core and affected suites locally; GitHub owns the full
+registered matrix. Core must end CHECKS N FAILURES 0 with positive N; any Godot
+script error, resource-in-use line or leak fails. Preserve 48 dp touch and Android
+Back=Escape. Never skip, loosen or delete a test for green.
+
+No APKs, phone-test request, frozen-branch promotion or branch deletion. Preserve
+combat/beam/collision/damage/hull/Siren sight/hearing without Pat; V7 Sirens have no
+sonar. Narrative, endings/characters, new pillars, SIREN TELL and art032 decisions
+remain Pat's. Story stays short placeholders; no em dashes. Keep existing saves
+and the canonical tracked debug signing identity. Commit/push WIP at least every
+30 minutes and record branch plus pushed SHA in the claimed Completion.
+
+Pat chooses playtest timing. Synthetic touch/render and controller outcomes are
+technical evidence, distinct from human enjoyment, headphones and physical Fold7
+comfort. No cloud credentials, running agents, absolute paths or caches should be
+assumed on desktop. The evidence archive excludes personal saves/credentials;
+preserve any personal progress separately before discarding cloud storage.
+
+AGENTS owns stable execution rules, USER_DIRECTIVES user decisions, this file the
+reconciled snapshot, and the codex/handoffs board claims/completion. CONTINUATION
+and WORKBENCH stay short pointers. Dated ledgers/audits/design snapshots remain
+historical provenance. Only Pat ends the project; this cloud session will stop at
+the explicit requested boundary.

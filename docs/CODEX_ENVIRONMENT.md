@@ -1,32 +1,67 @@
-# Siren's Song — build and runtime environment
+# Siren's Song: development environment
 
-## Current toolchain
+Current execution and Windows transition: [RESUME](RESUME.md) and
+[DESKTOP_HANDOFF](DESKTOP_HANDOFF.md). Pat requested a cloud stop after PR96 and
+the documentation handover. Setup does not authorize another implementation task.
 
-Godot **4.6.3 stable**, GDScript, Compatibility renderer, official matching Android templates, Java 17 and Android SDK. The checked-in `game/` directory is the Godot project. Use existing configured tools before installing or changing SDK/engine versions. Common existing editor: `/usr/local/bin/godot`; scripts accept environment overrides.
+## Engine and ordinary checks
 
-From the repository root:
+Godot 4.6.3 stable, GDScript and Compatibility. `game/` is the project root.
+For Windows, use WSL2 Ubuntu x86_64 for the existing Bash automation; the pinned
+installer downloads a Linux x86_64 binary. It is not a native PowerShell or ARM
+installer. Native Windows Godot 4.6.3 can open `game/project.godot` for optional
+desktop play without exports. Neither path certifies physical Fold7 behavior.
+
+The current wrappers require Bash/GNU utilities, Python3, curl, unzip and JDK 17.
+Rendered suites additionally need Xvfb, xauth and software OpenGL libraries.
+Android SDK/emulator setup is unnecessary for ordinary Godot import and tests.
+Use existing tools before installing or changing versions.
+
+From the repository root in Linux/WSL Bash:
 
 ```sh
+export PATH="$HOME/.cache/sirens-song-toolchain/bin:$PATH"
+scripts/toolchain/install-godot.sh
 scripts/toolchain/headless.sh --editor --import --quit
 scripts/toolchain/headless.sh --script res://tests/run_tests.gd
-scripts/toolchain/test.sh
-scripts/toolchain/build.sh android
-scripts/toolchain/build.sh linux
-CAPTURE_FRAMES=90 scripts/toolchain/capture.sh
+scripts/toolchain/test.sh --profile ci --suite runtime_tests
 ```
 
-`scripts/toolchain/install-godot.sh` verifies the pinned official Godot binary/export templates on a fresh runner. Relevant overrides: `JAVA_HOME`, `ANDROID_HOME` / `ANDROID_SDK_ROOT`, `TOOLCHAIN_CACHE`, `GAME_DIR`, `GODOT_BIN`, `ARTIFACT_DIR`, `CAPTURE_DIR`, `CAPTURE_RESOLUTION`, `CAPTURE_FPS`, `CAPTURE_FRAMES`. The default build output is under `/workspace/.sirens-song-toolchain/artifacts`. Use actual engine frames / full viewport screenshots when assessing visuals; headless checks alone do not certify rendering.
+The last command is an example affected suite, not a required default for every
+change. Run core plus suites for the changed area. Never run the complete local
+scenario list; GitHub game-smoke owns it. Every candidate log must have its
+successful summary and no script errors, ObjectDB leaks or resources-in-use line.
+See [TESTING](TESTING.md). No APK builds, Android workflow dispatch or exports.
+The historical `build.sh linux` command is not a ready desktop setup path: the
+installer extracts Android templates, and that wrapper also configures Android.
 
-## Persistent development signing
+The installer verifies pinned official downloads but does not export its binary
+onto PATH. If TOOLCHAIN_CACHE is customized, prepend its `bin/` directory instead.
+Overrides include `JAVA_HOME`, `TOOLCHAIN_CACHE`, `GAME_DIR`, `GODOT_BIN`,
+`ARTIFACT_DIR` and the existing capture variables. Default cache is
+`/workspace/.sirens-song-toolchain` only if that directory already exists;
+otherwise `${XDG_CACHE_HOME:-$HOME/.cache}/sirens-song-toolchain`. Artifacts default
+to that cache's `artifacts/`. Cloud `/workspace` and `/tmp` paths do not transfer
+to desktop. Give concurrent suites distinct artifact directories.
 
-`scripts/toolchain/configure.sh` requires `scripts/toolchain/signing/sirens-song-debug.keystore` and validates its established public certificate. SHA256: `32bcb2287acd01c1f58c26997c7639f3072c74c6b03ab2a24656dc7cd1c7dc3c`. Do not silently generate a different identity if a cache or configuration changes. This is development signing only; `scripts/toolchain/test-configure-signing.py` checks the configuration.
+## Signing and deferred Android machinery
 
-## Android milestone CI
+Preserve `scripts/toolchain/signing/sirens-song-debug.keystore`. Its public
+certificate SHA256 is
+`32bcb2287acd01c1f58c26997c7639f3072c74c6b03ab2a24656dc7cd1c7dc3c`.
+Never generate a replacement on a cache miss. No release/store key is required.
 
-`.github/workflows/android-validation.yml` is triggered by an explicit `gauntlet/production` commit changing `.github/native-milestone.txt`. The sole integrator changes that marker only for a coherent reviewed gameplay batch or actual native-specific problem. Normal feature/docs pushes do not request an APK. Confirm the workflow run's `head_sha`, event, branch, APK digest/certificate and relevant screenshots before identifying what passed.
+The Android workflow and matching templates remain reference machinery. Current
+Pat rules prohibit APK builds and defer phone testing until feature complete and
+bug free. Do not change `.github/native-milestone.txt`, push production/main or
+dispatch Android validation during the desktop transition. Future phone testing
+must use an explicitly recorded accepted source/run after Pat changes this rule;
+[PLAYTEST_ANDROID](PLAYTEST_ANDROID.md) is deferred reference only.
 
-Hosted emulator acceptance covers native app runtime, layout/input, script errors and bounded save/lifecycle checks. A physical Fold7 remains the separate target for touch comfort, folding, sustained performance and listening. `docs/PLAYTEST_ANDROID.md` describes installing and testing the current accepted build.
+## Source and evidence recovery
 
-## Repository and archive separation
-
-Game, tooling, configuration, tests and compact build instructions remain in active Git. Prior CI dumps, generated screenshots, historical native run writeups and extensive experiment reports are preserved in the archive snapshots: `archive/gauntlet-evidence-2026-10-19` and `archive/gauntlet-evidence-2026-10-19-stage2`. Do not recreate those bulk directories under active `docs/validation/`. Use focused regression fixtures under `scripts/toolchain/fixtures/` when a test needs an archived example. Historical toolchain/run forensic details can be read from those immutable archive refs.
+Recreate checkouts from published refs; do not copy tool caches or credentials.
+Desktop handover notes identify the preserved source/preparation and the archive
+branch containing cloud evidence. Older evidence is retained on the existing
+archive refs. Raw reports and generated captures stay outside active source Git;
+the historical archive branches are recovery locations, not current instructions.

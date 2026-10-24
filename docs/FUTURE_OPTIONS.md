@@ -5,7 +5,7 @@ V7 Sirens have no sonar. They notice Quietus by proximity plus line of sight, by
 
 Preserved code: git branch `claude/future-siren-active-sonar-sweeper` (do not delete) (file `game/src/simulation/sonar_sweeper.gd` exists only on that branch; integration now has the V7-senses sweeper in `sweeper_senses.gd`).
 
-How it works at that tag:
+How it works on that preserved branch:
 - Charges 2.5 s, then emits an ACTIVE SWEEP for 1.5 s (12 s cooldown). The emission is itself noise (radius 900) that other units can hear.
 - For each live craft with a direct water path within 600, it queues a delayed echo (round trip at sound speed).
 - A delivered echo makes the sweeper remember the position and depth band, set a 7 s attention window, share a stale report with one nearby peer, and arm a return strike (1.5 s windup).
