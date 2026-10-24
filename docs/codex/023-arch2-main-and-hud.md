@@ -54,6 +54,13 @@ prior timeout P2 reproduced/fixed; reviewed hooks installed and exercised during
 commits/pushes. No bypass. Hosted exact-head guidance green/game-smoke running.
 Initial push privacy rejection fixed using the existing GitHub no-reply address.
 
+Metrics preparation: [draft PR101](https://github.com/pemunson90-cmd/Siren-s-Song/pull/101),
+claude/lane-arch2-ui-metrics last pushed041902edca946e6fd3093ed9dfbe3d1af4376d96,
+based on photo57b6ce6. Four synchronous helpers move behind original forwarders;
+main864 to817, exact body/full-main restoration proof, import clean and preliminary
+independent source PASS. Core/affected tests running. Node-owned awaits remain in
+Main. Keep draft until99/100 land and fresh integration/review/own checks pass.
+
 023 stays CLAIMED and partial. Merge reviewed green PRs with current integration
 contained, then continue ui_metrics and one presentation feature per PR. Only
 after every023 step lands mark DONE with BOARD in the same done023 commit.
