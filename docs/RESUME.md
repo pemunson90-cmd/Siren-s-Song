@@ -9,10 +9,11 @@ Pat's Windows PC. Pat stopped the cloud session on 23 October and said continue 
 ## Live source checkpoint
 
 Active development integration: `claude/integration`.
-Last reconciled source baseline: 46a3be891f51faf5cd4052f5bc0cc62ae299e53d.
+Last reconciled source baseline: e08b678006838ef111161eb97045c7bb35780eb9.
 This includes PR116 patrol data, PR121 landmarks, PR122 final pair/wall and
 PR123 concise briefings, PR124 independent profiles, PR125 Back handling and
-PR127 accessibility cues and later PR126 debrief consequence presentation.
+PR127 accessibility cues, PR126 debrief consequence presentation and PR128 native
+Windows tooling. PR128 changes tools only, not the game.
 023 is DONE on the authoritative board in2df2e6b after all separate source PRs
 and Windows99 passed own exact-head checks/review and actual merge verification.
 At023 completion: Main817, HUD575, Ocean685. Do not repeat023 or its earlier preparations.
@@ -147,21 +148,28 @@ this proves new caption disjointness, not a general HUD repair. Source-known
 fixtures are not blind play or physical Android/haptic/perception/hand acceptance.
 
 Codex owns CLAIMED032, postedce56635 at2:33PM Eastern before code.
-Branch claude/lane-art1 starts from actual ad841f6 and reconciles published46a3be8;
+Branch claude/lane-art1 starts from actual ad841f6 and reconciles published e08b678;
 precondition017 is DONE. One implementation worker built a bounded art module with old
 look reachable by one switch. Preserve charcoal Quietus, cyan/amber industrial
 structures, angular ray/serpentine red-lit Sirens and layered basalt. Clarify own
 craft/two drones/four named roles and actual own camera lamp only. No art-direction,
 sensor/evidence privacy, physical-rule, story or SIREN TELL changes.
-Draft PR130 retains quantified7619 evidence: correctness passes, but CPU draw cost
-increased80..110us, so that source does not meet the strict performance criterion.
-A small cached-mesh refinement4eb90db improves the short paired factory case; fresh
-combined import/core/affected/native full measurements and final review are required.
-The immutable baseline and development evidence are archived at
-[e411b80](https://github.com/pemunson90-cmd/Siren-s-Song/tree/e411b8087ab81c8579d8aee1736e6eb70a3cff41/evidence/032-windows-20261024/head-7619ff1).
+Draft PR130 retains measured7619 and ad61 baselines. Correctness/state/privacy
+pass, but independent review withheld strict performance approval: ad61 still has
+37..57us renderer CPU cost and positive ordinary-cover cadence in all five blocks.
+An Art-only pass-budget refinement5607cb6 removes redundant new ornaments while
+retaining filled/AA silhouettes, inherited cues and old look. Normal opaque
+underlays are omitted only where source texture is near opaque; Sweeper holes and
+all faded/pinned underlays remain. Shortcover29/0 and ART58/0 show224 vs219 batches,
+drawCPU-65.25us/GPU-3us/cadence-85us, rendererCPU+10.25us within20us repeat variation.
+Full combined measurements and final review remain required, not inferred from
+that short case. Baselines and unique failures are preserved on
+[032 evidence](https://github.com/pemunson90-cmd/Siren-s-Song/tree/archive/codex-032-art-windows-20261024/evidence/032-windows-20261024).
 Source-matched pictures at both Fold7 shapes and actual paired drawing-cost evidence
 accompany the simulation-only015 probe. Pat judges
 the concrete finished artwork before its publication; approval is still pending.
+PR128 Windows wrappers and the read-only registry validator are published at
+e08b678; direct verified Windows Godot remains the current local run path.
 Root owns RESUME/PR/merge/board, independent review and exact-head hosted gates,
 fresh containment/mergeability and actual publication. Next assigned task is033.
 
