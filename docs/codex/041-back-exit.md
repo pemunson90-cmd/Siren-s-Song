@@ -1,8 +1,8 @@
 # Handoff 041 (PRIORITY): BACK1, Android Back must never quit the app by accident
 
-Status: OPEN
-Claimed at:
-Claimed by:
+Status: CLAIMED
+Claimed at: 2026-10-24 15:51:28 UTC
+Claimed by: claude (orchestrator, Pat approved Claude building in parallel while Codex works 030)
 Finished at:
 
 Precondition: none. Small; may be taken between steps of 023 if it does not touch files 023 holds, otherwise right after 023. Pat decided 24 Oct: yes (cold review 3 finding F1).

@@ -74,14 +74,14 @@ Nothing parked.
 | Order | Handoff | Status | PR | Finished (UTC) | One-line result |
 |---|---|---|---|---|---|
 | P | 038 OPS HOME: next op, route map and fittings at top; fold recovered; Erase to Settings only | OPEN | | | Starts after 023 is DONE or paused. |
-| 38 | 039 CONSEQUENCE LINES for debriefs of ops 15 to 30 | OPEN | | | |
+| 38 | 039 CONSEQUENCE LINES for debriefs of ops 15 to 30 | CLAIMED (Claude) | | | |
 | 39 | 040 PHOTO ROW JOURNEYS under live Sirens (14 rows) | OPEN | | | |
 Also: 029 now includes the F7 addendum (GOAL / DANGER / NEW THIS DIVE for ops 7 to 30). Held for Pat: ending at op 30, replay without erase, settings/title reachable from Operations, quit_on_go_back, early-reward count, anything on Siren senses or lock timing.
 
 ## BATCH 8 (24 Oct, Pat's decisions on cold review 3; AI-DESIGNED, Pat to adjust)
 | Order | Handoff | Status | PR | Finished (UTC) | One-line result |
 |---|---|---|---|---|---|
-| P | 041 BACK1: quit_on_go_back=false and press-Back-again-to-exit | OPEN | | | Pat: yes. Small. |
+| P | 041 BACK1: quit_on_go_back=false and press-Back-again-to-exit | CLAIMED (Claude) | | | Pat: yes. Small. |
 | 40 | 042 FINALE1 (provisional): END OF LINE screen and photo wall at first recovery of op 30 | OPEN | | | Pat: no answer yet, provisional repair. After 023. |
 | 41 | 043 SAVE2: 3 hard-save slots, automatic fork save states, replay from fork, truthful ending buttons | OPEN | | | Pat: yes. After 030 SAVE1. |
 | 42 | 044 MENU REACH: shared full settings, Title, Challenges, Credits from Operations | OPEN | | | Pat: yes. After 038. |
