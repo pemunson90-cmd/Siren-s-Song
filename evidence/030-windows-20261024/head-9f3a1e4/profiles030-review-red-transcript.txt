@@ -1,0 +1,37 @@
+Selected exact tool output, NOT a full raw log.
+Provenance: functions.exec / exec_command result chunk e1db03, during the handoff030 implementation worker's independent-review regression reproduction. The tool reported process exit_code 1. The original save_profiles_tests.log/.err.log files were later overwritten by final passing runs. The following output is copied from the retained tool result in conversation context; this evidence-only followup did not rerun tests or modify source.
+
+EXIT 1
+
+SAVE PROFILES CHECKS 67 FAILURES 6
+FAIL reject package trailing bytes
+ERROR: Condition "count < 0 || count > len" is true. Returning: ERR_INVALID_DATA
+   at: decode_variant (core/io/marshalls.cpp:925)
+   GDScript backtrace (most recent call first):
+       [0] read_package (res://src/persistence/profiles/profile_store.gd:197)
+       [1] run (res://src/persistence/profiles/profile_tests.gd:56)
+ERROR: Error when trying to decode Variant.
+   at: decode_variant (core/io/marshalls.cpp:859)
+   GDScript backtrace (most recent call first):
+       [0] read_package (res://src/persistence/profiles/profile_store.gd:197)
+       [1] run (res://src/persistence/profiles/profile_tests.gd:56)
+FAIL reject payload trailing bytes even with recomputed checksum
+ERROR: Condition "len < 4" is true. Returning: ERR_INVALID_DATA
+   at: decode_variant (core/io/marshalls.cpp:190)
+   GDScript backtrace (most recent call first):
+       [0] open (res://src/persistence/profiles/profile_store.gd:85)
+       [1] run (res://src/persistence/profiles/profile_tests.gd:123)
+FAIL failed recovery invalidates cached profile state
+FAIL failed recovery blocks mutation and preserves journal bytes
+FAIL remove only blocked fixture journal
+ERROR: Condition "len < 4" is true. Returning: ERR_INVALID_DATA
+   at: decode_variant (core/io/marshalls.cpp:190)
+   GDScript backtrace (most recent call first):
+       [0] open (res://src/persistence/profiles/profile_store.gd:97)
+       [1] run (res://src/persistence/profiles/profile_tests.gd:128)
+ERROR: Condition "len < 4" is true. Returning: ERR_INVALID_DATA
+   at: decode_variant (core/io/marshalls.cpp:190)
+   GDScript backtrace (most recent call first):
+       [0] open (res://src/persistence/profiles/profile_store.gd:97)
+       [1] run (res://src/persistence/profiles/profile_tests.gd:128)
+FAIL unreadable index invalidates cached state and selection

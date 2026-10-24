@@ -102,6 +102,10 @@
       "bytes": 1492,
       "sha256": "bcf0d034467464b9375dd76e1e28d5703ad495bfe9769dd5a6df6efb9e99a940"
     },
+    "profiles030-review-red-transcript.txt": {
+      "bytes": 2369,
+      "sha256": "0c7aba9d1764b30ecb414829a63cfcbce15395245b0a633f8d6294c263fd247c"
+    },
     "profiles030-run.ps1": {
       "bytes": 1082,
       "sha256": "37969193962576c86f9fd02328038d8c934c38d2d6922ab2d431b8a97543302e"
@@ -123,8 +127,8 @@
       "sha256": "615f12c0b5f3d380fb3575a12bb3c14cb6ce6863443d5247a03f885ac386e2ec"
     },
     "README.md": {
-      "bytes": 3131,
-      "sha256": "7aa9d4cd626b44ff7b7cded89db1017302b34803e7e29e41aaba8cead089abb9"
+      "bytes": 3377,
+      "sha256": "d5c030132c432a45b226931a8ed9babf18eba45cfdc055813d3e37e475325e7e"
     },
     "run_tests.err.log": {
       "bytes": 0,

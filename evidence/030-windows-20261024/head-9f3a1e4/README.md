@@ -44,3 +44,7 @@ Qualifications and failures are deliberately separate:
 Copies include no personal saves/credentials. Reproduction helpers are captured
 at their observed version. Use fresh isolated folders if rerunning; do not reuse
 paths blindly. Source module README explains offswitch/progress-preserving revert.
+
+The independent-findings red67/6 selected tool-output transcript is now included,
+with original chunk e1db03 provenance. This is an excerpt, not a full raw-log file.
+No tests were rerun to recreate a failure and source9f3 remains unchanged.
