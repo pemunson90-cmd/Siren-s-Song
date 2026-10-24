@@ -33,7 +33,7 @@ const ROWS={
  29:["Reconnect in the window, or DISMANTLE; recover Quietus.","The reconnect window lasts 150s.","LOCK C starts the reconnect sequence."]
 }
 const FOLD_LABELS={"show":"FITTINGS\nSHOW","hide":"FITTINGS\nHIDE"}
-const STYLE={"margin":24.,"title":22,"goal":15,"photo":14}
+const STYLE={"margin":24.,"title":18,"goal":14,"photo":14}
 static func applies(index:int)->bool:return enabled and ROWS.has(index)
 static func goal(index:int,fallback:String)->String:
  if not applies(index):return fallback

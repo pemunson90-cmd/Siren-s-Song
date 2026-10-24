@@ -2,7 +2,8 @@ extends RefCounted
 const BriefRows029=preload("res://src/campaign/onboarding2/briefing_rows.gd")
 # Campaign/menu flow extracted verbatim from main. Main keeps its existing
 # entry points as forwarders; host owns state, callbacks and deferred layout.
-# Revert this PR to restore the bodies in main. No rules, text or save changes.
+# Revert the original extraction to restore bodies in main. 029 display rows
+# and width/folding helpers revert with BriefRows029.enabled=false. No saved fields.
 static func loadout_stock(host, choice: String) -> Array:
 	return {"endurance":[120,2,2],"disruption":[100,3,2],"survey":[100,2,3]}.get(choice,[100,2,2])
 
@@ -70,16 +71,17 @@ static func briefing(host, index: int) -> void:
 	host._menu_text("%02d / %s"%[index+1,briefing.title.to_upper()],BriefRows029.STYLE.title if compact else 30)
 	var goal=BriefRows029.goal(index,host.OnboardingText.goal(index))
 	var photo_problems:String=preload("res://src/simulation/photo_pricing/photo_pricing_briefing.gd").line(index,host.fitted_equipment)
+	var manual_control:Button=null
 	if not goal.is_empty():
-		# Opening operations: a goal and one danger. Rules live in the optional field manual.
+		# Short briefing facts; full rules remain in the optional field manual.
 		host._menu_text(goal,BriefRows029.STYLE.goal if compact else 20)
 		if not photo_problems.is_empty():host._menu_text(photo_problems,BriefRows029.STYLE.photo if compact else 17)
-		host._button(host.panel_box,"FIELD MANUAL · full rules and orders",func(): host._reference(index),"manual")
+		manual_control=host._button(host.panel_box,"FIELD MANUAL · full rules and orders",func(): host._reference(index),"manual")
 	else:
 		host._menu_text(briefing.brief,20)
 		if not photo_problems.is_empty():host._menu_text(photo_problems,17)
 		if host.ExpeditionOperations.briefing(host,index):pass
-		host._button(host.panel_box,"FIELD MANUAL · full rules and orders",func(): host._reference(index),"manual")
+		manual_control=host._button(host.panel_box,"FIELD MANUAL · full rules and orders",func(): host._reference(index),"manual")
 	var stock=host._loadout_stock(host.upgrade)
 	var fit_start=host.panel_box.get_child_count()
 	host._menu_text("NEXT DIVE / RETRY · %s\nO₂ %d%% · DISRUPT %d · SURVEY %d · 3 DECOYS · 2 DRONES · 2 TORPEDOES"%[host.upgrade.to_upper(),stock[0],stock[1],stock[2]],17)
@@ -98,9 +100,12 @@ static func briefing(host, index: int) -> void:
 			fold.text=BriefRows029.FOLD_LABELS.hide
 			if not host.get_meta("onboard2_fit_open",false):host._fold_fit(fit_nodes,holder)
 	host._button(host.menu_footer,"ENTER WATER\nSTART PAUSED",func(): host._start_mission(index); host._enter_water(),"begin")
-	if compact and fold_control!=null:
-		host.panel_box.remove_child(fold_control);host.menu_footer.add_child(fold_control)
-		fold_control.size_flags_horizontal=Control.SIZE_EXPAND_FILL;fold_control.mouse_filter=Control.MOUSE_FILTER_STOP
+	if compact:
+		manual_control.text="FIELD\nMANUAL"
+		for control in [manual_control,fold_control]:
+			if control==null:continue
+			host.panel_box.remove_child(control);host.menu_footer.add_child(control)
+			control.size_flags_horizontal=Control.SIZE_EXPAND_FILL;control.mouse_filter=Control.MOUSE_FILTER_STOP
 	host._button(host.menu_footer,"BACK TO\nOPERATIONS",host._show_campaign,"back")
 	host.menu_footer.show()
 	if compact:preload("res://src/campaign/onboarding2/briefing_layout.gd").attach(host)

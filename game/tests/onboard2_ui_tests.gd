@@ -28,18 +28,18 @@ func shape_case(shape):
   game._briefing(id);await settle()
   var goal=Rows029.goal(id,game.OnboardingText.goal(id));var labels=game.panel_box.find_children("*","Label",true,false)
   var matching=labels.filter(func(label):return label.text==goal)
-  if id==6:print("ONBOARD2_GEOMETRY ",JSON.stringify({"shape":str(shape),"host":str(game.size),"scroll":str(game.scroll.get_global_rect()),"goal":str(matching[0].get_global_rect()) if matching.size()==1 else "missing","footer":game.menu_footer.get_children().map(func(c):return {"action":c.get_meta("ui_action",""),"rect":str(c.get_global_rect()),"minimum":str(c.custom_minimum_size)})}))
+  if id in [3,6]:print("ONBOARD2_GEOMETRY ",JSON.stringify({"id":id,"shape":str(shape),"host":str(game.size),"scroll":str(game.scroll.get_global_rect()),"labels":labels.map(func(label):return {"text":label.text,"rect":str(label.get_global_rect()),"font":label.get_theme_font_size("font_size")}),"footer":game.menu_footer.get_children().map(func(c):return {"action":c.get_meta("ui_action",""),"rect":str(c.get_global_rect()),"minimum":str(c.custom_minimum_size)})}))
   check(matching.size()==1 and within029(matching[0],game.scroll),"all three facts above fold at150% "+str(id))
   var photo=preload("res://src/simulation/photo_pricing/photo_pricing_briefing.gd").line(id,game.fitted_equipment)
   if not photo.is_empty():
    var line=labels.filter(func(label):return label.text==photo)
    check(line.size()==1 and within029(line[0],game.scroll),"unchanged photo problems above fold "+str(id))
-  check(within029(button(game,"manual"),game.scroll),"manual accessible above fold "+str(id))
+  check(within029(button(game,"manual"),game.menu_footer),"manual pinned above fold "+str(id))
   var fold=button(game,"fit_fold")
   check(fold!=null and "SHOW" in fold.text,"preparation initially folded "+str(id))
-  for action in ["begin","back","fit_fold"]:
+  for action in ["begin","manual","back","fit_fold"]:
    var b=button(game,action)
-   check(b!=null and b.size.x>=game.ui_touch_height and b.size.y>=game.ui_touch_height and within029(b,game),"visible48dp action %s op%d"%[action,id])
+   check(b!=null and b.size.x>=game.ui_touch_height and b.size.y>=game.ui_touch_height and within029(b,game) and within029(b,game.menu_footer),"visible48dp action %s op%d"%[action,id])
   var capture=OS.get_environment("SIRENS_029_CAPTURE_DIR")
   if id in [6,12,25] and not capture.is_empty() and DisplayServer.get_name()!="headless":
    await RenderingServer.frame_post_draw
@@ -59,6 +59,10 @@ func shape_case(shape):
    check(game.sim.snapshot()==before,"choosing next fitting does not alter active dive")
    if await press(game,"manual"):
     if await press(game,"back"):check("HIDE" in button(game,"fit_fold").text,"manual return retains expanded preparation")
+   root.size=Vector2i(2184,1968) if shape==Vector2i(2520,1080) else Vector2i(2520,1080);await settle()
+   check("HIDE" in button(game,"fit_fold").text and within029(button(game,"begin"),game.menu_footer),"folding the display retains expanded preparation and visible navigation")
+   root.size=shape;await settle()
+   check(within029(button(game,"back"),game.menu_footer),"returning display shape restores safe footer layout")
  game._show_campaign();game._briefing(6);await settle()
  check("SHOW" in button(game,"fit_fold").text,"fresh visit starts folded again")
  if await press(game,"begin"):check(game.screen=="mission" and game.sim.mission.id==6 and game.sim.paused,"real touch launches the selected dive paused")
