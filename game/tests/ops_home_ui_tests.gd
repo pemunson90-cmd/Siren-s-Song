@@ -46,6 +46,8 @@ func home_case(shape, recovered, scale):
  var anchor=button(game,"fittings").get_global_rect().position
  game.active_started=true;game._show_campaign();await settle()
  check(button(game,"resume")!=null,"active dive offers resume")
+ if not button(game,"fittings").get_global_rect().position.is_equal_approx(anchor):
+  print("HOME_RESUME_DIAG ",case_label," before=",anchor," after=",button(game,"fittings").get_global_rect()," scroll=",game.scroll.scroll_vertical," panel=",game.panel_box.size," bar=",game.scroll.get_v_scroll_bar().visible)
  check(button(game,"fittings").get_global_rect().position.is_equal_approx(anchor),"resume preserves row positions")
  if recovered==32 and shape==Vector2i(2520,1080):check(game.panel_box.size.y/game.scroll.size.y<3.,"all recovered home is under three screens")
  if recovered==0:

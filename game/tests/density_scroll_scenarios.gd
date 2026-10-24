@@ -78,6 +78,10 @@ func run() -> void:
 	print("SCROLL_ENABLED offset=",game.scroll.scroll_vertical," screen=",game.screen)
 	check(game.scroll.scroll_vertical>30,"drag originating on enabled mission row scrolls actual body")
 	check(game.screen=="menu" and game.sim.snapshot()==before,"scroll gesture cancels enabled button activation")
+	await operations();start=action("next_operation").get_global_rect().get_center();before=game.sim.snapshot()
+	await drag(start,start-Vector2(0,minf(120,start.y-game.scroll.global_position.y-20)))
+	check(game.scroll.scroll_vertical>30,"drag originating on Next Operation scrolls actual body")
+	check(game.screen=="menu" and game.sim.snapshot()==before,"Next Operation drag cannot start a briefing or issue orders")
 	await operations();start=action("mission0").get_global_rect().get_center();mouse(start,true);await process_frame;mouse(start,false);await process_frame;await process_frame
 	check(game.screen=="briefing","ordinary release tap still opens mission after propagation change")
 	game._settings_menu();await process_frame;await process_frame;await process_frame

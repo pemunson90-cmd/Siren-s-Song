@@ -21,7 +21,9 @@ static func show_campaign(host) -> void:
 	preload("res://src/presentation/route_map/route_map_view.gd").entry(host)
 	if host.active_started and host.sim.outcome.is_empty():
 		host._button(host.panel_box,"RESUME DIVE · %02d %s"%[host.mission_index+1,host.sim.mission.title.to_upper()],host._enter_water,"resume")
-		if not host._campaign_pristine():host._menu_text("Resuming keeps this dive's equipment and its place in time.",14)
+	# Keep the helper row stable too, so Resume cannot introduce a scrollbar
+	# and shift the menu horizontally at large text sizes.
+	if not host._campaign_pristine() and (preload("res://src/presentation/ops_home/ops_home_table.gd").enabled or (host.active_started and host.sim.outcome.is_empty())):host._menu_text("Resuming keeps this dive's equipment and its place in time.",14)
 	host._button(host.panel_box,"FITTINGS / NEXT LAUNCH",host._show_fittings,"fittings")
 	if not host.Endings.resolve(host.expedition).is_empty():host._button(host.panel_box,"VIEW CAMPAIGN ENDING",host._show_ending,"ending")
 	if not preload("res://src/presentation/ops_home/ops_home_table.gd").enabled and not host._campaign_pristine():host._button(host.panel_box,"ERASE PROGRESS · NEW CAMPAIGN",host._confirm_new_campaign,"new_campaign")

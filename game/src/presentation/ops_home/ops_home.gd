@@ -17,7 +17,7 @@ static func arrange(host)->void:
  var completed=host._campaign_completed()
  # The former three decorative headings can fill a cover display at 150% text.
  var headings=host.panel_box.get_children().slice(0,3)
- headings[0].text="QUIETUS / OPERATIONS"
+ headings[0].text="OPERATIONS"
  headings[0].add_theme_font_size_override("font_size",roundi(Table.HEADING_SIZE*host.ui_touch_height/48.*preload("res://src/presentation/frontend/frontend_settings.gd").text_scale()))
  headings[1].hide();headings[2].hide()
  for node in host.panel_box.get_children():
@@ -38,6 +38,11 @@ static func arrange(host)->void:
   if is_instance_valid(target):target.pressed.emit()
  ,"next_operation")
  primary.disabled=target==null;primary.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+ primary.size_flags_stretch_ratio=Table.NEXT_STRETCH
+ primary.mouse_filter=Control.MOUSE_FILTER_PASS
+ # Default disabled padding differs from the game's active button style.
+ # Match their geometry so changing Resume availability cannot rewrap the row.
+ for control in [resume,primary]:control.add_theme_stylebox_override("disabled",control.get_theme_stylebox("normal"))
  var shortcuts=HBoxContainer.new();shortcuts.add_theme_constant_override("separation",Table.GAP);host.panel_box.add_child(shortcuts);host.panel_box.move_child(shortcuts,4)
  for node in quick:node.reparent(shortcuts);node.size_flags_horizontal=Control.SIZE_EXPAND_FILL
  for node in quick:

@@ -69,7 +69,8 @@ func shape_case(shape):
  await press(game,"route_map");await escape_key();check(game.screen=="menu" and game.get_node_or_null("RouteMapView")==null,"Escape closes the route map")
  await press(game,"route_map");await android_back();check(game.screen=="menu" and game.get_node_or_null("RouteMapView")==null,"Android Back matches Escape")
  var Table=load("res://src/campaign/route_map/route_graph_table.gd");Table.enabled=false;game._show_campaign();await settle()
- check(button(game,"route_map")==null and button(game,"mission0")!=null,"off switch restores the unchanged flat list")
+ await press(game,"recovered_fold")
+ check(button(game,"route_map")==null and button(game,"mission0")!=null,"map off switch preserves the existing operations under their recovered fold")
  Table.enabled=true;game.queue_free();await settle()
 func run():
  var emulation=Input.is_emulating_touch_from_mouse();Input.set_emulate_touch_from_mouse(true)
