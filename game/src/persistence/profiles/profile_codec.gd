@@ -2,16 +2,14 @@ extends RefCounted
 # Validate ordinary Variant framing before bytes_to_var, which otherwise reports
 # engine errors on truncated input and accepts unconsumed trailing bytes. Objects,
 # resources, callable and signal variants are never accepted by profile packages.
-const LIMIT = 16002000
-const DEPTH_LIMIT = 64
-const ITEM_LIMIT = 1000000
+const Rules = preload("res://src/persistence/profiles/profile_rules.gd")
 var bytes: PackedByteArray
 var offset = 0
-var budget = ITEM_LIMIT
+var budget = Rules.VARIANT_ITEM_LIMIT
 static func decode(value: PackedByteArray) -> Variant:
  var reader = load("res://src/persistence/profiles/profile_codec.gd").new()
  reader.bytes = value
- if value.size() > LIMIT or not reader._scan(0) or reader.offset != value.size():return null
+ if value.size() > Rules.PACKAGE_LIMIT or not reader._scan(0) or reader.offset != value.size():return null
  return bytes_to_var(value)
 func _skip(count: int) -> bool:
  if count < 0 or count > bytes.size() - offset:return false
@@ -37,7 +35,7 @@ func _text() -> bool:
  return _skip((count + 3) & ~3)
 func _scan(depth: int) -> bool:
  budget -= 1
- if depth > DEPTH_LIMIT or budget < 0:return false
+ if depth > Rules.VARIANT_DEPTH_LIMIT or budget < 0:return false
  var header = _word()
  if header < 0:return false
  var type = header & 0xffff
@@ -65,7 +63,7 @@ func _scan(depth: int) -> bool:
   TYPE_ARRAY,TYPE_DICTIONARY:
    if wide:return false
    var count = _word()
-   if count < 0 or count > ITEM_LIMIT:return false
+   if count < 0 or count > Rules.VARIANT_ITEM_LIMIT:return false
    if type == TYPE_DICTIONARY:count *= 2
    if count > budget or count * 4 > bytes.size() - offset:return false
    for n in count:
@@ -76,7 +74,7 @@ func _scan(depth: int) -> bool:
    return not wide and count >= 0 and _skip((count + 3) & ~3)
   TYPE_PACKED_INT32_ARRAY,TYPE_PACKED_INT64_ARRAY,TYPE_PACKED_FLOAT32_ARRAY,TYPE_PACKED_FLOAT64_ARRAY,TYPE_PACKED_VECTOR2_ARRAY,TYPE_PACKED_VECTOR3_ARRAY,TYPE_PACKED_COLOR_ARRAY,TYPE_PACKED_VECTOR4_ARRAY:
    var count = _word()
-   if count < 0 or count > ITEM_LIMIT:return false
+   if count < 0 or count > Rules.VARIANT_ITEM_LIMIT:return false
    var widths = {TYPE_PACKED_INT32_ARRAY:4,TYPE_PACKED_INT64_ARRAY:8,TYPE_PACKED_FLOAT32_ARRAY:4,TYPE_PACKED_FLOAT64_ARRAY:8,TYPE_PACKED_VECTOR2_ARRAY:16 if wide else 8,TYPE_PACKED_VECTOR3_ARRAY:24 if wide else 12,TYPE_PACKED_COLOR_ARRAY:16,TYPE_PACKED_VECTOR4_ARRAY:32 if wide else 16}
    return _skip(count * widths[type])
   TYPE_PACKED_STRING_ARRAY:

@@ -19,7 +19,16 @@ func _write(path: String, bytes: PackedByteArray) -> bool:
  file.store_buffer(bytes);file.flush()
  var ok = file.get_error() == OK
  file.close()
- return ok and FileAccess.get_file_as_bytes(path) == bytes
+ if not ok:return false
+ var verified = _bytes(path,Rules.PACKAGE_LIMIT)
+ return verified is PackedByteArray and verified == bytes
+func _bytes(path: String, limit: int) -> Variant:
+ var file = FileAccess.open(path,FileAccess.READ)
+ if file == null or file.get_length() > limit:return null
+ var value = file.get_buffer(file.get_length())
+ var ok = file.get_error() == OK
+ file.close()
+ return value if ok else null
 func _remove(path: String) -> bool:
  return not FileAccess.file_exists(path) or DirAccess.remove_absolute(path) == OK
 func _snapshot(path: String) -> Dictionary:
@@ -89,10 +98,9 @@ func _open() -> bool:
  if DirAccess.make_dir_recursive_absolute(directory) != OK:return _fail("Cannot open profiles.")
  var journal = directory + "/transaction"
  if FileAccess.file_exists(journal):
-  var f = FileAccess.open(journal,FileAccess.READ)
-  if f == null or f.get_length() > Rules.PACKAGE_LIMIT:return _fail("Profile recovery journal unreadable.")
-  var previous = Codec.decode(f.get_buffer(f.get_length()))
-  f.close()
+  var raw = _bytes(journal,Rules.PACKAGE_LIMIT)
+  if raw == null:return _fail("Profile recovery journal unreadable.")
+  var previous = Codec.decode(raw)
   if not previous is Dictionary:return _fail("Profile recovery journal invalid.")
   for path in previous:
    if not path is String or (path != directory + "/index" and path != directory + "/index.bak" and not _allowed_path(path)):return _fail("Profile recovery path invalid.")
@@ -101,9 +109,9 @@ func _open() -> bool:
  var index_path = directory + "/index"
  for suffix in ["", ".bak"]:
   if not FileAccess.file_exists(index_path + suffix):continue
-  var f = FileAccess.open(index_path + suffix,FileAccess.READ)
-  if f == null or f.get_length() > 4096:continue
-  var value = Codec.decode(f.get_buffer(f.get_length()))
+  var raw = _bytes(index_path + suffix,Rules.INDEX_LIMIT)
+  if raw == null:continue
+  var value = Codec.decode(raw)
   if _valid_state(value):state = value;healthy = true;return true
  if FileAccess.file_exists(index_path) or FileAccess.file_exists(index_path + ".bak"):return _fail("Profile index unreadable; no saves were remapped.")
  state = {"version":1,"active":0,"names":["Profile 1","Profile 2","Profile 3"]}
@@ -120,9 +128,9 @@ func _open() -> bool:
 func _ready_for_change() -> bool:
  if not healthy or state.is_empty() or FileAccess.file_exists(directory + "/transaction"):return _fail("Profile recovery must succeed before changes.")
  for suffix in ["", ".bak"]:
-  var f = FileAccess.open(directory + "/index" + suffix,FileAccess.READ)
-  if f == null or f.get_length() > 4096:continue
-  var value = Codec.decode(f.get_buffer(f.get_length()))
+  var raw = _bytes(directory + "/index" + suffix,Rules.INDEX_LIMIT)
+  if raw == null:continue
+  var value = Codec.decode(raw)
   if _valid_state(value):return true
  healthy = false;state = {};return _fail("Profile index unreadable; changes blocked.")
 func _allowed_path(path: String) -> bool:
@@ -212,9 +220,9 @@ func export_profile(index: int) -> String:
  return ProjectSettings.globalize_path(destination)
 func read_package(path: String) -> Dictionary:
  warning = ""
- var f = FileAccess.open(path,FileAccess.READ)
- if f == null or f.get_length() > Rules.PACKAGE_LIMIT:_fail("Import file unavailable or too large.");return {}
- var envelope = Codec.decode(f.get_buffer(f.get_length()))
+ var raw = _bytes(path,Rules.PACKAGE_LIMIT)
+ if raw == null:_fail("Import file unavailable or too large.");return {}
+ var envelope = Codec.decode(raw)
  if not envelope is Dictionary or not envelope.get("magic") is String or envelope.magic != Rules.MAGIC or not envelope.get("version") is int or envelope.version != Rules.VERSION or not envelope.get("length") is int or not envelope.get("checksum") is String or not envelope.get("payload") is PackedByteArray:_fail("Invalid profile package.");return {}
  var payload: PackedByteArray = envelope.payload
  if envelope.get("length") != payload.size() or envelope.get("checksum") != payload.hex_encode().sha256_text():_fail("Import checksum failed.");return {}
