@@ -1,0 +1,20 @@
+{
+  "pid": 4960,
+  "args": [
+    "--path",
+    "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\landmarks-merge\\game",
+    "--audio-driver",
+    "Dummy",
+    "--rendering-method",
+    "gl_compatibility",
+    "--position",
+    "-9000,-9000",
+    "--script",
+    "res://tests/well_camera_feed_render_tests.gd"
+  ],
+  "head": "7619ff17069bf52534239702c54462bac8793561",
+  "game_tree": "ead6c0b35a7b331d88e2475d60f76594808eaf13",
+  "appdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\final-7619ff1-native\\final-well_camera_feed_render_tests\\appdata",
+  "localappdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\final-7619ff1-native\\final-well_camera_feed_render_tests\\local",
+  "started": "2026-10-24T19:07:31.2566690Z"
+}

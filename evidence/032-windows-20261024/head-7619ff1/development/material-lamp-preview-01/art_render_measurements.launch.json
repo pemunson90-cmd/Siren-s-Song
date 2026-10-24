@@ -1,0 +1,20 @@
+{
+  "pid": 34208,
+  "args": [
+    "--path",
+    "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\landmarks-merge\\game",
+    "--audio-driver",
+    "Dummy",
+    "--rendering-method",
+    "gl_compatibility",
+    "--position",
+    "-9000,-9000",
+    "--script",
+    "res://tests/art_render_measurements.gd",
+    "--",
+    "--folder=C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\material-lamp-preview-01\\captures",
+    "--frames=12",
+    "--blocks=1"
+  ],
+  "started": "2026-10-24T18:52:33.7322228Z"
+}

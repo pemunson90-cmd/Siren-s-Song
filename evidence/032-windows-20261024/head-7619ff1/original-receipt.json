@@ -1,0 +1,773 @@
+{
+  "source": "7619ff17069bf52534239702c54462bac8793561",
+  "full_tree": "fb28192aa5112d465c7236446429e683e469bdb5",
+  "game_tree": "ead6c0b35a7b331d88e2475d60f76594808eaf13",
+  "source_working_tree_clean": true,
+  "created_utc": "2026-10-24T19:19:38.6707186Z",
+  "status": "Coherent artwork candidate; targeted checks pass. Explicit CPU tradeoff remains reported for root and Pat. Artwork acceptance and merge are not claimed.",
+  "ownership": "Only nine owned game source/test paths committed; root docs, board, UID/import churn and personal saves excluded.",
+  "engine": "Godot4.6.3.stable.official.7d41c59c4 Windows Compatibility, Dummy audio, hidden/offscreen, unique APPDATA/LOCALAPPDATA; serial WaitForExit guarded by exclusive file lock and mutex.",
+  "gpu": "NVIDIA GeForce RTX2080Ti, OpenGL3.3.0 NVIDIA610.88; viewport GPU timer enabled, nonzero native samples; Vsync disabled.",
+  "suites": [
+    {
+      "suite": "run_tests",
+      "pid": 29524,
+      "appdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\final-7619ff1-import\\final-run_tests\\appdata",
+      "localappdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\final-7619ff1-import\\final-run_tests\\local",
+      "gpu": false,
+      "exit": 0,
+      "footer": "",
+      "errors": 0,
+      "passed": true
+    },
+    {
+      "suite": "run_tests",
+      "pid": 13500,
+      "appdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\final-7619ff1-headless\\final-run_tests\\appdata",
+      "localappdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\final-7619ff1-headless\\final-run_tests\\local",
+      "gpu": false,
+      "exit": 0,
+      "footer": "CHECKS 835 FAILURES 0\r",
+      "errors": 0,
+      "passed": true
+    },
+    {
+      "suite": "art_tests",
+      "pid": 7404,
+      "appdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\final-7619ff1-headless\\final-art_tests\\appdata",
+      "localappdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\final-7619ff1-headless\\final-art_tests\\local",
+      "gpu": false,
+      "exit": 0,
+      "footer": "ART CHECKS 33 FAILURES 0\r",
+      "errors": 0,
+      "passed": true
+    },
+    {
+      "suite": "confluence_presentation_tests",
+      "pid": 39880,
+      "appdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\final-7619ff1-headless\\final-confluence_presentation_tests\\appdata",
+      "localappdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\final-7619ff1-headless\\final-confluence_presentation_tests\\local",
+      "gpu": false,
+      "exit": 0,
+      "footer": "CONFLUENCE PRESENTATION CHECKS 15 FAILURES 0\r",
+      "errors": 0,
+      "passed": true
+    },
+    {
+      "suite": "photo_depth_tests",
+      "pid": 11956,
+      "appdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\final-7619ff1-headless\\final-photo_depth_tests\\appdata",
+      "localappdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\final-7619ff1-headless\\final-photo_depth_tests\\local",
+      "gpu": false,
+      "exit": 0,
+      "footer": "PHOTO DEPTH CHECKS 49 FAILURES 0\r",
+      "errors": 0,
+      "passed": true
+    },
+    {
+      "suite": "photo_pricing_tests",
+      "pid": 13424,
+      "appdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\final-7619ff1-headless\\final-photo_pricing_tests\\appdata",
+      "localappdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\final-7619ff1-headless\\final-photo_pricing_tests\\local",
+      "gpu": false,
+      "exit": 0,
+      "footer": "PHOTO PRICING CHECKS 64 FAILURES 0\r",
+      "errors": 0,
+      "passed": true
+    },
+    {
+      "suite": "performance_measurements",
+      "pid": 1828,
+      "appdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\final-7619ff1-headless\\final-performance_measurements\\appdata",
+      "localappdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\final-7619ff1-headless\\final-performance_measurements\\local",
+      "gpu": false,
+      "exit": 0,
+      "footer": "PERFORMANCE CHECKS 2 FAILURES 0\r",
+      "errors": 0,
+      "passed": true
+    },
+    {
+      "suite": "well_camera_feed_render_tests",
+      "pid": 4960,
+      "appdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\final-7619ff1-native\\final-well_camera_feed_render_tests\\appdata",
+      "localappdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\final-7619ff1-native\\final-well_camera_feed_render_tests\\local",
+      "gpu": true,
+      "exit": 0,
+      "footer": "WELL CAMERA RENDER CHECKS 14 FAILURES 0\r",
+      "errors": 0,
+      "passed": true
+    },
+    {
+      "suite": "fix2_camera_ui_tests",
+      "pid": 31380,
+      "appdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\final-7619ff1-native\\final-fix2_camera_ui_tests\\appdata",
+      "localappdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\final-7619ff1-native\\final-fix2_camera_ui_tests\\local",
+      "gpu": true,
+      "exit": 0,
+      "footer": "FIX2 CAMERA UI CHECKS 56 FAILURES 0\r",
+      "errors": 0,
+      "passed": true
+    },
+    {
+      "suite": "a11y_cues_ui_tests",
+      "pid": 14120,
+      "appdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\final-7619ff1-native\\final-a11y_cues_ui_tests\\appdata",
+      "localappdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\final-7619ff1-native\\final-a11y_cues_ui_tests\\local",
+      "gpu": true,
+      "exit": 0,
+      "footer": "A11Y CUES UI CHECKS 98 FAILURES 0\r",
+      "errors": 0,
+      "passed": true
+    },
+    {
+      "suite": "art_render_measurements",
+      "pid": 19012,
+      "appdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\final-7619ff1-native\\final-art_render_measurements\\appdata",
+      "localappdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\final-7619ff1-native\\final-art_render_measurements\\local",
+      "gpu": true,
+      "exit": 0,
+      "footer": "ART RENDER CHECKS 204 FAILURES 0\r",
+      "errors": 0,
+      "passed": true
+    }
+  ],
+  "command_receipt_result": {
+    "exit": 0,
+    "footer": "ART COMMAND RECEIPT CHECKS 140 FAILURES 0\r",
+    "errors": 0,
+    "passed": true
+  },
+  "render_design": {
+    "raw_blocks": 120,
+    "cover_safe_inset_pixels": 136,
+    "warmup_frames_per_switch": 90,
+    "physical_viewports": [
+      "2520x1080",
+      "2184x1968"
+    ],
+    "camera": "ordinary Ocean overview; fixed source-known paused states, phase0",
+    "text_scale": "normal1.0; active ordinary camera case1.5",
+    "requested_warmup_draws": 10800,
+    "timed_samples": 36000,
+    "inner_safe_inset_pixels": 0,
+    "timed_frames_per_switch": 300,
+    "blocks_per_state": 5,
+    "states": 3,
+    "order": "old/new/new/old",
+    "dpi": 420,
+    "scenes": [
+      "ordinary fleet/fresh four roles/stale glyph",
+      "explicit source-known earned chart plus complete/partial factory, installation, active FOV guide",
+      "ordinary active own camera wash,150%text"
+    ]
+  },
+  "correctness": "204 native checks: identical complete draw snapshots, source-known hidden roster and private chart geometry pixel invariance, exact old-look return, subsequent ordinary command equivalence, on-screen/unoccluded Quietus and cone, lamp-only pixel difference, real flash preview/exposure/depleted and wide/tight/tele optics. Separate headless command receipt140/0 links all120native rows by full initial state hash and emits numeric command hashes and binary snapshots.",
+  "art_cache": {
+    "native_retained_counters": "All120blocks: object delta0, static-memory delta0, measured before readback/hashing/result storage.",
+    "texture_tint_quantization": "Only cosmetic texture tint within1/127 of prior fade. Pin timing/transforms/outline alpha/snare layers stay exact.",
+    "one_time_headless_geometry_palette_initialization": {
+      "lamp_colors": 3,
+      "lamp_vertices": 3,
+      "objects_delta": 0.0,
+      "outlines": 8,
+      "scope": "one-time geometry/palette initialization, headless CPU; excludes texture load/GPU allocation",
+      "static_bytes_delta": 19424.0,
+      "texture_shades": 128,
+      "usec": 113,
+      "uvs": 4
+    },
+    "source_audit": "No per-frame new arrays/resources/nodes in new art draws. Immutable prepared outline/UV/tint arrays;128 cached texture shades; lamp local vertices/colors update only when cached fov/range/steady strength changes, pose uses draw transform. Legacy engine/renderer allocation is not claimed zero."
+  },
+  "cpu_tradeoff": "Paired Ocean draw-submission CPU medians increase80.75..109.75microseconds. Inner earned-factory/camera cases exceed measured within-mode median-repeat spreads. Viewport render CPU also increases43.75..59.25microseconds. This is a measured CPU cost, not blanket no-regression evidence.",
+  "gpu_and_cadence": "GPU paired medians unchanged or improve0..31microseconds. Frame-cadence paired medians increase113.5..195microseconds; mostly within observed repeat drift, inner ordinary-camera delta138.75microseconds versus repeat spread135microseconds. No Android FPS or power guarantee.",
+  "limits": [
+    "Pat decides concrete artwork acceptance; shape signatures/source-known scenes do not establish blind role recognition.",
+    "No physical Android, vision, hand, haptics or blind-play claim.",
+    "Lamp180m cap is an artistic fade bounded by actual cached range, not changed physics, promised visibility or a safe corridor. Earned chart uses a short dashed camera-direction instrument, not filled hidden terrain.",
+    "No high-level GPU disjoint flag; zero/nonfinite samples must not be treated as measured GPU performance. Driver power-state/host scheduling noise remains.",
+    "015 and supplemental cache/command probes are headless simulation/CPU evidence only.",
+    "Initial pre-edit baseline had logical-viewport clipping and is development evidence; final valid pictures are same-source table old/new with corrected DPI/viewport/inset provenance."
+  ],
+  "development_failures": [
+    "Wrong initial core script test.gd missing; corrected registry name run_tests.",
+    "Intentional missing-art RED overlapped the development-only core; excluded from final proof.",
+    "Packed-array const dictionary parse failure, interrupted owned session; subsequent exact elevated process check empty before resumed serial validation.",
+    "Initial old native pictures clipped by physical/logical viewport mismatch; preserved and replaced by corrected same-source pairs.",
+    "Depleted-flash fixture used wrong Array.erase(0), corrected to captures[0]={}; original assertion retained.",
+    "Earned-region fixture initially omitted required region_revision, corrected fixture metadata; no validator change."
+  ],
+  "source_files": [
+    {
+      "path": "work/landmarks-merge/game/src/presentation/art/art_table.gd",
+      "sha256": "f3dc5e69254d4243a32044be89d8a5840da966223bb77e38a8eda029c856c9b5",
+      "bytes": 3896,
+      "last_write_utc": "2026-10-24T18:58:36.9351604Z",
+      "git_path": "game/src/presentation/art/art_table.gd",
+      "git_blob": "68ab99504fc0eaf0cdaa601d4599383eafa551d1"
+    },
+    {
+      "path": "work/landmarks-merge/game/src/presentation/art/art_renderer.gd",
+      "sha256": "797d05620ed815f1a8fc608479c4ac21fb3642fb2d6ffe3bc36a52a750c0203e",
+      "bytes": 6717,
+      "last_write_utc": "2026-10-24T18:58:36.9351604Z",
+      "git_path": "game/src/presentation/art/art_renderer.gd",
+      "git_blob": "5a569394002bba0b0b7f057d598a3d1d7ac50bc4"
+    },
+    {
+      "path": "work/landmarks-merge/game/src/presentation/art/art_tests.gd",
+      "sha256": "9f77f8b093ad9b257e73f3f0e9ebbaf0aa3013cf2c671bab952f728bf136a155",
+      "bytes": 6680,
+      "last_write_utc": "2026-10-24T19:02:04.8988726Z",
+      "git_path": "game/src/presentation/art/art_tests.gd",
+      "git_blob": "68639d7b220cb98962a9a30b290bf4eba29f5cf8"
+    },
+    {
+      "path": "work/landmarks-merge/game/src/presentation/camera_feed.gd",
+      "sha256": "34fc88bddaeb34883d48996072ddc48e060fb3f9fc8fa322a7bcb58105f91e91",
+      "bytes": 16702,
+      "last_write_utc": "2026-10-24T18:58:36.9351604Z",
+      "git_path": "game/src/presentation/camera_feed.gd",
+      "git_blob": "928c258b7ad3688ad177adbf2134e0f90c46d246"
+    },
+    {
+      "path": "work/landmarks-merge/game/src/presentation/confluence_world.gd",
+      "sha256": "6096633037a7132eb20ef5280516b814369d6163eb0b6fe6ede71c94f343dea4",
+      "bytes": 9035,
+      "last_write_utc": "2026-10-24T18:39:14.1668954Z",
+      "git_path": "game/src/presentation/confluence_world.gd",
+      "git_blob": "60764ad3ed2d83dc05af9df2770ef6e4f912b5f7"
+    },
+    {
+      "path": "work/landmarks-merge/game/src/presentation/ocean_view.gd",
+      "sha256": "93b83bdad3f4a0e99ef1cb9b88b94ee44a468a253917b8304a9681b65067053e",
+      "bytes": 42033,
+      "last_write_utc": "2026-10-24T18:58:36.9394081Z",
+      "git_path": "game/src/presentation/ocean_view.gd",
+      "git_blob": "1ebd0eba2494384f02a4a67f1e130c8c32905529"
+    },
+    {
+      "path": "work/landmarks-merge/game/tests/art_render_measurements.gd",
+      "sha256": "529c9e0d055cce1d57027aa7900267f94d20f9fb99f8b5100c719caf4f7d67c5",
+      "bytes": 13456,
+      "last_write_utc": "2026-10-24T19:02:04.8988726Z",
+      "git_path": "game/tests/art_render_measurements.gd",
+      "git_blob": "f98dae295ff76726064450d09a7ec775c809e6e8"
+    },
+    {
+      "path": "work/landmarks-merge/game/tests/art_tests.gd",
+      "sha256": "6b140eece78ec1f11120bff7efe792ab5f3ef52dbe9e1d05c767cc3665d5367d",
+      "bytes": 207,
+      "last_write_utc": "2026-10-24T18:36:51.4883940Z",
+      "git_path": "game/tests/art_tests.gd",
+      "git_blob": "be6f95828fe7b8540552520a86bdffb375d91649"
+    },
+    {
+      "path": "work/landmarks-merge/game/tests/suites.txt",
+      "sha256": "e688ab9ecf8787e78f822ba4beff0f74c13569b926eaf1425d7989bb065fbbdb",
+      "bytes": 10987,
+      "last_write_utc": "2026-10-24T18:47:58.0422780Z",
+      "git_path": "game/tests/suites.txt",
+      "git_blob": "377e71ed8491771584fb31239571034800d55000"
+    }
+  ],
+  "files": [
+    {
+      "path": "work/032-native/final-7619ff1-import/results-run_tests.json",
+      "sha256": "866d56780a596fbf944e07718ba750450ca6c45d3a8d075de4c032ade2e5f35f",
+      "bytes": 457,
+      "last_write_utc": "2026-10-24T19:04:44.6505496Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-import/run_tests.err.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "last_write_utc": "2026-10-24T19:04:36.2948649Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-import/run_tests.launch.json",
+      "sha256": "acb7737cc47c986617ae311d1ceba12bb723809337f548eb1884a07550d4da58",
+      "bytes": 764,
+      "last_write_utc": "2026-10-24T19:04:36.4530000Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-import/run_tests.out.log",
+      "sha256": "ab13793873aa3898eed7cac00f1e9f785df0867ec08e5f116902c9e04b1af6d4",
+      "bytes": 1551,
+      "last_write_utc": "2026-10-24T19:04:40.8014566Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-headless/art_tests.err.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "last_write_utc": "2026-10-24T19:07:17.2809312Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-headless/art_tests.launch.json",
+      "sha256": "144466e0c7e05e61323fe945d63cb29d02a3d52883f230e23d5ec6097c3a3fc8",
+      "bytes": 768,
+      "last_write_utc": "2026-10-24T19:07:17.3837299Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-headless/art_tests.out.log",
+      "sha256": "59446145ed0983df919d79c07af9dd58542de3bfd601fcce37d19fcde80bc73f",
+      "bytes": 101,
+      "last_write_utc": "2026-10-24T19:07:19.2213773Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-headless/confluence_presentation_tests.err.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "last_write_utc": "2026-10-24T19:07:19.2892922Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-headless/confluence_presentation_tests.launch.json",
+      "sha256": "f77dc4a9b80c99d598af65ac78b7a777595f1da8bc8d4bb606d6212404165195",
+      "bytes": 829,
+      "last_write_utc": "2026-10-24T19:07:19.4014561Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-headless/confluence_presentation_tests.out.log",
+      "sha256": "334492fc8ee5325264a77173041f53c19f1f4556ab2f6d99772a1340c4c59713",
+      "bytes": 121,
+      "last_write_utc": "2026-10-24T19:07:20.2536470Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-headless/performance_measurements.err.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "last_write_utc": "2026-10-24T19:07:29.0328519Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-headless/performance_measurements.launch.json",
+      "sha256": "e69dbf6ddf3cae68d774688c13f96c248242028a92c9e345bc670933597f02ff",
+      "bytes": 813,
+      "last_write_utc": "2026-10-24T19:07:29.1335858Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-headless/performance_measurements.out.log",
+      "sha256": "afe0215ad2c511e8364082709f2752fb5385fc41f6f2a6aa32b76b18dadf3ecf",
+      "bytes": 619,
+      "last_write_utc": "2026-10-24T19:07:31.0598112Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-headless/photo_depth_tests.err.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "last_write_utc": "2026-10-24T19:07:20.3806226Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-headless/photo_depth_tests.launch.json",
+      "sha256": "384293a8a339beefdeda03dc0295712c2c5da5b45273f79582fb2d8f222a85b6",
+      "bytes": 793,
+      "last_write_utc": "2026-10-24T19:07:20.4835273Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-headless/photo_depth_tests.out.log",
+      "sha256": "26977fcbe2d68168b32bb2120edaa8160a08d2ebb6e4cdef443374273f13fe4e",
+      "bytes": 109,
+      "last_write_utc": "2026-10-24T19:07:24.6533962Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-headless/photo_pricing_tests.err.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "last_write_utc": "2026-10-24T19:07:24.7965982Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-headless/photo_pricing_tests.launch.json",
+      "sha256": "67f567ff7de71451a8e25b2515d9a13bd4fcc702b17b63c2e7adedcc1c524dc5",
+      "bytes": 799,
+      "last_write_utc": "2026-10-24T19:07:24.8996891Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-headless/photo_pricing_tests.out.log",
+      "sha256": "c25e14ffea06cb1a3c76125a24cc69911ffd52f526af0176fb24c3b7a2159e27",
+      "bytes": 111,
+      "last_write_utc": "2026-10-24T19:07:28.9015584Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-headless/results-run_tests_art_tests_confluence_presentation_tests_photo_depth_tests_photo_pricing_tests_performance_measurements.json",
+      "sha256": "97e5e1049ce2530dbcc24ed6ca77ccfa961c3690ddfef056329a34b73237ab35",
+      "bytes": 3264,
+      "last_write_utc": "2026-10-24T19:07:31.1342499Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-headless/run_tests.err.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "last_write_utc": "2026-10-24T19:04:44.6955428Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-headless/run_tests.launch.json",
+      "sha256": "c9b72c5aa0faba5e666bf07ab0ae45fc132061e9ac7ab8c4c0bba9f2a326899f",
+      "bytes": 769,
+      "last_write_utc": "2026-10-24T19:04:44.7960629Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-headless/run_tests.out.log",
+      "sha256": "9697d9db1dc0a107f9acd1e466b3bad3aca0e52f437a855474fc69883764ca5a",
+      "bytes": 822,
+      "last_write_utc": "2026-10-24T19:07:17.1561761Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-native/a11y_cues_ui_tests.err.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "last_write_utc": "2026-10-24T19:07:47.7199368Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-native/a11y_cues_ui_tests.launch.json",
+      "sha256": "2646dc1da19ba421a57ddb721e52a95908ea8b853077f2b6b63ef94f881fb1b5",
+      "bytes": 1026,
+      "last_write_utc": "2026-10-24T19:07:47.8213807Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-native/a11y_cues_ui_tests.out.log",
+      "sha256": "9484a018daa6dc6f9fc6866989f54bdf834fc2e66495480e481c632e994951a4",
+      "bytes": 101732,
+      "last_write_utc": "2026-10-24T19:08:06.4692514Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-native/art_render_measurements.err.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "last_write_utc": "2026-10-24T19:08:06.7257885Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-native/art_render_measurements.launch.json",
+      "sha256": "41c48129e88a6916de4e2d9c08ead190f54da5d0926579edbe58f2a96c6dd43b",
+      "bytes": 1076,
+      "last_write_utc": "2026-10-24T19:08:06.8255737Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-native/art_render_measurements.out.log",
+      "sha256": "0b7c04fd20855150ba095bb2df7316fc68a3a295865986c2e9b2328a85a8b0f7",
+      "bytes": 5752,
+      "last_write_utc": "2026-10-24T19:14:33.2079119Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-native/fix2_camera_ui_tests.err.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "last_write_utc": "2026-10-24T19:07:38.1792814Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-native/fix2_camera_ui_tests.launch.json",
+      "sha256": "42ad2478edb985126fd813ff769a12177fb897e268a38b8a28b2d0e8729e13c9",
+      "bytes": 870,
+      "last_write_utc": "2026-10-24T19:07:38.2822287Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-native/fix2_camera_ui_tests.out.log",
+      "sha256": "8d373261c76adda421f04f3e1c2a63534377db14b4c215153176a52bc5b8815f",
+      "bytes": 41198,
+      "last_write_utc": "2026-10-24T19:07:47.4672741Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-native/results-well_camera_feed_render_tests_fix2_camera_ui_tests_a11y_cues_ui_tests_art_render_measurements.json",
+      "sha256": "6d88192175926aab4ed9669412f78f55429ea989bf36f830ec4127ceaa0dbd44",
+      "bytes": 2229,
+      "last_write_utc": "2026-10-24T19:14:33.4526236Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-native/well_camera_feed_render_tests.err.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "last_write_utc": "2026-10-24T19:07:31.1561118Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-native/well_camera_feed_render_tests.launch.json",
+      "sha256": "6701c4ab587b8f27c99c5bff026b8765eab55d58a2bfd366abae2be9a58b1aac",
+      "bytes": 896,
+      "last_write_utc": "2026-10-24T19:07:31.2577881Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-native/well_camera_feed_render_tests.out.log",
+      "sha256": "87786df099e4c51774c59ec1745a4bf84b7fa73cba9635761230797513637b63",
+      "bytes": 13971,
+      "last_write_utc": "2026-10-24T19:07:37.9837703Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-native/captures/2184x1968-scene0-new.png",
+      "sha256": "b34735af8eae52fbccc629e178b16f3405ba354526a630f63f2896f9021e496a",
+      "bytes": 1514533,
+      "last_write_utc": "2026-10-24T19:11:29.2975493Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-native/captures/2184x1968-scene0-old.png",
+      "sha256": "bf2714a194446bbc60deb5834e287ef261819b8dee9a02102b6c5b0285a3cac2",
+      "bytes": 1473668,
+      "last_write_utc": "2026-10-24T19:11:32.2914582Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-native/captures/2184x1968-scene1-new.png",
+      "sha256": "a5ad3c7abc451adae921631c0efa8f18cceda694c587dcfbf330d5c73be6d221",
+      "bytes": 1363709,
+      "last_write_utc": "2026-10-24T19:12:25.0091362Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-native/captures/2184x1968-scene1-old.png",
+      "sha256": "fc967722ac87495b3bc7e1b47cdcd0742e157942525dcd262e77de4750808708",
+      "bytes": 1313571,
+      "last_write_utc": "2026-10-24T19:12:28.0735725Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-native/captures/2184x1968-scene2-new.png",
+      "sha256": "b1815c2945454a6866d571e33cf9ae5a937af2b75192f9029ce9389434415649",
+      "bytes": 1612388,
+      "last_write_utc": "2026-10-24T19:13:24.5326946Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-native/captures/2184x1968-scene2-old.png",
+      "sha256": "0b62bbe152a06d39a2892d39dad31af57490501a9ea2821beeebdc773be693ed",
+      "bytes": 1569675,
+      "last_write_utc": "2026-10-24T19:13:28.8333122Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-native/captures/2520x1080-scene0-new.png",
+      "sha256": "8219c513dfcf9c2f4af3065d32e5e18bf2d7ae6328f071ea68d16e29ec6c442f",
+      "bytes": 1140627,
+      "last_write_utc": "2026-10-24T19:08:19.1117865Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-native/captures/2520x1080-scene0-old.png",
+      "sha256": "d33719745577076485490cac2854d8223e623d2e3d42231ad7b70008ba41065f",
+      "bytes": 1108489,
+      "last_write_utc": "2026-10-24T19:08:22.0349627Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-native/captures/2520x1080-scene1-new.png",
+      "sha256": "4e0ba38fbf987a2440f321a003b044121008d363e348ffcede0080c888c16867",
+      "bytes": 913905,
+      "last_write_utc": "2026-10-24T19:09:13.3611516Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-native/captures/2520x1080-scene1-old.png",
+      "sha256": "040665bb810d420efe03269afe4ee76520648ef8a30b5ceed3b0cd19365b2e70",
+      "bytes": 887440,
+      "last_write_utc": "2026-10-24T19:09:16.1873854Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-native/captures/2520x1080-scene2-new.png",
+      "sha256": "b87fc29c21c1dcd4589d5a95bcece628fd11b96bbc8f956148f48bddbbb98d87",
+      "bytes": 921189,
+      "last_write_utc": "2026-10-24T19:10:11.5509913Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-native/captures/2520x1080-scene2-old.png",
+      "sha256": "de53415aaa6ddaf5acf963a02063c3332ccd7b81565308831f884f38d508c5f3",
+      "bytes": 894862,
+      "last_write_utc": "2026-10-24T19:10:15.6538175Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-native/captures/a11y-2184-audio-log.png",
+      "sha256": "8411d94901de716f5148cf2de54f5cd7a1c2aab0900f2a5a478be6866b701628",
+      "bytes": 1399992,
+      "last_write_utc": "2026-10-24T19:08:05.0036462Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-native/captures/a11y-2184-film-empty.png",
+      "sha256": "4e5d49c15590319926400437fa1400c4d75db7708d9fa7024b067cfb86934c7e",
+      "bytes": 1469044,
+      "last_write_utc": "2026-10-24T19:08:03.7752283Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-native/captures/a11y-2184-fleet-audio-indicator.png",
+      "sha256": "ffef35ff19eee47f6f8e53fd320acc41f75fccb1d3f301cbd63d97517d46e0b5",
+      "bytes": 1461593,
+      "last_write_utc": "2026-10-24T19:08:04.1221772Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-native/captures/a11y-2184-safe.png",
+      "sha256": "9323aab7d5a8e7c42b6cf7a1e5a0da831537cfecb7e43c07b8b3a0b15752879b",
+      "bytes": 1471926,
+      "last_write_utc": "2026-10-24T19:08:03.4275369Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-native/captures/a11y-2184-standard.png",
+      "sha256": "df00e11c66f08f063d3524c86676e1b26a433c3c245bcdedffb411b299f8da14",
+      "bytes": 1475513,
+      "last_write_utc": "2026-10-24T19:08:03.0670650Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-native/captures/a11y-2520-audio-log.png",
+      "sha256": "33296d3ad81ee26e97850c2cd3620e55a3e95f1c72e5ece8ee55685fc744d73e",
+      "bytes": 743480,
+      "last_write_utc": "2026-10-24T19:07:57.5776172Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-native/captures/a11y-2520-film-empty.png",
+      "sha256": "7842657a0b1b002bc470c86a049f8e250e123919c3585386ce2f62b434c08824",
+      "bytes": 826650,
+      "last_write_utc": "2026-10-24T19:07:56.6080778Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-native/captures/a11y-2520-fleet-audio-indicator.png",
+      "sha256": "86ae0f766403e60093c067a4ec51abdbb2547bc43ecc910e10b47ec4bf677f22",
+      "bytes": 876019,
+      "last_write_utc": "2026-10-24T19:07:56.8291814Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-native/captures/a11y-2520-safe.png",
+      "sha256": "e4adcb5399fa13124e7bb6bc93db42d013f922cfdd144a671ac327d2ddd9fb9d",
+      "bytes": 831600,
+      "last_write_utc": "2026-10-24T19:07:56.3914939Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-native/captures/a11y-2520-standard.png",
+      "sha256": "a03f15525dc81dd61b4730057374cb3470b12d3f7a5b49edc0220163ef11866d",
+      "bytes": 834701,
+      "last_write_utc": "2026-10-24T19:07:56.1746091Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-native/captures/raw.json",
+      "sha256": "936aa2804a9db6f40869ad714e0d2b6296658c043830a5ebb261ebcc23fc7aae",
+      "bytes": 1831777,
+      "last_write_utc": "2026-10-24T19:14:33.2079119Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-command/2184x1968-scene0-after-command.bin",
+      "sha256": "e77c2475cd3c8a7abdb6366f1108e5780b25178e636c2726d928e1d75c3da388",
+      "bytes": 12080,
+      "last_write_utc": "2026-10-24T19:14:51.9935224Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-command/2184x1968-scene0-before.bin",
+      "sha256": "b656fec0b31ffa5034f6899f9ea7db4434046176c5e4d650398c6a326da3ab52",
+      "bytes": 12080,
+      "last_write_utc": "2026-10-24T19:14:51.9935224Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-command/2184x1968-scene1-after-command.bin",
+      "sha256": "21061021c626c51799d59104b2cea1d79b5ec71551c81dd1aa511f95424d42f0",
+      "bytes": 9364,
+      "last_write_utc": "2026-10-24T19:14:52.0662211Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-command/2184x1968-scene1-before.bin",
+      "sha256": "32159e812890df4dc9c4ff438d5338f000a02221bf179aadbee7ffac6f1e1f30",
+      "bytes": 9364,
+      "last_write_utc": "2026-10-24T19:14:52.0652133Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-command/2184x1968-scene2-after-command.bin",
+      "sha256": "0e8ca33f65bea9e136f5a8616bc974fa62db99c900ae7d4ae30f6528528d979a",
+      "bytes": 12080,
+      "last_write_utc": "2026-10-24T19:14:52.1624238Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-command/2184x1968-scene2-before.bin",
+      "sha256": "dbb5a646276fdea73592c1a2559a0f94f0a413e2a20a6156c56bfaadafa55c48",
+      "bytes": 12080,
+      "last_write_utc": "2026-10-24T19:14:52.1624238Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-command/2520x1080-scene0-after-command.bin",
+      "sha256": "e77c2475cd3c8a7abdb6366f1108e5780b25178e636c2726d928e1d75c3da388",
+      "bytes": 12080,
+      "last_write_utc": "2026-10-24T19:14:51.7542260Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-command/2520x1080-scene0-before.bin",
+      "sha256": "b656fec0b31ffa5034f6899f9ea7db4434046176c5e4d650398c6a326da3ab52",
+      "bytes": 12080,
+      "last_write_utc": "2026-10-24T19:14:51.7532266Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-command/2520x1080-scene1-after-command.bin",
+      "sha256": "21061021c626c51799d59104b2cea1d79b5ec71551c81dd1aa511f95424d42f0",
+      "bytes": 9364,
+      "last_write_utc": "2026-10-24T19:14:51.8253769Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-command/2520x1080-scene1-before.bin",
+      "sha256": "32159e812890df4dc9c4ff438d5338f000a02221bf179aadbee7ffac6f1e1f30",
+      "bytes": 9364,
+      "last_write_utc": "2026-10-24T19:14:51.8243695Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-command/2520x1080-scene2-after-command.bin",
+      "sha256": "0e8ca33f65bea9e136f5a8616bc974fa62db99c900ae7d4ae30f6528528d979a",
+      "bytes": 12080,
+      "last_write_utc": "2026-10-24T19:14:51.9224797Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-command/2520x1080-scene2-before.bin",
+      "sha256": "dbb5a646276fdea73592c1a2559a0f94f0a413e2a20a6156c56bfaadafa55c48",
+      "bytes": 12080,
+      "last_write_utc": "2026-10-24T19:14:51.9215169Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-command/command-receipts.json",
+      "sha256": "7d11b723902fedab885d6e166a2b30b74c033eb3266ce54b563111cf142629cf",
+      "bytes": 3599,
+      "last_write_utc": "2026-10-24T19:14:52.1644006Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-command/command.err.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "last_write_utc": "2026-10-24T19:14:50.2369488Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-command/command.out.log",
+      "sha256": "57f3885ea31f7eafc23b0bda551ab642dfe9802c638dab3f4d285e68a560d4a1",
+      "bytes": 118,
+      "last_write_utc": "2026-10-24T19:14:52.1674013Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-command/launch.json",
+      "sha256": "dfda33f2f69592e1316b63d09dea21d6310ce6356053ef48ba69d189d42fc185",
+      "bytes": 1120,
+      "last_write_utc": "2026-10-24T19:14:50.3968777Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-command/result.json",
+      "sha256": "2a237ec9b5bdb7b2b24ba0c64d2c2ea4450367cd29ca1bdc2c25b7676ee79ee8",
+      "bytes": 114,
+      "last_write_utc": "2026-10-24T19:14:52.2603244Z"
+    },
+    {
+      "path": "work/032-run-7619ff1-frozen.ps1",
+      "sha256": "bebcf7d1c8d9b143aa32832ad58e5f6bcf0679122d1497fc1cb2e8a58a4bba35",
+      "bytes": 3648,
+      "last_write_utc": "2026-10-24T19:04:35.4617304Z"
+    },
+    {
+      "path": "work/032-command-receipt.gd",
+      "sha256": "baabb6730eb1cc93b545035b627a4e69136a649448c99af477fecaa418496353",
+      "bytes": 5194,
+      "last_write_utc": "2026-10-24T19:10:50.0327690Z"
+    },
+    {
+      "path": "work/032-command-run.ps1",
+      "sha256": "7e6ca8206e0bafaccfbf13f6fcf026057dec6ab35e53b1af3981ec193813b2ad",
+      "bytes": 2321,
+      "last_write_utc": "2026-10-24T19:10:50.0337389Z"
+    },
+    {
+      "path": "work/032-analyze.ps1",
+      "sha256": "41fdc7deb63f64de979693b4becd5d32a8e654efd27bf76a7a737083b6929aa5",
+      "bytes": 4221,
+      "last_write_utc": "2026-10-24T19:11:25.9851730Z"
+    },
+    {
+      "path": "work/032-native/gpu-api-verification.json",
+      "sha256": "ddbd0a903e7b1966f7aa77fa4d277ae6354e707adc2f1535229bdcd8afc254e1",
+      "bytes": 1864,
+      "last_write_utc": "2026-10-24T19:14:43.4055705Z"
+    },
+    {
+      "path": "work/032-native/final-7619ff1-summary.json",
+      "sha256": "48fafa5f045bc361cc0fe9c67f72c66f16d9a68169ca1bd5782fa21173569ffa",
+      "bytes": 59737,
+      "last_write_utc": "2026-10-24T19:14:58.0361043Z"
+    }
+  ],
+  "development_manifest": {
+    "path": "work/032-native/DEVELOPMENT-032-manifest.json",
+    "sha256": "ebef6fa476974411769ecc7d23c0371a392fde8ab8304b641a3936b580be268e",
+    "bytes": 51863,
+    "last_write_utc": "2026-10-24T19:19:38.6629621Z"
+  }
+}

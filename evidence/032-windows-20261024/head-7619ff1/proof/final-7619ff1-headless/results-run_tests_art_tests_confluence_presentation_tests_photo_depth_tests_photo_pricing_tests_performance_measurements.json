@@ -1,0 +1,68 @@
+[
+  {
+    "suite": "run_tests",
+    "pid": 13500,
+    "appdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\final-7619ff1-headless\\final-run_tests\\appdata",
+    "localappdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\final-7619ff1-headless\\final-run_tests\\local",
+    "gpu": false,
+    "exit": 0,
+    "footer": "CHECKS 835 FAILURES 0\r",
+    "errors": 0,
+    "passed": true
+  },
+  {
+    "suite": "art_tests",
+    "pid": 7404,
+    "appdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\final-7619ff1-headless\\final-art_tests\\appdata",
+    "localappdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\final-7619ff1-headless\\final-art_tests\\local",
+    "gpu": false,
+    "exit": 0,
+    "footer": "ART CHECKS 33 FAILURES 0\r",
+    "errors": 0,
+    "passed": true
+  },
+  {
+    "suite": "confluence_presentation_tests",
+    "pid": 39880,
+    "appdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\final-7619ff1-headless\\final-confluence_presentation_tests\\appdata",
+    "localappdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\final-7619ff1-headless\\final-confluence_presentation_tests\\local",
+    "gpu": false,
+    "exit": 0,
+    "footer": "CONFLUENCE PRESENTATION CHECKS 15 FAILURES 0\r",
+    "errors": 0,
+    "passed": true
+  },
+  {
+    "suite": "photo_depth_tests",
+    "pid": 11956,
+    "appdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\final-7619ff1-headless\\final-photo_depth_tests\\appdata",
+    "localappdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\final-7619ff1-headless\\final-photo_depth_tests\\local",
+    "gpu": false,
+    "exit": 0,
+    "footer": "PHOTO DEPTH CHECKS 49 FAILURES 0\r",
+    "errors": 0,
+    "passed": true
+  },
+  {
+    "suite": "photo_pricing_tests",
+    "pid": 13424,
+    "appdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\final-7619ff1-headless\\final-photo_pricing_tests\\appdata",
+    "localappdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\final-7619ff1-headless\\final-photo_pricing_tests\\local",
+    "gpu": false,
+    "exit": 0,
+    "footer": "PHOTO PRICING CHECKS 64 FAILURES 0\r",
+    "errors": 0,
+    "passed": true
+  },
+  {
+    "suite": "performance_measurements",
+    "pid": 1828,
+    "appdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\final-7619ff1-headless\\final-performance_measurements\\appdata",
+    "localappdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\final-7619ff1-headless\\final-performance_measurements\\local",
+    "gpu": false,
+    "exit": 0,
+    "footer": "PERFORMANCE CHECKS 2 FAILURES 0\r",
+    "errors": 0,
+    "passed": true
+  }
+]

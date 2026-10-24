@@ -1,0 +1,20 @@
+{
+  "pid": 4240,
+  "args": [
+    "--path",
+    "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\landmarks-merge\\game",
+    "--headless",
+    "--audio-driver",
+    "Dummy",
+    "--script",
+    "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-command-receipt.gd",
+    "--",
+    "--folder=C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\final-7619ff1-command",
+    "--native=C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\final-7619ff1-native\\captures\\raw.json"
+  ],
+  "head": "7619ff17069bf52534239702c54462bac8793561",
+  "game_tree": "ead6c0b35a7b331d88e2475d60f76594808eaf13",
+  "appdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\final-7619ff1-command\\appdata",
+  "localappdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\final-7619ff1-command\\local",
+  "started": "2026-10-24T19:14:50.3819149Z"
+}

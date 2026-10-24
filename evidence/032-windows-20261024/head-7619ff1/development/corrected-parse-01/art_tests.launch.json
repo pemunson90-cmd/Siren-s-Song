@@ -1,0 +1,14 @@
+{
+  "pid": 1564,
+  "args": [
+    "--path",
+    "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\landmarks-merge\\game",
+    "--audio-driver",
+    "Dummy",
+    "--headless",
+    "--script",
+    "res://tests/art_tests.gd",
+    "--check-only"
+  ],
+  "started": "2026-10-24T18:45:24.0158367Z"
+}
