@@ -289,7 +289,6 @@ func _draw() -> void:
 	preload("res://src/presentation/blackwater_courier_view.gd").draw(self,sim)
 	Shelf.draw_world(self,sim)
 	FeatureViews.draw(self)
-	Rendezvous.draw(self,sim)
 	WarningChain.draw_world(self,sim)
 	Witness.draw_world(self,sim)
 	Concealed.draw_world(self,sim)

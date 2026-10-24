@@ -41,7 +41,12 @@ at exactly their original positions. Existing controls, picking and inputs stay.
 Import clean; before/after Wake31/UI37/core818/runtime665/density883/menu7/scroll15
 match with zero failures and clean logs. Independent preliminary source PASS;
 final own-head/base review and hosted checks remain after parent PRs land.
-Only Wake is registered so far. Other features still use their original seams.
+Wake and Rendezvous are registered in this preparation. Other features still
+use their original seams. The separate Rendezvous step is based on Waked229936;
+its existing HUD assignments and world draw stay in order. Non-null applicability
+preserves its draw-transform restoration even with an empty projection. Import,
+transport61/UI57/core818/runtime665/density883/menu7/scroll15 pass with zero
+failures and clean logs. Preliminary source review PASS; own final gates remain.
 
 ## Historical cloud handover snapshot
 
