@@ -1,0 +1,34 @@
+[
+  {
+    "role": "patroller",
+    "vertices": 10,
+    "samples": 3532,
+    "transparent": 0,
+    "partial": 3532,
+    "minimum_alpha": 252
+  },
+  {
+    "role": "sentinel",
+    "vertices": 10,
+    "samples": 6502,
+    "transparent": 0,
+    "partial": 6502,
+    "minimum_alpha": 252
+  },
+  {
+    "role": "sweeper",
+    "vertices": 12,
+    "samples": 4195,
+    "transparent": 18,
+    "partial": 4195,
+    "minimum_alpha": 0
+  },
+  {
+    "role": "hunter",
+    "vertices": 9,
+    "samples": 1905,
+    "transparent": 0,
+    "partial": 1905,
+    "minimum_alpha": 252
+  }
+]

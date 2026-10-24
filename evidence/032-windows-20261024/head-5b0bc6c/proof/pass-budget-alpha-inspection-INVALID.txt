@@ -1,0 +1,1 @@
+The first pass-budget-alpha-inspection.json has zero samples because the PowerShell point arrays were flattened. It is an invalid diagnostic, preserved rather than overwritten. Use pass-budget-alpha-inspection-02.json, which records nonzero polygon-interior samples for all four roles. No production decision used the zero-sample result.

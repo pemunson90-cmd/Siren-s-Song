@@ -1,0 +1,28 @@
+FAIL staged complete snapshot is structurally valid
+FAIL command reference restores complete fixture
+SCRIPT ERROR: Out of bounds get index '0' (on base: 'Array')
+   at: command (res://src/simulation/simulation.gd:496)
+   GDScript backtrace (most recent call first):
+       [0] command (res://src/simulation/simulation.gd:496)
+       [1] run (res://tests/art_render_measurements.gd:121)
+SCRIPT ERROR: Invalid access to property or key '0' on a base object of type 'Dictionary'.
+   at: snapshot (res://src/simulation/simulation.gd:1279)
+   GDScript backtrace (most recent call first):
+       [0] snapshot (res://src/simulation/simulation.gd:1279)
+       [1] digest (res://tests/art_render_measurements.gd:34)
+       [2] run (res://tests/art_render_measurements.gd:122)
+FAIL draw preserves subsequent ordinary command 
+FAIL staged complete snapshot is structurally valid
+FAIL command reference restores complete fixture
+SCRIPT ERROR: Out of bounds get index '0' (on base: 'Array')
+   at: command (res://src/simulation/simulation.gd:496)
+   GDScript backtrace (most recent call first):
+       [0] command (res://src/simulation/simulation.gd:496)
+       [1] run (res://tests/art_render_measurements.gd:121)
+SCRIPT ERROR: Invalid access to property or key '0' on a base object of type 'Dictionary'.
+   at: snapshot (res://src/simulation/simulation.gd:1279)
+   GDScript backtrace (most recent call first):
+       [0] snapshot (res://src/simulation/simulation.gd:1279)
+       [1] digest (res://tests/art_render_measurements.gd:34)
+       [2] run (res://tests/art_render_measurements.gd:122)
+FAIL draw preserves subsequent ordinary command 

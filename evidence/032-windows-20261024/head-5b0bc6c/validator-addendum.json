@@ -1,0 +1,20 @@
+{
+  "scope": "Read-only registry validator supplement; no Godot or source changes",
+  "head": "5b0bc6c30012606a4026572319aed68da41b4141",
+  "game_tree": "487c1eda9be72a47a384d77743827333335d0295",
+  "command": [
+    "C:/Python314/python.exe",
+    "-B",
+    "scripts/toolchain/check-suites.py"
+  ],
+  "exit": 0,
+  "summary": "Registry: C:/Users/Archi/Documents/Codex/2026-10-23/continue-as-codex-on-the-siren/work/landmarks-merge/game/tests/suites.txt\nRegistered suites: 232  (local profile 207, ci profile 232)\nEntry-point candidates (*_tests.gd / *_scenarios.gd extending SceneTree): 223\nUnregistered name matches that do not extend SceneTree (helpers, ignored): 30\nAllowlisted: 0\nResult: OK (0 errors, 0 warnings)",
+  "script_sha256": "908173df4241c4f40ce2f400a3577de4ccbe8cec372431b20c580178fd1aa0d4",
+  "registry_sha256": "4f1a2d73b4e95eb738865937d7e67986675b56f6b168fe039f23cd1efb8f6dab",
+  "files": [
+    {
+      "path": "work/032-native/final-5b0bc6c-validator/registry.out.log",
+      "sha256": "209a8ca666f4d3662a43da798b8162a58e4153b137804ce6793876f613f60eb6"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+[
+  {
+    "suite": "art_tests",
+    "pid": 3220,
+    "appdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\corrected-contract-01\\final-art_tests\\appdata",
+    "localappdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\corrected-contract-01\\final-art_tests\\local",
+    "gpu": false,
+    "exit": 0,
+    "footer": "ART CHECKS 28 FAILURES 0\r",
+    "errors": 0,
+    "passed": true
+  },
+  {
+    "suite": "confluence_presentation_tests",
+    "pid": 40088,
+    "appdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\corrected-contract-01\\final-confluence_presentation_tests\\appdata",
+    "localappdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\corrected-contract-01\\final-confluence_presentation_tests\\local",
+    "gpu": false,
+    "exit": 0,
+    "footer": "CONFLUENCE PRESENTATION CHECKS 15 FAILURES 0\r",
+    "errors": 0,
+    "passed": true
+  }
+]

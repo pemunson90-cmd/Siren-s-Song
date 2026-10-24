@@ -1,0 +1,24 @@
+[
+  {
+    "suite": "art_tests",
+    "pid": 27580,
+    "appdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\refined-parse-01\\final-art_tests\\appdata",
+    "localappdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\refined-parse-01\\final-art_tests\\local",
+    "gpu": false,
+    "exit": 0,
+    "footer": "",
+    "errors": 0,
+    "passed": true
+  },
+  {
+    "suite": "art_render_measurements",
+    "pid": 4236,
+    "appdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\refined-parse-01\\final-art_render_measurements\\appdata",
+    "localappdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\refined-parse-01\\final-art_render_measurements\\local",
+    "gpu": false,
+    "exit": 0,
+    "footer": "",
+    "errors": 0,
+    "passed": true
+  }
+]

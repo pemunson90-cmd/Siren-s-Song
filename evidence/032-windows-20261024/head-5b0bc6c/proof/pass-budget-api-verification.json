@@ -1,0 +1,12 @@
+{
+  "version": "Official Godot4.6 API verified earlier; executed4.6.3 stable",
+  "sources": [
+    "https://docs.godotengine.org/en/4.6/classes/class_arraymesh.html#class-arraymesh-method-add-surface-from-arrays",
+    "https://docs.godotengine.org/en/4.6/classes/class_canvasitem.html#class-canvasitem-method-draw-mesh"
+  ],
+  "cache": "Seven static indexed body meshes and one optics-updated local lamp mesh are retained in the static cache. AA outlines and all original warning, heading, carried, sweep, snare and pin layers remain.",
+  "pass_reduction": "Only new ornamental keel/conning/aperture/red-spine passes were removed. Near-opaque normal Patroller/Sentinel/Hunter textures omit redundant dark backing. Sweeper transparency holes and every faded/pinned body retain backing. Dense biological material and role/drone silhouettes/UVs are unchanged.",
+  "inspection": "Read-only100x100 polygon-interior PNG sample grid: normal Patroller/Sentinel/Hunter sampled alpha at least252/255; Sweeper has18near-transparent samples of4195. The first zero-sample inspection is explicitly invalid and preserved with an explanation.",
+  "verification": "ART58 retains all prior shape, index/UV, finite/bounds, resource-identity/content, privacy/reset/old-look assertions. New draw-call budgets were observed RED before implementation. Expected cache count is8 after removing two unused ornamental aperture meshes. Pin alpha and exact continuous tint remain tested.",
+  "limits": "Pass reduction is performance work, not artwork acceptance or physical Android evidence. Exact full paired timing arrays and all four phases are supplied separately."
+}

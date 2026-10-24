@@ -1,0 +1,16 @@
+{
+  "verified_version": "Godot 4.6 official documentation; executed binary 4.6.3 stable 7d41c59c4",
+  "source": "https://docs.godotengine.org/en/4.6/classes/class_renderingserver.html#class-renderingserver-method-viewport-get-measured-render-time-gpu",
+  "retrieval": "Firecrawl scrape of official Godot documentation during frozen verification; paraphrased findings",
+  "enable": "viewport_set_measure_render_time(root.get_viewport_rid(), true)",
+  "cpu_api": "viewport_get_measured_render_time_cpu",
+  "gpu_api": "viewport_get_measured_render_time_gpu",
+  "official_unit": "milliseconds for both viewport APIs",
+  "recorded_unit": "microseconds, multiplied by1000 in frozen fixture",
+  "cpu_scope": "Rendering operations for this viewport; excludes script process and other engine subsystem time. The fixture separately records Ocean draw-submission CPU time and frame-post-draw wall cadence.",
+  "gpu_scope": "Reported last-frame GPU render time for this viewport. Actual Windows Compatibility runs returned nonzero values after warmup. No device-wide utilization or Android performance claim.",
+  "unavailable": "Unsupported methods or all-zero GPU timing are marked unavailable. Raw samples remain available; analysis reports zero/nonfinite counts and does not infer GPU time from CPU.",
+  "disjoint_limit": "These high-level methods expose no separate disjoint-status flag. No independent hardware disjoint validation is claimed.",
+  "noise": "Official documentation notes GPU power-state changes at low utilization can increase reported render time. Vsync was disabled; host scheduling, power state and driver variation remain possible. Alternating paired blocks report within-mode drift.",
+  "headless_limit": "The existing handoff015 probe and command/cache receipt are simulation or CPU evidence only; they do not replace the native GPU measurements."
+}

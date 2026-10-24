@@ -1,0 +1,19 @@
+{
+  "scope": "Worktree diagnostic after ad61, not exactad61 source; Art-only pass-budget edit frozen throughout this run",
+  "base_head": "ad61ad91821580a971c6a3d5fe6e998d8b8e0522",
+  "observed_utc": "2026-10-24T20:04:50.6445468Z",
+  "files": [
+    {
+      "Path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\landmarks-merge\\game\\src\\presentation\\art\\art_renderer.gd",
+      "Hash": "95A3A069164082374E721D8E10B5D42CBA8920530184B5DA47CA3442594D13A0"
+    },
+    {
+      "Path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\landmarks-merge\\game\\src\\presentation\\art\\art_table.gd",
+      "Hash": "2C4CF21F30F910458F41022A3AB90FE8A544134BB52D6FA2125BF2A6BB501282"
+    },
+    {
+      "Path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\landmarks-merge\\game\\src\\presentation\\art\\art_tests.gd",
+      "Hash": "3BFCE9D0D71FB072DAA385CD8B4C62D3E6A4ACBA4DDA95CE999B918FB87C2C88"
+    }
+  ]
+}

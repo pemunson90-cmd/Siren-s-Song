@@ -1,0 +1,30 @@
+[
+  {
+    "role": "patroller",
+    "samples": 0,
+    "transparent": 0,
+    "partial": 0,
+    "minimum_alpha": 255
+  },
+  {
+    "role": "sentinel",
+    "samples": 0,
+    "transparent": 0,
+    "partial": 0,
+    "minimum_alpha": 255
+  },
+  {
+    "role": "sweeper",
+    "samples": 0,
+    "transparent": 0,
+    "partial": 0,
+    "minimum_alpha": 255
+  },
+  {
+    "role": "hunter",
+    "samples": 0,
+    "transparent": 0,
+    "partial": 0,
+    "minimum_alpha": 255
+  }
+]

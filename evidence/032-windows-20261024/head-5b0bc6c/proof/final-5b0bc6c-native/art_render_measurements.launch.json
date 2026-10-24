@@ -1,0 +1,24 @@
+{
+  "pid": 36152,
+  "args": [
+    "--path",
+    "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\landmarks-merge\\game",
+    "--audio-driver",
+    "Dummy",
+    "--rendering-method",
+    "gl_compatibility",
+    "--position",
+    "-9000,-9000",
+    "--script",
+    "res://tests/art_render_measurements.gd",
+    "--",
+    "--folder=C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\final-5b0bc6c-native\\captures",
+    "--frames=300",
+    "--blocks=5"
+  ],
+  "head": "5b0bc6c30012606a4026572319aed68da41b4141",
+  "game_tree": "487c1eda9be72a47a384d77743827333335d0295",
+  "appdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\final-5b0bc6c-native\\final-art_render_measurements\\appdata",
+  "localappdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\final-5b0bc6c-native\\final-art_render_measurements\\local",
+  "started": "2026-10-24T20:18:00.6581317Z"
+}

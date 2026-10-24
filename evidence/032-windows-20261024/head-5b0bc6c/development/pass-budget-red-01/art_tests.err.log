@@ -1,0 +1,8 @@
+FAIL Quietus budget retains texture and outline without redundant ornament
+FAIL drone budget retains filled outline and amber instrument
+FAIL drone budget retains filled outline and amber instrument
+FAIL role material budget retains only necessary normal underlay patroller
+FAIL role material budget retains only necessary normal underlay sentinel
+FAIL role material budget retains only necessary normal underlay sweeper
+FAIL role material budget retains only necessary normal underlay hunter
+FAIL pin fade retains its existing layered body alpha
