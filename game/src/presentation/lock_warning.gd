@@ -41,7 +41,7 @@ func marker(point:Vector2)->Vector2:
 func _draw():
  if host==null or locks.is_empty():return
  var h=host.ui_touch_height;var font=ThemeDB.fallback_font
- var warning=Color("ffb18b");var ink=Color("160b13")
+ var warning=preload("res://src/presentation/accessibility/palette.gd").color("warning",Color("ffb18b"));var ink=Color("160b13")
  for frame in locks:
   var source=marker(host.ocean.screen_position(frame.pos))
   var target=marker(host.ocean.screen_position(host.sim.units[0].pos))
@@ -60,5 +60,5 @@ func _draw():
   draw_string(font,banner.position+Vector2(12,h),"Break sight with cover.",HORIZONTAL_ALIGNMENT_LEFT,-1,font_size,Color.WHITE)
   draw_string(font,banner.position+Vector2(12,h*1.35),"DISRUPT or torpedo impact interrupts.",HORIZONTAL_ALIGNMENT_LEFT,-1,maxi(16,roundi(h*.21)),Color.WHITE)
 func _panel()->StyleBoxFlat:
- var panel=StyleBoxFlat.new();panel.bg_color=Color(.06,.015,.025,.97);panel.border_color=Color("ffb18b");panel.set_border_width_all(2);panel.set_corner_radius_all(10)
+ var panel=StyleBoxFlat.new();panel.bg_color=Color(.06,.015,.025,.97);panel.border_color=preload("res://src/presentation/accessibility/palette.gd").color("warning",Color("ffb18b"));panel.set_border_width_all(2);panel.set_corner_radius_all(10)
  return panel

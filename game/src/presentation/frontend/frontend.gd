@@ -142,7 +142,7 @@ func _settings_screen() -> void:
 		var b := Button.new(); b.text = "%d%%" % roundi(scale * 100); b.custom_minimum_size = Vector2(0, touch_height()); b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		b.focus_mode = Control.FOCUS_NONE; b.set_meta("ui_action", "text_scale_%d" % roundi(scale * 100)); b.toggle_mode = true; b.button_pressed = is_equal_approx(values.text_scale, scale)
 		b.pressed.connect(func(): _set_value("text_scale", scale); _settings_screen(), CONNECT_DEFERRED); sizes.add_child(b)
-	for row in [["high_contrast", "HIGH CONTRAST"], ["reduced_motion", "REDUCED MOTION"], ["haptics", "HAPTICS"]]:
+	for row in [["high_contrast", "HIGH CONTRAST"], ["reduced_motion", "REDUCED MOTION"], ["haptics", "HAPTICS"], ["safe_palette", "SAFE PALETTE"], ["audio_captions", "AUDIO CAPTIONS"]]:
 		var key: String = row[0]; var label: String = row[1]
 		_button("%s: %s" % [label, "ON" if values[key] else "OFF"], func(): _set_value(key, not values[key]); _settings_screen(), "setting_" + key)
 	_button("RESET TO DEFAULTS", func(): values = SettingsStore.DEFAULTS.duplicate(); _set_value("master", 1.0); _settings_screen(), "settings_reset")
