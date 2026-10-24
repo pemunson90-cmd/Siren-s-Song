@@ -31,3 +31,6 @@
 - If a view also owns a Control screen, keep that Node class and its lifecycle
   unchanged; a small RefCounted adapter supplies the shared contract. Keep
   ordered segments separate while intervening legacy calls are still present.
+- For a craft-local draw pass, use a private synchronous context containing the
+  existing canvas, simulation reference and unit index. Keep the caller's exact
+  transform slot and restore behavior; the context owns no gameplay state.
