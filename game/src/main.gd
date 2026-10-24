@@ -1,4 +1,5 @@
 extends Control
+const PhotoReview=preload("res://src/presentation/flow/photo_review.gd")
 const CampaignFlow=preload("res://src/presentation/flow/campaign_flow.gd")
 const Recon=preload("res://src/simulation/recon_consequences.gd")
 const Endings=preload("res://src/campaign/endings.gd")
@@ -509,8 +510,7 @@ func _debrief() -> void:
 func _sync_craft_upgrades()->void:
 	CampaignFlow.sync_craft_upgrades(self)
 func _show_photo_grade(records:Array)->void:
-	var grade=Recon.grade(records)
-	if grade.photos>0:_menu_text("INTEL PHOTO GRADE %s · %d %s · average %d%% of each record's best frame%s"%[grade.grade,grade.photos,"record" if grade.photos==1 else "records",roundi(grade.quality*100),"" if grade.photos==1 else " · sharpest record %d%%"%roundi(grade.best*100)],20)
+	PhotoReview.show_photo_grade(self, records)
 func _show_ending()->void:
 	CampaignFlow.show_ending(self)
 func _confirm_new_campaign()->void:
@@ -797,109 +797,23 @@ func _observation_diagnostics() -> void:
 	if sim.mission.get("well_revision",0)==1 and not sim.mission.well_observation.is_empty() and not recovered_evidence.has("well_signature"):_retain_evidence()
 # Frames of one subject accumulate across dives: best frames kept, newest listed last.
 func _merge_shots(key:String) -> void:
-	var entry:Dictionary=recovered_evidence[key]
-	var shots:Array=entry.get("shots",[]).duplicate(true)
-	for shot in PhotoCapture.shots_for(sim.mission,key):
-		if not shots.any(func(old):return old.id==shot.id and old.op==shot.op and old.time==shot.time):shots.append(shot.duplicate(true))
-	while shots.size()>6:
-		var worst:=0
-		for i in shots.size():
-			if float(shots[i].q)+float(i)*0.002<float(shots[worst].q)+float(worst)*0.002:worst=i
-		shots.remove_at(worst)
-	if not shots.is_empty():entry["shots"]=shots
+	PhotoReview.merge_shots(self, key)
 func _evidence_is_text(entry:Dictionary) -> bool:
-	return entry.optical in preload("res://src/campaign/operation_catalog.gd").record_keys(true) or entry.optical in ["well_pattern","well_signature"]
+	return PhotoReview.evidence_is_text(self, entry)
 func _retain_evidence() -> void:
-	for objective in sim.mission.objectives+PhotoCapture.peek(sim).get("studies",[]):
-		if objective.captured and objective.has("photo_quality"):
-			var key="%d:%d"%[sim.mission.id,PhotoCapture.index_of(sim,objective)]
-			if objective.photo_quality>=photo_records.get(key,{}).get("photo_quality",0):photo_records[key]={"photo_quality":objective.photo_quality,"photo_craft":objective.photo_craft,"photo_distance":objective.photo_distance}
-		if objective.captured and objective.has("optical"):
-			var earlier:Array=recovered_evidence.get(objective.optical,{}).get("shots",[])
-			recovered_evidence[objective.optical]={"name":objective.name,"caption":objective.evidence,"optical":objective.optical}
-			if not earlier.is_empty():recovered_evidence[objective.optical]["shots"]=earlier
-			for field in ["photo_quality","photo_craft","photo_distance"]:
-				if objective.has(field):recovered_evidence[objective.optical][field]=objective[field]
-			_merge_shots(objective.optical)
-	var signature=sim.well_signature_evidence()
-	if not signature.is_empty():recovered_evidence[signature.optical]=signature
+	PhotoReview.retain_evidence(self)
 func _evidence_gallery(index: int,shot_index:int=-1,compare:bool=false) -> void:
-	_retain_evidence()
-	if recovered_evidence.is_empty(): _show_campaign(); return
-	sim.paused=true; screen="evidence"; _clear_menu()
-	var keys=recovered_evidence.keys(); var entry=recovered_evidence[keys[index%keys.size()]]
-	var shots:Array=entry.get("shots",[])
-	var kind="PHOTOGRAPH" if not shots.is_empty() else ("ACOUSTIC" if _evidence_is_text(entry) else ("HYDROPHONE" if entry.optical in ["blackwater_request","blackwater_reply"] else "OPTICAL"))
-	_menu_text("FIELD %s RECORDS / %d OF %d"%[kind,index+1,keys.size()],18)
-	_menu_text(entry.name,28)
-	if not shots.is_empty():
-		var best:=0
-		for i in shots.size():
-			if float(shots[i].q)>float(shots[best].q):best=i
-		var at:int=best if shot_index<0 else clampi(shot_index,0,shots.size()-1)
-		var plate_height:float=minf(300.0,size.y*(0.42 if not compare else 0.34))
-		var row=HBoxContainer.new();row.add_theme_constant_override("separation",8);panel_box.add_child(row)
-		var other:int=(at+1)%shots.size()
-		for n in (2 if compare and shots.size()>1 else 1):
-			var plate=PhotoView.Plate.new();plate.vm=PhotoView.from_shot(shots[at if n==0 else other]);plate.title="FRAME %d"%((at if n==0 else other)+1)
-			plate.size_flags_horizontal=Control.SIZE_EXPAND_FILL;plate.custom_minimum_size=Vector2(0,plate_height);row.add_child(plate)
-		_menu_text(_shot_report(shots[at],at,shots.size()),16)
-		var learned:=_shot_findings(shots[at])
-		if not learned.is_empty():_menu_text(learned,17)
-		if compare and shots.size()>1:_menu_text(_shot_difference(shots[at],shots[other],at,other),16)
-		if shots.size()>1:
-			_button(panel_box,"NEXT FRAME",func(): _evidence_gallery(index,(at+1)%shots.size(),compare),"next_shot")
-			_button(panel_box,"SINGLE FRAME" if compare else "COMPARE FRAMES",func(): _evidence_gallery(index,at,not compare),"compare_shots")
-	elif not _evidence_is_text(entry) and preload("res://src/presentation/evidence_catalog.gd").IMAGES.has(entry.optical):
-		var image=TextureRect.new(); image.texture=preload("res://src/presentation/evidence_catalog.gd").IMAGES[entry.optical]
-		image.expand_mode=TextureRect.EXPAND_IGNORE_SIZE; image.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED; image.custom_minimum_size=Vector2(0,minf(320,size.y*0.4)); panel_box.add_child(image)
-	_menu_text(entry.caption,19)
-	_show_photo_grade([entry])
-	if keys.size()>1: _button(panel_box,"NEXT RECORD",func(): _evidence_gallery((index+1)%keys.size()),"next_record")
-	_button(panel_box,"INTEL AND RESEARCH",_intel_screen,"intel")
-	_button(menu_footer,"BACK TO OPERATIONS",_show_campaign,"back"); menu_footer.show()
-	call_deferred("_layout")
+	PhotoReview.evidence_gallery(self, index, shot_index, compare)
 func _shot_report(shot:Dictionary,at:int,total:int) -> String:
-	var seen:PackedStringArray=[]
-	for mark in shot.frame.marks:
-		if float(mark.q)>0:seen.append("%s %d%%"%[mark.label,roundi(float(mark.q)*100)])
-	var how:="%s · %dm · aspect %d° · %s%s"%[shot.craft,roundi(float(shot.dist)),roundi(rad_to_deg(float(shot.aspect))),str(shot.mode).to_upper()," · flash" if shot.flash else ""]
-	var water:="light %d%% · clarity %d%% · sharp %d%%"%[roundi(float(shot.light)*100),roundi(float(shot.clarity)*100),roundi(float(shot.sharp)*100)]
-	return "FRAME %d OF %d · QUALITY %d%%%s\n%s\n%s\nRESOLVED: %s"%[at+1,total,roundi(float(shot.q)*100),"" if shot.get("usable",true) else " · UNUSABLE",how,water,", ".join(seen) if not seen.is_empty() else "nothing identifiable"]
+	return PhotoReview.shot_report(self, shot, at, total)
 # What this frame taught: each line is a mark the player can act on, drawn on the
 # chart of the operation it concerns once the frame resolved it.
 func _shot_findings(shot:Dictionary) -> String:
-	var lines:PackedStringArray=[]
-	for f in shot.get("findings",[]):
-		lines.append("%s · %s"%[str(f.kind).to_upper(),f.text])
-	if lines.is_empty():return ""
-	return "OBSERVED IN THIS FRAME · MARKED ON THE CHART\n"+"\n".join(lines)
+	return PhotoReview.shot_findings(self, shot)
 func _shot_difference(a:Dictionary,b:Dictionary,ia:int,ib:int) -> String:
-	var only_a:PackedStringArray=[];var only_b:PackedStringArray=[]
-	for id in a.features:
-		if id not in b.features:only_a.append(str(id))
-	for id in b.features:
-		if id not in a.features:only_b.append(str(id))
-	var lines:PackedStringArray=["FRAME %d vs %d"%[ia+1,ib+1]]
-	lines.append("QUALITY frame %d %d%% / frame %d %d%% · distance %dm / %dm · light %d%% / %d%% · clarity %d%% / %d%%"%[ia+1,roundi(float(a.q)*100),ib+1,roundi(float(b.q)*100),roundi(float(a.dist)),roundi(float(b.dist)),roundi(float(a.light)*100),roundi(float(b.light)*100),roundi(float(a.clarity)*100),roundi(float(b.clarity)*100)])
-	lines.append("Better frame: %s"%("frame %d"%(ia+1) if float(a.q)>=float(b.q) else "frame %d"%(ib+1)))
-	lines.append("Only in frame %d: %s"%[ia+1,", ".join(only_a) if not only_a.is_empty() else "none"])
-	lines.append("Only in frame %d: %s"%[ib+1,", ".join(only_b) if not only_b.is_empty() else "none"])
-	return "\n".join(lines)
+	return PhotoReview.shot_difference(self, a, b, ia, ib)
 func _intel_screen() -> void:
-	sim.paused=true;screen="intel";_clear_menu()
-	_menu_text("PHOTOGRAPHIC INTELLIGENCE",28)
-	_menu_text("Only film that comes home counts. Each entry is the best frame of that feature.",16)
-	_menu_text(PhotoIntel.detail(photo_intel),18)
-	var pending:PackedStringArray=[]
-	for item in PhotoIntel.PROJECTS:
-		var p=PhotoIntel.PROJECTS[item]
-		var have:=float(photo_intel.get(p.intel,{}).get("q",0.0))
-		pending.append("%s %s · needs %s at %d%% (best %d%%)"%["CUT" if have>=p.q else "OPEN",preload("res://src/equipment/equipment_catalog.gd").ITEMS[item].name.to_upper(),PhotoIntel.label(p.intel),roundi(float(p.q)*100),roundi(have*100)])
-	_menu_text("CAMERA RESEARCH\n"+"\n".join(pending),17)
-	_button(menu_footer,"BACK TO FIELD RECORDS",func(): _evidence_gallery(0),"back");menu_footer.show()
-	call_deferred("_layout")
-
+	PhotoReview.intel_screen(self)
 func _rect_values(rect: Rect2) -> Array:
 	return [snappedf(rect.position.x,0.001),snappedf(rect.position.y,0.001),snappedf(rect.size.x,0.001),snappedf(rect.size.y,0.001)]
 func _planner_intent_metrics() -> Dictionary:

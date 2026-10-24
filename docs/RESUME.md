@@ -8,8 +8,14 @@ Pat's Windows PC. Pat stopped the cloud session on 23 October and said continue 
 
 ## Live source checkpoint
 
-Development integration is `claude/integration`, tip `30f555a260d4edf5f0300935e7381475ba620fcc`
-(merge of PR98). Recent merges, in order: PR95 route map (b03dd69), PR96 campaign
+Development integration is `claude/integration`, last reconciled baseline `fab2617575d5156d74b87aede4aa9ba21367504b`.
+This photo candidate includes the Windows hook repair PR99 through a planned
+predecessor merge. At preparation, published integration isca2bda0 and99 remains
+open. Publish its reviewed, successful exact head first. Live refs and the board
+determine published state; preparing a merge commit does not publish it.
+Recent documentation/history merges include103/105/106/107/112/114; those design
+proposals do not authorize implementation in handoff023.
+Earlier baseline was30f555a (merge of PR98). Recent merges, in order: PR95 route map (b03dd69), PR96 campaign
 flow (dcf81b5, 23 Oct 8:56 PM Eastern, reviewed head 3afb12f, hosted run
 40043994511 green), PR97 Claude's PC handover (632f592) and PR98 the cloud
 closeout documentation (30f555a, both merged about 9:01 PM Eastern). Live Git refs
@@ -25,13 +31,26 @@ re-claim it or mark it DONE after one PR.
 | Work | State |
 |---|---|
 | 023 campaign flow, first main extraction | PR96 merged |
-| 023 photo review, second main extraction | PR100, from preserved 52ba7d5; hosted checks pending |
-| Windows hook repair | PR99, reviewed and installed locally; hosted checks pending |
-| 023 metrics | In preparation on `claude/lane-arch2-ui-metrics`; do not duplicate |
+| 023 photo review, second main extraction | PR100, from preserved52ba7d5; reconciled local source, final exact-head gates pending |
+| Windows hook repair | PR99 prerequisite included in candidate; publish it first after exact gates, native hooks installed |
+| 023 metrics | Draft PR101, prepared/reviewed/tested; parent reconciliation and final own gates pending |
+| 023 feature contract | Separate stacked drafts102/104/108/109/110/111/113/115/117/118; preparation only, not merged features |
 | Portable cloud evidence | `archive/cloud-desktop-20261023` at 5407a241, 551 files with manifest and hash |
 
 Every merge needs latest integration, independent review, both hosted checks on
 the exact head, and a merge commit. 025 waits until 023 is DONE.
+
+Local photo verification: clean Windows import; core818/runtime665/campaign
+dispatch13/archive recap8/photo captureUI9/cold reviewUI218 all0 on the prepared
+source. All nine moved bodies, retained host entry points and callback/deferred
+order are independently reviewed. Preserve this evidence separately from each
+final exact-head/base review and hosted result. The shared contract preparations
+remain drafts until parents land and each own final gate passes.
+
+Native hook verification:22 real-Git boundary tests and10 guidance tests pass.
+Hooks use the actual Windows Python executable, exclusive locking and bounded
+process cleanup; no hooks are bypassed. Godot checks redirect APPDATA and
+LOCALAPPDATA to isolated work folders, preserving personal saves.
 
 ## Cold review 3 and the new batches
 
@@ -55,8 +74,8 @@ fork, 044 menu reach, 045 three early rewards before op 7. 029 now includes the
 F7 briefing addendum. Statuses live on the board, all OPEN at this snapshot.
 
 Held for Pat: any change to Siren senses (sight, hearing) or lock timing (Pat: not
-yet), the 049 first-Siren cue extension, ending at op 30 details, early-reward
-count changes.
+yet), ending at op30 details and early-reward count changes. Board049 was
+released separately by Pat on24 October; it is outside the current023 claim.
 
 ## Completed context
 
@@ -74,11 +93,13 @@ remains [CURRENT_GAME_SPEC](CURRENT_GAME_SPEC.md), not a completed feature claim
 
 ## Next steps for the PC sessions
 
-Finish 023 in order: land PR99 and PR100 on green, then metrics, then the shared
+Finish023 in order: publish PR99 first on green; land PR100 on its own green checks, then
+metrics, then the shared
 feature contract, one feature per PR. Then 025 and the numeric queue; the board
-owns eligibility. Claude reviews Codex PRs independently and keeps about five
-hours of eligible OPEN work queued. Cloud connectors and agents do not exist on
-the PC; use Git and the GitHub web. Recheck the desktop setup before reinstalling.
+owns eligibility. Use the designated independent reviewer for source changes; Claude maintains
+the broader queue. The board records this Codex claim so work is not duplicated.
+Do not assume cloud agents or credentials carried over; use the tools actually
+available in the local session. Recheck the desktop setup before reinstalling.
 
 ## Verification and preservation
 
