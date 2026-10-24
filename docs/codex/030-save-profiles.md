@@ -89,3 +89,10 @@ keyboard/filesharing/hand-ergonomics acceptance. Source-known synthetic fixtures
 
 [Cover picker](https://raw.githubusercontent.com/pemunson90-cmd/Siren-s-Song/daa851a2e9612225d3297f18c8538bbbcfe3560b/evidence/030-windows-20261024/head-9f3a1e4/captures/profiles-picker-2520x1080-150.png),
 [inner picker](https://raw.githubusercontent.com/pemunson90-cmd/Siren-s-Song/daa851a2e9612225d3297f18c8538bbbcfe3560b/evidence/030-windows-20261024/head-9f3a1e4/captures/profiles-picker-2184x1968-150.png).
+
+Parallel-work coordination: prepared030merge d131ca0b8b3538af6588f057ee8e7f1ab4f75273
+is preserved as origin/claude/profiles-current-merge, source-identical to approved
+PR124head9f3a1e4. It is not published to integration, which remainsdfaf543 as last
+fetched. Claude can fetch/inspect this ref when planning039/041 containment;
+CLAIMED030 and exact-head gate/current-base/actual-publication requirements remain.
+No permission to merge a red/stale head or duplicate either worker's ownership.
