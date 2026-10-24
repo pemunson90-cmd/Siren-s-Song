@@ -15,7 +15,7 @@ extends RefCounted
 # handoff 040.
 const ENABLED:=true
 const OPS:={
- 0:[[Vector2(760,200),Vector2(760,400),Vector2(850,400)]],
+ 0:[[Vector2(850,400),Vector2(760,400),Vector2(760,200)]],
  2:[[Vector2(1180,500),Vector2(1320,500),Vector2(1320,600),Vector2(1200,610)]],
  4:[[Vector2(1260,720),Vector2(1460,720),Vector2(1460,860)]],
  5:[[Vector2(1240,720),Vector2(1240,860),Vector2(1100,860)]],
