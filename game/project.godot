@@ -5,6 +5,7 @@ config/name="Siren's Song"
 run/main_scene="res://scenes/main.tscn"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/description="One pilot. Two drones. An ocean that listens."
+config/quit_on_go_back=false
 [display]
 window/size/viewport_width=1280
 window/size/viewport_height=720
