@@ -2,6 +2,7 @@ extends RefCounted
 # Authored encounters use the same geometry/actor vocabulary. Runtime systems do
 # not branch on operation identity; more content adds a profile and catalog entry.
 const Base=preload("res://src/campaign/tutorial_missions.gd")
+const Patrols=preload("res://src/campaign/sweeper_patrols.gd")
 const PROFILES={
  "split_crossing":{
   "source":1,
@@ -60,9 +61,10 @@ static func build(config:Dictionary,_history:Dictionary={})->Dictionary:
   rocks.append_array(recipe.get("add",[]));geometry[band]={"rocks":rocks}
  m["depth_geometry"]=geometry
  for index in profile.get("threats",{}):m.sirens[index].merge(profile.threats[index],true)
+ var sweeper_index=0
  for descriptor in profile.get("sweepers",[]):
   var enemy=m.sirens[0].duplicate(true)
-  enemy.merge({"pos":descriptor.pos,"home":descriptor.pos,"goal":descriptor.pos,"route":[],"type":"sweeper","patrol_points":[],"band":descriptor.band},true)
-  m.sirens.append(enemy)
+  enemy.merge({"pos":descriptor.pos,"home":descriptor.pos,"goal":descriptor.pos,"route":[],"type":"sweeper","patrol_points":Patrols.circuit(config.source_id,sweeper_index),"band":descriptor.band},true)
+  m.sirens.append(enemy);sweeper_index+=1
  m.brief=profile.brief;m["depth_hint"]=profile.hint
  return m

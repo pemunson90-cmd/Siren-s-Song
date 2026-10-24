@@ -60,3 +60,11 @@ The independent critic rejected the first thin borders; final localized motifs
 and three native capture pairs passed source/visual review after a hidden-back-edge
 repair. Raw evidence is in archive commit7e44ec9. The final checkbox remains open
 for exact-head hosted checks, final independent evidence approval, merge and done025.
+
+Current-base reconciliation: PR116 landed0e92729 while6ffab72's hosted checks
+were running. The premerge guard prevented publication. Feature source remains
+unchanged; preserve patrol195/216 and shift landmark196/217, UI197/218. Current
+import/core831, runtime665, density883, data468, projection92, patrol56 and five
+fixtures49 all pass with0failures. Pressure12freshchanged-operation pairs plus
+64proven unchanged pairs match all76records/1107commands. Current evidence is
+archive33dfe86/current-base-0e927. New exact-head review/CI remain required.

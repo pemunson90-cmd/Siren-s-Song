@@ -9,7 +9,8 @@ Pat's Windows PC. Pat stopped the cloud session on 23 October and said continue 
 ## Live source checkpoint
 
 Active development integration: `claude/integration`.
-Last reconciled source baseline:8c13f5be841ab71ad41b5a4dd1ea3c030b370e8c.
+Last reconciled source baseline:0e927292425cc4d5914054757b15bf345119529a.
+This includes independently published PR116 sweeper patrol data.
 023 is DONE on the authoritative board in2df2e6b after all separate source PRs
 and Windows99 passed own exact-head checks/review and actual merge verification.
 Main817, HUD575, Ocean685. Do not repeat023 or its earlier preparations.
@@ -17,33 +18,44 @@ Main817, HUD575, Ocean685. Do not repeat023 or its earlier preparations.
 ## Current claim and next work
 
 Codex owns CLAIMED025, postedc0abb9c before implementation. Branch
-claude/lane-landmarks starts from8c13f5b; no open duplicate landmark PR or prior
+claude/lane-landmarks started from8c13f5b and now includes current0e92729; no open duplicate landmark PR or prior
 branch was found.020 is DONE atddc3361 and contained. Scope is the already
 approved data-only landmark handoff, operations6 to29, existing visual language,
 unchanged rules/story/endings and preserved fixtures/pressure. The plan is
 [landmarks M3a](superpowers/plans/2026-10-24-landmarks-m3a.md).
 
-025 implementation is prepared in PR121, with game source0cf00531. Each
+025 implementation is prepared in PR121, reconciled with current0e92729. Each
 operation6 to29 has three authored treatments on existing physical terrain;
 observed photo subjects and fresh moving loads add restrained lamps, with
 photo-site detail at its actual depth. This is a modest atmospheric gain using
-existing geometry and palette. No simulation, campaign, physical geometry,
-story, save or rule files changed. One ground registration and a data off switch
+existing geometry and palette. No feature changes to simulation, campaign, physical geometry, story, save or
+rule files are proposed against current integration; PR116 patrol data is retained. One ground registration and a data off switch
 own the feature. Hidden back edges cannot cut visible motif shapes.
 
-Windows import/core818/0, runtime665/0, density883/0, data468/0, projection92/0,
-and all five authored opening-depth journeys49/0 pass. Core also retains the
-six bare-craft campaign fallbacks. Exact before/after pressure records match
-all76 cases and1105 commands per side:31 wins,16 losses,25 controller findings,
-4 timeouts, all snapshots valid. The identical external wrapper only matches
-the probe's existing endpoint epsilon; no tracked test or simulation was changed.
-Accepted native captures for08,14,28 and rejected drafts are preserved in the
-[immutable evidence archive](https://github.com/pemunson90-cmd/Siren-s-Song/tree/7e44ec9f8617936401d7e27877e6bce3f8eb5bbe/evidence/025-windows-20261024).
-These are source-known technical routes with finite tools, not blind player or
-phone acceptance. The first unprotected08 attempt lost Quietus and is retained.
+Current Windows import/core831/0, runtime665/0, density883/0, data468/0,
+projection92/0, patrol56/0 and five authored opening-depth journeys49/0 pass.
+All five fixtures and six bare-craft core fallbacks win. Current pressure proof
+matches all76 paired records and1107 commands per side:12changed-operation cases
+freshly rerun on0e92729 and candidate,64unchanged cases retained with identical
+start-state/runtime proof. Each side has31wins16losses25controller findings4timeouts,
+all snapshots valid. The external wrapper only matches the existing endpoint
+epsilon and never changes game state or policy. No tracked test was loosened.
 
-Independent source/visual review accepted0cf00531 after the hidden-edge repair;
-final evidence approval and own exact final-head guidance/game-smoke remain.
+[Current-base evidence and receipt](https://github.com/pemunson90-cmd/Siren-s-Song/tree/33dfe86742fe79c840f710889743e9bd60fc2644/evidence/025-windows-20261024/current-base-0e927)
+records the12fresh pairs, combined proof and22start hashes. Only0/2/4/5/16
+changed; only0/5/16occur in this probe. Accepted native v5 captures08/14/28 and
+rejected drafts remain in the parent archive: their start states, runtime and
+feature renderer are unchanged, so those images remain the visual evidence.
+These are source-known finite-tool technical captures, not blind player or phone
+acceptance. The first unprotected08 attempt lost Quietus and is retained.
+
+Both old6ffab72 checks passed in40072498877, but current-tip containment caught
+the newer PR116 before publication. Old prepared merge17b45e5 is superseded.
+Only the suite-list conflict needed resolution: preserve patrol195/216 and shift
+landmark196/217, UI197/218. Every218suite and existing assertion is retained.
+The unchanged feature was independently approved; this reconciled head still
+requires its own exact-head review and guidance/game-smoke before publication.
+
 Next refresh live refs, require current integration containment and mergeability,
 merge PR121 with a merge commit only after approval and both green checks, then
 verify the actual merged source and mark done025 plus BOARD in one commit.

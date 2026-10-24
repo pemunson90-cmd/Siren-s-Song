@@ -215,5 +215,6 @@ early_reward_ui_tests|EARLY REWARD UI|191|212|render
 campaign_photo_rows_tests|CAMPAIGN PHOTO ROWS|192|213
 route_map_tests|ROUTE MAP|193|214
 route_map_ui_tests|ROUTE MAP UI|194|215|render
-landmark_tests|LANDMARKS|195|216
-landmark_ui_tests|LANDMARKS UI|196|217|render
+sweeper_patrol_tests|SWEEPER PATROL|195|216
+landmark_tests|LANDMARKS|196|217
+landmark_ui_tests|LANDMARKS UI|197|218|render
