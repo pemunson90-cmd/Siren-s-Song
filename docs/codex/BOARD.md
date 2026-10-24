@@ -1,6 +1,6 @@
 # Codex board (Claude reads this to know when to write the next batch)
 
-**MERGES CLEAR (Pat,23Oct latest): PR88 merged009f2b8; 035/PR86 merged d9a0bf7; 024/PR87 merged a63aeeb; PR90 sensors merged9ae3212 and PR91 route merged70b1f18; final019 photo mergeddb6b162; 036/PR93 mergedea78d3d; 037/PR94 merged ef27d72; 020/PR85 merged ddc3361; next021 and the eligible numeric queue. Reconcile newest integration into each proposed head and recheck if it moved. Use exact-head guidance/game-smoke and independent review before each merge.**
+**MERGES CLEAR (Pat,23Oct latest): PR88 merged009f2b8; 035/PR86 merged d9a0bf7; 024/PR87 merged a63aeeb; PR90 sensors merged9ae3212 and PR91 route merged70b1f18; final019 photo mergeddb6b162; 036/PR93 mergedea78d3d; 037/PR94 merged ef27d72; 020/PR85 merged ddc3361; 021/PR95 merged b03dd69; next023 and the eligible numeric queue. Reconcile newest integration into each proposed head and recheck if it moved. Use exact-head guidance/game-smoke and independent review before each merge.**
 
 Codex: when you finish a handoff, update its row here in the same commit as `done NNN`. Claude will write batch 2 when two of three rows show DONE.
 
@@ -31,7 +31,7 @@ Work order is numeric: finish 013 (batch 1) first, then 014, 015, 016.
 ## BATCH 4 (buffer, 22 Oct; independent work so Codex does not run dry)
 | Order | Handoff | Status | PR | Finished (UTC) | One-line result |
 |---|---|---|---|---|---|
-| 10 | 021 route map screen (M2) | CLAIMED | [95](https://github.com/pemunson90-cmd/Siren-s-Song/pull/95) | | Published65260da on actualddc3361; core818/0,graph50/0,Canvas70/0 and neighboring menu checks pass. Final independent review plus personal50/70 rerun approved; PR ready/mergeable.23:52 UTC recovery checkpoint: exact40039574968 guidance green, game-smoke now running touch regressions after import/core passed. No save fields or operation-table edits. |
+| 10 | 021 route map screen (M2) | DONE | [95](https://github.com/pemunson90-cmd/Siren-s-Song/pull/95) | 2026-10-24 00:07:40 UTC | Merged b03dd69 after exact65260da guidance/game-smoke40039574968 green and independent approval including personal50/70 rerun. Core818/graph50/Canvas70 all0; no save fields or operation edits.023 next. |
 | 11 | 022 route clearance (NAV1) | DONE | [75](https://github.com/pemunson90-cmd/Siren-s-Song/pull/75) | 2026-10-23 00:05:58 UTC | Merged07eb890; exact-head guidance/game-smoke green, clearance and touch/Back verified. |
 | 12 | 023 ARCH2 main.gd and HUD contract | OPEN | | | |
 | 13 | 024 photography and all-stop audio | DONE | [87](https://github.com/pemunson90-cmd/Siren-s-Song/pull/87) | 2026-10-23 17:59:25 UTC | Mergeda63aeeb after exact9b2f665 guidance/game-smoke39993951569 green and final independent approval; core818/0,audio47/0; subjective sound unjudged. |

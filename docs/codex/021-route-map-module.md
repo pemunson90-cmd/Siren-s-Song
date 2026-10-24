@@ -1,9 +1,9 @@
 # Handoff 021: CAMPAIGN M2, the route map screen
 
-Status: CLAIMED
+Status: DONE
 Claimed at: 2026-10-23 23:03:00 UTC
 Claimed by: codex
-Finished at:
+Finished at: 2026-10-24 00:07:40 UTC
 
 Precondition: handoff 020 must be DONE.
 Codex may merge: yes, into claude/integration only, after GitHub guidance and game-smoke are both green on the exact head and the PR is mergeable. Merge with a merge commit, then mark DONE and update docs/codex/BOARD.md.
@@ -35,3 +35,5 @@ Complete candidate: [PR95](https://github.com/pemunson90-cmd/Siren-s-Song/pull/9
 Final independent /root/review_integration APPROVE exact65260dada26df82b6584e43ab0067ade7ef6882a againstactualddc3361, no Critical/Important/Minor. Verified exact tree/ancestry/diff and approved scope, campaign-derived gates, fair film knowledge and guarded briefings, Back/pan/zoom/resize/text-scale integrity. Inspected both screenshots and personally reran functional50/0 and actual Canvas/touch70/0 through CI runner, exit0, no errors/leaks. Readable at both shapes; physical Android/fullcampaign/enjoyment unjudged. Relayed verdict in PR95 body. PR95 is ready; exact hosted40039574968 guidance success/game-smoke running. Remains CLAIMED until exactgreen and normal merge with current integration contained; then DONE021+BOARDsamecommit and next eligible023.
 
 Recovery checkpoint 2026-10-23 23:52 UTC: branch claude/lane-route-map last pushed65260dada26df82b6584e43ab0067ade7ef6882a remains clean and independently approved. Live PR95 is ready/mergeable, refreshed integration remainsddc336132181191ed5db387899af8be4fc35b317 and is contained. Exact40039574968 guidance passed; game-smoke completed its import/core stage and is running navigation/recovery/touch regressions with no failure reported. No source change or empty commit resets that gate. Resume by checking that run and live refs, merge only if both checks pass on exact65260, then verify landed tree, publish DONE021 plus BOARD and claim eligible023.
+
+Landed: PR95 merged with merge commit b03dd691a4775bbc07abfa1e87f4938ead653342 at2026-10-24 00:07:40 UTC after exact65260dada26df82b6584e43ab0067ade7ef6882a guidance and game-smoke40039574968 both success, attributable final independent approval and fresh merge-boundary/current-base verification. Fetched integration has exactly the reviewed source tree and both expected merge parents. Branch claude/lane-route-map last pushed65260dada26df82b6584e43ab0067ade7ef6882a is preserved. No frozen branches promoted or deleted. DONE; next eligible023, since016 and019 are DONE.
