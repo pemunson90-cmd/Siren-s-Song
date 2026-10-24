@@ -1,4 +1,4 @@
-**LOCAL WINDOWS ACTIVE, 24 October2026 Eastern:025 and026 are DONE. Codex owns CLAIMED027, branch claude/ending-m3b, PR122. Fresh critic's misleading-label finding is fixed; local checks and exact-head independent approval pass. Own game-smoke is running. Do not duplicate. Four old endings/fork remain, no new story/rule changes. Later requested handoffs are029 to033.**
+**LOCAL WINDOWS ACTIVE, 24 October2026 Eastern:025,026 and027 are DONE. PR122 merged at a524613 after exact2fe6459 checks40085216588 and independent approval. Codex now owns CLAIMED029, short briefings/manual and folded fittings, from a524613 on claude/lane-onboard2. Claim posted before implementation; Claude do not duplicate. Later requested handoffs are030 to033.**
 
 # Codex board (Claude reads this to know when to write the next batch)
 
@@ -40,13 +40,13 @@ Work order is numeric: finish 013 (batch 1) first, then 014, 015, 016.
 | 14 | 025 landmarks for thin ops (M3a) | DONE | [121](https://github.com/pemunson90-cmd/Siren-s-Song/pull/121) | 2026-10-24 08:23:56 UTC | Done025. Actual merge aaff40e; exact757347b/current0e92729, independent APPROVE, own40075442240 bothgreen. Current831/665/883/468/92/56/49 all0; composed76pairs/1107commands equal. Evidence33dfe86.026 next. |
 | 15 | 026 self-play review of the opening (read-only) | DONE | report only | 2026-10-24 09:10:26 UTC | Done026. Six UI attempts:0/5won,1unfinished,2/3/4beam losses; camera overlap confirmed on both shapes. Separate real coldrestart passed; no game edits. Import/core831/0; 694word Completion, verified local evidence ZIP. Corrects empty3997b1e publication;027 next. |
 
-| 16 | 027 final pair of ops and photo-wall ending (M3b) | CLAIMED | [122](https://github.com/pemunson90-cmd/Siren-s-Song/pull/122) | 2026-10-24 09:15:18 UTC | Codex branch claude/ending-m3b, head2fe6459/baseaaff40e. Fresh critic earned pair after one loss; misleading empty-research label fixed. Latest core833/GPU44/headless42 all0; exact-head independent approval. Guidance green, own game-smoke running40085216588. No merge yet; Claude do not duplicate. |
+| 16 | 027 final pair of ops and photo-wall ending (M3b) | DONE | [122](https://github.com/pemunson90-cmd/Siren-s-Song/pull/122) | 2026-10-24 10:55:27 | Done027: actual mergea524613 verified. Exact2fe6459 guidance/game-smoke40085216588 green and independent approval. Core833/wall44/model92/save-removal16 all0; fresh touch critic earned pair after one loss, misleading-label P2 fixed.029 next. |
 
 ## BATCH 5 (22 Oct evening, written at about 77% of Claude's session usage)
 | Order | Handoff | Status | PR | Finished (UTC) | One-line result |
 |---|---|---|---|---|---|
 | F | 028 FALLBACK: land PR 74 | DONE (not needed; Claude merged PR 74) | | | |
-| 17 | 029 ONBOARD2 short briefings ops 4 to 29 | OPEN | | | |
+| 17 | 029 ONBOARD2 short briefings ops 4 to 29 | CLAIMED | | 2026-10-24 10:55:27 | Codex active claim at 6:55 AM Eastern;017DONE,027DONE. Basea524613, branchclaude/lane-onboard2, no duplicate branch/open PR. Claim posted before implementation. Short factual goals/danger/new line; keep full manual and photo line; fold fittings. Claude do not duplicate. |
 | 18 | 030 SAVE1 profiles, copy/clear, export/import | OPEN | | | |
 | 19 | 031 A11Y1 audio-only/color-only cue equivalents | OPEN | | | |
 | 20 | 032 ART1 silhouettes (Pat judges) | OPEN | | | |

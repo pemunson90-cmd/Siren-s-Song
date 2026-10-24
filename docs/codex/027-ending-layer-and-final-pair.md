@@ -1,9 +1,9 @@
 # Handoff 027: CAMPAIGN M3b, final pair of operations and the photo-wall ending
 
-Status: CLAIMED
+Status: DONE
 Claimed at: 2026-10-24 09:15:18 UTC (5:15 AM Eastern)
 Claimed by: codex
-Finished at:
+Finished at: 2026-10-24 10:55:27 UTC (6:55 AM Eastern)
 
 Precondition: handoffs 020 and 025 must be DONE.
 Codex may merge: yes, into claude/integration only, after GitHub guidance and game-smoke are both green on the exact head and the PR is mergeable. Merge with a merge commit, then mark DONE and update docs/codex/BOARD.md.
@@ -92,3 +92,35 @@ Old730d45b checks and prepared merge7732ffc are superseded. Current prepared
 mergea5246131f5fde6caca332d4c986df10a0ad1b69c is local only, not published.
 Do not merge until own exact-head gates pass and fresh integration/mergeability
 are checked. Still CLAIMED.029 has only been read ahead, not claimed or edited.
+
+DONE027. PR122 is merged and independently verified at actual merge
+a5246131f5fde6caca332d4c986df10a0ad1b69c. The two parents are current base
+aaff40ea7943278ade6ba3b7bcd5495c2dcac26e and reviewed feature head
+2fe6459bc7a59f94e46c4ff5d012461e4c6c81ab; merged tree equals that head.
+Both own checks passed on2fe6459 in run40085216588: guidance120846784077,
+game-smoke120846784294. Independent /root/review_photo APPROVE exact same
+head/base, no blockers, relayed in PR122; reviewer ran no tests. Normal
+non-force integration push, hooks intact, no branches deleted or APKs.
+
+Operations30/31 unlock after25 then30 and finish with bare Quietus. Two
+separate authored encounters use existing depths, photography, film, structures
+and threats. Best usable archived frames and recorded finding names form the
+wall; old four endings and12/13 fork stay reachable. No new story, save fields
+or simulation rules. Keep catalog/factory identities if removing presentation.
+Current game tree2524e1ee90ad27597f70eed81e3dbbb2f1f69299.
+
+Import clean, latest core833/0, headless wall42/0, native GPU wall44/0;
+model92/0, ordinary-command bare journeys10/0, old endings48/0, catalog199/0,
+route52/0/UI70/0, photo-capture UI9/0, photo-study saves45/0 and physical
+ending-file-removal save checks16/0. No full scenario list ran locally.
+Fresh critic earned the pair through actual touch, with one31loss then retry.
+The misleading empty-research label reproduced42/2 and is fixed42/0/GPU44/0.
+Known camera overlap/navigation friction remain documented; still-developing,
+low-grade side-on plates limit the subjective photo-similarity observation.
+No human/audio/physical-phone or critic persistence claim. All processes exited.
+Raw evidence and hashes: archive15411eaad95253fcb23651d4d9dce58925d98562,
+evidence/027-windows-20261024/final-head-2fe6459.
+
+Actual remote integration and GitHub merged=true/merge SHA were verified before
+this done027/BOARD commit. Old prepared7732ffc is superseded.029 is next and
+is now claimed publicly before implementation, from actual a524613.

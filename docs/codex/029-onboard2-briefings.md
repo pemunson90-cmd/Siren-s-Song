@@ -1,8 +1,8 @@
 # Handoff 029: ONBOARD2, short briefings for ops 4 to 29 with a field manual page
 
-Status: OPEN
-Claimed at:
-Claimed by:
+Status: CLAIMED
+Claimed at: 2026-10-24 10:55:27 UTC (6:55 AM Eastern)
+Claimed by: codex
 Finished at:
 
 Precondition: handoff 017 DONE (it is).
@@ -26,7 +26,16 @@ Every op 4 to 29 briefing fits above the fold at large text on both shapes (scre
 PR into claude/integration; merge per the line above; mark DONE and update the board.
 
 ## Completion
-(Codex fills this in: what changed, PR link, branch and last pushed SHA, test results, unverified items, files outside ownership needed, recommended next.)
+Codex claimed029 at 2026-10-24 10:55:27 UTC (6:55 AM Eastern) before implementation.
+Precondition017 is DONE. Actual integration is a524613 after verified027 merge.
+No existing local/remote claude/lane-onboard2 branch or open PR duplicate was
+found; the branch is created from that integration tip. No029 code changes yet.
+Read handoff plus F7 addendum and existing onboarding/flow/folding machinery.
+Scope: concise factual GOAL/DANGER/NEW THIS DIVE rows, retain the priced-photo
+line, move all long instructions to FIELD MANUAL and fold fittings initially.
+No operation logic, photo modules, rules or new story. Large-text cover/inner
+checks and three captures, independent review and own final-head hosted checks
+follow. Read-ahead notes and existing-brief export are local scratch only.
 
 ## Addendum from cold review 3 (24 Oct, Claude)
 docs/design/COLD_REVIEW_3.md finding F7: briefings for ops 7 to 30 were measured by the critic at 12.2 to 15.3 screens tall (not independently re-measured); the brief paragraph alone runs 540 to 1,522 characters for ids 6 to 29 (independent check: id 27 is 540, id 6 is 703, id 12 is 1,522). OnboardingText.GOALS covers ops 1 to 6 only and MAX_OPERATION is 4. Scope of this handoff therefore includes: a GOAL / DANGER / NEW THIS DIVE (one line) set for every operation 7 to 30; the full text kept in the FIELD MANUAL; the Fittings block folded by default in the briefing. Same limits as above: placeholder length, no story changes.
