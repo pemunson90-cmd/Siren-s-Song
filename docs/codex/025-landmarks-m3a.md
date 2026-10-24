@@ -101,3 +101,23 @@ current import, data468/0, projection92/0, patrol56/0 pass. Current core/five
 fixtures/runtime and12fresh paired pressure cases0/5/16 are being validated;
 other64cases require unchanged-start/runtime proof before reuse.025 stays
 CLAIMED, PR121 needs a new exact-head review and own gates after reconciliation.
+
+2026-10-24 07:51:38 UTC reconciled final checkpoint:
+Last pushed757347bc7f50c253bf7b0a8add20fb8ffecd4e06, parents6ffab72 and current
+0e927292425cc4d5914054757b15bf345119529a; game56cde027d79bdfd04c116a4b770ef3f479198cc4.
+Feature code/assertions unchanged. All218registrations retained with unique ranks.
+Current import/core831/0, runtime665/0, density883/0, data468/0, projection92/0,
+patrol56/0, five depth fixtures49/0; all five and six bare-craft fallbacks won.
+Pressure is12fresh changed-operation pairs plus64justified unchanged pairs,
+not76fresh reruns: all76records/1107commands per side identical,31wins16losses,
+25controller findings4timeouts, all snapshots valid.22start hashes identify only
+0/2/4/5/16changes;2/4notinprobe. Runtime code unchanged. Capture08/14/28reuse
+is qualified by identical starts/renderer/runtime; accepted v5images remain above.
+Current immutable evidence33dfe86742fe79c840f710889743e9bd60fc2644, subfolder
+current-base-0e927. Independent /root/review_photo APPROVE exact757347b against
+0e92729, no findings; reviewed hashes/footers/fixtures/composedparity/source/docs,
+no game tests rerun. Verdict relayed in PR121. Own exact40075442240 guidance
+SUCCESS, game-smoke pending. Prepared recovery merge aaff40ea7943278ade6ba3b7bcd5495c2dcac26e
+on claude/landmarks-current-merge is saved but NOT published to integration.
+Fresh bothgreen/current-tip/head/mergeability guard is still required, then verify
+actual merge before done025+BOARDsamecommit.025 remains CLAIMED.026 still next.
