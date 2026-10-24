@@ -26,6 +26,39 @@ main.gd and the two draw files shrink with identical behavior; CI green on each 
 PR into claude/integration; merge per the line above; mark DONE and update the board.
 
 ## Completion
+
+### Current local Windows resume, 23 October 2026 Eastern
+
+Pat explicitly resumed this existing claim and the later eligible numeric queue.
+Prior cloud stop notes below remain historical. PR96/98 are already merged;
+fetched integration30f555a260d4edf5f0300935e7381475ba620fcc. Do not repeat them.
+
+Photo step: [PR100](https://github.com/pemunson90-cmd/Siren-s-Song/pull/100),
+branch claude/lane-arch2-photo-review, last pushed
+57b6ce627c60a9d0c3ce98f7cd213c1c0de4d3fe. Preserved52ba7d5 source reconciled
+with actual integration and current local resume notes. Native Windows Godot
+4.6.3 import clean; core818/runtime665/dispatch13/recap8/captureUI9/cold-reviewUI218
+all zero failures and clean exits. Independent reviewer /root/review_photo
+confirmed all nine bodies/signatures, host callbacks and deferred layout;
+requested historical-doc clarification was fixed. Exact final-head review and
+hosted guidance/game-smoke remain required. No full local scenario list or phone
+acceptance. Generated UID/import changes are not committed; personal saves use
+isolated APPDATA/LOCALAPPDATA.
+
+Separate user-authorized unblock: [PR99](https://github.com/pemunson90-cmd/Siren-s-Song/pull/99),
+branch claude/windows-hook-compat, last pushed
+fcefbe2b3d38a56220d2300c51c3bd4bc4b77762. Linux-only fcntl blocked the required
+hooks. Added native Windows locking/timeout cleanup and quoted installer Python;
+22 real-Git regression tests and10 guidance tests pass. Independent source PASS,
+prior timeout P2 reproduced/fixed; reviewed hooks installed and exercised during
+commits/pushes. No bypass. Hosted exact-head guidance green/game-smoke running.
+Initial push privacy rejection fixed using the existing GitHub no-reply address.
+
+023 stays CLAIMED and partial. Merge reviewed green PRs with current integration
+contained, then continue ui_metrics and one presentation feature per PR. Only
+after every023 step lands mark DONE with BOARD in the same done023 commit.
+
+### Historical cloud progress
 Claimed after021/PR95 merged b03dd691a4775bbc07abfa1e87f4938ead653342 and DONE021 plus BOARD published b169abc. Preconditions016 and019 are DONE. Read ARCH_AUDIT_1 steps5/6, current standing rules and PLAN_SNAPSHOT. Next branch claude/lane-arch2-campaign-flow from freshly fetched integration, establish named check baselines, then mechanical extraction with one main file per PR and one presentation feature per later PR. No code pushed yet; record branch and last pushed SHA after first coherent WIP. Preserve all rules, numbers, text, saves and original forwarded entry points.
 
 First coherent step: [PR96](https://github.com/pemunson90-cmd/Siren-s-Song/pull/96), branch claude/lane-arch2-campaign-flow last pushed3afb12f966efc2646c9b148ddf7de5aafe68c5c5, tree8e1270dfb99c2d6861f4d506e81bdba95171bdaf, contains actual integrationb03dd69. Nineteen campaign/menu functions move to flow/campaign_flow.gd with original main signatures/one-line forwarders retained, main1106->950. Every moved body plus complete main restoration verified mechanically, numbers/text/callbacks/deferred ordering unchanged. Baseline/after core818/runtime665(includes campaign_ui_scenarios)/dispatch13/archive8/Canvas route-map70 all0 and clean, identical core outcome lines. Extra early-reward Canvas40 and FIX2 menu24 all0. No test edits, new save fields, rules or Simulation changes. Initial import name collision/host qualification corrected before publication; current import clean. Independent exact-head review requested from /root/review_integration, PR draft, own CI pending. Handoff remains CLAIMED through all separate ARCH2 PRs. While PR96 runs, prepare photo_review on its own branch based on published3afb12f; before its PR/merge reconcile actual integration and run its own exact-head CI.

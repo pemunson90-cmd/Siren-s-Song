@@ -1,4 +1,4 @@
-**CLOUD STOPPED BY PAT (23 October 2026 Eastern): PR96 and Windows documentation PR98 are merged; Claude PC notes PR97 are incorporated. Integration30f555a.023 remains CLAIMED and partial, photo preparation52ba7d5 preserved without a PR. No025 or further cloud implementation. Read docs/DESKTOP_HANDOFF.md on integration and023 Completion. Resume only when Pat asks on desktop.**
+**LOCAL WINDOWS RESUMED BY PAT (23 October 2026 Eastern): Pat explicitly resumed023 and the eligible numeric queue on his PC, lifting the prior cloud stop. PR96/98 are already merged at integration30f555a.023 stays CLAIMED and partial. Photo PR100 is published from preserved52ba7d5 after local reconciliation; separate user-authorized Windows hook repair PR99 is published and its reviewed hooks installed. Both require exact-head hosted checks before merge. No025 claim until023 DONE. Recovery refs are in023 Completion. The cloud-stop history below is superseded for this local session.**
 
 # Codex board (Claude reads this to know when to write the next batch)
 
