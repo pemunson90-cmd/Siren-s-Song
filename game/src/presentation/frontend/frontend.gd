@@ -9,6 +9,7 @@ const FrontendSettings = preload("res://src/presentation/frontend/frontend_setti
 const CreditsText = preload("res://src/presentation/frontend/credits_text.gd")
 const Soundscape = preload("res://src/audio/soundscape.gd")
 enum Profile { NONE, OK, RECOVERED, UNREADABLE }
+var profile_picker = preload("res://src/persistence/profiles/profile_picker.gd").new()
 var host: Control
 var settings_store := SettingsStore.new()
 var values: Dictionary = {}
@@ -43,6 +44,7 @@ static func preserve_unreadable(store_path: String, stamp: int) -> Array:
 	return kept
 func setup(main: Control) -> bool:
 	host = main
+	profile_picker.setup(self)
 	values = settings_store.load_settings()
 	FrontendSettings.apply(values, host)
 	var info := inspect_profile(host.store.path)
@@ -99,6 +101,7 @@ func _title_screen() -> void:
 		_button("START GAME", _new_campaign, "frontend_new_campaign")
 	else:
 		_button("CONTINUE", _continue, "frontend_continue", profile == Profile.UNREADABLE)
+	if profile_picker.available():_button("PROFILES", profile_picker.show_picker, "frontend_profiles")
 	_button("SETTINGS", _settings_screen, "frontend_settings")
 	_button("CHALLENGES", func():load("res://src/presentation/frontend/challenges_frontend.gd").show(self), "frontend_challenges", profile==Profile.UNREADABLE)
 	_button("CREDITS", _credits_screen, "frontend_credits")
@@ -162,6 +165,7 @@ func _credits_screen() -> void:
 		_text(line.text, 20 if line.heading else 15, Color("80d9cf") if line.heading else Color(0, 0, 0, 0))
 # Main routes Android Back and Escape here before changing the campaign underneath.
 func back() -> void:
+	if screen.begins_with("profile"):profile_picker.back();return
 	if screen == "challenge_details":
 		load("res://src/presentation/frontend/challenges_frontend.gd").show(self)
 	elif screen != "title":
