@@ -30,7 +30,7 @@ PR into claude/integration; merge per the line above; mark DONE and update the b
 ### Canonical current local recovery refs, 24 October 2026 Eastern
 
 Codex owns023, CLAIMED and partial. This supersedes all older stop/progress notes.
-Pat explicitly resumed local work. Published integration is97e48d33cb47375f9fb5bc90ad44f0cb5b941622:
+Pat explicitly resumed local work. Published integration is79fffb8a5711b9a050076768bcd6e9901f489768:
 Windows PR99 merged24 October12:42 AM Eastern after exact1606418 guidance and
 game-smoke SUCCESS, run40061261634, independent review and fresh base/head/
 mergeability verification. Normal non-force push ran required hooks; fetched
@@ -39,6 +39,9 @@ Photo PR100 merged24 October1:20 AM Eastern at97e48d3 after exactc6440ab
 guidance/game-smoke SUCCESS, run40063076798, exact predecessor review and
 fresh livefab2617/head/mergeability checks. Required hooks ran; fetched parents/
 tree match and GitHub confirms actual closed/merged true. Metrics101 is next.
+
+Current verified published prefix runs through PR104; each earlier entry is
+merged, own exact checks passed, remote parents/tree and PR state verified.
 
 All later final candidates are pushed and independently APPROVED at the exact
 head/planned base below. Complete game trees match their native-tested original
@@ -60,11 +63,11 @@ Root owns all merge mutations; designated reviewer /root/review_photo is read-on
 
 | Work | Branch | Pushed head | Planned predecessor | Merge commit | State |
 |---|---|---|---|---|---|
-| [PR99](https://github.com/pemunson90-cmd/Siren-s-Song/pull/99) | claude/windows-hook-compat | 1606418c0e8aa2a8b08246845716882565167ebe | ca2bda005c2f12b87294511e4c02c3accb58dec3 | fab2617575d5156d74b87aede4aa9ba21367504b | MERGED, exact checks/review passed |
-| [PR100](https://github.com/pemunson90-cmd/Siren-s-Song/pull/100) | claude/lane-arch2-photo-review | c6440abc8a192d950155ef36ddcc162b63354cbe | fab2617575d5156d74b87aede4aa9ba21367504b | 97e48d33cb47375f9fb5bc90ad44f0cb5b941622 | MERGED, exact checks/review passed, run40063076798 |
-| [PR101](https://github.com/pemunson90-cmd/Siren-s-Song/pull/101) | claude/lane-arch2-ui-metrics | aafa21e97a1057a2dd375d45017d545ebae14796 | 97e48d33cb47375f9fb5bc90ad44f0cb5b941622 | 4eb6d91ad3f52612002d41161280f032e1247bde | Exact planned-base APPROVE; own hosted gates pending |
-| [PR102](https://github.com/pemunson90-cmd/Siren-s-Song/pull/102) | claude/lane-arch2-wake-view | 0f2b3882b1edbe4dee0c3448a6babbaeb63b283a | 4eb6d91ad3f52612002d41161280f032e1247bde | 286ee11cf78dad368ade5126fc8d3a55f7991bb0 | Exact planned-base APPROVE; own hosted gates pending |
-| [PR104](https://github.com/pemunson90-cmd/Siren-s-Song/pull/104) | claude/lane-arch2-rendezvous-view | 99a1df8ca05a202f556f5504108767f624fa6a6c | 286ee11cf78dad368ade5126fc8d3a55f7991bb0 | 79fffb8a5711b9a050076768bcd6e9901f489768 | Exact planned-base APPROVE; own hosted gates pending |
+| [PR99](https://github.com/pemunson90-cmd/Siren-s-Song/pull/99) | claude/windows-hook-compat | 1606418c0e8aa2a8b08246845716882565167ebe | ca2bda005c2f12b87294511e4c02c3accb58dec3 | fab2617575d5156d74b87aede4aa9ba21367504b | MERGED, exact checks/review and actual PR state verified |
+| [PR100](https://github.com/pemunson90-cmd/Siren-s-Song/pull/100) | claude/lane-arch2-photo-review | c6440abc8a192d950155ef36ddcc162b63354cbe | fab2617575d5156d74b87aede4aa9ba21367504b | 97e48d33cb47375f9fb5bc90ad44f0cb5b941622 | MERGED, exact checks/review and actual PR state verified |
+| [PR101](https://github.com/pemunson90-cmd/Siren-s-Song/pull/101) | claude/lane-arch2-ui-metrics | aafa21e97a1057a2dd375d45017d545ebae14796 | 97e48d33cb47375f9fb5bc90ad44f0cb5b941622 | 4eb6d91ad3f52612002d41161280f032e1247bde | MERGED, exact checks/review and actual PR state verified |
+| [PR102](https://github.com/pemunson90-cmd/Siren-s-Song/pull/102) | claude/lane-arch2-wake-view | 0f2b3882b1edbe4dee0c3448a6babbaeb63b283a | 4eb6d91ad3f52612002d41161280f032e1247bde | 286ee11cf78dad368ade5126fc8d3a55f7991bb0 | MERGED, exact checks/review and actual PR state verified |
+| [PR104](https://github.com/pemunson90-cmd/Siren-s-Song/pull/104) | claude/lane-arch2-rendezvous-view | 99a1df8ca05a202f556f5504108767f624fa6a6c | 286ee11cf78dad368ade5126fc8d3a55f7991bb0 | 79fffb8a5711b9a050076768bcd6e9901f489768 | MERGED, exact checks/review and actual PR state verified |
 | [PR108](https://github.com/pemunson90-cmd/Siren-s-Song/pull/108) | claude/lane-arch2-shelf-view | e69609debcde96edfaa193ae895aafdaf94ffc96 | 79fffb8a5711b9a050076768bcd6e9901f489768 | da4ce0e554260681748189ede5b5a7c2f6897fb7 | Exact planned-base APPROVE; own hosted gates pending |
 | [PR109](https://github.com/pemunson90-cmd/Siren-s-Song/pull/109) | claude/lane-arch2-warning-chain-view | c8ccf309263ff01127533ce1df9b9a533eaa4d9c | da4ce0e554260681748189ede5b5a7c2f6897fb7 | 2f5babef84e5d2ed4e0443acd2f4e3dcb9853c44 | Exact planned-base APPROVE; own hosted gates pending |
 | [PR110](https://github.com/pemunson90-cmd/Siren-s-Song/pull/110) | claude/lane-arch2-delivery-view | a41f16f1dade17540a262e02c7b0445b6bc5994e | 2f5babef84e5d2ed4e0443acd2f4e3dcb9853c44 | e93422d50d66e9b16a5f439e10677aa48a67bad3 | Exact planned-base APPROVE; own hosted gates pending |
