@@ -1,4 +1,4 @@
-**LOCAL WINDOWS ACTIVE, 24 October2026 Eastern:025,026 and027 are DONE. PR122 merged at a524613 after exact2fe6459 checks40085216588 and independent approval. Codex now owns CLAIMED029, short briefings/manual and folded fittings, from a524613 on claude/lane-onboard2. Claim posted before implementation; Claude do not duplicate. Later requested handoffs are030 to033.**
+**LOCAL WINDOWS ACTIVE, 24 October2026 Eastern:025,026,027 are DONE. Codex owns CLAIMED029 from a524613 on claude/lane-onboard2, PR123 head34dbc13. Local checks and independent approval pass; own game-smoke40091651801 is running. No merge yet; Claude do not duplicate. Later requested handoffs are030 to033.**
 
 # Codex board (Claude reads this to know when to write the next batch)
 
@@ -46,7 +46,7 @@ Work order is numeric: finish 013 (batch 1) first, then 014, 015, 016.
 | Order | Handoff | Status | PR | Finished (UTC) | One-line result |
 |---|---|---|---|---|---|
 | F | 028 FALLBACK: land PR 74 | DONE (not needed; Claude merged PR 74) | | | |
-| 17 | 029 ONBOARD2 short briefings ops 4 to 29 | CLAIMED | | 2026-10-24 10:55:27 | Codex active claim at 6:55 AM Eastern;017DONE,027DONE. Basea524613, branchclaude/lane-onboard2, no duplicate branch/open PR. Claim posted before implementation. Short factual goals/danger/new line; keep full manual and photo line; fold fittings. Claude do not duplicate. |
+| 17 | 029 ONBOARD2 short briefings ops 4 to 29 | CLAIMED | [123](https://github.com/pemunson90-cmd/Siren-s-Song/pull/123) | 2026-10-24 10:55:27 | Codex active claim before implementation; basea524613, head34dbc13. Core833/data57/nativeUI782/onboarding30/FIX2menu24 all0; exact-head independent approval. Six large-text captures linked. Guidance green, own game-smoke40091651801 running. No merge; Claude do not duplicate. |
 | 18 | 030 SAVE1 profiles, copy/clear, export/import | OPEN | | | |
 | 19 | 031 A11Y1 audio-only/color-only cue equivalents | OPEN | | | |
 | 20 | 032 ART1 silhouettes (Pat judges) | OPEN | | | |
