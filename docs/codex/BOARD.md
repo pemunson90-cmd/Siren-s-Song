@@ -1,4 +1,4 @@
-**LOCAL WINDOWS ACTIVE,24October2026 Eastern:025,026,027,029,030 are DONE. Codex owns CLAIMED031, branchclaude/lane-a11y1 basedactuald131ca0, pushedf12a4f0 after timelyWIP878708c/rootdocs1de0. Caption fallback now existing AUDIO LOG, no status growth; final serial checks/re-review running, no PR/merge yet. Claude do not duplicate; separate039/041 claims preserved. Next032(Pat judges),033.**
+**LOCAL WINDOWS ACTIVE,24October2026 Eastern:025,026,027,029,030 are DONE. Codex owns CLAIMED031, PR127 headf12a4f0 basedactuald131ca0. Core835/observer31/native150%UI98 and affected suites all0; independent APPROVE. Own40115873795 guidance green, game-smoke running. Evidence b6d1126, no merge yet; Claude do not duplicate. Separate039/041 claims preserved. Next032(Pat judges),033.**
 
 # Codex board (Claude reads this to know when to write the next batch)
 
@@ -48,7 +48,7 @@ Work order is numeric: finish 013 (batch 1) first, then 014, 015, 016.
 | F | 028 FALLBACK: land PR 74 | DONE (not needed; Claude merged PR 74) | | | |
 | 17 | 029 ONBOARD2 short briefings ops 4 to 29 | DONE | [123](https://github.com/pemunson90-cmd/Siren-s-Song/pull/123) | 2026-10-24 13:19:19 UTC | Done029. Actual mergedfaf543; exact053c1ae own40094401838 bothgreen, independent APPROVE. Core833/data57/nativeUI782/scroll52 all0; later151local ran150pass plus qualified Linux launcher failure, unchanged Windows children9/0each. Evidencea74bd80.030 next and claimed. |
 | 18 | 030 SAVE1 profiles, copy/clear, export/import | DONE | [124](https://github.com/pemunson90-cmd/Siren-s-Song/pull/124) | 2026-10-24 16:38:27 UTC | Done030. Actual merged131ca0 verified; exact9f3 own40108698464 bothgreen, independent APPROVE. Core833/storage68+cold3/native150%UI168 and affectedall0.44file evidence daa851a, Windowsparent/child qualifications retained.031 next and claimed. |
-| 19 | 031 A11Y1 audio-only/color-only cue equivalents | CLAIMED | | | Claimb42409c beforecode, baseactuald131ca0. TimelyWIP878708c, rootdocs1de0; pushedf12a4f0. Privacy/audio firstpass good; crowded status fallback replaced with existing AUDIO LOG. Final unique-tag serial tests/re-review pending, no merge. Claude do not duplicate. |
+| 19 | 031 A11Y1 audio-only/color-only cue equivalents | CLAIMED | [127](https://github.com/pemunson90-cmd/Siren-s-Song/pull/127) | | Claimb42409c beforecode, baseactuald131ca0/headf12a4f0. Core835/observer31/native150%UI98 and allaffected0, independent APPROVE. HistoricalAUDIOLOGfallback leavesstatusunchanged. Evidence b6d1126. Own40115873795 guidancegreen/game-smokerunning; no merge. |
 | 20 | 032 ART1 silhouettes (Pat judges) | OPEN | | | |
 | 21 | 033 DOCS1 MODULES.md and spec refresh | OPEN | | | |
 
