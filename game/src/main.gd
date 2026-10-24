@@ -1,4 +1,5 @@
 extends Control
+const UiMetrics=preload("res://src/presentation/flow/ui_metrics.gd")
 const PhotoReview=preload("res://src/presentation/flow/photo_review.gd")
 const CampaignFlow=preload("res://src/presentation/flow/campaign_flow.gd")
 const Recon=preload("res://src/simulation/recon_consequences.gd")
@@ -748,13 +749,7 @@ func _report_targets() -> void:
 				print("SS_TARGET ",action," center=",roundi(mapped.x),",",roundi(mapped.y)," viewport=",roundi(get_viewport_rect().size.x),",",roundi(get_viewport_rect().size.y))
 
 func _emit_ui_metrics(snapshot: Dictionary={}) -> void:
-	if snapshot.is_empty(): snapshot=_ui_metrics()
-	if OS.get_name()=="Android":
-		if metrics_session.is_empty():metrics_session="%d-%d"%[OS.get_process_id(),Time.get_ticks_usec()]
-		metrics_serial+=1
-		for record in MetricsTransport.encode(snapshot,metrics_session,metrics_serial):print(record)
-	else:print("SS_UI_METRICS ",JSON.stringify(snapshot))
-
+	UiMetrics.emit_ui_metrics(self, snapshot)
 func _enter_water() -> void:
 	screen="mission"; menu.hide(); hud.show()
 	for button in zoom_buttons: button.show()
@@ -815,50 +810,8 @@ func _shot_difference(a:Dictionary,b:Dictionary,ia:int,ib:int) -> String:
 func _intel_screen() -> void:
 	PhotoReview.intel_screen(self)
 func _rect_values(rect: Rect2) -> Array:
-	return [snappedf(rect.position.x,0.001),snappedf(rect.position.y,0.001),snappedf(rect.size.x,0.001),snappedf(rect.size.y,0.001)]
+	return UiMetrics.rect_values(self, rect)
 func _planner_intent_metrics() -> Dictionary:
-	# Only operator-owned state; never serialize the model's hidden enemy state.
-	var own_units=[]
-	for id in sim.units.size():
-		var unit=sim.units[id]; var goals=[]
-		for goal in sim.route_goals(id):
-			goals.append({"pos":[goal.pos.x,goal.pos.y],"mode":goal.mode,"stop":goal.stop,"legacy":goal.get("legacy",false)})
-		var own={"alive":unit.alive,"pos":[unit.pos.x,unit.pos.y],"velocity":[unit.vel.x,unit.vel.y],"battery":unit.battery,"silent":unit.silent,"hold":unit.hold,"goals":goals}
-		if id>0:own["drive"]=unit.get("drone_drive","transit")
-		own_units.append(own)
-	return {"mission":mission_index,"paused":sim.paused,"selected":sim.selected,"elapsed":sim.elapsed,"oxygen":sim.oxygen,"hull":sim.hull,"tools":sim.tools.duplicate(),"queue":sim.queue_mode,"pass_through":sim.pass_through,"units":own_units}
+	return UiMetrics.planner_intent_metrics(self)
 func _ui_metrics(capture_phase: String="layout_only") -> Dictionary:
-	var viewport=get_viewport_rect().size; var window=Vector2(get_window().size)
-	var safe=Rect2(Vector2.ZERO,window)
-	if OS.get_name()=="Android": safe=Rect2(DisplayServer.get_display_safe_area()).intersection(safe)
-	var controls: Array=[]; var targets: Dictionary={}
-	var planner_visible=screen=="program" and route_editor.is_visible_in_tree()
-	if planner_visible:
-		for control in route_editor.find_children("*","Button",true,false):
-			if control.has_meta("action"): targets[control.get_meta("action")]=control
-	elif hud.visible:
-		targets=mission_hud.action_controls()
-	elif get_node_or_null("ConfluenceResolution")!=null:
-		for child in get_node("ConfluenceResolution").actions.get_children():
-			if child is Button and child.has_meta("action"):targets[child.get_meta("action")]=child
-	else:
-		var candidates=menu.find_children("*","Button",true,false)+menu.find_children("*","Slider",true,false)
-		for control in candidates: targets[control.get_meta("action",control.get_meta("ui_action",str(control.get_instance_id())))]=control
-	for action in targets:
-		var control=targets[action]
-		if not control.is_visible_in_tree(): continue
-		var visual:Rect2=control.get_global_rect(); var hit=visual.intersection(Rect2(Vector2.ZERO,viewport))
-		var parent=control.get_parent()
-		while parent!=null:
-			if parent is Control and parent.clip_contents: hit=hit.intersection(parent.get_global_rect())
-			parent=parent.get_parent()
-		if not hit.has_area(): continue
-		controls.append({"action":action,"visual_rect":_rect_values(visual),"hit_rect":_rect_values(hit),"clipped":not hit.is_equal_approx(visual)})
-	var capture_state={"phase":capture_phase,"drawn_frame":Engine.get_frames_drawn(),"mission":mission_index,"paused":sim.paused,"selected":sim.selected,"capture_unit":sim.capture_unit,"hud_visible":hud.is_visible_in_tree(),"menu_visible":menu.is_visible_in_tree(),"optical_visible":ocean.optical_feed!=null and ocean.optical_feed.is_visible_in_tree()}
-	var result={"schema":1,"screen":screen,"orders_page":"secondary" if advanced_orders else "primary","hud_layout":"radial","context_page":mission_hud.page if advanced_orders else "water","chart_view":{"mode":ocean.chart_camera.mode,"zoom":ocean.chart_camera.zoom,"center":[ocean.chart_camera.center.x,ocean.chart_camera.center.y]},"viewport":[viewport.x,viewport.y],"window":[window.x,window.y],"safe_rect":_rect_values(safe),"density_dpi":ui_density_dpi(),"density_source":ui_density_source(),"chart_rect":_rect_values(ocean.get_global_rect()),"scroll_rect":_rect_values(scroll.get_global_rect().intersection(menu.get_global_rect()).intersection(Rect2(Vector2.ZERO,viewport))),"scroll_vertical":scroll.scroll_vertical,"settings_values":{"music":settings.get("music",0.5),"effects":settings.get("effects",0.8),"mute":settings.get("mute",false)},"capture_state":capture_state,"controls":controls}
-	result["context_subject_kind"]=mission_hud.subject.get("subkind","site") if advanced_orders and mission_hud.page=="object" else ""
-	if planner_visible:
-		var preview=route_editor.preview; var camera=preview.chart_camera; var chart=preview.get_global_rect(); var scale=window/viewport
-		result.chart_rect=_rect_values(chart)
-		result["planner"]={"preview_physical":_rect_values(Rect2(chart.position*scale,chart.size*scale)),"zoom":camera.zoom,"center":[camera.center.x,camera.center.y],"intent":_planner_intent_metrics()}
-	return result
+	return UiMetrics.ui_metrics(self, capture_phase)
