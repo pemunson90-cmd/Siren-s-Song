@@ -145,3 +145,37 @@ Worker verifies official API, short paired proof first, full measurement only af
 actual source change and promising result. Latest public source remains7619 until
 next WIP; code changes require push by3:34PM at latest. Root/reviewer no Godot runs.
 Current own7619 checks remain40123591760; optimized head needs its own exact gates.
+
+
+Current combined recovery checkpoint, 24 October, about3:34 PM Eastern:
+Worker saved optimized WIP4eb90db371877fa2810bdd54dca8292fd7715b63 at3:29PM,
+normal hooks, only3Artmodule/table/localtest paths changed. Cached ArrayMesh
+fills/apertures/lamp retain AAoutlines/lines/cues and exact vertices/UVs, use exact
+continuous caller tint. ART54/0 checks surfaces/indices/immutable meshes+RGBA;
+shortfactory25/0 drawCPU paired-24.75us, GPU-7us, cadence-44.75us. Viewport CPU
+still+43.5us; shortcase alone is not blanket performance approval.
+
+Claude PR126 published actualintegration46a3be891f51faf5cd4052f5bc0cc62ae299e53d.
+Only debrief module/dispatcher/two tests/registry changed fromad841, no instructions.
+Root paused long verification, merged current46 into saved4eb, updatedRESUME and
+ArtCI231/232 after consequences229/230; all232names/localinteger/CIranksunique,
+unionbothparents preserved, no assertions removed. No textualconflict; duplicate
+CIvalues repaired. Normal hooks and push succeeded. Branch claude/lane-art1,
+LAST PUSHED ad61ad91821580a971c6a3d5fe6e998d8b8e0522, parents4eb+46.
+Full tree4f60c13cd65855283fb1807be77ad2ad01e8dbc1;
+game tree58a045fc1b8b9d19c514f67d520f01073f11619f. Trackedsource clean.
+
+Relayed independent /root/art032_reviewer SOURCE PASS exactad61 vs46, no new
+source blocker. Feature source equals4eb; cached preparation/lamp config updates,
+information boundaries and oldlook remain valid. Reviewer no tests/Godot.
+Final performance/receipt/pixel approval pending. Exact combined serialsession64452
+is running import/core/Art54/Confluence/depth/pricing/015SIM/consequenceunit,
+then nativeWell/camera/031a11y/consequenceUI/full5x300 sixcase measurement; separate
+linked numeric command receipt only after mainexit. No source changes or parallel
+root/reviewer Godot. Old761baseline/performancefinding remains preserved, not currentproof.
+
+Current own exactad61 run40125748274: guidance120966655627 SUCCESS,
+game-smoke120966655370 running. Earlier761/4eb runs cannot authorize thishead.
+Draft PR130 updated currentbase/source/review and honest timing qualifications.
+Baseline archivee411 actual all292Gitbloblengths/hashes verified byroot.
+No finalapproval, Pat art judgment or source publication. Next033 onlyafter032.
