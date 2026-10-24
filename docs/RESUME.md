@@ -80,6 +80,22 @@ eligible 025 and the numeric queue. The board owns eligibility; no new claim is
 made by this handover. Windows instructions and role-specific notes are in
 DESKTOP_HANDOFF.md.
 
+## Claude PC handover reconciliation
+
+Claude's parallel PC-handover PR97 is incorporated into this documentation PR
+with its original commit ancestry preserved. Its old PR96-in-flight snapshot is
+superseded by the verified merge above. No future desktop session should merge
+that older RESUME over this current one.
+
+After Pat resumes, Claude should review Codex PRs independently, commission the
+outstanding whole-campaign cold review after035/036/037/020/021, and report ranked
+fixes to Pat. When two of023/025/026 are DONE, maintain the next handoff batch and
+roughly five hours of eligible OPEN work as recorded in the earlier handover.
+These are future local-session notes, not authorization for more cloud work.
+Cloud GitHub connectors, agents and scheduled check-ins are not assumed on PC;
+use Git and the GitHub CLI/web when those tools are unavailable. Recheck the
+actual desktop setup rather than reinstalling or overwriting it blindly.
+
 ## Verification and preservation
 
 Use Godot 4.6.3/GDScript/Compatibility. On Windows the existing Linux x86_64 scripts

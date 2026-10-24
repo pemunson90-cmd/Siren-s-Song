@@ -101,6 +101,16 @@ integration reviewer; keep other criticism sequential and bounded. Use existing
 review/CI boundaries and handoff files, with no new governance framework.
 A desktop session starts fresh; cloud agent processes do not transfer.
 
+Claude's parallel PC-handover PR97 is incorporated here with its original commit
+history preserved; its older in-flight96 snapshot is superseded by the verified
+merge. Once Pat resumes locally, review Codex PRs and arrange the outstanding
+whole-campaign cold review after035/036/037/020/021, sending ranked fixes to Pat.
+When two of023/025/026 are DONE, maintain the next batch and about five hours of
+eligible OPEN work. Do not create that work during this cloud stop. Cloud GitHub
+connectors and scheduled check-ins do not automatically exist on desktop; use Git
+and the GitHub CLI/web if missing. Inspect the PC's existing setup first.
+
+
 ## Windows/WSL bootstrap for an assistant
 
 The shell block below is Ubuntu Bash, not PowerShell. Keep the checkout inside
