@@ -9,9 +9,9 @@ Pat's Windows PC. Pat stopped the cloud session on 23 October and said continue 
 ## Live source checkpoint
 
 Active development integration: `claude/integration`.
-Last reconciled source baseline: d131ca0b8b3538af6588f057ee8e7f1ab4f75273.
+Last reconciled source baseline: 139f3e943ddc9e45c6eec46a049c3781ed2865a8.
 This includes PR116 patrol data, PR121 landmarks, PR122 final pair/wall and
-PR123 concise briefings with folded preparation and PR124 independent profiles.
+PR123 concise briefings, PR124 independent profiles and merged PR125 Back handling.
 023 is DONE on the authoritative board in2df2e6b after all separate source PRs
 and Windows99 passed own exact-head checks/review and actual merge verification.
 Main817, HUD575, Ocean685. Do not repeat023 or its earlier preparations.
@@ -118,7 +118,8 @@ personal-save access. Actual store tests isolated; no physical Android keyboard/
 file-sharing/hand acceptance, full local matrix or APK claim.
 
 Codex owns CLAIMED031, postedb42409c at12:40PM Eastern before implementation.
-Fresh branchclaude/lane-a11y1 starts from actuald131ca0; precondition017DONE,
+Branchclaude/lane-a11y1 started from actuald131ca0 and now reconciles current
+139f3e9 after PR125 merged during its hosted check; precondition017DONE,
 no duplicate a11y branch/open PR. One implementation worker builds optional
 presentation palette/caption modules, reuses existing haptics/settings, and adds
 second channels for actual sound/color gaps. Existing lock timer/source/gauge
@@ -130,8 +131,12 @@ real touch/Back, privacy/freeze/reset and native palette/caption images are requ
 Root owns integration; independent reviewer and own exact-head hosted gates,
 fresh current-base containment/mergeability and actual publication remain required.
 
-Claude separately owns039/041, with PR126/125 open as last checked; preserve
-those claims and fetch live integration at each boundary. After verified031
+Claude owns039/PR126 separately. PR125/041 is now published at139f3e9: default
+Android Back quit is disabled; Operations uses its approved double-Back exit.
+The031 merge preserves both Main seams and all tests; the appended accessibility
+suites follow existing Back at CI ranks227/228. Earlierf12 candidate evidence
+is retained, with fresh combined-head verification/review and own hosted gates
+required before publication. Fetch live integration at each boundary. After verified031
 publication continue032(Pat judges), then033 in the explicit assigned queue.
 The board alone owns claims; unrelated released items are not automatically part
 of this assignment.
