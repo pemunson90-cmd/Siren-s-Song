@@ -1,0 +1,172 @@
+{
+	"accepted": {
+		"camera": 1,
+		"depth": 4,
+		"glass_action": 1,
+		"route": 9
+	},
+	"budget_seconds": 900.0,
+	"commands": [
+		{
+			"accepted": true,
+			"args": "{ \"band\": 0 }",
+			"message": "QUIETUS · MIDDLE → SHALLOW · 4.0s exposed transition",
+			"order": "depth",
+			"time": 0.0,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (2700.0, 1450.0) }",
+			"message": "QUIETUS · replaced route",
+			"order": "route",
+			"time": 4.19999999999999,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"band\": 1 }",
+			"message": "QUIETUS · SHALLOW → MIDDLE · 4.0s exposed transition",
+			"order": "depth",
+			"time": 25.6999999999998,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"band\": 2 }",
+			"message": "QUIETUS · MIDDLE → DEEP · 4.0s exposed transition",
+			"order": "depth",
+			"time": 29.8999999999996,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (2860.0, 1395.0) }",
+			"message": "QUIETUS · replaced route",
+			"order": "route",
+			"time": 34.0999999999993,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"action\": \"recover\" }",
+			"message": "RECOVER material ·4s audible",
+			"order": "glass_action",
+			"time": 39.0999999999991,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (2700.0, 1450.0) }",
+			"message": "QUIETUS · replaced route",
+			"order": "route",
+			"time": 43.2999999999988,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"band\": 1 }",
+			"message": "QUIETUS · DEEP → MIDDLE · 4.0s exposed transition",
+			"order": "depth",
+			"time": 49.5499999999985,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (600.0, 1350.0) }",
+			"message": "QUIETUS · replaced route",
+			"order": "route",
+			"time": 53.7499999999982,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (400.0, 850.0) }",
+			"message": "QUIETUS · replaced route",
+			"order": "route",
+			"time": 105.249999999995,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (2470.0, 850.0) }",
+			"message": "QUIETUS · replaced route",
+			"order": "route",
+			"time": 118.999999999995,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (2470.0, 400.0) }",
+			"message": "QUIETUS · replaced route",
+			"order": "route",
+			"time": 169.500000000027,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (2700.0, 420.0) }",
+			"message": "QUIETUS · replaced route",
+			"order": "route",
+			"time": 181.250000000036,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Passive hydrophone decode · hold 4 seconds",
+			"order": "camera",
+			"time": 187.750000000042,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (1600.0, 140.0) }",
+			"message": "QUIETUS · replaced route",
+			"order": "route",
+			"time": 191.950000000045,
+			"unit": 0
+		}
+	],
+	"drone_losses": 0,
+	"hull": 100.0,
+	"industrial_pressure": {
+		"interceptor_burst_seconds": 0.0,
+		"interceptor_windup_seconds": 0.0,
+		"interceptor_windups": 0,
+		"warden_field_seconds": 0.0,
+		"warden_windup_seconds": 0.0,
+		"warden_windups": 0
+	},
+	"load_alive": null,
+	"load_hull": null,
+	"message": "Archive recovered / NORTH REACH RECOVERY",
+	"operation": 17,
+	"outcome": "won",
+	"oxygen": 88.8443981482183,
+	"peak_lock": 0.0,
+	"policy": "cautious",
+	"quietus_beam_seconds": 0.0,
+	"quietus_locked_seconds": 0.0,
+	"quietus_lost": false,
+	"quietus_position": "(1607.619, 140.8792)",
+	"route_knowledge": "source-known current GlassJourneys.COURSES for 14-21; authored Iron Choir paths for 22-29; opening direct authored objective coordinates; operation-data dimensions",
+	"seconds": 220.783333333401,
+	"snapshot_valid": true,
+	"tools_remaining": {
+		"decoy": 3,
+		"emp": 2,
+		"knock": 2,
+		"recon": 2
+	},
+	"tools_spent": {
+		"decoy": 0,
+		"emp": 0,
+		"knock": 0,
+		"recon": 0
+	},
+	"world_size": [
+		3200.0,
+		2400.0
+	]
+}

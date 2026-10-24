@@ -1,0 +1,131 @@
+{
+	"accepted": {
+		"camera": 1,
+		"depth": 2,
+		"route": 7
+	},
+	"budget_seconds": 900.0,
+	"commands": [
+		{
+			"accepted": true,
+			"args": "{ \"point\": (1600.0, 1700.0) }",
+			"message": "QUIETUS · replaced route",
+			"order": "route",
+			"time": 0.0,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (1600.0, 1200.0) }",
+			"message": "QUIETUS · replaced route",
+			"order": "route",
+			"time": 21.5000000000001,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (1600.0, 700.0) }",
+			"message": "QUIETUS · replaced route",
+			"order": "route",
+			"time": 66.7499999999975,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Passive hydrophone decode · hold 6 seconds",
+			"order": "camera",
+			"time": 79.9999999999967,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"band\": 0 }",
+			"message": "QUIETUS · MIDDLE → SHALLOW · 4.0s exposed transition",
+			"order": "depth",
+			"time": 86.1999999999964,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (725.0, 1200.0) }",
+			"message": "QUIETUS · replaced route",
+			"order": "route",
+			"time": 90.3999999999962,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (725.0, 1600.0) }",
+			"message": "QUIETUS · replaced route",
+			"order": "route",
+			"time": 115.649999999995,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (1600.0, 1700.0) }",
+			"message": "QUIETUS · replaced route",
+			"order": "route",
+			"time": 126.149999999994,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (700.0, 2600.0) }",
+			"message": "QUIETUS · replaced route",
+			"order": "route",
+			"time": 148.15000000001,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"band\": 1 }",
+			"message": "QUIETUS · SHALLOW → MIDDLE · 4.0s exposed transition",
+			"order": "depth",
+			"time": 179.900000000035,
+			"unit": 0
+		}
+	],
+	"drone_losses": 0,
+	"hull": 74.3292461395264,
+	"industrial_pressure": {
+		"interceptor_burst_seconds": 0.0,
+		"interceptor_windup_seconds": 0.0,
+		"interceptor_windups": 0,
+		"warden_field_seconds": 0.0,
+		"warden_windup_seconds": 0.0,
+		"warden_windups": 0
+	},
+	"load_alive": null,
+	"load_hull": null,
+	"message": "Archive recovered / SOUTH REACH RECOVERY",
+	"operation": 19,
+	"outcome": "won",
+	"oxygen": 94.4560185185766,
+	"peak_lock": 0.0,
+	"policy": "cautious",
+	"quietus_beam_seconds": 0.0,
+	"quietus_locked_seconds": 0.0,
+	"quietus_lost": false,
+	"quietus_position": "(705.1737, 2595.014)",
+	"route_knowledge": "source-known current GlassJourneys.COURSES for 14-21; authored Iron Choir paths for 22-29; opening direct authored objective coordinates; operation-data dimensions",
+	"seconds": 183.916666666705,
+	"snapshot_valid": true,
+	"tools_remaining": {
+		"decoy": 3,
+		"emp": 2,
+		"knock": 2,
+		"recon": 2
+	},
+	"tools_spent": {
+		"decoy": 0,
+		"emp": 0,
+		"knock": 0,
+		"recon": 0
+	},
+	"world_size": [
+		3200.0,
+		2800.0
+	]
+}

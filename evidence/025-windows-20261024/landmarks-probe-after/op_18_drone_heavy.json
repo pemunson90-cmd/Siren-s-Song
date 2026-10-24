@@ -1,0 +1,319 @@
+{
+	"accepted": {
+		"drone_drive": 2,
+		"emp": 1,
+		"glass_action": 1,
+		"ping": 5,
+		"recon": 2,
+		"route": 15,
+		"silent": 2
+	},
+	"budget_seconds": 900.0,
+	"commands": [
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Open visual profile · drone thrust target 96m/s",
+			"order": "silent",
+			"time": 0.0,
+			"unit": 1
+		},
+		{
+			"accepted": true,
+			"args": "{ \"mode\": \"transit\" }",
+			"message": "DRONE A · TRANSIT96 · visual profile unchanged",
+			"order": "drone_drive",
+			"time": 0.0,
+			"unit": 1
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Open visual profile · drone thrust target 96m/s",
+			"order": "silent",
+			"time": 0.0,
+			"unit": 2
+		},
+		{
+			"accepted": true,
+			"args": "{ \"mode\": \"transit\" }",
+			"message": "DRONE B · TRANSIT96 · visual profile unchanged",
+			"order": "drone_drive",
+			"time": 0.0,
+			"unit": 2
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (2650.0, 1900.0) }",
+			"message": "QUIETUS · replaced route",
+			"order": "route",
+			"time": 0.0,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (2650.0, 1820.0) }",
+			"message": "DRONE A · replaced route",
+			"order": "route",
+			"time": 0.0,
+			"unit": 1
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (2650.0, 1980.0) }",
+			"message": "DRONE B · replaced route",
+			"order": "route",
+			"time": 0.0,
+			"unit": 2
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Pulse away · wait for physical echoes · emission audible",
+			"order": "ping",
+			"time": 0.0,
+			"unit": 1
+		},
+		{
+			"accepted": false,
+			"args": "{  }",
+			"message": "DRONE B selected · next tap replaces route",
+			"order": "ping",
+			"time": 0.0,
+			"unit": 2
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (2650.0, 1150.0) }",
+			"message": "QUIETUS · replaced route",
+			"order": "route",
+			"time": 13.0000000000002,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (2650.0, 1070.0) }",
+			"message": "DRONE A · replaced route",
+			"order": "route",
+			"time": 13.0000000000002,
+			"unit": 1
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (2650.0, 1230.0) }",
+			"message": "DRONE B · replaced route",
+			"order": "route",
+			"time": 13.0000000000002,
+			"unit": 2
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Pulse away · wait for physical echoes · emission audible",
+			"order": "ping",
+			"time": 25.2499999999998,
+			"unit": 1
+		},
+		{
+			"accepted": false,
+			"args": "{  }",
+			"message": "DRONE B selected · next tap replaces route",
+			"order": "ping",
+			"time": 25.2499999999998,
+			"unit": 2
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Local 560m survey · 8 seconds",
+			"order": "recon",
+			"time": 25.2499999999998,
+			"unit": 1
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (1400.0, 935.0) }",
+			"message": "QUIETUS · replaced route",
+			"order": "route",
+			"time": 32.2499999999995,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (1400.0, 855.0) }",
+			"message": "DRONE A · replaced route",
+			"order": "route",
+			"time": 32.2499999999995,
+			"unit": 1
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (1400.0, 1015.0) }",
+			"message": "DRONE B · replaced route",
+			"order": "route",
+			"time": 32.2499999999995,
+			"unit": 2
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Pulse away · wait for physical echoes · emission audible",
+			"order": "ping",
+			"time": 50.6666666666651,
+			"unit": 1
+		},
+		{
+			"accepted": false,
+			"args": "{  }",
+			"message": "DRONE B selected · next tap replaces route",
+			"order": "ping",
+			"time": 50.6666666666651,
+			"unit": 2
+		},
+		{
+			"accepted": true,
+			"args": "{ \"action\": \"service\" }",
+			"message": "LOCAL MACHINERY ·8s audible",
+			"order": "glass_action",
+			"time": 63.4999999999977,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (1400.0, 1700.0) }",
+			"message": "QUIETUS · replaced route",
+			"order": "route",
+			"time": 71.6999999999972,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (1400.0, 1620.0) }",
+			"message": "DRONE A · replaced route",
+			"order": "route",
+			"time": 71.6999999999972,
+			"unit": 1
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (1400.0, 1780.0) }",
+			"message": "DRONE B · replaced route",
+			"order": "route",
+			"time": 71.6999999999972,
+			"unit": 2
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Pulse away · wait for physical echoes · emission audible",
+			"order": "ping",
+			"time": 75.0666666666637,
+			"unit": 1
+		},
+		{
+			"accepted": false,
+			"args": "{  }",
+			"message": "DRONE B selected · next tap replaces route",
+			"order": "ping",
+			"time": 75.0666666666637,
+			"unit": 2
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (400.0, 2300.0) }",
+			"message": "QUIETUS · replaced route",
+			"order": "route",
+			"time": 91.4499999999961,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (400.0, 2220.0) }",
+			"message": "DRONE A · replaced route",
+			"order": "route",
+			"time": 91.4499999999961,
+			"unit": 1
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (400.0, 2380.0) }",
+			"message": "DRONE B · replaced route",
+			"order": "route",
+			"time": 91.4499999999961,
+			"unit": 2
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Pulse away · wait for physical echoes · emission audible",
+			"order": "ping",
+			"time": 100.483333333329,
+			"unit": 1
+		},
+		{
+			"accepted": false,
+			"args": "{  }",
+			"message": "DRONE B selected · next tap replaces route",
+			"order": "ping",
+			"time": 100.483333333329,
+			"unit": 2
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Local 560m survey · 8 seconds",
+			"order": "recon",
+			"time": 100.483333333329,
+			"unit": 1
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Disruption pulse · 12 second recovery window",
+			"order": "emp",
+			"time": 109.633333333328,
+			"unit": 0
+		}
+	],
+	"drone_losses": 0,
+	"hull": 19.8872553507478,
+	"industrial_pressure": {
+		"interceptor_burst_seconds": 0.0,
+		"interceptor_windup_seconds": 0.0,
+		"interceptor_windups": 0,
+		"warden_field_seconds": 18.0499999999994,
+		"warden_windup_seconds": 7.54999999999983,
+		"warden_windups": 3
+	},
+	"load_alive": null,
+	"load_hull": null,
+	"message": "Archive recovered / SOUTH REACH RECOVERY",
+	"operation": 18,
+	"outcome": "won",
+	"oxygen": 103.324074074112,
+	"peak_lock": 1.7,
+	"policy": "drone_heavy",
+	"quietus_beam_seconds": 0.0,
+	"quietus_locked_seconds": 1.7,
+	"quietus_lost": false,
+	"quietus_position": "(406.2522, 2295.323)",
+	"route_knowledge": "source-known current GlassJourneys.COURSES for 14-21; authored Iron Choir paths for 22-29; opening direct authored objective coordinates; operation-data dimensions",
+	"seconds": 120.066666666661,
+	"snapshot_valid": true,
+	"tools_remaining": {
+		"decoy": 3,
+		"emp": 1,
+		"knock": 2,
+		"recon": 0
+	},
+	"tools_spent": {
+		"decoy": 0,
+		"emp": 1,
+		"knock": 0,
+		"recon": 2
+	},
+	"world_size": [
+		2800.0,
+		2600.0
+	]
+}

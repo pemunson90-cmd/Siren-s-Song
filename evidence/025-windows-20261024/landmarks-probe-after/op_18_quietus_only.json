@@ -1,0 +1,98 @@
+{
+	"accepted": {
+		"glass_action": 1,
+		"route": 5
+	},
+	"budget_seconds": 900.0,
+	"commands": [
+		{
+			"accepted": true,
+			"args": "{ \"point\": (2650.0, 1900.0) }",
+			"message": "QUIETUS · replaced route",
+			"order": "route",
+			"time": 0.0,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (2650.0, 1150.0) }",
+			"message": "QUIETUS · replaced route",
+			"order": "route",
+			"time": 13.0000000000002,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (1400.0, 935.0) }",
+			"message": "QUIETUS · replaced route",
+			"order": "route",
+			"time": 31.7499999999995,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"action\": \"service\" }",
+			"message": "LOCAL MACHINERY ·8s audible",
+			"order": "glass_action",
+			"time": 62.9999999999977,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (1400.0, 1700.0) }",
+			"message": "QUIETUS · replaced route",
+			"order": "route",
+			"time": 71.1999999999972,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (400.0, 2300.0) }",
+			"message": "QUIETUS · replaced route",
+			"order": "route",
+			"time": 90.4499999999962,
+			"unit": 0
+		}
+	],
+	"drone_losses": 0,
+	"hull": 100.0,
+	"industrial_pressure": {
+		"interceptor_burst_seconds": 0.0,
+		"interceptor_windup_seconds": 0.0,
+		"interceptor_windups": 0,
+		"warden_field_seconds": 6.01666666666632,
+		"warden_windup_seconds": 2.51666666666672,
+		"warden_windups": 1
+	},
+	"load_alive": null,
+	"load_hull": null,
+	"message": "Archive recovered / SOUTH REACH RECOVERY",
+	"operation": 18,
+	"outcome": "won",
+	"oxygen": 103.462962963001,
+	"peak_lock": 0.0,
+	"policy": "quietus_only",
+	"quietus_beam_seconds": 0.0,
+	"quietus_locked_seconds": 0.0,
+	"quietus_lost": false,
+	"quietus_position": "(406.2522, 2295.323)",
+	"route_knowledge": "source-known current GlassJourneys.COURSES for 14-21; authored Iron Choir paths for 22-29; opening direct authored objective coordinates; operation-data dimensions",
+	"seconds": 119.066666666661,
+	"snapshot_valid": true,
+	"tools_remaining": {
+		"decoy": 3,
+		"emp": 2,
+		"knock": 2,
+		"recon": 2
+	},
+	"tools_spent": {
+		"decoy": 0,
+		"emp": 0,
+		"knock": 0,
+		"recon": 0
+	},
+	"world_size": [
+		2800.0,
+		2600.0
+	]
+}

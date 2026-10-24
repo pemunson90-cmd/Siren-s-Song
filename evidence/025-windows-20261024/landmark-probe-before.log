@@ -1,0 +1,158 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+X2_ROW 0 cautious outcome=won t=65.65 hull=100.0 drone_losses=0
+T_PRESSURE 0 cautious {"interceptor_burst_seconds":0.0,"interceptor_windup_seconds":0.0,"interceptor_windups":0,"warden_field_seconds":0.0,"warden_windup_seconds":0.0,"warden_windups":0}
+X2_ROW 0 aggressive outcome=lost t=29.97 hull=0.0 drone_losses=0
+T_PRESSURE 0 aggressive {"interceptor_burst_seconds":0.0,"interceptor_windup_seconds":0.0,"interceptor_windups":0,"warden_field_seconds":0.0,"warden_windup_seconds":0.0,"warden_windups":0}
+X2_ROW 0 drone_heavy outcome=lost t=41.43 hull=0.0 drone_losses=2
+T_PRESSURE 0 drone_heavy {"interceptor_burst_seconds":0.0,"interceptor_windup_seconds":0.0,"interceptor_windups":0,"warden_field_seconds":0.0,"warden_windup_seconds":0.0,"warden_windups":0}
+X2_ROW 0 quietus_only outcome=won t=65.65 hull=100.0 drone_losses=0
+T_PRESSURE 0 quietus_only {"interceptor_burst_seconds":0.0,"interceptor_windup_seconds":0.0,"interceptor_windups":0,"warden_field_seconds":0.0,"warden_windup_seconds":0.0,"warden_windups":0}
+X2_ROW 3 cautious outcome=controller_incomplete t=94.25 hull=100.0 drone_losses=0
+T_PRESSURE 3 cautious {"interceptor_burst_seconds":0.0,"interceptor_windup_seconds":0.0,"interceptor_windups":0,"warden_field_seconds":0.0,"warden_windup_seconds":0.0,"warden_windups":0}
+X2_ROW 3 aggressive outcome=lost t=44.53 hull=0.0 drone_losses=0
+T_PRESSURE 3 aggressive {"interceptor_burst_seconds":0.0,"interceptor_windup_seconds":0.0,"interceptor_windups":0,"warden_field_seconds":0.0,"warden_windup_seconds":0.0,"warden_windups":0}
+X2_ROW 3 drone_heavy outcome=controller_incomplete t=94.25 hull=100.0 drone_losses=2
+T_PRESSURE 3 drone_heavy {"interceptor_burst_seconds":0.0,"interceptor_windup_seconds":0.0,"interceptor_windups":0,"warden_field_seconds":0.0,"warden_windup_seconds":0.0,"warden_windups":0}
+X2_ROW 3 quietus_only outcome=lost t=31.32 hull=0.0 drone_losses=0
+T_PRESSURE 3 quietus_only {"interceptor_burst_seconds":0.0,"interceptor_windup_seconds":0.0,"interceptor_windups":0,"warden_field_seconds":0.0,"warden_windup_seconds":0.0,"warden_windups":0}
+X2_ROW 5 cautious outcome=controller_camera_rejected t=64.0 hull=90.67 drone_losses=0
+T_PRESSURE 5 cautious {"interceptor_burst_seconds":0.0,"interceptor_windup_seconds":0.0,"interceptor_windups":0,"warden_field_seconds":0.0,"warden_windup_seconds":0.0,"warden_windups":0}
+X2_ROW 5 aggressive outcome=lost t=37.2 hull=0.0 drone_losses=0
+T_PRESSURE 5 aggressive {"interceptor_burst_seconds":0.0,"interceptor_windup_seconds":0.0,"interceptor_windups":0,"warden_field_seconds":0.0,"warden_windup_seconds":0.0,"warden_windups":0}
+X2_ROW 5 drone_heavy outcome=controller_camera_rejected t=63.75 hull=100.0 drone_losses=2
+T_PRESSURE 5 drone_heavy {"interceptor_burst_seconds":0.0,"interceptor_windup_seconds":0.0,"interceptor_windups":0,"warden_field_seconds":0.0,"warden_windup_seconds":0.0,"warden_windups":0}
+X2_ROW 5 quietus_only outcome=lost t=20.15 hull=0.0 drone_losses=0
+T_PRESSURE 5 quietus_only {"interceptor_burst_seconds":0.0,"interceptor_windup_seconds":0.0,"interceptor_windups":0,"warden_field_seconds":0.0,"warden_windup_seconds":0.0,"warden_windups":0}
+X2_ROW 14 cautious outcome=won t=139.92 hull=100.0 drone_losses=0
+T_PRESSURE 14 cautious {"interceptor_burst_seconds":0.0,"interceptor_windup_seconds":0.0,"interceptor_windups":0,"warden_field_seconds":0.0,"warden_windup_seconds":0.0,"warden_windups":0}
+X2_ROW 14 aggressive outcome=won t=93.55 hull=100.0 drone_losses=0
+T_PRESSURE 14 aggressive {"interceptor_burst_seconds":0.0,"interceptor_windup_seconds":0.0,"interceptor_windups":0,"warden_field_seconds":0.0,"warden_windup_seconds":0.0,"warden_windups":0}
+X2_ROW 14 drone_heavy outcome=won t=139.92 hull=100.0 drone_losses=2
+T_PRESSURE 14 drone_heavy {"interceptor_burst_seconds":0.0,"interceptor_windup_seconds":0.0,"interceptor_windups":0,"warden_field_seconds":0.0,"warden_windup_seconds":0.0,"warden_windups":0}
+X2_ROW 14 quietus_only outcome=won t=139.92 hull=100.0 drone_losses=0
+T_PRESSURE 14 quietus_only {"interceptor_burst_seconds":0.0,"interceptor_windup_seconds":0.0,"interceptor_windups":0,"warden_field_seconds":0.0,"warden_windup_seconds":0.0,"warden_windups":0}
+X2_ROW 15 cautious outcome=won t=161.87 hull=6.92 drone_losses=0
+T_PRESSURE 15 cautious {"interceptor_burst_seconds":0.0,"interceptor_windup_seconds":0.0,"interceptor_windups":0,"warden_field_seconds":0.0,"warden_windup_seconds":0.0,"warden_windups":0}
+X2_ROW 15 aggressive outcome=lost t=49.4 hull=0.0 drone_losses=0
+T_PRESSURE 15 aggressive {"interceptor_burst_seconds":0.0,"interceptor_windup_seconds":0.0,"interceptor_windups":0,"warden_field_seconds":0.0,"warden_windup_seconds":0.0,"warden_windups":0}
+X2_ROW 15 drone_heavy outcome=lost t=74.68 hull=0.0 drone_losses=0
+T_PRESSURE 15 drone_heavy {"interceptor_burst_seconds":0.0,"interceptor_windup_seconds":0.0,"interceptor_windups":0,"warden_field_seconds":0.0,"warden_windup_seconds":0.0,"warden_windups":0}
+X2_ROW 15 quietus_only outcome=won t=161.62 hull=19.05 drone_losses=0
+T_PRESSURE 15 quietus_only {"interceptor_burst_seconds":0.0,"interceptor_windup_seconds":0.0,"interceptor_windups":0,"warden_field_seconds":0.0,"warden_windup_seconds":0.0,"warden_windups":0}
+X2_ROW 16 cautious outcome=won t=151.22 hull=100.0 drone_losses=0
+T_PRESSURE 16 cautious {"interceptor_burst_seconds":0.0,"interceptor_windup_seconds":0.0,"interceptor_windups":0,"warden_field_seconds":0.0,"warden_windup_seconds":0.0,"warden_windups":0}
+X2_ROW 16 aggressive outcome=won t=101.87 hull=100.0 drone_losses=0
+T_PRESSURE 16 aggressive {"interceptor_burst_seconds":0.0,"interceptor_windup_seconds":0.0,"interceptor_windups":0,"warden_field_seconds":0.0,"warden_windup_seconds":0.0,"warden_windups":0}
+X2_ROW 16 drone_heavy outcome=controller_route_rejected t=37.95 hull=100.0 drone_losses=0
+T_PRESSURE 16 drone_heavy {"interceptor_burst_seconds":0.0,"interceptor_windup_seconds":0.0,"interceptor_windups":0,"warden_field_seconds":0.0,"warden_windup_seconds":0.0,"warden_windups":0}
+X2_ROW 16 quietus_only outcome=won t=151.22 hull=100.0 drone_losses=0
+T_PRESSURE 16 quietus_only {"interceptor_burst_seconds":0.0,"interceptor_windup_seconds":0.0,"interceptor_windups":0,"warden_field_seconds":0.0,"warden_windup_seconds":0.0,"warden_windups":0}
+X2_ROW 17 cautious outcome=won t=220.78 hull=100.0 drone_losses=0
+T_PRESSURE 17 cautious {"interceptor_burst_seconds":0.0,"interceptor_windup_seconds":0.0,"interceptor_windups":0,"warden_field_seconds":0.0,"warden_windup_seconds":0.0,"warden_windups":0}
+X2_ROW 17 aggressive outcome=won t=144.77 hull=100.0 drone_losses=0
+T_PRESSURE 17 aggressive {"interceptor_burst_seconds":0.0,"interceptor_windup_seconds":0.0,"interceptor_windups":0,"warden_field_seconds":0.0,"warden_windup_seconds":0.0,"warden_windups":0}
+X2_ROW 17 drone_heavy outcome=won t=220.78 hull=100.0 drone_losses=2
+T_PRESSURE 17 drone_heavy {"interceptor_burst_seconds":0.0,"interceptor_windup_seconds":0.0,"interceptor_windups":0,"warden_field_seconds":0.0,"warden_windup_seconds":0.0,"warden_windups":0}
+X2_ROW 17 quietus_only outcome=won t=220.78 hull=100.0 drone_losses=0
+T_PRESSURE 17 quietus_only {"interceptor_burst_seconds":0.0,"interceptor_windup_seconds":0.0,"interceptor_windups":0,"warden_field_seconds":0.0,"warden_windup_seconds":0.0,"warden_windups":0}
+X2_ROW 18 cautious outcome=won t=119.07 hull=100.0 drone_losses=0
+T_PRESSURE 18 cautious {"interceptor_burst_seconds":0.0,"interceptor_windup_seconds":0.0,"interceptor_windups":0,"warden_field_seconds":6.01666666666632,"warden_windup_seconds":2.51666666666672,"warden_windups":1}
+X2_ROW 18 aggressive outcome=won t=75.17 hull=100.0 drone_losses=0
+T_PRESSURE 18 aggressive {"interceptor_burst_seconds":0.0,"interceptor_windup_seconds":0.0,"interceptor_windups":0,"warden_field_seconds":12.0333333333332,"warden_windup_seconds":5.03333333333318,"warden_windups":2}
+X2_ROW 18 drone_heavy outcome=won t=120.07 hull=19.89 drone_losses=0
+T_PRESSURE 18 drone_heavy {"interceptor_burst_seconds":0.0,"interceptor_windup_seconds":0.0,"interceptor_windups":0,"warden_field_seconds":18.0499999999994,"warden_windup_seconds":7.54999999999983,"warden_windups":3}
+X2_ROW 18 quietus_only outcome=won t=119.07 hull=100.0 drone_losses=0
+T_PRESSURE 18 quietus_only {"interceptor_burst_seconds":0.0,"interceptor_windup_seconds":0.0,"interceptor_windups":0,"warden_field_seconds":6.01666666666632,"warden_windup_seconds":2.51666666666672,"warden_windups":1}
+X2_ROW 19 cautious outcome=won t=183.92 hull=74.33 drone_losses=0
+T_PRESSURE 19 cautious {"interceptor_burst_seconds":0.0,"interceptor_windup_seconds":0.0,"interceptor_windups":0,"warden_field_seconds":0.0,"warden_windup_seconds":0.0,"warden_windups":0}
+X2_ROW 19 aggressive outcome=lost t=46.37 hull=0.0 drone_losses=0
+T_PRESSURE 19 aggressive {"interceptor_burst_seconds":2.63333333333318,"interceptor_windup_seconds":4.0333333333331,"interceptor_windups":2,"warden_field_seconds":0.0,"warden_windup_seconds":0.0,"warden_windups":0}
+X2_ROW 19 drone_heavy outcome=lost t=31.35 hull=0.0 drone_losses=1
+T_PRESSURE 19 drone_heavy {"interceptor_burst_seconds":0.0,"interceptor_windup_seconds":1.89999999999989,"interceptor_windups":1,"warden_field_seconds":0.0,"warden_windup_seconds":0.0,"warden_windups":0}
+X2_ROW 19 quietus_only outcome=won t=183.67 hull=86.67 drone_losses=0
+T_PRESSURE 19 quietus_only {"interceptor_burst_seconds":0.0,"interceptor_windup_seconds":0.0,"interceptor_windups":0,"warden_field_seconds":0.0,"warden_windup_seconds":0.0,"warden_windups":0}
+X2_ROW 20 cautious outcome=won t=85.57 hull=45.0 drone_losses=0
+T_PRESSURE 20 cautious {"interceptor_burst_seconds":0.499999999999972,"interceptor_windup_seconds":2.01666666666655,"interceptor_windups":1,"warden_field_seconds":6.01666666666632,"warden_windup_seconds":2.51666666666653,"warden_windups":1}
+X2_ROW 20 aggressive outcome=won t=54.9 hull=90.93 drone_losses=0
+T_PRESSURE 20 aggressive {"interceptor_burst_seconds":3.5166666666667,"interceptor_windup_seconds":4.03333333333343,"interceptor_windups":2,"warden_field_seconds":6.01666666666632,"warden_windup_seconds":2.51666666666652,"warden_windups":1}
+X2_ROW 20 drone_heavy outcome=won t=85.57 hull=53.08 drone_losses=0
+T_PRESSURE 20 drone_heavy {"interceptor_burst_seconds":2.0166666666667,"interceptor_windup_seconds":2.01666666666666,"interceptor_windups":1,"warden_field_seconds":12.0333333333326,"warden_windup_seconds":5.03333333333305,"warden_windups":2}
+X2_ROW 20 quietus_only outcome=won t=85.57 hull=45.0 drone_losses=0
+T_PRESSURE 20 quietus_only {"interceptor_burst_seconds":0.499999999999972,"interceptor_windup_seconds":2.01666666666655,"interceptor_windups":1,"warden_field_seconds":6.01666666666632,"warden_windup_seconds":2.51666666666653,"warden_windups":1}
+X2_ROW 21 cautious outcome=won t=170.38 hull=100.0 drone_losses=0
+T_PRESSURE 21 cautious {"interceptor_burst_seconds":0.0,"interceptor_windup_seconds":0.0,"interceptor_windups":0,"warden_field_seconds":0.0,"warden_windup_seconds":0.0,"warden_windups":0}
+X2_ROW 21 aggressive outcome=won t=111.28 hull=100.0 drone_losses=0
+T_PRESSURE 21 aggressive {"interceptor_burst_seconds":0.0,"interceptor_windup_seconds":0.0,"interceptor_windups":0,"warden_field_seconds":0.0,"warden_windup_seconds":0.0,"warden_windups":0}
+X2_ROW 21 drone_heavy outcome=lost t=125.57 hull=0.0 drone_losses=1
+T_PRESSURE 21 drone_heavy {"interceptor_burst_seconds":0.0,"interceptor_windup_seconds":0.0,"interceptor_windups":0,"warden_field_seconds":0.0,"warden_windup_seconds":0.0,"warden_windups":0}
+X2_ROW 21 quietus_only outcome=won t=170.38 hull=100.0 drone_losses=0
+T_PRESSURE 21 quietus_only {"interceptor_burst_seconds":0.0,"interceptor_windup_seconds":0.0,"interceptor_windups":0,"warden_field_seconds":0.0,"warden_windup_seconds":0.0,"warden_windups":0}
+X2_ROW 22 cautious outcome=lost t=116.6 hull=100.0 drone_losses=0
+T_PRESSURE 22 cautious {"interceptor_burst_seconds":0.0,"interceptor_windup_seconds":0.0,"interceptor_windups":0,"warden_field_seconds":0.0,"warden_windup_seconds":0.0,"warden_windups":0}
+X2_ROW 22 aggressive outcome=lost t=106.58 hull=100.0 drone_losses=0
+T_PRESSURE 22 aggressive {"interceptor_burst_seconds":3.29999999999981,"interceptor_windup_seconds":4.03333333333319,"interceptor_windups":2,"warden_field_seconds":0.0,"warden_windup_seconds":0.0,"warden_windups":0}
+X2_ROW 22 drone_heavy outcome=lost t=111.58 hull=35.74 drone_losses=0
+T_PRESSURE 22 drone_heavy {"interceptor_burst_seconds":2.98333333333317,"interceptor_windup_seconds":4.0333333333331,"interceptor_windups":2,"warden_field_seconds":0.0,"warden_windup_seconds":0.0,"warden_windups":0}
+X2_ROW 22 quietus_only outcome=lost t=116.6 hull=100.0 drone_losses=0
+T_PRESSURE 22 quietus_only {"interceptor_burst_seconds":0.0,"interceptor_windup_seconds":0.0,"interceptor_windups":0,"warden_field_seconds":0.0,"warden_windup_seconds":0.0,"warden_windups":0}
+X2_ROW 23 cautious outcome=controller_work_rejected t=43.0 hull=100.0 drone_losses=0
+T_PRESSURE 23 cautious {"interceptor_burst_seconds":0.0,"interceptor_windup_seconds":0.0,"interceptor_windups":0,"warden_field_seconds":0.0,"warden_windup_seconds":0.0,"warden_windups":0}
+X2_ROW 23 aggressive outcome=controller_work_rejected t=30.0 hull=100.0 drone_losses=0
+T_PRESSURE 23 aggressive {"interceptor_burst_seconds":0.0,"interceptor_windup_seconds":0.0,"interceptor_windups":0,"warden_field_seconds":0.0,"warden_windup_seconds":0.0,"warden_windups":0}
+X2_ROW 23 drone_heavy outcome=controller_work_rejected t=43.25 hull=82.63 drone_losses=0
+T_PRESSURE 23 drone_heavy {"interceptor_burst_seconds":0.0,"interceptor_windup_seconds":0.0,"interceptor_windups":0,"warden_field_seconds":0.0,"warden_windup_seconds":0.0,"warden_windups":0}
+X2_ROW 23 quietus_only outcome=controller_work_rejected t=43.0 hull=100.0 drone_losses=0
+T_PRESSURE 23 quietus_only {"interceptor_burst_seconds":0.0,"interceptor_windup_seconds":0.0,"interceptor_windups":0,"warden_field_seconds":0.0,"warden_windup_seconds":0.0,"warden_windups":0}
+X2_ROW 24 cautious outcome=won t=305.47 hull=100.0 drone_losses=0
+T_PRESSURE 24 cautious {"interceptor_burst_seconds":0.0,"interceptor_windup_seconds":0.0,"interceptor_windups":0,"warden_field_seconds":0.0,"warden_windup_seconds":0.0,"warden_windups":0}
+X2_ROW 24 aggressive outcome=won t=252.52 hull=93.87 drone_losses=0
+T_PRESSURE 24 aggressive {"interceptor_burst_seconds":5.60000000000139,"interceptor_windup_seconds":6.05000000000138,"interceptor_windups":3,"warden_field_seconds":12.0333333333389,"warden_windup_seconds":5.03333333333519,"warden_windups":2}
+X2_ROW 24 drone_heavy outcome=lost t=99.68 hull=0.0 drone_losses=0
+T_PRESSURE 24 drone_heavy {"interceptor_burst_seconds":2.51666666666652,"interceptor_windup_seconds":4.03333333333311,"interceptor_windups":2,"warden_field_seconds":0.0,"warden_windup_seconds":0.0,"warden_windups":0}
+X2_ROW 24 quietus_only outcome=won t=305.47 hull=100.0 drone_losses=0
+T_PRESSURE 24 quietus_only {"interceptor_burst_seconds":0.0,"interceptor_windup_seconds":0.0,"interceptor_windups":0,"warden_field_seconds":0.0,"warden_windup_seconds":0.0,"warden_windups":0}
+X2_ROW 25 cautious outcome=controller_incomplete t=900.0 hull=88.65 drone_losses=0
+T_PRESSURE 25 cautious {"interceptor_burst_seconds":0.0,"interceptor_windup_seconds":0.0,"interceptor_windups":0,"warden_field_seconds":0.0,"warden_windup_seconds":0.0,"warden_windups":0}
+BOUNDED_BUDGET_TIMEOUT 25 cautious actual_elapsed=899.99999999951
+X2_ROW 25 aggressive outcome=controller_incomplete t=900.0 hull=80.79 drone_losses=0
+T_PRESSURE 25 aggressive {"interceptor_burst_seconds":0.0,"interceptor_windup_seconds":0.0,"interceptor_windups":0,"warden_field_seconds":0.0,"warden_windup_seconds":0.0,"warden_windups":0}
+BOUNDED_BUDGET_TIMEOUT 25 aggressive actual_elapsed=899.99999999951
+X2_ROW 25 drone_heavy outcome=controller_incomplete t=900.0 hull=14.92 drone_losses=0
+T_PRESSURE 25 drone_heavy {"interceptor_burst_seconds":0.0,"interceptor_windup_seconds":0.0,"interceptor_windups":0,"warden_field_seconds":0.0,"warden_windup_seconds":0.0,"warden_windups":0}
+BOUNDED_BUDGET_TIMEOUT 25 drone_heavy actual_elapsed=899.99999999951
+X2_ROW 25 quietus_only outcome=controller_incomplete t=900.0 hull=100.0 drone_losses=0
+T_PRESSURE 25 quietus_only {"interceptor_burst_seconds":0.0,"interceptor_windup_seconds":0.0,"interceptor_windups":0,"warden_field_seconds":0.0,"warden_windup_seconds":0.0,"warden_windups":0}
+BOUNDED_BUDGET_TIMEOUT 25 quietus_only actual_elapsed=899.99999999951
+X2_ROW 26 cautious outcome=controller_route_rejected t=48.75 hull=88.56 drone_losses=0
+T_PRESSURE 26 cautious {"interceptor_burst_seconds":0.0,"interceptor_windup_seconds":0.0,"interceptor_windups":0,"warden_field_seconds":0.0,"warden_windup_seconds":0.0,"warden_windups":0}
+X2_ROW 26 aggressive outcome=controller_route_rejected t=28.0 hull=80.59 drone_losses=0
+T_PRESSURE 26 aggressive {"interceptor_burst_seconds":0.0,"interceptor_windup_seconds":0.0,"interceptor_windups":0,"warden_field_seconds":0.0,"warden_windup_seconds":0.0,"warden_windups":0}
+X2_ROW 26 drone_heavy outcome=controller_route_rejected t=48.75 hull=86.58 drone_losses=0
+T_PRESSURE 26 drone_heavy {"interceptor_burst_seconds":0.0,"interceptor_windup_seconds":0.0,"interceptor_windups":0,"warden_field_seconds":0.0,"warden_windup_seconds":0.0,"warden_windups":0}
+X2_ROW 26 quietus_only outcome=controller_route_rejected t=48.5 hull=100.0 drone_losses=0
+T_PRESSURE 26 quietus_only {"interceptor_burst_seconds":0.0,"interceptor_windup_seconds":0.0,"interceptor_windups":0,"warden_field_seconds":0.0,"warden_windup_seconds":0.0,"warden_windups":0}
+X2_ROW 27 cautious outcome=controller_work_rejected t=76.25 hull=95.24 drone_losses=0
+T_PRESSURE 27 cautious {"interceptor_burst_seconds":0.0,"interceptor_windup_seconds":0.0,"interceptor_windups":0,"warden_field_seconds":0.0,"warden_windup_seconds":0.0,"warden_windups":0}
+X2_ROW 27 aggressive outcome=controller_work_rejected t=69.25 hull=95.23 drone_losses=0
+T_PRESSURE 27 aggressive {"interceptor_burst_seconds":1.99999999999989,"interceptor_windup_seconds":2.01666666666655,"interceptor_windups":1,"warden_field_seconds":0.0,"warden_windup_seconds":0.0,"warden_windups":0}
+X2_ROW 27 drone_heavy outcome=controller_work_rejected t=76.75 hull=30.81 drone_losses=0
+T_PRESSURE 27 drone_heavy {"interceptor_burst_seconds":2.25000000000009,"interceptor_windup_seconds":4.03333333333323,"interceptor_windups":2,"warden_field_seconds":0.0,"warden_windup_seconds":0.0,"warden_windups":0}
+X2_ROW 27 quietus_only outcome=controller_work_rejected t=76.25 hull=95.24 drone_losses=0
+T_PRESSURE 27 quietus_only {"interceptor_burst_seconds":0.0,"interceptor_windup_seconds":0.0,"interceptor_windups":0,"warden_field_seconds":0.0,"warden_windup_seconds":0.0,"warden_windups":0}
+X2_ROW 28 cautious outcome=controller_work_rejected t=59.25 hull=95.89 drone_losses=0
+T_PRESSURE 28 cautious {"interceptor_burst_seconds":0.0,"interceptor_windup_seconds":0.0,"interceptor_windups":0,"warden_field_seconds":0.0,"warden_windup_seconds":0.0,"warden_windups":0}
+X2_ROW 28 aggressive outcome=controller_work_rejected t=43.25 hull=95.9 drone_losses=0
+T_PRESSURE 28 aggressive {"interceptor_burst_seconds":0.0,"interceptor_windup_seconds":0.0,"interceptor_windups":0,"warden_field_seconds":0.0,"warden_windup_seconds":0.0,"warden_windups":0}
+X2_ROW 28 drone_heavy outcome=controller_work_rejected t=59.75 hull=42.22 drone_losses=0
+T_PRESSURE 28 drone_heavy {"interceptor_burst_seconds":2.71666666666651,"interceptor_windup_seconds":4.0333333333331,"interceptor_windups":2,"warden_field_seconds":0.0,"warden_windup_seconds":0.0,"warden_windups":0}
+X2_ROW 28 quietus_only outcome=controller_work_rejected t=59.25 hull=95.89 drone_losses=0
+T_PRESSURE 28 quietus_only {"interceptor_burst_seconds":0.0,"interceptor_windup_seconds":0.0,"interceptor_windups":0,"warden_field_seconds":0.0,"warden_windup_seconds":0.0,"warden_windups":0}
+X2_ROW 29 cautious outcome=controller_work_rejected t=119.0 hull=100.0 drone_losses=0
+T_PRESSURE 29 cautious {"interceptor_burst_seconds":0.0,"interceptor_windup_seconds":0.0,"interceptor_windups":0,"warden_field_seconds":0.0,"warden_windup_seconds":0.0,"warden_windups":0}
+X2_ROW 29 aggressive outcome=controller_work_rejected t=70.25 hull=100.0 drone_losses=0
+T_PRESSURE 29 aggressive {"interceptor_burst_seconds":0.0,"interceptor_windup_seconds":0.0,"interceptor_windups":0,"warden_field_seconds":0.0,"warden_windup_seconds":0.0,"warden_windups":0}
+X2_ROW 29 drone_heavy outcome=controller_work_rejected t=119.5 hull=70.31 drone_losses=0
+T_PRESSURE 29 drone_heavy {"interceptor_burst_seconds":0.0,"interceptor_windup_seconds":0.0,"interceptor_windups":0,"warden_field_seconds":0.0,"warden_windup_seconds":0.0,"warden_windups":0}
+X2_ROW 29 quietus_only outcome=controller_work_rejected t=119.0 hull=100.0 drone_losses=0
+T_PRESSURE 29 quietus_only {"interceptor_burst_seconds":0.0,"interceptor_windup_seconds":0.0,"interceptor_windups":0,"warden_field_seconds":0.0,"warden_windup_seconds":0.0,"warden_windups":0}

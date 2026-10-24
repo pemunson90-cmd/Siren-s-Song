@@ -1,0 +1,183 @@
+{
+	"accepted": {
+		"decoy": 1,
+		"drone_drive": 2,
+		"emp": 2,
+		"ping": 2,
+		"recon": 1,
+		"route": 5,
+		"silent": 2
+	},
+	"budget_seconds": 900.0,
+	"commands": [
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Open visual profile · drone thrust target 96m/s",
+			"order": "silent",
+			"time": 0.0,
+			"unit": 1
+		},
+		{
+			"accepted": true,
+			"args": "{ \"mode\": \"transit\" }",
+			"message": "DRONE A · TRANSIT96 · visual profile unchanged",
+			"order": "drone_drive",
+			"time": 0.0,
+			"unit": 1
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Open visual profile · drone thrust target 96m/s",
+			"order": "silent",
+			"time": 0.0,
+			"unit": 2
+		},
+		{
+			"accepted": true,
+			"args": "{ \"mode\": \"transit\" }",
+			"message": "DRONE B · TRANSIT96 · visual profile unchanged",
+			"order": "drone_drive",
+			"time": 0.0,
+			"unit": 2
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (1600.0, 1700.0) }",
+			"message": "QUIETUS · replaced route",
+			"order": "route",
+			"time": 0.0,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (1600.0, 1620.0) }",
+			"message": "DRONE A · replaced route",
+			"order": "route",
+			"time": 0.0,
+			"unit": 1
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (1600.0, 1780.0) }",
+			"message": "DRONE B · replaced route",
+			"order": "route",
+			"time": 0.0,
+			"unit": 2
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Pulse away · wait for physical echoes · emission audible",
+			"order": "ping",
+			"time": 0.0,
+			"unit": 1
+		},
+		{
+			"accepted": false,
+			"args": "{  }",
+			"message": "DRONE B selected · next tap replaces route",
+			"order": "ping",
+			"time": 0.0,
+			"unit": 2
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Disruption pulse · 12 second recovery window",
+			"order": "emp",
+			"time": 4.04999999999999,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Disruption pulse · 12 second recovery window",
+			"order": "emp",
+			"time": 12.1000000000002,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (1600.0, 1200.0) }",
+			"message": "QUIETUS · replaced route",
+			"order": "route",
+			"time": 21.75,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (1600.0, 1280.0) }",
+			"message": "DRONE B · replaced route",
+			"order": "route",
+			"time": 21.75,
+			"unit": 2
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Pulse away · wait for physical echoes · emission audible",
+			"order": "ping",
+			"time": 25.2499999999998,
+			"unit": 2
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Local 560m survey · 8 seconds",
+			"order": "recon",
+			"time": 25.2499999999998,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (1544.083, 1647.439) }",
+			"message": "Decoy launched · 15s transmission",
+			"order": "decoy",
+			"time": 27.2833333333331,
+			"unit": 0
+		}
+	],
+	"drone_losses": 1,
+	"hull": 0.0,
+	"industrial_pressure": {
+		"interceptor_burst_seconds": 0.0,
+		"interceptor_windup_seconds": 1.89999999999989,
+		"interceptor_windups": 1,
+		"warden_field_seconds": 0.0,
+		"warden_windup_seconds": 0.0,
+		"warden_windups": 0
+	},
+	"load_alive": null,
+	"load_hull": null,
+	"message": "VAPORIZED · Siren beam struck Quietus. Your previous campaign records remain safe.",
+	"operation": 19,
+	"outcome": "lost",
+	"oxygen": 115.645833333343,
+	"peak_lock": 4.01666666666666,
+	"policy": "drone_heavy",
+	"quietus_beam_seconds": 0.0166666666666667,
+	"quietus_locked_seconds": 7.38333333333331,
+	"quietus_lost": true,
+	"quietus_position": "(1238.477, 1605.635)",
+	"route_knowledge": "source-known current GlassJourneys.COURSES for 14-21; authored Iron Choir paths for 22-29; opening direct authored objective coordinates; operation-data dimensions",
+	"seconds": 31.3499999999995,
+	"snapshot_valid": true,
+	"tools_remaining": {
+		"decoy": 2,
+		"emp": 0,
+		"knock": 2,
+		"recon": 1
+	},
+	"tools_spent": {
+		"decoy": 1,
+		"emp": 2,
+		"knock": 0,
+		"recon": 1
+	},
+	"world_size": [
+		3200.0,
+		2800.0
+	]
+}

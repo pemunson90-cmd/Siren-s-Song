@@ -1,0 +1,45 @@
+ERROR: Invalid polygon data, triangulation failed.
+   at: canvas_item_add_polygon (servers/rendering/renderer_canvas_cull.cpp:1727)
+   GDScript backtrace (most recent call first):
+       [0] _paint (res://src/presentation/landmarks/landmark_view.gd:69)
+       [1] _face (res://src/presentation/landmarks/landmark_view.gd:84)
+       [2] draw (res://src/presentation/landmarks/landmark_view.gd:63)
+       [3] _draw_views (res://src/presentation/feature_views.gd:54)
+       [4] draw_ground (res://src/presentation/feature_views.gd:50)
+       [5] _draw (res://src/presentation/ocean_view.gd:241)
+ERROR: Invalid polygon data, triangulation failed.
+   at: canvas_item_add_polygon (servers/rendering/renderer_canvas_cull.cpp:1727)
+   GDScript backtrace (most recent call first):
+       [0] _paint (res://src/presentation/landmarks/landmark_view.gd:69)
+       [1] _face (res://src/presentation/landmarks/landmark_view.gd:84)
+       [2] draw (res://src/presentation/landmarks/landmark_view.gd:63)
+       [3] _draw_views (res://src/presentation/feature_views.gd:54)
+       [4] draw_ground (res://src/presentation/feature_views.gd:50)
+       [5] _draw (res://src/presentation/ocean_view.gd:241)
+ERROR: Invalid polygon data, triangulation failed.
+   at: canvas_item_add_polygon (servers/rendering/renderer_canvas_cull.cpp:1727)
+   GDScript backtrace (most recent call first):
+       [0] _paint (res://src/presentation/landmarks/landmark_view.gd:69)
+       [1] _face (res://src/presentation/landmarks/landmark_view.gd:84)
+       [2] draw (res://src/presentation/landmarks/landmark_view.gd:63)
+       [3] _draw_views (res://src/presentation/feature_views.gd:54)
+       [4] draw_ground (res://src/presentation/feature_views.gd:50)
+       [5] _draw (res://src/presentation/ocean_view.gd:241)
+ERROR: Invalid polygon data, triangulation failed.
+   at: canvas_item_add_polygon (servers/rendering/renderer_canvas_cull.cpp:1727)
+   GDScript backtrace (most recent call first):
+       [0] _paint (res://src/presentation/landmarks/landmark_view.gd:69)
+       [1] _face (res://src/presentation/landmarks/landmark_view.gd:84)
+       [2] draw (res://src/presentation/landmarks/landmark_view.gd:63)
+       [3] _draw_views (res://src/presentation/feature_views.gd:54)
+       [4] draw_ground (res://src/presentation/feature_views.gd:50)
+       [5] _draw (res://src/presentation/ocean_view.gd:241)
+ERROR: Invalid polygon data, triangulation failed.
+   at: canvas_item_add_polygon (servers/rendering/renderer_canvas_cull.cpp:1727)
+   GDScript backtrace (most recent call first):
+       [0] _paint (res://src/presentation/landmarks/landmark_view.gd:69)
+       [1] _face (res://src/presentation/landmarks/landmark_view.gd:84)
+       [2] draw (res://src/presentation/landmarks/landmark_view.gd:63)
+       [3] _draw_views (res://src/presentation/feature_views.gd:54)
+       [4] draw_ground (res://src/presentation/feature_views.gd:50)
+       [5] _draw (res://src/presentation/ocean_view.gd:241)

@@ -1,0 +1,90 @@
+{
+	"accepted": {
+		"choir_action": 1,
+		"route": 3
+	},
+	"budget_seconds": 900.0,
+	"commands": [
+		{
+			"accepted": true,
+			"args": "{ \"point\": (750.0, 1790.0) }",
+			"message": "QUIETUS · replaced route",
+			"order": "route",
+			"time": 0.0,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"action\": \"attach\" }",
+			"message": "Physical tow attached · release before depth change",
+			"order": "choir_action",
+			"time": 18.0000000000003,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (750.0, 700.0) }",
+			"message": "QUIETUS · replaced route",
+			"order": "route",
+			"time": 18.0000000000003,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (1250.0, 700.0) }",
+			"message": "QUIETUS · replaced route",
+			"order": "route",
+			"time": 57.749999999998,
+			"unit": 0
+		},
+		{
+			"accepted": false,
+			"args": "{ \"action\": \"cradle\" }",
+			"message": "Finish LOCK_A first",
+			"order": "choir_action",
+			"time": 76.249999999997,
+			"unit": 0
+		}
+	],
+	"drone_losses": 0,
+	"hull": 95.2402428627014,
+	"industrial_pressure": {
+		"interceptor_burst_seconds": 0.0,
+		"interceptor_windup_seconds": 0.0,
+		"interceptor_windups": 0,
+		"warden_field_seconds": 0.0,
+		"warden_windup_seconds": 0.0,
+		"warden_windups": 0
+	},
+	"load_alive": true,
+	"load_hull": 100.0,
+	"message": "Finish LOCK_A first",
+	"operation": 27,
+	"outcome": "controller_work_rejected",
+	"oxygen": 112.375000000007,
+	"peak_lock": 0.0,
+	"policy": "cautious",
+	"quietus_beam_seconds": 0.0,
+	"quietus_locked_seconds": 0.0,
+	"quietus_lost": false,
+	"quietus_position": "(1242.762, 699.952)",
+	"route_knowledge": "source-known current GlassJourneys.COURSES for 14-21; authored Iron Choir paths for 22-29; opening direct authored objective coordinates; operation-data dimensions",
+	"seconds": 76.249999999997,
+	"snapshot_valid": true,
+	"tools_remaining": {
+		"decoy": 3,
+		"emp": 2,
+		"knock": 2,
+		"recon": 2
+	},
+	"tools_spent": {
+		"decoy": 0,
+		"emp": 0,
+		"knock": 0,
+		"recon": 0
+	},
+	"world_size": [
+		3000.0,
+		2720.0
+	]
+}

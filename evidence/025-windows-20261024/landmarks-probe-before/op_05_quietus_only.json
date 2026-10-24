@@ -1,0 +1,57 @@
+{
+	"accepted": {
+		"route": 1
+	},
+	"budget_seconds": 900.0,
+	"commands": [
+		{
+			"accepted": true,
+			"args": "{ \"point\": (1210.0, 320.0) }",
+			"message": "QUIETUS · replaced route",
+			"order": "route",
+			"time": 0.0,
+			"unit": 0
+		}
+	],
+	"drone_losses": 0,
+	"hull": 0.0,
+	"industrial_pressure": {
+		"interceptor_burst_seconds": 0.0,
+		"interceptor_windup_seconds": 0.0,
+		"interceptor_windups": 0,
+		"warden_field_seconds": 0.0,
+		"warden_windup_seconds": 0.0,
+		"warden_windups": 0
+	},
+	"load_alive": null,
+	"load_hull": null,
+	"message": "VAPORIZED · Siren beam struck Quietus. Your previous campaign records remain safe.",
+	"operation": 5,
+	"outcome": "lost",
+	"oxygen": 113.283333333328,
+	"peak_lock": 4.01666666666666,
+	"policy": "quietus_only",
+	"quietus_beam_seconds": 0.0166666666666667,
+	"quietus_locked_seconds": 4.01666666666666,
+	"quietus_lost": true,
+	"quietus_position": "(904.6434, 493.3143)",
+	"route_knowledge": "source-known current GlassJourneys.COURSES for 14-21; authored Iron Choir paths for 22-29; opening direct authored objective coordinates; operation-data dimensions",
+	"seconds": 20.1500000000001,
+	"snapshot_valid": true,
+	"tools_remaining": {
+		"decoy": 3,
+		"emp": 2,
+		"knock": 2,
+		"recon": 2
+	},
+	"tools_spent": {
+		"decoy": 0,
+		"emp": 0,
+		"knock": 0,
+		"recon": 0
+	},
+	"world_size": [
+		1600.0,
+		960.0
+	]
+}

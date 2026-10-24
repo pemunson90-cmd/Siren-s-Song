@@ -1,0 +1,269 @@
+{
+	"accepted": {
+		"choir_action": 2,
+		"ping": 13,
+		"recon": 2,
+		"route": 9,
+		"silent": 1
+	},
+	"budget_seconds": 900.0,
+	"commands": [
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Cruise thrust · increased noise",
+			"order": "silent",
+			"time": 0.0,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (750.0, 2140.0) }",
+			"message": "QUIETUS · replaced route",
+			"order": "route",
+			"time": 0.0,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Pulse away · wait for physical echoes · emission audible",
+			"order": "ping",
+			"time": 0.0,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Local 560m survey · 8 seconds",
+			"order": "recon",
+			"time": 1.0,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"action\": \"attach\" }",
+			"message": "Physical tow attached · release before depth change",
+			"order": "choir_action",
+			"time": 8.24999999999999,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (750.0, 2450.0) }",
+			"message": "QUIETUS · replaced route",
+			"order": "route",
+			"time": 8.24999999999999,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (2750.0, 2450.0) }",
+			"message": "QUIETUS · replaced route",
+			"order": "route",
+			"time": 20.0000000000001,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Pulse away · wait for physical echoes · emission audible",
+			"order": "ping",
+			"time": 20.1666666666668,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Pulse away · wait for physical echoes · emission audible",
+			"order": "ping",
+			"time": 40.499999999999,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Pulse away · wait for physical echoes · emission audible",
+			"order": "ping",
+			"time": 60.8333333333312,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Pulse away · wait for physical echoes · emission audible",
+			"order": "ping",
+			"time": 80.1499999999967,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Local 560m survey · 8 seconds",
+			"order": "recon",
+			"time": 90.3166666666628,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (2750.0, 500.0) }",
+			"message": "QUIETUS · replaced route",
+			"order": "route",
+			"time": 91.9999999999961,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Pulse away · wait for physical echoes · emission audible",
+			"order": "ping",
+			"time": 100.483333333329,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Pulse away · wait for physical echoes · emission audible",
+			"order": "ping",
+			"time": 120.816666666661,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Pulse away · wait for physical echoes · emission audible",
+			"order": "ping",
+			"time": 140.933333333338,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Pulse away · wait for physical echoes · emission audible",
+			"order": "ping",
+			"time": 160.933333333354,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (2450.0, 500.0) }",
+			"message": "QUIETUS · replaced route",
+			"order": "route",
+			"time": 162.250000000021,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"action\": \"bypass\" }",
+			"message": "LOCAL BYPASS · 8s audible work",
+			"order": "choir_action",
+			"time": 173.50000000003,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Pulse away · wait for physical echoes · emission audible",
+			"order": "ping",
+			"time": 180.933333333369,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (2750.0, 500.0) }",
+			"message": "QUIETUS · replaced route",
+			"order": "route",
+			"time": 181.750000000037,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (2750.0, 2450.0) }",
+			"message": "QUIETUS · replaced route",
+			"order": "route",
+			"time": 188.750000000042,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Pulse away · wait for physical echoes · emission audible",
+			"order": "ping",
+			"time": 200.933333333385,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (300.0, 2450.0) }",
+			"message": "QUIETUS · replaced route",
+			"order": "route",
+			"time": 216.000000000064,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Pulse away · wait for physical echoes · emission audible",
+			"order": "ping",
+			"time": 220.933333333401,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Pulse away · wait for physical echoes · emission audible",
+			"order": "ping",
+			"time": 240.933333333417,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (300.0, 2350.0) }",
+			"message": "QUIETUS · replaced route",
+			"order": "route",
+			"time": 249.500000000091,
+			"unit": 0
+		}
+	],
+	"drone_losses": 0,
+	"hull": 93.8666666666664,
+	"industrial_pressure": {
+		"interceptor_burst_seconds": 5.60000000000139,
+		"interceptor_windup_seconds": 6.05000000000138,
+		"interceptor_windups": 3,
+		"warden_field_seconds": 12.0333333333389,
+		"warden_windup_seconds": 5.03333333333519,
+		"warden_windups": 2
+	},
+	"load_alive": true,
+	"load_hull": 62.7999999999992,
+	"message": "Archive recovered / CHOIR SOUTH RECOVERY",
+	"operation": 24,
+	"outcome": "won",
+	"oxygen": 89.5483333333562,
+	"peak_lock": 0.0,
+	"policy": "aggressive",
+	"quietus_beam_seconds": 0.0,
+	"quietus_locked_seconds": 0.0,
+	"quietus_lost": false,
+	"quietus_position": "(298.1952, 2357.573)",
+	"route_knowledge": "source-known current GlassJourneys.COURSES for 14-21; authored Iron Choir paths for 22-29; opening direct authored objective coordinates; operation-data dimensions",
+	"seconds": 252.51666666676,
+	"snapshot_valid": true,
+	"tools_remaining": {
+		"decoy": 3,
+		"emp": 2,
+		"knock": 2,
+		"recon": 0
+	},
+	"tools_spent": {
+		"decoy": 0,
+		"emp": 0,
+		"knock": 0,
+		"recon": 2
+	},
+	"world_size": [
+		3000.0,
+		2720.0
+	]
+}

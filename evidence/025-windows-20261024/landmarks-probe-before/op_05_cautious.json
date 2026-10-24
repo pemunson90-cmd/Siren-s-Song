@@ -1,0 +1,115 @@
+{
+	"accepted": {
+		"camera": 2,
+		"emp": 2,
+		"route": 3
+	},
+	"budget_seconds": 900.0,
+	"commands": [
+		{
+			"accepted": true,
+			"args": "{ \"point\": (1210.0, 320.0) }",
+			"message": "QUIETUS · replaced route",
+			"order": "route",
+			"time": 0.0,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Disruption pulse · 12 second recovery window",
+			"order": "emp",
+			"time": 18.1333333333336,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Camera exposure · hold 4 seconds",
+			"order": "camera",
+			"time": 28.9999999999996,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (1400.0, 780.0) }",
+			"message": "QUIETUS · replaced route",
+			"order": "route",
+			"time": 33.2499999999994,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Disruption pulse · 12 second recovery window",
+			"order": "emp",
+			"time": 36.4333333333325,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Camera exposure · hold 4 seconds",
+			"order": "camera",
+			"time": 46.2499999999987,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (900.0, 860.0) }",
+			"message": "QUIETUS · replaced route",
+			"order": "route",
+			"time": 50.4999999999984,
+			"unit": 0
+		},
+		{
+			"accepted": false,
+			"args": "{  }",
+			"message": "Need both observations: TRANSMITTER CROWN + OUTBOUND WAKES.",
+			"order": "camera",
+			"time": 63.9999999999976,
+			"unit": 0
+		}
+	],
+	"drone_losses": 0,
+	"hull": 90.6678335189819,
+	"industrial_pressure": {
+		"interceptor_burst_seconds": 0.0,
+		"interceptor_windup_seconds": 0.0,
+		"interceptor_windups": 0,
+		"warden_field_seconds": 0.0,
+		"warden_windup_seconds": 0.0,
+		"warden_windups": 0
+	},
+	"load_alive": null,
+	"load_hull": null,
+	"message": "Need both observations: TRANSMITTER CROWN + OUTBOUND WAKES.",
+	"operation": 5,
+	"outcome": "controller_camera_rejected",
+	"oxygen": 98.6666666666497,
+	"peak_lock": 2.0,
+	"policy": "cautious",
+	"quietus_beam_seconds": 0.0,
+	"quietus_locked_seconds": 3.68333333333333,
+	"quietus_lost": false,
+	"quietus_position": "(907.2116, 859.2006)",
+	"route_knowledge": "source-known current GlassJourneys.COURSES for 14-21; authored Iron Choir paths for 22-29; opening direct authored objective coordinates; operation-data dimensions",
+	"seconds": 63.9999999999976,
+	"snapshot_valid": true,
+	"tools_remaining": {
+		"decoy": 3,
+		"emp": 0,
+		"knock": 2,
+		"recon": 2
+	},
+	"tools_spent": {
+		"decoy": 0,
+		"emp": 2,
+		"knock": 0,
+		"recon": 0
+	},
+	"world_size": [
+		1600.0,
+		960.0
+	]
+}

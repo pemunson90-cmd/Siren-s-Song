@@ -1,0 +1,159 @@
+{
+	"accepted": {
+		"camera": 3,
+		"emp": 1,
+		"knock": 1,
+		"ping": 3,
+		"recon": 1,
+		"route": 3,
+		"silent": 1
+	},
+	"budget_seconds": 900.0,
+	"commands": [
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Cruise thrust · increased noise",
+			"order": "silent",
+			"time": 0.0,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (1090.0, 440.0) }",
+			"message": "QUIETUS · replaced route",
+			"order": "route",
+			"time": 0.0,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Pulse away · wait for physical echoes · emission audible",
+			"order": "ping",
+			"time": 0.0,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Wide survey uplink · 8 seconds",
+			"order": "recon",
+			"time": 1.0,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Disruption pulse · 12 second recovery window",
+			"order": "emp",
+			"time": 13.1000000000002,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Camera exposure · hold 4 seconds",
+			"order": "camera",
+			"time": 15.7500000000004,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (1320.0, 850.0) }",
+			"message": "QUIETUS · replaced route",
+			"order": "route",
+			"time": 20.0000000000001,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Pulse away · wait for physical echoes · emission audible",
+			"order": "ping",
+			"time": 20.1666666666668,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Camera exposure · hold 34 seconds",
+			"order": "camera",
+			"time": 31.7499999999995,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (1480.0, 870.0) }",
+			"message": "QUIETUS · replaced route",
+			"order": "route",
+			"time": 35.9999999999992,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Camera exposure · hold 34 seconds",
+			"order": "camera",
+			"time": 39.999999999999,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Pulse away · wait for physical echoes · emission audible",
+			"order": "ping",
+			"time": 40.499999999999,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"target\": 1 }",
+			"message": "Torpedo launched at S2 · pin on impact · emission audible",
+			"order": "knock",
+			"time": 41.5166666666656,
+			"unit": 0
+		}
+	],
+	"drone_losses": 0,
+	"hull": 0.0,
+	"industrial_pressure": {
+		"interceptor_burst_seconds": 0.0,
+		"interceptor_windup_seconds": 0.0,
+		"interceptor_windups": 0,
+		"warden_field_seconds": 0.0,
+		"warden_windup_seconds": 0.0,
+		"warden_windups": 0
+	},
+	"load_alive": null,
+	"load_hull": null,
+	"message": "VAPORIZED · Siren beam struck Quietus. Your previous campaign records remain safe.",
+	"operation": 3,
+	"outcome": "lost",
+	"oxygen": 94.0592592592775,
+	"peak_lock": 4.01666666666666,
+	"policy": "aggressive",
+	"quietus_beam_seconds": 0.0166666666666667,
+	"quietus_locked_seconds": 5.09999999999999,
+	"quietus_lost": true,
+	"quietus_position": "(1472.815, 869.0917)",
+	"route_knowledge": "source-known current GlassJourneys.COURSES for 14-21; authored Iron Choir paths for 22-29; opening direct authored objective coordinates; operation-data dimensions",
+	"seconds": 44.5333333333321,
+	"snapshot_valid": true,
+	"tools_remaining": {
+		"decoy": 3,
+		"emp": 1,
+		"knock": 1,
+		"recon": 1
+	},
+	"tools_spent": {
+		"decoy": 0,
+		"emp": 1,
+		"knock": 1,
+		"recon": 1
+	},
+	"world_size": [
+		1600.0,
+		960.0
+	]
+}

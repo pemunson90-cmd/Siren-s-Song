@@ -1,0 +1,65 @@
+{
+	"accepted": {
+		"route": 1
+	},
+	"budget_seconds": 900.0,
+	"commands": [
+		{
+			"accepted": true,
+			"args": "{ \"point\": (350.0, 350.0) }",
+			"message": "QUIETUS · replaced route",
+			"order": "route",
+			"time": 0.0,
+			"unit": 0
+		},
+		{
+			"accepted": false,
+			"args": "{ \"point\": (1450.0, 465.0) }",
+			"message": "Rock or unsafe clearance. Choose open water.",
+			"order": "route",
+			"time": 48.7499999999985,
+			"unit": 0
+		}
+	],
+	"drone_losses": 0,
+	"hull": 88.5644598007202,
+	"industrial_pressure": {
+		"interceptor_burst_seconds": 0.0,
+		"interceptor_windup_seconds": 0.0,
+		"interceptor_windups": 0,
+		"warden_field_seconds": 0.0,
+		"warden_windup_seconds": 0.0,
+		"warden_windups": 0
+	},
+	"load_alive": null,
+	"load_hull": null,
+	"message": "Rock or unsafe clearance. Choose open water.",
+	"operation": 26,
+	"outcome": "controller_route_rejected",
+	"oxygen": 115.125000000004,
+	"peak_lock": 0.0,
+	"policy": "cautious",
+	"quietus_beam_seconds": 0.0,
+	"quietus_locked_seconds": 0.0,
+	"quietus_lost": false,
+	"quietus_position": "(349.8521, 357.2235)",
+	"route_knowledge": "source-known current GlassJourneys.COURSES for 14-21; authored Iron Choir paths for 22-29; opening direct authored objective coordinates; operation-data dimensions",
+	"seconds": 48.7499999999985,
+	"snapshot_valid": true,
+	"tools_remaining": {
+		"decoy": 3,
+		"emp": 2,
+		"knock": 2,
+		"recon": 2
+	},
+	"tools_spent": {
+		"decoy": 0,
+		"emp": 0,
+		"knock": 0,
+		"recon": 0
+	},
+	"world_size": [
+		3000.0,
+		2720.0
+	]
+}

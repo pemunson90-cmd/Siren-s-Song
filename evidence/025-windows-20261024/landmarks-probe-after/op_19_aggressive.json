@@ -1,0 +1,133 @@
+{
+	"accepted": {
+		"knock": 2,
+		"ping": 3,
+		"recon": 1,
+		"route": 3,
+		"silent": 1
+	},
+	"budget_seconds": 900.0,
+	"commands": [
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Cruise thrust · increased noise",
+			"order": "silent",
+			"time": 0.0,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (1600.0, 1700.0) }",
+			"message": "QUIETUS · replaced route",
+			"order": "route",
+			"time": 0.0,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Pulse away · wait for physical echoes · emission audible",
+			"order": "ping",
+			"time": 0.0,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Local 560m survey · 8 seconds",
+			"order": "recon",
+			"time": 1.0,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"target\": 5 }",
+			"message": "Torpedo launched at S6 · pin on impact · emission audible",
+			"order": "knock",
+			"time": 6.08333333333332,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (1600.0, 1200.0) }",
+			"message": "QUIETUS · replaced route",
+			"order": "route",
+			"time": 13.7500000000003,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Pulse away · wait for physical echoes · emission audible",
+			"order": "ping",
+			"time": 20.1666666666668,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"target\": 4 }",
+			"message": "Torpedo launched at S5 · pin on impact · emission audible",
+			"order": "knock",
+			"time": 21.1833333333334,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Pulse away · wait for physical echoes · emission audible",
+			"order": "ping",
+			"time": 40.499999999999,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (1600.0, 700.0) }",
+			"message": "QUIETUS · replaced route",
+			"order": "route",
+			"time": 42.2499999999989,
+			"unit": 0
+		}
+	],
+	"drone_losses": 0,
+	"hull": 0.0,
+	"industrial_pressure": {
+		"interceptor_burst_seconds": 2.63333333333318,
+		"interceptor_windup_seconds": 4.0333333333331,
+		"interceptor_windups": 2,
+		"warden_field_seconds": 0.0,
+		"warden_windup_seconds": 0.0,
+		"warden_windups": 0
+	},
+	"load_alive": null,
+	"load_hull": null,
+	"message": "Quietus lost. Your previous campaign records remain safe.",
+	"operation": 19,
+	"outcome": "lost",
+	"oxygen": 112.3601851852,
+	"peak_lock": 2.78333333333333,
+	"policy": "aggressive",
+	"quietus_beam_seconds": 0.0,
+	"quietus_locked_seconds": 5.23333333333332,
+	"quietus_lost": true,
+	"quietus_position": "(1609.031, 971.9196)",
+	"route_knowledge": "source-known current GlassJourneys.COURSES for 14-21; authored Iron Choir paths for 22-29; opening direct authored objective coordinates; operation-data dimensions",
+	"seconds": 46.3666666666653,
+	"snapshot_valid": true,
+	"tools_remaining": {
+		"decoy": 3,
+		"emp": 2,
+		"knock": 0,
+		"recon": 1
+	},
+	"tools_spent": {
+		"decoy": 0,
+		"emp": 0,
+		"knock": 2,
+		"recon": 1
+	},
+	"world_size": [
+		3200.0,
+		2800.0
+	]
+}

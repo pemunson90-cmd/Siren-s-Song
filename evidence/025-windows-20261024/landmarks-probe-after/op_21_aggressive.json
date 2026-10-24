@@ -1,0 +1,232 @@
+{
+	"accepted": {
+		"camera": 1,
+		"depth": 2,
+		"emp": 2,
+		"glass_action": 1,
+		"ping": 5,
+		"recon": 2,
+		"route": 7,
+		"silent": 1
+	},
+	"budget_seconds": 900.0,
+	"commands": [
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Cruise thrust · increased noise",
+			"order": "silent",
+			"time": 0.0,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (2300.0, 1500.0) }",
+			"message": "QUIETUS · replaced route",
+			"order": "route",
+			"time": 0.0,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Pulse away · wait for physical echoes · emission audible",
+			"order": "ping",
+			"time": 0.0,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Local 560m survey · 8 seconds",
+			"order": "recon",
+			"time": 1.0,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Pulse away · wait for physical echoes · emission audible",
+			"order": "ping",
+			"time": 20.1666666666668,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (1950.0, 800.0) }",
+			"message": "QUIETUS · replaced route",
+			"order": "route",
+			"time": 30.4999999999995,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Disruption pulse · 12 second recovery window",
+			"order": "emp",
+			"time": 38.4666666666658,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Pulse away · wait for physical echoes · emission audible",
+			"order": "ping",
+			"time": 40.499999999999,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (1700.0, 1200.0) }",
+			"message": "QUIETUS · replaced route",
+			"order": "route",
+			"time": 43.2499999999988,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Passive hydrophone decode · hold 4 seconds",
+			"order": "camera",
+			"time": 51.2499999999984,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (1635.0, 1300.0) }",
+			"message": "QUIETUS · replaced route",
+			"order": "route",
+			"time": 55.4499999999981,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"band\": 2 }",
+			"message": "QUIETUS · MIDDLE → DEEP · 4.0s exposed transition",
+			"order": "depth",
+			"time": 58.6999999999979,
+			"unit": 0
+		},
+		{
+			"accepted": false,
+			"args": "{  }",
+			"message": "Settle depth before emitting",
+			"order": "ping",
+			"time": 60.8333333333312,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"action\": \"recover\" }",
+			"message": "RECOVER material ·4s audible",
+			"order": "glass_action",
+			"time": 62.8999999999977,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"band\": 1 }",
+			"message": "QUIETUS · DEEP → MIDDLE · 4.0s exposed transition",
+			"order": "depth",
+			"time": 67.0999999999975,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (1950.0, 800.0) }",
+			"message": "QUIETUS · replaced route",
+			"order": "route",
+			"time": 71.2999999999972,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Pulse away · wait for physical echoes · emission audible",
+			"order": "ping",
+			"time": 80.1499999999967,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (2300.0, 1500.0) }",
+			"message": "QUIETUS · replaced route",
+			"order": "route",
+			"time": 81.7999999999966,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Disruption pulse · 12 second recovery window",
+			"order": "emp",
+			"time": 82.18333333333,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Local 560m survey · 8 seconds",
+			"order": "recon",
+			"time": 90.3166666666628,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (2500.0, 2560.0) }",
+			"message": "QUIETUS · replaced route",
+			"order": "route",
+			"time": 94.5499999999959,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Pulse away · wait for physical echoes · emission audible",
+			"order": "ping",
+			"time": 100.483333333329,
+			"unit": 0
+		}
+	],
+	"drone_losses": 0,
+	"hull": 100.0,
+	"industrial_pressure": {
+		"interceptor_burst_seconds": 0.0,
+		"interceptor_windup_seconds": 0.0,
+		"interceptor_windups": 0,
+		"warden_field_seconds": 0.0,
+		"warden_windup_seconds": 0.0,
+		"warden_windups": 0
+	},
+	"load_alive": null,
+	"load_hull": null,
+	"message": "Archive recovered / SOUTH REACH RECOVERY",
+	"operation": 21,
+	"outcome": "won",
+	"oxygen": 102.333981481517,
+	"peak_lock": 1.55,
+	"policy": "aggressive",
+	"quietus_beam_seconds": 0.0,
+	"quietus_locked_seconds": 2.84999999999999,
+	"quietus_lost": false,
+	"quietus_position": "(2502.82, 2552.838)",
+	"route_knowledge": "source-known current GlassJourneys.COURSES for 14-21; authored Iron Choir paths for 22-29; opening direct authored objective coordinates; operation-data dimensions",
+	"seconds": 111.283333333328,
+	"snapshot_valid": true,
+	"tools_remaining": {
+		"decoy": 3,
+		"emp": 0,
+		"knock": 2,
+		"recon": 0
+	},
+	"tools_spent": {
+		"decoy": 0,
+		"emp": 2,
+		"knock": 0,
+		"recon": 2
+	},
+	"world_size": [
+		2800.0,
+		2800.0
+	]
+}

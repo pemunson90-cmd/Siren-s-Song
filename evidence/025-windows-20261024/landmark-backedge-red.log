@@ -1,0 +1,4 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+BEFORE_REVIEW_HIDDEN_EDGE_OUTPUT [[(25.0, 20.0), (5.0, 20.0), (5.0, 0.0), (25.0, 0.0)]]
+LANDMARK BACK EDGE REGRESSION CHECKS 1 FAILURES 1

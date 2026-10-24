@@ -1,0 +1,119 @@
+{
+  "created_utc": "2026-10-24T06:57:39.849801+00:00",
+  "source_head": "0cf00531e209312b60beaa0272fd3a9ccc573870",
+  "integration_base": "8c13f5be841ab71ad41b5a4dd1ea3c030b370e8c",
+  "game_tree": "d7159cb0319f783b9e9a0f2a2da7a72ebf6090f7",
+  "engine": "official Windows Godot4.6.3 stable console",
+  "source_changes": [
+    "docs/RESUME.md",
+    "docs/superpowers/plans/2026-10-24-landmarks-m3a.md",
+    "game/src/presentation/feature_views.gd",
+    "game/src/presentation/landmarks/landmark_data.gd",
+    "game/src/presentation/landmarks/landmark_view.gd",
+    "game/tests/landmark_tests.gd",
+    "game/tests/landmark_ui_tests.gd",
+    "game/tests/suites.txt"
+  ],
+  "checks": {
+    "core": {
+      "file": "landmark-0cf-core.log",
+      "checks": 818,
+      "failures": 0,
+      "sha256": "622d2f4f1cb0ab16ca609e34d52b6019d95026e40b24b170f8a8eefff2997951"
+    },
+    "runtime": {
+      "file": "landmark-final-runtime.log",
+      "checks": 665,
+      "failures": 0,
+      "sha256": "b267fe162ebd09082fc6cba05182048c2bd5135f917adbec80b22f1e49394f0d"
+    },
+    "density": {
+      "file": "landmark-final-density.log",
+      "checks": 883,
+      "failures": 0,
+      "sha256": "d6df16436df4e532c8b77312c30480902460100adfe7086b4d246a6bace3ab56"
+    },
+    "landmark_data": {
+      "file": "landmark-repair-data.log",
+      "checks": 468,
+      "failures": 0,
+      "sha256": "0caaf71f29218c62c5cadf47cdb4ff6b373e323f57bf35f594b21a83fdde1539"
+    },
+    "landmark_projection": {
+      "file": "landmark-repair-ui.log",
+      "checks": 92,
+      "failures": 0,
+      "sha256": "af84276f5668bceb1272bec86633339ea17f98972d1f3b60ab4d89f96db2c88c"
+    },
+    "five_authored_depth_fixtures": {
+      "file": "landmark-five-fixtures.log",
+      "checks": 49,
+      "failures": 0,
+      "sha256": "713ebf2cbc9c238840d86ff6e6169e52f59e968d0d91c14c46688c95e02945e2"
+    }
+  },
+  "pressure": {
+    "wrapper": "landmark_pressure_bounded.gd",
+    "wrapper_sha256": "4826b6e936c6605426d17b18d622e0e44cab30f44f551a0f71856a6ef4ac2d37",
+    "label": "epsilon-bounded external probe comparison, not an unmodified tracked-probe run",
+    "cases_per_side": 76,
+    "commands_per_side": 1105,
+    "all_fields_and_commands_equal": true,
+    "all_snapshots_valid": true,
+    "outcomes_each": {
+      "won": 31,
+      "lost": 16,
+      "controller_incomplete": 2,
+      "controller_camera_rejected": 2,
+      "controller_route_rejected": 5,
+      "controller_work_rejected": 16,
+      "budget_timeout": 4
+    }
+  },
+  "captures": [
+    {
+      "operation": 8,
+      "phase": "before",
+      "file": "landmarks-captures/op_08_before.png",
+      "sha256": "398f33ae33a85d7ec58037171fdd1c9cacb54addb273f65ed4f7c18b52c4a845"
+    },
+    {
+      "operation": 8,
+      "phase": "after",
+      "file": "landmarks-captures/op_08_after.png",
+      "sha256": "8826c2734324a5221e2aaefa6dc9c98ceae105e5dbd58f02a7ba5d9219c2fb45"
+    },
+    {
+      "operation": 14,
+      "phase": "before",
+      "file": "landmarks-captures/op_14_before.png",
+      "sha256": "65a1a1dd7d89f6c57c08ac2eeb9a694958857b880cf78f2dc9bcccfe77ddfd58"
+    },
+    {
+      "operation": 14,
+      "phase": "after",
+      "file": "landmarks-captures/op_14_after.png",
+      "sha256": "d0360309375d013f530875e3950e2f79d27771e4bb83b54777ad01ca1101f0dc"
+    },
+    {
+      "operation": 28,
+      "phase": "before",
+      "file": "landmarks-captures/op_28_before.png",
+      "sha256": "f6dab072a19f4018b4e073c441596c7109491b2b6ef6df7c77d671d9e9156818"
+    },
+    {
+      "operation": 28,
+      "phase": "after",
+      "file": "landmarks-captures/op_28_after.png",
+      "sha256": "ebe8fc5d826810aa9f12df52e4c712cb993ffbdf98be37c29612900baf546603"
+    }
+  ],
+  "review": "Independent /root/review_photo preliminary source/visual PASS on0cf00531; final evidence and own exact-head guidance/game-smoke still required.",
+  "limits": [
+    "Source-known technical routes, not blind human play.",
+    "One early unprotected op8 capture lost Quietus; preserved in rejected v2 evidence.",
+    "Actual current captures use ordinary finite EMP defense and retain real outcomes.",
+    "Restrained landmark accents; no wholesale environment/silhouette or new art-direction claim.",
+    "No APK, physical phone, full local matrix or enjoyment claim."
+  ]
+}

@@ -1,0 +1,89 @@
+{
+	"accepted": {
+		"route": 4
+	},
+	"budget_seconds": 900.0,
+	"commands": [
+		{
+			"accepted": true,
+			"args": "{ \"point\": (300.0, 2450.0) }",
+			"message": "QUIETUS · replaced route",
+			"order": "route",
+			"time": 0.0,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (2750.0, 2450.0) }",
+			"message": "QUIETUS · replaced route",
+			"order": "route",
+			"time": 3.74999999999999,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (2750.0, 500.0) }",
+			"message": "QUIETUS · replaced route",
+			"order": "route",
+			"time": 63.2499999999977,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (2450.0, 500.0) }",
+			"message": "QUIETUS · replaced route",
+			"order": "route",
+			"time": 110.749999999995,
+			"unit": 0
+		},
+		{
+			"accepted": false,
+			"args": "{ \"action\": \"reconnect\" }",
+			"message": "Finish LOCK_C first",
+			"order": "choir_action",
+			"time": 118.999999999995,
+			"unit": 0
+		}
+	],
+	"drone_losses": 0,
+	"hull": 100.0,
+	"industrial_pressure": {
+		"interceptor_burst_seconds": 0.0,
+		"interceptor_windup_seconds": 0.0,
+		"interceptor_windups": 0,
+		"warden_field_seconds": 0.0,
+		"warden_windup_seconds": 0.0,
+		"warden_windups": 0
+	},
+	"load_alive": null,
+	"load_hull": null,
+	"message": "Finish LOCK_C first",
+	"operation": 29,
+	"outcome": "controller_work_rejected",
+	"oxygen": 108.100000000011,
+	"peak_lock": 0.0,
+	"policy": "cautious",
+	"quietus_beam_seconds": 0.0,
+	"quietus_locked_seconds": 0.0,
+	"quietus_lost": false,
+	"quietus_position": "(2457.229, 499.8088)",
+	"route_knowledge": "source-known current GlassJourneys.COURSES for 14-21; authored Iron Choir paths for 22-29; opening direct authored objective coordinates; operation-data dimensions",
+	"seconds": 118.999999999995,
+	"snapshot_valid": true,
+	"tools_remaining": {
+		"decoy": 3,
+		"emp": 2,
+		"knock": 2,
+		"recon": 2
+	},
+	"tools_spent": {
+		"decoy": 0,
+		"emp": 0,
+		"knock": 0,
+		"recon": 0
+	},
+	"world_size": [
+		3000.0,
+		2720.0
+	]
+}

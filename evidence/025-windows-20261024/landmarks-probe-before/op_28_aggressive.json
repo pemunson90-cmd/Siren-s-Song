@@ -1,0 +1,133 @@
+{
+	"accepted": {
+		"choir_action": 1,
+		"ping": 3,
+		"recon": 1,
+		"route": 3,
+		"silent": 1
+	},
+	"budget_seconds": 900.0,
+	"commands": [
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Cruise thrust · increased noise",
+			"order": "silent",
+			"time": 0.0,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (750.0, 2140.0) }",
+			"message": "QUIETUS · replaced route",
+			"order": "route",
+			"time": 0.0,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Pulse away · wait for physical echoes · emission audible",
+			"order": "ping",
+			"time": 0.0,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Local 560m survey · 8 seconds",
+			"order": "recon",
+			"time": 1.0,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"action\": \"attach\" }",
+			"message": "Physical tow attached · release before depth change",
+			"order": "choir_action",
+			"time": 8.24999999999999,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (750.0, 550.0) }",
+			"message": "QUIETUS · replaced route",
+			"order": "route",
+			"time": 8.24999999999999,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Pulse away · wait for physical echoes · emission audible",
+			"order": "ping",
+			"time": 20.1666666666668,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Pulse away · wait for physical echoes · emission audible",
+			"order": "ping",
+			"time": 40.499999999999,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (700.0, 500.0) }",
+			"message": "QUIETUS · replaced route",
+			"order": "route",
+			"time": 40.749999999999,
+			"unit": 0
+		},
+		{
+			"accepted": false,
+			"args": "{ \"action\": \"land\" }",
+			"message": "Finish LOCK_A first",
+			"order": "choir_action",
+			"time": 43.2499999999988,
+			"unit": 0
+		}
+	],
+	"drone_losses": 0,
+	"hull": 95.8986878395081,
+	"industrial_pressure": {
+		"interceptor_burst_seconds": 0.0,
+		"interceptor_windup_seconds": 0.0,
+		"interceptor_windups": 0,
+		"warden_field_seconds": 0.0,
+		"warden_windup_seconds": 0.0,
+		"warden_windups": 0
+	},
+	"load_alive": true,
+	"load_hull": 100.0,
+	"message": "Finish LOCK_A first",
+	"operation": 28,
+	"outcome": "controller_work_rejected",
+	"oxygen": 114.475000000004,
+	"peak_lock": 0.0,
+	"policy": "aggressive",
+	"quietus_beam_seconds": 0.0,
+	"quietus_locked_seconds": 0.0,
+	"quietus_lost": false,
+	"quietus_position": "(705.1271, 505.0895)",
+	"route_knowledge": "source-known current GlassJourneys.COURSES for 14-21; authored Iron Choir paths for 22-29; opening direct authored objective coordinates; operation-data dimensions",
+	"seconds": 43.2499999999988,
+	"snapshot_valid": true,
+	"tools_remaining": {
+		"decoy": 3,
+		"emp": 2,
+		"knock": 2,
+		"recon": 1
+	},
+	"tools_spent": {
+		"decoy": 0,
+		"emp": 0,
+		"knock": 0,
+		"recon": 1
+	},
+	"world_size": [
+		3000.0,
+		2720.0
+	]
+}
