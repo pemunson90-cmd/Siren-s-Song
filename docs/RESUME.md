@@ -29,6 +29,12 @@ contract, one main file or feature per reviewed PR. Handoff 023 remains CLAIMED
 until all its steps land. Then take the eligible OPEN numeric queue. BOARD and
 023 Completion on codex/handoffs own claims and recovery refs.
 
+## Historical cloud handover snapshot
+
+All remaining sections below preserve the cloud handover as dated history.
+Their source checkpoints, stop instructions and WSL advice are superseded by
+the Local Windows resume above and Pat's current local instructions.
+
 **Historical cloud execution boundary,23 October 2026 Eastern:** Pat explicitly chose
 finish PR96 only, preserve later023 preparations, update stale documentation and
 prepare a Windows desktop handover, then STOP. No further game implementation,
