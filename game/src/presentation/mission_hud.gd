@@ -431,12 +431,6 @@ func refresh():
   host.detail_label.text=sim.units[sim.selected].name+" · "+("OWN TRANSMITTER" if operation.label=="TRANSMIT" else "LOCAL MACHINERY CONTROL")
   if sim.capture_feedback().unit>=0:intent.text=sim.units[sim.selected].name+" · "+operation.detail.get_slice("\n",0)
  FeatureViews.build_panel(self)
- var plant=WarningChain.context(sim)
- if not plant.is_empty():
-  host.order_buttons.camera.text="PLANT\nCONTROLS";host.order_buttons.camera.disabled=false
-  intent.text=WarningChain.summary(sim)+" · "+intent.text
-  for row in plant.actions:extra["chain_"+row.id].disabled=not row.ready
-  if subject.get("kind","")=="plant":instrument_info.text=WarningChain.detail(sim,subject.station)
  var delivery=Delivery.status(sim)
  if not delivery.is_empty():
   intent.text=Delivery.summary(sim)+" · "+intent.text

@@ -6,7 +6,8 @@ Pat explicitly resumed claimed handoff 023 on his Windows PC. The cloud stop
 record below is historical and does not stop this authorized local work.
 PR96 and PR98 are already merged; do not repeat them. The live integration
 baseline for this resume is 30f555a260d4edf5f0300935e7381475ba620fcc.
-Integration later advanced through Claude's docs-only PR103 to f43a672. The
+Integration later advanced through Claude's docs/history PR103/105/106/107 to
+1cb093f. The
 preparations below require that latest guidance and the Windows repair before
 their final merge gates; none is a completed023 claim.
 
@@ -44,7 +45,7 @@ at exactly their original positions. Existing controls, picking and inputs stay.
 Import clean; before/after Wake31/UI37/core818/runtime665/density883/menu7/scroll15
 match with zero failures and clean logs. Independent preliminary source PASS;
 final own-head/base review and hosted checks remain after parent PRs land.
-Wake, Rendezvous and Shelf are registered in this preparation. Other features still
+Wake, Rendezvous, Shelf and Warning Chain are registered in this preparation. Other features still
 use their original seams. The separate Rendezvous step is based on Waked229936;
 its existing HUD assignments and world draw stay in order. Non-null applicability
 preserves its draw-transform restoration even with an empty projection. Import,
@@ -57,6 +58,12 @@ same three-function contract. HUD order stays Wake, Rendezvous, Shelf; world ord
 stays Shelf, Wake, Rendezvous. Import/Shelf23/touchUI69/core818/runtime665/density883/
 menu7/scroll15 pass with zero failures and clean logs. Preliminary source review
 PASS. Parent reconciliation, final own-head review and hosted checks remain.
+
+Warning Chain preparation is based on Shelf27da2a2. Its existing plant HUD block
+and world drawing retain their original order through the shared lists. Legacy
+projection/drawing/input helpers remain unchanged. Import/chain49/touchUI68/
+worldUI13/core818/runtime665/density883/menu7/scroll15 pass with zero failures
+and clean logs. Preliminary source review PASS; own final gates remain.
 
 ## Historical cloud handover snapshot
 

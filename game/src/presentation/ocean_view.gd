@@ -288,7 +288,6 @@ func _draw() -> void:
 			if alpha>0: draw_rect(Rect2(x*40,y*40,40,40),Color(0.005,0.014,0.025,alpha))
 	preload("res://src/presentation/blackwater_courier_view.gd").draw(self,sim)
 	FeatureViews.draw(self)
-	WarningChain.draw_world(self,sim)
 	Witness.draw_world(self,sim)
 	Concealed.draw_world(self,sim)
 	Recipient.draw_world(self,sim)
