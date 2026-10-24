@@ -37,3 +37,19 @@ both shapes. Existing save meanings, rules, story and other profiles preserved.
 No030code yet. Root integrates; one implementation worker and independent reviewer
 per stable execution rules. WIP push within30min, import/core and affected suites,
 exact-head hosted gates and independent review before delegated merge.
+
+11:36 AM Eastern WIP checkpoint: first source7acdf745 pushed11:26AM, root-only
+RESUME2085192 then pushed. Current pushed headfe18abe03e3a73f743ab28d50d3d80563ca3d43b,
+base actualdfaf543. No PR or merge yet. Module owns storage/rules/paths/picker/
+session/codec/tests and README, narrow SaveStore/frontend seams; no Main edits.
+Independent2085192 first pass requested fail-closed recovery handling and strict
+package consumption. Both reproduced (storage67/6), then fixed with regressions;
+latest pre-final counts storage68/0 and max150%nativeUI140/0. Final target-name
+wording/name checks are committed; own exact-head import/core/storage/UI and
+Windows cold-review equivalent reruns are ongoing, with re-review offe18abe.
+Earlier core833/0 and affected suites passed, but final-head proof is pending.
+Actual GPU captures cover picker, confirmation and recovery error on both420dpi
+shapes at150%text. Root inspected picker/confirmation readability, no phone claim.
+One initial unisolated check-only setup crashed before script loading; transcript
+retained, no game/save tests ran or existing saves modified. Actual save tests
+use isolated appdata; source-known fixtures and cold-process proof stay qualified.
