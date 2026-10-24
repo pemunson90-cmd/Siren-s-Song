@@ -52,3 +52,21 @@ https://github.com/pemunson90-cmd/Siren-s-Song/pull/122
 Core833/0, ending76/0, wall layout/touch38/0 and route map52/0.
 Physical-route, rendered inspection, save/revert proof and independent
 final-head review remain. Still CLAIMED, not DONE; no merge yet.
+
+24 Oct, 6:02 AM Eastern: current head730d45bafc624fecf8d73590df87f1cb40557902,
+baseaaff40e, game tree984e155e2c67e601ad4e3bfc11c9cf8205934f9d.
+Import clean; core833, model92, ordinary-command bare journeys10, native GPU
+wall42, old endings48, catalog199, route52/UI70 and module-removal/save16,
+all zero failures. Both journeys win with actual threats and optional photos
+unshot. Wall uses existing shapes and recorded finding captions. Missing-usable
+legacy shots now keep the ordinary archive renderer's default semantics.
+Removal proof physically removes selector/presenter and loads the save-only
+dependency graph; it does not claim full boot with dangling presentation hooks.
+Catalog/factory identities stay for active/completed saves. No new save fields.
+Raw evidence: archive commitc2022370f0de0185beb9949117f660f982232b01,
+evidence/027-windows-20261024 with hashes, logs, source and cover/inner PNGs.
+Independent reviewer /root/review_photo APPROVE exact730d45b againstaaff40e,
+source/docs/visuals/evidence, no remaining findings; reviewer ran no tests.
+Own run40083978483: guidance green, game-smoke running. Fresh runtime critic
+is trying actual touch routes. Still CLAIMED; no merge. Await own exact gates,
+refresh current integration and mergeability, then merge/verify before done027.

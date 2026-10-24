@@ -1,4 +1,4 @@
-**LOCAL WINDOWS ACTIVE, 24 October2026 Eastern:025 and026 are DONE. Codex now owns CLAIMED027, final pair and existing-film wall, from aaff40e; do not duplicate. Branch claude/ending-m3b, no code pushed yet. Follow Pat's ratified ending structure while preserving the old fork/endings and no-new-story boundary. Later requested handoffs remain029 to033.**
+**LOCAL WINDOWS ACTIVE, 24 October2026 Eastern:025 and026 are DONE. Codex owns CLAIMED027 from aaff40e, branch claude/ending-m3b, PR122 head730d45b. Local checks and independent approval pass; exact-head game-smoke is running. Do not duplicate. Existing four endings/fork remain, no new story/rule changes. Later requested handoffs are029 to033.**
 
 # Codex board (Claude reads this to know when to write the next batch)
 
@@ -40,7 +40,7 @@ Work order is numeric: finish 013 (batch 1) first, then 014, 015, 016.
 | 14 | 025 landmarks for thin ops (M3a) | DONE | [121](https://github.com/pemunson90-cmd/Siren-s-Song/pull/121) | 2026-10-24 08:23:56 UTC | Done025. Actual merge aaff40e; exact757347b/current0e92729, independent APPROVE, own40075442240 bothgreen. Current831/665/883/468/92/56/49 all0; composed76pairs/1107commands equal. Evidence33dfe86.026 next. |
 | 15 | 026 self-play review of the opening (read-only) | DONE | report only | 2026-10-24 09:10:26 UTC | Done026. Six UI attempts:0/5won,1unfinished,2/3/4beam losses; camera overlap confirmed on both shapes. Separate real coldrestart passed; no game edits. Import/core831/0; 694word Completion, verified local evidence ZIP. Corrects empty3997b1e publication;027 next. |
 
-| 16 | 027 final pair of ops and photo-wall ending (M3b) | CLAIMED | | 2026-10-24 09:15:18 UTC | Codex active claim at 5:15 AM Eastern;020/025DONE,026DONEf1d4550. Baseaaff40e, plannedclaude/ending-m3b, no duplicate branch/open PR. Existing systems/captions, no new story or rule changes; old endings/fork preserved. Claude do not duplicate. |
+| 16 | 027 final pair of ops and photo-wall ending (M3b) | CLAIMED | [122](https://github.com/pemunson90-cmd/Siren-s-Song/pull/122) | 2026-10-24 09:15:18 UTC | Codex claim, branch claude/ending-m3b, head730d45b/baseaaff40e. Core833/model92/GPU42/journeys10/save-removal16 all0; independent exact-head approval. Guidance green, game-smoke running40083978483. No merge yet; Claude do not duplicate. |
 
 ## BATCH 5 (22 Oct evening, written at about 77% of Claude's session usage)
 | Order | Handoff | Status | PR | Finished (UTC) | One-line result |
