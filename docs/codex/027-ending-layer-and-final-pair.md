@@ -45,3 +45,10 @@ routes. Existing operations' tables remain read-only. Optional validated state,
 old-save compatibility and a clear revert path are required. Plan, fixtures and
 independent review follow on claude/ending-m3b; own final-head GitHub gates before
 any merge. No code work pushed yet.
+
+WIP 24 Oct, 5:40 AM Eastern: branch claude/ending-m3b pushed at
+1b5bc55f22b404bd062072433492b477ff80b7b0; draft PR122:
+https://github.com/pemunson90-cmd/Siren-s-Song/pull/122
+Core833/0, ending76/0, wall layout/touch38/0 and route map52/0.
+Physical-route, rendered inspection, save/revert proof and independent
+final-head review remain. Still CLAIMED, not DONE; no merge yet.
