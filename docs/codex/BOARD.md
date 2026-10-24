@@ -95,3 +95,8 @@ Still held for Pat: any change to Siren sight, hearing or lock timing (Pat: not 
 | 45 | 047 CHALLENGE COMPLETIONS: one scripted completion per row, route-aware par proposal | OPEN | | | F11. Par changes are Pat decisions; proposal file only. |
 | 46 | 048 HUD SAMENESS: operation-aware status text and explained ARRIVALS | OPEN | | | F14. Presentation only. |
 | 44 | 049 FIRST-SIREN CUE EXTENSION: op 1 and a one-time new Siren type note | OPEN | | | F8. Released by Pat 24 Oct. Presentation only: no change to Siren sight, hearing or lock timing. |
+
+## BATCH 10 (24 Oct, Pat: restore the V7 Hunt; AI-DESIGNED, Pat to ratify numbers)
+| Order | Handoff | Status | PR | Finished (UTC) | One-line result |
+|---|---|---|---|---|---|
+| 47 | 050 HUNT RESTORE: global Hunt scales Siren notice radius, visible meter, stage cue, flag | OPEN | | | After 023 done or paused and design PR merged. Design: docs/design/HUNT_RESTORE.md. |
