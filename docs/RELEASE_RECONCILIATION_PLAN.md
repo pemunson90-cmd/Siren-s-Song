@@ -1,6 +1,6 @@
 # Release reconciliation plan: branches, cleanup, and production
 
-Status: PROPOSAL, 24 Oct 2026 Eastern. AI-DESIGNED by Claude root orchestrator; Pat ratifies each phase. Nothing here runs until the entry condition of its phase is met. Phases 1 to 3 change no refs. Phase 4 onward are Pat-gated.
+Status: PROPOSAL, 24 Oct 2026 Eastern. AI-DESIGNED by Claude root orchestrator; Pat ratifies each phase. Nothing here runs until the entry condition of its phase is met. Phases 1 and 2 change no existing branch (Phase 2 lands through a normal PR). Phase 3 only creates a new tag, and Phase 4 onward are Pat-gated. Claude creates the release-candidate tag only after Pat says go; Pat creates or authorizes the production and main tags.
 
 ## Snapshot (measured 24 Oct, claude/integration at f43a672)
 
