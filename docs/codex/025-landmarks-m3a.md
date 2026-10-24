@@ -53,3 +53,40 @@ External epsilon-bounded pressure baseline complete, identical candidate running
 no tracked probe/test loosening or game-state edits. Five fixtures, final targeted
 checks, three accepted captures and independent exact review/CI remain before
 ready/merge. Generated imports/UIDs excluded.025 remains CLAIMED, not DONE.
+
+2026-10-24 07:04:30 UTC (3:04 AM Eastern) final preparation checkpoint:
+claude/lane-landmarks last pushed6ffab7289e41bbf4b96304a1c6768def99f7fc1c,
+PR121 is ready. Integration8c13f5be841ab71ad41b5a4dd1ea3c030b370e8c is
+contained. Accepted game tree d7159cb0319f783b9e9a0f2a2da7a72ebf6090f7 equals
+validated0cf00531; final commit only reconciles RESUME and plan.
+Native import/core818/0, runtime665/0, density883/0, data468/0, projection92/0,
+five authored depth journeys49/0, all five won. Core retains six bare-craft
+fallbacks. Epsilon-bounded external pressure:76 paired full records and1105
+commands identical;31wins16losses25controller findings4timeouts per side,
+all snapshots valid. No tracked probe, gameplay or test assertions loosened.
+Independent /root/review_photo APPROVE exact6ffab72 against8c13f5b, no remaining
+findings. Source/docs/evidence/ancestry/hashes verified; reviewer ran no tests.
+Verdict relayed with provenance in PR121. Own exact40072498877 guidance SUCCESS,
+game-smoke still running. Do not merge until both succeed, fresh current-tip
+containment and mergeability.025 remains CLAIMED; no further source work needed
+unless a check or live-base change requires repair. After verified merge, mark
+DONE025 and BOARD in one commit, then claim next eligible026.
+
+Immutable evidence archive:
+https://github.com/pemunson90-cmd/Siren-s-Song/tree/7e44ec9f8617936401d7e27877e6bce3f8eb5bbe/evidence/025-windows-20261024
+
+Three accepted native operations, actual source-known routes with finite defense;
+modest accents, no wholesale silhouette overhaul or phone/human acceptance.
+Rejected drafts, renderer errors and lost early08 capture are retained as such.
+
+![Operation08 after](https://raw.githubusercontent.com/pemunson90-cmd/Siren-s-Song/7e44ec9f8617936401d7e27877e6bce3f8eb5bbe/evidence/025-windows-20261024/landmarks-captures/op_08_after.png)
+
+[Operation08 before](https://raw.githubusercontent.com/pemunson90-cmd/Siren-s-Song/7e44ec9f8617936401d7e27877e6bce3f8eb5bbe/evidence/025-windows-20261024/landmarks-captures/op_08_before.png)
+
+![Operation14 after](https://raw.githubusercontent.com/pemunson90-cmd/Siren-s-Song/7e44ec9f8617936401d7e27877e6bce3f8eb5bbe/evidence/025-windows-20261024/landmarks-captures/op_14_after.png)
+
+[Operation14 before](https://raw.githubusercontent.com/pemunson90-cmd/Siren-s-Song/7e44ec9f8617936401d7e27877e6bce3f8eb5bbe/evidence/025-windows-20261024/landmarks-captures/op_14_before.png)
+
+![Operation28 after](https://raw.githubusercontent.com/pemunson90-cmd/Siren-s-Song/7e44ec9f8617936401d7e27877e6bce3f8eb5bbe/evidence/025-windows-20261024/landmarks-captures/op_28_after.png)
+
+[Operation28 before](https://raw.githubusercontent.com/pemunson90-cmd/Siren-s-Song/7e44ec9f8617936401d7e27877e6bce3f8eb5bbe/evidence/025-windows-20261024/landmarks-captures/op_28_before.png)
