@@ -27,3 +27,6 @@ PR into claude/integration; merge per the line above; mark DONE and update the b
 
 ## Completion
 (Codex fills this in: what changed, PR link, branch and last pushed SHA, test results, unverified items, files outside ownership needed, recommended next.)
+
+## Addendum from cold review 3 (24 Oct, Claude)
+docs/design/COLD_REVIEW_3.md finding F7: briefings for ops 7 to 30 measure 12.2 to 15.3 screens tall and 2,521 to 3,412 characters; the brief paragraph alone is 703 to 1,522 characters (op 13: 1,522). OnboardingText.GOALS covers ops 1 to 6 only and MAX_OPERATION is 4. Scope of this handoff therefore includes: a GOAL / DANGER / NEW THIS DIVE (one line) set for every operation 7 to 30; the full text kept in the FIELD MANUAL; the Fittings block folded by default in the briefing. Same limits as above: placeholder length, no story changes.

@@ -69,3 +69,11 @@ Take 017 first (PRIORITY) if any of PRs 69, 70, 71 is open; otherwise numeric or
 ## Claude-held
 009 sweeper on V7 senses: Claude's PR 70, finished under handoff 017.
 Nothing parked.
+
+## BATCH 7 (24 Oct, from docs/design/COLD_REVIEW_3.md; items needing Pat are NOT here)
+| Order | Handoff | Status | PR | Finished (UTC) | One-line result |
+|---|---|---|---|---|---|
+| P | 038 OPS HOME: next op, route map and fittings at top; fold recovered; Erase to Settings only | OPEN | | | Starts after 023 is DONE or paused. |
+| 38 | 039 CONSEQUENCE LINES for debriefs of ops 15 to 30 | OPEN | | | |
+| 39 | 040 PHOTO ROW JOURNEYS under live Sirens (14 rows) | OPEN | | | |
+Also: 029 now includes the F7 addendum (GOAL / DANGER / NEW THIS DIVE for ops 7 to 30). Held for Pat: ending at op 30, replay without erase, settings/title reachable from Operations, quit_on_go_back, early-reward count, anything on Siren senses or lock timing.
