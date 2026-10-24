@@ -1,6 +1,7 @@
 # Handoff 033: DOCS1, module index with revert notes, and spec refresh
 
 Status: OPEN
+Assigned to: codex (Pat split the queue 24 Oct; Codex takes this when Pat says continue)
 Claimed at:
 Claimed by:
 Finished at:

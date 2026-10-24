@@ -1,6 +1,7 @@
 # Handoff 043: SAVE2, hard saves, fork save states, and a truthful ending screen
 
 Status: OPEN
+Assigned to: codex (Pat split the queue 24 Oct; Codex takes this when Pat says continue)
 Claimed at:
 Claimed by:
 Finished at:

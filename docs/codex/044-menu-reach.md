@@ -1,6 +1,7 @@
 # Handoff 044: MENU REACH, full settings, title, challenges and credits reachable from Operations
 
 Status: OPEN
+Assigned to: codex (Pat split the queue 24 Oct; Codex takes this when Pat says continue)
 Claimed at:
 Claimed by:
 Finished at:

@@ -1,6 +1,7 @@
 # Handoff 038 (PRIORITY): OPS HOME, make the Operations list a usable home screen
 
 Status: OPEN
+Assigned to: codex (Pat split the queue 24 Oct; Codex takes this when Pat says continue)
 Claimed at:
 Claimed by:
 Finished at:
