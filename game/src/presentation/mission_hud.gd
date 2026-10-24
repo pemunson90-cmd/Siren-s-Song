@@ -431,14 +431,6 @@ func refresh():
   host.detail_label.text=sim.units[sim.selected].name+" · "+("OWN TRANSMITTER" if operation.label=="TRANSMIT" else "LOCAL MACHINERY CONTROL")
   if sim.capture_feedback().unit>=0:intent.text=sim.units[sim.selected].name+" · "+operation.detail.get_slice("\n",0)
  FeatureViews.build_panel(self)
- var shelter=Shelf.context(sim)
- if not shelter.is_empty():
-  host.order_buttons.camera.text="WATCH\nORDERS";host.order_buttons.camera.disabled=false
-  extra.shelf_alarm.disabled=not shelter.alarm.ready
-  extra.shelf_warn.disabled=true
-  for row in shelter.galleries:
-   if row.id==subject.get("site",""):extra.shelf_warn.disabled=not row.action.ready
-  if subject.get("kind","")=="habitat":instrument_info.text=Shelf.detail(sim,subject.site)
  var plant=WarningChain.context(sim)
  if not plant.is_empty():
   host.order_buttons.camera.text="PLANT\nCONTROLS";host.order_buttons.camera.disabled=false

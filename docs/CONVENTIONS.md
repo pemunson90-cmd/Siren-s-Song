@@ -24,5 +24,7 @@
   Migrated views expose applies(sim), build_panel(hud) and draw(view). The panel
   seam refreshes existing controls; setup, input and Node lifetimes stay owned
   by their existing hosts. Keep applicability checks free of state changes.
-- Preserve each original refresh/draw position and the separate ordered HUD and
-  world lists. Only registered views use this seam; migrate one feature per PR.
+- Preserve each original refresh/draw position and the separate ordered HUD,
+  ground and world lists. A small adapter implements the same contract when an
+  existing feature draws in more than one layer. Preserve every original layer
+  slot. Only registered views use this seam; migrate one feature per PR.
