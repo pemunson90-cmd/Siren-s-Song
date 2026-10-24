@@ -10,6 +10,9 @@ var tracker=Tracker.new()
 var frames:Array=[]
 var audio_events:Array=[]
 var voice:AudioStreamPlayer
+var note_frames:Array=[]
+var chip_rect=Rect2()
+var note_rect=Rect2()
 var marker_rect=Rect2()
 var font_size=18
 var suspended=false
@@ -29,27 +32,38 @@ func _notice(row:Dictionary)->void:
 func _process(_dt:float)->void:
  if host!=null:refresh()
 func refresh()->void:
- frames=tracker.frames();position=Vector2.ZERO;size=host.size
- visible=host.screen=="mission" and not frames.is_empty() and host.sim.outcome.is_empty()
+ frames=tracker.frames();note_frames=tracker.notes();position=Vector2.ZERO;size=host.size
+ visible=host.screen=="mission" and not (frames.is_empty() and note_frames.is_empty()) and host.sim.outcome.is_empty()
  var h=host.ui_touch_height;var layout=Table.LAYOUT
  var width=minf(size.x-layout.gap*2,h*layout.width_touch)
- marker_rect=Rect2(Vector2(size.x-width-layout.gap,h*layout.top_touch+layout.gap),Vector2(width,h*layout.height_touch))
+ chip_rect=Rect2(Vector2(size.x-width-layout.gap,h*layout.top_touch+layout.gap),Vector2(width,h*layout.height_touch))
+ # The kind note sits directly under the chip (or alone) clear of the centred lock banner.
+ note_rect=Rect2()
+ if not note_frames.is_empty():
+  var note_at=chip_rect.position if frames.is_empty() else chip_rect.end+Vector2(-chip_rect.size.x,layout.gap*.5)
+  note_rect=Rect2(note_at,Vector2(width,h*layout.height_touch))
+ # marker_rect is the chip (the note alone when no bearing); captions also avoid note_rect.
+ marker_rect=chip_rect if not frames.is_empty() or note_frames.is_empty() else note_rect
  font_size=maxi(layout.font_min,roundi(h*layout.font_touch))
  var silent=not visible or host.sound.muted or host.sound.effects_volume<=0
  if silent or voice.get_playback_position()>=Table.AUDIO.seconds:voice.stop()
  voice.stream_paused=host.sim.paused or suspended or host.sound.system_suspended
  queue_redraw()
 func _draw()->void:
- if frames.is_empty():return
  var panel=StyleBoxFlat.new();panel.bg_color=Color("102c39");panel.border_color=Color("a9d9df");panel.set_border_width_all(2);panel.set_corner_radius_all(8)
- draw_style_box(panel,marker_rect)
- var center=marker_rect.position+Vector2(marker_rect.size.y*.5,marker_rect.size.y*.5)
- var direction:Vector2=frames.back().direction;var radius=marker_rect.size.y*.24
- draw_line(center-direction*radius,center+direction*radius,Color("a9d9df"),3.,true)
- var tip=center+direction*radius;var side=direction.orthogonal()*radius*.4
- draw_colored_polygon(PackedVector2Array([tip,center+side,center-side]),Color("a9d9df"))
- var text=label_text()
- draw_string(ThemeDB.fallback_font,marker_rect.position+Vector2(marker_rect.size.y,marker_rect.size.y*.62),text,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size,Color.WHITE)
+ if not frames.is_empty():
+  draw_style_box(panel,chip_rect)
+  var center=chip_rect.position+Vector2(chip_rect.size.y*.5,chip_rect.size.y*.5)
+  var direction:Vector2=frames.back().direction;var radius=chip_rect.size.y*.24
+  draw_line(center-direction*radius,center+direction*radius,Color("a9d9df"),3.,true)
+  var tip=center+direction*radius;var side=direction.orthogonal()*radius*.4
+  draw_colored_polygon(PackedVector2Array([tip,center+side,center-side]),Color("a9d9df"))
+  draw_string(ThemeDB.fallback_font,chip_rect.position+Vector2(chip_rect.size.y,chip_rect.size.y*.62),label_text(),HORIZONTAL_ALIGNMENT_LEFT,-1,font_size,Color.WHITE)
+ if not note_frames.is_empty():
+  panel.border_color=Color("e6c46a");draw_style_box(panel,note_rect)
+  draw_string(ThemeDB.fallback_font,note_rect.position+Vector2(note_rect.size.y*.4,note_rect.size.y*.62),note_text(),HORIZONTAL_ALIGNMENT_LEFT,-1,font_size,Color.WHITE)
+func note_text()->String:
+ return "" if note_frames.is_empty() else note_frames.back().text
 func label_text()->String:
  if frames.is_empty():return ""
  return "NOTICE · FROM %s · %03d°"%[["Q","A","B"][frames.back().unit],roundi(frames.back().bearing)%360]

@@ -241,3 +241,5 @@ order_table_tests|ORDER TABLE|223|246
 photo_window_rules_tests|PHOTO WINDOW RULES|224|247
 art_tests|ART|-|232
 art_render_measurements|ART RENDER|-|233|render
+first_siren_cue_ext_tests|FIRST SIREN CUE EXT|228|251
+first_siren_cue_ext_ui_tests|FIRST SIREN CUE EXT UI|229|252|render

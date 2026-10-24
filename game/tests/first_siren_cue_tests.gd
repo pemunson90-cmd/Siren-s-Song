@@ -26,7 +26,7 @@ func run():
   var observe=func(_id,_pos):before_lock.append(s.sirens[0].lock)
   s.siren_notice.connect(observe)
   s._threats(.1)
-  var expected=op in [1,2,3]
+  var expected=op in [0,1,2,3]
   check((tracker.frames().size()==1)==expected,"operation filter %d"%op)
   check(not before_lock.is_empty() and before_lock[0]==0.,"existing visual decision notifies before lock increments")
   s._threats(.1);s._threats(.1)
