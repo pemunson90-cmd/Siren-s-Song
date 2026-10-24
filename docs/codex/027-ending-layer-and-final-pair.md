@@ -1,8 +1,8 @@
 # Handoff 027: CAMPAIGN M3b, final pair of operations and the photo-wall ending
 
-Status: OPEN
-Claimed at:
-Claimed by:
+Status: CLAIMED
+Claimed at: 2026-10-24 09:15:18 UTC (5:15 AM Eastern)
+Claimed by: codex
 Finished at:
 
 Precondition: handoffs 020 and 025 must be DONE.
@@ -29,4 +29,19 @@ Both new ops playable from a fixture, the photo wall shows on a fixture save wit
 PR into claude/integration; merge per the line above; mark DONE and update the board.
 
 ## Completion
-(Codex fills this in.)
+
+Codex claimed027 at 2026-10-24 09:15:18 UTC (5:15 AM Eastern) from actual integration aaff40e.
+Preconditions020 and025 are DONE;026 is DONE in f1d4550 with verified report.
+No existing local/remote claude/ending-m3b branch or open duplicate PR found.
+The claim is posted before implementation so Claude does not duplicate it.
+
+Read assigned design section4 and the ratified Campaign and ending answers.
+The older design question is superseded by Pat's answer: two final operations
+with ids after the current last, unlocked after25, then a best-film wall using
+existing frame rendering/finding names. Preserve existing four endings and
+12/13fork. No new story, characters, combat/sensing rules or art direction;
+only mechanical briefing placeholders and existing captions. Film never gates
+routes. Existing operations' tables remain read-only. Optional validated state,
+old-save compatibility and a clear revert path are required. Plan, fixtures and
+independent review follow on claude/ending-m3b; own final-head GitHub gates before
+any merge. No code work pushed yet.
