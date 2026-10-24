@@ -1,4 +1,17 @@
 extends RefCounted
+# ARCH2 contract: registry dispatches this refresh block and world drawing
+# at their original positions. Existing picking/input and helpers stay here.
+# Revert this PR to restore the two direct call sites and original HUD block.
+static func applies(sim)->bool:return not context(sim).is_empty()
+static func build_panel(hud)->void:
+ var sim=hud.host.sim
+ var wake=context(sim)
+ if not wake.is_empty():
+  hud.extra.wake_playback.disabled=not wake.ready
+  hud.extra.wake_playback.text="PLAYING\n%ds LEFT"%ceili(wake.remaining) if wake.active else "PLAYBACK\nSPENT" if wake.used else "PLAY OLD LOOP\nONCE ·15s"
+  if hud.subject.get("subkind","")=="wake_repeater":
+   hud.instrument_info.text=detail(sim)
+   if hud.page=="inspect":hud.host.title_label.hide();hud.host.detail_label.hide()
 static func context(sim)->Dictionary:return sim.wake_context() if sim!=null and sim.has_method("wake_context") else {}
 static func replaces_site(sim,site:Dictionary)->bool:return sim.mission.get("id")==9 and site.get("site_id","")=="wake_repeater"
 static func subject(sim,value:Dictionary)->Dictionary:
@@ -15,7 +28,8 @@ static func detail(sim)->String:
  var c=context(sim)
  if not c.get("known",false):return ""
  return "RIG BEACON LOOP · ONE USE\n"+("PLAYBACK TIMER ·%ds from your local order\n"%ceili(c.remaining) if c.active else "")+c.reason+"\n\n"+c.account+"\n\nAny bare craft can connect within65m, clear line, below2m/s. One1100m open-water emission lasts15s; basalt can weaken or block it. Ordinary listeners may investigate its water, but current sight and louder evidence take priority. No guard response is guaranteed. Time it against your own crossing, then recover the operator. A watch with sight can report after2 uninterrupted seconds; cover or disruption cancels. A reached peer searches a coarse old point, not your live position. The longer outer water remains available without playback or tools."
-static func draw(view,sim)->void:
+static func draw(view,sim=null)->void:
+ if sim==null:sim=view.sim
  var c=context(sim)
  if not c.get("known",false):return
  var p:Vector2=c.pos;var scale=maxf(.01,view.world_scale)

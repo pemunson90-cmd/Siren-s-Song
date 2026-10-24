@@ -1,4 +1,5 @@
 extends Control
+const FeatureViews=preload("res://src/presentation/feature_views.gd")
 const HullBand=preload("res://src/presentation/route_clearance/hull_band.gd")
 const Shelf=preload("res://src/presentation/shelf_habitat_view.gd")
 const Priced=preload("res://src/presentation/photo_pricing/photo_pricing_overlay.gd")
@@ -287,7 +288,7 @@ func _draw() -> void:
 			if alpha>0: draw_rect(Rect2(x*40,y*40,40,40),Color(0.005,0.014,0.025,alpha))
 	preload("res://src/presentation/blackwater_courier_view.gd").draw(self,sim)
 	Shelf.draw_world(self,sim)
-	Wake.draw(self,sim)
+	FeatureViews.draw(self)
 	Rendezvous.draw(self,sim)
 	WarningChain.draw_world(self,sim)
 	Witness.draw_world(self,sim)

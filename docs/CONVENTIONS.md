@@ -20,5 +20,9 @@
   host-bound callbacks as forwarders; state ownership and deferred order stay.
 - Prove moved bodies, rules, numbers and text unchanged, then match core and
   named UI counts. Each ARCH2 extraction has its own reviewed PR and CI.
-- The proposed shared feature contract is still future ARCH2 work, not a
-  currently implemented registration API.
+- Incremental presentation registration lives in presentation/feature_views.gd.
+  Migrated views expose applies(sim), build_panel(hud) and draw(view). The panel
+  seam refreshes existing controls; setup, input and Node lifetimes stay owned
+  by their existing hosts. Keep applicability checks free of state changes.
+- Preserve each original refresh/draw position and the separate ordered HUD and
+  world lists. Only registered views use this seam; migrate one feature per PR.

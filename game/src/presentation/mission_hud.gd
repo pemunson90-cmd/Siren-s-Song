@@ -1,4 +1,5 @@
 extends Control
+const FeatureViews=preload("res://src/presentation/feature_views.gd")
 const Shelf=preload("res://src/presentation/shelf_habitat_view.gd")
 const Wake=preload("res://src/presentation/wake_crossing_view.gd")
 const Operations=preload("res://src/presentation/operation_instruments.gd")
@@ -430,13 +431,7 @@ func refresh():
   host.detail_label.text=sim.units[sim.selected].name+" · "+("OWN TRANSMITTER" if operation.label=="TRANSMIT" else "LOCAL MACHINERY CONTROL")
   if sim.capture_feedback().unit>=0:intent.text=sim.units[sim.selected].name+" · "+operation.detail.get_slice("\n",0)
  var tender=Rendezvous.context(sim)
- var wake=Wake.context(sim)
- if not wake.is_empty():
-  extra.wake_playback.disabled=not wake.ready
-  extra.wake_playback.text="PLAYING\n%ds LEFT"%ceili(wake.remaining) if wake.active else "PLAYBACK\nSPENT" if wake.used else "PLAY OLD LOOP\nONCE ·15s"
-  if subject.get("subkind","")=="wake_repeater":
-   instrument_info.text=Wake.detail(sim)
-   if page=="inspect":host.title_label.hide();host.detail_label.hide()
+ FeatureViews.build_panel(self)
  if not tender.is_empty():
   var receiver=sim.rendezvous_receiver()
   host.order_buttons.camera.text="DECODE\n4s PASSIVE";host.order_buttons.camera.disabled=not receiver.ready

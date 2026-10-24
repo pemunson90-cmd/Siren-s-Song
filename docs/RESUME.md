@@ -8,11 +8,12 @@ Pat's Windows PC. Pat stopped the cloud session on 23 October and said continue 
 
 ## Live source checkpoint
 
-Development integration is `claude/integration`, last reconciled baseline `97e48d33cb47375f9fb5bc90ad44f0cb5b941622`.
-This ARCH2 candidate includes the Windows hook repair PR99 through a planned
-predecessor merge. At preparation, published integration isca2bda0 and99 remains
-open. Publish its reviewed, successful exact head first. Live refs and the board
-determine published state; preparing a merge commit does not publish it.
+Development integration is `claude/integration`, last reconciled baseline `4eb6d91ad3f52612002d41161280f032e1247bde`.
+This ARCH2 candidate includes the Windows hook repair PR99, published at
+fab2617575d5156d74b87aede4aa9ba21367504b after its exact-head gates and review.
+At this preparation, later predecessor merges are planned, not yet published.
+Live refs and the board determine published state. Preparing a commit does not
+publish it; publish each prerequisite in order only after its own exact gates.
 Recent documentation/history merges include103/105/106/107/112/114; those design
 proposals do not authorize implementation in handoff023.
 Earlier baseline was30f555a (merge of PR98). Recent merges, in order: PR95 route map (b03dd69), PR96 campaign
@@ -31,10 +32,11 @@ re-claim it or mark it DONE after one PR.
 | Work | State |
 |---|---|
 | 023 campaign flow | PR96 merged |
-| Windows hooks PR99 | Included prerequisite; publish in order only after its own gates |
-| Photo review PR100 | Included prerequisite; publish in order only after its own gates |
-| Metrics PR101 | Current candidate, exact-head review and hosted checks pending |
-| Feature contract | Separate preparations102/104/108/109/110/111/113/115/117/118/119/120, live refs and board decide published state |
+| Windows hooks PR99 | Merged atfab2617 with exact1606418 checks/review |
+| Prerequisite PR100 | Included in candidate ancestry; live PR/board decide published state |
+| Prerequisite PR101 | Included in candidate ancestry; live PR/board decide published state |
+| Current Wake PR102 | Candidate; independent exact-head review and hosted gates pending |
+| Later preparations | Separate feature PRs, see authoritative board; not a full023 completion |
 | Portable cloud evidence | archive/cloud-desktop-20261023 at5407a241,551 files with manifest/hash |
 
 Every merge needs latest integration, independent review, both hosted checks on
@@ -54,17 +56,15 @@ LOCALAPPDATA to isolated work folders, preserving personal saves.
 
 ## Current ARCH2 candidate
 
-This candidate is metrics PR101, reconciled against planned predecessor merge
-97e48d33cb47375f9fb5bc90ad44f0cb5b941622. The predecessor is prepared, not yet published.
-Four synchronous helpers move into flow/ui_metrics.gd; Main entry points, state
-and Node-owned capture/report awaits stay. Main864 to817. The game tree must
-match prepared983f057 exactly, preserving the native import/core818/runtime665/
-dispatch13/recap8/metrics77/planner38/density883/menu7/scroll15 zero-failure logs.
-Exact final-head/planned-base independent review and both hosted gates remain.
+This candidate is Wake PR102, reconciled against planned predecessor merge
+4eb6d91ad3f52612002d41161280f032e1247bde. This predecessor must be published first.
+Existing panel refresh and world drawing retain their original ordered slots; setup, input and picking stay host-owned.
+The complete game tree equals native-tested preparationd229936afd36bb445496387473cee4cea8e7f323.
+Clean import and Wake31/UI37/core818/runtime665/density883/menu7/scroll15 all0 with clean logs.
+Independent final exact-head/planned-base review and both own hosted gates remain.
 Only publish its ordinary merge when live integration equals that predecessor,
-its PR is mergeable, and merge parents/tree equal the approved tested result.
-If integration advances unexpectedly, stop this sequence and reconcile again.
-Handoff023 remains CLAIMED and partial; no025 claim until all023 steps land.
+its PR is mergeable, and parents/tree equal the approved tested result. Stop on
+unexpected base advancement or any hook/protection rejection.023 stays partial.
 
 ## Cold review 3 and the new batches
 
