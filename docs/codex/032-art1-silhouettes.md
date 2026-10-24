@@ -39,3 +39,14 @@ Provide source-matched old/new native pictures at both Fold7 shapes, real drawin
 cost evidence alongside the simulation-only015 probe, and a single old-look switch.
 Pat decides the actual artwork after the concrete candidate is ready. Do not merge
 new artwork before that judgment. Next assigned task after032 is033 only.
+
+
+Recovery checkpoint, 24 October, 2:37 PM Eastern:
+Public claim ce56635 precedes implementation. Lane claude/lane-art1, actual base
+ad841f69394eb4ade818794056e5ccac56f0bc0b. Last pushed04c9fc59759523be21c94ef3557c9431cf02f0a4
+is root-only RESUME reconciliation of published031 and active032. Game tree unchanged.
+Sole worker /root/art032_builder requested gpt-6.1-sol Medium, short fresh context;
+root owns integration/RESUME/PR/board and a separate independent reviewer.
+Worker is establishing the untouched old renderer baseline before art edits.
+Actual feature source WIP is due3:03PM Eastern, then every30minutes.
+No candidate artwork, final032 verification, PR or Pat art acceptance claimed yet.
