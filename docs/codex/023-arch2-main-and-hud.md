@@ -76,7 +76,7 @@ Preliminary independent source PASS; import/Wake31/touchUI37/density883/menu7/
 scroll15 pass. Core/runtime still running, no PR/final gate yet. These remain
 preparations until parent PRs land and each own current-head/base gate passes.
 
-### Historical cloud progress
+### Latest local recovery checkpoint
 
 Latest local recovery checkpoint, 23 October 2026 Eastern:
 - Integration advanced docs-only through Claude PR103 to
