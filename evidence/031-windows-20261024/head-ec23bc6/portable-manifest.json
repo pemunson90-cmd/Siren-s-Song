@@ -1,0 +1,257 @@
+[
+  {
+    "file": ".gitattributes",
+    "bytes": 9,
+    "sha256": "8b9c3028d6467ff3be7c793141927841d70f47f52d0590677438f488ca154992"
+  },
+  {
+    "file": "final/a11y_cues_tests.err.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "file": "final/a11y_cues_tests.out.log",
+    "bytes": 107,
+    "sha256": "9a0d601c085dc697f706deffde62d4cab611fe8e6122dac89418ddfc8483eae3"
+  },
+  {
+    "file": "final/a11y_cues_ui_tests.err.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "file": "final/a11y_cues_ui_tests.out.log",
+    "bytes": 101732,
+    "sha256": "9484a018daa6dc6f9fc6866989f54bdf834fc2e66495480e481c632e994951a4"
+  },
+  {
+    "file": "final/back_exit_tests.err.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "file": "final/back_exit_tests.out.log",
+    "bytes": 29965,
+    "sha256": "956c30cb46b11e89205c6f934899e3e5c5f372211e21006c410422da14407252"
+  },
+  {
+    "file": "final/captures/a11y-2184-audio-log.png",
+    "bytes": 1390928,
+    "sha256": "2268b5c9f290a053ede329fff6350f2fa56962c2c7414307d62b281ecb777dfe"
+  },
+  {
+    "file": "final/captures/a11y-2184-film-empty.png",
+    "bytes": 1443385,
+    "sha256": "defa8b84ce45c561c4589d76a4fe101d064552075c87f0639073dd442b8ca7bd"
+  },
+  {
+    "file": "final/captures/a11y-2184-fleet-audio-indicator.png",
+    "bytes": 1434580,
+    "sha256": "45d4884732241134681a8e7dad0ab8f2502b1d0fe40fa5e563964fac57b918c6"
+  },
+  {
+    "file": "final/captures/a11y-2184-safe.png",
+    "bytes": 1445898,
+    "sha256": "095251833bb03b5f0847912082f651b68b9f78a8d213c36dcbf19fa556de4989"
+  },
+  {
+    "file": "final/captures/a11y-2184-standard.png",
+    "bytes": 1449324,
+    "sha256": "dfa908ef2ddee7285900194428b4a5fef1a0f63f6776f390146a0c275b8c387f"
+  },
+  {
+    "file": "final/captures/a11y-2520-audio-log.png",
+    "bytes": 737691,
+    "sha256": "31c6b8cccf95dbc9e60fa56d98bf06b55f0575abc254ac1234f49480247cad43"
+  },
+  {
+    "file": "final/captures/a11y-2520-film-empty.png",
+    "bytes": 811119,
+    "sha256": "525e7a3cbf4dbbbefbe59a73c588eed3e9229b3be4080db79b8f45ade8fbb9bd"
+  },
+  {
+    "file": "final/captures/a11y-2520-fleet-audio-indicator.png",
+    "bytes": 856026,
+    "sha256": "34777e8cb5914b2665133adf907047474ab7ccb07ef6f1f969b07d6d6119e352"
+  },
+  {
+    "file": "final/captures/a11y-2520-safe.png",
+    "bytes": 815991,
+    "sha256": "bdf46cadce444483d950db5c92fac3704ead4db3e712becd035e2e8b4e8b290f"
+  },
+  {
+    "file": "final/captures/a11y-2520-standard.png",
+    "bytes": 818625,
+    "sha256": "b6497db4dcf8b34806f27b590b407b773a3dae152d9a8b44cfba5a0034ee26ac"
+  },
+  {
+    "file": "final/fix2_camera_ui_tests.err.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "file": "final/fix2_camera_ui_tests.out.log",
+    "bytes": 41198,
+    "sha256": "8d373261c76adda421f04f3e1c2a63534377db14b4c215153176a52bc5b8815f"
+  },
+  {
+    "file": "final/fix2_frontend_ui_tests.err.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "file": "final/fix2_frontend_ui_tests.out.log",
+    "bytes": 32029,
+    "sha256": "ebe5d9bfc915c2a3c4b92178a6f5deff6198a2130d8b6238f090b996fe8f2a0d"
+  },
+  {
+    "file": "final/freeze.json",
+    "bytes": 705,
+    "sha256": "bec919f0a273d3d1339980f8cf310e05e3f6afa424cab7eba69ddda7ac367438"
+  },
+  {
+    "file": "final/historical-development-qualifications.txt",
+    "bytes": 1962,
+    "sha256": "72c311872e9b2d6ade501c7c73d9ef6c1609f40c9f4bd8b4d89ac5bb0a140b44"
+  },
+  {
+    "file": "final/import-final.err.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "file": "final/import-final.out.log",
+    "bytes": 1374,
+    "sha256": "b1ff0588efcf29301bf23e6793cfdf5764a4af5fe0660ca8edde48d01027309d"
+  },
+  {
+    "file": "final/launcher-source.ps1",
+    "bytes": 2315,
+    "sha256": "cd2daaf62cb4e1feae4b2e219ebb3d553477c0c838b1d0b85746a9b102d506e2"
+  },
+  {
+    "file": "final/lock_warning_tests.err.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "file": "final/lock_warning_tests.out.log",
+    "bytes": 110,
+    "sha256": "4d7e584c05b40eb5bde1493eb5384b1f742c3981836abe14a8bc58b140ebc961"
+  },
+  {
+    "file": "final/lock_warning_ui_tests.err.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "file": "final/lock_warning_ui_tests.out.log",
+    "bytes": 26318,
+    "sha256": "5aa59b5118875339021692542bcc3d8e624639b20d858bd358aa2153ae63b4ab"
+  },
+  {
+    "file": "final/manifest.json",
+    "bytes": 7772,
+    "sha256": "d58193260f81e186067d97dd4ce4e6735fcc01351fae1e4edff355dbf3296d14"
+  },
+  {
+    "file": "final/photo_audio_tests.err.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "file": "final/photo_audio_tests.out.log",
+    "bytes": 109,
+    "sha256": "d92335c052b28c6deebeb01cfd6e61c9c4a884e4e429772811e3358e37179472"
+  },
+  {
+    "file": "final/photo_pricing_tests.err.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "file": "final/photo_pricing_tests.out.log",
+    "bytes": 111,
+    "sha256": "c25e14ffea06cb1a3c76125a24cc69911ffd52f526af0176fb24c3b7a2159e27"
+  },
+  {
+    "file": "final/photo_pricing_ui_tests.err.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "file": "final/photo_pricing_ui_tests.out.log",
+    "bytes": 13260,
+    "sha256": "b4fb7b9e3a6fce97f4175ef9628ea5e1d63166273a5cac013e87026785ea70c6"
+  },
+  {
+    "file": "final/published-ref.txt",
+    "bytes": 71,
+    "sha256": "8bf8ff5214c42c7e1f392ad5b845eeac918c7a015f0180b4ee081414e40854de"
+  },
+  {
+    "file": "final/receipt.json",
+    "bytes": 11733,
+    "sha256": "ee61a1c9935f4ca4bb349ed61c4ccea246b2f66c8d65be4250c84020a482bbcd"
+  },
+  {
+    "file": "final/received_audio_retry_tests.err.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "file": "final/received_audio_retry_tests.out.log",
+    "bytes": 117,
+    "sha256": "882ec1d9c909741c5d2e99708d3443dada721b6ed4ee6013d371f33ac6ad1694"
+  },
+  {
+    "file": "final/results-a11y_cues_tests_run_tests_photo_audio_tests_received_audio_retry_tests_lock_warning_tests_photo_pricing_tests_sweeper_tests_warning_chain_audio_tests.json",
+    "bytes": 4215,
+    "sha256": "008712451cfc46d60e3794f9c0c065979ae5e7adb7a584554ee466bec528b3a2"
+  },
+  {
+    "file": "final/results-a11y_cues_ui_tests_lock_warning_ui_tests_photo_pricing_ui_tests_fix2_frontend_ui_tests_fix2_camera_ui_tests_back_exit_tests.json",
+    "bytes": 3206,
+    "sha256": "c92f61a526bf37f7482f4392871078754113e2ad6884633787704b9e97b76162"
+  },
+  {
+    "file": "final/results-import-final.json",
+    "bytes": 452,
+    "sha256": "ed52362bb552e8752df2708fe824c9b774061d0fec2ca569563615eb44f7788f"
+  },
+  {
+    "file": "final/run_tests.err.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "file": "final/run_tests.out.log",
+    "bytes": 822,
+    "sha256": "9697d9db1dc0a107f9acd1e466b3bad3aca0e52f437a855474fc69883764ca5a"
+  },
+  {
+    "file": "final/sweeper_tests.err.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "file": "final/sweeper_tests.out.log",
+    "bytes": 105,
+    "sha256": "a70117b3a121ae50a3942b7eb4c85b0ef87b1c0db60c0cd00d6442b794436309"
+  },
+  {
+    "file": "final/warning_chain_audio_tests.err.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "file": "final/warning_chain_audio_tests.out.log",
+    "bytes": 117,
+    "sha256": "11d9ef94959d4863c57889058f5ae64dc8fac0a746b97e4d541bf245932215dd"
+  },
+  {
+    "file": "README.md",
+    "bytes": 1461,
+    "sha256": "16be60bfd2da9bd647efa35577d7c74de1cda73e5d8c09ed33dbe8500096ca6c"
+  }
+]

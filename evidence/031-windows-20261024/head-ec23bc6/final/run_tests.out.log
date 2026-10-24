@@ -1,0 +1,11 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+CAMPAIGN 1 outcome=won time=64.0 hull=100.0 oxygen=64.4 last=Archive recovered / RECOVERY
+CAMPAIGN 2 outcome=won time=136.9 hull=96.8 oxygen=54.4 last=Archive recovered / RECOVERY
+CAMPAIGN 3 outcome=won time=74.8 hull=100.0 oxygen=58.5 last=Archive recovered / RECOVERY
+CAMPAIGN 4 outcome=won time=50.0 hull=100.0 oxygen=72.2 last=Archive recovered / RECOVERY
+CAMPAIGN 5 outcome=won time=91.5 hull=98.4 tools={ "emp": 1, "decoy": 2, "recon": 2, "knock": 2 }
+CAMPAIGN 6 outcome=won time=90.3 hull=87.4101898193359
+SPLIT CURRENT outcome=won time=61.8 hull=68.6 tools={ "emp": 0, "decoy": 3, "recon": 2, "knock": 2 }
+FOUNDRY STAGED outcome=won time=34.5 hull=88.5 tools={ "emp": 2, "decoy": 2, "recon": 2, "knock": 2 }
+CHECKS 835 FAILURES 0

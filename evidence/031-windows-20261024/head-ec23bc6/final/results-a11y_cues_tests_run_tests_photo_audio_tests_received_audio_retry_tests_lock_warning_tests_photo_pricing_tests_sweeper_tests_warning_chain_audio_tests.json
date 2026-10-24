@@ -1,0 +1,90 @@
+[
+  {
+    "suite": "a11y_cues_tests",
+    "pid": 23620,
+    "appdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\031-native\\final-ec23bc6\\final-a11y_cues_tests\\appdata",
+    "localappdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\031-native\\final-ec23bc6\\final-a11y_cues_tests\\local",
+    "gpu": false,
+    "exit": 0,
+    "footer": "A11Y CUES CHECKS 31 FAILURES 0\r",
+    "errors": 0,
+    "passed": true
+  },
+  {
+    "suite": "run_tests",
+    "pid": 24880,
+    "appdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\031-native\\final-ec23bc6\\final-run_tests\\appdata",
+    "localappdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\031-native\\final-ec23bc6\\final-run_tests\\local",
+    "gpu": false,
+    "exit": 0,
+    "footer": "CHECKS 835 FAILURES 0\r",
+    "errors": 0,
+    "passed": true
+  },
+  {
+    "suite": "photo_audio_tests",
+    "pid": 38936,
+    "appdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\031-native\\final-ec23bc6\\final-photo_audio_tests\\appdata",
+    "localappdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\031-native\\final-ec23bc6\\final-photo_audio_tests\\local",
+    "gpu": false,
+    "exit": 0,
+    "footer": "PHOTO AUDIO CHECKS 47 FAILURES 0\r",
+    "errors": 0,
+    "passed": true
+  },
+  {
+    "suite": "received_audio_retry_tests",
+    "pid": 35376,
+    "appdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\031-native\\final-ec23bc6\\final-received_audio_retry_tests\\appdata",
+    "localappdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\031-native\\final-ec23bc6\\final-received_audio_retry_tests\\local",
+    "gpu": false,
+    "exit": 0,
+    "footer": "RECEIVED AUDIO RETRY CHECKS 8 FAILURES 0\r",
+    "errors": 0,
+    "passed": true
+  },
+  {
+    "suite": "lock_warning_tests",
+    "pid": 3452,
+    "appdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\031-native\\final-ec23bc6\\final-lock_warning_tests\\appdata",
+    "localappdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\031-native\\final-ec23bc6\\final-lock_warning_tests\\local",
+    "gpu": false,
+    "exit": 0,
+    "footer": "LOCK WARNING CHECKS 27 FAILURES 0\r",
+    "errors": 0,
+    "passed": true
+  },
+  {
+    "suite": "photo_pricing_tests",
+    "pid": 13872,
+    "appdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\031-native\\final-ec23bc6\\final-photo_pricing_tests\\appdata",
+    "localappdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\031-native\\final-ec23bc6\\final-photo_pricing_tests\\local",
+    "gpu": false,
+    "exit": 0,
+    "footer": "PHOTO PRICING CHECKS 64 FAILURES 0\r",
+    "errors": 0,
+    "passed": true
+  },
+  {
+    "suite": "sweeper_tests",
+    "pid": 5316,
+    "appdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\031-native\\final-ec23bc6\\final-sweeper_tests\\appdata",
+    "localappdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\031-native\\final-ec23bc6\\final-sweeper_tests\\local",
+    "gpu": false,
+    "exit": 0,
+    "footer": "SWEEPER CHECKS 52 FAILURES 0\r",
+    "errors": 0,
+    "passed": true
+  },
+  {
+    "suite": "warning_chain_audio_tests",
+    "pid": 39784,
+    "appdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\031-native\\final-ec23bc6\\final-warning_chain_audio_tests\\appdata",
+    "localappdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\031-native\\final-ec23bc6\\final-warning_chain_audio_tests\\local",
+    "gpu": false,
+    "exit": 0,
+    "footer": "WARNING CHAIN AUDIO CHECKS 13 FAILURES 0\r",
+    "errors": 0,
+    "passed": true
+  }
+]

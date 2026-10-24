@@ -1,0 +1,15 @@
+{
+  "head": "ec23bc68248c96addd2487adfe9aab887c756ac0",
+  "branch": "claude/lane-a11y1",
+  "parents": "f12a4f0e1bb23cbc6ccb677b963d02dd9badbeae 139f3e943ddc9e45c6eec46a049c3781ed2865a8",
+  "tree": "ce8c98e573af3f946b159b94f7628a9c699ed3ac",
+  "game_tree": "8d597a74d3eb1e2e077fe1bc2ac86b4460cd4a02",
+  "integration": "139f3e943ddc9e45c6eec46a049c3781ed2865a8",
+  "a11y_parent": "f12a4f0e1bb23cbc6ccb677b963d02dd9badbeae",
+  "run_tag": "final-ec23bc6",
+  "godot": "C:/Users/Archi/.cache/sirens-song-toolchain/win/Godot_v4.6.3-stable_win64_console.exe",
+  "requested_model": "gpt-6.1-sol",
+  "requested_effort": "Medium",
+  "actual_backend_telemetry": "unavailable",
+  "tracked_diff": null
+}
