@@ -9,9 +9,9 @@ Pat's Windows PC. Pat stopped the cloud session on 23 October and said continue 
 ## Live source checkpoint
 
 Active development integration: `claude/integration`.
-Last reconciled source baseline: dfaf5435a75364b82c57f5567fde7eb673e505a8.
+Last reconciled source baseline: d131ca0b8b3538af6588f057ee8e7f1ab4f75273.
 This includes PR116 patrol data, PR121 landmarks, PR122 final pair/wall and
-PR123 concise briefings with folded preparation.
+PR123 concise briefings with folded preparation and PR124 independent profiles.
 023 is DONE on the authoritative board in2df2e6b after all separate source PRs
 and Windows99 passed own exact-head checks/review and actual merge verification.
 Main817, HUD575, Ocean685. Do not repeat023 or its earlier preparations.
@@ -89,22 +89,52 @@ hosted failure, every later-suite result and verified hashes. Controlled technic
 fixtures only, no fresh-player/physical-phone/headphone acceptance claim. Old
 prepared1971afd was superseded and never published; actual merge isdfaf543.
 
-Codex owns CLAIMED030, posted on the shared board inbb060b6 at11:11 AM Eastern
-before implementation. Branchclaude/lane-save-profiles starts from actualdfaf543;
-precondition017DONE and no duplicate branch/open PR was found. One implementation
-worker builds an optional persistence/profiles module with narrow SaveStore and
-frontend seams; root owns integration and an independent reviewer checks it.
-Scope: up to three named profiles, four-file byte-preserving migration, isolation,
-copy/clear with confirmation/undo, validated export/import and real touch on both
-shapes. Preserve legacy originals, unrelated profile bytes and all save meanings.
-Real disk/cold-restart fixtures must prove persistence; runtime-test scenes alone
-cannot. Source implementation and relevant verification are in progress; own
-exact-head hosted gates/review and current-base containment remain required.
+030 is DONE after PR124 merged at d131ca0 on24October,12:38PM Eastern.
+Parentsdfaf543 and9f3a1e4, identical prepared/source trees, fresh containment/
+mergeability, live integration and GitHub merged=true verified. Own exact-head
+40108698464 guidance120915675760/game-smoke120915675965 both passed. Relayed
+independent /root/review_photo APPROVE exact9f3 againstdfaf543, prior recovery/
+package P2s resolved and no new findings; source/log/hash/pixel review only,
+reviewer ran no tests. Done030 and BOARD:b42409c. First WIP within30min ofclaim.
 
-After verified030 publication, continue eligible031,032,033 in numeric order.
-032 remains Pat's judgment; keep art direction within his boundary. Claims and
-completion live on codex/handoffs. No additional board work is authorized by this
-explicit queue alone.
+Three named independent profiles retain campaign, backup, challenge and challenge
+backup. Legacy originals migrate raw and remain; pinned Store paths and fresh
+session handover prevent cross-profile queued writes/cache leaks. Staged four-file
+journal replacement preserves absence; recovery/index errors fail closed. Named
+copy/clear/import confirmations and30second undo, fully-consumed bounded transfer
+package, existing validators and a progress-preserving revert README. No new
+campaign fields, save meanings, Main/gameplay/rule/story changes. SaveStore and
+frontend are the narrow integration seams.
+
+[030 native evidence](https://github.com/pemunson90-cmd/Siren-s-Song/tree/daa851a2e9612225d3297f18c8538bbbcfe3560b/evidence/030-windows-20261024/head-9f3a1e4)
+contains44files/829124bytes before manifest: import clean, core833/0, storage68/0
+and separate coldchild3/0, native150%touchUI168/0 on both420dpi shapes, affected
+10/45/178/86/12/4/9/63 all0. Six actual GPU images and all final raw logs/hashes
+verified. Original red67/6 selected tool excerpt has provenance, not full-log
+claim. Windows cold-review env parent2fail differs from GUID-isolated unchanged
+native children9/0each; final hosted Linux parent passed separately. An accidental
+unisolated check-only setup failed before script load, no game/save test or
+personal-save access. Actual store tests isolated; no physical Android keyboard/
+file-sharing/hand acceptance, full local matrix or APK claim.
+
+Codex owns CLAIMED031, postedb42409c at12:40PM Eastern before implementation.
+Fresh branchclaude/lane-a11y1 starts from actuald131ca0; precondition017DONE,
+no duplicate a11y branch/open PR. One implementation worker builds optional
+presentation palette/caption modules, reuses existing haptics/settings, and adds
+second channels for actual sound/color gaps. Existing lock timer/source/gauge
+and received sweeper text already have second channels; preserve them. Observe
+only public receiver-earned and own-craft information, including muted audio;
+no hidden enemy/source data, new pauses, warning timing or physical-rule changes.
+Standard art direction remains;032 silhouettes stay Pat's judgment. Large text,
+real touch/Back, privacy/freeze/reset and native palette/caption images are required.
+Root owns integration; independent reviewer and own exact-head hosted gates,
+fresh current-base containment/mergeability and actual publication remain required.
+
+Claude separately owns039/041, with PR126/125 open as last checked; preserve
+those claims and fetch live integration at each boundary. After verified031
+publication continue032(Pat judges), then033 in the explicit assigned queue.
+The board alone owns claims; unrelated released items are not automatically part
+of this assignment.
 
 The native Windows hook fix is installed and merged. Use official Windows
 Godot4.6.3 directly; install-godot.sh is Linux only. Tests isolate APPDATA and
@@ -133,7 +163,7 @@ fork, 044 menu reach, 045 three early rewards before op 7. 029 now includes the
 F7 briefing addendum. Statuses live on the board; this paragraph records the earlier review queue.
 
 Held for Pat: any change to Siren senses (sight, hearing) or lock timing (Pat: not
-yet), ending at op30 details and early-reward count changes. Other released board items are outside the current030..033 assigned queue.
+yet), ending at op30 details and early-reward count changes. Other released board items are outside the current031..033 assigned queue.
 
 ## Completed context
 
@@ -152,7 +182,7 @@ remains [CURRENT_GAME_SPEC](CURRENT_GAME_SPEC.md), not a completed feature claim
 
 ## Next steps for the PC sessions
 
-Complete the existing030 claim, then eligible031,032,033 in numeric order.
+Complete the existing031 claim, then eligible032 and033 in numeric order.
 032 remains Pat's art judgment. Do not implement new story, new art direction or
 SIREN TELL. Each handoff's exact-head checks, independent review, current-base
 containment and merge permission govern publication; preserve frozen refs and
