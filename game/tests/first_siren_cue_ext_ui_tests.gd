@@ -58,6 +58,11 @@ func shape_case(shape):
  for suffix in ["",".bak",".tmp"]:DirAccess.remove_absolute(save_path+suffix)
  var invalid=archive.duplicate(true);invalid["first_siren_types"]=["a","a"]
  check(not game.store.valid(invalid),"malformed saved types are rejected by the store")
+ game.store.path=save_path;game.early_reward={};game._new_campaign();await settle()
+ var after_new=game.hud.get_node_or_null("FirstSirenCue")
+ check(after_new!=null and after_new.tracker.saved_types().is_empty(),"a new campaign forgets seen Siren kinds")
+ var fresh_archive=game.store.load_game();check(not fresh_archive.has("first_siren_types"),"the fresh save carries no old seen kinds")
+ for suffix in ["",".bak",".tmp"]:DirAccess.remove_absolute(save_path+suffix)
  game.queue_free();await settle()
 func run():
  for shape in [Vector2i(2520,1080),Vector2i(2184,1968)]:await shape_case(shape)
