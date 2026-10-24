@@ -102,6 +102,14 @@ Import clean; before/after Courier35/Blackwater33/UI10/core818/runtime665/
 density883/menu7/scroll15 all0 with clean logs. Preliminary independent source PASS.
 Parent reconciliation and own final review/hosted checks remain required.
 
+Expedition preparation is based on Courier0ed644a. Its late arrivals badge and
+world drawing use the same three-method contract at their exact original slots.
+Non-null applicability keeps the inactive-mission badge hide/reset. Interleaved
+host navigation, summary and signals composition retain their order and locals.
+Legacy two-argument drawing remains supported. Import clean; before/after menu11/
+instrumentUI47/core818/runtime665/density883/menu7/scroll15 all0 with clean logs.
+Preliminary independent source PASS. Parent/final own-head gates remain.
+
 ## Historical cloud handover snapshot
 
 All remaining sections below preserve the cloud handover as dated history.
