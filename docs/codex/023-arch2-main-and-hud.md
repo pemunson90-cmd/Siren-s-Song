@@ -1,8 +1,8 @@
 # Handoff 023: ARCH2, split main.gd and give HUD/ocean view one contract
 
-Status: OPEN
-Claimed at:
-Claimed by:
+Status: CLAIMED
+Claimed at: 2026-10-24 00:08:00 UTC
+Claimed by: codex
 Finished at:
 
 Precondition: handoffs 019 and 016 must be DONE.
@@ -26,4 +26,4 @@ main.gd and the two draw files shrink with identical behavior; CI green on each 
 PR into claude/integration; merge per the line above; mark DONE and update the board.
 
 ## Completion
-(Codex fills this in: what changed, PR link, test results, unverified items, files outside ownership needed, recommended next.)
+Claimed after021/PR95 merged b03dd691a4775bbc07abfa1e87f4938ead653342 and DONE021 plus BOARD published b169abc. Preconditions016 and019 are DONE. Read ARCH_AUDIT_1 steps5/6, current standing rules and PLAN_SNAPSHOT. Next branch claude/lane-arch2-campaign-flow from freshly fetched integration, establish named check baselines, then mechanical extraction with one main file per PR and one presentation feature per later PR. No code pushed yet; record branch and last pushed SHA after first coherent WIP. Preserve all rules, numbers, text, saves and original forwarded entry points.
