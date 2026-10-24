@@ -9,8 +9,9 @@ Pat's Windows PC. Pat stopped the cloud session on 23 October and said continue 
 ## Live source checkpoint
 
 Active development integration: `claude/integration`.
-Last reconciled source baseline: a5246131f5fde6caca332d4c986df10a0ad1b69c.
-This includes PR116 patrol data, PR121 landmarks and merged PR122 final pair/wall.
+Last reconciled source baseline: dfaf5435a75364b82c57f5567fde7eb673e505a8.
+This includes PR116 patrol data, PR121 landmarks, PR122 final pair/wall and
+PR123 concise briefings with folded preparation.
 023 is DONE on the authoritative board in2df2e6b after all separate source PRs
 and Windows99 passed own exact-head checks/review and actual merge verification.
 Main817, HUD575, Ocean685. Do not repeat023 or its earlier preparations.
@@ -28,7 +29,7 @@ retains the12fresh and64justified reused pressure pairs,76 matching records,
 026 is DONE on the board in f1d4550. Its Completion on codex/handoffs is the
 read-only review of opening operations on aaff40e. Camera captions and craft
 badges overlapped on both screen shapes; ordinary HUD was clear after camera
-closure. The critic won0/5, abandoned1 and lost2/3/4. Coarse scripted timings
+closure. The critic won operations0 and5, abandoned operation1 and lost operations2,3,4. Coarse scripted timings
 limit fairness conclusions. A separate cold-process save/coast probe passed;
 the main play session did not prove disk saves. The report records that limit.
 Verified local evidence: outputs/026-opening-review-evidence.zip, SHA256
@@ -55,25 +56,55 @@ limit subjective image-similarity criticism; no physical-phone/audio claim.
 Old prepared7732ffc was superseded and not published. Actual game tree:
 2524e1ee90ad27597f70eed81e3dbbb2f1f69299.
 
-Codex owns CLAIMED029, posted87ceedf before implementation, branch
-claude/lane-onboard2 from actual a524613. Precondition017 is DONE; no duplicate
-branch/open PR existed. Scope: short factual GOAL/DANGER/NEW THIS DIVE rows for
-ids3..29 (display4..30), unchanged photo-problem text, original contextual brief
-and local-order instructions in FIELD MANUAL, and initially folded preparation.
-First three briefings/hints and all operation/photo/rule data remain unchanged.
-One flow file selects the optional table and resize-only width helper; no saved
-fields. Existing text-size/density scaling remains active. Four footer controls
-keep Enter, Manual, Fittings and Back reachable; fitting selection/manual return
-retain transient expansion, fresh visits reset it. Switch off restores legacy flow.
+029 is DONE after PR123 merged at dfaf543 on24October,9:19 AM Eastern.
+Actual parentsa524613 and053c1ae, identical prepared/source trees and live remote
+plus GitHub merged=true were verified. Own exact-head guidance/game-smoke
+40094401838 both passed; independent /root/review_photo approved exact053c1ae
+and retained prior unchanged-production/docs/visual approval againsta524613.
+This is a relayed review, not formal GitHub approval; reviewer ran no tests.
+Done029 and BOARD were committed together inbb060b6. Source branch
+claude/lane-onboard2 remains preserved, last pushed053c1ae.
 
-[029 plan](codex/029-implementation-plan.md). Import clean; latest core833/0,
-data57/0, native GPU UI782/0 across all27 affected operations at150% text on both
-shapes, existing onboarding30/0 and FIX2 menu24/0. Six native captures show three
-representative operations6/12/25. Initial layout failures are retained; no test
-was skipped or loosened. Independent final-head review and own hosted gates
-are still required before merge. Live PR and board own current publication and
-claims. After verified029 publication, continue eligible030..033 in numeric order;
-032 remains Pat's judgment and art direction stays within his boundary.
+[029 plan](codex/029-implementation-plan.md). Optional mechanical rows cover
+internal3..29, displayed4..30; original contextual briefs/local-order text remain
+in FIELD MANUAL, photo text and first-three hints unchanged. Initially folded
+preparation retains expansion during fitting/manual return and resets on a fresh
+visit. Enter, Manual, Fittings and Back stay visible. One flow seam and resize-only
+width adapter, no new save fields, operation/photo/rule changes or story.
+
+Import clean; core833/0, data57/0, native UI782/0 with six capture-write checks,
+onboarding30/0 and FIX2menu24/0. All27affected operations use150% text on both
+420dpi shapes, real touch, Android Back and live shape switching. Initial hosted
+40091651801 failed an old scrolling test that assumed expanded preparation;
+real touch now opens the fold before all50original assertions, regression52/0.
+All151later CI ranks73..223 ran locally:150passed, one Linux-env parent launcher
+failed on Windows. The exact unchanged cover/inner children then passed under a
+native Windows launcher,9/0each and launcher2/0. Original failure preserved;
+independent reviewer verified coverage/qualification. Final hosted Linux parent
+passed separately. Later UI776/0 omits the six optional capture assertions.
+
+[029 evidence and qualified follow-up](https://github.com/pemunson90-cmd/Siren-s-Song/tree/a74bd80e96c2fa8c08c24e3348b0a86f9e355035/evidence/029-windows-20261024)
+contains raw logs, six native images, development failures, the bounded/truncated
+hosted failure, every later-suite result and verified hashes. Controlled technical
+fixtures only, no fresh-player/physical-phone/headphone acceptance claim. Old
+prepared1971afd was superseded and never published; actual merge isdfaf543.
+
+Codex owns CLAIMED030, posted on the shared board inbb060b6 at11:11 AM Eastern
+before implementation. Branchclaude/lane-save-profiles starts from actualdfaf543;
+precondition017DONE and no duplicate branch/open PR was found. One implementation
+worker builds an optional persistence/profiles module with narrow SaveStore and
+frontend seams; root owns integration and an independent reviewer checks it.
+Scope: up to three named profiles, four-file byte-preserving migration, isolation,
+copy/clear with confirmation/undo, validated export/import and real touch on both
+shapes. Preserve legacy originals, unrelated profile bytes and all save meanings.
+Real disk/cold-restart fixtures must prove persistence; runtime-test scenes alone
+cannot. Source implementation and relevant verification are in progress; own
+exact-head hosted gates/review and current-base containment remain required.
+
+After verified030 publication, continue eligible031,032,033 in numeric order.
+032 remains Pat's judgment; keep art direction within his boundary. Claims and
+completion live on codex/handoffs. No additional board work is authorized by this
+explicit queue alone.
 
 The native Windows hook fix is installed and merged. Use official Windows
 Godot4.6.3 directly; install-godot.sh is Linux only. Tests isolate APPDATA and
@@ -102,8 +133,7 @@ fork, 044 menu reach, 045 three early rewards before op 7. 029 now includes the
 F7 briefing addendum. Statuses live on the board; this paragraph records the earlier review queue.
 
 Held for Pat: any change to Siren senses (sight, hearing) or lock timing (Pat: not
-yet), ending at op30 details and early-reward count changes. Board049 was
-released separately by Pat on24 October; it is outside the current025 claim.
+yet), ending at op30 details and early-reward count changes. Other released board items are outside the current030..033 assigned queue.
 
 ## Completed context
 
@@ -113,15 +143,16 @@ merged and DONE. PR77/79/89 are also integrated; PR80 reconciled handoff pointer
 The board retains the full earlier history and exact completion facts. Do not
 restart those claims from an old lane table, source checkpoint or session ledger.
 
-Thirty operation IDs exist. M1 adds fourteen optional subjects and sixteen
-returned-film marks; PR95 adds a derived route map. These do not implement027's
-final pair/photo-wall or establish full cold campaign/physical-phone acceptance.
+Thirty-two operation IDs0..31 now exist, including027's two final operations.
+M1 adds fourteen optional subjects and sixteen returned-film marks; PR95 adds a
+derived route map. The final pair/photo wall are implemented; this does not
+establish full cold campaign or physical-phone acceptance.
 Camera capability and limits: [PHOTO_RECON](PHOTO_RECON.md). Intended expansion
 remains [CURRENT_GAME_SPEC](CURRENT_GAME_SPEC.md), not a completed feature claim.
 
 ## Next steps for the PC sessions
 
-Complete the existing025 claim, then eligible026,027,029 to033 in numeric order.
+Complete the existing030 claim, then eligible031,032,033 in numeric order.
 032 remains Pat's art judgment. Do not implement new story, new art direction or
 SIREN TELL. Each handoff's exact-head checks, independent review, current-base
 containment and merge permission govern publication; preserve frozen refs and
