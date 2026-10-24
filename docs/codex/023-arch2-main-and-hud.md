@@ -65,6 +65,17 @@ Main. Keep draft until99/100 land and fresh integration/review/own checks pass.
 contained, then continue ui_metrics and one presentation feature per PR. Only
 after every023 step lands mark DONE with BOARD in the same done023 commit.
 
+Later local preparation checkpoint: metrics PR101 last pushed
+983f057da75c60240a9e3634dffcfed2aeb16693, independent exact prepared-head APPROVE,
+import/core818/runtime665/dispatch13/recap8/metrics77/planner38/density883/menu7/
+scroll15 all zero failures, clean exits/logs, exact source/body restoration.
+First display-contract feature is claude/lane-arch2-wake-view last pushed
+5935f1cfd496a2adb9a499e57e62862c7f7b1742, based on metrics983f057. Wake uses
+ordered HUD/WORLD registration at exactly its original refresh/draw positions.
+Preliminary independent source PASS; import/Wake31/touchUI37/density883/menu7/
+scroll15 pass. Core/runtime still running, no PR/final gate yet. These remain
+preparations until parent PRs land and each own current-head/base gate passes.
+
 ### Historical cloud progress
 Claimed after021/PR95 merged b03dd691a4775bbc07abfa1e87f4938ead653342 and DONE021 plus BOARD published b169abc. Preconditions016 and019 are DONE. Read ARCH_AUDIT_1 steps5/6, current standing rules and PLAN_SNAPSHOT. Next branch claude/lane-arch2-campaign-flow from freshly fetched integration, establish named check baselines, then mechanical extraction with one main file per PR and one presentation feature per later PR. No code pushed yet; record branch and last pushed SHA after first coherent WIP. Preserve all rules, numbers, text, saves and original forwarded entry points.
 
