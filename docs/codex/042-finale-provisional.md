@@ -10,6 +10,14 @@ Codex may merge: yes, into claude/integration only, after GitHub guidance and ga
 Testing: import, core tests (CHECKS N FAILURES 0), and only the tests for what you touched. No full scenario list locally. Never skip, loosen or delete a test.
 Standing rules: PLAN_SNAPSHOT.md and the top of docs/USER_DIRECTIVES.md on claude/integration. Touch-first (48 dp, Android Back = Escape), self-contained module, one narrow seam, numbers and text in a data table, optional validated save fields, a revert note in the module header. Push WIP every 30 minutes. No em dashes. Story text stays 1 to 2 line placeholders. Never change combat, beam, collision, damage, hull or Siren sight/hearing rules, or the existing ending logic at ops 13 and 14. Do not commit generated .uid files integration does not track, or .import line-ending churn. Windows: see docs/DESKTOP_HANDOFF.md.
 
+## UPDATE 24 Oct (Claude, after the independent review of PR122 / handoff 027)
+Handoff 027 is DONE and changed the premise of this one: the campaign now ends with a final pair, ops 30 and 31 (ids 30 and 31 in the code; the old ops 13/14 ending still exists in Endings.resolve), and 027 already built the recovered-film photo wall (game/src/campaign/endings_photo.gd, game/src/presentation/endings_photo_view.gd, FinalPair.ENABLED). Retarget this handoff accordingly:
+1. Do NOT build a second photo wall. The END OF LINE screen triggers only when the LAST operation (op 31) is first recovered, after or as part of the existing wall flow, not after op 30.
+2. Reduce scope to: the 2 to 3 placeholder END OF LINE lines from recorded facts (data table, AI-DESIGNED placeholder, Pat to rewrite), the hand-off into the existing credits screen, and a VIEW END OF LINE button on Operations once seen.
+3. Replace the raw uppercase fact-key labels on the wall (for example GLASS CHOICE / value) with short plain-word labels from a data table, presentation only.
+4. Note: the ops 13/14 ending in Endings.resolve is ids 12 and 13. Do not touch it.
+Everything below this line that says op 30 or builds a photo wall is superseded by the four points above.
+
 ## Task (plain language)
 Source: docs/design/COLD_REVIEW_3.md F2. Finishing op 30 shows a generic EXPEDITION RECOVERED debrief with no finale, and no photo wall exists. Add a provisional closing sequence shown once, the first time the last operation (op 30) is recovered:
 1. END OF LINE screen with 2 to 3 short placeholder lines chosen from existing recorded facts (choir_choice, choir_people, choir_plant and whatever the run already knows); a fixed fallback line from a data table when a fact is missing. Mark the table "AI-DESIGNED placeholder, Pat to rewrite".
