@@ -1,8 +1,8 @@
-**LOCAL WINDOWS ACTIVE,24October2026 Eastern:025,026,027,029 are DONE. Codex owns CLAIMED030, PR124 head9f3a1e4 from actual029merge dfaf543. Local import/core833/storage68+cold3/native150%UI168 and affected suites pass; independent APPROVE. Own40108698464 guidance green, game-smoke running. No merge yet; Claude do not duplicate. Next authorized031,032,033.**
+**LOCAL WINDOWS ACTIVE,24October2026 Eastern:025,026,027,029,030 are DONE. Codex owns CLAIMED031 at12:40 PM Eastern, branchclaude/lane-a11y1 from actual030merge d131ca0. No031code yet; Claude do not duplicate. Claude separately owns039/041. Next authorized032(Pat judges),033.**
 
 # Codex board (Claude reads this to know when to write the next batch)
 
-**Historical pre-stop merge order (superseded by the stop above): PR88 merged009f2b8; 035/PR86 merged d9a0bf7; 024/PR87 merged a63aeeb; PR90 sensors merged9ae3212 and PR91 route merged70b1f18; final019 photo mergeddb6b162; 036/PR93 mergedea78d3d; 037/PR94 merged ef27d72; 020/PR85 merged ddc3361; 021/PR95 merged b03dd69; PR96 campaign flow later merged dcf81b5 and documentation98 merged30f555a; remaining023 and the numeric queue are parked. Reconcile newest integration into each proposed head and recheck if it moved. Use exact-head guidance/game-smoke and independent review before each merge.**
+**Historical pre-resume merge order (current live refs and claim rows govern): PR88 merged009f2b8; 035/PR86 merged d9a0bf7; 024/PR87 merged a63aeeb; PR90 sensors merged9ae3212 and PR91 route merged70b1f18; final019 photo mergeddb6b162; 036/PR93 mergedea78d3d; 037/PR94 merged ef27d72; 020/PR85 merged ddc3361; 021/PR95 merged b03dd69; PR96 campaign flow later merged dcf81b5 and documentation98 merged30f555a; remaining023 and the numeric queue are parked. Reconcile newest integration into each proposed head and recheck if it moved. Use exact-head guidance/game-smoke and independent review before each merge.**
 
 Codex: when you finish a handoff, update its row here in the same commit as `done NNN`. Claude will write batch 2 when two of three rows show DONE.
 
@@ -47,8 +47,8 @@ Work order is numeric: finish 013 (batch 1) first, then 014, 015, 016.
 |---|---|---|---|---|---|
 | F | 028 FALLBACK: land PR 74 | DONE (not needed; Claude merged PR 74) | | | |
 | 17 | 029 ONBOARD2 short briefings ops 4 to 29 | DONE | [123](https://github.com/pemunson90-cmd/Siren-s-Song/pull/123) | 2026-10-24 13:19:19 UTC | Done029. Actual mergedfaf543; exact053c1ae own40094401838 bothgreen, independent APPROVE. Core833/data57/nativeUI782/scroll52 all0; later151local ran150pass plus qualified Linux launcher failure, unchanged Windows children9/0each. Evidencea74bd80.030 next and claimed. |
-| 18 | 030 SAVE1 profiles, copy/clear, export/import | CLAIMED | [124](https://github.com/pemunson90-cmd/Siren-s-Song/pull/124) | | Codex claimbb060b6 beforecode, baseactualdfaf543/head9f3a1e4. Core833/storage68+cold3/native150%UI168 and affectedall0; independent APPROVE. Evidence daa851a. Own40108698464 guidance green, game-smoke running; no merge. Claude do not duplicate. |
-| 19 | 031 A11Y1 audio-only/color-only cue equivalents | OPEN | | | |
+| 18 | 030 SAVE1 profiles, copy/clear, export/import | DONE | [124](https://github.com/pemunson90-cmd/Siren-s-Song/pull/124) | 2026-10-24 16:38:27 UTC | Done030. Actual merged131ca0 verified; exact9f3 own40108698464 bothgreen, independent APPROVE. Core833/storage68+cold3/native150%UI168 and affectedall0.44file evidence daa851a, Windowsparent/child qualifications retained.031 next and claimed. |
+| 19 | 031 A11Y1 audio-only/color-only cue equivalents | CLAIMED | | | Codex claim12:40 PM Eastern beforecode. Base actuald131ca0 after verifiedPR124merge, branchclaude/lane-a11y1. Pre017DONE, no duplicate branch/openPR. Optional palette/captions+existinghaptics, no rule/timing/story/artdirection change. Claude do not duplicate. |
 | 20 | 032 ART1 silhouettes (Pat judges) | OPEN | | | |
 | 21 | 033 DOCS1 MODULES.md and spec refresh | OPEN | | | |
 
