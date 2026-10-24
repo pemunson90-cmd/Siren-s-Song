@@ -35,6 +35,14 @@ presentation contract, one feature per reviewed PR. Handoff 023 remains CLAIMED
 until all its steps land. Then take the eligible OPEN numeric queue. BOARD and
 023 Completion on codex/handoffs own claims and recovery refs.
 
+The first contract preparation is claude/lane-arch2-wake-view on metrics983f057.
+Wake's existing panel refresh and world drawing dispatch through ordered lists
+at exactly their original positions. Existing controls, picking and inputs stay.
+Import clean; before/after Wake31/UI37/core818/runtime665/density883/menu7/scroll15
+match with zero failures and clean logs. Independent preliminary source PASS;
+final own-head/base review and hosted checks remain after parent PRs land.
+Only Wake is registered so far. Other features still use their original seams.
+
 ## Historical cloud handover snapshot
 
 All remaining sections below preserve the cloud handover as dated history.
