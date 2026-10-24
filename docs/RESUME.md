@@ -1,12 +1,12 @@
 # RESUME: operational entry
 
-**Execution:** development RESUMED by Pat (23 Oct 2026). Codex034/FIX1,035/FIX2 (PR86),024 audio (PR87) and all019 ARCH1 steps PR81/PR83/PR88/PR90/PR91/PR92 are merged. Pat cleared merges. 036 cue PR93 and037 reward PR94 are also merged. Current order (23 Oct): existing020 PR85,021 and the eligible numeric queue. Live claims/completion remain on docs/codex/BOARD.md in codex/handoffs.
+**Execution:** development RESUMED by Pat (23 Oct 2026). Codex034/FIX1,035/FIX2 (PR86),024 audio (PR87) and all019 ARCH1 steps PR81/PR83/PR88/PR90/PR91/PR92 are merged. Pat cleared merges. 036 cue PR93 and037 reward PR94 are also merged. 020 campaign photos PR85 is also merged. Current order (23 Oct): 021 route map,023 and the eligible numeric queue. Live claims/completion remain on docs/codex/BOARD.md in codex/handoffs.
 
-**Current source checkpoint (020 campaign photos):** last reconciled actual integrationef27d72 contains completed019/036/037. This existing M1 lane normally contains that actual merge. Its two photo data modules and focused tests match approved preparation5e6ada5; the complete game tree equals tested preparation30618d1. Fourteen optional subjects and16 returned-film marks use existing camera/depth/priced-shot systems, preserve bare craft work and keep routes informative-only. M1 stays192/213 after cue/reward suites. Current-engine import/core818/0,photo361/0,Iron57/0,journeys108/0 and independently verified76pair/1105command pressure parity apply to identical source. Obtain final actual-parent independent review and exact-head guidance/game-smoke before PR85 merge. Then mark020 DONE with BOARD and claim eligible021. No APK or frozen-branch promotion.
+**Current source checkpoint (021 route map):** last reconciled actual integrationddc3361 contains completed019/020/035/024/036/037. Handoff021 is CLAIMED on codex/handoffs; this branch adds a derived thirty-operation graph and standalone touch view through one campaign button. Existing progression, photo intel and catalog prerequisites remain authoritative; no save fields or operation-table edits. The opening six form one visual group with distinct states. Functional50/0, real Canvas70/0 on both Fold7 shapes, import/core818/0 and neighboring menu24/frontend63 all clean. Pan/zoom, CURRENT branch focus, largest existing text setting, live resize, fair briefing delegation, three Back paths, photo rumours, unchanged archive and off switch are covered. Finish the feature, independent review and exact-head guidance/game-smoke before merge; then023 and the eligible numeric queue. No APK or frozen-branch promotion.
 
 ## CHECKPOINT 23 Oct (updated after PR79 and PR80 merged)
-Integration holds PR77 (photo and cargo repairs), PR79 (this guidance and Pat's decisions D1 to D5), PR81, PR83, PR88, PR90, PR91 and PR92 (ARCH1 steps,019 DONE), and PR86 (035/FIX2), PR87 (024 audio), PR93 (036 first-Siren cue), PR94 (037 early reward). PR80 is merged on codex/handoffs. PR82 and PR84 were folded into PR79 and closed. Codex merge hold is LIFTED (Pat tells Codex). Hooks: Pat reinstalls between Codex tasks (python3 scripts/toolchain/install-gauntlet-hooks.py).
-Codex queue (docs/codex/BOARD.md): 020 campaign photos PR85,021,023,025 to027,029 to033 in numeric order when eligible. Pat's rule: phone testing only after the game is feature complete and bug free; no APKs.
+Integration holds PR77 (photo and cargo repairs), PR79 (this guidance and Pat's decisions D1 to D5), PR81, PR83, PR88, PR90, PR91 and PR92 (ARCH1 steps,019 DONE), and PR86 (035/FIX2), PR87 (024 audio), PR93 (036 first-Siren cue), PR94 (037 early reward), PR85 (020 campaign photos). PR80 is merged on codex/handoffs. PR82 and PR84 were folded into PR79 and closed. Codex merge hold is LIFTED (Pat tells Codex). Hooks: Pat reinstalls between Codex tasks (python3 scripts/toolchain/install-gauntlet-hooks.py).
+Codex queue (docs/codex/BOARD.md): 021 route map,023,025 to027,029 to033 in numeric order when eligible. Pat's rule: phone testing only after the game is feature complete and bug free; no APKs.
 D3 photo grade at "Record secured" merged in PR89 (switch GradeOnSecure.enabled). Next: review Codex PRs, re-run a cold review after 035 lands, and keep 5 hours of OPEN work ahead of Codex (write batch 7 when two of 035, 036, 037 are DONE).
 Resume command: start Claude Code on claude/integration and say: "Read docs/RESUME.md, then continue the Gauntlet as root orchestrator." Pat is not a developer: plain language, Eastern times, no em dashes, no jargon.
 
@@ -34,9 +34,9 @@ Integration baseline: `70894702610ba8499b696af072444c8c942e2476` (PR78). Queue o
 - Architecture019/023, later reconnaissance020, route map021, landmarks025 and final pair/photo-wall027 remain on the existing board, alongside the other authorized lanes. Read live eligibility and claims there instead of copying the queue here.
 
 ## Next actions
-1. All019 steps,036 and037 are merged/DONE. Finish existing020 PR85 after final actual-parent independent review and exact-head guidance/game-smoke.
-2. Mark020 DONE and BOARD together, then claim eligible021 route map. Preserve all published source and recorded completion evidence.
-3. Continue023,025 to027 and029 to033 in numeric order, skipping unmet preconditions. No APKs or frozen-branch promotion.
+1. 020,036,037 and all019 steps are merged/DONE. Finish claimed021 route map on claude/lane-route-map with independent review and exact-head guidance/game-smoke.
+2. After021 DONE and BOARD are committed together, take eligible023, then025 to027 and029 to033 in numeric order, skipping unmet preconditions.
+3. Preserve published source, existing saves and recorded evidence. No APKs or frozen-branch promotion.
 
 
 ## Verification and evidence

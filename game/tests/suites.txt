@@ -213,3 +213,5 @@ first_siren_cue_ui_tests|FIRST SIREN CUE UI|189|210|render
 early_reward_tests|EARLY REWARD|190|211
 early_reward_ui_tests|EARLY REWARD UI|191|212|render
 campaign_photo_rows_tests|CAMPAIGN PHOTO ROWS|192|213
+route_map_tests|ROUTE MAP|193|214
+route_map_ui_tests|ROUTE MAP UI|194|215|render
