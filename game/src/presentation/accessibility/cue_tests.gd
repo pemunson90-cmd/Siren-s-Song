@@ -10,6 +10,9 @@ var failures=0
 func check(ok,label):
  checks+=1
  if not ok:failures+=1;printerr("FAIL ",label)
+func contrast(a:Color,b:Color)->float:
+ var x=a.srgb_to_linear().get_luminance();var y=b.srgb_to_linear().get_luminance()
+ return (maxf(x,y)+.05)/(minf(x,y)+.05)
 func _initialize():call_deferred("run")
 func fresh():
  var s=Sim.new();s.start(0);s.paused=false;return s
@@ -56,6 +59,9 @@ func run():
  check(Palette.color("warning",Color.RED)==Color.RED,"standard default hue is untouched")
  Settings.apply({"safe_palette":true})
  check(Palette.color("warning",Color.RED)==Color("e69f00"),"optional palette uses table color")
+ for role in ["warning","reach","flash","ink"]:
+  check(contrast(Palette.color(role,Color.WHITE),Color("07131b"))>=4.5,"safe palette label contrast on caption/chart backing "+role)
+ check(contrast(Palette.color("heard",Color.WHITE),Color("07131b"))>=3.,"safe shutter stroke contrast on dark backing")
  var patterns=preload("res://src/presentation/accessibility/cue_table.gd").PATTERNS
  check(patterns.flash!=patterns.warning and patterns.warning!=patterns.heard and patterns.heard!=patterns.flash,"semantic rings differ without hue")
  var sound=preload("res://src/audio/soundscape.gd").new();root.add_child(sound);await process_frame

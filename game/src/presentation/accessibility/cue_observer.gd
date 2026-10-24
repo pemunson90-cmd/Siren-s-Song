@@ -25,7 +25,7 @@ func _emit(cue:String,time:float,suffix:String="")->void:
  if cue in ["lock","sweep_received","film_empty","loss"] and Settings.vibrate(Table.PULSE_MS):pulse_requests+=1
  if not Settings.current.get("audio_captions",false):return
  rows.append({"text":str(Table.TEXT[cue])+suffix,"until":time+Table.SECONDS})
- while rows.size()>2:rows.pop_front()
+ while rows.size()>Table.MAX_ROWS:rows.pop_front()
 func observe(sim,active:bool)->void:
  emitted=[]
  if not Table.ENABLED:rows.clear();return

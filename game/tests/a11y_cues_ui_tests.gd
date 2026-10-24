@@ -41,6 +41,8 @@ func shape_case(shape):
  check(view.visible and "HEARD" in view.text,"muted critical receiver captions are drawn beside live camera and lock")
  check(Rect2(game.global_position,game.size).encloses(view.get_global_rect()),"caption stays inside safe content")
  for rect in view.occupied:check(not view.get_global_rect().intersects(rect),"caption is disjoint from existing critical HUD camera badge and active controls")
+ var fixed_rect=view.get_global_rect();game._refresh();await settle()
+ check(view.get_global_rect()==fixed_rect,"unchanged caption retains its valid placement without jitter")
  check(view.mouse_filter==Control.MOUSE_FILTER_IGNORE and s.snapshot()==baseline,"caption layout preserves touch and simulation")
  for safe in [false,true]:
   Settings.current.safe_palette=safe;game._refresh();await settle();game.ocean.queue_redraw();game.lock_warning.queue_redraw()
@@ -57,6 +59,7 @@ func shape_case(shape):
  check(view.get_meta("status_fallback",false) and status_before in game.mission_hud.intent.text and "HEARD" in game.mission_hud.intent.text,"no free chart space retains caption and every existing status word")
  check(Rect2(Vector2.ZERO,game.size).encloses(game.mission_hud.intent.get_rect()),"crowded fallback remains in safe content at150percent")
  hints.position=old_rect.position;hints.size=old_rect.size;hints.visible=old_visible
+ await capture("a11y-%d-status-fallback"%shape.x)
  game._refresh();await settle()
  check(not view.get_meta("status_fallback",false) and not "HEARD: sweeper warning" in game.mission_hud.intent.text,"free-space return removes only the caption suffix cleanly")
  Settings.current.audio_captions=false;game._refresh();await settle()

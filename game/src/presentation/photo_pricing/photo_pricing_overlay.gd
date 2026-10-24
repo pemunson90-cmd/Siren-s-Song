@@ -46,13 +46,10 @@ static func draw_chart(ci,sim)->void:
 		ci.draw_arc(at,rings.plain,0,TAU,72,Color(Palette.color("reach",GREEN),0.8),2.0/scale)
 		ci._label(at+Vector2.from_angle(-0.8)*float(rings.plain),"%s %dm"%[str(rings.label),roundi(rings.plain)],Palette.color("reach",GREEN),14)
 		if float(rings.flash)>float(rings.plain)+1.0:
-			Palette.ring(ci,at,rings.flash,Color(Palette.color("flash",GREEN),0.65),1.4/scale,"flash")
+			Palette.ring(ci,at,rings.flash,Color(Palette.color("flash",GREEN),0.5),1.4/scale,"flash")
 			ci._label(at+Vector2.from_angle(-0.55)*float(rings.flash),"FLASH REACH",Palette.color("flash",GREEN),14)
 	for s in rings.sirens:
 		Palette.ring(ci,s.pos,s.r,Palette.color("warning",Color(0.95,0.7,0.35,0.7)),1.6/scale,"warning")
 		ci._label(s.pos+Vector2(0,-float(s.r)),"OBSERVED SIREN",Palette.color("warning",AMBER),14)
 	Palette.ring(ci,rings.craft,rings.heard,Palette.color("heard",Color(0.55,0.85,0.95,0.28)),1.2/scale,"heard")
-	ci._label(rings.craft+Vector2(0,float(rings.heard)),"OWN SHUTTER",Palette.color("heard",INK),14)
-static func _dotted(ci,center:Vector2,radius:float,color:Color,width:float,segments:int)->void:
-	for k in segments:
-		if k%2==0:ci.draw_arc(center,radius,TAU*k/segments,TAU*(k+1)/segments,6,color,width)
+	ci._label(rings.craft+Vector2(0,float(rings.heard)),"OWN SHUTTER",Palette.color("ink",INK),14)
