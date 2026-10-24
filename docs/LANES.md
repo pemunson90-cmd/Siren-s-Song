@@ -1,4 +1,8 @@
-# Lanes (only coordination doc)
+# Historical lane ledger (21 October 2026)
+
+This table preserves old assignments and is not a live claim list. Current ownership is on docs/codex/BOARD.md at codex/handoffs; current execution is in [RESUME](RESUME.md). Pat requested the cloud stop and Windows handover in [DESKTOP_HANDOFF](DESKTOP_HANDOFF.md). Claude orchestrates; Codex may merge only under its handoff/delegation. Only Pat promotes to frozen production/main. No APKs. The historical lane text below does not restart workers or override these rules.
+
+## Original coordination snapshot
 
 Root: Claude. Integration branch `claude/integration` (from production `ca4735e`). Lanes branch from it as
 `claude/lane-<id>-<slug>` and return by PR into it. Only root merges. Promotion to `gauntlet/production` needs Pat.
