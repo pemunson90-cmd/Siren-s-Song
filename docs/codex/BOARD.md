@@ -94,4 +94,4 @@ Still held for Pat: any change to Siren sight, hearing or lock timing (Pat: not 
 | 44 | 046 DEATH CAUSE: one plain line on the loss debrief saying why the player was found (read-only) | OPEN | | | F9. Sim keeps no cause history; observer needed. |
 | 45 | 047 CHALLENGE COMPLETIONS: one scripted completion per row, route-aware par proposal | OPEN | | | F11. Par changes are Pat decisions; proposal file only. |
 | 46 | 048 HUD SAMENESS: operation-aware status text and explained ARRIVALS | OPEN | | | F14. Presentation only. |
-| H | 049 FIRST-SIREN CUE EXTENSION: op 1 and a one-time new Siren type note | HOLD | | | F8. Pat gate, adjacent to Siren perception. Do not start until Pat releases. |
+| 44 | 049 FIRST-SIREN CUE EXTENSION: op 1 and a one-time new Siren type note | OPEN | | | F8. Released by Pat 24 Oct. Presentation only: no change to Siren sight, hearing or lock timing. |

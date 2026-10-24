@@ -1,11 +1,11 @@
 # Handoff 049: FIRST-SIREN CUE EXTENSION, op 1 and a one-time "new Siren type" note
 
-Status: HOLD
+Status: OPEN
 Claimed at:
 Claimed by:
 Finished at:
 
-HOLD: Pat gate. This is adjacent to Siren perception (it reads the same notice event that follows Siren hearing and sight), so Pat must release it. Codex does not start this until Pat sets Status: OPEN here and on the board. Pat said earlier: nothing on Siren sight, hearing or lock timing. This handoff does not touch those, but the gate stands.
+RELEASED by Pat 24 Oct (approved with the sweeper patrol pass). Original note: Pat gate. This is adjacent to Siren perception (it reads the same notice event that follows Siren hearing and sight), so Pat must release it. Codex does not start this until Pat sets Status: OPEN here and on the board. Pat said earlier: nothing on Siren sight, hearing or lock timing. This handoff does not touch those, but the gate stands.
 Precondition: Pat release. Source: docs/design/COLD_REVIEW_3.md finding F8 (continues COLD_REVIEW_2 B3). Presentation only. AI-DESIGNED proposal, Pat to adjust.
 Codex may merge: yes (after release), into claude/integration only, after GitHub guidance and game-smoke are both green on the exact head and the PR is mergeable. Merge with a merge commit, then mark DONE and update docs/codex/BOARD.md.
 Testing: import, core tests (CHECKS N FAILURES 0), first_siren_cue_tests (37 checks) and first_siren_cue_ui_tests (52 checks) plus new ones. No full scenario list locally. Never skip, loosen or delete a test.
