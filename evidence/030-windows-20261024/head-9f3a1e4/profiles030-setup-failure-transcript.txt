@@ -1,0 +1,17 @@
+Selected transcript copied from tool output chunk0c3350 (2026-10-24, approximately11:21 Eastern). This was a --check-only command, before script load. APPDATA/LOCALAPPDATA were accidentally absent from that shell invocation. No game or save test ran. No existing save was opened or changed. Subsequent checks and every actual store run use isolated APPDATA/LOCALAPPDATA below work/.
+
+Command:
+Godot_v4.6.3-stable_win64_console.exe --headless --path game --script res://src/persistence/profiles/profile_ui_tests.gd --check-only
+
+ERROR: Could not create directory: 'C:/Users/Archi/AppData/Roaming/Godot/app_userdata'.
+   at: make_dir_recursive (core/io/dir_access.cpp:178)
+ERROR: Error attempting to create data dir: C:/Users/Archi/AppData/Roaming/Godot/app_userdata/Siren's Song.
+   at: ensure_user_data_dir (core/os/os.cpp:437)
+ERROR: Could not create directory: 'user://logs'.
+   at: make_dir_recursive (core/io/dir_access.cpp:178)
+CrashHandlerException: Program crashed with signal 11
+Engine version: Godot Engine v4.6.3.stable.official (7d41c59c457bd5a245092b4e7eb2d833e3b3f8c3)
+EXIT -1073741819
+
+Original tool output included15 native backtrace entries with no debug info in PE/COFF executable. This file is a transcript copy, not a rerun.
+

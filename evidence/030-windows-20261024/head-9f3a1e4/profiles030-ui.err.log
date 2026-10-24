@@ -1,0 +1,4 @@
+SCRIPT ERROR: Parse Error: Could not resolve class "res://src/persistence/profiles/profile_ui_tests.gd".
+   at: GDScript::reload (res://tests/save_profiles_ui_tests.gd:1)
+ERROR: Failed to load script "res://tests/save_profiles_ui_tests.gd" with error "Parse error".
+   at: load (modules/gdscript/gdscript.cpp:2907)

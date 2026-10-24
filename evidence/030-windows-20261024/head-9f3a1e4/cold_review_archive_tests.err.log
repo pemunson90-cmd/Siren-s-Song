@@ -1,0 +1,10 @@
+ERROR: Could not create child process: env "XDG_DATA_HOME=C:/Users/Archi/Documents/Codex/2026-10-23/continue-as-codex-on-the-siren/work/profiles030-cold_review_archive_tests-local/sirens-cold-review-19948-cover-3720297" C:/Users/Archi/.cache/sirens-song-toolchain/win/Godot_v4.6.3-stable_win64.exe --headless --path C:/Users/Archi/Documents/Codex/2026-10-23/continue-as-codex-on-the-siren/work/landmarks-merge/game/ --script res://tests/cold_review_archive_tests.gd -- cover
+   at: execute (platform/windows/os_windows.cpp:1496)
+   GDScript backtrace (most recent call first):
+       [0] run (res://tests/cold_review_archive_tests.gd:34)
+FAIL fresh cover launch and touch archive checks
+ERROR: Could not create child process: env "XDG_DATA_HOME=C:/Users/Archi/Documents/Codex/2026-10-23/continue-as-codex-on-the-siren/work/profiles030-cold_review_archive_tests-local/sirens-cold-review-19948-inner-3798331" C:/Users/Archi/.cache/sirens-song-toolchain/win/Godot_v4.6.3-stable_win64.exe --headless --path C:/Users/Archi/Documents/Codex/2026-10-23/continue-as-codex-on-the-siren/work/landmarks-merge/game/ --script res://tests/cold_review_archive_tests.gd -- inner
+   at: execute (platform/windows/os_windows.cpp:1496)
+   GDScript backtrace (most recent call first):
+       [0] run (res://tests/cold_review_archive_tests.gd:34)
+FAIL fresh inner launch and touch archive checks
