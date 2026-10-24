@@ -29,51 +29,55 @@ PR into claude/integration; merge per the line above; mark DONE and update the b
 
 ### Canonical current local recovery refs, 24 October 2026 Eastern
 
-This table supersedes every older progress/stop/checkpoint note below. Pat has
-resumed023 locally; it remains CLAIMED and partial. Current integration is
-ca2bda005c2f12b87294511e4c02c3accb58dec3 after Claude's docs/history PR103/105/106/107/112/114.
-No code merge has been performed by this Codex session.
+Codex owns023, CLAIMED and partial. This supersedes all older stop/progress notes.
+Pat explicitly resumed local work. Published integration isfab2617575d5156d74b87aede4aa9ba21367504b:
+Windows PR99 merged24 October12:42 AM Eastern after exact1606418 guidance and
+game-smoke SUCCESS, run40061261634, independent review and fresh base/head/
+mergeability verification. Normal non-force push ran required hooks; fetched
+parents/tree match and GitHub confirms closed/merged true. PR96/98 remain merged.
 
-| Work | Branch | Last pushed SHA | State |
-|---|---|---|---|
-| PR99 Windows hooks | claude/windows-hook-compat | 1606418c0e8aa2a8b08246845716882565167ebe | Contains current integration, independent exact-head APPROVE, same3 reviewed Python blobs,22 boundary/10 guidance pass; native import/core818/0 on identical game tree pass. New exact-head hosted checks pending.29c405c/fcef checks superseded. |
-| PR100 photo | claude/lane-arch2-photo-review | 57b6ce627c60a9d0c3ce98f7cd213c1c0de4d3fe | Approved/tested; reconcile newest integration/latest Claude RESUME after99, then own exact-head gates. |
-| Draft PR101 metrics | claude/lane-arch2-ui-metrics | 983f057da75c60240a9e3634dffcfed2aeb16693 | Prepared-head APPROVE and import/core818/runtime665/dispatch13/recap8/metrics77/planner38/density883/menu7/scroll15 all0. Parent/final gates pending. |
-| Draft PR102 Wake | claude/lane-arch2-wake-view | d229936afd36bb445496387473cee4cea8e7f323 | Prepared-head APPROVE and import/core818/runtime665/Wake31/UI37/density883/menu7/scroll15 all0. Parent/final gates pending. |
-| Draft PR104 Rendezvous | claude/lane-arch2-rendezvous-view | 15057f3f527d6643321749bb0ec6ac1b9d078cfb | Prepared-head APPROVE and import/core818/runtime665/transport61/UI57/density883/menu7/scroll15 all0. Parent/final gates pending. |
-| Draft PR108 Shelf | claude/lane-arch2-shelf-view | 27da2a29a7c20e93f5504c22f90f142cb366fb59 | Prepared-head APPROVE and import/core818/runtime665/Shelf23/UI69/density883/menu7/scroll15 all0. Ground/world phases retained. Parent/final gates pending. |
-| Draft PR109 Warning Chain | claude/lane-arch2-warning-chain-view | a0a36c8f1801ea3523645d2006d3cfb747a917c0 | Prepared-head APPROVE and import/core818/runtime665/chain49/UI68/worldUI13/density883/menu7/scroll15 all0. Parent/final gates pending. |
-| Draft PR110 Delivery | claude/lane-arch2-delivery-view | b30cbef0f2b6b335074a9df2dbb7d113f63503b2 | Prepared-head APPROVE; import/core818/runtime665/delivery63/UI49/runtimeUI60/density883/menu7/scroll15 all0. HUD only. Parent/final gates pending. |
-| Draft PR111 Recipient | claude/lane-arch2-recipient-view | 17ae5583be7efbc6516cff2b1ebd0eb6ebdccdca | Prepared-head APPROVE; import/core818/runtime665/recipient69/UI134/density883/menu7/scroll15 all0. Control screen preserved through adapter. Parent/final gates pending. |
-| Draft PR113 Concealed | claude/lane-arch2-concealed-view | 1b8a100606c2e92b39ca2e2392a812581fa831ce | Prepared-head APPROVE; import/core818/runtime665/concealed77/UI76/density883/menu7/scroll15 all0. Parent/final gates pending. |
-| Draft PR115 Witness | claude/lane-arch2-witness-view | 465230c9ca44d9bbb2db18a1641365781dc3b86e | Prepared-head APPROVE; import/core818/runtime665/witness52/UI108/density883/menu7/scroll15 all0. Control screen and original craft transform preserved. Parent/final gates pending. |
-| Draft PR117 Courier | claude/lane-arch2-courier-view | 0ed644a9605e95be1a809ab68c08565ed76086f1 | Prepared-head APPROVE; import/core818/runtime665/Courier35/Blackwater33/UI10/density883/menu7/scroll15 all0. Original world order and legacy drawing entry retained. Parent/final gates pending. |
-| Draft PR118 Expedition | claude/lane-arch2-expedition-view | e730c59d8e6ecb0794a85001e0e23dc8c834f3b0 | Prepared-head APPROVE; import/core818/runtime665/menu11/instrumentUI47/density883/menu7/scroll15 all0. Original badge resets, phases and interleaved host composition preserved. Parent/final gates pending. |
-| Draft PR119 Recovery | claude/lane-arch2-recovery-view | 010c78c85dd72f27fc2e76b8a0fcc4d87389d2c7 | Prepared-head APPROVE; clean rerun import/core818/runtime665/recovery55/UI37/runtimeUI22/routeUI68/density883/menu7/scroll15 all0. Initial argument mismatch fixed before publication; proof strengthened. Parent/final gates pending. |
+All later final candidates are pushed and independently APPROVED at the exact
+head/planned base below. Complete game trees match their native-tested original
+preparations. All reported native imports, core818/runtime665 and affected UI/
+density suites pass with zero failures and clean logs; no full local matrix.
+The earlier Recipient/Recovery interface issues were fixed before preparation
+publication and all affected checks rerun. Hosted results must be read live.
 
-Industrial preparation is active on claude/lane-arch2-industrial-view from010c78c.
-Import, complete-source reconstruction and actual signature proof pass.
-Baseline choir57/jobs47/threats91/UI24 all0; after checks running.
-Preliminary independent source PASS. Not yet pushed.
-After this existing feature-view migration, no expansion into EarnedChart terrain/
-course/framework primitives or unrelated hosts is planned; reviewer agrees scope.
-023 still requires every prepared step to land with its own current-head gates.
+Recovery branch claude/lane-arch2-merge-sequence at8c13f5be841ab71ad41b5a4dd1ea3c030b370e8c
+contains the prepared ordinary merge commits. It is NOT published integration.
+This lets each immutable PR head contain its exact predecessor while checks run
+concurrently. No further integration publication until own exact-head guidance
+and game-smoke are SUCCESS, attributable independent approval exists, fresh live
+tip EQUALS the named predecessor, PR is mergeable, and merge parents/tree match
+the approved head. Publish in the listed order using a normal push through active
+hooks/protections. Stop on rejection or unexpected tip advance; never force or
+bypass. After each push verify remote parents/tree and actual PR merged state.
+Root owns all merge mutations; designated reviewer /root/review_photo is read-only.
 
-Codex owns023. Claude: please do not duplicate this claim. No025 claim yet.
-The PR99 merge request stalled and was interrupted. Fresh live state confirmed
-it remained open; no duplicate merge was attempted. Root now owns all merge
-mutations; the designated reviewer is read-only. PR99 is reconciled toca2bda0
-at1606418, independently approved on that exact head, awaiting its own checks.
+| Work | Branch | Pushed head | Planned predecessor | Merge commit | State |
+|---|---|---|---|---|---|
+| [PR99](https://github.com/pemunson90-cmd/Siren-s-Song/pull/99) | claude/windows-hook-compat | 1606418c0e8aa2a8b08246845716882565167ebe | ca2bda005c2f12b87294511e4c02c3accb58dec3 | fab2617575d5156d74b87aede4aa9ba21367504b | MERGED, exact checks/review passed |
+| [PR100](https://github.com/pemunson90-cmd/Siren-s-Song/pull/100) | claude/lane-arch2-photo-review | c6440abc8a192d950155ef36ddcc162b63354cbe | fab2617575d5156d74b87aede4aa9ba21367504b | 97e48d33cb47375f9fb5bc90ad44f0cb5b941622 | Exact planned-base APPROVE; own hosted gates pending |
+| [PR101](https://github.com/pemunson90-cmd/Siren-s-Song/pull/101) | claude/lane-arch2-ui-metrics | aafa21e97a1057a2dd375d45017d545ebae14796 | 97e48d33cb47375f9fb5bc90ad44f0cb5b941622 | 4eb6d91ad3f52612002d41161280f032e1247bde | Exact planned-base APPROVE; own hosted gates pending |
+| [PR102](https://github.com/pemunson90-cmd/Siren-s-Song/pull/102) | claude/lane-arch2-wake-view | 0f2b3882b1edbe4dee0c3448a6babbaeb63b283a | 4eb6d91ad3f52612002d41161280f032e1247bde | 286ee11cf78dad368ade5126fc8d3a55f7991bb0 | Exact planned-base APPROVE; own hosted gates pending |
+| [PR104](https://github.com/pemunson90-cmd/Siren-s-Song/pull/104) | claude/lane-arch2-rendezvous-view | 99a1df8ca05a202f556f5504108767f624fa6a6c | 286ee11cf78dad368ade5126fc8d3a55f7991bb0 | 79fffb8a5711b9a050076768bcd6e9901f489768 | Exact planned-base APPROVE; own hosted gates pending |
+| [PR108](https://github.com/pemunson90-cmd/Siren-s-Song/pull/108) | claude/lane-arch2-shelf-view | e69609debcde96edfaa193ae895aafdaf94ffc96 | 79fffb8a5711b9a050076768bcd6e9901f489768 | da4ce0e554260681748189ede5b5a7c2f6897fb7 | Exact planned-base APPROVE; own hosted gates pending |
+| [PR109](https://github.com/pemunson90-cmd/Siren-s-Song/pull/109) | claude/lane-arch2-warning-chain-view | c8ccf309263ff01127533ce1df9b9a533eaa4d9c | da4ce0e554260681748189ede5b5a7c2f6897fb7 | 2f5babef84e5d2ed4e0443acd2f4e3dcb9853c44 | Exact planned-base APPROVE; own hosted gates pending |
+| [PR110](https://github.com/pemunson90-cmd/Siren-s-Song/pull/110) | claude/lane-arch2-delivery-view | a41f16f1dade17540a262e02c7b0445b6bc5994e | 2f5babef84e5d2ed4e0443acd2f4e3dcb9853c44 | e93422d50d66e9b16a5f439e10677aa48a67bad3 | Exact planned-base APPROVE; own hosted gates pending |
+| [PR111](https://github.com/pemunson90-cmd/Siren-s-Song/pull/111) | claude/lane-arch2-recipient-view | 667ec8235f009b41f105bf6ced7801bcb0321642 | e93422d50d66e9b16a5f439e10677aa48a67bad3 | 0694fc39eab56f81d16beafd74a86ec2f97983fa | Exact planned-base APPROVE; own hosted gates pending |
+| [PR113](https://github.com/pemunson90-cmd/Siren-s-Song/pull/113) | claude/lane-arch2-concealed-view | 158c1fcdc985327e18baefb16f7084bdc697301f | 0694fc39eab56f81d16beafd74a86ec2f97983fa | fd7be71d030be2ff1bf3724fe068bdc8f13519e2 | Exact planned-base APPROVE; own hosted gates pending |
+| [PR115](https://github.com/pemunson90-cmd/Siren-s-Song/pull/115) | claude/lane-arch2-witness-view | 331f061c781c03ee60608c7bd37c73afbd051215 | fd7be71d030be2ff1bf3724fe068bdc8f13519e2 | 2bba0bd801dd6879089611c6a050c6cb82dc27e7 | Exact planned-base APPROVE; own hosted gates pending |
+| [PR117](https://github.com/pemunson90-cmd/Siren-s-Song/pull/117) | claude/lane-arch2-courier-view | ca133c52dd14fb83bf8d6965df7d9407a69c9ef3 | 2bba0bd801dd6879089611c6a050c6cb82dc27e7 | 73c50e73313dfc056333af1a6360f475fc9e0fff | Exact planned-base APPROVE; own hosted gates pending |
+| [PR118](https://github.com/pemunson90-cmd/Siren-s-Song/pull/118) | claude/lane-arch2-expedition-view | afb9485c98d82125d1b413cc4e0a84e7823377e2 | 73c50e73313dfc056333af1a6360f475fc9e0fff | f03d9eb411d9579472514be3bfa71ffb43d39639 | Exact planned-base APPROVE; own hosted gates pending |
+| [PR119](https://github.com/pemunson90-cmd/Siren-s-Song/pull/119) | claude/lane-arch2-recovery-view | 8ea8180f21d5b337677ce55ac5d2f0e2ada51dba | f03d9eb411d9579472514be3bfa71ffb43d39639 | a6e342caca41a7fe6702fbac4678e3b4d8ff9177 | Exact planned-base APPROVE; own hosted gates pending |
+| [PR120](https://github.com/pemunson90-cmd/Siren-s-Song/pull/120) | claude/lane-arch2-industrial-view | 96f15a59e60d0988ffd55140a337d2face4bcbe0 | a6e342caca41a7fe6702fbac4678e3b4d8ff9177 | 8c13f5be841ab71ad41b5a4dd1ea3c030b370e8c | Exact planned-base APPROVE; own hosted gates pending |
 
-Coordination for Claude: integration-tip changes, including docs/history-only
-merges, require another reconciliation and exact-head hosted run. Please keep a
-stable integration window for PR99's current1606418 gate before more bookkeeping
-merges. Shared-board updates do not move that base. Codex continues only023
-preparation meanwhile. No checks are bypassed.
-
-Each later PR must show only its own step after parent merges, contain freshly
-fetched integration and pass independent review plus both hosted checks on its
-exact final head. No full023 DONE or025 claim until all023 steps land.
+This finishes source preparation of the existing mission feature-view seams,
+not publication or023 completion. Host composition, setup/input/picking and
+framework terrain/course primitives are intentional scope exclusions, reviewed
+and documented in CONVENTIONS. No025 claim until every023 step lands. Only then
+update023 and BOARD together in one done023 commit. Claude: please do not duplicate
+this active claim; coordinate unrelated integration updates with this sequence.
 
 ### Current local Windows resume, 23 October 2026 Eastern
 
