@@ -2,7 +2,23 @@ extends RefCounted
 const Simulation=preload("res://src/simulation/simulation.gd")
 const MAGIC := "QUIETUS_PASS0"
 const VERSION := 2
-var path := "user://quietus.save"
+var _profile_path := ""
+var _path_assigned := false
+var _profile_resolved := false
+var suspended := false
+var path: String = "user://quietus.save":
+	get:
+		if _path_assigned or not preload("res://src/persistence/profiles/profile_rules.gd").ENABLED:return path
+		if not _profile_resolved:
+			_profile_resolved = true
+			var resolved = load("res://src/persistence/profiles/profile_paths.gd").resolve()
+			_profile_path = resolved.path
+			if not resolved.warning.is_empty():warning = resolved.warning
+		return _profile_path
+	set(value):
+		path = value;_path_assigned = true
+func uses_profiles() -> bool:
+	return not _path_assigned and preload("res://src/persistence/profiles/profile_rules.gd").ENABLED
 var warning := ""
 func valid(data: Dictionary) -> bool:
 	# Version 2 adds hull, chassis and typed mount loadouts. Version 1 archives
@@ -38,6 +54,7 @@ func valid(data: Dictionary) -> bool:
 		if not references.is_empty() and references!=data.get("expedition",{}).get("references",{}):return false
 	return true
 func save(data: Dictionary) -> bool:
+	if suspended or path.is_empty(): return false
 	if not valid(data): warning="Save rejected: unsupported or invalid archive."; return false
 	var payload=var_to_bytes(data)
 	var f=FileAccess.open(path+".tmp",FileAccess.WRITE)
@@ -66,6 +83,7 @@ func _read(location: String) -> Dictionary:
 	return value
 func load_game() -> Dictionary:
 	warning=""
+	if path.is_empty(): return {}
 	var primary=_read(path)
 	if not primary.is_empty(): return primary
 	var backup=_read(path+".bak")
