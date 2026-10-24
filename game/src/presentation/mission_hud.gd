@@ -412,11 +412,7 @@ func refresh():
   var site=host.ocean.observable_sites()[subject.index]
   instrument_info.text=site.name+" · "+("RECORDED" if site.captured else "NOT RECORDED")+"\n"+site.get("requirement","")+"\n"+site.get("unit_requirement","")+"\n"+instrument_info.text
  if subject.get("subkind","") in ["corridor","withdrawal"]:instrument_info.text=Expedition.context_detail(sim,subject)+"\n\n"+instrument_info.text
- if subject.get("kind","")=="salvage" and sim.has_method("salvage_context"):
-  var salvage=sim.salvage_context(subject.item)
-  extra.salvage.text="RECOVER\n4s AUDIBLE" if not salvage.active else "RECOVERING\n%d%%"%floori(salvage.elapsed/salvage.duration*100)
-  extra.salvage.disabled=not salvage.ready
-  instrument_info.text=Recovery.detail(sim,subject.item)
+ FeatureViews.build_context(self)
  if page=="signals":instrument_info.text=Expedition.detail(sim,subject.get("receiver",-1))
  var sampling=Equipment.sample_detail(sim)
  if not sampling.is_empty():

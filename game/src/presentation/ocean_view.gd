@@ -392,7 +392,7 @@ func _draw() -> void:
 	draw_set_transform(Vector2.ZERO,0,Vector2.ONE)
 	_draw_pressure_overlay()
 	_draw_local_current()
-	preload("res://src/presentation/module_recovery_view.gd").draw(self,sim)
+	FeatureViews.draw_screen(self)
 	# Short screen-sized tags preserve observed identity without long world labels.
 	for entry in observed:
 		var anchor=chart_camera.to_screen(entry.pos)+Vector2(12,-18)

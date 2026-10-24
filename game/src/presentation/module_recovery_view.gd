@@ -1,4 +1,15 @@
 extends RefCounted
+# ARCH2 context-panel and screen-overlay contract. Keep the original
+# salvage guards, helpers and overlay slot; no recovery commands move here.
+# Revert this PR to restore direct HUD/ocean calls.
+static func applies(sim)->bool:return sim!=null
+static func build_panel(hud)->void:
+ var sim=hud.host.sim
+ if hud.subject.get("kind","")=="salvage" and sim.has_method("salvage_context"):
+  var salvage=sim.salvage_context(hud.subject.item)
+  hud.extra.salvage.text="RECOVER\n4s AUDIBLE" if not salvage.active else "RECOVERING\n%d%%"%floori(salvage.elapsed/salvage.duration*100)
+  hud.extra.salvage.disabled=not salvage.ready
+  hud.instrument_info.text=detail(sim,hud.subject.item)
 const Catalog=preload("res://src/equipment/equipment_catalog.gd")
 const Delivery=preload("res://src/presentation/blackwater_delivery_view.gd")
 const Witness=preload("res://src/presentation/witness_evacuation_view.gd")
@@ -86,7 +97,8 @@ static func markers(ocean,sim,touch:float)->Array:
   if not clear:box=nearest_clear_rect(box,bounds,occupied)
   result.append({"rect":box,"anchor":anchor,"site":site,"lines":lines});occupied.append(box)
  return result
-static func draw(ocean,sim)->void:
+static func draw(ocean,sim=null)->void:
+ if sim==null:sim=ocean.sim
  var font=ThemeDB.fallback_font;var size=ocean.feedback_font_size;var color=Color("d9b475")
  for marker in markers(ocean,sim,ocean.instrument_height):
   var box:Rect2=marker.rect;var anchor:Vector2=marker.anchor

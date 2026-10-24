@@ -8,7 +8,7 @@ Pat's Windows PC. Pat stopped the cloud session on 23 October and said continue 
 
 ## Live source checkpoint
 
-Development integration is `claude/integration`, last reconciled baseline `73c50e73313dfc056333af1a6360f475fc9e0fff`.
+Development integration is `claude/integration`, last reconciled baseline `f03d9eb411d9579472514be3bfa71ffb43d39639`.
 This ARCH2 candidate includes the Windows hook repair PR99, published at
 fab2617575d5156d74b87aede4aa9ba21367504b after its exact-head gates and review.
 At this preparation, later predecessor merges are planned, not yet published.
@@ -44,7 +44,8 @@ re-claim it or mark it DONE after one PR.
 | Prerequisite PR113 | Included in candidate ancestry; live PR/board decide published state |
 | Prerequisite PR115 | Included in candidate ancestry; live PR/board decide published state |
 | Prerequisite PR117 | Included in candidate ancestry; live PR/board decide published state |
-| Current Expedition PR118 | Candidate; independent exact-head review and hosted gates pending |
+| Prerequisite PR118 | Included in candidate ancestry; live PR/board decide published state |
+| Current Recovery PR119 | Candidate; independent exact-head review and hosted gates pending |
 | Later preparations | Separate feature PRs, see authoritative board; not a full023 completion |
 | Portable cloud evidence | archive/cloud-desktop-20261023 at5407a241,551 files with manifest/hash |
 
@@ -65,11 +66,11 @@ LOCALAPPDATA to isolated work folders, preserving personal saves.
 
 ## Current ARCH2 candidate
 
-This candidate is Expedition PR118, reconciled against planned predecessor merge
-73c50e73313dfc056333af1a6360f475fc9e0fff. This predecessor must be published first.
-Original late arrivals badge and world drawing retain exact phase slots. Non-null applicability preserves inactive badge hiding; interleaved host navigation/summary/signals composition remains untouched.
-The complete game tree equals native-tested preparatione730c59d8e6ecb0794a85001e0e23dc8c834f3b0.
-Clean import and menu11/instrumentUI47/core818/runtime665/density883/menu7/scroll15 all0 with clean logs.
+This candidate is Recovery PR119, reconciled against planned predecessor merge
+f03d9eb411d9579472514be3bfa71ffb43d39639. This predecessor must be published first.
+Existing salvage HUD and screen overlay retain their original context/screen slots. Actual draw(ocean,sim=null) accepts registry and legacy calls; original body unchanged. The initial argument mismatch was fixed before preparation publication, all affected checks rerun clean and no tests changed.
+The complete game tree equals native-tested preparation010c78c85dd72f27fc2e76b8a0fcc4d87389d2c7.
+Clean import and recovery55/UI37/runtimeUI22/routeUI68/core818/runtime665/density883/menu7/scroll15 all0 with clean logs.
 Independent final exact-head/planned-base review and both own hosted gates remain.
 Only publish its ordinary merge when live integration equals that predecessor,
 its PR is mergeable, and parents/tree equal the approved tested result. Stop on

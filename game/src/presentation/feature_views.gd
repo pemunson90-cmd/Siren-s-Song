@@ -28,14 +28,19 @@ const GROUND_VIEWS=[ShelfGround]
 const Expedition=preload("res://src/presentation/expedition_view.gd")
 const HUD_BADGE_PANELS=[Expedition]
 const WORLD_DETAIL_VIEWS=[Expedition]
+const Recovery=preload("res://src/presentation/module_recovery_view.gd")
+const HUD_CONTEXT_PANELS=[Recovery]
+const WORLD_SCREEN_VIEWS=[Recovery]
 const CARRIED_VIEWS=[WitnessCarried]
 static func build_panel(hud)->void:_build_panels(hud,HUD_PANELS)
+static func build_context(hud)->void:_build_panels(hud,HUD_CONTEXT_PANELS)
 static func build_badges(hud)->void:_build_panels(hud,HUD_BADGE_PANELS)
 static func _build_panels(hud,features:Array)->void:
  for feature in features:
   if feature.applies(hud.host.sim):feature.build_panel(hud)
 static func draw(view)->void:_draw_views(view,WORLD_VIEWS)
 static func draw_detail(view)->void:_draw_views(view,WORLD_DETAIL_VIEWS)
+static func draw_screen(view)->void:_draw_views(view,WORLD_SCREEN_VIEWS)
 static func draw_ground(view)->void:_draw_views(view,GROUND_VIEWS)
 static func draw_carried(view,unit:int)->void:_draw_views(UnitDraw.new(view,unit),CARRIED_VIEWS)
 static func _draw_views(view,features:Array)->void:
