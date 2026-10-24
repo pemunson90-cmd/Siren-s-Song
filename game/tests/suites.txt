@@ -231,3 +231,5 @@ back_exit_tests|BACK EXIT|205|226
 a11y_cues_tests|A11Y CUES|-|227
 a11y_cues_ui_tests|A11Y CUES UI|-|228|render
 ai_trace_tests|AI TRACE|208|231
+art_tests|ART|-|232
+art_render_measurements|ART RENDER|-|233|render
