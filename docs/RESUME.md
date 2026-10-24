@@ -8,8 +8,8 @@ Pat's Windows PC. Pat stopped the cloud session on 23 October and said continue 
 
 ## Live source checkpoint
 
-Development integration is `claude/integration`, last reconciled baseline `fab2617575d5156d74b87aede4aa9ba21367504b`.
-This photo candidate includes the Windows hook repair PR99 through a planned
+Development integration is `claude/integration`, last reconciled baseline `97e48d33cb47375f9fb5bc90ad44f0cb5b941622`.
+This ARCH2 candidate includes the Windows hook repair PR99 through a planned
 predecessor merge. At preparation, published integration isca2bda0 and99 remains
 open. Publish its reviewed, successful exact head first. Live refs and the board
 determine published state; preparing a merge commit does not publish it.
@@ -30,12 +30,12 @@ re-claim it or mark it DONE after one PR.
 
 | Work | State |
 |---|---|
-| 023 campaign flow, first main extraction | PR96 merged |
-| 023 photo review, second main extraction | PR100, from preserved52ba7d5; reconciled local source, final exact-head gates pending |
-| Windows hook repair | PR99 prerequisite included in candidate; publish it first after exact gates, native hooks installed |
-| 023 metrics | Draft PR101, prepared/reviewed/tested; parent reconciliation and final own gates pending |
-| 023 feature contract | Separate stacked drafts102/104/108/109/110/111/113/115/117/118; preparation only, not merged features |
-| Portable cloud evidence | `archive/cloud-desktop-20261023` at 5407a241, 551 files with manifest and hash |
+| 023 campaign flow | PR96 merged |
+| Windows hooks PR99 | Included prerequisite; publish in order only after its own gates |
+| Photo review PR100 | Included prerequisite; publish in order only after its own gates |
+| Metrics PR101 | Current candidate, exact-head review and hosted checks pending |
+| Feature contract | Separate preparations102/104/108/109/110/111/113/115/117/118/119/120, live refs and board decide published state |
+| Portable cloud evidence | archive/cloud-desktop-20261023 at5407a241,551 files with manifest/hash |
 
 Every merge needs latest integration, independent review, both hosted checks on
 the exact head, and a merge commit. 025 waits until 023 is DONE.
@@ -51,6 +51,20 @@ Native hook verification:22 real-Git boundary tests and10 guidance tests pass.
 Hooks use the actual Windows Python executable, exclusive locking and bounded
 process cleanup; no hooks are bypassed. Godot checks redirect APPDATA and
 LOCALAPPDATA to isolated work folders, preserving personal saves.
+
+## Current ARCH2 candidate
+
+This candidate is metrics PR101, reconciled against planned predecessor merge
+97e48d33cb47375f9fb5bc90ad44f0cb5b941622. The predecessor is prepared, not yet published.
+Four synchronous helpers move into flow/ui_metrics.gd; Main entry points, state
+and Node-owned capture/report awaits stay. Main864 to817. The game tree must
+match prepared983f057 exactly, preserving the native import/core818/runtime665/
+dispatch13/recap8/metrics77/planner38/density883/menu7/scroll15 zero-failure logs.
+Exact final-head/planned-base independent review and both hosted gates remain.
+Only publish its ordinary merge when live integration equals that predecessor,
+its PR is mergeable, and merge parents/tree equal the approved tested result.
+If integration advances unexpectedly, stop this sequence and reconcile again.
+Handoff023 remains CLAIMED and partial; no025 claim until all023 steps land.
 
 ## Cold review 3 and the new batches
 
@@ -93,13 +107,15 @@ remains [CURRENT_GAME_SPEC](CURRENT_GAME_SPEC.md), not a completed feature claim
 
 ## Next steps for the PC sessions
 
-Finish023 in order: publish PR99 first on green; land PR100 on its own green checks, then
-metrics, then the shared
-feature contract, one feature per PR. Then 025 and the numeric queue; the board
-owns eligibility. Use the designated independent reviewer for source changes; Claude maintains
-the broader queue. The board records this Codex claim so work is not duplicated.
-Do not assume cloud agents or credentials carried over; use the tools actually
-available in the local session. Recheck the desktop setup before reinstalling.
+Publish023 prepared heads in their recorded order, one reviewed PR and ordinary
+merge commit per step. Each head contains its planned predecessor so exact-head
+checks can run concurrently. Publish only after that predecessor is the freshly
+fetched live integration tip, own independent approval and both own hosted checks
+are successful. Normal hooks and branch protections apply; stop on a rejection
+or unexpected integration advance. Verify actual remote parents/tree and PR
+merged disposition after each publication. Board owns claims and recovery refs.
+Then025 and the eligible numeric queue. Use the current local tool inventory;
+do not assume cloud agents or credentials carried over.
 
 ## Verification and preservation
 
