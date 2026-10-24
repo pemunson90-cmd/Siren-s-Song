@@ -5,8 +5,8 @@ Development integration: `claude/integration`.
 Frozen promotion baseline: `gauntlet/production`; protected accepted baseline: `main`.
 Pat authorizes promotion; feature PRs target integration.
 Codex ownership/claims/completion: `docs/codex/BOARD.md` on `codex/handoffs`.
-Current cloud stop and Windows recovery: [DESKTOP_HANDOFF.md](DESKTOP_HANDOFF.md).
-Resume a running claim through its Completion notes only when Pat asks to continue.
+Windows execution and recovery: [DESKTOP_HANDOFF.md](DESKTOP_HANDOFF.md).
+Pat resumed locally on Windows. Follow the running claim and its Completion notes.
 The current stop overrides automatic dispatch; preserve other workers' scope.
 Read USER_DIRECTIVES and the task brief before implementation.
 This pointer carries no separate milestone, PR inventory or next-task assignment.

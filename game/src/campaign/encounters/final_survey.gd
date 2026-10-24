@@ -6,6 +6,7 @@ static func layout()->Dictionary:
  return {"world_size":Vector2(2800,2200),"start":Vector2(350,1850),"recovery":Vector2(2450,1850),
  "core":Vector2(1200,450),"bonus":Vector2(2200,550),"core_label":"SCOUR EDGE","bonus_label":"SPINDLE WEAR",
  "core_band":1,"bonus_band":2,
+ "structures":[Rect2(1230,390,120,120),Rect2(2230,490,120,120)],
  "terrain":[[T.ridge([Vector2(-20,1100),Vector2(600,1100),Vector2(800,1050)],180,30),[0,1]],
  [T.ridge([Vector2(1450,1100),Vector2(2000,1100),Vector2(2820,1150)],180,31),[1,2]],
  [T.shard(Vector2(1900,450),150,7,32),T.ALL]],

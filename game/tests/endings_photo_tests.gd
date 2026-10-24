@@ -3,6 +3,7 @@ const Catalog=preload("res://src/campaign/operation_catalog.gd")
 const Ending=preload("res://src/campaign/endings_photo.gd")
 const Sim=preload("res://src/simulation/simulation.gd")
 const Campaign=preload("res://src/campaign/expedition_campaign.gd")
+const Store=preload("res://src/persistence/save_store.gd")
 var checks=0
 var failures=0
 func check(ok,label):
@@ -19,20 +20,35 @@ func _initialize():
   check(Sim.valid_snapshot(s.snapshot()),"new mission active save valid "+str(id))
   var restored=Sim.new();check(restored.restore(s.snapshot()),"new mission active save restores "+str(id))
   check(s.mission.objectives.size()==2 and s.mission.objectives[1].optional,"bonus photo optional "+str(id))
+  var p=progress("deep","concealed");p.completed.append_array([14,15,16,17,18,19,22,23,24,25])
+  if id==31:p.completed.append(30)
+  var data={"version":1,"unlocked":5,"completed":[0,1,2,3,4,5],"settings":{},"upgrade":"endurance","expedition":p,"active":s.snapshot()}
+  var store=Store.new();store.path="user://027-active-%d.save"%id
+  check(store.valid(data) and store.save(data) and store.load_game()==data,"checksummed disk roundtrip for active final operation "+str(id))
+  check(id not in Campaign.recover(p,s.mission).completed,"launch alone cannot advance final pair "+str(id))
   var o=s.mission.objectives[0]
   s.units[0].pos=o.pos+Vector2(-120,0);s.units[0].vel=Vector2.ZERO;s.units[0].angle=0.
   check(s.Depth.clear(s,s.units[0].pos,o.pos,1,12),"bare core viewpoint in physical water "+str(id))
   check(s.command("frame",{"mode":"tight","focus":o.optical}),"frame core with ordinary control "+str(id))
+  check(s.command("camera"),"begin interrupted fixture exposure "+str(id))
+  step(s,1.);s.units[0].pos=o.pos+Vector2(-400,0);step(s,1.)
+  check(not o.captured and preload("res://src/simulation/photo_pricing/photo_pricing.gd").film_left(s,0)==7,"interruption spends finite film without securing core "+str(id))
+  check(id not in Campaign.recover(p,s.mission).completed,"interrupted film cannot advance final pair "+str(id))
+  s.units[0].pos=o.pos+Vector2(-120,0);s.units[0].vel=Vector2.ZERO;s.units[0].angle=0.
   check(s.command("camera"),"begin core exposure "+str(id))
   step(s,6.)
   check(o.captured,"bare core photo secured "+str(id))
+  check(id not in Campaign.recover(p,s.mission).completed,"photograph alone cannot advance final pair "+str(id))
   check(not s.mission.objectives[1].captured and s.all_records(),"optional unshot film cannot gate recovery "+str(id))
   s.units[0].pos=s.mission.extraction;s.units[0].vel=Vector2.ZERO
   step(s,1.)
   check(s.outcome=="won" and s.mission.recovered,"ordinary physical recovery "+str(id))
   check(Sim.valid_snapshot(s.snapshot()),"recovered final operation snapshot valid "+str(id))
+  check(id in Campaign.recover(p,s.mission).completed,"only physical recovery advances final pair "+str(id))
+  for suffix in ["",".bak",".tmp"]:DirAccess.remove_absolute(store.path+suffix)
  var path="res://src/campaign/endings_photo.gd"
  check(ResourceLoader.exists(path),"derived photo ending module exists")
+ check(Store.new().valid({"version":1,"unlocked":0,"completed":[],"settings":{},"upgrade":"endurance"}),"old minimal archive needs no new fields")
  for thread in ["deep","shelf"]:
   for route in ["concealed","overt"]:
    var p=progress(thread,route)
@@ -58,6 +74,8 @@ func _initialize():
  check(wall[0].captions==["best"] and wall[1].captions==["first"],"captions come from chosen recorded findings only")
  check(archive==before,"wall never mutates archived film")
  check(Ending.frames({}).is_empty(),"empty archive safe")
+ var legacy=shot(.7,true,"retained");legacy.erase("usable")
+ check(Ending.frames({"legacy":{"shots":[legacy]}}).size()==1,"legacy frame without usable keeps archive renderer semantics")
  var many={}
  for n in 20:many[str(n)]={"shots":[shot(n/20.,true,str(n))]}
  check(Ending.frames(many).size()==Ending.MAX_FRAMES,"wall rendering work bounded")

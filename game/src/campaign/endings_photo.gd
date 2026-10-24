@@ -23,7 +23,7 @@ static func frames(archive:Dictionary)->Array:
  for key in keys:
   var best={}
   for shot in archive[key].get("shots",[]):
-   if not shot.get("usable",false) or not shot.has("frame"):continue
+   if not shot.get("usable",true) or not shot.has("frame"):continue
    if best.is_empty() or float(shot.q)>float(best.q):best=shot
   if best.is_empty():continue
   var labels=[]

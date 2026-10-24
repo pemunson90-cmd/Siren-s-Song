@@ -220,3 +220,4 @@ landmark_tests|LANDMARKS|196|217
 landmark_ui_tests|LANDMARKS UI|197|218|render
 endings_photo_tests|PHOTO ENDINGS|198|219
 endings_photo_ui_tests|PHOTO ENDINGS UI|199|220|render
+final_pair_journey_tests|FINAL PAIR JOURNEY|200|221

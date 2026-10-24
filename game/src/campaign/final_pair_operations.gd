@@ -4,6 +4,7 @@ extends RefCounted
 # the PR's hooks/UI while retaining these compatibility definitions, not save data.
 const ENABLED=true
 const IDS=[30,31]
+const ART={"SCOUR EDGE":"scoring","SPINDLE WEAR":"scoring","HUMAN SURVIVOR MARKS":"count","FEED TERMINALS":"array"}
 const T=preload("res://src/campaign/encounters/terrain.gd")
 const W=preload("res://src/campaign/encounters/work_sites.gd")
 const P=preload("res://src/campaign/photo_ops.gd")
@@ -22,11 +23,12 @@ static func build(c:Dictionary,history:Dictionary={})->Dictionary:
  var id:int=c.source_id;var row=LAYOUTS[id].layout();var k=key(id)
  var m={"id":id,"title":"FINAL SURVEY / %d"%(id-29),"depth":4100,"darkness":false,"region_revision":1,"acoustic_revision":1,"world_size":row.world_size,"start":row.start,"rocks":[],"structures":[],"sirens":row.sirens,"expedition_revision":2,"signal_sources":[],"signal_observations":[],"expedition_facts":{},"next_signal_time":0.,"chosen_route":"","recovered":false,"withdrawal_armed":false,"required_site_ids":[k],"launch_context":history.duplicate(true),"endurance":{"oxygen_seconds":720.,"drone_seconds":480.},"record":row.core_label,"brief":"Photograph %s in MIDDLE, then recover Quietus.\nThe second marked photograph is optional; keep film for the core job."%row.core_label}
  T.apply(m,row.terrain)
+ m.structures=row.structures.duplicate()
  m.corridors=[{"pos":row.recovery,"name":"SURVEY RECOVERY","route":"deep"}];m.extraction=row.recovery
  m.objectives=[_photo(k,row.core_label,row.core,row.core_band,false),_photo(k+"_bonus",row.bonus_label,row.bonus,row.bonus_band,true)]
  return m
 static func _photo(k:String,label:String,pos:Vector2,band:int,optional:bool)->Dictionary:
- var subject=P.S(PI,100.,0.55,["mark"],[P.F("mark",label,0.,PI,0.12,0.,{"glow":0.7,"finding":{"kind":"person" if label=="HUMAN SURVIVOR MARKS" else "note","text":label,"off":Vector2.ZERO}})])
+ var subject=P.S(PI,100.,0.55,["mark"],[P.F("mark",label,0.,PI,0.12,0.,{"art":ART[label],"glow":0.7,"finding":{"kind":"person" if label=="HUMAN SURVIVOR MARKS" else "note","text":label,"off":Vector2.ZERO}})])
  subject["band"]=band
  var o=W.photo(k,label,pos,label,subject,4.,optional)
  o["band"]=band

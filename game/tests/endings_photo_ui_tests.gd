@@ -26,6 +26,10 @@ func shape_case(shape):
  game.recovered_evidence=archive_fixture();game.active_started=false
  var before=game.recovered_evidence.duplicate(true)
  check(game.store.valid(game._archive()),"new completed campaign and archive remain valid without added save fields")
+ var disk=preload("res://src/persistence/save_store.gd").new();disk.path="user://027-wall-%dx%d.save"%[shape.x,shape.y]
+ var payload=game._archive()
+ check(disk.save(payload) and disk.load_game()==payload,"completed wall archive checksummed disk roundtrip")
+ for suffix in ["",".bak",".tmp"]:DirAccess.remove_absolute(disk.path+suffix)
  game._show_ending();await settle()
  check(game.screen=="photo_ending","both final recoveries select photo wall")
  var plates=game.panel_box.get_children().filter(func(c):return c is ArchiveView.Plate)
@@ -33,6 +37,11 @@ func shape_case(shape):
  for plate in plates:
   check(plate.size.x>0 and plate.size.y>=170 and plate.get_global_rect().end.x<=game.size.x,"plate bounded to viewport width")
  check(game.recovered_evidence==before,"presentation preserves archive")
+ var capture_dir=OS.get_environment("SIRENS_027_CAPTURE_DIR")
+ if DisplayServer.get_name()!="headless" and not capture_dir.is_empty():
+  await create_timer(1.8).timeout
+  await RenderingServer.frame_post_draw
+  check(root.get_texture().get_image().save_png(capture_dir+"/wall-%dx%d.png"%[shape.x,shape.y])==OK,"native rendered wall captured")
  var back=button(game,"back")
  check(back!=null and back.size.y>=game.ui_touch_height and back.get_global_rect().end.y<=game.size.y,"Back remains visible with Android minimum target")
  if await press(game,"fork_ending"):check(game.screen=="ending","existing fork outcome still reachable by real touch")
