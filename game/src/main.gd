@@ -687,8 +687,13 @@ func _frontend_back()->bool:
 	if front==null or not front.has_method("back"):return false
 	front.back()
 	return true
+var back_exit=null
+func _back_exit_handled()->bool:
+	if back_exit==null:back_exit=preload("res://src/presentation/back_exit/back_exit_confirm.gd").new();add_child(back_exit)
+	return back_exit.handle(self)
 func _android_back()->void:
 	if not is_inside_tree() or _frontend_back():return
+	if _back_exit_handled():return
 	# Match Escape in the route instrument, after Android's notification traversal.
 	if screen=="program":route_editor.close()
 	elif screen=="mission" and advanced_orders:mission_hud._back()
