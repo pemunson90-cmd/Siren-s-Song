@@ -90,3 +90,14 @@ Rejected drafts, renderer errors and lost early08 capture are retained as such.
 ![Operation28 after](https://raw.githubusercontent.com/pemunson90-cmd/Siren-s-Song/7e44ec9f8617936401d7e27877e6bce3f8eb5bbe/evidence/025-windows-20261024/landmarks-captures/op_28_after.png)
 
 [Operation28 before](https://raw.githubusercontent.com/pemunson90-cmd/Siren-s-Song/7e44ec9f8617936401d7e27877e6bce3f8eb5bbe/evidence/025-windows-20261024/landmarks-captures/op_28_before.png)
+
+2026-10-24 07:39:51 UTC current-base reconciliation: both exact6ffab72 checks in40072498877
+passed. Final fresh guard fetched newer integration0e927292425cc4d5914054757b15bf345119529a
+(PR116, approved sweeper-patrol data), so no025 merge occurred. Old prepared
+17b45e53645faffca69c18b6bac428c4b4d146ce is superseded, do not publish it.
+Feature Data/View/tests unchanged; suites conflict preserves patrol195/216 and
+moves landmark rows to196/217 and197/218, all218registrations unique. Native
+current import, data468/0, projection92/0, patrol56/0 pass. Current core/five
+fixtures/runtime and12fresh paired pressure cases0/5/16 are being validated;
+other64cases require unchanged-start/runtime proof before reuse.025 stays
+CLAIMED, PR121 needs a new exact-head review and own gates after reconciliation.
