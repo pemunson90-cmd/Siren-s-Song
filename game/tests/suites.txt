@@ -221,3 +221,5 @@ landmark_ui_tests|LANDMARKS UI|197|218|render
 endings_photo_tests|PHOTO ENDINGS|198|219
 endings_photo_ui_tests|PHOTO ENDINGS UI|199|220|render
 final_pair_journey_tests|FINAL PAIR JOURNEY|200|221
+onboard2_tests|ONBOARD2|201|222
+onboard2_ui_tests|ONBOARD2 UI|202|223|render
