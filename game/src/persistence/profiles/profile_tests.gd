@@ -24,7 +24,8 @@ func run():
  # Clean only this suite's fixed isolated user fixture.
  DirAccess.make_dir_recursive_absolute(p.directory)
  var dir=DirAccess.open(p.directory)
- for file in dir.get_files():check(DirAccess.remove_absolute(p.directory+"/"+file)==OK,"fixture cleanup")
+ for file in dir.get_files():
+  if DirAccess.remove_absolute(p.directory+"/"+file)!=OK:check(false,"fixture cleanup")
  for suffix in p.Rules.SUFFIXES:DirAccess.remove_absolute(p.legacy+suffix)
  var legacy=Store.new();legacy.path=p.legacy
  check(legacy.save(data()) and legacy.save(data([0])),"legacy primary and backup saved")
@@ -50,6 +51,15 @@ func run():
  check(p.undo(true) and p.snapshot(0)==original and p.state.names[0]=="First patrol","undo clear restores all four bytes and prior name")
  var exported=p.export_profile(0)
  check(not exported.is_empty(),"valid profile exports single file")
+ var invalid_utf8=var_to_bytes({"files":{}});invalid_utf8[16]=255
+ check(p.Codec.decode(invalid_utf8)==null,"reject malformed UTF8 before Variant decoder")
+ var package_bytes=FileAccess.get_file_as_bytes(exported)
+ check(p._write(exported,package_bytes+PackedByteArray([7,8])) and p.read_package(exported).is_empty(),"reject package trailing bytes")
+ check(p._write(exported,package_bytes.slice(0,package_bytes.size()-1)) and p.read_package(exported).is_empty(),"reject truncated package")
+ var trailing_envelope=bytes_to_var(package_bytes)
+ trailing_envelope.payload+=PackedByteArray([7,8]);trailing_envelope.length=trailing_envelope.payload.size();trailing_envelope.checksum=trailing_envelope.payload.hex_encode().sha256_text()
+ check(p._write(exported,var_to_bytes(trailing_envelope)) and p.read_package(exported).is_empty(),"reject payload trailing bytes even with recomputed checksum")
+ check(p._write(exported,package_bytes),"restore complete package fixture")
  var imported=p.read_package(exported)
  check(imported==original,"validated package preserves raw bytes")
  check(p.replace(1,imported,true) and p.snapshot(1)==original,"import round trips all files")
@@ -103,7 +113,23 @@ func run():
  var recovered=cold.open()
  if not recovered:printerr(cold.warning)
  check(recovered and cold.snapshot(1)==keep,"cold open rolls back interrupted files and absence")
-  # Actual second native process proves persisted selection and challenge separation.
+  # A cached healthy model must fail closed when a later recovery cannot open.
+ var blocked=Profiles.new();blocked.directory="user://profiles-blocked-fixture";blocked.legacy="user://absent-profile-legacy"
+ DirAccess.make_dir_recursive_absolute(blocked.directory)
+ var blocked_dir=DirAccess.open(blocked.directory)
+ for file in blocked_dir.get_files():
+  if DirAccess.remove_absolute(blocked.directory+"/"+file)!=OK:check(false,"blocked fixture cleanup")
+ check(blocked.open(),"seed cached healthy profile model")
+ var broken_journal=PackedByteArray([1,2,3])
+ check(blocked._write(blocked.directory+"/transaction",broken_journal),"seed unrecoverable journal")
+ check(not blocked.open() and blocked.state.is_empty(),"failed recovery invalidates cached profile state")
+ check(not blocked.clear(0,true) and FileAccess.get_file_as_bytes(blocked.directory+"/transaction")==broken_journal,"failed recovery blocks mutation and preserves journal bytes")
+ check(DirAccess.remove_absolute(blocked.directory+"/transaction")==OK,"remove only blocked fixture journal")
+ check(blocked.open(),"reopen fixture after journal repair")
+ check(blocked._write(blocked.directory+"/index",broken_journal) and blocked._write(blocked.directory+"/index.bak",broken_journal),"seed unreadable primary and backup index")
+ check(not blocked.open() and blocked.state.is_empty() and not blocked.select(2),"unreadable index invalidates cached state and selection")
+ check(FileAccess.get_file_as_bytes(blocked.directory+"/index")==broken_journal and not FileAccess.file_exists(blocked.directory+"/transaction"),"blocked index mutation cannot replace metadata or journal")
+ # Actual second native process proves persisted selection and challenge separation.
  var seed0=Store.new();seed0.path=default_profiles.slot_path(0)
  var seed1=Store.new();seed1.path=default_profiles.slot_path(1)
  check(seed0.save(data([0])) and seed1.save(data([0,1])),"seed real cold-process campaigns")

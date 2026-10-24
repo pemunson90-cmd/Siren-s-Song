@@ -10,12 +10,13 @@ func setup(owner_front) -> void:
 func available() -> bool:
  return Rules.ENABLED and front.host.store.uses_profiles()
 func show_picker() -> void:
- if not model.open():notice = model.warning
+ var opened = model.open()
+ if not opened:notice = model.warning
  front._reset("profiles")
  front._button("BACK",front._title_screen,"profiles_back")
  front._text("SAVE PROFILES",32)
  if not notice.is_empty():front._text(notice,16)
- if model.state.is_empty():return
+ if not opened or model.state.is_empty():return
  for n in Rules.COUNT:
   var slot = n
   front._button(("ACTIVE · " if n == model.state.active else "") + model.state.names[n],func():show_slot(slot),"profile_slot_%d" % n)
@@ -28,7 +29,7 @@ func show_slot(index: int) -> void:
  front._button("SELECT PROFILE",func():mutate(func():return model.select(index)),"profile_select")
  front._button("RENAME",show_rename,"profile_rename")
  front._button("COPY FROM ANOTHER PROFILE",show_copy,"profile_copy")
- front._button("CLEAR PROFILE",func():confirm("Clear campaign, backups and challenge results? Undo is available for %d seconds." % Rules.UNDO_SECONDS,func():mutate(func():return model.clear(target,true))),"profile_clear")
+ front._button("CLEAR PROFILE",func():confirm("Clear all campaign, backup and challenge files in " + model.state.names[target] + "? Undo lasts %d seconds." % Rules.UNDO_SECONDS,func():mutate(func():return model.clear(target,true))),"profile_clear")
  front._button("EXPORT",func():var path = model.export_profile(target);notice = "EXPORTED TO\n" + path if not path.is_empty() else model.warning;show_picker(),"profile_export")
  front._button("IMPORT",show_import,"profile_import")
 func show_rename() -> void:
@@ -56,7 +57,7 @@ func show_import() -> void:
  for path in files:
   var source: String = path
   front._button(source.get_file(),func():var bytes = model.read_package(source);if bytes.is_empty():notice = model.warning;show_picker()
-  else:confirm("Replace this profile with the validated import? Undo lasts %d seconds." % Rules.UNDO_SECONDS,func():mutate(func():return model.replace(target,bytes,true))),"profile_file_" + source.get_file())
+  else:confirm("Replace " + model.state.names[target] + " with this imported progress and challenge results? Undo lasts %d seconds." % Rules.UNDO_SECONDS,func():mutate(func():return model.replace(target,bytes,true))),"profile_file_" + source.get_file())
 func confirm(message: String, action: Callable) -> void:
  front._reset("profile_confirm")
  front._button("CANCEL",func():show_slot(target),"profiles_cancel")

@@ -1,9 +1,11 @@
 extends RefCounted
+const Codec = preload("res://src/persistence/profiles/profile_codec.gd")
 const Rules = preload("res://src/persistence/profiles/profile_rules.gd")
 var directory = "user://profiles"
 var legacy = "user://quietus.save"
 var warning = ""
 var state: Dictionary = {}
+var healthy = false
 var undo_data: Dictionary = {}
 var undo_until = 0
 func slot_path(index: int) -> String:
@@ -41,7 +43,9 @@ func _restore(entries: Dictionary) -> bool:
  return true
 # Journal is written before replacing any live byte. Interrupted transactions
 # recover all old files and absence on the next open, before exposing any slot.
-func _transaction(entries: Dictionary) -> bool:
+func _transaction(entries: Dictionary, initializing: bool = false) -> bool:
+ if FileAccess.file_exists(directory + "/transaction"):return _fail("Pending profile recovery blocks changes.")
+ if not initializing and not _ready_for_change():return false
  var before = {}
  for path in entries:
   if FileAccess.file_exists(path):
@@ -76,13 +80,18 @@ func _valid_state(value: Variant) -> bool:
   if not label is String or label.is_empty() or label.length() > Rules.NAME_LIMIT:return false
  return true
 func open() -> bool:
+ healthy = false;state = {}
+ var ok = _open()
+ if not ok:healthy = false;state = {}
+ return ok
+func _open() -> bool:
  warning = ""
  if DirAccess.make_dir_recursive_absolute(directory) != OK:return _fail("Cannot open profiles.")
  var journal = directory + "/transaction"
  if FileAccess.file_exists(journal):
   var f = FileAccess.open(journal,FileAccess.READ)
   if f == null or f.get_length() > Rules.PACKAGE_LIMIT:return _fail("Profile recovery journal unreadable.")
-  var previous = bytes_to_var(f.get_buffer(f.get_length()))
+  var previous = Codec.decode(f.get_buffer(f.get_length()))
   f.close()
   if not previous is Dictionary:return _fail("Profile recovery journal invalid.")
   for path in previous:
@@ -94,8 +103,8 @@ func open() -> bool:
   if not FileAccess.file_exists(index_path + suffix):continue
   var f = FileAccess.open(index_path + suffix,FileAccess.READ)
   if f == null or f.get_length() > 4096:continue
-  var value = bytes_to_var(f.get_buffer(f.get_length()))
-  if _valid_state(value):state = value;return true
+  var value = Codec.decode(f.get_buffer(f.get_length()))
+  if _valid_state(value):state = value;healthy = true;return true
  if FileAccess.file_exists(index_path) or FileAccess.file_exists(index_path + ".bak"):return _fail("Profile index unreadable; no saves were remapped.")
  state = {"version":1,"active":0,"names":["Profile 1","Profile 2","Profile 3"]}
  var old = _snapshot(legacy)
@@ -106,7 +115,16 @@ func open() -> bool:
   entries[slot_path(0) + suffix] = old[suffix]
  entries[index_path] = var_to_bytes(state)
  entries[index_path + ".bak"] = var_to_bytes(state)
- return _transaction(entries)
+ if not _transaction(entries,true):return false
+ healthy = true;return true
+func _ready_for_change() -> bool:
+ if not healthy or state.is_empty() or FileAccess.file_exists(directory + "/transaction"):return _fail("Profile recovery must succeed before changes.")
+ for suffix in ["", ".bak"]:
+  var f = FileAccess.open(directory + "/index" + suffix,FileAccess.READ)
+  if f == null or f.get_length() > 4096:continue
+  var value = Codec.decode(f.get_buffer(f.get_length()))
+  if _valid_state(value):return true
+ healthy = false;state = {};return _fail("Profile index unreadable; changes blocked.")
 func _allowed_path(path: String) -> bool:
  for n in Rules.COUNT:
   for suffix in Rules.SUFFIXES:
@@ -115,18 +133,19 @@ func _allowed_path(path: String) -> bool:
 func _metadata(next: Dictionary) -> Dictionary:
  return {directory + "/index":var_to_bytes(next),directory + "/index.bak":var_to_bytes(next)}
 func select(index: int) -> bool:
- if slot_path(index).is_empty() or state.is_empty():return false
+ if not _ready_for_change() or slot_path(index).is_empty():return false
  var next = state.duplicate(true);next.active = index
  if not _transaction(_metadata(next)):return false
  state = next;return true
 func rename_profile(index: int, label: String) -> bool:
+ if not _ready_for_change():return false
  label = label.strip_edges().replace("\n"," ").replace("\r"," ")
  if slot_path(index).is_empty() or label.is_empty() or label.length() > Rules.NAME_LIMIT:return _fail("Use a name of 1 to 24 characters.")
  var next = state.duplicate(true);next.names[index] = label
  if not _transaction(_metadata(next)):return false
  state = next;return true
 func replace(index: int, files: Dictionary, confirmed: bool, restored_name: String = "") -> bool:
- if not confirmed:return false
+ if not confirmed or not _ready_for_change():return false
  if slot_path(index).is_empty() or not _valid_files(files):return _fail("Invalid profile replacement.")
  var previous = snapshot(index)
  if previous.is_empty():return _fail("Cannot preserve undo files.")
@@ -175,11 +194,12 @@ func _valid_archive(bytes: PackedByteArray, challenge: bool) -> bool:
  if count <= 0 or count != buffer.get_available_bytes():return false
  var payload: PackedByteArray = buffer.get_data(count)[1]
  if payload.hex_encode().sha256_text() != checksum:return false
- var value = bytes_to_var(payload)
+ var value = Codec.decode(payload)
  if not value is Dictionary or not value.get("version") is int:return false
  var validator = load("res://src/campaign/challenges/challenge_archive.gd" if challenge else "res://src/persistence/save_store.gd").new()
  return validator.valid(value)
 func export_profile(index: int) -> String:
+ if not _ready_for_change():return ""
  var files = snapshot(index)
  if not _valid_files(files):_fail("Cannot read export source.");return ""
  for suffix in Rules.SUFFIXES:
@@ -194,11 +214,11 @@ func read_package(path: String) -> Dictionary:
  warning = ""
  var f = FileAccess.open(path,FileAccess.READ)
  if f == null or f.get_length() > Rules.PACKAGE_LIMIT:_fail("Import file unavailable or too large.");return {}
- var envelope = bytes_to_var(f.get_buffer(f.get_length()))
+ var envelope = Codec.decode(f.get_buffer(f.get_length()))
  if not envelope is Dictionary or not envelope.get("magic") is String or envelope.magic != Rules.MAGIC or not envelope.get("version") is int or envelope.version != Rules.VERSION or not envelope.get("length") is int or not envelope.get("checksum") is String or not envelope.get("payload") is PackedByteArray:_fail("Invalid profile package.");return {}
  var payload: PackedByteArray = envelope.payload
  if envelope.get("length") != payload.size() or envelope.get("checksum") != payload.hex_encode().sha256_text():_fail("Import checksum failed.");return {}
- var value = bytes_to_var(payload)
+ var value = Codec.decode(payload)
  if not value is Dictionary or not value.get("files") is Dictionary or not _valid_files(value.files):_fail("Invalid profile payload.");return {}
  for suffix in Rules.SUFFIXES:
   if value.files[suffix] != null and not _valid_archive(value.files[suffix],suffix.contains("challenges")):_fail("Import archive validation failed.");return {}

@@ -11,6 +11,11 @@ func ready_profile(index):
  await press(front(),"profile_select")
  await settle()
  check(host()!=null and front()!=null,"profile selection creates a fresh title host")
+func capture(label,shape):
+ await settle()
+ var path="user://profiles-%s-%dx%d-150.png"%[label,shape.x,shape.y]
+ check(root.get_texture().get_image().save_png(path)==OK,"save native profile capture")
+ print("PROFILE CAPTURE ",ProjectSettings.globalize_path(path))
 func shape_case(shape):
  root.size=shape;await settle()
  var profiles=Profiles.new();check(profiles.open(),"real default profiles available")
@@ -18,6 +23,7 @@ func shape_case(shape):
  check(profiles.select(0),"select first real profile")
  var game=load("res://scenes/main.tscn").instantiate();game.set_script(load("res://tests/density_main.gd"))
  root.add_child(game);await settle()
+ front()._set_value("text_scale",1.5);front()._persist();front()._title_screen()
  check(game.capture_scenario.is_empty() and game.ui_density_dpi()==420.,"real-store host uses420dpi without runtime save suppression")
  # Real campaign writer, with optional evidence/hints present only in first slot.
  game.completed=[0];game.unlocked=1;game.hints_seen=["noise"];game._start_mission(1);game._show_campaign();game.hints_seen=["noise"];game._save_archive()
@@ -28,6 +34,7 @@ func shape_case(shape):
  var first=profiles.snapshot(0)
  await press(front(),"frontend_profiles")
  check(front().screen=="profiles","touch opens title profile picker "+str(shape))
+ await capture("picker",shape)
  await ready_profile(1)
  game=host()
  check(game.completed.is_empty() and game.recovered_evidence.is_empty() and not game.hints_seen.has("noise"),"fresh empty selection has no old progress evidence or hints")
@@ -42,8 +49,12 @@ func shape_case(shape):
  await press(front(),"profile_name_save")
  check(front().profile_picker.model.state.names[1]=="Touch patrol","touch name save persists")
  await press(front(),"profile_slot_1")
+ await press(front(),"profile_copy")
+ await press(front(),"profile_copy_0")
+ check(front().column.get_child(1).text.contains("Touch patrol") and front().column.get_child(1).text.contains(front().profile_picker.model.state.names[0]),"copy confirmation names source and target")
+ await android_back()
  await press(front(),"profile_clear")
- check(front().screen=="profile_confirm","clear has explicit confirmation")
+ check(front().screen=="profile_confirm" and front().column.get_child(1).text.contains("Touch patrol"),"clear confirmation names target")
  await android_back()
  check(front().screen=="profile_slot","Android Back cancels confirmation")
  await press(front(),"profile_copy")
@@ -64,7 +75,8 @@ func shape_case(shape):
  var files=front().profile_picker.model.packages()
  check(not files.is_empty(),"touch-accessible import list includes export")
  await press(front(),"profile_file_"+files[-1].get_file())
- check(front().screen=="profile_confirm","validated import requires overwrite confirmation")
+ check(front().screen=="profile_confirm" and front().column.get_child(1).text.contains("Touch patrol"),"validated import confirmation names target")
+ await capture("import-confirm",shape)
  await press(front(),"profiles_confirm")
  check(profiles.snapshot(1)==first,"actual-store touch import roundtrips four raw files")
  # Active mutation must retire a pending retry, preventing clear from resurfacing.
@@ -85,6 +97,17 @@ func shape_case(shape):
  for button_node in front().find_children("*","Button",true,false):
   check(button_node.custom_minimum_size.y>=host().ui_touch_height,"all picker commands retain48dp at420dpi")
  check(profiles.snapshot(0)==first,"other slot bytes unchanged after all target operations")
+ # Cached UI fails closed if recovery later becomes unreadable.
+ var picker=front().profile_picker
+ var journal=picker.model.directory+"/transaction"
+ var broken=PackedByteArray([1,2,3])
+ check(picker.model._write(journal,broken),"seed cached picker recovery failure")
+ picker.show_picker();await settle()
+ check(button(front(),"profile_slot_0")==null and front().screen=="profiles","failed recovery shows only error and Back, no profile actions")
+ check(not picker.model.clear(0,true) and FileAccess.get_file_as_bytes(journal)==broken,"failed picker cannot replace recovery journal")
+ await capture("recovery-error",shape)
+ check(DirAccess.remove_absolute(journal)==OK,"repair only isolated UI recovery fixture")
+ picker.show_picker();await settle()
  await android_back();check(front().screen=="title","Android Back leaves picker for title")
  host().queue_free();await settle()
 func run():
