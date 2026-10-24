@@ -87,6 +87,12 @@ func run():
   game.completed=[0,1,2,3,4,5];game.unlocked=5;game.expedition={"version":1,"route":"deep","routes":["deep","shelf"],"facts":{"deep":"known","shelf":"known"},"completed":[6,7,8]};game._start_mission(6);game._briefing(6);await settle()
   var label="cover" if dimensions.x==2520 else "inner"
   check(game.scroll.scroll_vertical==0 and DisplayServer.is_touchscreen_available(),"fresh "+label+" briefing begins at the top on the touchscreen GUI path")
+  # 029 folds preparation initially. Enter it through its real control before
+  # the existing drag/selection/persistence checks; all those checks stay intact.
+  var fold=action("fit_fold")
+  if fold!=null and "SHOW" in fold.text:
+   await tap(fold.get_global_rect().get_center())
+   check("HIDE" in action("fit_fold").text,"real touch expands preparation before scrolling "+label)
   await change_fit("drone_b","drone_deep_cells",label+"-fit")
   check(fitting("drone_a").disabled,"rebuilt fitting keeps the single kit reserved on drone B")
   await change_fit("drone_b","",label+"-clear")
