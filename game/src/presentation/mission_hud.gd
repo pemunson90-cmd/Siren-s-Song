@@ -431,15 +431,6 @@ func refresh():
   host.detail_label.text=sim.units[sim.selected].name+" · "+("OWN TRANSMITTER" if operation.label=="TRANSMIT" else "LOCAL MACHINERY CONTROL")
   if sim.capture_feedback().unit>=0:intent.text=sim.units[sim.selected].name+" · "+operation.detail.get_slice("\n",0)
  FeatureViews.build_panel(self)
- var witness=Witness.status(sim)
- if not witness.is_empty():
-  extra.witness_land.disabled=not sim.witness_context().land.ready
-  extra.witness_land.tooltip_text=sim.witness_context().land.reason
-  if Witness.site_for_item(sim,subject.get("item","")):
-   var winch=sim.salvage_context(subject.item)
-   extra.salvage.text="WINCH\nWITNESS" if not winch.active else "WINCH\n%d%%"%floori(winch.elapsed/winch.duration*100)
-  if (page=="inspect" and subject.get("subkind","")!="concealed") or Witness.harbour_subject(sim,subject):instrument_info.text=Witness.detail(sim)+"\n\n"+instrument_info.text
-  if not Witness.site(sim).is_empty() and subject.get("kind","")=="craft":host.order_buttons.camera.text="WITNESS\nWINCH"
  if (host.knock_armed or host.decoy_armed) and not host.targeting_feedback.is_empty():
   intent.text=sim.units[sim.selected].name+" · "+host.targeting_feedback
  var photographic=sim.camera_context()

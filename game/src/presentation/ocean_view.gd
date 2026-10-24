@@ -288,8 +288,6 @@ func _draw() -> void:
 			if alpha>0: draw_rect(Rect2(x*40,y*40,40,40),Color(0.005,0.014,0.025,alpha))
 	preload("res://src/presentation/blackwater_courier_view.gd").draw(self,sim)
 	FeatureViews.draw(self)
-	Witness.draw_world(self,sim)
-	FeatureViews.draw_tail(self)
 	# Sonar rays stop at actual cover, producing explicit acoustic shadows.
 	if earned.is_empty() and sim.ping_time>0:
 		var radius=(3.5-sim.ping_time)*210
@@ -576,7 +574,7 @@ func _craft(u: Dictionary,index: int) -> void:
 		draw_line(Vector2(-9,-6),Vector2(-9,6),Color("b69251"),3)
 		draw_line(Vector2(9,-5),Vector2(9,5),Color("8a9b9d"),1)
 		draw_circle(Vector2(18,0),3,Color("7edfe4")); draw_line(Vector2(-20,-9),Vector2(-16,9),Color("506e77"),2)
-	Witness.draw_carried(self,sim,index)
+	FeatureViews.draw_carried(self,index)
 	draw_set_transform(world_offset,0,Vector2.ONE*world_scale)
 	if index==0 and index==sim.selected:
 		var heading=selected_heading_marker()
