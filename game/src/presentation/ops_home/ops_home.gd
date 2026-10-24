@@ -1,0 +1,67 @@
+extends RefCounted
+# OPS HOME: rearrange existing menu controls, retaining launch callbacks/guards.
+# Seams: CampaignFlow.show_campaign and Main._settings_menu (erase entry only).
+# Revert: Table.enabled=false restores the old list and its erase entry.
+# No progression, simulation or save writes. Fold lifetime is one home visit.
+const Table=preload("res://src/presentation/ops_home/ops_home_table.gd")
+static func action(node)->String:
+ return str(node.get_meta("ui_action",node.get_meta("action","")))
+static func operation_id(node)->int:
+ var key=action(node)
+ if key.begins_with("mission"):return int(key.trim_prefix("mission"))
+ if key.begins_with("expedition"):return int(key.trim_prefix("expedition"))
+ return -1
+static func arrange(host)->void:
+ if not Table.enabled:return
+ var recovered=[];var next=null;var resume=null;var quick=[]
+ var completed=host._campaign_completed()
+ # The former three decorative headings can fill a cover display at 150% text.
+ var headings=host.panel_box.get_children().slice(0,3)
+ headings[0].text="QUIETUS / OPERATIONS"
+ headings[0].add_theme_font_size_override("font_size",roundi(Table.HEADING_SIZE*host.ui_touch_height/48.*preload("res://src/presentation/frontend/frontend_settings.gd").text_scale()))
+ headings[1].hide();headings[2].hide()
+ for node in host.panel_box.get_children():
+  var id=operation_id(node)
+  if id>=0:
+   if id in completed:recovered.append(node)
+   elif not node.disabled and next==null:next=node
+  if action(node)=="resume":resume=node
+  if action(node) in ["route_map","fittings"]:quick.append(node)
+ var top=HBoxContainer.new();top.add_theme_constant_override("separation",Table.GAP);host.panel_box.add_child(top);host.panel_box.move_child(top,3)
+ # An always-present slot prevents every operation row moving when Resume appears.
+ if resume==null:
+  resume=host._button(host.panel_box,Table.TEXT.idle,func():pass,"resume_placeholder");resume.disabled=true
+ else:resume.text=Table.TEXT.resume
+ resume.reparent(top);resume.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+ var target=next
+ var primary=host._button(top,Table.TEXT.next if target!=null else Table.TEXT.complete,func():
+  if is_instance_valid(target):target.pressed.emit()
+ ,"next_operation")
+ primary.disabled=target==null;primary.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+ var shortcuts=HBoxContainer.new();shortcuts.add_theme_constant_override("separation",Table.GAP);host.panel_box.add_child(shortcuts);host.panel_box.move_child(shortcuts,4)
+ for node in quick:node.reparent(shortcuts);node.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+ for node in quick:
+  if action(node)=="fittings":node.text="FITTINGS"
+ var group=VBoxContainer.new();group.add_theme_constant_override("separation",Table.GAP);host.panel_box.add_child(group)
+ var fold=host._button(host.panel_box,Table.TEXT.fold%recovered.size(),func():group.visible=not group.visible;host.call_deferred("_layout"),"recovered_fold")
+ for node in recovered:node.reparent(group)
+ var after=shortcuts.get_index()+1
+ for node in host.panel_box.get_children():
+  if operation_id(node)>=0 or (node is Label and node.text=="BEYOND THE WARNING / EXPEDITIONS"):after=node.get_index()+1
+ host.panel_box.move_child(fold,after);host.panel_box.move_child(group,fold.get_index()+1)
+ group.visible=recovered.size()<Table.FOLD_THRESHOLD
+ fold.disabled=recovered.is_empty()
+ # Detailed stock comparisons remain reachable without filling the home screen.
+ var details=[];var collecting=false;var start=-1
+ for node in host.panel_box.get_children():
+  if node is Label and node.text.begins_with("NEXT DIVE / RETRY"):
+   collecting=true;start=node.get_index()
+  if collecting:details.append(node)
+  if action(node)=="loadout":break
+ if start>=0:
+  var stock=VBoxContainer.new();stock.add_theme_constant_override("separation",Table.GAP);host.panel_box.add_child(stock)
+  var stock_fold=host._button(host.panel_box,"LAUNCH DETAILS / LOADOUT",func():stock.visible=not stock.visible;host.call_deferred("_layout"),"launch_details")
+  for node in details:node.reparent(stock)
+  host.panel_box.move_child(stock_fold,start);host.panel_box.move_child(stock,start+1);stock.hide()
+static func settings_entry(host)->void:
+ if Table.enabled and not host._campaign_pristine():host._button(host.panel_box,"ERASE PROGRESS · NEW CAMPAIGN",host._confirm_new_campaign,"new_campaign")

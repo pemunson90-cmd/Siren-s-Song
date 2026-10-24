@@ -9,7 +9,8 @@ func _initialize():call_deferred("run")
 func settle():
 	for n in 5:await process_frame
 func button(action):
-	for child in game.panel_box.get_children()+game.menu_footer.get_children():
+	# Operations shortcuts now share a top row; retain every original assertion.
+	for child in game.menu.find_children("*","Button",true,false):
 		if child is Button and child.get_meta("action","")==action:return child
 	return null
 func click(control):
@@ -22,7 +23,7 @@ func click(control):
 	await settle()
 func copy():
 	var text=""
-	for c in game.panel_box.get_children():
+	for c in game.panel_box.find_children("*","Control",true,false):
 		if c is Label or c is Button:text+=c.text+"\n"
 	return text
 func stock(s):return "O₂ %d%% · DISRUPT %d · SURVEY %d"%[s.oxygen,s.tools.emp,s.tools.recon]
@@ -32,6 +33,7 @@ func run():
 	game.upgrade="endurance";game._start_mission(0)
 	game.sim.command("emp");game.sim.command("recon");game.sim.command("route",{"point":Vector2(300,800)});game.sim.paused=true
 	var active=game.sim.snapshot();game._show_campaign();await settle()
+	await click(button("launch_details"))
 	var starts={}
 	for choice in ["endurance","disruption","survey"]:
 		var s=load("res://src/simulation/simulation.gd").new();s.start(0,choice);starts[choice]=s
@@ -47,7 +49,8 @@ func run():
 		check(button("resume")!=null and button("resume").text.begins_with("RESUME DIVE") and game.sim.snapshot()==active,"selection explains active equipment preservation")
 		check(game.sim.snapshot()==active,"cycling next-dive choice preserves spent resources and paused route")
 		print("CHOICE ",choice," expected=",expected," active=",game.sim.tools," labels=",text)
-		if choice!="survey":await click(button("loadout"))
+		if choice!="survey":
+			await click(button("loadout"));await click(button("launch_details"))
 	var effects=copy();var d=starts.disruption;d.sirens[0].pos=d.units[0].pos+Vector2(100,0);d.command("emp");var survey=starts.survey;survey.command("recon")
 	check("12s" in effects and d.sirens[0].stun==12,"advertised disruption duration matches actual command effect")
 	check("8s" in effects and "audible" in effects and survey.recon_time==8 and survey.noises.any(func(n):return n.label=="RECON UPLINK"),"advertised survey duration and emission match actual command")
@@ -62,9 +65,11 @@ func run():
 		root.size=dimensions;await settle()
 		var dense=load("res://scenes/main.tscn").instantiate();dense.set_script(load("res://tests/density_main.gd"));dense.capture_scenario="loadout-density";dense.store.path="user://test-loadout-density.save"
 		if dimensions.x==2520:dense.fixture_safe_area=Rect2(136,0,2384,1080)
-		root.add_child(dense);dense.set_process(false);await settle();dense.upgrade="survey";dense._start_mission(0);dense._show_campaign();await settle();dense.scroll.scroll_vertical=100000;await settle()
+		root.add_child(dense);dense.set_process(false);await settle();dense.upgrade="survey";dense._start_mission(0);dense._show_campaign();await settle()
+		var original_game=game;game=dense;await click(button("launch_details"));game=original_game
+		dense.scroll.scroll_vertical=100000;await settle()
 		var area=dense.scroll.get_global_rect();var selected=false;var comparison=false
-		for c in dense.panel_box.get_children():
+		for c in dense.panel_box.find_children("*","Control",true,false):
 			if c is Label and c.text.begins_with("NEXT DIVE / RETRY"):selected=area.encloses(c.get_global_rect())
 			if c is Label and c.text.begins_with("COMPARE:"):comparison=area.encloses(c.get_global_rect())
 			if c is Button and c.get_meta("action","") in ["loadout","settings"]:check(area.encloses(c.get_global_rect()),"%s scrolled selector keeps %s reachable"%[dimensions,c.get_meta("action")])

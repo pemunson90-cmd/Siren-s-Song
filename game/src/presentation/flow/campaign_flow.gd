@@ -24,7 +24,7 @@ static func show_campaign(host) -> void:
 		if not host._campaign_pristine():host._menu_text("Resuming keeps this dive's equipment and its place in time.",14)
 	host._button(host.panel_box,"FITTINGS / NEXT LAUNCH",host._show_fittings,"fittings")
 	if not host.Endings.resolve(host.expedition).is_empty():host._button(host.panel_box,"VIEW CAMPAIGN ENDING",host._show_ending,"ending")
-	if not host._campaign_pristine():host._button(host.panel_box,"ERASE PROGRESS · NEW CAMPAIGN",host._confirm_new_campaign,"new_campaign")
+	if not preload("res://src/presentation/ops_home/ops_home_table.gd").enabled and not host._campaign_pristine():host._button(host.panel_box,"ERASE PROGRESS · NEW CAMPAIGN",host._confirm_new_campaign,"new_campaign")
 	if not host.recovered_evidence.is_empty(): host._button(host.panel_box,"REVIEW FIELD RECORDS",func(): host._evidence_gallery(0),"evidence")
 	host._menu_text("Field records remain reviewable after loss or abandonment. Only successful extraction advances the campaign.",14)
 	var stock=host._loadout_stock(host.upgrade)
@@ -37,6 +37,7 @@ static func show_campaign(host) -> void:
 	host._menu_text("ALL: 3 DECOYS · 2 DRONES · 2 TORPEDOES\nDISRUPT: 12s · SURVEY: 8s, audible",14)
 	host._button(host.panel_box,"CYCLE LOADOUT · endurance / disruption / survey",host._cycle_loadout,"loadout")
 	host._button(host.panel_box,"AUDIO / SETTINGS",host._settings_menu,"settings")
+	preload("res://src/presentation/ops_home/ops_home.gd").arrange(host)
 	print("SS_SCREEN operations window=",host.get_window().size," viewport=",host.get_viewport_rect().size," root=",host.size," unlocked=",host.unlocked," active_time=",snappedf(host.sim.elapsed,0.01))
 	host.call_deferred("_layout")
 
