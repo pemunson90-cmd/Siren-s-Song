@@ -231,11 +231,11 @@ back_exit_tests|BACK EXIT|205|226
 a11y_cues_tests|A11Y CUES|-|227
 a11y_cues_ui_tests|A11Y CUES UI|-|228|render
 ai_trace_tests|AI TRACE|208|231
-roster_tests|ROSTER|209|232
-terrain_tests|TERRAIN|210|233
-work_sites_tests|WORK SITES|211|234
-map_gesture_tests|MAP GESTURE|212|235
-choir_rules_tests|CHOIR RULES|213|236
-iron_layouts_tests|IRON LAYOUTS|214|237
-order_table_tests|ORDER TABLE|215|238
-photo_window_rules_tests|PHOTO WINDOW RULES|216|239
+roster_tests|ROSTER|217|240
+terrain_tests|TERRAIN|218|241
+work_sites_tests|WORK SITES|219|242
+map_gesture_tests|MAP GESTURE|220|243
+choir_rules_tests|CHOIR RULES|221|244
+iron_layouts_tests|IRON LAYOUTS|222|245
+order_table_tests|ORDER TABLE|223|246
+photo_window_rules_tests|PHOTO WINDOW RULES|224|247
