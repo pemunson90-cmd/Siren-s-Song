@@ -64,6 +64,26 @@ func run():
 				if var_to_str(r1)!=var_to_str(r2):adiffs+=1
 		check(adiffs==0,"op %d arrivals() byte-identical on %d grid pairs"%[op,an])
 		print("TIMING op %d configure old=%d us new=%d us | clear x%d old=%d us new=%d us | arrivals x%d old=%d us new=%d us (%.2fx)"%[op,t_old,t_new,pairs,tc_old,tc_new,an,ta_old,ta_new,float(ta_old)/maxf(1.0,ta_new)])
+	# Grazing sweep (review finding): long segments passing a hair outside every polygon's bounding box edge, where
+	# Godot's segment_intersects_segment tolerance can still report a hit. Old and new must agree for every offset.
+	var graze_total:=0;var graze_diff:=0
+	for op in [0,1,6,16]:
+		var gs=Sim.new();gs.start(op,"endurance")
+		for band in 3:
+			var gpolys=gs.Depth.shapes(gs,band)
+			var go=Oracle.new();var gf=Fast.new()
+			go.configure(gpolys,gs.world_size(),[]);gf.configure(gpolys,gs.world_size(),[])
+			var world=gs.world_size()
+			for poly in gpolys:
+				if poly.size()==0:continue
+				var box:=Rect2(poly[0],Vector2.ZERO)
+				for v in poly:box=box.expand(v)
+				for d in [0.0005,0.002,0.01,0.04,0.2,0.9,1.5]:
+					var segs=[[Vector2(box.position.x-d,0),Vector2(box.position.x-d,world.y)],[Vector2(box.end.x+d,0),Vector2(box.end.x+d,world.y)],[Vector2(0,box.position.y-d),Vector2(world.x,box.position.y-d)],[Vector2(0,box.end.y+d),Vector2(world.x,box.end.y+d)]]
+					for sg in segs:
+						graze_total+=1
+						if go.clear(sg[0],sg[1])!=gf.clear(sg[0],sg[1]):graze_diff+=1
+	check(graze_diff==0,"grazing segments identical on %d cases (%d differ)"%[graze_total,graze_diff])
 	# Empty and single-polygon edge cases.
 	var e_old=Oracle.new();var e_new=Fast.new()
 	e_old.configure([],Vector2(1000,1000));e_new.configure([],Vector2(1000,1000))

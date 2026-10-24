@@ -33,12 +33,13 @@ func _inside_any(point:Vector2)->bool:
 	return false
 # PERF (behavior identical): a segment can only touch a polygon whose bounding box
 # overlaps the segment's own bounding box, so other polygons are skipped before the
-# containment and edge tests. The 0.001 margin dwarfs float rounding, keeps borders
+# containment and edge tests. The 1.0 m margin is larger than Godot's segment_intersects_segment tolerance (a long segment can report a hit up to ~0.04 m past an edge endpoint), keeps borders
 # inclusive and never changes the boolean. Oracle: tests/acoustic_path_cull_tests.gd.
+const MARGIN:=1.0  # metres; see PERF note above
 func clear(a:Vector2,b:Vector2)->bool:
-	var span:=Rect2(a,Vector2.ZERO).expand(b).grow(0.001)
+	var span:=Rect2(a,Vector2.ZERO).expand(b).grow(MARGIN)
 	for index in shapes.size():
-		if not shape_bounds[index].grow(0.001).intersects(span,true):continue
+		if not shape_bounds[index].grow(MARGIN).intersects(span,true):continue
 		var shape=shapes[index]
 		if PolygonContainment.contains(a,shape,shape_bounds[index]) or PolygonContainment.contains(b,shape,shape_bounds[index]):return false
 		for i in shape.size():
