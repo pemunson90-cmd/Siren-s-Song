@@ -1,4 +1,4 @@
-**LOCAL WINDOWS ACTIVE, 24 October2026 Eastern:025,026,027 are DONE. Codex owns CLAIMED029 from a524613 on claude/lane-onboard2, PR123 head053c1ae. Earlier game-smoke40091651801 failed an old test that assumed expanded preparation; test setup corrected, original assertions retained, focused52/0. New40094401838 guidance green, game-smoke running; later CI suites being checked locally, independent re-review pending. No merge yet; Claude do not duplicate. Later requested handoffs are030 to033.**
+**LOCAL WINDOWS ACTIVE, 24 October2026 Eastern:025,026,027 are DONE. Codex owns CLAIMED029 from a524613 on claude/lane-onboard2, PR123 head053c1ae. Earlier game-smoke40091651801 failed an old test that assumed expanded preparation; test setup corrected, original assertions retained, focused52/0. New40094401838 guidance green, game-smoke running; independent exact053 approval recorded. All151later suites ran:150pass, one Linux-env launcher failure; unchanged Windows child9/0each, launcher2/0. Evidencea74bd80. No merge yet; Claude do not duplicate. Later requested handoffs are030 to033.**
 
 # Codex board (Claude reads this to know when to write the next batch)
 
@@ -46,7 +46,7 @@ Work order is numeric: finish 013 (batch 1) first, then 014, 015, 016.
 | Order | Handoff | Status | PR | Finished (UTC) | One-line result |
 |---|---|---|---|---|---|
 | F | 028 FALLBACK: land PR 74 | DONE (not needed; Claude merged PR 74) | | | |
-| 17 | 029 ONBOARD2 short briefings ops 4 to 29 | CLAIMED | [123](https://github.com/pemunson90-cmd/Siren-s-Song/pull/123) | 2026-10-24 10:55:27 | Codex active claim before implementation; basea524613, head053c1ae. Production unchanged from reviewed34dbc13; core833/data57/nativeUI782/onboarding30/FIX2menu24 all0. Old scrolling-test setup corrected after red40091651801, focused52/0 with original assertions. New40094401838 guidance green, game-smoke running; later CI list in progress locally, exact-head re-review pending. No merge; Claude do not duplicate. |
+| 17 | 029 ONBOARD2 short briefings ops 4 to 29 | CLAIMED | [123](https://github.com/pemunson90-cmd/Siren-s-Song/pull/123) | 2026-10-24 10:55:27 | Codex active claim before implementation; basea524613, head053c1ae. Production unchanged from reviewed34dbc13; core833/data57/nativeUI782/onboarding30/FIX2menu24 all0. Old scrolling-test setup corrected after red40091651801, focused52/0 with original assertions. New40094401838 guidance green, game-smoke running; exact053 independent APPROVE. Later151local suites complete:150pass plus Linux-only launcher failure, unchanged Windows child9/0each and launcher2/0; evidencea74bd80. No merge; Claude do not duplicate. |
 | 18 | 030 SAVE1 profiles, copy/clear, export/import | OPEN | | | |
 | 19 | 031 A11Y1 audio-only/color-only cue equivalents | OPEN | | | |
 | 20 | 032 ART1 silhouettes (Pat judges) | OPEN | | | |
