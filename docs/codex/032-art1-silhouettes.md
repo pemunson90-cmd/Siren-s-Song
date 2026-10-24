@@ -179,3 +179,48 @@ game-smoke120966655370 running. Earlier761/4eb runs cannot authorize thishead.
 Draft PR130 updated currentbase/source/review and honest timing qualifications.
 Baseline archivee411 actual all292Gitbloblengths/hashes verified byroot.
 No finalapproval, Pat art judgment or source publication. Next033 onlyafter032.
+
+
+Current pass-budget refinement and exact source, 24 October, about4:15 PM Eastern:
+Independent ad61 assessment verified108 evidence files/nine frozenGitblobs/all24
+paired medians/120state+memory rows/32logs/22images. Source and pixels pass, but
+strict no-regression still unmet: viewportCPU+37..57.25us in29/30blocks and ordinary
+cover cadence positiveALL5blocks11.25,347,19,14.75,22.25us;347 exceeds itsrepeat.
+No unconditional APPROVE. All ad61proof/development and exactsource preserved at
+c02177948879a93ae5c4678cbbb93f99ea40fc55, evidence/032-windows-20261024/head-ad61ad9,
+343 files134814217bytes before portableindex. Rootverifiedall108+222dev+9Gitcopies
+beforecommit; actualarchiveGitblobverification deferred untiltimednative workends.
+
+Small authorized Art-only pass-budget refinement5607cb6f44c90740257a59797bd31c7cd5bd8703
+pushed normalhooks. Removes only new redundant keel/aperture/Sirenredline/eye
+ornament already represented by texture. Filled geometry/UVs/AAoutlines/droneamber
+identity and inherited selection/carried/heading/sweep/pin/snare/beam/lock remain.
+Read-onlyalpha grid supports dropping normal nearopaque underlay only forPatroller/
+Sentinel/Hunter; normalSweeperholes and ALLfaded/pinned underlays retainbacking.
+Unuseddiscresources removed; cache8. REDbudgetcontracts observed beforeimplementation.
+ART58/0 retainsall geometry/bounds/UV/index/immutability/tint assertions plusbudget/
+backing. Shortcovernormal29/0 fivepaired300frames:219old224newbatches, drawCPU-65.25us,
+rendererCPU+10.25us within20repeat, GPU-3us, cadence-85us. Not fullapproval.
+
+Publishedintegration advanced toe08b678006838ef111161eb97045c7bb35780eb9, PR128
+Windows toolingONLY (seven scripts/toolchain files), no game/registry/instruction
+change. Rootmergedclean, updatedRESUMEactualtooling/perfstate, normalhooksandpush.
+Branchclaude/lane-art1, LASTPUSHED5b0bc6c30012606a4026572319aed68da41b4141,
+parents5607+e08. Fulltree721a476df2d73bb59c241b69e922adca18348b09;
+game487c1eda9be72a47a384d77743827333335d0295 identicalworker5607. Trackedsourceclean.
+Newread-onlycheck-suites validator232registered/local207/CI232,0errors0warnings;
+ART231/232 unchanged. A rootwrite-tree permission failure occurred beforecommit;
+no indexchange/hookbypass, normal elevated authorizedGitcommit/push succeeded.
+
+Relayed /root/art032_reviewer SOURCE PASS exact5b0 vse08, no sourceblocker.
+Ornament/resource reduction preservesgeometry/UV/AA/criticalcues/oldlook; backing
+conditions and cache8 assertions reviewed. No reviewer Godot/tests. Fullperformance/
+pixel approvalpending. Finalexact5b0serialsession20630 running: core835 clean,
+ART58/Confluence/depth/pricing/015SIM/consequenceunit andnativeWell/camera/031/
+consequenceUI, thenfull6cases5blocks300samplesold/new/new/old; separate linked
+commandreceipt only AFTERmainexit. No sourceedits/no root/reviewerparallelGodot.
+
+Currentown5b0run40128761590: guidance120975815111 SUCCESS,
+game-smoke120975814956 running. Supersededruns cannotapprove currenthead.
+PR130DRAFTupdatedcurrent5b0/e08/qualifiedbaselines/shortcase/sourcePASS. Pat has
+not judged artwork. No integrationmerge, no done032 yet.033 follows032 only.
