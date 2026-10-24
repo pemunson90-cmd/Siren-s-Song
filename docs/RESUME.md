@@ -22,11 +22,18 @@ approved data-only landmark handoff, operations6 to29, existing visual language,
 unchanged rules/story/endings and preserved fixtures/pressure. The plan is
 [landmarks M3a](superpowers/plans/2026-10-24-landmarks-m3a.md).
 
-Baseline Windows import/core818/0 pass. Geometry inventory is recorded locally;
-implementation has not started. Next author the bounded data table and pure
-presentation adapter, validate the relevant fixtures/probe and inspect three
-rendered operations. Board and025 Completion own claim/recovery state. Continue
-026/027/029..033 only after this claim is complete and preconditions are met.
+Baseline Windows import/core818/0 pass.025 is an active visual prototype, not
+complete: authored existing-feature treatments, photo-depth lamps and fresh load
+lamps live behind one ground registration. Data468/0 and projection88/0 passed.
+The first visual review rejected narrow surface borders as too weak. Localized
+compositions are being inspected in native before/after captures; one capture
+route lost Quietus and remains preserved. A renderer clipping edge case is under
+repair. The external epsilon-bounded pressure baseline is complete; the same
+wrapper/comparison, five authored fixtures, final import/core/affected suites,
+three accepted captures and exact-head independent review/CI are still required.
+Do not merge this WIP or call025 DONE. Plan and recovery refs remain on this branch.
+Board and025 Completion own claim/recovery state. Continue026/027/029..033 only
+after this claim is complete and preconditions are met.
 
 The native Windows hook fix is installed and merged;22 real-Git boundary and10
 guidance tests passed. Use the official Windows Godot4.6.3 console build directly;
