@@ -1,13 +1,20 @@
 # RESUME: operational entry
 
-**Execution:** development RESUMED by Pat (23 Oct 2026). Codex034/FIX1,035/FIX2 (PR86),024 audio (PR87) and all019 ARCH1 steps PR81/PR83/PR88/PR90/PR91/PR92 are merged. Pat cleared merges. 036 cue PR93 and037 reward PR94 are also merged. 020 campaign photos PR85 is also merged. Current order (23 Oct): 021 route map,023 and the eligible numeric queue. Live claims/completion remain on docs/codex/BOARD.md in codex/handoffs.
+**Execution (24 Oct 2026, 8:26 PM Eastern):** the cloud Claude session that orchestrated 23 Oct has been stopped by Pat. Pat's PC is set up again, so the next Claude session runs locally on the PC, not in the cloud. No scheduled check-ins remain from that session. Codex continues on its own protocol (docs/codex/README.md on codex/handoffs).
 
-**Current source checkpoint (021 route map):** last reconciled actual integrationddc3361 contains completed019/020/035/024/036/037. Handoff021 is CLAIMED on codex/handoffs; this branch adds a derived thirty-operation graph and standalone touch view through one campaign button. Existing progression, photo intel and catalog prerequisites remain authoritative; no save fields or operation-table edits. The opening six form one visual group with distinct states. Functional50/0, real Canvas70/0 on both Fold7 shapes, import/core818/0 and neighboring menu24/frontend63 all clean. Pan/zoom, CURRENT branch focus, largest existing text setting, live resize, fair briefing delegation, three Back paths, photo rumours, unchanged archive and off switch are covered. Finish the feature, independent review and exact-head guidance/game-smoke before merge; then023 and the eligible numeric queue. No APK or frozen-branch promotion.
+**Merged on claude/integration (tip b03dd69 at handoff time):** PR77, PR79 (guidance and D1 to D5), PR81, PR83, PR88, PR90, PR91, PR92 (all of 019 ARCH1), PR86 (035 FIX2), PR87 (024 audio), PR89 (D3 photo grade), PR93 (D1 first-Siren cue), PR94 (D2 early Tele lens), PR85 (020 campaign photo rows), PR95 (021 route map). Check live refs for anything newer.
 
-## CHECKPOINT 23 Oct (updated after PR79 and PR80 merged)
-Integration holds PR77 (photo and cargo repairs), PR79 (this guidance and Pat's decisions D1 to D5), PR81, PR83, PR88, PR90, PR91 and PR92 (ARCH1 steps,019 DONE), and PR86 (035/FIX2), PR87 (024 audio), PR93 (036 first-Siren cue), PR94 (037 early reward), PR85 (020 campaign photos). PR80 is merged on codex/handoffs. PR82 and PR84 were folded into PR79 and closed. Codex merge hold is LIFTED (Pat tells Codex). Hooks: Pat reinstalls between Codex tasks (python3 scripts/toolchain/install-gauntlet-hooks.py).
-Codex queue (docs/codex/BOARD.md): 021 route map,023,025 to027,029 to033 in numeric order when eligible. Pat's rule: phone testing only after the game is feature complete and bug free; no APKs.
-D3 photo grade at "Record secured" merged in PR89 (switch GradeOnSecure.enabled). Next: review Codex PRs, re-run a cold review after 035 lands, and keep 5 hours of OPEN work ahead of Codex (write batch 7 when two of 035, 036, 037 are DONE).
+**In flight:** handoff 023 ARCH2 (main.gd and HUD contract) is CLAIMED by Codex in [PR96](https://github.com/pemunson90-cmd/Siren-s-Song/pull/96), first step published, review and exact-head CI pending. Do not touch that branch. Then 025, 026, 027, 029 to 033 in numeric order on docs/codex/BOARD.md (codex/handoffs), which owns claims and statuses.
+
+**Next for Claude (local session on the PC):** (1) fetch claude/integration and codex/handoffs and read the live board and open PRs; (2) when two of 023, 025, 026 are DONE, write the next handoff batch and keep about 5 hours of OPEN work ahead of Codex; (3) re-run a cold review of the whole campaign now that 035, 036, 037, 020 and 021 have landed, and send the ranked fixes to Pat in chat; (4) review Codex PRs for independent approval; (5) no APKs and no promotion to gauntlet/production or main without Pat.
+
+**Decisions waiting on Pat:** none open. Still gated by Pat: SIREN TELL idea, art direction (handoff 032), combat/beam/collision/damage/hull/Siren senses changes, story and ending text, promotion to production or main.
+
+**Stale-doc note:** the GitHub MCP tools and scheduled check-ins used in the cloud session do not exist in a local session unless Pat configures them; use git and the GitHub CLI or web if they are missing.
+
+## CHECKPOINT (kept short; live state is the board and open PRs)
+Codex merge hold is LIFTED. Hooks: Pat reinstalls between Codex tasks (python3 scripts/toolchain/install-gauntlet-hooks.py). Pat's rule: phone testing only after the game is feature complete and bug free; no APKs.
+
 Resume command: start Claude Code on claude/integration and say: "Read docs/RESUME.md, then continue the Gauntlet as root orchestrator." Pat is not a developer: plain language, Eastern times, no em dashes, no jargon.
 
 ## Authority and first action
