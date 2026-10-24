@@ -1,4 +1,5 @@
 extends RefCounted
+const BriefRows029=preload("res://src/campaign/onboarding2/briefing_rows.gd")
 # Campaign/menu flow extracted verbatim from main. Main keeps its existing
 # entry points as forwarders; host owns state, callbacks and deferred layout.
 # Revert this PR to restore the bodies in main. No rules, text or save changes.
@@ -61,15 +62,18 @@ static func orders_text(host, briefing:Dictionary) -> String:
 
 static func briefing(host, index: int) -> void:
 	if index>=6 and index not in host.ExpeditionCampaign.available(host.completed,host.expedition):return
+	var compact=BriefRows029.applies(index)
+	if compact and (host.screen not in ["briefing","reference"] or host.get_meta("onboard2_fit_index",-1)!=index):host.set_meta("onboard2_fit_open",false)
+	host.set_meta("onboard2_fit_index",index)
 	host.screen="briefing"; host.sim.paused=true; host._clear_menu()
 	var briefing=host.Simulation.Missions.make(index,host._launch_context(index))
-	host._menu_text("%02d / %s"%[index+1,briefing.title.to_upper()],30)
-	var goal=host.OnboardingText.goal(index)
+	host._menu_text("%02d / %s"%[index+1,briefing.title.to_upper()],BriefRows029.STYLE.title if compact else 30)
+	var goal=BriefRows029.goal(index,host.OnboardingText.goal(index))
 	var photo_problems:String=preload("res://src/simulation/photo_pricing/photo_pricing_briefing.gd").line(index,host.fitted_equipment)
 	if not goal.is_empty():
 		# Opening operations: a goal and one danger. Rules live in the optional field manual.
-		host._menu_text(goal,20)
-		if not photo_problems.is_empty():host._menu_text(photo_problems,17)
+		host._menu_text(goal,BriefRows029.STYLE.goal if compact else 20)
+		if not photo_problems.is_empty():host._menu_text(photo_problems,BriefRows029.STYLE.photo if compact else 17)
 		host._button(host.panel_box,"FIELD MANUAL · full rules and orders",func(): host._reference(index),"manual")
 	else:
 		host._menu_text(briefing.brief,20)
@@ -77,9 +81,11 @@ static func briefing(host, index: int) -> void:
 		if host.ExpeditionOperations.briefing(host,index):pass
 		host._button(host.panel_box,"FIELD MANUAL · full rules and orders",func(): host._reference(index),"manual")
 	var stock=host._loadout_stock(host.upgrade)
+	var fit_start=host.panel_box.get_child_count()
 	host._menu_text("NEXT DIVE / RETRY · %s\nO₂ %d%% · DISRUPT %d · SURVEY %d · 3 DECOYS · 2 DRONES · 2 TORPEDOES"%[host.upgrade.to_upper(),stock[0],stock[1],stock[2]],17)
 	# Frames open after the first dive; recovered fittings appear once earned. A toggle folds them away.
-	var fit_start=host.panel_box.get_child_count()
+	if not compact:fit_start=host.panel_box.get_child_count()
+	var fold_control:Button=null
 	if 0 in host.completed or not host._equipment_entitlements().is_empty():preload("res://src/presentation/equipment_context.gd").loadout(host,host._equipment_context().slots,func(key,id):host._choose_equipment(key,id,index))
 	if not host._equipment_entitlements().is_empty():preload("res://src/presentation/equipment_context.gd").fitting(host,host._equipment_context(),func(slot,item):host._choose_equipment(slot,item,index))
 	if host.panel_box.get_child_count()>fit_start:
@@ -87,15 +93,26 @@ static func briefing(host, index: int) -> void:
 		var holder=[]
 		var fold=host._button(host.panel_box,"HIDE FRAMES AND FITTINGS",host._fold_fit.bind(fit_nodes,holder),"fit_fold")
 		holder.append(fold);host.panel_box.move_child(fold,fit_start)
+		fold_control=fold
+		if compact:
+			fold.text=BriefRows029.FOLD_LABELS.hide
+			if not host.get_meta("onboard2_fit_open",false):host._fold_fit(fit_nodes,holder)
 	host._button(host.menu_footer,"ENTER WATER\nSTART PAUSED",func(): host._start_mission(index); host._enter_water(),"begin")
+	if compact and fold_control!=null:
+		host.panel_box.remove_child(fold_control);host.menu_footer.add_child(fold_control)
+		fold_control.size_flags_horizontal=Control.SIZE_EXPAND_FILL;fold_control.mouse_filter=Control.MOUSE_FILTER_STOP
 	host._button(host.menu_footer,"BACK TO\nOPERATIONS",host._show_campaign,"back")
 	host.menu_footer.show()
+	if compact:preload("res://src/campaign/onboarding2/briefing_layout.gd").attach(host)
 	host.call_deferred("_layout")
 
 static func fold_fit(host, nodes:Array,holder:Array) -> void:
 	var show=not nodes[0].visible
 	for node in nodes:node.visible=show
-	holder[0].text="HIDE FRAMES AND FITTINGS" if show else "SHOW FRAMES AND FITTINGS"
+	if host.screen=="briefing" and BriefRows029.applies(int(host.get_meta("onboard2_fit_index",-1))):
+		host.set_meta("onboard2_fit_open",show)
+		holder[0].text=BriefRows029.FOLD_LABELS.hide if show else BriefRows029.FOLD_LABELS.show
+	else:holder[0].text="HIDE FRAMES AND FITTINGS" if show else "SHOW FRAMES AND FITTINGS"
 	host.call_deferred("_layout")
 
 static func show_reference(host, index:int) -> void:
@@ -105,6 +122,7 @@ static func show_reference(host, index:int) -> void:
 	for n in parts.size():
 		host._menu_text(parts[n],24 if n==0 else 17)
 	if briefing.get("blackwater_revision",0)==1:host._menu_text(host._orders_text(briefing),17)
+	if BriefRows029.applies(index):host.ExpeditionOperations.briefing(host,index)
 	host._button(host.menu_footer,"BACK TO BRIEFING",func():host._briefing(index),"back"); host.menu_footer.show()
 	host.call_deferred("_layout")
 
