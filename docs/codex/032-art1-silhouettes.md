@@ -50,3 +50,31 @@ root owns integration/RESUME/PR/board and a separate independent reviewer.
 Worker is establishing the untouched old renderer baseline before art edits.
 Actual feature source WIP is due3:03PM Eastern, then every30minutes.
 No candidate artwork, final032 verification, PR or Pat art acceptance claimed yet.
+
+
+First source WIP, 24 October, 2:57 PM Eastern:
+Branch claude/lane-art1, last pushed241d44ea1906bff1d1b23650d68c12f2aa4cd83f.
+Public claimce56635 preceded implementation and source WIP was within30minutes.
+Draft PR130 https://github.com/pemunson90-cmd/Siren-s-Song/pull/130 is attached.
+Root docs04c9fc5 plus nine exact owned source/test files; normal hooks passed,
+no UID/import churn or runtime rule/save/story edits. Baseactualad841 remains current.
+Clean serial frozen WIP import/core835/ART33/Confluence15/named015SIM2 all zero
+failures and clean exits/log scans. Native bounded preview88/0 covers corrected
+logical viewport, both420dpi shapes,150%camera text, whole visible craft/cone,
+retained material, hidden-roster pixels, factory knowledge/bounds and valid full
+snapshot/subsequent-command invariance. These are preliminary technical fixtures,
+not final frozen proof, human perception, Android or blind-play acceptance.
+
+Known development failures retained separately: missing stale default script,
+packed-array const parser failure, short contract/core overlap (not final proof),
+clipped initial window/logical viewport, rejected hollow UV outlines, and wrong
+fixture depletion setup corrected without weakening its assertion. Work-only
+runner now has serial mutex, immediate PID/argument metadata and bounded wait;
+all Godot invocations use unique isolated APPDATA/LOCALAPPDATA, no parallel root runs.
+
+Sole builder /root/art032_builder now refines table-only lamp visibility and
+immutable buffer caches before final paired native measurements. Independent
+/root/art032_reviewer requested gpt-6.1-sol Medium is inspecting frozen WIP source,
+no final approval claimed yet. No32 art published and Pat has not judged it.
+Do not merge before final evidence/review/exact-head hosted gates, fresh current
+integration containment, and Pat's concrete before/after artwork judgment.
