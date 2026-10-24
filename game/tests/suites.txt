@@ -223,3 +223,5 @@ endings_photo_ui_tests|PHOTO ENDINGS UI|199|220|render
 final_pair_journey_tests|FINAL PAIR JOURNEY|200|221
 onboard2_tests|ONBOARD2|201|222
 onboard2_ui_tests|ONBOARD2 UI|202|223|render
+consequence_lines_tests|CONSEQUENCE LINES|203|224
+consequence_lines_ui_tests|CONSEQUENCE LINES UI|204|225|render
