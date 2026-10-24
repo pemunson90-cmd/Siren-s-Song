@@ -224,3 +224,54 @@ Currentown5b0run40128761590: guidance120975815111 SUCCESS,
 game-smoke120975814956 running. Supersededruns cannotapprove currenthead.
 PR130DRAFTupdatedcurrent5b0/e08/qualifiedbaselines/shortcase/sourcePASS. Pat has
 not judged artwork. No integrationmerge, no done032 yet.033 follows032 only.
+
+
+Finished technical candidate, 24 October, about4:40 PM Eastern:
+Exact5b0bc6c30012606a4026572319aed68da41b4141 vsbasee08b678006838ef111161eb97045c7bb35780eb9
+has final technical APPROVE relayed by /root/art032_reviewer. No blocking source
+or technical pixel finding. Root/reviewer independently verified123 final files,
+nine frozen Gitblobs,24 paired metric medians, six command-linked binary pairs,
+34 clean logs,120state/retained-memory rows; reviewer viewed12ART+10a11y PNGs.
+Core835/art58/Confluence15/depth49/pricing64/015SIM2/consequence143/Well14/camera56/
+a11y98/consequenceUI48/ART204 and separatecommand140 all zero failures/clean exits.
+Read-only registry validator232/local207/CI232,0errors0warnings in separateaddendum.
+
+Measured Windows desktop overall performance criterion satisfied: framecadence
+improves28/30 pairedblocks and all6case medians48.75..91.75us; drawCPU improves
+27/30 blocks and all6medians31.5..50us. Two positivecadenceblocks(+0.25,+101us)
+within correspondingrepeat. GPU improves exceptcoverfactory+0.5us within1usrepeat.
+P95 variesbothdirections, no tail-improvementclaim. Remaining viewportCPU+14.5us
+innernormal/+14.75us covercamera are real internal phase costs, explicitlykept;
+not summed with othertimers or mislabelledzero, not overall-frame regression.
+No universalAndroidFPS/power/zeroengineallocation or physicalperception/hand claim.
+All120retainedobject/staticbytesdelta0; one-timecache189us/93052bytes/8Meshes
+excludespreload/GPU. Sourceknownstagedpixels/shapehashes are not blind recognition.
+
+Finalimmutablearchivec7435e6d99d42ab410df84ab9982522cd7ed68de on
+archive/codex-032-art-windows-20261024,
+evidence/032-windows-20261024/head-5b0bc6c;377files140020832bytes beforeportableindex.
+RootverifiedALL377actualGitbloblengths/hashes. Originalreceipt
+179784774c6121dd50674aff525e539a91338f7ee699495aceba23a2d046b382,
+validatoraddendum1adb30e449495d686fb50e45f2ffc0cb58f40ed9d313256de272d0b99b0b2100.
+OldC021343 andE411292actualGitblobsalsoallverified. Everyfailure/rawbaseline retained.
+
+Patshown12unedited before/after native screenshots, mainmatchedcover/innerimages
+inline plus outputs/032-art-before-after.zip(14649078bytes, SHA256
+06c819edc56e61f2e6a97dc0892a541049b52a43a7649437909b9260376537ab).
+Asyncartpreferencequestionasked afterallcoding/localproof/independentreview complete,
+whileexternalGitHubcheck continues: new/current/revise. NOREPLY yet; don't infer
+approvalfrompreselectedchoice or elapsedtime. Thisisrequested032artjudgment,
+not permissiontoignorethehostedgate. Actualmerge stillconditionalonBOTH.
+
+Automaticapprovalreviewrejected an early unpublished LOCALmergecommitpreparation
+becausePatjudgmentandhostedgatespending. CommandprocessdidNOTlaunch: noartmerge
+branch/commitcreated in work/029-evidence; it remains old031mergecheckout. Safe
+alternative is wait, then createactualmerge ONLYafterbothconditions andfreshlive
+containment/mergeability. Do not retryearly viaanotherpath. Root explained rejection
+toPat; no extraoverridepermissionrequested becausewaitingissafe. Finalreply must
+retainshortseparaterejectionexplanation afterartquestion ifstillrelevant.
+
+Current5b0ownrun40128761590 guidance120975815111 SUCCESS, game-smoke120975814956
+running; fresh4:31integrationstill e08andcontained. PR130DRAFTnowrecords fullrelayed
+technicalAPPROVE, immutableprooflinks, screenshotpairs andexplicitphasecosts.
+No artpublished, no done032; Patdecisionandhostedgatepending. Next033onlyafter032.
