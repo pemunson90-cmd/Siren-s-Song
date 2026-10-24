@@ -42,6 +42,15 @@ No code merge has been performed by this Codex session.
 | Draft PR102 Wake | claude/lane-arch2-wake-view | d229936afd36bb445496387473cee4cea8e7f323 | Prepared-head APPROVE and import/core818/runtime665/Wake31/UI37/density883/menu7/scroll15 all0. Parent/final gates pending. |
 | Draft PR104 Rendezvous | claude/lane-arch2-rendezvous-view | 15057f3f527d6643321749bb0ec6ac1b9d078cfb | Prepared-head APPROVE and import/core818/runtime665/transport61/UI57/density883/menu7/scroll15 all0. Parent/final gates pending. |
 | Draft PR108 Shelf | claude/lane-arch2-shelf-view | 27da2a29a7c20e93f5504c22f90f142cb366fb59 | Prepared-head APPROVE and import/core818/runtime665/Shelf23/UI69/density883/menu7/scroll15 all0. Ground/world phases retained. Parent/final gates pending. |
+| Draft PR109 Warning Chain | claude/lane-arch2-warning-chain-view | a0a36c8f1801ea3523645d2006d3cfb747a917c0 | Prepared-head APPROVE and import/core818/runtime665/chain49/UI68/worldUI13/density883/menu7/scroll15 all0. Parent/final gates pending. |
+
+Delivery panel is being prepared on claude/lane-arch2-delivery-view from a0a36c8;
+import and preliminary source review pass, tests running. No world drawing is
+owned by that module, so only HUD registration moves. Not yet pushed/given a PR.
+The designated independent reviewer /root/review_photo also watches only PR99's
+77b7483 gate and may merge99 under Pat's delegation only when both exact checks
+are SUCCESS, latest base is contained, PR mergeable and review remains clear.
+Root retains all other merges; no duplicate99 merge action.
 
 Coordination for Claude: each integration-tip change, including docs/history-only
 merges, makes the candidate fail the current-tip ancestry requirement and forces
