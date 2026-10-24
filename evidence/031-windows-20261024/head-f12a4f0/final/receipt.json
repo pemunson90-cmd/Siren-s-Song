@@ -1,0 +1,286 @@
+{
+  "head": "f12a4f0e1bb23cbc6ccb677b963d02dd9badbeae",
+  "run_tag": "final-f12a4f0",
+  "completed_utc": "2026-10-24T17:11:29.2946405Z",
+  "serial_launcher_exit": 0,
+  "all_processes_waited": true,
+  "results": [
+    {
+      "suite": "a11y_cues_tests",
+      "pid": 23632,
+      "appdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\031-native\\final-f12a4f0\\final-a11y_cues_tests\\appdata",
+      "localappdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\031-native\\final-f12a4f0\\final-a11y_cues_tests\\local",
+      "gpu": false,
+      "exit": 0,
+      "footer": "A11Y CUES CHECKS 31 FAILURES 0\r",
+      "errors": 0,
+      "passed": true
+    },
+    {
+      "suite": "run_tests",
+      "pid": 31380,
+      "appdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\031-native\\final-f12a4f0\\final-run_tests\\appdata",
+      "localappdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\031-native\\final-f12a4f0\\final-run_tests\\local",
+      "gpu": false,
+      "exit": 0,
+      "footer": "CHECKS 835 FAILURES 0\r",
+      "errors": 0,
+      "passed": true
+    },
+    {
+      "suite": "photo_audio_tests",
+      "pid": 36168,
+      "appdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\031-native\\final-f12a4f0\\final-photo_audio_tests\\appdata",
+      "localappdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\031-native\\final-f12a4f0\\final-photo_audio_tests\\local",
+      "gpu": false,
+      "exit": 0,
+      "footer": "PHOTO AUDIO CHECKS 47 FAILURES 0\r",
+      "errors": 0,
+      "passed": true
+    },
+    {
+      "suite": "received_audio_retry_tests",
+      "pid": 41304,
+      "appdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\031-native\\final-f12a4f0\\final-received_audio_retry_tests\\appdata",
+      "localappdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\031-native\\final-f12a4f0\\final-received_audio_retry_tests\\local",
+      "gpu": false,
+      "exit": 0,
+      "footer": "RECEIVED AUDIO RETRY CHECKS 8 FAILURES 0\r",
+      "errors": 0,
+      "passed": true
+    },
+    {
+      "suite": "lock_warning_tests",
+      "pid": 20052,
+      "appdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\031-native\\final-f12a4f0\\final-lock_warning_tests\\appdata",
+      "localappdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\031-native\\final-f12a4f0\\final-lock_warning_tests\\local",
+      "gpu": false,
+      "exit": 0,
+      "footer": "LOCK WARNING CHECKS 27 FAILURES 0\r",
+      "errors": 0,
+      "passed": true
+    },
+    {
+      "suite": "photo_pricing_tests",
+      "pid": 15860,
+      "appdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\031-native\\final-f12a4f0\\final-photo_pricing_tests\\appdata",
+      "localappdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\031-native\\final-f12a4f0\\final-photo_pricing_tests\\local",
+      "gpu": false,
+      "exit": 0,
+      "footer": "PHOTO PRICING CHECKS 64 FAILURES 0\r",
+      "errors": 0,
+      "passed": true
+    },
+    {
+      "suite": "sweeper_tests",
+      "pid": 40648,
+      "appdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\031-native\\final-f12a4f0\\final-sweeper_tests\\appdata",
+      "localappdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\031-native\\final-f12a4f0\\final-sweeper_tests\\local",
+      "gpu": false,
+      "exit": 0,
+      "footer": "SWEEPER CHECKS 52 FAILURES 0\r",
+      "errors": 0,
+      "passed": true
+    },
+    {
+      "suite": "warning_chain_audio_tests",
+      "pid": 26472,
+      "appdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\031-native\\final-f12a4f0\\final-warning_chain_audio_tests\\appdata",
+      "localappdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\031-native\\final-f12a4f0\\final-warning_chain_audio_tests\\local",
+      "gpu": false,
+      "exit": 0,
+      "footer": "WARNING CHAIN AUDIO CHECKS 13 FAILURES 0\r",
+      "errors": 0,
+      "passed": true
+    },
+    {
+      "suite": "a11y_cues_ui_tests",
+      "pid": 37672,
+      "appdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\031-native\\final-f12a4f0\\final-a11y_cues_ui_tests\\appdata",
+      "localappdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\031-native\\final-f12a4f0\\final-a11y_cues_ui_tests\\local",
+      "gpu": true,
+      "exit": 0,
+      "footer": "A11Y CUES UI CHECKS 98 FAILURES 0\r",
+      "errors": 0,
+      "passed": true
+    },
+    {
+      "suite": "lock_warning_ui_tests",
+      "pid": 18680,
+      "appdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\031-native\\final-f12a4f0\\final-lock_warning_ui_tests\\appdata",
+      "localappdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\031-native\\final-f12a4f0\\final-lock_warning_ui_tests\\local",
+      "gpu": true,
+      "exit": 0,
+      "footer": "LOCK WARNING UI CHECKS 14 FAILURES 0\r",
+      "errors": 0,
+      "passed": true
+    },
+    {
+      "suite": "photo_pricing_ui_tests",
+      "pid": 28048,
+      "appdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\031-native\\final-f12a4f0\\final-photo_pricing_ui_tests\\appdata",
+      "localappdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\031-native\\final-f12a4f0\\final-photo_pricing_ui_tests\\local",
+      "gpu": true,
+      "exit": 0,
+      "footer": "PHOTO PRICING UI CHECKS 11 FAILURES 0\r",
+      "errors": 0,
+      "passed": true
+    },
+    {
+      "suite": "fix2_frontend_ui_tests",
+      "pid": 13240,
+      "appdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\031-native\\final-f12a4f0\\final-fix2_frontend_ui_tests\\appdata",
+      "localappdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\031-native\\final-f12a4f0\\final-fix2_frontend_ui_tests\\local",
+      "gpu": true,
+      "exit": 0,
+      "footer": "FIX2 FRONTEND UI CHECKS 63 FAILURES 0\r",
+      "errors": 0,
+      "passed": true
+    },
+    {
+      "suite": "fix2_camera_ui_tests",
+      "pid": 13232,
+      "appdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\031-native\\final-f12a4f0\\final-fix2_camera_ui_tests\\appdata",
+      "localappdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\031-native\\final-f12a4f0\\final-fix2_camera_ui_tests\\local",
+      "gpu": true,
+      "exit": 0,
+      "footer": "FIX2 CAMERA UI CHECKS 56 FAILURES 0\r",
+      "errors": 0,
+      "passed": true
+    },
+    {
+      "suite": "import-final",
+      "pid": 17224,
+      "appdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\031-native\\final-f12a4f0\\final-import-final\\appdata",
+      "localappdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\031-native\\final-f12a4f0\\final-import-final\\local",
+      "gpu": false,
+      "exit": 0,
+      "footer": "",
+      "errors": 0,
+      "passed": true
+    }
+  ],
+  "raw_log_scans": [
+    {
+      "file": "a11y_cues_tests.err.log",
+      "errors": 0
+    },
+    {
+      "file": "a11y_cues_tests.out.log",
+      "errors": 0
+    },
+    {
+      "file": "a11y_cues_ui_tests.err.log",
+      "errors": 0
+    },
+    {
+      "file": "a11y_cues_ui_tests.out.log",
+      "errors": 0
+    },
+    {
+      "file": "fix2_camera_ui_tests.err.log",
+      "errors": 0
+    },
+    {
+      "file": "fix2_camera_ui_tests.out.log",
+      "errors": 0
+    },
+    {
+      "file": "fix2_frontend_ui_tests.err.log",
+      "errors": 0
+    },
+    {
+      "file": "fix2_frontend_ui_tests.out.log",
+      "errors": 0
+    },
+    {
+      "file": "import-final.err.log",
+      "errors": 0
+    },
+    {
+      "file": "import-final.out.log",
+      "errors": 0
+    },
+    {
+      "file": "lock_warning_tests.err.log",
+      "errors": 0
+    },
+    {
+      "file": "lock_warning_tests.out.log",
+      "errors": 0
+    },
+    {
+      "file": "lock_warning_ui_tests.err.log",
+      "errors": 0
+    },
+    {
+      "file": "lock_warning_ui_tests.out.log",
+      "errors": 0
+    },
+    {
+      "file": "photo_audio_tests.err.log",
+      "errors": 0
+    },
+    {
+      "file": "photo_audio_tests.out.log",
+      "errors": 0
+    },
+    {
+      "file": "photo_pricing_tests.err.log",
+      "errors": 0
+    },
+    {
+      "file": "photo_pricing_tests.out.log",
+      "errors": 0
+    },
+    {
+      "file": "photo_pricing_ui_tests.err.log",
+      "errors": 0
+    },
+    {
+      "file": "photo_pricing_ui_tests.out.log",
+      "errors": 0
+    },
+    {
+      "file": "received_audio_retry_tests.err.log",
+      "errors": 0
+    },
+    {
+      "file": "received_audio_retry_tests.out.log",
+      "errors": 0
+    },
+    {
+      "file": "run_tests.err.log",
+      "errors": 0
+    },
+    {
+      "file": "run_tests.out.log",
+      "errors": 0
+    },
+    {
+      "file": "sweeper_tests.err.log",
+      "errors": 0
+    },
+    {
+      "file": "sweeper_tests.out.log",
+      "errors": 0
+    },
+    {
+      "file": "warning_chain_audio_tests.err.log",
+      "errors": 0
+    },
+    {
+      "file": "warning_chain_audio_tests.out.log",
+      "errors": 0
+    }
+  ],
+  "tracked_diff": null,
+  "limits": [
+    "Source-known technical fixtures, not blind play",
+    "420dpi fixture and actual desktop Compatibility GPU captures, not physical Fold7",
+    "Haptic request seam tested; no physical Android sensation claim",
+    "Known026 camera/status/badge overlaps remain; new floating caption is disjoint",
+    "CUD palette source plus measured dark-backing contrast, no universal vision/device claim",
+    "No APK, full local suite matrix, campaign schema, combat, beam, damage, hull, sight/hearing or narrative edits"
+  ]
+}

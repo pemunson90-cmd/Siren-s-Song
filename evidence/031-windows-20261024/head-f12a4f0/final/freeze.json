@@ -1,0 +1,29 @@
+{
+  "head": "f12a4f0e1bb23cbc6ccb677b963d02dd9badbeae",
+  "branch": "claude/lane-a11y1",
+  "base": "d131ca0b8b3538af6588f057ee8e7f1ab4f75273",
+  "run_tag": "final-f12a4f0",
+  "godot": "C:/Users/Archi/.cache/sirens-song-toolchain/win/Godot_v4.6.3-stable_win64_console.exe",
+  "requested_model": "gpt-6.1-sol",
+  "requested_effort": "Medium",
+  "actual_backend_telemetry": "unavailable",
+  "files": [
+    "docs/A11Y_CUES.md",
+    "docs/RESUME.md",
+    "game/src/audio/soundscape.gd",
+    "game/src/main.gd",
+    "game/src/persistence/settings_store.gd",
+    "game/src/presentation/accessibility/caption_view.gd",
+    "game/src/presentation/accessibility/cue_observer.gd",
+    "game/src/presentation/accessibility/cue_table.gd",
+    "game/src/presentation/accessibility/cue_tests.gd",
+    "game/src/presentation/accessibility/palette.gd",
+    "game/src/presentation/frontend/frontend.gd",
+    "game/src/presentation/lock_warning.gd",
+    "game/src/presentation/mission_hud.gd",
+    "game/src/presentation/photo_pricing/photo_pricing_overlay.gd",
+    "game/tests/a11y_cues_tests.gd",
+    "game/tests/a11y_cues_ui_tests.gd",
+    "game/tests/suites.txt"
+  ]
+}

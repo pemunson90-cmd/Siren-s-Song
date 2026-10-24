@@ -1,0 +1,37 @@
+[
+  {
+    "suite": "a11y_cues_ui_tests",
+    "exit": 0,
+    "footer": "A11Y CUES UI CHECKS 78 FAILURES 0\r",
+    "errors": 0,
+    "passed": true
+  },
+  {
+    "suite": "lock_warning_ui_tests",
+    "exit": 0,
+    "footer": "LOCK WARNING UI CHECKS 14 FAILURES 0\r",
+    "errors": 0,
+    "passed": true
+  },
+  {
+    "suite": "photo_pricing_ui_tests",
+    "exit": 0,
+    "footer": "PHOTO PRICING UI CHECKS 11 FAILURES 0\r",
+    "errors": 0,
+    "passed": true
+  },
+  {
+    "suite": "fix2_frontend_ui_tests",
+    "exit": 0,
+    "footer": "FIX2 FRONTEND UI CHECKS 63 FAILURES 0\r",
+    "errors": 0,
+    "passed": true
+  },
+  {
+    "suite": "fix2_camera_ui_tests",
+    "exit": 0,
+    "footer": "FIX2 CAMERA UI CHECKS 56 FAILURES 0\r",
+    "errors": 0,
+    "passed": true
+  }
+]

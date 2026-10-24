@@ -1,0 +1,58 @@
+[
+  {
+    "suite": "a11y_cues_tests",
+    "exit": 0,
+    "footer": "A11Y CUES CHECKS 29 FAILURES 0\r",
+    "errors": 0,
+    "passed": true
+  },
+  {
+    "suite": "run_tests",
+    "exit": 0,
+    "footer": "CHECKS 835 FAILURES 0\r",
+    "errors": 0,
+    "passed": true
+  },
+  {
+    "suite": "photo_audio_tests",
+    "exit": 0,
+    "footer": "PHOTO AUDIO CHECKS 47 FAILURES 0\r",
+    "errors": 0,
+    "passed": true
+  },
+  {
+    "suite": "received_audio_retry_tests",
+    "exit": 0,
+    "footer": "RECEIVED AUDIO RETRY CHECKS 8 FAILURES 0\r",
+    "errors": 0,
+    "passed": true
+  },
+  {
+    "suite": "lock_warning_tests",
+    "exit": 0,
+    "footer": "LOCK WARNING CHECKS 27 FAILURES 0\r",
+    "errors": 0,
+    "passed": true
+  },
+  {
+    "suite": "photo_pricing_tests",
+    "exit": 0,
+    "footer": "PHOTO PRICING CHECKS 64 FAILURES 0\r",
+    "errors": 0,
+    "passed": true
+  },
+  {
+    "suite": "sweeper_tests",
+    "exit": 0,
+    "footer": "SWEEPER CHECKS 52 FAILURES 0\r",
+    "errors": 0,
+    "passed": true
+  },
+  {
+    "suite": "warning_chain_audio_tests",
+    "exit": 0,
+    "footer": "WARNING CHAIN AUDIO CHECKS 13 FAILURES 0\r",
+    "errors": 0,
+    "passed": true
+  }
+]
