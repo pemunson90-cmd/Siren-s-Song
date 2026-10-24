@@ -13,6 +13,9 @@ func ready_profile(index):
  check(host()!=null and front()!=null,"profile selection creates a fresh title host")
 func capture(label,shape):
  await settle()
+ var visible=front().scroll.get_global_rect()
+ for control in front().column.get_children():
+  check(visible.encloses(control.get_global_rect()),"150 percent captured controls and text stay in viewport: "+label)
  var path="user://profiles-%s-%dx%d-150.png"%[label,shape.x,shape.y]
  check(root.get_texture().get_image().save_png(path)==OK,"save native profile capture")
  print("PROFILE CAPTURE ",ProjectSettings.globalize_path(path))

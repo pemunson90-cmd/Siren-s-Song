@@ -139,6 +139,7 @@ func run():
  var bytes_before=default_profiles.snapshot(0)
  var output=[]
  var status=OS.execute(OS.get_executable_path(),["--headless","--path",ProjectSettings.globalize_path("res://"),"--audio-driver","Dummy","--script","res://tests/save_profiles_tests.gd","--","--cold"],output,true)
+ for line in output:print(line)
  check(status==0 and "SAVE PROFILES COLD CHECKS 3 FAILURES 0" in str(output),"separate native cold process verifies disk state")
  check(default_profiles.snapshot(0)==bytes_before,"cold process leaves other profile byte-identical")
  print("SAVE PROFILES CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)
