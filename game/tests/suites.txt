@@ -231,6 +231,6 @@ back_exit_tests|BACK EXIT|205|226
 a11y_cues_tests|A11Y CUES|-|227
 a11y_cues_ui_tests|A11Y CUES UI|-|228|render
 ai_trace_tests|AI TRACE|208|231
-acoustic_path_cull_tests|ACOUSTIC PATH CULL|209|232
-sonar_feedback_cache_tests|SONAR FEEDBACK CACHE|210|233
-goal_bearing_cache_tests|GOAL BEARING CACHE|211|234
+acoustic_path_cull_tests|ACOUSTIC PATH CULL|225|248
+sonar_feedback_cache_tests|SONAR FEEDBACK CACHE|226|249
+goal_bearing_cache_tests|GOAL BEARING CACHE|227|250
