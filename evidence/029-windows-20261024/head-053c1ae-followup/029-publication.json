@@ -1,0 +1,16 @@
+{
+  "base": "a5246131f5fde6caca332d4c986df10a0ad1b69c",
+  "head": "053c1ae5c9715b8d2ecfe2374a64f8cd70a1333e",
+  "prepared_merge": "dfaf5435a75364b82c57f5567fde7eb673e505a8",
+  "tree": "6c97381920d8dbd405eed16f0b758c6ccdc56c06",
+  "game_tree": "dec553a44e0af82a962772c03c2be996dd63e70b",
+  "published": false,
+  "run": 40094401838,
+  "pr": 123,
+  "gates_pending": true,
+  "evidence_head": "ffa5ad0f80b86519da33b5e63a3cb6a53749907b",
+  "handoffs_head": "4c653e1",
+  "reviewer": "/root/review_photo APPROVE exact053c1ae against34dbc13, production identity verified, prior approval againsta524613 retained; no tests run by reviewer",
+  "superseded_prepared_merge": "1971afd44c699707298190062b22c0d38074b567",
+  "previous_failed_run": 40091651801
+}
