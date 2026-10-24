@@ -45,7 +45,7 @@ at exactly their original positions. Existing controls, picking and inputs stay.
 Import clean; before/after Wake31/UI37/core818/runtime665/density883/menu7/scroll15
 match with zero failures and clean logs. Independent preliminary source PASS;
 final own-head/base review and hosted checks remain after parent PRs land.
-Wake, Rendezvous, Shelf and Warning Chain are registered in this preparation. Other features still
+Wake, Rendezvous, Shelf, Warning Chain and Delivery are registered in this preparation. Other features still
 use their original seams. The separate Rendezvous step is based on Waked229936;
 its existing HUD assignments and world draw stay in order. Non-null applicability
 preserves its draw-transform restoration even with an empty projection. Import,
@@ -64,6 +64,13 @@ and world drawing retain their original order through the shared lists. Legacy
 projection/drawing/input helpers remain unchanged. Import/chain49/touchUI68/
 worldUI13/core818/runtime665/density883/menu7/scroll15 pass with zero failures
 and clean logs. Preliminary source review PASS; own final gates remain.
+
+Delivery preparation is based on Chaina0a36c8. Its existing cargo HUD updates
+stay after Warning Chain and before Recipient. It has no world-drawing ownership
+and is registered only in the HUD list. Legacy cargo/status/debrief/input helpers
+stay unchanged. Import/delivery63/touchUI49/runtimeUI60/core818/runtime665/
+density883/menu7/scroll15 pass with zero failures and clean logs. Preliminary
+source review PASS; parent reconciliation and own final gates remain.
 
 ## Historical cloud handover snapshot
 
