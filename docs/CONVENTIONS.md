@@ -20,5 +20,26 @@
   host-bound callbacks as forwarders; state ownership and deferred order stay.
 - Prove moved bodies, rules, numbers and text unchanged, then match core and
   named UI counts. Each ARCH2 extraction has its own reviewed PR and CI.
-- The proposed shared feature contract is still future ARCH2 work, not a
-  currently implemented registration API.
+- Incremental presentation registration lives in presentation/feature_views.gd.
+  Migrated views expose applies(sim), build_panel(hud) and draw(view). The panel
+  seam refreshes existing controls; setup, input and Node lifetimes stay owned
+  by their existing hosts. Keep applicability checks free of state changes.
+- Preserve each original refresh/draw position and the separate ordered HUD,
+  ground and world lists. A small adapter implements the same contract when an
+  existing feature draws in more than one layer. Preserve every original layer
+  slot. Only registered views use this seam; migrate one feature per PR.
+- If a view also owns a Control screen, keep that Node class and its lifecycle
+  unchanged; a small RefCounted adapter supplies the shared contract. Keep
+  ordered segments separate while intervening legacy calls are still present.
+- For a craft-local draw pass, use a private synchronous context containing the
+  existing canvas, simulation reference and unit index. Keep the caller's exact
+  transform slot and restore behavior; the context owns no gameplay state.
+- Use separate ordered lists at existing panel/draw phases when intervening
+  host composition must retain its position. Keep shared summary/navigation
+  composition and its local variables in the host; do not cross unrelated writes.
+- Applicability must preserve existing inactive-feature resets and hiding.
+  Use non-null applicability with the original internal guards when needed.
+- This contract covers existing mission feature panels and rendering seams.
+  Existing setup, input, picking and shared query/text composition remain owned
+  by their hosts. Framework terrain/course primitives and unrelated hosts stay
+  outside this feature registration scope.

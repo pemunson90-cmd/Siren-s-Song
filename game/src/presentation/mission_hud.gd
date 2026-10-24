@@ -1,4 +1,5 @@
 extends Control
+const FeatureViews=preload("res://src/presentation/feature_views.gd")
 const Shelf=preload("res://src/presentation/shelf_habitat_view.gd")
 const Wake=preload("res://src/presentation/wake_crossing_view.gd")
 const Operations=preload("res://src/presentation/operation_instruments.gd")
@@ -411,11 +412,7 @@ func refresh():
   var site=host.ocean.observable_sites()[subject.index]
   instrument_info.text=site.name+" · "+("RECORDED" if site.captured else "NOT RECORDED")+"\n"+site.get("requirement","")+"\n"+site.get("unit_requirement","")+"\n"+instrument_info.text
  if subject.get("subkind","") in ["corridor","withdrawal"]:instrument_info.text=Expedition.context_detail(sim,subject)+"\n\n"+instrument_info.text
- if subject.get("kind","")=="salvage" and sim.has_method("salvage_context"):
-  var salvage=sim.salvage_context(subject.item)
-  extra.salvage.text="RECOVER\n4s AUDIBLE" if not salvage.active else "RECOVERING\n%d%%"%floori(salvage.elapsed/salvage.duration*100)
-  extra.salvage.disabled=not salvage.ready
-  instrument_info.text=Recovery.detail(sim,subject.item)
+ FeatureViews.build_context(self)
  if page=="signals":instrument_info.text=Expedition.detail(sim,subject.get("receiver",-1))
  var sampling=Equipment.sample_detail(sim)
  if not sampling.is_empty():
@@ -429,71 +426,7 @@ func refresh():
   instrument_info.text=Operations.detail(sim,operation.target)+"\n\n"+summary+"\n"+"\n".join(host.ocean.acoustic_rows())
   host.detail_label.text=sim.units[sim.selected].name+" · "+("OWN TRANSMITTER" if operation.label=="TRANSMIT" else "LOCAL MACHINERY CONTROL")
   if sim.capture_feedback().unit>=0:intent.text=sim.units[sim.selected].name+" · "+operation.detail.get_slice("\n",0)
- var tender=Rendezvous.context(sim)
- var wake=Wake.context(sim)
- if not wake.is_empty():
-  extra.wake_playback.disabled=not wake.ready
-  extra.wake_playback.text="PLAYING\n%ds LEFT"%ceili(wake.remaining) if wake.active else "PLAYBACK\nSPENT" if wake.used else "PLAY OLD LOOP\nONCE ·15s"
-  if subject.get("subkind","")=="wake_repeater":
-   instrument_info.text=Wake.detail(sim)
-   if page=="inspect":host.title_label.hide();host.detail_label.hide()
- if not tender.is_empty():
-  var receiver=sim.rendezvous_receiver()
-  host.order_buttons.camera.text="DECODE\n4s PASSIVE";host.order_buttons.camera.disabled=not receiver.ready
-  if subject.get("subkind","")=="berth_control":
-   extra.rendezvous_release.disabled=not tender.control.ready
-   extra.rendezvous_release.text="BERTH\nRELEASED" if tender.control.get("used",false) else "RELEASE BERTH\n950m / 6s"
-  if subject.get("subkind","") in ["berth_control","rendezvous_hull"]:instrument_info.text=Rendezvous.detail(sim,subject)
-  if subject.get("subkind","")=="rendezvous_hull" and tender.vessel.known and not tender.vessel.live:extra.route_here.text="PLOT\nLAST FIX"
- var shelter=Shelf.context(sim)
- if not shelter.is_empty():
-  host.order_buttons.camera.text="WATCH\nORDERS";host.order_buttons.camera.disabled=false
-  extra.shelf_alarm.disabled=not shelter.alarm.ready
-  extra.shelf_warn.disabled=true
-  for row in shelter.galleries:
-   if row.id==subject.get("site",""):extra.shelf_warn.disabled=not row.action.ready
-  if subject.get("kind","")=="habitat":instrument_info.text=Shelf.detail(sim,subject.site)
- var plant=WarningChain.context(sim)
- if not plant.is_empty():
-  host.order_buttons.camera.text="PLANT\nCONTROLS";host.order_buttons.camera.disabled=false
-  intent.text=WarningChain.summary(sim)+" · "+intent.text
-  for row in plant.actions:extra["chain_"+row.id].disabled=not row.ready
-  if subject.get("kind","")=="plant":instrument_info.text=WarningChain.detail(sim,subject.station)
- var delivery=Delivery.status(sim)
- if not delivery.is_empty():
-  intent.text=Delivery.summary(sim)+" · "+intent.text
-  host.order_buttons.camera.disabled=not sim.camera_context().ready
-  if page=="delivery" or (page=="inspect" and subject.get("kind","")!="salvage"):instrument_info.text=Delivery.detail(sim)+"\n\n"+instrument_info.text
-  if sim.selected>0:extra.blackwater_handoff.disabled=not sim.blackwater_handoff_context(sim.selected).ready
-  for pair in [[1,extra.blackwater_a],[2,extra.blackwater_b]]:
-   var context=sim.blackwater_handoff_context(pair[0]);pair[1].disabled=not context.ready
-   pair[1].text="TRANSFER %s\nTO Q"%["A" if pair[0]==1 else "B"]
- var recipient=Recipient.status(sim)
- if not recipient.is_empty():
-  extra.warning_exposed.disabled=not recipient.actions.depart.ready
-  extra.warning_sheltered.disabled=not recipient.actions.depart.ready or not recipient.gate.opened
-  extra.warning_gate.disabled=not recipient.actions.gate.ready
-  if subject.get("subkind","") in ["warning_recipient","warning_gate"]:instrument_info.text=Recipient.detail(sim,subject)
-  var recipient_primary=Recipient.primary_subject(sim)
-  if page=="craft" and not recipient_primary.is_empty():
-   host.order_buttons.camera.text="GATE\nCONTROLS" if recipient_primary.subkind=="warning_gate" else "RECIPIENT\nCONTROLS";host.order_buttons.camera.disabled=false
-   instrument_info.text=Recipient.detail(sim,recipient_primary)
- var concealed=Concealed.status(sim)
- if concealed.get("known",false):
-  intent.text=Concealed.summary(sim)+" · "+intent.text
-  extra.concealed_attach.disabled=not concealed.actions.tow
-  extra.concealed_release.disabled=not concealed.actions.release
-  extra.concealed_seat.disabled=not concealed.actions.seats.any(func(p):return p.id==subject.get("seat","") and p.ready)
-  if subject.get("subkind","")=="concealed" or page=="inspect":instrument_info.text=Concealed.detail(sim,subject)+"\n\n"+instrument_info.text
- var witness=Witness.status(sim)
- if not witness.is_empty():
-  extra.witness_land.disabled=not sim.witness_context().land.ready
-  extra.witness_land.tooltip_text=sim.witness_context().land.reason
-  if Witness.site_for_item(sim,subject.get("item","")):
-   var winch=sim.salvage_context(subject.item)
-   extra.salvage.text="WINCH\nWITNESS" if not winch.active else "WINCH\n%d%%"%floori(winch.elapsed/winch.duration*100)
-  if (page=="inspect" and subject.get("subkind","")!="concealed") or Witness.harbour_subject(sim,subject):instrument_info.text=Witness.detail(sim)+"\n\n"+instrument_info.text
-  if not Witness.site(sim).is_empty() and subject.get("kind","")=="craft":host.order_buttons.camera.text="WITNESS\nWINCH"
+ FeatureViews.build_panel(self)
  if (host.knock_armed or host.decoy_armed) and not host.targeting_feedback.is_empty():
   intent.text=sim.units[sim.selected].name+" · "+host.targeting_feedback
  var photographic=sim.camera_context()
@@ -506,12 +439,7 @@ func refresh():
  if page=="inspect" and sim.selected==0:
   var correlation=Equipment.correlation_detail(sim)
   if not correlation.is_empty():instrument_info.text+="\n\n"+correlation
- var industry=sim.choir_context()
- if not industry.is_empty():
-  for action in industry.actions:
-   extra["choir_"+action].disabled=not industry.actions[action].ready;extra["choir_"+action].tooltip_text=industry.actions[action].reason
-  extra.choir_route.disabled=preload("res://src/presentation/industrial_view.gd").targets(sim).is_empty()
-  if page=="choir":instrument_info.text=industry.detail+"\n"+sim.message
+ FeatureViews.build_activity(self)
  var reach=sim.glass_context()
  if not reach.is_empty():
   for action in reach.actions:
@@ -521,17 +449,7 @@ func refresh():
   if page=="glass":instrument_info.text=reach.detail+"\n"+sim.message
   elif not reach.artifact.is_empty() and reach.artifact.get("carrier",-1)==sim.selected:instrument_info.text+="\nMATERIAL ABOARD · "+reach.artifact.id+" · recover this carrier"
  if page=="recovery":instrument_info.text="%s · CHOOSE RECOVERY\n%s APPROACH"%[sim.units[sim.selected].name+" · "+sim.Depth.NAMES[sim.units[sim.selected].band],"QUEUE" if sim.queue_mode else "REPLACE"]
- if not host.advanced_orders:
-  extra.arrivals.hide()
-  if Expedition.active(sim):
-   var blockers=[]
-   for button in action_controls().values():
-    if button!=extra.arrivals:blockers.append(Rect2(button.global_position-host.ocean.global_position,button.size))
-   if intent.visible:blockers.append(Rect2(intent.global_position-host.ocean.global_position,intent.size))
-   var badge=Expedition.badge_rect(host.ocean,sim,touch_height,blockers)
-   if badge.has_area():
-    extra.arrivals.position=badge.position;extra.arrivals.size=badge.size;extra.arrivals.show();extra.arrivals.text="ARRIVALS\n%d"%Expedition.measurements(sim,sim.selected).size()
-    if extra.arrivals.get_theme_stylebox("normal")!=measurement_style:extra.arrivals.add_theme_stylebox_override("normal",measurement_style)
+ FeatureViews.build_badges(self)
  # Water contact readouts own warnings; a popup transfers them above its
  # projection. The quiet top instrument owns only our operation estimate.
  var pressure=sim.recon_feedback()

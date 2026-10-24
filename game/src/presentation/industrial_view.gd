@@ -1,4 +1,16 @@
 extends RefCounted
+# ARCH2 activity-panel/world contract. Only the existing display refresh
+# and drawing dispatch move; context, input and all industrial rules stay owned.
+# Revert this PR to restore direct HUD/ocean calls at their original slots.
+static func applies(sim)->bool:return sim!=null
+static func build_panel(hud)->void:
+ var sim=hud.host.sim
+ var industry=sim.choir_context()
+ if not industry.is_empty():
+  for action in industry.actions:
+   hud.extra["choir_"+action].disabled=not industry.actions[action].ready;hud.extra["choir_"+action].tooltip_text=industry.actions[action].reason
+  hud.extra.choir_route.disabled=targets(sim).is_empty()
+  if hud.page=="choir":hud.instrument_info.text=industry.detail+"\n"+sim.message
 const CYAN=Color("9acdcc")
 const AMBER=Color("dbbb82")
 static func targets(sim)->Array:
@@ -18,7 +30,8 @@ static func touch_rects(view,sim,touch:float)->Array:
  for target in targets(sim):
   var radius=maxf(touch*.38,24.*view.world_scale);result.append(Rect2(view.screen_position(target.pos)-Vector2.ONE*radius,Vector2.ONE*radius*2))
  return result
-static func draw(view,sim):
+static func draw(view,sim=null):
+ if sim==null:sim=view.sim
  var info=sim.choir_context()
  if info.is_empty():return
  for site in info.sites:

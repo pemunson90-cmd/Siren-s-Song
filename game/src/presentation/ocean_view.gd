@@ -1,4 +1,5 @@
 extends Control
+const FeatureViews=preload("res://src/presentation/feature_views.gd")
 const HullBand=preload("res://src/presentation/route_clearance/hull_band.gd")
 const Shelf=preload("res://src/presentation/shelf_habitat_view.gd")
 const Priced=preload("res://src/presentation/photo_pricing/photo_pricing_overlay.gd")
@@ -237,7 +238,7 @@ func _draw() -> void:
 			var context=sim.confluence_context();context["surface_segments"]=earned.get("surface_segments",[])
 			Confluence.draw_landmarks(self,context,world_scale)
 	else:EarnedChart.draw_terrain(self,earned,world_scale)
-	Shelf.draw_ground(self,sim)
+	FeatureViews.draw_ground(self)
 	if not presenting_mission or not sim.outcome.is_empty():
 		draw_set_transform(Vector2.ZERO)
 		return
@@ -285,14 +286,7 @@ func _draw() -> void:
 			var key=Vector2i(x,y); var p=Vector2(x*40+20,y*40+20)
 			var alpha=0.38 if not sim.known.has(key) else (0.0 if sim.visible(p) else 0.20)
 			if alpha>0: draw_rect(Rect2(x*40,y*40,40,40),Color(0.005,0.014,0.025,alpha))
-	preload("res://src/presentation/blackwater_courier_view.gd").draw(self,sim)
-	Shelf.draw_world(self,sim)
-	Wake.draw(self,sim)
-	Rendezvous.draw(self,sim)
-	WarningChain.draw_world(self,sim)
-	Witness.draw_world(self,sim)
-	Concealed.draw_world(self,sim)
-	Recipient.draw_world(self,sim)
+	FeatureViews.draw(self)
 	# Sonar rays stop at actual cover, producing explicit acoustic shadows.
 	if earned.is_empty() and sim.ping_time>0:
 		var radius=(3.5-sim.ping_time)*210
@@ -304,7 +298,7 @@ func _draw() -> void:
 	if not Expedition.active(sim) or Expedition.entry(sim):
 		draw_arc(ex,64,0,TAU,64,Color(CYAN,0.42),2)
 		_label(ex+Vector2(-120 if ex.y>830 else -66,66 if ex.y>830 else 90),"WITHDRAWAL" if Expedition.entry(sim) else "EXTRACTION",CYAN,18)
-	Expedition.draw(self,sim)
+	FeatureViews.draw_detail(self)
 	_draw_observed_paths()
 	_draw_findings()
 	RuleOverlay.draw_chart(self,sim)
@@ -339,7 +333,7 @@ func _draw() -> void:
 		var at=sim.mission.glass_reach.work_pos
 		draw_rect(Rect2(at-Vector2.ONE*20,Vector2.ONE*40),Color("d8c591"),false,2./world_scale)
 		draw_line(at-Vector2(30,0),at+Vector2(30,0),Color("d8c591"),1.5/world_scale)
-	preload("res://src/presentation/industrial_view.gd").draw(self,sim)
+	FeatureViews.draw_activity(self)
 	# Only own launcher range and legitimately cached targets; beams draw afterward.
 	if knock_targeting and sim.selected==0 and sim.units[0].alive:
 		draw_arc(sim.units[0].pos,sim.KNOCK_RANGE,0,TAU,64,Color(0.7,0.85,0.8,0.5),1.5/world_scale)
@@ -398,7 +392,7 @@ func _draw() -> void:
 	draw_set_transform(Vector2.ZERO,0,Vector2.ONE)
 	_draw_pressure_overlay()
 	_draw_local_current()
-	preload("res://src/presentation/module_recovery_view.gd").draw(self,sim)
+	FeatureViews.draw_screen(self)
 	# Short screen-sized tags preserve observed identity without long world labels.
 	for entry in observed:
 		var anchor=chart_camera.to_screen(entry.pos)+Vector2(12,-18)
@@ -579,7 +573,7 @@ func _craft(u: Dictionary,index: int) -> void:
 		draw_line(Vector2(-9,-6),Vector2(-9,6),Color("b69251"),3)
 		draw_line(Vector2(9,-5),Vector2(9,5),Color("8a9b9d"),1)
 		draw_circle(Vector2(18,0),3,Color("7edfe4")); draw_line(Vector2(-20,-9),Vector2(-16,9),Color("506e77"),2)
-	Witness.draw_carried(self,sim,index)
+	FeatureViews.draw_carried(self,index)
 	draw_set_transform(world_offset,0,Vector2.ONE*world_scale)
 	if index==0 and index==sim.selected:
 		var heading=selected_heading_marker()

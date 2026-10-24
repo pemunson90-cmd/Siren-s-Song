@@ -19,7 +19,7 @@ def main():
         if helper.exists() and helper.read_bytes()!=data:raise ValueError('versioned helper mismatch')
         boundary.atomic(helper,data)
         for name in HOOKS:
-            script='#!/bin/sh\n'+MARKER+'\nexec python3 '+shlex.quote(str(helper))+' --boundary '+name+' "$@"\n'
+            script='#!/bin/sh\n'+MARKER+'\nexec '+shlex.quote(pathlib.Path(sys.executable).as_posix())+' '+shlex.quote(helper.as_posix())+' --boundary '+name+' "$@"\n'
             boundary.atomic(hooks/name,script.encode());os.chmod(hooks/name,0o755)
         print('Installed four managed hooks; helper '+str(helper));return 0
     except (ValueError,RuntimeError,OSError,subprocess.TimeoutExpired) as error:

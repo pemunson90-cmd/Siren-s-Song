@@ -1,6 +1,12 @@
 extends RefCounted
 const Courier=preload("res://src/simulation/blackwater_courier.gd")
-static func draw(view,sim)->void:
+# ARCH2 world-only contract. No HUD panel is owned here. Keep the legacy
+# two-argument draw entry point and all drawing bodies unchanged.
+# Revert this PR to restore the direct ocean call.
+static func applies(sim)->bool:return sim!=null
+static func build_panel(_hud)->void:pass
+static func draw(view,sim=null)->void:
+ if sim==null:sim=view.sim
  if sim.mission.get("courier_revision",0)!=1:return
  # Recovered route instructions are authored knowledge, never a live tracker.
  if sim.mission.objectives[0].captured and not sim.mission.objectives[1].captured:

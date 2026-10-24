@@ -8,8 +8,15 @@ Pat's Windows PC. Pat stopped the cloud session on 23 October and said continue 
 
 ## Live source checkpoint
 
-Development integration is `claude/integration`, tip `30f555a260d4edf5f0300935e7381475ba620fcc`
-(merge of PR98). Recent merges, in order: PR95 route map (b03dd69), PR96 campaign
+Development integration is `claude/integration`, last reconciled baseline `a6e342caca41a7fe6702fbac4678e3b4d8ff9177`.
+This ARCH2 candidate includes the Windows hook repair PR99, published at
+fab2617575d5156d74b87aede4aa9ba21367504b after its exact-head gates and review.
+At this preparation, later predecessor merges are planned, not yet published.
+Live refs and the board determine published state. Preparing a commit does not
+publish it; publish each prerequisite in order only after its own exact gates.
+Recent documentation/history merges include103/105/106/107/112/114; those design
+proposals do not authorize implementation in handoff023.
+Earlier baseline was30f555a (merge of PR98). Recent merges, in order: PR95 route map (b03dd69), PR96 campaign
 flow (dcf81b5, 23 Oct 8:56 PM Eastern, reviewed head 3afb12f, hosted run
 40043994511 green), PR97 Claude's PC handover (632f592) and PR98 the cloud
 closeout documentation (30f555a, both merged about 9:01 PM Eastern). Live Git refs
@@ -24,14 +31,57 @@ re-claim it or mark it DONE after one PR.
 
 | Work | State |
 |---|---|
-| 023 campaign flow, first main extraction | PR96 merged |
-| 023 photo review, second main extraction | PR100, from preserved 52ba7d5; hosted checks pending |
-| Windows hook repair | PR99, reviewed and installed locally; hosted checks pending |
-| 023 metrics | In preparation on `claude/lane-arch2-ui-metrics`; do not duplicate |
-| Portable cloud evidence | `archive/cloud-desktop-20261023` at 5407a241, 551 files with manifest and hash |
+| 023 campaign flow | PR96 merged |
+| Windows hooks PR99 | Merged atfab2617 with exact1606418 checks/review |
+| Prerequisite PR100 | Included in candidate ancestry; live PR/board decide published state |
+| Prerequisite PR101 | Included in candidate ancestry; live PR/board decide published state |
+| Prerequisite PR102 | Included in candidate ancestry; live PR/board decide published state |
+| Prerequisite PR104 | Included in candidate ancestry; live PR/board decide published state |
+| Prerequisite PR108 | Included in candidate ancestry; live PR/board decide published state |
+| Prerequisite PR109 | Included in candidate ancestry; live PR/board decide published state |
+| Prerequisite PR110 | Included in candidate ancestry; live PR/board decide published state |
+| Prerequisite PR111 | Included in candidate ancestry; live PR/board decide published state |
+| Prerequisite PR113 | Included in candidate ancestry; live PR/board decide published state |
+| Prerequisite PR115 | Included in candidate ancestry; live PR/board decide published state |
+| Prerequisite PR117 | Included in candidate ancestry; live PR/board decide published state |
+| Prerequisite PR118 | Included in candidate ancestry; live PR/board decide published state |
+| Prerequisite PR119 | Included in candidate ancestry; live PR/board decide published state |
+| Current Industrial PR120 | Candidate; exact-head independent review and hosted gates pending |
+| 023 publication | Every step still needs its own gates and ordered publication; not DONE |
+| Portable cloud evidence | archive/cloud-desktop-20261023 at5407a241,551 files with manifest/hash |
 
 Every merge needs latest integration, independent review, both hosted checks on
 the exact head, and a merge commit. 025 waits until 023 is DONE.
+
+Local photo verification: clean Windows import; core818/runtime665/campaign
+dispatch13/archive recap8/photo captureUI9/cold reviewUI218 all0 on the prepared
+source. All nine moved bodies, retained host entry points and callback/deferred
+order are independently reviewed. Preserve this evidence separately from each
+final exact-head/base review and hosted result. The shared contract preparations
+remain drafts until parents land and each own final gate passes.
+
+Native hook verification:22 real-Git boundary tests and10 guidance tests pass.
+Hooks use the actual Windows Python executable, exclusive locking and bounded
+process cleanup; no hooks are bypassed. Godot checks redirect APPDATA and
+LOCALAPPDATA to isolated work folders, preserving personal saves.
+
+## Current ARCH2 candidate
+
+This candidate is Industrial PR120, reconciled against planned predecessor merge
+a6e342caca41a7fe6702fbac4678e3b4d8ff9177. This predecessor must be published first.
+Original choir HUD refresh and world drawing retain their activity slots, before
+Glass composition and targeting drawing. Actual untyped draw(view,sim=null)
+preserves registry and legacy calls; the complete original body is unchanged.
+The complete game tree equals native-tested preparation7397e0e exactly.
+Clean import and choir57/jobs47/threats91/UI24/core818/runtime665/density883/
+menu7/scroll15 all0 with clean logs. This finishes preparation of the existing
+mission feature-view seams; it does not publish them. Framework terrain/course,
+shared host composition, setup, input and picking are intentional exclusions.
+Independent exact-head/planned-base approval and both hosted checks remain.
+Only publish its ordinary merge when live integration equals that predecessor,
+its PR is mergeable, and parents/tree equal the approved tested result. Stop on
+unexpected base advancement or any hook/protection rejection.023 stays partial
+until every step is published; then board and done023 must share one commit.
 
 ## Cold review 3 and the new batches
 
@@ -55,8 +105,8 @@ fork, 044 menu reach, 045 three early rewards before op 7. 029 now includes the
 F7 briefing addendum. Statuses live on the board, all OPEN at this snapshot.
 
 Held for Pat: any change to Siren senses (sight, hearing) or lock timing (Pat: not
-yet), the 049 first-Siren cue extension, ending at op 30 details, early-reward
-count changes.
+yet), ending at op30 details and early-reward count changes. Board049 was
+released separately by Pat on24 October; it is outside the current023 claim.
 
 ## Completed context
 
@@ -74,11 +124,15 @@ remains [CURRENT_GAME_SPEC](CURRENT_GAME_SPEC.md), not a completed feature claim
 
 ## Next steps for the PC sessions
 
-Finish 023 in order: land PR99 and PR100 on green, then metrics, then the shared
-feature contract, one feature per PR. Then 025 and the numeric queue; the board
-owns eligibility. Claude reviews Codex PRs independently and keeps about five
-hours of eligible OPEN work queued. Cloud connectors and agents do not exist on
-the PC; use Git and the GitHub web. Recheck the desktop setup before reinstalling.
+Publish023 prepared heads in their recorded order, one reviewed PR and ordinary
+merge commit per step. Each head contains its planned predecessor so exact-head
+checks can run concurrently. Publish only after that predecessor is the freshly
+fetched live integration tip, own independent approval and both own hosted checks
+are successful. Normal hooks and branch protections apply; stop on a rejection
+or unexpected integration advance. Verify actual remote parents/tree and PR
+merged disposition after each publication. Board owns claims and recovery refs.
+Then025 and the eligible numeric queue. Use the current local tool inventory;
+do not assume cloud agents or credentials carried over.
 
 ## Verification and preservation
 
