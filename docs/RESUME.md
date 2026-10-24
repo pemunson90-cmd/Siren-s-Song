@@ -8,7 +8,7 @@ Pat's Windows PC. Pat stopped the cloud session on 23 October and said continue 
 
 ## Live source checkpoint
 
-Development integration is `claude/integration`, last reconciled baseline `f03d9eb411d9579472514be3bfa71ffb43d39639`.
+Development integration is `claude/integration`, last reconciled baseline `a6e342caca41a7fe6702fbac4678e3b4d8ff9177`.
 This ARCH2 candidate includes the Windows hook repair PR99, published at
 fab2617575d5156d74b87aede4aa9ba21367504b after its exact-head gates and review.
 At this preparation, later predecessor merges are planned, not yet published.
@@ -45,8 +45,9 @@ re-claim it or mark it DONE after one PR.
 | Prerequisite PR115 | Included in candidate ancestry; live PR/board decide published state |
 | Prerequisite PR117 | Included in candidate ancestry; live PR/board decide published state |
 | Prerequisite PR118 | Included in candidate ancestry; live PR/board decide published state |
-| Current Recovery PR119 | Candidate; independent exact-head review and hosted gates pending |
-| Later preparations | Separate feature PRs, see authoritative board; not a full023 completion |
+| Prerequisite PR119 | Included in candidate ancestry; live PR/board decide published state |
+| Current Industrial PR120 | Candidate; exact-head independent review and hosted gates pending |
+| 023 publication | Every step still needs its own gates and ordered publication; not DONE |
 | Portable cloud evidence | archive/cloud-desktop-20261023 at5407a241,551 files with manifest/hash |
 
 Every merge needs latest integration, independent review, both hosted checks on
@@ -66,15 +67,21 @@ LOCALAPPDATA to isolated work folders, preserving personal saves.
 
 ## Current ARCH2 candidate
 
-This candidate is Recovery PR119, reconciled against planned predecessor merge
-f03d9eb411d9579472514be3bfa71ffb43d39639. This predecessor must be published first.
-Existing salvage HUD and screen overlay retain their original context/screen slots. Actual draw(ocean,sim=null) accepts registry and legacy calls; original body unchanged. The initial argument mismatch was fixed before preparation publication, all affected checks rerun clean and no tests changed.
-The complete game tree equals native-tested preparation010c78c85dd72f27fc2e76b8a0fcc4d87389d2c7.
-Clean import and recovery55/UI37/runtimeUI22/routeUI68/core818/runtime665/density883/menu7/scroll15 all0 with clean logs.
-Independent final exact-head/planned-base review and both own hosted gates remain.
+This candidate is Industrial PR120, reconciled against planned predecessor merge
+a6e342caca41a7fe6702fbac4678e3b4d8ff9177. This predecessor must be published first.
+Original choir HUD refresh and world drawing retain their activity slots, before
+Glass composition and targeting drawing. Actual untyped draw(view,sim=null)
+preserves registry and legacy calls; the complete original body is unchanged.
+The complete game tree equals native-tested preparation7397e0e exactly.
+Clean import and choir57/jobs47/threats91/UI24/core818/runtime665/density883/
+menu7/scroll15 all0 with clean logs. This finishes preparation of the existing
+mission feature-view seams; it does not publish them. Framework terrain/course,
+shared host composition, setup, input and picking are intentional exclusions.
+Independent exact-head/planned-base approval and both hosted checks remain.
 Only publish its ordinary merge when live integration equals that predecessor,
 its PR is mergeable, and parents/tree equal the approved tested result. Stop on
-unexpected base advancement or any hook/protection rejection.023 stays partial.
+unexpected base advancement or any hook/protection rejection.023 stays partial
+until every step is published; then board and done023 must share one commit.
 
 ## Cold review 3 and the new batches
 

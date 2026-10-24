@@ -439,12 +439,7 @@ func refresh():
  if page=="inspect" and sim.selected==0:
   var correlation=Equipment.correlation_detail(sim)
   if not correlation.is_empty():instrument_info.text+="\n\n"+correlation
- var industry=sim.choir_context()
- if not industry.is_empty():
-  for action in industry.actions:
-   extra["choir_"+action].disabled=not industry.actions[action].ready;extra["choir_"+action].tooltip_text=industry.actions[action].reason
-  extra.choir_route.disabled=preload("res://src/presentation/industrial_view.gd").targets(sim).is_empty()
-  if page=="choir":instrument_info.text=industry.detail+"\n"+sim.message
+ FeatureViews.build_activity(self)
  var reach=sim.glass_context()
  if not reach.is_empty():
   for action in reach.actions:

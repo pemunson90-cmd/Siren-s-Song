@@ -39,3 +39,7 @@
   composition and its local variables in the host; do not cross unrelated writes.
 - Applicability must preserve existing inactive-feature resets and hiding.
   Use non-null applicability with the original internal guards when needed.
+- This contract covers existing mission feature panels and rendering seams.
+  Existing setup, input, picking and shared query/text composition remain owned
+  by their hosts. Framework terrain/course primitives and unrelated hosts stay
+  outside this feature registration scope.
