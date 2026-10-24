@@ -9,14 +9,13 @@ Resume only when Pat asks. Read [DESKTOP_HANDOFF](DESKTOP_HANDOFF.md).
 
 ## Live source checkpoint
 
-Last reconciled actual integration is `b03dd691a4775bbc07abfa1e87f4938ead653342`
-(PR95 route map). PR96's reviewed head is
-`3afb12f966efc2646c9b148ddf7de5aafe68c5c5`, based on that integration.
-At this documentation preparation checkpoint PR96 is ready, independently
-approved with no findings, and awaiting full hosted game-smoke 40043994511;
-guidance has passed. Do not merge until both checks pass on this exact head and
-fresh integration remains contained. Update this preparation checkpoint with
-the verified merge before final cloud closeout.
+Last reconciled actual integration is `dcf81b542bc5a4d27774deb271c9c98a0235e8e7`
+(PR96 campaign flow). PR96 merged only after reviewed exact head
+`3afb12f966efc2646c9b148ddf7de5aafe68c5c5` passed guidance and game-smoke
+run 40043994511, with attributable independent approval. Fresh-base verification
+passed. The fetched merge has the expected two parents and exactly the reviewed
+source tree. This documentation handover is based on that verified code; its own
+review/checks and final publication refs are recorded in 023 Completion and BOARD.
 
 Development integration is `claude/integration`. `gauntlet/production` and `main`
 remain frozen under Pat's promotion authority. No branches are deleted.
@@ -32,7 +31,7 @@ partially complete; do not mark it DONE after its first PR or re-claim it.
 
 | Work | Published state |
 |---|---|
-| 023 campaign flow, first main extraction | PR96/head3afb12f, review approved; exact hosted check pending at preparation |
+| 023 campaign flow, first main extraction | PR96 merged at dcf81b542bc5a4d27774deb271c9c98a0235e8e7; exact 3afb12f review and both hosted checks passed |
 | 023 photo review, second main extraction | `claude/lane-arch2-photo-review` at 52ba7d502b3e449180a4883eb570a2c80a9b94f5, prepared/tested, no PR or final review/hosted gate |
 | 023 metrics and shared presentation contract | Not implemented; one main file/feature per later PR |
 | Windows documentation handover | `claude/desktop-handoff-20261023`, reviewed docs-only followup after PR96 |
@@ -67,16 +66,19 @@ final pair/photo-wall or establish full cold campaign/physical-phone acceptance.
 Camera capability and limits: [PHOTO_RECON](PHOTO_RECON.md). Intended expansion
 remains [CURRENT_GAME_SPEC](CURRENT_GAME_SPEC.md), not a completed feature claim.
 
-## Next action at the cloud boundary
+## Cloud closeout and later desktop action
 
-1. Finish PR96 only after current-base verification, exact-head both-green CI and
-   independent review; use a merge commit and verify the landed tree/parents.
-2. Publish the separately reviewed documentation handover through an integration
-   PR. Record final exact refs in the existing023 Completion and BOARD, then STOP.
-3. When Pat later asks on desktop, resume saved023 photo review, reconcile fresh
-   integration, obtain its own review/CI, then metrics and the shared feature
-   contract one feature per PR. Only after 023 DONE take eligible025 and the
-   numeric queue. The board owns eligibility; no further claim is made here.
+PR96 is finished. The remaining cloud closeout is this documentation publication
+and its final 023 Completion/BOARD checkpoint only. Publish the reviewed docs with
+required exact-head checks, record the final refs, then STOP. Do not start another
+implementation step or claim. This is not a platform/usage interruption.
+
+When Pat later asks on desktop, resume saved 023 photo review, reconcile fresh
+integration and the stale prepared RESUME, obtain its own review/CI, then metrics
+and the shared feature contract one feature per PR. Only after 023 DONE take
+eligible 025 and the numeric queue. The board owns eligibility; no new claim is
+made by this handover. Windows instructions and role-specific notes are in
+DESKTOP_HANDOFF.md.
 
 ## Verification and preservation
 

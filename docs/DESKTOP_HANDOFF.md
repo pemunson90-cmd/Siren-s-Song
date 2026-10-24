@@ -1,8 +1,8 @@
 # Cloud to Windows desktop handover
 
-Pat's latest order,23 October 2026 Eastern: finish PR96 only, save the remaining
+Pat's latest order, 23 October 2026 Eastern: finish PR96 only, save the remaining
 steps, update stale documentation, leave notes for Pat/future Codex/Claude Code,
-then stop. This handover is being prepared while PR96's hosted check runs.
+then stop. PR96 has landed; this document closes the requested cloud handover.
 No further game implementation is authorized in this cloud session.
 
 ## Notes for Pat
@@ -32,6 +32,7 @@ ordinary implementation decisions.
 | Item | Published recovery location |
 |---|---|
 | Campaign-flow extraction | PR96, branch `claude/lane-arch2-campaign-flow`, head `3afb12f966efc2646c9b148ddf7de5aafe68c5c5` |
+| Verified PR96 merge | `dcf81b542bc5a4d27774deb271c9c98a0235e8e7`; exact reviewed tree and both expected parents verified |
 | Prepared photo-review extraction | `claude/lane-arch2-photo-review`, head `52ba7d502b3e449180a4883eb570a2c80a9b94f5`, no PR and not merged |
 | Claim/progress/next commands | `codex/handoffs:docs/codex/023-arch2-main-and-hud.md` plus BOARD.md |
 | This documentation work | `claude/desktop-handoff-20261023`, docs-only followup after PR96 |
@@ -45,7 +46,7 @@ reconstructed the complete old Main byte for byte. Before/after core 818,
 runtime 665 including campaign UI, campaign dispatch 13, archive recap 8 and actual
 Canvas route-map 70 all pass with zero failures and clean exits. Additional
 Canvas early-reward 40 and menu 24 also pass. The reviewer independently ran40/0.
-Exact hosted run 40043994511 is the remaining merge gate at preparation time.
+Exact hosted run 40043994511 passed both required checks before the verified merge.
 
 The saved photo step moves nine photo/archive helpers,950 to 864 Main lines.
 Its original entry points/callbacks stay. One explicit String annotation retains
@@ -151,7 +152,7 @@ never the full local scenario list. See CODEX_ENVIRONMENT.md and TESTING.md.
 
 The archive branch's README gives Git retrieval commands. Its ZIP is 2,648,261 bytes,
 with SHA256 `de357d0afa4431c4ef16efe066688c9d6019476a8962aec356de0bb72fc7604e`.
-The manifest verifies551 files: route-map screenshots, local test logs and
+The manifest verifies 551 files: route-map screenshots, local test logs and
 parity scripts, M1 pressure pairs/comparisons and 11 local recovery refs. It
 includes historical RED probes alongside later passing candidates; use the
 handoff's exact final log names. Source code is already on its published refs.
