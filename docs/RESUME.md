@@ -6,6 +6,9 @@ Pat explicitly resumed claimed handoff 023 on his Windows PC. The cloud stop
 record below is historical and does not stop this authorized local work.
 PR96 and PR98 are already merged; do not repeat them. The live integration
 baseline for this resume is 30f555a260d4edf5f0300935e7381475ba620fcc.
+Integration later advanced through Claude's docs-only PR103 to f43a672. The
+preparations below require that latest guidance and the Windows repair before
+their final merge gates; none is a completed023 claim.
 
 The saved photo-review extraction on claude/lane-arch2-photo-review is being
 reconciled with that integration. Windows import is clean; core 818, runtime
@@ -41,12 +44,19 @@ at exactly their original positions. Existing controls, picking and inputs stay.
 Import clean; before/after Wake31/UI37/core818/runtime665/density883/menu7/scroll15
 match with zero failures and clean logs. Independent preliminary source PASS;
 final own-head/base review and hosted checks remain after parent PRs land.
-Wake and Rendezvous are registered in this preparation. Other features still
+Wake, Rendezvous and Shelf are registered in this preparation. Other features still
 use their original seams. The separate Rendezvous step is based on Waked229936;
 its existing HUD assignments and world draw stay in order. Non-null applicability
 preserves its draw-transform restoration even with an empty projection. Import,
 transport61/UI57/core818/runtime665/density883/menu7/scroll15 pass with zero
 failures and clean logs. Preliminary source review PASS; own final gates remain.
+
+Shelf preparation is based on Rendezvous15057f3. Its unchanged ground/world
+functions retain their separate phases through a small ground adapter and the
+same three-function contract. HUD order stays Wake, Rendezvous, Shelf; world order
+stays Shelf, Wake, Rendezvous. Import/Shelf23/touchUI69/core818/runtime665/density883/
+menu7/scroll15 pass with zero failures and clean logs. Preliminary source review
+PASS. Parent reconciliation, final own-head review and hosted checks remain.
 
 ## Historical cloud handover snapshot
 

@@ -1,4 +1,19 @@
 extends RefCounted
+# ARCH2 panel/world contract. Ground uses a small adapter at its original
+# terrain phase. Picking, controls and legacy layer functions stay unchanged.
+# Revert this PR to restore direct HUD/ground/world seams and remove the adapter.
+static func applies(sim)->bool:return sim!=null
+static func build_panel(hud)->void:
+ var sim=hud.host.sim
+ var shelter=context(sim)
+ if not shelter.is_empty():
+  hud.host.order_buttons.camera.text="WATCH\nORDERS";hud.host.order_buttons.camera.disabled=false
+  hud.extra.shelf_alarm.disabled=not shelter.alarm.ready
+  hud.extra.shelf_warn.disabled=true
+  for row in shelter.galleries:
+   if row.id==hud.subject.get("site",""):hud.extra.shelf_warn.disabled=not row.action.ready
+  if hud.subject.get("kind","")=="habitat":hud.instrument_info.text=detail(sim,hud.subject.site)
+static func draw(view)->void:draw_world(view,view.sim)
 const Habitat=preload("res://src/simulation/shelf_habitat.gd")
 static func context(sim)->Dictionary:return sim.shelf_context() if sim!=null and sim.has_method("shelf_context") else {}
 static func nearest(sim)->Dictionary:

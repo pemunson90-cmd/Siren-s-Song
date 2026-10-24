@@ -238,7 +238,7 @@ func _draw() -> void:
 			var context=sim.confluence_context();context["surface_segments"]=earned.get("surface_segments",[])
 			Confluence.draw_landmarks(self,context,world_scale)
 	else:EarnedChart.draw_terrain(self,earned,world_scale)
-	Shelf.draw_ground(self,sim)
+	FeatureViews.draw_ground(self)
 	if not presenting_mission or not sim.outcome.is_empty():
 		draw_set_transform(Vector2.ZERO)
 		return
@@ -287,7 +287,6 @@ func _draw() -> void:
 			var alpha=0.38 if not sim.known.has(key) else (0.0 if sim.visible(p) else 0.20)
 			if alpha>0: draw_rect(Rect2(x*40,y*40,40,40),Color(0.005,0.014,0.025,alpha))
 	preload("res://src/presentation/blackwater_courier_view.gd").draw(self,sim)
-	Shelf.draw_world(self,sim)
 	FeatureViews.draw(self)
 	WarningChain.draw_world(self,sim)
 	Witness.draw_world(self,sim)
