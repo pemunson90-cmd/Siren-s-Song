@@ -131,6 +131,7 @@ func _draw_photo(t:Dictionary) -> void:
 	_buttons=[]
 	var cfg=Photo.settings(sim,uid);var op=Photo.optics(sim,uid)
 	art_lamp_strength=float(op.lamp)
+	preload("res://src/presentation/art/art_renderer.gd").cache_lamp(art_lamp_fov,art_lamp_range,art_lamp_strength)
 	var bx:=size.x-8.0;var bw:=maxf(bh+4,fs*6.0)
 	var specs:Array=[["TIGHT" if cfg.mode=="tight" else "WIDE",{"mode":"wide" if cfg.mode=="tight" else "tight"}]]
 	if op.flash:specs.append(["FLASH %d"%Photo.flash_left(sim,uid) if cfg.flash else "NO FLASH",{"flash":not cfg.flash}])

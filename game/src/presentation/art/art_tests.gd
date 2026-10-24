@@ -4,6 +4,9 @@ class Canvas:
  var quietus=preload("res://assets/craft/quietus.png")
  var calls=0
  var vertices=[]
+ var world_offset=Vector2.ZERO
+ var world_scale=1.0
+ func draw_set_transform(_p,_r=0.,_s=Vector2.ONE):pass
  func draw_texture_rect_region(_a,_b,_c):calls+=1
  func draw_polyline(a,_b,_c,_d=true):calls+=1;vertices.append_array(a)
  func draw_line(a,b,_c,_d):calls+=1;vertices.append_array([a,b])
@@ -41,16 +44,20 @@ static func run()->Dictionary:
  table.enabled=previous
  var renderer=load("res://src/presentation/art/art_renderer.gd")
  renderer.prepare()
+ renderer.cache_lamp(1.,240.,.36)
  var geometry=var_to_bytes(renderer.outlines)
+ var lamp_geometry=var_to_bytes(renderer.lamp)
+ var lamp_palette=var_to_bytes(renderer.lamp_colors)
+ var texture_palette=var_to_bytes(renderer.texture_shades)
  var canvas=Canvas.new()
  var objects=Performance.get_monitor(Performance.OBJECT_COUNT)
  for n in 100:
   for index in 3:renderer.craft(canvas,index)
   for role in table.ROLE_RECTS:renderer.siren(canvas,role,Color.WHITE)
-  renderer.lamp_wash(canvas,Vector2.ZERO,0.,1.,240.,.36)
+  renderer.lamp_wash(canvas,Vector2(n,0),0.)
   renderer.lamp_guide(canvas,Vector2.ZERO,0.,1.,240.)
  checks+=1
- if geometry!=var_to_bytes(renderer.outlines) or renderer.lamp.size()!=3 or renderer.lamp_colors.size()!=3 or renderer.uvs.size()!=4:
+ if geometry!=var_to_bytes(renderer.outlines) or lamp_geometry!=var_to_bytes(renderer.lamp) or lamp_palette!=var_to_bytes(renderer.lamp_colors) or texture_palette!=var_to_bytes(renderer.texture_shades) or renderer.texture_shades.size()!=table.DEPTH_SHADE_STEPS or renderer.lamp.size()!=3 or renderer.lamp_colors.size()!=3 or renderer.uvs.size()!=4:
   failures+=1;printerr("FAIL repeated drawing retains bounded immutable geometry cache")
  checks+=1
  if objects!=Performance.get_monitor(Performance.OBJECT_COUNT):failures+=1;printerr("FAIL repeated art creates no retained objects")

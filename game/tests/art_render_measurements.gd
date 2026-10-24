@@ -7,8 +7,8 @@ const Equipment=preload("res://src/equipment/equipment_catalog.gd")
 class View extends "res://src/presentation/ocean_view.gd":
  var cpu_usec=0
  var fixture_scene=0
- var full_context={"landmarks":[{"kind":"factory","rect":Rect2(1000,180,480,360)}],"surface_segments":[PackedVector2Array([Vector2(1000,180),Vector2(1480,180)]),PackedVector2Array([Vector2(1480,180),Vector2(1480,540)]),PackedVector2Array([Vector2(1480,540),Vector2(1000,540)]),PackedVector2Array([Vector2(1000,540),Vector2(1000,180)])]}
- var partial_context={"landmarks":[{"kind":"factory","rect":Rect2(1000,640,480,240)}],"surface_segments":[PackedVector2Array([Vector2(1000,640),Vector2(1480,640)])]}
+ var full_context={"landmarks":[{"kind":"factory","rect":Rect2(100,100,480,360)}],"surface_segments":[PackedVector2Array([Vector2(100,100),Vector2(580,100)]),PackedVector2Array([Vector2(580,100),Vector2(580,460)]),PackedVector2Array([Vector2(580,460),Vector2(100,460)]),PackedVector2Array([Vector2(100,460),Vector2(100,100)])]}
+ var partial_context={"landmarks":[{"kind":"factory","rect":Rect2(100,790,480,170)}],"surface_segments":[PackedVector2Array([Vector2(100,790),Vector2(580,790)])]}
  func _draw():
   var started=Time.get_ticks_usec()
   super._draw()
@@ -16,6 +16,7 @@ class View extends "res://src/presentation/ocean_view.gd":
   if fixture_scene==1:
    Confluence.draw_landmarks(self,full_context,world_scale)
    Confluence.draw_landmarks(self,partial_context,world_scale)
+   _installation(Vector2(1400,780),false)
   draw_set_transform(Vector2.ZERO)
   draw_string(ThemeDB.fallback_font,Vector2(20,size.y-24),"STAGED PUBLIC CONTACTS / FIXED CAMERA / 420 DPI TARGET",HORIZONTAL_ALIGNMENT_LEFT,-1,22,Color("92b5b5"))
   cpu_usec=Time.get_ticks_usec()-started
@@ -104,15 +105,22 @@ func run():
    view.optical_feed.touch_height=touch;view.optical_feed.receiver_font_size=maxi(17,roundi(touch*.29*text_scale))
    view.set_process(false);view.phase=0.;view.optical_feed.set_process(false)
    # Camera scene uses the actual cached photograph and its normal controls.
-   if scene==2:
+   if scene in [1,2]:
     s.units[0].pos=s.mission.objectives[0].pos-Vector2(130,0)
+    if scene==1:
+     # Explicit source-known public chart fixture, not a survey/travel claim.
+     # Use the real chart authority and its ordinary earned draw branch.
+     s.mission["earned_terrain"]=true;s.mission["world_size"]=Vector2(1600,960);s.mission["region_revision"]=1
+     s.mission["launch_seed"]=Rect2(s.units[0].pos-Vector2(80,80),Vector2(160,160))
+     s._configure_terrain();s._configure_depth_charts()
     view._process(0.);view.optical_feed.time=0.;view.optical_feed._vm_age=1.
-    if table!=null:await lamp_checks(view,s)
+    if table!=null and scene==2:await lamp_checks(view,s)
    var state=digest(s)
    check(Sim.valid_snapshot(s.snapshot()),"staged complete snapshot is structurally valid")
    var command_reference=Sim.new();check(command_reference.restore(s.snapshot()),"command reference restores complete fixture")
    var accepted_reference=command_reference.command("select",{"unit":1})
    var command_hash=digest(command_reference);command_reference=null
+   var capture_pixels={}
    for block in blocks:
     var order=[false,true,true,false] if not baseline else [false]
     for enabled in order:
@@ -131,9 +139,14 @@ func run():
        render_cpu[n]=float(RenderingServer.call("viewport_get_measured_render_time_cpu",root.get_viewport_rid()))*1000.
        render_gpu[n]=float(RenderingServer.call("viewport_get_measured_render_time_gpu",root.get_viewport_rid()))*1000.
       var now=Time.get_ticks_usec();times[n]=view.cpu_usec;cadence[n]=now-last;last=now
+     # Sample retained counters before image readback, hashing or result storage.
+     var objects_delta=Performance.get_monitor(Performance.OBJECT_COUNT)-objects_before
+     var memory_delta=Performance.get_monitor(Performance.MEMORY_STATIC)-memory_before
      var name="%dx%d-scene%d-%s"%[dimensions.x,dimensions.y,scene,"new" if enabled else "old"]
      if block==0:
       var image=root.get_texture().get_image()
+      if capture_pixels.has(name):check(capture_pixels[name]==image.get_data(),"old-look revert and repeated new capture are pixel exact "+name)
+      else:capture_pixels[name]=image.get_data()
       image.save_png(folder.path_join(name+".png"))
       var hidden=s.sirens.duplicate(true)
       for enemy in s.sirens:enemy.pos+=Vector2(170,120);enemy.mode="ENGAGE"
@@ -141,8 +154,16 @@ func run():
       check(root.get_texture().get_image().get_data()==image.get_data(),"hidden roster cannot alter public art pixels "+name)
       s.sirens=hidden
       await draw_frame(view)
+      if scene==1:
+       var private_shapes=s.terrain_chart._shapes
+       s.terrain_chart._shapes=[]
+       await draw_frame(view)
+       check(root.get_texture().get_image().get_data()==image.get_data(),"earned art uses public chart, not hidden chart geometry "+name)
+       s.terrain_chart._shapes=private_shapes
+       await draw_frame(view)
      var row={"name":name,"block":block,"enabled":enabled,"snapshot":state,"snapshot_after":digest(s),"cpu_usec":times,"frame_usec":cadence,"draw_calls":Performance.get_monitor(Performance.RENDER_TOTAL_DRAW_CALLS_IN_FRAME),"primitives":Performance.get_monitor(Performance.RENDER_TOTAL_PRIMITIVES_IN_FRAME),"objects_delta":Performance.get_monitor(Performance.OBJECT_COUNT)-objects_before,"static_bytes_delta":Performance.get_monitor(Performance.MEMORY_STATIC)-memory_before,"gpu_timing":"unavailable","window_size":DisplayServer.window_get_size(),"effective_viewport":root.get_visible_rect().size,"view_size":view.size,"camera":view.chart_camera.snapshot(),"world_scale":view.world_scale,"world_offset":view.world_offset,"phase":view.phase,"lamp_on":view.optical_feed.art_lamp_current(s) if not baseline else false}
      records.append(row)
+     row["objects_delta"]=objects_delta;row["static_bytes_delta"]=memory_delta
      row["target_dpi"]=420;row["host_dpi"]=DisplayServer.screen_get_dpi();row["safe_content"]=safe;row["text_scale"]=text_scale;row["touch_height"]=touch
      row["lamp_pose"]={"pos":view.optical_feed.art_lamp_pos,"aim":view.optical_feed.art_lamp_aim,"fov":view.optical_feed.art_lamp_fov,"range":view.optical_feed.art_lamp_range,"strength":view.optical_feed.art_lamp_strength}
      row["viewport_render_cpu_usec"]=render_cpu;row["viewport_render_gpu_usec"]=render_gpu

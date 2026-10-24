@@ -234,7 +234,7 @@ func _draw() -> void:
 	# Own cached camera wash sits below stone and unknown-water fog. It does
 	# not query photographic columns, hidden terrain, enemies or visibility.
 	if ArtTable.enabled and earned.is_empty() and presenting_mission and sim.outcome.is_empty() and optical_feed!=null and optical_feed.visible and optical_feed.art_lamp_current(sim):
-		Art.lamp_wash(self,optical_feed.art_lamp_pos,optical_feed.art_lamp_aim,optical_feed.art_lamp_fov,optical_feed.art_lamp_range,optical_feed.art_lamp_strength)
+		Art.lamp_wash(self,optical_feed.art_lamp_pos,optical_feed.art_lamp_aim)
 	# Bedrock and columnar basalt are original deterministic constructions.
 	if earned.is_empty():
 		for r in (sim.mission.get("depth_geometry",{}).get(sim.units[sim.selected].band,{}).get("rocks",sim.mission.rocks) if sim.mission.id!=8 else []): _rock(r)

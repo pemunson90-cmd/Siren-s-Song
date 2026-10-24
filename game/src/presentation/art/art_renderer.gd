@@ -5,9 +5,12 @@ const Table=preload("res://src/presentation/art/art_table.gd")
 const RAY=preload("res://assets/craft/siren_ray.png")
 static var outlines={}
 static var uvs={}
-static var colors=PackedColorArray([Color.WHITE])
+static var texture_shades=[]
 static var lamp=PackedVector2Array()
 static var lamp_colors=PackedColorArray()
+static var lamp_fov=-1.0
+static var lamp_length=-1.0
+static var lamp_strength=-1.0
 static func prepare()->void:
  if not outlines.is_empty():return
  for key in Table.SHAPES:
@@ -19,6 +22,8 @@ static func prepare()->void:
    # transparent wing/tail margins. Material fills each cached role silhouette.
    for point in points:uv.append(Table.RAY_MATERIAL_UV.position+(point-rect.position)/rect.size*Table.RAY_MATERIAL_UV.size)
    uvs[key]=uv
+ for n in Table.DEPTH_SHADE_STEPS:
+  texture_shades.append(PackedColorArray([Table.PIN_SHADE_LOW.lerp(Color.WHITE,float(n)/(Table.DEPTH_SHADE_STEPS-1))]))
  lamp.resize(3);lamp_colors.resize(3)
 static func craft(view,index:int)->void:
  prepare()
@@ -40,8 +45,10 @@ static func siren(view,role:String,shade:Color)->void:
  prepare()
  var points:PackedVector2Array=Table.SHAPES[role]
  view.draw_colored_polygon(points,Color(Table.SIREN_BODY,shade.a))
- colors[0]=shade
- view.draw_polygon(points,colors,uvs[role],RAY)
+ # Only the cosmetic texture tint is quantized, within 1/127 of the original
+ # fade. Pin timing, body transform, outline alpha and snare cues stay exact.
+ var shade_index=roundi(clampf((shade.a-Table.PIN_SHADE_LOW.a)/(1.-Table.PIN_SHADE_LOW.a),0.,1.)*(Table.DEPTH_SHADE_STEPS-1))
+ view.draw_polygon(points,texture_shades[shade_index],uvs[role],RAY)
  view.draw_polyline(outlines[role],Color(Table.SIREN_EDGE,shade.a),Table.SIREN_OUTLINE_WIDTH,true)
  # Restrained red seams, distinct silhouettes remain legible at equal hue.
  view.draw_line(Vector2(-28,-4),Vector2(43,0),Color(Table.RED,shade.a*Table.RED_SEAM_ALPHA),Table.SEAM_WIDTH)
@@ -72,13 +79,21 @@ static func face(view,a:Vector2,b:Vector2,inward:Vector2,scale:float)->void:
  # Only this measured 18m strip; never infer the rest of a hidden factory.
  var middle=a.lerp(b,.5)
  view.draw_line(middle+inward*4.,middle+inward*14.,Table.AMBER,Table.SEAM_WIDTH/maxf(Table.DETAIL_MIN_SCALE,scale))
-static func lamp_wash(view,pos:Vector2,aim:float,fov:float,reach:float,strength:float)->void:
+static func cache_lamp(fov:float,reach:float,strength:float)->void:
+ # Called by the existing photographic cache publication. A single bounded
+ # local shape changes only when actual optics change, never with craft motion.
  prepare()
  var length=minf(reach,Table.LAMP_FADE_LENGTH)
- lamp[0]=pos;lamp[1]=pos+Vector2.from_angle(aim-fov*.5)*length;lamp[2]=pos+Vector2.from_angle(aim+fov*.5)*length
+ if fov==lamp_fov and length==lamp_length and strength==lamp_strength:return
+ lamp_fov=fov;lamp_length=length;lamp_strength=strength
+ lamp[0]=Vector2.ZERO;lamp[1]=Vector2.from_angle(-fov*.5)*length;lamp[2]=Vector2.from_angle(fov*.5)*length
  lamp_colors[0]=Color(Table.LAMP,Table.LAMP_ALPHA*strength/Table.LAMP_REFERENCE)
  lamp_colors[1]=Color(Table.LAMP,0);lamp_colors[2]=lamp_colors[1]
+static func lamp_wash(view,pos:Vector2,aim:float)->void:
+ if lamp_strength<=0:return
+ view.draw_set_transform(view.world_offset+pos*view.world_scale,aim,Vector2.ONE*view.world_scale)
  view.draw_polygon(lamp,lamp_colors)
+ view.draw_set_transform(view.world_offset,0,Vector2.ONE*view.world_scale)
 static func lamp_guide(view,pos:Vector2,aim:float,fov:float,reach:float)->void:
  # A short, dashed camera-direction instrument on earned charts. No filled
  # corridor or terrain sample; its fade cap is presentation, never visibility.
