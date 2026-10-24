@@ -22,6 +22,19 @@ var _buttons:Array=[]
 var quality_rect:=Rect2()
 var picture_rect:=Rect2()
 var time:=0.0
+# ART1 publishes own cached optics only. Flash preview is deliberately excluded.
+var art_lamp_pos:=Vector2.ZERO
+var art_lamp_aim:=0.0
+var art_lamp_fov:=0.0
+var art_lamp_range:=0.0
+var art_lamp_strength:=0.0
+var art_lamp_unit:=-1
+var art_lamp_band:=-1
+var art_lamp_mission:=-1
+var art_lamp_clock:=-1.0
+var art_lamp_source:Dictionary={}
+func art_lamp_current(state)->bool:
+	return visible and state!=null and is_same(state.mission,art_lamp_source) and art_lamp_unit==state.selected and art_lamp_unit>=0 and art_lamp_unit<state.units.size() and state.units[art_lamp_unit].alive and state.units[art_lamp_unit].band==art_lamp_band and state.mission.id==art_lamp_mission and state.elapsed>=art_lamp_clock and state.elapsed-art_lamp_clock<.3 and state.outcome.is_empty() and art_lamp_strength>0
 static func fit_caption(text:String,width:float,font_size:int)->String:
 	var font=ThemeDB.fallback_font
 	if font.get_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x<=width:return text
@@ -85,6 +98,9 @@ func _draw_photo(t:Dictionary) -> void:
 	if _vm_age>0.2 or key!=_vm_key or _vm.is_empty():
 		_vm_key=key;_vm_age=0.0
 		_frame=Photo.frame(sim,uid,o,float(acc.get("t",0.0)),true)
+		art_lamp_pos=_frame.get("pos",sim.units[uid].pos);art_lamp_aim=float(_frame.get("aim",0));art_lamp_fov=float(_frame.get("fov",0))
+		art_lamp_range=float(_frame.get("range",0));art_lamp_unit=uid;art_lamp_band=int(_frame.get("band",-1))
+		art_lamp_mission=sim.mission.id;art_lamp_clock=sim.elapsed;art_lamp_source=sim.mission
 		_vm=PhotoView.from_frame(_frame,"siren" if o.has("siren") else "site",str(o.get("optical",o.get("site_id",""))),str(o.subject.get("type","")) if o.has("siren") else "")
 	PhotoView.draw(self,picture,_vm,time,fs)
 	Priced.draw_viewfinder(self,sim,uid,o,picture,fs,_frame)
@@ -114,6 +130,8 @@ func _draw_photo(t:Dictionary) -> void:
 			if since>1.4:draw_string(font,Vector2(inset.position.x,inset.end.y+2*fs+6),fit_caption(("RESOLVED " if not names.is_empty() else "NOTHING RESOLVED")+", ".join(names),inset.size.x,fs-3),HORIZONTAL_ALIGNMENT_LEFT,-1,fs-3,Color("a9c9c7"))
 	_buttons=[]
 	var cfg=Photo.settings(sim,uid);var op=Photo.optics(sim,uid)
+	art_lamp_strength=float(op.lamp)
+	preload("res://src/presentation/art/art_renderer.gd").cache_lamp(art_lamp_fov,art_lamp_range,art_lamp_strength)
 	var bx:=size.x-8.0;var bw:=maxf(bh+4,fs*6.0)
 	var specs:Array=[["TIGHT" if cfg.mode=="tight" else "WIDE",{"mode":"wide" if cfg.mode=="tight" else "tight"}]]
 	if op.flash:specs.append(["FLASH %d"%Photo.flash_left(sim,uid) if cfg.flash else "NO FLASH",{"flash":not cfg.flash}])
@@ -150,6 +168,7 @@ func _draw_quality(picture:Rect2,fs:int)->void:
 		draw_rect(Rect2(x,y+5,width*value,6),PHOSPHOR)
 func _draw() -> void:
 	_buttons=[]
+	art_lamp_strength=0.0
 	if sim==null:return
 	var subject:=subject_view()
 	if not subject.is_empty():_draw_photo(subject);return

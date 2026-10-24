@@ -9,12 +9,15 @@ Pat's Windows PC. Pat stopped the cloud session on 23 October and said continue 
 ## Live source checkpoint
 
 Active development integration: `claude/integration`.
-Last reconciled source baseline: 139f3e943ddc9e45c6eec46a049c3781ed2865a8.
+Last reconciled source baseline: 2ce65c0b3a38aa05cf148c2ef3c3bf70d3588d72.
 This includes PR116 patrol data, PR121 landmarks, PR122 final pair/wall and
-PR123 concise briefings, PR124 independent profiles and merged PR125 Back handling.
+PR123 concise briefings, PR124 independent profiles, PR125 Back handling and
+PR127 accessibility cues, PR126 debrief consequence presentation and PR128 native
+Windows tooling, plus PR129 read-only AI state diagnostics. PR128 changes tools
+only, not the game. PR129 adds no gameplay hook or rule changes.
 023 is DONE on the authoritative board in2df2e6b after all separate source PRs
 and Windows99 passed own exact-head checks/review and actual merge verification.
-Main817, HUD575, Ocean685. Do not repeat023 or its earlier preparations.
+At023 completion: Main817, HUD575, Ocean685. Do not repeat023 or its earlier preparations.
 
 ## Current claim and next work
 
@@ -117,30 +120,66 @@ unisolated check-only setup failed before script load, no game/save test or
 personal-save access. Actual store tests isolated; no physical Android keyboard/
 file-sharing/hand acceptance, full local matrix or APK claim.
 
-Codex owns CLAIMED031, postedb42409c at12:40PM Eastern before implementation.
-Branchclaude/lane-a11y1 started from actuald131ca0 and now reconciles current
-139f3e9 after PR125 merged during its hosted check; precondition017DONE,
-no duplicate a11y branch/open PR. One implementation worker builds optional
-presentation palette/caption modules, reuses existing haptics/settings, and adds
-second channels for actual sound/color gaps. Existing lock timer/source/gauge
-and received sweeper text already have second channels; preserve them. Observe
-only public receiver-earned and own-craft information, including muted audio;
-no hidden enemy/source data, new pauses, warning timing or physical-rule changes.
-Standard art direction remains;032 silhouettes stay Pat's judgment. Large text,
-real touch/Back, privacy/freeze/reset and native palette/caption images are required.
-Root owns integration; independent reviewer and own exact-head hosted gates,
-fresh current-base containment/mergeability and actual publication remain required.
+031 is DONE after PR127 merged at ad841f6 on24October,2:32PM Eastern.
+Actual parents139f3e9 andec23bc6, source-identical prepared tree, fresh live
+containment/mergeability, remote integration and GitHub merged=true verified.
+Own40117286964 guidance120941123581/game-smoke120941123491 both SUCCESS on
+exact ec23bc68248c96addd2487adfe9aab887c756ac0. Relayed independent reviewer
+/root/review_photo APPROVE exact ec23 vs139, no findings. Reviewer checked source,
+all48 final file hashes/raw logs and ten fresh native images, without running tests.
+Done031 and BOARD were committed together in7c2cba4. Old prepared576 was superseded
+and never published; claude/lane-a11y1 and all original evidence remain preserved.
 
-Claude owns039/PR126 separately. PR125/041 is now published at139f3e9: default
-Android Back quit is disabled; Operations uses its approved double-Back exit.
-The031 merge preserves both Main seams and all tests; the appended accessibility
-suites follow existing Back at CI ranks227/228. Earlierf12 candidate evidence
-is retained, with fresh combined-head verification/review and own hosted gates
-required before publication. Fetch live integration at each boundary. After verified031
-publication continue032(Pat judges), then033 in the explicit assigned queue.
-The board alone owns claims; unrelated released items are not automatically part
-of this assignment.
+Optional audio captions and safe palette share both existing Settings screens;
+validated audio_captions/safe_palette default false, existing haptics toggle reused.
+Own and receiver-earned cues work independently of audio mute/dedup. New mission,
+clock/receiver/menu resets prevent stale replay. Ring patterns/labels and explicit
+film LOW/EMPTY provide mandatory second channels. Crowded views use an eight-entry
+timestamped historical AUDIO LOG in the existing Fleet/help sheet, leaving status
+text/geometry unchanged. No new acquisition, pause, timing, rules or campaign fields.
+Full inventory and exact revert: [A11Y_CUES](A11Y_CUES.md).
 
+[031 combined native evidence](https://github.com/pemunson90-cmd/Siren-s-Song/tree/f2d0512e2a2c0e85ea8f7514c94151b772625807/evidence/031-windows-20261024/head-ec23bc6)
+records15 waited exit0 processes: clean import, core835/0, observer31/photo47/
+received8/lock27/pricing64/sweeper52/chain13, native accessibility98/lock14/
+pricing11/frontend63/camera56/Back17, all zero failures and clean raw logs.
+Root verified all51 archived Git blobs. Ten fresh actual Compatibility GPU PNGs
+cover both420dpi shapes/150% text. Existing026 camera/status/hint overlap remains;
+this proves new caption disjointness, not a general HUD repair. Source-known
+fixtures are not blind play or physical Android/haptic/perception/hand acceptance.
+
+Codex owns CLAIMED032, posted ce56635 before code. Pat chose "use new, save
+rest for later" on 24 October, about 5:05 PM Eastern. This accepts the finished
+new artwork shown from head5b0bc6c in PR130. Do not ask for that choice again.
+033 remains OPEN and deferred by Pat; do not claim or start it after032.
+
+Branch claude/lane-art1 retains distinct textured craft, drones and four fresh
+Siren roles, earned factory detail and own-camera lamp drawing. Old drawing is
+reachable with art_table.gd enabled=false. No new save fields, rules, story or
+SIREN TELL. Final independent technical APPROVE covered5b0 versus e08b678:
+core835/ART58/native204/command140 and affected checks all zero failures. Own
+run40128761590 guidance/game-smoke both succeeded on exact5b0. Immutable final
+proof: c7435e6d99d42ab410df84ab9982522cd7ed68de on
+archive/codex-032-art-windows-20261024, evidence/032-windows-20261024/head-5b0bc6c.
+All377 archive Git blobs verified; earlier failed cost baselines retained.
+Frame cadence improved28/30 pairs and all six medians48.75..91.75microseconds.
+Internal viewport CPU costs +14.5/+14.75microseconds remain explicit; no claim
+of universal Android performance, zero engine allocations or blind recognition.
+
+PR129 published2ce65c0 while those checks ran. It adds only diagnostics files,
+their tests and a registry row, with no runtime hook. Reconcile this current tip
+into the artwork branch and repeat import/core/affected checks, independent
+review and exact-head hosted gates before publication. Preserve AI TRACE231;
+art moves to232/233. All233 suites remain, no test weakened or removed.
+Root owns this reconciliation, PR/merge/board and actual remote verification.
+Pat's artwork choice is settled, but the old green head cannot approve a newer
+combined head. The live Completion on codex/handoffs records the pushed SHA and
+current verification. No art is published until actual merge is verified.
+
+Claude's PR126 consequence presentation is published at46a3be8, PR125/041 Back
+handling at139f3e9 and PR129 diagnostics at2ce65c0. The board owns their claims;
+do not take unrelated released work. No new remote-session handoff requested:
+Pat cancelled that request after context refreshed.
 The native Windows hook fix is installed and merged. Use official Windows
 Godot4.6.3 directly; install-godot.sh is Linux only. Tests isolate APPDATA and
 LOCALAPPDATA. Preserve personal saves and exclude .uid/.import churn. No full
@@ -168,7 +207,7 @@ fork, 044 menu reach, 045 three early rewards before op 7. 029 now includes the
 F7 briefing addendum. Statuses live on the board; this paragraph records the earlier review queue.
 
 Held for Pat: any change to Siren senses (sight, hearing) or lock timing (Pat: not
-yet), ending at op30 details and early-reward count changes. Other released board items are outside the current031..033 assigned queue.
+yet), ending at op30 details and early-reward count changes. Other released board items are outside the current032..033 assigned queue.
 
 ## Completed context
 
@@ -187,7 +226,7 @@ remains [CURRENT_GAME_SPEC](CURRENT_GAME_SPEC.md), not a completed feature claim
 
 ## Next steps for the PC sessions
 
-Complete the existing031 claim, then eligible032 and033 in numeric order.
+Complete the existing032 claim, then eligible033 in numeric order.
 032 remains Pat's art judgment. Do not implement new story, new art direction or
 SIREN TELL. Each handoff's exact-head checks, independent review, current-base
 containment and merge permission govern publication; preserve frozen refs and
