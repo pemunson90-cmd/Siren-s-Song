@@ -8,7 +8,7 @@
 **Active execution:** [RESUME.md](RESUME.md) owns the reconciled operational snapshot. Development integration is `claude/integration`; assignments and claims live on `codex/handoffs`. CONTINUATION and WORKBENCH point there.
 **Engine and runtime:** [architecture/GAUNTLET.md](architecture/GAUNTLET.md), [GAUNTLET_ORCHESTRATION.md](GAUNTLET_ORCHESTRATION.md).
 
-The Gauntlet continuously evaluates the whole game, identifies its most consequential weakness/opportunity, makes an improvement, assesses actual player gain, integrates with one reviewer, and repeats. Six missions, passing tests and APK builds are development checkpoints. The ultimate aspiration is AAA-caliber game content and execution, with the user controlling the game's creative identity.
+The Gauntlet continuously evaluates the whole game, identifies its most consequential weakness/opportunity, makes an improvement, assesses actual player gain, integrates with one reviewer, and repeats. Campaign content and passing tests are development evidence, not completion. Android builds/phone testing remain deferred under Pat's current rule. The ultimate aspiration is AAA-caliber game content and execution, with the user controlling the game's creative identity.
 
 Historical prototype wrappers, original specifications, past audits and validation records are preserved as archival provenance. The executable v7 implementation is a valuable source of already-proven mechanics; it does not impose its historical one-level workflow. Work on dedicated feature branches; root reconciles development integration without restarting completed work.
 

@@ -1,6 +1,6 @@
 > **CURRENT USER ORDER:** read docs/USER_DIRECTIVES.md first. Observe Pat's cloud stop and Windows desktop handover in docs/RESUME.md. The approved full-release program remains the standing plan when Pat resumes work. Preserve accepted Pass0/V7 systems. One implementation worker and one independent integration reviewer; human playtesting never gates authorized development.
 
-> Current user contract: AGENTS.md, docs/USER_DIRECTIVES.md and the living release specification govern. The audit archive is historical provenance. Integrate coherent feature batches through PRs with independent review and game-smoke passing. Task completion advances the approved release work; user playtesting never gates development.
+> Current user contract: AGENTS.md, docs/USER_DIRECTIVES.md and the living release specification govern. The audit archive is historical provenance. Integrate coherent feature batches through PRs with independent review and game-smoke passing. Task completion advances approved release work only within current authorization; Pat's cloud stop requires the handover and no further implementation. User playtesting never gates authorized development.
 
 # Gauntlet boundary refresh
 

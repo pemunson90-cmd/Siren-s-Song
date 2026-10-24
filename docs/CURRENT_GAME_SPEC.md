@@ -134,5 +134,5 @@ ballast replay preserves committed history; people/plant returns change actual
 finale access, current and powered threats. Current campaign saves and ordinary
 onward/replay plus representative cover/inner input/render checks pass. Technical
 viability does not establish balance, compelling drama, blind play or enjoyment.
-Its original review and CI evidence remain in PR63. Continue substantial playable
+Its original review and CI evidence remain in PR63. After Pat resumes, continue substantial playable
 reconnaissance/campaign content toward the release scope; current assignments live in RESUME.
