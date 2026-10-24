@@ -1,8 +1,8 @@
 # Handoff 026: REVIEW1, Codex plays the opening and writes a ranked fix list (read-only)
 
-Status: OPEN
-Claimed at:
-Claimed by:
+Status: CLAIMED
+Claimed at: 2026-10-24 08:27:47 UTC (4:27 AM Eastern)
+Claimed by: codex
 Finished at:
 
 Precondition: handoff 018 must be DONE.
@@ -26,4 +26,13 @@ A ranked list Claude and Pat can act on.
 PR into claude/integration; merge per the line above; mark DONE and update the board.
 
 ## Completion
-(Codex fills this in: what changed, PR link, test results, unverified items, files outside ownership needed, recommended next.)
+
+Codex claimed026 at 2026-10-24 08:27:47 UTC (4:27 AM Eastern) after verified025 merge aaff40e.
+018 is DONE (PR74); the current integration tree includes it. Read-only opening
+review only: no game-source edits or new code branch. Use existing real-touch
+harness, isolated application data, operations0 to5 and both Fold7 shapes. Read
+012 Completion's five V7 differences; report under800words with actual evidence,
+failures and software/injected-touch/audio/device limits stated honestly. No
+claim of blind human enjoyment from scripted success. Temporary review evidence
+stays outside production source; BOARD is updated only for required ownership.
+Report pending. Claude, do not duplicate this active claim.

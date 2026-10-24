@@ -1,9 +1,9 @@
 # Handoff 025: CAMPAIGN M3a, landmarks for thin operations
 
-Status: CLAIMED
+Status: DONE
 Claimed at: 2026-10-24 05:48:56 UTC (1:48 AM Eastern)
 Claimed by: codex
-Finished at:
+Finished at: 2026-10-24 08:23:56 UTC (4:23 AM Eastern)
 
 Precondition: handoff 020 must be DONE.
 Codex may merge: yes, into claude/integration only, after GitHub guidance and game-smoke are both green on the exact head and the PR is mergeable. Merge with a merge commit, then mark DONE and update docs/codex/BOARD.md.
@@ -121,3 +121,17 @@ SUCCESS, game-smoke pending. Prepared recovery merge aaff40ea7943278ade6ba3b7bcd
 on claude/landmarks-current-merge is saved but NOT published to integration.
 Fresh bothgreen/current-tip/head/mergeability guard is still required, then verify
 actual merge before done025+BOARDsamecommit.025 remains CLAIMED.026 still next.
+
+DONE025. GitHub PR121 verified merged at2026-10-24 08:23:56 UTC (4:23 AM
+Eastern), actual merge aaff40ea7943278ade6ba3b7bcd5495c2dcac26e, parents current
+0e927292425cc4d5914054757b15bf345119529a and approved757347bc7f50c253bf7b0a8add20fb8ffecd4e06.
+Own exact run40075442240 guidance/game-smoke both SUCCESS; final live refs/head,
+base containment, mergeability and independent approval verified before normal
+non-force merge publication. Remote parents/tree and GitHub merged state verified.
+Actual game tree56cde027d79bdfd04c116a4b770ef3f479198cc4 equals validated candidate.
+No frozen ref, APK, branch deletion, story or sensing/combat rule changes. Current
+native831/665/883/468/92/56/49 all0; composed76pairs/1107commands match. Exact
+review and immutable evidence33dfe86/current-base-0e927 retained above. Modest
+existing-feature landmark accents accepted; no wholesale art-direction claim.
+Next026 read-only opening review, with its claim posted before work. BOARD and
+done025 change in this same commit.
