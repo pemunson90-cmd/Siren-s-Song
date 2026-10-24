@@ -1,0 +1,6 @@
+# Test files under game/tests that look like entry-point suites (*_tests.gd or
+# *_scenarios.gd extending SceneTree, directly or through a parent script) but are
+# deliberately NOT registered in game/tests/suites.txt.
+# Format: one suite name per line, optionally "name | reason". "#" starts a comment.
+# scripts/toolchain/check-suites.py fails on any unregistered entry-point not listed here.
+# At claude/integration ad841f6 no such file exists, so the list is empty.
