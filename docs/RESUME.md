@@ -9,11 +9,12 @@ Pat's Windows PC. Pat stopped the cloud session on 23 October and said continue 
 ## Live source checkpoint
 
 Active development integration: `claude/integration`.
-Last reconciled source baseline: e08b678006838ef111161eb97045c7bb35780eb9.
+Last reconciled source baseline: 2ce65c0b3a38aa05cf148c2ef3c3bf70d3588d72.
 This includes PR116 patrol data, PR121 landmarks, PR122 final pair/wall and
 PR123 concise briefings, PR124 independent profiles, PR125 Back handling and
 PR127 accessibility cues, PR126 debrief consequence presentation and PR128 native
-Windows tooling. PR128 changes tools only, not the game.
+Windows tooling, plus PR129 read-only AI state diagnostics. PR128 changes tools
+only, not the game. PR129 adds no gameplay hook or rule changes.
 023 is DONE on the authoritative board in2df2e6b after all separate source PRs
 and Windows99 passed own exact-head checks/review and actual merge verification.
 At023 completion: Main817, HUD575, Ocean685. Do not repeat023 or its earlier preparations.
@@ -147,40 +148,38 @@ cover both420dpi shapes/150% text. Existing026 camera/status/hint overlap remain
 this proves new caption disjointness, not a general HUD repair. Source-known
 fixtures are not blind play or physical Android/haptic/perception/hand acceptance.
 
-Codex owns CLAIMED032, postedce56635 at2:33PM Eastern before code.
-Branch claude/lane-art1 starts from actual ad841f6 and reconciles published e08b678;
-precondition017 is DONE. One implementation worker built a bounded art module with old
-look reachable by one switch. Preserve charcoal Quietus, cyan/amber industrial
-structures, angular ray/serpentine red-lit Sirens and layered basalt. Clarify own
-craft/two drones/four named roles and actual own camera lamp only. No art-direction,
-sensor/evidence privacy, physical-rule, story or SIREN TELL changes.
-Draft PR130 retains measured7619 and ad61 baselines. Correctness/state/privacy
-pass, but independent review withheld strict performance approval: ad61 still has
-37..57us renderer CPU cost and positive ordinary-cover cadence in all five blocks.
-An Art-only pass-budget refinement5607cb6 removes redundant new ornaments while
-retaining filled/AA silhouettes, inherited cues and old look. Normal opaque
-underlays are omitted only where source texture is near opaque; Sweeper holes and
-all faded/pinned underlays remain. Shortcover29/0 and ART58/0 show224 vs219 batches,
-drawCPU-65.25us/GPU-3us/cadence-85us, rendererCPU+10.25us within20us repeat variation.
-Full combined measurements and final review remain required, not inferred from
-that short case. Baselines and unique failures are preserved on
-[032 evidence](https://github.com/pemunson90-cmd/Siren-s-Song/tree/archive/codex-032-art-windows-20261024/evidence/032-windows-20261024).
-Source-matched pictures at both Fold7 shapes and actual paired drawing-cost evidence
-accompany the simulation-only015 probe. Pat judges
-the concrete finished artwork before its publication; approval is still pending.
-PR128 Windows wrappers and the read-only registry validator are published at
-e08b678; direct verified Windows Godot remains the current local run path.
-Root owns RESUME/PR/merge/board, independent review and exact-head hosted gates,
-fresh containment/mergeability and actual publication. Next assigned task is033.
+Codex owns CLAIMED032, posted ce56635 before code. Pat chose "use new, save
+rest for later" on 24 October, about 5:05 PM Eastern. This accepts the finished
+new artwork shown from head5b0bc6c in PR130. Do not ask for that choice again.
+033 remains OPEN and deferred by Pat; do not claim or start it after032.
 
-Claude's PR126 consequence-line presentation is published at46a3be8; the board
-continues to own its039 claim/completion. PR125/041 is published at139f3e9: default
-Android Back quit is disabled; Operations uses approved double-Back exit.
-031 preserved both Main seams and its228 suites. Combined registry retains
-Back226, accessibility227/228 and published consequence229/230; art appends231/232.
-All232 names/local/CI ranks are unique, no tests removed. Fetch live refs at each boundary. The board alone owns claims;
-unrelated released items are outside the explicit032..033 assigned queue.
+Branch claude/lane-art1 retains distinct textured craft, drones and four fresh
+Siren roles, earned factory detail and own-camera lamp drawing. Old drawing is
+reachable with art_table.gd enabled=false. No new save fields, rules, story or
+SIREN TELL. Final independent technical APPROVE covered5b0 versus e08b678:
+core835/ART58/native204/command140 and affected checks all zero failures. Own
+run40128761590 guidance/game-smoke both succeeded on exact5b0. Immutable final
+proof: c7435e6d99d42ab410df84ab9982522cd7ed68de on
+archive/codex-032-art-windows-20261024, evidence/032-windows-20261024/head-5b0bc6c.
+All377 archive Git blobs verified; earlier failed cost baselines retained.
+Frame cadence improved28/30 pairs and all six medians48.75..91.75microseconds.
+Internal viewport CPU costs +14.5/+14.75microseconds remain explicit; no claim
+of universal Android performance, zero engine allocations or blind recognition.
 
+PR129 published2ce65c0 while those checks ran. It adds only diagnostics files,
+their tests and a registry row, with no runtime hook. Reconcile this current tip
+into the artwork branch and repeat import/core/affected checks, independent
+review and exact-head hosted gates before publication. Preserve AI TRACE231;
+art moves to232/233. All233 suites remain, no test weakened or removed.
+Root owns this reconciliation, PR/merge/board and actual remote verification.
+Pat's artwork choice is settled, but the old green head cannot approve a newer
+combined head. The live Completion on codex/handoffs records the pushed SHA and
+current verification. No art is published until actual merge is verified.
+
+Claude's PR126 consequence presentation is published at46a3be8, PR125/041 Back
+handling at139f3e9 and PR129 diagnostics at2ce65c0. The board owns their claims;
+do not take unrelated released work. No new remote-session handoff requested:
+Pat cancelled that request after context refreshed.
 The native Windows hook fix is installed and merged. Use official Windows
 Godot4.6.3 directly; install-godot.sh is Linux only. Tests isolate APPDATA and
 LOCALAPPDATA. Preserve personal saves and exclude .uid/.import churn. No full
