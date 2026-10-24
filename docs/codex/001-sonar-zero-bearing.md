@@ -32,6 +32,10 @@ Pull request into claude/integration. Claude merges.
 
 ## Completion
 
+Current verified state,24October2026: DONE, PR59 merged atde03f29bd2cee12a2fb694eddb68b999675203d8 on21October2026,4:56PM Eastern. GitHub merged=true and current integration ancestry verified. The original recommendation to merge below is historical and already satisfied. No new tests are claimed.
+
+### Historical original report
+
 Fixed the save failure when an enemy occupies exactly the same position as Quietus or another sonar receiver. At that exact overlap, there is no horizontal bearing, so the game now omits the undefined passive reading and active echo instead of inventing a direction. Nearby readings, other receivers, existing echo history, pulse costs and terrain returns stay the same. Save validation and combat rules were not changed.
 
 Pull request: https://github.com/pemunson90-cmd/Siren-s-Song/pull/59
