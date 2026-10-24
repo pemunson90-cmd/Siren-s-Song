@@ -9,7 +9,7 @@ const PHOSPHOR=Color("8cdcd3")
 const AMBER=Color("e0bf83")
 const COLS=36
 # Subject looks by optical key, siren looks by type.
-const LOOKS={"spire":"tower","relay_west":"housing","relay_east":"housing","furnace":"wall","cradle":"gantry","frame_cycle":"wall","well_pattern":"array","well_aperture":"hole","well_return":"hole","transmitter":"array","departure":"field","silt_scour":"field","exhaust_stack":"tower","prism_facets":"crystal","blackwater_request":"housing","blackwater_reply":"housing"}
+const LOOKS={"spire":"tower","relay_west":"housing","relay_east":"housing","furnace":"wall","cradle":"gantry","frame_cycle":"wall","well_pattern":"array","well_aperture":"hole","well_return":"hole","transmitter":"array","departure":"field","silt_scour":"field","exhaust_stack":"tower","prism_facets":"crystal","blackwater_request":"housing","blackwater_reply":"housing","final_photo_30":"wall","final_photo_30_bonus":"gantry","final_photo_31":"housing","final_photo_31_bonus":"array"}
 const ART={"beacon":"lamp","drill":"string","scoring":"scoring","housing":"none","clock":"clock","mouth":"mouth","lining":"lining","rails":"rails","frames":"frames","hatch":"hatch","ribs":"none","count":"count","face":"none","vanes":"none","throat":"throat","lines":"lines","fracture":"fracture","stack":"lamp","plume":"plume","channel":"channel","prism":"none","facets":"facets","form":"none","array":"array","gait":"gait","overview":"none"}
 static func rnd(n:int)->float:
 	return fposmod(sin(float(n)*12.9898)*43758.5453,1.0)

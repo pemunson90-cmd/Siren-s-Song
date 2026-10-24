@@ -9,64 +9,55 @@ Pat's Windows PC. Pat stopped the cloud session on 23 October and said continue 
 ## Live source checkpoint
 
 Active development integration: `claude/integration`.
-Last reconciled source baseline:0e927292425cc4d5914054757b15bf345119529a.
-This includes independently published PR116 sweeper patrol data.
+Last reconciled source baseline: aaff40ea7943278ade6ba3b7bcd5495c2dcac26e.
+This includes independently published PR116 patrol data and merged PR121 landmarks.
 023 is DONE on the authoritative board in2df2e6b after all separate source PRs
 and Windows99 passed own exact-head checks/review and actual merge verification.
 Main817, HUD575, Ocean685. Do not repeat023 or its earlier preparations.
 
 ## Current claim and next work
 
-Codex owns CLAIMED025, postedc0abb9c before implementation. Branch
-claude/lane-landmarks started from8c13f5b and now includes current0e92729; no open duplicate landmark PR or prior
-branch was found.020 is DONE atddc3361 and contained. Scope is the already
-approved data-only landmark handoff, operations6 to29, existing visual language,
-unchanged rules/story/endings and preserved fixtures/pressure. The plan is
-[landmarks M3a](superpowers/plans/2026-10-24-landmarks-m3a.md).
+025 is DONE after PR121 merged at aaff40e on 24 October, 4:23 AM Eastern.
+Own exact-head guidance and game-smoke passed in run40075442240; independent
+approval covered head757347b against current0e92729. Board completion4593589.
+The published game tree is56cde027d79bdfd04c116a4b770ef3f479198cc4.
+[025 evidence](https://github.com/pemunson90-cmd/Siren-s-Song/tree/33dfe86742fe79c840f710889743e9bd60fc2644/evidence/025-windows-20261024/current-base-0e927)
+retains the12fresh and64justified reused pressure pairs,76 matching records,
+1107 commands per side, unchanged-runtime proof and native image provenance.
 
-025 implementation is prepared in PR121, reconciled with current0e92729. Each
-operation6 to29 has three authored treatments on existing physical terrain;
-observed photo subjects and fresh moving loads add restrained lamps, with
-photo-site detail at its actual depth. This is a modest atmospheric gain using
-existing geometry and palette. No feature changes to simulation, campaign, physical geometry, story, save or
-rule files are proposed against current integration; PR116 patrol data is retained. One ground registration and a data off switch
-own the feature. Hidden back edges cannot cut visible motif shapes.
+026 is DONE on the board in f1d4550. Its Completion on codex/handoffs is the
+read-only review of opening operations on aaff40e. Camera captions and craft
+badges overlapped on both screen shapes; ordinary HUD was clear after camera
+closure. The critic won0/5, abandoned1 and lost2/3/4. Coarse scripted timings
+limit fairness conclusions. A separate cold-process save/coast probe passed;
+the main play session did not prove disk saves. The report records that limit.
+Verified local evidence: outputs/026-opening-review-evidence.zip, SHA256
+3ce8969a51741d00e18b93a59171b4c5ab14357b1c9f015bbcc4481f831f5df5.
+The empty intermediate026 report in3997b1e is superseded by f1d4550.
 
-Current Windows import/core831/0, runtime665/0, density883/0, data468/0,
-projection92/0, patrol56/0 and five authored opening-depth journeys49/0 pass.
-All five fixtures and six bare-craft core fallbacks win. Current pressure proof
-matches all76 paired records and1107 commands per side:12changed-operation cases
-freshly rerun on0e92729 and candidate,64unchanged cases retained with identical
-start-state/runtime proof. Each side has31wins16losses25controller findings4timeouts,
-all snapshots valid. The external wrapper only matches the existing endpoint
-epsilon and never changes game state or policy. No tracked test was loosened.
+Codex owns CLAIMED027, posted in9aa1409 before implementation. Branch
+claude/ending-m3b starts at aaff40e. Draft PR122 adds operations30 and31 after
+recovered25, then the best usable recovered film with recorded finding names.
+Four old ending conditions and12/13 fork stay available. No new narrative,
+save fields or simulation rules. Own encounters reuse existing depth/photo/film
+systems and rendering shapes. Catalog identities remain for active/completed
+save compatibility when the wall is disabled or removed. The first WIP is
+1b5bc55; consult live PR122 for the latest head and pending gates.
 
-[Current-base evidence and receipt](https://github.com/pemunson90-cmd/Siren-s-Song/tree/33dfe86742fe79c840f710889743e9bd60fc2644/evidence/025-windows-20261024/current-base-0e927)
-records the12fresh pairs, combined proof and22start hashes. Only0/2/4/5/16
-changed; only0/5/16occur in this probe. Accepted native v5 captures08/14/28 and
-rejected drafts remain in the parent archive: their start states, runtime and
-feature renderer are unchanged, so those images remain the visual evidence.
-These are source-known finite-tool technical captures, not blind player or phone
-acceptance. The first unprotected08 attempt lost Quietus and is retained.
+[027 plan](codex/027-implementation-plan.md) records scope and verification.
+Technical fixtures, full ordinary-command bare routes, native cover/inner wall
+inspection and save/revert checks are being completed. A preliminary independent
+review caught the missing-usable legacy-shot default; it is corrected to match
+the archive renderer. Do not treat a draft or local pass as merge approval.
+Require exact final-head independent approval, guidance and game-smoke, current
+integration containment and mergeability. Then merge with a merge commit and
+mark done027 plus BOARD together. Continue eligible029..033 in numeric order;
+032 remains Pat's judgment. Claims live only on codex/handoffs.
 
-Both old6ffab72 checks passed in40072498877, but current-tip containment caught
-the newer PR116 before publication. Old prepared merge17b45e5 is superseded.
-Only the suite-list conflict needed resolution: preserve patrol195/216 and shift
-landmark196/217, UI197/218. Every218suite and existing assertion is retained.
-The unchanged feature was independently approved; this reconciled head still
-requires its own exact-head review and guidance/game-smoke before publication.
-
-Next refresh live refs, require current integration containment and mergeability,
-merge PR121 with a merge commit only after approval and both green checks, then
-verify the actual merged source and mark done025 plus BOARD in one commit.
-025 remains CLAIMED until then. Continue eligible026/027/029..033 in numeric
-order after completion;032 remains Pat's judgment.
-
-The native Windows hook fix is installed and merged;22 real-Git boundary and10
-guidance tests passed. Use the official Windows Godot4.6.3 console build directly;
-install-godot.sh is Linux only. Tests use isolated APPDATA/LOCALAPPDATA. Preserve
-personal saves and exclude generated .uid/.import churn. Full local scenario
-lists and APKs remain prohibited; GitHub game-smoke is the full gate.
+The native Windows hook fix is installed and merged. Use official Windows
+Godot4.6.3 directly; install-godot.sh is Linux only. Tests isolate APPDATA and
+LOCALAPPDATA. Preserve personal saves and exclude .uid/.import churn. No full
+local scenario list and no APK. GitHub game-smoke remains the full gate.
 
 ## Cold review 3 and the new batches
 

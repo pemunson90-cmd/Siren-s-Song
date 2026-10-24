@@ -1,8 +1,8 @@
 # Siren's Song workbench
 
 Current operational state and next work: [RESUME.md](RESUME.md).
-Cloud stop and Windows desktop recovery: [DESKTOP_HANDOFF.md](DESKTOP_HANDOFF.md).
-Wait for Pat to resume before taking the next implementation step.
+Windows execution and recovery: [DESKTOP_HANDOFF.md](DESKTOP_HANDOFF.md).
+Pat resumed locally on Windows. Continue the current board claim under its handoff.
 Intended release behavior: [CURRENT_GAME_SPEC.md](CURRENT_GAME_SPEC.md).
 Photographic capabilities and gaps: [PHOTO_RECON.md](PHOTO_RECON.md).
 Codex queue and owned work: `docs/codex/BOARD.md` on `codex/handoffs`.
