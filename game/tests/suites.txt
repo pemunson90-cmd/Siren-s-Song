@@ -234,5 +234,13 @@ ai_trace_tests|AI TRACE|208|231
 acoustic_path_cull_tests|ACOUSTIC PATH CULL|225|248
 sonar_feedback_cache_tests|SONAR FEEDBACK CACHE|226|249
 goal_bearing_cache_tests|GOAL BEARING CACHE|227|250
+roster_tests|ROSTER|217|240
+terrain_tests|TERRAIN|218|241
+work_sites_tests|WORK SITES|219|242
+map_gesture_tests|MAP GESTURE|220|243
+choir_rules_tests|CHOIR RULES|221|244
+iron_layouts_tests|IRON LAYOUTS|222|245
+order_table_tests|ORDER TABLE|223|246
+photo_window_rules_tests|PHOTO WINDOW RULES|224|247
 art_tests|ART|-|232
 art_render_measurements|ART RENDER|-|233|render
