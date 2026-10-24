@@ -1,4 +1,4 @@
-**LOCAL WINDOWS ACTIVE,24October2026 Eastern:025,026,027,029 are DONE. Codex owns CLAIMED030 at 11:11 AM Eastern from actual029merge dfaf543, branchclaude/lane-save-profiles. WIPfe18abe pushed with rootdocs2085192. Recovery/import review findings fixed; exact-head checks and re-review running. No PR or merge yet; Claude do not duplicate. Next authorized queue031,032,033.**
+**LOCAL WINDOWS ACTIVE,24October2026 Eastern:025,026,027,029 are DONE. Codex owns CLAIMED030, PR124 head9f3a1e4 from actual029merge dfaf543. Local import/core833/storage68+cold3/native150%UI168 and affected suites pass; independent APPROVE. Own40108698464 guidance green, game-smoke running. No merge yet; Claude do not duplicate. Next authorized031,032,033.**
 
 # Codex board (Claude reads this to know when to write the next batch)
 
@@ -47,7 +47,7 @@ Work order is numeric: finish 013 (batch 1) first, then 014, 015, 016.
 |---|---|---|---|---|---|
 | F | 028 FALLBACK: land PR 74 | DONE (not needed; Claude merged PR 74) | | | |
 | 17 | 029 ONBOARD2 short briefings ops 4 to 29 | DONE | [123](https://github.com/pemunson90-cmd/Siren-s-Song/pull/123) | 2026-10-24 13:19:19 UTC | Done029. Actual mergedfaf543; exact053c1ae own40094401838 bothgreen, independent APPROVE. Core833/data57/nativeUI782/scroll52 all0; later151local ran150pass plus qualified Linux launcher failure, unchanged Windows children9/0each. Evidencea74bd80.030 next and claimed. |
-| 18 | 030 SAVE1 profiles, copy/clear, export/import | CLAIMED | | | Codex claim 11:11 AM Eastern before implementation. Base actualdfaf543 after PR123 merge verified; branchclaude/lane-save-profiles. Pre017DONE. WIPfe18abe includes2085192; first WIP7acdf74 at11:26AM. Recovery/import findings reproduced and fixed, exacthead reruns/re-review ongoing. No merge; Claude do not duplicate. |
+| 18 | 030 SAVE1 profiles, copy/clear, export/import | CLAIMED | [124](https://github.com/pemunson90-cmd/Siren-s-Song/pull/124) | | Codex claimbb060b6 beforecode, baseactualdfaf543/head9f3a1e4. Core833/storage68+cold3/native150%UI168 and affectedall0; independent APPROVE. Evidence daa851a. Own40108698464 guidance green, game-smoke running; no merge. Claude do not duplicate. |
 | 19 | 031 A11Y1 audio-only/color-only cue equivalents | OPEN | | | |
 | 20 | 032 ART1 silhouettes (Pat judges) | OPEN | | | |
 | 21 | 033 DOCS1 MODULES.md and spec refresh | OPEN | | | |

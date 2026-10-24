@@ -53,3 +53,39 @@ shapes at150%text. Root inspected picker/confirmation readability, no phone clai
 One initial unisolated check-only setup crashed before script loading; transcript
 retained, no game/save tests ran or existing saves modified. Actual save tests
 use isolated appdata; source-known fixtures and cold-process proof stay qualified.
+
+11:52 AM Eastern, final candidate ready: PR124
+https://github.com/pemunson90-cmd/Siren-s-Song/pull/124
+Branchclaude/lane-save-profiles, last pushed9f3a1e41aaea1cc97c1acff26ea8cfee78201dfe,
+production frozen2637fe4, rootRESUME2085192 included. Game tree
+0a0b63763ab717d9d11196771851b6d49bdf1450. Tracked source clean.
+
+Clean import, core833/0, real storage68/0 plus actual cold child3/0, native GPU
+150%UI168/0 across both420dpi shapes. Affected suites10/45/178/86/12/4/9/63 all0.
+Root and independent reviewer read all raw final suite logs/error scans and
+verified all6capture hashes. Picker/import-confirm/error screens readable;
+error state exposes Back only and replacement dialogs name the actual target.
+No Main/gameplay/story changes; constructors/validators/custom paths preserved.
+Four-file migration/isolation/absence/rollback, confirmation/30second undo,
+bounded fully-consumed import codec and pinned/fresh sessions are documented
+in own module README. No new campaign saved fields or field meanings.
+
+Relayed /root/review_photo APPROVE exact9f3 againstdfaf543; both recovery/package
+P2s resolved, no new findings. Reviewer source/log/hash/pixel review only, ran no
+Godot tests or independent process launches. Not formal GitHub approval.
+Own exact-head40108698464: guidance120915675760 SUCCESS, game-smoke120915675965
+running. Prepared merged131ca0b8b3538af6588f057ee8e7f1ab4f75273 is unpublished,
+source-identical; fresh live containment/mergeability and actual merged source
+verification still required. Keep CLAIMED until verified publication.
+
+Evidence daa851a2e9612225d3297f18c8538bbbcfe3560b,
+evidence/030-windows-20261024/head-9f3a1e4,44files/829124bytes before manifest.
+Original Windows env parent2fail remains distinct from unchanged native child
+9/0each, with fresh GUID data folders and drag956/336. Hosted Linux parent gate
+remains required. Original red67/6 selected tool-output excerpt is preserved with
+chunk provenance, not presented as full raw log. Pre-script setup crash and early
+parse/UI failures remain qualified. No APK/full local matrix or physical Android
+keyboard/filesharing/hand-ergonomics acceptance. Source-known synthetic fixtures.
+
+[Cover picker](https://raw.githubusercontent.com/pemunson90-cmd/Siren-s-Song/daa851a2e9612225d3297f18c8538bbbcfe3560b/evidence/030-windows-20261024/head-9f3a1e4/captures/profiles-picker-2520x1080-150.png),
+[inner picker](https://raw.githubusercontent.com/pemunson90-cmd/Siren-s-Song/daa851a2e9612225d3297f18c8538bbbcfe3560b/evidence/030-windows-20261024/head-9f3a1e4/captures/profiles-picker-2184x1968-150.png).
