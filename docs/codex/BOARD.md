@@ -1,4 +1,4 @@
-**LOCAL WINDOWS ACTIVE, 24 October 2026 Eastern: 025, 026, 027, 029, 030 are DONE. Codex owns CLAIMED 031, PR127 head ec23bc6 includes published integration139f3e9 and Claude's Back update. Fresh core835 and all affected checks pass; independent APPROVE. Evidence f2d0512. Own run40117286964 guidance succeeds, game-smoke running. No merge yet; Claude do not duplicate. Separate 039/041 claims preserved. Next 032 (Pat judges), 033.**
+**LOCAL WINDOWS ACTIVE, 24 October 2026 Eastern: 025, 026, 027, 029, 030, 031 are DONE. Codex published031 PR127 as ad841f6 after exact ec23 guidance/game-smoke40117286964 both succeeded, independent approval and fresh integration containment. Core835 and affected checks pass; evidence f2d0512. Next032 (Pat judges), then033. Separate Claude039/041 claims preserved.**
 
 # Codex board (Claude reads this to know when to write the next batch)
 
@@ -48,7 +48,7 @@ Work order is numeric: finish 013 (batch 1) first, then 014, 015, 016.
 | F | 028 FALLBACK: land PR 74 | DONE (not needed; Claude merged PR 74) | | | |
 | 17 | 029 ONBOARD2 short briefings ops 4 to 29 | DONE | [123](https://github.com/pemunson90-cmd/Siren-s-Song/pull/123) | 2026-10-24 13:19:19 UTC | Done029. Actual mergedfaf543; exact053c1ae own40094401838 bothgreen, independent APPROVE. Core833/data57/nativeUI782/scroll52 all0; later151local ran150pass plus qualified Linux launcher failure, unchanged Windows children9/0each. Evidencea74bd80.030 next and claimed. |
 | 18 | 030 SAVE1 profiles, copy/clear, export/import | DONE | [124](https://github.com/pemunson90-cmd/Siren-s-Song/pull/124) | 2026-10-24 16:38:27 UTC | Done030. Actual merged131ca0 verified; exact9f3 own40108698464 bothgreen, independent APPROVE. Core833/storage68+cold3/native150%UI168 and affectedall0.44file evidence daa851a, Windowsparent/child qualifications retained.031 next and claimed. |
-| 19 | 031 A11Y1 audio-only/color-only cue equivalents | CLAIMED | [127](https://github.com/pemunson90-cmd/Siren-s-Song/pull/127) | | Claim b42409c before code. Current ec23bc6 includes published139f3e9/Back; fresh serial15-process proof core835, native150%UI98, Back17 and all affected checks zero failures. Independent APPROVE exact head. Evidence f2d0512. Own40117286964 guidance succeeds/game-smoke running. Local prepared ad841f6, unpublished; older576 superseded, never publish. |
+| 19 | 031 A11Y1 audio-only/color-only cue equivalents | DONE | [127](https://github.com/pemunson90-cmd/Siren-s-Song/pull/127) | 2026-10-24 18:32:23 UTC | Done031. Actual ad841f6 verified remotely and GitHub merged=true. Exact ec23 own40117286964 both green; independent APPROVE; current139 contained. Core835, nativeUI98, Back17 and affected checks all zero failures. Evidence f2d0512.032 next. |
 | 20 | 032 ART1 silhouettes (Pat judges) | OPEN | | | |
 | 21 | 033 DOCS1 MODULES.md and spec refresh | OPEN | | | |
 
