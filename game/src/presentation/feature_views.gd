@@ -22,7 +22,8 @@ const Concealed=preload("res://src/presentation/concealed_harbour_view.gd")
 const Witness=preload("res://src/presentation/feature_views/witness.gd")
 const WitnessCarried=preload("res://src/presentation/feature_views/witness_carried.gd")
 const HUD_PANELS=[Wake,Rendezvous,Shelf,WarningChain,Delivery,Recipient,Concealed,Witness]
-const WORLD_VIEWS=[Shelf,Wake,Rendezvous,WarningChain,Witness,Concealed,Recipient]
+const Courier=preload("res://src/presentation/blackwater_courier_view.gd")
+const WORLD_VIEWS=[Courier,Shelf,Wake,Rendezvous,WarningChain,Witness,Concealed,Recipient]
 const GROUND_VIEWS=[ShelfGround]
 const CARRIED_VIEWS=[WitnessCarried]
 static func build_panel(hud)->void:

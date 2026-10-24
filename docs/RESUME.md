@@ -8,7 +8,7 @@ Pat's Windows PC. Pat stopped the cloud session on 23 October and said continue 
 
 ## Live source checkpoint
 
-Development integration is `claude/integration`, last reconciled baseline `fd7be71d030be2ff1bf3724fe068bdc8f13519e2`.
+Development integration is `claude/integration`, last reconciled baseline `2bba0bd801dd6879089611c6a050c6cb82dc27e7`.
 This ARCH2 candidate includes the Windows hook repair PR99, published at
 fab2617575d5156d74b87aede4aa9ba21367504b after its exact-head gates and review.
 At this preparation, later predecessor merges are planned, not yet published.
@@ -42,7 +42,8 @@ re-claim it or mark it DONE after one PR.
 | Prerequisite PR110 | Included in candidate ancestry; live PR/board decide published state |
 | Prerequisite PR111 | Included in candidate ancestry; live PR/board decide published state |
 | Prerequisite PR113 | Included in candidate ancestry; live PR/board decide published state |
-| Current Witness PR115 | Candidate; independent exact-head review and hosted gates pending |
+| Prerequisite PR115 | Included in candidate ancestry; live PR/board decide published state |
+| Current Courier PR117 | Candidate; independent exact-head review and hosted gates pending |
 | Later preparations | Separate feature PRs, see authoritative board; not a full023 completion |
 | Portable cloud evidence | archive/cloud-desktop-20261023 at5407a241,551 files with manifest/hash |
 
@@ -63,11 +64,11 @@ LOCALAPPDATA to isolated work folders, preserving personal saves.
 
 ## Current ARCH2 candidate
 
-This candidate is Witness PR115, reconciled against planned predecessor merge
-fd7be71d030be2ff1bf3724fe068bdc8f13519e2. This predecessor must be published first.
-Adapters preserve the original Control screen. Adjacent world segments combine without reordering; synchronous carried context retains original craft transform, canvas, simulation and unit index.
-The complete game tree equals native-tested preparation465230c9ca44d9bbb2db18a1641365781dc3b86e.
-Clean import and witness52/UI108/core818/runtime665/density883/menu7/scroll15 all0 with clean logs.
+This candidate is Courier PR117, reconciled against planned predecessor merge
+2bba0bd801dd6879089611c6a050c6cb82dc27e7. This predecessor must be published first.
+World-only registration remains before Shelf. The original draw body and guard stay unchanged, with the legacy two-argument entry preserved.
+The complete game tree equals native-tested preparation0ed644a9605e95be1a809ab68c08565ed76086f1.
+Clean import and Courier35/Blackwater33/UI10/core818/runtime665/density883/menu7/scroll15 all0 with clean logs.
 Independent final exact-head/planned-base review and both own hosted gates remain.
 Only publish its ordinary merge when live integration equals that predecessor,
 its PR is mergeable, and parents/tree equal the approved tested result. Stop on
