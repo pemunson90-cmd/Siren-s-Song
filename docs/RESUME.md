@@ -120,6 +120,17 @@ Import and rerun recovery55/UI37/runtimeUI22/routeUI68/core818/runtime665/
 density883/menu7/scroll15 all0, clean logs. Corrected independent source PASS.
 Parent reconciliation and own final review/hosted gates remain.
 
+Industrial preparation is based on Recovery010c78c. Its existing choir HUD
+refresh and world drawing use activity lists at their original slots, before
+Glass HUD composition and before targeting drawing. The original untyped legacy
+draw signature is retained with an optional simulation argument; body unchanged.
+Import clean; before/after choir57/jobs47/threats91/UI24/core818/runtime665/
+density883/menu7/scroll15 all0 with clean logs. Preliminary independent source
+PASS; final head/base review, parent reconciliation and own hosted gates remain.
+This completes preparation of the existing mission feature-view seams, not their
+publication. Retained host composition, setup/input/picking and framework terrain/
+course primitives are intentional exclusions; all023 steps must still land.
+
 ## Historical cloud handover snapshot
 
 All remaining sections below preserve the cloud handover as dated history.

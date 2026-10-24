@@ -333,7 +333,7 @@ func _draw() -> void:
 		var at=sim.mission.glass_reach.work_pos
 		draw_rect(Rect2(at-Vector2.ONE*20,Vector2.ONE*40),Color("d8c591"),false,2./world_scale)
 		draw_line(at-Vector2(30,0),at+Vector2(30,0),Color("d8c591"),1.5/world_scale)
-	preload("res://src/presentation/industrial_view.gd").draw(self,sim)
+	FeatureViews.draw_activity(self)
 	# Only own launcher range and legitimately cached targets; beams draw afterward.
 	if knock_targeting and sim.selected==0 and sim.units[0].alive:
 		draw_arc(sim.units[0].pos,sim.KNOCK_RANGE,0,TAU,64,Color(0.7,0.85,0.8,0.5),1.5/world_scale)

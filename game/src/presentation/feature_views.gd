@@ -31,9 +31,13 @@ const WORLD_DETAIL_VIEWS=[Expedition]
 const Recovery=preload("res://src/presentation/module_recovery_view.gd")
 const HUD_CONTEXT_PANELS=[Recovery]
 const WORLD_SCREEN_VIEWS=[Recovery]
+const Industrial=preload("res://src/presentation/industrial_view.gd")
+const HUD_ACTIVITY_PANELS=[Industrial]
+const WORLD_ACTIVITY_VIEWS=[Industrial]
 const CARRIED_VIEWS=[WitnessCarried]
 static func build_panel(hud)->void:_build_panels(hud,HUD_PANELS)
 static func build_context(hud)->void:_build_panels(hud,HUD_CONTEXT_PANELS)
+static func build_activity(hud)->void:_build_panels(hud,HUD_ACTIVITY_PANELS)
 static func build_badges(hud)->void:_build_panels(hud,HUD_BADGE_PANELS)
 static func _build_panels(hud,features:Array)->void:
  for feature in features:
@@ -41,6 +45,7 @@ static func _build_panels(hud,features:Array)->void:
 static func draw(view)->void:_draw_views(view,WORLD_VIEWS)
 static func draw_detail(view)->void:_draw_views(view,WORLD_DETAIL_VIEWS)
 static func draw_screen(view)->void:_draw_views(view,WORLD_SCREEN_VIEWS)
+static func draw_activity(view)->void:_draw_views(view,WORLD_ACTIVITY_VIEWS)
 static func draw_ground(view)->void:_draw_views(view,GROUND_VIEWS)
 static func draw_carried(view,unit:int)->void:_draw_views(UnitDraw.new(view,unit),CARRIED_VIEWS)
 static func _draw_views(view,features:Array)->void:
