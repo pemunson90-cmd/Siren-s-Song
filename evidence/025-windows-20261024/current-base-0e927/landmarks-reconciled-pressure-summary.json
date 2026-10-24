@@ -1,0 +1,22 @@
+{
+  "new_base": "0e927292425cc4d5914054757b15bf345119529a",
+  "fresh_cases": 12,
+  "fresh_ids": [
+    0,
+    5,
+    16
+  ],
+  "reused_cases": 64,
+  "all76_full_records_equal": true,
+  "commands_per_side": 1107,
+  "outcomes_per_side": {
+    "controller_incomplete": 2,
+    "lost": 16,
+    "won": 31,
+    "controller_work_rejected": 16,
+    "budget_timeout": 4,
+    "controller_route_rejected": 5,
+    "controller_camera_rejected": 2
+  },
+  "initial_state_proof": "Only0,2,4,5,16 changed among22checkedstarts; only0,5,16 occur inprobe; allsimulationsourcesunchanged. Captureops8/14/28initialstatesandpresentationunchanged."
+}

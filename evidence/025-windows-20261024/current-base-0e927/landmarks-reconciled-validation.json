@@ -1,0 +1,132 @@
+{
+  "current_base": "0e927292425cc4d5914054757b15bf345119529a",
+  "feature_parent": "6ffab7289e41bbf4b96304a1c6768def99f7fc1c",
+  "candidate_game_tree": "56cde027d79bdfd04c116a4b770ef3f479198cc4",
+  "checks": {
+    "import": {
+      "file": "landmarks-reconciled-import.log",
+      "checks": null,
+      "failures": 0,
+      "sha256": "ab13793873aa3898eed7cac00f1e9f785df0867ec08e5f116902c9e04b1af6d4"
+    },
+    "core": {
+      "file": "landmarks-reconciled-core.log",
+      "checks": 831,
+      "failures": 0,
+      "sha256": "e3b5842ea0bbee0e1790682f6c252e88762197ab2c88ffb6f942f530dcd70443"
+    },
+    "data": {
+      "file": "landmarks-reconciled-data.log",
+      "checks": 468,
+      "failures": 0,
+      "sha256": "0caaf71f29218c62c5cadf47cdb4ff6b373e323f57bf35f594b21a83fdde1539"
+    },
+    "projection": {
+      "file": "landmarks-reconciled-ui.log",
+      "checks": 92,
+      "failures": 0,
+      "sha256": "af84276f5668bceb1272bec86633339ea17f98972d1f3b60ab4d89f96db2c88c"
+    },
+    "patrol": {
+      "file": "landmarks-reconciled-patrol.log",
+      "checks": 56,
+      "failures": 0,
+      "sha256": "ce8608d9ffa9069390bf2988f9870109b1b97a03b7ec66bbf5d726a3ac6a33e3"
+    },
+    "five_fixtures": {
+      "file": "landmarks-reconciled-five-fixtures.log",
+      "checks": 49,
+      "failures": 0,
+      "sha256": "713ebf2cbc9c238840d86ff6e6169e52f59e968d0d91c14c46688c95e02945e2"
+    },
+    "runtime": {
+      "file": "landmarks-reconciled-runtime.log",
+      "checks": 665,
+      "failures": 0,
+      "sha256": "7cbc237baf56829bbfc0b8e6974cf9a2980575385ff610334eeeb9e0bff73053"
+    },
+    "density": {
+      "file": "landmarks-reconciled-density.log",
+      "checks": 883,
+      "failures": 0,
+      "sha256": "d6df16436df4e532c8b77312c30480902460100adfe7086b4d246a6bace3ab56"
+    }
+  },
+  "pressure": {
+    "new_base": "0e927292425cc4d5914054757b15bf345119529a",
+    "fresh_cases": 12,
+    "fresh_ids": [
+      0,
+      5,
+      16
+    ],
+    "reused_cases": 64,
+    "all76_full_records_equal": true,
+    "commands_per_side": 1107,
+    "outcomes_per_side": {
+      "controller_incomplete": 2,
+      "lost": 16,
+      "won": 31,
+      "controller_work_rejected": 16,
+      "budget_timeout": 4,
+      "controller_route_rejected": 5,
+      "controller_camera_rejected": 2
+    },
+    "initial_state_proof": "Only0,2,4,5,16 changed among22checkedstarts; only0,5,16 occur inprobe; allsimulationsourcesunchanged. Captureops8/14/28initialstatesandpresentationunchanged."
+  },
+  "start_state_hashes": {
+    "old": {
+      "0": "648be9ad643792eda8c4ad9468b81efbfdd424d51d62b46d43bc09a4bae29a50",
+      "2": "5fedf18e35bb8893197c490f7f1bc2117bb88aa435a286057cd2bc10e5bd9dd7",
+      "3": "89c980b14fbc68023a1e742c504654b22314a513234289172e6189a2cab36864",
+      "4": "59e7fa8aa9900f93a3ac8b182aaf784834f769e53a73ab976a68b63219a13342",
+      "5": "5eeab6ea952f3a4b3fa3642a04c6a8c8e45061a1cd0b7125516d8d74891ea1c6",
+      "8": "77074fe44cbc9bb3363394fbbdffded438243182e3d309c5e3468b1d387949a0",
+      "14": "666ed9a442ef88da116efd952eb550616a72b501d0821b5b12584b3b63f2e6a0",
+      "15": "4daa407b3e82e5a3e3d87b2cd7697c2325f9f23aa826fdb098a00fae01e1385e",
+      "16": "4246b11b4284d12a776e6f2f94a7caca687bd9a1a93b23f2c50e01e5e7b91ea1",
+      "17": "3569e5e7593e5adfdb7f91a72706dcb58a6e4338bca9abf0a58618f941505ca9",
+      "18": "4a8244f993a9401dd1da9eaa4b069275cfe9765e6e44a3c64020e2a12aee047a",
+      "19": "4062a5c8b1d9f38750ca054380400a69dfb113af405b9723fe6a3b015a98ee8d",
+      "20": "2c70fc878dfe7ef0e674dcbf9417365d2d554952b73cbfabe3ab1163196f5944",
+      "21": "5d54f868a1a6ef547c2d915d35457dbbd138b4cb12b2f8ece3474a60066248cb",
+      "22": "f8fc4465a246fc0b2d704ce68e0c8ec3c95db17a74a001f2f4c37088903220c5",
+      "23": "d4e154f81ebc470867a98882c946e8c5ca3fa2c54b6a3f40ab49c4f2ea91d9b6",
+      "24": "03e8f178d162e5b4e49fda224338ef65a73c42fddbb29aa18e2f02a712256477",
+      "25": "c16ed62e7a89b7bcd731d87985e41968c649b5e78261ce990c615533b9c688a5",
+      "26": "53115f62fb2a4ca61f173d1c2fec7c1ac0bc523e237fdfeb81c029a959b29454",
+      "27": "40fb3fac46be8776cd13d79cadb56364f402278a02f1babb8826f15c6832d199",
+      "28": "74afe8a834a0e0c3451aa0097f1ad2c61653a083c4eb8be2987bdcf05564bd5f",
+      "29": "142223dc52ea7c0b792a31ebbf251b98fa472f3489fccda01d266cae92c93747"
+    },
+    "current": {
+      "0": "7d35ea1efe9c9ced0c64e5708a8868a21959d783c81748b2112967276e225ed6",
+      "2": "7fc322942ebf0c7ee334df44726c547a878b1b41e8e3d89912d36b91a58433af",
+      "3": "89c980b14fbc68023a1e742c504654b22314a513234289172e6189a2cab36864",
+      "4": "b7446a42c0aa3fff34d89fc14430d708ae607110d50ffcc232db6e906a00ffd6",
+      "5": "b00057193e1e166298a30551f5154fe7f9c8789ccfe03df116944e976abf0378",
+      "8": "77074fe44cbc9bb3363394fbbdffded438243182e3d309c5e3468b1d387949a0",
+      "14": "666ed9a442ef88da116efd952eb550616a72b501d0821b5b12584b3b63f2e6a0",
+      "15": "4daa407b3e82e5a3e3d87b2cd7697c2325f9f23aa826fdb098a00fae01e1385e",
+      "16": "d8283efe1d78233b148001aa732d8bee32a2df39377c22db09d180040661b4cd",
+      "17": "3569e5e7593e5adfdb7f91a72706dcb58a6e4338bca9abf0a58618f941505ca9",
+      "18": "4a8244f993a9401dd1da9eaa4b069275cfe9765e6e44a3c64020e2a12aee047a",
+      "19": "4062a5c8b1d9f38750ca054380400a69dfb113af405b9723fe6a3b015a98ee8d",
+      "20": "2c70fc878dfe7ef0e674dcbf9417365d2d554952b73cbfabe3ab1163196f5944",
+      "21": "5d54f868a1a6ef547c2d915d35457dbbd138b4cb12b2f8ece3474a60066248cb",
+      "22": "f8fc4465a246fc0b2d704ce68e0c8ec3c95db17a74a001f2f4c37088903220c5",
+      "23": "d4e154f81ebc470867a98882c946e8c5ca3fa2c54b6a3f40ab49c4f2ea91d9b6",
+      "24": "03e8f178d162e5b4e49fda224338ef65a73c42fddbb29aa18e2f02a712256477",
+      "25": "c16ed62e7a89b7bcd731d87985e41968c649b5e78261ce990c615533b9c688a5",
+      "26": "53115f62fb2a4ca61f173d1c2fec7c1ac0bc523e237fdfeb81c029a959b29454",
+      "27": "40fb3fac46be8776cd13d79cadb56364f402278a02f1babb8826f15c6832d199",
+      "28": "74afe8a834a0e0c3451aa0097f1ad2c61653a083c4eb8be2987bdcf05564bd5f",
+      "29": "142223dc52ea7c0b792a31ebbf251b98fa472f3489fccda01d266cae92c93747"
+    }
+  },
+  "unchanged_feature_source": true,
+  "unchanged_simulation_campaign_against_current_base": true,
+  "capture_reuse": "Six v5 captures from7e44ec9 retained. Ops8/14/28 start states, runtime simulation code, feature adapter/data/test blobs and projection are unchanged; captures remain visual evidence, not current-base fullplay claims.",
+  "prior_archive": "7e44ec9f8617936401d7e27877e6bce3f8eb5bbe",
+  "old_exact_checks": "6ffab72 guidance/game-smoke40072498877 bothsuccess, superseded by newerbase. Newcommit requires ownexactchecks+approval."
+}

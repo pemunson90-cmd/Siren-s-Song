@@ -35,3 +35,7 @@ file writes; core/import and captures were refreshed against0cf00531.
 Independent /root/review_photo gave preliminary source/visual PASS on0cf00531.
 Final evidence approval and own exact-head hosted gates remain merge requirements.
 No APK, physical phone, full local scenario matrix or enjoyment claim.
+
+Current-base reconciliation after PR116 is recorded separately in
+[current-base-0e927](current-base-0e927/README.md). It supersedes the old base
+for publication; the original evidence above remains unchanged historical proof.

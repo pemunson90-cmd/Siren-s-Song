@@ -1,0 +1,167 @@
+{
+	"accepted": {
+		"camera": 2,
+		"decoy": 2,
+		"emp": 2,
+		"ping": 3,
+		"recon": 1,
+		"route": 3,
+		"silent": 1
+	},
+	"budget_seconds": 900.0,
+	"commands": [
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Cruise thrust · increased noise",
+			"order": "silent",
+			"time": 0.0,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (1210.0, 320.0) }",
+			"message": "QUIETUS · replaced route",
+			"order": "route",
+			"time": 0.0,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Pulse away · wait for physical echoes · emission audible",
+			"order": "ping",
+			"time": 0.0,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Wide survey uplink · 8 seconds",
+			"order": "recon",
+			"time": 1.0,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Disruption pulse · 12 second recovery window",
+			"order": "emp",
+			"time": 10.1000000000001,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Camera exposure · hold 4 seconds",
+			"order": "camera",
+			"time": 17.2500000000003,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Pulse away · wait for physical echoes · emission audible",
+			"order": "ping",
+			"time": 20.1666666666668,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Disruption pulse · 12 second recovery window",
+			"order": "emp",
+			"time": 21.1833333333334,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (1400.0, 780.0) }",
+			"message": "QUIETUS · replaced route",
+			"order": "route",
+			"time": 21.5000000000001,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Camera exposure · hold 4 seconds",
+			"order": "camera",
+			"time": 29.9999999999996,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (900.0, 860.0) }",
+			"message": "QUIETUS · replaced route",
+			"order": "route",
+			"time": 34.2499999999993,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (1537.903, 773.5471) }",
+			"message": "Decoy launched · 15s transmission",
+			"order": "decoy",
+			"time": 34.3999999999993,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{  }",
+			"message": "Pulse away · wait for physical echoes · emission audible",
+			"order": "ping",
+			"time": 40.499999999999,
+			"unit": 0
+		},
+		{
+			"accepted": true,
+			"args": "{ \"point\": (1059.111, 858.4694) }",
+			"message": "Decoy launched · 15s transmission",
+			"order": "decoy",
+			"time": 42.5333333333322,
+			"unit": 0
+		}
+	],
+	"drone_losses": 0,
+	"hull": 0.0,
+	"industrial_pressure": {
+		"interceptor_burst_seconds": 0.0,
+		"interceptor_windup_seconds": 0.0,
+		"interceptor_windups": 0,
+		"warden_field_seconds": 0.0,
+		"warden_windup_seconds": 0.0,
+		"warden_windups": 0
+	},
+	"load_alive": null,
+	"load_hull": null,
+	"message": "VAPORIZED · Siren beam struck Quietus. Your previous campaign records remain safe.",
+	"operation": 5,
+	"outcome": "lost",
+	"oxygen": 104.577777777766,
+	"peak_lock": 4.01666666666666,
+	"policy": "aggressive",
+	"quietus_beam_seconds": 0.0166666666666667,
+	"quietus_locked_seconds": 8.86666666666669,
+	"quietus_lost": true,
+	"quietus_position": "(915.0535, 858.7943)",
+	"route_knowledge": "source-known current GlassJourneys.COURSES for 14-21; authored Iron Choir paths for 22-29; opening direct authored objective coordinates; operation-data dimensions",
+	"seconds": 42.6666666666655,
+	"snapshot_valid": true,
+	"tools_remaining": {
+		"decoy": 1,
+		"emp": 0,
+		"knock": 2,
+		"recon": 1
+	},
+	"tools_spent": {
+		"decoy": 2,
+		"emp": 2,
+		"knock": 0,
+		"recon": 1
+	},
+	"world_size": [
+		1600.0,
+		960.0
+	]
+}
