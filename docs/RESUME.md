@@ -94,6 +94,14 @@ original craft transform. HUD remains after Concealed/before generic overrides.
 Import/witness52/UI108/core818/runtime665/density883/menu7/scroll15 all0 with clean
 logs. Preliminary independent source PASS; parent/final own-head gates remain.
 
+Courier preparation is based on Witness465230c. It owns only world drawing;
+its empty panel hook is not registered in the HUD list. The optional simulation
+argument retains legacy two-argument drawing calls and the entire old drawing
+body unchanged. World registration stays before Shelf at the original slot.
+Import clean; before/after Courier35/Blackwater33/UI10/core818/runtime665/
+density883/menu7/scroll15 all0 with clean logs. Preliminary independent source PASS.
+Parent reconciliation and own final review/hosted checks remain required.
+
 ## Historical cloud handover snapshot
 
 All remaining sections below preserve the cloud handover as dated history.
