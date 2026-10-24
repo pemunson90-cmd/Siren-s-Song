@@ -8,7 +8,7 @@ Pat's Windows PC. Pat stopped the cloud session on 23 October and said continue 
 
 ## Live source checkpoint
 
-Development integration is `claude/integration`, last reconciled baseline `4eb6d91ad3f52612002d41161280f032e1247bde`.
+Development integration is `claude/integration`, last reconciled baseline `286ee11cf78dad368ade5126fc8d3a55f7991bb0`.
 This ARCH2 candidate includes the Windows hook repair PR99, published at
 fab2617575d5156d74b87aede4aa9ba21367504b after its exact-head gates and review.
 At this preparation, later predecessor merges are planned, not yet published.
@@ -35,7 +35,8 @@ re-claim it or mark it DONE after one PR.
 | Windows hooks PR99 | Merged atfab2617 with exact1606418 checks/review |
 | Prerequisite PR100 | Included in candidate ancestry; live PR/board decide published state |
 | Prerequisite PR101 | Included in candidate ancestry; live PR/board decide published state |
-| Current Wake PR102 | Candidate; independent exact-head review and hosted gates pending |
+| Prerequisite PR102 | Included in candidate ancestry; live PR/board decide published state |
+| Current Rendezvous PR104 | Candidate; independent exact-head review and hosted gates pending |
 | Later preparations | Separate feature PRs, see authoritative board; not a full023 completion |
 | Portable cloud evidence | archive/cloud-desktop-20261023 at5407a241,551 files with manifest/hash |
 
@@ -56,11 +57,11 @@ LOCALAPPDATA to isolated work folders, preserving personal saves.
 
 ## Current ARCH2 candidate
 
-This candidate is Wake PR102, reconciled against planned predecessor merge
-4eb6d91ad3f52612002d41161280f032e1247bde. This predecessor must be published first.
-Existing panel refresh and world drawing retain their original ordered slots; setup, input and picking stay host-owned.
-The complete game tree equals native-tested preparationd229936afd36bb445496387473cee4cea8e7f323.
-Clean import and Wake31/UI37/core818/runtime665/density883/menu7/scroll15 all0 with clean logs.
+This candidate is Rendezvous PR104, reconciled against planned predecessor merge
+286ee11cf78dad368ade5126fc8d3a55f7991bb0. This predecessor must be published first.
+Original tender HUD assignments and world draw remain in order. Non-null applicability retains transform restoration on empty context.
+The complete game tree equals native-tested preparation15057f3f527d6643321749bb0ec6ac1b9d078cfb.
+Clean import and transport61/UI57/core818/runtime665/density883/menu7/scroll15 all0 with clean logs.
 Independent final exact-head/planned-base review and both own hosted gates remain.
 Only publish its ordinary merge when live integration equals that predecessor,
 its PR is mergeable, and parents/tree equal the approved tested result. Stop on

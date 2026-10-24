@@ -430,16 +430,7 @@ func refresh():
   instrument_info.text=Operations.detail(sim,operation.target)+"\n\n"+summary+"\n"+"\n".join(host.ocean.acoustic_rows())
   host.detail_label.text=sim.units[sim.selected].name+" · "+("OWN TRANSMITTER" if operation.label=="TRANSMIT" else "LOCAL MACHINERY CONTROL")
   if sim.capture_feedback().unit>=0:intent.text=sim.units[sim.selected].name+" · "+operation.detail.get_slice("\n",0)
- var tender=Rendezvous.context(sim)
  FeatureViews.build_panel(self)
- if not tender.is_empty():
-  var receiver=sim.rendezvous_receiver()
-  host.order_buttons.camera.text="DECODE\n4s PASSIVE";host.order_buttons.camera.disabled=not receiver.ready
-  if subject.get("subkind","")=="berth_control":
-   extra.rendezvous_release.disabled=not tender.control.ready
-   extra.rendezvous_release.text="BERTH\nRELEASED" if tender.control.get("used",false) else "RELEASE BERTH\n950m / 6s"
-  if subject.get("subkind","") in ["berth_control","rendezvous_hull"]:instrument_info.text=Rendezvous.detail(sim,subject)
-  if subject.get("subkind","")=="rendezvous_hull" and tender.vessel.known and not tender.vessel.live:extra.route_here.text="PLOT\nLAST FIX"
  var shelter=Shelf.context(sim)
  if not shelter.is_empty():
   host.order_buttons.camera.text="WATCH\nORDERS";host.order_buttons.camera.disabled=false

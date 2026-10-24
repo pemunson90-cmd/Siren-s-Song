@@ -1,4 +1,19 @@
 extends RefCounted
+# ARCH2 ordered panel/world contract; existing picking and inputs stay.
+# Drawing restores the canvas transform even with an empty projection, so every
+# non-null simulation remains applicable. Revert this PR to restore direct seams.
+static func applies(sim)->bool:return sim!=null
+static func build_panel(hud)->void:
+ var sim=hud.host.sim
+ var tender=context(sim)
+ if not tender.is_empty():
+  var receiver=sim.rendezvous_receiver()
+  hud.host.order_buttons.camera.text="DECODE\n4s PASSIVE";hud.host.order_buttons.camera.disabled=not receiver.ready
+  if hud.subject.get("subkind","")=="berth_control":
+   hud.extra.rendezvous_release.disabled=not tender.control.ready
+   hud.extra.rendezvous_release.text="BERTH\nRELEASED" if tender.control.get("used",false) else "RELEASE BERTH\n950m / 6s"
+  if hud.subject.get("subkind","") in ["berth_control","rendezvous_hull"]:hud.instrument_info.text=detail(sim,hud.subject)
+  if hud.subject.get("subkind","")=="rendezvous_hull" and tender.vessel.known and not tender.vessel.live:hud.extra.route_here.text="PLOT\nLAST FIX"
 # Only this public measured projection crosses the simulation/presentation seam.
 # The announced course is authored knowledge; it never advances a hull fix.
 static func context(sim)->Dictionary:
@@ -65,7 +80,8 @@ static func receiver_lines(sim,unit:int)->Array:
  if receiver.distance>=0:lines.append("LOCAL RANGE · %dm"%roundi(receiver.distance))
  lines.append("PASSIVE DECODE · 4s" if unit==0 else "QUIETUS HYDROPHONES REQUIRED")
  return lines
-static func draw(view,sim)->void:
+static func draw(view,sim=null)->void:
+ if sim==null:sim=view.sim
  var known=projection(sim);var scale=maxf(.01,view.world_scale);var font=maxi(4,roundi(view.feedback_font_size/scale))
  var course: Array=known.course
  if not course.is_empty():
