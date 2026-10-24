@@ -55,14 +55,30 @@ func shape_case(shape):
  var hints=game.mission_hud.hints.panel;var old_rect=hints.get_rect();var old_visible=hints.visible
  hints.position=Vector2.ZERO;hints.size=game.size;hints.show()
  var status_before=game.mission_hud.intent.text
+ var status_rect=game.mission_hud.intent.get_rect();var fleet_rect=game.advanced_button.get_rect()
  view.refresh(game)
- check(view.get_meta("status_fallback",false) and status_before in game.mission_hud.intent.text and "HEARD" in game.mission_hud.intent.text,"no free chart space retains caption and every existing status word")
- check(Rect2(Vector2.ZERO,game.size).encloses(game.mission_hud.intent.get_rect()),"crowded fallback remains in safe content at150percent")
+ check(view.get_meta("audio_log_fallback",false) and status_before==game.mission_hud.intent.text and "AUDIO LOG" in game.advanced_button.text,"no chart space exposes audio log without changing status or warnings")
+ check(game.mission_hud.intent.get_rect()==status_rect and game.advanced_button.get_rect()==fleet_rect,"fallback preserves status geometry and existing Fleet target")
  hints.position=old_rect.position;hints.size=old_rect.size;hints.visible=old_visible
- await capture("a11y-%d-status-fallback"%shape.x)
- game._refresh();await settle()
- check(not view.get_meta("status_fallback",false) and not "HEARD: sweeper warning" in game.mission_hud.intent.text,"free-space return removes only the caption suffix cleanly")
+ await settle();check(game.advanced_button.get_rect()==fleet_rect,"audio indicator does not grow or move its target after layout")
+ await capture("a11y-%d-fleet-audio-indicator"%shape.x)
+ # Restore the synthetic blocker before injecting actual FLEET and AUDIO LOG taps.
+ # The retained history remains available after the transient overlay expires.
+ s.elapsed=20.;s.contacts.clear();s.events=[];game.sound.update(s,0.);game._refresh();await settle()
+ check(game.sound.accessibility.text().is_empty() and not game.sound.accessibility.history.is_empty(),"expired transient captions remain explicitly historical in the current-mission log")
+ if game.mission_hud.hints.panel.visible:await press(game,"hint_dismiss")
+ await tap(game.advanced_button.get_global_rect().get_center())
+ await press(game,"audio_log")
+ check(game.mission_hud.page=="order_help" and "RECENT AUDIO LOG" in game.mission_hud.instrument_info.text and "T+11.0s" in game.mission_hud.instrument_info.text,"real touch opens timestamped past audio in existing scrollable detail")
+ var audio_button=game.mission_hud.extra.audio_log
+ var dp=float(root.size.x)/root.get_visible_rect().size.x*160./420.
+ check(audio_button.size.x*dp>=48 and audio_button.size.y*dp>=48,"audio log uses a48dp existing radial target at150percent")
+ await capture("a11y-%d-audio-log"%shape.x)
+ await android_back();check(game.mission_hud.page=="fleet","Android Back returns audio log to fleet")
+ await android_back();game._refresh();await settle()
+ check(not view.get_meta("audio_log_fallback",false) and status_before==game.mission_hud.intent.text,"return clears fallback affordance without adding status suffixes")
  Settings.current.audio_captions=false;game._refresh();await settle()
+ s.contacts={0:{"pos":u.pos+Vector2(80,0),"time":s.elapsed,"mode":"LOCKING","lock":2.,"target":0,"type":"patroller","source":"optical","angle":0.,"band":1}};game._refresh();await settle()
  check(not view.visible and game.lock_warning.visible,"captions off retains mandatory lock warning")
  # Both existing settings surfaces use the same optional settings and seam.
  game._settings_menu();await settle();await press(game,"setting_audio_captions")

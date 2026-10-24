@@ -32,7 +32,7 @@ An existing second channel is not counted as an audio-only gap.
 | ping | Own pulse / physical echo instruments and accepted order message | Acoustic pulse caption, no inferred target |
 | emp | Tool count, disruption pulse and 12-second message | DISRUPT released caption |
 | knock | Own projectile, tool count, impact feedback | Torpedo launched caption |
-| snare | S# snared / recovery time and observed stun text | Snare released caption |
+| snare | S# snared / recovery time and observed stun text | Snare impact caption |
 | decoy | Own decoy ring / lifetime, tool count, accepted order message | Decoy released caption |
 | recon | Own survey timer/tool count and survey uplink message | Survey released caption |
 | record | Mandatory record-secured message / plate archive | Record secured caption while active; outcome/debrief text remains authoritative |
@@ -89,9 +89,13 @@ path and permits a scoped real-file UI fixture, independent of shared CI prefs.
 
 Placement uses a bounded set of widths/occupied edges, avoids camera, live lock,
 first notice, status, hints, guard, fleet readouts and active controls. If chart
-space is exhausted, text is prepended to the existing status (or scrollable
-instrument detail in an open sheet), preserving the prior text and text scale.
-The next normal HUD refresh removes only this optional prefix. Existing026
+space is exhausted, the existing FLEET target advertises AUDIO LOG. That existing
+radial menu has an optional AUDIO LOG action which opens its existing scrollable
+detail sheet with explicitly historical mission-clock timestamps. The observer
+retains at most eight current-mission entries beyond transient overlay expiry.
+Mission/receiver/menu resets and captions OFF clear history. Current status and
+warning text and geometry stay untouched. MissionHUD adds only registration,
+fleet-action selection and existing-sheet routing hooks for this fallback. Existing026
 camera/status/badge overlap is not fixed by this work; native overlap checks
 cover only the new floating caption, not a general HUD overlap claim.
 

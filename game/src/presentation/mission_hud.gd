@@ -71,6 +71,7 @@ func setup(owner):
  for i in host.zoom_buttons.size():
   host.zoom_buttons[i].reparent(self);host.zoom_buttons[i].set_meta("action",["zoom_out","zoom_in","fit"][i])
  focus_button=host._button(self,"FOCUS",host._focus_craft,"focus")
+ extra.audio_log=host._button(self,"AUDIO\nLOG",func():_extra("audio_log"),"audio_log")
  close_button=host._button(self,"BACK",_back,"radial_back")
  for entry in [["tools_menu","TOOLS"],["route_menu","ROUTE"],["guard_menu","GUARD"],["inspect","STATUS"],["route_here","ROUTE HERE"],["arrivals","ARRIVALS"],["view_menu","VIEW"],["salvage","RECOVER\n4s AUDIBLE"],["rendezvous_release","RELEASE BERTH\n950m / 6s"]]:
   var key=entry[0];extra[key]=host._button(self,entry[1],func():_extra(key),key)
@@ -156,6 +157,8 @@ func _back():
  elif page in ["craft","object","fleet","salvage","plant","habitat","recovery"]:dismiss()
  else:open("habitat" if subject.get("kind","")=="habitat" else "plant" if subject.get("kind","")=="plant" else "object" if subject.get("kind","")=="objective" else "salvage" if subject.get("kind","")=="salvage" else "craft")
 func _extra(key:String):
+ if key=="audio_log":
+  help_return="fleet";help_text=host.sound.accessibility.history_text();open("order_help");return
  if key=="choir_work":open("choir");return
  if key=="choir_route":
   var targets=preload("res://src/presentation/industrial_view.gd").targets(host.sim)
@@ -295,7 +298,7 @@ func command_controls() -> Array:
   "route":return [host.order_buttons.queue,host.order_buttons.hold,host.order_buttons.waypoint_mode,host.order_buttons.home,host.order_buttons.program]+([extra.all_stop] if AllStop.available(host.sim) else [])+([extra.guard_menu] if host.sim.selected==0 else [])
   "guard":return [host.order_buttons.contact_hold,host.order_buttons.wait_drone,host.order_buttons.hold]
   "view":return [focus_button,host.zoom_buttons[2],host.zoom_buttons[1],host.zoom_buttons[0]]
-  "fleet":return host.unit_buttons+([extra.arrivals] if Expedition.active(host.sim) else [])+[extra.view_menu,host.order_buttons.menu]
+  "fleet":return host.unit_buttons+([extra.arrivals] if Expedition.active(host.sim) else [])+[extra.view_menu,host.order_buttons.menu]+([extra.audio_log] if preload("res://src/presentation/frontend/frontend_settings.gd").current.get("audio_captions",false) and not host.sound.accessibility.history.is_empty() else [])
   "object":
    if subject.get("subkind","")=="choir":return [extra.choir_work,extra.route_here,extra.inspect]
    if subject.get("subkind","")=="glass_work":return [extra.glass_work,extra.route_here,extra.inspect]

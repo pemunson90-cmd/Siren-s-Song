@@ -16,6 +16,7 @@ var plate=1
 var stopped=false
 var lock_ids:Array=[]
 var rows:Array=[]
+var history:Array=[]
 var emitted:Array=[]
 var pulse_requests=0
 var selected=-1
@@ -25,10 +26,12 @@ func _emit(cue:String,time:float,suffix:String="")->void:
  if cue in ["lock","sweep_received","film_empty","loss"] and Settings.vibrate(Table.PULSE_MS):pulse_requests+=1
  if not Settings.current.get("audio_captions",false):return
  rows.append({"text":str(Table.TEXT[cue])+suffix,"until":time+Table.SECONDS})
+ history.append({"text":str(Table.TEXT[cue])+suffix,"at":time})
  while rows.size()>Table.MAX_ROWS:rows.pop_front()
+ while history.size()>Table.HISTORY_ROWS:history.pop_front()
 func observe(sim,active:bool)->void:
  emitted=[]
- if not Table.ENABLED:rows.clear();return
+ if not Table.ENABLED:rows.clear();history.clear();return
  var current_films=[];var current_transitions=[]
  for uid in sim.units.size():
   current_films.append(Pricing.film_left(sim,uid))
@@ -38,7 +41,7 @@ func observe(sim,active:bool)->void:
  var ids=preload("res://src/presentation/lock_warning.gd").frames(sim).map(func(f):return f.id)
  var reset=not is_same(mission,sim.mission) or sim.elapsed<last_clock
  if reset or not active or selected!=sim.selected:
-  rows.clear();received=preload("res://src/audio/received_cues.gd").new();received_factory=preload("res://src/audio/received_cues.gd").new()
+  rows.clear();history.clear();received=preload("res://src/audio/received_cues.gd").new();received_factory=preload("res://src/audio/received_cues.gd").new()
  var running=active and not sim.paused and sim.outcome.is_empty()
  if not reset and running:
   for event in sim.events:
@@ -63,7 +66,9 @@ func observe(sim,active:bool)->void:
   if now_stopped and not stopped:_emit("engine_down",sim.elapsed)
   if ids.any(func(id):return id not in lock_ids):_emit("lock",sim.elapsed)
  mission=sim.mission;last_clock=sim.elapsed;films=current_films;transitions=current_transitions;plate=next_plate;stopped=now_stopped;lock_ids=ids;selected=sim.selected
- if not Settings.current.get("audio_captions",false):rows.clear()
+ if not Settings.current.get("audio_captions",false):rows.clear();history.clear()
  rows=rows.filter(func(row):return row.until>sim.elapsed)
 func text()->String:
  return "\n".join(rows.map(func(row):return row.text))
+func history_text()->String:
+ return "RECENT AUDIO LOG\nPast cues at mission clock, not current threat state.\n\n"+"\n".join(history.map(func(row):return "T+%.1fs · %s"%[row.at,row.text]))

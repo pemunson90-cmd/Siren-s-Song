@@ -11,10 +11,11 @@ func _init()->void:
  var panel=StyleBoxFlat.new();panel.bg_color=Color("07131b");panel.border_color=Color("ffffff");panel.set_border_width_all(1);panel.set_content_margin_all(8)
  add_theme_stylebox_override("normal",panel);add_theme_color_override("font_color",Color.WHITE)
 func refresh(host)->void:
- hide();occupied=[];set_meta("status_fallback",false)
+ hide();occupied=[];set_meta("audio_log_fallback",false)
  if host.screen!="mission" or not Settings.current.get("audio_captions",false):return
  var caption=host.sound.accessibility.text()
  if caption.is_empty():return
+ if host.advanced_orders and host.mission_hud.page=="order_help" and host.mission_hud.help_text.begins_with("RECENT AUDIO LOG"):return
  var fs=maxi(Layout.font_min,roundi(host.ui_touch_height*Layout.font_touch*Settings.text_scale()))
  add_theme_font_size_override("font_size",fs)
  occupied=host.mission_hud.occupied_rects()
@@ -44,12 +45,8 @@ func refresh(host)->void:
     var candidate=Rect2(host.global_position+Vector2(x,y),Vector2(wide,high))
     if occupied.any(func(r):return candidate.grow(Layout.gap).intersects(r)):continue
     position=Vector2(x,y);size=Vector2(wide,high);show();return
- # Exceptionally crowded chart: retain the text in the existing readable status
- # channel, without covering another warning with a floating overlay.
- var status=host.mission_hud.instrument_info if host.advanced_orders else host.mission_hud.intent
- status.text=caption+"\n"+status.text
- if not host.advanced_orders:
-  host.mission_hud._fit_intent()
-  var height=ceil(status.get_theme_font("font").get_multiline_string_size(status.text,HORIZONTAL_ALIGNMENT_LEFT,status.size.x,fs).y)+8
-  status.custom_minimum_size.y=height;status.size.y=height;status.position.y=host.size.y-height-14
- set_meta("status_fallback",true)
+ # No free rectangle: existing FLEET target points to the persistent, explicitly
+ # historical audio log in its existing scrollable detail sheet. Never cover or
+ # enlarge current status/warnings to display a transient caption.
+ host.advanced_button.text="FLEET\nAUDIO LOG"
+ set_meta("audio_log_fallback",true)
