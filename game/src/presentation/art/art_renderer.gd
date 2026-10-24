@@ -5,9 +5,10 @@ const Table=preload("res://src/presentation/art/art_table.gd")
 const RAY=preload("res://assets/craft/siren_ray.png")
 static var outlines={}
 static var uvs={}
-static var texture_shades=[]
+static var meshes={}
 static var lamp=PackedVector2Array()
 static var lamp_colors=PackedColorArray()
+static var lamp_arrays=[]
 static var lamp_fov=-1.0
 static var lamp_length=-1.0
 static var lamp_strength=-1.0
@@ -22,9 +23,24 @@ static func prepare()->void:
    # transparent wing/tail margins. Material fills each cached role silhouette.
    for point in points:uv.append(Table.RAY_MATERIAL_UV.position+(point-rect.position)/rect.size*Table.RAY_MATERIAL_UV.size)
    uvs[key]=uv
- for n in Table.DEPTH_SHADE_STEPS:
-  texture_shades.append(PackedColorArray([Table.PIN_SHADE_LOW.lerp(Color.WHITE,float(n)/(Table.DEPTH_SHADE_STEPS-1))]))
+ for key in Table.SHAPES:
+  if key!="quietus":meshes[key]=_mesh(Table.SHAPES[key],uvs.get(key,PackedVector2Array()))
+ meshes["eye"]=_disc(Table.APERTURE_RADIUS)
+ meshes["eye_q"]=_disc(Table.QUIETUS_APERTURE_RADIUS)
+ meshes["lamp"]=ArrayMesh.new()
  lamp.resize(3);lamp_colors.resize(3)
+ lamp_arrays.resize(Mesh.ARRAY_MAX);lamp_arrays[Mesh.ARRAY_INDEX]=PackedInt32Array([0,1,2])
+static func _mesh(points:PackedVector2Array,uv:PackedVector2Array)->ArrayMesh:
+ var arrays=[];arrays.resize(Mesh.ARRAY_MAX)
+ arrays[Mesh.ARRAY_VERTEX]=points;arrays[Mesh.ARRAY_INDEX]=Geometry2D.triangulate_polygon(points)
+ if not uv.is_empty():arrays[Mesh.ARRAY_TEX_UV]=uv
+ var mesh=ArrayMesh.new()
+ mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES,arrays,[],{},Mesh.ARRAY_FLAG_USE_2D_VERTICES)
+ return mesh
+static func _disc(radius:float)->ArrayMesh:
+ var points=PackedVector2Array()
+ for n in Table.APERTURE_SEGMENTS:points.append(Vector2.from_angle(TAU*n/Table.APERTURE_SEGMENTS)*radius)
+ return _mesh(points,PackedVector2Array())
 static func craft(view,index:int)->void:
  prepare()
  var key="quietus" if index==0 else "drone_a" if index==1 else "drone_b"
@@ -34,25 +50,23 @@ static func craft(view,index:int)->void:
   view.draw_polyline(outlines[key],Table.HULL_SEAM,Table.HULL_OUTLINE_WIDTH,true)
   view.draw_line(Vector2(-45,8),Vector2(44,8),Table.KEEL,Table.SEAM_WIDTH)
   view.draw_line(Vector2(-12,-12),Vector2(-12,-16),Table.EDGE,2.)
-  view.draw_circle(Vector2(54,0),2.,Table.CYAN)
+  view.draw_mesh(meshes.eye_q,null,Transform2D(0.,Vector2(54,0)),Table.CYAN)
  else:
-  view.draw_colored_polygon(Table.SHAPES[key],Table.HULL)
+  view.draw_mesh(meshes[key],null,Transform2D.IDENTITY,Table.HULL)
   view.draw_polyline(outlines[key],Table.EDGE,Table.DRONE_OUTLINE_WIDTH,true)
   view.draw_line(Vector2(-8,-5),Vector2(-8,5),Table.AMBER,3.)
   view.draw_line(Vector2(-15,0),Vector2(9,0),Table.DRONE_SEAM,Table.SEAM_WIDTH)
-  view.draw_circle(Vector2(16,0),Table.APERTURE_RADIUS,Table.CYAN)
+  view.draw_mesh(meshes.eye,null,Transform2D(0.,Vector2(16,0)),Table.CYAN)
 static func siren(view,role:String,shade:Color)->void:
  prepare()
- var points:PackedVector2Array=Table.SHAPES[role]
- view.draw_colored_polygon(points,Color(Table.SIREN_BODY,shade.a))
- # Only the cosmetic texture tint is quantized, within 1/127 of the original
- # fade. Pin timing, body transform, outline alpha and snare cues stay exact.
- var shade_index=roundi(clampf((shade.a-Table.PIN_SHADE_LOW.a)/(1.-Table.PIN_SHADE_LOW.a),0.,1.)*(Table.DEPTH_SHADE_STEPS-1))
- view.draw_polygon(points,texture_shades[shade_index],uvs[role],RAY)
+ view.draw_mesh(meshes[role],null,Transform2D.IDENTITY,Color(Table.SIREN_BODY,shade.a))
+ # Modulate preserves the original continuous pin-depth tint without mutable
+ # packed colors or per-frame polygon triangulation in CanvasItem.
+ view.draw_mesh(meshes[role],RAY,Transform2D.IDENTITY,shade)
  view.draw_polyline(outlines[role],Color(Table.SIREN_EDGE,shade.a),Table.SIREN_OUTLINE_WIDTH,true)
  # Restrained red seams, distinct silhouettes remain legible at equal hue.
  view.draw_line(Vector2(-28,-4),Vector2(43,0),Color(Table.RED,shade.a*Table.RED_SEAM_ALPHA),Table.SEAM_WIDTH)
- view.draw_circle(Vector2(48,0),Table.APERTURE_RADIUS,Table.SIREN_APERTURE*shade)
+ view.draw_mesh(meshes.eye,null,Transform2D(0.,Vector2(48,0)),Table.SIREN_APERTURE*shade)
  if role=="hunter":
   for n in Table.HUNTER_SEGMENTS:
    var x=-38.+n*Table.HUNTER_PITCH
@@ -60,7 +74,7 @@ static func siren(view,role:String,shade:Color)->void:
   view.draw_line(Vector2(-58,0),Vector2(-92,5),Color(Table.SIREN_FILAMENT,shade.a*Table.FILAMENT_ALPHA),Table.HULL_OUTLINE_WIDTH)
 static func installation(view,recorded:bool)->void:
  prepare()
- view.draw_colored_polygon(Table.SHAPES.installation,Table.INDUSTRY_BODY)
+ view.draw_mesh(meshes.installation,null,Transform2D.IDENTITY,Table.INDUSTRY_BODY)
  view.draw_polyline(outlines.installation,Table.INDUSTRY_EDGE,Table.SEAM_WIDTH,true)
  for x in Table.INDUSTRY_RIBS:
   view.draw_line(Vector2(x,-58),Vector2(x,24),Table.INDUSTRY_DARK,Table.RIB_WIDTH)
@@ -89,10 +103,13 @@ static func cache_lamp(fov:float,reach:float,strength:float)->void:
  lamp[0]=Vector2.ZERO;lamp[1]=Vector2.from_angle(-fov*.5)*length;lamp[2]=Vector2.from_angle(fov*.5)*length
  lamp_colors[0]=Color(Table.LAMP,Table.LAMP_ALPHA*strength/Table.LAMP_REFERENCE)
  lamp_colors[1]=Color(Table.LAMP,0);lamp_colors[2]=lamp_colors[1]
+ lamp_arrays[Mesh.ARRAY_VERTEX]=lamp;lamp_arrays[Mesh.ARRAY_COLOR]=lamp_colors
+ meshes.lamp.clear_surfaces()
+ meshes.lamp.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES,lamp_arrays,[],{},Mesh.ARRAY_FLAG_USE_2D_VERTICES)
 static func lamp_wash(view,pos:Vector2,aim:float)->void:
  if lamp_strength<=0:return
  view.draw_set_transform(view.world_offset+pos*view.world_scale,aim,Vector2.ONE*view.world_scale)
- view.draw_polygon(lamp,lamp_colors)
+ view.draw_mesh(meshes.lamp,null)
  view.draw_set_transform(view.world_offset,0,Vector2.ONE*view.world_scale)
 static func lamp_guide(view,pos:Vector2,aim:float,fov:float,reach:float)->void:
  # A short, dashed camera-direction instrument on earned charts. No filled

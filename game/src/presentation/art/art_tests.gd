@@ -4,9 +4,11 @@ class Canvas:
  var quietus=preload("res://assets/craft/quietus.png")
  var calls=0
  var vertices=[]
+ var modulates=[]
  var world_offset=Vector2.ZERO
  var world_scale=1.0
  func draw_set_transform(_p,_r=0.,_s=Vector2.ONE):pass
+ func draw_mesh(_mesh,_texture=null,_transform=Transform2D.IDENTITY,modulate=Color.WHITE):calls+=1;modulates.append(modulate)
  func draw_texture_rect_region(_a,_b,_c):calls+=1
  func draw_polyline(a,_b,_c,_d=true):calls+=1;vertices.append_array(a)
  func draw_line(a,b,_c,_d):calls+=1;vertices.append_array([a,b])
@@ -48,7 +50,21 @@ static func run()->Dictionary:
  var geometry=var_to_bytes(renderer.outlines)
  var lamp_geometry=var_to_bytes(renderer.lamp)
  var lamp_palette=var_to_bytes(renderer.lamp_colors)
- var texture_palette=var_to_bytes(renderer.texture_shades)
+ var mesh_state={}
+ for key in renderer.meshes:
+  var mesh=renderer.meshes[key]
+  checks+=1
+  if mesh.get_surface_count()!=1:failures+=1;printerr("FAIL prepared mesh surface ",key);continue
+  var arrays=mesh.surface_get_arrays(0);var points=arrays[Mesh.ARRAY_VERTEX];var indices=arrays[Mesh.ARRAY_INDEX]
+  var valid=points.size()>=3 and indices.size()>0 and indices.size()%3==0
+  for index in indices:valid=valid and index>=0 and index<points.size()
+  if table.SHAPES.has(key):
+   valid=valid and points.size()==table.SHAPES[key].size()
+   for n in points.size():valid=valid and Vector2(points[n].x,points[n].y)==table.SHAPES[key][n]
+  if renderer.uvs.has(key):valid=valid and arrays[Mesh.ARRAY_TEX_UV]==renderer.uvs[key]
+  if not valid:failures+=1;printerr("FAIL finite indexed mesh preserves exact shape and UV ",key)
+  mesh_state[key]=var_to_bytes(arrays)
+  mesh_state[key+"_id"]=mesh.get_instance_id()
  var canvas=Canvas.new()
  var objects=Performance.get_monitor(Performance.OBJECT_COUNT)
  for n in 100:
@@ -57,8 +73,15 @@ static func run()->Dictionary:
   renderer.lamp_wash(canvas,Vector2(n,0),0.)
   renderer.lamp_guide(canvas,Vector2.ZERO,0.,1.,240.)
  checks+=1
- if geometry!=var_to_bytes(renderer.outlines) or lamp_geometry!=var_to_bytes(renderer.lamp) or lamp_palette!=var_to_bytes(renderer.lamp_colors) or texture_palette!=var_to_bytes(renderer.texture_shades) or renderer.texture_shades.size()!=table.DEPTH_SHADE_STEPS or renderer.lamp.size()!=3 or renderer.lamp_colors.size()!=3 or renderer.uvs.size()!=4:
+ if geometry!=var_to_bytes(renderer.outlines) or lamp_geometry!=var_to_bytes(renderer.lamp) or lamp_palette!=var_to_bytes(renderer.lamp_colors) or renderer.meshes.size()!=10 or renderer.lamp.size()!=3 or renderer.lamp_colors.size()!=3 or renderer.uvs.size()!=4:
   failures+=1;printerr("FAIL repeated drawing retains bounded immutable geometry cache")
+ for key in renderer.meshes:
+  checks+=1
+  if mesh_state[key]!=var_to_bytes(renderer.meshes[key].surface_get_arrays(0)) or mesh_state[key+"_id"]!=renderer.meshes[key].get_instance_id():
+   failures+=1;printerr("FAIL drawing preserves cached mesh contents and identity ",key)
+ var exact_tint=Color(.33,.55,.66,.77);renderer.siren(canvas,"sentinel",exact_tint)
+ checks+=1
+ if not canvas.modulates.has(exact_tint):failures+=1;printerr("FAIL continuous pin tint remains exact")
  checks+=1
  if objects!=Performance.get_monitor(Performance.OBJECT_COUNT):failures+=1;printerr("FAIL repeated art creates no retained objects")
  var world=load("res://src/presentation/confluence_world.gd")
