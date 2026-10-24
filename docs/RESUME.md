@@ -45,7 +45,7 @@ at exactly their original positions. Existing controls, picking and inputs stay.
 Import clean; before/after Wake31/UI37/core818/runtime665/density883/menu7/scroll15
 match with zero failures and clean logs. Independent preliminary source PASS;
 final own-head/base review and hosted checks remain after parent PRs land.
-Wake, Rendezvous, Shelf, Warning Chain, Delivery and Recipient are registered in this preparation. Other features still
+Wake, Rendezvous, Shelf, Warning Chain, Delivery, Recipient and Concealed are registered in this preparation. Other features still
 use their original seams. The separate Rendezvous step is based on Waked229936;
 its existing HUD assignments and world draw stay in order. Non-null applicability
 preserves its draw-transform restoration even with an empty projection. Import,
@@ -78,6 +78,13 @@ HUD order stays after Delivery/before Concealed; a later world segment retains
 the original draw slot after Witness/Concealed. Import/recipient69/touchUI134/
 core818/runtime665/density883/menu7/scroll15 pass with zero failures and clean
 logs. Preliminary source review PASS; parent reconciliation and own gates remain.
+
+Concealed preparation is based on Recipient17ae558. Its existing HUD updates
+stay after Recipient/before Witness, while the later world list keeps drawing
+before Recipient and after still-legacy Witness. Existing projections, drawing,
+input, text and numbers stay unchanged. Import/concealed77/touchUI76/core818/
+runtime665/density883/menu7/scroll15 pass with zero failures and clean logs.
+Independent review and parent/current-head hosted gates remain required.
 
 ## Historical cloud handover snapshot
 

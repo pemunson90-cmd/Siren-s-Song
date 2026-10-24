@@ -10,10 +10,11 @@ const ShelfGround=preload("res://src/presentation/feature_views/shelf_ground.gd"
 const WarningChain=preload("res://src/presentation/warning_chain_view.gd")
 const Delivery=preload("res://src/presentation/blackwater_delivery_view.gd")
 const Recipient=preload("res://src/presentation/feature_views/recipient.gd")
-const HUD_PANELS=[Wake,Rendezvous,Shelf,WarningChain,Delivery,Recipient]
+const Concealed=preload("res://src/presentation/concealed_harbour_view.gd")
+const HUD_PANELS=[Wake,Rendezvous,Shelf,WarningChain,Delivery,Recipient,Concealed]
 const WORLD_VIEWS=[Shelf,Wake,Rendezvous,WarningChain]
 const GROUND_VIEWS=[ShelfGround]
-const WORLD_TAIL_VIEWS=[Recipient]
+const WORLD_TAIL_VIEWS=[Concealed,Recipient]
 static func build_panel(hud)->void:
  for feature in HUD_PANELS:
   if feature.applies(hud.host.sim):feature.build_panel(hud)
