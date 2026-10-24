@@ -1,0 +1,9 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+TERMINAL_PAIR won / 0.10s batch_elapsed=0.01666666666667 step_elapsed=0.01666666666667 batch_hull=100.0 step_hull=100.0
+TERMINAL_PAIR won / 0.25s batch_elapsed=0.01666666666667 step_elapsed=0.01666666666667 batch_hull=100.0 step_hull=100.0
+TERMINAL_PAIR oxygen / 0.10s batch_elapsed=0.01666666666667 step_elapsed=0.01666666666667 batch_hull=100.0 step_hull=100.0
+TERMINAL_PAIR oxygen / 0.25s batch_elapsed=0.01666666666667 step_elapsed=0.01666666666667 batch_hull=100.0 step_hull=100.0
+TERMINAL_PAIR hull / 0.10s batch_elapsed=0.01666666666667 step_elapsed=0.01666666666667 batch_hull=0.0 step_hull=0.0
+TERMINAL_PAIR hull / 0.25s batch_elapsed=0.01666666666667 step_elapsed=0.01666666666667 batch_hull=0.0 step_hull=0.0
+TERMINAL TICK CHECKS 73 FAILURES 0

@@ -1,0 +1,11 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+SS_OBJECTIVE_RECORDED mission=9 objective=0
+SS_DEBRIEF outcome=won mission=9
+SS_SAVE ok mission=9 time=4.62 paused=true completed=[0, 1, 2, 3, 4, 5] unlocked=5
+SS_OBJECTIVE_RECORDED mission=10 objective=0
+SS_OBJECTIVE_RECORDED mission=10 objective=1
+SS_OBJECTIVE_RECORDED mission=10 objective=2
+SS_DEBRIEF outcome=won mission=10
+SS_SAVE ok mission=10 time=0.1 paused=true completed=[0, 1, 2, 3, 4, 5] unlocked=5
+CAMPAIGN MAIN DISPATCH CHECKS 13 FAILURES 0

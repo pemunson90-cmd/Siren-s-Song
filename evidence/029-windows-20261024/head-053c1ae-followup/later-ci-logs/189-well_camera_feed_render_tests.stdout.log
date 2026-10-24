@@ -1,0 +1,96 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+OpenGL API 3.3.0 NVIDIA 610.88 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 2080 Ti
+
+SS_ROLE mission=0 index=1 type=sweeper mode=PATROL pos=850.000000,300.000000 home=850.000000,300.000000 target=-1 lock=0.000000 time=0.000000
+PASS compatibility renderer fixture is a valid legacy-shaped snapshot
+PASS real CAMERA accepts the legacy-shaped Well text-only objective
+SS_UI_METRICS {"capture_state":{"capture_unit":1,"drawn_frame":2,"hud_visible":true,"menu_visible":false,"mission":4,"optical_visible":true,"paused":true,"phase":"post_draw","selected":1},"chart_rect":[0.0,0.0,1280.0,720.0],"chart_view":{"center":[800.0,390.0],"mode":"follow","zoom":1.70666666666667},"context_page":"water","context_subject_kind":"","controls":[{"action":"more_orders","clipped":false,"hit_rect":[1137.8,12.0,130.2,84.0],"visual_rect":[1137.8,12.0,130.2,84.0]},{"action":"fleet_q","clipped":false,"hit_rect":[266.675,522.0,84.0,84.0],"visual_rect":[266.675,522.0,84.0,84.0]},{"action":"fleet_a","clipped":false,"hit_rect":[598.0,318.0,84.0,84.0],"visual_rect":[598.0,318.0,84.0,84.0]},{"action":"fleet_b","clipped":false,"hit_rect":[373.343,522.0,84.0,84.0],"visual_rect":[373.343,522.0,84.0,84.0]},{"action":"pause","clipped":false,"hit_rect":[12.0,12.0,130.2,84.0],"visual_rect":[12.0,12.0,130.2,84.0]}],"density_dpi":240.0,"density_source":"desktop_display_server_dpi","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,1280.0,720.0],"schema":1,"screen":"mission","scroll_rect":[0.0,0.0,0.0,0.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1280.0,720.0],"window":[1280.0,720.0]}
+SS_TARGET more_orders center=1203,54 viewport=1280,720
+SS_TARGET fleet_q center=309,564 viewport=1280,720
+SS_TARGET fleet_a center=640,360 viewport=1280,720
+SS_TARGET fleet_b center=415,564 viewport=1280,720
+SS_TARGET pause center=77,54 viewport=1280,720
+SS_TARGET chart_center center=640,360 viewport=1280,720
+SS_TARGET objective0 center=640,360 viewport=1280,720
+SS_TARGET route center=230,949 viewport=1280,720
+SS_TARGET role_observer center=435,949 viewport=1280,720
+SS_TARGET role_home center=-205,885 viewport=1280,720
+SS_UI_METRICS {"capture_state":{"capture_unit":1,"drawn_frame":2,"hud_visible":true,"menu_visible":false,"mission":4,"optical_visible":true,"paused":true,"phase":"post_draw","selected":1},"chart_rect":[0.0,0.0,1280.0,720.0],"chart_view":{"center":[800.0,390.0],"mode":"follow","zoom":1.70666666666667},"context_page":"water","context_subject_kind":"","controls":[{"action":"more_orders","clipped":false,"hit_rect":[1137.8,12.0,130.2,84.0],"visual_rect":[1137.8,12.0,130.2,84.0]},{"action":"fleet_q","clipped":false,"hit_rect":[266.675,522.0,84.0,84.0],"visual_rect":[266.675,522.0,84.0,84.0]},{"action":"fleet_a","clipped":false,"hit_rect":[598.0,318.0,84.0,84.0],"visual_rect":[598.0,318.0,84.0,84.0]},{"action":"fleet_b","clipped":false,"hit_rect":[373.343,522.0,84.0,84.0],"visual_rect":[373.343,522.0,84.0,84.0]},{"action":"pause","clipped":false,"hit_rect":[12.0,12.0,130.2,84.0],"visual_rect":[12.0,12.0,130.2,84.0]}],"density_dpi":240.0,"density_source":"desktop_display_server_dpi","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,1280.0,720.0],"schema":1,"screen":"mission","scroll_rect":[0.0,0.0,0.0,0.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1280.0,720.0],"window":[1280.0,720.0]}
+SS_TARGET more_orders center=1203,54 viewport=1280,720
+SS_TARGET fleet_q center=309,564 viewport=1280,720
+SS_TARGET fleet_a center=640,360 viewport=1280,720
+SS_TARGET fleet_b center=415,564 viewport=1280,720
+SS_TARGET pause center=77,54 viewport=1280,720
+SS_TARGET chart_center center=640,360 viewport=1280,720
+SS_TARGET objective0 center=640,360 viewport=1280,720
+SS_TARGET route center=230,949 viewport=1280,720
+SS_TARGET role_observer center=435,949 viewport=1280,720
+SS_TARGET role_home center=-205,885 viewport=1280,720
+SS_UI_METRICS {"capture_state":{"capture_unit":1,"drawn_frame":2,"hud_visible":true,"menu_visible":false,"mission":4,"optical_visible":true,"paused":true,"phase":"post_draw","selected":1},"chart_rect":[0.0,0.0,1280.0,720.0],"chart_view":{"center":[800.0,390.0],"mode":"follow","zoom":1.70666666666667},"context_page":"water","context_subject_kind":"","controls":[{"action":"more_orders","clipped":false,"hit_rect":[1137.8,12.0,130.2,84.0],"visual_rect":[1137.8,12.0,130.2,84.0]},{"action":"fleet_q","clipped":false,"hit_rect":[266.675,522.0,84.0,84.0],"visual_rect":[266.675,522.0,84.0,84.0]},{"action":"fleet_a","clipped":false,"hit_rect":[598.0,318.0,84.0,84.0],"visual_rect":[598.0,318.0,84.0,84.0]},{"action":"fleet_b","clipped":false,"hit_rect":[373.343,522.0,84.0,84.0],"visual_rect":[373.343,522.0,84.0,84.0]},{"action":"pause","clipped":false,"hit_rect":[12.0,12.0,130.2,84.0],"visual_rect":[12.0,12.0,130.2,84.0]}],"density_dpi":240.0,"density_source":"desktop_display_server_dpi","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,1280.0,720.0],"schema":1,"screen":"mission","scroll_rect":[0.0,0.0,0.0,0.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1280.0,720.0],"window":[1280.0,720.0]}
+SS_TARGET more_orders center=1203,54 viewport=1280,720
+SS_TARGET fleet_q center=309,564 viewport=1280,720
+SS_TARGET fleet_a center=640,360 viewport=1280,720
+SS_TARGET fleet_b center=415,564 viewport=1280,720
+SS_TARGET pause center=77,54 viewport=1280,720
+SS_TARGET chart_center center=640,360 viewport=1280,720
+SS_TARGET objective0 center=640,360 viewport=1280,720
+SS_TARGET route center=230,949 viewport=1280,720
+SS_TARGET role_observer center=435,949 viewport=1280,720
+SS_TARGET role_home center=-205,885 viewport=1280,720
+SS_UI_METRICS {"capture_state":{"capture_unit":1,"drawn_frame":3,"hud_visible":true,"menu_visible":false,"mission":4,"optical_visible":true,"paused":true,"phase":"post_draw","selected":1},"chart_rect":[0.0,0.0,1280.0,720.0],"chart_view":{"center":[800.0,390.0],"mode":"follow","zoom":1.70666666666667},"context_page":"water","context_subject_kind":"","controls":[{"action":"more_orders","clipped":false,"hit_rect":[1137.8,12.0,130.2,84.0],"visual_rect":[1137.8,12.0,130.2,84.0]},{"action":"fleet_q","clipped":false,"hit_rect":[266.675,522.0,84.0,84.0],"visual_rect":[266.675,522.0,84.0,84.0]},{"action":"fleet_a","clipped":false,"hit_rect":[598.0,318.0,84.0,84.0],"visual_rect":[598.0,318.0,84.0,84.0]},{"action":"fleet_b","clipped":false,"hit_rect":[373.343,522.0,84.0,84.0],"visual_rect":[373.343,522.0,84.0,84.0]},{"action":"pause","clipped":false,"hit_rect":[12.0,12.0,130.2,84.0],"visual_rect":[12.0,12.0,130.2,84.0]}],"density_dpi":240.0,"density_source":"desktop_display_server_dpi","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,1280.0,720.0],"schema":1,"screen":"mission","scroll_rect":[0.0,0.0,0.0,0.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1280.0,720.0],"window":[1280.0,720.0]}
+SS_TARGET more_orders center=1203,54 viewport=1280,720
+SS_TARGET fleet_q center=309,564 viewport=1280,720
+SS_TARGET fleet_a center=640,360 viewport=1280,720
+SS_TARGET fleet_b center=415,564 viewport=1280,720
+SS_TARGET pause center=77,54 viewport=1280,720
+SS_TARGET chart_center center=640,360 viewport=1280,720
+SS_TARGET objective0 center=640,360 viewport=1280,720
+SS_TARGET route center=230,949 viewport=1280,720
+SS_TARGET role_observer center=435,949 viewport=1280,720
+SS_TARGET role_home center=-205,885 viewport=1280,720
+PASS actual main scene displays active first-record camera feed
+PASS fresh Well first-record feed gives site-specific context instead of the generic foundry fallback
+PASS unknown illustration key also uses the existing fallback
+PASS known furnace illustration still renders its distinct evidence image
+PASS legacy Well key without revision preserves existing camera fallback
+PASS site context does not disclose hidden Siren state
+PASS rendering and temporary fixture metadata leave camera/simulation state unchanged
+SS_UI_METRICS {"capture_state":{"capture_unit":1,"drawn_frame":21,"hud_visible":true,"menu_visible":false,"mission":4,"optical_visible":true,"paused":true,"phase":"post_draw","selected":1},"chart_rect":[0.0,0.0,1280.0,720.0],"chart_view":{"center":[1100.0,450.0],"mode":"follow","zoom":1.70666666666667},"context_page":"water","context_subject_kind":"","controls":[{"action":"more_orders","clipped":false,"hit_rect":[1137.8,12.0,130.2,84.0],"visual_rect":[1137.8,12.0,130.2,84.0]},{"action":"fleet_q","clipped":false,"hit_rect":[664.005,522.0,84.0,84.0],"visual_rect":[664.005,522.0,84.0,84.0]},{"action":"fleet_a","clipped":false,"hit_rect":[662.0,318.0,84.0,84.0],"visual_rect":[662.0,318.0,84.0,84.0]},{"action":"fleet_b","clipped":false,"hit_rect":[788.688,522.0,84.0,84.0],"visual_rect":[788.688,522.0,84.0,84.0]},{"action":"pause","clipped":false,"hit_rect":[12.0,12.0,130.2,84.0],"visual_rect":[12.0,12.0,130.2,84.0]}],"density_dpi":240.0,"density_source":"desktop_display_server_dpi","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,1280.0,720.0],"schema":1,"screen":"mission","scroll_rect":[0.0,0.0,0.0,0.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1280.0,720.0],"window":[1280.0,720.0]}
+SS_TARGET more_orders center=1203,54 viewport=1280,720
+SS_TARGET fleet_q center=706,564 viewport=1280,720
+SS_TARGET fleet_a center=704,360 viewport=1280,720
+SS_TARGET fleet_b center=831,564 viewport=1280,720
+SS_TARGET pause center=77,54 viewport=1280,720
+SS_TARGET chart_center center=640,360 viewport=1280,720
+SS_TARGET objective0 center=256,283 viewport=1280,720
+SS_TARGET route center=-154,872 viewport=1280,720
+SS_TARGET role_observer center=51,872 viewport=1280,720
+SS_TARGET role_home center=-589,808 viewport=1280,720
+PASS fresh Well site1 uses its own acquisition context while legacy keeps fallback
+SS_UI_METRICS {"capture_state":{"capture_unit":1,"drawn_frame":27,"hud_visible":true,"menu_visible":false,"mission":4,"optical_visible":true,"paused":true,"phase":"post_draw","selected":1},"chart_rect":[0.0,0.0,1280.0,720.0],"chart_view":{"center":[780.0,678.75],"mode":"follow","zoom":1.70666666666667},"context_page":"water","context_subject_kind":"","controls":[{"action":"more_orders","clipped":false,"hit_rect":[1137.8,12.0,130.2,84.0],"visual_rect":[1137.8,12.0,130.2,84.0]},{"action":"fleet_q","clipped":false,"hit_rect":[12.0,176.166,84.0,84.0],"visual_rect":[12.0,176.166,84.0,84.0]},{"action":"fleet_a","clipped":false,"hit_rect":[724.0,522.0,84.0,84.0],"visual_rect":[724.0,522.0,84.0,84.0]},{"action":"fleet_b","clipped":false,"hit_rect":[138.0,108.0,84.0,84.0],"visual_rect":[138.0,108.0,84.0,84.0]},{"action":"pause","clipped":false,"hit_rect":[12.0,12.0,130.2,84.0],"visual_rect":[12.0,12.0,130.2,84.0]}],"density_dpi":240.0,"density_source":"desktop_display_server_dpi","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,1280.0,720.0],"schema":1,"screen":"mission","scroll_rect":[0.0,0.0,0.0,0.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1280.0,720.0],"window":[1280.0,720.0]}
+SS_TARGET more_orders center=1203,54 viewport=1280,720
+SS_TARGET fleet_q center=54,218 viewport=1280,720
+SS_TARGET fleet_a center=766,564 viewport=1280,720
+SS_TARGET fleet_b center=180,150 viewport=1280,720
+SS_TARGET pause center=77,54 viewport=1280,720
+SS_TARGET chart_center center=640,360 viewport=1280,720
+SS_TARGET objective0 center=666,-10 viewport=1280,720
+SS_TARGET route center=256,579 viewport=1280,720
+SS_TARGET role_observer center=461,579 viewport=1280,720
+SS_TARGET role_home center=-179,515 viewport=1280,720
+PASS fresh Well site2 uses its own acquisition context while legacy keeps fallback
+PASS current Well record uses the actual photographic view
+SS_UI_METRICS {"capture_state":{"capture_unit":1,"drawn_frame":33,"hud_visible":true,"menu_visible":false,"mission":4,"optical_visible":true,"paused":true,"phase":"post_draw","selected":1},"chart_rect":[0.0,0.0,1280.0,720.0],"chart_view":{"center":[800.0,390.0],"mode":"follow","zoom":1.70666666666667},"context_page":"water","context_subject_kind":"","controls":[{"action":"more_orders","clipped":false,"hit_rect":[1137.8,12.0,130.2,84.0],"visual_rect":[1137.8,12.0,130.2,84.0]},{"action":"fleet_q","clipped":false,"hit_rect":[686.675,522.0,84.0,84.0],"visual_rect":[686.675,522.0,84.0,84.0]},{"action":"fleet_a","clipped":false,"hit_rect":[808.0,522.0,84.0,84.0],"visual_rect":[808.0,522.0,84.0,84.0]},{"action":"fleet_b","clipped":false,"hit_rect":[12.0,108.0,84.0,84.0],"visual_rect":[12.0,108.0,84.0,84.0]},{"action":"pause","clipped":false,"hit_rect":[12.0,12.0,130.2,84.0],"visual_rect":[12.0,12.0,130.2,84.0]}],"density_dpi":240.0,"density_source":"desktop_display_server_dpi","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,1280.0,720.0],"schema":1,"screen":"mission","scroll_rect":[0.0,0.0,0.0,0.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1280.0,720.0],"window":[1280.0,720.0]}
+SS_TARGET more_orders center=1203,54 viewport=1280,720
+SS_TARGET fleet_q center=729,564 viewport=1280,720
+SS_TARGET fleet_a center=850,564 viewport=1280,720
+SS_TARGET fleet_b center=54,150 viewport=1280,720
+SS_TARGET pause center=77,54 viewport=1280,720
+SS_TARGET chart_center center=640,360 viewport=1280,720
+SS_TARGET objective0 center=640,360 viewport=1280,720
+SS_TARGET route center=230,949 viewport=1280,720
+SS_TARGET role_observer center=435,949 viewport=1280,720
+SS_TARGET role_home center=-205,885 viewport=1280,720
+PASS fixed-time current photograph does not disclose hidden Siren state
+PASS current photo rendering preserves the complete simulation
+WELL CAMERA RENDER CHECKS 14 FAILURES 0

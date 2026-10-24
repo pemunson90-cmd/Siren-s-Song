@@ -1,0 +1,30 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+SS_ROLE mission=0 index=1 type=sweeper mode=PATROL pos=850.000000,300.000000 home=850.000000,300.000000 target=-1 lock=0.000000 time=0.000000
+SS_ROLE mission=4 index=1 type=hunter mode=RETURN pos=803.462646,750.483765 home=1480.000000,860.000000 target=-1 lock=0.000000 time=0.400000
+SS_ROLE mission=4 index=3 type=sweeper mode=PATROL pos=1383.207275,818.918701 home=1380.000000,820.000000 target=-1 lock=0.000000 time=0.400000
+SS_CAMERA_READY unit=0 objective=2
+SS_ORDER knock accepted=false selected=0 queued=false
+SS_ORDER select accepted=true selected=1 queued=false
+SS_ORDER select accepted=true selected=0 queued=false
+SS_CAMERA_READY unit=0 objective=2
+SS_ORDER knock accepted=true selected=0 queued=false
+SS_ROLE mission=0 index=1 type=sweeper mode=PATROL pos=850.000000,300.000000 home=850.000000,300.000000 target=-1 lock=0.000000 time=0.000000
+SS_ROLE mission=4 index=1 type=hunter mode=RETURN pos=803.462646,750.483765 home=1480.000000,860.000000 target=-1 lock=0.000000 time=0.400000
+SS_ROLE mission=4 index=3 type=sweeper mode=PATROL pos=1383.207275,818.918701 home=1380.000000,820.000000 target=-1 lock=0.000000 time=0.400000
+SS_CAMERA_READY unit=0 objective=2
+SS_ORDER knock accepted=false selected=0 queued=false
+SS_ORDER select accepted=true selected=1 queued=false
+SS_ORDER select accepted=true selected=0 queued=false
+SS_CAMERA_READY unit=0 objective=2
+SS_ORDER knock accepted=true selected=0 queued=false
+SS_ROLE mission=0 index=1 type=sweeper mode=PATROL pos=850.000000,300.000000 home=850.000000,300.000000 target=-1 lock=0.000000 time=0.000000
+SS_ROLE mission=4 index=1 type=hunter mode=RETURN pos=803.462646,750.483765 home=1480.000000,860.000000 target=-1 lock=0.000000 time=0.400000
+SS_ROLE mission=4 index=3 type=sweeper mode=PATROL pos=1383.207275,818.918701 home=1380.000000,820.000000 target=-1 lock=0.000000 time=0.400000
+SS_CAMERA_READY unit=0 objective=2
+SS_ORDER knock accepted=false selected=0 queued=false
+SS_ORDER select accepted=true selected=1 queued=false
+SS_ORDER select accepted=true selected=0 queued=false
+SS_CAMERA_READY unit=0 objective=2
+SS_ORDER knock accepted=true selected=0 queued=false
+KNOCKDOWN UI CHECKS 30 FAILURES 0

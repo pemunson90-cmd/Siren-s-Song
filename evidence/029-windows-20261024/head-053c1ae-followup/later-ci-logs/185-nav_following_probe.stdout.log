@@ -1,0 +1,24 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+NAV FOLLOW op=0 dt=0.01666666666667 hull=100.0 elapsed=29.133333333333 pos=(1293.025, 511.7437) remaining=0 outcome=
+NAV FOLLOW op=0 dt=0.0625 hull=100.0 elapsed=29.183333333333 pos=(1293.025, 511.7437) remaining=0 outcome=
+NAV FOLLOW op=0 dt=0.25 hull=100.0 elapsed=29.2499999999996 pos=(1293.025, 511.7437) remaining=0 outcome=
+NAV FOLLOW op=1 dt=0.01666666666667 hull=100.0 elapsed=20.1333333333335 pos=(894.424, 1734.598) remaining=0 outcome=
+NAV FOLLOW op=1 dt=0.0625 hull=100.0 elapsed=20.1833333333335 pos=(894.424, 1734.598) remaining=0 outcome=
+NAV FOLLOW op=1 dt=0.25 hull=100.0 elapsed=20.2500000000001 pos=(894.424, 1734.598) remaining=0 outcome=
+NAV FOLLOW op=3 dt=0.01666666666667 hull=100.0 elapsed=24.0833333333332 pos=(1103.596, 773.4631) remaining=0 outcome=
+NAV FOLLOW op=3 dt=0.0625 hull=100.0 elapsed=24.1166666666666 pos=(1103.596, 773.4631) remaining=0 outcome=
+NAV FOLLOW op=3 dt=0.25 hull=100.0 elapsed=24.2499999999999 pos=(1103.596, 773.4631) remaining=0 outcome=
+NAV FOLLOW op=4 dt=0.01666666666667 hull=100.0 elapsed=25.6833333333332 pos=(796.9614, 383.543) remaining=0 outcome=
+NAV FOLLOW op=4 dt=0.0625 hull=100.0 elapsed=25.6833333333332 pos=(796.9614, 383.543) remaining=0 outcome=
+NAV FOLLOW op=4 dt=0.25 hull=100.0 elapsed=25.7499999999998 pos=(796.9614, 383.543) remaining=0 outcome=
+NAV FOLLOW op=4 dt=0.01666666666667 hull=100.0 elapsed=30.1833333333329 pos=(1294.719, 514.7681) remaining=0 outcome=
+NAV FOLLOW op=4 dt=0.0625 hull=100.0 elapsed=30.1833333333329 pos=(1294.719, 514.7681) remaining=0 outcome=
+NAV FOLLOW op=4 dt=0.25 hull=100.0 elapsed=30.2499999999996 pos=(1294.719, 514.7681) remaining=0 outcome=
+NAV FOLLOW op=5 dt=0.01666666666667 hull=100.0 elapsed=18.4500000000002 pos=(318.6062, 87.09842) remaining=0 outcome=
+NAV FOLLOW op=5 dt=0.0625 hull=100.0 elapsed=18.5000000000002 pos=(318.6062, 87.09842) remaining=0 outcome=
+NAV FOLLOW op=5 dt=0.25 hull=100.0 elapsed=18.5000000000002 pos=(318.6062, 87.09842) remaining=0 outcome=
+NAV FOLLOW op=3 dt=0.01666666666667 hull=100.0 elapsed=14.5500000000003 pos=(1412.907, 879.2225) remaining=0 outcome=
+NAV FOLLOW op=3 dt=0.0625 hull=100.0 elapsed=14.5500000000003 pos=(1412.907, 879.2225) remaining=0 outcome=
+NAV FOLLOW op=3 dt=0.25 hull=100.0 elapsed=14.7500000000003 pos=(1412.907, 879.2225) remaining=0 outcome=
+NAV FOLLOW CHECKS 84 FAILURES 0

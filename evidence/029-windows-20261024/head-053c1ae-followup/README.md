@@ -19,3 +19,27 @@ fresh base/head/mergeability checks remain required before publication.
 
 Prepared merge dfaf5435a75364b82c57f5567fde7eb673e505a8 is unpublished and
 supersedes1971afd, which must never be published.
+
+## Completed local follow-up
+
+All151later CI ranks73..223 ran at unchanged053c1ae. Original runner exited1:
+150passed, one failed. Rank192 cold_review_archive_tests failed2parent checks
+because Windows cannot execute Linux env; no child launched. Failure retained.
+External Windows launcher then invoked the exact unchanged cover/inner child
+branches in fresh isolated APPDATA/LOCALAPPDATA/XDG_DATA_HOME. Launcher2/0,
+children9/0each, exit0 and no engine errors. Original drag/archive/backup-recovery
+assertions remain intact. Fixed helper directories were fresh for this observed
+run, confirmed by child assertions; use new directories for any rerun.
+
+Independent /root/review_photo inspected the source, original192failure, native
+helper and all result logs. Substantive Windows archive/touch coverage preserved,
+but original parent did not pass. Hosted Linux parent remains required. No source
+finding; exact053 approval remains. Reviewer ran no tests. Actual drag offsets
+956/336. No test assertion was skipped, loosened, deleted or modified for this run.
+
+Rank223native UI776/0 excludes six optional screenshot-write assertions present
+in the earlier782/0capture run. It exercises the same substantive assertions.
+Prior import/core833/data57/onboarding30/FIX2menu24 remain valid because only
+rank72test setup changed from34dbc13, no production code changed. Focusedrank72
+regression52/0. Every raw per-suite log and atomic final ledger included here.
+No full local matrix ran; scope begins after failed CI rank72.

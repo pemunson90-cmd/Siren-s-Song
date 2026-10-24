@@ -1,0 +1,17 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS empty or old archive explicitly has no retained chapter records
+PASS unknown keys cannot fabricate discoveries
+PASS request alone records the relay request without fabricating its reply
+PASS actual reply key earns the retained driller log
+PASS furnace alone does not fabricate a cradle observation
+PASS cradle alone reports its observed frames and rails
+PASS pattern-only archive preserves the unverified comparison
+PASS earned Well match preserves unresolved speaker and intent
+PASS partial finale optics cannot fabricate the decoded warning
+PASS retained warning key earns its decoded fact
+PASS full archive connects one fact per retained chapter
+PASS full recap stays a short summary rather than repeating every caption
+PASS recap reads existing archive without changing entries or schema
+PASS recap narrative order is stable across archive insertion order
+ARCHIVE RECAP CHECKS 14 FAILURES 0

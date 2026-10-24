@@ -1,0 +1,408 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+OpenGL API 3.3.0 NVIDIA 610.88 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 2080 Ti
+
+SS_ROLE mission=0 index=1 type=sweeper mode=PATROL pos=850.000000,300.000000 home=850.000000,300.000000 target=-1 lock=0.000000 time=0.000000
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":6,"hud_visible":true,"menu_visible":false,"mission":0,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,1680.0,720.0],"chart_view":{"center":[500.000030517578,745.714294433594],"mode":"follow","zoom":2.24},"context_page":"water","context_subject_kind":"","controls":[{"action":"more_orders","clipped":false,"hit_rect":[1516.1,12.0,151.9,98.0],"visual_rect":[1516.1,12.0,151.9,98.0]},{"action":"fleet_q","clipped":false,"hit_rect":[186.2,402.2,98.0,98.0],"visual_rect":[186.2,402.2,98.0,98.0]},{"action":"fleet_a","clipped":false,"hit_rect":[186.2,234.2,98.0,98.0],"visual_rect":[186.2,234.2,98.0,98.0]},{"action":"fleet_b","clipped":false,"hit_rect":[361.966,494.0,98.0,98.0],"visual_rect":[361.966,494.0,98.0,98.0]},{"action":"pause","clipped":false,"hit_rect":[12.0,12.0,151.9,98.0],"visual_rect":[12.0,12.0,151.9,98.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2520.0,1080.0],"schema":1,"screen":"mission","scroll_rect":[0.0,0.0,0.0,0.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1680.0,720.0],"window":[2520.0,1080.0]}
+SS_TARGET more_orders center=1592,61 viewport=1680,720
+SS_TARGET fleet_q center=235,451 viewport=1680,720
+SS_TARGET fleet_a center=235,283 viewport=1680,720
+SS_TARGET fleet_b center=411,543 viewport=1680,720
+SS_TARGET pause center=88,61 viewport=1680,720
+SS_TARGET chart_center center=840,360 viewport=1680,720
+SS_TARGET objective0 center=2066,65 viewport=1680,720
+SS_TARGET route center=806,535 viewport=1680,720
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":6,"hud_visible":true,"menu_visible":false,"mission":0,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,1680.0,720.0],"chart_view":{"center":[500.000030517578,745.714294433594],"mode":"follow","zoom":2.24},"context_page":"water","context_subject_kind":"","controls":[{"action":"more_orders","clipped":false,"hit_rect":[1516.1,12.0,151.9,98.0],"visual_rect":[1516.1,12.0,151.9,98.0]},{"action":"fleet_q","clipped":false,"hit_rect":[186.2,402.2,98.0,98.0],"visual_rect":[186.2,402.2,98.0,98.0]},{"action":"fleet_a","clipped":false,"hit_rect":[186.2,234.2,98.0,98.0],"visual_rect":[186.2,234.2,98.0,98.0]},{"action":"fleet_b","clipped":false,"hit_rect":[361.966,494.0,98.0,98.0],"visual_rect":[361.966,494.0,98.0,98.0]},{"action":"pause","clipped":false,"hit_rect":[12.0,12.0,151.9,98.0],"visual_rect":[12.0,12.0,151.9,98.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2520.0,1080.0],"schema":1,"screen":"mission","scroll_rect":[0.0,0.0,0.0,0.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1680.0,720.0],"window":[2520.0,1080.0]}
+SS_TARGET more_orders center=1592,61 viewport=1680,720
+SS_TARGET fleet_q center=235,451 viewport=1680,720
+SS_TARGET fleet_a center=235,283 viewport=1680,720
+SS_TARGET fleet_b center=411,543 viewport=1680,720
+SS_TARGET pause center=88,61 viewport=1680,720
+SS_TARGET chart_center center=840,360 viewport=1680,720
+SS_TARGET objective0 center=2066,65 viewport=1680,720
+SS_TARGET route center=806,535 viewport=1680,720
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":6,"hud_visible":true,"menu_visible":false,"mission":0,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,1680.0,720.0],"chart_view":{"center":[500.000030517578,745.714294433594],"mode":"follow","zoom":2.24},"context_page":"water","context_subject_kind":"","controls":[{"action":"more_orders","clipped":false,"hit_rect":[1516.1,12.0,151.9,98.0],"visual_rect":[1516.1,12.0,151.9,98.0]},{"action":"fleet_q","clipped":false,"hit_rect":[186.2,402.2,98.0,98.0],"visual_rect":[186.2,402.2,98.0,98.0]},{"action":"fleet_a","clipped":false,"hit_rect":[186.2,234.2,98.0,98.0],"visual_rect":[186.2,234.2,98.0,98.0]},{"action":"fleet_b","clipped":false,"hit_rect":[361.966,494.0,98.0,98.0],"visual_rect":[361.966,494.0,98.0,98.0]},{"action":"pause","clipped":false,"hit_rect":[12.0,12.0,151.9,98.0],"visual_rect":[12.0,12.0,151.9,98.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2520.0,1080.0],"schema":1,"screen":"mission","scroll_rect":[0.0,0.0,0.0,0.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1680.0,720.0],"window":[2520.0,1080.0]}
+SS_TARGET more_orders center=1592,61 viewport=1680,720
+SS_TARGET fleet_q center=235,451 viewport=1680,720
+SS_TARGET fleet_a center=235,283 viewport=1680,720
+SS_TARGET fleet_b center=411,543 viewport=1680,720
+SS_TARGET pause center=88,61 viewport=1680,720
+SS_TARGET chart_center center=840,360 viewport=1680,720
+SS_TARGET objective0 center=2066,65 viewport=1680,720
+SS_TARGET route center=806,535 viewport=1680,720
+SS_DEBRIEF outcome=lost mission=1
+SS_DEBRIEF outcome=won mission=1
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":12,"hud_visible":false,"menu_visible":true,"mission":1,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,1680.0,720.0],"chart_view":{"center":[500.000030517578,2180.0],"mode":"follow","zoom":5.6},"context_page":"water","context_subject_kind":"","controls":[],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2520.0,1080.0],"schema":1,"screen":"debrief","scroll_rect":[468.0,46.0,744.0,628.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1680.0,720.0],"window":[2520.0,1080.0]}
+SS_TARGET next_dive center=836,833 viewport=1680,720
+SS_TARGET retry center=836,945 viewport=1680,720
+SS_TARGET back center=836,1057 viewport=1680,720
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":12,"hud_visible":false,"menu_visible":true,"mission":1,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,1680.0,720.0],"chart_view":{"center":[500.000030517578,2180.0],"mode":"follow","zoom":5.6},"context_page":"water","context_subject_kind":"","controls":[],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2520.0,1080.0],"schema":1,"screen":"debrief","scroll_rect":[468.0,46.0,744.0,628.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1680.0,720.0],"window":[2520.0,1080.0]}
+SS_TARGET next_dive center=836,833 viewport=1680,720
+SS_TARGET retry center=836,945 viewport=1680,720
+SS_TARGET back center=836,1057 viewport=1680,720
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":12,"hud_visible":false,"menu_visible":true,"mission":1,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,1680.0,720.0],"chart_view":{"center":[500.000030517578,2180.0],"mode":"follow","zoom":5.6},"context_page":"water","context_subject_kind":"","controls":[],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2520.0,1080.0],"schema":1,"screen":"debrief","scroll_rect":[468.0,46.0,744.0,628.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1680.0,720.0],"window":[2520.0,1080.0]}
+SS_TARGET next_dive center=836,833 viewport=1680,720
+SS_TARGET retry center=836,945 viewport=1680,720
+SS_TARGET back center=836,1057 viewport=1680,720
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":12,"hud_visible":false,"menu_visible":true,"mission":1,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,1680.0,720.0],"chart_view":{"center":[500.000030517578,2180.0],"mode":"follow","zoom":5.6},"context_page":"water","context_subject_kind":"","controls":[],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2520.0,1080.0],"schema":1,"screen":"debrief","scroll_rect":[468.0,46.0,744.0,628.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1680.0,720.0],"window":[2520.0,1080.0]}
+SS_TARGET next_dive center=836,833 viewport=1680,720
+SS_TARGET retry center=836,945 viewport=1680,720
+SS_TARGET back center=836,1057 viewport=1680,720
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":12,"hud_visible":false,"menu_visible":true,"mission":1,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,1680.0,720.0],"chart_view":{"center":[500.000030517578,2180.0],"mode":"follow","zoom":5.6},"context_page":"water","context_subject_kind":"","controls":[],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2520.0,1080.0],"schema":1,"screen":"debrief","scroll_rect":[468.0,46.0,744.0,628.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1680.0,720.0],"window":[2520.0,1080.0]}
+SS_TARGET next_dive center=836,833 viewport=1680,720
+SS_TARGET retry center=836,945 viewport=1680,720
+SS_TARGET back center=836,1057 viewport=1680,720
+SS_DEBRIEF outcome=won mission=1
+SS_SCREEN operations window=(2520, 1080) viewport=(1680.0, 720.0) root=(1680.0, 720.0) unlocked=2 active_time=0.0
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":18,"hud_visible":false,"menu_visible":true,"mission":1,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,1680.0,720.0],"chart_view":{"center":[500.000030517578,2180.0],"mode":"follow","zoom":5.6},"context_page":"water","context_subject_kind":"","controls":[{"action":"mission0","clipped":false,"hit_rect":[468.0,286.0,736.0,98.0],"visual_rect":[468.0,286.0,736.0,98.0]},{"action":"mission1","clipped":false,"hit_rect":[468.0,398.0,736.0,98.0],"visual_rect":[468.0,398.0,736.0,98.0]},{"action":"mission2","clipped":false,"hit_rect":[468.0,510.0,736.0,98.0],"visual_rect":[468.0,510.0,736.0,98.0]},{"action":"mission3","clipped":true,"hit_rect":[468.0,622.0,736.0,52.0],"visual_rect":[468.0,622.0,736.0,98.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2520.0,1080.0],"schema":1,"screen":"menu","scroll_rect":[468.0,46.0,744.0,628.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1680.0,720.0],"window":[2520.0,1080.0]}
+SS_TARGET mission0 center=836,335 viewport=1680,720
+SS_TARGET mission1 center=836,447 viewport=1680,720
+SS_TARGET mission2 center=836,559 viewport=1680,720
+SS_TARGET mission3 center=836,671 viewport=1680,720
+SS_TARGET mission4 center=836,783 viewport=1680,720
+SS_TARGET mission5 center=836,895 viewport=1680,720
+SS_TARGET route_map center=836,1007 viewport=1680,720
+SS_TARGET fittings center=836,1119 viewport=1680,720
+SS_TARGET new_campaign center=836,1231 viewport=1680,720
+SS_TARGET loadout center=836,1868 viewport=1680,720
+SS_TARGET settings center=836,1980 viewport=1680,720
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":18,"hud_visible":false,"menu_visible":true,"mission":1,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,1680.0,720.0],"chart_view":{"center":[500.000030517578,2180.0],"mode":"follow","zoom":5.6},"context_page":"water","context_subject_kind":"","controls":[{"action":"mission0","clipped":false,"hit_rect":[468.0,286.0,736.0,98.0],"visual_rect":[468.0,286.0,736.0,98.0]},{"action":"mission1","clipped":false,"hit_rect":[468.0,398.0,736.0,98.0],"visual_rect":[468.0,398.0,736.0,98.0]},{"action":"mission2","clipped":false,"hit_rect":[468.0,510.0,736.0,98.0],"visual_rect":[468.0,510.0,736.0,98.0]},{"action":"mission3","clipped":true,"hit_rect":[468.0,622.0,736.0,52.0],"visual_rect":[468.0,622.0,736.0,98.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2520.0,1080.0],"schema":1,"screen":"menu","scroll_rect":[468.0,46.0,744.0,628.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1680.0,720.0],"window":[2520.0,1080.0]}
+SS_TARGET mission0 center=836,335 viewport=1680,720
+SS_TARGET mission1 center=836,447 viewport=1680,720
+SS_TARGET mission2 center=836,559 viewport=1680,720
+SS_TARGET mission3 center=836,671 viewport=1680,720
+SS_TARGET mission4 center=836,783 viewport=1680,720
+SS_TARGET mission5 center=836,895 viewport=1680,720
+SS_TARGET route_map center=836,1007 viewport=1680,720
+SS_TARGET fittings center=836,1119 viewport=1680,720
+SS_TARGET new_campaign center=836,1231 viewport=1680,720
+SS_TARGET loadout center=836,1868 viewport=1680,720
+SS_TARGET settings center=836,1980 viewport=1680,720
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":33,"hud_visible":false,"menu_visible":true,"mission":1,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,1680.0,720.0],"chart_view":{"center":[500.000030517578,2180.0],"mode":"follow","zoom":5.6},"context_page":"water","context_subject_kind":"","controls":[{"action":"back","clipped":false,"hit_rect":[468.0,46.0,748.0,98.0],"visual_rect":[468.0,46.0,748.0,98.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2520.0,1080.0],"schema":1,"screen":"fittings","scroll_rect":[468.0,46.0,756.0,628.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1680.0,720.0],"window":[2520.0,1080.0]}
+SS_TARGET back center=842,95 viewport=1680,720
+SS_TARGET frame_quietus_standard center=842,1224 viewport=1680,720
+SS_TARGET frame_quietus_quiet center=842,1336 viewport=1680,720
+SS_TARGET frame_quietus_fast center=842,1448 viewport=1680,720
+SS_TARGET frame_drone_a_standard center=842,1937 viewport=1680,720
+SS_TARGET frame_drone_a_scout center=842,2049 viewport=1680,720
+SS_TARGET frame_drone_a_heavy center=842,2161 viewport=1680,720
+SS_TARGET frame_drone_a_endurance center=842,2273 viewport=1680,720
+SS_TARGET frame_drone_b_standard center=842,2762 viewport=1680,720
+SS_TARGET frame_drone_b_scout center=842,2874 viewport=1680,720
+SS_TARGET frame_drone_b_heavy center=842,2986 viewport=1680,720
+SS_TARGET frame_drone_b_endurance center=842,3098 viewport=1680,720
+SS_TARGET fit_quietus center=842,3782 viewport=1680,720
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":33,"hud_visible":false,"menu_visible":true,"mission":1,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,1680.0,720.0],"chart_view":{"center":[500.000030517578,2180.0],"mode":"follow","zoom":5.6},"context_page":"water","context_subject_kind":"","controls":[{"action":"back","clipped":false,"hit_rect":[468.0,46.0,748.0,98.0],"visual_rect":[468.0,46.0,748.0,98.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2520.0,1080.0],"schema":1,"screen":"fittings","scroll_rect":[468.0,46.0,756.0,628.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1680.0,720.0],"window":[2520.0,1080.0]}
+SS_TARGET back center=842,95 viewport=1680,720
+SS_TARGET frame_quietus_standard center=842,1224 viewport=1680,720
+SS_TARGET frame_quietus_quiet center=842,1336 viewport=1680,720
+SS_TARGET frame_quietus_fast center=842,1448 viewport=1680,720
+SS_TARGET frame_drone_a_standard center=842,1937 viewport=1680,720
+SS_TARGET frame_drone_a_scout center=842,2049 viewport=1680,720
+SS_TARGET frame_drone_a_heavy center=842,2161 viewport=1680,720
+SS_TARGET frame_drone_a_endurance center=842,2273 viewport=1680,720
+SS_TARGET frame_drone_b_standard center=842,2762 viewport=1680,720
+SS_TARGET frame_drone_b_scout center=842,2874 viewport=1680,720
+SS_TARGET frame_drone_b_heavy center=842,2986 viewport=1680,720
+SS_TARGET frame_drone_b_endurance center=842,3098 viewport=1680,720
+SS_TARGET fit_quietus center=842,3782 viewport=1680,720
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":34,"hud_visible":false,"menu_visible":true,"mission":1,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,1680.0,720.0],"chart_view":{"center":[500.000030517578,2180.0],"mode":"follow","zoom":5.6},"context_page":"water","context_subject_kind":"","controls":[{"action":"back","clipped":false,"hit_rect":[468.0,46.0,748.0,98.0],"visual_rect":[468.0,46.0,748.0,98.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2520.0,1080.0],"schema":1,"screen":"fittings","scroll_rect":[468.0,46.0,756.0,628.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1680.0,720.0],"window":[2520.0,1080.0]}
+SS_TARGET back center=842,95 viewport=1680,720
+SS_TARGET frame_quietus_standard center=842,1224 viewport=1680,720
+SS_TARGET frame_quietus_quiet center=842,1336 viewport=1680,720
+SS_TARGET frame_quietus_fast center=842,1448 viewport=1680,720
+SS_TARGET frame_drone_a_standard center=842,1937 viewport=1680,720
+SS_TARGET frame_drone_a_scout center=842,2049 viewport=1680,720
+SS_TARGET frame_drone_a_heavy center=842,2161 viewport=1680,720
+SS_TARGET frame_drone_a_endurance center=842,2273 viewport=1680,720
+SS_TARGET frame_drone_b_standard center=842,2762 viewport=1680,720
+SS_TARGET frame_drone_b_scout center=842,2874 viewport=1680,720
+SS_TARGET frame_drone_b_heavy center=842,2986 viewport=1680,720
+SS_TARGET frame_drone_b_endurance center=842,3098 viewport=1680,720
+SS_TARGET fit_quietus center=842,3782 viewport=1680,720
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":49,"hud_visible":false,"menu_visible":true,"mission":1,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,1680.0,720.0],"chart_view":{"center":[500.000030517578,2180.0],"mode":"follow","zoom":5.6},"context_page":"water","context_subject_kind":"","controls":[{"action":"fit_quietus","clipped":false,"hit_rect":[468.0,576.0,748.0,98.0],"visual_rect":[468.0,576.0,748.0,98.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2520.0,1080.0],"schema":1,"screen":"fittings","scroll_rect":[468.0,46.0,756.0,628.0],"scroll_vertical":3157,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1680.0,720.0],"window":[2520.0,1080.0]}
+SS_TARGET back center=842,-3062 viewport=1680,720
+SS_TARGET frame_quietus_standard center=842,-1933 viewport=1680,720
+SS_TARGET frame_quietus_quiet center=842,-1821 viewport=1680,720
+SS_TARGET frame_quietus_fast center=842,-1709 viewport=1680,720
+SS_TARGET frame_drone_a_standard center=842,-1220 viewport=1680,720
+SS_TARGET frame_drone_a_scout center=842,-1108 viewport=1680,720
+SS_TARGET frame_drone_a_heavy center=842,-996 viewport=1680,720
+SS_TARGET frame_drone_a_endurance center=842,-884 viewport=1680,720
+SS_TARGET frame_drone_b_standard center=842,-395 viewport=1680,720
+SS_TARGET frame_drone_b_scout center=842,-283 viewport=1680,720
+SS_TARGET frame_drone_b_heavy center=842,-171 viewport=1680,720
+SS_TARGET frame_drone_b_endurance center=842,-59 viewport=1680,720
+SS_TARGET fit_quietus center=842,625 viewport=1680,720
+SS_SCREEN operations window=(2520, 1080) viewport=(1680.0, 720.0) root=(1680.0, 720.0) unlocked=2 active_time=0.0
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":56,"hud_visible":false,"menu_visible":true,"mission":1,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,1680.0,720.0],"chart_view":{"center":[500.000030517578,2180.0],"mode":"follow","zoom":5.6},"context_page":"water","context_subject_kind":"","controls":[{"action":"mission0","clipped":false,"hit_rect":[468.0,286.0,736.0,98.0],"visual_rect":[468.0,286.0,736.0,98.0]},{"action":"mission1","clipped":false,"hit_rect":[468.0,398.0,736.0,98.0],"visual_rect":[468.0,398.0,736.0,98.0]},{"action":"mission2","clipped":false,"hit_rect":[468.0,510.0,736.0,98.0],"visual_rect":[468.0,510.0,736.0,98.0]},{"action":"mission3","clipped":true,"hit_rect":[468.0,622.0,736.0,52.0],"visual_rect":[468.0,622.0,736.0,98.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2520.0,1080.0],"schema":1,"screen":"menu","scroll_rect":[468.0,46.0,744.0,628.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1680.0,720.0],"window":[2520.0,1080.0]}
+SS_TARGET mission0 center=836,335 viewport=1680,720
+SS_TARGET mission1 center=836,447 viewport=1680,720
+SS_TARGET mission2 center=836,559 viewport=1680,720
+SS_TARGET mission3 center=836,671 viewport=1680,720
+SS_TARGET mission4 center=836,783 viewport=1680,720
+SS_TARGET mission5 center=836,895 viewport=1680,720
+SS_TARGET route_map center=836,1007 viewport=1680,720
+SS_TARGET fittings center=836,1119 viewport=1680,720
+SS_TARGET new_campaign center=836,1231 viewport=1680,720
+SS_TARGET loadout center=836,1868 viewport=1680,720
+SS_TARGET settings center=836,1980 viewport=1680,720
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":56,"hud_visible":false,"menu_visible":true,"mission":1,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,1680.0,720.0],"chart_view":{"center":[500.000030517578,2180.0],"mode":"follow","zoom":5.6},"context_page":"water","context_subject_kind":"","controls":[{"action":"mission0","clipped":false,"hit_rect":[468.0,286.0,736.0,98.0],"visual_rect":[468.0,286.0,736.0,98.0]},{"action":"mission1","clipped":false,"hit_rect":[468.0,398.0,736.0,98.0],"visual_rect":[468.0,398.0,736.0,98.0]},{"action":"mission2","clipped":false,"hit_rect":[468.0,510.0,736.0,98.0],"visual_rect":[468.0,510.0,736.0,98.0]},{"action":"mission3","clipped":true,"hit_rect":[468.0,622.0,736.0,52.0],"visual_rect":[468.0,622.0,736.0,98.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2520.0,1080.0],"schema":1,"screen":"menu","scroll_rect":[468.0,46.0,744.0,628.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1680.0,720.0],"window":[2520.0,1080.0]}
+SS_TARGET mission0 center=836,335 viewport=1680,720
+SS_TARGET mission1 center=836,447 viewport=1680,720
+SS_TARGET mission2 center=836,559 viewport=1680,720
+SS_TARGET mission3 center=836,671 viewport=1680,720
+SS_TARGET mission4 center=836,783 viewport=1680,720
+SS_TARGET mission5 center=836,895 viewport=1680,720
+SS_TARGET route_map center=836,1007 viewport=1680,720
+SS_TARGET fittings center=836,1119 viewport=1680,720
+SS_TARGET new_campaign center=836,1231 viewport=1680,720
+SS_TARGET loadout center=836,1868 viewport=1680,720
+SS_TARGET settings center=836,1980 viewport=1680,720
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":58,"hud_visible":false,"menu_visible":true,"mission":1,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,1680.0,720.0],"chart_view":{"center":[500.000030517578,2180.0],"mode":"follow","zoom":5.6},"context_page":"water","context_subject_kind":"","controls":[{"action":"mission0","clipped":false,"hit_rect":[468.0,286.0,736.0,98.0],"visual_rect":[468.0,286.0,736.0,98.0]},{"action":"mission1","clipped":false,"hit_rect":[468.0,398.0,736.0,98.0],"visual_rect":[468.0,398.0,736.0,98.0]},{"action":"mission2","clipped":false,"hit_rect":[468.0,510.0,736.0,98.0],"visual_rect":[468.0,510.0,736.0,98.0]},{"action":"mission3","clipped":true,"hit_rect":[468.0,622.0,736.0,52.0],"visual_rect":[468.0,622.0,736.0,98.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2520.0,1080.0],"schema":1,"screen":"menu","scroll_rect":[468.0,46.0,744.0,628.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1680.0,720.0],"window":[2520.0,1080.0]}
+SS_TARGET mission0 center=836,335 viewport=1680,720
+SS_TARGET mission1 center=836,447 viewport=1680,720
+SS_TARGET mission2 center=836,559 viewport=1680,720
+SS_TARGET mission3 center=836,671 viewport=1680,720
+SS_TARGET mission4 center=836,783 viewport=1680,720
+SS_TARGET mission5 center=836,895 viewport=1680,720
+SS_TARGET route_map center=836,1007 viewport=1680,720
+SS_TARGET fittings center=836,1119 viewport=1680,720
+SS_TARGET new_campaign center=836,1231 viewport=1680,720
+SS_TARGET loadout center=836,1868 viewport=1680,720
+SS_TARGET settings center=836,1980 viewport=1680,720
+SS_ROLE mission=0 index=1 type=sweeper mode=PATROL pos=850.000000,300.000000 home=850.000000,300.000000 target=-1 lock=0.000000 time=0.000000
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":68,"hud_visible":true,"menu_visible":false,"mission":0,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,1680.0,720.0],"chart_view":{"center":[500.000030517578,745.714294433594],"mode":"follow","zoom":2.24},"context_page":"water","context_subject_kind":"","controls":[{"action":"more_orders","clipped":false,"hit_rect":[1516.1,12.0,151.9,98.0],"visual_rect":[1516.1,12.0,151.9,98.0]},{"action":"fleet_q","clipped":false,"hit_rect":[186.2,402.2,98.0,98.0],"visual_rect":[186.2,402.2,98.0,98.0]},{"action":"fleet_a","clipped":false,"hit_rect":[186.2,234.2,98.0,98.0],"visual_rect":[186.2,234.2,98.0,98.0]},{"action":"fleet_b","clipped":false,"hit_rect":[361.966,494.0,98.0,98.0],"visual_rect":[361.966,494.0,98.0,98.0]},{"action":"pause","clipped":false,"hit_rect":[12.0,12.0,151.9,98.0],"visual_rect":[12.0,12.0,151.9,98.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2520.0,1080.0],"schema":1,"screen":"mission","scroll_rect":[0.0,0.0,0.0,0.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1680.0,720.0],"window":[2520.0,1080.0]}
+SS_TARGET more_orders center=1592,61 viewport=1680,720
+SS_TARGET fleet_q center=235,451 viewport=1680,720
+SS_TARGET fleet_a center=235,283 viewport=1680,720
+SS_TARGET fleet_b center=411,543 viewport=1680,720
+SS_TARGET pause center=88,61 viewport=1680,720
+SS_TARGET chart_center center=840,360 viewport=1680,720
+SS_TARGET objective0 center=2066,65 viewport=1680,720
+SS_TARGET route center=806,535 viewport=1680,720
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":68,"hud_visible":true,"menu_visible":false,"mission":0,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,1680.0,720.0],"chart_view":{"center":[500.000030517578,745.714294433594],"mode":"follow","zoom":2.24},"context_page":"water","context_subject_kind":"","controls":[{"action":"more_orders","clipped":false,"hit_rect":[1516.1,12.0,151.9,98.0],"visual_rect":[1516.1,12.0,151.9,98.0]},{"action":"fleet_q","clipped":false,"hit_rect":[186.2,402.2,98.0,98.0],"visual_rect":[186.2,402.2,98.0,98.0]},{"action":"fleet_a","clipped":false,"hit_rect":[186.2,234.2,98.0,98.0],"visual_rect":[186.2,234.2,98.0,98.0]},{"action":"fleet_b","clipped":false,"hit_rect":[361.966,494.0,98.0,98.0],"visual_rect":[361.966,494.0,98.0,98.0]},{"action":"pause","clipped":false,"hit_rect":[12.0,12.0,151.9,98.0],"visual_rect":[12.0,12.0,151.9,98.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2520.0,1080.0],"schema":1,"screen":"mission","scroll_rect":[0.0,0.0,0.0,0.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1680.0,720.0],"window":[2520.0,1080.0]}
+SS_TARGET more_orders center=1592,61 viewport=1680,720
+SS_TARGET fleet_q center=235,451 viewport=1680,720
+SS_TARGET fleet_a center=235,283 viewport=1680,720
+SS_TARGET fleet_b center=411,543 viewport=1680,720
+SS_TARGET pause center=88,61 viewport=1680,720
+SS_TARGET chart_center center=840,360 viewport=1680,720
+SS_TARGET objective0 center=2066,65 viewport=1680,720
+SS_TARGET route center=806,535 viewport=1680,720
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":68,"hud_visible":true,"menu_visible":false,"mission":0,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,1680.0,720.0],"chart_view":{"center":[500.000030517578,745.714294433594],"mode":"follow","zoom":2.24},"context_page":"water","context_subject_kind":"","controls":[{"action":"more_orders","clipped":false,"hit_rect":[1516.1,12.0,151.9,98.0],"visual_rect":[1516.1,12.0,151.9,98.0]},{"action":"fleet_q","clipped":false,"hit_rect":[186.2,402.2,98.0,98.0],"visual_rect":[186.2,402.2,98.0,98.0]},{"action":"fleet_a","clipped":false,"hit_rect":[186.2,234.2,98.0,98.0],"visual_rect":[186.2,234.2,98.0,98.0]},{"action":"fleet_b","clipped":false,"hit_rect":[361.966,494.0,98.0,98.0],"visual_rect":[361.966,494.0,98.0,98.0]},{"action":"pause","clipped":false,"hit_rect":[12.0,12.0,151.9,98.0],"visual_rect":[12.0,12.0,151.9,98.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2520.0,1080.0],"schema":1,"screen":"mission","scroll_rect":[0.0,0.0,0.0,0.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1680.0,720.0],"window":[2520.0,1080.0]}
+SS_TARGET more_orders center=1592,61 viewport=1680,720
+SS_TARGET fleet_q center=235,451 viewport=1680,720
+SS_TARGET fleet_a center=235,283 viewport=1680,720
+SS_TARGET fleet_b center=411,543 viewport=1680,720
+SS_TARGET pause center=88,61 viewport=1680,720
+SS_TARGET chart_center center=840,360 viewport=1680,720
+SS_TARGET objective0 center=2066,65 viewport=1680,720
+SS_TARGET route center=806,535 viewport=1680,720
+SS_RESTORE ok mission=1 time=0.0 paused=true completed=[0, 1] unlocked=2
+SS_SCREEN operations window=(2520, 1080) viewport=(1680.0, 720.0) root=(1680.0, 720.0) unlocked=0 active_time=0.0
+SS_DEBRIEF outcome=won mission=1
+SS_SCREEN operations window=(2520, 1080) viewport=(1680.0, 720.0) root=(1680.0, 720.0) unlocked=0 active_time=0.0
+SS_ROLE mission=0 index=1 type=sweeper mode=PATROL pos=850.000000,300.000000 home=850.000000,300.000000 target=-1 lock=0.000000 time=0.000000
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":86,"hud_visible":true,"menu_visible":false,"mission":0,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,1280.0,1153.0],"chart_view":{"center":[333.044250488281,660.0],"mode":"follow","zoom":2.40208333333333},"context_page":"water","context_subject_kind":"","controls":[{"action":"more_orders","clipped":false,"hit_rect":[1133.15,12.0,134.85,87.0],"visual_rect":[1133.15,12.0,134.85,87.0]},{"action":"fleet_q","clipped":false,"hit_rect":[225.533,802.033,87.0,87.0],"visual_rect":[225.533,802.033,87.0,87.0]},{"action":"fleet_a","clipped":false,"hit_rect":[225.533,609.867,87.0,87.0],"visual_rect":[225.533,609.867,87.0,87.0]},{"action":"fleet_b","clipped":false,"hit_rect":[261.655,949.0,87.0,87.0],"visual_rect":[261.655,949.0,87.0,87.0]},{"action":"pause","clipped":false,"hit_rect":[12.0,12.0,134.85,87.0],"visual_rect":[12.0,12.0,134.85,87.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"mission","scroll_rect":[0.0,0.0,0.0,0.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1280.0,1153.0],"window":[2184.0,1968.0]}
+SS_TARGET more_orders center=1201,56 viewport=1280,1153
+SS_TARGET fleet_q center=269,846 viewport=1280,1153
+SS_TARGET fleet_a center=269,653 viewport=1280,1153
+SS_TARGET fleet_b center=305,993 viewport=1280,1153
+SS_TARGET pause center=79,56 viewport=1280,1153
+SS_TARGET chart_center center=640,577 viewport=1280,1153
+SS_TARGET objective0 center=2364,404 viewport=1280,1153
+SS_TARGET route center=922,942 viewport=1280,1153
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":86,"hud_visible":true,"menu_visible":false,"mission":0,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,1280.0,1153.0],"chart_view":{"center":[333.044250488281,660.0],"mode":"follow","zoom":2.40208333333333},"context_page":"water","context_subject_kind":"","controls":[{"action":"more_orders","clipped":false,"hit_rect":[1133.15,12.0,134.85,87.0],"visual_rect":[1133.15,12.0,134.85,87.0]},{"action":"fleet_q","clipped":false,"hit_rect":[225.533,802.033,87.0,87.0],"visual_rect":[225.533,802.033,87.0,87.0]},{"action":"fleet_a","clipped":false,"hit_rect":[225.533,609.867,87.0,87.0],"visual_rect":[225.533,609.867,87.0,87.0]},{"action":"fleet_b","clipped":false,"hit_rect":[261.655,949.0,87.0,87.0],"visual_rect":[261.655,949.0,87.0,87.0]},{"action":"pause","clipped":false,"hit_rect":[12.0,12.0,134.85,87.0],"visual_rect":[12.0,12.0,134.85,87.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"mission","scroll_rect":[0.0,0.0,0.0,0.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1280.0,1153.0],"window":[2184.0,1968.0]}
+SS_TARGET more_orders center=1201,56 viewport=1280,1153
+SS_TARGET fleet_q center=269,846 viewport=1280,1153
+SS_TARGET fleet_a center=269,653 viewport=1280,1153
+SS_TARGET fleet_b center=305,993 viewport=1280,1153
+SS_TARGET pause center=79,56 viewport=1280,1153
+SS_TARGET chart_center center=640,577 viewport=1280,1153
+SS_TARGET objective0 center=2364,404 viewport=1280,1153
+SS_TARGET route center=922,942 viewport=1280,1153
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":86,"hud_visible":true,"menu_visible":false,"mission":0,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,1280.0,1153.0],"chart_view":{"center":[333.044250488281,660.0],"mode":"follow","zoom":2.40208333333333},"context_page":"water","context_subject_kind":"","controls":[{"action":"more_orders","clipped":false,"hit_rect":[1133.15,12.0,134.85,87.0],"visual_rect":[1133.15,12.0,134.85,87.0]},{"action":"fleet_q","clipped":false,"hit_rect":[225.533,802.033,87.0,87.0],"visual_rect":[225.533,802.033,87.0,87.0]},{"action":"fleet_a","clipped":false,"hit_rect":[225.533,609.867,87.0,87.0],"visual_rect":[225.533,609.867,87.0,87.0]},{"action":"fleet_b","clipped":false,"hit_rect":[261.655,949.0,87.0,87.0],"visual_rect":[261.655,949.0,87.0,87.0]},{"action":"pause","clipped":false,"hit_rect":[12.0,12.0,134.85,87.0],"visual_rect":[12.0,12.0,134.85,87.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"mission","scroll_rect":[0.0,0.0,0.0,0.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1280.0,1153.0],"window":[2184.0,1968.0]}
+SS_TARGET more_orders center=1201,56 viewport=1280,1153
+SS_TARGET fleet_q center=269,846 viewport=1280,1153
+SS_TARGET fleet_a center=269,653 viewport=1280,1153
+SS_TARGET fleet_b center=305,993 viewport=1280,1153
+SS_TARGET pause center=79,56 viewport=1280,1153
+SS_TARGET chart_center center=640,577 viewport=1280,1153
+SS_TARGET objective0 center=2364,404 viewport=1280,1153
+SS_TARGET route center=922,942 viewport=1280,1153
+SS_DEBRIEF outcome=lost mission=1
+SS_DEBRIEF outcome=won mission=1
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":92,"hud_visible":false,"menu_visible":true,"mission":1,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,1280.0,1153.0],"chart_view":{"center":[333.044250488281,2100.0],"mode":"follow","zoom":4.0},"context_page":"water","context_subject_kind":"","controls":[{"action":"next_dive","clipped":false,"hit_rect":[268.0,603.0,744.0,87.0],"visual_rect":[268.0,603.0,744.0,87.0]},{"action":"retry","clipped":false,"hit_rect":[268.0,704.0,744.0,87.0],"visual_rect":[268.0,704.0,744.0,87.0]},{"action":"back","clipped":false,"hit_rect":[268.0,805.0,744.0,87.0],"visual_rect":[268.0,805.0,744.0,87.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"debrief","scroll_rect":[268.0,46.0,744.0,1061.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1280.0,1153.0],"window":[2184.0,1968.0]}
+SS_TARGET next_dive center=640,647 viewport=1280,1153
+SS_TARGET retry center=640,748 viewport=1280,1153
+SS_TARGET back center=640,849 viewport=1280,1153
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":92,"hud_visible":false,"menu_visible":true,"mission":1,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,1280.0,1153.0],"chart_view":{"center":[333.044250488281,2100.0],"mode":"follow","zoom":4.0},"context_page":"water","context_subject_kind":"","controls":[{"action":"next_dive","clipped":false,"hit_rect":[268.0,603.0,744.0,87.0],"visual_rect":[268.0,603.0,744.0,87.0]},{"action":"retry","clipped":false,"hit_rect":[268.0,704.0,744.0,87.0],"visual_rect":[268.0,704.0,744.0,87.0]},{"action":"back","clipped":false,"hit_rect":[268.0,805.0,744.0,87.0],"visual_rect":[268.0,805.0,744.0,87.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"debrief","scroll_rect":[268.0,46.0,744.0,1061.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1280.0,1153.0],"window":[2184.0,1968.0]}
+SS_TARGET next_dive center=640,647 viewport=1280,1153
+SS_TARGET retry center=640,748 viewport=1280,1153
+SS_TARGET back center=640,849 viewport=1280,1153
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":92,"hud_visible":false,"menu_visible":true,"mission":1,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,1280.0,1153.0],"chart_view":{"center":[333.044250488281,2100.0],"mode":"follow","zoom":4.0},"context_page":"water","context_subject_kind":"","controls":[{"action":"next_dive","clipped":false,"hit_rect":[268.0,603.0,744.0,87.0],"visual_rect":[268.0,603.0,744.0,87.0]},{"action":"retry","clipped":false,"hit_rect":[268.0,704.0,744.0,87.0],"visual_rect":[268.0,704.0,744.0,87.0]},{"action":"back","clipped":false,"hit_rect":[268.0,805.0,744.0,87.0],"visual_rect":[268.0,805.0,744.0,87.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"debrief","scroll_rect":[268.0,46.0,744.0,1061.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1280.0,1153.0],"window":[2184.0,1968.0]}
+SS_TARGET next_dive center=640,647 viewport=1280,1153
+SS_TARGET retry center=640,748 viewport=1280,1153
+SS_TARGET back center=640,849 viewport=1280,1153
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":92,"hud_visible":false,"menu_visible":true,"mission":1,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,1280.0,1153.0],"chart_view":{"center":[333.044250488281,2100.0],"mode":"follow","zoom":4.0},"context_page":"water","context_subject_kind":"","controls":[{"action":"next_dive","clipped":false,"hit_rect":[268.0,603.0,744.0,87.0],"visual_rect":[268.0,603.0,744.0,87.0]},{"action":"retry","clipped":false,"hit_rect":[268.0,704.0,744.0,87.0],"visual_rect":[268.0,704.0,744.0,87.0]},{"action":"back","clipped":false,"hit_rect":[268.0,805.0,744.0,87.0],"visual_rect":[268.0,805.0,744.0,87.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"debrief","scroll_rect":[268.0,46.0,744.0,1061.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1280.0,1153.0],"window":[2184.0,1968.0]}
+SS_TARGET next_dive center=640,647 viewport=1280,1153
+SS_TARGET retry center=640,748 viewport=1280,1153
+SS_TARGET back center=640,849 viewport=1280,1153
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":92,"hud_visible":false,"menu_visible":true,"mission":1,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,1280.0,1153.0],"chart_view":{"center":[333.044250488281,2100.0],"mode":"follow","zoom":4.0},"context_page":"water","context_subject_kind":"","controls":[{"action":"next_dive","clipped":false,"hit_rect":[268.0,603.0,744.0,87.0],"visual_rect":[268.0,603.0,744.0,87.0]},{"action":"retry","clipped":false,"hit_rect":[268.0,704.0,744.0,87.0],"visual_rect":[268.0,704.0,744.0,87.0]},{"action":"back","clipped":false,"hit_rect":[268.0,805.0,744.0,87.0],"visual_rect":[268.0,805.0,744.0,87.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"debrief","scroll_rect":[268.0,46.0,744.0,1061.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1280.0,1153.0],"window":[2184.0,1968.0]}
+SS_TARGET next_dive center=640,647 viewport=1280,1153
+SS_TARGET retry center=640,748 viewport=1280,1153
+SS_TARGET back center=640,849 viewport=1280,1153
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":92,"hud_visible":false,"menu_visible":true,"mission":1,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,1280.0,1153.0],"chart_view":{"center":[333.044250488281,2100.0],"mode":"follow","zoom":4.0},"context_page":"water","context_subject_kind":"","controls":[{"action":"next_dive","clipped":false,"hit_rect":[268.0,603.0,744.0,87.0],"visual_rect":[268.0,603.0,744.0,87.0]},{"action":"retry","clipped":false,"hit_rect":[268.0,704.0,744.0,87.0],"visual_rect":[268.0,704.0,744.0,87.0]},{"action":"back","clipped":false,"hit_rect":[268.0,805.0,744.0,87.0],"visual_rect":[268.0,805.0,744.0,87.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"debrief","scroll_rect":[268.0,46.0,744.0,1061.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1280.0,1153.0],"window":[2184.0,1968.0]}
+SS_TARGET next_dive center=640,647 viewport=1280,1153
+SS_TARGET retry center=640,748 viewport=1280,1153
+SS_TARGET back center=640,849 viewport=1280,1153
+SS_DEBRIEF outcome=won mission=1
+SS_SCREEN operations window=(2184, 1968) viewport=(1280.0, 1153.0) root=(1280.0, 1153.0) unlocked=2 active_time=0.0
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":98,"hud_visible":false,"menu_visible":true,"mission":1,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,1280.0,1153.0],"chart_view":{"center":[333.044250488281,2100.0],"mode":"follow","zoom":4.0},"context_page":"water","context_subject_kind":"","controls":[{"action":"mission0","clipped":false,"hit_rect":[268.0,264.0,736.0,87.0],"visual_rect":[268.0,264.0,736.0,87.0]},{"action":"mission1","clipped":false,"hit_rect":[268.0,365.0,736.0,87.0],"visual_rect":[268.0,365.0,736.0,87.0]},{"action":"mission2","clipped":false,"hit_rect":[268.0,466.0,736.0,87.0],"visual_rect":[268.0,466.0,736.0,87.0]},{"action":"mission3","clipped":false,"hit_rect":[268.0,567.0,736.0,87.0],"visual_rect":[268.0,567.0,736.0,87.0]},{"action":"mission4","clipped":false,"hit_rect":[268.0,668.0,736.0,87.0],"visual_rect":[268.0,668.0,736.0,87.0]},{"action":"mission5","clipped":false,"hit_rect":[268.0,769.0,736.0,87.0],"visual_rect":[268.0,769.0,736.0,87.0]},{"action":"route_map","clipped":false,"hit_rect":[268.0,870.0,736.0,87.0],"visual_rect":[268.0,870.0,736.0,87.0]},{"action":"fittings","clipped":false,"hit_rect":[268.0,971.0,736.0,87.0],"visual_rect":[268.0,971.0,736.0,87.0]},{"action":"new_campaign","clipped":true,"hit_rect":[268.0,1072.0,736.0,35.0],"visual_rect":[268.0,1072.0,736.0,87.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"menu","scroll_rect":[268.0,46.0,744.0,1061.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1280.0,1153.0],"window":[2184.0,1968.0]}
+SS_TARGET mission0 center=636,308 viewport=1280,1153
+SS_TARGET mission1 center=636,409 viewport=1280,1153
+SS_TARGET mission2 center=636,510 viewport=1280,1153
+SS_TARGET mission3 center=636,611 viewport=1280,1153
+SS_TARGET mission4 center=636,712 viewport=1280,1153
+SS_TARGET mission5 center=636,813 viewport=1280,1153
+SS_TARGET route_map center=636,914 viewport=1280,1153
+SS_TARGET fittings center=636,1015 viewport=1280,1153
+SS_TARGET new_campaign center=636,1116 viewport=1280,1153
+SS_TARGET loadout center=636,1645 viewport=1280,1153
+SS_TARGET settings center=636,1746 viewport=1280,1153
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":98,"hud_visible":false,"menu_visible":true,"mission":1,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,1280.0,1153.0],"chart_view":{"center":[333.044250488281,2100.0],"mode":"follow","zoom":4.0},"context_page":"water","context_subject_kind":"","controls":[{"action":"mission0","clipped":false,"hit_rect":[268.0,264.0,736.0,87.0],"visual_rect":[268.0,264.0,736.0,87.0]},{"action":"mission1","clipped":false,"hit_rect":[268.0,365.0,736.0,87.0],"visual_rect":[268.0,365.0,736.0,87.0]},{"action":"mission2","clipped":false,"hit_rect":[268.0,466.0,736.0,87.0],"visual_rect":[268.0,466.0,736.0,87.0]},{"action":"mission3","clipped":false,"hit_rect":[268.0,567.0,736.0,87.0],"visual_rect":[268.0,567.0,736.0,87.0]},{"action":"mission4","clipped":false,"hit_rect":[268.0,668.0,736.0,87.0],"visual_rect":[268.0,668.0,736.0,87.0]},{"action":"mission5","clipped":false,"hit_rect":[268.0,769.0,736.0,87.0],"visual_rect":[268.0,769.0,736.0,87.0]},{"action":"route_map","clipped":false,"hit_rect":[268.0,870.0,736.0,87.0],"visual_rect":[268.0,870.0,736.0,87.0]},{"action":"fittings","clipped":false,"hit_rect":[268.0,971.0,736.0,87.0],"visual_rect":[268.0,971.0,736.0,87.0]},{"action":"new_campaign","clipped":true,"hit_rect":[268.0,1072.0,736.0,35.0],"visual_rect":[268.0,1072.0,736.0,87.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"menu","scroll_rect":[268.0,46.0,744.0,1061.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1280.0,1153.0],"window":[2184.0,1968.0]}
+SS_TARGET mission0 center=636,308 viewport=1280,1153
+SS_TARGET mission1 center=636,409 viewport=1280,1153
+SS_TARGET mission2 center=636,510 viewport=1280,1153
+SS_TARGET mission3 center=636,611 viewport=1280,1153
+SS_TARGET mission4 center=636,712 viewport=1280,1153
+SS_TARGET mission5 center=636,813 viewport=1280,1153
+SS_TARGET route_map center=636,914 viewport=1280,1153
+SS_TARGET fittings center=636,1015 viewport=1280,1153
+SS_TARGET new_campaign center=636,1116 viewport=1280,1153
+SS_TARGET loadout center=636,1645 viewport=1280,1153
+SS_TARGET settings center=636,1746 viewport=1280,1153
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":98,"hud_visible":false,"menu_visible":true,"mission":1,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,1280.0,1153.0],"chart_view":{"center":[333.044250488281,2100.0],"mode":"follow","zoom":4.0},"context_page":"water","context_subject_kind":"","controls":[{"action":"mission0","clipped":false,"hit_rect":[268.0,264.0,736.0,87.0],"visual_rect":[268.0,264.0,736.0,87.0]},{"action":"mission1","clipped":false,"hit_rect":[268.0,365.0,736.0,87.0],"visual_rect":[268.0,365.0,736.0,87.0]},{"action":"mission2","clipped":false,"hit_rect":[268.0,466.0,736.0,87.0],"visual_rect":[268.0,466.0,736.0,87.0]},{"action":"mission3","clipped":false,"hit_rect":[268.0,567.0,736.0,87.0],"visual_rect":[268.0,567.0,736.0,87.0]},{"action":"mission4","clipped":false,"hit_rect":[268.0,668.0,736.0,87.0],"visual_rect":[268.0,668.0,736.0,87.0]},{"action":"mission5","clipped":false,"hit_rect":[268.0,769.0,736.0,87.0],"visual_rect":[268.0,769.0,736.0,87.0]},{"action":"route_map","clipped":false,"hit_rect":[268.0,870.0,736.0,87.0],"visual_rect":[268.0,870.0,736.0,87.0]},{"action":"fittings","clipped":false,"hit_rect":[268.0,971.0,736.0,87.0],"visual_rect":[268.0,971.0,736.0,87.0]},{"action":"new_campaign","clipped":true,"hit_rect":[268.0,1072.0,736.0,35.0],"visual_rect":[268.0,1072.0,736.0,87.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"menu","scroll_rect":[268.0,46.0,744.0,1061.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1280.0,1153.0],"window":[2184.0,1968.0]}
+SS_TARGET mission0 center=636,308 viewport=1280,1153
+SS_TARGET mission1 center=636,409 viewport=1280,1153
+SS_TARGET mission2 center=636,510 viewport=1280,1153
+SS_TARGET mission3 center=636,611 viewport=1280,1153
+SS_TARGET mission4 center=636,712 viewport=1280,1153
+SS_TARGET mission5 center=636,813 viewport=1280,1153
+SS_TARGET route_map center=636,914 viewport=1280,1153
+SS_TARGET fittings center=636,1015 viewport=1280,1153
+SS_TARGET new_campaign center=636,1116 viewport=1280,1153
+SS_TARGET loadout center=636,1645 viewport=1280,1153
+SS_TARGET settings center=636,1746 viewport=1280,1153
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":113,"hud_visible":false,"menu_visible":true,"mission":1,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,1280.0,1153.0],"chart_view":{"center":[333.044250488281,2100.0],"mode":"follow","zoom":4.0},"context_page":"water","context_subject_kind":"","controls":[{"action":"back","clipped":false,"hit_rect":[268.0,46.0,736.0,87.0],"visual_rect":[268.0,46.0,736.0,87.0]},{"action":"frame_quietus_standard","clipped":false,"hit_rect":[268.0,954.0,736.0,87.0],"visual_rect":[268.0,954.0,736.0,87.0]},{"action":"frame_quietus_quiet","clipped":true,"hit_rect":[268.0,1055.0,736.0,52.0],"visual_rect":[268.0,1055.0,736.0,87.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"fittings","scroll_rect":[268.0,46.0,744.0,1061.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1280.0,1153.0],"window":[2184.0,1968.0]}
+SS_TARGET back center=636,90 viewport=1280,1153
+SS_TARGET frame_quietus_standard center=636,998 viewport=1280,1153
+SS_TARGET frame_quietus_quiet center=636,1099 viewport=1280,1153
+SS_TARGET frame_quietus_fast center=636,1200 viewport=1280,1153
+SS_TARGET frame_drone_a_standard center=636,1594 viewport=1280,1153
+SS_TARGET frame_drone_a_scout center=636,1695 viewport=1280,1153
+SS_TARGET frame_drone_a_heavy center=636,1796 viewport=1280,1153
+SS_TARGET frame_drone_a_endurance center=636,1897 viewport=1280,1153
+SS_TARGET frame_drone_b_standard center=636,2291 viewport=1280,1153
+SS_TARGET frame_drone_b_scout center=636,2392 viewport=1280,1153
+SS_TARGET frame_drone_b_heavy center=636,2493 viewport=1280,1153
+SS_TARGET frame_drone_b_endurance center=636,2594 viewport=1280,1153
+SS_TARGET fit_quietus center=636,3156 viewport=1280,1153
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":113,"hud_visible":false,"menu_visible":true,"mission":1,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,1280.0,1153.0],"chart_view":{"center":[333.044250488281,2100.0],"mode":"follow","zoom":4.0},"context_page":"water","context_subject_kind":"","controls":[{"action":"back","clipped":false,"hit_rect":[268.0,46.0,736.0,87.0],"visual_rect":[268.0,46.0,736.0,87.0]},{"action":"frame_quietus_standard","clipped":false,"hit_rect":[268.0,954.0,736.0,87.0],"visual_rect":[268.0,954.0,736.0,87.0]},{"action":"frame_quietus_quiet","clipped":true,"hit_rect":[268.0,1055.0,736.0,52.0],"visual_rect":[268.0,1055.0,736.0,87.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"fittings","scroll_rect":[268.0,46.0,744.0,1061.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1280.0,1153.0],"window":[2184.0,1968.0]}
+SS_TARGET back center=636,90 viewport=1280,1153
+SS_TARGET frame_quietus_standard center=636,998 viewport=1280,1153
+SS_TARGET frame_quietus_quiet center=636,1099 viewport=1280,1153
+SS_TARGET frame_quietus_fast center=636,1200 viewport=1280,1153
+SS_TARGET frame_drone_a_standard center=636,1594 viewport=1280,1153
+SS_TARGET frame_drone_a_scout center=636,1695 viewport=1280,1153
+SS_TARGET frame_drone_a_heavy center=636,1796 viewport=1280,1153
+SS_TARGET frame_drone_a_endurance center=636,1897 viewport=1280,1153
+SS_TARGET frame_drone_b_standard center=636,2291 viewport=1280,1153
+SS_TARGET frame_drone_b_scout center=636,2392 viewport=1280,1153
+SS_TARGET frame_drone_b_heavy center=636,2493 viewport=1280,1153
+SS_TARGET frame_drone_b_endurance center=636,2594 viewport=1280,1153
+SS_TARGET fit_quietus center=636,3156 viewport=1280,1153
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":129,"hud_visible":false,"menu_visible":true,"mission":1,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,1280.0,1153.0],"chart_view":{"center":[333.044250488281,2100.0],"mode":"follow","zoom":4.0},"context_page":"water","context_subject_kind":"","controls":[{"action":"frame_drone_b_standard","clipped":false,"hit_rect":[268.0,155.0,736.0,87.0],"visual_rect":[268.0,155.0,736.0,87.0]},{"action":"frame_drone_b_scout","clipped":false,"hit_rect":[268.0,256.0,736.0,87.0],"visual_rect":[268.0,256.0,736.0,87.0]},{"action":"frame_drone_b_heavy","clipped":false,"hit_rect":[268.0,357.0,736.0,87.0],"visual_rect":[268.0,357.0,736.0,87.0]},{"action":"frame_drone_b_endurance","clipped":false,"hit_rect":[268.0,458.0,736.0,87.0],"visual_rect":[268.0,458.0,736.0,87.0]},{"action":"fit_quietus","clipped":false,"hit_rect":[268.0,1020.0,736.0,87.0],"visual_rect":[268.0,1020.0,736.0,87.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"fittings","scroll_rect":[268.0,46.0,744.0,1061.0],"scroll_vertical":2092,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1280.0,1153.0],"window":[2184.0,1968.0]}
+SS_TARGET back center=636,-2003 viewport=1280,1153
+SS_TARGET frame_quietus_standard center=636,-1095 viewport=1280,1153
+SS_TARGET frame_quietus_quiet center=636,-994 viewport=1280,1153
+SS_TARGET frame_quietus_fast center=636,-893 viewport=1280,1153
+SS_TARGET frame_drone_a_standard center=636,-499 viewport=1280,1153
+SS_TARGET frame_drone_a_scout center=636,-398 viewport=1280,1153
+SS_TARGET frame_drone_a_heavy center=636,-297 viewport=1280,1153
+SS_TARGET frame_drone_a_endurance center=636,-196 viewport=1280,1153
+SS_TARGET frame_drone_b_standard center=636,199 viewport=1280,1153
+SS_TARGET frame_drone_b_scout center=636,300 viewport=1280,1153
+SS_TARGET frame_drone_b_heavy center=636,401 viewport=1280,1153
+SS_TARGET frame_drone_b_endurance center=636,502 viewport=1280,1153
+SS_TARGET fit_quietus center=636,1064 viewport=1280,1153
+SS_SCREEN operations window=(2184, 1968) viewport=(1280.0, 1153.0) root=(1280.0, 1153.0) unlocked=2 active_time=0.0
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":136,"hud_visible":false,"menu_visible":true,"mission":1,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,1280.0,1153.0],"chart_view":{"center":[333.044250488281,2100.0],"mode":"follow","zoom":4.0},"context_page":"water","context_subject_kind":"","controls":[{"action":"mission0","clipped":false,"hit_rect":[268.0,264.0,736.0,87.0],"visual_rect":[268.0,264.0,736.0,87.0]},{"action":"mission1","clipped":false,"hit_rect":[268.0,365.0,736.0,87.0],"visual_rect":[268.0,365.0,736.0,87.0]},{"action":"mission2","clipped":false,"hit_rect":[268.0,466.0,736.0,87.0],"visual_rect":[268.0,466.0,736.0,87.0]},{"action":"mission3","clipped":false,"hit_rect":[268.0,567.0,736.0,87.0],"visual_rect":[268.0,567.0,736.0,87.0]},{"action":"mission4","clipped":false,"hit_rect":[268.0,668.0,736.0,87.0],"visual_rect":[268.0,668.0,736.0,87.0]},{"action":"mission5","clipped":false,"hit_rect":[268.0,769.0,736.0,87.0],"visual_rect":[268.0,769.0,736.0,87.0]},{"action":"route_map","clipped":false,"hit_rect":[268.0,870.0,736.0,87.0],"visual_rect":[268.0,870.0,736.0,87.0]},{"action":"fittings","clipped":false,"hit_rect":[268.0,971.0,736.0,87.0],"visual_rect":[268.0,971.0,736.0,87.0]},{"action":"new_campaign","clipped":true,"hit_rect":[268.0,1072.0,736.0,35.0],"visual_rect":[268.0,1072.0,736.0,87.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"menu","scroll_rect":[268.0,46.0,744.0,1061.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1280.0,1153.0],"window":[2184.0,1968.0]}
+SS_TARGET mission0 center=636,308 viewport=1280,1153
+SS_TARGET mission1 center=636,409 viewport=1280,1153
+SS_TARGET mission2 center=636,510 viewport=1280,1153
+SS_TARGET mission3 center=636,611 viewport=1280,1153
+SS_TARGET mission4 center=636,712 viewport=1280,1153
+SS_TARGET mission5 center=636,813 viewport=1280,1153
+SS_TARGET route_map center=636,914 viewport=1280,1153
+SS_TARGET fittings center=636,1015 viewport=1280,1153
+SS_TARGET new_campaign center=636,1116 viewport=1280,1153
+SS_TARGET loadout center=636,1645 viewport=1280,1153
+SS_TARGET settings center=636,1746 viewport=1280,1153
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":136,"hud_visible":false,"menu_visible":true,"mission":1,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,1280.0,1153.0],"chart_view":{"center":[333.044250488281,2100.0],"mode":"follow","zoom":4.0},"context_page":"water","context_subject_kind":"","controls":[{"action":"mission0","clipped":false,"hit_rect":[268.0,264.0,736.0,87.0],"visual_rect":[268.0,264.0,736.0,87.0]},{"action":"mission1","clipped":false,"hit_rect":[268.0,365.0,736.0,87.0],"visual_rect":[268.0,365.0,736.0,87.0]},{"action":"mission2","clipped":false,"hit_rect":[268.0,466.0,736.0,87.0],"visual_rect":[268.0,466.0,736.0,87.0]},{"action":"mission3","clipped":false,"hit_rect":[268.0,567.0,736.0,87.0],"visual_rect":[268.0,567.0,736.0,87.0]},{"action":"mission4","clipped":false,"hit_rect":[268.0,668.0,736.0,87.0],"visual_rect":[268.0,668.0,736.0,87.0]},{"action":"mission5","clipped":false,"hit_rect":[268.0,769.0,736.0,87.0],"visual_rect":[268.0,769.0,736.0,87.0]},{"action":"route_map","clipped":false,"hit_rect":[268.0,870.0,736.0,87.0],"visual_rect":[268.0,870.0,736.0,87.0]},{"action":"fittings","clipped":false,"hit_rect":[268.0,971.0,736.0,87.0],"visual_rect":[268.0,971.0,736.0,87.0]},{"action":"new_campaign","clipped":true,"hit_rect":[268.0,1072.0,736.0,35.0],"visual_rect":[268.0,1072.0,736.0,87.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"menu","scroll_rect":[268.0,46.0,744.0,1061.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1280.0,1153.0],"window":[2184.0,1968.0]}
+SS_TARGET mission0 center=636,308 viewport=1280,1153
+SS_TARGET mission1 center=636,409 viewport=1280,1153
+SS_TARGET mission2 center=636,510 viewport=1280,1153
+SS_TARGET mission3 center=636,611 viewport=1280,1153
+SS_TARGET mission4 center=636,712 viewport=1280,1153
+SS_TARGET mission5 center=636,813 viewport=1280,1153
+SS_TARGET route_map center=636,914 viewport=1280,1153
+SS_TARGET fittings center=636,1015 viewport=1280,1153
+SS_TARGET new_campaign center=636,1116 viewport=1280,1153
+SS_TARGET loadout center=636,1645 viewport=1280,1153
+SS_TARGET settings center=636,1746 viewport=1280,1153
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":138,"hud_visible":false,"menu_visible":true,"mission":1,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,1280.0,1153.0],"chart_view":{"center":[333.044250488281,2100.0],"mode":"follow","zoom":4.0},"context_page":"water","context_subject_kind":"","controls":[{"action":"mission0","clipped":false,"hit_rect":[268.0,264.0,736.0,87.0],"visual_rect":[268.0,264.0,736.0,87.0]},{"action":"mission1","clipped":false,"hit_rect":[268.0,365.0,736.0,87.0],"visual_rect":[268.0,365.0,736.0,87.0]},{"action":"mission2","clipped":false,"hit_rect":[268.0,466.0,736.0,87.0],"visual_rect":[268.0,466.0,736.0,87.0]},{"action":"mission3","clipped":false,"hit_rect":[268.0,567.0,736.0,87.0],"visual_rect":[268.0,567.0,736.0,87.0]},{"action":"mission4","clipped":false,"hit_rect":[268.0,668.0,736.0,87.0],"visual_rect":[268.0,668.0,736.0,87.0]},{"action":"mission5","clipped":false,"hit_rect":[268.0,769.0,736.0,87.0],"visual_rect":[268.0,769.0,736.0,87.0]},{"action":"route_map","clipped":false,"hit_rect":[268.0,870.0,736.0,87.0],"visual_rect":[268.0,870.0,736.0,87.0]},{"action":"fittings","clipped":false,"hit_rect":[268.0,971.0,736.0,87.0],"visual_rect":[268.0,971.0,736.0,87.0]},{"action":"new_campaign","clipped":true,"hit_rect":[268.0,1072.0,736.0,35.0],"visual_rect":[268.0,1072.0,736.0,87.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"menu","scroll_rect":[268.0,46.0,744.0,1061.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1280.0,1153.0],"window":[2184.0,1968.0]}
+SS_TARGET mission0 center=636,308 viewport=1280,1153
+SS_TARGET mission1 center=636,409 viewport=1280,1153
+SS_TARGET mission2 center=636,510 viewport=1280,1153
+SS_TARGET mission3 center=636,611 viewport=1280,1153
+SS_TARGET mission4 center=636,712 viewport=1280,1153
+SS_TARGET mission5 center=636,813 viewport=1280,1153
+SS_TARGET route_map center=636,914 viewport=1280,1153
+SS_TARGET fittings center=636,1015 viewport=1280,1153
+SS_TARGET new_campaign center=636,1116 viewport=1280,1153
+SS_TARGET loadout center=636,1645 viewport=1280,1153
+SS_TARGET settings center=636,1746 viewport=1280,1153
+SS_ROLE mission=0 index=1 type=sweeper mode=PATROL pos=850.000000,300.000000 home=850.000000,300.000000 target=-1 lock=0.000000 time=0.000000
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":148,"hud_visible":true,"menu_visible":false,"mission":0,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,1280.0,1153.0],"chart_view":{"center":[333.044250488281,660.0],"mode":"follow","zoom":2.40208333333333},"context_page":"water","context_subject_kind":"","controls":[{"action":"more_orders","clipped":false,"hit_rect":[1133.15,12.0,134.85,87.0],"visual_rect":[1133.15,12.0,134.85,87.0]},{"action":"fleet_q","clipped":false,"hit_rect":[225.533,802.033,87.0,87.0],"visual_rect":[225.533,802.033,87.0,87.0]},{"action":"fleet_a","clipped":false,"hit_rect":[225.533,609.867,87.0,87.0],"visual_rect":[225.533,609.867,87.0,87.0]},{"action":"fleet_b","clipped":false,"hit_rect":[261.655,949.0,87.0,87.0],"visual_rect":[261.655,949.0,87.0,87.0]},{"action":"pause","clipped":false,"hit_rect":[12.0,12.0,134.85,87.0],"visual_rect":[12.0,12.0,134.85,87.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"mission","scroll_rect":[0.0,0.0,0.0,0.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1280.0,1153.0],"window":[2184.0,1968.0]}
+SS_TARGET more_orders center=1201,56 viewport=1280,1153
+SS_TARGET fleet_q center=269,846 viewport=1280,1153
+SS_TARGET fleet_a center=269,653 viewport=1280,1153
+SS_TARGET fleet_b center=305,993 viewport=1280,1153
+SS_TARGET pause center=79,56 viewport=1280,1153
+SS_TARGET chart_center center=640,577 viewport=1280,1153
+SS_TARGET objective0 center=2364,404 viewport=1280,1153
+SS_TARGET route center=922,942 viewport=1280,1153
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":148,"hud_visible":true,"menu_visible":false,"mission":0,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,1280.0,1153.0],"chart_view":{"center":[333.044250488281,660.0],"mode":"follow","zoom":2.40208333333333},"context_page":"water","context_subject_kind":"","controls":[{"action":"more_orders","clipped":false,"hit_rect":[1133.15,12.0,134.85,87.0],"visual_rect":[1133.15,12.0,134.85,87.0]},{"action":"fleet_q","clipped":false,"hit_rect":[225.533,802.033,87.0,87.0],"visual_rect":[225.533,802.033,87.0,87.0]},{"action":"fleet_a","clipped":false,"hit_rect":[225.533,609.867,87.0,87.0],"visual_rect":[225.533,609.867,87.0,87.0]},{"action":"fleet_b","clipped":false,"hit_rect":[261.655,949.0,87.0,87.0],"visual_rect":[261.655,949.0,87.0,87.0]},{"action":"pause","clipped":false,"hit_rect":[12.0,12.0,134.85,87.0],"visual_rect":[12.0,12.0,134.85,87.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"mission","scroll_rect":[0.0,0.0,0.0,0.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1280.0,1153.0],"window":[2184.0,1968.0]}
+SS_TARGET more_orders center=1201,56 viewport=1280,1153
+SS_TARGET fleet_q center=269,846 viewport=1280,1153
+SS_TARGET fleet_a center=269,653 viewport=1280,1153
+SS_TARGET fleet_b center=305,993 viewport=1280,1153
+SS_TARGET pause center=79,56 viewport=1280,1153
+SS_TARGET chart_center center=640,577 viewport=1280,1153
+SS_TARGET objective0 center=2364,404 viewport=1280,1153
+SS_TARGET route center=922,942 viewport=1280,1153
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":148,"hud_visible":true,"menu_visible":false,"mission":0,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,1280.0,1153.0],"chart_view":{"center":[333.044250488281,660.0],"mode":"follow","zoom":2.40208333333333},"context_page":"water","context_subject_kind":"","controls":[{"action":"more_orders","clipped":false,"hit_rect":[1133.15,12.0,134.85,87.0],"visual_rect":[1133.15,12.0,134.85,87.0]},{"action":"fleet_q","clipped":false,"hit_rect":[225.533,802.033,87.0,87.0],"visual_rect":[225.533,802.033,87.0,87.0]},{"action":"fleet_a","clipped":false,"hit_rect":[225.533,609.867,87.0,87.0],"visual_rect":[225.533,609.867,87.0,87.0]},{"action":"fleet_b","clipped":false,"hit_rect":[261.655,949.0,87.0,87.0],"visual_rect":[261.655,949.0,87.0,87.0]},{"action":"pause","clipped":false,"hit_rect":[12.0,12.0,134.85,87.0],"visual_rect":[12.0,12.0,134.85,87.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"mission","scroll_rect":[0.0,0.0,0.0,0.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1280.0,1153.0],"window":[2184.0,1968.0]}
+SS_TARGET more_orders center=1201,56 viewport=1280,1153
+SS_TARGET fleet_q center=269,846 viewport=1280,1153
+SS_TARGET fleet_a center=269,653 viewport=1280,1153
+SS_TARGET fleet_b center=305,993 viewport=1280,1153
+SS_TARGET pause center=79,56 viewport=1280,1153
+SS_TARGET chart_center center=640,577 viewport=1280,1153
+SS_TARGET objective0 center=2364,404 viewport=1280,1153
+SS_TARGET route center=922,942 viewport=1280,1153
+SS_RESTORE ok mission=1 time=0.0 paused=true completed=[0, 1] unlocked=2
+SS_SCREEN operations window=(2184, 1968) viewport=(1280.0, 1153.0) root=(1280.0, 1153.0) unlocked=0 active_time=0.0
+SS_DEBRIEF outcome=won mission=1
+SS_SCREEN operations window=(2184, 1968) viewport=(1280.0, 1153.0) root=(1280.0, 1153.0) unlocked=0 active_time=0.0
+EARLY REWARD UI CHECKS 40 FAILURES 0

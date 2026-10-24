@@ -1,0 +1,4 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+NAV CORNER clearance=20.0 origin=(889.6, 800.0) route=[{ "pos": (900.0, 820.0), "stop": false }, { "pos": (940.0, 820.0), "stop": false }, { "pos": (1420.0, 880.0), "stop": true }]
+NAV CLEARANCE CHECKS 7 FAILURES 0

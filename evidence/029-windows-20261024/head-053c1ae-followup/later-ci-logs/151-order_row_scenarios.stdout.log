@@ -1,0 +1,73 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+SS_ROLE mission=0 index=1 type=sweeper mode=PATROL pos=850.000000,300.000000 home=850.000000,300.000000 target=-1 lock=0.000000 time=0.000000
+SS_ROLE mission=0 index=1 type=sweeper mode=PATROL pos=850.000000,300.000000 home=850.000000,300.000000 target=-1 lock=0.000000 time=0.000000
+SS_ROLE mission=5 index=3 type=sweeper mode=PATROL pos=1100.000000,700.000000 home=1100.000000,700.000000 target=-1 lock=0.000000 time=0.000000
+SS_ROLE mission=0 index=1 type=sweeper mode=PATROL pos=850.000000,300.000000 home=850.000000,300.000000 target=-1 lock=0.000000 time=0.000000
+SS_ROLE mission=2 index=2 type=sweeper mode=PATROL pos=1120.000000,570.000000 home=1120.000000,570.000000 target=-1 lock=0.000000 time=0.000000
+SS_ROLE mission=0 index=1 type=sweeper mode=PATROL pos=850.000000,300.000000 home=850.000000,300.000000 target=-1 lock=0.000000 time=0.000000
+SS_ROLE mission=0 index=1 type=sweeper mode=PATROL pos=850.000000,300.000000 home=850.000000,300.000000 target=-1 lock=0.000000 time=0.000000
+SS_ROLE mission=0 index=1 type=sweeper mode=PATROL pos=850.000000,300.000000 home=850.000000,300.000000 target=-1 lock=0.000000 time=0.000000
+SS_ROLE mission=0 index=1 type=sweeper mode=PATROL pos=850.000000,300.000000 home=850.000000,300.000000 target=-1 lock=0.000000 time=0.000000
+SS_VIEW zoom=1.71 center=(500.0, 663.125)
+SS_VIEW zoom=1.71 center=(500.0, 647.5)
+SS_ROLE mission=0 index=1 type=sweeper mode=PATROL pos=850.000000,300.000000 home=850.000000,300.000000 target=-1 lock=0.000000 time=0.000000
+SS_ORDER select accepted=true selected=2 queued=false
+ORDER_ROW_PROFILE desktop toggle=[P: (1193.6, 12.0), S: (74.40002, 48.0)] droneB=[P: (205.4808, 525.0823), S: (74.4, 48.0)] emp=[P: (0.0, 0.0), S: (74.4, 48.0)]
+SS_ROLE mission=0 index=1 type=sweeper mode=PATROL pos=850.000000,300.000000 home=850.000000,300.000000 target=-1 lock=0.000000 time=0.000000
+SS_ROLE mission=0 index=1 type=sweeper mode=PATROL pos=850.000000,300.000000 home=850.000000,300.000000 target=-1 lock=0.000000 time=0.000000
+SS_ROLE mission=5 index=3 type=sweeper mode=PATROL pos=1100.000000,700.000000 home=1100.000000,700.000000 target=-1 lock=0.000000 time=0.000000
+SS_ROLE mission=0 index=1 type=sweeper mode=PATROL pos=850.000000,300.000000 home=850.000000,300.000000 target=-1 lock=0.000000 time=0.000000
+SS_ROLE mission=2 index=2 type=sweeper mode=PATROL pos=1120.000000,570.000000 home=1120.000000,570.000000 target=-1 lock=0.000000 time=0.000000
+SS_ROLE mission=0 index=1 type=sweeper mode=PATROL pos=850.000000,300.000000 home=850.000000,300.000000 target=-1 lock=0.000000 time=0.000000
+SS_ROLE mission=0 index=1 type=sweeper mode=PATROL pos=850.000000,300.000000 home=850.000000,300.000000 target=-1 lock=0.000000 time=0.000000
+SS_ROLE mission=0 index=1 type=sweeper mode=PATROL pos=850.000000,300.000000 home=850.000000,300.000000 target=-1 lock=0.000000 time=0.000000
+SS_ROLE mission=0 index=1 type=sweeper mode=PATROL pos=850.000000,300.000000 home=850.000000,300.000000 target=-1 lock=0.000000 time=0.000000
+SS_VIEW zoom=2.12 center=(500.0, 720.9061)
+SS_VIEW zoom=2.12 center=(500.0, 708.3222)
+SS_ROLE mission=0 index=1 type=sweeper mode=PATROL pos=850.000000,300.000000 home=850.000000,300.000000 target=-1 lock=0.000000 time=0.000000
+SS_ORDER select accepted=true selected=2 queued=false
+ORDER_ROW_PROFILE cover toggle=[P: (1516.1, 12.0), S: (151.9, 98.0)] droneB=[P: (709.3586, 553.1882), S: (151.9, 98.0)] emp=[P: (90.66667, 0.0), S: (151.9, 98.0)]
+SS_ROLE mission=0 index=1 type=sweeper mode=PATROL pos=850.000000,300.000000 home=850.000000,300.000000 target=-1 lock=0.000000 time=0.000000
+SS_ROLE mission=0 index=1 type=sweeper mode=PATROL pos=850.000000,300.000000 home=850.000000,300.000000 target=-1 lock=0.000000 time=0.000000
+SS_ROLE mission=5 index=3 type=sweeper mode=PATROL pos=1100.000000,700.000000 home=1100.000000,700.000000 target=-1 lock=0.000000 time=0.000000
+SS_ROLE mission=0 index=1 type=sweeper mode=PATROL pos=850.000000,300.000000 home=850.000000,300.000000 target=-1 lock=0.000000 time=0.000000
+SS_ROLE mission=2 index=2 type=sweeper mode=PATROL pos=1120.000000,570.000000 home=1120.000000,570.000000 target=-1 lock=0.000000 time=0.000000
+SS_ROLE mission=0 index=1 type=sweeper mode=PATROL pos=850.000000,300.000000 home=850.000000,300.000000 target=-1 lock=0.000000 time=0.000000
+SS_ROLE mission=0 index=1 type=sweeper mode=PATROL pos=850.000000,300.000000 home=850.000000,300.000000 target=-1 lock=0.000000 time=0.000000
+SS_ROLE mission=0 index=1 type=sweeper mode=PATROL pos=850.000000,300.000000 home=850.000000,300.000000 target=-1 lock=0.000000 time=0.000000
+SS_ROLE mission=0 index=1 type=sweeper mode=PATROL pos=850.000000,300.000000 home=850.000000,300.000000 target=-1 lock=0.000000 time=0.000000
+SS_VIEW zoom=2.4 center=(333.0443, 649.5923)
+SS_VIEW zoom=2.4 center=(333.0443, 639.1847)
+SS_ROLE mission=0 index=1 type=sweeper mode=PATROL pos=850.000000,300.000000 home=850.000000,300.000000 target=-1 lock=0.000000 time=0.000000
+SS_ORDER select accepted=true selected=2 queued=false
+ORDER_ROW_PROFILE inner toggle=[P: (1133.15, 12.0), S: (134.85, 87.0)] droneB=[P: (316.6673, 840.7833), S: (134.85, 87.0)] emp=[P: (0.0, 0.0), S: (134.85, 87.0)]
+SS_ROLE mission=0 index=1 type=sweeper mode=PATROL pos=850.000000,300.000000 home=850.000000,300.000000 target=-1 lock=0.000000 time=0.000000
+SS_ROLE mission=0 index=1 type=sweeper mode=PATROL pos=850.000000,300.000000 home=850.000000,300.000000 target=-1 lock=0.000000 time=0.000000
+SS_ROLE mission=5 index=3 type=sweeper mode=PATROL pos=1100.000000,700.000000 home=1100.000000,700.000000 target=-1 lock=0.000000 time=0.000000
+SS_ROLE mission=0 index=1 type=sweeper mode=PATROL pos=850.000000,300.000000 home=850.000000,300.000000 target=-1 lock=0.000000 time=0.000000
+SS_ROLE mission=2 index=2 type=sweeper mode=PATROL pos=1120.000000,570.000000 home=1120.000000,570.000000 target=-1 lock=0.000000 time=0.000000
+SS_ROLE mission=0 index=1 type=sweeper mode=PATROL pos=850.000000,300.000000 home=850.000000,300.000000 target=-1 lock=0.000000 time=0.000000
+SS_ROLE mission=0 index=1 type=sweeper mode=PATROL pos=850.000000,300.000000 home=850.000000,300.000000 target=-1 lock=0.000000 time=0.000000
+SS_ROLE mission=0 index=1 type=sweeper mode=PATROL pos=850.000000,300.000000 home=850.000000,300.000000 target=-1 lock=0.000000 time=0.000000
+SS_ROLE mission=0 index=1 type=sweeper mode=PATROL pos=850.000000,300.000000 home=850.000000,300.000000 target=-1 lock=0.000000 time=0.000000
+SS_VIEW zoom=2.0 center=(400.0, 647.5)
+SS_VIEW zoom=2.0 center=(400.0, 635.0)
+SS_ROLE mission=0 index=1 type=sweeper mode=PATROL pos=850.000000,300.000000 home=850.000000,300.000000 target=-1 lock=0.000000 time=0.000000
+SS_ORDER select accepted=true selected=2 queued=false
+ORDER_ROW_PROFILE four-three toggle=[P: (1193.6, 12.0), S: (74.40002, 48.0)] droneB=[P: (250.2808, 737.3094), S: (74.40001, 48.0)] emp=[P: (0.0, 0.0), S: (74.4, 48.0)]
+SS_ROLE mission=0 index=1 type=sweeper mode=PATROL pos=850.000000,300.000000 home=850.000000,300.000000 target=-1 lock=0.000000 time=0.000000
+SS_ROLE mission=0 index=1 type=sweeper mode=PATROL pos=850.000000,300.000000 home=850.000000,300.000000 target=-1 lock=0.000000 time=0.000000
+SS_ROLE mission=5 index=3 type=sweeper mode=PATROL pos=1100.000000,700.000000 home=1100.000000,700.000000 target=-1 lock=0.000000 time=0.000000
+SS_ROLE mission=0 index=1 type=sweeper mode=PATROL pos=850.000000,300.000000 home=850.000000,300.000000 target=-1 lock=0.000000 time=0.000000
+SS_ROLE mission=2 index=2 type=sweeper mode=PATROL pos=1120.000000,570.000000 home=1120.000000,570.000000 target=-1 lock=0.000000 time=0.000000
+SS_ROLE mission=0 index=1 type=sweeper mode=PATROL pos=850.000000,300.000000 home=850.000000,300.000000 target=-1 lock=0.000000 time=0.000000
+SS_ROLE mission=0 index=1 type=sweeper mode=PATROL pos=850.000000,300.000000 home=850.000000,300.000000 target=-1 lock=0.000000 time=0.000000
+SS_ROLE mission=0 index=1 type=sweeper mode=PATROL pos=850.000000,300.000000 home=850.000000,300.000000 target=-1 lock=0.000000 time=0.000000
+SS_ROLE mission=0 index=1 type=sweeper mode=PATROL pos=850.000000,300.000000 home=850.000000,300.000000 target=-1 lock=0.000000 time=0.000000
+SS_VIEW zoom=1.67 center=(480.0, 645.0)
+SS_VIEW zoom=1.67 center=(480.0, 630.0)
+SS_ROLE mission=0 index=1 type=sweeper mode=PATROL pos=850.000000,300.000000 home=850.000000,300.000000 target=-1 lock=0.000000 time=0.000000
+SS_ORDER select accepted=true selected=2 queued=false
+ORDER_ROW_PROFILE wide-small toggle=[P: (1193.6, 12.0), S: (74.40002, 48.0)] droneB=[P: (212.9475, 600.4535), S: (74.4, 48.0)] emp=[P: (0.0, 0.0), S: (74.4, 48.0)]
+ORDER ROW CHECKS 250 FAILURES 0

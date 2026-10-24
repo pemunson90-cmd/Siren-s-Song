@@ -1,0 +1,16 @@
+[
+  {
+    "shape": "cover",
+    "exit": 0,
+    "footer": "ARCHIVE PROFILE CHECKS 9 FAILURES 0",
+    "errors": 0,
+    "passed": true
+  },
+  {
+    "shape": "inner",
+    "exit": 0,
+    "footer": "ARCHIVE PROFILE CHECKS 9 FAILURES 0",
+    "errors": 0,
+    "passed": true
+  }
+]

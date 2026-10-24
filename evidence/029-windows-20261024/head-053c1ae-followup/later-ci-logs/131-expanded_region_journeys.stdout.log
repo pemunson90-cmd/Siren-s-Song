@@ -1,0 +1,5 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+COORDINATED t=61.8499999999978 hull=68.6131900787354 tools={ "emp": 0, "decoy": 3, "recon": 2, "knock": 2 } units=[{ "alive": true, "pos": (250.0023, 2174.192) }, { "alive": true, "pos": (226.6121, 2177.332) }, { "alive": true, "pos": (226.7799, 2177.827) }]
+SOLO t=141.750000000005 hull=88.2196847915649 tools={ "emp": 0, "decoy": 3, "recon": 2, "knock": 2 }
+EXPANDED JOURNEYS CHECKS 4 FAILURES 0

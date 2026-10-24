@@ -1,0 +1,12 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+SS_ROLE mission=0 index=1 type=sweeper mode=PATROL pos=850.000000,300.000000 home=850.000000,300.000000 target=-1 lock=0.000000 time=0.000000
+FIT_GEOMETRY {"geometry":[{"font":14,"label":"−","rect":[33.9999961853027,276.877746582031,74.4000015258789,48.0],"required_width":12.0},{"font":14,"label":"+","rect":[142.0,384.877746582031,74.4000015258789,48.0],"required_width":12.0},{"font":14,"label":"FIT","rect":[250.000015258789,276.877746582031,74.4000091552734,48.0],"required_width":24.0}],"profile":"desktop","window":[1280,720]}
+SS_VIEW zoom=1.0 center=(800.0, 480.0)
+SS_ROLE mission=0 index=1 type=sweeper mode=PATROL pos=850.000000,300.000000 home=850.000000,300.000000 target=-1 lock=0.000000 time=0.000000
+FIT_GEOMETRY {"geometry":[{"font":25,"label":"−","rect":[448.560913085938,374.799957275391,151.899993896484,98.0],"required_width":18.0},{"font":25,"label":"+","rect":[669.060913085938,595.299987792969,151.900024414063,98.0],"required_width":18.0},{"font":25,"label":"FIT","rect":[889.560913085938,374.799987792969,151.900024414063,98.0],"required_width":39.0}],"profile":"cover","window":[2520,1080]}
+SS_VIEW zoom=1.0 center=(800.0, 480.0)
+SS_ROLE mission=0 index=1 type=sweeper mode=PATROL pos=850.000000,300.000000 home=850.000000,300.000000 target=-1 lock=0.000000 time=0.000000
+FIT_GEOMETRY {"geometry":[{"font":23,"label":"−","rect":[11.9999847412109,440.962585449219,134.850006103516,87.0],"required_width":17.0},{"font":23,"label":"+","rect":[207.749984741211,636.712585449219,134.850006103516,87.0],"required_width":17.0},{"font":23,"label":"FIT","rect":[403.5,440.962585449219,134.850006103516,87.0],"required_width":36.0}],"profile":"inner","window":[2184,1968]}
+SS_VIEW zoom=1.0 center=(800.0, 480.0)
+FIT LABEL CHECKS 60 FAILURES 0

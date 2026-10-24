@@ -1,0 +1,28 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+OpenGL API 3.3.0 NVIDIA 610.88 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 2080 Ti
+
+SS_ROLE mission=0 index=1 type=sweeper mode=PATROL pos=850.000000,300.000000 home=850.000000,300.000000 target=-1 lock=0.000000 time=0.000000
+SS_PAUSE paused=false
+SS_VIEW zoom=1.0 center=(800.0, 480.0)
+SS_ORDER route accepted=true selected=0 queued=false
+SS_ORDER all_stop accepted=true selected=0 queued=false
+SS_VIEW zoom=2.12 center=(1100.0, 300.0)
+SS_ORDER camera accepted=true selected=0 queued=false
+SS_DEBRIEF outcome=lost mission=0
+SS_ROLE mission=0 index=1 type=sweeper mode=PATROL pos=850.000000,300.000000 home=850.000000,300.000000 target=-1 lock=0.000000 time=0.000000
+SS_PAUSE paused=false
+SS_VIEW zoom=1.0 center=(800.0, 480.0)
+SS_ORDER route accepted=true selected=0 queued=false
+SS_ORDER all_stop accepted=true selected=0 queued=false
+SS_VIEW zoom=2.4 center=(1160.0, 300.0)
+SS_ORDER camera accepted=true selected=0 queued=false
+SS_DEBRIEF outcome=lost mission=0
+SS_ROLE mission=0 index=1 type=sweeper mode=PATROL pos=850.000000,300.000000 home=850.000000,300.000000 target=-1 lock=0.000000 time=0.000000
+SS_PAUSE paused=false
+SS_VIEW zoom=1.0 center=(800.0, 480.0)
+SS_ORDER route accepted=true selected=0 queued=false
+SS_ORDER all_stop accepted=true selected=0 queued=false
+SS_VIEW zoom=2.13 center=(1100.0, 300.0)
+SS_ORDER camera accepted=true selected=0 queued=false
+SS_DEBRIEF outcome=lost mission=0
+COLD REVIEW UI CHECKS 218 FAILURES 0

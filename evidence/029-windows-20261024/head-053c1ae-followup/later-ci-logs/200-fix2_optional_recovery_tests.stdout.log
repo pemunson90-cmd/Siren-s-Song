@@ -1,0 +1,4 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+SHELF METHOD common time=99.9166666666623 hull=100.0 oxygen=84.39944444442 receipt=["west", "east"] guards=[{ "pos": (1504.474, 1508.97), "mode": "DORMANT" }, { "pos": (871.4736, 1343.479), "mode": "SEARCH" }]
+FIX2 OPTIONAL RECOVERY CHECKS 20 FAILURES 0

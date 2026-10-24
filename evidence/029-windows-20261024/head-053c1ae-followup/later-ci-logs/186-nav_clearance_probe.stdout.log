@@ -1,0 +1,11 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+NAV PROBE op=0 accepted=2 clipped=0 below_planner_margin=0 minimum=65.5816421508789
+NAV PROBE op=1 accepted=6 clipped=0 below_planner_margin=0 minimum=24.967191696167
+TIGHT 3 from=(140.0, 800.0) to=(1110.0, 770.0) clearance=20.0 route=[{ "pos": (900.0, 820.0), "stop": false }, { "pos": (940.0, 820.0), "stop": false }, { "pos": (980.0, 820.0), "stop": false }, { "pos": (1020.0, 820.0), "stop": false }, { "pos": (1110.0, 770.0), "stop": true }]
+TIGHT 3 from=(140.0, 800.0) to=(1270.0, 790.0) clearance=20.0 route=[{ "pos": (900.0, 820.0), "stop": false }, { "pos": (940.0, 820.0), "stop": false }, { "pos": (980.0, 820.0), "stop": false }, { "pos": (1020.0, 820.0), "stop": false }, { "pos": (1270.0, 790.0), "stop": true }]
+NAV PROBE op=3 accepted=5 clipped=0 below_planner_margin=2 minimum=20.0
+TIGHT 4 from=(140.0, 800.0) to=(800.0, 390.0) clearance=20.0 route=[{ "pos": (460.0, 260.0), "stop": false }, { "pos": (500.0, 260.0), "stop": false }, { "pos": (540.0, 260.0), "stop": false }, { "pos": (580.0, 260.0), "stop": false }, { "pos": (620.0, 260.0), "stop": false }, { "pos": (660.0, 260.0), "stop": false }, { "pos": (700.0, 260.0), "stop": false }, { "pos": (740.0, 260.0), "stop": false }, { "pos": (800.0, 390.0), "stop": true }]
+NAV PROBE op=4 accepted=6 clipped=0 below_planner_margin=1 minimum=20.0
+NAV PROBE op=5 accepted=5 clipped=0 below_planner_margin=0 minimum=32.5379791259766
+NAV CLEARANCE PROBE CHECKS 24 FAILURES 0

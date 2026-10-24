@@ -1,0 +1,7 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+CONFLUENCE_TECHNICAL ["shelf", "concealed", false] outcome=won t=153.183333333347 oxygen=101.763888888893 hull=100.0 tools={ "emp": 0, "decoy": 0, "recon": 2, "knock": 2 } pos=(445.3736, 4506.687) facts=["confluence_packet"]
+CONFLUENCE_TECHNICAL ["deep", "overt", true] outcome=won t=246.333333333422 oxygen=90.6746031746098 hull=100.0 tools={ "emp": 0, "decoy": 3, "recon": 2, "knock": 2 } pos=(3155.139, 4196.23) facts=["confluence_repeater", "confluence_packet"]
+CONFLUENCE_TECHNICAL ["deep", "concealed", false] outcome=won t=211.283333333394 oxygen=94.8472222222279 hull=100.0 tools={ "emp": 1, "decoy": 3, "recon": 2, "knock": 2 } pos=(445.3736, 4506.687) facts=["confluence_packet"]
+CONFLUENCE_TECHNICAL ["shelf", "overt", false] outcome=won t=216.850000000065 oxygen=94.1845238095297 hull=100.0 tools={ "emp": 0, "decoy": 0, "recon": 2, "knock": 2 } pos=(3156.46, 4205.056) facts=["confluence_packet"]
+CONFLUENCE COMPLETION CHECKS 4 FAILURES 0
