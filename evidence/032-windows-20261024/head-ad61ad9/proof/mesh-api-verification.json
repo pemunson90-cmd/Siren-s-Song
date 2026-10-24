@@ -1,0 +1,13 @@
+{
+  "version": "Official Godot4.6 reference; executed4.6.3 stable",
+  "sources": [
+    "https://docs.godotengine.org/en/4.6/classes/class_arraymesh.html#class-arraymesh-method-add-surface-from-arrays",
+    "https://docs.godotengine.org/en/4.6/classes/class_mesh.html#class-mesh-constant-array-flag-use-2d-vertices",
+    "https://docs.godotengine.org/en/4.6/classes/class_canvasitem.html#class-canvasitem-method-draw-mesh"
+  ],
+  "verified": "ArrayMesh indexed triangle surfaces use ARRAY_VERTEX and optional ARRAY_TEX_UV/ARRAY_COLOR with ARRAY_FLAG_USE_2D_VERTICES. CanvasItem.draw_mesh accepts mesh, texture, local transform and modulate.",
+  "lifetime": "The official CanvasItem reference warns against retaining draw resources only in callback-local variables. ART1 retains all10ArrayMesh resources in its static cache.",
+  "scope": "Unchanged body vertices and UVs are triangulated once; two64segment aperture discs are cached. Existing AA outlines, all other lines/cues and physical reserves remain. Exact continuous pin tint passes through modulate.",
+  "lamp": "One existing local lamp mesh changes its surface only when the actual cached fov/range/steady strength changes. Craft motion and aim use draw transforms, never per-frame vertex rebuilding.",
+  "verification": "ART54 verifies finite bounded source shapes, exact prepared mesh vertices/UVs, valid triangle indices, resource identity and surface-content stability through repeated draws, exact continuous tint and prior privacy/reset/revert contracts. Native paired fixture verifies pixel stability and old-look return."
+}

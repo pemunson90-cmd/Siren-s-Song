@@ -1,0 +1,23 @@
+{
+  "pid": 26432,
+  "args": [
+    "--path",
+    "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\landmarks-merge\\game",
+    "--rendering-method",
+    "gl_compatibility",
+    "--position",
+    "-9000,-9000",
+    "--audio-driver",
+    "Dummy",
+    "--script",
+    "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-mesh-short.gd",
+    "--",
+    "--folder=C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\mesh-short-01",
+    "--frames=300",
+    "--blocks=3"
+  ],
+  "source": "7619ff17069bf52534239702c54462bac8793561",
+  "started": "2026-10-24T19:26:57.6164329Z",
+  "appdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\mesh-short-01\\appdata",
+  "localappdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\mesh-short-01\\local"
+}

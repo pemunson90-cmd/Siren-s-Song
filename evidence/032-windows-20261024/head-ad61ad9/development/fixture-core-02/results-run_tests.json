@@ -1,0 +1,11 @@
+{
+  "suite": "run_tests",
+  "pid": 41172,
+  "appdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\fixture-core-02\\final-run_tests\\appdata",
+  "localappdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\fixture-core-02\\final-run_tests\\local",
+  "gpu": false,
+  "exit": 0,
+  "footer": "CHECKS 835 FAILURES 0\r",
+  "errors": 0,
+  "passed": true
+}

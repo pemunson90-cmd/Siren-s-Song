@@ -1,0 +1,18 @@
+{
+  "pid": 35136,
+  "args": [
+    "--path",
+    "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\landmarks-merge\\game",
+    "--audio-driver",
+    "Dummy",
+    "--headless",
+    "--script",
+    "res://tests/art_render_measurements.gd",
+    "--check-only",
+    "--",
+    "--folder=C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\candidate-parse-01\\captures",
+    "--frames=300",
+    "--blocks=5"
+  ],
+  "started": "2026-10-24T18:40:53.4818874Z"
+}

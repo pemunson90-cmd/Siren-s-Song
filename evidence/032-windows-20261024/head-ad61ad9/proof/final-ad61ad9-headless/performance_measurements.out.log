@@ -1,0 +1,5 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PERFORMANCE {"episodes":1,"max_step_usec":3204,"mean_step_usec":933.166666666667,"operation":19,"retained_objects_delta":2,"setup_usec":221560,"simulated_seconds":1.0,"snapshots":["ad5711614dd503447ffdfacf5399a001edc73dfc591a48b784081c1fa094861f"],"ticks":60}
+PERFORMANCE {"episodes":1,"max_step_usec":958,"mean_step_usec":511.05,"operation":29,"retained_objects_delta":2,"setup_usec":198911,"simulated_seconds":1.0,"snapshots":["284ef62252fb07a25aa6ff1b53d26334b6bf249348d99d1054f23d49a4ae1081"],"ticks":60}
+PERFORMANCE CHECKS 2 FAILURES 0

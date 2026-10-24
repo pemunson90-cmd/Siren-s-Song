@@ -1,0 +1,57 @@
+[
+  {
+    "suite": "well_camera_feed_render_tests",
+    "pid": 36696,
+    "appdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\final-ad61ad9-native\\final-well_camera_feed_render_tests\\appdata",
+    "localappdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\final-ad61ad9-native\\final-well_camera_feed_render_tests\\local",
+    "gpu": true,
+    "exit": 0,
+    "footer": "WELL CAMERA RENDER CHECKS 14 FAILURES 0\r",
+    "errors": 0,
+    "passed": true
+  },
+  {
+    "suite": "fix2_camera_ui_tests",
+    "pid": 24604,
+    "appdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\final-ad61ad9-native\\final-fix2_camera_ui_tests\\appdata",
+    "localappdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\final-ad61ad9-native\\final-fix2_camera_ui_tests\\local",
+    "gpu": true,
+    "exit": 0,
+    "footer": "FIX2 CAMERA UI CHECKS 56 FAILURES 0\r",
+    "errors": 0,
+    "passed": true
+  },
+  {
+    "suite": "a11y_cues_ui_tests",
+    "pid": 42096,
+    "appdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\final-ad61ad9-native\\final-a11y_cues_ui_tests\\appdata",
+    "localappdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\final-ad61ad9-native\\final-a11y_cues_ui_tests\\local",
+    "gpu": true,
+    "exit": 0,
+    "footer": "A11Y CUES UI CHECKS 98 FAILURES 0\r",
+    "errors": 0,
+    "passed": true
+  },
+  {
+    "suite": "consequence_lines_ui_tests",
+    "pid": 36484,
+    "appdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\final-ad61ad9-native\\final-consequence_lines_ui_tests\\appdata",
+    "localappdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\final-ad61ad9-native\\final-consequence_lines_ui_tests\\local",
+    "gpu": true,
+    "exit": 0,
+    "footer": "CONSEQUENCE LINES UI CHECKS 48 FAILURES 0\r",
+    "errors": 0,
+    "passed": true
+  },
+  {
+    "suite": "art_render_measurements",
+    "pid": 26576,
+    "appdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\final-ad61ad9-native\\final-art_render_measurements\\appdata",
+    "localappdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\final-ad61ad9-native\\final-art_render_measurements\\local",
+    "gpu": true,
+    "exit": 0,
+    "footer": "ART RENDER CHECKS 204 FAILURES 0\r",
+    "errors": 0,
+    "passed": true
+  }
+]

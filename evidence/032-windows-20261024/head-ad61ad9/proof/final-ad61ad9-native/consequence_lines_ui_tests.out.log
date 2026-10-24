@@ -1,0 +1,16 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+OpenGL API 3.3.0 NVIDIA 610.88 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 2080 Ti
+
+SS_ROLE mission=0 index=1 type=sweeper mode=PATROL pos=850.000000,300.000000 home=850.000000,300.000000 target=-1 lock=0.000000 time=0.000000
+SS_DEBRIEF outcome=won mission=14
+SS_ROLE mission=0 index=1 type=sweeper mode=PATROL pos=850.000000,300.000000 home=850.000000,300.000000 target=-1 lock=0.000000 time=0.000000
+SS_DEBRIEF outcome=won mission=22
+SS_ROLE mission=0 index=1 type=sweeper mode=PATROL pos=850.000000,300.000000 home=850.000000,300.000000 target=-1 lock=0.000000 time=0.000000
+SS_DEBRIEF outcome=won mission=29
+SS_ROLE mission=0 index=1 type=sweeper mode=PATROL pos=850.000000,300.000000 home=850.000000,300.000000 target=-1 lock=0.000000 time=0.000000
+SS_DEBRIEF outcome=won mission=14
+SS_ROLE mission=0 index=1 type=sweeper mode=PATROL pos=850.000000,300.000000 home=850.000000,300.000000 target=-1 lock=0.000000 time=0.000000
+SS_DEBRIEF outcome=won mission=22
+SS_ROLE mission=0 index=1 type=sweeper mode=PATROL pos=850.000000,300.000000 home=850.000000,300.000000 target=-1 lock=0.000000 time=0.000000
+SS_DEBRIEF outcome=won mission=29
+CONSEQUENCE LINES UI CHECKS 48 FAILURES 0
