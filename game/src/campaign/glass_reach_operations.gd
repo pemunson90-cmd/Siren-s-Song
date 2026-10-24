@@ -2,6 +2,7 @@ extends RefCounted
 const T=preload("res://src/campaign/encounters/terrain.gd")
 const R=preload("res://src/campaign/encounters/roster.gd")
 const W=preload("res://src/campaign/encounters/work_sites.gd")
+const Patrols=preload("res://src/campaign/sweeper_patrols.gd")
 const TITLES={14:"Glass Fence",15:"Needle Strait",16:"Furnace Drift",17:"Silt Archive",18:"Lantern Lock",19:"Last Boat Out",20:"Prism Grave",21:"Range Locker"}
 const ACCOUNTS={
  14:"Dr. Tomas Vey / These floats are the Varne range's hydrophone fence. They listen to engines, not loyalties. Their lamps rise before a report. Deep water under the western teeth gives a slow quiet passage; the central opening is shorter and watched.",
@@ -106,7 +107,7 @@ static func _drift(m,key):
  m.thermal_revision=1;m.thermal_fronts=[{"area":Rect2(1760,1050,600,700),"transmission":.45,"close_range":90.}]
  R.add(m,[R.guard("patroller",Vector2(1400,760),1,[Vector2(1400,760),Vector2(1954,1080),Vector2(1954,1720),Vector2(1400,2040),Vector2(846,1720),Vector2(846,1080)]),
   R.post(Vector2(1900,1150),1,170.),R.guard("buoy",Vector2(520,1100)),R.guard("relay",Vector2(1000,700)),
-  R.guard("sweeper",Vector2(1950,2250),2)])
+  R.guard("sweeper",Vector2(1950,2250),2,Patrols.circuit(16))])
 
 # 17 / Switchback silt terraces. The spindle lies under a silt mound that only
 # DEEP reaches; SHALLOW is choked by banks. Two recovery mouths, west and north.
