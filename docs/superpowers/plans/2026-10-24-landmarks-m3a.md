@@ -34,10 +34,10 @@
 
 **Interfaces:** Data.rows(operation:int, enabled:bool=ENABLED)->Array returns independent authored records. Records have stable id, source, shape/edge reference, position along edge, span, style, glow and one existing palette per operation. Sources are existing rock surfaces or existing public industrial-load projection. All tunable presentation numbers stay in this module.
 
-- [ ] Write coverage tests: ids6..29 each have3..5 unique finite records with0<glow<=1; ids-1..5 and30 returnempty; disabled returns empty; returned rows cannot mutate the table.
-- [ ] Run the new test and retain a meaningful missing-feature RED.
-- [ ] Author fixed rows from the current geometry inventory. Include four glass treatments where physical geometry supports them, warm industrial frames and existing visible sleds. Anchor at least one useful accent near the starting approach and one near existing photo work where practical.
-- [ ] Run the data tests; commit/push WIP on claude/lane-landmarks with required hooks.
+- [x] Write coverage tests: ids6..29 each have3..5 unique finite records with0<glow<=1; ids-1..5 and30 returnempty; disabled returns empty; returned rows cannot mutate the table.
+- [x] Run the new test and retain a meaningful missing-feature RED.
+- [x] Author fixed rows from the current geometry inventory. Use the existing glass spires, warm industrial frames and fresh observed sleds; three physical-feature treatments per op plus photo/load lamps fit the three-to-five entry cap. Anchor at least one useful accent near the starting approach and one near existing photo work where practical.
+- [x] Run the data tests; commit/push WIP on claude/lane-landmarks with required hooks.
 
 ## Task2: Visible accents, preservation and evidence
 
@@ -45,12 +45,18 @@
 
 **Interfaces:** View.applies(sim)->bool, build_panel(hud)->void (empty), draw(view)->void. View.project(sim)->Array is a pure projection. A face-clipping helper returns only received collinear patches; a visibility helper restricts non-earned-map surface detail and all lamps to legitimate observation. Draw runs in the existing ground phase below fog, craft, input and warnings.
 
-- [ ] Write RED tests for unseen suppression, one partial face with no inferred closure, band mismatch, missing geometry, disabled rendering, stale/unobserved sled suppression and unchanged simulation snapshot after projection/drawing.
-- [ ] Implement surface-backed relief and restrained lamp glow with the existing palette. Keep solid-looking strokes on actual physical surfaces. Do not create noncolliding walls/spires, add thermal fronts for color, repurpose photo subjects or move work sites.
-- [ ] Register this adapter in the ground list only. Append unique standalone test rows; preserve all existing assertions and suite order.
-- [ ] Run import, data/UI suites, core, runtime and relevant density checks; every Godot script error/leak/resource-in-use line fails even if a suite prints zero assertion failures.
-- [ ] Run the five unchanged authored command-plan fixtures in their supported bare-Quietus configurations. Run before/after bounded pressure probes; preserve losses and controller limits as such, not wins. The external epsilon-bound wrapper may stop an existing900s zero-time spin, never alter simulation state or policy.
-- [ ] Capture and inspect three actual rendered representative operations. Keep captures as evidence, not phone/human-play acceptance; attach immutable screenshot links in025 Completion.
+- [x] Write RED tests for unseen suppression, one partial face with no inferred closure, band mismatch, missing geometry, disabled rendering, stale/unobserved sled suppression and unchanged simulation snapshot after projection/drawing.
+- [x] Implement surface-backed relief and restrained lamp glow with the existing palette. Keep solid-looking strokes on actual physical surfaces. Do not create noncolliding walls/spires, add thermal fronts for color, repurpose photo subjects or move work sites.
+- [x] Register this adapter in the ground list only. Append unique standalone test rows; preserve all existing assertions and suite order.
+- [x] Run import, data/UI suites, core, runtime and relevant density checks; every Godot script error/leak/resource-in-use line fails even if a suite prints zero assertion failures.
+- [x] Run the five unchanged authored command-plan fixtures in their supported bare-Quietus configurations. Run before/after bounded pressure probes; preserve losses and controller limits as such, not wins. The external epsilon-bound wrapper may stop an existing900s zero-time spin, never alter simulation state or policy.
+- [x] Capture and inspect three actual rendered representative operations. Keep captures as evidence, not phone/human-play acceptance; attach immutable screenshot links in025 Completion.
 - [ ] Reconcile RESUME to023 complete/025 active; commit/push at least every30minutes. Obtain independent final-head review and own exact guidance/game-smoke before a merge commit. Mark done025 and BOARD together only after the actual merged source is verified.
 
 **Builder call:** Preserve physical geometry and gameplay inputs wherever possible; improve legibility by authored surface detail and light accents on real existing places. Any unavoidable additional physical geometry requires route/clearance proof and independent review within the same handoff, not a change to rules. No implementation claim is made by this plan.
+
+24 October execution note: all local implementation/evidence steps are complete.
+The independent critic rejected the first thin borders; final localized motifs
+and three native capture pairs passed source/visual review after a hidden-back-edge
+repair. Raw evidence is in archive commit7e44ec9. The final checkbox remains open
+for exact-head hosted checks, final independent evidence approval, merge and done025.

@@ -23,20 +23,32 @@ approved data-only landmark handoff, operations6 to29, existing visual language,
 unchanged rules/story/endings and preserved fixtures/pressure. The plan is
 [landmarks M3a](superpowers/plans/2026-10-24-landmarks-m3a.md).
 
-Baseline Windows import/core818/0 pass.025 is an active visual prototype, not
-complete: authored existing-feature treatments, photo-depth lamps and fresh load
-lamps live behind one ground registration. Data468/0 and projection92/0 pass.
-The first visual review rejected narrow surface borders as too weak. Localized
-compositions are being inspected in native before/after captures; one capture
-route lost Quietus and remains preserved. The renderer clipping edge case is repaired. A second review found that clipping
-a motif to a thin rock could reveal its unseen back edge. The new thin-rock
-regression is red against3c2af95 and green with whole-motif omission; final native
-captures and independent acceptance are still required. The external epsilon-bounded pressure baseline is complete; the same
-wrapper/comparison, five authored fixtures, final import/core/affected suites,
-three accepted captures and exact-head independent review/CI are still required.
-Do not merge this WIP or call025 DONE. Plan and recovery refs remain on this branch.
-Board and025 Completion own claim/recovery state. Continue026/027/029..033 only
-after this claim is complete and preconditions are met.
+025 implementation is prepared in PR121, with game source0cf00531. Each
+operation6 to29 has three authored treatments on existing physical terrain;
+observed photo subjects and fresh moving loads add restrained lamps, with
+photo-site detail at its actual depth. This is a modest atmospheric gain using
+existing geometry and palette. No simulation, campaign, physical geometry,
+story, save or rule files changed. One ground registration and a data off switch
+own the feature. Hidden back edges cannot cut visible motif shapes.
+
+Windows import/core818/0, runtime665/0, density883/0, data468/0, projection92/0,
+and all five authored opening-depth journeys49/0 pass. Core also retains the
+six bare-craft campaign fallbacks. Exact before/after pressure records match
+all76 cases and1105 commands per side:31 wins,16 losses,25 controller findings,
+4 timeouts, all snapshots valid. The identical external wrapper only matches
+the probe's existing endpoint epsilon; no tracked test or simulation was changed.
+Accepted native captures for08,14,28 and rejected drafts are preserved in the
+[immutable evidence archive](https://github.com/pemunson90-cmd/Siren-s-Song/tree/7e44ec9f8617936401d7e27877e6bce3f8eb5bbe/evidence/025-windows-20261024).
+These are source-known technical routes with finite tools, not blind player or
+phone acceptance. The first unprotected08 attempt lost Quietus and is retained.
+
+Independent source/visual review accepted0cf00531 after the hidden-edge repair;
+final evidence approval and own exact final-head guidance/game-smoke remain.
+Next refresh live refs, require current integration containment and mergeability,
+merge PR121 with a merge commit only after approval and both green checks, then
+verify the actual merged source and mark done025 plus BOARD in one commit.
+025 remains CLAIMED until then. Continue eligible026/027/029..033 in numeric
+order after completion;032 remains Pat's judgment.
 
 The native Windows hook fix is installed and merged;22 real-Git boundary and10
 guidance tests passed. Use the official Windows Godot4.6.3 console build directly;
@@ -63,11 +75,11 @@ Batch 7 (handoffs 038 to 040): Ops home, consequence lines for ops 15 to 30,
 photo row journeys under live Sirens. Batch 8 (041 to 045), AI-DESIGNED and Pat to
 adjust: 041 Back fix, 042 finale (provisional), 043 save slots and replay from
 fork, 044 menu reach, 045 three early rewards before op 7. 029 now includes the
-F7 briefing addendum. Statuses live on the board, all OPEN at this snapshot.
+F7 briefing addendum. Statuses live on the board; this paragraph records the earlier review queue.
 
 Held for Pat: any change to Siren senses (sight, hearing) or lock timing (Pat: not
 yet), ending at op30 details and early-reward count changes. Board049 was
-released separately by Pat on24 October; it is outside the current023 claim.
+released separately by Pat on24 October; it is outside the current025 claim.
 
 ## Completed context
 
