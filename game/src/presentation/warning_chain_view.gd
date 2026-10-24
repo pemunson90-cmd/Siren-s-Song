@@ -1,4 +1,17 @@
 extends RefCounted
+# ARCH2 ordered panel/world contract. Existing fixed-hardware projection,
+# input helpers and legacy drawing stay unchanged. Revert this PR to restore
+# the direct HUD/world seams. No rules, text, numbers or save fields are owned.
+static func applies(sim)->bool:return sim!=null
+static func build_panel(hud)->void:
+ var sim=hud.host.sim
+ var plant=context(sim)
+ if not plant.is_empty():
+  hud.host.order_buttons.camera.text="PLANT\nCONTROLS";hud.host.order_buttons.camera.disabled=false
+  hud.intent.text=summary(sim)+" · "+hud.intent.text
+  for row in plant.actions:hud.extra["chain_"+row.id].disabled=not row.ready
+  if hud.subject.get("kind","")=="plant":hud.instrument_info.text=detail(sim,hud.subject.station)
+static func draw(view)->void:draw_world(view,view.sim)
 # Known fixed plant hardware and own-body power only. No private machinery,
 # hostile coordinates or inferred remote reception cross this seam.
 static func context(sim)->Dictionary:
