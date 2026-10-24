@@ -52,6 +52,15 @@ func run():
  game._show_fittings();await settle()
  await back()
  check(game.screen=="menu" and not c.armed and quits==1,"Back from Fittings returns to Operations without quitting")
+ # Arming on Operations, then leaving and returning inside the window, must not quit on the next Back.
+ c._expire();var q0:int=quits
+ await back()
+ check(c.armed and quits==q0,"arm on Operations")
+ game._briefing(0);await settle()
+ await back()
+ check(game.screen=="menu" and not c.armed and quits==q0,"leaving Operations disarms the confirm")
+ await back()
+ check(quits==q0 and c.armed,"the first Back after returning shows the toast again and does not quit")
  game.screen="mission";c.armed=false
  await back()
  check(quits==1 and not c.armed and game.screen=="menu","Back during a dive keeps its existing return and never reaches the exit confirm")

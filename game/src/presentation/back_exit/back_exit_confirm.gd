@@ -29,7 +29,10 @@ func _quit_app() -> void:
 
 # Returns true when Back was consumed here (toast shown or exit confirmed).
 func handle(host) -> bool:
-	if not TABLE.enabled or not host.screen in TABLE.screens: return false
+	if not TABLE.enabled: return false
+	if not host.screen in TABLE.screens:
+		if armed: _expire()  # leaving Operations disarms, so a later Back cannot quit by surprise
+		return false
 	var now: int = clock.call()
 	if armed and now - last_press_ms <= TABLE.window_ms:
 		armed = false
