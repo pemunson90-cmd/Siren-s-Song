@@ -1,4 +1,5 @@
 extends Control
+const CampaignFlow=preload("res://src/presentation/flow/campaign_flow.gd")
 const Recon=preload("res://src/simulation/recon_consequences.gd")
 const Endings=preload("res://src/campaign/endings.gd")
 const CraftUpgrades=preload("res://src/equipment/craft_upgrades.gd")
@@ -474,205 +475,48 @@ func _clear_menu() -> void:
 func _menu_text(text: String,font_size: int=17) -> Label:
 	var l=_label(panel_box,text,roundi(font_size*ui_touch_height/48.0*preload("res://src/presentation/frontend/frontend_settings.gd").text_scale())); l.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART; l.custom_minimum_size.x=minf(610,size.x-120); return l
 func _loadout_stock(choice: String) -> Array:
-	return {"endurance":[120,2,2],"disruption":[100,3,2],"survey":[100,2,3]}.get(choice,[100,2,2])
+	return CampaignFlow.loadout_stock(self, choice)
 func _show_campaign() -> void:
-	screen="menu"; _clear_menu()
-	_menu_text("SIREN'S SONG",38).add_theme_color_override("font_color",Color("80d9cf"))
-	_menu_text("ONE PILOT. TWO DRONES. AN OCEAN THAT LISTENS.",14)
-	_menu_text("USS QUIETUS  /  OPERATIONS ARCHIVE",18)
-	for i in 6:
-		var id=i
-		var b=_button(panel_box,"%02d   %s   %s"%[i+1,Simulation.Missions.TITLES[i],"RECOVERED" if i in completed else ("AVAILABLE" if i<=unlocked else "LOCKED")],func(): print("SS_MISSION_SELECT ",id); _briefing(id))
-		b.disabled=i>unlocked
-		b.set_meta("action","mission%d"%i)
-	ExpeditionOperations.operations(self)
-	preload("res://src/presentation/route_map/route_map_view.gd").entry(self)
-	if active_started and sim.outcome.is_empty():
-		_button(panel_box,"RESUME DIVE · %02d %s"%[mission_index+1,sim.mission.title.to_upper()],_enter_water,"resume")
-		if not _campaign_pristine():_menu_text("Resuming keeps this dive's equipment and its place in time.",14)
-	_button(panel_box,"FITTINGS / NEXT LAUNCH",_show_fittings,"fittings")
-	if not Endings.resolve(expedition).is_empty():_button(panel_box,"VIEW CAMPAIGN ENDING",_show_ending,"ending")
-	if not _campaign_pristine():_button(panel_box,"ERASE PROGRESS · NEW CAMPAIGN",_confirm_new_campaign,"new_campaign")
-	if not recovered_evidence.is_empty(): _button(panel_box,"REVIEW FIELD RECORDS",func(): _evidence_gallery(0),"evidence")
-	_menu_text("Field records remain reviewable after loss or abandonment. Only successful extraction advances the campaign.",14)
-	var stock=_loadout_stock(upgrade)
-	_menu_text("NEXT DIVE / RETRY · %s\nO₂ %d%% · DISRUPT %d · SURVEY %d"%[upgrade.to_upper(),stock[0],stock[1],stock[2]],15)
-	var rows=["COMPARE: O₂ / DISRUPT / SURVEY"]
-	for choice in ["endurance","disruption","survey"]:
-		var supplies=_loadout_stock(choice)
-		rows.append("%s · %d%% / %d / %d"%[choice.to_upper(),supplies[0],supplies[1],supplies[2]])
-	_menu_text("\n".join(rows),14)
-	_menu_text("ALL: 3 DECOYS · 2 DRONES · 2 TORPEDOES\nDISRUPT: 12s · SURVEY: 8s, audible",14)
-	_button(panel_box,"CYCLE LOADOUT · endurance / disruption / survey",_cycle_loadout,"loadout")
-	_button(panel_box,"AUDIO / SETTINGS",_settings_menu,"settings")
-	print("SS_SCREEN operations window=",get_window().size," viewport=",get_viewport_rect().size," root=",size," unlocked=",unlocked," active_time=",snappedf(sim.elapsed,0.01))
-	call_deferred("_layout")
+	CampaignFlow.show_campaign(self)
 # A campaign with nothing recovered yet has no progress to resume or replace.
 func _campaign_pristine()->bool:
-	return completed.is_empty() and unlocked==0 and expedition.is_empty() and recovered_evidence.is_empty() and photo_records.is_empty() and photo_intel.is_empty()
+	return CampaignFlow.campaign_pristine(self)
 func _show_fittings()->void:
-	preload("res://src/presentation/fittings_menu.gd").show(self)
+	CampaignFlow.show_fittings(self)
 func _cycle_loadout()->void:
-	var reading_position=scroll.scroll_vertical
-	upgrade=["endurance","disruption","survey"][( ["endurance","disruption","survey"].find(upgrade)+1)%3]
-	_show_campaign()
-	var heading=panel_box.get_child(0)
-	(func():
-		await get_tree().process_frame
-		if is_instance_valid(heading) and heading.get_parent()==panel_box:scroll.scroll_vertical=reading_position
-	).call_deferred()
+	CampaignFlow.cycle_loadout(self)
 func _orders_text(briefing:Dictionary) -> String:
-	if briefing.get("blackwater_revision",0)==1:
-		return "ORDERS\nTap a craft for its command ring; FLEET chooses a station. Empty water plots its route; a craft that already has orders asks you to confirm. ROUTE → REPLACE / QUEUE changes append intent. PAUSE stays available. Settle and SAMPLE for two seconds. Quietus receives within156m; drones within214.5m. Cover blocks reception. An audible SONAR may prompt a local relay replay; a decoded packet explains its partner's handshake. Drone buffers TRANSFER locally to Quietus: both settled, within60m, clear link. Return with both packets aboard."
-	return "ORDERS\nTap a craft for its command ring; FLEET chooses a station. Tap empty water to plot a route; a craft that already has orders asks you to confirm. Craft → ROUTE → REPLACE / QUEUE changes append intent. PAUSE stays available. Drag / pinch inspects freely; FOCUS follows the craft and FIT shows the region. CAMERA works within 240m of a gold record marker. Return Quietus after all records are secured."
+	return CampaignFlow.orders_text(self, briefing)
 const RULES_TEXT="SPACE / PAUSE grants unlimited planning time. Silent running is slower and quieter. Disruption interrupts nearby Sirens for 12 seconds. Quietus torpedoes travel noisily up to 150m; impact pins one Siren for 8s. Cover blocks sonar, enemy sight and torpedoes."
 func _briefing(index: int) -> void:
-	if index>=6 and index not in ExpeditionCampaign.available(completed,expedition):return
-	screen="briefing"; sim.paused=true; _clear_menu()
-	var briefing=Simulation.Missions.make(index,_launch_context(index))
-	_menu_text("%02d / %s"%[index+1,briefing.title.to_upper()],30)
-	var goal=OnboardingText.goal(index)
-	var photo_problems:String=preload("res://src/simulation/photo_pricing/photo_pricing_briefing.gd").line(index,fitted_equipment)
-	if not goal.is_empty():
-		# Opening operations: a goal and one danger. Rules live in the optional field manual.
-		_menu_text(goal,20)
-		if not photo_problems.is_empty():_menu_text(photo_problems,17)
-		_button(panel_box,"FIELD MANUAL · full rules and orders",func(): _reference(index),"manual")
-	else:
-		_menu_text(briefing.brief,20)
-		if not photo_problems.is_empty():_menu_text(photo_problems,17)
-		if ExpeditionOperations.briefing(self,index):pass
-		_button(panel_box,"FIELD MANUAL · full rules and orders",func(): _reference(index),"manual")
-	var stock=_loadout_stock(upgrade)
-	_menu_text("NEXT DIVE / RETRY · %s\nO₂ %d%% · DISRUPT %d · SURVEY %d · 3 DECOYS · 2 DRONES · 2 TORPEDOES"%[upgrade.to_upper(),stock[0],stock[1],stock[2]],17)
-	# Frames open after the first dive; recovered fittings appear once earned. A toggle folds them away.
-	var fit_start=panel_box.get_child_count()
-	if 0 in completed or not _equipment_entitlements().is_empty():preload("res://src/presentation/equipment_context.gd").loadout(self,_equipment_context().slots,func(key,id):_choose_equipment(key,id,index))
-	if not _equipment_entitlements().is_empty():preload("res://src/presentation/equipment_context.gd").fitting(self,_equipment_context(),func(slot,item):_choose_equipment(slot,item,index))
-	if panel_box.get_child_count()>fit_start:
-		var fit_nodes=panel_box.get_children().slice(fit_start)
-		var holder=[]
-		var fold=_button(panel_box,"HIDE FRAMES AND FITTINGS",_fold_fit.bind(fit_nodes,holder),"fit_fold")
-		holder.append(fold);panel_box.move_child(fold,fit_start)
-	_button(menu_footer,"ENTER WATER\nSTART PAUSED",func(): _start_mission(index); _enter_water(),"begin")
-	_button(menu_footer,"BACK TO\nOPERATIONS",_show_campaign,"back")
-	menu_footer.show()
-	call_deferred("_layout")
+	CampaignFlow.briefing(self, index)
 func _fold_fit(nodes:Array,holder:Array) -> void:
-	var show=not nodes[0].visible
-	for node in nodes:node.visible=show
-	holder[0].text="HIDE FRAMES AND FITTINGS" if show else "SHOW FRAMES AND FITTINGS"
-	call_deferred("_layout")
+	CampaignFlow.fold_fit(self, nodes, holder)
 func _reference(index:int) -> void:
-	screen="reference"; _clear_menu()
-	var briefing=Simulation.Missions.make(index,_launch_context(index))
-	var parts=OnboardingText.reference_text(briefing.brief).split("\n\n")
-	for n in parts.size():
-		_menu_text(parts[n],24 if n==0 else 17)
-	if briefing.get("blackwater_revision",0)==1:_menu_text(_orders_text(briefing),17)
-	_button(menu_footer,"BACK TO BRIEFING",func():_briefing(index),"back"); menu_footer.show()
-	call_deferred("_layout")
+	CampaignFlow.show_reference(self, index)
 func _launch_context(index:int)->Dictionary:
-	var context=preload("res://src/campaign/campaign_consequences.gd").context(expedition)
-	context["intel"]=photo_intel.duplicate(true)
-	if index in [9,10]:context.thread="deep" if index==9 else "shelf"
-	return context
+	return CampaignFlow.launch_context(self, index)
 func _equipment_entitlements()->Array:
-	return EarlyReward.earned(early_reward,CraftUpgrades.recovered(completed,expedition,photo_intel))
+	return CampaignFlow.equipment_entitlements(self)
 func _campaign_completed()->Array:
-	return completed+expedition.get("completed",[])
+	return CampaignFlow.campaign_completed(self)
 func _equipment_context()->Dictionary:
-	var earned=_equipment_entitlements();var available=FleetInventory.available(earned,fleet)
-	return {"slots":FleetInventory.reconcile_fitting(fitted_equipment,available),"available":available,"catalog":preload("res://src/equipment/equipment_catalog.gd").public_catalog(earned)}
+	return CampaignFlow.equipment_context(self)
 func _choose_equipment(slot:String,item:String,index:int)->void:
-	var choice=preload("res://src/equipment/equipment_catalog.gd").choose(fitted_equipment,slot,item,FleetInventory.available(_equipment_entitlements(),fleet))
-	if not choice.ok:return
-	var reading_position=scroll.scroll_vertical
-	fitted_equipment=choice.fitted
-	_save_archive()
-	if index<0:_show_fittings()
-	else:_briefing(index)
-	var heading=panel_box.get_child(0)
-	(func():
-		# Wait for wrapped text to establish the rebuilt scroll range.
-		await get_tree().process_frame
-		if is_instance_valid(heading) and heading.get_parent()==panel_box:scroll.scroll_vertical=reading_position
-	).call_deferred()
+	CampaignFlow.choose_equipment(self, slot, item, index)
 func _debrief() -> void:
-	screen="debrief"; _clear_menu()
-	# Capture first completion before either classic or expedition debrief writes
-	# progress. The launch's fleet_commit also freezes replay intent across saves.
-	var first_recovery=mission_index not in _campaign_completed()
-	if first_recovery:fleet=FleetInventory.recover(fleet,sim.mission,sim.outcome)
-	fitted_equipment=FleetInventory.reconcile_fitting(fitted_equipment,FleetInventory.available(_equipment_entitlements(),fleet))
-	print("SS_DEBRIEF outcome=",sim.outcome," mission=",mission_index)
-	if sim.outcome=="won":
-		_retain_evidence()
-		photo_intel=PhotoIntel.recover(photo_intel,sim.mission)
-	if ExpeditionOperations.debrief(self):return
-	if sim.outcome=="won":
-		_retain_evidence()
-		if mission_index not in completed: completed.append(mission_index)
-		unlocked=mini(5,maxi(unlocked,mission_index+1))
-		_sync_craft_upgrades()
-		_menu_text("ARCHIVE RECOVERED",32)
-		_menu_text(sim.mission.record,22)
-		EarlyReward.debrief(self)
-		BlackwaterDelivery.debrief(self)
-		ModuleRecovery.debrief(self)
-		_show_photo_grade(sim.mission.objectives)
-		_menu_text("Dive time %02d:%02d  /  Hull %d%%  /  Life support %d%%"%[int(sim.elapsed)/60,int(sim.elapsed)%60,int(sim.hull),int(sim.oxygen)],17)
-		if mission_index==5:
-			_menu_text("YOUR FIELD RECORD · ACROSS DIVES",14)
-			_menu_text(preload("res://src/campaign/archive_recap.gd").summary(recovered_evidence),14)
-		if not recovered_evidence.is_empty(): _button(panel_box,"REVIEW FIELD RECORDS",func(): _evidence_gallery(0),"evidence")
-		if mission_index==5:
-			var discovery="The crown is still sending its list: a bearing for every loud site on this coast. Two of them still answer. South down the trench, the drillship Tessaly. West on the shelf, the sonar station at Port Ardent.\n\n" if sim.mission.get("finale_revision",0)==1 else ""
-			_menu_text("THE SONG CONTINUES\n\n"+discovery+"Okafor, on Brannock: \"Two bearings. People at both, and air running down at both. Quietus can reach one first.\" Below, the plant lights go out one by one.\n\nIntroductory arc complete. Every dive remains replayable.",20)
-			if 6 in ExpeditionCampaign.available(completed,expedition):_button(panel_box,"BEYOND THE WARNING / THE DIVERGENCE",func():_briefing(6),"expedition6")
-		else: _button(panel_box,"NEXT DIVE",func(): _briefing(mission_index+1),"next_dive")
-	else:
-		_menu_text("SIGNAL LOST",32); _menu_text(sim.message,22); _menu_text(preload("res://src/presentation/loss_summary.gd").line(sim),17); _menu_text("Field records remain reviewable after loss or abandonment. Only successful extraction advances the campaign.",17)
-		BlackwaterDelivery.debrief(self)
-		ModuleRecovery.debrief(self)
-	_button(panel_box,"RETRY DIVE",func(): _briefing(mission_index),"retry")
-	_button(panel_box,"OPERATIONS ARCHIVE",_show_campaign,"back")
-	_save_archive()
-	call_deferred("_layout")
+	CampaignFlow.debrief(self)
 func _sync_craft_upgrades()->void:
-	if not expedition.is_empty():expedition.entitlements=_equipment_entitlements()
+	CampaignFlow.sync_craft_upgrades(self)
 func _show_photo_grade(records:Array)->void:
 	var grade=Recon.grade(records)
 	if grade.photos>0:_menu_text("INTEL PHOTO GRADE %s · %d %s · average %d%% of each record's best frame%s"%[grade.grade,grade.photos,"record" if grade.photos==1 else "records",roundi(grade.quality*100),"" if grade.photos==1 else " · sharpest record %d%%"%roundi(grade.best*100)],20)
 func _show_ending()->void:
-	var ending=Endings.resolve(expedition)
-	if ending.is_empty():_show_campaign();return
-	sim.paused=true;screen="ending";_clear_menu()
-	_menu_text("SIREN'S SONG / RECOVERED OUTCOME",18)
-	_menu_text(ending.title,36)
-	_menu_text(ending.outcome,24)
-	if sim.outcome=="won":WitnessView.arrival(self);RecipientView.arrival(self);preload("res://src/presentation/concealed_harbour_view.gd").debrief(self)
-	_menu_text(ending.story,21)
-	if sim.outcome=="won" and sim.mission.id in [12,13]:ModuleRecovery.debrief(self)
-	_show_photo_grade(photo_records.values())
-	if 22 in ExpeditionCampaign.available(completed,expedition):_button(panel_box,"CONTINUE / IRON CHOIR",func():_briefing(22),"continue_choir")
-	if 14 in ExpeditionCampaign.available(completed,expedition):_button(panel_box,"CONTINUE / GLASS REACH",func():_briefing(14),"continue_glass")
-	_button(panel_box,"NEW CAMPAIGN / CHOOSE ANOTHER ROUTE",_confirm_new_campaign,"new_campaign")
-	_button(panel_box,"OPERATIONS ARCHIVE",_show_campaign,"back")
-	_save_archive();call_deferred("_layout")
+	CampaignFlow.show_ending(self)
 func _confirm_new_campaign()->void:
-	sim.paused=true;screen="new_campaign";_clear_menu()
-	_menu_text("ERASE PROGRESS AND START OVER?",30)
-	_menu_text("This deletes your saved operations, equipment and field records and returns you to operation 1. Audio and display settings stay.",20)
-	_button(panel_box,"ERASE AND START OVER",_new_campaign,"confirm_new_campaign")
-	_button(panel_box,"KEEP MY PROGRESS",_show_campaign,"back")
-	call_deferred("_layout")
+	CampaignFlow.confirm_new_campaign(self)
 func _new_campaign()->void:
-	early_reward={}
-	completed=[];unlocked=0;expedition={};recovered_evidence={};photo_records={};photo_intel={};hints_seen=[]
-	fleet={}
-	fitted_equipment=preload("res://src/equipment/equipment_catalog.gd").default_loadout();upgrade="endurance"
-	_start_mission(0);_save_archive();_show_campaign()
+	CampaignFlow.new_campaign(self)
 func _scenario(name: String) -> void:
 	if name=="menu": _show_campaign(); return
 	sim.command("route",{"point":Vector2(1000,800)})
