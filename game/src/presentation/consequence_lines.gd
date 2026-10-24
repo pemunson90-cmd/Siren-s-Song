@@ -25,7 +25,7 @@ const LINES={
  26:"The spindle is up and the hammer has restarted.",
  27:"The core is off the grave and in hand.",
  28:"The bell is down and landed.",
- 29:"The plant is switched and the account is kept."
+ 29:"The window is closed and the account is kept."
 }
 static func line(mission:Dictionary)->String:
  var id=int(mission.get("id",-1))
