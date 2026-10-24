@@ -34,6 +34,7 @@ func shape_case(shape):
  check(game.screen=="photo_ending","both final recoveries select photo wall")
  var plates=game.panel_box.get_children().filter(func(c):return c is ArchiveView.Plate)
  check(plates.size()==4,"wall uses four real archive plate controls")
+ check(not game.panel_box.find_children("*","Label",true,false).any(func(label):return label.text.begins_with("NO RECOVERED")),"recovered photographs are never described as absent when research is empty")
  for plate in plates:
   check(plate.size.x>0 and plate.size.y>=170 and plate.get_global_rect().end.x<=game.size.x,"plate bounded to viewport width")
  check(game.recovered_evidence==before,"presentation preserves archive")
