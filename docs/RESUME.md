@@ -1,105 +1,95 @@
 # RESUME: operational entry
 
-## Local Windows resume, 23 October 2026 Eastern
-
-Pat explicitly resumed claimed handoff 023 on his Windows PC. The cloud stop
-record below is historical and does not stop this authorized local work.
-PR96 and PR98 are already merged; do not repeat them. The live integration
-baseline for this resume is 30f555a260d4edf5f0300935e7381475ba620fcc.
-
-The saved photo-review extraction on claude/lane-arch2-photo-review is being
-reconciled with that integration. Windows import is clean; core 818, runtime
-665, campaign dispatch 13, archive recap 8, photo capture UI 9 and cold-review UI
-218 pass with zero failures. Independent source review confirms all nine moved
-bodies and retained entry points. Final published-head review and hosted checks
-are still required before merge. These are scripted results, not phone or human
-play acceptance. No full scenario list was run locally.
-
-Pat separately authorized native Windows hook compatibility after the Linux-only
-helper blocked publication. PR99, claude/windows-hook-compat at
-fcefbe2b3d38a56220d2300c51c3bd4bc4b77762, has 22 passing native Windows boundary
-tests and independent source approval. Its repaired hooks are installed locally;
-both required hosted checks must pass before integration. No hook was skipped.
-The Windows Godot 4.6.3 console build is used directly. Local checks use isolated
-APPDATA and LOCALAPPDATA folders, preserving personal saves. Do not commit
-generated .uid files or import line-ending changes.
-
-The separate metrics preparation is draft PR101 on claude/lane-arch2-ui-metrics.
-Four synchronous helpers retain original Main entry points and Node-owned
-capture/report awaits. Main864 to817; full original-Main restoration and body
-parity verified. Before/after metrics77/planner38/density883/menu7/scroll15 match;
-core818/runtime665/dispatch13/recap8 also pass with zero failures and clean logs.
-Keep draft until99/100 land, fresh integration is contained, final independent
-review approves and own exact-head hosted checks pass. Then continue the shared
-presentation contract, one feature per reviewed PR. Handoff 023 remains CLAIMED
-until all its steps land. Then take the eligible OPEN numeric queue. BOARD and
-023 Completion on codex/handoffs own claims and recovery refs.
-
-The first contract preparation is claude/lane-arch2-wake-view on metrics983f057.
-Wake's existing panel refresh and world drawing dispatch through ordered lists
-at exactly their original positions. Existing controls, picking and inputs stay.
-Import clean; before/after Wake31/UI37/core818/runtime665/density883/menu7/scroll15
-match with zero failures and clean logs. Independent preliminary source PASS;
-final own-head/base review and hosted checks remain after parent PRs land.
-Only Wake is registered so far. Other features still use their original seams.
-
-## Historical cloud handover snapshot
-
-All remaining sections below preserve the cloud handover as dated history.
-Their source checkpoints, stop instructions and WSL advice are superseded by
-the Local Windows resume above and Pat's current local instructions.
-
-**Historical cloud execution boundary,23 October 2026 Eastern:** Pat explicitly chose
-finish PR96 only, preserve later023 preparations, update stale documentation and
-prepare a Windows desktop handover, then STOP. No further game implementation,
-metrics extraction, feature registry or new handoff is authorized in this cloud
-session. This is a requested stop, not platform exhaustion or project completion.
-Resume only when Pat asks. Read [DESKTOP_HANDOFF](DESKTOP_HANDOFF.md).
+**Current execution boundary, 24 October 2026 Eastern:** work now runs locally on
+Pat's Windows PC. Pat stopped the cloud session on 23 October and said continue on
+24 October. The earlier cloud stop is lifted and is history only. Read
+[DESKTOP_HANDOFF](DESKTOP_HANDOFF.md) for the move, and the live board on
+`codex/handoffs` for claims.
 
 ## Live source checkpoint
 
-Last reconciled actual integration is `dcf81b542bc5a4d27774deb271c9c98a0235e8e7`
-(PR96 campaign flow). PR96 merged only after reviewed exact head
-`3afb12f966efc2646c9b148ddf7de5aafe68c5c5` passed guidance and game-smoke
-run 40043994511, with attributable independent approval. Fresh-base verification
-passed. The fetched merge has the expected two parents and exactly the reviewed
-source tree. This documentation handover is based on that verified code; its own
-review/checks and final publication refs are recorded in 023 Completion and BOARD.
+Development integration is `claude/integration`, last reconciled baseline `4eb6d91ad3f52612002d41161280f032e1247bde`.
+This ARCH2 candidate includes the Windows hook repair PR99, published at
+fab2617575d5156d74b87aede4aa9ba21367504b after its exact-head gates and review.
+At this preparation, later predecessor merges are planned, not yet published.
+Live refs and the board determine published state. Preparing a commit does not
+publish it; publish each prerequisite in order only after its own exact gates.
+Recent documentation/history merges include103/105/106/107/112/114; those design
+proposals do not authorize implementation in handoff023.
+Earlier baseline was30f555a (merge of PR98). Recent merges, in order: PR95 route map (b03dd69), PR96 campaign
+flow (dcf81b5, 23 Oct 8:56 PM Eastern, reviewed head 3afb12f, hosted run
+40043994511 green), PR97 Claude's PC handover (632f592) and PR98 the cloud
+closeout documentation (30f555a, both merged about 9:01 PM Eastern). Live Git refs
+and PRs win over this snapshot. `gauntlet/production` and `main` stay frozen under
+Pat's promotion authority. No branches are deleted. All code PRs target integration.
 
-Development integration is `claude/integration`. `gauntlet/production` and `main`
-remain frozen under Pat's promotion authority. No branches are deleted.
-All code PRs target integration. Live Git refs/PRs/checks win over dated snapshots.
-A checkpoint SHA is the last reconciled source, not a demand that a document name
-its own containing merge commit.
+## Current claim and open PRs
 
-## Current claim and saved work
+Ownership is authoritative on `codex/handoffs` in `docs/codex/BOARD.md` and
+`023-arch2-main-and-hud.md`. Handoff 023 stays CLAIMED and partial; do not
+re-claim it or mark it DONE after one PR.
 
-Ownership and completion are authoritative on `codex/handoffs` in
-`docs/codex/BOARD.md` and `023-arch2-main-and-hud.md`. Handoff023 stays CLAIMED and
-partially complete; do not mark it DONE after its first PR or re-claim it.
-
-| Work | Published state |
+| Work | State |
 |---|---|
-| 023 campaign flow, first main extraction | PR96 merged at dcf81b542bc5a4d27774deb271c9c98a0235e8e7; exact 3afb12f review and both hosted checks passed |
-| 023 photo review, second main extraction | `claude/lane-arch2-photo-review` at 52ba7d502b3e449180a4883eb570a2c80a9b94f5, prepared/tested, no PR or final review/hosted gate |
-| 023 metrics and shared presentation contract | Not implemented; one main file/feature per later PR |
-| Windows documentation handover | `claude/desktop-handoff-20261023`, reviewed docs-only followup after PR96 |
-| Portable cloud evidence | `archive/cloud-desktop-20261023` at 5407a241c9993b2c2e03fdfd83d03e334bc23368,551 files with manifest/hash and recovery refs |
+| 023 campaign flow | PR96 merged |
+| Windows hooks PR99 | Merged atfab2617 with exact1606418 checks/review |
+| Prerequisite PR100 | Included in candidate ancestry; live PR/board decide published state |
+| Prerequisite PR101 | Included in candidate ancestry; live PR/board decide published state |
+| Current Wake PR102 | Candidate; independent exact-head review and hosted gates pending |
+| Later preparations | Separate feature PRs, see authoritative board; not a full023 completion |
+| Portable cloud evidence | archive/cloud-desktop-20261023 at5407a241,551 files with manifest/hash |
 
-PR96 moves nineteen campaign/menu functions into presentation/flow/campaign_flow
-with Main's original forwarded signatures and state ownership. Main1,106 to 950.
-Mechanical proof restores the entire original Main byte for byte. Before/after
-core 818/runtime 665/campaign dispatch 13/archive recap 8/Canvas route-map 70 all0;
-extra Canvas reward 40/menu 24 all0. Independent reviewer /root/review_integration
-verified source, callbacks/deferred lifetime and personally ran Canvas 40/0.
-Its attributable verdict is relayed in the PR. No rules, numbers, text, saves,
-Simulation or tests changed. No full local matrix or physical-phone evidence.
+Every merge needs latest integration, independent review, both hosted checks on
+the exact head, and a merge commit. 025 waits until 023 is DONE.
 
-The photo preparation keeps nine original forwarded entry points,950 to 864 Main
-lines. One explicit String preserves its inferred type. Import/core 818/runtime 665,
-dispatch 13/recap 8/capture UI 9/archive-parent 2/Canvas cold-review 218 all0. Its stale
-prepared RESUME must be reconciled with this handover before a future PR. Do not
-mistake this tested preparation for integrated or independently approved work.
+Local photo verification: clean Windows import; core818/runtime665/campaign
+dispatch13/archive recap8/photo captureUI9/cold reviewUI218 all0 on the prepared
+source. All nine moved bodies, retained host entry points and callback/deferred
+order are independently reviewed. Preserve this evidence separately from each
+final exact-head/base review and hosted result. The shared contract preparations
+remain drafts until parents land and each own final gate passes.
+
+Native hook verification:22 real-Git boundary tests and10 guidance tests pass.
+Hooks use the actual Windows Python executable, exclusive locking and bounded
+process cleanup; no hooks are bypassed. Godot checks redirect APPDATA and
+LOCALAPPDATA to isolated work folders, preserving personal saves.
+
+## Current ARCH2 candidate
+
+This candidate is Wake PR102, reconciled against planned predecessor merge
+4eb6d91ad3f52612002d41161280f032e1247bde. This predecessor must be published first.
+Existing panel refresh and world drawing retain their original ordered slots; setup, input and picking stay host-owned.
+The complete game tree equals native-tested preparationd229936afd36bb445496387473cee4cea8e7f323.
+Clean import and Wake31/UI37/core818/runtime665/density883/menu7/scroll15 all0 with clean logs.
+Independent final exact-head/planned-base review and both own hosted gates remain.
+Only publish its ordinary merge when live integration equals that predecessor,
+its PR is mergeable, and parents/tree equal the approved tested result. Stop on
+unexpected base advancement or any hook/protection rejection.023 stays partial.
+
+## Cold review 3 and the new batches
+
+Cold review 3 is done. Report: `docs/design/COLD_REVIEW_3.md` on `codex/handoffs`.
+It ran on 30f555a: core 818/0 and 33 targeted suites passed, with no regressions
+from FIX2, the first-Siren cue, early reward, photo rows, route map or ARCH2.
+Headless, injected touch only; no pixels, sound or phone. Key findings:
+
+- F1: Godot's default quit_on_go_back is still on, so Android Back may close the app.
+- F2: op 30 has no finale and no photo wall ending.
+- F3: the ending screen goes stale after later ops, and replay means erasing.
+- F4: debrief "record" text for ops 15 to 30 just repeats the briefing.
+
+Later findings (long Operations list, menus only at boot, briefing walls) feed the
+batches below.
+
+Batch 7 (handoffs 038 to 040): Ops home, consequence lines for ops 15 to 30,
+photo row journeys under live Sirens. Batch 8 (041 to 045), AI-DESIGNED and Pat to
+adjust: 041 Back fix, 042 finale (provisional), 043 save slots and replay from
+fork, 044 menu reach, 045 three early rewards before op 7. 029 now includes the
+F7 briefing addendum. Statuses live on the board, all OPEN at this snapshot.
+
+Held for Pat: any change to Siren senses (sight, hearing) or lock timing (Pat: not
+yet), ending at op30 details and early-reward count changes. Board049 was
+released separately by Pat on24 October; it is outside the current023 claim.
 
 ## Completed context
 
@@ -115,41 +105,25 @@ final pair/photo-wall or establish full cold campaign/physical-phone acceptance.
 Camera capability and limits: [PHOTO_RECON](PHOTO_RECON.md). Intended expansion
 remains [CURRENT_GAME_SPEC](CURRENT_GAME_SPEC.md), not a completed feature claim.
 
-## Cloud closeout and later desktop action
+## Next steps for the PC sessions
 
-PR96 is finished. The remaining cloud closeout is this documentation publication
-and its final 023 Completion/BOARD checkpoint only. Publish the reviewed docs with
-required exact-head checks, record the final refs, then STOP. Do not start another
-implementation step or claim. This is not a platform/usage interruption.
-
-When Pat later asks on desktop, resume saved 023 photo review, reconcile fresh
-integration and the stale prepared RESUME, obtain its own review/CI, then metrics
-and the shared feature contract one feature per PR. Only after 023 DONE take
-eligible 025 and the numeric queue. The board owns eligibility; no new claim is
-made by this handover. Windows instructions and role-specific notes are in
-DESKTOP_HANDOFF.md.
-
-## Claude PC handover reconciliation
-
-Claude's parallel PC-handover PR97 is incorporated into this documentation PR
-with its original commit ancestry preserved. Its old PR96-in-flight snapshot is
-superseded by the verified merge above. No future desktop session should merge
-that older RESUME over this current one.
-
-After Pat resumes, Claude should review Codex PRs independently, commission the
-outstanding whole-campaign cold review after035/036/037/020/021, and report ranked
-fixes to Pat. When two of023/025/026 are DONE, maintain the next handoff batch and
-roughly five hours of eligible OPEN work as recorded in the earlier handover.
-These are future local-session notes, not authorization for more cloud work.
-Cloud GitHub connectors, agents and scheduled check-ins are not assumed on PC;
-use Git and the GitHub CLI/web when those tools are unavailable. Recheck the
-actual desktop setup rather than reinstalling or overwriting it blindly.
+Publish023 prepared heads in their recorded order, one reviewed PR and ordinary
+merge commit per step. Each head contains its planned predecessor so exact-head
+checks can run concurrently. Publish only after that predecessor is the freshly
+fetched live integration tip, own independent approval and both own hosted checks
+are successful. Normal hooks and branch protections apply; stop on a rejection
+or unexpected integration advance. Verify actual remote parents/tree and PR
+merged disposition after each publication. Board owns claims and recovery refs.
+Then025 and the eligible numeric queue. Use the current local tool inventory;
+do not assume cloud agents or credentials carried over.
 
 ## Verification and preservation
 
-Use Godot 4.6.3/GDScript/Compatibility. On Windows the existing Linux x86_64 scripts
-run through WSL2 Ubuntu; setup/role-specific notes are in DESKTOP_HANDOFF and
-CODEX_ENVIRONMENT. Import, core and affected suites locally; GitHub owns the full
+Use Godot 4.6.3/GDScript/Compatibility. Windows toolchain: the official Windows
+Godot 4.6.3 is at C:\Users\Archi\.cache\sirens-song-toolchain\win (sha512 verified).
+install-godot.sh is Linux only; run the Godot console exe directly. Do not commit
+.uid or .import churn. Role notes: DESKTOP_HANDOFF and CODEX_ENVIRONMENT.
+Import, core and affected suites locally; GitHub owns the full
 registered matrix. Core must end CHECKS N FAILURES 0 with positive N; any Godot
 script error, resource-in-use line or leak fails. Preserve 48 dp touch and Android
 Back=Escape. Never skip, loosen or delete a test for green.
@@ -170,5 +144,4 @@ preserve any personal progress separately before discarding cloud storage.
 AGENTS owns stable execution rules, USER_DIRECTIVES user decisions, this file the
 reconciled snapshot, and the codex/handoffs board claims/completion. CONTINUATION
 and WORKBENCH stay short pointers. Dated ledgers/audits/design snapshots remain
-historical provenance. Only Pat ends the project; this cloud session will stop at
-the explicit requested boundary.
+historical provenance. Only Pat ends the project; work continues locally.
