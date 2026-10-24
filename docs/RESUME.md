@@ -29,7 +29,7 @@ contract, one main file or feature per reviewed PR. Handoff 023 remains CLAIMED
 until all its steps land. Then take the eligible OPEN numeric queue. BOARD and
 023 Completion on codex/handoffs own claims and recovery refs.
 
-**Current execution boundary,23 October 2026 Eastern:** Pat explicitly chose
+**Historical cloud execution boundary,23 October 2026 Eastern:** Pat explicitly chose
 finish PR96 only, preserve later023 preparations, update stale documentation and
 prepare a Windows desktop handover, then STOP. No further game implementation,
 metrics extraction, feature registry or new handoff is authorized in this cloud
