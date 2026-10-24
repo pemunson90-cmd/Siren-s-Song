@@ -77,6 +77,26 @@ scroll15 pass. Core/runtime still running, no PR/final gate yet. These remain
 preparations until parent PRs land and each own current-head/base gate passes.
 
 ### Historical cloud progress
+
+Latest local recovery checkpoint, 23 October 2026 Eastern:
+- Integration advanced docs-only through Claude PR103 to
+  f43a67255a75942f301403e96059238aec1b877b. PR99 reconciled/pushed
+  29c405cb5efab9590394adc2049c9925813ec7c8, exact independent source APPROVE,
+  native import/core818/0 clean. Its earlier hosted fcef head is superseded;
+  require fresh exact29c405c checks. No merge has been performed by this session.
+- Photo PR100 remains57b6ce6; reconcile after99, preserve latest Claude RESUME
+  and current prepared work. Metrics PR101 prepared983f057 remains approved/tested.
+- Wake draftPR102 last pushed d229936afd36bb445496387473cee4cea8e7f323,
+  exact prepared source/docs APPROVE; import/core818/runtime665/Wake31/UI37/
+  density883/menu7/scroll15 all0 and clean. Parent/final gates pending.
+- Rendezvous draftPR104 last pushed15057f3f527d6643321749bb0ec6ac1b9d078cfb,
+  exact prepared source/docs APPROVE; import/core818/runtime665/transport61/UI57/
+  density883/menu7/scroll15 all0 and clean. Parent/final gates pending.
+- Shelf is being prepared on claude/lane-arch2-shelf-view from15057f3; import and
+  preliminary source review pass, tests running. Separate ordered ground adapter
+  preserves the original ground/world layers. Not yet pushed or given a PR.
+
+### Earlier cloud progress
 Claimed after021/PR95 merged b03dd691a4775bbc07abfa1e87f4938ead653342 and DONE021 plus BOARD published b169abc. Preconditions016 and019 are DONE. Read ARCH_AUDIT_1 steps5/6, current standing rules and PLAN_SNAPSHOT. Next branch claude/lane-arch2-campaign-flow from freshly fetched integration, establish named check baselines, then mechanical extraction with one main file per PR and one presentation feature per later PR. No code pushed yet; record branch and last pushed SHA after first coherent WIP. Preserve all rules, numbers, text, saves and original forwarded entry points.
 
 First coherent step: [PR96](https://github.com/pemunson90-cmd/Siren-s-Song/pull/96), branch claude/lane-arch2-campaign-flow last pushed3afb12f966efc2646c9b148ddf7de5aafe68c5c5, tree8e1270dfb99c2d6861f4d506e81bdba95171bdaf, contains actual integrationb03dd69. Nineteen campaign/menu functions move to flow/campaign_flow.gd with original main signatures/one-line forwarders retained, main1106->950. Every moved body plus complete main restoration verified mechanically, numbers/text/callbacks/deferred ordering unchanged. Baseline/after core818/runtime665(includes campaign_ui_scenarios)/dispatch13/archive8/Canvas route-map70 all0 and clean, identical core outcome lines. Extra early-reward Canvas40 and FIX2 menu24 all0. No test edits, new save fields, rules or Simulation changes. Initial import name collision/host qualification corrected before publication; current import clean. Independent exact-head review requested from /root/review_integration, PR draft, own CI pending. Handoff remains CLAIMED through all separate ARCH2 PRs. While PR96 runs, prepare photo_review on its own branch based on published3afb12f; before its PR/merge reconcile actual integration and run its own exact-head CI.
