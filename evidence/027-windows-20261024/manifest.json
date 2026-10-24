@@ -1,0 +1,64 @@
+{
+  "source_head": "730d45bafc624fecf8d73590df87f1cb40557902",
+  "integration_base": "aaff40ea7943278ade6ba3b7bcd5495c2dcac26e",
+  "game_tree": "984e155e2c67e601ad4e3bfc11c9cf8205934f9d",
+  "kind": "source-known Windows technical fixtures; native GPU wall; no phone or human/audio acceptance",
+  "files": {
+    "027-campaign_endings_tests.log": {
+      "bytes": 55766,
+      "sha256": "0a89bcad2600328230f10353c7ec25ee40fc668fee9275ab383e6ec969cf70da"
+    },
+    "027-core-final.log": {
+      "bytes": 822,
+      "sha256": "ed334a91938d20787b5d41ce430ff649ab5915d8a9f52448eea822665df8ef93"
+    },
+    "027-ending-tests.log": {
+      "bytes": 111,
+      "sha256": "21166575c2d2bc731d55b00afc3dcbf69052243942bfae8993495985fa134998"
+    },
+    "027-import-final.log": {
+      "bytes": 2083,
+      "sha256": "fb4238cb68ef8fcf4c36ed2c5cd71a888b7cd98fd358235e6e71695bdbf5ce84"
+    },
+    "027-journeys-final.log": {
+      "bytes": 296,
+      "sha256": "07ccfca5f11277ab4dfd9b8087e2f1576787353649a2ddba5ea0d7783ee103c8"
+    },
+    "027-operation_catalog_tests.log": {
+      "bytes": 116,
+      "sha256": "45aeda6f6fba51d23ad443f6353a48f8980c40e764e58c855fe23ba388c886da"
+    },
+    "027-removal-save-proof.log": {
+      "bytes": 117,
+      "sha256": "c310e1ce2c7f2868ce98dfb68f4cd2916ebddbe988780dd094dc7160b7ad13ab"
+    },
+    "027-render-ui-errors-final.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "027-render-ui-final.log": {
+      "bytes": 55457,
+      "sha256": "05c79749362b75a73cf8f4889508c040f22fab8291ead84e3be15f86e288036f"
+    },
+    "027-route-tests.log": {
+      "bytes": 107,
+      "sha256": "c713745b56a7a2aab69250174eb8302dcd5ab23c0abb3dd35152d2880bb9b873"
+    },
+    "027-route_map_ui_tests.log": {
+      "bytes": 84633,
+      "sha256": "cf152dcebe17d6e567a012fea7610b011b7976bad71117504809209a67d93841"
+    },
+    "027-save-revert-proof.gd": {
+      "bytes": 2006,
+      "sha256": "46e18eeeaaecc42a83b3b578b28239a678863accf6a24f5c10844afe3171a9ca"
+    },
+    "captures/wall-2184x1968.png": {
+      "bytes": 1406077,
+      "sha256": "839afd9f344385ea21158bdac7d8c361392951a453fa1c12def03418202fac07"
+    },
+    "captures/wall-2520x1080.png": {
+      "bytes": 509272,
+      "sha256": "f4276258a00510e4743f337ec6e40b29fab4f3498a281bbf7596a5ce33f04d20"
+    }
+  }
+}
