@@ -40,3 +40,12 @@ PR into claude/integration. Merge per the line above; mark DONE and update the b
 
 
 SUITE RANK BLOCK (Claude, 24 Oct): Codex's new suites use local 240.. and CI 260.. so they cannot collide with Claude's blocks (local 228-239, CI 251-259). Validate with scripts/toolchain/check-suites.py before committing.
+
+### Active implementation plan, 24 October 2026 Eastern
+- Preserve the existing operation builders and launch callbacks. A new ops_home presentation module rearranges their controls, with a data-table flag and no saved fields.
+- Reserve a stable Resume slot, add Next using the first enabled unrecovered row, place map/fittings above the list, and group recovered rows behind a visit-local fold.
+- Move the confirmed erase entry through a single Settings seam. Inspection found the small in-game Settings lacked the entry that already exists in title Settings; this seam is necessary to satisfy item 4 without changing the screen's other controls.
+- Test fresh, two/three recovered, mid-campaign and all recovered fixtures with touch at both Fold7 shapes and the desktop fallback, normal/150% text, Back, unchanged launch access and the off switch. Import/core and affected menu/map suites precede exact-head review and hosted gates.
+- Optional item 5 is deferred to keep this handoff limited to Operations presentation. Branch: claude/lane-ops-home. Claim fa6093bb is published. Code is not yet pushed or merged.
+- Red test reproduced 133 failures before implementation. Baseline import clean and core835/0. Initial implemented touch253/0 and existing FIX2 menu24/0; expanded native checks are pending. Original failed fixture runs remain in local038-evidence.
+Recovery, 24 October 7:49 PM Eastern: first WIP pushed within 11 minutes of claim. Branch claude/lane-ops-home at99c28c30af50da927ce25f97f58a4699ba2fa985. Draft PR136: https://github.com/pemunson90-cmd/Siren-s-Song/pull/136. Native large-text and affected checks still pending; do not merge yet. Header and stock folds address rendered failures; original failures remain in ../038-evidence locally. Core835/0 reran after the initial implementation. Optional Back cleanup remains unstarted.
