@@ -8,7 +8,7 @@ Pat's Windows PC. Pat stopped the cloud session on 23 October and said continue 
 
 ## Live source checkpoint
 
-Development integration is `claude/integration`, last reconciled baseline `e93422d50d66e9b16a5f439e10677aa48a67bad3`.
+Development integration is `claude/integration`, last reconciled baseline `0694fc39eab56f81d16beafd74a86ec2f97983fa`.
 This ARCH2 candidate includes the Windows hook repair PR99, published at
 fab2617575d5156d74b87aede4aa9ba21367504b after its exact-head gates and review.
 At this preparation, later predecessor merges are planned, not yet published.
@@ -40,7 +40,8 @@ re-claim it or mark it DONE after one PR.
 | Prerequisite PR108 | Included in candidate ancestry; live PR/board decide published state |
 | Prerequisite PR109 | Included in candidate ancestry; live PR/board decide published state |
 | Prerequisite PR110 | Included in candidate ancestry; live PR/board decide published state |
-| Current Recipient PR111 | Candidate; independent exact-head review and hosted gates pending |
+| Prerequisite PR111 | Included in candidate ancestry; live PR/board decide published state |
+| Current Concealed PR113 | Candidate; independent exact-head review and hosted gates pending |
 | Later preparations | Separate feature PRs, see authoritative board; not a full023 completion |
 | Portable cloud evidence | archive/cloud-desktop-20261023 at5407a241,551 files with manifest/hash |
 
@@ -61,11 +62,11 @@ LOCALAPPDATA to isolated work folders, preserving personal saves.
 
 ## Current ARCH2 candidate
 
-This candidate is Recipient PR111, reconciled against planned predecessor merge
-e93422d50d66e9b16a5f439e10677aa48a67bad3. This predecessor must be published first.
-RefCounted adapter preserves the original Control arrival screen and its lifetime. Original HUD order and later world segment stay intact.
-The complete game tree equals native-tested preparation17ae5583be7efbc6516cff2b1ebd0eb6ebdccdca.
-Clean import and recipient69/UI134/core818/runtime665/density883/menu7/scroll15 all0 with clean logs.
+This candidate is Concealed PR113, reconciled against planned predecessor merge
+0694fc39eab56f81d16beafd74a86ec2f97983fa. This predecessor must be published first.
+Existing HUD refresh stays after Recipient; world drawing stays before Recipient and after Witness in its original later phase.
+The complete game tree equals native-tested preparation1b8a100606c2e92b39ca2e2392a812581fa831ce.
+Clean import and concealed77/UI76/core818/runtime665/density883/menu7/scroll15 all0 with clean logs.
 Independent final exact-head/planned-base review and both own hosted gates remain.
 Only publish its ordinary merge when live integration equals that predecessor,
 its PR is mergeable, and parents/tree equal the approved tested result. Stop on

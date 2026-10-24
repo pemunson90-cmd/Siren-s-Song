@@ -1,4 +1,18 @@
 extends RefCounted
+# ARCH2 panel/world contract. The later world group retains the original
+# order before Recipient and after Witness. Revert this PR to restore direct
+# seams; legacy projections/drawing/input and all text/numbers stay unchanged.
+static func applies(sim)->bool:return sim!=null
+static func build_panel(hud)->void:
+ var sim=hud.host.sim
+ var concealed=status(sim)
+ if concealed.get("known",false):
+  hud.intent.text=summary(sim)+" · "+hud.intent.text
+  hud.extra.concealed_attach.disabled=not concealed.actions.tow
+  hud.extra.concealed_release.disabled=not concealed.actions.release
+  hud.extra.concealed_seat.disabled=not concealed.actions.seats.any(func(p):return p.id==hud.subject.get("seat","") and p.ready)
+  if hud.subject.get("subkind","")=="concealed" or hud.page=="inspect":hud.instrument_info.text=detail(sim,hud.subject)+"\n\n"+hud.instrument_info.text
+static func draw(view)->void:draw_world(view,view.sim)
 const TEAL=Color("8ad6c9")
 const AMBER=Color("e3bd7c")
 static func status(sim)->Dictionary:return sim.concealed_status() if sim!=null and sim.has_method("concealed_status") else {}

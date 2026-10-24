@@ -431,13 +431,6 @@ func refresh():
   host.detail_label.text=sim.units[sim.selected].name+" · "+("OWN TRANSMITTER" if operation.label=="TRANSMIT" else "LOCAL MACHINERY CONTROL")
   if sim.capture_feedback().unit>=0:intent.text=sim.units[sim.selected].name+" · "+operation.detail.get_slice("\n",0)
  FeatureViews.build_panel(self)
- var concealed=Concealed.status(sim)
- if concealed.get("known",false):
-  intent.text=Concealed.summary(sim)+" · "+intent.text
-  extra.concealed_attach.disabled=not concealed.actions.tow
-  extra.concealed_release.disabled=not concealed.actions.release
-  extra.concealed_seat.disabled=not concealed.actions.seats.any(func(p):return p.id==subject.get("seat","") and p.ready)
-  if subject.get("subkind","")=="concealed" or page=="inspect":instrument_info.text=Concealed.detail(sim,subject)+"\n\n"+instrument_info.text
  var witness=Witness.status(sim)
  if not witness.is_empty():
   extra.witness_land.disabled=not sim.witness_context().land.ready

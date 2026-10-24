@@ -289,7 +289,6 @@ func _draw() -> void:
 	preload("res://src/presentation/blackwater_courier_view.gd").draw(self,sim)
 	FeatureViews.draw(self)
 	Witness.draw_world(self,sim)
-	Concealed.draw_world(self,sim)
 	FeatureViews.draw_tail(self)
 	# Sonar rays stop at actual cover, producing explicit acoustic shadows.
 	if earned.is_empty() and sim.ping_time>0:
