@@ -275,3 +275,19 @@ Current5b0ownrun40128761590 guidance120975815111 SUCCESS, game-smoke120975814956
 running; fresh4:31integrationstill e08andcontained. PR130DRAFTnowrecords fullrelayed
 technicalAPPROVE, immutableprooflinks, screenshotpairs andexplicitphasecosts.
 No artpublished, no done032; Patdecisionandhostedgatepending. Next033onlyafter032.
+
+Current human choice and reconciliation, 24 October, about5:12PM Eastern:
+Pat answered "use new, save rest for later". Finished5b0 artwork is ACCEPTED;
+do not ask again.033 stays OPEN and deferred. Pat cancelled the request for a
+new remote-session handoff after context refreshed; do not create one.
+Previous5b0 own40128761590 guidance120975815111/game-smoke120975814956 bothSUCCESS.
+Latest live integration2ce65c0 contains PR129 read-only diagnostics, not a runtime
+hook. Reconciled into pushed093e8a15fb60e105d4c880a4f99cb830d0190023 on
+claude/lane-art1; fulltree5341306aeca4fc48050f2bbb31ce707b791fab5f,
+gametree0a783e073c49d99921e6c9629825362a3dadf55a.
+Sole registry conflict resolved by retaining AI TRACE local208/CI231, art232/233.
+All233suites/local208/CI233 validate0errors0warnings; no test removed/weakened.
+Nine prior Art source blobs unchanged except registry rank move. Fresh bounded
+import/core/trace/ART/native checks and independent093e review are running.
+Own exact093e hosted gates must pass before merge; old green head is insufficient.
+No art merged, no done032. After actual032 publication, STOP, leave033 for later.
