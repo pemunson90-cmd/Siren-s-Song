@@ -115,3 +115,33 @@ converted to microseconds; draw-submission CPU/cadence/drawcalls/counters separa
 Official4.6 docs verified, API has no disjoint flag, GPU power-state/host noise limit
 claims; no Android FPS or universal zero-allocation claim. Raw final packet pending.
 Source-known pixels are for Pat to judge after technical gates, no art acceptance yet.
+
+
+Measured performance finding, 24 October, about3:25 PM Eastern:
+All frozen7619 final correctness/state/privacy checks pass: core835/art33/
+Confluence15/depth49/pricing64/015SIM2; nativeWell14/camera56/a11y98/ART204,
+separate linked command140, all exits0 and clean raw logs. Root and independent
+reviewer verified82 evidence files and9 actual frozen Git blobs; reviewer also
+recomputed all24 metric medians, all120 snapshot/memory rows and viewed12 images.
+No additional technical pixel blocker, but strict no-regression criterion UNMET.
+Draw CPU increases80.75..109.75us; viewport CPU43.75..59.25us. All five innerfactory
+and innercamera paired blocks increase. GPU medians flat/improved0..31us does not
+negate CPU cost. Frame cadence increases113.5..195us, mostly within repeat drift.
+No final integration approval or Pat artwork acceptance. Keep draft/no merge.
+
+Immutable quantified baseline e411b8087ab81c8579d8aee1736e6eb70a3cff41,
+evidence/032-windows-20261024/head-7619ff1, on archive/codex-032-art-windows-20261024.
+292 files128955923bytes before portable index:82 proof/tool files,197development,
+9frozen source copies and original manifests/qualification. Original receipt SHA
+9a5097ed3cdb5ee8e78f9fe3cabfc6e2d536e1d8132483744ae8ebb1b9d9631d. Scope says
+performance baseline, not blanket no-regression or accepted art. Raw failures and
+superseded initial cropped/hollow material pictures remain development only.
+
+One bounded work-only native profile identifies repeated shape/circle API work.
+Root approved smallest Art-only cached ArrayMesh fill/aperture change, retaining
+all AAoutlines/lines/cues/geometry/UV/oldlook and existing knowledge boundaries,
+without newnodes/visibilitysubsystem. Exact continuous tint replaces128shade bins.
+Worker verifies official API, short paired proof first, full measurement only after
+actual source change and promising result. Latest public source remains7619 until
+next WIP; code changes require push by3:34PM at latest. Root/reviewer no Godot runs.
+Current own7619 checks remain40123591760; optimized head needs its own exact gates.
