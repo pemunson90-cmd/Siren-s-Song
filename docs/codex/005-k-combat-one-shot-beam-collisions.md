@@ -1,9 +1,9 @@
 # Handoff 005: one-shot beam and collision damage
 
-Status: BLOCKED
+Status: DONE
 Claimed at: 2026-10-21 22:57:52 UTC
 Claimed by: codex
-Finished at: 2026-10-22 00:00:22 UTC
+Finished at: 2026-10-22 02:37:48 UTC
 
 Precondition: run `git log -1 --format=%cr origin/claude/lane-k-combat`. If the newest commit is under 90 minutes old, a Claude worker may still be active on this branch: do not claim, skip to the next OPEN handoff, and if none remain tell Pat.
 Codex may merge: yes, same rule, after you open the pull request into claude/integration.
@@ -37,6 +37,15 @@ Push the branch, then open a pull request into claude/integration. Wait for GitH
 Pat decides design: do not alter anything beyond what is written here.
 
 ## Completion
+
+### Verified completion reconciliation, 24 October 2026
+
+Closed as superseded by DONE010 and merged PR64. The original blocked attempt and its failed routes remain historical evidence below; they are not being relabelled as a passing run. Do not resume the obsolete blocked attempt or change combat rules.
+
+PR: https://github.com/pemunson90-cmd/Siren-s-Song/pull/64
+Actual merge: 338fae8e1d9680a5f37458bd4ab92b0ac418c2bc. GitHub reports merged=true, and ancestry was checked against fetched integration6e69116dd117254a867569868d9a87338a02131b. This status correction claims no new tests, review or phone acceptance. Original work and any earlier limits are preserved below.
+
+### Historical task notes
 
 Final-scope correction after fetching concurrent handoff update `70187b6`: sweeper changes are on hold. Final local head is `59a75fa89a54744064c773717f0b819008fabb64`, after restoring `sonar_sweeper.gd` byte-for-byte to integration, removing the new commitment test and its workflow entry. The recoverable patch `/tmp/k-local-review.patch` was regenerated. Existing reproduction: stationary Quietus takes the 22-point strike alone (78 hull), but remains at 100 hull when another craft's echo replaces and resets the strike. That rule is left unchanged pending Pat. Only beam/collision production changes remain. The current workflow has 70 scenarios, with two new suites, not the prior 71 with the withdrawn sweeper suite.
 

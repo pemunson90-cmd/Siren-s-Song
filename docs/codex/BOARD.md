@@ -2,7 +2,7 @@
 
 # Codex board (Claude reads this to know when to write the next batch)
 
-**Historical pre-resume merge order (current live refs and claim rows govern): PR88 merged009f2b8; 035/PR86 merged d9a0bf7; 024/PR87 merged a63aeeb; PR90 sensors merged9ae3212 and PR91 route merged70b1f18; final019 photo mergeddb6b162; 036/PR93 mergedea78d3d; 037/PR94 merged ef27d72; 020/PR85 merged ddc3361; 021/PR95 merged b03dd69; PR96 campaign flow later merged dcf81b5 and documentation98 merged30f555a; remaining023 and the numeric queue are parked. Reconcile newest integration into each proposed head and recheck if it moved. Use exact-head guidance/game-smoke and independent review before each merge.**
+**Historical pre-resume merge order (current live refs and claim rows govern): PR88 merged009f2b8; 035/PR86 merged d9a0bf7; 024/PR87 merged a63aeeb; PR90 sensors merged9ae3212 and PR91 route merged70b1f18; final019 photo mergeddb6b162; 036/PR93 mergedea78d3d; 037/PR94 merged ef27d72; 020/PR85 merged ddc3361; 021/PR95 merged b03dd69; PR96 campaign flow later merged dcf81b5 and documentation98 merged30f555a; that was the historical cloud checkpoint, superseded by completed023..032 and the current Pat deferral above. Reconcile newest integration into each proposed head and recheck if it moved. Use exact-head guidance/game-smoke and independent review before each merge.**
 
 Codex: when you finish a handoff, update its row here in the same commit as `done NNN`. Claude will write batch 2 when two of three rows show DONE.
 
@@ -20,7 +20,7 @@ Codex: when you finish a handoff, update its row here in the same commit as `don
 | 5 | 015 performance and leaks | DONE | [73](https://github.com/pemunson90-cmd/Siren-s-Song/pull/73) | 2026-10-22 23:01:31 UTC | Known-water observation cost reduced; ten identical state hashes; merged on green 9899a2c. |
 | 6 | 016 one test list, fix stale tests | DONE | [76](https://github.com/pemunson90-cmd/Siren-s-Song/pull/76) | 2026-10-23 00:57:56 UTC | Merged6229d09; exact6564bb4 guidance/game-smoke green, all189 suites including software renderers. |
 
-Work order is numeric: finish 013 (batch 1) first, then 014, 015, 016.
+Historical batch order:013,014,015,016 are all DONE. Current statuses and Pat's latest deferral above govern.
 
 ## BATCH 3 (22 Oct, written by Claude when its session was nearly out; Claude may be absent)
 | Order | Handoff | Status | PR | Finished (UTC) | One-line result |
@@ -38,7 +38,7 @@ Work order is numeric: finish 013 (batch 1) first, then 014, 015, 016.
 | 12 | 023 ARCH2 main.gd and HUD contract | DONE | [96](https://github.com/pemunson90-cmd/Siren-s-Song/pull/96), [99 Windows](https://github.com/pemunson90-cmd/Siren-s-Song/pull/99), [100 photo](https://github.com/pemunson90-cmd/Siren-s-Song/pull/100), [101 metrics](https://github.com/pemunson90-cmd/Siren-s-Song/pull/101), [102 Wake](https://github.com/pemunson90-cmd/Siren-s-Song/pull/102), [104 Rendezvous](https://github.com/pemunson90-cmd/Siren-s-Song/pull/104) | 2026-10-24 05:44:22 UTC | Done023. Final integration8c13f5b; remaining steps100/101/102/104/108/109/110/111/113/115/117/118/119/120 and Windows99 merged with own exact checks and independent approval. Final closure APPROVE; Main950 to817, HUD657 to575, Ocean691 to685; rules/tests/assets unchanged.025 next if OPEN. |
 | 13 | 024 photography and all-stop audio | DONE | [87](https://github.com/pemunson90-cmd/Siren-s-Song/pull/87) | 2026-10-23 17:59:25 UTC | Mergeda63aeeb after exact9b2f665 guidance/game-smoke39993951569 green and final independent approval; core818/0,audio47/0; subjective sound unjudged. |
 | 14 | 025 landmarks for thin ops (M3a) | DONE | [121](https://github.com/pemunson90-cmd/Siren-s-Song/pull/121) | 2026-10-24 08:23:56 UTC | Done025. Actual merge aaff40e; exact757347b/current0e92729, independent APPROVE, own40075442240 bothgreen. Current831/665/883/468/92/56/49 all0; composed76pairs/1107commands equal. Evidence33dfe86.026 next. |
-| 15 | 026 self-play review of the opening (read-only) | DONE | report only | 2026-10-24 09:10:26 UTC | Done026. Six UI attempts:0/5won,1unfinished,2/3/4beam losses; camera overlap confirmed on both shapes. Separate real coldrestart passed; no game edits. Import/core831/0; 694word Completion, verified local evidence ZIP. Corrects empty3997b1e publication;027 next. |
+| 15 | 026 self-play review of the opening (read-only) | DONE | report only | 2026-10-24 09:10:26 UTC | Done026. Six UI attempts:ops0 and5won,op1unfinished,ops2/3/4beam losses; camera overlap confirmed on both shapes. Separate real coldrestart passed; no game edits. Import/core831/0; 694word Completion, verified local evidence ZIP. Corrects empty3997b1e publication;027 next. |
 
 | 16 | 027 final pair of ops and photo-wall ending (M3b) | DONE | [122](https://github.com/pemunson90-cmd/Siren-s-Song/pull/122) | 2026-10-24 10:55:27 | Done027: actual mergea524613 verified. Exact2fe6459 guidance/game-smoke40085216588 green and independent approval. Core833/wall44/model92/save-removal16 all0; fresh touch critic earned pair after one loss, misleading-label P2 fixed.029 next. |
 
@@ -68,20 +68,20 @@ Take 017 first (PRIORITY) if any of PRs 69, 70, 71 is open; otherwise numeric or
 
 ## Claude-held
 009 sweeper on V7 senses: Claude's PR 70, finished under handoff 017.
-Nothing parked.
+Codex033 is deferred by Pat. No unfinished Codex implementation claim remains.
 
 ## BATCH 7 (24 Oct, from docs/design/COLD_REVIEW_3.md; items needing Pat are NOT here)
 | Order | Handoff | Status | PR | Finished (UTC) | One-line result |
 |---|---|---|---|---|---|
 | P | 038 OPS HOME: next op, route map and fittings at top; fold recovered; Erase to Settings only | OPEN | | | Starts after 023 is DONE or paused. |
-| 38 | 039 CONSEQUENCE LINES for debriefs of ops 15 to 30 | CLAIMED (Claude) | | | |
+| 38 | 039 CONSEQUENCE LINES for debriefs of ops15 to30 | DONE | [126](https://github.com/pemunson90-cmd/Siren-s-Song/pull/126) | 2026-10-24 19:24:11 UTC | Claude merged46a3be8; GitHub merged=true and current ancestry verified. Stale claim reconciled24October. |
 | 39 | 040 PHOTO ROW JOURNEYS under live Sirens (14 rows) | OPEN | | | |
 Also: 029 now includes the F7 addendum (GOAL / DANGER / NEW THIS DIVE for ops 7 to 30). Held for Pat: ending at op 30, replay without erase, settings/title reachable from Operations, quit_on_go_back, early-reward count, anything on Siren senses or lock timing.
 
 ## BATCH 8 (24 Oct, Pat's decisions on cold review 3; AI-DESIGNED, Pat to adjust)
 | Order | Handoff | Status | PR | Finished (UTC) | One-line result |
 |---|---|---|---|---|---|
-| P | 041 BACK1: quit_on_go_back=false and press-Back-again-to-exit | CLAIMED (Claude) | | | Pat: yes. Small. |
+| P | 041 BACK1: quit_on_go_back=false and press-Back-again-to-exit | DONE | [125](https://github.com/pemunson90-cmd/Siren-s-Song/pull/125) | 2026-10-24 17:34:15 UTC | Claude merged139f3e9; GitHub merged=true and current ancestry verified. Real phone unverified. |
 | 40 | 042 FINALE1 (provisional): END OF LINE screen and photo wall at first recovery of op 30 | OPEN | | | Pat: no answer yet, provisional repair. After 023. |
 | 41 | 043 SAVE2: 3 hard-save slots, automatic fork save states, replay from fork, truthful ending buttons | OPEN | | | Pat: yes. After 030 SAVE1. |
 | 42 | 044 MENU REACH: shared full settings, Title, Challenges, Credits from Operations | OPEN | | | Pat: yes. After 038. |
@@ -100,3 +100,18 @@ Still held for Pat: any change to Siren sight, hearing or lock timing (Pat: not 
 | Order | Handoff | Status | PR | Finished (UTC) | One-line result |
 |---|---|---|---|---|---|
 | 47 | 050 HUNT RESTORE: global Hunt scales Siren notice radius, visible meter, stage cue, flag | OPEN | | | After 023 done or paused and design PR merged. Design: docs/design/HUNT_RESTORE.md. |
+
+## Verified stale-claim reconciliation, 24 October2026
+
+Pat requested completion records be reconciled. GitHub merged=true and ancestry in current integration6e69116 were checked; no new implementation or tests are claimed.
+
+| Handoff | Current status | Published resolution |
+|---|---|---|
+| 003 distinct Iron Choir objectives | DONE | PR63, cb1b7ac |
+| 005 old blocked combat attempt | DONE, superseded by010 | PR64,338fae8; old failures retained as history |
+| 006 existing story PR repair | DONE | PR56,49725ce; no new story |
+| 009 V7-senses sweeper | DONE | PR70,567f0b2; already covered by017 |
+| 039 consequence lines | DONE | PR126,46a3be8 |
+| 041 Back exit | DONE | PR125,139f3e9 |
+
+Progress report: [CODEX_REPORT_2026-10-24.md](CODEX_REPORT_2026-10-24.md).033 and all genuinely unfinished handoffs remain OPEN. Do not interpret this record cleanup as resuming development.

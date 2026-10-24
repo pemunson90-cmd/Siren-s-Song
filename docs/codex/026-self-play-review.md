@@ -46,3 +46,6 @@ Parent validation: native headless import and core831/0 passed on this exact gam
 Evidence on Pat’s PC: [verified ZIP](<C:/Users/Archi/Documents/Codex/2026-10-23/continue-as-codex-on-the-siren/outputs/026-opening-review-evidence.zip>), 510 members; SHA256 `3ce8969a51741d00e18b93a59171b4c5ab14357b1c9f015bbcc4481f831f5df5`. Raw states, commands, screenshots, save proof, validation logs and manifest are included. Raw source remains in `work/026-review/` outside the checkout.
 
 Publication note: this complete UTF-8 report supersedes the empty file accidentally published in3997b1e. No game source or evidence was changed by that report-writing error.
+
+
+Evidence preservation,24October2026: the original unedited510-member ZIP is now also published on archive/codex-026-opening-windows-20261024 at3ddcd73d8d00e3e4fe8a2392774377766452e1a8, path evidence/026-windows-20261024/026-opening-review-evidence.zip. Root verified its actual Git-blob bytes/hash against the original56056177-byte ZIP and SHA256 above. This adds remote preservation only, not a new play/test run.

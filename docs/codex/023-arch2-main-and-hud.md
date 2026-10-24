@@ -85,7 +85,7 @@ review provenance. All earlier stop/partial/preparation notes below are history.
 This done023 update and BOARD change share one commit. Next: inspect and claim025
 if still OPEN and its preconditions are met; no new claim is made by this commit.
 
-### Current local Windows resume, 23 October 2026 Eastern
+### Historical local Windows resume, 23 October 2026 Eastern
 
 Pat explicitly resumed this existing claim and the later eligible numeric queue.
 Prior cloud stop notes below remain historical. PR96/98 are already merged;
@@ -134,7 +134,7 @@ Preliminary independent source PASS; import/Wake31/touchUI37/density883/menu7/
 scroll15 pass. Core/runtime still running, no PR/final gate yet. These remain
 preparations until parent PRs land and each own current-head/base gate passes.
 
-### Latest local recovery checkpoint
+### Historical local recovery checkpoint
 
 Latest local recovery checkpoint, 23 October 2026 Eastern:
 - Integration advanced docs-only through Claude PR103 to
@@ -171,7 +171,9 @@ Portable cloud evidence is published on archive/cloud-desktop-20261023 at5407a24
 
 Documentation review checkpoint: latest pushed docs head2cbd1f2de90158ce91899968859c9c5339f6cf65 on claude/desktop-handoff-20261023. Independent reviewer approved preparation1122ca4 with two minor wording findings; both are fixed in2cbd1f2. Final diff is25 Markdown files over3afb12f, with game/toolchain/workflows byte-identical. The dated signing provenance is preserved unchanged; current no-APK policy is canonical in USER_DIRECTIVES/environment/desktop notes. Reviewer independently verified published ZIP size/hash, all551 payload hashes/lengths and11 recovery refs. Relative54 links/guidance/short pointers/no-added-em-dash/prior-directives-suffix checks pass. Current integration stillb03dd69; PR96 game-smoke remains running on approved3afb. No further implementation. After green96 and actual merge, correct final status/merge refs in the two handover documents, get final exact-head/base docs review and own docs PR checks, publish, checkpoint023/BOARD and STOP.
 
-## Final cloud checkpoint, 23 October 2026 Eastern
+## Historical cloud checkpoint, 23 October 2026 Eastern
+
+Superseded by Done023 at the start of Completion and Pat's24October Windows resumption. The old stop/partial/prepared-branch instructions below record that earlier date only. Do not execute them or repeat the completed work.
 
 This final checkpoint supersedes the in-flight statuses above. Cloud work is STOPPED at Pat's requested boundary, not because of usage exhaustion and not because the project or023 is complete. Status remains CLAIMED and partial; Finished at stays empty. No025 was claimed and no metrics/shared feature contract was implemented.
 

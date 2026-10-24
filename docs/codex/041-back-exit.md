@@ -1,9 +1,9 @@
 # Handoff 041 (PRIORITY): BACK1, Android Back must never quit the app by accident
 
-Status: CLAIMED
+Status: DONE
 Claimed at: 2026-10-24 15:51:28 UTC
 Claimed by: claude (orchestrator, Pat approved Claude building in parallel while Codex works 030)
-Finished at:
+Finished at: 2026-10-24 17:34:15 UTC
 
 Precondition: none. Small; may be taken between steps of 023 if it does not touch files 023 holds, otherwise right after 023. Pat decided 24 Oct: yes (cold review 3 finding F1).
 Codex may merge: yes, into claude/integration only, after GitHub guidance and game-smoke are both green on the exact head and the PR is mergeable. Merge with a merge commit, then mark DONE and update docs/codex/BOARD.md.
@@ -33,4 +33,13 @@ Setting false and asserted; double-Back exit tested; all existing Back and Escap
 PR into claude/integration. Merge per the line above; mark DONE and update the board.
 
 ## Completion
+
+### Verified completion reconciliation, 24 October 2026
+
+Claude merged disabled automatic Back quit and double-Back exit from Operations. The exact031 integration checks subsequently included Back17/0. Physical-phone behavior remains unverified.
+
+PR: https://github.com/pemunson90-cmd/Siren-s-Song/pull/125
+Actual merge: 139f3e943ddc9e45c6eec46a049c3781ed2865a8. GitHub reports merged=true, and ancestry was checked against fetched integration6e69116dd117254a867569868d9a87338a02131b. This status correction claims no new tests, review or phone acceptance. Original work and any earlier limits are preserved below.
+
+### Historical task notes
 (Codex fills this in.)

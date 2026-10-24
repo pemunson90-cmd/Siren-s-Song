@@ -1,9 +1,9 @@
 # Handoff 003: make Iron Choir operations 22 to 29 each play differently
 
-Status: CLAIMED
+Status: DONE
 Claimed at:
 Claimed by: claude agent (21 Oct)
-Finished at:
+Finished at: 2026-10-22 01:15:13 UTC
 
 Precondition: run `git log -1 --format=%cr origin/claude/lane-c2-iron`. If the newest commit is under 90 minutes old, a Claude worker may still be active on this branch: do not claim, skip to the next OPEN handoff, and if none remain tell Pat.
 Codex may merge: yes, same rule, after you open the pull request into claude/integration.
@@ -30,4 +30,13 @@ Import, core tests, and `bash docs/codex/run_ci_scenarios.sh` all clean (every l
 Push the branch, then open a pull request into claude/integration. Wait for GitHub's checks.
 
 ## Completion
+
+### Verified completion reconciliation, 24 October 2026
+
+Iron Choir distinct objectives were merged by Claude. This is completion reconciliation, not a new implementation or test run.
+
+PR: https://github.com/pemunson90-cmd/Siren-s-Song/pull/63
+Actual merge: cb1b7ac4295675659d7dfc1e68bbaaeed5d389a7. GitHub reports merged=true, and ancestry was checked against fetched integration6e69116dd117254a867569868d9a87338a02131b. This status correction claims no new tests, review or phone acceptance. Original work and any earlier limits are preserved below.
+
+### Historical task notes
 (Codex fills this in.)

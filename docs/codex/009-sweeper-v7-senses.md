@@ -1,9 +1,9 @@
 # Handoff 009: rebuild the sweeper on V7 senses
 
-Status: CLAIMED
+Status: DONE
 Claimed at: 2026-10-22 16:20 UTC
 Claimed by: claude (Pat approved Claude taking 009, 22 Oct; Codex skip this one)
-Finished at:
+Finished at: 2026-10-22 19:49:48 UTC
 
 Precondition: handoff 010 must be DONE and merged (010 replaces blocked 005). If it is not, skip this one and take the next OPEN handoff.
 Codex may merge: yes, after green guidance and game-smoke on the exact head.
@@ -30,4 +30,13 @@ Import, core tests, every CI scenario ok (`bash docs/codex/run_ci_scenarios.sh`)
 Push branch, open PR into claude/integration, wait for checks.
 
 ## Completion
+
+### Verified completion reconciliation, 24 October 2026
+
+Merged by Claude and already recorded under DONE017 on the board. The CLAIMED header was stale. No new senses or sweeper changes.
+
+PR: https://github.com/pemunson90-cmd/Siren-s-Song/pull/70
+Actual merge: 567f0b270cb479fecdb081df8ad9ffffdd2dceb3. GitHub reports merged=true, and ancestry was checked against fetched integration6e69116dd117254a867569868d9a87338a02131b. This status correction claims no new tests, review or phone acceptance. Original work and any earlier limits are preserved below.
+
+### Historical task notes
 (Codex fills this in.)

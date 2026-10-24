@@ -24,6 +24,10 @@ Completion note: PR link, per-op result for the five routes (fixed, or blocked w
 
 ## Completion
 
+Current verified state, 24 October: DONE. PR64 merged at338fae8e1d9680a5f37458bd4ab92b0ac418c2bc on22October02:37:48UTC (21October10:37PM Eastern). GitHub merged=true and current integration ancestry checked. The following original in-flight report is historical, not a live pending claim.
+
+### Historical submitted-head evidence
+
 Implementation and measurements are finished. PR 64 is open and mergeable on the submitted head as last checked. Guidance, import and core checks have passed in GitHub; the full scenario step is still running. Status remains CLAIMED until that gate finishes and the authorized merge can be performed. Claude can review the complete evidence below now.
 
 PR: https://github.com/pemunson90-cmd/Siren-s-Song/pull/64
