@@ -1,0 +1,341 @@
+[
+  {
+    "brief": "Photograph FURNACE, then LAUNCH CRADLE; recover Quietus past the southern wall. DEEP passes beneath the central spine, but the plant stays solid. The furnace sentinel holds MIDDLE; the recovery sentinel and the plant's deep motor work DEEP. The cold front weakens sound in addition to layer loss. Wait quietly for a crossing, or coordinate a drone sounding while Quietus moves. Use craft → DEPTH / SONAR; image and recover in MIDDLE. The base is theirs, and it keeps a rhythm. An optional long observation of its frame bays pays for patience: hold the camera across a whole cycle from outside its reach.",
+    "id": 3,
+    "objectives": [
+      {
+        "kind": "",
+        "name": "FURNACE VENT",
+        "optional": false
+      },
+      {
+        "kind": "",
+        "name": "LAUNCH CRADLE",
+        "optional": false
+      },
+      {
+        "kind": "",
+        "name": "FRAME BAY HATCHES",
+        "optional": true
+      }
+    ],
+    "record": "The furnace vent feeds a line of open steel frames to the south. All of it is still warm.",
+    "title": "Cold Foundry"
+  },
+  {
+    "brief": "Recover three perimeter records and return. SHALLOW clears western basalt but closes the southern record; DEEP clears the eastern wall under a sweeper. The fast hunter holds MIDDLE. An unverified archive is valid. Optional comparison: cruise Quietus past PROFILE APERTURE in MIDDLE after PATTERN, then receive near RETURN ARCHIVE in MIDDLE. A deep pass is no engine reference. Craft → DEPTH / SONAR compares received bearing history.",
+    "id": 4,
+    "objectives": [
+      {
+        "kind": "",
+        "name": "PATTERN ARRAY",
+        "optional": false
+      },
+      {
+        "kind": "",
+        "name": "PROFILE APERTURE",
+        "optional": false
+      },
+      {
+        "kind": "",
+        "name": "RETURN ARCHIVE",
+        "optional": false
+      }
+    ],
+    "record": "Well archive recovered · signature unverified. The returned cadence remains unassigned; no moving Quietus comparison was observed.",
+    "title": "The Listening Well"
+  },
+  {
+    "brief": "Photograph TRANSMITTER CROWN and OUTBOUND WAKES; Quietus must LISTEN six seconds at LEE RECEIVER, then return with the packet. DEEP opens the central crossing but closes the southern lee; SHALLOW opens the eastern approach. Different patrols and a deep sweeper cover different layers. MIDDLE retains the covered lee route. Break sight to interrupt local reports; reports carry an old area and observed depth. Coordinate drones or take observations alone. Work and recover in MIDDLE.",
+    "id": 5,
+    "objectives": [
+      {
+        "kind": "",
+        "name": "TRANSMITTER CROWN",
+        "optional": false
+      },
+      {
+        "kind": "",
+        "name": "OUTBOUND WAKES",
+        "optional": false
+      },
+      {
+        "kind": "receiver",
+        "name": "LEE RECEIVER",
+        "optional": false
+      }
+    ],
+    "record": "The packet is a list of bearings, one for every loud site on this coast. Two of them still make noise.",
+    "title": "Siren's Song"
+  },
+  {
+    "brief": "The bearings from Corran Bank point two ways through charted basalt: a drillship's thrusters in the deep, a shore station's pings on the shelf. Neither source is located. Listen in the western shelf water and northeastern trench; received direction may bend around rock. Separate drone listening positions can guide Quietus through the central lee. Close passive observation or a finite local RECON survey identifies a source immediately. Investigate either or both, then take Quietus through the corresponding DEEP DESCENT or SHELF PASSAGE. Your physical exit selects the next expedition; both facts remain if found. Returning to the southern recovery basin after departure is an incomplete withdrawal.",
+    "id": 6,
+    "objectives": [],
+    "record": "Two sites still make noise, one deep and one on the shelf. Quietus recovered a route to each. Where it dives first decides who it reaches first.",
+    "title": "The Divergence"
+  },
+  {
+    "brief": "Enter from the lower trench. Locate the berthing carrier in the western basin, then bring Quietus within clear receiver reach and use CAMERA / LISTEN to confirm the Tessaly's bell line. Drones can find its carrier while Quietus crosses the covered central saddle. Recovery lies north, beyond the berth. The long southern wall separates the lower staging basin from the central saddle. A drone can watch its western tip while Quietus crosses. A Siren sentinel holds the berthing basin and returns to its post after an investigation. The bell's lift packet is aboard a physical support tender. It stays at the berth unless you explicitly RELEASE BERTH from the locally discovered control. That one audible control transmission, the kind of sound that brought the Sirens down the first time, sends it along the announced western lane to the northern mooring, where it remains available. A drone can operate the control while Quietus stages elsewhere; Quietus can operate it alone. Quiet reception at the original berth also works. Survey locates nearby hulls and machinery; a measured vessel fix grows stale when no receiver can still sense it.",
+    "id": 7,
+    "objectives": [],
+    "record": "Tessaly's bell line confirmed: four divers alive at depth, the thruster loop still running above them. Quietus has a route farther down the trench.",
+    "title": "Deep Rendezvous"
+  },
+  {
+    "brief": "Terrace windows beyond the shelf receiver still draw power. Carry Quietus’s warning to the watch crew in Port Ardent's shore-end bunker. Visit both section listening lips for quiet local delivery, or sound the charted COMMUNAL RESONATOR once: its1200m call offers a shorter work route but draws the hunter. A sent warning alone is not a returned acknowledgement; hear both replies. Drones can discover the sections and watch approaches. The shorter inner return crosses a mutually masking exhaust front; the longer outer contour preserves passive information. Bring Quietus and the watch acknowledgements to western recovery. A fast Siren hunter listens along the eastern approach; cover breaks its visual pursuit.",
+    "id": 8,
+    "objectives": [
+      {
+        "kind": "habitat",
+        "name": "WATCH ACKNOWLEDGEMENTS",
+        "optional": false
+      },
+      {
+        "kind": "",
+        "name": "SHELF RETURN / RELAY LAMP",
+        "optional": true
+      }
+    ],
+    "record": "Two sections of the bunker answered the warning. Their pressure shutters closed over the watch crew; Quietus carries a call toward living survivors, not an empty station's firing coordinates.",
+    "title": "Shelf Return"
+  },
+  {
+    "brief": "Find the live return receiver, recover the bell's line packet with Quietus, then cross to northern recovery. Two unlabeled carriers reach the southern lee. A fitted berthing correlator can compare the recovered RETURN reference after six settled seconds; without it, close scouting or finite RECON still identifies either source. Neither cadence nor a bearing guarantees safety. The eastern beacon may draw a patrol off; inspect its hardware before spending it. Reserve air for the crossing and any independent drone's return. A Siren patrol and a northern hunter can report local sightings. The long western outside water remains a solo route without tools or playback.",
+    "id": 9,
+    "objectives": [],
+    "record": "The wrecked rig's beacon kept calling while the bell's line stayed quiet. Siren patrols still trade local sightings. A dead call can buy cover without being anyone's lifeline; the packet and Quietus have crossed the watch line.",
+    "title": "Wake Crossing"
+  },
+  {
+    "brief": "Port Ardent's cable to the coast runs through an unpowered relay plant on the shelf. At WEST SERVICE INLET, CONNECT any settled craft within60m: that body's umbilical powers the distant panel until it releases, moves or is lost. START BACKUP is the complete solo alternative; one audible generator start frees the power craft. At EAST ROUTING PANEL, Quietus or a recovered fitted field sampler can select the output and SEND WARNING through the powered plant. SERVICE opens a real water and sound crosslink and sends from EAST; the western branch must actually receive it. NORTH MAST sends from northern hardware; its telemetry proves transmission, while external reception stays unknown. No camera hold is needed. Once commissioned, disconnect the helper and choose north or west service recovery. Both routes lead onward; an equipped craft still has its ordinary recovery stakes. A Siren sentinel holds the western preparation; the eastern arm is patrolled.",
+    "id": 10,
+    "objectives": [
+      {
+        "kind": "plant",
+        "name": "WEST SERVICE INLET",
+        "optional": false
+      },
+      {
+        "kind": "plant",
+        "name": "EAST ROUTING PANEL",
+        "optional": false
+      },
+      {
+        "kind": "plant",
+        "name": "WARNING PLANT OPERATING RECORD",
+        "optional": false
+      }
+    ],
+    "record": "The warning plant works again. Its operating record preserves exactly what Quietus proved: a local service acknowledgement or a northern mast transmission whose wider audience remains unknown. The motors and the mast were loud work, and Quietus cannot say who heard them.",
+    "title": "Warning Chain"
+  },
+  {
+    "brief": "The submarine Kestrel lies bottomed on the ridge north of the basalt divide. Recover its live transmission, then bring Quietus back to one of the two southern recovery mouths. The western arm is a narrow broken channel with sheltered recesses; the wider eastern passage carries a north-setting current that helps the approach and resists the return. A west-setting current crosses the narrow southern saddle between the entry mouths. Rock separates their sight and sound. Drones can investigate the two arms independently while Quietus advances, or Quietus can do all the fieldwork alone. Two unlocated carriers remain: Kestrel's transmission and an old survey repeater. A received cadence and recovered RETURN reference can distinguish their patterns; without a fitted correlator, close observation or finite local RECON still works. The service repeater may offer a physical shortcut, at a cost you can inspect there. Preserve air and drone energy for withdrawal. Return through CONCEALED ASCENT to bring the sailors out quietly, or OPEN WARNING PASSAGE to call a surface ship. The physical southern exit commits the next operation; no hidden purity score chooses it. Your shelf approach begins below the western broken channel.",
+    "id": 11,
+    "objectives": [],
+    "record": "Kestrel's transmission is recovered: eleven alive in the aft trunk, the torpedo tube still open. Quietus returned through a chosen passage with a record, not a target list; opening the optional service sluice changed the physical return without certifying the water safe.",
+    "title": "Confluence"
+  },
+  {
+    "brief": "Confluence's concealed passage leads to Kestrel's escape capsule beyond the southern overhang. WINCH its occupied witness capsule onto Quietus or either bare drone: settle below 2m/s within 60m with clear line of sight for one audible four-second winch. Carry the living witness to the southeast basin and explicitly LAND WITNESS there; Quietus must also return. If a carrier is lost, its sealed pressure pod ejects at that own-craft position and the same witness can be winched aboard another craft. The occupied pod remains sealed for recovery. Recovered kit at the same wreck shares that single winch. The long western detour works with the service sluice shut and needs no transmission or machinery. Alternatively, operate the charted SERVICE SLUICE CONTROL on its north side: an audible motor permanently opens the man-made passage for a shorter return. It never closes or crushes craft. Quietus can operate it in four seconds; a fitted drone sampler can work independently in eight audible seconds, if it survives. The actuator is optional and does not replace the witness. Decide whether the changed route is worth making the machinery heard, then bring the occupied capsule home. Active tools remain available; no hidden purity score invalidates recovery. Kestrel's sonar operator knows what holds the trench mouth: an old tracking float, still sending. Reserve air to act on her account before bringing the capsule home. A Siren sentinel holds the water north of the sluice; the western route has a moving patrol.",
+    "id": 12,
+    "objectives": [
+      {
+        "kind": "receiver",
+        "name": "SERVICE SLUICE CONTROL",
+        "optional": true
+      }
+    ],
+    "record": "The sailors' account returns without being forwarded through the warning chain. The service sluice, if opened, remains an actual route through the overhang; the unannounced western detour remains a valid alternative. This resolves the concealed operation, not who else is still down there.",
+    "title": "The Concealed Record"
+  },
+  {
+    "brief": "Kestrel's position is aboard. Choose Quietus’s transmission origin inside the charted sector; settle and use CAMERA / TRANSMIT for six seconds. The 2000m call follows actual water paths: a completed emission can miss behind terrain, so reposition and retry if no reply arrives. Find the local acknowledgement by received bearings or close observation, then receive it with Quietus. Brannock's unarmored launch waits in the northern breakwater berth. It never leaves automatically. Tap its measured hull and deliberately choose EXPOSED, an ungated passage around the south breakwater into the eastern watch, or SHELTERED, a shorter route through the north service gate. Open that physical gate locally within 60m, clear line and below 2m/s; its release is audible 650m for six seconds. An earned Warning Chain service receipt can instead ride this newly received warning to operate the connected gate. Bare Quietus needs no proof, fitted kit or finite tool for the manual sheltered route. Drones can scout, release the gate, protect the launch or observe its arrival; Quietus must transmit, receive the initial reply and recover independently. Protect the recipient’s actual hull with terrain or finite tools. Receive its real arrival at the northeast pickup and recover Quietus there. Recipient destruction fails the dive; retry remains available. Announced courses are plans, never live tracking. An eastern Siren hunter reacts to local evidence while a sentinel holds the northern basin.",
+    "id": 13,
+    "objectives": [
+      {
+        "kind": "transmitter",
+        "name": "WARNING TRANSMISSION SECTOR",
+        "optional": false
+      }
+    ],
+    "record": "The call reached Brannock's launch. It made the chosen crossing to the northeast pickup, and Quietus recovered after hearing it arrive. The call was loud, and everything on the shelf heard it.",
+    "title": "The Open Warning"
+  },
+  {
+    "brief": "Dr. Tomas Vey / These floats are the Varne range's hydrophone fence. They listen to engines, not loyalties. Their lamps rise before a report. Deep water under the western teeth gives a slow quiet passage; the central opening is shorter and watched.\nKeep Quietus and its account together. Local records and machinery work in settled MIDDLE. The bare outside water avoids the central network; other bands open shorter inner crossings. Buoys hear real engines and emissions; relays forward stale uncertain reports after a charge. Quiet, masking, terrain, depth, relocation or physical disruption can break that chain. Return to a named recovery mouth.",
+    "id": 14,
+    "objectives": [
+      {
+        "kind": "receiver",
+        "name": "GLASS FENCE / RECEIVED ACCOUNT",
+        "optional": false
+      }
+    ],
+    "record": "Dr. Tomas Vey / These floats are the Varne range's hydrophone fence. They listen to engines, not loyalties. Their lamps rise before a report. Deep water under the western teeth gives a slow quiet passage; the central opening is shorter and watched.",
+    "title": "Glass Fence"
+  },
+  {
+    "brief": "Vey / The shallow strain vanes hold the listening fence taut. Release one locally and the western strait falls quiet. Deep water bypasses the vane wall but reaches the eastern repeater. A disabled listener cannot finish its charged report.\nKeep Quietus and its account together. Local records and machinery work in settled MIDDLE. The bare outside water avoids the central network; other bands open shorter inner crossings. Buoys hear real engines and emissions; relays forward stale uncertain reports after a charge. Quiet, masking, terrain, depth, relocation or physical disruption can break that chain. Return to a named recovery mouth. Tap a craft → REACH WORK for local machinery. Manual work takes8 audible seconds; a recovered fitted decoder can open the18/19 service gate quietly.",
+    "id": 15,
+    "objectives": [
+      {
+        "kind": "receiver",
+        "name": "NEEDLE STRAIT / RECEIVED ACCOUNT",
+        "optional": false
+      }
+    ],
+    "record": "Vey / The shallow strain vanes hold the listening fence taut. Release one locally and the western strait falls quiet. Deep water bypasses the vane wall but reaches the eastern repeater. A disabled listener cannot finish its charged report.",
+    "title": "Needle Strait"
+  },
+  {
+    "brief": "Vey / This thermal atlas belongs to the range's cooling plant. The crossflow carries hot exhaust and sound around the central piers. Take the measured atlas home; its material spectrum may explain the prisms in the western wreck field.\nKeep Quietus and its account together. Local records and machinery work in settled MIDDLE. The bare outside water avoids the central network; other bands open shorter inner crossings. Buoys hear real engines and emissions; relays forward stale uncertain reports after a charge. Quiet, masking, terrain, depth, relocation or physical disruption can break that chain. Return to a named recovery mouth. The plant has to vent somewhere. Vey: our survey never found where.",
+    "id": 16,
+    "objectives": [
+      {
+        "kind": "receiver",
+        "name": "FURNACE DRIFT / RECEIVED ACCOUNT",
+        "optional": false
+      },
+      {
+        "kind": "",
+        "name": "WEST INTAKE VALVE",
+        "optional": true
+      }
+    ],
+    "record": "Vey / This thermal atlas belongs to the range's cooling plant. The crossflow carries hot exhaust and sound around the central piers. Take the measured atlas home; its material spectrum may explain the prisms in the western wreck field.",
+    "title": "Furnace Drift"
+  },
+  {
+    "brief": "Vey / The archive spindle is the range's physical record. Its reception note is not the spindle itself. Winch it to a living craft and bring that carrier to recovery; losing the carrier leaves the same spindle in that water.\nKeep Quietus and its account together. Local records and machinery work in settled MIDDLE. The bare outside water avoids the central network; other bands open shorter inner crossings. Buoys hear real engines and emissions; relays forward stale uncertain reports after a charge. Quiet, masking, terrain, depth, relocation or physical disruption can break that chain. Return to a named recovery mouth. Tap the marked material → RECOVER, or craft → REACH WORK. Winch4s within60m; carriers must recover in MIDDLE within65m of the chosen mouth, or transfer locally to Quietus. A lost carrier leaves its physical cargo at the lost position. Vey: the survey boat logged repeated low strikes from the terraces and never photographed their source.",
+    "id": 17,
+    "objectives": [
+      {
+        "kind": "receiver",
+        "name": "SILT ARCHIVE / RECEIVED ACCOUNT",
+        "optional": false
+      }
+    ],
+    "record": "Vey / The archive spindle is the range's physical record. Its reception note is not the spindle itself. Winch it to a living craft and bring that carrier to recovery; losing the carrier leaves the same spindle in that water.",
+    "title": "Silt Archive"
+  },
+  {
+    "brief": "Vey / The sealed habitat's lock needs its service bus. Restore the sheltered passage and the survivors can use the short water, but the listening relay stays supplied. Sever the reporting spur and the fence loses the channel; they take the longer outside passage. Quietus must carry the selected station account home.\nKeep Quietus and its account together. Local records and machinery work in settled MIDDLE. The bare outside water avoids the central network; other bands open shorter inner crossings. Buoys hear real engines and emissions; relays forward stale uncertain reports after a charge. Quiet, masking, terrain, depth, relocation or physical disruption can break that chain. Return to a named recovery mouth. Tap a craft → REACH WORK for local machinery. Manual work takes8 audible seconds; a recovered fitted decoder can open the18/19 service gate quietly. REACH WORK offers RESTORE SERVICE or SEVER SPUR. First recovery commits the real consequence in Last Boat Out.",
+    "id": 18,
+    "objectives": [
+      {
+        "kind": "receiver",
+        "name": "LANTERN LOCK / RECEIVED ACCOUNT",
+        "optional": false
+      }
+    ],
+    "record": "Vey / The sealed habitat's lock needs its service bus. Restore the sheltered passage and the survivors can use the short water, but the listening relay stays supplied. Sever the reporting spur and the fence loses the channel; they take the longer outside passage. Quietus must carry the selected station account home.",
+    "title": "Lantern Lock"
+  },
+  {
+    "brief": "Vey / The last boat's local register is received. It names one boat out, not every vessel beyond the Reach. Cross the listening chain, hear the northern register, and choose either physical recovery mouth.\nKeep Quietus and its account together. Local records and machinery work in settled MIDDLE. The bare outside water avoids the central network; other bands open shorter inner crossings. Buoys hear real engines and emissions; relays forward stale uncertain reports after a charge. Quiet, masking, terrain, depth, relocation or physical disruption can break that chain. Return to a named recovery mouth. Tap a craft → REACH WORK for local machinery. Manual work takes8 audible seconds; a recovered fitted decoder can open the18/19 service gate quietly.",
+    "id": 19,
+    "objectives": [
+      {
+        "kind": "receiver",
+        "name": "LAST BOAT OUT / RECEIVED ACCOUNT",
+        "optional": false
+      }
+    ],
+    "record": "Vey / The last boat's local register is received. It names one boat out, not every vessel beyond the Reach. Cross the listening chain, hear the northern register, and choose either physical recovery mouth. No recovered anchorage choice is assumed.",
+    "title": "Last Boat Out"
+  },
+  {
+    "brief": "Vey / A cracked directional prism remains in the grave. A photograph identifies it; only the recovered crystal supplies the material. The furnace atlas lets us cut one Quietus fitting: greater directional reach at higher pulse cost and a shared hardware slot.\nKeep Quietus and its account together. Local records and machinery work in settled MIDDLE. The bare outside water avoids the central network; other bands open shorter inner crossings. Buoys hear real engines and emissions; relays forward stale uncertain reports after a charge. Quiet, masking, terrain, depth, relocation or physical disruption can break that chain. Return to a named recovery mouth. Tap the marked material → RECOVER, or craft → REACH WORK. Winch4s within60m; carriers must recover in MIDDLE within65m of the chosen mouth, or transfer locally to Quietus. A lost carrier leaves its physical cargo at the lost position.",
+    "id": 20,
+    "objectives": [
+      {
+        "kind": "receiver",
+        "name": "PRISM GRAVE / RECEIVED ACCOUNT",
+        "optional": false
+      },
+      {
+        "kind": "",
+        "name": "PRISM FACETS",
+        "optional": true
+      }
+    ],
+    "record": "Vey / A cracked directional prism remains in the grave. A photograph identifies it; only the recovered crystal supplies the material. The furnace atlas lets us cut one Quietus fitting: greater directional reach at higher pulse cost and a shared hardware slot.",
+    "title": "Prism Grave"
+  },
+  {
+    "brief": "Vey / The range's service wafer is still in its sealed locker. Recover that material with the silt ledger and we can cut a local decoder. It opens a measured service gate quietly from nearby; it is no remote authority over the network.\nKeep Quietus and its account together. Local records and machinery work in settled MIDDLE. The bare outside water avoids the central network; other bands open shorter inner crossings. Buoys hear real engines and emissions; relays forward stale uncertain reports after a charge. Quiet, masking, terrain, depth, relocation or physical disruption can break that chain. Return to a named recovery mouth. Tap the marked material → RECOVER, or craft → REACH WORK. Winch4s within60m; carriers must recover in MIDDLE within65m of the chosen mouth, or transfer locally to Quietus. A lost carrier leaves its physical cargo at the lost position.",
+    "id": 21,
+    "objectives": [
+      {
+        "kind": "receiver",
+        "name": "RANGE LOCKER / RECEIVED ACCOUNT",
+        "optional": false
+      },
+      {
+        "kind": "",
+        "name": "WEST CACHE DOOR",
+        "optional": true
+      }
+    ],
+    "record": "Vey / The range's service wafer is still in its sealed locker. Recover that material with the silt ledger and we can cut a local decoder. It opens a measured service gate quietly from nearby; it is no remote authority over the network.",
+    "title": "Range Locker"
+  },
+  {
+    "brief": "Foreman Dale Rill / Hollins Field's hammer sled is stalled, not abandoned. Release it and beat it down its lane: it jams against the shut lane gate and takes damage until you work that gate. West lane gate is LOCK A, east is LOCK B.\nCraft → CHOIR WORK, or tap acquired machinery/load. All work is local and interruptible; peer selection does not move equipment or cargo. Manual Quietus towing uses wide water; a fitted drone yoke buys a narrower slower noisy load route. Release a tow before changing depth. No receiver exposure substitutes for physical work. The south recovery mouth stays available after the job. A lit window shows near the west lock. Photograph it from the lane side and see who is there.",
+    "id": 22,
+    "objectives": [],
+    "record": "Foreman Dale Rill / Hollins Field's hammer sled is stalled, not abandoned. Release it and beat it down its lane: it jams against the shut lane gate and takes damage until you work that gate. West lane gate is LOCK A, east is LOCK B.",
+    "title": "Hammerwake"
+  },
+  {
+    "brief": "Lock keeper Nera Ash / Cycle LOCK A, then B, then C: each equalizer opens the next shutter at its own depth. A crowned warden charges pressure from received evidence; wait out its discharge or break its acquisition.\nCraft → CHOIR WORK, or tap acquired machinery/load. All work is local and interruptible; peer selection does not move equipment or cargo. Manual Quietus towing uses wide water; a fitted drone yoke buys a narrower slower noisy load route. Release a tow before changing depth. No receiver exposure substitutes for physical work. The south recovery mouth stays available after the job.",
+    "id": 23,
+    "objectives": [],
+    "record": "Lock keeper Nera Ash / Cycle LOCK A, then B, then C: each equalizer opens the next shutter at its own depth. A crowned warden charges pressure from received evidence; wait out its discharge or break its acquisition.",
+    "title": "Pressure Stair"
+  },
+  {
+    "brief": "Rill / The ballast is the switch. Tow it to BYPASS to restore the short passage and keep the reporting bus supplied, or to ISOLATE to cut the bus and keep the long outside water. The first recovered placement commits the last shift's route.\nCraft → CHOIR WORK, or tap acquired machinery/load. All work is local and interruptible; peer selection does not move equipment or cargo. Manual Quietus towing uses wide water; a fitted drone yoke buys a narrower slower noisy load route. Release a tow before changing depth. No receiver exposure substitutes for physical work. The south recovery mouth stays available after the job.",
+    "id": 24,
+    "objectives": [],
+    "record": "Rill / The ballast is the switch. Tow it to BYPASS to restore the short passage and keep the reporting bus supplied, or to ISOLATE to cut the bus and keep the long outside water. The first recovered placement commits the last shift's route.",
+    "title": "Choir Cut"
+  },
+  {
+    "brief": "Nera / Escort the last shift's evacuation sled to its dock: it only advances while a craft stays within 200m, and it holds the moment you leave. Choose the east shipping dock or the west service dock, then watch it arrive.\nCraft → CHOIR WORK, or tap acquired machinery/load. All work is local and interruptible; peer selection does not move equipment or cargo. Manual Quietus towing uses wide water; a fitted drone yoke buys a narrower slower noisy load route. Release a tow before changing depth. No receiver exposure substitutes for physical work. The south recovery mouth stays available after the job.",
+    "id": 25,
+    "objectives": [],
+    "record": "Nera / Escort the last shift's evacuation sled to its dock: it only advances while a craft stays within 200m, and it holds the moment you leave. Choose the east shipping dock or the west service dock, then watch it arrive. No recovered crew landing is assumed; local manual service is available.",
+    "title": "Last Shift"
+  },
+  {
+    "brief": "Rill / Lift the pressure spindle from the deep sump. Lifting restarts the hammer and the west mouth seals in 100s, so leave by the mouth or work COOLING for the south return. Recover the physical spindle.\nCraft → CHOIR WORK, or tap acquired machinery/load. All work is local and interruptible; peer selection does not move equipment or cargo. Manual Quietus towing uses wide water; a fitted drone yoke buys a narrower slower noisy load route. Release a tow before changing depth. No receiver exposure substitutes for physical work. The south recovery mouth stays available after the job.",
+    "id": 26,
+    "objectives": [],
+    "record": "Rill / Lift the pressure spindle from the deep sump. Lifting restarts the hammer and the west mouth seals in 100s, so leave by the mouth or work COOLING for the south return. Recover the physical spindle.",
+    "title": "The Cold Hammer"
+  },
+  {
+    "brief": "Nera / A loose counterweight slides back downhill. Tow it up to the ledge, chock it at LOCK A, tow it on to the cradle, then winch the exposed traction core.\nCraft → CHOIR WORK, or tap acquired machinery/load. All work is local and interruptible; peer selection does not move equipment or cargo. Manual Quietus towing uses wide water; a fitted drone yoke buys a narrower slower noisy load route. Release a tow before changing depth. No receiver exposure substitutes for physical work. The south recovery mouth stays available after the job.",
+    "id": 27,
+    "objectives": [],
+    "record": "Nera / A loose counterweight slides back downhill. Tow it up to the ledge, chock it at LOCK A, tow it on to the cradle, then winch the exposed traction core.",
+    "title": "Counterweight Grave"
+  },
+  {
+    "brief": "Rill / The occupied bell must be towed through the S passage with two decompression stops at LOCK A and LOCK B, then landed at the western dock. Quietus can carry the job alone.\nCraft → CHOIR WORK, or tap acquired machinery/load. All work is local and interruptible; peer selection does not move equipment or cargo. Manual Quietus towing uses wide water; a fitted drone yoke buys a narrower slower noisy load route. Release a tow before changing depth. No receiver exposure substitutes for physical work. The south recovery mouth stays available after the job.",
+    "id": 28,
+    "objectives": [],
+    "record": "Rill / The occupied bell must be towed through the S passage with two decompression stops at LOCK A and LOCK B, then landed at the western dock. Quietus can carry the job alone.",
+    "title": "Names in the Bell"
+  },
+  {
+    "brief": "Nera / Two sites, one window. Throw the far breaker LOCK C, then RECONNECT the plant within 150s; or DISMANTLE the security feed in the west room alone. Recover your chosen local work account.\nCraft → CHOIR WORK, or tap acquired machinery/load. All work is local and interruptible; peer selection does not move equipment or cargo. Manual Quietus towing uses wide water; a fitted drone yoke buys a narrower slower noisy load route. Release a tow before changing depth. No receiver exposure substitutes for physical work. The south recovery mouth stays available after the job.",
+    "id": 29,
+    "objectives": [],
+    "record": "Nera / Two sites, one window. Throw the far breaker LOCK C, then RECONNECT the plant within 150s; or DISMANTLE the security feed in the west room alone. Recover your chosen local work account.",
+    "title": "Spare Lung"
+  }
+]
