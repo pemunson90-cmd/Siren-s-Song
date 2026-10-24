@@ -110,6 +110,16 @@ Legacy two-argument drawing remains supported. Import clean; before/after menu11
 instrumentUI47/core818/runtime665/density883/menu7/scroll15 all0 with clean logs.
 Preliminary independent source PASS. Parent/final own-head gates remain.
 
+Recovery preparation is based on Expeditione730c59. Its original salvage HUD
+block and screen overlay use ordered context/screen phases at their exact old
+positions. Legacy drawing accepts both the original two arguments and the shared
+single view argument; the complete original drawing body is unchanged.
+The initial argument-count mismatch was caught in logs and corrected before
+publication; the proof now asserts the actual optional signature and fallback.
+Import and rerun recovery55/UI37/runtimeUI22/routeUI68/core818/runtime665/
+density883/menu7/scroll15 all0, clean logs. Corrected independent source PASS.
+Parent reconciliation and own final review/hosted gates remain.
+
 ## Historical cloud handover snapshot
 
 All remaining sections below preserve the cloud handover as dated history.
