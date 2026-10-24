@@ -12,6 +12,9 @@ static func operations(main)->void:
   main._button(main.panel_box,"%s · %s"%[mission.title,status],func():main._briefing(id),"expedition%d"%id)
 static func briefing(main,index:int)->bool:
  if index<6:return false
+ if index in preload("res://src/campaign/final_pair_operations.gd").IDS:
+  main._menu_text("Photograph the core mark in MIDDLE and recover Quietus. The second photograph is optional.",17)
+  return true
  if index>=22:
   main._menu_text("IRON CHOIR / Craft → CHOIR WORK or tap acquired machinery and physical loads. Start voyages deliberately, observe actual arrival, tow locally and LAND people at the dock. All machinery/cargo follows its working craft and real depth. Bare Quietus can complete every core job sequentially without finite tools; fitted drones buy alternate narrow load routes.",17)
   main._menu_text(preload("res://src/campaign/glass_research.gd").detail(main.expedition),17)
@@ -32,6 +35,8 @@ static func debrief(main)->bool:
  main._retain_evidence()
  var previous=main.expedition.duplicate(true)
  main.expedition=Campaign.recover(main.expedition,mission)
+ if main.sim.outcome=="won" and mission.id==31 and not preload("res://src/campaign/endings_photo.gd").resolve(main.expedition,main.photo_intel).is_empty():
+  main._show_ending();return true
  if main.sim.outcome=="won" and mission.id in [12,13] and not preload("res://src/campaign/endings.gd").resolve(main.expedition).is_empty():
   main._show_ending();return true
  if main.sim.outcome=="won" and mission.get("recovered",false) and mission.id==11 and preload("res://src/presentation/confluence_resolution.gd").present(main):

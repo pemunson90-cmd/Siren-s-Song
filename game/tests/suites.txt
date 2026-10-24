@@ -218,3 +218,5 @@ route_map_ui_tests|ROUTE MAP UI|194|215|render
 sweeper_patrol_tests|SWEEPER PATROL|195|216
 landmark_tests|LANDMARKS|196|217
 landmark_ui_tests|LANDMARKS UI|197|218|render
+endings_photo_tests|PHOTO ENDINGS|198|219
+endings_photo_ui_tests|PHOTO ENDINGS UI|199|220|render

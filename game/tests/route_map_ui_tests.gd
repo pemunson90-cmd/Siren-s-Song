@@ -21,7 +21,7 @@ func shape_case(shape):
  check(view!=null and game.screen=="route_map","real touch opens the standalone route map")
  if view==null:game.queue_free();await settle();return
  var before=game._archive().duplicate(true)
- check(view.buttons.size()==30,"the real view presents all thirty nodes")
+ check(view.buttons.size()==32 and range(30).all(func(id):return view.buttons.has(id)),"the real view retains all thirty nodes and presents both final nodes")
  check(view.buttons[0].text.contains("AVAILABLE") and view.buttons[1].text.contains("UNKNOWN"),"fresh map names only the available first operation")
  check(view.buttons.values().all(func(b):return b.size.y>=game.ui_touch_height and b.size.x>=game.ui_touch_height),"all node targets meet Android minimums")
  check(button(game,"route_map_back").size.y>=game.ui_touch_height,"Back remains a full touch target")

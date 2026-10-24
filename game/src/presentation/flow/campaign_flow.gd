@@ -184,7 +184,8 @@ static func debrief(host) -> void:
 static func sync_craft_upgrades(host)->void:
 	if not host.expedition.is_empty():host.expedition.entitlements=host._equipment_entitlements()
 
-static func show_ending(host)->void:
+static func show_ending(host,photo:bool=true)->void:
+	if photo and preload("res://src/presentation/endings_photo_view.gd").present(host,func():show_ending(host,false)):return
 	var ending=host.Endings.resolve(host.expedition)
 	if ending.is_empty():host._show_campaign();return
 	host.sim.paused=true;host.screen="ending";host._clear_menu()
