@@ -1,3 +1,9 @@
+## 23 October 2026 (Eastern, latest): cloud stop and Windows desktop handover
+
+Pat requested: finish the current task, leave the last actions in the repository, update stale documentation and prepare the move from cloud to desktop with notes for Pat, future Codex sessions and Claude Code. Pat explicitly selected **finish PR96 only, preserve the remaining handoff023 steps, then hand over and stop**. The desktop is Windows.
+
+Do not continue game implementation after PR96 in this cloud session. Preserve the prepared photo-review branch and the partial023 claim; metrics and the shared feature contract remain unstarted. Publish the requested documentation and recovery notes, then stop. Resume only when Pat asks on desktop. This is an execution boundary, not a declaration that the project is finished. Standing design, merge, no-APK and frozen-branch rules below remain in force. Current source/claim facts: RESUME.md and the codex/handoffs board. Windows setup and role-specific notes: DESKTOP_HANDOFF.md.
+
 ## 23 October 2026 (later): decisions after full cold review 2 (all YES, each revertible)
 
 Pat answered "yes to everything" and asked for each to be marked so he can revert. Each item below is a self-contained module with an off switch in its data table and a revert note in its header. To revert one, set its switch off (or revert its PR) and strike its line here.

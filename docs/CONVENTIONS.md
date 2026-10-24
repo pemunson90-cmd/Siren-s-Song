@@ -15,3 +15,10 @@
 - Register standalone tests in tests/suites.txt; do not grow shared runners.
 - Prefer lines under 140 characters. Do not rename existing files during extractions.
 - Android touch and Back are primary; keyboard is fallback. Preserve 48 dp targets.
+
+- Presentation flow extractions retain Main's existing entry signatures and
+  host-bound callbacks as forwarders; state ownership and deferred order stay.
+- Prove moved bodies, rules, numbers and text unchanged, then match core and
+  named UI counts. Each ARCH2 extraction has its own reviewed PR and CI.
+- The proposed shared feature contract is still future ARCH2 work, not a
+  currently implemented registration API.

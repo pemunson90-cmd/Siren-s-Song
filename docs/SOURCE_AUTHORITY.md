@@ -1,4 +1,4 @@
-> **CURRENT USER ORDER:** read docs/USER_DIRECTIVES.md first. Execute the approved full-release expansion in docs/CURRENT_GAME_SPEC.md; preserve accepted Pass0/V7 systems. Sol6.1 Medium, one implementation worker and one independent integration reviewer; broader critics run sequentially at substantial milestones. Human playtesting never gates development.
+> **CURRENT USER ORDER:** read docs/USER_DIRECTIVES.md first. Observe Pat's cloud stop and Windows desktop handover in docs/RESUME.md. The approved full-release program remains the standing plan when Pat resumes work. Preserve accepted Pass0/V7 systems. One implementation worker and one independent integration reviewer; human playtesting never gates authorized development.
 
 # Source authority and provenance
 
