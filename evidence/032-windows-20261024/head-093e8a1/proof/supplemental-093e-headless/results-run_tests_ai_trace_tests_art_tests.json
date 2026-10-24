@@ -1,0 +1,35 @@
+[
+  {
+    "suite": "run_tests",
+    "pid": 21464,
+    "appdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\supplemental-093e-headless\\final-run_tests\\appdata",
+    "localappdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\supplemental-093e-headless\\final-run_tests\\local",
+    "gpu": false,
+    "exit": 0,
+    "footer": "CHECKS 835 FAILURES 0\r",
+    "errors": 0,
+    "passed": true
+  },
+  {
+    "suite": "ai_trace_tests",
+    "pid": 36268,
+    "appdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\supplemental-093e-headless\\final-ai_trace_tests\\appdata",
+    "localappdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\supplemental-093e-headless\\final-ai_trace_tests\\local",
+    "gpu": false,
+    "exit": 0,
+    "footer": "AI TRACE CHECKS 23 FAILURES 0\r",
+    "errors": 0,
+    "passed": true
+  },
+  {
+    "suite": "art_tests",
+    "pid": 34592,
+    "appdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\supplemental-093e-headless\\final-art_tests\\appdata",
+    "localappdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\supplemental-093e-headless\\final-art_tests\\local",
+    "gpu": false,
+    "exit": 0,
+    "footer": "ART CHECKS 58 FAILURES 0\r",
+    "errors": 0,
+    "passed": true
+  }
+]

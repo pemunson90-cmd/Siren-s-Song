@@ -1,0 +1,13 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+OpenGL API 3.3.0 NVIDIA 610.88 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 2080 Ti
+
+ART HOST {"adapter":"NVIDIA GeForce RTX 2080 Ti","api":"3.3.0 NVIDIA 610.88","baseline":false,"display":"Windows","target_dpi":420,"vsync":0}
+ART BLOCK 2520x1080-scene2-old 0 CPU 6457.0
+ART BLOCK 2520x1080-scene2-new 0 CPU 6799.0
+ART BLOCK 2520x1080-scene2-new 0 CPU 6545.0
+ART BLOCK 2520x1080-scene2-old 0 CPU 6576.0
+ART BLOCK 2184x1968-scene2-old 0 CPU 6850.0
+ART BLOCK 2184x1968-scene2-new 0 CPU 6403.0
+ART BLOCK 2184x1968-scene2-new 0 CPU 6825.0
+ART BLOCK 2184x1968-scene2-old 0 CPU 6656.0
+ART RENDER CHECKS 48 FAILURES 0

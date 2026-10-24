@@ -1,0 +1,3 @@
+Additive exact093e integration proof against base2ce65c0. Pat selected NEW artwork;033 deferred.
+Import/core835/AI TRACE23/ART58/native48 all clean. Eight unchanged Art blobs, four byte-identical PNGs and eight linked states justify retaining full5b0 proof at archivec743/head-5b0bc6c.
+This bounded representative run makes no new performance claim. Original internal phase costs and Windows/source-known/physical-device limits remain. Hosted exact-head gates and actual merge are separate.

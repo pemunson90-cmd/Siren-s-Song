@@ -1,0 +1,17 @@
+{
+  "pid": 34592,
+  "args": [
+    "--path",
+    "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\landmarks-merge\\game",
+    "--audio-driver",
+    "Dummy",
+    "--headless",
+    "--script",
+    "res://tests/art_tests.gd"
+  ],
+  "head": "093e8a15fb60e105d4c880a4f99cb830d0190023",
+  "game_tree": "0a783e073c49d99921e6c9629825362a3dadf55a",
+  "appdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\supplemental-093e-headless\\final-art_tests\\appdata",
+  "localappdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\supplemental-093e-headless\\final-art_tests\\local",
+  "started": "2026-10-24T21:11:22.1594158Z"
+}

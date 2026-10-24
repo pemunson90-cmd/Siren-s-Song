@@ -1,0 +1,207 @@
+[
+  {
+    "file": ".gitattributes",
+    "bytes": 8,
+    "sha256": "705fd4d6451a31d36b3df7de96f83f30ac976c9b4a6d1e51671d8e2f33e2d0da"
+  },
+  {
+    "file": "proof/runners/032-native-093e-representative.gd",
+    "bytes": 13458,
+    "sha256": "af834db5cad91b45b1260bcd328f18e93fd1526163d8144c9bf6214ae450517c"
+  },
+  {
+    "file": "proof/runners/032-native-093e-run.ps1",
+    "bytes": 3676,
+    "sha256": "2d396341bd7c2b33a9614fb2ef4a59959312d0ae73f8051805b0d739d4baf60e"
+  },
+  {
+    "file": "proof/runners/032-run-093e-frozen.ps1",
+    "bytes": 3648,
+    "sha256": "bebcf7d1c8d9b143aa32832ad58e5f6bcf0679122d1497fc1cb2e8a58a4bba35"
+  },
+  {
+    "file": "proof/runners/032-supplement-093e.ps1",
+    "bytes": 7769,
+    "sha256": "7b84ef40c9b422428dc35d52b4e836bb17ea1cdba6335932dc33b66d79de02f9"
+  },
+  {
+    "file": "proof/supplemental-093e-headless/ai_trace_tests.err.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "file": "proof/supplemental-093e-headless/ai_trace_tests.launch.json",
+    "bytes": 792,
+    "sha256": "a138330a80a3f1dbb9e9085c9ec9d20faa7bdbeb7ff537b2ffb00403283ed6fb"
+  },
+  {
+    "file": "proof/supplemental-093e-headless/ai_trace_tests.out.log",
+    "bytes": 106,
+    "sha256": "606f13b37519fc6116890338bed3b894f63bd2018a5f534a397fe6e1eb757aad"
+  },
+  {
+    "file": "proof/supplemental-093e-headless/art_tests.err.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "file": "proof/supplemental-093e-headless/art_tests.launch.json",
+    "bytes": 777,
+    "sha256": "7b5e2a7b2b909a4ebc1cf3166cdb8950ffa68a0dd5804193607cbd10f4445070"
+  },
+  {
+    "file": "proof/supplemental-093e-headless/art_tests.out.log",
+    "bytes": 101,
+    "sha256": "d4bb12ac1803d03251e18ad65231d3fd2c19fc53a7da54808a8ae9e35e47945b"
+  },
+  {
+    "file": "proof/supplemental-093e-headless/results-run_tests_ai_trace_tests_art_tests.json",
+    "bytes": 1576,
+    "sha256": "5e5908d51466786795ba69337a1f330495f1452814637e4888b43d898ebe4d25"
+  },
+  {
+    "file": "proof/supplemental-093e-headless/run_tests.err.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "file": "proof/supplemental-093e-headless/run_tests.launch.json",
+    "bytes": 777,
+    "sha256": "c4ff60be9f2849687018486cbc6aa97c2348a01d35ca08d053a866baa61a1f11"
+  },
+  {
+    "file": "proof/supplemental-093e-headless/run_tests.out.log",
+    "bytes": 822,
+    "sha256": "9697d9db1dc0a107f9acd1e466b3bad3aca0e52f437a855474fc69883764ca5a"
+  },
+  {
+    "file": "proof/supplemental-093e-import/results-run_tests.json",
+    "bytes": 465,
+    "sha256": "8468900ffa38e396345da707926d0d54ee5215712e7575b3afb2e1d73dffba31"
+  },
+  {
+    "file": "proof/supplemental-093e-import/run_tests.err.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "file": "proof/supplemental-093e-import/run_tests.launch.json",
+    "bytes": 772,
+    "sha256": "6eeb1223c00e8b558d49057bd02948b79a4b96b4de442ff9564a7abc2e6f1e8f"
+  },
+  {
+    "file": "proof/supplemental-093e-import/run_tests.out.log",
+    "bytes": 1374,
+    "sha256": "b1ff0588efcf29301bf23e6793cfdf5764a4af5fe0660ca8edde48d01027309d"
+  },
+  {
+    "file": "proof/supplemental-093e-native/art_render_measurements.err.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "file": "proof/supplemental-093e-native/art_render_measurements.launch.json",
+    "bytes": 1167,
+    "sha256": "4617d68d592922f5831fc9f7e621703cf48b6286745ad4180bc2cd176e62cb9e"
+  },
+  {
+    "file": "proof/supplemental-093e-native/art_render_measurements.out.log",
+    "bytes": 711,
+    "sha256": "6b6a0e843b5beec54a05e4410a9cdd1f19b69bf7fd1e5e3a8385df9772abfaf1"
+  },
+  {
+    "file": "proof/supplemental-093e-native/captures/2184x1968-scene2-new.png",
+    "bytes": 1614043,
+    "sha256": "9cac66075421e99f3868f4daef70c74ba17bbe682921e7a9cb4db46991bbd9f6"
+  },
+  {
+    "file": "proof/supplemental-093e-native/captures/2184x1968-scene2-old.png",
+    "bytes": 1569687,
+    "sha256": "3e4bca6f30824f31ca19e601739678e96c8386210eec2f58778dde75e2ea4f61"
+  },
+  {
+    "file": "proof/supplemental-093e-native/captures/2520x1080-scene2-new.png",
+    "bytes": 923027,
+    "sha256": "15111e6a41edc025cadf9f844e076cbd9ae07ca08317a4fcc4e45a1f81dfad76"
+  },
+  {
+    "file": "proof/supplemental-093e-native/captures/2520x1080-scene2-old.png",
+    "bytes": 894862,
+    "sha256": "de53415aaa6ddaf5acf963a02063c3332ccd7b81565308831f884f38d508c5f3"
+  },
+  {
+    "file": "proof/supplemental-093e-native/captures/raw.json",
+    "bytes": 11775,
+    "sha256": "21e563a99f799241e37eae5bd651ed980e00385bdcfb5068dfd0602bbbcde2ac"
+  },
+  {
+    "file": "proof/supplemental-093e-native/results-art_render_measurements.json",
+    "bytes": 538,
+    "sha256": "4d597595255c4d3e160ec14474fb5936324cbc138fcc82a6deff317e4f70b52b"
+  },
+  {
+    "file": "proof/supplemental-093e-validator/registry.out.log",
+    "bytes": 397,
+    "sha256": "65a7b06e2c5a2e2c66e99f63d46d6da52f9bdf82ca2164643b0d6563d18413e6"
+  },
+  {
+    "file": "QUALIFICATION.txt",
+    "bytes": 494,
+    "sha256": "89587225a3cfb58cd39f2bf0ae4059a8ecab35ad9c9410451b509419d86c2a07"
+  },
+  {
+    "file": "source/game/src/presentation/art/art_renderer.gd",
+    "bytes": 6972,
+    "sha256": "95a3a069164082374e721d8e10b5d42cba8920530184b5da47ca3442594d13a0"
+  },
+  {
+    "file": "source/game/src/presentation/art/art_table.gd",
+    "bytes": 3686,
+    "sha256": "2c4cf21f30f910458f41022a3ab90fe8a544134bb52d6fa2125bf2a6bb501282"
+  },
+  {
+    "file": "source/game/src/presentation/art/art_tests.gd",
+    "bytes": 9079,
+    "sha256": "3bfce9d0d71fb072daa385cd8b4c62d3e6a4acba4dda95ce999b918fb87c2c88"
+  },
+  {
+    "file": "source/game/src/presentation/camera_feed.gd",
+    "bytes": 16702,
+    "sha256": "34fc88bddaeb34883d48996072ddc48e060fb3f9fc8fa322a7bcb58105f91e91"
+  },
+  {
+    "file": "source/game/src/presentation/confluence_world.gd",
+    "bytes": 9035,
+    "sha256": "6096633037a7132eb20ef5280516b814369d6163eb0b6fe6ede71c94f343dea4"
+  },
+  {
+    "file": "source/game/src/presentation/ocean_view.gd",
+    "bytes": 42033,
+    "sha256": "93b83bdad3f4a0e99ef1cb9b88b94ee44a468a253917b8304a9681b65067053e"
+  },
+  {
+    "file": "source/game/tests/art_render_measurements.gd",
+    "bytes": 13456,
+    "sha256": "529c9e0d055cce1d57027aa7900267f94d20f9fb99f8b5100c719caf4f7d67c5"
+  },
+  {
+    "file": "source/game/tests/art_tests.gd",
+    "bytes": 207,
+    "sha256": "6b140eece78ec1f11120bff7efe792ab5f3ef52dbe9e1d05c767cc3665d5367d"
+  },
+  {
+    "file": "source/game/tests/suites.txt",
+    "bytes": 11132,
+    "sha256": "feaecfcd6a79b617451cbd4ad7235bb073354709192d8089f42526852b084539"
+  },
+  {
+    "file": "SUPPLEMENTAL-093e-READY.json",
+    "bytes": 388,
+    "sha256": "5b51d7105f3c0d56d58c27db7e5fb24483ef71f517de40660ba127450a222027"
+  },
+  {
+    "file": "SUPPLEMENTAL-093e-receipt.json",
+    "bytes": 17550,
+    "sha256": "b4f24382f2fb21788ffae86cdf65758fdb2451e0b222708f16399a10a823c326"
+  }
+]

@@ -1,0 +1,14 @@
+{
+  "receipt": {
+    "path": "work/032-native/SUPPLEMENTAL-093e-receipt.json",
+    "bytes": 17550,
+    "sha256": "b4f24382f2fb21788ffae86cdf65758fdb2451e0b222708f16399a10a823c326"
+  },
+  "fresh_results": 5,
+  "files": 28,
+  "unchanged_art_blobs": 8,
+  "registry_only_change": true,
+  "representative_state_rows": 8,
+  "exact_picture_files": 4,
+  "all_checks_passed": true
+}

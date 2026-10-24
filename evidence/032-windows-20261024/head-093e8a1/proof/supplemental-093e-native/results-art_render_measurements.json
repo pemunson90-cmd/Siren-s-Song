@@ -1,0 +1,11 @@
+{
+  "suite": "art_render_measurements",
+  "pid": 5216,
+  "appdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\supplemental-093e-native\\final-art_render_measurements\\appdata",
+  "localappdata": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-23\\continue-as-codex-on-the-siren\\work\\032-native\\supplemental-093e-native\\final-art_render_measurements\\local",
+  "gpu": true,
+  "exit": 0,
+  "footer": "ART RENDER CHECKS 48 FAILURES 0\r",
+  "errors": 0,
+  "passed": true
+}

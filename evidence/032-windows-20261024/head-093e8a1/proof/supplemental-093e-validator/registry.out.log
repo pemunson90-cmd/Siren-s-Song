@@ -1,0 +1,6 @@
+Registry: C:/Users/Archi/Documents/Codex/2026-10-23/continue-as-codex-on-the-siren/work/landmarks-merge/game/tests/suites.txt
+Registered suites: 233  (local profile 208, ci profile 233)
+Entry-point candidates (*_tests.gd / *_scenarios.gd extending SceneTree): 224
+Unregistered name matches that do not extend SceneTree (helpers, ignored): 30
+Allowlisted: 0
+Result: OK (0 errors, 0 warnings)
