@@ -24,8 +24,14 @@ The Windows Godot 4.6.3 console build is used directly. Local checks use isolate
 APPDATA and LOCALAPPDATA folders, preserving personal saves. Do not commit
 generated .uid files or import line-ending changes.
 
-After the photo step lands, continue ui_metrics and the shared presentation
-contract, one main file or feature per reviewed PR. Handoff 023 remains CLAIMED
+The separate metrics preparation is draft PR101 on claude/lane-arch2-ui-metrics.
+Four synchronous helpers retain original Main entry points and Node-owned
+capture/report awaits. Main864 to817; full original-Main restoration and body
+parity verified. Before/after metrics77/planner38/density883/menu7/scroll15 match;
+core818/runtime665/dispatch13/recap8 also pass with zero failures and clean logs.
+Keep draft until99/100 land, fresh integration is contained, final independent
+review approves and own exact-head hosted checks pass. Then continue the shared
+presentation contract, one feature per reviewed PR. Handoff 023 remains CLAIMED
 until all its steps land. Then take the eligible OPEN numeric queue. BOARD and
 023 Completion on codex/handoffs own claims and recovery refs.
 
