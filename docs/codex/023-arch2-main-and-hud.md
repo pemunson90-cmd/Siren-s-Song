@@ -1,9 +1,9 @@
 # Handoff 023: ARCH2, split main.gd and give HUD/ocean view one contract
 
-Status: CLAIMED
+Status: DONE
 Claimed at: 2026-10-24 00:08:00 UTC
 Claimed by: codex
-Finished at:
+Finished at: 2026-10-24 05:44:22 UTC (1:44 AM Eastern)
 
 Precondition: handoffs 019 and 016 must be DONE.
 Codex may merge: yes, into claude/integration only, after GitHub guidance and game-smoke are both green on the exact head and the PR is mergeable. Merge with a merge commit, then mark DONE and update docs/codex/BOARD.md.
@@ -27,64 +27,63 @@ PR into claude/integration; merge per the line above; mark DONE and update the b
 
 ## Completion
 
-### Canonical current local recovery refs, 24 October 2026 Eastern
+### Done023, 24 October 2026, 1:44 AM Eastern
 
-Codex owns023, CLAIMED and partial. This supersedes all older stop/progress notes.
-Pat explicitly resumed local work. Published integration is79fffb8a5711b9a050076768bcd6e9901f489768:
-Windows PR99 merged24 October12:42 AM Eastern after exact1606418 guidance and
-game-smoke SUCCESS, run40061261634, independent review and fresh base/head/
-mergeability verification. Normal non-force push ran required hooks; fetched
-parents/tree match and GitHub confirms closed/merged true. PR96/98 remain merged.
-Photo PR100 merged24 October1:20 AM Eastern at97e48d3 after exactc6440ab
-guidance/game-smoke SUCCESS, run40063076798, exact predecessor review and
-fresh livefab2617/head/mergeability checks. Required hooks ran; fetched parents/
-tree match and GitHub confirms actual closed/merged true. Metrics101 is next.
+All ARCH2 steps are published. Integration is8c13f5be841ab71ad41b5a4dd1ea3c030b370e8c.
+PR96 campaign flow was already merged before this local resume. The remaining
+photo review, metrics and twelve existing mission feature-view migrations landed
+as separate PRs in the order below. Separately authorized Windows hook repair99
+also landed. No branches were deleted, no frozen ref promoted and no APK built.
 
-Current verified published prefix runs through PR104; each earlier entry is
-merged, own exact checks passed, remote parents/tree and PR state verified.
+Every entry below passed its own exact-head guidance and game-smoke, had
+attributable independent source approval, contained the current predecessor,
+and was mergeable before ordinary non-force publication through required hooks.
+Root verified fetched ordered parents/tree and actual GitHub closed/merged state
+before publishing the next. Each merge tree equals its exact reviewed/tested head.
+All complete game trees match their native-tested preparations. Imports clean;
+core818/runtime665 and the affected UI/density suites all0, no full local matrix.
+Earlier Recipient/Recovery interface issues were fixed before preparation
+publication; affected checks were rerun clean without changing tests.
 
-All later final candidates are pushed and independently APPROVED at the exact
-head/planned base below. Complete game trees match their native-tested original
-preparations. All reported native imports, core818/runtime665 and affected UI/
-density suites pass with zero failures and clean logs; no full local matrix.
-The earlier Recipient/Recovery interface issues were fixed before preparation
-publication and all affected checks rerun. Hosted results must be read live.
+Independent closure review /root/review_photo APPROVE actual8c13f5be841ab71ad41b5a4dd1ea3c030b370e8c,
+no consequential gaps. Source/manifest audit verified ancestry, ordered parents,
+reviewed-head trees, convention/scope coverage and host shrink. This reviewer did
+not rerun tests or query GitHub; root's exact hosted checks and actual PR-state
+verification are separately recorded in each PR and the local manifest.
+
+Local-resume source shrink: Main950 to817, HUD657 to575, Ocean691 to685.
+Only Main/presentation game files changed in this local ARCH2 batch; simulation,
+campaign/equipment rules, game tests, assets and generated files are unchanged.
+The existing three-function contract preserves original HUD/ground/world/carried
+phases and Node ownership. Setup/input/picking, shared host composition and
+framework terrain/course primitives are intentional reviewed exclusions, recorded
+in CONVENTIONS. This is technical behavior-preservation evidence, not a physical
+phone, pixels, sound or human-enjoyment acceptance claim.
+
+| Work | Branch | Pushed reviewed head | Predecessor | Actual merge | State |
+|---|---|---|---|---|---|
+| [PR99](https://github.com/pemunson90-cmd/Siren-s-Song/pull/99) | claude/windows-hook-compat | 1606418c0e8aa2a8b08246845716882565167ebe | ca2bda005c2f12b87294511e4c02c3accb58dec3 | fab2617575d5156d74b87aede4aa9ba21367504b | MERGED; own exact gates/review/PR state verified |
+| [PR100](https://github.com/pemunson90-cmd/Siren-s-Song/pull/100) | claude/lane-arch2-photo-review | c6440abc8a192d950155ef36ddcc162b63354cbe | fab2617575d5156d74b87aede4aa9ba21367504b | 97e48d33cb47375f9fb5bc90ad44f0cb5b941622 | MERGED; own exact gates/review/PR state verified |
+| [PR101](https://github.com/pemunson90-cmd/Siren-s-Song/pull/101) | claude/lane-arch2-ui-metrics | aafa21e97a1057a2dd375d45017d545ebae14796 | 97e48d33cb47375f9fb5bc90ad44f0cb5b941622 | 4eb6d91ad3f52612002d41161280f032e1247bde | MERGED; own exact gates/review/PR state verified |
+| [PR102](https://github.com/pemunson90-cmd/Siren-s-Song/pull/102) | claude/lane-arch2-wake-view | 0f2b3882b1edbe4dee0c3448a6babbaeb63b283a | 4eb6d91ad3f52612002d41161280f032e1247bde | 286ee11cf78dad368ade5126fc8d3a55f7991bb0 | MERGED; own exact gates/review/PR state verified |
+| [PR104](https://github.com/pemunson90-cmd/Siren-s-Song/pull/104) | claude/lane-arch2-rendezvous-view | 99a1df8ca05a202f556f5504108767f624fa6a6c | 286ee11cf78dad368ade5126fc8d3a55f7991bb0 | 79fffb8a5711b9a050076768bcd6e9901f489768 | MERGED; own exact gates/review/PR state verified |
+| [PR108](https://github.com/pemunson90-cmd/Siren-s-Song/pull/108) | claude/lane-arch2-shelf-view | e69609debcde96edfaa193ae895aafdaf94ffc96 | 79fffb8a5711b9a050076768bcd6e9901f489768 | da4ce0e554260681748189ede5b5a7c2f6897fb7 | MERGED; own exact gates/review/PR state verified |
+| [PR109](https://github.com/pemunson90-cmd/Siren-s-Song/pull/109) | claude/lane-arch2-warning-chain-view | c8ccf309263ff01127533ce1df9b9a533eaa4d9c | da4ce0e554260681748189ede5b5a7c2f6897fb7 | 2f5babef84e5d2ed4e0443acd2f4e3dcb9853c44 | MERGED; own exact gates/review/PR state verified |
+| [PR110](https://github.com/pemunson90-cmd/Siren-s-Song/pull/110) | claude/lane-arch2-delivery-view | a41f16f1dade17540a262e02c7b0445b6bc5994e | 2f5babef84e5d2ed4e0443acd2f4e3dcb9853c44 | e93422d50d66e9b16a5f439e10677aa48a67bad3 | MERGED; own exact gates/review/PR state verified |
+| [PR111](https://github.com/pemunson90-cmd/Siren-s-Song/pull/111) | claude/lane-arch2-recipient-view | 667ec8235f009b41f105bf6ced7801bcb0321642 | e93422d50d66e9b16a5f439e10677aa48a67bad3 | 0694fc39eab56f81d16beafd74a86ec2f97983fa | MERGED; own exact gates/review/PR state verified |
+| [PR113](https://github.com/pemunson90-cmd/Siren-s-Song/pull/113) | claude/lane-arch2-concealed-view | 158c1fcdc985327e18baefb16f7084bdc697301f | 0694fc39eab56f81d16beafd74a86ec2f97983fa | fd7be71d030be2ff1bf3724fe068bdc8f13519e2 | MERGED; own exact gates/review/PR state verified |
+| [PR115](https://github.com/pemunson90-cmd/Siren-s-Song/pull/115) | claude/lane-arch2-witness-view | 331f061c781c03ee60608c7bd37c73afbd051215 | fd7be71d030be2ff1bf3724fe068bdc8f13519e2 | 2bba0bd801dd6879089611c6a050c6cb82dc27e7 | MERGED; own exact gates/review/PR state verified |
+| [PR117](https://github.com/pemunson90-cmd/Siren-s-Song/pull/117) | claude/lane-arch2-courier-view | ca133c52dd14fb83bf8d6965df7d9407a69c9ef3 | 2bba0bd801dd6879089611c6a050c6cb82dc27e7 | 73c50e73313dfc056333af1a6360f475fc9e0fff | MERGED; own exact gates/review/PR state verified |
+| [PR118](https://github.com/pemunson90-cmd/Siren-s-Song/pull/118) | claude/lane-arch2-expedition-view | afb9485c98d82125d1b413cc4e0a84e7823377e2 | 73c50e73313dfc056333af1a6360f475fc9e0fff | f03d9eb411d9579472514be3bfa71ffb43d39639 | MERGED; own exact gates/review/PR state verified |
+| [PR119](https://github.com/pemunson90-cmd/Siren-s-Song/pull/119) | claude/lane-arch2-recovery-view | 8ea8180f21d5b337677ce55ac5d2f0e2ada51dba | f03d9eb411d9579472514be3bfa71ffb43d39639 | a6e342caca41a7fe6702fbac4678e3b4d8ff9177 | MERGED; own exact gates/review/PR state verified |
+| [PR120](https://github.com/pemunson90-cmd/Siren-s-Song/pull/120) | claude/lane-arch2-industrial-view | 96f15a59e60d0988ffd55140a337d2face4bcbe0 | a6e342caca41a7fe6702fbac4678e3b4d8ff9177 | 8c13f5be841ab71ad41b5a4dd1ea3c030b370e8c | MERGED; own exact gates/review/PR state verified |
 
 Recovery branch claude/lane-arch2-merge-sequence at8c13f5be841ab71ad41b5a4dd1ea3c030b370e8c
-contains the prepared ordinary merge commits. It is NOT published integration.
-This lets each immutable PR head contain its exact predecessor while checks run
-concurrently. No further integration publication until own exact-head guidance
-and game-smoke are SUCCESS, attributable independent approval exists, fresh live
-tip EQUALS the named predecessor, PR is mergeable, and merge parents/tree match
-the approved head. Publish in the listed order using a normal push through active
-hooks/protections. Stop on rejection or unexpected tip advance; never force or
-bypass. After each push verify remote parents/tree and actual PR merged state.
-Root owns all merge mutations; designated reviewer /root/review_photo is read-only.
-
-| Work | Branch | Pushed head | Planned predecessor | Merge commit | State |
-|---|---|---|---|---|---|
-| [PR99](https://github.com/pemunson90-cmd/Siren-s-Song/pull/99) | claude/windows-hook-compat | 1606418c0e8aa2a8b08246845716882565167ebe | ca2bda005c2f12b87294511e4c02c3accb58dec3 | fab2617575d5156d74b87aede4aa9ba21367504b | MERGED, exact checks/review and actual PR state verified |
-| [PR100](https://github.com/pemunson90-cmd/Siren-s-Song/pull/100) | claude/lane-arch2-photo-review | c6440abc8a192d950155ef36ddcc162b63354cbe | fab2617575d5156d74b87aede4aa9ba21367504b | 97e48d33cb47375f9fb5bc90ad44f0cb5b941622 | MERGED, exact checks/review and actual PR state verified |
-| [PR101](https://github.com/pemunson90-cmd/Siren-s-Song/pull/101) | claude/lane-arch2-ui-metrics | aafa21e97a1057a2dd375d45017d545ebae14796 | 97e48d33cb47375f9fb5bc90ad44f0cb5b941622 | 4eb6d91ad3f52612002d41161280f032e1247bde | MERGED, exact checks/review and actual PR state verified |
-| [PR102](https://github.com/pemunson90-cmd/Siren-s-Song/pull/102) | claude/lane-arch2-wake-view | 0f2b3882b1edbe4dee0c3448a6babbaeb63b283a | 4eb6d91ad3f52612002d41161280f032e1247bde | 286ee11cf78dad368ade5126fc8d3a55f7991bb0 | MERGED, exact checks/review and actual PR state verified |
-| [PR104](https://github.com/pemunson90-cmd/Siren-s-Song/pull/104) | claude/lane-arch2-rendezvous-view | 99a1df8ca05a202f556f5504108767f624fa6a6c | 286ee11cf78dad368ade5126fc8d3a55f7991bb0 | 79fffb8a5711b9a050076768bcd6e9901f489768 | MERGED, exact checks/review and actual PR state verified |
-| [PR108](https://github.com/pemunson90-cmd/Siren-s-Song/pull/108) | claude/lane-arch2-shelf-view | e69609debcde96edfaa193ae895aafdaf94ffc96 | 79fffb8a5711b9a050076768bcd6e9901f489768 | da4ce0e554260681748189ede5b5a7c2f6897fb7 | Exact planned-base APPROVE; own hosted gates pending |
-| [PR109](https://github.com/pemunson90-cmd/Siren-s-Song/pull/109) | claude/lane-arch2-warning-chain-view | c8ccf309263ff01127533ce1df9b9a533eaa4d9c | da4ce0e554260681748189ede5b5a7c2f6897fb7 | 2f5babef84e5d2ed4e0443acd2f4e3dcb9853c44 | Exact planned-base APPROVE; own hosted gates pending |
-| [PR110](https://github.com/pemunson90-cmd/Siren-s-Song/pull/110) | claude/lane-arch2-delivery-view | a41f16f1dade17540a262e02c7b0445b6bc5994e | 2f5babef84e5d2ed4e0443acd2f4e3dcb9853c44 | e93422d50d66e9b16a5f439e10677aa48a67bad3 | Exact planned-base APPROVE; own hosted gates pending |
-| [PR111](https://github.com/pemunson90-cmd/Siren-s-Song/pull/111) | claude/lane-arch2-recipient-view | 667ec8235f009b41f105bf6ced7801bcb0321642 | e93422d50d66e9b16a5f439e10677aa48a67bad3 | 0694fc39eab56f81d16beafd74a86ec2f97983fa | Exact planned-base APPROVE; own hosted gates pending |
-| [PR113](https://github.com/pemunson90-cmd/Siren-s-Song/pull/113) | claude/lane-arch2-concealed-view | 158c1fcdc985327e18baefb16f7084bdc697301f | 0694fc39eab56f81d16beafd74a86ec2f97983fa | fd7be71d030be2ff1bf3724fe068bdc8f13519e2 | Exact planned-base APPROVE; own hosted gates pending |
-| [PR115](https://github.com/pemunson90-cmd/Siren-s-Song/pull/115) | claude/lane-arch2-witness-view | 331f061c781c03ee60608c7bd37c73afbd051215 | fd7be71d030be2ff1bf3724fe068bdc8f13519e2 | 2bba0bd801dd6879089611c6a050c6cb82dc27e7 | Exact planned-base APPROVE; own hosted gates pending |
-| [PR117](https://github.com/pemunson90-cmd/Siren-s-Song/pull/117) | claude/lane-arch2-courier-view | ca133c52dd14fb83bf8d6965df7d9407a69c9ef3 | 2bba0bd801dd6879089611c6a050c6cb82dc27e7 | 73c50e73313dfc056333af1a6360f475fc9e0fff | Exact planned-base APPROVE; own hosted gates pending |
-| [PR118](https://github.com/pemunson90-cmd/Siren-s-Song/pull/118) | claude/lane-arch2-expedition-view | afb9485c98d82125d1b413cc4e0a84e7823377e2 | 73c50e73313dfc056333af1a6360f475fc9e0fff | f03d9eb411d9579472514be3bfa71ffb43d39639 | Exact planned-base APPROVE; own hosted gates pending |
-| [PR119](https://github.com/pemunson90-cmd/Siren-s-Song/pull/119) | claude/lane-arch2-recovery-view | 8ea8180f21d5b337677ce55ac5d2f0e2ada51dba | f03d9eb411d9579472514be3bfa71ffb43d39639 | a6e342caca41a7fe6702fbac4678e3b4d8ff9177 | Exact planned-base APPROVE; own hosted gates pending |
-| [PR120](https://github.com/pemunson90-cmd/Siren-s-Song/pull/120) | claude/lane-arch2-industrial-view | 96f15a59e60d0988ffd55140a337d2face4bcbe0 | a6e342caca41a7fe6702fbac4678e3b4d8ff9177 | 8c13f5be841ab71ad41b5a4dd1ea3c030b370e8c | Exact planned-base APPROVE; own hosted gates pending |
-
-This finishes source preparation of the existing mission feature-view seams,
-not publication or023 completion. Host composition, setup/input/picking and
-framework terrain/course primitives are intentional scope exclusions, reviewed
-and documented in CONVENTIONS. No025 claim until every023 step lands. Only then
-update023 and BOARD together in one done023 commit. Claude: please do not duplicate
-this active claim; coordinate unrelated integration updates with this sequence.
+preserves the same now-published merge sequence. Raw native evidence remains in
+the local workspace and verified local ZIP; PR bodies retain exact check IDs and
+review provenance. All earlier stop/partial/preparation notes below are history.
+This done023 update and BOARD change share one commit. Next: inspect and claim025
+if still OPEN and its preconditions are met; no new claim is made by this commit.
 
 ### Current local Windows resume, 23 October 2026 Eastern
 
