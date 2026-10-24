@@ -70,3 +70,25 @@ source/docs/visuals/evidence, no remaining findings; reviewer ran no tests.
 Own run40083978483: guidance green, game-smoke running. Fresh runtime critic
 is trying actual touch routes. Still CLAIMED; no merge. Await own exact gates,
 refresh current integration and mergeability, then merge/verify before done027.
+
+24 Oct, 6:23 AM Eastern: superseding post-critic head is
+2fe6459bc7a59f94e46c4ff5d012461e4c6c81ab, game tree
+2524e1ee90ad27597f70eed81e3dbbb2f1f69299, base stillaaff40e.
+Fresh critic /root/final_pair_critic027 recovered30, lost31 once, then earned
+31 and its wall by retry through actual touch. Fork, archive, Android Back
+and reopening work. No persistence claim. Process exited0. Developing27%,
+low-grade side-on plates limit the subjective photo-similarity observation.
+The genuine misleading-label P2 reproduced on both shapes (RED42/2), then
+fixed with a guarded research summary: latest import clean, core833/0,
+headless UI42/0, GPU UI44/0 and corrected footer captures44/0. Supplemental
+photo-capture UI9/0 and photo-study saves45/0. No mission/selector/save changes.
+Earlier model/journey/removal proof retains unchanged dependencies.
+Independent /root/review_photo APPROVE exact2fe6459 againstaaff40e, no blockers;
+source/docs/logs/GPU inspected, no tests run by reviewer. Final raw evidence
+and critic report: archive15411eaad95253fcb23651d4d9dce58925d98562,
+evidence/027-windows-20261024/final-head-2fe6459, with hashes.
+Own current run40085216588: guidance green, game-smoke running at6:17 AM Eastern.
+Old730d45b checks and prepared merge7732ffc are superseded. Current prepared
+mergea5246131f5fde6caca332d4c986df10a0ad1b69c is local only, not published.
+Do not merge until own exact-head gates pass and fresh integration/mergeability
+are checked. Still CLAIMED.029 has only been read ahead, not claimed or edited.
