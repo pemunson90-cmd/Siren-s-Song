@@ -39,3 +39,17 @@ Design approach follows the already approved data-only handoff and standing user
 order: no further design-approval gate. A short implementation plan follows
 inspection of directly relevant source; use the same designated independent
 reviewer and own exact-head guidance/game-smoke before merge.
+
+2026-10-24 2:42 AM Eastern recovery checkpoint: source branch
+claude/lane-landmarks pushed3c2af9536487b3a793c56f89e5925142c06e27f6,
+draft PR121 https://github.com/pemunson90-cmd/Siren-s-Song/pull/121.
+Plan8b1adba and existing integration8c13f5b are contained. Active Codex claim;
+Claude do not duplicate. Native import/data468/0/projection90/0 pass. Earlier
+prototype core818/0 is not final-head proof. First visual draft rejected as too
+weak; localized motifs and actual photo depths are now being inspected. A clip
+triangulation edge case was repaired; native recapture still required. Preserve
+raw rejected captures and the lost Quietus capture, do not present them as wins.
+External epsilon-bounded pressure baseline complete, identical candidate running;
+no tracked probe/test loosening or game-state edits. Five fixtures, final targeted
+checks, three accepted captures and independent exact review/CI remain before
+ready/merge. Generated imports/UIDs excluded.025 remains CLAIMED, not DONE.
