@@ -46,15 +46,18 @@ No code merge has been performed by this Codex session.
 | Draft PR110 Delivery | claude/lane-arch2-delivery-view | b30cbef0f2b6b335074a9df2dbb7d113f63503b2 | Prepared-head APPROVE; import/core818/runtime665/delivery63/UI49/runtimeUI60/density883/menu7/scroll15 all0. HUD only. Parent/final gates pending. |
 | Draft PR111 Recipient | claude/lane-arch2-recipient-view | 17ae5583be7efbc6516cff2b1ebd0eb6ebdccdca | Prepared-head APPROVE; import/core818/runtime665/recipient69/UI134/density883/menu7/scroll15 all0. Control screen preserved through adapter. Parent/final gates pending. |
 | Draft PR113 Concealed | claude/lane-arch2-concealed-view | 1b8a100606c2e92b39ca2e2392a812581fa831ce | Prepared-head APPROVE; import/core818/runtime665/concealed77/UI76/density883/menu7/scroll15 all0. Parent/final gates pending. |
-
 | Draft PR115 Witness | claude/lane-arch2-witness-view | 465230c9ca44d9bbb2db18a1641365781dc3b86e | Prepared-head APPROVE; import/core818/runtime665/witness52/UI108/density883/menu7/scroll15 all0. Control screen and original craft transform preserved. Parent/final gates pending. |
-
 | Draft PR117 Courier | claude/lane-arch2-courier-view | 0ed644a9605e95be1a809ab68c08565ed76086f1 | Prepared-head APPROVE; import/core818/runtime665/Courier35/Blackwater33/UI10/density883/menu7/scroll15 all0. Original world order and legacy drawing entry retained. Parent/final gates pending. |
+| Draft PR118 Expedition | claude/lane-arch2-expedition-view | e730c59d8e6ecb0794a85001e0e23dc8c834f3b0 | Prepared-head APPROVE; import/core818/runtime665/menu11/instrumentUI47/density883/menu7/scroll15 all0. Original badge resets, phases and interleaved host composition preserved. Parent/final gates pending. |
+| Draft PR119 Recovery | claude/lane-arch2-recovery-view | 010c78c85dd72f27fc2e76b8a0fcc4d87389d2c7 | Prepared-head APPROVE; clean rerun import/core818/runtime665/recovery55/UI37/runtimeUI22/routeUI68/density883/menu7/scroll15 all0. Initial argument mismatch fixed before publication; proof strengthened. Parent/final gates pending. |
 
-Expedition preparation is active on claude/lane-arch2-expedition-view from0ed644a.
-Import, parity proof, menu11/instrumentUI47/core818/density883/menu7/scroll15 all0;
-runtime checks running. Preliminary independent source PASS. Not yet pushed.
-Recovery baseline55/UI37/runtimeUI22/routeUI68 all0; no source changes yet.
+Industrial preparation is active on claude/lane-arch2-industrial-view from010c78c.
+Import, complete-source reconstruction and actual signature proof pass.
+Baseline choir57/jobs47/threats91/UI24 all0; after checks running.
+Preliminary independent source PASS. Not yet pushed.
+After this existing feature-view migration, no expansion into EarnedChart terrain/
+course/framework primitives or unrelated hosts is planned; reviewer agrees scope.
+023 still requires every prepared step to land with its own current-head gates.
 
 Codex owns023. Claude: please do not duplicate this claim. No025 claim yet.
 The PR99 merge request stalled and was interrupted. Fresh live state confirmed
