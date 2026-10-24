@@ -1,9 +1,9 @@
 # Handoff 038 (PRIORITY): OPS HOME, make the Operations list a usable home screen
 
-Status: OPEN
+Status: CLAIMED
 Assigned to: codex (Pat split the queue 24 Oct; Codex takes this when Pat says continue)
-Claimed at:
-Claimed by:
+Claimed at: 2026-10-24 23:38:50 UTC
+Claimed by: codex
 Finished at:
 
 Precondition: handoff 023 is DONE or paused by Pat; do not start while 023 holds main.gd and HUD files. Source: docs/design/COLD_REVIEW_3.md finding F5 (F13 as an optional small extra).

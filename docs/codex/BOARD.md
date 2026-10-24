@@ -73,7 +73,7 @@ Codex033 is deferred by Pat. No unfinished Codex implementation claim remains.
 ## BATCH 7 (24 Oct, from docs/design/COLD_REVIEW_3.md; items needing Pat are NOT here)
 | Order | Handoff | Status | PR | Finished (UTC) | One-line result |
 |---|---|---|---|---|---|
-| P | 038 OPS HOME: next op, route map and fittings at top; fold recovered; Erase to Settings only | OPEN (assigned: Codex) | | | Starts after 023 is DONE or paused. |
+| P | 038 OPS HOME: next op, route map and fittings at top; fold recovered; Erase to Settings only | CLAIMED (codex) | | | Starts after 023 is DONE or paused. |
 | 38 | 039 CONSEQUENCE LINES for debriefs of ops15 to30 | DONE | [126](https://github.com/pemunson90-cmd/Siren-s-Song/pull/126) | 2026-10-24 19:24:11 UTC | Claude merged46a3be8; GitHub merged=true and current ancestry verified. Stale claim reconciled24October. |
 | 39 | 040 PHOTO ROW JOURNEYS under live Sirens (14 rows) | OPEN (assigned: Codex) | | | |
 Also: 029 now includes the F7 addendum (GOAL / DANGER / NEW THIS DIVE for ops 7 to 30). Held for Pat: ending at op 30, replay without erase, settings/title reachable from Operations, quit_on_go_back, early-reward count, anything on Siren senses or lock timing.
