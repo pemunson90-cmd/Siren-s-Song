@@ -225,3 +225,5 @@ onboard2_tests|ONBOARD2|201|222
 onboard2_ui_tests|ONBOARD2 UI|202|223|render
 save_profiles_tests|SAVE PROFILES|203|224
 save_profiles_ui_tests|SAVE PROFILES UI|204|225|render
+a11y_cues_tests|A11Y CUES|-|226
+a11y_cues_ui_tests|A11Y CUES UI|-|227|render

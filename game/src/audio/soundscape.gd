@@ -14,6 +14,7 @@ var last_clock := -1.0
 var voices: Array=[]
 var panners: Array=[]
 var cues: Dictionary={}
+var accessibility=preload("res://src/presentation/accessibility/cue_observer.gd").new()
 var received_cues=preload("res://src/audio/received_cues.gd").new()
 var heartbeat_timer := 0.0
 var lock_voice: AudioStreamPlayer
@@ -106,6 +107,7 @@ func _lock_update(sim,frozen:bool,active:bool)->void:
 	elif lock_voice.get_playback_position()>.09:
 		lock_voice.stop()
 func update(sim,dt: float,active_dive: bool=true) -> void:
+	accessibility.observe(sim,active_dive and not system_suspended)
 	var photo_engine=preload("res://src/audio/photo_audio/photo_audio.gd").sync(self,sim,dt,active_dive)
 	received_cues.observe_clock(sim.elapsed)
 	if ambience==null: return

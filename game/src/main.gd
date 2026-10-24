@@ -55,6 +55,7 @@ var screen := "menu":
 			ocean.presenting_mission = value == "mission"
 			if value != "mission" and ocean.optical_feed != null: ocean.optical_feed.hide()
 		if value != "mission" and lock_warning != null: lock_warning.hide()
+		if value != "mission" and audio_captions != null: audio_captions.hide()
 var mission_index := 0
 var active_started := false
 var applying_safe_area := false
@@ -99,6 +100,8 @@ var departure_confirmation=""
 var hints_seen:Array=[]
 var early_reward:Dictionary={}
 var lock_warning
+var audio_captions
+var settings_path="user://settings.json"
 func _ready() -> void:
 	get_tree().auto_accept_quit=false
 	_theme()
@@ -125,6 +128,7 @@ func _ready() -> void:
 	for button in [pause_button,advanced_button]+unit_buttons+order_buttons.values():
 		button.minimum_size_changed.connect(_queue_mission_reflow)
 	mission_hud=preload("res://src/presentation/mission_hud.gd").new();hud.add_child(mission_hud);mission_hud.setup(self)
+	audio_captions=preload("res://src/presentation/accessibility/caption_view.gd").new();hud.add_child(audio_captions)
 	lock_warning=preload("res://src/presentation/lock_warning.gd").new();hud.add_child(lock_warning)
 	menu=PanelContainer.new(); add_child(menu)
 	# Shaped text can shrink a previous minimum after container reflow.
@@ -363,6 +367,7 @@ func _refresh() -> void:
 	if decoy_armed:detail_label.text="DECOY · %s · CLEAR PATH · 160m · 15s · CANCEL"%sim.units[sim.selected].name.to_upper()
 	if knock_armed: detail_label.text="TORPEDO · QUIETUS · 150m · noisy flight · impact pins 8s · tap fresh S# · CANCEL"
 	if mission_hud!=null:mission_hud.refresh()
+	if audio_captions!=null:audio_captions.refresh(self)
 func _focus_craft() -> void:
 	map_gesture.cancel();ocean.focus_craft();_refresh();_view_changed()
 func _toggle_advanced() -> void:
@@ -653,12 +658,18 @@ func _settings_menu() -> void:
 		b.set_meta("action","text_scale_%d"%roundi(scale*100)); b.set_meta("ui_action","text_scale_%d"%roundi(scale*100))
 		b.pressed.connect(_set_text_scale.bind(scale),CONNECT_DEFERRED); sizes.add_child(b)
 	_button(panel_box,"SHOW FIRST-DIVE TIPS AGAIN",func(): hints_seen=[]; _save_archive(); sim.message="Tips will show again in the opening operations"; _settings_menu(),"reset_tips")
+	for row in [["safe_palette","SAFE PALETTE"],["audio_captions","AUDIO CAPTIONS"],["haptics","HAPTICS"]]:
+		var key:String=row[0]
+		_button(panel_box,"%s: %s"%[row[1],"ON" if FrontendSettings.current[key] else "OFF"],func():_set_accessibility(key,not FrontendSettings.current[key]),"setting_"+key)
 	_button(menu_footer,"BACK TO OPERATIONS",_show_campaign,"back"); menu_footer.show()
 	call_deferred("_layout")
 func _set_text_scale(scale:float) -> void:
+	_set_accessibility("text_scale",scale)
+func _set_accessibility(key:String,value:Variant) -> void:
 	var store_settings=SettingsStore.new()
+	store_settings.path=settings_path
 	var values=store_settings.load_settings()
-	values["text_scale"]=scale
+	values[key]=value
 	values=SettingsStore.sanitize(values)
 	FrontendSettings.apply(values,self)
 	store_settings.save_settings(values)
