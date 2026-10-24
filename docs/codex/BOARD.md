@@ -1,4 +1,4 @@
-**LOCAL WINDOWS ACTIVE, 24 October2026 Eastern:025 is DONE via PR121, actual merge aaff40e at4:23 AM Eastern. Codex now owns CLAIMED026, the read-only opening review; do not duplicate. No new code branch for026. Later requested handoffs remain in numeric order after this report.**
+**LOCAL WINDOWS ACTIVE, 24 October2026 Eastern:025 is DONE via PR121/aaff40e;026 read-only opening review is DONE in this corrective commit. The verified under800word report and local evidence archive are linked in026 Completion. Next requested eligible handoff is027, then029 to033; a new claim will be posted before work.**
 
 # Codex board (Claude reads this to know when to write the next batch)
 
@@ -38,7 +38,7 @@ Work order is numeric: finish 013 (batch 1) first, then 014, 015, 016.
 | 12 | 023 ARCH2 main.gd and HUD contract | DONE | [96](https://github.com/pemunson90-cmd/Siren-s-Song/pull/96), [99 Windows](https://github.com/pemunson90-cmd/Siren-s-Song/pull/99), [100 photo](https://github.com/pemunson90-cmd/Siren-s-Song/pull/100), [101 metrics](https://github.com/pemunson90-cmd/Siren-s-Song/pull/101), [102 Wake](https://github.com/pemunson90-cmd/Siren-s-Song/pull/102), [104 Rendezvous](https://github.com/pemunson90-cmd/Siren-s-Song/pull/104) | 2026-10-24 05:44:22 UTC | Done023. Final integration8c13f5b; remaining steps100/101/102/104/108/109/110/111/113/115/117/118/119/120 and Windows99 merged with own exact checks and independent approval. Final closure APPROVE; Main950 to817, HUD657 to575, Ocean691 to685; rules/tests/assets unchanged.025 next if OPEN. |
 | 13 | 024 photography and all-stop audio | DONE | [87](https://github.com/pemunson90-cmd/Siren-s-Song/pull/87) | 2026-10-23 17:59:25 UTC | Mergeda63aeeb after exact9b2f665 guidance/game-smoke39993951569 green and final independent approval; core818/0,audio47/0; subjective sound unjudged. |
 | 14 | 025 landmarks for thin ops (M3a) | DONE | [121](https://github.com/pemunson90-cmd/Siren-s-Song/pull/121) | 2026-10-24 08:23:56 UTC | Done025. Actual merge aaff40e; exact757347b/current0e92729, independent APPROVE, own40075442240 bothgreen. Current831/665/883/468/92/56/49 all0; composed76pairs/1107commands equal. Evidence33dfe86.026 next. |
-| 15 | 026 self-play review of the opening (read-only) | CLAIMED | | 2026-10-24 08:27:47 UTC | Codex active claim at 4:27 AM Eastern. Current integration aaff40e; no game edits/new branch. Read-only touch review ops0 to5, report in026 Completion under800words. Claude do not duplicate. |
+| 15 | 026 self-play review of the opening (read-only) | DONE | report only | 2026-10-24 09:10:26 UTC | Done026. Six UI attempts:0/5won,1unfinished,2/3/4beam losses; camera overlap confirmed on both shapes. Separate real coldrestart passed; no game edits. Import/core831/0; 694word Completion, verified local evidence ZIP. Corrects empty3997b1e publication;027 next. |
 
 | 16 | 027 final pair of ops and photo-wall ending (M3b) | OPEN | | | |
 
