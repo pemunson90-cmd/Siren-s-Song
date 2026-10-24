@@ -8,7 +8,7 @@ Pat's Windows PC. Pat stopped the cloud session on 23 October and said continue 
 
 ## Live source checkpoint
 
-Development integration is `claude/integration`, last reconciled baseline `da4ce0e554260681748189ede5b5a7c2f6897fb7`.
+Development integration is `claude/integration`, last reconciled baseline `2f5babef84e5d2ed4e0443acd2f4e3dcb9853c44`.
 This ARCH2 candidate includes the Windows hook repair PR99, published at
 fab2617575d5156d74b87aede4aa9ba21367504b after its exact-head gates and review.
 At this preparation, later predecessor merges are planned, not yet published.
@@ -38,7 +38,8 @@ re-claim it or mark it DONE after one PR.
 | Prerequisite PR102 | Included in candidate ancestry; live PR/board decide published state |
 | Prerequisite PR104 | Included in candidate ancestry; live PR/board decide published state |
 | Prerequisite PR108 | Included in candidate ancestry; live PR/board decide published state |
-| Current Warning Chain PR109 | Candidate; independent exact-head review and hosted gates pending |
+| Prerequisite PR109 | Included in candidate ancestry; live PR/board decide published state |
+| Current Delivery PR110 | Candidate; independent exact-head review and hosted gates pending |
 | Later preparations | Separate feature PRs, see authoritative board; not a full023 completion |
 | Portable cloud evidence | archive/cloud-desktop-20261023 at5407a241,551 files with manifest/hash |
 
@@ -59,11 +60,11 @@ LOCALAPPDATA to isolated work folders, preserving personal saves.
 
 ## Current ARCH2 candidate
 
-This candidate is Warning Chain PR109, reconciled against planned predecessor merge
-da4ce0e554260681748189ede5b5a7c2f6897fb7. This predecessor must be published first.
-Original plant HUD block and world drawing keep their existing order. Legacy projections, input, text and numbers stay unchanged.
-The complete game tree equals native-tested preparationa0a36c8f1801ea3523645d2006d3cfb747a917c0.
-Clean import and chain49/UI68/worldUI13/core818/runtime665/density883/menu7/scroll15 all0 with clean logs.
+This candidate is Delivery PR110, reconciled against planned predecessor merge
+2f5babef84e5d2ed4e0443acd2f4e3dcb9853c44. This predecessor must be published first.
+Existing cargo HUD refresh remains after Warning Chain. This module owns no world drawing; its empty draw hook is not registered there.
+The complete game tree equals native-tested preparationb30cbef0f2b6b335074a9df2dbb7d113f63503b2.
+Clean import and delivery63/UI49/runtimeUI60/core818/runtime665/density883/menu7/scroll15 all0 with clean logs.
 Independent final exact-head/planned-base review and both own hosted gates remain.
 Only publish its ordinary merge when live integration equals that predecessor,
 its PR is mergeable, and parents/tree equal the approved tested result. Stop on

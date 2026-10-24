@@ -431,15 +431,6 @@ func refresh():
   host.detail_label.text=sim.units[sim.selected].name+" · "+("OWN TRANSMITTER" if operation.label=="TRANSMIT" else "LOCAL MACHINERY CONTROL")
   if sim.capture_feedback().unit>=0:intent.text=sim.units[sim.selected].name+" · "+operation.detail.get_slice("\n",0)
  FeatureViews.build_panel(self)
- var delivery=Delivery.status(sim)
- if not delivery.is_empty():
-  intent.text=Delivery.summary(sim)+" · "+intent.text
-  host.order_buttons.camera.disabled=not sim.camera_context().ready
-  if page=="delivery" or (page=="inspect" and subject.get("kind","")!="salvage"):instrument_info.text=Delivery.detail(sim)+"\n\n"+instrument_info.text
-  if sim.selected>0:extra.blackwater_handoff.disabled=not sim.blackwater_handoff_context(sim.selected).ready
-  for pair in [[1,extra.blackwater_a],[2,extra.blackwater_b]]:
-   var context=sim.blackwater_handoff_context(pair[0]);pair[1].disabled=not context.ready
-   pair[1].text="TRANSFER %s\nTO Q"%["A" if pair[0]==1 else "B"]
  var recipient=Recipient.status(sim)
  if not recipient.is_empty():
   extra.warning_exposed.disabled=not recipient.actions.depart.ready

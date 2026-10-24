@@ -1,4 +1,20 @@
 extends RefCounted
+# ARCH2 cargo-panel contract. This view has no world-drawing responsibility;
+# its draw hook is intentionally empty and it is registered only in HUD_PANELS.
+# Revert this PR to restore the direct HUD block. Legacy cargo/input helpers stay.
+static func applies(sim)->bool:return sim!=null
+static func build_panel(hud)->void:
+ var sim=hud.host.sim
+ var delivery=status(sim)
+ if not delivery.is_empty():
+  hud.intent.text=summary(sim)+" · "+hud.intent.text
+  hud.host.order_buttons.camera.disabled=not sim.camera_context().ready
+  if hud.page=="delivery" or (hud.page=="inspect" and hud.subject.get("kind","")!="salvage"):hud.instrument_info.text=detail(sim)+"\n\n"+hud.instrument_info.text
+  if sim.selected>0:hud.extra.blackwater_handoff.disabled=not sim.blackwater_handoff_context(sim.selected).ready
+  for pair in [[1,hud.extra.blackwater_a],[2,hud.extra.blackwater_b]]:
+   var context=sim.blackwater_handoff_context(pair[0]);pair[1].disabled=not context.ready
+   pair[1].text="TRANSFER %s\nTO Q"%["A" if pair[0]==1 else "B"]
+static func draw(_view)->void:pass
 # Mission cargo and local handoff readiness come only from public projections.
 static func status(sim)->Dictionary:
  return sim.blackwater_delivery_status() if sim.has_method("blackwater_delivery_status") else {}
