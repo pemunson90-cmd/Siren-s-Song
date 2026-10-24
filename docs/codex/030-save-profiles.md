@@ -1,8 +1,8 @@
 # Handoff 030: SAVE1, profiles, copy/clear and export/import (self-contained)
 
-Status: OPEN
-Claimed at:
-Claimed by:
+Status: CLAIMED
+Claimed at: 2026-10-24 15:11:57 UTC (11:11 AM Eastern)
+Claimed by: codex
 Finished at:
 
 Precondition: handoff 017 DONE.
@@ -26,4 +26,14 @@ A fixture with two profiles proves isolation (byte-identical campaign save after
 PR into claude/integration; merge per the line above; mark DONE and update the board.
 
 ## Completion
-(Codex fills this in: what changed, PR link, branch and last pushed SHA, test results, unverified items, files outside ownership needed, recommended next.)
+Codex claims030 at 11:11 AM Eastern, before implementation. Precondition017DONE.
+Actual029merge dfaf5435a75364b82c57f5567fde7eb673e505a8 verified on live refs
+and GitHub PR123 merged=true. No duplicate open PR or local/remote feature branch
+was found. Branchclaude/lane-save-profiles now checks out that fresh integration
+in reused work/landmarks-merge; only generated untracked UID files retained.
+Scope is own persistence/profiles module, narrow SaveStore/frontend seams, real
+four-file migration/isolation/copy/clear/undo/export/import and actual touch on
+both shapes. Existing save meanings, rules, story and other profiles preserved.
+No030code yet. Root integrates; one implementation worker and independent reviewer
+per stable execution rules. WIP push within30min, import/core and affected suites,
+exact-head hosted gates and independent review before delegated merge.
