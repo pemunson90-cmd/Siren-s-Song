@@ -1,4 +1,6 @@
 extends Control
+const ArtTable=preload("res://src/presentation/art/art_table.gd")
+const Art=preload("res://src/presentation/art/art_renderer.gd")
 const FeatureViews=preload("res://src/presentation/feature_views.gd")
 const HullBand=preload("res://src/presentation/route_clearance/hull_band.gd")
 const Shelf=preload("res://src/presentation/shelf_habitat_view.gd")
@@ -229,6 +231,10 @@ func _draw() -> void:
 			draw_rect(area,Color(0.36,0.66,0.78,0.38),false,1.2/world_scale)
 			_label(area.position+Vector2(120,106),str(sim.mission.get("photo_lane","COLD FRONT")),Color(0.46,0.7,0.78,0.8),14)
 	_draw_departure()
+	# Own cached camera wash sits below stone and unknown-water fog. It does
+	# not query photographic columns, hidden terrain, enemies or visibility.
+	if ArtTable.enabled and earned.is_empty() and presenting_mission and sim.outcome.is_empty() and optical_feed!=null and optical_feed.visible and optical_feed.art_lamp_current(sim):
+		Art.lamp_wash(self,optical_feed.art_lamp_pos,optical_feed.art_lamp_aim,optical_feed.art_lamp_fov,optical_feed.art_lamp_range,optical_feed.art_lamp_strength)
 	# Bedrock and columnar basalt are original deterministic constructions.
 	if earned.is_empty():
 		for r in (sim.mission.get("depth_geometry",{}).get(sim.units[sim.selected].band,{}).get("rocks",sim.mission.rocks) if sim.mission.id!=8 else []): _rock(r)
@@ -239,6 +245,8 @@ func _draw() -> void:
 			Confluence.draw_landmarks(self,context,world_scale)
 	else:EarnedChart.draw_terrain(self,earned,world_scale)
 	FeatureViews.draw_ground(self)
+	if ArtTable.enabled and not earned.is_empty() and presenting_mission and sim.outcome.is_empty() and optical_feed!=null and optical_feed.visible and optical_feed.art_lamp_current(sim):
+		Art.lamp_guide(self,optical_feed.art_lamp_pos,optical_feed.art_lamp_aim,optical_feed.art_lamp_fov,optical_feed.art_lamp_range)
 	if not presenting_mission or not sim.outcome.is_empty():
 		draw_set_transform(Vector2.ZERO)
 		return
@@ -262,11 +270,13 @@ func _draw() -> void:
 		draw_rect(mass,Color("102630")); draw_rect(mass,Color("486268"),false,3)
 		draw_set_transform(world_offset+mass.get_center()*world_scale,PI/2,Vector2.ONE*world_scale)
 		draw_texture_rect(foundry,Rect2(-mass.size.y/2,-mass.size.x/2,mass.size.y,mass.size.x),false,Color(0.8,0.95,1))
+		if ArtTable.enabled:Art.factory(self,Rect2(-mass.size.y/2,-mass.size.x/2,mass.size.y,mass.size.x),world_scale)
 		draw_set_transform(world_offset,0,Vector2.ONE*world_scale)
 	elif earned.is_empty() and sim.mission.has("array_rect"):
 		_finale_array(sim.mission.array_rect)
 	elif earned.is_empty() and sim.mission.id in [3,4]:
 		draw_texture_rect(foundry,Rect2(1080,-100,540,360),false,Color(0.65,0.8,0.82,0.8))
+		if ArtTable.enabled:Art.factory(self,Rect2(1080,-100,540,360),world_scale)
 	# Intelligence marks are briefed coordinates, not live contact observations.
 	for o in observable_sites():
 		if sim.mission.id==8:continue
@@ -548,6 +558,11 @@ func _rock(r) -> void:
 		else: draw_line(a,b,Color(0.49,0.65,0.66,0.55),1.8)
 	draw_polyline(poly,Color(0.17,0.26,0.3,0.5),2)
 func _installation(p: Vector2,recorded: bool) -> void:
+	if ArtTable.enabled:
+		draw_set_transform(world_offset+p*world_scale,0,Vector2.ONE*world_scale)
+		Art.installation(self,recorded)
+		draw_set_transform(world_offset,0,Vector2.ONE*world_scale)
+		return
 	var rect=Rect2(p-Vector2(38,72),Vector2(76,108))
 	draw_rect(Rect2(rect.position+Vector2(14,18),rect.size),Color(0.0,0.02,0.03,0.8))
 	draw_rect(rect,Color("1c343b")); draw_rect(rect,Color("476269"),false,2)
@@ -564,7 +579,9 @@ func _craft(u: Dictionary,index: int) -> void:
 		draw_line(p+Vector2(-55,-38),p+Vector2(-42,-38),CYAN,2)
 		draw_line(p+Vector2(-55,-38),p+Vector2(-55,-25),CYAN,2)
 	draw_set_transform(world_offset+p*world_scale,u.angle,Vector2.ONE*world_scale)
-	if index==0:
+	if ArtTable.enabled:
+		Art.craft(self,index)
+	elif index==0:
 		draw_texture_rect_region(quietus,Rect2(-66,-17,132,34),Rect2(60,145,1940,390))
 		if u.vel.length()>8:
 			for n in 3: draw_line(Vector2(-69-n*10,-3-n),Vector2(-75-n*13,-3-n),Color(0.4,0.75,0.75,0.14),2)
@@ -573,6 +590,8 @@ func _craft(u: Dictionary,index: int) -> void:
 		draw_line(Vector2(-9,-6),Vector2(-9,6),Color("b69251"),3)
 		draw_line(Vector2(9,-5),Vector2(9,5),Color("8a9b9d"),1)
 		draw_circle(Vector2(18,0),3,Color("7edfe4")); draw_line(Vector2(-20,-9),Vector2(-16,9),Color("506e77"),2)
+	if ArtTable.enabled and index==0 and u.vel.length()>8:
+		for n in 3:draw_line(Vector2(-69-n*10,-3-n),Vector2(-75-n*13,-3-n),Color(0.4,0.75,0.75,0.14),2)
 	FeatureViews.draw_carried(self,index)
 	draw_set_transform(world_offset,0,Vector2.ONE*world_scale)
 	if index==0 and index==sim.selected:
@@ -619,6 +638,7 @@ func _siren(p: Vector2,angle: float,fresh: bool,role: String="patroller",pin_tim
 			for n in 6:
 				var spoke=Vector2.from_angle(n*TAU/6);draw_line(spoke*24,spoke*55,Color("d1ad72"),6.)
 			draw_arc(Vector2.ZERO,40,0,TAU,24,Color("b87864"),3.)
+		elif ArtTable.enabled and ArtTable.SHAPES.has(role):Art.siren(self,role,shade)
 		elif role=="hunter":Confluence.draw_hunter(self,sim.elapsed,shade)
 		else:draw_texture_rect(siren_ray,body,false,shade)
 		if role=="sweeper":
