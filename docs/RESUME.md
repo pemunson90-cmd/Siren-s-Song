@@ -9,10 +9,10 @@ Pat's Windows PC. Pat stopped the cloud session on 23 October and said continue 
 ## Live source checkpoint
 
 Active development integration: `claude/integration`.
-Last reconciled source baseline: ad841f69394eb4ade818794056e5ccac56f0bc0b.
+Last reconciled source baseline: 46a3be891f51faf5cd4052f5bc0cc62ae299e53d.
 This includes PR116 patrol data, PR121 landmarks, PR122 final pair/wall and
 PR123 concise briefings, PR124 independent profiles, PR125 Back handling and
-PR127 accessibility cues.
+PR127 accessibility cues and later PR126 debrief consequence presentation.
 023 is DONE on the authoritative board in2df2e6b after all separate source PRs
 and Windows99 passed own exact-head checks/review and actual merge verification.
 At023 completion: Main817, HUD575, Ocean685. Do not repeat023 or its earlier preparations.
@@ -147,22 +147,30 @@ this proves new caption disjointness, not a general HUD repair. Source-known
 fixtures are not blind play or physical Android/haptic/perception/hand acceptance.
 
 Codex owns CLAIMED032, postedce56635 at2:33PM Eastern before code.
-Branch claude/lane-art1 starts from actual ad841f6; precondition017 is DONE.
-One implementation worker builds a bounded procedural art module/table with old
+Branch claude/lane-art1 starts from actual ad841f6 and reconciles published46a3be8;
+precondition017 is DONE. One implementation worker built a bounded art module with old
 look reachable by one switch. Preserve charcoal Quietus, cyan/amber industrial
 structures, angular ray/serpentine red-lit Sirens and layered basalt. Clarify own
 craft/two drones/four named roles and actual own camera lamp only. No art-direction,
 sensor/evidence privacy, physical-rule, story or SIREN TELL changes.
-Source-matched before/after native pictures at both Fold7 shapes and actual
-paired rendering-cost evidence accompany the simulation-only015 probe. Pat judges
+Draft PR130 retains quantified7619 evidence: correctness passes, but CPU draw cost
+increased80..110us, so that source does not meet the strict performance criterion.
+A small cached-mesh refinement4eb90db improves the short paired factory case; fresh
+combined import/core/affected/native full measurements and final review are required.
+The immutable baseline and development evidence are archived at
+[e411b80](https://github.com/pemunson90-cmd/Siren-s-Song/tree/e411b8087ab81c8579d8aee1736e6eb70a3cff41/evidence/032-windows-20261024/head-7619ff1).
+Source-matched pictures at both Fold7 shapes and actual paired drawing-cost evidence
+accompany the simulation-only015 probe. Pat judges
 the concrete finished artwork before its publication; approval is still pending.
 Root owns RESUME/PR/merge/board, independent review and exact-head hosted gates,
 fresh containment/mergeability and actual publication. Next assigned task is033.
 
-Claude owns039/PR126 separately. PR125/041 is published at139f3e9: default
+Claude's PR126 consequence-line presentation is published at46a3be8; the board
+continues to own its039 claim/completion. PR125/041 is published at139f3e9: default
 Android Back quit is disabled; Operations uses approved double-Back exit.
-031 preserved both Main seams and all228 registered suites, Back226 followed by
-accessibility227/228. Fetch live refs at each boundary. The board alone owns claims;
+031 preserved both Main seams and its228 suites. Combined registry retains
+Back226, accessibility227/228 and published consequence229/230; art appends231/232.
+All232 names/local/CI ranks are unique, no tests removed. Fetch live refs at each boundary. The board alone owns claims;
 unrelated released items are outside the explicit032..033 assigned queue.
 
 The native Windows hook fix is installed and merged. Use official Windows
