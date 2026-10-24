@@ -8,80 +8,31 @@ Pat's Windows PC. Pat stopped the cloud session on 23 October and said continue 
 
 ## Live source checkpoint
 
-Development integration is `claude/integration`, last reconciled baseline `a6e342caca41a7fe6702fbac4678e3b4d8ff9177`.
-This ARCH2 candidate includes the Windows hook repair PR99, published at
-fab2617575d5156d74b87aede4aa9ba21367504b after its exact-head gates and review.
-At this preparation, later predecessor merges are planned, not yet published.
-Live refs and the board determine published state. Preparing a commit does not
-publish it; publish each prerequisite in order only after its own exact gates.
-Recent documentation/history merges include103/105/106/107/112/114; those design
-proposals do not authorize implementation in handoff023.
-Earlier baseline was30f555a (merge of PR98). Recent merges, in order: PR95 route map (b03dd69), PR96 campaign
-flow (dcf81b5, 23 Oct 8:56 PM Eastern, reviewed head 3afb12f, hosted run
-40043994511 green), PR97 Claude's PC handover (632f592) and PR98 the cloud
-closeout documentation (30f555a, both merged about 9:01 PM Eastern). Live Git refs
-and PRs win over this snapshot. `gauntlet/production` and `main` stay frozen under
-Pat's promotion authority. No branches are deleted. All code PRs target integration.
+Last reconciled source baseline:8c13f5be841ab71ad41b5a4dd1ea3c030b370e8c.
+023 is DONE on the authoritative board in2df2e6b after all separate source PRs
+and Windows99 passed own exact-head checks/review and actual merge verification.
+Main817, HUD575, Ocean685. Do not repeat023 or its earlier preparations.
 
-## Current claim and open PRs
+## Current claim and next work
 
-Ownership is authoritative on `codex/handoffs` in `docs/codex/BOARD.md` and
-`023-arch2-main-and-hud.md`. Handoff 023 stays CLAIMED and partial; do not
-re-claim it or mark it DONE after one PR.
+Codex owns CLAIMED025, postedc0abb9c before implementation. Branch
+claude/lane-landmarks starts from8c13f5b; no open duplicate landmark PR or prior
+branch was found.020 is DONE atddc3361 and contained. Scope is the already
+approved data-only landmark handoff, operations6 to29, existing visual language,
+unchanged rules/story/endings and preserved fixtures/pressure. The plan is
+[landmarks M3a](superpowers/plans/2026-10-24-landmarks-m3a.md).
 
-| Work | State |
-|---|---|
-| 023 campaign flow | PR96 merged |
-| Windows hooks PR99 | Merged atfab2617 with exact1606418 checks/review |
-| Prerequisite PR100 | Included in candidate ancestry; live PR/board decide published state |
-| Prerequisite PR101 | Included in candidate ancestry; live PR/board decide published state |
-| Prerequisite PR102 | Included in candidate ancestry; live PR/board decide published state |
-| Prerequisite PR104 | Included in candidate ancestry; live PR/board decide published state |
-| Prerequisite PR108 | Included in candidate ancestry; live PR/board decide published state |
-| Prerequisite PR109 | Included in candidate ancestry; live PR/board decide published state |
-| Prerequisite PR110 | Included in candidate ancestry; live PR/board decide published state |
-| Prerequisite PR111 | Included in candidate ancestry; live PR/board decide published state |
-| Prerequisite PR113 | Included in candidate ancestry; live PR/board decide published state |
-| Prerequisite PR115 | Included in candidate ancestry; live PR/board decide published state |
-| Prerequisite PR117 | Included in candidate ancestry; live PR/board decide published state |
-| Prerequisite PR118 | Included in candidate ancestry; live PR/board decide published state |
-| Prerequisite PR119 | Included in candidate ancestry; live PR/board decide published state |
-| Current Industrial PR120 | Candidate; exact-head independent review and hosted gates pending |
-| 023 publication | Every step still needs its own gates and ordered publication; not DONE |
-| Portable cloud evidence | archive/cloud-desktop-20261023 at5407a241,551 files with manifest/hash |
+Baseline Windows import/core818/0 pass. Geometry inventory is recorded locally;
+implementation has not started. Next author the bounded data table and pure
+presentation adapter, validate the relevant fixtures/probe and inspect three
+rendered operations. Board and025 Completion own claim/recovery state. Continue
+026/027/029..033 only after this claim is complete and preconditions are met.
 
-Every merge needs latest integration, independent review, both hosted checks on
-the exact head, and a merge commit. 025 waits until 023 is DONE.
-
-Local photo verification: clean Windows import; core818/runtime665/campaign
-dispatch13/archive recap8/photo captureUI9/cold reviewUI218 all0 on the prepared
-source. All nine moved bodies, retained host entry points and callback/deferred
-order are independently reviewed. Preserve this evidence separately from each
-final exact-head/base review and hosted result. The shared contract preparations
-remain drafts until parents land and each own final gate passes.
-
-Native hook verification:22 real-Git boundary tests and10 guidance tests pass.
-Hooks use the actual Windows Python executable, exclusive locking and bounded
-process cleanup; no hooks are bypassed. Godot checks redirect APPDATA and
-LOCALAPPDATA to isolated work folders, preserving personal saves.
-
-## Current ARCH2 candidate
-
-This candidate is Industrial PR120, reconciled against planned predecessor merge
-a6e342caca41a7fe6702fbac4678e3b4d8ff9177. This predecessor must be published first.
-Original choir HUD refresh and world drawing retain their activity slots, before
-Glass composition and targeting drawing. Actual untyped draw(view,sim=null)
-preserves registry and legacy calls; the complete original body is unchanged.
-The complete game tree equals native-tested preparation7397e0e exactly.
-Clean import and choir57/jobs47/threats91/UI24/core818/runtime665/density883/
-menu7/scroll15 all0 with clean logs. This finishes preparation of the existing
-mission feature-view seams; it does not publish them. Framework terrain/course,
-shared host composition, setup, input and picking are intentional exclusions.
-Independent exact-head/planned-base approval and both hosted checks remain.
-Only publish its ordinary merge when live integration equals that predecessor,
-its PR is mergeable, and parents/tree equal the approved tested result. Stop on
-unexpected base advancement or any hook/protection rejection.023 stays partial
-until every step is published; then board and done023 must share one commit.
+The native Windows hook fix is installed and merged;22 real-Git boundary and10
+guidance tests passed. Use the official Windows Godot4.6.3 console build directly;
+install-godot.sh is Linux only. Tests use isolated APPDATA/LOCALAPPDATA. Preserve
+personal saves and exclude generated .uid/.import churn. Full local scenario
+lists and APKs remain prohibited; GitHub game-smoke is the full gate.
 
 ## Cold review 3 and the new batches
 
@@ -124,15 +75,12 @@ remains [CURRENT_GAME_SPEC](CURRENT_GAME_SPEC.md), not a completed feature claim
 
 ## Next steps for the PC sessions
 
-Publish023 prepared heads in their recorded order, one reviewed PR and ordinary
-merge commit per step. Each head contains its planned predecessor so exact-head
-checks can run concurrently. Publish only after that predecessor is the freshly
-fetched live integration tip, own independent approval and both own hosted checks
-are successful. Normal hooks and branch protections apply; stop on a rejection
-or unexpected integration advance. Verify actual remote parents/tree and PR
-merged disposition after each publication. Board owns claims and recovery refs.
-Then025 and the eligible numeric queue. Use the current local tool inventory;
-do not assume cloud agents or credentials carried over.
+Complete the existing025 claim, then eligible026,027,029 to033 in numeric order.
+032 remains Pat's art judgment. Do not implement new story, new art direction or
+SIREN TELL. Each handoff's exact-head checks, independent review, current-base
+containment and merge permission govern publication; preserve frozen refs and
+all branches. Claims and done updates live on codex/handoffs. Use actual local
+tools; do not assume cloud agents, caches or credentials carried over.
 
 ## Verification and preservation
 
