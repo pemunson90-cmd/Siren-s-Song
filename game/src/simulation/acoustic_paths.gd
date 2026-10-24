@@ -31,8 +31,14 @@ func _inside_any(point:Vector2)->bool:
 	for i in shapes.size():
 		if PolygonContainment.contains(point,shapes[i],shape_bounds[i]):return true
 	return false
+# PERF (behavior identical): a segment can only touch a polygon whose bounding box
+# overlaps the segment's own bounding box, so other polygons are skipped before the
+# containment and edge tests. The 0.001 margin dwarfs float rounding, keeps borders
+# inclusive and never changes the boolean. Oracle: tests/acoustic_path_cull_tests.gd.
 func clear(a:Vector2,b:Vector2)->bool:
+	var span:=Rect2(a,Vector2.ZERO).expand(b).grow(0.001)
 	for index in shapes.size():
+		if not shape_bounds[index].grow(0.001).intersects(span,true):continue
 		var shape=shapes[index]
 		if PolygonContainment.contains(a,shape,shape_bounds[index]) or PolygonContainment.contains(b,shape,shape_bounds[index]):return false
 		for i in shape.size():

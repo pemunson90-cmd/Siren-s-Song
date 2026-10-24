@@ -136,12 +136,34 @@ static func _opened_since(sim,rect:Rect2,time:float)->bool:
  return false
 static func _remember(sim,row):
  sim.sonar.history.append(row)
+ _history_version+=1
  if sim.sonar.history.size()>MAX_HISTORY:sim.sonar.history.pop_front()
+# PERF (behavior identical): feedback() is read several times per frame (history draw,
+# detail, bearings, onboarding cue, depth hint) while the history only changes on a sonar
+# step. The filtered rows are cached per sim tick, keyed on the simulation, the very history
+# array, sim.elapsed, the station, the array's size and end rows, and _history_version (bumped
+# by _remember). Rows are shared with the history, never copied: every reader is read only.
+# Each call still returns a fresh outer dictionary and a fresh rows array, so callers may append.
+# The cache lives outside sim.sonar, so saves and snapshots are unchanged.
+# Oracle: tests/sonar_feedback_cache_tests.gd.
+static var _history_version:int=0
+static var _cache_sim:WeakRef=null
+static var _cache_history=null
+static var _cache_key:Array=[]
+static var _cache_rows:Array=[]
 static func feedback(sim,station:int)->Dictionary:
- var rows=[]
- for row in sim.sonar.history:
-  if row.station==station and sim.elapsed-row.time<=20:rows.append(row.duplicate())
- return {"rows":rows,"own_noise":sim.motion_radius(station),"sector":sim.sonar.sector,"power":sim.sonar.power,"listening":maxf(0.,sim.sonar.listening_until[station]-sim.elapsed)}
+ var history:Array=sim.sonar.history
+ var key:Array=[sim.elapsed,station,history.size(),_history_version]
+ var hit=_cache_sim!=null and is_same(_cache_sim.get_ref(),sim) and is_same(_cache_history,history) and _cache_key==key and (history.is_empty() or (is_same(_cache_rows_front,history.front()) and is_same(_cache_rows_back,history.back())))
+ if not hit:
+  var rows=[]
+  for row in history:
+   if row.station==station and sim.elapsed-row.time<=20:rows.append(row)
+  _cache_sim=weakref(sim);_cache_history=history;_cache_key=key;_cache_rows=rows
+  _cache_rows_front=null if history.is_empty() else history.front();_cache_rows_back=null if history.is_empty() else history.back()
+ return {"rows":_cache_rows.duplicate(),"own_noise":sim.motion_radius(station),"sector":sim.sonar.sector,"power":sim.sonar.power,"listening":maxf(0.,sim.sonar.listening_until[station]-sim.elapsed)}
+static var _cache_rows_front=null
+static var _cache_rows_back=null
 static func valid(data)->bool:
  var fitting=data.mission.get("launch_equipment",{})
  if not fitting is Dictionary:return false
