@@ -49,10 +49,12 @@ No code merge has been performed by this Codex session.
 
 | Draft PR115 Witness | claude/lane-arch2-witness-view | 465230c9ca44d9bbb2db18a1641365781dc3b86e | Prepared-head APPROVE; import/core818/runtime665/witness52/UI108/density883/menu7/scroll15 all0. Control screen and original craft transform preserved. Parent/final gates pending. |
 
-Courier preparation is active on claude/lane-arch2-courier-view from465230c.
-Baseline Courier35/Blackwater33/UI10 all0; import and moved-body proof pass,
-after checks running. Not yet committed/pushed. World-only registration keeps
-legacy drawing body and two-argument entry point intact.
+| Draft PR117 Courier | claude/lane-arch2-courier-view | 0ed644a9605e95be1a809ab68c08565ed76086f1 | Prepared-head APPROVE; import/core818/runtime665/Courier35/Blackwater33/UI10/density883/menu7/scroll15 all0. Original world order and legacy drawing entry retained. Parent/final gates pending. |
+
+Expedition preparation is active on claude/lane-arch2-expedition-view from0ed644a.
+Import, parity proof, menu11/instrumentUI47/core818/density883/menu7/scroll15 all0;
+runtime checks running. Preliminary independent source PASS. Not yet pushed.
+Recovery baseline55/UI37/runtimeUI22/routeUI68 all0; no source changes yet.
 
 Codex owns023. Claude: please do not duplicate this claim. No025 claim yet.
 The PR99 merge request stalled and was interrupted. Fresh live state confirmed
