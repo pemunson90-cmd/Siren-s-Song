@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 """Fast real-Git boundary tests; local remotes only, no hooks installed here."""
-import fcntl, importlib.util, json, os, pathlib, subprocess, sys, tempfile, time, unittest
+import importlib.util, json, os, pathlib, subprocess, sys, tempfile, time, unittest
+from unittest.mock import patch
+if os.name=='nt':import msvcrt
+else:import fcntl
 ROOT=pathlib.Path(__file__).resolve().parent
 HELPER=ROOT/'gauntlet-boundary.py'
 INSTALL=ROOT/'install-gauntlet-hooks.py'
@@ -17,14 +20,14 @@ def git(repo,*args):
 class BoundaryTests(unittest.TestCase):
  def setUp(self):
   self.tmp=tempfile.TemporaryDirectory();self.addCleanup(self.tmp.cleanup)
-  self.base=pathlib.Path(self.tmp.name);self.remote=self.base/'remote.git';self.seed=self.base/'seed';self.repo=self.base/'client'
-  git(self.base,'init','--bare',str(self.remote));git(self.base,'init',str(self.seed))
-  git(self.seed,'config','user.name','Test');git(self.seed,'config','user.email','test@example.invalid')
+  self.base=pathlib.Path(self.tmp.name);self.remote=self.base/'remote.git';self.seed=self.base/'seed';self.repo=self.base/'client with spaces'
+  git(self.base,'init','--bare',self.remote.as_posix());git(self.base,'init',str(self.seed))
+  git(self.seed,'config','user.name','Test');git(self.seed,'config','user.email','test@example.invalid');git(self.seed,'config','core.autocrlf','false')
   git(self.seed,'checkout','-b','claude/integration')
   for name in FILES:
    p=self.seed/name;p.parent.mkdir(parents=True,exist_ok=True);p.write_text('# '+name+'\n\n> LIVING GAME SPEC / PERPETUAL QUALITY RATCHET: read both living documents.\n\n## Current execution contract\nUser current contract.\n\n## History\nFULL TAIL\n')
-  git(self.seed,'add','.');git(self.seed,'commit','-m','initial');git(self.seed,'remote','add','origin',str(self.remote));git(self.seed,'push','origin','claude/integration')
-  git(self.base,'clone','-b','claude/integration',str(self.remote),str(self.repo));git(self.repo,'config','user.name','Test');git(self.repo,'config','user.email','test@example.invalid')
+  git(self.seed,'add','.');git(self.seed,'commit','-m','initial');git(self.seed,'remote','add','origin',self.remote.as_posix());git(self.seed,'push','origin','claude/integration')
+  git(self.base,'clone','-b','claude/integration',self.remote.as_posix(),str(self.repo));git(self.repo,'config','user.name','Test');git(self.repo,'config','user.email','test@example.invalid')
   self.sha=git(self.seed,'rev-parse','HEAD')
  def invoke(self,*args,input=None):return run(sys.executable,str(HELPER),*args,cwd=self.repo,input=input)
  def receipt(self):
@@ -108,12 +111,32 @@ class BoundaryTests(unittest.TestCase):
  def test_subprocess_timeout_kills_process_group_promptly(self):
   spec=importlib.util.spec_from_file_location('boundary_test',HELPER);module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
   start=time.monotonic()
-  with self.assertRaisesRegex(RuntimeError,'timed out'):module.command([sys.executable,'-c','import subprocess,time; subprocess.Popen(["sleep","5"]); time.sleep(5)'],timeout=0.1)
+  with self.assertRaisesRegex(RuntimeError,'timed out'):module.command([sys.executable,'-c','import subprocess,sys,time; subprocess.Popen([sys.executable,"-c","import time; time.sleep(5)"]); time.sleep(5)'],timeout=0.5)
+  self.assertLess(time.monotonic()-start,2)
+ @unittest.skipUnless(os.name=='nt','Windows termination fallback')
+ def test_failed_tree_termination_still_has_bounded_cleanup(self):
+  spec=importlib.util.spec_from_file_location('boundary_test',HELPER);module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
+  failures=[subprocess.CompletedProcess([],1),OSError('termination unavailable'),subprocess.TimeoutExpired('taskkill',10)]
+  for failure in failures:
+   with self.subTest(failure=repr(failure)):
+    options={'side_effect':failure} if isinstance(failure,Exception) else {'return_value':failure}
+    start=time.monotonic()
+    with patch.object(module.subprocess,'run',**options):
+     with self.assertRaisesRegex(RuntimeError,'timed out'):module.command([sys.executable,'-c','import time; time.sleep(3)'],timeout=0.2)
+    self.assertLess(time.monotonic()-start,2)
+ @unittest.skipUnless(os.name=='nt','Windows inherited pipe cleanup')
+ def test_exited_parent_with_child_pipe_cannot_extend_timeout(self):
+  spec=importlib.util.spec_from_file_location('boundary_test',HELPER);module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
+  start=time.monotonic()
+  module.command([sys.executable,'-c','import subprocess,sys; subprocess.Popen([sys.executable,"-c","import time; time.sleep(3)"])'],timeout=0.2)
   self.assertLess(time.monotonic()-start,2)
  def test_busy_refresh_lock_fails_bounded_and_retries_next_boundary(self):
   self.assertEqual(self.invoke().returncode,0)
-  with (self.repo/'.git/gauntlet-boundary/refresh.lock').open('a') as lock:
-   fcntl.flock(lock,fcntl.LOCK_EX);start=time.monotonic();r=self.invoke('--lock-timeout','0.1');self.assertNotEqual(r.returncode,0);self.assertLess(time.monotonic()-start,2);self.assertEqual(self.receipt()['status'],'stale')
+  with (self.repo/'.git/gauntlet-boundary/refresh.lock').open('a+b') as lock:
+   if os.name=='nt':
+    lock.write(b'\0');lock.flush();lock.seek(0);msvcrt.locking(lock.fileno(),msvcrt.LK_NBLCK,1)
+   else:fcntl.flock(lock,fcntl.LOCK_EX)
+   start=time.monotonic();r=self.invoke('--lock-timeout','0.1');self.assertNotEqual(r.returncode,0);self.assertLess(time.monotonic()-start,2);self.assertEqual(self.receipt()['status'],'stale')
   self.assertEqual(self.invoke().returncode,0);self.assertEqual(self.receipt()['status'],'fresh')
  def test_postcommit_failure_preserves_commit_and_records_stale(self):
   self.assertEqual(self.install().returncode,0);self.assertEqual(self.invoke().returncode,0);git(self.repo,'remote','set-url','origin',str(self.base/'missing'))

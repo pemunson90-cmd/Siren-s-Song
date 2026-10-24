@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """Fetch/copy current instructions at an explicit or Git-hook task boundary."""
-import argparse, fcntl, hashlib, json, os, pathlib, re, signal, subprocess, sys, tempfile, time
+import argparse, errno, hashlib, json, os, pathlib, re, signal, subprocess, sys, tempfile, time
+if os.name=='nt':import msvcrt
+else:import fcntl
 
 FILES=('AGENTS.md','docs/USER_DIRECTIVES.md','docs/RESUME.md','docs/CONTINUATION.md','docs/WORKBENCH.md','docs/architecture/GAUNTLET.md','docs/CURRENT_GAME_SPEC.md','docs/V7_TO_GODOT_PARITY.md')
 INTEGRATION='refs/heads/claude/integration'
@@ -10,11 +12,31 @@ PRODUCTION_REF='refs/remotes/origin/gauntlet/production'
 
 def command(args, timeout=30):
     env=os.environ.copy();env['GIT_TERMINAL_PROMPT']='0'
-    with subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=env, start_new_session=True) as process:
-        try: stdout,stderr=process.communicate(timeout=timeout)
-        except subprocess.TimeoutExpired:
-            os.killpg(process.pid,signal.SIGKILL);process.communicate()
-            raise RuntimeError(f'{args[0]} {args[1]} timed out after {timeout:g}s')
+    if os.name=='nt':
+        # Files avoid pipe-reader threads waiting on an already exited parent's children.
+        with tempfile.TemporaryFile() as out, tempfile.TemporaryFile() as err:
+            process=subprocess.Popen(args,stdout=out,stderr=err,env=env,creationflags=subprocess.CREATE_NEW_PROCESS_GROUP)
+            try:process.wait(timeout=timeout)
+            except subprocess.TimeoutExpired:
+                cleanup=''
+                try:
+                    result=subprocess.run(['taskkill','/PID',str(process.pid),'/T','/F'],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,timeout=1)
+                    if result.returncode:cleanup='; tree termination failed'
+                except (OSError,subprocess.TimeoutExpired):cleanup='; tree termination unavailable'
+                try:
+                    if process.poll() is None:process.kill()
+                    process.wait(timeout=1)
+                except (OSError,subprocess.TimeoutExpired):cleanup+='; process cleanup failed'
+                raise RuntimeError(f'{args[0]} {args[1]} timed out after {timeout:g}s'+cleanup)
+            # Snapshot only bytes present at parent exit; do not await descendants.
+            out_size=os.fstat(out.fileno()).st_size;err_size=os.fstat(err.fileno()).st_size
+            out.seek(0);err.seek(0);stdout=out.read(out_size);stderr=err.read(err_size)
+    else:
+        with subprocess.Popen(args,stdout=subprocess.PIPE,stderr=subprocess.PIPE,env=env,start_new_session=True) as process:
+            try:stdout,stderr=process.communicate(timeout=timeout)
+            except subprocess.TimeoutExpired:
+                os.killpg(process.pid,signal.SIGKILL);process.communicate()
+                raise RuntimeError(f'{args[0]} {args[1]} timed out after {timeout:g}s')
     if process.returncode:
         detail=stderr.decode(errors='replace').strip()
         detail=re.sub(r'(https?://)[^/\s]*@',r'\1[redacted]@',detail)
@@ -33,15 +55,29 @@ def atomic(path, data):
 
 def receipt(path, data):atomic(path,(json.dumps(data,indent=2)+'\n').encode())
 
+def try_lock(lock):
+    if os.name=='nt':
+        lock.seek(0)
+        try:msvcrt.locking(lock.fileno(),msvcrt.LK_NBLCK,1)
+        except OSError as error:
+            if error.errno in (errno.EACCES,errno.EAGAIN,errno.EDEADLK):raise BlockingIOError() from error
+            raise
+    else:fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
+
+def unlock(lock):
+    if os.name=='nt':
+        lock.seek(0);msvcrt.locking(lock.fileno(),msvcrt.LK_UNLCK,1)
+    else:fcntl.flock(lock,fcntl.LOCK_UN)
+
 def refresh(boundary, timeout, lock_timeout):
     common=pathlib.Path(command(['git','rev-parse','--path-format=absolute','--git-common-dir']).decode().strip())
     state=common/'gauntlet-boundary';state.mkdir(exist_ok=True);current=state/'receipt.json'
-    with (state/'refresh.lock').open('a') as lock:
+    with (state/'refresh.lock').open('a+b') as lock:
         locked=False
         try:
             deadline=time.monotonic()+lock_timeout
             while not locked:
-                try:fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB);locked=True
+                try:try_lock(lock);locked=True
                 except BlockingIOError:
                     if time.monotonic()>=deadline:raise RuntimeError('refresh lock busy; retry at next boundary')
                     time.sleep(0.05)
@@ -69,7 +105,7 @@ def refresh(boundary, timeout, lock_timeout):
             receipt(current,{'status':'stale','boundary':boundary,'observed_utc':time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime()),'policy_sha':None,'last_success':last,'error':str(error)})
             raise
         finally:
-            if locked:fcntl.flock(lock,fcntl.LOCK_UN)
+            if locked:unlock(lock)
 
 def dispatch(path, policy):
     task=json.loads(pathlib.Path(path).read_text())
@@ -77,7 +113,7 @@ def dispatch(path, policy):
     follow='target' in task
     allowed={'target','message'} if follow else {'task_name','message','model','reasoning_effort','fork_turns'}
     if set(task)-allowed or not isinstance(task.get('target' if follow else 'task_name'),str):raise ValueError('invalid followup_task/spawn_agent arguments')
-    agents=pathlib.Path(policy['files']['AGENTS.md']['cache_path']).read_text()
+    agents=pathlib.Path(policy['files']['AGENTS.md']['cache_path']).read_text(encoding='utf-8')
     match=re.search(r'^## Current execution contract[^\n]*\n(.*?)(?=^## |\Z)',agents,re.M|re.S)
     contract=agents[:match.end()].strip() if match else agents
     prefix='Current fetched policy SHA: '+policy['policy_sha']+'\n'+contract+'\n\nCached governing files (root reconciles the full set; worker reads USER_DIRECTIVES plus task-relevant guidance named in the brief):\n'
@@ -96,7 +132,7 @@ def check_completion_guidance(policy):
     except RuntimeError:
         # Older test fixtures and historical commits predate the linter.
         # Once current production mandates it, absence is a hard stale-governance failure.
-        agents=pathlib.Path(policy['files']['AGENTS.md']['cache_path']).read_text()
+        agents=pathlib.Path(policy['files']['AGENTS.md']['cache_path']).read_text(encoding='utf-8')
         if 'check-gauntlet-guidance.py' in agents:
             raise RuntimeError('required completion-time guidance checker missing from fetched production')
         print('Historical policy has no guidance checker; semantic closeout still required',file=sys.stderr)
