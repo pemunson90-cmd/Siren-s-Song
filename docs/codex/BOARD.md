@@ -1,3 +1,5 @@
+**PAT CLOUD STOP ORDER (23Oct Eastern): finish PR96 only, preserve later023 preparations, publish refreshed docs/Windows desktop notes, then stop.023 remains CLAIMED and partial. No025 or further cloud implementation. Resume only when Pat asks on desktop.**
+
 # Codex board (Claude reads this to know when to write the next batch)
 
 **MERGES CLEAR (Pat,23Oct latest): PR88 merged009f2b8; 035/PR86 merged d9a0bf7; 024/PR87 merged a63aeeb; PR90 sensors merged9ae3212 and PR91 route merged70b1f18; final019 photo mergeddb6b162; 036/PR93 mergedea78d3d; 037/PR94 merged ef27d72; 020/PR85 merged ddc3361; 021/PR95 merged b03dd69; next023 and the eligible numeric queue. Reconcile newest integration into each proposed head and recheck if it moved. Use exact-head guidance/game-smoke and independent review before each merge.**
@@ -33,7 +35,7 @@ Work order is numeric: finish 013 (batch 1) first, then 014, 015, 016.
 |---|---|---|---|---|---|
 | 10 | 021 route map screen (M2) | DONE | [95](https://github.com/pemunson90-cmd/Siren-s-Song/pull/95) | 2026-10-24 00:07:40 UTC | Merged b03dd69 after exact65260da guidance/game-smoke40039574968 green and independent approval including personal50/70 rerun. Core818/graph50/Canvas70 all0; no save fields or operation edits.023 next. |
 | 11 | 022 route clearance (NAV1) | DONE | [75](https://github.com/pemunson90-cmd/Siren-s-Song/pull/75) | 2026-10-23 00:05:58 UTC | Merged07eb890; exact-head guidance/game-smoke green, clearance and touch/Back verified. |
-| 12 | 023 ARCH2 main.gd and HUD contract | CLAIMED | [96](https://github.com/pemunson90-cmd/Siren-s-Song/pull/96) | | First step published3afb12f on actualb03dd69:19 campaign-flow functions, main1106->950, exact body/full-main restoration proof. Before/after core818/runtime665/dispatch13/archive8/Canvas70 all0; review and exact-head CI pending. Other ARCH2 steps remain. |
+| 12 | 023 ARCH2 main.gd and HUD contract | CLAIMED | [96](https://github.com/pemunson90-cmd/Siren-s-Song/pull/96) | | PR96 head3afb12f independently approved, exact40043994511 guidance green/game-smoke running. Prepared photo-review52ba7d5 pushed separately, no PR. Pat: finish96, docs/Windows handover, then stop; metrics/feature contract remain unstarted. |
 | 13 | 024 photography and all-stop audio | DONE | [87](https://github.com/pemunson90-cmd/Siren-s-Song/pull/87) | 2026-10-23 17:59:25 UTC | Mergeda63aeeb after exact9b2f665 guidance/game-smoke39993951569 green and final independent approval; core818/0,audio47/0; subjective sound unjudged. |
 | 14 | 025 landmarks for thin ops (M3a) | OPEN | | | |
 | 15 | 026 self-play review of the opening (read-only) | OPEN | | | |
