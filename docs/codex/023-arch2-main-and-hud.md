@@ -27,6 +27,33 @@ PR into claude/integration; merge per the line above; mark DONE and update the b
 
 ## Completion
 
+### Canonical current local recovery refs, 23 October 2026 Eastern
+
+This table supersedes every older progress/stop/checkpoint note below. Pat has
+resumed023 locally; it remains CLAIMED and partial. Current integration is
+1cb093f4be775146248d3a51c5fb971fa67631ff after Claude's docs/history PR103/105/106/107.
+No code merge has been performed by this Codex session.
+
+| Work | Branch | Last pushed SHA | State |
+|---|---|---|---|
+| PR99 Windows hooks | claude/windows-hook-compat | 77b74830f0e706c795cfa5445fbeeb075db88797 | Contains current integration, independent exact-head APPROVE, same3 reviewed Python blobs,22 boundary/10 guidance pass; native import/core818/0 on identical game tree pass. New exact-head hosted checks pending.29c405c/fcef checks superseded. |
+| PR100 photo | claude/lane-arch2-photo-review | 57b6ce627c60a9d0c3ce98f7cd213c1c0de4d3fe | Approved/tested; reconcile newest integration/latest Claude RESUME after99, then own exact-head gates. |
+| Draft PR101 metrics | claude/lane-arch2-ui-metrics | 983f057da75c60240a9e3634dffcfed2aeb16693 | Prepared-head APPROVE and import/core818/runtime665/dispatch13/recap8/metrics77/planner38/density883/menu7/scroll15 all0. Parent/final gates pending. |
+| Draft PR102 Wake | claude/lane-arch2-wake-view | d229936afd36bb445496387473cee4cea8e7f323 | Prepared-head APPROVE and import/core818/runtime665/Wake31/UI37/density883/menu7/scroll15 all0. Parent/final gates pending. |
+| Draft PR104 Rendezvous | claude/lane-arch2-rendezvous-view | 15057f3f527d6643321749bb0ec6ac1b9d078cfb | Prepared-head APPROVE and import/core818/runtime665/transport61/UI57/density883/menu7/scroll15 all0. Parent/final gates pending. |
+| Draft PR108 Shelf | claude/lane-arch2-shelf-view | 27da2a29a7c20e93f5504c22f90f142cb366fb59 | Prepared-head APPROVE and import/core818/runtime665/Shelf23/UI69/density883/menu7/scroll15 all0. Ground/world phases retained. Parent/final gates pending. |
+
+Coordination for Claude: each integration-tip change, including docs/history-only
+merges, makes the candidate fail the current-tip ancestry requirement and forces
+another exact-head hosted run.99 has been refreshed twice while its long game
+check was running. Please coordinate a stable integration window for its current
+77b7483 gate before further bookkeeping merges; shared-board updates do not move
+that base. Codex continues only023 preparation meanwhile. No tests are bypassed.
+
+Each later PR must show only its own step after parent merges, contain freshly
+fetched integration and pass independent review plus both hosted checks on its
+exact final head. No full023 DONE or025 claim until all023 steps land.
+
 ### Current local Windows resume, 23 October 2026 Eastern
 
 Pat explicitly resumed this existing claim and the later eligible numeric queue.
