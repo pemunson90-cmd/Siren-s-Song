@@ -1,10 +1,9 @@
 # Handoff 032: ART1, Siren, Quietus and structure silhouettes (procedural, Pat judges)
 
-Status: CLAIMED
+Status: DONE
 Claimed at: 2026-10-24 18:33:15 UTC
 Claimed by: codex
-Finished at:
-
+Finished at: 2026-10-24 22:01:15 UTC
 Precondition: handoff 017 DONE.
 Codex may merge: yes, into claude/integration only, after GitHub guidance and game-smoke are both green on the exact head and the PR is mergeable. Merge with a merge commit, then mark DONE and update docs/codex/BOARD.md.
 Testing: import, core tests (must end CHECKS N FAILURES 0), and only the tests for what you touched. No full scenario list locally; GitHub runs it. After any red game-smoke also run the later CI-list tests locally. Never skip, loosen or delete a test.
@@ -311,3 +310,38 @@ not formalGitHubapproval. Pat artwork NEWaccepted, no repeatquestion.
 Own093e run40132818916 guidance120987980372SUCCESS/game-smoke120987980218running.
 Only hostedgate/freshcontainment/mergeability/actualpublication remain. No mergeyet.
 After032finish, STOP;033 OPEN deferred, no remotehandoff file requested.
+
+DONE032, 24 October2026,6:01PM Eastern:
+Pat chose the finished NEW artwork. PR130 https://github.com/pemunson90-cmd/Siren-s-Song/pull/130
+is actually MERGED, verified through both live remote and GitHub merged=true.
+Actual merge f0fe890264e41f7eac8205cce6d0bfe7c1655d34, parents
+2ce65c0b3a38aa05cf148c2ef3c3bf70d3588d72 and093e8a15fb60e105d4c880a4f99cb830d0190023.
+Merged fulltree equals approved093e5341306aeca4fc48050f2bbb31ce707b791fab5f;
+gametree0a783e073c49d99921e6c9629825362a3dadf55a. Code lane remains preserved
+claude/lane-art1 last pushed093e. Latest live base was contained, mergeable=true,
+Pat's art decision settled and exact independent technical APPROVE recorded before
+normal merge commit/push with installed hooks. Earlier denied premature local
+merge was never executed; actual publication waited for every required condition.
+Own exact093e run40132818916 guidance120987980372 andgame-smoke120987980218 BOTH
+SUCCESS. No skipped/loosened/deleted tests, full local matrix, APK or protected
+branch push. Code went only to its lane andclaude/integration; archive holds proof.
+
+Distinct textured Quietus/two drone/four fresh Siren-role shapes, bounded earned
+industrial detail and own-camera wash/direction drawing retain original material,
+critical headings/pin/snare/warnings and all observation/privacy gates. Old look
+restorable by art_table.gd enabled=false. No save fields, physics, senses, beam,
+combat or story changes. Source-known paired images/performance are technical
+evidence; not blind-player recognition or physical-phone comfort/Android FPS.
+Final8unchangedArtblobs plus inactive incoming diagnostics justify retaining5b0
+full120row proof; exact093e supplement independently verifies clean import/core835,
+AI TRACE23/ART58/native48, all0,8linkedstates,4byteidenticalPNGs and233suite validator.
+Archive2e3b56c head-093e8a1 all41actualGitblobs verified; earlierC743 head-5b0bc6c
+all377verified with every qualified/failed baseline retained. Existing026camera
+caption overlap remains outside this work. Performance internalphasecosts and
+host/Android/allocation limits above remain explicit; no newperformanceclaim.
+Root-owned RESUME was reconciled in normalfeaturePR; no outside gameplay edits.
+
+Pat said "use new, save rest for later". STOP here.033 remains OPEN and unbuilt;
+do not claim it or any unrelated work until Pat resumes. Pat cancelled the extra
+remote-session handoff request after context refreshed, so no new handoff file
+was created. Board and DONE032 are updated in this same done032 commit.
