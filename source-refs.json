@@ -1,0 +1,18 @@
+{
+  "created_utc": "2026-10-24T00:30:51.448850+00:00",
+  "state": "Cloud handover preparation. PR96 approved; hosted CI still pending at this archive snapshot. Final state is in integration docs/RESUME.md.",
+  "source_refs": {
+    "origin/claude/integration": "b03dd691a4775bbc07abfa1e87f4938ead653342",
+    "origin/claude/lane-arch2-campaign-flow": "3afb12f966efc2646c9b148ddf7de5aafe68c5c5",
+    "origin/claude/lane-arch2-photo-review": "52ba7d502b3e449180a4883eb570a2c80a9b94f5",
+    "origin/codex/handoffs": "954ac577cb2bda72031853c22758b8894dfa9123"
+  },
+  "excludes": [
+    "credentials and environment variables",
+    "personal Godot profiles/saves",
+    "toolchain caches",
+    "APKs",
+    "active source worktrees"
+  ],
+  "evidence_limits": "Includes historical RED logs and later fixes. Read named final candidate logs and handoff notes; test counts do not establish physical-device behavior or enjoyment."
+}
