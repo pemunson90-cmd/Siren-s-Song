@@ -8,6 +8,7 @@ Pat's Windows PC. Pat stopped the cloud session on 23 October and said continue 
 
 ## Live source checkpoint
 
+Active development integration: `claude/integration`.
 Last reconciled source baseline:8c13f5be841ab71ad41b5a4dd1ea3c030b370e8c.
 023 is DONE on the authoritative board in2df2e6b after all separate source PRs
 and Windows99 passed own exact-head checks/review and actual merge verification.
@@ -24,11 +25,13 @@ unchanged rules/story/endings and preserved fixtures/pressure. The plan is
 
 Baseline Windows import/core818/0 pass.025 is an active visual prototype, not
 complete: authored existing-feature treatments, photo-depth lamps and fresh load
-lamps live behind one ground registration. Data468/0 and projection88/0 passed.
+lamps live behind one ground registration. Data468/0 and projection92/0 pass.
 The first visual review rejected narrow surface borders as too weak. Localized
 compositions are being inspected in native before/after captures; one capture
-route lost Quietus and remains preserved. A renderer clipping edge case is under
-repair. The external epsilon-bounded pressure baseline is complete; the same
+route lost Quietus and remains preserved. The renderer clipping edge case is repaired. A second review found that clipping
+a motif to a thin rock could reveal its unseen back edge. The new thin-rock
+regression is red against3c2af95 and green with whole-motif omission; final native
+captures and independent acceptance are still required. The external epsilon-bounded pressure baseline is complete; the same
 wrapper/comparison, five authored fixtures, final import/core/affected suites,
 three accepted captures and exact-head independent review/CI are still required.
 Do not merge this WIP or call025 DONE. Plan and recovery refs remain on this branch.

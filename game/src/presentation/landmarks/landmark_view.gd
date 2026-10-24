@@ -45,8 +45,8 @@ static func project(sim)->Array:
    if not Geometry2D.is_point_in_polygon(centre+inward,polygon):inward=-inward
    var faces=measured_patches(a,b,chart.get("surface_segments",[])) if not chart.is_empty() else visible_patches(sim,a,b,-inward,band)
    for face in faces:item.patches.append({"a":face[0],"b":face[1],"inward":inward,"edge_origin":centre})
-   if landmark.style in ["relay","berth","lock","works"]:
-    for offset in [-18.,0.,18.]:
+   if Data.LAMP_OFFSETS.has(landmark.style):
+    for offset in Data.LAMP_OFFSETS[landmark.style]:
      var lamp=centre+axis*offset-inward*2.
      if offset>=-half and offset<=half and sim.visible(lamp,band):item.lights.append(lamp)
   elif landmark.source=="subject":
@@ -68,14 +68,14 @@ static func draw(view)->void:
 static func _paint(view,points:PackedVector2Array,polygon:PackedVector2Array,color:Color)->void:
  for clipped in drawable_pieces(points,polygon):view.draw_colored_polygon(clipped,color)
 static func drawable_pieces(points:PackedVector2Array,polygon:PackedVector2Array)->Array:
- var result=[]
- for clipped in Geometry2D.intersect_polygons(points,polygon):
-  if clipped.size()<3:continue
-  var area=0.
-  for n in clipped.size():area+=clipped[n].cross(clipped[(n+1)%clipped.size()])
-  if absf(area)<.1 or Geometry2D.triangulate_polygon(clipped).is_empty():continue
-  result.append(clipped)
- return result
+ if points.size()<3:return []
+ var area=0.
+ for n in points.size():area+=points[n].cross(points[(n+1)%points.size()])
+ if absf(area)<.1 or Geometry2D.triangulate_polygon(points).is_empty():return []
+ # Omit a whole fixed motif if it would cross a boundary. Never use the unseen
+ # back edge to cut its visible shape, even on a thin or concave physical form.
+ if not Geometry2D.clip_polygons(points,polygon).is_empty():return []
+ return [points]
 static func _face(view,landmark:Dictionary,face:Dictionary)->void:
  var a:Vector2=face.a;var b:Vector2=face.b;var inward:Vector2=face.inward
  var axis=a.direction_to(b);var length=a.distance_to(b)

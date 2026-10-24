@@ -135,7 +135,7 @@ const RIB_STEP=26.
 const GLOW_RADIUS=18.
 # Normalized local motifs: along-face spacing, inward depth, opacity and material.
 const FORMS={
- "glass":{"points":[Vector2(-.23,0),Vector2(.27,0),Vector2(.08,1)],"alpha":.34,"color":""},
+ "glass":{"points":[Vector2(-.23,0),Vector2(.27,0),Vector2(.08,1)],"alpha":.64,"color":""},
  "ridge":{"points":[Vector2(-.14,0),Vector2(.15,0),Vector2(.33,1),Vector2(0,.8)],"alpha":1.,"color":"10272e"},
  "ribs":{"points":[Vector2(-.16,0),Vector2(.16,0),Vector2(.16,1),Vector2(-.16,1)],"alpha":1.,"color":"10272e"},
  "scour":{"points":[Vector2(-.06,0),Vector2(.06,0),Vector2(.46,.7),Vector2(.36,.7)],"alpha":1.,"color":"14262b"},
@@ -143,6 +143,7 @@ const FORMS={
  "berth":{"points":[Vector2(-.36,0),Vector2(-.18,0),Vector2(-.18,1),Vector2(-.36,1)],"alpha":1.,"color":"30474b"},
  "lock":{"points":[Vector2(-.4,0),Vector2(-.22,0),Vector2(-.22,.7),Vector2(.22,.7),Vector2(.22,0),Vector2(.4,0),Vector2(.4,.9),Vector2(-.4,.9)],"alpha":1.,"color":"30474b"},
  "works":{"points":[Vector2(-.36,.1),Vector2(.36,.1),Vector2(.36,.65),Vector2(-.36,.65)],"alpha":1.,"color":"263c40"}}
+const LAMP_OFFSETS={"glass":[0.],"relay":[-18.,0.,18.],"berth":[-18.,0.,18.],"lock":[-18.,0.,18.],"works":[-18.,0.,18.]}
 const LOAD_OPS=[22,24,25,27,28]
 static func rows(op:int,active:bool=true)->Array:
  if not enabled or not active:return []
