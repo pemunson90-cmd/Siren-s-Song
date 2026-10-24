@@ -1,8 +1,8 @@
 # Handoff 032: ART1, Siren, Quietus and structure silhouettes (procedural, Pat judges)
 
-Status: OPEN
-Claimed at:
-Claimed by:
+Status: CLAIMED
+Claimed at: 2026-10-24 18:33:15 UTC
+Claimed by: codex
 Finished at:
 
 Precondition: handoff 017 DONE.
@@ -27,3 +27,15 @@ PR into claude/integration; merge per the line above; mark DONE and update the b
 
 ## Completion
 (Codex fills this in: what changed, PR link, branch and last pushed SHA, test results, unverified items, files outside ownership needed, recommended next.)
+
+
+Claimed 24 October 2026, 2:33 PM Eastern, before implementation.
+031 is verified DONE at actual integration ad841f69394eb4ade818794056e5ccac56f0bc0b
+(PR127 merged after both exact ec23 checks and independent approval).
+032 precondition017 is DONE. Code branch claude/lane-art1 will start from freshly
+fetched actual integration. One implementation worker and independent reviewer.
+Preserve existing art direction and all rules; no new story or SIREN TELL.
+Provide source-matched old/new native pictures at both Fold7 shapes, real drawing
+cost evidence alongside the simulation-only015 probe, and a single old-look switch.
+Pat decides the actual artwork after the concrete candidate is ready. Do not merge
+new artwork before that judgment. Next assigned task after032 is033 only.

@@ -1,4 +1,4 @@
-**LOCAL WINDOWS ACTIVE, 24 October 2026 Eastern: 025, 026, 027, 029, 030, 031 are DONE. Codex published031 PR127 as ad841f6 after exact ec23 guidance/game-smoke40117286964 both succeeded, independent approval and fresh integration containment. Core835 and affected checks pass; evidence f2d0512. Next032 (Pat judges), then033. Separate Claude039/041 claims preserved.**
+**LOCAL WINDOWS ACTIVE, 24 October 2026 Eastern: 025, 026, 027, 029, 030, 031 are DONE. Codex owns CLAIMED032 ART1, before code, from actual integration ad841f6. Approved art direction and all rules stay; old/new native pictures and drawing-cost checks for Pat to judge. Claude do not duplicate032. Separate039/041 claims preserved.033 follows032.**
 
 # Codex board (Claude reads this to know when to write the next batch)
 
@@ -49,7 +49,7 @@ Work order is numeric: finish 013 (batch 1) first, then 014, 015, 016.
 | 17 | 029 ONBOARD2 short briefings ops 4 to 29 | DONE | [123](https://github.com/pemunson90-cmd/Siren-s-Song/pull/123) | 2026-10-24 13:19:19 UTC | Done029. Actual mergedfaf543; exact053c1ae own40094401838 bothgreen, independent APPROVE. Core833/data57/nativeUI782/scroll52 all0; later151local ran150pass plus qualified Linux launcher failure, unchanged Windows children9/0each. Evidencea74bd80.030 next and claimed. |
 | 18 | 030 SAVE1 profiles, copy/clear, export/import | DONE | [124](https://github.com/pemunson90-cmd/Siren-s-Song/pull/124) | 2026-10-24 16:38:27 UTC | Done030. Actual merged131ca0 verified; exact9f3 own40108698464 bothgreen, independent APPROVE. Core833/storage68+cold3/native150%UI168 and affectedall0.44file evidence daa851a, Windowsparent/child qualifications retained.031 next and claimed. |
 | 19 | 031 A11Y1 audio-only/color-only cue equivalents | DONE | [127](https://github.com/pemunson90-cmd/Siren-s-Song/pull/127) | 2026-10-24 18:32:23 UTC | Done031. Actual ad841f6 verified remotely and GitHub merged=true. Exact ec23 own40117286964 both green; independent APPROVE; current139 contained. Core835, nativeUI98, Back17 and affected checks all zero failures. Evidence f2d0512.032 next. |
-| 20 | 032 ART1 silhouettes (Pat judges) | OPEN | | | |
+| 20 | 032 ART1 silhouettes (Pat judges) | CLAIMED | | | Codex claim before code, 24Oct 18:33:15 UTC, base actual031 merge ad841f6. Branch claude/lane-art1, one implementation worker and independent reviewer. Preserve direction/rules, provide old/new native Fold7 pictures, actual render cost and one-switch revert. Pat judges candidate before artwork publication. |
 | 21 | 033 DOCS1 MODULES.md and spec refresh | OPEN | | | |
 
 Dependency note: 016, 019, 020, 023 to 027 wait on PR 74 (handoff 018). 021 waits on 020. Work available without PR 74: 022, 029, 030, 031, 032. Pick the lowest OPEN handoff whose precondition is met.
