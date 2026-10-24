@@ -458,17 +458,7 @@ func refresh():
   if page=="glass":instrument_info.text=reach.detail+"\n"+sim.message
   elif not reach.artifact.is_empty() and reach.artifact.get("carrier",-1)==sim.selected:instrument_info.text+="\nMATERIAL ABOARD · "+reach.artifact.id+" · recover this carrier"
  if page=="recovery":instrument_info.text="%s · CHOOSE RECOVERY\n%s APPROACH"%[sim.units[sim.selected].name+" · "+sim.Depth.NAMES[sim.units[sim.selected].band],"QUEUE" if sim.queue_mode else "REPLACE"]
- if not host.advanced_orders:
-  extra.arrivals.hide()
-  if Expedition.active(sim):
-   var blockers=[]
-   for button in action_controls().values():
-    if button!=extra.arrivals:blockers.append(Rect2(button.global_position-host.ocean.global_position,button.size))
-   if intent.visible:blockers.append(Rect2(intent.global_position-host.ocean.global_position,intent.size))
-   var badge=Expedition.badge_rect(host.ocean,sim,touch_height,blockers)
-   if badge.has_area():
-    extra.arrivals.position=badge.position;extra.arrivals.size=badge.size;extra.arrivals.show();extra.arrivals.text="ARRIVALS\n%d"%Expedition.measurements(sim,sim.selected).size()
-    if extra.arrivals.get_theme_stylebox("normal")!=measurement_style:extra.arrivals.add_theme_stylebox_override("normal",measurement_style)
+ FeatureViews.build_badges(self)
  # Water contact readouts own warnings; a popup transfers them above its
  # projection. The quiet top instrument owns only our operation estimate.
  var pressure=sim.recon_feedback()

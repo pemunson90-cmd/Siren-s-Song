@@ -298,7 +298,7 @@ func _draw() -> void:
 	if not Expedition.active(sim) or Expedition.entry(sim):
 		draw_arc(ex,64,0,TAU,64,Color(CYAN,0.42),2)
 		_label(ex+Vector2(-120 if ex.y>830 else -66,66 if ex.y>830 else 90),"WITHDRAWAL" if Expedition.entry(sim) else "EXTRACTION",CYAN,18)
-	Expedition.draw(self,sim)
+	FeatureViews.draw_detail(self)
 	_draw_observed_paths()
 	_draw_findings()
 	RuleOverlay.draw_chart(self,sim)

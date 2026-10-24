@@ -34,3 +34,8 @@
 - For a craft-local draw pass, use a private synchronous context containing the
   existing canvas, simulation reference and unit index. Keep the caller's exact
   transform slot and restore behavior; the context owns no gameplay state.
+- Use separate ordered lists at existing panel/draw phases when intervening
+  host composition must retain its position. Keep shared summary/navigation
+  composition and its local variables in the host; do not cross unrelated writes.
+- Applicability must preserve existing inactive-feature resets and hiding.
+  Use non-null applicability with the original internal guards when needed.

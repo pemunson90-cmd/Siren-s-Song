@@ -4,6 +4,24 @@ const Operations=preload("res://src/presentation/operation_instruments.gd")
 const Equipment=preload("res://src/presentation/equipment_context.gd")
 # Public received measurements only. Fans have no hit region: water along a
 # bearing remains available for routes. The HUD supplies an explicit badge.
+# ARCH2 panel/world contract. Refresh only the existing late arrivals badge;
+# shared navigation, summary and signals composition remain host-owned in order.
+# Non-null applicability preserves the inactive-mission badge hide/reset.
+# Revert this PR to restore the two direct presentation seams.
+static func applies(sim)->bool:return sim!=null
+static func build_panel(hud)->void:
+ var sim=hud.host.sim
+ if not hud.host.advanced_orders:
+  hud.extra.arrivals.hide()
+  if active(sim):
+   var blockers=[]
+   for button in hud.action_controls().values():
+    if button!=hud.extra.arrivals:blockers.append(Rect2(button.global_position-hud.host.ocean.global_position,button.size))
+   if hud.intent.visible:blockers.append(Rect2(hud.intent.global_position-hud.host.ocean.global_position,hud.intent.size))
+   var badge=badge_rect(hud.host.ocean,sim,hud.touch_height,blockers)
+   if badge.has_area():
+    hud.extra.arrivals.position=badge.position;hud.extra.arrivals.size=badge.size;hud.extra.arrivals.show();hud.extra.arrivals.text="ARRIVALS\n%d"%measurements(sim,sim.selected).size()
+    if hud.extra.arrivals.get_theme_stylebox("normal")!=hud.measurement_style:hud.extra.arrivals.add_theme_stylebox_override("normal",hud.measurement_style)
 static func active(sim)->bool:return sim!=null and sim.mission.get("expedition_revision",0) in [1,2]
 static func entry(sim)->bool:return active(sim) and sim.mission.id==6
 static func measurements(sim,receiver:int=-1)->Array:
@@ -60,7 +78,8 @@ static func context_detail(sim,subject:Dictionary)->String:
   if corridor.route==subject.get("route",""):
    return "%s\n%s\nPlot the selected craft’s approach. Only Quietus’s settled arrival commits this recovery corridor."%[corridor.name,"RECOVERY AVAILABLE" if corridor.available else "RECOVERY NOT READY · approach only" if sim.mission.get("expedition_revision",0)==2 else "INTERPRET CARRIER FIRST · approach only"]
  return ""
-static func draw(view,sim)->void:
+static func draw(view,sim=null)->void:
+ if sim==null:sim=view.sim
  if not active(sim):return
  var scale=maxf(.01,view.world_scale)
  if sim.has_method("operation_context"):

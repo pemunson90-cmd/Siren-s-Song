@@ -8,7 +8,7 @@ Pat's Windows PC. Pat stopped the cloud session on 23 October and said continue 
 
 ## Live source checkpoint
 
-Development integration is `claude/integration`, last reconciled baseline `2bba0bd801dd6879089611c6a050c6cb82dc27e7`.
+Development integration is `claude/integration`, last reconciled baseline `73c50e73313dfc056333af1a6360f475fc9e0fff`.
 This ARCH2 candidate includes the Windows hook repair PR99, published at
 fab2617575d5156d74b87aede4aa9ba21367504b after its exact-head gates and review.
 At this preparation, later predecessor merges are planned, not yet published.
@@ -43,7 +43,8 @@ re-claim it or mark it DONE after one PR.
 | Prerequisite PR111 | Included in candidate ancestry; live PR/board decide published state |
 | Prerequisite PR113 | Included in candidate ancestry; live PR/board decide published state |
 | Prerequisite PR115 | Included in candidate ancestry; live PR/board decide published state |
-| Current Courier PR117 | Candidate; independent exact-head review and hosted gates pending |
+| Prerequisite PR117 | Included in candidate ancestry; live PR/board decide published state |
+| Current Expedition PR118 | Candidate; independent exact-head review and hosted gates pending |
 | Later preparations | Separate feature PRs, see authoritative board; not a full023 completion |
 | Portable cloud evidence | archive/cloud-desktop-20261023 at5407a241,551 files with manifest/hash |
 
@@ -64,11 +65,11 @@ LOCALAPPDATA to isolated work folders, preserving personal saves.
 
 ## Current ARCH2 candidate
 
-This candidate is Courier PR117, reconciled against planned predecessor merge
-2bba0bd801dd6879089611c6a050c6cb82dc27e7. This predecessor must be published first.
-World-only registration remains before Shelf. The original draw body and guard stay unchanged, with the legacy two-argument entry preserved.
-The complete game tree equals native-tested preparation0ed644a9605e95be1a809ab68c08565ed76086f1.
-Clean import and Courier35/Blackwater33/UI10/core818/runtime665/density883/menu7/scroll15 all0 with clean logs.
+This candidate is Expedition PR118, reconciled against planned predecessor merge
+73c50e73313dfc056333af1a6360f475fc9e0fff. This predecessor must be published first.
+Original late arrivals badge and world drawing retain exact phase slots. Non-null applicability preserves inactive badge hiding; interleaved host navigation/summary/signals composition remains untouched.
+The complete game tree equals native-tested preparatione730c59d8e6ecb0794a85001e0e23dc8c834f3b0.
+Clean import and menu11/instrumentUI47/core818/runtime665/density883/menu7/scroll15 all0 with clean logs.
 Independent final exact-head/planned-base review and both own hosted gates remain.
 Only publish its ordinary merge when live integration equals that predecessor,
 its PR is mergeable, and parents/tree equal the approved tested result. Stop on
