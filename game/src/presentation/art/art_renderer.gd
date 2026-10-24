@@ -25,8 +25,6 @@ static func prepare()->void:
    uvs[key]=uv
  for key in Table.SHAPES:
   if key!="quietus":meshes[key]=_mesh(Table.SHAPES[key],uvs.get(key,PackedVector2Array()))
- meshes["eye"]=_disc(Table.APERTURE_RADIUS)
- meshes["eye_q"]=_disc(Table.QUIETUS_APERTURE_RADIUS)
  meshes["lamp"]=ArrayMesh.new()
  lamp.resize(3);lamp_colors.resize(3)
  lamp_arrays.resize(Mesh.ARRAY_MAX);lamp_arrays[Mesh.ARRAY_INDEX]=PackedInt32Array([0,1,2])
@@ -37,10 +35,6 @@ static func _mesh(points:PackedVector2Array,uv:PackedVector2Array)->ArrayMesh:
  var mesh=ArrayMesh.new()
  mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES,arrays,[],{},Mesh.ARRAY_FLAG_USE_2D_VERTICES)
  return mesh
-static func _disc(radius:float)->ArrayMesh:
- var points=PackedVector2Array()
- for n in Table.APERTURE_SEGMENTS:points.append(Vector2.from_angle(TAU*n/Table.APERTURE_SEGMENTS)*radius)
- return _mesh(points,PackedVector2Array())
 static func craft(view,index:int)->void:
  prepare()
  var key="quietus" if index==0 else "drone_a" if index==1 else "drone_b"
@@ -48,25 +42,21 @@ static func craft(view,index:int)->void:
   # Retain the charcoal painted material and its original footprint.
   view.draw_texture_rect_region(view.quietus,Rect2(-66,-17,132,34),Rect2(60,145,1940,390))
   view.draw_polyline(outlines[key],Table.HULL_SEAM,Table.HULL_OUTLINE_WIDTH,true)
-  view.draw_line(Vector2(-45,8),Vector2(44,8),Table.KEEL,Table.SEAM_WIDTH)
-  view.draw_line(Vector2(-12,-12),Vector2(-12,-16),Table.EDGE,2.)
-  view.draw_mesh(meshes.eye_q,null,Transform2D(0.,Vector2(54,0)),Table.CYAN)
  else:
   view.draw_mesh(meshes[key],null,Transform2D.IDENTITY,Table.HULL)
   view.draw_polyline(outlines[key],Table.EDGE,Table.DRONE_OUTLINE_WIDTH,true)
   view.draw_line(Vector2(-8,-5),Vector2(-8,5),Table.AMBER,3.)
-  view.draw_line(Vector2(-15,0),Vector2(9,0),Table.DRONE_SEAM,Table.SEAM_WIDTH)
-  view.draw_mesh(meshes.eye,null,Transform2D(0.,Vector2(16,0)),Table.CYAN)
 static func siren(view,role:String,shade:Color)->void:
  prepare()
- view.draw_mesh(meshes[role],null,Transform2D.IDENTITY,Color(Table.SIREN_BODY,shade.a))
+ # The dense material is nearly opaque for these three normal roles. Only the
+ # Sweeper's real texture holes and existing layered pin fade need a backing.
+ if shade.a<1. or role in Table.NORMAL_UNDERLAY:
+  view.draw_mesh(meshes[role],null,Transform2D.IDENTITY,Color(Table.SIREN_BODY,shade.a))
  # Modulate preserves the original continuous pin-depth tint without mutable
  # packed colors or per-frame polygon triangulation in CanvasItem.
  view.draw_mesh(meshes[role],RAY,Transform2D.IDENTITY,shade)
  view.draw_polyline(outlines[role],Color(Table.SIREN_EDGE,shade.a),Table.SIREN_OUTLINE_WIDTH,true)
- # Restrained red seams, distinct silhouettes remain legible at equal hue.
- view.draw_line(Vector2(-28,-4),Vector2(43,0),Color(Table.RED,shade.a*Table.RED_SEAM_ALPHA),Table.SEAM_WIDTH)
- view.draw_mesh(meshes.eye,null,Transform2D(0.,Vector2(48,0)),Table.SIREN_APERTURE*shade)
+ # Red lighting is already carried by the retained biological material.
  if role=="hunter":
   for n in Table.HUNTER_SEGMENTS:
    var x=-38.+n*Table.HUNTER_PITCH

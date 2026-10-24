@@ -3,12 +3,13 @@ class Canvas:
  extends RefCounted
  var quietus=preload("res://assets/craft/quietus.png")
  var calls=0
+ var mesh_calls=0
  var vertices=[]
  var modulates=[]
  var world_offset=Vector2.ZERO
  var world_scale=1.0
  func draw_set_transform(_p,_r=0.,_s=Vector2.ONE):pass
- func draw_mesh(_mesh,_texture=null,_transform=Transform2D.IDENTITY,modulate=Color.WHITE):calls+=1;modulates.append(modulate)
+ func draw_mesh(_mesh,_texture=null,_transform=Transform2D.IDENTITY,modulate=Color.WHITE):calls+=1;mesh_calls+=1;modulates.append(modulate)
  func draw_texture_rect_region(_a,_b,_c):calls+=1
  func draw_polyline(a,_b,_c,_d=true):calls+=1;vertices.append_array(a)
  func draw_line(a,b,_c,_d):calls+=1;vertices.append_array([a,b])
@@ -66,6 +67,20 @@ static func run()->Dictionary:
   mesh_state[key]=var_to_bytes(arrays)
   mesh_state[key+"_id"]=mesh.get_instance_id()
  var canvas=Canvas.new()
+ var before_calls=canvas.calls;renderer.craft(canvas,0)
+ checks+=1
+ if canvas.calls-before_calls!=2:failures+=1;printerr("FAIL Quietus budget retains texture and outline without redundant ornament")
+ for index in [1,2]:
+  before_calls=canvas.calls;renderer.craft(canvas,index)
+  checks+=1
+  if canvas.calls-before_calls!=3:failures+=1;printerr("FAIL drone budget retains filled outline and amber instrument")
+ for role in table.ROLE_RECTS:
+  var before_meshes=canvas.mesh_calls;renderer.siren(canvas,role,Color.WHITE)
+  checks+=1
+  if canvas.mesh_calls-before_meshes!=(2 if role=="sweeper" else 1):failures+=1;printerr("FAIL role material budget retains only necessary normal underlay ",role)
+ var before_meshes=canvas.mesh_calls;renderer.siren(canvas,"patroller",Color(.5,.6,.7,.8))
+ checks+=1
+ if canvas.mesh_calls-before_meshes!=2:failures+=1;printerr("FAIL pin fade retains its existing layered body alpha")
  var objects=Performance.get_monitor(Performance.OBJECT_COUNT)
  for n in 100:
   for index in 3:renderer.craft(canvas,index)
@@ -73,7 +88,8 @@ static func run()->Dictionary:
   renderer.lamp_wash(canvas,Vector2(n,0),0.)
   renderer.lamp_guide(canvas,Vector2.ZERO,0.,1.,240.)
  checks+=1
- if geometry!=var_to_bytes(renderer.outlines) or lamp_geometry!=var_to_bytes(renderer.lamp) or lamp_palette!=var_to_bytes(renderer.lamp_colors) or renderer.meshes.size()!=10 or renderer.lamp.size()!=3 or renderer.lamp_colors.size()!=3 or renderer.uvs.size()!=4:
+ # Two unused ornamental aperture discs were removed from the prepared cache.
+ if geometry!=var_to_bytes(renderer.outlines) or lamp_geometry!=var_to_bytes(renderer.lamp) or lamp_palette!=var_to_bytes(renderer.lamp_colors) or renderer.meshes.size()!=8 or renderer.lamp.size()!=3 or renderer.lamp_colors.size()!=3 or renderer.uvs.size()!=4:
   failures+=1;printerr("FAIL repeated drawing retains bounded immutable geometry cache")
  for key in renderer.meshes:
   checks+=1
