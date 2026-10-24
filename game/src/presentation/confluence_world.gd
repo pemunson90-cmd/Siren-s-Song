@@ -85,6 +85,7 @@ static func _factory_face(view,face:PackedVector2Array,rect:Rect2,scale:float)->
  view.draw_line(a+inward*2.,b+inward*2.,Color("557174"),2.)
  view.draw_line(a+inward*7.,b+inward*7.,Color(light,.75),1.5/maxf(.65,scale))
  view.draw_line(midpoint+inward*3.,midpoint+inward*16.,Color("0b1c24"),2.)
+ if preload("res://src/presentation/art/art_table.gd").enabled:preload("res://src/presentation/art/art_renderer.gd").face(view,a,b,inward,scale)
 
 static func _factory(view,r:Rect2,scale:float)->void:
  # Every buttress/light stays in the earned physical collision footprint.
@@ -119,6 +120,8 @@ static func _factory(view,r:Rect2,scale:float)->void:
   var x=r.position.x+r.size.x*(.07+n*.12)
   var at=Vector2(x,r.end.y-inset*.55)
   view.draw_line(at-Vector2(0,inset*.3),at+Vector2(0,inset*.3),CYAN if n%3==0 else AMBER,maxf(1.5,inset*.13))
+
+ if preload("res://src/presentation/art/art_table.gd").enabled:preload("res://src/presentation/art/art_renderer.gd").factory(view,r,scale)
 
 static func draw_hunter(view,phase:float,shade:Color)->void:
  # A pointed articulated predator. Patrollers and sentinels retain the ray body.

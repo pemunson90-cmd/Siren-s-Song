@@ -234,3 +234,5 @@ ai_trace_tests|AI TRACE|208|231
 acoustic_path_cull_tests|ACOUSTIC PATH CULL|225|248
 sonar_feedback_cache_tests|SONAR FEEDBACK CACHE|226|249
 goal_bearing_cache_tests|GOAL BEARING CACHE|227|250
+art_tests|ART|-|232
+art_render_measurements|ART RENDER|-|233|render
