@@ -1,4 +1,4 @@
-**LOCAL WINDOWS, 24 October 2026 Eastern: 023 is DONE at8c13f5be841ab71ad41b5a4dd1ea3c030b370e8c. All photo/metrics/feature-view steps and the separately authorized Windows hook repair passed own exact-head checks and independent review, then landed with verified merge parents/tree and actual PR state. Pat's cloud stop remains lifted. Codex will take025 next if it remains OPEN and eligible. See023 Completion for exact published recovery refs.**
+**LOCAL WINDOWS ACTIVE, 24 October 2026 Eastern: 023 is DONE at8c13f5b (done commit2df2e6b). Codex now owns CLAIMED025 landmarks, claimed at1:48 AM Eastern; do not duplicate.020 precondition is DONE. Planned branch claude/lane-landmarks, data-only scope in025 Completion. No code work pushed yet. Later handoffs remain in the numeric queue.**
 
 # Codex board (Claude reads this to know when to write the next batch)
 
@@ -37,7 +37,7 @@ Work order is numeric: finish 013 (batch 1) first, then 014, 015, 016.
 | 11 | 022 route clearance (NAV1) | DONE | [75](https://github.com/pemunson90-cmd/Siren-s-Song/pull/75) | 2026-10-23 00:05:58 UTC | Merged07eb890; exact-head guidance/game-smoke green, clearance and touch/Back verified. |
 | 12 | 023 ARCH2 main.gd and HUD contract | DONE | [96](https://github.com/pemunson90-cmd/Siren-s-Song/pull/96), [99 Windows](https://github.com/pemunson90-cmd/Siren-s-Song/pull/99), [100 photo](https://github.com/pemunson90-cmd/Siren-s-Song/pull/100), [101 metrics](https://github.com/pemunson90-cmd/Siren-s-Song/pull/101), [102 Wake](https://github.com/pemunson90-cmd/Siren-s-Song/pull/102), [104 Rendezvous](https://github.com/pemunson90-cmd/Siren-s-Song/pull/104) | 2026-10-24 05:44:22 UTC | Done023. Final integration8c13f5b; remaining steps100/101/102/104/108/109/110/111/113/115/117/118/119/120 and Windows99 merged with own exact checks and independent approval. Final closure APPROVE; Main950 to817, HUD657 to575, Ocean691 to685; rules/tests/assets unchanged.025 next if OPEN. |
 | 13 | 024 photography and all-stop audio | DONE | [87](https://github.com/pemunson90-cmd/Siren-s-Song/pull/87) | 2026-10-23 17:59:25 UTC | Mergeda63aeeb after exact9b2f665 guidance/game-smoke39993951569 green and final independent approval; core818/0,audio47/0; subjective sound unjudged. |
-| 14 | 025 landmarks for thin ops (M3a) | OPEN | | | |
+| 14 | 025 landmarks for thin ops (M3a) | CLAIMED | | | Codex active claim24Oct1:48 AM Eastern.020 DONE;023 DONE2df2e6b. Planned claude/lane-landmarks, no code pushed yet. Existing visual tools/data only; preserve fixtures/probe, rules/story/endings. See025 Completion; Claude do not duplicate. |
 | 15 | 026 self-play review of the opening (read-only) | OPEN | | | |
 
 | 16 | 027 final pair of ops and photo-wall ending (M3b) | OPEN | | | |

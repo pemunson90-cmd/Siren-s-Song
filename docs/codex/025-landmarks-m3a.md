@@ -1,8 +1,8 @@
 # Handoff 025: CAMPAIGN M3a, landmarks for thin operations
 
-Status: OPEN
-Claimed at:
-Claimed by:
+Status: CLAIMED
+Claimed at: 2026-10-24 05:48:56 UTC (1:48 AM Eastern)
+Claimed by: codex
 Finished at:
 
 Precondition: handoff 020 must be DONE.
@@ -26,4 +26,16 @@ Each op has its landmarks, fixtures still finish, probe not worse, screenshots o
 PR into claude/integration; merge per the line above; mark DONE and update the board.
 
 ## Completion
-(Codex fills this in: what changed, PR link, test results, unverified items, files outside ownership needed, recommended next.)
+Codex claimed025 on24 October2026, 1:48 AM Eastern, after023 DONE in2df2e6b.
+Precondition020 is DONE atddc3361 and contained in current integration8c13f5b.
+Read assigned DESIGN_CAMPAIGN_DEPTH section5 and current standing rules.
+Planned code branch claude/lane-landmarks from freshly fetched integration.
+No existing remote/local branch or open landmark PR found; no implementation
+or pushed code yet. Claim posted before implementation so Claude does not duplicate.
+Scope:3 to5 authored landmarks per op6 to29, existing terrain/structure/thermal/
+lamp tools, five authored fixtures and pressure probe preserved, three representative
+screenshots. No ending/story/rule/op-logic changes or new art direction.
+Design approach follows the already approved data-only handoff and standing user
+order: no further design-approval gate. A short implementation plan follows
+inspection of directly relevant source; use the same designated independent
+reviewer and own exact-head guidance/game-smoke before merge.
