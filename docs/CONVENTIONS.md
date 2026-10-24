@@ -28,3 +28,6 @@
   ground and world lists. A small adapter implements the same contract when an
   existing feature draws in more than one layer. Preserve every original layer
   slot. Only registered views use this seam; migrate one feature per PR.
+- If a view also owns a Control screen, keep that Node class and its lifecycle
+  unchanged; a small RefCounted adapter supplies the shared contract. Keep
+  ordered segments separate while intervening legacy calls are still present.

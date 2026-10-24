@@ -431,16 +431,6 @@ func refresh():
   host.detail_label.text=sim.units[sim.selected].name+" · "+("OWN TRANSMITTER" if operation.label=="TRANSMIT" else "LOCAL MACHINERY CONTROL")
   if sim.capture_feedback().unit>=0:intent.text=sim.units[sim.selected].name+" · "+operation.detail.get_slice("\n",0)
  FeatureViews.build_panel(self)
- var recipient=Recipient.status(sim)
- if not recipient.is_empty():
-  extra.warning_exposed.disabled=not recipient.actions.depart.ready
-  extra.warning_sheltered.disabled=not recipient.actions.depart.ready or not recipient.gate.opened
-  extra.warning_gate.disabled=not recipient.actions.gate.ready
-  if subject.get("subkind","") in ["warning_recipient","warning_gate"]:instrument_info.text=Recipient.detail(sim,subject)
-  var recipient_primary=Recipient.primary_subject(sim)
-  if page=="craft" and not recipient_primary.is_empty():
-   host.order_buttons.camera.text="GATE\nCONTROLS" if recipient_primary.subkind=="warning_gate" else "RECIPIENT\nCONTROLS";host.order_buttons.camera.disabled=false
-   instrument_info.text=Recipient.detail(sim,recipient_primary)
  var concealed=Concealed.status(sim)
  if concealed.get("known",false):
   intent.text=Concealed.summary(sim)+" · "+intent.text

@@ -290,7 +290,7 @@ func _draw() -> void:
 	FeatureViews.draw(self)
 	Witness.draw_world(self,sim)
 	Concealed.draw_world(self,sim)
-	Recipient.draw_world(self,sim)
+	FeatureViews.draw_tail(self)
 	# Sonar rays stop at actual cover, producing explicit acoustic shadows.
 	if earned.is_empty() and sim.ping_time>0:
 		var radius=(3.5-sim.ping_time)*210

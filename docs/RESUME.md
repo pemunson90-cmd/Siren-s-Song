@@ -8,7 +8,7 @@ Pat's Windows PC. Pat stopped the cloud session on 23 October and said continue 
 
 ## Live source checkpoint
 
-Development integration is `claude/integration`, last reconciled baseline `2f5babef84e5d2ed4e0443acd2f4e3dcb9853c44`.
+Development integration is `claude/integration`, last reconciled baseline `e93422d50d66e9b16a5f439e10677aa48a67bad3`.
 This ARCH2 candidate includes the Windows hook repair PR99, published at
 fab2617575d5156d74b87aede4aa9ba21367504b after its exact-head gates and review.
 At this preparation, later predecessor merges are planned, not yet published.
@@ -39,7 +39,8 @@ re-claim it or mark it DONE after one PR.
 | Prerequisite PR104 | Included in candidate ancestry; live PR/board decide published state |
 | Prerequisite PR108 | Included in candidate ancestry; live PR/board decide published state |
 | Prerequisite PR109 | Included in candidate ancestry; live PR/board decide published state |
-| Current Delivery PR110 | Candidate; independent exact-head review and hosted gates pending |
+| Prerequisite PR110 | Included in candidate ancestry; live PR/board decide published state |
+| Current Recipient PR111 | Candidate; independent exact-head review and hosted gates pending |
 | Later preparations | Separate feature PRs, see authoritative board; not a full023 completion |
 | Portable cloud evidence | archive/cloud-desktop-20261023 at5407a241,551 files with manifest/hash |
 
@@ -60,11 +61,11 @@ LOCALAPPDATA to isolated work folders, preserving personal saves.
 
 ## Current ARCH2 candidate
 
-This candidate is Delivery PR110, reconciled against planned predecessor merge
-2f5babef84e5d2ed4e0443acd2f4e3dcb9853c44. This predecessor must be published first.
-Existing cargo HUD refresh remains after Warning Chain. This module owns no world drawing; its empty draw hook is not registered there.
-The complete game tree equals native-tested preparationb30cbef0f2b6b335074a9df2dbb7d113f63503b2.
-Clean import and delivery63/UI49/runtimeUI60/core818/runtime665/density883/menu7/scroll15 all0 with clean logs.
+This candidate is Recipient PR111, reconciled against planned predecessor merge
+e93422d50d66e9b16a5f439e10677aa48a67bad3. This predecessor must be published first.
+RefCounted adapter preserves the original Control arrival screen and its lifetime. Original HUD order and later world segment stay intact.
+The complete game tree equals native-tested preparation17ae5583be7efbc6516cff2b1ebd0eb6ebdccdca.
+Clean import and recipient69/UI134/core818/runtime665/density883/menu7/scroll15 all0 with clean logs.
 Independent final exact-head/planned-base review and both own hosted gates remain.
 Only publish its ordinary merge when live integration equals that predecessor,
 its PR is mergeable, and parents/tree equal the approved tested result. Stop on
