@@ -1,0 +1,76 @@
+{
+  "buttons": [
+    {
+      "disabled": false,
+      "id": "more_orders",
+      "rect": "[P: (2244.5, 12.0), S: (263.5, 170.0)]",
+      "text": "FLEET"
+    },
+    {
+      "disabled": false,
+      "id": "fleet_q",
+      "rect": "[P: (600.8717, 606.2874), S: (170.0, 170.0)]",
+      "text": ""
+    },
+    {
+      "disabled": false,
+      "id": "fleet_a",
+      "rect": "[P: (1585.485, 1900.0), S: (170.0, 170.0)]",
+      "text": ""
+    },
+    {
+      "disabled": false,
+      "id": "fleet_b",
+      "rect": "[P: (1810.326, 1900.0), S: (170.0, 170.0)]",
+      "text": ""
+    },
+    {
+      "disabled": false,
+      "id": "order_undo",
+      "rect": "[P: (988.0, 1946.0), S: (544.0, 170.0)]",
+      "text": "UNDO  ·  QUIETUS order"
+    },
+    {
+      "disabled": false,
+      "id": "pause",
+      "rect": "[P: (12.0, 12.0), S: (263.5, 170.0)]",
+      "text": "Ⅱ\nPAUSE"
+    }
+  ],
+  "craft": [
+    {
+      "alive": true,
+      "pos": "(642.4081, 791.7829)"
+    },
+    {
+      "alive": true,
+      "pos": "(350.0, 2150.0)"
+    },
+    {
+      "alive": true,
+      "pos": "(490.0, 2250.0)"
+    }
+  ],
+  "labels": [
+    "QUIETUS · MIDDLE · REPLACE · QUIETUS · replaced route\nCraft → DEPTH / SONAR · bearings need movement or a second receiver; depth costs time.",
+    "HULL 100 · O₂ 115 · MIDDLE\nROUTE 1 · MOTION ~125m"
+  ],
+  "message": "QUIETUS · replaced route",
+  "mission": 31,
+  "outcome": "",
+  "paused": false,
+  "screen": "mission",
+  "serial": 67,
+  "sites": [
+    {
+      "name": "HUMAN SURVIVOR MARKS",
+      "pos": "(650.0, 550.0)",
+      "screen": "(692.5, 480.1923)"
+    },
+    {
+      "name": "FEED TERMINALS",
+      "pos": "(1900.0, 600.0)",
+      "screen": "(1783.846, 523.8461)"
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "buttons": [
+    {
+      "disabled": false,
+      "id": "more_orders",
+      "rect": "[P: (2244.5, 12.0), S: (263.5, 170.0)]",
+      "text": "FLEET"
+    },
+    {
+      "disabled": false,
+      "id": "fleet_q",
+      "rect": "[P: (605.7766, 581.2463), S: (170.0, 170.0)]",
+      "text": ""
+    },
+    {
+      "disabled": false,
+      "id": "fleet_a",
+      "rect": "[P: (345.5769, 1792.115), S: (170.0, 170.0)]",
+      "text": ""
+    },
+    {
+      "disabled": false,
+      "id": "fleet_b",
+      "rect": "[P: (467.8077, 1879.423), S: (170.0, 170.0)]",
+      "text": ""
+    },
+    {
+      "disabled": false,
+      "id": "order_undo",
+      "rect": "[P: (988.0, 1946.0), S: (544.0, 170.0)]",
+      "text": "UNDO  ·  QUIETUS order"
+    },
+    {
+      "disabled": false,
+      "id": "pause",
+      "rect": "[P: (12.0, 12.0), S: (263.5, 170.0)]",
+      "text": "Ⅱ\nPAUSE"
+    }
+  ],
+  "craft": [
+    {
+      "alive": true,
+      "pos": "(648.026, 763.1015)"
+    },
+    {
+      "alive": true,
+      "pos": "(350.0, 2150.0)"
+    },
+    {
+      "alive": true,
+      "pos": "(490.0, 2250.0)"
+    }
+  ],
+  "labels": [
+    "QUIETUS · MIDDLE · REPLACE · Record secured. Return Quietus to extraction. · frame 28% grade C\nArchive ready · recover Quietus settled in MIDDLE; retained kit still needs its carrier.",
+    "OP PRESSURE · DORMANT"
+  ],
+  "message": "Record secured. Return Quietus to extraction. · frame 28% grade C",
+  "mission": 31,
+  "outcome": "",
+  "paused": false,
+  "screen": "mission",
+  "serial": 98,
+  "sites": [
+    {
+      "name": "HUMAN SURVIVOR MARKS",
+      "pos": "(650.0, 550.0)",
+      "screen": "(692.5, 480.1923)"
+    },
+    {
+      "name": "FEED TERMINALS",
+      "pos": "(1900.0, 600.0)",
+      "screen": "(1783.846, 523.8461)"
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "buttons": [
+    {
+      "disabled": false,
+      "id": "more_orders",
+      "rect": "[P: (2244.5, 12.0), S: (263.5, 170.0)]",
+      "text": "FLEET"
+    },
+    {
+      "disabled": false,
+      "id": "fleet_q",
+      "rect": "[P: (804.9005, 738.5989), S: (170.0, 170.0)]",
+      "text": ""
+    },
+    {
+      "disabled": false,
+      "id": "fleet_a",
+      "rect": "[P: (345.5769, 1792.115), S: (170.0, 170.0)]",
+      "text": ""
+    },
+    {
+      "disabled": false,
+      "id": "fleet_b",
+      "rect": "[P: (467.8077, 1879.423), S: (170.0, 170.0)]",
+      "text": ""
+    },
+    {
+      "disabled": false,
+      "id": "order_undo",
+      "rect": "[P: (988.0, 1946.0), S: (544.0, 170.0)]",
+      "text": "UNDO  ·  QUIETUS order"
+    },
+    {
+      "disabled": false,
+      "id": "pause",
+      "rect": "[P: (12.0, 12.0), S: (263.5, 170.0)]",
+      "text": "Ⅱ\nPAUSE"
+    }
+  ],
+  "craft": [
+    {
+      "alive": true,
+      "pos": "(876.0975, 943.3292)"
+    },
+    {
+      "alive": true,
+      "pos": "(350.0, 2150.0)"
+    },
+    {
+      "alive": true,
+      "pos": "(490.0, 2250.0)"
+    }
+  ],
+  "labels": [
+    "QUIETUS · DEEP · REPLACE · QUIETUS · replaced route\nArchive ready · recover Quietus settled in MIDDLE; retained kit still needs its carrier.",
+    "OP PRESSURE · DORMANT"
+  ],
+  "message": "QUIETUS · replaced route",
+  "mission": 31,
+  "outcome": "",
+  "paused": false,
+  "screen": "mission",
+  "serial": 115,
+  "sites": [
+    {
+      "name": "HUMAN SURVIVOR MARKS",
+      "pos": "(650.0, 550.0)",
+      "screen": "(692.5, 480.1923)"
+    },
+    {
+      "name": "FEED TERMINALS",
+      "pos": "(1900.0, 600.0)",
+      "screen": "(1783.846, 523.8461)"
+    }
+  ]
+}

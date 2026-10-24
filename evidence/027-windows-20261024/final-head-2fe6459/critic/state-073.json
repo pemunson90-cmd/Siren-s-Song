@@ -1,0 +1,97 @@
+{
+  "buttons": [
+    {
+      "disabled": false,
+      "id": "camera",
+      "rect": "[P: (559.0266, 768.5193), S: (263.5, 170.0)]",
+      "text": "PHOTO"
+    },
+    {
+      "disabled": false,
+      "id": "depth_menu",
+      "rect": "[P: (829.4949, 880.5509), S: (263.5, 170.0)]",
+      "text": "DEPTH / SONAR"
+    },
+    {
+      "disabled": false,
+      "id": "silent",
+      "rect": "[P: (941.5266, 1151.019), S: (263.5, 170.0)]",
+      "text": "SILENT ✓"
+    },
+    {
+      "disabled": false,
+      "id": "program",
+      "rect": "[P: (829.4949, 1421.488), S: (263.5, 170.0)]",
+      "text": "PLAN\nROUTE"
+    },
+    {
+      "disabled": false,
+      "id": "route_menu",
+      "rect": "[P: (559.0266, 1533.519), S: (263.5, 170.0)]",
+      "text": "ROUTE"
+    },
+    {
+      "disabled": false,
+      "id": "tools_menu",
+      "rect": "[P: (288.5582, 1421.488), S: (263.5, 170.0)]",
+      "text": "TOOLS"
+    },
+    {
+      "disabled": false,
+      "id": "all_stop",
+      "rect": "[P: (176.5266, 1151.019), S: (263.5, 170.0)]",
+      "text": "ALL STOP\n1.0% O2"
+    },
+    {
+      "disabled": false,
+      "id": "inspect",
+      "rect": "[P: (288.5582, 880.551), S: (263.5, 170.0001)]",
+      "text": "STATUS"
+    },
+    {
+      "disabled": false,
+      "id": "radial_back",
+      "rect": "[P: (559.0266, 1346.519), S: (263.5, 170.0)]",
+      "text": "BACK"
+    },
+    {
+      "disabled": false,
+      "id": "pause",
+      "rect": "[P: (12.0, 12.0), S: (263.5, 170.0)]",
+      "text": "PAUSED\n▶ RESUME"
+    }
+  ],
+  "craft": [
+    {
+      "alive": true,
+      "pos": "(648.026, 763.1015)"
+    },
+    {
+      "alive": true,
+      "pos": "(350.0, 2150.0)"
+    },
+    {
+      "alive": true,
+      "pos": "(490.0, 2250.0)"
+    }
+  ],
+  "labels": [],
+  "message": "QUIETUS · replaced route",
+  "mission": 31,
+  "outcome": "",
+  "paused": true,
+  "screen": "mission",
+  "serial": 73,
+  "sites": [
+    {
+      "name": "HUMAN SURVIVOR MARKS",
+      "pos": "(650.0, 550.0)",
+      "screen": "(692.5, 480.1923)"
+    },
+    {
+      "name": "FEED TERMINALS",
+      "pos": "(1900.0, 600.0)",
+      "screen": "(1783.846, 523.8461)"
+    }
+  ]
+}

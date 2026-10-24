@@ -1,0 +1,70 @@
+{
+  "buttons": [
+    {
+      "disabled": false,
+      "id": "more_orders",
+      "rect": "[P: (2280.15, 12.0), S: (227.8501, 147.0)]",
+      "text": "FLEET"
+    },
+    {
+      "disabled": false,
+      "id": "fleet_q",
+      "rect": "[P: (853.8097, 756.0), S: (147.0, 147.0)]",
+      "text": ""
+    },
+    {
+      "disabled": false,
+      "id": "fleet_a",
+      "rect": "[P: (671.0454, 785.5909), S: (147.0, 147.0)]",
+      "text": ""
+    },
+    {
+      "disabled": false,
+      "id": "fleet_b",
+      "rect": "[P: (466.9684, 756.0), S: (147.0, 147.0)]",
+      "text": ""
+    },
+    {
+      "disabled": false,
+      "id": "pause",
+      "rect": "[P: (12.0, 12.0), S: (227.85, 147.0)]",
+      "text": "PAUSED\n▶ RESUME"
+    }
+  ],
+  "craft": [
+    {
+      "alive": true,
+      "pos": "(350.0, 1850.0)"
+    },
+    {
+      "alive": true,
+      "pos": "(350.0, 1750.0)"
+    },
+    {
+      "alive": true,
+      "pos": "(490.0, 1850.0)"
+    }
+  ],
+  "labels": [
+    "QUIETUS · MIDDLE · REPLACE · Chart loaded. Tap a craft for DEPTH / SONAR; tap water to plot a route.\nCraft → DEPTH / SONAR · bearings need movement or a second receiver; depth costs time.",
+    "HULL 100 · O₂ 120 · MIDDLE\nREADY · MOTION ~0m"
+  ],
+  "message": "Chart loaded. Tap a craft for DEPTH / SONAR; tap water to plot a route.",
+  "mission": 30,
+  "outcome": "",
+  "paused": true,
+  "screen": "mission",
+  "serial": 7,
+  "sites": [
+    {
+      "name": "SCOUR EDGE",
+      "pos": "(1200.0, 450.0)",
+      "screen": "(1161.818, 220.9091)"
+    },
+    {
+      "name": "SPINDLE WEAR",
+      "pos": "(2200.0, 550.0)",
+      "screen": "(1652.727, 270.0)"
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "buttons": [
+    {
+      "disabled": false,
+      "id": "route_here",
+      "rect": "[P: (1862.0, 1297.5), S: (263.5, 170.0)]",
+      "text": "PLOT ROUTE"
+    },
+    {
+      "disabled": false,
+      "id": "inspect",
+      "rect": "[P: (2244.5, 1680.0), S: (263.5, 170.0)]",
+      "text": "STATUS"
+    },
+    {
+      "disabled": false,
+      "id": "program",
+      "rect": "[P: (1862.0, 2062.5), S: (263.5, 170.0)]",
+      "text": "PLAN\nROUTE"
+    },
+    {
+      "disabled": false,
+      "id": "queue",
+      "rect": "[P: (1479.5, 1680.0), S: (263.5, 170.0)]",
+      "text": "REPLACE"
+    },
+    {
+      "disabled": false,
+      "id": "radial_back",
+      "rect": "[P: (1862.0, 1875.5), S: (263.5, 170.0)]",
+      "text": "BACK"
+    },
+    {
+      "disabled": false,
+      "id": "pause",
+      "rect": "[P: (12.0, 12.0), S: (263.5, 170.0)]",
+      "text": "Ⅱ\nPAUSE"
+    }
+  ],
+  "craft": [
+    {
+      "alive": true,
+      "pos": "(648.026, 763.1015)"
+    },
+    {
+      "alive": true,
+      "pos": "(350.0, 2150.0)"
+    },
+    {
+      "alive": true,
+      "pos": "(490.0, 2250.0)"
+    }
+  ],
+  "labels": [],
+  "message": "QUIETUS · MIDDLE → DEEP · 4.0s exposed transition",
+  "mission": 31,
+  "outcome": "",
+  "paused": false,
+  "screen": "mission",
+  "serial": 112,
+  "sites": [
+    {
+      "name": "HUMAN SURVIVOR MARKS",
+      "pos": "(650.0, 550.0)",
+      "screen": "(692.5, 480.1923)"
+    },
+    {
+      "name": "FEED TERMINALS",
+      "pos": "(1900.0, 600.0)",
+      "screen": "(1783.846, 523.8461)"
+    }
+  ]
+}

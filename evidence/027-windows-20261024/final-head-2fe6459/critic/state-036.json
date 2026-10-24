@@ -1,0 +1,71 @@
+{
+  "buttons": [
+    {
+      "disabled": false,
+      "id": "more_orders",
+      "rect": "[P: (2280.15, 12.0), S: (227.8501, 147.0)]",
+      "text": "FLEET"
+    },
+    {
+      "disabled": false,
+      "id": "fleet_q",
+      "rect": "[P: (1186.5, 466.5), S: (147.0, 147.0)]",
+      "text": ""
+    },
+    {
+      "disabled": false,
+      "id": "fleet_a",
+      "rect": "[P: (958.3885, 756.0), S: (147.0, 147.0)]",
+      "text": ""
+    },
+    {
+      "disabled": false,
+      "id": "fleet_b",
+      "rect": "[P: (1159.161, 756.0), S: (147.0, 147.0)]",
+      "text": ""
+    },
+    {
+      "disabled": false,
+      "id": "pause",
+      "rect": "[P: (12.0, 12.0), S: (227.85, 147.0)]",
+      "text": "PAUSED\n▶ RESUME"
+    }
+  ],
+  "craft": [
+    {
+      "alive": true,
+      "pos": "(1196.756, 665.4226)"
+    },
+    {
+      "alive": true,
+      "pos": "(350.0, 1750.0)"
+    },
+    {
+      "alive": true,
+      "pos": "(490.0, 1850.0)"
+    }
+  ],
+  "labels": [
+    "QUIETUS · MIDDLE · REPLACE · Record secured. Return Quietus to extraction. · frame 27% grade C\nArchive ready · recover Quietus settled in MIDDLE; retained kit still needs its carrier.",
+    "HULL 100 · O₂ 113 · MIDDLE\nREADY · MOTION ~0m",
+    "OP PRESSURE · DORMANT"
+  ],
+  "message": "Record secured. Return Quietus to extraction. · frame 27% grade C",
+  "mission": 30,
+  "outcome": "",
+  "paused": true,
+  "screen": "mission",
+  "serial": 36,
+  "sites": [
+    {
+      "name": "SCOUR EDGE",
+      "pos": "(1200.0, 450.0)",
+      "screen": "(1268.175, -2.86499)"
+    },
+    {
+      "name": "SPINDLE WEAR",
+      "pos": "(2200.0, 550.0)",
+      "screen": "(3788.175, 249.135)"
+    }
+  ]
+}

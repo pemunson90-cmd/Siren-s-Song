@@ -1,0 +1,67 @@
+{
+  "buttons": [
+    {
+      "disabled": false,
+      "id": "continue_choir",
+      "rect": "[P: (888.0, 2382.0), S: (736.0, 170.0)]",
+      "text": "CONTINUE / IRON CHOIR"
+    },
+    {
+      "disabled": false,
+      "id": "continue_glass",
+      "rect": "[P: (888.0, 2566.0), S: (736.0, 170.0)]",
+      "text": "CONTINUE / GLASS REACH"
+    },
+    {
+      "disabled": false,
+      "id": "new_campaign",
+      "rect": "[P: (888.0, 2750.0), S: (736.0, 170.0)]",
+      "text": "NEW CAMPAIGN / CHOOSE ANOTHER ROUTE"
+    },
+    {
+      "disabled": false,
+      "id": "back",
+      "rect": "[P: (888.0, 2934.0), S: (736.0, 170.0)]",
+      "text": "OPERATIONS ARCHIVE"
+    }
+  ],
+  "craft": [
+    {
+      "alive": true,
+      "pos": "(2244.365, 2244.641)"
+    },
+    {
+      "alive": true,
+      "pos": "(350.0, 2150.0)"
+    },
+    {
+      "alive": true,
+      "pos": "(490.0, 2250.0)"
+    }
+  ],
+  "labels": [
+    "SIREN'S SONG / RECOVERED OUTCOME",
+    "UNHEARD",
+    "Drill crews and divers out by craft. No surface ship came.",
+    "Quietus carried the drill crews and divers out by craft, a few at a time. No surface ship came. The Sirens never registered Quietus, and it can keep diving.",
+    "INTEL PHOTO GRADE C · 2 records · average 28% of each record's best frame · sharpest record 28%"
+  ],
+  "message": "Archive recovered / SURVEY RECOVERY",
+  "mission": 31,
+  "outcome": "won",
+  "paused": true,
+  "screen": "ending",
+  "serial": 138,
+  "sites": [
+    {
+      "name": "HUMAN SURVIVOR MARKS",
+      "pos": "(650.0, 550.0)",
+      "screen": "(692.5, 480.1923)"
+    },
+    {
+      "name": "FEED TERMINALS",
+      "pos": "(1900.0, 600.0)",
+      "screen": "(1783.846, 523.8461)"
+    }
+  ]
+}

@@ -16,7 +16,10 @@ static func present(host,legacy:Callable)->bool:
   host.panel_box.add_child(plate)
   if item.captions.is_empty():host._menu_text(item.subject,20)
   for caption in item.captions:host._menu_text(caption,18)
- host._menu_text({"studied":"STUDIED SIREN TYPES / 3+","recorded":"RECOVERED PHOTO INTEL","blind":"NO RECOVERED PHOTO INTEL"}[ending.photo_variant],18)
+ # Research keys are separate from recovered photographs. An empty research
+ # set must never deny the real frames above it.
+ if not ending.intel_keys.is_empty():host._menu_text("RECOVERED RESEARCH / %d"%ending.intel_keys.size(),18)
+ if ending.photo_variant=="studied":host._menu_text("STUDIED SIREN TYPES / 3+",18)
  for key in ending.choices:
   if not ending.choices[key].is_empty():host._menu_text("%s / %s"%[key.replace("_"," ").to_upper(),ending.choices[key].to_upper()],17)
  host._menu_text("FORK OUTCOME / "+ending.title,20)

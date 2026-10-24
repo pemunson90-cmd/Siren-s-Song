@@ -1,0 +1,62 @@
+{
+  "buttons": [
+    {
+      "disabled": false,
+      "id": "next_record",
+      "rect": "[P: (888.0, 2233.0), S: (736.0, 170.0)]",
+      "text": "NEXT RECORD"
+    },
+    {
+      "disabled": false,
+      "id": "intel",
+      "rect": "[P: (888.0, 2417.0), S: (736.0, 170.0)]",
+      "text": "INTEL AND RESEARCH"
+    },
+    {
+      "disabled": false,
+      "id": "back",
+      "rect": "[P: (888.0, 2054.0), S: (744.0, 170.0)]",
+      "text": "BACK TO OPERATIONS"
+    }
+  ],
+  "craft": [
+    {
+      "alive": true,
+      "pos": "(2244.365, 2244.641)"
+    },
+    {
+      "alive": true,
+      "pos": "(350.0, 2150.0)"
+    },
+    {
+      "alive": true,
+      "pos": "(490.0, 2250.0)"
+    }
+  ],
+  "labels": [
+    "FIELD PHOTOGRAPH RECORDS / 1 OF 2",
+    "SCOUR EDGE",
+    "FRAME 1 OF 1 · QUALITY 27%\nQUIETUS · 215m · aspect -89° · WIDE\nlight 68% · clarity 71% · sharp 18%\nRESOLVED: SCOUR EDGE 38%",
+    "OBSERVED IN THIS FRAME · MARKED ON THE CHART\nNOTE · SCOUR EDGE",
+    "SCOUR EDGE",
+    "INTEL PHOTO GRADE C · 1 record · average 27% of each record's best frame"
+  ],
+  "message": "Archive recovered / SURVEY RECOVERY",
+  "mission": 31,
+  "outcome": "won",
+  "paused": true,
+  "screen": "evidence",
+  "serial": 140,
+  "sites": [
+    {
+      "name": "HUMAN SURVIVOR MARKS",
+      "pos": "(650.0, 550.0)",
+      "screen": "(692.5, 480.1923)"
+    },
+    {
+      "name": "FEED TERMINALS",
+      "pos": "(1900.0, 600.0)",
+      "screen": "(1783.846, 523.8461)"
+    }
+  ]
+}

@@ -1,0 +1,97 @@
+{
+  "buttons": [
+    {
+      "disabled": false,
+      "id": "camera",
+      "rect": "[P: (506.92, 193.05), S: (227.85, 147.0)]",
+      "text": "PHOTO"
+    },
+    {
+      "disabled": false,
+      "id": "depth_menu",
+      "rect": "[P: (740.7956, 289.9244), S: (227.85, 147.0)]",
+      "text": "DEPTH / SONAR"
+    },
+    {
+      "disabled": false,
+      "id": "silent",
+      "rect": "[P: (837.67, 523.8), S: (227.85, 147.0)]",
+      "text": "SILENT ✓"
+    },
+    {
+      "disabled": false,
+      "id": "program",
+      "rect": "[P: (740.7956, 757.6755), S: (227.85, 147.0)]",
+      "text": "PLAN\nROUTE"
+    },
+    {
+      "disabled": false,
+      "id": "route_menu",
+      "rect": "[P: (506.92, 854.55), S: (227.85, 147.0)]",
+      "text": "ROUTE"
+    },
+    {
+      "disabled": false,
+      "id": "tools_menu",
+      "rect": "[P: (273.0444, 757.6755), S: (227.85, 147.0)]",
+      "text": "TOOLS"
+    },
+    {
+      "disabled": false,
+      "id": "all_stop",
+      "rect": "[P: (176.17, 523.8), S: (227.85, 147.0)]",
+      "text": "ALL STOP\n1.0% O2"
+    },
+    {
+      "disabled": false,
+      "id": "inspect",
+      "rect": "[P: (273.0444, 289.9244), S: (227.85, 147.0)]",
+      "text": "STATUS"
+    },
+    {
+      "disabled": false,
+      "id": "radial_back",
+      "rect": "[P: (506.92, 692.85), S: (227.85, 147.0)]",
+      "text": "BACK"
+    },
+    {
+      "disabled": false,
+      "id": "pause",
+      "rect": "[P: (12.0, 12.0), S: (227.85, 147.0)]",
+      "text": "PAUSED\n▶ RESUME"
+    }
+  ],
+  "craft": [
+    {
+      "alive": true,
+      "pos": "(1196.711, 665.9629)"
+    },
+    {
+      "alive": true,
+      "pos": "(350.0, 1750.0)"
+    },
+    {
+      "alive": true,
+      "pos": "(490.0, 1850.0)"
+    }
+  ],
+  "labels": [],
+  "message": "QUIETUS · replaced route",
+  "mission": 30,
+  "outcome": "",
+  "paused": true,
+  "screen": "mission",
+  "serial": 27,
+  "sites": [
+    {
+      "name": "SCOUR EDGE",
+      "pos": "(1200.0, 450.0)",
+      "screen": "(1268.289, -4.22644)"
+    },
+    {
+      "name": "SPINDLE WEAR",
+      "pos": "(2200.0, 550.0)",
+      "screen": "(3788.289, 247.7736)"
+    }
+  ]
+}

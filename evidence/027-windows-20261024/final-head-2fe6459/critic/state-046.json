@@ -1,0 +1,73 @@
+{
+  "buttons": [
+    {
+      "disabled": false,
+      "id": "route_here",
+      "rect": "[P: (1661.53, 237.45), S: (227.85, 147.0)]",
+      "text": "PLOT ROUTE"
+    },
+    {
+      "disabled": false,
+      "id": "inspect",
+      "rect": "[P: (1992.28, 568.2), S: (227.8501, 147.0)]",
+      "text": "STATUS"
+    },
+    {
+      "disabled": false,
+      "id": "program",
+      "rect": "[P: (1661.53, 898.95), S: (227.8501, 147.0)]",
+      "text": "PLAN\nROUTE"
+    },
+    {
+      "disabled": false,
+      "id": "queue",
+      "rect": "[P: (1330.78, 568.2), S: (227.85, 147.0001)]",
+      "text": "REPLACE"
+    },
+    {
+      "disabled": false,
+      "id": "radial_back",
+      "rect": "[P: (1661.53, 737.25), S: (227.8501, 147.0)]",
+      "text": "BACK"
+    },
+    {
+      "disabled": false,
+      "id": "pause",
+      "rect": "[P: (12.0, 12.0), S: (227.85, 147.0)]",
+      "text": "PAUSED\n▶ RESUME"
+    }
+  ],
+  "craft": [
+    {
+      "alive": true,
+      "pos": "(1276.251, 1299.636)"
+    },
+    {
+      "alive": true,
+      "pos": "(350.0, 1750.0)"
+    },
+    {
+      "alive": true,
+      "pos": "(490.0, 1850.0)"
+    }
+  ],
+  "labels": [],
+  "message": "QUIETUS · replaced route",
+  "mission": 30,
+  "outcome": "",
+  "paused": true,
+  "screen": "mission",
+  "serial": 46,
+  "sites": [
+    {
+      "name": "SCOUR EDGE",
+      "pos": "(1200.0, 450.0)",
+      "screen": "(1161.818, 220.9091)"
+    },
+    {
+      "name": "SPINDLE WEAR",
+      "pos": "(2200.0, 550.0)",
+      "screen": "(1652.727, 270.0)"
+    }
+  ]
+}

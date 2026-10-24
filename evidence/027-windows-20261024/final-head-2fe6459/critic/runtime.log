@@ -1,0 +1,1289 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+OpenGL API 3.3.0 NVIDIA 610.88 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 2080 Ti
+
+SS_ROLE mission=0 index=1 type=sweeper mode=PATROL pos=850.000000,300.000000 home=850.000000,300.000000 target=-1 lock=0.000000 time=0.000000
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":0,"hud_visible":true,"menu_visible":false,"mission":0,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,1080.0],"chart_view":{"center":[500.0,745.714294433594],"mode":"follow","zoom":2.24},"context_page":"water","context_subject_kind":"","controls":[{"action":"more_orders","clipped":false,"hit_rect":[2280.15,12.0,227.85,147.0],"visual_rect":[2280.15,12.0,227.85,147.0]},{"action":"fleet_q","clipped":false,"hit_rect":[279.3,603.3,147.0,147.0],"visual_rect":[279.3,603.3,147.0,147.0]},{"action":"fleet_a","clipped":false,"hit_rect":[279.3,351.3,147.0,147.0],"visual_rect":[279.3,351.3,147.0,147.0]},{"action":"fleet_b","clipped":false,"hit_rect":[509.226,756.0,147.0,147.0],"visual_rect":[509.226,756.0,147.0,147.0]},{"action":"pause","clipped":false,"hit_rect":[12.0,12.0,227.85,147.0],"visual_rect":[12.0,12.0,227.85,147.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2520.0,1080.0],"schema":1,"screen":"mission","scroll_rect":[0.0,0.0,0.0,0.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,1080.0],"window":[2520.0,1080.0]}
+SS_TARGET more_orders center=2394,86 viewport=2520,1080
+SS_TARGET fleet_q center=353,677 viewport=2520,1080
+SS_TARGET fleet_a center=353,425 viewport=2520,1080
+SS_TARGET fleet_b center=583,830 viewport=2520,1080
+SS_TARGET pause center=126,86 viewport=2520,1080
+SS_TARGET chart_center center=1260,540 viewport=2520,1080
+SS_TARGET objective0 center=3100,97 viewport=2520,1080
+SS_TARGET route center=1210,803 viewport=2520,1080
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":0,"hud_visible":true,"menu_visible":false,"mission":0,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,1080.0],"chart_view":{"center":[500.0,745.714294433594],"mode":"follow","zoom":2.24},"context_page":"water","context_subject_kind":"","controls":[{"action":"more_orders","clipped":false,"hit_rect":[2280.15,12.0,227.85,147.0],"visual_rect":[2280.15,12.0,227.85,147.0]},{"action":"fleet_q","clipped":false,"hit_rect":[279.3,603.3,147.0,147.0],"visual_rect":[279.3,603.3,147.0,147.0]},{"action":"fleet_a","clipped":false,"hit_rect":[279.3,351.3,147.0,147.0],"visual_rect":[279.3,351.3,147.0,147.0]},{"action":"fleet_b","clipped":false,"hit_rect":[509.226,756.0,147.0,147.0],"visual_rect":[509.226,756.0,147.0,147.0]},{"action":"pause","clipped":false,"hit_rect":[12.0,12.0,227.85,147.0],"visual_rect":[12.0,12.0,227.85,147.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2520.0,1080.0],"schema":1,"screen":"mission","scroll_rect":[0.0,0.0,0.0,0.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,1080.0],"window":[2520.0,1080.0]}
+SS_TARGET more_orders center=2394,86 viewport=2520,1080
+SS_TARGET fleet_q center=353,677 viewport=2520,1080
+SS_TARGET fleet_a center=353,425 viewport=2520,1080
+SS_TARGET fleet_b center=583,830 viewport=2520,1080
+SS_TARGET pause center=126,86 viewport=2520,1080
+SS_TARGET chart_center center=1260,540 viewport=2520,1080
+SS_TARGET objective0 center=3100,97 viewport=2520,1080
+SS_TARGET route center=1210,803 viewport=2520,1080
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":0,"hud_visible":true,"menu_visible":false,"mission":0,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,1080.0],"chart_view":{"center":[500.0,745.714294433594],"mode":"follow","zoom":2.24},"context_page":"water","context_subject_kind":"","controls":[{"action":"more_orders","clipped":false,"hit_rect":[2280.15,12.0,227.85,147.0],"visual_rect":[2280.15,12.0,227.85,147.0]},{"action":"fleet_q","clipped":false,"hit_rect":[279.3,603.3,147.0,147.0],"visual_rect":[279.3,603.3,147.0,147.0]},{"action":"fleet_a","clipped":false,"hit_rect":[279.3,351.3,147.0,147.0],"visual_rect":[279.3,351.3,147.0,147.0]},{"action":"fleet_b","clipped":false,"hit_rect":[509.226,756.0,147.0,147.0],"visual_rect":[509.226,756.0,147.0,147.0]},{"action":"pause","clipped":false,"hit_rect":[12.0,12.0,227.85,147.0],"visual_rect":[12.0,12.0,227.85,147.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2520.0,1080.0],"schema":1,"screen":"mission","scroll_rect":[0.0,0.0,0.0,0.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,1080.0],"window":[2520.0,1080.0]}
+SS_TARGET more_orders center=2394,86 viewport=2520,1080
+SS_TARGET fleet_q center=353,677 viewport=2520,1080
+SS_TARGET fleet_a center=353,425 viewport=2520,1080
+SS_TARGET fleet_b center=583,830 viewport=2520,1080
+SS_TARGET pause center=126,86 viewport=2520,1080
+SS_TARGET chart_center center=1260,540 viewport=2520,1080
+SS_TARGET objective0 center=3100,97 viewport=2520,1080
+SS_TARGET route center=1210,803 viewport=2520,1080
+SS_SCREEN operations window=(2520, 1080) viewport=(2520.0, 1080.0) root=(2520.0, 1080.0) unlocked=5 active_time=0.0
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":6,"hud_visible":false,"menu_visible":true,"mission":0,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,1080.0],"chart_view":{"center":[500.0,745.714294433594],"mode":"follow","zoom":2.24},"context_page":"water","context_subject_kind":"","controls":[{"action":"mission0","clipped":false,"hit_rect":[888.0,683.0,736.0,147.0],"visual_rect":[888.0,683.0,736.0,147.0]},{"action":"mission1","clipped":false,"hit_rect":[888.0,844.0,736.0,147.0],"visual_rect":[888.0,844.0,736.0,147.0]},{"action":"mission2","clipped":true,"hit_rect":[888.0,1005.0,736.0,29.0],"visual_rect":[888.0,1005.0,736.0,147.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2520.0,1080.0],"schema":1,"screen":"menu","scroll_rect":[888.0,46.0,744.0,988.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,1080.0],"window":[2520.0,1080.0]}
+SS_TARGET mission0 center=1256,757 viewport=2520,1080
+SS_TARGET mission1 center=1256,918 viewport=2520,1080
+SS_TARGET mission2 center=1256,1079 viewport=2520,1080
+SS_TARGET mission3 center=1256,1240 viewport=2520,1080
+SS_TARGET mission4 center=1256,1401 viewport=2520,1080
+SS_TARGET mission5 center=1256,1562 viewport=2520,1080
+SS_TARGET expedition6 center=1256,2019 viewport=2520,1080
+SS_TARGET expedition7 center=1256,2180 viewport=2520,1080
+SS_TARGET expedition9 center=1256,2341 viewport=2520,1080
+SS_TARGET expedition11 center=1256,2502 viewport=2520,1080
+SS_TARGET expedition12 center=1256,2663 viewport=2520,1080
+SS_TARGET expedition14 center=1256,2824 viewport=2520,1080
+SS_TARGET expedition15 center=1256,2985 viewport=2520,1080
+SS_TARGET expedition16 center=1256,3146 viewport=2520,1080
+SS_TARGET expedition17 center=1256,3307 viewport=2520,1080
+SS_TARGET expedition18 center=1256,3468 viewport=2520,1080
+SS_TARGET expedition19 center=1256,3629 viewport=2520,1080
+SS_TARGET expedition20 center=1256,3790 viewport=2520,1080
+SS_TARGET expedition21 center=1256,3951 viewport=2520,1080
+SS_TARGET expedition22 center=1256,4112 viewport=2520,1080
+SS_TARGET expedition23 center=1256,4273 viewport=2520,1080
+SS_TARGET expedition24 center=1256,4434 viewport=2520,1080
+SS_TARGET expedition25 center=1256,4595 viewport=2520,1080
+SS_TARGET expedition26 center=1256,4756 viewport=2520,1080
+SS_TARGET expedition27 center=1256,4917 viewport=2520,1080
+SS_TARGET expedition28 center=1256,5078 viewport=2520,1080
+SS_TARGET expedition29 center=1256,5239 viewport=2520,1080
+SS_TARGET expedition30 center=1256,5400 viewport=2520,1080
+SS_TARGET route_map center=1256,5561 viewport=2520,1080
+SS_TARGET fittings center=1256,5722 viewport=2520,1080
+SS_TARGET ending center=1256,5883 viewport=2520,1080
+SS_TARGET new_campaign center=1256,6044 viewport=2520,1080
+SS_TARGET loadout center=1256,7065 viewport=2520,1080
+SS_TARGET settings center=1256,7226 viewport=2520,1080
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":6,"hud_visible":false,"menu_visible":true,"mission":0,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,1080.0],"chart_view":{"center":[500.0,745.714294433594],"mode":"follow","zoom":2.24},"context_page":"water","context_subject_kind":"","controls":[{"action":"mission0","clipped":false,"hit_rect":[888.0,683.0,736.0,147.0],"visual_rect":[888.0,683.0,736.0,147.0]},{"action":"mission1","clipped":false,"hit_rect":[888.0,844.0,736.0,147.0],"visual_rect":[888.0,844.0,736.0,147.0]},{"action":"mission2","clipped":true,"hit_rect":[888.0,1005.0,736.0,29.0],"visual_rect":[888.0,1005.0,736.0,147.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2520.0,1080.0],"schema":1,"screen":"menu","scroll_rect":[888.0,46.0,744.0,988.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,1080.0],"window":[2520.0,1080.0]}
+SS_TARGET mission0 center=1256,757 viewport=2520,1080
+SS_TARGET mission1 center=1256,918 viewport=2520,1080
+SS_TARGET mission2 center=1256,1079 viewport=2520,1080
+SS_TARGET mission3 center=1256,1240 viewport=2520,1080
+SS_TARGET mission4 center=1256,1401 viewport=2520,1080
+SS_TARGET mission5 center=1256,1562 viewport=2520,1080
+SS_TARGET expedition6 center=1256,2019 viewport=2520,1080
+SS_TARGET expedition7 center=1256,2180 viewport=2520,1080
+SS_TARGET expedition9 center=1256,2341 viewport=2520,1080
+SS_TARGET expedition11 center=1256,2502 viewport=2520,1080
+SS_TARGET expedition12 center=1256,2663 viewport=2520,1080
+SS_TARGET expedition14 center=1256,2824 viewport=2520,1080
+SS_TARGET expedition15 center=1256,2985 viewport=2520,1080
+SS_TARGET expedition16 center=1256,3146 viewport=2520,1080
+SS_TARGET expedition17 center=1256,3307 viewport=2520,1080
+SS_TARGET expedition18 center=1256,3468 viewport=2520,1080
+SS_TARGET expedition19 center=1256,3629 viewport=2520,1080
+SS_TARGET expedition20 center=1256,3790 viewport=2520,1080
+SS_TARGET expedition21 center=1256,3951 viewport=2520,1080
+SS_TARGET expedition22 center=1256,4112 viewport=2520,1080
+SS_TARGET expedition23 center=1256,4273 viewport=2520,1080
+SS_TARGET expedition24 center=1256,4434 viewport=2520,1080
+SS_TARGET expedition25 center=1256,4595 viewport=2520,1080
+SS_TARGET expedition26 center=1256,4756 viewport=2520,1080
+SS_TARGET expedition27 center=1256,4917 viewport=2520,1080
+SS_TARGET expedition28 center=1256,5078 viewport=2520,1080
+SS_TARGET expedition29 center=1256,5239 viewport=2520,1080
+SS_TARGET expedition30 center=1256,5400 viewport=2520,1080
+SS_TARGET route_map center=1256,5561 viewport=2520,1080
+SS_TARGET fittings center=1256,5722 viewport=2520,1080
+SS_TARGET ending center=1256,5883 viewport=2520,1080
+SS_TARGET new_campaign center=1256,6044 viewport=2520,1080
+SS_TARGET loadout center=1256,7065 viewport=2520,1080
+SS_TARGET settings center=1256,7226 viewport=2520,1080
+REVIEW_STATE 1 menu Pulse away · wait for physical echoes · emission audible
+REVIEW_COMMAND {"cmd":"press","id":"expedition30"}
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":730,"hud_visible":false,"menu_visible":true,"mission":0,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,1080.0],"chart_view":{"center":[500.0,745.714294433594],"mode":"follow","zoom":2.24},"context_page":"water","context_subject_kind":"","controls":[{"action":"manual","clipped":true,"hit_rect":[888.0,781.0,1091.0,94.0],"visual_rect":[888.0,781.0,1091.0,147.0]},{"action":"begin","clipped":false,"hit_rect":[888.0,887.0,543.0,147.0],"visual_rect":[888.0,887.0,543.0,147.0]},{"action":"back","clipped":false,"hit_rect":[1443.0,887.0,544.0,147.0],"visual_rect":[1443.0,887.0,544.0,147.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2520.0,1080.0],"schema":1,"screen":"briefing","scroll_rect":[888.0,46.0,1099.0,829.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,1080.0],"window":[2520.0,1080.0]}
+SS_TARGET manual center=1434,855 viewport=2520,1080
+SS_TARGET fit_fold center=1434,1252 viewport=2520,1080
+SS_TARGET frame_quietus_standard center=1434,2474 viewport=2520,1080
+SS_TARGET frame_quietus_quiet center=1434,2635 viewport=2520,1080
+SS_TARGET frame_quietus_fast center=1434,2796 viewport=2520,1080
+SS_TARGET frame_drone_a_standard center=1434,3493 viewport=2520,1080
+SS_TARGET frame_drone_a_scout center=1434,3654 viewport=2520,1080
+SS_TARGET frame_drone_a_heavy center=1434,3815 viewport=2520,1080
+SS_TARGET frame_drone_a_endurance center=1434,3976 viewport=2520,1080
+SS_TARGET frame_drone_b_standard center=1434,4673 viewport=2520,1080
+SS_TARGET frame_drone_b_scout center=1434,4834 viewport=2520,1080
+SS_TARGET frame_drone_b_heavy center=1434,4995 viewport=2520,1080
+SS_TARGET frame_drone_b_endurance center=1434,5156 viewport=2520,1080
+SS_TARGET fit_quietus center=1434,6653 viewport=2520,1080
+SS_TARGET fit_drone_a center=1434,7109 viewport=2520,1080
+SS_TARGET fit_drone_b center=1434,7270 viewport=2520,1080
+SS_TARGET begin center=1160,961 viewport=2520,1080
+SS_TARGET back center=1715,961 viewport=2520,1080
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":730,"hud_visible":false,"menu_visible":true,"mission":0,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,1080.0],"chart_view":{"center":[500.0,745.714294433594],"mode":"follow","zoom":2.24},"context_page":"water","context_subject_kind":"","controls":[{"action":"manual","clipped":true,"hit_rect":[888.0,781.0,1091.0,94.0],"visual_rect":[888.0,781.0,1091.0,147.0]},{"action":"begin","clipped":false,"hit_rect":[888.0,887.0,543.0,147.0],"visual_rect":[888.0,887.0,543.0,147.0]},{"action":"back","clipped":false,"hit_rect":[1443.0,887.0,544.0,147.0],"visual_rect":[1443.0,887.0,544.0,147.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2520.0,1080.0],"schema":1,"screen":"briefing","scroll_rect":[888.0,46.0,1099.0,829.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,1080.0],"window":[2520.0,1080.0]}
+SS_TARGET manual center=1434,855 viewport=2520,1080
+SS_TARGET fit_fold center=1434,1252 viewport=2520,1080
+SS_TARGET frame_quietus_standard center=1434,2474 viewport=2520,1080
+SS_TARGET frame_quietus_quiet center=1434,2635 viewport=2520,1080
+SS_TARGET frame_quietus_fast center=1434,2796 viewport=2520,1080
+SS_TARGET frame_drone_a_standard center=1434,3493 viewport=2520,1080
+SS_TARGET frame_drone_a_scout center=1434,3654 viewport=2520,1080
+SS_TARGET frame_drone_a_heavy center=1434,3815 viewport=2520,1080
+SS_TARGET frame_drone_a_endurance center=1434,3976 viewport=2520,1080
+SS_TARGET frame_drone_b_standard center=1434,4673 viewport=2520,1080
+SS_TARGET frame_drone_b_scout center=1434,4834 viewport=2520,1080
+SS_TARGET frame_drone_b_heavy center=1434,4995 viewport=2520,1080
+SS_TARGET frame_drone_b_endurance center=1434,5156 viewport=2520,1080
+SS_TARGET fit_quietus center=1434,6653 viewport=2520,1080
+SS_TARGET fit_drone_a center=1434,7109 viewport=2520,1080
+SS_TARGET fit_drone_b center=1434,7270 viewport=2520,1080
+SS_TARGET begin center=1160,961 viewport=2520,1080
+SS_TARGET back center=1715,961 viewport=2520,1080
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":730,"hud_visible":false,"menu_visible":true,"mission":0,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,1080.0],"chart_view":{"center":[500.0,745.714294433594],"mode":"follow","zoom":2.24},"context_page":"water","context_subject_kind":"","controls":[{"action":"manual","clipped":true,"hit_rect":[888.0,781.0,1091.0,94.0],"visual_rect":[888.0,781.0,1091.0,147.0]},{"action":"begin","clipped":false,"hit_rect":[888.0,887.0,543.0,147.0],"visual_rect":[888.0,887.0,543.0,147.0]},{"action":"back","clipped":false,"hit_rect":[1443.0,887.0,544.0,147.0],"visual_rect":[1443.0,887.0,544.0,147.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2520.0,1080.0],"schema":1,"screen":"briefing","scroll_rect":[888.0,46.0,1099.0,829.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,1080.0],"window":[2520.0,1080.0]}
+SS_TARGET manual center=1434,855 viewport=2520,1080
+SS_TARGET fit_fold center=1434,1252 viewport=2520,1080
+SS_TARGET frame_quietus_standard center=1434,2474 viewport=2520,1080
+SS_TARGET frame_quietus_quiet center=1434,2635 viewport=2520,1080
+SS_TARGET frame_quietus_fast center=1434,2796 viewport=2520,1080
+SS_TARGET frame_drone_a_standard center=1434,3493 viewport=2520,1080
+SS_TARGET frame_drone_a_scout center=1434,3654 viewport=2520,1080
+SS_TARGET frame_drone_a_heavy center=1434,3815 viewport=2520,1080
+SS_TARGET frame_drone_a_endurance center=1434,3976 viewport=2520,1080
+SS_TARGET frame_drone_b_standard center=1434,4673 viewport=2520,1080
+SS_TARGET frame_drone_b_scout center=1434,4834 viewport=2520,1080
+SS_TARGET frame_drone_b_heavy center=1434,4995 viewport=2520,1080
+SS_TARGET frame_drone_b_endurance center=1434,5156 viewport=2520,1080
+SS_TARGET fit_quietus center=1434,6653 viewport=2520,1080
+SS_TARGET fit_drone_a center=1434,7109 viewport=2520,1080
+SS_TARGET fit_drone_b center=1434,7270 viewport=2520,1080
+SS_TARGET begin center=1160,961 viewport=2520,1080
+SS_TARGET back center=1715,961 viewport=2520,1080
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":731,"hud_visible":false,"menu_visible":true,"mission":0,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,1080.0],"chart_view":{"center":[500.0,745.714294433594],"mode":"follow","zoom":2.24},"context_page":"water","context_subject_kind":"","controls":[{"action":"manual","clipped":true,"hit_rect":[888.0,781.0,1091.0,94.0],"visual_rect":[888.0,781.0,1091.0,147.0]},{"action":"begin","clipped":false,"hit_rect":[888.0,887.0,543.0,147.0],"visual_rect":[888.0,887.0,543.0,147.0]},{"action":"back","clipped":false,"hit_rect":[1443.0,887.0,544.0,147.0],"visual_rect":[1443.0,887.0,544.0,147.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2520.0,1080.0],"schema":1,"screen":"briefing","scroll_rect":[888.0,46.0,1099.0,829.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,1080.0],"window":[2520.0,1080.0]}
+SS_TARGET manual center=1434,855 viewport=2520,1080
+SS_TARGET fit_fold center=1434,1252 viewport=2520,1080
+SS_TARGET frame_quietus_standard center=1434,2474 viewport=2520,1080
+SS_TARGET frame_quietus_quiet center=1434,2635 viewport=2520,1080
+SS_TARGET frame_quietus_fast center=1434,2796 viewport=2520,1080
+SS_TARGET frame_drone_a_standard center=1434,3493 viewport=2520,1080
+SS_TARGET frame_drone_a_scout center=1434,3654 viewport=2520,1080
+SS_TARGET frame_drone_a_heavy center=1434,3815 viewport=2520,1080
+SS_TARGET frame_drone_a_endurance center=1434,3976 viewport=2520,1080
+SS_TARGET frame_drone_b_standard center=1434,4673 viewport=2520,1080
+SS_TARGET frame_drone_b_scout center=1434,4834 viewport=2520,1080
+SS_TARGET frame_drone_b_heavy center=1434,4995 viewport=2520,1080
+SS_TARGET frame_drone_b_endurance center=1434,5156 viewport=2520,1080
+SS_TARGET fit_quietus center=1434,6653 viewport=2520,1080
+SS_TARGET fit_drone_a center=1434,7109 viewport=2520,1080
+SS_TARGET fit_drone_b center=1434,7270 viewport=2520,1080
+SS_TARGET begin center=1160,961 viewport=2520,1080
+SS_TARGET back center=1715,961 viewport=2520,1080
+REVIEW_STATE 2 briefing Pulse away · wait for physical echoes · emission audible
+REVIEW_COMMAND {"cmd":"press","id":"begin"}
+SS_SCREEN mission paused=true
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":744,"hud_visible":true,"menu_visible":false,"mission":30,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,1080.0],"chart_view":{"center":[500.0,1850.0],"mode":"follow","zoom":5.13333333333333},"context_page":"water","context_subject_kind":"","controls":[{"action":"more_orders","clipped":false,"hit_rect":[2280.15,12.0,227.85,147.0],"visual_rect":[2280.15,12.0,227.85,147.0]},{"action":"fleet_q","clipped":false,"hit_rect":[808.5,466.5,147.0,147.0],"visual_rect":[808.5,466.5,147.0,147.0]},{"action":"fleet_a","clipped":false,"hit_rect":[808.5,214.5,147.0,147.0],"visual_rect":[808.5,214.5,147.0,147.0]},{"action":"fleet_b","clipped":false,"hit_rect":[1161.3,466.5,147.0,147.0],"visual_rect":[1161.3,466.5,147.0,147.0]},{"action":"pause","clipped":false,"hit_rect":[12.0,12.0,227.85,147.0],"visual_rect":[12.0,12.0,227.85,147.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2520.0,1080.0],"schema":1,"screen":"mission","scroll_rect":[888.0,46.0,1099.0,829.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,1080.0],"window":[2520.0,1080.0]}
+SS_TARGET more_orders center=2394,86 viewport=2520,1080
+SS_TARGET fleet_q center=882,540 viewport=2520,1080
+SS_TARGET fleet_a center=882,288 viewport=2520,1080
+SS_TARGET fleet_b center=1235,540 viewport=2520,1080
+SS_TARGET pause center=126,86 viewport=2520,1080
+SS_TARGET chart_center center=1260,540 viewport=2520,1080
+SS_TARGET objective0 center=3024,-2459 viewport=2520,1080
+SS_TARGET route center=1210,-1980 viewport=2520,1080
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":744,"hud_visible":true,"menu_visible":false,"mission":30,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,1080.0],"chart_view":{"center":[500.0,1850.0],"mode":"follow","zoom":5.13333333333333},"context_page":"water","context_subject_kind":"","controls":[{"action":"more_orders","clipped":false,"hit_rect":[2280.15,12.0,227.85,147.0],"visual_rect":[2280.15,12.0,227.85,147.0]},{"action":"fleet_q","clipped":false,"hit_rect":[808.5,466.5,147.0,147.0],"visual_rect":[808.5,466.5,147.0,147.0]},{"action":"fleet_a","clipped":false,"hit_rect":[808.5,214.5,147.0,147.0],"visual_rect":[808.5,214.5,147.0,147.0]},{"action":"fleet_b","clipped":false,"hit_rect":[1161.3,466.5,147.0,147.0],"visual_rect":[1161.3,466.5,147.0,147.0]},{"action":"pause","clipped":false,"hit_rect":[12.0,12.0,227.85,147.0],"visual_rect":[12.0,12.0,227.85,147.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2520.0,1080.0],"schema":1,"screen":"mission","scroll_rect":[888.0,46.0,1099.0,829.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,1080.0],"window":[2520.0,1080.0]}
+SS_TARGET more_orders center=2394,86 viewport=2520,1080
+SS_TARGET fleet_q center=882,540 viewport=2520,1080
+SS_TARGET fleet_a center=882,288 viewport=2520,1080
+SS_TARGET fleet_b center=1235,540 viewport=2520,1080
+SS_TARGET pause center=126,86 viewport=2520,1080
+SS_TARGET chart_center center=1260,540 viewport=2520,1080
+SS_TARGET objective0 center=3024,-2459 viewport=2520,1080
+SS_TARGET route center=1210,-1980 viewport=2520,1080
+REVIEW_STATE 3 mission Chart loaded. Tap a craft for DEPTH / SONAR; tap water to plot a route.
+REVIEW_COMMAND {"cmd":"pinch"}
+SS_VIEW zoom=1.44 center=(1400.0, 1434.694)
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":778,"hud_visible":true,"menu_visible":false,"mission":30,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,1080.0],"chart_view":{"center":[1400.0,1434.69384765625],"mode":"free","zoom":1.43733333333333},"context_page":"water","context_subject_kind":"","controls":[{"action":"more_orders","clipped":false,"hit_rect":[2280.15,12.0,227.85,147.0],"visual_rect":[2280.15,12.0,227.85,147.0]},{"action":"fleet_q","clipped":false,"hit_rect":[445.62,759.54,147.0,147.0],"visual_rect":[445.62,759.54,147.0,147.0]},{"action":"fleet_a","clipped":false,"hit_rect":[445.62,688.SS_LIFECYCLE foreground
+SS_LIFECYCLE foreground
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":49092,"hud_visible":false,"menu_visible":true,"mission":0,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,1680.0,720.0],"chart_view":{"center":[500.000030517578,745.714294433594],"mode":"follow","zoom":2.24},"context_page":"water","context_subject_kind":"","controls":[{"action":"manual","clipped":true,"hit_rect":[468.0,562.0,748.0,2.0],"visual_rect":[468.0,562.0,748.0,98.0]},{"action":"begin","clipped":false,"hit_rect":[468.0,576.0,372.0,98.0],"visual_rect":[468.0,576.0,372.0,98.0]},{"action":"back","clipped":false,"hit_rect":[852.0,576.0,372.0,98.0],"visual_rect":[852.0,576.0,372.0,98.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2520.0,1080.0],"schema":1,"screen":"briefing","scroll_rect":[468.0,46.0,756.0,518.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1680.0,720.0],"window":[2520.0,1080.0]}
+SS_TARGET manual center=842,611 viewport=1680,720
+SS_TARGET fit_fold center=842,890 viewport=1680,720
+SS_TARGET frame_quietus_standard center=842,1703 viewport=1680,720
+SS_TARGET frame_quietus_quiet center=842,1815 viewport=1680,720
+SS_TARGET frame_quietus_fast center=842,1927 viewport=1680,720
+SS_TARGET frame_drone_a_standard center=842,2416 viewport=1680,720
+SS_TARGET frame_drone_a_scout center=842,2528 viewport=1680,720
+SS_TARGET frame_drone_a_heavy center=842,2640 viewport=1680,720
+SS_TARGET frame_drone_a_endurance center=842,2752 viewport=1680,720
+SS_TARGET frame_drone_b_standard center=842,3241 viewport=1680,720
+SS_TARGET frame_drone_b_scout center=842,3353 viewport=1680,720
+SS_TARGET frame_drone_b_heavy center=842,3465 viewport=1680,720
+SS_TARGET frame_drone_b_endurance center=842,3577 viewport=1680,720
+SS_TARGET fit_quietus center=842,4629 viewport=1680,720
+SS_TARGET fit_drone_a center=842,4948 viewport=1680,720
+SS_TARGET fit_drone_b center=842,5060 viewport=1680,720
+SS_TARGET begin center=654,625 viewport=1680,720
+SS_TARGET back center=1038,625 viewport=1680,720
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":49092,"hud_visible":false,"menu_visible":true,"mission":0,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,1680.0,720.0],"chart_view":{"center":[500.000030517578,745.714294433594],"mode":"follow","zoom":2.24},"context_page":"water","context_subject_kind":"","controls":[{"action":"manual","clipped":true,"hit_rect":[468.0,562.0,748.0,2.0],"visual_rect":[468.0,562.0,748.0,98.0]},{"action":"begin","clipped":false,"hit_rect":[468.0,576.0,372.0,98.0],"visual_rect":[468.0,576.0,372.0,98.0]},{"action":"back","clipped":false,"hit_rect":[852.0,576.0,372.0,98.0],"visual_rect":[852.0,576.0,372.0,98.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2520.0,1080.0],"schema":1,"screen":"briefing","scroll_rect":[468.0,46.0,756.0,518.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[1680.0,720.0],"window":[2520.0,1080.0]}
+SS_TARGET manual center=842,611 viewport=1680,720
+SS_TARGET fit_fold center=842,890 viewport=1680,720
+SS_TARGET frame_quietus_standard center=842,1703 viewport=1680,720
+SS_TARGET frame_quietus_quiet center=842,1815 viewport=1680,720
+SS_TARGET frame_quietus_fast center=842,1927 viewport=1680,720
+SS_TARGET frame_drone_a_standard center=842,2416 viewport=1680,720
+SS_TARGET frame_drone_a_scout center=842,2528 viewport=1680,720
+SS_TARGET frame_drone_a_heavy center=842,2640 viewport=1680,720
+SS_TARGET frame_drone_a_endurance center=842,2752 viewport=1680,720
+SS_TARGET frame_drone_b_standard center=842,3241 viewport=1680,720
+SS_TARGET frame_drone_b_scout center=842,3353 viewport=1680,720
+SS_TARGET frame_drone_b_heavy center=842,3465 viewport=1680,720
+SS_TARGET frame_drone_b_endurance center=842,3577 viewport=1680,720
+SS_TARGET fit_quietus center=842,4629 viewport=1680,720
+SS_TARGET fit_drone_a center=842,4948 viewport=1680,720
+SS_TARGET fit_drone_b center=842,5060 viewport=1680,720
+SS_TARGET begin center=654,625 viewport=1680,720
+SS_TARGET back center=1038,625 viewport=1680,720
+S_ROLE mission=30 index=0 type=buoy mode=LISTENING pos=1050.000000,1050.000000 home=1050.000000,1050.000000 target=-1 lock=0.000000 time=29.000000
+REVIEW_STATE 13 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"shot","name":"04-cover-gap"}
+REVIEW_STATE 14 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"site","index":0.0}
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":3906,"hud_visible":true,"menu_visible":false,"mission":30,"optical_visible":true,"paused":false,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,1080.0],"chart_view":{"center":[1400.0,1100.0],"mode":"free","zoom":1.0},"context_page":"object","context_subject_kind":"site","controls":[{"action":"route_here","clipped":false,"hit_rect":[1507.181,193.05,227.85,147.0],"visual_rect":[1507.181,193.05,227.85,147.0]},{"action":"camera","clipped":false,"hit_rect":[1821.743,421.593,227.85,147.0],"visual_rect":[1821.743,421.593,227.85,147.0]},{"action":"inspect","clipped":false,"hit_rect":[1701.591,791.382,227.85,147.0],"visual_rect":[1701.591,791.382,227.85,147.0]},{"action":"program","clipped":false,"hit_rect":[1312.771,791.382,227.85,147.0],"visual_rect":[1312.771,791.382,227.85,147.0]},{"action":"queue","clipped":false,"hit_rect":[1192.619,421.593,227.85,147.0],"visual_rect":[1192.619,421.593,227.85,147.0]},{"action":"radial_back","clipped":false,"hit_rect":[1507.181,641.4,227.85,147.0],"visual_rect":[1507.181,641.4,227.85,147.0]},{"action":"pause","clipped":false,"hit_rect":[12.0,12.0,227.85,147.0],"visual_rect":[12.0,12.0,227.85,147.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"secondary","safe_rect":[0.0,0.0,2520.0,1080.0],"schema":1,"screen":"mission","scroll_rect":[888.0,46.0,1099.0,829.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,1080.0],"window":[2520.0,1080.0]}
+SS_TARGET route_here center=1621,267 viewport=2520,1080
+SS_TARGET camera center=1936,495 viewport=2520,1080
+SS_TARGET inspect center=1816,865 viewport=2520,1080
+SS_TARGET program center=1427,865 viewport=2520,1080
+SS_TARGET queue center=1307,495 viewport=2520,1080
+SS_TARGET radial_back center=1621,715 viewport=2520,1080
+SS_TARGET pause center=126,86 viewport=2520,1080
+SS_TARGET chart_center center=1260,540 viewport=2520,1080
+SS_TARGET objective0 center=1162,324 viewport=2520,1080
+SS_TARGET route center=808,417 viewport=2520,1080
+REVIEW_STATE 15 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"step","seconds":8.0}
+REVIEW_STATE 16 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"press","id":"pause"}
+SS_PAUSE paused=true
+REVIEW_STATE 17 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"craft"}
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":3948,"hud_visible":true,"menu_visible":false,"mission":30,"optical_visible":true,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,1080.0],"chart_view":{"center":[1400.0,1100.0],"mode":"free","zoom":1.0},"context_page":"water","context_subject_kind":"","controls":[{"action":"more_orders","clipped":false,"hit_rect":[2280.15,12.0,227.85,147.0],"visual_rect":[2280.15,12.0,227.85,147.0]},{"action":"fleet_q","clipped":false,"hit_rect":[898.304,171.0,147.0,147.0],"visual_rect":[898.304,171.0,147.0,147.0]},{"action":"fleet_a","clipped":false,"hit_rect":[1159.401,756.0,147.0,147.0],"visual_rect":[1159.401,756.0,147.0,147.0]},{"action":"fleet_b","clipped":false,"hit_rect":[1348.968,756.0,147.0,147.0],"visual_rect":[1348.968,756.0,147.0,147.0]},{"action":"pause","clipped":false,"hit_rect":[12.0,12.0,227.85,147.0],"visual_rect":[12.0,12.0,227.85,147.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2520.0,1080.0],"schema":1,"screen":"mission","scroll_rect":[888.0,46.0,1099.0,829.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,1080.0],"window":[2520.0,1080.0]}
+SS_TARGET more_orders center=2394,86 viewport=2520,1080
+SS_TARGET fleet_q center=972,245 viewport=2520,1080
+SS_TARGET fleet_a center=1233,830 viewport=2520,1080
+SS_TARGET fleet_b center=1422,830 viewport=2520,1080
+SS_TARGET pause center=126,86 viewport=2520,1080
+SS_TARGET chart_center center=1260,540 viewport=2520,1080
+SS_TARGET objective0 center=1162,324 viewport=2520,1080
+SS_TARGET route center=808,417 viewport=2520,1080
+REVIEW_STATE 18 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"press","id":"camera"}
+REVIEW_STATE 19 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"press","id":"fleet_q"}
+SS_VIEW zoom=5.13 center=(1185.413, 801.5373)
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":4409,"hud_visible":true,"menu_visible":false,"mission":30,"optical_visible":true,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,1080.0],"chart_view":{"center":[1185.41333007813,801.537292480469],"mode":"follow","zoom":5.13333333333333},"context_page":"water","context_subject_kind":"","controls":[{"action":"more_orders","clipped":false,"hit_rect":[2280.15,12.0,227.85,147.0],"visual_rect":[2280.15,12.0,227.85,147.0]},{"action":"fleet_q","clipped":false,"hit_rect":[1186.5,466.5,147.0,147.0],"visual_rect":[1186.5,466.5,147.0,147.0]},{"action":"fleet_a","clipped":false,"hit_rect":[1149.687,756.0,147.0,147.0],"visual_rect":[1149.687,756.0,147.0,147.0]},{"action":"fleet_b","clipped":false,"hit_rect":[1360.214,756.0,147.0,147.0],"visual_rect":[1360.214,756.0,147.0,147.0]},{"action":"pause","clipped":false,"hit_rect":[12.0,12.0,227.85,147.0],"visual_rect":[12.0,12.0,227.85,147.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2520.0,1080.0],"schema":1,"screen":"mission","scroll_rect":[888.0,46.0,1099.0,829.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,1080.0],"window":[2520.0,1080.0]}
+SS_TARGET more_orders center=2394,86 viewport=2520,1080
+SS_TARGET fleet_q center=1260,540 viewport=2520,1080
+SS_TARGET fleet_a center=1223,830 viewport=2520,1080
+SS_TARGET fleet_b center=1434,830 viewport=2520,1080
+SS_TARGET pause center=126,86 viewport=2520,1080
+SS_TARGET chart_center center=1260,540 viewport=2520,1080
+SS_TARGET objective0 center=1297,183 viewport=2520,1080
+SS_TARGET route center=-518,662 viewport=2520,1080
+REVIEW_STATE 20 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"shot","name":"05-core-approach"}
+REVIEW_STATE 21 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"tap","x":1290.0,"y":180.0}
+SS_ORDER route accepted=true selected=0 queued=false
+REVIEW_STATE 22 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"press","id":"pause"}
+SS_PAUSE paused=false
+REVIEW_STATE 23 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"step","seconds":4.0}
+SS_CAMERA_READY unit=0 objective=0
+REVIEW_STATE 24 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"press","id":"pause"}
+SS_PAUSE paused=true
+REVIEW_STATE 25 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"press","id":"fleet_q"}
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":5438,"hud_visible":true,"menu_visible":false,"mission":30,"optical_visible":true,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,1080.0],"chart_view":{"center":[1196.71069335938,665.962890625],"mode":"follow","zoom":5.13333333333333},"context_page":"craft","context_subject_kind":"","controls":[{"action":"camera","clipped":false,"hit_rect":[506.92,193.05,227.85,147.0],"visual_rect":[506.92,193.05,227.85,147.0]},{"action":"depth_menu","clipped":false,"hit_rect":[740.796,289.924,227.85,147.0],"visual_rect":[740.796,289.924,227.85,147.0]},{"action":"silent","clipped":false,"hit_rect":[837.67,523.8,227.85,147.0],"visual_rect":[837.67,523.8,227.85,147.0]},{"action":"program","clipped":false,"hit_rect":[740.796,757.676,227.85,147.0],"visual_rect":[740.796,757.676,227.85,147.0]},{"action":"route_menu","clipped":false,"hit_rect":[506.92,854.55,227.85,147.0],"visual_rect":[506.92,854.55,227.85,147.0]},{"action":"tools_menu","clipped":false,"hit_rect":[273.044,757.676,227.85,147.0],"visual_rect":[273.044,757.676,227.85,147.0]},{"action":"all_stop","clipped":false,"hit_rect":[176.17,523.8,227.85,147.0],"visual_rect":[176.17,523.8,227.85,147.0]},{"action":"inspect","clipped":false,"hit_rect":[273.044,289.924,227.85,147.0],"visual_rect":[273.044,289.924,227.85,147.0]},{"action":"radial_back","clipped":false,"hit_rect":[506.92,692.85,227.85,147.0],"visual_rect":[506.92,692.85,227.85,147.0]},{"action":"pause","clipped":false,"hit_rect":[12.0,12.0,227.85,147.0],"visual_rect":[12.0,12.0,227.85,147.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"secondary","safe_rect":[0.0,0.0,2520.0,1080.0],"schema":1,"screen":"mission","scroll_rect":[888.0,46.0,1099.0,829.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,1080.0],"window":[2520.0,1080.0]}
+SS_TARGET camera center=621,267 viewport=2520,1080
+SS_TARGET depth_menu center=855,363 viewport=2520,1080
+SS_TARGET silent center=952,597 viewport=2520,1080
+SS_TARGET program center=855,831 viewport=2520,1080
+SS_TARGET route_menu center=621,928 viewport=2520,1080
+SS_TARGET tools_menu center=387,831 viewport=2520,1080
+SS_TARGET all_stop center=290,597 viewport=2520,1080
+SS_TARGET inspect center=387,363 viewport=2520,1080
+SS_TARGET radial_back center=621,766 viewport=2520,1080
+SS_TARGET pause center=126,86 viewport=2520,1080
+SS_TARGET chart_center center=1260,540 viewport=2520,1080
+SS_TARGET objective0 center=1268,525 viewport=2520,1080
+SS_TARGET route center=-546,1004 viewport=2520,1080
+REVIEW_STATE 26 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"press","id":"fleet_q"}
+REVIEW_STATE 27 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"press","id":"camera"}
+SS_ORDER camera accepted=true selected=0 queued=false
+SS_UI_METRICS {"capture_state":{"capture_unit":0,"drawn_frame":5779,"hud_visible":true,"menu_visible":false,"mission":30,"optical_visible":true,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,1080.0],"chart_view":{"center":[1196.71069335938,665.962890625],"mode":"follow","zoom":5.13333333333333},"context_page":"water","context_subject_kind":"","controls":[{"action":"more_orders","clipped":false,"hit_rect":[2280.15,12.0,227.85,147.0],"visual_rect":[2280.15,12.0,227.85,147.0]},{"action":"fleet_q","clipped":false,"hit_rect":[1186.5,466.5,147.0,147.0],"visual_rect":[1186.5,466.5,147.0,147.0]},{"action":"fleet_a","clipped":false,"hit_rect":[1546.287,756.0,147.0,147.0],"visual_rect":[1546.287,756.0,147.0,147.0]},{"action":"fleet_b","clipped":false,"hit_rect":[1747.092,756.0,147.0,147.0],"visual_rect":[1747.092,756.0,147.0,147.0]},{"action":"order_undo","clipped":false,"hit_rect":[1024.8,795.0,470.4,147.0],"visual_rect":[1024.8,795.0,470.4,147.0]},{"action":"pause","clipped":false,"hit_rect":[12.0,12.0,227.85,147.0],"visual_rect":[12.0,12.0,227.85,147.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2520.0,1080.0],"schema":1,"screen":"mission","scroll_rect":[888.0,46.0,1099.0,829.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,1080.0],"window":[2520.0,1080.0]}
+SS_TARGET more_orders center=2394,86 viewport=2520,1080
+SS_TARGET fleet_q center=1260,540 viewport=2520,1080
+SS_TARGET fleet_a center=1620,830 viewport=2520,1080
+SS_TARGET fleet_b center=1821,830 viewport=2520,1080
+SS_TARGET order_undo center=1260,869 viewport=2520,1080
+SS_TARGET pause center=126,86 viewport=2520,1080
+SS_TARGET chart_center center=1260,540 viewport=2520,1080
+SS_TARGET objective0 center=1268,525 viewport=2520,1080
+SS_TARGET route center=-546,1004 viewport=2520,1080
+SS_UI_METRICS {"capture_state":{"capture_unit":0,"drawn_frame":5779,"hud_visible":true,"menu_visible":false,"mission":30,"optical_visible":true,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,1080.0],"chart_view":{"center":[1196.71069335938,665.962890625],"mode":"follow","zoom":5.13333333333333},"context_page":"water","context_subject_kind":"","controls":[{"action":"more_orders","clipped":false,"hit_rect":[2280.15,12.0,227.85,147.0],"visual_rect":[2280.15,12.0,227.85,147.0]},{"action":"fleet_q","clipped":false,"hit_rect":[1186.5,466.5,147.0,147.0],"visual_rect":[1186.5,466.5,147.0,147.0]},{"action":"fleet_a","clipped":false,"hit_rect":[1546.287,756.0,147.0,147.0],"visual_rect":[1546.287,756.0,147.0,147.0]},{"action":"fleet_b","clipped":false,"hit_rect":[1747.092,756.0,147.0,147.0],"visual_rect":[1747.092,756.0,147.0,147.0]},{"action":"order_undo","clipped":false,"hit_rect":[1024.8,795.0,470.4,147.0],"visual_rect":[1024.8,795.0,470.4,147.0]},{"action":"pause","clipped":false,"hit_rect":[12.0,12.0,227.85,147.0],"visual_rect":[12.0,12.0,227.85,147.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2520.0,1080.0],"schema":1,"screen":"mission","scroll_rect":[888.0,46.0,1099.0,829.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,1080.0],"window":[2520.0,1080.0]}
+SS_TARGET more_orders center=2394,86 viewport=2520,1080
+SS_TARGET fleet_q center=1260,540 viewport=2520,1080
+SS_TARGET fleet_a center=1620,830 viewport=2520,1080
+SS_TARGET fleet_b center=1821,830 viewport=2520,1080
+SS_TARGET order_undo center=1260,869 viewport=2520,1080
+SS_TARGET pause center=126,86 viewport=2520,1080
+SS_TARGET chart_center center=1260,540 viewport=2520,1080
+SS_TARGET objective0 center=1268,525 viewport=2520,1080
+SS_TARGET route center=-546,1004 viewport=2520,1080
+REVIEW_STATE 28 mission Camera exposure · hold 4 seconds
+REVIEW_COMMAND {"cmd":"shot","name":"06-core-camera"}
+REVIEW_STATE 29 mission Camera exposure · hold 4 seconds
+REVIEW_COMMAND {"cmd":"press","id":"pause"}
+SS_PAUSE paused=false
+REVIEW_STATE 30 mission Camera exposure · hold 4 seconds
+REVIEW_COMMAND {"cmd":"step","seconds":4.0}
+SS_ROLE mission=30 index=0 type=buoy mode=BUOY CHARGING pos=1050.000000,1050.000000 home=1050.000000,1050.000000 target=-1 lock=0.000000 time=46.050000
+SS_ROLE mission=30 index=0 type=buoy mode=LISTENING pos=1050.000000,1050.000000 home=1050.000000,1050.000000 target=-1 lock=0.000000 time=48.050000
+REVIEW_STATE 31 mission Camera exposure · hold 4 seconds
+REVIEW_COMMAND {"cmd":"press","id":"pause"}
+SS_PAUSE paused=true
+REVIEW_STATE 32 mission Camera exposure · hold 4 seconds
+REVIEW_COMMAND {"cmd":"shot","name":"07-core-exposed"}
+REVIEW_STATE 33 mission Camera exposure · hold 4 seconds
+REVIEW_COMMAND {"cmd":"press","id":"pause"}
+SS_PAUSE paused=false
+REVIEW_STATE 34 mission Camera exposure · hold 4 seconds
+REVIEW_COMMAND {"cmd":"step","seconds":0.15}
+SS_OBJECTIVE_RECORDED mission=30 objective=0
+REVIEW_STATE 35 mission Record secured. Return Quietus to extraction. · frame 27% grade C
+REVIEW_COMMAND {"cmd":"press","id":"pause"}
+SS_PAUSE paused=true
+REVIEW_STATE 36 mission Record secured. Return Quietus to extraction. · frame 27% grade C
+REVIEW_COMMAND {"cmd":"pinch"}
+SS_VIEW zoom=1.44 center=(1400.0, 765.3061)
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":6612,"hud_visible":true,"menu_visible":false,"mission":30,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,1080.0],"chart_view":{"center":[1400.0,765.306091308594],"mode":"free","zoom":1.43733333333333},"context_page":"water","context_subject_kind":"","controls":[{"action":"more_orders","clipped":false,"hit_rect":[2280.15,12.0,227.85,147.0],"visual_rect":[2280.15,12.0,227.85,147.0]},{"action":"fleet_q","clipped":false,"hit_rect":[1043.091,396.022,147.0,147.0],"visual_rect":[1043.091,396.022,147.0,147.0]},{"action":"fleet_a","clipped":false,"hit_rect":[875.942,756.0,147.0,147.0],"visual_rect":[875.942,756.0,147.0,147.0]},{"action":"fleet_b","clipped":false,"hit_rect":[1089.066,756.0,147.0,147.0],"visual_rect":[1089.066,756.0,147.0,147.0]},{"action":"pause","clipped":false,"hit_rect":[12.0,12.0,227.85,147.0],"visual_rect":[12.0,12.0,227.85,147.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2520.0,1080.0],"schema":1,"screen":"mission","scroll_rect":[888.0,46.0,1099.0,829.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,1080.0],"window":[2520.0,1080.0]}
+SS_TARGET more_orders center=2394,86 viewport=2520,1080
+SS_TARGET fleet_q center=1117,470 viewport=2520,1080
+SS_TARGET fleet_a center=949,830 viewport=2520,1080
+SS_TARGET fleet_b center=1163,830 viewport=2520,1080
+SS_TARGET pause center=126,86 viewport=2520,1080
+SS_TARGET chart_center center=1260,540 viewport=2520,1080
+SS_TARGET objective0 center=1119,466 viewport=2520,1080
+SS_TARGET route center=611,600 viewport=2520,1080
+REVIEW_STATE 37 mission Record secured. Return Quietus to extraction. · frame 27% grade C
+REVIEW_COMMAND {"cmd":"pinch"}
+SS_VIEW zoom=1.0 center=(1400.0, 1100.0)
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":6649,"hud_visible":true,"menu_visible":false,"mission":30,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,1080.0],"chart_view":{"center":[1400.0,1100.0],"mode":"free","zoom":1.0},"context_page":"water","context_subject_kind":"","controls":[{"action":"more_orders","clipped":false,"hit_rect":[2280.15,12.0,227.85,147.0],"visual_rect":[2280.15,12.0,227.85,147.0]},{"action":"fleet_q","clipped":false,"hit_rect":[1086.726,253.162,147.0,147.0],"visual_rect":[1086.726,253.162,147.0,147.0]},{"action":"fleet_a","clipped":false,"hit_rect":[671.045,785.591,147.0,147.0],"visual_rect":[671.045,785.591,147.0,147.0]},{"action":"fleet_b","clipped":false,"hit_rect":[834.468,756.0,147.0,147.0],"visual_rect":[834.468,756.0,147.0,147.0]},{"action":"pause","clipped":false,"hit_rect":[12.0,12.0,227.85,147.0],"visual_rect":[12.0,12.0,227.85,147.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2520.0,1080.0],"schema":1,"screen":"mission","scroll_rect":[888.0,46.0,1099.0,829.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,1080.0],"window":[2520.0,1080.0]}
+SS_TARGET more_orders center=2394,86 viewport=2520,1080
+SS_TARGET fleet_q center=1160,327 viewport=2520,1080
+SS_TARGET fleet_a center=745,859 viewport=2520,1080
+SS_TARGET fleet_b center=908,830 viewport=2520,1080
+SS_TARGET pause center=126,86 viewport=2520,1080
+SS_TARGET chart_center center=1260,540 viewport=2520,1080
+SS_TARGET objective0 center=1162,324 viewport=2520,1080
+SS_TARGET route center=808,417 viewport=2520,1080
+REVIEW_STATE 38 mission Record secured. Return Quietus to extraction. · frame 27% grade C
+REVIEW_COMMAND {"cmd":"shot","name":"08-return-chart"}
+REVIEW_STATE 39 mission Record secured. Return Quietus to extraction. · frame 27% grade C
+REVIEW_COMMAND {"cmd":"tap","x":1200.0,"y":650.0}
+SS_ORDER route accepted=true selected=0 queued=false
+REVIEW_STATE 40 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"press","id":"pause"}
+SS_PAUSE paused=false
+REVIEW_STATE 41 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"step","seconds":12.0}
+SS_CAMERA_READY unit=0 objective=-2
+REVIEW_STATE 42 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"step","seconds":5.0}
+REVIEW_STATE 43 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"press","id":"pause"}
+SS_PAUSE paused=true
+REVIEW_STATE 44 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"shot","name":"09-return-gap"}
+REVIEW_STATE 45 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"tap","x":1775.0,"y":909.0}
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":8304,"hud_visible":true,"menu_visible":false,"mission":30,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,1080.0],"chart_view":{"center":[1400.0,1100.0],"mode":"free","zoom":1.0},"context_page":"object","context_subject_kind":"corridor","controls":[{"action":"route_here","clipped":false,"hit_rect":[1661.53,237.45,227.85,147.0],"visual_rect":[1661.53,237.45,227.85,147.0]},{"action":"inspect","clipped":false,"hit_rect":[1992.28,568.2,227.85,147.0],"visual_rect":[1992.28,568.2,227.85,147.0]},{"action":"program","clipped":false,"hit_rect":[1661.53,898.95,227.85,147.0],"visual_rect":[1661.53,898.95,227.85,147.0]},{"action":"queue","clipped":false,"hit_rect":[1330.78,568.2,227.85,147.0],"visual_rect":[1330.78,568.2,227.85,147.0]},{"action":"radial_back","clipped":false,"hit_rect":[1661.53,737.25,227.85,147.0],"visual_rect":[1661.53,737.25,227.85,147.0]},{"action":"pause","clipped":false,"hit_rect":[12.0,12.0,227.85,147.0],"visual_rect":[12.0,12.0,227.85,147.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"secondary","safe_rect":[0.0,0.0,2520.0,1080.0],"schema":1,"screen":"mission","scroll_rect":[888.0,46.0,1099.0,829.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,1080.0],"window":[2520.0,1080.0]}
+SS_TARGET route_here center=1775,311 viewport=2520,1080
+SS_TARGET inspect center=2106,642 viewport=2520,1080
+SS_TARGET program center=1775,972 viewport=2520,1080
+SS_TARGET queue center=1445,642 viewport=2520,1080
+SS_TARGET radial_back center=1775,811 viewport=2520,1080
+SS_TARGET pause center=126,86 viewport=2520,1080
+SS_TARGET chart_center center=1260,540 viewport=2520,1080
+SS_TARGET objective0 center=1162,324 viewport=2520,1080
+SS_TARGET route center=808,417 viewport=2520,1080
+REVIEW_STATE 46 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"press","id":"pause"}
+SS_PAUSE paused=false
+REVIEW_STATE 47 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"step","seconds":12.0}
+REVIEW_STATE 48 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"step","seconds":12.0}
+REVIEW_STATE 49 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"step","seconds":8.0}
+REVIEW_STATE 50 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"shot","name":"10-first-debrief"}
+REVIEW_STATE 51 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"press","id":"route_here"}
+SS_ORDER route accepted=true selected=0 queued=false
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":8692,"hud_visible":true,"menu_visible":false,"mission":30,"optical_visible":false,"paused":false,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,1080.0],"chart_view":{"center":[1400.0,1100.0],"mode":"free","zoom":1.0},"context_page":"water","context_subject_kind":"","controls":[{"action":"more_orders","clipped":false,"hit_rect":[2280.15,12.0,227.85,147.0],"visual_rect":[2280.15,12.0,227.85,147.0]},{"action":"fleet_q","clipped":false,"hit_rect":[1126.28,572.977,147.0,147.0],"visual_rect":[1126.28,572.977,147.0,147.0]},{"action":"fleet_a","clipped":false,"hit_rect":[671.045,785.591,147.0,147.0],"visual_rect":[671.045,785.591,147.0,147.0]},{"action":"fleet_b","clipped":false,"hit_rect":[834.468,756.0,147.0,147.0],"visual_rect":[834.468,756.0,147.0,147.0]},{"action":"order_undo","clipped":false,"hit_rect":[1024.8,795.0,470.4,147.0],"visual_rect":[1024.8,795.0,470.4,147.0]},{"action":"pause","clipped":false,"hit_rect":[12.0,12.0,227.85,147.0],"visual_rect":[12.0,12.0,227.85,147.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2520.0,1080.0],"schema":1,"screen":"mission","scroll_rect":[888.0,46.0,1099.0,829.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,1080.0],"window":[2520.0,1080.0]}
+SS_TARGET more_orders center=2394,86 viewport=2520,1080
+SS_TARGET fleet_q center=1200,646 viewport=2520,1080
+SS_TARGET fleet_a center=745,859 viewport=2520,1080
+SS_TARGET fleet_b center=908,830 viewport=2520,1080
+SS_TARGET order_undo center=1260,869 viewport=2520,1080
+SS_TARGET pause center=126,86 viewport=2520,1080
+SS_TARGET chart_center center=1260,540 viewport=2520,1080
+SS_TARGET objective0 center=1162,324 viewport=2520,1080
+SS_TARGET route center=808,417 viewport=2520,1080
+REVIEW_STATE 52 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"step","seconds":12.0}
+REVIEW_STATE 53 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"step","seconds":12.0}
+REVIEW_STATE 54 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"step","seconds":8.0}
+SS_DEBRIEF outcome=won mission=30
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":8753,"hud_visible":false,"menu_visible":true,"mission":30,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,1080.0],"chart_view":{"center":[1400.0,1100.0],"mode":"free","zoom":1.0},"context_page":"water","context_subject_kind":"","controls":[],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2520.0,1080.0],"schema":1,"screen":"debrief","scroll_rect":[888.0,46.0,744.0,988.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,1080.0],"window":[2520.0,1080.0]}
+SS_TARGET next_expedition center=1256,1319 viewport=2520,1080
+SS_TARGET evidence center=1256,1566 viewport=2520,1080
+SS_TARGET retry center=1256,1727 viewport=2520,1080
+SS_TARGET back center=1256,1888 viewport=2520,1080
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":8753,"hud_visible":false,"menu_visible":true,"mission":30,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,1080.0],"chart_view":{"center":[1400.0,1100.0],"mode":"free","zoom":1.0},"context_page":"water","context_subject_kind":"","controls":[],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2520.0,1080.0],"schema":1,"screen":"debrief","scroll_rect":[888.0,46.0,744.0,988.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,1080.0],"window":[2520.0,1080.0]}
+SS_TARGET next_expedition center=1256,1319 viewport=2520,1080
+SS_TARGET evidence center=1256,1566 viewport=2520,1080
+SS_TARGET retry center=1256,1727 viewport=2520,1080
+SS_TARGET back center=1256,1888 viewport=2520,1080
+REVIEW_STATE 55 debrief Archive recovered / SURVEY RECOVERY
+REVIEW_COMMAND {"cmd":"shape","x":2184.0,"y":1968.0}
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":10085,"hud_visible":false,"menu_visible":true,"mission":30,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,2270.0],"chart_view":{"center":[1400.0,1100.0],"mode":"free","zoom":1.0},"context_page":"water","context_subject_kind":"","controls":[{"action":"next_expedition","clipped":false,"hit_rect":[888.0,1245.0,736.0,170.0],"visual_rect":[888.0,1245.0,736.0,170.0]},{"action":"evidence","clipped":false,"hit_rect":[888.0,1515.0,736.0,170.0],"visual_rect":[888.0,1515.0,736.0,170.0]},{"action":"retry","clipped":false,"hit_rect":[888.0,1699.0,736.0,170.0],"visual_rect":[888.0,1699.0,736.0,170.0]},{"action":"back","clipped":false,"hit_rect":[888.0,1883.0,736.0,170.0],"visual_rect":[888.0,1883.0,736.0,170.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"debrief","scroll_rect":[888.0,46.0,744.0,2178.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,2270.0],"window":[2184.0,1968.0]}
+SS_TARGET next_expedition center=1256,1330 viewport=2520,2270
+SS_TARGET evidence center=1256,1600 viewport=2520,2270
+SS_TARGET retry center=1256,1784 viewport=2520,2270
+SS_TARGET back center=1256,1968 viewport=2520,2270
+REVIEW_STATE 56 debrief Archive recovered / SURVEY RECOVERY
+REVIEW_COMMAND {"cmd":"press","id":"next_expedition"}
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":10107,"hud_visible":false,"menu_visible":true,"mission":30,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,2270.0],"chart_view":{"center":[1400.0,1100.0],"mode":"free","zoom":1.0},"context_page":"water","context_subject_kind":"","controls":[{"action":"manual","clipped":false,"hit_rect":[888.0,986.0,1249.0,170.0],"visual_rect":[888.0,986.0,1249.0,170.0]},{"action":"fit_fold","clipped":false,"hit_rect":[888.0,1439.0,1249.0,170.0],"visual_rect":[888.0,1439.0,1249.0,170.0]},{"action":"begin","clipped":false,"hit_rect":[888.0,2054.0,622.0,170.0],"visual_rect":[888.0,2054.0,622.0,170.0]},{"action":"back","clipped":false,"hit_rect":[1522.0,2054.0,623.0,170.0],"visual_rect":[1522.0,2054.0,623.0,170.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"briefing","scroll_rect":[888.0,46.0,1257.0,1996.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,2270.0],"window":[2184.0,1968.0]}
+SS_TARGET manual center=1513,1071 viewport=2520,2270
+SS_TARGET fit_fold center=1513,1524 viewport=2520,2270
+SS_TARGET frame_quietus_standard center=1513,2914 viewport=2520,2270
+SS_TARGET frame_quietus_quiet center=1513,3098 viewport=2520,2270
+SS_TARGET frame_quietus_fast center=1513,3282 viewport=2520,2270
+SS_TARGET frame_drone_a_standard center=1513,4075 viewport=2520,2270
+SS_TARGET frame_drone_a_scout center=1513,4259 viewport=2520,2270
+SS_TARGET frame_drone_a_heavy center=1513,4443 viewport=2520,2270
+SS_TARGET frame_drone_a_endurance center=1513,4627 viewport=2520,2270
+SS_TARGET frame_drone_b_standard center=1513,5420 viewport=2520,2270
+SS_TARGET frame_drone_b_scout center=1513,5604 viewport=2520,2270
+SS_TARGET frame_drone_b_heavy center=1513,5788 viewport=2520,2270
+SS_TARGET frame_drone_b_endurance center=1513,5972 viewport=2520,2270
+SS_TARGET fit_quietus center=1513,7674 viewport=2520,2270
+SS_TARGET fit_drone_a center=1513,8193 viewport=2520,2270
+SS_TARGET fit_drone_b center=1513,8377 viewport=2520,2270
+SS_TARGET begin center=1199,2139 viewport=2520,2270
+SS_TARGET back center=1834,2139 viewport=2520,2270
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":10107,"hud_visible":false,"menu_visible":true,"mission":30,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,2270.0],"chart_view":{"center":[1400.0,1100.0],"mode":"free","zoom":1.0},"context_page":"water","context_subject_kind":"","controls":[{"action":"manual","clipped":false,"hit_rect":[888.0,986.0,1249.0,170.0],"visual_rect":[888.0,986.0,1249.0,170.0]},{"action":"fit_fold","clipped":false,"hit_rect":[888.0,1439.0,1249.0,170.0],"visual_rect":[888.0,1439.0,1249.0,170.0]},{"action":"begin","clipped":false,"hit_rect":[888.0,2054.0,622.0,170.0],"visual_rect":[888.0,2054.0,622.0,170.0]},{"action":"back","clipped":false,"hit_rect":[1522.0,2054.0,623.0,170.0],"visual_rect":[1522.0,2054.0,623.0,170.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"briefing","scroll_rect":[888.0,46.0,1257.0,1996.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,2270.0],"window":[2184.0,1968.0]}
+SS_TARGET manual center=1513,1071 viewport=2520,2270
+SS_TARGET fit_fold center=1513,1524 viewport=2520,2270
+SS_TARGET frame_quietus_standard center=1513,2914 viewport=2520,2270
+SS_TARGET frame_quietus_quiet center=1513,3098 viewport=2520,2270
+SS_TARGET frame_quietus_fast center=1513,3282 viewport=2520,2270
+SS_TARGET frame_drone_a_standard center=1513,4075 viewport=2520,2270
+SS_TARGET frame_drone_a_scout center=1513,4259 viewport=2520,2270
+SS_TARGET frame_drone_a_heavy center=1513,4443 viewport=2520,2270
+SS_TARGET frame_drone_a_endurance center=1513,4627 viewport=2520,2270
+SS_TARGET frame_drone_b_standard center=1513,5420 viewport=2520,2270
+SS_TARGET frame_drone_b_scout center=1513,5604 viewport=2520,2270
+SS_TARGET frame_drone_b_heavy center=1513,5788 viewport=2520,2270
+SS_TARGET frame_drone_b_endurance center=1513,5972 viewport=2520,2270
+SS_TARGET fit_quietus center=1513,7674 viewport=2520,2270
+SS_TARGET fit_drone_a center=1513,8193 viewport=2520,2270
+SS_TARGET fit_drone_b center=1513,8377 viewport=2520,2270
+SS_TARGET begin center=1199,2139 viewport=2520,2270
+SS_TARGET back center=1834,2139 viewport=2520,2270
+REVIEW_STATE 57 briefing Archive recovered / SURVEY RECOVERY
+REVIEW_COMMAND {"cmd":"shot","name":"11-inner-next-brief"}
+REVIEW_STATE 58 briefing Archive recovered / SURVEY RECOVERY
+REVIEW_COMMAND {"cmd":"press","id":"begin"}
+SS_SCREEN mission paused=true
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":10641,"hud_visible":true,"menu_visible":false,"mission":31,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,2270.0],"chart_view":{"center":[350.0,2250.0],"mode":"follow","zoom":4.33333333333333},"context_page":"water","context_subject_kind":"","controls":[{"action":"more_orders","clipped":false,"hit_rect":[2244.5,12.0,263.5,170.0],"visual_rect":[2244.5,12.0,263.5,170.0]},{"action":"fleet_q","clipped":false,"hit_rect":[1175.0,1050.0,170.0,170.0],"visual_rect":[1175.0,1050.0,170.0,170.0]},{"action":"fleet_a","clipped":false,"hit_rect":[1175.0,671.667,170.0,170.0],"visual_rect":[1175.0,671.667,170.0,170.0]},{"action":"fleet_b","clipped":false,"hit_rect":[1704.667,1050.0,170.0,170.0],"visual_rect":[1704.667,1050.0,170.0,170.0]},{"action":"pause","clipped":false,"hit_rect":[12.0,12.0,263.5,170.0],"visual_rect":[12.0,12.0,263.5,170.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"mission","scroll_rect":[888.0,46.0,1257.0,1996.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,2270.0],"window":[2184.0,1968.0]}
+SS_TARGET more_orders center=2376,97 viewport=2520,2270
+SS_TARGET fleet_q center=1260,1135 viewport=2520,2270
+SS_TARGET fleet_a center=1260,757 viewport=2520,2270
+SS_TARGET fleet_b center=1790,1135 viewport=2520,2270
+SS_TARGET pause center=144,97 viewport=2520,2270
+SS_TARGET chart_center center=1260,1135 viewport=2520,2270
+SS_TARGET objective0 center=2395,-4502 viewport=2520,2270
+SS_TARGET route center=1752,-4162 viewport=2520,2270
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":10641,"hud_visible":true,"menu_visible":false,"mission":31,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,2270.0],"chart_view":{"center":[350.0,2250.0],"mode":"follow","zoom":4.33333333333333},"context_page":"water","context_subject_kind":"","controls":[{"action":"more_orders","clipped":false,"hit_rect":[2244.5,12.0,263.5,170.0],"visual_rect":[2244.5,12.0,263.5,170.0]},{"action":"fleet_q","clipped":false,"hit_rect":[1175.0,1050.0,170.0,170.0],"visual_rect":[1175.0,1050.0,170.0,170.0]},{"action":"fleet_a","clipped":false,"hit_rect":[1175.0,671.667,170.0,170.0],"visual_rect":[1175.0,671.667,170.0,170.0]},{"action":"fleet_b","clipped":false,"hit_rect":[1704.667,1050.0,170.0,170.0],"visual_rect":[1704.667,1050.0,170.0,170.0]},{"action":"pause","clipped":false,"hit_rect":[12.0,12.0,263.5,170.0],"visual_rect":[12.0,12.0,263.5,170.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"mission","scroll_rect":[888.0,46.0,1257.0,1996.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,2270.0],"window":[2184.0,1968.0]}
+SS_TARGET more_orders center=2376,97 viewport=2520,2270
+SS_TARGET fleet_q center=1260,1135 viewport=2520,2270
+SS_TARGET fleet_a center=1260,757 viewport=2520,2270
+SS_TARGET fleet_b center=1790,1135 viewport=2520,2270
+SS_TARGET pause center=144,97 viewport=2520,2270
+SS_TARGET chart_center center=1260,1135 viewport=2520,2270
+SS_TARGET objective0 center=2395,-4502 viewport=2520,2270
+SS_TARGET route center=1752,-4162 viewport=2520,2270
+REVIEW_STATE 59 mission Chart loaded. Tap a craft for DEPTH / SONAR; tap water to plot a route.
+REVIEW_COMMAND {"cmd":"pinch"}
+SS_VIEW zoom=1.21 center=(1197.923, 1528.571)
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":10677,"hud_visible":true,"menu_visible":false,"mission":31,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,2270.0],"chart_view":{"center":[1197.92321777344,1528.57141113281],"mode":"free","zoom":1.21333333333333},"context_page":"water","context_subject_kind":"","controls":[{"action":"more_orders","clipped":false,"hit_rect":[2244.5,12.0,263.5,170.0],"visual_rect":[2244.5,12.0,263.5,170.0]},{"action":"fleet_q","clipped":false,"hit_rect":[276.767,1814.233,170.0,170.0],"visual_rect":[276.767,1814.233,170.0,170.0]},{"action":"fleet_a","clipped":false,"hit_rect":[276.767,1708.3,170.0,170.0],"visual_rect":[276.767,1708.3,170.0,170.0]},{"action":"fleet_b","clipped":false,"hit_rect":[425.073,1814.233,170.0,170.0],"visual_rect":[425.073,1814.233,170.0,170.0]},{"action":"pause","clipped":false,"hit_rect":[12.0,12.0,263.5,170.0],"visual_rect":[12.0,12.0,263.5,170.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"mission","scroll_rect":[888.0,46.0,1257.0,1996.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,2270.0],"window":[2184.0,1968.0]}
+SS_TARGET more_orders center=2376,97 viewport=2520,2270
+SS_TARGET fleet_q center=362,1899 viewport=2520,2270
+SS_TARGET fleet_a center=362,1793 viewport=2520,2270
+SS_TARGET fleet_b center=510,1899 viewport=2520,2270
+SS_TARGET pause center=144,97 viewport=2520,2270
+SS_TARGET chart_center center=1260,1135 viewport=2520,2270
+SS_TARGET objective0 center=680,321 viewport=2520,2270
+SS_TARGET route center=499,416 viewport=2520,2270
+REVIEW_STATE 60 mission Chart loaded. Tap a craft for DEPTH / SONAR; tap water to plot a route.
+REVIEW_COMMAND {"cmd":"pinch"}
+SS_VIEW zoom=1.0 center=(1300.0, 1300.0)
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":10713,"hud_visible":true,"menu_visible":false,"mission":31,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,2270.0],"chart_view":{"center":[1300.0,1300.0],"mode":"free","zoom":1.0},"context_page":"water","context_subject_kind":"","controls":[{"action":"more_orders","clipped":false,"hit_rect":[2244.5,12.0,263.5,170.0],"visual_rect":[2244.5,12.0,263.5,170.0]},{"action":"fleet_q","clipped":false,"hit_rect":[345.577,1879.423,170.0,170.0],"visual_rect":[345.577,1879.423,170.0,170.0]},{"action":"fleet_a","clipped":false,"hit_rect":[345.577,1792.115,170.0,170.0],"visual_rect":[345.577,1792.115,170.0,170.0]},{"action":"fleet_b","clipped":false,"hit_rect":[467.808,1879.423,170.0,170.0],"visual_rect":[467.808,1879.423,170.0,170.0]},{"action":"pause","clipped":false,"hit_rect":[12.0,12.0,263.5,170.0],"visual_rect":[12.0,12.0,263.5,170.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"mission","scroll_rect":[888.0,46.0,1257.0,1996.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,2270.0],"window":[2184.0,1968.0]}
+SS_TARGET more_orders center=2376,97 viewport=2520,2270
+SS_TARGET fleet_q center=431,1964 viewport=2520,2270
+SS_TARGET fleet_a center=431,1877 viewport=2520,2270
+SS_TARGET fleet_b center=553,1964 viewport=2520,2270
+SS_TARGET pause center=144,97 viewport=2520,2270
+SS_TARGET chart_center center=1260,1135 viewport=2520,2270
+SS_TARGET objective0 center=693,664 viewport=2520,2270
+SS_TARGET route center=544,742 viewport=2520,2270
+REVIEW_STATE 61 mission Chart loaded. Tap a craft for DEPTH / SONAR; tap water to plot a route.
+REVIEW_COMMAND {"cmd":"shot","name":"12-inner-chart"}
+REVIEW_STATE 62 mission Chart loaded. Tap a craft for DEPTH / SONAR; tap water to plot a route.
+REVIEW_COMMAND {"cmd":"tap","x":692.0,"y":660.0}
+SS_ORDER route accepted=true selected=0 queued=false
+REVIEW_STATE 63 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"press","id":"pause"}
+SS_PAUSE paused=false
+REVIEW_STATE 64 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"step","seconds":12.0}
+SS_ROLE mission=31 index=0 type=sentinel mode=DORMANT pos=1200.000000,1250.000000 home=1200.000000,1250.000000 target=-1 lock=0.000000 time=0.050000
+REVIEW_STATE 65 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"step","seconds":12.0}
+REVIEW_STATE 66 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"step","seconds":12.0}
+REVIEW_STATE 67 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"press","id":"pause"}
+SS_PAUSE paused=true
+REVIEW_STATE 68 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"shot","name":"13-inner-approach"}
+REVIEW_STATE 69 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"press","id":"pause"}
+SS_PAUSE paused=false
+REVIEW_STATE 70 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"step","seconds":2.0}
+SS_CAMERA_READY unit=0 objective=0
+REVIEW_STATE 71 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"press","id":"pause"}
+SS_PAUSE paused=true
+REVIEW_STATE 72 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"craft"}
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":12743,"hud_visible":true,"menu_visible":false,"mission":31,"optical_visible":true,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,2270.0],"chart_view":{"center":[1300.0,1300.0],"mode":"free","zoom":1.0},"context_page":"craft","context_subject_kind":"","controls":[{"action":"camera","clipped":false,"hit_rect":[559.027,768.519,263.5,170.0],"visual_rect":[559.027,768.519,263.5,170.0]},{"action":"depth_menu","clipped":false,"hit_rect":[829.495,880.551,263.5,170.0],"visual_rect":[829.495,880.551,263.5,170.0]},{"action":"silent","clipped":false,"hit_rect":[941.527,1151.019,263.5,170.0],"visual_rect":[941.527,1151.019,263.5,170.0]},{"action":"program","clipped":false,"hit_rect":[829.495,1421.488,263.5,170.0],"visual_rect":[829.495,1421.488,263.5,170.0]},{"action":"route_menu","clipped":false,"hit_rect":[559.027,1533.519,263.5,170.0],"visual_rect":[559.027,1533.519,263.5,170.0]},{"action":"tools_menu","clipped":false,"hit_rect":[288.558,1421.488,263.5,170.0],"visual_rect":[288.558,1421.488,263.5,170.0]},{"action":"all_stop","clipped":false,"hit_rect":[176.527,1151.019,263.5,170.0],"visual_rect":[176.527,1151.019,263.5,170.0]},{"action":"inspect","clipped":false,"hit_rect":[288.558,880.551,263.5,170.0],"visual_rect":[288.558,880.551,263.5,170.0]},{"action":"radial_back","clipped":false,"hit_rect":[559.027,1346.519,263.5,170.0],"visual_rect":[559.027,1346.519,263.5,170.0]},{"action":"pause","clipped":false,"hit_rect":[12.0,12.0,263.5,170.0],"visual_rect":[12.0,12.0,263.5,170.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"secondary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"mission","scroll_rect":[888.0,46.0,1257.0,1996.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,2270.0],"window":[2184.0,1968.0]}
+SS_TARGET camera center=691,854 viewport=2520,2270
+SS_TARGET depth_menu center=961,966 viewport=2520,2270
+SS_TARGET silent center=1073,1236 viewport=2520,2270
+SS_TARGET program center=961,1506 viewport=2520,2270
+SS_TARGET route_menu center=691,1619 viewport=2520,2270
+SS_TARGET tools_menu center=420,1506 viewport=2520,2270
+SS_TARGET all_stop center=308,1236 viewport=2520,2270
+SS_TARGET inspect center=420,966 viewport=2520,2270
+SS_TARGET radial_back center=691,1432 viewport=2520,2270
+SS_TARGET pause center=144,97 viewport=2520,2270
+SS_TARGET chart_center center=1260,1135 viewport=2520,2270
+SS_TARGET objective0 center=693,664 viewport=2520,2270
+SS_TARGET route center=544,742 viewport=2520,2270
+REVIEW_STATE 73 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"press","id":"camera"}
+SS_ORDER camera accepted=true selected=0 queued=false
+SS_UI_METRICS {"capture_state":{"capture_unit":0,"drawn_frame":12759,"hud_visible":true,"menu_visible":false,"mission":31,"optical_visible":true,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,2270.0],"chart_view":{"center":[1300.0,1300.0],"mode":"free","zoom":1.0},"context_page":"water","context_subject_kind":"","controls":[{"action":"more_orders","clipped":false,"hit_rect":[2244.5,12.0,263.5,170.0],"visual_rect":[2244.5,12.0,263.5,170.0]},{"action":"fleet_q","clipped":false,"hit_rect":[605.777,581.246,170.0,170.0],"visual_rect":[605.777,581.246,170.0,170.0]},{"action":"fleet_a","clipped":false,"hit_rect":[1330.485,1900.0,170.0,170.0],"visual_rect":[1330.485,1900.0,170.0,170.0]},{"action":"fleet_b","clipped":false,"hit_rect":[1555.326,1900.0,170.0,170.0],"visual_rect":[1555.326,1900.0,170.0,170.0]},{"action":"pause","clipped":false,"hit_rect":[12.0,12.0,263.5,170.0],"visual_rect":[12.0,12.0,263.5,170.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"mission","scroll_rect":[888.0,46.0,1257.0,1996.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,2270.0],"window":[2184.0,1968.0]}
+SS_TARGET more_orders center=2376,97 viewport=2520,2270
+SS_TARGET fleet_q center=691,666 viewport=2520,2270
+SS_TARGET fleet_a center=1415,1985 viewport=2520,2270
+SS_TARGET fleet_b center=1640,1985 viewport=2520,2270
+SS_TARGET pause center=144,97 viewport=2520,2270
+SS_TARGET chart_center center=1260,1135 viewport=2520,2270
+SS_TARGET objective0 center=693,664 viewport=2520,2270
+SS_TARGET route center=544,742 viewport=2520,2270
+SS_UI_METRICS {"capture_state":{"capture_unit":0,"drawn_frame":12759,"hud_visible":true,"menu_visible":false,"mission":31,"optical_visible":true,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,2270.0],"chart_view":{"center":[1300.0,1300.0],"mode":"free","zoom":1.0},"context_page":"water","context_subject_kind":"","controls":[{"action":"more_orders","clipped":false,"hit_rect":[2244.5,12.0,263.5,170.0],"visual_rect":[2244.5,12.0,263.5,170.0]},{"action":"fleet_q","clipped":false,"hit_rect":[605.777,581.246,170.0,170.0],"visual_rect":[605.777,581.246,170.0,170.0]},{"action":"fleet_a","clipped":false,"hit_rect":[1330.485,1900.0,170.0,170.0],"visual_rect":[1330.485,1900.0,170.0,170.0]},{"action":"fleet_b","clipped":false,"hit_rect":[1555.326,1900.0,170.0,170.0],"visual_rect":[1555.326,1900.0,170.0,170.0]},{"action":"pause","clipped":false,"hit_rect":[12.0,12.0,263.5,170.0],"visual_rect":[12.0,12.0,263.5,170.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"mission","scroll_rect":[888.0,46.0,1257.0,1996.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,2270.0],"window":[2184.0,1968.0]}
+SS_TARGET more_orders center=2376,97 viewport=2520,2270
+SS_TARGET fleet_q center=691,666 viewport=2520,2270
+SS_TARGET fleet_a center=1415,1985 viewport=2520,2270
+SS_TARGET fleet_b center=1640,1985 viewport=2520,2270
+SS_TARGET pause center=144,97 viewport=2520,2270
+SS_TARGET chart_center center=1260,1135 viewport=2520,2270
+SS_TARGET objective0 center=693,664 viewport=2520,2270
+SS_TARGET route center=544,742 viewport=2520,2270
+REVIEW_STATE 74 mission Camera exposure · hold 4 seconds
+REVIEW_COMMAND {"cmd":"press","id":"pause"}
+SS_PAUSE paused=false
+REVIEW_STATE 75 mission Camera exposure · hold 4 seconds
+REVIEW_COMMAND {"cmd":"step","seconds":4.2}
+SS_OBJECTIVE_RECORDED mission=31 objective=0
+REVIEW_STATE 76 mission Record secured. Return Quietus to extraction. · frame 28% grade C
+REVIEW_COMMAND {"cmd":"press","id":"pause"}
+SS_PAUSE paused=true
+REVIEW_STATE 77 mission Record secured. Return Quietus to extraction. · frame 28% grade C
+REVIEW_COMMAND {"cmd":"tap","x":1260.0,"y":1100.0}
+SS_ORDER route accepted=true selected=0 queued=false
+REVIEW_STATE 78 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"press","id":"pause"}
+SS_PAUSE paused=false
+REVIEW_STATE 79 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"step","seconds":12.0}
+REVIEW_STATE 80 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"step","seconds":9.0}
+SS_CAMERA_READY unit=0 objective=-2
+SS_ROLE mission=31 index=0 type=sentinel mode=LOCKING pos=1200.000000,1250.000000 home=1200.000000,1250.000000 target=0 lock=0.016667 time=56.700000
+SS_ROLE mission=31 index=0 type=sentinel mode=BEAM pos=1200.000000,1250.000000 home=1200.000000,1250.000000 target=0 lock=4.016667 time=60.700000
+SS_DEBRIEF outcome=lost mission=31
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":13706,"hud_visible":false,"menu_visible":true,"mission":31,"optical_visible":false,"paused":false,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,2270.0],"chart_view":{"center":[1300.0,1300.0],"mode":"free","zoom":1.0},"context_page":"water","context_subject_kind":"","controls":[{"action":"evidence","clipped":true,"hit_rect":[888.0,2189.0,736.0,35.0],"visual_rect":[888.0,2189.0,736.0,170.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"debrief","scroll_rect":[888.0,46.0,744.0,2178.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,2270.0],"window":[2184.0,1968.0]}
+SS_TARGET evidence center=1256,2274 viewport=2520,2270
+SS_TARGET retry center=1256,2458 viewport=2520,2270
+SS_TARGET back center=1256,2642 viewport=2520,2270
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":13706,"hud_visible":false,"menu_visible":true,"mission":31,"optical_visible":false,"paused":false,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,2270.0],"chart_view":{"center":[1300.0,1300.0],"mode":"free","zoom":1.0},"context_page":"water","context_subject_kind":"","controls":[{"action":"evidence","clipped":true,"hit_rect":[888.0,2189.0,736.0,35.0],"visual_rect":[888.0,2189.0,736.0,170.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"debrief","scroll_rect":[888.0,46.0,744.0,2178.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,2270.0],"window":[2184.0,1968.0]}
+SS_TARGET evidence center=1256,2274 viewport=2520,2270
+SS_TARGET retry center=1256,2458 viewport=2520,2270
+SS_TARGET back center=1256,2642 viewport=2520,2270
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":13706,"hud_visible":false,"menu_visible":true,"mission":31,"optical_visible":false,"paused":false,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,2270.0],"chart_view":{"center":[1300.0,1300.0],"mode":"free","zoom":1.0},"context_page":"water","context_subject_kind":"","controls":[{"action":"evidence","clipped":true,"hit_rect":[888.0,2189.0,736.0,35.0],"visual_rect":[888.0,2189.0,736.0,170.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"debrief","scroll_rect":[888.0,46.0,744.0,2178.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,2270.0],"window":[2184.0,1968.0]}
+SS_TARGET evidence center=1256,2274 viewport=2520,2270
+SS_TARGET retry center=1256,2458 viewport=2520,2270
+SS_TARGET back center=1256,2642 viewport=2520,2270
+REVIEW_STATE 81 debrief VAPORIZED · Siren beam struck Quietus. Your previous campaign records remain safe.
+REVIEW_COMMAND {"cmd":"press","id":"pause"}
+REVIEW_STATE 82 debrief VAPORIZED · Siren beam struck Quietus. Your previous campaign records remain safe.
+REVIEW_COMMAND {"cmd":"shot","name":"14-inner-crossing"}
+REVIEW_STATE 83 debrief VAPORIZED · Siren beam struck Quietus. Your previous campaign records remain safe.
+REVIEW_COMMAND {"cmd":"press","id":"retry"}
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":15745,"hud_visible":false,"menu_visible":true,"mission":31,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,2270.0],"chart_view":{"center":[1300.0,1300.0],"mode":"free","zoom":1.0},"context_page":"water","context_subject_kind":"","controls":[{"action":"manual","clipped":false,"hit_rect":[888.0,986.0,1249.0,170.0],"visual_rect":[888.0,986.0,1249.0,170.0]},{"action":"fit_fold","clipped":false,"hit_rect":[888.0,1439.0,1249.0,170.0],"visual_rect":[888.0,1439.0,1249.0,170.0]},{"action":"begin","clipped":false,"hit_rect":[888.0,2054.0,622.0,170.0],"visual_rect":[888.0,2054.0,622.0,170.0]},{"action":"back","clipped":false,"hit_rect":[1522.0,2054.0,623.0,170.0],"visual_rect":[1522.0,2054.0,623.0,170.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"briefing","scroll_rect":[888.0,46.0,1257.0,1996.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,2270.0],"window":[2184.0,1968.0]}
+SS_TARGET manual center=1513,1071 viewport=2520,2270
+SS_TARGET fit_fold center=1513,1524 viewport=2520,2270
+SS_TARGET frame_quietus_standard center=1513,2914 viewport=2520,2270
+SS_TARGET frame_quietus_quiet center=1513,3098 viewport=2520,2270
+SS_TARGET frame_quietus_fast center=1513,3282 viewport=2520,2270
+SS_TARGET frame_drone_a_standard center=1513,4075 viewport=2520,2270
+SS_TARGET frame_drone_a_scout center=1513,4259 viewport=2520,2270
+SS_TARGET frame_drone_a_heavy center=1513,4443 viewport=2520,2270
+SS_TARGET frame_drone_a_endurance center=1513,4627 viewport=2520,2270
+SS_TARGET frame_drone_b_standard center=1513,5420 viewport=2520,2270
+SS_TARGET frame_drone_b_scout center=1513,5604 viewport=2520,2270
+SS_TARGET frame_drone_b_heavy center=1513,5788 viewport=2520,2270
+SS_TARGET frame_drone_b_endurance center=1513,5972 viewport=2520,2270
+SS_TARGET fit_quietus center=1513,7674 viewport=2520,2270
+SS_TARGET fit_drone_a center=1513,8193 viewport=2520,2270
+SS_TARGET fit_drone_b center=1513,8377 viewport=2520,2270
+SS_TARGET begin center=1199,2139 viewport=2520,2270
+SS_TARGET back center=1834,2139 viewport=2520,2270
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":15745,"hud_visible":false,"menu_visible":true,"mission":31,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,2270.0],"chart_view":{"center":[1300.0,1300.0],"mode":"free","zoom":1.0},"context_page":"water","context_subject_kind":"","controls":[{"action":"manual","clipped":false,"hit_rect":[888.0,986.0,1249.0,170.0],"visual_rect":[888.0,986.0,1249.0,170.0]},{"action":"fit_fold","clipped":false,"hit_rect":[888.0,1439.0,1249.0,170.0],"visual_rect":[888.0,1439.0,1249.0,170.0]},{"action":"begin","clipped":false,"hit_rect":[888.0,2054.0,622.0,170.0],"visual_rect":[888.0,2054.0,622.0,170.0]},{"action":"back","clipped":false,"hit_rect":[1522.0,2054.0,623.0,170.0],"visual_rect":[1522.0,2054.0,623.0,170.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"briefing","scroll_rect":[888.0,46.0,1257.0,1996.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,2270.0],"window":[2184.0,1968.0]}
+SS_TARGET manual center=1513,1071 viewport=2520,2270
+SS_TARGET fit_fold center=1513,1524 viewport=2520,2270
+SS_TARGET frame_quietus_standard center=1513,2914 viewport=2520,2270
+SS_TARGET frame_quietus_quiet center=1513,3098 viewport=2520,2270
+SS_TARGET frame_quietus_fast center=1513,3282 viewport=2520,2270
+SS_TARGET frame_drone_a_standard center=1513,4075 viewport=2520,2270
+SS_TARGET frame_drone_a_scout center=1513,4259 viewport=2520,2270
+SS_TARGET frame_drone_a_heavy center=1513,4443 viewport=2520,2270
+SS_TARGET frame_drone_a_endurance center=1513,4627 viewport=2520,2270
+SS_TARGET frame_drone_b_standard center=1513,5420 viewport=2520,2270
+SS_TARGET frame_drone_b_scout center=1513,5604 viewport=2520,2270
+SS_TARGET frame_drone_b_heavy center=1513,5788 viewport=2520,2270
+SS_TARGET frame_drone_b_endurance center=1513,5972 viewport=2520,2270
+SS_TARGET fit_quietus center=1513,7674 viewport=2520,2270
+SS_TARGET fit_drone_a center=1513,8193 viewport=2520,2270
+SS_TARGET fit_drone_b center=1513,8377 viewport=2520,2270
+SS_TARGET begin center=1199,2139 viewport=2520,2270
+SS_TARGET back center=1834,2139 viewport=2520,2270
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":15746,"hud_visible":false,"menu_visible":true,"mission":31,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,2270.0],"chart_view":{"center":[1300.0,1300.0],"mode":"free","zoom":1.0},"context_page":"water","context_subject_kind":"","controls":[{"action":"manual","clipped":false,"hit_rect":[888.0,986.0,1249.0,170.0],"visual_rect":[888.0,986.0,1249.0,170.0]},{"action":"fit_fold","clipped":false,"hit_rect":[888.0,1439.0,1249.0,170.0],"visual_rect":[888.0,1439.0,1249.0,170.0]},{"action":"begin","clipped":false,"hit_rect":[888.0,2054.0,622.0,170.0],"visual_rect":[888.0,2054.0,622.0,170.0]},{"action":"back","clipped":false,"hit_rect":[1522.0,2054.0,623.0,170.0],"visual_rect":[1522.0,2054.0,623.0,170.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"briefing","scroll_rect":[888.0,46.0,1257.0,1996.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,2270.0],"window":[2184.0,1968.0]}
+SS_TARGET manual center=1513,1071 viewport=2520,2270
+SS_TARGET fit_fold center=1513,1524 viewport=2520,2270
+SS_TARGET frame_quietus_standard center=1513,2914 viewport=2520,2270
+SS_TARGET frame_quietus_quiet center=1513,3098 viewport=2520,2270
+SS_TARGET frame_quietus_fast center=1513,3282 viewport=2520,2270
+SS_TARGET frame_drone_a_standard center=1513,4075 viewport=2520,2270
+SS_TARGET frame_drone_a_scout center=1513,4259 viewport=2520,2270
+SS_TARGET frame_drone_a_heavy center=1513,4443 viewport=2520,2270
+SS_TARGET frame_drone_a_endurance center=1513,4627 viewport=2520,2270
+SS_TARGET frame_drone_b_standard center=1513,5420 viewport=2520,2270
+SS_TARGET frame_drone_b_scout center=1513,5604 viewport=2520,2270
+SS_TARGET frame_drone_b_heavy center=1513,5788 viewport=2520,2270
+SS_TARGET frame_drone_b_endurance center=1513,5972 viewport=2520,2270
+SS_TARGET fit_quietus center=1513,7674 viewport=2520,2270
+SS_TARGET fit_drone_a center=1513,8193 viewport=2520,2270
+SS_TARGET fit_drone_b center=1513,8377 viewport=2520,2270
+SS_TARGET begin center=1199,2139 viewport=2520,2270
+SS_TARGET back center=1834,2139 viewport=2520,2270
+REVIEW_STATE 84 briefing VAPORIZED · Siren beam struck Quietus. Your previous campaign records remain safe.
+REVIEW_COMMAND {"cmd":"press","id":"begin"}
+SS_SCREEN mission paused=true
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":15764,"hud_visible":true,"menu_visible":false,"mission":31,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,2270.0],"chart_view":{"center":[350.0,2250.0],"mode":"follow","zoom":4.33333333333333},"context_page":"water","context_subject_kind":"","controls":[{"action":"more_orders","clipped":false,"hit_rect":[2244.5,12.0,263.5,170.0],"visual_rect":[2244.5,12.0,263.5,170.0]},{"action":"fleet_q","clipped":false,"hit_rect":[1175.0,1050.0,170.0,170.0],"visual_rect":[1175.0,1050.0,170.0,170.0]},{"action":"fleet_a","clipped":false,"hit_rect":[1175.0,671.667,170.0,170.0],"visual_rect":[1175.0,671.667,170.0,170.0]},{"action":"fleet_b","clipped":false,"hit_rect":[1704.667,1050.0,170.0,170.0],"visual_rect":[1704.667,1050.0,170.0,170.0]},{"action":"pause","clipped":false,"hit_rect":[12.0,12.0,263.5,170.0],"visual_rect":[12.0,12.0,263.5,170.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"mission","scroll_rect":[888.0,46.0,1257.0,1996.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,2270.0],"window":[2184.0,1968.0]}
+SS_TARGET more_orders center=2376,97 viewport=2520,2270
+SS_TARGET fleet_q center=1260,1135 viewport=2520,2270
+SS_TARGET fleet_a center=1260,757 viewport=2520,2270
+SS_TARGET fleet_b center=1790,1135 viewport=2520,2270
+SS_TARGET pause center=144,97 viewport=2520,2270
+SS_TARGET chart_center center=1260,1135 viewport=2520,2270
+SS_TARGET objective0 center=2395,-4502 viewport=2520,2270
+SS_TARGET route center=1752,-4162 viewport=2520,2270
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":15764,"hud_visible":true,"menu_visible":false,"mission":31,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,2270.0],"chart_view":{"center":[350.0,2250.0],"mode":"follow","zoom":4.33333333333333},"context_page":"water","context_subject_kind":"","controls":[{"action":"more_orders","clipped":false,"hit_rect":[2244.5,12.0,263.5,170.0],"visual_rect":[2244.5,12.0,263.5,170.0]},{"action":"fleet_q","clipped":false,"hit_rect":[1175.0,1050.0,170.0,170.0],"visual_rect":[1175.0,1050.0,170.0,170.0]},{"action":"fleet_a","clipped":false,"hit_rect":[1175.0,671.667,170.0,170.0],"visual_rect":[1175.0,671.667,170.0,170.0]},{"action":"fleet_b","clipped":false,"hit_rect":[1704.667,1050.0,170.0,170.0],"visual_rect":[1704.667,1050.0,170.0,170.0]},{"action":"pause","clipped":false,"hit_rect":[12.0,12.0,263.5,170.0],"visual_rect":[12.0,12.0,263.5,170.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"mission","scroll_rect":[888.0,46.0,1257.0,1996.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,2270.0],"window":[2184.0,1968.0]}
+SS_TARGET more_orders center=2376,97 viewport=2520,2270
+SS_TARGET fleet_q center=1260,1135 viewport=2520,2270
+SS_TARGET fleet_a center=1260,757 viewport=2520,2270
+SS_TARGET fleet_b center=1790,1135 viewport=2520,2270
+SS_TARGET pause center=144,97 viewport=2520,2270
+SS_TARGET chart_center center=1260,1135 viewport=2520,2270
+SS_TARGET objective0 center=2395,-4502 viewport=2520,2270
+SS_TARGET route center=1752,-4162 viewport=2520,2270
+REVIEW_STATE 85 mission Chart loaded. Tap a craft for DEPTH / SONAR; tap water to plot a route.
+REVIEW_COMMAND {"cmd":"pinch"}
+SS_VIEW zoom=1.21 center=(1197.923, 1528.571)
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":15797,"hud_visible":true,"menu_visible":false,"mission":31,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,2270.0],"chart_view":{"center":[1197.92321777344,1528.57141113281],"mode":"free","zoom":1.21333333333333},"context_page":"water","context_subject_kind":"","controls":[{"action":"more_orders","clipped":false,"hit_rect":[2244.5,12.0,263.5,170.0],"visual_rect":[2244.5,12.0,263.5,170.0]},{"action":"fleet_q","clipped":false,"hit_rect":[276.767,1814.233,170.0,170.0],"visual_rect":[276.767,1814.233,170.0,170.0]},{"action":"fleet_a","clipped":false,"hit_rect":[276.767,1708.3,170.0,170.0],"visual_rect":[276.767,1708.3,170.0,170.0]},{"action":"fleet_b","clipped":false,"hit_rect":[425.073,1814.233,170.0,170.0],"visual_rect":[425.073,1814.233,170.0,170.0]},{"action":"pause","clipped":false,"hit_rect":[12.0,12.0,263.5,170.0],"visual_rect":[12.0,12.0,263.5,170.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"mission","scroll_rect":[888.0,46.0,1257.0,1996.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,2270.0],"window":[2184.0,1968.0]}
+SS_TARGET more_orders center=2376,97 viewport=2520,2270
+SS_TARGET fleet_q center=362,1899 viewport=2520,2270
+SS_TARGET fleet_a center=362,1793 viewport=2520,2270
+SS_TARGET fleet_b center=510,1899 viewport=2520,2270
+SS_TARGET pause center=144,97 viewport=2520,2270
+SS_TARGET chart_center center=1260,1135 viewport=2520,2270
+SS_TARGET objective0 center=680,321 viewport=2520,2270
+SS_TARGET route center=499,416 viewport=2520,2270
+REVIEW_STATE 86 mission Chart loaded. Tap a craft for DEPTH / SONAR; tap water to plot a route.
+REVIEW_COMMAND {"cmd":"pinch"}
+SS_VIEW zoom=1.0 center=(1300.0, 1300.0)
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":15831,"hud_visible":true,"menu_visible":false,"mission":31,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,2270.0],"chart_view":{"center":[1300.0,1300.0],"mode":"free","zoom":1.0},"context_page":"water","context_subject_kind":"","controls":[{"action":"more_orders","clipped":false,"hit_rect":[2244.5,12.0,263.5,170.0],"visual_rect":[2244.5,12.0,263.5,170.0]},{"action":"fleet_q","clipped":false,"hit_rect":[345.577,1879.423,170.0,170.0],"visual_rect":[345.577,1879.423,170.0,170.0]},{"action":"fleet_a","clipped":false,"hit_rect":[345.577,1792.115,170.0,170.0],"visual_rect":[345.577,1792.115,170.0,170.0]},{"action":"fleet_b","clipped":false,"hit_rect":[467.808,1879.423,170.0,170.0],"visual_rect":[467.808,1879.423,170.0,170.0]},{"action":"pause","clipped":false,"hit_rect":[12.0,12.0,263.5,170.0],"visual_rect":[12.0,12.0,263.5,170.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"mission","scroll_rect":[888.0,46.0,1257.0,1996.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,2270.0],"window":[2184.0,1968.0]}
+SS_TARGET more_orders center=2376,97 viewport=2520,2270
+SS_TARGET fleet_q center=431,1964 viewport=2520,2270
+SS_TARGET fleet_a center=431,1877 viewport=2520,2270
+SS_TARGET fleet_b center=553,1964 viewport=2520,2270
+SS_TARGET pause center=144,97 viewport=2520,2270
+SS_TARGET chart_center center=1260,1135 viewport=2520,2270
+SS_TARGET objective0 center=693,664 viewport=2520,2270
+SS_TARGET route center=544,742 viewport=2520,2270
+REVIEW_STATE 87 mission Chart loaded. Tap a craft for DEPTH / SONAR; tap water to plot a route.
+REVIEW_COMMAND {"cmd":"tap","x":692.0,"y":660.0}
+SS_ORDER route accepted=true selected=0 queued=false
+REVIEW_STATE 88 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"press","id":"pause"}
+SS_PAUSE paused=false
+REVIEW_STATE 89 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"step","seconds":12.0}
+SS_ROLE mission=31 index=0 type=sentinel mode=DORMANT pos=1200.000000,1250.000000 home=1200.000000,1250.000000 target=-1 lock=0.000000 time=0.050000
+REVIEW_STATE 90 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"step","seconds":12.0}
+REVIEW_STATE 91 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"step","seconds":12.0}
+REVIEW_STATE 92 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"step","seconds":2.0}
+SS_CAMERA_READY unit=0 objective=0
+REVIEW_STATE 93 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"press","id":"pause"}
+SS_PAUSE paused=true
+REVIEW_STATE 94 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"craft"}
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":15971,"hud_visible":true,"menu_visible":false,"mission":31,"optical_visible":true,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,2270.0],"chart_view":{"center":[1300.0,1300.0],"mode":"free","zoom":1.0},"context_page":"craft","context_subject_kind":"","controls":[{"action":"camera","clipped":false,"hit_rect":[559.027,768.519,263.5,170.0],"visual_rect":[559.027,768.519,263.5,170.0]},{"action":"depth_menu","clipped":false,"hit_rect":[829.495,880.551,263.5,170.0],"visual_rect":[829.495,880.551,263.5,170.0]},{"action":"silent","clipped":false,"hit_rect":[941.527,1151.019,263.5,170.0],"visual_rect":[941.527,1151.019,263.5,170.0]},{"action":"program","clipped":false,"hit_rect":[829.495,1421.488,263.5,170.0],"visual_rect":[829.495,1421.488,263.5,170.0]},{"action":"route_menu","clipped":false,"hit_rect":[559.027,1533.519,263.5,170.0],"visual_rect":[559.027,1533.519,263.5,170.0]},{"action":"tools_menu","clipped":false,"hit_rect":[288.558,1421.488,263.5,170.0],"visual_rect":[288.558,1421.488,263.5,170.0]},{"action":"all_stop","clipped":false,"hit_rect":[176.527,1151.019,263.5,170.0],"visual_rect":[176.527,1151.019,263.5,170.0]},{"action":"inspect","clipped":false,"hit_rect":[288.558,880.551,263.5,170.0],"visual_rect":[288.558,880.551,263.5,170.0]},{"action":"radial_back","clipped":false,"hit_rect":[559.027,1346.519,263.5,170.0],"visual_rect":[559.027,1346.519,263.5,170.0]},{"action":"pause","clipped":false,"hit_rect":[12.0,12.0,263.5,170.0],"visual_rect":[12.0,12.0,263.5,170.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"secondary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"mission","scroll_rect":[888.0,46.0,1257.0,1996.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,2270.0],"window":[2184.0,1968.0]}
+SS_TARGET camera center=691,854 viewport=2520,2270
+SS_TARGET depth_menu center=961,966 viewport=2520,2270
+SS_TARGET silent center=1073,1236 viewport=2520,2270
+SS_TARGET program center=961,1506 viewport=2520,2270
+SS_TARGET route_menu center=691,1619 viewport=2520,2270
+SS_TARGET tools_menu center=420,1506 viewport=2520,2270
+SS_TARGET all_stop center=308,1236 viewport=2520,2270
+SS_TARGET inspect center=420,966 viewport=2520,2270
+SS_TARGET radial_back center=691,1432 viewport=2520,2270
+SS_TARGET pause center=144,97 viewport=2520,2270
+SS_TARGET chart_center center=1260,1135 viewport=2520,2270
+SS_TARGET objective0 center=693,664 viewport=2520,2270
+SS_TARGET route center=544,742 viewport=2520,2270
+REVIEW_STATE 95 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"press","id":"camera"}
+SS_ORDER camera accepted=true selected=0 queued=false
+SS_UI_METRICS {"capture_state":{"capture_unit":0,"drawn_frame":15982,"hud_visible":true,"menu_visible":false,"mission":31,"optical_visible":true,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,2270.0],"chart_view":{"center":[1300.0,1300.0],"mode":"free","zoom":1.0},"context_page":"water","context_subject_kind":"","controls":[{"action":"more_orders","clipped":false,"hit_rect":[2244.5,12.0,263.5,170.0],"visual_rect":[2244.5,12.0,263.5,170.0]},{"action":"fleet_q","clipped":false,"hit_rect":[605.777,581.246,170.0,170.0],"visual_rect":[605.777,581.246,170.0,170.0]},{"action":"fleet_a","clipped":false,"hit_rect":[1585.485,1900.0,170.0,170.0],"visual_rect":[1585.485,1900.0,170.0,170.0]},{"action":"fleet_b","clipped":false,"hit_rect":[1810.326,1900.0,170.0,170.0],"visual_rect":[1810.326,1900.0,170.0,170.0]},{"action":"order_undo","clipped":false,"hit_rect":[988.0,1946.0,544.0,170.0],"visual_rect":[988.0,1946.0,544.0,170.0]},{"action":"pause","clipped":false,"hit_rect":[12.0,12.0,263.5,170.0],"visual_rect":[12.0,12.0,263.5,170.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"mission","scroll_rect":[888.0,46.0,1257.0,1996.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,2270.0],"window":[2184.0,1968.0]}
+SS_TARGET more_orders center=2376,97 viewport=2520,2270
+SS_TARGET fleet_q center=691,666 viewport=2520,2270
+SS_TARGET fleet_a center=1670,1985 viewport=2520,2270
+SS_TARGET fleet_b center=1895,1985 viewport=2520,2270
+SS_TARGET order_undo center=1260,2031 viewport=2520,2270
+SS_TARGET pause center=144,97 viewport=2520,2270
+SS_TARGET chart_center center=1260,1135 viewport=2520,2270
+SS_TARGET objective0 center=693,664 viewport=2520,2270
+SS_TARGET route center=544,742 viewport=2520,2270
+SS_UI_METRICS {"capture_state":{"capture_unit":0,"drawn_frame":15982,"hud_visible":true,"menu_visible":false,"mission":31,"optical_visible":true,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,2270.0],"chart_view":{"center":[1300.0,1300.0],"mode":"free","zoom":1.0},"context_page":"water","context_subject_kind":"","controls":[{"action":"more_orders","clipped":false,"hit_rect":[2244.5,12.0,263.5,170.0],"visual_rect":[2244.5,12.0,263.5,170.0]},{"action":"fleet_q","clipped":false,"hit_rect":[605.777,581.246,170.0,170.0],"visual_rect":[605.777,581.246,170.0,170.0]},{"action":"fleet_a","clipped":false,"hit_rect":[1585.485,1900.0,170.0,170.0],"visual_rect":[1585.485,1900.0,170.0,170.0]},{"action":"fleet_b","clipped":false,"hit_rect":[1810.326,1900.0,170.0,170.0],"visual_rect":[1810.326,1900.0,170.0,170.0]},{"action":"order_undo","clipped":false,"hit_rect":[988.0,1946.0,544.0,170.0],"visual_rect":[988.0,1946.0,544.0,170.0]},{"action":"pause","clipped":false,"hit_rect":[12.0,12.0,263.5,170.0],"visual_rect":[12.0,12.0,263.5,170.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"mission","scroll_rect":[888.0,46.0,1257.0,1996.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,2270.0],"window":[2184.0,1968.0]}
+SS_TARGET more_orders center=2376,97 viewport=2520,2270
+SS_TARGET fleet_q center=691,666 viewport=2520,2270
+SS_TARGET fleet_a center=1670,1985 viewport=2520,2270
+SS_TARGET fleet_b center=1895,1985 viewport=2520,2270
+SS_TARGET order_undo center=1260,2031 viewport=2520,2270
+SS_TARGET pause center=144,97 viewport=2520,2270
+SS_TARGET chart_center center=1260,1135 viewport=2520,2270
+SS_TARGET objective0 center=693,664 viewport=2520,2270
+SS_TARGET route center=544,742 viewport=2520,2270
+REVIEW_STATE 96 mission Camera exposure · hold 4 seconds
+REVIEW_COMMAND {"cmd":"press","id":"pause"}
+SS_PAUSE paused=false
+REVIEW_STATE 97 mission Camera exposure · hold 4 seconds
+REVIEW_COMMAND {"cmd":"step","seconds":4.2}
+SS_OBJECTIVE_RECORDED mission=31 objective=0
+REVIEW_STATE 98 mission Record secured. Return Quietus to extraction. · frame 28% grade C
+REVIEW_COMMAND {"cmd":"press","id":"pause"}
+SS_PAUSE paused=true
+REVIEW_STATE 99 mission Record secured. Return Quietus to extraction. · frame 28% grade C
+REVIEW_COMMAND {"cmd":"craft"}
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":16035,"hud_visible":true,"menu_visible":false,"mission":31,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,2270.0],"chart_view":{"center":[1300.0,1300.0],"mode":"free","zoom":1.0},"context_page":"craft","context_subject_kind":"","controls":[{"action":"camera","clipped":false,"hit_rect":[559.027,768.519,263.5,170.0],"visual_rect":[559.027,768.519,263.5,170.0]},{"action":"depth_menu","clipped":false,"hit_rect":[829.495,880.551,263.5,170.0],"visual_rect":[829.495,880.551,263.5,170.0]},{"action":"silent","clipped":false,"hit_rect":[941.527,1151.019,263.5,170.0],"visual_rect":[941.527,1151.019,263.5,170.0]},{"action":"program","clipped":false,"hit_rect":[829.495,1421.488,263.5,170.0],"visual_rect":[829.495,1421.488,263.5,170.0]},{"action":"route_menu","clipped":false,"hit_rect":[559.027,1533.519,263.5,170.0],"visual_rect":[559.027,1533.519,263.5,170.0]},{"action":"tools_menu","clipped":false,"hit_rect":[288.558,1421.488,263.5,170.0],"visual_rect":[288.558,1421.488,263.5,170.0]},{"action":"all_stop","clipped":false,"hit_rect":[176.527,1151.019,263.5,170.0],"visual_rect":[176.527,1151.019,263.5,170.0]},{"action":"inspect","clipped":false,"hit_rect":[288.558,880.551,263.5,170.0],"visual_rect":[288.558,880.551,263.5,170.0]},{"action":"radial_back","clipped":false,"hit_rect":[559.027,1346.519,263.5,170.0],"visual_rect":[559.027,1346.519,263.5,170.0]},{"action":"pause","clipped":false,"hit_rect":[12.0,12.0,263.5,170.0],"visual_rect":[12.0,12.0,263.5,170.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"secondary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"mission","scroll_rect":[888.0,46.0,1257.0,1996.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,2270.0],"window":[2184.0,1968.0]}
+SS_TARGET camera center=691,854 viewport=2520,2270
+SS_TARGET depth_menu center=961,966 viewport=2520,2270
+SS_TARGET silent center=1073,1236 viewport=2520,2270
+SS_TARGET program center=961,1506 viewport=2520,2270
+SS_TARGET route_menu center=691,1619 viewport=2520,2270
+SS_TARGET tools_menu center=420,1506 viewport=2520,2270
+SS_TARGET all_stop center=308,1236 viewport=2520,2270
+SS_TARGET inspect center=420,966 viewport=2520,2270
+SS_TARGET radial_back center=691,1432 viewport=2520,2270
+SS_TARGET pause center=144,97 viewport=2520,2270
+SS_TARGET chart_center center=1260,1135 viewport=2520,2270
+SS_TARGET objective0 center=693,664 viewport=2520,2270
+SS_TARGET route center=544,742 viewport=2520,2270
+REVIEW_STATE 100 mission Record secured. Return Quietus to extraction. · frame 28% grade C
+REVIEW_COMMAND {"cmd":"press","id":"depth_menu"}
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":16048,"hud_visible":true,"menu_visible":false,"mission":31,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,2270.0],"chart_view":{"center":[1300.0,1300.0],"mode":"free","zoom":1.0},"context_page":"acoustics","context_subject_kind":"","controls":[{"action":"depth_up","clipped":false,"hit_rect":[1124.634,219.5,263.5,170.0],"visual_rect":[1124.634,219.5,263.5,170.0]},{"action":"depth_down","clipped":false,"hit_rect":[1455.889,410.75,263.5,170.0],"visual_rect":[1455.889,410.75,263.5,170.0]},{"action":"sonar_emit","clipped":false,"hit_rect":[1455.889,793.25,263.5,170.0],"visual_rect":[1455.889,793.25,263.5,170.0]},{"action":"sonar_sector","clipped":false,"hit_rect":[1124.634,984.5,263.5,170.0],"visual_rect":[1124.634,984.5,263.5,170.0]},{"action":"sonar_power","clipped":false,"hit_rect":[793.38,793.25,263.5,170.0],"visual_rect":[793.38,793.25,263.5,170.0]},{"action":"sonar_history","clipped":false,"hit_rect":[793.38,410.75,263.5,170.0],"visual_rect":[793.38,410.75,263.5,170.0]},{"action":"radial_back","clipped":false,"hit_rect":[1124.634,797.5,263.5,170.0],"visual_rect":[1124.634,797.5,263.5,170.0]},{"action":"pause","clipped":false,"hit_rect":[12.0,12.0,263.5,170.0],"visual_rect":[12.0,12.0,263.5,170.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"secondary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"mission","scroll_rect":[888.0,46.0,1257.0,1996.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,2270.0],"window":[2184.0,1968.0]}
+SS_TARGET depth_up center=1256,305 viewport=2520,2270
+SS_TARGET depth_down center=1588,496 viewport=2520,2270
+SS_TARGET sonar_emit center=1588,878 viewport=2520,2270
+SS_TARGET sonar_sector center=1256,1070 viewport=2520,2270
+SS_TARGET sonar_power center=925,878 viewport=2520,2270
+SS_TARGET sonar_history center=925,496 viewport=2520,2270
+SS_TARGET radial_back center=1256,883 viewport=2520,2270
+SS_TARGET pause center=144,97 viewport=2520,2270
+SS_TARGET chart_center center=1260,1135 viewport=2520,2270
+SS_TARGET objective0 center=693,664 viewport=2520,2270
+SS_TARGET route center=544,742 viewport=2520,2270
+REVIEW_STATE 101 mission Record secured. Return Quietus to extraction. · frame 28% grade C
+REVIEW_COMMAND {"cmd":"press","id":"depth_down"}
+SS_ORDER depth accepted=true selected=0 queued=false
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":16445,"hud_visible":true,"menu_visible":false,"mission":31,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,2270.0],"chart_view":{"center":[1300.0,1300.0],"mode":"free","zoom":1.0},"context_page":"acoustics","context_subject_kind":"","controls":[{"action":"depth_up","clipped":false,"hit_rect":[1124.634,219.5,263.5,170.0],"visual_rect":[1124.634,219.5,263.5,170.0]},{"action":"depth_down","clipped":false,"hit_rect":[1455.889,410.75,263.5,170.0],"visual_rect":[1455.889,410.75,263.5,170.0]},{"action":"sonar_emit","clipped":false,"hit_rect":[1455.889,793.25,263.5,170.0],"visual_rect":[1455.889,793.25,263.5,170.0]},{"action":"sonar_sector","clipped":false,"hit_rect":[1124.634,984.5,263.5,170.0],"visual_rect":[1124.634,984.5,263.5,170.0]},{"action":"sonar_power","clipped":false,"hit_rect":[793.38,793.25,263.5,170.0],"visual_rect":[793.38,793.25,263.5,170.0]},{"action":"sonar_history","clipped":false,"hit_rect":[793.38,410.75,263.5,170.0],"visual_rect":[793.38,410.75,263.5,170.0]},{"action":"radial_back","clipped":false,"hit_rect":[1124.634,797.5,263.5,170.0],"visual_rect":[1124.634,797.5,263.5,170.0]},{"action":"pause","clipped":false,"hit_rect":[12.0,12.0,263.5,170.0],"visual_rect":[12.0,12.0,263.5,170.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"secondary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"mission","scroll_rect":[888.0,46.0,1257.0,1996.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,2270.0],"window":[2184.0,1968.0]}
+SS_TARGET depth_up center=1256,305 viewport=2520,2270
+SS_TARGET depth_down center=1588,496 viewport=2520,2270
+SS_TARGET sonar_emit center=1588,878 viewport=2520,2270
+SS_TARGET sonar_sector center=1256,1070 viewport=2520,2270
+SS_TARGET sonar_power center=925,878 viewport=2520,2270
+SS_TARGET sonar_history center=925,496 viewport=2520,2270
+SS_TARGET radial_back center=1256,883 viewport=2520,2270
+SS_TARGET pause center=144,97 viewport=2520,2270
+SS_TARGET chart_center center=1260,1135 viewport=2520,2270
+SS_TARGET objective0 center=693,664 viewport=2520,2270
+SS_TARGET route center=544,742 viewport=2520,2270
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":16445,"hud_visible":true,"menu_visible":false,"mission":31,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,2270.0],"chart_view":{"center":[1300.0,1300.0],"mode":"free","zoom":1.0},"context_page":"acoustics","context_subject_kind":"","controls":[{"action":"depth_up","clipped":false,"hit_rect":[1124.634,219.5,263.5,170.0],"visual_rect":[1124.634,219.5,263.5,170.0]},{"action":"depth_down","clipped":false,"hit_rect":[1455.889,410.75,263.5,170.0],"visual_rect":[1455.889,410.75,263.5,170.0]},{"action":"sonar_emit","clipped":false,"hit_rect":[1455.889,793.25,263.5,170.0],"visual_rect":[1455.889,793.25,263.5,170.0]},{"action":"sonar_sector","clipped":false,"hit_rect":[1124.634,984.5,263.5,170.0],"visual_rect":[1124.634,984.5,263.5,170.0]},{"action":"sonar_power","clipped":false,"hit_rect":[793.38,793.25,263.5,170.0],"visual_rect":[793.38,793.25,263.5,170.0]},{"action":"sonar_history","clipped":false,"hit_rect":[793.38,410.75,263.5,170.0],"visual_rect":[793.38,410.75,263.5,170.0]},{"action":"radial_back","clipped":false,"hit_rect":[1124.634,797.5,263.5,170.0],"visual_rect":[1124.634,797.5,263.5,170.0]},{"action":"pause","clipped":false,"hit_rect":[12.0,12.0,263.5,170.0],"visual_rect":[12.0,12.0,263.5,170.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"secondary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"mission","scroll_rect":[888.0,46.0,1257.0,1996.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,2270.0],"window":[2184.0,1968.0]}
+SS_TARGET depth_up center=1256,305 viewport=2520,2270
+SS_TARGET depth_down center=1588,496 viewport=2520,2270
+SS_TARGET sonar_emit center=1588,878 viewport=2520,2270
+SS_TARGET sonar_sector center=1256,1070 viewport=2520,2270
+SS_TARGET sonar_power center=925,878 viewport=2520,2270
+SS_TARGET sonar_history center=925,496 viewport=2520,2270
+SS_TARGET radial_back center=1256,883 viewport=2520,2270
+SS_TARGET pause center=144,97 viewport=2520,2270
+SS_TARGET chart_center center=1260,1135 viewport=2520,2270
+SS_TARGET objective0 center=693,664 viewport=2520,2270
+SS_TARGET route center=544,742 viewport=2520,2270
+REVIEW_STATE 102 mission QUIETUS · MIDDLE → DEEP · 4.0s exposed transition
+REVIEW_COMMAND {"cmd":"press","id":"pause"}
+SS_PAUSE paused=false
+REVIEW_STATE 103 mission QUIETUS · MIDDLE → DEEP · 4.0s exposed transition
+REVIEW_COMMAND {"cmd":"step","seconds":3.0}
+REVIEW_STATE 104 mission QUIETUS · MIDDLE → DEEP · 4.0s exposed transition
+REVIEW_COMMAND {"cmd":"press","id":"pause"}
+SS_PAUSE paused=true
+REVIEW_STATE 105 mission QUIETUS · MIDDLE → DEEP · 4.0s exposed transition
+REVIEW_COMMAND {"cmd":"shot","name":"15-retry-deep"}
+REVIEW_STATE 106 mission QUIETUS · MIDDLE → DEEP · 4.0s exposed transition
+REVIEW_COMMAND {"cmd":"press","id":"radial_back"}
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":16770,"hud_visible":true,"menu_visible":false,"mission":31,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,2270.0],"chart_view":{"center":[1300.0,1300.0],"mode":"free","zoom":1.0},"context_page":"craft","context_subject_kind":"","controls":[{"action":"camera","clipped":false,"hit_rect":[559.027,768.519,263.5,170.0],"visual_rect":[559.027,768.519,263.5,170.0]},{"action":"depth_menu","clipped":false,"hit_rect":[829.495,880.551,263.5,170.0],"visual_rect":[829.495,880.551,263.5,170.0]},{"action":"silent","clipped":false,"hit_rect":[941.527,1151.019,263.5,170.0],"visual_rect":[941.527,1151.019,263.5,170.0]},{"action":"program","clipped":false,"hit_rect":[829.495,1421.488,263.5,170.0],"visual_rect":[829.495,1421.488,263.5,170.0]},{"action":"route_menu","clipped":false,"hit_rect":[559.027,1533.519,263.5,170.0],"visual_rect":[559.027,1533.519,263.5,170.0]},{"action":"tools_menu","clipped":false,"hit_rect":[288.558,1421.488,263.5,170.0],"visual_rect":[288.558,1421.488,263.5,170.0]},{"action":"all_stop","clipped":false,"hit_rect":[176.527,1151.019,263.5,170.0],"visual_rect":[176.527,1151.019,263.5,170.0]},{"action":"inspect","clipped":false,"hit_rect":[288.558,880.551,263.5,170.0],"visual_rect":[288.558,880.551,263.5,170.0]},{"action":"radial_back","clipped":false,"hit_rect":[559.027,1346.519,263.5,170.0],"visual_rect":[559.027,1346.519,263.5,170.0]},{"action":"pause","clipped":false,"hit_rect":[12.0,12.0,263.5,170.0],"visual_rect":[12.0,12.0,263.5,170.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"secondary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"mission","scroll_rect":[888.0,46.0,1257.0,1996.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,2270.0],"window":[2184.0,1968.0]}
+SS_TARGET camera center=691,854 viewport=2520,2270
+SS_TARGET depth_menu center=961,966 viewport=2520,2270
+SS_TARGET silent center=1073,1236 viewport=2520,2270
+SS_TARGET program center=961,1506 viewport=2520,2270
+SS_TARGET route_menu center=691,1619 viewport=2520,2270
+SS_TARGET tools_menu center=420,1506 viewport=2520,2270
+SS_TARGET all_stop center=308,1236 viewport=2520,2270
+SS_TARGET inspect center=420,966 viewport=2520,2270
+SS_TARGET radial_back center=691,1432 viewport=2520,2270
+SS_TARGET pause center=144,97 viewport=2520,2270
+SS_TARGET chart_center center=1260,1135 viewport=2520,2270
+SS_TARGET objective0 center=693,664 viewport=2520,2270
+SS_TARGET route center=544,742 viewport=2520,2270
+REVIEW_STATE 107 mission QUIETUS · MIDDLE → DEEP · 4.0s exposed transition
+REVIEW_COMMAND {"cmd":"tap","x":1260.0,"y":1100.0}
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":16781,"hud_visible":true,"menu_visible":false,"mission":31,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,2270.0],"chart_view":{"center":[1300.0,1300.0],"mode":"free","zoom":1.0},"context_page":"water","context_subject_kind":"","controls":[{"action":"more_orders","clipped":false,"hit_rect":[2244.5,12.0,263.5,170.0],"visual_rect":[2244.5,12.0,263.5,170.0]},{"action":"fleet_q","clipped":false,"hit_rect":[605.777,581.246,170.0,170.0],"visual_rect":[605.777,581.246,170.0,170.0]},{"action":"fleet_a","clipped":false,"hit_rect":[345.577,1792.115,170.0,170.0],"visual_rect":[345.577,1792.115,170.0,170.0]},{"action":"fleet_b","clipped":false,"hit_rect":[467.808,1879.423,170.0,170.0],"visual_rect":[467.808,1879.423,170.0,170.0]},{"action":"pause","clipped":false,"hit_rect":[12.0,12.0,263.5,170.0],"visual_rect":[12.0,12.0,263.5,170.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"mission","scroll_rect":[888.0,46.0,1257.0,1996.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,2270.0],"window":[2184.0,1968.0]}
+SS_TARGET more_orders center=2376,97 viewport=2520,2270
+SS_TARGET fleet_q center=691,666 viewport=2520,2270
+SS_TARGET fleet_a center=431,1877 viewport=2520,2270
+SS_TARGET fleet_b center=553,1964 viewport=2520,2270
+SS_TARGET pause center=144,97 viewport=2520,2270
+SS_TARGET chart_center center=1260,1135 viewport=2520,2270
+SS_TARGET objective0 center=693,664 viewport=2520,2270
+SS_TARGET route center=544,742 viewport=2520,2270
+REVIEW_STATE 108 mission QUIETUS · MIDDLE → DEEP · 4.0s exposed transition
+REVIEW_COMMAND {"cmd":"press","id":"pause"}
+SS_PAUSE paused=false
+REVIEW_STATE 109 mission QUIETUS · MIDDLE → DEEP · 4.0s exposed transition
+REVIEW_COMMAND {"cmd":"step","seconds":8.0}
+REVIEW_STATE 110 mission QUIETUS · MIDDLE → DEEP · 4.0s exposed transition
+REVIEW_COMMAND {"cmd":"shot","name":"16-deep-return-eight"}
+REVIEW_STATE 111 mission QUIETUS · MIDDLE → DEEP · 4.0s exposed transition
+REVIEW_COMMAND {"cmd":"tap","x":2090.0,"y":1960.0}
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":17537,"hud_visible":true,"menu_visible":false,"mission":31,"optical_visible":false,"paused":false,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,2270.0],"chart_view":{"center":[1300.0,1300.0],"mode":"free","zoom":1.0},"context_page":"object","context_subject_kind":"corridor","controls":[{"action":"route_here","clipped":false,"hit_rect":[1862.0,1297.5,263.5,170.0],"visual_rect":[1862.0,1297.5,263.5,170.0]},{"action":"inspect","clipped":false,"hit_rect":[2244.5,1680.0,263.5,170.0],"visual_rect":[2244.5,1680.0,263.5,170.0]},{"action":"program","clipped":false,"hit_rect":[1862.0,2062.5,263.5,170.0],"visual_rect":[1862.0,2062.5,263.5,170.0]},{"action":"queue","clipped":false,"hit_rect":[1479.5,1680.0,263.5,170.0],"visual_rect":[1479.5,1680.0,263.5,170.0]},{"action":"radial_back","clipped":false,"hit_rect":[1862.0,1875.5,263.5,170.0],"visual_rect":[1862.0,1875.5,263.5,170.0]},{"action":"pause","clipped":false,"hit_rect":[12.0,12.0,263.5,170.0],"visual_rect":[12.0,12.0,263.5,170.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"secondary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"mission","scroll_rect":[888.0,46.0,1257.0,1996.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,2270.0],"window":[2184.0,1968.0]}
+SS_TARGET route_here center=1994,1383 viewport=2520,2270
+SS_TARGET inspect center=2376,1765 viewport=2520,2270
+SS_TARGET program center=1994,2148 viewport=2520,2270
+SS_TARGET queue center=1611,1765 viewport=2520,2270
+SS_TARGET radial_back center=1994,1961 viewport=2520,2270
+SS_TARGET pause center=144,97 viewport=2520,2270
+SS_TARGET chart_center center=1260,1135 viewport=2520,2270
+SS_TARGET objective0 center=693,664 viewport=2520,2270
+SS_TARGET route center=544,742 viewport=2520,2270
+REVIEW_STATE 112 mission QUIETUS · MIDDLE → DEEP · 4.0s exposed transition
+REVIEW_COMMAND {"cmd":"press","id":"route_here"}
+SS_ORDER route accepted=true selected=0 queued=false
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":17552,"hud_visible":true,"menu_visible":false,"mission":31,"optical_visible":false,"paused":false,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,2270.0],"chart_view":{"center":[1300.0,1300.0],"mode":"free","zoom":1.0},"context_page":"water","context_subject_kind":"","controls":[{"action":"more_orders","clipped":false,"hit_rect":[2244.5,12.0,263.5,170.0],"visual_rect":[2244.5,12.0,263.5,170.0]},{"action":"fleet_q","clipped":false,"hit_rect":[605.777,581.246,170.0,170.0],"visual_rect":[605.777,581.246,170.0,170.0]},{"action":"fleet_a","clipped":false,"hit_rect":[345.577,1792.115,170.0,170.0],"visual_rect":[345.577,1792.115,170.0,170.0]},{"action":"fleet_b","clipped":false,"hit_rect":[467.808,1879.423,170.0,170.0],"visual_rect":[467.808,1879.423,170.0,170.0]},{"action":"order_undo","clipped":false,"hit_rect":[988.0,1946.0,544.0,170.0],"visual_rect":[988.0,1946.0,544.0,170.0]},{"action":"pause","clipped":false,"hit_rect":[12.0,12.0,263.5,170.0],"visual_rect":[12.0,12.0,263.5,170.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"mission","scroll_rect":[888.0,46.0,1257.0,1996.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,2270.0],"window":[2184.0,1968.0]}
+SS_TARGET more_orders center=2376,97 viewport=2520,2270
+SS_TARGET fleet_q center=691,666 viewport=2520,2270
+SS_TARGET fleet_a center=431,1877 viewport=2520,2270
+SS_TARGET fleet_b center=553,1964 viewport=2520,2270
+SS_TARGET order_undo center=1260,2031 viewport=2520,2270
+SS_TARGET pause center=144,97 viewport=2520,2270
+SS_TARGET chart_center center=1260,1135 viewport=2520,2270
+SS_TARGET objective0 center=693,664 viewport=2520,2270
+SS_TARGET route center=544,742 viewport=2520,2270
+REVIEW_STATE 113 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"step","seconds":8.0}
+REVIEW_STATE 114 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"shot","name":"17-deep-transit"}
+REVIEW_STATE 115 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"step","seconds":8.0}
+REVIEW_STATE 116 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"shot","name":"18-deep-midway"}
+REVIEW_STATE 117 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"step","seconds":8.0}
+SS_ROLE mission=31 index=0 type=sentinel mode=INVESTIGATE pos=1200.035034,1249.998535 home=1200.000000,1250.000000 target=-1 lock=0.000000 time=70.600000
+SS_ROLE mission=31 index=0 type=sentinel mode=SEARCH pos=1201.334351,1276.511963 home=1200.000000,1250.000000 target=-1 lock=0.000000 time=74.850000
+REVIEW_STATE 118 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"shot","name":"19-deep-crossed"}
+REVIEW_STATE 119 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"step","seconds":2.0}
+REVIEW_STATE 120 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"shot","name":"20-deep-contact"}
+REVIEW_STATE 121 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"step","seconds":4.0}
+REVIEW_STATE 122 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"shot","name":"21-deep-contact-passed"}
+REVIEW_STATE 123 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"step","seconds":8.0}
+SS_ROLE mission=31 index=0 type=sentinel mode=RETURN pos=1206.663818,1229.409058 home=1200.000000,1250.000000 target=-1 lock=0.000000 time=84.450000
+SS_ROLE mission=31 index=0 type=sentinel mode=DORMANT pos=1213.640259,1250.487915 home=1200.000000,1250.000000 target=-1 lock=0.000000 time=87.650000
+REVIEW_STATE 124 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"shot","name":"22-deep-recovery-approach"}
+REVIEW_STATE 125 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"step","seconds":12.0}
+REVIEW_STATE 126 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"press","id":"pause"}
+SS_PAUSE paused=true
+REVIEW_STATE 127 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"craft"}
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":22136,"hud_visible":true,"menu_visible":false,"mission":31,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,2270.0],"chart_view":{"center":[1300.0,1300.0],"mode":"free","zoom":1.0},"context_page":"craft","context_subject_kind":"","controls":[{"action":"camera","clipped":false,"hit_rect":[1862.0,851.734,263.5,170.0],"visual_rect":[1862.0,851.734,263.5,170.0]},{"action":"depth_menu","clipped":false,"hit_rect":[2132.468,963.765,263.5,170.0],"visual_rect":[2132.468,963.765,263.5,170.0]},{"action":"silent","clipped":false,"hit_rect":[2244.5,1234.234,263.5,170.0],"visual_rect":[2244.5,1234.234,263.5,170.0]},{"action":"program","clipped":false,"hit_rect":[2132.468,1504.702,263.5,170.0],"visual_rect":[2132.468,1504.702,263.5,170.0]},{"action":"route_menu","clipped":false,"hit_rect":[1862.0,1616.734,263.5,170.0],"visual_rect":[1862.0,1616.734,263.5,170.0]},{"action":"tools_menu","clipped":false,"hit_rect":[1591.532,1504.702,263.5,170.0],"visual_rect":[1591.532,1504.702,263.5,170.0]},{"action":"all_stop","clipped":false,"hit_rect":[1479.5,1234.234,263.5,170.0],"visual_rect":[1479.5,1234.234,263.5,170.0]},{"action":"inspect","clipped":false,"hit_rect":[1591.532,963.765,263.5,170.0],"visual_rect":[1591.532,963.765,263.5,170.0]},{"action":"radial_back","clipped":false,"hit_rect":[1862.0,1429.734,263.5,170.0],"visual_rect":[1862.0,1429.734,263.5,170.0]},{"action":"pause","clipped":false,"hit_rect":[12.0,12.0,263.5,170.0],"visual_rect":[12.0,12.0,263.5,170.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"secondary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"mission","scroll_rect":[888.0,46.0,1257.0,1996.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,2270.0],"window":[2184.0,1968.0]}
+SS_TARGET camera center=1994,937 viewport=2520,2270
+SS_TARGET depth_menu center=2264,1049 viewport=2520,2270
+SS_TARGET silent center=2376,1319 viewport=2520,2270
+SS_TARGET program center=2264,1590 viewport=2520,2270
+SS_TARGET route_menu center=1994,1702 viewport=2520,2270
+SS_TARGET tools_menu center=1723,1590 viewport=2520,2270
+SS_TARGET all_stop center=1611,1319 viewport=2520,2270
+SS_TARGET inspect center=1723,1049 viewport=2520,2270
+SS_TARGET radial_back center=1994,1515 viewport=2520,2270
+SS_TARGET pause center=144,97 viewport=2520,2270
+SS_TARGET chart_center center=1260,1135 viewport=2520,2270
+SS_TARGET objective0 center=693,664 viewport=2520,2270
+SS_TARGET route center=544,742 viewport=2520,2270
+REVIEW_STATE 128 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"press","id":"depth_menu"}
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":22149,"hud_visible":true,"menu_visible":false,"mission":31,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,2270.0],"chart_view":{"center":[1300.0,1300.0],"mode":"free","zoom":1.0},"context_page":"acoustics","context_subject_kind":"","controls":[{"action":"depth_up","clipped":false,"hit_rect":[1874.155,851.734,263.5,170.0],"visual_rect":[1874.155,851.734,263.5,170.0]},{"action":"depth_down","clipped":false,"hit_rect":[2205.409,1042.984,263.5,170.0],"visual_rect":[2205.409,1042.984,263.5,170.0]},{"action":"sonar_emit","clipped":false,"hit_rect":[2205.409,1425.484,263.5,170.0],"visual_rect":[2205.409,1425.484,263.5,170.0]},{"action":"sonar_sector","clipped":false,"hit_rect":[1874.155,1616.734,263.5,170.0],"visual_rect":[1874.155,1616.734,263.5,170.0]},{"action":"sonar_power","clipped":false,"hit_rect":[1542.9,1425.484,263.5,170.0],"visual_rect":[1542.9,1425.484,263.5,170.0]},{"action":"sonar_history","clipped":false,"hit_rect":[1542.9,1042.984,263.5,170.0],"visual_rect":[1542.9,1042.984,263.5,170.0]},{"action":"radial_back","clipped":false,"hit_rect":[1874.155,1429.734,263.5,170.0],"visual_rect":[1874.155,1429.734,263.5,170.0]},{"action":"pause","clipped":false,"hit_rect":[12.0,12.0,263.5,170.0],"visual_rect":[12.0,12.0,263.5,170.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"secondary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"mission","scroll_rect":[888.0,46.0,1257.0,1996.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,2270.0],"window":[2184.0,1968.0]}
+SS_TARGET depth_up center=2006,937 viewport=2520,2270
+SS_TARGET depth_down center=2337,1128 viewport=2520,2270
+SS_TARGET sonar_emit center=2337,1510 viewport=2520,2270
+SS_TARGET sonar_sector center=2006,1702 viewport=2520,2270
+SS_TARGET sonar_power center=1675,1510 viewport=2520,2270
+SS_TARGET sonar_history center=1675,1128 viewport=2520,2270
+SS_TARGET radial_back center=2006,1515 viewport=2520,2270
+SS_TARGET pause center=144,97 viewport=2520,2270
+SS_TARGET chart_center center=1260,1135 viewport=2520,2270
+SS_TARGET objective0 center=693,664 viewport=2520,2270
+SS_TARGET route center=544,742 viewport=2520,2270
+REVIEW_STATE 129 mission QUIETUS · replaced route
+REVIEW_COMMAND {"cmd":"press","id":"depth_up"}
+SS_ORDER depth accepted=true selected=0 queued=false
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":22163,"hud_visible":true,"menu_visible":false,"mission":31,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,2270.0],"chart_view":{"center":[1300.0,1300.0],"mode":"free","zoom":1.0},"context_page":"acoustics","context_subject_kind":"","controls":[{"action":"depth_up","clipped":false,"hit_rect":[1874.155,851.734,263.5,170.0],"visual_rect":[1874.155,851.734,263.5,170.0]},{"action":"depth_down","clipped":false,"hit_rect":[2205.409,1042.984,263.5,170.0],"visual_rect":[2205.409,1042.984,263.5,170.0]},{"action":"sonar_emit","clipped":false,"hit_rect":[2205.409,1425.484,263.5,170.0],"visual_rect":[2205.409,1425.484,263.5,170.0]},{"action":"sonar_sector","clipped":false,"hit_rect":[1874.155,1616.734,263.5,170.0],"visual_rect":[1874.155,1616.734,263.5,170.0]},{"action":"sonar_power","clipped":false,"hit_rect":[1542.9,1425.484,263.5,170.0],"visual_rect":[1542.9,1425.484,263.5,170.0]},{"action":"sonar_history","clipped":false,"hit_rect":[1542.9,1042.984,263.5,170.0],"visual_rect":[1542.9,1042.984,263.5,170.0]},{"action":"radial_back","clipped":false,"hit_rect":[1874.155,1429.734,263.5,170.0],"visual_rect":[1874.155,1429.734,263.5,170.0]},{"action":"pause","clipped":false,"hit_rect":[12.0,12.0,263.5,170.0],"visual_rect":[12.0,12.0,263.5,170.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"secondary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"mission","scroll_rect":[888.0,46.0,1257.0,1996.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,2270.0],"window":[2184.0,1968.0]}
+SS_TARGET depth_up center=2006,937 viewport=2520,2270
+SS_TARGET depth_down center=2337,1128 viewport=2520,2270
+SS_TARGET sonar_emit center=2337,1510 viewport=2520,2270
+SS_TARGET sonar_sector center=2006,1702 viewport=2520,2270
+SS_TARGET sonar_power center=1675,1510 viewport=2520,2270
+SS_TARGET sonar_history center=1675,1128 viewport=2520,2270
+SS_TARGET radial_back center=2006,1515 viewport=2520,2270
+SS_TARGET pause center=144,97 viewport=2520,2270
+SS_TARGET chart_center center=1260,1135 viewport=2520,2270
+SS_TARGET objective0 center=693,664 viewport=2520,2270
+SS_TARGET route center=544,742 viewport=2520,2270
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":22163,"hud_visible":true,"menu_visible":false,"mission":31,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,2270.0],"chart_view":{"center":[1300.0,1300.0],"mode":"free","zoom":1.0},"context_page":"acoustics","context_subject_kind":"","controls":[{"action":"depth_up","clipped":false,"hit_rect":[1874.155,851.734,263.5,170.0],"visual_rect":[1874.155,851.734,263.5,170.0]},{"action":"depth_down","clipped":false,"hit_rect":[2205.409,1042.984,263.5,170.0],"visual_rect":[2205.409,1042.984,263.5,170.0]},{"action":"sonar_emit","clipped":false,"hit_rect":[2205.409,1425.484,263.5,170.0],"visual_rect":[2205.409,1425.484,263.5,170.0]},{"action":"sonar_sector","clipped":false,"hit_rect":[1874.155,1616.734,263.5,170.0],"visual_rect":[1874.155,1616.734,263.5,170.0]},{"action":"sonar_power","clipped":false,"hit_rect":[1542.9,1425.484,263.5,170.0],"visual_rect":[1542.9,1425.484,263.5,170.0]},{"action":"sonar_history","clipped":false,"hit_rect":[1542.9,1042.984,263.5,170.0],"visual_rect":[1542.9,1042.984,263.5,170.0]},{"action":"radial_back","clipped":false,"hit_rect":[1874.155,1429.734,263.5,170.0],"visual_rect":[1874.155,1429.734,263.5,170.0]},{"action":"pause","clipped":false,"hit_rect":[12.0,12.0,263.5,170.0],"visual_rect":[12.0,12.0,263.5,170.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"secondary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"mission","scroll_rect":[888.0,46.0,1257.0,1996.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,2270.0],"window":[2184.0,1968.0]}
+SS_TARGET depth_up center=2006,937 viewport=2520,2270
+SS_TARGET depth_down center=2337,1128 viewport=2520,2270
+SS_TARGET sonar_emit center=2337,1510 viewport=2520,2270
+SS_TARGET sonar_sector center=2006,1702 viewport=2520,2270
+SS_TARGET sonar_power center=1675,1510 viewport=2520,2270
+SS_TARGET sonar_history center=1675,1128 viewport=2520,2270
+SS_TARGET radial_back center=2006,1515 viewport=2520,2270
+SS_TARGET pause center=144,97 viewport=2520,2270
+SS_TARGET chart_center center=1260,1135 viewport=2520,2270
+SS_TARGET objective0 center=693,664 viewport=2520,2270
+SS_TARGET route center=544,742 viewport=2520,2270
+REVIEW_STATE 130 mission QUIETUS · DEEP → MIDDLE · 4.0s exposed transition
+REVIEW_COMMAND {"cmd":"press","id":"pause"}
+SS_PAUSE paused=false
+REVIEW_STATE 131 mission QUIETUS · DEEP → MIDDLE · 4.0s exposed transition
+REVIEW_COMMAND {"cmd":"step","seconds":4.2}
+REVIEW_STATE 132 mission QUIETUS · DEEP → MIDDLE · 4.0s exposed transition
+REVIEW_COMMAND {"cmd":"shot","name":"23-second-recovered"}
+REVIEW_STATE 133 mission QUIETUS · DEEP → MIDDLE · 4.0s exposed transition
+REVIEW_COMMAND {"cmd":"press","id":"radial_back"}
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":22522,"hud_visible":true,"menu_visible":false,"mission":31,"optical_visible":false,"paused":false,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,2270.0],"chart_view":{"center":[1300.0,1300.0],"mode":"free","zoom":1.0},"context_page":"craft","context_subject_kind":"","controls":[{"action":"camera","clipped":false,"hit_rect":[1862.0,852.281,263.5,170.0],"visual_rect":[1862.0,852.281,263.5,170.0]},{"action":"depth_menu","clipped":false,"hit_rect":[2132.468,964.313,263.5,170.0],"visual_rect":[2132.468,964.313,263.5,170.0]},{"action":"silent","clipped":false,"hit_rect":[2244.5,1234.781,263.5,170.0],"visual_rect":[2244.5,1234.781,263.5,170.0]},{"action":"program","clipped":false,"hit_rect":[2132.468,1505.25,263.5,170.0],"visual_rect":[2132.468,1505.25,263.5,170.0]},{"action":"route_menu","clipped":false,"hit_rect":[1862.0,1617.281,263.5,170.0],"visual_rect":[1862.0,1617.281,263.5,170.0]},{"action":"tools_menu","clipped":false,"hit_rect":[1591.532,1505.25,263.5,170.0],"visual_rect":[1591.532,1505.25,263.5,170.0]},{"action":"all_stop","clipped":false,"hit_rect":[1479.5,1234.781,263.5,170.0],"visual_rect":[1479.5,1234.781,263.5,170.0]},{"action":"inspect","clipped":false,"hit_rect":[1591.532,964.313,263.5,170.0],"visual_rect":[1591.532,964.313,263.5,170.0]},{"action":"radial_back","clipped":false,"hit_rect":[1862.0,1430.281,263.5,170.0],"visual_rect":[1862.0,1430.281,263.5,170.0]},{"action":"pause","clipped":false,"hit_rect":[12.0,12.0,263.5,170.0],"visual_rect":[12.0,12.0,263.5,170.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"secondary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"mission","scroll_rect":[888.0,46.0,1257.0,1996.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,2270.0],"window":[2184.0,1968.0]}
+SS_TARGET camera center=1994,937 viewport=2520,2270
+SS_TARGET depth_menu center=2264,1049 viewport=2520,2270
+SS_TARGET silent center=2376,1320 viewport=2520,2270
+SS_TARGET program center=2264,1590 viewport=2520,2270
+SS_TARGET route_menu center=1994,1702 viewport=2520,2270
+SS_TARGET tools_menu center=1723,1590 viewport=2520,2270
+SS_TARGET all_stop center=1611,1320 viewport=2520,2270
+SS_TARGET inspect center=1723,1049 viewport=2520,2270
+SS_TARGET radial_back center=1994,1515 viewport=2520,2270
+SS_TARGET pause center=144,97 viewport=2520,2270
+SS_TARGET chart_center center=1260,1135 viewport=2520,2270
+SS_TARGET objective0 center=693,664 viewport=2520,2270
+SS_TARGET route center=544,742 viewport=2520,2270
+REVIEW_STATE 134 mission QUIETUS · DEEP → MIDDLE · 4.0s exposed transition
+REVIEW_COMMAND {"cmd":"step","seconds":4.0}
+SS_DEBRIEF outcome=won mission=31
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":22536,"hud_visible":false,"menu_visible":true,"mission":31,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,2270.0],"chart_view":{"center":[1300.0,1300.0],"mode":"free","zoom":1.0},"context_page":"water","context_subject_kind":"","controls":[{"action":"fork_ending","clipped":false,"hit_rect":[888.0,1660.0,744.0,170.0],"visual_rect":[888.0,1660.0,744.0,170.0]},{"action":"evidence","clipped":false,"hit_rect":[888.0,1844.0,744.0,170.0],"visual_rect":[888.0,1844.0,744.0,170.0]},{"action":"back","clipped":false,"hit_rect":[888.0,2054.0,744.0,170.0],"visual_rect":[888.0,2054.0,744.0,170.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"photo_ending","scroll_rect":[888.0,46.0,744.0,1996.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,2270.0],"window":[2184.0,1968.0]}
+SS_TARGET fork_ending center=1260,1745 viewport=2520,2270
+SS_TARGET evidence center=1260,1929 viewport=2520,2270
+SS_TARGET back center=1260,2139 viewport=2520,2270
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":22536,"hud_visible":false,"menu_visible":true,"mission":31,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,2270.0],"chart_view":{"center":[1300.0,1300.0],"mode":"free","zoom":1.0},"context_page":"water","context_subject_kind":"","controls":[{"action":"fork_ending","clipped":false,"hit_rect":[888.0,1660.0,744.0,170.0],"visual_rect":[888.0,1660.0,744.0,170.0]},{"action":"evidence","clipped":false,"hit_rect":[888.0,1844.0,744.0,170.0],"visual_rect":[888.0,1844.0,744.0,170.0]},{"action":"back","clipped":false,"hit_rect":[888.0,2054.0,744.0,170.0],"visual_rect":[888.0,2054.0,744.0,170.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"photo_ending","scroll_rect":[888.0,46.0,744.0,1996.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,2270.0],"window":[2184.0,1968.0]}
+SS_TARGET fork_ending center=1260,1745 viewport=2520,2270
+SS_TARGET evidence center=1260,1929 viewport=2520,2270
+SS_TARGET back center=1260,2139 viewport=2520,2270
+REVIEW_STATE 135 photo_ending Archive recovered / SURVEY RECOVERY
+REVIEW_COMMAND {"cmd":"shot","name":"24-final-debrief"}
+REVIEW_STATE 136 photo_ending Archive recovered / SURVEY RECOVERY
+REVIEW_COMMAND {"cmd":"press","id":"fork_ending"}
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":23856,"hud_visible":false,"menu_visible":true,"mission":31,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,2270.0],"chart_view":{"center":[1300.0,1300.0],"mode":"free","zoom":1.0},"context_page":"water","context_subject_kind":"","controls":[],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"ending","scroll_rect":[888.0,46.0,744.0,2178.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,2270.0],"window":[2184.0,1968.0]}
+SS_TARGET continue_choir center=1256,2467 viewport=2520,2270
+SS_TARGET continue_glass center=1256,2651 viewport=2520,2270
+SS_TARGET new_campaign center=1256,2835 viewport=2520,2270
+SS_TARGET back center=1256,3019 viewport=2520,2270
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":23856,"hud_visible":false,"menu_visible":true,"mission":31,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,2270.0],"chart_view":{"center":[1300.0,1300.0],"mode":"free","zoom":1.0},"context_page":"water","context_subject_kind":"","controls":[],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"ending","scroll_rect":[888.0,46.0,744.0,2178.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,2270.0],"window":[2184.0,1968.0]}
+SS_TARGET continue_choir center=1256,2467 viewport=2520,2270
+SS_TARGET continue_glass center=1256,2651 viewport=2520,2270
+SS_TARGET new_campaign center=1256,2835 viewport=2520,2270
+SS_TARGET back center=1256,3019 viewport=2520,2270
+REVIEW_STATE 137 ending Archive recovered / SURVEY RECOVERY
+REVIEW_COMMAND {"cmd":"shot","name":"25-fork-outcome"}
+REVIEW_STATE 138 ending Archive recovered / SURVEY RECOVERY
+REVIEW_COMMAND {"cmd":"back"}
+SS_SCREEN operations window=(2184, 1968) viewport=(2520.0, 2270.0) root=(2520.0, 2270.0) unlocked=5 active_time=110.88
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":23878,"hud_visible":false,"menu_visible":true,"mission":31,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,2270.0],"chart_view":{"center":[1300.0,1300.0],"mode":"free","zoom":1.0},"context_page":"water","context_subject_kind":"","controls":[{"action":"mission0","clipped":false,"hit_rect":[888.0,781.0,736.0,170.0],"visual_rect":[888.0,781.0,736.0,170.0]},{"action":"mission1","clipped":false,"hit_rect":[888.0,965.0,736.0,170.0],"visual_rect":[888.0,965.0,736.0,170.0]},{"action":"mission2","clipped":false,"hit_rect":[888.0,1149.0,736.0,170.0],"visual_rect":[888.0,1149.0,736.0,170.0]},{"action":"mission3","clipped":false,"hit_rect":[888.0,1333.0,736.0,170.0],"visual_rect":[888.0,1333.0,736.0,170.0]},{"action":"mission4","clipped":false,"hit_rect":[888.0,1517.0,736.0,170.0],"visual_rect":[888.0,1517.0,736.0,170.0]},{"action":"mission5","clipped":false,"hit_rect":[888.0,1701.0,736.0,170.0],"visual_rect":[888.0,1701.0,736.0,170.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"menu","scroll_rect":[888.0,46.0,744.0,2178.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,2270.0],"window":[2184.0,1968.0]}
+SS_TARGET mission0 center=1256,866 viewport=2520,2270
+SS_TARGET mission1 center=1256,1050 viewport=2520,2270
+SS_TARGET mission2 center=1256,1234 viewport=2520,2270
+SS_TARGET mission3 center=1256,1418 viewport=2520,2270
+SS_TARGET mission4 center=1256,1602 viewport=2520,2270
+SS_TARGET mission5 center=1256,1786 viewport=2520,2270
+SS_TARGET expedition6 center=1256,2311 viewport=2520,2270
+SS_TARGET expedition7 center=1256,2495 viewport=2520,2270
+SS_TARGET expedition9 center=1256,2679 viewport=2520,2270
+SS_TARGET expedition11 center=1256,2863 viewport=2520,2270
+SS_TARGET expedition12 center=1256,3047 viewport=2520,2270
+SS_TARGET expedition14 center=1256,3231 viewport=2520,2270
+SS_TARGET expedition15 center=1256,3415 viewport=2520,2270
+SS_TARGET expedition16 center=1256,3599 viewport=2520,2270
+SS_TARGET expedition17 center=1256,3783 viewport=2520,2270
+SS_TARGET expedition18 center=1256,3967 viewport=2520,2270
+SS_TARGET expedition19 center=1256,4151 viewport=2520,2270
+SS_TARGET expedition20 center=1256,4335 viewport=2520,2270
+SS_TARGET expedition21 center=1256,4519 viewport=2520,2270
+SS_TARGET expedition22 center=1256,4703 viewport=2520,2270
+SS_TARGET expedition23 center=1256,4887 viewport=2520,2270
+SS_TARGET expedition24 center=1256,5071 viewport=2520,2270
+SS_TARGET expedition25 center=1256,5255 viewport=2520,2270
+SS_TARGET expedition26 center=1256,5439 viewport=2520,2270
+SS_TARGET expedition27 center=1256,5623 viewport=2520,2270
+SS_TARGET expedition28 center=1256,5807 viewport=2520,2270
+SS_TARGET expedition29 center=1256,5991 viewport=2520,2270
+SS_TARGET expedition30 center=1256,6175 viewport=2520,2270
+SS_TARGET expedition31 center=1256,6359 viewport=2520,2270
+SS_TARGET route_map center=1256,6543 viewport=2520,2270
+SS_TARGET fittings center=1256,6727 viewport=2520,2270
+SS_TARGET ending center=1256,6911 viewport=2520,2270
+SS_TARGET new_campaign center=1256,7095 viewport=2520,2270
+SS_TARGET evidence center=1256,7279 viewport=2520,2270
+SS_TARGET loadout center=1256,8846 viewport=2520,2270
+SS_TARGET settings center=1256,9057 viewport=2520,2270
+REVIEW_STATE 139 menu Archive recovered / SURVEY RECOVERY
+REVIEW_COMMAND {"cmd":"press","id":"evidence"}
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":24331,"hud_visible":false,"menu_visible":true,"mission":31,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,2270.0],"chart_view":{"center":[1300.0,1300.0],"mode":"free","zoom":1.0},"context_page":"water","context_subject_kind":"","controls":[{"action":"back","clipped":false,"hit_rect":[888.0,2054.0,744.0,170.0],"visual_rect":[888.0,2054.0,744.0,170.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"evidence","scroll_rect":[888.0,46.0,744.0,1996.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,2270.0],"window":[2184.0,1968.0]}
+SS_TARGET next_record center=1256,2318 viewport=2520,2270
+SS_TARGET intel center=1256,2502 viewport=2520,2270
+SS_TARGET back center=1260,2139 viewport=2520,2270
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":24331,"hud_visible":false,"menu_visible":true,"mission":31,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,2270.0],"chart_view":{"center":[1300.0,1300.0],"mode":"free","zoom":1.0},"context_page":"water","context_subject_kind":"","controls":[{"action":"back","clipped":false,"hit_rect":[888.0,2054.0,744.0,170.0],"visual_rect":[888.0,2054.0,744.0,170.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"evidence","scroll_rect":[888.0,46.0,744.0,1996.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,2270.0],"window":[2184.0,1968.0]}
+SS_TARGET next_record center=1256,2318 viewport=2520,2270
+SS_TARGET intel center=1256,2502 viewport=2520,2270
+SS_TARGET back center=1260,2139 viewport=2520,2270
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":24332,"hud_visible":false,"menu_visible":true,"mission":31,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,2270.0],"chart_view":{"center":[1300.0,1300.0],"mode":"free","zoom":1.0},"context_page":"water","context_subject_kind":"","controls":[{"action":"back","clipped":false,"hit_rect":[888.0,2054.0,744.0,170.0],"visual_rect":[888.0,2054.0,744.0,170.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"evidence","scroll_rect":[888.0,46.0,744.0,1996.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,2270.0],"window":[2184.0,1968.0]}
+SS_TARGET next_record center=1256,2318 viewport=2520,2270
+SS_TARGET intel center=1256,2502 viewport=2520,2270
+SS_TARGET back center=1260,2139 viewport=2520,2270
+REVIEW_STATE 140 evidence Archive recovered / SURVEY RECOVERY
+REVIEW_COMMAND {"cmd":"shot","name":"26-field-records"}
+REVIEW_STATE 141 evidence Archive recovered / SURVEY RECOVERY
+REVIEW_COMMAND {"cmd":"back"}
+SS_SCREEN operations window=(2184, 1968) viewport=(2520.0, 2270.0) root=(2520.0, 2270.0) unlocked=5 active_time=110.88
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":24348,"hud_visible":false,"menu_visible":true,"mission":31,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,2270.0],"chart_view":{"center":[1300.0,1300.0],"mode":"free","zoom":1.0},"context_page":"water","context_subject_kind":"","controls":[{"action":"mission0","clipped":false,"hit_rect":[888.0,781.0,736.0,170.0],"visual_rect":[888.0,781.0,736.0,170.0]},{"action":"mission1","clipped":false,"hit_rect":[888.0,965.0,736.0,170.0],"visual_rect":[888.0,965.0,736.0,170.0]},{"action":"mission2","clipped":false,"hit_rect":[888.0,1149.0,736.0,170.0],"visual_rect":[888.0,1149.0,736.0,170.0]},{"action":"mission3","clipped":false,"hit_rect":[888.0,1333.0,736.0,170.0],"visual_rect":[888.0,1333.0,736.0,170.0]},{"action":"mission4","clipped":false,"hit_rect":[888.0,1517.0,736.0,170.0],"visual_rect":[888.0,1517.0,736.0,170.0]},{"action":"mission5","clipped":false,"hit_rect":[888.0,1701.0,736.0,170.0],"visual_rect":[888.0,1701.0,736.0,170.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"menu","scroll_rect":[888.0,46.0,744.0,2178.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,2270.0],"window":[2184.0,1968.0]}
+SS_TARGET mission0 center=1256,866 viewport=2520,2270
+SS_TARGET mission1 center=1256,1050 viewport=2520,2270
+SS_TARGET mission2 center=1256,1234 viewport=2520,2270
+SS_TARGET mission3 center=1256,1418 viewport=2520,2270
+SS_TARGET mission4 center=1256,1602 viewport=2520,2270
+SS_TARGET mission5 center=1256,1786 viewport=2520,2270
+SS_TARGET expedition6 center=1256,2311 viewport=2520,2270
+SS_TARGET expedition7 center=1256,2495 viewport=2520,2270
+SS_TARGET expedition9 center=1256,2679 viewport=2520,2270
+SS_TARGET expedition11 center=1256,2863 viewport=2520,2270
+SS_TARGET expedition12 center=1256,3047 viewport=2520,2270
+SS_TARGET expedition14 center=1256,3231 viewport=2520,2270
+SS_TARGET expedition15 center=1256,3415 viewport=2520,2270
+SS_TARGET expedition16 center=1256,3599 viewport=2520,2270
+SS_TARGET expedition17 center=1256,3783 viewport=2520,2270
+SS_TARGET expedition18 center=1256,3967 viewport=2520,2270
+SS_TARGET expedition19 center=1256,4151 viewport=2520,2270
+SS_TARGET expedition20 center=1256,4335 viewport=2520,2270
+SS_TARGET expedition21 center=1256,4519 viewport=2520,2270
+SS_TARGET expedition22 center=1256,4703 viewport=2520,2270
+SS_TARGET expedition23 center=1256,4887 viewport=2520,2270
+SS_TARGET expedition24 center=1256,5071 viewport=2520,2270
+SS_TARGET expedition25 center=1256,5255 viewport=2520,2270
+SS_TARGET expedition26 center=1256,5439 viewport=2520,2270
+SS_TARGET expedition27 center=1256,5623 viewport=2520,2270
+SS_TARGET expedition28 center=1256,5807 viewport=2520,2270
+SS_TARGET expedition29 center=1256,5991 viewport=2520,2270
+SS_TARGET expedition30 center=1256,6175 viewport=2520,2270
+SS_TARGET expedition31 center=1256,6359 viewport=2520,2270
+SS_TARGET route_map center=1256,6543 viewport=2520,2270
+SS_TARGET fittings center=1256,6727 viewport=2520,2270
+SS_TARGET ending center=1256,6911 viewport=2520,2270
+SS_TARGET new_campaign center=1256,7095 viewport=2520,2270
+SS_TARGET evidence center=1256,7279 viewport=2520,2270
+SS_TARGET loadout center=1256,8846 viewport=2520,2270
+SS_TARGET settings center=1256,9057 viewport=2520,2270
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":24348,"hud_visible":false,"menu_visible":true,"mission":31,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,2270.0],"chart_view":{"center":[1300.0,1300.0],"mode":"free","zoom":1.0},"context_page":"water","context_subject_kind":"","controls":[{"action":"mission0","clipped":false,"hit_rect":[888.0,781.0,736.0,170.0],"visual_rect":[888.0,781.0,736.0,170.0]},{"action":"mission1","clipped":false,"hit_rect":[888.0,965.0,736.0,170.0],"visual_rect":[888.0,965.0,736.0,170.0]},{"action":"mission2","clipped":false,"hit_rect":[888.0,1149.0,736.0,170.0],"visual_rect":[888.0,1149.0,736.0,170.0]},{"action":"mission3","clipped":false,"hit_rect":[888.0,1333.0,736.0,170.0],"visual_rect":[888.0,1333.0,736.0,170.0]},{"action":"mission4","clipped":false,"hit_rect":[888.0,1517.0,736.0,170.0],"visual_rect":[888.0,1517.0,736.0,170.0]},{"action":"mission5","clipped":false,"hit_rect":[888.0,1701.0,736.0,170.0],"visual_rect":[888.0,1701.0,736.0,170.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2184.0,1968.0],"schema":1,"screen":"menu","scroll_rect":[888.0,46.0,744.0,2178.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,2270.0],"window":[2184.0,1968.0]}
+SS_TARGET mission0 center=1256,866 viewport=2520,2270
+SS_TARGET mission1 center=1256,1050 viewport=2520,2270
+SS_TARGET mission2 center=1256,1234 viewport=2520,2270
+SS_TARGET mission3 center=1256,1418 viewport=2520,2270
+SS_TARGET mission4 center=1256,1602 viewport=2520,2270
+SS_TARGET mission5 center=1256,1786 viewport=2520,2270
+SS_TARGET expedition6 center=1256,2311 viewport=2520,2270
+SS_TARGET expedition7 center=1256,2495 viewport=2520,2270
+SS_TARGET expedition9 center=1256,2679 viewport=2520,2270
+SS_TARGET expedition11 center=1256,2863 viewport=2520,2270
+SS_TARGET expedition12 center=1256,3047 viewport=2520,2270
+SS_TARGET expedition14 center=1256,3231 viewport=2520,2270
+SS_TARGET expedition15 center=1256,3415 viewport=2520,2270
+SS_TARGET expedition16 center=1256,3599 viewport=2520,2270
+SS_TARGET expedition17 center=1256,3783 viewport=2520,2270
+SS_TARGET expedition18 center=1256,3967 viewport=2520,2270
+SS_TARGET expedition19 center=1256,4151 viewport=2520,2270
+SS_TARGET expedition20 center=1256,4335 viewport=2520,2270
+SS_TARGET expedition21 center=1256,4519 viewport=2520,2270
+SS_TARGET expedition22 center=1256,4703 viewport=2520,2270
+SS_TARGET expedition23 center=1256,4887 viewport=2520,2270
+SS_TARGET expedition24 center=1256,5071 viewport=2520,2270
+SS_TARGET expedition25 center=1256,5255 viewport=2520,2270
+SS_TARGET expedition26 center=1256,5439 viewport=2520,2270
+SS_TARGET expedition27 center=1256,5623 viewport=2520,2270
+SS_TARGET expedition28 center=1256,5807 viewport=2520,2270
+SS_TARGET expedition29 center=1256,5991 viewport=2520,2270
+SS_TARGET expedition30 center=1256,6175 viewport=2520,2270
+SS_TARGET expedition31 center=1256,6359 viewport=2520,2270
+SS_TARGET route_map center=1256,6543 viewport=2520,2270
+SS_TARGET fittings center=1256,6727 viewport=2520,2270
+SS_TARGET ending center=1256,6911 viewport=2520,2270
+SS_TARGET new_campaign center=1256,7095 viewport=2520,2270
+SS_TARGET evidence center=1256,7279 viewport=2520,2270
+SS_TARGET loadout center=1256,8846 viewport=2520,2270
+SS_TARGET settings center=1256,9057 viewport=2520,2270
+REVIEW_STATE 142 menu Archive recovered / SURVEY RECOVERY
+REVIEW_COMMAND {"cmd":"shape","x":2520.0,"y":1080.0}
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":24362,"hud_visible":false,"menu_visible":true,"mission":31,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,1080.0],"chart_view":{"center":[1300.0,1300.0],"mode":"free","zoom":1.0},"context_page":"water","context_subject_kind":"","controls":[{"action":"mission0","clipped":false,"hit_rect":[888.0,781.0,736.0,147.0],"visual_rect":[888.0,781.0,736.0,147.0]},{"action":"mission1","clipped":true,"hit_rect":[888.0,942.0,736.0,92.0],"visual_rect":[888.0,942.0,736.0,147.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2520.0,1080.0],"schema":1,"screen":"menu","scroll_rect":[888.0,46.0,744.0,988.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,1080.0],"window":[2520.0,1080.0]}
+SS_TARGET mission0 center=1256,855 viewport=2520,1080
+SS_TARGET mission1 center=1256,1016 viewport=2520,1080
+SS_TARGET mission2 center=1256,1177 viewport=2520,1080
+SS_TARGET mission3 center=1256,1338 viewport=2520,1080
+SS_TARGET mission4 center=1256,1499 viewport=2520,1080
+SS_TARGET mission5 center=1256,1660 viewport=2520,1080
+SS_TARGET expedition6 center=1256,2162 viewport=2520,1080
+SS_TARGET expedition7 center=1256,2323 viewport=2520,1080
+SS_TARGET expedition9 center=1256,2484 viewport=2520,1080
+SS_TARGET expedition11 center=1256,2645 viewport=2520,1080
+SS_TARGET expedition12 center=1256,2806 viewport=2520,1080
+SS_TARGET expedition14 center=1256,2967 viewport=2520,1080
+SS_TARGET expedition15 center=1256,3128 viewport=2520,1080
+SS_TARGET expedition16 center=1256,3289 viewport=2520,1080
+SS_TARGET expedition17 center=1256,3450 viewport=2520,1080
+SS_TARGET expedition18 center=1256,3611 viewport=2520,1080
+SS_TARGET expedition19 center=1256,3772 viewport=2520,1080
+SS_TARGET expedition20 center=1256,3933 viewport=2520,1080
+SS_TARGET expedition21 center=1256,4094 viewport=2520,1080
+SS_TARGET expedition22 center=1256,4255 viewport=2520,1080
+SS_TARGET expedition23 center=1256,4416 viewport=2520,1080
+SS_TARGET expedition24 center=1256,4577 viewport=2520,1080
+SS_TARGET expedition25 center=1256,4738 viewport=2520,1080
+SS_TARGET expedition26 center=1256,4899 viewport=2520,1080
+SS_TARGET expedition27 center=1256,5060 viewport=2520,1080
+SS_TARGET expedition28 center=1256,5221 viewport=2520,1080
+SS_TARGET expedition29 center=1256,5382 viewport=2520,1080
+SS_TARGET expedition30 center=1256,5543 viewport=2520,1080
+SS_TARGET expedition31 center=1256,5704 viewport=2520,1080
+SS_TARGET route_map center=1256,5865 viewport=2520,1080
+SS_TARGET fittings center=1256,6026 viewport=2520,1080
+SS_TARGET ending center=1256,6187 viewport=2520,1080
+SS_TARGET new_campaign center=1256,6348 viewport=2520,1080
+SS_TARGET evidence center=1256,6509 viewport=2520,1080
+SS_TARGET loadout center=1256,8026 viewport=2520,1080
+SS_TARGET settings center=1256,8187 viewport=2520,1080
+REVIEW_STATE 143 menu Archive recovered / SURVEY RECOVERY
+REVIEW_COMMAND {"cmd":"press","id":"ending"}
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":24381,"hud_visible":false,"menu_visible":true,"mission":31,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,1080.0],"chart_view":{"center":[1300.0,1300.0],"mode":"free","zoom":1.0},"context_page":"water","context_subject_kind":"","controls":[{"action":"back","clipped":false,"hit_rect":[888.0,887.0,744.0,147.0],"visual_rect":[888.0,887.0,744.0,147.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2520.0,1080.0],"schema":1,"screen":"photo_ending","scroll_rect":[888.0,46.0,744.0,829.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,1080.0],"window":[2520.0,1080.0]}
+SS_TARGET fork_ending center=1256,1414 viewport=2520,1080
+SS_TARGET evidence center=1256,1575 viewport=2520,1080
+SS_TARGET back center=1260,961 viewport=2520,1080
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":24381,"hud_visible":false,"menu_visible":true,"mission":31,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,1080.0],"chart_view":{"center":[1300.0,1300.0],"mode":"free","zoom":1.0},"context_page":"water","context_subject_kind":"","controls":[{"action":"back","clipped":false,"hit_rect":[888.0,887.0,744.0,147.0],"visual_rect":[888.0,887.0,744.0,147.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2520.0,1080.0],"schema":1,"screen":"photo_ending","scroll_rect":[888.0,46.0,744.0,829.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,1080.0],"window":[2520.0,1080.0]}
+SS_TARGET fork_ending center=1256,1414 viewport=2520,1080
+SS_TARGET evidence center=1256,1575 viewport=2520,1080
+SS_TARGET back center=1260,961 viewport=2520,1080
+REVIEW_STATE 144 photo_ending Archive recovered / SURVEY RECOVERY
+SS_UI_METRICS {"capture_state":{"capture_unit":-1,"drawn_frame":24388,"hud_visible":false,"menu_visible":true,"mission":31,"optical_visible":false,"paused":true,"phase":"post_draw","selected":0},"chart_rect":[0.0,0.0,2520.0,1080.0],"chart_view":{"center":[1300.0,1300.0],"mode":"free","zoom":1.0},"context_page":"water","context_subject_kind":"","controls":[{"action":"back","clipped":false,"hit_rect":[888.0,887.0,744.0,147.0],"visual_rect":[888.0,887.0,744.0,147.0]}],"density_dpi":420.0,"density_source":"test_android_density_fixture","hud_layout":"radial","orders_page":"primary","safe_rect":[0.0,0.0,2520.0,1080.0],"schema":1,"screen":"photo_ending","scroll_rect":[888.0,46.0,744.0,829.0],"scroll_vertical":0,"settings_values":{"effects":0.8,"music":0.5,"mute":false},"viewport":[2520.0,1080.0],"window":[2520.0,1080.0]}
+SS_TARGET fork_ending center=1256,1414 viewport=2520,1080
+SS_TARGET evidence center=1256,1575 viewport=2520,1080
+SS_TARGET back center=1260,961 viewport=2520,1080
+REVIEW_COMMAND {"cmd":"shot","name":"27-cover-ending"}
+REVIEW_STATE 145 photo_ending Archive recovered / SURVEY RECOVERY
+REVIEW_COMMAND {"cmd":"quit"}

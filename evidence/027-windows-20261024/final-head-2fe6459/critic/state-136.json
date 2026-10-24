@@ -1,0 +1,61 @@
+{
+  "buttons": [
+    {
+      "disabled": false,
+      "id": "fork_ending",
+      "rect": "[P: (888.0, 1660.0), S: (744.0, 170.0)]",
+      "text": "VIEW FORK OUTCOME"
+    },
+    {
+      "disabled": false,
+      "id": "evidence",
+      "rect": "[P: (888.0, 1844.0), S: (744.0, 170.0)]",
+      "text": "REVIEW FIELD RECORDS"
+    },
+    {
+      "disabled": false,
+      "id": "back",
+      "rect": "[P: (888.0, 2054.0), S: (744.0, 170.0)]",
+      "text": "OPERATIONS ARCHIVE"
+    }
+  ],
+  "craft": [
+    {
+      "alive": true,
+      "pos": "(2244.365, 2244.641)"
+    },
+    {
+      "alive": true,
+      "pos": "(350.0, 2150.0)"
+    },
+    {
+      "alive": true,
+      "pos": "(490.0, 2250.0)"
+    }
+  ],
+  "labels": [
+    "RECOVERED FILM",
+    "HUMAN SURVIVOR MARKS",
+    "SCOUR EDGE",
+    "NO RECOVERED PHOTO INTEL",
+    "FORK OUTCOME / UNHEARD"
+  ],
+  "message": "Archive recovered / SURVEY RECOVERY",
+  "mission": 31,
+  "outcome": "won",
+  "paused": true,
+  "screen": "photo_ending",
+  "serial": 136,
+  "sites": [
+    {
+      "name": "HUMAN SURVIVOR MARKS",
+      "pos": "(650.0, 550.0)",
+      "screen": "(692.5, 480.1923)"
+    },
+    {
+      "name": "FEED TERMINALS",
+      "pos": "(1900.0, 600.0)",
+      "screen": "(1783.846, 523.8461)"
+    }
+  ]
+}

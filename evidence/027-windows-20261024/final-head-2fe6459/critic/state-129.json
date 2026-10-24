@@ -1,0 +1,85 @@
+{
+  "buttons": [
+    {
+      "disabled": false,
+      "id": "depth_up",
+      "rect": "[P: (1874.155, 851.7335), S: (263.5, 170.0)]",
+      "text": "↑ MIDDLE"
+    },
+    {
+      "disabled": true,
+      "id": "depth_down",
+      "rect": "[P: (2205.409, 1042.984), S: (263.5, 170.0)]",
+      "text": "↓ DEEP"
+    },
+    {
+      "disabled": false,
+      "id": "sonar_emit",
+      "rect": "[P: (2205.409, 1425.484), S: (263.5, 170.0)]",
+      "text": "EMIT\n0.4 RESERVE"
+    },
+    {
+      "disabled": false,
+      "id": "sonar_sector",
+      "rect": "[P: (1874.155, 1616.734), S: (263.5, 170.0)]",
+      "text": "SECTOR\nALL360°"
+    },
+    {
+      "disabled": false,
+      "id": "sonar_power",
+      "rect": "[P: (1542.9, 1425.484), S: (263.5, 170.0)]",
+      "text": "POWER\nLOW"
+    },
+    {
+      "disabled": false,
+      "id": "sonar_history",
+      "rect": "[P: (1542.9, 1042.984), S: (263.5, 170.0)]",
+      "text": "HISTORY"
+    },
+    {
+      "disabled": false,
+      "id": "radial_back",
+      "rect": "[P: (1874.155, 1429.734), S: (263.5, 170.0)]",
+      "text": "BACK"
+    },
+    {
+      "disabled": false,
+      "id": "pause",
+      "rect": "[P: (12.0, 12.0), S: (263.5, 170.0)]",
+      "text": "PAUSED\n▶ RESUME"
+    }
+  ],
+  "craft": [
+    {
+      "alive": true,
+      "pos": "(2154.34, 2159.032)"
+    },
+    {
+      "alive": true,
+      "pos": "(350.0, 2150.0)"
+    },
+    {
+      "alive": true,
+      "pos": "(490.0, 2250.0)"
+    }
+  ],
+  "labels": [],
+  "message": "QUIETUS · replaced route",
+  "mission": 31,
+  "outcome": "",
+  "paused": true,
+  "screen": "mission",
+  "serial": 129,
+  "sites": [
+    {
+      "name": "HUMAN SURVIVOR MARKS",
+      "pos": "(650.0, 550.0)",
+      "screen": "(692.5, 480.1923)"
+    },
+    {
+      "name": "FEED TERMINALS",
+      "pos": "(1900.0, 600.0)",
+      "screen": "(1783.846, 523.8461)"
+    }
+  ]
+}

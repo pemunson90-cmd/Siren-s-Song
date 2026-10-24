@@ -1,0 +1,62 @@
+{
+  "buttons": [
+    {
+      "disabled": false,
+      "id": "evidence",
+      "rect": "[P: (888.0, 2189.0), S: (736.0, 170.0)]",
+      "text": "REVIEW FIELD RECORDS"
+    },
+    {
+      "disabled": false,
+      "id": "retry",
+      "rect": "[P: (888.0, 2373.0), S: (736.0, 170.0)]",
+      "text": "RETRY EXPEDITION"
+    },
+    {
+      "disabled": false,
+      "id": "back",
+      "rect": "[P: (888.0, 2557.0), S: (736.0, 170.0)]",
+      "text": "OPERATIONS ARCHIVE"
+    }
+  ],
+  "craft": [
+    {
+      "alive": true,
+      "pos": "(1232.746, 1205.358)"
+    },
+    {
+      "alive": true,
+      "pos": "(350.0, 2150.0)"
+    },
+    {
+      "alive": true,
+      "pos": "(490.0, 2250.0)"
+    }
+  ],
+  "labels": [
+    "EXPEDITION LOST",
+    "VAPORIZED · Siren beam struck Quietus. Your previous campaign records remain safe.",
+    "Last observed S1 at 55 m before the beam hit Quietus.",
+    "Field observations remain in the archive. This dive grants no new recovered fitting, continuation or committed history.",
+    "FLEET RECOVERY\nDRONE A · SURVIVED\nDRONE B · SURVIVED\nRetry / replay leaves permanent module stock unchanged.",
+    "Research needs physically recovered material and a received regional account."
+  ],
+  "message": "VAPORIZED · Siren beam struck Quietus. Your previous campaign records remain safe.",
+  "mission": 31,
+  "outcome": "lost",
+  "paused": false,
+  "screen": "debrief",
+  "serial": 81,
+  "sites": [
+    {
+      "name": "HUMAN SURVIVOR MARKS",
+      "pos": "(650.0, 550.0)",
+      "screen": "(692.5, 480.1923)"
+    },
+    {
+      "name": "FEED TERMINALS",
+      "pos": "(1900.0, 600.0)",
+      "screen": "(1783.846, 523.8461)"
+    }
+  ]
+}

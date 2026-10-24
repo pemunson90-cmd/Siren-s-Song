@@ -1,0 +1,69 @@
+{
+  "buttons": [
+    {
+      "disabled": false,
+      "id": "more_orders",
+      "rect": "[P: (2244.5, 12.0), S: (263.5, 170.0)]",
+      "text": "FLEET"
+    },
+    {
+      "disabled": false,
+      "id": "fleet_q",
+      "rect": "[P: (276.7667, 1814.233), S: (170.0, 170.0)]",
+      "text": ""
+    },
+    {
+      "disabled": false,
+      "id": "fleet_a",
+      "rect": "[P: (276.7667, 1708.3), S: (170.0, 170.0)]",
+      "text": ""
+    },
+    {
+      "disabled": false,
+      "id": "fleet_b",
+      "rect": "[P: (425.0733, 1814.233), S: (170.0, 170.0)]",
+      "text": ""
+    },
+    {
+      "disabled": false,
+      "id": "pause",
+      "rect": "[P: (12.0, 12.0), S: (263.5, 170.0)]",
+      "text": "PAUSED\n▶ RESUME"
+    }
+  ],
+  "craft": [
+    {
+      "alive": true,
+      "pos": "(350.0, 2250.0)"
+    },
+    {
+      "alive": true,
+      "pos": "(350.0, 2150.0)"
+    },
+    {
+      "alive": true,
+      "pos": "(490.0, 2250.0)"
+    }
+  ],
+  "labels": [
+    "QUIETUS · MIDDLE · REPLACE · Chart loaded. Tap a craft for DEPTH / SONAR; tap water to plot a route.\nCraft → DEPTH / SONAR · bearings need movement or a second receiver; depth costs time."
+  ],
+  "message": "Chart loaded. Tap a craft for DEPTH / SONAR; tap water to plot a route.",
+  "mission": 31,
+  "outcome": "",
+  "paused": true,
+  "screen": "mission",
+  "serial": 86,
+  "sites": [
+    {
+      "name": "HUMAN SURVIVOR MARKS",
+      "pos": "(650.0, 550.0)",
+      "screen": "(679.5667, 98.3667)"
+    },
+    {
+      "name": "FEED TERMINALS",
+      "pos": "(1900.0, 600.0)",
+      "screen": "(2003.733, 151.3334)"
+    }
+  ]
+}

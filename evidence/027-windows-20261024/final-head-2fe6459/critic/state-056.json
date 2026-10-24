@@ -1,0 +1,68 @@
+{
+  "buttons": [
+    {
+      "disabled": false,
+      "id": "next_expedition",
+      "rect": "[P: (888.0, 1245.0), S: (736.0, 170.0)]",
+      "text": "CONTINUE / FINAL SURVEY / 2"
+    },
+    {
+      "disabled": false,
+      "id": "evidence",
+      "rect": "[P: (888.0, 1515.0), S: (736.0, 170.0)]",
+      "text": "REVIEW FIELD RECORDS"
+    },
+    {
+      "disabled": false,
+      "id": "retry",
+      "rect": "[P: (888.0, 1699.0), S: (736.0, 170.0)]",
+      "text": "RETRY EXPEDITION"
+    },
+    {
+      "disabled": false,
+      "id": "back",
+      "rect": "[P: (888.0, 1883.0), S: (736.0, 170.0)]",
+      "text": "OPERATIONS ARCHIVE"
+    }
+  ],
+  "craft": [
+    {
+      "alive": true,
+      "pos": "(2443.007, 1846.866)"
+    },
+    {
+      "alive": true,
+      "pos": "(350.0, 1750.0)"
+    },
+    {
+      "alive": true,
+      "pos": "(490.0, 1850.0)"
+    }
+  ],
+  "labels": [
+    "EXPEDITION RECOVERED",
+    "SCOUR EDGE",
+    "FLEET RECOVERY\nDRONE A · OUTSIDE RECOVERY\nDRONE B · OUTSIDE RECOVERY\nBare replacement drones remain available.",
+    "INTEL PHOTO GRADE C · 1 record · average 27%, sharpest 27%",
+    "Dive time 02:10 / Hull 100%",
+    "Research needs physically recovered material and a received regional account."
+  ],
+  "message": "Archive recovered / SURVEY RECOVERY",
+  "mission": 30,
+  "outcome": "won",
+  "paused": true,
+  "screen": "debrief",
+  "serial": 56,
+  "sites": [
+    {
+      "name": "SCOUR EDGE",
+      "pos": "(1200.0, 450.0)",
+      "screen": "(1080.0, 550.0)"
+    },
+    {
+      "name": "SPINDLE WEAR",
+      "pos": "(2200.0, 550.0)",
+      "screen": "(1980.0, 640.0)"
+    }
+  ]
+}

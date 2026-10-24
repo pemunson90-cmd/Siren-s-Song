@@ -1,5 +1,9 @@
 # 027 Windows evidence
 
+Current source evidence: [final-head-2fe6459](final-head-2fe6459/DISPOSITION.md).
+The original730d45b packet below is retained as history. Its misleading-label
+issue is reproduced and corrected in the final annex; no old head may be merged.
+
 Source730d45b, game tree984e155e, base aaff40e. All logged suites are area-specific;
 no full scenario list ran locally. Import clean; core833, model92, journey10,
 GPU wall42, old endings48, catalog199, route52/UI70, removal/save16, all zero failures.
