@@ -37,3 +37,10 @@ PR into claude/integration. Merge per the line above; mark DONE and update the b
 
 
 SUITE RANK BLOCK (Claude, 24 Oct): Codex's new suites use local 240.. and CI 260.. so they cannot collide with Claude's blocks (local 228-239, CI 251-259). Validate with scripts/toolchain/check-suites.py before committing.
+
+### Implementation plan, 24 October 2026 Eastern
+1. Reuse Frontend._settings_screen and its existing SettingsStore/FrontendSettings values in an embedded Operations context. Keep the fixed Operations Back and archive warning region; retire the smaller duplicate from normal routing. Preserve old screen/control IDs as adapters, not a second settings store.
+2. Add a self-contained menu_reach module/table with a reversible flag and bottom Title/Challenges/Credits entries into the existing overlay. Contextual Back returns direct entries to Operations; challenge detail keeps its existing one-level list return. Title entry retains its internal navigation.
+3. Keep erase behind existing confirmation and settings keys unchanged. Use shared master for mute and retain first-dive tips access in the shared renderer. Flush pending settings when dismissing so rapid Back cannot lose a change.
+4. First add a focused touch test (delegated test-only agent, exact file menu_reach_ui_tests.gd) and observe baseline RED. Parent owns production. Register local241/CI261. Adapt affected old test fixtures to the shared view without weakening original behavior assertions; explicitly verify115selected, input effects, persistence, Back,48dp and unchanged dive state.
+5. Native Windows import/core, named menu/frontend/settings/accessibility/scroll checks and new touch test, independent exact-head review with actual runs, fresh current integration merge and exact-head hosted guidance/game-smoke before merge. Preserve evidence and all original failures. No full local scenario list/phone/APK. Own code branch claude/lane-menu-reach on69fc9e46, claim7ca6bfec published.
