@@ -195,7 +195,7 @@ static func _recovery_label(entry:Dictionary)->String:
 static func _operation(value,entry:Dictionary={})->String:
 	var number=int(value)
 	var state:Dictionary=entry.get("data",{}).get(Table.STATE,{})
-	if number<=0 and bool(state.get("legacy_minimum",false)):return "Unknown (legacy archive)"
+	if number<=0 and bool(state.get("legacy_minimum",false)):return "Unknown (not recorded)"
 	return "None" if number<=0 else "%02d"%number
 
 static func _timestamp(value)->String:

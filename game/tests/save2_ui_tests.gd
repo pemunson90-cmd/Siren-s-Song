@@ -120,7 +120,7 @@ func shape_case(shape:Vector2i)->void:
 			var legacy_store=Save2Store.new(archive);var legacy_slot=legacy_store.inspect("manual",2)
 			check(legacy_store.save_manual(2,legacy_archive,"Legacy archive",false,legacy_slot.token),"test fixture stores a legacy archive with a known recovery minimum")
 			load("res://src/persistence/save_states/save2_ui.gd").show(game,"manual","operations");await settle()
-			check(has_text(game,"Unknown (legacy archive)"),"legacy recovery history clearly labels an unknown last operation")
+			check(has_text(game,"Unknown (not recorded)"),"unrecorded recovery history clearly labels an unknown last operation")
 			load("res://src/persistence/save_states/save2_ui.gd").show(game,"manual","operations");await settle()
 			game.upgrade="disruption"
 			var mutated=game._archive()
@@ -386,10 +386,36 @@ func blocked_cold_case(shape:Vector2i)->void:
 		check(not game.store.save(game._archive()) and FileAccess.get_file_as_bytes(journal)==original and not FileAccess.file_exists(archive),"blocked recovery still prevents ordinary archive writes")
 	game.queue_free();await settle();cleanup(archive,settings)
 
+func off_resume_case(shape:Vector2i)->void:
+	root.size=shape;await settle()
+	var archive="user://save2-off-resume-%dx%d.save"%[shape.x,shape.y]
+	var settings=archive+"-settings.json";cleanup(archive,settings)
+	var game=load("res://scenes/main.tscn").instantiate();game.set_script(load("res://tests/density_main.gd"));game.capture_scenario="runtime-test"
+	game.store.path=archive;game.settings_path=settings;root.add_child(game);await settle();game.set_process(false)
+	game.capture_scenario="";game.active_started=false
+	var tracked=game._archive()[Table.STATE].duplicate(true)
+	Table.enabled=false;game._start_mission(0);game.sim.elapsed=13.25;game.sim.paused=true;game._save_archive()
+	var saved=game.store.load_game()
+	check(game.store.valid(saved) and saved.get("active",{}).get("elapsed")==13.25,"off-switch resume fixture saves an ordinary valid unfinished simulation")
+	check(not saved[Table.STATE].between and saved[Table.STATE].launch_id!=tracked.launch_id and saved[Table.STATE].legacy_minimum,"disabled autosave refreshes existing Resume identity and records an honest recovery minimum")
+	game.queue_free();await settle();Table.enabled=true
+	var fresh=load("res://scenes/main.tscn").instantiate();fresh.set_script(load("res://tests/density_main.gd"));fresh.store.path=archive;fresh.settings_path=settings
+	root.add_child(fresh);await settle();fresh.set_process(false)
+	var front=fresh.get_node_or_null("Frontend")
+	if front!=null:front._continue()
+	fresh._show_campaign();await settle()
+	check(fresh.active_started and fresh.sim.mission.id==0 and fresh.sim.elapsed==13.25 and button(fresh,"resume")!=null,"cold start after re-enabling SAVE2 retains the unfinished dive and its Resume action")
+	if await touch_press(fresh,"resume"):
+		check(fresh.screen=="mission" and fresh.sim.elapsed==13.25 and fresh.active_started,"real touch resumes the saved dive without replacing it with a new launch")
+	var manager=Save2Store.new(archive)
+	check(manager.inspect("pending",0).status=="empty" and manager.list_entries("fork").all(func(e):return e.status=="empty"),"disabled tracking creates no automatic checkpoint files")
+	fresh.queue_free();await settle();cleanup(archive,settings)
+
 func run()->void:
 	Input.emulate_mouse_from_touch=true
 	for shape in [Vector2i(2520,1080),Vector2i(2184,1968)]:
 		await shape_case(shape)
 		await fork_journey_case(shape)
 		await blocked_cold_case(shape)
+		await off_resume_case(shape)
 	print("SAVE2 UI CHECKS %d FAILURES %d"%[checks,failures]);quit(1 if failures else 0)

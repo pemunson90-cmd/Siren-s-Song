@@ -132,5 +132,17 @@ func run():
  check(host.get_meta("save2_notice")==long_notice+"Retry remains available." and not long_notice in host.archive_warning,"complete recovery details remain available without expanding the fixed archive banner")
  C.notice(host,"Hard save written.",false)
  check(host.archive_warning=="Existing unrelated archive warning" and host.get_meta("save2_notice")=="Hard save written.","successful saved-state actions clear their own banner while preserving unrelated archive warnings")
+ var off=Host.new();off.store.path="user://save2-off-live.save";off.active_started=false
+ var tracked=off._archive()[Table.STATE].duplicate(true)
+ tracked.legacy_minimum=false;tracked.last_recovered=5;tracked.credited_launch=tracked.launch_id;off.set_meta(Table.STATE,tracked.duplicate(true))
+ off.active_started=true;Table.enabled=false
+ var disabled_archive=off._archive()
+ check(not disabled_archive[Table.STATE].between,"disabled writes keep the existing between-dive marker aligned with the actual unfinished dive")
+ check(disabled_archive[Table.STATE].legacy_minimum and disabled_archive[Table.STATE].last_recovered==-1 and disabled_archive[Table.STATE].recoveries==tracked.recoveries,"disabled tracking marks its recovery count as a retained minimum and last recovery as unknown")
+ check(disabled_archive[Table.STATE].launch_id!=tracked.launch_id and disabled_archive[Table.STATE].credited_launch=="" and disabled_archive[Table.STATE].run_id==tracked.run_id,"disabled writes invalidate the old pending launch binding without remapping the campaign")
+ Table.enabled=true
+ var resumed=Host.new();resumed.active_started=true;C.restore(resumed,disabled_archive)
+ check(resumed.active_started,"re-enabling SAVE2 preserves an unfinished dive instead of hiding Resume")
+ check(C.manager(off).list_entries("fork").all(func(e):return e.status=="empty") and C.manager(off).inspect("pending",0).status=="empty","disabled bookkeeping creates no fork or pending files")
  for suffix in ["",".bak",".tmp"]:DirAccess.remove_absolute(host.store.path+suffix)
  print("SAVE2 FORKS CHECKS %d FAILURES %d"%[checks,failures]);quit(1 if failures else 0)

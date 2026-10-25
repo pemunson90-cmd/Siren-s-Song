@@ -45,6 +45,12 @@ static func write(host,data:Dictionary)->void:
  if not _persistent(host) and not host.has_meta(Table.STATE):return
  var state=ensure_state(host)
  if _persistent(host):state.between=not host.active_started or not host.sim.outcome.is_empty()
+ elif not Table.enabled:
+  # Maintain existing optional metadata across a disabled build. Tracking may
+  # have gaps, and a previous pending candidate cannot identify this dive.
+  state.between=not host.active_started or not host.sim.outcome.is_empty()
+  state.legacy_minimum=true;state.last_recovered=-1
+  state.launch_id=Table.identity();state.credited_launch=""
  data[Table.STATE]=state.duplicate(true)
 static func restore(host,data:Dictionary)->void:
  if host.has_meta(Table.STATE):host.remove_meta(Table.STATE)
