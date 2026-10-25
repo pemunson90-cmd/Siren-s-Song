@@ -1,0 +1,1529 @@
+{
+  "archive": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-archive\\evidence\\040-windows-20261025\\diagnostic-evidence.zip",
+  "archive_crc_verification": "passed",
+  "archive_member_count": 100,
+  "archive_sha256": "d17f72c22312670d11e215ec0d88e79210084d3a6b28a465c0ccad1e8f5e87cb",
+  "archive_size_bytes": 96756,
+  "excluded_in_progress_prefixes": [
+    "root44",
+    "reviewer44a"
+  ],
+  "excluded_tmp_files": true,
+  "members": [
+    {
+      "check_summaries": [
+        {
+          "checks": 836,
+          "failures": 0
+        }
+      ],
+      "crc32": "acb12852",
+      "fail_marker_lines": 1,
+      "member": "root-evidence/baseline-core.log",
+      "sha256": "03b479d9acefe6a1398b6ecfa88aeeba960ecd61fd60f76d9fa0d03887493788",
+      "size_bytes": 825,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\baseline-core.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "baseline-core.log"
+    },
+    {
+      "check_summaries": [],
+      "crc32": "a95e097d",
+      "fail_marker_lines": 0,
+      "member": "root-evidence/baseline-import.log",
+      "sha256": "4f60039ef11e8a2cf37861d7d21a88900a2088d818a972afa2a578a4f64bd55a",
+      "size_bytes": 42174,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\baseline-import.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "baseline-import.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 38,
+          "failures": 0
+        }
+      ],
+      "crc32": "2105b5a6",
+      "fail_marker_lines": 1,
+      "member": "root-evidence/early-boat-keel-1.log",
+      "sha256": "f16ef10066aee945b5ffa443e2a9e4c4903af613b42259ecd4c4fd163ad2fbc5",
+      "size_bytes": 1985,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\early-boat-keel-1.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "early-boat-keel-1.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 13,
+          "failures": 3
+        }
+      ],
+      "crc32": "6cc4ef30",
+      "fail_marker_lines": 4,
+      "member": "root-evidence/early-buoy_blind-1.log",
+      "sha256": "0a660a8a0577076a5816e11f22489c7a91ed565fad623a8f445c8c0377a6300c",
+      "size_bytes": 920,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\early-buoy_blind-1.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "early-buoy_blind-1.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 21,
+          "failures": 3
+        }
+      ],
+      "crc32": "28b97f11",
+      "fail_marker_lines": 4,
+      "member": "root-evidence/early-buoy_blind-2.log",
+      "sha256": "9137748b1180f8de1b3203ed0efbe20f9b569445936b923bc7785d16961eb28d",
+      "size_bytes": 1567,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\early-buoy_blind-2.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "early-buoy_blind-2.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 25,
+          "failures": 3
+        }
+      ],
+      "crc32": "dd2d5e75",
+      "fail_marker_lines": 4,
+      "member": "root-evidence/early-buoy_blind-3.log",
+      "sha256": "077de8ca553aca65a137d566713cad8f2e6804544ed4e613bd3672294fbd905d",
+      "size_bytes": 1551,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\early-buoy_blind-3.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "early-buoy_blind-3.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 25,
+          "failures": 3
+        }
+      ],
+      "crc32": "9da48e5e",
+      "fail_marker_lines": 4,
+      "member": "root-evidence/early-buoy_blind-4.log",
+      "sha256": "092b1c9a616dd33e5f9de4c37a4e523a3f4d2fae6016a1be0731de975310298d",
+      "size_bytes": 1548,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\early-buoy_blind-4.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "early-buoy_blind-4.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 72,
+          "failures": 3
+        }
+      ],
+      "crc32": "06a89858",
+      "fail_marker_lines": 4,
+      "member": "root-evidence/early-buoy_blind-5.log",
+      "sha256": "2ec37fc4c9c60e31fcc72430f84aa277fc57261a68bf9e65c7874da59fb6c79f",
+      "size_bytes": 1596,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\early-buoy_blind-5.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "early-buoy_blind-5.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 73,
+          "failures": 3
+        }
+      ],
+      "crc32": "1b6bfff1",
+      "fail_marker_lines": 4,
+      "member": "root-evidence/early-buoy_blind-6.log",
+      "sha256": "5e7c6cd7a755bf7cd4edc394237eda3a982d4d5ee19df3323a8a4a7bd615af3d",
+      "size_bytes": 1596,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\early-buoy_blind-6.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "early-buoy_blind-6.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 73,
+          "failures": 3
+        }
+      ],
+      "crc32": "5f7ea6ef",
+      "fail_marker_lines": 4,
+      "member": "root-evidence/early-buoy_blind-7.log",
+      "sha256": "c809bfdfbcf3f1c5b98e0c5ee5c0e969bf7cd78dac9c011e14726299489c6179",
+      "size_bytes": 1596,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\early-buoy_blind-7.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "early-buoy_blind-7.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 72,
+          "failures": 3
+        }
+      ],
+      "crc32": "06a89858",
+      "fail_marker_lines": 4,
+      "member": "root-evidence/early-buoy_blind-8.log",
+      "sha256": "2ec37fc4c9c60e31fcc72430f84aa277fc57261a68bf9e65c7874da59fb6c79f",
+      "size_bytes": 1596,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\early-buoy_blind-8.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "early-buoy_blind-8.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 46,
+          "failures": 0
+        }
+      ],
+      "crc32": "d0ea22b2",
+      "fail_marker_lines": 1,
+      "member": "root-evidence/early-buoy_blind-emp.log",
+      "sha256": "bd2afb4acfc57ae3c069d0fdb9882c97a17d38842f855b5517e96a9e81071782",
+      "size_bytes": 2618,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\early-buoy_blind-emp.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "early-buoy_blind-emp.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 13,
+          "failures": 3
+        }
+      ],
+      "crc32": "1b5ce2dd",
+      "fail_marker_lines": 4,
+      "member": "root-evidence/early-keel_mark-1.log",
+      "sha256": "9ceb8b07933e7292e7027e18211d70a5625a38add0de16923781caca48828e32",
+      "size_bytes": 916,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\early-keel_mark-1.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "early-keel_mark-1.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 19,
+          "failures": 3
+        }
+      ],
+      "crc32": "114db2c8",
+      "fail_marker_lines": 4,
+      "member": "root-evidence/early-keel_mark-2.log",
+      "sha256": "e8383d3c46ca04997f24fb6316e8a0e1eb912e0e5cde4d3307c037d0e7c749df",
+      "size_bytes": 1400,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\early-keel_mark-2.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "early-keel_mark-2.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 19,
+          "failures": 3
+        }
+      ],
+      "crc32": "ebfccd22",
+      "fail_marker_lines": 4,
+      "member": "root-evidence/early-keel_mark-3.log",
+      "sha256": "8d505339b9665a0235064848a20cc2d3c1730f3c7523b9d5ead28a81010b89d7",
+      "size_bytes": 1400,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\early-keel_mark-3.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "early-keel_mark-3.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 18,
+          "failures": 3
+        }
+      ],
+      "crc32": "e483a079",
+      "fail_marker_lines": 4,
+      "member": "root-evidence/early-keel_mark-4.log",
+      "sha256": "03e0df558f16aee41a893365c1f6687878ee641fe5b241b1b7ec042f8f405091",
+      "size_bytes": 1219,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\early-keel_mark-4.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "early-keel_mark-4.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 21,
+          "failures": 3
+        }
+      ],
+      "crc32": "98e5f16b",
+      "fail_marker_lines": 4,
+      "member": "root-evidence/early-keel_mark-5.log",
+      "sha256": "24304f2500c8dbbb28a149523889ca22ccac1741612b2f789099e82e6ed6c893",
+      "size_bytes": 1381,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\early-keel_mark-5.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "early-keel_mark-5.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 21,
+          "failures": 3
+        }
+      ],
+      "crc32": "4392b5c8",
+      "fail_marker_lines": 4,
+      "member": "root-evidence/early-keel_mark-6.log",
+      "sha256": "c9280c87df54d9bf4c9bf7aa6e2350ba7392097f44051f36cec3df1b5d4625fe",
+      "size_bytes": 1382,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\early-keel_mark-6.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "early-keel_mark-6.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 21,
+          "failures": 3
+        }
+      ],
+      "crc32": "624215bb",
+      "fail_marker_lines": 4,
+      "member": "root-evidence/early-keel_mark-7.log",
+      "sha256": "8665de532ad6e5902ca2de6bc97c71fb8d6e702a4d6d3b29504d33d0c15253c1",
+      "size_bytes": 1382,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\early-keel_mark-7.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "early-keel_mark-7.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 43,
+          "failures": 0
+        }
+      ],
+      "crc32": "94e8a45c",
+      "fail_marker_lines": 1,
+      "member": "root-evidence/early-keel_mark-8.log",
+      "sha256": "d2bbfeb6bfd5bb3968fb94bde31269d3d90698a1df462613b27e357d9d2a59dc",
+      "size_bytes": 2634,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\early-keel_mark-8.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "early-keel_mark-8.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 13,
+          "failures": 3
+        }
+      ],
+      "crc32": "78be36c5",
+      "fail_marker_lines": 4,
+      "member": "root-evidence/early-relay_blink-1.log",
+      "sha256": "bcc425fb35073eec4717bd536f538f338bba21061acc3e2c0ae3208b62a631a6",
+      "size_bytes": 927,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\early-relay_blink-1.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "early-relay_blink-1.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 15,
+          "failures": 3
+        }
+      ],
+      "crc32": "30fe2490",
+      "fail_marker_lines": 4,
+      "member": "root-evidence/early-relay_blink-2.log",
+      "sha256": "236ce74f136fccc9cd1212939149c3ddc4227716aba2e40922f4f25592d7a721",
+      "size_bytes": 1088,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\early-relay_blink-2.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "early-relay_blink-2.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 16,
+          "failures": 3
+        }
+      ],
+      "crc32": "adf1925a",
+      "fail_marker_lines": 4,
+      "member": "root-evidence/early-relay_blink-3.log",
+      "sha256": "f4ff494eb9261d12d975aae77ecba47335f71f3827c46ac31abebc90724bfd93",
+      "size_bytes": 1065,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\early-relay_blink-3.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "early-relay_blink-3.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 17,
+          "failures": 3
+        }
+      ],
+      "crc32": "a0761069",
+      "fail_marker_lines": 4,
+      "member": "root-evidence/early-relay_blink-4.log",
+      "sha256": "30f794daefa00e44210d75462f813b2dbbb9bb75c5676f443c589684d0ce379f",
+      "size_bytes": 1250,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\early-relay_blink-4.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "early-relay_blink-4.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 78,
+          "failures": 3
+        }
+      ],
+      "crc32": "1b140ebd",
+      "fail_marker_lines": 4,
+      "member": "root-evidence/early-relay_blink-5.log",
+      "sha256": "e83760b7e246d054fa1898922701038a3c72ac699408c317a6cdd966a4efae61",
+      "size_bytes": 2103,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\early-relay_blink-5.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "early-relay_blink-5.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 34,
+          "failures": 4
+        }
+      ],
+      "crc32": "b2b9cd3e",
+      "fail_marker_lines": 5,
+      "member": "root-evidence/early-relay_blink-6.log",
+      "sha256": "1fe575a88b1e5ac0e620d83ff049ec6c5b4fe8b80067b5f079f70298ff265ffd",
+      "size_bytes": 2176,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\early-relay_blink-6.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "early-relay_blink-6.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 79,
+          "failures": 3
+        }
+      ],
+      "crc32": "b4a2586d",
+      "fail_marker_lines": 4,
+      "member": "root-evidence/early-relay_blink-decoy.log",
+      "sha256": "cd53455fb816c6f70964d44a91c0ca970e7baad3dec91bee148bf78bbf7223ad",
+      "size_bytes": 2103,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\early-relay_blink-decoy.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "early-relay_blink-decoy.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 79,
+          "failures": 3
+        }
+      ],
+      "crc32": "210d0e63",
+      "fail_marker_lines": 4,
+      "member": "root-evidence/early-relay_blink-emp.log",
+      "sha256": "5e63b259167b9531ffe28e9ccd0339330e00f4f886608ca60795c1dd15aa44cd",
+      "size_bytes": 2103,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\early-relay_blink-emp.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "early-relay_blink-emp.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 57,
+          "failures": 0
+        }
+      ],
+      "crc32": "440ea906",
+      "fail_marker_lines": 1,
+      "member": "root-evidence/early-relay_blink-supported-1.log",
+      "sha256": "ca410e7956924740671b8650ab09ab956d1856a0d6ba507755ee8362daf6e8f3",
+      "size_bytes": 3529,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\early-relay_blink-supported-1.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "early-relay_blink-supported-1.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 13,
+          "failures": 3
+        }
+      ],
+      "crc32": "0efd1ac1",
+      "fail_marker_lines": 4,
+      "member": "root-evidence/early-structure_edge-1.log",
+      "sha256": "85630b57ea17ba9508cdeacccaf8b9957bbaca49273164b22bea848af3deb216",
+      "size_bytes": 944,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\early-structure_edge-1.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "early-structure_edge-1.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 13,
+          "failures": 3
+        }
+      ],
+      "crc32": "3065e639",
+      "fail_marker_lines": 4,
+      "member": "root-evidence/early-structure_edge-2.log",
+      "sha256": "0ef5dd5de44c948e803d22842a57adf684460be6fcc08ff29db0f4433032b06b",
+      "size_bytes": 944,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\early-structure_edge-2.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "early-structure_edge-2.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 37,
+          "failures": 3
+        }
+      ],
+      "crc32": "62306a70",
+      "fail_marker_lines": 4,
+      "member": "root-evidence/early-structure_edge-3.log",
+      "sha256": "79213eba7558907d86624eca8771026bc737baac593702b5abc73bb23f8bb3f4",
+      "size_bytes": 2986,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\early-structure_edge-3.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "early-structure_edge-3.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 62,
+          "failures": 3
+        }
+      ],
+      "crc32": "06e1d8c2",
+      "fail_marker_lines": 4,
+      "member": "root-evidence/early-structure_edge-4.log",
+      "sha256": "fdef7ae5b3216aac0cf1e83b7f37841bffb8915851a6f9bdbc39f31be7856c19",
+      "size_bytes": 4568,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\early-structure_edge-4.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "early-structure_edge-4.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 67,
+          "failures": 0
+        }
+      ],
+      "crc32": "8aa2f158",
+      "fail_marker_lines": 1,
+      "member": "root-evidence/early-structure_edge-5.log",
+      "sha256": "7ddb265c4893d8d9042d5286d1cf6e2e6c8a94555cdec345b38d83208dda09a4",
+      "size_bytes": 4731,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\early-structure_edge-5.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "early-structure_edge-5.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 13,
+          "failures": 3
+        }
+      ],
+      "crc32": "f6ad6dc0",
+      "fail_marker_lines": 4,
+      "member": "root-evidence/early-tender_door-1.log",
+      "sha256": "7b7f02b96c8e73faf1bb8e0586d2ccbf2406bbbd825834aeb053b1b15eaf3c02",
+      "size_bytes": 927,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\early-tender_door-1.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "early-tender_door-1.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 74,
+          "failures": 3
+        }
+      ],
+      "crc32": "e0bfc8e9",
+      "fail_marker_lines": 4,
+      "member": "root-evidence/early-tender_door-2.log",
+      "sha256": "f383a17d563441a95baa38eba199c894d79b8b081955f95ff68aad9d578053ef",
+      "size_bytes": 1770,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\early-tender_door-2.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "early-tender_door-2.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 24,
+          "failures": 3
+        }
+      ],
+      "crc32": "d7461dd1",
+      "fail_marker_lines": 4,
+      "member": "root-evidence/early-tender_door-3.log",
+      "sha256": "fb47139cdd5e54f3874a3656f4522f8197e2d95c12486921ea18c0922fda94f2",
+      "size_bytes": 1752,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\early-tender_door-3.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "early-tender_door-3.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 27,
+          "failures": 3
+        }
+      ],
+      "crc32": "549400fa",
+      "fail_marker_lines": 4,
+      "member": "root-evidence/early-tender_door-4.log",
+      "sha256": "32431c5543817f34ac7a144c6b16cd25b44915ad3d239f7a132c38e76b66e5b7",
+      "size_bytes": 1717,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\early-tender_door-4.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "early-tender_door-4.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 76,
+          "failures": 3
+        }
+      ],
+      "crc32": "f35fd989",
+      "fail_marker_lines": 4,
+      "member": "root-evidence/early-tender_door-5.log",
+      "sha256": "cd114d3aa8b1693625530ce320b27ff4230a91d18b1a912f6e1c3689b79e3fb7",
+      "size_bytes": 1918,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\early-tender_door-5.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "early-tender_door-5.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 45,
+          "failures": 3
+        }
+      ],
+      "crc32": "c7a52428",
+      "fail_marker_lines": 4,
+      "member": "root-evidence/early-tender_door-drone.log",
+      "sha256": "63ee3b4e9fb60f50d9fdd18979cabc77b2680c3294cf696aac04ec1a0839ac10",
+      "size_bytes": 2829,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\early-tender_door-drone.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "early-tender_door-drone.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 27,
+          "failures": 4
+        }
+      ],
+      "crc32": "2558ac78",
+      "fail_marker_lines": 5,
+      "member": "root-evidence/early-tender_door-drone2.log",
+      "sha256": "abda0876a6aab6cb102f4b6adb13e7389b81ea6916c5aeb45e15001d1f62c283",
+      "size_bytes": 2002,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\early-tender_door-drone2.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "early-tender_door-drone2.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 48,
+          "failures": 1
+        }
+      ],
+      "crc32": "486def7c",
+      "fail_marker_lines": 2,
+      "member": "root-evidence/early-tender_door-drone3.log",
+      "sha256": "421b20d4b5b831354fec3e8fd68f2cdaf88ee9739c45f9fce3a400416ae356f7",
+      "size_bytes": 2905,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\early-tender_door-drone3.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "early-tender_door-drone3.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 50,
+          "failures": 0
+        }
+      ],
+      "crc32": "becea5f3",
+      "fail_marker_lines": 1,
+      "member": "root-evidence/early-tender_door-drone4.log",
+      "sha256": "00377b83b7418c9b4fbad49bd33a875625e86379f6959be190ea5ac2e61ca6c0",
+      "size_bytes": 2981,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\early-tender_door-drone4.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "early-tender_door-drone4.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 77,
+          "failures": 3
+        }
+      ],
+      "crc32": "8f779a01",
+      "fail_marker_lines": 4,
+      "member": "root-evidence/early-tender_door-emp.log",
+      "sha256": "d6108605f3109ec0f67ee5be9b63b6070ffb90dca0d034795bafaaf05b0bc64a",
+      "size_bytes": 1918,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\early-tender_door-emp.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "early-tender_door-emp.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 32,
+          "failures": 3
+        }
+      ],
+      "crc32": "13fe76ad",
+      "fail_marker_lines": 4,
+      "member": "root-evidence/early-vane_crack-1.log",
+      "sha256": "6f622872580a137492a4ab49a553e2d6548247d442f5eb6364065c990133814f",
+      "size_bytes": 1833,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\early-vane_crack-1.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "early-vane_crack-1.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 37,
+          "failures": 0
+        }
+      ],
+      "crc32": "f4e0e312",
+      "fail_marker_lines": 1,
+      "member": "root-evidence/early-vane_crack-2.log",
+      "sha256": "006f921bccce5ce6d6be945ee9ff4ce7cdcaa3ed83f066a537944354dcc60266",
+      "size_bytes": 1956,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\early-vane_crack-2.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "early-vane_crack-2.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 34,
+          "failures": 3
+        }
+      ],
+      "crc32": "46679212",
+      "fail_marker_lines": 4,
+      "member": "root-evidence/late-photo_row_bell_name_journey_tests-1.log",
+      "sha256": "dfdb9eec8285defea4d290d7b96c63ce233fdaaf71924543c35ce0c3b91ec642",
+      "size_bytes": 2350,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\late-photo_row_bell_name_journey_tests-1.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "late-photo_row_bell_name_journey_tests-1.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 39,
+          "failures": 0
+        }
+      ],
+      "crc32": "23377923",
+      "fail_marker_lines": 1,
+      "member": "root-evidence/late-photo_row_bell_name_journey_tests-2.log",
+      "sha256": "ce45881e9f9f8fdcc96d25847081b425fd8a1038d379a67daf9ce9edd19e472e",
+      "size_bytes": 2491,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\late-photo_row_bell_name_journey_tests-2.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "late-photo_row_bell_name_journey_tests-2.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 15,
+          "failures": 3
+        }
+      ],
+      "crc32": "7f5571a6",
+      "fail_marker_lines": 4,
+      "member": "root-evidence/late-photo_row_bell_name_journey_tests-3.log",
+      "sha256": "2f57a15130bfe0f61ff7de58f9a3d161f031ea41ebb79f204decb32979032de3",
+      "size_bytes": 1075,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\late-photo_row_bell_name_journey_tests-3.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "late-photo_row_bell_name_journey_tests-3.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 45,
+          "failures": 0
+        }
+      ],
+      "crc32": "a8e3a4a1",
+      "fail_marker_lines": 1,
+      "member": "root-evidence/late-photo_row_bell_name_journey_tests-4.log",
+      "sha256": "b346005106b1d881b76adfcd89f7a1e1a2db5f419d2be8521a0d0c1818e9da25",
+      "size_bytes": 2614,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\late-photo_row_bell_name_journey_tests-4.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "late-photo_row_bell_name_journey_tests-4.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 34,
+          "failures": 3
+        }
+      ],
+      "crc32": "268050ae",
+      "fail_marker_lines": 4,
+      "member": "root-evidence/late-photo_row_bus_cable_journey_tests-1.log",
+      "sha256": "6d393fe9257abf2fa19bc72aff0a3c5ef88a0ca971a46b6a39762734112dbc04",
+      "size_bytes": 2286,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\late-photo_row_bus_cable_journey_tests-1.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "late-photo_row_bus_cable_journey_tests-1.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 34,
+          "failures": 3
+        }
+      ],
+      "crc32": "9711785e",
+      "fail_marker_lines": 4,
+      "member": "root-evidence/late-photo_row_bus_cable_journey_tests-2.log",
+      "sha256": "b7627958a7db440608ad137dda6cfa0623af6d7079ab00c1aaf7b76f5bb733a8",
+      "size_bytes": 2284,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\late-photo_row_bus_cable_journey_tests-2.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "late-photo_row_bus_cable_journey_tests-2.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 39,
+          "failures": 0
+        }
+      ],
+      "crc32": "d6357350",
+      "fail_marker_lines": 1,
+      "member": "root-evidence/late-photo_row_bus_cable_journey_tests-3.log",
+      "sha256": "d0dcc60c78b516ad6adf52d73e6d13556a12ae1d2f505427c3c86fe265b0b1f2",
+      "size_bytes": 2501,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\late-photo_row_bus_cable_journey_tests-3.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "late-photo_row_bus_cable_journey_tests-3.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 43,
+          "failures": 0
+        }
+      ],
+      "crc32": "426152e0",
+      "fail_marker_lines": 1,
+      "member": "root-evidence/late-photo_row_bus_cable_journey_tests-4.log",
+      "sha256": "fa3f906a06e6a9c7c7772d09604717f0882c3cc20fb9207c1fac69dcee4f49c9",
+      "size_bytes": 2439,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\late-photo_row_bus_cable_journey_tests-4.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "late-photo_row_bus_cable_journey_tests-4.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 66,
+          "failures": 3
+        }
+      ],
+      "crc32": "ddb588b2",
+      "fail_marker_lines": 4,
+      "member": "root-evidence/late-photo_row_feed_room_journey_tests-1.log",
+      "sha256": "d11188040da1b2ef095a5e0ab9417d03d2d20dec51a59003636d665d41642b1f",
+      "size_bytes": 1421,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\late-photo_row_feed_room_journey_tests-1.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "late-photo_row_feed_room_journey_tests-1.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 40,
+          "failures": 0
+        }
+      ],
+      "crc32": "d8f5e5f4",
+      "fail_marker_lines": 1,
+      "member": "root-evidence/late-photo_row_feed_room_journey_tests-2.log",
+      "sha256": "1063b3ede0cf419eea3eff55086d31cd76835a550c5b0407220161656e13411d",
+      "size_bytes": 2436,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\late-photo_row_feed_room_journey_tests-2.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "late-photo_row_feed_room_journey_tests-2.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 20,
+          "failures": 3
+        }
+      ],
+      "crc32": "ce653876",
+      "fail_marker_lines": 4,
+      "member": "root-evidence/late-photo_row_locker_latch_journey_tests-1.log",
+      "sha256": "ddbe1af15b8b30e3f1c24448f0b42db682559718b400e1df745ee0a40d95f471",
+      "size_bytes": 1070,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\late-photo_row_locker_latch_journey_tests-1.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "late-photo_row_locker_latch_journey_tests-1.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 25,
+          "failures": 3
+        }
+      ],
+      "crc32": "41c9f8e0",
+      "fail_marker_lines": 4,
+      "member": "root-evidence/late-photo_row_locker_latch_journey_tests-2.log",
+      "sha256": "7a879f4406a6051cfe85edfbc0e2dfdfc2268685043739b1250bb971b0a40b59",
+      "size_bytes": 1412,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\late-photo_row_locker_latch_journey_tests-2.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "late-photo_row_locker_latch_journey_tests-2.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 52,
+          "failures": 0
+        }
+      ],
+      "crc32": "5ec62da7",
+      "fail_marker_lines": 1,
+      "member": "root-evidence/late-photo_row_locker_latch_journey_tests-3.log",
+      "sha256": "2aff661bc6000dff29429841de41c0fa00a0c0a9ba64b1a3e4168a0a927b8179",
+      "size_bytes": 2817,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\late-photo_row_locker_latch_journey_tests-3.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "late-photo_row_locker_latch_journey_tests-3.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 53,
+          "failures": 0
+        }
+      ],
+      "crc32": "a8768104",
+      "fail_marker_lines": 1,
+      "member": "root-evidence/late-photo_row_locker_latch_journey_tests-4.log",
+      "sha256": "e9ea20c6d464ccc4270176fcbac68cce2bf9593477b84859faf10f1f41c6d7bc",
+      "size_bytes": 2806,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\late-photo_row_locker_latch_journey_tests-4.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "late-photo_row_locker_latch_journey_tests-4.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 28,
+          "failures": 3
+        }
+      ],
+      "crc32": "b11d7980",
+      "fail_marker_lines": 4,
+      "member": "root-evidence/late-photo_row_shutter_order_journey_tests-1.log",
+      "sha256": "55bff0362a0b3fad7cc2b9b8a719167e152843ebc54bdde18a5416eac84a1f3b",
+      "size_bytes": 1850,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\late-photo_row_shutter_order_journey_tests-1.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "late-photo_row_shutter_order_journey_tests-1.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 33,
+          "failures": 0
+        }
+      ],
+      "crc32": "26121dff",
+      "fail_marker_lines": 1,
+      "member": "root-evidence/late-photo_row_shutter_order_journey_tests-2.log",
+      "sha256": "dd22baf8e31429b1f6384201d025cefcc5810da7cafec8eef2e8755362935b11",
+      "size_bytes": 2059,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\late-photo_row_shutter_order_journey_tests-2.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "late-photo_row_shutter_order_journey_tests-2.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 32,
+          "failures": 3
+        }
+      ],
+      "crc32": "ed08d923",
+      "fail_marker_lines": 4,
+      "member": "root-evidence/late-photo_row_slide_mark_journey_tests-1.log",
+      "sha256": "8a4d65383465703ca2bed5b138bc5623d886420654fc3ad4ce1406a6e4a9c6b3",
+      "size_bytes": 2193,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\late-photo_row_slide_mark_journey_tests-1.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "late-photo_row_slide_mark_journey_tests-1.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 37,
+          "failures": 0
+        }
+      ],
+      "crc32": "6b882fc8",
+      "fail_marker_lines": 1,
+      "member": "root-evidence/late-photo_row_slide_mark_journey_tests-2.log",
+      "sha256": "7652f4291b115bdde89ace76e3817d96caf94132ed9369a2a6b95cf59787bc54",
+      "size_bytes": 2330,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\late-photo_row_slide_mark_journey_tests-2.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "late-photo_row_slide_mark_journey_tests-2.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 41,
+          "failures": 0
+        }
+      ],
+      "crc32": "57d9ee0f",
+      "fail_marker_lines": 1,
+      "member": "root-evidence/late-photo_row_slide_mark_journey_tests-3.log",
+      "sha256": "00b6a9a90b35e3c694a5d345365fcae9106c9cae429c5d68495b31258410fecf",
+      "size_bytes": 2287,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\late-photo_row_slide_mark_journey_tests-3.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "late-photo_row_slide_mark_journey_tests-3.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 39,
+          "failures": 0
+        }
+      ],
+      "crc32": "0d9c97df",
+      "fail_marker_lines": 1,
+      "member": "root-evidence/late-photo_row_spindle_wear_journey_tests-1.log",
+      "sha256": "c8d99f8328cd4806a4c30fda7018f026575cf59e2f5328a0d9b663e8211f3c11",
+      "size_bytes": 2321,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\late-photo_row_spindle_wear_journey_tests-1.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "late-photo_row_spindle_wear_journey_tests-1.log"
+    },
+    {
+      "check_summaries": [],
+      "crc32": "3adc854f",
+      "fail_marker_lines": 0,
+      "member": "root-evidence/photo-anomaly-probe.gd",
+      "sha256": "d6ab05778728083b633739beae34f5e92692bfcfa03a5621cb5ddcc713848b56",
+      "size_bytes": 2053,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\photo-anomaly-probe.gd",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "photo-anomaly-probe.gd"
+    },
+    {
+      "check_summaries": [],
+      "crc32": "97e84896",
+      "fail_marker_lines": 0,
+      "member": "root-evidence/photo-anomaly-probe.log",
+      "sha256": "7ebb0658cdd331a59248ac4375a13a8cf73c04adebc43e947320829ebc4890c2",
+      "size_bytes": 3258,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\photo-anomaly-probe.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "photo-anomaly-probe.log"
+    },
+    {
+      "check_summaries": [],
+      "crc32": "a0d0b688",
+      "fail_marker_lines": 0,
+      "member": "root-evidence/photo-anomaly-scan.gd",
+      "sha256": "25b691689f0292bb638d5a9015b0ce4fc491ddee0eb1c42c5fdf453022250d6f",
+      "size_bytes": 2152,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\photo-anomaly-scan.gd",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "photo-anomaly-scan.gd"
+    },
+    {
+      "check_summaries": [],
+      "crc32": "23b150e2",
+      "fail_marker_lines": 0,
+      "member": "root-evidence/photo-anomaly-scan.log",
+      "sha256": "93f30e406a7c3ff7c31a0b88d38bdd194dc6e5b2bbb97eb6d3d91d8b07dbe2df",
+      "size_bytes": 5301,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\photo-anomaly-scan.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "photo-anomaly-scan.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 836,
+          "failures": 0
+        }
+      ],
+      "crc32": "acb12852",
+      "fail_marker_lines": 1,
+      "member": "root-evidence/root-b494-core.log",
+      "sha256": "03b479d9acefe6a1398b6ecfa88aeeba960ecd61fd60f76d9fa0d03887493788",
+      "size_bytes": 825,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\root-b494-core.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "root-b494-core.log"
+    },
+    {
+      "check_summaries": [],
+      "crc32": "19ec8532",
+      "fail_marker_lines": 0,
+      "member": "root-evidence/root-b494-import.log",
+      "sha256": "61e78fdb79651d47a548c2a80663fe50d6fe4eb5016d2ec4189a02534ce47ec6",
+      "size_bytes": 2145,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\root-b494-import.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "root-b494-import.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 361,
+          "failures": 0
+        }
+      ],
+      "crc32": "9cb64694",
+      "fail_marker_lines": 1,
+      "member": "root-evidence/root-photo-rows.log",
+      "sha256": "4933430cc0e4c47002dea297d1b56af3f21746695945d7f5ac9b92ed1a787f00",
+      "size_bytes": 121,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\root-photo-rows.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "root-photo-rows.log"
+    },
+    {
+      "check_summaries": [],
+      "crc32": "0d121908",
+      "fail_marker_lines": 2,
+      "member": "root-evidence/support-smoke.gd",
+      "sha256": "269e2a3e576ca22f0229e052f73ecd26383f6efe054ba5500f11002ca1b65b03",
+      "size_bytes": 214,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\support-smoke.gd",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "support-smoke.gd"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 3,
+          "failures": 0
+        }
+      ],
+      "crc32": "34fb96f0",
+      "fail_marker_lines": 1,
+      "member": "root-evidence/support-smoke.log",
+      "sha256": "991180fa8d1596bea1981f53d36bb4c0af53498665755cc31b04dfcf6d17ff86",
+      "size_bytes": 110,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\support-smoke.log",
+      "source_prefix": "root-evidence",
+      "source_relative_path": "support-smoke.log"
+    },
+    {
+      "check_summaries": [],
+      "crc32": "f3549975",
+      "fail_marker_lines": 1,
+      "member": "external-probes/early_grid_probe.gd",
+      "sha256": "fe5be95b9a85bdc81fc344a136cb468ed20b6476bd87180d6eabbf021c79ee97",
+      "size_bytes": 1678,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\040-evidence\\early_grid_probe.gd",
+      "source_prefix": "external-probes",
+      "source_relative_path": "early_grid_probe.gd"
+    },
+    {
+      "check_summaries": [],
+      "crc32": "f3ea59e4",
+      "fail_marker_lines": 1,
+      "member": "external-probes/early_probe.gd",
+      "sha256": "28d2caffba2403f6ef0aa4cba7d01cce9c10957488ef44b27a7b8e908b270e57",
+      "size_bytes": 772,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\040-evidence\\early_probe.gd",
+      "source_prefix": "external-probes",
+      "source_relative_path": "early_probe.gd"
+    },
+    {
+      "check_summaries": [],
+      "crc32": "31696bc7",
+      "fail_marker_lines": 1,
+      "member": "external-probes/early_relay_bare_emp_probe.gd",
+      "sha256": "d2d4a43f25cce070d771b156bcbc6dd5e3dac5a6981785945e5b665493567c9f",
+      "size_bytes": 2197,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\040-evidence\\early_relay_bare_emp_probe.gd",
+      "source_prefix": "external-probes",
+      "source_relative_path": "early_relay_bare_emp_probe.gd"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 1,
+          "failures": 0
+        }
+      ],
+      "crc32": "303c5ff5",
+      "fail_marker_lines": 1,
+      "member": "external-probes/early_relay_bare_emp_probe.log",
+      "sha256": "04606a37ee15a5e91179acf485adabd48ab83cdaa251f06c23f183ebdd5d8f3e",
+      "size_bytes": 3592,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\040-evidence\\early_relay_bare_emp_probe.log",
+      "source_prefix": "external-probes",
+      "source_relative_path": "early_relay_bare_emp_probe.log"
+    },
+    {
+      "check_summaries": [],
+      "crc32": "1a3946da",
+      "fail_marker_lines": 2,
+      "member": "external-probes/early_relay_route_disruption_probe.gd",
+      "sha256": "1a5fb3e1cd47159d5f6b90748cacbdc3e102c65f8086323f9a17c7047f56154f",
+      "size_bytes": 2589,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\040-evidence\\early_relay_route_disruption_probe.gd",
+      "source_prefix": "external-probes",
+      "source_relative_path": "early_relay_route_disruption_probe.gd"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 1,
+          "failures": 0
+        }
+      ],
+      "crc32": "ba076c91",
+      "fail_marker_lines": 1,
+      "member": "external-probes/early_relay_route_disruption_probe.log",
+      "sha256": "f0883202dcd063ca266245ba018d8b51d3ca72ec015c2ece12f5c2ff23870e3a",
+      "size_bytes": 4415,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\040-evidence\\early_relay_route_disruption_probe.log",
+      "source_prefix": "external-probes",
+      "source_relative_path": "early_relay_route_disruption_probe.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 1,
+          "failures": 0
+        }
+      ],
+      "crc32": "0e4337e4",
+      "fail_marker_lines": 1,
+      "member": "external-probes/early_relay_route_disruption_probe2.log",
+      "sha256": "dbbc8d9f8f6b18c3e333fa580e19d7e18ab81695585472eb0b52044bb8dba087",
+      "size_bytes": 2769,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\040-evidence\\early_relay_route_disruption_probe2.log",
+      "source_prefix": "external-probes",
+      "source_relative_path": "early_relay_route_disruption_probe2.log"
+    },
+    {
+      "check_summaries": [],
+      "crc32": "a2f29277",
+      "fail_marker_lines": 2,
+      "member": "external-probes/early_relay_route_disruption_withdraw_probe.gd",
+      "sha256": "9c0e6a85a78797cb1b5a8788bbbb223c08fb260970f9edbb1e074a7fd068f7ea",
+      "size_bytes": 2573,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\040-evidence\\early_relay_route_disruption_withdraw_probe.gd",
+      "source_prefix": "external-probes",
+      "source_relative_path": "early_relay_route_disruption_withdraw_probe.gd"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 1,
+          "failures": 0
+        }
+      ],
+      "crc32": "770a3b0c",
+      "fail_marker_lines": 1,
+      "member": "external-probes/early_relay_route_disruption_withdraw_probe.log",
+      "sha256": "ee3795f419c689da6ef5d7472fc98e01c844b854cce7367d3c54128bd5b8612a",
+      "size_bytes": 1801,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\040-evidence\\early_relay_route_disruption_withdraw_probe.log",
+      "source_prefix": "external-probes",
+      "source_relative_path": "early_relay_route_disruption_withdraw_probe.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 1,
+          "failures": 0
+        }
+      ],
+      "crc32": "0b540f89",
+      "fail_marker_lines": 1,
+      "member": "external-probes/early_relay_route_emp_decoy_probe.log",
+      "sha256": "d10b9caed908ea8d50b499911ce9dbbcaa23c7c9e29aa15c8fecb2dca172292d",
+      "size_bytes": 5411,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\040-evidence\\early_relay_route_emp_decoy_probe.log",
+      "source_prefix": "external-probes",
+      "source_relative_path": "early_relay_route_emp_decoy_probe.log"
+    },
+    {
+      "check_summaries": [],
+      "crc32": "f02e9488",
+      "fail_marker_lines": 2,
+      "member": "external-probes/early_relay_route_emp_probe.gd",
+      "sha256": "face83f4757de6f28c381bac09080241989ff2608650666e6011b34e934b3b9f",
+      "size_bytes": 2559,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\040-evidence\\early_relay_route_emp_probe.gd",
+      "source_prefix": "external-probes",
+      "source_relative_path": "early_relay_route_emp_probe.gd"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 1,
+          "failures": 0
+        }
+      ],
+      "crc32": "ba076c91",
+      "fail_marker_lines": 1,
+      "member": "external-probes/early_relay_route_emp_probe.log",
+      "sha256": "f0883202dcd063ca266245ba018d8b51d3ca72ec015c2ece12f5c2ff23870e3a",
+      "size_bytes": 4415,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\040-evidence\\early_relay_route_emp_probe.log",
+      "source_prefix": "external-probes",
+      "source_relative_path": "early_relay_route_emp_probe.log"
+    },
+    {
+      "check_summaries": [],
+      "crc32": "e7c8fa34",
+      "fail_marker_lines": 2,
+      "member": "external-probes/early_relay_route_tele_two_emp_probe.gd",
+      "sha256": "b10c7557c65826ed50fc04c7547ed812347161b7905bd1f36c9d1546cac237ec",
+      "size_bytes": 3026,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\040-evidence\\early_relay_route_tele_two_emp_probe.gd",
+      "source_prefix": "external-probes",
+      "source_relative_path": "early_relay_route_tele_two_emp_probe.gd"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 1,
+          "failures": 0
+        }
+      ],
+      "crc32": "f80781b0",
+      "fail_marker_lines": 1,
+      "member": "external-probes/early_relay_route_tele_two_emp_probe.log",
+      "sha256": "d9235a9bc08f357169324de20b00b57682e31cc02c6d160475b8179115dab384",
+      "size_bytes": 2169,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\040-evidence\\early_relay_route_tele_two_emp_probe.log",
+      "source_prefix": "external-probes",
+      "source_relative_path": "early_relay_route_tele_two_emp_probe.log"
+    },
+    {
+      "check_summaries": [],
+      "crc32": "06b214b7",
+      "fail_marker_lines": 2,
+      "member": "external-probes/early_relay_route_two_emp_late_probe.gd",
+      "sha256": "f6ee781c7c10f57cafc428764e0de44130bce872515a121c89705d0b436fc1c4",
+      "size_bytes": 2502,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\040-evidence\\early_relay_route_two_emp_late_probe.gd",
+      "source_prefix": "external-probes",
+      "source_relative_path": "early_relay_route_two_emp_late_probe.gd"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 1,
+          "failures": 0
+        }
+      ],
+      "crc32": "79abeb4b",
+      "fail_marker_lines": 1,
+      "member": "external-probes/early_relay_route_two_emp_late_probe.log",
+      "sha256": "763b522c4026752b51aa47767efc0fae20b2fcb207210976774de1d65cc645a1",
+      "size_bytes": 1803,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\040-evidence\\early_relay_route_two_emp_late_probe.log",
+      "source_prefix": "external-probes",
+      "source_relative_path": "early_relay_route_two_emp_late_probe.log"
+    },
+    {
+      "check_summaries": [],
+      "crc32": "42ac9b8f",
+      "fail_marker_lines": 2,
+      "member": "external-probes/early_relay_route_two_emp_move_probe.gd",
+      "sha256": "dfe484258250c7c2a2fb8238246709c600207ba0ae171a3cf15e545b9d78148e",
+      "size_bytes": 2500,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\040-evidence\\early_relay_route_two_emp_move_probe.gd",
+      "source_prefix": "external-probes",
+      "source_relative_path": "early_relay_route_two_emp_move_probe.gd"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 1,
+          "failures": 0
+        }
+      ],
+      "crc32": "01692939",
+      "fail_marker_lines": 1,
+      "member": "external-probes/early_relay_route_two_emp_move_probe.log",
+      "sha256": "85cd63c40e27c3da4bd916e3069a456aa4a1dee879edfe6e05af32e3111946ae",
+      "size_bytes": 1802,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\040-evidence\\early_relay_route_two_emp_move_probe.log",
+      "source_prefix": "external-probes",
+      "source_relative_path": "early_relay_route_two_emp_move_probe.log"
+    },
+    {
+      "check_summaries": [],
+      "crc32": "6648309d",
+      "fail_marker_lines": 1,
+      "member": "external-probes/early_relay_tele_probe.gd",
+      "sha256": "8368c52527292b4c8df4d11ee2794c54998fbb717d02bb8d47cd92fe6085fbec",
+      "size_bytes": 2216,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\040-evidence\\early_relay_tele_probe.gd",
+      "source_prefix": "external-probes",
+      "source_relative_path": "early_relay_tele_probe.gd"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 1,
+          "failures": 0
+        }
+      ],
+      "crc32": "6414e4b0",
+      "fail_marker_lines": 1,
+      "member": "external-probes/early_relay_tele_probe.log",
+      "sha256": "3ea147279c21d00e06adf23bdf29625c1c37eb4617aaac349df3566d454ec744",
+      "size_bytes": 2187,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\040-evidence\\early_relay_tele_probe.log",
+      "source_prefix": "external-probes",
+      "source_relative_path": "early_relay_tele_probe.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 1,
+          "failures": 0
+        }
+      ],
+      "crc32": "d0b51271",
+      "fail_marker_lines": 1,
+      "member": "external-probes/early_relay_tele_probe2.log",
+      "sha256": "e30a5aef7ebd9970ba9809cae1511c5429b7595195dec5c101d333bfbcca200f",
+      "size_bytes": 2225,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\040-evidence\\early_relay_tele_probe2.log",
+      "source_prefix": "external-probes",
+      "source_relative_path": "early_relay_tele_probe2.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 1,
+          "failures": 0
+        }
+      ],
+      "crc32": "c53c5315",
+      "fail_marker_lines": 1,
+      "member": "external-probes/early_relay_tele_probe3.log",
+      "sha256": "e0b76f76a9a7ccc008cf88f43629cb1bde5cd871a018967ec60a1245036ef73e",
+      "size_bytes": 2320,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\040-evidence\\early_relay_tele_probe3.log",
+      "source_prefix": "external-probes",
+      "source_relative_path": "early_relay_tele_probe3.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 1,
+          "failures": 0
+        }
+      ],
+      "crc32": "20d866c5",
+      "fail_marker_lines": 1,
+      "member": "external-probes/early_relay_tele_probe4.log",
+      "sha256": "4aeb6d5e1813eafc8be7757174a89f432d7d403f3985de93e8de0040a7b44d56",
+      "size_bytes": 2301,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\040-evidence\\early_relay_tele_probe4.log",
+      "source_prefix": "external-probes",
+      "source_relative_path": "early_relay_tele_probe4.log"
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 1,
+          "failures": 0
+        }
+      ],
+      "crc32": "aa44e679",
+      "fail_marker_lines": 1,
+      "member": "external-probes/early_relay_tele_probe_emp.log",
+      "sha256": "592dac9adf6441501ae5236a9eb383b3d129818d44ef6eceb5c510a9259dda26",
+      "size_bytes": 3979,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\040-evidence\\early_relay_tele_probe_emp.log",
+      "source_prefix": "external-probes",
+      "source_relative_path": "early_relay_tele_probe_emp.log"
+    },
+    {
+      "check_summaries": [],
+      "crc32": "181cd89c",
+      "fail_marker_lines": 1,
+      "member": "external-probes/early_view_probe.gd",
+      "sha256": "e3e8ea28c8840f2366332f883a619248e22191853d74094776d3788103ba2ba6",
+      "size_bytes": 1127,
+      "source_absolute_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\040-evidence\\early_view_probe.gd",
+      "source_prefix": "external-probes",
+      "source_relative_path": "early_view_probe.gd"
+    }
+  ],
+  "source_comparison": "every ZIP member reopened and compared byte-for-byte with its source",
+  "source_roots": {
+    "external_probes": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\040-evidence",
+    "root_evidence": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence"
+  }
+}
