@@ -1,9 +1,9 @@
 # Handoff 033: DOCS1, module index with revert notes, and spec refresh
 
-Status: OPEN
+Status: CLAIMED
 Assigned to: codex (Pat split the queue 24 Oct; Codex takes this when Pat says continue)
-Claimed at:
-Claimed by:
+Claimed at: 2026-10-25 22:23:18 UTC
+Claimed by: codex
 Finished at:
 
 Precondition: handoff 018 DONE (PR 74 merged).
