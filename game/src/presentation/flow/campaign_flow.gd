@@ -199,7 +199,7 @@ static func debrief(host) -> void:
 			if 6 in host.ExpeditionCampaign.available(host.completed,host.expedition):host._button(host.panel_box,"BEYOND THE WARNING / THE DIVERGENCE",func():host._briefing(6),"expedition6")
 		else: host._button(host.panel_box,"NEXT DIVE",func(): host._briefing(host.mission_index+1),"next_dive")
 	else:
-		host._menu_text("SIGNAL LOST",32); host._menu_text(host.sim.message,22); host._menu_text(preload("res://src/presentation/loss_summary.gd").line(host.sim),17); host._menu_text("Field records remain reviewable after loss or abandonment. Only successful extraction advances the campaign.",17)
+		host._menu_text("SIGNAL LOST",32); host._menu_text(host.sim.message,22); host._menu_text(preload("res://src/presentation/loss_summary.gd").line(host.sim),17); preload("res://src/presentation/death_cause/cause_log.gd").debrief(host); host._menu_text("Field records remain reviewable after loss or abandonment. Only successful extraction advances the campaign.",17)
 		host.BlackwaterDelivery.debrief(host)
 		host.ModuleRecovery.debrief(host)
 	host._button(host.panel_box,"RETRY DIVE",func(): host._briefing(host.mission_index),"retry")
@@ -241,4 +241,5 @@ static func new_campaign(host)->void:
 	host.completed=[];host.unlocked=0;host.expedition={};host.recovered_evidence={};host.photo_records={};host.photo_intel={};host.hints_seen=[]
 	host.fleet={}
 	host.fitted_equipment=preload("res://src/equipment/equipment_catalog.gd").default_loadout();host.upgrade="endurance"
+	preload("res://src/presentation/first_siren_cue/cue_archive.gd").restore_types(host,{})  # a new campaign forgets seen Siren kinds
 	host._start_mission(0);host._save_archive();host._show_campaign()

@@ -153,6 +153,7 @@ func _ready() -> void:
 	route_editor=preload("res://src/presentation/route_program_panel.gd").new(); add_child(route_editor)
 	sound=Soundscape.new(); add_child(sound)
 	preload("res://src/presentation/first_siren_cue/first_siren_cue.gd").install(self)
+	preload("res://src/presentation/death_cause/cause_log.gd").install(self)
 	resized.connect(_layout)
 	for arg in OS.get_cmdline_user_args():
 		if arg.begins_with("--scenario="): capture_scenario=arg.get_slice("=",1)
@@ -629,6 +630,7 @@ func _load_archive() -> void:
 		recovered_evidence=saved.get("evidence",{})
 		photo_records=saved.get("photo_records",{}).duplicate(true)
 		hints_seen=saved.get("hints_seen",[]).duplicate()
+		preload("res://src/presentation/first_siren_cue/cue_archive.gd").restore_types(self,saved)
 		if saved.get("active") is Dictionary and sim.restore(saved.active):
 			preload("res://src/presentation/first_siren_cue/cue_archive.gd").restore(self,saved)
 			active_started=true; mission_index=sim.mission.id; ocean.sim=sim

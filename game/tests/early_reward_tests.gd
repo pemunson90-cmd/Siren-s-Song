@@ -16,7 +16,7 @@ func _initialize():
  for op in [0,1,2,3,4,5]:
   for outcome in ["won","lost",""]:
    var state=Reward.grant({},op,outcome)
-   check(not state.is_empty() if op==1 and outcome=="won" else state.is_empty(),"grant filter %d/%s"%[op,outcome])
+   check(not state.is_empty() if op in [1,3,5] and outcome=="won" else state.is_empty(),"grant filter %d/%s"%[op,outcome])
  var state=Reward.grant({},1,"won")
  check(Reward.grant(state,1,"won")==state,"replay grants only once")
  check(Reward.earned(state,[]).count(Table.GRANT.module)==1,"one entitlement is available")
