@@ -1,9 +1,9 @@
 # Handoff 047: CHALLENGE COMPLETIONS, one scripted completion per challenge row and route-aware pars
 
-Status: CLAIMED
+Status: DONE
 Claimed at: 2026-10-24 23:34:02 UTC
 Claimed by: claude (orchestrator, split with Codex by Pat 24 Oct)
-Finished at:
+Finished at: 2026-10-25 02:10:00 UTC
 
 Precondition: none. Source: docs/design/COLD_REVIEW_3.md finding F11. Tests plus a Pat decision list; par values are NOT changed by this handoff.
 Codex may merge: yes, into claude/integration only, after GitHub guidance and game-smoke are both green on the exact head and the PR is mergeable. Merge with a merge commit, then mark DONE and update docs/codex/BOARD.md.
@@ -44,7 +44,5 @@ challenge_catalog.gd par values, operation tables, simulation rules.
 PR into claude/integration. Merge per the line above; mark DONE and update the board. Post the pars proposal summary in Completion for Pat.
 
 ## Completion
-(Codex fills this in.)
 
-
-SUITE RANK BLOCK (Claude, 24 Oct): this handoff's new suites use local 233.. and CI 257.. (read suites.txt before committing and validate with scripts/toolchain/check-suites.py).
+DONE by Claude (orchestrator). PR138 via batch PR140 (merge 246eb72). 11 new scripted completions of the challenge rows (opening, reach and iron suites); lung_solo both routes (dismantle 79.3 s, reconnect 273.6 s against a 110 s par). No par, rule or scoring changed. docs/design/CHALLENGE_PARS_PROPOSAL.md proposes route-aware pars for Pat to decide. glass_fast completes but misses its hull par (74.4 vs 85). split_solo uses a SHALLOW then MIDDLE route. Tests: 39 + 53 + 30 checks, 0 failures; core 835/0.

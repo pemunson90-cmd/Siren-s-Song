@@ -1,9 +1,9 @@
 # Handoff 046: DEATH CAUSE, one plain line saying why the player was found
 
-Status: CLAIMED
+Status: DONE
 Claimed at: 2026-10-24 23:34:02 UTC
 Claimed by: claude (orchestrator, split with Codex by Pat 24 Oct)
-Finished at:
+Finished at: 2026-10-25 02:10:00 UTC
 
 Precondition: none. Source: docs/design/COLD_REVIEW_3.md finding F9 (continues COLD_REVIEW_2 B1). Presentation only, read-only from records that already exist. AI-DESIGNED proposal, Pat to adjust wording.
 Codex may merge: yes, into claude/integration only, after GitHub guidance and game-smoke are both green on the exact head and the PR is mergeable. Merge with a merge commit, then mark DONE and update docs/codex/BOARD.md.
@@ -44,7 +44,5 @@ simulation.gd detection, hearing, sight, lock or noise code; Siren behaviour; co
 PR into claude/integration. Merge per the line above; mark DONE and update the board. In Completion say which option (A or B) you used and what the sim did not record.
 
 ## Completion
-(Codex fills this in.)
 
-
-SUITE RANK BLOCK (Claude, 24 Oct): this handoff's new suites use local 229.. and CI 253.. (read suites.txt before committing and validate with scripts/toolchain/check-suites.py).
+DONE by Claude (orchestrator). PR135 via batch PR140 (merge 246eb72). Loss debrief shows one plain cause line (an own emission or loud motion the Siren reacted to within 3 s, else the sight line, else nothing). Presentation-side observer with a bounded 20 s ring buffer; simulation.gd untouched; log not persisted (no line after reload). Review found and fixed over-blaming of stale noises (counterexample test added). Tests: death_cause 46/0, death_cause_ui 44/0, core 835/0. Wording is AI-DESIGNED for Pat to adjust.

@@ -1,9 +1,9 @@
 # Handoff 045: EARLY REWARDS 2, two more early fitting grants (three before op 7)
 
-Status: CLAIMED
+Status: DONE
 Claimed at: 2026-10-24 23:34:02 UTC
 Claimed by: claude (orchestrator, split with Codex by Pat 24 Oct)
-Finished at:
+Finished at: 2026-10-25 02:10:00 UTC
 
 Precondition: none (extends the existing early_reward module from handoff 037). Pat, 24 Oct: no number given; "pick a reasonable number that has mechanical value". AI-DESIGNED choice below, Pat to adjust.
 Codex may merge: yes, into claude/integration only, after GitHub guidance and game-smoke are both green on the exact head and the PR is mergeable. Merge with a merge commit, then mark DONE and update docs/codex/BOARD.md.
@@ -37,7 +37,5 @@ Three grants after ops 1, 3 and 5, visible and equippable in Fittings, bare play
 PR into claude/integration. Merge per the line above; mark DONE and update the board.
 
 ## Completion
-(Codex fills this in.)
 
-
-SUITE RANK BLOCK (Claude, 24 Oct): this handoff's new suites use local 231.. and CI 255.. (read suites.txt before committing and validate with scripts/toolchain/check-suites.py).
+DONE by Claude (orchestrator). PR137 via batch PR140 (merge 246eb72). Three early fittings: Tele lens (after player op 2), Quietus baffles (after op 4), low-light back (after op 6); Tele lens and low-light back share the OPTICS mount so the player chooses. Optional validated save field early_reward {granted, modules[]}; old saves load. Tests: early_reward 36/0, early_reward2 45/0, early_reward2_ui 62/0 (both Fold7 shapes), core 835/0. Independent review APPROVE-READY at 1e0b1d6. Unverified: no equipped-loadout journeys exist, so bare ops 1 to 6 are checked only through opening_depth_journeys and six fit-combination starts; no phone test.

@@ -85,16 +85,16 @@ Also: 029 now includes the F7 addendum (GOAL / DANGER / NEW THIS DIVE for ops 7 
 | 40 | 042 FINALE1 (provisional): END OF LINE screen and photo wall at first recovery of op 30 | OPEN (assigned: Codex) | | | Pat: no answer yet, provisional repair. After 023. |
 | 41 | 043 SAVE2: 3 hard-save slots, automatic fork save states, replay from fork, truthful ending buttons | OPEN (assigned: Codex) | | | Pat: yes. After 030 SAVE1. |
 | 42 | 044 MENU REACH: shared full settings, Title, Challenges, Credits from Operations | OPEN (assigned: Codex) | | | Pat: yes. After 038. |
-| 43 | 045 EARLY REWARDS 2: three grants before op 7 (Tele lens, baffles, low-light back) | CLAIMED (Claude) | | | Pat: pick a number with mechanical value; 3 chosen. |
+| 43 | 045 EARLY REWARDS 2: three grants before op 7 (Tele lens, baffles, low-light back) | DONE | PR137/140 | 2026-10-25 02:10 UTC | Pat: pick a number with mechanical value; 3 chosen. |
 Still held for Pat: any change to Siren sight, hearing or lock timing (Pat: not yet).
 
 ## BATCH 9 (24 Oct, remaining cold review 3 polish items; AI-DESIGNED, Pat to adjust)
 | Order | Handoff | Status | PR | Finished (UTC) | One-line result |
 |---|---|---|---|---|---|
-| 44 | 046 DEATH CAUSE: one plain line on the loss debrief saying why the player was found (read-only) | CLAIMED (Claude) | | | F9. Sim keeps no cause history; observer needed. |
-| 45 | 047 CHALLENGE COMPLETIONS: one scripted completion per row, route-aware par proposal | CLAIMED (Claude) | | | F11. Par changes are Pat decisions; proposal file only. |
+| 44 | 046 DEATH CAUSE: one plain line on the loss debrief saying why the player was found (read-only) | DONE | PR135/140 | 2026-10-25 02:10 UTC | F9. Sim keeps no cause history; observer needed. |
+| 45 | 047 CHALLENGE COMPLETIONS: one scripted completion per row, route-aware par proposal | DONE | PR138/140 | 2026-10-25 02:10 UTC | F11. Par changes are Pat decisions; proposal file only. |
 | 46 | 048 HUD SAMENESS: operation-aware status text and explained ARRIVALS | CLAIMED (Claude) | | | F14. Presentation only. |
-| 44 | 049 FIRST-SIREN CUE EXTENSION: op 1 and a one-time new Siren type note | CLAIMED (Claude) | | | F8. Released by Pat 24 Oct. Presentation only: no change to Siren sight, hearing or lock timing. |
+| 44 | 049 FIRST-SIREN CUE EXTENSION: op 1 and a one-time new Siren type note | DONE | PR134/140 | 2026-10-25 02:10 UTC | F8. Released by Pat 24 Oct. Presentation only: no change to Siren sight, hearing or lock timing. |
 
 ## BATCH 10 (24 Oct, Pat: restore the V7 Hunt; AI-DESIGNED, Pat to ratify numbers)
 | Order | Handoff | Status | PR | Finished (UTC) | One-line result |
