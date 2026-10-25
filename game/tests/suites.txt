@@ -250,3 +250,6 @@ death_cause_tests|DEATH CAUSE|230|253
 death_cause_ui_tests|DEATH CAUSE UI|236|254|render
 first_siren_cue_ext_tests|FIRST SIREN CUE EXT|228|251
 first_siren_cue_ext_ui_tests|FIRST SIREN CUE EXT UI|229|252|render
+challenges_completions_opening_tests|CHALLENGES COMPLETIONS OPENING|233|257
+challenges_completions_reach_tests|CHALLENGES COMPLETIONS REACH|234|258
+challenges_completions_iron_tests|CHALLENGES COMPLETIONS IRON|235|259
