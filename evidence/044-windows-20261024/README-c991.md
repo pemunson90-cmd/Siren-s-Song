@@ -1,6 +1,6 @@
 # MENU REACH compact-navigation proof, 25 October 2026 Eastern
 
-PR141 exactc991a00ee055da7824d015503d8a14357ff00598 contains current base
+PR141 tested headc991a00ee055da7824d015503d8a14357ff00598 contains its base
 69fc9e468c026b5c3abe715c9e0dbbc2999ff97e. Independent Codex reviewer
 /root/ops038_review APPROVE with one nonblocking P3 is relayed in comment
 6393524504. Root strictly reread all19 logs, verified reviewer SHA/unchanged
@@ -35,6 +35,26 @@ ZIPs remain unchanged beside this focused current packet. The new stock-layout
 repair does not alter any old Loadout assertion; README-5a-ci-failure retains
 the full13MB hosted failure and exact local red/green evidence.
 
-Exactc991 hosted40161800552 guidance121074743664 passed; game-smoke121074744389
-was still running when written. This packet alone does not establish its final
-result or authorize merge. No APK, phone test or full local matrix was run.
+Historical packet-time status: exactc991 hosted40161800552 guidance121074743664
+passed; game-smoke121074744389 was still running when written. That packet alone
+did not establish its final result or authorize merge. No APK, phone test or
+full local matrix was run.
+
+## Verified closeout, 25 October 2026, 1:10 AM Eastern
+
+Exactc991 hosted40161800552 completed SUCCESS: guidance121074743664 and
+game-smoke121074744389, including full step8 and final Operations1472/0,
+Menu Reach309/0 and lifecycle23/0. Root reread actual jobs and workflow runs
+for the exact commit, PR comments/independent review, current base and policy
+boundary before merging. PR141 merged01bc90b0ad3fc28a73aa8121eb30f28f19eadfca.
+GitHub merged=true, remote containment, parents69fc9e46+c991a00e, and identical
+tested/merged tree93d01706fe54a50f3f1fcb0e44b7d78cf1e7410a verified afterward.
+No branch deleted or frozen branch promoted. The recorded nonblocking P3
+word wrapping, app-restart unmute-memory limit and physical Android/full
+campaign qualifications remain, not claimed solved.
+
+proof-c991-final.zip preserves the full18698437byte completed hosted success
+log plus manifest:2members,1055508bytes,
+SHA25674c660aa1f86874943f55396317de74afa59987df961efeb3f186d8150ee0939.
+Every member was reopened and size/hash checked. Earlier failed runs and
+candidate packets remain intact, separately attributed.
