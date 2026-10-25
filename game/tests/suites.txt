@@ -246,3 +246,5 @@ art_tests|ART|-|232
 art_render_measurements|ART RENDER|-|233|render
 early_reward2_tests|EARLY REWARD2|231|255
 early_reward2_ui_tests|EARLY REWARD2 UI|232|256|render
+death_cause_tests|DEATH CAUSE|230|253
+death_cause_ui_tests|DEATH CAUSE UI|236|254|render
