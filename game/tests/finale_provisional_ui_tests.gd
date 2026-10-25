@@ -20,6 +20,26 @@ func value_if_present(node,key,otherwise=null):
 	return otherwise
 func clean(path):
 	for suffix in ["",".bak",".tmp"]:DirAccess.remove_absolute(path+suffix)
+func target_visible(node,id,host,label):
+	var b=button(node,id)
+	check(b!=null,label+" control exists")
+	if b==null:return
+	var rect=b.get_global_rect();var viewport=host.get_viewport_rect()
+	check(rect.size.y>=host.ui_touch_height-1.0 and rect.position.y>=0 and rect.end.y<=viewport.size.y,label+" meets touch height and stays inside viewport")
+func reveal(node,id):
+	var b=button(node,id)
+	if b==null:return
+	var parent=b.get_parent()
+	while parent!=null and not parent is ScrollContainer:parent=parent.get_parent()
+	if parent!=null:parent.ensure_control_visible(b);await settle()
+func capture(stage,shape):
+	var capture_dir=OS.get_environment("SIRENS_042_CAPTURE_DIR")
+	if capture_dir.is_empty() or DisplayServer.get_name()=="headless":return
+	if not DirAccess.dir_exists_absolute(capture_dir):
+		check(DirAccess.make_dir_recursive_absolute(capture_dir)==OK,"native capture directory exists: "+capture_dir)
+	await RenderingServer.frame_post_draw
+	var path=capture_dir+"/finale-%s-%dx%d.png"%[stage,shape.x,shape.y]
+	check(root.get_texture().get_image().save_png(path)==OK,"native rendered state captured at "+path)
 func expedition_fixture()->Dictionary:
 	var completed=[6,7,9,11,12]
 	for id in range(14,30):completed.append(id)
@@ -48,7 +68,7 @@ func wall_case(game,heading,label):
 	var plates=game.panel_box.get_children().filter(func(c):return c is ArchiveView.Plate)
 	check(plates.size()==4,label+" retains the four existing archive plates")
 	check(has_text(game,"END OF LINE")==heading,label+" has expected End of Line heading state")
-	check(button(game,"back")!=null,label+" retains the Operations footer")
+	target_visible(game,"back",game,label+" Operations footer")
 func shape_case(shape):
 	root.size=shape;await settle()
 	var stem="user://finale-provisional-%dx%d"%[shape.x,shape.y]
@@ -71,6 +91,8 @@ func shape_case(shape):
 	check(Store.new().valid(payload),"first wall archive remains valid with optional finale state")
 	var store=Store.new();store.path=archive
 	check(store.save(payload) and store.load_game()==payload,"first wall and finale state survive checksummed archive save")
+	target_visible(game,"finale_credits",game,"wall Credits")
+	await capture("first-finale",shape)
 	var raw_wall=all_text(game)
 	for raw_fact in ["GLASS CHOICE /","CHOIR CHOICE /","CHOIR PEOPLE /","CHOIR PLANT /"]:
 		check(not raw_wall.contains(raw_fact),"wall displays the fact mapping instead of raw label "+raw_fact)
@@ -83,9 +105,32 @@ func shape_case(shape):
 		check(front!=null and front.screen=="credits","wall credits opens the existing Frontend credits screen")
 		check(game.screen=="menu","credits returns to the Operations host context")
 		if front!=null:
+			target_visible(front,"frontend_back",game,"existing Frontend credits Back")
+			await capture("existing-credits",shape)
 			if await press(front,"frontend_back"):
 				check(game.screen=="menu" and game.get_node_or_null("Frontend")==null,"Frontend credits Back returns to unobscured Operations")
 	else:check(false,"touch opens existing credits from the finale wall")
+	# A true marker survives a real boot. The completed pair must not auto-open,
+	# while Operations keeps its manual replay control.
+	var seen_payload=store.load_game()
+	check(seen_payload.get("end_of_line_seen")==true,"saved archive contains an explicit seen=true marker")
+	var seen_reload=load("res://scenes/main.tscn").instantiate()
+	if shape.x!=960:seen_reload.set_script(load("res://tests/density_main.gd"))
+	seen_reload.store.path=archive;seen_reload.settings_path=settings;seen_reload.capture_scenario=""
+	root.add_child(seen_reload);await settle();seen_reload.set_process(false)
+	check(seen_reload.screen=="menu" and seen_reload.get_node_or_null("Frontend")!=null,"explicit-true reload follows normal title/menu boot")
+	check(not has_text(seen_reload,"END OF LINE") and seen_reload.screen!="photo_ending","explicit-true reload does not auto-open End of Line")
+	var seen_front=seen_reload.get_node_or_null("Frontend")
+	if seen_front!=null:await press(seen_front,"frontend_continue")
+	check(button(seen_reload,"end_of_line")!=null,"explicit-true reload retains manual Operations replay")
+	seen_reload.queue_free();await settle()
+	await reveal(game,"end_of_line")
+	target_visible(game,"end_of_line",game,"Operations End of Line replay")
+	await capture("ops-replay",shape)
+	if await press(game,"end_of_line"):
+		wall_case(game,true,"Operations replay after credits")
+		if await press(game,"back"):check(game.screen=="menu","wall Back after Ops replay returns to Operations")
+	else:check(false,"Operations can replay End of Line after credits")
 	if await press(game,"end_of_line"):
 		if await press(game,"back"):check(game.screen=="menu","photo wall Back returns to Operations")
 	# Replay the recovered operation after the once-only automatic intro.
