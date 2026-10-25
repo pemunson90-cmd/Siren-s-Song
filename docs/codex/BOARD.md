@@ -84,7 +84,7 @@ Also: 029 now includes the F7 addendum (GOAL / DANGER / NEW THIS DIVE for ops 7 
 | P | 041 BACK1: quit_on_go_back=false and press-Back-again-to-exit | DONE | [125](https://github.com/pemunson90-cmd/Siren-s-Song/pull/125) | 2026-10-24 17:34:15 UTC | Claude merged139f3e9; GitHub merged=true and current ancestry verified. Real phone unverified. |
 | 40 | 042 FINALE1 (provisional): END OF LINE screen and photo wall at first recovery of op 30 | OPEN (assigned: Codex) | | | Pat: no answer yet, provisional repair. After 023. |
 | 41 | 043 SAVE2: 3 hard-save slots, automatic fork save states, replay from fork, truthful ending buttons | OPEN (assigned: Codex) | | | Pat: yes. After 030 SAVE1. |
-| 42 | 044 MENU REACH: shared full settings, Title, Challenges, Credits from Operations | CLAIMED (codex) | | | 038 merged69fc9e46; claim 2026-10-25 03:10:26 UTC. Shared existing overlay, no settings keys changed. |
+| 42 | 044 MENU REACH: shared full settings, Title, Challenges, Credits from Operations | CLAIMED (codex) | [141](https://github.com/pemunson90-cmd/Siren-s-Song/pull/141) | | Current88 on69fc; native297/0, independent/core and hosted40158097727 pending. |
 | 43 | 045 EARLY REWARDS 2: three grants before op 7 (Tele lens, baffles, low-light back) | DONE | PR137/140 | 2026-10-25 02:10 UTC | Pat: pick a number with mechanical value; 3 chosen. |
 Still held for Pat: any change to Siren sight, hearing or lock timing (Pat: not yet).
 
