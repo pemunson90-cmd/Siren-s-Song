@@ -82,6 +82,7 @@ func shape_case(shape):
  check(not view.visible and game.lock_warning.visible,"captions off retains mandatory lock warning")
  # Both existing settings surfaces use the same optional settings and seam.
  game._settings_menu();await settle();await press(game,"setting_audio_captions")
+ await create_timer(.35).timeout # Shared frontend settings use the existing 300ms save debounce.
  check(store.load_settings().audio_captions,"operation settings persists through the same SettingsStore")
  await android_back();check(game.screen=="menu","Android Back leaves operation settings")
  game.queue_free();await settle();Settings.apply(Store.DEFAULTS)

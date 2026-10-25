@@ -168,6 +168,7 @@ func _boot_frontend() -> void:
 	var script=load("res://src/presentation/frontend/frontend.gd")
 	if script==null or not script.can_instantiate(): return
 	var front=script.new(); add_child(front)
+	front.settings_store.path=settings_path
 	if not front.setup(self): remove_child(front); front.queue_free()
 func _theme() -> void:
 	var t=Theme.new(); t.default_font_size=17
@@ -642,6 +643,7 @@ func _load_archive() -> void:
 	if not store.warning.is_empty():archive_warning=store.warning;sim.message=store.warning
 	_update_archive_status()
 func _settings_menu() -> void:
+	if preload("res://src/presentation/frontend/menu_reach.gd").settings(self):return
 	_clear_menu(); screen="settings"
 	_menu_text("QUIETUS / SETTINGS",30)
 	_menu_text("Actionable sound cues also appear in the tactical display. Audio pauses when you suspend the dive.",18)
@@ -669,6 +671,9 @@ func _settings_menu() -> void:
 func _set_text_scale(scale:float) -> void:
 	_set_accessibility("text_scale",scale)
 func _set_accessibility(key:String,value:Variant) -> void:
+	var front=get_node_or_null("Frontend")
+	if front!=null and front.embedded_settings:
+		front._set_value(key,value);front._settings_screen();return
 	var store_settings=SettingsStore.new()
 	store_settings.path=settings_path
 	var values=store_settings.load_settings()

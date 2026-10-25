@@ -42,9 +42,10 @@ func run() -> void:
 	var settings_ids=[]
 	for control in game.menu.find_children("*","Control",true,false):
 		if control is BaseButton or control is Slider: settings_ids.append(control.get_meta("action",control.get_meta("ui_action","")))
-	var expected=["volume_music","volume_effects","mute","back"]
+	var required=["volume_master","volume_music","volume_effects","mute","back","text_scale_115","setting_high_contrast","setting_reduced_motion","setting_haptics"]
+	var expected=required+["text_scale_100","text_scale_130","text_scale_150","setting_safe_palette","setting_audio_captions","settings_reset","reset_tips","new_campaign"]
 	var visible_ids=game._ui_metrics().controls.map(func(c):return c.action)
-	check(expected.all(func(a):return a in settings_ids) and visible_ids.all(func(a):return a in expected),"settings retain stable slider/mute/BACK IDs even when scroll clips optional rows")
+	check(required.all(func(a):return a in settings_ids) and visible_ids.all(func(a):return a in expected),"shared settings retain stable slider/mute/BACK IDs and the full accessibility controls when optional rows scroll")
 	var back=identified("back")
 	check(back!=null and back.get_parent()==game.menu_footer and game.get_viewport_rect().encloses(back.get_global_rect()),"settings BACK stays fully exposed outside scrolling content")
 	var back_present=back!=null

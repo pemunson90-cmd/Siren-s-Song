@@ -13,7 +13,7 @@ static func history(front)->Dictionary:
 static func show(front)->void:
 	Archive.restore(front.host)
 	front._reset("challenges")
-	front._button("BACK",front._title_screen,"frontend_back")
+	front._button("BACK",front._return,"frontend_back")
 	front._text("CHALLENGES",32,Color("80d9cf"))
 	front._text("Replay recovered operations with a fixed fleet and one rule. Campaign progress stays as it was.",16)
 	var saved=history(front);var recovered=completed(front)

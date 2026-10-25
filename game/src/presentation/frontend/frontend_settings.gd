@@ -21,8 +21,10 @@ static func apply(values: Dictionary, host: Control = null) -> void:
 	if host == null: return
 	if host.get("sound") != null:
 		host.sound.music_volume = current.music; host.sound.effects_volume = current.effects
+		host.sound.muted = current.master<=0.0
 	if host.get("settings") is Dictionary:
 		host.settings["music"] = current.music; host.settings["effects"] = current.effects
+		host.settings["mute"] = current.master<=0.0
 	host.set_meta("reduced_motion", current.reduced_motion)
 	host.set_meta("haptics", current.haptics)
 	_theme(host)
