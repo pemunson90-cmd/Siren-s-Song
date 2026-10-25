@@ -1,0 +1,182 @@
+{
+  "head": "e0bff838c4cdc3649039dc2a5faa041de58b0d37",
+  "base": "01bc90b0",
+  "pr": 142,
+  "created_utc": "2026-10-25T05:48:06.5676218Z",
+  "zip": {
+    "path": "local-proof-e0bff838-1.zip",
+    "bytes": 3172960,
+    "members": 27,
+    "sha256": "d3862c8abf845ca83997ea22c20eb5e129ec0d0197c5657f98b86aed9e881b1e"
+  },
+  "verification": {
+    "reopened": true,
+    "all_member_sha256_verified": true,
+    "all_crc32_verified": true,
+    "all_member_sizes_verified": true
+  },
+  "members": [
+    {
+      "bytes": 41407,
+      "path": "baseline-import.log",
+      "crc32": "71a8d232",
+      "sha256": "da53872dea6a44dcf3254b0fff39c84ab92cf145f7994f1281a7102b9678114d"
+    },
+    {
+      "bytes": 825,
+      "path": "core-first.log",
+      "crc32": "acb12852",
+      "sha256": "03b479d9acefe6a1398b6ecfa88aeeba960ecd61fd60f76d9fa0d03887493788"
+    },
+    {
+      "bytes": 90859,
+      "path": "finale-red.log",
+      "crc32": "8a2ef05a",
+      "sha256": "58a4da121c8dbf3d2cbd55b84c983d343545fabb17307843b7204731e70aa177"
+    },
+    {
+      "bytes": 114,
+      "path": "focused-endings_photo_tests.log",
+      "crc32": "deecfdaf",
+      "sha256": "7778c8dcf05c94edc214daee423cfecbc340481c8acf037a4cc37e61f356e909"
+    },
+    {
+      "bytes": 48491,
+      "path": "focused-endings_photo_ui_tests.log",
+      "crc32": "8f50c485",
+      "sha256": "5443cc2b3f603f2ff4b4f3c7e450b47a93dff9b27c32f7d7702523b573c996fe"
+    },
+    {
+      "bytes": 110,
+      "path": "focused-fix2_save_tests.log",
+      "crc32": "d5263c87",
+      "sha256": "6643dead431c7c433634f92b9bf4ffcf210a65a7c9e8bd29a37091a1dcea98ae"
+    },
+    {
+      "bytes": 667993,
+      "path": "focused-menu_reach_ui_tests.log",
+      "crc32": "504c8ea9",
+      "sha256": "bdb7d32a4a9f8d4f9c8cb32a10fadf65c0ea299c6add1bd84da3651547df832b"
+    },
+    {
+      "bytes": 1589202,
+      "path": "focused-ops_home_ui_tests.log",
+      "crc32": "ac74a9c4",
+      "sha256": "6927cc0f787f9551f4bcf61aa4a01375c53dd0886d40e656c6fec4e6ff313b5a"
+    },
+    {
+      "bytes": 231,
+      "path": "focused-save_profiles_tests.log",
+      "crc32": "e530671a",
+      "sha256": "9b7091b281a1df585745bc4b8be90be04b9560865d810393b78397ed334a30ac"
+    },
+    {
+      "bytes": 173479,
+      "path": "focused-save_profiles_ui_tests.log",
+      "crc32": "104b0aaa",
+      "sha256": "cd06b3b26e090ea0a889edef7d667440da39fe7b96651667fa7b7c1940e8f502"
+    },
+    {
+      "bytes": 1672,
+      "path": "implemented-import.log",
+      "crc32": "c50dd9d7",
+      "sha256": "ebb87f0a3583b012be825c95be471ab9e43f6ef8f94d378ab5a74d6670094711"
+    },
+    {
+      "bytes": 239509,
+      "path": "native-finale-first.log",
+      "crc32": "00d0565d",
+      "sha256": "dc3e7ac839231b1a3f2f1320ee9c481e4111ee67b4b7e0366673944b8a4130e3"
+    },
+    {
+      "bytes": 171162,
+      "path": "native-save_profiles_ui_tests.log",
+      "crc32": "c6e959b8",
+      "sha256": "499994850fa42f38e995c0f5c707487cbb3e77ee2966f065941e99c2fdabc325"
+    },
+    {
+      "bytes": 298911,
+      "path": "ui-android-back.log",
+      "crc32": "02a12ab2",
+      "sha256": "8298fb73764a2377ad8464d0e4039379de5ce36f891f4c47bfc4d7aa49c5d2f7"
+    },
+    {
+      "bytes": 242681,
+      "path": "ui-explicit-reload-agent.log",
+      "crc32": "b0f5957f",
+      "sha256": "f66821df084578574b9840ebbc7ee8aa25ae81a6d4af86d20b04f0d5025aa257"
+    },
+    {
+      "bytes": 187992,
+      "path": "ui-first.log",
+      "crc32": "5d0aa892",
+      "sha256": "7b6928517a90518b53871b9520fde7b69cf7dc89dedc9a2f819cdd78e2e84247"
+    },
+    {
+      "bytes": 187554,
+      "path": "ui-label-corrected.log",
+      "crc32": "7d45093b",
+      "sha256": "d94b28dd8649c50c1a055d1f55061df4b3417911206f4f38d771b65bffd4d2fa"
+    },
+    {
+      "bytes": 107,
+      "path": "unit-first.log",
+      "crc32": "9fe20c9f",
+      "sha256": "855f5065fe7f052e533fa6b9d3897927321e9f626305cabdee61cad72581e410"
+    },
+    {
+      "bytes": 649687,
+      "path": "captures-first-native/finale-existing-credits-2184x1968.png",
+      "crc32": "51049ef3",
+      "sha256": "2bb224434ac896c00ec7eeef4989006f5b0c26aae3134c29721d989b645fc31e"
+    },
+    {
+      "bytes": 292469,
+      "path": "captures-first-native/finale-existing-credits-2520x1080.png",
+      "crc32": "b4395d34",
+      "sha256": "df8a21881a5c4f0a99c71fd1f4cb5369f634e9beb6ba9e5ee67912b16ea2f63d"
+    },
+    {
+      "bytes": 76672,
+      "path": "captures-first-native/finale-existing-credits-960x432.png",
+      "crc32": "67bda47a",
+      "sha256": "dd1fdbdc225cb08ba14b36aefa1c1b20696098bce54c9a1778629f751c6ddcc0"
+    },
+    {
+      "bytes": 598848,
+      "path": "captures-first-native/finale-first-finale-2184x1968.png",
+      "crc32": "ab9b3e1d",
+      "sha256": "f87f2c5e4aa9c39fdb4da20c0b1557103b5555fca39625c2689f1a607b362864"
+    },
+    {
+      "bytes": 419328,
+      "path": "captures-first-native/finale-first-finale-2520x1080.png",
+      "crc32": "b2d67be9",
+      "sha256": "246b5ec1cba42c2d5e7e27532cdbac0bbd4557364b65b7619a62d2dcd276e888"
+    },
+    {
+      "bytes": 131953,
+      "path": "captures-first-native/finale-first-finale-960x432.png",
+      "crc32": "a4ae88af",
+      "sha256": "aed036f5ad08843ca7f3fd64067045b97c58e4bdd6fc9087f4e71e1ef0416be0"
+    },
+    {
+      "bytes": 492698,
+      "path": "captures-first-native/finale-ops-replay-2184x1968.png",
+      "crc32": "2f59d361",
+      "sha256": "1abc7be5fc7043cd6cc1ceb9af66697359390206a9db955dc687d9aac748172c"
+    },
+    {
+      "bytes": 342545,
+      "path": "captures-first-native/finale-ops-replay-2520x1080.png",
+      "crc32": "725a6074",
+      "sha256": "14e15725bb65482a73133d407aab2bf018e81008000ff80e1ba20fe3edc37ba8"
+    },
+    {
+      "bytes": 127300,
+      "path": "captures-first-native/finale-ops-replay-960x432.png",
+      "crc32": "af7f3908",
+      "sha256": "7166ac5cf0b5c4e62c2cc8a230b9c377f49645425542bb8b2bce8bba37e7fa83"
+    }
+  ]
+}
