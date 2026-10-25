@@ -7,9 +7,20 @@ const Table=preload("res://src/presentation/frontend/menu_reach_table.gd")
 const Front=preload("res://src/presentation/frontend/frontend.gd")
 static func entries(host)->void:
  if not Table.enabled:return
+ # Share the existing bottom Settings row so navigation cannot push the
+ # selected stock and all three comparison rows above the scrolled viewport.
+ var nav=HBoxContainer.new();nav.add_theme_constant_override("separation",Table.NAV_GAP);host.panel_box.add_child(nav)
+ var controls=[]
+ for node in host.panel_box.get_children():
+  if node is Button and node.get_meta("action","")=="settings":
+   node.text="SETTINGS";node.reparent(nav);controls.append(node)
  for row in Table.ENTRIES:
   var destination=row[2]
-  host._button(host.panel_box,row[0],func():open(host,destination),row[1])
+  controls.append(host._button(nav,row[0],func():open(host,destination),row[1]))
+ for control in controls:
+  control.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+  control.custom_minimum_size.x=maxf(control.custom_minimum_size.x,host.ui_touch_height)
+  control.mouse_filter=Control.MOUSE_FILTER_PASS
 static func dismiss_existing(host)->void:
  var front=host.get_node_or_null("Frontend")
  if front!=null:front._dismiss()

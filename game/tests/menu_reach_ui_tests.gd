@@ -121,6 +121,16 @@ func shape_case(shape):
 			await capture("settings150")
 			var large=button(game,"text_scale_115")
 			if large!=null:check(large.get_global_rect().size.y>=game.ui_touch_height-1,"large text preserves touch target")
+			await android_back()
+			var settings_entry=button(game,"settings")
+			check(settings_entry!=null,"large-text Operations retains Settings navigation")
+			if settings_entry!=null:
+				game.scroll.ensure_control_visible(settings_entry);await settle()
+				for id in ["settings","menu_title","menu_challenges","menu_credits"]:
+					var entry=button(game,id)
+					check(entry!=null and entry.size.x>=game.ui_touch_height and entry.size.y>=game.ui_touch_height and game.scroll.get_global_rect().encloses(entry.get_global_rect()),"large-text bottom navigation stays fully reachable: "+id)
+				await capture("operations-nav150")
+			await press(game,"settings")
 			await press(game,"text_scale_115")
 		await frames(30)
 		await android_back()
