@@ -1,9 +1,9 @@
 # Handoff 044: MENU REACH, full settings, title, challenges and credits reachable from Operations
 
-Status: OPEN
+Status: CLAIMED
 Assigned to: codex (Pat split the queue 24 Oct; Codex takes this when Pat says continue)
-Claimed at:
-Claimed by:
+Claimed at: 2026-10-25 03:10:26 UTC
+Claimed by: codex
 Finished at:
 
 Precondition: handoff 038 (OPS HOME) DONE, so the Operations layout is settled. Pat decided 24 Oct: yes (cold review 3 finding F6).
