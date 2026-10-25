@@ -14,6 +14,7 @@ var clock=-1.
 var ring:Array=[]
 var seen_noises:Array=[]
 var lock_start:Dictionary={}
+var noticed:Dictionary={}  # siren index -> recent sim.elapsed times of siren_notice (bounded by WINDOW and NOTICE_CAP)
 static func install(owner)->void:
  var log=load("res://src/presentation/death_cause/cause_log.gd").new()
  log.name="DeathCauseLog";owner.hud.add_child(log);log.bind(owner.sim)
@@ -24,8 +25,16 @@ static func debrief(host)->void:
  if not text.is_empty():host._menu_text(text,17)
 func bind(source)->void:
  sim=source;_reset()
+ if sim!=null and sim.has_signal("siren_notice") and not sim.siren_notice.is_connected(_on_notice):sim.siren_notice.connect(_on_notice)
+func _on_notice(id:int,_at:Vector2)->void:
+ # siren_notice fires on many ticks while a Siren hears or sees the craft; keep a bounded recent list per Siren.
+ var list:Array=noticed.get(id,[])
+ if not list.is_empty() and sim.elapsed-float(list[-1])<Table.NOTICE_STEP:return  # thin the per-tick stream
+ list.append(sim.elapsed)
+ while list.size()>Table.NOTICE_CAP or (not list.is_empty() and sim.elapsed-list[0]>Table.WINDOW+Table.NOTICE_LEAD):list.pop_front()
+ noticed[id]=list
 func _reset()->void:
- ring.clear();seen_noises.clear();lock_start.clear()
+ ring.clear();seen_noises.clear();lock_start.clear();noticed.clear()
  mission_ref=sim.mission if sim!=null else {};clock=sim.elapsed if sim!=null else -1.
 func _process(_dt:float)->void:
  sample()
@@ -48,7 +57,7 @@ func sample()->void:
   var radius:float=sim.motion_radius(i)
   if radius<Table.MOTION_RADIUS:continue
   if not ring.is_empty() and ring[-1].kind=="motion" and ring[-1].unit==i and t-ring[-1].t<Table.MOTION_MERGE:ring[-1].t=t
-  else:_push({"t":t,"kind":"motion","label":"","unit":i})
+  else:_push({"t":t,"t0":t,"kind":"motion","label":"","unit":i})
  var current:Array=[]
  for id in sim.contacts:
   var c=sim.contacts[id]
@@ -79,13 +88,20 @@ func line()->String:
   var start:float=lock_start.get(id,float(c.get("time",elapsed)))
   if pick<0 or start<pick_t:pick=id;pick_t=start
  if pick<0:return ""
+ # Only blame an own emission or loud motion that this Siren reacted to: a siren_notice from it must follow within
+ # NOTICE_LEAD seconds. An old shutter or engine burst is not blamed for a plain sight-line lock.
  var best={}
  for row in ring:
-  if row.kind=="emission" and row.t<=pick_t+0.001 and pick_t-row.t<=Table.WINDOW and (best.is_empty() or row.t>best.t):best=row
+  if row.kind=="emission" and row.t<=pick_t+0.001 and pick_t-row.t<=Table.WINDOW and _reacted(pick,row.t,row.t) and (best.is_empty() or row.t>best.t):best=row
  if not best.is_empty():return Table.DRAWN%[Table.EMISSION_PHRASE.get(best.label,best.label),maxi(0,roundi(pick_t-best.t))]
  for row in ring:
-  if row.kind=="motion" and row.t<=pick_t+0.001 and pick_t-row.t<=Table.WINDOW:return Table.MOVING%_name(row.unit)
+  if row.kind=="motion" and pick_t-row.t<=Table.WINDOW and _reacted(pick,float(row.get("t0",row.t)),row.t):return Table.MOVING%_name(row.unit)
  if str(sim.contacts[pick].get("source",""))=="optical":return Table.SIGHT%_name(0)
  return ""
 func _name(i:int)->String:
  return str(sim.units[i].get("name","Quietus")).capitalize()
+func _reacted(id:int,t0:float,t1:float)->bool:
+ # True when this Siren sent a siren_notice during the emission or motion, or within NOTICE_LEAD seconds after it.
+ for nt in noticed.get(id,[]):
+  if nt>=t0-0.001 and nt-t1<=Table.NOTICE_LEAD:return true
+ return false

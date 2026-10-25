@@ -241,5 +241,5 @@ order_table_tests|ORDER TABLE|223|246
 photo_window_rules_tests|PHOTO WINDOW RULES|224|247
 art_tests|ART|-|232
 art_render_measurements|ART RENDER|-|233|render
-death_cause_tests|DEATH CAUSE|229|253
-death_cause_ui_tests|DEATH CAUSE UI|230|254|render
+death_cause_tests|DEATH CAUSE|230|253
+death_cause_ui_tests|DEATH CAUSE UI|236|254|render

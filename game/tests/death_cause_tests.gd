@@ -21,11 +21,12 @@ func fixture(dist:float,loud:bool=false):
  return s
 # Journeys: ping, loud engine, camera shutter, plain sight. Returns the finished sim and the observer (or null).
 func journey(kind:String,observe:bool):
- var s=fixture({"ping":700.,"engine":900.,"camera":260.,"sight":150.}[kind],kind=="engine")
+ var s=fixture({"ping":700.,"engine":900.,"engine_toward":450.,"camera":260.,"sight":150.}[kind],kind.begins_with("engine"))
  var log=null
  if observe:log=Log.new();log.bind(s)
  if kind=="ping":s.command("ping")
  if kind=="engine":s.command("route",{"point":s.units[0].pos+Vector2(500,0)})
+ if kind=="engine_toward":s.command("route",{"point":s.units[0].pos+Vector2(300,0)})
  if kind=="camera":
   s.units[0].pos=s.mission.objectives[0].pos;s.sirens[0].pos=s.units[0].pos+Vector2(260,0);s.sirens[0].home=s.sirens[0].pos;s.sirens[0].goal=s.sirens[0].pos
   s.command("camera")
@@ -38,7 +39,7 @@ func state(s)->String:
  return var_to_str([s.snapshot(),s.sirens,s.units,s.noises,s.elapsed,s.hull,s.outcome,s.message]).sha256_text()
 func run():
  check(Table.enabled and Table.WINDOW==20.0 and Table.CAP>0 and Table.MOTION_RADIUS>125. and Table.MOTION_RADIUS<430.,"table defaults: on, 20 s window, threshold between silent and cruise motion")
- var expect={"ping":["ACTIVE SONAR"],"engine":["moving at speed"],"camera":["CAMERA"],"sight":["sight line"]}
+ var expect={"ping":["ACTIVE SONAR"],"engine":["sight line"],"engine_toward":["moving at speed"],"camera":["CAMERA"],"sight":["sight line"]}
  for kind in expect:
   var a=journey(kind,true);var b=journey(kind,false)
   check(a.sim.outcome=="lost" and "Siren beam" in a.sim.message,"%s journey ends in a beam loss"%kind)
@@ -57,6 +58,19 @@ func run():
   if not s.outcome.is_empty():break
  check("ACTIVE SONAR" in log.line(),"an own emission outranks motion and sight")
  log.free()
+ # Review counterexample: an old ping must not be blamed for a later plain sight-line lock.
+ var far=fixture(3000.);var flog=Log.new();flog.bind(far);far.command("ping")
+ for i in 150:
+  far.advance(0.1);flog.sample()
+ check(far.outcome.is_empty(),"far Siren has not acted on the early ping")
+ var fe=far.sirens[0];fe.pos=far.units[0].pos+Vector2(150,0);fe.home=fe.pos;fe.goal=fe.pos;fe.route=[]
+ far.units[0].silent=true
+ for i in 3000:
+  far.advance(0.1);flog.sample()
+  if not far.outcome.is_empty():break
+ var ftext=flog.line()
+ check(far.outcome=="lost" and not ("ACTIVE SONAR" in ftext),"an old unnoticed ping is not blamed: "+ftext)
+ flog.free()
  # No record: no line, never an invented cause.
  var o=fixture(150.);var l2=Log.new();l2.bind(o);o.outcome="lost";o.message=o.VAPORIZED_TEXT;o.elapsed=10.
  o.contacts={0:{"time":10.,"pos":o.units[0].pos+Vector2(140,0),"mode":"BEAM","target":0,"source":"triangulation"}}
