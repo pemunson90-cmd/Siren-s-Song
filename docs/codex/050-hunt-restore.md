@@ -37,3 +37,9 @@ PR into claude/integration. Merge per the line above; mark DONE and update the b
 
 ## Completion
 (Codex fills this in: what changed, PR link, branch and last pushed SHA, test results, unverified items, files outside ownership needed, recommended next.)
+
+### Pat decision,25October2026 Eastern: sight-only first
+
+Pat accepted the recommendation to test sight-only Hunt first: global Hunt may increase sight notice range, but hearing, movement speed and lock timing must stay unchanged. This supersedes the proposed shared-readiness seam wherever that seam would increase hearing or speed. V7 sight-only behavior is the first implementation target. Keep the existing off switch, operation caps, protected combat rules, save compatibility and verification requirements; prove hearing and movement behavior unchanged with the flag on versus off. Do not treat this as permission to add hearing scaling later.
+
+Pat authorized Codex to carry this work forward after040,033 and048. No second active claim is opened here;040 remains active. Historical Claude claim above is preserved until formal takeover. This records authorization and intended order, not implementation or passing tests. Automated checks precede merge; phone and human testing remain deferred under Pat's standing feature-complete-and-tuned rule.
