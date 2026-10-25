@@ -8,6 +8,7 @@ const SettingsStore = preload("res://src/persistence/settings_store.gd")
 const FrontendSettings = preload("res://src/presentation/frontend/frontend_settings.gd")
 const CreditsText = preload("res://src/presentation/frontend/credits_text.gd")
 const Soundscape = preload("res://src/audio/soundscape.gd")
+const ReachTable=preload("res://src/presentation/frontend/menu_reach_table.gd")
 enum Profile { NONE, OK, RECOVERED, UNREADABLE }
 var profile_picker = preload("res://src/persistence/profiles/profile_picker.gd").new()
 var host: Control
@@ -21,6 +22,20 @@ var screen := "title"
 var save_timer: Timer
 var drift := 0.0
 var title_label: Label
+# MENU REACH contexts share this settings builder and its single values store.
+# Embedded settings keep Operations' sticky Back and archive warning region.
+var embedded_settings=false
+var operations_entry=""
+var unmuted_master=1.0
+func setup_settings(main:Control)->void:
+	host=main;embedded_settings=true;name="Frontend"
+	settings_store.path=host.settings_path;values=FrontendSettings.current.duplicate(true)
+	settings_store.load_settings() # Read warning provenance without replacing live choices.
+	FrontendSettings.apply(values,host)
+	profile=Profile.NONE if host._campaign_pristine() else Profile.OK
+	column=host.panel_box;scroll=host.scroll
+	save_timer=Timer.new();save_timer.one_shot=true;save_timer.wait_time=ReachTable.SAVE_DEBOUNCE;add_child(save_timer);save_timer.timeout.connect(_persist)
+	_settings_screen()
 # Classifies the campaign archive without modifying it.
 static func inspect_profile(store_path: String) -> Dictionary:
 	var probe := SaveStore.new()
@@ -42,10 +57,11 @@ static func preserve_unreadable(store_path: String, stamp: int) -> Array:
 		var target: String = "%s.incompatible-%d%s" % [store_path, stamp, suffix]
 		if DirAccess.copy_absolute(source, target) == OK: kept.append(target)
 	return kept
-func setup(main: Control) -> bool:
+func setup(main: Control, use_live_values:=false) -> bool:
 	host = main
 	profile_picker.setup(self)
-	values = settings_store.load_settings()
+	var saved=settings_store.load_settings()
+	values = FrontendSettings.current.duplicate(true) if use_live_values else saved
 	FrontendSettings.apply(values, host)
 	var info := inspect_profile(host.store.path)
 	profile = info.state; profile_message = info.message
@@ -58,13 +74,13 @@ func setup(main: Control) -> bool:
 	for side in ["left", "right", "top", "bottom"]: margin.add_theme_constant_override("margin_" + side, 32)
 	scroll.add_child(margin)
 	column = VBoxContainer.new(); column.add_theme_constant_override("separation", 14); column.size_flags_horizontal = Control.SIZE_SHRINK_CENTER; margin.add_child(column)
-	save_timer = Timer.new(); save_timer.one_shot = true; save_timer.wait_time = 0.3; add_child(save_timer); save_timer.timeout.connect(_persist)
+	save_timer = Timer.new(); save_timer.one_shot = true; save_timer.wait_time = ReachTable.SAVE_DEBOUNCE; add_child(save_timer); save_timer.timeout.connect(_persist)
 	resized.connect(_fit_column)
 	_title_screen()
 	return column != null
 func _process(delta: float) -> void:
 	# Any host navigation away from the boot menu (mission, briefing, ending) supersedes the overlay.
-	if host != null and host.get("screen") != "menu": _dismiss(); return
+	if host != null and host.get("screen") != ("settings" if embedded_settings else "menu"): _dismiss(); return
 	if title_label == null or not is_instance_valid(title_label) or screen != "title": return
 	if FrontendSettings.reduced_motion(): drift = 0.0; title_label.modulate.a = 1.0; return
 	drift += delta
@@ -73,19 +89,32 @@ func touch_height() -> float:
 	var h = host.get("ui_touch_height") if host != null else 48.0
 	return maxf(48.0, float(h))
 func _fit_column() -> void:
+	if embedded_settings:return
 	if column == null: return
 	column.custom_minimum_size.x = clampf(size.x - 64.0, 240.0, 620.0)
 func _reset(next: String) -> void:
 	screen = next; title_label = null
+	if embedded_settings:
+		host._clear_menu();host.screen="settings"
 	for child in column.get_children(): column.remove_child(child); child.queue_free()
 	_fit_column()
 	scroll.scroll_vertical = 0
 func _text(text: String, size_px: int = 17, color: Color = Color(0, 0, 0, 0)) -> Label:
+	if embedded_settings:
+		var label=host._menu_text(text,size_px)
+		if color.a>0:label.add_theme_color_override("font_color",color)
+		return label
 	var l := Label.new(); l.text = text; l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	l.add_theme_font_size_override("font_size", roundi(size_px * FrontendSettings.text_scale()))
 	if color.a > 0: l.add_theme_color_override("font_color", color)
 	column.add_child(l); return l
 func _button(text: String, action: Callable, id: String, disabled := false) -> Button:
+	if embedded_settings:
+		var logical={"frontend_back":"back","frontend_new_campaign":"new_campaign"}.get(id,id)
+		var target=host.menu_footer if id=="frontend_back" else column
+		var control=host._button(target,text,action,logical);control.disabled=disabled
+		if target==host.menu_footer:target.show()
+		return control
 	var b := Button.new(); b.text = text; b.custom_minimum_size = Vector2(0, touch_height()); b.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	b.focus_mode = Control.FOCUS_NONE; b.disabled = disabled
 	b.set_meta("action", id); b.set_meta("ui_action", id)
@@ -106,6 +135,7 @@ func _title_screen() -> void:
 	_button("CHALLENGES", func():load("res://src/presentation/frontend/challenges_frontend.gd").show(self), "frontend_challenges", profile==Profile.UNREADABLE)
 	_button("CREDITS", _credits_screen, "frontend_credits")
 func _dismiss() -> void:
+	if save_timer!=null and not save_timer.is_stopped():save_timer.stop();_persist()
 	set_process(false)
 	if get_parent() != null: get_parent().remove_child(self)
 	queue_free()
@@ -125,7 +155,7 @@ func _new_campaign() -> void:
 		_dismiss(); host._confirm_new_campaign()
 func _settings_screen() -> void:
 	_reset("settings")
-	_button("BACK", _title_screen, "frontend_back")
+	_button("BACK TO OPERATIONS" if embedded_settings else "BACK", _return, "frontend_back")
 	_text("SETTINGS", 32, Color("80d9cf"))
 	_text("Saved on this device, separate from your campaign.", 14)
 	if not settings_store.warning.is_empty(): _text(settings_store.warning, 15, Color("efc28d"))
@@ -133,7 +163,7 @@ func _settings_screen() -> void:
 		var key: String = row[0]
 		var caption := _text("%s  %d%%" % [row[1], roundi(values[key] * 100)], 17)
 		var slider := HSlider.new(); slider.min_value = 0; slider.max_value = 1; slider.step = 0.05; slider.value = values[key]
-		slider.custom_minimum_size.y = touch_height(); slider.set_meta("ui_action", "setting_" + key); column.add_child(slider)
+		slider.custom_minimum_size.y = touch_height(); slider.set_meta("ui_action", ("volume_" if embedded_settings else "setting_") + key); column.add_child(slider)
 		slider.value_changed.connect(func(v: float): _set_value(key, v); caption.text = "%s  %d%%" % [row[1], roundi(v * 100)])
 	_text("TEXT SIZE", 17)
 	var sizes := HBoxContainer.new(); sizes.add_theme_constant_override("separation", 8); column.add_child(sizes)
@@ -142,12 +172,24 @@ func _settings_screen() -> void:
 		var b := Button.new(); b.text = "%d%%" % roundi(scale * 100); b.custom_minimum_size = Vector2(0, touch_height()); b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		b.focus_mode = Control.FOCUS_NONE; b.set_meta("ui_action", "text_scale_%d" % roundi(scale * 100)); b.toggle_mode = true; b.button_pressed = is_equal_approx(values.text_scale, scale)
 		b.pressed.connect(func(): _set_value("text_scale", scale); _settings_screen(), CONNECT_DEFERRED); sizes.add_child(b)
+	_button("MUTE: %s" % ("ON" if values.master<=0 else "OFF"),_toggle_mute,"mute")
 	for row in [["high_contrast", "HIGH CONTRAST"], ["reduced_motion", "REDUCED MOTION"], ["haptics", "HAPTICS"], ["safe_palette", "SAFE PALETTE"], ["audio_captions", "AUDIO CAPTIONS"]]:
 		var key: String = row[0]; var label: String = row[1]
 		_button("%s: %s" % [label, "ON" if values[key] else "OFF"], func(): _set_value(key, not values[key]); _settings_screen(), "setting_" + key)
+	if host.has_method("_save_archive"):
+		_button("SHOW FIRST-DIVE TIPS AGAIN",func():host.hints_seen=[];host._save_archive();_settings_screen(),"reset_tips")
 	_button("RESET TO DEFAULTS", func(): values = SettingsStore.DEFAULTS.duplicate(); _set_value("master", 1.0); _settings_screen(), "settings_reset")
 	if profile != Profile.NONE:
 		_button("ERASE PROGRESS · NEW CAMPAIGN", _new_campaign, "frontend_new_campaign")
+	if embedded_settings:host.call_deferred("_layout")
+func _toggle_mute()->void:
+	if values.master>0:unmuted_master=values.master;_set_value("master",0.)
+	else:_set_value("master",unmuted_master)
+	_settings_screen()
+func _return()->void:
+	if embedded_settings or (not operations_entry.is_empty() and screen==operations_entry):
+		_dismiss();host._show_campaign()
+	else:_title_screen()
 func _set_value(key: String, v: Variant) -> void:
 	values[key] = v
 	values = SettingsStore.sanitize(values)
@@ -158,7 +200,7 @@ func _persist() -> void:
 	settings_store.save_settings(values)
 func _credits_screen() -> void:
 	_reset("credits")
-	_button("BACK", _title_screen, "frontend_back")
+	_button("BACK", _return, "frontend_back")
 	_text("CREDITS", 32, Color("80d9cf"))
 	_text("SIREN'S SONG  /  AUDIO ATTRIBUTION", 14)
 	for line in CreditsText.lines(Soundscape.ATTRIBUTION):
@@ -168,5 +210,5 @@ func back() -> void:
 	if screen.begins_with("profile"):profile_picker.back();return
 	if screen == "challenge_details":
 		load("res://src/presentation/frontend/challenges_frontend.gd").show(self)
-	elif screen != "title":
-		_title_screen()
+	elif screen != "title" or not operations_entry.is_empty():
+		_return()
