@@ -1,7 +1,7 @@
 extends RefCounted
 # AI trace settings (roadmap Phase G). Off by default: attach() returns an empty
 # recorder while enabled is false, and sample() on it costs one is_empty() call.
-# Revert by deleting diagnostics/ai_trace*.gd, AI_TRACE.md, ai_trace_tests.gd and its suites.txt row.
+# Revert: leave enabled=false and stop explicit attachments; keep files/tests/evidence.
 static var enabled=false
 # Ring buffer caps. Oldest rows drop first; the dropped counters keep the loss visible.
 const EVENT_CAP=256

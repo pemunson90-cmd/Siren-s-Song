@@ -1,5 +1,7 @@
 extends Control
 # Read-only, receiver-earned lock cues. Never inspect the live enemy roster.
+# Visual revert: remove Main construction/refresh only; retain frames() and tests
+# because Soundscape and accessibility consume the same received-lock data.
 static func frames(sim)->Array:
  var result:Array=[]
  if sim.units.is_empty() or not sim.units[0].alive or not sim.outcome.is_empty():return result

@@ -1,4 +1,6 @@
-> **CURRENT USER ORDER:** read docs/USER_DIRECTIVES.md first. Observe Pat's cloud stop and Windows desktop handover in docs/RESUME.md. The approved full-release program remains the standing plan when Pat resumes work. Preserve accepted Pass0/V7 systems. One implementation worker and one independent integration reviewer; human playtesting never gates authorized development.
+> **Current authority:** Pat continued locally on25 October 2026 Eastern. Read USER_DIRECTIVES and RESUME; follow the live codex/handoffs board. Earlier cloud-stop prose is historical. Preserve frozen baselines and current merge/verification rules.
+
+> **Historical 23 October cloud-boundary banner, superseded by local resumption:** **Former cloud-session order:** read docs/USER_DIRECTIVES.md first. Observe Pat's cloud stop and Windows desktop handover in docs/RESUME.md. The approved full-release program remains the standing plan when Pat resumes work. Preserve accepted Pass0/V7 systems. One implementation worker and one independent integration reviewer; human playtesting never gates authorized development.
 
 # Source authority and provenance
 

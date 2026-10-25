@@ -1,4 +1,12 @@
-## 23 October 2026 (Eastern, latest): cloud stop and Windows desktop handover
+## 25 October 2026 Eastern: local continuation and reversible work
+
+Pat continued the authorized queue, asked Codex to follow guidance and reconcile stale owned documentation while working, and approved Codex taking over unfinished048 HUD and050 after its existing tasks. The live board on `codex/handoffs` owns order, claims and completion; Claude's absence does not block ordinary authorized implementation, independent review or green integration merges.
+
+Pat accepted sight-only Hunt first for050. Global Hunt may increase sight notice range; hearing, movement speed and lock timing stay unchanged. The earlier proposal to scale hearing through shared readiness is superseded. Other proposal numbers/caps remain tunable defaults for testing, not claimed human acceptance. No hearing scaling is implicitly authorized later.
+
+Make ordinary choices reversible through narrow modules, data tables, off switches and documented reverts; ask concise questions where needed and keep independent work moving while responses are pending. This does not authorize irreversible promotion, new story/art direction, SIREN TELL or unapproved protected combat/sensing changes. Phone/human testing stays deferred until feature complete and tuned. Existing no-APK, save/evidence preservation and exact-head merge gates remain.
+
+## Historical 23 October 2026 cloud stop and Windows handover (superseded by local resumption)
 
 Pat requested: finish the current task, leave the last actions in the repository, update stale documentation and prepare the move from cloud to desktop with notes for Pat, future Codex sessions and Claude Code. Pat explicitly selected **finish PR96 only, preserve the remaining handoff023 steps, then hand over and stop**. The desktop is Windows.
 
@@ -8,7 +16,7 @@ Do not continue game implementation after PR96 in this cloud session. Preserve t
 
 Pat answered "yes to everything" and asked for each to be marked so he can revert. Each item below is a self-contained module with an off switch in its data table and a revert note in its header. To revert one, set its switch off (or revert its PR) and strike its line here.
 - D1 FIRST-SIREN CUE (ops 1 to 3 only): a warning cue (sound plus bearing mark, no rule change) when a Siren first notices any craft BEFORE the 4 s lock begins. Does not change Siren sight or hearing, lock timing, or beam. Handoff 036. Switch: `first_siren_cue` enabled flag. Reverts to: lock banner is the first signal.
-- D2 EARLY MODULE REWARD: one free fitting module granted after op 1 (or op 2 if op 1 data forbids), chosen from existing modules, so Fittings is not empty through ops 1 to 3. Handoff 037. Switch: `early_reward` enabled flag. Reverts to: no grant. Stored saves keep the module; revert only stops new grants.
+- D2 EARLY MODULE REWARD (historical one-grant version, superseded by045's three grants): one free fitting module granted after op 1 (or op 2 if op 1 data forbids), chosen from existing modules, so Fittings is not empty through ops 1 to 3. Handoff 037. Switch: `early_reward` enabled flag. Reverts to: no grant. Stored saves keep the module; revert only stops new grants.
 - D3 PHOTO GRADE AT RECORD SECURED: show the quality percent and grade letter when "Record secured" appears, not only in the debrief. UI only. Claude builds it. Switch: `grade_on_secure` flag.
 - D4 DEBRIEF CAUSE LINE and the rest of FIX2 (handoff 035) approved as written.
 - D5 PHONE TESTING: Pat tests on a real phone only after the game is feature complete and bug free; then he reviews and a new Gauntlet run starts on top. No APKs and no device-test requests before then.

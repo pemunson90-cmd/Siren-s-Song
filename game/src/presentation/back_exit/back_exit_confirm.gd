@@ -1,8 +1,8 @@
 extends Node
 # BACK1 (handoff 041): double-Back to exit from the top Operations screen only.
 # FLAG: set TABLE.enabled=false to make Back on Operations inert (never quits);
-#   REVERT: remove the one seam line in main.gd _android_back and delete this
-#   folder and its test; project.godot quit_on_go_back=false then still stops
+#   REVERT: disable TABLE.enabled or remove the one Main _android_back seam;
+#   retain helper/tests. project.godot quit_on_go_back=false still stops
 #   an accidental single-Back quit.
 # Narrow seam: main.gd _android_back calls handle(host) once, after the frontend
 # overlay and before the existing one-level-back rules. Every other screen,

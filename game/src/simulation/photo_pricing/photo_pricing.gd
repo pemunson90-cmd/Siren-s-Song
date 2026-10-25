@@ -5,7 +5,9 @@ extends RefCounted
 # timed feature runs on. It never changes combat, beams, collision, damage,
 # hull, or what a Siren sees or hears; it reads those rules and reports them.
 #
-# SEAMS (remove this folder, presentation/photo_pricing/ and these lines to revert):
+# COORDINATED SEAMS (original standalone removal list, not a runtime off switch):
+# Keep shared APIs, optional-field validation and tests while later audio/depth consumers
+# depend on them. Review those consumers before a coordinated behavioral revert.
 #   photo_capture.gd     begin():  Pricing.spend(sim,uid)        film spent when an exposure starts
 #   photo_capture.gd     valid():  Pricing.valid(mission)        optional save field check
 #   simulation.gd        camera_context(): Pricing.annotate(...)  out-of-film gate and film tag
