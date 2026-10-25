@@ -72,3 +72,11 @@ Historical prospective tele-lens plan above was investigated but not selected: s
 Tender mismatch diagnosis: the first ordinary camera command can finish the required rendezvous job instead of the separately discovered optional tender row; a record-secured message and a hidden descriptor are not the optional captured objective. The live drone journey now verifies the exact target and usable film. Relay28seconds is the authored24second cycle plus dwell, unchanged. No proven row-data or flag bug, so no production changes were made.
 
 Final root import/core/fourteen rows/photo fixture and independent nonauthor exact-head review are underway. Hosted run40234636132 is pending on44a168d6. The head must not merge until both hosted jobs and attributable exact-head independent review pass. These are source-known launch-to-photo journeys, not full-operation extraction, campaign/unlock or first-exposure preference evidence.
+
+### Exact-head local acceptance,5:22PM Eastern
+
+Root and independent nonauthor /root/save043_architect each actually completed import, core836/0, fourteen journeys632/0 and existing photo fixture361/0 on44a168d610be02dbddcedd7947285a52eeaa6c4c. Each totaled1829checks/0failures; all14journeys finished hull100. Root independently checked the17 reviewer result records and every raw stdout/stderr; no script/engine/leak errors. Independent PASS is relayed, with reviewer provenance and limits, in PR144 comment6403464883. No source change followed the review.
+
+Published verified evidence: archive/codex-040-photo-journeys-windows-20261025 at7082db64. Initial diagnostic ZIP100members/96756bytes/SHA256d17f72c22312670d11e215ec0d88e79210084d3a6b28a465c0ccad1e8f5e87cb retains failures and staged probes. Final local ZIP55members/45281bytes/SHA256dc178ceb3669063b8cb8c675f2ffb7b21f9134acb8cd6f347517fa8a0682ebab contains root/reviewer rawlogs and executed runner/results. Root verified actual committed ZIP blobs, every member hash/CRC and source bytes. PROGRESS.md is labeled historical; LOCAL_ACCEPTANCE.md gives current local results and pending hosted gate.
+
+Current integration0bf42344 is contained; explicit merge was already up to date. Hosted40234636132 guidance121293793874 passed; game-smoke121293793851 is still running its broad registered matrix.040 stays CLAIMED, not DONE. No new claim while that gate is pending.
