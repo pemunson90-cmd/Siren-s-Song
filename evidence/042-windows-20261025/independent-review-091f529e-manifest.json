@@ -1,0 +1,122 @@
+{
+  "head": "091f529e723b0510bee15aaac287c3c716bc4af1",
+  "base": "01bc90b0ad3fc28a73aa8121eb30f28f19eadfca",
+  "created_utc": "2026-10-25T16:03:45.498616+00:00",
+  "review_comment": 6399876902,
+  "zip": {
+    "path": "independent-review-091f529e.zip",
+    "members": 18,
+    "bytes": 3132781,
+    "sha256": "515dd4bdde2e23a68e876de5f16650cde06ddcacf4152450d851cce3203e4244"
+  },
+  "members": [
+    {
+      "path": "final091-core.log",
+      "bytes": 825,
+      "sha256": "03b479d9acefe6a1398b6ecfa88aeeba960ecd61fd60f76d9fa0d03887493788",
+      "crc32": "acb12852"
+    },
+    {
+      "path": "final091-guidance-audit.log",
+      "bytes": 162,
+      "sha256": "4cd830a3df4cf38e7f576f271767e04bb9d037eb68589e23a911b0e324cc3f2d",
+      "crc32": "847a9ca9"
+    },
+    {
+      "path": "final091-guidance-unit.log",
+      "bytes": 114,
+      "sha256": "7fa2c3f39772ba088198b95aa567e627f67c3902377d56005c27e26c62e660a9",
+      "crc32": "e2e4305a"
+    },
+    {
+      "path": "final091-import.log",
+      "bytes": 1036,
+      "sha256": "65acd69bd526f63a72489ec5c54c56ebc2d502a2035a742c5989f021de460fd8",
+      "crc32": "952bd6bc"
+    },
+    {
+      "path": "final091-native-ui.log",
+      "bytes": 295168,
+      "sha256": "1aae0701e0756d9780f98702ccf2c7b6858b3377bde6d0e6d8dbee408f2b9e79",
+      "crc32": "1915f41f"
+    },
+    {
+      "path": "final091-registry.log",
+      "bytes": 396,
+      "sha256": "9d1d9852743c29f4ad7beef0905a6f945acff635eee182babcc3e970d934ee16",
+      "crc32": "e33a1ea6"
+    },
+    {
+      "path": "final091-source-proof.log",
+      "bytes": 334,
+      "sha256": "33484c921573a1922112b36af01e6b8f9e8a09251dc6b6732d15269751031696",
+      "crc32": "13179664"
+    },
+    {
+      "path": "final091-ui.log",
+      "bytes": 298911,
+      "sha256": "8298fb73764a2377ad8464d0e4039379de5ce36f891f4c47bfc4d7aa49c5d2f7",
+      "crc32": "02a12ab2"
+    },
+    {
+      "path": "final091-unit.log",
+      "bytes": 107,
+      "sha256": "855f5065fe7f052e533fa6b9d3897927321e9f626305cabdee61cad72581e410",
+      "crc32": "9fe20c9f"
+    },
+    {
+      "path": "final091-captures/finale-existing-credits-2184x1968.png",
+      "bytes": 649687,
+      "sha256": "2bb224434ac896c00ec7eeef4989006f5b0c26aae3134c29721d989b645fc31e",
+      "crc32": "51049ef3"
+    },
+    {
+      "path": "final091-captures/finale-existing-credits-2520x1080.png",
+      "bytes": 292469,
+      "sha256": "df8a21881a5c4f0a99c71fd1f4cb5369f634e9beb6ba9e5ee67912b16ea2f63d",
+      "crc32": "b4395d34"
+    },
+    {
+      "path": "final091-captures/finale-existing-credits-960x432.png",
+      "bytes": 76672,
+      "sha256": "dd1fdbdc225cb08ba14b36aefa1c1b20696098bce54c9a1778629f751c6ddcc0",
+      "crc32": "67bda47a"
+    },
+    {
+      "path": "final091-captures/finale-first-finale-2184x1968.png",
+      "bytes": 655039,
+      "sha256": "091d6d7f60734357f129ec0b091dd235a0e1380b3c3edbdd460f8a1975c12cc2",
+      "crc32": "d505a609"
+    },
+    {
+      "path": "final091-captures/finale-first-finale-2520x1080.png",
+      "bytes": 434626,
+      "sha256": "0e8a0ca8344ad553a8cb843e86adfad7c1c9a324454051a620600f74013cadeb",
+      "crc32": "ff744b87"
+    },
+    {
+      "path": "final091-captures/finale-first-finale-960x432.png",
+      "bytes": 131953,
+      "sha256": "aed036f5ad08843ca7f3fd64067045b97c58e4bdd6fc9087f4e71e1ef0416be0",
+      "crc32": "a4ae88af"
+    },
+    {
+      "path": "final091-captures/finale-ops-replay-2184x1968.png",
+      "bytes": 492698,
+      "sha256": "1abc7be5fc7043cd6cc1ceb9af66697359390206a9db955dc687d9aac748172c",
+      "crc32": "2f59d361"
+    },
+    {
+      "path": "final091-captures/finale-ops-replay-2520x1080.png",
+      "bytes": 342545,
+      "sha256": "14e15725bb65482a73133d407aab2bf018e81008000ff80e1ba20fe3edc37ba8",
+      "crc32": "725a6074"
+    },
+    {
+      "path": "final091-captures/finale-ops-replay-960x432.png",
+      "bytes": 127300,
+      "sha256": "7166ac5cf0b5c4e62c2cc8a230b9c377f49645425542bb8b2bce8bba37e7fa83",
+      "crc32": "af7f3908"
+    }
+  ]
+}

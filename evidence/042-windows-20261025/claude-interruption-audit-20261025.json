@@ -1,0 +1,72 @@
+{
+  "purpose": "Pat requested identification of where Claude's work stopped while Claude is out of usage. Read-only audit, not a takeover or completion claim.",
+  "audited_on": "2026-10-25, Eastern time",
+  "integration": "01bc90b0ad3fc28a73aa8121eb30f28f19eadfca",
+  "first_usage_limit": {
+    "utc": "2026-10-25T02:26:59.794Z",
+    "eastern": "2026-10-24 10:26:59 PM EDT",
+    "reported_reset": "2026-10-28 01:00 America/New_York",
+    "later_parent_activity": "Recurring orchestrator checks immediately returned the usage-limit message. No later substantive implementation message was found in this session."
+  },
+  "completed": [
+    {"handoff": "045", "feature": "Three early equipment rewards", "original_pr": 137, "batch_pr": 140},
+    {"handoff": "046", "feature": "Plain loss-cause line", "original_pr": 135, "batch_pr": 140},
+    {"handoff": "047", "feature": "Challenge completion routes and par proposal", "original_pr": 138, "batch_pr": 140},
+    {"handoff": "049", "feature": "First-Siren cue extension", "original_pr": 134, "batch_pr": 140}
+  ],
+  "completed_proof": {
+    "batch_url": "https://github.com/pemunson90-cmd/Siren-s-Song/pull/140",
+    "github_merged": true,
+    "head": "839e59b0d5cdc1fd8ea70b7ab6c6d4a1d1bedac8",
+    "merge": "246eb721534242152c243406c54193ae1e0a3d4b",
+    "ancestor_of_current_integration": true,
+    "source_diff_checked": "Batch adds/modifies early_reward, death_cause, first_siren_cue, challenge routes/tests and CHALLENGE_PARS_PROPOSAL. Existing DONE handoff records agree."
+  },
+  "unfinished": [
+    {
+      "handoff": "048",
+      "feature": "Operation-aware HUD status, ARRIVALS explanation, camera/status overlap reproduction",
+      "board_status": "CLAIMED by Claude",
+      "last_parent_action_utc": "2026-10-25T02:26:01.984Z",
+      "action": "Started background builder aff3e0247f696ea29",
+      "actual_local_branch": "claude/lane-hud-status",
+      "requested_handoff_branch": "claude/lane-hud-sameness",
+      "local_head": "246eb721534242152c243406c54193ae1e0a3d4b",
+      "local_worktree": "C:/Users/Archi/AppData/Local/Temp/claude/C--Users-Archi-Documents-Claude-Code-Homebase-C/776ddb3d-f28d-4674-aa42-6018714e952a/scratchpad/hud-status-wt",
+      "tracked_diff": "empty",
+      "untracked_non_generated_files": "none",
+      "last_builder_tool_utc": "2026-10-25T02:26:59.218Z",
+      "last_builder_tool": "Read industrial_jobs.status and glass_reach_work; no source write",
+      "builder_usage_limit_utc": "2026-10-25T02:26:59.751Z",
+      "retained_implementation_or_tests": "none",
+      "remote_hud_branch": "none found by git ls-remote --heads origin claude/lane-hud*",
+      "implementation_pr": "none found",
+      "next_step_if_authorized": "Use an owned checkout based on fresh integration, reproduce the eight sampled status cases and camera/status overlap, then implement the handoff's presentation-only module and tests. Preserve Claude's clean local worktree."
+    },
+    {
+      "handoff": "050",
+      "feature": "Hunt restore",
+      "board_status": "CLAIMED by Claude",
+      "design_pr": "https://github.com/pemunson90-cmd/Siren-s-Song/pull/114",
+      "github_design_merged": true,
+      "design_head": "8326fad0219ea6175de1218c702b9332d8529950",
+      "design_merge": "ca2bda005c2f12b87294511e4c02c3accb58dec3",
+      "design_merge_ancestor_of_current_integration": true,
+      "local_branch_found": "claude/hunt-restore-design only",
+      "implementation_branch_or_pr": "none found locally or on the remote",
+      "new_hunt_pressure_or_meter_module": "none found in current integration",
+      "parent_last_note": "At10:06PM Eastern on24October Claude described Hunt as waiting on the tracking tool and Pat's numbers. Treat that note as a statement of intent, not implemented behavior.",
+      "brief_reconciliation": "050 explicitly permits building without Phase G trace. Current integration already has diagnostics/ai_trace.gd and its tests. The Hunt document still labels its numbers as proposals for Pat to adjust. Original Pat restrictions on Siren senses and the no-touch050 assignment remain in force; this audit does not authorize changing them.",
+      "next_step_if_authorized": "Reconcile the current050 brief and Hunt design with Pat's sense/number decisions before any implementation. Do not count the merged design as a built Hunt feature."
+    }
+  ],
+  "evidence_sources": [
+    "origin/codex/handoffs:docs/codex/BOARD.md and045..050 handoffs",
+    "GitHub PR140 and114 metadata, plus git ancestry and batch source-path checks",
+    "C:/Users/Archi/.claude/projects/C--Users-Archi-Documents-Claude-Code-Homebase-C/776ddb3d-f28d-4674-aa42-6018714e952a.jsonl, filtered task-relevant text and tool metadata",
+    "Same session/subagents/agent-aff3e0247f696ea29.jsonl, all12 real tool calls:2 PowerShell and10 Bash",
+    "Read-only git status/log/for-each-ref/worktree-list in Claude's existing repositories, with GIT_OPTIONAL_LOCKS=0"
+  ],
+  "preservation": "No Claude checkout, worktree, source, branch, automation or session file was modified. No claim was reassigned. Only the separately authorized042 workflow limit was changed in Codex's own lane.",
+  "rejected_inventory_inference": "An initial subagent response incorrectly attributed Codex menu headc991a00e to a published048 branch. Root remote/local checks rejected that inference before reporting the cutoff: actual048 local head is246eb721 and no HUD remote branch exists."
+}
