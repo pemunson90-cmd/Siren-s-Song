@@ -59,6 +59,8 @@
       "design_merge": "ca2bda005c2f12b87294511e4c02c3accb58dec3",
       "design_merge_ancestor_of_current_integration": true,
       "local_branch_found": "claude/hunt-restore-design only",
+      "local_design_worktree": "C:/Users/Archi/AppData/Local/Temp/claude/C--Users-Archi-Documents-Claude-Code-Homebase-C/776ddb3d-f28d-4674-aa42-6018714e952a/scratchpad/wt-design",
+      "local_design_worktree_status_checked": "2026-10-25 12:43PM Eastern: HEAD8326fad0, tracked diff empty, no untracked non-generated files",
       "implementation_branch_or_pr": "none found locally or on the remote",
       "new_hunt_pressure_or_meter_module": "none found in current integration",
       "parent_last_note": "At10:06PM Eastern on24October Claude described Hunt as waiting on the tracking tool and Pat's numbers. Treat that note as a statement of intent, not implemented behavior.",

@@ -1,0 +1,50 @@
+{
+  "pr": 142,
+  "url": "https://github.com/pemunson90-cmd/Siren-s-Song/pull/142",
+  "merged": true,
+  "merged_at": "2026-10-25T16:59:47Z",
+  "merge": "0e1b12ca693023ad0385c22deea14f0c283d15c7",
+  "head": "091f529e723b0510bee15aaac287c3c716bc4af1",
+  "base": "01bc90b0ad3fc28a73aa8121eb30f28f19eadfca",
+  "parents": [
+    "01bc90b0ad3fc28a73aa8121eb30f28f19eadfca",
+    "091f529e723b0510bee15aaac287c3c716bc4af1"
+  ],
+  "tree": "2659f7106f6b391bdd4e731f5f831d434869c076",
+  "tested_head_tree_equal": true,
+  "remote_integration_tip_verified": true,
+  "head_branch_retained": true,
+  "workflow_run": 40209279734,
+  "jobs": [
+    {
+      "id": 121216845606,
+      "name": "guidance",
+      "conclusion": "success"
+    },
+    {
+      "id": 121216845786,
+      "name": "game-smoke",
+      "conclusion": "success",
+      "started_at": "2026-10-25T15:56:15Z",
+      "completed_at": "2026-10-25T16:58:15Z",
+      "minutes": 62
+    }
+  ],
+  "independent_review": 6399876902,
+  "root_full_log_check": {
+    "file": "ci-091-direct-20261025-165906.log",
+    "bytes": 19062834,
+    "sha256": "60333abe4b6426aec593ee541990368b8272395e508ab12a6bb609fd6bb99a77",
+    "completed_summaries": 261,
+    "error_markers": 0,
+    "last_suites": {
+      "ops_home_ui": 1472,
+      "menu_reach_ui": 309,
+      "settings_lifecycle_ui": 23,
+      "finale": 28,
+      "finale_ui": 246
+    }
+  },
+  "prior_run_cancelled_not_green": 40166837512,
+  "scope_exception": "Pat explicitly authorized existing workflow60->90 on25October2026; game/test trees and per-suite480second cap unchanged"
+}

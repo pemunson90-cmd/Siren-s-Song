@@ -1,0 +1,61 @@
+{
+  "archive": "hosted-success-40209279734.zip",
+  "archive_bytes": 4956588,
+  "archive_sha256": "27d02668b1569c9798a7bdc0f5d2046e339e5af6cba64a1a80f480be56f62666",
+  "member_count": 6,
+  "verification": "Reopened ZIP; testzip CRC and each member byte length, CRC32, SHA256 verified.",
+  "run_id": 40209279734,
+  "head": "091f529e723b0510bee15aaac287c3c716bc4af1",
+  "pr": 142,
+  "run_conclusion": "success",
+  "jobs": [
+    {
+      "id": 121216845606,
+      "name": "guidance",
+      "conclusion": "success"
+    },
+    {
+      "id": 121216845786,
+      "name": "game-smoke",
+      "conclusion": "success"
+    }
+  ],
+  "members": [
+    {
+      "name": "ci-091-direct-20261025-161725.log",
+      "bytes": 8427418,
+      "crc32": "a505e719",
+      "sha256": "a08e09827a42665e920f7ac0beb9014e7a7e2901166fe87f530341b0a33d7d0a"
+    },
+    {
+      "name": "ci-091-direct-20261025-162649.log",
+      "bytes": 12641489,
+      "crc32": "c74042fe",
+      "sha256": "06622465f2ddb4ac874f2532a4f8d68761b63036c9b4858041b393cb2a167384"
+    },
+    {
+      "name": "ci-091-direct-20261025-163648.log",
+      "bytes": 14747751,
+      "crc32": "e1a0dcd2",
+      "sha256": "d9741208b91ced4437ac52bf8ef1cc9b5d86854377fe6edb6bd88f0f8270ff6b"
+    },
+    {
+      "name": "ci-091-direct-20261025-164652.log",
+      "bytes": 14747751,
+      "crc32": "e1a0dcd2",
+      "sha256": "d9741208b91ced4437ac52bf8ef1cc9b5d86854377fe6edb6bd88f0f8270ff6b"
+    },
+    {
+      "name": "ci-091-direct-20261025-165553.log",
+      "bytes": 16854044,
+      "crc32": "9d557488",
+      "sha256": "6c5505e960f9f8a2c6754a0dfdf6638ee7621bd61c3d3eb2d01617bc5172af40"
+    },
+    {
+      "name": "ci-091-direct-20261025-165906.log",
+      "bytes": 19062834,
+      "crc32": "77955829",
+      "sha256": "60333abe4b6426aec593ee541990368b8272395e508ab12a6bb609fd6bb99a77"
+    }
+  ]
+}
