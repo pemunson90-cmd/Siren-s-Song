@@ -2,6 +2,12 @@
   "purpose": "Pat requested identification of where Claude's work stopped while Claude is out of usage. Read-only audit, not a takeover or completion claim.",
   "audited_on": "2026-10-25, Eastern time",
   "integration": "01bc90b0ad3fc28a73aa8121eb30f28f19eadfca",
+  "live_open_prs_checked_at": "2026-10-25 12:05PM Eastern, read-only installed GitHub CLI after connector search missed known open PRs",
+  "live_open_prs": [
+    {"number": 142, "head": "091f529e723b0510bee15aaac287c3c716bc4af1", "draft": false, "owner_work": "Codex042 finale"},
+    {"number": 139, "head": "7dc09ad9a0f1aaf9bdcb24b90e3edb0cb4fbb459", "draft": true, "owner_work": "Existing Codex project-ledger documentation draft"}
+  ],
+  "claude_open_implementation_prs": "none in the live open list",
   "first_usage_limit": {
     "utc": "2026-10-25T02:26:59.794Z",
     "eastern": "2026-10-24 10:26:59 PM EDT",
