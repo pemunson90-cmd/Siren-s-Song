@@ -1,5 +1,9 @@
 # OPS HOME current-base supplement, 24 October 2026 Eastern
 
+Historicalc4 candidate. Hosted40146677446 failed FIX2 CAMERA UI62/2, both menu
+button48dp assertions. Exact local reproduction preceded the caec minimum-width
+repair. See README-caec.md; this older packet and its local results remain intact.
+
 PR136 headc4ecbe902891592e95c67388b7d2a6b5a5fa74ee,
 base3d38d4b3d771a1f6acce12e7ce3f71920c3419b3. Merge parents117e42f4 and3d38d4b3.
 PR133's existing performance work is preserved. Owned production and affected UI

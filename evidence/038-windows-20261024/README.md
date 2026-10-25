@@ -1,6 +1,7 @@
 # OPS HOME evidence, 24 October 2026 Eastern
 
-Current local candidate: c4ecbe90. See README-c4.md for the current-base supplement.
+Current local candidate: caec5c3b. See README-caec.md for the touch-bounds repair.
+The c4 candidate failed its hosted camera/menu size check; all older proof remains.
 Hosted gates remain required. Older candidate packets and their failures remain.
 
 Historical315 candidate below. Superseded by117e42f4 and README-117.md.
