@@ -26,6 +26,7 @@ var title_label: Label
 # Embedded settings keep Operations' sticky Back and archive warning region.
 var embedded_settings=false
 var operations_entry=""
+var settings_dirty=false
 func setup_settings(main:Control)->void:
 	host=main;embedded_settings=true;name="Frontend"
 	settings_store.path=host.settings_path;values=FrontendSettings.current.duplicate(true)
@@ -134,7 +135,7 @@ func _title_screen() -> void:
 	_button("CHALLENGES", func():load("res://src/presentation/frontend/challenges_frontend.gd").show(self), "frontend_challenges", profile==Profile.UNREADABLE)
 	_button("CREDITS", _credits_screen, "frontend_credits")
 func _dismiss() -> void:
-	if save_timer!=null and not save_timer.is_stopped():save_timer.stop();_persist()
+	_flush_pending()
 	set_process(false)
 	if get_parent() != null: get_parent().remove_child(self)
 	queue_free()
@@ -193,6 +194,7 @@ func _set_value(key: String, v: Variant) -> void:
 	var previous_master=float(values.master)
 	values[key] = v
 	values = SettingsStore.sanitize(values)
+	settings_dirty=true
 	# Keep the last audible level across renderer recreation in this session.
 	# No settings/save key: master remains the only persisted volume source.
 	if key=="master":
@@ -202,7 +204,16 @@ func _set_value(key: String, v: Variant) -> void:
 	if save_timer.is_inside_tree(): save_timer.start()
 	else: _persist()
 func _persist() -> void:
-	settings_store.save_settings(values)
+	settings_dirty=not settings_store.save_settings(values)
+func _flush_pending()->void:
+	if not settings_dirty:return
+	if is_instance_valid(save_timer):save_timer.stop()
+	_persist()
+func _exit_tree()->void:
+	# Timers stop as their parent exits; keep the last visible choice on disk.
+	_flush_pending()
+func _notification(what:int)->void:
+	if what in [NOTIFICATION_APPLICATION_PAUSED,NOTIFICATION_APPLICATION_FOCUS_OUT,NOTIFICATION_WM_WINDOW_FOCUS_OUT]:_flush_pending()
 func _credits_screen() -> void:
 	_reset("credits")
 	_button("BACK", _return, "frontend_back")
