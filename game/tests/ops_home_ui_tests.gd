@@ -30,6 +30,8 @@ func home_case(shape, recovered, scale):
   await RenderingServer.frame_post_draw
   check(root.get_texture().get_image().save_png(capture+"/home-%02d-%dx%d.png"%[recovered,shape.x,shape.y])==OK,"native large-text home captured")
  check(button(game,"new_campaign")==null,"erase is absent from Operations")
+ for control in game.panel_box.find_children("*","Button",true,false):
+  check(control.size.x>=game.ui_touch_height and control.size.y>=game.ui_touch_height,"all home buttons retain touch bounds even while folded")
  var fold=button(game,"recovered_fold")
  var shown_recovered=mini(recovered,6)
  for id in game.ExpeditionCampaign.available(game.completed,game.expedition):

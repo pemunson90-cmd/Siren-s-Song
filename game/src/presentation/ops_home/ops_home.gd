@@ -69,5 +69,8 @@ static func arrange(host)->void:
   var stock_fold=host._button(host.panel_box,"LAUNCH DETAILS / LOADOUT",func():stock.visible=not stock.visible;host.set_meta("ops_home_details_open",stock.visible);host.call_deferred("_layout"),"launch_details")
   for node in details:node.reparent(stock)
   host.panel_box.move_child(stock_fold,start);host.panel_box.move_child(stock,start+1);stock.visible=host.get_meta("ops_home_details_open",false)
+ # Folded controls must retain a full touch-sized minimum before first layout.
+ for control in host.panel_box.find_children("*","Button",true,false):
+  control.custom_minimum_size.x=maxf(control.custom_minimum_size.x,host.ui_touch_height)
 static func settings_entry(host)->void:
  if Table.enabled and not host._campaign_pristine():host._button(host.panel_box,"ERASE PROGRESS · NEW CAMPAIGN",host._confirm_new_campaign,"new_campaign")
