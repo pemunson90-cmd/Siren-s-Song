@@ -2,6 +2,7 @@ extends SceneTree
 # Focused touch journey for shared title settings and Operations navigation.
 const FrontSettings=preload("res://src/presentation/frontend/frontend_settings.gd")
 const SettingsStore=preload("res://src/persistence/settings_store.gd")
+const ReachTable=preload("res://src/presentation/frontend/menu_reach_table.gd")
 var checks=0
 var failures=0
 func check(ok,label):
@@ -179,6 +180,23 @@ func shape_case(shape):
 	check(game.screen=="menu" and game.get_node_or_null("Frontend")==null,"Android Back from direct Title restores unobscured Operations")
 	await press(game,"menu_credits");await escape_key()
 	check(game.screen=="menu" and game.get_node_or_null("Frontend")==null,"Escape from direct Credits restores unobscured Operations")
+	await press(game,"settings")
+	var pending=game.get_node_or_null("Frontend")
+	if pending!=null:
+		# Hold only this fixture's debounce open so the dismissal boundary is
+		# deterministic even on slow software renderers; input is still real touch.
+		pending.save_timer.wait_time=60.
+		await press(game,"setting_reduced_motion")
+		var chosen=FrontSettings.current.reduced_motion
+		check(not pending.save_timer.is_stopped(),"touch leaves a pending settings save before Back")
+		await android_back()
+		var persisted=SettingsStore.new();persisted.path=settings_path
+		check(persisted.load_settings().reduced_motion==chosen,"Back flushes a pending setting without waiting for debounce")
+	ReachTable.enabled=false;game._show_campaign();await settle()
+	check(button(game,"menu_title")==null and button(game,"menu_challenges")==null and button(game,"menu_credits")==null,"off switch removes the new navigation entries")
+	await press(game,"settings")
+	check(button(game,"text_scale_115")==null and control(game,"volume_master")==null and button(game,"back")!=null,"off switch restores legacy settings routing")
+	await android_back();ReachTable.enabled=true;game._show_campaign();await settle()
 	for b in game.find_children("*","Button",true,false):
 		if b.is_visible_in_tree() and b.get_meta("ui_action","") in ["settings","menu_title","menu_challenges","menu_credits"]:
 			check(b.get_global_rect().size.y>=game.ui_touch_height-1,"Operations control meets host density touch target: "+str(b.get_meta("ui_action")))
