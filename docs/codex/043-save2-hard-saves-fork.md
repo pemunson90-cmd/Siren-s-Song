@@ -1,10 +1,10 @@
 # Handoff 043: SAVE2, hard saves, fork save states, and a truthful ending screen
 
-Status: CLAIMED
+Status: DONE
 Assigned to: codex (Pat split the queue 24 Oct; Codex takes this when Pat says continue)
 Claimed at: 2026-10-25 17:03:24 UTC
 Claimed by: codex
-Finished at:
+Finished at: 2026-10-25 19:46:52 UTC
 
 Precondition: handoff 030 (SAVE1 profiles, copy/clear, export/import) DONE, because this builds on its profile and archive handling. Pat decided 24 Oct: yes to replaying endings without erasing, using "save states and hard saves" (cold review 3 finding F3).
 Codex may merge: yes, into claude/integration only, after GitHub guidance and game-smoke are both green on the exact head and the PR is mergeable. Merge with a merge commit, then mark DONE and update docs/codex/BOARD.md.
@@ -36,7 +36,17 @@ By real touch at both Fold7 shapes: save to a slot, change the campaign, load th
 PR into claude/integration. Merge per the line above; mark DONE and update the board.
 
 ## Completion
-(Codex fills this in.)
+Merged [PR143](https://github.com/pemunson90-cmd/Siren-s-Song/pull/143) on25October2026 at3:46:52PM Eastern. Merge0bf4234460b5a2a179ce156aec6e2438597ae0fd has parents current integration0e1b12ca and approved source080add0a1b357e7c9758b317cbdfaadcf20d3f1e. GitHub merged=true, fetched integration tip, exact parents and tree6cfea5e5ec973af0623050569351002b76dfbe2c were verified; the tree equals the tested source. The lane branch remains intact.
+
+Three named between-dive hard saves and four chronological pre-choice fork states are available through Operations/ending UI. Snapshot name, last recorded recovery, recovery count including replays and timestamp are displayed. Legacy or disabled tracking gaps are labeled minimum/unknown honestly. Confirmed LOAD restores the full archive exactly in a fresh host. Later film/fittings/progress are replaced, not merged: existing validators couple those fields and no safe general merge API exists. The UI states this. Saved states stay with the physical profile slot; SAVE1 packages retain their four-file contract. Default erase preserves states; an unchecked second option explicitly clears them. Oversized unreadable originals are retained by rename when clearing a slot, with truthful notice. Already recovered ending continuations are hidden and the legacy outcome is labeled FIRST ENDING when the later photo ending exists. Ending decisions are unchanged.
+
+Exact080add0a [independent non-author approval6401867249](https://github.com/pemunson90-cmd/Siren-s-Song/pull/143#issuecomment-6401867249) actually ran14 executions and3554 checks, all exit0 and strict-clean: core836; storage194; forks55; native SAVE2 UI328; profiles68+cold3; FIX2 save12/state10/native save UI4; native profile168/ending42/menu309/Settings23/Operations1502. Import, whitespace and registry261 passed. Root reread all raw logs and unchanged source. Both Fold shapes and150percent text were exercised, including actual first-ending launch/debrief, exact film/fitting restore, active-dive refusal, cancel/Android Back, default erase and explicit deletion, cold blocked startup and off/on unfinished Resume.
+
+Hosted [40223499332](https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/40223499332) completed successfully at exact080add0a. Guidance121259977835 and game-smoke121259978065 are green. The full19775156-byte game aggregate has264 completed summaries and17001 reported checks, zero numeric failures/runtime errors/leaks; final SAVE2 results194/0,55/0,328/0 match. One echoed shell grep expression contains literal error-regex words and is command text, not a runtime error. Current integration was freshly fetched and confirmed contained immediately before the merge.
+
+Final evidence [5c241628](https://github.com/pemunson90-cmd/Siren-s-Song/tree/5c241628/evidence/043-windows-20261025) preserves225 local log/result/probe/command/image members, all six cancelled WIP hosted runs and the complete20-member successful hosted ZIP. Root verified actual committed ZIP blobs, every member size/SHA256 and CRC. Hosted ZIP2284269bytes SHA25672bb9338010a764bc70f17d787f961f517b0cd2c8c54f7ef4b3628ae1b1d100d. Local ZIP32179500bytes SHA25692e356271e43239439441501992726ed8f3eaf5d91c87da14bd07debedf2c0bd. Both rejected review heads, aborted runs, RED fixtures, rejected double-tap theory and removed acknowledgement bypass remain evidence. The cold-start bootstrap and off/on Resume blockers were reproduced and fixed before approval. Image provenance distinguishes36 historical/layout captures from current native328/0 execution.
+
+Reconciled the owned handoff and BOARD row together. Dated progress and planning below are historical, superseded by this closeout; original failures and limits remain. No full local scenario matrix, APK, physical-device/human test, phone request, promotion or branch deletion. Revert through save2_table.enabled=false while retaining existing fields/files and pending transaction recovery. Simulation, senses/timing, combat, camera, hull/damage and story were not changed. Next authorized handoff:040.
 
 ### In progress, 25 October 2026, 3:09 PM Eastern
 
