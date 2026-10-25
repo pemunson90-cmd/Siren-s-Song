@@ -1,9 +1,9 @@
 # Handoff 048: HUD SAMENESS, operation-aware status text and an explained ARRIVALS button
 
-Status: OPEN
+Status: CLAIMED
 Assigned to: codex (Pat reassigned 25 October2026 Eastern, after040 and033)
-Claimed at:
-Claimed by:
+Claimed at: 2026-10-25 23:51:10 UTC
+Claimed by: codex
 Finished at:
 
 Precondition: none; if handoff 023 or 038 still holds mission_hud.gd or main.gd, wait for it. Source: docs/design/COLD_REVIEW_3.md finding F14 (low confidence, first frame only). Presentation only.
