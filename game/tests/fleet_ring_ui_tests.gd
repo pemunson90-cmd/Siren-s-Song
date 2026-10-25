@@ -32,6 +32,7 @@ func row(fleet,id:int)->Dictionary:
 func menu_tap(game,action:String):
  var controls=game.panel_box.find_children("*","Button",true,false)+game.menu_footer.find_children("*","Button",true,false)
  var button=controls.filter(func(b):return b.get_meta("action","")==action)[0]
+ if action=="loadout" and not button.is_visible_in_tree():await menu_tap(game,"launch_details")
  if game.scroll.is_ancestor_of(button):game.scroll.ensure_control_visible(button);await settle()
  await tap(button.get_global_rect().get_center())
 func stock_reference(game):

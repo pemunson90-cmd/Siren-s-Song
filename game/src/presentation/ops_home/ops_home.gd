@@ -2,7 +2,8 @@ extends RefCounted
 # OPS HOME: rearrange existing menu controls, retaining launch callbacks/guards.
 # Seams: CampaignFlow.show_campaign and Main._settings_menu (erase entry only).
 # Revert: Table.enabled=false restores the old list and its erase entry.
-# No progression, simulation or save writes. Fold lifetime is one home visit.
+# No progression, simulation or save writes. Recovered fold resets each visit;
+# launch-detail preference lasts the session so comparisons retain their place.
 const Table=preload("res://src/presentation/ops_home/ops_home_table.gd")
 static func action(node)->String:
  return str(node.get_meta("ui_action",node.get_meta("action","")))
@@ -65,8 +66,8 @@ static func arrange(host)->void:
   if action(node)=="loadout":break
  if start>=0:
   var stock=VBoxContainer.new();stock.add_theme_constant_override("separation",Table.GAP);host.panel_box.add_child(stock)
-  var stock_fold=host._button(host.panel_box,"LAUNCH DETAILS / LOADOUT",func():stock.visible=not stock.visible;host.call_deferred("_layout"),"launch_details")
+  var stock_fold=host._button(host.panel_box,"LAUNCH DETAILS / LOADOUT",func():stock.visible=not stock.visible;host.set_meta("ops_home_details_open",stock.visible);host.call_deferred("_layout"),"launch_details")
   for node in details:node.reparent(stock)
-  host.panel_box.move_child(stock_fold,start);host.panel_box.move_child(stock,start+1);stock.hide()
+  host.panel_box.move_child(stock_fold,start);host.panel_box.move_child(stock,start+1);stock.visible=host.get_meta("ops_home_details_open",false)
 static func settings_entry(host)->void:
  if Table.enabled and not host._campaign_pristine():host._button(host.panel_box,"ERASE PROGRESS · NEW CAMPAIGN",host._confirm_new_campaign,"new_campaign")

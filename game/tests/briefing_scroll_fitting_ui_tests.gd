@@ -36,7 +36,7 @@ func fitting(slot:String):
   if control is Button and control.get_meta("action","")=="fit_"+slot and "Drone deep cells" in control.text:return control
  return null
 func action(id:String):
- for control in game.panel_box.get_children()+game.menu_footer.get_children():
+ for control in game.menu.find_children("*","Button",true,false):
   if control is Button and control.get_meta("action","")==id:return control
  return null
 func expose_fittings():
@@ -46,6 +46,12 @@ func expose_fittings():
   await drag(start,Vector2(start.x,area.position.y+30))
 func change_loadout(label:String):
  game._show_campaign();await settle()
+ if not action("loadout").is_visible_in_tree():
+  for n in 8:
+   if game.scroll.get_global_rect().encloses(action("launch_details").get_global_rect()):break
+   var area=game.scroll.get_global_rect();var start=Vector2(area.get_center().x,area.end.y-20)
+   await drag(start,Vector2(start.x,area.position.y+30))
+  await tap(action("launch_details").get_global_rect().get_center())
  for n in 8:
   if game.scroll.get_global_rect().encloses(action("loadout").get_global_rect()):break
   var area=game.scroll.get_global_rect();var start=Vector2(area.get_center().x,area.end.y-20)

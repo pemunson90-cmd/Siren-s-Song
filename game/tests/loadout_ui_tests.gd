@@ -50,7 +50,7 @@ func run():
 		check(game.sim.snapshot()==active,"cycling next-dive choice preserves spent resources and paused route")
 		print("CHOICE ",choice," expected=",expected," active=",game.sim.tools," labels=",text)
 		if choice!="survey":
-			await click(button("loadout"));await click(button("launch_details"))
+			await click(button("loadout"))
 	var effects=copy();var d=starts.disruption;d.sirens[0].pos=d.units[0].pos+Vector2(100,0);d.command("emp");var survey=starts.survey;survey.command("recon")
 	check("12s" in effects and d.sirens[0].stun==12,"advertised disruption duration matches actual command effect")
 	check("8s" in effects and "audible" in effects and survey.recon_time==8 and survey.noises.any(func(n):return n.label=="RECON UPLINK"),"advertised survey duration and emission match actual command")
