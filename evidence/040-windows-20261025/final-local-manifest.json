@@ -1,0 +1,404 @@
+{
+  "head": "44a168d610be02dbddcedd7947285a52eeaa6c4c",
+  "base": "0bf4234460b5a2a179ce156aec6e2438597ae0fd",
+  "root_checks": 1829,
+  "independent_checks": 1829,
+  "new_journey_checks": 632,
+  "all14_hull100": true,
+  "independent_reviewer": "/root/save043_architect",
+  "independent_review_comment": 6403464883,
+  "archive_size": 45281,
+  "archive_sha256": "dc178ceb3669063b8cb8c675f2ffb7b21f9134acb8cd6f347517fa8a0682ebab",
+  "member_count": 55,
+  "members": [
+    {
+      "member": "root-final/root44-bell_name.log",
+      "size": 2635,
+      "sha256": "0b47ac260df3595808de234e87de45c7e3a983bb823a1104bc2ae829b56e80d3",
+      "crc32": "d8eab28e",
+      "source": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\root44-bell_name.log"
+    },
+    {
+      "member": "root-final/root44-boat_keel.log",
+      "size": 1998,
+      "sha256": "c43abd99d351b7684459560979f7c3c1157d3df27b4319f105b7c3391a76fa38",
+      "crc32": "77280482",
+      "source": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\root44-boat_keel.log"
+    },
+    {
+      "member": "root-final/root44-buoy_blind.log",
+      "size": 2639,
+      "sha256": "793b5be12fdbe5f7a5c8267a492b0302729b55c784fa691c8a880712881a008b",
+      "crc32": "201836bf",
+      "source": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\root44-buoy_blind.log"
+    },
+    {
+      "member": "root-final/root44-bus_cable.log",
+      "size": 2458,
+      "sha256": "db59ab7d0cddac51e702286ccb2d4d20a2ceb8d23791fbe7cdcf84b4cfa0ec15",
+      "crc32": "7775dc55",
+      "source": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\root44-bus_cable.log"
+    },
+    {
+      "member": "root-final/root44-core.log",
+      "size": 825,
+      "sha256": "03b479d9acefe6a1398b6ecfa88aeeba960ecd61fd60f76d9fa0d03887493788",
+      "crc32": "acb12852",
+      "source": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\root44-core.log"
+    },
+    {
+      "member": "root-final/root44-feed_room.log",
+      "size": 2455,
+      "sha256": "85cd05404a83f359fc6394ddbac5d67002a858256a6197539e162bee9dd50f05",
+      "crc32": "e1e29b8d",
+      "source": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\root44-feed_room.log"
+    },
+    {
+      "member": "root-final/root44-import.log",
+      "size": 1318,
+      "sha256": "ea8336327a8a428e80266d5edcbd6906d3de7b94faf9954f9a10d7e7e23d7030",
+      "crc32": "9dbfd211",
+      "source": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\root44-import.log"
+    },
+    {
+      "member": "root-final/root44-keel_mark.log",
+      "size": 2655,
+      "sha256": "a80f2494854260bd7319c948550102ffd0758cfdb6902325a741b7cdef925106",
+      "crc32": "8838a161",
+      "source": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\root44-keel_mark.log"
+    },
+    {
+      "member": "root-final/root44-locker_latch.log",
+      "size": 2829,
+      "sha256": "2a0d757d86d03eefd88515d0bf6b38a0f476a526a8e2cdecb9bbcbdc8687f30f",
+      "crc32": "e89e310f",
+      "source": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\root44-locker_latch.log"
+    },
+    {
+      "member": "root-final/root44-relay_blink.log",
+      "size": 3558,
+      "sha256": "ef6f1261fb908d928c8b1157566ea9d3090b8d46c9140363a894e92f428d1caf",
+      "crc32": "0fd21861",
+      "source": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\root44-relay_blink.log"
+    },
+    {
+      "member": "root-final/root44-rows.log",
+      "size": 121,
+      "sha256": "4933430cc0e4c47002dea297d1b56af3f21746695945d7f5ac9b92ed1a787f00",
+      "crc32": "9cb64694",
+      "source": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\root44-rows.log"
+    },
+    {
+      "member": "root-final/root44-shutter_order.log",
+      "size": 2072,
+      "sha256": "409e5818db92c80712607bd4bb64e586fa011ba0408d1d567603abb06bc4511a",
+      "crc32": "bcb741cb",
+      "source": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\root44-shutter_order.log"
+    },
+    {
+      "member": "root-final/root44-slide_mark.log",
+      "size": 2304,
+      "sha256": "64684a6da9e2b047c70ce80544881cd0535a15199d58f2aa4b055d74311cc25a",
+      "crc32": "d42d5773",
+      "source": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\root44-slide_mark.log"
+    },
+    {
+      "member": "root-final/root44-spindle_wear.log",
+      "size": 2338,
+      "sha256": "c94f5148b94d023fbf14ebba05ff5dbb5435126ab28882c073625af01e643e19",
+      "crc32": "ec928321",
+      "source": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\root44-spindle_wear.log"
+    },
+    {
+      "member": "root-final/root44-structure_edge.log",
+      "size": 4776,
+      "sha256": "d9701c1b1b0f38b010b91b69e188c7758013d143ef196e18bba47b6a0099405b",
+      "crc32": "ed009743",
+      "source": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\root44-structure_edge.log"
+    },
+    {
+      "member": "root-final/root44-tender_door.log",
+      "size": 3006,
+      "sha256": "8e29b347f17b57f6e6b5d173dae2798256ad25f30e72479bf0fead7c8db5a323",
+      "crc32": "ae1d136c",
+      "source": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\root44-tender_door.log"
+    },
+    {
+      "member": "root-final/root44-vane_crack.log",
+      "size": 1969,
+      "sha256": "4d8988fe1173e026774f8cb371ded687867eb3382f7f604ca122fb78cfac9078",
+      "crc32": "2c588134",
+      "source": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\root44-vane_crack.log"
+    },
+    {
+      "member": "root-final/root-final-verification.json",
+      "size": 5364,
+      "sha256": "927e1aa65acc6edc3a1087d5ffe4c01e6167ee402819a4015440509f1ec9302b",
+      "crc32": "d7747056",
+      "source": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\root-final-verification.json"
+    },
+    {
+      "member": "independent-final/audit.log",
+      "size": 813,
+      "sha256": "ae94d5c6f7d5cb983dfb70ceb54ff00e57dd8759ad258038bb3220ec9b86532c",
+      "crc32": "c669e645",
+      "source": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\reviewer44a\\audit.log"
+    },
+    {
+      "member": "independent-final/campaign_photo_rows_tests.log",
+      "size": 118,
+      "sha256": "21015b1c641ee72b259eaac777f976c895aeccce3a572465d67dff437d0e8a95",
+      "crc32": "635246c0",
+      "source": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\reviewer44a\\campaign_photo_rows_tests.log"
+    },
+    {
+      "member": "independent-final/campaign_photo_rows_tests.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "crc32": "00000000",
+      "source": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\reviewer44a\\campaign_photo_rows_tests.stderr.log"
+    },
+    {
+      "member": "independent-final/import.log",
+      "size": 1033,
+      "sha256": "7a030ddcfcf35f3331e771a5e84c6d3b942a946072166ab1b5676c685e3bf1df",
+      "crc32": "40afe4e2",
+      "source": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\reviewer44a\\import.log"
+    },
+    {
+      "member": "independent-final/import.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "crc32": "00000000",
+      "source": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\reviewer44a\\import.stderr.log"
+    },
+    {
+      "member": "independent-final/photo_row_bell_name_journey_tests.log",
+      "size": 2614,
+      "sha256": "b346005106b1d881b76adfcd89f7a1e1a2db5f419d2be8521a0d0c1818e9da25",
+      "crc32": "a8e3a4a1",
+      "source": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\reviewer44a\\photo_row_bell_name_journey_tests.log"
+    },
+    {
+      "member": "independent-final/photo_row_bell_name_journey_tests.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "crc32": "00000000",
+      "source": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\reviewer44a\\photo_row_bell_name_journey_tests.stderr.log"
+    },
+    {
+      "member": "independent-final/photo_row_boat_keel_journey_tests.log",
+      "size": 1985,
+      "sha256": "f16ef10066aee945b5ffa443e2a9e4c4903af613b42259ecd4c4fd163ad2fbc5",
+      "crc32": "2105b5a6",
+      "source": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\reviewer44a\\photo_row_boat_keel_journey_tests.log"
+    },
+    {
+      "member": "independent-final/photo_row_boat_keel_journey_tests.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "crc32": "00000000",
+      "source": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\reviewer44a\\photo_row_boat_keel_journey_tests.stderr.log"
+    },
+    {
+      "member": "independent-final/photo_row_buoy_blind_journey_tests.log",
+      "size": 2618,
+      "sha256": "bd2afb4acfc57ae3c069d0fdb9882c97a17d38842f855b5517e96a9e81071782",
+      "crc32": "d0ea22b2",
+      "source": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\reviewer44a\\photo_row_buoy_blind_journey_tests.log"
+    },
+    {
+      "member": "independent-final/photo_row_buoy_blind_journey_tests.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "crc32": "00000000",
+      "source": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\reviewer44a\\photo_row_buoy_blind_journey_tests.stderr.log"
+    },
+    {
+      "member": "independent-final/photo_row_bus_cable_journey_tests.log",
+      "size": 2439,
+      "sha256": "fa3f906a06e6a9c7c7772d09604717f0882c3cc20fb9207c1fac69dcee4f49c9",
+      "crc32": "426152e0",
+      "source": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\reviewer44a\\photo_row_bus_cable_journey_tests.log"
+    },
+    {
+      "member": "independent-final/photo_row_bus_cable_journey_tests.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "crc32": "00000000",
+      "source": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\reviewer44a\\photo_row_bus_cable_journey_tests.stderr.log"
+    },
+    {
+      "member": "independent-final/photo_row_feed_room_journey_tests.log",
+      "size": 2436,
+      "sha256": "1063b3ede0cf419eea3eff55086d31cd76835a550c5b0407220161656e13411d",
+      "crc32": "d8f5e5f4",
+      "source": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\reviewer44a\\photo_row_feed_room_journey_tests.log"
+    },
+    {
+      "member": "independent-final/photo_row_feed_room_journey_tests.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "crc32": "00000000",
+      "source": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\reviewer44a\\photo_row_feed_room_journey_tests.stderr.log"
+    },
+    {
+      "member": "independent-final/photo_row_keel_mark_journey_tests.log",
+      "size": 2634,
+      "sha256": "d2bbfeb6bfd5bb3968fb94bde31269d3d90698a1df462613b27e357d9d2a59dc",
+      "crc32": "94e8a45c",
+      "source": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\reviewer44a\\photo_row_keel_mark_journey_tests.log"
+    },
+    {
+      "member": "independent-final/photo_row_keel_mark_journey_tests.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "crc32": "00000000",
+      "source": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\reviewer44a\\photo_row_keel_mark_journey_tests.stderr.log"
+    },
+    {
+      "member": "independent-final/photo_row_locker_latch_journey_tests.log",
+      "size": 2806,
+      "sha256": "e9ea20c6d464ccc4270176fcbac68cce2bf9593477b84859faf10f1f41c6d7bc",
+      "crc32": "a8768104",
+      "source": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\reviewer44a\\photo_row_locker_latch_journey_tests.log"
+    },
+    {
+      "member": "independent-final/photo_row_locker_latch_journey_tests.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "crc32": "00000000",
+      "source": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\reviewer44a\\photo_row_locker_latch_journey_tests.stderr.log"
+    },
+    {
+      "member": "independent-final/photo_row_relay_blink_journey_tests.log",
+      "size": 3529,
+      "sha256": "ca410e7956924740671b8650ab09ab956d1856a0d6ba507755ee8362daf6e8f3",
+      "crc32": "440ea906",
+      "source": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\reviewer44a\\photo_row_relay_blink_journey_tests.log"
+    },
+    {
+      "member": "independent-final/photo_row_relay_blink_journey_tests.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "crc32": "00000000",
+      "source": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\reviewer44a\\photo_row_relay_blink_journey_tests.stderr.log"
+    },
+    {
+      "member": "independent-final/photo_row_shutter_order_journey_tests.log",
+      "size": 2059,
+      "sha256": "dd22baf8e31429b1f6384201d025cefcc5810da7cafec8eef2e8755362935b11",
+      "crc32": "26121dff",
+      "source": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\reviewer44a\\photo_row_shutter_order_journey_tests.log"
+    },
+    {
+      "member": "independent-final/photo_row_shutter_order_journey_tests.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "crc32": "00000000",
+      "source": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\reviewer44a\\photo_row_shutter_order_journey_tests.stderr.log"
+    },
+    {
+      "member": "independent-final/photo_row_slide_mark_journey_tests.log",
+      "size": 2287,
+      "sha256": "00b6a9a90b35e3c694a5d345365fcae9106c9cae429c5d68495b31258410fecf",
+      "crc32": "57d9ee0f",
+      "source": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\reviewer44a\\photo_row_slide_mark_journey_tests.log"
+    },
+    {
+      "member": "independent-final/photo_row_slide_mark_journey_tests.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "crc32": "00000000",
+      "source": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\reviewer44a\\photo_row_slide_mark_journey_tests.stderr.log"
+    },
+    {
+      "member": "independent-final/photo_row_spindle_wear_journey_tests.log",
+      "size": 2321,
+      "sha256": "c8d99f8328cd4806a4c30fda7018f026575cf59e2f5328a0d9b663e8211f3c11",
+      "crc32": "0d9c97df",
+      "source": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\reviewer44a\\photo_row_spindle_wear_journey_tests.log"
+    },
+    {
+      "member": "independent-final/photo_row_spindle_wear_journey_tests.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "crc32": "00000000",
+      "source": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\reviewer44a\\photo_row_spindle_wear_journey_tests.stderr.log"
+    },
+    {
+      "member": "independent-final/photo_row_structure_edge_journey_tests.log",
+      "size": 4731,
+      "sha256": "7ddb265c4893d8d9042d5286d1cf6e2e6c8a94555cdec345b38d83208dda09a4",
+      "crc32": "8aa2f158",
+      "source": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\reviewer44a\\photo_row_structure_edge_journey_tests.log"
+    },
+    {
+      "member": "independent-final/photo_row_structure_edge_journey_tests.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "crc32": "00000000",
+      "source": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\reviewer44a\\photo_row_structure_edge_journey_tests.stderr.log"
+    },
+    {
+      "member": "independent-final/photo_row_tender_door_journey_tests.log",
+      "size": 2981,
+      "sha256": "00377b83b7418c9b4fbad49bd33a875625e86379f6959be190ea5ac2e61ca6c0",
+      "crc32": "becea5f3",
+      "source": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\reviewer44a\\photo_row_tender_door_journey_tests.log"
+    },
+    {
+      "member": "independent-final/photo_row_tender_door_journey_tests.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "crc32": "00000000",
+      "source": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\reviewer44a\\photo_row_tender_door_journey_tests.stderr.log"
+    },
+    {
+      "member": "independent-final/photo_row_vane_crack_journey_tests.log",
+      "size": 1956,
+      "sha256": "006f921bccce5ce6d6be945ee9ff4ce7cdcaa3ed83f066a537944354dcc60266",
+      "crc32": "f4e0e312",
+      "source": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\reviewer44a\\photo_row_vane_crack_journey_tests.log"
+    },
+    {
+      "member": "independent-final/photo_row_vane_crack_journey_tests.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "crc32": "00000000",
+      "source": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\reviewer44a\\photo_row_vane_crack_journey_tests.stderr.log"
+    },
+    {
+      "member": "independent-final/results.json",
+      "size": 18010,
+      "sha256": "52ea2d7bb2c0c452f7ad0f6f8aac3a6f1f94c1e15a9d6f53953a6bb2bf90904c",
+      "crc32": "569b722f",
+      "source": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\reviewer44a\\results.json"
+    },
+    {
+      "member": "independent-final/run.ps1",
+      "size": 2775,
+      "sha256": "19105da124ca4fc9ab2dcec6c553bc75cc7d745e3831c54288aae232f74d41d7",
+      "crc32": "ddce4517",
+      "source": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\reviewer44a\\run.ps1"
+    },
+    {
+      "member": "independent-final/run_tests.log",
+      "size": 822,
+      "sha256": "fae1d57f8c90dc6971b32b6843c110a688a1e6cd973c9f9ad58141992ef0f62c",
+      "crc32": "0d2ae302",
+      "source": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\reviewer44a\\run_tests.log"
+    },
+    {
+      "member": "independent-final/run_tests.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "crc32": "00000000",
+      "source": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\040-evidence\\reviewer44a\\run_tests.stderr.log"
+    }
+  ],
+  "pending": [
+    "hosted game-smoke40234636132",
+    "merge"
+  ]
+}
