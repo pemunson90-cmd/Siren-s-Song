@@ -247,6 +247,8 @@ art_render_measurements|ART RENDER|-|233|render
 ops_home_ui_tests|OPS HOME UI|240|260|render
 menu_reach_ui_tests|MENU REACH UI|241|261|render
 settings_lifecycle_ui_tests|SETTINGS LIFECYCLE UI|242|262|render
+finale_provisional_tests|FINALE|243|263
+finale_provisional_ui_tests|FINALE UI|244|264|render
 early_reward2_tests|EARLY REWARD2|231|255
 early_reward2_ui_tests|EARLY REWARD2 UI|232|256|render
 death_cause_tests|DEATH CAUSE|230|253
