@@ -1,5 +1,7 @@
 # 043 local acceptance, hosted gate pending
 
+Historical local-acceptance checkpoint. Hosted checks subsequently passed and PR143 merged; see FINAL_MERGED.md. The original pending-state record below is retained.
+
 The save and replay feature has passed independent review and local checks. The full hosted game run is still required before it can merge. This record is not a DONE claim.
 
 25 October 2026, 3:06 PM Eastern. PR143 head080add0a1b357e7c9758b317cbdfaadcf20d3f1e contains integration0e1b12ca. Independent non-author approval: [6401867249](https://github.com/pemunson90-cmd/Siren-s-Song/pull/143#issuecomment-6401867249). Root reread all14 completed stdout/stderr records, exit codes, summaries and error markers, then confirmed unchanged source. Import, registry and whitespace checks passed.

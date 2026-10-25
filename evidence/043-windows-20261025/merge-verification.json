@@ -1,0 +1,46 @@
+{
+  "status": "MERGED and remote/API verified",
+  "verified_at_utc": "2026-10-25T19:48:25.034973+00:00",
+  "pull_request": 143,
+  "merge": "0bf4234460b5a2a179ce156aec6e2438597ae0fd",
+  "merged_at_utc": "2026-10-25T19:46:52Z",
+  "source_head": "080add0a1b357e7c9758b317cbdfaadcf20d3f1e",
+  "parents": [
+    "0e1b12ca693023ad0385c22deea14f0c283d15c7",
+    "080add0a1b357e7c9758b317cbdfaadcf20d3f1e"
+  ],
+  "merge_tree": "6cfea5e5ec973af0623050569351002b76dfbe2c",
+  "tested_head_tree": "6cfea5e5ec973af0623050569351002b76dfbe2c",
+  "lane_branch_retained": true,
+  "repository_auto_branch_delete": false,
+  "independent_review_comment": 6401867249,
+  "independent_checks": 3554,
+  "hosted_run": 40223499332,
+  "hosted_head": "080add0a1b357e7c9758b317cbdfaadcf20d3f1e",
+  "guidance": {
+    "job": 121259977835,
+    "conclusion": "success"
+  },
+  "game_smoke": {
+    "job": 121259978065,
+    "conclusion": "success",
+    "aggregate_bytes": 19775156,
+    "aggregate_sha256": "5f75c590613a9d71a2af3a8533509a7b95e8383386c7109654f9e74253ade269",
+    "completed_summaries": 264,
+    "reported_checks": 17001,
+    "numeric_failures": 0,
+    "engine_error_leak_lines": 0,
+    "parser_note": "Excluded one echoed workflow grep command containing the literal error regex; actual runtime error lines remain checked."
+  },
+  "zip_bytes": 2284269,
+  "zip_members": 20,
+  "zip_sha256": "72bb9338010a764bc70f17d787f961f517b0cd2c8c54f7ef4b3628ae1b1d100d",
+  "limits": [
+    "No APK or physical-device/human test",
+    "No full local scenario matrix",
+    "Exact restore replaces later film/fittings/progress, no merge",
+    "Legacy/off-period recovery totals are labeled minimums",
+    "SAVE1 profile packages exclude physical-slot SAVE2 sidecars",
+    "Oversized unreadable deletion retains original bytes in quarantine"
+  ]
+}

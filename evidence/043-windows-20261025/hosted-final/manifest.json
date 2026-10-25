@@ -1,0 +1,1602 @@
+{
+  "aggregate_jobs": {
+    "game-smoke": {
+      "decoded_bytes": 19775156,
+      "decoded_sha256": "5f75c590613a9d71a2af3a8533509a7b95e8383386c7109654f9e74253ade269",
+      "engine_error_or_leak_line_count": 0,
+      "engine_error_or_leak_lines": [],
+      "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\043-evidence\\hosted-final\\40223499332-game-smoke-aggregate.log",
+      "source_member_bytes": 19775156,
+      "source_member_name": "0_game-smoke.txt",
+      "source_member_sha256": "5f75c590613a9d71a2af3a8533509a7b95e8383386c7109654f9e74253ade269",
+      "summaries": [
+        {
+          "checks": 836,
+          "failures": 0,
+          "label": "CHECKS"
+        },
+        {
+          "checks": 667,
+          "failures": 0,
+          "label": "RUNTIME CHECKS"
+        },
+        {
+          "checks": 30,
+          "failures": 0,
+          "label": "ONBOARDING CHECKS"
+        },
+        {
+          "checks": 15,
+          "failures": 0,
+          "label": "SIREN WARNING PAUSE CHECKS"
+        },
+        {
+          "checks": 78,
+          "failures": 0,
+          "label": "FLEET INSTRUMENTS UI CHECKS"
+        },
+        {
+          "checks": 212,
+          "failures": 0,
+          "label": "FLEET RING UI CHECKS"
+        },
+        {
+          "checks": 52,
+          "failures": 0,
+          "label": "CAMPAIGN INSTRUMENT UI CHECKS"
+        },
+        {
+          "checks": 46,
+          "failures": 0,
+          "label": "ROUTE TELEMETRY TOUCH CHECKS"
+        },
+        {
+          "checks": 68,
+          "failures": 0,
+          "label": "RECOVERY ROUTE UI CHECKS"
+        },
+        {
+          "checks": 77,
+          "failures": 0,
+          "label": "CONCEALED HARBOUR CHECKS"
+        },
+        {
+          "checks": 43,
+          "failures": 0,
+          "label": "CONCEALED HARBOUR JOURNEY CHECKS"
+        },
+        {
+          "checks": 76,
+          "failures": 0,
+          "label": "CONCEALED HARBOUR UI CHECKS"
+        },
+        {
+          "checks": 23,
+          "failures": 0,
+          "label": "SHELF HABITAT CHECKS"
+        },
+        {
+          "checks": 33,
+          "failures": 0,
+          "label": "SHELF HABITAT JOURNEY CHECKS"
+        },
+        {
+          "checks": 69,
+          "failures": 0,
+          "label": "SHELF HABITAT UI CHECKS"
+        },
+        {
+          "checks": 31,
+          "failures": 0,
+          "label": "WAKE CROSSING CHECKS"
+        },
+        {
+          "checks": 58,
+          "failures": 0,
+          "label": "WAKE CROSSING JOURNEY CHECKS"
+        },
+        {
+          "checks": 37,
+          "failures": 0,
+          "label": "WAKE CROSSING UI CHECKS"
+        },
+        {
+          "checks": 199,
+          "failures": 0,
+          "label": "OPERATION CATALOG CHECKS"
+        },
+        {
+          "checks": 114,
+          "failures": 0,
+          "label": "DEPTH SONAR CHECKS"
+        },
+        {
+          "checks": 41,
+          "failures": 0,
+          "label": "SONAR ZERO BEARING CHECKS"
+        },
+        {
+          "checks": 52,
+          "failures": 0,
+          "label": "SWEEPER CHECKS"
+        },
+        {
+          "checks": 33,
+          "failures": 0,
+          "label": "DEPTH POLICY CHECKS"
+        },
+        {
+          "checks": 42,
+          "failures": 0,
+          "label": "DEPTH SONAR UI CHECKS"
+        },
+        {
+          "checks": 132,
+          "failures": 0,
+          "label": "DEPTH POLICY UI CHECKS"
+        },
+        {
+          "checks": 72,
+          "failures": 0,
+          "label": "OPENING DEPTH CHECKS"
+        },
+        {
+          "checks": 49,
+          "failures": 0,
+          "label": "OPENING JOURNEY CHECKS"
+        },
+        {
+          "checks": 60,
+          "failures": 0,
+          "label": "OPENING DEPTH UI CHECKS"
+        },
+        {
+          "checks": 412,
+          "failures": 0,
+          "label": "OPENING POLICY UI CHECKS"
+        },
+        {
+          "checks": 42,
+          "failures": 0,
+          "label": "GLASS REACH CHECKS"
+        },
+        {
+          "checks": 14,
+          "failures": 0,
+          "label": "GLASS NETWORK CHECKS"
+        },
+        {
+          "checks": 40,
+          "failures": 0,
+          "label": "GLASS WORK CHECKS"
+        },
+        {
+          "checks": 9,
+          "failures": 0,
+          "label": "GLASS RESEARCH CHECKS"
+        },
+        {
+          "checks": 70,
+          "failures": 0,
+          "label": "GLASS JOURNEY CHECKS"
+        },
+        {
+          "checks": 28,
+          "failures": 0,
+          "label": "GLASS REACH UI CHECKS"
+        },
+        {
+          "checks": 57,
+          "failures": 0,
+          "label": "IRON CHOIR CHECKS"
+        },
+        {
+          "checks": 47,
+          "failures": 0,
+          "label": "INDUSTRIAL JOBS CHECKS"
+        },
+        {
+          "checks": 91,
+          "failures": 0,
+          "label": "INDUSTRIAL THREATS CHECKS"
+        },
+        {
+          "checks": 17,
+          "failures": 0,
+          "label": "COMBAT RULES CHECKS"
+        },
+        {
+          "checks": 20,
+          "failures": 0,
+          "label": "COLLISION BOUNDARIES CHECKS"
+        },
+        {
+          "checks": 13,
+          "failures": 0,
+          "label": "IRON RESEARCH CHECKS"
+        },
+        {
+          "checks": 108,
+          "failures": 0,
+          "label": "IRON JOURNEY CHECKS"
+        },
+        {
+          "checks": 24,
+          "failures": 0,
+          "label": "IRON CHOIR UI CHECKS"
+        },
+        {
+          "checks": 17,
+          "failures": 0,
+          "label": "ONWARD MISSIONS CHECKS"
+        },
+        {
+          "checks": 22,
+          "failures": 0,
+          "label": "CADENCE CORRELATOR CHECKS"
+        },
+        {
+          "checks": 36,
+          "failures": 0,
+          "label": "CONTACT REPORT CHECKS"
+        },
+        {
+          "checks": 14,
+          "failures": 0,
+          "label": "CONTACT REPORT UI CHECKS"
+        },
+        {
+          "checks": 14,
+          "failures": 0,
+          "label": "CAMPAIGN CONSEQUENCES CHECKS"
+        },
+        {
+          "checks": 10,
+          "failures": 0,
+          "label": "CAMPAIGN EQUIPMENT SAVE CHECKS"
+        },
+        {
+          "checks": 52,
+          "failures": 0,
+          "label": "WITNESS EVACUATION CHECKS"
+        },
+        {
+          "checks": 32,
+          "failures": 0,
+          "label": "WITNESS EVACUATION JOURNEY CHECKS"
+        },
+        {
+          "checks": 108,
+          "failures": 0,
+          "label": "WITNESS EVACUATION UI CHECKS"
+        },
+        {
+          "checks": 58,
+          "failures": 0,
+          "label": "RULES SONAR COST CHECKS"
+        },
+        {
+          "checks": 15,
+          "failures": 0,
+          "label": "RULES WITNESS MENU CHECKS"
+        },
+        {
+          "checks": 31,
+          "failures": 0,
+          "label": "T PRESSURE CHECKS"
+        },
+        {
+          "checks": 16,
+          "failures": 0,
+          "label": "ORDINARY BEAM INDUSTRIAL CHECKS"
+        },
+        {
+          "checks": 22,
+          "failures": 0,
+          "label": "TURN SAFE NAVIGATION CHECKS"
+        },
+        {
+          "checks": 69,
+          "failures": 0,
+          "label": "WARNING RECIPIENT CHECKS"
+        },
+        {
+          "checks": 59,
+          "failures": 0,
+          "label": "WARNING RECIPIENT JOURNEY CHECKS"
+        },
+        {
+          "checks": 134,
+          "failures": 0,
+          "label": "WARNING RECIPIENT UI CHECKS"
+        },
+        {
+          "checks": 49,
+          "failures": 0,
+          "label": "BLACKWATER DELIVERY UI CHECKS"
+        },
+        {
+          "checks": 60,
+          "failures": 0,
+          "label": "BLACKWATER DELIVERY RUNTIME UI CHECKS"
+        },
+        {
+          "checks": 63,
+          "failures": 0,
+          "label": "BLACKWATER DELIVERY CHECKS"
+        },
+        {
+          "checks": 24,
+          "failures": 0,
+          "label": "EARNED COURSE CONTINUITY CHECKS"
+        },
+        {
+          "checks": 17,
+          "failures": 0,
+          "label": "CURRENT MOTION CHECKS"
+        },
+        {
+          "checks": 55,
+          "failures": 0,
+          "label": "MODULE RECOVERY CHECKS"
+        },
+        {
+          "checks": 37,
+          "failures": 0,
+          "label": "MODULE RECOVERY UI CHECKS"
+        },
+        {
+          "checks": 22,
+          "failures": 0,
+          "label": "MODULE RECOVERY RUNTIME UI CHECKS"
+        },
+        {
+          "checks": 18,
+          "failures": 0,
+          "label": "MODULE INVENTORY MAIN CHECKS"
+        },
+        {
+          "checks": 61,
+          "failures": 0,
+          "label": "RENDEZVOUS TRANSPORT CHECKS"
+        },
+        {
+          "checks": 57,
+          "failures": 0,
+          "label": "RENDEZVOUS UI CHECKS"
+        },
+        {
+          "checks": 52,
+          "failures": 0,
+          "label": "BRIEFING SCROLL FITTING UI CHECKS"
+        },
+        {
+          "checks": 73,
+          "failures": 0,
+          "label": "LOADOUT FRAMES CHECKS"
+        },
+        {
+          "checks": 49,
+          "failures": 0,
+          "label": "WARNING CHAIN CHECKS"
+        },
+        {
+          "checks": 35,
+          "failures": 0,
+          "label": "WARNING CHAIN JOURNEY CHECKS"
+        },
+        {
+          "checks": 68,
+          "failures": 0,
+          "label": "WARNING CHAIN UI CHECKS"
+        },
+        {
+          "checks": 13,
+          "failures": 0,
+          "label": "WARNING CHAIN AUDIO CHECKS"
+        },
+        {
+          "checks": 13,
+          "failures": 0,
+          "label": "WARNING CHAIN WORLD UI CHECKS"
+        },
+        {
+          "checks": 52,
+          "failures": 0,
+          "label": "PHOTO CAPTURE CHECKS"
+        },
+        {
+          "checks": 9,
+          "failures": 0,
+          "label": "PHOTO CAPTURE UI CHECKS"
+        },
+        {
+          "checks": 45,
+          "failures": 0,
+          "label": "PHOTO STUDY SAVE CHECKS"
+        },
+        {
+          "checks": 25,
+          "failures": 0,
+          "label": "PHOTO DISCOVERY CHECKS"
+        },
+        {
+          "checks": 64,
+          "failures": 0,
+          "label": "PHOTO PRICING CHECKS"
+        },
+        {
+          "checks": 11,
+          "failures": 0,
+          "label": "PHOTO PRICING UI CHECKS"
+        },
+        {
+          "checks": 49,
+          "failures": 0,
+          "label": "PHOTO DEPTH CHECKS"
+        },
+        {
+          "checks": 49,
+          "failures": 0,
+          "label": "PHOTO RULES CHECKS"
+        },
+        {
+          "checks": 4,
+          "failures": 0,
+          "label": "PHOTO RULES UI CHECKS"
+        },
+        {
+          "checks": 31,
+          "failures": 0,
+          "label": "ALL STOP CHECKS"
+        },
+        {
+          "checks": 12,
+          "failures": 0,
+          "label": "ALL STOP UI CHECKS"
+        },
+        {
+          "checks": 6,
+          "failures": 0,
+          "label": "ACOUSTIC FOOTPRINT CHECKS"
+        },
+        {
+          "checks": 21,
+          "failures": 0,
+          "label": "ACOUSTIC HEARING CHECKS"
+        },
+        {
+          "checks": 53,
+          "failures": 0,
+          "label": "AFFECTED ACOUSTIC CHECKS"
+        },
+        {
+          "checks": 20,
+          "failures": 0,
+          "label": "ACOUSTIC PATH CHECKS"
+        },
+        {
+          "checks": 7,
+          "failures": 0,
+          "label": "ACOUSTIC PATH UI CHECKS"
+        },
+        {
+          "checks": 14,
+          "failures": 0,
+          "label": "ARCHIVE RECAP CHECKS"
+        },
+        {
+          "checks": 8,
+          "failures": 0,
+          "label": "ARCHIVE RECAP UI CHECKS"
+        },
+        {
+          "checks": 11,
+          "failures": 0,
+          "label": "BEAM EMISSION CHECKS"
+        },
+        {
+          "checks": 35,
+          "failures": 0,
+          "label": "COURIER CHECKS"
+        },
+        {
+          "checks": 33,
+          "failures": 0,
+          "label": "BLACKWATER CHECKS"
+        },
+        {
+          "checks": 10,
+          "failures": 0,
+          "label": "BLACKWATER UI CHECKS"
+        },
+        {
+          "checks": 11,
+          "failures": 0,
+          "label": "CAMPAIGN CAPTURE PROGRESS CHECKS"
+        },
+        {
+          "checks": 7,
+          "failures": 0,
+          "label": "CAMPAIGN DEBRIEF VIEW CHECKS"
+        },
+        {
+          "checks": 48,
+          "failures": 0,
+          "label": "CAMPAIGN ENDINGS CHECKS"
+        },
+        {
+          "checks": 31,
+          "failures": 0,
+          "label": "CAMPAIGN INSTRUMENT CHECKS"
+        },
+        {
+          "checks": 13,
+          "failures": 0,
+          "label": "CAMPAIGN MAIN DISPATCH CHECKS"
+        },
+        {
+          "checks": 6,
+          "failures": 0,
+          "label": "CAPTURE FEEDBACK CHECKS"
+        },
+        {
+          "checks": 9,
+          "failures": 0,
+          "label": "CHALLENGES JOURNEY CHECKS"
+        },
+        {
+          "checks": 178,
+          "failures": 0,
+          "label": "CHALLENGES CHECKS"
+        },
+        {
+          "checks": 86,
+          "failures": 0,
+          "label": "CHALLENGES UI CHECKS"
+        },
+        {
+          "checks": 4,
+          "failures": 0,
+          "label": "CONFLUENCE COMPLETION CHECKS"
+        },
+        {
+          "checks": 27,
+          "failures": 0,
+          "label": "CONFLUENCE OPERATION CHECKS"
+        },
+        {
+          "checks": 4,
+          "failures": 0,
+          "label": "CONFLUENCE PARALLEL CHECKS"
+        },
+        {
+          "checks": 15,
+          "failures": 0,
+          "label": "CONFLUENCE PRESENTATION CHECKS"
+        },
+        {
+          "checks": 12,
+          "failures": 0,
+          "label": "CONFLUENCE RESOLUTION UI CHECKS"
+        },
+        {
+          "checks": 10,
+          "failures": 0,
+          "label": "CRAFT UPGRADE SIM CHECKS"
+        },
+        {
+          "checks": 11,
+          "failures": 0,
+          "label": "CRAFT UPGRADES CHECKS"
+        },
+        {
+          "checks": 8,
+          "failures": 0,
+          "label": "CURRENT CHART SEAM CHECKS"
+        },
+        {
+          "checks": 4,
+          "failures": 0,
+          "label": "CURRENT PROPULSION CHECKS"
+        },
+        {
+          "checks": 17,
+          "failures": 0,
+          "label": "DECOY AIM UI CHECKS"
+        },
+        {
+          "checks": 14,
+          "failures": 0,
+          "label": "DECOY DEPLOYMENT CHECKS"
+        },
+        {
+          "checks": 7,
+          "failures": 0,
+          "label": "DENSITY MENU CHECKS"
+        },
+        {
+          "checks": 889,
+          "failures": 0,
+          "label": "DENSITY CHECKS"
+        },
+        {
+          "checks": 17,
+          "failures": 0,
+          "label": "DENSITY SCROLL CHECKS"
+        },
+        {
+          "checks": 12,
+          "failures": 0,
+          "label": "DIVERGENCE SAVE CHECKS"
+        },
+        {
+          "checks": 14,
+          "failures": 0,
+          "label": "DIVERGENCE CHECKS"
+        },
+        {
+          "checks": 23,
+          "failures": 0,
+          "label": "DRONE DRIVE CHECKS"
+        },
+        {
+          "checks": 38,
+          "failures": 0,
+          "label": "DRONE DRIVE UI CHECKS"
+        },
+        {
+          "checks": 29,
+          "failures": 0,
+          "label": "DRONE OPERATIONS CHECKS"
+        },
+        {
+          "checks": 20,
+          "failures": 0,
+          "label": "DRONE OPERATIONS UI CHECKS"
+        },
+        {
+          "checks": 12,
+          "failures": 0,
+          "label": "EARNED EQUIPMENT CHECKS"
+        },
+        {
+          "checks": 4,
+          "failures": 0,
+          "label": "EXPANDED JOURNEYS CHECKS"
+        },
+        {
+          "checks": 22,
+          "failures": 0,
+          "label": "EXPANDED REGION CHECKS"
+        },
+        {
+          "checks": 47,
+          "failures": 0,
+          "label": "EXPEDITION INSTRUMENT UI CHECKS"
+        },
+        {
+          "checks": 11,
+          "failures": 0,
+          "label": "EXPEDITION MENU CHECKS"
+        },
+        {
+          "checks": 69,
+          "failures": 0,
+          "label": "EXTRACTION SURVIVAL CHECKS"
+        },
+        {
+          "checks": 8,
+          "failures": 0,
+          "label": "FIELD SAMPLER CHECKS"
+        },
+        {
+          "checks": 60,
+          "failures": 0,
+          "label": "FIT LABEL CHECKS"
+        },
+        {
+          "checks": 25,
+          "failures": 0,
+          "label": "FOUNDRY DEPARTURE CHECKS"
+        },
+        {
+          "checks": 22,
+          "failures": 0,
+          "label": "INDEPENDENT CAPTURE CHECKS"
+        },
+        {
+          "checks": 36,
+          "failures": 0,
+          "label": "INDEPENDENT CAPTURE UI CHECKS"
+        },
+        {
+          "checks": 59,
+          "failures": 0,
+          "label": "KNOCKDOWN CHECKS"
+        },
+        {
+          "checks": 30,
+          "failures": 0,
+          "label": "KNOCKDOWN UI CHECKS"
+        },
+        {
+          "checks": 7,
+          "failures": 0,
+          "label": "KNOWN WATER CHECKS"
+        },
+        {
+          "checks": 38,
+          "failures": 0,
+          "label": "LOADOUT CHECKS"
+        },
+        {
+          "checks": 27,
+          "failures": 0,
+          "label": "LOCK WARNING CHECKS"
+        },
+        {
+          "checks": 14,
+          "failures": 0,
+          "label": "LOCK WARNING UI CHECKS"
+        },
+        {
+          "checks": 77,
+          "failures": 0,
+          "label": "METRIC TRANSPORT CHECKS"
+        },
+        {
+          "checks": 45,
+          "failures": 0,
+          "label": "NAVIGATION CHECKS"
+        },
+        {
+          "checks": 26,
+          "failures": 0,
+          "label": "OPERATION EMISSION FEEDBACK CHECKS"
+        },
+        {
+          "checks": 10,
+          "failures": 0,
+          "label": "OPERATION ENDURANCE CHECKS"
+        },
+        {
+          "checks": 250,
+          "failures": 0,
+          "label": "ORDER ROW CHECKS"
+        },
+        {
+          "checks": 14,
+          "failures": 0,
+          "label": "TASK UI CHECKS"
+        },
+        {
+          "checks": 2,
+          "failures": 0,
+          "label": "PERFORMANCE CHECKS"
+        },
+        {
+          "checks": 38,
+          "failures": 0,
+          "label": "PLANNER METRICS CHECKS"
+        },
+        {
+          "checks": 34,
+          "failures": 0,
+          "label": "PLANNER NAVIGATION CHECKS"
+        },
+        {
+          "checks": 54,
+          "failures": 0,
+          "label": "PLANNER SPACE UI CHECKS"
+        },
+        {
+          "checks": 94,
+          "failures": 0,
+          "label": "PLAYFIELD HUD CHECKS"
+        },
+        {
+          "checks": 10,
+          "failures": 0,
+          "label": "POLYGON BOUND CHECKS"
+        },
+        {
+          "checks": 60,
+          "failures": 0,
+          "label": "POST TUTORIAL ROSTER CHECKS"
+        },
+        {
+          "checks": 58,
+          "failures": 0,
+          "label": "RADIAL HUD CHECKS"
+        },
+        {
+          "checks": 8,
+          "failures": 0,
+          "label": "RECEIVED AUDIO RETRY CHECKS"
+        },
+        {
+          "checks": 15,
+          "failures": 0,
+          "label": "RECON CONSEQUENCES CHECKS"
+        },
+        {
+          "checks": 6,
+          "failures": 0,
+          "label": "RECON GRADE MAIN CHECKS"
+        },
+        {
+          "checks": 44,
+          "failures": 0,
+          "label": "RESOLUTION CONTENT CHECKS"
+        },
+        {
+          "checks": 32,
+          "failures": 0,
+          "label": "RESOLUTION CONTROLS UI CHECKS"
+        },
+        {
+          "checks": 23,
+          "failures": 0,
+          "label": "RESOLUTION GEOMETRY CHECKS"
+        },
+        {
+          "checks": 19,
+          "failures": 0,
+          "label": "RESOLUTION HOOKS CHECKS"
+        },
+        {
+          "checks": 9,
+          "failures": 0,
+          "label": "RESOLUTION INSTRUMENT CHECKS"
+        },
+        {
+          "checks": 18,
+          "failures": 0,
+          "label": "RESOLUTION OPERATIONS CHECKS"
+        },
+        {
+          "checks": 35,
+          "failures": 0,
+          "label": "ROUTE PROGRAM CHECKS"
+        },
+        {
+          "checks": 44,
+          "failures": 0,
+          "label": "ROUTE PROGRAM UI CHECKS"
+        },
+        {
+          "checks": 17,
+          "failures": 0,
+          "label": "TACTICS COMPOSITION CHECKS"
+        },
+        {
+          "checks": 8,
+          "failures": 0,
+          "label": "TARGETING FEEDBACK CHECKS"
+        },
+        {
+          "checks": 73,
+          "failures": 0,
+          "label": "TERMINAL TICK CHECKS"
+        },
+        {
+          "checks": 22,
+          "failures": 0,
+          "label": "THERMAL LEE CHECKS"
+        },
+        {
+          "checks": 12,
+          "failures": 0,
+          "label": "THERMAL TRANSMISSION CHECKS"
+        },
+        {
+          "checks": 8,
+          "failures": 0,
+          "label": "THERMAL UI CHECKS"
+        },
+        {
+          "checks": 65,
+          "failures": 0,
+          "label": "TORPEDO AIM CHECKS"
+        },
+        {
+          "checks": 10,
+          "failures": 0,
+          "label": "V7 EARNED REGION CHECKS"
+        },
+        {
+          "checks": 4,
+          "failures": 0,
+          "label": "V7 EARNED VIEW CHECKS"
+        },
+        {
+          "checks": 14,
+          "failures": 0,
+          "label": "V7 TERRAIN CHART CHECKS"
+        },
+        {
+          "checks": 32,
+          "failures": 0,
+          "label": "VIEW CONTROLS MENU CHECKS"
+        },
+        {
+          "checks": 9,
+          "failures": 0,
+          "label": "WELL SAVE SHAPE CHECKS"
+        },
+        {
+          "checks": 7,
+          "failures": 0,
+          "label": "NAV CLEARANCE CHECKS"
+        },
+        {
+          "checks": 84,
+          "failures": 0,
+          "label": "NAV FOLLOW CHECKS"
+        },
+        {
+          "checks": 24,
+          "failures": 0,
+          "label": "NAV CLEARANCE PROBE CHECKS"
+        },
+        {
+          "checks": 17,
+          "failures": 0,
+          "label": "NAV CLEARANCE UI CHECKS"
+        },
+        {
+          "checks": 5,
+          "failures": 0,
+          "label": "PLANNER CHART RENDER CHECKS"
+        },
+        {
+          "checks": 14,
+          "failures": 0,
+          "label": "WELL CAMERA RENDER CHECKS"
+        },
+        {
+          "checks": 35,
+          "failures": 0,
+          "label": "OPENING FLEET CHECKS"
+        },
+        {
+          "checks": 218,
+          "failures": 0,
+          "label": "COLD REVIEW UI CHECKS"
+        },
+        {
+          "checks": 9,
+          "failures": 0,
+          "label": "ARCHIVE PROFILE CHECKS"
+        },
+        {
+          "checks": 9,
+          "failures": 0,
+          "label": "ARCHIVE PROFILE CHECKS"
+        },
+        {
+          "checks": 2,
+          "failures": 0,
+          "label": "COLD REVIEW ARCHIVE CHECKS"
+        },
+        {
+          "checks": 45,
+          "failures": 0,
+          "label": "AUDIT PHOTO INTEGRITY CHECKS"
+        },
+        {
+          "checks": 5,
+          "failures": 0,
+          "label": "AUDIT PHOTO UI CHECKS"
+        },
+        {
+          "checks": 10,
+          "failures": 0,
+          "label": "AUDIT FINDINGS PROVENANCE CHECKS"
+        },
+        {
+          "checks": 25,
+          "failures": 0,
+          "label": "AUDIT ARTIFACT CARGO CHECKS"
+        },
+        {
+          "checks": 6,
+          "failures": 0,
+          "label": "GRADE ON SECURE CHECKS"
+        },
+        {
+          "checks": 12,
+          "failures": 0,
+          "label": "FIX2 SAVE CHECKS"
+        },
+        {
+          "checks": 4,
+          "failures": 0,
+          "label": "FIX2 SAVE UI CHECKS"
+        },
+        {
+          "checks": 20,
+          "failures": 0,
+          "label": "FIX2 OPTIONAL RECOVERY CHECKS"
+        },
+        {
+          "checks": 63,
+          "failures": 0,
+          "label": "FIX2 FRONTEND UI CHECKS"
+        },
+        {
+          "checks": 83,
+          "failures": 0,
+          "label": "FIX2 PHOTO ROUTING CHECKS"
+        },
+        {
+          "checks": 24,
+          "failures": 0,
+          "label": "FIX2 MENU UI CHECKS"
+        },
+        {
+          "checks": 70,
+          "failures": 0,
+          "label": "FIX2 CAMERA UI CHECKS"
+        },
+        {
+          "checks": 12,
+          "failures": 0,
+          "label": "FIX2 FEEDBACK UI CHECKS"
+        },
+        {
+          "checks": 10,
+          "failures": 0,
+          "label": "FIX2 STATE CHECKS"
+        },
+        {
+          "checks": 24,
+          "failures": 0,
+          "label": "FIX2 STUDY UI CHECKS"
+        },
+        {
+          "checks": 47,
+          "failures": 0,
+          "label": "PHOTO AUDIO CHECKS"
+        },
+        {
+          "checks": 41,
+          "failures": 0,
+          "label": "FIRST SIREN CUE CHECKS"
+        },
+        {
+          "checks": 52,
+          "failures": 0,
+          "label": "FIRST SIREN CUE UI CHECKS"
+        },
+        {
+          "checks": 36,
+          "failures": 0,
+          "label": "EARLY REWARD CHECKS"
+        },
+        {
+          "checks": 40,
+          "failures": 0,
+          "label": "EARLY REWARD UI CHECKS"
+        },
+        {
+          "checks": 361,
+          "failures": 0,
+          "label": "CAMPAIGN PHOTO ROWS CHECKS"
+        },
+        {
+          "checks": 52,
+          "failures": 0,
+          "label": "ROUTE MAP CHECKS"
+        },
+        {
+          "checks": 72,
+          "failures": 0,
+          "label": "ROUTE MAP UI CHECKS"
+        },
+        {
+          "checks": 56,
+          "failures": 0,
+          "label": "SWEEPER PATROL CHECKS"
+        },
+        {
+          "checks": 468,
+          "failures": 0,
+          "label": "LANDMARKS CHECKS"
+        },
+        {
+          "checks": 92,
+          "failures": 0,
+          "label": "LANDMARKS UI CHECKS"
+        },
+        {
+          "checks": 92,
+          "failures": 0,
+          "label": "PHOTO ENDINGS CHECKS"
+        },
+        {
+          "checks": 42,
+          "failures": 0,
+          "label": "PHOTO ENDINGS UI CHECKS"
+        },
+        {
+          "checks": 10,
+          "failures": 0,
+          "label": "FINAL PAIR JOURNEY CHECKS"
+        },
+        {
+          "checks": 57,
+          "failures": 0,
+          "label": "ONBOARD2 CHECKS"
+        },
+        {
+          "checks": 776,
+          "failures": 0,
+          "label": "ONBOARD2 UI CHECKS"
+        },
+        {
+          "checks": 3,
+          "failures": 0,
+          "label": "SAVE PROFILES COLD CHECKS"
+        },
+        {
+          "checks": 68,
+          "failures": 0,
+          "label": "SAVE PROFILES CHECKS"
+        },
+        {
+          "checks": 168,
+          "failures": 0,
+          "label": "SAVE PROFILES UI CHECKS"
+        },
+        {
+          "checks": 17,
+          "failures": 0,
+          "label": "BACK EXIT CHECKS"
+        },
+        {
+          "checks": 31,
+          "failures": 0,
+          "label": "A11Y CUES CHECKS"
+        },
+        {
+          "checks": 88,
+          "failures": 0,
+          "label": "A11Y CUES UI CHECKS"
+        },
+        {
+          "checks": 143,
+          "failures": 0,
+          "label": "CONSEQUENCE LINES CHECKS"
+        },
+        {
+          "checks": 48,
+          "failures": 0,
+          "label": "CONSEQUENCE LINES UI CHECKS"
+        },
+        {
+          "checks": 23,
+          "failures": 0,
+          "label": "AI TRACE CHECKS"
+        },
+        {
+          "checks": 58,
+          "failures": 0,
+          "label": "ART CHECKS"
+        },
+        {
+          "checks": 108,
+          "failures": 0,
+          "label": "ART RENDER CHECKS"
+        },
+        {
+          "checks": 23,
+          "failures": 0,
+          "label": "ROSTER CHECKS"
+        },
+        {
+          "checks": 18,
+          "failures": 0,
+          "label": "TERRAIN CHECKS"
+        },
+        {
+          "checks": 27,
+          "failures": 0,
+          "label": "WORK SITES CHECKS"
+        },
+        {
+          "checks": 19,
+          "failures": 0,
+          "label": "MAP GESTURE CHECKS"
+        },
+        {
+          "checks": 36,
+          "failures": 0,
+          "label": "CHOIR RULES CHECKS"
+        },
+        {
+          "checks": 65,
+          "failures": 0,
+          "label": "IRON LAYOUTS CHECKS"
+        },
+        {
+          "checks": 125,
+          "failures": 0,
+          "label": "ORDER TABLE CHECKS"
+        },
+        {
+          "checks": 30,
+          "failures": 0,
+          "label": "PHOTO WINDOW RULES CHECKS"
+        },
+        {
+          "checks": 29,
+          "failures": 0,
+          "label": "ACOUSTIC PATH CULL CHECKS"
+        },
+        {
+          "checks": 11,
+          "failures": 0,
+          "label": "SONAR FEEDBACK CACHE CHECKS"
+        },
+        {
+          "checks": 2,
+          "failures": 0,
+          "label": "GOAL BEARING CACHE CHECKS"
+        },
+        {
+          "checks": 41,
+          "failures": 0,
+          "label": "FIRST SIREN CUE EXT CHECKS"
+        },
+        {
+          "checks": 50,
+          "failures": 0,
+          "label": "FIRST SIREN CUE EXT UI CHECKS"
+        },
+        {
+          "checks": 46,
+          "failures": 0,
+          "label": "DEATH CAUSE CHECKS"
+        },
+        {
+          "checks": 44,
+          "failures": 0,
+          "label": "DEATH CAUSE UI CHECKS"
+        },
+        {
+          "checks": 45,
+          "failures": 0,
+          "label": "EARLY REWARD2 CHECKS"
+        },
+        {
+          "checks": 62,
+          "failures": 0,
+          "label": "EARLY REWARD2 UI CHECKS"
+        },
+        {
+          "checks": 39,
+          "failures": 0,
+          "label": "CHALLENGES COMPLETIONS OPENING CHECKS"
+        },
+        {
+          "checks": 53,
+          "failures": 0,
+          "label": "CHALLENGES COMPLETIONS REACH CHECKS"
+        },
+        {
+          "checks": 30,
+          "failures": 0,
+          "label": "CHALLENGES COMPLETIONS IRON CHECKS"
+        },
+        {
+          "checks": 1502,
+          "failures": 0,
+          "label": "OPS HOME UI CHECKS"
+        },
+        {
+          "checks": 309,
+          "failures": 0,
+          "label": "MENU REACH UI CHECKS"
+        },
+        {
+          "checks": 23,
+          "failures": 0,
+          "label": "SETTINGS LIFECYCLE UI CHECKS"
+        },
+        {
+          "checks": 28,
+          "failures": 0,
+          "label": "FINALE CHECKS"
+        },
+        {
+          "checks": 246,
+          "failures": 0,
+          "label": "FINALE UI CHECKS"
+        },
+        {
+          "checks": 194,
+          "failures": 0,
+          "label": "SAVE2 STORAGE CHECKS"
+        },
+        {
+          "checks": 55,
+          "failures": 0,
+          "label": "SAVE2 FORKS CHECKS"
+        },
+        {
+          "checks": 328,
+          "failures": 0,
+          "label": "SAVE2 UI CHECKS"
+        }
+      ],
+      "summary_count": 264,
+      "total_reported_checks": 17001,
+      "total_reported_failures": 0
+    },
+    "guidance": {
+      "decoded_bytes": 12039,
+      "decoded_sha256": "bf9b1192831f33bb697f7b287367b50ef82e599e9ae3c29e0083bf686a87ccbf",
+      "engine_error_or_leak_line_count": 0,
+      "engine_error_or_leak_lines": [],
+      "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\043-evidence\\hosted-final\\40223499332-guidance-aggregate.log",
+      "source_member_bytes": 12039,
+      "source_member_name": "1_guidance.txt",
+      "source_member_sha256": "bf9b1192831f33bb697f7b287367b50ef82e599e9ae3c29e0083bf686a87ccbf",
+      "summaries": [],
+      "summary_count": 0,
+      "total_reported_checks": 0,
+      "total_reported_failures": 0
+    }
+  },
+  "aggregate_policy": "Parsed only the single top-level aggregate member for each job; job/step member files are retained and hashed in the ZIP inventory but excluded to avoid counting duplicated per-step summaries.",
+  "bad_member": null,
+  "jobs": [
+    {
+      "conclusion": "success",
+      "head_sha": "080add0a1b357e7c9758b317cbdfaadcf20d3f1e",
+      "html_url": "https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/40223499332/job/121259977835",
+      "id": 121259977835,
+      "name": "guidance",
+      "run_attempt": 1,
+      "status": "completed"
+    },
+    {
+      "conclusion": "success",
+      "head_sha": "080add0a1b357e7c9758b317cbdfaadcf20d3f1e",
+      "html_url": "https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/40223499332/job/121259978065",
+      "id": 121259978065,
+      "name": "game-smoke",
+      "run_attempt": 1,
+      "status": "completed"
+    }
+  ],
+  "jobs_api_exit_code": 0,
+  "jobs_verified_expected_ids_completed_success": true,
+  "log_archive_status": "downloaded_crc_valid",
+  "logs_api_exit_code": 0,
+  "qualification": "Run metadata and both required jobs report success. Aggregated logs are parsed once per job. Summary counts are derived from aggregate log text, not inferred from suite registry ranks.",
+  "repository": "pemunson90-cmd/Siren-s-Song",
+  "run_metadata": {
+    "conclusion": "success",
+    "createdAt": "2026-10-25T18:54:46Z",
+    "databaseId": 40223499332,
+    "event": "pull_request",
+    "headSha": "080add0a1b357e7c9758b317cbdfaadcf20d3f1e",
+    "status": "completed",
+    "updatedAt": "2026-10-25T19:36:39Z",
+    "url": "https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/40223499332",
+    "workflowName": "Gauntlet PR checks"
+  },
+  "run_metadata_exit_code": 0,
+  "run_public_url": "https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/40223499332",
+  "run_verified_exact_head_completed_success": true,
+  "zip_bytes": 2284269,
+  "zip_crc_check": "passed",
+  "zip_member_count": 20,
+  "zip_members": [
+    {
+      "compressed_bytes": 1135270,
+      "crc32": "f157f352",
+      "mapped_jobs": [
+        "game-smoke"
+      ],
+      "name": "0_game-smoke.txt",
+      "sha256": "5f75c590613a9d71a2af3a8533509a7b95e8383386c7109654f9e74253ade269",
+      "uncompressed_bytes": 19775156
+    },
+    {
+      "compressed_bytes": 301,
+      "crc32": "5187d9db",
+      "mapped_jobs": [
+        "game-smoke"
+      ],
+      "name": "game-smoke/system.txt",
+      "sha256": "eebec499fca26c015a9a824f24e013fc7a85b76674b7c62abe041a28208f3c99",
+      "uncompressed_bytes": 600
+    },
+    {
+      "compressed_bytes": 803,
+      "crc32": "a6fa0e09",
+      "mapped_jobs": [
+        "game-smoke"
+      ],
+      "name": "game-smoke/1_Set up job.txt",
+      "sha256": "607b0a41a4b614527f764659f8e1314a7aaea4055ae7d9227799073aa910e93e",
+      "uncompressed_bytes": 2095
+    },
+    {
+      "compressed_bytes": 7338,
+      "crc32": "49e963d4",
+      "mapped_jobs": [
+        "game-smoke"
+      ],
+      "name": "game-smoke/2_Run actions_checkout@11d5960a326750d5838078e36cf38b85af677262.txt",
+      "sha256": "ce5553e5c28f6c4b02f074153ccd3e2934ba83193649b1426c1e9f9e30b6a045",
+      "uncompressed_bytes": 41482
+    },
+    {
+      "compressed_bytes": 473,
+      "crc32": "4ea430bf",
+      "mapped_jobs": [
+        "game-smoke"
+      ],
+      "name": "game-smoke/3_Determine whether gameplay or tooling changed.txt",
+      "sha256": "5dd9d9245c8fc1989acdade2bc80819fda7b079ea6ab5271baea47251de25129",
+      "uncompressed_bytes": 1170
+    },
+    {
+      "compressed_bytes": 496,
+      "crc32": "de303364",
+      "mapped_jobs": [
+        "game-smoke"
+      ],
+      "name": "game-smoke/4_Restore verified Godot download cache.txt",
+      "sha256": "25935c5a0cac3b5c1ccfee4420a0de5c79bd63e1ee86ae6292a8f028ed0032c3",
+      "uncompressed_bytes": 1032
+    },
+    {
+      "compressed_bytes": 379,
+      "crc32": "d58fb7cc",
+      "mapped_jobs": [
+        "game-smoke"
+      ],
+      "name": "game-smoke/5_Install pinned Godot toolchain.txt",
+      "sha256": "bba708b4b9edf4747efcd23dd7f6622e0b3572690fe58b1b9cd7d0c36cbd8c61",
+      "uncompressed_bytes": 772
+    },
+    {
+      "compressed_bytes": 513,
+      "crc32": "b1f4d539",
+      "mapped_jobs": [
+        "game-smoke"
+      ],
+      "name": "game-smoke/6_Cache verified official download.txt",
+      "sha256": "070b2feefd3a2daa775993ccf9e2f9eb6c847ec109009a06fe8e0177395d010c",
+      "uncompressed_bytes": 1071
+    },
+    {
+      "compressed_bytes": 5673,
+      "crc32": "86b53d36",
+      "mapped_jobs": [
+        "game-smoke"
+      ],
+      "name": "game-smoke/7_Validate import and deterministic core game.txt",
+      "sha256": "a575ab91c1f498188c205112e0f35e6ab0865c23e37a82e46faa7d06987280d5",
+      "uncompressed_bytes": 63709
+    },
+    {
+      "compressed_bytes": 1120339,
+      "crc32": "44785330",
+      "mapped_jobs": [
+        "game-smoke"
+      ],
+      "name": "game-smoke/8_Validate navigation, recovery and touch runtime regressions.txt",
+      "sha256": "4da32829fd43250fd46850285d7dbcf1ee9e745ad16d4cda0e3238fc62737e07",
+      "uncompressed_bytes": 19661622
+    },
+    {
+      "compressed_bytes": 550,
+      "crc32": "a5312963",
+      "mapped_jobs": [
+        "game-smoke"
+      ],
+      "name": "game-smoke/18_Post Run actions_checkout@11d5960a326750d5838078e36cf38b85af677262.txt",
+      "sha256": "0c368750e55c48eebfdd891dede3c8cc3b6b7d101006ad084b2cc5a625893fde",
+      "uncompressed_bytes": 1719
+    },
+    {
+      "compressed_bytes": 318,
+      "crc32": "a5be4f90",
+      "mapped_jobs": [
+        "game-smoke"
+      ],
+      "name": "game-smoke/19_Complete job.txt",
+      "sha256": "0bc0500480169b10de8d0dd8c3d90559aea949e8f0dc476dbfe711380d642c2f",
+      "uncompressed_bytes": 511
+    },
+    {
+      "compressed_bytes": 3475,
+      "crc32": "66a99776",
+      "mapped_jobs": [
+        "guidance"
+      ],
+      "name": "1_guidance.txt",
+      "sha256": "bf9b1192831f33bb697f7b287367b50ef82e599e9ae3c29e0083bf686a87ccbf",
+      "uncompressed_bytes": 12039
+    },
+    {
+      "compressed_bytes": 296,
+      "crc32": "afb9a35f",
+      "mapped_jobs": [
+        "guidance"
+      ],
+      "name": "guidance/system.txt",
+      "sha256": "15f538b2071b78b4aed614c63d386eaef76c1802b7b45297c64be6c36fc8b8aa",
+      "uncompressed_bytes": 598
+    },
+    {
+      "compressed_bytes": 760,
+      "crc32": "100770ef",
+      "mapped_jobs": [
+        "guidance"
+      ],
+      "name": "guidance/1_Set up job.txt",
+      "sha256": "606433b307ae89f8e867ca51a37ec12cc5caa956812957500a204f424e893f50",
+      "uncompressed_bytes": 1933
+    },
+    {
+      "compressed_bytes": 2164,
+      "crc32": "7f08adb9",
+      "mapped_jobs": [
+        "guidance"
+      ],
+      "name": "guidance/2_Run actions_checkout@11d5960a326750d5838078e36cf38b85af677262.txt",
+      "sha256": "8c88f77bccdcff0fa605541d574459f3970f579c55ec1a0dd1990097f5e2c536",
+      "uncompressed_bytes": 6936
+    },
+    {
+      "compressed_bytes": 233,
+      "crc32": "819af467",
+      "mapped_jobs": [
+        "guidance"
+      ],
+      "name": "guidance/3_Test guidance detector.txt",
+      "sha256": "8b0d2f4c5a0ad808bef7ca4be45b1990f56445cc506f995c6be809f53a32578c",
+      "uncompressed_bytes": 554
+    },
+    {
+      "compressed_bytes": 309,
+      "crc32": "4637f573",
+      "mapped_jobs": [
+        "guidance"
+      ],
+      "name": "guidance/4_Audit current branch's governing instructions.txt",
+      "sha256": "1422569b18a604ae90c92edd4ca7fcf62f3fd6a242950c33fa8ca51a698fb5cd",
+      "uncompressed_bytes": 526
+    },
+    {
+      "compressed_bytes": 558,
+      "crc32": "9219b107",
+      "mapped_jobs": [
+        "guidance"
+      ],
+      "name": "guidance/8_Post Run actions_checkout@11d5960a326750d5838078e36cf38b85af677262.txt",
+      "sha256": "80d306da35d22471cb0f661a8c98644bc36d4f1bef8e31e617a31736aad4d39e",
+      "uncompressed_bytes": 1719
+    },
+    {
+      "compressed_bytes": 273,
+      "crc32": "47f06e75",
+      "mapped_jobs": [
+        "guidance"
+      ],
+      "name": "guidance/9_Complete job.txt",
+      "sha256": "853766c222c9686c881f94fed99a4d750dfb9ed6481493a56ab107deadc45a41",
+      "uncompressed_bytes": 386
+    }
+  ],
+  "zip_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\043-evidence\\hosted-final\\40223499332-logs.zip",
+  "zip_sha256": "72bb9338010a764bc70f17d787f961f517b0cd2c8c54f7ef4b3628ae1b1d100d"
+}

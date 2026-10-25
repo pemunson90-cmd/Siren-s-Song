@@ -1,5 +1,7 @@
 # 043 SAVE2 evidence, in progress
 
+Historical checkpoint. Superseded by FINAL_MERGED.md; the original failures and limits below remain evidence.
+
 25 October 2026, 2:28 PM Eastern. Draft PR143; last published source a449f1bc. This is a recovery checkpoint, not a DONE report or final-head approval.
 
 The attached ZIP preserves successful and failed local runs. Its manifest lists every member's exact size and SHA256. All ZIP members and CRCs were independently reread before this checkpoint. User-data directories and live campaign files are excluded.
