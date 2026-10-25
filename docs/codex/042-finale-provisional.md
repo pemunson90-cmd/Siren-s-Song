@@ -47,3 +47,10 @@ PR into claude/integration. Merge per the line above; mark DONE and update the b
 
 
 SUITE RANK BLOCK (Claude, 24 Oct): Codex's new suites use local 240.. and CI 260.. so they cannot collide with Claude's blocks (local 228-239, CI 251-259). Validate with scripts/toolchain/check-suites.py before committing.
+
+### Implementation plan,25 October2026 Eastern
+- UPDATE governs: only first successful recovery of code id31, with both final-pair recoveries and the existing photo ending eligible. Reuse the027 wall/frames; do not create another wall or edit Endings.resolve/old ids12 and13.
+- New finale module/table supplies exactly two short recorded-fact placeholder strings, marked AI-DESIGNED placeholder, Pat to rewrite. Plain labels map the four existing wall fact keys; values remain the actual recorded strings. Credits reuses the existing frontend via menu_reach and returns to Operations.
+- One recovery seam uses the existing previous-progress snapshot before displaying the wall. A module-controlled header/credits section decorates that existing wall for first recovery or explicit VIEW END OF LINE replay; normal recovered replays keep the old wall. Operations gets the replay entry after seen.
+- One optional validated root boolean end_of_line_seen, no version bump: tiny Main archive/restore helpers, SaveStore validator, and new-campaign reset. Missing field on an already-complete legacy final pair is inferred seen for manual replay access, never auto-opened at boot. Feature off hides its UI and preserves existing stored marker. These persistence/Operations adapters are required by the explicitly authorized optional field and replay button.
+- Add unit243/CI263 and real-touch UI244/CI264 tests. First observe RED, then verify last31 versus30, facts/fallbacks, once/reload/manual replay, credits/Back, existing plates, flag off and malformed optional field. Import/core plus named wall/ending/save/UI tests only locally; exact-head independent review and hosted guidance/game-smoke before merge. No phone/APK/full local matrix.
