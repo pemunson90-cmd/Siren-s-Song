@@ -1,4 +1,6 @@
 extends Control
+# Revert display: remove MissionHUD hint installation/refresh; retain Text and
+# hints_seen validation, shared pricing hints and tests. No one-line off flag.
 # One-verb-at-a-time prompts in the opening operations. Each appears once per campaign, at the
 # moment it matters. A prompt never blocks or auto-advances play; GOT IT only hides it. The one
 # exceptions are the first lock and heard-investigation warnings, which each pause once.

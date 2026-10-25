@@ -3,7 +3,8 @@ extends RefCounted
 # observes a Simulation, never writes to it, never touches saves or detection.
 # Flag: AITraceTable.enabled (default false). Callers drive it: attach once, then call
 # sample() (or step()) after each advance; nothing runs when not attached.
-# Revert by deleting diagnostics/ai_trace*.gd and the test row; no other file refers to them.
+# Revert: keep AITraceTable.enabled=false and stop explicit attachments.
+# Retain diagnostics files, registered tests and evidence; there is no runtime hook.
 const Table=preload("res://src/diagnostics/ai_trace_table.gd")
 # Returns a recorder, or {} when the flag is off. per_tick also keeps one row per Siren per sample.
 static func attach(sim,per_tick:bool=false,caps:Dictionary={})->Dictionary:

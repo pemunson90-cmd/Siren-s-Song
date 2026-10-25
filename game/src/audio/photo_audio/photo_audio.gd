@@ -2,7 +2,8 @@ extends Node
 # Own-craft photographic and propulsion feedback, with no enemy queries or save fields.
 # Seam: Soundscape.update calls sync() once and applies its returned engine multiplier.
 # Lifecycle notifications freeze these players immediately; normal updates own resume.
-# Revert: remove that soundscape call/multiplier and this folder. Music/warnings stay owned there.
+# Revert: remove that Soundscape call and use engine multiplier1. Music/warnings stay owned there.
+# Retain the shared cue table/module files and tests; accessibility also reads the table.
 const Table=preload("res://src/audio/photo_audio/photo_cue_table.gd")
 const Wave=preload("res://src/audio/photo_audio/photo_wave.gd")
 const Photo=preload("res://src/simulation/photo_capture.gd")

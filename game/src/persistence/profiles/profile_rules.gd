@@ -2,6 +2,8 @@ extends RefCounted
 # SAVE1 off switch. Revert: disable ENABLED, remove frontend registration and
 # SaveStore resolver. Retain user://profiles and exports. Legacy originals stay
 # at user://quietus.save; copy the desired four slot files there to keep progress.
+# SAVE2 sidecars stay pinned to their original slots; retain them and transaction
+# recovery. Copying these four files does not migrate/merge manual or fork states.
 const ENABLED = true
 const COUNT = 3
 const NAME_LIMIT = 24
