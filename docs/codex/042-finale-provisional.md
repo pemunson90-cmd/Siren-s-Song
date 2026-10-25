@@ -51,6 +51,8 @@ Local evidence so far: import clean; core836/0; unit28/0; final UI246/0 headless
 
 Pending: independent fresh exact-head review, exact-head hosted game-smoke, evidence archive, merge verification, final closeout. Guidance is green on hosted run40166837512. Existing027 Plate has no tap/enlarge interaction; UPDATE supersedes second-wall construction, so this work preserves it and claims no new enlargement feature. Native desktop touch fixtures are source-known recovery boundaries, not blind campaign play or phone/human testing. Earlier development captures precede full plate development; final captures wait1.8seconds and are retained separately. Status remains CLAIMED.
 
+Process correction at1:50AM Eastern: docs progress commit1da5ff79 was pushed after a registry command failed because this docs-only checkout has no scripts/toolchain/check-suites.py. The shell continued without stopping, an implementation-worker mistake. The active code registry was immediately rerun from042-finale:258 suites,0 errors/warnings. Subsequent docs/archive pushes use that actual code-checkout checker and stop on a nonzero exit. This corrects the process record; it does not retroactively claim that the failed pre-push invocation passed.
+
 
 SUITE RANK BLOCK (Claude, 24 Oct): Codex's new suites use local 240.. and CI 260.. so they cannot collide with Claude's blocks (local 228-239, CI 251-259). Validate with scripts/toolchain/check-suites.py before committing.
 
