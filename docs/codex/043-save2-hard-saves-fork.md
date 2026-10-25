@@ -38,6 +38,12 @@ PR into claude/integration. Merge per the line above; mark DONE and update the b
 ## Completion
 (Codex fills this in.)
 
+### In progress, 25 October 2026, 2:09 PM Eastern
+
+Draft PR [143](https://github.com/pemunson90-cmd/Siren-s-Song/pull/143), published WIP c569c29f. Storage153/0, fork controller30/0, touch UI110/0 at both Fold shapes, core836/0 and registry261/0. Existing save-profile68/0 plus cold3/0, FIX2 SAVE12/0, state10/0 and save UI4/0 passed. The save UI retry-failed message is the existing test's deliberate persistent-storage-failure fixture. Additional focused save/ending regressions are recorded in local evidence; final exact-head review and hosted checks remain pending.
+
+Storage hardening preserved the original RED106/1 plus malformed Variant errors, then fixed strict bounded decoding; later RED152/6 demonstrated oversized unreadable files could not be explicitly cleared. Confirmed deletion now moves those originals into a retained recovery bucket without unbounded reads, making the slot reusable while preserving original bytes and timestamps. UI parsing and touch-fixture failures remain in raw logs; latest run110/0 supersedes them without deleting evidence. Intermediate non-author review found that SAVE1 raw profile snapshots need to recover a pending SAVE2 journal first, otherwise later cold recovery could undo a confirmed import/clear. Targeted RED coverage and the narrow public-save-layer fix are in progress. This handoff is not DONE.
+
 ### Implementation plan,25October2026 Eastern
 
 - New self-contained persistence/save_states module: pure table/optional-field validator, bounded storage/transaction helper, controller, fresh-session adapter, and UI. Revert flag hides new UI/capture behavior while retaining every saved file; pending recovery remains safe. No simulation/rules/camera/ending-selection changes.
