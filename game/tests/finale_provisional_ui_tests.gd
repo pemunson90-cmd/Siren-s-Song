@@ -37,6 +37,7 @@ func capture(stage,shape):
 	if capture_dir.is_empty() or DisplayServer.get_name()=="headless":return
 	if not DirAccess.dir_exists_absolute(capture_dir):
 		check(DirAccess.make_dir_recursive_absolute(capture_dir)==OK,"native capture directory exists: "+capture_dir)
+	await create_timer(1.8).timeout
 	await RenderingServer.frame_post_draw
 	var path=capture_dir+"/finale-%s-%dx%d.png"%[stage,shape.x,shape.y]
 	check(root.get_texture().get_image().save_png(path)==OK,"native rendered state captured at "+path)
@@ -133,6 +134,13 @@ func shape_case(shape):
 	else:check(false,"Operations can replay End of Line after credits")
 	if await press(game,"end_of_line"):
 		if await press(game,"back"):check(game.screen=="menu","photo wall Back returns to Operations")
+	if await press(game,"end_of_line"):
+		await android_back()
+		check(game.screen=="menu","Android Back leaves the finale wall for Operations")
+	if await press(game,"end_of_line"):
+		if await press(game,"finale_credits"):
+			await android_back()
+			check(game.screen=="menu" and game.get_node_or_null("Frontend")==null,"Android Back leaves existing credits for unobscured Operations")
 	# Replay the recovered operation after the once-only automatic intro.
 	debrief_last(game);await settle()
 	wall_case(game,false,"operation 31 replay")
