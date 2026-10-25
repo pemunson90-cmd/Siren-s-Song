@@ -1,0 +1,255 @@
+{
+  "head": "94ae4a2be26e0d44440ad74536869485ab76a141",
+  "base": "01bc90b0ad3fc28a73aa8121eb30f28f19eadfca",
+  "created_utc": "2026-10-25T05:52:08.443447+00:00",
+  "reviewer": "Independent Codex review subagent, not the author",
+  "historical_note": "finale0-* are earlier e0bff838 candidate evidence; final94-* are fresh exact final head evidence. Pending posted review and hosted gate. No userdata included.",
+  "zip": {
+    "path": "independent-review-94ae4a2b.zip",
+    "members": 40,
+    "bytes": 6210925,
+    "sha256": "2983d54d2ddc6ef5fd6c8095c825ed47d57491d7505a74e0f8c41269b61cfb1d"
+  },
+  "members": [
+    {
+      "path": "final94-back-exit.log",
+      "bytes": 27846,
+      "sha256": "29682ee00de5933ad42100fa0c2b4d86c4c17bd1774fdeb569bfb9eaf5544a5b",
+      "crc32": "d6d3f615"
+    },
+    {
+      "path": "final94-core.log",
+      "bytes": 825,
+      "sha256": "03b479d9acefe6a1398b6ecfa88aeeba960ecd61fd60f76d9fa0d03887493788",
+      "crc32": "acb12852"
+    },
+    {
+      "path": "final94-fix2-save.log",
+      "bytes": 110,
+      "sha256": "6643dead431c7c433634f92b9bf4ffcf210a65a7c9e8bd29a37091a1dcea98ae",
+      "crc32": "d5263c87"
+    },
+    {
+      "path": "final94-import.log",
+      "bytes": 1036,
+      "sha256": "65acd69bd526f63a72489ec5c54c56ebc2d502a2035a742c5989f021de460fd8",
+      "crc32": "952bd6bc"
+    },
+    {
+      "path": "final94-native-photo-endings.log",
+      "bytes": 48557,
+      "sha256": "79cfdebc704c34c3bf3f5c92418648beba431139ce01e838a0630fcb5754577c",
+      "crc32": "a51e4975"
+    },
+    {
+      "path": "final94-native-profiles.log",
+      "bytes": 171282,
+      "sha256": "a024b50b444658abefe09b2829b3d18ac529cd4f68431e8ba5b987d34a2b990b",
+      "crc32": "b80ceff2"
+    },
+    {
+      "path": "final94-native-ui.log",
+      "bytes": 295166,
+      "sha256": "a21194cc775c1f52957d19fa582bcd517c38621fa38938d4275d73147dbea028",
+      "crc32": "99cf4fb7"
+    },
+    {
+      "path": "final94-photo-endings.log",
+      "bytes": 114,
+      "sha256": "7778c8dcf05c94edc214daee423cfecbc340481c8acf037a4cc37e61f356e909",
+      "crc32": "deecfdaf"
+    },
+    {
+      "path": "final94-profiles.log",
+      "bytes": 231,
+      "sha256": "9b7091b281a1df585745bc4b8be90be04b9560865d810393b78397ed334a30ac",
+      "crc32": "e530671a"
+    },
+    {
+      "path": "final94-ui.log",
+      "bytes": 298911,
+      "sha256": "8298fb73764a2377ad8464d0e4039379de5ce36f891f4c47bfc4d7aa49c5d2f7",
+      "crc32": "02a12ab2"
+    },
+    {
+      "path": "final94-unit.log",
+      "bytes": 107,
+      "sha256": "855f5065fe7f052e533fa6b9d3897927321e9f626305cabdee61cad72581e410",
+      "crc32": "9fe20c9f"
+    },
+    {
+      "path": "finale0-back-exit.log",
+      "bytes": 27846,
+      "sha256": "29682ee00de5933ad42100fa0c2b4d86c4c17bd1774fdeb569bfb9eaf5544a5b",
+      "crc32": "d6d3f615"
+    },
+    {
+      "path": "finale0-core.log",
+      "bytes": 825,
+      "sha256": "03b479d9acefe6a1398b6ecfa88aeeba960ecd61fd60f76d9fa0d03887493788",
+      "crc32": "acb12852"
+    },
+    {
+      "path": "finale0-fix2-save.log",
+      "bytes": 110,
+      "sha256": "6643dead431c7c433634f92b9bf4ffcf210a65a7c9e8bd29a37091a1dcea98ae",
+      "crc32": "d5263c87"
+    },
+    {
+      "path": "finale0-import.log",
+      "bytes": 1731,
+      "sha256": "53c86147a51e72a753702166f4f1c450c69f4659c9b0c30c4a973c2331a6d92e",
+      "crc32": "92098493"
+    },
+    {
+      "path": "finale0-native-photo-endings.log",
+      "bytes": 49685,
+      "sha256": "fc73ea6a5ae51ee3c837f468f9fe066a1818ba9cc4bfbf977dc0bd38ea8ec47c",
+      "crc32": "cef8285e"
+    },
+    {
+      "path": "finale0-native-profiles.log",
+      "bytes": 171282,
+      "sha256": "8b22ed32d242ce36d7d6f5afe27839b6978c2892de1eb1a586d7e6cf848906ac",
+      "crc32": "1ae010ef"
+    },
+    {
+      "path": "finale0-native-ui.log",
+      "bytes": 240681,
+      "sha256": "79df14175d9794fe3620935939ce2c942782f69405ef0d8fd2483f58f7cad4a8",
+      "crc32": "6326b2b7"
+    },
+    {
+      "path": "finale0-photo-endings.log",
+      "bytes": 114,
+      "sha256": "7778c8dcf05c94edc214daee423cfecbc340481c8acf037a4cc37e61f356e909",
+      "crc32": "deecfdaf"
+    },
+    {
+      "path": "finale0-profiles.log",
+      "bytes": 231,
+      "sha256": "9b7091b281a1df585745bc4b8be90be04b9560865d810393b78397ed334a30ac",
+      "crc32": "e530671a"
+    },
+    {
+      "path": "finale0-ui.log",
+      "bytes": 243551,
+      "sha256": "312849d58c74c2caf2324502cae12d056d250b6d5e1f4899c8572a62726df728",
+      "crc32": "e041f78d"
+    },
+    {
+      "path": "finale0-unit.log",
+      "bytes": 107,
+      "sha256": "855f5065fe7f052e533fa6b9d3897927321e9f626305cabdee61cad72581e410",
+      "crc32": "9fe20c9f"
+    },
+    {
+      "path": "final94-captures/finale-existing-credits-2184x1968.png",
+      "bytes": 649687,
+      "sha256": "2bb224434ac896c00ec7eeef4989006f5b0c26aae3134c29721d989b645fc31e",
+      "crc32": "51049ef3"
+    },
+    {
+      "path": "final94-captures/finale-existing-credits-2520x1080.png",
+      "bytes": 292469,
+      "sha256": "df8a21881a5c4f0a99c71fd1f4cb5369f634e9beb6ba9e5ee67912b16ea2f63d",
+      "crc32": "b4395d34"
+    },
+    {
+      "path": "final94-captures/finale-existing-credits-960x432.png",
+      "bytes": 76672,
+      "sha256": "dd1fdbdc225cb08ba14b36aefa1c1b20696098bce54c9a1778629f751c6ddcc0",
+      "crc32": "67bda47a"
+    },
+    {
+      "path": "final94-captures/finale-first-finale-2184x1968.png",
+      "bytes": 654987,
+      "sha256": "baccbea06a7642855d83b7757cb3c4d42faddb9aa905c94cd8ef286f5e438df7",
+      "crc32": "e47e6fb1"
+    },
+    {
+      "path": "final94-captures/finale-first-finale-2520x1080.png",
+      "bytes": 434515,
+      "sha256": "a8503ecb87a34806f1374fb3ff0363c17f14e8cbbecb2f59fc3d012bef41c2ae",
+      "crc32": "02e59ce1"
+    },
+    {
+      "path": "final94-captures/finale-first-finale-960x432.png",
+      "bytes": 131953,
+      "sha256": "aed036f5ad08843ca7f3fd64067045b97c58e4bdd6fc9087f4e71e1ef0416be0",
+      "crc32": "a4ae88af"
+    },
+    {
+      "path": "final94-captures/finale-ops-replay-2184x1968.png",
+      "bytes": 492698,
+      "sha256": "1abc7be5fc7043cd6cc1ceb9af66697359390206a9db955dc687d9aac748172c",
+      "crc32": "2f59d361"
+    },
+    {
+      "path": "final94-captures/finale-ops-replay-2520x1080.png",
+      "bytes": 342545,
+      "sha256": "14e15725bb65482a73133d407aab2bf018e81008000ff80e1ba20fe3edc37ba8",
+      "crc32": "725a6074"
+    },
+    {
+      "path": "final94-captures/finale-ops-replay-960x432.png",
+      "bytes": 127300,
+      "sha256": "7166ac5cf0b5c4e62c2cc8a230b9c377f49645425542bb8b2bce8bba37e7fa83",
+      "crc32": "af7f3908"
+    },
+    {
+      "path": "finale0-captures/finale-existing-credits-2184x1968.png",
+      "bytes": 649687,
+      "sha256": "2bb224434ac896c00ec7eeef4989006f5b0c26aae3134c29721d989b645fc31e",
+      "crc32": "51049ef3"
+    },
+    {
+      "path": "finale0-captures/finale-existing-credits-2520x1080.png",
+      "bytes": 292469,
+      "sha256": "df8a21881a5c4f0a99c71fd1f4cb5369f634e9beb6ba9e5ee67912b16ea2f63d",
+      "crc32": "b4395d34"
+    },
+    {
+      "path": "finale0-captures/finale-existing-credits-960x432.png",
+      "bytes": 76672,
+      "sha256": "dd1fdbdc225cb08ba14b36aefa1c1b20696098bce54c9a1778629f751c6ddcc0",
+      "crc32": "67bda47a"
+    },
+    {
+      "path": "finale0-captures/finale-first-finale-2184x1968.png",
+      "bytes": 601348,
+      "sha256": "1b0adfb1ed1031c3c02f571d7036357282bf81620dffd82790188b099ace4fd4",
+      "crc32": "60125d92"
+    },
+    {
+      "path": "finale0-captures/finale-first-finale-2520x1080.png",
+      "bytes": 419437,
+      "sha256": "eccadb57e80f0c423efbbff288d88dd3d5c45083f44c9b8c19c575709c31dd2a",
+      "crc32": "58861e54"
+    },
+    {
+      "path": "finale0-captures/finale-first-finale-960x432.png",
+      "bytes": 131953,
+      "sha256": "aed036f5ad08843ca7f3fd64067045b97c58e4bdd6fc9087f4e71e1ef0416be0",
+      "crc32": "a4ae88af"
+    },
+    {
+      "path": "finale0-captures/finale-ops-replay-2184x1968.png",
+      "bytes": 492698,
+      "sha256": "1abc7be5fc7043cd6cc1ceb9af66697359390206a9db955dc687d9aac748172c",
+      "crc32": "2f59d361"
+    },
+    {
+      "path": "finale0-captures/finale-ops-replay-2520x1080.png",
+      "bytes": 342545,
+      "sha256": "14e15725bb65482a73133d407aab2bf018e81008000ff80e1ba20fe3edc37ba8",
+      "crc32": "725a6074"
+    },
+    {
+      "path": "finale0-captures/finale-ops-replay-960x432.png",
+      "bytes": 127300,
+      "sha256": "7166ac5cf0b5c4e62c2cc8a230b9c377f49645425542bb8b2bce8bba37e7fa83",
+      "crc32": "af7f3908"
+    }
+  ]
+}
