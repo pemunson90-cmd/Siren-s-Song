@@ -75,7 +75,7 @@ Historical24October status: Codex033 was deferred by Pat and no unfinished Codex
 |---|---|---|---|---|---|
 | P | 038 OPS HOME: next op, route map and fittings at top; fold recovered; Erase to Settings only | DONE | [136](https://github.com/pemunson90-cmd/Siren-s-Song/pull/136) | 2026-10-25 03:09:39 UTC | Merged69fc9e46, exact331/current246 bothgreen40153330436 and independent APPROVE. Core835/home1382 all0; evidence537967ff. Optional Back deferred;044 next. |
 | 38 | 039 CONSEQUENCE LINES for debriefs of ops15 to30 | DONE | [126](https://github.com/pemunson90-cmd/Siren-s-Song/pull/126) | 2026-10-24 19:24:11 UTC | Claude merged46a3be8; GitHub merged=true and current ancestry verified. Stale claim reconciled24October. |
-| 39 | 040 PHOTO ROW JOURNEYS under live Sirens (14 rows) | CLAIMED (codex) | | | Claim 2026-10-25 19:51:09 UTC.043 merged0bf42344. Fourteen live-Siren journeys, investigate op8 flag/op9 hold; no senses, combat or story changes. |
+| 39 | 040 PHOTO ROW JOURNEYS under live Sirens (14 rows) | DONE | [144](https://github.com/pemunson90-cmd/Siren-s-Song/pull/144) | 2026-10-25 22:22:02 UTC | Mergebbc1bed0 verified; exact44a/current0bf bothgreen40234636132 and independent PASS6403464883. Fourteen632/0, local1829/0, hosted17633/0; allhull100. No production edits; evidence250d1222.033 next. |
 Also: 029 now includes the F7 addendum (GOAL / DANGER / NEW THIS DIVE for ops 7 to 30). Held for Pat: ending at op 30, replay without erase, settings/title reachable from Operations, quit_on_go_back, early-reward count, anything on Siren senses or lock timing.
 
 ## BATCH 8 (24 Oct, Pat's decisions on cold review 3; AI-DESIGNED, Pat to adjust)
@@ -122,4 +122,4 @@ The same audit filled empty Completion sections in already-DONE002/PR62,004/PR61
 
 ## Pat continuation,25October2026 Eastern
 
-Current authorized order:040 photo journeys,033 documentation,048 HUD,050 sight-only Hunt. Pat asked to follow guidance, reconcile stale owned documentation as work proceeds, keep working while questions are pending, and make choices revertible. Preserve off switches, data tables and narrow seams; uncertainty does not authorize changes to protected mechanics beyond the approved sight-only Hunt scope. Only040 is currently claimed by Codex. Historical pause/split statements above retain provenance and do not override this continuation.
+Current authorized order:040 photo journeys,033 documentation,048 HUD,050 sight-only Hunt. Pat asked to follow guidance, reconcile stale owned documentation as work proceeds, keep working while questions are pending, and make choices revertible. Preserve off switches, data tables and narrow seams; uncertainty does not authorize changes to protected mechanics beyond the approved sight-only Hunt scope. At this continuation checkpoint only040 was claimed by Codex; current claim rows above govern. Historical pause/split statements above retain provenance and do not override this continuation.

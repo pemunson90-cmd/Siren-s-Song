@@ -1,10 +1,10 @@
 # Handoff 040: PHOTO ROW JOURNEYS, play evidence for the 14 campaign photo rows under live Sirens
 
-Status: CLAIMED
+Status: DONE
 Assigned to: codex (Pat split the queue 24 Oct; Codex takes this when Pat says continue)
 Claimed at: 2026-10-25 19:51:09 UTC
 Claimed by: codex
-Finished at:
+Finished at: 2026-10-25 22:22:02 UTC
 
 Precondition: none (tests, and small data fixes only if a bug is proven).
 Codex may merge: yes, into claude/integration only, after GitHub guidance and game-smoke are both green on the exact head and the PR is mergeable. Merge with a merge commit, then mark DONE and update docs/codex/BOARD.md.
@@ -80,3 +80,13 @@ Root and independent nonauthor /root/save043_architect each actually completed i
 Published verified evidence: archive/codex-040-photo-journeys-windows-20261025 at7082db64. Initial diagnostic ZIP100members/96756bytes/SHA256d17f72c22312670d11e215ec0d88e79210084d3a6b28a465c0ccad1e8f5e87cb retains failures and staged probes. Final local ZIP55members/45281bytes/SHA256dc178ceb3669063b8cb8c675f2ffb7b21f9134acb8cd6f347517fa8a0682ebab contains root/reviewer rawlogs and executed runner/results. Root verified actual committed ZIP blobs, every member hash/CRC and source bytes. PROGRESS.md is labeled historical; LOCAL_ACCEPTANCE.md gives current local results and pending hosted gate.
 
 Current integration0bf42344 is contained; explicit merge was already up to date. Hosted40234636132 guidance121293793874 passed; game-smoke121293793851 is still running its broad registered matrix.040 stays CLAIMED, not DONE. No new claim while that gate is pending.
+
+### DONE,6:22:02PM Eastern,25October2026
+
+PR144 mergedbbc1bed0e6874cb722334309162d1b858f5a299b. Fresh GitHub merged=true and fetched remote parents0bf42344+44a168d6 verified; landed treec03a8138 matches exact tested/reviewed source, and source branch is retained. Exact44a168d6 has independent nonauthor PASS6403464883 and both green hosted jobs in40234636132, completing6:20:49PM Eastern. Full hosted logs278summaries/17633checks/0failures/0actual engine errors; root and reviewer each1829/0 locally. Fourteen journeys all pass632/0 and finish hull100. All authored rows are demonstrated reachable by the recorded source-known routes; no impossibility claim.
+
+Evidence final archive250d12222352ee284e8d079cb51df7bf9950f1f1 on archive/codex-040-photo-journeys-windows-20261025 includes diagnostic100member ZIP, final local55member ZIP, complete hosted14member ZIP2318736bytes/SHA2560774e0f9271de238bf0a73bc514d40cb948a4f099cb09787f012a764f552c528, manifests and remote merge verification. Actual committed archive bytes/member hashes/CRCs were checked. Raw full game log19837742bytes/SHA256b77518f75b9e69777e4da924eb79ce99a46bffdbc5eca1d1ed019900cc27a0dc; the single echoed grep error-pattern command is explicitly retained/excluded as shell text, not silently discarded evidence.
+
+Reconciled owned stale material: false camera-fixture travel comment now points to actual journeys; earlier red-relay PR progress has a linked historical correction; prospective tele-lens route remains labeled rejected; archive PROGRESS/LOCAL_ACCEPTANCE checkpoints are labeled historical beside final merge truth; board24October pause/split text is labeled historical beneath Pat25October continuation. No failures/files/branches/tests/evidence deleted. No source docs outside this narrow handoff were edited; authorized033 immediately follows to refresh module/spec/parity/operational guidance at its document boundary.
+
+Remaining limits: these routes are not full-operation extraction, campaign progression/unlock proof, first-exposure preference or physical-phone/human testing. No APK or full local matrix. No game data, combat, sensing, lock, hull, damage, collision, camera or story rules changed.033 next, then Pat-reassigned048, then sight-only050 with hearing/speed/lock unchanged.
