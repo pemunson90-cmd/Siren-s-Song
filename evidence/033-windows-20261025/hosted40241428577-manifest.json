@@ -1,0 +1,116 @@
+{
+  "head": "e0c6e8f6e80059e93601e21998d62c85e3a72f70",
+  "run": 40241428577,
+  "conclusion": "success",
+  "jobs": [
+    {
+      "name": "guidance",
+      "id": 121313857302,
+      "conclusion": "success",
+      "completed_at": "2026-10-25T22:42:15Z"
+    },
+    {
+      "name": "game-smoke",
+      "id": 121313857512,
+      "conclusion": "success",
+      "completed_at": "2026-10-25T23:48:22Z"
+    }
+  ],
+  "summaries": 278,
+  "checks": 17633,
+  "failures": 0,
+  "actual_errors": [],
+  "excluded_echoed_grep_commands": [
+    "2026-10-25T22:42:39.6526286Z if grep -nE 'SCRIPT ERROR:|(^|[[:space:]])ERROR:' artifacts/pr-import.log; then exit 1; fi"
+  ],
+  "zip_size": 2319479,
+  "zip_sha256": "a8e48f9f61a907758da4d2e8f01a4460f6ff00b5068accff4616b1d0011de299",
+  "members": [
+    {
+      "name": "0_game-smoke.txt",
+      "size": 19839981,
+      "sha256": "9dafaa3f8796753964e3aca54d438bf9c25e51cbcfc8f83d34ff0839ed3bcc48"
+    },
+    {
+      "name": "game-smoke/system.txt",
+      "size": 600,
+      "sha256": "97d4e00f3969d65afab8e7f5adae7ed308cfc5c8c659eaa0fc99ed0e42b95db8"
+    },
+    {
+      "name": "game-smoke/1_Set up job.txt",
+      "size": 2097,
+      "sha256": "ea45e8ae2776e21bcb51ac08303d645c18f97fe02122ed1c7f4dbf355ad9b2cd"
+    },
+    {
+      "name": "game-smoke/2_Run actions_checkout@11d5960a326750d5838078e36cf38b85af677262.txt",
+      "size": 41899,
+      "sha256": "a9503d8ee72bcef502ad5a9f955b932498cef6fb79d24ae82836e153faf772f4"
+    },
+    {
+      "name": "game-smoke/3_Determine whether gameplay or tooling changed.txt",
+      "size": 1170,
+      "sha256": "32770018998b1eb892c4365308e88405c0cf9b2768309f4e8ae2a463742077c1"
+    },
+    {
+      "name": "game-smoke/4_Restore verified Godot download cache.txt",
+      "size": 1032,
+      "sha256": "0510f6c8e3dfd86e0bd14991db6a472d65a64a9197b0c67f06ab0b7cb6727e56"
+    },
+    {
+      "name": "game-smoke/5_Install pinned Godot toolchain.txt",
+      "size": 772,
+      "sha256": "d834ed80ebe4c30d0aa6c4b6d139695c96fb28ced14fd6a9fba03773770c7400"
+    },
+    {
+      "name": "game-smoke/6_Cache verified official download.txt",
+      "size": 1071,
+      "sha256": "6dd580038e0e1c603bcb2e028c307f855e1a2b274120cae24430620681d864d1"
+    },
+    {
+      "name": "game-smoke/7_Validate import and deterministic core game.txt",
+      "size": 64928,
+      "sha256": "1983c7f7a927e4debedb9dab9b4bff4148f088b3d4b924e977267f9a5d118950"
+    },
+    {
+      "name": "game-smoke/8_Validate navigation, recovery and touch runtime regressions.txt",
+      "size": 19724809,
+      "sha256": "b19fc03e0d52b6b3626ce255e6ee0d6d5d14a1d2107dbf6e466f399f6c3d37c1"
+    },
+    {
+      "name": "game-smoke/18_Post Run actions_checkout@11d5960a326750d5838078e36cf38b85af677262.txt",
+      "size": 1719,
+      "sha256": "f3ce81351f39b5f7cb12a1f1fba607b2f0312da8f216c31d5efe6cf3f2469db3"
+    },
+    {
+      "name": "game-smoke/19_Complete job.txt",
+      "size": 511,
+      "sha256": "10fba9e6255e30edb0456afa1708f04955d1fe901fa693f167df9cb793fa7989"
+    },
+    {
+      "name": "1_guidance.txt",
+      "size": 12039,
+      "sha256": "ebb580b216137d59490e37796c5af8c50aeb7b67dc9969ffe03f49811a638090"
+    },
+    {
+      "name": "guidance/system.txt",
+      "size": 598,
+      "sha256": "451ac6e0ce53ebb9f6b0a69c1d394696df8de3f1aea2eeebdf2ffa82e1f16447"
+    }
+  ],
+  "aggregate_size": 19839981,
+  "aggregate_sha256": "9dafaa3f8796753964e3aca54d438bf9c25e51cbcfc8f83d34ff0839ed3bcc48",
+  "partial_snapshots": [
+    {
+      "name": "hosted-job-snapshot-2348.log",
+      "size": 19839981,
+      "sha256": "9dafaa3f8796753964e3aca54d438bf9c25e51cbcfc8f83d34ff0839ed3bcc48",
+      "exact_prefix_of_final": true
+    },
+    {
+      "name": "hosted-job-snapshot.log",
+      "size": 16857868,
+      "sha256": "1e4e81648dc4a969df1b7111d56bc267392bb0a4e21ceddc9be1b329ddd41116",
+      "exact_prefix_of_final": true
+    }
+  ]
+}
