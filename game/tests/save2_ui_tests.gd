@@ -362,9 +362,34 @@ func fork_journey_case(shape:Vector2i)->void:
 							game=fresh
 	game.queue_free();await settle();cleanup(archive,settings)
 
+func blocked_cold_case(shape:Vector2i)->void:
+	root.size=shape;await settle()
+	var archive="user://save2-blocked-cold-%dx%d.save"%[shape.x,shape.y]
+	var settings=archive+"-settings.json";cleanup(archive,settings)
+	var journal=archive+".save2/transaction"
+	check(DirAccess.make_dir_recursive_absolute(journal.get_base_dir())==OK,"blocked cold-start fixture creates its own recovery directory")
+	var original=PackedByteArray([1,2,3,4])
+	var file=FileAccess.open(journal,FileAccess.WRITE);file.store_buffer(original);file.close()
+	var game=load("res://scenes/main.tscn").instantiate();game.set_script(load("res://tests/density_main.gd"))
+	game.store.path=archive;game.settings_path=settings;root.add_child(game);await settle();game.set_process(false)
+	var initialized=game.sim.mission.has("title") and game.sim.units.size()==3
+	check(initialized,"unreadable recovery journal still initializes a valid paused presentation simulation")
+	check(not game.active_started and game.sim.paused,"blocked cold boot exposes no active dive")
+	check(FileAccess.get_file_as_bytes(journal)==original and not FileAccess.file_exists(archive),"blocked cold boot preserves journal bytes and writes no campaign")
+	if initialized:
+		var front=game.get_node_or_null("Frontend")
+		if front!=null:front._continue()
+		game._show_campaign();game._briefing(0);await settle()
+		var before=game.sim.snapshot().duplicate(true)
+		if await touch_press(game,"begin"):
+			check(game.screen=="briefing" and not game.active_started and game.sim.snapshot()==before,"real launch stays blocked without entering the presentation simulation")
+		check(not game.store.save(game._archive()) and FileAccess.get_file_as_bytes(journal)==original and not FileAccess.file_exists(archive),"blocked recovery still prevents ordinary archive writes")
+	game.queue_free();await settle();cleanup(archive,settings)
+
 func run()->void:
 	Input.emulate_mouse_from_touch=true
 	for shape in [Vector2i(2520,1080),Vector2i(2184,1968)]:
 		await shape_case(shape)
 		await fork_journey_case(shape)
+		await blocked_cold_case(shape)
 	print("SAVE2 UI CHECKS %d FAILURES %d"%[checks,failures]);quit(1 if failures else 0)
