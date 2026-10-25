@@ -1,10 +1,10 @@
 # Handoff 033: DOCS1, module index with revert notes, and spec refresh
 
-Status: CLAIMED
+Status: DONE
 Assigned to: codex (Pat split the queue 24 Oct; Codex takes this when Pat says continue)
 Claimed at: 2026-10-25 22:23:18 UTC
 Claimed by: codex
-Finished at:
+Finished at: 2026-10-25 23:49:44 UTC
 
 Precondition: handoff 018 DONE (PR 74 merged).
 Codex may merge: yes, into claude/integration only, after GitHub guidance and game-smoke are both green on the exact head and the PR is mergeable. Merge with a merge commit, then mark DONE and update docs/codex/BOARD.md.
@@ -48,3 +48,13 @@ Extra cleanup beyond the original named docs follows Pat25October explicit stale
 Setup limits retained in external033 evidence: the initial small inventory had search misses (not game defects), corrected by root actual-source checks. A Windows default-encoding wording helper failed and was rerun with explicit UTF-8; game import/core separately passed. Legacy AItrace CRLF body bytes are retained, while new comments avoid CR-at-EOL whitespace errors. No gameplay test failure is claimed for those setup corrections.
 
 Current integration is contained; explicit merge already up to date. Hosted40241428577 guidance121313857302 passed, game-smoke121313857512 still running.033 remains CLAIMED pending final hosted gate, evidence publication and verified merge;048 follows.
+
+### DONE,7:49:44PM Eastern,25October2026
+
+PR145 mergede0ee34d356d61c42e9809305647415c103e3cf84 verified remotely and GitHub merged=true. Parentsbbc1bed0+e0c6e8f6 and tested tree952f6f01991773e2f102e76a9c74e10aa020ed28 match; source branch retained. Exacte0c6e8f6 has independent nonauthor PASS6404465570 and both green hosted jobs40241428577. Full hosted278summaries/17633reportedchecks/0failures/0actual script-engine-leak errors. Root and reviewer each ran import/core836/0 plus10guidance regression tests, registry275/0 and documented semantic checks.
+
+Final evidence archive27d20bdc9842837fcfb7f95397840d8420640fbf on archive/codex-033-docs-windows-20261025 contains19member local ZIP23521bytes/SHA2568b87705c91b3e2880a23ac35b8c37b12f8627979e63dab0575ddbeea221539ec, full hosted ZIP2319479bytes/SHA256a8e48f9f61a907758da4d2e8f01a4460f6ff00b5068accff4616b1d0011de299, manifests and merge verification. Raw hosted aggregate19839981bytes/SHA2569dafaa3f8796753964e3aca54d438bf9c25e51cbcfc8f83d34ff0839ed3bcc48. Both earlier partial logs are exact prefixes of the archived final log, verified byte-for-byte. The echoed grep command containing error patterns is explicitly retained/excluded as shell text; no actual errors discarded. Actual committed ZIP blobs/member hashes/CRCs verified.
+
+Reconciled historical cloud/art pauses, stale profile/final-pair/photo-route statements, five012 feel differences, current authorization and safe module reverts. Prior17516byte RESUME is preserved verbatim in a labeled same-directory historical snapshot; original failures/limits/links remain. Header corrections preserve shared helpers/validators, SAVE2 sidecars/recovery and tests. No executable source, schema, rule, test registration, story, artwork, UID/import churn or protected branch change. No extra meaningless RESUME commit to chase the merge SHA; this is the authorized source-document boundary and live board remains claim authority.
+
+Limits: no claim every disable/revert combination was exercised, every historical external artifact revalidated, full campaign/subjective/phone/human acceptance or APK/full local matrix. Older coupled modules honestly require coordinated reverts; no off flag invented. Current supplied scope complete. Pat-reassigned048 HUD is next, followed by sight-only050 with hearing/speed/lock unchanged.
