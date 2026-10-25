@@ -1,6 +1,6 @@
 # MENU REACH lifecycle repair, 25 October 2026 Eastern
 
-PR141 exact5a715b6528495df4f7700ff578804526fae5ebae on current base
+Historical PR141 candidate5a715b6528495df4f7700ff578804526fae5ebae on then-current base
 69fc9e468c026b5c3abe715c9e0dbbc2999ff97e. Independent Codex reviewer
 /root/ops038_review APPROVE is relayed in comment6393211227. Root strictly
 reread all17 final5a logs, verified exact SHA and unchanged tracked reviewer
@@ -40,8 +40,14 @@ contains historical rejected/candidate evidence; only final5a logs, named5a
 captures and the explicit repaired ordered runs above are claimed current.
 Earlier ZIP packets and original failures remain unchanged, not relabelled.
 
-Exact5a hosted40159952600 guidance121069231929 passed; game-smoke121069232039
-was still running when this packet was written. This packet does not establish
-its final result or authorize merge alone. Physical Android ergonomics and
+Historical packet-time status: exact5a hosted40159952600 guidance121069231929
+passed; game-smoke121069232039 was still running when this packet was written.
+This packet did not establish its final result or authorize merge alone. Physical Android ergonomics and
 complete campaign/fork journeys remain unverified. No APK, phone test or full
 local matrix was run.
+
+Later hosted result: game-smoke failed unchanged Loadout38/2 because the new
+bottom navigation rows displaced the stock comparison at scroll bottom on
+the narrow shape. README-5a-ci-failure preserves the final log and exact local
+red/green reproduction. This focused approval remains historical, not approval
+to merge that failed head. The newer compact-row candidate is documented next.
