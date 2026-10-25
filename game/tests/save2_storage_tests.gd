@@ -356,9 +356,9 @@ func run():
 		check(FileAccess.get_modified_time(quarantine_paths[index])==quarantine_times[index],"cold retention recovery preserves original suffix timestamp "+str(index))
 	check(not FileAccess.file_exists(manager.directory+"/transaction"),"cold retention recovery clears its journal")
 	var live_before_bad_retained=file_set(live_path)
-	var unauthorized_retained=manager.directory+"/retained/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee/0"
-	var bad_retained_journal=encoded_journal(live_path,{live_path+".outside":{"retained":unauthorized_retained,"bytes":quarantine_sizes[0]}})
-	check(write_bytes(manager.directory+"/transaction",bad_retained_journal),"write checksummed journal with retained path outside the transaction allowlist")
+	var unauthorized_retained=manager.directory+"/outside/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee/0"
+	var bad_retained_journal=encoded_journal(live_path,{live_path:{"retained":unauthorized_retained,"bytes":quarantine_sizes[0]}})
+	check(write_bytes(manager.directory+"/transaction",bad_retained_journal),"write checksummed journal with an allowed live target but an unauthorized retained source")
 	check(cold_store.load_game().is_empty(),"unauthorized retained descriptor blocks a cold Store read")
 	check(FileAccess.get_file_as_bytes(manager.directory+"/transaction")==bad_retained_journal and file_set(live_path)==live_before_bad_retained,"blocked retained descriptor preserves journal and live bytes")
 	DirAccess.remove_absolute(manager.directory+"/transaction")

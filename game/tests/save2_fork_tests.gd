@@ -92,6 +92,7 @@ func run():
  var damaged=manager.inspect("fork",0)
  check(manager.delete_entry("fork",0,true,damaged.token),"explicit confirmed deletion frees a fork slot for recovery")
  check(C.before_launch(host,9)==true,"next launch retries the committed checkpoint after storage recovers")
+ check(not host.has_meta("save2_banner") and not host.has_meta("save2_notice"),"successful retry clears the stale launch-paused notice")
  check(manager.list_entries("fork").any(func(e):return e.status=="ready" and e.record.event=="route"),"retry publishes the first committed route before preparing the next choice")
  manager.delete_all(true)
  # Cold restore is the other retry boundary. Reject unrelated run/launch IDs.
@@ -124,5 +125,12 @@ func run():
  check(manager.list_entries("fork").all(func(e):return e.status=="empty"),"successful replay never invents another first-choice checkpoint")
  C.before_launch(host,6);host.sim={"outcome":"lost","mission":{"id":6}};C.terminal(host)
  check(C.ensure_state(host).recoveries==count_before_replay+1,"lost replay never increments recovered-operation play count")
+ host.archive_warning="Existing unrelated archive warning"
+ var long_notice="A checkpoint needs storage recovery. ".repeat(30)
+ C.notice(host,long_notice);C.notice(host,long_notice+"Retry remains available.")
+ check(host.archive_warning.split("\n").size()==2 and host.archive_warning.begins_with("Existing unrelated archive warning\n"),"repeated SAVE2 notices retain other warnings and one short fixed banner only")
+ check(host.get_meta("save2_notice")==long_notice+"Retry remains available." and not long_notice in host.archive_warning,"complete recovery details remain available without expanding the fixed archive banner")
+ C.notice(host,"Hard save written.",false)
+ check(host.archive_warning=="Existing unrelated archive warning" and host.get_meta("save2_notice")=="Hard save written.","successful saved-state actions clear their own banner while preserving unrelated archive warnings")
  for suffix in ["",".bak",".tmp"]:DirAccess.remove_absolute(host.store.path+suffix)
  print("SAVE2 FORKS CHECKS %d FAILURES %d"%[checks,failures]);quit(1 if failures else 0)

@@ -24,10 +24,22 @@ static func ensure_state(host)->Dictionary:
 static func manager(host):return Storage.new(host.store.path)
 static func manual_allowed(host)->bool:
  return Table.enabled and not host.store.suspended and (not host.active_started or not host.sim.outcome.is_empty())
-static func notice(host,text:String)->void:
- if text.is_empty():return
- host.set_meta("save2_notice",text)
- if not text in host.archive_warning:host.archive_warning+=("\n" if not host.archive_warning.is_empty() else "")+text
+static func notice(host,text:String,sticky:bool=true)->void:
+ # Long SAVE2 details belong in the scrolling saved-state page. A growing
+ # fixed archive banner can otherwise cover the body's touch targets.
+ var previous=str(host.get_meta("save2_banner",""))
+ var lines=Array(host.archive_warning.split("\n",false))
+ if not previous.is_empty():lines=lines.filter(func(line):return line!=previous)
+ if host.has_meta("save2_banner"):host.remove_meta("save2_banner")
+ if text.is_empty():
+  if host.has_meta("save2_notice"):host.remove_meta("save2_notice")
+ else:host.set_meta("save2_notice",text)
+ if sticky and not text.is_empty():
+  var banner="Saved-state action needs attention. Open HARD SAVES."
+  if text.begins_with("Launch paused:"):banner="Launch paused. Open HARD SAVES for details."
+  elif text.begins_with("Saved state loaded"):banner="Saved state loaded."
+  lines.append(banner);host.set_meta("save2_banner",banner)
+ host.archive_warning="\n".join(lines)
  if host.has_method("_update_archive_status"):host._update_archive_status()
 static func write(host,data:Dictionary)->void:
  if not _persistent(host) and not host.has_meta(Table.STATE):return
@@ -42,6 +54,7 @@ static func restore(host,data:Dictionary)->void:
  elif Table.enabled:host.set_meta(Table.STATE,initial_state(data))
  if _persistent(host) and host.has_meta(Table.STATE) and ensure_state(host).between:_publish_pending(host,[])
 static func reset(host)->void:
+ notice(host,"",false)
  host.set_meta(Table.STATE,initial_state({}))
  for key in ["save2_ui_page","save2_notice","save2_session_error"]:
   if host.has_meta(key):host.remove_meta(key)
@@ -73,12 +86,15 @@ static func before_launch(host,index:int)->bool:
    notice(host,"Launch paused: the previous choice checkpoint still needs saving. Retry after storage recovers, or clear unreadable fork slots in REPLAY FROM FORK. The checkpoint was kept.")
    return false
  var launch=Table.identity()
+ var capture_ok=true
  if index in Table.TARGETS and Table.TARGETS[index].any(func(event):return _missing(event,host.expedition)):
   var archive:Dictionary=host._archive().duplicate(true)
   archive[Table.STATE].between=true
   var storage=manager(host)
-  if not storage.save_pending(archive,index,state.run_id,launch):notice(host,storage.warning+" A pre-choice checkpoint could not be recorded.")
+  if not storage.save_pending(archive,index,state.run_id,launch):
+   capture_ok=false;notice(host,storage.warning+" A pre-choice checkpoint could not be recorded.")
  state.launch_id=launch;state.between=false
+ if capture_ok:notice(host,"",false)
  return true
 static func terminal(host)->void:
  if not _persistent(host) or host.sim.outcome.is_empty():return
@@ -124,11 +140,15 @@ static func erase_option(host)->void:
  host.set_meta("save2_delete_states",false)
  if not Table.enabled:return
  var check=CheckBox.new();check.text="Also delete this profile's hard saves and fork states";check.custom_minimum_size.y=host.ui_touch_height
+ check.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;check.size_flags_horizontal=Control.SIZE_EXPAND_FILL
  check.set_meta("action","save2_erase_states");check.set_meta("ui_action","save2_erase_states")
  check.toggled.connect(func(value):host.set_meta("save2_delete_states",value));host.panel_box.add_child(check)
 static func before_erase(host)->bool:
+ var retained_notice=""
  if Table.enabled and host.get_meta("save2_delete_states",false):
   var storage=manager(host)
   if not storage.delete_all(true):notice(host,storage.warning+" Current campaign was kept.");return false
-  if not storage.warning.is_empty():notice(host,storage.warning)
- reset(host);return true
+  retained_notice=storage.warning
+ reset(host)
+ if not retained_notice.is_empty():notice(host,retained_notice)
+ return true

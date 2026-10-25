@@ -62,11 +62,12 @@ static func _manual_list(host,manager,page:Dictionary)->void:
 		var record:Dictionary=entry.get("record",{})
 		host._menu_text("SLOT %d · %s"%[index+1,record.get("label","Empty" if status=="empty" else "Unreadable")],20)
 		if status=="ready":
-			host._menu_text("Last recovered operation: %s\n%s\nSaved: %s"%[_operation(record.get("last_operation",0)),_recovery_label(entry),_timestamp(record.get("timestamp",0))])
+			host._menu_text("Last recovered operation: %s\n%s\nSaved: %s"%[_operation(record.get("last_operation",0),entry),_recovery_label(entry),_timestamp(record.get("timestamp",0))])
 		elif status=="unreadable":host._menu_text("Unreadable save. Its original files are retained.")
 		else:host._menu_text("No hard save in this slot.")
+		var name_row=HBoxContainer.new();name_row.add_theme_constant_override("separation",8);host.panel_box.add_child(name_row)
+		var line=LineEdit.new();line.placeholder_text="Hard save %d"%[index+1];line.text=str(record.get("label","Hard save %d"%[index+1]));line.max_length=Table.NAME_LIMIT;line.virtual_keyboard_enabled=true;line.custom_minimum_size=Vector2(0,host.ui_touch_height);line.size_flags_horizontal=Control.SIZE_EXPAND_FILL;line.add_theme_font_size_override("font_size",maxi(17,roundi(host.ui_touch_height*.29*load("res://src/presentation/frontend/frontend_settings.gd").text_scale())));line.set_meta("action","save2_name_%d"%index);line.set_meta("ui_action","save2_name_%d"%index);name_row.add_child(line)
 		var actions=HBoxContainer.new();actions.add_theme_constant_override("separation",8);host.panel_box.add_child(actions)
-		var line=LineEdit.new();line.placeholder_text="Hard save %d"%[index+1];line.text=str(record.get("label","Hard save %d"%[index+1]));line.max_length=Table.NAME_LIMIT;line.virtual_keyboard_enabled=true;line.custom_minimum_size=Vector2(0,host.ui_touch_height);line.size_flags_horizontal=Control.SIZE_EXPAND_FILL;line.set_meta("action","save2_name_%d"%index);line.set_meta("ui_action","save2_name_%d"%index);actions.add_child(line)
 		var token:String=entry.get("token","invalid")
 		var save=host._button(actions,"SAVE HERE",func():_save_action(host,manager,index,token,line,status,"manual",page.get("return_to","operations")),"save2_save_%d"%index)
 		save.disabled=not allowed or status=="unreadable"
@@ -75,6 +76,7 @@ static func _manual_list(host,manager,page:Dictionary)->void:
 			load_button.disabled=false
 		if status!="empty":
 			host._button(actions,"DELETE",func():_confirm(host,"delete",index,token,str(record.get("label","Unreadable save")),"manual",page.get("return_to","operations"),"",bool(entry.get("retained_on_delete",false))),"save2_delete_%d"%index)
+		_expand_actions(actions)
 
 static func _fork_list(host,manager,page:Dictionary)->void:
 	var entries=manager.list_entries("fork")
@@ -91,12 +93,13 @@ static func _fork_list(host,manager,page:Dictionary)->void:
 		var title:String=str(record.get("label","Unreadable fork state"))
 		host._menu_text(title,20)
 		if entry.get("status")=="ready":
-			host._menu_text("Last recovered operation: %s\n%s\nSaved: %s"%[_operation(record.get("last_operation",0)),_recovery_label(entry),_timestamp(record.get("timestamp",0))])
+			host._menu_text("Last recovered operation: %s\n%s\nSaved: %s"%[_operation(record.get("last_operation",0),entry),_recovery_label(entry),_timestamp(record.get("timestamp",0))])
 		else:host._menu_text("Unreadable fork state. Its original files are retained.")
 		var actions=HBoxContainer.new();actions.add_theme_constant_override("separation",8);host.panel_box.add_child(actions)
 		var token:String=entry.get("token","invalid")
 		if entry.get("status")=="ready":host._button(actions,"LOAD",func():_confirm(host,"load",slot_index,token,title,"fork",page.get("return_to","ending")),"save2_fork_load_%d"%slot_index)
 		host._button(actions,"DELETE",func():_confirm(host,"delete",slot_index,token,title,"fork",page.get("return_to","ending"),"",bool(entry.get("retained_on_delete",false))),"save2_fork_delete_%d"%slot_index)
+		_expand_actions(actions)
 	if not any:host._menu_text("No fork states have been recorded yet.")
 
 static func _confirm(host,operation:String,index:int,token:String,label:String,kind:String,return_to:String,target_label:String="",retained_on_delete:bool=false)->void:
@@ -130,8 +133,13 @@ static func _draw_confirm(host,page:Dictionary)->void:
 	var row=HBoxContainer.new();row.add_theme_constant_override("separation",10);host.panel_box.add_child(row)
 	host._button(row,"CONFIRM",func():_perform(host,page),"save2_confirm")
 	host._button(row,"CANCEL",func():_cancel(host),"save2_cancel")
+	_expand_actions(row)
 	host._button(host.menu_footer,"BACK",func():_cancel(host),"save2_back");host.menu_footer.show()
 	host.call_deferred("_layout")
+
+static func _expand_actions(row:HBoxContainer)->void:
+	for child in row.get_children():
+		if child is Button:child.size_flags_horizontal=Control.SIZE_EXPAND_FILL
 
 static func _cancel(host)->void:
 	var page=_page(host);page.page="list";page.erase("operation");page.erase("index");page.erase("token");page.erase("label");host.set_meta("save2_ui_page",page);_draw(host)
@@ -156,7 +164,7 @@ static func _perform(host,page:Dictionary)->void:
 	if page.operation=="load" and ok:return
 	if not message.is_empty():
 		var controller=load(CONTROLLER_PATH)
-		if controller!=null:controller.notice(host,message)
+		if controller!=null:controller.notice(host,message,not ok)
 	_result(host,message)
 
 static func _save_empty(host,manager,index:int,token:String,label:String)->void:
@@ -164,7 +172,7 @@ static func _save_empty(host,manager,index:int,token:String,label:String)->void:
 	var ok=manager.save_manual(index,archive,label,false,token)
 	var message="Hard save written." if ok else str(manager.warning)
 	var controller=load(CONTROLLER_PATH)
-	if controller!=null:controller.notice(host,message)
+	if controller!=null:controller.notice(host,message,not ok)
 	_result(host,message)
 
 static func _result(host,message:String)->void:
@@ -184,8 +192,10 @@ static func _recovery_label(entry:Dictionary)->String:
 	if state.is_empty() or bool(state.get("legacy_minimum",false)):return "Known recoveries (at least): %d"%count
 	return "Successful recoveries (including replays): %d"%count
 
-static func _operation(value)->String:
+static func _operation(value,entry:Dictionary={})->String:
 	var number=int(value)
+	var state:Dictionary=entry.get("data",{}).get(Table.STATE,{})
+	if number<=0 and bool(state.get("legacy_minimum",false)):return "Unknown (legacy archive)"
 	return "None" if number<=0 else "%02d"%number
 
 static func _timestamp(value)->String:
