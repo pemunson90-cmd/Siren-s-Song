@@ -1,10 +1,10 @@
 # Handoff 042: FINALE1 (PROVISIONAL), an END OF LINE screen when the last operation is first recovered
 
-Status: CLAIMED
+Status: DONE
 Assigned to: codex (Pat split the queue 24 Oct; Codex takes this when Pat says continue)
 Claimed at: 2026-10-25 05:15:17 UTC
 Claimed by: codex
-Finished at:
+Finished at: 2026-10-25 16:59:47 UTC
 
 Precondition: handoff 023 DONE or paused (touches debrief and campaign flow). Pat, 24 Oct: no firm answer on where the campaign ends; "mild blocker, pick a provisional repair". This is that repair. It is AI-DESIGNED and provisional: everything on the screen can be replaced by Pat later without rework.
 Codex may merge: yes, into claude/integration only, after GitHub guidance and game-smoke are both green on the exact head and the PR is mergeable. Merge with a merge commit, then mark DONE and update docs/codex/BOARD.md.
@@ -66,6 +66,20 @@ Resumed with Pat's explicit scope exception,25October2026 at11:55AM Eastern. The
 Exact091 review and interruption audit,25October2026 at12:05PM Eastern: independent non-author APPROVE https://github.com/pemunson90-cmd/Siren-s-Song/pull/142#issuecomment-6399876902, no P1/P2. Fresh import/core836/unit28/UI246/native255 all0,9PNG checks,10guidanceunit tests/audit/registry258 all pass. Parent reread all9 raw091 logs, verified reviewer HEAD and unchanged tracked files, and verified source/test trees equal94ae. Archive88c59154 preserves fresh091 proof (18members,3,132,781bytes,SHA256515dd4bdde2e23a68e876de5f16650cde06ddcacf4152450d851cce3203e4244) and Claude's read-only interruption audit. Hosted40209279734 guidance/core succeeded; full game-smoke121216845786 remains running. Earlier pending091-review text is historical.
 
 Pat's requested Claude cutoff audit:045/046/047/049 are merged through140/246eb721 and in current integration;048 builder stopped at10:26:59PM Eastern24October during source inspection. Its actual local branch claude/lane-hud-status at246eb721 is clean, with no retained implementation/test changes and no remote branch/PR.050 has merged design114/ca2bda00, with no implementation branch/module/PR found. The live open PR list contains only Codex142 and draft139. Detailed timestamps, paths, evidence sources and restart points are in archive evidence/042-windows-20261025/claude-interruption-audit-20261025.json. An initial agent's incorrect attribution of Codex menu headc991 to048 was rejected using direct local/remote checks before reporting the cutoff. Claude's checkout, worktrees, session files, automation and original claims were left unchanged. This audit does not reassign or begin048/050.
+
+### Final closeout,25October2026 at1:02PM Eastern
+
+DONE under the UPDATE: the first successful recovery of code id31 decorates the existing027 recovered-film wall with END OF LINE and exactly two AI-DESIGNED recorded-fact placeholder lines. The existing Credits screen returns to Operations, which offers manual replay after seen. Plain table labels replace the four raw fact keys. The optional validated end_of_line_seen boolean supports explicit-true and legacy completed-pair saves without automatic replay at boot, and resets on new campaign/profile restore. Table.enabled=false restores prior labels/flow while preserving the saved marker. Old Endings.resolve and ids12/13 recovery logic, frame selection, simulation and physical rules remain unchanged.
+
+PR https://github.com/pemunson90-cmd/Siren-s-Song/pull/142 merged at16:59:47UTC as0e1b12ca693023ad0385c22deea14f0c283d15c7. Tested head091f529e723b0510bee15aaac287c3c716bc4af1 contained then-current integration01bc90b0ad3fc28a73aa8121eb30f28f19eadfca. Independent non-author APPROVE comment6399876902 exists on exact091. Hosted40209279734 guidance121216845606 and game-smoke121216845786 both succeeded; the full run took62minutes, beyond the old60-minute cap. Parent reread the full19,062,834byte raw log (SHA25660333abe4b6426aec593ee541990368b8272395e508ab12a6bb609fd6bb99a77):261 completed summaries,0 error/failure markers, final Ops1472/menu309/lifecycle23/finale28/finaleUI246 all0. Registry258 suites,0errors/0warnings. Fresh independent091 import/core836/unit28/UI246/native255 all0,9 nativePNG checks and10guidanceunit tests passed. Earlier94 named regressions remain historical, not falsely relabeled as fresh091 runs.
+
+GitHub merged=true, remote integration tip, merge parents01bc90b0+091f529e and tree2659f7106f6b391bdd4e731f5f831d434869c076 were independently verified. The merge tree equals the tested head tree. Branch claude/lane-finale-provisional is retained. No frozen-branch promotion or APK.
+
+Evidence: archive/codex-042-finale-windows-20261025 at42b4238e8fefa4a0b42860c6111328c5438764f0. Current hosted-success ZIP has6members/4,956,588bytes/SHA25627d02668b1569c9798a7bdc0f5d2046e339e5af6cba64a1a80f480be56f62666, matching manifest, full/partial logs, final run/job JSON and merge-verification JSON. Parent reopened/member-verified every final ZIP and verified actual committed ZIP blobs. The original RED, assertion fixture correction, failed headless renderer-only profile attempt, incomplete first archive attempt, docs checker-path mistake, cancelled60-minute hosted run, old approvals/pending records, and earlier captures remain preserved and labeled historical. Nothing was deleted or amended.
+
+Outside original ownership: only the existing workflow job limit60->90, expressly authorized by Pat on25October; every test, assertion, command and480second per-suite cap is unchanged. Pat's requested read-only Claude cutoff audit is archived;048/050 claims and all Claude worktrees were preserved. The top-level Status/Finished and this board row now reflect verified completion in the same commit.
+
+Limits: exactly two placeholder lines still need Pat's eventual ending-text rewrite; existing027 Plate has no tap/enlarge interaction and UPDATE supersedes building another wall. Native desktop controlled recovery/save/touch fixtures do not prove blind campaign play or physical Android ergonomics. No phone/human testing was requested. Earlier failure/pending/blocker paragraphs above are historical. Next assigned task:043 SAVE2, then040 and033; do not infer authorization to take over Claude's048/050 from this audit.
 
 
 SUITE RANK BLOCK (Claude, 24 Oct): Codex's new suites use local 240.. and CI 260.. so they cannot collide with Claude's blocks (local 228-239, CI 251-259). Validate with scripts/toolchain/check-suites.py before committing.
