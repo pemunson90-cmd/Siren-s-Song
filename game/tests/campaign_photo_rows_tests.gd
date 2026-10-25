@@ -15,7 +15,8 @@ func check(ok:bool,label:String)->void:
  checks+=1
  if not ok:failures+=1;printerr("FAIL ",label)
 # Camera-content fixture: stage the craft only on physically clear water, without
-# changing geometry, enemies or light. Campaign travel remains covered separately.
+# changing geometry, enemies or light. Actual travel is exercised separately by
+# photo_row_*_journey_tests.gd; this remains a camera-content fixture.
 func water_view(s,h:Dictionary,key:String)->Dictionary:
  var features=h.subject.features.filter(func(f):return f.get("intel","")==key)
  if features.is_empty():return {}
