@@ -75,7 +75,7 @@ Codex033 is deferred by Pat. No unfinished Codex implementation claim remains.
 |---|---|---|---|---|---|
 | P | 038 OPS HOME: next op, route map and fittings at top; fold recovered; Erase to Settings only | DONE | [136](https://github.com/pemunson90-cmd/Siren-s-Song/pull/136) | 2026-10-25 03:09:39 UTC | Merged69fc9e46, exact331/current246 bothgreen40153330436 and independent APPROVE. Core835/home1382 all0; evidence537967ff. Optional Back deferred;044 next. |
 | 38 | 039 CONSEQUENCE LINES for debriefs of ops15 to30 | DONE | [126](https://github.com/pemunson90-cmd/Siren-s-Song/pull/126) | 2026-10-24 19:24:11 UTC | Claude merged46a3be8; GitHub merged=true and current ancestry verified. Stale claim reconciled24October. |
-| 39 | 040 PHOTO ROW JOURNEYS under live Sirens (14 rows) | OPEN (assigned: Codex) | | | |
+| 39 | 040 PHOTO ROW JOURNEYS under live Sirens (14 rows) | CLAIMED (codex) | | | Claim 2026-10-25 19:51:09 UTC.043 merged0bf42344. Fourteen live-Siren journeys, investigate op8 flag/op9 hold; no senses, combat or story changes. |
 Also: 029 now includes the F7 addendum (GOAL / DANGER / NEW THIS DIVE for ops 7 to 30). Held for Pat: ending at op 30, replay without erase, settings/title reachable from Operations, quit_on_go_back, early-reward count, anything on Siren senses or lock timing.
 
 ## BATCH 8 (24 Oct, Pat's decisions on cold review 3; AI-DESIGNED, Pat to adjust)

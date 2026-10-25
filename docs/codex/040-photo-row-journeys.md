@@ -1,9 +1,9 @@
 # Handoff 040: PHOTO ROW JOURNEYS, play evidence for the 14 campaign photo rows under live Sirens
 
-Status: OPEN
+Status: CLAIMED
 Assigned to: codex (Pat split the queue 24 Oct; Codex takes this when Pat says continue)
-Claimed at:
-Claimed by:
+Claimed at: 2026-10-25 19:51:09 UTC
+Claimed by: codex
 Finished at:
 
 Precondition: none (tests, and small data fixes only if a bug is proven).
