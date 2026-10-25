@@ -241,3 +241,6 @@ order_table_tests|ORDER TABLE|223|246
 photo_window_rules_tests|PHOTO WINDOW RULES|224|247
 art_tests|ART|-|232
 art_render_measurements|ART RENDER|-|233|render
+challenges_completions_opening_tests|CHALLENGES COMPLETIONS OPENING|233|257
+challenges_completions_reach_tests|CHALLENGES COMPLETIONS REACH|234|258
+challenges_completions_iron_tests|CHALLENGES COMPLETIONS IRON|235|259
