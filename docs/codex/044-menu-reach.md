@@ -1,10 +1,10 @@
 # Handoff 044: MENU REACH, full settings, title, challenges and credits reachable from Operations
 
-Status: CLAIMED
+Status: DONE
 Assigned to: codex (Pat split the queue 24 Oct; Codex takes this when Pat says continue)
 Claimed at: 2026-10-25 03:10:26 UTC
 Claimed by: codex
-Finished at:
+Finished at: 2026-10-25 05:11:59 UTC
 
 Precondition: handoff 038 (OPS HOME) DONE, so the Operations layout is settled. Pat decided 24 Oct: yes (cold review 3 finding F6).
 Codex may merge: yes, into claude/integration only, after GitHub guidance and game-smoke are both green on the exact head and the PR is mergeable. Merge with a merge commit, then mark DONE and update docs/codex/BOARD.md.
@@ -33,7 +33,19 @@ By real touch at both Fold7 shapes and 960x432: every setting reachable after CO
 PR into claude/integration. Merge per the line above; mark DONE and update the board.
 
 ## Completion
-(Codex fills this in.)
+Operations now reaches full settings, Title, Challenges and Credits without restarting. Settings keeps the fixed Back button and visible save warnings, shows115percent correctly, and saves pending choices when dismissed, closed or suspended. The compact bottom navigation preserves the equipment comparison.
+
+Done044, 25 October2026,1:12AM Eastern. [PR141](https://github.com/pemunson90-cmd/Siren-s-Song/pull/141) merged01bc90b0ad3fc28a73aa8121eb30f28f19eadfca into claude/integration. Last pushed lane headc991a00ee055da7824d015503d8a14357ff00598 on claude/lane-menu-reach contained then-current69fc9e46. GitHub merged=true, actual remote containment, merge parents69fc+c991 and identical tested/merged tree93d01706fe54a50f3f1fcb0e44b7d78cf1e7410a verified. No branch deleted or frozen branch promoted.
+
+Exactc991 hosted40161800552 completed SUCCESS: guidance121074743664 and game-smoke121074744389, including the full regression step and final Operations1472/0, menu309/0 and lifecycle23/0. Independent exact-head APPROVE with one nonblocking P3 is relayed in comment6393524504 from Codex agent /root/ops038_review, not formal approval or Claude provenance. Fresh independent import/core836/menu309 headless+324native including15captures/loadout38 both/Operations1472 both/lifecycle23 both/native frontend63/accessibility88/density7/scroll17/unchanged camera68/rules15/Back17 and unchanged ordered onboarding30 then depth UI42 in one fresh scoped root all exited0 with zero failures. Root strictly reread all19 logs, source identity and saved100percent JSON. Author current import/core836/native menu324 also pass. Registry256 validates0/0; assigned rank blocks preserved.
+
+The shared frontend builder owns the settings values. Existing Main forwarders and one CampaignFlow entry are narrow presentation seams; no outside ownership was needed. Settings/save keys and schema, camera, simulation rules and story are unchanged. Original onboarding, sonar and loadout tests remain unchanged; the existing density/accessibility adapters retain their behavioral assertions. A module/table off switch restores old routing. Mute remembers the last positive master in host session metadata; extra app-restart memory is not claimed.
+
+Known nonblocking P3: navigation labels wrap midword at150percent, especially960x432; all letters and48dp controls remain visible/tappable. Root and reviewer inspected all three captured shapes. Physical Android ergonomics and complete campaign/fork journeys remain unverified; no phone/APK/full local matrix was run.
+
+Evidence archive0c86d9bd98f9bd7f7b4fb4d09267dbd9bbf0da59 on archive/codex-044-menu-reach-windows-20261024 retains every original failure and older packet, current57member proof, author/reviewer images and full18698437byte final hosted success log. Final2member ZIP1055508bytes/SHA25674c660aa1f86874943f55396317de74afa59987df961efeb3f186d8150ee0939; every member and actual committed Git ZIP blob verified. Rejected88 mute evidence, failedbf lifecycle order, failed5a stock layout and fixture qualifications remain intact. Earlier pending/approved notes below are historical, not later gate claims. No RESUME/spec refresh outside ownership. Recommended next: read042 UPDATE and reuse027 photo wall, then043,040,033 per Pat.
+
+### Historical implementation, review and recovery record
 
 
 SUITE RANK BLOCK (Claude, 24 Oct): Codex's new suites use local 240.. and CI 260.. so they cannot collide with Claude's blocks (local 228-239, CI 251-259). Validate with scripts/toolchain/check-suites.py before committing.
