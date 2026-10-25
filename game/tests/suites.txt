@@ -244,3 +244,12 @@ order_table_tests|ORDER TABLE|223|246
 photo_window_rules_tests|PHOTO WINDOW RULES|224|247
 art_tests|ART|-|232
 art_render_measurements|ART RENDER|-|233|render
+early_reward2_tests|EARLY REWARD2|231|255
+early_reward2_ui_tests|EARLY REWARD2 UI|232|256|render
+death_cause_tests|DEATH CAUSE|230|253
+death_cause_ui_tests|DEATH CAUSE UI|236|254|render
+first_siren_cue_ext_tests|FIRST SIREN CUE EXT|228|251
+first_siren_cue_ext_ui_tests|FIRST SIREN CUE EXT UI|229|252|render
+challenges_completions_opening_tests|CHALLENGES COMPLETIONS OPENING|233|257
+challenges_completions_reach_tests|CHALLENGES COMPLETIONS REACH|234|258
+challenges_completions_iron_tests|CHALLENGES COMPLETIONS IRON|235|259
