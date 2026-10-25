@@ -14,8 +14,8 @@ fair to one route only:
 
 | lung_solo route | time | hull | tools | vs par time 110 s |
 |---|---|---|---|---|
-| dismantle (west feed room) | 79.4 s | 100 | 0 | meets (3 of 3 pars) |
-| reconnect (far breaker, plant, return) | 273.8 s | 100 | 0 | cannot meet (2 of 3 pars) |
+| dismantle (west feed room) | 79.3 s | 100 | 0 | meets (3 of 3 pars) |
+| reconnect (far breaker, plant, return) | 273.6 s | 100 | 0 | cannot meet (2 of 3 pars) |
 
 The reconnect route cannot reach par 110 s by any shortening of the course: the
 plant approach alone is a 2750 m loop at cruise speed. The dismantle/reconnect choice
@@ -40,9 +40,9 @@ not a difficulty distribution).
 | glass_passive | glass course | 139.5 | 100 | 0 | 210 | 90 | 0 | 3 |
 | reach_quiet | glass course | 149.6 | 100 | 0 | 240 | 85 | 0 | 3 |
 | glass_fast | glass course | 182.8 | 74.4 | 0 | 240 | 85 | 0 | 2 (hull par missed) |
-| stair_no_charges | lock cycle | 188.1 | 100 | 0 | 240 | 90 | 0 | 3 |
-| lung_solo | dismantle | 79.4 | 100 | 0 | 110 | 100 | 0 | 3 |
-| lung_solo | reconnect | 273.8 | 100 | 0 | 110 | 100 | 0 | 2 |
+| stair_no_charges | lock cycle | 187.9 | 100 | 0 | 240 | 90 | 0 | 3 |
+| lung_solo | dismantle | 79.3 | 100 | 0 | 110 | 100 | 0 | 3 |
+| lung_solo | reconnect | 273.6 | 100 | 0 | 110 | 100 | 0 | 2 |
 
 Note 1: the Shelf journey is the existing test; its `Travel.move` helper fires EMP
 on a lock, so it spends 2 EMP charges and misses the tools par. It was read from that
@@ -67,8 +67,8 @@ Only `lung_solo` needs a change; every other row keeps its current par.
 
 | row | route | current par time | proposed par time | basis | Pat decision |
 |---|---|---|---|---|---|
-| lung_solo | dismantle | 110 | 110 (unchanged) | measured 79.4 s | accept / change |
-| lung_solo | reconnect | 110 | 300 (proposed) | measured 273.8 s, about 10 percent margin | accept / change |
+| lung_solo | dismantle | 110 | 110 (unchanged) | measured 79.3 s | accept / change |
+| lung_solo | reconnect | 110 | 300 (proposed) | measured 273.6 s, about 10 percent margin | accept / change |
 
 Hull 100 and tools 0 would stay the same on both routes (both measured 100 hull, 0 tools).
 
