@@ -238,4 +238,5 @@ static func new_campaign(host)->void:
 	host.completed=[];host.unlocked=0;host.expedition={};host.recovered_evidence={};host.photo_records={};host.photo_intel={};host.hints_seen=[]
 	host.fleet={}
 	host.fitted_equipment=preload("res://src/equipment/equipment_catalog.gd").default_loadout();host.upgrade="endurance"
+	preload("res://src/presentation/first_siren_cue/cue_archive.gd").restore_types(host,{})  # a new campaign forgets seen Siren kinds
 	host._start_mission(0);host._save_archive();host._show_campaign()

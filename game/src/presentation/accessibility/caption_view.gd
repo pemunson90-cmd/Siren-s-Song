@@ -23,7 +23,9 @@ func refresh(host)->void:
   if control.is_visible_in_tree():occupied.append(control.get_global_rect())
  if host.lock_warning.visible:occupied.append(Rect2(host.global_position+host.lock_warning.banner.position,host.lock_warning.banner.size))
  var first=host.hud.get_node_or_null("FirstSirenCue")
- if first!=null and first.visible:occupied.append(Rect2(host.global_position+first.marker_rect.position,first.marker_rect.size))
+ if first!=null and first.visible:
+  occupied.append(Rect2(host.global_position+first.marker_rect.position,first.marker_rect.size))
+  if not first.note_frames.is_empty():occupied.append(Rect2(host.global_position+first.note_rect.position,first.note_rect.size))
  var previous=get_global_rect()
  if text==caption and last_font==fs and Rect2(host.global_position,host.size).encloses(previous) and not occupied.any(func(r):return previous.grow(Layout.gap).intersects(r)):
   show();return
