@@ -1,0 +1,82 @@
+{
+  "purpose": "Preserved hosted CI logs for cancelled PR142 run; partial snapshots and final cancellation log retained, including identical snapshots.",
+  "repository": "pemunson90-cmd/Siren-s-Song",
+  "pr": 142,
+  "head": "94ae4a2be26e0d44440ad74536869485ab76a141",
+  "base": "01bc90b0ad3fc28a73aa8121eb30f28f19eadfca",
+  "run_id": 40166837512,
+  "game_smoke_job_id": 121089563322,
+  "guidance_job_id": 121089563689,
+  "game_smoke_conclusion": "cancelled",
+  "guidance_conclusion": "success",
+  "zip": {
+    "path": "hosted-cancelled-40166837512.zip",
+    "bytes": 6513156,
+    "sha256": "63894563215b130ad600183350f681bfd9da79fa406fda18e5bdbf1b43bbd511",
+    "member_count": 9
+  },
+  "verification": {
+    "reopened": true,
+    "zip_testzip": "passed",
+    "every_member_crc32_verified": true,
+    "every_member_size_verified": true,
+    "every_member_sha256_verified": true
+  },
+  "members": [
+    {
+      "path": "ci-94ae-direct-20261025-055856.log",
+      "bytes": 2108744,
+      "sha256": "0683d1367ed9e6791c1d4957341691da0cd9a8e093db3a4ec9dde11d6612b281",
+      "crc32": "931f1624"
+    },
+    {
+      "path": "ci-94ae-direct-20261025-060709.log",
+      "bytes": 8427266,
+      "sha256": "ef399808ee6d17df76305260975a879a6bd34e2b4c1e88c395d8ef752bddf421",
+      "crc32": "f9738db5"
+    },
+    {
+      "path": "ci-94ae-direct-20261025-061513.log",
+      "bytes": 10534505,
+      "sha256": "939c5e2c471b5ae48f5261aff5f66f6c63643144388be2dce18ce139f3fededb",
+      "crc32": "5ebdf300"
+    },
+    {
+      "path": "ci-94ae-direct-20261025-062156.log",
+      "bytes": 12643610,
+      "sha256": "2f5d7f2b7e436b79b675ffefa69c66893bb94d283720eac6d8e37b38ae28ff78",
+      "crc32": "e2264cb8"
+    },
+    {
+      "path": "ci-94ae-direct-20261025-062729.log",
+      "bytes": 14749912,
+      "sha256": "7243bab44ebffc7c0fdb6c298a29c877f788030d118353df036eb7b69bac60b7",
+      "crc32": "a212d1d3"
+    },
+    {
+      "path": "ci-94ae-direct-20261025-063836.log",
+      "bytes": 14749912,
+      "sha256": "7243bab44ebffc7c0fdb6c298a29c877f788030d118353df036eb7b69bac60b7",
+      "crc32": "a212d1d3"
+    },
+    {
+      "path": "ci-94ae-direct-20261025-063856.log",
+      "bytes": 14749912,
+      "sha256": "7243bab44ebffc7c0fdb6c298a29c877f788030d118353df036eb7b69bac60b7",
+      "crc32": "a212d1d3"
+    },
+    {
+      "path": "ci-94ae-direct-20261025-064456.log",
+      "bytes": 16856145,
+      "sha256": "7d8a89b0a651227fa4e6acef4e7da2eca0a56fc94c943072816dd73adeecc73e",
+      "crc32": "1ba1b6a8"
+    },
+    {
+      "path": "ci-94ae-direct-20261025-065026.log",
+      "bytes": 18442608,
+      "sha256": "6ebd23ad2fb3b40d5c661dbec2dfa6c540e1672c997f38eef49890a7764b735d",
+      "crc32": "886aa75f"
+    }
+  ],
+  "created_utc": "2026-10-25T06:52:47.547149+00:00"
+}
