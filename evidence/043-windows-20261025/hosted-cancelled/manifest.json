@@ -1,0 +1,5198 @@
+{
+  "qualification": "All listed runs are completed with conclusion cancelled. Their logs are incomplete WIP evidence and are never classified as passing runs.",
+  "repository": "pemunson90-cmd/Siren-s-Song",
+  "runs": [
+    {
+      "check_summaries": [
+        {
+          "checks": 836,
+          "failures": 0
+        },
+        {
+          "checks": 667,
+          "failures": 0
+        },
+        {
+          "checks": 30,
+          "failures": 0
+        },
+        {
+          "checks": 15,
+          "failures": 0
+        },
+        {
+          "checks": 78,
+          "failures": 0
+        },
+        {
+          "checks": 212,
+          "failures": 0
+        },
+        {
+          "checks": 52,
+          "failures": 0
+        },
+        {
+          "checks": 46,
+          "failures": 0
+        },
+        {
+          "checks": 68,
+          "failures": 0
+        },
+        {
+          "checks": 77,
+          "failures": 0
+        },
+        {
+          "checks": 43,
+          "failures": 0
+        },
+        {
+          "checks": 76,
+          "failures": 0
+        },
+        {
+          "checks": 23,
+          "failures": 0
+        },
+        {
+          "checks": 33,
+          "failures": 0
+        },
+        {
+          "checks": 69,
+          "failures": 0
+        },
+        {
+          "checks": 31,
+          "failures": 0
+        },
+        {
+          "checks": 58,
+          "failures": 0
+        },
+        {
+          "checks": 37,
+          "failures": 0
+        },
+        {
+          "checks": 199,
+          "failures": 0
+        },
+        {
+          "checks": 114,
+          "failures": 0
+        },
+        {
+          "checks": 41,
+          "failures": 0
+        },
+        {
+          "checks": 52,
+          "failures": 0
+        },
+        {
+          "checks": 33,
+          "failures": 0
+        },
+        {
+          "checks": 42,
+          "failures": 0
+        },
+        {
+          "checks": 132,
+          "failures": 0
+        },
+        {
+          "checks": 72,
+          "failures": 0
+        },
+        {
+          "checks": 49,
+          "failures": 0
+        },
+        {
+          "checks": 60,
+          "failures": 0
+        }
+      ],
+      "check_summary_count": 28,
+      "classification": "cancelled_incomplete",
+      "expected_head_prefix": "0fe9c536",
+      "fail_marker_line_count": 31,
+      "log_archive_status": "downloaded_crc_valid",
+      "log_zip_bytes": 268424,
+      "log_zip_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\043-evidence\\hosted-cancelled\\40216385076\\logs.zip",
+      "log_zip_sha256": "98673af2d598e6f75fcacd5feba3c75bb6b5a47684abbe2ad99cf3f0aa680857",
+      "logs_api_exit_code": 0,
+      "logs_response_bytes": 268424,
+      "logs_response_sha256": "98673af2d598e6f75fcacd5feba3c75bb6b5a47684abbe2ad99cf3f0aa680857",
+      "members": [
+        {
+          "compressed_bytes": 3434,
+          "crc32": "bbf53f0c",
+          "fail_marker_lines": 0,
+          "name": "0_guidance.txt",
+          "sha256": "9c128407e2a1a2eaa76108f4772750e19fb620ed6c50f692b973516c08cf7a9c",
+          "summary_lines": [],
+          "uncompressed_bytes": 12041
+        },
+        {
+          "compressed_bytes": 295,
+          "crc32": "e1ccc7db",
+          "fail_marker_lines": 0,
+          "name": "guidance/system.txt",
+          "sha256": "22e987ed0e6b0fc53287c26638ab3be4b3140fd341c9e99c029b8718543b9fea",
+          "summary_lines": [],
+          "uncompressed_bytes": 598
+        },
+        {
+          "compressed_bytes": 263865,
+          "crc32": "e802a330",
+          "fail_marker_lines": 31,
+          "name": "1_game-smoke.txt",
+          "sha256": "e97b181fd36c312c52bfc7b27d0f5b046b4db23ba5cdde571a37719fa7fb03d8",
+          "summary_lines": [
+            {
+              "checks": 836,
+              "failures": 0
+            },
+            {
+              "checks": 667,
+              "failures": 0
+            },
+            {
+              "checks": 30,
+              "failures": 0
+            },
+            {
+              "checks": 15,
+              "failures": 0
+            },
+            {
+              "checks": 78,
+              "failures": 0
+            },
+            {
+              "checks": 212,
+              "failures": 0
+            },
+            {
+              "checks": 52,
+              "failures": 0
+            },
+            {
+              "checks": 46,
+              "failures": 0
+            },
+            {
+              "checks": 68,
+              "failures": 0
+            },
+            {
+              "checks": 77,
+              "failures": 0
+            },
+            {
+              "checks": 43,
+              "failures": 0
+            },
+            {
+              "checks": 76,
+              "failures": 0
+            },
+            {
+              "checks": 23,
+              "failures": 0
+            },
+            {
+              "checks": 33,
+              "failures": 0
+            },
+            {
+              "checks": 69,
+              "failures": 0
+            },
+            {
+              "checks": 31,
+              "failures": 0
+            },
+            {
+              "checks": 58,
+              "failures": 0
+            },
+            {
+              "checks": 37,
+              "failures": 0
+            },
+            {
+              "checks": 199,
+              "failures": 0
+            },
+            {
+              "checks": 114,
+              "failures": 0
+            },
+            {
+              "checks": 41,
+              "failures": 0
+            },
+            {
+              "checks": 52,
+              "failures": 0
+            },
+            {
+              "checks": 33,
+              "failures": 0
+            },
+            {
+              "checks": 42,
+              "failures": 0
+            },
+            {
+              "checks": 132,
+              "failures": 0
+            },
+            {
+              "checks": 72,
+              "failures": 0
+            },
+            {
+              "checks": 49,
+              "failures": 0
+            },
+            {
+              "checks": 60,
+              "failures": 0
+            }
+          ],
+          "uncompressed_bytes": 4440487
+        },
+        {
+          "compressed_bytes": 300,
+          "crc32": "a3ad5abc",
+          "fail_marker_lines": 0,
+          "name": "game-smoke/system.txt",
+          "sha256": "33e906d900b1d6b570cea3a2d00d9d89cd36bfa03c2b42db6ab87bdba2eef965",
+          "summary_lines": [],
+          "uncompressed_bytes": 600
+        }
+      ],
+      "metadata": {
+        "conclusion": "cancelled",
+        "createdAt": "2026-10-25T17:25:19Z",
+        "databaseId": 40216385076,
+        "event": "pull_request",
+        "headSha": "0fe9c536bd34a537dca48b58326120adf8454e59",
+        "status": "completed",
+        "updatedAt": "2026-10-25T17:36:41Z",
+        "url": "https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/40216385076",
+        "workflowName": "Gauntlet PR checks"
+      },
+      "metadata_exit_code": 0,
+      "metadata_status": "verified_cancelled",
+      "metadata_verified": true,
+      "run_id": 40216385076,
+      "uncompressed_log_bytes": 4453726,
+      "zip_crc_check": "passed",
+      "zip_member_count": 4
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 836,
+          "failures": 0
+        },
+        {
+          "checks": 667,
+          "failures": 0
+        },
+        {
+          "checks": 30,
+          "failures": 0
+        },
+        {
+          "checks": 15,
+          "failures": 0
+        },
+        {
+          "checks": 78,
+          "failures": 0
+        },
+        {
+          "checks": 212,
+          "failures": 0
+        },
+        {
+          "checks": 52,
+          "failures": 0
+        },
+        {
+          "checks": 46,
+          "failures": 0
+        },
+        {
+          "checks": 68,
+          "failures": 0
+        },
+        {
+          "checks": 77,
+          "failures": 0
+        },
+        {
+          "checks": 43,
+          "failures": 0
+        },
+        {
+          "checks": 76,
+          "failures": 0
+        },
+        {
+          "checks": 23,
+          "failures": 0
+        },
+        {
+          "checks": 33,
+          "failures": 0
+        },
+        {
+          "checks": 69,
+          "failures": 0
+        },
+        {
+          "checks": 31,
+          "failures": 0
+        },
+        {
+          "checks": 58,
+          "failures": 0
+        },
+        {
+          "checks": 37,
+          "failures": 0
+        },
+        {
+          "checks": 199,
+          "failures": 0
+        },
+        {
+          "checks": 114,
+          "failures": 0
+        },
+        {
+          "checks": 41,
+          "failures": 0
+        },
+        {
+          "checks": 52,
+          "failures": 0
+        },
+        {
+          "checks": 33,
+          "failures": 0
+        },
+        {
+          "checks": 42,
+          "failures": 0
+        },
+        {
+          "checks": 132,
+          "failures": 0
+        },
+        {
+          "checks": 72,
+          "failures": 0
+        },
+        {
+          "checks": 49,
+          "failures": 0
+        },
+        {
+          "checks": 60,
+          "failures": 0
+        },
+        {
+          "checks": 412,
+          "failures": 0
+        },
+        {
+          "checks": 42,
+          "failures": 0
+        },
+        {
+          "checks": 14,
+          "failures": 0
+        },
+        {
+          "checks": 40,
+          "failures": 0
+        },
+        {
+          "checks": 9,
+          "failures": 0
+        },
+        {
+          "checks": 70,
+          "failures": 0
+        },
+        {
+          "checks": 28,
+          "failures": 0
+        },
+        {
+          "checks": 57,
+          "failures": 0
+        },
+        {
+          "checks": 47,
+          "failures": 0
+        },
+        {
+          "checks": 91,
+          "failures": 0
+        },
+        {
+          "checks": 17,
+          "failures": 0
+        },
+        {
+          "checks": 20,
+          "failures": 0
+        },
+        {
+          "checks": 13,
+          "failures": 0
+        },
+        {
+          "checks": 108,
+          "failures": 0
+        },
+        {
+          "checks": 24,
+          "failures": 0
+        },
+        {
+          "checks": 17,
+          "failures": 0
+        },
+        {
+          "checks": 22,
+          "failures": 0
+        },
+        {
+          "checks": 36,
+          "failures": 0
+        },
+        {
+          "checks": 14,
+          "failures": 0
+        },
+        {
+          "checks": 14,
+          "failures": 0
+        },
+        {
+          "checks": 10,
+          "failures": 0
+        },
+        {
+          "checks": 52,
+          "failures": 0
+        },
+        {
+          "checks": 32,
+          "failures": 0
+        },
+        {
+          "checks": 108,
+          "failures": 0
+        },
+        {
+          "checks": 58,
+          "failures": 0
+        },
+        {
+          "checks": 15,
+          "failures": 0
+        },
+        {
+          "checks": 31,
+          "failures": 0
+        },
+        {
+          "checks": 16,
+          "failures": 0
+        },
+        {
+          "checks": 22,
+          "failures": 0
+        },
+        {
+          "checks": 69,
+          "failures": 0
+        },
+        {
+          "checks": 59,
+          "failures": 0
+        },
+        {
+          "checks": 134,
+          "failures": 0
+        },
+        {
+          "checks": 49,
+          "failures": 0
+        },
+        {
+          "checks": 60,
+          "failures": 0
+        },
+        {
+          "checks": 63,
+          "failures": 0
+        },
+        {
+          "checks": 24,
+          "failures": 0
+        },
+        {
+          "checks": 17,
+          "failures": 0
+        },
+        {
+          "checks": 55,
+          "failures": 0
+        },
+        {
+          "checks": 37,
+          "failures": 0
+        },
+        {
+          "checks": 22,
+          "failures": 0
+        },
+        {
+          "checks": 18,
+          "failures": 0
+        },
+        {
+          "checks": 61,
+          "failures": 0
+        },
+        {
+          "checks": 57,
+          "failures": 0
+        },
+        {
+          "checks": 52,
+          "failures": 0
+        },
+        {
+          "checks": 73,
+          "failures": 0
+        },
+        {
+          "checks": 49,
+          "failures": 0
+        },
+        {
+          "checks": 35,
+          "failures": 0
+        },
+        {
+          "checks": 68,
+          "failures": 0
+        },
+        {
+          "checks": 13,
+          "failures": 0
+        },
+        {
+          "checks": 13,
+          "failures": 0
+        },
+        {
+          "checks": 52,
+          "failures": 0
+        },
+        {
+          "checks": 9,
+          "failures": 0
+        },
+        {
+          "checks": 45,
+          "failures": 0
+        },
+        {
+          "checks": 25,
+          "failures": 0
+        },
+        {
+          "checks": 64,
+          "failures": 0
+        },
+        {
+          "checks": 11,
+          "failures": 0
+        },
+        {
+          "checks": 49,
+          "failures": 0
+        },
+        {
+          "checks": 49,
+          "failures": 0
+        },
+        {
+          "checks": 4,
+          "failures": 0
+        },
+        {
+          "checks": 31,
+          "failures": 0
+        },
+        {
+          "checks": 12,
+          "failures": 0
+        },
+        {
+          "checks": 6,
+          "failures": 0
+        },
+        {
+          "checks": 21,
+          "failures": 0
+        },
+        {
+          "checks": 53,
+          "failures": 0
+        },
+        {
+          "checks": 20,
+          "failures": 0
+        },
+        {
+          "checks": 7,
+          "failures": 0
+        },
+        {
+          "checks": 14,
+          "failures": 0
+        },
+        {
+          "checks": 8,
+          "failures": 0
+        },
+        {
+          "checks": 11,
+          "failures": 0
+        },
+        {
+          "checks": 35,
+          "failures": 0
+        },
+        {
+          "checks": 33,
+          "failures": 0
+        },
+        {
+          "checks": 10,
+          "failures": 0
+        },
+        {
+          "checks": 11,
+          "failures": 0
+        },
+        {
+          "checks": 7,
+          "failures": 0
+        },
+        {
+          "checks": 48,
+          "failures": 0
+        },
+        {
+          "checks": 31,
+          "failures": 0
+        },
+        {
+          "checks": 13,
+          "failures": 0
+        },
+        {
+          "checks": 6,
+          "failures": 0
+        },
+        {
+          "checks": 9,
+          "failures": 0
+        },
+        {
+          "checks": 178,
+          "failures": 0
+        },
+        {
+          "checks": 86,
+          "failures": 0
+        },
+        {
+          "checks": 4,
+          "failures": 0
+        },
+        {
+          "checks": 27,
+          "failures": 0
+        },
+        {
+          "checks": 4,
+          "failures": 0
+        },
+        {
+          "checks": 15,
+          "failures": 0
+        },
+        {
+          "checks": 12,
+          "failures": 0
+        },
+        {
+          "checks": 10,
+          "failures": 0
+        },
+        {
+          "checks": 11,
+          "failures": 0
+        },
+        {
+          "checks": 8,
+          "failures": 0
+        },
+        {
+          "checks": 4,
+          "failures": 0
+        },
+        {
+          "checks": 17,
+          "failures": 0
+        },
+        {
+          "checks": 14,
+          "failures": 0
+        },
+        {
+          "checks": 7,
+          "failures": 0
+        },
+        {
+          "checks": 889,
+          "failures": 0
+        },
+        {
+          "checks": 17,
+          "failures": 0
+        },
+        {
+          "checks": 12,
+          "failures": 0
+        },
+        {
+          "checks": 14,
+          "failures": 0
+        },
+        {
+          "checks": 23,
+          "failures": 0
+        },
+        {
+          "checks": 38,
+          "failures": 0
+        },
+        {
+          "checks": 29,
+          "failures": 0
+        },
+        {
+          "checks": 20,
+          "failures": 0
+        },
+        {
+          "checks": 12,
+          "failures": 0
+        },
+        {
+          "checks": 4,
+          "failures": 0
+        },
+        {
+          "checks": 22,
+          "failures": 0
+        },
+        {
+          "checks": 47,
+          "failures": 0
+        },
+        {
+          "checks": 11,
+          "failures": 0
+        },
+        {
+          "checks": 69,
+          "failures": 0
+        },
+        {
+          "checks": 8,
+          "failures": 0
+        },
+        {
+          "checks": 60,
+          "failures": 0
+        },
+        {
+          "checks": 25,
+          "failures": 0
+        },
+        {
+          "checks": 22,
+          "failures": 0
+        },
+        {
+          "checks": 36,
+          "failures": 0
+        },
+        {
+          "checks": 59,
+          "failures": 0
+        },
+        {
+          "checks": 30,
+          "failures": 0
+        },
+        {
+          "checks": 7,
+          "failures": 0
+        },
+        {
+          "checks": 38,
+          "failures": 0
+        },
+        {
+          "checks": 27,
+          "failures": 0
+        },
+        {
+          "checks": 14,
+          "failures": 0
+        },
+        {
+          "checks": 77,
+          "failures": 0
+        },
+        {
+          "checks": 45,
+          "failures": 0
+        },
+        {
+          "checks": 26,
+          "failures": 0
+        },
+        {
+          "checks": 10,
+          "failures": 0
+        },
+        {
+          "checks": 250,
+          "failures": 0
+        },
+        {
+          "checks": 14,
+          "failures": 0
+        },
+        {
+          "checks": 2,
+          "failures": 0
+        },
+        {
+          "checks": 38,
+          "failures": 0
+        },
+        {
+          "checks": 34,
+          "failures": 0
+        },
+        {
+          "checks": 54,
+          "failures": 0
+        },
+        {
+          "checks": 94,
+          "failures": 0
+        },
+        {
+          "checks": 10,
+          "failures": 0
+        },
+        {
+          "checks": 60,
+          "failures": 0
+        },
+        {
+          "checks": 58,
+          "failures": 0
+        },
+        {
+          "checks": 8,
+          "failures": 0
+        },
+        {
+          "checks": 15,
+          "failures": 0
+        },
+        {
+          "checks": 6,
+          "failures": 0
+        },
+        {
+          "checks": 44,
+          "failures": 0
+        },
+        {
+          "checks": 32,
+          "failures": 0
+        },
+        {
+          "checks": 23,
+          "failures": 0
+        },
+        {
+          "checks": 19,
+          "failures": 0
+        },
+        {
+          "checks": 9,
+          "failures": 0
+        },
+        {
+          "checks": 18,
+          "failures": 0
+        },
+        {
+          "checks": 35,
+          "failures": 0
+        },
+        {
+          "checks": 44,
+          "failures": 0
+        },
+        {
+          "checks": 17,
+          "failures": 0
+        },
+        {
+          "checks": 8,
+          "failures": 0
+        },
+        {
+          "checks": 73,
+          "failures": 0
+        },
+        {
+          "checks": 22,
+          "failures": 0
+        },
+        {
+          "checks": 12,
+          "failures": 0
+        },
+        {
+          "checks": 8,
+          "failures": 0
+        },
+        {
+          "checks": 65,
+          "failures": 0
+        },
+        {
+          "checks": 10,
+          "failures": 0
+        },
+        {
+          "checks": 4,
+          "failures": 0
+        },
+        {
+          "checks": 14,
+          "failures": 0
+        },
+        {
+          "checks": 32,
+          "failures": 0
+        },
+        {
+          "checks": 9,
+          "failures": 0
+        },
+        {
+          "checks": 7,
+          "failures": 0
+        },
+        {
+          "checks": 84,
+          "failures": 0
+        },
+        {
+          "checks": 24,
+          "failures": 0
+        },
+        {
+          "checks": 17,
+          "failures": 0
+        },
+        {
+          "checks": 5,
+          "failures": 0
+        },
+        {
+          "checks": 14,
+          "failures": 0
+        },
+        {
+          "checks": 35,
+          "failures": 0
+        },
+        {
+          "checks": 218,
+          "failures": 0
+        },
+        {
+          "checks": 9,
+          "failures": 0
+        },
+        {
+          "checks": 9,
+          "failures": 0
+        },
+        {
+          "checks": 2,
+          "failures": 0
+        },
+        {
+          "checks": 45,
+          "failures": 0
+        },
+        {
+          "checks": 5,
+          "failures": 0
+        },
+        {
+          "checks": 10,
+          "failures": 0
+        },
+        {
+          "checks": 25,
+          "failures": 0
+        },
+        {
+          "checks": 6,
+          "failures": 0
+        },
+        {
+          "checks": 12,
+          "failures": 0
+        },
+        {
+          "checks": 4,
+          "failures": 0
+        },
+        {
+          "checks": 20,
+          "failures": 0
+        },
+        {
+          "checks": 63,
+          "failures": 0
+        },
+        {
+          "checks": 83,
+          "failures": 0
+        },
+        {
+          "checks": 24,
+          "failures": 0
+        }
+      ],
+      "check_summary_count": 205,
+      "classification": "cancelled_incomplete",
+      "expected_head_prefix": "841b9d3d",
+      "fail_marker_line_count": 208,
+      "log_archive_status": "downloaded_crc_valid",
+      "log_zip_bytes": 875801,
+      "log_zip_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\043-evidence\\hosted-cancelled\\40217276800\\logs.zip",
+      "log_zip_sha256": "423115debf687c446006f92ad2cba393ba67d2cbc2e84c8f10f8e68204cc474d",
+      "logs_api_exit_code": 0,
+      "logs_response_bytes": 875801,
+      "logs_response_sha256": "423115debf687c446006f92ad2cba393ba67d2cbc2e84c8f10f8e68204cc474d",
+      "members": [
+        {
+          "compressed_bytes": 3472,
+          "crc32": "b5d157c6",
+          "fail_marker_lines": 0,
+          "name": "0_guidance.txt",
+          "sha256": "a7d6e8f902dfed568de121fb677a316dddf7df31879fc701618347c051eee85a",
+          "summary_lines": [],
+          "uncompressed_bytes": 12038
+        },
+        {
+          "compressed_bytes": 297,
+          "crc32": "632f5991",
+          "fail_marker_lines": 0,
+          "name": "guidance/system.txt",
+          "sha256": "cd3d51cb0c507430d98ee108906f0aa6b157c2c99ad188aa91dae847a3071cf0",
+          "summary_lines": [],
+          "uncompressed_bytes": 598
+        },
+        {
+          "compressed_bytes": 871206,
+          "crc32": "161f40aa",
+          "fail_marker_lines": 208,
+          "name": "1_game-smoke.txt",
+          "sha256": "79f57de4bea173f4378f8e496f0ce244a56d54bd6887161089b8ec6df35009ed",
+          "summary_lines": [
+            {
+              "checks": 836,
+              "failures": 0
+            },
+            {
+              "checks": 667,
+              "failures": 0
+            },
+            {
+              "checks": 30,
+              "failures": 0
+            },
+            {
+              "checks": 15,
+              "failures": 0
+            },
+            {
+              "checks": 78,
+              "failures": 0
+            },
+            {
+              "checks": 212,
+              "failures": 0
+            },
+            {
+              "checks": 52,
+              "failures": 0
+            },
+            {
+              "checks": 46,
+              "failures": 0
+            },
+            {
+              "checks": 68,
+              "failures": 0
+            },
+            {
+              "checks": 77,
+              "failures": 0
+            },
+            {
+              "checks": 43,
+              "failures": 0
+            },
+            {
+              "checks": 76,
+              "failures": 0
+            },
+            {
+              "checks": 23,
+              "failures": 0
+            },
+            {
+              "checks": 33,
+              "failures": 0
+            },
+            {
+              "checks": 69,
+              "failures": 0
+            },
+            {
+              "checks": 31,
+              "failures": 0
+            },
+            {
+              "checks": 58,
+              "failures": 0
+            },
+            {
+              "checks": 37,
+              "failures": 0
+            },
+            {
+              "checks": 199,
+              "failures": 0
+            },
+            {
+              "checks": 114,
+              "failures": 0
+            },
+            {
+              "checks": 41,
+              "failures": 0
+            },
+            {
+              "checks": 52,
+              "failures": 0
+            },
+            {
+              "checks": 33,
+              "failures": 0
+            },
+            {
+              "checks": 42,
+              "failures": 0
+            },
+            {
+              "checks": 132,
+              "failures": 0
+            },
+            {
+              "checks": 72,
+              "failures": 0
+            },
+            {
+              "checks": 49,
+              "failures": 0
+            },
+            {
+              "checks": 60,
+              "failures": 0
+            },
+            {
+              "checks": 412,
+              "failures": 0
+            },
+            {
+              "checks": 42,
+              "failures": 0
+            },
+            {
+              "checks": 14,
+              "failures": 0
+            },
+            {
+              "checks": 40,
+              "failures": 0
+            },
+            {
+              "checks": 9,
+              "failures": 0
+            },
+            {
+              "checks": 70,
+              "failures": 0
+            },
+            {
+              "checks": 28,
+              "failures": 0
+            },
+            {
+              "checks": 57,
+              "failures": 0
+            },
+            {
+              "checks": 47,
+              "failures": 0
+            },
+            {
+              "checks": 91,
+              "failures": 0
+            },
+            {
+              "checks": 17,
+              "failures": 0
+            },
+            {
+              "checks": 20,
+              "failures": 0
+            },
+            {
+              "checks": 13,
+              "failures": 0
+            },
+            {
+              "checks": 108,
+              "failures": 0
+            },
+            {
+              "checks": 24,
+              "failures": 0
+            },
+            {
+              "checks": 17,
+              "failures": 0
+            },
+            {
+              "checks": 22,
+              "failures": 0
+            },
+            {
+              "checks": 36,
+              "failures": 0
+            },
+            {
+              "checks": 14,
+              "failures": 0
+            },
+            {
+              "checks": 14,
+              "failures": 0
+            },
+            {
+              "checks": 10,
+              "failures": 0
+            },
+            {
+              "checks": 52,
+              "failures": 0
+            },
+            {
+              "checks": 32,
+              "failures": 0
+            },
+            {
+              "checks": 108,
+              "failures": 0
+            },
+            {
+              "checks": 58,
+              "failures": 0
+            },
+            {
+              "checks": 15,
+              "failures": 0
+            },
+            {
+              "checks": 31,
+              "failures": 0
+            },
+            {
+              "checks": 16,
+              "failures": 0
+            },
+            {
+              "checks": 22,
+              "failures": 0
+            },
+            {
+              "checks": 69,
+              "failures": 0
+            },
+            {
+              "checks": 59,
+              "failures": 0
+            },
+            {
+              "checks": 134,
+              "failures": 0
+            },
+            {
+              "checks": 49,
+              "failures": 0
+            },
+            {
+              "checks": 60,
+              "failures": 0
+            },
+            {
+              "checks": 63,
+              "failures": 0
+            },
+            {
+              "checks": 24,
+              "failures": 0
+            },
+            {
+              "checks": 17,
+              "failures": 0
+            },
+            {
+              "checks": 55,
+              "failures": 0
+            },
+            {
+              "checks": 37,
+              "failures": 0
+            },
+            {
+              "checks": 22,
+              "failures": 0
+            },
+            {
+              "checks": 18,
+              "failures": 0
+            },
+            {
+              "checks": 61,
+              "failures": 0
+            },
+            {
+              "checks": 57,
+              "failures": 0
+            },
+            {
+              "checks": 52,
+              "failures": 0
+            },
+            {
+              "checks": 73,
+              "failures": 0
+            },
+            {
+              "checks": 49,
+              "failures": 0
+            },
+            {
+              "checks": 35,
+              "failures": 0
+            },
+            {
+              "checks": 68,
+              "failures": 0
+            },
+            {
+              "checks": 13,
+              "failures": 0
+            },
+            {
+              "checks": 13,
+              "failures": 0
+            },
+            {
+              "checks": 52,
+              "failures": 0
+            },
+            {
+              "checks": 9,
+              "failures": 0
+            },
+            {
+              "checks": 45,
+              "failures": 0
+            },
+            {
+              "checks": 25,
+              "failures": 0
+            },
+            {
+              "checks": 64,
+              "failures": 0
+            },
+            {
+              "checks": 11,
+              "failures": 0
+            },
+            {
+              "checks": 49,
+              "failures": 0
+            },
+            {
+              "checks": 49,
+              "failures": 0
+            },
+            {
+              "checks": 4,
+              "failures": 0
+            },
+            {
+              "checks": 31,
+              "failures": 0
+            },
+            {
+              "checks": 12,
+              "failures": 0
+            },
+            {
+              "checks": 6,
+              "failures": 0
+            },
+            {
+              "checks": 21,
+              "failures": 0
+            },
+            {
+              "checks": 53,
+              "failures": 0
+            },
+            {
+              "checks": 20,
+              "failures": 0
+            },
+            {
+              "checks": 7,
+              "failures": 0
+            },
+            {
+              "checks": 14,
+              "failures": 0
+            },
+            {
+              "checks": 8,
+              "failures": 0
+            },
+            {
+              "checks": 11,
+              "failures": 0
+            },
+            {
+              "checks": 35,
+              "failures": 0
+            },
+            {
+              "checks": 33,
+              "failures": 0
+            },
+            {
+              "checks": 10,
+              "failures": 0
+            },
+            {
+              "checks": 11,
+              "failures": 0
+            },
+            {
+              "checks": 7,
+              "failures": 0
+            },
+            {
+              "checks": 48,
+              "failures": 0
+            },
+            {
+              "checks": 31,
+              "failures": 0
+            },
+            {
+              "checks": 13,
+              "failures": 0
+            },
+            {
+              "checks": 6,
+              "failures": 0
+            },
+            {
+              "checks": 9,
+              "failures": 0
+            },
+            {
+              "checks": 178,
+              "failures": 0
+            },
+            {
+              "checks": 86,
+              "failures": 0
+            },
+            {
+              "checks": 4,
+              "failures": 0
+            },
+            {
+              "checks": 27,
+              "failures": 0
+            },
+            {
+              "checks": 4,
+              "failures": 0
+            },
+            {
+              "checks": 15,
+              "failures": 0
+            },
+            {
+              "checks": 12,
+              "failures": 0
+            },
+            {
+              "checks": 10,
+              "failures": 0
+            },
+            {
+              "checks": 11,
+              "failures": 0
+            },
+            {
+              "checks": 8,
+              "failures": 0
+            },
+            {
+              "checks": 4,
+              "failures": 0
+            },
+            {
+              "checks": 17,
+              "failures": 0
+            },
+            {
+              "checks": 14,
+              "failures": 0
+            },
+            {
+              "checks": 7,
+              "failures": 0
+            },
+            {
+              "checks": 889,
+              "failures": 0
+            },
+            {
+              "checks": 17,
+              "failures": 0
+            },
+            {
+              "checks": 12,
+              "failures": 0
+            },
+            {
+              "checks": 14,
+              "failures": 0
+            },
+            {
+              "checks": 23,
+              "failures": 0
+            },
+            {
+              "checks": 38,
+              "failures": 0
+            },
+            {
+              "checks": 29,
+              "failures": 0
+            },
+            {
+              "checks": 20,
+              "failures": 0
+            },
+            {
+              "checks": 12,
+              "failures": 0
+            },
+            {
+              "checks": 4,
+              "failures": 0
+            },
+            {
+              "checks": 22,
+              "failures": 0
+            },
+            {
+              "checks": 47,
+              "failures": 0
+            },
+            {
+              "checks": 11,
+              "failures": 0
+            },
+            {
+              "checks": 69,
+              "failures": 0
+            },
+            {
+              "checks": 8,
+              "failures": 0
+            },
+            {
+              "checks": 60,
+              "failures": 0
+            },
+            {
+              "checks": 25,
+              "failures": 0
+            },
+            {
+              "checks": 22,
+              "failures": 0
+            },
+            {
+              "checks": 36,
+              "failures": 0
+            },
+            {
+              "checks": 59,
+              "failures": 0
+            },
+            {
+              "checks": 30,
+              "failures": 0
+            },
+            {
+              "checks": 7,
+              "failures": 0
+            },
+            {
+              "checks": 38,
+              "failures": 0
+            },
+            {
+              "checks": 27,
+              "failures": 0
+            },
+            {
+              "checks": 14,
+              "failures": 0
+            },
+            {
+              "checks": 77,
+              "failures": 0
+            },
+            {
+              "checks": 45,
+              "failures": 0
+            },
+            {
+              "checks": 26,
+              "failures": 0
+            },
+            {
+              "checks": 10,
+              "failures": 0
+            },
+            {
+              "checks": 250,
+              "failures": 0
+            },
+            {
+              "checks": 14,
+              "failures": 0
+            },
+            {
+              "checks": 2,
+              "failures": 0
+            },
+            {
+              "checks": 38,
+              "failures": 0
+            },
+            {
+              "checks": 34,
+              "failures": 0
+            },
+            {
+              "checks": 54,
+              "failures": 0
+            },
+            {
+              "checks": 94,
+              "failures": 0
+            },
+            {
+              "checks": 10,
+              "failures": 0
+            },
+            {
+              "checks": 60,
+              "failures": 0
+            },
+            {
+              "checks": 58,
+              "failures": 0
+            },
+            {
+              "checks": 8,
+              "failures": 0
+            },
+            {
+              "checks": 15,
+              "failures": 0
+            },
+            {
+              "checks": 6,
+              "failures": 0
+            },
+            {
+              "checks": 44,
+              "failures": 0
+            },
+            {
+              "checks": 32,
+              "failures": 0
+            },
+            {
+              "checks": 23,
+              "failures": 0
+            },
+            {
+              "checks": 19,
+              "failures": 0
+            },
+            {
+              "checks": 9,
+              "failures": 0
+            },
+            {
+              "checks": 18,
+              "failures": 0
+            },
+            {
+              "checks": 35,
+              "failures": 0
+            },
+            {
+              "checks": 44,
+              "failures": 0
+            },
+            {
+              "checks": 17,
+              "failures": 0
+            },
+            {
+              "checks": 8,
+              "failures": 0
+            },
+            {
+              "checks": 73,
+              "failures": 0
+            },
+            {
+              "checks": 22,
+              "failures": 0
+            },
+            {
+              "checks": 12,
+              "failures": 0
+            },
+            {
+              "checks": 8,
+              "failures": 0
+            },
+            {
+              "checks": 65,
+              "failures": 0
+            },
+            {
+              "checks": 10,
+              "failures": 0
+            },
+            {
+              "checks": 4,
+              "failures": 0
+            },
+            {
+              "checks": 14,
+              "failures": 0
+            },
+            {
+              "checks": 32,
+              "failures": 0
+            },
+            {
+              "checks": 9,
+              "failures": 0
+            },
+            {
+              "checks": 7,
+              "failures": 0
+            },
+            {
+              "checks": 84,
+              "failures": 0
+            },
+            {
+              "checks": 24,
+              "failures": 0
+            },
+            {
+              "checks": 17,
+              "failures": 0
+            },
+            {
+              "checks": 5,
+              "failures": 0
+            },
+            {
+              "checks": 14,
+              "failures": 0
+            },
+            {
+              "checks": 35,
+              "failures": 0
+            },
+            {
+              "checks": 218,
+              "failures": 0
+            },
+            {
+              "checks": 9,
+              "failures": 0
+            },
+            {
+              "checks": 9,
+              "failures": 0
+            },
+            {
+              "checks": 2,
+              "failures": 0
+            },
+            {
+              "checks": 45,
+              "failures": 0
+            },
+            {
+              "checks": 5,
+              "failures": 0
+            },
+            {
+              "checks": 10,
+              "failures": 0
+            },
+            {
+              "checks": 25,
+              "failures": 0
+            },
+            {
+              "checks": 6,
+              "failures": 0
+            },
+            {
+              "checks": 12,
+              "failures": 0
+            },
+            {
+              "checks": 4,
+              "failures": 0
+            },
+            {
+              "checks": 20,
+              "failures": 0
+            },
+            {
+              "checks": 63,
+              "failures": 0
+            },
+            {
+              "checks": 83,
+              "failures": 0
+            },
+            {
+              "checks": 24,
+              "failures": 0
+            }
+          ],
+          "uncompressed_bytes": 14945604
+        },
+        {
+          "compressed_bytes": 296,
+          "crc32": "07249e26",
+          "fail_marker_lines": 0,
+          "name": "game-smoke/system.txt",
+          "sha256": "dbcb12fe311992ebde79989b8d1e151e3eabd740a13af69a62273e387dc53104",
+          "summary_lines": [],
+          "uncompressed_bytes": 600
+        }
+      ],
+      "metadata": {
+        "conclusion": "cancelled",
+        "createdAt": "2026-10-25T17:36:24Z",
+        "databaseId": 40217276800,
+        "event": "pull_request",
+        "headSha": "841b9d3d8ba45717015e076e8311f998bc42e458",
+        "status": "completed",
+        "updatedAt": "2026-10-25T18:02:13Z",
+        "url": "https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/40217276800",
+        "workflowName": "Gauntlet PR checks"
+      },
+      "metadata_exit_code": 0,
+      "metadata_status": "verified_cancelled",
+      "metadata_verified": true,
+      "run_id": 40217276800,
+      "uncompressed_log_bytes": 14958840,
+      "zip_crc_check": "passed",
+      "zip_member_count": 4
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 836,
+          "failures": 0
+        },
+        {
+          "checks": 667,
+          "failures": 0
+        },
+        {
+          "checks": 30,
+          "failures": 0
+        },
+        {
+          "checks": 15,
+          "failures": 0
+        },
+        {
+          "checks": 78,
+          "failures": 0
+        },
+        {
+          "checks": 212,
+          "failures": 0
+        },
+        {
+          "checks": 52,
+          "failures": 0
+        },
+        {
+          "checks": 46,
+          "failures": 0
+        },
+        {
+          "checks": 68,
+          "failures": 0
+        },
+        {
+          "checks": 77,
+          "failures": 0
+        },
+        {
+          "checks": 43,
+          "failures": 0
+        },
+        {
+          "checks": 76,
+          "failures": 0
+        },
+        {
+          "checks": 23,
+          "failures": 0
+        },
+        {
+          "checks": 33,
+          "failures": 0
+        },
+        {
+          "checks": 69,
+          "failures": 0
+        },
+        {
+          "checks": 31,
+          "failures": 0
+        },
+        {
+          "checks": 58,
+          "failures": 0
+        },
+        {
+          "checks": 37,
+          "failures": 0
+        },
+        {
+          "checks": 199,
+          "failures": 0
+        },
+        {
+          "checks": 114,
+          "failures": 0
+        },
+        {
+          "checks": 41,
+          "failures": 0
+        },
+        {
+          "checks": 52,
+          "failures": 0
+        },
+        {
+          "checks": 33,
+          "failures": 0
+        },
+        {
+          "checks": 42,
+          "failures": 0
+        },
+        {
+          "checks": 132,
+          "failures": 0
+        },
+        {
+          "checks": 72,
+          "failures": 0
+        },
+        {
+          "checks": 49,
+          "failures": 0
+        },
+        {
+          "checks": 60,
+          "failures": 0
+        }
+      ],
+      "check_summary_count": 28,
+      "classification": "cancelled_incomplete",
+      "expected_head_prefix": "c569c29f",
+      "fail_marker_line_count": 31,
+      "log_archive_status": "downloaded_crc_valid",
+      "log_zip_bytes": 436134,
+      "log_zip_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\043-evidence\\hosted-cancelled\\40219295091\\logs.zip",
+      "log_zip_sha256": "584f124c33b881ba1cf37476d87c2cae9fe8de6600e3483fdef698d29393eafb",
+      "logs_api_exit_code": 0,
+      "logs_response_bytes": 436134,
+      "logs_response_sha256": "584f124c33b881ba1cf37476d87c2cae9fe8de6600e3483fdef698d29393eafb",
+      "members": [
+        {
+          "compressed_bytes": 431543,
+          "crc32": "6b70d008",
+          "fail_marker_lines": 31,
+          "name": "0_game-smoke.txt",
+          "sha256": "d3ecf6ead15fffd6bf4734c7ed41ee31c35cecbfd2564b82987f2f8da597c6ac",
+          "summary_lines": [
+            {
+              "checks": 836,
+              "failures": 0
+            },
+            {
+              "checks": 667,
+              "failures": 0
+            },
+            {
+              "checks": 30,
+              "failures": 0
+            },
+            {
+              "checks": 15,
+              "failures": 0
+            },
+            {
+              "checks": 78,
+              "failures": 0
+            },
+            {
+              "checks": 212,
+              "failures": 0
+            },
+            {
+              "checks": 52,
+              "failures": 0
+            },
+            {
+              "checks": 46,
+              "failures": 0
+            },
+            {
+              "checks": 68,
+              "failures": 0
+            },
+            {
+              "checks": 77,
+              "failures": 0
+            },
+            {
+              "checks": 43,
+              "failures": 0
+            },
+            {
+              "checks": 76,
+              "failures": 0
+            },
+            {
+              "checks": 23,
+              "failures": 0
+            },
+            {
+              "checks": 33,
+              "failures": 0
+            },
+            {
+              "checks": 69,
+              "failures": 0
+            },
+            {
+              "checks": 31,
+              "failures": 0
+            },
+            {
+              "checks": 58,
+              "failures": 0
+            },
+            {
+              "checks": 37,
+              "failures": 0
+            },
+            {
+              "checks": 199,
+              "failures": 0
+            },
+            {
+              "checks": 114,
+              "failures": 0
+            },
+            {
+              "checks": 41,
+              "failures": 0
+            },
+            {
+              "checks": 52,
+              "failures": 0
+            },
+            {
+              "checks": 33,
+              "failures": 0
+            },
+            {
+              "checks": 42,
+              "failures": 0
+            },
+            {
+              "checks": 132,
+              "failures": 0
+            },
+            {
+              "checks": 72,
+              "failures": 0
+            },
+            {
+              "checks": 49,
+              "failures": 0
+            },
+            {
+              "checks": 60,
+              "failures": 0
+            }
+          ],
+          "uncompressed_bytes": 7391964
+        },
+        {
+          "compressed_bytes": 297,
+          "crc32": "bf583cdc",
+          "fail_marker_lines": 0,
+          "name": "game-smoke/system.txt",
+          "sha256": "85a9d1bcc74e1df415d3937f1b4a83d064f8e6c4815a4b4da973089f175c03f7",
+          "summary_lines": [],
+          "uncompressed_bytes": 600
+        },
+        {
+          "compressed_bytes": 3468,
+          "crc32": "09c9bb81",
+          "fail_marker_lines": 0,
+          "name": "1_guidance.txt",
+          "sha256": "9c3f0b3d21daf644d90cdeb3930e6456846a7206c09d3986b3323eb3132f98fb",
+          "summary_lines": [],
+          "uncompressed_bytes": 12038
+        },
+        {
+          "compressed_bytes": 296,
+          "crc32": "b6b903ef",
+          "fail_marker_lines": 0,
+          "name": "guidance/system.txt",
+          "sha256": "fa028ee66490df8f63f9594110c6b882b7a433d67a9f3312f4586a0c0dc49d83",
+          "summary_lines": [],
+          "uncompressed_bytes": 598
+        }
+      ],
+      "metadata": {
+        "conclusion": "cancelled",
+        "createdAt": "2026-10-25T18:01:56Z",
+        "databaseId": 40219295091,
+        "event": "pull_request",
+        "headSha": "c569c29f46c41ac21a6c8027b6d0a8d188572af0",
+        "status": "completed",
+        "updatedAt": "2026-10-25T18:15:38Z",
+        "url": "https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/40219295091",
+        "workflowName": "Gauntlet PR checks"
+      },
+      "metadata_exit_code": 0,
+      "metadata_status": "verified_cancelled",
+      "metadata_verified": true,
+      "run_id": 40219295091,
+      "uncompressed_log_bytes": 7405200,
+      "zip_crc_check": "passed",
+      "zip_member_count": 4
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 836,
+          "failures": 0
+        },
+        {
+          "checks": 667,
+          "failures": 0
+        },
+        {
+          "checks": 30,
+          "failures": 0
+        },
+        {
+          "checks": 15,
+          "failures": 0
+        },
+        {
+          "checks": 78,
+          "failures": 0
+        },
+        {
+          "checks": 212,
+          "failures": 0
+        },
+        {
+          "checks": 52,
+          "failures": 0
+        },
+        {
+          "checks": 46,
+          "failures": 0
+        },
+        {
+          "checks": 68,
+          "failures": 0
+        },
+        {
+          "checks": 77,
+          "failures": 0
+        },
+        {
+          "checks": 43,
+          "failures": 0
+        },
+        {
+          "checks": 76,
+          "failures": 0
+        },
+        {
+          "checks": 23,
+          "failures": 0
+        },
+        {
+          "checks": 33,
+          "failures": 0
+        },
+        {
+          "checks": 69,
+          "failures": 0
+        },
+        {
+          "checks": 31,
+          "failures": 0
+        },
+        {
+          "checks": 58,
+          "failures": 0
+        },
+        {
+          "checks": 37,
+          "failures": 0
+        },
+        {
+          "checks": 199,
+          "failures": 0
+        },
+        {
+          "checks": 114,
+          "failures": 0
+        },
+        {
+          "checks": 41,
+          "failures": 0
+        },
+        {
+          "checks": 52,
+          "failures": 0
+        },
+        {
+          "checks": 33,
+          "failures": 0
+        },
+        {
+          "checks": 42,
+          "failures": 0
+        },
+        {
+          "checks": 132,
+          "failures": 0
+        },
+        {
+          "checks": 72,
+          "failures": 0
+        },
+        {
+          "checks": 49,
+          "failures": 0
+        },
+        {
+          "checks": 60,
+          "failures": 0
+        },
+        {
+          "checks": 412,
+          "failures": 0
+        },
+        {
+          "checks": 42,
+          "failures": 0
+        },
+        {
+          "checks": 14,
+          "failures": 0
+        },
+        {
+          "checks": 40,
+          "failures": 0
+        },
+        {
+          "checks": 9,
+          "failures": 0
+        },
+        {
+          "checks": 70,
+          "failures": 0
+        },
+        {
+          "checks": 28,
+          "failures": 0
+        },
+        {
+          "checks": 57,
+          "failures": 0
+        },
+        {
+          "checks": 47,
+          "failures": 0
+        },
+        {
+          "checks": 91,
+          "failures": 0
+        },
+        {
+          "checks": 17,
+          "failures": 0
+        },
+        {
+          "checks": 20,
+          "failures": 0
+        },
+        {
+          "checks": 13,
+          "failures": 0
+        },
+        {
+          "checks": 108,
+          "failures": 0
+        },
+        {
+          "checks": 24,
+          "failures": 0
+        },
+        {
+          "checks": 17,
+          "failures": 0
+        },
+        {
+          "checks": 22,
+          "failures": 0
+        },
+        {
+          "checks": 36,
+          "failures": 0
+        },
+        {
+          "checks": 14,
+          "failures": 0
+        },
+        {
+          "checks": 14,
+          "failures": 0
+        },
+        {
+          "checks": 10,
+          "failures": 0
+        },
+        {
+          "checks": 52,
+          "failures": 0
+        },
+        {
+          "checks": 32,
+          "failures": 0
+        },
+        {
+          "checks": 108,
+          "failures": 0
+        },
+        {
+          "checks": 58,
+          "failures": 0
+        },
+        {
+          "checks": 15,
+          "failures": 0
+        },
+        {
+          "checks": 31,
+          "failures": 0
+        },
+        {
+          "checks": 16,
+          "failures": 0
+        },
+        {
+          "checks": 22,
+          "failures": 0
+        },
+        {
+          "checks": 69,
+          "failures": 0
+        },
+        {
+          "checks": 59,
+          "failures": 0
+        },
+        {
+          "checks": 134,
+          "failures": 0
+        },
+        {
+          "checks": 49,
+          "failures": 0
+        },
+        {
+          "checks": 60,
+          "failures": 0
+        },
+        {
+          "checks": 63,
+          "failures": 0
+        },
+        {
+          "checks": 24,
+          "failures": 0
+        },
+        {
+          "checks": 17,
+          "failures": 0
+        },
+        {
+          "checks": 55,
+          "failures": 0
+        },
+        {
+          "checks": 37,
+          "failures": 0
+        },
+        {
+          "checks": 22,
+          "failures": 0
+        },
+        {
+          "checks": 18,
+          "failures": 0
+        },
+        {
+          "checks": 61,
+          "failures": 0
+        },
+        {
+          "checks": 57,
+          "failures": 0
+        },
+        {
+          "checks": 52,
+          "failures": 0
+        },
+        {
+          "checks": 73,
+          "failures": 0
+        },
+        {
+          "checks": 49,
+          "failures": 0
+        },
+        {
+          "checks": 35,
+          "failures": 0
+        },
+        {
+          "checks": 68,
+          "failures": 0
+        },
+        {
+          "checks": 13,
+          "failures": 0
+        },
+        {
+          "checks": 13,
+          "failures": 0
+        },
+        {
+          "checks": 52,
+          "failures": 0
+        },
+        {
+          "checks": 9,
+          "failures": 0
+        },
+        {
+          "checks": 45,
+          "failures": 0
+        },
+        {
+          "checks": 25,
+          "failures": 0
+        },
+        {
+          "checks": 64,
+          "failures": 0
+        },
+        {
+          "checks": 11,
+          "failures": 0
+        },
+        {
+          "checks": 49,
+          "failures": 0
+        },
+        {
+          "checks": 49,
+          "failures": 0
+        },
+        {
+          "checks": 4,
+          "failures": 0
+        },
+        {
+          "checks": 31,
+          "failures": 0
+        },
+        {
+          "checks": 12,
+          "failures": 0
+        },
+        {
+          "checks": 6,
+          "failures": 0
+        },
+        {
+          "checks": 21,
+          "failures": 0
+        },
+        {
+          "checks": 53,
+          "failures": 0
+        },
+        {
+          "checks": 20,
+          "failures": 0
+        },
+        {
+          "checks": 7,
+          "failures": 0
+        },
+        {
+          "checks": 14,
+          "failures": 0
+        },
+        {
+          "checks": 836,
+          "failures": 0
+        },
+        {
+          "checks": 667,
+          "failures": 0
+        },
+        {
+          "checks": 30,
+          "failures": 0
+        },
+        {
+          "checks": 15,
+          "failures": 0
+        },
+        {
+          "checks": 78,
+          "failures": 0
+        },
+        {
+          "checks": 212,
+          "failures": 0
+        },
+        {
+          "checks": 52,
+          "failures": 0
+        },
+        {
+          "checks": 46,
+          "failures": 0
+        },
+        {
+          "checks": 68,
+          "failures": 0
+        },
+        {
+          "checks": 77,
+          "failures": 0
+        },
+        {
+          "checks": 43,
+          "failures": 0
+        },
+        {
+          "checks": 76,
+          "failures": 0
+        },
+        {
+          "checks": 23,
+          "failures": 0
+        },
+        {
+          "checks": 33,
+          "failures": 0
+        },
+        {
+          "checks": 69,
+          "failures": 0
+        },
+        {
+          "checks": 31,
+          "failures": 0
+        },
+        {
+          "checks": 58,
+          "failures": 0
+        },
+        {
+          "checks": 37,
+          "failures": 0
+        },
+        {
+          "checks": 199,
+          "failures": 0
+        },
+        {
+          "checks": 114,
+          "failures": 0
+        },
+        {
+          "checks": 41,
+          "failures": 0
+        },
+        {
+          "checks": 52,
+          "failures": 0
+        },
+        {
+          "checks": 33,
+          "failures": 0
+        },
+        {
+          "checks": 42,
+          "failures": 0
+        },
+        {
+          "checks": 132,
+          "failures": 0
+        },
+        {
+          "checks": 72,
+          "failures": 0
+        },
+        {
+          "checks": 49,
+          "failures": 0
+        },
+        {
+          "checks": 60,
+          "failures": 0
+        },
+        {
+          "checks": 412,
+          "failures": 0
+        },
+        {
+          "checks": 42,
+          "failures": 0
+        },
+        {
+          "checks": 14,
+          "failures": 0
+        },
+        {
+          "checks": 40,
+          "failures": 0
+        },
+        {
+          "checks": 9,
+          "failures": 0
+        },
+        {
+          "checks": 70,
+          "failures": 0
+        },
+        {
+          "checks": 28,
+          "failures": 0
+        },
+        {
+          "checks": 57,
+          "failures": 0
+        },
+        {
+          "checks": 47,
+          "failures": 0
+        },
+        {
+          "checks": 91,
+          "failures": 0
+        },
+        {
+          "checks": 17,
+          "failures": 0
+        },
+        {
+          "checks": 20,
+          "failures": 0
+        },
+        {
+          "checks": 13,
+          "failures": 0
+        },
+        {
+          "checks": 108,
+          "failures": 0
+        },
+        {
+          "checks": 24,
+          "failures": 0
+        },
+        {
+          "checks": 17,
+          "failures": 0
+        },
+        {
+          "checks": 22,
+          "failures": 0
+        },
+        {
+          "checks": 36,
+          "failures": 0
+        },
+        {
+          "checks": 14,
+          "failures": 0
+        },
+        {
+          "checks": 14,
+          "failures": 0
+        },
+        {
+          "checks": 10,
+          "failures": 0
+        },
+        {
+          "checks": 52,
+          "failures": 0
+        },
+        {
+          "checks": 32,
+          "failures": 0
+        },
+        {
+          "checks": 108,
+          "failures": 0
+        },
+        {
+          "checks": 58,
+          "failures": 0
+        },
+        {
+          "checks": 15,
+          "failures": 0
+        },
+        {
+          "checks": 31,
+          "failures": 0
+        },
+        {
+          "checks": 16,
+          "failures": 0
+        },
+        {
+          "checks": 22,
+          "failures": 0
+        },
+        {
+          "checks": 69,
+          "failures": 0
+        },
+        {
+          "checks": 59,
+          "failures": 0
+        },
+        {
+          "checks": 134,
+          "failures": 0
+        },
+        {
+          "checks": 49,
+          "failures": 0
+        },
+        {
+          "checks": 60,
+          "failures": 0
+        },
+        {
+          "checks": 63,
+          "failures": 0
+        },
+        {
+          "checks": 24,
+          "failures": 0
+        },
+        {
+          "checks": 17,
+          "failures": 0
+        },
+        {
+          "checks": 55,
+          "failures": 0
+        },
+        {
+          "checks": 37,
+          "failures": 0
+        },
+        {
+          "checks": 22,
+          "failures": 0
+        },
+        {
+          "checks": 18,
+          "failures": 0
+        },
+        {
+          "checks": 61,
+          "failures": 0
+        },
+        {
+          "checks": 57,
+          "failures": 0
+        },
+        {
+          "checks": 52,
+          "failures": 0
+        },
+        {
+          "checks": 73,
+          "failures": 0
+        },
+        {
+          "checks": 49,
+          "failures": 0
+        },
+        {
+          "checks": 35,
+          "failures": 0
+        },
+        {
+          "checks": 68,
+          "failures": 0
+        },
+        {
+          "checks": 13,
+          "failures": 0
+        },
+        {
+          "checks": 13,
+          "failures": 0
+        },
+        {
+          "checks": 52,
+          "failures": 0
+        },
+        {
+          "checks": 9,
+          "failures": 0
+        },
+        {
+          "checks": 45,
+          "failures": 0
+        },
+        {
+          "checks": 25,
+          "failures": 0
+        },
+        {
+          "checks": 64,
+          "failures": 0
+        },
+        {
+          "checks": 11,
+          "failures": 0
+        },
+        {
+          "checks": 49,
+          "failures": 0
+        },
+        {
+          "checks": 49,
+          "failures": 0
+        },
+        {
+          "checks": 4,
+          "failures": 0
+        },
+        {
+          "checks": 31,
+          "failures": 0
+        },
+        {
+          "checks": 12,
+          "failures": 0
+        },
+        {
+          "checks": 6,
+          "failures": 0
+        },
+        {
+          "checks": 21,
+          "failures": 0
+        },
+        {
+          "checks": 53,
+          "failures": 0
+        },
+        {
+          "checks": 20,
+          "failures": 0
+        },
+        {
+          "checks": 7,
+          "failures": 0
+        },
+        {
+          "checks": 14,
+          "failures": 0
+        }
+      ],
+      "check_summary_count": 190,
+      "classification": "cancelled_incomplete",
+      "expected_head_prefix": "a449f1bc",
+      "fail_marker_line_count": 196,
+      "log_archive_status": "downloaded_crc_valid",
+      "log_zip_bytes": 1381602,
+      "log_zip_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\043-evidence\\hosted-cancelled\\40220369620\\logs.zip",
+      "log_zip_sha256": "10843ec59ba78f8004f2d69cc88a222fc85622280221450a69183927d2a50747",
+      "logs_api_exit_code": 0,
+      "logs_response_bytes": 1381602,
+      "logs_response_sha256": "10843ec59ba78f8004f2d69cc88a222fc85622280221450a69183927d2a50747",
+      "members": [
+        {
+          "compressed_bytes": 3482,
+          "crc32": "4fb3fbc9",
+          "fail_marker_lines": 0,
+          "name": "0_guidance.txt",
+          "sha256": "cfab634031038abc545b2145401aa3e444ae877db6fa4756b324b2acead19421",
+          "summary_lines": [],
+          "uncompressed_bytes": 12038
+        },
+        {
+          "compressed_bytes": 294,
+          "crc32": "f262b794",
+          "fail_marker_lines": 0,
+          "name": "guidance/system.txt",
+          "sha256": "b06486607d1a4aa9569688516d5cbc5ce42e56cdd5d35e24d0f02f917c35bb2d",
+          "summary_lines": [],
+          "uncompressed_bytes": 598
+        },
+        {
+          "compressed_bytes": 687200,
+          "crc32": "18450385",
+          "fail_marker_lines": 98,
+          "name": "1_game-smoke.txt",
+          "sha256": "f59b5ca965b2e0b369bc590ad829de49ee29bb509adc242755670dee75252629",
+          "summary_lines": [
+            {
+              "checks": 836,
+              "failures": 0
+            },
+            {
+              "checks": 667,
+              "failures": 0
+            },
+            {
+              "checks": 30,
+              "failures": 0
+            },
+            {
+              "checks": 15,
+              "failures": 0
+            },
+            {
+              "checks": 78,
+              "failures": 0
+            },
+            {
+              "checks": 212,
+              "failures": 0
+            },
+            {
+              "checks": 52,
+              "failures": 0
+            },
+            {
+              "checks": 46,
+              "failures": 0
+            },
+            {
+              "checks": 68,
+              "failures": 0
+            },
+            {
+              "checks": 77,
+              "failures": 0
+            },
+            {
+              "checks": 43,
+              "failures": 0
+            },
+            {
+              "checks": 76,
+              "failures": 0
+            },
+            {
+              "checks": 23,
+              "failures": 0
+            },
+            {
+              "checks": 33,
+              "failures": 0
+            },
+            {
+              "checks": 69,
+              "failures": 0
+            },
+            {
+              "checks": 31,
+              "failures": 0
+            },
+            {
+              "checks": 58,
+              "failures": 0
+            },
+            {
+              "checks": 37,
+              "failures": 0
+            },
+            {
+              "checks": 199,
+              "failures": 0
+            },
+            {
+              "checks": 114,
+              "failures": 0
+            },
+            {
+              "checks": 41,
+              "failures": 0
+            },
+            {
+              "checks": 52,
+              "failures": 0
+            },
+            {
+              "checks": 33,
+              "failures": 0
+            },
+            {
+              "checks": 42,
+              "failures": 0
+            },
+            {
+              "checks": 132,
+              "failures": 0
+            },
+            {
+              "checks": 72,
+              "failures": 0
+            },
+            {
+              "checks": 49,
+              "failures": 0
+            },
+            {
+              "checks": 60,
+              "failures": 0
+            },
+            {
+              "checks": 412,
+              "failures": 0
+            },
+            {
+              "checks": 42,
+              "failures": 0
+            },
+            {
+              "checks": 14,
+              "failures": 0
+            },
+            {
+              "checks": 40,
+              "failures": 0
+            },
+            {
+              "checks": 9,
+              "failures": 0
+            },
+            {
+              "checks": 70,
+              "failures": 0
+            },
+            {
+              "checks": 28,
+              "failures": 0
+            },
+            {
+              "checks": 57,
+              "failures": 0
+            },
+            {
+              "checks": 47,
+              "failures": 0
+            },
+            {
+              "checks": 91,
+              "failures": 0
+            },
+            {
+              "checks": 17,
+              "failures": 0
+            },
+            {
+              "checks": 20,
+              "failures": 0
+            },
+            {
+              "checks": 13,
+              "failures": 0
+            },
+            {
+              "checks": 108,
+              "failures": 0
+            },
+            {
+              "checks": 24,
+              "failures": 0
+            },
+            {
+              "checks": 17,
+              "failures": 0
+            },
+            {
+              "checks": 22,
+              "failures": 0
+            },
+            {
+              "checks": 36,
+              "failures": 0
+            },
+            {
+              "checks": 14,
+              "failures": 0
+            },
+            {
+              "checks": 14,
+              "failures": 0
+            },
+            {
+              "checks": 10,
+              "failures": 0
+            },
+            {
+              "checks": 52,
+              "failures": 0
+            },
+            {
+              "checks": 32,
+              "failures": 0
+            },
+            {
+              "checks": 108,
+              "failures": 0
+            },
+            {
+              "checks": 58,
+              "failures": 0
+            },
+            {
+              "checks": 15,
+              "failures": 0
+            },
+            {
+              "checks": 31,
+              "failures": 0
+            },
+            {
+              "checks": 16,
+              "failures": 0
+            },
+            {
+              "checks": 22,
+              "failures": 0
+            },
+            {
+              "checks": 69,
+              "failures": 0
+            },
+            {
+              "checks": 59,
+              "failures": 0
+            },
+            {
+              "checks": 134,
+              "failures": 0
+            },
+            {
+              "checks": 49,
+              "failures": 0
+            },
+            {
+              "checks": 60,
+              "failures": 0
+            },
+            {
+              "checks": 63,
+              "failures": 0
+            },
+            {
+              "checks": 24,
+              "failures": 0
+            },
+            {
+              "checks": 17,
+              "failures": 0
+            },
+            {
+              "checks": 55,
+              "failures": 0
+            },
+            {
+              "checks": 37,
+              "failures": 0
+            },
+            {
+              "checks": 22,
+              "failures": 0
+            },
+            {
+              "checks": 18,
+              "failures": 0
+            },
+            {
+              "checks": 61,
+              "failures": 0
+            },
+            {
+              "checks": 57,
+              "failures": 0
+            },
+            {
+              "checks": 52,
+              "failures": 0
+            },
+            {
+              "checks": 73,
+              "failures": 0
+            },
+            {
+              "checks": 49,
+              "failures": 0
+            },
+            {
+              "checks": 35,
+              "failures": 0
+            },
+            {
+              "checks": 68,
+              "failures": 0
+            },
+            {
+              "checks": 13,
+              "failures": 0
+            },
+            {
+              "checks": 13,
+              "failures": 0
+            },
+            {
+              "checks": 52,
+              "failures": 0
+            },
+            {
+              "checks": 9,
+              "failures": 0
+            },
+            {
+              "checks": 45,
+              "failures": 0
+            },
+            {
+              "checks": 25,
+              "failures": 0
+            },
+            {
+              "checks": 64,
+              "failures": 0
+            },
+            {
+              "checks": 11,
+              "failures": 0
+            },
+            {
+              "checks": 49,
+              "failures": 0
+            },
+            {
+              "checks": 49,
+              "failures": 0
+            },
+            {
+              "checks": 4,
+              "failures": 0
+            },
+            {
+              "checks": 31,
+              "failures": 0
+            },
+            {
+              "checks": 12,
+              "failures": 0
+            },
+            {
+              "checks": 6,
+              "failures": 0
+            },
+            {
+              "checks": 21,
+              "failures": 0
+            },
+            {
+              "checks": 53,
+              "failures": 0
+            },
+            {
+              "checks": 20,
+              "failures": 0
+            },
+            {
+              "checks": 7,
+              "failures": 0
+            },
+            {
+              "checks": 14,
+              "failures": 0
+            }
+          ],
+          "uncompressed_bytes": 11727474
+        },
+        {
+          "compressed_bytes": 299,
+          "crc32": "7c3561ff",
+          "fail_marker_lines": 0,
+          "name": "game-smoke/system.txt",
+          "sha256": "602afc44c9dca1b6178a9816280d7d93db24d8779e3b60d0d9a1b9952016cf58",
+          "summary_lines": [],
+          "uncompressed_bytes": 600
+        },
+        {
+          "compressed_bytes": 813,
+          "crc32": "08ae97e1",
+          "fail_marker_lines": 0,
+          "name": "game-smoke/1_Set up job.txt",
+          "sha256": "e405caf9cf28ed8e3ff572a28619244e4934323522c620f22211f4608e9d53c4",
+          "summary_lines": [],
+          "uncompressed_bytes": 2097
+        },
+        {
+          "compressed_bytes": 7385,
+          "crc32": "d36880b4",
+          "fail_marker_lines": 1,
+          "name": "game-smoke/2_Run actions_checkout@11d5960a326750d5838078e36cf38b85af677262.txt",
+          "sha256": "58bf82bfcd00e11f8ce850ed63408ab2fde98e502fff9c3a0e645eb62d3e0968",
+          "summary_lines": [],
+          "uncompressed_bytes": 41338
+        },
+        {
+          "compressed_bytes": 475,
+          "crc32": "8be3f20c",
+          "fail_marker_lines": 0,
+          "name": "game-smoke/3_Determine whether gameplay or tooling changed.txt",
+          "sha256": "f7d166db2d12d0d1a6b5d377795a43c48d82dc2137d4fc95f8e7b1b0bb468c20",
+          "summary_lines": [],
+          "uncompressed_bytes": 1170
+        },
+        {
+          "compressed_bytes": 501,
+          "crc32": "95cf6ea2",
+          "fail_marker_lines": 1,
+          "name": "game-smoke/4_Restore verified Godot download cache.txt",
+          "sha256": "1c36366450a849b643de00a0ddf8a3da1b45e1d8129c26f1a0562eda0524f083",
+          "summary_lines": [],
+          "uncompressed_bytes": 1032
+        },
+        {
+          "compressed_bytes": 380,
+          "crc32": "c0104d10",
+          "fail_marker_lines": 0,
+          "name": "game-smoke/5_Install pinned Godot toolchain.txt",
+          "sha256": "9bac900b4a0beae31ded7c3d08ebae2f1ea2938c670b28a4be481d0366a2d70e",
+          "summary_lines": [],
+          "uncompressed_bytes": 772
+        },
+        {
+          "compressed_bytes": 517,
+          "crc32": "08a876cb",
+          "fail_marker_lines": 1,
+          "name": "game-smoke/6_Cache verified official download.txt",
+          "sha256": "66c0b57f0d7cf8a264dcf17e9add6ee76f280e433832569a6e236f1517a7b1a1",
+          "summary_lines": [],
+          "uncompressed_bytes": 1071
+        },
+        {
+          "compressed_bytes": 5804,
+          "crc32": "0e5ef5f3",
+          "fail_marker_lines": 1,
+          "name": "game-smoke/7_Validate import and deterministic core game.txt",
+          "sha256": "5e2f2aa028bb91eb3b624b3967995c2427d5084e6dab347730a4f7eee1d07e20",
+          "summary_lines": [
+            {
+              "checks": 836,
+              "failures": 0
+            }
+          ],
+          "uncompressed_bytes": 63623
+        },
+        {
+          "compressed_bytes": 670919,
+          "crc32": "da3f7c17",
+          "fail_marker_lines": 94,
+          "name": "game-smoke/8_Validate navigation, recovery and touch runtime regressions.txt",
+          "sha256": "a9edf1d32ccb8774bee29dd1ce01f1c204866f4558d4ceb3dc20cc02ab5b239c",
+          "summary_lines": [
+            {
+              "checks": 667,
+              "failures": 0
+            },
+            {
+              "checks": 30,
+              "failures": 0
+            },
+            {
+              "checks": 15,
+              "failures": 0
+            },
+            {
+              "checks": 78,
+              "failures": 0
+            },
+            {
+              "checks": 212,
+              "failures": 0
+            },
+            {
+              "checks": 52,
+              "failures": 0
+            },
+            {
+              "checks": 46,
+              "failures": 0
+            },
+            {
+              "checks": 68,
+              "failures": 0
+            },
+            {
+              "checks": 77,
+              "failures": 0
+            },
+            {
+              "checks": 43,
+              "failures": 0
+            },
+            {
+              "checks": 76,
+              "failures": 0
+            },
+            {
+              "checks": 23,
+              "failures": 0
+            },
+            {
+              "checks": 33,
+              "failures": 0
+            },
+            {
+              "checks": 69,
+              "failures": 0
+            },
+            {
+              "checks": 31,
+              "failures": 0
+            },
+            {
+              "checks": 58,
+              "failures": 0
+            },
+            {
+              "checks": 37,
+              "failures": 0
+            },
+            {
+              "checks": 199,
+              "failures": 0
+            },
+            {
+              "checks": 114,
+              "failures": 0
+            },
+            {
+              "checks": 41,
+              "failures": 0
+            },
+            {
+              "checks": 52,
+              "failures": 0
+            },
+            {
+              "checks": 33,
+              "failures": 0
+            },
+            {
+              "checks": 42,
+              "failures": 0
+            },
+            {
+              "checks": 132,
+              "failures": 0
+            },
+            {
+              "checks": 72,
+              "failures": 0
+            },
+            {
+              "checks": 49,
+              "failures": 0
+            },
+            {
+              "checks": 60,
+              "failures": 0
+            },
+            {
+              "checks": 412,
+              "failures": 0
+            },
+            {
+              "checks": 42,
+              "failures": 0
+            },
+            {
+              "checks": 14,
+              "failures": 0
+            },
+            {
+              "checks": 40,
+              "failures": 0
+            },
+            {
+              "checks": 9,
+              "failures": 0
+            },
+            {
+              "checks": 70,
+              "failures": 0
+            },
+            {
+              "checks": 28,
+              "failures": 0
+            },
+            {
+              "checks": 57,
+              "failures": 0
+            },
+            {
+              "checks": 47,
+              "failures": 0
+            },
+            {
+              "checks": 91,
+              "failures": 0
+            },
+            {
+              "checks": 17,
+              "failures": 0
+            },
+            {
+              "checks": 20,
+              "failures": 0
+            },
+            {
+              "checks": 13,
+              "failures": 0
+            },
+            {
+              "checks": 108,
+              "failures": 0
+            },
+            {
+              "checks": 24,
+              "failures": 0
+            },
+            {
+              "checks": 17,
+              "failures": 0
+            },
+            {
+              "checks": 22,
+              "failures": 0
+            },
+            {
+              "checks": 36,
+              "failures": 0
+            },
+            {
+              "checks": 14,
+              "failures": 0
+            },
+            {
+              "checks": 14,
+              "failures": 0
+            },
+            {
+              "checks": 10,
+              "failures": 0
+            },
+            {
+              "checks": 52,
+              "failures": 0
+            },
+            {
+              "checks": 32,
+              "failures": 0
+            },
+            {
+              "checks": 108,
+              "failures": 0
+            },
+            {
+              "checks": 58,
+              "failures": 0
+            },
+            {
+              "checks": 15,
+              "failures": 0
+            },
+            {
+              "checks": 31,
+              "failures": 0
+            },
+            {
+              "checks": 16,
+              "failures": 0
+            },
+            {
+              "checks": 22,
+              "failures": 0
+            },
+            {
+              "checks": 69,
+              "failures": 0
+            },
+            {
+              "checks": 59,
+              "failures": 0
+            },
+            {
+              "checks": 134,
+              "failures": 0
+            },
+            {
+              "checks": 49,
+              "failures": 0
+            },
+            {
+              "checks": 60,
+              "failures": 0
+            },
+            {
+              "checks": 63,
+              "failures": 0
+            },
+            {
+              "checks": 24,
+              "failures": 0
+            },
+            {
+              "checks": 17,
+              "failures": 0
+            },
+            {
+              "checks": 55,
+              "failures": 0
+            },
+            {
+              "checks": 37,
+              "failures": 0
+            },
+            {
+              "checks": 22,
+              "failures": 0
+            },
+            {
+              "checks": 18,
+              "failures": 0
+            },
+            {
+              "checks": 61,
+              "failures": 0
+            },
+            {
+              "checks": 57,
+              "failures": 0
+            },
+            {
+              "checks": 52,
+              "failures": 0
+            },
+            {
+              "checks": 73,
+              "failures": 0
+            },
+            {
+              "checks": 49,
+              "failures": 0
+            },
+            {
+              "checks": 35,
+              "failures": 0
+            },
+            {
+              "checks": 68,
+              "failures": 0
+            },
+            {
+              "checks": 13,
+              "failures": 0
+            },
+            {
+              "checks": 13,
+              "failures": 0
+            },
+            {
+              "checks": 52,
+              "failures": 0
+            },
+            {
+              "checks": 9,
+              "failures": 0
+            },
+            {
+              "checks": 45,
+              "failures": 0
+            },
+            {
+              "checks": 25,
+              "failures": 0
+            },
+            {
+              "checks": 64,
+              "failures": 0
+            },
+            {
+              "checks": 11,
+              "failures": 0
+            },
+            {
+              "checks": 49,
+              "failures": 0
+            },
+            {
+              "checks": 49,
+              "failures": 0
+            },
+            {
+              "checks": 4,
+              "failures": 0
+            },
+            {
+              "checks": 31,
+              "failures": 0
+            },
+            {
+              "checks": 12,
+              "failures": 0
+            },
+            {
+              "checks": 6,
+              "failures": 0
+            },
+            {
+              "checks": 21,
+              "failures": 0
+            },
+            {
+              "checks": 53,
+              "failures": 0
+            },
+            {
+              "checks": 20,
+              "failures": 0
+            },
+            {
+              "checks": 7,
+              "failures": 0
+            },
+            {
+              "checks": 14,
+              "failures": 0
+            }
+          ],
+          "uncompressed_bytes": 11613873
+        },
+        {
+          "compressed_bytes": 555,
+          "crc32": "eb2463f1",
+          "fail_marker_lines": 0,
+          "name": "game-smoke/18_Post Run actions_checkout@11d5960a326750d5838078e36cf38b85af677262.txt",
+          "sha256": "f1636185e48e14cd8893efe71bc9277fdd32ceefd4cccca464a92ca54b2e88cd",
+          "summary_lines": [],
+          "uncompressed_bytes": 1719
+        },
+        {
+          "compressed_bytes": 394,
+          "crc32": "69cc6b52",
+          "fail_marker_lines": 0,
+          "name": "game-smoke/19_Complete job.txt",
+          "sha256": "f65d809936b366e0e656fd2ff04ba0b5978d57f902f10acc7315f8c03a98e392",
+          "summary_lines": [],
+          "uncompressed_bytes": 806
+        }
+      ],
+      "metadata": {
+        "conclusion": "cancelled",
+        "createdAt": "2026-10-25T18:15:21Z",
+        "databaseId": 40220369620,
+        "event": "pull_request",
+        "headSha": "a449f1bcc61cca4d10b8a5a340d1da9b453e9b52",
+        "status": "completed",
+        "updatedAt": "2026-10-25T18:39:41Z",
+        "url": "https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/40220369620",
+        "workflowName": "Gauntlet PR checks"
+      },
+      "metadata_exit_code": 0,
+      "metadata_status": "verified_cancelled",
+      "metadata_verified": true,
+      "run_id": 40220369620,
+      "uncompressed_log_bytes": 23468211,
+      "zip_crc_check": "passed",
+      "zip_member_count": 14
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 836,
+          "failures": 0
+        },
+        {
+          "checks": 667,
+          "failures": 0
+        },
+        {
+          "checks": 30,
+          "failures": 0
+        },
+        {
+          "checks": 15,
+          "failures": 0
+        },
+        {
+          "checks": 78,
+          "failures": 0
+        },
+        {
+          "checks": 212,
+          "failures": 0
+        },
+        {
+          "checks": 52,
+          "failures": 0
+        },
+        {
+          "checks": 46,
+          "failures": 0
+        },
+        {
+          "checks": 68,
+          "failures": 0
+        },
+        {
+          "checks": 77,
+          "failures": 0
+        },
+        {
+          "checks": 43,
+          "failures": 0
+        },
+        {
+          "checks": 76,
+          "failures": 0
+        },
+        {
+          "checks": 23,
+          "failures": 0
+        },
+        {
+          "checks": 33,
+          "failures": 0
+        },
+        {
+          "checks": 69,
+          "failures": 0
+        },
+        {
+          "checks": 31,
+          "failures": 0
+        },
+        {
+          "checks": 58,
+          "failures": 0
+        },
+        {
+          "checks": 37,
+          "failures": 0
+        },
+        {
+          "checks": 199,
+          "failures": 0
+        },
+        {
+          "checks": 114,
+          "failures": 0
+        },
+        {
+          "checks": 41,
+          "failures": 0
+        },
+        {
+          "checks": 52,
+          "failures": 0
+        },
+        {
+          "checks": 33,
+          "failures": 0
+        },
+        {
+          "checks": 42,
+          "failures": 0
+        },
+        {
+          "checks": 836,
+          "failures": 0
+        },
+        {
+          "checks": 667,
+          "failures": 0
+        },
+        {
+          "checks": 30,
+          "failures": 0
+        },
+        {
+          "checks": 15,
+          "failures": 0
+        },
+        {
+          "checks": 78,
+          "failures": 0
+        },
+        {
+          "checks": 212,
+          "failures": 0
+        },
+        {
+          "checks": 52,
+          "failures": 0
+        },
+        {
+          "checks": 46,
+          "failures": 0
+        },
+        {
+          "checks": 68,
+          "failures": 0
+        },
+        {
+          "checks": 77,
+          "failures": 0
+        },
+        {
+          "checks": 43,
+          "failures": 0
+        },
+        {
+          "checks": 76,
+          "failures": 0
+        },
+        {
+          "checks": 23,
+          "failures": 0
+        },
+        {
+          "checks": 33,
+          "failures": 0
+        },
+        {
+          "checks": 69,
+          "failures": 0
+        },
+        {
+          "checks": 31,
+          "failures": 0
+        },
+        {
+          "checks": 58,
+          "failures": 0
+        },
+        {
+          "checks": 37,
+          "failures": 0
+        },
+        {
+          "checks": 199,
+          "failures": 0
+        },
+        {
+          "checks": 114,
+          "failures": 0
+        },
+        {
+          "checks": 41,
+          "failures": 0
+        },
+        {
+          "checks": 52,
+          "failures": 0
+        },
+        {
+          "checks": 33,
+          "failures": 0
+        },
+        {
+          "checks": 42,
+          "failures": 0
+        }
+      ],
+      "check_summary_count": 48,
+      "classification": "cancelled_incomplete",
+      "expected_head_prefix": "f8da8ec3",
+      "fail_marker_line_count": 54,
+      "log_archive_status": "downloaded_crc_valid",
+      "log_zip_bytes": 466640,
+      "log_zip_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\043-evidence\\hosted-cancelled\\40222210693\\logs.zip",
+      "log_zip_sha256": "3ff9ec04fd35bf6d40a81f83f2c6c877167b63e18f53cda3cfb4d49f6987cee6",
+      "logs_api_exit_code": 0,
+      "logs_response_bytes": 466640,
+      "logs_response_sha256": "3ff9ec04fd35bf6d40a81f83f2c6c877167b63e18f53cda3cfb4d49f6987cee6",
+      "members": [
+        {
+          "compressed_bytes": 3474,
+          "crc32": "50b52bfe",
+          "fail_marker_lines": 0,
+          "name": "0_guidance.txt",
+          "sha256": "8578e9d465cdeb806e56d3134a33196113567ac5b3469bbdd05659903ca98a65",
+          "summary_lines": [],
+          "uncompressed_bytes": 12039
+        },
+        {
+          "compressed_bytes": 297,
+          "crc32": "6b826cf7",
+          "fail_marker_lines": 0,
+          "name": "guidance/system.txt",
+          "sha256": "3bd315d1951813eb3a86f01fa6744cbd39a2d7c332b574eab79c36d5a80a877e",
+          "summary_lines": [],
+          "uncompressed_bytes": 598
+        },
+        {
+          "compressed_bytes": 765,
+          "crc32": "7cd43a86",
+          "fail_marker_lines": 0,
+          "name": "guidance/1_Set up job.txt",
+          "sha256": "5fe8d48bb00969d1d97be96a24cafa49a9e8c0e46dd93ad94f14d55839180b95",
+          "summary_lines": [],
+          "uncompressed_bytes": 1933
+        },
+        {
+          "compressed_bytes": 2185,
+          "crc32": "428fd402",
+          "fail_marker_lines": 0,
+          "name": "guidance/2_Run actions_checkout@11d5960a326750d5838078e36cf38b85af677262.txt",
+          "sha256": "5c17669a628393c806ef62f749b2c5ab68d3f3230accc0ea67fbbafa3c349a26",
+          "summary_lines": [],
+          "uncompressed_bytes": 6936
+        },
+        {
+          "compressed_bytes": 235,
+          "crc32": "3e445f03",
+          "fail_marker_lines": 0,
+          "name": "guidance/3_Test guidance detector.txt",
+          "sha256": "d2bc7039141defcd424a04cc1cb67d6bdb929ddfee140093fd0ce43093281ee2",
+          "summary_lines": [],
+          "uncompressed_bytes": 554
+        },
+        {
+          "compressed_bytes": 307,
+          "crc32": "8527d545",
+          "fail_marker_lines": 0,
+          "name": "guidance/4_Audit current branch's governing instructions.txt",
+          "sha256": "7646f67f7e2b8031ea42fb4544d3f0e8a8849242422b5c191132aec26e2b8226",
+          "summary_lines": [],
+          "uncompressed_bytes": 526
+        },
+        {
+          "compressed_bytes": 558,
+          "crc32": "b725d4a4",
+          "fail_marker_lines": 0,
+          "name": "guidance/8_Post Run actions_checkout@11d5960a326750d5838078e36cf38b85af677262.txt",
+          "sha256": "46f4a75ce1c213bc606f82746e596aa35fe3aeb95af3cdf3774654b945d31c02",
+          "summary_lines": [],
+          "uncompressed_bytes": 1719
+        },
+        {
+          "compressed_bytes": 275,
+          "crc32": "520e991b",
+          "fail_marker_lines": 0,
+          "name": "guidance/9_Complete job.txt",
+          "sha256": "352cb74c8350349c7939411e09fe5dffedc91949aa0bc426af18c0a437661800",
+          "summary_lines": [],
+          "uncompressed_bytes": 386
+        },
+        {
+          "compressed_bytes": 226923,
+          "crc32": "b578f4bb",
+          "fail_marker_lines": 27,
+          "name": "1_game-smoke.txt",
+          "sha256": "097872b2da8e9e271b553594259c9f4faabc636bc7297aa14a1cb6be4e2fec28",
+          "summary_lines": [
+            {
+              "checks": 836,
+              "failures": 0
+            },
+            {
+              "checks": 667,
+              "failures": 0
+            },
+            {
+              "checks": 30,
+              "failures": 0
+            },
+            {
+              "checks": 15,
+              "failures": 0
+            },
+            {
+              "checks": 78,
+              "failures": 0
+            },
+            {
+              "checks": 212,
+              "failures": 0
+            },
+            {
+              "checks": 52,
+              "failures": 0
+            },
+            {
+              "checks": 46,
+              "failures": 0
+            },
+            {
+              "checks": 68,
+              "failures": 0
+            },
+            {
+              "checks": 77,
+              "failures": 0
+            },
+            {
+              "checks": 43,
+              "failures": 0
+            },
+            {
+              "checks": 76,
+              "failures": 0
+            },
+            {
+              "checks": 23,
+              "failures": 0
+            },
+            {
+              "checks": 33,
+              "failures": 0
+            },
+            {
+              "checks": 69,
+              "failures": 0
+            },
+            {
+              "checks": 31,
+              "failures": 0
+            },
+            {
+              "checks": 58,
+              "failures": 0
+            },
+            {
+              "checks": 37,
+              "failures": 0
+            },
+            {
+              "checks": 199,
+              "failures": 0
+            },
+            {
+              "checks": 114,
+              "failures": 0
+            },
+            {
+              "checks": 41,
+              "failures": 0
+            },
+            {
+              "checks": 52,
+              "failures": 0
+            },
+            {
+              "checks": 33,
+              "failures": 0
+            },
+            {
+              "checks": 42,
+              "failures": 0
+            }
+          ],
+          "uncompressed_bytes": 3811438
+        },
+        {
+          "compressed_bytes": 299,
+          "crc32": "ce6f37e9",
+          "fail_marker_lines": 0,
+          "name": "game-smoke/system.txt",
+          "sha256": "a69007db890b598754b8dac367672b5c08de854e5c090d445b6e636a84b4cc4e",
+          "summary_lines": [],
+          "uncompressed_bytes": 600
+        },
+        {
+          "compressed_bytes": 806,
+          "crc32": "413306a1",
+          "fail_marker_lines": 0,
+          "name": "game-smoke/1_Set up job.txt",
+          "sha256": "97a127b0ab3bd554fc4098237a728665d5dd44a36f2a8f7f80761da4a9f9b53c",
+          "summary_lines": [],
+          "uncompressed_bytes": 2102
+        },
+        {
+          "compressed_bytes": 7315,
+          "crc32": "a9c07d84",
+          "fail_marker_lines": 1,
+          "name": "game-smoke/2_Run actions_checkout@11d5960a326750d5838078e36cf38b85af677262.txt",
+          "sha256": "de17eabbc23bb97a2898aabff587573906b8b69dd2a5adf951a7fd5b1be1447a",
+          "summary_lines": [],
+          "uncompressed_bytes": 41482
+        },
+        {
+          "compressed_bytes": 470,
+          "crc32": "c19dbe36",
+          "fail_marker_lines": 0,
+          "name": "game-smoke/3_Determine whether gameplay or tooling changed.txt",
+          "sha256": "9cfdb6e58520a5a6516702428122456f4866eb1c59dae3059523b0ea3039a3a7",
+          "summary_lines": [],
+          "uncompressed_bytes": 1170
+        },
+        {
+          "compressed_bytes": 500,
+          "crc32": "cc90dd15",
+          "fail_marker_lines": 1,
+          "name": "game-smoke/4_Restore verified Godot download cache.txt",
+          "sha256": "d0c1731c9d1e80c7bda934954eb047876280a3a2259d40f5dd7a5f0f16b9b19a",
+          "summary_lines": [],
+          "uncompressed_bytes": 1032
+        },
+        {
+          "compressed_bytes": 380,
+          "crc32": "ba31a2d6",
+          "fail_marker_lines": 0,
+          "name": "game-smoke/5_Install pinned Godot toolchain.txt",
+          "sha256": "9bd3c5c288da5593ada3bb53f8bdf60f8c57fae71217dc0aad6a02b155e8084d",
+          "summary_lines": [],
+          "uncompressed_bytes": 772
+        },
+        {
+          "compressed_bytes": 514,
+          "crc32": "f9e52efc",
+          "fail_marker_lines": 1,
+          "name": "game-smoke/6_Cache verified official download.txt",
+          "sha256": "07e6c3e476b959f79ab5cb1a072791ff6f1e97cee0a68ac61ff9e192fb412a26",
+          "summary_lines": [],
+          "uncompressed_bytes": 1071
+        },
+        {
+          "compressed_bytes": 5680,
+          "crc32": "30a912f7",
+          "fail_marker_lines": 1,
+          "name": "game-smoke/7_Validate import and deterministic core game.txt",
+          "sha256": "de5663f3335bf59ec913b5a66325f8d37e2e545b450b79d7d2884b54f8d646c5",
+          "summary_lines": [
+            {
+              "checks": 836,
+              "failures": 0
+            }
+          ],
+          "uncompressed_bytes": 63709
+        },
+        {
+          "compressed_bytes": 210965,
+          "crc32": "47e308e8",
+          "fail_marker_lines": 23,
+          "name": "game-smoke/8_Validate navigation, recovery and touch runtime regressions.txt",
+          "sha256": "0e8ad1dc5e0f9c9658bfdf475387af07f31bf914f28d12949466511dbdc09a78",
+          "summary_lines": [
+            {
+              "checks": 667,
+              "failures": 0
+            },
+            {
+              "checks": 30,
+              "failures": 0
+            },
+            {
+              "checks": 15,
+              "failures": 0
+            },
+            {
+              "checks": 78,
+              "failures": 0
+            },
+            {
+              "checks": 212,
+              "failures": 0
+            },
+            {
+              "checks": 52,
+              "failures": 0
+            },
+            {
+              "checks": 46,
+              "failures": 0
+            },
+            {
+              "checks": 68,
+              "failures": 0
+            },
+            {
+              "checks": 77,
+              "failures": 0
+            },
+            {
+              "checks": 43,
+              "failures": 0
+            },
+            {
+              "checks": 76,
+              "failures": 0
+            },
+            {
+              "checks": 23,
+              "failures": 0
+            },
+            {
+              "checks": 33,
+              "failures": 0
+            },
+            {
+              "checks": 69,
+              "failures": 0
+            },
+            {
+              "checks": 31,
+              "failures": 0
+            },
+            {
+              "checks": 58,
+              "failures": 0
+            },
+            {
+              "checks": 37,
+              "failures": 0
+            },
+            {
+              "checks": 199,
+              "failures": 0
+            },
+            {
+              "checks": 114,
+              "failures": 0
+            },
+            {
+              "checks": 41,
+              "failures": 0
+            },
+            {
+              "checks": 52,
+              "failures": 0
+            },
+            {
+              "checks": 33,
+              "failures": 0
+            },
+            {
+              "checks": 42,
+              "failures": 0
+            }
+          ],
+          "uncompressed_bytes": 3697602
+        },
+        {
+          "compressed_bytes": 553,
+          "crc32": "f194c785",
+          "fail_marker_lines": 0,
+          "name": "game-smoke/18_Post Run actions_checkout@11d5960a326750d5838078e36cf38b85af677262.txt",
+          "sha256": "36e38573f8accd02b78c44f9637af0920f18162fe31abc8889fb1cebc6be12e7",
+          "summary_lines": [],
+          "uncompressed_bytes": 1719
+        },
+        {
+          "compressed_bytes": 391,
+          "crc32": "e944cd5a",
+          "fail_marker_lines": 0,
+          "name": "game-smoke/19_Complete job.txt",
+          "sha256": "5efe5cf1247b054c239bbd3a9c3ce1a251dd394ec670b13bd499859371847dd7",
+          "summary_lines": [],
+          "uncompressed_bytes": 806
+        }
+      ],
+      "metadata": {
+        "conclusion": "cancelled",
+        "createdAt": "2026-10-25T18:38:34Z",
+        "databaseId": 40222210693,
+        "event": "pull_request",
+        "headSha": "f8da8ec30856eb857ec8e3998db853d30fe14f90",
+        "status": "completed",
+        "updatedAt": "2026-10-25T18:46:07Z",
+        "url": "https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/40222210693",
+        "workflowName": "Gauntlet PR checks"
+      },
+      "metadata_exit_code": 0,
+      "metadata_status": "verified_cancelled",
+      "metadata_verified": true,
+      "run_id": 40222210693,
+      "uncompressed_log_bytes": 7648194,
+      "zip_crc_check": "passed",
+      "zip_member_count": 20
+    },
+    {
+      "check_summaries": [
+        {
+          "checks": 836,
+          "failures": 0
+        },
+        {
+          "checks": 667,
+          "failures": 0
+        },
+        {
+          "checks": 30,
+          "failures": 0
+        },
+        {
+          "checks": 15,
+          "failures": 0
+        },
+        {
+          "checks": 78,
+          "failures": 0
+        },
+        {
+          "checks": 212,
+          "failures": 0
+        },
+        {
+          "checks": 52,
+          "failures": 0
+        },
+        {
+          "checks": 46,
+          "failures": 0
+        },
+        {
+          "checks": 68,
+          "failures": 0
+        },
+        {
+          "checks": 77,
+          "failures": 0
+        },
+        {
+          "checks": 43,
+          "failures": 0
+        },
+        {
+          "checks": 76,
+          "failures": 0
+        },
+        {
+          "checks": 23,
+          "failures": 0
+        },
+        {
+          "checks": 33,
+          "failures": 0
+        },
+        {
+          "checks": 69,
+          "failures": 0
+        },
+        {
+          "checks": 31,
+          "failures": 0
+        },
+        {
+          "checks": 58,
+          "failures": 0
+        },
+        {
+          "checks": 37,
+          "failures": 0
+        },
+        {
+          "checks": 199,
+          "failures": 0
+        },
+        {
+          "checks": 114,
+          "failures": 0
+        },
+        {
+          "checks": 41,
+          "failures": 0
+        },
+        {
+          "checks": 52,
+          "failures": 0
+        },
+        {
+          "checks": 33,
+          "failures": 0
+        },
+        {
+          "checks": 42,
+          "failures": 0
+        },
+        {
+          "checks": 836,
+          "failures": 0
+        },
+        {
+          "checks": 667,
+          "failures": 0
+        },
+        {
+          "checks": 30,
+          "failures": 0
+        },
+        {
+          "checks": 15,
+          "failures": 0
+        },
+        {
+          "checks": 78,
+          "failures": 0
+        },
+        {
+          "checks": 212,
+          "failures": 0
+        },
+        {
+          "checks": 52,
+          "failures": 0
+        },
+        {
+          "checks": 46,
+          "failures": 0
+        },
+        {
+          "checks": 68,
+          "failures": 0
+        },
+        {
+          "checks": 77,
+          "failures": 0
+        },
+        {
+          "checks": 43,
+          "failures": 0
+        },
+        {
+          "checks": 76,
+          "failures": 0
+        },
+        {
+          "checks": 23,
+          "failures": 0
+        },
+        {
+          "checks": 33,
+          "failures": 0
+        },
+        {
+          "checks": 69,
+          "failures": 0
+        },
+        {
+          "checks": 31,
+          "failures": 0
+        },
+        {
+          "checks": 58,
+          "failures": 0
+        },
+        {
+          "checks": 37,
+          "failures": 0
+        },
+        {
+          "checks": 199,
+          "failures": 0
+        },
+        {
+          "checks": 114,
+          "failures": 0
+        },
+        {
+          "checks": 41,
+          "failures": 0
+        },
+        {
+          "checks": 52,
+          "failures": 0
+        },
+        {
+          "checks": 33,
+          "failures": 0
+        },
+        {
+          "checks": 42,
+          "failures": 0
+        }
+      ],
+      "check_summary_count": 48,
+      "classification": "cancelled_incomplete",
+      "expected_head_prefix": "7b8d4c42",
+      "fail_marker_line_count": 54,
+      "log_archive_status": "downloaded_crc_valid",
+      "log_zip_bytes": 424605,
+      "log_zip_path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\043-evidence\\hosted-cancelled\\40222792009\\logs.zip",
+      "log_zip_sha256": "70c0f42e1630ec7338328c6a8e3d7f1d3fa61d6d6f948595a1d4057200569bcb",
+      "logs_api_exit_code": 0,
+      "logs_response_bytes": 424605,
+      "logs_response_sha256": "70c0f42e1630ec7338328c6a8e3d7f1d3fa61d6d6f948595a1d4057200569bcb",
+      "members": [
+        {
+          "compressed_bytes": 3465,
+          "crc32": "25ab51cd",
+          "fail_marker_lines": 0,
+          "name": "0_guidance.txt",
+          "sha256": "10cbda45f7ef8d256d0339f927575bdbaceac90d2f7fdb7273d62000fb89882b",
+          "summary_lines": [],
+          "uncompressed_bytes": 12046
+        },
+        {
+          "compressed_bytes": 301,
+          "crc32": "4713a993",
+          "fail_marker_lines": 0,
+          "name": "guidance/system.txt",
+          "sha256": "e1374e7e0f573da5aeee80fdb31d5a666fcc791b81d8bc87956e70a9a9da94f5",
+          "summary_lines": [],
+          "uncompressed_bytes": 598
+        },
+        {
+          "compressed_bytes": 768,
+          "crc32": "475ba955",
+          "fail_marker_lines": 0,
+          "name": "guidance/1_Set up job.txt",
+          "sha256": "25a24742b5a887447d90d256d1f5b42d07aec2c82fcfa600c3e7be1c6202d4cd",
+          "summary_lines": [],
+          "uncompressed_bytes": 1940
+        },
+        {
+          "compressed_bytes": 2169,
+          "crc32": "f41904d3",
+          "fail_marker_lines": 0,
+          "name": "guidance/2_Run actions_checkout@11d5960a326750d5838078e36cf38b85af677262.txt",
+          "sha256": "76d8044fb11298f4f58332945017ac1d7de91ab4d64f40f1f0431f17fb75a074",
+          "summary_lines": [],
+          "uncompressed_bytes": 6936
+        },
+        {
+          "compressed_bytes": 234,
+          "crc32": "e69ab2d5",
+          "fail_marker_lines": 0,
+          "name": "guidance/3_Test guidance detector.txt",
+          "sha256": "5aeb8940e8cc7c74bd836f99e017859c9a3a3d116d72f30de866ec4a12fffa41",
+          "summary_lines": [],
+          "uncompressed_bytes": 554
+        },
+        {
+          "compressed_bytes": 307,
+          "crc32": "597b6603",
+          "fail_marker_lines": 0,
+          "name": "guidance/4_Audit current branch's governing instructions.txt",
+          "sha256": "203370c0d0814da2f3c2e208fd391938ea1d2a906066023b3ea7c3791344b55a",
+          "summary_lines": [],
+          "uncompressed_bytes": 526
+        },
+        {
+          "compressed_bytes": 555,
+          "crc32": "a164b456",
+          "fail_marker_lines": 0,
+          "name": "guidance/8_Post Run actions_checkout@11d5960a326750d5838078e36cf38b85af677262.txt",
+          "sha256": "f72e7ae4fcdd18c25cb8856f2f37e5e2d40a15c61c651f836da3b83b29460e57",
+          "summary_lines": [],
+          "uncompressed_bytes": 1719
+        },
+        {
+          "compressed_bytes": 275,
+          "crc32": "9d69c86b",
+          "fail_marker_lines": 0,
+          "name": "guidance/9_Complete job.txt",
+          "sha256": "365e3bbe9bdb21678cfb42b95b65e8aa5ce755ef0e07a21a1b2a5559f589628a",
+          "summary_lines": [],
+          "uncompressed_bytes": 386
+        },
+        {
+          "compressed_bytes": 205894,
+          "crc32": "694be986",
+          "fail_marker_lines": 27,
+          "name": "1_game-smoke.txt",
+          "sha256": "a9c72f0dcccd071844f6a7be3ecd1eacfb35e1116648568b6dc610eab7d68e8d",
+          "summary_lines": [
+            {
+              "checks": 836,
+              "failures": 0
+            },
+            {
+              "checks": 667,
+              "failures": 0
+            },
+            {
+              "checks": 30,
+              "failures": 0
+            },
+            {
+              "checks": 15,
+              "failures": 0
+            },
+            {
+              "checks": 78,
+              "failures": 0
+            },
+            {
+              "checks": 212,
+              "failures": 0
+            },
+            {
+              "checks": 52,
+              "failures": 0
+            },
+            {
+              "checks": 46,
+              "failures": 0
+            },
+            {
+              "checks": 68,
+              "failures": 0
+            },
+            {
+              "checks": 77,
+              "failures": 0
+            },
+            {
+              "checks": 43,
+              "failures": 0
+            },
+            {
+              "checks": 76,
+              "failures": 0
+            },
+            {
+              "checks": 23,
+              "failures": 0
+            },
+            {
+              "checks": 33,
+              "failures": 0
+            },
+            {
+              "checks": 69,
+              "failures": 0
+            },
+            {
+              "checks": 31,
+              "failures": 0
+            },
+            {
+              "checks": 58,
+              "failures": 0
+            },
+            {
+              "checks": 37,
+              "failures": 0
+            },
+            {
+              "checks": 199,
+              "failures": 0
+            },
+            {
+              "checks": 114,
+              "failures": 0
+            },
+            {
+              "checks": 41,
+              "failures": 0
+            },
+            {
+              "checks": 52,
+              "failures": 0
+            },
+            {
+              "checks": 33,
+              "failures": 0
+            },
+            {
+              "checks": 42,
+              "failures": 0
+            }
+          ],
+          "uncompressed_bytes": 3409018
+        },
+        {
+          "compressed_bytes": 300,
+          "crc32": "85357868",
+          "fail_marker_lines": 0,
+          "name": "game-smoke/system.txt",
+          "sha256": "a62ba2b8efe40140b7e1a35192cf29b3af54216cc627b9df41c8304082f367f7",
+          "summary_lines": [],
+          "uncompressed_bytes": 600
+        },
+        {
+          "compressed_bytes": 823,
+          "crc32": "9052e248",
+          "fail_marker_lines": 0,
+          "name": "game-smoke/1_Set up job.txt",
+          "sha256": "3009508d034a47f065404d5767242f3fbac0847690cf1b61405fc9cf17855fe3",
+          "summary_lines": [],
+          "uncompressed_bytes": 2102
+        },
+        {
+          "compressed_bytes": 7493,
+          "crc32": "9d83ef51",
+          "fail_marker_lines": 1,
+          "name": "game-smoke/2_Run actions_checkout@11d5960a326750d5838078e36cf38b85af677262.txt",
+          "sha256": "2a5370752e6b1a2cc0fce8e6e32b7b65c169a53a664179a4b10b58ded9855b03",
+          "summary_lines": [],
+          "uncompressed_bytes": 41482
+        },
+        {
+          "compressed_bytes": 474,
+          "crc32": "812d8f38",
+          "fail_marker_lines": 0,
+          "name": "game-smoke/3_Determine whether gameplay or tooling changed.txt",
+          "sha256": "da0808b7c382ce440a1389b9ca7fc63fc62a26b7f73c9f873a3ee1ce4cbd1da5",
+          "summary_lines": [],
+          "uncompressed_bytes": 1170
+        },
+        {
+          "compressed_bytes": 497,
+          "crc32": "4d977c19",
+          "fail_marker_lines": 1,
+          "name": "game-smoke/4_Restore verified Godot download cache.txt",
+          "sha256": "43cda3ab5445bc04533d5fc9ea3dfd320b6aff27e4bdbd7714a4d4d1f40f3d44",
+          "summary_lines": [],
+          "uncompressed_bytes": 1032
+        },
+        {
+          "compressed_bytes": 379,
+          "crc32": "440c646e",
+          "fail_marker_lines": 0,
+          "name": "game-smoke/5_Install pinned Godot toolchain.txt",
+          "sha256": "886a19073abfbd3f947a099822a8ec1f76ce4cca70097fbc690f977fa9efda13",
+          "summary_lines": [],
+          "uncompressed_bytes": 772
+        },
+        {
+          "compressed_bytes": 514,
+          "crc32": "cd4f45c0",
+          "fail_marker_lines": 1,
+          "name": "game-smoke/6_Cache verified official download.txt",
+          "sha256": "9b89ba3b451f87d5654299073678b2131d14e72fd3c02cc86344c54a5d0190cd",
+          "summary_lines": [],
+          "uncompressed_bytes": 1071
+        },
+        {
+          "compressed_bytes": 5771,
+          "crc32": "9ec50c2d",
+          "fail_marker_lines": 1,
+          "name": "game-smoke/7_Validate import and deterministic core game.txt",
+          "sha256": "d0f099659d1e774a4f4061c962ef42ddda51e49def6094ee906d3e14b721a269",
+          "summary_lines": [
+            {
+              "checks": 836,
+              "failures": 0
+            }
+          ],
+          "uncompressed_bytes": 63623
+        },
+        {
+          "compressed_bytes": 189689,
+          "crc32": "b7e02796",
+          "fail_marker_lines": 23,
+          "name": "game-smoke/8_Validate navigation, recovery and touch runtime regressions.txt",
+          "sha256": "f0375f9022df7287474ff60380a3aa1d8f43aa36bb806a164796b4897df42779",
+          "summary_lines": [
+            {
+              "checks": 667,
+              "failures": 0
+            },
+            {
+              "checks": 30,
+              "failures": 0
+            },
+            {
+              "checks": 15,
+              "failures": 0
+            },
+            {
+              "checks": 78,
+              "failures": 0
+            },
+            {
+              "checks": 212,
+              "failures": 0
+            },
+            {
+              "checks": 52,
+              "failures": 0
+            },
+            {
+              "checks": 46,
+              "failures": 0
+            },
+            {
+              "checks": 68,
+              "failures": 0
+            },
+            {
+              "checks": 77,
+              "failures": 0
+            },
+            {
+              "checks": 43,
+              "failures": 0
+            },
+            {
+              "checks": 76,
+              "failures": 0
+            },
+            {
+              "checks": 23,
+              "failures": 0
+            },
+            {
+              "checks": 33,
+              "failures": 0
+            },
+            {
+              "checks": 69,
+              "failures": 0
+            },
+            {
+              "checks": 31,
+              "failures": 0
+            },
+            {
+              "checks": 58,
+              "failures": 0
+            },
+            {
+              "checks": 37,
+              "failures": 0
+            },
+            {
+              "checks": 199,
+              "failures": 0
+            },
+            {
+              "checks": 114,
+              "failures": 0
+            },
+            {
+              "checks": 41,
+              "failures": 0
+            },
+            {
+              "checks": 52,
+              "failures": 0
+            },
+            {
+              "checks": 33,
+              "failures": 0
+            },
+            {
+              "checks": 42,
+              "failures": 0
+            }
+          ],
+          "uncompressed_bytes": 3295268
+        },
+        {
+          "compressed_bytes": 555,
+          "crc32": "45064ff4",
+          "fail_marker_lines": 0,
+          "name": "game-smoke/18_Post Run actions_checkout@11d5960a326750d5838078e36cf38b85af677262.txt",
+          "sha256": "2224ad07f6a0465a07b9666a8d7e0e92385eb77b41281910e5e8a0e3d15c81b5",
+          "summary_lines": [],
+          "uncompressed_bytes": 1719
+        },
+        {
+          "compressed_bytes": 394,
+          "crc32": "79e20bb8",
+          "fail_marker_lines": 0,
+          "name": "game-smoke/19_Complete job.txt",
+          "sha256": "04d19a6f3cd0087c2b1bd91f35e0ac74d4b88d5603216040238c3da841ab6e9e",
+          "summary_lines": [],
+          "uncompressed_bytes": 806
+        }
+      ],
+      "metadata": {
+        "conclusion": "cancelled",
+        "createdAt": "2026-10-25T18:45:51Z",
+        "databaseId": 40222792009,
+        "event": "pull_request",
+        "headSha": "7b8d4c428ee25afbf85f4aed95e11cc642bfc2cf",
+        "status": "completed",
+        "updatedAt": "2026-10-25T18:55:02Z",
+        "url": "https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/40222792009",
+        "workflowName": "Gauntlet PR checks"
+      },
+      "metadata_exit_code": 0,
+      "metadata_status": "verified_cancelled",
+      "metadata_verified": true,
+      "run_id": 40222792009,
+      "uncompressed_log_bytes": 6843368,
+      "zip_crc_check": "passed",
+      "zip_member_count": 20
+    }
+  ]
+}
