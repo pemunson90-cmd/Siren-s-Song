@@ -38,6 +38,12 @@ PR into claude/integration. Merge per the line above; mark DONE and update the b
 ## Completion
 (Codex fills this in.)
 
+### In progress, 25 October 2026, 2:30 PM Eastern
+
+Last published lane head a449f1bc; draft PR143 remains unmerged. Storage194/0 and fork46/0 cover the reproduced profile rollback and pending-fork launch failures, failed cold rollback, oversized quarantine recovery, recovery-path validation, explicit deletion of unreadable fork slots, exact profile isolation and replay recovery counts. Core836/0, import and registry261/0 pass. Native profile168/0, ending42/0, menu309/0, Settings23/0 and Operations1502/0 pass. Current SAVE2 UI source/test changes remain uncommitted while 150 percent text/touch checks are resolved; normal-text replay200/0 is historical evidence, not final acceptance.
+
+Evidence checkpoint [220a4d39](https://github.com/pemunson90-cmd/Siren-s-Song/tree/220a4d39/evidence/043-windows-20261025) preserves94 raw log/probe members with verified CRCs, exact sizes and SHA256. The initial double-activation theory was premature: isolated native/headless probes show the inherited combined viewport touch/mouse helper activates once. Physical touch parsing instead requires engine emulation and the window coordinate transform. Failed input experiments remain recorded; no final touch result, exact-head approval or hosted gate is claimed. Further work continues on the same claim.
+
 ### In progress, 25 October 2026, 2:09 PM Eastern
 
 Draft PR [143](https://github.com/pemunson90-cmd/Siren-s-Song/pull/143), published WIP c569c29f. Storage153/0, fork controller30/0, touch UI110/0 at both Fold shapes, core836/0 and registry261/0. Existing save-profile68/0 plus cold3/0, FIX2 SAVE12/0, state10/0 and save UI4/0 passed. The save UI retry-failed message is the existing test's deliberate persistent-storage-failure fixture. Additional focused save/ending regressions are recorded in local evidence; final exact-head review and hosted checks remain pending.
