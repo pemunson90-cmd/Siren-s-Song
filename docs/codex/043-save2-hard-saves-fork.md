@@ -38,6 +38,16 @@ PR into claude/integration. Merge per the line above; mark DONE and update the b
 ## Completion
 (Codex fills this in.)
 
+### In progress, 25 October 2026, 2:56 PM Eastern
+
+Last published lane head080add0a1b357e7c9758b317cbdfaadcf20d3f1e; PR143 remains draft and unmerged. Current integration0e1b12ca was freshly fetched and merged, already up to date. Current root checks: storage194/0, forks55/0, UI328/0 and registry261/0. Earlier core836/0, native UI317/0 with18 captures and named save/menu regressions are historical verified results; fresh exact-head independent runs and hosted40223499332 remain pending.
+
+Independent review blocked f8da8ec3 for a real Main cold-start failure under an unreadable recovery journal. The initial empty display simulation now initializes safely; active_started remains false, and real launches/Store reads/writes remain blocked. Real Main RED306/2 with runtime errors became GREEN314/0 after this fix. Review6401625805 and fix reply6401667359 preserve the rejected head and deliberately aborted review core.
+
+A second independent review blocked7b8d4c42: disabling and re-enabling SAVE2 could preserve a stale between-dive flag and hide Resume. Disabled writes now maintain only existing optional metadata: real between status, fresh Crypto launch identity, cleared credit, retained recovery minimum and unknown last operation. No disabled capture/files or new fields. Fork RED55/4 became GREEN55/0. The expanded real Main UI328/0 cold-loads the same off-period unfinished dive and resumes it by touch at elapsed13.25 on both Fold shapes. Review6401728986 and fix reply6401768430 remain attributable evidence. Earlier terminal-off preservation assertions were retained.
+
+The initial double-tap theory was rejected by independent headless/native probes. Actual fixes were full-width action rows and one short fixed SAVE2 banner with full details in the scrolling page. The acknowledgement-dismissal test bypass was removed. Native18 captures were visually inspected; successful retry now clears its stale launch-paused notice. The final review is running again on080add0a. No prior BLOCK, aborted run, cancelled hosted run or earlier UI pass substitutes for exact-head approval and full hosted green.
+
 ### In progress, 25 October 2026, 2:30 PM Eastern
 
 Last published lane head a449f1bc; draft PR143 remains unmerged. Storage194/0 and fork46/0 cover the reproduced profile rollback and pending-fork launch failures, failed cold rollback, oversized quarantine recovery, recovery-path validation, explicit deletion of unreadable fork slots, exact profile isolation and replay recovery counts. Core836/0, import and registry261/0 pass. Native profile168/0, ending42/0, menu309/0, Settings23/0 and Operations1502/0 pass. Current SAVE2 UI source/test changes remain uncommitted while 150 percent text/touch checks are resolved; normal-text replay200/0 is historical evidence, not final acceptance.
