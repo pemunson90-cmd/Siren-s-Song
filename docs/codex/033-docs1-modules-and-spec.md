@@ -28,3 +28,11 @@ PR into claude/integration; merge per the line above; mark DONE and update the b
 
 ## Completion
 (Codex fills this in: what changed, PR link, branch and last pushed SHA, test results, unverified items, files outside ownership needed, recommended next.)
+
+### Implementation plan,25October2026 Eastern
+
+Basebbc1bed0 after040/PR144; own branchclaude/lane-docs1, worktree033-docs1. Root writes docs; one small read-only worker inventories module headers/actual hooks/flags/save validators/tests. No gameplay/source behavior changes, new infrastructure or tests that mirror prose. Module index stays below120lines, pointers below40lines. Each entry distinguishes an actual disable flag, neutral table settings or a coordinated Git revert when no runtime flag exists; preserve saves and catalog identities. Verify against actual source, not previous claims.
+
+Refresh existing spec/parity structure with built features and five ranked012 differences, clearly separating accepted adaptations, open evaluation and approved-but-unbuilt sight-only Hunt. Preserve earlier evidence and qualifications. Update the plainly wrong RESUME at this authorized source-document boundary; preserve its long dated record in a clearly historical snapshot and make the operational entry short and factual. Pat25October explicitly asked stale-doc cleanup while continuing; label obsolete cloud-stop/art/deferred033 statements historical rather than letting them govern current work. The narrow extra guidance/banner/photo-capability corrections are documentation only and follow that latest cleanup instruction; no ownership or feature is silently marked complete.
+
+Record Pat25October reversible choices and queued048/050 takeovers without opening another implementation claim. Hearing/speed/lock stay unchanged; pending numbers are tunable/off-switchable, no irreversible promotion or story decisions. Run guidance checker/tests, local import/core and only relevant semantic/doc checks, registry before every push, independent exact-head review and both hosted jobs before merge. Full local scenario matrix remains prohibited. Publish coherent WIP/PR within30minutes; evidence stays off integration. At closeout mark033+BOARD in one commit, then claim048.
