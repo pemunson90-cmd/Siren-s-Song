@@ -28,8 +28,10 @@ func _token(path:String)->String:
  return "missing" if parts==[":missing",".bak:missing",".tmp:missing"] else str(parts).sha256_text()
 func inspect(kind:String,index:int)->Dictionary:
  var path=entry_path(kind,index)
- var out={"kind":kind,"index":index,"status":"unreadable","token":"invalid","data":{},"record":{}}
+ var out={"kind":kind,"index":index,"status":"unreadable","token":"invalid","data":{},"record":{},"retained_on_delete":false}
  if path.is_empty() or not _open():return out
+ for suffix in Table.SUFFIXES:
+  if FileAccess.file_exists(path+suffix) and Txn.size_at(path+suffix)>Table.FILE_LIMIT:out.retained_on_delete=true
  out.token=_token(path)
  var result=Store.new().inspect_primary(path)
  out.status=result.status
@@ -108,12 +110,20 @@ func delete_entry(kind:String,index:int,confirmed:bool=false,expected_token:Stri
  var entry=inspect(kind,index)
  if not confirmed or entry.token!=expected_token or entry.token=="invalid":warning="Confirm the current saved-state deletion.";return false
  var entries={};var path=entry_path(kind,index)
+ if entry.retained_on_delete:
+  var paths=[]
+  for suffix in Table.SUFFIXES:paths.append(path+suffix)
+  var ok=Txn.quarantine(live_path,paths);warning=Txn.warning;return ok
  for suffix in Table.SUFFIXES:entries[path+suffix]=null
  if not Txn.replace(live_path,entries):warning=Txn.warning;return false
  warning="";return true
 func delete_all(confirmed:bool=false)->bool:
  if not confirmed or not _open():return false
+ var retained=false
  for kind in Table.KINDS:
   for entry in list_entries(kind):
-   if entry.status!="empty" and not delete_entry(kind,entry.index,true,entry.token):return false
+   if entry.status!="empty":
+    retained=retained or entry.retained_on_delete
+    if not delete_entry(kind,entry.index,true,entry.token):return false
+ if retained:warning="Saved states cleared. Unreadable oversized originals were retained for recovery."
  return true
