@@ -54,3 +54,7 @@ Review focus: real spawn/travel instead of staged viewpoints; target-priority mi
 
 
 SUITE RANK BLOCK (Claude, 24 Oct): Codex's new suites use local 240.. and CI 260.. so they cannot collide with Claude's blocks (local 228-239, CI 251-259). Validate with scripts/toolchain/check-suites.py before committing.
+
+### Progress checkpoint,25October2026 Eastern
+
+Draft PR144: https://github.com/pemunson90-cmd/Siren-s-Song/pull/144 . Branch claude/lane-photo-row-journeys, latest pushedf96ed4df8d61ae4fdf5efa182ff5de0d03b95a38 at4:18PM Eastern. Thirteen of fourteen live journeys now have passing local evidence; refinements after that push are pending the next WIP. Relay_blink remains red: actual approach/discovery succeeds, but the authored28second exposure and withdrawal have not yet survived. Failed probes retained outside the code tree for the final evidence archive. No production rule or data edits. Import and core836/0 baseline passed; final exact-head review and hosted checks are still pending. Pat reassigned048 to Codex after040 and033;040 stays the only active claim.

@@ -93,7 +93,7 @@ Still held for Pat: any change to Siren sight, hearing or lock timing (Pat: not 
 |---|---|---|---|---|---|
 | 44 | 046 DEATH CAUSE: one plain line on the loss debrief saying why the player was found (read-only) | DONE | PR135/140 | 2026-10-25 02:10 UTC | F9. Sim keeps no cause history; observer needed. |
 | 45 | 047 CHALLENGE COMPLETIONS: one scripted completion per row, route-aware par proposal | DONE | PR138/140 | 2026-10-25 02:10 UTC | F11. Par changes are Pat decisions; proposal file only. |
-| 46 | 048 HUD SAMENESS: operation-aware status text and explained ARRIVALS | CLAIMED (Claude) | | | F14. Presentation only. |
+| 46 | 048 HUD SAMENESS: operation-aware status text and explained ARRIVALS | OPEN (assigned: codex) | | | Pat reassigned25October2026 Eastern after040 and033. Historical Claude claim stopped before implementation; F14 presentation only. |
 | 44 | 049 FIRST-SIREN CUE EXTENSION: op 1 and a one-time new Siren type note | DONE | PR134/140 | 2026-10-25 02:10 UTC | F8. Released by Pat 24 Oct. Presentation only: no change to Siren sight, hearing or lock timing. |
 
 ## BATCH 10 (24 Oct, Pat: restore the V7 Hunt; AI-DESIGNED, Pat to ratify numbers)

@@ -1,8 +1,9 @@
 # Handoff 048: HUD SAMENESS, operation-aware status text and an explained ARRIVALS button
 
-Status: CLAIMED
-Claimed at: 2026-10-24 23:34:02 UTC
-Claimed by: claude (orchestrator, split with Codex by Pat 24 Oct)
+Status: OPEN
+Assigned to: codex (Pat reassigned 25 October2026 Eastern, after040 and033)
+Claimed at:
+Claimed by:
 Finished at:
 
 Precondition: none; if handoff 023 or 038 still holds mission_hud.gd or main.gd, wait for it. Source: docs/design/COLD_REVIEW_3.md finding F14 (low confidence, first frame only). Presentation only.
@@ -43,3 +44,7 @@ PR into claude/integration. Merge per the line above; mark DONE and update the b
 
 ## Completion
 (Codex fills this in.)
+
+### Reassignment,25October2026 Eastern
+
+Pat explicitly approved Codex taking over this unfinished HUD task after040 and033. Historical Claude claim:2026-10-24 23:34:02 UTC. The verified interruption audit found read-only preparation and no implementation or PR. Reopened and assigned to Codex, not yet claimed;040 remains the sole active claim. Original presentation-only scope and verification gates remain. Hunt050 detection changes remain held for Pat. No HUD implementation is claimed by this record.
