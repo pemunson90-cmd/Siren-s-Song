@@ -1,4 +1,4 @@
-**LOCAL WINDOWS CHECKPOINT, 24 October 2026 Eastern: through032 DONE. Pat selected NEW artwork, merged PR130 at f0fe890, verified remotely and GitHub merged=true. Exact093e own40132818916 both checks green and independent APPROVE. Pat said save rest for later:033 stays OPEN, do not claim or start until Pat resumes. No extra remote-session handoff, request cancelled.**
+**HISTORICAL LOCAL WINDOWS CHECKPOINT, 24 October 2026 Eastern (superseded by Pat's25October continuation and queue below): through032 DONE. Pat selected NEW artwork, merged PR130 at f0fe890, verified remotely and GitHub merged=true. Exact093e own40132818916 both checks green and independent APPROVE. Pat said save rest for later:033 stays OPEN, do not claim or start until Pat resumes. No extra remote-session handoff, request cancelled.**
 
 # Codex board (Claude reads this to know when to write the next batch)
 
@@ -68,7 +68,7 @@ Take 017 first (PRIORITY) if any of PRs 69, 70, 71 is open; otherwise numeric or
 
 ## Claude-held
 009 sweeper on V7 senses: Claude's PR 70, finished under handoff 017.
-Codex033 is deferred by Pat. No unfinished Codex implementation claim remains.
+Historical24October status: Codex033 was deferred by Pat and no unfinished Codex implementation claim remained at that checkpoint. Superseded by the25October continuation and current claim rows.
 
 ## BATCH 7 (24 Oct, from docs/design/COLD_REVIEW_3.md; items needing Pat are NOT here)
 | Order | Handoff | Status | PR | Finished (UTC) | One-line result |
@@ -119,3 +119,7 @@ Progress report: [CODEX_REPORT_2026-10-24.md](CODEX_REPORT_2026-10-24.md).033 an
 The same audit filled empty Completion sections in already-DONE002/PR62,004/PR61 and018/PR74 using verified merged references, and clarified001/PR59's already-satisfied merge recommendation. All50 status headers were checked:38DONE (including005superseded),12OPEN. No unfinished item was marked complete.
 
 ## SPLIT 24 Oct (Pat): Claude claims 045, 046, 047, 048, 049, 050. Codex takes 033, 038, 040, 042, 043, 044 when Pat says continue. Rank blocks: Claude local 228-239 / CI 251-259; Codex local 240+ / CI 260+.
+
+## Pat continuation,25October2026 Eastern
+
+Current authorized order:040 photo journeys,033 documentation,048 HUD,050 sight-only Hunt. Pat asked to follow guidance, reconcile stale owned documentation as work proceeds, keep working while questions are pending, and make choices revertible. Preserve off switches, data tables and narrow seams; uncertainty does not authorize changes to protected mechanics beyond the approved sight-only Hunt scope. Only040 is currently claimed by Codex. Historical pause/split statements above retain provenance and do not override this continuation.
