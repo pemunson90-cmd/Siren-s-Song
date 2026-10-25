@@ -105,10 +105,13 @@ func shape_case(shape):
 			check(absf(float(game.settings.get("music",-1))-0.55)<=0.06,"music slider changes shared sound setting")
 		if await slide(game,"volume_effects",0.4):
 			check(absf(float(game.settings.get("effects",-1))-0.4)<=0.06,"effects slider changes shared sound setting")
+		var chosen_master=FrontSettings.current.master
 		await press(game,"mute")
 		check(AudioServer.is_bus_mute(0) and game.sound.muted and FrontSettings.current.master==0.,"Mute uses the shared master value and active sound bus")
+		await android_back();await press(game,"settings")
 		await press(game,"mute")
 		check(not AudioServer.is_bus_mute(0) and not game.sound.muted and FrontSettings.current.master>0.,"Unmute restores the same shared master source")
+		check(is_equal_approx(FrontSettings.current.master,chosen_master),"reopening muted Settings preserves the chosen volume when unmuting")
 		for key in ["high_contrast","reduced_motion","haptics","safe_palette","audio_captions"]:
 			var action="setting_"+key;var before=FrontSettings.current.get(key,false)
 			if await press(game,action):check(FrontSettings.current.get(key,false)!=before,"accessibility setting toggle takes effect: "+key)

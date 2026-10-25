@@ -26,7 +26,6 @@ var title_label: Label
 # Embedded settings keep Operations' sticky Back and archive warning region.
 var embedded_settings=false
 var operations_entry=""
-var unmuted_master=1.0
 func setup_settings(main:Control)->void:
 	host=main;embedded_settings=true;name="Frontend"
 	settings_store.path=host.settings_path;values=FrontendSettings.current.duplicate(true)
@@ -183,16 +182,22 @@ func _settings_screen() -> void:
 		_button("ERASE PROGRESS · NEW CAMPAIGN", _new_campaign, "frontend_new_campaign")
 	if embedded_settings:host.call_deferred("_layout")
 func _toggle_mute()->void:
-	if values.master>0:unmuted_master=values.master;_set_value("master",0.)
-	else:_set_value("master",unmuted_master)
+	var remembered=float(host.get_meta(ReachTable.UNMUTE_META,SettingsStore.DEFAULTS.master))
+	_set_value("master",0. if values.master>0 else remembered)
 	_settings_screen()
 func _return()->void:
 	if embedded_settings or (not operations_entry.is_empty() and screen==operations_entry):
 		_dismiss();host._show_campaign()
 	else:_title_screen()
 func _set_value(key: String, v: Variant) -> void:
+	var previous_master=float(values.master)
 	values[key] = v
 	values = SettingsStore.sanitize(values)
+	# Keep the last audible level across renderer recreation in this session.
+	# No settings/save key: master remains the only persisted volume source.
+	if key=="master":
+		var remembered=float(values.master) if values.master>0 else previous_master
+		if remembered>0:host.set_meta(ReachTable.UNMUTE_META,remembered)
 	FrontendSettings.apply(values, host)
 	if save_timer.is_inside_tree(): save_timer.start()
 	else: _persist()
