@@ -663,6 +663,7 @@ func _settings_menu() -> void:
 	for row in [["safe_palette","SAFE PALETTE"],["audio_captions","AUDIO CAPTIONS"],["haptics","HAPTICS"]]:
 		var key:String=row[0]
 		_button(panel_box,"%s: %s"%[row[1],"ON" if FrontendSettings.current[key] else "OFF"],func():_set_accessibility(key,not FrontendSettings.current[key]),"setting_"+key)
+	preload("res://src/presentation/ops_home/ops_home.gd").settings_entry(self)
 	_button(menu_footer,"BACK TO OPERATIONS",_show_campaign,"back"); menu_footer.show()
 	call_deferred("_layout")
 func _set_text_scale(scale:float) -> void:

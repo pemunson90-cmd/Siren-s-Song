@@ -22,7 +22,7 @@ func picture(name:String):
  await RenderingServer.frame_post_draw
  root.get_texture().get_image().save_png(folder.path_join(name+".png"))
 func menu_button(game,action:String,item:String=""):
- for child in game.panel_box.get_children()+game.menu_footer.get_children():
+ for child in game.menu.find_children("*","Button",true,false):
   if child is Button and child.get_meta("action","")==action and (item.is_empty() or item in child.text):return child
  return null
 func menu_tap(game,button):
