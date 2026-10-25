@@ -1,9 +1,9 @@
 # Handoff 042: FINALE1 (PROVISIONAL), an END OF LINE screen when the last operation is first recovered
 
-Status: OPEN
+Status: CLAIMED
 Assigned to: codex (Pat split the queue 24 Oct; Codex takes this when Pat says continue)
-Claimed at:
-Claimed by:
+Claimed at: 2026-10-25 05:15:17 UTC
+Claimed by: codex
 Finished at:
 
 Precondition: handoff 023 DONE or paused (touches debrief and campaign flow). Pat, 24 Oct: no firm answer on where the campaign ends; "mild blocker, pick a provisional repair". This is that repair. It is AI-DESIGNED and provisional: everything on the screen can be replaced by Pat later without rework.
