@@ -62,6 +62,7 @@ var applying_safe_area := false
 var unlocked := 0
 var completed: Array=[]
 var expedition:Dictionary={}
+var end_of_line_seen=false
 var fleet:Dictionary={}
 var challenge_records:Dictionary={}
 var fitted_equipment:Dictionary=preload("res://src/equipment/equipment_catalog.gd").default_loadout()
@@ -585,6 +586,7 @@ func _archive() -> Dictionary:
 	if not hints_seen.is_empty():data["hints_seen"]=hints_seen.duplicate()
 	if not early_reward.is_empty():data["early_reward"]=early_reward.duplicate(true)
 	preload("res://src/presentation/first_siren_cue/cue_archive.gd").write(self,data)
+	preload("res://src/presentation/finale/finale.gd").write(self,data)
 	data["equipment"]=preload("res://src/equipment/equipment_catalog.gd").canonical(fitted_equipment)
 	return data
 func _save_archive() -> void:
@@ -620,6 +622,7 @@ func _update_archive_status()->void:
 	if changed:call_deferred("_layout")
 func _load_archive() -> void:
 	var saved=store.load_game()
+	preload("res://src/presentation/finale/finale.gd").restore(self,saved)
 	if not saved.is_empty():
 		unlocked=saved.unlocked; completed=saved.completed; upgrade=saved.upgrade; settings=saved.settings
 		early_reward=saved.get("early_reward",{}).duplicate(true)

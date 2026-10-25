@@ -26,6 +26,7 @@ static func show_campaign(host) -> void:
 	if not host._campaign_pristine() and (preload("res://src/presentation/ops_home/ops_home_table.gd").enabled or (host.active_started and host.sim.outcome.is_empty())):host._menu_text("Resuming keeps this dive's equipment and its place in time.",14)
 	host._button(host.panel_box,"FITTINGS / NEXT LAUNCH",host._show_fittings,"fittings")
 	if not host.Endings.resolve(host.expedition).is_empty():host._button(host.panel_box,"VIEW CAMPAIGN ENDING",host._show_ending,"ending")
+	preload("res://src/presentation/finale/finale.gd").entry(host)
 	if not preload("res://src/presentation/ops_home/ops_home_table.gd").enabled and not host._campaign_pristine():host._button(host.panel_box,"ERASE PROGRESS · NEW CAMPAIGN",host._confirm_new_campaign,"new_campaign")
 	if not host.recovered_evidence.is_empty(): host._button(host.panel_box,"REVIEW FIELD RECORDS",func(): host._evidence_gallery(0),"evidence")
 	host._menu_text("Field records remain reviewable after loss or abandonment. Only successful extraction advances the campaign.",14)
@@ -238,6 +239,7 @@ static func confirm_new_campaign(host)->void:
 	host.call_deferred("_layout")
 
 static func new_campaign(host)->void:
+	preload("res://src/presentation/finale/finale.gd").clear(host)
 	host.early_reward={}
 	host.completed=[];host.unlocked=0;host.expedition={};host.recovered_evidence={};host.photo_records={};host.photo_intel={};host.hints_seen=[]
 	host.fleet={}

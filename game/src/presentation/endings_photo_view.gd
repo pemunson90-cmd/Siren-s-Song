@@ -2,11 +2,13 @@ extends RefCounted
 # 027 wall reuses archive plates, recorded captions and the existing scroll.
 # Revert this presenter and its two flow hooks; no persisted state to migrate.
 const Ending=preload("res://src/campaign/endings_photo.gd")
+const Finale=preload("res://src/presentation/finale/finale.gd")
 static func present(host,legacy:Callable)->bool:
  var ending=Ending.resolve(host.expedition,host.photo_intel)
  if ending.is_empty():return false
  host.sim.paused=true;host.screen="photo_ending";host._clear_menu()
- host._menu_text("RECOVERED FILM",28)
+ var finale=Finale.heading(host,ending)
+ if not finale:host._menu_text("RECOVERED FILM",28)
  var frames=Ending.frames(host.recovered_evidence)
  if frames.is_empty():host._menu_text("NO RECOVERED PHOTOGRAPHS",20)
  for item in frames:
@@ -21,10 +23,11 @@ static func present(host,legacy:Callable)->bool:
  if not ending.intel_keys.is_empty():host._menu_text("RECOVERED RESEARCH / %d"%ending.intel_keys.size(),18)
  if ending.photo_variant=="studied":host._menu_text("STUDIED SIREN TYPES / 3+",18)
  for key in ending.choices:
-  if not ending.choices[key].is_empty():host._menu_text("%s / %s"%[key.replace("_"," ").to_upper(),ending.choices[key].to_upper()],17)
+  if not ending.choices[key].is_empty():host._menu_text(Finale.fact_line(key,ending.choices[key]),17)
  host._menu_text("FORK OUTCOME / "+ending.title,20)
  host._button(host.panel_box,"VIEW FORK OUTCOME",legacy,"fork_ending")
  if not host.recovered_evidence.is_empty():host._button(host.panel_box,"REVIEW FIELD RECORDS",func():host._evidence_gallery(0),"evidence")
+ if finale:Finale.credits_button(host)
  host._button(host.menu_footer,"OPERATIONS ARCHIVE",host._show_campaign,"back");host.menu_footer.show()
  host._save_archive();host.call_deferred("_layout")
  return true
