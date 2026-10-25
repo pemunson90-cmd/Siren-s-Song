@@ -19,8 +19,8 @@ var rehearsals=0
 var initial_sirens=0
 var initial_tools={}
 var spawn=Vector2.ZERO
-func _init(operation:int,row:String,craft:int=0):
- op=operation;key=row;uid=craft;s=Sim.new();s.start(op,"endurance")
+func _init(operation:int,row:String,craft:int=0,upgrade:String="endurance"):
+ op=operation;key=row;uid=craft;s=Sim.new();s.start(op,upgrade)
  spawn=s.units[uid].pos;initial_sirens=s.sirens.size();initial_tools=s.tools.duplicate(true)
  check(initial_sirens>0,"authored live Sirens are present")
  check(s.units.all(func(u):return u.alive),"all authored craft begin alive at their real launch positions")
@@ -73,19 +73,59 @@ func record_current()->bool:
  if not check(s.command("camera"),"ordinary control starts current required work"):return false
  tick(float(job.get("duration",4.0))+.5)
  return check(job.get("captured",false),"current required work actually completes before optional photography")
-func record()->bool:
+func record(events:Array=[])->bool:
  var index=target()
  if not check(index>=0,"row objective is reacquired by its optical key"):return false
  select();var context=s.camera_context()
  if not check(context.get("ready",false) and context.get("target",-1)==index,"camera context targets the exact optional row, not a mission job"):return false
  var before=Photo.shots_for(s.mission,key).size()
  if not check(s.command("camera"),"ordinary control begins target-specific exposure"):return false
- tick(float(s.mission.objectives[index].get("duration",4.0))+.5)
+ if not exposure(float(s.mission.objectives[index].get("duration",4.0))+.5,events):return false
  var shots=Photo.shots_for(s.mission,key)
  var usable=shots.any(func(shot):return shot.get("usable",false) and key in shot.get("features",[]) and shot.get("intel",{}).has(key))
  check(shots.size()>before,"real held exposure files a new row-specific frame")
  check(usable and s.mission.objectives[index].get("captured",false),"usable informative film and the actual objective captured flag agree")
  return usable and s.mission.objectives[index].get("captured",false)
+# Events are relative to camera start and use ordinary finite-stock commands.
+func exposure(seconds:float,events:Array)->bool:
+ var cursor=0.0
+ for event in events:
+  var at=float(event.get("at",-1.0))
+  if not check(is_finite(at) and at>=cursor and at<=seconds,"defensive schedule stays ordered inside the full exposure"):return false
+  tick(at-cursor);cursor=at
+  if not command(event.get("action",""),event.get("args",{})):return false
+ tick(seconds-cursor)
+ return true
+func supported_cycle(band:int,home:int,then:Vector2,events:Array)->bool:
+ if not depth(band) or not record(events) or not depth(home):return false
+ if not go(then):return false
+ tick(1.0)
+ return check(s.units[uid].alive and s.hull>0 and s.outcome.is_empty(),"timed policy survives exposure and the actual completed withdrawal")
+# Patient's original unarmed rehearsal remains diagnostic. A separate exact copy
+# rehearses the same finite commands that the live voyage will then execute.
+func study_supported(then:Vector2,events:Array,refuge_band:int=2)->bool:
+ var index=target()
+ if not check(index>=0,"discovered row exists before supported patient study"):return false
+ var band=int(s.mission.objectives[index].subject.band)
+ if not depth(refuge_band):return false
+ if not check(absi(refuge_band-band)==1,"supported rehearsal uses adjacent depth crossing"):return false
+ select();s.command("frame",{"mode":"tight","focus":key})
+ for n in WAITS:
+  var before=s.snapshot()
+  var probe=get_script().new(op,key,uid)
+  if not check(probe.s.restore(before),"supported rehearsal restores the real live snapshot"):return false
+  if not check(probe.s.command("select",{"unit":uid}) and probe.s.command("depth",{"band":band}),"supported rehearsal depth precondition is valid"):return false
+  if not check(probe.s.restore(before),"supported rehearsal resets its preparation without touching live state"):return false
+  var unarmed=Patient.rehearsal_survives(s,uid,band,index,then)
+  rehearsals+=1
+  var safe=probe.supported_cycle(band,refuge_band,then,events)
+  safe=safe and probe.failures==0 and probe.s.hull>=s.hull and not probe.s.sirens.any(func(e):return e.mode in ["LOCKING","BEAM"])
+  print("PHOTO_ROW_SUPPORTED key=",key," rehearsal=",rehearsals," unarmed=",unarmed," supported=",safe," elapsed=",s.elapsed," events=",events)
+  if not check(s.snapshot()==before,"both supported and unarmed rehearsals leave the live state unchanged"):return false
+  if safe:return supported_cycle(band,refuge_band,then,events)
+  tick(WAIT_SECONDS)
+  if not s.units[uid].alive or not s.outcome.is_empty():break
+ return check(false,"patient policy finds a survivable supported exposure and withdrawal")
 func study(at:Vector2=Vector2.INF,then:Vector2=Vector2.INF,refuge_band:int=-1)->bool:
  var index=target()
  if not check(index>=0,"discovered row is available before a patient rehearsal"):return false
