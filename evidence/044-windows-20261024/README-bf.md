@@ -1,6 +1,6 @@
 # MENU REACH repaired exact-head proof, 24 October 2026 Eastern
 
-PR141 exactbf665cff6f5ab8ec82494adab7bfc95862d03543 contains current base
+Historical PR141 candidatebf665cff6f5ab8ec82494adab7bfc95862d03543 contains then-current base
 69fc9e468c026b5c3abe715c9e0dbbc2999ff97e. Independent Codex reviewer
 /root/ops038_review APPROVE is relayed in comment6393026052. Root verified
 the exact reviewer SHA, unchanged tracked source/tests, all14 product logs
@@ -35,7 +35,12 @@ edited and is preserved separately and inside this packet as
 final88-original-mute_reopen_probe.gd, SHA256
 50095385a70e7a546dffd3de865b7066640fd12ddd97b8751d90acc3e401f52f.
 
-Exactbf hosted40158611057 guidance121065245292 passed; game-smoke121065245153
-was still running when written. This packet alone does not establish that
-gate or authorize merge. Physical Android ergonomics and complete campaign/
+Historical packet-time status: exactbf hosted40158611057 guidance121065245292
+passed; game-smoke121065245153 was still running when written. This packet
+alone did not establish that gate or authorize merge. Physical Android ergonomics and complete campaign/
 fork journeys remain unverified. No APK, phone test or full local matrix.
+
+Later hosted result: game-smoke failed Depth Sonar UI42/2. Independent focused
+approval above remains historical, not approval to merge that failed head.
+README-bf-ci-failure records the full failed log, isolated passes, exact shared
+userdata reproduction, stored stale150% text size, and the frontend-only repair.
