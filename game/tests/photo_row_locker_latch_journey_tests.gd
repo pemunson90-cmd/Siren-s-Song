@@ -3,7 +3,7 @@ extends SceneTree
 const J=preload("res://tests/photo_row_journey_support.gd")
 func _initialize():
  var h=J.new(21,"locker_latch")
- if h.depth(2) and h.go(Vector2(350,1500)) and h.go(Vector2(950,850)) and h.go(Vector2(950,1040)) and h.depth(1):
+ if h.depth(2) and h.go(Vector2(350,1500)) and h.go(Vector2(950,850)) and h.go(Vector2(950,1040)) and h.depth(1) and h.command("emp"):
   h.check(h.s.camera_context().get("target",-1)==1 and h.s.camera_context().get("ready",false),"service door is the real current local work")
   if h.command("camera"):
    h.tick(8.5)
