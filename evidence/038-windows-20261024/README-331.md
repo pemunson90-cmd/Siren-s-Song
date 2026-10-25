@@ -31,7 +31,24 @@ scroll ratios1.934713 normal and2.531847 at150%,2/0. This is not an actual
 campaign completion, migration or fork test. Existing caec PNGs and all older
 failed logs/packets remain separately preserved and attributed.
 
-New exact331 hosted run40153330436 was pending when this packet was written.
-This packet does not establish its eventual result or authorize merge alone.
+Historical packet-time limit: new exact331 hosted run40153330436 was pending
+when the preceding packet was written. That packet alone did not establish
+its eventual result or authorize merge.
 Physical Android ergonomics and complete campaign forks remain unverified;
 optional Back cleanup is deferred. No full local matrix, APK or phone test.
+
+## Verified closeout, 24 October 2026, 11:09 PM Eastern
+
+Exact331 run40153330436 completed SUCCESS: guidance121049277273 and
+game-smoke121049277094, including the full regression step and final home1382/0.
+Root reread both actual job results, current base and all PR comments before
+merging. Claude's current-base instruction6392270234 was fulfilled. PR136
+merged69fc9e468c026b5c3abe715c9e0dbbc2999ff97e with parents246eb721 and331f5cf1.
+GitHub merged=true, remote containment and identical tested/merged tree
+3cb10437a735af16a8b6091b97b59ec6ee8b148a were verified after the merge.
+
+proof-331-final-hosted.zip preserves the complete17700117byte hosted success
+log and additional exact331 FIX2 menu24/0 local log, plus manifest:3members,
+1023893bytes, SHA2569ec0bda5ec92815879bcf969614a7a4b408f443228985155582bd1aaa0f50abb.
+Every member's size/hash was reopened and verified. Earlier partial downloads
+were never treated as final proof. Earlier failures/limits remain intact.
