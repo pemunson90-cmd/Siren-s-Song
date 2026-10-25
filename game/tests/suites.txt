@@ -261,3 +261,17 @@ first_siren_cue_ext_ui_tests|FIRST SIREN CUE EXT UI|229|252|render
 challenges_completions_opening_tests|CHALLENGES COMPLETIONS OPENING|233|257
 challenges_completions_reach_tests|CHALLENGES COMPLETIONS REACH|234|258
 challenges_completions_iron_tests|CHALLENGES COMPLETIONS IRON|235|259
+photo_row_tender_door_journey_tests|PHOTO ROW TENDER DOOR JOURNEY|248|268
+photo_row_relay_blink_journey_tests|PHOTO ROW RELAY BLINK JOURNEY|249|269
+photo_row_structure_edge_journey_tests|PHOTO ROW STRUCTURE EDGE JOURNEY|250|270
+photo_row_buoy_blind_journey_tests|PHOTO ROW BUOY BLIND JOURNEY|251|271
+photo_row_vane_crack_journey_tests|PHOTO ROW VANE CRACK JOURNEY|252|272
+photo_row_keel_mark_journey_tests|PHOTO ROW KEEL MARK JOURNEY|253|273
+photo_row_boat_keel_journey_tests|PHOTO ROW BOAT KEEL JOURNEY|254|274
+photo_row_locker_latch_journey_tests|PHOTO ROW LOCKER LATCH JOURNEY|255|275
+photo_row_shutter_order_journey_tests|PHOTO ROW SHUTTER ORDER JOURNEY|256|276
+photo_row_bus_cable_journey_tests|PHOTO ROW BUS CABLE JOURNEY|257|277
+photo_row_spindle_wear_journey_tests|PHOTO ROW SPINDLE WEAR JOURNEY|258|278
+photo_row_slide_mark_journey_tests|PHOTO ROW SLIDE MARK JOURNEY|259|279
+photo_row_bell_name_journey_tests|PHOTO ROW BELL NAME JOURNEY|260|280
+photo_row_feed_room_journey_tests|PHOTO ROW FEED ROOM JOURNEY|261|281
