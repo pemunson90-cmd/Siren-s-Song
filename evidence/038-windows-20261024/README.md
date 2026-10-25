@@ -1,5 +1,8 @@
 # OPS HOME evidence, 24 October 2026 Eastern
 
+Current local candidate: c4ecbe90. See README-c4.md for the current-base supplement.
+Hosted gates remain required. Older candidate packets and their failures remain.
+
 Historical315 candidate below. Superseded by117e42f4 and README-117.md.
 Hosted315 run40144733297 failed six fleet assertions on the folded loadout path;
 117 repairs that path and preserves comparison state. The315 packet remains intact.

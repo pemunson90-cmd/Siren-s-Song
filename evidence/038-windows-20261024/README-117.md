@@ -1,5 +1,9 @@
 # OPS HOME current evidence, 24 October 2026 Eastern
 
+Historical117 candidate. Superseded by c4ecbe90 after PR133 advanced integration.
+Hosted117 run40145261521 was cancelled after the new combined head was pushed;
+it was not a completed green matrix. See README-c4.md; preserve this packet intact.
+
 PR136 head117e42f43ca8ed8a5946dfa5069f30b5bbc2e058, base6e69116dd117254a867569868d9a87338a02131b.
 Source is preserved on claude/lane-ops-home. This archive changes evidence only.
 proof-117e42f4.zip contains69 evidence files plus a SHA256/size manifest,70 members.
