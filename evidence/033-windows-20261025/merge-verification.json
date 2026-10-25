@@ -1,0 +1,15 @@
+{
+  "merge": "e0ee34d356d61c42e9809305647415c103e3cf84",
+  "parents": [
+    "bbc1bed0e6874cb722334309162d1b858f5a299b",
+    "e0c6e8f6e80059e93601e21998d62c85e3a72f70"
+  ],
+  "tree": "952f6f01991773e2f102e76a9c74e10aa020ed28",
+  "tested_head": "e0c6e8f6e80059e93601e21998d62c85e3a72f70",
+  "tested_tree": "952f6f01991773e2f102e76a9c74e10aa020ed28",
+  "api_merged": true,
+  "merged_at": "2026-10-25T23:49:44Z",
+  "source_branch_retained": true,
+  "run": 40241428577,
+  "independent_review": 6404465570
+}
