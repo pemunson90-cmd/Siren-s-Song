@@ -231,7 +231,7 @@ func _start_mission(index: int) -> void:
 	var launch=FleetInventory.launch(fitted_equipment,_equipment_entitlements(),fleet,index,_campaign_completed())
 	if not launch.ok:sim.message="Fitting unavailable · choose available hardware or BARE";return
 	launch.launch["context"]=_launch_context(index)
-	preload("res://src/persistence/save_states/save2_controller.gd").before_launch(self,index)
+	if not preload("res://src/persistence/save_states/save2_controller.gd").before_launch(self,index):return
 	if mission_hud!=null and mission_hud.guard!=null:mission_hud.guard.reset()
 	diagnostic_ready=""; diagnostic_records.clear(); diagnostic_roles.clear(); diagnostic_role_route_ready=false; map_gesture.cancel(); advanced_orders=false; knock_armed=false; ocean.knock_targeting=false; decoy_armed=false; ocean.decoy_targeting=false
 	call_deferred("_layout")

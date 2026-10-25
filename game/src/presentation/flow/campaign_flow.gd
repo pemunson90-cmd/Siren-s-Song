@@ -105,7 +105,10 @@ static func briefing(host, index: int) -> void:
 		if compact:
 			fold.text=BriefRows029.FOLD_LABELS.hide
 			if not host.get_meta("onboard2_fit_open",false):host._fold_fit(fit_nodes,holder)
-	host._button(host.menu_footer,"ENTER WATER\nSTART PAUSED",func(): host._start_mission(index); host._enter_water(),"begin")
+	host._button(host.menu_footer,"ENTER WATER\nSTART PAUSED",func():
+		host._start_mission(index)
+		if host.screen=="mission" and host.active_started:host._enter_water()
+	,"begin")
 	if compact:
 		manual_control.text="FIELD\nMANUAL"
 		for control in [manual_control,fold_control]:

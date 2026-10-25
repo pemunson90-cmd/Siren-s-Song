@@ -72,5 +72,57 @@ func run():
  check(C.ensure_state(host).recoveries==0 and C.ensure_state(host).run_id!=before_off.run_id,"new campaign resets tracking without deleting saved states")
  check(manager.list_entries("fork").filter(func(e):return e.status=="ready").size()==1,"reset preserves existing fork sidecars")
  manager.delete_all(true)
+ # A committed checkpoint that failed to publish must survive the next launch.
+ var Txn=load("res://src/persistence/save_states/save2_transaction.gd")
+ host.expedition={};host.active_started=false;host.sim={"outcome":"","mission":{"id":0}};C.reset(host)
+ C.before_launch(host,6)
+ host.expedition={"version":2,"route":"deep","routes":["deep"],"facts":{"deep":"Observed carrier"},"completed":[6],"notes":{},"references":{},"entitlements":[],"history":[],"selected_thread":""}
+ host.active_started=true;host.sim={"outcome":"won","mission":{"id":6}};C.terminal(host)
+ Txn.test_failures=["stage"];C.recovered(host,{})
+ var pending_token=manager.inspect("pending",0).token
+ var held_state=C.ensure_state(host).duplicate(true)
+ check(manager.inspect("pending",0).status=="ready" and manager.list_entries("fork").all(func(e):return e.status=="empty"),"failed fork publication preserves the complete pending checkpoint")
+ Txn.test_failures=["stage"]
+ check(C.before_launch(host,9)==false,"another failed publication defers launch instead of discarding the committed checkpoint")
+ check(C.ensure_state(host)==held_state and manager.inspect("pending",0).token==pending_token,"deferred launch preserves candidate bytes and run/launch identity")
+ Txn.test_failures=[]
+ for index in 4:
+  var file=FileAccess.open(manager.entry_path("fork",index),FileAccess.WRITE);file.store_buffer(PackedByteArray([1,2,3]));file.close()
+ check(C.before_launch(host,9)==false and C.ensure_state(host)==held_state,"all unreadable fork slots defer launch without discarding the committed checkpoint")
+ var damaged=manager.inspect("fork",0)
+ check(manager.delete_entry("fork",0,true,damaged.token),"explicit confirmed deletion frees a fork slot for recovery")
+ check(C.before_launch(host,9)==true,"next launch retries the committed checkpoint after storage recovers")
+ check(manager.list_entries("fork").any(func(e):return e.status=="ready" and e.record.event=="route"),"retry publishes the first committed route before preparing the next choice")
+ manager.delete_all(true)
+ # Cold restore is the other retry boundary. Reject unrelated run/launch IDs.
+ host.expedition={};host.active_started=false;host.sim={"outcome":"","mission":{"id":0}};C.reset(host);C.before_launch(host,6)
+ host.expedition={"version":2,"route":"deep","routes":["deep"],"facts":{"deep":"Observed carrier"},"completed":[6],"notes":{},"references":{},"entitlements":[],"history":[],"selected_thread":""}
+ host.active_started=true;host.sim={"outcome":"won","mission":{"id":6}};C.terminal(host)
+ var recovered_archive=host._archive().duplicate(true)
+ var cold=Host.new();cold.store.path=host.store.path;cold.expedition=host.expedition.duplicate(true)
+ var wrong=recovered_archive.duplicate(true);wrong[Table.STATE].run_id=Table.identity();C.restore(cold,wrong)
+ check(manager.list_entries("fork").all(func(e):return e.status=="empty"),"cold restore refuses a pending checkpoint from a different campaign run")
+ wrong=recovered_archive.duplicate(true);wrong[Table.STATE].launch_id=Table.identity();C.restore(cold,wrong)
+ check(manager.list_entries("fork").all(func(e):return e.status=="empty"),"cold restore refuses a pending checkpoint from a different launch")
+ C.restore(cold,recovered_archive)
+ check(manager.list_entries("fork").any(func(e):return e.status=="ready" and e.record.event=="route") and manager.inspect("pending",0).status=="empty","cold restore publishes a matching committed checkpoint and clears pending only after success")
+ manager.delete_all(true)
+ host.expedition={};host.active_started=false;host.sim={"outcome":"","mission":{"id":0}};C.reset(host);C.before_launch(host,6)
+ host.expedition={"version":2,"route":"deep","routes":["deep"],"facts":{"deep":"Observed carrier"},"completed":[6],"notes":{},"references":{},"entitlements":[],"history":[],"selected_thread":""}
+ host.active_started=true;host.sim={"outcome":"won","mission":{"id":6}};C.terminal(host)
+ held_state=C.ensure_state(host).duplicate(true)
+ Txn.test_failures=["commit_1","rollback","rollback","rollback","rollback"]
+ C.recovered(host,{})
+ check(FileAccess.file_exists(manager.directory+"/transaction"),"failed publication rollback retains its recovery journal")
+ check(C.before_launch(host,9)==false and C.ensure_state(host)==held_state,"unavailable transaction recovery blocks launch without orphaning the checkpoint")
+ Txn.test_failures=[]
+ check(C.before_launch(host,9)==true and manager.list_entries("fork").any(func(e):return e.status=="ready" and e.record.event=="route"),"launch recovers the journal and publishes the checkpoint after filesystem repair")
+ manager.delete_all(true)
+ var count_before_replay=C.ensure_state(host).recoveries
+ C.before_launch(host,6);host.sim={"outcome":"won","mission":{"id":6}};C.terminal(host);C.recovered(host,host.expedition.duplicate(true))
+ check(C.ensure_state(host).recoveries==count_before_replay+1 and C.ensure_state(host).last_recovered==6,"successful replay counts as another recovered operation and records its actual ID")
+ check(manager.list_entries("fork").all(func(e):return e.status=="empty"),"successful replay never invents another first-choice checkpoint")
+ C.before_launch(host,6);host.sim={"outcome":"lost","mission":{"id":6}};C.terminal(host)
+ check(C.ensure_state(host).recoveries==count_before_replay+1,"lost replay never increments recovered-operation play count")
  for suffix in ["",".bak",".tmp"]:DirAccess.remove_absolute(host.store.path+suffix)
  print("SAVE2 FORKS CHECKS %d FAILURES %d"%[checks,failures]);quit(1 if failures else 0)

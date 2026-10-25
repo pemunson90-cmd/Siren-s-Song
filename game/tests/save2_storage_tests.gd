@@ -266,6 +266,103 @@ func run():
 	check(file_set(txn_target)==txn_before and not FileAccess.file_exists(manager.directory+"/transaction"),"cold recovery restores all sidecar suffix bytes and clears journal")
 	check(file_set(live_path)==live_before_recovery,"cold recovery leaves live archive bytes unchanged")
 	clean_stages(txn_target)
+	# Profile mutations share the pinned live archive path with SAVE2. A pending
+	# rollback must be recovered before profile snapshots, exports or replacements
+	# can observe and preserve a partially committed archive.
+	var Profiles=load("res://src/persistence/profiles/profile_store.gd")
+	var race_root="user://save2-profile-race"
+	var race_live=race_root+"/slot1.save"
+	var race_other=race_root+"/slot2.save"
+	var race_profiles=Profiles.new();race_profiles.directory=race_root;race_profiles.legacy=race_root+"/missing-legacy.save"
+	remove_tree(race_root);clean(race_live);clean(race_other)
+	check(race_profiles.open(),"custom profile store opens under a scoped user path")
+	var race_original=archive(1,0);race_original.marker.revision=41
+	var race_replacement=archive(2,1);race_replacement.marker.revision=82
+	var encoded_original=encoded_payload(var_to_bytes(race_original))
+	var encoded_replacement=encoded_payload(var_to_bytes(race_replacement))
+	var profile_files={"":encoded_original,".bak":null,".challenges":null,".challenges.bak":null}
+	check(race_profiles.replace(0,profile_files,true),"seed profile slot with a valid original live archive")
+	profile_files[""]=encoded_replacement
+	check(race_profiles.replace(1,profile_files,true),"seed second profile with a valid replacement archive")
+	var race_store=SaveStore.new();race_store.path=race_live
+	var race_original_bytes=FileAccess.get_file_as_bytes(race_live)
+	var race_txn={race_live:encoded_replacement}
+	Txn.test_failures=["commit_1","rollback"]
+	check(not Txn.replace(race_live,race_txn),"profile race fixture leaves a pending live rollback journal")
+	var race_journal=race_live+".save2/transaction"
+	check(FileAccess.file_exists(race_journal),"profile race fixture retains pending journal")
+	var partial_live=FileAccess.get_file_as_bytes(race_live)
+	check(partial_live==encoded_replacement and partial_live!=race_original_bytes,"pending fixture exposes the injected partial replacement before recovery")
+	# Persistent rollback failure blocks every reader/mutator before it can turn
+	# partial data into a healthy profile snapshot or package.
+	Txn.test_failures=["rollback"]
+	check(race_profiles.snapshot(0).is_empty(),"profile snapshot is blocked while SAVE2 rollback cannot recover")
+	Txn.test_failures=["rollback"]
+	check(race_profiles.export_profile(0).is_empty(),"profile export is blocked while SAVE2 rollback cannot recover")
+	var before_blocked_copy=file_set(race_live)
+	Txn.test_failures=["rollback"]
+	check(not race_profiles.copy(1,0,true),"profile copy is blocked while SAVE2 rollback cannot recover")
+	check(file_set(race_live)==before_blocked_copy,"blocked copy preserves pending live bytes")
+	Txn.test_failures=["rollback"]
+	check(race_profiles.snapshot(0).is_empty(),"repeated blocked snapshot does not expose pending bytes")
+	Txn.test_failures=["rollback"]
+	check(race_profiles.export_profile(0).is_empty(),"repeated blocked export does not expose pending bytes")
+	Txn.test_failures=["rollback"]
+	check(not race_profiles.clear(0,true),"profile clear is blocked while SAVE2 rollback cannot recover")
+	check(FileAccess.get_file_as_bytes(race_live)==partial_live,"blocked clear leaves pending bytes untouched")
+	# Once recovery is permitted, clear must first restore the original snapshot,
+	# then commit the clear. A later cold Store load must not resurrect it.
+	Txn.test_failures=[]
+	check(race_profiles.clear(0,true),"profile clear recovers first, then commits its confirmed change")
+	check(race_profiles.snapshot(0)[""]==null,"recovered clear leaves the profile slot empty")
+	var race_cold=SaveStore.new();race_cold.path=race_live
+	check(race_cold.load_game().is_empty(),"cold Store load does not resurrect a profile cleared after recovery")
+	check(not FileAccess.file_exists(race_journal),"successful profile clear leaves no pending SAVE2 journal")
+	# Public package import and copy also recover first and remain committed after
+	# the next ordinary cold Store open.
+	var import_source=race_profiles.export_profile(1)
+	check(not import_source.is_empty(),"replacement import source exports from the second profile")
+	var imported_files=race_profiles.read_package(import_source)
+	check(not imported_files.is_empty(),"existing profile package is readable before replacement race")
+	Txn.test_failures=["commit_1","rollback"]
+	check(not Txn.replace(race_live,race_txn),"replacement-import fixture leaves a pending live rollback journal")
+	Txn.test_failures=[]
+	check(race_profiles.replace(0,imported_files,true),"confirmed profile import replacement recovers before mutation")
+	var imported_cold=SaveStore.new();imported_cold.path=race_live
+	check(same_archive(imported_cold.load_game(),race_replacement),"cold Store load keeps the confirmed imported profile replacement")
+	Txn.test_failures=["commit_1","rollback"]
+	check(not Txn.replace(race_live,race_txn),"copy fixture leaves a pending live rollback journal")
+	Txn.test_failures=[]
+	check(race_profiles.copy(1,0,true),"confirmed profile copy recovers before mutation")
+	var copied_cold=SaveStore.new();copied_cold.path=race_live
+	check(same_archive(copied_cold.load_game(),race_replacement),"cold Store load keeps the confirmed profile copy")
+	remove_tree(race_root);remove_tree(race_live+".save2");remove_tree(race_other+".save2")
+	# A failed oversized-file quarantine remains recoverable. The transaction
+	# journal's retained descriptor is constrained to the profile-local
+	# allowlist, and cold recovery restores the exact originals by rename.
+	var quarantine_paths=[oversized_path,oversized_path+".bak",oversized_path+".tmp"]
+	check(filled_file(quarantine_paths[0],4000001,0x39),"quarantine rollback fixture has an oversized primary")
+	var quarantine_backup=PackedByteArray([0x31,0x32,0x33,0x34]);var quarantine_tmp=PackedByteArray([0x51,0x52])
+	check(write_bytes(quarantine_paths[1],quarantine_backup) and write_bytes(quarantine_paths[2],quarantine_tmp),"quarantine rollback fixture has backup and tmp originals")
+	var quarantine_sizes=[file_size(quarantine_paths[0]),file_size(quarantine_paths[1]),file_size(quarantine_paths[2])]
+	var quarantine_hashes=[file_hash(quarantine_paths[0]),file_hash(quarantine_paths[1]),file_hash(quarantine_paths[2])]
+	var quarantine_times=[FileAccess.get_modified_time(quarantine_paths[0]),FileAccess.get_modified_time(quarantine_paths[1]),FileAccess.get_modified_time(quarantine_paths[2])]
+	Txn.test_failures=["quarantine_1","rollback"]
+	check(not Txn.quarantine(live_path,quarantine_paths),"injected quarantine plus rollback failure leaves a pending retention journal")
+	check(FileAccess.file_exists(manager.directory+"/transaction"),"failed retention rollback keeps its journal")
+	check(cold_store.load_game()==first,"fresh Store cold-recovers interrupted oversized quarantine before loading")
+	for index in 3:
+		check(FileAccess.file_exists(quarantine_paths[index]) and file_size(quarantine_paths[index])==quarantine_sizes[index] and file_hash(quarantine_paths[index])==quarantine_hashes[index],"cold retention recovery restores original suffix bytes "+str(index))
+		check(FileAccess.get_modified_time(quarantine_paths[index])==quarantine_times[index],"cold retention recovery preserves original suffix timestamp "+str(index))
+	check(not FileAccess.file_exists(manager.directory+"/transaction"),"cold retention recovery clears its journal")
+	var live_before_bad_retained=file_set(live_path)
+	var unauthorized_retained=manager.directory+"/retained/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee/0"
+	var bad_retained_journal=encoded_journal(live_path,{live_path+".outside":{"retained":unauthorized_retained,"bytes":quarantine_sizes[0]}})
+	check(write_bytes(manager.directory+"/transaction",bad_retained_journal),"write checksummed journal with retained path outside the transaction allowlist")
+	check(cold_store.load_game().is_empty(),"unauthorized retained descriptor blocks a cold Store read")
+	check(FileAccess.get_file_as_bytes(manager.directory+"/transaction")==bad_retained_journal and file_set(live_path)==live_before_bad_retained,"blocked retained descriptor preserves journal and live bytes")
+	DirAccess.remove_absolute(manager.directory+"/transaction")
+	for path in quarantine_paths:DirAccess.remove_absolute(path)
 	# A validly checksummed journal pointing outside this manager's allowlist
 	# blocks Store reads and writes without mutating the live archive or journal.
 	var journal_path=manager.directory+"/transaction"

@@ -4,6 +4,7 @@ extends RefCounted
 # Revert Table.enabled=false; retain sidecars and the leaf transaction guard.
 const Table=preload("res://src/persistence/save_states/save2_table.gd")
 const Storage=preload("res://src/persistence/save_states/save2_store.gd")
+const Transaction=preload("res://src/persistence/save_states/save2_transaction.gd")
 const Ending=preload("res://src/campaign/endings.gd")
 const PhotoEnding=preload("res://src/campaign/endings_photo.gd")
 static func _persistent(host)->bool:
@@ -15,7 +16,7 @@ static func initial_state(archive:Dictionary)->Dictionary:
  var known=[]
  for id in archive.get("completed",[])+archive.get("expedition",{}).get("completed",[]):
   if id is int and id>=0 and id<=31 and id not in known:known.append(id)
- return {"revision":1,"run_id":Table.identity(),"launch_id":Table.identity(),"credited_launch":"","recoveries":known.size(),"last_recovered":known.back() if not known.is_empty() else -1,"legacy_minimum":not known.is_empty(),"between":not archive.get("active") is Dictionary}
+ return {"revision":1,"run_id":Table.identity(),"launch_id":Table.identity(),"credited_launch":"","recoveries":known.size(),"last_recovered":-1,"legacy_minimum":not known.is_empty(),"between":not archive.get("active") is Dictionary}
 static func ensure_state(host)->Dictionary:
  if not host.has_meta(Table.STATE):
   host.set_meta(Table.STATE,initial_state({"completed":host.completed,"expedition":host.expedition}))
@@ -59,15 +60,26 @@ static func _missing(event:String,progress:Dictionary)->bool:
  if event=="thread":return progress.get("selected_thread","").is_empty()
  var field={"confluence":"confluence_route","glass":"glass_choice"}.get(event,event)
  return progress.get("facts",{}).get(field,"").is_empty()
-static func before_launch(host,index:int)->void:
- if not _persistent(host):return
- var state=ensure_state(host);var launch=Table.identity()
+static func before_launch(host,index:int)->bool:
+ if not _persistent(host):return true
+ var state=ensure_state(host)
+ if not Transaction.recover(host.store.path):notice(host,"Launch paused: "+Transaction.warning);return false
+ _publish_pending(host,[])
+ if not Transaction.recover(host.store.path):notice(host,"Launch paused: "+Transaction.warning);return false
+ var held=manager(host).inspect("pending",0)
+ if held.status=="ready" and held.record.run_id==state.run_id and held.record.launch_id==state.launch_id:
+  var target=int(held.record.event)
+  if target in Table.TARGETS and events(held.data.get("expedition",{}),host.expedition).any(func(event):return event in Table.TARGETS[target]):
+   notice(host,"Launch paused: the previous choice checkpoint still needs saving. Retry after storage recovers, or clear unreadable fork slots in REPLAY FROM FORK. The checkpoint was kept.")
+   return false
+ var launch=Table.identity()
  if index in Table.TARGETS and Table.TARGETS[index].any(func(event):return _missing(event,host.expedition)):
   var archive:Dictionary=host._archive().duplicate(true)
   archive[Table.STATE].between=true
   var storage=manager(host)
   if not storage.save_pending(archive,index,state.run_id,launch):notice(host,storage.warning+" A pre-choice checkpoint could not be recorded.")
  state.launch_id=launch;state.between=false
+ return true
 static func terminal(host)->void:
  if not _persistent(host) or host.sim.outcome.is_empty():return
  var state=ensure_state(host);state.between=true
