@@ -45,6 +45,12 @@ PR into claude/integration. Merge per the line above; mark DONE and update the b
 ## Completion
 (Codex fills this in.)
 
+In progress,25 October2026 at1:49AM Eastern: PR142 https://github.com/pemunson90-cmd/Siren-s-Song/pull/142, head94ae4a2be26e0d44440ad74536869485ab76a141, current integration01bc90b0ad3fc28a73aa8121eb30f28f19eadfca. The UPDATE is implemented by decorating the existing027 wall, not making another renderer. Exactly two AI-DESIGNED placeholder lines use recorded facts/fallbacks; table labels replace raw fact keys; existing Credits and Operations replay are reachable. One optional validated bool records seen, handles legacy complete-pair manual replay, and resets on new campaign/profile restore. Flag off preserves the marker and restores old labels/flow.
+
+Local evidence so far: import clean; core836/0; unit28/0; final UI246/0 headless and255/0 native with9 final PNGs and actual Android Back from wall/Credits. Existing photo endings92/0 and wall42/0, save12/0, profiles68/0 plus cold3/0 and native profile UI168/0, Ops1472/0, menu309/0. Baseline RED and initial assertion-case false positives retained; the existing profile screenshot helper failed headlessly (null texture), then passed unchanged natively. A concurrent unregistered new test initially blocked the plan-doc pre-push registry check; registering its reserved row resolved it before push. No check was bypassed.
+
+Pending: independent fresh exact-head review, exact-head hosted game-smoke, evidence archive, merge verification, final closeout. Guidance is green on hosted run40166837512. Existing027 Plate has no tap/enlarge interaction; UPDATE supersedes second-wall construction, so this work preserves it and claims no new enlargement feature. Native desktop touch fixtures are source-known recovery boundaries, not blind campaign play or phone/human testing. Earlier development captures precede full plate development; final captures wait1.8seconds and are retained separately. Status remains CLAIMED.
+
 
 SUITE RANK BLOCK (Claude, 24 Oct): Codex's new suites use local 240.. and CI 260.. so they cannot collide with Claude's blocks (local 228-239, CI 251-259). Validate with scripts/toolchain/check-suites.py before committing.
 
