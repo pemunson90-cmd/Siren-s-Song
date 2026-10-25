@@ -1,0 +1,178 @@
+{
+  "task": "033 Windows evidence package",
+  "review": {
+    "head": "e0c6e8f6e80059e93601e21998d62c85e3a72f70",
+    "base": "bbc1bed0",
+    "pull_request": 145,
+    "independent_status": "PASS",
+    "independent_review_comment": "6404465570"
+  },
+  "archive": {
+    "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\033-archive\\evidence\\033-windows-20261025\\local-evidence.zip",
+    "size": 23521,
+    "sha256": "8b87705c91b3e2880a23ac35b8c37b12f8627979e63dab0575ddbeea221539ec",
+    "member_count": 19,
+    "testzip": "passed",
+    "source_byte_comparison": "passed for every member"
+  },
+  "members": [
+    {
+      "archive_member": "root-evidence/inventory-corrections.md",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\033-evidence\\inventory-corrections.md",
+      "source_relative": "033-evidence\\inventory-corrections.md",
+      "size": 1342,
+      "sha256": "51a76e6474d88047efb0abd7e4c027e80b0f225367b54d6d652f4c93e24aeb00",
+      "crc32": "c2337711"
+    },
+    {
+      "archive_member": "root-evidence/module-inventory.json",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\033-evidence\\module-inventory.json",
+      "source_relative": "033-evidence\\module-inventory.json",
+      "size": 19536,
+      "sha256": "65acab00cb7588e4c1cb1fa48026d942f85d34f573f1303d237dcb969cbfd0dd",
+      "crc32": "701235dd"
+    },
+    {
+      "archive_member": "root-evidence/module-inventory.md",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\033-evidence\\module-inventory.md",
+      "source_relative": "033-evidence\\module-inventory.md",
+      "size": 14076,
+      "sha256": "eb2c8157e67889caf4153e606a2b0f22295fe640cae45494515897ff3ce63e5c",
+      "crc32": "d868640b"
+    },
+    {
+      "archive_member": "root-evidence/package_033_evidence.py",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\033-evidence\\package_033_evidence.py",
+      "source_relative": "033-evidence\\package_033_evidence.py",
+      "size": 4619,
+      "sha256": "534eec52f79e385ad79495efd49d5ef8f5697fd2cefd6d4bea87c100a902dd76",
+      "crc32": "ff680c18"
+    },
+    {
+      "archive_member": "root-evidence/root-core.log",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\033-evidence\\root-core.log",
+      "source_relative": "033-evidence\\root-core.log",
+      "size": 825,
+      "sha256": "03b479d9acefe6a1398b6ecfa88aeeba960ecd61fd60f76d9fa0d03887493788",
+      "crc32": "acb12852"
+    },
+    {
+      "archive_member": "root-evidence/root-import.log",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\033-evidence\\root-import.log",
+      "source_relative": "033-evidence\\root-import.log",
+      "size": 43059,
+      "sha256": "90352eba152b538954329ffee89915369f19ef011a5afeca96879aafb4d1445e",
+      "crc32": "61a161e5"
+    },
+    {
+      "archive_member": "root-evidence/source-verification.json",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\033-evidence\\source-verification.json",
+      "source_relative": "033-evidence\\source-verification.json",
+      "size": 1284,
+      "sha256": "85356788e335d448c89794a0c75c1d88674e9847f36a1b391ba5345bdb447c5c",
+      "crc32": "757a8362"
+    },
+    {
+      "archive_member": "reviewer-e0/audit.log",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\033-evidence\\reviewer-e0\\audit.log",
+      "source_relative": "033-evidence\\reviewer-e0\\audit.log",
+      "size": 572,
+      "sha256": "df0774a367f981284bf79d87c23a8354b7ee9d327098232c6bd889900e64f61d",
+      "crc32": "21336874"
+    },
+    {
+      "archive_member": "reviewer-e0/guidance-tests.log",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\033-evidence\\reviewer-e0\\guidance-tests.log",
+      "source_relative": "033-evidence\\reviewer-e0\\guidance-tests.log",
+      "size": 114,
+      "sha256": "7fa2c3f39772ba088198b95aa567e627f67c3902377d56005c27e26c62e660a9",
+      "crc32": "e2e4305a"
+    },
+    {
+      "archive_member": "reviewer-e0/guidance.log",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\033-evidence\\reviewer-e0\\guidance.log",
+      "source_relative": "033-evidence\\reviewer-e0\\guidance.log",
+      "size": 162,
+      "sha256": "4cd830a3df4cf38e7f576f271767e04bb9d037eb68589e23a911b0e324cc3f2d",
+      "crc32": "847a9ca9"
+    },
+    {
+      "archive_member": "reviewer-e0/import.log",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\033-evidence\\reviewer-e0\\import.log",
+      "source_relative": "033-evidence\\reviewer-e0\\import.log",
+      "size": 1315,
+      "sha256": "51263fab0326bf158508dd4f6309a643e3399a924e494efc761c194f528f8013",
+      "crc32": "b8bca886"
+    },
+    {
+      "archive_member": "reviewer-e0/import.stderr.log",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\033-evidence\\reviewer-e0\\import.stderr.log",
+      "source_relative": "033-evidence\\reviewer-e0\\import.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "crc32": "00000000"
+    },
+    {
+      "archive_member": "reviewer-e0/registry.log",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\033-evidence\\reviewer-e0\\registry.log",
+      "source_relative": "033-evidence\\reviewer-e0\\registry.log",
+      "size": 395,
+      "sha256": "352ca352c9320d430b44820341fc0883eaaecfef9a9b35028ccb701c1dedaffb",
+      "crc32": "9a77b12e"
+    },
+    {
+      "archive_member": "reviewer-e0/results.json",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\033-evidence\\reviewer-e0\\results.json",
+      "source_relative": "033-evidence\\reviewer-e0\\results.json",
+      "size": 1772,
+      "sha256": "cb6cfb095bbf0381f9c1849390716d85672c235a2675ce8b96c415ac7c1c9188",
+      "crc32": "ff5abd19"
+    },
+    {
+      "archive_member": "reviewer-e0/run.ps1",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\033-evidence\\reviewer-e0\\run.ps1",
+      "source_relative": "033-evidence\\reviewer-e0\\run.ps1",
+      "size": 2208,
+      "sha256": "3a9facc8cf0ed4afdc74b8bb1a74d97d6e2f5e7e1c8f297f1d01f05c2a633235",
+      "crc32": "7b07b0d1"
+    },
+    {
+      "archive_member": "reviewer-e0/run_tests.log",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\033-evidence\\reviewer-e0\\run_tests.log",
+      "source_relative": "033-evidence\\reviewer-e0\\run_tests.log",
+      "size": 822,
+      "sha256": "fae1d57f8c90dc6971b32b6843c110a688a1e6cd973c9f9ad58141992ef0f62c",
+      "crc32": "0d2ae302"
+    },
+    {
+      "archive_member": "reviewer-e0/run_tests.stderr.log",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\033-evidence\\reviewer-e0\\run_tests.stderr.log",
+      "source_relative": "033-evidence\\reviewer-e0\\run_tests.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "crc32": "00000000"
+    },
+    {
+      "archive_member": "reviewer-e0/semantic-checks.json",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\033-evidence\\reviewer-e0\\semantic-checks.json",
+      "source_relative": "033-evidence\\reviewer-e0\\semantic-checks.json",
+      "size": 1758,
+      "sha256": "3dd3dc112d3dea4fb4111c8b145bb1e1351a27c55a678e5df9888f7f096c6a79",
+      "crc32": "5efa14a7"
+    },
+    {
+      "archive_member": "reviewer-e0/semantic_checks.py",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\033-evidence\\reviewer-e0\\semantic_checks.py",
+      "source_relative": "033-evidence\\reviewer-e0\\semantic_checks.py",
+      "size": 2936,
+      "sha256": "76431cbca457c1e58a686c779bb589564a94c28d2281221b3aa5bff4fca87f7d",
+      "crc32": "d2a42a74"
+    }
+  ],
+  "omissions": [
+    "Temporary files excluded.",
+    "Reviewer isolated user-data directories excluded; only direct reviewer-e0 files with requested extensions were included.",
+    "No hosted final game result is claimed: run 40241428577 game job was still pending at package time.",
+    "No complete revert-combination, human, physical-phone, or full campaign proof is claimed."
+  ]
+}
