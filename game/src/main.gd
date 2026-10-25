@@ -231,6 +231,9 @@ func _start_mission(index: int) -> void:
 	var launch=FleetInventory.launch(fitted_equipment,_equipment_entitlements(),fleet,index,_campaign_completed())
 	if not launch.ok:sim.message="Fitting unavailable · choose available hardware or BARE";return
 	launch.launch["context"]=_launch_context(index)
+	# The first call builds the paused display before loading an archive. Even
+	# blocked recovery needs valid craft/UI; later player launches stay guarded.
+	if not sim.mission.is_empty() and not preload("res://src/persistence/save_states/save2_controller.gd").before_launch(self,index):return
 	if mission_hud!=null and mission_hud.guard!=null:mission_hud.guard.reset()
 	diagnostic_ready=""; diagnostic_records.clear(); diagnostic_roles.clear(); diagnostic_role_route_ready=false; map_gesture.cancel(); advanced_orders=false; knock_armed=false; ocean.knock_targeting=false; decoy_armed=false; ocean.decoy_targeting=false
 	call_deferred("_layout")
@@ -587,6 +590,7 @@ func _archive() -> Dictionary:
 	if not early_reward.is_empty():data["early_reward"]=early_reward.duplicate(true)
 	preload("res://src/presentation/first_siren_cue/cue_archive.gd").write(self,data)
 	preload("res://src/presentation/finale/finale.gd").write(self,data)
+	preload("res://src/persistence/save_states/save2_controller.gd").write(self,data)
 	data["equipment"]=preload("res://src/equipment/equipment_catalog.gd").canonical(fitted_equipment)
 	return data
 func _save_archive() -> void:
@@ -642,6 +646,7 @@ func _load_archive() -> void:
 			var chart_view=saved.get("chart_view",{})
 			if chart_view is Dictionary:ocean.chart_camera.restore(chart_view)
 			print("SS_RESTORE ok mission=",mission_index," time=",snappedf(sim.elapsed,0.01)," paused=",sim.paused," completed=",completed," unlocked=",unlocked)
+	preload("res://src/persistence/save_states/save2_controller.gd").restore(self,saved)
 	sound.music_volume=settings.get("music",0.5); sound.effects_volume=settings.get("effects",0.8); sound.muted=settings.get("mute",false)
 	if not store.warning.is_empty():archive_warning=store.warning;sim.message=store.warning
 	_update_archive_status()
@@ -705,6 +710,7 @@ func _notification(what: int) -> void:
 		sim.paused=true; _save_archive(); call_deferred("_android_back")
 
 func _frontend_back()->bool:
+	if preload("res://src/persistence/save_states/save2_controller.gd").back(self):return true
 	var front=get_node_or_null("Frontend")
 	if front==null or not front.has_method("back"):return false
 	front.back()

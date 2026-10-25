@@ -27,6 +27,7 @@ static func show_campaign(host) -> void:
 	host._button(host.panel_box,"FITTINGS / NEXT LAUNCH",host._show_fittings,"fittings")
 	if not host.Endings.resolve(host.expedition).is_empty():host._button(host.panel_box,"VIEW CAMPAIGN ENDING",host._show_ending,"ending")
 	preload("res://src/presentation/finale/finale.gd").entry(host)
+	preload("res://src/persistence/save_states/save2_controller.gd").entry(host)
 	if not preload("res://src/presentation/ops_home/ops_home_table.gd").enabled and not host._campaign_pristine():host._button(host.panel_box,"ERASE PROGRESS · NEW CAMPAIGN",host._confirm_new_campaign,"new_campaign")
 	if not host.recovered_evidence.is_empty(): host._button(host.panel_box,"REVIEW FIELD RECORDS",func(): host._evidence_gallery(0),"evidence")
 	host._menu_text("Field records remain reviewable after loss or abandonment. Only successful extraction advances the campaign.",14)
@@ -104,7 +105,10 @@ static func briefing(host, index: int) -> void:
 		if compact:
 			fold.text=BriefRows029.FOLD_LABELS.hide
 			if not host.get_meta("onboard2_fit_open",false):host._fold_fit(fit_nodes,holder)
-	host._button(host.menu_footer,"ENTER WATER\nSTART PAUSED",func(): host._start_mission(index); host._enter_water(),"begin")
+	host._button(host.menu_footer,"ENTER WATER\nSTART PAUSED",func():
+		host._start_mission(index)
+		if host.screen=="mission" and host.active_started:host._enter_water()
+	,"begin")
 	if compact:
 		manual_control.text="FIELD\nMANUAL"
 		for control in [manual_control,fold_control]:
@@ -168,6 +172,7 @@ static func choose_equipment(host, slot:String,item:String,index:int)->void:
 	).call_deferred()
 
 static func debrief(host) -> void:
+	preload("res://src/persistence/save_states/save2_controller.gd").terminal(host)
 	host.screen="debrief"; host._clear_menu()
 	# Capture first completion before either classic or expedition debrief writes
 	# progress. The launch's fleet_commit also freezes replay intent across saves.
@@ -217,16 +222,19 @@ static func show_ending(host,photo:bool=true)->void:
 	var ending=host.Endings.resolve(host.expedition)
 	if ending.is_empty():host._show_campaign();return
 	host.sim.paused=true;host.screen="ending";host._clear_menu()
-	host._menu_text("SIREN'S SONG / RECOVERED OUTCOME",18)
+	host._menu_text(preload("res://src/persistence/save_states/save2_controller.gd").legacy_title(host,"SIREN'S SONG / RECOVERED OUTCOME"),18)
 	host._menu_text(ending.title,36)
 	host._menu_text(ending.outcome,24)
 	if host.sim.outcome=="won":host.WitnessView.arrival(host);host.RecipientView.arrival(host);preload("res://src/presentation/concealed_harbour_view.gd").debrief(host)
 	host._menu_text(ending.story,21)
 	if host.sim.outcome=="won" and host.sim.mission.id in [12,13]:host.ModuleRecovery.debrief(host)
 	host._show_photo_grade(host.photo_records.values())
-	if 22 in host.ExpeditionCampaign.available(host.completed,host.expedition):host._button(host.panel_box,"CONTINUE / IRON CHOIR",func():host._briefing(22),"continue_choir")
-	if 14 in host.ExpeditionCampaign.available(host.completed,host.expedition):host._button(host.panel_box,"CONTINUE / GLASS REACH",func():host._briefing(14),"continue_glass")
-	host._button(host.panel_box,"NEW CAMPAIGN / CHOOSE ANOTHER ROUTE",host._confirm_new_campaign,"new_campaign")
+	var save2=preload("res://src/persistence/save_states/save2_controller.gd")
+	var save2_on=preload("res://src/persistence/save_states/save2_table.gd").enabled
+	if 22 in host.ExpeditionCampaign.available(host.completed,host.expedition) and (not save2_on or 22 not in host.expedition.get("completed",[])):host._button(host.panel_box,"CONTINUE / IRON CHOIR",func():host._briefing(22),"continue_choir")
+	if 14 in host.ExpeditionCampaign.available(host.completed,host.expedition) and (not save2_on or 14 not in host.expedition.get("completed",[])):host._button(host.panel_box,"CONTINUE / GLASS REACH",func():host._briefing(14),"continue_glass")
+	save2.replay_entry(host,"first_ending")
+	if not save2_on:host._button(host.panel_box,"NEW CAMPAIGN / CHOOSE ANOTHER ROUTE",host._confirm_new_campaign,"new_campaign")
 	host._button(host.panel_box,"OPERATIONS ARCHIVE",host._show_campaign,"back")
 	host._save_archive();host.call_deferred("_layout")
 
@@ -234,11 +242,13 @@ static func confirm_new_campaign(host)->void:
 	host.sim.paused=true;host.screen="new_campaign";host._clear_menu()
 	host._menu_text("ERASE PROGRESS AND START OVER?",30)
 	host._menu_text("This deletes your saved operations, equipment and field records and returns you to operation 1. Audio and display settings stay.",20)
+	preload("res://src/persistence/save_states/save2_controller.gd").erase_option(host)
 	host._button(host.panel_box,"ERASE AND START OVER",host._new_campaign,"confirm_new_campaign")
 	host._button(host.panel_box,"KEEP MY PROGRESS",host._show_campaign,"back")
 	host.call_deferred("_layout")
 
 static func new_campaign(host)->void:
+	if not preload("res://src/persistence/save_states/save2_controller.gd").before_erase(host):host._confirm_new_campaign();return
 	preload("res://src/presentation/finale/finale.gd").clear(host)
 	host.early_reward={}
 	host.completed=[];host.unlocked=0;host.expedition={};host.recovered_evidence={};host.photo_records={};host.photo_intel={};host.hints_seen=[]

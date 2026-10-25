@@ -35,6 +35,7 @@ static func debrief(main)->bool:
  main._retain_evidence()
  var previous=main.expedition.duplicate(true)
  main.expedition=Campaign.recover(main.expedition,mission)
+ preload("res://src/persistence/save_states/save2_controller.gd").recovered(main,previous)
  if main.sim.outcome=="won" and mission.id==31 and not preload("res://src/campaign/endings_photo.gd").resolve(main.expedition,main.photo_intel).is_empty():
   if preload("res://src/presentation/finale/finale.gd").first_recovery(main,previous):return true
   main._show_ending();return true

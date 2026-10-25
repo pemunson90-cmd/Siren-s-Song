@@ -1,6 +1,7 @@
 extends RefCounted
 const Codec = preload("res://src/persistence/profiles/profile_codec.gd")
 const Rules = preload("res://src/persistence/profiles/profile_rules.gd")
+const Save2Recovery = preload("res://src/persistence/save_states/save2_transaction.gd")
 var directory = "user://profiles"
 var legacy = "user://quietus.save"
 var warning = ""
@@ -32,6 +33,9 @@ func _bytes(path: String, limit: int) -> Variant:
 func _remove(path: String) -> bool:
  return not FileAccess.file_exists(path) or DirAccess.remove_absolute(path) == OK
 func _snapshot(path: String) -> Dictionary:
+ # Finish any SAVE2 rollback before SAVE1 reads/replaces its four live files.
+ # Revert the SAVE2 feature flag independently; pending recovery stays active.
+ if not Save2Recovery.recover(path):warning=Save2Recovery.warning;return {}
  var out = {}
  for suffix in Rules.SUFFIXES:
   var file = path + suffix
