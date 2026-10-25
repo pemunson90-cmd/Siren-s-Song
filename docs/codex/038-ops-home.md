@@ -1,10 +1,10 @@
 # Handoff 038 (PRIORITY): OPS HOME, make the Operations list a usable home screen
 
-Status: CLAIMED
+Status: DONE
 Assigned to: codex (Pat split the queue 24 Oct; Codex takes this when Pat says continue)
 Claimed at: 2026-10-24 23:38:50 UTC
 Claimed by: codex
-Finished at:
+Finished at: 2026-10-25 03:09:39 UTC
 
 Precondition: handoff 023 is DONE or paused by Pat; do not start while 023 holds main.gd and HUD files. Source: docs/design/COLD_REVIEW_3.md finding F5 (F13 as an optional small extra).
 Codex may merge: yes, into claude/integration only, after GitHub guidance and game-smoke are both green on the exact head and the PR is mergeable. Merge with a merge commit, then mark DONE and update docs/codex/BOARD.md.
@@ -36,7 +36,17 @@ By real touch at both Fold7 shapes and 960x432: NEXT OPERATION reachable with no
 PR into claude/integration. Merge per the line above; mark DONE and update the board.
 
 ## Completion
-(Codex fills this in: what changed, PR link, branch and last pushed SHA, test results, unverified items, files outside ownership needed, recommended next.)
+Done038, 24 October 2026, 11:09 PM Eastern. [PR136](https://github.com/pemunson90-cmd/Siren-s-Song/pull/136) merged with merge commit69fc9e468c026b5c3abe715c9e0dbbc2999ff97e into claude/integration. Last pushed lane head331f5cf1250349cb1cbd2c6205610ef22648b1d5 on claude/lane-ops-home contained then-current246eb721. GitHub merged=true, actual remote ancestry, both merge parents and identical tested/merged tree3cb10437a735af16a8b6091b97b59ec6ee8b148a verified. No branch deleted or frozen branch promoted.
+
+Next/Resume occupy a stable top row, map/fittings follow, recovered rows fold by the requested threshold, and launch details preserve session-only open state during comparisons. Erase uses its existing confirmation from Settings. A presentation module/data-table switch restores the original layout when disabled; no save fields, operation access or simulation rules changed. The narrow Settings entry seam was required by item4; its other controls remain unchanged. Optional item5 Back cleanup was deferred.
+
+Exact331 hosted40153330436 completed SUCCESS: guidance121049277273 and game-smoke121049277094, including the complete regression step. Independent exact331 APPROVE comment6392315057 is attributable to Codex agent /root/ops038_review, not a formal approval or Claude provenance. Fresh reviewer import, core835, home headless/native1382 each, unchanged camera headless/native62 each, loadout38, native fleet212, briefing52, early-reward2 UI62, extended first-Siren UI50 and death-cause UI44 all exited0 with zero failures. Root strictly reread all12 logs and exact source identity. Author exact331 import/core835/nativehome1382 and later FIX2 menu24 passed. Registry254 validates0 errors/warnings; both assigned rank blocks intact. Claude's stale-base comment6392270234 was followed before the final hosted run.
+
+Evidence archive537967ffb731759eb4f65bf7db2330fb7d9f80aa on archive/codex-038-ops-home-windows-20261024 preserves prior packets, failed logs, separately attributed caec PNGs, current331 logs and full17700117byte final hosted success log. Current331 supplement19members and final-hosted supplement3members were reopened/hash-verified, including actual committed Git ZIP blobs. Final ZIP1023893bytes/SHA2569ec0bda5ec92815879bcf969614a7a4b408f443228985155582bd1aaa0f50abb. Controlled fixtures/injected touch do not prove physical Android ergonomics or complete campaign forks. The synthetic optional-utility geometry probe is separately qualified, not an actual ending/save journey.
+
+Reconciled the initial plan and all earlier recovery entries as historical below, retaining original failures and limitations. Early overwritten development PNGs remain explicitly qualified in the archive; no unsupported survival claim. No RESUME/spec refresh was made outside ownership. Recommended next: claim044 after this DONE/BOARD commit is published, then042 UPDATE,043,040,033 per Pat's split.
+
+### Historical development and recovery record
 
 
 SUITE RANK BLOCK (Claude, 24 Oct): Codex's new suites use local 240.. and CI 260.. so they cannot collide with Claude's blocks (local 228-239, CI 251-259). Validate with scripts/toolchain/check-suites.py before committing.
