@@ -1,9 +1,9 @@
 # Handoff 043: SAVE2, hard saves, fork save states, and a truthful ending screen
 
-Status: OPEN
+Status: CLAIMED
 Assigned to: codex (Pat split the queue 24 Oct; Codex takes this when Pat says continue)
-Claimed at:
-Claimed by:
+Claimed at: 2026-10-25 17:03:24 UTC
+Claimed by: codex
 Finished at:
 
 Precondition: handoff 030 (SAVE1 profiles, copy/clear, export/import) DONE, because this builds on its profile and archive handling. Pat decided 24 Oct: yes to replaying endings without erasing, using "save states and hard saves" (cold review 3 finding F3).
