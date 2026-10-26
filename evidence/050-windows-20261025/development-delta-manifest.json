@@ -1,0 +1,3620 @@
+{
+  "created_utc": "2026-10-26T03:59:53.751771+00:00",
+  "comparison_baseline": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\baseline-development-20261025-225959\\manifest.json",
+  "source": {
+    "frozen_head": "39d855"
+  },
+  "scope": {
+    "included_candidates": "Direct root completed .log/.gd/.json/.ps1/.md/.py files and PNGs in direct native/capture directories, compared by relative path and SHA-256 with baseline original-path manifest.",
+    "new_or_changed": "Only paths absent from baseline or with changed bytes are stored in delta ZIPs; same-path unchanged files are skipped. New path bytes identical to baseline content are mapped to the existing baseline member instead of duplicating them.",
+    "excluded": "Every independent-* subtree without traversal; isolated userdata/cache/import trees; generated UID/import artifacts; package output directories.",
+    "excluded_top_level_directories": [
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\baseline-development-20261025-225959",
+        "reason": "non-capture subtree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\baseline-import-data",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\final-core-data",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\final-hunt_meter_ui_tests-data",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\final-hunt_pressure_integration_tests-data",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\final-hunt_pressure_tests-data",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\final-import-data",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\final-native-data",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\final-opening-off-data",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\final-opening_depth_journeys-data",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\freeze-integration-data",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-geom-data-1",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-diag-data",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-diag2-data",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-diag3-data",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-diag4-data",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-green-data",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-green2-data",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-isolate-data",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native-data",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native2-data",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-red-data",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-red2-data",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-red3-data",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-photo_row_bell_name_journey_tests-data",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-photo_row_boat_keel_journey_tests-data",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-photo_row_buoy_blind_journey_tests-data",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-photo_row_bus_cable_journey_tests-data",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-photo_row_feed_room_journey_tests-data",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-photo_row_keel_mark_journey_tests-data",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-photo_row_locker_latch_journey_tests-data",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-photo_row_relay_blink_journey_tests-data",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-photo_row_shutter_order_journey_tests-data",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-photo_row_slide_mark_journey_tests-data",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-photo_row_spindle_wear_journey_tests-data",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-photo_row_structure_edge_journey_tests-data",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-photo_row_tender_door_journey_tests-data",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-photo_row_vane_crack_journey_tests-data",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-tight-data",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-tight-diag-data",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-tight-diag2-data",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-tight-diag3-data",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-tight3-data",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-tight4-data",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-data-1",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-data-2",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-data-3",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-data-4",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-data-5",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-data-6",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-data-7",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-data-8",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-data-help-final",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-data-help-green-1",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-data-help-green-2",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-data-help-green-3",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-data-help-probe-1",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-data-help-red-1",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-data-help-red-2",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-data-lock-final",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-data-lock-green-1",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-data-lock-red-1",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-data-lock-red-2",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-data-pulse-green-1",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-data-pulse-red-1",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-data-pulse-red-2",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-data-1",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-data-2",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-data-3",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-data-4",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-data-help-1",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-data-help-final",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-data-lock-final",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-data-pulse-1",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-table-extract-userdata",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\independent-39d855",
+        "reason": "all independent review subtrees excluded; no recursion performed"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\independent-b7addc",
+        "reason": "all independent review subtrees excluded; no recursion performed"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\integration-edge-green-data",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\integration-edge-red-data-1",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\integration-expand-data-1",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\integration-expand-data-2",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\integration-expand-data-3",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\integration-expand-data-4",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\integration-expand-data-5",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\integration-expand-data-6",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\integration-expand-data-7",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\integration-first-data",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\integration-pause-probe-data-1",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\integration-red-data",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\integration-red2-data",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\pure-after-seams-data",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\pure-first-data",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\pure-linear-validator-data",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\pure-red-data",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\regression-acoustic_hearing_tests-data",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\regression-ai_trace_tests-data",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\regression-opening_depth_journeys-data",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\regression-photo_audio_tests-data",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\regression-photo_pricing_tests-data",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\regression-recon_consequences_tests-data",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\regression-sweeper_patrol_tests-data",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\regression-sweeper_tests-data",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\route-diag-data",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\route-hunt-green-data",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\route-hunt-red-data",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\wip-core-data",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\wip-import-data",
+        "reason": "isolated user-data/test-data/cache/import tree excluded"
+      }
+    ]
+  },
+  "counts": {
+    "candidate_paths_compared": 257,
+    "unchanged_same_path_skipped": 90,
+    "same_bytes_reused_from_baseline": 115,
+    "new_or_changed_original_paths": 52,
+    "unique_delta_members": 49,
+    "duplicate_paths_mapped_within_delta": 3,
+    "changed_new_logs": 21,
+    "parts": 1
+  },
+  "parts": [
+    {
+      "part": 1,
+      "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\delta-20261025-235952\\050-evidence-delta-01.zip",
+      "size_bytes": 20137913,
+      "sha256": "1c89b05d533dc1cc19c6265073977d2c6060207694a1ddaee65b6999c2595804",
+      "crc32": "d3f30b57",
+      "member_count": 49,
+      "zip_testzip": "passed",
+      "all_members_byte_and_hash_verified": true
+    }
+  ],
+  "unchanged_same_path": [
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\baseline-import.log",
+      "source_relative": "baseline-import.log",
+      "size_bytes": 43413,
+      "sha256": "aa4b8b652a252bad26016af98d687e29b22dcf2cff8bc6d70db0c59275b627b4",
+      "crc32": "bdd7b137",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/baseline-import.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\final-core.log",
+      "source_relative": "final-core.log",
+      "size_bytes": 825,
+      "sha256": "8abecc92b77099b7ca252dff2e1c1f1a220255bb4fbbba58aad1abde58187ab1",
+      "crc32": "e69f58ac",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/final-core.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\final-hunt_meter_ui_tests.log",
+      "source_relative": "final-hunt_meter_ui_tests.log",
+      "size_bytes": 87511,
+      "sha256": "30423cc1d8e7f9c9a9b284c65dcfb3cc02166505dc69125501665804dbf2e388",
+      "crc32": "f4b1167e",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/final-hunt_meter_ui_tests.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\final-hunt_pressure_integration_tests.log",
+      "source_relative": "final-hunt_pressure_integration_tests.log",
+      "size_bytes": 117,
+      "sha256": "e2fb6574329a6e1c3606d544ea46bba665ba0d658b35c95707fad6b5a46256fe",
+      "crc32": "bcfaafed",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/final-hunt_pressure_integration_tests.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\final-hunt_pressure_tests.log",
+      "source_relative": "final-hunt_pressure_tests.log",
+      "size_bytes": 114,
+      "sha256": "7c002659b1324f8ae516e830510137f55ce087b6dba984fb3a24fbc3e1590fab",
+      "crc32": "64bd2f58",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/final-hunt_pressure_tests.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\final-import.log",
+      "source_relative": "final-import.log",
+      "size_bytes": 1613,
+      "sha256": "292f7c30de4384e4dacb4a7bbdbfe1b605eb8a454dbec3fe754668c8379c9de8",
+      "crc32": "f5a27bb9",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/final-import.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\final-native.log",
+      "source_relative": "final-native.log",
+      "size_bytes": 87586,
+      "sha256": "e5da7e4b292eaf907dba2a4a62799c41842b12cb65501fb60faa551907260d5e",
+      "crc32": "7fa99b7f",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/final-native.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\final-opening-off.log",
+      "source_relative": "final-opening-off.log",
+      "size_bytes": 4170,
+      "sha256": "713ebf2cbc9c238840d86ff6e6169e52f59e968d0d91c14c46688c95e02945e2",
+      "crc32": "175932af",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/final-opening-off.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\final-opening_depth_journeys.log",
+      "source_relative": "final-opening_depth_journeys.log",
+      "size_bytes": 4173,
+      "sha256": "550ac16d25f26d2cdad3894389a98e2236154afc761f3b9f9ba74168df6f7b28",
+      "crc32": "5dcd350b",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/final-opening_depth_journeys.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\freeze-integration.log",
+      "source_relative": "freeze-integration.log",
+      "size_bytes": 117,
+      "sha256": "e2fb6574329a6e1c3606d544ea46bba665ba0d658b35c95707fad6b5a46256fe",
+      "crc32": "bcfaafed",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/final-hunt_pressure_integration_tests.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-geom-1.log",
+      "source_relative": "hunt-geom-1.log",
+      "size_bytes": 42340,
+      "sha256": "0b05a23a1654c55d28b1dccf6cf3aa59ee7c17ecdc36982fe7553792a7cbd7d2",
+      "crc32": "731118f0",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/hunt-geom-1.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-photo_row_bell_name_journey_tests.log",
+      "source_relative": "hunt-photo_row_bell_name_journey_tests.log",
+      "size_bytes": 2635,
+      "sha256": "0b47ac260df3595808de234e87de45c7e3a983bb823a1104bc2ae829b56e80d3",
+      "crc32": "d8eab28e",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/hunt-photo_row_bell_name_journey_tests.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-photo_row_boat_keel_journey_tests.log",
+      "source_relative": "hunt-photo_row_boat_keel_journey_tests.log",
+      "size_bytes": 1998,
+      "sha256": "c43abd99d351b7684459560979f7c3c1157d3df27b4319f105b7c3391a76fa38",
+      "crc32": "77280482",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/hunt-photo_row_boat_keel_journey_tests.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-photo_row_buoy_blind_journey_tests.log",
+      "source_relative": "hunt-photo_row_buoy_blind_journey_tests.log",
+      "size_bytes": 2639,
+      "sha256": "793b5be12fdbe5f7a5c8267a492b0302729b55c784fa691c8a880712881a008b",
+      "crc32": "201836bf",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/hunt-photo_row_buoy_blind_journey_tests.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-photo_row_bus_cable_journey_tests.log",
+      "source_relative": "hunt-photo_row_bus_cable_journey_tests.log",
+      "size_bytes": 2458,
+      "sha256": "db59ab7d0cddac51e702286ccb2d4d20a2ceb8d23791fbe7cdcf84b4cfa0ec15",
+      "crc32": "7775dc55",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/hunt-photo_row_bus_cable_journey_tests.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-photo_row_feed_room_journey_tests.log",
+      "source_relative": "hunt-photo_row_feed_room_journey_tests.log",
+      "size_bytes": 2455,
+      "sha256": "85cd05404a83f359fc6394ddbac5d67002a858256a6197539e162bee9dd50f05",
+      "crc32": "e1e29b8d",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/hunt-photo_row_feed_room_journey_tests.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-photo_row_keel_mark_journey_tests.log",
+      "source_relative": "hunt-photo_row_keel_mark_journey_tests.log",
+      "size_bytes": 2655,
+      "sha256": "a80f2494854260bd7319c948550102ffd0758cfdb6902325a741b7cdef925106",
+      "crc32": "8838a161",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/hunt-photo_row_keel_mark_journey_tests.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-photo_row_locker_latch_journey_tests.log",
+      "source_relative": "hunt-photo_row_locker_latch_journey_tests.log",
+      "size_bytes": 2829,
+      "sha256": "2a0d757d86d03eefd88515d0bf6b38a0f476a526a8e2cdecb9bbcbdc8687f30f",
+      "crc32": "e89e310f",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/hunt-photo_row_locker_latch_journey_tests.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-photo_row_relay_blink_journey_tests.log",
+      "source_relative": "hunt-photo_row_relay_blink_journey_tests.log",
+      "size_bytes": 3558,
+      "sha256": "ef6f1261fb908d928c8b1157566ea9d3090b8d46c9140363a894e92f428d1caf",
+      "crc32": "0fd21861",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/hunt-photo_row_relay_blink_journey_tests.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-photo_row_shutter_order_journey_tests.log",
+      "source_relative": "hunt-photo_row_shutter_order_journey_tests.log",
+      "size_bytes": 2072,
+      "sha256": "409e5818db92c80712607bd4bb64e586fa011ba0408d1d567603abb06bc4511a",
+      "crc32": "bcb741cb",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/hunt-photo_row_shutter_order_journey_tests.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-photo_row_slide_mark_journey_tests.log",
+      "source_relative": "hunt-photo_row_slide_mark_journey_tests.log",
+      "size_bytes": 2304,
+      "sha256": "64684a6da9e2b047c70ce80544881cd0535a15199d58f2aa4b055d74311cc25a",
+      "crc32": "d42d5773",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/hunt-photo_row_slide_mark_journey_tests.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-photo_row_spindle_wear_journey_tests.log",
+      "source_relative": "hunt-photo_row_spindle_wear_journey_tests.log",
+      "size_bytes": 2338,
+      "sha256": "c94f5148b94d023fbf14ebba05ff5dbb5435126ab28882c073625af01e643e19",
+      "crc32": "ec928321",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/hunt-photo_row_spindle_wear_journey_tests.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-photo_row_structure_edge_journey_tests.log",
+      "source_relative": "hunt-photo_row_structure_edge_journey_tests.log",
+      "size_bytes": 4776,
+      "sha256": "d9701c1b1b0f38b010b91b69e188c7758013d143ef196e18bba47b6a0099405b",
+      "crc32": "ed009743",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/hunt-photo_row_structure_edge_journey_tests.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-photo_row_tender_door_journey_tests.log",
+      "source_relative": "hunt-photo_row_tender_door_journey_tests.log",
+      "size_bytes": 3006,
+      "sha256": "8e29b347f17b57f6e6b5d173dae2798256ad25f30e72479bf0fead7c8db5a323",
+      "crc32": "ae1d136c",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/hunt-photo_row_tender_door_journey_tests.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-photo_row_vane_crack_journey_tests.log",
+      "source_relative": "hunt-photo_row_vane_crack_journey_tests.log",
+      "size_bytes": 1969,
+      "sha256": "4d8988fe1173e026774f8cb371ded687867eb3382f7f604ca122fb78cfac9078",
+      "crc32": "2c588134",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/hunt-photo_row_vane_crack_journey_tests.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-2.log",
+      "source_relative": "hunt-ui-2.log",
+      "size_bytes": 82481,
+      "sha256": "92248908eb7ac65472125af79ce09b6674ab3beec4ccd3e63377068cb6b4968d",
+      "crc32": "1d341ff7",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/hunt-ui-2.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-3.log",
+      "source_relative": "hunt-ui-3.log",
+      "size_bytes": 87660,
+      "sha256": "1b9271c548327b4282fae700f7527d3f4dea692ad208dd90286a72794785112e",
+      "crc32": "a969c58c",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/hunt-ui-3.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-4.log",
+      "source_relative": "hunt-ui-4.log",
+      "size_bytes": 85341,
+      "sha256": "46fbfb8aac0c308cb88c01096a28d1612aae2efb693e69f2a1ff36fba03304ca",
+      "crc32": "6128d1b5",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/hunt-ui-4.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-5.log",
+      "source_relative": "hunt-ui-5.log",
+      "size_bytes": 84997,
+      "sha256": "50132f314341685555de75b411b0275150f2b41d2e961be4de60290316268d8b",
+      "crc32": "2b39c25e",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/hunt-ui-5.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-6.log",
+      "source_relative": "hunt-ui-6.log",
+      "size_bytes": 86343,
+      "sha256": "5442dfa6611b176093b2d37826a5246f0ef673fccdd6a3c04a877e661bd7645f",
+      "crc32": "cdf80284",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/hunt-ui-6.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-7.log",
+      "source_relative": "hunt-ui-7.log",
+      "size_bytes": 83230,
+      "sha256": "12408be8f742892c4a0c09b9e67c726c92239eb5ce8b9c76860a3b89e96065e2",
+      "crc32": "6eec8aec",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/hunt-ui-7.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-8.log",
+      "source_relative": "hunt-ui-8.log",
+      "size_bytes": 87493,
+      "sha256": "719a83f9267048dc68987cf1994311131cc7bcc6cfde95c9fe292720c1438bd8",
+      "crc32": "b513cc5d",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/hunt-ui-8.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-help-final.log",
+      "source_relative": "hunt-ui-help-final.log",
+      "size_bytes": 87508,
+      "sha256": "d45e78664b20c2bbfb5b84727d65fdabdbf947cc53aeba5ed80001530db25cf6",
+      "crc32": "471b5ad5",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/hunt-ui-help-final.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-help-green-1.log",
+      "source_relative": "hunt-ui-help-green-1.log",
+      "size_bytes": 87879,
+      "sha256": "4aebddd4f2dbfc3a54ba0712e60f5d1b6ca70b80d494a4badad4241329918c58",
+      "crc32": "1728f989",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/hunt-ui-help-green-1.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-help-green-2.log",
+      "source_relative": "hunt-ui-help-green-2.log",
+      "size_bytes": 87754,
+      "sha256": "8541a66f5708417e4662a527dffa71edfeef748252b878aa2792466f8e8ce77b",
+      "crc32": "0a48f19d",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/hunt-ui-help-green-2.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-help-green-3.log",
+      "source_relative": "hunt-ui-help-green-3.log",
+      "size_bytes": 87754,
+      "sha256": "f40873501861ed85d1822f43b55fd5eec35f7086aeb9ffc8f1ae4906ce909e03",
+      "crc32": "974710eb",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/hunt-ui-help-green-3.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-help-probe-1.log",
+      "source_relative": "hunt-ui-help-probe-1.log",
+      "size_bytes": 88599,
+      "sha256": "1b8101ceb58065f8b05f91e652140188ffdeb9b309d5e1449f1db9b0003fafc5",
+      "crc32": "677ca784",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/hunt-ui-help-probe-1.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-help-red-1.log",
+      "source_relative": "hunt-ui-help-red-1.log",
+      "size_bytes": 87574,
+      "sha256": "b021265de13b88791bb86e697240d3613afec064ec6dbaa78d8fd24e6c66f4f4",
+      "crc32": "8f8c22e9",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/hunt-ui-help-red-1.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-help-red-2.log",
+      "source_relative": "hunt-ui-help-red-2.log",
+      "size_bytes": 87814,
+      "sha256": "f296090fc72861d671bfefd1a38c43b6919ec377c56ef348dec4486afff52b1b",
+      "crc32": "c5f618c1",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/hunt-ui-help-red-2.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-lock-final.log",
+      "source_relative": "hunt-ui-lock-final.log",
+      "size_bytes": 133835,
+      "sha256": "c97489a795f8e2b9b2a66cf28578c1606a027b7c38e14316248b91c81a7cc56c",
+      "crc32": "bd56f151",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/hunt-ui-lock-final.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-lock-green-1.log",
+      "source_relative": "hunt-ui-lock-green-1.log",
+      "size_bytes": 133835,
+      "sha256": "c97489a795f8e2b9b2a66cf28578c1606a027b7c38e14316248b91c81a7cc56c",
+      "crc32": "bd56f151",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/hunt-ui-lock-final.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-lock-red-1.log",
+      "source_relative": "hunt-ui-lock-red-1.log",
+      "size_bytes": 133902,
+      "sha256": "521f00143d440acd902ec2e57e3e9f811d6dff3d11d34ab3c8d2ef37a46ed193",
+      "crc32": "c26f4712",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/hunt-ui-lock-red-1.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-lock-red-2.log",
+      "source_relative": "hunt-ui-lock-red-2.log",
+      "size_bytes": 134085,
+      "sha256": "4144777bd8fd4a7f008309ca1e59730c274d615ca42665be84eba9e9eed30a1d",
+      "crc32": "84f7ecfc",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/hunt-ui-lock-red-2.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-1.log",
+      "source_relative": "hunt-ui-native-1.log",
+      "size_bytes": 85075,
+      "sha256": "2986324e16d3f95217ed0f7f5d5614f9d4dbb43adea863cd7f9125778bbe9df0",
+      "crc32": "652ba0d5",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/hunt-ui-native-1.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-2.log",
+      "source_relative": "hunt-ui-native-2.log",
+      "size_bytes": 86421,
+      "sha256": "fe6585a86f5424bc0217349de16bdda1fa57b786bf4512bd439a4dbc485ce529",
+      "crc32": "e4135ecb",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/hunt-ui-native-2.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-3.log",
+      "source_relative": "hunt-ui-native-3.log",
+      "size_bytes": 83308,
+      "sha256": "84873b195e20aad292214ee3bb31eb9ed7f0eb11afad5aeaca302afcc59c337a",
+      "crc32": "dddab531",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/hunt-ui-native-3.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-4.log",
+      "source_relative": "hunt-ui-native-4.log",
+      "size_bytes": 87571,
+      "sha256": "5fe538a8aced7fc23b1eb464b48e5e65496d955dceb2487398766bd7ae3bdf07",
+      "crc32": "591f5f67",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/hunt-ui-native-4.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-help-1.log",
+      "source_relative": "hunt-ui-native-help-1.log",
+      "size_bytes": 87832,
+      "sha256": "9e25d8b0bc1ae9ac81916ade09f31fcddcb367ba12ac2d30b8513bea7916b5b4",
+      "crc32": "f40ca563",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/hunt-ui-native-help-1.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-help-final.log",
+      "source_relative": "hunt-ui-native-help-final.log",
+      "size_bytes": 87586,
+      "sha256": "e5da7e4b292eaf907dba2a4a62799c41842b12cb65501fb60faa551907260d5e",
+      "crc32": "7fa99b7f",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/final-native.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-lock-final.log",
+      "source_relative": "hunt-ui-native-lock-final.log",
+      "size_bytes": 133917,
+      "sha256": "03286a045f329d9295d552157671b238978da4775b74fdc2099e2ecbb9212bbb",
+      "crc32": "b2a44d2c",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/hunt-ui-native-lock-final.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-pulse-1.log",
+      "source_relative": "hunt-ui-native-pulse-1.log",
+      "size_bytes": 99081,
+      "sha256": "20a7024c85987379f65186d206d4dbdb8b82b6d9359bf35a3734c8b7af8b7756",
+      "crc32": "d4f2e099",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/hunt-ui-native-pulse-1.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-pulse-green-1.log",
+      "source_relative": "hunt-ui-pulse-green-1.log",
+      "size_bytes": 98999,
+      "sha256": "a3dd4d19698bcfa9de3ab052b7cd474bf9b25d64c40b95f13a11b3769b7b0bdd",
+      "crc32": "dd842c46",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/hunt-ui-pulse-green-1.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-pulse-red-1.log",
+      "source_relative": "hunt-ui-pulse-red-1.log",
+      "size_bytes": 2258,
+      "sha256": "7a8dacda8bb892be971a6e91724988366a9626bce9e3bdce55ac6446d7f75681",
+      "crc32": "427c51bd",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/hunt-ui-pulse-red-1.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-pulse-red-2.log",
+      "source_relative": "hunt-ui-pulse-red-2.log",
+      "size_bytes": 1802,
+      "sha256": "3dcb016b794b3502e35660cc71c2fc0364a8c7a8a907a16ef99c331222ce82cc",
+      "crc32": "925d50f5",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/hunt-ui-pulse-red-2.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-red-1.log",
+      "source_relative": "hunt-ui-red-1.log",
+      "size_bytes": 1261,
+      "sha256": "d8b1ef8bc20b3ce7fd22e905d41fbb62ea03e945e81f16cf3cd8281199267154",
+      "crc32": "1c574eb8",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/hunt-ui-red-1.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-table-extract.log",
+      "source_relative": "hunt-ui-table-extract.log",
+      "size_bytes": 87508,
+      "sha256": "d45e78664b20c2bbfb5b84727d65fdabdbf947cc53aeba5ed80001530db25cf6",
+      "crc32": "471b5ad5",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/hunt-ui-help-final.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt_integration_pause_probe.gd",
+      "source_relative": "hunt_integration_pause_probe.gd",
+      "size_bytes": 14001,
+      "sha256": "0059c26e7ac71aae91870e2931282eae3c7886eb741a924ae4836559316e4e5c",
+      "crc32": "9fc9ff49",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/hunt_integration_pause_probe.gd"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt_layout_probe.gd",
+      "source_relative": "hunt_layout_probe.gd",
+      "size_bytes": 1134,
+      "sha256": "fd2bdf3cdb7f55e826626ffdf918fb11fdb58ee83999f06adb5e32d3ae3fb15d",
+      "crc32": "2a573313",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/hunt_layout_probe.gd"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\integration-edge-green.log",
+      "source_relative": "integration-edge-green.log",
+      "size_bytes": 117,
+      "sha256": "e2fb6574329a6e1c3606d544ea46bba665ba0d658b35c95707fad6b5a46256fe",
+      "crc32": "bcfaafed",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/final-hunt_pressure_integration_tests.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\integration-edge-red-1.log",
+      "source_relative": "integration-edge-red-1.log",
+      "size_bytes": 259,
+      "sha256": "487f9fcbe5b09c6ab2cf51e1e8f6485de8b4e4c0a2daa7d32d77e9a844a50726",
+      "crc32": "29e91f83",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/integration-edge-red-1.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\integration-expand-1.log",
+      "source_relative": "integration-expand-1.log",
+      "size_bytes": 994,
+      "sha256": "5b01e610305ed257044f128ec18fb2242c8dce8b7ae26e7946567b43002cea09",
+      "crc32": "b0efce74",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/integration-expand-1.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\integration-expand-2.log",
+      "source_relative": "integration-expand-2.log",
+      "size_bytes": 164,
+      "sha256": "cad6e6016bded8e3fbe619c7a7b084ddaad32d3ba99dc96bdc7afc6ecc293d3c",
+      "crc32": "936abfba",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/integration-expand-2.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\integration-expand-3.log",
+      "source_relative": "integration-expand-3.log",
+      "size_bytes": 114,
+      "sha256": "8d456b1a8ac21f7b88d3ba55972e978b78b2fa9e2af156c131457951a3d4e143",
+      "crc32": "4d5af6f5",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/integration-expand-3.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\integration-expand-4.log",
+      "source_relative": "integration-expand-4.log",
+      "size_bytes": 525,
+      "sha256": "47158c7f8d582f3bff1e042366a110f9bdc014407ab2254959467fb7286f6194",
+      "crc32": "3f2e1aa7",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/integration-expand-4.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\integration-expand-5.log",
+      "source_relative": "integration-expand-5.log",
+      "size_bytes": 188,
+      "sha256": "daeb0e7ef3a55fbca2506277bbd281a32ef759061c320ef06f0494ca0b453a3a",
+      "crc32": "898f78ce",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/integration-expand-5.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\integration-expand-6.log",
+      "source_relative": "integration-expand-6.log",
+      "size_bytes": 114,
+      "sha256": "aeff451fa40580201d0a3ad46d31868e510da6f487a3275362a29661783a8af3",
+      "crc32": "435b5d46",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/integration-expand-6.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\integration-expand-7.log",
+      "source_relative": "integration-expand-7.log",
+      "size_bytes": 181,
+      "sha256": "aac994895995122f65627ebb3fee553aa0c0acd7c31b415ecdbc368c78d881d1",
+      "crc32": "bf0f9569",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/integration-expand-7.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\integration-first.log",
+      "source_relative": "integration-first.log",
+      "size_bytes": 117,
+      "sha256": "db547c3130703fad405b624ea21bee78ee5534d8149fd0568de5cb2352a95dea",
+      "crc32": "a358ce9a",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/integration-first.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\integration-pause-probe-1.log",
+      "source_relative": "integration-pause-probe-1.log",
+      "size_bytes": 283,
+      "sha256": "9164ec9aa1318a51b6ad23eea94796b90c9686a4e5d125534e64ce48d38203ba",
+      "crc32": "7a9a2f5e",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/integration-pause-probe-1.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\integration-red.log",
+      "source_relative": "integration-red.log",
+      "size_bytes": 647,
+      "sha256": "ec17b574194e9ab8649988f701a8f91855bff4891c405dd67da7bff47e60a79b",
+      "crc32": "44db2557",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/integration-red.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\integration-red2.log",
+      "source_relative": "integration-red2.log",
+      "size_bytes": 482,
+      "sha256": "db3f4c4e11161ef39b7bb5dedeee9a20433bdaaf7176167fe291b18a9a68db8a",
+      "crc32": "048717c3",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/integration-red2.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\opening-on-off-identical.json",
+      "source_relative": "opening-on-off-identical.json",
+      "size_bytes": 2156,
+      "sha256": "6f59714a0f5eb81b09777c97f725f97542b7d20663c990e30b5de7f697c68b26",
+      "crc32": "98272289",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/opening-on-off-identical.json"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\opening_flag_off.gd",
+      "source_relative": "opening_flag_off.gd",
+      "size_bytes": 192,
+      "sha256": "25789a93e0db8c09d4621e441ee0db162f879530bc68bc94a3a4ebb4bcb61309",
+      "crc32": "f076b0fb",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/opening_flag_off.gd"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\photo-journeys-with-hunt.json",
+      "source_relative": "photo-journeys-with-hunt.json",
+      "size_bytes": 2963,
+      "sha256": "288d4accd484e09d1ebe99ba8c349a160629f4afd726235633d2167eaf01db17",
+      "crc32": "8462c9d0",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/photo-journeys-with-hunt.json"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\preliminary-review-findings.md",
+      "source_relative": "preliminary-review-findings.md",
+      "size_bytes": 1831,
+      "sha256": "b5a7ffb878a31c5e881f13f8999b42899f656f8e53579de63335bda4e0fbcc86",
+      "crc32": "78ec1727",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/preliminary-review-findings.md"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\protected-rules-source-proof.json",
+      "source_relative": "protected-rules-source-proof.json",
+      "size_bytes": 640,
+      "sha256": "3d980381ca9bd99d4ad94d0889bb708928758e2ccff8e3e1ece9a1dba9a56228",
+      "crc32": "2970b1f3",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/protected-rules-source-proof.json"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\pure-after-seams.log",
+      "source_relative": "pure-after-seams.log",
+      "size_bytes": 114,
+      "sha256": "7c002659b1324f8ae516e830510137f55ce087b6dba984fb3a24fbc3e1590fab",
+      "crc32": "64bd2f58",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/final-hunt_pressure_tests.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\pure-first.log",
+      "source_relative": "pure-first.log",
+      "size_bytes": 114,
+      "sha256": "7c002659b1324f8ae516e830510137f55ce087b6dba984fb3a24fbc3e1590fab",
+      "crc32": "64bd2f58",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/final-hunt_pressure_tests.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\pure-linear-validator.log",
+      "source_relative": "pure-linear-validator.log",
+      "size_bytes": 114,
+      "sha256": "7c002659b1324f8ae516e830510137f55ce087b6dba984fb3a24fbc3e1590fab",
+      "crc32": "64bd2f58",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/final-hunt_pressure_tests.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\pure-red.log",
+      "source_relative": "pure-red.log",
+      "size_bytes": 680,
+      "sha256": "da84a452937d44b4514d565d07f5cdc922c809b9ce23ac01d81e77e79ed0b758",
+      "crc32": "90d6c0a6",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/pure-red.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\regression-acoustic_hearing_tests.log",
+      "source_relative": "regression-acoustic_hearing_tests.log",
+      "size_bytes": 117,
+      "sha256": "b1e564dee453c4dbfb1ad89a584a788934381838df65a354ef4731b33b9b1ba8",
+      "crc32": "471d2c12",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/regression-acoustic_hearing_tests.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\regression-ai_trace_tests.log",
+      "source_relative": "regression-ai_trace_tests.log",
+      "size_bytes": 109,
+      "sha256": "b934f37ec723dfe9298111f1afab12d5437535892b003b34602af43e23d28252",
+      "crc32": "080727bd",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/regression-ai_trace_tests.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\regression-opening_depth_journeys.log",
+      "source_relative": "regression-opening_depth_journeys.log",
+      "size_bytes": 4173,
+      "sha256": "550ac16d25f26d2cdad3894389a98e2236154afc761f3b9f9ba74168df6f7b28",
+      "crc32": "5dcd350b",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/final-opening_depth_journeys.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\regression-photo_audio_tests.log",
+      "source_relative": "regression-photo_audio_tests.log",
+      "size_bytes": 112,
+      "sha256": "8a5134a9e31bd9635254224b91e600cd4aa51adca6cedf9f125a486caed718fe",
+      "crc32": "c6a8ca71",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/regression-photo_audio_tests.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\regression-photo_pricing_tests.log",
+      "source_relative": "regression-photo_pricing_tests.log",
+      "size_bytes": 114,
+      "sha256": "7ab7a2c2058f1f8d7fe6e81b271e9184b71a69f53ced5b167310c0e7a29bbcbb",
+      "crc32": "e2aa94ac",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/regression-photo_pricing_tests.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\regression-recon_consequences_tests.log",
+      "source_relative": "regression-recon_consequences_tests.log",
+      "size_bytes": 119,
+      "sha256": "9d45406a188c5be5fa4f4416968cda6ebbc3ab1404516bd86207615ee7e91369",
+      "crc32": "ed25723e",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/regression-recon_consequences_tests.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\regression-sweeper_patrol_tests.log",
+      "source_relative": "regression-sweeper_patrol_tests.log",
+      "size_bytes": 115,
+      "sha256": "d2a211cb97cdad75f56c8dde2ecdd96ebe0c27436745c9dbbab44a52964ddff3",
+      "crc32": "9c9e33a7",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/regression-sweeper_patrol_tests.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\regression-sweeper_tests.log",
+      "source_relative": "regression-sweeper_tests.log",
+      "size_bytes": 108,
+      "sha256": "5ef526381d7d6eeb19b83def5813ba4bd8cb688a027d714fa0e0bf82f64c846c",
+      "crc32": "2581784a",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/regression-sweeper_tests.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\wip-core.log",
+      "source_relative": "wip-core.log",
+      "size_bytes": 825,
+      "sha256": "8abecc92b77099b7ca252dff2e1c1f1a220255bb4fbbba58aad1abde58187ab1",
+      "crc32": "e69f58ac",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/final-core.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\wip-import.log",
+      "source_relative": "wip-import.log",
+      "size_bytes": 1968,
+      "sha256": "d50ea8cf011c0a97538ae08d4a8e98f56d576662a45afe7d4e505e84a28aaa97",
+      "crc32": "df42cc69",
+      "disposition": "unchanged_same_path",
+      "baseline_member": "evidence/root/wip-import.log"
+    }
+  ],
+  "reused_baseline_content": [
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\final-native-captures\\hunt-2184-advanced.png",
+      "source_relative": "final-native-captures/hunt-2184-advanced.png",
+      "size_bytes": 711563,
+      "sha256": "05c01de67ac7edef4b8be982a5154c4df0efb5ad1ce3950304281f21efbc41c3",
+      "crc32": "a50423bc",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/final-native-captures/hunt-2184-advanced.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\final-native-captures\\hunt-2184-basic.png",
+      "source_relative": "final-native-captures/hunt-2184-basic.png",
+      "size_bytes": 827983,
+      "sha256": "16beca849b8d07d4990e95617879f7b3f6896c19faa70dafd43a7aadd9fce416",
+      "crc32": "8fc940aa",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/final-native-captures/hunt-2184-basic.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\final-native-captures\\hunt-2184-help.png",
+      "source_relative": "final-native-captures/hunt-2184-help.png",
+      "size_bytes": 679371,
+      "sha256": "a9eb484ec9affb410e576761c42403e4fa6a8bae486205c0da77ad1a7e352988",
+      "crc32": "dc5dfc4b",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/final-native-captures/hunt-2184-help.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\final-native-captures\\hunt-2184-searching.png",
+      "source_relative": "final-native-captures/hunt-2184-searching.png",
+      "size_bytes": 821466,
+      "sha256": "ddc3193d8e0ee23b2c9525abaa2403ab8d0145646ed709c76d695ee7825c5192",
+      "crc32": "23fc2f9a",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/final-native-captures/hunt-2184-searching.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\final-native-captures\\hunt-2184-warning.png",
+      "source_relative": "final-native-captures/hunt-2184-warning.png",
+      "size_bytes": 717143,
+      "sha256": "f65d480a24d1270e3bbdf6e8f67c2b6c9db8d94fe696acd3bdc74607fa6c558e",
+      "crc32": "bf1d1281",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/final-native-captures/hunt-2184-warning.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\final-native-captures\\hunt-2520-advanced.png",
+      "source_relative": "final-native-captures/hunt-2520-advanced.png",
+      "size_bytes": 588440,
+      "sha256": "bd36850dc1e945a8edad8c87c998317ef05601227d188ba6bee5362bd78b3e52",
+      "crc32": "9a874114",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/final-native-captures/hunt-2520-advanced.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\final-native-captures\\hunt-2520-basic.png",
+      "source_relative": "final-native-captures/hunt-2520-basic.png",
+      "size_bytes": 620256,
+      "sha256": "165788fb860617768d2c3e94521ee986565e7e74c47b4194217adeccba750cde",
+      "crc32": "e88f53e1",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/final-native-captures/hunt-2520-basic.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\final-native-captures\\hunt-2520-help.png",
+      "source_relative": "final-native-captures/hunt-2520-help.png",
+      "size_bytes": 501910,
+      "sha256": "9a0a2e1aa7163b528de3a31584d647267d5fd61d10e5989dbc3356d945598549",
+      "crc32": "f831a899",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/final-native-captures/hunt-2520-help.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\final-native-captures\\hunt-960-advanced.png",
+      "source_relative": "final-native-captures/hunt-960-advanced.png",
+      "size_bytes": 153233,
+      "sha256": "2f02071d10cc637f4662456c1fa075c4d2d028cd4230a1acea8e3673a32343b2",
+      "crc32": "7ed3e027",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/final-native-captures/hunt-960-advanced.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\final-native-captures\\hunt-960-basic.png",
+      "source_relative": "final-native-captures/hunt-960-basic.png",
+      "size_bytes": 233672,
+      "sha256": "5f275067949f14cb55066df08bef684f75438090949b7c89d8d9b833f28dbd40",
+      "crc32": "a8f2246c",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/final-native-captures/hunt-960-basic.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\final-native-captures\\hunt-960-help-scrolled.png",
+      "source_relative": "final-native-captures/hunt-960-help-scrolled.png",
+      "size_bytes": 172031,
+      "sha256": "d4fded5f3d131e77ba3aa1c56b5c64aa8d450196b801b481db855817f34d8144",
+      "crc32": "46c94ae1",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/final-native-captures/hunt-960-help-scrolled.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\final-native-captures\\hunt-960-help.png",
+      "source_relative": "final-native-captures/hunt-960-help.png",
+      "size_bytes": 154297,
+      "sha256": "6115bc4c8f9c452362832ba7fbb0d484d75084d7c54da9c0a9c0ff11a6422aa9",
+      "crc32": "e45e5037",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/final-native-captures/hunt-960-help.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native-captures\\hunt-2184-basic.png",
+      "source_relative": "hunt-manual-native-captures/hunt-2184-basic.png",
+      "size_bytes": 828030,
+      "sha256": "770b53a533a1df34777186908dd355c870134c369d32b51ce7ce84c0585fc04f",
+      "crc32": "6a37502a",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-2/hunt-2184-basic.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native-captures\\hunt-2184-help.png",
+      "source_relative": "hunt-manual-native-captures/hunt-2184-help.png",
+      "size_bytes": 679365,
+      "sha256": "db532d9a661ec13caf23a7f34e0ea7da1c5d3da7df4063ec4dd7bc21070c2768",
+      "crc32": "5ccbf555",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-pulse-1/hunt-2184-help.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native-captures\\hunt-2184-lockdown.png",
+      "source_relative": "hunt-manual-native-captures/hunt-2184-lockdown.png",
+      "size_bytes": 824095,
+      "sha256": "76e14e8d601011271bddb9f1316dce0fd23b1f2a30e75d29ed15f48e6f87d92c",
+      "crc32": "e5c575ff",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-lock-final/hunt-2184-lockdown.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native-captures\\hunt-2184-warning.png",
+      "source_relative": "hunt-manual-native-captures/hunt-2184-warning.png",
+      "size_bytes": 717058,
+      "sha256": "417a01cdbf63b676659274ad2a38ba71ccb214857daf0aea8bab0b8cc46e0ec3",
+      "crc32": "c59ad866",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-4/hunt-2184-warning.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native-captures\\hunt-2520-basic.png",
+      "source_relative": "hunt-manual-native-captures/hunt-2520-basic.png",
+      "size_bytes": 620245,
+      "sha256": "35eb9fbcf6421bbd4dca316e1cbd722863d439864046b6387f9911f197cb0fdf",
+      "crc32": "19efdd0a",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-help-final/hunt-2520-basic.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native-captures\\hunt-2520-help.png",
+      "source_relative": "hunt-manual-native-captures/hunt-2520-help.png",
+      "size_bytes": 501892,
+      "sha256": "779f437d3a19b56f9262c2dce766388babb353c1f9969f1b76eaf638cee87533",
+      "crc32": "bd98da4d",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-4/hunt-2520-help.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native-captures\\hunt-960-help.png",
+      "source_relative": "hunt-manual-native-captures/hunt-960-help.png",
+      "size_bytes": 154297,
+      "sha256": "2b7ce1d5a436c42d04d7f965c0fbc1fce668b27e89083445bc6cda62fb84c0d1",
+      "crc32": "d19adbe1",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-help-1/hunt-960-help.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native-captures\\hunt-lock-2520-advanced.png",
+      "source_relative": "hunt-manual-native-captures/hunt-lock-2520-advanced.png",
+      "size_bytes": 719327,
+      "sha256": "53378c422dcf7d41ea48433439da19ed9486ec27bfa39dc722f895e90cf99cf0",
+      "crc32": "c183f607",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-lock-final/hunt-lock-2520-advanced.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native2-captures\\hunt-2520-basic.png",
+      "source_relative": "hunt-manual-native2-captures/hunt-2520-basic.png",
+      "size_bytes": 620242,
+      "sha256": "264d4bdd0e374ca4b0e143bb34509598fc52263ae370098bbe3adc37d088cdd3",
+      "crc32": "d281a906",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-1/hunt-2520-basic.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native2-captures\\hunt-2520-help.png",
+      "source_relative": "hunt-manual-native2-captures/hunt-2520-help.png",
+      "size_bytes": 501898,
+      "sha256": "43e2d3069319806d3c55a97542d1f20ec0e92126d1380c575dee5e5b73318e1a",
+      "crc32": "4a6c89dd",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-lock-final/hunt-2520-help.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native2-captures\\hunt-960-help.png",
+      "source_relative": "hunt-manual-native2-captures/hunt-960-help.png",
+      "size_bytes": 154297,
+      "sha256": "2b7ce1d5a436c42d04d7f965c0fbc1fce668b27e89083445bc6cda62fb84c0d1",
+      "crc32": "d19adbe1",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-help-1/hunt-960-help.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-1\\hunt-2184-advanced.png",
+      "source_relative": "hunt-ui-native-captures-1/hunt-2184-advanced.png",
+      "size_bytes": 711570,
+      "sha256": "af18c0ce15cf997ef7b2c490ae92b820924ed1a367905994d21d6ade5578277d",
+      "crc32": "83de5150",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-1/hunt-2184-advanced.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-1\\hunt-2184-basic.png",
+      "source_relative": "hunt-ui-native-captures-1/hunt-2184-basic.png",
+      "size_bytes": 828020,
+      "sha256": "04ca7485f24209700930bf60060f0c4f856555762a5e8878d15c954588474885",
+      "crc32": "2d340fc6",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-1/hunt-2184-basic.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-1\\hunt-2184-help.png",
+      "source_relative": "hunt-ui-native-captures-1/hunt-2184-help.png",
+      "size_bytes": 677718,
+      "sha256": "0dbb447760189a56d0a437ef16dfb6e046f2361ba21f58d932daa66131cc48c3",
+      "crc32": "8fb9d8b9",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-1/hunt-2184-help.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-1\\hunt-2520-advanced.png",
+      "source_relative": "hunt-ui-native-captures-1/hunt-2520-advanced.png",
+      "size_bytes": 588430,
+      "sha256": "804bb80da4bcca64897d61d1c1a989f511864690858e5e4fed9c85b28b973221",
+      "crc32": "2b50b285",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-1/hunt-2520-advanced.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-1\\hunt-2520-basic.png",
+      "source_relative": "hunt-ui-native-captures-1/hunt-2520-basic.png",
+      "size_bytes": 620242,
+      "sha256": "264d4bdd0e374ca4b0e143bb34509598fc52263ae370098bbe3adc37d088cdd3",
+      "crc32": "d281a906",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-1/hunt-2520-basic.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-1\\hunt-2520-help.png",
+      "source_relative": "hunt-ui-native-captures-1/hunt-2520-help.png",
+      "size_bytes": 470564,
+      "sha256": "e916f1649c603944b411db85fd25bb4db2666fa398c1f680e44b770874b7d9a3",
+      "crc32": "a65cc6d6",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-1/hunt-2520-help.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-1\\hunt-960-advanced.png",
+      "source_relative": "hunt-ui-native-captures-1/hunt-960-advanced.png",
+      "size_bytes": 153229,
+      "sha256": "a2f7d2202da404eac387af699b7b8cfb2ad18f2974e78bb83d6e6ac5f2e76b28",
+      "crc32": "b9390411",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-1/hunt-960-advanced.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-1\\hunt-960-basic.png",
+      "source_relative": "hunt-ui-native-captures-1/hunt-960-basic.png",
+      "size_bytes": 233668,
+      "sha256": "988cb91e2aa34cf475e6613d7b3c652fab3bf4bff891cb4201b1af0da871f9d8",
+      "crc32": "e3e8f0e6",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-1/hunt-960-basic.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-1\\hunt-960-help.png",
+      "source_relative": "hunt-ui-native-captures-1/hunt-960-help.png",
+      "size_bytes": 168274,
+      "sha256": "1de111b8f8b28f71e2daeb47517128ba93753fecad1d5a178bace81b1e3cedad",
+      "crc32": "b3c97cad",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-1/hunt-960-help.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-2\\hunt-2184-advanced.png",
+      "source_relative": "hunt-ui-native-captures-2/hunt-2184-advanced.png",
+      "size_bytes": 711570,
+      "sha256": "af18c0ce15cf997ef7b2c490ae92b820924ed1a367905994d21d6ade5578277d",
+      "crc32": "83de5150",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-1/hunt-2184-advanced.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-2\\hunt-2184-basic.png",
+      "source_relative": "hunt-ui-native-captures-2/hunt-2184-basic.png",
+      "size_bytes": 828030,
+      "sha256": "770b53a533a1df34777186908dd355c870134c369d32b51ce7ce84c0585fc04f",
+      "crc32": "6a37502a",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-2/hunt-2184-basic.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-2\\hunt-2184-help.png",
+      "source_relative": "hunt-ui-native-captures-2/hunt-2184-help.png",
+      "size_bytes": 695711,
+      "sha256": "da9e3a5f6690a8f4db31823172c29cb8ecd4a7e23bb37c853aeeaf438bbddbe4",
+      "crc32": "363da248",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-2/hunt-2184-help.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-2\\hunt-2520-advanced.png",
+      "source_relative": "hunt-ui-native-captures-2/hunt-2520-advanced.png",
+      "size_bytes": 588452,
+      "sha256": "c7156446842ff61ce3438cd97ac06e58971716a82a9cd8a6fb928087b2d384df",
+      "crc32": "c80fbf89",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-2/hunt-2520-advanced.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-2\\hunt-2520-basic.png",
+      "source_relative": "hunt-ui-native-captures-2/hunt-2520-basic.png",
+      "size_bytes": 620241,
+      "sha256": "a470646da659d1fb06202b979e95a8159510506ef6a25fda833789c089d64e66",
+      "crc32": "0b7055b2",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-2/hunt-2520-basic.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-2\\hunt-2520-help.png",
+      "source_relative": "hunt-ui-native-captures-2/hunt-2520-help.png",
+      "size_bytes": 509739,
+      "sha256": "53021ce1381a296cc50f66c12da8669ac2df945a0b0f29c0353252a39dc7cf2a",
+      "crc32": "2031f00d",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-2/hunt-2520-help.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-2\\hunt-960-advanced.png",
+      "source_relative": "hunt-ui-native-captures-2/hunt-960-advanced.png",
+      "size_bytes": 153229,
+      "sha256": "a2f7d2202da404eac387af699b7b8cfb2ad18f2974e78bb83d6e6ac5f2e76b28",
+      "crc32": "b9390411",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-1/hunt-960-advanced.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-2\\hunt-960-basic.png",
+      "source_relative": "hunt-ui-native-captures-2/hunt-960-basic.png",
+      "size_bytes": 233668,
+      "sha256": "988cb91e2aa34cf475e6613d7b3c652fab3bf4bff891cb4201b1af0da871f9d8",
+      "crc32": "e3e8f0e6",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-1/hunt-960-basic.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-2\\hunt-960-help.png",
+      "source_relative": "hunt-ui-native-captures-2/hunt-960-help.png",
+      "size_bytes": 168272,
+      "sha256": "069fda0510a12d9cd29c032fb06a7773a13280b7f4e33fee171bcac2883c65e8",
+      "crc32": "404ab7a3",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-2/hunt-960-help.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-3\\hunt-2184-advanced.png",
+      "source_relative": "hunt-ui-native-captures-3/hunt-2184-advanced.png",
+      "size_bytes": 711540,
+      "sha256": "3711f5a8727d672365742b9802e9010c5652eeed73ec813424ee98b0c4136ec6",
+      "crc32": "b411279d",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-3/hunt-2184-advanced.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-3\\hunt-2184-basic.png",
+      "source_relative": "hunt-ui-native-captures-3/hunt-2184-basic.png",
+      "size_bytes": 828034,
+      "sha256": "f9fd00ad61f84e5983008ccc2ce9f90acd1c4bf7081f81d2f699d760f860aed2",
+      "crc32": "5ca033ae",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-3/hunt-2184-basic.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-3\\hunt-2184-help.png",
+      "source_relative": "hunt-ui-native-captures-3/hunt-2184-help.png",
+      "size_bytes": 679340,
+      "sha256": "532ab7f7c4a291598b105441f58bc654be8857a83cf6085b9c343cc4aba21172",
+      "crc32": "68111b1a",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-3/hunt-2184-help.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-3\\hunt-2520-advanced.png",
+      "source_relative": "hunt-ui-native-captures-3/hunt-2520-advanced.png",
+      "size_bytes": 588452,
+      "sha256": "c7156446842ff61ce3438cd97ac06e58971716a82a9cd8a6fb928087b2d384df",
+      "crc32": "c80fbf89",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-2/hunt-2520-advanced.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-3\\hunt-2520-basic.png",
+      "source_relative": "hunt-ui-native-captures-3/hunt-2520-basic.png",
+      "size_bytes": 620249,
+      "sha256": "442f6177b692f94087969f3613eee4dad2203eccba8bc4f294c0964a06a20d51",
+      "crc32": "d1d6d453",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-3/hunt-2520-basic.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-3\\hunt-2520-help.png",
+      "source_relative": "hunt-ui-native-captures-3/hunt-2520-help.png",
+      "size_bytes": 501886,
+      "sha256": "ba725e604d6d2923debf56009c5a164f65f97bd6652bfe88ac8bb613003a5e24",
+      "crc32": "41c99158",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-3/hunt-2520-help.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-3\\hunt-960-advanced.png",
+      "source_relative": "hunt-ui-native-captures-3/hunt-960-advanced.png",
+      "size_bytes": 153229,
+      "sha256": "a2f7d2202da404eac387af699b7b8cfb2ad18f2974e78bb83d6e6ac5f2e76b28",
+      "crc32": "b9390411",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-1/hunt-960-advanced.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-3\\hunt-960-basic.png",
+      "source_relative": "hunt-ui-native-captures-3/hunt-960-basic.png",
+      "size_bytes": 233668,
+      "sha256": "988cb91e2aa34cf475e6613d7b3c652fab3bf4bff891cb4201b1af0da871f9d8",
+      "crc32": "e3e8f0e6",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-1/hunt-960-basic.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-3\\hunt-960-help.png",
+      "source_relative": "hunt-ui-native-captures-3/hunt-960-help.png",
+      "size_bytes": 160567,
+      "sha256": "8877d11a8042c17a5db8d59a975839bb2a7b47294e564e44ba910f18fffc9f58",
+      "crc32": "0fdcf0cd",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-3/hunt-960-help.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-4\\hunt-2184-advanced.png",
+      "source_relative": "hunt-ui-native-captures-4/hunt-2184-advanced.png",
+      "size_bytes": 711541,
+      "sha256": "84875ae61fdeb8b51f655966ea226b23a5d564c15459e4b94141db7309c516c4",
+      "crc32": "cb689d70",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-4/hunt-2184-advanced.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-4\\hunt-2184-basic.png",
+      "source_relative": "hunt-ui-native-captures-4/hunt-2184-basic.png",
+      "size_bytes": 828034,
+      "sha256": "f9fd00ad61f84e5983008ccc2ce9f90acd1c4bf7081f81d2f699d760f860aed2",
+      "crc32": "5ca033ae",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-3/hunt-2184-basic.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-4\\hunt-2184-help.png",
+      "source_relative": "hunt-ui-native-captures-4/hunt-2184-help.png",
+      "size_bytes": 679361,
+      "sha256": "903f14e22d56ea1eb1182230b14e98f576060b153bb9331b0f7a164eeb457939",
+      "crc32": "ec556cf3",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-4/hunt-2184-help.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-4\\hunt-2184-searching.png",
+      "source_relative": "hunt-ui-native-captures-4/hunt-2184-searching.png",
+      "size_bytes": 821449,
+      "sha256": "17dc507b1442e0843e7874fba7b87bb65eacf83691d89c2c9e38e4b0d871885c",
+      "crc32": "361148fb",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-4/hunt-2184-searching.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-4\\hunt-2184-warning.png",
+      "source_relative": "hunt-ui-native-captures-4/hunt-2184-warning.png",
+      "size_bytes": 717058,
+      "sha256": "417a01cdbf63b676659274ad2a38ba71ccb214857daf0aea8bab0b8cc46e0ec3",
+      "crc32": "c59ad866",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-4/hunt-2184-warning.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-4\\hunt-2520-advanced.png",
+      "source_relative": "hunt-ui-native-captures-4/hunt-2520-advanced.png",
+      "size_bytes": 588451,
+      "sha256": "51da8834652f88bd13c567a1bbbd068ab24cc139de4efc44315741290a25af79",
+      "crc32": "0641873a",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-4/hunt-2520-advanced.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-4\\hunt-2520-basic.png",
+      "source_relative": "hunt-ui-native-captures-4/hunt-2520-basic.png",
+      "size_bytes": 620245,
+      "sha256": "bc72424e436275e23376bf58c581b08d70b20555339be210c4568b07c6ed7114",
+      "crc32": "67a9eeb0",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-4/hunt-2520-basic.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-4\\hunt-2520-help.png",
+      "source_relative": "hunt-ui-native-captures-4/hunt-2520-help.png",
+      "size_bytes": 501892,
+      "sha256": "779f437d3a19b56f9262c2dce766388babb353c1f9969f1b76eaf638cee87533",
+      "crc32": "bd98da4d",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-4/hunt-2520-help.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-4\\hunt-960-advanced.png",
+      "source_relative": "hunt-ui-native-captures-4/hunt-960-advanced.png",
+      "size_bytes": 153229,
+      "sha256": "a2f7d2202da404eac387af699b7b8cfb2ad18f2974e78bb83d6e6ac5f2e76b28",
+      "crc32": "b9390411",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-1/hunt-960-advanced.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-4\\hunt-960-basic.png",
+      "source_relative": "hunt-ui-native-captures-4/hunt-960-basic.png",
+      "size_bytes": 233668,
+      "sha256": "988cb91e2aa34cf475e6613d7b3c652fab3bf4bff891cb4201b1af0da871f9d8",
+      "crc32": "e3e8f0e6",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-1/hunt-960-basic.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-4\\hunt-960-help.png",
+      "source_relative": "hunt-ui-native-captures-4/hunt-960-help.png",
+      "size_bytes": 160567,
+      "sha256": "8877d11a8042c17a5db8d59a975839bb2a7b47294e564e44ba910f18fffc9f58",
+      "crc32": "0fdcf0cd",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-3/hunt-960-help.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-help-1\\hunt-2184-advanced.png",
+      "source_relative": "hunt-ui-native-captures-help-1/hunt-2184-advanced.png",
+      "size_bytes": 711576,
+      "sha256": "81c32cfc802d82d988c588983ebd4e685ee74fddc471718ca8774ad3177d0380",
+      "crc32": "05e39c31",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-help-1/hunt-2184-advanced.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-help-1\\hunt-2184-basic.png",
+      "source_relative": "hunt-ui-native-captures-help-1/hunt-2184-basic.png",
+      "size_bytes": 828010,
+      "sha256": "5fb93d9170ef551258729d7e2f71de4c3e9ba543c7267ebaa28ab5ddbfd82b50",
+      "crc32": "7c673886",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-help-1/hunt-2184-basic.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-help-1\\hunt-2184-help.png",
+      "source_relative": "hunt-ui-native-captures-help-1/hunt-2184-help.png",
+      "size_bytes": 679380,
+      "sha256": "abc8d845c61f99a0979db9d38b6f82a40112e297c4c0e26dc02f4a2eb9154765",
+      "crc32": "6801c725",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-help-1/hunt-2184-help.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-help-1\\hunt-2184-searching.png",
+      "source_relative": "hunt-ui-native-captures-help-1/hunt-2184-searching.png",
+      "size_bytes": 821486,
+      "sha256": "ffb0ebb66476ca7cdeae90b8352662b713a3438f9b87b52a65fb90b750cd7cf8",
+      "crc32": "7fad4fa0",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-help-1/hunt-2184-searching.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-help-1\\hunt-2184-warning.png",
+      "source_relative": "hunt-ui-native-captures-help-1/hunt-2184-warning.png",
+      "size_bytes": 717105,
+      "sha256": "b1dc29ed43fabe12fa4abaa2c04deb06997981c32b9b07959c5ea067c7c6bdd6",
+      "crc32": "d661e497",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-help-1/hunt-2184-warning.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-help-1\\hunt-2520-advanced.png",
+      "source_relative": "hunt-ui-native-captures-help-1/hunt-2520-advanced.png",
+      "size_bytes": 588430,
+      "sha256": "804bb80da4bcca64897d61d1c1a989f511864690858e5e4fed9c85b28b973221",
+      "crc32": "2b50b285",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-1/hunt-2520-advanced.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-help-1\\hunt-2520-basic.png",
+      "source_relative": "hunt-ui-native-captures-help-1/hunt-2520-basic.png",
+      "size_bytes": 620242,
+      "sha256": "264d4bdd0e374ca4b0e143bb34509598fc52263ae370098bbe3adc37d088cdd3",
+      "crc32": "d281a906",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-1/hunt-2520-basic.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-help-1\\hunt-2520-help.png",
+      "source_relative": "hunt-ui-native-captures-help-1/hunt-2520-help.png",
+      "size_bytes": 501894,
+      "sha256": "3e97c63f3ac71427f3eb7fb22105498c792f11338ce2da440049199fde5c4f04",
+      "crc32": "0ed7bb2f",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-help-1/hunt-2520-help.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-help-1\\hunt-960-advanced.png",
+      "source_relative": "hunt-ui-native-captures-help-1/hunt-960-advanced.png",
+      "size_bytes": 153239,
+      "sha256": "46dbefea7a40c89c9167bc8b8c0339031f2320c2581176cbb0e97f6495f88d25",
+      "crc32": "f92ca942",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-help-1/hunt-960-advanced.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-help-1\\hunt-960-basic.png",
+      "source_relative": "hunt-ui-native-captures-help-1/hunt-960-basic.png",
+      "size_bytes": 233671,
+      "sha256": "6e0b0c127692b0a392b55bd4d13a4637191ccba9a97a0480cdd38015f124f2be",
+      "crc32": "3acca523",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-help-1/hunt-960-basic.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-help-1\\hunt-960-help-scrolled.png",
+      "source_relative": "hunt-ui-native-captures-help-1/hunt-960-help-scrolled.png",
+      "size_bytes": 165615,
+      "sha256": "21924442295a1070bbd42f75f9989d34b8719b1ebfa65e07c71cfff54e690850",
+      "crc32": "4dd1487e",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-help-1/hunt-960-help-scrolled.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-help-1\\hunt-960-help.png",
+      "source_relative": "hunt-ui-native-captures-help-1/hunt-960-help.png",
+      "size_bytes": 154297,
+      "sha256": "2b7ce1d5a436c42d04d7f965c0fbc1fce668b27e89083445bc6cda62fb84c0d1",
+      "crc32": "d19adbe1",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-help-1/hunt-960-help.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-help-final\\hunt-2184-advanced.png",
+      "source_relative": "hunt-ui-native-captures-help-final/hunt-2184-advanced.png",
+      "size_bytes": 711570,
+      "sha256": "af18c0ce15cf997ef7b2c490ae92b820924ed1a367905994d21d6ade5578277d",
+      "crc32": "83de5150",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-1/hunt-2184-advanced.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-help-final\\hunt-2184-basic.png",
+      "source_relative": "hunt-ui-native-captures-help-final/hunt-2184-basic.png",
+      "size_bytes": 827987,
+      "sha256": "11db7d58257825139bf38e4cd3e1bbc7dee6fc5149e65c598d46059c95936986",
+      "crc32": "349eecb7",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-help-final/hunt-2184-basic.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-help-final\\hunt-2184-help.png",
+      "source_relative": "hunt-ui-native-captures-help-final/hunt-2184-help.png",
+      "size_bytes": 679378,
+      "sha256": "0533f2dabe66469246490750f84ea23c1377e05b9ffafc38cae44aecca871305",
+      "crc32": "2f066afd",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-help-final/hunt-2184-help.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-help-final\\hunt-2184-searching.png",
+      "source_relative": "hunt-ui-native-captures-help-final/hunt-2184-searching.png",
+      "size_bytes": 821486,
+      "sha256": "ffb0ebb66476ca7cdeae90b8352662b713a3438f9b87b52a65fb90b750cd7cf8",
+      "crc32": "7fad4fa0",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-help-1/hunt-2184-searching.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-help-final\\hunt-2184-warning.png",
+      "source_relative": "hunt-ui-native-captures-help-final/hunt-2184-warning.png",
+      "size_bytes": 717093,
+      "sha256": "c9a0670833f0e19e5ccf01705cf3d2b7c623ebf88e5fb98607a3fb4896d63968",
+      "crc32": "973b9231",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-help-final/hunt-2184-warning.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-help-final\\hunt-2520-advanced.png",
+      "source_relative": "hunt-ui-native-captures-help-final/hunt-2520-advanced.png",
+      "size_bytes": 588430,
+      "sha256": "804bb80da4bcca64897d61d1c1a989f511864690858e5e4fed9c85b28b973221",
+      "crc32": "2b50b285",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-1/hunt-2520-advanced.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-help-final\\hunt-2520-basic.png",
+      "source_relative": "hunt-ui-native-captures-help-final/hunt-2520-basic.png",
+      "size_bytes": 620245,
+      "sha256": "35eb9fbcf6421bbd4dca316e1cbd722863d439864046b6387f9911f197cb0fdf",
+      "crc32": "19efdd0a",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-help-final/hunt-2520-basic.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-help-final\\hunt-2520-help.png",
+      "source_relative": "hunt-ui-native-captures-help-final/hunt-2520-help.png",
+      "size_bytes": 501892,
+      "sha256": "779f437d3a19b56f9262c2dce766388babb353c1f9969f1b76eaf638cee87533",
+      "crc32": "bd98da4d",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-4/hunt-2520-help.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-help-final\\hunt-960-advanced.png",
+      "source_relative": "hunt-ui-native-captures-help-final/hunt-960-advanced.png",
+      "size_bytes": 153249,
+      "sha256": "3b72068e1d5e73afe043c5c46ed6cb52d5923d35b352b668b1578520e11fd314",
+      "crc32": "ddadd4c6",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-help-final/hunt-960-advanced.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-help-final\\hunt-960-basic.png",
+      "source_relative": "hunt-ui-native-captures-help-final/hunt-960-basic.png",
+      "size_bytes": 233668,
+      "sha256": "988cb91e2aa34cf475e6613d7b3c652fab3bf4bff891cb4201b1af0da871f9d8",
+      "crc32": "e3e8f0e6",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-1/hunt-960-basic.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-help-final\\hunt-960-help-scrolled.png",
+      "source_relative": "hunt-ui-native-captures-help-final/hunt-960-help-scrolled.png",
+      "size_bytes": 172030,
+      "sha256": "f6fdef171db0459df1c59fe6eb12cb3368917984a45fc061b7d5d2ba01b277e6",
+      "crc32": "7107a95f",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-help-final/hunt-960-help-scrolled.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-help-final\\hunt-960-help.png",
+      "source_relative": "hunt-ui-native-captures-help-final/hunt-960-help.png",
+      "size_bytes": 154297,
+      "sha256": "2b7ce1d5a436c42d04d7f965c0fbc1fce668b27e89083445bc6cda62fb84c0d1",
+      "crc32": "d19adbe1",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-help-1/hunt-960-help.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-lock-final\\hunt-2184-advanced.png",
+      "source_relative": "hunt-ui-native-captures-lock-final/hunt-2184-advanced.png",
+      "size_bytes": 711570,
+      "sha256": "af18c0ce15cf997ef7b2c490ae92b820924ed1a367905994d21d6ade5578277d",
+      "crc32": "83de5150",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-1/hunt-2184-advanced.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-lock-final\\hunt-2184-basic.png",
+      "source_relative": "hunt-ui-native-captures-lock-final/hunt-2184-basic.png",
+      "size_bytes": 828020,
+      "sha256": "04ca7485f24209700930bf60060f0c4f856555762a5e8878d15c954588474885",
+      "crc32": "2d340fc6",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-1/hunt-2184-basic.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-lock-final\\hunt-2184-help.png",
+      "source_relative": "hunt-ui-native-captures-lock-final/hunt-2184-help.png",
+      "size_bytes": 679382,
+      "sha256": "3939ce6b75781fd355526ce575a4a009663c494d6e1606e533172a6d5ac6a71f",
+      "crc32": "7bcbb60e",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-lock-final/hunt-2184-help.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-lock-final\\hunt-2184-lockdown.png",
+      "source_relative": "hunt-ui-native-captures-lock-final/hunt-2184-lockdown.png",
+      "size_bytes": 824095,
+      "sha256": "76e14e8d601011271bddb9f1316dce0fd23b1f2a30e75d29ed15f48e6f87d92c",
+      "crc32": "e5c575ff",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-lock-final/hunt-2184-lockdown.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-lock-final\\hunt-2184-searching.png",
+      "source_relative": "hunt-ui-native-captures-lock-final/hunt-2184-searching.png",
+      "size_bytes": 821486,
+      "sha256": "ffb0ebb66476ca7cdeae90b8352662b713a3438f9b87b52a65fb90b750cd7cf8",
+      "crc32": "7fad4fa0",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-help-1/hunt-2184-searching.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-lock-final\\hunt-2184-warning.png",
+      "source_relative": "hunt-ui-native-captures-lock-final/hunt-2184-warning.png",
+      "size_bytes": 717108,
+      "sha256": "7074a8ab88ca4ff40a9bf9e415861fd2e75c8b11fa299015728f2b0eeadc999c",
+      "crc32": "72a1000d",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-lock-final/hunt-2184-warning.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-lock-final\\hunt-2520-advanced.png",
+      "source_relative": "hunt-ui-native-captures-lock-final/hunt-2520-advanced.png",
+      "size_bytes": 588450,
+      "sha256": "991de866fe60245ab26afa0b41264c0558cccc4e2f31f1bc91a2af40b2e386fe",
+      "crc32": "c85f38c4",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-lock-final/hunt-2520-advanced.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-lock-final\\hunt-2520-basic.png",
+      "source_relative": "hunt-ui-native-captures-lock-final/hunt-2520-basic.png",
+      "size_bytes": 620245,
+      "sha256": "35eb9fbcf6421bbd4dca316e1cbd722863d439864046b6387f9911f197cb0fdf",
+      "crc32": "19efdd0a",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-help-final/hunt-2520-basic.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-lock-final\\hunt-2520-help.png",
+      "source_relative": "hunt-ui-native-captures-lock-final/hunt-2520-help.png",
+      "size_bytes": 501898,
+      "sha256": "43e2d3069319806d3c55a97542d1f20ec0e92126d1380c575dee5e5b73318e1a",
+      "crc32": "4a6c89dd",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-lock-final/hunt-2520-help.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-lock-final\\hunt-960-advanced.png",
+      "source_relative": "hunt-ui-native-captures-lock-final/hunt-960-advanced.png",
+      "size_bytes": 153249,
+      "sha256": "3b72068e1d5e73afe043c5c46ed6cb52d5923d35b352b668b1578520e11fd314",
+      "crc32": "ddadd4c6",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-help-final/hunt-960-advanced.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-lock-final\\hunt-960-basic.png",
+      "source_relative": "hunt-ui-native-captures-lock-final/hunt-960-basic.png",
+      "size_bytes": 233668,
+      "sha256": "988cb91e2aa34cf475e6613d7b3c652fab3bf4bff891cb4201b1af0da871f9d8",
+      "crc32": "e3e8f0e6",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-1/hunt-960-basic.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-lock-final\\hunt-960-help-scrolled.png",
+      "source_relative": "hunt-ui-native-captures-lock-final/hunt-960-help-scrolled.png",
+      "size_bytes": 172030,
+      "sha256": "f6fdef171db0459df1c59fe6eb12cb3368917984a45fc061b7d5d2ba01b277e6",
+      "crc32": "7107a95f",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-help-final/hunt-960-help-scrolled.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-lock-final\\hunt-960-help.png",
+      "source_relative": "hunt-ui-native-captures-lock-final/hunt-960-help.png",
+      "size_bytes": 154297,
+      "sha256": "2b7ce1d5a436c42d04d7f965c0fbc1fce668b27e89083445bc6cda62fb84c0d1",
+      "crc32": "d19adbe1",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-help-1/hunt-960-help.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-lock-final\\hunt-lock-2184-advanced.png",
+      "source_relative": "hunt-ui-native-captures-lock-final/hunt-lock-2184-advanced.png",
+      "size_bytes": 1695282,
+      "sha256": "d22688261ec5ee95a9154cff0f67995ddf1223b3c205040a48dbd0fdc7ed3323",
+      "crc32": "6b763686",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-lock-final/hunt-lock-2184-advanced.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-lock-final\\hunt-lock-2184-basic.png",
+      "source_relative": "hunt-ui-native-captures-lock-final/hunt-lock-2184-basic.png",
+      "size_bytes": 1799691,
+      "sha256": "f4f5108dcb217da9bdc3c6728e9e35158824cdaf7aa568200f046ab1c51db24a",
+      "crc32": "e5017779",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-lock-final/hunt-lock-2184-basic.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-lock-final\\hunt-lock-2520-advanced.png",
+      "source_relative": "hunt-ui-native-captures-lock-final/hunt-lock-2520-advanced.png",
+      "size_bytes": 719327,
+      "sha256": "53378c422dcf7d41ea48433439da19ed9486ec27bfa39dc722f895e90cf99cf0",
+      "crc32": "c183f607",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-lock-final/hunt-lock-2520-advanced.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-lock-final\\hunt-lock-2520-basic.png",
+      "source_relative": "hunt-ui-native-captures-lock-final/hunt-lock-2520-basic.png",
+      "size_bytes": 690781,
+      "sha256": "6aed148007b2fa0174db9db4474d283f2ef61dc9d2c1aa58b20496bfd1cfae18",
+      "crc32": "e4185006",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-lock-final/hunt-lock-2520-basic.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-pulse-1\\hunt-2184-advanced.png",
+      "source_relative": "hunt-ui-native-captures-pulse-1/hunt-2184-advanced.png",
+      "size_bytes": 711540,
+      "sha256": "3711f5a8727d672365742b9802e9010c5652eeed73ec813424ee98b0c4136ec6",
+      "crc32": "b411279d",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-3/hunt-2184-advanced.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-pulse-1\\hunt-2184-basic.png",
+      "source_relative": "hunt-ui-native-captures-pulse-1/hunt-2184-basic.png",
+      "size_bytes": 828034,
+      "sha256": "985be6925148f7d9188faf1a4db9d93e95f0cb20d6177333462f67750027055d",
+      "crc32": "c137a92e",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-pulse-1/hunt-2184-basic.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-pulse-1\\hunt-2184-help.png",
+      "source_relative": "hunt-ui-native-captures-pulse-1/hunt-2184-help.png",
+      "size_bytes": 679365,
+      "sha256": "db532d9a661ec13caf23a7f34e0ea7da1c5d3da7df4063ec4dd7bc21070c2768",
+      "crc32": "5ccbf555",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-pulse-1/hunt-2184-help.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-pulse-1\\hunt-2184-lockdown.png",
+      "source_relative": "hunt-ui-native-captures-pulse-1/hunt-2184-lockdown.png",
+      "size_bytes": 824095,
+      "sha256": "76e14e8d601011271bddb9f1316dce0fd23b1f2a30e75d29ed15f48e6f87d92c",
+      "crc32": "e5c575ff",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-lock-final/hunt-2184-lockdown.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-pulse-1\\hunt-2184-searching.png",
+      "source_relative": "hunt-ui-native-captures-pulse-1/hunt-2184-searching.png",
+      "size_bytes": 821480,
+      "sha256": "465ba7151dd0b3d66c6657afe029ed3fcf8e324d5152a33f1ffe5dca4b1d4753",
+      "crc32": "56cece74",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-pulse-1/hunt-2184-searching.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-pulse-1\\hunt-2184-warning.png",
+      "source_relative": "hunt-ui-native-captures-pulse-1/hunt-2184-warning.png",
+      "size_bytes": 717105,
+      "sha256": "b1dc29ed43fabe12fa4abaa2c04deb06997981c32b9b07959c5ea067c7c6bdd6",
+      "crc32": "d661e497",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-help-1/hunt-2184-warning.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-pulse-1\\hunt-2520-advanced.png",
+      "source_relative": "hunt-ui-native-captures-pulse-1/hunt-2520-advanced.png",
+      "size_bytes": 588430,
+      "sha256": "804bb80da4bcca64897d61d1c1a989f511864690858e5e4fed9c85b28b973221",
+      "crc32": "2b50b285",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-1/hunt-2520-advanced.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-pulse-1\\hunt-2520-basic.png",
+      "source_relative": "hunt-ui-native-captures-pulse-1/hunt-2520-basic.png",
+      "size_bytes": 620243,
+      "sha256": "afdf56b9a45e6c88d85b31599b60bf4417cbb433d0ae0f19e91bbd1f7becb217",
+      "crc32": "a46bf644",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-pulse-1/hunt-2520-basic.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-pulse-1\\hunt-2520-help.png",
+      "source_relative": "hunt-ui-native-captures-pulse-1/hunt-2520-help.png",
+      "size_bytes": 501886,
+      "sha256": "9488b55186378a117bfe6e2c168bdd6f1886a8dcb5884f74f6cccd1585f55396",
+      "crc32": "29e6925d",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-pulse-1/hunt-2520-help.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-pulse-1\\hunt-960-advanced.png",
+      "source_relative": "hunt-ui-native-captures-pulse-1/hunt-960-advanced.png",
+      "size_bytes": 153249,
+      "sha256": "3b72068e1d5e73afe043c5c46ed6cb52d5923d35b352b668b1578520e11fd314",
+      "crc32": "ddadd4c6",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-help-final/hunt-960-advanced.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-pulse-1\\hunt-960-basic.png",
+      "source_relative": "hunt-ui-native-captures-pulse-1/hunt-960-basic.png",
+      "size_bytes": 233671,
+      "sha256": "6e0b0c127692b0a392b55bd4d13a4637191ccba9a97a0480cdd38015f124f2be",
+      "crc32": "3acca523",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-help-1/hunt-960-basic.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-pulse-1\\hunt-960-help-scrolled.png",
+      "source_relative": "hunt-ui-native-captures-pulse-1/hunt-960-help-scrolled.png",
+      "size_bytes": 172030,
+      "sha256": "f6fdef171db0459df1c59fe6eb12cb3368917984a45fc061b7d5d2ba01b277e6",
+      "crc32": "7107a95f",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-help-final/hunt-960-help-scrolled.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-ui-native-captures-pulse-1\\hunt-960-help.png",
+      "source_relative": "hunt-ui-native-captures-pulse-1/hunt-960-help.png",
+      "size_bytes": 154297,
+      "sha256": "2b7ce1d5a436c42d04d7f965c0fbc1fce668b27e89083445bc6cda62fb84c0d1",
+      "crc32": "d19adbe1",
+      "disposition": "reused_identical_baseline_bytes",
+      "baseline_part": 1,
+      "baseline_member": "evidence/captures/hunt-ui-native-captures-help-1/hunt-960-help.png"
+    }
+  ],
+  "delta_original_to_member_map": [
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native-captures\\hunt-2184-advanced.png",
+      "source_relative": "hunt-manual-native-captures/hunt-2184-advanced.png",
+      "size_bytes": 711563,
+      "sha256": "29b033336477dd4bee5e0baf9757b0378239ab3707ff35ba1b1c3d7857fb405e",
+      "crc32": "6f89d44d",
+      "archive_source_name": "captures/hunt-manual-native-captures/hunt-2184-advanced.png",
+      "stored_member": "delta/captures/hunt-manual-native-captures/hunt-2184-advanced.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native-captures\\hunt-2184-searching.png",
+      "source_relative": "hunt-manual-native-captures/hunt-2184-searching.png",
+      "size_bytes": 821461,
+      "sha256": "313d34a83221d1113366f30069fdcc26d189267f39190cf2379776c8a7f3d923",
+      "crc32": "8f45c173",
+      "archive_source_name": "captures/hunt-manual-native-captures/hunt-2184-searching.png",
+      "stored_member": "delta/captures/hunt-manual-native-captures/hunt-2184-searching.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native-captures\\hunt-2520-advanced.png",
+      "source_relative": "hunt-manual-native-captures/hunt-2520-advanced.png",
+      "size_bytes": 588431,
+      "sha256": "845bc7868e78e8fad33d704262cc6cd941e48f49b704306dc5d807157aef6e9e",
+      "crc32": "f14eca8e",
+      "archive_source_name": "captures/hunt-manual-native-captures/hunt-2520-advanced.png",
+      "stored_member": "delta/captures/hunt-manual-native-captures/hunt-2520-advanced.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native-captures\\hunt-960-advanced.png",
+      "source_relative": "hunt-manual-native-captures/hunt-960-advanced.png",
+      "size_bytes": 151732,
+      "sha256": "7b96e8963976a35f4096b8c9be38692b3066893afb58642b641d0bbd036185c1",
+      "crc32": "67e4631f",
+      "archive_source_name": "captures/hunt-manual-native-captures/hunt-960-advanced.png",
+      "stored_member": "delta/captures/hunt-manual-native-captures/hunt-960-advanced.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native-captures\\hunt-960-basic.png",
+      "source_relative": "hunt-manual-native-captures/hunt-960-basic.png",
+      "size_bytes": 242602,
+      "sha256": "f152ffa5639d1ce66a946b158a8088caa54a82b1c1d61a03cbd986c6a6adbafb",
+      "crc32": "942177dd",
+      "archive_source_name": "captures/hunt-manual-native-captures/hunt-960-basic.png",
+      "stored_member": "delta/captures/hunt-manual-native-captures/hunt-960-basic.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native-captures\\hunt-960-help-scrolled.png",
+      "source_relative": "hunt-manual-native-captures/hunt-960-help-scrolled.png",
+      "size_bytes": 172030,
+      "sha256": "f53d644fb6f602c3da672a2db469e3b26cae9a7c03f1a8b79ea212d25fb8829c",
+      "crc32": "4b886978",
+      "archive_source_name": "captures/hunt-manual-native-captures/hunt-960-help-scrolled.png",
+      "stored_member": "delta/captures/hunt-manual-native-captures/hunt-960-help-scrolled.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native-captures\\hunt-lock-2184-advanced.png",
+      "source_relative": "hunt-manual-native-captures/hunt-lock-2184-advanced.png",
+      "size_bytes": 1695309,
+      "sha256": "3f22026b9f9e5a27c0b3f9de6c952a4bf5146a12e3bfaca470ade09ac65f4d51",
+      "crc32": "a9dc0585",
+      "archive_source_name": "captures/hunt-manual-native-captures/hunt-lock-2184-advanced.png",
+      "stored_member": "delta/captures/hunt-manual-native-captures/hunt-lock-2184-advanced.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native-captures\\hunt-lock-2184-basic.png",
+      "source_relative": "hunt-manual-native-captures/hunt-lock-2184-basic.png",
+      "size_bytes": 1799696,
+      "sha256": "0379597739c6a191294db5ec5bdb6f752d857a80117ca99c653c25bd62105fd7",
+      "crc32": "393fb5a4",
+      "archive_source_name": "captures/hunt-manual-native-captures/hunt-lock-2184-basic.png",
+      "stored_member": "delta/captures/hunt-manual-native-captures/hunt-lock-2184-basic.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native-captures\\hunt-lock-2520-basic.png",
+      "source_relative": "hunt-manual-native-captures/hunt-lock-2520-basic.png",
+      "size_bytes": 690787,
+      "sha256": "5d16a6b32167ac78bd4f5baf7068f74667134f9c8d9794dd299c253fcae9a3a9",
+      "crc32": "dd28697a",
+      "archive_source_name": "captures/hunt-manual-native-captures/hunt-lock-2520-basic.png",
+      "stored_member": "delta/captures/hunt-manual-native-captures/hunt-lock-2520-basic.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native-captures\\hunt-manual-craft-2184.png",
+      "source_relative": "hunt-manual-native-captures/hunt-manual-craft-2184.png",
+      "size_bytes": 553819,
+      "sha256": "faad3c20d48e2b44060345ed8c7b215a5b312ab4abda05c8af32f59ca896253b",
+      "crc32": "2282f449",
+      "archive_source_name": "captures/hunt-manual-native-captures/hunt-manual-craft-2184.png",
+      "stored_member": "delta/captures/hunt-manual-native-captures/hunt-manual-craft-2184.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native-captures\\hunt-manual-craft-2520.png",
+      "source_relative": "hunt-manual-native-captures/hunt-manual-craft-2520.png",
+      "size_bytes": 428651,
+      "sha256": "08735b1cf581cf2522aa346b499c614cef897a3a5b2e194725339fd913e066ca",
+      "crc32": "24fb02f7",
+      "archive_source_name": "captures/hunt-manual-native-captures/hunt-manual-craft-2520.png",
+      "stored_member": "delta/captures/hunt-manual-native-captures/hunt-manual-craft-2520.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native2-captures\\hunt-2184-advanced.png",
+      "source_relative": "hunt-manual-native2-captures/hunt-2184-advanced.png",
+      "size_bytes": 711584,
+      "sha256": "3c6283a57e5d3704d9ef1191d64abe623bda25dfdbb5853efde0dfc335d3befe",
+      "crc32": "b8e8f6ba",
+      "archive_source_name": "captures/hunt-manual-native2-captures/hunt-2184-advanced.png",
+      "stored_member": "delta/captures/hunt-manual-native2-captures/hunt-2184-advanced.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native2-captures\\hunt-2184-basic.png",
+      "source_relative": "hunt-manual-native2-captures/hunt-2184-basic.png",
+      "size_bytes": 828003,
+      "sha256": "cd2d4211ca3480b67cc21128e7852428f140fd3f7a36782f339aa63c97f97a1f",
+      "crc32": "1e33fd53",
+      "archive_source_name": "captures/hunt-manual-native2-captures/hunt-2184-basic.png",
+      "stored_member": "delta/captures/hunt-manual-native2-captures/hunt-2184-basic.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native2-captures\\hunt-2184-help.png",
+      "source_relative": "hunt-manual-native2-captures/hunt-2184-help.png",
+      "size_bytes": 679358,
+      "sha256": "f8677c2b653699dc51d04cd819da4e62d479b58fa58ac56ac2081e6c7642a143",
+      "crc32": "8484bf6b",
+      "archive_source_name": "captures/hunt-manual-native2-captures/hunt-2184-help.png",
+      "stored_member": "delta/captures/hunt-manual-native2-captures/hunt-2184-help.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native2-captures\\hunt-2184-lockdown.png",
+      "source_relative": "hunt-manual-native2-captures/hunt-2184-lockdown.png",
+      "size_bytes": 824068,
+      "sha256": "1708c1fc0bbff248c50f74da8ca4767d09f90e41faf028f0b98daa214479097b",
+      "crc32": "cbbf866f",
+      "archive_source_name": "captures/hunt-manual-native2-captures/hunt-2184-lockdown.png",
+      "stored_member": "delta/captures/hunt-manual-native2-captures/hunt-2184-lockdown.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native2-captures\\hunt-2184-searching.png",
+      "source_relative": "hunt-manual-native2-captures/hunt-2184-searching.png",
+      "size_bytes": 821468,
+      "sha256": "244e53e89a4b01ae9222792b0b7f6b65de6bba4a7c0611e4201cf97c2357e7b4",
+      "crc32": "91cea2d7",
+      "archive_source_name": "captures/hunt-manual-native2-captures/hunt-2184-searching.png",
+      "stored_member": "delta/captures/hunt-manual-native2-captures/hunt-2184-searching.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native2-captures\\hunt-2184-warning.png",
+      "source_relative": "hunt-manual-native2-captures/hunt-2184-warning.png",
+      "size_bytes": 717090,
+      "sha256": "09263290fc7627b603de6b030734ef125ed228601eccb49f538b149e6e42a3fb",
+      "crc32": "cd7bb23a",
+      "archive_source_name": "captures/hunt-manual-native2-captures/hunt-2184-warning.png",
+      "stored_member": "delta/captures/hunt-manual-native2-captures/hunt-2184-warning.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native2-captures\\hunt-2520-advanced.png",
+      "source_relative": "hunt-manual-native2-captures/hunt-2520-advanced.png",
+      "size_bytes": 588437,
+      "sha256": "443ddeacf71504397dbdac8727009822f7bf609b59297b42eb7df0fbed417ada",
+      "crc32": "d1bff67a",
+      "archive_source_name": "captures/hunt-manual-native2-captures/hunt-2520-advanced.png",
+      "stored_member": "delta/captures/hunt-manual-native2-captures/hunt-2520-advanced.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native2-captures\\hunt-960-advanced.png",
+      "source_relative": "hunt-manual-native2-captures/hunt-960-advanced.png",
+      "size_bytes": 151732,
+      "sha256": "7b96e8963976a35f4096b8c9be38692b3066893afb58642b641d0bbd036185c1",
+      "crc32": "67e4631f",
+      "archive_source_name": "captures/hunt-manual-native2-captures/hunt-960-advanced.png",
+      "stored_member": "delta/captures/hunt-manual-native-captures/hunt-960-advanced.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native2-captures\\hunt-960-basic.png",
+      "source_relative": "hunt-manual-native2-captures/hunt-960-basic.png",
+      "size_bytes": 242602,
+      "sha256": "f152ffa5639d1ce66a946b158a8088caa54a82b1c1d61a03cbd986c6a6adbafb",
+      "crc32": "942177dd",
+      "archive_source_name": "captures/hunt-manual-native2-captures/hunt-960-basic.png",
+      "stored_member": "delta/captures/hunt-manual-native-captures/hunt-960-basic.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native2-captures\\hunt-960-help-scrolled.png",
+      "source_relative": "hunt-manual-native2-captures/hunt-960-help-scrolled.png",
+      "size_bytes": 172028,
+      "sha256": "f7e7b3a8870d3fdd4fddff9a6dc66ba511fc58bb3fe348196aa4abeedd661dc3",
+      "crc32": "6738a69e",
+      "archive_source_name": "captures/hunt-manual-native2-captures/hunt-960-help-scrolled.png",
+      "stored_member": "delta/captures/hunt-manual-native2-captures/hunt-960-help-scrolled.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native2-captures\\hunt-lock-2184-advanced.png",
+      "source_relative": "hunt-manual-native2-captures/hunt-lock-2184-advanced.png",
+      "size_bytes": 1695321,
+      "sha256": "761270fccb48dcf26539eba45e5cfeca45256115d85767054450259ef5bf8c4e",
+      "crc32": "22edc5ee",
+      "archive_source_name": "captures/hunt-manual-native2-captures/hunt-lock-2184-advanced.png",
+      "stored_member": "delta/captures/hunt-manual-native2-captures/hunt-lock-2184-advanced.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native2-captures\\hunt-lock-2184-basic.png",
+      "source_relative": "hunt-manual-native2-captures/hunt-lock-2184-basic.png",
+      "size_bytes": 1799692,
+      "sha256": "438262b54f258d450d11e18279e3c25b301933d8201db33c7dec7a168b343417",
+      "crc32": "8e24b7d9",
+      "archive_source_name": "captures/hunt-manual-native2-captures/hunt-lock-2184-basic.png",
+      "stored_member": "delta/captures/hunt-manual-native2-captures/hunt-lock-2184-basic.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native2-captures\\hunt-lock-2520-advanced.png",
+      "source_relative": "hunt-manual-native2-captures/hunt-lock-2520-advanced.png",
+      "size_bytes": 719332,
+      "sha256": "793d39e97e7f18adc3442613e91f08ae656f9b2680982dc75dd2ab281da6a7e2",
+      "crc32": "8b659c3f",
+      "archive_source_name": "captures/hunt-manual-native2-captures/hunt-lock-2520-advanced.png",
+      "stored_member": "delta/captures/hunt-manual-native2-captures/hunt-lock-2520-advanced.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native2-captures\\hunt-lock-2520-basic.png",
+      "source_relative": "hunt-manual-native2-captures/hunt-lock-2520-basic.png",
+      "size_bytes": 690799,
+      "sha256": "eaf986711ee84789a3699288287145728b4ddb6cc704d91b9cdf04130ac5578c",
+      "crc32": "84cf5ec7",
+      "archive_source_name": "captures/hunt-manual-native2-captures/hunt-lock-2520-basic.png",
+      "stored_member": "delta/captures/hunt-manual-native2-captures/hunt-lock-2520-basic.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native2-captures\\hunt-manual-craft-2184-before.png",
+      "source_relative": "hunt-manual-native2-captures/hunt-manual-craft-2184-before.png",
+      "size_bytes": 584874,
+      "sha256": "dbeb8608e36c16a1c80735441697b8a90bf419a0b997787a5643efbaac7e4292",
+      "crc32": "10371816",
+      "archive_source_name": "captures/hunt-manual-native2-captures/hunt-manual-craft-2184-before.png",
+      "stored_member": "delta/captures/hunt-manual-native2-captures/hunt-manual-craft-2184-before.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native2-captures\\hunt-manual-craft-2184.png",
+      "source_relative": "hunt-manual-native2-captures/hunt-manual-craft-2184.png",
+      "size_bytes": 553808,
+      "sha256": "899e68772b0d2ebebf80285555f7d0a0701ad5c01081efed441c7040ab9eeab4",
+      "crc32": "d63ab9b3",
+      "archive_source_name": "captures/hunt-manual-native2-captures/hunt-manual-craft-2184.png",
+      "stored_member": "delta/captures/hunt-manual-native2-captures/hunt-manual-craft-2184.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native2-captures\\hunt-manual-craft-2520-before.png",
+      "source_relative": "hunt-manual-native2-captures/hunt-manual-craft-2520-before.png",
+      "size_bytes": 464110,
+      "sha256": "d21fb2a1031cf83137d42e2ec7a89e48d53ef3a5c2b5301adb945aaab67eca50",
+      "crc32": "1bf0d2dd",
+      "archive_source_name": "captures/hunt-manual-native2-captures/hunt-manual-craft-2520-before.png",
+      "stored_member": "delta/captures/hunt-manual-native2-captures/hunt-manual-craft-2520-before.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native2-captures\\hunt-manual-craft-2520.png",
+      "source_relative": "hunt-manual-native2-captures/hunt-manual-craft-2520.png",
+      "size_bytes": 428328,
+      "sha256": "12eb6397cd9c3105be3ba0614aa9cf928d42768596bf9c8555b895399aa8ed35",
+      "crc32": "ca5ed200",
+      "archive_source_name": "captures/hunt-manual-native2-captures/hunt-manual-craft-2520.png",
+      "stored_member": "delta/captures/hunt-manual-native2-captures/hunt-manual-craft-2520.png"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\craft-tap-fix-root-verification.json",
+      "source_relative": "craft-tap-fix-root-verification.json",
+      "size_bytes": 882,
+      "sha256": "8b8d7c93f498f34b2a3916d693dae798144802d370ed1226b828ba57f53842af",
+      "crc32": "da22a26f",
+      "archive_source_name": "root/craft-tap-fix-root-verification.json",
+      "stored_member": "delta/root/craft-tap-fix-root-verification.json"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-diag.log",
+      "source_relative": "hunt-manual-diag.log",
+      "size_bytes": 267391,
+      "sha256": "61cade7504d7ab6e03d6893cf18421bea8e6ecf73afe9f03641bb3f1f5a052fa",
+      "crc32": "51f59da5",
+      "archive_source_name": "root/hunt-manual-diag.log",
+      "stored_member": "delta/root/hunt-manual-diag.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-diag2.log",
+      "source_relative": "hunt-manual-diag2.log",
+      "size_bytes": 267391,
+      "sha256": "61cade7504d7ab6e03d6893cf18421bea8e6ecf73afe9f03641bb3f1f5a052fa",
+      "crc32": "51f59da5",
+      "archive_source_name": "root/hunt-manual-diag2.log",
+      "stored_member": "delta/root/hunt-manual-diag.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-diag3.log",
+      "source_relative": "hunt-manual-diag3.log",
+      "size_bytes": 267707,
+      "sha256": "eafe6955262393cbe36e41c3d577ba9cdbc1997524fea8957565059bda2144a2",
+      "crc32": "6881a151",
+      "archive_source_name": "root/hunt-manual-diag3.log",
+      "stored_member": "delta/root/hunt-manual-diag3.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-diag4.log",
+      "source_relative": "hunt-manual-diag4.log",
+      "size_bytes": 206618,
+      "sha256": "6f7ef33034be255410e22a58d82d587e2dfd537ed20a1e1ead5bcbc6a30125ed",
+      "crc32": "f7093bf0",
+      "archive_source_name": "root/hunt-manual-diag4.log",
+      "stored_member": "delta/root/hunt-manual-diag4.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-green.log",
+      "source_relative": "hunt-manual-green.log",
+      "size_bytes": 203436,
+      "sha256": "560e276fcbdc1e843b9cc03add8fbfddba75e417022662ba099372ff8a4b896e",
+      "crc32": "73b6acf4",
+      "archive_source_name": "root/hunt-manual-green.log",
+      "stored_member": "delta/root/hunt-manual-green.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-green2.log",
+      "source_relative": "hunt-manual-green2.log",
+      "size_bytes": 203329,
+      "sha256": "d8db2477b1d7c6a317881a1b70231b91acdc562380e1720a26b3dbaf39aa87d2",
+      "crc32": "d665bd44",
+      "archive_source_name": "root/hunt-manual-green2.log",
+      "stored_member": "delta/root/hunt-manual-green2.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-isolate.log",
+      "source_relative": "hunt-manual-isolate.log",
+      "size_bytes": 137128,
+      "sha256": "dace9ed31d95540cccd6518e2c71c6874e8f30b96f2b79d5c2b08b843ad23461",
+      "crc32": "a9276b65",
+      "archive_source_name": "root/hunt-manual-isolate.log",
+      "stored_member": "delta/root/hunt-manual-isolate.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native.log",
+      "source_relative": "hunt-manual-native.log",
+      "size_bytes": 203417,
+      "sha256": "b649d1494a641005f8b4cc9255f9f269253c4401b66d4bead443cc41537efb20",
+      "crc32": "d96b127d",
+      "archive_source_name": "root/hunt-manual-native.log",
+      "stored_member": "delta/root/hunt-manual-native.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native2.log",
+      "source_relative": "hunt-manual-native2.log",
+      "size_bytes": 203417,
+      "sha256": "aa67aab74d62f2970e84c42353cdbacc62c546d3e1bd08c52015c75570c20af8",
+      "crc32": "3805d6d0",
+      "archive_source_name": "root/hunt-manual-native2.log",
+      "stored_member": "delta/root/hunt-manual-native2.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-red.log",
+      "source_relative": "hunt-manual-red.log",
+      "size_bytes": 173226,
+      "sha256": "2dbbe47a6906adf9d411c695aa60c0454be3370031b718984b799a80bd153016",
+      "crc32": "afbc6992",
+      "archive_source_name": "root/hunt-manual-red.log",
+      "stored_member": "delta/root/hunt-manual-red.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-red2.log",
+      "source_relative": "hunt-manual-red2.log",
+      "size_bytes": 203739,
+      "sha256": "185034bf869dc63b6974d6592e9315fe4b7d8195f4e27c9d867af0482d410b6f",
+      "crc32": "3625fa4e",
+      "archive_source_name": "root/hunt-manual-red2.log",
+      "stored_member": "delta/root/hunt-manual-red2.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-red3.log",
+      "source_relative": "hunt-manual-red3.log",
+      "size_bytes": 202418,
+      "sha256": "b29c4ffabb1218a2ab56d50bb46286e879246db8139c37305b9fb12cce9b33c6",
+      "crc32": "380de3ef",
+      "archive_source_name": "root/hunt-manual-red3.log",
+      "stored_member": "delta/root/hunt-manual-red3.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-tight-diag.log",
+      "source_relative": "hunt-tight-diag.log",
+      "size_bytes": 134165,
+      "sha256": "942ad1b32f475be9de6e4ab3a3f2eb4fe96efba33bb41e798c403ab586748d7a",
+      "crc32": "fb049e62",
+      "archive_source_name": "root/hunt-tight-diag.log",
+      "stored_member": "delta/root/hunt-tight-diag.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-tight-diag2.log",
+      "source_relative": "hunt-tight-diag2.log",
+      "size_bytes": 136925,
+      "sha256": "5e4adb2a397805fa352dc5a7cec448f8d2c058b669e499fc187796605c757fab",
+      "crc32": "fc389a95",
+      "archive_source_name": "root/hunt-tight-diag2.log",
+      "stored_member": "delta/root/hunt-tight-diag2.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-tight-diag3.log",
+      "source_relative": "hunt-tight-diag3.log",
+      "size_bytes": 134749,
+      "sha256": "e071f52abdc510e4413152da07f10e08116b5496466f5d5006035e3af62ecd1e",
+      "crc32": "1aa4c0e7",
+      "archive_source_name": "root/hunt-tight-diag3.log",
+      "stored_member": "delta/root/hunt-tight-diag3.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-tight.log",
+      "source_relative": "hunt-tight.log",
+      "size_bytes": 133895,
+      "sha256": "0ac948e8cf48303c0ca606c823cc7152768be83242bfb226f9e7891e25698afa",
+      "crc32": "79263fbb",
+      "archive_source_name": "root/hunt-tight.log",
+      "stored_member": "delta/root/hunt-tight.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-tight3.log",
+      "source_relative": "hunt-tight3.log",
+      "size_bytes": 135130,
+      "sha256": "1e1d51a725ad2182c316f6c4d9cd1f59c67a8a85712564415c104b0dedf2a61d",
+      "crc32": "d9bfa0bf",
+      "archive_source_name": "root/hunt-tight3.log",
+      "stored_member": "delta/root/hunt-tight3.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-tight4.log",
+      "source_relative": "hunt-tight4.log",
+      "size_bytes": 134108,
+      "sha256": "e9b713e440eaacde9cabfd935a10219ba14ff60bd3b7f3734e4fff8b0059023c",
+      "crc32": "cf900a4b",
+      "archive_source_name": "root/hunt-tight4.log",
+      "stored_member": "delta/root/hunt-tight4.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\route-diag2.log",
+      "source_relative": "route-diag2.log",
+      "size_bytes": 100198,
+      "sha256": "9a37f55f636364e0fd69e07c4a1295d115ce0bf059766c97e612dc548f45661e",
+      "crc32": "6a9287f1",
+      "archive_source_name": "root/route-diag2.log",
+      "stored_member": "delta/root/route-diag2.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\route-hunt-green.log",
+      "source_relative": "route-hunt-green.log",
+      "size_bytes": 100825,
+      "sha256": "894dc00093b74b64b6283bdb8efe99fc0b880bc331c55ba01298cb71ca08f434",
+      "crc32": "ddd63e10",
+      "archive_source_name": "root/route-hunt-green.log",
+      "stored_member": "delta/root/route-hunt-green.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\route-hunt-red.log",
+      "source_relative": "route-hunt-red.log",
+      "size_bytes": 99434,
+      "sha256": "3248578188f776826754f7184ad11e994904c06781d096790b738b6191a9e2da",
+      "crc32": "aff74e61",
+      "archive_source_name": "root/route-hunt-red.log",
+      "stored_member": "delta/root/route-hunt-red.log"
+    },
+    {
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\route_telemetry_diag.gd",
+      "source_relative": "route_telemetry_diag.gd",
+      "size_bytes": 11609,
+      "sha256": "5567725477b51e0c820cb9e53a6b35dcd75aac871df796beb8ee53da8509a237",
+      "crc32": "db2bdf2a",
+      "archive_source_name": "root/route_telemetry_diag.gd",
+      "stored_member": "delta/root/route_telemetry_diag.gd"
+    }
+  ],
+  "unique_delta_members": [
+    {
+      "member": "delta/captures/hunt-manual-native-captures/hunt-2184-advanced.png",
+      "size_bytes": 711563,
+      "sha256": "29b033336477dd4bee5e0baf9757b0378239ab3707ff35ba1b1c3d7857fb405e",
+      "crc32": "6f89d44d",
+      "sources": [
+        "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native-captures\\hunt-2184-advanced.png"
+      ],
+      "part": 1
+    },
+    {
+      "member": "delta/captures/hunt-manual-native-captures/hunt-2184-searching.png",
+      "size_bytes": 821461,
+      "sha256": "313d34a83221d1113366f30069fdcc26d189267f39190cf2379776c8a7f3d923",
+      "crc32": "8f45c173",
+      "sources": [
+        "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native-captures\\hunt-2184-searching.png"
+      ],
+      "part": 1
+    },
+    {
+      "member": "delta/captures/hunt-manual-native-captures/hunt-2520-advanced.png",
+      "size_bytes": 588431,
+      "sha256": "845bc7868e78e8fad33d704262cc6cd941e48f49b704306dc5d807157aef6e9e",
+      "crc32": "f14eca8e",
+      "sources": [
+        "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native-captures\\hunt-2520-advanced.png"
+      ],
+      "part": 1
+    },
+    {
+      "member": "delta/captures/hunt-manual-native-captures/hunt-960-advanced.png",
+      "size_bytes": 151732,
+      "sha256": "7b96e8963976a35f4096b8c9be38692b3066893afb58642b641d0bbd036185c1",
+      "crc32": "67e4631f",
+      "sources": [
+        "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native-captures\\hunt-960-advanced.png",
+        "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native2-captures\\hunt-960-advanced.png"
+      ],
+      "part": 1
+    },
+    {
+      "member": "delta/captures/hunt-manual-native-captures/hunt-960-basic.png",
+      "size_bytes": 242602,
+      "sha256": "f152ffa5639d1ce66a946b158a8088caa54a82b1c1d61a03cbd986c6a6adbafb",
+      "crc32": "942177dd",
+      "sources": [
+        "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native-captures\\hunt-960-basic.png",
+        "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native2-captures\\hunt-960-basic.png"
+      ],
+      "part": 1
+    },
+    {
+      "member": "delta/captures/hunt-manual-native-captures/hunt-960-help-scrolled.png",
+      "size_bytes": 172030,
+      "sha256": "f53d644fb6f602c3da672a2db469e3b26cae9a7c03f1a8b79ea212d25fb8829c",
+      "crc32": "4b886978",
+      "sources": [
+        "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native-captures\\hunt-960-help-scrolled.png"
+      ],
+      "part": 1
+    },
+    {
+      "member": "delta/captures/hunt-manual-native-captures/hunt-lock-2184-advanced.png",
+      "size_bytes": 1695309,
+      "sha256": "3f22026b9f9e5a27c0b3f9de6c952a4bf5146a12e3bfaca470ade09ac65f4d51",
+      "crc32": "a9dc0585",
+      "sources": [
+        "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native-captures\\hunt-lock-2184-advanced.png"
+      ],
+      "part": 1
+    },
+    {
+      "member": "delta/captures/hunt-manual-native-captures/hunt-lock-2184-basic.png",
+      "size_bytes": 1799696,
+      "sha256": "0379597739c6a191294db5ec5bdb6f752d857a80117ca99c653c25bd62105fd7",
+      "crc32": "393fb5a4",
+      "sources": [
+        "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native-captures\\hunt-lock-2184-basic.png"
+      ],
+      "part": 1
+    },
+    {
+      "member": "delta/captures/hunt-manual-native-captures/hunt-lock-2520-basic.png",
+      "size_bytes": 690787,
+      "sha256": "5d16a6b32167ac78bd4f5baf7068f74667134f9c8d9794dd299c253fcae9a3a9",
+      "crc32": "dd28697a",
+      "sources": [
+        "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native-captures\\hunt-lock-2520-basic.png"
+      ],
+      "part": 1
+    },
+    {
+      "member": "delta/captures/hunt-manual-native-captures/hunt-manual-craft-2184.png",
+      "size_bytes": 553819,
+      "sha256": "faad3c20d48e2b44060345ed8c7b215a5b312ab4abda05c8af32f59ca896253b",
+      "crc32": "2282f449",
+      "sources": [
+        "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native-captures\\hunt-manual-craft-2184.png"
+      ],
+      "part": 1
+    },
+    {
+      "member": "delta/captures/hunt-manual-native-captures/hunt-manual-craft-2520.png",
+      "size_bytes": 428651,
+      "sha256": "08735b1cf581cf2522aa346b499c614cef897a3a5b2e194725339fd913e066ca",
+      "crc32": "24fb02f7",
+      "sources": [
+        "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native-captures\\hunt-manual-craft-2520.png"
+      ],
+      "part": 1
+    },
+    {
+      "member": "delta/captures/hunt-manual-native2-captures/hunt-2184-advanced.png",
+      "size_bytes": 711584,
+      "sha256": "3c6283a57e5d3704d9ef1191d64abe623bda25dfdbb5853efde0dfc335d3befe",
+      "crc32": "b8e8f6ba",
+      "sources": [
+        "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native2-captures\\hunt-2184-advanced.png"
+      ],
+      "part": 1
+    },
+    {
+      "member": "delta/captures/hunt-manual-native2-captures/hunt-2184-basic.png",
+      "size_bytes": 828003,
+      "sha256": "cd2d4211ca3480b67cc21128e7852428f140fd3f7a36782f339aa63c97f97a1f",
+      "crc32": "1e33fd53",
+      "sources": [
+        "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native2-captures\\hunt-2184-basic.png"
+      ],
+      "part": 1
+    },
+    {
+      "member": "delta/captures/hunt-manual-native2-captures/hunt-2184-help.png",
+      "size_bytes": 679358,
+      "sha256": "f8677c2b653699dc51d04cd819da4e62d479b58fa58ac56ac2081e6c7642a143",
+      "crc32": "8484bf6b",
+      "sources": [
+        "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native2-captures\\hunt-2184-help.png"
+      ],
+      "part": 1
+    },
+    {
+      "member": "delta/captures/hunt-manual-native2-captures/hunt-2184-lockdown.png",
+      "size_bytes": 824068,
+      "sha256": "1708c1fc0bbff248c50f74da8ca4767d09f90e41faf028f0b98daa214479097b",
+      "crc32": "cbbf866f",
+      "sources": [
+        "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native2-captures\\hunt-2184-lockdown.png"
+      ],
+      "part": 1
+    },
+    {
+      "member": "delta/captures/hunt-manual-native2-captures/hunt-2184-searching.png",
+      "size_bytes": 821468,
+      "sha256": "244e53e89a4b01ae9222792b0b7f6b65de6bba4a7c0611e4201cf97c2357e7b4",
+      "crc32": "91cea2d7",
+      "sources": [
+        "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native2-captures\\hunt-2184-searching.png"
+      ],
+      "part": 1
+    },
+    {
+      "member": "delta/captures/hunt-manual-native2-captures/hunt-2184-warning.png",
+      "size_bytes": 717090,
+      "sha256": "09263290fc7627b603de6b030734ef125ed228601eccb49f538b149e6e42a3fb",
+      "crc32": "cd7bb23a",
+      "sources": [
+        "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native2-captures\\hunt-2184-warning.png"
+      ],
+      "part": 1
+    },
+    {
+      "member": "delta/captures/hunt-manual-native2-captures/hunt-2520-advanced.png",
+      "size_bytes": 588437,
+      "sha256": "443ddeacf71504397dbdac8727009822f7bf609b59297b42eb7df0fbed417ada",
+      "crc32": "d1bff67a",
+      "sources": [
+        "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native2-captures\\hunt-2520-advanced.png"
+      ],
+      "part": 1
+    },
+    {
+      "member": "delta/captures/hunt-manual-native2-captures/hunt-960-help-scrolled.png",
+      "size_bytes": 172028,
+      "sha256": "f7e7b3a8870d3fdd4fddff9a6dc66ba511fc58bb3fe348196aa4abeedd661dc3",
+      "crc32": "6738a69e",
+      "sources": [
+        "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native2-captures\\hunt-960-help-scrolled.png"
+      ],
+      "part": 1
+    },
+    {
+      "member": "delta/captures/hunt-manual-native2-captures/hunt-lock-2184-advanced.png",
+      "size_bytes": 1695321,
+      "sha256": "761270fccb48dcf26539eba45e5cfeca45256115d85767054450259ef5bf8c4e",
+      "crc32": "22edc5ee",
+      "sources": [
+        "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native2-captures\\hunt-lock-2184-advanced.png"
+      ],
+      "part": 1
+    },
+    {
+      "member": "delta/captures/hunt-manual-native2-captures/hunt-lock-2184-basic.png",
+      "size_bytes": 1799692,
+      "sha256": "438262b54f258d450d11e18279e3c25b301933d8201db33c7dec7a168b343417",
+      "crc32": "8e24b7d9",
+      "sources": [
+        "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native2-captures\\hunt-lock-2184-basic.png"
+      ],
+      "part": 1
+    },
+    {
+      "member": "delta/captures/hunt-manual-native2-captures/hunt-lock-2520-advanced.png",
+      "size_bytes": 719332,
+      "sha256": "793d39e97e7f18adc3442613e91f08ae656f9b2680982dc75dd2ab281da6a7e2",
+      "crc32": "8b659c3f",
+      "sources": [
+        "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native2-captures\\hunt-lock-2520-advanced.png"
+      ],
+      "part": 1
+    },
+    {
+      "member": "delta/captures/hunt-manual-native2-captures/hunt-lock-2520-basic.png",
+      "size_bytes": 690799,
+      "sha256": "eaf986711ee84789a3699288287145728b4ddb6cc704d91b9cdf04130ac5578c",
+      "crc32": "84cf5ec7",
+      "sources": [
+        "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native2-captures\\hunt-lock-2520-basic.png"
+      ],
+      "part": 1
+    },
+    {
+      "member": "delta/captures/hunt-manual-native2-captures/hunt-manual-craft-2184-before.png",
+      "size_bytes": 584874,
+      "sha256": "dbeb8608e36c16a1c80735441697b8a90bf419a0b997787a5643efbaac7e4292",
+      "crc32": "10371816",
+      "sources": [
+        "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native2-captures\\hunt-manual-craft-2184-before.png"
+      ],
+      "part": 1
+    },
+    {
+      "member": "delta/captures/hunt-manual-native2-captures/hunt-manual-craft-2184.png",
+      "size_bytes": 553808,
+      "sha256": "899e68772b0d2ebebf80285555f7d0a0701ad5c01081efed441c7040ab9eeab4",
+      "crc32": "d63ab9b3",
+      "sources": [
+        "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native2-captures\\hunt-manual-craft-2184.png"
+      ],
+      "part": 1
+    },
+    {
+      "member": "delta/captures/hunt-manual-native2-captures/hunt-manual-craft-2520-before.png",
+      "size_bytes": 464110,
+      "sha256": "d21fb2a1031cf83137d42e2ec7a89e48d53ef3a5c2b5301adb945aaab67eca50",
+      "crc32": "1bf0d2dd",
+      "sources": [
+        "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native2-captures\\hunt-manual-craft-2520-before.png"
+      ],
+      "part": 1
+    },
+    {
+      "member": "delta/captures/hunt-manual-native2-captures/hunt-manual-craft-2520.png",
+      "size_bytes": 428328,
+      "sha256": "12eb6397cd9c3105be3ba0614aa9cf928d42768596bf9c8555b895399aa8ed35",
+      "crc32": "ca5ed200",
+      "sources": [
+        "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native2-captures\\hunt-manual-craft-2520.png"
+      ],
+      "part": 1
+    },
+    {
+      "member": "delta/root/craft-tap-fix-root-verification.json",
+      "size_bytes": 882,
+      "sha256": "8b8d7c93f498f34b2a3916d693dae798144802d370ed1226b828ba57f53842af",
+      "crc32": "da22a26f",
+      "sources": [
+        "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\craft-tap-fix-root-verification.json"
+      ],
+      "part": 1
+    },
+    {
+      "member": "delta/root/hunt-manual-diag.log",
+      "size_bytes": 267391,
+      "sha256": "61cade7504d7ab6e03d6893cf18421bea8e6ecf73afe9f03641bb3f1f5a052fa",
+      "crc32": "51f59da5",
+      "sources": [
+        "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-diag.log",
+        "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-diag2.log"
+      ],
+      "part": 1
+    },
+    {
+      "member": "delta/root/hunt-manual-diag3.log",
+      "size_bytes": 267707,
+      "sha256": "eafe6955262393cbe36e41c3d577ba9cdbc1997524fea8957565059bda2144a2",
+      "crc32": "6881a151",
+      "sources": [
+        "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-diag3.log"
+      ],
+      "part": 1
+    },
+    {
+      "member": "delta/root/hunt-manual-diag4.log",
+      "size_bytes": 206618,
+      "sha256": "6f7ef33034be255410e22a58d82d587e2dfd537ed20a1e1ead5bcbc6a30125ed",
+      "crc32": "f7093bf0",
+      "sources": [
+        "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-diag4.log"
+      ],
+      "part": 1
+    },
+    {
+      "member": "delta/root/hunt-manual-green.log",
+      "size_bytes": 203436,
+      "sha256": "560e276fcbdc1e843b9cc03add8fbfddba75e417022662ba099372ff8a4b896e",
+      "crc32": "73b6acf4",
+      "sources": [
+        "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-green.log"
+      ],
+      "part": 1
+    },
+    {
+      "member": "delta/root/hunt-manual-green2.log",
+      "size_bytes": 203329,
+      "sha256": "d8db2477b1d7c6a317881a1b70231b91acdc562380e1720a26b3dbaf39aa87d2",
+      "crc32": "d665bd44",
+      "sources": [
+        "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-green2.log"
+      ],
+      "part": 1
+    },
+    {
+      "member": "delta/root/hunt-manual-isolate.log",
+      "size_bytes": 137128,
+      "sha256": "dace9ed31d95540cccd6518e2c71c6874e8f30b96f2b79d5c2b08b843ad23461",
+      "crc32": "a9276b65",
+      "sources": [
+        "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-isolate.log"
+      ],
+      "part": 1
+    },
+    {
+      "member": "delta/root/hunt-manual-native.log",
+      "size_bytes": 203417,
+      "sha256": "b649d1494a641005f8b4cc9255f9f269253c4401b66d4bead443cc41537efb20",
+      "crc32": "d96b127d",
+      "sources": [
+        "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native.log"
+      ],
+      "part": 1
+    },
+    {
+      "member": "delta/root/hunt-manual-native2.log",
+      "size_bytes": 203417,
+      "sha256": "aa67aab74d62f2970e84c42353cdbacc62c546d3e1bd08c52015c75570c20af8",
+      "crc32": "3805d6d0",
+      "sources": [
+        "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-native2.log"
+      ],
+      "part": 1
+    },
+    {
+      "member": "delta/root/hunt-manual-red.log",
+      "size_bytes": 173226,
+      "sha256": "2dbbe47a6906adf9d411c695aa60c0454be3370031b718984b799a80bd153016",
+      "crc32": "afbc6992",
+      "sources": [
+        "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-red.log"
+      ],
+      "part": 1
+    },
+    {
+      "member": "delta/root/hunt-manual-red2.log",
+      "size_bytes": 203739,
+      "sha256": "185034bf869dc63b6974d6592e9315fe4b7d8195f4e27c9d867af0482d410b6f",
+      "crc32": "3625fa4e",
+      "sources": [
+        "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-red2.log"
+      ],
+      "part": 1
+    },
+    {
+      "member": "delta/root/hunt-manual-red3.log",
+      "size_bytes": 202418,
+      "sha256": "b29c4ffabb1218a2ab56d50bb46286e879246db8139c37305b9fb12cce9b33c6",
+      "crc32": "380de3ef",
+      "sources": [
+        "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-manual-red3.log"
+      ],
+      "part": 1
+    },
+    {
+      "member": "delta/root/hunt-tight-diag.log",
+      "size_bytes": 134165,
+      "sha256": "942ad1b32f475be9de6e4ab3a3f2eb4fe96efba33bb41e798c403ab586748d7a",
+      "crc32": "fb049e62",
+      "sources": [
+        "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-tight-diag.log"
+      ],
+      "part": 1
+    },
+    {
+      "member": "delta/root/hunt-tight-diag2.log",
+      "size_bytes": 136925,
+      "sha256": "5e4adb2a397805fa352dc5a7cec448f8d2c058b669e499fc187796605c757fab",
+      "crc32": "fc389a95",
+      "sources": [
+        "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-tight-diag2.log"
+      ],
+      "part": 1
+    },
+    {
+      "member": "delta/root/hunt-tight-diag3.log",
+      "size_bytes": 134749,
+      "sha256": "e071f52abdc510e4413152da07f10e08116b5496466f5d5006035e3af62ecd1e",
+      "crc32": "1aa4c0e7",
+      "sources": [
+        "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-tight-diag3.log"
+      ],
+      "part": 1
+    },
+    {
+      "member": "delta/root/hunt-tight.log",
+      "size_bytes": 133895,
+      "sha256": "0ac948e8cf48303c0ca606c823cc7152768be83242bfb226f9e7891e25698afa",
+      "crc32": "79263fbb",
+      "sources": [
+        "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-tight.log"
+      ],
+      "part": 1
+    },
+    {
+      "member": "delta/root/hunt-tight3.log",
+      "size_bytes": 135130,
+      "sha256": "1e1d51a725ad2182c316f6c4d9cd1f59c67a8a85712564415c104b0dedf2a61d",
+      "crc32": "d9bfa0bf",
+      "sources": [
+        "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-tight3.log"
+      ],
+      "part": 1
+    },
+    {
+      "member": "delta/root/hunt-tight4.log",
+      "size_bytes": 134108,
+      "sha256": "e9b713e440eaacde9cabfd935a10219ba14ff60bd3b7f3734e4fff8b0059023c",
+      "crc32": "cf900a4b",
+      "sources": [
+        "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\hunt-tight4.log"
+      ],
+      "part": 1
+    },
+    {
+      "member": "delta/root/route-diag2.log",
+      "size_bytes": 100198,
+      "sha256": "9a37f55f636364e0fd69e07c4a1295d115ce0bf059766c97e612dc548f45661e",
+      "crc32": "6a9287f1",
+      "sources": [
+        "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\route-diag2.log"
+      ],
+      "part": 1
+    },
+    {
+      "member": "delta/root/route-hunt-green.log",
+      "size_bytes": 100825,
+      "sha256": "894dc00093b74b64b6283bdb8efe99fc0b880bc331c55ba01298cb71ca08f434",
+      "crc32": "ddd63e10",
+      "sources": [
+        "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\route-hunt-green.log"
+      ],
+      "part": 1
+    },
+    {
+      "member": "delta/root/route-hunt-red.log",
+      "size_bytes": 99434,
+      "sha256": "3248578188f776826754f7184ad11e994904c06781d096790b738b6191a9e2da",
+      "crc32": "aff74e61",
+      "sources": [
+        "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\route-hunt-red.log"
+      ],
+      "part": 1
+    },
+    {
+      "member": "delta/root/route_telemetry_diag.gd",
+      "size_bytes": 11609,
+      "sha256": "5567725477b51e0c820cb9e53a6b35dcd75aac871df796beb8ee53da8509a237",
+      "crc32": "db2bdf2a",
+      "sources": [
+        "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\050-evidence\\route_telemetry_diag.gd"
+      ],
+      "part": 1
+    }
+  ],
+  "changed_new_log_summaries": [
+    {
+      "source_relative": "hunt-manual-diag.log",
+      "stored_member": "delta/root/hunt-manual-diag.log",
+      "check_summaries": [
+        "HUNT METER UI CHECKS 226 FAILURES 2"
+      ],
+      "error_marker_count": 2,
+      "error_marker_samples": [
+        "FAIL op6 (960, 432) basic Hunt chip fits the safe viewport",
+        "FAIL op6 (960, 432) basic Hunt stays clear of pause"
+      ]
+    },
+    {
+      "source_relative": "hunt-manual-diag2.log",
+      "stored_member": "delta/root/hunt-manual-diag.log",
+      "check_summaries": [
+        "HUNT METER UI CHECKS 226 FAILURES 2"
+      ],
+      "error_marker_count": 2,
+      "error_marker_samples": [
+        "FAIL op6 (960, 432) basic Hunt chip fits the safe viewport",
+        "FAIL op6 (960, 432) basic Hunt stays clear of pause"
+      ]
+    },
+    {
+      "source_relative": "hunt-manual-diag3.log",
+      "stored_member": "delta/root/hunt-manual-diag3.log",
+      "check_summaries": [
+        "HUNT METER UI CHECKS 226 FAILURES 2"
+      ],
+      "error_marker_count": 2,
+      "error_marker_samples": [
+        "FAIL op6 (960, 432) basic Hunt chip fits the safe viewport",
+        "FAIL op6 (960, 432) basic Hunt stays clear of pause"
+      ]
+    },
+    {
+      "source_relative": "hunt-manual-diag4.log",
+      "stored_member": "delta/root/hunt-manual-diag4.log",
+      "check_summaries": [
+        "HUNT METER UI CHECKS 226 FAILURES 2"
+      ],
+      "error_marker_count": 2,
+      "error_marker_samples": [
+        "FAIL op6 (960, 432) basic Hunt chip fits the safe viewport",
+        "FAIL op6 (960, 432) basic Hunt stays clear of pause"
+      ]
+    },
+    {
+      "source_relative": "hunt-manual-green.log",
+      "stored_member": "delta/root/hunt-manual-green.log",
+      "check_summaries": [
+        "HUNT METER UI CHECKS 226 FAILURES 2"
+      ],
+      "error_marker_count": 2,
+      "error_marker_samples": [
+        "FAIL op6 (960, 432) basic Hunt chip fits the safe viewport",
+        "FAIL op6 (960, 432) basic Hunt stays clear of pause"
+      ]
+    },
+    {
+      "source_relative": "hunt-manual-green2.log",
+      "stored_member": "delta/root/hunt-manual-green2.log",
+      "check_summaries": [
+        "HUNT METER UI CHECKS 226 FAILURES 0"
+      ],
+      "error_marker_count": 0,
+      "error_marker_samples": []
+    },
+    {
+      "source_relative": "hunt-manual-isolate.log",
+      "stored_member": "delta/root/hunt-manual-isolate.log",
+      "check_summaries": [
+        "HUNT METER UI CHECKS 218 FAILURES 2"
+      ],
+      "error_marker_count": 2,
+      "error_marker_samples": [
+        "FAIL op6 (960, 432) basic Hunt chip fits the safe viewport",
+        "FAIL op6 (960, 432) basic Hunt stays clear of pause"
+      ]
+    },
+    {
+      "source_relative": "hunt-manual-native.log",
+      "stored_member": "delta/root/hunt-manual-native.log",
+      "check_summaries": [
+        "HUNT METER UI CHECKS 245 FAILURES 0"
+      ],
+      "error_marker_count": 0,
+      "error_marker_samples": []
+    },
+    {
+      "source_relative": "hunt-manual-native2.log",
+      "stored_member": "delta/root/hunt-manual-native2.log",
+      "check_summaries": [
+        "HUNT METER UI CHECKS 247 FAILURES 0"
+      ],
+      "error_marker_count": 0,
+      "error_marker_samples": []
+    },
+    {
+      "source_relative": "hunt-manual-red.log",
+      "stored_member": "delta/root/hunt-manual-red.log",
+      "check_summaries": [
+        "HUNT METER UI CHECKS 226 FAILURES 0"
+      ],
+      "error_marker_count": 0,
+      "error_marker_samples": []
+    },
+    {
+      "source_relative": "hunt-manual-red2.log",
+      "stored_member": "delta/root/hunt-manual-red2.log",
+      "check_summaries": [
+        "HUNT METER UI CHECKS 226 FAILURES 0"
+      ],
+      "error_marker_count": 0,
+      "error_marker_samples": []
+    },
+    {
+      "source_relative": "hunt-manual-red3.log",
+      "stored_member": "delta/root/hunt-manual-red3.log",
+      "check_summaries": [
+        "HUNT METER UI CHECKS 226 FAILURES 2"
+      ],
+      "error_marker_count": 2,
+      "error_marker_samples": [
+        "FAIL manual craft (2520, 1080) visible craft keeps its direct handle after manual pan",
+        "FAIL manual craft (2520, 1080) craft tap opens in place without changing dive or camera"
+      ]
+    },
+    {
+      "source_relative": "hunt-tight-diag.log",
+      "stored_member": "delta/root/hunt-tight-diag.log",
+      "check_summaries": [
+        "HUNT METER UI CHECKS 218 FAILURES 1"
+      ],
+      "error_marker_count": 1,
+      "error_marker_samples": [
+        "FAIL op6 (960, 432) advanced Hunt stays clear of pause"
+      ]
+    },
+    {
+      "source_relative": "hunt-tight-diag2.log",
+      "stored_member": "delta/root/hunt-tight-diag2.log",
+      "check_summaries": [
+        "HUNT METER UI CHECKS 218 FAILURES 1"
+      ],
+      "error_marker_count": 1,
+      "error_marker_samples": [
+        "FAIL op6 (960, 432) advanced Hunt stays clear of pause"
+      ]
+    },
+    {
+      "source_relative": "hunt-tight-diag3.log",
+      "stored_member": "delta/root/hunt-tight-diag3.log",
+      "check_summaries": [
+        "HUNT METER UI CHECKS 218 FAILURES 1"
+      ],
+      "error_marker_count": 1,
+      "error_marker_samples": [
+        "FAIL op6 (960, 432) advanced Hunt stays clear of pause"
+      ]
+    },
+    {
+      "source_relative": "hunt-tight.log",
+      "stored_member": "delta/root/hunt-tight.log",
+      "check_summaries": [
+        "HUNT METER UI CHECKS 218 FAILURES 1"
+      ],
+      "error_marker_count": 1,
+      "error_marker_samples": [
+        "FAIL op6 (960, 432) advanced Hunt stays clear of pause"
+      ]
+    },
+    {
+      "source_relative": "hunt-tight3.log",
+      "stored_member": "delta/root/hunt-tight3.log",
+      "check_summaries": [
+        "HUNT METER UI CHECKS 218 FAILURES 1"
+      ],
+      "error_marker_count": 1,
+      "error_marker_samples": [
+        "FAIL op6 (960, 432) advanced Hunt stays clear of pause"
+      ]
+    },
+    {
+      "source_relative": "hunt-tight4.log",
+      "stored_member": "delta/root/hunt-tight4.log",
+      "check_summaries": [
+        "HUNT METER UI CHECKS 218 FAILURES 0"
+      ],
+      "error_marker_count": 0,
+      "error_marker_samples": []
+    },
+    {
+      "source_relative": "route-diag2.log",
+      "stored_member": "delta/root/route-diag2.log",
+      "check_summaries": [
+        "ROUTE TELEMETRY TOUCH CHECKS 46 FAILURES 1"
+      ],
+      "error_marker_count": 1,
+      "error_marker_samples": [
+        "FAIL visible craft opens its own context in place without resetting manual view"
+      ]
+    },
+    {
+      "source_relative": "route-hunt-green.log",
+      "stored_member": "delta/root/route-hunt-green.log",
+      "check_summaries": [
+        "ROUTE TELEMETRY TOUCH CHECKS 46 FAILURES 0"
+      ],
+      "error_marker_count": 0,
+      "error_marker_samples": []
+    },
+    {
+      "source_relative": "route-hunt-red.log",
+      "stored_member": "delta/root/route-hunt-red.log",
+      "check_summaries": [
+        "ROUTE TELEMETRY TOUCH CHECKS 46 FAILURES 1"
+      ],
+      "error_marker_count": 1,
+      "error_marker_samples": [
+        "FAIL visible craft opens its own context in place without resetting manual view"
+      ]
+    }
+  ],
+  "claims": "Evidence delta packaging only; no tests were run and no product behavior claim is made."
+}

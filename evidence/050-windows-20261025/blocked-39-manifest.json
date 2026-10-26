@@ -1,0 +1,746 @@
+{
+  "head": "39d855151534dc81a277e34367341c8711e320cf",
+  "run": 40264491315,
+  "verdict": "HOLD: density_scenarios Hunt text below existing 14 dp requirement; not acceptance",
+  "guidance": "success",
+  "import_core": "success",
+  "summaries": [
+    {
+      "label": "Z CHECKS",
+      "checks": 836,
+      "failures": 0
+    },
+    {
+      "label": "Z RUNTIME CHECKS",
+      "checks": 675,
+      "failures": 0
+    },
+    {
+      "label": "Z ONBOARDING CHECKS",
+      "checks": 30,
+      "failures": 0
+    },
+    {
+      "label": "Z SIREN WARNING PAUSE CHECKS",
+      "checks": 15,
+      "failures": 0
+    },
+    {
+      "label": "Z FLEET INSTRUMENTS UI CHECKS",
+      "checks": 78,
+      "failures": 0
+    },
+    {
+      "label": "Z FLEET RING UI CHECKS",
+      "checks": 212,
+      "failures": 0
+    },
+    {
+      "label": "Z CAMPAIGN INSTRUMENT UI CHECKS",
+      "checks": 52,
+      "failures": 0
+    },
+    {
+      "label": "Z ROUTE TELEMETRY TOUCH CHECKS",
+      "checks": 46,
+      "failures": 0
+    },
+    {
+      "label": "Z RECOVERY ROUTE UI CHECKS",
+      "checks": 68,
+      "failures": 0
+    },
+    {
+      "label": "Z CONCEALED HARBOUR CHECKS",
+      "checks": 77,
+      "failures": 0
+    },
+    {
+      "label": "Z CONCEALED HARBOUR JOURNEY CHECKS",
+      "checks": 43,
+      "failures": 0
+    },
+    {
+      "label": "Z CONCEALED HARBOUR UI CHECKS",
+      "checks": 76,
+      "failures": 0
+    },
+    {
+      "label": "Z SHELF HABITAT CHECKS",
+      "checks": 23,
+      "failures": 0
+    },
+    {
+      "label": "Z SHELF HABITAT JOURNEY CHECKS",
+      "checks": 33,
+      "failures": 0
+    },
+    {
+      "label": "Z SHELF HABITAT UI CHECKS",
+      "checks": 69,
+      "failures": 0
+    },
+    {
+      "label": "Z WAKE CROSSING CHECKS",
+      "checks": 31,
+      "failures": 0
+    },
+    {
+      "label": "Z WAKE CROSSING JOURNEY CHECKS",
+      "checks": 58,
+      "failures": 0
+    },
+    {
+      "label": "Z WAKE CROSSING UI CHECKS",
+      "checks": 37,
+      "failures": 0
+    },
+    {
+      "label": "Z OPERATION CATALOG CHECKS",
+      "checks": 199,
+      "failures": 0
+    },
+    {
+      "label": "Z DEPTH SONAR CHECKS",
+      "checks": 114,
+      "failures": 0
+    },
+    {
+      "label": "Z SONAR ZERO BEARING CHECKS",
+      "checks": 41,
+      "failures": 0
+    },
+    {
+      "label": "Z SWEEPER CHECKS",
+      "checks": 52,
+      "failures": 0
+    },
+    {
+      "label": "Z DEPTH POLICY CHECKS",
+      "checks": 33,
+      "failures": 0
+    },
+    {
+      "label": "Z DEPTH SONAR UI CHECKS",
+      "checks": 42,
+      "failures": 0
+    },
+    {
+      "label": "Z DEPTH POLICY UI CHECKS",
+      "checks": 132,
+      "failures": 0
+    },
+    {
+      "label": "Z OPENING DEPTH CHECKS",
+      "checks": 72,
+      "failures": 0
+    },
+    {
+      "label": "Z OPENING JOURNEY CHECKS",
+      "checks": 49,
+      "failures": 0
+    },
+    {
+      "label": "Z OPENING DEPTH UI CHECKS",
+      "checks": 60,
+      "failures": 0
+    },
+    {
+      "label": "Z OPENING POLICY UI CHECKS",
+      "checks": 412,
+      "failures": 0
+    },
+    {
+      "label": "Z GLASS REACH CHECKS",
+      "checks": 42,
+      "failures": 0
+    },
+    {
+      "label": "Z GLASS NETWORK CHECKS",
+      "checks": 14,
+      "failures": 0
+    },
+    {
+      "label": "Z GLASS WORK CHECKS",
+      "checks": 40,
+      "failures": 0
+    },
+    {
+      "label": "Z GLASS RESEARCH CHECKS",
+      "checks": 9,
+      "failures": 0
+    },
+    {
+      "label": "Z GLASS JOURNEY CHECKS",
+      "checks": 70,
+      "failures": 0
+    },
+    {
+      "label": "Z GLASS REACH UI CHECKS",
+      "checks": 28,
+      "failures": 0
+    },
+    {
+      "label": "Z IRON CHOIR CHECKS",
+      "checks": 57,
+      "failures": 0
+    },
+    {
+      "label": "Z INDUSTRIAL JOBS CHECKS",
+      "checks": 47,
+      "failures": 0
+    },
+    {
+      "label": "Z INDUSTRIAL THREATS CHECKS",
+      "checks": 91,
+      "failures": 0
+    },
+    {
+      "label": "Z COMBAT RULES CHECKS",
+      "checks": 17,
+      "failures": 0
+    },
+    {
+      "label": "Z COLLISION BOUNDARIES CHECKS",
+      "checks": 20,
+      "failures": 0
+    },
+    {
+      "label": "Z IRON RESEARCH CHECKS",
+      "checks": 13,
+      "failures": 0
+    },
+    {
+      "label": "Z IRON JOURNEY CHECKS",
+      "checks": 108,
+      "failures": 0
+    },
+    {
+      "label": "Z IRON CHOIR UI CHECKS",
+      "checks": 24,
+      "failures": 0
+    },
+    {
+      "label": "Z ONWARD MISSIONS CHECKS",
+      "checks": 17,
+      "failures": 0
+    },
+    {
+      "label": "Z CADENCE CORRELATOR CHECKS",
+      "checks": 22,
+      "failures": 0
+    },
+    {
+      "label": "Z CONTACT REPORT CHECKS",
+      "checks": 36,
+      "failures": 0
+    },
+    {
+      "label": "Z CONTACT REPORT UI CHECKS",
+      "checks": 14,
+      "failures": 0
+    },
+    {
+      "label": "Z CAMPAIGN CONSEQUENCES CHECKS",
+      "checks": 14,
+      "failures": 0
+    },
+    {
+      "label": "Z CAMPAIGN EQUIPMENT SAVE CHECKS",
+      "checks": 10,
+      "failures": 0
+    },
+    {
+      "label": "Z WITNESS EVACUATION CHECKS",
+      "checks": 52,
+      "failures": 0
+    },
+    {
+      "label": "Z WITNESS EVACUATION JOURNEY CHECKS",
+      "checks": 32,
+      "failures": 0
+    },
+    {
+      "label": "Z WITNESS EVACUATION UI CHECKS",
+      "checks": 108,
+      "failures": 0
+    },
+    {
+      "label": "Z RULES SONAR COST CHECKS",
+      "checks": 58,
+      "failures": 0
+    },
+    {
+      "label": "Z RULES WITNESS MENU CHECKS",
+      "checks": 15,
+      "failures": 0
+    },
+    {
+      "label": "Z T PRESSURE CHECKS",
+      "checks": 31,
+      "failures": 0
+    },
+    {
+      "label": "Z ORDINARY BEAM INDUSTRIAL CHECKS",
+      "checks": 16,
+      "failures": 0
+    },
+    {
+      "label": "Z TURN SAFE NAVIGATION CHECKS",
+      "checks": 22,
+      "failures": 0
+    },
+    {
+      "label": "Z WARNING RECIPIENT CHECKS",
+      "checks": 69,
+      "failures": 0
+    },
+    {
+      "label": "Z WARNING RECIPIENT JOURNEY CHECKS",
+      "checks": 59,
+      "failures": 0
+    },
+    {
+      "label": "Z WARNING RECIPIENT UI CHECKS",
+      "checks": 134,
+      "failures": 0
+    },
+    {
+      "label": "Z BLACKWATER DELIVERY UI CHECKS",
+      "checks": 49,
+      "failures": 0
+    },
+    {
+      "label": "Z BLACKWATER DELIVERY RUNTIME UI CHECKS",
+      "checks": 60,
+      "failures": 0
+    },
+    {
+      "label": "Z BLACKWATER DELIVERY CHECKS",
+      "checks": 63,
+      "failures": 0
+    },
+    {
+      "label": "Z EARNED COURSE CONTINUITY CHECKS",
+      "checks": 24,
+      "failures": 0
+    },
+    {
+      "label": "Z CURRENT MOTION CHECKS",
+      "checks": 17,
+      "failures": 0
+    },
+    {
+      "label": "Z MODULE RECOVERY CHECKS",
+      "checks": 55,
+      "failures": 0
+    },
+    {
+      "label": "Z MODULE RECOVERY UI CHECKS",
+      "checks": 37,
+      "failures": 0
+    },
+    {
+      "label": "Z MODULE RECOVERY RUNTIME UI CHECKS",
+      "checks": 22,
+      "failures": 0
+    },
+    {
+      "label": "Z MODULE INVENTORY MAIN CHECKS",
+      "checks": 18,
+      "failures": 0
+    },
+    {
+      "label": "Z RENDEZVOUS TRANSPORT CHECKS",
+      "checks": 61,
+      "failures": 0
+    },
+    {
+      "label": "Z RENDEZVOUS UI CHECKS",
+      "checks": 57,
+      "failures": 0
+    },
+    {
+      "label": "Z BRIEFING SCROLL FITTING UI CHECKS",
+      "checks": 52,
+      "failures": 0
+    },
+    {
+      "label": "Z LOADOUT FRAMES CHECKS",
+      "checks": 73,
+      "failures": 0
+    },
+    {
+      "label": "Z WARNING CHAIN CHECKS",
+      "checks": 49,
+      "failures": 0
+    },
+    {
+      "label": "Z WARNING CHAIN JOURNEY CHECKS",
+      "checks": 35,
+      "failures": 0
+    },
+    {
+      "label": "Z WARNING CHAIN UI CHECKS",
+      "checks": 68,
+      "failures": 0
+    },
+    {
+      "label": "Z WARNING CHAIN AUDIO CHECKS",
+      "checks": 13,
+      "failures": 0
+    },
+    {
+      "label": "Z WARNING CHAIN WORLD UI CHECKS",
+      "checks": 13,
+      "failures": 0
+    },
+    {
+      "label": "Z PHOTO CAPTURE CHECKS",
+      "checks": 52,
+      "failures": 0
+    },
+    {
+      "label": "Z PHOTO CAPTURE UI CHECKS",
+      "checks": 9,
+      "failures": 0
+    },
+    {
+      "label": "Z PHOTO STUDY SAVE CHECKS",
+      "checks": 45,
+      "failures": 0
+    },
+    {
+      "label": "Z PHOTO DISCOVERY CHECKS",
+      "checks": 25,
+      "failures": 0
+    },
+    {
+      "label": "Z PHOTO PRICING CHECKS",
+      "checks": 64,
+      "failures": 0
+    },
+    {
+      "label": "Z PHOTO PRICING UI CHECKS",
+      "checks": 11,
+      "failures": 0
+    },
+    {
+      "label": "Z PHOTO DEPTH CHECKS",
+      "checks": 49,
+      "failures": 0
+    },
+    {
+      "label": "Z PHOTO RULES CHECKS",
+      "checks": 49,
+      "failures": 0
+    },
+    {
+      "label": "Z PHOTO RULES UI CHECKS",
+      "checks": 4,
+      "failures": 0
+    },
+    {
+      "label": "Z ALL STOP CHECKS",
+      "checks": 31,
+      "failures": 0
+    },
+    {
+      "label": "Z ALL STOP UI CHECKS",
+      "checks": 12,
+      "failures": 0
+    },
+    {
+      "label": "Z ACOUSTIC FOOTPRINT CHECKS",
+      "checks": 6,
+      "failures": 0
+    },
+    {
+      "label": "Z ACOUSTIC HEARING CHECKS",
+      "checks": 21,
+      "failures": 0
+    },
+    {
+      "label": "Z AFFECTED ACOUSTIC CHECKS",
+      "checks": 53,
+      "failures": 0
+    },
+    {
+      "label": "Z ACOUSTIC PATH CHECKS",
+      "checks": 20,
+      "failures": 0
+    },
+    {
+      "label": "Z ACOUSTIC PATH UI CHECKS",
+      "checks": 7,
+      "failures": 0
+    },
+    {
+      "label": "Z ARCHIVE RECAP CHECKS",
+      "checks": 14,
+      "failures": 0
+    },
+    {
+      "label": "Z ARCHIVE RECAP UI CHECKS",
+      "checks": 8,
+      "failures": 0
+    },
+    {
+      "label": "Z BEAM EMISSION CHECKS",
+      "checks": 11,
+      "failures": 0
+    },
+    {
+      "label": "Z COURIER CHECKS",
+      "checks": 35,
+      "failures": 0
+    },
+    {
+      "label": "Z BLACKWATER CHECKS",
+      "checks": 33,
+      "failures": 0
+    },
+    {
+      "label": "Z BLACKWATER UI CHECKS",
+      "checks": 10,
+      "failures": 0
+    },
+    {
+      "label": "Z CAMPAIGN CAPTURE PROGRESS CHECKS",
+      "checks": 11,
+      "failures": 0
+    },
+    {
+      "label": "Z CAMPAIGN DEBRIEF VIEW CHECKS",
+      "checks": 7,
+      "failures": 0
+    },
+    {
+      "label": "Z CAMPAIGN ENDINGS CHECKS",
+      "checks": 48,
+      "failures": 0
+    },
+    {
+      "label": "Z CAMPAIGN INSTRUMENT CHECKS",
+      "checks": 31,
+      "failures": 0
+    },
+    {
+      "label": "Z CAMPAIGN MAIN DISPATCH CHECKS",
+      "checks": 13,
+      "failures": 0
+    },
+    {
+      "label": "Z CAPTURE FEEDBACK CHECKS",
+      "checks": 6,
+      "failures": 0
+    },
+    {
+      "label": "Z CHALLENGES JOURNEY CHECKS",
+      "checks": 9,
+      "failures": 0
+    },
+    {
+      "label": "Z CHALLENGES CHECKS",
+      "checks": 178,
+      "failures": 0
+    },
+    {
+      "label": "Z CHALLENGES UI CHECKS",
+      "checks": 86,
+      "failures": 0
+    },
+    {
+      "label": "Z CONFLUENCE COMPLETION CHECKS",
+      "checks": 4,
+      "failures": 0
+    },
+    {
+      "label": "Z CONFLUENCE OPERATION CHECKS",
+      "checks": 27,
+      "failures": 0
+    },
+    {
+      "label": "Z CONFLUENCE PARALLEL CHECKS",
+      "checks": 4,
+      "failures": 0
+    },
+    {
+      "label": "Z CONFLUENCE PRESENTATION CHECKS",
+      "checks": 15,
+      "failures": 0
+    },
+    {
+      "label": "Z CONFLUENCE RESOLUTION UI CHECKS",
+      "checks": 12,
+      "failures": 0
+    },
+    {
+      "label": "Z CRAFT UPGRADE SIM CHECKS",
+      "checks": 10,
+      "failures": 0
+    },
+    {
+      "label": "Z CRAFT UPGRADES CHECKS",
+      "checks": 11,
+      "failures": 0
+    },
+    {
+      "label": "Z CURRENT CHART SEAM CHECKS",
+      "checks": 8,
+      "failures": 0
+    },
+    {
+      "label": "Z CURRENT PROPULSION CHECKS",
+      "checks": 4,
+      "failures": 0
+    },
+    {
+      "label": "Z DECOY AIM UI CHECKS",
+      "checks": 17,
+      "failures": 0
+    },
+    {
+      "label": "Z DECOY DEPLOYMENT CHECKS",
+      "checks": 14,
+      "failures": 0
+    },
+    {
+      "label": "Z DENSITY MENU CHECKS",
+      "checks": 7,
+      "failures": 0
+    },
+    {
+      "label": "Z DENSITY CHECKS",
+      "checks": 1084,
+      "failures": 21
+    }
+  ],
+  "failures": [
+    "2026-10-26T04:00:28.7249670Z FAIL: (2520, 1080) HUNT \u00b7 DORMANT \u00d71.00",
+    "2026-10-26T04:00:28.7864629Z FAIL: (2520, 1080) HUNT \u00b7 DORMANT \u00d71.00",
+    "2026-10-26T04:00:28.8426415Z FAIL: (2520, 1080) HUNT \u00b7 DORMANT \u00d71.00",
+    "2026-10-26T04:00:28.8974498Z FAIL: (2520, 1080) HUNT \u00b7 DORMANT \u00d71.00",
+    "2026-10-26T04:00:28.9515498Z FAIL: (2520, 1080) HUNT \u00b7 DORMANT \u00d71.00",
+    "2026-10-26T04:00:29.0068846Z FAIL: (2520, 1080) HUNT \u00b7 DORMANT \u00d71.00",
+    "2026-10-26T04:00:29.0641661Z FAIL: (2520, 1080) HUNT \u00b7 DORMANT \u00d71.00",
+    "2026-10-26T04:00:30.5455237Z FAIL: (2184, 1968) HUNT \u00b7 DORMANT \u00d71.00",
+    "2026-10-26T04:00:30.6063059Z FAIL: (2184, 1968) HUNT \u00b7 DORMANT \u00d71.00",
+    "2026-10-26T04:00:30.6616767Z FAIL: (2184, 1968) HUNT \u00b7 DORMANT \u00d71.00",
+    "2026-10-26T04:00:30.7176862Z FAIL: (2184, 1968) HUNT \u00b7 DORMANT \u00d71.00",
+    "2026-10-26T04:00:30.7731975Z FAIL: (2184, 1968) HUNT \u00b7 DORMANT \u00d71.00",
+    "2026-10-26T04:00:30.8284005Z FAIL: (2184, 1968) HUNT \u00b7 DORMANT \u00d71.00",
+    "2026-10-26T04:00:30.8842418Z FAIL: (2184, 1968) HUNT \u00b7 DORMANT \u00d71.00",
+    "2026-10-26T04:00:32.3274804Z FAIL: (2520, 1080) HUNT \u00b7 DORMANT \u00d71.00",
+    "2026-10-26T04:00:32.3866200Z FAIL: (2520, 1080) HUNT \u00b7 DORMANT \u00d71.00",
+    "2026-10-26T04:00:32.4408965Z FAIL: (2520, 1080) HUNT \u00b7 DORMANT \u00d71.00",
+    "2026-10-26T04:00:32.4973708Z FAIL: (2520, 1080) HUNT \u00b7 DORMANT \u00d71.00",
+    "2026-10-26T04:00:32.5523689Z FAIL: (2520, 1080) HUNT \u00b7 DORMANT \u00d71.00",
+    "2026-10-26T04:00:32.6088050Z FAIL: (2520, 1080) HUNT \u00b7 DORMANT \u00d71.00",
+    "2026-10-26T04:00:32.6651289Z FAIL: (2520, 1080) HUNT \u00b7 DORMANT \u00d71.00"
+  ],
+  "zip_sha256": "c156edef6abc9045030ba82318c442d7875c7319d1aa94404cb00d92948a2e29",
+  "zip_bytes": 1544396,
+  "members": [
+    {
+      "member": "0_game-smoke.txt",
+      "bytes": 13057389,
+      "sha256": "b3de7168d68ce2fe644332d43b78277bbb5def4d2d854dba8ccc1b944480eb5a"
+    },
+    {
+      "member": "game-smoke/system.txt",
+      "bytes": 600,
+      "sha256": "e60e8c735f898b8db7a5b3429c523ec350aceed8a902dd92a134d83428278317"
+    },
+    {
+      "member": "game-smoke/1_Set up job.txt",
+      "bytes": 2095,
+      "sha256": "f41f522480c0027dafc33c4600ca144c297ecf97898c578a6a49de127be2c5ae"
+    },
+    {
+      "member": "game-smoke/2_Run actions_checkout@11d5960a326750d5838078e36cf38b85af677262.txt",
+      "bytes": 42583,
+      "sha256": "20772e7b7c5373b008832c0c4e0e895526cf417a66d13be2068cfab187f82954"
+    },
+    {
+      "member": "game-smoke/3_Determine whether gameplay or tooling changed.txt",
+      "bytes": 1170,
+      "sha256": "d562ae44f3b5531bbbf3ae9930dfba9bbeb31f84b65c68b1f94dce8e86814b6e"
+    },
+    {
+      "member": "game-smoke/4_Restore verified Godot download cache.txt",
+      "bytes": 1032,
+      "sha256": "b47838e769d59d51d054b7e8126437505fc413528fe593ef5829b69b15e77343"
+    },
+    {
+      "member": "game-smoke/5_Install pinned Godot toolchain.txt",
+      "bytes": 772,
+      "sha256": "e95965f3768b0864dccb47af5716ea76add6b9a1ae24ab87bd522a2eec4ec1a8"
+    },
+    {
+      "member": "game-smoke/6_Cache verified official download.txt",
+      "bytes": 1071,
+      "sha256": "4d2cc5166a6c3e90e2d52e907ae48da6c701e6bc98110f87d6024602ff00bba3"
+    },
+    {
+      "member": "game-smoke/7_Validate import and deterministic core game.txt",
+      "bytes": 66059,
+      "sha256": "86059348d65e281315d544ee51d21609f15785c9a202c0dbe975217a9b9d2147"
+    },
+    {
+      "member": "game-smoke/8_Validate navigation, recovery and touch runtime regressions.txt",
+      "bytes": 12940404,
+      "sha256": "92586196bbfd10ba6baa97a120888a5c54c3d8d5c955f76b2775bf5ee338e8b0"
+    },
+    {
+      "member": "game-smoke/18_Post Run actions_checkout@11d5960a326750d5838078e36cf38b85af677262.txt",
+      "bytes": 1719,
+      "sha256": "f51be95ea02d94ac24b94d68c01425779694c1f906eac90d9972a0560a48ee70"
+    },
+    {
+      "member": "game-smoke/19_Complete job.txt",
+      "bytes": 511,
+      "sha256": "0ab409f02a09da810fef43c4c863243d44621891a5a7761736e0560dbd291636"
+    },
+    {
+      "member": "1_guidance.txt",
+      "bytes": 12038,
+      "sha256": "2fca9e2d86e6c5cacef6d8626245341850475bf3e4c9f9199cb2d63d8b702bc4"
+    },
+    {
+      "member": "guidance/system.txt",
+      "bytes": 598,
+      "sha256": "40278917ab0920e9f9d9e07b40815687088a44bdf2b3ab03e717bcc5d2286c10"
+    },
+    {
+      "member": "guidance/1_Set up job.txt",
+      "bytes": 1932,
+      "sha256": "120eec4c80faf1136dc422b183398ce67025b8e4b7317b1b0afd31736540b90b"
+    },
+    {
+      "member": "guidance/2_Run actions_checkout@11d5960a326750d5838078e36cf38b85af677262.txt",
+      "bytes": 6936,
+      "sha256": "bda2d0e6d593cd9ce235ba219aa78a08f9f4701f58f979f21c06a8b2b5ae87a4"
+    },
+    {
+      "member": "guidance/3_Test guidance detector.txt",
+      "bytes": 554,
+      "sha256": "43e8f9d37c6485c2ee86c301dc10ecc1b0eaf43bc723c953bc73754d58169cd8"
+    },
+    {
+      "member": "guidance/4_Audit current branch's governing instructions.txt",
+      "bytes": 526,
+      "sha256": "0a32947feace01836711dee87c902f94760cadbb4a018022d4563e2f2535a574"
+    },
+    {
+      "member": "guidance/8_Post Run actions_checkout@11d5960a326750d5838078e36cf38b85af677262.txt",
+      "bytes": 1719,
+      "sha256": "2522849bd0b3bdb760e28efd37ffc320abdc9ce937fda25ab75f14a0c600715d"
+    },
+    {
+      "member": "guidance/9_Complete job.txt",
+      "bytes": 386,
+      "sha256": "bf3db5a388909f1989b078f3a43f2863eb498047f4853f028ad291d544769f7c"
+    }
+  ]
+}
