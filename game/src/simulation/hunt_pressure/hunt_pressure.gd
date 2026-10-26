@@ -77,8 +77,8 @@ static func valid(m:Dictionary,elapsed:float=INF)->bool:
  if pressure.hunt<pressure.floor or not _number(pressure.get("delay"),0.,6.):return false
  var secured=pressure.get("secured")
  if not secured is Array:return false
- var indices=[]
+ var indices={}
  for index in secured:
   if not index is int or index<0 or index in indices:return false
-  indices.append(index)
+  indices[index]=true
  return true

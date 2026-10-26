@@ -4,6 +4,9 @@ extends RefCounted
 # remains the single module flag; this file contains no independent switch.
 const MARGIN=12.0
 const TONES=[Color("91d3d5"),Color("91d3d5"),Color("e5c282"),Color("e5a66d"),Color("e78477")]
+# Set PULSE_HZ=0 to disable only the LOCKDOWN alpha pulse.
+const PULSE_HZ=1.0
+const PULSE_MIN_ALPHA=0.85
 const COMPACT_TOUCH_HEIGHT=180.0
 const COMPACT_FONT_FACTOR=0.17
 const STANDARD_FONT_FACTOR=0.22

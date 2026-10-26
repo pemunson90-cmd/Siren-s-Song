@@ -5,7 +5,25 @@ const Hunt=preload("res://src/simulation/hunt_pressure/hunt_pressure.gd")
 const HuntTable=preload("res://src/simulation/hunt_pressure/hunt_table.gd")
 const Recon=preload("res://src/simulation/recon_consequences.gd")
 const Meter=preload("res://src/presentation/hunt_meter.gd")
+const MeterTable=preload("res://src/presentation/hunt_meter/meter_table.gd")
 const SHAPES=[Vector2i(2520,1080),Vector2i(2184,1968),Vector2i(960,432)]
+func pulse_contract():
+ var view={"active":true,"index":4,"stage":"LOCKDOWN","scale":1.3}
+ var title=Meter.label(view)
+ var t0:Color=Meter.tone(view,0.0)
+ var t25:Color=Meter.tone(view,0.25)
+ var t50:Color=Meter.tone(view,0.50)
+ var t75:Color=Meter.tone(view,0.75)
+ var t100:Color=Meter.tone(view,1.0)
+ check(is_equal_approx(t0.a,t100.a) and t25.a>t0.a and t0.a>t75.a and is_equal_approx(t0.a,t50.a),"LOCKDOWN color follows one full period per second")
+ check(t75.a>=MeterTable.PULSE_MIN_ALPHA and t25.a<=1.0 and t75.a<t25.a,"LOCKDOWN alpha stays readable within its table bounds")
+ for index in 4:
+  var other=view.duplicate();other.index=index
+  check(Meter.tone(other,0.25)==MeterTable.TONES[index] and Meter.tone(other,0.75)==MeterTable.TONES[index],"non-LOCKDOWN stage %d keeps its exact tone"%index)
+ check(Meter.tone(view,0.75,0.0)==MeterTable.TONES[4],"zero hertz disables the pulse")
+ var off=view.duplicate();off.active=false
+ check(Meter.tone(off,0.75)==MeterTable.TONES[4],"inactive Hunt does not pulse")
+ check(Meter.label(view)==title and title.contains("LOCKDOWN") and title.count("●")==5,"pulse never changes LOCKDOWN wording or five pips")
 func chip(hud)->Button:
  return hud.find_child("HuntMeterButton",true,false) as Button
 func visible_chip(game,label:String):
@@ -123,12 +141,50 @@ func presentation_fixture():
  game._refresh();await settle()
  check(not Hunt.view(game.sim).active and not chip(hud).is_visible_in_tree(),"legacy mission keeps the old HUD")
  game.queue_free();await settle()
+func lockdown_fixture():
+ var game=await make_game(6,Vector2i(2184,1968))
+ # Explicit source action fixture for the presentation-only LOCKDOWN stage.
+ Recon.action(game.sim.mission,95.0)
+ var before=game.sim.snapshot();game._refresh();await settle()
+ var view=Hunt.view(game.sim);var button=visible_chip(game,"LOCKDOWN fixture")
+ check(view.index==4 and button.get_theme_color("font_color").a>=MeterTable.PULSE_MIN_ALPHA,"visible LOCKDOWN chip keeps the bounded alpha")
+ var color=button.get_theme_color("font_color");game._refresh();await settle()
+ check(button.get_theme_color("font_color")==color and game.sim.snapshot()==before,"paused simulation clock holds the LOCKDOWN pulse without dive writes")
+ await picture("hunt-2184-lockdown")
+ game.queue_free();await settle()
+func observed_lock_fixture(shape:Vector2i):
+ var game=await make_game(0,shape)
+ var sim=game.sim;var warning=game.lock_warning;var hud=game.mission_hud
+ # The established lock_warning_ui_tests observed-contact fixture, at 150% text.
+ sim.elapsed=10.0
+ sim.contacts={0:{"pos":sim.units[0].pos+Vector2(80,0),"time":10.0,"mode":"LOCKING","lock":2.0,"target":0,"type":"patroller","source":"optical","angle":0.0,"band":1}}
+ var before=sim.snapshot();game._refresh();await settle()
+ var label="observed lock "+str(shape)
+ var banner=Rect2(warning.global_position+warning.banner.position,warning.banner.size)
+ var button=visible_chip(game,label+" basic")
+ check(warning.visible and warning.locks.size()==1 and warning.show_hint,label+" earned countdown and break-sight hint are visible")
+ check(Rect2(game.global_position,game.size).encloses(banner) and banner.has_area(),label+" lock banner fits the safe viewport")
+ check(button!=null and not button.get_global_rect().intersects(banner),label+" Hunt chip clears the live lock banner")
+ check(not banner.intersects(game.pause_button.get_global_rect()),label+" lock banner preserves Pause")
+ await picture("hunt-lock-%d-basic"%shape.x)
+ await tap(game.advanced_button.get_global_rect().get_center())
+ button=visible_chip(game,label+" advanced")
+ banner=Rect2(warning.global_position+warning.banner.position,warning.banner.size)
+ check(hud.page=="fleet" and warning.visible and not button.get_global_rect().intersects(banner),label+" Fleet Hunt chip clears the live lock banner")
+ check(Rect2(game.global_position,game.size).encloses(hud.close_button.get_global_rect()) and not banner.intersects(hud.close_button.get_global_rect()),label+" full Back remains accessible beside lock warning")
+ await picture("hunt-lock-%d-advanced"%shape.x)
+ await tap(hud.close_button.get_global_rect().get_center())
+ check(not game.advanced_orders and sim.snapshot()==before,label+" Back returns to water without changing the observed lock")
+ game.queue_free();await settle()
 func run():
  for arg in OS.get_cmdline_user_args():
   if arg.begins_with("--capture-dir="):capture_dir=arg.trim_prefix("--capture-dir=")
  if not capture_dir.is_empty():DirAccess.make_dir_recursive_absolute(capture_dir)
  HuntTable.enabled=true
+ pulse_contract()
  await presentation_fixture()
+ await lockdown_fixture()
+ for shape in [Vector2i(2520,1080),Vector2i(2184,1968)]:await observed_lock_fixture(shape)
  for shape in SHAPES:await touch_shape(shape)
  HuntTable.enabled=true;Settings.apply(Store.DEFAULTS)
  print("HUNT METER UI CHECKS ",checks," FAILURES ",failures)

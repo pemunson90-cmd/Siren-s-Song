@@ -15,6 +15,13 @@ static func label(view:Dictionary,compact:bool=false)->String:
   var word=str(view.stage);var middle=ceili(word.length()/2.0)
   return Table.TEXT.compact%[word.substr(0,middle),word.substr(middle),float(view.scale),pips.substr(0,Table.COMPACT_PIP_SPLIT),pips.substr(Table.COMPACT_PIP_SPLIT)]
  return Table.TEXT.standard%[str(view.stage),float(view.scale),pips]
+static func tone(view:Dictionary,elapsed:float,hz:float=Table.PULSE_HZ)->Color:
+ var index=clampi(int(view.index),0,Table.TONES.size()-1)
+ var color:Color=Table.TONES[index]
+ if index!=4 or not view.get("active",false) or hz<=0:return color
+ var wave=0.5+0.5*sin(TAU*elapsed*hz)
+ color.a=lerpf(Table.PULSE_MIN_ALPHA,1.0,wave)
+ return color
 static func explanation(view:Dictionary)->String:
  var last=str(view.get("cause","")).replace("_"," ").strip_edges()
  if last.is_empty():last=Table.TEXT.no_rise
@@ -52,7 +59,7 @@ static func sync(hud)->void:
  var compact=hud.touch_height>Table.COMPACT_TOUCH_HEIGHT
  button.text=label(view,compact)
  button.tooltip_text=explanation(view)
- button.add_theme_color_override("font_color",Table.TONES[clampi(int(view.index),0,4)])
+ button.add_theme_color_override("font_color",tone(view,float(hud.host.sim.elapsed)))
  var font=maxi(Table.MIN_FONT_SIZE,roundi(hud.touch_height*(Table.COMPACT_FONT_FACTOR if compact else Table.STANDARD_FONT_FACTOR)*hud.text_scale))
  button.add_theme_font_size_override("font_size",font)
  button.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
@@ -103,6 +110,8 @@ static func _obstacles(hud,button:Button)->Array:
  for other in hud.action_controls().values():
   if other!=button and other.is_visible_in_tree():result.append(Rect2(other.global_position-hud.global_position,other.size))
  if hud.alarm.visible:result.append(hud.alarm.get_rect())
+ var warning=hud.host.lock_warning
+ if warning!=null and warning.visible and warning.banner.has_area():result.append(Rect2(warning.global_position-hud.global_position+warning.banner.position,warning.banner.size))
  if hud.sheet.visible:result.append(hud.sheet.get_rect())
  if hud.intent.visible and area.encloses(hud.intent.get_rect()):result.append(hud.intent.get_rect())
  if hud.fleet!=null and hud.fleet.is_visible_in_tree():
