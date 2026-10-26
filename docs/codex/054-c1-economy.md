@@ -28,3 +28,9 @@ PR into claude/integration; merge on green; close per ORCHESTRATION section 7.
 
 ## Completion
 (five lines max)
+
+## State at transfer (Claude lane report, 26 Oct ~18:35 ET)
+- Built and pushed: PR 151, head 83baf869 on claude/c1-economy. Guidance green; game-smoke was pending. Earlier head 2b500f4e failed ONBOARDING (opening brief over 420 chars), fixed in 02dc16a6; preset picker moved below fittings row (83baf869) for DENSITY SCROLL.
+- Done: economy.gd + economy_table.gd (resources, presets, Ironman, settlement, refine, enabled switch), spares/rebuild in fleet_inventory.gd, paid pending research incl. hull:quiet targets in glass_research.gd, hull/chassis unlock field, SUPPLIES panel (Operations + Fittings), preset choice on pristine Operations and erase screen, archive field `economy` with SaveChecks archive phase, MODULES/RESUME lines, economy_tests 41 + economy_save_tests 12 (ranks 350/351, 450/451).
+- Remaining for Codex: finish game-smoke on 83baf869 (or newer); if red, gh run view --log-failed, fix the cause, push; merge on green; close out. Lines touched outside the original list (accepted): expedition_operations.gd (pending research), save_store.gd (SaveChecks phase call), ops_home.gd (SUPPLIES shortcut), fixtures in loadout_frames_tests, onboard2_ui_tests, fix2_menu_ui_tests.
+- AI-DESIGNED numbers live in economy_table.gd; Pat may tune later.
