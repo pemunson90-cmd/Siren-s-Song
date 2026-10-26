@@ -23,6 +23,7 @@ const PIP_COUNT=5
 const COMPACT_PIP_SPLIT=3
 const TEXT={
 	"compact":"HUNT\n%s\n%s\n×%.2f\n%s\n%s",
+	"tight":"HUNT ×%.2f\n%s\n%s",
 	"standard":"HUNT · %s ×%.2f\n%s",
 	"help":"HUNT · %s · ×%.2f\nLast rise: %s · floor %.0f / 100.\nSight notice range for eligible Sirens, capped at ×%.2f.\nLocal alert may be higher. Hearing, speed and 4 s lock stay unchanged.",
 	"no_rise":"no rise recorded"

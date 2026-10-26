@@ -8,9 +8,10 @@ const Table=preload("res://src/presentation/hunt_meter/meter_table.gd")
 const CHIP="hunt_meter_button"
 const PENDING="hunt_meter_fit_pending"
 const HELP_HOOK="hunt_meter_help_resize_hook"
-static func label(view:Dictionary,compact:bool=false)->String:
+static func label(view:Dictionary,compact:bool=false,tight:bool=false)->String:
  var pips=""
  for index in Table.PIP_COUNT:pips+="●" if index<=int(view.index) else "○"
+ if tight:return Table.TEXT.tight%[float(view.scale),str(view.stage),pips]
  if compact:
   var word=str(view.stage);var middle=ceili(word.length()/2.0)
   return Table.TEXT.compact%[word.substr(0,middle),word.substr(middle),float(view.scale),pips.substr(0,Table.COMPACT_PIP_SPLIT),pips.substr(Table.COMPACT_PIP_SPLIT)]
@@ -57,7 +58,7 @@ static func sync(hud)->void:
    schedule_fit(hud)
   return
  var compact=hud.touch_height>Table.COMPACT_TOUCH_HEIGHT
- button.text=label(view,compact)
+ button.text=label(view,compact,compact and hud.size.y<hud.touch_height*4.0)
  button.tooltip_text=explanation(view)
  button.add_theme_color_override("font_color",tone(view,float(hud.host.sim.elapsed)))
  var font=maxi(Table.MIN_FONT_SIZE,roundi(hud.touch_height*(Table.COMPACT_FONT_FACTOR if compact else Table.STANDARD_FONT_FACTOR)*hud.text_scale))
@@ -104,6 +105,22 @@ static func fit_help(hud)->void:
  hud.sheet.position=rects[0].position
  hud.sheet.size=rects[0].size
  hud.close_button.position=rects[1].position
+static func _craft_touch_rects(hud)->Array:
+ var result=[]
+ var ocean=hud.host.ocean
+ var offset=ocean.global_position-hud.global_position
+ var touch=hud.touch_height
+ for id in hud.host.sim.units.size():
+  var unit=hud.host.sim.units[id]
+  if not unit.alive:continue
+  var half=(Vector2(66,18) if id==0 else Vector2(18,8))*ocean.world_scale+Vector2.ONE*touch*.32
+  var center=offset+ocean.screen_position(unit.pos)
+  var bounds=Rect2(center-Vector2.ONE*touch*.5,Vector2.ONE*touch)
+  for corner in [Vector2(-half.x,-half.y),Vector2(half.x,-half.y),Vector2(half.x,half.y),Vector2(-half.x,half.y)]:
+   var at=center+corner.rotated(unit.angle)
+   bounds=bounds.expand(at)
+  result.append(bounds)
+ return result
 static func _obstacles(hud,button:Button)->Array:
  var result=[]
  var area=Rect2(Vector2.ZERO,StatusView.content_bounds(hud,hud.size))
@@ -116,6 +133,7 @@ static func _obstacles(hud,button:Button)->Array:
  if hud.intent.visible and area.encloses(hud.intent.get_rect()):result.append(hud.intent.get_rect())
  if hud.fleet!=null and hud.fleet.is_visible_in_tree():
   for reading in hud.fleet.readouts:result.append(Rect2(hud.fleet.position+reading.rect.position,reading.rect.size))
+ result.append_array(_craft_touch_rects(hud))
  return result
 static func fit(hud)->void:
  var button=hud.get_meta(CHIP) if hud.has_meta(CHIP) else null
@@ -123,6 +141,8 @@ static func fit(hud)->void:
  var area=Rect2(Vector2.ZERO,StatusView.content_bounds(hud,hud.size))
  var body=button.size
  var obstacles=_obstacles(hud,button)
+ var covered_craft=hud.fleet!=null and hud.fleet.visible and _craft_touch_rects(hud).any(func(rect):return rect.intersects(button.get_rect()))
+ var old_position=button.position
  var right=area.end.x-body.x-Table.MARGIN
  var bottom=area.end.y-body.y-Table.MARGIN
  var near_top=hud.touch_height+Table.MARGIN
@@ -139,6 +159,7 @@ static func fit(hud)->void:
   if obstacles.any(func(other):return rect.intersects(other)):continue
   button.position=point
   button.set_meta("hunt_meter_fitted",true)
+  if covered_craft and old_position.distance_to(point)>.5:hud.host.call_deferred("_refresh")
   return
  button.position=Vector2(Table.MARGIN,near_top)
  button.set_meta("hunt_meter_fitted",false)

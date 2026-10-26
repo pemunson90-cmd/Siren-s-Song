@@ -176,11 +176,64 @@ func observed_lock_fixture(shape:Vector2i):
  await tap(hud.close_button.get_global_rect().get_center())
  check(not game.advanced_orders and sim.snapshot()==before,label+" Back returns to water without changing the observed lock")
  game.queue_free();await settle()
+func route_touch(point:Vector2,down:bool,id:int=0):
+ var event=InputEventScreenTouch.new();event.index=id;event.position=point;event.pressed=down;root.push_input(event,true);await process_frame
+func route_move(point:Vector2,delta:Vector2,id:int=0):
+ var event=InputEventScreenDrag.new();event.index=id;event.position=point;event.relative=delta;root.push_input(event,true);await process_frame
+func manual_craft_fixture(shape:Vector2i):
+ # The route telemetry fixture's public craft positions and manual camera pan.
+ root.size=shape;await settle()
+ var game=load("res://scenes/main.tscn").instantiate();game.set_script(load("res://tests/density_main.gd"));game.capture_scenario="route-telemetry-touch-fixture"
+ if shape.x==2520:game.fixture_safe_area=Rect2(136,0,2384,1080)
+ root.add_child(game);await settle();game.set_process(false);game._start_mission(0);await settle()
+ var sim=game.sim;var hud=game.mission_hud;var fleet=hud.fleet
+ sim.sirens=[];sim.mission.rocks=[];sim.mission.structures=[];sim.mission.objectives=[];sim._build_navigation()
+ sim.units[0].pos=Vector2(450,620);sim.units[1].pos=Vector2(900,720);sim.units[2].pos=Vector2(1460,160)
+ game.ocean.fit_chart();game._refresh();await settle()
+ var point=fleet.telemetry[0].get_global_rect().get_center()
+ await tap(point)
+ sim.command("queue");game._refresh();await settle();point=fleet.telemetry[0].get_global_rect().get_center();await tap(point)
+ game.mission_hud.guard.reset();game._refresh();await settle()
+ point=fleet.telemetry[0].get_global_rect().get_center()
+ await route_touch(point,true);await route_move(point+Vector2(90,35),Vector2(90,35));await route_touch(point+Vector2(90,35),false);await settle()
+ point=fleet.telemetry[0].get_global_rect().get_center();var start_below=point+Vector2(0,fleet.telemetry[0].size.y+20)
+ await route_touch(start_below,true);await route_move(point,point-start_below);await route_touch(point,false);await settle()
+ point=fleet.telemetry[0].get_global_rect().get_center()
+ await route_touch(point,true);await route_touch(point+Vector2(160,0),true,1);await route_move(point+Vector2(200,20),Vector2(40,20),1);await route_touch(point,false);await route_touch(point+Vector2(200,20),false,1);await settle()
+ point=fleet.telemetry[0].get_global_rect().get_center();await route_touch(point,true)
+ var cancel=InputEventScreenTouch.new();cancel.index=0;cancel.position=point;cancel.pressed=false;cancel.canceled=true;root.push_input(cancel,true);await process_frame
+ await route_touch(point,false);await settle()
+ game.ocean.focus_craft();game._refresh();await settle()
+ await tap(fleet.buttons[2].get_global_rect().get_center())
+ await tap(fleet.buttons[2].get_global_rect().get_center())
+ hud.dismiss();await settle()
+ point=fleet.telemetry[2].get_global_rect().get_center();hud.open("craft");await settle();await tap(point)
+ hud.dismiss();await settle()
+ var start=fleet.buttons[1].get_global_rect().get_center();var water=fleet.telemetry[2].get_global_rect().get_center()
+ await route_touch(start,true);await route_touch(water,true,1);await route_touch(start,false);await route_touch(water,false,1);await settle()
+ start=fleet.buttons[1].get_global_rect().get_center();water=fleet.telemetry[2].get_global_rect().get_center()
+ await route_touch(water,true);await route_touch(start,true,1);await route_touch(water,false);await route_touch(start,false,1);await settle()
+ game.ocean.pan_chart(Vector2(-140,30));game._refresh();await settle()
+ var label="manual craft "+str(shape)
+ var projected=game.ocean.global_position+game.ocean.screen_position(sim.units[2].pos)
+ var pick=game.ocean.pick_context(projected-game.ocean.global_position,game.ui_touch_height)
+ var reading=fleet.readouts.filter(func(r):return r.unit==2)[0]
+ var meter=chip(hud)
+ var touch_rect=Rect2(projected-Vector2.ONE*game.ui_touch_height*.5,Vector2.ONE*game.ui_touch_height)
+ check(pick.get("kind","")=="craft" and pick.get("unit",-1)==2,label+" projected craft is a public interactive target")
+ check(not meter.get_global_rect().intersects(touch_rect),label+" Hunt chip clears the full projected craft touch handle")
+ check(not reading.offscreen,label+" visible craft keeps its direct handle after manual pan")
+ var before=sim.snapshot()
+ await tap(fleet.buttons[2].get_global_rect().get_center())
+ check(game.advanced_orders and hud.page=="craft" and game.ocean.chart_camera.mode=="free" and sim.snapshot()==before,label+" craft tap opens in place without changing dive or camera")
+ await picture("hunt-manual-craft-%d"%shape.x)
+ game.queue_free();await settle()
 func run():
  for arg in OS.get_cmdline_user_args():
   if arg.begins_with("--capture-dir="):capture_dir=arg.trim_prefix("--capture-dir=")
  if not capture_dir.is_empty():DirAccess.make_dir_recursive_absolute(capture_dir)
  HuntTable.enabled=true
+ for shape in [Vector2i(2520,1080),Vector2i(2184,1968)]:await manual_craft_fixture(shape)
  pulse_contract()
  await presentation_fixture()
  await lockdown_fixture()
