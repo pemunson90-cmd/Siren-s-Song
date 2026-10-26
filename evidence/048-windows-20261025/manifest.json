@@ -1,0 +1,1526 @@
+{
+  "created_utc": "2026-10-26T00:26:10.337183+00:00",
+  "scope": {
+    "included": "Every direct 048-evidence file with .log/.gd/.json/.ps1 extension, plus every PNG in native-baseline-captures-1/2/3 and status-ui-native-captures-1/2.",
+    "excluded": "All isolated user-data/test-data trees, Godot caches, all non-capture subtrees, temporary output directory, and independent-fa13 if present.",
+    "root_direct_selected_count": 33,
+    "capture_png_count": 112,
+    "independent_fa13_found": [
+      "independent-fa13"
+    ],
+    "excluded_top_level_directories": [
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\baseline-data-1",
+        "reason": "isolated user-data/test data tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\geometry-post-data",
+        "reason": "outside requested root logs/probes and named baseline/native capture scope"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\independent-fa13",
+        "reason": "independent-fa13 subtree explicitly excluded while in progress"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\iso-baseline-import",
+        "reason": "isolated user-data/test data tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\iso-root-core-wip",
+        "reason": "isolated user-data/test data tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\iso-root-first",
+        "reason": "isolated user-data/test data tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\iso-root-wip-import",
+        "reason": "isolated user-data/test data tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\native-baseline-data-1",
+        "reason": "isolated user-data/test data tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\native-baseline-data-2",
+        "reason": "isolated user-data/test data tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\native-baseline-data-3",
+        "reason": "isolated user-data/test data tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\regression-campaign_instruments_ui_tests-userdata",
+        "reason": "isolated user-data/test data tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\regression-expedition_instruments_ui_tests-userdata",
+        "reason": "isolated user-data/test data tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\regression-fleet_instruments_ui_tests-userdata",
+        "reason": "isolated user-data/test data tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\regression-lock_warning_ui_tests-userdata",
+        "reason": "isolated user-data/test data tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\regression-playfield_hud_tests-userdata",
+        "reason": "isolated user-data/test data tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\regression-radial_hud_tests-userdata",
+        "reason": "isolated user-data/test data tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-fit-data-1",
+        "reason": "isolated user-data/test data tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-geometry-data-1",
+        "reason": "isolated user-data/test data tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-green-data-1",
+        "reason": "isolated user-data/test data tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-progress-green-data-1",
+        "reason": "isolated user-data/test data tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-progress-red-data-1",
+        "reason": "isolated user-data/test data tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-red-data-1",
+        "reason": "isolated user-data/test data tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-signal-data-1",
+        "reason": "isolated user-data/test data tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-ui-data-1",
+        "reason": "isolated user-data/test data tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-ui-data-2",
+        "reason": "isolated user-data/test data tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-ui-data-3",
+        "reason": "isolated user-data/test data tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-ui-data-4",
+        "reason": "isolated user-data/test data tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-ui-native-data-1",
+        "reason": "isolated user-data/test data tree excluded"
+      },
+      {
+        "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-ui-native-data-2",
+        "reason": "isolated user-data/test data tree excluded"
+      }
+    ]
+  },
+  "archive": {
+    "path": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\baseline-development-20261025-2025\\baseline-development.zip",
+    "size_bytes": 68896017,
+    "sha256": "8b52274f6c8150f2709532f9850660a5053c44b6c74223b4bbb34635191ec120",
+    "crc32": "a1409931",
+    "member_count": 145,
+    "zip_testzip": "passed",
+    "all_member_source_bytes_verified": true
+  },
+  "members": [
+    {
+      "member": "root/baseline-import.log",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\baseline-import.log",
+      "source_relative": "baseline-import.log",
+      "size_bytes": 43059,
+      "sha256": "90352eba152b538954329ffee89915369f19ef011a5afeca96879aafb4d1445e",
+      "crc32": "61a161e5"
+    },
+    {
+      "member": "root/native-baseline-1.log",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\native-baseline-1.log",
+      "source_relative": "native-baseline-1.log",
+      "size_bytes": 15658,
+      "sha256": "349d88ae3ff5fb548f842fcb3dafb97bdbb78380483db4148bcb88c1c4e67272",
+      "crc32": "7d40b842"
+    },
+    {
+      "member": "root/native-baseline-2.log",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\native-baseline-2.log",
+      "source_relative": "native-baseline-2.log",
+      "size_bytes": 197602,
+      "sha256": "90b8c22e20ee5ff888203f91a899e9e9925fa219d1b484a65d4a8f7528d3dd97",
+      "crc32": "4aaca2ea"
+    },
+    {
+      "member": "root/native-baseline-3.log",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\native-baseline-3.log",
+      "source_relative": "native-baseline-3.log",
+      "size_bytes": 242740,
+      "sha256": "a63eb4243ea8e3c359b43ba7f5fbee0469574b34ae6525d90df7d72d5621f1dd",
+      "crc32": "a851533d"
+    },
+    {
+      "member": "root/regression-campaign_instruments_ui_tests.log",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\regression-campaign_instruments_ui_tests.log",
+      "source_relative": "regression-campaign_instruments_ui_tests.log",
+      "size_bytes": 263217,
+      "sha256": "d5400bbfb5057bb59283a2ca2af61f4a1446edabe334e22835ef15cadf199173",
+      "crc32": "c785e497"
+    },
+    {
+      "member": "root/regression-expedition_instruments_ui_tests.log",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\regression-expedition_instruments_ui_tests.log",
+      "source_relative": "regression-expedition_instruments_ui_tests.log",
+      "size_bytes": 54951,
+      "sha256": "ac8f734b95db6c9545cb47a02936c01ee8294010dc2c914698b985633434195e",
+      "crc32": "183722e0"
+    },
+    {
+      "member": "root/regression-fleet_instruments_ui_tests.log",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\regression-fleet_instruments_ui_tests.log",
+      "source_relative": "regression-fleet_instruments_ui_tests.log",
+      "size_bytes": 56931,
+      "sha256": "bb0bdc0cc869ca76158967c4d21378a7db600918a411e0e5af0351faccc394ce",
+      "crc32": "026e5d18"
+    },
+    {
+      "member": "root/regression-lock_warning_ui_tests.log",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\regression-lock_warning_ui_tests.log",
+      "source_relative": "regression-lock_warning_ui_tests.log",
+      "size_bytes": 30360,
+      "sha256": "b8f94f66811f77521e4e68bcdf0c908467a6cf2ee2b717f4c35402abeaad7802",
+      "crc32": "7a46536e"
+    },
+    {
+      "member": "root/regression-playfield_hud_tests.log",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\regression-playfield_hud_tests.log",
+      "source_relative": "regression-playfield_hud_tests.log",
+      "size_bytes": 87570,
+      "sha256": "0fcb74adf0f2a364bd44e5ef9843dc9937326e6811288a92b0053445503946a3",
+      "crc32": "0c01dde1"
+    },
+    {
+      "member": "root/regression-radial_hud_tests.log",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\regression-radial_hud_tests.log",
+      "source_relative": "regression-radial_hud_tests.log",
+      "size_bytes": 139811,
+      "sha256": "a207560231acb76cb383dc350beb50aa8c3452680bb60336d49efe9279952970",
+      "crc32": "93186e8a"
+    },
+    {
+      "member": "root/root-core-wip.log",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\root-core-wip.log",
+      "source_relative": "root-core-wip.log",
+      "size_bytes": 825,
+      "sha256": "03b479d9acefe6a1398b6ecfa88aeeba960ecd61fd60f76d9fa0d03887493788",
+      "crc32": "acb12852"
+    },
+    {
+      "member": "root/root-first-status.log",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\root-first-status.log",
+      "source_relative": "root-first-status.log",
+      "size_bytes": 112,
+      "sha256": "d638a29ba6db72f1ec638bd082fef32729b99a1fdaeaa6282e52cbdf439290af",
+      "crc32": "571ff8c6"
+    },
+    {
+      "member": "root/root-wip-import.log",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\root-wip-import.log",
+      "source_relative": "root-wip-import.log",
+      "size_bytes": 1613,
+      "sha256": "292f7c30de4384e4dacb4a7bbdbfe1b605eb8a454dbec3fe754668c8379c9de8",
+      "crc32": "f5a27bb9"
+    },
+    {
+      "member": "root/status-baseline-1.log",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-baseline-1.log",
+      "source_relative": "status-baseline-1.log",
+      "size_bytes": 7573,
+      "sha256": "769aeb27405fa852fc5b3d9765c574019e1e4dc39a8794b909da259ba9dec1ec",
+      "crc32": "3acec0c6"
+    },
+    {
+      "member": "root/status-fit-1.log",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-fit-1.log",
+      "source_relative": "status-fit-1.log",
+      "size_bytes": 20702,
+      "sha256": "82fdb7e851814d05adae02cbc0b9936d6cf9b73a2f2ffc4698f58dcf67bdc149",
+      "crc32": "2e7e1862"
+    },
+    {
+      "member": "root/status-geometry-1.log",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-geometry-1.log",
+      "source_relative": "status-geometry-1.log",
+      "size_bytes": 43141,
+      "sha256": "00d51e680c755b7a6419be1678820ab2de4e5435d016666f213bdf3da9d0ca59",
+      "crc32": "d6370a04"
+    },
+    {
+      "member": "root/status-geometry-post-1.log",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-geometry-post-1.log",
+      "source_relative": "status-geometry-post-1.log",
+      "size_bytes": 485,
+      "sha256": "78b93ac6c0ba666abf66a9e14d3c377873ed644c8dbf487156cd9bda5bd7cf40",
+      "crc32": "72567b59"
+    },
+    {
+      "member": "root/status-green-1.log",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-green-1.log",
+      "source_relative": "status-green-1.log",
+      "size_bytes": 109,
+      "sha256": "080d187e5e6d506bd4c40b627b34fb4b4b791460f5bfca2ac5df4f004f4685dc",
+      "crc32": "ddc30be9"
+    },
+    {
+      "member": "root/status-progress-green-1.log",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-progress-green-1.log",
+      "source_relative": "status-progress-green-1.log",
+      "size_bytes": 109,
+      "sha256": "b01bcbd7a687390a5dbe6419ddf45426513ea048483f8a6d4c093af188d63c1a",
+      "crc32": "e09bbe6c"
+    },
+    {
+      "member": "root/status-progress-red-1.log",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-progress-red-1.log",
+      "source_relative": "status-progress-red-1.log",
+      "size_bytes": 242,
+      "sha256": "a399b443082eb4e46ddddb7bc6dc6888a38697ed8ec1a08121bf7d30acc23dc0",
+      "crc32": "78165156"
+    },
+    {
+      "member": "root/status-red-1.log",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-red-1.log",
+      "source_relative": "status-red-1.log",
+      "size_bytes": 674,
+      "sha256": "92f84c71ab5f86ff7b23ecb9df4ec14ed4de00239c7455f521241179182aa98b",
+      "crc32": "47f5ea1c"
+    },
+    {
+      "member": "root/status-signal-1.log",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-signal-1.log",
+      "source_relative": "status-signal-1.log",
+      "size_bytes": 336,
+      "sha256": "8307f704fedb51b8069caa5b4d682130e0ad19798b3ef494789d9154a16841e6",
+      "crc32": "6d3107aa"
+    },
+    {
+      "member": "root/status-ui-1.log",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-ui-1.log",
+      "source_relative": "status-ui-1.log",
+      "size_bytes": 340632,
+      "sha256": "9d10bb49c6980427b06fe11c08b1ae61a6ac9474f25d7e7a1893b20be6cd9338",
+      "crc32": "272a6d76"
+    },
+    {
+      "member": "root/status-ui-2.log",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-ui-2.log",
+      "source_relative": "status-ui-2.log",
+      "size_bytes": 395154,
+      "sha256": "d33be29f442b1d4a73a9cb7d4e4406a0d0362d173c52cdd9114a48b0b15a76e4",
+      "crc32": "71defe95"
+    },
+    {
+      "member": "root/status-ui-3.log",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-ui-3.log",
+      "source_relative": "status-ui-3.log",
+      "size_bytes": 401670,
+      "sha256": "3080d642a4609881c65c606c52613041dfe0b572565cb0be03e74ca74effaa2a",
+      "crc32": "f555578e"
+    },
+    {
+      "member": "root/status-ui-4.log",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-ui-4.log",
+      "source_relative": "status-ui-4.log",
+      "size_bytes": 402247,
+      "sha256": "a2eef22219bfb21ba95597614b54d86e19e54e6f2a869e0d0fe6b513299d668f",
+      "crc32": "1a521f45"
+    },
+    {
+      "member": "root/status-ui-native-1.log",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-ui-native-1.log",
+      "source_relative": "status-ui-native-1.log",
+      "size_bytes": 401803,
+      "sha256": "fd154ccf6b08078464c93966eade5430ca29944fefb9c6a76d15e4f53de9eea0",
+      "crc32": "c4fcfae6"
+    },
+    {
+      "member": "root/status-ui-native-2.log",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-ui-native-2.log",
+      "source_relative": "status-ui-native-2.log",
+      "size_bytes": 402391,
+      "sha256": "1d3e7fbe91eccf66840c2d41078a61729502b28913febb97745e3c0d94646523",
+      "crc32": "2eeb55d3"
+    },
+    {
+      "member": "root/status_baseline_probe.gd",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status_baseline_probe.gd",
+      "source_relative": "status_baseline_probe.gd",
+      "size_bytes": 1686,
+      "sha256": "e9c3f35a33a6ec0ef455da1e77a807488f87fe39f5f9bfdddff87109c0d7bbf3",
+      "crc32": "53dfa83b"
+    },
+    {
+      "member": "root/status_fit_probe.gd",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status_fit_probe.gd",
+      "source_relative": "status_fit_probe.gd",
+      "size_bytes": 1467,
+      "sha256": "cb07be682356146a175033464fcc00f82ae7f543b44b98c11501ec0986d19d88",
+      "crc32": "3b2394dd"
+    },
+    {
+      "member": "root/status_geometry_probe.gd",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status_geometry_probe.gd",
+      "source_relative": "status_geometry_probe.gd",
+      "size_bytes": 1654,
+      "sha256": "a5e4cef68d6ecf09ccc03cdd67129ebe0b15c9c1f6e99a349ed839cce125bede",
+      "crc32": "9957b8b6"
+    },
+    {
+      "member": "root/status_native_baseline.gd",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status_native_baseline.gd",
+      "source_relative": "status_native_baseline.gd",
+      "size_bytes": 3903,
+      "sha256": "78ebb593d6e17b85136c749419fa18694b2bbcc3a3d4144234852ef5d2724204",
+      "crc32": "d2c71bad"
+    },
+    {
+      "member": "root/status_signal_probe.gd",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status_signal_probe.gd",
+      "source_relative": "status_signal_probe.gd",
+      "size_bytes": 643,
+      "sha256": "8c254c0d5208a200d3a80ac585e981a8a04a4e39de880753e19c1a084c80ec5c",
+      "crc32": "a86fc57c"
+    },
+    {
+      "member": "captures/native-baseline-captures-2/baseline-2184-11-craft.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\native-baseline-captures-2\\baseline-2184-11-craft.png",
+      "source_relative": "native-baseline-captures-2\\baseline-2184-11-craft.png",
+      "size_bytes": 650141,
+      "sha256": "dc571bbdfe3cbbdd3b08afac274f85ff2988d5eb6816b74a90a5e388dafb221b",
+      "crc32": "904cae03"
+    },
+    {
+      "member": "captures/native-baseline-captures-2/baseline-2184-11-fleet.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\native-baseline-captures-2\\baseline-2184-11-fleet.png",
+      "source_relative": "native-baseline-captures-2\\baseline-2184-11-fleet.png",
+      "size_bytes": 610601,
+      "sha256": "c8278b3817667eae011c699ce0a74d668f137ed12140fe95f309a523ced1c89f",
+      "crc32": "36190631"
+    },
+    {
+      "member": "captures/native-baseline-captures-2/baseline-2184-11-water.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\native-baseline-captures-2\\baseline-2184-11-water.png",
+      "source_relative": "native-baseline-captures-2\\baseline-2184-11-water.png",
+      "size_bytes": 715913,
+      "sha256": "85663572e61f9826d0fc3acb4b4e5469d92cc81840d56df063625abdba08178d",
+      "crc32": "13c27a73"
+    },
+    {
+      "member": "captures/native-baseline-captures-2/baseline-2184-24-craft.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\native-baseline-captures-2\\baseline-2184-24-craft.png",
+      "source_relative": "native-baseline-captures-2\\baseline-2184-24-craft.png",
+      "size_bytes": 716796,
+      "sha256": "6c575b819e1cec8f2f587676308b623825becc8345b23bf9104bab9143f41fd0",
+      "crc32": "6c45f668"
+    },
+    {
+      "member": "captures/native-baseline-captures-2/baseline-2184-24-fleet.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\native-baseline-captures-2\\baseline-2184-24-fleet.png",
+      "source_relative": "native-baseline-captures-2\\baseline-2184-24-fleet.png",
+      "size_bytes": 669205,
+      "sha256": "91e2014605a5a49f3a3e1f83493598c0d968f5df7ef4a46745719348d28f4c67",
+      "crc32": "d75ebd53"
+    },
+    {
+      "member": "captures/native-baseline-captures-2/baseline-2184-24-water.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\native-baseline-captures-2\\baseline-2184-24-water.png",
+      "source_relative": "native-baseline-captures-2\\baseline-2184-24-water.png",
+      "size_bytes": 846254,
+      "sha256": "75f0837b74835db2301972bac3a6a1068cb7d6077b90c2424d3a9a1d5fdb2471",
+      "crc32": "d4d46a25"
+    },
+    {
+      "member": "captures/native-baseline-captures-2/baseline-2184-29-craft.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\native-baseline-captures-2\\baseline-2184-29-craft.png",
+      "source_relative": "native-baseline-captures-2\\baseline-2184-29-craft.png",
+      "size_bytes": 730535,
+      "sha256": "cbcc9ec1d14d2c074305b187fcc18fe48617b6535b43a18bc13f17858cf54079",
+      "crc32": "fbeb8da5"
+    },
+    {
+      "member": "captures/native-baseline-captures-2/baseline-2184-29-fleet.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\native-baseline-captures-2\\baseline-2184-29-fleet.png",
+      "source_relative": "native-baseline-captures-2\\baseline-2184-29-fleet.png",
+      "size_bytes": 683376,
+      "sha256": "8aed17850bfddc6c5347e4c073eeddd486b172a0f9c51c2b908d3dc43cc64e76",
+      "crc32": "2f2a5f7a"
+    },
+    {
+      "member": "captures/native-baseline-captures-2/baseline-2184-29-water.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\native-baseline-captures-2\\baseline-2184-29-water.png",
+      "source_relative": "native-baseline-captures-2\\baseline-2184-29-water.png",
+      "size_bytes": 860499,
+      "sha256": "3b6cc9abda7d35befbbf68e3e3d31fa21c4b60ba04394e8bdfc811bc1df0f019",
+      "crc32": "ee2cec00"
+    },
+    {
+      "member": "captures/native-baseline-captures-2/baseline-2184-6-craft.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\native-baseline-captures-2\\baseline-2184-6-craft.png",
+      "source_relative": "native-baseline-captures-2\\baseline-2184-6-craft.png",
+      "size_bytes": 698228,
+      "sha256": "d17de9dc6f35c8d4b0a307eec7520a23b4130ec3f0f550574880e224ea447467",
+      "crc32": "83c6f6b9"
+    },
+    {
+      "member": "captures/native-baseline-captures-2/baseline-2184-6-fleet.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\native-baseline-captures-2\\baseline-2184-6-fleet.png",
+      "source_relative": "native-baseline-captures-2\\baseline-2184-6-fleet.png",
+      "size_bytes": 659363,
+      "sha256": "b852d3c36a16771a190de42458ab773c73f155c17d8c22ed1ddb0dfd3ae24a39",
+      "crc32": "00bf7a16"
+    },
+    {
+      "member": "captures/native-baseline-captures-2/baseline-2184-6-water.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\native-baseline-captures-2\\baseline-2184-6-water.png",
+      "source_relative": "native-baseline-captures-2\\baseline-2184-6-water.png",
+      "size_bytes": 813139,
+      "sha256": "f5db662bde75b95ce14d16e1cbdcc0f92d8898f02fe6ede220e12cf29c107ccb",
+      "crc32": "e96796d9"
+    },
+    {
+      "member": "captures/native-baseline-captures-2/baseline-2520-11-craft.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\native-baseline-captures-2\\baseline-2520-11-craft.png",
+      "source_relative": "native-baseline-captures-2\\baseline-2520-11-craft.png",
+      "size_bytes": 502956,
+      "sha256": "3b01492744a620af37045fb9d60bdbf366907d421af68da7374db2feba1e3d6f",
+      "crc32": "ae81e031"
+    },
+    {
+      "member": "captures/native-baseline-captures-2/baseline-2520-11-fleet.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\native-baseline-captures-2\\baseline-2520-11-fleet.png",
+      "source_relative": "native-baseline-captures-2\\baseline-2520-11-fleet.png",
+      "size_bytes": 460023,
+      "sha256": "0ab22c74aa529f69c8419a5ec45d18aae6a8d043280182c9aebfa85dab68fb6c",
+      "crc32": "f1f3d43a"
+    },
+    {
+      "member": "captures/native-baseline-captures-2/baseline-2520-11-water.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\native-baseline-captures-2\\baseline-2520-11-water.png",
+      "source_relative": "native-baseline-captures-2\\baseline-2520-11-water.png",
+      "size_bytes": 582405,
+      "sha256": "3dc6a6bc3d60a7c0a3601055677e5d28d5a7356298317591d9716878efeec0e1",
+      "crc32": "06e30ec6"
+    },
+    {
+      "member": "captures/native-baseline-captures-2/baseline-2520-24-craft.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\native-baseline-captures-2\\baseline-2520-24-craft.png",
+      "source_relative": "native-baseline-captures-2\\baseline-2520-24-craft.png",
+      "size_bytes": 538124,
+      "sha256": "7d669f714436111e294e8cffe8bb360eb43811f73bfd451eb6538dfb40eebfd4",
+      "crc32": "3644dd87"
+    },
+    {
+      "member": "captures/native-baseline-captures-2/baseline-2520-24-fleet.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\native-baseline-captures-2\\baseline-2520-24-fleet.png",
+      "source_relative": "native-baseline-captures-2\\baseline-2520-24-fleet.png",
+      "size_bytes": 480327,
+      "sha256": "ee3b12fbb44830c95abeee5250f59c9a9e8e30517cb5560ff2425cd37e5b5524",
+      "crc32": "5460ee8c"
+    },
+    {
+      "member": "captures/native-baseline-captures-2/baseline-2520-24-water.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\native-baseline-captures-2\\baseline-2520-24-water.png",
+      "source_relative": "native-baseline-captures-2\\baseline-2520-24-water.png",
+      "size_bytes": 665380,
+      "sha256": "e83bcf1f8ff165156703348a144de2e4eddce1e38894f796c58fb1f906726a70",
+      "crc32": "42d268ad"
+    },
+    {
+      "member": "captures/native-baseline-captures-2/baseline-2520-29-craft.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\native-baseline-captures-2\\baseline-2520-29-craft.png",
+      "source_relative": "native-baseline-captures-2\\baseline-2520-29-craft.png",
+      "size_bytes": 547165,
+      "sha256": "221d947e1e41ac11cbc6aa0d92a723dd042a494cbe447a62723a7e013e1063b1",
+      "crc32": "00aeb457"
+    },
+    {
+      "member": "captures/native-baseline-captures-2/baseline-2520-29-fleet.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\native-baseline-captures-2\\baseline-2520-29-fleet.png",
+      "source_relative": "native-baseline-captures-2\\baseline-2520-29-fleet.png",
+      "size_bytes": 487663,
+      "sha256": "51e2173c9fe1c46a7891b9f364938a306374443462a18af3bbe03e3d48e026fa",
+      "crc32": "4cd3179c"
+    },
+    {
+      "member": "captures/native-baseline-captures-2/baseline-2520-29-water.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\native-baseline-captures-2\\baseline-2520-29-water.png",
+      "source_relative": "native-baseline-captures-2\\baseline-2520-29-water.png",
+      "size_bytes": 674379,
+      "sha256": "c5919fbe813e37cddda5d8ddc727a1956b6bc5e5aa2fbde68971e5d4c4b32135",
+      "crc32": "2d33c6ec"
+    },
+    {
+      "member": "captures/native-baseline-captures-2/baseline-2520-6-craft.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\native-baseline-captures-2\\baseline-2520-6-craft.png",
+      "source_relative": "native-baseline-captures-2\\baseline-2520-6-craft.png",
+      "size_bytes": 506059,
+      "sha256": "d5ac82c0a26ef7f75ab18691335681bf09fb3c6b99d067ed30f5a1b1fbe8cd1d",
+      "crc32": "55f02396"
+    },
+    {
+      "member": "captures/native-baseline-captures-2/baseline-2520-6-fleet.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\native-baseline-captures-2\\baseline-2520-6-fleet.png",
+      "source_relative": "native-baseline-captures-2\\baseline-2520-6-fleet.png",
+      "size_bytes": 463541,
+      "sha256": "9dfcef28706040916ae5623e05b150045ab4bb2b6ddab9989f38dc4d35117c02",
+      "crc32": "5d693d7b"
+    },
+    {
+      "member": "captures/native-baseline-captures-2/baseline-2520-6-water.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\native-baseline-captures-2\\baseline-2520-6-water.png",
+      "source_relative": "native-baseline-captures-2\\baseline-2520-6-water.png",
+      "size_bytes": 614869,
+      "sha256": "0847226c096f3da91ef42aab61490c75f3d067d663d212b8ddbbc724fcfb32b0",
+      "crc32": "063f18f9"
+    },
+    {
+      "member": "captures/native-baseline-captures-3/baseline-2184-11-craft.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\native-baseline-captures-3\\baseline-2184-11-craft.png",
+      "source_relative": "native-baseline-captures-3\\baseline-2184-11-craft.png",
+      "size_bytes": 650130,
+      "sha256": "89b9590badaa902decb5c2c74d6ee4b0f2da2bfbe66b8bb55db5618d9e1adb12",
+      "crc32": "eafc353b"
+    },
+    {
+      "member": "captures/native-baseline-captures-3/baseline-2184-11-fleet.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\native-baseline-captures-3\\baseline-2184-11-fleet.png",
+      "source_relative": "native-baseline-captures-3\\baseline-2184-11-fleet.png",
+      "size_bytes": 610604,
+      "sha256": "cc5a3766a77aa04b4aad003961a820fd1f268c297b25812c12cb5861c352e0a7",
+      "crc32": "6d72b421"
+    },
+    {
+      "member": "captures/native-baseline-captures-3/baseline-2184-11-status.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\native-baseline-captures-3\\baseline-2184-11-status.png",
+      "source_relative": "native-baseline-captures-3\\baseline-2184-11-status.png",
+      "size_bytes": 603368,
+      "sha256": "68ddb8c0462f72a6c1c2a219d5ab46b1426b1c64dfe71de2842e945552df5bb3",
+      "crc32": "4fa08a9d"
+    },
+    {
+      "member": "captures/native-baseline-captures-3/baseline-2184-11-water.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\native-baseline-captures-3\\baseline-2184-11-water.png",
+      "source_relative": "native-baseline-captures-3\\baseline-2184-11-water.png",
+      "size_bytes": 715905,
+      "sha256": "28001654a08a91ad7027eae8d2d1d5185fbe5e543de6c3b7b7c1310e28b78694",
+      "crc32": "11f55ecf"
+    },
+    {
+      "member": "captures/native-baseline-captures-3/baseline-2184-24-craft.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\native-baseline-captures-3\\baseline-2184-24-craft.png",
+      "source_relative": "native-baseline-captures-3\\baseline-2184-24-craft.png",
+      "size_bytes": 716810,
+      "sha256": "061a4035fd0cd29ecc95b29286b00dbdba4b47448980e761982cb072e6af5fc5",
+      "crc32": "c2e1a962"
+    },
+    {
+      "member": "captures/native-baseline-captures-3/baseline-2184-24-fleet.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\native-baseline-captures-3\\baseline-2184-24-fleet.png",
+      "source_relative": "native-baseline-captures-3\\baseline-2184-24-fleet.png",
+      "size_bytes": 669228,
+      "sha256": "4b627773311f624da252bff4f4875681255a901e79a1df29b2df703c9cf329d9",
+      "crc32": "c8aababb"
+    },
+    {
+      "member": "captures/native-baseline-captures-3/baseline-2184-24-status.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\native-baseline-captures-3\\baseline-2184-24-status.png",
+      "source_relative": "native-baseline-captures-3\\baseline-2184-24-status.png",
+      "size_bytes": 670500,
+      "sha256": "6836138b0841901bb85b87289ed44b458b9e6d1df4edc898acef8496ee9c1590",
+      "crc32": "c9f2a9b2"
+    },
+    {
+      "member": "captures/native-baseline-captures-3/baseline-2184-24-water.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\native-baseline-captures-3\\baseline-2184-24-water.png",
+      "source_relative": "native-baseline-captures-3\\baseline-2184-24-water.png",
+      "size_bytes": 846250,
+      "sha256": "780032a94fcc697fdd67524046f71a1ffbdf05367e90b59b5e3b43f6339ebbe7",
+      "crc32": "792c6ff4"
+    },
+    {
+      "member": "captures/native-baseline-captures-3/baseline-2184-29-craft.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\native-baseline-captures-3\\baseline-2184-29-craft.png",
+      "source_relative": "native-baseline-captures-3\\baseline-2184-29-craft.png",
+      "size_bytes": 730535,
+      "sha256": "cbcc9ec1d14d2c074305b187fcc18fe48617b6535b43a18bc13f17858cf54079",
+      "crc32": "fbeb8da5"
+    },
+    {
+      "member": "captures/native-baseline-captures-3/baseline-2184-29-fleet.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\native-baseline-captures-3\\baseline-2184-29-fleet.png",
+      "source_relative": "native-baseline-captures-3\\baseline-2184-29-fleet.png",
+      "size_bytes": 683376,
+      "sha256": "13d75f1a83f4879ee9f4e25b27a3806899b4d8ebd44573defb96be0fc86e528a",
+      "crc32": "58fea4d8"
+    },
+    {
+      "member": "captures/native-baseline-captures-3/baseline-2184-29-status.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\native-baseline-captures-3\\baseline-2184-29-status.png",
+      "source_relative": "native-baseline-captures-3\\baseline-2184-29-status.png",
+      "size_bytes": 689240,
+      "sha256": "c9d25b59ca36fbf9a4348d646ba1e17f64156ae7b68fbecc033521e62b91c579",
+      "crc32": "2f112ef5"
+    },
+    {
+      "member": "captures/native-baseline-captures-3/baseline-2184-29-water.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\native-baseline-captures-3\\baseline-2184-29-water.png",
+      "source_relative": "native-baseline-captures-3\\baseline-2184-29-water.png",
+      "size_bytes": 860527,
+      "sha256": "82d268b9b0d59fcbc136bde1b6c43cb3f0096049a15dbc12f6f18aa5a1eeb62b",
+      "crc32": "6d9bc226"
+    },
+    {
+      "member": "captures/native-baseline-captures-3/baseline-2184-6-craft.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\native-baseline-captures-3\\baseline-2184-6-craft.png",
+      "source_relative": "native-baseline-captures-3\\baseline-2184-6-craft.png",
+      "size_bytes": 698233,
+      "sha256": "689a041620b2d0399005e44f8d8a201ff452ed8b02dea7b2a5e5aa664395567e",
+      "crc32": "4e75dcc9"
+    },
+    {
+      "member": "captures/native-baseline-captures-3/baseline-2184-6-fleet.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\native-baseline-captures-3\\baseline-2184-6-fleet.png",
+      "source_relative": "native-baseline-captures-3\\baseline-2184-6-fleet.png",
+      "size_bytes": 659373,
+      "sha256": "4086189af788e720dc9201bf87853fd503b956b4def8aa963cff6c2c4e19b98a",
+      "crc32": "2e0d42a3"
+    },
+    {
+      "member": "captures/native-baseline-captures-3/baseline-2184-6-status.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\native-baseline-captures-3\\baseline-2184-6-status.png",
+      "source_relative": "native-baseline-captures-3\\baseline-2184-6-status.png",
+      "size_bytes": 661150,
+      "sha256": "71557aebe36ca00fc2da6d1fa3ce0934dfcbeff1cc9f6de63d9bcdaaf3106381",
+      "crc32": "c16dc81f"
+    },
+    {
+      "member": "captures/native-baseline-captures-3/baseline-2184-6-water.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\native-baseline-captures-3\\baseline-2184-6-water.png",
+      "source_relative": "native-baseline-captures-3\\baseline-2184-6-water.png",
+      "size_bytes": 813141,
+      "sha256": "f2d1e93b80a4d1dbb5dc69db95c229c1872a51c8dc252cd7f7d6ed7db7e76cb8",
+      "crc32": "2eee1de4"
+    },
+    {
+      "member": "captures/native-baseline-captures-3/baseline-2520-11-craft.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\native-baseline-captures-3\\baseline-2520-11-craft.png",
+      "source_relative": "native-baseline-captures-3\\baseline-2520-11-craft.png",
+      "size_bytes": 502960,
+      "sha256": "f6fada14ce140a797b9c13fb7523cb963286d93481f5db3a582f615cd9c76112",
+      "crc32": "2ef3d7c2"
+    },
+    {
+      "member": "captures/native-baseline-captures-3/baseline-2520-11-fleet.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\native-baseline-captures-3\\baseline-2520-11-fleet.png",
+      "source_relative": "native-baseline-captures-3\\baseline-2520-11-fleet.png",
+      "size_bytes": 460024,
+      "sha256": "08a5170f958fe2c2398692e321b1e3a2119f15e1783a2b25e1b4664cb7bd503c",
+      "crc32": "75a2ee27"
+    },
+    {
+      "member": "captures/native-baseline-captures-3/baseline-2520-11-status.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\native-baseline-captures-3\\baseline-2520-11-status.png",
+      "source_relative": "native-baseline-captures-3\\baseline-2520-11-status.png",
+      "size_bytes": 460062,
+      "sha256": "f85137f63c789d3d7c8881ce9734808276fa8f32b0c1b6ba2bc25817918c1b9b",
+      "crc32": "91e35323"
+    },
+    {
+      "member": "captures/native-baseline-captures-3/baseline-2520-11-water.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\native-baseline-captures-3\\baseline-2520-11-water.png",
+      "source_relative": "native-baseline-captures-3\\baseline-2520-11-water.png",
+      "size_bytes": 582389,
+      "sha256": "a9628b6defd4b30614de72125ee7a972e7892c465c7159963a8e5ad4fa38e733",
+      "crc32": "25460a41"
+    },
+    {
+      "member": "captures/native-baseline-captures-3/baseline-2520-24-craft.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\native-baseline-captures-3\\baseline-2520-24-craft.png",
+      "source_relative": "native-baseline-captures-3\\baseline-2520-24-craft.png",
+      "size_bytes": 538128,
+      "sha256": "3caf4284b276f1d4508aca7d7553a0faa0ec64e7599395f81562be9bbb34c553",
+      "crc32": "f0897e28"
+    },
+    {
+      "member": "captures/native-baseline-captures-3/baseline-2520-24-fleet.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\native-baseline-captures-3\\baseline-2520-24-fleet.png",
+      "source_relative": "native-baseline-captures-3\\baseline-2520-24-fleet.png",
+      "size_bytes": 480347,
+      "sha256": "fddb338ad1a7ef59fa6e79030b4e329094a43600e97f55846879b083221f12c9",
+      "crc32": "7c5d75ee"
+    },
+    {
+      "member": "captures/native-baseline-captures-3/baseline-2520-24-status.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\native-baseline-captures-3\\baseline-2520-24-status.png",
+      "source_relative": "native-baseline-captures-3\\baseline-2520-24-status.png",
+      "size_bytes": 468230,
+      "sha256": "1aaedd83b54ef942e48f85163ab5814f0d17406789d6fbc9ab9cee770d581143",
+      "crc32": "a8cee76c"
+    },
+    {
+      "member": "captures/native-baseline-captures-3/baseline-2520-24-water.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\native-baseline-captures-3\\baseline-2520-24-water.png",
+      "source_relative": "native-baseline-captures-3\\baseline-2520-24-water.png",
+      "size_bytes": 665372,
+      "sha256": "511f6fc4acdfb4b33e584bc06bed66c06fb61f518f79a558a4ef233bf4928954",
+      "crc32": "46f053af"
+    },
+    {
+      "member": "captures/native-baseline-captures-3/baseline-2520-29-craft.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\native-baseline-captures-3\\baseline-2520-29-craft.png",
+      "source_relative": "native-baseline-captures-3\\baseline-2520-29-craft.png",
+      "size_bytes": 547179,
+      "sha256": "a7b196cc81f7f91c360558398e5e9b69a3c256bfb25e9898402476005f2ca2b3",
+      "crc32": "d4ccf07e"
+    },
+    {
+      "member": "captures/native-baseline-captures-3/baseline-2520-29-fleet.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\native-baseline-captures-3\\baseline-2520-29-fleet.png",
+      "source_relative": "native-baseline-captures-3\\baseline-2520-29-fleet.png",
+      "size_bytes": 487667,
+      "sha256": "533bc0d347e4ce4d7ed274919a0558732ec61e9527313e9a105d753f5c8e2c9b",
+      "crc32": "defeb3f5"
+    },
+    {
+      "member": "captures/native-baseline-captures-3/baseline-2520-29-status.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\native-baseline-captures-3\\baseline-2520-29-status.png",
+      "source_relative": "native-baseline-captures-3\\baseline-2520-29-status.png",
+      "size_bytes": 478020,
+      "sha256": "25957f84d1f6b286df7a0407cb8ee6ff35ffd618d44918ea0a8d105cf35bbc67",
+      "crc32": "7f079f78"
+    },
+    {
+      "member": "captures/native-baseline-captures-3/baseline-2520-29-water.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\native-baseline-captures-3\\baseline-2520-29-water.png",
+      "source_relative": "native-baseline-captures-3\\baseline-2520-29-water.png",
+      "size_bytes": 674381,
+      "sha256": "1692ca5cd37216e0d4ffc7440b767781a615278eb885a40b7f59f5305ec06fd2",
+      "crc32": "742c51f6"
+    },
+    {
+      "member": "captures/native-baseline-captures-3/baseline-2520-6-craft.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\native-baseline-captures-3\\baseline-2520-6-craft.png",
+      "source_relative": "native-baseline-captures-3\\baseline-2520-6-craft.png",
+      "size_bytes": 506054,
+      "sha256": "c2424ffb0bff8833995c23340c38cb11b3b00d1882251f58a32362ae6b3d088f",
+      "crc32": "e32227e9"
+    },
+    {
+      "member": "captures/native-baseline-captures-3/baseline-2520-6-fleet.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\native-baseline-captures-3\\baseline-2520-6-fleet.png",
+      "source_relative": "native-baseline-captures-3\\baseline-2520-6-fleet.png",
+      "size_bytes": 463529,
+      "sha256": "50c398430d1814b1a9cdef330732048e068b945e9dc872cd0b67cc0caf42bc3b",
+      "crc32": "03984b5c"
+    },
+    {
+      "member": "captures/native-baseline-captures-3/baseline-2520-6-status.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\native-baseline-captures-3\\baseline-2520-6-status.png",
+      "source_relative": "native-baseline-captures-3\\baseline-2520-6-status.png",
+      "size_bytes": 465238,
+      "sha256": "020cd5d1f2b1d1b4cb81d4f946d8787907f342cf00eff5dce3c8334e43db272b",
+      "crc32": "3f5489fa"
+    },
+    {
+      "member": "captures/native-baseline-captures-3/baseline-2520-6-water.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\native-baseline-captures-3\\baseline-2520-6-water.png",
+      "source_relative": "native-baseline-captures-3\\baseline-2520-6-water.png",
+      "size_bytes": 614878,
+      "sha256": "c979420dc943aa3636dece1486d5dd7c7fea8fc4b9d16feb8b456c1075703b98",
+      "crc32": "d7f00be2"
+    },
+    {
+      "member": "captures/status-ui-native-captures-1/status-2184-11-craft.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-ui-native-captures-1\\status-2184-11-craft.png",
+      "source_relative": "status-ui-native-captures-1\\status-2184-11-craft.png",
+      "size_bytes": 650093,
+      "sha256": "72f21e6f6f5d70b5356954ff4c4227dad79bd7ca8098a7c14808dfd395ff2fbc",
+      "crc32": "4148bbf0"
+    },
+    {
+      "member": "captures/status-ui-native-captures-1/status-2184-11-fleet.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-ui-native-captures-1\\status-2184-11-fleet.png",
+      "source_relative": "status-ui-native-captures-1\\status-2184-11-fleet.png",
+      "size_bytes": 644981,
+      "sha256": "762ad3318ca3781c27ac291dfed2ec09c62ffe1380f1a26b4ae4b48192165755",
+      "crc32": "6fec52de"
+    },
+    {
+      "member": "captures/status-ui-native-captures-1/status-2184-11-inspect.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-ui-native-captures-1\\status-2184-11-inspect.png",
+      "source_relative": "status-ui-native-captures-1\\status-2184-11-inspect.png",
+      "size_bytes": 591542,
+      "sha256": "5d2e04847c1915553351fbf1c63f99e84bca48fcc205cbc151fd5069ee6643cc",
+      "crc32": "d6cc7f6a"
+    },
+    {
+      "member": "captures/status-ui-native-captures-1/status-2184-24-craft.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-ui-native-captures-1\\status-2184-24-craft.png",
+      "source_relative": "status-ui-native-captures-1\\status-2184-24-craft.png",
+      "size_bytes": 782256,
+      "sha256": "8d5a8160089587d8c29c5e54887fbe57681da81fa49bb019b6c1891028d5023c",
+      "crc32": "f32000d1"
+    },
+    {
+      "member": "captures/status-ui-native-captures-1/status-2184-24-fleet.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-ui-native-captures-1\\status-2184-24-fleet.png",
+      "source_relative": "status-ui-native-captures-1\\status-2184-24-fleet.png",
+      "size_bytes": 704080,
+      "sha256": "2dfc2fc73b125789dda4908092ee9dd47246d0b4e03b3d9f9bf8666e9db86969",
+      "crc32": "cc9fa0f4"
+    },
+    {
+      "member": "captures/status-ui-native-captures-1/status-2184-24-inspect.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-ui-native-captures-1\\status-2184-24-inspect.png",
+      "source_relative": "status-ui-native-captures-1\\status-2184-24-inspect.png",
+      "size_bytes": 658924,
+      "sha256": "4ee4125f350c0a9b5211ebb23c0ffcebf86aa47318f15ab7efd437aa5e0f2252",
+      "crc32": "0910e303"
+    },
+    {
+      "member": "captures/status-ui-native-captures-1/status-2184-29-craft.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-ui-native-captures-1\\status-2184-29-craft.png",
+      "source_relative": "status-ui-native-captures-1\\status-2184-29-craft.png",
+      "size_bytes": 797051,
+      "sha256": "94ca455092449b61b0bc4377f20d679ebab9edbf0e658181bd7548902565cc72",
+      "crc32": "19a91028"
+    },
+    {
+      "member": "captures/status-ui-native-captures-1/status-2184-29-fleet.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-ui-native-captures-1\\status-2184-29-fleet.png",
+      "source_relative": "status-ui-native-captures-1\\status-2184-29-fleet.png",
+      "size_bytes": 718294,
+      "sha256": "2af98cb164fe1e576cdb1f7d70799c3c528bf4efed5e0aa45676867510d7790b",
+      "crc32": "36c7cf9e"
+    },
+    {
+      "member": "captures/status-ui-native-captures-1/status-2184-29-inspect.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-ui-native-captures-1\\status-2184-29-inspect.png",
+      "source_relative": "status-ui-native-captures-1\\status-2184-29-inspect.png",
+      "size_bytes": 682634,
+      "sha256": "ac55d52e270232c6a314b6ce9fa1d03a9d32407f58fcd099d77aacac0104a140",
+      "crc32": "35e78852"
+    },
+    {
+      "member": "captures/status-ui-native-captures-1/status-2184-6-craft.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-ui-native-captures-1\\status-2184-6-craft.png",
+      "source_relative": "status-ui-native-captures-1\\status-2184-6-craft.png",
+      "size_bytes": 698253,
+      "sha256": "f0be3dfe13a1689ee5ce72621fb136b3e78e91371a3b88f35229b5032dbaba10",
+      "crc32": "c1743cfb"
+    },
+    {
+      "member": "captures/status-ui-native-captures-1/status-2184-6-fleet.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-ui-native-captures-1\\status-2184-6-fleet.png",
+      "source_relative": "status-ui-native-captures-1\\status-2184-6-fleet.png",
+      "size_bytes": 694917,
+      "sha256": "8aa7499e7bbeb4c8ef749ff0d3b723a5d499d3480c461308a962140413c06c71",
+      "crc32": "c5049514"
+    },
+    {
+      "member": "captures/status-ui-native-captures-1/status-2184-6-inspect.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-ui-native-captures-1\\status-2184-6-inspect.png",
+      "source_relative": "status-ui-native-captures-1\\status-2184-6-inspect.png",
+      "size_bytes": 652327,
+      "sha256": "e946e6a891e45e7e4c2a2ea46f5abd48667fdc9e59a805998d26665e559244c3",
+      "crc32": "b5f8776e"
+    },
+    {
+      "member": "captures/status-ui-native-captures-1/status-2184-9-received.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-ui-native-captures-1\\status-2184-9-received.png",
+      "source_relative": "status-ui-native-captures-1\\status-2184-9-received.png",
+      "size_bytes": 686884,
+      "sha256": "ec6f4e990a4f55319b00d16c5f4140ef0f805a67060dcfff683a42652ef4502b",
+      "crc32": "61a4c2f7"
+    },
+    {
+      "member": "captures/status-ui-native-captures-1/status-2184-9-signals.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-ui-native-captures-1\\status-2184-9-signals.png",
+      "source_relative": "status-ui-native-captures-1\\status-2184-9-signals.png",
+      "size_bytes": 657809,
+      "sha256": "d499f8069fbdfe57d26766ae1171201080f3e5e7d209a3148228de899f2f493a",
+      "crc32": "82574767"
+    },
+    {
+      "member": "captures/status-ui-native-captures-1/status-2520-11-craft.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-ui-native-captures-1\\status-2520-11-craft.png",
+      "source_relative": "status-ui-native-captures-1\\status-2520-11-craft.png",
+      "size_bytes": 556051,
+      "sha256": "13daed85c5ca28ef3d5a9d4b21800f183d599b74278b44ca21607612a238ac17",
+      "crc32": "7ad44746"
+    },
+    {
+      "member": "captures/status-ui-native-captures-1/status-2520-11-fleet.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-ui-native-captures-1\\status-2520-11-fleet.png",
+      "source_relative": "status-ui-native-captures-1\\status-2520-11-fleet.png",
+      "size_bytes": 536936,
+      "sha256": "cdca9dbe93243b69e29e91ac5edeb62b6ab3db7503f2603ee8dbef283366ee46",
+      "crc32": "44c711a4"
+    },
+    {
+      "member": "captures/status-ui-native-captures-1/status-2520-11-inspect.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-ui-native-captures-1\\status-2520-11-inspect.png",
+      "source_relative": "status-ui-native-captures-1\\status-2520-11-inspect.png",
+      "size_bytes": 458825,
+      "sha256": "b9a3ad3d07a893f76907881d6abdd28ae03d84d965fc71010767cec3b1382bb4",
+      "crc32": "5e4a228b"
+    },
+    {
+      "member": "captures/status-ui-native-captures-1/status-2520-24-craft.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-ui-native-captures-1\\status-2520-24-craft.png",
+      "source_relative": "status-ui-native-captures-1\\status-2520-24-craft.png",
+      "size_bytes": 619730,
+      "sha256": "1bf47340ea310657b9f94bbe0cc532e9057cc285e7971e336239cf23543807ba",
+      "crc32": "2cdb5967"
+    },
+    {
+      "member": "captures/status-ui-native-captures-1/status-2520-24-fleet.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-ui-native-captures-1\\status-2520-24-fleet.png",
+      "source_relative": "status-ui-native-captures-1\\status-2520-24-fleet.png",
+      "size_bytes": 606222,
+      "sha256": "93a4504949274293c073e60a06d970e6e50490bf0816153ae2936d44164b94cf",
+      "crc32": "a1b37307"
+    },
+    {
+      "member": "captures/status-ui-native-captures-1/status-2520-24-inspect.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-ui-native-captures-1\\status-2520-24-inspect.png",
+      "source_relative": "status-ui-native-captures-1\\status-2520-24-inspect.png",
+      "size_bytes": 455322,
+      "sha256": "278eb329fcf49d963a5de38aa1f0fabcc659032e88a0758c1ce2c7cd847f37d7",
+      "crc32": "34ce83e1"
+    },
+    {
+      "member": "captures/status-ui-native-captures-1/status-2520-29-craft.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-ui-native-captures-1\\status-2520-29-craft.png",
+      "source_relative": "status-ui-native-captures-1\\status-2520-29-craft.png",
+      "size_bytes": 627667,
+      "sha256": "69c566de6e6ea522b156d980986dbaa9b02f279033b8c3438513eb8aff98abaf",
+      "crc32": "e359d6c7"
+    },
+    {
+      "member": "captures/status-ui-native-captures-1/status-2520-29-fleet.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-ui-native-captures-1\\status-2520-29-fleet.png",
+      "source_relative": "status-ui-native-captures-1\\status-2520-29-fleet.png",
+      "size_bytes": 614468,
+      "sha256": "9e4a8b49dc11027e291f053996fb934c0313a2700fff77f7621828499d24c124",
+      "crc32": "6f1fead2"
+    },
+    {
+      "member": "captures/status-ui-native-captures-1/status-2520-29-inspect.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-ui-native-captures-1\\status-2520-29-inspect.png",
+      "source_relative": "status-ui-native-captures-1\\status-2520-29-inspect.png",
+      "size_bytes": 475822,
+      "sha256": "216c77277b4d39b39a4e057146c8ac488d3d0981939d14278546079a0ca87280",
+      "crc32": "adcc9e23"
+    },
+    {
+      "member": "captures/status-ui-native-captures-1/status-2520-6-craft.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-ui-native-captures-1\\status-2520-6-craft.png",
+      "source_relative": "status-ui-native-captures-1\\status-2520-6-craft.png",
+      "size_bytes": 580383,
+      "sha256": "235a9ac9e222e5e51783f1555d6bf31befcf1b90a3faf4bd284de9174b559463",
+      "crc32": "44782b0c"
+    },
+    {
+      "member": "captures/status-ui-native-captures-1/status-2520-6-fleet.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-ui-native-captures-1\\status-2520-6-fleet.png",
+      "source_relative": "status-ui-native-captures-1\\status-2520-6-fleet.png",
+      "size_bytes": 569553,
+      "sha256": "9b938a89738034f034e51239491d954aff42a143cdaf331776257507ab056d0d",
+      "crc32": "ae5f1584"
+    },
+    {
+      "member": "captures/status-ui-native-captures-1/status-2520-6-inspect.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-ui-native-captures-1\\status-2520-6-inspect.png",
+      "source_relative": "status-ui-native-captures-1\\status-2520-6-inspect.png",
+      "size_bytes": 457602,
+      "sha256": "b0d187faef38a750ff07a650b5d8c0269b3d39959e162e4a030264c3476145cf",
+      "crc32": "87a1e0e2"
+    },
+    {
+      "member": "captures/status-ui-native-captures-1/status-2520-9-received.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-ui-native-captures-1\\status-2520-9-received.png",
+      "source_relative": "status-ui-native-captures-1\\status-2520-9-received.png",
+      "size_bytes": 560854,
+      "sha256": "805a20a595374db779fbab42a6edbd5548b0f874369c25a01fe70382035d5a65",
+      "crc32": "8de88259"
+    },
+    {
+      "member": "captures/status-ui-native-captures-1/status-2520-9-signals.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-ui-native-captures-1\\status-2520-9-signals.png",
+      "source_relative": "status-ui-native-captures-1\\status-2520-9-signals.png",
+      "size_bytes": 439773,
+      "sha256": "b5e009a5318db7c25e05a9597482362bc49aa3bf00d88942efd7d0ac10b13ca2",
+      "crc32": "c9c5a9e7"
+    },
+    {
+      "member": "captures/status-ui-native-captures-2/status-2184-11-craft.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-ui-native-captures-2\\status-2184-11-craft.png",
+      "source_relative": "status-ui-native-captures-2\\status-2184-11-craft.png",
+      "size_bytes": 650099,
+      "sha256": "3c2da38024fb76b8f1d06f37bf0f10cca46ccd7b9aedae3944bb0693c6a2124f",
+      "crc32": "de85996e"
+    },
+    {
+      "member": "captures/status-ui-native-captures-2/status-2184-11-fleet.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-ui-native-captures-2\\status-2184-11-fleet.png",
+      "source_relative": "status-ui-native-captures-2\\status-2184-11-fleet.png",
+      "size_bytes": 644970,
+      "sha256": "d0212a8b9ee30e306c6eec8fd08a9230ab6945e1d8278a278fdcccd15d1c4580",
+      "crc32": "c31b8d16"
+    },
+    {
+      "member": "captures/status-ui-native-captures-2/status-2184-11-inspect.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-ui-native-captures-2\\status-2184-11-inspect.png",
+      "source_relative": "status-ui-native-captures-2\\status-2184-11-inspect.png",
+      "size_bytes": 591529,
+      "sha256": "4f2619c77a133513574e07ce5144cd923047fc876ac641133c4751f05871df6b",
+      "crc32": "2bfd2d20"
+    },
+    {
+      "member": "captures/status-ui-native-captures-2/status-2184-24-craft.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-ui-native-captures-2\\status-2184-24-craft.png",
+      "source_relative": "status-ui-native-captures-2\\status-2184-24-craft.png",
+      "size_bytes": 767869,
+      "sha256": "8c0be00fe9a7028964b74366d1acc90bb96972f4c89774c8a269d1e5c818addf",
+      "crc32": "34f44d21"
+    },
+    {
+      "member": "captures/status-ui-native-captures-2/status-2184-24-fleet.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-ui-native-captures-2\\status-2184-24-fleet.png",
+      "source_relative": "status-ui-native-captures-2\\status-2184-24-fleet.png",
+      "size_bytes": 704098,
+      "sha256": "9f1b7cbf273757d9d6d8a3919ea164afd7df6e444186c4556b6163a90a25cbbf",
+      "crc32": "4309ecea"
+    },
+    {
+      "member": "captures/status-ui-native-captures-2/status-2184-24-inspect.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-ui-native-captures-2\\status-2184-24-inspect.png",
+      "source_relative": "status-ui-native-captures-2\\status-2184-24-inspect.png",
+      "size_bytes": 658927,
+      "sha256": "58e82881c3d171725b2941ac21ce27cd8504aff395e745a3a0396e3a7113de07",
+      "crc32": "930b784d"
+    },
+    {
+      "member": "captures/status-ui-native-captures-2/status-2184-29-craft.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-ui-native-captures-2\\status-2184-29-craft.png",
+      "source_relative": "status-ui-native-captures-2\\status-2184-29-craft.png",
+      "size_bytes": 781830,
+      "sha256": "26ee8287495e7b20437e9d7a41d7da57615993dd003b82deb5b5793617e85499",
+      "crc32": "fb5bf61d"
+    },
+    {
+      "member": "captures/status-ui-native-captures-2/status-2184-29-fleet.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-ui-native-captures-2\\status-2184-29-fleet.png",
+      "source_relative": "status-ui-native-captures-2\\status-2184-29-fleet.png",
+      "size_bytes": 718339,
+      "sha256": "026d39115a1d8e87a0099377d4dbd533ae1d88ef1a5c65658ff030653016d2f7",
+      "crc32": "71140c16"
+    },
+    {
+      "member": "captures/status-ui-native-captures-2/status-2184-29-inspect.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-ui-native-captures-2\\status-2184-29-inspect.png",
+      "source_relative": "status-ui-native-captures-2\\status-2184-29-inspect.png",
+      "size_bytes": 682649,
+      "sha256": "1797afded1960939fa46fdfcd04f8ccb79f10e78aca46ea0347ed3bbbfd963f7",
+      "crc32": "0cf9b7ee"
+    },
+    {
+      "member": "captures/status-ui-native-captures-2/status-2184-6-craft.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-ui-native-captures-2\\status-2184-6-craft.png",
+      "source_relative": "status-ui-native-captures-2\\status-2184-6-craft.png",
+      "size_bytes": 698235,
+      "sha256": "b235a231842db94f22c31423a9ec30ec08d1f8768134b07ac18c009103bfffcf",
+      "crc32": "50e40c7d"
+    },
+    {
+      "member": "captures/status-ui-native-captures-2/status-2184-6-fleet.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-ui-native-captures-2\\status-2184-6-fleet.png",
+      "source_relative": "status-ui-native-captures-2\\status-2184-6-fleet.png",
+      "size_bytes": 694934,
+      "sha256": "6a4171e5f0fc7abe0925bebec7b8f1bf3c617b6af2e24b952e9cb71f60987189",
+      "crc32": "274a3e3c"
+    },
+    {
+      "member": "captures/status-ui-native-captures-2/status-2184-6-inspect.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-ui-native-captures-2\\status-2184-6-inspect.png",
+      "source_relative": "status-ui-native-captures-2\\status-2184-6-inspect.png",
+      "size_bytes": 652362,
+      "sha256": "d13c38b22ab0c0040608c83a76226c9d1f25443ab4ffd1e7a93de664ab5dd0c6",
+      "crc32": "31ca8341"
+    },
+    {
+      "member": "captures/status-ui-native-captures-2/status-2184-9-received.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-ui-native-captures-2\\status-2184-9-received.png",
+      "source_relative": "status-ui-native-captures-2\\status-2184-9-received.png",
+      "size_bytes": 686888,
+      "sha256": "f856ca8961803bcc635cb13c7bbc73ff4ac20c1ea2864c3cc083763fb35dfe83",
+      "crc32": "35123126"
+    },
+    {
+      "member": "captures/status-ui-native-captures-2/status-2184-9-signals.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-ui-native-captures-2\\status-2184-9-signals.png",
+      "source_relative": "status-ui-native-captures-2\\status-2184-9-signals.png",
+      "size_bytes": 657820,
+      "sha256": "3d4afaa963e1137843f66cf563f7e8347adbc480ab511b66eaa7af3e80d0e1d1",
+      "crc32": "24f6fb4c"
+    },
+    {
+      "member": "captures/status-ui-native-captures-2/status-2520-11-craft.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-ui-native-captures-2\\status-2520-11-craft.png",
+      "source_relative": "status-ui-native-captures-2\\status-2520-11-craft.png",
+      "size_bytes": 568261,
+      "sha256": "d41904d2d19e24c0c0aa5217dbde20c69c0fb3d57df7cf8590ed5ac0ea1c609c",
+      "crc32": "062e2d49"
+    },
+    {
+      "member": "captures/status-ui-native-captures-2/status-2520-11-fleet.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-ui-native-captures-2\\status-2520-11-fleet.png",
+      "source_relative": "status-ui-native-captures-2\\status-2520-11-fleet.png",
+      "size_bytes": 564511,
+      "sha256": "970e593de2ea270ecaf986ef8ebfd09d22c9d624860e7f87c4557d7d13b7576d",
+      "crc32": "73fb959a"
+    },
+    {
+      "member": "captures/status-ui-native-captures-2/status-2520-11-inspect.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-ui-native-captures-2\\status-2520-11-inspect.png",
+      "source_relative": "status-ui-native-captures-2\\status-2520-11-inspect.png",
+      "size_bytes": 458825,
+      "sha256": "9c93a0a8316cd5599b77955847aef0c422dd366e23022645ce0ed09fae02d0ae",
+      "crc32": "2a857936"
+    },
+    {
+      "member": "captures/status-ui-native-captures-2/status-2520-24-craft.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-ui-native-captures-2\\status-2520-24-craft.png",
+      "source_relative": "status-ui-native-captures-2\\status-2520-24-craft.png",
+      "size_bytes": 591783,
+      "sha256": "fc490a885dece67ab5ac2979e67b4dbd602e6b72bb2dc7249fea8521aac08d45",
+      "crc32": "ff6e8c9e"
+    },
+    {
+      "member": "captures/status-ui-native-captures-2/status-2520-24-fleet.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-ui-native-captures-2\\status-2520-24-fleet.png",
+      "source_relative": "status-ui-native-captures-2\\status-2520-24-fleet.png",
+      "size_bytes": 596389,
+      "sha256": "9f5aff64984812f43033c9e7770f2723fdbe8c0122fe41f3ac36ad9f7d8d5fee",
+      "crc32": "8aa12e92"
+    },
+    {
+      "member": "captures/status-ui-native-captures-2/status-2520-24-inspect.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-ui-native-captures-2\\status-2520-24-inspect.png",
+      "source_relative": "status-ui-native-captures-2\\status-2520-24-inspect.png",
+      "size_bytes": 455324,
+      "sha256": "9f538e76fdbfe513579edc01ebb243dbe99f65356810e582df68becb5d8be9d9",
+      "crc32": "c9e9d4be"
+    },
+    {
+      "member": "captures/status-ui-native-captures-2/status-2520-29-craft.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-ui-native-captures-2\\status-2520-29-craft.png",
+      "source_relative": "status-ui-native-captures-2\\status-2520-29-craft.png",
+      "size_bytes": 599575,
+      "sha256": "5541122ef29afdd09ec0b9253e883f686f770b23c5ff23d74df7b2933baec957",
+      "crc32": "b34f1398"
+    },
+    {
+      "member": "captures/status-ui-native-captures-2/status-2520-29-fleet.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-ui-native-captures-2\\status-2520-29-fleet.png",
+      "source_relative": "status-ui-native-captures-2\\status-2520-29-fleet.png",
+      "size_bytes": 603641,
+      "sha256": "ea08ae599fd921d04bffef4b6489bd0aa8ccddf81f7a968e921e9b92b84d5ff1",
+      "crc32": "aea8633b"
+    },
+    {
+      "member": "captures/status-ui-native-captures-2/status-2520-29-inspect.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-ui-native-captures-2\\status-2520-29-inspect.png",
+      "source_relative": "status-ui-native-captures-2\\status-2520-29-inspect.png",
+      "size_bytes": 475805,
+      "sha256": "684d4bc10351846dfd12fa22db9d13d13a7a502fc11c2f0ea1204e91dc1de9c5",
+      "crc32": "6ac27a63"
+    },
+    {
+      "member": "captures/status-ui-native-captures-2/status-2520-6-craft.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-ui-native-captures-2\\status-2520-6-craft.png",
+      "source_relative": "status-ui-native-captures-2\\status-2520-6-craft.png",
+      "size_bytes": 586234,
+      "sha256": "a8d981c2246d86520803f1e1e915fc33f60a1935fa455282f42fd59326eec9a1",
+      "crc32": "43d96ae2"
+    },
+    {
+      "member": "captures/status-ui-native-captures-2/status-2520-6-fleet.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-ui-native-captures-2\\status-2520-6-fleet.png",
+      "source_relative": "status-ui-native-captures-2\\status-2520-6-fleet.png",
+      "size_bytes": 583388,
+      "sha256": "a2ff27388f73161da0680a1d52f9f6ca7185177fa3cb8e199efe6ee71306e746",
+      "crc32": "b61cfdc9"
+    },
+    {
+      "member": "captures/status-ui-native-captures-2/status-2520-6-inspect.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-ui-native-captures-2\\status-2520-6-inspect.png",
+      "source_relative": "status-ui-native-captures-2\\status-2520-6-inspect.png",
+      "size_bytes": 457607,
+      "sha256": "9d9c795f4c90f9e0aed3eee012f8de1d9f3dc30fe9c53521933950392a3a0e74",
+      "crc32": "5cdbae8c"
+    },
+    {
+      "member": "captures/status-ui-native-captures-2/status-2520-9-received.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-ui-native-captures-2\\status-2520-9-received.png",
+      "source_relative": "status-ui-native-captures-2\\status-2520-9-received.png",
+      "size_bytes": 581474,
+      "sha256": "311ee893813de143cd8746d38940b3025d0ed401180121efe5499d6a4c4bd7ed",
+      "crc32": "47aa4841"
+    },
+    {
+      "member": "captures/status-ui-native-captures-2/status-2520-9-signals.png",
+      "source_absolute": "C:\\Users\\Archi\\Documents\\Codex\\2026-10-24\\you-are-codex-the-implementation-worker\\048-evidence\\status-ui-native-captures-2\\status-2520-9-signals.png",
+      "source_relative": "status-ui-native-captures-2\\status-2520-9-signals.png",
+      "size_bytes": 440032,
+      "sha256": "cf2e70171abacba6d1bdd08579463ffa3a0596bf72c8c3ffbed9290232f76df8",
+      "crc32": "ffcc5e78"
+    }
+  ],
+  "log_error_and_check_summary_scan": [
+    {
+      "member": "root/baseline-import.log",
+      "check_summaries": [],
+      "error_marker_count": 0,
+      "error_marker_samples": []
+    },
+    {
+      "member": "root/native-baseline-1.log",
+      "check_summaries": [],
+      "error_marker_count": 0,
+      "error_marker_samples": []
+    },
+    {
+      "member": "root/native-baseline-2.log",
+      "check_summaries": [
+        "STATUS NATIVE BASELINE CHECKS 1 FAILURES 0"
+      ],
+      "error_marker_count": 0,
+      "error_marker_samples": []
+    },
+    {
+      "member": "root/native-baseline-3.log",
+      "check_summaries": [
+        "STATUS NATIVE BASELINE CHECKS 1 FAILURES 0"
+      ],
+      "error_marker_count": 0,
+      "error_marker_samples": []
+    },
+    {
+      "member": "root/regression-campaign_instruments_ui_tests.log",
+      "check_summaries": [
+        "CAMPAIGN INSTRUMENT UI CHECKS 52 FAILURES 0"
+      ],
+      "error_marker_count": 0,
+      "error_marker_samples": []
+    },
+    {
+      "member": "root/regression-expedition_instruments_ui_tests.log",
+      "check_summaries": [
+        "EXPEDITION INSTRUMENT UI CHECKS 47 FAILURES 0"
+      ],
+      "error_marker_count": 0,
+      "error_marker_samples": []
+    },
+    {
+      "member": "root/regression-fleet_instruments_ui_tests.log",
+      "check_summaries": [
+        "FLEET INSTRUMENTS UI CHECKS 78 FAILURES 0"
+      ],
+      "error_marker_count": 0,
+      "error_marker_samples": []
+    },
+    {
+      "member": "root/regression-lock_warning_ui_tests.log",
+      "check_summaries": [
+        "LOCK WARNING UI CHECKS 14 FAILURES 0"
+      ],
+      "error_marker_count": 0,
+      "error_marker_samples": []
+    },
+    {
+      "member": "root/regression-playfield_hud_tests.log",
+      "check_summaries": [
+        "PLAYFIELD HUD CHECKS 94 FAILURES 0"
+      ],
+      "error_marker_count": 0,
+      "error_marker_samples": []
+    },
+    {
+      "member": "root/regression-radial_hud_tests.log",
+      "check_summaries": [
+        "RADIAL HUD CHECKS 58 FAILURES 0"
+      ],
+      "error_marker_count": 0,
+      "error_marker_samples": []
+    },
+    {
+      "member": "root/root-core-wip.log",
+      "check_summaries": [
+        "CHECKS 836 FAILURES 0"
+      ],
+      "error_marker_count": 0,
+      "error_marker_samples": []
+    },
+    {
+      "member": "root/root-first-status.log",
+      "check_summaries": [
+        "STATUS TEXT CHECKS 61 FAILURES 0"
+      ],
+      "error_marker_count": 0,
+      "error_marker_samples": []
+    },
+    {
+      "member": "root/root-wip-import.log",
+      "check_summaries": [],
+      "error_marker_count": 0,
+      "error_marker_samples": []
+    },
+    {
+      "member": "root/status-baseline-1.log",
+      "check_summaries": [
+        "STATUS BASELINE CHECKS 1 FAILURES 0"
+      ],
+      "error_marker_count": 0,
+      "error_marker_samples": []
+    },
+    {
+      "member": "root/status-fit-1.log",
+      "check_summaries": [],
+      "error_marker_count": 0,
+      "error_marker_samples": []
+    },
+    {
+      "member": "root/status-geometry-1.log",
+      "check_summaries": [
+        "STATUS GEOMETRY PROBE CHECKS 1 FAILURES 0"
+      ],
+      "error_marker_count": 0,
+      "error_marker_samples": []
+    },
+    {
+      "member": "root/status-geometry-post-1.log",
+      "check_summaries": [],
+      "error_marker_count": 3,
+      "error_marker_samples": [
+        "ERROR: Attempt to open script 'res://../048-evidence/status_geometry_probe.gd' resulted in error 'File not found'.",
+        "ERROR: Failed loading resource: res://../048-evidence/status_geometry_probe.gd.",
+        "ERROR: Can't load script: ../048-evidence/status_geometry_probe.gd"
+      ]
+    },
+    {
+      "member": "root/status-green-1.log",
+      "check_summaries": [
+        "STATUS TEXT CHECKS 61 FAILURES 0"
+      ],
+      "error_marker_count": 0,
+      "error_marker_samples": []
+    },
+    {
+      "member": "root/status-progress-green-1.log",
+      "check_summaries": [
+        "STATUS TEXT CHECKS 74 FAILURES 0"
+      ],
+      "error_marker_count": 0,
+      "error_marker_samples": []
+    },
+    {
+      "member": "root/status-progress-red-1.log",
+      "check_summaries": [
+        "STATUS TEXT CHECKS 74 FAILURES 2"
+      ],
+      "error_marker_count": 0,
+      "error_marker_samples": []
+    },
+    {
+      "member": "root/status-red-1.log",
+      "check_summaries": [
+        "STATUS TEXT CHECKS 1 FAILURES 1"
+      ],
+      "error_marker_count": 2,
+      "error_marker_samples": [
+        "ERROR: Attempt to open script 'res://src/presentation/status_text/status_text.gd' resulted in error 'File not found'.",
+        "ERROR: Failed loading resource: res://src/presentation/status_text/status_text.gd."
+      ]
+    },
+    {
+      "member": "root/status-signal-1.log",
+      "check_summaries": [
+        "STATUS SIGNAL PROBE CHECKS 1 FAILURES 0"
+      ],
+      "error_marker_count": 0,
+      "error_marker_samples": []
+    },
+    {
+      "member": "root/status-ui-1.log",
+      "check_summaries": [
+        "STATUS TEXT UI CHECKS 970 FAILURES 84"
+      ],
+      "error_marker_count": 0,
+      "error_marker_samples": []
+    },
+    {
+      "member": "root/status-ui-2.log",
+      "check_summaries": [
+        "STATUS TEXT UI CHECKS 1160 FAILURES 26"
+      ],
+      "error_marker_count": 0,
+      "error_marker_samples": []
+    },
+    {
+      "member": "root/status-ui-3.log",
+      "check_summaries": [
+        "STATUS TEXT UI CHECKS 1160 FAILURES 26"
+      ],
+      "error_marker_count": 0,
+      "error_marker_samples": []
+    },
+    {
+      "member": "root/status-ui-4.log",
+      "check_summaries": [
+        "STATUS TEXT UI CHECKS 1208 FAILURES 0"
+      ],
+      "error_marker_count": 0,
+      "error_marker_samples": []
+    },
+    {
+      "member": "root/status-ui-native-1.log",
+      "check_summaries": [
+        "STATUS TEXT UI CHECKS 1364 FAILURES 26"
+      ],
+      "error_marker_count": 0,
+      "error_marker_samples": []
+    },
+    {
+      "member": "root/status-ui-native-2.log",
+      "check_summaries": [
+        "STATUS TEXT UI CHECKS 1412 FAILURES 0"
+      ],
+      "error_marker_count": 0,
+      "error_marker_samples": []
+    }
+  ],
+  "missing_logs": "No authoritative expected-file checklist was present in the directory; all direct matching logs/probes and requested capture PNGs present at inventory time were included.",
+  "claims": "This is evidence packaging only. It does not claim any test suite passed, a complete product state, or human/phone usability."
+}

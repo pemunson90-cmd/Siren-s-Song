@@ -1,0 +1,10 @@
+{
+  "verified_utc": "2026-10-26T00:27:35.712569+00:00",
+  "zip_sha256": "8b52274f6c8150f2709532f9850660a5053c44b6c74223b4bbb34635191ec120",
+  "member_count": 145,
+  "root_reopened_and_compared_every_member_to_source": true,
+  "head": "e1dbc026b851d13bf50d6d01abe2d4e60395d379",
+  "base": "e0ee34d356d61c42e9809305647415c103e3cf84",
+  "pr": 146,
+  "state": "Development evidence only; independent review and hosted game-smoke pending. Failed logs are retained, not acceptance."
+}
