@@ -37,7 +37,7 @@ PR into claude/integration. Merge per the line above; mark DONE and update the b
 
 ## Completion
 Sight-only Hunt and density readability fix implemented; PR https://github.com/pemunson90-cmd/Siren-s-Song/pull/147 awaits exact-head hosted gates.
-Recovery: claude/lane-hunt-restore at 1c7bb186c0f2c1c53f260568b6dac51848f1750d; worktree 050-hunt-restore.
-Windows import passed; core 836/0; Hunt meter UI 232/0; unchanged density scenarios 1084/0.
-Unverified: current hosted guidance/game-smoke and merge; phone play deferred. Earlier checkpoints remain in git history.
+Recovery: claude/lane-hunt-restore at 0d4f7c3345dacbe32c3323ca0d841b59f66acded; worktree 050-hunt-restore.
+Windows import passed; core 836/0; Hunt meter UI 232/0; unchanged density scenarios 1084/0; six-action transport 80/0.
+Unverified: new hosted gates and merge; prior run passed density then exposed the stale five-control assertion, now strengthened to require Hunt. Phone play deferred.
 Narrow seams: simulation sight/photo order, Recon, HUD, soundscape, save checks and AI trace; protected hearing/movement/lock/combat unchanged.
