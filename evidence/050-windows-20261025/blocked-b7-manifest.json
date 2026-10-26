@@ -1,0 +1,119 @@
+{
+  "verified_utc": "2026-10-26T03:13:35.655762+00:00",
+  "head": "b7addca49c997772d8704afbda33ff6485d42b40",
+  "pr": 147,
+  "run_id": 40261655770,
+  "state": "BLOCKED, not accepted",
+  "guidance": "success",
+  "game_smoke": "failure",
+  "failing_suite": "route_telemetry_touch_tests",
+  "failing_checks": 46,
+  "failing_assertions": 1,
+  "failed_assertion": "visible craft opens its own context in place without resetting manual view",
+  "root_verified_development_originals": 194,
+  "root_verified_unique_members": 150,
+  "hosted_zip_sha256": "84d7aaf5897834fa0a48cd684d98321ea6eff9444a59ed55307ab0eec84c3260",
+  "hosted_members": [
+    {
+      "member": "0_game-smoke.txt",
+      "bytes": 1341975,
+      "sha256": "3332be8af822218390692a730fc94a116853ac8a5c0ae4d82f41c01ea7f5779a"
+    },
+    {
+      "member": "game-smoke/system.txt",
+      "bytes": 600,
+      "sha256": "4f8b605287897e4eac1b197df65d4dda5a4b5aa9c3e824b8f86c660d34b02244"
+    },
+    {
+      "member": "game-smoke/1_Set up job.txt",
+      "bytes": 2097,
+      "sha256": "82587f751622f4cf6f7f457d5bfc00220c97fb0ca78ebbecaafeba52b9c31863"
+    },
+    {
+      "member": "game-smoke/2_Run actions_checkout@11d5960a326750d5838078e36cf38b85af677262.txt",
+      "bytes": 42440,
+      "sha256": "83f1f8034fd47c9923c671997dec21fc4e200307b9e3bbe6acafd6de358466ac"
+    },
+    {
+      "member": "game-smoke/3_Determine whether gameplay or tooling changed.txt",
+      "bytes": 1170,
+      "sha256": "feab8118288200f0df6a451bc8269a7a4b79fc7516fa0318baeb5bc943df8359"
+    },
+    {
+      "member": "game-smoke/4_Restore verified Godot download cache.txt",
+      "bytes": 1032,
+      "sha256": "e907cf21be51c94d7913d7132490eac782bcff283a75448ab7399734d84a8b12"
+    },
+    {
+      "member": "game-smoke/5_Install pinned Godot toolchain.txt",
+      "bytes": 772,
+      "sha256": "b952e7bc3377753d055f52ab6fcadfd19861dfb00e33a2a57faf7434c917c997"
+    },
+    {
+      "member": "game-smoke/6_Cache verified official download.txt",
+      "bytes": 1071,
+      "sha256": "8fbdf1cb5d8af0eec769c3a73aac1b4bbb15e61689118d7067cdb21b997a5666"
+    },
+    {
+      "member": "game-smoke/7_Validate import and deterministic core game.txt",
+      "bytes": 66145,
+      "sha256": "f6c1bb80e8a036ccdf2eb587d4eb751033bd192d57e646af37a07201fa4d1e06"
+    },
+    {
+      "member": "game-smoke/8_Validate navigation, recovery and touch runtime regressions.txt",
+      "bytes": 1225045,
+      "sha256": "b8c4277181c2fad0d18e667445282622e6afd93878b747856fd42734ff4eb9c1"
+    },
+    {
+      "member": "game-smoke/18_Post Run actions_checkout@11d5960a326750d5838078e36cf38b85af677262.txt",
+      "bytes": 1719,
+      "sha256": "334de5cb0ffd44dd2c4d2c66e16bb7679ec1ca03aa84bd9995c89ab9c855d414"
+    },
+    {
+      "member": "game-smoke/19_Complete job.txt",
+      "bytes": 511,
+      "sha256": "77575e7303ff3e74b4dbd10a419088227b31421f8bc421dd8081ee720d14ff07"
+    },
+    {
+      "member": "1_guidance.txt",
+      "bytes": 12041,
+      "sha256": "07776ef4b9c5a7791fb1c35eacbf8fb1f69194431e5445da8ea0206155e3b365"
+    },
+    {
+      "member": "guidance/system.txt",
+      "bytes": 598,
+      "sha256": "b9e50ada1243fd0e4f8cf8f9ed47a47400c425ecc499df9c1309a57def316022"
+    },
+    {
+      "member": "guidance/1_Set up job.txt",
+      "bytes": 1935,
+      "sha256": "2f7f5f85b113b3aa29db60034144c8f15b6457fac5863e10d93358e0f55537da"
+    },
+    {
+      "member": "guidance/2_Run actions_checkout@11d5960a326750d5838078e36cf38b85af677262.txt",
+      "bytes": 6936,
+      "sha256": "95c72aa3d3da50111af14bc759020d820c4a2683d63d490dcde9651d822cf6bc"
+    },
+    {
+      "member": "guidance/3_Test guidance detector.txt",
+      "bytes": 554,
+      "sha256": "a1fecc60f4430661d0e39e2966059e02466c7cf8be96872b64377afb3f0adb29"
+    },
+    {
+      "member": "guidance/4_Audit current branch's governing instructions.txt",
+      "bytes": 526,
+      "sha256": "9bc48f975e08b92655aee2cf767a19a4ce49e1f25109c2586449e02e258b72aa"
+    },
+    {
+      "member": "guidance/8_Post Run actions_checkout@11d5960a326750d5838078e36cf38b85af677262.txt",
+      "bytes": 1719,
+      "sha256": "4801fbca9c6e59963a602c42b0aa70dd4d7f0aa9ab4dab7835b2f6f81ece3fdf"
+    },
+    {
+      "member": "guidance/9_Complete job.txt",
+      "bytes": 386,
+      "sha256": "13f6b6e00b15a612dfd3257f9f4525a3f6bbc4fa91140d39431fe3a0bdf26253"
+    }
+  ],
+  "note": "Complete failure retained; partial focused passes are not merge acceptance. A separate independent local run has2451/0 but is HOLD for this hosted blocker."
+}

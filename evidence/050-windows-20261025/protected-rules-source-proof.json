@@ -1,0 +1,14 @@
+{
+  "base": "0fb3873e4c0650560d57d19c89b106ae3803747c",
+  "proof": {
+    "_heard_arrival": true,
+    "_move": true,
+    "_hull_contacts": true,
+    "_advance_projectiles": true,
+    "_visual_pursuit": true,
+    "_threats_identical_except_two_authorized_sight_factors": true,
+    "shared_readiness_identical": true,
+    "lock_audio_update_identical": true
+  },
+  "note": "UTF8 text comparison normalizes line endings. Initial diagnostic default CP1252 decoding misread UTF8 middle dots in Git output; byte inspection proved identical source. Only the diagnostic decoder changed. Paired behavior tests supplement this proof."
+}

@@ -1,0 +1,21 @@
+{
+  "identical": true,
+  "unchanged_base_script": "game/tests/opening_depth_journeys.gd",
+  "off_wrapper": "opening_flag_off.gd",
+  "metrics": {
+    "final-opening_depth_journeys.log": [
+      "OPENING SPLIT depth/coordinated outcome=won time=66.7666666666642 hull=100.0 oxygen=96.4265277777613 tools={ \"emp\": 2, \"decoy\": 3, \"recon\": 2, \"knock\": 2 }",
+      "OPENING BLACKWATER custody/depth outcome=won time=136.1 hull=100.0 oxygen=42.50888888893 alive=[true, true, true] tools={ \"emp\": 2, \"decoy\": 3, \"recon\": 2, \"knock\": 2 }",
+      "OPENING FOUNDRY industrial/depth outcome=won time=83.6166666666632 hull=100.0 oxygen=71.9262962963321 alive=[true, true, true] tools={ \"emp\": 2, \"decoy\": 3, \"recon\": 2, \"knock\": 2 }",
+      "OPENING WELL uncertain/depth outcome=won time=127.316666666661 hull=100.0 oxygen=65.1213888889026 alive=[true, true, true] tools={ \"emp\": 2, \"decoy\": 3, \"recon\": 2, \"knock\": 2 }",
+      "OPENING SONG convergence/depth outcome=won time=118.316666666661 hull=100.0 oxygen=79.5936111110806 alive=[true, true, true] tools={ \"emp\": 2, \"decoy\": 3, \"recon\": 2, \"knock\": 2 }"
+    ],
+    "final-opening-off.log": [
+      "OPENING SPLIT depth/coordinated outcome=won time=66.7666666666642 hull=100.0 oxygen=96.4265277777613 tools={ \"emp\": 2, \"decoy\": 3, \"recon\": 2, \"knock\": 2 }",
+      "OPENING BLACKWATER custody/depth outcome=won time=136.1 hull=100.0 oxygen=42.50888888893 alive=[true, true, true] tools={ \"emp\": 2, \"decoy\": 3, \"recon\": 2, \"knock\": 2 }",
+      "OPENING FOUNDRY industrial/depth outcome=won time=83.6166666666632 hull=100.0 oxygen=71.9262962963321 alive=[true, true, true] tools={ \"emp\": 2, \"decoy\": 3, \"recon\": 2, \"knock\": 2 }",
+      "OPENING WELL uncertain/depth outcome=won time=127.316666666661 hull=100.0 oxygen=65.1213888889026 alive=[true, true, true] tools={ \"emp\": 2, \"decoy\": 3, \"recon\": 2, \"knock\": 2 }",
+      "OPENING SONG convergence/depth outcome=won time=118.316666666661 hull=100.0 oxygen=79.5936111110806 alive=[true, true, true] tools={ \"emp\": 2, \"decoy\": 3, \"recon\": 2, \"knock\": 2 }"
+    ]
+  }
+}
