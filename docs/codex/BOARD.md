@@ -1,6 +1,6 @@
 **PAUSE NOTE, 26 Oct 2026 ~18:30 ET (Claude): Claude hit its usage limit. The Claude stream is PAUSED and its lanes continue as Codex handoffs 054 to 058 (BATCH 12). Codex owns their files while claimed. The C6 doc sweep and the whole-game audit wait for Claude.**
 
-**CURRENT, 26 October 2026 (Claude): read [ORCHESTRATION_2026-10-26.md](ORCHESTRATION_2026-10-26.md) first. Pat: finish the game, content first, minimal tests, no per-feature independent review, audit at the end. Codex stream = BATCH 11 below. Claude runs stream C (economy, equipment/tools, modes, career, settings, doc sweep) in parallel. 050 continues under the new rules: fix the hosted density failure, merge on green, no independent review needed. Older banners below are history.**
+**CURRENT, 26 October 2026 (Claude): read [ORCHESTRATION_2026-10-26.md](ORCHESTRATION_2026-10-26.md) first. Pat: finish the game, content first, minimal tests, no per-feature independent review, audit at the end. Codex stream = BATCH 11 below. Claude runs stream C (economy, equipment/tools, modes, career, settings, doc sweep) in parallel. 050 merged in PR147 on exact-head green. Older banners below are history.**
 
 **HISTORICAL LOCAL WINDOWS CHECKPOINT, 24 October 2026 Eastern (superseded by Pat's25October continuation and queue below): through032 DONE. Pat selected NEW artwork, merged PR130 at f0fe890, verified remotely and GitHub merged=true. Exact093e own40132818916 both checks green and independent APPROVE. Pat said save rest for later:033 stays OPEN, do not claim or start until Pat resumes. No extra remote-session handoff, request cancelled.**
 
@@ -103,7 +103,7 @@ Still held for Pat: any change to Siren sight, hearing or lock timing (Pat: not 
 ## BATCH 10 (24 Oct, Pat: restore the V7 Hunt; AI-DESIGNED, Pat to ratify numbers)
 | Order | Handoff | Status | PR | Finished (UTC) | One-line result |
 |---|---|---|---|---|---|
-| 47 | 050 HUNT RESTORE: global sight-only Hunt, visible meter, stage cue, flag | CLAIMED (codex) | [147](https://github.com/pemunson90-cmd/Siren-s-Song/pull/147) | | Head39d855 HOLD: hosted40264491315 density text minimum1084/21; guidance/import/core green. Independent3047/0 covers local scope only. Scoped UI font diagnosis underway; no full local reruns. Earlier craft-tap failure fixed, unchanged route46/0. Archive887a41e9 preserves both hosted failures and original correction evidence. Not merged or DONE. |
+| 47 | 050 HUNT RESTORE: global sight-only Hunt, visible meter, stage cue, flag | DONE | [147](https://github.com/pemunson90-cmd/Siren-s-Song/pull/147) | 2026-10-26 23:48:53 UTC | Merged ec19ecb4; exact a468bf8d guidance/game-smoke green40413750559. Density1084/0, transport80/0, View32/0; protected mechanics unchanged. |
 
 ## Verified stale-claim reconciliation, 24 October2026
 
