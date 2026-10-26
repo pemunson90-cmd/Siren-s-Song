@@ -1,10 +1,10 @@
 # Handoff 048: HUD SAMENESS, operation-aware status text and an explained ARRIVALS button
 
-Status: CLAIMED
+Status: DONE
 Assigned to: codex (Pat reassigned 25 October2026 Eastern, after040 and033)
 Claimed at: 2026-10-25 23:51:10 UTC
 Claimed by: codex
-Finished at:
+Finished at: 2026-10-26 01:38:35 UTC (25 October 2026, 9:38:35 PM Eastern)
 
 Precondition: none; if handoff 023 or 038 still holds mission_hud.gd or main.gd, wait for it. Source: docs/design/COLD_REVIEW_3.md finding F14 (low confidence, first frame only). Presentation only.
 Codex may merge: yes, into claude/integration only, after GitHub guidance and game-smoke are both green on the exact head and the PR is mergeable. Merge with a merge commit, then mark DONE and update docs/codex/BOARD.md.
@@ -63,7 +63,7 @@ Development evidence: import clean; core836/0, status wording74/0, headless inte
 Pat requested focused official web research and reuse of established solutions on25October. Godot4.6 Control and Container documentation confirms viewport/input ownership and container-managed positioning. The implementation retains the project's existing controls, touch harness and radial math; only its viewport fit needs custom geometry because the existing command ring is custom drawn. References: https://docs.godotengine.org/en/4.6/classes/class_control.html and https://docs.godotengine.org/en/4.6/tutorials/ui/gui_containers.html . Reuse these findings rather than repeating retrieval without a new question.
 
 
-### Current verification checkpoint, 25 October 2026, 8:40 PM Eastern
+### Historical verification checkpoint, 25 October 2026 evening (superseded by verified completion below)
 
 PR [146](https://github.com/pemunson90-cmd/Siren-s-Song/pull/146) is ready for review, not merged. Final proposed head: e1dbc026b851d13bf50d6d01abe2d4e60395d379. It contains current integration e0ee34d356d61c42e9809305647415c103e3cf84. Earlier draft and pending-review statements above are historical.
 
@@ -74,3 +74,18 @@ The original external probe's 8 exact-floating-equality failures and one incorre
 [Independent review comment](https://github.com/pemunson90-cmd/Siren-s-Song/pull/146#issuecomment-6405622605). [Evidence archive](https://github.com/pemunson90-cmd/Siren-s-Song/tree/2cc0ac23/evidence/048-windows-20261025): baseline/development ZIP has 145 members; independent ZIP has 63. Root reopened both committed ZIP blobs and verified every member. Raw failed evidence is retained alongside passing results; isolated userdata/caches remain locally preserved and excluded from publication.
 
 Hosted run 40249328277 has passed guidance; game-smoke is still running. No DONE claim until final exact-head gates pass and the merge is verified. These are desktop technical checks, not full-campaign, blind-player or physical-phone acceptance. After verified completion, 050 remains the next authorized sight-only task.
+
+
+### Verified completion, 25 October 2026, 9:38:35 PM Eastern
+
+[PR 146](https://github.com/pemunson90-cmd/Siren-s-Song/pull/146) merged with a merge commit as 0fb3873e4c0650560d57d19c89b106ae3803747c. Root fetched the remote and verified GitHub merged=true, parents e0ee34d356d61c42e9809305647415c103e3cf84 and e1dbc026b851d13bf50d6d01abe2d4e60395d379, and landed tree 6e95c61778004e83f1853c74d1991ef2d2782dc9 equal to the tested tree. Source branch retained. No promotion.
+
+Eight sampled operations now receive public-state-aware STATUS wording. Public recovery readiness takes priority over machinery guidance. ARRIVALS explains the received-signal count, including zero. Actual touch reproduction uncovered existing cover-screen clipping; the presentation adapter fits existing full-size radial controls, scrollable sheets and Back to both required shapes. No simulation context, save, operation-table, sensing or combat rules changed. Table.enabled=false restores prior presentation; Layout.enabled=false restores prior geometry, including its historical clipping.
+
+Independent nonauthor PASS [6405622605](https://github.com/pemunson90-cmd/Siren-s-Song/pull/146#issuecomment-6405622605) covered all changed files and actual import/core/named tests: 3,873 requested checks, zero failures. An external refresh/resize/hit/off-switch probe passed 764 checks. Original precision and path failures remain in the record; no shipped assertion was loosened. Final-head import, registry validation of 277 suites, guidance and 10 regressions passed. All 28 independent native capture dimensions/hashes were verified by root.
+
+Hosted run [40249328277](https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/40249328277) passed guidance and game-smoke on the exact head: 280 summaries, 19,091 checks, zero failures or actual script/runtime/leak errors. Root verified the complete 14-member hosted ZIP. Cached partial log URLs were refreshed before final acceptance; all earlier partial snapshots are exact prefixes of the final log and remain archived. Superseded WIP cancellations are not acceptance.
+
+[Final evidence archive](https://github.com/pemunson90-cmd/Siren-s-Song/tree/492f484b78c6cc6f3cc7659969d3d1e6119fd72d/evidence/048-windows-20261025) contains baseline/development (145 members), independent review (63 members), full hosted logs, original failures and merge verification. Root reopened all committed ZIP blobs and verified every member. Native screenshots and source-known fixtures establish technical desktop behavior, not whole-campaign, blind-player, phone or human acceptance. No APK was built.
+
+Documentation reconciled: new module/tests/reverts in MODULES, capability wording in CURRENT_GAME_SPEC, the source/next-task boundary in RESUME, and Pat's research/reuse instruction in USER_DIRECTIVES. Historical reassignment, draft and pending-review statements were labeled in place; failed evidence was preserved. This handoff and its board row close together. Next authorized task: claim 050 for sight-only Hunt; hearing, movement speed and lock timing remain unchanged.

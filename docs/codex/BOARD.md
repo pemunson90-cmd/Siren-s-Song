@@ -93,7 +93,7 @@ Still held for Pat: any change to Siren sight, hearing or lock timing (Pat: not 
 |---|---|---|---|---|---|
 | 44 | 046 DEATH CAUSE: one plain line on the loss debrief saying why the player was found (read-only) | DONE | PR135/140 | 2026-10-25 02:10 UTC | F9. Sim keeps no cause history; observer needed. |
 | 45 | 047 CHALLENGE COMPLETIONS: one scripted completion per row, route-aware par proposal | DONE | PR138/140 | 2026-10-25 02:10 UTC | F11. Par changes are Pat decisions; proposal file only. |
-| 46 | 048 HUD SAMENESS: operation-aware status text and explained ARRIVALS | CLAIMED (codex) | [146](https://github.com/pemunson90-cmd/Siren-s-Song/pull/146) | | Final head e1dbc026 contains base e0ee34d3. Independent PASS 6405622605: 3,873 requested checks and 764 external checks, zero failures. Hosted 40249328277 guidance passed; game-smoke running. Evidence 2cc0ac23. Presentation only; not merged or DONE. |
+| 46 | 048 HUD SAMENESS: operation-aware status text and explained ARRIVALS | DONE | [146](https://github.com/pemunson90-cmd/Siren-s-Song/pull/146) | 2026-10-26 01:38:35 UTC | Merge 0fb3873e verified; exact e1dbc026/current e0ee34d3, independent PASS 6405622605, both hosted gates green 40249328277. Core 836; independent 3,873 plus external 764; hosted 19,091 checks, all final failures zero. Public wording, explained signals, full-size viewport fit. Evidence 492f484b; 050 next. |
 | 44 | 049 FIRST-SIREN CUE EXTENSION: op 1 and a one-time new Siren type note | DONE | PR134/140 | 2026-10-25 02:10 UTC | F8. Released by Pat 24 Oct. Presentation only: no change to Siren sight, hearing or lock timing. |
 
 ## BATCH 10 (24 Oct, Pat: restore the V7 Hunt; AI-DESIGNED, Pat to ratify numbers)
