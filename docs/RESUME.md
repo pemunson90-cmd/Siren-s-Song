@@ -1,5 +1,7 @@
 # RESUME: operational entry
 
+**26 Oct 2026:** Pat's finish-the-game ruling (top of USER_DIRECTIVES) governs. Plan, streams and file ownership: `docs/codex/ORCHESTRATION_2026-10-26.md` on `codex/handoffs`. Milestone promotion PR148 open.
+
 Current boundary: Pat resumed locally on Windows and continued work on 25 October 2026 Eastern. The 23 October cloud stop and 24 October art pause are historical. Follow the current claim and Completion on `codex/handoffs`; do not restart completed work from dated notes.
 
 ## Source and authority
