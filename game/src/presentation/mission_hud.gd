@@ -1,4 +1,5 @@
 extends Control
+const HuntMeter=preload("res://src/presentation/hunt_meter.gd")
 const FeatureViews=preload("res://src/presentation/feature_views.gd")
 const Shelf=preload("res://src/presentation/shelf_habitat_view.gd")
 const Wake=preload("res://src/presentation/wake_crossing_view.gd")
@@ -149,7 +150,10 @@ func dismiss():
  draining_popup=not owned_touches.is_empty()
  host.map_gesture.cancel();host.knock_press.clear();popup_gesture.cancel();sheet_pointers.clear();sector_press=null;host.advanced_orders=false;instruments_open=false;host._layout()
 func _back():
- if page=="order_help":open(help_return);return
+ if page=="order_help":
+  if help_return=="water":dismiss()
+  else:open(help_return)
+  return
  if host.knock_armed or host.decoy_armed:host._primary_action();dismiss();return
  if page=="signals":
   if details_return=="water":dismiss()
@@ -504,6 +508,8 @@ func refresh():
   if sonar_waterfall.visible:host.title_label.hide();host.detail_label.hide()
   instrument_info.text=preload("res://src/presentation/sonar_history.gd").detail(sim)
   if not transition.is_empty():instrument_info.text="%s → %s · %.1fs remaining\n"%[sim.Depth.NAMES[u.band],sim.Depth.NAMES[transition.to],transition.remaining]+instrument_info.text
+
+ HuntMeter.sync(self)
 
 func _draw():
  caption_rects.clear()

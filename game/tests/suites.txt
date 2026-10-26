@@ -277,3 +277,7 @@ photo_row_bell_name_journey_tests|PHOTO ROW BELL NAME JOURNEY|260|280
 photo_row_feed_room_journey_tests|PHOTO ROW FEED ROOM JOURNEY|261|281
 status_text_tests|STATUS TEXT|262|282
 status_text_ui_tests|STATUS TEXT UI|263|283|render
+
+hunt_pressure_tests|HUNT PRESSURE|264|284
+hunt_pressure_integration_tests|HUNT INTEGRATION|265|285
+hunt_meter_ui_tests|HUNT METER UI|266|286|render

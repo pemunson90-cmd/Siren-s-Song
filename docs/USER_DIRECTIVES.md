@@ -10,13 +10,13 @@ Pat: the goal is to finish the game. Prioritize completing content; tests only w
 
 ## 25 October 2026 Eastern: local continuation and reversible work
 
-Pat continued the authorized queue, asked Codex to follow guidance and reconcile stale owned documentation while working, and approved Codex taking over unfinished048 HUD and050 after its existing tasks. The live board on `codex/handoffs` owns order, claims and completion; Claude's absence does not block ordinary authorized implementation, independent review or green integration merges.
+Pat continued the authorized queue, asked Codex to follow guidance and reconcile stale owned documentation while working, and approved Codex taking over unfinished 048 HUD and 050 after its existing tasks. The live board on `codex/handoffs` owns order, claims and completion; Claude's absence does not block ordinary authorized implementation, independent review or green integration merges.
 
-Pat accepted sight-only Hunt first for050. Global Hunt may increase sight notice range; hearing, movement speed and lock timing stay unchanged. The earlier proposal to scale hearing through shared readiness is superseded. Other proposal numbers/caps remain tunable defaults for testing, not claimed human acceptance. No hearing scaling is implicitly authorized later.
+Pat accepted sight-only Hunt first for 050. Global Hunt may increase sight notice range; hearing, movement speed and lock timing stay unchanged. The earlier proposal to scale hearing through shared readiness is superseded. Other proposal numbers/caps remain tunable defaults for testing, not claimed human acceptance. No hearing scaling is implicitly authorized later.
 
 Make ordinary choices reversible through narrow modules, data tables, off switches and documented reverts; ask concise questions where needed and keep independent work moving while responses are pending. This does not authorize irreversible promotion, new story/art direction, SIREN TELL or unapproved protected combat/sensing changes. Phone/human testing stays deferred until feature complete and tuned. Existing no-APK, save/evidence preservation and exact-head merge gates remain.
 
-Pat's later25October instruction: keep documentation clear, reconcile stale owned text without erasing history, and report verified task completions. Before implementation changes, use focused official web research and check existing project/library solutions. Prefer established approaches and reuse; keep research, delegation and test repetition proportionate to reduce token and compute overhead. This does not replace required independent review or final-head checks.
+Pat's later 25 October instruction: keep documentation clear, reconcile stale owned text without erasing history, and report verified task completions. Before implementation changes, use focused official web research and check existing project/library solutions. Prefer established approaches and reuse; keep research, delegation and test repetition proportionate to reduce token and compute overhead. This does not replace required independent review or final-head checks.
 
 ## Historical 23 October 2026 cloud stop and Windows handover (superseded by local resumption)
 
