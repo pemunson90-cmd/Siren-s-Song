@@ -45,6 +45,19 @@ PR into claude/integration. Merge per the line above; mark DONE and update the b
 ## Completion
 (Codex fills this in.)
 
-### Reassignment,25October2026 Eastern
+### Historical reassignment,25October2026 Eastern
 
 Pat explicitly approved Codex taking over this unfinished HUD task after040 and033. Historical Claude claim:2026-10-24 23:34:02 UTC. The verified interruption audit found read-only preparation and no implementation or PR. Reopened and assigned to Codex, not yet claimed;040 remains the sole active claim. Original presentation-only scope and verification gates remain. Hunt050 detection changes remain held for Pat. No HUD implementation is claimed by this record.
+
+
+### Active implementation checkpoint,25October2026 8:25PM Eastern
+
+Claim193be78c follows033's verified mergee0ee34d3. Pat approved continuing048, then050 sight-only Hunt; the earlier reassignment paragraph's040-active and Hunt-held statements are historical. PR146 is a draft: https://github.com/pemunson90-cmd/Siren-s-Song/pull/146 . First coherent WIP30bcbbd0 is published, not merged or DONE.
+
+Reproduction confirmed the exact fallback in all eight sampled operations. Correction to the verified-source note: on STATUS the actual displayed fallback comes through Main's detail_label; selecting Quietus sets sim.message to a different selection message. The narrow MissionHUD adapter changes displayed labels only. Simulation context and messages remain byte-equal. Public recovery availability takes priority over machinery wording; no hidden locations or Siren data are exposed.
+
+New status_text module owns pure wording, string table, view adapter and independently reversible layout table. Table.enabled=false restores prior presentation; Layout.enabled=false restores prior geometry. ARRIVALS now counts received signals and displays an explanation even at zero. Actual cover-view baseline showed off-screen controls and Back; the adapter fits the existing full-size radial controls and scrollable sheets to the viewport without changing fonts, command order or simulation. Existing drawing/input helpers remain in use.
+
+Development evidence: import clean; core836/0, status wording74/0, headless interface1208/0, native Windows interface1412/0. Native tests inject actual touch and Android Back on both Fold7 viewport shapes at150percent text. These are development checks, not final exact-head acceptance or physical-phone proof. Original failing geometry/progress probes and baseline images remain in048-evidence. Unchanged affected suites, final exact-head independent review and hosted gates remain pending.
+
+Pat requested focused official web research and reuse of established solutions on25October. Godot4.6 Control and Container documentation confirms viewport/input ownership and container-managed positioning. The implementation retains the project's existing controls, touch harness and radial math; only its viewport fit needs custom geometry because the existing command ring is custom drawn. References: https://docs.godotengine.org/en/4.6/classes/class_control.html and https://docs.godotengine.org/en/4.6/tutorials/ui/gui_containers.html . Reuse these findings rather than repeating retrieval without a new question.
