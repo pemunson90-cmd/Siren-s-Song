@@ -99,7 +99,7 @@ Still held for Pat: any change to Siren sight, hearing or lock timing (Pat: not 
 ## BATCH 10 (24 Oct, Pat: restore the V7 Hunt; AI-DESIGNED, Pat to ratify numbers)
 | Order | Handoff | Status | PR | Finished (UTC) | One-line result |
 |---|---|---|---|---|---|
-| 47 | 050 HUNT RESTORE: global sight-only Hunt, visible meter, stage cue, flag | CLAIMED (codex) | | | Pat approved sight-only first; hearing, movement speed and lock timing unchanged. Formal takeover after verified 048 merge 0fb3873e. Historical Claude claim/design preserved; shared readiness proposal superseded where it alters hearing/speed. |
+| 47 | 050 HUNT RESTORE: global sight-only Hunt, visible meter, stage cue, flag | CLAIMED (codex) | [147](https://github.com/pemunson90-cmd/Siren-s-Song/pull/147) | | First WIP c34e7ba6 on base 0fb3873e. Core 836, pure 88, first integration 13, UI 127/native 138 all zero final failures. Compact new help readability, stronger focused checks, review and hosted gates pending. Hearing/movement/lock rules unchanged; not DONE. |
 
 ## Verified stale-claim reconciliation, 24 October2026
 
