@@ -13,6 +13,7 @@ const Recipient=preload("res://src/presentation/warning_recipient_view.gd")
 const Concealed=preload("res://src/presentation/concealed_harbour_view.gd")
 const Witness=preload("res://src/presentation/witness_evacuation_view.gd")
 const CenterLayout=preload("res://src/presentation/radial_layout/center_layout.gd")
+const StatusView=preload("res://src/presentation/status_text/status_view.gd")
 const AllStop=preload("res://src/simulation/all_stop/all_stop.gd")
 # A tap opens an object-owned projection. A separate tap chooses an action.
 var host
@@ -215,7 +216,7 @@ func owns_pointer(event) -> bool:
  return false
 func sector_at(point:Vector2) -> Button:
  if not host.advanced_orders or page in ["inspect","signals","recovery","order_help"] or ring_buttons.is_empty():return null
- var local=point-global_position-center;var distance=local.length()
+ var local=StatusView.radial_local(self,point-global_position-center);var distance=local.length()
  if distance<ring_radius-touch_height*.65 or distance>ring_radius+touch_height*.6:return null
  var turn=fposmod(local.angle()+PI/2,TAU)
  var index=posmod(roundi(turn/TAU*ring_buttons.size()),ring_buttons.size())
@@ -323,6 +324,7 @@ func command_controls() -> Array:
   elif not host.sim.blackwater_handoff_context(host.sim.selected).packets.is_empty():controls.append(extra.blackwater_handoff)
  return controls
 func layout(bounds:Vector2,h:float):
+ bounds=StatusView.content_bounds(self,bounds)
  position=Vector2.ZERO;size=bounds;touch_height=h
  text_scale=preload("res://src/presentation/frontend/frontend_settings.gd").text_scale()
  var font=maxi(14,roundi(h*.26*text_scale));var bw=h*1.55*text_scale;var bh=h*maxf(1.,text_scale*.9)
@@ -386,6 +388,7 @@ func _fit_sheet():
  if absf(sheet.size.y-height)<.1 and sheet.position.distance_to(at)<.1:return
  sheet.size.y=height;sheet.position=at
  close_button.position=Vector2(center.x-touch_height*.775,sheet.position.y+height+8)
+ StatusView.fit_sheet(self)
  host.call_deferred("_report_targets")
 func refresh():
  var sim=host.sim
@@ -485,6 +488,7 @@ func refresh():
  if host.ocean.optical_feed.is_visible_in_tree():blocked.append(host.ocean.optical_feed.get_rect())
  fleet.visible=not host.advanced_orders and not host.decoy_armed and not host.knock_armed
  if not host.decoy_armed and not host.knock_armed:intent.text+="\n"+sim.Depth.context(sim)
+ StatusView.apply(self)
  _fit_intent()
  var aid_font=maxi(14,roundi(touch_height*.26*text_scale))
  guard.refresh(size,touch_height,aid_font,intent.position.y if intent.visible else size.y)
@@ -509,17 +513,17 @@ func _draw():
  draw_line(tether,center,Color(.3,.8,.8,.32),1.5)
  draw_circle(tether,5,Color("80cbc8"),false,1.5)
  if page in ["inspect","signals","recovery","order_help"]:return
- draw_circle(center,ring_radius-h*.7,Color(.012,.038,.055,.78))
+ StatusView.draw_disc(self,ring_radius-h*.7,Color(.012,.038,.055,.78))
  for i in ring_buttons.size():
   var points=PackedVector2Array();var from=-PI/2+TAU*(i-.5)/ring_buttons.size()+.012;var until=-PI/2+TAU*(i+.5)/ring_buttons.size()-.012
-  for j in 13:points.append(center+Vector2.from_angle(lerpf(from,until,j/12.))*(ring_radius-h*.65))
-  for j in 13:points.append(center+Vector2.from_angle(lerpf(until,from,j/12.))*(ring_radius+h*.6))
+  for j in 13:points.append(center+StatusView.radial_point(self,lerpf(from,until,j/12.),ring_radius-h*.65))
+  for j in 13:points.append(center+StatusView.radial_point(self,lerpf(until,from,j/12.),ring_radius+h*.6))
   draw_colored_polygon(points,Color(.025,.095,.12,.9) if not ring_buttons[i].disabled else Color(.025,.04,.05,.9))
- draw_arc(center,ring_radius-h*.65,0,TAU,96,Color(.3,.72,.74,.45),1.5)
- draw_arc(center,ring_radius+h*.6,0,TAU,96,Color(.3,.72,.74,.6),1.5)
+ StatusView.draw_outline(self,ring_radius-h*.65,Color(.3,.72,.74,.45),1.5)
+ StatusView.draw_outline(self,ring_radius+h*.6,Color(.3,.72,.74,.6),1.5)
  for i in ring_buttons.size():
-  var a=-PI/2+TAU*(i-.5)/ring_buttons.size();var d=Vector2.from_angle(a)
-  draw_line(center+d*(ring_radius-h*.65),center+d*(ring_radius+h*.6),Color(.3,.72,.74,.4),1)
+  var a=-PI/2+TAU*(i-.5)/ring_buttons.size();var inner=StatusView.radial_point(self,a,ring_radius-h*.65);var outer=StatusView.radial_point(self,a,ring_radius+h*.6)
+  draw_line(center+inner,center+outer,Color(.3,.72,.74,.4),1)
  var title=subject.get("name","SITE") if subject.get("kind","") in ["objective","salvage","plant","habitat"] else host.sim.units[host.sim.selected].name
  var caption=page.to_upper() if page!="craft" else ("COMMAND · SITES %d"%host.ocean.observable_sites().size() if Expedition.active(host.sim) else "COMMAND · %d/%d"%[host.ocean.observable_sites().filter(func(o):return o.captured).size(),host.ocean.observable_sites().size()])
  if page=="acoustics":
@@ -538,6 +542,7 @@ func _draw():
  var lines=[title,caption]
  if page=="plant":lines.append(WarningChain.radial_state(WarningChain.context(host.sim)))
  elif page=="craft" and host.order_buttons.camera in ring_buttons:lines.append_array(camera_caption())
+ lines=StatusView.captions(self,lines)
  var first_y=CenterLayout.first_baseline(center.y,close_button.get_rect(),h,text_scale,lines.size(),font,text_size)
  for n in lines.size():
   var text=lines[n];var width=font.get_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,-1,text_size).x
