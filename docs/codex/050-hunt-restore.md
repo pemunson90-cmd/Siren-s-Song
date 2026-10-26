@@ -92,3 +92,10 @@ Independent nonauthor b7 local results were 2,451/0 across 29 processes, but the
 Fourteen unchanged photography journeys pass 632/0 with Hunt enabled. All five unchanged opening journeys pass 49/0 each with Hunt ON/OFF and identical reported outcomes/time/hull/oxygen/survivors/tools. These are technical fixtures, not whole-campaign or phone acceptance. Earlier unrelated 960 basic/radial clipping remains documented; new Hunt help itself is readable, touch-scrollable and preserves full Back.
 
 Conservative scope is explicit in the source design and PR: the +6 edge reads ordinary craft lock/beam states. Separate interceptor/warden visual windups and listening buoy/relay systems retain their previous behavior; all-eight-role acquisition edges are not claimed. Global sight scaling remains limited to the four eligible ordinary roles. Hearing/movement/lock/combat rules remain unchanged, with the single reversible flag and explicit operation caps.
+
+
+### Hosted density HOLD, 26 October 2026 just after midnight Eastern
+
+Final local independent review of39d855 completed 37 requested processes with2,895/0 plus152/0 external refresh checks. Relayed verdict6407906269 is PASS only for that local scope. Hosted40264491315 subsequently passed guidance/import/core but failed unchanged density_scenarios1,084 checks/21 failures, all Hunt card text below the existing14 fixture dp minimum. Head39d855 is HOLD and remains unmerged. The UI worker is reproducing only that affected suite before a scoped fix; no full local matrix or repeated unrelated suites are being run. The previous checkpoint's pending-review wording is historical.
+
+Archive887a41e9 preserves full failed hosted logs plus the craft-tap correction's original RED/GREEN logs and screenshots. Root verified49 unique delta members,205 exact baseline references and all20 failed-hosted ZIP members. No original failure, assertion or evidence was removed. Further source changes require a fresh exact-head independent verdict and green hosted gates before DONE.

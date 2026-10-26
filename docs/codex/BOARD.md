@@ -99,7 +99,7 @@ Still held for Pat: any change to Siren sight, hearing or lock timing (Pat: not 
 ## BATCH 10 (24 Oct, Pat: restore the V7 Hunt; AI-DESIGNED, Pat to ratify numbers)
 | Order | Handoff | Status | PR | Finished (UTC) | One-line result |
 |---|---|---|---|---|---|
-| 47 | 050 HUNT RESTORE: global sight-only Hunt, visible meter, stage cue, flag | CLAIMED (codex) | [147](https://github.com/pemunson90-cmd/Siren-s-Song/pull/147) | | Corrected head 39d85515 on base 0fb3873e. Earlier b7 hosted route touch 46/1 is preserved HOLD; scoped placement fix now route 46/0, Hunt UI 226/native 247. Fresh independent review and hosted 40264491315 pending. All 14 photo journeys 632/0; opening ON/OFF exact results match. Evidence 44ec318b. Not merged or DONE. |
+| 47 | 050 HUNT RESTORE: global sight-only Hunt, visible meter, stage cue, flag | CLAIMED (codex) | [147](https://github.com/pemunson90-cmd/Siren-s-Song/pull/147) | | Head39d855 HOLD: hosted40264491315 density text minimum1084/21; guidance/import/core green. Independent3047/0 covers local scope only. Scoped UI font diagnosis underway; no full local reruns. Earlier craft-tap failure fixed, unchanged route46/0. Archive887a41e9 preserves both hosted failures and original correction evidence. Not merged or DONE. |
 
 ## Verified stale-claim reconciliation, 24 October2026
 
