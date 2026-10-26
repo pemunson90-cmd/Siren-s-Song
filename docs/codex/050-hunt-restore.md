@@ -1,9 +1,9 @@
 # Handoff 050: HUNT RESTORE, V7 global Hunt pressure made visible
 
-Status: CLAIMED
+Status: DONE
 Claimed at: 2026-10-26 01:41:36 UTC
 Claimed by: codex
-Finished at:
+Finished at: 2026-10-26 23:48:35 UTC
 
 Precondition: handoff 023 is DONE or paused by Pat (it holds main.gd and HUD files), and the design PR for docs/design/HUNT_RESTORE.md is merged into claude/integration. If roadmap Phase G (AI state trace) has landed, log hunt stage changes through it; if not, build without it. Source of truth: docs/design/HUNT_RESTORE.md (read it fully; section 8 lists numbers Pat may still adjust, build them from the table so changes are one-line edits). Pat, 24 Oct: "we also need to restore the hunt mechanism from v7 parity". AI-DESIGNED details, Pat to ratify.
 Codex may merge: yes, into claude/integration only, after GitHub guidance and game-smoke are both green on the exact head and the PR is mergeable. Merge with a merge commit, then mark DONE and update docs/codex/BOARD.md.
@@ -36,8 +36,8 @@ Hunt raises Siren notice radius by the V7 stage factor within caps, shown on the
 PR into claude/integration. Merge per the line above; mark DONE and update the board.
 
 ## Completion
-Sight-only Hunt and density readability fix implemented; PR https://github.com/pemunson90-cmd/Siren-s-Song/pull/147 awaits exact-head hosted gates.
-Recovery: claude/lane-hunt-restore at a468bf8dea5e5839b9b0bae957dffc5b7980d071; worktree 050-hunt-restore.
-Windows import passed; core 836/0; Hunt meter UI 232/0; unchanged density scenarios 1084/0; six-action transport 80/0 and View controls 32/0.
-Unverified: new hosted gates and merge; prior runs exposed stale five-control assertions, now strengthened to require the exact six controls. Phone play deferred.
-Narrow seams: simulation sight/photo order, Recon, HUD, soundscape, save checks and AI trace; protected hearing/movement/lock/combat unchanged.
+Sight-only Hunt, readable meter/help, stage audio and compatible optional saves merged in PR https://github.com/pemunson90-cmd/Siren-s-Song/pull/147.
+Landed ec19ecb42f1cde826e286d23ef073e44e68e5bda; lane a468bf8dea5e5839b9b0bae957dffc5b7980d071 retained, tree verified.
+Windows import/core836/0, Hunt UI232/0, density1084/0, transport80/0, View32/0; exact-head guidance/game-smoke green40413750559.
+Phone play deferred; historical failures retained in PR runs/git. Both old five-control fixtures now require all six actual actions.
+Outside narrow seams: metrics_transport_tests and view_controls_menu_tests strengthened for Hunt; protected mechanics unchanged. Ownership released; next051.
