@@ -1,8 +1,8 @@
 # Handoff 051: CALDER TRENCH, arc 6 (3 core + 2 optional operations, 3 artifacts)
 
-Status: OPEN
-Claimed at:
-Claimed by:
+Status: CLAIMED
+Claimed at: 2026-10-26 23:48:53 UTC
+Claimed by: codex
 Finished at:
 
 Precondition: 050 is DONE (merged). Read ORCHESTRATION_2026-10-26.md first; it overrides older review/evidence rules.
