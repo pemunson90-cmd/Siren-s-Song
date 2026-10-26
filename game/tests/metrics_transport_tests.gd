@@ -41,7 +41,7 @@ func run() -> void:
  var game=load("res://scenes/main.tscn").instantiate();game.set_script(preload("res://tests/density_main.gd"));game.capture_scenario="transport-fixture";root.add_child(game)
  await process_frame;await process_frame;game._start_mission(0);await process_frame;await process_frame;await process_frame
  var water=game._ui_metrics()
- check(["pause","more_orders","fleet_q","fleet_a","fleet_b"].all(func(action):return action in water.controls.map(func(control):return control.action)) and water.controls.size()==5,"water transports actual visible pause and fleet controls")
+ check(["pause","more_orders","fleet_q","fleet_a","fleet_b","hunt_meter"].all(func(action):return action in water.controls.map(func(control):return control.action)) and water.controls.size()==6,"water transports actual visible pause, fleet and Hunt controls")
  verify(water,"water-fixture",3)
  game.mission_hud.open("view");await process_frame;await process_frame
  var snapshot=game._ui_metrics();var payload=JSON.stringify(snapshot)
