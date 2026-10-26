@@ -50,7 +50,7 @@ PR into claude/integration. Merge per the line above; mark DONE and update the b
 Pat explicitly approved Codex taking over this unfinished HUD task after040 and033. Historical Claude claim:2026-10-24 23:34:02 UTC. The verified interruption audit found read-only preparation and no implementation or PR. Reopened and assigned to Codex, not yet claimed;040 remains the sole active claim. Original presentation-only scope and verification gates remain. Hunt050 detection changes remain held for Pat. No HUD implementation is claimed by this record.
 
 
-### Active implementation checkpoint,25October2026 8:25PM Eastern
+### Historical implementation checkpoint, 25 October 2026, 8:25 PM Eastern
 
 Claim193be78c follows033's verified mergee0ee34d3. Pat approved continuing048, then050 sight-only Hunt; the earlier reassignment paragraph's040-active and Hunt-held statements are historical. PR146 is a draft: https://github.com/pemunson90-cmd/Siren-s-Song/pull/146 . First coherent WIP30bcbbd0 is published, not merged or DONE.
 
@@ -61,3 +61,16 @@ New status_text module owns pure wording, string table, view adapter and indepen
 Development evidence: import clean; core836/0, status wording74/0, headless interface1208/0, native Windows interface1412/0. Native tests inject actual touch and Android Back on both Fold7 viewport shapes at150percent text. These are development checks, not final exact-head acceptance or physical-phone proof. Original failing geometry/progress probes and baseline images remain in048-evidence. Unchanged affected suites, final exact-head independent review and hosted gates remain pending.
 
 Pat requested focused official web research and reuse of established solutions on25October. Godot4.6 Control and Container documentation confirms viewport/input ownership and container-managed positioning. The implementation retains the project's existing controls, touch harness and radial math; only its viewport fit needs custom geometry because the existing command ring is custom drawn. References: https://docs.godotengine.org/en/4.6/classes/class_control.html and https://docs.godotengine.org/en/4.6/tutorials/ui/gui_containers.html . Reuse these findings rather than repeating retrieval without a new question.
+
+
+### Current verification checkpoint, 25 October 2026, 8:40 PM Eastern
+
+PR [146](https://github.com/pemunson90-cmd/Siren-s-Song/pull/146) is ready for review, not merged. Final proposed head: e1dbc026b851d13bf50d6d01abe2d4e60395d379. It contains current integration e0ee34d356d61c42e9809305647415c103e3cf84. Earlier draft and pending-review statements above are historical.
+
+Independent nonauthor reviewer /root/save043_architect returned PASS with no actionable P1/P2 findings. Root verified the actual logs and capture hashes/dimensions. Requested checks passed: core 836, wording 74, headless UI 1,208, native UI 1,412, and unchanged affected suites 343, totaling 3,873 assertions with zero failures. An external refresh/resize/inverse-hit/off-switch probe passed 764 checks. Final-head import, registry validation of 277 suites, guidance and its 10 regressions passed. Initial import/core provenance across the three-line documentation-only final update is explicit in the assessment; game/scripts were byte-identical.
+
+The original external probe's 8 exact-floating-equality failures and one incorrect-path diagnostic remain preserved. Measured rounding was 0.00006103515625 pixels. The corrected external diagnostic uses a justified subpixel threshold; no shipped assertion was changed. The registered geometry, overlap, 48 dp, touch and state-purity tests remain strict.
+
+[Independent review comment](https://github.com/pemunson90-cmd/Siren-s-Song/pull/146#issuecomment-6405622605). [Evidence archive](https://github.com/pemunson90-cmd/Siren-s-Song/tree/2cc0ac23/evidence/048-windows-20261025): baseline/development ZIP has 145 members; independent ZIP has 63. Root reopened both committed ZIP blobs and verified every member. Raw failed evidence is retained alongside passing results; isolated userdata/caches remain locally preserved and excluded from publication.
+
+Hosted run 40249328277 has passed guidance; game-smoke is still running. No DONE claim until final exact-head gates pass and the merge is verified. These are desktop technical checks, not full-campaign, blind-player or physical-phone acceptance. After verified completion, 050 remains the next authorized sight-only task.
