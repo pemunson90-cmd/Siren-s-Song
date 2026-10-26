@@ -99,7 +99,7 @@ Still held for Pat: any change to Siren sight, hearing or lock timing (Pat: not 
 ## BATCH 10 (24 Oct, Pat: restore the V7 Hunt; AI-DESIGNED, Pat to ratify numbers)
 | Order | Handoff | Status | PR | Finished (UTC) | One-line result |
 |---|---|---|---|---|---|
-| 47 | 050 HUNT RESTORE: global Hunt scales Siren notice radius, visible meter, stage cue, flag | CLAIMED (Claude, historical; Codex takeover queued) | | | Pat25October approved sight-only first, hearing/speed/lock unchanged. Codex follows040,033,048; formal claim pending. Design proposal is superseded by050 decision note where it scales hearing. |
+| 47 | 050 HUNT RESTORE: global sight-only Hunt, visible meter, stage cue, flag | CLAIMED (codex) | | | Pat approved sight-only first; hearing, movement speed and lock timing unchanged. Formal takeover after verified 048 merge 0fb3873e. Historical Claude claim/design preserved; shared readiness proposal superseded where it alters hearing/speed. |
 
 ## Verified stale-claim reconciliation, 24 October2026
 

@@ -1,8 +1,8 @@
 # Handoff 050: HUNT RESTORE, V7 global Hunt pressure made visible
 
 Status: CLAIMED
-Claimed at: 2026-10-24 23:34:02 UTC
-Claimed by: claude (orchestrator, split with Codex by Pat 24 Oct)
+Claimed at: 2026-10-26 01:41:36 UTC
+Claimed by: codex
 Finished at:
 
 Precondition: handoff 023 is DONE or paused by Pat (it holds main.gd and HUD files), and the design PR for docs/design/HUNT_RESTORE.md is merged into claude/integration. If roadmap Phase G (AI state trace) has landed, log hunt stage changes through it; if not, build without it. Source of truth: docs/design/HUNT_RESTORE.md (read it fully; section 8 lists numbers Pat may still adjust, build them from the table so changes are one-line edits). Pat, 24 Oct: "we also need to restore the hunt mechanism from v7 parity". AI-DESIGNED details, Pat to ratify.
@@ -38,8 +38,17 @@ PR into claude/integration. Merge per the line above; mark DONE and update the b
 ## Completion
 (Codex fills this in: what changed, PR link, branch and last pushed SHA, test results, unverified items, files outside ownership needed, recommended next.)
 
-### Pat decision,25October2026 Eastern: sight-only first
+### Pat decision, 25 October 2026 Eastern: sight-only first
 
 Pat accepted the recommendation to test sight-only Hunt first: global Hunt may increase sight notice range, but hearing, movement speed and lock timing must stay unchanged. This supersedes the proposed shared-readiness seam wherever that seam would increase hearing or speed. V7 sight-only behavior is the first implementation target. Keep the existing off switch, operation caps, protected combat rules, save compatibility and verification requirements; prove hearing and movement behavior unchanged with the flag on versus off. Do not treat this as permission to add hearing scaling later.
 
 Pat authorized Codex to carry this work forward after040,033 and048. No second active claim is opened here;040 remains active. Historical Claude claim above is preserved until formal takeover. This records authorization and intended order, not implementation or passing tests. Automated checks precede merge; phone and human testing remain deferred under Pat's standing feature-complete-and-tuned rule.
+
+
+### Formal takeover and current scope, 25 October 2026 Eastern
+
+048 is DONE and merged as 0fb3873e. Codex now claims 050 as the sole active handoff. Historical Claude claim: 2026-10-24 23:34:02 UTC; the interruption audit found a merged design proposal but no implementation. The preceding decision note's 040-active and formal-claim-pending statements are historical.
+
+Pat's sight-only approval supersedes the original shared Recon.readiness seam wherever it would alter hearing or movement. Implementation will preserve local readiness for hearing/speed and apply max(local readiness, capped global Hunt) only to the eligible sight calculations and truthful photo-price estimate. Lock timing, beam, collision, damage, hull, routes and contact reports remain protected. The original proposal is retained as evidence and will be labeled/reconciled at the authorized source boundary.
+
+Ordinary numbers, caps, display/audio choices and revert switches remain tunable table defaults under Pat's continuation instruction. No new story, graze damage, hearing scaling, phone testing, APK or promotion is authorized. Focused official documentation and existing project helpers will be checked before implementation. Final exact-head independent review and both hosted gates remain mandatory.
