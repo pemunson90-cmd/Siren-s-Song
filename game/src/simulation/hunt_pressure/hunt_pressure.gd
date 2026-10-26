@@ -18,7 +18,11 @@ static func view_mission(m:Dictionary)->Dictionary:
  var cap:float=Table.CAPS[id] if id>=0 and id<Table.CAPS.size() else 1.
  var on=active(m);var p:Dictionary=m.get("reconnaissance",{})
  var cause:String=m.get("hunt_pressure",{}).get("cause","ACTIVITY")
- return {"active":on,"hunt":float(p.get("hunt",0.)),"floor":float(p.get("floor",0.)),"index":index,"stage":Table.STAGES[index],"cap":cap,"scale":minf(Table.SCALES[index],cap) if on else 1.,"cause":Table.CAUSES.get(cause,"own activity"),"change_cause":Table.CAUSES.get(m.get("hunt_pressure",{}).get("stage_cause",cause),"own activity")}
+ var owned:Dictionary=m.get("hunt_pressure",{})
+ var change:String=owned.get("stage_cause",cause)
+ if index!=int(owned.get("stage",index)):
+  change="COOLING" if index<int(owned.stage) else (cause if owned.get("pending",false) else "TIME")
+ return {"active":on,"hunt":float(p.get("hunt",0.)),"floor":float(p.get("floor",0.)),"index":index,"stage":Table.STAGES[index],"cap":cap,"scale":minf(Table.SCALES[index],cap) if on else 1.,"cause":Table.CAUSES.get(cause,"own activity"),"change_cause":Table.CAUSES.get(change,"own activity")}
 static func view(sim)->Dictionary:return view_mission(sim.mission)
 static func sight(m:Dictionary,guard:Dictionary,local:float)->float:
  if not active(m) or guard.get("type","") not in Table.ROLES:return local
@@ -40,7 +44,7 @@ static func observe(sim,_dt:float)->void:
  if not active(sim.mission):return
  var p:Dictionary=sim.mission.hunt_pressure
  var seen=_seeing(sim)
- # Observe the previous completed threat step, never run a second sensing pass.
+ # Observe this completed threat/photo step, never run a second sensing pass.
  if seen and not p.seen:sim.Recon.action(sim.mission,Table.SIGHT_EDGE,"NEW SIGHT")
  p.seen=seen
  var next=stage(sim.mission)

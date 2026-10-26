@@ -31,6 +31,37 @@ func same_dive_except_pause(before:Dictionary,after:Dictionary,label:String):
  check(Sim.valid_snapshot(after),label+" snapshot remains valid")
  var expected=before.duplicate(true);expected.paused=after.paused
  check(after==expected,label+" touch changes no dive state beyond explicit pause")
+func swipe_help(hud):
+ var box=hud.sheet_scroll.get_global_rect()
+ var start=box.position+Vector2(box.size.x*.5,box.size.y*.8)
+ var was_touch=Input.is_emulating_touch_from_mouse();Input.set_emulate_touch_from_mouse(true)
+ var touch_down=InputEventScreenTouch.new();touch_down.index=0;touch_down.position=start;touch_down.pressed=true;root.push_input(touch_down,true)
+ var mouse=InputEventMouseButton.new();mouse.device=InputEvent.DEVICE_ID_EMULATION;mouse.position=start;mouse.global_position=start;mouse.button_index=MOUSE_BUTTON_LEFT;mouse.pressed=true;root.push_input(mouse,true);await process_frame
+ for n in 20:
+  var at=start-Vector2(0,(n+1)*10)
+  var drag=InputEventScreenDrag.new();drag.index=0;drag.position=at;drag.relative=Vector2(0,-10);root.push_input(drag,true)
+  var motion=InputEventMouseMotion.new();motion.device=InputEvent.DEVICE_ID_EMULATION;motion.position=at;motion.global_position=at;motion.relative=Vector2(0,-10);motion.button_mask=MOUSE_BUTTON_MASK_LEFT;root.push_input(motion,true);await process_frame
+ touch_down.position=start-Vector2(0,200);touch_down.pressed=false;root.push_input(touch_down,true)
+ mouse.position=touch_down.position;mouse.global_position=touch_down.position;mouse.pressed=false;root.push_input(mouse,true);await settle();Input.set_emulate_touch_from_mouse(was_touch)
+func compact_help(game,label:String):
+ var hud=game.mission_hud
+ var safe=Rect2(game.global_position,game.size)
+ var sheet=hud.sheet.get_global_rect();var back=hud.close_button.get_global_rect()
+ var font=hud.instrument_info.get_theme_font("font")
+ var row=font.get_height(hud.instrument_info.get_theme_font_size("font_size"))
+ var scroll=hud.sheet_scroll.get_global_rect()
+ check(safe.encloses(sheet) and safe.encloses(back) and not sheet.intersects(back),label+" Hunt help sheet and full Back fit side by side")
+ check(scroll.size.y>=row*2,label+" Hunt help initially exposes at least two complete text rows")
+ var dp_scale=160.0/420.0*float(root.size.x)/root.get_visible_rect().size.x
+ check(back.size.x*dp_scale>=48 and back.size.y*dp_scale>=48,label+" Hunt help Back retains 48dp")
+ var before=game.sim.snapshot();var offset=hud.sheet_scroll.scroll_vertical
+ for n in 6:
+  await swipe_help(hud)
+  if hud.instrument_info.get_global_rect().end.y<=hud.sheet_scroll.get_global_rect().end.y+2:break
+ check(hud.sheet_scroll.scroll_vertical>offset,label+" real touch scroll exposes later Hunt explanation")
+ check(hud.instrument_info.get_global_rect().end.y<=hud.sheet_scroll.get_global_rect().end.y+2,label+" real touch scroll reaches the final Hunt explanation line")
+ check(game.sim.snapshot()==before,label+" help scrolling leaves the dive unchanged")
+ await picture("hunt-960-help-scrolled")
 func touch_shape(shape:Vector2i):
  var game=await make_game(6,shape)
  var label="op6 "+str(shape)
@@ -45,6 +76,7 @@ func touch_shape(shape:Vector2i):
  check(not chip(hud).is_visible_in_tree(),label+" explanation sheet is clear of its opener")
  check(hud.instrument_info.is_visible_in_tree() and "sight" in hud.instrument_info.text.to_lower() and "hearing" in hud.instrument_info.text.to_lower() and "local" in hud.instrument_info.text.to_lower(),label+" visible explanation identifies sight-only global factor and local alert")
  await picture("hunt-%d-help"%shape.x)
+ if shape.x==960:await compact_help(game,label)
  same_dive_except_pause(before,game.sim.snapshot(),label+" basic help")
  await android_back()
  check(not game.advanced_orders and game.screen=="mission",label+" Android Back returns basic water HUD")

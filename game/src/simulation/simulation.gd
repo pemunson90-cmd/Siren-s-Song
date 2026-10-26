@@ -731,7 +731,6 @@ func _tick(dt: float) -> void:
 	AllStop.tick(self,dt)
 	Depth.advance(self,dt);Sonar.advance(self,dt); oxygen=maxf(0,oxygen-Endurance.oxygen_drain(mission,dt))
 	Recon.tick(mission,dt)
-	HuntPressure.observe(self,dt)
 	if mission.get("phase","")=="response": mission.response_time=mission.get("response_time",0.0)+dt
 	ping_time=maxf(0,ping_time-dt); recon_time=maxf(0,recon_time-dt)
 	for n in noises: n.time-=dt
@@ -813,6 +812,7 @@ func _tick(dt: float) -> void:
 	Consequences.extract(self)
 	if not mission.has("expedition_revision") and outcome.is_empty() and all_records() and units[0].pos.distance_to(mission.extraction)<65 and units[0].vel.length()<12:
 		_try_extract({"pos":mission.extraction,"name":"RECOVERY","route":"","available":true})
+	HuntPressure.observe(self,dt) # Commit actual sight/photo edges before pause input can clear them.
 # Player-only continuous hull corridor, O(terrain edges) rather than O(length).
 # Endpoints vs edges are covered by blocked(); the remaining closest segment
 # pairs are an edge intersection or a rock vertex vs this leg. No convexity
