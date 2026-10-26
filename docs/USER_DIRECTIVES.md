@@ -6,6 +6,8 @@ Pat accepted sight-only Hunt first for050. Global Hunt may increase sight notice
 
 Make ordinary choices reversible through narrow modules, data tables, off switches and documented reverts; ask concise questions where needed and keep independent work moving while responses are pending. This does not authorize irreversible promotion, new story/art direction, SIREN TELL or unapproved protected combat/sensing changes. Phone/human testing stays deferred until feature complete and tuned. Existing no-APK, save/evidence preservation and exact-head merge gates remain.
 
+Pat's later25October instruction: keep documentation clear, reconcile stale owned text without erasing history, and report verified task completions. Before implementation changes, use focused official web research and check existing project/library solutions. Prefer established approaches and reuse; keep research, delegation and test repetition proportionate to reduce token and compute overhead. This does not replace required independent review or final-head checks.
+
 ## Historical 23 October 2026 cloud stop and Windows handover (superseded by local resumption)
 
 Pat requested: finish the current task, leave the last actions in the repository, update stale documentation and prepare the move from cloud to desktop with notes for Pat, future Codex sessions and Claude Code. Pat explicitly selected **finish PR96 only, preserve the remaining handoff023 steps, then hand over and stop**. The desktop is Windows.

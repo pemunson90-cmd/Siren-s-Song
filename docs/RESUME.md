@@ -4,7 +4,7 @@ Current boundary: Pat resumed locally on Windows and continued work on 25 Octobe
 
 ## Source and authority
 
-Active integration: `claude/integration`. Last reconciled source baseline: bbc1bed0e6874cb722334309162d1b858f5a299b, the verified merge of PR144. A later live integration SHA is expected; fetch it at task boundaries. The board alone owns claims/completions.
+Active integration: `claude/integration`. Last reconciled source baseline: e0ee34d356d61c42e9809305647415c103e3cf84, the verified merge of documentation PR145. A later live integration SHA is expected; fetch it at task boundaries. The board alone owns claims/completions.
 Frozen `gauntlet/production` and protected `main` require Pat's promotion approval. Preserve branches, personal saves, evidence and signing identity.
 Current decisions: [USER_DIRECTIVES](USER_DIRECTIVES.md). Intended release: [CURRENT_GAME_SPEC](CURRENT_GAME_SPEC.md). Actual module seams, settings, saves, tests and safe reverts: [MODULES](MODULES.md).
 
@@ -16,13 +16,17 @@ Current decisions: [USER_DIRECTIVES](USER_DIRECTIVES.md). Intended release: [CUR
 - 031/PR127 adds optional audio captions/color alternatives;032/PR130 contains Pat's selected new art with an old-art switch.045/046/047/049 merged in PR140: three early fitting grants, loss-cause presentation, challenge completion evidence and first-Siren cue extension.
 - 040/PR144 proves all 14 later photo rows by actual launch, travel, usable target film and retreat with live authored Sirens. Thirteen use endurance; relay uses disruption and 3 finite EMP charges. No production rule/data changes.
 
+- 048/PR146 adds operation-aware STATUS wording, explained received ARRIVALS, and reversible viewport fitting for existing full-size radial controls and Back. This proposed feature still requires the exact-head gates below before merge.
+
 ## Next authorized work and limits
 
-Pat's 25 October order is 033 documentation, then Codex takeover 048 HUD, then 050 sight-only Hunt. Consult the live board before claiming; keep one claim at a time. 048 and050 are not implemented at this checkpoint.
+033 documentation is merged in PR145. The active proposed048 HUD feature is in PR146; its claim and verification progress live on the board. After its verified merge, claim050 sight-only Hunt. Keep one claim at a time.050 is not implemented.
 For 050, Pat approved sight-only first: hearing, movement speed and lock timing stay unchanged. Earlier design text proposing hearing scaling is superseded. Keep tunable choices in tables with off switches/revert notes; keep working while ordinary reversible questions are pending. Protected mechanics, narrative/art direction, SIREN TELL and promotion still require Pat where not already authorized.
 Photography remains the primary military reconnaissance pillar; rescue, machinery and fleet work support it. Wider release modes/content and qualitative campaign assessment remain unfinished.
 
 ## Verification and recovery
+
+033/PR145 exacte0c6e8f6 passed independent nonauthor review6404465570 and both hosted gates40241428577, with core836/0 and hosted17633/0. Mergee0ee34d3 parents/tree and GitHub merged=true were verified. [033 evidence](https://github.com/pemunson90-cmd/Siren-s-Song/tree/27d20bdc9842837fcfb7f95397840d8420640fbf/evidence/033-windows-20261025) preserves the original long RESUME, local/independent checks, complete hosted logs and merge proof.048 final review/CI remain pending at this proposed source boundary; do not treat development counts as merge acceptance.
 
 PR144 exact44a168d6 contains current0bf42344, independent nonauthor PASS6403464883 and both green hosted jobs40234636132. Root and reviewer each actually ran import/core836+journeys632+photo fixture361=1829checks/0failures. Hosted278summaries/17633checks/0failures. Merge parents/tree and GitHub merged=true verified; source branch retained.
 [040 evidence](https://github.com/pemunson90-cmd/Siren-s-Song/tree/250d12222352ee284e8d079cb51df7bf9950f1f1/evidence/040-windows-20261025) retains failed probes, final local/independent logs, full hosted logs and merge verification. [043 evidence](https://github.com/pemunson90-cmd/Siren-s-Song/tree/5c24162823fd1fa1f11160fedf2cb2c538c65d8b/evidence/043-windows-20261025) preserves save failures and final acceptance. These are technical fixtures, not full campaign, blind-player, phone, headphone or human acceptance.
