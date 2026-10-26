@@ -27,6 +27,7 @@ const Sonar=preload("res://src/simulation/advanced_sonar.gd")
 const Photo=preload("res://src/simulation/photo_capture.gd")
 const ObservedStun=preload("res://src/simulation/observed_stun.gd")
 const WorldRegion=preload("res://src/simulation/world_region.gd")
+const Economy=preload("res://src/campaign/economy.gd")
 
 # phase, feature module, method, input shape
 const save_checks = [
@@ -55,6 +56,8 @@ const save_checks = [
 	["transport", Departure, "valid", "mission_time"],
 	["transport", Courier, "valid", "mission_time"],
 	["transport", Thermal, "valid_mission", "mission"],
+	# Campaign archive phase: SaveStore.valid asks for it; an absent economy field is defaults.
+	["archive", Economy, "valid_archive", "snapshot"],
 ]
 
 static func valid(data: Dictionary, phase: String) -> bool:

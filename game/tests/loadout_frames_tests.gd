@@ -132,7 +132,7 @@ func ui():
   game=load("res://scenes/main.tscn").instantiate();game.set_script(load("res://tests/density_main.gd"));game.capture_scenario="loadout-frames-fixture"
   if dimensions.x==2520:game.fixture_safe_area=Rect2(136,0,2384,1080)
   root.add_child(game);await settle();game.set_process(false)
-  game.completed=[];game._briefing(0);await settle()
+  game.economy.unlocks=["hull:quiet","hull:fast","chassis:scout","chassis:heavy","chassis:endurance"];game.completed=[];game._briefing(0);await settle()
   check(frame_button("quietus")==null,"first briefing stays free of frame choices")
   game.completed=[0];game.unlocked=1;game.expedition={"completed":[],"entitlements":["quietus_prism","quietus_decoder"]}
   game._briefing(1);await settle()

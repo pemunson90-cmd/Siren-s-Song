@@ -16,6 +16,7 @@ Current decisions: [USER_DIRECTIVES](USER_DIRECTIVES.md). Intended release: [CUR
 - 031/PR127 adds optional audio captions/color alternatives;032/PR130 contains Pat's selected new art with an old-art switch.045/046/047/049 merged in PR140: three early fitting grants, loss-cause presentation, challenge completion evidence and first-Siren cue extension.
 - 040/PR144 proves all 14 later photo rows by actual launch, travel, usable target film and retreat with live authored Sirens. Thirteen use endurance; relay uses disruption and 3 finite EMP charges. No production rule/data changes.
 
+- Economy (lane C1): scrap, cells and alloy pay for refit, repair, spare/rebuilt modules, player-chosen research (alloy) and hull/chassis unlocks (alloy or research target `hull:quiet`/`hull:fast`). Presets Standard, Accessible, Survival and one-way Ironman are chosen at campaign start; a bare standard launch is always free. Saved as archive `economy`; revert with `economy_table.enabled=false`. Numbers are AI-DESIGNED for Pat to tune.
 - 048/PR146 adds operation-aware STATUS wording, explained received ARRIVALS, and reversible viewport fitting for existing full-size radial controls and Back. Its validation and integration record lives in the linked PR and live board.
 
 ## Next authorized work and limits
