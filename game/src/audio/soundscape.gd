@@ -1,4 +1,6 @@
 extends Node
+const HuntPressure=preload("res://src/simulation/hunt_pressure/hunt_pressure.gd")
+const HuntTable=preload("res://src/simulation/hunt_pressure/hunt_table.gd")
 const RATE := 22050
 const AMBIENCE_BUS := "SirenAmbience"
 const EFFECTS_BUS := "SirenEffects"
@@ -77,6 +79,7 @@ func _ready() -> void:
 	if not guarded:
 		var limiter=AudioEffectLimiter.new(); limiter.resource_name="SirenPeakGuard"; limiter.threshold_db=-3; limiter.ceiling_db=-1; AudioServer.add_bus_effect(0,limiter)
 	for cue in ["ping","camera","emp","knock","snare","salvage","record","loss","extraction","alert","recon","decoy","creak","beam","factory","carrier_received","return_received","sweep_received","heartbeat","berth_release","plant_switch"]: cues[cue]=stream(cue)
+	cues["hunt_stage"]=preload("res://src/audio/photo_audio/photo_wave.gd").stream(HuntTable.CUE_SOURCE)
 	ambience=AudioStreamPlayer.new(); ambience.stream=stream("ambience"); ambience.bus=AMBIENCE_BUS; ambience.volume_db=-17; add_child(ambience); ambience.play()
 	tension=AudioStreamPlayer.new(); tension.stream=stream("tension"); tension.bus=AMBIENCE_BUS; tension.volume_db=-80; add_child(tension); tension.play()
 	engine=AudioStreamPlayer.new(); engine.stream=stream("engine"); engine.bus=EFFECTS_BUS; engine.volume_db=-80; add_child(engine); engine.play()
@@ -117,6 +120,7 @@ func update(sim,dt: float,active_dive: bool=true) -> void:
 	AudioServer.set_bus_volume_db(effects_index,linear_to_db(maxf(0.001,effects_volume)))
 	var frozen=sim.paused or not active_dive or system_suspended
 	_lock_update(sim,frozen,active_dive)
+	ambience.volume_db=-17.+HuntPressure.ambience_offset(sim.mission)
 	ambience.stream_paused=frozen; engine.stream_paused=frozen
 	if sim.elapsed<last_clock: tension_level=0.0
 	last_clock=sim.elapsed
@@ -124,7 +128,7 @@ func update(sim,dt: float,active_dive: bool=true) -> void:
 		tension.stream_paused=frozen
 		if not frozen:
 			# Only the public, fresh received-contact threat channel is eligible.
-			# Hunt, source positions, hidden locks and enemy rosters are never read.
+			# Public Hunt affects only ambience/stage cues; hidden sources/locks/rosters stay unread.
 			var target=clampf(float(sim.recon_feedback().get("threat",0.0)),0.0,1.0)
 			var seconds=.7 if target>tension_level else 4.0
 			tension_level=lerpf(tension_level,target,1.0-exp(-maxf(dt,0.0)/seconds))
@@ -143,6 +147,7 @@ func update(sim,dt: float,active_dive: bool=true) -> void:
 		creak_timer-=dt
 		if creak_timer<=0: play("creak"); creak_timer=13.0+sin(sim.elapsed)*3
 	for event in sim.events:
+		if event.type=="hunt_stage" and not HuntPressure.active(sim.mission):continue
 		if event.type=="plant_control":play("plant_switch")
 		elif event.type in ["carrier_received","return_received","sweep_received"]:
 			var received=received_cues.take(event,sim.selected,sim.elapsed,active_dive and not sim.paused)
