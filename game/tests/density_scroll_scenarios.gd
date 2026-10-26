@@ -44,6 +44,16 @@ func gap_origin() -> Vector2:
 			if (c is BaseButton or c is Slider) and c.get_global_rect().grow(5).has_point(point):clear=false
 		if clear:return point
 	return Vector2(-1,-1)
+func reveal(control) -> void:
+	# Growing settings can move an earlier slider above the viewport at rest.
+	# Scroll that particular control into view through the actual drag path.
+	for n in 12:
+		var body=game.scroll.get_global_rect();var rect=control.get_global_rect()
+		if body.encloses(rect):return
+		var start=gap_origin()
+		if start.x<0:return
+		var delta=clampf((body.get_center().y-rect.get_center().y)*.25,-40,40)
+		await drag(start,start+Vector2(0,delta))
 func run() -> void:
 	var previous_emulation=Input.is_emulating_touch_from_mouse();Input.set_emulate_touch_from_mouse(true)
 	root.size=Vector2i(2520,1080);await process_frame;await process_frame
@@ -68,6 +78,10 @@ func run() -> void:
 	print("SCROLL_ENABLED offset=",game.scroll.scroll_vertical," screen=",game.screen)
 	check(game.scroll.scroll_vertical>30,"drag originating on enabled mission row scrolls actual body")
 	check(game.screen=="menu" and game.sim.snapshot()==before,"scroll gesture cancels enabled button activation")
+	await operations();start=action("next_operation").get_global_rect().get_center();before=game.sim.snapshot()
+	await drag(start,start-Vector2(0,minf(120,start.y-game.scroll.global_position.y-20)))
+	check(game.scroll.scroll_vertical>30,"drag originating on Next Operation scrolls actual body")
+	check(game.screen=="menu" and game.sim.snapshot()==before,"Next Operation drag cannot start a briefing or issue orders")
 	await operations();start=action("mission0").get_global_rect().get_center();mouse(start,true);await process_frame;mouse(start,false);await process_frame;await process_frame
 	check(game.screen=="briefing","ordinary release tap still opens mission after propagation change")
 	game._settings_menu();await process_frame;await process_frame;await process_frame
@@ -77,8 +91,11 @@ func run() -> void:
 	check(game.scroll.scroll_vertical>0,"settings body scrolls from measured gap")
 	check(game.screen=="settings" and game.settings==values,"settings scroll leaves music/effects/mute unchanged")
 	for control in game.panel_box.get_children():
-		if control is Slider and control.get_meta("ui_action","")=="volume_effects":check(game.scroll.get_global_rect().encloses(control.get_global_rect()),"below-fold effects slider becomes fully reachable without activation")
+		if control is Slider and control.get_meta("ui_action","")=="volume_effects":
+			await reveal(control)
+			check(game.scroll.get_global_rect().encloses(control.get_global_rect()),"below-fold effects slider becomes fully reachable without activation")
 	var mute=action("mute")
+	if mute!=null:await reveal(mute)
 	check(mute!=null and game.scroll.get_global_rect().encloses(mute.get_global_rect()),"below-fold mute becomes fully reachable")
 	if mute!=null and game.scroll.get_global_rect().encloses(mute.get_global_rect()):
 		start=mute.get_global_rect().get_center();await drag(start,start-Vector2(0,150))

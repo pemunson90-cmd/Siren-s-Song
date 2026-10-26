@@ -2,6 +2,8 @@ extends RefCounted
 # Three discrete water volumes. Transitions occupy BOTH volumes until settled.
 const NAMES=["SHALLOW","MIDDLE","DEEP"]
 const DURATION=4.0
+const BandPhoto=preload("res://src/photo_depth/band_photo.gd")
+const BandHint=preload("res://src/photo_depth/band_hint.gd")
 static func initialize(sim):
  sim.mission["depth_cargo"]={};sim.mission["depth_openings"]=[]
  for body in sim.units+sim.sirens:
@@ -55,14 +57,13 @@ static func command(sim,band)->bool:
  # Soundings only reveal this local vertical clearance; never a remote detour.
  var held=u.hold
  var working=not sim.captures[sim.selected].is_empty() or not sim.module_recovery_status().jobs[sim.selected].is_empty() or sim.Delivery.busy(sim,sim.selected) or sim.Witness.busy(sim,sim.selected) or sim.Chain.connected(sim,sim.selected) or sim.Glass.busy(sim,sim.selected) or sim.Choir.busy(sim,sim.selected)
- var sleeve=sim.Equipment.item_for(sim.mission.launch_equipment,sim.selected)=="quietus_pressure_sleeve"
+ var sleeve=sim.Equipment.has(sim.mission.launch_equipment,sim.selected,"quietus_pressure_sleeve")
  var duration=2.5 if sleeve else DURATION
  if sleeve:
   if sim.oxygen<.75:sim.message="Insufficient pressure-sleeve reserve";return false
   sim.oxygen-=.75;sim._noise(u.pos,250.,"PRESSURE SLEEVE",duration,u.band)
  u.transition={"to":band,"remaining":duration};u.vel=Vector2.ZERO;u.hold=""
- sim.ModuleRecovery.cancel_released(sim,sim.selected);sim.Delivery.cancel_released(sim,sim.selected);sim.Witness.cancel_released(sim,sim.selected);sim.Glass.cancel_released(sim,sim.selected);sim.Choir.cancel_released(sim,sim.selected)
- sim.Chain.cancel_released(sim,"depth")
+ sim.JobRelease.cancel(sim,sim.selected,"depth")
  if not working:u.hold=held
  sim.captures[sim.selected]={};sim.message="%s · %s → %s · %.1fs exposed transition"%[u.name,NAMES[u.band],NAMES[band],duration]
  return true
@@ -85,6 +86,7 @@ static func advance(sim,dt):
  if sim.units[0].alive and sim.units[0].band==2:sim.oxygen=maxf(0,sim.oxygen-dt*.025)
  for i in [1,2]:
   if sim.units[i].alive and sim.units[i].band==2:sim.units[i].battery=maxf(0,sim.units[i].battery-dt*.035)
+ BandPhoto.deep_cost(sim,dt)
 static func transmission(a:Dictionary,b:Dictionary)->float:
  if overlap(a,b):return 1.0
  return .42 if absi(a.get("band",1)-b.get("band",1))==1 else .18
@@ -120,11 +122,13 @@ static func context(sim)->String:
  var delivery=sim.mission.get("blackwater_delivery",{})
  if not delivery.is_empty() and sim.selected>0 and not delivery.carriers[sim.selected].is_empty():return "RAW BUFFER aboard · meet Quietus at SAME settled depth within60m to TRANSFER."
  if sim.all_records() and sim.Delivery.complete(sim):return "Archive ready · recover Quietus settled in MIDDLE; retained kit still needs its carrier."
+ var local=BandHint.local_record(sim,u)
+ if not local.is_empty():return local
  if u.band!=1 and sim.mission.objectives.any(func(o):return not o.captured and u.pos.distance_to(o.pos)<240):return "Local record nearby · settle in MIDDLE to CAMERA / SAMPLE; shifting exposes both bands."
  var rows=sim.Sonar.feedback(sim,sim.selected).rows
- if rows.any(func(row):return sim.elapsed-row.time<3 and row.classification in ["SWEEP WINDUP","ACTIVE SWEEP","RETURN CHARGE"]):return "Sweep heard locally · move from the old return or disrupt; a layer shift takes4s."
+ if rows.any(func(row):return sim.elapsed-row.time<3 and row.classification==preload("res://src/simulation/sweeper_senses.gd").WARNING):return "Sweeper heard locally · it is walking to the last noise it heard; go quiet or leave, or drop a decoy."
  if sim.Sonar.feedback(sim,sim.selected).listening>0:return "Listening for returns · moving160m or leaving the emitter band can lose your return."
- if sim.motion_radius(sim.selected)>180:return "Own motion masks passive bearings · slow down or listen from an independent craft."
+ if sim.motion_radius(sim.selected)>180:return "Your engines drown out heard directions · slow down or listen from an independent craft."
  return sim.mission.get("depth_hint","Craft → DEPTH / SONAR · bearings need movement or a second receiver; depth costs time.")
 static func valid(data)->bool:
  if data.mission.has("depth_hint") and not data.mission.depth_hint is String:return false

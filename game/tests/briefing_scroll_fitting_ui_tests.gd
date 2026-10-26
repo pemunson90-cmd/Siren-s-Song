@@ -36,16 +36,22 @@ func fitting(slot:String):
   if control is Button and control.get_meta("action","")=="fit_"+slot and "Drone deep cells" in control.text:return control
  return null
 func action(id:String):
- for control in game.panel_box.get_children()+game.menu_footer.get_children():
+ for control in game.menu.find_children("*","Button",true,false):
   if control is Button and control.get_meta("action","")==id:return control
  return null
 func expose_fittings():
- for n in 8:
+ for n in 20:
   if game.scroll.get_global_rect().encloses(fitting("drone_b").get_global_rect()):break
   var area=game.scroll.get_global_rect();var start=Vector2(area.get_center().x,area.end.y-20)
   await drag(start,Vector2(start.x,area.position.y+30))
 func change_loadout(label:String):
  game._show_campaign();await settle()
+ if not action("loadout").is_visible_in_tree():
+  for n in 8:
+   if game.scroll.get_global_rect().encloses(action("launch_details").get_global_rect()):break
+   var area=game.scroll.get_global_rect();var start=Vector2(area.get_center().x,area.end.y-20)
+   await drag(start,Vector2(start.x,area.position.y+30))
+  await tap(action("launch_details").get_global_rect().get_center())
  for n in 8:
   if game.scroll.get_global_rect().encloses(action("loadout").get_global_rect()):break
   var area=game.scroll.get_global_rect();var start=Vector2(area.get_center().x,area.end.y-20)
@@ -87,6 +93,12 @@ func run():
   game.completed=[0,1,2,3,4,5];game.unlocked=5;game.expedition={"version":1,"route":"deep","routes":["deep","shelf"],"facts":{"deep":"known","shelf":"known"},"completed":[6,7,8]};game._start_mission(6);game._briefing(6);await settle()
   var label="cover" if dimensions.x==2520 else "inner"
   check(game.scroll.scroll_vertical==0 and DisplayServer.is_touchscreen_available(),"fresh "+label+" briefing begins at the top on the touchscreen GUI path")
+  # 029 folds preparation initially. Enter it through its real control before
+  # the existing drag/selection/persistence checks; all those checks stay intact.
+  var fold=action("fit_fold")
+  if fold!=null and "SHOW" in fold.text:
+   await tap(fold.get_global_rect().get_center())
+   check("HIDE" in action("fit_fold").text,"real touch expands preparation before scrolling "+label)
   await change_fit("drone_b","drone_deep_cells",label+"-fit")
   check(fitting("drone_a").disabled,"rebuilt fitting keeps the single kit reserved on drone B")
   await change_fit("drone_b","",label+"-clear")

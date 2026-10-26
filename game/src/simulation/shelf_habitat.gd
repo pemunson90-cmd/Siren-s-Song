@@ -1,10 +1,10 @@
 extends RefCounted
-# Occupied shelf galleries receive real warnings, respond in their own time and
+# Occupied bunker sections receive real warnings, respond in their own time and
 # supply a locally received account. Neither progress nor rendering tracks guards.
 const ALARM=Vector2(1120,1480)
 const FRONT=Rect2(600,1450,180,400)
-const GALLERIES=[{"id":"west","name":"UPPER GALLERY","pos":Vector2(560,1000)}, {"id":"east","name":"LOWER GALLERY","pos":Vector2(1700,1200)}]
-const ACCOUNT="The work-lights go behind pressure shutters. The returning account lists occupied sleeping berths and warm-water nurseries, not firing coordinates. The shelf shelters cannot abandon their pressure-rated homes at once: this warning buys time to seal them. Carry the acknowledged shelter call onward to the warning plant."
+const GALLERIES=[{"id":"west","name":"UPPER BUNKER SECTION","pos":Vector2(560,1000)}, {"id":"east","name":"LOWER BUNKER SECTION","pos":Vector2(1700,1200)}]
+const ACCOUNT="The work-lights go behind pressure shutters. The returning account lists the watch crew sealed in the shore-end bunker, not firing coordinates. The bunker cannot be opened at once: this warning buys time to seal it. Carry the acknowledged call onward to the warning plant."
 static func initial()->Dictionary:
  return {"seen":{},"warned_at":{},"receipts":[],"methods":{},"alarm_used":false,"front_known":false,"next_reply":0.0}
 static func applies(m:Dictionary)->bool:return m.get("id")==8 and m.has("shelf_habitat")
@@ -12,10 +12,10 @@ static func build(m:Dictionary)->void:
  m.world_size=Vector2(2400,2400);m.start=Vector2(2140,400);m.extraction=Vector2(240,2160)
  m.rocks=[Rect2(-100,-100,2600,300),Rect2(-100,700,580,550),Rect2(1780,850,720,550),Rect2(780,1750,920,240),PackedVector2Array([Vector2(800,400),Vector2(1260,400),Vector2(1360,680),Vector2(1320,920),Vector2(1390,1120),Vector2(800,1120),Vector2(840,940),Vector2(760,720)])]
  m["shelf_habitat"]=initial();m["thermal_revision"]=1;m["thermal_fronts"]=[{"area":FRONT,"transmission":.5,"close_range":120.0}]
- m.objectives=[{"pos":ALARM,"name":"SHELTER ACKNOWLEDGEMENTS","site_id":"warning_receiver","optical":"divergence_warning","captured":false,"kind":"habitat","evidence":ACCOUNT}]
+ m.objectives=[{"pos":ALARM,"name":"WATCH ACKNOWLEDGEMENTS","site_id":"warning_receiver","optical":"divergence_warning","captured":false,"kind":"habitat","evidence":ACCOUNT}]
  m.corridors=[{"pos":m.extraction,"name":"WEST SHELF RECOVERY","route":"shelf"}]
- m.brief="Terrace windows beyond the shelf receiver still draw power. Carry Quietus’s fracture warning into this inhabited refuge. Visit both gallery listening lips for quiet local delivery, or sound the charted COMMUNAL RESONATOR once: its1200m call offers a shorter work route but draws the hunter. A sent warning alone is not a returned shelter account; hear both replies. Drones can discover the galleries and watch approaches. The shorter inner return crosses a mutually masking exhaust front; the longer outer contour preserves passive information. Bring Quietus and the shelter acknowledgements to western recovery."
- m.record="Two occupied galleries answered the fracture warning. Their pressure shutters closed over living berths; Quietus carries a shelter call toward human water, not an empty station's firing coordinates."
+ m.brief="Terrace windows beyond the shelf receiver still draw power. Carry Quietus’s warning to the watch crew in Port Ardent's shore-end bunker. Visit both section listening lips for quiet local delivery, or sound the charted COMMUNAL RESONATOR once: its1200m call offers a shorter work route but draws the hunter. A sent warning alone is not a returned acknowledgement; hear both replies. Drones can discover the sections and watch approaches. The shorter inner return crosses a mutually masking exhaust front; the longer outer contour preserves passive information. Bring Quietus and the watch acknowledgements to western recovery."
+ m.record="Two sections of the bunker answered the warning. Their pressure shutters closed over the watch crew; Quietus carries a call toward living survivors, not an empty station's firing coordinates."
 static func complete(sim)->bool:return not applies(sim.mission) or sim.mission.shelf_habitat.receipts.size()==2
 static func _gallery(id:String)->Dictionary:
  for site in GALLERIES:
@@ -38,21 +38,21 @@ static func context(sim)->Dictionary:
   if not state.seen.has(site.id):continue
   var row=site.duplicate(true);row.merge(state.seen[site.id]);row.live=sim.elapsed-float(row.time)<.1;row["received"]=site.id in state.receipts
   var reason=_local_reason(sim,site.pos,100)
-  if site.id in state.receipts:reason="Shelter acknowledgement aboard"
-  elif row.live and float(row.closing)>0:reason="Residents closing pressure shutters · listen for the local reply"
-  row["action"]={"ready":reason.is_empty(),"reason":reason if not reason.is_empty() else "LOCAL WARNING ·100m direct pulse · one occupied gallery"};sites.append(row)
+  if site.id in state.receipts:reason="Watch acknowledgement aboard"
+  elif row.live and float(row.closing)>0:reason="Watch crew closing pressure shutters · listen for the local reply"
+  row["action"]={"ready":reason.is_empty(),"reason":reason if not reason.is_empty() else "LOCAL WARNING ·100m direct pulse · one occupied section"};sites.append(row)
  var reason=_local_reason(sim,ALARM,60)
  if state.alarm_used:reason="Common alarm spent · local warnings remain available"
- return {"galleries":sites,"alarm":{"pos":ALARM,"used":state.alarm_used,"ready":reason.is_empty(),"reason":reason if not reason.is_empty() else "SOUND ALARM ·1200m/8s audible · one use"},"front":{"known":state.front_known,"area":FRONT},"receipts":state.receipts.duplicate(),"complete":complete(sim),"account":ACCOUNT if complete(sim) else "Two occupied galleries · return their shelter acknowledgements"}
+ return {"galleries":sites,"alarm":{"pos":ALARM,"used":state.alarm_used,"ready":reason.is_empty(),"reason":reason if not reason.is_empty() else "SOUND ALARM ·1200m/8s audible · one use"},"front":{"known":state.front_known,"area":FRONT},"receipts":state.receipts.duplicate(),"complete":complete(sim),"account":ACCOUNT if complete(sim) else "Two occupied sections · return their watch acknowledgements"}
 static func command(sim,mode:String,id:String="")->bool:
  if not applies(sim.mission):return false
  var state=sim.mission.shelf_habitat
  var pos=ALARM;var radius=1200.0;var reason=""
  if mode=="local":
   var site=_gallery(id)
-  if site.is_empty() or not state.seen.has(id):sim.message="Locate the occupied gallery with a live receiver first";return false
+  if site.is_empty() or not state.seen.has(id):sim.message="Locate the occupied section with a live receiver first";return false
   pos=site.pos;radius=140.0;reason=_local_reason(sim,pos,100)
-  if state.warned_at.has(id):reason="Gallery already warned · listen for its reply"
+  if state.warned_at.has(id):reason="Section already warned · listen for its reply"
  else:
   reason=_local_reason(sim,ALARM,60)
   if state.alarm_used:reason="Common alarm already spent · local warnings remain available"
@@ -67,7 +67,7 @@ static func command(sim,mode:String,id:String="")->bool:
   state.warned_at[site.id]=sim.elapsed;state.methods[site.id]="local" if mode=="local" else "common";delivered.append(site.id)
  sim._noise(origin,radius,"LOCAL SHELTER WARNING" if mode=="local" else "COMMON SHELTER ALARM",1.0 if mode=="local" else 8.0)
  sim.events.append({"type":"ping","pos":origin})
- sim.message="Local warning sent · listen for the gallery's reply" if mode=="local" else "Common alarm sounded · hunter can hear · listen for two shelter replies"
+ sim.message="Local warning sent · listen for the section's reply" if mode=="local" else "Common alarm sounded · hunter can hear · listen for two watch replies"
  return true
 static func observe(sim)->void:
  if not applies(sim.mission):return
@@ -79,7 +79,7 @@ static func observe(sim)->void:
   var phase=clampf((sim.elapsed-float(state.warned_at.get(site.id,sim.elapsed)))/2.0,0,1) if closing else 0.0
   var first=not state.seen.has(site.id)
   state.seen[site.id]={"time":sim.elapsed,"closing":phase,"live":true}
-  if first:sim.message=site.name+" occupied · moving work-lights behind pressure windows · Quietus can warn locally"
+  if first:sim.message=site.name+" occupied · work-lights moving behind pressure windows · Quietus can warn locally"
 static func tick(sim)->void:
  if not applies(sim.mission):return
  observe(sim)
@@ -97,16 +97,16 @@ static func tick(sim)->void:
   if listeners.is_empty():continue
   state.receipts.append(site.id)
   sim.events.append({"type":"return_received","receiver":listeners[0].receiver,"direction":listeners[0].direction,"identity":"shelter","time":sim.elapsed})
-  sim.message=site.name+" shelter reply received · occupied berths sealed"
+  sim.message=site.name+" watch reply received · section sealed"
  if complete(sim) and not sim.mission.objectives[0].captured:
   sim.mission.objectives[0].captured=true;sim._record_secured(sim.mission.objectives[0],0)
   sim.mission.record=ACCOUNT+"\n"+result(sim.mission)
-  sim.message="Both occupied galleries answered · shelter account aboard · choose the masked inner trench or the longer outer return"
+  sim.message="Both occupied sections answered · watch account aboard · choose the masked inner trench or the longer outer return"
 static func result(mission:Dictionary)->String:
  var state=mission.get("shelf_habitat",{})
  if state.get("receipts",[]).size()!=2:return ""
  var used=state.get("methods",{}).values()
- return "Both galleries received the common alarm and answered." if used.all(func(method):return method=="common") else "Both galleries received close local warnings and answered." if used.all(func(method):return method=="local") else "The common call and a close local warning reached both galleries; both answered."
+ return "Both bunker sections received the common alarm and answered." if used.all(func(method):return method=="common") else "Both bunker sections received close local warnings and answered." if used.all(func(method):return method=="local") else "The common call and a close local warning reached both bunker sections; both answered."
 static func valid(data:Dictionary)->bool:
  var m=data.mission
  if m.get("id")!=8:return not m.has("shelf_habitat")

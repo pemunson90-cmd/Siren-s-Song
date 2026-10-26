@@ -56,6 +56,11 @@ func travel(s,id,point):
   if not s.units[id].alive:printerr("CRAFT lost ",id," at ",s.units[id].pos);return false
   if s.units[id].pos.distance_to(point)<18 and s.units[id].vel.length()<2:s.paused=true;print("ARRIVE ",s.mission.id," ",id," ",point," t",s.elapsed," hull",s.hull," band",s.units[id].band);return true
  s.paused=true;printerr("TRAVEL stalled ",id," at ",s.units[id].pos," target ",point," ",s.message);return false
+const Patient=preload("res://tests/patient_play.gd")
+func lull(s,id,band,target,then=Vector2.INF,at=Vector2.INF):
+ for n in 40:
+  if Patient.rehearsal_survives(s,id,band,target,then,at):return
+  tick(s,2.)
 func shift(s,id,band):
  s.command("select",{"unit":id})
  if not s.command("depth",{"band":band}):return false
@@ -80,8 +85,8 @@ func blackwater():
  check(not s.command("blackwater_handoff",{"carrier":1}) and not s.Delivery.complete(s),"Blackwater mismatched depth cannot remotely deliver raw data")
  check(shift(s,1,2) and s.command("blackwater_handoff",{"carrier":1}),"Blackwater real buffer handoff works at settled deep rendezvous")
  check(travel(s,0,Vector2(720,540)),"Blackwater loaded Quietus actually passes beneath western basalt")
- check(shift(s,0,1) and travel(s,0,Vector2(1360,340)) and record(s,0,1),"Blackwater Quietus actually receives eastern fixed REPLY")
- check(shift(s,0,2) and travel(s,0,Vector2(1400,540)) and travel(s,0,Vector2(1120,540)) and travel(s,0,Vector2(1120,720)) and travel(s,0,Vector2(760,720)) and travel(s,0,s.mission.extraction) and shift(s,0,1),"Blackwater returns both physical buffers aboard Quietus beneath basalt")
+ lull(s,0,1,1);check(shift(s,0,1) and travel(s,0,Vector2(1360,340)) and record(s,0,1),"Blackwater Quietus actually receives eastern fixed REPLY")
+ check(travel(s,0,Vector2(1120,720)) and travel(s,0,Vector2(760,720)) and travel(s,0,s.mission.extraction),"Blackwater returns both physical buffers aboard Quietus in the middle layer, above the deep sweeper")
  result(s,"BLACKWATER custody/depth")
 func foundry():
  var s=Sim.new();s.start(3)
@@ -98,11 +103,11 @@ func well():
  check(shift(s,0,0) and travel(s,0,Vector2(360,590)) and travel(s,0,Vector2(800,390)),"Well shallow west crossing reaches northern pattern vantage")
  check(shift(s,0,1) and record(s,0,0),"Well middle receiver physically records unassigned pattern")
  check(shift(s,0,2) and travel(s,0,Vector2(1170,400)),"Well deep east passage retains uncertain hunter information")
- check(shift(s,0,1) and record(s,0,1),"Well middle aperture image is real without promising moving reference")
- check(shift(s,0,2) and travel(s,0,Vector2(1150,720)) and travel(s,0,Vector2(780,850)),"Well moving deep withdrawal evades stale sweeper returns")
- check(shift(s,0,1) and record(s,0,2),"Well middle southern archive remains reachable across layer choices")
+ lull(s,0,1,1,Vector2(1000,650));check(shift(s,0,1) and record(s,0,1),"Well middle aperture image is real without promising moving reference")
+ check(shift(s,0,2) and travel(s,0,Vector2(1000,650)) and travel(s,0,Vector2(560,850)),"Well moving deep withdrawal evades stale sweeper returns")
+ check(travel(s,0,Vector2(620,835)),"Well deep approach to the southern vantage");lull(s,0,1,2);check(shift(s,0,1) and record(s,0,2),"Well middle southern archive remains reachable across layer choices")
  check(s.mission.well_reference.is_empty() and s.mission.well_observation.is_empty(),"Well quiet policy retains honest unverified signature")
- check(travel(s,0,s.mission.extraction),"Well unverified archive physically returns")
+ check(shift(s,0,2) and travel(s,0,s.mission.extraction) and shift(s,0,1),"Well unverified archive physically returns beneath the woken hunter")
  result(s,"WELL uncertain/depth")
 func finale():
  var s=Sim.new();s.start(5)

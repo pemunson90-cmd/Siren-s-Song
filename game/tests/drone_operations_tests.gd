@@ -51,7 +51,10 @@ func _initialize():
  s=fresh();s.units[1].pos=Vector2(320,250);s._observe();s.elapsed=.31;s.command('select',{'unit':1});s.command('contact_hold');advance(s,1./60)
  check(s.units[1].hold=='SCOUT','aged cached receiver attribution cannot trigger before fresh acquisition')
  advance(s,.1);check(s.units[1].hold=='SCOUT_STOP','subsequent real sensor refresh can trigger scout normally')
- s=fresh();s.sirens[0].pos=Vector2(700,850);s.command('select',{'unit':1});s.command('contact_hold');s.command('ping');advance(s,.1)
+ s=fresh();s.sirens[0].pos=Vector2(700,850);s.units[0].pos=Vector2(600,850);s.command('emp')
+ s.units[0].pos=Vector2(160,800);s.command('select',{'unit':1});s.command('contact_hold');s.command('sonar_mode',{'sector':'all','power':'high'});s.command('ping')
+ check(not s.sonar.pending.is_empty() and s.units[1].hold=='SCOUT','active pulse schedules real echo travel before a scout can receive it')
+ advance(s,4.0)
  check(s.contacts.has(0) and s.units[1].hold=='SCOUT','sonar-only contact does not trip local passive scout')
  var store=preload('res://src/persistence/save_store.gd').new();store.path='user://drone-operations-test.save'
  s=fresh();s.units[1].hold='SCOUT_STOP';var archive={'version':1,'unlocked':0,'completed':[],'settings':{},'upgrade':'endurance','active':s.snapshot()}

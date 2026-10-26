@@ -48,6 +48,7 @@ func run():
   sim.command("queue");game._refresh();await settle();point=fleet.telemetry[0].get_global_rect().get_center();world=game.ocean.map_position(point-game.ocean.global_position)
   await tap(point)
   check(sim.queue_mode and sim.selected==0 and not game.advanced_orders and sim.route_goals().size()==2 and sim.route_goals()[0].pos==first and sim.route_goals()[1].pos.distance_to(world)<1.,"telemetry route respects explicit QUEUE and retains the preceding destination")
+  game.mission_hud.guard.reset();game._refresh();await settle()  # the order-undo chip is not part of these gesture fixtures
   var before=sim.snapshot();var camera=game.ocean.chart_camera.snapshot();point=fleet.telemetry[0].get_global_rect().get_center()
   await touch(point,true);await move(point+Vector2(90,35),Vector2(90,35));await touch(point+Vector2(90,35),false);await settle()
   check(sim.snapshot()==before and game.ocean.chart_camera.snapshot()!=camera and game.ocean.chart_camera.mode=="free","drag begun on telemetry pans without changing routes selection or pause")

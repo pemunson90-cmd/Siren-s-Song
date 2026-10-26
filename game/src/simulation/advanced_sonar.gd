@@ -1,6 +1,9 @@
 extends RefCounted
 const Depth=preload("res://src/simulation/depth_bands.gd")
+const Equipment=preload("res://src/equipment/equipment_catalog.gd")
+const Upgrades=preload("res://src/equipment/craft_upgrades.gd")
 const Chart=preload("res://src/simulation/terrain_chart.gd")
+const Sweeper=preload("res://src/simulation/sweeper_senses.gd")
 const SOUND_SPEED=300.0 # Tactical time scale, bounded two-way travel; not calibrated ocean acoustics.
 const MAX_HISTORY=72
 const POWERS={"low":{"radius":440.,"cost":.4,"signature":750.},"high":{"radius":720.,"cost":1.2,"signature":1300.}}
@@ -19,11 +22,16 @@ static func water_path(sim,receiver:Dictionary,source:Dictionary,radius:float)->
  if paths.is_empty():return {}
  paths.sort_custom(func(a,b):return a.strength>b.strength)
  return paths[0]
+static func prism_pulse(sim,station:int)->bool:
+ return station==0 and Equipment.has(sim.mission.launch_equipment,0,"quietus_prism") and sim.sonar.sector=="forward"
+# Single source of truth: the HUD shows exactly what emit() spends.
+static func pulse_cost(sim,station:int)->float:
+ return POWERS[sim.sonar.power].cost*(2. if prism_pulse(sim,station) else 1.)*Upgrades.pulse_cost(sim.mission.launch_equipment,station)
 static func emit(sim,station:int)->bool:
  var u=sim.units[station]
  if not u.transition.is_empty():sim.message="Settle depth before emitting";return false
- var settings=POWERS[sim.sonar.power];var prism=station==0 and sim.mission.launch_equipment.get("quietus","")=="quietus_prism" and sim.sonar.sector=="forward"
- var cost=settings.cost*(2. if prism else 1.)
+ var settings=POWERS[sim.sonar.power];var prism=prism_pulse(sim,station)
+ var cost=pulse_cost(sim,station)
  if (sim.oxygen if station==0 else u.battery)<cost:return false
  if station==0:sim.oxygen-=cost
  else:u.battery-=cost
@@ -34,6 +42,8 @@ static func emit(sim,station:int)->bool:
  var sector=sim.sonar.sector;var angle=u.angle
  for id in sim.sirens.size():
   var enemy=sim.sirens[id]
+  # Exact overlap has no horizontal bearing; do not invent one for the echo.
+  if u.pos==enemy.pos:continue
   var path=water_path(sim,u,enemy,radius)
   if path.is_empty() or not in_sector(u.pos,path.points[1],angle,sector):continue
   # The returning packet contains only the emission-time reflection.
@@ -80,8 +90,9 @@ static func advance(sim,dt):
   var masking=1.+own/180.
   for id in sim.sirens.size():
    var enemy=sim.sirens[id]
-   # Propulsion and genuine sweeper emission, never fabricated ghosts.
-   var emission=900.0 if enemy.get("sweep",{}).get("emitting",0)>0 else 650.0 if not enemy.get("sweep",{}).get("strike",{}).is_empty() else 350.0 if enemy.get("sweep",{}).get("charge",0)>0 else 510.0
+   if u.pos==enemy.pos:continue
+   # Propulsion only, never fabricated ghosts. No Siren emits sonar.
+   var emission=510.0
    var industry=enemy.get("type","") in ["interceptor","warden"]
    if industry:emission=450. if enemy.industry.phase=="windup" else 510. if enemy.industry.phase=="burst" else 110.
    var network=enemy.get("type","") in ["buoy","relay"]
@@ -90,7 +101,7 @@ static func advance(sim,dt):
    if path.is_empty():continue
    var direction=u.pos.direction_to(path.points[1])
    var confidence=clampf((path.strength-1.)*.45,.12,.85)
-   var row={"station":station,"enemy":id,"origin":u.pos,"direction":direction,"time":sim.elapsed,"band":-1,"confidence":confidence,"tone":enemy.acoustic_tone,"classification":("ACTIVE SWEEP" if enemy.get("sweep",{}).get("emitting",0)>0 else "RETURN CHARGE" if not enemy.get("sweep",{}).get("strike",{}).is_empty() else "SWEEP WINDUP" if enemy.get("sweep",{}).get("charge",0)>0 else "MACHINERY" if confidence<.5 else "PROPULSION"),"direct":path.direct,"kind":"bearing"}
+   var row={"station":station,"enemy":id,"origin":u.pos,"direction":direction,"time":sim.elapsed,"band":-1,"confidence":confidence,"tone":enemy.acoustic_tone,"classification":(Sweeper.WARNING if enemy.get("type","")=="sweeper" and enemy.get("mode","")=="INVESTIGATE" else "MACHINERY" if confidence<.5 else "PROPULSION"),"direct":path.direct,"kind":"bearing"}
    if industry:
     row.classification=("BURST WINDUP" if enemy.type=="interceptor" else "PRESSURE CHARGE") if enemy.industry.phase=="windup" else "COMMITTED BURST" if enemy.industry.phase=="burst" else "STATION TONE"
    if network:
@@ -114,7 +125,7 @@ static func advance(sim,dt):
      if fix==null or fix.distance_to(u.pos)>510 or (fix-u.pos).dot(direction)<0:continue
      # Independent rays support an uncertain fix, never live tracking.
      sim.sonar.fixes[id]={"pos":fix,"time":sim.elapsed,"confidence":minf(confidence,previous.confidence),"band":-1}
-   if row.classification=="ACTIVE SWEEP" and not sim.sonar.history.any(func(old):return old.enemy==id and old.station==station and old.classification=="ACTIVE SWEEP" and sim.elapsed-old.time<2.):
+   if row.classification==Sweeper.WARNING and not sim.sonar.history.any(func(old):return old.enemy==id and old.station==station and old.classification==Sweeper.WARNING and sim.elapsed-old.time<4.):
     sim.events.append({"type":"sweep_received","receiver":station,"direction":direction,"time":sim.elapsed})
    _remember(sim,row)
  for id in sim.sonar.fixes.keys():
@@ -125,12 +136,34 @@ static func _opened_since(sim,rect:Rect2,time:float)->bool:
  return false
 static func _remember(sim,row):
  sim.sonar.history.append(row)
+ _history_version+=1
  if sim.sonar.history.size()>MAX_HISTORY:sim.sonar.history.pop_front()
+# PERF (behavior identical): feedback() is read several times per frame (history draw,
+# detail, bearings, onboarding cue, depth hint) while the history only changes on a sonar
+# step. The filtered rows are cached per sim tick, keyed on the simulation, the very history
+# array, sim.elapsed, the station, the array's size and end rows, and _history_version (bumped
+# by _remember). Rows are shared with the history, never copied: every reader is read only.
+# Each call still returns a fresh outer dictionary and a fresh rows array, so callers may append.
+# The cache lives outside sim.sonar, so saves and snapshots are unchanged.
+# Oracle: tests/sonar_feedback_cache_tests.gd.
+static var _history_version:int=0
+static var _cache_sim:WeakRef=null
+static var _cache_history=null
+static var _cache_key:Array=[]
+static var _cache_rows:Array=[]
 static func feedback(sim,station:int)->Dictionary:
- var rows=[]
- for row in sim.sonar.history:
-  if row.station==station and sim.elapsed-row.time<=20:rows.append(row.duplicate())
- return {"rows":rows,"own_noise":sim.motion_radius(station),"sector":sim.sonar.sector,"power":sim.sonar.power,"listening":maxf(0.,sim.sonar.listening_until[station]-sim.elapsed)}
+ var history:Array=sim.sonar.history
+ var key:Array=[sim.elapsed,station,history.size(),_history_version]
+ var hit=_cache_sim!=null and is_same(_cache_sim.get_ref(),sim) and is_same(_cache_history,history) and _cache_key==key and (history.is_empty() or (is_same(_cache_rows_front,history.front()) and is_same(_cache_rows_back,history.back())))
+ if not hit:
+  var rows=[]
+  for row in history:
+   if row.station==station and sim.elapsed-row.time<=20:rows.append(row)
+  _cache_sim=weakref(sim);_cache_history=history;_cache_key=key;_cache_rows=rows
+  _cache_rows_front=null if history.is_empty() else history.front();_cache_rows_back=null if history.is_empty() else history.back()
+ return {"rows":_cache_rows.duplicate(),"own_noise":sim.motion_radius(station),"sector":sim.sonar.sector,"power":sim.sonar.power,"listening":maxf(0.,sim.sonar.listening_until[station]-sim.elapsed)}
+static var _cache_rows_front=null
+static var _cache_rows_back=null
 static func valid(data)->bool:
  var fitting=data.mission.get("launch_equipment",{})
  if not fitting is Dictionary:return false
@@ -142,11 +175,11 @@ static func valid(data)->bool:
  if not state.listening_until is Array or state.listening_until.size()!=3:return false
  for station in 3:
   var until=state.listening_until[station]
-  var reach=POWERS.high.radius*(1.4 if station==0 and fitting.get("quietus","")=="quietus_prism" else 1.)
+  var reach=POWERS.high.radius*(1.4 if station==0 and Equipment.has(fitting,0,"quietus_prism") else 1.)
   if not _number(until) or (until!=-1. and (until<0 or until>time+2*reach/SOUND_SPEED+.001)):return false
  for packet in state.pending:
   if not packet is Dictionary or not packet.has_all(["kind","due","time","station","band","origin"]) or packet.kind not in ["echo","terrain"]:return false
-  if not _number(packet.due) or not _number(packet.time) or packet.time<0 or packet.time>time or packet.due<time or packet.due>time+2*POWERS.high.radius*(1.4 if packet.get("station",-1)==0 and fitting.get("quietus","")=="quietus_prism" else 1.)/SOUND_SPEED+.001:return false
+  if not _number(packet.due) or not _number(packet.time) or packet.time<0 or packet.time>time or packet.due<time or packet.due>time+2*POWERS.high.radius*(1.4 if packet.get("station",-1)==0 and Equipment.has(fitting,0,"quietus_prism") else 1.)/SOUND_SPEED+.001:return false
   if not packet.station is int or packet.station<0 or packet.station>2 or not packet.band is int or packet.band<0 or packet.band>2 or not packet.origin is Vector2 or not packet.origin.is_finite():return false
   if packet.kind=="echo":
    if not packet.get("emitter_band") is int or packet.emitter_band not in [0,1,2] or not packet.get("enemy") is int or packet.enemy<0 or packet.enemy>=data.sirens.size() or not packet.get("pos") is Vector2 or not packet.pos.is_finite() or not _number(packet.get("tone")) or packet.tone<40 or packet.tone>2000 or not packet.get("direction") is Vector2 or not packet.direction.is_finite() or packet.direction.length()<.99 or packet.direction.length()>1.01 or not packet.get("direct") is bool or packet.get("type") not in ["patroller","sentinel","hunter","sweeper","buoy","relay","interceptor","warden"]:return false

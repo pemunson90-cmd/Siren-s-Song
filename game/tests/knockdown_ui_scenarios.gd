@@ -14,7 +14,8 @@ func click(point: Vector2) -> void:
   var e=InputEventMouseButton.new();e.position=point;e.global_position=point;e.button_index=MOUSE_BUTTON_LEFT;e.pressed=down;root.push_input(e,true);await process_frame
  await wait_frames()
 func setup(ui) -> void:
- ui._start_mission(4);ui.sim.units[0].pos=Vector2(600,750);ui.sim.units[0].angle=0
+ ui._start_mission(4);ui.sim.units[0].band=1;ui.sim.units[0].pos=Vector2(600,750);ui.sim.units[0].angle=0
+ for enemy in ui.sim.sirens:enemy.band=1;enemy.transition={}
  ui.sim.sirens[0].pos=Vector2(740,750);ui.sim.sirens[1].pos=Vector2(800,750);ui.sim.paused=false
  for i in 24:ui.sim.advance(1.0/60)
  ui.sim.paused=true;ui.sim._observe();ui.mission_hud.open("tools");ui._refresh()

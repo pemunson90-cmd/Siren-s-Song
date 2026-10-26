@@ -1,28 +1,15 @@
-# Siren’s Song · approved full-release build
-Read USER_DIRECTIVES.md and CURRENT_GAME_SPEC.md for scope.
+# Siren's Song workbench
 
-| Delivery | State |
-|---|---|
-|Pass0/V7, physical finales and four outcome families|Preserved|
-|Depth/sonar/stealth opening0–5|Integrated PR48|
-|Glass Reach core14–19 + optional20–21|Integrated PR49 / production16b1a505|
-|Iron Choir core22–25 + optional26–29|Built candidate; all8 technical journeys pass|
-|Moving freight/tow/locks/people/plant work|Physical completion, first-choice replay and campaign save demonstrated|
-|Interceptor / finite area-denial warden|Acquired phases, physical attacks/disruption/expiry and save checks|
-|Pressure sleeve / drone traction yoke|Actual material returns and later timing/narrow-tow effects demonstrated|
-|Ordinary campaign / new spatial controls|Onward/replay and representative cover/inner input/render checks|
-|Full28 core/12 optional, replay/challenges|Further substantial content remains|
-|Wider fleet/economy/research/presentation/audio|Approved expansion unfinished|
-|Roguelite expeditions, then naval career|After campaign/replay|
+Current operational state and next work: [RESUME.md](RESUME.md).
+Windows execution and recovery: [DESKTOP_HANDOFF.md](DESKTOP_HANDOFF.md).
+Pat resumed locally on Windows and continued on25October2026 Eastern. Continue the current board claim under its handoff.
+Intended release behavior: [CURRENT_GAME_SPEC.md](CURRENT_GAME_SPEC.md).
+Photographic capabilities and gaps: [PHOTO_RECON.md](PHOTO_RECON.md).
+Codex queue and owned work: `docs/codex/BOARD.md` on `codex/handoffs`.
 
-Occupied-band acquisition repaired after HOLDe5306e2; shared clear-band sight
-retains incoming exposure without committed retargeting.
-Next: root-owned accumulated independent re-review, consequential samebranch repairs,
-exact-head game-smoke and normal PR. These are not claimed complete for Iron Choir.
-After integration build further substantial playable campaign/replay content.
-Bare Quietus/no finite tools and full-hull routes demonstrate technical viability,
-not balanced pressure, blind discovery, drama or human enjoyment. Staged campaign
-access never edits/promotes original saved profiles or claims earned chronology.
-All rewards follow actual recovered material and fitted/working craft; NPC hull,
-collision, deliberate departure and stale observations matter.
-Existing usability/balance/native/audio/Fold risks remain; no polish detour.
+At closeout report the concrete player gain, observed evidence and largest remaining
+weakness through RESUME and the existing PR/handoff. Keep implementation, scripted
+verification, cold play and physical-device observations distinct.
+This pointer carries no second milestone or status table.
+
+Verified module seams and safe reverts: [MODULES.md](MODULES.md). Earlier cloud/art pauses are historical; current next work and limits stay in RESUME and the live board.

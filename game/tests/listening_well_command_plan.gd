@@ -28,7 +28,7 @@ static func play(diversion: bool=true,cruise: bool=false,existing=null):
 		if not travel(s,point): return s
 		if id==1 and cruise: s.command("silent")
 		if not s.command("camera"): return s
-		for n in 45: s.advance(0.1)
+		for n in 80: s.advance(0.1)
 		if not s.mission.objectives[id].captured: return s
 	travel(s,s.mission.extraction)
 	return s

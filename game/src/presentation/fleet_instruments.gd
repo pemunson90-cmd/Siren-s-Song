@@ -94,7 +94,7 @@ func status(id:int)->String:
 func _ordinary_task(id:int)->String:
  var sim=host.sim;var u=sim.units[id];var work=sim.capture_feedback(id)
  if work.unit>=0:
-  var site=sim.mission.objectives[work.target]
+  var site=preload("res://src/simulation/photo_capture.gd").obj(sim,work.target)
   var verb={"receiver":"LISTEN","exchange":"SAMPLE","uplink":"LINK","actuator":"OPERATE"}.get(site.get("kind",""),"PHOTO")
   var operation=Operations.operation(sim,work.target)
   if not operation.is_empty():verb=operation.action
@@ -108,7 +108,31 @@ func _ordinary_task(id:int)->String:
  var state="ROUTE %d"%u.route.size() if not u.route.is_empty() else "BRAKING" if u.vel.length()>2 else "READY"
  if id==0:return state+" · MOTION ~%dm"%roundi(sim.motion_radius(id)) if id==sim.selected else state+" · "+("SILENT" if u.silent else "CRUISE")
  return state+" · "+("LOW" if u.silent else "OPEN")+" · "+("QUIET42" if u.get("drone_drive","")=="quiet" else "TRANSIT96")
+func _layout_commands():
+ var hud=host.mission_hud
+ if not host.advanced_orders or hud.sheet.visible or hud.ring_buttons.is_empty():return
+ var subject=host.sim.units[hud.subject.get("unit",host.sim.selected)].pos if hud.subject.get("kind","")=="craft" else hud.subject.get("pos",host.sim.units[host.sim.selected].pos)
+ hud.anchor=host.ocean.screen_position(subject)
+ var h=host.ui_touch_height
+ var half=Vector2.ONE*(hud.ring_radius+h*.65)
+ for button in hud.ring_buttons+[hud.close_button]:
+  var rect=button.get_rect()
+  half=half.max((rect.position-hud.center).abs()).max((rect.end-hud.center).abs())
+ var at=host.ocean.screen_position(host.sim.units[host.sim.selected].pos)
+ var protected=host.ocean.own_craft_rects().filter(func(r):return r.get_center().distance_to(at)<1.)
+ var heading=host.sim.units[host.sim.selected].angle
+ for i in protected.size():
+  var body=protected[i].size/2
+  var turned=Vector2(absf(cos(heading))*body.x+absf(sin(heading))*body.y,absf(sin(heading))*body.x+absf(cos(heading))*body.y).max(body)
+  protected[i]=Rect2(at-turned,turned*2)
+ protected.append(host.pause_button.get_rect())
+ var safe=Rect2(Vector2(12,h+24),Vector2(maxf(1,host.size.x-24),maxf(1,host.size.y-h-36)))
+ var center=Ring.command_center(hud.anchor,safe,half,protected)
+ var delta=center-hud.center;hud.center=center
+ for button in hud.ring_buttons+[hud.close_button]:button.position+=delta
+ hud.queue_redraw()
 func refresh(blocked:Array):
+ _layout_commands()
  size=host.size;readouts.clear()
  if not visible:gesture.cancel();pressed_unit=-1
  var sim=host.sim;var ocean=host.ocean;var h=host.ui_touch_height;var font_size=maxi(14,roundi(h*.26));var font=ThemeDB.fallback_font
@@ -131,6 +155,7 @@ func refresh(blocked:Array):
   if not b.visible:continue
   var at:Vector2=positions[id];var offscreen=not on_screen[id];var bearing=(at-safe.get_center()).normalized()
   var box=Ring.edge_rect(at,safe,h,occupied) if offscreen else Rect2(at-Vector2.ONE*h/2,Vector2.ONE*h)
+  if not box.has_area():b.hide();continue # FLEET remains available if all edges are occupied.
   occupied.append(box.grow(5))
   b.position=box.position;b.custom_minimum_size=Vector2.ONE*h;b.size=Vector2.ONE*h;b.text="";b.add_theme_stylebox_override("normal",StyleBoxEmpty.new());b.add_theme_stylebox_override("hover",StyleBoxEmpty.new());b.add_theme_stylebox_override("pressed",StyleBoxEmpty.new());b.add_theme_stylebox_override("focus",StyleBoxEmpty.new())
   var reserves=Ring.reserves(sim,id,ocean.oxygen_capacity)

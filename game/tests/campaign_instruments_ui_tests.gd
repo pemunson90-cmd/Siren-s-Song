@@ -22,7 +22,7 @@ func picture(name:String):
  await RenderingServer.frame_post_draw
  root.get_texture().get_image().save_png(folder.path_join(name+".png"))
 func menu_button(game,action:String,item:String=""):
- for child in game.panel_box.get_children()+game.menu_footer.get_children():
+ for child in game.menu.find_children("*","Button",true,false):
   if child is Button and child.get_meta("action","")==action and (item.is_empty() or item in child.text):return child
  return null
 func menu_tap(game,button):
@@ -46,7 +46,8 @@ func live_fitting(game):
   check(Equipment.status(sim)==Equipment.SLOTS[slot]+" · "+item.name.to_upper() and item.name.to_upper() in game.mission_hud.instrument_info.text,"actual selected-craft STATUS names launched "+item.name)
   if id=="quietus_vector_drive":
    var active=sim.snapshot();game._briefing(0);await settle()
-   await menu_tap(game,menu_button(game,"fit_"+slot,item.name))
+   # Other rows now name this item in "REPLACES <item>", so match the unfit row exactly.
+   await menu_tap(game,menu_button(game,"fit_"+slot,item.name+" → BARE"))
    check(game.fitted_equipment[slot].is_empty() and sim.snapshot()==active and item.name.to_upper() in Equipment.status(sim),"unfitting the next launch cannot relabel the active immutable vector drive")
    game._show_campaign();await settle();await menu_tap(game,menu_button(game,"resume"))
    check(game.screen=="mission" and sim.snapshot()==active and item.name.to_upper() in Equipment.status(sim),"actual RESUME retains the launched identity after next-fit change")

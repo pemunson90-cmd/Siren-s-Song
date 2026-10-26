@@ -29,9 +29,12 @@ func run():
   if dimensions.x==2520:g.fixture_safe_area=Rect2(136,0,2384,1080)
   root.add_child(g);await settle();g.set_process(false);g._start_mission(0);await settle()
   var name="cover" if dimensions.x==2520 else "inner";var h=g.mission_hud
-  var extraction=g.sim.mission.extraction;var label_origin=extraction+Vector2(-120 if extraction.y>830 else -66,66 if extraction.y>830 else 90)
+  # Frame the chart before probing a world label or tapping a distant site.
+  g.ocean.fit_chart();g._view_changed();await settle()
+  var extraction=g.sim.mission.extraction;var label_origin=extraction+Vector2(-120,-66)
   check(g.ocean.world_label_position(label_origin,"EXTRACTION",18).is_finite(),"crowded recovery keeps its world label with safe relocated placement")
   await capture(name+"-water")
+  g._focus_craft();await settle()
   var before=g.sim.snapshot();var ship=g.ocean.global_position+g.ocean.screen_position(g.sim.units[0].pos)
   await tap(ship)
   check(g.advanced_orders and g.sim.snapshot()==before,"tap craft opens contextual projection without route or spend")
@@ -56,7 +59,7 @@ func run():
   g.ocean.pan_chart(Vector2(-60,0));var camera=g.ocean.chart_camera.snapshot();await click(g.unit_buttons[1])
   check(g.sim.selected==1 and g.ocean.chart_camera.mode=="free" and g.ocean.chart_camera.snapshot()==camera,"choosing a craft preserves FREE camera intent")
   h.dismiss();g.ocean.fit_chart();await settle();before=g.sim.snapshot()
-  var site=g.sim.mission.objectives[0];await tap(g.ocean.global_position+g.ocean.screen_position(site.pos))
+  var site=g.ocean.observable_sites()[0];await tap(g.ocean.global_position+g.ocean.screen_position(site.pos))
   check(g.advanced_orders and h.page=="object" and g.sim.snapshot()==before,"briefed-object tap opens observational context without remote action")
   await capture(name+"-site")
   h.dismiss();g._focus_craft();await settle();ship=g.ocean.global_position+g.ocean.screen_position(g.sim.units[g.sim.selected].pos)
@@ -76,6 +79,9 @@ func run():
   g.sim.contacts={0:{"pos":g.sim.units[g.sim.selected].pos+Vector2(150,0),"time":g.sim.elapsed,"mode":"LOCKING","lock":1.0,"angle":0.0,"target":g.sim.selected,"type":"sentinel","report_remaining":1.0}}
   g._refresh();h.open("craft");await settle()
   check(h.alarm.visible and "REPORT" in h.alarm.text and h.alarm.get_index()>h.blocker.get_index(),"earned imminent report warning stays above contextual projection")
+  # The new any-craft tutorial warning owns its own acknowledgement before
+  # another button beneath that card can be tapped.
+  if h.hints.panel.visible and h.hints.current in ["warning","sweep"]:await click(h.hints.dismiss_button)
   await click(h.instrument_button)
   check(h.sheet.visible and "RECORDS" in h.instrument_info.text and "reception unknown" in h.instrument_info.text,"STATUS exposes objective accounting and acoustic uncertainty")
   h.dismiss();g.sim.tools.emp=0;g.sim.tools.recon=0;g._refresh();h.open("tools");await settle()

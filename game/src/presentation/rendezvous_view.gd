@@ -1,4 +1,19 @@
 extends RefCounted
+# ARCH2 ordered panel/world contract; existing picking and inputs stay.
+# Drawing restores the canvas transform even with an empty projection, so every
+# non-null simulation remains applicable. Revert this PR to restore direct seams.
+static func applies(sim)->bool:return sim!=null
+static func build_panel(hud)->void:
+ var sim=hud.host.sim
+ var tender=context(sim)
+ if not tender.is_empty():
+  var receiver=sim.rendezvous_receiver()
+  hud.host.order_buttons.camera.text="DECODE\n4s PASSIVE";hud.host.order_buttons.camera.disabled=not receiver.ready
+  if hud.subject.get("subkind","")=="berth_control":
+   hud.extra.rendezvous_release.disabled=not tender.control.ready
+   hud.extra.rendezvous_release.text="BERTH\nRELEASED" if tender.control.get("used",false) else "RELEASE BERTH\n950m / 6s"
+  if hud.subject.get("subkind","") in ["berth_control","rendezvous_hull"]:hud.instrument_info.text=detail(sim,hud.subject)
+  if hud.subject.get("subkind","")=="rendezvous_hull" and tender.vessel.known and not tender.vessel.live:hud.extra.route_here.text="PLOT\nLAST FIX"
 # Only this public measured projection crosses the simulation/presentation seam.
 # The announced course is authored knowledge; it never advances a hull fix.
 static func context(sim)->Dictionary:
@@ -28,7 +43,7 @@ static func markers(view,sim,touch:float)->Array:
    var box=Rect2((anchor+offset*touch).clamp(bounds.position,bounds.end-extent),extent)
    if occupied.any(func(rect):return rect.intersects(box.grow(5))):continue
    var subject={"kind":"objective","subkind":"berth_control" if kind=="control" else "rendezvous_hull","name":"BERTH CONTROL" if kind=="control" else "BERTHING HULL" if data.live else "LAST HULL FIX","pos":data.pos}
-   var text="RELEASED · REFUGE COURSE" if kind=="control" and data.used else "RELEASE · AUDIBLE 950m / 6s" if kind=="control" else str(data.phase).to_upper()+" · LOCAL FIX" if data.live else "STALE · %ds AGO"%floori(data.age)
+   var text="RELEASED · MOORING COURSE" if kind=="control" and data.used else "RELEASE · AUDIBLE 950m / 6s" if kind=="control" else str(data.phase).to_upper()+" · LOCAL FIX" if data.live else "STALE · %ds AGO"%floori(data.age)
    result.append({"rect":box,"anchor":anchor,"subject":subject,"text":text});occupied.append(box);break
  return result
 static func pick(view,sim,point:Vector2,touch:float,bodies:bool=true)->Dictionary:
@@ -52,7 +67,7 @@ static func detail(sim,subject:Dictionary)->String:
  if subject.get("subkind","")=="berth_control":
   var control=report.control
   if not control.known:return "Locate the berth control locally or with Survey."
-  return "BERTH CONTROL\n"+control.reason+"\nRELEASE BERTH · AUDIBLE %dm / %ds\nWithin %dm · clear link · settled below 12m/s.\nOne release starts the tender's announced course to the permanent northern refuge. The course is not a live tracker. Quiet berth decode also remains available."%[roundi(control.noise_radius),roundi(control.noise_duration),roundi(control.range)]
+  return "BERTH CONTROL\n"+control.reason+"\nRELEASE BERTH · AUDIBLE %dm / %ds\nWithin %dm · clear link · settled below 12m/s.\nOne release starts the tender's announced course to the permanent northern mooring. The course is not a live tracker. Quiet berth decode also remains available."%[roundi(control.noise_radius),roundi(control.noise_duration),roundi(control.range)]
  var lines=receiver_lines(sim,sim.selected)
  if report.vessel.known:
   lines.push_front("CURRENT HULL · "+str(report.vessel.phase).to_upper() if report.vessel.live else "LAST HULL FIX · STALE %ds · position at last measurement"%floori(report.vessel.age))
@@ -65,14 +80,15 @@ static func receiver_lines(sim,unit:int)->Array:
  if receiver.distance>=0:lines.append("LOCAL RANGE · %dm"%roundi(receiver.distance))
  lines.append("PASSIVE DECODE · 4s" if unit==0 else "QUIETUS HYDROPHONES REQUIRED")
  return lines
-static func draw(view,sim)->void:
+static func draw(view,sim=null)->void:
+ if sim==null:sim=view.sim
  var known=projection(sim);var scale=maxf(.01,view.world_scale);var font=maxi(4,roundi(view.feedback_font_size/scale))
  var course: Array=known.course
  if not course.is_empty():
   var ink=Color(.60,.70,.65,.4)
   for n in range(1,course.size()):view._dash(course[n-1],course[n],ink,1.3/scale)
   view.draw_arc(course.back(),32,0,TAU,32,ink,1.5/scale)
-  view._label(course.back()+Vector2(45,30),"PERMANENT NORTH REFUGE",Color("8faeaa"),font)
+  view._label(course.back()+Vector2(45,30),"PERMANENT NORTH MOORING",Color("8faeaa"),font)
   view._label(course[1]+Vector2(32,-60),"ANNOUNCED TENDER COURSE",Color("8faeaa"),font)
   # This fixed mooring belongs to the announced course, not a hull observation.
   var berth=course[0]

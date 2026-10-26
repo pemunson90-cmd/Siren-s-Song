@@ -22,7 +22,8 @@ func run():
   root.size=dimensions;await frames()
   var g=load("res://scenes/main.tscn").instantiate();g.set_script(load("res://tests/density_main.gd"));g.store.path="user://iron-ui-"+str(dimensions.x)+".save"
   for suffix in ["",".bak",".tmp"]:DirAccess.remove_absolute(g.store.path+suffix)
-  root.add_child(g);await frames();g.set_process(false);g.completed=[0,1,2,3,4,5];g.unlocked=5;g.expedition=progress();g._show_campaign();await frames()
+  root.add_child(g);await frames();g.set_process(false);if g.get_node_or_null("Frontend")!=null:g.get_node("Frontend")._dismiss()
+  g.completed=[0,1,2,3,4,5];g.unlocked=5;g.expedition=progress();g._show_campaign();await frames()
   var buttons=g.panel_box.get_children().filter(func(c):return c is Button and c.get_meta("action","")=="expedition23")
   check(buttons.size()==1,"ordinary campaign archive offers industrial next job")
   if buttons.size()==1:g.scroll.ensure_control_visible(buttons[0]);await frames();await tap(buttons[0]);check(g.screen=="briefing","actual archive touch opens Iron briefing")
@@ -42,12 +43,12 @@ func run():
    check(g.mission_hud.extra.choir_work.visible,"body input exposes its industrial work menu")
    await tap(g.mission_hud.extra.choir_work);await tap(g.mission_hud.extra.choir_attach)
    check(g.sim.mission.iron_choir.load.carrier==0,"actual ballast attach input binds physical Quietus tow")
-  g._start_mission(22);g._enter_water();g.sim.units[0].pos=Vector2(1600,2050);g.sim.units[0].vel=Vector2.ZERO;g.sim.units[1].alive=false;g.sim.units[2].alive=false;g._focus_craft();g.sim.paused=false
+  g._start_mission(22);g._enter_water();g.sim.units[0].pos=Vector2(950,1400);g.sim.units[0].vel=Vector2.ZERO;g.sim.units[1].alive=false;g.sim.units[2].alive=false;g._focus_craft();g.sim.paused=false
   for n in 12:g.sim.advance(g.sim.STEP)
   g.sim.paused=true;g.sim._observe();g._refresh();await frames()
   check(g.sim.contacts.values().any(func(c):return c.type=="interceptor" and c.mode=="BURST WINDUP"),"actual acquired interceptor windup has earned visible readout")
   if not captures.is_empty() and DisplayServer.get_name()!="headless":await RenderingServer.frame_post_draw;root.get_texture().get_image().save_png(captures.path_join("iron-interceptor-"+str(dimensions.x)+".png"))
-  g._start_mission(23);g._enter_water();g.sim.units[0].pos=Vector2(2300,1200);g.sim.units[0].band=2;g.sim.units[1].alive=false;g.sim.units[2].alive=false;g._focus_craft();g.sim.paused=false
+  g._start_mission(23);g._enter_water();g.sim.units[0].pos=Vector2(1500,950);g.sim.units[0].band=2;g.sim.units[1].alive=false;g.sim.units[2].alive=false;g._focus_craft();g.sim.paused=false
   for n in 168:g.sim.advance(g.sim.STEP)
   g.sim.paused=true;g.sim._observe();g._refresh();await frames()
   check(not g.sim.Industry.patches(g.sim).is_empty() and g.sim.contacts.values().any(func(c):return c.type=="warden"),"actual acquired finite warden pressure has visible equivalent")

@@ -42,7 +42,7 @@ func run():
  if not s.has_method("concealed_status"):finish();return
  check(not s.concealed_status().known and not s.command("concealed_tow",{"action":"attach"}),"unrescued witness reveals no private work or interaction")
  board(s)
- check(s.concealed_status().known and s.concealed_status().account.contains("not a departing hull"),"living navigator identifies a specific mistaken sound interpretation")
+ check(s.concealed_status().known and s.concealed_status().account.contains("nothing more"),"living navigator identifies a specific mistaken sound interpretation")
  var staged=Sim.new();staged.restore(s.snapshot());finish_dive(staged)
  check(staged.outcome.is_empty() and not staged.all_records(),"pod landing alone cannot claim the newly promised departure consequence")
  step(s,6.1);var heard=s.mission.concealed_harbour.heard_departures
@@ -73,7 +73,7 @@ func run():
  var shelves=[]
  for placement in ["service","baffle"]:
   var shelf=fresh("shelf",{"shelf_warning":"occupied bays warned","warning_chain":"service_local_receipt"});board(shelf)
-  check(shelf.concealed_status().account.contains("nurseries") and shelf.concealed_status().account.contains("local service receipt"),"shelf witness consumes relevant prior gallery and service facts")
+  check(shelf.concealed_status().account.contains("watch crew") and shelf.concealed_status().account.contains("local service receipt"),"shelf witness consumes relevant prior gallery and service facts")
   var before=shelf.acoustic_paths.arrivals(Vector2(1740,970),Vector2(2300,970),1500)
   check(shelf.blocked(Vector2(2010,1070)),"collapsed shelf screen physically blocks the refuge mouth")
   check(hook(shelf),"bare Quietus can attach the screen outside its solid face")

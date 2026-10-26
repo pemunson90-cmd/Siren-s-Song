@@ -13,6 +13,7 @@ var peer_seconds=0.0
 func check(ok:bool,label:String):
  checks+=1
  if not ok:failures+=1;printerr("FAIL ",label)
+var control_run=false
 func tick(s):
  var previous=s.units[0].pos;s.paused=false;s.advance(1./60.);s.paused=true
  distance+=previous.distance_to(s.units[0].pos)
@@ -20,6 +21,9 @@ func tick(s):
  if s.sirens.any(func(g):return g.has("report_interest")):peer_seconds+=1./60.
  if played>=0 and s.sirens[1].mode=="INVESTIGATE" and s.sirens[1].goal.distance_to(Vector2(1520,620))<100:lure_reaction=true
 func route(s,id:int,points:Array):
+ if not s.outcome.is_empty():
+  check(control_run and s.outcome=="lost" and s.hull==0 and s.message==Sim.VAPORIZED_TEXT,"only the vaporized control stops issuing postmortem orders")
+  return
  s.command("select",{"unit":id})
  for n in points.size():
   if n==1:s.command("queue")
@@ -31,7 +35,7 @@ func until(s,id:int,point:Vector2):
   if not s.outcome.is_empty() or not s.units[id].alive or arrived(s,id,point):break
   tick(s)
 func run_case(name:String,playback:bool,control:bool=false):
- distance=0;sight_seconds=0;played=-1;lure_reaction=false;peer_seconds=0
+ control_run=control;distance=0;sight_seconds=0;played=-1;lure_reaction=false;peer_seconds=0
  var s=Sim.new();s.start(9,"endurance")
  if not playback:s.units[1].alive=false
  s.units[2].alive=false
@@ -55,7 +59,7 @@ func run_case(name:String,playback:bool,control:bool=false):
   if not s.outcome.is_empty():break
   tick(s)
  if not control:check(s.outcome=="won" and Sim.valid_snapshot(s.snapshot()),name+" completes through ordinary guards and a valid current recovery")
- else:check(sight_seconds>2 or s.hull<100,"matched short-policy control actually encounters the watch without playback")
+ else:check(s.outcome=="lost" and s.hull==0 and s.message==Sim.VAPORIZED_TEXT,"matched short-policy control is vaporized without playback")
  check(s.tools=={"emp":2,"decoy":3,"recon":2,"knock":2},name+" spends no mandatory finite tool")
  if not control:
   var p={"version":2,"route":"deep","routes":["deep"],"facts":{"deep":"Deep branch recovered","rendezvous":"Berth recovered"},"completed":[6,7],"notes":{},"references":{},"entitlements":[],"history":[],"selected_thread":""}

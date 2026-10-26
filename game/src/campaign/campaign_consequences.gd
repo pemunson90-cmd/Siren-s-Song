@@ -25,7 +25,7 @@ static func recovered(previous:Dictionary,mission:Dictionary)->Dictionary:
   if mission.id==7 and cadence_valid(mission.get("measured_reference",[])):
    if "quietus_correlator" not in p.entitlements:p.entitlements.append("quietus_correlator")
    p.references.return_cadence=mission.measured_reference.duplicate()
-  if mission.id==8 and mission.objectives.all(func(o):return o.captured):
+  if mission.id==8 and mission.objectives.all(func(o):return o.captured or o.get("optional",false)):
    if "drone_sampler" not in p.entitlements:p.entitlements.append("drone_sampler")
  if Catalog.supports(mission.id,"warning_plant") and not p.history.any(func(h):return h.mission==mission.id) and not mission.get("warning_chain",{}).get("result",{}).is_empty():
   p.facts["warning_chain"]="service_local_receipt" if mission.warning_chain.result.proof=="local_receipt" else "mast_transmission_external_unknown"
@@ -52,7 +52,7 @@ static func commit(previous:Dictionary,id:int,fitted:Dictionary)->Dictionary:
  if not p.history.any(func(h):return h.mission==id):p.history.append({"mission":id,"thread":p.selected_thread,"fitted":fitted.duplicate(true)})
  return p
 static func fitting_valid(fit)->bool:
- return fit is Dictionary and fit.size()==3 and fit.has_all(EMPTY_FIT.keys()) and preload("res://src/equipment/equipment_catalog.gd").valid_fitting(fit)
+ return fit is Dictionary and fit.has_all(EMPTY_FIT.keys()) and preload("res://src/equipment/equipment_catalog.gd").valid_fitting(fit)
 static func cadence_valid(value)->bool:
  if not value is Array or value.size()<2 or value.size()>8:return false
  for interval in value:
@@ -74,8 +74,8 @@ static func valid(p:Dictionary)->bool:
  seen=[]
  for h in p.history:
   if not h is Dictionary or not h.has_all(["mission","thread","fitted"]) or not h.mission is int or not Catalog.supports(h.mission,"history") or h.mission in seen or h.mission not in p.completed or h.thread not in ["deep","shelf"] or h.thread!=p.selected_thread or not fitting_valid(h.fitted):return false
-  for item in h.fitted.values():
-   if not item.is_empty() and item not in p.entitlements:return false
+  for item in Equipment.all_items(h.fitted):
+   if item not in p.entitlements:return false
   seen.append(h.mission)
  return true
 # New-region public sensing. Old6..8 SignalField and saved clocks remain untouched.

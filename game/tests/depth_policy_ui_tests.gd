@@ -2,15 +2,26 @@ extends "res://tests/depth_sonar_ui_tests.gd"
 # Source-known, accelerated opening journeys. Every consequential order enters
 # through real viewport input; simulation travel is stepped faster than wall time.
 func craft(g,id):
+ await acknowledge_warning(g)
  g.mission_hud.dismiss();await settle();await click(g.advanced_button);await click(g.unit_buttons[id])
  check(g.sim.selected==id and g.mission_hud.page=="craft","physical fleet input chooses craft")
 func acoustics(g,id):
  await craft(g,id);await click(g.mission_hud.extra.depth_menu)
+# Opening warnings now pause for any craft. A player acknowledges and resumes
+# through real controls; accelerated travel must do the same before counting time.
+func acknowledge_warning(g):
+ for attempt in 2:
+  var hints=g.mission_hud.hints
+  if not g.sim.outcome.is_empty() or not g.sim.paused or not hints.panel.visible or hints.current not in ["warning","sweep"]:return
+  await click(hints.dismiss_button);await settle()
+  check(not hints.panel.visible and g.sim.paused,"real touch acknowledges warning without resuming")
+  await click(g.pause_button);await settle()
 func run_seconds(g,seconds):
  if g.sim.paused:await click(g.pause_button)
  for n in roundi(seconds*60):
   g.sim.advance(1./60)
-  if n%120==0:g._refresh();await process_frame
+  if n%120==0:
+   g._refresh();await process_frame;await acknowledge_warning(g)
  if not g.sim.paused:await click(g.pause_button)
  g._refresh();await settle()
 func shift(g,id,down):
@@ -53,7 +64,8 @@ func travel(g,id,point):
  if g.sim.paused:await click(g.pause_button)
  for n in 9000:
   g.sim.advance(1./60)
-  if n%120==0:g._refresh();await process_frame
+  if n%120==0:
+   g._refresh();await process_frame;await acknowledge_warning(g)
   if not g.sim.outcome.is_empty() or (g.sim.units[id].pos.distance_to(point)<15 and g.sim.units[id].vel.length()<2):break
  if not g.sim.paused:await click(g.pause_button)
  g._refresh();await settle()
@@ -64,18 +76,18 @@ func journey(g,active,shape):
  if active:
   await shift(g,1,true);await plot(g,1,Vector2(1000,500));await craft(g,0);g.mission_hud.dismiss()
  else:await shift(g,0,true)
- for point in ([Vector2(360,650),Vector2(560,480),Vector2(760,620),Vector2(1190,490)] if not active else [Vector2(760,620),Vector2(1190,490)]):
+ for point in ([Vector2(360,650),Vector2(560,480),Vector2(760,620),Vector2(1190,490)] if not active else [Vector2(760,620),Vector2(940,570),Vector2(1190,490)]):
   await travel(g,0,point)
   if not active and point.x==560:await capture(str(shape.x)+"-quiet-under-shelf")
-  if active and point.x==760:
+  if active and point.x==940:
    await emp(g);await acoustics(g,1)
    await click(g.mission_hud.extra.sonar_power);await click(g.mission_hud.extra.sonar_emit);g.mission_hud.dismiss();await run_seconds(g,3)
    await acoustics(g,1);await click(g.mission_hud.extra.sonar_history);await capture(str(shape.x)+"-received-scout-history");g.mission_hud.dismiss()
  if not active:await shift(g,0,false)
  await craft(g,0);await click(g.order_buttons.camera);await run_seconds(g,4.2)
  check(g.sim.all_records(),"physical input earns the spire record")
+ await emp(g)
  if not active:await shift(g,0,true)
- else:await emp(g)
  for point in [Vector2(760,650),Vector2(360,750),Vector2(140,800)]:await travel(g,0,point)
  if not active:await shift(g,0,false)
  await run_seconds(g,.2)

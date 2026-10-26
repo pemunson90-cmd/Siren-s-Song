@@ -38,7 +38,7 @@ func run():
  var archive={"version":1,"unlocked":5,"completed":[0,1,2,3,4,5],"upgrade":"endurance","settings":{},"expedition":progress(),"active":s.snapshot()}
  check(store.save(archive) and store.load_game()==archive,"actual checksummed binary archive preserves active finite playback")
  var restored=Sim.new();check(restored.restore(store.load_game().active) and restored.wake_context().used,"current restore cannot refund spent hardware")
- step(restored,16);check(not restored.noises.any(func(n):return n.label=="OLD DEPARTURE LOOP"),"playback really expires rather than sustaining an infinite lure")
+ step(restored,16);check(not restored.noises.any(func(n):return n.label=="RIG BEACON LOOP"),"playback really expires rather than sustaining an infinite lure")
  check(not restored.wake_context().active and restored.wake_context().remaining==0,"own playback clock expires without implying a remote guard state")
  check(not restored.command("wake_playback"),"expired one-use hardware stays spent")
  var old=s.snapshot();old.mission.erase("wake_crossing");check(not Sim.valid_snapshot(old),"obsolete active9 is rejected without compatibility flags or fabricated new work")
@@ -61,7 +61,7 @@ func history_case():
  var used=Campaign.recover(progress(),m)
  check(used.facts.get("wake_crossing","")=="repeater_played","fresh recovered playback commits its actual local action without claiming remote safety")
  var next=preload("res://src/campaign/missions.gd").make(11,{"thread":"deep","completed":[6,7,9],"facts":used.facts,"references":{}})
- check(next.signal_sources[0].evidence.contains("spent the old loop"),"later live factory account selectively recognizes the actually spent old loop")
+ check(next.signal_sources[0].evidence.contains("you spent a wrecked rig's beacon"),"later live factory account selectively recognizes the actually spent old beacon")
  var legacy=p.duplicate(true);legacy.facts.erase("wake_crossing")
  check(not Campaign.recover(legacy,m).facts.has("wake_crossing"),"already committed pre-expansion history does not fabricate newly performed work")
  legacy.history=[]

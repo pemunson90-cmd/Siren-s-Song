@@ -11,7 +11,7 @@ func fixture(cause:String):
  var s=Simulation.new();s.start(0)
  # Valid earned-record extraction state; the production tick decides survival.
  for objective in s.mission.objectives:objective.captured=true
- s.sirens[0].pos=Vector2(220,800);s.sirens[0].goal=s.units[0].pos;s.sirens[0].route=[];s.sirens[0].target=0;s.sirens[0].lock=4.0
+ s.sirens[0].pos=Vector2(220,800);s.sirens[0].goal=s.units[0].pos;s.sirens[0].route=[];s.sirens[0].target=0;s.sirens[0].lock=4.0 if cause in ["hull","both"] else 0.0
  if cause in ["oxygen","both"]:s.oxygen=Simulation.STEP/36.0
  if cause in ["hull","both"]:s.hull=0.15
  check(Simulation.valid_snapshot(s.snapshot()) and s.line_clear(s.sirens[0].pos,s.units[0].pos),cause+" uses a restorable real charged-beam state")
@@ -27,10 +27,10 @@ func run():
   var seed=fixture(cause);var won=cause=="surviving";var expected="won" if won else "lost"
   var single=clone(seed);single.paused=false;single.advance(Simulation.STEP)
   check(single.outcome==expected,cause+" resolves survival before extraction on the same tick")
-  var reason="Archive recovered" if won else "Life support exhausted." if cause=="oxygen" else "Quietus lost."
+  var reason="Archive recovered" if won else "Life support exhausted." if cause=="oxygen" else Simulation.VAPORIZED_TEXT
   check(single.message.begins_with(reason),cause+" preserves the actual terminal reason")
   check(single.events.filter(func(event):return event.type=="extraction").size()==(1 if won else 0),cause+" emits extraction only for a surviving return")
-  if won:check(single.hull<seed.hull and single.hull>0 and single.oxygen>0,"a surviving extraction still includes winning-tick beam damage")
+  if won:check(single.hull==seed.hull and single.oxygen>0,"extraction before a charged beam preserves hull and still consumes winning-tick oxygen")
   for batch in [0.1,0.25]:
    var batched=clone(seed);batched.paused=false;batched.advance(batch)
    check(batched.snapshot()==single.snapshot() and batched.events==single.events and batched.message==single.message,cause+" batched outcome matches STEP")

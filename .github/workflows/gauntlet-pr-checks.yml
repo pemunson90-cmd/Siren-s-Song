@@ -2,7 +2,7 @@ name: Gauntlet PR checks
 
 on:
   pull_request:
-    branches: ['main', 'gauntlet/production']
+    branches: ['main', 'gauntlet/production', 'claude/integration']
   workflow_dispatch:
 
 permissions:
@@ -27,8 +27,9 @@ jobs:
   game-smoke:
     name: game-smoke
     runs-on: ubuntu-24.04
-    # The complete ordered milestone suite already needs over20m.
-    timeout-minutes: 35
+    # All 189 ordered suites used nearly 35m before this batch.
+    # Keep per-suite caps and assertions strict while allowing added coverage.
+    timeout-minutes: 90
     env:
       TOOLCHAIN_CACHE: ${{ github.workspace }}/../sirens-song-toolchain
     steps:
@@ -77,87 +78,13 @@ jobs:
           mkdir -p artifacts
           scripts/toolchain/headless.sh --editor --import --quit 2>&1 | tee artifacts/pr-import.log
           if grep -nE 'SCRIPT ERROR:|(^|[[:space:]])ERROR:' artifacts/pr-import.log; then exit 1; fi
-          scripts/toolchain/headless.sh --script res://tests/run_tests.gd 2>&1 | tee artifacts/pr-core.log
-          if grep -nE 'SCRIPT ERROR:|(^|[[:space:]])ERROR:' artifacts/pr-core.log; then exit 1; fi
-          grep -Eq '^CHECKS [1-9][0-9]* FAILURES 0$' artifacts/pr-core.log
+          scripts/toolchain/test.sh --suite run_tests
       - name: Validate navigation, recovery and touch runtime regressions
         if: steps.changes.outputs.game == 'true'
         shell: bash
         run: |
           set -euo pipefail
-          while IFS='|' read -r scenario summary; do
-            log="artifacts/pr-$scenario.log"
-            timeout --kill-after=10s 480s scripts/toolchain/headless.sh --script "res://tests/$scenario.gd" 2>&1 | tee "$log"
-            if grep -nE 'SCRIPT ERROR:|(^|[[:space:]])ERROR:' "$log"; then exit 1; fi
-            grep -Eq "^$summary CHECKS [1-9][0-9]* FAILURES 0$" "$log"
-          done <<'UI_SCENARIOS'
-          runtime_tests|RUNTIME
-          fleet_instruments_ui_tests|FLEET INSTRUMENTS UI
-          fleet_ring_ui_tests|FLEET RING UI
-          campaign_instruments_ui_tests|CAMPAIGN INSTRUMENT UI
-          route_telemetry_touch_tests|ROUTE TELEMETRY TOUCH
-          recovery_route_ui_tests|RECOVERY ROUTE UI
-          concealed_harbour_tests|CONCEALED HARBOUR
-          concealed_harbour_journey_tests|CONCEALED HARBOUR JOURNEY
-          concealed_harbour_ui_tests|CONCEALED HARBOUR UI
-          shelf_habitat_tests|SHELF HABITAT
-          shelf_habitat_journey_tests|SHELF HABITAT JOURNEY
-          shelf_habitat_ui_tests|SHELF HABITAT UI
-          wake_crossing_tests|WAKE CROSSING
-          wake_crossing_journey_tests|WAKE CROSSING JOURNEY
-          wake_crossing_ui_tests|WAKE CROSSING UI
-          operation_catalog_tests|OPERATION CATALOG
-          depth_sonar_tests|DEPTH SONAR
-          sweeper_tests|SWEEPER
-          depth_policy_journeys|DEPTH POLICY
-          depth_sonar_ui_tests|DEPTH SONAR UI
-          depth_policy_ui_tests|DEPTH POLICY UI
-          opening_depth_tests|OPENING DEPTH
-          opening_depth_journeys|OPENING JOURNEY
-          opening_depth_ui_tests|OPENING DEPTH UI
-          opening_depth_policy_ui_tests|OPENING POLICY UI
-          glass_reach_tests|GLASS REACH
-          glass_network_tests|GLASS NETWORK
-          glass_work_tests|GLASS WORK
-          glass_research_tests|GLASS RESEARCH
-          glass_reach_journeys|GLASS JOURNEY
-          glass_reach_ui_tests|GLASS REACH UI
-          iron_choir_tests|IRON CHOIR
-          industrial_jobs_tests|INDUSTRIAL JOBS
-          industrial_threats_tests|INDUSTRIAL THREATS
-          iron_research_tests|IRON RESEARCH
-          iron_choir_journeys|IRON JOURNEY
-          iron_choir_ui_tests|IRON CHOIR UI
-          onward_mission_tests|ONWARD MISSIONS
-          cadence_correlator_tests|CADENCE CORRELATOR
-          contact_reports_tests|CONTACT REPORT
-          contact_reports_ui_tests|CONTACT REPORT UI
-          campaign_consequence_tests|CAMPAIGN CONSEQUENCES
-          campaign_equipment_save_tests|CAMPAIGN EQUIPMENT SAVE
-          witness_evacuation_tests|WITNESS EVACUATION
-          witness_evacuation_journey_tests|WITNESS EVACUATION JOURNEY
-          witness_evacuation_ui_tests|WITNESS EVACUATION UI
-          warning_recipient_tests|WARNING RECIPIENT
-          warning_recipient_journey_tests|WARNING RECIPIENT JOURNEY
-          warning_recipient_ui_tests|WARNING RECIPIENT UI
-          blackwater_delivery_ui_tests|BLACKWATER DELIVERY UI
-          blackwater_delivery_runtime_ui_tests|BLACKWATER DELIVERY RUNTIME UI
-          blackwater_delivery_tests|BLACKWATER DELIVERY
-          earned_course_continuity_tests|EARNED COURSE CONTINUITY
-          current_motion_tests|CURRENT MOTION
-          module_recovery_tests|MODULE RECOVERY
-          module_recovery_ui_tests|MODULE RECOVERY UI
-          module_recovery_runtime_ui_tests|MODULE RECOVERY RUNTIME UI
-          module_inventory_main_tests|MODULE INVENTORY MAIN
-          rendezvous_transport_tests|RENDEZVOUS TRANSPORT
-          rendezvous_ui_tests|RENDEZVOUS UI
-          briefing_scroll_fitting_ui_tests|BRIEFING SCROLL FITTING UI
-          warning_chain_tests|WARNING CHAIN
-          warning_chain_journey_tests|WARNING CHAIN JOURNEY
-          warning_chain_ui_tests|WARNING CHAIN UI
-          warning_chain_audio_tests|WARNING CHAIN AUDIO
-          warning_chain_world_ui_tests|WARNING CHAIN WORLD UI
-          UI_SCENARIOS
+          scripts/toolchain/test.sh --profile ci --skip-core
       - name: Docs-only change; no Godot run
         if: steps.changes.outputs.game == 'false'
         run: echo 'No active Godot game or gameplay change. Guidance is checked separately.'

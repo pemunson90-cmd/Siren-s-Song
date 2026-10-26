@@ -97,8 +97,8 @@ func refresh():
   var b=button(rows,text,"goal"+str(n),func():selected_goal=id;refresh());b.mouse_filter=Control.MOUSE_FILTER_PASS;b.modulate=Color("80d9cf") if n==selected_goal else Color.WHITE
   if n==selected_goal:selected_row=b
  var empty=goals.is_empty();mode_button.disabled=empty;arrival_button.disabled=empty;delete_button.disabled=empty
- mode_button.text="TO: "+("—" if empty else mode_label(goals[selected_goal].mode,drone))
- arrival_button.text="AT: "+("—" if empty else ("STOP" if goals[selected_goal].stop else "PASS"))
+ mode_button.text="TO: "+("-" if empty else mode_label(goals[selected_goal].mode,drone))
+ arrival_button.text="AT: "+("-" if empty else ("STOP" if goals[selected_goal].stop else "PASS"))
  undo_button.disabled=host.sim.units[host.sim.selected].get("route_undo",[]).is_empty()
  point_info.text=error_text if not error_text.is_empty() else ("Tap preview to add the first destination." if empty else "POINT %d / %d · tap preview to move"%[selected_goal+1,goals.size()])
  preview.selected_goal=selected_goal;preview.queue_redraw();call_deferred("configure",host.size,host.ui_touch_height);call_deferred("show_selected_row")

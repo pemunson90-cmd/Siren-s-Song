@@ -1,29 +1,14 @@
-# Siren’s Song · Iron Choir candidate
-Read AGENTS.md, USER_DIRECTIVES.md and CURRENT_GAME_SPEC.md first.
-Last reconciled production16b1a505; Glass Reach PR49 complete, independently
-approved atf4f4d000; mandatory CI39515575589 passed all60 runtime scenarios.
-Current branch gauntlet/release/iron-choir; accumulated region candidate built.
-Occupied-band acquisition repaired after HOLDe5306e2; same reviewer re-review next.
-Root owns complete accumulated review, exact-head CI, PR and integration.
+# Siren's Song continuation
 
-Four core22–25 and optional26–29 continue recovered19: Hammerwake, Pressure Stair,
-Choir Cut, Last Shift, The Cold Hammer, Counterweight Grave, Names in the Bell,
-and Spare Lung. Physical freight/tow/locks/evacuation/artifacts/people/plant jobs
-replace receiver errands. Interceptor attacks commit frozen acquired evidence;
-warden danger expires, respects depth/terrain and has acquired charge cues.
-Recovered pressure sleeve and fitted drone yoke pay real reserve/noise/slot costs.
-All8 production-physics/live-threat journeys finish with bare Quietus/no finite
-core tools. An unassisted finale, real opposite-choice replay/first-history,
-material returns/later reward uses and checksummed campaign save pass.
-Ordinary onward/replay and cover/inner input/render checks demonstrate new actions,
-work progress, industrial silhouettes, acquired attacks and finite pressure fields.
-These prove technical viability, not balance, blind play or enjoyment.
+Operational entry and next actions: [RESUME.md](RESUME.md).
+Development integration: `claude/integration`.
+Frozen promotion baseline: `gauntlet/production`; protected accepted baseline: `main`.
+Pat authorizes promotion; feature PRs target integration.
+Codex ownership/claims/completion: `docs/codex/BOARD.md` on `codex/handoffs`.
+Windows execution and recovery: [DESKTOP_HANDOFF.md](DESKTOP_HANDOFF.md).
+Pat resumed locally on Windows and continued on25October2026 Eastern. Follow the running claim and its Completion notes.
+The earlier cloud stop is lifted; preserve other workers' scope and claims.
+Read USER_DIRECTIVES and the task brief before implementation.
+This pointer carries no separate milestone, PR inventory or next-task assignment.
 
-Next: same independent accumulated re-review, consequential same-branch fixes,
-then exact-head mandatory CI and normal milestone PR. No approval claimed yet.
-After integration continue substantial playable campaign/replay content toward
-28 core/12 optional and the approved fleet/progression program.
-Preserve old outcomes, first recovered facts, profiles, signer, refs and UIDs.
-Known control/ring friction, Well balance, dense sonar axes, density/ObjectDB,
-native/headphone/Fold and human-enjoyment limits remain; no refinement project.
-No APK, micro-PRs, save migrations or user-playtest gate.
+Verified module seams and safe reverts: [MODULES.md](MODULES.md). Earlier cloud/art pauses are historical; current next work and limits stay in RESUME and the live board.

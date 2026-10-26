@@ -1,5 +1,11 @@
 extends Control
+const ArtTable=preload("res://src/presentation/art/art_table.gd")
+const Art=preload("res://src/presentation/art/art_renderer.gd")
+const FeatureViews=preload("res://src/presentation/feature_views.gd")
+const HullBand=preload("res://src/presentation/route_clearance/hull_band.gd")
 const Shelf=preload("res://src/presentation/shelf_habitat_view.gd")
+const Priced=preload("res://src/presentation/photo_pricing/photo_pricing_overlay.gd")
+const RuleOverlay=preload("res://src/photo_rules/rule_overlay.gd")
 const Wake=preload("res://src/presentation/wake_crossing_view.gd")
 const Recipient=preload("res://src/presentation/warning_recipient_view.gd")
 const Concealed=preload("res://src/presentation/concealed_harbour_view.gd")
@@ -10,7 +16,9 @@ const Confluence=preload("res://src/presentation/confluence_world.gd")
 const WarningChain=preload("res://src/presentation/warning_chain_view.gd")
 const Rendezvous=preload("res://src/presentation/rendezvous_view.gd")
 var sim
+var presenting_mission=true
 var optical_feed
+var goal_marker
 var siren_ray=preload("res://assets/craft/siren_ray.png")
 var phase := 0.0
 var world_scale := 1.0
@@ -39,6 +47,7 @@ func _ready() -> void:
 	clip_contents=true
 	texture_repeat=CanvasItem.TEXTURE_REPEAT_ENABLED
 	optical_feed=preload("res://src/presentation/camera_feed.gd").new(); add_child(optical_feed)
+	goal_marker=preload("res://src/presentation/goal_bearing/goal_bearing.gd").new();goal_marker.ocean=self;add_child(goal_marker)
 	var noise=FastNoiseLite.new()
 	noise.seed=7319; noise.frequency=0.024; noise.fractal_octaves=4
 	var img=Image.create(800,480,false,Image.FORMAT_RGB8)
@@ -133,15 +142,17 @@ func fit_chart() -> void:
 func _process(dt: float) -> void:
 	phase+=dt; camera_flash=maxf(0,camera_flash-dt);_sync_camera()
 	if optical_feed!=null:
-		optical_feed.sim=sim; optical_feed.visible=sim!=null and sim.capture_unit>=0 and sim.selected==sim.capture_unit
-		optical_feed.position=Vector2(14,maxf(instrument_top+40,size.y-380)); optical_feed.size=Vector2(minf(390,size.x*0.48),228)
+		optical_feed.sim=sim; optical_feed.visible=presenting_mission and sim!=null and sim.outcome.is_empty() and optical_feed.viewfinder_visible(sim)
+		var height=minf(maxf(300,optical_feed.touch_height*4.8),size.y-instrument_top-54)
+		optical_feed.size=Vector2(minf(size.x-28,optical_feed.preferred_width()),height)
+		optical_feed.position=Vector2(14,maxf(instrument_top+40,size.y-height-14))
 	queue_redraw()
 func acoustic_rows() -> Array:
 	return preload("res://src/presentation/acoustic_feedback.gd").rows(sim.acoustic_feedback()) if sim!=null else []
 func contact_entries() -> Array:
 	return preload("res://src/presentation/contact_feedback.gd").entries(sim.contacts,sim.elapsed,sim.units,sim.line_clear,sim.contact_target) if sim!=null else []
 func contact_readout_entries() -> Array:
-	return contact_entries().filter(func(entry):return not warnings_in_hud or not (entry.urgent or (entry.fresh and "REPORT" in entry.text)))
+	return contact_entries().filter(func(entry):return not warnings_in_hud or not (entry.urgent or (entry.fresh and ("REPORT" in entry.text or "STUNNED" in entry.text))))
 func contact_readout_rects() -> Array:
 	var result: Array=[]
 	var top=instrument_top+10
@@ -218,8 +229,12 @@ func _draw() -> void:
 			var area:Rect2=front.area
 			draw_rect(area,Color(0.22,0.54,0.7,0.07))
 			draw_rect(area,Color(0.36,0.66,0.78,0.38),false,1.2/world_scale)
-			_label(area.position+Vector2(120,106),"COLD FRONT",Color(0.46,0.7,0.78,0.8),14)
+			_label(area.position+Vector2(120,106),str(sim.mission.get("photo_lane","COLD FRONT")),Color(0.46,0.7,0.78,0.8),14)
 	_draw_departure()
+	# Own cached camera wash sits below stone and unknown-water fog. It does
+	# not query photographic columns, hidden terrain, enemies or visibility.
+	if ArtTable.enabled and earned.is_empty() and presenting_mission and sim.outcome.is_empty() and optical_feed!=null and optical_feed.visible and optical_feed.art_lamp_current(sim):
+		Art.lamp_wash(self,optical_feed.art_lamp_pos,optical_feed.art_lamp_aim)
 	# Bedrock and columnar basalt are original deterministic constructions.
 	if earned.is_empty():
 		for r in (sim.mission.get("depth_geometry",{}).get(sim.units[sim.selected].band,{}).get("rocks",sim.mission.rocks) if sim.mission.id!=8 else []): _rock(r)
@@ -229,10 +244,21 @@ func _draw() -> void:
 			var context=sim.confluence_context();context["surface_segments"]=earned.get("surface_segments",[])
 			Confluence.draw_landmarks(self,context,world_scale)
 	else:EarnedChart.draw_terrain(self,earned,world_scale)
-	Shelf.draw_ground(self,sim)
+	FeatureViews.draw_ground(self)
+	if ArtTable.enabled and not earned.is_empty() and presenting_mission and sim.outcome.is_empty() and optical_feed!=null and optical_feed.visible and optical_feed.art_lamp_current(sim):
+		Art.lamp_guide(self,optical_feed.art_lamp_pos,optical_feed.art_lamp_aim,optical_feed.art_lamp_fov,optical_feed.art_lamp_range)
+	if not presenting_mission or not sim.outcome.is_empty():
+		draw_set_transform(Vector2.ZERO)
+		return
+	for o in sim.mission.get("photo",{}).get("studies",[]):
+		if o.captured:_siren_mark(o)
+	for h in sim.mission.get("photo_hidden",[]):
+		if h.has("lead") and not h.get("found",false):_lead_area({"pos":h.pos+h.lead.get("off",Vector2.ZERO),"lead_r":float(h.lead.get("r",200.0)),"name":str(h.lead.get("alias","UNKNOWN RETURN"))})
 	for o in observable_sites():
 		if sim.mission.id==8:continue
 		if o.get("own_origin",false):continue
+		if o.has("siren"):continue
+		if o.get("stage","")=="lead":_lead_area(o);continue
 		if Wake.replaces_site(sim,o) or Rendezvous.replaces_site(sim,o) or WarningChain.replaces_site(sim,o) or Witness.replaces_site(sim,o) or Recipient.replaces_site(sim,o):continue
 		if o.get("kind","")=="receiver":
 			draw_arc(o.pos,26,0,TAU,40,Color("80bdb6"),2)
@@ -244,15 +270,17 @@ func _draw() -> void:
 		draw_rect(mass,Color("102630")); draw_rect(mass,Color("486268"),false,3)
 		draw_set_transform(world_offset+mass.get_center()*world_scale,PI/2,Vector2.ONE*world_scale)
 		draw_texture_rect(foundry,Rect2(-mass.size.y/2,-mass.size.x/2,mass.size.y,mass.size.x),false,Color(0.8,0.95,1))
+		if ArtTable.enabled:Art.factory(self,Rect2(-mass.size.y/2,-mass.size.x/2,mass.size.y,mass.size.x),world_scale)
 		draw_set_transform(world_offset,0,Vector2.ONE*world_scale)
 	elif earned.is_empty() and sim.mission.has("array_rect"):
 		_finale_array(sim.mission.array_rect)
 	elif earned.is_empty() and sim.mission.id in [3,4]:
 		draw_texture_rect(foundry,Rect2(1080,-100,540,360),false,Color(0.65,0.8,0.82,0.8))
+		if ArtTable.enabled:Art.factory(self,Rect2(1080,-100,540,360),world_scale)
 	# Intelligence marks are briefed coordinates, not live contact observations.
 	for o in observable_sites():
 		if sim.mission.id==8:continue
-		if o.get("own_origin",false):continue
+		if o.get("own_origin",false) or o.has("siren") or o.get("stage","")=="lead":continue
 		if Wake.replaces_site(sim,o) or Rendezvous.replaces_site(sim,o) or WarningChain.replaces_site(sim,o) or Witness.replaces_site(sim,o) or Recipient.replaces_site(sim,o):continue
 		var c=CYAN if o.captured else Color("e1b66e")
 		draw_arc(o.pos,43,0,TAU,40,Color(c,0.35),1.4)
@@ -268,14 +296,7 @@ func _draw() -> void:
 			var key=Vector2i(x,y); var p=Vector2(x*40+20,y*40+20)
 			var alpha=0.38 if not sim.known.has(key) else (0.0 if sim.visible(p) else 0.20)
 			if alpha>0: draw_rect(Rect2(x*40,y*40,40,40),Color(0.005,0.014,0.025,alpha))
-	preload("res://src/presentation/blackwater_courier_view.gd").draw(self,sim)
-	Shelf.draw_world(self,sim)
-	Wake.draw(self,sim)
-	Rendezvous.draw(self,sim)
-	WarningChain.draw_world(self,sim)
-	Witness.draw_world(self,sim)
-	Concealed.draw_world(self,sim)
-	Recipient.draw_world(self,sim)
+	FeatureViews.draw(self)
 	# Sonar rays stop at actual cover, producing explicit acoustic shadows.
 	if earned.is_empty() and sim.ping_time>0:
 		var radius=(3.5-sim.ping_time)*210
@@ -287,7 +308,11 @@ func _draw() -> void:
 	if not Expedition.active(sim) or Expedition.entry(sim):
 		draw_arc(ex,64,0,TAU,64,Color(CYAN,0.42),2)
 		_label(ex+Vector2(-120 if ex.y>830 else -66,66 if ex.y>830 else 90),"WITHDRAWAL" if Expedition.entry(sim) else "EXTRACTION",CYAN,18)
-	Expedition.draw(self,sim)
+	FeatureViews.draw_detail(self)
+	_draw_observed_paths()
+	_draw_findings()
+	RuleOverlay.draw_chart(self,sim)
+	Priced.draw_chart(self,sim)
 	# Own open-water estimate only; deliberately does not sample hidden terrain or
 	# listeners. Dotted amber radius is subordinate to later foreground beam cues.
 	if sim.mission.get("acoustic_revision",0)==1:
@@ -305,6 +330,7 @@ func _draw() -> void:
 		if not u.alive: continue
 		if not earned.is_empty():EarnedChart.draw_course(self,EarnedChart.segments(sim,i),world_scale,i==sim.selected)
 		if not u.route.is_empty():
+			if i==sim.selected:HullBand.draw_world(self,sim,i)
 			var last=u.pos
 			for n in u.route.size():
 				var dest=u.route[n]
@@ -317,7 +343,7 @@ func _draw() -> void:
 		var at=sim.mission.glass_reach.work_pos
 		draw_rect(Rect2(at-Vector2.ONE*20,Vector2.ONE*40),Color("d8c591"),false,2./world_scale)
 		draw_line(at-Vector2(30,0),at+Vector2(30,0),Color("d8c591"),1.5/world_scale)
-	preload("res://src/presentation/industrial_view.gd").draw(self,sim)
+	FeatureViews.draw_activity(self)
 	# Only own launcher range and legitimately cached targets; beams draw afterward.
 	if knock_targeting and sim.selected==0 and sim.units[0].alive:
 		draw_arc(sim.units[0].pos,sim.KNOCK_RANGE,0,TAU,64,Color(0.7,0.85,0.8,0.5),1.5/world_scale)
@@ -376,7 +402,7 @@ func _draw() -> void:
 	draw_set_transform(Vector2.ZERO,0,Vector2.ONE)
 	_draw_pressure_overlay()
 	_draw_local_current()
-	preload("res://src/presentation/module_recovery_view.gd").draw(self,sim)
+	FeatureViews.draw_screen(self)
 	# Short screen-sized tags preserve observed identity without long world labels.
 	for entry in observed:
 		var anchor=chart_camera.to_screen(entry.pos)+Vector2(12,-18)
@@ -393,6 +419,76 @@ func _draw() -> void:
 		draw_rect(box,Color(0.04,0.07,0.09,0.94))
 		draw_string(ThemeDB.fallback_font,box.position+Vector2(8,feedback_font_size),entry.text,HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size,Color("ffac8c") if entry.urgent else Color("ed8e79") if entry.fresh else Color("b09a94"))
 
+# A Siren study keeps only where it was last photographed, never where it is.
+func _siren_mark(o:Dictionary)->void:
+	var c=Color(0.9,0.42,0.34,0.7)
+	draw_polyline(PackedVector2Array([o.pos+Vector2(0,-16),o.pos+Vector2(14,0),o.pos+Vector2(0,16),o.pos+Vector2(-14,0),o.pos+Vector2(0,-16)]),c,1.6)
+	_label(o.pos+Vector2(22,20),"%s · LAST PHOTOGRAPHED"%o.name,c,14)
+# An unresolved lead: an area from an earlier return, never an exact position or a name.
+func _lead_area(o:Dictionary)->void:
+	var c=Color(0.92,0.74,0.42,0.75);var r:float=float(o.get("lead_r",150.0))
+	var n:int=28
+	for k in n:
+		if k%2==0:draw_arc(o.pos,r,TAU*k/n,TAU*(k+1)/n,6,c,2.0/world_scale)
+	for k in 4:draw_line(o.pos+Vector2.from_angle(k*PI/2)*6,o.pos+Vector2.from_angle(k*PI/2)*16,Color(c,0.7),1.2/world_scale)
+	var from:Vector2=sim.units[sim.selected].pos
+	_label(o.pos+Vector2(r*0.72,-r*0.72),"%s · AREA · BRG %03d"%[o.name,roundi(fposmod(rad_to_deg(from.angle_to_point(o.pos)),360.0))],c,16)
+# Observations the player resolved on film, and marks cut from earlier film.
+const FINDING_COLORS={"loop":Color(0.95,0.6,0.35),"gap":Color(0.5,0.95,0.6),"post":Color(0.95,0.4,0.35),"route":Color(0.5,0.9,0.85),"cycle":Color(0.95,0.8,0.4),"person":Color(0.9,0.95,0.7),"hazard":Color(0.95,0.5,0.3),"weak":Color(0.95,0.8,0.4),"lane":Color(1.0,0.6,0.3)}
+func _draw_findings()->void:
+	var list:Array=[]
+	list.append_array(sim.mission.get("photo",{}).get("findings",[]))
+	list.append_array(sim.mission.get("photo_marks",[]))
+	for f in list:
+		var kind:String=str(f.kind)
+		if not FINDING_COLORS.has(kind):continue
+		var c:Color=FINDING_COLORS[kind];var w:float=1.8/world_scale;var label:String=str(f.get("label",f.text))
+		var at:Vector2=Vector2.ZERO
+		if f.has("pos"):at=Vector2(float(f.pos[0]),float(f.pos[1]))
+		if f.has("pts") and f.pts.size()>=2:
+			var pts:=PackedVector2Array()
+			for p in f.pts:pts.append(Vector2(float(p[0]),float(p[1])))
+			for n in pts.size()-1:draw_dashed_line(pts[n],pts[n+1],Color(c,0.85),w,(7.0 if kind=="loop" else 14.0)/world_scale)
+			if kind=="route":
+				var tip:Vector2=pts[-1];var back:Vector2=(pts[-2]-tip).normalized()
+				draw_colored_polygon(PackedVector2Array([tip,tip+back.rotated(0.5)*18/world_scale,tip+back.rotated(-0.5)*18/world_scale]),Color(c,0.9))
+			_label(pts[0]+Vector2(10,-8),label,c,15)
+			continue
+		match kind:
+			"gap":
+				draw_arc(at,float(f.get("r",90.0)),0,TAU,40,Color(c,0.55),w)
+				draw_line(at+Vector2(-12,0),at+Vector2(12,0),c,w);draw_line(at+Vector2(0,-12),at+Vector2(0,12),c,w)
+			"post":
+				if f.has("r"):draw_arc(at,float(f.r),0,TAU,48,Color(c,0.45),w)
+				draw_rect(Rect2(at-Vector2(9,9),Vector2(18,18)),Color(c,0.85),false,w)
+			"cycle":
+				var period:float=float(f.get("period",30.0));var open:float=float(f.get("open",7.0))
+				var t:float=fposmod(sim.elapsed+float(f.get("phase",0.0)),period)
+				label="%s · %s"%[label,"OPEN %.0fs" % (open-t) if t<open else "OPENS IN %.0fs"%(period-t)]
+				draw_arc(at,40.0,0,TAU,28,Color(c,0.5),w);draw_arc(at,40.0,-PI/2,-PI/2+TAU*t/period,28,c,w*1.6)
+			"person":
+				draw_circle(at+Vector2(0,-9),4.0/world_scale*world_scale,c);draw_line(at+Vector2(0,-4),at+Vector2(0,10),c,w);draw_line(at+Vector2(-7,2),at+Vector2(7,2),c,w)
+				draw_arc(at,22.0,0,TAU,24,Color(c,0.4),w)
+			"hazard":
+				draw_colored_polygon(PackedVector2Array([at+Vector2(0,-16),at+Vector2(15,12),at+Vector2(-15,12)]),Color(c,0.28))
+				draw_polyline(PackedVector2Array([at+Vector2(0,-16),at+Vector2(15,12),at+Vector2(-15,12),at+Vector2(0,-16)]),c,w)
+				if f.has("r"):draw_arc(at,float(f.r),0,TAU,40,Color(c,0.35),w)
+			"weak":
+				draw_line(at+Vector2(-11,-11),at+Vector2(11,11),c,w*1.4);draw_line(at+Vector2(-11,11),at+Vector2(11,-11),c,w*1.4)
+			"lane":
+				if f.has("rect"):
+					var r:=Rect2(float(f.rect[0]),float(f.rect[1]),float(f.rect[2]),float(f.rect[3]))
+					draw_rect(r,Color(c,0.07));draw_rect(r,Color(c,0.6),false,w)
+					at=r.position+Vector2(r.size.x*0.5,12)
+		_label(at+Vector2(16,-10),label,c,15)
+# Paths the player actually photographed a Siren following; stale by definition.
+func _draw_observed_paths()->void:
+	for path in sim.mission.get("photo",{}).get("paths",[]):
+		var points=PackedVector2Array()
+		for p in path.pts:points.append(Vector2(p[0],p[1]))
+		if points.size()<2:continue
+		for n in points.size()-1:draw_dashed_line(points[n],points[n+1],Color(0.9,0.55,0.35,0.7),2.0/world_scale,6.0/world_scale)
+		_label(points[-1]+Vector2(10,24),"OBSERVED PATH · S%d"%(int(path.siren)+1),Color(0.9,0.62,0.45,0.9),14)
 func _draw_pressure_overlay()->void:
 	var pressure=sim.recon_feedback()
 	var threat=float(pressure.threat)
@@ -441,11 +537,14 @@ func _finale_array(mass: Rect2) -> void:
 		_dash(Vector2(1410,720),Vector2(1250,880),Color("80bdb6"),3)
 		draw_line(Vector2(1250,880),Vector2(1256,850),Color("80bdb6"),3)
 		draw_line(Vector2(1250,880),Vector2(1280,873),Color("80bdb6"),3)
-func _rock(r: Rect2) -> void:
+func _rock(r) -> void:
 	var poly=sim.rock_polygon(r)
+	var origin:Vector2=r.position if r is Rect2 else poly[0]
+	if r is PackedVector2Array:
+		for p in poly:origin=Vector2(minf(origin.x,p.x),minf(origin.y,p.y))
 	var lower=PackedVector2Array(); var uv=PackedVector2Array()
 	for p in poly:
-		lower.append(p+Vector2(9,23)); uv.append((p-r.position)/Vector2(400,400))
+		lower.append(p+Vector2(9,23)); uv.append((p-origin)/Vector2(400,400))
 	draw_colored_polygon(lower,Color("030b11"))
 	draw_colored_polygon(poly,Color("31474c"))
 	draw_polygon(poly,PackedColorArray([Color(0.72,0.85,0.86)]),uv,basalt)
@@ -459,6 +558,11 @@ func _rock(r: Rect2) -> void:
 		else: draw_line(a,b,Color(0.49,0.65,0.66,0.55),1.8)
 	draw_polyline(poly,Color(0.17,0.26,0.3,0.5),2)
 func _installation(p: Vector2,recorded: bool) -> void:
+	if ArtTable.enabled:
+		draw_set_transform(world_offset+p*world_scale,0,Vector2.ONE*world_scale)
+		Art.installation(self,recorded)
+		draw_set_transform(world_offset,0,Vector2.ONE*world_scale)
+		return
 	var rect=Rect2(p-Vector2(38,72),Vector2(76,108))
 	draw_rect(Rect2(rect.position+Vector2(14,18),rect.size),Color(0.0,0.02,0.03,0.8))
 	draw_rect(rect,Color("1c343b")); draw_rect(rect,Color("476269"),false,2)
@@ -475,7 +579,9 @@ func _craft(u: Dictionary,index: int) -> void:
 		draw_line(p+Vector2(-55,-38),p+Vector2(-42,-38),CYAN,2)
 		draw_line(p+Vector2(-55,-38),p+Vector2(-55,-25),CYAN,2)
 	draw_set_transform(world_offset+p*world_scale,u.angle,Vector2.ONE*world_scale)
-	if index==0:
+	if ArtTable.enabled:
+		Art.craft(self,index)
+	elif index==0:
 		draw_texture_rect_region(quietus,Rect2(-66,-17,132,34),Rect2(60,145,1940,390))
 		if u.vel.length()>8:
 			for n in 3: draw_line(Vector2(-69-n*10,-3-n),Vector2(-75-n*13,-3-n),Color(0.4,0.75,0.75,0.14),2)
@@ -484,7 +590,9 @@ func _craft(u: Dictionary,index: int) -> void:
 		draw_line(Vector2(-9,-6),Vector2(-9,6),Color("b69251"),3)
 		draw_line(Vector2(9,-5),Vector2(9,5),Color("8a9b9d"),1)
 		draw_circle(Vector2(18,0),3,Color("7edfe4")); draw_line(Vector2(-20,-9),Vector2(-16,9),Color("506e77"),2)
-	Witness.draw_carried(self,sim,index)
+	if ArtTable.enabled and index==0 and u.vel.length()>8:
+		for n in 3:draw_line(Vector2(-69-n*10,-3-n),Vector2(-75-n*13,-3-n),Color(0.4,0.75,0.75,0.14),2)
+	FeatureViews.draw_carried(self,index)
 	draw_set_transform(world_offset,0,Vector2.ONE*world_scale)
 	if index==0 and index==sim.selected:
 		var heading=selected_heading_marker()
@@ -530,6 +638,7 @@ func _siren(p: Vector2,angle: float,fresh: bool,role: String="patroller",pin_tim
 			for n in 6:
 				var spoke=Vector2.from_angle(n*TAU/6);draw_line(spoke*24,spoke*55,Color("d1ad72"),6.)
 			draw_arc(Vector2.ZERO,40,0,TAU,24,Color("b87864"),3.)
+		elif ArtTable.enabled and ArtTable.SHAPES.has(role):Art.siren(self,role,shade)
 		elif role=="hunter":Confluence.draw_hunter(self,sim.elapsed,shade)
 		else:draw_texture_rect(siren_ray,body,false,shade)
 		if role=="sweeper":

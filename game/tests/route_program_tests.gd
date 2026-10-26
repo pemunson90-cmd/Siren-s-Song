@@ -8,6 +8,9 @@ func check(ok:bool,label:String):
  if not ok:failures+=1;printerr("FAIL ",label)
 func fresh():
  var s=Sim.new();s.start(0);s.sirens=[];s.mission.rocks=[];s.mission.structures=[];s._build_navigation();s.units[0].angle=0.0
+ # This fixture tests propulsion/STOP, not collision impulses from parked hulls.
+ # Leave drones alive for their own program cases, clear of the Quietus test lane.
+ for id in [1,2]:s.units[id].pos.y=100.
  return s
 func _initialize():
  var s=fresh();var u=s.units[0]

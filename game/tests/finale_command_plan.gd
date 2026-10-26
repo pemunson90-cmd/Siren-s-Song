@@ -29,7 +29,7 @@ static func play(coordinated: bool,stage: String="complete",protect: bool=true,a
 	if not s.command("camera"): return s
 	advance(s,2,protect,abandon)
 	if stage=="crown": s.command("select",{"unit":first}); s.paused=true; return s
-	advance(s,2.5,protect,abandon)
+	advance(s,3.5,protect,abandon)
 	if coordinated:
 		s.command("select",{"unit":first}); s.command("route",{"point":Vector2(690,780)})
 	if not coordinated: s.command("select",{"unit":0}); s.command("decoy")
@@ -39,7 +39,7 @@ static func play(coordinated: bool,stage: String="complete",protect: bool=true,a
 	if not s.command("camera"): return s
 	advance(s,2,protect,abandon)
 	if stage=="wakes": s.command("select",{"unit":second}); s.paused=true; return s
-	advance(s,2.5,protect,abandon)
+	advance(s,3.5,protect,abandon)
 	if not travel(s,0,Vector2(690,780),protect,abandon): return s
 	s.command("select",{"unit":0})
 	if not s.command("camera"): return s

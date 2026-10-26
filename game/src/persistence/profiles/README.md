@@ -1,0 +1,17 @@
+# SAVE1 profiles
+
+`profile_rules.gd` contains the three-slot limit, byte caps, name bound and 30-second undo window. `profile_store.gd` owns fixed slot paths, raw four-file snapshots, staged replacements, rollback journal and package validation. `profile_paths.gd` resolves the default path once per SaveStore. `profile_picker.gd` registers with the title frontend, and `profile_session.gd` retires the old host before any selection or replacement.
+
+Legacy campaign, backup, challenge and challenge-backup files are copied into slot 1 byte for byte on first default-path use. Legacy originals remain. Explicit custom Store paths and `valid()` do not migrate anything. An unreadable index blocks mapping and writes rather than choosing a different slot. Interrupted replacement restores the old snapshot before opening profiles.
+
+Copy, clear, import and undo require a confirmation. Undo restores the previous name and all four files, including missing files, for 30 seconds. It replaces progress made in that window; the confirmation states this. A second replacement replaces the undo snapshot. Export refuses unreadable archives while retaining their raw files. Imports validate the bounded envelope, checksum, raw file types and existing campaign/challenge validators before any replacement.
+
+The fallback file location is the app's user directory, under `profiles`. Export displays the absolute path; Import provides a touch list of `.qprofile` files in that folder. Profile names never become filenames. Name entry enables the Android virtual keyboard. Android Back dismisses rename, confirmation and file choices before the picker and title.
+
+## Progress-preserving off switch and revert
+
+Set `profile_rules.gd` `ENABLED` to `false` to restore the legacy save path and hide the title entry. Keep every file in `user://profiles` and every export. The untouched legacy originals remain at `user://quietus.save`. To carry newer progress back, close the game, retain a copy of the legacy four files, and copy the chosen `slotN.save`, `.bak`, `.challenges` and `.challenges.bak` to the corresponding `quietus.save` paths, preserving absence for missing members. Removing the Store resolver/guard and frontend registration then removes the module seam without changing any existing save field meaning.
+
+SAVE2 adds manual/fork sidecars pinned to each original physical profile. Keep those sidecars and pending transaction recovery when disabling SAVE1. The four-file legacy copy above does not migrate or merge those states; re-enabling profiles restores access at their original slots. Do not redirect an active session or bypass a pending recovery journal.
+
+Tests live beside the feature, with thin registered launchers under `game/tests`. They use actual SaveStore and filesystem I/O, a separate native child process for cold selection/challenge loading, and native ScreenTouch plus Android mouse emulation at 420 dpi in both Fold7 shapes. Native captures cover picker and import confirmation at 150 percent text. These fixtures do not claim physical-device keyboard, Android filesystem sharing or hand ergonomics.

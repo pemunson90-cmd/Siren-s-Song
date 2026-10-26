@@ -21,7 +21,7 @@ func _initialize():
  if not restored:finish();return
  var before=s.snapshot();s.advance(2.);check(before==s.snapshot(),"pause freezes machinery work")
  tick(s,7.2);tick(copy,7.2)
- check(s.mission.iron_choir.sites[0].done and copy.mission.iron_choir.sites[0].done and s.mission.structures.size()==2,"unselected local worker opens actual shutter after restore")
+ check(s.mission.iron_choir.sites[0].done and copy.mission.iron_choir.sites[0].done and s.mission.structures.size()==8,"unselected local worker opens actual shutter after restore")
  s=fixture(24);s.units[0].pos=s.mission.iron_choir.load.pos+Vector2(0,40)
  check(s.command("choir_action",{"action":"attach"}),"bare Quietus attaches actual ballast locally")
  var load_start=s.mission.iron_choir.load.pos
@@ -53,5 +53,65 @@ func _initialize():
  active.units[0].pos=active.mission.iron_choir.sites[0].pos+Vector2(0,35);active.units[1].pos=active.units[0].pos+Vector2(30,0);active.units[1].alive=false;tick(active,.1)
  check(active.command("choir_action",{"action":"lock_a"}),"local equalizer claims worker before other salvage")
  check(not active.command("salvage",{"item":"drone_survey_array"}),"industrial worker cannot simultaneously recover another physical module")
+ rules()
  finish()
+func rules():
+ # 22 freight intercept: the sled jams at its shut lane gate and is lost unless the gate is worked.
+ var s=fixture(22);s.units[0].pos=Vector2(750,2030);s.units[0].vel=Vector2.ZERO
+ check(s.command("choir_action",{"action":"west"}),"22 sled released on the west lane");s.units[0].pos=Vector2(300,2350)
+ tick(s,150.)
+ check(s.outcome=="lost","22 an unattended sled jams at the shut lane gate and is lost")
+ s=fixture(22);s.units[0].pos=Vector2(750,2030);s.command("choir_action",{"action":"west"});s.units[0].pos=Vector2(300,2350);s.mission.iron_choir.sites[1].done=true
+ tick(s,150.)
+ check(s.outcome.is_empty() and s.mission.iron_choir.load.state=="arrived" and s.mission.iron_choir.load.hull>=100.,"22 an opened gate lets the sled arrive undamaged")
+ s=fixture(22);s.units[0].pos=Vector2(750,2030);s.command("choir_action",{"action":"west"});s.units[0].pos=Vector2(300,2350);s.mission.iron_choir.sites[2].done=true
+ tick(s,150.)
+ check(s.outcome=="lost","22 opening the other lane's gate does not save the sled")
+ # 23 lock sequence
+ s=fixture(23);var st=s.mission.iron_choir.sites;s.units[0].band=0;s.units[0].pos=st[1].pos+Vector2(0,35);s.units[0].vel=Vector2.ZERO
+ check(s.Choir.context(s,"lock_b").reason=="Finish LOCK_A first" and not s.command("choir_action",{"action":"lock_b"}),"23 second equalizer waits for the first")
+ st[0].done=true;check(s.Choir.context(s,"lock_b").ready,"23 second equalizer ready after the first")
+ s.units[0].band=2;s.units[0].pos=st[2].pos+Vector2(0,-35)
+ check(s.Choir.context(s,"lock_c").reason=="Finish LOCK_B first","23 third equalizer waits for the second")
+ # 25 escort: the sled only advances while a craft is near
+ s=fixture(25);s.mission.iron_choir.sites[1].done=true;s.units[0].pos=Vector2(750,2030);s.units[0].vel=Vector2.ZERO
+ check(s.command("choir_action",{"action":"west"}),"25 escorted sled released")
+ var start=s.mission.iron_choir.load.pos;s.units[0].pos=Vector2(2000,2400);tick(s,10.)
+ check(s.mission.iron_choir.load.pos.distance_to(start)<5.,"25 sled holds with no escort in range")
+ s.units[0].pos=s.mission.iron_choir.load.pos+Vector2(60,0);tick(s,5.)
+ check(s.mission.iron_choir.load.pos.distance_to(start)>30.,"25 sled advances once a craft escorts it")
+ # 26 the hammer restart seals the west mouth; the cooling release is the other way out
+ s=fixture(26);var a=s.mission.iron_choir.artifact;s.units[0].band=2;s.units[0].pos=a.pos+Vector2(0,-35);s.units[0].vel=Vector2.ZERO
+ check(s.command("choir_action",{"action":"recover"}),"26 deep winch starts");tick(s,4.2)
+ check(s.mission.iron_choir.stamp>=0. and not s.mission.iron_choir.sealed,"26 lifting the spindle starts the hammer clock")
+ tick(s,101.)
+ check(s.mission.iron_choir.sealed and Rect2(1100,350,150,150) in s.mission.structures and Sim.valid_snapshot(s.snapshot()),"26 west mouth seals with the carrier still inside, save stays valid")
+ var copy=Sim.new();check(copy.restore(s.snapshot()) and copy.mission.iron_choir.sealed,"26 sealed mouth restores")
+ s._use_band(2);check(s.path(s.units[0].pos,Vector2(700,425)).is_empty(),"26 the sealed mouth cannot be crossed")
+ s.units[0].pos=s.mission.iron_choir.sites[0].pos+Vector2(0,-20)
+ check(s.command("choir_action",{"action":"cooling"}),"26 cooling release works from inside");tick(s,8.2)
+ s._use_band(2);check(not s.path(s.units[0].pos,Vector2(1450,1000)).is_empty(),"26 cooling release opens the south return")
+ # 27 a loose counterweight slides back unless chocked
+ s=fixture(27);var load=s.mission.iron_choir.load;s.units[0].pos=load.pos+Vector2(0,40);s.units[0].vel=Vector2.ZERO
+ check(s.command("choir_action",{"action":"attach"}),"27 counterweight attached")
+ load.state="free";load.carrier=-1;load.pos=Vector2(750,1500);tick(s,10.)
+ check(load.pos.y>1540.,"27 an unchocked counterweight slides back downhill")
+ s.mission.iron_choir.sites[0].done=true;load.pos=Vector2(750,1200);tick(s,10.)
+ check(abs(load.pos.y-1200.)<1.,"27 a chocked counterweight above the ledge stays put")
+ load.pos=Vector2(750,1500);tick(s,5.)
+ check(load.pos.y>1500.,"27 the chock does not hold the weight below the ledge")
+ s=fixture(27);s.units[0].pos=s.mission.iron_choir.sites[0].pos;s.units[0].vel=Vector2.ZERO
+ check(s.Choir.context(s,"lock_a").reason=="Bring the real load to this station","27 chock needs the load beside it")
+ # 28 decompression stops need the towed bell
+ s=fixture(28);s.units[0].pos=s.mission.iron_choir.sites[0].pos;s.units[0].vel=Vector2.ZERO
+ check(s.Choir.context(s,"lock_a").reason=="Bring the real load to this station" and s.Choir.context(s,"land").reason!="","28 stop work needs the bell towed to the station")
+ # 29 the far breaker drops out when the reconnect window lapses
+ s=fixture(29);s.units[0].pos=s.mission.iron_choir.sites[0].pos+Vector2(0,30);s.units[0].vel=Vector2.ZERO
+ check(s.command("choir_action",{"action":"lock_c"}),"29 far breaker work starts");tick(s,8.2)
+ check(s.mission.iron_choir.sites[0].done and s.mission.iron_choir.stamp>=0.,"29 far breaker thrown")
+ tick(s,151.)
+ check(not s.mission.iron_choir.sites[0].done and s.mission.iron_choir.stamp==-1.,"29 breaker drops out after the window")
+ s.units[0].pos=s.mission.iron_choir.sites[1].pos+Vector2(0,30)
+ check(s.Choir.context(s,"reconnect").reason=="Finish LOCK_C first","29 reconnect refused without the held breaker")
+
 func finish():print("INDUSTRIAL JOBS CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)

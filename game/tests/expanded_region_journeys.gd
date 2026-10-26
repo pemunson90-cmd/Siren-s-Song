@@ -16,7 +16,10 @@ func _initialize():
   var objective=solo.mission.objectives[id]
   if not routes.move(solo,objective.pos+Vector2(0,180 if id<2 else 0)):complete=false;break
   if not solo.command("camera"):complete=false;break
-  for n in 65:solo.advance(0.1)
+  for n in 65:
+   solo.advance(0.1)
+   for contact in solo.contacts.values():
+    if solo.elapsed-contact.time<.3 and contact.lock>1.0 and solo.tools.emp>0:solo.command("emp");break
  if complete:routes.move(solo,solo.mission.extraction)
  check(solo.outcome=="won","Quietus can recover both relay arms and link after drones are lost")
  check(solo.elapsed>s.elapsed+30,"opposite-arm coordination avoids the solo physical circuit")

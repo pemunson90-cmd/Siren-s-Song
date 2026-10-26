@@ -7,7 +7,7 @@ static func item(sim)->String:return "glass_"+artifact(sim).get("id","")
 static func sites(sim)->Array:
  var a=artifact(sim)
  return [{"item":item(sim),"name":a.id.replace("_"," ").to_upper(),"pos":a.pos,"band":a.band}] if not a.is_empty() and a.state in ["site","wreck"] else []
-static func decoder(sim,unit:int)->bool:return sim.Equipment.item_for(sim.mission.launch_equipment,unit)=="quietus_decoder"
+static func decoder(sim,unit:int)->bool:return sim.Equipment.has(sim.mission.launch_equipment,unit,"quietus_decoder")
 static func context(sim,action:String,unit:int=-1)->Dictionary:
  var result={"ready":false,"reason":"No Reach task here","pos":Vector2.ZERO,"duration":8.,"active":false,"elapsed":0.,"claimed_by":-1,"distance":0.,"range":60.,"noise_radius":520.}
  if not applies(sim.mission):return result
@@ -20,6 +20,7 @@ static func context(sim,action:String,unit:int=-1)->Dictionary:
  if not sim.outcome.is_empty():result.reason="Dive ended"
  elif not body.alive:result.reason="Craft lost"
  elif action=="recover" and (a.is_empty() or a.state not in ["site","wreck"]):result.reason="Material already carried or unavailable"
+ elif action=="recover" and sim.ModuleRecovery.carried(sim,unit)>=sim.ModuleRecovery.capacity(sim,unit):result.reason="No free cargo place · material needs one"
  elif action in ["service","sever"] and (sim.mission.id!=18 or not state.choice.is_empty()):result.reason="Anchorage choice already made or unavailable"
  elif action=="vane" and (sim.mission.id!=15 or not state.choice.is_empty()):result.reason="Vane already released or unavailable"
  elif action=="gate" and (sim.mission.id not in [18,19] or state.gate_open):result.reason="Service gate already open or unavailable"
@@ -50,6 +51,7 @@ static func command(sim,args:Dictionary)->bool:
 static func transfer(sim,carrier)->bool:
  var a=artifact(sim)
  if not carrier is int or carrier not in [1,2] or a.is_empty() or a.state!="cargo" or a.carrier!=carrier or sim.selected not in [0,carrier]:return false
+ if sim.ModuleRecovery.carried(sim,0)>=sim.ModuleRecovery.capacity(sim,0):return false
  var u=sim.units[carrier];var q=sim.units[0]
  if not u.alive or not q.alive or u.band!=q.band or not u.transition.is_empty() or not q.transition.is_empty() or u.vel.length()>=2 or q.vel.length()>=2 or u.pos.distance_to(q.pos)>60 or not sim.Depth.clear(sim,u.pos,q.pos,u.band):return false
  if busy(sim,0) or busy(sim,carrier) or not sim.captures[0].is_empty() or not sim.captures[carrier].is_empty():return false
@@ -58,8 +60,9 @@ static func open_gate(sim):
  var state=sim.mission.glass_reach
  if not state.has("gate"):return
  sim.mission.structures.erase(state.gate);state.gate_open=true;sim._build_navigation();sim.opened_terrain(state.gate);sim._use_band(sim.units[sim.selected].band)
-static func cancel_released(sim,id:int):
- if busy(sim,id) and sim.units[id].hold!="HOLD":sim.mission.glass_reach.job={}
+# JobRelease calls this only after the shared HOLD guard.
+static func release_if_unheld(sim,id:int):
+ if busy(sim,id):sim.mission.glass_reach.job={}
 static func tick(sim,dt:float):
  if not applies(sim.mission):return
  var state=sim.mission.glass_reach;var a=state.artifact
@@ -69,7 +72,7 @@ static func tick(sim,dt:float):
  if not a.is_empty():sim.mission.depth_cargo[item(sim)]=a.band
  if state.job.is_empty():return
  var job=state.job;var u=sim.units[job.unit]
- var custody=job.action!="recover" or (a.state in ["site","wreck"] and a.band==job.band and a.pos==job.pos)
+ var custody=job.action!="recover" or (a.state in ["site","wreck"] and a.band==job.band and a.pos==job.pos and sim.ModuleRecovery.carried(sim,job.unit)<sim.ModuleRecovery.capacity(sim,job.unit))
  if not u.alive or u.hold!="HOLD" or u.band!=job.band or not u.transition.is_empty() or not custody or u.pos.distance_to(job.pos)>(120. if job.action=="gate" and decoder(sim,job.unit) else 60.) or not sim.Depth.clear(sim,u.pos,job.pos,u.band):
   state.job={}
   if u.hold=="HOLD":u.hold=""
@@ -106,7 +109,24 @@ static func recover(sim,corridor:Dictionary):
  if a.is_empty():return
  a.state="recovered";a.carrier=-1;a.band=1;a.pos=corridor.pos;sim.mission.glass_reach.retrieved=true
 static func recorded(sim,o:Dictionary):
- if applies(sim.mission) and o.get("site_id","").begins_with("glass_record_"):sim.mission.expedition_facts[o.site_id]=o.evidence
+ if not applies(sim.mission):return
+ if o.get("site_id","").begins_with("glass_record_"):sim.mission.expedition_facts[o.site_id]=o.evidence
+ if o.get("glass_effect") is Dictionary:apply_effect(sim,o)
+# Authored machinery (encounters/work_sites.gd machine) changes real water once.
+static func apply_effect(sim,o:Dictionary):
+ var effect=o.glass_effect;var opened=[]
+ for shape in effect.get("open",[]):
+  if shape in sim.mission.structures:sim.mission.structures.erase(shape);opened.append(shape)
+ if not opened.is_empty():
+  sim._build_navigation()
+  for shape in opened:sim.opened_terrain(shape)
+  sim._use_band(sim.units[sim.selected].band)
+ if effect.has("quiet"):
+  for enemy in sim.sirens:
+   if enemy.get("type","") in ["buoy","relay"] and enemy.pos.distance_to(o.pos)<=effect.quiet:enemy.stun=maxf(enemy.stun,effect.get("quiet_time",90.));enemy.network.packet={};enemy.network.charge=0.
+ if effect.has("calm"):
+  for current in sim.mission.get("currents",[]):current.velocity*=effect.calm
+ if effect.has("noise"):sim._noise(o.pos,effect.noise.radius,effect.noise.label,effect.noise.duration,1)
 static func status(sim)->Dictionary:
  if not applies(sim.mission):return {}
  var a=artifact(sim);var actions={}

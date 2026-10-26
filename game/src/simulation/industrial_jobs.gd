@@ -1,9 +1,10 @@
 extends RefCounted
 const Catalog=preload("res://src/campaign/operation_catalog.gd")
+const Rules=preload("res://src/campaign/encounters/choir_rules.gd")
 static func applies(m:Dictionary)->bool:return Catalog.supports(m.get("id",-1),"iron_choir") and m.get("iron_choir") is Dictionary
 static func busy(sim,id:int)->bool:return applies(sim.mission) and not sim.mission.iron_choir.jobs[id].is_empty()
 static func body(sim)->Dictionary:return sim.mission.iron_choir.load if applies(sim.mission) else {}
-static func yoke(sim,id:int)->bool:return sim.Equipment.item_for(sim.mission.launch_equipment,id)=="drone_traction_yoke"
+static func yoke(sim,id:int)->bool:return sim.Equipment.has(sim.mission.launch_equipment,id,"drone_traction_yoke")
 static func towing(sim,id:int)->bool:return not body(sim).is_empty() and body(sim).state=="towed" and body(sim).carrier==id
 static func speed(sim,id:int,speed_value:float)->float:return minf(speed_value,22. if yoke(sim,id) else 28.) if towing(sim,id) else speed_value
 static func noise(sim,id:int)->float:return minf(240.,sim.propulsion_speed(sim.units[id])*(8. if yoke(sim,id) else 4.)) if towing(sim,id) else 0.
@@ -28,6 +29,7 @@ static func context(sim,action:String,id:int=-1)->Dictionary:
  result.duration=4. if action=="recover" else 8.
  if not sim.outcome.is_empty():result.reason="Dive ended"
  elif not u.alive:result.reason="Craft lost"
+ elif action=="recover" and sim.ModuleRecovery.carried(sim,id)>=sim.ModuleRecovery.capacity(sim,id):result.reason="No free cargo place · material needs one"
  elif busy(sim,id):result.active=true;result.elapsed=state.jobs[id].elapsed;result.reason="Industrial work in progress"
  elif u.band!=band or not u.transition.is_empty():result.reason="Settle at the work's physical depth"
  elif u.pos.distance_to(result.pos)>60 or not sim.Depth.clear(sim,u.pos,result.pos,u.band):result.reason="Reach within60m through clear local water"
@@ -37,6 +39,8 @@ static func context(sim,action:String,id:int=-1)->Dictionary:
  elif action=="release" and not towing(sim,id):result.reason="This craft has no attached load"
  elif action in ["east","west"] and load.state!="moored":result.reason="Voyage already deliberately started"
  elif action=="west" and sim.mission.id==25 and not state.sites[1].done:result.reason="Open or staff the western service berth first"
+ elif not Rules.needs_missing(sim.mission.id,state,action).is_empty():result.reason="Finish "+Rules.needs_missing(sim.mission.id,state,action).to_upper()+" first"
+ elif action in Rules.WITH_LOAD.get(sim.mission.id,[]) and (load.state not in (["towed","free"] if sim.mission.id==27 else ["towed"]) or (load.state=="towed" and load.carrier!=id) or load.pos.distance_to(site.pos)>75):result.reason="Bring the real load to this station"
  elif action=="recover" and a.state not in ["site","wreck"]:result.reason="Material sealed, carried or recovered"
  elif action in ["bypass","isolate","cradle","land"] and (load.state!="towed" or load.carrier!=id or load.pos.distance_to(site.pos)>75):result.reason="Tow the real load locally to its receiving socket"
  elif not site.is_empty() and site.done:result.reason="Machinery work already complete"
@@ -61,21 +65,27 @@ static func command(sim,args:Dictionary)->bool:
    route.append_array(leg);from=point
   for n in route.size():route[n].stop=n==route.size()-1
   load.route=route;load.state="transit";load.destination=destination;state.route_choice=action
-  sim._use_band(sim.units[id].band);sim._noise(c.pos,650.,"CHOIR BERTH RELEASE",6.,load.band);sim.message="Sled departs by "+action+" course · locally observe its actual refuge arrival";return true
+  sim._use_band(sim.units[id].band);sim._noise(c.pos,650.,"CHOIR BERTH RELEASE",6.,load.band);sim.message="Sled departs by "+action+" course · locally observe its actual dock arrival";return true
  state.jobs[id]={"action":action,"pos":c.pos,"band":sim.units[id].band,"elapsed":0.,"duration":c.duration};sim.units[id].hold="HOLD"
  sim._noise(c.pos,520.,"RECOVERY WINCH" if action=="recover" else "CHOIR MACHINERY",c.duration,sim.units[id].band);sim.message=c.reason;return true
-static func cancel_released(sim,id:int):
- if busy(sim,id) and sim.units[id].hold!="HOLD":sim.mission.iron_choir.jobs[id]={}
+# JobRelease calls this only after the shared HOLD guard.
+static func release_if_unheld(sim,id:int):
+ if busy(sim,id):sim.mission.iron_choir.jobs[id]={}
 static func open_site(sim,site:Dictionary):
  site.done=true
  if site.shape.has_area():sim.mission.structures.erase(site.shape);sim._build_navigation();sim.opened_terrain(site.shape)
 static func complete_work(sim,id:int,job:Dictionary):
  var state=sim.mission.iron_choir;var action=job.action;var a=state.artifact
- if action=="recover":a.state="cargo";a.carrier=id;a.pos=sim.units[id].pos;return
+ if action=="recover":
+  if sim.ModuleRecovery.carried(sim,id)>=sim.ModuleRecovery.capacity(sim,id):return
+  a.state="cargo";a.carrier=id;a.pos=sim.units[id].pos
+  if Rules.SURGE.has(sim.mission.id) and state.stamp<0.:state.stamp=sim.elapsed
+  return
  for site in state.sites:
   if site.id==action:open_site(sim,site)
  if action in ["bypass","isolate","reconnect","dismantle"]:
   state.choice=action;sim.mission.expedition_facts["choir_choice" if sim.mission.id==24 else "choir_plant"]=action
+ if action=="lock_c" and sim.mission.id==29:state.stamp=sim.elapsed
  if action in ["bypass","isolate","cradle","land"]:
   state.load.state="seated";state.load.carrier=-1;state.load.trail=[];state.load.vel=Vector2.ZERO
   if action=="cradle":a.state="site"
@@ -89,9 +99,12 @@ static func tick(sim,dt:float):
   if not u.alive:a.state="wreck";a.carrier=-1
  if not load.is_empty() and load.alive:
   if load.state=="transit":
-   sim._use_band(load.band);sim._move(load,dt,24.,false,false);sim._use_band(sim.units[sim.selected].band)
+   if not Rules.jam(sim.mission.id,state,load).is_empty():load.vel=Vector2.ZERO;damage(sim,Rules.JAM_RATE*dt)
+   else:sim._use_band(load.band);sim._move(load,dt,Rules.SLED_SPEED.get(sim.mission.id,24.),not Rules.escorted(sim,load),false);sim._use_band(sim.units[sim.selected].band)
    if load.route.is_empty() and load.pos.distance_to(load.destination)<20 and load.vel.length()<2:load.state="arrived";state.arrived=true
   elif load.state=="towed":tow_tick(sim,load,dt)
+  elif load.state=="free":Rules.slide(sim,state,load,dt)
+ Rules.tick_state(sim,state)
  for id in 3:
   if state.jobs[id].is_empty():continue
   var job=state.jobs[id];var u=sim.units[id]
@@ -159,11 +172,11 @@ static func status(sim)->Dictionary:
  if not load.is_empty():load.age=sim.elapsed-load.time
  var contexts={}
  for action in actions(sim):contexts[action]=context(sim,action)
- return {"load":load,"actions":contexts,"jobs":state.jobs.duplicate(true),"sites":state.sites.filter(func(site):return sim.visible(site.pos,site.band)).duplicate(true),"artifact":state.artifact.duplicate(true),"choice":state.choice,"receipt":state.receipt,"detail":"INDUSTRIAL WORK · "+sim.mission.title+"\n"+"\n".join(contexts.keys().map(func(action):return action.to_upper()+" · "+contexts[action].reason))}
+ return {"load":load,"actions":contexts,"jobs":state.jobs.duplicate(true),"sites":state.sites.filter(func(site):return sim.visible(site.pos,site.band)).duplicate(true),"artifact":state.artifact.duplicate(true),"choice":state.choice,"receipt":state.receipt,"detail":"INDUSTRIAL WORK · "+sim.mission.title+"\n"+(Rules.notes(sim,state)+"\n" if not Rules.notes(sim,state).is_empty() else "")+"\n".join(contexts.keys().map(func(action):return action.to_upper()+" · "+contexts[action].reason))}
 static func valid(data:Dictionary)->bool:
  if not Catalog.supports(data.mission.get("id",-1),"iron_choir"):return not data.mission.has("iron_choir")
  var state=data.mission.get("iron_choir")
- if not state is Dictionary or not state.has_all(["sites","jobs","load","seen","choice","arrived","receipt","artifact","retrieved","route_choice","people_landed"]):return false
+ if not state is Dictionary or not state.has_all(["sites","jobs","load","seen","choice","arrived","receipt","artifact","retrieved","route_choice","people_landed","stamp","sealed"]):return false
  if not state.sites is Array or state.sites.size()>3 or not state.jobs is Array or state.jobs.size()!=3 or not state.load is Dictionary or not state.seen is Dictionary or not state.artifact is Dictionary or state.choice not in ["","bypass","isolate","reconnect","dismantle"] or state.route_choice not in ["","east","west"]:return false
  var template=Catalog.make(data.mission.id,data.mission.get("launch_context",{})).iron_choir
  var bounds=Rect2(Vector2.ZERO,data.mission.world_size)
@@ -172,8 +185,10 @@ static func valid(data:Dictionary)->bool:
   if not state.sites[index] is Dictionary:return false
   for key in ["id","pos","band","shape"]:
    if state.sites[index].get(key)!=template.sites[index][key]:return false
- for flag in ["arrived","receipt","retrieved","people_landed"]:
+ for flag in ["arrived","receipt","retrieved","people_landed","sealed"]:
   if not state[flag] is bool:return false
+ if not number(state.stamp) or state.stamp<-1. or (state.stamp<0. and state.stamp!=-1.) or state.stamp>data.get("elapsed",0.):return false
+ if state.sealed!=(Rules.SURGE.has(data.mission.id) and Rules.SURGE[data.mission.id].seal in data.mission.structures) or (state.sealed and state.stamp<0.):return false
  for site in state.sites:
   if not site is Dictionary or not site.get("id") is String or not site.get("pos") is Vector2 or not site.get("shape") is Rect2 or site.get("band") not in [0,1,2] or not site.get("done") is bool:return false
  for id in 3:

@@ -64,6 +64,7 @@ func run():
   var reading=h.fleet.telemetry[0];var point=reading.get_global_rect().get_center();var world=game.ocean.map_position(point-game.ocean.global_position)
   await tap(point)
   check(sim.route_goals().size()==1 and sim.route_goals()[0].pos.distance_to(world)<1. and not game.advanced_orders,"packet telemetry preserves a permitted water tap as a route command")
+  h.guard.reset();game._refresh();await settle()  # undo chip is outside this gesture fixture
   before=sim.snapshot();var camera=game.ocean.chart_camera.snapshot();point=h.fleet.buttons[1].get_global_rect().get_center()
   await touch(point,true);await move(point+Vector2(90,35),Vector2(90,35));await touch(point+Vector2(90,35),false);await settle()
   check(sim.snapshot()==before and game.ocean.chart_camera.snapshot()!=camera,"drag from the buffered craft ring pans without a route or transfer")

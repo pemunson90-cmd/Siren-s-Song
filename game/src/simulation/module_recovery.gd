@@ -3,18 +3,31 @@ extends RefCounted
 # Salvage positions come from own craft, never a hostile or terrain query.
 const Catalog=preload("res://src/equipment/equipment_catalog.gd")
 const Inventory=preload("res://src/campaign/fleet_inventory.gd")
+const Upgrades=preload("res://src/equipment/craft_upgrades.gd")
 const DURATION=4.0
 const RANGE=60.0
 const NOISE=520.0
 static func initial(fitted:Dictionary,units:Array)->Dictionary:
  var modules={}
  for id in [1,2]:
-  var item=Catalog.item_for(fitted,id)
-  if not item.is_empty():modules[item]={"state":"fitted","unit":id,"pos":units[id].pos}
+  for item in Catalog.items_for(fitted,id):modules[item]={"state":"fitted","unit":id,"pos":units[id].pos}
  return {"modules":modules,"jobs":[{},{},{}],"result":{},"deferred":""}
 static func _state(sim)->Dictionary:
  return sim.mission.get("module_recovery",{"modules":{},"jobs":[{},{},{}],"result":{},"deferred":""})
 static func _name(item:String)->String:return Catalog.ITEMS.get(item,{}).get("name",item)
+# Winch carriage is the craft's free cargo budget; the standard frames hold two.
+static func capacity(sim,unit_id:int)->int:return Upgrades.cargo_free(sim.mission.get("launch_equipment",{}),unit_id)
+static func carried(sim,unit_id:int)->int:
+ var state=_state(sim);var count=0
+ for item in state.modules:
+  if state.modules[item].state=="cargo" and state.modules[item].unit==unit_id:count+=1
+ # Physical research material and occupied capsules use the same carriage.
+ for key in ["glass_reach","iron_choir"]:
+  var artifact:Dictionary=sim.mission.get(key,{}).get("artifact",{})
+  if artifact.get("state","")=="cargo" and artifact.get("carrier",-1)==unit_id:count+=1
+ var witness:Dictionary=sim.mission.get("witness_evacuation",{})
+ if witness.get("state","")=="carried" and witness.get("carrier",-1)==unit_id:count+=1
+ return count
 static func status(sim)->Dictionary:
  var state=_state(sim);var result={"modules":[],"cargo":[[],[],[]],"jobs":[{},{},{}],"result":state.result.duplicate(true)}
  for item in state.modules:
@@ -28,18 +41,19 @@ static func status(sim)->Dictionary:
 static func sites(sim)->Array:
  return status(sim).modules.filter(func(module):return module.state=="salvage").map(func(module):return {"item":module.item,"name":module.name,"pos":module.pos})
 static func context(sim,item:String,unit_id:int)->Dictionary:
- var state=_state(sim);var result={"item":item,"unit":unit_id,"ready":false,"reason":"Module unavailable","active":false,"claimed_by":-1,"elapsed":0.0,"duration":DURATION,"distance":0.0,"range":RANGE,"noise_radius":NOISE}
+ var state=_state(sim);var result={"item":item,"unit":unit_id,"ready":false,"reason":"Module unavailable","active":false,"claimed_by":-1,"elapsed":0.0,"duration":DURATION,"distance":0.0,"range":RANGE,"noise_radius":NOISE,"cargo":0,"cargo_cap":0}
  if unit_id<0 or unit_id>=sim.units.size() or not state.modules.has(item):return result
  var module=state.modules[item];var unit=sim.units[unit_id]
  for id in 3:
   if not state.jobs[id].is_empty() and state.jobs[id].item==item:
    result.claimed_by=id;result.active=id==unit_id;result.elapsed=state.jobs[id].elapsed
  if module.state!="salvage":return result
- result.distance=unit.pos.distance_to(module.pos)
+ result.distance=unit.pos.distance_to(module.pos);result.cargo=carried(sim,unit_id);result.cargo_cap=capacity(sim,unit_id)
  if not sim.outcome.is_empty():result.reason="Dive ended"
  elif not unit.alive:result.reason="Craft lost"
  elif result.claimed_by>=0:result.reason="Recovery in progress"
  elif not state.jobs[unit_id].is_empty() or not sim.captures[unit_id].is_empty() or sim._blackwater_recovery_busy(unit_id) or sim._warning_chain_busy(unit_id) or sim._witness_recovery_busy(unit_id) or sim.Glass.busy(sim,unit_id) or sim.Choir.busy(sim,unit_id):result.reason="Finish this craft's active work first"
+ elif result.cargo>=result.cargo_cap:result.reason="No free cargo place · %d / %d carried"%[result.cargo,result.cargo_cap]
  elif result.distance>RANGE:result.reason="Move within 60m"
  elif unit.band!=sim.Depth.cargo_band(sim,item) or not unit.transition.is_empty():result.reason="Salvage requires its recorded depth band"
  elif not sim.Depth.clear(sim,unit.pos,module.pos,unit.band):result.reason="Terrain blocks recovery"
@@ -53,8 +67,9 @@ static func begin(sim,item:String)->bool:
  sim._noise(sim.units[sim.selected].pos,NOISE,"RECOVERY WINCH",DURATION,sim.units[sim.selected].band)
  sim.events.append({"type":"salvage","pos":sim.units[sim.selected].pos,"item":item});sim.message="%s · recover %s · audible winch 4s"%[sim.units[sim.selected].name,_name(item)]
  return true
-static func cancel_released(sim,unit_id:int)->void:
- if sim.mission.has("module_recovery") and sim.units[unit_id].hold!="HOLD":sim.mission.module_recovery.jobs[unit_id]={}
+# JobRelease calls this only after the shared HOLD guard.
+static func release_if_unheld(sim,unit_id:int)->void:
+ if sim.mission.has("module_recovery"):sim.mission.module_recovery.jobs[unit_id]={}
 static func tick(sim,dt:float)->void:
  if not sim.mission.has("module_recovery"):return
  var state=sim.mission.module_recovery
@@ -75,7 +90,7 @@ static func tick(sim,dt:float)->void:
   else:
    job.elapsed+=dt
    if job.elapsed+0.0000001>=DURATION:
-    if not sim._collect_shared_wreck(id,module.pos):module.state="cargo";module.unit=id
+    if not sim._collect_shared_wreck(id,module.pos) and carried(sim,id)<capacity(sim,id):module.state="cargo";module.unit=id
     state.jobs[id]={};unit.hold=""
     sim.message="%s carries %s · bring carrier to recovery"%[unit.name,_name(job.item)]
  if not sim.departure_context().available:state.deferred=""
@@ -110,8 +125,7 @@ static func valid(data:Dictionary)->bool:
  if not mission.get("launch_equipment",{}) is Dictionary:return false
  var launched=[]
  for id in [1,2]:
-  var item=Catalog.item_for(mission.get("launch_equipment",{}),id)
-  if not item.is_empty():launched.append(item)
+  launched.append_array(Catalog.items_for(mission.get("launch_equipment",{}),id))
  if state.modules.size()!=launched.size():return false
  var dimensions=mission.get("world_size",preload("res://src/simulation/world_region.gd").LEGACY_SIZE)
  if not dimensions is Vector2 or not dimensions.is_finite():return false
@@ -121,7 +135,7 @@ static func valid(data:Dictionary)->bool:
   if module.state=="salvage":
    if module.unit!=-1:return false
   elif module.unit not in [0,1,2]:return false
-  elif module.state=="fitted" and (module.unit==0 or Catalog.item_for(mission.launch_equipment,module.unit)!=item):return false
+  elif module.state=="fitted" and (module.unit==0 or not Catalog.has(mission.launch_equipment,module.unit,item)):return false
  var claimed=[]
  for job in state.jobs:
   if not job is Dictionary:return false
@@ -140,4 +154,4 @@ static func collect_at(sim,unit_id:int,pos:Vector2)->void:
  if not sim.mission.has("module_recovery"):return
  for item in sim.mission.module_recovery.modules:
   var module=sim.mission.module_recovery.modules[item]
-  if module.state=="salvage" and module.pos.distance_to(pos)<=1 and sim.Depth.cargo_band(sim,item)==sim.units[unit_id].band:module.state="cargo";module.unit=unit_id
+  if module.state=="salvage" and module.pos.distance_to(pos)<=1 and sim.Depth.cargo_band(sim,item)==sim.units[unit_id].band and carried(sim,unit_id)<capacity(sim,unit_id):module.state="cargo";module.unit=unit_id

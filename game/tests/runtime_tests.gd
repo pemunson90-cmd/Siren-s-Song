@@ -54,8 +54,8 @@ func run() -> void:
 	check(not game.ocean.optical_feed.visible and game.sim.capture_unit==1,"switch to submarine clears camera overlay while exposure continues")
 	game._start_mission(0); game.sim.command("route",{"point":Vector2(360,800)}); game._show_campaign(); await process_frame
 	var has_resume=false
-	for child in game.panel_box.get_children():
-		if child is Button and child.text=="RESUME ACTIVE MISSION": has_resume=true
+	for child in game.panel_box.find_children("*","Button",true,false):
+		if child.get_meta("action","")=="resume" and not child.disabled and child.text.begins_with("RESUME DIVE"): has_resume=true
 	check(has_resume,"a paused zero-time plan remains resumable from operations")
 	var planned=game.sim.snapshot(); game._briefing(1); await process_frame; game._show_campaign(); await process_frame
 	check(game.sim.snapshot()==planned,"browsing another briefing then back preserves active mission and orders")
@@ -88,10 +88,10 @@ func run() -> void:
 	game.sim.paused=false;game.sound.update(game.sim,0.0,true)
 	check(winch_voice.playing and not winch_voice.stream_paused,"leaving tactical pause resumes that same recovery-winch voice")
 	for voice in game.sound.voices:voice.stop()
-	game.sound.resume(); game.screen="debrief"; game.sim.paused=false; game.sound.alert_timer=0.0
-	game.sim.contacts[0]={"pos":game.sim.units[0].pos+Vector2(100,0),"time":game.sim.elapsed,"mode":"BEAM","lock":4.2,"angle":0.0}
+	game.sound.resume(); game.screen="debrief"; game.sim.paused=false; game.sound.lock_voice.play()
+	game.sim.contacts[0]={"pos":game.sim.units[0].pos+Vector2(100,0),"time":game.sim.elapsed,"mode":"LOCKING","lock":1.2,"angle":0.0,"target":0}
 	await process_frame
-	check(game.sound.ambience.stream_paused and game.sound.alert_timer==0,"debrief does not continue dive ambience or repeat threat alarms")
+	check(game.sound.ambience.stream_paused and not game.sound.lock_voice.playing,"debrief does not continue dive ambience or repeat threat alarms")
 	game.sound.muted=true; game.sound.update(game.sim,0.1,false)
 	check(AudioServer.is_bus_mute(AudioServer.get_bus_index("SirenAmbience")) and AudioServer.is_bus_mute(AudioServer.get_bus_index("SirenEffects")),"mute silences both production buses rather than leaving a low-level signal")
 	game.sound.suspend(); game.sim.paused=false; game.sound.update(game.sim,0.1,true)

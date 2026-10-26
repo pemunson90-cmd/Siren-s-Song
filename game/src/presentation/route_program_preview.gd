@@ -1,4 +1,5 @@
 extends Control
+const HullBand=preload("res://src/presentation/route_clearance/hull_band.gd")
 const EarnedChart=preload("res://src/presentation/earned_chart_view.gd")
 signal point_chosen(point:Vector2)
 signal view_changed
@@ -107,6 +108,9 @@ func _draw():
   var plant_view=preload("res://src/presentation/warning_chain_view.gd")
   plant_view.draw_crosslink(self,plant_view.context(sim),scale)
   draw_set_transform(Vector2.ZERO,0,Vector2.ONE)
+ draw_set_transform(chart_camera.offset,0,Vector2.ONE*scale)
+ HullBand.draw_world(self,sim,sim.selected)
+ draw_set_transform(Vector2.ZERO,0,Vector2.ONE)
  var chart_font=ThemeDB.fallback_font
  for site in sim.observable_sites():
   if site.get("own_origin",false) or preload("res://src/presentation/rendezvous_view.gd").replaces_site(sim,site):continue
@@ -135,3 +139,6 @@ func _draw():
  # Two short lines keep the same full-sized type clear of the three controls.
  draw_string(font,Vector2(8,navigation_font_size+6),"%.1f×"%chart_camera.zoom,HORIZONTAL_ALIGNMENT_LEFT,-1,navigation_font_size,Color("9ecac5"))
  draw_string(font,Vector2(8,navigation_font_size*2+10),"DRAG / PINCH",HORIZONTAL_ALIGNMENT_LEFT,-1,navigation_font_size,Color("9ecac5"))
+
+ # This footprint is visual only; it never intercepts chart gestures.
+ if not u.route.is_empty():draw_string(font,Vector2(8,size.y-10),HullBand.STYLE.legend,HORIZONTAL_ALIGNMENT_LEFT,-1,navigation_font_size,Color("9ecac5"))

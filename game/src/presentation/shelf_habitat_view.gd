@@ -1,4 +1,19 @@
 extends RefCounted
+# ARCH2 panel/world contract. Ground uses a small adapter at its original
+# terrain phase. Picking, controls and legacy layer functions stay unchanged.
+# Revert this PR to restore direct HUD/ground/world seams and remove the adapter.
+static func applies(sim)->bool:return sim!=null
+static func build_panel(hud)->void:
+ var sim=hud.host.sim
+ var shelter=context(sim)
+ if not shelter.is_empty():
+  hud.host.order_buttons.camera.text="WATCH\nORDERS";hud.host.order_buttons.camera.disabled=false
+  hud.extra.shelf_alarm.disabled=not shelter.alarm.ready
+  hud.extra.shelf_warn.disabled=true
+  for row in shelter.galleries:
+   if row.id==hud.subject.get("site",""):hud.extra.shelf_warn.disabled=not row.action.ready
+  if hud.subject.get("kind","")=="habitat":hud.instrument_info.text=detail(sim,hud.subject.site)
+static func draw(view)->void:draw_world(view,view.sim)
 const Habitat=preload("res://src/simulation/shelf_habitat.gd")
 static func context(sim)->Dictionary:return sim.shelf_context() if sim!=null and sim.has_method("shelf_context") else {}
 static func nearest(sim)->Dictionary:
@@ -37,11 +52,11 @@ static func pick(view,sim,point:Vector2,touch:float,bodies:bool=true)->Dictionar
 static func detail(sim,id:String)->String:
  var report=context(sim)
  if report.is_empty():return ""
- var result="SHELTER REPLIES ·%d/2\n"%report.receipts.size()
- if id=="alarm":return result+"COMMUNAL RESONATOR\n"+report.alarm.reason+"\nOne1200m/8s audible common call. Actual water paths decide which galleries receive it; listen for their returning replies. A shorter work route, with a hunter's real investigation risk. Local warnings remain available."
+ var result="WATCH REPLIES ·%d/2\n"%report.receipts.size()
+ if id=="alarm":return result+"BUNKER ALARM\n"+report.alarm.reason+"\nOne1200m/8s audible common call. Actual water paths decide which sections receive it; listen for their returning replies. A shorter work route, with a hunter's real investigation risk. Local warnings remain available."
  for row in report.galleries:
   if row.id!=id:continue
-  return result+row.name+"\n"+row.action.reason+"\nOccupied berths and maintenance platforms sit behind these pressure windows. Quietus can warn within100m, clear line, settled below2m/s. A small local140m pulse serves only this gallery; the second requires another close approach.\n"+(report.account if report.complete else "Watch the resident work-lights withdraw and listen for their shelter account. The longer outer return keeps passive information; the short exhaust trench masks both sides.")
+  return result+row.name+"\n"+row.action.reason+"\nThe watch crew sits behind these pressure windows. Quietus can warn within100m, clear line, settled below2m/s. A small local140m pulse serves only this section; the second requires another close approach.\n"+(report.account if report.complete else "Watch the work-lights withdraw and listen for their watch account. The longer outer return keeps passive information; the short exhaust trench masks both sides.")
  return result+report.account
 static func draw_ground(view,sim)->void:
  if context(sim).is_empty():return
@@ -93,7 +108,7 @@ static func draw_world(view,sim)->void:
   view.draw_rect(Rect2(box.position+Vector2(12,17),box.size),Color("07151b"))
   view.draw_rect(box,Color("273d3e"));view.draw_rect(box,color,false,width)
   # Recessed pressure bays, ribbed ducts and service decks explain an inhabited
-  # refuge rather than substituting another generic record-site installation.
+  # bunker section rather than substituting another generic record-site installation.
   for rib in range(0,156,13):
    view.draw_line(box.position+Vector2(rib,0),box.position+Vector2(rib,270),Color("42615b"),2.)
   var spine=box.position.x+16 if direction<0 else box.end.x-16
@@ -125,7 +140,7 @@ static func draw_world(view,sim)->void:
    view.draw_line(base,base+Vector2(direction*24,(-20+40*float(row.closing))),color,4.)
   view.draw_line(p,Vector2(box.end.x if direction<0 else box.position.x,p.y),Color("728f80"),3.)
   view.draw_arc(p,32,-PI*.5,PI*.5,24,Color("e0bf83"),width)
-  view._label(p+Vector2(-170,-165),("REFUGE SEALED" if row.closing>=1 else "OCCUPIED GALLERY")+(" · LAST OBSERVATION" if not row.live else ""),color,font)
+  view._label(p+Vector2(-170,-165),("SECTION SEALED" if row.closing>=1 else "OCCUPIED SECTION")+(" · LAST OBSERVATION" if not row.live else ""),color,font)
  view.draw_set_transform(Vector2.ZERO,0,Vector2.ONE)
  for marker in markers(view,sim,view.instrument_height):
   var box:Rect2=marker.rect;var color=Color("d9c28e");var label=marker.subject.name

@@ -11,6 +11,8 @@ dist/
 *.aab
 *.keystore
 *.jks
+# Sanctioned exception: the tracked DEVELOPMENT signing key (debug alias, install compatibility). Never release signing material.
+!scripts/toolchain/signing/sirens-song-debug.keystore
 local.properties
 .env
 .env.*

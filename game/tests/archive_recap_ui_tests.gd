@@ -19,7 +19,7 @@ func run():
 	check(labels().any(func(t):return t.begins_with("YOUR FIELD RECORD") and "ACROSS DIVES" in t),"final success labels the field record as retained across dives")
 	check(Recap.summary(game.recovered_evidence) in labels(),"actual final debrief displays the earned-key summary")
 	check(var_to_bytes(game.recovered_evidence)==before,"debrief recap does not alter retained archive entries")
-	check(labels().any(func(t):return "You return with a warning, not a firing solution." in t),"existing final warning and ending remain present")
+	check(labels().any(func(t):return t.begins_with("THE SONG CONTINUES") and "Two bearings. People at both" in t and "Introductory arc complete. Every dive remains replayable." in t),"current finale presents the two-bearing continuation and replay ending")
 	Fixtures.apply(game,false);game._debrief();await settle()
 	check(Recap.summary(game.recovered_evidence) in labels() and not "Well" in Recap.summary(game.recovered_evidence),"minimal final archive gets no fabricated prior chapter or Well match")
 	game._start_mission(5);game.recovered_evidence={};game.sim.mission.erase("finale_revision")

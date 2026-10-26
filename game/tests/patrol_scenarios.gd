@@ -24,6 +24,9 @@ static func run(t) -> void:
 		for id in s.sirens.size():
 			if s.sirens[id].get("type","patroller")=="patroller":
 				t.check(travel[id]>75,"mission %d patroller %d circulates without player noise"%[mission,id])
+			elif s.sirens[id].get("type","")=="sweeper" and not s.sirens[id].get("patrol_points",[]).is_empty():
+				# Sweepers whose operation authors a circuit (sweeper_patrols.gd) walk it.
+				t.check(travel[id]>75,"mission %d sweeper %d walks its authored circuit without player noise"%[mission,id])
 			else:
 				t.check(travel[id]<1 and s.sirens[id].pos.distance_to(s.sirens[id].home)<1,"mission %d station role %d deliberately guards its home without a stimulus"%[mission,id])
 			var siren=s.sirens[id]

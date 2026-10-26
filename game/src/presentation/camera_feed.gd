@@ -1,10 +1,40 @@
 extends Control
 var sim
-var receiver_font_size=14
+var receiver_font_size=17
+var touch_height=48.0
+const Settings=preload("res://src/presentation/frontend/frontend_settings.gd")
 var optics=preload("res://src/presentation/evidence_catalog.gd").IMAGES
 var foundry=preload("res://assets/structures/foundry.png")
 const ReceiverScene=preload("res://src/presentation/receiver_scene.gd")
 const PHOSPHOR=Color("8cdcd3")
+const PhotoView=preload("res://src/presentation/photo_view.gd")
+const Priced=preload("res://src/presentation/photo_pricing/photo_pricing_overlay.gd")
+const Photo=preload("res://src/simulation/photo_capture.gd")
+var _vm:Dictionary={}
+var _shot_count:=-1
+var _shot_seen_reset:=true
+var _filed_at:=-10.0
+var _filed:Dictionary={}
+var _frame:Dictionary={}
+var _vm_age:=1.0
+var _vm_key:=""
+var _buttons:Array=[]
+var quality_rect:=Rect2()
+var picture_rect:=Rect2()
+var time:=0.0
+# ART1 publishes own cached optics only. Flash preview is deliberately excluded.
+var art_lamp_pos:=Vector2.ZERO
+var art_lamp_aim:=0.0
+var art_lamp_fov:=0.0
+var art_lamp_range:=0.0
+var art_lamp_strength:=0.0
+var art_lamp_unit:=-1
+var art_lamp_band:=-1
+var art_lamp_mission:=-1
+var art_lamp_clock:=-1.0
+var art_lamp_source:Dictionary={}
+func art_lamp_current(state)->bool:
+	return visible and state!=null and is_same(state.mission,art_lamp_source) and art_lamp_unit==state.selected and art_lamp_unit>=0 and art_lamp_unit<state.units.size() and state.units[art_lamp_unit].alive and state.units[art_lamp_unit].band==art_lamp_band and state.mission.id==art_lamp_mission and state.elapsed>=art_lamp_clock and state.elapsed-art_lamp_clock<.3 and state.outcome.is_empty() and art_lamp_strength>0
 static func fit_caption(text:String,width:float,font_size:int)->String:
 	var font=ThemeDB.fallback_font
 	if font.get_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x<=width:return text
@@ -16,10 +46,134 @@ static func acquisition_progress(state)->float:
 	return clampf(clock.elapsed/clock.duration,0,1) if clock.duration>0 else 0.
 func _ready() -> void:
 	clip_contents=true; mouse_filter=Control.MOUSE_FILTER_STOP
-func _process(_dt: float) -> void: queue_redraw()
+func _process(dt: float) -> void:
+	if not Settings.reduced_motion():time+=dt
+	_vm_age+=dt;queue_redraw()
+	if sim!=null and sim.mission.has("id"):
+		var shots:Array=Photo.peek(sim).shots
+		if shots.size()!=_shot_count:
+			if shots.size()>_shot_count and _shot_count>=0 and not _shot_seen_reset:_filed_at=time;_filed=shots.back()
+			_shot_count=shots.size();_shot_seen_reset=false
+# The subject this panel shows: the live exposure, else the viewfinder of the
+# selected craft when it has a photographic subject near.
+func subject_view() -> Dictionary:
+	if sim==null:return {}
+	if sim.capture_unit>=0 and sim.selected==sim.capture_unit:
+		var o=Photo.obj(sim,sim.capture_target)
+		return {"o":o,"index":sim.capture_target,"unit":sim.capture_unit,"live":true} if Photo.applies(o) else {}
+	if sim.capture_unit>=0:return {}
+	var preview=Photo.preview(sim,sim.selected)
+	if preview.is_empty():return {}
+	preview["live"]=false
+	return preview
+static func viewfinder_visible(state) -> bool:
+	if state==null:return false
+	if state.capture_unit>=0:return state.selected==state.capture_unit
+	return not Photo.preview(state,state.selected).is_empty()
+func _gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.device==InputEvent.DEVICE_ID_EMULATION:return
+	var tap=(event is InputEventMouseButton and event.pressed and event.button_index==MOUSE_BUTTON_LEFT) or (event is InputEventScreenTouch and event.pressed)
+	if not tap or sim==null:return
+	var point=event.position
+	for button in _buttons:
+		if button.rect.has_point(point):
+			sim.command("frame",button.args);_vm_age=1.0;accept_event();return
+func preferred_width()->float:
+	# Reserve the full flash + tight + focus row at the largest selected text size.
+	var button_width=maxf(maxf(48,touch_height)+4,maxi(17,receiver_font_size)*6.)
+	return maxf(480,maxf(touch_height*7.5,button_width*3+16))
+func _draw_photo(t:Dictionary) -> void:
+	var o:Dictionary=t.o;var uid:int=t.unit;var live:bool=t.get("live",false)
+	var font=ThemeDB.fallback_font;var fs:=maxi(17,receiver_font_size)
+	var bh:=maxf(48,touch_height)
+	var control_top:=float(fs+14)
+	draw_rect(Rect2(Vector2.ZERO,size),Color("07151d"));draw_rect(Rect2(Vector2.ZERO,size),Color("6b9d9f"),false,1)
+	var quality_top:=control_top+bh+8
+	var picture_top:=quality_top+fs+24
+	var picture:=Rect2(8,picture_top,size.x-16,maxf(20,size.y-picture_top-fs*2-22))
+	picture_rect=picture
+	quality_rect=Rect2(8,quality_top,size.x-16,fs+18)
+	var acc:Dictionary=Photo.peek(sim).acc.get(uid,{})
+	var key:="%d:%d"%[uid,int(t.index)]
+	if _vm_age>0.2 or key!=_vm_key or _vm.is_empty():
+		_vm_key=key;_vm_age=0.0
+		_frame=Photo.frame(sim,uid,o,float(acc.get("t",0.0)),true)
+		art_lamp_pos=_frame.get("pos",sim.units[uid].pos);art_lamp_aim=float(_frame.get("aim",0));art_lamp_fov=float(_frame.get("fov",0))
+		art_lamp_range=float(_frame.get("range",0));art_lamp_unit=uid;art_lamp_band=int(_frame.get("band",-1))
+		art_lamp_mission=sim.mission.id;art_lamp_clock=sim.elapsed;art_lamp_source=sim.mission
+		_vm=PhotoView.from_frame(_frame,"siren" if o.has("siren") else "site",str(o.get("optical",o.get("site_id",""))),str(o.subject.get("type","")) if o.has("siren") else "")
+	PhotoView.draw(self,picture,_vm,time,fs)
+	Priced.draw_viewfinder(self,sim,uid,o,picture,fs,_frame)
+	_draw_quality(quality_rect,fs)
+	var since:=time-_filed_at
+	if not Settings.reduced_motion() and since>=0.0 and since<4.6 and not _filed.is_empty():
+		# Shutter: the iris shuts, the lamp pops, then the plate comes up out of the dark.
+		if since<0.26:
+			var closed:float=sin(PI*since/0.26)
+			draw_rect(Rect2(picture.position,Vector2(picture.size.x,picture.size.y*0.5*closed)),Color(0,0,0,0.96))
+			draw_rect(Rect2(Vector2(picture.position.x,picture.end.y-picture.size.y*0.5*closed),Vector2(picture.size.x,picture.size.y*0.5*closed)),Color(0,0,0,0.96))
+			if since>0.1 and since<0.2:draw_rect(picture,Color(1,1,1,0.55*(1.0-absf(since-0.15)/0.05)))
+		else:
+			var good:bool=_filed.get("usable",true)
+			var inset:=Rect2(picture.position.x+picture.size.x*0.46,picture.position.y+picture.size.y*0.06,picture.size.x*0.52,picture.size.y*0.62)
+			var fade:float=clampf((4.6-since)/0.6,0,1)
+			draw_rect(inset.grow(4),Color(0.03,0.06,0.07,0.92*fade))
+			var model:=PhotoView.from_shot(_filed)
+			model["develop"]=clampf((since-0.26)/1.7,0,1);model["labels"]=false
+			PhotoView.draw(self,inset,model,since,maxi(10,fs-3))
+			draw_rect(inset.grow(4),Color(("e0bf83" if good else "e08a73")).darkened(0.1*(1.0-fade)),false,2)
+			var names:PackedStringArray=[]
+			for m in _filed.frame.marks:
+				if float(m.q)>0:names.append(str(m.label))
+			var cap:String=("FRAME %d FILED · %d%%"%[int(_filed.id),roundi(float(_filed.q)*100)]) if good else "UNUSABLE · NOT FILED"
+			draw_string(font,Vector2(inset.position.x,inset.end.y+fs+4),cap,HORIZONTAL_ALIGNMENT_LEFT,inset.size.x,fs-2,Color("e0bf83") if good else Color("e08a73"))
+			if since>1.4:draw_string(font,Vector2(inset.position.x,inset.end.y+2*fs+6),fit_caption(("RESOLVED " if not names.is_empty() else "NOTHING RESOLVED")+", ".join(names),inset.size.x,fs-3),HORIZONTAL_ALIGNMENT_LEFT,-1,fs-3,Color("a9c9c7"))
+	_buttons=[]
+	var cfg=Photo.settings(sim,uid);var op=Photo.optics(sim,uid)
+	art_lamp_strength=float(op.lamp)
+	preload("res://src/presentation/art/art_renderer.gd").cache_lamp(art_lamp_fov,art_lamp_range,art_lamp_strength)
+	var bx:=size.x-8.0;var bw:=maxf(bh+4,fs*6.0)
+	var specs:Array=[["TIGHT" if cfg.mode=="tight" else "WIDE",{"mode":"wide" if cfg.mode=="tight" else "tight"}]]
+	if op.flash:specs.append(["FLASH %d"%Photo.flash_left(sim,uid) if cfg.flash else "NO FLASH",{"flash":not cfg.flash}])
+	if cfg.mode=="tight":specs.append(["FOCUS",{"cycle_focus":true}])
+	for spec in specs:
+		bx-=bw
+		var r:=Rect2(bx,control_top,bw-4,bh)
+		draw_rect(r,Color("12333a"));draw_rect(r,Color("8cdcd3") if spec[0]!="NO FLASH" else Color("4a6a6e"),false,1)
+		draw_string(font,r.position+Vector2(6,bh*0.7),spec[0],HORIZONTAL_ALIGNMENT_LEFT,r.size.x-8,fs,PHOSPHOR)
+		_buttons.append({"rect":r,"args":spec[1]})
+	draw_string(font,Vector2(10,fs+6),"%s / %s"%["EXPOSING" if live else "VIEWFINDER",sim.units[uid].name],HORIZONTAL_ALIGNMENT_LEFT,size.x-20,fs,PHOSPHOR)
+	var status:String
+	if live:status=Photo.progress_text(sim,uid,o)
+	else:
+		status=str(t.get("ctx",{}).get("text",""))
+		for r in _frame.get("rows",[]):
+			if r.apparent and not r.ready and not r.why.is_empty():status="%s: %s"%[r.label,r.why];break
+	status=fit_caption(status.split(" · SHARP")[0],size.x-20,fs)
+	draw_string(font,Vector2(10,size.y-fs-18),fit_caption(Photo.label(o) if Photo.applies(o) else str(o.name),size.x-90,fs),HORIZONTAL_ALIGNMENT_LEFT,-1,fs,Color("e0bf83"))
+	if live:
+		var progress:=acquisition_progress(sim)
+		draw_string(font,Vector2(size.x-70,size.y-fs-18),"%02d%%"%int(progress*100),HORIZONTAL_ALIGNMENT_LEFT,-1,fs,PHOSPHOR)
+		draw_rect(Rect2(10,size.y-9,size.x-20,3),Color("25464b"));draw_rect(Rect2(10,size.y-9,(size.x-20)*progress,3),PHOSPHOR)
+	draw_string(font,Vector2(10,size.y-12),status,HORIZONTAL_ALIGNMENT_LEFT,-1,fs,Color("a9c9c7"))
+func _draw_quality(picture:Rect2,fs:int)->void:
+	var width=(picture.size.x-24)/2.
+	for n in 2:
+		var key=["sharp","light"][n];var value=clampf(float(_frame.get(key,0)),0,1)
+		var x=picture.position.x+8+n*(width+8)
+		var y=picture.position.y+fs+5
+		draw_rect(Rect2(x-4,picture.position.y,width+8,fs+18),Color(.02,.06,.08,.95))
+		draw_string(ThemeDB.fallback_font,Vector2(x,y),"%s %d%%"%[["SHARP","LIGHT"][n],roundi(value*100)],HORIZONTAL_ALIGNMENT_LEFT,-1,fs,PHOSPHOR)
+		draw_rect(Rect2(x,y+5,width,6),Color("25464b"))
+		draw_rect(Rect2(x,y+5,width*value,6),PHOSPHOR)
 func _draw() -> void:
-	if sim==null or sim.capture_unit<0: return
-	var objective=sim.mission.objectives[sim.capture_target]
+	_buttons=[]
+	art_lamp_strength=0.0
+	if sim==null:return
+	var subject:=subject_view()
+	if not subject.is_empty():_draw_photo(subject);return
+	if sim.capture_unit<0: return
+	var objective=Photo.obj(sim,sim.capture_target)
 	var well_site=sim.mission.get("well_revision",0)==1 and (not objective.has("optical") or objective.optical=="well_pattern")
 	var progress=acquisition_progress(sim)
 	draw_rect(Rect2(Vector2.ZERO,size),Color("07151d")); draw_rect(Rect2(Vector2.ZERO,size),Color("6b9d9f"),false,1)

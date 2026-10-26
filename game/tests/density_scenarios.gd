@@ -18,11 +18,16 @@ func route_intent(ui) -> void:
  ui.mission_hud.open("route");await process_frame;await click(ui.order_buttons.queue.get_global_rect().get_center())
  ui.mission_hud.open("tools");await process_frame;await click(ui.order_buttons.recon.get_global_rect().get_center())
  check(ui.sim.queue_mode and not ui.order_buttons.queue.is_visible_in_tree(),"survey preserves explicit queued state after contextual menu closes")
- check(ui.mission_hud.intent.is_visible_in_tree() and "DRONE A · QUEUE" in ui.mission_hud.intent.text,"selected craft and sticky append intent remain visible on water")
- await click(ui.ocean.global_position+ui.ocean.screen_position(Vector2(900,800)))
- check(ui.sim.units[1].route.size()==2,"ordinary chart tap still appends to the actual queued plan")
+ check(ui.mission_hud.intent.is_visible_in_tree() and "DRONE A · MIDDLE · QUEUE" in ui.mission_hud.intent.text,"selected craft and sticky append intent remain visible on water")
+ var second=Vector2.INF
+ for candidate in [Vector2(900,600),Vector2(1100,800),Vector2(600,700)]:
+  var point=ui.ocean.global_position+ui.ocean.screen_position(candidate)
+  if not ui.mission_hud.blocks(point) and not ui.sim.blocked(candidate,24) and ui.ocean.pick_context(point-ui.ocean.global_position,ui.ui_touch_height).is_empty():second=candidate;break
+ check(second.is_finite(),"queue fixture exposes legal water clear of the floating undo control")
+ await click(ui.ocean.global_position+ui.ocean.screen_position(second))
+ check(ui.sim.route_goals(1).size()==2,"ordinary chart tap still appends to the actual queued plan")
  ui.mission_hud.open("route");await process_frame;await click(ui.order_buttons.home.get_global_rect().get_center())
- check(not ui.sim.queue_mode and ui.sim.selected==1 and "DRONE A · REPLACE" in ui.mission_hud.intent.text,"emergency replacement visibly clears stale append state")
+ check(ui.sim.queue_mode and ui.sim.selected==1 and ui.sim.route_goals(1)[-1].pos==ui.sim.mission.extraction and "DRONE A · MIDDLE · QUEUE" in ui.mission_hud.intent.text,"ordinary recovery routing honors the explicit queued intent")
 func run():
  root.size=Vector2i(2520,1080); await process_frame; await process_frame
  var ui=load("res://scenes/main.tscn").instantiate(); ui.set_script(preload("res://tests/density_main.gd")); ui.capture_scenario="density-test"; root.add_child(ui)
@@ -42,7 +47,8 @@ func run():
    for button in buttons:
     if not button.is_visible_in_tree():continue
     var dp=button.get_global_rect().size*scale/(420.0/160.0)
-    check(button.get_theme_font_size("font_size")*scale.y/(420.0/160.0)>=13.99,"%s %s readable text retains at least14 fixture dp"%[dimensions,button.text])
+    var font_size=maxi(14,roundi(ui.ui_touch_height*.26)) if button in ui.mission_hud.fleet.buttons else button.get_theme_font_size("font_size")
+    check(font_size*scale.y/(420.0/160.0)>=13.99,"%s %s readable text retains at least14 fixture dp"%[dimensions,button.text])
     check(dp.x>=47.99 and dp.y>=47.99,"%s %s actual target meets48dp; measured%s"%[dimensions,button.text,dp])
    check(ui.sim.snapshot()==before,"opening secondary orders does not mutate paused tactical state")
    check(ui.pause_button.is_visible_in_tree(),"pause stays immediately accessible on every contextual page")

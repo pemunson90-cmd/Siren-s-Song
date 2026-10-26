@@ -27,9 +27,9 @@ func run():
   if arg.begins_with("--capture-dir="):captures=arg.trim_prefix("--capture-dir=")
  for dimensions in [Vector2i(2520,1080),Vector2i(2184,1968)]:
   root.size=dimensions;await settle()
-  var g=load("res://scenes/main.tscn").instantiate();g.set_script(load("res://tests/density_main.gd"));g.store.path="user://drone-drive-ui-%d.save"%dimensions.x
+  var g=load("res://scenes/main.tscn").instantiate();g.set_script(load("res://tests/density_main.gd"));g.capture_scenario="drone-drive-ui-fixture";g.store.path="user://drone-drive-ui-%d.save"%dimensions.x
   if dimensions.x==2520:g.fixture_safe_area=Rect2(136,0,2384,1080)
-  root.add_child(g);await settle();g.set_process(false);g._start_mission(0);await settle()
+  root.add_child(g);await settle();g.capture_scenario="";g.set_process(false);g._start_mission(0);await settle()
   var name="cover" if dimensions.x==2520 else "inner"
   var before=g.sim.snapshot();var point=g.ocean.global_position+g.ocean.screen_position(g.sim.units[1].pos)
   await tap(point)
