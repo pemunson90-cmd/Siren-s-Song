@@ -223,6 +223,7 @@ func manual_craft_fixture(shape:Vector2i):
  check(pick.get("kind","")=="craft" and pick.get("unit",-1)==2,label+" projected craft is a public interactive target")
  check(not meter.get_global_rect().intersects(touch_rect),label+" Hunt chip clears the full projected craft touch handle")
  check(not reading.offscreen,label+" visible craft keeps its direct handle after manual pan")
+ await picture("hunt-manual-craft-%d-before"%shape.x)
  var before=sim.snapshot()
  await tap(fleet.buttons[2].get_global_rect().get_center())
  check(game.advanced_orders and hud.page=="craft" and game.ocean.chart_camera.mode=="free" and sim.snapshot()==before,label+" craft tap opens in place without changing dive or camera")
