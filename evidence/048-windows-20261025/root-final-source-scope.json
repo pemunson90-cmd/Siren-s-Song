@@ -1,0 +1,61 @@
+{
+  "time_utc": "2026-10-26T00:31:45.901395+00:00",
+  "base": "e0ee34d356d61c42e9809305647415c103e3cf84",
+  "head": "e1dbc026b851d13bf50d6d01abe2d4e60395d379",
+  "files": {
+    "docs/CURRENT_GAME_SPEC.md": "6b5d4aa18e4a17d10d3d7f8db3fc7ad6e3c3d9b9c0ccdbe16c654da2967dc2f0",
+    "docs/MODULES.md": "57346b3fea9f6227ed7d88d210a21f5b903b9f71e670477c93d626449a1e0ed3",
+    "docs/RESUME.md": "c3fb0303f6ed26fb713b7d79824bf1ad3d0ead32a0c05ec6ce817d6c70483f05",
+    "docs/USER_DIRECTIVES.md": "6fc8c52f6189298a818ad6dbec27bc271f95c2cfae8c95652552ca5df45e7eb2",
+    "game/src/presentation/mission_hud.gd": "10044947079d0eef98b63e03470ff6eebf93857973bbfe367eaf58b84c2d84bf",
+    "game/src/presentation/status_text/status_layout.gd": "9e17c6db6345a950194b7a1af566b7032e43a33399e4dc345bc03a0603a51c78",
+    "game/src/presentation/status_text/status_table.gd": "3c7a39f91c817454867adf065ccda82dfbe4398e28ce691c0a24e8d82f2ebcb0",
+    "game/src/presentation/status_text/status_text.gd": "33ec0cf32914263890fa2fce56124b5aa131084233e94485e08170dfa556869a",
+    "game/src/presentation/status_text/status_view.gd": "187cb529b976f6e3cc50347e3557ad9d0165c7a2f48e6d542b1209ccc07c2195",
+    "game/tests/status_text_tests.gd": "f9ceb38af77d44ded433f8757bb8aad39af32f9baa3b15a2cbaaed25bfb7a479",
+    "game/tests/status_text_ui_tests.gd": "bdaebdd53f3617bf5d7ecc26e484990f8482803ff4ec0b281e3fb596816fa98e",
+    "game/tests/suites.txt": "48224356ff608be20f87674d586595f45bac19d9140d34c5daa44e4e9d294bf4"
+  },
+  "scope_verified": true,
+  "production_change": "mission_hud.gd adapter plus new presentation module only; no simulation, save, operation table, audio, or sensing edits",
+  "local_markdown_links": [
+    {
+      "from": "docs/RESUME.md",
+      "target": "docs\\USER_DIRECTIVES.md",
+      "exists": true
+    },
+    {
+      "from": "docs/RESUME.md",
+      "target": "docs\\CURRENT_GAME_SPEC.md",
+      "exists": true
+    },
+    {
+      "from": "docs/RESUME.md",
+      "target": "docs\\MODULES.md",
+      "exists": true
+    },
+    {
+      "from": "docs/RESUME.md",
+      "target": "docs\\DESKTOP_HANDOFF.md",
+      "exists": true
+    },
+    {
+      "from": "docs/RESUME.md",
+      "target": "docs\\CODEX_ENVIRONMENT.md",
+      "exists": true
+    },
+    {
+      "from": "docs/RESUME.md",
+      "target": "docs\\RESUME_2026-10-24_HISTORY.md",
+      "exists": true
+    },
+    {
+      "from": "docs/RESUME.md",
+      "target": "docs\\PHOTO_RECON.md",
+      "exists": true
+    }
+  ],
+  "module_index_lines": 55,
+  "continuation_lines": 14,
+  "workbench_lines": 15
+}
