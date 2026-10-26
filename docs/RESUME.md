@@ -17,6 +17,7 @@ Current decisions: [USER_DIRECTIVES](USER_DIRECTIVES.md). Intended release: [CUR
 - 040/PR144 proves all 14 later photo rows by actual launch, travel, usable target film and retreat with live authored Sirens. Thirteen use endurance; relay uses disruption and 3 finite EMP charges. No production rule/data changes.
 
 - 048/PR146 adds operation-aware STATUS wording, explained received ARRIVALS, and reversible viewport fitting for existing full-size radial controls and Back. Its validation and integration record lives in the linked PR and live board.
+- C2 equipment adds 8 conventional modules, `quietus_wellhead_seal` and `drone_choir_tuner` (research-gated rows only), and a field tool table with new sonobuoy, silt screen, hull patch and relay buoy orders. Numbers are AI-DESIGNED in `equipment/field_tools.gd`; HUD buttons and obtain paths for the new modules still need the economy and HUD hosts.
 
 ## Next authorized work and limits
 

@@ -2,6 +2,7 @@ extends RefCounted
 # Three discrete water volumes. Transitions occupy BOTH volumes until settled.
 const NAMES=["SHALLOW","MIDDLE","DEEP"]
 const DURATION=4.0
+const FieldTools=preload("res://src/simulation/field_tool_effects.gd")
 const BandPhoto=preload("res://src/photo_depth/band_photo.gd")
 const BandHint=preload("res://src/photo_depth/band_hint.gd")
 static func initialize(sim):
@@ -92,7 +93,7 @@ static func transmission(a:Dictionary,b:Dictionary)->float:
  return .42 if absi(a.get("band",1)-b.get("band",1))==1 else .18
 static func sight(sim,a:Dictionary,b:Dictionary)->bool:
  for band in occupied(a):
-  if band in occupied(b) and clear(sim,a.pos,b.pos,band):return true
+  if band in occupied(b) and clear(sim,a.pos,b.pos,band) and not FieldTools.silt_blocks(sim,a.pos,b.pos,band):return true
  return false
 static func pursue(sim,enemy:Dictionary):
  var wanted=enemy.get("known_band",enemy.band)

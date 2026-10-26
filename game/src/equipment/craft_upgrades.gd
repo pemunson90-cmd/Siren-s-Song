@@ -20,13 +20,15 @@ static func endurance_factor(fitted:Dictionary,unit_id:int)->float:
 static func motion_radius(fitted:Dictionary,unit_id:int,speed:float)->float:
  return Acoustics.motion_radius(speed)*(0.55 if unit_id==0 and Catalog.has(fitted,0,"quietus_baffles") else 1.0)*noise_factor(fitted,unit_id)
 static func cruise_speed(fitted:Dictionary)->float:
- return (112.0 if Catalog.has(fitted,0,"quietus_vector_drive") else 78.0)*Catalog.frame(fitted,0).speed
+ var base=112.0 if Catalog.has(fitted,0,"quietus_vector_drive") else 78.0
+ return base*Catalog.frame(fitted,0).speed*(1.0+Catalog.stat(fitted,0,"speed"))
 # Hull drive multiplier for any other Quietus speed (silent running, routes).
 static func frame_speed(fitted:Dictionary,unit_id:int,speed:float)->float:
  return speed*Catalog.frame(fitted,0).speed if unit_id==0 else speed
 static func passive_range(fitted:Dictionary,unit_id:int)->float:
- if unit_id==0:return 240.0
- return (460.0 if Catalog.has(fitted,unit_id,"drone_survey_array") else 330.0)*Catalog.frame(fitted,unit_id).get("reach",1.0)
+ if unit_id==0:return 240.0*(1.0+Catalog.stat(fitted,0,"reach"))
+ var base=460.0 if Catalog.has(fitted,unit_id,"drone_survey_array") else 330.0
+ return base*Catalog.frame(fitted,unit_id).get("reach",1.0)*(1.0+Catalog.stat(fitted,unit_id,"reach"))
 static func battery_drain(fitted:Dictionary,unit_id:int,dt:float)->float:
  return dt/(28.0 if Catalog.has(fitted,unit_id,"drone_deep_cells") else 14.0)/endurance_factor(fitted,unit_id)
 # Quietus life support lasts longer or shorter with the hull endurance budget.
