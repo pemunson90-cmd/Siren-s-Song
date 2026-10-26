@@ -14,7 +14,6 @@ static func show_campaign(host) -> void:
 	host._menu_text("SIREN'S SONG",38).add_theme_color_override("font_color",Color("80d9cf"))
 	host._menu_text("ONE PILOT. TWO DRONES. AN OCEAN THAT LISTENS.",14)
 	host._menu_text("USS QUIETUS  /  OPERATIONS ARCHIVE",18)
-	EconomyPanel.pristine_picker(host)
 	for i in 6:
 		var id=i
 		var b=host._button(host.panel_box,"%02d   %s   %s"%[i+1,host.Simulation.Missions.TITLES[i],"RECOVERED" if i in host.completed else ("AVAILABLE" if i<=host.unlocked else "LOCKED")],func(): print("SS_MISSION_SELECT ",id); host._briefing(id))
@@ -29,6 +28,7 @@ static func show_campaign(host) -> void:
 	if not host._campaign_pristine() and (preload("res://src/presentation/ops_home/ops_home_table.gd").enabled or (host.active_started and host.sim.outcome.is_empty())):host._menu_text("Resuming keeps this dive's equipment and its place in time.",14)
 	host._button(host.panel_box,"FITTINGS / NEXT LAUNCH",host._show_fittings,"fittings")
 	EconomyPanel.entry(host)
+	EconomyPanel.pristine_picker(host)
 	if not host.Endings.resolve(host.expedition).is_empty():host._button(host.panel_box,"VIEW CAMPAIGN ENDING",host._show_ending,"ending")
 	preload("res://src/presentation/finale/finale.gd").entry(host)
 	preload("res://src/persistence/save_states/save2_controller.gd").entry(host)
