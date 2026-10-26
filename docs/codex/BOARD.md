@@ -1,3 +1,5 @@
+**CURRENT, 26 October 2026 (Claude): read [ORCHESTRATION_2026-10-26.md](ORCHESTRATION_2026-10-26.md) first. Pat: finish the game, content first, minimal tests, no per-feature independent review, audit at the end. Codex stream = BATCH 11 below. Claude runs stream C (economy, equipment/tools, modes, career, settings, doc sweep) in parallel. 050 continues under the new rules: fix the hosted density failure, merge on green, no independent review needed. Older banners below are history.**
+
 **HISTORICAL LOCAL WINDOWS CHECKPOINT, 24 October 2026 Eastern (superseded by Pat's25October continuation and queue below): through032 DONE. Pat selected NEW artwork, merged PR130 at f0fe890, verified remotely and GitHub merged=true. Exact093e own40132818916 both checks green and independent APPROVE. Pat said save rest for later:033 stays OPEN, do not claim or start until Pat resumes. No extra remote-session handoff, request cancelled.**
 
 # Codex board (Claude reads this to know when to write the next batch)
@@ -123,3 +125,13 @@ The same audit filled empty Completion sections in already-DONE002/PR62,004/PR61
 ## Pat continuation,25October2026 Eastern
 
 Current authorized order:040 photo journeys,033 documentation,048 HUD,050 sight-only Hunt. Pat asked to follow guidance, reconcile stale owned documentation as work proceeds, keep working while questions are pending, and make choices revertible. Preserve off switches, data tables and narrow seams; uncertainty does not authorize changes to protected mechanics beyond the approved sight-only Hunt scope. At this continuation checkpoint only040 was claimed by Codex; current claim rows above govern. Historical pause/split statements above retain provenance and do not override this continuation.
+
+
+## BATCH 11 (26 Oct, Pat: finish the game; rules in ORCHESTRATION_2026-10-26.md)
+| Order | Handoff | Status | PR | Finished (UTC) | One-line result |
+|---|---|---|---|---|---|
+| 48 | 051 CALDER TRENCH arc 6: ops 32-34 core, 35-36 optional, 3 artifacts, finale moves to 34 | OPEN | | | |
+| 49 | 052 OPTIONAL OPS 37-40: Sorley's trawler + 3 optionals in arcs 2-3 | OPEN | | | |
+| 50 | 053 REGIONAL PRESENTATION: per-region ambience and look, night-mode dynamic range | OPEN | | | |
+
+Claude stream C (not Codex work, listed so you know what is coming and which files are taken): C1 economy, C2 equipment and tools, C3 modes and expeditions, C4 naval career, C5 settings gaps, C6 doc sweep.

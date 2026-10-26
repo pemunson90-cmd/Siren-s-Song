@@ -1,4 +1,4 @@
-**Resume map:** the project-wide entry point is docs/RESUME.md on origin/claude/integration (state, rules, next actions, caveats). This file is the Codex protocol. Board: docs/codex/BOARD.md. Designs: docs/design/. Short plan: docs/codex/PLAN_SNAPSHOT.md. If you were interrupted mid-handoff, your handoff file's Completion section names your branch and last pushed SHA: resume from there.**
+**Resume map:** the project-wide entry point is docs/RESUME.md on origin/claude/integration (state, rules, next actions, caveats). This file is the Codex protocol. Board: docs/codex/BOARD.md. Current orchestration rules: docs/codex/ORCHESTRATION_2026-10-26.md (read after Step 0). Designs: docs/design/. Short plan: docs/codex/PLAN_SNAPSHOT.md. If you were interrupted mid-handoff, your handoff file's Completion section names your branch and last pushed SHA: resume from there.**
 
 # Codex: how to continue (read this first, every time)
 
@@ -51,7 +51,7 @@ Follow the handoff exactly. It names the branch to create, the files you may edi
 - Edit only your owned files. If you need a file outside them, do not touch it; write it in your completion note.
 - Mission briefings and story text are short placeholders only, enough to name the tasks. Gameplay, layout and UI come first; never write long story text. Never change combat, detection or damage rules unless the handoff says so. No em dashes in any text you add.
 - Before you push, run import, the core tests, and only the scenarios for the area you touched. Do NOT run the full scenario list locally (Pat, 22 Oct): GitHub's game-smoke runs it on the pull request and is the gate. If CI goes red, fix and push again. Never skip, loosen or delete tests to get green. Run the full list locally only if a handoff says so.
-- Push your lane branch and open a pull request into `claude/integration`. Wait for GitHub's `guidance` and `game-smoke` checks on the exact head, reconcile current integration, and preserve the required attributable independent review. Claude normally merges; Codex may merge only when the handoff/delegation permission in Step 1 allows it. Never promote to frozen `gauntlet/production` or protected `main` without Pat.
+- Push your lane branch and open a pull request into `claude/integration`. Wait for GitHub's `guidance` and `game-smoke` checks on the exact head, reconcile current integration. Since 26 Oct 2026 no per-feature independent review is required (ORCHESTRATION_2026-10-26.md). Claude normally merges; Codex may merge only when the handoff/delegation permission in Step 1 allows it. Never promote to frozen `gauntlet/production` or protected `main` without Pat.
 - Setup if needed: `export PATH=$HOME/.cache/sirens-song-toolchain/bin:$PATH; scripts/toolchain/install-godot.sh; scripts/toolchain/headless.sh --editor --import --quit`
 
 ## Step 5: write your completion (always, even on failure)
