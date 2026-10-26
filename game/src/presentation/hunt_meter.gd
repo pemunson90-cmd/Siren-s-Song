@@ -61,7 +61,9 @@ static func sync(hud)->void:
  button.text=label(view,compact,compact and hud.size.y<hud.touch_height*4.0)
  button.tooltip_text=explanation(view)
  button.add_theme_color_override("font_color",tone(view,float(hud.host.sim.elapsed)))
- var font=maxi(Table.MIN_FONT_SIZE,roundi(hud.touch_height*(Table.COMPACT_FONT_FACTOR if compact else Table.STANDARD_FONT_FACTOR)*hud.text_scale))
+ var stretch_y=float(hud.get_window().size.y)/maxf(1.0,float(hud.get_viewport_rect().size.y))
+ var readable_font=ceili(Table.MIN_READABLE_DP*float(hud.host.ui_density_dpi())/Table.BASE_DPI/stretch_y)
+ var font=maxi(maxi(Table.MIN_FONT_SIZE,readable_font),roundi(hud.touch_height*(Table.COMPACT_FONT_FACTOR if compact else Table.STANDARD_FONT_FACTOR)*hud.text_scale))
  button.add_theme_font_size_override("font_size",font)
  button.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
  var glyph=button.get_theme_font("font")

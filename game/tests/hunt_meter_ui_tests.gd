@@ -229,12 +229,29 @@ func manual_craft_fixture(shape:Vector2i):
  check(game.advanced_orders and hud.page=="craft" and game.ocean.chart_camera.mode=="free" and sim.snapshot()==before,label+" craft tap opens in place without changing dive or camera")
  await picture("hunt-manual-craft-%d"%shape.x)
  game.queue_free();await settle()
+func density_font_fixture(shape:Vector2i,inset:float):
+ root.size=shape;await settle()
+ var game=load("res://scenes/main.tscn").instantiate();game.set_script(load("res://tests/density_main.gd"));game.capture_scenario="density-test"
+ if inset>0:game.fixture_safe_area=Rect2(inset,0,shape.x-inset,shape.y)
+ root.add_child(game);await settle();game.set_process(false);game._start_mission(0);game._layout();await settle()
+ var hud=game.mission_hud
+ var scale=Vector2(shape)/game.get_viewport_rect().size
+ for page in ["water","fleet"]:
+  if page=="water":hud.dismiss()
+  else:hud.open(page)
+  await settle()
+  var button=chip(hud)
+  var font_dp=float(button.get_theme_font_size("font_size"))*scale.y/(float(game.ui_density_dpi())/160.0)
+  check(button.is_visible_in_tree() and font_dp>=13.99,"density "+str(shape)+" inset="+str(inset)+" "+page+" Hunt text retains 14 fixture dp; measured="+str(font_dp))
+  await picture("hunt-density-%d-%d-%s"%[shape.x,int(inset),page])
+ game.queue_free();await settle()
 func run():
  for arg in OS.get_cmdline_user_args():
   if arg.begins_with("--capture-dir="):capture_dir=arg.trim_prefix("--capture-dir=")
  if not capture_dir.is_empty():DirAccess.make_dir_recursive_absolute(capture_dir)
  HuntTable.enabled=true
  for shape in [Vector2i(2520,1080),Vector2i(2184,1968)]:await manual_craft_fixture(shape)
+ for profile in [{"shape":Vector2i(2520,1080),"inset":0.0},{"shape":Vector2i(2184,1968),"inset":0.0},{"shape":Vector2i(2520,1080),"inset":136.0}]:await density_font_fixture(profile.shape,profile.inset)
  pulse_contract()
  await presentation_fixture()
  await lockdown_fixture()
