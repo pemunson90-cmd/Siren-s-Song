@@ -1,0 +1,197 @@
+{
+  "total_count": 2,
+  "jobs": [
+    {
+      "id": 121337656892,
+      "run_id": 40249328277,
+      "workflow_name": "Gauntlet PR checks",
+      "head_branch": "claude/lane-hud-sameness",
+      "run_url": "https://api.github.com/repos/pemunson90-cmd/Siren-s-Song/actions/runs/40249328277",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOVOMl2M8AAAAcQEm2PA",
+      "head_sha": "e1dbc026b851d13bf50d6d01abe2d4e60395d379",
+      "url": "https://api.github.com/repos/pemunson90-cmd/Siren-s-Song/actions/jobs/121337656892",
+      "html_url": "https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/40249328277/job/121337656892",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-26T00:26:22Z",
+      "started_at": "2026-10-26T00:26:24Z",
+      "completed_at": "2026-10-26T00:26:28Z",
+      "name": "guidance",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-26T00:26:25Z",
+          "completed_at": "2026-10-26T00:26:25Z"
+        },
+        {
+          "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-26T00:26:25Z",
+          "completed_at": "2026-10-26T00:26:26Z"
+        },
+        {
+          "name": "Test guidance detector",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-26T00:26:26Z",
+          "completed_at": "2026-10-26T00:26:26Z"
+        },
+        {
+          "name": "Audit current branch's governing instructions",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-26T00:26:26Z",
+          "completed_at": "2026-10-26T00:26:26Z"
+        },
+        {
+          "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-10-26T00:26:26Z",
+          "completed_at": "2026-10-26T00:26:27Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9,
+          "started_at": "2026-10-26T00:26:27Z",
+          "completed_at": "2026-10-26T00:26:27Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/pemunson90-cmd/Siren-s-Song/check-runs/121337656892",
+      "labels": [
+        "ubuntu-24.04"
+      ],
+      "runner_id": 1000002591,
+      "runner_name": "GitHub Actions 1000002591",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 121337656994,
+      "run_id": 40249328277,
+      "workflow_name": "Gauntlet PR checks",
+      "head_branch": "claude/lane-hud-sameness",
+      "run_url": "https://api.github.com/repos/pemunson90-cmd/Siren-s-Song/actions/runs/40249328277",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOVOMl2M8AAAAcQEm2og",
+      "head_sha": "e1dbc026b851d13bf50d6d01abe2d4e60395d379",
+      "url": "https://api.github.com/repos/pemunson90-cmd/Siren-s-Song/actions/jobs/121337656994",
+      "html_url": "https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/40249328277/job/121337656994",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-26T00:26:22Z",
+      "started_at": "2026-10-26T00:26:24Z",
+      "completed_at": "2026-10-26T01:36:02Z",
+      "name": "game-smoke",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-26T00:26:25Z",
+          "completed_at": "2026-10-26T00:26:26Z"
+        },
+        {
+          "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-26T00:26:26Z",
+          "completed_at": "2026-10-26T00:26:43Z"
+        },
+        {
+          "name": "Determine whether gameplay or tooling changed",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-26T00:26:43Z",
+          "completed_at": "2026-10-26T00:26:43Z"
+        },
+        {
+          "name": "Restore verified Godot download cache",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-26T00:26:43Z",
+          "completed_at": "2026-10-26T00:26:43Z"
+        },
+        {
+          "name": "Install pinned Godot toolchain",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-26T00:26:43Z",
+          "completed_at": "2026-10-26T00:27:16Z"
+        },
+        {
+          "name": "Cache verified official download",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-26T00:27:16Z",
+          "completed_at": "2026-10-26T00:27:16Z"
+        },
+        {
+          "name": "Validate import and deterministic core game",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-26T00:27:16Z",
+          "completed_at": "2026-10-26T00:29:32Z"
+        },
+        {
+          "name": "Validate navigation, recovery and touch runtime regressions",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-10-26T00:29:32Z",
+          "completed_at": "2026-10-26T01:35:59Z"
+        },
+        {
+          "name": "Docs-only change; no Godot run",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 9,
+          "started_at": "2026-10-26T01:35:59Z",
+          "completed_at": "2026-10-26T01:35:59Z"
+        },
+        {
+          "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 18,
+          "started_at": "2026-10-26T01:35:59Z",
+          "completed_at": "2026-10-26T01:35:59Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 19,
+          "started_at": "2026-10-26T01:35:59Z",
+          "completed_at": "2026-10-26T01:35:59Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/pemunson90-cmd/Siren-s-Song/check-runs/121337656994",
+      "labels": [
+        "ubuntu-24.04"
+      ],
+      "runner_id": 1000002590,
+      "runner_name": "GitHub Actions 1000002590",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    }
+  ]
+}

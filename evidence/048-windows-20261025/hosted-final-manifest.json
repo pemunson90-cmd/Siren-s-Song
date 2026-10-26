@@ -1,0 +1,122 @@
+{
+  "verified_utc": "2026-10-26T01:37:03.721806+00:00",
+  "head": "e1dbc026b851d13bf50d6d01abe2d4e60395d379",
+  "run_id": 40249328277,
+  "run_status": "completed",
+  "run_conclusion": "success",
+  "guidance_job": 121337656892,
+  "game_smoke_job": 121337656994,
+  "both_jobs_conclusion": "success",
+  "game_completed_utc": "2026-10-26T01:36:02Z",
+  "zip_bytes": 2367337,
+  "zip_sha256": "dc5cb96d535dd0be2db52087a65cefdfaac9f3439749f8c2115db016f1ffb8b2",
+  "members": [
+    {
+      "member": "0_guidance.txt",
+      "bytes": 12038,
+      "sha256": "a93fe14f10eff039b6c86463ff928346f6b41b36d354bcc57106ea17be105657"
+    },
+    {
+      "member": "guidance/system.txt",
+      "bytes": 598,
+      "sha256": "7170a41d0b4cdd7b7e45f1659aa980c2dacda23c803dfae527e4dab25f6e3f43"
+    },
+    {
+      "member": "1_game-smoke.txt",
+      "bytes": 20298047,
+      "sha256": "24d64dda5b49d72e3cc272caf130b31d45488f3abb120e0883a582edce3b1636"
+    },
+    {
+      "member": "game-smoke/system.txt",
+      "bytes": 600,
+      "sha256": "2378d11804aff8b691ae56eb64db067d50a53b7da1f347fea7bd61c9c7bdfffd"
+    },
+    {
+      "member": "game-smoke/1_Set up job.txt",
+      "bytes": 2095,
+      "sha256": "708008dcf603a3173d006754bbff82926fae493ece86800543ec69c13b429445"
+    },
+    {
+      "member": "game-smoke/2_Run actions_checkout@11d5960a326750d5838078e36cf38b85af677262.txt",
+      "bytes": 42170,
+      "sha256": "407902e208e74d8b88779ef60d7bd3c36316464081d33062653167b442bff53a"
+    },
+    {
+      "member": "game-smoke/3_Determine whether gameplay or tooling changed.txt",
+      "bytes": 1170,
+      "sha256": "3784cff7ecbb06c461758e531d7a3a7c3a5688cb599dcd85db7aee121d724f37"
+    },
+    {
+      "member": "game-smoke/4_Restore verified Godot download cache.txt",
+      "bytes": 1032,
+      "sha256": "705c9a6ed84d45a7270fb7032226fd2495e7df027bd873d5063aa5fb84131955"
+    },
+    {
+      "member": "game-smoke/5_Install pinned Godot toolchain.txt",
+      "bytes": 772,
+      "sha256": "caf1bbe2f63b69d2c6d2d46cf3d6e85753abc71ce8c909cc4d325db15c00b2a0"
+    },
+    {
+      "member": "game-smoke/6_Cache verified official download.txt",
+      "bytes": 1071,
+      "sha256": "1d38311f15b406456b3702b14d0b04781b5680d81a90b8bcc6378dd7372e4b65"
+    },
+    {
+      "member": "game-smoke/7_Validate import and deterministic core game.txt",
+      "bytes": 65450,
+      "sha256": "df0de1328ea91a7b7f10a22b4cb42d25344b5eef9a3a37dc9a7ecf01b1458be5"
+    },
+    {
+      "member": "game-smoke/8_Validate navigation, recovery and touch runtime regressions.txt",
+      "bytes": 20182084,
+      "sha256": "534e7586a788d91ebd8b2a1e4bebb98112aeee5155f0dc100b1857fe963615c6"
+    },
+    {
+      "member": "game-smoke/18_Post Run actions_checkout@11d5960a326750d5838078e36cf38b85af677262.txt",
+      "bytes": 1719,
+      "sha256": "d707b2698163572d72f1891304ff3cb54531fe91298345cdb9dfd59a88043b4c"
+    },
+    {
+      "member": "game-smoke/19_Complete job.txt",
+      "bytes": 511,
+      "sha256": "96634ac3c808ed1f4a3b7934cbab0d3c155c3c1b370c701d8b7b8e42060ae225"
+    }
+  ],
+  "aggregate_member": "1_game-smoke.txt",
+  "aggregate_bytes": 20298047,
+  "aggregate_sha256": "24d64dda5b49d72e3cc272caf130b31d45488f3abb120e0883a582edce3b1636",
+  "summary_count": 280,
+  "checks": 19091,
+  "failures": 0,
+  "actual_errors": [],
+  "exact_echoed_shell_exclusions": [
+    "if grep -nE 'SCRIPT ERROR:|(^|[[:space:]])ERROR:' artifacts/pr-import.log; then exit 1; fi"
+  ],
+  "partial_snapshots": [
+    {
+      "name": "hosted-partial-1.log",
+      "bytes": 2107732,
+      "sha256": "a54b7391a00f21901dd7809aa570edc238f30af4f6ca31553ba4483368268e16",
+      "exact_prefix_of_final": true
+    },
+    {
+      "name": "hosted-partial-2.log",
+      "bytes": 14750762,
+      "sha256": "7e6a30d3a4af0d5cfbdb4c1c2f149cb3f0ad443b1e64b6aa47c3642b8707ba4c",
+      "exact_prefix_of_final": true
+    },
+    {
+      "name": "hosted-partial-3.log",
+      "bytes": 14750762,
+      "sha256": "7e6a30d3a4af0d5cfbdb4c1c2f149cb3f0ad443b1e64b6aa47c3642b8707ba4c",
+      "exact_prefix_of_final": true
+    },
+    {
+      "name": "hosted-partial-4.log",
+      "bytes": 20298047,
+      "sha256": "24d64dda5b49d72e3cc272caf130b31d45488f3abb120e0883a582edce3b1636",
+      "exact_prefix_of_final": true
+    }
+  ],
+  "note": "Final API statuses were refreshed with a verification query. Earlier unqualified log URLs returned cached partial snapshots. Superseded WIP runs were cancelled, not acceptance."
+}
