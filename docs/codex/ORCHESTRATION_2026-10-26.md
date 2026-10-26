@@ -2,6 +2,10 @@
 
 Read this once per session, after README.md Step 0. Where this file and older protocol text disagree, this file wins. Pat's own words in USER_DIRECTIVES.md on claude/integration still outrank it.
 
+## 0. Pause note (26 Oct ~18:30 ET)
+
+Claude's session hit its usage limit. The C stream (C1 to C5) is transferred to Codex as handoffs 054 to 058; while you hold one of those claims you own the files it lists, even where section 3 says Claude. C6 (doc sweep) and the final audit wait for Claude. Work order: 050, 051, 052, 053, then 054 onward, lowest eligible first. Production was promoted to the integration tip via PR148 (merged 26 Oct).
+
 ## 1. Pat's ruling today (26 Oct 2026)
 
 Pat, verbatim intent: the goal is to finish the game. Prioritize completing content. Tests only when absolutely necessary. We audit everything at the end. Claude delegates to Codex; Claude and Codex each orchestrate their own subagents and stay out of each other's way. Every task ends with: clean up your task, mark it complete, clean up stale docs you touched.
