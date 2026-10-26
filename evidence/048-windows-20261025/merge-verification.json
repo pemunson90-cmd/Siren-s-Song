@@ -1,0 +1,16 @@
+{
+  "verified_utc": "2026-10-26T01:39:15.231779+00:00",
+  "merge": "0fb3873e4c0650560d57d19c89b106ae3803747c",
+  "head": "e1dbc026b851d13bf50d6d01abe2d4e60395d379",
+  "base": "e0ee34d356d61c42e9809305647415c103e3cf84",
+  "parents": [
+    "e0ee34d356d61c42e9809305647415c103e3cf84",
+    "e1dbc026b851d13bf50d6d01abe2d4e60395d379"
+  ],
+  "tested_and_landed_tree": "6e95c61778004e83f1853c74d1991ef2d2782dc9",
+  "github_merged": true,
+  "merged_at_utc": "2026-10-26T01:38:35Z",
+  "source_branch_retained": true,
+  "ci_run": 40249328277,
+  "independent_review_comment": 6405622605
+}
