@@ -90,7 +90,7 @@ Beam lethality and the 4 s interruptible lock warning, collision/hull/damage rul
 
 ## 8. Your own subagents
 
-Use them freely inside your stream, sized to the job: small/cheap models for mechanical edits and lookups, the standard model for feature work, the large model only for a genuinely hard design problem. Give each one only its task, its files and the relevant short guidance (Pat's permanent scoping rule). Your subagents follow the same ownership table.
+Orchestrator model (Pat, 26 Oct): the Codex session that runs this stream is **gpt-6.1-sol at medium reasoning effort**. Subagents: always pick the **weakest model that is properly scoped to the subtask** (small model for lookups, mechanical edits and test runs; Sol for feature work). **Never use Astra** (or any premium tier) for subagents. Give each one only its task, its files and the relevant short guidance (Pat's permanent scoping rule). Your subagents follow the same ownership table.
 
 ## 9. When Claude is absent
 

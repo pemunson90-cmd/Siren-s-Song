@@ -23,7 +23,7 @@ Work loop: resume any handoff you have CLAIMED first (from its worktree and Comp
 
 Windows toolchain (run from the worktree root): powershell -NoProfile -ExecutionPolicy Bypass -File scripts\toolchain\win\headless.ps1 -Action Import -Isolate ; then -Action Core -Isolate ; single suite: -Action Script -Script <name> -Prefix <PREFIX> -Isolate. Commit email must be 272409536+pemunson90-cmd@users.noreply.github.com.
 
-Use your own subagents freely inside your stream, sized to the job. Stop only when no eligible OPEN handoff remains or a decision is Pat's (combat, detection, damage, hull, story, photography design); then write a short plain-language status in your last handoff's Completion and end.
+Run as gpt-6.1-sol, medium effort. Subagents: always the weakest model properly scoped to the subtask; never Astra. Stop only when no eligible OPEN handoff remains or a decision is Pat's (combat, detection, damage, hull, story, photography design); then write a short plain-language status in your last handoff's Completion and end.
 ```
 
 ---
@@ -67,7 +67,7 @@ WORK LOOP
 - Open a PR into claude/integration. When guidance and game-smoke are green on the exact head, merge with a merge commit (gh pr merge N --merge, or the GitHub API). If you cannot merge from this environment, leave the green PR open and write "READY TO MERGE PR N" in the Completion; Claude merges it.
 - Close out per ORCHESTRATION section 7 (status DONE, five-line Completion, BOARD row, MODULES/RESUME lines you made stale), then immediately take the next eligible OPEN handoff.
 - Never: per-feature independent reviews, evidence folders, APKs, pushes to gauntlet/production or main, force push, amend pushed commits, branch deletion, changes to protected mechanics or story limits (ORCHESTRATION section 6). No em dashes in added text.
-- Use your own subagents inside your stream as needed, sized to the job.
+- Run as gpt-6.1-sol at medium reasoning effort. Subagents: always the weakest model properly scoped to the subtask; never Astra or any premium tier.
 
 STOP when no eligible OPEN handoff remains or a decision is Pat's (combat, detection, damage, hull, story, photography design). Write a short plain-language status in your last handoff's Completion, push it, and end with three plain sentences for Pat.
 ```
