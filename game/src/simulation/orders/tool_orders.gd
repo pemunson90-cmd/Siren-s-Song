@@ -5,4 +5,6 @@ extends RefCounted
 const Effects=preload("res://src/simulation/field_tool_effects.gd")
 
 static func command(sim, order: String, args: Dictionary) -> bool:
-	return Effects.use(sim,order,args)
+	match order:
+		"sonobuoy","silt_screen","hull_patch","relay_buoy":return Effects.use(sim,order,args)
+		_:return false
