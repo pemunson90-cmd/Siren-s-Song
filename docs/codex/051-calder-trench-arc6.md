@@ -1,9 +1,9 @@
 # Handoff 051: CALDER TRENCH, arc 6 (3 core + 2 optional operations, 3 artifacts)
 
-Status: CLAIMED
+Status: DONE
 Claimed at: 2026-10-26 23:48:53 UTC
 Claimed by: codex
-Finished at:
+Finished at: 2026-10-27 02:10:38 UTC
 
 Precondition: 050 is DONE (merged). Read ORCHESTRATION_2026-10-26.md first; it overrides older review/evidence rules.
 Codex may merge: yes, into claude/integration only, on green guidance + game-smoke for the exact head, merge commit.
@@ -37,8 +37,8 @@ Import, core, and one bare-Quietus finishability journey per core op (32, 33, 34
 PR into claude/integration; merge on green; close per ORCHESTRATION section 7.
 
 ## Completion
-Calder ops32..36, three physical artifacts and final intro34 implemented in PR https://github.com/pemunson90-cmd/Siren-s-Song/pull/152; awaiting hosted gates.
-Recovery: claude/lane-calder-trench 4af007a74bf1d34cf82d0baf0ea4f5b394cae380; worktree051-calder-trench; base ec19ecb4.
-Import/core841/0, bare core journeys14/0, finale32/0+UI333/0, route graph63/0+UI72/0 and Operations home1946/0; no phone testing.
-Reward targets intentionally arrive in054/055 per interface. No new save schema; unknown recovery IDs still rejected. Hosted40424137088 exposed stale full-campaign home fixture, now retains32 plus catalog-complete case.
-Necessary seams outside initial list: GlassWork cargo IDs, Hunt cap table, route positions/fixtures, Save2Record registered-ID validation finale caller and Operations home fixture; no protected mechanics changes.
+Calder core32..34/optional35..36, physical artifacts and final intro34 merged in https://github.com/pemunson90-cmd/Siren-s-Song/pull/152.
+Landed67bf23f689230845eb57a773de6e9444afa158bc; retained lane4af007a74bf1d34cf82d0baf0ea4f5b394cae380, tree verified; exact-head gates green40429459471.
+Import/core841/0; bare journeys14/0; finale32/UI333; route63/UI72; home1946/0. Reward targets intentionally arrive054/055; phone play deferred.
+Necessary seams: simulation/glass_reach_work.gd cargo IDs, hunt_pressure/hunt_table.gd caps, campaign/route_map/route_graph_table.gd positions, persistence/save_states/save2_record.gd registered IDs, presentation/expedition_operations.gd finale caller, associated fixtures.
+No protected mechanic or ending resolver changes. Ownership released; next052. Stale complete-campaign fixture now tests both old32 boundary and catalog-complete state.
