@@ -1,6 +1,14 @@
 extends RefCounted
 const Catalog=preload("res://src/equipment/equipment_catalog.gd")
 const Acoustics=preload("res://src/simulation/acoustic_paths.gd")
+# Conventional hardware enters the existing recovery/fitting path in pairs.
+# Alien hardware remains owned by research; these milestones grant none of it.
+const RECOVERY_GRANTS={
+ 5:["quietus_ducted_shroud","drone_ballast_pack"],
+ 11:["quietus_scrubber_bed","drone_mast_array"],
+ 16:["quietus_long_hydrophone","drone_whisper_props"],
+ 22:["quietus_reserve_cell","quietus_camera_cowl"]
+}
 # Recovery queries award general craft hardware; field notes do not award it.
 static func recovered(tutorial_completed:Array,expedition:Dictionary,intel:Dictionary={})->Array:
  var result:Array=expedition.get("entitlements",[]).duplicate()
@@ -9,6 +17,9 @@ static func recovered(tutorial_completed:Array,expedition:Dictionary,intel:Dicti
  if 7 in expedition.get("completed",[]):earned.append("quietus_baffles")
  if 8 in expedition.get("completed",[]):earned.append("drone_survey_array")
  earned.append_array(preload("res://src/campaign/photo_intel.gd").projects(intel))
+ var completed=tutorial_completed+expedition.get("completed",[])
+ for milestone in RECOVERY_GRANTS:
+  if milestone in completed:earned.append_array(RECOVERY_GRANTS[milestone])
  for item in earned:
   if item not in result:result.append(item)
  return result

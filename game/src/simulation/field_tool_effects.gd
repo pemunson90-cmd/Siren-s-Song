@@ -1,7 +1,7 @@
 extends RefCounted
 # C2 field tools: stock, placed items and effects of sonobuoy, silt_screen, hull_patch and relay_buoy.
 # AI-DESIGNED. Table: equipment/field_tools.gd. Orders: orders/tool_orders.gd (rows in order_table.gd).
-# State lives in mission["field_tools"]={"counts":{id:int},"placed":[{id,pos,band,until,unit}]}, so it saves with the mission.
+# State lives in mission["field_tools"]: counts, placed items and optional repairable_collision_loss (legacy=0).
 # Seams (all one line): Simulation.start() seed, Simulation.passive_range() reach_scale, Depth.sight() silt_blocks,
 # SaveChecks "world" valid. Queries are pure; expiry is by sim.elapsed, so there is no tick hook.
 # Revert: Tools.enabled=false, or delete the four seam lines and the tool_orders table rows.
@@ -14,7 +14,11 @@ static func state(sim)->Dictionary:
  return sim.mission.get(KEY,{}) if sim!=null and Tools.enabled else {}
 static func seed(sim,upgrade:String)->void:
  sim.mission.erase(KEY)
- if Tools.enabled:sim.mission[KEY]={"counts":Tools.initial_counts(upgrade),"placed":[]}
+ if Tools.enabled:sim.mission[KEY]={"counts":Tools.initial_counts(upgrade),"placed":[],"repairable_collision_loss":0.0}
+# Observe only actual hull lost at the existing collision write; unrelated damage never credits repair.
+static func record_collision(sim,lost:float)->void:
+ if state(sim).is_empty():return
+ sim.mission[KEY]["repairable_collision_loss"]=minf(100.0,float(state(sim).get("repairable_collision_loss",0.0))+maxf(0.0,lost))
 static func count(sim,id:String)->int:
  return int(state(sim).get("counts",{}).get(id,0))
 static func live(sim,id:String)->Array:
@@ -46,9 +50,10 @@ static func _deploy(sim,spec:Dictionary,u:Dictionary,args:Dictionary)->bool:
  sim.message="%s placed · %ds"%[spec.name,roundi(spec.life)]
  return true
 static func _patch(sim,spec:Dictionary,u:Dictionary)->bool:
- if sim.selected!=0 or sim.hull>=100.0:
-  sim.message="Hull patch needs Quietus selected and hull damage · none spent";return false
- var repaired:float=minf(spec.repair,100.0-sim.hull)
+ if sim.selected!=0 or not u.alive or not sim.outcome.is_empty() or sim.hull<=0.0 or sim.hull>=100.0 or float(state(sim).get("repairable_collision_loss",0.0))<=0.0:
+  sim.message="Hull patch needs live Quietus and collision damage · none spent";return false
+ var repaired:float=minf(minf(spec.repair,float(state(sim).get("repairable_collision_loss",0.0))),100.0-sim.hull)
+ sim.mission[KEY].repairable_collision_loss=maxf(0.0,float(state(sim).get("repairable_collision_loss",0.0))-repaired)
  sim.hull+=repaired;_spend(sim,spec);_noise(sim,spec,u.pos,u.band)
  sim.message="Hull patched · +%d%%"%roundi(repaired)
  return true
@@ -88,9 +93,11 @@ static func valid(mission:Dictionary)->bool:
  if not mission.has(KEY):return true
  var data=mission[KEY]
  if not data is Dictionary or not data.get("counts") is Dictionary or not data.get("placed") is Array:return false
+ var repairable=data.get("repairable_collision_loss",0.0)
+ if not (repairable is float or repairable is int) or not is_finite(repairable) or repairable<0.0 or repairable>100.0:return false
  for id in data.counts:
   if not id is String or id not in Tools.field_ids() or not data.counts[id] is int:return false
-  if data.counts[id]<0 or data.counts[id]>MAX_COUNT:return false
+  if data.counts[id]<0 or data.counts[id]>MAX_COUNT or (id=="hull_patch" and data.counts[id]>1):return false
  if data.placed.size()>MAX_PLACED:return false
  for item in data.placed:
   if not item is Dictionary or not item.get("id") is String or item.id not in Tools.field_ids() or item.id=="hull_patch":return false

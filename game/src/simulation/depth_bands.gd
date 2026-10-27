@@ -48,6 +48,9 @@ static func clear(sim,a:Vector2,b:Vector2,band:int,radius:float=0.)->bool:
    if Geometry2D.segment_intersects_segment(a,b,first,last)!=null:return false
    if radius>0 and (Geometry2D.get_closest_point_to_segment(b,first,last).distance_to(b)<radius or Geometry2D.get_closest_point_to_segment(first,a,b).distance_to(first)<radius):return false
  return true
+# Optical rays also cross temporary silt; physical navigation/work clearance stays unchanged.
+static func optical_clear(sim,a:Vector2,b:Vector2,band:int)->bool:
+ return clear(sim,a,b,band) and not FieldTools.silt_blocks(sim,a,b,band)
 static func command(sim,band)->bool:
  if not band is int or band<0 or band>2:return false
  var u=sim.units[sim.selected]

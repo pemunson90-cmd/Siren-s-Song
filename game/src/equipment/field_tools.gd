@@ -30,7 +30,7 @@ const TOOLS={
   "summary":"Cloud blocks sight through it for 25 s, for you and for Sirens."},
  "hull_patch":{"id":"hull_patch","name":"Hull patch","order":"hull_patch","owner":"field","enabled":true,"ai_designed":true,
   "counts":{"endurance":1,"disruption":1,"survey":1},"repair":30.0,"noise":260.0,"noise_time":2.0,"noise_label":"PATCH WORK",
-  "summary":"Restores 30% hull once. Quietus only, needs damage."},
+  "summary":"Repairs up to 30% collision hull damage once. Live Quietus only."},
  "relay_buoy":{"id":"relay_buoy","name":"Relay buoy","order":"relay_buoy","owner":"field","enabled":true,"ai_designed":true,
   "counts":{"endurance":1,"disruption":0,"survey":2},"deploy":160.0,"life":180.0,"max_active":1,"radius":420.0,"scale":1.35,
   "noise":420.0,"noise_time":2.0,"noise_label":"RELAY BUOY",

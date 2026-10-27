@@ -252,7 +252,9 @@ func _hull_strike(u:Dictionary,impact:float=-1.0,hit:String="terrain")->void:
 	if u.name=="QUIETUS" and u.alive and outcome.is_empty() and elapsed-float(u.get("hit_at",-100.0))>=COLLISION_COOLDOWN:
 		var damage:=collision_damage(impact)
 		if damage>0.0:
+			var hull_before_strike:float=hull
 			hull=maxf(0.0,hull-damage);u["hit_at"]=elapsed
+			FieldTools.record_collision(self,hull_before_strike-hull)
 			events.append({"type":"creak","pos":u.pos});message="Hull strike against %s · %dm/s · hull -%d%%"%[hit,roundi(impact),roundi(damage)]
 func _hull_contacts(u:Dictionary,origin:Vector2,velocity:Vector2)->void:
 	var bodies=units.slice(1)+sirens
