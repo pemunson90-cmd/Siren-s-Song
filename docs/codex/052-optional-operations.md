@@ -1,9 +1,9 @@
 # Handoff 052: OPTIONAL OPERATIONS, Sorley's trawler + 3 more (ids 37 to 40)
 
-Status: CLAIMED
+Status: DONE
 Claimed at: 2026-10-27 02:10:55 UTC
 Claimed by: codex
-Finished at:
+Finished at: 2026-10-27 03:33:35 UTC
 
 Precondition: 051 is DONE. Read ORCHESTRATION_2026-10-26.md first.
 Codex may merge: yes, into claude/integration only, on green guidance + game-smoke for the exact head, merge commit.
@@ -34,8 +34,8 @@ Import and core only (optional ops cannot softlock the campaign). Add a journey 
 PR into claude/integration; merge on green; close per ORCHESTRATION section 7.
 
 ## Completion
-Four OPTIONAL photographic side jobs37..40 implemented in PR https://github.com/pemunson90-cmd/Siren-s-Song/pull/153; no core job depends on them.
-Recovery: claude/lane-optional-ops ed45b49eb20227fd17f6cb1df692380aedb45c2e; worktree052-optional-ops; base67bf23f6.
-Windows import passed; core845/0 including all new-operation save roundtrips. Hosted exact-head gates pending; no optional journeys added under current rules.
-Physical trawler_screw uses existing cargo; hull:fast target follows054/055. Boy photograph confirms survival, not rescue. No phone testing.
-Necessary data seams: simulation/glass_reach_work.gd cargo ID and hunt_pressure/hunt_table.gd arc caps; existing route fixtures updated to41 nodes. No protected mechanics changed.
+Four OPTIONAL photo side jobs37..40 merged in https://github.com/pemunson90-cmd/Siren-s-Song/pull/153; no core job depends on them.
+Landed77f26ced6024da49c3c5c1fae81123ddae325bcc; retained laneed45b49eb20227fd17f6cb1df692380aedb45c2e; tree verified, exact-head gates green40437527882.
+Windows import/core845/0 including new-operation save roundtrips; no optional journeys added under current rules.
+Physical trawler_screw uses existing cargo; hull:fast follows054/055. Boy image confirms survival, not rescue. Phone play deferred.
+Necessary data seams: simulation/glass_reach_work.gd cargo ID, hunt_pressure/hunt_table.gd arc caps and route fixtures41nodes. Protected mechanics unchanged; ownership released, next053.
