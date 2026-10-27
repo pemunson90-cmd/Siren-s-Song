@@ -34,4 +34,8 @@ Import and core only (optional ops cannot softlock the campaign). Add a journey 
 PR into claude/integration; merge on green; close per ORCHESTRATION section 7.
 
 ## Completion
-(five lines max)
+Four OPTIONAL photographic side jobs37..40 implemented in PR https://github.com/pemunson90-cmd/Siren-s-Song/pull/153; no core job depends on them.
+Recovery: claude/lane-optional-ops ed45b49eb20227fd17f6cb1df692380aedb45c2e; worktree052-optional-ops; base67bf23f6.
+Windows import passed; core845/0 including all new-operation save roundtrips. Hosted exact-head gates pending; no optional journeys added under current rules.
+Physical trawler_screw uses existing cargo; hull:fast target follows054/055. Boy photograph confirms survival, not rescue. No phone testing.
+Necessary data seams: simulation/glass_reach_work.gd cargo ID and hunt_pressure/hunt_table.gd arc caps; existing route fixtures updated to41 nodes. No protected mechanics changed.

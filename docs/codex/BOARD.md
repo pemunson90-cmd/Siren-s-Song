@@ -133,7 +133,7 @@ Current authorized order:040 photo journeys,033 documentation,048 HUD,050 sight-
 | Order | Handoff | Status | PR | Finished (UTC) | One-line result |
 |---|---|---|---|---|---|
 | 48 | 051 CALDER TRENCH arc6: ops32-34 core,35-36 optional,3 artifacts,finale34 | DONE | [152](https://github.com/pemunson90-cmd/Siren-s-Song/pull/152) | 2026-10-27 02:10:38 UTC | Merged67bf23f6; exact4af007a7 guidance/game-smoke green40429459471. Bare journeys14/0; core841/0. |
-| 49 | 052 OPTIONAL OPS 37-40: Sorley's trawler + 3 optionals in arcs 2-3 | OPEN | | | |
+| 49 | 052 OPTIONAL OPS37-40: Sorley trawler and three regional side jobs | CLAIMED (codex) | [153](https://github.com/pemunson90-cmd/Siren-s-Song/pull/153) | | Headed45b49e published; import/core845/0; exact-head hosted gates pending. |
 | 50 | 053 REGIONAL PRESENTATION: per-region ambience and look, night-mode dynamic range | OPEN | | | |
 
 Claude stream C (not Codex work, listed so you know what is coming and which files are taken): C1 economy, C2 equipment and tools, C3 modes and expeditions, C4 naval career, C5 settings gaps, C6 doc sweep.
