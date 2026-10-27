@@ -1,8 +1,8 @@
 # Handoff 052: OPTIONAL OPERATIONS, Sorley's trawler + 3 more (ids 37 to 40)
 
-Status: OPEN
-Claimed at:
-Claimed by:
+Status: CLAIMED
+Claimed at: 2026-10-27 02:10:55 UTC
+Claimed by: codex
 Finished at:
 
 Precondition: 051 is DONE. Read ORCHESTRATION_2026-10-26.md first.
