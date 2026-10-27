@@ -46,3 +46,8 @@ PR into claude/integration. Merge per the line above; mark DONE and update the b
 ## Completion
 
 DONE by Claude (orchestrator). PR138 via batch PR140 (merge 246eb72). 11 new scripted completions of the challenge rows (opening, reach and iron suites); lung_solo both routes (dismantle 79.3 s, reconnect 273.6 s against a 110 s par). No par, rule or scoring changed. docs/design/CHALLENGE_PARS_PROPOSAL.md proposes route-aware pars for Pat to decide. glass_fast completes but misses its hull par (74.4 vs 85). split_solo uses a SHALLOW then MIDDLE route. Tests: 39 + 53 + 30 checks, 0 failures; core 835/0.
+
+
+## Pat ruling, 27 October 2026 — approved design; no code changed
+
+Use route-aware par times for `lung_solo`: dismantle **110 s**, reconnect **300 s**, with route inferred from mission outcome (not player-selected). Keep hull 100 and tools 0 for each route. Retain an individual personal best **per legitimate route** plus **overall challenge completion**, so a dismantle best cannot prevent recognition of reconnect completion. The design is approved but remains unimplemented; do not claim the old 047 completion was updated to include new scoring. Development remains paused.
