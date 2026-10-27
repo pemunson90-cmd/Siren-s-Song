@@ -1,8 +1,8 @@
 # Handoff 055: C2 EQUIPMENT AND FIELD TOOLS (resume Claude lane)
 
-Status: OPEN
-Claimed at:
-Claimed by:
+Status: CLAIMED
+Claimed at: 2026-10-27 06:31:39 UTC
+Claimed by: codex
 Finished at:
 
 Precondition: 054 is DONE (avoids fittings/catalog overlap). Read ORCHESTRATION_2026-10-26.md first. Claude's session hit its usage limit on 26 Oct; this lane transfers to Codex, and while you hold this claim you own the files listed here.
