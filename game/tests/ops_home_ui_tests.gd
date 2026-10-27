@@ -2,6 +2,7 @@ extends "res://tests/fix2_menu_ui_tests.gd"
 # Controlled campaign fixtures, real touch, no operation finishability claim.
 const Prefs=preload("res://src/presentation/frontend/frontend_settings.gd")
 const HomeTable=preload("res://src/presentation/ops_home/ops_home_table.gd")
+const OperationCatalog=preload("res://src/campaign/operation_catalog.gd")
 var case_label=""
 func check(ok,label):super.check(ok,label+" "+case_label)
 func home_case(shape, recovered, scale):
@@ -26,7 +27,7 @@ func home_case(shape, recovered, scale):
   var b=button(game,id)
   check(b!=null and game.scroll.get_global_rect().encloses(b.get_global_rect()),id+" fits the first screen")
  var capture=OS.get_environment("SIRENS_038_CAPTURE_DIR")
- if recovered in [0,16,32] and scale==1.5 and not capture.is_empty() and DisplayServer.get_name()!="headless":
+ if recovered in [0,16,32,OperationCatalog.registered_ids().size()] and scale==1.5 and not capture.is_empty() and DisplayServer.get_name()!="headless":
   await RenderingServer.frame_post_draw
   check(root.get_texture().get_image().save_png(capture+"/home-%02d-%dx%d.png"%[recovered,shape.x,shape.y])==OK,"native large-text home captured")
  check(button(game,"new_campaign")==null,"erase is absent from Operations")
@@ -51,10 +52,10 @@ func home_case(shape, recovered, scale):
  if not button(game,"fittings").get_global_rect().position.is_equal_approx(anchor):
   print("HOME_RESUME_DIAG ",case_label," before=",anchor," after=",button(game,"fittings").get_global_rect()," scroll=",game.scroll.scroll_vertical," panel=",game.panel_box.size," bar=",game.scroll.get_v_scroll_bar().visible)
  check(button(game,"fittings").get_global_rect().position.is_equal_approx(anchor),"resume preserves row positions")
- if recovered==32 and shape==Vector2i(2520,1080):check(game.panel_box.size.y/game.scroll.size.y<3.,"all recovered home is under three screens")
+ if recovered==OperationCatalog.registered_ids().size() and shape==Vector2i(2520,1080):check(game.panel_box.size.y/game.scroll.size.y<3.,"all recovered home is under three screens")
  if recovered==0:
   await press(game,"next_operation");check(game.screen=="briefing" and game.get_meta("onboard2_fit_index",-1)==0,"next opens first available briefing by touch")
- elif recovered==32:check(button(game,"next_operation").disabled,"fully recovered campaign offers no invented next operation")
+ elif recovered==OperationCatalog.registered_ids().size():check(button(game,"next_operation").disabled,"fully recovered campaign offers no invented next operation")
  else:
   var expected=-1
   for id in range(6)+game.ExpeditionCampaign.available(game.completed,game.expedition):
@@ -79,5 +80,5 @@ func home_case(shape, recovered, scale):
 func run():
  for shape in [Vector2i(2520,1080),Vector2i(2184,1968),Vector2i(960,432)]:
   for scale in [1.,1.5]:
-   for count in [0,2,3,16,32]:await home_case(shape,count,scale)
+   for count in [0,2,3,16,32,OperationCatalog.registered_ids().size()]:await home_case(shape,count,scale)
  print("OPS HOME UI CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)

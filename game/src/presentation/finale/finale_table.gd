@@ -2,7 +2,7 @@ extends RefCounted
 # AI-DESIGNED placeholder, Pat to rewrite. Exactly two provisional fact lines.
 # Revert enabled=false: existing 027 wall/ending flow remains; marker retained.
 static var enabled=true
-const LAST_ID=31
+const LAST_ID=34
 const SEEN_FIELD="end_of_line_seen"
 const SHOW_META="finale_show_intro"
 const TITLE="END OF LINE"

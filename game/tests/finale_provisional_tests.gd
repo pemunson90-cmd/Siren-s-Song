@@ -6,7 +6,7 @@ const Photo=preload("res://src/campaign/endings_photo.gd")
 class Host extends RefCounted:
  var expedition={}
  var photo_intel={}
- var sim={"outcome":"won","mission":{"id":31}}
+ var sim={"outcome":"won","mission":{"id":34}}
  var end_of_line_seen=false
  var shown=0
  var labels=[]
@@ -31,19 +31,28 @@ func _initialize():
  for value in [1,"true",{},[]]:
   var bad=data.duplicate(true);bad[Table.SEEN_FIELD]=value
   check(not Store.new().valid(bad),"malformed optional seen field rejected "+str(value))
+ var recovered=data.duplicate(true)
+ recovered["save2_state"]={"revision":1,"run_id":"0".repeat(32),"launch_id":"1".repeat(32),"credited_launch":"","recoveries":1,"last_recovered":34,"legacy_minimum":false,"between":true}
+ check(Store.new().valid(recovered),"Save2 state accepts registered operation 34 physical recovery")
+ var unknown=recovered.duplicate(true);unknown.save2_state.last_recovered=999999
+ check(not Store.new().valid(unknown),"Save2 state rejects unknown recovered operation IDs")
  var host=Host.new()
- host.expedition={"route":"deep","routes":["deep"],"selected_thread":"deep","facts":{"deep":"Recovered branch account","confluence_route":"concealed"},"completed":[6,7,9,11,12,25,30,31]}
+ host.expedition={"route":"deep","routes":["deep"],"selected_thread":"deep","facts":{"deep":"Recovered branch account","confluence_route":"concealed"},"completed":[6,7,9,11,12,25,30,31,32,33,34]}
  var ending=Photo.resolve(host.expedition,{})
  check(not ending.is_empty(),"fixture retains an existing fork outcome")
  host.sim.mission.id=30
  check(not Finale.first_recovery(host,{"completed":[]}) and host.shown==0,"op30 never triggers End of Line")
- host.sim.mission.id=31;host.sim.outcome="lost"
+ host.sim.mission.id=31
+ check(not Finale.first_recovery(host,{"completed":[30]}) and host.shown==0,"op31 no longer automatically triggers End of Line")
+ host.sim.mission.id=34;host.sim.outcome="lost"
  check(not Finale.first_recovery(host,{"completed":[]}),"loss cannot trigger finale")
  host.sim.outcome="won"
- check(Finale.first_recovery(host,{"completed":[30]}) and host.shown==1,"first last recovery hands into existing wall")
+ check(not Finale.first_recovery(host,{"completed":[34]}) and host.shown==0,"previous operation 34 recovery suppresses automatic intro even without seen marker")
+ host.end_of_line_seen=true
+ check(Finale.first_recovery(host,{"completed":[30,31,32,33]}) and host.shown==1,"first operation 34 recovery opens the existing wall even when operation 31 legacy access marked it seen")
  check(Finale.heading(host,ending) and host.end_of_line_seen,"rendered intro records seen state")
  check(host.labels[0]==Table.TITLE and host.labels.size()==4,"one heading, two placeholders and existing film title only")
- check(not Finale.first_recovery(host,{"completed":[30,31]}) and host.shown==1,"replay never automatically repeats intro")
+ check(not Finale.first_recovery(host,{"completed":[30,31,32,33,34]}) and host.shown==1,"replay never automatically repeats intro")
  var saved=data.duplicate(true);saved.expedition=host.expedition.duplicate(true);Finale.write(host,saved)
  check(saved[Table.SEEN_FIELD]==true,"seen marker written only as optional boolean")
  Finale.clear(host);Finale.restore(host,saved)
