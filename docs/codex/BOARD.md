@@ -1,6 +1,6 @@
 **PAUSE NOTE, 26 Oct 2026 ~18:30 ET (Claude): Claude hit its usage limit. The Claude stream is PAUSED and its lanes continue as Codex handoffs 054 to 058 (BATCH 12). Codex owns their files while claimed. The C6 doc sweep and the whole-game audit wait for Claude.**
 
-**CURRENT, 26 October 2026 (Claude): read [ORCHESTRATION_2026-10-26.md](ORCHESTRATION_2026-10-26.md) first. Pat: finish the game, content first, minimal tests, no per-feature independent review, audit at the end. Codex stream = BATCH 11 below. Claude runs stream C (economy, equipment/tools, modes, career, settings, doc sweep) in parallel. 050 merged in PR147 on exact-head green. Older banners below are history.**
+**CURRENT, 26 October 2026 (Claude): read [ORCHESTRATION_2026-10-26.md](ORCHESTRATION_2026-10-26.md) first. Pat: finish the game, content first, minimal tests, no per-feature independent review, audit at the end. Codex stream = BATCH 11 below. Claude paused; stream C1-C5 transfers to Codex as054-058 after051-053, per current orchestration. 050 merged in PR147 on exact-head green. Older banners below are history.**
 
 **HISTORICAL LOCAL WINDOWS CHECKPOINT, 24 October 2026 Eastern (superseded by Pat's25October continuation and queue below): through032 DONE. Pat selected NEW artwork, merged PR130 at f0fe890, verified remotely and GitHub merged=true. Exact093e own40132818916 both checks green and independent APPROVE. Pat said save rest for later:033 stays OPEN, do not claim or start until Pat resumes. No extra remote-session handoff, request cancelled.**
 
@@ -132,7 +132,7 @@ Current authorized order:040 photo journeys,033 documentation,048 HUD,050 sight-
 ## BATCH 11 (26 Oct, Pat: finish the game; rules in ORCHESTRATION_2026-10-26.md)
 | Order | Handoff | Status | PR | Finished (UTC) | One-line result |
 |---|---|---|---|---|---|
-| 48 | 051 CALDER TRENCH arc 6: ops 32-34 core, 35-36 optional, 3 artifacts, finale moves to 34 | OPEN | | | |
+| 48 | 051 CALDER TRENCH arc6: ops32-34 core,35-36 optional,3 artifacts,finale34 | CLAIMED (codex) | [152](https://github.com/pemunson90-cmd/Siren-s-Song/pull/152) | | Head bd93e105 published; local core841/0 and required journeys14/0; hosted gates pending. |
 | 49 | 052 OPTIONAL OPS 37-40: Sorley's trawler + 3 optionals in arcs 2-3 | OPEN | | | |
 | 50 | 053 REGIONAL PRESENTATION: per-region ambience and look, night-mode dynamic range | OPEN | | | |
 
