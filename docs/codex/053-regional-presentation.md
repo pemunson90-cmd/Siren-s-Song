@@ -1,9 +1,9 @@
 # Handoff 053: REGIONAL PRESENTATION, ambience, palette/lighting, dynamic range
 
-Status: CLAIMED
+Status: DONE
 Claimed at: 2026-10-27 03:34:03 UTC
 Claimed by: codex
-Finished at:
+Finished at: 2026-10-27 05:19:42 UTC
 
 Precondition: 050 is DONE (soundscape.gd is free). If 052 is OPEN and eligible, take 052 first. Read ORCHESTRATION_2026-10-26.md first.
 Codex may merge: yes, into claude/integration only, on green guidance + game-smoke for the exact head, merge commit.
@@ -34,8 +34,8 @@ Import and core. No new suites unless a save field is added.
 PR into claude/integration; merge on green; close per ORCHESTRATION section 7.
 
 ## Completion
-Regional palettes/light/particulate, seven generated beds and Night mode implemented in PR https://github.com/pemunson90-cmd/Siren-s-Song/pull/154; hosted gates pending.
-Recovery: claude/lane-regional-presentation1d24364e66a14bbba79ca6fd66aafe4988f872ee; worktree053-regional-presentation; base77f26ced.
-Windows import/core846/0 and regional settings18/0, including corrupt-field/disk roundtrip and actual Master compressor ordering/removal; unchanged scroll17/0 after layout repair.
-Appended settings_store.gd night_mode=false key/type; shared Mute/Night row in frontend/frontend.gd and main.gd fallback, forwarding in frontend_settings.gd. Existing settings preserved.
-Original audio generator/attribution added; presentation/audio switches restore preceding paths. Scene-tree playback precondition fixed; hosted scroll failure not locally reproduced, row height restored; phone/headphone judgment deferred. No protected mechanics changed.
+Regional palettes/light/particulate, seven beds and Night mode merged in https://github.com/pemunson90-cmd/Siren-s-Song/pull/154.
+Landeda754e7d7b8fb4e910447c4f468a89a4af5dfabdf; retained lane1d24364e66a14bbba79ca6fd66aafe4988f872ee, tree verified; exact-head gates green40448790846.
+Import/core846/0, settings18/0 and unchanged scroll17/0; shared Mute/Night row preserves prior height. Original hosted failure remains in PR runs; phone/headphone judgment deferred.
+Appended settings_store.gd night_mode=false key/type; one shared row in frontend/frontend.gd and main.gd fallback, forwarding in frontend_settings.gd. Independent settings and prior values preserved.
+Original audio generator/credits and presentation/audio rollback switches supplied. Protected mechanics unchanged; ownership released. Next054 under orchestration transfer.
