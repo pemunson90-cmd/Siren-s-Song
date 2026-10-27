@@ -141,7 +141,7 @@ Claude stream C (not Codex work, listed so you know what is coming and which fil
 ## BATCH 12 (26 Oct, Claude stream transferred to Codex at Claude's usage limit)
 | Order | Handoff | Status | PR | Finished (UTC) | One-line result |
 |---|---|---|---|---|---|
-| 51 | 054 C1 ECONOMY (resume claude/c1-economy) | OPEN | | | |
+| 51 | 054 C1 ECONOMY | CLAIMED (codex) | [151](https://github.com/pemunson90-cmd/Siren-s-Song/pull/151) | | Head710f8909 reconciles integration; core846/0/economy57/0/save13/0; hosted gates pending. |
 | 52 | 055 C2 EQUIPMENT AND FIELD TOOLS (resume claude/c2-equipment) | OPEN | | | |
 | 53 | 056 C3 MODES: mode select, campaign rename, seeded expeditions | OPEN | | | |
 | 54 | 057 C4 NAVAL CAREER | OPEN | | | |
