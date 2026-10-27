@@ -35,7 +35,7 @@ PR into claude/integration; merge on green; close per ORCHESTRATION section 7.
 
 ## Completion
 Regional palettes/light/particulate, seven generated beds and Night mode implemented in PR https://github.com/pemunson90-cmd/Siren-s-Song/pull/154; hosted gates pending.
-Recovery: claude/lane-regional-presentation06e1dfe8a4572747bbc078d1963190f5d064ded0; worktree053-regional-presentation; base77f26ced.
-Windows import/core846/0 and regional settings18/0, including corrupt-field/disk roundtrip and actual Master compressor ordering/removal; no added render suites.
-Appended settings_store.gd night_mode=false key/type; one row in frontend/frontend.gd and main.gd fallback, forwarding in frontend_settings.gd. Existing settings preserved.
-Original audio generator/attribution added; presentation/audio switches restore preceding paths. Scene-tree playback precondition fixed; phone/headphone judgment deferred. No protected mechanics changed.
+Recovery: claude/lane-regional-presentation1d24364e66a14bbba79ca6fd66aafe4988f872ee; worktree053-regional-presentation; base77f26ced.
+Windows import/core846/0 and regional settings18/0, including corrupt-field/disk roundtrip and actual Master compressor ordering/removal; unchanged scroll17/0 after layout repair.
+Appended settings_store.gd night_mode=false key/type; shared Mute/Night row in frontend/frontend.gd and main.gd fallback, forwarding in frontend_settings.gd. Existing settings preserved.
+Original audio generator/attribution added; presentation/audio switches restore preceding paths. Scene-tree playback precondition fixed; hosted scroll failure not locally reproduced, row height restored; phone/headphone judgment deferred. No protected mechanics changed.
