@@ -105,7 +105,7 @@ Only the user ends the Gauntlet; complete tasks automatically dispatch the next 
 
 ## Historical accepted baseline and prior phase scope
 These paragraphs record earlier decisions and implementation provenance. Their rough-only limits, placeholder acceptance and chapter shelving are superseded by the approved full-release order above; technical preservation rules still apply.
-The prior phase built the fixed [Pass 0 campaign](PASS0_CAMPAIGN_PLAN.md) and functional V7 recovery under [the living game specification](CURRENT_GAME_SPEC.md) and [parity ledger](V7_TO_GODOT_PARITY.md).
+The prior phase built the fixed [Pass 0 campaign](https://github.com/pemunson90-cmd/Siren-s-Song/blob/archive/docs-pre-sweep-20261027/docs/PASS0_CAMPAIGN_PLAN.md) and functional V7 recovery under [the living game specification](CURRENT_GAME_SPEC.md) and [parity ledger](V7_TO_GODOT_PARITY.md).
 The rough campaign nodes, four endings, general craft upgrades and mixed enemy rosters are implemented. Full branch touch journeys remain unfinished.
 The integrated V7 recovery builds currents, sensor-earned terrain, an evidence-driven local pressure floor, threat heartbeat/vignette and photographic grading. The PR gate passed; evaluate the whole game and develop the audit quality passes; preserve accepted Godot adaptations and fair information.
 The prior phase accepted placeholder art/text/audio and rough balance. Drop legacy-save compatibility and reject incompatible saves cleanly.
