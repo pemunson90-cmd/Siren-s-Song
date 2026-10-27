@@ -12,7 +12,7 @@ Current decisions: [USER_DIRECTIVES](USER_DIRECTIVES.md). Intended release: [CUR
 
 ## Integrated capabilities
 
-- 37 operation IDs0..36 include Calder Trench: core32..34, optional35/36, manual shut-in work, deep photography and three physically recovered artifacts. END OF LINE now follows first recovery of34; the existing photo wall, four ending families and12/13 fork remain. Reward target entries arrive in054/055; narrative stays placeholder text.
+- 41 operation IDs0..40 include Calder Trench: core32..34, optional35/36, manual shut-in work, deep photography and three physically recovered artifacts. END OF LINE now follows first recovery of34; the existing photo wall, four ending families and12/13 fork remain. Reward target entries arrive in054/055; narrative stays placeholder text.
 - 038/PR136 reorganizes Operations;044/PR141 gives Operations access to shared Settings, Title, Challenges and Credits.041/PR125 handles Android Back without Godot's default immediate quit.
 - 030/PR124 supplies three independent profiles, copy/clear and export/import.043/PR143 adds three manual saves and four automatic fork states, pinned to each physical profile. Restore replaces later progress, film and fittings; it does not merge. Default campaign erase preserves states.
 - 031/PR127 adds optional audio captions/color alternatives;032/PR130 contains Pat's selected new art with an old-art switch.045/046/047/049 merged in PR140: three early fitting grants, loss-cause presentation, challenge completion evidence and first-Siren cue extension.
@@ -20,6 +20,7 @@ Current decisions: [USER_DIRECTIVES](USER_DIRECTIVES.md). Intended release: [CUR
 
 - 048/PR146 adds operation-aware STATUS wording, explained received ARRIVALS, and reversible viewport fitting for existing full-size radial controls and Back. Its validation and integration record lives in the linked PR and live board.
 
+- 052 adds four OPTIONAL reconnaissance side jobs: Sorley's trawler in Glass Reach, deep/shelf Divergence jobs and a Confluence crossing. They never gate the core campaign; the physically recovered trawler screw is wired to the agreed hull:fast reward target for054/055.
 - 050/PR147 supplies sight-only global Hunt, a visible meter/help, capped stage audio and optional validated mission state. Fresh starts opt in; old in-progress saves stay inactive. The global floor uses max with local alert; shared hearing/movement/lock rules remain original. Single-switch revert and presentation table are indexed in MODULES.
 
 ## Next authorized work and limits
