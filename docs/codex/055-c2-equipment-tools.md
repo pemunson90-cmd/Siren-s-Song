@@ -1,9 +1,9 @@
 # Handoff 055: C2 EQUIPMENT AND FIELD TOOLS (resume Claude lane)
 
-Status: CLAIMED
+Status: BLOCKED
 Claimed at: 2026-10-27 06:31:39 UTC
 Claimed by: codex
-Finished at:
+Finished at: 2026-10-27 07:01:06 UTC
 
 Precondition: 054 is DONE (avoids fittings/catalog overlap). Read ORCHESTRATION_2026-10-26.md first. Claude's session hit its usage limit on 26 Oct; this lane transfers to Codex, and while you hold this claim you own the files listed here.
 Codex may merge: yes, into claude/integration only, on green guidance + game-smoke for the exact head, merge commit.
@@ -27,4 +27,8 @@ Import, core, and only the minimum suites in ORCHESTRATION section 5. Suite rank
 PR into claude/integration; merge on green; close per ORCHESTRATION section 7.
 
 ## Completion
-(five lines max)
+PAUSED FOR PAT RULING: draft https://github.com/pemunson90-cmd/Siren-s-Song/pull/150 has all other equipment/tool work concrete; 056..058 remain queued.
+Recovery: claude/c2-equipment1f781bdb8cf24380c42c652eac25d17bfced5339, worktree055-c2-equipment, merged integration0f2cc962. Resume055 here; next command gh pr checks 150.
+Import/core846/0, field tools87/0, unchanged radial58/0, injected-touch smoke36/0. Fresh exact-head CI pending; no merge, APK or promotion.
+Pat must decide Relay: command range is unlimited; inherited code boosts nearby drone passive sensing35% instead. Approve that effect or specify replacement; no command limits were added.
+Eight module recovery grants, research gates, MORE TOOLS/bundles, collision-only repair and symmetric Silt optics done. Necessary seams: mission_hud.gd four hooks, simulation.gd collision observation, depth_bands.gd optical_clear plus photo_capture.gd/photo_context.gd optical calls; formulas/photo rules unchanged.
