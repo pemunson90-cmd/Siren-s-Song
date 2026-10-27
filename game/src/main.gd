@@ -660,7 +660,11 @@ func _settings_menu() -> void:
 		_menu_text("%s VOLUME"%key.to_upper(),17)
 		var slider=HSlider.new(); slider.min_value=0; slider.max_value=1; slider.step=0.05; slider.value=settings.get(key,0.5); slider.custom_minimum_size.y=ui_touch_height; slider.set_meta("ui_action","volume_"+key); panel_box.add_child(slider)
 		slider.value_changed.connect(func(value): settings[key]=value; sound.set(key+"_volume",value); _save_archive())
-	_button(panel_box,"MUTE: %s"%("ON" if sound.muted else "OFF"),func(): sound.muted=not sound.muted; settings.mute=sound.muted; _save_archive(); _settings_menu(),"mute")
+	var audio_modes=HBoxContainer.new(); audio_modes.add_theme_constant_override("separation",8); panel_box.add_child(audio_modes)
+	var mute_button=_button(panel_box,"MUTE: %s"%("ON" if sound.muted else "OFF"),func(): sound.muted=not sound.muted; settings.mute=sound.muted; _save_archive(); _settings_menu(),"mute")
+	var night_button=_button(panel_box,"NIGHT MODE: %s"%("ON" if FrontendSettings.current.night_mode else "OFF"),func():_set_accessibility("night_mode",not FrontendSettings.current.night_mode),"setting_night_mode")
+	for button in [mute_button,night_button]:
+		button.reparent(audio_modes); button.size_flags_horizontal=Control.SIZE_EXPAND_FILL
 	_menu_text("TEXT SIZE · applies to menus and the dive display",17)
 	var sizes=HBoxContainer.new(); sizes.add_theme_constant_override("separation",8); panel_box.add_child(sizes)
 	for choice in [["NORMAL",1.0],["LARGE",1.3],["EXTRA LARGE",1.5]]:

@@ -1,6 +1,7 @@
 extends Node
 const HuntPressure=preload("res://src/simulation/hunt_pressure/hunt_pressure.gd")
 const HuntTable=preload("res://src/simulation/hunt_pressure/hunt_table.gd")
+const RegionAudioTable=preload("res://src/audio/region_audio_table.gd")
 const RATE := 22050
 const AMBIENCE_BUS := "SirenAmbience"
 const EFFECTS_BUS := "SirenEffects"
@@ -8,6 +9,10 @@ const ATTRIBUTION := preload("res://assets/audio/attribution.tres")
 var music_volume := 0.5
 var effects_volume := 0.8
 var muted := false
+var night_mode := false
+var region_mission_id := ""
+var region_clock := -1.0
+var ambience_base_db := -17.0
 var ambience: AudioStreamPlayer
 var engine: AudioStreamPlayer
 var tension: AudioStreamPlayer
@@ -78,6 +83,7 @@ func _ready() -> void:
 		if AudioServer.get_bus_effect(0,i).resource_name=="SirenPeakGuard": guarded=true
 	if not guarded:
 		var limiter=AudioEffectLimiter.new(); limiter.resource_name="SirenPeakGuard"; limiter.threshold_db=-3; limiter.ceiling_db=-1; AudioServer.add_bus_effect(0,limiter)
+	_sync_night_mode()
 	for cue in ["ping","camera","emp","knock","snare","salvage","record","loss","extraction","alert","recon","decoy","creak","beam","factory","carrier_received","return_received","sweep_received","heartbeat","berth_release","plant_switch"]: cues[cue]=stream(cue)
 	cues["hunt_stage"]=preload("res://src/audio/photo_audio/photo_wave.gd").stream(HuntTable.CUE_SOURCE)
 	ambience=AudioStreamPlayer.new(); ambience.stream=stream("ambience"); ambience.bus=AMBIENCE_BUS; ambience.volume_db=-17; add_child(ambience); ambience.play()
@@ -93,6 +99,33 @@ func _ready() -> void:
 		else: panner=AudioServer.get_bus_effect(index,0)
 		panners.append(panner)
 		var voice=AudioStreamPlayer.new(); voice.bus=bus_name; voice.volume_db=-7.5; add_child(voice); voices.append(voice)
+func _sync_night_mode() -> void:
+	var enabled=night_mode and RegionAudioTable.enabled
+	for i in AudioServer.get_bus_effect_count(0):
+		if AudioServer.get_bus_effect(0,i).resource_name=="SirenNightMode":
+			if not enabled:AudioServer.remove_bus_effect(0,i)
+			return
+	if not enabled:return
+	var compressor=AudioEffectCompressor.new()
+	compressor.resource_name="SirenNightMode"
+	compressor.threshold=-24.0; compressor.ratio=3.0; compressor.gain=4.0
+	compressor.attack_us=20000.0; compressor.release_ms=300.0
+	var before=AudioServer.get_bus_effect_count(0)
+	for i in AudioServer.get_bus_effect_count(0):
+		if AudioServer.get_bus_effect(0,i).resource_name=="SirenPeakGuard":before=i;break
+	AudioServer.add_bus_effect(0,compressor,before)
+func _sync_region(mission: Dictionary,elapsed: float,frozen: bool) -> void:
+	# Only mission identity and its public regional presentation key select this bed.
+	var bed=RegionAudioTable.bed(mission)
+	var recording: AudioStream=bed.get("stream",stream("ambience"))
+	var mission_id=str(mission.get("id",""))
+	if ambience.stream!=recording or mission_id!=region_mission_id or elapsed<region_clock:
+		ambience.stream=recording
+		if ambience.is_inside_tree():ambience.play()
+		ambience.stream_paused=frozen
+	region_mission_id=mission_id; region_clock=elapsed
+	ambience_base_db=float(bed.get("gain_db",-17.0))
+	_sync_night_mode()
 func _lock_update(sim,frozen:bool,active:bool)->void:
 	if lock_voice==null:return
 	var frames=preload("res://src/presentation/lock_warning.gd").frames(sim) if active else []
@@ -119,8 +152,9 @@ func update(sim,dt: float,active_dive: bool=true) -> void:
 	AudioServer.set_bus_volume_db(ambience_index,linear_to_db(maxf(0.001,music_volume)))
 	AudioServer.set_bus_volume_db(effects_index,linear_to_db(maxf(0.001,effects_volume)))
 	var frozen=sim.paused or not active_dive or system_suspended
+	_sync_region(sim.mission,sim.elapsed,frozen)
 	_lock_update(sim,frozen,active_dive)
-	ambience.volume_db=-17.+HuntPressure.ambience_offset(sim.mission)
+	ambience.volume_db=ambience_base_db+HuntPressure.ambience_offset(sim.mission)
 	ambience.stream_paused=frozen; engine.stream_paused=frozen
 	if sim.elapsed<last_clock: tension_level=0.0
 	last_clock=sim.elapsed

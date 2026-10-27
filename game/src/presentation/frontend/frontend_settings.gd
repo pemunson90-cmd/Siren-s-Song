@@ -22,6 +22,7 @@ static func apply(values: Dictionary, host: Control = null) -> void:
 	if host.get("sound") != null:
 		host.sound.music_volume = current.music; host.sound.effects_volume = current.effects
 		host.sound.muted = current.master<=0.0
+		host.sound.night_mode = current.night_mode
 	if host.get("settings") is Dictionary:
 		host.settings["music"] = current.music; host.settings["effects"] = current.effects
 		host.settings["mute"] = current.master<=0.0
