@@ -32,3 +32,9 @@ Recovery: claude/c2-equipment1f781bdb8cf24380c42c652eac25d17bfced5339, worktree0
 Import/core846/0, field tools87/0, unchanged radial58/0, injected-touch smoke36/0. Fresh exact-head CI pending; no merge, APK or promotion.
 Pat must decide Relay: command range is unlimited; inherited code boosts nearby drone passive sensing35% instead. Approve that effect or specify replacement; no command limits were added.
 Eight module recovery grants, research gates, MORE TOOLS/bundles, collision-only repair and symmetric Silt optics done. Necessary seams: mission_hud.gd four hooks, simulation.gd collision observation, depth_bands.gd optical_clear plus photo_capture.gd/photo_context.gd optical calls; formulas/photo rules unchanged.
+
+## Pat ruling, 27 October 2026 — design resolved, implementation paused
+
+Pat approved the inherited **35% passive-sensing bonus** for Relay buoys, benefiting **both drones individually while inside the buoy's effect radius**. Keep drone commands unlimited; do not introduce artificial command-range restrictions. This supersedes the earlier requirement that Relay extend command range. Confirm the actual radius/eligibility behavior during future implementation review rather than inventing a number now.
+
+**Status remains BLOCKED / paused.** This resolves the design choice only. PR #150 still needs its hosted fitting/touch regressions corrected and exact-head guidance plus game-smoke green after Pat explicitly resumes development. No merge, implementation or CI was authorized by this ruling.
