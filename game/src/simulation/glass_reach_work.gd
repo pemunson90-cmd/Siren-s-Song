@@ -1,5 +1,5 @@
 extends RefCounted
-const ITEMS={17:"silt_spindle",20:"prism_core",21:"keeper_wafer",32:"trench_seal_core",33:"choir_reed",35:"deep_keel_plate"}
+const ITEMS={17:"silt_spindle",20:"prism_core",21:"keeper_wafer",32:"trench_seal_core",33:"choir_reed",35:"deep_keel_plate",37:"trawler_screw"}
 static func applies(m:Dictionary)->bool:return m.has("glass_reach") and preload("res://src/campaign/operation_catalog.gd").supports(m.get("id",-1),"glass_reach")
 static func busy(sim,id:int)->bool:return applies(sim.mission) and not sim.mission.glass_reach.job.is_empty() and sim.mission.glass_reach.job.unit==id
 static func artifact(sim)->Dictionary:return sim.mission.glass_reach.artifact if applies(sim.mission) else {}

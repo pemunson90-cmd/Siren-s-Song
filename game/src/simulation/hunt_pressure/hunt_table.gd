@@ -6,7 +6,7 @@ const REVISION=1
 const THRESHOLDS=[20.,45.,70.,90.]
 const STAGES=["DORMANT","STIRRING","SEARCHING","HUNTING","LOCKDOWN"]
 const SCALES=[1.,1.15,1.3,1.5,1.7]
-const CAPS=[1.,1.,1.,1.15,1.15,1.15,1.3,1.3,1.3,1.3,1.3,1.3,1.3,1.3,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.7,1.7,1.7,1.7,1.7,1.7,1.7,1.7,1.,1.,1.7,1.7,1.7,1.7,1.7]
+const CAPS=[1.,1.,1.,1.15,1.15,1.15,1.3,1.3,1.3,1.3,1.3,1.3,1.3,1.3,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.7,1.7,1.7,1.7,1.7,1.7,1.7,1.7,1.,1.,1.7,1.7,1.7,1.7,1.7,1.5,1.3,1.3,1.3]
 # Final pair30/31 deliberately retain1.00 pending their distinct balance evidence.
 const ROLES=["","patroller","sentinel","hunter","sweeper"]
 const ACTIONS={"ACTIVE SONAR":5.,"DISRUPTION":4.,"KNOCKDOWN":4.,"DECOY":0.,"RECON UPLINK":0.}
