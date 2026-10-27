@@ -1,6 +1,7 @@
 # Recorded soundscape attribution
 
-These are edited recordings, not synthesized waveforms. Licensed for commercial use.
+The original cue set uses edited recordings. Regional beds below are original
+offline synthesized assets. All assets are licensed for commercial use.
 Downloaded 21 October 2026. No endorsement by the source authors is implied.
 
 ## Machinery recordings: Creative Commons Attribution 3.0 Unported
@@ -30,7 +31,8 @@ of metal being bent, wobbled and struck. CC0 public domain dedication.
 Source: https://opengameart.org/content/27-metal-audio-samples-sfx
 Archive: https://opengameart.org/sites/default/files/27-Metal-Audio-Samples-blacklodgegames.com_.zip
 License: https://creativecommons.org/publicdomain/zero/1.0/ (full text: CC0-1.0.txt)
-All remaining game WAV files derive from this pack.
+All remaining original cue WAV files derive from this pack; regional beds below
+do not use this pack.
 
 ## Adaptations and playback
 
@@ -68,3 +70,20 @@ The original source-page snapshots are also in the external lane archive.
 License text mirrors: https://github.com/idleberg/Creative-Commons-Markdown
 (3.0/by.markdown and 4.0/zero.markdown), because the canonical legalcode.txt
 endpoints returned HTTP403 during this session. Canonical license URLs above govern.
+
+## Original regional beds (053)
+
+`regions/{shelf,divergence_deep,divergence_shelf,confluence,glass,iron,calder}.wav`
+are original offline synthesis by the Siren's Song implementation lane, dedicated
+under CC0 1.0 (see CC0-1.0.txt). No external recordings, samples or model outputs
+were used. Rebuild with `python scripts/generate_region_audio.py` from the repo.
+The deterministic generator uses only Python's standard library and prints each
+file's SHA256. Each bed is 12 seconds of mono 22050 Hz, 16-bit PCM, 264600 frames;
+all seven add 3,704,400 decoded PCM bytes. Integer Fourier bins produce seamless
+loops. Peaks are capped at 0.42 before the region's quiet base gain (-17 to -21dB).
+These diffuse interior textures carry no hidden-contact or mission-success clues
+and avoid warning rhythms. Existing alert, lock and received-contact cues retain
+their original paths. Region selection uses only the public mission key. Disabling
+RegionAudioTable restores ambience.wav at -17dB plus the existing Hunt offset.
+Optional Night mode inserts a moderate compressor before the existing master
+peak limiter; it defaults off and the regional rollback removes it.

@@ -282,3 +282,4 @@ hunt_pressure_tests|HUNT PRESSURE|264|284
 hunt_pressure_integration_tests|HUNT INTEGRATION|265|285
 hunt_meter_ui_tests|HUNT METER UI|266|286|render
 calder_trench_journey_tests|CALDER TRENCH JOURNEY|300|400
+regional_settings_tests|REGIONAL SETTINGS|301|401

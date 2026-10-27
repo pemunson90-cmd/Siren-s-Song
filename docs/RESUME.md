@@ -20,6 +20,7 @@ Current decisions: [USER_DIRECTIVES](USER_DIRECTIVES.md). Intended release: [CUR
 
 - 048/PR146 adds operation-aware STATUS wording, explained received ARRIVALS, and reversible viewport fitting for existing full-size radial controls and Back. Its validation and integration record lives in the linked PR and live board.
 
+- 053 adds distinct regional water/terrain palettes and generated ambience beds, with independent visual/audio rollback switches. Optional Night mode compresses Master ahead of the existing peak guard; the saved boolean defaults off for old settings.
 - 052 adds four OPTIONAL reconnaissance side jobs: Sorley's trawler in Glass Reach, deep/shelf Divergence jobs and a Confluence crossing. They never gate the core campaign; the physically recovered trawler screw is wired to the agreed hull:fast reward target for054/055.
 - 050/PR147 supplies sight-only global Hunt, a visible meter/help, capped stage audio and optional validated mission state. Fresh starts opt in; old in-progress saves stay inactive. The global floor uses max with local alert; shared hearing/movement/lock rules remain original. Single-switch revert and presentation table are indexed in MODULES.
 

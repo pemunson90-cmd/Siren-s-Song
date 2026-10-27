@@ -173,7 +173,7 @@ func _settings_screen() -> void:
 		b.focus_mode = Control.FOCUS_NONE; b.set_meta("ui_action", "text_scale_%d" % roundi(scale * 100)); b.toggle_mode = true; b.button_pressed = is_equal_approx(values.text_scale, scale)
 		b.pressed.connect(func(): _set_value("text_scale", scale); _settings_screen(), CONNECT_DEFERRED); sizes.add_child(b)
 	_button("MUTE: %s" % ("ON" if values.master<=0 else "OFF"),_toggle_mute,"mute")
-	for row in [["high_contrast", "HIGH CONTRAST"], ["reduced_motion", "REDUCED MOTION"], ["haptics", "HAPTICS"], ["safe_palette", "SAFE PALETTE"], ["audio_captions", "AUDIO CAPTIONS"]]:
+	for row in [["high_contrast", "HIGH CONTRAST"], ["reduced_motion", "REDUCED MOTION"], ["haptics", "HAPTICS"], ["safe_palette", "SAFE PALETTE"], ["audio_captions", "AUDIO CAPTIONS"], ["night_mode", "NIGHT MODE"]]:
 		var key: String = row[0]; var label: String = row[1]
 		_button("%s: %s" % [label, "ON" if values[key] else "OFF"], func(): _set_value(key, not values[key]); _settings_screen(), "setting_" + key)
 	if host.has_method("_save_archive"):
