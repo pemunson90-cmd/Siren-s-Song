@@ -1,3 +1,7 @@
+## 27 October 2026 Eastern: resume
+
+**RESUMED, 27 Oct 2026 ~19:17 ET:** Pat told Claude "Resume". This lifts the 27 Oct documentation-only pause (ruling 7). Rulings 1 to 6 stand as design direction. Work order for Codex: 055 (repair PR150's hosted fitting/touch regression, green CI, merge), 056, 057, 058, then 059 (challenge pars and per-route bests from rulings 2 and 3). Same rules as ORCHESTRATION_2026-10-26.md. The 26 October finish-the-game entry below governs.
+
 ## 26 October 2026 Eastern: finish the game
 
 Pat: the goal is to finish the game. Prioritize completing content; tests only when absolutely necessary; audit everything at the end. Claude is root orchestrator and delegates lanes to Codex; Claude and Codex each orchestrate their own subagents and stay out of each other's files. Every task ends by cleaning up its claim, recording completion and correcting stale docs it touched.

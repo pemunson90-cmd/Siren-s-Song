@@ -45,3 +45,14 @@ No APK, phone/human-test request, branch deletion, force push, amend or frozen-b
 ## Historical evidence
 
 [Previous long operational snapshot](RESUME_2026-10-24_HISTORY.md) preserves the dated023..032 reports, original failures, evidence links and superseded pauses. [PHOTO_RECON](PHOTO_RECON.md) separates camera capability from audit limits. CONTINUATION and WORKBENCH remain short pointers, not competing task lists.
+
+
+## 27 October 2026: Pat's documentation-only decisions and pause
+
+Development was paused, then **resumed by Pat at ~19:17 ET the same day** (see USER_DIRECTIVES top entry); the rulings below are recorded for the next authorized continuation and **do not** authorize implementation, new claims, CI, merges, APK builds or production promotion. Live Codex claims/roadmap remain on `codex/handoffs` BOARD.md.
+
+- Relay buoy: retain +35% passive-sensing boost for **both drones within the buoy's effect radius**; unlimited drone command range stays. Equipment PR #150 still requires correction of the hosted fitting/touch failure and green exact-head CI **after resumption**.
+- `lung_solo` challenge: 110-second dismantle and 300-second reconnect route-aware pars; keep route-specific personal bests plus overall challenge completion. Design accepted, **not implemented**.
+- Sight-only Hunt's current reversible numbers/presentation are a **provisional testing baseline**, with retuning after whole-game runs, not final balance approval.
+- Economy prices, rewards and preset balance remain **provisional** until simulated full-campaign runs support tuning.
+- Finish content **before** independent whole-game audit; emphasize photography, strategic depth and player experience first, alongside other audit dimensions.

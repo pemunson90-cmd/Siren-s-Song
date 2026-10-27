@@ -105,3 +105,8 @@ Those were deliberate choices (`V7_TO_GODOT_PARITY.md:19`, `recon_consequences.g
 6. Excluding buoy, relay, interceptor and warden.
 7. Ambience shift, stage-up cue, and the +3 dB early cap.
 8. Whether graze (hull damage plus Hunt) stays out. Proposed yes, since it would add damage.
+
+
+## Pat's tuning ruling, 27 October 2026 — provisional testing baseline
+
+Pat approved the **currently implemented, reversible sight-only Hunt configuration as the testing baseline**, pending full-game balance evidence. Preserve existing stage/action values, per-operation caps, operation-local reset, meter/help, and stage/ambience audio as implemented; this is **not** approval of the earlier historical proposal's hearing/speed scaling. Hearing, movement, the four-second lock, beam and damage remain unchanged. Do not interpret this as a directive to implement deferred Hunt mechanics or as final balance acceptance. No code changes authorized while development is paused.
