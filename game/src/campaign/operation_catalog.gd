@@ -34,7 +34,7 @@ static func _iron_entries()->Array:
  return result
 static func _ensure():
  if not _entries.is_empty():return
- for entry in CONTENT+_glass_entries()+_iron_entries()+preload("res://src/campaign/final_pair_operations.gd").entries():_entries[entry.id]=entry.duplicate(true)
+ for entry in CONTENT+_glass_entries()+_iron_entries()+preload("res://src/campaign/final_pair_operations.gd").entries()+preload("res://src/campaign/calder_trench_operations.gd").entries():_entries[entry.id]=entry.duplicate(true)
 static func registered_ids()->Array:
  _ensure();var result=_entries.keys();result.sort();return result
 static func definition(id:int)->Dictionary:

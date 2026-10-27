@@ -12,7 +12,7 @@ Current decisions: [USER_DIRECTIVES](USER_DIRECTIVES.md). Intended release: [CUR
 
 ## Integrated capabilities
 
-- 32operation IDs0..31, including027's final pair and photo wall.042/PR142 shows the provisional completion after first recovery of id31 and reuses that wall. Existing four ending families and12/13 fork remain; narrative stays placeholder text.
+- 37 operation IDs0..36 include Calder Trench: core32..34, optional35/36, manual shut-in work, deep photography and three physically recovered artifacts. END OF LINE now follows first recovery of34; the existing photo wall, four ending families and12/13 fork remain. Reward target entries arrive in054/055; narrative stays placeholder text.
 - 038/PR136 reorganizes Operations;044/PR141 gives Operations access to shared Settings, Title, Challenges and Credits.041/PR125 handles Android Back without Godot's default immediate quit.
 - 030/PR124 supplies three independent profiles, copy/clear and export/import.043/PR143 adds three manual saves and four automatic fork states, pinned to each physical profile. Restore replaces later progress, film and fittings; it does not merge. Default campaign erase preserves states.
 - 031/PR127 adds optional audio captions/color alternatives;032/PR130 contains Pat's selected new art with an old-art switch.045/046/047/049 merged in PR140: three early fitting grants, loss-cause presentation, challenge completion evidence and first-Siren cue extension.
