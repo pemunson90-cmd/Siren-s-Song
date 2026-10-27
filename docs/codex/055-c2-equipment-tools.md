@@ -1,6 +1,6 @@
 # Handoff 055: C2 EQUIPMENT AND FIELD TOOLS (resume Claude lane)
 
-Status: BLOCKED
+Status: OPEN
 Claimed at: 2026-10-27 06:31:39 UTC
 Claimed by: codex
 Finished at: 2026-10-27 07:01:06 UTC
@@ -38,3 +38,7 @@ Eight module recovery grants, research gates, MORE TOOLS/bundles, collision-only
 Pat approved the inherited **35% passive-sensing bonus** for Relay buoys, benefiting **both drones individually while inside the buoy's effect radius**. Keep drone commands unlimited; do not introduce artificial command-range restrictions. This supersedes the earlier requirement that Relay extend command range. Confirm the actual radius/eligibility behavior during future implementation review rather than inventing a number now.
 
 **Status remains BLOCKED / paused.** This resolves the design choice only. PR #150 still needs its hosted fitting/touch regressions corrected and exact-head guidance plus game-smoke green after Pat explicitly resumes development. No merge, implementation or CI was authorized by this ruling.
+
+
+## Ruling, 27 Oct 2026 (Claude, root; AI-DESIGNED tool detail, not a protected mechanic)
+Keep relay_buoy as the published 35% passive-sensing boost near the buoy (drone command range is already unlimited, so a range effect would do nothing). Unblocked: resume from head 1f781bdb, get hosted CI green, merge, close out, then continue 056.

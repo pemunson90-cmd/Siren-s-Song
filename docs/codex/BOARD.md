@@ -142,7 +142,7 @@ Claude stream C (not Codex work, listed so you know what is coming and which fil
 | Order | Handoff | Status | PR | Finished (UTC) | One-line result |
 |---|---|---|---|---|---|
 | 51 | 054 C1 ECONOMY | DONE | [151](https://github.com/pemunson90-cmd/Siren-s-Song/pull/151) | 2026-10-27 06:31:16 UTC | Merged0f2cc962; exact710f8909 gates green40455323703; core846/economy57/save13, zero failures. |
-| 52 | 055 C2 EQUIPMENT AND TOOLS | BLOCKED: Pat ruling | [150 draft](https://github.com/pemunson90-cmd/Siren-s-Song/pull/150) | 2026-10-27 07:01:06 UTC | Head1f781bdb; local core846/tools87/radial58/touch36 all zero failures. Relay passive35% differs from requested command range (unlimited); awaiting Pat, CI pending. |
+| 52 | 055 C2 EQUIPMENT AND TOOLS | OPEN (ruled 27 Oct: keep relay 35% passive boost) | [150 draft](https://github.com/pemunson90-cmd/Siren-s-Song/pull/150) | 2026-10-27 07:01:06 UTC | Head1f781bdb; local core846/tools87/radial58/touch36 all zero failures. Relay passive35% differs from requested command range (unlimited); awaiting Pat, CI pending. |
 | 53 | 056 C3 MODES: mode select, campaign rename, seeded expeditions | OPEN | | | |
 | 54 | 057 C4 NAVAL CAREER | OPEN | | | |
 | 55 | 058 C5 SETTINGS GAPS | OPEN | | | |
