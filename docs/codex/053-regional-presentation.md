@@ -1,8 +1,8 @@
 # Handoff 053: REGIONAL PRESENTATION, ambience, palette/lighting, dynamic range
 
-Status: OPEN
-Claimed at:
-Claimed by:
+Status: CLAIMED
+Claimed at: 2026-10-27 03:34:03 UTC
+Claimed by: codex
 Finished at:
 
 Precondition: 050 is DONE (soundscape.gd is free). If 052 is OPEN and eligible, take 052 first. Read ORCHESTRATION_2026-10-26.md first.
