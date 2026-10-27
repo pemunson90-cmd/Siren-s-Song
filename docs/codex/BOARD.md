@@ -146,3 +146,16 @@ Claude stream C (not Codex work, listed so you know what is coming and which fil
 | 53 | 056 C3 MODES: mode select, campaign rename, seeded expeditions | OPEN | | | |
 | 54 | 057 C4 NAVAL CAREER | OPEN | | | |
 | 55 | 058 C5 SETTINGS GAPS | OPEN | | | |
+
+
+## PAT DESIGN RULINGS — 27 Oct 2026 (documentation-only; development PAUSED)
+
+These seven decisions are approved design direction, **not** evidence of implementation, balancing, CI success, a resumed claim, or permission to merge/promote. Preserve the current development pause. No task is claimed or restarted by this entry.
+
+1. **055 Relay buoy:** retain the implemented **+35% passive-sensing bonus** instead of inventing drone command-range limits. It benefits **both drones when each is inside the buoy's effect radius**. Existing unlimited command range remains unchanged. Approval resolves the *design question*, not PR #150's failed hosted fitting/touch regression; repair and fresh green exact-head CI are still needed after work is resumed. Keep 055 BLOCKED/PAUSED, do not mark DONE.
+2. **047 challenge route pars:** score `lung_solo` at **110 s for dismantle** and **300 s for reconnect**, selected from the actual mission route. Preserve hull/tools par requirements. Approved for future implementation, not yet in scoring code.
+3. **047 personal bests:** keep **best per route** and an **overall challenge completion** record; do not let a fast dismantle time erase the reconnect achievement. Precise UI/scoring presentation can be designed after resumption.
+4. **050 Hunt:** approve *current reversible sight-only tuning* as the **testing baseline**, not final balance. Retain current per-operation resets, caps, action values, HUD and audio behavior; hearing, movement, lock, beam and damage remain unchanged. Retune only from full-game evidence.
+5. **054 economy:** prices, resource rewards, research/manufacturing costs and preset values remain **provisional**, to be calibrated with **simulated full-campaign runs**. No current numbers are ratified as final balance.
+6. **Whole-game audit order:** **finish planned content first**, then prioritize **photographic reconnaissance, strategic depth and actual player experience** in the independent whole-game audit. Other quality, technical and Android findings still belong in that audit.
+7. **PAUSE:** record these decisions only. **Do not resume implementation, run builds, claim 056–058, change gameplay code, merge PRs or promote branches** from this documentation update. Existing open/block statuses are retained.
