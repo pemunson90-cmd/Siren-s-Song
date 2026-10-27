@@ -2,7 +2,12 @@ extends RefCounted
 # A read-only projection of successfully recovered equipment. Main owns fitting,
 # uniqueness, persistence and the launch snapshot; this view grants nothing.
 const Catalog=preload("res://src/equipment/equipment_catalog.gd")
+const Economy=preload("res://src/campaign/economy.gd")
 const SLOTS={"quietus":"QUIETUS","drone_a":"DRONE A","drone_b":"DRONE B"}
+# A locked frame is bought with alloy when tapped, then chosen like any other.
+static func _pick_frame(main,locked:bool,unit:int,id:String,key:String,choose:Callable)->void:
+ if locked and not Economy.buy_unlock(main.economy,Economy.unlock_of(unit,id)):return
+ choose.call(key,id)
 static func rows(context:Dictionary)->Array:
  var result=[];var slots=context.get("slots",{});var available=context.get("available",[])
  for slot in SLOTS:
@@ -70,8 +75,11 @@ static func loadout(main,fit:Dictionary,choose:Callable)->Array:
    var selected=Catalog.frame_id(fit,unit)==id
    var title="%s · %s%s"%[SLOTS[Catalog.SLOTS[unit]],Catalog.frames(unit)[id].name.to_upper()," · SELECTED" if selected else ""]
    if not attempt.ok:title+=" · REFUSED · "+attempt.reason.to_upper()
-   var button=main._button(main.panel_box,title,func():choose.call(key,id),"frame_"+Catalog.SLOTS[unit]+"_"+id)
-   button.disabled=selected or not attempt.ok;buttons.append(button)
+   var locked=Economy.frame_locked(main.economy,main.expedition,unit,id)
+   var price=Economy.unlock_cost(main.economy,Economy.unlock_of(unit,id))
+   if locked:title="%s · %s · LOCKED · BUY %s"%[SLOTS[Catalog.SLOTS[unit]],Catalog.frames(unit)[id].name.to_upper(),Economy.fmt(price)]
+   var button=main._button(main.panel_box,title,_pick_frame.bind(main,locked,unit,id,key,choose),"frame_"+Catalog.SLOTS[unit]+"_"+id)
+   button.disabled=selected or not attempt.ok or (locked and not Economy.can_pay(main.economy,price));buttons.append(button)
  return buttons
 static func status(sim)->String:
  if not sim.has_method("equipment_feedback"):return ""

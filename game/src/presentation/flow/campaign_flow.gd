@@ -1,5 +1,7 @@
 extends RefCounted
 const BriefRows029=preload("res://src/campaign/onboarding2/briefing_rows.gd")
+const EconomyPanel=preload("res://src/presentation/economy_panel.gd")
+const Economy=preload("res://src/campaign/economy.gd")
 # Campaign/menu flow extracted verbatim from main. Main keeps its existing
 # entry points as forwarders; host owns state, callbacks and deferred layout.
 # Revert the original extraction to restore bodies in main. 029 display rows
@@ -25,6 +27,8 @@ static func show_campaign(host) -> void:
 	# and shift the menu horizontally at large text sizes.
 	if not host._campaign_pristine() and (preload("res://src/presentation/ops_home/ops_home_table.gd").enabled or (host.active_started and host.sim.outcome.is_empty())):host._menu_text("Resuming keeps this dive's equipment and its place in time.",14)
 	host._button(host.panel_box,"FITTINGS / NEXT LAUNCH",host._show_fittings,"fittings")
+	EconomyPanel.entry(host)
+	EconomyPanel.pristine_picker(host)
 	if not host.Endings.resolve(host.expedition).is_empty():host._button(host.panel_box,"VIEW CAMPAIGN ENDING",host._show_ending,"ending")
 	preload("res://src/presentation/finale/finale.gd").entry(host)
 	preload("res://src/persistence/save_states/save2_controller.gd").entry(host)
@@ -90,6 +94,7 @@ static func briefing(host, index: int) -> void:
 		manual_control=host._button(host.panel_box,"FIELD MANUAL · full rules and orders",func(): host._reference(index),"manual")
 	var stock=host._loadout_stock(host.upgrade)
 	var fit_start=host.panel_box.get_child_count()
+	if not host._campaign_pristine() and not EconomyPanel.briefing_line(host).is_empty():host._menu_text(EconomyPanel.briefing_line(host),14)
 	host._menu_text("NEXT DIVE / RETRY · %s\nO₂ %d%% · DISRUPT %d · SURVEY %d · 3 DECOYS · 2 DRONES · 2 TORPEDOES"%[host.upgrade.to_upper(),stock[0],stock[1],stock[2]],17)
 	# Frames open after the first dive; recovered fittings appear once earned. A toggle folds them away.
 	if not compact:fit_start=host.panel_box.get_child_count()
@@ -105,10 +110,11 @@ static func briefing(host, index: int) -> void:
 		if compact:
 			fold.text=BriefRows029.FOLD_LABELS.hide
 			if not host.get_meta("onboard2_fit_open",false):host._fold_fit(fit_nodes,holder)
-	host._button(host.menu_footer,"ENTER WATER\nSTART PAUSED",func():
-		host._start_mission(index)
+	var begin=host._button(host.menu_footer,EconomyPanel.begin_text(host),func():
+		EconomyPanel.begin(host,index)
 		if host.screen=="mission" and host.active_started:host._enter_water()
 	,"begin")
+	begin.disabled=not EconomyPanel.can_begin(host)
 	if compact:
 		manual_control.text="FIELD\nMANUAL"
 		for control in [manual_control,fold_control]:
@@ -154,11 +160,14 @@ static func campaign_completed(host)->Array:
 
 static func equipment_context(host)->Dictionary:
 	var earned=host._equipment_entitlements();var available=host.FleetInventory.available(earned,host.fleet)
-	return {"slots":host.FleetInventory.reconcile_fitting(host.fitted_equipment,available),"available":available,"catalog":preload("res://src/equipment/equipment_catalog.gd").public_catalog(earned)}
+	return {"slots":Economy.lock_frames(host.economy,host.expedition,host.FleetInventory.reconcile_fitting(host.fitted_equipment,available)),"available":available,"catalog":preload("res://src/equipment/equipment_catalog.gd").public_catalog(earned)}
 
 static func choose_equipment(host, slot:String,item:String,index:int)->void:
 	var choice=preload("res://src/equipment/equipment_catalog.gd").choose(host.fitted_equipment,slot,item,host.FleetInventory.available(host._equipment_entitlements(),host.fleet))
 	if not choice.ok:return
+	var catalog=preload("res://src/equipment/equipment_catalog.gd")
+	for unit in 3:
+		if slot==catalog.FRAME_KEYS[catalog.SLOTS[unit]] and Economy.frame_locked(host.economy,host.expedition,unit,item):return
 	var reading_position=host.scroll.scroll_vertical
 	host.fitted_equipment=choice.fitted
 	host._save_archive()
@@ -177,7 +186,9 @@ static func debrief(host) -> void:
 	# Capture first completion before either classic or expedition debrief writes
 	# progress. The launch's fleet_commit also freezes replay intent across saves.
 	var first_recovery=host.mission_index not in host._campaign_completed()
+	var fleet_before=host.fleet.duplicate(true)
 	if first_recovery:host.fleet=host.FleetInventory.recover(host.fleet,host.sim.mission,host.sim.outcome)
+	EconomyPanel.settle(host,first_recovery,fleet_before)
 	host.fitted_equipment=host.FleetInventory.reconcile_fitting(host.fitted_equipment,host.FleetInventory.available(host._equipment_entitlements(),host.fleet))
 	print("SS_DEBRIEF outcome=",host.sim.outcome," mission=",host.mission_index)
 	if host.sim.outcome=="won":
@@ -243,6 +254,7 @@ static func confirm_new_campaign(host)->void:
 	host._menu_text("ERASE PROGRESS AND START OVER?",30)
 	host._menu_text("This deletes your saved operations, equipment and field records and returns you to operation 1. Audio and display settings stay.",20)
 	preload("res://src/persistence/save_states/save2_controller.gd").erase_option(host)
+	EconomyPanel.draft_picker(host)
 	host._button(host.panel_box,"ERASE AND START OVER",host._new_campaign,"confirm_new_campaign")
 	host._button(host.panel_box,"KEEP MY PROGRESS",host._show_campaign,"back")
 	host.call_deferred("_layout")
@@ -252,7 +264,7 @@ static func new_campaign(host)->void:
 	preload("res://src/presentation/finale/finale.gd").clear(host)
 	host.early_reward={}
 	host.completed=[];host.unlocked=0;host.expedition={};host.recovered_evidence={};host.photo_records={};host.photo_intel={};host.hints_seen=[]
-	host.fleet={}
+	host.fleet={};host.economy=EconomyPanel.take_draft(host)
 	host.fitted_equipment=preload("res://src/equipment/equipment_catalog.gd").default_loadout();host.upgrade="endurance"
 	preload("res://src/presentation/first_siren_cue/cue_archive.gd").restore_types(host,{})  # a new campaign forgets seen Siren kinds
 	host._start_mission(0);host._save_archive();host._show_campaign()

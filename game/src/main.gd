@@ -64,6 +64,7 @@ var completed: Array=[]
 var expedition:Dictionary={}
 var end_of_line_seen=false
 var fleet:Dictionary={}
+var economy:Dictionary=preload("res://src/campaign/economy.gd").new_state()
 var challenge_records:Dictionary={}
 var fitted_equipment:Dictionary=preload("res://src/equipment/equipment_catalog.gd").default_loadout()
 var upgrade := "endurance"
@@ -496,6 +497,8 @@ func _campaign_pristine()->bool:
 	return CampaignFlow.campaign_pristine(self)
 func _show_fittings()->void:
 	CampaignFlow.show_fittings(self)
+func _show_economy()->void:
+	preload("res://src/presentation/economy_panel.gd").show(self)
 func _cycle_loadout()->void:
 	CampaignFlow.cycle_loadout(self)
 func _orders_text(briefing:Dictionary) -> String:
@@ -586,6 +589,7 @@ func _archive() -> Dictionary:
 	if not photo_intel.is_empty():data["intel"]=photo_intel.duplicate(true)
 	if not expedition.is_empty():data["expedition"]=expedition.duplicate(true)
 	if not fleet.is_empty():data["fleet"]=fleet.duplicate(true)
+	data["economy"]=economy.duplicate(true)
 	if not hints_seen.is_empty():data["hints_seen"]=hints_seen.duplicate()
 	if not early_reward.is_empty():data["early_reward"]=early_reward.duplicate(true)
 	preload("res://src/presentation/first_siren_cue/cue_archive.gd").write(self,data)
@@ -635,6 +639,8 @@ func _load_archive() -> void:
 		photo_intel=saved.get("intel",{}).duplicate(true)
 		fitted_equipment=preload("res://src/equipment/equipment_catalog.gd").canonical(saved.get("equipment",{}))
 		fitted_equipment=FleetInventory.reconcile_fitting(fitted_equipment,FleetInventory.available(_equipment_entitlements(),fleet))
+		var Economy=preload("res://src/campaign/economy.gd")
+		economy=saved.economy.duplicate(true) if saved.has("economy") else Economy.legacy_state(fitted_equipment)
 		recovered_evidence=saved.get("evidence",{})
 		photo_records=saved.get("photo_records",{}).duplicate(true)
 		hints_seen=saved.get("hints_seen",[]).duplicate()

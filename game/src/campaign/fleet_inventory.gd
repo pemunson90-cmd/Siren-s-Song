@@ -19,6 +19,19 @@ static func launch(fitted:Dictionary,earned:Array,fleet:Dictionary,mission_id:in
  for item in Catalog.all_items(fitted):
   if item not in stock:missing.append(item)
  return {"ok":missing.is_empty(),"missing":missing,"launch":{"fitted":fitted.duplicate(true),"fleet_commit":mission_id not in completed}}
+# Modules recorded as lost; the economy can manufacture a replacement (rebuild).
+static func lost(fleet:Dictionary)->Array:
+ var result=[]
+ for outcome in fleet.get("outcomes",{}).values():result.append_array(outcome.lost)
+ return result
+# Moves one lost copy back to recovered; the partition stays valid for fleet.valid.
+static func rebuild(fleet:Dictionary,item:String)->Dictionary:
+ var result=fleet.duplicate(true)
+ for id in result.get("outcomes",{}):
+  var outcome=result.outcomes[id]
+  if item in outcome.lost:
+   outcome.lost.erase(item);outcome.recovered.append(item);return result
+ return fleet
 static func recover(previous:Dictionary,mission:Dictionary,outcome:String)->Dictionary:
  var result=previous.duplicate(true)
  if outcome!="won" or not mission.get("fleet_commit",false) or result.get("outcomes",{}).has(mission.id):return result
