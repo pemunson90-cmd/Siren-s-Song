@@ -1,8 +1,10 @@
 extends "res://tests/endings_photo_ui_tests.gd"
-# UI checks stop at the real operation 31 recovery boundary. They do not model
+# UI checks stop at the real operation 34 recovery boundary. They do not model
 # ordinary play through the campaign or replace its physical recovery rules.
 const Campaign=preload("res://src/campaign/expedition_campaign.gd")
+const Journey=preload("res://tests/calder_trench_journey_tests.gd")
 const Store=preload("res://src/persistence/save_store.gd")
+var expected_plate_keys=[]
 const FinaleTablePath="res://src/presentation/finale/finale_table.gd"
 func has_text(node,text):
 	if node==null:return false
@@ -43,31 +45,29 @@ func capture(stage,shape):
 	check(root.get_texture().get_image().save_png(path)==OK,"native rendered state captured at "+path)
 func expedition_fixture()->Dictionary:
 	var completed=[6,7,9,11,12]
-	for id in range(14,30):completed.append(id)
-	completed.append(30)
+	for id in range(14,34):completed.append(id)
 	return {"version":2,"route":"deep","routes":["deep"],"facts":{"deep":"Recovered branch account","confluence_route":"concealed","glass_choice":"salvage","choir_choice":"bypass","choir_people":"landed","choir_plant":"reconnect"},"completed":completed,"notes":{},"references":{},"entitlements":[],"history":[],"selected_thread":"deep"}
 func fixture_last_recovery(game)->bool:
-	game._start_mission(31)
-	var sim=game.sim;var objective=sim.mission.objectives[0]
-	sim.units[0].band=objective.band
-	sim.units[0].pos=objective.pos+Vector2(-120,0);sim.units[0].vel=Vector2.ZERO;sim.units[0].angle=0.0
-	var framed=sim.command("frame",{"mode":"tight","focus":objective.optical})
-	var exposed=sim.command("camera")
-	sim.paused=false
-	for n in 360:sim.advance(1.0/60.0)
-	check(framed and exposed and objective.captured,"fixture uses ordinary operation 31 core framing and camera exposure")
-	sim.units[0].pos=sim.mission.extraction;sim.units[0].vel=Vector2.ZERO
-	for n in 60:sim.advance(1.0/60.0)
-	var won=sim.outcome=="won" and sim.mission.recovered
-	check(won,"fixture reaches operation 31 through physical recovery")
+	game._start_mission(34)
+	var won=Journey.run_core(game.sim,34)
+	check(game.sim.mission.objectives[2].captured,"fixture completes the actual operation 34 drill-feed disconnect")
+	check(game.sim.mission.objectives[0].captured,"fixture exposes the actual operation 34 core photograph")
+	check(game.sim.outcome=="won" and game.sim.mission.recovered,"fixture physically recovers operation 34 film")
+	check(won,"fixture reaches operation 34 through ordinary work, photography and physical recovery")
 	return won
 func debrief_last(game)->void:
-	if fixture_last_recovery(game):game._debrief()
-	else:check(false,"operation 31 debrief fixture reaches its authored boundary")
+	if fixture_last_recovery(game):
+		check(game.sim.valid_snapshot(game.sim.snapshot()),"recovered operation 34 snapshot remains valid before debrief")
+		check(Store.new().valid(game._archive()),"recovered operation 34 active archive remains valid before debrief")
+		game._debrief()
+	else:check(false,"operation 34 debrief fixture reaches its authored boundary")
 func wall_case(game,heading,label):
 	check(game.screen=="photo_ending",label+" presents the existing photo wall")
 	var plates=game.panel_box.get_children().filter(func(c):return c is ArchiveView.Plate)
-	check(plates.size()==4,label+" retains the four existing archive plates")
+	check(plates.size()==5,label+" retains the four existing archive plates and recovered operation 34 photograph")
+	var displayed_keys=plates.map(func(plate):return plate.vm.get("key",""))
+	for key in expected_plate_keys:
+		check(displayed_keys.count(key)==1,label+" displays the original or newly recovered photograph once: "+str(key))
 	check(has_text(game,"END OF LINE")==heading,label+" has expected End of Line heading state")
 	target_visible(game,"back",game,label+" Operations footer")
 func shape_case(shape):
@@ -80,12 +80,15 @@ func shape_case(shape):
 	game.capture_scenario="runtime-test";game.store.path=archive;game.settings_path=settings
 	root.add_child(game);await settle();game.set_process(false)
 	game.completed=[0,1,2,3,4,5];game.unlocked=5;game.expedition=expedition_fixture()
-	check(Campaign.valid(game.expedition),"fixture is a valid deep expedition completed through operation 30")
+	check(Campaign.valid(game.expedition),"fixture is a valid deep expedition completed through operation 33")
 	game.recovered_evidence=archive_fixture();game.active_started=false
+	expected_plate_keys=game.recovered_evidence.keys()
+	check(expected_plate_keys.size()==4,"fixture retains all four original operation 30 and 31 photographs")
+	expected_plate_keys.append("glass_record_34")
 	game._show_campaign();game.capture_scenario=""
 	debrief_last(game);await settle()
-	wall_case(game,true,"first successful operation 31 recovery")
-	check(game.expedition.completed.count(31)==1,"the first successful recovery records operation 31 once")
+	wall_case(game,true,"first successful operation 34 recovery")
+	check(game.expedition.completed.count(34)==1,"the first successful recovery records operation 34 once")
 	check(value_if_present(game,"end_of_line_seen")==true,"first recovery records End of Line as seen")
 	check(button(game,"finale_credits")!=null,"first wall offers existing Frontend credits")
 	var payload=game._archive()
@@ -143,7 +146,7 @@ func shape_case(shape):
 			check(game.screen=="menu" and game.get_node_or_null("Frontend")==null,"Android Back leaves existing credits for unobscured Operations")
 	# Replay the recovered operation after the once-only automatic intro.
 	debrief_last(game);await settle()
-	wall_case(game,false,"operation 31 replay")
+	wall_case(game,false,"operation 34 replay")
 	if await press(game,"back"):check(game.screen=="menu","replay wall Back returns to Operations")
 	# Old complete-pair saves without the optional field must still get a manual replay.
 	var old=store.load_game();old.erase("end_of_line_seen")

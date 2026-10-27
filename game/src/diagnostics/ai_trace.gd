@@ -5,6 +5,7 @@ extends RefCounted
 # sample() (or step()) after each advance; nothing runs when not attached.
 # Revert: keep AITraceTable.enabled=false and stop explicit attachments.
 # Retain diagnostics files, registered tests and evidence; there is no runtime hook.
+const HuntPressure=preload("res://src/simulation/hunt_pressure/hunt_pressure.gd")
 const Table=preload("res://src/diagnostics/ai_trace_table.gd")
 # Returns a recorder, or {} when the flag is off. per_tick also keeps one row per Siren per sample.
 static func attach(sim,per_tick:bool=false,caps:Dictionary={})->Dictionary:
@@ -27,6 +28,7 @@ static func step(rec:Dictionary,sim,dt:float)->void:
 static func sample(rec:Dictionary,sim,baseline:bool=false)->void:
  if rec.is_empty():return
  if not baseline:rec.samples+=1
+ _hunt_sample(rec,sim,baseline)
  var t:float=sim.elapsed
  for i in sim.sirens.size():
   var s=sim.sirens[i]
@@ -51,6 +53,15 @@ static func sample(rec:Dictionary,sim,baseline:bool=false)->void:
   if rec.per_tick and not baseline:
    var tick=row.duplicate();tick.erase("from");tick.erase("cause")
    rec.dropped_ticks+=_push(rec.ticks,tick,rec.tick_cap)
+# Separate bounded public-pressure rows retain the existing per-Siren event shape.
+static func _hunt_sample(rec:Dictionary,sim,baseline:bool)->void:
+ var view=HuntPressure.view(sim)
+ if not view.active:return
+ if not rec.has("hunt_events"):rec.hunt_events=[]
+ var previous:int=rec.get("hunt_last",view.index)
+ if not baseline and previous!=view.index:
+  rec.dropped+=_push(rec.hunt_events,{"t":sim.elapsed,"from":previous,"to":view.index,"cause":view.get("change_cause",view.cause)},rec.event_cap)
+ rec.hunt_last=view.index
 static func _push(ring:Array,row:Dictionary,cap:int)->int:
  ring.append(row)
  if ring.size()>cap:
@@ -98,4 +109,6 @@ static func metrics(rec:Dictionary)->Dictionary:
 # Full deterministic dump: same seed and script give an identical dictionary.
 static func export(rec:Dictionary)->Dictionary:
  if rec.is_empty():return {}
- return {"events":rec.events.duplicate(true),"ticks":rec.ticks.duplicate(true),"metrics":metrics(rec)}
+ var result={"events":rec.events.duplicate(true),"ticks":rec.ticks.duplicate(true),"metrics":metrics(rec)}
+ if rec.has("hunt_events"):result.hunt=rec.hunt_events.duplicate(true)
+ return result

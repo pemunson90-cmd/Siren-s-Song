@@ -12,6 +12,7 @@ const FieldTools=preload("res://src/simulation/field_tool_effects.gd")
 const Shelf=preload("res://src/simulation/shelf_habitat.gd")
 const Wake=preload("res://src/simulation/wake_crossing.gd")
 const Endurance=preload("res://src/simulation/operation_endurance.gd")
+const HuntPressure=preload("res://src/simulation/hunt_pressure/hunt_pressure.gd")
 const Recon=preload("res://src/simulation/recon_consequences.gd")
 const PolygonContainment=preload("res://src/simulation/polygon_containment.gd")
 const Operations=preload("res://src/simulation/resolution_operations.gd")
@@ -141,6 +142,7 @@ func start(index: int, upgrade: String = "endurance", launch:Dictionary={}) -> v
 	_build_navigation()
 	_configure_terrain()
 	_configure_depth_charts()
+	HuntPressure.initialize(mission)
 	_observe()
 # Physical terrain still serves enemies, collision and sound. Player routes
 # and presentation share only this locally measured chart in Confluence.
@@ -696,7 +698,8 @@ func decoy_target_valid(point:Variant) -> bool:
 func _noise(p: Vector2,radius: float,label: String,duration: float=2.0,band:int=1) -> void:
 	noises.append({"band":band,"pos":p,"radius":radius,"time":duration,"label":label})
 	var pressure={"ACTIVE SONAR":5.0,"DISRUPTION":4.0,"KNOCKDOWN":4.0,"DECOY":4.0,"RECON UPLINK":4.0}.get(label,0.0)
-	if pressure>0:Recon.action(mission,pressure)
+	pressure=HuntPressure.action_amount(mission,label,pressure)
+	if pressure>0:Recon.action(mission,pressure,label)
 func courier_feedback() -> Dictionary:
 	return Courier.feedback(self)
 func rendezvous_context(unit_id:int=-1)->Dictionary:return Rendezvous.feedback(self,selected if unit_id<0 else unit_id)
@@ -787,7 +790,7 @@ func _tick(dt: float) -> void:
 				var usable=true
 				if Photo.applies(o):
 					var result=Photo.finish(self,station,o);usable=result.usable
-					if not usable:message="%s · exposure unusable: %s · retake from another angle"%[u.name,Photo.missing_text(Photo.frame(self,station,o),o.subject)];Recon.action(mission,3.0)
+					if not usable:message="%s · exposure unusable: %s · retake from another angle"%[u.name,Photo.missing_text(Photo.frame(self,station,o),o.subject)];Recon.action(mission,3.0,"UNUSABLE EXPOSURE")
 				u.hold=""; captures[station]={}
 				if usable:o.captured=true
 				if not usable:pass
@@ -811,6 +814,7 @@ func _tick(dt: float) -> void:
 	Consequences.extract(self)
 	if not mission.has("expedition_revision") and outcome.is_empty() and all_records() and units[0].pos.distance_to(mission.extraction)<65 and units[0].vel.length()<12:
 		_try_extract({"pos":mission.extraction,"name":"RECOVERY","route":"","available":true})
+	HuntPressure.observe(self,dt) # Commit actual sight/photo edges before pause input can clear them.
 # Player-only continuous hull corridor, O(terrain edges) rather than O(length).
 # Endpoints vs edges are covered by blocked(); the remaining closest segment
 # pairs are an edge intersection or a rock vertex vs this leg. No convexity
@@ -1042,7 +1046,7 @@ func contact_visible(enemy:Dictionary)->bool:
 	var target=int(enemy.get("target",-1))
 	if enemy.get("lock",0)>0 and enemy.get("stun",0)<=0 and target>=0 and target<units.size():
 		var craft=units[target]
-		return craft.alive and craft.pos.distance_to(enemy.pos)<(180.0 if craft.silent else 290.0)*Recon.readiness(enemy) and Depth.sight(self,craft,enemy)
+		return craft.alive and craft.pos.distance_to(enemy.pos)<(180.0 if craft.silent else 290.0)*HuntPressure.sight(mission,enemy,Recon.readiness(enemy)) and Depth.sight(self,craft,enemy)
 	return false
 func visible(p: Vector2,band:int=1) -> bool:
 	if WorldRegion.survey_visible(self,p): return true
@@ -1107,12 +1111,12 @@ func _threats(dt: float) -> bool:
 			var u=units[i]
 			if not u.alive: continue
 			var dist=s.pos.distance_to(u.pos)
-			var radius=(180.0 if u.silent else 290.0)*Recon.readiness(s)
+			var radius=(180.0 if u.silent else 290.0)*HuntPressure.sight(mission,s,Recon.readiness(s))
 			if dist<radius and Depth.sight(self,s,u): detected=i; break
 			if mission.get("acoustic_revision",0)!=1 and propulsion_speed(u)>50 and dist<430*Recon.readiness(s)*Sweeper.ear(s)*Depth.transmission(s,u) and Depth.clear(self,s.pos,u.pos,s.band):
 				s.goal=u.pos; heard=true; craft_heard=true; s.mode="INVESTIGATE"; s.suspicion=maxf(s.suspicion,0.3)
 		var recipient=Choir.body(self) if not Choir.body(self).is_empty() else Recipient.body(self);var recipient_seen=false
-		if detected<0 and not recipient.is_empty() and recipient.alive and s.pos.distance_to(recipient.pos)<180.*Recon.readiness(s) and Depth.sight(self,s,recipient):recipient_seen=true
+		if detected<0 and not recipient.is_empty() and recipient.alive and s.pos.distance_to(recipient.pos)<180.*HuntPressure.sight(mission,s,Recon.readiness(s)) and Depth.sight(self,s,recipient):recipient_seen=true
 		if mission.get("acoustic_revision",0)==1:
 			var arrival=_heard_arrival(s)
 			if not arrival.is_empty():

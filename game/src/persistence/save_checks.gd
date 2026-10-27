@@ -2,6 +2,7 @@ extends RefCounted
 # Feature save validators, in original short-circuit order and shape-guard phases.
 # Seam: valid_snapshot calls valid(data, phase); add feature registrations here.
 # Save shapes and rule values are unchanged. Revert by restoring the inline calls.
+const HuntPressure=preload("res://src/simulation/hunt_pressure/hunt_pressure.gd")
 const Shelf=preload("res://src/simulation/shelf_habitat.gd")
 const Wake=preload("res://src/simulation/wake_crossing.gd")
 const Operations=preload("res://src/simulation/resolution_operations.gd")
@@ -27,10 +28,12 @@ const Sonar=preload("res://src/simulation/advanced_sonar.gd")
 const Photo=preload("res://src/simulation/photo_capture.gd")
 const ObservedStun=preload("res://src/simulation/observed_stun.gd")
 const WorldRegion=preload("res://src/simulation/world_region.gd")
+const Economy=preload("res://src/campaign/economy.gd")
 const FieldTools=preload("res://src/simulation/field_tool_effects.gd")
 
 # phase, feature module, method, input shape
 const save_checks = [
+	["initial", HuntPressure, "valid", "mission_time"],
 	["initial", Depth, "valid", "snapshot"],
 	["initial", Sonar, "valid", "snapshot"],
 	["initial", ModuleRecovery, "valid", "snapshot"],
@@ -57,6 +60,8 @@ const save_checks = [
 	["transport", Departure, "valid", "mission_time"],
 	["transport", Courier, "valid", "mission_time"],
 	["transport", Thermal, "valid_mission", "mission"],
+	# Campaign archive phase: SaveStore.valid asks for it; an absent economy field is defaults.
+	["archive", Economy, "valid_archive", "snapshot"],
 ]
 
 static func valid(data: Dictionary, phase: String) -> bool:

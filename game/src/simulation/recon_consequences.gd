@@ -1,11 +1,13 @@
 extends RefCounted
+const HuntPressure=preload("res://src/simulation/hunt_pressure/hunt_pressure.gd")
 const Photo=preload("res://src/simulation/photo_capture.gd")
 # V7 action/evidence pressure, adapted to local, earned hostile awareness.
 # The own operational estimate never supplies a remote guard's knowledge.
 static func state(m:Dictionary)->Dictionary:
  return m.get("reconnaissance",{"hunt":0.0,"floor":0.0,"delay":0.0,"secured":[]})
-static func action(m:Dictionary,amount:float)->void:
+static func action(m:Dictionary,amount:float,cause:String="EXPOSURE")->void:
  var p=state(m).duplicate(true);p.hunt=minf(100,p.hunt+amount);p.delay=6.0;m.reconnaissance=p
+ HuntPressure.note(m,cause)
 static func tick(m:Dictionary,dt:float)->void:
  var p=state(m).duplicate(true)
  p.hunt+=dt*.2
@@ -27,6 +29,7 @@ static func secured(sim,record:Dictionary,unit_id:int)->void:
  var index=Photo.index_of(sim,record)
  var p=state(sim.mission).duplicate(true)
  if index not in p.secured:
+  HuntPressure.note(sim.mission,"SECURED RECORD")
   p.secured.append(index);p.floor=minf(100,p.secured.size()*8.0);p.hunt=maxf(p.floor,minf(100,p.hunt+8));p.delay=6.0
   for guard in sim.sirens:
    if index in guard.get("heard_records",[]) or (unit_id>=0 and guard.stun<=0 and guard.target==unit_id):

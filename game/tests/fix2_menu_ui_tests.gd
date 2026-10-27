@@ -7,7 +7,7 @@ const Catalog=preload("res://src/equipment/equipment_catalog.gd")
 func shape_case(shape):
  root.size=shape;await settle()
  var game=load("res://scenes/main.tscn").instantiate();game.set_script(load("res://tests/density_main.gd"));game.capture_scenario="runtime-test"
- root.add_child(game);await settle();game.set_process(false);game.completed=[0];game.unlocked=5
+ root.add_child(game);await settle();game.set_process(false);game.economy.unlocks=["hull:quiet","hull:fast","chassis:scout","chassis:heavy","chassis:endurance"];game.completed=[0];game.unlocked=5
  game.active_started=false;game._show_campaign();await settle()
  var row=button(game,"mission1");var position=row.position.y if row!=null else -1.
  game.active_started=true;game._show_campaign();await settle();row=button(game,"mission1")

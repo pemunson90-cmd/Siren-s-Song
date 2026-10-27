@@ -64,6 +64,7 @@ var completed: Array=[]
 var expedition:Dictionary={}
 var end_of_line_seen=false
 var fleet:Dictionary={}
+var economy:Dictionary=preload("res://src/campaign/economy.gd").new_state()
 var challenge_records:Dictionary={}
 var fitted_equipment:Dictionary=preload("res://src/equipment/equipment_catalog.gd").default_loadout()
 var upgrade := "endurance"
@@ -496,6 +497,8 @@ func _campaign_pristine()->bool:
 	return CampaignFlow.campaign_pristine(self)
 func _show_fittings()->void:
 	CampaignFlow.show_fittings(self)
+func _show_economy()->void:
+	preload("res://src/presentation/economy_panel.gd").show(self)
 func _cycle_loadout()->void:
 	CampaignFlow.cycle_loadout(self)
 func _orders_text(briefing:Dictionary) -> String:
@@ -586,6 +589,7 @@ func _archive() -> Dictionary:
 	if not photo_intel.is_empty():data["intel"]=photo_intel.duplicate(true)
 	if not expedition.is_empty():data["expedition"]=expedition.duplicate(true)
 	if not fleet.is_empty():data["fleet"]=fleet.duplicate(true)
+	data["economy"]=economy.duplicate(true)
 	if not hints_seen.is_empty():data["hints_seen"]=hints_seen.duplicate()
 	if not early_reward.is_empty():data["early_reward"]=early_reward.duplicate(true)
 	preload("res://src/presentation/first_siren_cue/cue_archive.gd").write(self,data)
@@ -635,6 +639,8 @@ func _load_archive() -> void:
 		photo_intel=saved.get("intel",{}).duplicate(true)
 		fitted_equipment=preload("res://src/equipment/equipment_catalog.gd").canonical(saved.get("equipment",{}))
 		fitted_equipment=FleetInventory.reconcile_fitting(fitted_equipment,FleetInventory.available(_equipment_entitlements(),fleet))
+		var Economy=preload("res://src/campaign/economy.gd")
+		economy=saved.economy.duplicate(true) if saved.has("economy") else Economy.legacy_state(fitted_equipment)
 		recovered_evidence=saved.get("evidence",{})
 		photo_records=saved.get("photo_records",{}).duplicate(true)
 		hints_seen=saved.get("hints_seen",[]).duplicate()
@@ -660,7 +666,11 @@ func _settings_menu() -> void:
 		_menu_text("%s VOLUME"%key.to_upper(),17)
 		var slider=HSlider.new(); slider.min_value=0; slider.max_value=1; slider.step=0.05; slider.value=settings.get(key,0.5); slider.custom_minimum_size.y=ui_touch_height; slider.set_meta("ui_action","volume_"+key); panel_box.add_child(slider)
 		slider.value_changed.connect(func(value): settings[key]=value; sound.set(key+"_volume",value); _save_archive())
-	_button(panel_box,"MUTE: %s"%("ON" if sound.muted else "OFF"),func(): sound.muted=not sound.muted; settings.mute=sound.muted; _save_archive(); _settings_menu(),"mute")
+	var audio_modes=HBoxContainer.new(); audio_modes.add_theme_constant_override("separation",8); panel_box.add_child(audio_modes)
+	var mute_button=_button(panel_box,"MUTE: %s"%("ON" if sound.muted else "OFF"),func(): sound.muted=not sound.muted; settings.mute=sound.muted; _save_archive(); _settings_menu(),"mute")
+	var night_button=_button(panel_box,"NIGHT MODE: %s"%("ON" if FrontendSettings.current.night_mode else "OFF"),func():_set_accessibility("night_mode",not FrontendSettings.current.night_mode),"setting_night_mode")
+	for button in [mute_button,night_button]:
+		button.reparent(audio_modes); button.size_flags_horizontal=Control.SIZE_EXPAND_FILL
 	_menu_text("TEXT SIZE · applies to menus and the dive display",17)
 	var sizes=HBoxContainer.new(); sizes.add_theme_constant_override("separation",8); panel_box.add_child(sizes)
 	for choice in [["NORMAL",1.0],["LARGE",1.3],["EXTRA LARGE",1.5]]:

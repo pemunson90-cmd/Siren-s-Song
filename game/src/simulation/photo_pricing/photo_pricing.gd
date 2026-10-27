@@ -215,6 +215,6 @@ static func chart_rings(sim)->Dictionary:
 	for i in sim.contacts:
 		var c=sim.contacts[i]
 		if sim.elapsed-float(c.time)>Table.CONTACT_MAX_AGE or int(c.get("band",1)) not in [-1,u.band]:continue
-		var ready:float=sim.Recon.readiness(sim.sirens[i]) if i<sim.sirens.size() else 1.0
+		var ready:float=sim.HuntPressure.sight(sim.mission,sim.sirens[i],sim.Recon.readiness(sim.sirens[i])) if i<sim.sirens.size() else 1.0
 		sirens.append({"pos":c.pos,"r":_sight(sim,u)*ready})
 	return {"pos":o.pos,"label":r.get("key",""),"plain":r.get("plain",0.0),"flash":r.get("flash",0.0),"hidden":r.get("hidden",false),"light":r.get("light",false),"heard":r.get("heard",Table.SHUTTER_RING),"sirens":sirens,"craft":u.pos}

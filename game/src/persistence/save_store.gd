@@ -41,6 +41,7 @@ func valid(data: Dictionary) -> bool:
 	if data.has("expedition") and not preload("res://src/campaign/expedition_campaign.gd").valid(data.expedition):return false
 	var earned=preload("res://src/campaign/early_reward/early_reward.gd").earned(data.get("early_reward",{}),preload("res://src/equipment/craft_upgrades.gd").recovered(data.completed,data.get("expedition",{}),data.get("intel",{})))
 	if data.has("fleet") and not preload("res://src/campaign/fleet_inventory.gd").valid(data.fleet,earned,data.completed+data.get("expedition",{}).get("completed",[])):return false
+	if not preload("res://src/persistence/save_checks.gd").valid(data,"archive"):return false
 	if data.has("equipment"):
 		if not preload("res://src/campaign/campaign_consequences.gd").fitting_valid(data.equipment):return false
 		for item in preload("res://src/equipment/equipment_catalog.gd").all_items(data.equipment):

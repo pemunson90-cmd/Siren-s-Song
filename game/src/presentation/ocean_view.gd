@@ -1,6 +1,8 @@
 extends Control
 const ArtTable=preload("res://src/presentation/art/art_table.gd")
 const Art=preload("res://src/presentation/art/art_renderer.gd")
+const RegionTable=preload("res://src/presentation/art/region_table.gd")
+const RegionArt=preload("res://src/presentation/art/region_renderer.gd")
 const FeatureViews=preload("res://src/presentation/feature_views.gd")
 const HullBand=preload("res://src/presentation/route_clearance/hull_band.gd")
 const Shelf=preload("res://src/presentation/shelf_habitat_view.gd")
@@ -24,6 +26,7 @@ var phase := 0.0
 var world_scale := 1.0
 var world_offset := Vector2.ZERO
 var ocean: ImageTexture
+var regional_style:Dictionary={}
 var rocks: Array = []
 var foundry=preload("res://assets/structures/foundry.png")
 var quietus=preload("res://assets/craft/quietus.png")
@@ -210,7 +213,9 @@ func _draw() -> void:
 	draw_set_transform(world_offset,0,Vector2.ONE*world_scale)
 	var region=sim.world_size()
 	var earned=EarnedChart.chart(sim)
-	draw_texture_rect_region(ocean,Rect2(Vector2.ZERO,region),Rect2(Vector2.ZERO,region/2.0))
+	regional_style=RegionTable.style(sim.mission)
+	draw_texture_rect_region(ocean,Rect2(Vector2.ZERO,region),Rect2(Vector2.ZERO,region/2.0),regional_style.get("water",Color.WHITE))
+	RegionArt.atmosphere(self,regional_style,region,phase)
 	# Cartographic graticule, subordinate to the physical water and stone.
 	for x in range(0,int(region.x)+1,160):
 		draw_line(Vector2(x,0),Vector2(x,region.y),Color(0.3,0.65,0.67,0.06),1)
@@ -239,10 +244,11 @@ func _draw() -> void:
 	if earned.is_empty():
 		for r in (sim.mission.get("depth_geometry",{}).get(sim.units[sim.selected].band,{}).get("rocks",sim.mission.rocks) if sim.mission.id!=8 else []): _rock(r)
 	elif sim.mission.id==11:
-		Confluence.draw_terrain(self,earned,world_scale,Rect2(-world_offset/world_scale,size/world_scale))
+		Confluence.draw_terrain(self,earned,world_scale,Rect2(-world_offset/world_scale,size/world_scale),regional_style)
 		if sim.has_method("confluence_context"):
 			var context=sim.confluence_context();context["surface_segments"]=earned.get("surface_segments",[])
 			Confluence.draw_landmarks(self,context,world_scale)
+	elif not regional_style.is_empty():RegionArt.chart_terrain(self,earned,world_scale,regional_style)
 	else:EarnedChart.draw_terrain(self,earned,world_scale)
 	FeatureViews.draw_ground(self)
 	if ArtTable.enabled and not earned.is_empty() and presenting_mission and sim.outcome.is_empty() and optical_feed!=null and optical_feed.visible and optical_feed.art_lamp_current(sim):
@@ -394,8 +400,9 @@ func _draw() -> void:
 			draw_arc(n.pos,29,0,TAU,40,Color("675b43"),2)
 			draw_arc(n.pos,29,-PI/2,-PI/2+TAU*clampf(n.time/15.0,0,1),40,Color("e1b66e"),3)
 			draw_circle(n.pos,4,Color("e1b66e"))
-	# Sediment, restrained wake, and instrument ticks live above the physical view.
-	for i in 70:
+	# Legacy foreground sediment remains exact with regional presentation off.
+	# Regional particulate is below terrain/masks and cannot veil contact warnings.
+	for i in (70 if regional_style.is_empty() else 0):
 		var p=Vector2(fmod(i*241.17+phase*2,region.x),fmod(i*137.3+phase*0.7,region.y))
 		draw_circle(p,0.7+float(i%3)*0.35,Color(0.48,0.7,0.7,0.11))
 	draw_rect(Rect2(Vector2.ZERO,region),Color(0.3,0.7,0.7,0.19),false,2)
@@ -546,8 +553,8 @@ func _rock(r) -> void:
 	for p in poly:
 		lower.append(p+Vector2(9,23)); uv.append((p-origin)/Vector2(400,400))
 	draw_colored_polygon(lower,Color("030b11"))
-	draw_colored_polygon(poly,Color("31474c"))
-	draw_polygon(poly,PackedColorArray([Color(0.72,0.85,0.86)]),uv,basalt)
+	draw_colored_polygon(poly,regional_style.get("stone",Color("31474c")))
+	draw_polygon(poly,PackedColorArray([regional_style.get("water",Color(0.72,0.85,0.86))]),uv,basalt)
 	for n in poly.size():
 		var a=poly[n]; var b=poly[(n+1)%poly.size()]
 		if b.x<a.x:
@@ -555,7 +562,7 @@ func _rock(r) -> void:
 			for k in range(0,int(a.distance_to(b)),8):
 				var p=a.move_toward(b,k)
 				draw_line(p,p+Vector2(7,21),Color(0.2,0.35,0.39,0.5),2)
-		else: draw_line(a,b,Color(0.49,0.65,0.66,0.55),1.8)
+		else: draw_line(a,b,Color(regional_style.edge,.55) if not regional_style.is_empty() else Color(0.49,0.65,0.66,0.55),1.8)
 	draw_polyline(poly,Color(0.17,0.26,0.3,0.5),2)
 func _installation(p: Vector2,recorded: bool) -> void:
 	if ArtTable.enabled:
