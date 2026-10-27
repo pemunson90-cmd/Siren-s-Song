@@ -48,7 +48,7 @@ No APK, phone/human-test request, branch deletion, force push, amend or frozen-b
 
 ## 27 October 2026: Pat's documentation-only decisions and pause
 
-Development is **PAUSED**; the rulings below are recorded for the next authorized continuation and **do not** authorize implementation, new claims, CI, merges, APK builds or production promotion. Live Codex claims/roadmap remain on `codex/handoffs` BOARD.md.
+Development was paused, then **resumed by Pat at ~19:17 ET the same day** (see USER_DIRECTIVES top entry); the rulings below are recorded for the next authorized continuation and **do not** authorize implementation, new claims, CI, merges, APK builds or production promotion. Live Codex claims/roadmap remain on `codex/handoffs` BOARD.md.
 
 - Relay buoy: retain +35% passive-sensing boost for **both drones within the buoy's effect radius**; unlimited drone command range stays. Equipment PR #150 still requires correction of the hosted fitting/touch failure and green exact-head CI **after resumption**.
 - `lung_solo` challenge: 110-second dismantle and 300-second reconnect route-aware pars; keep route-specific personal bests plus overall challenge completion. Design accepted, **not implemented**.
