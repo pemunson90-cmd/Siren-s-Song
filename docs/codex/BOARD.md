@@ -132,7 +132,7 @@ Current authorized order:040 photo journeys,033 documentation,048 HUD,050 sight-
 ## BATCH 11 (26 Oct, Pat: finish the game; rules in ORCHESTRATION_2026-10-26.md)
 | Order | Handoff | Status | PR | Finished (UTC) | One-line result |
 |---|---|---|---|---|---|
-| 48 | 051 CALDER TRENCH arc6: ops32-34 core,35-36 optional,3 artifacts,finale34 | CLAIMED (codex) | [152](https://github.com/pemunson90-cmd/Siren-s-Song/pull/152) | | Head bd93e105 published; local core841/0 and required journeys14/0; hosted gates pending. |
+| 48 | 051 CALDER TRENCH arc6: ops32-34 core,35-36 optional,3 artifacts,finale34 | CLAIMED (codex) | [152](https://github.com/pemunson90-cmd/Siren-s-Song/pull/152) | | Head4af007a7; core841/0, journeys14/0, home1946/0. Stale complete-campaign fixture corrected; new hosted gates pending. |
 | 49 | 052 OPTIONAL OPS 37-40: Sorley's trawler + 3 optionals in arcs 2-3 | OPEN | | | |
 | 50 | 053 REGIONAL PRESENTATION: per-region ambience and look, night-mode dynamic range | OPEN | | | |
 

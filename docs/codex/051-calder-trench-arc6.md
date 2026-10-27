@@ -38,7 +38,7 @@ PR into claude/integration; merge on green; close per ORCHESTRATION section 7.
 
 ## Completion
 Calder ops32..36, three physical artifacts and final intro34 implemented in PR https://github.com/pemunson90-cmd/Siren-s-Song/pull/152; awaiting hosted gates.
-Recovery: claude/lane-calder-trench bd93e1052bf8e313e90c05485a45c32fd6c941d5; worktree051-calder-trench; base ec19ecb4.
-Import/core841/0, bare core journeys14/0, finale32/0+UI333/0, route graph63/0+UI72/0; no phone testing.
-Reward targets intentionally arrive in054/055 per interface. No new save schema; unknown recovery IDs still rejected.
-Necessary seams outside initial list: GlassWork cargo IDs, Hunt cap table, route positions/fixtures, Save2Record registered-ID validation and finale caller; no protected mechanics changes.
+Recovery: claude/lane-calder-trench 4af007a74bf1d34cf82d0baf0ea4f5b394cae380; worktree051-calder-trench; base ec19ecb4.
+Import/core841/0, bare core journeys14/0, finale32/0+UI333/0, route graph63/0+UI72/0 and Operations home1946/0; no phone testing.
+Reward targets intentionally arrive in054/055 per interface. No new save schema; unknown recovery IDs still rejected. Hosted40424137088 exposed stale full-campaign home fixture, now retains32 plus catalog-complete case.
+Necessary seams outside initial list: GlassWork cargo IDs, Hunt cap table, route positions/fixtures, Save2Record registered-ID validation finale caller and Operations home fixture; no protected mechanics changes.
