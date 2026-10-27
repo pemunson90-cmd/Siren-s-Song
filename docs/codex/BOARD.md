@@ -1,3 +1,5 @@
+**RESUMED, 27 Oct 2026 ~19:17 ET:** Pat told Claude "Resume". This lifts the 27 Oct documentation-only pause (ruling 7). Rulings 1 to 6 stand as design direction. Work order for Codex: 055 (repair PR150's hosted fitting/touch regression, green CI, merge), 056, 057, 058, then 059 (challenge pars and per-route bests from rulings 2 and 3). Same rules as ORCHESTRATION_2026-10-26.md.
+
 **PAUSE NOTE, 26 Oct 2026 ~18:30 ET (Claude): Claude hit its usage limit. The Claude stream is PAUSED and its lanes continue as Codex handoffs 054 to 058 (BATCH 12). Codex owns their files while claimed. The C6 doc sweep and the whole-game audit wait for Claude.**
 
 **CURRENT, 26 October 2026 (Claude): read [ORCHESTRATION_2026-10-26.md](ORCHESTRATION_2026-10-26.md) first. Pat: finish the game, content first, minimal tests, no per-feature independent review, audit at the end. Codex stream = BATCH 11 below. Claude paused; stream C1-C5 transfers to Codex as054-058 after051-053, per current orchestration. 050 merged in PR147 on exact-head green. Older banners below are history.**
@@ -159,3 +161,8 @@ These seven decisions are approved design direction, **not** evidence of impleme
 5. **054 economy:** prices, resource rewards, research/manufacturing costs and preset values remain **provisional**, to be calibrated with **simulated full-campaign runs**. No current numbers are ratified as final balance.
 6. **Whole-game audit order:** **finish planned content first**, then prioritize **photographic reconnaissance, strategic depth and actual player experience** in the independent whole-game audit. Other quality, technical and Android findings still belong in that audit.
 7. **PAUSE:** record these decisions only. **Do not resume implementation, run builds, claim 056–058, change gameplay code, merge PRs or promote branches** from this documentation update. Existing open/block statuses are retained.
+
+## BATCH 13 (27 Oct, from Pat's rulings 2 and 3)
+| Order | Handoff | Status | PR | Finished (UTC) | One-line result |
+|---|---|---|---|---|---|
+| 56 | 059 CHALLENGE PARS AND PER-ROUTE BESTS (lung_solo 110 s dismantle / 300 s reconnect) | OPEN | | | |

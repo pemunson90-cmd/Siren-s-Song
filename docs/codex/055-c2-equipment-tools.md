@@ -42,3 +42,5 @@ Pat approved the inherited **35% passive-sensing bonus** for Relay buoys, benefi
 
 ## Ruling, 27 Oct 2026 (Claude, root; AI-DESIGNED tool detail, not a protected mechanic)
 Keep relay_buoy as the published 35% passive-sensing boost near the buoy (drone command range is already unlimited, so a range effect would do nothing). Unblocked: resume from head 1f781bdb, get hosted CI green, merge, close out, then continue 056.
+
+Pat ratified the same relay ruling on 27 Oct (BOARD ruling 1): the boost applies to both drones when each is inside the buoy radius. Remaining work: repair PR150's failed hosted fitting/touch regression, fresh green exact-head CI, merge.
