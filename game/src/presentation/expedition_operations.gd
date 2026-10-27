@@ -37,7 +37,7 @@ static func debrief(main)->bool:
  main.expedition=Campaign.recover(main.expedition,mission)
  if main.get("economy") is Dictionary:main.expedition=preload("res://src/campaign/economy.gd").after_recover(main.economy,previous,main.expedition)
  preload("res://src/persistence/save_states/save2_controller.gd").recovered(main,previous)
- if main.sim.outcome=="won" and mission.id==31 and not preload("res://src/campaign/endings_photo.gd").resolve(main.expedition,main.photo_intel).is_empty():
+ if main.sim.outcome=="won" and mission.id in [31,preload("res://src/presentation/finale/finale_table.gd").LAST_ID] and not preload("res://src/campaign/endings_photo.gd").resolve(main.expedition,main.photo_intel).is_empty():
   if preload("res://src/presentation/finale/finale.gd").first_recovery(main,previous):return true
   main._show_ending();return true
  if main.sim.outcome=="won" and mission.id in [12,13] and not preload("res://src/campaign/endings.gd").resolve(main.expedition).is_empty():

@@ -19,7 +19,7 @@ static func restore(host,data:Dictionary)->void:
 static func clear(host)->void:
  host.end_of_line_seen=false;host.set_meta(Table.SHOW_META,false)
 static func first_recovery(host,previous:Dictionary)->bool:
- if not Table.enabled or host.sim.outcome!="won" or host.sim.mission.id!=Table.LAST_ID or Table.LAST_ID in previous.get("completed",[]) or host.end_of_line_seen:return false
+ if not Table.enabled or host.sim.outcome!="won" or host.sim.mission.id!=Table.LAST_ID or Table.LAST_ID in previous.get("completed",[]):return false
  return show(host)
 static func show(host)->bool:
  if not Table.enabled or not eligible(host):return false

@@ -1,6 +1,10 @@
 extends RefCounted
 # Actual recovered material is consumed once with received regional evidence.
-const RECIPES={"pressure_spindle":{"item":"quietus_pressure_sleeve","evidence":"choir_22","operation":26},"traction_core":{"item":"drone_traction_yoke","evidence":"choir_23","operation":27},"prism_core":{"item":"quietus_prism","evidence":"glass_record_16","operation":20},"keeper_wafer":{"item":"quietus_decoder","evidence":"glass_record_17","operation":21}}
+const RECIPES={"pressure_spindle":{"item":"quietus_pressure_sleeve","evidence":"choir_22","operation":26},"traction_core":{"item":"drone_traction_yoke","evidence":"choir_23","operation":27},"prism_core":{"item":"quietus_prism","evidence":"glass_record_16","operation":20},"keeper_wafer":{"item":"quietus_decoder","evidence":"glass_record_17","operation":21},
+ "trench_seal_core":{"item":"quietus_wellhead_seal","evidence":"glass_record_32","operation":32},
+ "choir_reed":{"item":"drone_choir_tuner","evidence":"glass_record_33","operation":33},
+ "deep_keel_plate":{"item":"hull:quiet","evidence":"glass_record_35","operation":35},
+ "trawler_screw":{"item":"hull:fast","evidence":"glass_record_37","operation":37}}
 static func recovered(previous:Dictionary,mission:Dictionary)->Dictionary:
  var p=previous.duplicate(true)
  var state=mission.get("glass_reach",mission.get("iron_choir",{}))

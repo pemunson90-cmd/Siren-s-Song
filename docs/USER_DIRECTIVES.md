@@ -1,12 +1,22 @@
+## 26 October 2026 Eastern: finish the game
+
+Pat: the goal is to finish the game. Prioritize completing content; tests only when absolutely necessary; audit everything at the end. Claude is root orchestrator and delegates lanes to Codex; Claude and Codex each orchestrate their own subagents and stay out of each other's files. Every task ends by cleaning up its claim, recording completion and correcting stale docs it touched.
+
+- **Supersedes** the per-feature independent nonauthor review and evidence-archive requirements in the 25 October entry and older text. Merge on green guidance + game-smoke for the exact head (merge commit). One whole-game cold audit follows content completion.
+- **Minimum tests:** import + core; new suites only for new save fields, new core operations (one bare-Quietus finishability journey) and outcome-deciding math. Never skip, loosen or delete a test.
+- **Promotion:** Pat chose milestone promotions (option A). Claude opens a PR from claude/integration to gauntlet/production at each big milestone; Pat merges it.
+- **Plan and ownership:** `docs/codex/ORCHESTRATION_2026-10-26.md` on `codex/handoffs` (Codex stream 050-053; Claude stream C1-C6: economy, equipment/tools, modes/expeditions, naval career, settings gaps, doc sweep).
+- Unchanged: protected combat/sensing rules, sight-only Hunt boundary, placeholder story within the provisional bible, no APK, no force push, no branch deletion.
+
 ## 25 October 2026 Eastern: local continuation and reversible work
 
-Pat continued the authorized queue, asked Codex to follow guidance and reconcile stale owned documentation while working, and approved Codex taking over unfinished048 HUD and050 after its existing tasks. The live board on `codex/handoffs` owns order, claims and completion; Claude's absence does not block ordinary authorized implementation, independent review or green integration merges.
+Pat continued the authorized queue, asked Codex to follow guidance and reconcile stale owned documentation while working, and approved Codex taking over unfinished 048 HUD and 050 after its existing tasks. The live board on `codex/handoffs` owns order, claims and completion; Claude's absence does not block ordinary authorized implementation, independent review or green integration merges.
 
-Pat accepted sight-only Hunt first for050. Global Hunt may increase sight notice range; hearing, movement speed and lock timing stay unchanged. The earlier proposal to scale hearing through shared readiness is superseded. Other proposal numbers/caps remain tunable defaults for testing, not claimed human acceptance. No hearing scaling is implicitly authorized later.
+Pat accepted sight-only Hunt first for 050. Global Hunt may increase sight notice range; hearing, movement speed and lock timing stay unchanged. The earlier proposal to scale hearing through shared readiness is superseded. Other proposal numbers/caps remain tunable defaults for testing, not claimed human acceptance. No hearing scaling is implicitly authorized later.
 
 Make ordinary choices reversible through narrow modules, data tables, off switches and documented reverts; ask concise questions where needed and keep independent work moving while responses are pending. This does not authorize irreversible promotion, new story/art direction, SIREN TELL or unapproved protected combat/sensing changes. Phone/human testing stays deferred until feature complete and tuned. Existing no-APK, save/evidence preservation and exact-head merge gates remain.
 
-Pat's later25October instruction: keep documentation clear, reconcile stale owned text without erasing history, and report verified task completions. Before implementation changes, use focused official web research and check existing project/library solutions. Prefer established approaches and reuse; keep research, delegation and test repetition proportionate to reduce token and compute overhead. This does not replace required independent review or final-head checks.
+Pat's later 25 October instruction: keep documentation clear, reconcile stale owned text without erasing history, and report verified task completions. Before implementation changes, use focused official web research and check existing project/library solutions. Prefer established approaches and reuse; keep research, delegation and test repetition proportionate to reduce token and compute overhead. This does not replace required independent review or final-head checks.
 
 ## Historical 23 October 2026 cloud stop and Windows handover (superseded by local resumption)
 

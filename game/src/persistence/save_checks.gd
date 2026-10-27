@@ -2,6 +2,7 @@ extends RefCounted
 # Feature save validators, in original short-circuit order and shape-guard phases.
 # Seam: valid_snapshot calls valid(data, phase); add feature registrations here.
 # Save shapes and rule values are unchanged. Revert by restoring the inline calls.
+const HuntPressure=preload("res://src/simulation/hunt_pressure/hunt_pressure.gd")
 const Shelf=preload("res://src/simulation/shelf_habitat.gd")
 const Wake=preload("res://src/simulation/wake_crossing.gd")
 const Operations=preload("res://src/simulation/resolution_operations.gd")
@@ -31,6 +32,7 @@ const Economy=preload("res://src/campaign/economy.gd")
 
 # phase, feature module, method, input shape
 const save_checks = [
+	["initial", HuntPressure, "valid", "mission_time"],
 	["initial", Depth, "valid", "snapshot"],
 	["initial", Sonar, "valid", "snapshot"],
 	["initial", ModuleRecovery, "valid", "snapshot"],
