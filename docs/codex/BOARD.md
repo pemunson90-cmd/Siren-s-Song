@@ -166,3 +166,13 @@ These seven decisions are approved design direction, **not** evidence of impleme
 | Order | Handoff | Status | PR | Finished (UTC) | One-line result |
 |---|---|---|---|---|---|
 | 56 | 059 CHALLENGE PARS AND PER-ROUTE BESTS (lung_solo 110 s dismantle / 300 s reconnect) | OPEN | | | |
+
+## BATCH 14 (27 Oct, queue depth; take after 059 in numeric order where preconditions allow)
+| Order | Handoff | Status | PR | Finished (UTC) | One-line result |
+|---|---|---|---|---|---|
+| 57 | 060 EQUIPMENT AND EVENT AUDIO | OPEN | | | |
+| 58 | 061 RECEIVED MESSAGES, FIELD LOGS, RECURRING VOICES | OPEN | | | |
+| 59 | 062 RESEARCH SCREEN, ARCHIVE AND CREDITS | OPEN | | | |
+| 60 | 063 PERFORMANCE PASS | OPEN | | | |
+
+Claude lanes in parallel (not Codex work): C6 doc sweep (claude/c6-doc-sweep), C7 economy calibration by simulated campaign runs (claude/c7-economy-calibration).
