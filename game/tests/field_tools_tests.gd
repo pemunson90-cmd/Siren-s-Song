@@ -75,6 +75,10 @@ func tools_in_play():
  var far=s.passive_range(1);s.units[1].pos=s.units[0].pos
  check(s.command("relay_buoy"),"relay buoy places")
  check(absf(s.passive_range(1)-far*1.35)<.01 and s.passive_range(0)==240.0,"relay lengthens drone reach only")
+ s.units[2].pos=s.units[0].pos
+ check(absf(s.passive_range(2)-far*1.35)<.01,"relay benefits the second drone independently inside its radius")
+ s.units[2].pos=s.units[0].pos+Vector2(421,0)
+ check(is_equal_approx(s.passive_range(2),far),"second drone loses the bonus outside the radius while the first retains it")
  s.units[1].pos=Vector2(40,40)
  check(s.passive_range(1)==far or s.units[1].pos.distance_to(s.units[0].pos)<=420.0,"reach is local to the relay")
  var saved=s.snapshot();var back=Sim.new()
