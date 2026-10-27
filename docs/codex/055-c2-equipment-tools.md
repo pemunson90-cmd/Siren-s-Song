@@ -27,12 +27,11 @@ Import, core, and only the minimum suites in ORCHESTRATION section 5. Suite rank
 PR into claude/integration; merge on green; close per ORCHESTRATION section 7.
 
 ## Completion
-PAUSED FOR PAT RULING: draft https://github.com/pemunson90-cmd/Siren-s-Song/pull/150 has all other equipment/tool work concrete; 056..058 remain queued.
-Recovery: claude/c2-equipment1f781bdb8cf24380c42c652eac25d17bfced5339, worktree055-c2-equipment, merged integration0f2cc962. Resume055 here; next command gh pr checks 150.
-Import/core846/0, field tools87/0, unchanged radial58/0, injected-touch smoke36/0. Fresh exact-head CI pending; no merge, APK or promotion.
-Pat must decide Relay: command range is unlimited; inherited code boosts nearby drone passive sensing35% instead. Approve that effect or specify replacement; no command limits were added.
-Eight module recovery grants, research gates, MORE TOOLS/bundles, collision-only repair and symmetric Silt optics done. Necessary seams: mission_hud.gd four hooks, simulation.gd collision observation, depth_bands.gd optical_clear plus photo_capture.gd/photo_context.gd optical calls; formulas/photo rules unchanged.
-
+Resumed 27 Oct: repaired carrier grouping and selected-module visibility; PR https://github.com/pemunson90-cmd/Siren-s-Song/pull/150 awaits exact-head hosted gates.
+Recovery: claude/c2-equipment 6a44fe254e19ec392758e4135658d0592d83fce0, worktree 055-c2-equipment; next command gh pr checks 150.
+Windows import/core846/0, field tools89/0, unchanged briefing scroll/touch52/0 (cover and inner). Relay35% bonus verified for both drones within420m.
+No APK or promotion. Integration0a49d383 reconciled; Pat's Relay decision is resolved, no further design decision pending.
+Additional necessary presentation seam: equipment_context.gd groups compatible carriers and retains their visibility; earlier minimal simulation/photo/HUD seams retained.
 ## Pat ruling, 27 October 2026 — design resolved, implementation paused
 
 Pat approved the inherited **35% passive-sensing bonus** for Relay buoys, benefiting **both drones individually while inside the buoy's effect radius**. Keep drone commands unlimited; do not introduce artificial command-range restrictions. This supersedes the earlier requirement that Relay extend command range. Confirm the actual radius/eligibility behavior during future implementation review rather than inventing a number now.
