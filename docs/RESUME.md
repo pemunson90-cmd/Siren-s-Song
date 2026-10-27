@@ -54,4 +54,5 @@ Development was paused, then **resumed by Pat at ~19:17 ET the same day** (see U
 - `lung_solo` challenge: 110-second dismantle and 300-second reconnect route-aware pars; keep route-specific personal bests plus overall challenge completion. Design accepted, **not implemented**.
 - Sight-only Hunt's current reversible numbers/presentation are a **provisional testing baseline**, with retuning after whole-game runs, not final balance approval.
 - Economy prices, rewards and preset balance remain **provisional** until simulated full-campaign runs support tuning.
+- Economy calibration run (27 Oct, lane C7): `economy_campaign_sim_tests` plays all four fork routes x four presets x three profiles through the real graph and economy functions. Only change: the per-operation alloy trickle (`INCOME.first.alloy` 1 to 0), which let Standard hoard 40+ alloy; alloy now comes from artifacts. Targets are AI-DESIGNED, still provisional pending Pat.
 - Finish content **before** independent whole-game audit; emphasize photography, strategic depth and player experience first, alongside other audit dimensions.
