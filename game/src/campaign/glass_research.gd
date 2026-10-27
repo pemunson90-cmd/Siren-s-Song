@@ -1,5 +1,6 @@
 extends RefCounted
 # Actual recovered material is consumed once with received regional evidence.
+const Catalog=preload("res://src/equipment/equipment_catalog.gd")
 const RECIPES={"pressure_spindle":{"item":"quietus_pressure_sleeve","evidence":"choir_22","operation":26},"traction_core":{"item":"drone_traction_yoke","evidence":"choir_23","operation":27},"prism_core":{"item":"quietus_prism","evidence":"glass_record_16","operation":20},"keeper_wafer":{"item":"quietus_decoder","evidence":"glass_record_17","operation":21},
  "trench_seal_core":{"item":"quietus_wellhead_seal","evidence":"glass_record_32","operation":32},
  "choir_reed":{"item":"drone_choir_tuner","evidence":"glass_record_33","operation":33},
@@ -30,6 +31,9 @@ static func pending(p:Dictionary)->Array:
  if not p.has("research") or not p.has("facts") or not p.has("completed"):return result
  for material in p.research.materials:
   var recipe=RECIPES[material]
+  # Campaign material may land before its fitting implementation. Retain it
+  # unspent until the catalog can grant a real fitting; frame targets work now.
+  if grants_fitting(recipe.item) and not Catalog.ITEMS.has(recipe.item):continue
   if material in p.research.spent or recipe.evidence not in p.facts or recipe.operation not in p.completed:continue
   result.append(material)
  return result

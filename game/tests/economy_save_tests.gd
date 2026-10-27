@@ -11,9 +11,13 @@ func _initialize():
  var store=Store.new();store.path="user://economy_roundtrip.save"
  var e=Economy.new_state("survival");e.stock.alloy=3;e.unlocks=["hull:fast"];e.spares={"drone_deep_cells":1};e.cond.quietus=45
  e.last_fit=Catalog.canonical({"hull":"fast","drone_a":"drone_deep_cells"})
+ e.settled="0|lost|100"
  var data={"version":2,"unlocked":0,"completed":[],"settings":{},"upgrade":"endurance","economy":e}
  check(store.valid(data),"archive with economy validates")
  check(store.save(data) and store.load_game().get("economy",{})==e,"economy round trips through the checksummed archive")
+ var restored=store.load_game().get("economy",{});var settled_stock=restored.stock.duplicate()
+ Economy.settle(restored,{"key":"0|lost|100"})
+ check(restored.stock==settled_stock,"restored settlement guard prevents paying the same dive twice")
  check(not store.encoded(data).is_empty(),"economy is part of the exportable profile bytes")
  var plain=data.duplicate(true);plain.erase("economy")
  check(store.valid(plain),"an archive without the economy field still loads")

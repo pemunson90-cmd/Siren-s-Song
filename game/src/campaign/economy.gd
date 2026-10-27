@@ -70,6 +70,9 @@ static func item_cost(item:String,e:Dictionary)->Dictionary:
 # charges every fitted item on every launch, retries included.
 static func refit_cost(e:Dictionary,fitted:Dictionary)->Dictionary:
  if not Table.enabled:return {}
+ # Returning every craft to its bare standard frame is the free fallback even
+ # when the previous launch used a paid hull or chassis.
+ if Catalog.canonical(fitted)==Catalog.default_loadout():return {}
  var cells=0;var scrap=0;var last=e.last_fit
  for key in Catalog.FRAME_KEYS.values():
   if fitted.get(key,"")!=last.get(key,""):
@@ -84,6 +87,9 @@ static func refit_cost(e:Dictionary,fitted:Dictionary)->Dictionary:
 static func charge_launch(e:Dictionary,fitted:Dictionary)->bool:
  if not pay(e,refit_cost(e,fitted)):return false
  e.last_fit=fitted.duplicate(true)
+ # A retry can end at the exact same mission/time as its predecessor. Clear
+ # only when a fresh launch succeeds; repeated debriefs still settle once.
+ e.settled=""
  return true
 # ---- repair ----------------------------------------------------------------
 static func repair_cost(e:Dictionary,target:String)->Dictionary:

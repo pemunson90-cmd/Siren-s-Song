@@ -25,6 +25,9 @@ func _initialize():
  for preset in Table.ORDER:
   var zero=Economy.new_state(preset);zero.stock={"scrap":0,"cells":0,"alloy":0}
   check(Economy.charge_launch(zero,Catalog.default_loadout()),"%s: empty purse still launches bare"%preset)
+  zero.last_fit=Catalog.canonical({"hull":"fast","chassis_a":"heavy","chassis_b":"scout"})
+  zero.ironman=true
+  check(Economy.charge_launch(zero,Catalog.default_loadout()),"%s: stripping paid frames stays free with no resources, including ironman"%preset)
  var paid=Economy.new_state();var before=paid.stock.cells
  check(Economy.charge_launch(paid,fit) and paid.stock.cells==before-3 and Economy.refit_cost(paid,fit).is_empty(),"refit pays once, the same fit is free next launch")
  var iron=Economy.new_state("standard",true);Economy.charge_launch(iron,fit)
@@ -41,6 +44,11 @@ func _initialize():
  check(hurt.stock.cells==once,"the same dive settles once")
  Economy.settle(hurt,facts("lost",false,0.0,[false,true],0,false,"b"))
  check(hurt.stock.cells==once+1 and hurt.cond.quietus>=60,"a loss still salvages a cell and never drops under the floor")
+ check(Economy.charge_launch(hurt,Catalog.default_loadout()),"retry can launch bare after settlement")
+ Economy.settle(hurt,facts("lost",false,0.0,[false,true],0,false,"b"))
+ check(hurt.stock.cells==once+2,"a fresh retry settles even with the same mission/time key")
+ Economy.settle(hurt,facts("lost",false,0.0,[false,true],0,false,"b"))
+ check(hurt.stock.cells==once+2,"repeating that retry's debrief still settles only once")
  var win=Economy.new_state()
  Economy.settle(win,facts("won",true,90.0,[true,true],2,true))
  check(win.stock.scrap==8+3+4 and win.stock.cells==10+2 and win.stock.alloy==1+3 and win.cond.quietus==90,"first win with salvage pays all three resources and keeps hull wear")
@@ -92,6 +100,20 @@ func _initialize():
  check(Research.grants_fitting("quietus_prism") and not Research.grants_fitting("hull:quiet"),"research targets distinguish fittings from frame unlocks")
  check(Economy.is_unlocked(Economy.new_state(),hull_p,"hull:quiet"),"a researched hull target unlocks the frame")
  check(Economy.target_name("hull:quiet")=="Low noise hull" and Economy.target_name("quietus_prism")=="Reach directional prism","research targets have names")
+ for material in ["trench_seal_core","choir_reed","deep_keel_plate","trawler_screw"]:
+  var recipe=Research.RECIPES[material]
+  var candidate={"facts":{recipe.evidence:"received"},"completed":[recipe.operation],"entitlements":[],"research":{"materials":[material],"spent":[],"projects":[]}}
+  var supplies=Economy.new_state();supplies.stock.alloy=2
+  var result=Economy.research(supplies,candidate,material)
+  if Research.grants_fitting(recipe.item) and not Catalog.ITEMS.has(recipe.item):
+   check(result==candidate and supplies.stock.alloy==2 and Research.valid(result),"unimplemented recipe retains material and alloy: "+material)
+   var mission={"recovered":true,"glass_reach":{"retrieved":true,"artifact":{"id":material,"state":"recovered"}}}
+   check(Research.recovered(candidate,mission)==candidate,"automatic recovery also retains unavailable material: "+material)
+  else:
+   check(result.research.projects==[recipe.item] and supplies.stock.alloy==0 and Research.valid(result),"implemented recipe researches with a valid state: "+material)
+   if not Research.grants_fitting(recipe.item):
+    check(result.entitlements.is_empty() and Economy.is_unlocked(supplies,result,recipe.item),"frame research grants only a usable frame unlock: "+material)
+  if Research.grants_fitting(recipe.item):check(Economy.item_cost(recipe.item,Economy.new_state()).get("alloy",0)==1,"alien recipe manufacturing requires alloy: "+material)
  Table.enabled=false
  var off=Economy.new_state()
  check(Economy.refit_cost(off,fit).is_empty() and not Economy.frame_locked(off,none,0,"fast") and Economy.after_recover(rich,p,spent)==spent,"enabled=false restores today's behavior")
