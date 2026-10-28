@@ -16,7 +16,7 @@ Read this first after any context clear or restart, then LEDGER.md and the BOARD
 - Protected (Pat's call): beam lethality, 4 s interruptible lock warning, collision/hull/damage rules, Siren senses (only the approved sight-only Hunt), enemy role senses, photography design, story ending conditions, art direction. Story text stays 1 to 2 line placeholders within `docs/STORY_BIBLE_DRAFT.md`. No em dashes. No APK, force push, amend of pushed commits, or branch deletion.
 - Evaluate before initiating; never repeat work because a conversation restarted.
 
-Finishability (Pat 28 Oct ~12:25 ET): a bare launch must finish required ops only on ACCESSIBLE and STANDARD, as an anti-soft-lock floor. SURVIVAL has no bare guarantee. In every preset, planning, drones, tools and progression must change the outcome; an op where bare equals equipped is a defect. Handoff wording "bare Quietus can finish" is superseded by this.
+Finishability (Pat 28 Oct ~12:25 and ~12:30 ET): a bare launch (no finite tools) finishing a required op is a **skill feat for a skilled player**, demanding and with worse results, never the easy default. It is also the anti-soft-lock floor on ACCESSIBLE and STANDARD. In every preset, planning, drones, tools and progression must change the outcome; an op that plays like a walk with a submarine is a defect. Handoff wording "bare Quietus can finish" is superseded by this.
 
 ## 3. State (28 Oct 2026 11:20 ET)
 
