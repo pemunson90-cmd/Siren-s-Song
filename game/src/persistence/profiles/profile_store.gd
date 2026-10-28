@@ -162,9 +162,12 @@ func replace(index: int, files: Dictionary, confirmed: bool, restored_name: Stri
  var previous = snapshot(index)
  if previous.is_empty():return _fail("Cannot preserve undo files.")
  # Ironman keeps one timeline: never copy or import an Ironman archive, or replace one with progress.
- # Clearing a slot and undoing a replacement (restored_name set) are not rewinds and stay allowed.
- if Rules.IRONMAN_GUARD and restored_name.is_empty() and files.get("") != null:
-  if _holds_ironman(files) or _holds_ironman(previous):return _fail("Ironman keeps one timeline. This profile cannot be copied or replaced; clear it first.")
+ # Clear/undo-clear remains available, but stale Undo must never rewind a live Ironman run.
+ var clearing = Rules.SUFFIXES.all(func(suffix):return files[suffix] == null)
+ var undo_clear = not restored_name.is_empty() and Rules.SUFFIXES.all(func(suffix):return previous[suffix] == null)
+ if Rules.IRONMAN_GUARD:
+  if (_holds_ironman(previous) and (not clearing or not restored_name.is_empty())) or (_holds_ironman(files) and not undo_clear):
+   warning="Ironman keeps one timeline. This profile cannot be copied or replaced; clear it first.";return false
  var entries = {}
  for suffix in Rules.SUFFIXES:entries[slot_path(index) + suffix] = files[suffix]
  var next = state.duplicate(true)
@@ -196,10 +199,12 @@ func _valid_files(files: Dictionary) -> bool:
   if files[suffix] != null and (not files[suffix] is PackedByteArray or files[suffix].size() > Rules.FILE_LIMIT):return false
  return true
 func _holds_ironman(files: Dictionary) -> bool:
+ # Match normal load precedence: a valid new ordinary campaign can retain an old Ironman backup.
  for suffix in ["", ".bak"]:
   if not files.get(suffix) is PackedByteArray:continue
   var value = _payload(files[suffix])
-  if value is Dictionary and value.get("economy") is Dictionary and value.economy.get("ironman",false) == true:return true
+  if value is Dictionary:
+   return value.get("economy") is Dictionary and value.economy.get("ironman",false) == true
  return false
 func _valid_archive(bytes: PackedByteArray, challenge: bool) -> bool:
  var value = _payload(bytes)

@@ -28,7 +28,10 @@ func run():
 func records()->void:
 	var live="user://ironman_live.save";clean(live)
 	var manager=Save2Store.new(live)
-	check(manager.save_manual(0,archive(true),"Iron slot",false,"missing") ,"ironman manual state writes")
+	check(not manager.save_manual(0,archive(true),"Iron slot",false,"missing"),"ironman manual state refused at storage seam")
+	Table.ironman_lock=false
+	check(manager.save_manual(0,archive(true),"Iron slot",false,"missing"),"legacy ironman manual fixture writes with lock disabled")
+	Table.ironman_lock=true
 	check(manager.save_manual(1,archive(false),"Plain slot",false,"missing") ,"non-ironman manual state writes")
 	var iron=manager.inspect("manual",0);var plain=manager.inspect("manual",1)
 	check(iron.status=="ready" and iron.record.ironman==true,"ironman flag is pinned in the SAVE2 record")
@@ -44,6 +47,21 @@ func records()->void:
 	check(store.valid(legacy),"record without the optional field still validates")
 	var extra=legacy.duplicate(true);extra[Table.RECORD]["surprise"]=1
 	check(not store.valid(extra),"record with an unknown extra field rejected")
+	store.path=live
+	check(store.save(archive(true)) and store.save(archive(true)),"ironman autosave and backup still write")
+	var before=FileAccess.get_file_as_bytes(live)
+	check(not manager.load_entry("manual",1,store,true,plain.token) and FileAccess.get_file_as_bytes(live)==before,"plain snapshot cannot rewind live Ironman or turn it off")
+	check(manager.save_pending(archive(true),6,Table.identity(),Table.identity()),"automatic Ironman safety checkpoint remains available")
+	check(manager.save_fork("route",archive(true),"Route"),"automatic Ironman fork capture remains available")
+	var fork=manager.list_entries("fork").filter(func(entry):return entry.status=="ready")[0]
+	check(not manager.load_entry("fork",fork.index,store,true,fork.token),"Ironman fork cannot replay through storage seam")
+	var bad=FileAccess.open(live,FileAccess.WRITE);bad.store_string("interrupted primary");bad.close()
+	check(store.load_game()==archive(true) and store.warning.contains("backup"),"crash recovery retains Ironman from valid backup")
+	clean(live)
+	check(store.save(archive(false)),"plain autosave writes")
+	check(not manager.load_entry("manual",0,store,true,iron.token),"legacy Ironman snapshot cannot start a replay timeline")
+	check(manager.load_entry("manual",1,store,true,plain.token) and store.load_game()==archive(false),"plain exact restore unchanged")
+	manager.delete_all(true)
 	for index in 3:manager.delete_entry("manual",index,true,manager.inspect("manual",index).get("token","missing"))
 	clean(live)
 func locking()->void:
@@ -69,12 +87,19 @@ func profiles()->void:
 	var slot0=Store.new();slot0.path=p.slot_path(0)
 	var slot1=Store.new();slot1.path=p.slot_path(1)
 	check(p.copy(0,1,true),"non-ironman profile copy unchanged")
+	check(slot1.save(archive(true)),"copied profile opts into Ironman")
+	check(not p.undo(true) and Economy.is_ironman(slot1.load_game().get("economy")),"stale profile Undo cannot turn Ironman off")
+	check(p.clear(1,true) and p.undo(true) and Economy.is_ironman(slot1.load_game().get("economy")),"undo clear restores the deleted Ironman timeline")
+	check(p.clear(1,true) and p.copy(0,1,true),"ordinary profile reusable after clearing Ironman")
 	check(slot0.save(archive(true)) and slot0.save(archive(true)),"slot 0 becomes an Ironman campaign")
 	var before=p.snapshot(1)
 	check(not p.copy(0,1,true) and p.snapshot(1)==before and p.warning.contains("one timeline"),"ironman profile cannot be copied out")
 	check(p.export_profile(0)=="" and p.warning.contains("one timeline"),"ironman profile cannot be exported")
 	var plain=p.snapshot(1)
 	check(not p.replace(0,plain,true) and p.snapshot(0)!=plain,"progress cannot replace an Ironman profile")
+	check(not p.replace(1,p.snapshot(0),true),"importing Ironman files cannot clone the run")
 	check(p.clear(0,true) and p.snapshot(0)[""]==null,"clearing an Ironman profile ends that run and stays allowed")
 	check(p.copy(1,0,true),"slot is ordinary again after clear")
+	check(slot0.save(archive(true)) and slot0.save(archive(false)),"new ordinary campaign retains an Ironman backup")
+	check(p.copy(0,1,true) and not p.export_profile(0).is_empty(),"ordinary primary keeps profile transfer even with old Ironman backup")
 	DirAccess.make_dir_recursive_absolute(p.directory)
