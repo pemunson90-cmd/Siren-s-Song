@@ -16,20 +16,20 @@ const CONTENT=[
  {"id":9,"factory":"res://src/campaign/onward_missions.gd","config":{"source_id":9,"history":true},"behaviors":["signals_v2","history"],"prerequisites":[7],"facts":["wake_packet","wake_repeater","wake_crossing"],"records":["wake_packet","wake_repeater"],"campaign":true,"route":"deep","required_facts":{}},
  {"id":10,"factory":"res://src/campaign/onward_missions.gd","config":{"source_id":10,"history":true},"behaviors":["warning_plant","signals_v2","history"],"prerequisites":[8],"facts":["chain_west","chain_east","chain_relay","warning_chain"],"records":["chain_west","chain_east","chain_relay"],"campaign":true,"route":"shelf","required_facts":{}},
  {"id":11,"prerequisite_mode":"any","factory":"res://src/campaign/resolution_missions.gd","config":{"source_id":11,"history":true},"behaviors":["resolution","signals_v2","history"],"prerequisites":[9,10],"facts":["confluence_packet","confluence_repeater","confluence_route"],"records":["divergence_confluence_packet","divergence_confluence_repeater"],"campaign":true,"route":"","required_facts":{}},
- {"id":12,"factory":"res://src/campaign/resolution_missions.gd","config":{"source_id":12,"history":true},"behaviors":["witness","resolution","signals_v2","history"],"prerequisites":[11],"facts":["witness_packet","witness_repeater","witness_sluice","witness_arrival","witness_recovery","concealed_consequence","resolution"],"records":["divergence_witness_packet","divergence_witness_repeater","resolution_witness_sluice"],"campaign":true,"route":"","required_facts":{"confluence_route":"concealed"}},
+ {"id":12,"factory":"res://src/campaign/resolution_missions.gd","config":{"source_id":12,"history":true},"behaviors":["witness","resolution","signals_v2","history"],"prerequisites":[11],"facts":["witness_packet","witness_repeater","witness_sluice","witness_arrival","witness_recovery","concealed_consequence","tessaly_divers","resolution"],"records":["divergence_witness_packet","divergence_witness_repeater","resolution_witness_sluice"],"campaign":true,"route":"","required_facts":{"confluence_route":"concealed"}},
  {"id":13,"factory":"res://src/campaign/resolution_missions.gd","config":{"source_id":13,"history":true},"behaviors":["recipient","resolution","signals_v2","history"],"prerequisites":[11],"facts":["warning_west","warning_east","warning_uplink","warning_transmission","warning_reply","warning_arrival","warning_arrival_hull","warning_service","resolution"],"records":["resolution_warning_transmission","divergence_warning_reply","resolution_warning_west","resolution_warning_east","resolution_warning_uplink"],"campaign":true,"route":"","required_facts":{"confluence_route":"overt"}}
 ]
 static func _glass_entries()->Array:
  var result=[]
  for id in range(14,22):
   var prerequisites=[12,13] if id==14 else [16] if id==20 else [17] if id==21 else [id-1]
-  result.append({"id":id,"factory":"res://src/campaign/glass_reach_operations.gd","config":{"source_id":id,"history":true},"behaviors":["signals_v2","history","glass_reach"]+(["thermal"] if id==16 else []),"prerequisites":prerequisites,"prerequisite_mode":"any" if id==14 else "all","facts":["glass_record_"+str(id)]+(["glass_choice"] if id==18 else []),"records":["glass_record_"+str(id)],"campaign":true,"route":"","required_facts":{}})
+  result.append({"id":id,"factory":"res://src/campaign/glass_reach_operations.gd","config":{"source_id":id,"history":true},"behaviors":["signals_v2","history","glass_reach"]+(["thermal"] if id==16 else []),"prerequisites":prerequisites,"prerequisite_mode":"any" if id==14 else "all","facts":["glass_record_"+str(id)]+(["glass_choice","varne_staff"] if id==18 else []),"records":["glass_record_"+str(id)],"campaign":true,"route":"","required_facts":{}})
  return result
 static func _iron_entries()->Array:
  var result=[]
  for id in range(22,30):
   var prerequisite={22:19,26:22,27:23,28:23,29:24}.get(id,id-1)
-  var facts=["choir_"+str(id)]+(["choir_choice"] if id==24 else ["choir_people"] if id==28 else ["choir_plant"] if id==29 else [])
+  var facts=["choir_"+str(id)]+(["hollins_last_shift"] if id==25 else ["choir_choice"] if id==24 else ["choir_people"] if id==28 else ["choir_plant"] if id==29 else [])
   result.append({"id":id,"factory":"res://src/campaign/iron_choir_operations.gd","config":{"source_id":id,"history":true},"behaviors":["signals_v2","history","iron_choir"]+(["thermal"] if id==25 else []),"prerequisites":[prerequisite],"facts":facts,"records":[],"campaign":true,"route":"","required_facts":{}})
  return result
 static func _ensure():

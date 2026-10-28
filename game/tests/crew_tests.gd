@@ -5,6 +5,8 @@ const Table=preload("res://src/campaign/crew/crew_table.gd")
 const View=preload("res://src/presentation/crew/crew_view.gd")
 const Economy=preload("res://src/campaign/economy.gd")
 const Ledger=preload("res://src/campaign/ledger/ledger.gd")
+const Sim=preload("res://src/simulation/simulation.gd")
+const Campaign=preload("res://src/campaign/expedition_campaign.gd")
 class Host extends RefCounted:
  var labels=[]
  var expedition={}
@@ -20,6 +22,7 @@ func world(m:Dictionary)->String:
  var copy=m.duplicate(true);copy.erase("photo_marks");copy.erase("launch_context")
  return var_to_str(copy)
 func _init():
+ rescue_completions()
  for row in Table.ROWS:
   check(row.kind in ["mark","credit","line"] and Voices_ok(row),"row shape "+row.id)
   check(not row.has("op") or (row.op>=0 and row.op<=40),"op in range "+row.id)
@@ -76,3 +79,51 @@ func _init():
  print("CREW CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)
 func Voices_ok(row)->bool:
  return preload("res://src/campaign/voices/voices_table.gd").SPEAKERS.has(row.speaker) and not row.line.contains("—")
+func step(s,seconds):
+ s.paused=false
+ for n in ceili(seconds*60):s.advance(Sim.STEP)
+ s.paused=true
+func recorded_crew(facts:Dictionary,key:String,name:String,op:int):
+ check(facts.has(key),"existing completion records "+key)
+ var panels=Ledger.build({"selected_thread":"deep","facts":facts},{})
+ check(panels[0].rows.any(func(r):return r.begins_with(name+": recorded as ")),"ledger reads completion "+key)
+ var lines=Crew.briefing_lines(facts,op)
+ check(lines.size()==1,"one crew line for completion "+key)
+ check(Crew.briefing_lines(facts,op)==lines and Crew.present(facts).filter(func(r):return r.id==key).size()==1,"repeated read never duplicates crew "+key)
+ var economy=Economy.new_state();var before=economy.duplicate(true)
+ Crew.credit(economy,{}, {"facts":facts});Crew.credit(economy,{"facts":facts},{"facts":facts})
+ check(economy==before,"briefing-only crew never changes stock "+key)
+func rescue_completions():
+ # Own-position fixtures execute the existing local commands; these are not route/playthrough evidence.
+ var p={"version":2,"route":"deep","routes":["deep"],"facts":{"deep":"Recovered branch","confluence_route":"concealed"},"completed":[6,7,9,11],"notes":{},"references":{},"entitlements":[],"history":[],"selected_thread":"deep"}
+ var s=Sim.new();s.start(12,"endurance",{"context":Sim.Consequences.context(p)});s.sirens=[]
+ check(not s.Concealed.recovered_facts(s.mission).has("tessaly_divers"),"no divers fact before reply")
+ s.units[0].pos=Vector2(1840,800);s.units[0].vel=Vector2.ZERO;step(s,.02)
+ check(s.command("salvage",{"item":"witness_capsule"}),"start existing witness winch");step(s,4.1)
+ preload("res://tests/concealed_fixture.gd").solve(s)
+ s.units[0].pos=Vector2(2260,2700);s.units[0].vel=Vector2.ZERO
+ check(s.command("witness_land"),"land existing witness");step(s,.02)
+ s.mission.recovered=true
+ var after=Campaign.recover(p,s.mission)
+ recorded_crew(after.facts,"tessaly_divers","Tessaly divers",14)
+ check(Campaign.valid(after),"divers optional fact survives campaign validation")
+ check(Campaign.recover(after,s.mission)==after,"repeat recovery preserves first divers record")
+ for action in ["service","sever"]:
+  s=Sim.new();s.start(18);s.sirens=[]
+  check(not s.mission.expedition_facts.has("varne_staff"),"no Varne fact before work "+action)
+  s.units[0].pos=s.mission.glass_reach.work_pos;s.units[0].vel=Vector2.ZERO
+  check(s.command("glass_action",{"action":action}),"start existing habitat work "+action);step(s,8.2)
+  recorded_crew(s.mission.expedition_facts,"varne_staff","Varne staff",19)
+  check(Sim.valid_snapshot(s.snapshot()),"Varne completion save validates "+action)
+ s=Sim.new();s.start(25);s.sirens=[]
+ check(not s.mission.expedition_facts.has("hollins_last_shift"),"no Hollins fact before arrival")
+ # Stage the actual sled at its authored dock, then let the existing arrival/observation tick run.
+ var load=s.mission.iron_choir.load
+ load.pos=Vector2(750,300);load.destination=load.pos;load.route=[];load.state="transit"
+ s.units[0].pos=load.pos+Vector2(0,50);s.units[0].vel=Vector2.ZERO
+ step(s,.02)
+ recorded_crew(s.mission.expedition_facts,"hollins_last_shift","Hollins last shift",26)
+ check(Sim.valid_snapshot(s.snapshot()),"Hollins completion save validates")
+ var old=p.duplicate(true)
+ Crew.briefing_lines(old.facts,14);Ledger.build(old,{})
+ check(old==p and not Crew.present(old.facts).any(func(r):return r.id in ["tessaly_divers","hollins_last_shift","varne_staff"]),"old absent facts stay unchanged")

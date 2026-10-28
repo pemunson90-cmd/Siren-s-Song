@@ -117,6 +117,7 @@ static func tick(sim,dt:float):
   if job.elapsed+.000001>=job.duration:complete_work(sim,id,job);state.jobs[id]={};u.hold=""
  observe(sim)
  if complete(sim):sim.mission.expedition_facts["choir_"+str(sim.mission.id)]="physical "+sim.mission.title+" completed"
+ if sim.mission.id==25 and complete(sim):sim.mission.expedition_facts.hollins_last_shift="arrived"
 static func tow_tick(sim,load:Dictionary,dt:float):
  var u=sim.units[load.carrier]
  if not u.alive or u.band!=load.band or not u.transition.is_empty() or u.pos.distance_to(load.pos)>120:
