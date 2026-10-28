@@ -34,7 +34,10 @@ static func _iron_entries()->Array:
  return result
 static func _ensure():
  if not _entries.is_empty():return
- for entry in CONTENT+_glass_entries()+_iron_entries()+preload("res://src/campaign/final_pair_operations.gd").entries()+preload("res://src/campaign/calder_trench_operations.gd").entries()+preload("res://src/campaign/optional_operations.gd").entries():_entries[entry.id]=entry.duplicate(true)
+ for entry in CONTENT+_glass_entries()+_iron_entries()+preload("res://src/campaign/final_pair_operations.gd").entries()+preload("res://src/campaign/calder_trench_operations.gd").entries()+preload("res://src/campaign/optional_operations.gd").entries()+preload("res://src/campaign/sorley_rescue.gd").entries():
+  var copy=entry.duplicate(true)
+  preload("res://src/campaign/sorley_rescue.gd").register(copy)
+  _entries[entry.id]=copy
 static func registered_ids()->Array:
  _ensure();var result=_entries.keys();result.sort();return result
 static func definition(id:int)->Dictionary:
@@ -92,6 +95,7 @@ static func make(id:int,history:Dictionary={})->Dictionary:
  var m=factory.build(d.config,history) if factory.has_method("build") else factory.make(d.config.source_id,history) if d.config.history else factory.make(d.config.source_id)
  if not m is Dictionary or not m.has_all(["id","objectives","sirens","extraction","rocks"]):return {}
  m.id=id
+ preload("res://src/campaign/sorley_rescue.gd").apply(m)
  preload("res://src/campaign/carry/carry.gd").apply(m,id,history)
  preload("res://src/campaign/photo_ops.gd").apply(m,id,history)
  preload("res://src/simulation/photo_pricing/photo_pricing_data.gd").apply(m,id)
@@ -105,6 +109,7 @@ static func prerequisites_met(id:int,completed:Array)->bool:
  return d.prerequisites.all(func(required):return required in completed)
 static func accessible(id:int,progress:Dictionary)->bool:
  var d=definition(id)
+ if not preload("res://src/campaign/sorley_rescue.gd").visible(id,progress):return false
  if d.is_empty() or not d.campaign or not prerequisites_met(id,progress.get("completed",[])):return false
  if not d.route.is_empty() and progress.get("route","")!=d.route:return false
  for key in d.required_facts:

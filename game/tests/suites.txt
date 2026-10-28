@@ -258,6 +258,7 @@ ops_home_ui_tests|OPS HOME UI|240|-|render
 ops_home_cover_ui_tests|OPS HOME UI|-|260|render
 ops_home_inner_ui_tests|OPS HOME UI|-|287|render
 ops_home_desktop_ui_tests|OPS HOME UI|-|288|render
+arc_boundary_ui_tests|ARC BOUNDARY UI|316|417|render
 voices_tests|VOICES|530|630
 archive_views_ui_tests|ARCHIVE VIEWS UI|531|631|render
 menu_reach_ui_tests|MENU REACH UI|241|261|render
@@ -307,6 +308,7 @@ calder_silent_journey_tests|CALDER SILENT|314|415
 regional_settings_tests|REGIONAL SETTINGS|301|401
 frame_cap_settings_tests|FRAME CAP SETTINGS|390|490
 optional_thread_journey_tests|OPTIONAL THREAD JOURNEY|302|402
+sorley_rescue_tests|SORLEY RESCUE|740|840
 optional_cache_tests|OPTIONAL CACHE|303|404
 optional_cache_journey_tests|OPTIONAL CACHE JOURNEY|304|405
 quality_tests|QUALITY|305|406
@@ -318,6 +320,7 @@ crew_tests|CREW|590|690
 field_tools_tests|FIELD TOOLS|360|460
 tool_racks_tests|TOOL RACKS|361|461|render
 expedition_runs_tests|EXPEDITION RUNS|370|470
+run_records_tests|RUN RECORDS|310|411
 runs_offer_tests|RUNS OFFER|308|408
 runs_offer_ui_tests|RUNS OFFER UI|309|409|render
 expedition_session_tests|EXPEDITION SESSION|371|471

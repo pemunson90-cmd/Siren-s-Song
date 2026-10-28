@@ -23,7 +23,7 @@ var buttons:Dictionary={}
 var chart:ScrollContainer
 var board:Board
 var header:HBoxContainer
-var legend:Label
+var legend:ScrollContainer
 var detail:Label
 var zoom:float=Table.VIEW.zoom_min
 var fitted_size=Vector2.ZERO
@@ -44,7 +44,19 @@ func setup(main)->void:
  _button(header,"CURRENT",_focus_current,"route_map_current",Table.VIEW.current_width)
  _button(header,"−",func():_zoom(-1),"route_map_zoom_out")
  _button(header,"+",func():_zoom(1),"route_map_zoom_in")
- legend=Label.new();legend.text="RECOVERED · AVAILABLE · LOCKED · KNOWN FROM PHOTOS";legend.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;add_child(legend)
+ legend=ScrollContainer.new();legend.horizontal_scroll_mode=ScrollContainer.SCROLL_MODE_DISABLED;add_child(legend)
+ var legend_rows=VBoxContainer.new();legend_rows.size_flags_horizontal=Control.SIZE_EXPAND_FILL;legend.add_child(legend_rows)
+ var arcs=preload("res://src/campaign/arcs/arc_table.gd")
+ if arcs.enabled:
+  for arc in arcs.ARCS:
+   var arc_title=Label.new();arc_title.text=arcs.heading(arc,host._campaign_completed());arc_title.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;legend_rows.add_child(arc_title)
+   var states=[]
+   for state in ["RECOVERED","AVAILABLE","LOCKED","KNOWN FROM PHOTOS"]:
+    var count=graph.nodes.filter(func(row):return row.id in arc.ids and row.state==state).size()
+    if count>0:states.append("%s %d"%[state,count])
+   var summary=Label.new();summary.text=" / ".join(states);summary.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;legend_rows.add_child(summary)
+ else:
+  var label=Label.new();label.text="RECOVERED / AVAILABLE / LOCKED / KNOWN FROM PHOTOS";label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;legend_rows.add_child(label)
  chart=ScrollContainer.new();chart.name="ChartPan";add_child(chart)
  board=Board.new();board.mouse_filter=Control.MOUSE_FILTER_PASS;board.graph=graph;chart.add_child(board)
  detail=Label.new();detail.text="Drag to pan. + / − changes chart size. CURRENT finds the next available branch. Tap an available operation for its briefing.";detail.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;add_child(detail)
@@ -68,8 +80,12 @@ func _fit():
   control.add_theme_font_size_override("font_size",_font(h,Table.VIEW.header_font))
   if control is Button:control.custom_minimum_size=Vector2(h*control.get_meta("width_touch"),h)
  legend.position=Vector2(margin,h+margin*Table.VIEW.legend_margin);legend.size=Vector2(size.x-margin*2,h*Table.VIEW.legend_height);legend.add_theme_font_size_override("font_size",_font(h,Table.VIEW.legend_font))
+ for label in legend.find_children("*","Label",true,false):label.add_theme_font_size_override("font_size",_font(h,Table.VIEW.legend_font))
  chart.position=Vector2(margin,h*Table.VIEW.chart_top+margin);chart.size=Vector2(size.x-margin*2,maxf(h,size.y-h*Table.VIEW.chart_reserve-margin*2))
- detail.position=Vector2(margin,chart.position.y+chart.size.y+margin);detail.size=Vector2(size.x-margin*2,h);detail.add_theme_font_size_override("font_size",_font(h,Table.VIEW.detail_font))
+ detail.add_theme_font_size_override("font_size",_font(h,Table.VIEW.detail_font));detail.position=Vector2(margin,chart.position.y+chart.size.y+margin);detail.size=Vector2(size.x-margin*2,h)
+ # Wrapped Label minimum height is recomputed after its width/font changes.
+ # Apply the bounded height after that deferred update, including first layout.
+ detail.set_deferred("size",Vector2(size.x-margin*2,h))
  _nodes(h);queue_redraw()
 func _nodes(h):
  for child in board.get_children():board.remove_child(child);child.queue_free()

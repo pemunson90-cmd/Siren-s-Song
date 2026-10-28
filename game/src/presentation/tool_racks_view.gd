@@ -27,7 +27,9 @@ static func summary(host)->String:
  for unit in 3:
   var b=Catalog.budget(host.fitted_equipment,unit)
   var used=b.cargo+Racks.cargo(host.tool_racks,unit)
-  lines.append("%s CARGO %.2f / %d | %.2f LEFT"%[Catalog.NAMES[Racks.UNITS[unit]],used,b.cargo_cap,b.cargo_cap-used])
+  var locker=Racks.locker_ticks(unit)/100.0
+  var held=Racks.locker_used_ticks(host.tool_racks,unit)/100.0
+  lines.append("%s LOCKER %.2f / %.2f | %.2f LEFT\nCARGO %.2f / %d | %.2f LEFT"%[Catalog.NAMES[Racks.UNITS[unit]],held,locker,locker-held,used,b.cargo_cap,b.cargo_cap-used])
  return "\n".join(lines)
 static func stock(host)->String:
  var parts=[]
@@ -35,8 +37,8 @@ static func stock(host)->String:
  return " / ".join(parts)
 static func show(host)->void:
  if not Racks.enabled:return
- host._menu_text("FINITE TOOLS / EDITABLE CARGO RACKS",19)
- host._menu_text("Templates preserve whole winch places; charges that cannot fit are omitted. Current frames have no spare fractional cargo, so templates start empty. LOAD +1 chooses tools at the cost of winch space. RESUME preserves the active dive's stock.",15)
+ host._menu_text("FINITE TOOLS / LOCKERS + CARGO",19)
+ host._menu_text("Templates fill dedicated tool lockers and keep cargo free for winch work. Tools fill the locker first; overflow shares cargo with modules and winch work. LOAD +1 may use cargo. RESUME preserves the active dive's stock.",15)
  for choice in Tools.LOADOUTS:
   var oxygen=host._loadout_stock(choice)[0]
   host._button(host.panel_box,"FILL %s | O2 %d%%"%[choice.to_upper(),oxygen],func():_redraw(host,func():fill(host,choice)),"tools_loadout_"+choice)
@@ -53,7 +55,7 @@ static func show(host)->void:
  for id in Tools.ids():
   if selected!="quietus" and id in Racks.QUIETUS_ONLY:continue
   var amount=int(host.tool_racks[selected].get(id,0))
-  host._menu_text("%s %d | %.2f CARGO EACH"%[Tools.spec(id).name.to_upper(),amount,Tools.CARGO_WEIGHTS[id]/100.0],15)
+  host._menu_text("%s %d | %.2f SPACE EACH (LOCKER FIRST)"%[Tools.spec(id).name.to_upper(),amount,Tools.CARGO_WEIGHTS[id]/100.0],15)
   var candidate=host.tool_racks.duplicate(true);candidate[selected][id]=amount+1
   var add=host._button(host.panel_box,"LOAD +1 "+Tools.spec(id).name,func():_redraw(host,func():edit(host,selected,id,1)),"rack_add_"+id)
   add.disabled=not Racks.valid(candidate) or not Racks.reason(host.fitted_equipment,candidate).is_empty()

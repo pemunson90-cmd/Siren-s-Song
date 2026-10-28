@@ -78,7 +78,7 @@ static func _strait(m,key):
  var east_face=[Vector2(1440,900),Vector2(1300,1150),Vector2(1220,1450),Vector2(1170,1800),Vector2(1220,2150),Vector2(1300,2500),Vector2(1380,2750)]
  var deep_inner=east_face.duplicate();for n in range(east_face.size()-1,-1,-1):deep_inner.append(east_face[n]+Vector2(220,0))
  T.apply(m,[
-  [T.wall([Vector2(0,900),Vector2(980,900),Vector2(700,1150),Vector2(780,1450),Vector2(830,1800),Vector2(780,2150),Vector2(700,2500),Vector2(620,2750),Vector2(0,2750)]),T.ALL],
+  [T.wall([Vector2(0,900),Vector2(560,900),Vector2(700,1150),Vector2(780,1450),Vector2(830,1800),Vector2(780,2150),Vector2(700,2500),Vector2(620,2750),Vector2(0,2750)]),T.ALL],
   [T.wall([Vector2(2000,900)]+east_face+[Vector2(2000,2750)]),[0,1]],
   [T.wall(deep_inner),[2]],
   [T.wall([Vector2(2000,900),Vector2(1830,900),Vector2(1760,1250),Vector2(1720,1800),Vector2(1760,2350),Vector2(1820,2750),Vector2(2000,2750)]),[2]],
@@ -112,7 +112,7 @@ static func _drift(m,key):
  m.thermal_revision=1;m.thermal_fronts=[{"area":Rect2(1760,1050,600,700),"transmission":.45,"close_range":90.}]
  R.add(m,[R.guard("patroller",Vector2(1250,1530),1,[Vector2(1250,1530),Vector2(1560,1450),Vector2(1500,1270),Vector2(1250,1270)]),
   R.post(Vector2(1900,1150),1,170.),R.guard("buoy",Vector2(520,1100)),R.guard("relay",Vector2(1000,700)),
-  R.guard("sweeper",Vector2(1557,2100),2,[Vector2(1557,2100),Vector2(1557,2000)])])
+  R.guard("sweeper",Vector2(1557,2100),2,Patrols.circuit(16))])
 
 # 17 / Switchback silt terraces. The spindle lies under a silt mound that only
 # DEEP reaches; SHALLOW is choked by banks. Two recovery mouths, west and north.

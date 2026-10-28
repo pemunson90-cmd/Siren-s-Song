@@ -17,13 +17,14 @@ static func recover(previous:Dictionary,mission:Dictionary)->Dictionary:
   if not mission.objectives.any(func(o):return o.get("site_id","")==site and o.get("captured",false)):return result
  if Catalog.supports(mission.id,"iron_choir") and not preload("res://src/simulation/industrial_jobs.gd").complete_mission(mission):return result
  if Catalog.supports(mission.id,"warning_plant") and mission.get("warning_chain",{}).get("result",{}).is_empty():return result
- if Catalog.supports(mission.id,"witness") and (mission.get("witness_evacuation",{}).get("state","")!="landed" or not mission.get("concealed_harbour",{}).get("receipt",false)):return result
+ if Catalog.supports(mission.id,"witness") and (mission.get("witness_evacuation",{}).get("state","")!="landed" or (mission.has("concealed_harbour") and not mission.get("concealed_harbour",{}).get("receipt",false))):return result
  if Catalog.supports(mission.id,"recipient") and not mission.get("warning_recipient",{}).get("receipt",false):return result
  if result.is_empty():result={"version":1,"route":"","routes":[],"facts":{},"completed":[]}
  var first_recovery=mission.id not in result.completed
  if first_recovery:result.completed.append(mission.id)
  if first_recovery:
-  for fact in mission.expedition_facts:result.facts[fact]=mission.expedition_facts[fact]
+  for fact in mission.expedition_facts:
+   if fact!="sorley_boy":result.facts[fact]=mission.expedition_facts[fact]
  if mission.id==6:
   if result.route.is_empty():result.route=mission.chosen_route
   if result.route not in result.routes:result.routes.append(result.route)
