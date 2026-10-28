@@ -5,7 +5,7 @@ Claimed at:
 Claimed by:
 Finished at:
 
-Precondition: PR207 (098 tool cargo + 092 Sorley rescue) is merged. Read HANDOFF.md and ORCHESTRATION_2026-10-26.md first. Current review rule (Pat, 28 Oct): independent Sol6.1-high review of the frozen patch before commit and before merge.
+Precondition: 098 tool cargo is on integration (PR199 merged 28 Oct). Read HANDOFF.md and ORCHESTRATION_2026-10-26.md first. Current review rule (Pat, 28 Oct): independent Sol6.1-high review of the frozen patch before commit and before merge.
 Codex may merge: yes, into claude/integration only, after independent approval and green required checks on the exact head, merge commit.
 
 ## Why (Claude S5, 28 Oct; follow-up to Pat's 14:13 ET ruling "Yes" that carrying tools costs cargo)
