@@ -204,7 +204,7 @@ Claude lanes in parallel (not Codex work): C6 doc sweep (claude/c6-doc-sweep), C
 |---|---|---|---|---|---|
 | 61 | 064 Fittings and briefing fit surface at 24-module catalog scale | CLAIMED (claude, claude/c18-fit-surface) | | | |
 | 62 | 065 Give the two new alien modules (Trench wellhead seal, Choir reed tuner) a world  | OPEN | | | |
-| 63 | 066 Make hull, chassis and the new tools matter through optional fleet-specializatio | CLAIMED (codex-root-parallel; partial frame sites) | [169](https://github.com/pemunson90-cmd/Siren-s-Song/pull/169) | | Head c79f54cc; three frame sites, import/core846/0 + focused journeys. Draft; waiting055 tools; three-item cargo seam pending. |
+| 63 | 066 Make hull, chassis and the new tools matter through optional fleet-specialization | CLAIMED (codex-root-parallel; cache pending) | [169](https://github.com/pemunson90-cmd/Siren-s-Song/pull/169) | | Head8f58039c on integration609f29a9; frame sites retained, relay/silt/sonobuoy sites delivered. Import/core848/0, tools24/0, bare37/38/39 recoveries26/0. Three-piece cache needs wider multi-custody/pre-victory unload/save/UI seam documented in066. Root collects CI; draft remains CLAIMED. |
 | 64 | 067 Teaching and briefings for the mid and late campaign | OPEN | | | |
 | 65 | 068 Expedition between-operation choices (route fork, repair or boon) | OPEN | | | |
 | 66 | 069 Expedition run summary, records and seed entry | OPEN | | | |
