@@ -6,7 +6,7 @@ Current boundary: Pat resumed locally on Windows and continued work on 25 Octobe
 
 ## Source and authority
 
-Active integration: `claude/integration`. Last reconciled source baseline: abd15c8802fb433c7487e570e085f756e6dfafa7, the verified merge of C7/PR157 including the display-group CI repair. A later live integration SHA is expected; fetch it at task boundaries. The board alone owns claims/completions.
+Active integration: `claude/integration`. Last reconciled source baseline: 4d23a033608f9b81e35b40874f6256247a7b4df6, including C7/display-group CI repair, optional geometry PR162 and event audio PR159. A later live integration SHA is expected; fetch it at task boundaries. The board alone owns claims/completions.
 Frozen `gauntlet/production` and protected `main` require Pat's promotion approval. Preserve branches, personal saves, evidence and signing identity.
 Current decisions: [USER_DIRECTIVES](USER_DIRECTIVES.md). Intended release: [CURRENT_GAME_SPEC](CURRENT_GAME_SPEC.md). Actual module seams, settings, saves, tests and safe reverts: [MODULES](MODULES.md).
 
