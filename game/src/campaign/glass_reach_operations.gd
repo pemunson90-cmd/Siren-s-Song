@@ -40,6 +40,11 @@ static func build(c:Dictionary,history:Dictionary={})->Dictionary:
  if id==18:m.brief+=" REACH WORK offers RESTORE SERVICE or SEVER SPUR. First recovery commits the real consequence in Last Boat Out."
  var resolution=history.get("facts",{}).get("resolution","")
  if not resolution.is_empty():m.brief+=" Previous received outcome: "+{"concealed_recovery":"Kestrel's survivors were carried out by craft.","overt_warning":"Brannock's launch reached the northeast pickup."}.get(resolution,"the earlier local account remains in the archive.")
+ # New range water uses Confluence's measured chart. Revert by removing this block.
+ if id in [14,15,16,20]:
+  m["earned_terrain"]=true
+  m["launch_seed"]=Rect2(m.start-Vector2(160,200),Vector2(480,480)).intersection(Rect2(Vector2.ONE*40,m.world_size-Vector2.ONE*80))
+  m.brief+="\nUNCHARTED: the chart fills in as your sensors find rock."
  return m
 
 # 14 / A wide basin cut by one glass fence. MIDDLE: the western teeth are closed,

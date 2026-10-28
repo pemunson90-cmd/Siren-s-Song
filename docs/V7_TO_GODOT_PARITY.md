@@ -8,7 +8,7 @@ Status: started19October; current capability rows reconciled25 October 2026 East
 | Feature | v7 evidence | Current Godot interpretation | Disposition |
 | --- | --- | --- | --- |
 | Scrolling playfield/camera | WORLD1200×1800,VIEW_H900; height-based scale and bounded Quietus follow | Reviewed66366d9 +47e07c restore bounded selected-craft FOLLOW, explicit FREE/FOCUS/FIT and spatial radial HUD; fresh Split2000×2400 supplies authored traversal, legacy worlds unchanged | **Adapted8c2e6fc**: actual moving cover/inner and >960 touch composition verified; broader region depth and human/native ergonomics remain ongoing |
-| Terrain discovery / chart knowledge | Sensor-gated `obReveal()`; obstacle drawing skips unrevealed rocks | Authored polygon Confluence uses earned first-face terrain and public-water route planning; remote actuator discovery reports status without drawing its unmeasured footprint; other authored missions retain precharted silhouettes | **Rough functional recovery**: Confluence now earns local first-face terrain and observed water; player routes use that public chart, preserve frontier intent, advance through certified prefixes and repair wholly surveyed detours; unresolved blockers retain goals and stop for a real exploration decision. Other authored charts remain. Whole-game touch evaluation is active |
+| Terrain discovery / chart knowledge | Sensor-gated `obReveal()`; obstacle drawing skips unrevealed rocks | Confluence and Glass Reach ops 14, 15, 16 and 20 use earned first-face terrain and public-water route planning; remote actuator discovery reports status without drawing its unmeasured footprint; remaining authored missions retain precharted silhouettes | **Rough functional recovery**: Confluence and four new-water Glass Reach operations earn local first-face terrain and observed water; player routes use that public chart, preserve frontier intent, advance through certified prefixes and repair wholly surveyed detours; unresolved blockers retain goals and stop for a real exploration decision. Stage 1 selection is listed below; other authored charts remain. Whole-game touch evaluation is active |
 | Knockdown torpedo | Functional instant target pin/selection, two charges, ~150 original-scale range, 8s stun, suspicion/Hunt costs, visual/audio effect | Reviewedad64e42, composed9e9f609: physical Quietus-launched audible steering entity with LOS launch, travel/terrain misses, impact snare and2D depth recovery; EMP remains distinct340/12 | **Physically adapted** under user direction;17 combined save/input checks pass. Actual terrain-interception footage, native lifecycle/audio/performance and wider balance remain open |
 | Deliberate decoy placement | v7 tap-selected world point,4charges,7s life,320 pull | Reviewed0d9c611 restores arm/tap/cancel agency with clear-water160m deployment; keeps Godot3charges/15s/1100 emission | **Adapted**: bounded physical reach replaces prototype mapwide placement; invalid taps no spend, legacy transmissions unchanged; finite beam/withdrawal loss retained |
 | Speed-based acoustic signature | Continuous speed-squared hearing/footprint; silent behavior distinct | New missions use continuous actual-speed-squared hearing; legacy archives keep threshold model. Visual sensing remains separate | **Adapted75537f7** after source/gameplay review; sustained Android performance and balance remain open |
@@ -30,6 +30,17 @@ Status: started19October; current capability rows reconciled25 October 2026 East
 | Campaign/progression | One playable prototype scenario | 32 operation IDs0..31, four earlier ending families, physical jobs/rewards, route map, final pair and best-film wall; provisional finale after first recovered31 | **Integrated foundation**, including027/PR122 and042/PR142. Wider release scope, narrative quality and full cold branch play remain open; source-known routes are not human acceptance. |
 | Save management | Prototype state | Three independent named profiles with copy/clear/export/import; per-profile three manual snapshots and four automatic fork states | **Implemented030/PR124 and043/PR143**: exact restore replaces later film/fittings/progress, never merges histories; default campaign erase preserves states. Keep profile files, sidecars and transaction recovery when disabling. Android sharing/keyboard ergonomics remain unverified. |
 
+
+## Earned terrain stage 1
+
+| Operation | Chart | Reason |
+| --- | --- | --- |
+| 14 Glass Fence | Earned | Newly entered range water; measure the fence and its depth crossings locally. |
+| 15 Needle Strait | Earned | Unsurveyed strait; sensors earn the vane wall and return passage. |
+| 16 Furnace Drift | Earned | New cooling-plant water; measure piers and the deep approach. |
+| 20 Prism Grave | Earned | Unsurveyed optional wreck field; earn shard faces on the way to the crystal. |
+
+Confluence (11) retains its earned chart. All other operations retain their existing chart policy, including the surveyed teaching waters. These four fresh dives use the existing launch seed and per-band chart persistence; earlier in-progress saves keep their stored chart policy. Broader rollout and old-survey outlines await the cold audit.
 
 ## Five ranked feel differences from handoff012, reconciled25 October
 

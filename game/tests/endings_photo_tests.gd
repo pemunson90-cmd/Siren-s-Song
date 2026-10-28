@@ -27,14 +27,14 @@ func _initialize():
   check(store.valid(data) and store.save(data) and store.load_game()==data,"checksummed disk roundtrip for active final operation "+str(id))
   check(id not in Campaign.recover(p,s.mission).completed,"launch alone cannot advance final pair "+str(id))
   var o=s.mission.objectives[0]
-  s.units[0].pos=o.pos+Vector2(-120,0);s.units[0].vel=Vector2.ZERO;s.units[0].angle=0.
+  s.units[0].pos=o.pos+Vector2(-120,-120 if id==30 else 0);s.units[0].vel=Vector2.ZERO;s.units[0].angle=0.
   check(s.Depth.clear(s,s.units[0].pos,o.pos,1,12),"bare core viewpoint in physical water "+str(id))
   check(s.command("frame",{"mode":"tight","focus":o.optical}),"frame core with ordinary control "+str(id))
   check(s.command("camera"),"begin interrupted fixture exposure "+str(id))
   step(s,1.);s.units[0].pos=o.pos+Vector2(-400,0);step(s,1.)
   check(not o.captured and preload("res://src/simulation/photo_pricing/photo_pricing.gd").film_left(s,0)==7,"interruption spends finite film without securing core "+str(id))
   check(id not in Campaign.recover(p,s.mission).completed,"interrupted film cannot advance final pair "+str(id))
-  s.units[0].pos=o.pos+Vector2(-120,0);s.units[0].vel=Vector2.ZERO;s.units[0].angle=0.
+  s.units[0].pos=o.pos+Vector2(-120,-120 if id==30 else 0);s.units[0].vel=Vector2.ZERO;s.units[0].angle=0.
   check(s.command("camera"),"begin core exposure "+str(id))
   step(s,6.)
   check(o.captured,"bare core photo secured "+str(id))
