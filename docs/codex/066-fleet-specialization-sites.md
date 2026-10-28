@@ -1,0 +1,43 @@
+# Handoff 066: Make hull, chassis and the new tools matter through optional fleet-specialization sites
+
+Status: OPEN
+Claimed at: 
+Claimed by: 
+Finished at:
+
+Precondition: 055 is DONE (frame-only sites may start earlier). Scout note: Handoff 055 / PR150 merged for the tool sites. The frame-only sites can start immediately. Read ORCHESTRATION_2026-10-26.md first.
+Codex may merge: yes, into claude/integration only, on green guidance + game-smoke for the exact head, merge commit.
+
+Source: Claude gap scout 27 Oct (four scanners, two adversarial verifiers per gap, completeness critic). AI-DESIGNED scope; owner may adjust.
+
+## Task (plain language)
+Author four to six optional sites in existing regions that reward a specific fleet choice, using existing primitives only (cargo, machine, listen sites and current or thermal lanes).
+- Heavy or Fast: an optional cache of three physical cargo items that standard craft can only carry in two trips.
+- Scout: a passive LISTEN account reachable only from outside the Sirens' approach, using the longer passive reach.
+- Endurance: a long loiter job that exceeds a standard drone battery.
+- Quiet hull: a short approach lane where motion noise decides whether a nearby listener hears the craft.
+- Tools: one site where a silt screen breaks a sight line, one where a sonobuoy bearing shows a patrol gap, and one where a relay buoy extends a drone's listening.
+Pay off in recovered notes, scrap or alloy through the existing economy table. State in the briefing which fleet choice helps.
+
+Spec basis: CURRENT_GAME_SPEC: "Missions connect approach, sensing, fleet allocation, objective priorities and withdrawal through multiple viable strategies"; "Typed mounts and power/noise/endurance/cargo budgets create actual tradeoffs"; acceptance requires "actual strategic alternatives".
+Evidence it is missing: Hulls and chassis act only as global multipliers: speed, noise, endurance, reach, pulse and winch capacity, via craft_upgrades.gd and module_recovery.capacity. A git grep of origin/claude/integration game/src/campaign and game/src/simulation finds hull or chassis ids only in economy prices and glass_research RECIPES (hull:quiet, hull:fast). No operation authors a place where the Low noise hull, Fast transit hull, Scout, Heavy or Long endurance chassis is the better answer. After PR150, nothing in game/src/campaign references sonobuoy, silt_screen, hull_patch or relay_buoy either. The frame and tool tradeoffs exist as numbers but are not tested by any authored decision.
+
+Orchestrator note: If 076 is CLAIMED, do not edit campaign/encounters/calder_layouts.gd; put Calder-region sites in a later handoff.
+
+## Base and branch
+Base: origin/claude/integration (fetch fresh). Create branch: claude/lane-fleet-sites
+
+## Files you may edit
+game/src/campaign/optional_operations.gd, game/src/campaign/encounters/work_sites.gd, game/src/campaign/encounters/calder_layouts.gd, game/src/campaign/encounters/iron_layouts.gd or glass_reach_operations.gd (optional rows only), a new small table such as game/src/campaign/encounters/fleet_sites.gd
+
+## Files you must not touch
+Optional only. Core objectives stay finishable with the bare standard fleet. No photography-design change (no photo-subject rules). No Siren sensing, damage or hull-rule change. Do not rebalance economy numbers that claude/c7-economy-calibration is tuning. Lock, beam, collision, damage, hull rules, Siren senses, photography design. Files owned by any other CLAIMED handoff.
+
+## Checks
+One bare-fleet finishability journey per touched operation, where a core operation is edited. One journey per frame-specialization site, showing it is not completable without the matching choice. Never more than ORCHESTRATION section 5 requires. Suite ranks: Codex local 300-349 / CI 400-449 next free.
+
+## Return
+PR into claude/integration; merge on green; close per ORCHESTRATION section 7.
+
+## Completion
+(five lines max)

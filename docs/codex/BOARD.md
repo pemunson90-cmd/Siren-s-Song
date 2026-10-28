@@ -178,3 +178,27 @@ These seven decisions are approved design direction, **not** evidence of impleme
 | 60 | 063 PERFORMANCE PASS | OPEN | | | |
 
 Claude lanes in parallel (not Codex work): C6 doc sweep (claude/c6-doc-sweep), C7 economy calibration by simulated campaign runs (claude/c7-economy-calibration).
+
+## BATCH 15 (27 Oct, from Claude's verified gap scout; numeric order is priority, preconditions gate eligibility)
+| Order | Handoff | Status | PR | Finished (UTC) | One-line result |
+|---|---|---|---|---|---|
+| 61 | 064 Fittings and briefing fit surface at 24-module catalog scale | OPEN | | | |
+| 62 | 065 Give the two new alien modules (Trench wellhead seal, Choir reed tuner) a world  | OPEN | | | |
+| 63 | 066 Make hull, chassis and the new tools matter through optional fleet-specializatio | OPEN | | | |
+| 64 | 067 Teaching and briefings for the mid and late campaign | OPEN | | | |
+| 65 | 068 Expedition between-operation choices (route fork, repair or boon) | OPEN | | | |
+| 66 | 069 Expedition run summary, records and seed entry | OPEN | | | |
+| 67 | 070 Expedition and career dive resume after app kill | OPEN | | | |
+| 68 | 071 Career and expedition riders: optional contract conditions with bonus pay | OPEN | | | |
+| 69 | 072 Settings depth: separate mixer, haptic strength and coverage, gesture timing | OPEN | | | |
+| 70 | 073 Performance and battery tier: Low-effects quality setting, auto frame-time gover | OPEN | | | |
+| 71 | 074 New geometry for optional ops 38 and 39 | OPEN | | | |
+| 72 | 075 Profile export and import that works on a real phone (system file dialog or shar | OPEN | | | |
+| 73 | 076 Arc 6 distinct topologies and a staged capstone for op 34 | CLAIMED (claude, claude/c11-arc6-capstone) | | | |
+| 74 | 077 Route and recovered-fact carry into arcs 4 to 6 | CLAIMED (claude, claude/c12-route-carry) | | | |
+| 75 | 078 Campaign ledger: expand END OF LINE and the ending into a full account of people | CLAIMED (claude, claude/c13-ledger) | | | |
+| 76 | 079 Ironman save integrity (no hard-save or fork undo bypass) | CLAIMED (claude, claude/c14-ironman) | | | |
+| 77 | 080 Arc boundary beats and arc-grouped Operations list | OPEN | | | |
+| 78 | 081 Reduced motion, high contrast and safe palette do not reach the tactical chart | OPEN | | | |
+| 79 | 082 Rescued people and recovered knowledge as visible Brannock crew effects | OPEN | | | |
+| 80 | 083 Add a Siren dossier: what each of the eight roles does and how to counter it, un | OPEN | | | |
