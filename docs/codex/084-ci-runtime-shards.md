@@ -1,5 +1,5 @@
 # Handoff084: preserve the full CI gate while running its suite matrix in parallel
-Status: CLAIMED
+Status: IMPLEMENTED — root hosted checks and merge pending
 Claimed by: codex-root-parallel
 Precondition: real failure observed: PR165 run40647110543 cancelled at90minute job cap, despite no emitted assertion failure. No gameplay source ownership overlap.
 Codex may merge: no; root collects current-head checks and integrates.
@@ -10,3 +10,11 @@ Files: .github/workflows/gauntlet-pr-checks.yml, scripts/toolchain/test.sh and e
 Branch: claude/lane-ci-shards from current integration.
 Minimal validation: shell/Python registry/partition selection checks and the complete hosted gate on current head; do not rerun unrelated local game suites. Preserve existing suites and focused invocations.
 No APK, force push, Astra, or production/main changes. Push WIP/open PR; root collects CI, no model polling. Keep closeout short and truthful.
+
+## Lane return — 28 October 2026
+
+[KEEL: verified implementation/check results] WIP [PR172](https://github.com/pemunson90-cmd/Siren-s-Song/pull/172), head `2ee38d8a0d9f3ac83a9957cc55b6b86c95a1f526`, based on fetched integration `4dc4106f`. Four rank-strided runtime jobs cover 74/74/73/73 suites plus one separate core (295 registered total). Full union/counter and uniqueness check passes. Every existing assertion, renderer and per-suite/job timeout remains; default local/full-CI/focused core list selections match the prior wrapper. Core shares its verified editor artifact; opt-in installer `--editor-only` avoids Android template downloads while its default stays intact.
+
+[KEEL: verified checks] Actionlint 1.7.12, Bash syntax, installer embedded Python syntax, guidance detector (10 tests), structural guidance, five rejected invalid shard selections and 29 actual aggregate-shell cases pass. Aggregate requires core/matrix success and all four shard completion outputs, including rejection of missing/cancelled/skipped gameplay results. Docs-only success with skipped runtime is preserved. No unrelated gameplay suites rerun; no gameplay/save/art edits. Installer change is the small extra seam needed to avoid unnecessary template downloads.
+
+[KEEL: pending integration] [Hosted CI40658100764](https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/40658100764) is running; no hosted success or merge claimed. Root collects complete guidance/game-smoke on the reconciled current head and merges. Lane implementation returned; no further claim taken. RESUME capability/next-action changes are unnecessary for this CI-only implementation, recorded in PR172.

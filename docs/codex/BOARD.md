@@ -164,7 +164,7 @@ Claude stream C (not Codex work, listed so you know what is coming and which fil
 | 55 | 058 C5 SETTINGS GAPS | DONE | [163](https://github.com/pemunson90-cmd/Siren-s-Song/pull/163) | 2026-10-28 UTC | Mergedaef173ac; all current-head checks green. |
 
 
-## PAT DESIGN RULINGS — 27 Oct 2026 (documentation-only; development PAUSED)
+## PAT DESIGN RULINGS â€” 27 Oct 2026 (documentation-only; development PAUSED)
 
 These seven decisions are approved design direction, **not** evidence of implementation, balancing, CI success, a resumed claim, or permission to merge/promote. Preserve the current development pause. No task is claimed or restarted by this entry.
 
@@ -174,7 +174,7 @@ These seven decisions are approved design direction, **not** evidence of impleme
 4. **050 Hunt:** approve *current reversible sight-only tuning* as the **testing baseline**, not final balance. Retain current per-operation resets, caps, action values, HUD and audio behavior; hearing, movement, lock, beam and damage remain unchanged. Retune only from full-game evidence.
 5. **054 economy:** prices, resource rewards, research/manufacturing costs and preset values remain **provisional**, to be calibrated with **simulated full-campaign runs**. No current numbers are ratified as final balance.
 6. **Whole-game audit order:** **finish planned content first**, then prioritize **photographic reconnaissance, strategic depth and actual player experience** in the independent whole-game audit. Other quality, technical and Android findings still belong in that audit.
-7. **PAUSE:** record these decisions only. **Do not resume implementation, run builds, claim 056–058, change gameplay code, merge PRs or promote branches** from this documentation update. Existing open/block statuses are retained.
+7. **PAUSE:** record these decisions only. **Do not resume implementation, run builds, claim 056â€“058, change gameplay code, merge PRs or promote branches** from this documentation update. Existing open/block statuses are retained.
 
 ## BATCH 13 (27 Oct, from Pat's rulings 2 and 3)
 | Order | Handoff | Status | PR | Finished (UTC) | One-line result |
@@ -214,9 +214,12 @@ Claude lanes in parallel (not Codex work): C6 doc sweep (claude/c6-doc-sweep), C
 | 78 | 081 Reduced motion, high contrast and safe palette do not reach the tactical chart | CLAIMED (codex-root-parallel) | [171](https://github.com/pemunson90-cmd/Siren-s-Song/pull/171) | | WIP headf692ac85 on0320f632; import/core848/0, cue52/0, Compatibility cue/render66/0. Default legacy/earned render byte-identical. Root owns hosted gates/merge; 063 waits for draw-file release. |
 | 79 | 082 Rescued people and recovered knowledge as visible Brannock crew effects | OPEN | | | |
 | 80 | 083 Add a Siren dossier: what each of the eight roles does and how to counter it, un | CLAIMED (codex, claude/lane-siren-dossier; WIP PR164) | [164 draft](https://github.com/pemunson90-cmd/Siren-s-Song/pull/164) | | Head2573f17d on base88188bd0; import/core846/0; Archive UI102/0. Awaiting 058 for Operations-home entry; hosted CI pending. |
+| 81 | 084 CI runtime shards | IMPLEMENTED; ROOT CI/MERGE PENDING | [172 draft](https://github.com/pemunson90-cmd/Siren-s-Song/pull/172) | | [KEEL: verified lane return] Head2ee38d8a on4dc4106f; 295 suites = core +74/74/73/73, exact union/no duplicates; actionlint/syntax/selection/guidance pass. Aggregate29 cases pass; [CI40658100764](https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/40658100764) running. Root owns current-head checks/merge; no new claim. |
 
 Tooling repair pending: gauntlet-boundary.py imports fcntl unconditionally and cannot run on native Windows. Fix platform locking or supply supported Linux invocation; preserve guidance checks. Observed at059 closeout, 27Oct2026.
 
 Boundary follow-up28Oct03:12UTC: Windows completion check PASSES from current integration88188bd0 using Siren-s-Song-codex-058. Earlier fcntl error came from the stale protected-main checkout; integration already has platform-specific locking. Use the current lane copy for boundaries; no new tooling repair is required.
 
 **28Oct08:33UTC:**078 fullyDONE: PR167 ending ledger andPR170 Archive summary merged4dc4106f.084 CLAIMED root for confirmed CI90minute job cancellation: preserve full checks via parallel partitions and aggregate game-smoke. No tests will be skipped or timeouts increased.
+
+[KEEL: 084 lane return, 28Oct2026] The 08:33 claim above is implemented in PR172; hosted gate and root integration remain pending. See the current084 row and handoff for exact source/check status.
