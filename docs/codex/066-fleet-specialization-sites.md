@@ -40,7 +40,7 @@ One bare-fleet finishability journey per touched operation, where a core operati
 PR into claude/integration; merge on green; close per ORCHESTRATION section 7.
 
 ## Completion
-- PARTIAL / CLAIMED codex-root-parallel: head8f58039c on claude/lane-fleet-sites, draft [PR169](https://github.com/pemunson90-cmd/Siren-s-Song/pull/169); preserves acce5a2d frame sites and merges055/integration609f29a9 via11219c8d. Root collects current-head CI; no merge claimed.
+- PARTIAL / CLAIMED codex-root-parallel: head8f58039c on claude/lane-fleet-sites, open [PR169](https://github.com/pemunson90-cmd/Siren-s-Song/pull/169); preserves acce5a2d frame sites and merges055/integration609f29a9 via11219c8d. Root collects current-head CI; no merge claimed.
 - Added optional relay account37, silt-covered watch reception38 and sonobuoy patrol account39 through existing finite tools; photography, bare-standard main routes, sensing/combat/hull formulas and legacy cargo are preserved. Recovered notes only; no economy changes.
 - Isolated Godot4.6.3: import/core848/0; tool order journeys24/0; bare37 real photo/screw/recovery8/0; existing bare38/39 photo recoveries18/0; legacy cargo checks25/0. No assertions changed, registered suite added, touch/phone/human acceptance claimed. External scripts/logs: C:/Users/Archi/.cache/sirens-song-toolchain/artifacts/066-tools-20261028 (failed probes retained).
 - Successful routes: relay standard drone west perch and return11.27s/100% hull; silt sluice/DEEP approach/MIDDLE account/DEEP retreat114.45s/86.44%; sonobuoy eastern-basin bearings/account plus both photos and extraction199.37s/98.85%. Bare37 screw recovery136.40s/86.50%; bare38/39 recoveries200.87s/100% and167.63s/98.85%.
