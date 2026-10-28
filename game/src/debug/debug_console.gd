@@ -83,10 +83,15 @@ func sample()->void:
  metrics.dev=State.marked(host);metrics.time=sim.elapsed;metrics.hull=sim.hull
  metrics.hunt_peak=maxf(metrics.hunt_peak,Hunt.view(sim).hunt);metrics.oxygen_margin=sim.oxygen
  metrics.oxygen_seconds=sim.oxygen/maxf(.0001,preload("res://src/simulation/operation_endurance.gd").oxygen_drain(sim.mission,1.))
- for i in sim.sirens.size():
-  var s=sim.sirens[i];var locked=float(s.get("lock",0))>0 and int(s.get("target",-1))>=0
-  if locked and not last_locks.get(i,false):metrics.received_lock_episodes+=1
-  last_locks[i]=locked
+ # Match the received-contact observer used by the 093 pressure journeys.
+ # Hidden raw guard state and expired observations cannot create received episodes.
+ var locking={}
+ for id in sim.contacts:
+  var contact=sim.contacts[id]
+  if sim.elapsed-float(contact.time)<=.4 and float(contact.lock)>0.:
+   locking[id]=true
+   if not last_locks.has(id):metrics.received_lock_episodes+=1
+ last_locks=locking
  var counts=tool_counts()
  for key in counts:
   var spent=maxi(0,int(last_tools.get(key,counts[key]))-int(counts[key]))
