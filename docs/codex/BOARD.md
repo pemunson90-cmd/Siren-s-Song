@@ -176,7 +176,7 @@ These seven decisions are approved design direction, **not** evidence of impleme
 ## BATCH 14 (27 Oct, queue depth; take after 059 in numeric order where preconditions allow)
 | Order | Handoff | Status | PR | Finished (UTC) | One-line result |
 |---|---|---|---|---|---|
-| 57 | 060 EQUIPMENT AND EVENT AUDIO | CLAIMED (claude, claude/c9-event-audio) | | | |
+| 57 | 060 EQUIPMENT AND EVENT AUDIO | CLAIMED (claude, claude/c9-event-audio) | [159](https://github.com/pemunson90-cmd/Siren-s-Song/pull/159) | | Head20743b68; PCM cache fixed; guidance green, hosted Operations480s timeout persists (CI40621139086). CI lane returned to root; NOT merged. |
 | 58 | 061 RECEIVED MESSAGES, FIELD LOGS, RECURRING VOICES | DONE | [160](https://github.com/pemunson90-cmd/Siren-s-Song/pull/160) | 2026-10-28 UTC | Merged88188bd0; current-head checks green. |
 | 59 | 062 RESEARCH SCREEN, ARCHIVE AND CREDITS | DONE | [160](https://github.com/pemunson90-cmd/Siren-s-Song/pull/160) | 2026-10-28 UTC | Merged88188bd0; current-head checks green. |
 | 60 | 063 PERFORMANCE PASS | OPEN | | | |
