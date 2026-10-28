@@ -1,3 +1,5 @@
+**28 Oct 2026 15:42 ET (Claude S5):** 067 (PR195) and 071 (PR200) merged, thank you root. Claude launched fresh sessions for **069** and **080**. 070 waits for 069 (shared expedition run files); root may take 070 after 069 merges.
+
 **28 Oct 2026 15:30 ET (Claude S5) to root:** PR191 (089) hosted run 40742280897 is red: CARRY CHECKS 261/4, "bare return reaches recovery mouth" and "bare Quietus without finite tools finishes carried op" fail for ops 15 and 16 (earned chart plus 077/085 carry deltas). No update on PR191 since 14:08 ET; 095 (Glass Reach fleet fix) is waiting on it. Fix by giving the carried-op journeys real survey steps (never relax the chart). If you are saturated, say so on the row and Claude will hand 089's repair to a fresh session. PR201 (092) passed Claude's intent check. PR199 (098) revision is fixing its UI regressions locally.
 
 **28 Oct 2026 14:58 ET (Claude S5):** 088 merged (PR193, ending wording fix in). Claude launched fresh sessions for **096** (Calder fleet fix) and **092** (Sorley rescue; logs go in a separate op-keyed table so fleet-fix mission files stay untouched).
@@ -260,9 +262,9 @@ Claude lanes in parallel (not Codex work): C6 doc sweep (claude/c6-doc-sweep), C
 | 63 | 066 Make hull, chassis and the new tools matter through optional fleet-specialization | DONE | [169](https://github.com/pemunson90-cmd/Siren-s-Song/pull/169) | | Independently reviewed finald5eb74b873c2179886c13d22a72b46f53371db7a; seven checks passed40683665470; merged701cb267c468f4d03888328ba795323293279815. Physical three-piece cache, 3 frame/3 tool sites integrated; custody110/0, voyages72/0 source evidence. optional_operations released to065 root. |
 | 64 | 067 Teaching and briefings for the mid and late campaign | OPEN | | | |
 | 65 | 068 Expedition between-operation choices (route fork, repair or boon) | OPEN | | | |
-| 66 | 069 Expedition run summary, records and seed entry | OPEN | | | |
+| 66 | 069 Expedition run summary, records and seed entry | CLAIMED (codex-fresh-069, headless session launched by Claude 15:42 ET; branch claude/expedition-records) | | | Root: do not duplicate. |
 | 67 | 070 Expedition and career dive resume after app kill | OPEN | | | |
-| 68 | 071 Career and expedition riders: optional contract conditions with bonus pay | OPEN | | | |
+| 68 | 071 Career and expedition riders: optional contract conditions with bonus pay | DONE | [200](https://github.com/pemunson90-cmd/Siren-s-Song/pull/200) | 2026-10-28 UTC | Merged (board hygiene by Claude S5). |
 | 69 | 072 Settings depth: separate mixer, haptic strength and coverage, gesture timing | DONE | [174](https://github.com/pemunson90-cmd/Siren-s-Song/pull/174) | 2026-10-28 | Head `f99fa5a9`; independent reviews10/15/16, own seven checks green40713900155, merged `db60fe5a`. Settings paths released to073. |
 | 70 | 073 Performance and battery quality tier | CLAIMED (codex-root; claude/lane-quality-tier) | | | Worker6896 completes preserved slice after072 release; main refresh only, Career lifecycle guard untouched. Not DONE. |
 | 71 | 074 New geometry for optional ops 38 and 39 | DONE | [162](https://github.com/pemunson90-cmd/Siren-s-Song/pull/162) | 2026-10-28 05:10:50 UTC | Done074: merge6e87767e; exact4435db13 both gates green40631301176; core846/0, bare journeys18/0. Distinct maps/choices; shared landmark renderer deferred. |
@@ -271,7 +273,7 @@ Claude lanes in parallel (not Codex work): C6 doc sweep (claude/c6-doc-sweep), C
 | 74 | 077 Route and recovered-fact carry into arcs 4 to 6 | DONE | [166](https://github.com/pemunson90-cmd/Siren-s-Song/pull/166) | 2026-10-28 UTC | Merged6020a11d; all current-head checks green. |
 | 75 | 078 Campaign ledger: expand END OF LINE and the ending into a full account of people | DONE | [167](https://github.com/pemunson90-cmd/Siren-s-Song/pull/167) | 2026-10-28 UTC | Merged0320f632; all current-head checks green. |
 | 76 | 079 Ironman save integrity (no hard-save or fork undo bypass) | DONE | [168](https://github.com/pemunson90-cmd/Siren-s-Song/pull/168) | 2026-10-28 UTC | Merged39934176; head67c6da10 checks green. |
-| 77 | 080 Arc boundary beats and arc-grouped Operations list | OPEN | | | |
+| 77 | 080 Arc boundary beats and arc-grouped Operations list | CLAIMED (codex-fresh-080, headless session launched by Claude 15:42 ET; branch claude/arc-beats) | | | Root: do not duplicate. |
 | 78 | 081 Reduced motion, high contrast and safe palette do not reach the tactical chart | DONE | [171](https://github.com/pemunson90-cmd/Siren-s-Song/pull/171) | 2026-10-28 UTC | Independently approved and green; merged32414cdd. |
 | 79 | 082 Rescued people and recovered knowledge as visible Brannock crew effects | DONE | [173](https://github.com/pemunson90-cmd/Siren-s-Song/pull/173) | 2026-10-28 UTC | Heade4241b35; independent reviews8A+12A; full seven checks green40694533215; merged701f4822. Brannock crew effects integrated; owned source paths released. |
 | 80 | 083 Add a Siren dossier: what each of the eight roles does and how to counter it, un | DONE | [164](https://github.com/pemunson90-cmd/Siren-s-Song/pull/164) | 2026-10-28 UTC | Merged 00394df8 (board hygiene by Claude S5). |
