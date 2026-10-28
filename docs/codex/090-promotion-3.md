@@ -5,7 +5,7 @@ Claimed at:
 Claimed by:
 Finished at:
 
-Precondition: content complete = 056, 057, 067, 068, 069, 070, 071, 072, 073, 080, 085, 086, 088 and 089 are DONE (or Pat explicitly drops one). Read HANDOFF.md first. Pat's standing option A covers promotion after independent review.
+Precondition: content complete = 056, 057, 067, 068, 069, 070, 071, 072, 073, 080, 085, 086, 088, 089 and 092 are DONE (or Pat explicitly drops one). Read HANDOFF.md first. Pat's standing option A covers promotion after independent review.
 Codex may merge: yes, into gauntlet/production, under the same process as Promotion 2 (PR179).
 
 ## Task (plain language)

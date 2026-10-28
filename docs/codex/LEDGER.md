@@ -44,3 +44,4 @@ Started 28 Oct 2026 by Claude under Pat's efficiency baseline. Earlier entries a
 - 28 Oct 2026 11:20 ET: Claude S5 reconcile. 087 merged (PR187 e09c2db8). 056/072/085/086 on CI under Codex root. 073 newly eligible. 083 row closed. Pat: let Codex runs finish, fresh sessions for new work.
 - 28 Oct 2026 11:30 ET: Pat ruled ending family decided after op 34 with arcs 4 to 6 able to change it; Claude wrote handoff 088 (after 085).
 - 28 Oct 2026 11:40 ET: Claude S5 wrote 089 (V7 earned-chart restore), 090 (Promotion 3), 091 (cold audit) and the post-audit roadmap; no Codex runs touched.
+- 28 Oct 2026 11:50 ET: Pat ruled hidden Sorley rescue (logs or photo unlock, reward, ending change); Claude wrote handoff 092, added to content-complete list.
