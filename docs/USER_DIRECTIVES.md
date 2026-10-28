@@ -1,3 +1,11 @@
+## 28 October 2026: carrying tools costs cargo
+
+Claude's question (QUESTIONS_FOR_PAT 13, verbatim): "today every loadout gets a fixed free bundle of tools. Should carrying tools cost module slots or cargo space, so a tool-heavy loadout means giving up a module? I recommend yes, because it turns the loadout into a real planning choice."
+
+Pat (verbatim, ~14:13 ET): "Yes to your open question."
+
+Operating effect: finite charges share each carrying craft's cargo with modules and winch work. ENDURANCE, DISRUPTION and SURVEY are editable starting templates; empty racks remain launchable. Handoff098 implements this through optional per-profile racks, old-loadout migration and owner-aware deployment. Specific cargo weights, allocation and extra-charge prices are AI-DESIGNED provisional choices, not Pat-ratified numbers. Existing tool effects stay unchanged; Torpedo and Hull patch retain their demonstrated Quietus-only guards. Other tools already deploy from the selected craft and now require its own stock.
+
 ## 28 October 2026: fleet, tools and bare-launch finishability
 
 Pat's ruling (verbatim, ~12:25 ET):
@@ -9,6 +17,14 @@ Pat follow-up (verbatim, 28 Oct 2026 ~12:30 ET): "I mean I guess a skilled playe
 - **Bare finish is a skill feat, not the easy path.** A skilled player should be able to finish required ops with a bare launch (no finite tools), but it should be demanding: tighter timing, more exposure, close calls, worse results. On ACCESSIBLE and STANDARD it is also the anti-soft-lock floor. On SURVIVAL it may be very hard, but should stay possible for an expert.
 - **Design target, every preset:** planning, drones, tools and progression must change the outcome. The bare minimum finish should be clearly worse than a planned, equipped finish (fewer people out, worse photos, lower pay, more Hunt, harsher ledger or ending lines, missed side objectives).
 - The spec already says "viable baseline fleet solution" (Quietus plus bare drones). Handoffs that say "bare Quietus alone" were stricter than the spec, and that wording is superseded.
+
+## 28 October 2026: late campaign decides the ending (handoff 088)
+
+[PAT, quoted in Claude S5 handoff 088] Claude asked: "Should what you do in arcs 4 to 6 be able to change which ending you get? Today the ending is locked at ops 12/13 ... I'd queue a follow-up that moves the decision to op 34." Pat answered: "Sure that's fine".
+
+[PAT, accepted provisionally 28 Oct 2026 ~15:45 ET; quoted in codex/handoffs BOARD] "Keep the vote rule as is for now".
+
+[AI-DESIGNED rule, now Pat-accepted provisionally] The thread remains fixed. At op 34, Glass service/sever, Choir bypass/isolate and Choir plant reconnect/dismantle vote overt/concealed respectively. Two matching votes with a strict majority select that channel; ties, sparse and empty records retain Confluence. Expedition resolution and save fields stay unchanged.
 
 ## 28 October 2026 (later): efficiency baseline
 

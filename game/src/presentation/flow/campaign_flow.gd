@@ -31,20 +31,21 @@ static func show_campaign(host) -> void:
 	host._button(host.panel_box,"FITTINGS / NEXT LAUNCH",host._show_fittings,"fittings")
 	EconomyPanel.entry(host)
 	EconomyPanel.pristine_picker(host)
-	if not host.Endings.resolve(host.expedition).is_empty():host._button(host.panel_box,"VIEW CAMPAIGN ENDING",host._show_ending,"ending")
+	if not host.Endings.campaign_resolve(host.expedition).is_empty():host._button(host.panel_box,"VIEW CAMPAIGN ENDING",host._show_ending,"ending")
+	elif not host.Endings.course_line(host.expedition).is_empty():host._menu_text(host.Endings.course_line(host.expedition),17)
 	preload("res://src/presentation/finale/finale.gd").entry(host)
 	preload("res://src/persistence/save_states/save2_controller.gd").entry(host)
 	if not preload("res://src/presentation/ops_home/ops_home_table.gd").enabled and not host._campaign_pristine():host._button(host.panel_box,"ERASE PROGRESS · NEW CAMPAIGN",host._confirm_new_campaign,"new_campaign")
 	if not host.recovered_evidence.is_empty(): host._button(host.panel_box,"REVIEW FIELD RECORDS",func(): host._evidence_gallery(0),"evidence")
 	host._menu_text("Field records remain reviewable after loss or abandonment. Only successful extraction advances the campaign.",14)
 	var stock=host._loadout_stock(host.upgrade)
-	host._menu_text("NEXT DIVE / RETRY · %s\nO₂ %d%% · DISRUPT %d · SURVEY %d"%[host.upgrade.to_upper(),stock[0],stock[1],stock[2]],15)
+	host._menu_text("NEXT DIVE / RETRY · %s\nO₂ %d%% · DISRUPT %d · SURVEY %d"%[host.upgrade.to_upper(),stock[0],preload("res://src/equipment/tool_racks.gd").total(host.tool_racks,"emp"),preload("res://src/equipment/tool_racks.gd").total(host.tool_racks,"recon")],15)
 	var rows=["COMPARE: O₂ / DISRUPT / SURVEY"]
 	for choice in ["endurance","disruption","survey"]:
 		var supplies=host._loadout_stock(choice)
 		rows.append("%s · %d%% / %d / %d"%[choice.to_upper(),supplies[0],supplies[1],supplies[2]])
 	host._menu_text("\n".join(rows),14)
-	host._menu_text("ALL: 3 DECOYS · 2 DRONES · 2 TORPEDOES\nDISRUPT: 12s · SURVEY: 8s, audible",14)
+	host._menu_text("FREE TOOLS: 3 DECOYS / 2 TORPEDOES; 2 DRONES\nDISRUPT: 12s / SURVEY: 8s, audible",14)
 	host._button(host.panel_box,"CYCLE LOADOUT · endurance / disruption / survey",host._cycle_loadout,"loadout")
 	host._button(host.panel_box,"AUDIO / SETTINGS",host._settings_menu,"settings")
 	preload("res://src/presentation/ops_home/ops_home.gd").arrange(host)
@@ -61,6 +62,8 @@ static func show_fittings(host)->void:
 static func cycle_loadout(host)->void:
 	var reading_position=host.scroll.scroll_vertical
 	host.upgrade=["endurance","disruption","survey"][( ["endurance","disruption","survey"].find(host.upgrade)+1)%3]
+	host.tool_racks=preload("res://src/equipment/tool_racks.gd").template(host.upgrade,host.fitted_equipment)
+	host._save_archive()
 	host._show_campaign()
 	var heading=host.panel_box.get_child(0)
 	(func():
@@ -99,10 +102,11 @@ static func briefing(host, index: int) -> void:
 	var fit_start=host.panel_box.get_child_count()
 	if not host._campaign_pristine() and not EconomyPanel.briefing_line(host).is_empty():host._menu_text(EconomyPanel.briefing_line(host),14)
 	preload("res://src/presentation/crew/crew_view.gd").briefing(host,index)
-	host._menu_text("NEXT DIVE / RETRY · %s\nO₂ %d%% · DISRUPT %d · SURVEY %d · %s"%[host.upgrade.to_upper(),stock[0],stock[1],stock[2],FitSurfaceModel.stock_text(host.upgrade,not host._campaign_pristine())],17)
+	host._menu_text("NEXT DIVE / RETRY · %s\nO₂ %d%% · DISRUPT %d · SURVEY %d · %d DECOYS · %d TORPEDOES"%[host.upgrade.to_upper(),stock[0],preload("res://src/equipment/tool_racks.gd").total(host.tool_racks,"emp"),preload("res://src/equipment/tool_racks.gd").total(host.tool_racks,"recon"),preload("res://src/equipment/tool_racks.gd").total(host.tool_racks,"decoy"),preload("res://src/equipment/tool_racks.gd").total(host.tool_racks,"knock")],17)
 	# Frames open after the first dive; recovered fittings appear once earned. A toggle folds them away.
 	if not compact:fit_start=host.panel_box.get_child_count()
 	# Keep the first briefing focused; fit details stay available in its existing optional fold.
+	host._button(host.panel_box,"EDIT TOOL RACKS / FITTINGS",host._show_fittings,"edit_racks")
 	FitSurface.summary(host,host._equipment_context())
 	var fold_control:Button=null
 	if 0 in host.completed or not host._equipment_entitlements().is_empty():preload("res://src/presentation/equipment_context.gd").loadout(host,host._equipment_context().slots,func(key,id):host._choose_equipment(key,id,index))
@@ -236,8 +240,10 @@ static func sync_craft_upgrades(host)->void:
 	if not host.expedition.is_empty():host.expedition.entitlements=host._equipment_entitlements()
 
 static func show_ending(host,photo:bool=true)->void:
+	if photo and host.Endings.campaign_resolve(host.expedition).is_empty():host._save_archive();host._show_campaign();return
 	if photo and preload("res://src/presentation/endings_photo_view.gd").present(host,func():show_ending(host,false)):return
-	var ending=host.Endings.resolve(host.expedition)
+	var ending=host.Endings.campaign_resolve(host.expedition)
+	if ending.is_empty():ending=host.Endings.resolve(host.expedition)
 	if ending.is_empty():host._show_campaign();return
 	host.sim.paused=true;host.screen="ending";host._clear_menu()
 	host._menu_text(preload("res://src/persistence/save_states/save2_controller.gd").legacy_title(host,"SIREN'S SONG / RECOVERED OUTCOME"),18)
@@ -274,5 +280,6 @@ static func new_campaign(host)->void:
 	host.completed=[];host.unlocked=0;host.expedition={};host.recovered_evidence={};host.photo_records={};host.photo_intel={};host.hints_seen=[]
 	host.fleet={};host.economy=EconomyPanel.take_draft(host)
 	host.fitted_equipment=preload("res://src/equipment/equipment_catalog.gd").default_loadout();host.upgrade="endurance"
+	host.tool_racks=preload("res://src/equipment/tool_racks.gd").template(host.upgrade,host.fitted_equipment)
 	preload("res://src/presentation/first_siren_cue/cue_archive.gd").restore_types(host,{})  # a new campaign forgets seen Siren kinds
 	host._start_mission(0);host._save_archive();host._show_campaign()

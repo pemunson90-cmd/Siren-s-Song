@@ -31,7 +31,7 @@ static func context(sim,action:String,id:int=-1)->Dictionary:
  result.duration=4. if action=="recover" else 8.
  if not sim.outcome.is_empty():result.reason="Dive ended"
  elif not u.alive:result.reason="Craft lost"
- elif action=="recover" and sim.ModuleRecovery.carried(sim,id)>=sim.ModuleRecovery.capacity(sim,id):result.reason="No free cargo place · material needs one"
+ elif action=="recover" and sim.ModuleRecovery.carried(sim,id)>=sim.ModuleRecovery.capacity(sim,id):result.reason=sim.ModuleRecovery.full_reason(sim,id,"No free cargo place · material needs one")
  elif busy(sim,id):result.active=true;result.elapsed=state.jobs[id].elapsed;result.reason="Industrial work in progress"
  elif u.band!=band or not u.transition.is_empty():result.reason="Settle at the work's physical depth"
  elif u.pos.distance_to(result.pos)>60 or not sim.Depth.clear(sim,u.pos,result.pos,u.band):result.reason="Reach within60m through clear local water"

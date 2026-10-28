@@ -4,9 +4,9 @@ extends RefCounted
 const Pair=preload("res://src/campaign/final_pair_operations.gd")
 const Endings=preload("res://src/campaign/endings.gd")
 const MAX_FRAMES=12
-static func resolve(progress:Dictionary,intel:Dictionary,enabled:bool=Pair.ENABLED)->Dictionary:
+static func resolve(progress:Dictionary,intel:Dictionary,enabled:bool=Pair.ENABLED,campaign:bool=true)->Dictionary:
  if not enabled or not Pair.IDS.all(func(id):return id in progress.get("completed",[])):return {}
- var ending=Endings.resolve(progress)
+ var ending=Endings.campaign_resolve(progress) if campaign else Endings.resolve(progress)
  if ending.is_empty():return {}
  var keys=intel.keys().filter(func(k):return float(intel[k].get("q",0.))>0.);keys.sort()
  var studied=keys.filter(func(k):return str(k).begins_with("siren_")).size()

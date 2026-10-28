@@ -1,0 +1,65 @@
+extends "res://tests/challenges_ui_tests.gd"
+# Real injected touches; outcomes are staged, not completed player voyages.
+const Runs=preload("res://src/campaign/runs/run_state.gd")
+const RunArchive=preload("res://src/campaign/runs/run_archive.gd")
+const Modes=preload("res://src/presentation/runs/modes_frontend.gd")
+const Career=preload("res://src/campaign/career/career_state.gd")
+const CareerArchive=preload("res://src/campaign/career/career_archive.gd")
+const CareerFront=preload("res://src/presentation/career/career_frontend.gd")
+func readable(session):
+	var labels=session.panel_box.find_children("*","Label",true,false).filter(func(n):return n.text.begins_with("OPTIONAL RIDER"))
+	check(labels.size()==1,"one announced rider before launch")
+	if labels.size()!=1:return
+	var label=labels[0]
+	session.scroll.ensure_control_visible(label);await settle()
+	check(label.text.contains("Failure forfeits only this bonus") and label.text.contains("Bonus"),"condition and bonus scope explicit")
+	check(label.get_line_count()>1 and label.size.y>=label.get_minimum_size().y and label.size.x<=session.scroll.size.x,"rider wraps with full text height")
+	check(session.scroll.get_global_rect().encloses(label.get_global_rect()),"complete rider text reachable in scroll")
+func capture(session,name):
+	var folder=OS.get_environment("SIRENS_071_CAPTURE_DIR")
+	if folder.is_empty() or DisplayServer.get_name()=="headless":return
+	await RenderingServer.frame_post_draw
+	check(root.get_texture().get_image().save_png(folder+"/"+name+".png")==OK,"saved rendered rider " +name)
+func rider_case(shape):
+	root.size=shape;await settle()
+	var path="user://rider-ui-%d.save"%shape.x
+	var host=load("res://scenes/main.tscn").instantiate();host.set_script(load("res://tests/density_main.gd"))
+	host.capture_scenario="runtime-test";host.store.path=path;root.add_child(host);await settle()
+	host._show_campaign();host.capture_scenario="";host._save_archive();host.capture_scenario="runtime-test"
+	var bytes=FileAccess.get_file_as_bytes(path);var snapshot=host.sim.snapshot()
+	var front=Front.new();host.add_child(front);front.setup(host,true)
+	check(RunArchive.persist(host,Runs.new_run(12345)),"isolated expedition fixture")
+	Modes.start(front);await settle();var session=host.get_node("ExpeditionSession")
+	await readable(session);await capture(session,"expedition-%d"%shape.x)
+	var offered=Runs.rider_offer(session.run_state)
+	await press(session,"run_rider");check(not session.accept_rider,"touch declines expedition rider")
+	await press(session,"run_rider");check(session.accept_rider,"touch accepts expedition rider")
+	host.store.suspended=true;await press(session,"run_begin")
+	check(not session.active_started and not session.run_state.in_flight,"failed save preserves unlaunched expedition")
+	host.store.suspended=false;await press(session,"run_begin")
+	check(session.sim.assignment==offered and RunArchive.restore(host)==session.run_state,"announced expedition assignment persists before launch")
+	session.sim.fail("fixture failure");session._refresh();await capture(session,"expedition-failed-%d"%shape.x)
+	check(session.status_label.text.contains("RIDER FAILED") and session.status_label.size.y>=session.status_label.get_minimum_size().y,"live multiline expedition failure fits")
+	session.sim.outcome="won";session._debrief();await settle()
+	var paid=session.run_state.duplicate(true)
+	check(paid.cursor==1 and not paid.results[0].rider.passed and Runs.valid(paid),"failed rider still recovers base expedition")
+	session._debrief();check(session.run_state==paid,"repeated debrief pays once")
+	await press(session,"run_return");check(CareerArchive.persist(host,Career.new_career()),"independent career fixture")
+	CareerFront.start(front);await settle();session=host.get_node("CareerSession")
+	await press(session,"career_contract_brannock_watch");await readable(session);await capture(session,"career-%d"%shape.x)
+	await press(session,"career_rider");check(not session.accept_rider,"touch declines career rider")
+	await press(session,"career_begin")
+	check(session.sim.assignment.is_empty() and session.career_state.rider.is_empty(),"declined career launches base contract")
+	session.sim.outcome="won";session._debrief();await settle()
+	check(session.career_state.recovered==1 and session.career_state.report.find("RIDER")==-1,"decline retains ordinary career payout")
+	await press(session,"career_board");await press(session,"career_contract_brannock_watch");await press(session,"career_begin")
+	session.sim.fail("fixture failure");session._refresh();await capture(session,"career-failed-%d"%shape.x)
+	check(session.status_label.text.contains("RIDER FAILED") and session.status_label.size.y>=session.status_label.get_minimum_size().y,"live career failure fits")
+	session.sim.outcome="won";session._debrief();await settle()
+	check(session.career_state.recovered==2 and session.career_state.report.contains("BONUS NONE"),"accepted failed career rider preserves base recovery")
+	await press(session,"career_board");await press(session,"career_return")
+	check(host.sim.snapshot()==snapshot and FileAccess.get_file_as_bytes(path)==bytes and RunArchive.restore(host)==paid,"both rider paths preserve campaign and each other's sidecars")
+	host.queue_free();await settle()
+func run():
+	for shape in [Vector2i(2520,1080),Vector2i(2184,1968)]:await rider_case(shape)
+	print("RIDER UI CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)

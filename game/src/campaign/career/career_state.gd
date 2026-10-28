@@ -6,6 +6,7 @@ const Economy=preload("res://src/campaign/economy.gd")
 const Equipment=preload("res://src/equipment/equipment_catalog.gd")
 const Research=preload("res://src/campaign/glass_research.gd")
 const Ops=preload("res://src/campaign/operation_catalog.gd")
+const Riders=preload("res://src/campaign/career/riders.gd")
 static func new_career()->Dictionary:
 	var standing={}
 	for faction in Table.FACTIONS:standing[faction]=0
@@ -13,11 +14,14 @@ static func new_career()->Dictionary:
 		"progress":{"completed":[],"facts":{},"entitlements":[]},"active":"","in_flight":false,"serial":0,"recovered":0,"lost":0,"report":"Choose a regional contract. Each recovery improves standing; higher trust opens regional work."}
 static func open(state:Dictionary,id:String)->bool:
 	return Table.CONTRACTS.has(id) and state.standing[Table.CONTRACTS[id].faction]>=Table.CONTRACTS[id].standing
-static func launch(state:Dictionary,id:String)->Dictionary:
+static func rider_offer(state:Dictionary,id:String)->Dictionary:
+	return Riders.offer(Riders.Table.SEED,int(state.serial)+1,id)
+static func launch(state:Dictionary,id:String,accept_rider:bool=true)->Dictionary:
 	var next=state.duplicate(true)
 	if state.in_flight or not open(state,id):return next
 	if not Economy.charge_launch(next.economy,next.fitted):return state.duplicate(true)
 	next.active=id;next.in_flight=true;next.serial+=1
+	next.rider=rider_offer(state,id) if accept_rider else {}
 	return next
 static func settle(state:Dictionary,result:Dictionary)->Dictionary:
 	if not state.in_flight:return state.duplicate(true)
@@ -33,7 +37,17 @@ static func settle(state:Dictionary,result:Dictionary)->Dictionary:
 		if Ops.valid_facts(contract.op,mission.get("expedition_facts",{})):next.progress.facts.merge(mission.get("expedition_facts",{}),true)
 		next.progress=Research.hold(state.progress,Research.recovered(next.progress,mission))
 	else:next.lost+=1
-	next.report="%s · %s\nSTANDING %s%d → %d · CONTRACT PAY %s\n%s"%[Table.FACTIONS[contract.faction],"RECOVERED" if won else "LOST", "+" if state.standing[contract.faction]>=0 else "",state.standing[contract.faction],next.standing[contract.faction],Economy.fmt(contract.reward) if won else "NONE",next.economy.report]
+	var assignment:Dictionary=state.get("rider",{})
+	var rider_line=""
+	if not assignment.is_empty():
+		var earned=won and Riders.earned(assignment,result.get("rider",{}))
+		if earned:
+			var bonus=Riders.Table.ROWS[assignment.id]
+			for key in bonus.pay:next.economy.stock[key]=mini(Economy.Table.CAP,next.economy.stock[key]+bonus.pay[key])
+			next.standing[contract.faction]=clampi(next.standing[contract.faction]+bonus.standing,Table.MIN_STANDING,Table.MAX_STANDING)
+		rider_line="\nRIDER %s · BONUS %s"%["PASSED" if earned else "FAILED",Riders.bonus_text(assignment) if earned else "NONE"]
+	next.report="%s · %s\nSTANDING %s%d → %d · CONTRACT PAY %s\n%s%s"%[Table.FACTIONS[contract.faction],"RECOVERED" if won else "LOST", "+" if state.standing[contract.faction]>=0 else "",state.standing[contract.faction],next.standing[contract.faction],Economy.fmt(contract.reward) if won else "NONE",next.economy.report,rider_line]
+	if next.has("rider"):next.rider={}
 	next.active="";next.in_flight=false
 	return next
 static func interrupted(state:Dictionary)->Dictionary:
@@ -43,7 +57,7 @@ static func manufacture(state:Dictionary,item:String)->bool:
 	if not Economy.pay(state.economy,Economy.item_cost(item,state.economy)):return false
 	state.progress.entitlements.append(item);return true
 static func valid(value)->bool:
-	if not value is Dictionary or value.size()!=11 or not value.has_all(["version","standing","economy","fitted","progress","active","in_flight","serial","recovered","lost","report"]):return false
+	if not value is Dictionary or value.size()!=(12 if value.has("rider") else 11) or not value.has_all(["version","standing","economy","fitted","progress","active","in_flight","serial","recovered","lost","report"]):return false
 	if not value.version is int or value.version!=1 or not Economy.valid(value.economy) or not Equipment.valid_fitting(value.fitted):return false
 	if not value.standing is Dictionary or value.standing.size()!=Table.FACTIONS.size():return false
 	for faction in Table.FACTIONS:
@@ -53,6 +67,9 @@ static func valid(value)->bool:
 	if not value.in_flight is bool or not value.active is String or (value.active not in Table.CONTRACTS and value.active!=""):return false
 	if value.in_flight!=(not value.active.is_empty()) or value.serial!=value.recovered+value.lost+int(value.in_flight):return false
 	if value.in_flight and not open(value,value.active):return false
+	if value.has("rider"):
+		if not Riders.valid(value.rider):return false
+		if not value.rider.is_empty() and (not value.in_flight or value.rider.contract!=value.active or value.rider.serial!=value.serial or value.rider.seed!=Riders.Table.SEED):return false
 	if not value.report is String or value.report.length()>2000:return false
 	var p=value.progress
 	if not p is Dictionary or not p.has_all(["completed","facts","entitlements"]) or p.size()!=(4 if p.has("research") else 3):return false

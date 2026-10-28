@@ -15,7 +15,7 @@ static func controls(hud)->Array:
 static func refresh(hud)->void:
  var sim=hud.host.sim;var unit=sim.units[sim.selected]
  for id in Tools.field_ids():
-  var spec=Tools.spec(id);var remaining=Effects.count(sim,id);var reason="READY"
+  var spec=Tools.spec(id);var remaining=preload("res://src/equipment/tool_racks.gd").count(sim,id);var reason="READY"
   if not Tools.is_enabled(id):reason="UNAVAILABLE"
   elif remaining<=0:reason="EMPTY"
   elif not unit.alive or not sim.outcome.is_empty():reason="UNAVAILABLE"
@@ -32,20 +32,11 @@ static func description(id:String)->String:
  if id=="relay_buoy":return "Boosts nearby drone passive listening range by 35% for 3 min. Audible chirp."
  return Tools.spec(id).summary
 static func choose(main,choice:String)->void:
- main.upgrade=choice
- main._show_fittings()
+ preload("res://src/presentation/tool_racks_view.gd").fill(main,choice)
+ main._save_archive();main._show_fittings()
 static func fittings(main)->void:
  if not Tools.enabled:return
- main._menu_text("FINITE TOOLS / NEXT LAUNCH",19)
- main._menu_text("Choose a supply bundle. RESUME keeps the active dive's stock. During a dive: craft → TOOLS → MORE TOOLS; new deployments drop at that craft.",15)
- for choice in Tools.LOADOUTS:
-  var stock=[]
-  for id in Tools.ids():
-   if Tools.is_enabled(id):stock.append("%s %d"%[Tools.spec(id).name,Tools.loadout_count(id,choice)])
-  var oxygen=main._loadout_stock(choice)[0]
-  var button=main._button(main.panel_box,"%s%s · O₂ %d%%\n%s"%[choice.to_upper()," · SELECTED" if main.upgrade==choice else "",oxygen," / ".join(stock)],choose.bind(main,choice),"tools_loadout_"+choice)
-  button.disabled=main.upgrade==choice
- for id in Tools.field_ids():main._menu_text(Tools.spec(id).name.to_upper()+" · "+description(id),15)
+ preload("res://src/presentation/tool_racks_view.gd").show(main)
 
 # Keep warning acknowledgement and every tool visible on the same command surface.
 static func place_notice(hud)->void:

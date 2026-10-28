@@ -10,7 +10,9 @@ func settle():
 func run():
  root.size=Vector2i(1280,720)
  var game=load("res://scenes/main.tscn").instantiate();game.capture_scenario="targeting-feedback";root.add_child(game);await settle()
- game.set_process(false);game._start_mission(0);await settle()
+ game.set_process(false)
+ game.tool_racks=preload("res://src/equipment/tool_racks.gd").empty();game.tool_racks.quietus={"decoy":3,"knock":2}
+ game._start_mission(0);await settle()
  game._order("decoy");var charges=game.sim.tools.decoy
  game._order("decoy",{"point":Vector2(1500,900)});await settle()
  check(game.decoy_armed and game.sim.tools.decoy==charges,"invalid decoy remains armed without spending")
@@ -28,6 +30,8 @@ func run():
  check("out of range" in game.mission_hud.intent.text and "170m" in game.mission_hud.intent.text and "150m" in game.mission_hud.intent.text and game.sim.tools.knock==shots,"fresh observed target beyond launcher reach explains measured range without spending")
  game._primary_action();await settle()
  check(not game.knock_armed and not game.decoy_armed and "disrupted" not in game.mission_hud.intent.text.to_lower(),"cancel clears the old targeting result")
+ # Drone A owns the charge for the sampler-versus-rejected-aim feedback case.
+ game.tool_racks.quietus.decoy=2;game.tool_racks.drone_a.decoy=1
  game.fitted_equipment={"quietus":"","drone_a":"drone_sampler","drone_b":""};game._start_mission(10)
  game.sim.units[1].pos=game.sim.mission.objectives[0].pos+Vector2(0,100);game.sim.command("select",{"unit":1});game._refresh()
  game._order("decoy");game._order("decoy",{"point":Vector2(1900,1900)});await settle()

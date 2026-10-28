@@ -24,4 +24,4 @@ static func layout()->Dictionary:
  "terrain":[[T.ridge([Vector2(-20,900),Vector2(700,900),Vector2(1000,880)],160,30),[0,1]],
  [T.ridge([Vector2(1700,900),Vector2(2300,900),Vector2(3220,940)],160,31),[1,2]],
  [T.shard(Vector2(2000,1350),150,7,32),T.ALL]],
- "sirens":[R.guard("buoy",Vector2(1350,950),1),R.guard("patroller",Vector2(1900,650),0,[Vector2(1900,650),Vector2(2700,600),Vector2(2700,1100)])]}
+ "sirens":[R.guard("buoy",Vector2(1350,950),1),R.guard("patroller",Vector2(1050,620),1,[Vector2(1050,620),Vector2(1050,620)])]}

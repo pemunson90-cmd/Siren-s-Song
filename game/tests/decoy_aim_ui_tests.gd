@@ -14,7 +14,11 @@ func button_click(point:Vector2):
  for down in [true,false]:
   var event=InputEventMouseButton.new();event.button_index=MOUSE_BUTTON_LEFT;event.position=point;event.global_position=point;event.pressed=down;root.push_input(event,true);await process_frame
  await frames()
-func setup(g):
+func setup(g,drone_decoy:bool=false):
+ # Explicit finite stock for aim/cancel tests; one case carries a charge on Drone A.
+ g.tool_racks=preload("res://src/equipment/tool_racks.gd").empty()
+ g.tool_racks.quietus={"decoy":3,"knock":2}
+ if drone_decoy:g.tool_racks.quietus.decoy=2;g.tool_racks.drone_a.decoy=1
  g._start_mission(0);g.sim.units[0].pos=Vector2(400,500);g.sim.units[0].route=[{"pos":Vector2(300,700),"stop":true}];g.mission_hud.open("tools");g._refresh();await frames()
 func run():
  root.size=Vector2i(1280,720);await frames()
@@ -45,7 +49,7 @@ func run():
  check(g.decoy_armed and g.sim.tools.decoy==3 and g.sim.units[0].route==original.units[0].route,"pan remains navigation while armed")
  g._chart_zoom(1.4);g.ocean.fit_chart();g._view_changed()
  check(g.decoy_armed and g.sim.tools.decoy==3 and g.sim.units[0].route==original.units[0].route,"zoom/FIT cannot deploy or change route")
- await setup(g);g._order("select",{"unit":1});g._order("decoy");g.sim.units[1].alive=false;g.sim.selected=0;g._refresh()
+ await setup(g,true);g._order("select",{"unit":1});g._order("decoy");g.sim.units[1].alive=false;g.sim.selected=0;g._refresh()
  check(not g.decoy_armed and not g.ocean.decoy_targeting,"automatic lost-drone selection cannot carry deployment aim to Quietus")
  await setup(g);g._order("decoy");g.sim.outcome="won";g._refresh();check(not g.decoy_armed and not g.ocean.decoy_targeting,"ended dive removes transient cue")
  g.queue_free();await frames();finish()

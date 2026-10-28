@@ -61,3 +61,17 @@ static func roster(m:Dictionary,id:int,history:Dictionary)->void:
   27:R.add(m,[R.guard("interceptor",Vector2(1700,300)),R.guard("interceptor",Vector2(1100,1650)),R.guard("warden",Vector2(2000,2500))])
   28:R.add(m,[R.guard("interceptor",Vector2(1250,1550)),R.guard("interceptor",Vector2(1200,200)),R.guard("warden",Vector2(1050,1450))])
   29:R.add(m,[R.guard("warden",Vector2(2200,600)),R.guard("interceptor",Vector2(2050,950))])
+
+ # Existing patrols guard the unloaded return after freight/spindle work.
+ # Tethered sentinels guard useful working approaches, allowing a passing craft
+ # to break sight beyond the post rather than dragging pursuit through its cargo.
+ var posts={22:Vector2(475,1200),26:Vector2(325,1000)}
+ if posts.has(id):
+  var pos=posts[id]
+  var patrol=R.guard("patroller",pos,1,[pos,pos+Vector2(0,-550 if id==22 else -500)])
+  if id==22:
+   m.sirens.insert(m.sirens.size()-1,patrol)
+   for index in m.sirens.size():m.sirens[index].patrol=index
+  else:R.add(m,[patrol])
+ var stations={23:Vector2(1100,1935),24:Vector2(1700,2630),27:Vector2(475,2150),29:Vector2(1800,2640)}
+ if stations.has(id):R.add(m,[R.guard("sentinel",stations[id],1,[],{"tether":150.})])
