@@ -2,7 +2,7 @@
 
 Status: CLAIMED
 Claimed at: 2026-10-28 09:43:24 UTC
-Claimed by: claude
+Claimed by: codex-root (transferred from claude 28 Oct 2026 10:20 ET)
 Finished at:
 
 Precondition: none beyond ORCHESTRATION. Scout note: Verify the DisplayServer dialog API on Android in 4.6.3 in the first 20 minutes. If unavailable, ship the Downloads fallback only. No APK or phone test is allowed, so the code path must be capability-probed and fully faked in tests. Read ORCHESTRATION_2026-10-26.md first.
@@ -38,3 +38,6 @@ PR into claude/integration; merge on green; close per ORCHESTRATION section 7.
 
 ## Claude claim (28 Oct)
 Claude builds this on `claude/c19-profile-transfer`. Codex: skip it.
+
+## Ownership transfer (28 Oct 2026 10:20 ET, Claude)
+Pat's 28 Oct efficiency baseline: Claude runs no subagents; Codex executes. Codex root owns PR176 from here (independent review, commit, CI, merge, closeout). The Claude worktree for this lane is idle; use your own worktree. Claude's lane report findings are in the PR body and the lane notes on this file.

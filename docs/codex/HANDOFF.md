@@ -1,81 +1,55 @@
-**CURRENT closeout, 28 Oct 2026:** 066 DONE: PR169 independently reviewed final `d5eb74b873c2179886c13d22a72b46f53371db7a`, all seven checks passed (run40683665470), merged `701cb267c468f4d03888328ba795323293279815`. Physical three-piece cache and 3 frame/3 tool sites integrated; `optional_operations` released to065 root. Milestone2 PR179 promoted exact snapshot `c5bd45a55a03e6ac3d11e1a890daf50fa10d3603` (including Silt fix180), independently approved review6A, own fresh seven checks passed (run40686596642), via merge `225c3c456cf895ac5e84959c46a4041c00488131` to `gauntlet/production`. Integration `701cb267` contains newer content beyond that snapshot; main unchanged.
+# HANDOFF: Siren's Song, Claude orchestrator + Codex execution (updated 28 Oct 2026 10:20 ET)
 
-**CURRENT ownership:** 060 DONE (PR159+177, final `5ec944dd`);056 pending.065 partial `905d1dfd`/PR183, optional completion uncommitted under review8; crew173 `86489` and profile176 `91ad` latest merge preparations under review8; settings174 real-bus fix and perf063 under review7. Root owns Git and obtains separate independent approval before committing this documentation patch. Dated entries below are history.
+Read this first after any context clear or restart, then LEDGER.md and the BOARD banner. Live refs, PRs and BOARD rows are newer than this file when they disagree. Pat's dated words in `docs/USER_DIRECTIVES.md` on `claude/integration` outrank everything here.
 
-**28Oct11:15UTC:** Independently approved+green076/PR165,081/PR171,064/PR178 merged; latest integrated gameplay49e3ca44.065 is the next eligible content task, root-claimed (no commits before independent approval).056,066 and promotion179 are HOLD for independently found Back-navigation, cache-validation and Silt-photo bugs; bounded fixes are prepared uncommitted for separate review. Other old pending heads also require independent review before merge.
+## 1. Roles (Pat, 28 Oct efficiency baseline + independent-review ruling)
 
-**CURRENT PAT RULING, 28Oct2026: independent review before commits and merges.** Codex root retains control, gives bounded assignments and re-tasks workers after results; do not loop idle workers. Use a separate independent reviewer before new commits and before merges. This supersedes earlier no-per-feature-review wording. Reviewer: Sol6.1 high effort for consequential code/integration review, never Astra; implementation uses the weakest capable model/effort, orchestrator Sol6.1 medium. Workers prepare changes and minimal relevant evidence but do not commit/push/merge until root obtains independent approval of the frozen patch. Root verifies that approval still matches the patch/head, then commits/pushes and merges only after current required checks pass. Reuse valid review for unchanged code; re-review material changes and integration conflicts, not identical retries. Findings return to the implementation owner for a bounded fix. Keep reports outside active source; brief approval/blocker plus SHA or reviewed file hashes in the PR/handoff is sufficient. Factual questions: check current internal docs and targeted official research before asking Pat; subjective/design intent questions go to Pat only if not already documented. Stop only on actual usage/platform exhaustion or Pat's stop.
-**28Oct06:29ET, Pat direct ruling:** Codex may run subagents. Claude has a subagent bug; it does not restrict Codex. Apply standing fit-to-task delegation: Codex orchestrator Sol6.1 medium, smallest capable model/effort per bounded subtask, never Astra. No routine approval needed. Four Codex workers are active on066 cache,056 layout,064 briefing and165/171 CI reconciliation. Promotion2 PR179 is a fixed00394df8 integration snapshot, under sharded verification; Codex root handles merge on green.
+- **Pat** rules and approves in chat only; never asked to operate anything. One plain question at a time, only when genuinely his.
+- **Claude** (sole Claude orchestrator, Opus 5.5 medium): plans, prioritizes, decides architecture and research direction, writes handoffs and queue order, keeps BOARD/HANDOFF/LEDGER and Pat's tracker current, verifies milestones and release readiness, talks to Pat. **Claude launches no subagents, agent teams, forks or workflows.** Claude does only small git coordination itself; implementation, fixes, test runs and reviews go to Codex.
+- **Codex root** (Sol6.1 medium, desktop session) executes: dispatches bounded Codex workers (weakest capable model, never Astra), obtains independent Sol6.1-high review of each frozen patch before commit and before merge, commits, collects CI, merges, closes handoffs, runs milestone promotions under Pat's standing option A after review. Its worktrees: `Siren-s-Song-codex-NNN` beside the repo and `~/.cache/sirens-song-toolchain/worktrees/`.
+- Claude launches Codex headless only if no codex-root session is active (check BOARD banner time and the mtime of `~/.codex/logs_2.sqlite-wal`).
 
-**28Oct06:22ET, explicit Pat authorization:** Claude is on a five-hour cooldown; Codex root continues without waiting.084/PR172 is merged e52a8d6c and083/PR164 merged00394df8. Codex root collects/reconciles pending Claude lanes072/082/064/075/060-cues, preserving their WIP;056/PR175 loadout-layout failure and064/PR178 opening-brief failure get bounded repairs. Migration of cancelled165/171 and other old-CI heads uses the integrated sharded gate.066 physical-cache worker remains active; do not touch its worktree. Promotion2 is now Codex-root integration work under standing approval when a coherent current head is green.
+## 2. Standing rules
 
-# HANDOFF: Siren's Song, Claude root + Codex (written 28 Oct 2026 ~06:10 ET)
+- Finish the game; content first; tests only where necessary (import + core, plus new suites only for new save fields, new core operations, outcome-deciding math). Never skip, loosen or delete a test.
+- **Review (Pat 28 Oct, supersedes 26 Oct):** separate independent reviewer before new commits and merges; reuse valid review for unchanged code; re-review material changes and conflict resolutions. Merge only on green required checks for the exact reviewed head.
+- Protected (Pat's call): beam lethality, 4 s interruptible lock warning, collision/hull/damage rules, Siren senses (only the approved sight-only Hunt), enemy role senses, photography design, story ending conditions, art direction. Story text stays 1 to 2 line placeholders within `docs/STORY_BIBLE_DRAFT.md`. No em dashes. No APK, force push, amend of pushed commits, or branch deletion.
+- Evaluate before initiating; never repeat work because a conversation restarted.
 
-Read this first after any context clear or restart. It is the single current handoff for both Claude (root orchestrator) and Codex (implementation, or codex-root while Claude is away). Live refs, PRs and BOARD.md rows are newer than this file whenever they disagree; check them before acting. Pat's dated words in `docs/USER_DIRECTIVES.md` on `claude/integration` outrank everything here.
-
-## 1. Who does what
-
-- **Pat** (owner) only rules and approves in chat. Never ask him to click, merge, type to Codex, or operate git. Ask one plain question at a time, only for decisions that are genuinely his.
-- **Claude** is root orchestrator: plans, writes handoffs on this branch, runs its own lanes, merges green PRs into `claude/integration`, opens and merges milestone promotions to `gauntlet/production` (Pat's standing option A), keeps Pat's tracker current.
-- **Codex** builds handoffs. While Claude is rate-limited, a Codex desktop session acts as **codex-root**: it resumes Claude-claimed lanes, collects CI centrally and merges. Its worktrees are `Siren-s-Song-codex-NNN` beside the repo and `C:\Users\Archi\.cache\sirens-song-toolchain\worktrees\NNN-*`. When Claude returns, the split is written on the BOARD banner; neither root touches branches or worktrees the other holds without a banner note first.
-- **Models:** Codex runs gpt-6.1-sol at medium effort; its subagents use the weakest model properly scoped to the task and never Astra. Claude subagents: haiku for mechanical/docs, sonnet for features, opus only for very hard work or the final audit.
-
-## 2. Standing rules (Pat, 26 to 28 Oct)
-
-- Finish the game. Content first. Tests only when necessary: import + core, plus a new suite only for a new save field/validator, a new core operation (bare-Quietus finishability journey), or outcome-deciding math. Never skip, loosen or delete a test.
-- No per-feature independent review, no evidence folders. Merge on green `guidance` + `game-smoke` for the exact head, merge commit. One whole-game cold audit happens after content is complete.
-- Every task closes by: status DONE + five-line Completion in its handoff file, BOARD row, MODULES/RESUME lines it made stale, release worktree/claim.
-- Protected (Pat's call): beam lethality, 4 s interruptible lock warning, collision/hull/damage rules, Siren sight/hearing/speed (only the approved sight-only Hunt), enemy role senses, photography design, story ending conditions, art direction.
-- Story: provisional bible `docs/STORY_BIBLE_DRAFT.md`; 1 to 2 line placeholders; Sirens were here first and strike drilling/military sites they read as threats; Quietus is a recon sub rescuing human survivors. No em dashes in added text.
-- No APK, no force push, no amend of pushed commits, no branch deletion, no pushes to `main` or `gauntlet/production` except Claude's milestone promotion PRs.
-- **28 Oct ~06:00 ET, Pat: "Hold off on subagents."** Claude spawns no new subagents or workflows until Pat says to resume in a new session. Lanes already running when this was written were left to finish (section 4). Codex is unaffected unless Pat says otherwise.
-- Pat 28 Oct: **evaluate before initiation.** On every resume, read this file, the BOARD banner and live PRs, then decide.
-
-## 3. State at writing
+## 3. State (28 Oct 2026 10:20 ET)
 
 | Ref | SHA | Meaning |
 |---|---|---|
-| `gauntlet/production` | 66a3b21f | Promotion 1 (PR148): handoffs 001 to 049 |
-| `claude/integration` | 609f29a9 | Includes 050 to 055, 058 to 062, 074, 077 to 079, C6 doc sweep, C7 economy calibration |
-| `codex/handoffs` | affef2e3+ | This branch (board, handoffs, prompts) |
+| `gauntlet/production` | 225c3c45 | Promotion 2 (PR179), reviewed snapshot c5bd45a5 |
+| `claude/integration` | 433d4df9 | Newer than P2: 066 fleet sites, 065 partial (PR183), Silt photo fix |
+| `codex/handoffs` | this commit | BOARD, handoffs, HANDOFF, LEDGER, prompts |
 
-Merged since promotion 1: PR147 (050 Hunt), 151 (054 economy), 152 (051 Calder), 153 (052 optionals), 154 (053 regional look/sound, Night mode), 150 (055 modules + 8 field tools), 156 (doc sweep), 157 (C7 economy calibration), 158 (059 challenge pars), 159 (060 event audio), 160 (061+062 voices, field log, research, archive, credits), 162 (074 optional 38/39 geometry), 163 (058 menu focus, fps cap), 166 (077 route carry), 167+170 (078 ledger), 168 (079 Ironman one timeline).
+CI: sharded gate (084) live, about 36 minutes per PR. Handoffs DONE through 084 except those listed below.
 
-**CI:** the single game-smoke job outgrew GitHub's 90-minute cap. 084 (PR172) splits it into game-core plus four runtime shards and an aggregate `game-smoke` check (about 36 minutes total). Its first run failed on `..` in an upload-artifact path; Claude fixed it (317e4630, green on all seven checks), then resolved a conflict with PR150's temporary 150-minute cap by keeping the sharded jobs (94835a77). **Done 06:20 ET: PR172 merged as e52a8d6c (084 DONE).** After that, any PR whose run was started on the old single job should merge fresh integration and push so it reruns on the sharded gate.
+## 4. In flight (all executed by Codex root)
 
-## 4. In flight (owner, branch, PR, next action)
+| Handoff | PR | State at writing |
+|---|---|---|
+| 056 mode select + expeditions | 175 (draft) | HOLD for independently found Back-navigation bug; bounded fix under review |
+| 063 performance | 184 | baseline first; shards running |
+| 065 alien module world uses | 183 merged (partial) | optional-op completion under review |
+| 072 settings depth | 174 | real-bus fix under review (transferred from Claude) |
+| 075 phone profile transfer | 176 | merge preparation under review (transferred from Claude) |
+| 082 crew effects | 173 | merge preparation under review (transferred from Claude) |
 
-| Handoff | Owner | Branch / worktree | PR | Next action |
-|---|---|---|---|---|
-| 056 modes + expeditions | codex-root | claude/c3-modes | 175 | Codex root collects CI, merges |
-| 066 fleet sites | codex-root | claude/lane-fleet-sites | 169 | Codex root |
-| 076 Arc 6 maps + capstone | codex-root | claude/c11-arc6-capstone | 165 | Was cancelled by the 90-min cap and conflicts: merge integration (after 172), push, rerun |
-| 081 chart accessibility | codex-root | claude/lane-chart-accessibility | 171 | Codex root |
-| 083 Siren dossier | codex-root | claude/lane-siren-dossier | 164 | Green earlier but conflicting: merge integration, push |
-| 072 settings depth | Claude lane | claude/c15-settings-depth, worktree Siren-s-Song-claude-c15-settings | 174 | Lane workflow collects CI and merges; if the lane died, collect CI and merge by hand |
-| 082 crew effects | Claude lane | claude/c16-crew-effects, Siren-s-Song-claude-c16-crew | 173 | same |
-| 060 follow-up: four field-tool cues | Claude lane | claude/c17-tool-cues, Siren-s-Song-claude-c17-cues | 177 | same; then mark 060 DONE |
-| 064 fit surface (24 modules) | codex-root bounded repair | claude/c18-fit-surface, Siren-s-Song-claude-c18-fit | 178 | Head `8bfa330a` includes pushed WIP and concise-opening fix. The fit summary remains available behind `FIT SUMMARY · SHOW`; the 420-character and goal/danger assertions remain. Local onboarding 30/0 and fit_surface_ui 52/0 passed after reconciling integration including 084. PR comment records the repair. Root owns CI collection and final task closeout. |
-| 075 phone profile transfer | Claude lane | claude/c19-profile-transfer, Siren-s-Song-claude-c19-profiles | 176 | same as 072 |
+Board hygiene for Codex root: 083 row still says CLAIMED but PR164 merged.
 
-Claude lane runner: `docs/codex/claude-lane-workflow.js` on this branch (implement, preflight, PR, CI watch/fix loop, merge). Relaunch a lane with the Workflow tool, `scriptPath` = a local copy of that file, and `args` = {key, worktree, branch, title, handoffs[], notes, files, avoid, anchor, ranksLocal, ranksCI}. Only when Pat allows subagents again.
+## 5. Queue (priority order; preconditions gate eligibility)
 
-Board hygiene owed: 059 row still says CLAIMED but it is DONE (PR158 merged); 060 closes when PR177 merges.
-
-## 5. Queue (OPEN, in priority order; preconditions gate eligibility)
-
-057 naval career (after 056) · 063 performance (after 081) · 065 alien module world uses (after 076) · 067 late-campaign teaching (after 072) · 068 expedition offers, 069 expedition records/seed, 070 resume after app kill (after 056; career half after 057) · 071 career riders (after 057) · 073 quality tier/battery governor (after 058 and 063) · 080 arc intro/outro cards (after 056 and 061).
-
-**Milestone2 current:** PR179 promoted the independently approved review6A snapshot `c5bd45a55a03e6ac3d11e1a890daf50fa10d3603` including Silt fix180, after its own seven green checks (run40686596642), via `225c3c456cf895ac5e84959c46a4041c00488131` to `gauntlet/production`. Integration `701cb267` includes newer content beyond the promotion snapshot. Remaining queue and whole-game cold audit stay pending.
-
-Not queued yet: content that needs Pat (sonic identity per Siren role, late-role silhouettes, economy custom toggles, ambient sea life, app icon/splash). See section 6.
+Eligible now: **085** arc 6 route carry · **086** record unsaved rescues (after 082) · **087** docs: record the efficiency baseline.
+Gated on 056: 057 naval career, 068 expedition offers, 069 expedition records/seed, 070 resume after app kill, 080 arc intro/outro cards. Then 071 career riders (after 057), 067 late teaching (after 072), 073 quality/battery tier (after 063).
+**Content complete** = all of the above merged. Then **Promotion 3**, then the **whole-game cold audit** run by Codex: a fresh-context Sol6.1-high critic with no build notes, photographic reconnaissance, strategic depth and player experience first (Pat ruling 27 Oct), producing a ranked deficiency list that Claude turns into fix handoffs.
+Needs Pat before queuing: per-role Siren sounds, late-role silhouettes, economy custom toggles, ambient sea life, app icon/splash.
 
 ## 6. Waiting on Pat
 
-- **Asked, pending:** should arcs 4 to 6 be able to change which of the four endings you get (decide at op 34), or stay decided at ops 12/13? Until he rules, endings stay as they are.
-- Full list of 24 scout questions: `docs/QUESTIONS_FOR_PAT.md` on integration. Ask one at a time; current behavior stays until he rules.
-- Small ones raised by lanes: the credits creator line is a visible placeholder "Created by (to be named)"; whether to credit Claude Code and Codex as tools; par for lung_solo bypass/isolate outcomes (currently 110 s); haptic pulse for hull strain; whether a mid-dive voice line re-shows on retry.
-- AI-DESIGNED and provisional: economy numbers, Hunt tuning, field-tool and module numbers, voice lines, ledger text.
+- Pending: may arcs 4 to 6 change which ending family you get (decide at op 34), or stay decided at ops 12/13? Until ruled, unchanged.
+- Full list: `docs/QUESTIONS_FOR_PAT.md` on integration. Lane-raised: credits creator name (placeholder), crediting Claude Code/Codex as tools, lung_solo bypass/isolate par, Alerts bus placement under Effects, fittings one-tap vs preview-confirm.
 
 ## 7. How-to (Windows box, Git Bash + PowerShell)
 
@@ -87,8 +61,8 @@ Not queued yet: content that needs Pat (sonic identity per Siren role, late-role
 - Launch Codex headless (when Codex is idle and OPEN handoffs exist): `C:\Users\Archi\AppData\Local\OpenAI\Codex\bin\<hash>\codex.exe exec -m gpt-6.1-sol -c model_reasoning_effort="medium" -C "C:\Users\Archi\Documents\Codex\2026-10-24\you-are-codex-the-implementation-worker\sirens-song" -` with prompt A of START_PROMPTS.md on stdin, via PowerShell `Start-Process -WindowStyle Hidden`, logs to a scratch folder. Check first that a codex-root desktop session is not already driving the queue (board banner time, `~/.codex/logs_2.sqlite-wal` mtime).
 - Pat's phone tracker: https://claude.ai/artifact/Hheokf875FPPRczT18SnrB (Dashboard). To refresh: rebuild the rows JSON (order, task, area, owner, status, pr, note) from BOARD.md, upload it as an asset (Artifact publish `asset: true`, `url` above), then ArtifactData `update` datasets/tasks `source.url` + `updated` with the document's current version.
 
-## 8. Restart checklists
+## 8. Restart checklists (see also LEDGER.md)
 
-**Claude:** run `date`; read memory; `git fetch origin`; read this file, the BOARD banner (top 5 entries), the top entry of USER_DIRECTIVES on integration; `gh pr list --state open`; `git worktree list`. Evaluate: what merged, what is red, who holds what. Then: merge green PRs you own; handle section 3's next action; refresh the tracker; write handoffs so Codex has at least four eligible OPEN items; ask Pat at most one pending question. No new subagents until Pat says so.
+**Claude:** no subagents. Run `date`; read memory; `git fetch origin`; read this file, the BOARD banner (top 5 entries), the top entry of USER_DIRECTIVES on integration; `gh pr list --state open`; `git worktree list`. Evaluate: what merged, what is red, who holds what. Then: merge green PRs you own; handle section 3's next action; refresh the tracker; write handoffs so Codex has at least four eligible OPEN items; ask Pat at most one pending question. Append one LEDGER.md session line. Delegate execution to Codex root via handoffs and banner notes.
 
 **Codex:** follow prompt A (or C for a blank cloud chat) in START_PROMPTS.md, which now reads this file first. Work only on handoffs CLAIMED by codex or OPEN and eligible; leave Claude-claimed lanes to Claude unless the banner says Claude is away.

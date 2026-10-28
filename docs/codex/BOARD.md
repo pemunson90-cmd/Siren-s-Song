@@ -1,3 +1,5 @@
+**28 Oct 2026 10:20 ET (Claude orchestrator, session S4):** Pat's efficiency baseline: Claude is sole Claude orchestrator and runs no subagents or workflows; Codex executes implementation, fixes, tests and independent review. Codex root: please keep executing exactly as you are, thank you for carrying P2 and the reviews. Claude transferred 072/PR174, 075/PR176 and 082/PR173 to you (you were already reconciling them). New eligible handoffs: 085 (arc 6 route carry), 086 (record unsaved rescues, after 082), 087 (docs: record the baseline). Claude keeps HANDOFF.md, LEDGER.md (new, one line per event) and the queue current; please append a LEDGER line when you close a handoff.
+
 **CURRENT closeout, 28 Oct 2026:** 066 DONE: PR169 independently reviewed final `d5eb74b873c2179886c13d22a72b46f53371db7a`, all seven checks passed (run40683665470), merged `701cb267c468f4d03888328ba795323293279815`. Physical three-piece cache and 3 frame/3 tool sites integrated; `optional_operations` released to065 root. Milestone2 PR179 promoted exact snapshot `c5bd45a55a03e6ac3d11e1a890daf50fa10d3603` (including Silt fix180), independently approved review6A, own fresh seven checks passed (run40686596642), via merge `225c3c456cf895ac5e84959c46a4041c00488131` to `gauntlet/production`. Integration `701cb267` contains newer content beyond that snapshot; main unchanged.
 
 **CURRENT ownership:** 060 DONE (PR159+177, final `5ec944dd`);056 pending.065 partial `905d1dfd`/PR183, optional completion uncommitted under review8; crew173 `86489` and profile176 `91ad` latest merge preparations under review8; settings174 real-bus fix and perf063 under review7. Root owns Git and obtains separate independent approval before committing this documentation patch. Dated entries below are history.
@@ -225,17 +227,17 @@ Claude lanes in parallel (not Codex work): C6 doc sweep (claude/c6-doc-sweep), C
 | 66 | 069 Expedition run summary, records and seed entry | OPEN | | | |
 | 67 | 070 Expedition and career dive resume after app kill | OPEN | | | |
 | 68 | 071 Career and expedition riders: optional contract conditions with bonus pay | OPEN | | | |
-| 69 | 072 Settings depth: separate mixer, haptic strength and coverage, gesture timing | CLAIMED (claude, claude/c15-settings-depth) | | | |
+| 69 | 072 Settings depth: separate mixer, haptic strength and coverage, gesture timing | CLAIMED (codex-root (from claude)) | | | |
 | 70 | 073 Performance and battery tier: Low-effects quality setting, auto frame-time gover | OPEN | | | |
 | 71 | 074 New geometry for optional ops 38 and 39 | DONE | [162](https://github.com/pemunson90-cmd/Siren-s-Song/pull/162) | 2026-10-28 05:10:50 UTC | Done074: merge6e87767e; exact4435db13 both gates green40631301176; core846/0, bare journeys18/0. Distinct maps/choices; shared landmark renderer deferred. |
-| 72 | 075 Profile export and import that works on a real phone (system file dialog or shar | CLAIMED (claude, claude/c19-profile-transfer) | | | |
+| 72 | 075 Profile export and import that works on a real phone (system file dialog or shar | CLAIMED (codex-root (from claude)) | | | |
 | 73 | 076 Arc 6 distinct topologies and a staged capstone for op 34 | DONE | [165](https://github.com/pemunson90-cmd/Siren-s-Song/pull/165) | 2026-10-28 UTC | Independently approved and green; mergedc80c6c1c. |
 | 74 | 077 Route and recovered-fact carry into arcs 4 to 6 | DONE | [166](https://github.com/pemunson90-cmd/Siren-s-Song/pull/166) | 2026-10-28 UTC | Merged6020a11d; all current-head checks green. |
 | 75 | 078 Campaign ledger: expand END OF LINE and the ending into a full account of people | DONE | [167](https://github.com/pemunson90-cmd/Siren-s-Song/pull/167) | 2026-10-28 UTC | Merged0320f632; all current-head checks green. |
 | 76 | 079 Ironman save integrity (no hard-save or fork undo bypass) | DONE | [168](https://github.com/pemunson90-cmd/Siren-s-Song/pull/168) | 2026-10-28 UTC | Merged39934176; head67c6da10 checks green. |
 | 77 | 080 Arc boundary beats and arc-grouped Operations list | OPEN | | | |
 | 78 | 081 Reduced motion, high contrast and safe palette do not reach the tactical chart | DONE | [171](https://github.com/pemunson90-cmd/Siren-s-Song/pull/171) | 2026-10-28 UTC | Independently approved and green; merged32414cdd. |
-| 79 | 082 Rescued people and recovered knowledge as visible Brannock crew effects | CLAIMED (claude, claude/c16-crew-effects) | | | |
+| 79 | 082 Rescued people and recovered knowledge as visible Brannock crew effects | CLAIMED (codex-root (from claude)) | | | |
 | 80 | 083 Add a Siren dossier: what each of the eight roles does and how to counter it, un | CLAIMED (codex, claude/lane-siren-dossier; WIP PR164) | [164 draft](https://github.com/pemunson90-cmd/Siren-s-Song/pull/164) | | Head2573f17d on base88188bd0; import/core846/0; Archive UI102/0. Awaiting 058 for Operations-home entry; hosted CI pending. |
 | 81 | 084 CI runtime shards | DONE | [172 draft](https://github.com/pemunson90-cmd/Siren-s-Song/pull/172) | | [KEEL: verified lane return] Head2ee38d8a on4dc4106f; 295 suites = core +74/74/73/73, exact union/no duplicates; actionlint/syntax/selection/guidance pass. Aggregate29 cases pass; [CI40658100764](https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/40658100764) running. Root owns current-head checks/merge; no new claim. |
 
@@ -246,3 +248,10 @@ Boundary follow-up28Oct03:12UTC: Windows completion check PASSES from current in
 **28Oct08:33UTC:**078 fullyDONE: PR167 ending ledger andPR170 Archive summary merged4dc4106f.084 CLAIMED root for confirmed CI90minute job cancellation: preserve full checks via parallel partitions and aggregate game-smoke. No tests will be skipped or timeouts increased.
 
 [KEEL: 084 lane return, 28Oct2026] The 08:33 claim above is implemented in PR172; hosted gate and root integration remain pending. See the current084 row and handoff for exact source/check status.
+
+## BATCH 16 (28 Oct, Claude S4)
+| Order | Handoff | Status | PR | Finished (UTC) | One-line result |
+|---|---|---|---|---|---|
+| 82 | 085 EARLIER CHOICES CHANGE ARC 6 | OPEN | | | |
+| 83 | 086 RECORD THE RESCUES THE LEDGER AND CREW CANNOT SEE | OPEN | | | |
+| 84 | 087 DOCS: RECORD PAT'S EFFICIENCY BASELINE | OPEN | | | |

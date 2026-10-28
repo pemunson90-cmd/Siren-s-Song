@@ -41,7 +41,7 @@ Orient with ONLY these, then evaluate before initiating anything:
 4. gh pr list --state open, gh pr checks for each open PR, git worktree list, and whether a codex-root session is active (BOARD banner time, mtime of ~/.codex/logs_2.sqlite-wal).
 Do not scan the codebase or reread old governance.
 
-Then follow HANDOFF.md section 8 (Claude checklist): merge green PRs you own, do its next actions, refresh Pat's tracker, keep at least four eligible OPEN handoffs for Codex, write a BOARD banner with the current split, and tell Pat in plain language what changed and the one pending question if any. Do not spawn subagents or workflows until Pat says so in this session; when he does, use the smallest capable model and docs/codex/claude-lane-workflow.js.
+Then follow HANDOFF.md section 8 (Claude checklist): merge green PRs you own, do its next actions, refresh Pat's tracker, keep at least four eligible OPEN handoffs for Codex, write a BOARD banner with the current split, and tell Pat in plain language what changed and the one pending question if any. Never spawn Claude subagents, agent teams, forks or workflows (Pat's 28 Oct efficiency baseline); delegate execution, tests and reviews to Codex root through handoffs and BOARD banner notes. Read LEDGER.md and append one session line.
 ```
 
 ---
