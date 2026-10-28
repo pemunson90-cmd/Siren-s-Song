@@ -1,6 +1,6 @@
 # RESUME: operational entry
 
-Last reconciled source baseline `a658c2ca0d08ff43f2ec3de799cb124c2c85c9f3` includes ending088 (PR193), teaching067 (PR195), career riders071 (PR200), Calder fleet096 (PR202) and earlier chart updates. Production is `225c3c45`; main unchanged. This session is bounded to098 tool-cargo revision (PR199). The codex/handoffs BOARD owns current claims and next work; a separate root session continues its queue.
+Last reconciled source baseline `5bf86b88` includes098 tool cargo (PR199), ending088 (PR193), teaching067 (PR195), career riders071 (PR200), Calder fleet096 (PR202) and earlier chart updates. Production is `225c3c45`; main unchanged. This session is bounded to100 tool lockers. The codex/handoffs BOARD owns current claims and next work; a separate root session continues its queue.
 
 - [KEEL: 096 source] Final-pair bonus subjects start unresolved; existing guards watch photo approaches and Calder return work. Op32 supplies the batch's endurance exception. Equipped journeys recover bonus drone film, both drones and fitted hardware;35/36 exercise the seal lift and tuner breaker. Three-stage34, carry facts and ending resolution are preserved. Evidence is source-known simulation under isolated096, not blind, touch or phone acceptance; raw measurements remain outside source at `C:/Users/Archi/.cache/sirens-song-toolchain/artifacts/096`. [KEEL:096v verification] All seven same-route bare SILENT runs finish; six meet Hunt20 or received lock pressure (32 is the endurance exception). The permanent calder_silent_journey_tests checks silent running throughout and the five-of-seven floor; rerun evidence is in sibling artifacts/096v.
 
@@ -10,11 +10,13 @@ Current boundary: Pat resumed locally on Windows and continued work on 25 Octobe
 
 ## Source and authority
 
-Active integration: `claude/integration`. Last reconciled source baseline: `a658c2ca0d08ff43f2ec3de799cb124c2c85c9f3`. This records fetched source, not the future merge commit containing this document. Fetch live integration at task boundaries; the board alone owns claims/completions.
+Active integration: `claude/integration`. Last reconciled source baseline: `5bf86b88`. This records fetched source, not the future merge commit containing this document. Fetch live integration at task boundaries; the board alone owns claims/completions.
 Frozen `gauntlet/production` and protected `main` require Pat's promotion approval. Preserve branches, personal saves, evidence and signing identity.
 Current decisions: [USER_DIRECTIVES](USER_DIRECTIVES.md). Intended release: [CURRENT_GAME_SPEC](CURRENT_GAME_SPEC.md). Actual module seams, settings, saves, tests and safe reverts: [MODULES](MODULES.md).
 
 ## Integrated capabilities
+
+- [KEEL:100 source] Next-launch templates restore the pre098 ENDURANCE/DISRUPTION/SURVEY tools in separate AI-DESIGNED lockers (Quietus1.00, each drone0.50, all frames including scout). Only overflow shares cargo with modules and winch work; Fittings shows locker and cargo separately. Exact-empty unversioned098 racks refill once; edited keys survive and version100 keeps subsequent deliberate empty racks.098 did not distinguish EMPTY ALL from its automatic empty template.
 
 - 056 (PR175, merged `a4dd77e7`) mode selector separates Campaign, Challenges and seeded Expeditions; Career stays disabled until057. Runs reuse3–6 distinct opening reconnaissance operations with seeded loadout, optional-tool scarcity and capped sight-only Hunt, finite carried tools and terminal loss. Profile-pinned `.runs` sidecars keep resources/story separate from campaign and SAVE2; interrupted dives end the run until070 adds exact dive recovery. Film, oxygen and required bare-craft routes retain their authored budgets. Campaign labels read Operations; code/save IDs stay unchanged. Run choices/records/seed entry remain068/069.
 

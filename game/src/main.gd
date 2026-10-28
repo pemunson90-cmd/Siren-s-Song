@@ -615,7 +615,7 @@ func _archive() -> Dictionary:
 	preload("res://src/presentation/finale/finale.gd").write(self,data)
 	preload("res://src/presentation/archive/voice_feed.gd").write(self,data)
 	preload("res://src/persistence/save_states/save2_controller.gd").write(self,data)
-	data["tool_racks"]=tool_racks.duplicate(true)
+	preload("res://src/equipment/tool_racks.gd").write_archive(data,tool_racks)
 	data["equipment"]=preload("res://src/equipment/equipment_catalog.gd").canonical(fitted_equipment)
 	return data
 func _save_archive() -> void:
