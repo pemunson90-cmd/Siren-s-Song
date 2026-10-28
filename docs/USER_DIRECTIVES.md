@@ -1,3 +1,9 @@
+## 28 October 2026: hidden rescue of Sorley's boy (handoff 092)
+
+[PAT, quoted in Claude S5 handoff 092, ~11:50 ET] "Experiment with a hidden rescue mission that requires either found logs off the beaten path, or certain photos. So its an option side quest with at least one game reward and ending changes."
+
+[KEEL / AI-DESIGNED, pending Pat ratification] The experiment uses the existing op 37 boy photograph or two of three optional Sorley logs as discovery keys. Physical rescue uses the existing witness pod rules. The rescue adds an epilogue and ledger outcome; it does not vote on the ending family or change the thread.
+
 ## 28 October 2026: fleet, tools and bare-launch finishability
 
 Pat's ruling (verbatim, ~12:25 ET):

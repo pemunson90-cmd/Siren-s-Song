@@ -647,7 +647,7 @@ func _camera_context_base() -> Dictionary:
 		if sighted>=0:return {"target":-2,"siren":sighted,"ready":true,"text":"READY · S%d %s · PHOTO %.0fs · observe its form and movement from clear water"%[sighted+1,str(sirens[sighted].get("type","patroller")).to_upper(),8.0]}
 	if nearest<0 and best<0: return {"target":-1,"ready":false,"text":Delivery.status(self).text if Delivery.applies(mission) else "Archive aboard · return Quietus to extraction."}
 	var candidate=best if best>=0 else nearest
-	if Witness.applies(mission) and mission.objectives[candidate].get("site_id","")=="witness_packet":return {"target":candidate,"ready":false,"text":Witness.context(self,selected).winch.reason}
+	if Witness.applies(mission) and mission.objectives[candidate].get("site_id","")==Witness.packet(mission):return {"target":candidate,"ready":false,"text":Witness.context(self,selected).winch.reason}
 	var owner=capture_at_target(candidate)
 	if owner.unit>=0:return {"target":candidate,"ready":false,"text":"%s · %s already acquiring this record"%[Photo.label(mission.objectives[candidate]),units[owner.unit].name]}
 	if mission.get("blackwater_revision",0)==1:
@@ -1435,6 +1435,7 @@ func _record_secured_core(record: Dictionary,unit_id:int=-1) -> void:
 		# A Siren study is film, not a charted record: it never advances an operation's own record logic.
 		Recon.secured(self,record,unit_id);events.append({"type":"record","pos":record.pos});message="Siren study filed · review it in FIELD RECORDS"
 		return
+	preload("res://src/campaign/sorley_rescue.gd").recorded(self,record)
 	Glass.recorded(self,record,unit_id)
 	Recon.secured(self,record,unit_id)
 	if Rendezvous.applies(mission) and mission.get("consequence_revision",0)==1 and record.get("site_id","")=="rendezvous":mission["measured_reference"]=mission.signal_sources[0].cadence.duplicate()
