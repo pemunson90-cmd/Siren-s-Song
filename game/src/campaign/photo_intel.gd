@@ -74,6 +74,7 @@ static func detail(intel:Dictionary)->String:
 # Operation builders call this once. It changes the world or the brief only
 # when the archive actually holds the matching film.
 static func apply_effects(m:Dictionary,id:int,context:Dictionary)->void:
+	preload("res://src/campaign/crew/crew.gd").apply(m,id,context)
 	for row in RETURNED_FILM:
 		if id not in row.ops or not ok(context,row.key):continue
 		var mark=row.mark.duplicate(true)

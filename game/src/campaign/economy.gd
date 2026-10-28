@@ -151,6 +151,7 @@ static func target_name(item:String)->String:
 # After a dive's campaign recovery, new research is held as pending: the material stays
 # recovered and the player pays alloy to research it from the supplies panel.
 static func after_recover(e:Dictionary,previous:Dictionary,current:Dictionary)->Dictionary:
+ preload("res://src/campaign/crew/crew.gd").credit(e,previous,current)
  if not Table.enabled or not current.has("research"):return current
  var result=Research.hold(previous,current)
  if result.research.spent.size()<current.research.spent.size():
