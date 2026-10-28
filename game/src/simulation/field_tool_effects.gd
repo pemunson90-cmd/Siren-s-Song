@@ -6,6 +6,7 @@ extends RefCounted
 # SaveChecks "world" valid. Queries are pure; expiry is by sim.elapsed, so there is no tick hook.
 # Revert: Tools.enabled=false, or delete the four seam lines and the tool_orders table rows.
 const Tools=preload("res://src/equipment/field_tools.gd")
+const Racks=preload("res://src/equipment/tool_racks.gd")
 const KEY="field_tools"
 const MAX_PLACED=8
 const MAX_COUNT=9
@@ -29,10 +30,11 @@ static func live(sim,id:String)->Array:
 static func use(sim,order:String,args:Dictionary)->bool:
  if state(sim).is_empty() or order not in Tools.field_ids() or not Tools.is_enabled(order):return false
  var spec=Tools.spec(order);var u=sim.units[sim.selected]
- if count(sim,order)<=0:sim.message="%s · none left"%spec.name;return false
+ if Racks.count(sim,order)<=0:sim.message="%s · none left"%spec.name;return false
  if order=="hull_patch":return _patch(sim,spec,u)
  return _deploy(sim,spec,u,args)
 static func _spend(sim,spec:Dictionary)->void:
+ Racks.spend(sim,spec.id)
  sim.mission[KEY].counts[spec.id]=count(sim,spec.id)-1
 static func _noise(sim,spec:Dictionary,pos:Vector2,band:int)->void:
  if spec.noise>0.0:sim._noise(pos,spec.noise,spec.noise_label,spec.noise_time,band)

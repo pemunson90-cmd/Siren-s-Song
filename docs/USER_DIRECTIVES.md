@@ -3,6 +3,13 @@
 [PAT, quoted in Claude S5 handoff 092, ~11:50 ET] "Experiment with a hidden rescue mission that requires either found logs off the beaten path, or certain photos. So its an option side quest with at least one game reward and ending changes."
 
 [KEEL / AI-DESIGNED, pending Pat ratification] The experiment uses the existing op 37 boy photograph or two of three optional Sorley logs as discovery keys. Physical rescue uses the existing witness pod rules. The rescue adds an epilogue and ledger outcome; it does not vote on the ending family or change the thread.
+## 28 October 2026: carrying tools costs cargo
+
+Claude's question (QUESTIONS_FOR_PAT 13, verbatim): "today every loadout gets a fixed free bundle of tools. Should carrying tools cost module slots or cargo space, so a tool-heavy loadout means giving up a module? I recommend yes, because it turns the loadout into a real planning choice."
+
+Pat (verbatim, ~14:13 ET): "Yes to your open question."
+
+Operating effect: finite charges share each carrying craft's cargo with modules and winch work. ENDURANCE, DISRUPTION and SURVEY are editable starting templates; empty racks remain launchable. Handoff098 implements this through optional per-profile racks, old-loadout migration and owner-aware deployment. Specific cargo weights, allocation and extra-charge prices are AI-DESIGNED provisional choices, not Pat-ratified numbers. Existing tool effects stay unchanged; Torpedo and Hull patch retain their demonstrated Quietus-only guards. Other tools already deploy from the selected craft and now require its own stock.
 
 ## 28 October 2026: fleet, tools and bare-launch finishability
 
