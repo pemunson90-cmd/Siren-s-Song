@@ -1,9 +1,9 @@
 # Handoff 079: IRONMAN SAVE INTEGRITY (NO HARD-SAVE OR FORK UNDO BYPASS)
 
-Status: CLAIMED
+Status: DONE
 Claimed at: 2026-10-28 00:48:49 UTC
 Claimed by: codex-root-resume
-Finished at:
+Finished at: 2026-10-28 09:13:33 UTC
 
 Precondition: none. Read ORCHESTRATION_2026-10-26.md first.
 Codex may merge: yes, into claude/integration only, on green guidance + game-smoke for the exact head, merge commit.
@@ -41,3 +41,5 @@ Recovery28Oct04:52UTC: root resumes prior Claude lane with existing uncommitted 
 Progress28Oct05:01UTC [KEEL, verified]: inherited WIP preserved/pushed asd116e409 before integration reconciliation; PR168 head01d60552. Isolated import/core846/0, integrity40/0, profiles68/0, storage194/0; guidance passed; game-smoke40635419209 running. Only079 resumed; root retains queue.
 
 Progress28Oct05:51UTC [KEEL, verified]: head095322e5 reconciles live integration4d23a033 (PR162 geometry + PR159 audio), retaining both sides. Import/core846/0 and integrity40/0 passed again; CI40640345953 now gates this head. Prior40635419209 was cancelled because its base was superseded, with no reported test failures to cancellation.
+
+Verified closeout28Oct09:14UTC: PR168 merged39934176, head67c6da10 current guidance/game-smoke green40651194091. Single-timeline enforcement delivered; crash backup/safety capture retained. Root ownership released.
