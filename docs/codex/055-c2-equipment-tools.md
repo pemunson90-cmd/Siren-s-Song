@@ -32,6 +32,23 @@ Recovery: claude/c2-equipment 6a36e073db5a9716f924a4817a1e73609133ff1b, worktree
 Windows import/core846/0, tools89/0, briefing touch52/0, craft upgrades11/0; new pairs9/11/16/22 preserve early rewards. Feedback touch12/0, cold warning UI218/0, Ops Home2096/0 on combined head in146s; layout probe stable, no code/test change for CI retry.
 No APK or promotion. Integration88188bd0 reconciled (Claude061/062); fresh import/core846/0; Pat's Relay decision is resolved, no further design decision pending.
 Additional necessary presentation seam: equipment_context.gd groups compatible carriers and retains their visibility; earlier minimal simulation/photo/HUD seams retained.
+## Native-render timeout lead for root's 058 owner
+
+Run40619640793 ended with exit124 in ops_home_ui_tests (no assertion failures). Its last many SS_UI_METRICS reports share drawn_frame4672 and the same Settings rectangles. Headless reproduction passes2096/0 in146s on6a36e073. This points to a possible same-idle deferred layout loop rather than proving a runner slowdown. main.gd is currently owned by058; Codex has not edited it.
+
+The menu minimum-size callback currently invokes full _layout unconditionally, which writes menu dimensions and theme overrides again. Suggested narrow guard for058 to assess, retaining the original bound-shrink behavior:
+
+```gdscript
+menu.minimum_size_changed.connect(_reflow_menu, CONNECT_DEFERRED)
+
+func _reflow_menu() -> void:
+ if menu == null: return
+ var bounds = Vector2(minf(800, size.x - 48), size.y - 48)
+ var needed = bounds.max(menu.get_combined_minimum_size())
+ if not menu.size.is_equal_approx(needed): _layout()
+```
+
+No test or timeout changes proposed. This remains a diagnosis lead, not a verified fix.
 ## Pat ruling, 27 October 2026 — design resolved, implementation paused
 
 Pat approved the inherited **35% passive-sensing bonus** for Relay buoys, benefiting **both drones individually while inside the buoy's effect radius**. Keep drone commands unlimited; do not introduce artificial command-range restrictions. This supersedes the earlier requirement that Relay extend command range. Confirm the actual radius/eligibility behavior during future implementation review rather than inventing a number now.
