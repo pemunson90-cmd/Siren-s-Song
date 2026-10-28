@@ -1,8 +1,8 @@
 # Handoff 100: TOOL LOCKERS (default loadouts carry tools again; extra tools still cost cargo)
 
-Status: OPEN
-Claimed at:
-Claimed by:
+Status: PREPARED (await root integration)
+Claimed at: 28 Oct 2026 17:37 ET (Claude launch, per BOARD)
+Claimed by: codex-fresh-100; branch claude/tool-lockers; implementation authorship retained.
 Finished at:
 
 Precondition: 098 tool cargo is on integration (PR199 merged 28 Oct). Read HANDOFF.md and ORCHESTRATION_2026-10-26.md first. Current review rule (Pat, 28 Oct): independent Sol6.1-high review of the frozen patch before commit and before merge.
@@ -37,5 +37,11 @@ Rerun the field tool, economy, fittings, module recovery and save suites.
 ## Return
 PR into claude/integration; independent review, merge on green; close per ORCHESTRATION section 7; one LEDGER line.
 
+## Prepared handoff (CODEX verified; not merged)
+PR208 head `222b5c6270ed86f148f6648d7748d07a8d904fdb`, exact tree `fe3b7c64ed7a52bf6b595f1abef4b561615eb9ff`; independent nonauthor review reported in PR208 body; root verified head/tree.
+Root collected session51452 at18:03 ET after confirming no source changes, under published88e27a81/Claude17:58 agreement; no finished-worker restart.
+Root-held separate successor branch `claude/reconcile-lockers-content`, local `39f8170800686d46db541ea69d89a5aa8961c711`, exact tree `a93635123692df22adec4b4e5aad16a149273d40`; integration review47 APPROVE.
+No publication until PR207 `951f8e00` is accepted, then the successor requires its own gate; root controls integration.
+
 ## Completion
-(five lines max: locker sizes and the template table)
+(five lines max: locker sizes and the template table; pending root integration)

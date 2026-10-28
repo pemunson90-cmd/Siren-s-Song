@@ -1,9 +1,9 @@
 # Handoff 088: THE ENDING IS DECIDED AFTER OP 34, AND ARCS 4 TO 6 CAN CHANGE IT
 
-Status: CLAIMED
+Status: DONE
 Claimed at: 2026-10-28 (UTC; exact claim time not retained here)
 Claimed by: codex-root; worker500; branch claude/codex-088-late-ending; Ending flow and docs ruling only.
-Finished at:
+Finished at: 2026-10-28T18:56:16Z
 
 Precondition: 085 is DONE (PR185; it owns the op 30 to 34 carry rows and facts this reads). Read HANDOFF.md and ORCHESTRATION_2026-10-26.md first. Current review rule (Pat, 28 Oct): independent Sol6.1-high review of the frozen patch before commit and before merge.
 Codex may merge: yes, into claude/integration only, after independent approval and green required checks on the exact head, merge commit.
@@ -37,4 +37,8 @@ Import + core. One new suite: the flip rule as a table (each fact on and off, em
 PR into claude/integration; independent review, merge on green; close per ORCHESTRATION section 7; add one line to LEDGER.md.
 
 ## Completion
-(five lines max; include the flip rule in one line)
+[CODEX verified] PR193 merged `2ba1edf9a176d430274fe84f96e1e1931655d4c6` from head `ae1c15062aca540f800e4d3114a0d481347ad808`; own seven checks green40743351396.
+[CODEX verified] Independent26 source +28A approved exact tree `03060d5b14f01927807318bd1dc71056e7200040` (head1519dbb5 + mergeD560); root record: external `independent-review28.result.txt`.
+[CODEX verified] Late family stays provisional until op34; thread fixed; strict majority with two matching late votes can flip channel; ties/sparse votes retain Confluence fallback.
+[CODEX verified] Pat provisionally accepted the vote rule at15:45 ET; verbatim quote recorded in `docs/USER_DIRECTIVES.md` via PR205.
+[CODEX verified] Ending paths released, subject to current claims.
