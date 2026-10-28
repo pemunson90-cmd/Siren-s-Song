@@ -6,11 +6,13 @@ Current boundary: Pat resumed locally on Windows and continued work on 25 Octobe
 
 ## Source and authority
 
-Active integration: `claude/integration`. Last reconciled source baseline: 4d23a033608f9b81e35b40874f6256247a7b4df6, including C7/display-group CI repair, optional geometry PR162 and event audio PR159. A later live integration SHA is expected; fetch it at task boundaries. The board alone owns claims/completions.
+Active integration: `claude/integration`. Last reconciled source baseline: 609f29a966015419b9638ed518bd09548e42df35, including equipment PR150, settings PR163 and Ironman PR168. A later live integration SHA is expected; fetch it at task boundaries. The board alone owns claims/completions.
 Frozen `gauntlet/production` and protected `main` require Pat's promotion approval. Preserve branches, personal saves, evidence and signing identity.
 Current decisions: [USER_DIRECTIVES](USER_DIRECTIVES.md). Intended release: [CURRENT_GAME_SPEC](CURRENT_GAME_SPEC.md). Actual module seams, settings, saves, tests and safe reverts: [MODULES](MODULES.md).
 
 ## Integrated capabilities
+
+- 056 mode selector separates Campaign, Challenges and seeded Expeditions; Career stays disabled until057. Runs reuse3–6 distinct opening reconnaissance operations with seeded loadout, optional-tool scarcity and capped sight-only Hunt, finite carried tools and terminal loss. Profile-pinned `.runs` sidecars keep resources/story separate from campaign and SAVE2; interrupted dives end the run until070 adds exact dive recovery. Film, oxygen and required bare-craft routes retain their authored budgets. Campaign labels read Operations; code/save IDs stay unchanged. Run choices/records/seed entry remain068/069.
 
 - [KEEL] 077 adds seven provisional route/fact deltas in Glass/Iron ops14,15,16,17,21,22: shelf recovery/start alternatives and changed authored guard rosters, with brief cause lines. Empty history preserves legacy missions; no new save fields. Revert with `Carry.ENABLED=false`. Local carry150/0 and existing Iron22 bare journey10/0 are source-known technical checks; Calder/final content remains owned by076.
 - 41 operation IDs0..40 include Calder Trench: core32..34, optional35/36, manual shut-in work, deep photography and three physically recovered artifacts. END OF LINE now follows first recovery of34; the existing photo wall, four ending families and12/13 fork remain. Reward target entries arrive in054/055; narrative stays placeholder text.
@@ -34,7 +36,7 @@ Current decisions: [USER_DIRECTIVES](USER_DIRECTIVES.md). Intended release: [CUR
 
 ## Next authorized work and limits
 
-033 documentation,048 HUD and050 Hunt are merged in PR145/146/147. This continuation is scoped by Pat to079 Ironman integrity; root owns the remaining queue. The live board owns current assignments and completion; do not infer extra assignments from historical queues.
+This continuation is scoped by Pat to056 modes/expeditions on `claude/c3-modes`; root collects hosted CI and owns subsequent dispatch. Reconcile084's CI migration once merged before the final hosted gate. Preserve072 settings-depth,082 crew and083 dossier/archived-ledger hooks.057 requires056 merged and root dispatch. The live board owns current assignments and completion.
 For 050, Pat approved sight-only first: hearing, movement speed and lock timing stay unchanged. Earlier design text proposing hearing scaling is superseded. Keep tunable choices in tables with off switches/revert notes; keep working while ordinary reversible questions are pending. Protected mechanics, narrative/art direction, SIREN TELL and promotion still require Pat where not already authorized.
 Photography remains the primary military reconnaissance pillar; rescue, machinery and fleet work support it. Wider release modes/content and qualitative campaign assessment remain unfinished.
 

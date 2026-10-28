@@ -1,0 +1,100 @@
+extends "res://src/main.gd"
+# Isolated Main/Simulation pair, following challenge_session. Campaign/SAVE2 never write here.
+# Revert: remove mode entry and this folder; retain archive for future runs.
+const RunState=preload("res://src/campaign/runs/run_state.gd")
+const RunArchive=preload("res://src/campaign/runs/run_archive.gd")
+const RunSimulation=preload("res://src/campaign/runs/expedition_run.gd")
+const RunTable=preload("res://src/campaign/runs/run_table.gd")
+var campaign_host
+var run_state:Dictionary={}
+var return_to_list:Callable
+var prior_mode=Node.PROCESS_MODE_INHERIT
+var prior_visibility:Array=[]
+var prior_sound_suspended=false
+var recorded=false
+func freeze_campaign()->void:
+	prior_mode=campaign_host.process_mode;prior_sound_suspended=campaign_host.sound.system_suspended
+	for child in campaign_host.get_children():
+		if child is CanvasItem:prior_visibility.append({"node":child,"visible":child.visible});child.hide()
+	campaign_host.sound.suspend();campaign_host.process_mode=Node.PROCESS_MODE_DISABLED
+func _ready()->void:
+	sim=RunSimulation.new();sim.configure(run_state)
+	upgrade=run_state.loadout;fitted_equipment=preload("res://src/equipment/equipment_catalog.gd").default_loadout()
+	hints_seen=OnboardingText.HINTS.keys();settings=campaign_host.settings.duplicate();capture_scenario="expedition-session"
+	super._ready();active_started=false
+	FrontendSettings.apply(FrontendSettings.current,self);sound.muted=campaign_host.sound.muted
+	_show_campaign();_layout()
+func _scenario(_name:String)->void:pass
+func _load_archive()->void:pass
+func _save_archive()->void:pass
+func _apply_safe_area()->void:pass
+func ui_density_dpi()->float:
+	return campaign_host.ui_density_dpi() if is_instance_valid(campaign_host) else super.ui_density_dpi()
+func ui_density_source()->String:
+	return campaign_host.ui_density_source() if is_instance_valid(campaign_host) else super.ui_density_source()
+func _start_mission(_index:int)->void:
+	# Main builds its paused display before the player commits a stage.
+	super._start_mission(RunState.current_operation(run_state))
+func _show_campaign()->void:
+	if not is_inside_tree():return
+	if not sim.outcome.is_empty():_debrief();return
+	sim.paused=true;screen="expedition_menu";_clear_menu()
+	_menu_text("EXPEDITION · SEED %d"%run_state.seed,30)
+	_menu_text("OPERATION %d / %d · %s"%[run_state.cursor+1,run_state.operations.size(),sim.mission.title.to_upper()],20)
+	_menu_text(sim.mission.brief,17)
+	_menu_text("%s LOADOUT · %s · STARTING HUNT %d\nTools carry across recovered operations. Film and oxygen replenish for each dive."%[run_state.loadout.to_upper(),RunTable.SCARCITY[run_state.scarcity].to_upper(),RunState.starting_hunt(run_state,RunState.current_operation(run_state))],17)
+	if active_started:
+		_button(panel_box,"RESUME DIVE",_enter_water,"run_resume")
+		_button(panel_box,"END DIVE · LOSE RUN",func():_debrief(true),"run_abandon")
+	else:
+		_button(panel_box,"BEGIN OPERATION · START PAUSED",_begin,"run_begin")
+		_button(panel_box,"RETURN TO MODES",_return,"run_return")
+	call_deferred("_layout")
+func _begin()->void:
+	if active_started or run_state.in_flight:return
+	var launched=RunState.launch(run_state)
+	if not RunArchive.persist(campaign_host,launched):
+		_menu_text("LAUNCH PAUSED · "+str(campaign_host.get_meta("runs_save_error","Check storage and retry.")),17);return
+	run_state=launched;sim.configure(run_state);recorded=false
+	_start_mission(RunState.current_operation(run_state));_enter_water()
+func _debrief(abandoned:bool=false)->void:
+	if recorded:return
+	recorded=true;sim.paused=true;screen="expedition_result";_clear_menu()
+	run_state=RunState.settle(run_state,sim.result(abandoned))
+	_result_menu()
+func _result_menu()->void:
+	screen="expedition_result";_clear_menu()
+	_menu_text("EXPEDITION LOST" if run_state.status=="lost" else "EXPEDITION RECOVERED" if run_state.status=="won" else "OPERATION RECOVERED",30)
+	_menu_text("SEED %d · %d / %d RECOVERED"%[run_state.seed,run_state.cursor,run_state.operations.size()],20)
+	_menu_text(sim.message,17)
+	_show_photo_grade(sim.mission.objectives)
+	if not RunArchive.persist(campaign_host,run_state):
+		_menu_text("RESULT NOT SAVED · "+str(campaign_host.get_meta("runs_save_error","")),17)
+		_button(panel_box,"RETRY SAVE",_result_menu,"run_retry_save")
+		call_deferred("_layout");return
+	if run_state.status=="active":
+		_button(panel_box,"NEXT OPERATION",func():
+			active_started=false;sim.configure(run_state);_start_mission(RunState.current_operation(run_state));active_started=false;_show_campaign()
+		,"run_next")
+	_button(panel_box,"RETURN TO EXPEDITIONS",_return,"run_return")
+	call_deferred("_layout")
+func _unhandled_key_input(event:InputEvent)->void:
+	if event is InputEventKey and event.pressed and event.keycode==KEY_ESCAPE:get_viewport().set_input_as_handled()
+	super._unhandled_key_input(event)
+func _refresh()->void:
+	super._refresh()
+	if status_label==null:return
+	status_label.visible=screen=="mission"
+	if not status_label.visible:return
+	status_label.text="EXPEDITION · %d / %d · SEED %d"%[run_state.cursor+1,run_state.operations.size(),run_state.seed]
+	status_label.position=Vector2(12,ui_touch_height+24);status_label.size=Vector2(maxf(1,size.x-24),ui_touch_height)
+	status_label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;status_label.mouse_filter=Control.MOUSE_FILTER_IGNORE
+func _return()->void:
+	if not is_inside_tree():return
+	for item in prior_visibility:
+		if is_instance_valid(item.node):item.node.visible=item.visible
+	campaign_host.process_mode=prior_mode
+	if not prior_sound_suspended:campaign_host.sound.resume()
+	get_parent().remove_child(self)
+	if return_to_list.is_valid():return_to_list.call()
+	queue_free()

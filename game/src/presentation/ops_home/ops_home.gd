@@ -55,7 +55,7 @@ static func arrange(host)->void:
  for node in recovered:node.reparent(group)
  var after=shortcuts.get_index()+1
  for node in host.panel_box.get_children():
-  if operation_id(node)>=0 or (node is Label and node.text=="BEYOND THE WARNING / EXPEDITIONS"):after=node.get_index()+1
+  if operation_id(node)>=0 or (node is Label and node.text=="BEYOND THE WARNING / OPERATIONS"):after=node.get_index()+1
  host.panel_box.move_child(fold,after);host.panel_box.move_child(group,fold.get_index()+1)
  group.visible=recovered.size()<Table.FOLD_THRESHOLD
  fold.disabled=recovered.is_empty()
