@@ -37,14 +37,12 @@ func run():
   var s=Sim.new();s.start(id)
   check(s.mission.get("launch_equipment",{}).values().all(func(item):return str(item).is_empty() or str(item)=="standard"),"bare initial loadout "+str(id))
   var reached=false
-  if id==30:reached=dive(s,2) and go(s,Vector2(900,450)) and dive(s,1) and go(s,Vector2(1080,450))
-  else:reached=go(s,Vector2(530,550))
+  if id==30:reached=dive(s,2) and go(s,Vector2(800,500)) and dive(s,1) and go(s,Vector2(1180,420))
+  else:reached=dive(s,0) and go(s,Vector2(400,1300)) and dive(s,1) and go(s,Vector2(880,1000))
   check(reached,"physical depth route to final photo "+str(id))
   if not reached:print("ROUTE STOP ",id," ",s.message," ",s.units[0].pos);continue
   check(photo(s),"ordinary held bare exposure "+str(id))
-  var returned=false
-  if id==30:returned=dive(s,2) and go(s,Vector2(900,1850)) and dive(s,1) and go(s,s.mission.extraction)
-  else:returned=go(s,Vector2(350,2250)) and dive(s,0) and go(s,Vector2(2250,2250)) and dive(s,1)
+  var returned=go(s,s.mission.extraction)
   tick(s,1.)
   check(returned and s.outcome=="won" and s.mission.recovered,"bare recovery with real threats "+str(id))
   check(not s.mission.objectives[1].captured and Sim.valid_snapshot(s.snapshot()),"bonus optional and final save valid "+str(id))

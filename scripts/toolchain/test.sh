@@ -8,21 +8,28 @@ list=false
 skip_core=false
 suite=""
 explicit=false
+shard=""
 while [[ $# -gt 0 ]]; do
     case "$1" in
         --profile) profile="$2"; explicit=true; shift 2 ;;
         --list) list=true; shift ;;
         --skip-core) skip_core=true; shift ;;
         --suite) suite="$2"; explicit=true; shift 2 ;;
+        --shard) shard="$2"; explicit=true; shift 2 ;;
         *) echo "Unknown argument: $1" >&2; exit 2 ;;
     esac
 done
 [[ "$profile" == local || "$profile" == ci ]] || { echo 'Profile must be local or ci' >&2; exit 2; }
+if [[ -n "$shard" ]]; then
+    [[ "$profile" == ci && -z "$suite" && "$skip_core" == true && "$shard" =~ ^[1-4]$ ]] || {
+        echo '--shard 1..4 requires --profile ci --skip-core and no --suite' >&2; exit 2;
+    }
+fi
 # Validate the complete registry before running any suite. Ranks preserve both
 # historical runner orders, which differed before the registry was introduced.
-selection=$(python3 - "$TOOLCHAIN_ROOT/game/tests/suites.txt" "$profile" "$suite" <<'PYREGISTRY'
+selection=$(python3 - "$TOOLCHAIN_ROOT/game/tests/suites.txt" "$profile" "$suite" "$shard" <<'PYREGISTRY'
 import pathlib, re, sys
-path, profile, selected = sys.argv[1:]
+path, profile, selected, shard = sys.argv[1:]
 rows, names, ranks = [], set(), [set(), set()]
 for line in pathlib.Path(path).read_text().splitlines():
     if not line.strip() or line.startswith("#"):
@@ -44,7 +51,12 @@ for line in pathlib.Path(path).read_text().splitlines():
     if (selected and name == selected) or (not selected and rank != "-"):
         rows.append((0 if selected else int(rank), name, summary, backend))
 assert not selected or selected in names, "Unknown suite: " + selected
-for _, name, summary, backend in sorted(rows):
+ordered = sorted(rows)
+if shard:
+    # Stable CI-rank order, balanced counts; core runs once in its own job.
+    ordered = [row for row in ordered if row[1] != "run_tests"][int(shard)-1::4]
+    assert ordered, "Empty CI shard"
+for _, name, summary, backend in ordered:
     print(name + "|" + summary + "|" + backend)
 PYREGISTRY
 )
