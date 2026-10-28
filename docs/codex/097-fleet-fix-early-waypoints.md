@@ -39,6 +39,7 @@ Use `docs/design/FLEET_MATTERS_FIX_PATTERNS.md` (patterns 1 to 8) and `docs/desi
 ## Success measure (per op)
 Rerun the 093 bare and equipped pair on the changed source:
 - **Bare** (STANDARD) still finishes, and **meets the Sirens**: in at least three quarters of the batch's ops the bare route shows a Hunt peak of 20 or more or at least one received lock episode, from placement and authored patrol points of existing roles at the work (pattern 4). Endurance-only pressure (oxygen under 25 percent with Hunt 0) counts for at most a quarter of the ops and must not be the main lever. A route the Sirens never notice is still a walk (Claude S5 correction 28 Oct 14:27 ET after PR198).
+- **Measure bare in SILENT running throughout**, as a skilled player would. Contact obtained by choosing avoidable cruise or exposure-only travel does not count (094b was blocked by independent review for exactly this). Keep a silent-running counterexample test.
 - **Equipped** must not take clearly more hull than bare unless the PR states the tradeoff is deliberate; otherwise the fleet reads as the riskier choice.
 - **Equipped** (drones used plus plausible tools and fittings for that point in the campaign) is clearly better on a major axis: people or cargo, photo records or grade, recovered material, side objective, reward, or a safer exposure profile.
 - The equipped journey must complete the full recovery and departure flow (093 noted INC endings; fix the controller, do not skip the flow).
