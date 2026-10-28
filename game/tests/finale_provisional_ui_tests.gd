@@ -71,6 +71,9 @@ func wall_case(game,heading,label):
 	check(has_text(game,"END OF LINE")==heading,label+" has expected End of Line heading state")
 	target_visible(game,"back",game,label+" Operations footer")
 func shape_case(shape):
+	var settings_api=preload("res://src/presentation/frontend/frontend_settings.gd")
+	var prior_scale=settings_api.text_scale()
+
 	root.size=shape;await settle()
 	var stem="user://finale-provisional-%dx%d"%[shape.x,shape.y]
 	var archive=stem+".save";var settings=stem+"-settings.json"
@@ -78,7 +81,7 @@ func shape_case(shape):
 	var game=load("res://scenes/main.tscn").instantiate()
 	if shape.x!=960:game.set_script(load("res://tests/density_main.gd"))
 	game.capture_scenario="runtime-test";game.store.path=archive;game.settings_path=settings
-	root.add_child(game);await settle();game.set_process(false)
+	root.add_child(game);await settle();game.set_process(false);settings_api.current["text_scale"]=1.5;game._layout()
 	game.completed=[0,1,2,3,4,5];game.unlocked=5;game.expedition=expedition_fixture()
 	check(Campaign.valid(game.expedition),"fixture is a valid deep expedition completed through operation 33")
 	game.recovered_evidence=archive_fixture();game.active_started=false
@@ -86,6 +89,7 @@ func shape_case(shape):
 	check(expected_plate_keys.size()==4,"fixture retains all four original operation 30 and 31 photographs")
 	expected_plate_keys.append("glass_record_34")
 	game._show_campaign();game.capture_scenario=""
+	settings_api.current["text_scale"] = 1.5
 	debrief_last(game);await settle()
 	wall_case(game,true,"first successful operation 34 recovery")
 	check(game.expedition.completed.count(34)==1,"the first successful recovery records operation 34 once")
@@ -100,6 +104,13 @@ func shape_case(shape):
 	var raw_wall=all_text(game)
 	for raw_fact in ["GLASS CHOICE /","CHOIR CHOICE /","CHOIR PEOPLE /","CHOIR PLANT /"]:
 		check(not raw_wall.contains(raw_fact),"wall displays the fact mapping instead of raw label "+raw_fact)
+	var ledger_text=all_text(game)
+	for section in ["PEOPLE","KNOWLEDGE","INFRASTRUCTURE","DISCLOSURE"]:
+		check(ledger_text.contains(section),"ending wall renders ledger panel: "+section)
+		var heading=game.find_children("*","Label",true,false).filter(func(label):return label.text==section)
+		check(not heading.is_empty() and heading[0].get_theme_font_size("font_size")>=roundi(20*game.ui_touch_height/48.*1.5),"ledger heading renders at 150 percent text: "+section)
+	check(ledger_text.contains("AI-DESIGNED placeholder ledger"),"ending wall marks provisional ledger wording")
+	settings_api.current["text_scale"] = prior_scale
 	var finale=load("res://src/presentation/finale/finale.gd")
 	var placeholders=finale.lines(game.expedition.facts)
 	check(placeholders.size()==2,"finale adds exactly two provisional recorded-fact lines")
@@ -176,7 +187,7 @@ func shape_case(shape):
 		check(button(loaded,"end_of_line")==null,"disabling the finale table hides its Operations replay action")
 		check(value_if_present(loaded,"end_of_line_seen")==seen,"disabling presentation preserves the recorded seen flag")
 		table.enabled=enabled
-	loaded.queue_free();game.queue_free();await settle();clean(archive);clean(settings)
+	loaded.queue_free();game.queue_free();await settle();settings_api.current["text_scale"]=prior_scale;clean(archive);clean(settings)
 func run():
 	for shape in [Vector2i(2520,1080),Vector2i(2184,1968),Vector2i(960,432)]:await shape_case(shape)
 	print("FINALE UI CHECKS %d FAILURES %d"%[checks,failures]);quit(1 if failures else 0)
