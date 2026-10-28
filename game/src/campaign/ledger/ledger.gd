@@ -17,10 +17,10 @@ static func build(progress,intel)->Array:
    if not rows.has(row[0]):rows[row[0]]=[]
    rows[row[0]].append(text)
  var counts=_counts(progress,intel)
- if not counts.is_empty():rows["knowledge"]=counts+rows.get("knowledge",[])
+ rows["knowledge"]=counts+rows.get("knowledge",[])
  var result=[]
  for panel in Table.PANELS:
-  if rows.has(panel[0]):result.append({"id":panel[0],"title":panel[1],"rows":rows[panel[0]]})
+  result.append({"id":panel[0],"title":panel[1],"rows":rows.get(panel[0],[Table.NOT_RECORDED])})
  return result
 static func _fact_row(row:Array,facts:Dictionary,done:Array,thread:String)->String:
  if not row[4].is_empty() and row[4]!=thread:return ""
@@ -35,9 +35,10 @@ static func _counts(progress:Dictionary,intel)->Array:
  var research=progress.get("research",{})
  if research is Dictionary and research.has("materials") and research["materials"] is Array:
   var found=research["materials"].filter(func(id):return Research.RECIPES.has(id)).size()
-  result.append(Table.ARTIFACT_LINE%[found,Research.RECIPES.size()])
+  result.append(Table.ARTIFACT_LINE%[found,8])
   var projects=research.get("projects",[])
   if projects is Array and not projects.is_empty():result.append(Table.PROJECT_LINE%projects.size())
+ else:result.append(Table.ARTIFACTS_NOT_RECORDED)
  if intel is Dictionary:
   var keys=intel.keys().filter(func(k):return intel[k] is Dictionary and float(intel[k].get("q",0.))>0.)
   if not keys.is_empty():result.append(Table.INTEL_LINE%keys.size())

@@ -17,8 +17,10 @@ const FACT_ROWS=[
  ["people","Kestrel sailors","witness_arrival",12,"",{"quietus":"landed alive by Quietus.","drone_a":"landed alive by Drone A.","drone_b":"landed alive by Drone B."}],
  ["people","Kestrel sailors","warning_arrival",13,"",{"exposed":"taken aboard a launch through the exposed channel.","sheltered":"taken aboard a launch through the sheltered passage."}],
  ["people","Port Ardent watch","concealed_consequence",12,"shelf",{"shelf_service":"six came out through the service approach.","shelf_baffle":"six came out through the baffled entrance."}],
- ["people","Tessaly divers","concealed_consequence",12,"deep",{"deep_trace_severed":"the bell began its lift after the trace was cut."}],
- ["people","Hollins last shift","choir_people",28,"",{"landed":"recovered workers were landed at the service berth."}],
+ ["people","Tessaly divers","tessaly_divers",12,"deep",{}],
+ ["people","Hollins last shift","hollins_last_shift",22,"",{}],
+ ["people","Varne staff","varne_staff",18,"",{}],
+ ["people","Choir people","choir_people",28,"",{"landed":"recovered workers were landed at the service berth."}],
  ["infrastructure","Port Ardent approach","concealed_consequence",12,"shelf",{"shelf_service":"service approach left open.","shelf_baffle":"north entrance baffled."}],
  ["infrastructure","Trench mouth","concealed_consequence",12,"deep",{"deep_trace_severed":"tracking float hauled off, surface trace broken."}],
  ["infrastructure","Varne fence","glass_choice",18,"",{"service":"service water opened, reporting spur kept.","sever":"reporting spur severed.","vane":"fence vanes released."}],
@@ -33,3 +35,4 @@ const ARTIFACT_LINE="Artifacts recovered: %d of %d."
 const PROJECT_LINE="Research completed: %d."
 const INTEL_LINE="Photographed subjects with intel: %d."
 const SIREN_LINE="Siren types photographed: %d."
+const ARTIFACTS_NOT_RECORDED="Artifacts recovered: not recorded (of 8)."
