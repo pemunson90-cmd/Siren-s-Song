@@ -124,14 +124,26 @@ func arc6_journey(row:Dictionary,extra_mouth:bool):
  var tools=s.tools.duplicate(true)
  var field=s.mission.get("field_tools",{}).get("counts",{}).duplicate(true)
  var route=Calder.steps(row.op,s)
- if extra_mouth:route[route.size()-1]=["go",s.mission.corridors[1].pos]
+ if extra_mouth:
+  # The shelf mouth is south of the survey's MIDDLE ridge: retrace its DEEP gap.
+  # Its western turn needs a northern viewpoint with room for the four-second dive.
+  for step in route:
+   if step[0]=="go" and step[1]==Vector2(1180,300):step[1]=Vector2(1300,190)
+  route=route.slice(0,5)
+  route.append_array([["burst",Vector2(1300,30)],["go",Vector2(800,30)],["emergency",Vector2(100,100)],["quiet"],["dive",2],["go",s.mission.corridors[1].pos],["dive",1]])
  var finished=true
  for step in route:
   var ok=false
   match step[0]:
+   "emergency":ok=s.command("emergency",{"point":step[1]}) and Calder.go(s,step[1])
+   "quiet":ok=s.units[0].silent or s.command("silent")
+   "burst":
+    ok=s.command("emergency",{"point":step[1]})
+    Calder.tick(s,1.)
+    ok=ok and s.command("silent") and Calder.go(s,step[1])
    "go":ok=Calder.go(s,step[1])
    "dive":ok=Calder.dive(s,step[1])
-   "shoot":ok=Calder.expose(s,Calder.obj(s,step[1]))
+   "shoot":ok=Calder.expose(s,Calder.obj(s,step[1]),.1 if extra_mouth else 2.)
    "cargo":ok=Calder.recover_cargo(s)
   if not ok:
    finished=false;print("CARRY ARC6 STOP ",row.id," ",step," ",s.message," pos=",s.units[0].pos);break

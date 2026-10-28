@@ -30,7 +30,14 @@ const ROWS={
  26:["Lift and recover the physical pressure spindle.","The west mouth seals 100s after lifting.","COOLING opens the south return."],
  27:["Chock counterweight, tow to cradle, recover core.","The loose load slides back downhill.","Chock at LOCK A before towing onward."],
  28:["Tow bell via both locks, LAND at west dock; recover.","The tow needs two decompression stops.","Release a tow before changing depth."],
- 29:["Reconnect in the window, or DISMANTLE; recover Quietus.","The reconnect window lasts 150s.","LOCK C starts the reconnect sequence."]
+ 29:["Reconnect in the window, or DISMANTLE; recover Quietus.","The reconnect window lasts 150s.","LOCK C starts the reconnect sequence."],
+ 30:["Photograph SCOUR EDGE in MIDDLE; recover Quietus.","A patrol approaches the exposure lane.","Scout the unresolved DEEP return with a drone; its 36s image costs Quietus a detour."],
+ 31:["Photograph the survivor marks in MIDDLE; recover north.","The shaft post watches the approach.","A drone can resolve and record the SHALLOW terminals while Quietus works."],
+ 32:["Shut in the well, photograph the breach, recover its core.","The long shaft return spends most of a bare oxygen reserve.","A drone records the nameplate while Quietus works; plan the material return at DEEP."],
+ 33:["Equalize the gallery, photograph its people, recover the reed.","The southern post watches the equalizer approach.","Scout the western scoring with a drone while Quietus opens the gallery."],
+ 34:["Work all three machines in order; photograph the junction.","The west return crosses warden pressure.","Send a drone for the impact face; recover both drones and their modules."],
+ 35:["Photograph the keel and recover the physical plate.","A deep post watches the north approach.","The wellhead seal halves lift work; the lift opens the short south return."],
+ 36:["Photograph the deep guard window; recover west.","A middle post watches the long west recovery approach.","A tuner drone can silence the breaker and open the central return."]
 }
 const FOLD_LABELS={"show":"FITTINGS\nSHOW","hide":"FITTINGS\nHIDE"}
 const STYLE={"margin":24.,"title":18,"goal":14,"photo":14}
