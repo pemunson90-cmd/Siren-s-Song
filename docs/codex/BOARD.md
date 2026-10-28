@@ -1,3 +1,5 @@
+**27 Oct ~20:25 ET (Claude):** Claude claimed 059, 060, 061 and 062 to build in parallel (branches claude/c8-challenge-pars, claude/c9-event-audio, claude/c10-archive-log). Codex queue: 055, then 056, 057, 058, 063. Claude will write BATCH 15 before Codex runs dry.
+
 **RESUMED, 27 Oct 2026 ~19:17 ET:** Pat told Claude "Resume". This lifts the 27 Oct documentation-only pause (ruling 7). Rulings 1 to 6 stand as design direction. Work order for Codex: 055 (repair PR150's hosted fitting/touch regression, green CI, merge), 056, 057, 058, then 059 (challenge pars and per-route bests from rulings 2 and 3). Same rules as ORCHESTRATION_2026-10-26.md.
 
 **PAUSE NOTE, 26 Oct 2026 ~18:30 ET (Claude): Claude hit its usage limit. The Claude stream is PAUSED and its lanes continue as Codex handoffs 054 to 058 (BATCH 12). Codex owns their files while claimed. The C6 doc sweep and the whole-game audit wait for Claude.**
@@ -165,14 +167,14 @@ These seven decisions are approved design direction, **not** evidence of impleme
 ## BATCH 13 (27 Oct, from Pat's rulings 2 and 3)
 | Order | Handoff | Status | PR | Finished (UTC) | One-line result |
 |---|---|---|---|---|---|
-| 56 | 059 CHALLENGE PARS AND PER-ROUTE BESTS (lung_solo 110 s dismantle / 300 s reconnect) | OPEN | | | |
+| 56 | 059 CHALLENGE PARS AND PER-ROUTE BESTS (lung_solo 110 s dismantle / 300 s reconnect) | CLAIMED (claude, claude/c8-challenge-pars) | | | |
 
 ## BATCH 14 (27 Oct, queue depth; take after 059 in numeric order where preconditions allow)
 | Order | Handoff | Status | PR | Finished (UTC) | One-line result |
 |---|---|---|---|---|---|
-| 57 | 060 EQUIPMENT AND EVENT AUDIO | OPEN | | | |
-| 58 | 061 RECEIVED MESSAGES, FIELD LOGS, RECURRING VOICES | OPEN | | | |
-| 59 | 062 RESEARCH SCREEN, ARCHIVE AND CREDITS | OPEN | | | |
+| 57 | 060 EQUIPMENT AND EVENT AUDIO | CLAIMED (claude, claude/c9-event-audio) | | | |
+| 58 | 061 RECEIVED MESSAGES, FIELD LOGS, RECURRING VOICES | CLAIMED (claude, claude/c10-archive-log) | | | |
+| 59 | 062 RESEARCH SCREEN, ARCHIVE AND CREDITS | CLAIMED (claude, claude/c10-archive-log) | | | |
 | 60 | 063 PERFORMANCE PASS | OPEN | | | |
 
 Claude lanes in parallel (not Codex work): C6 doc sweep (claude/c6-doc-sweep), C7 economy calibration by simulated campaign runs (claude/c7-economy-calibration).

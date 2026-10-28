@@ -1,8 +1,8 @@
 # Handoff 059: CHALLENGE PARS AND PER-ROUTE BESTS
 
-Status: OPEN
-Claimed at:
-Claimed by:
+Status: CLAIMED
+Claimed at: 2026-10-28 00:21:22 UTC
+Claimed by: claude
 Finished at:
 
 Precondition: 056 is DONE or not CLAIMED (avoids frontend overlap). Read ORCHESTRATION_2026-10-26.md first.
@@ -31,3 +31,6 @@ PR into claude/integration; merge on green; close per ORCHESTRATION section 7.
 
 ## Completion
 (five lines max)
+
+## Claude claim (27 Oct)
+Claude builds this in parallel with Codex on branch `claude/c8-challenge-pars` (worktree Siren-s-Song-claude-*). Codex: skip it; Claude owns its listed files until DONE.

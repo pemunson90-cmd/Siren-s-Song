@@ -1,8 +1,8 @@
 # Handoff 060: EQUIPMENT AND EVENT AUDIO
 
-Status: OPEN
-Claimed at:
-Claimed by:
+Status: CLAIMED
+Claimed at: 2026-10-28 00:21:22 UTC
+Claimed by: claude
 Finished at:
 
 Precondition: 053 is DONE. Take after 059 or whenever no CLAIMED handoff owns audio/*. Read ORCHESTRATION_2026-10-26.md first.
@@ -28,3 +28,6 @@ PR into claude/integration; merge on green; close per ORCHESTRATION section 7.
 
 ## Completion
 (five lines max)
+
+## Claude claim (27 Oct)
+Claude builds this in parallel with Codex on branch `claude/c9-event-audio` (worktree Siren-s-Song-claude-*). Codex: skip it; Claude owns its listed files until DONE.
