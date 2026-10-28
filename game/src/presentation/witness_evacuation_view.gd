@@ -30,7 +30,7 @@ static func site_for_item(sim,item:String)->bool:
  var target=site(sim)
  return not target.is_empty() and target.item==item
 static func replaces_site(sim,objective:Dictionary)->bool:
- return not status(sim).is_empty() and objective.get("site_id","")=="witness_packet"
+ return not status(sim).is_empty() and objective.get("site_id","")==preload("res://src/simulation/witness_evacuation.gd").packet(sim.mission)
 static func harbour_subject(sim,subject:Dictionary)->bool:
  var info=status(sim)
  return not info.is_empty() and subject.get("subkind","")=="corridor" and subject.get("pos") ==info.harbour.pos
@@ -44,7 +44,8 @@ static func site_lines(sim,target:Dictionary)->Array:
 static func salvage_detail(sim,item:String)->String:
  var target=site(sim)
  if target.is_empty():return detail(sim)
- return "\n".join(site_lines(sim,target))+"\n"+sim.salvage_context(item).reason+"\nONE WINCH · 4s · within 60m · clear line · below 2m/s\nAUDIBLE · 520m open-water estimate\nThe living witness rides this real craft. LAND WITNESS at southeast lift point; Quietus must also recover. Colocated kit shares this winch and stays inactive cargo."
+ var text="\n".join(site_lines(sim,target))+"\n"+sim.salvage_context(item).reason+"\nONE WINCH · 4s · within 60m · clear line · below 2m/s\nAUDIBLE · 520m open-water estimate\nThe living witness rides this real craft. LAND WITNESS at southeast lift point; Quietus must also recover. Colocated kit shares this winch and stays inactive cargo."
+ return text.replace("southeast lift point","south boat lift") if sim.mission.id==41 else text
 static func detail(sim)->String:
  var info=status(sim)
  if info.is_empty():return ""
@@ -55,7 +56,7 @@ static func detail(sim)->String:
   elif pod.state=="landed":lines.append("LANDED BY · "+sim.units[pod.landed_by].name)
  lines.append("LAND WITNESS · selected carrier within 60m of southeast lift point, clear line, below 2m/s. Quietus recovery is separate.")
  lines.append(sim.witness_context().land.reason)
- return "\n".join(lines)
+ return "\n".join(lines).replace("southeast lift point", "south boat lift" if sim.mission.id==41 else "southeast lift point")
 static func touch_rects(view,sim,touch:float)->Array:
  var target=site(sim)
  if target.is_empty():return []
@@ -100,7 +101,8 @@ static func arrival(main)->void:
  scene.name="WitnessArrival";scene.arrival_data=info.capsule.duplicate(true)
  scene.custom_minimum_size=Vector2(0,main.ui_touch_height*1.65);scene.mouse_filter=Control.MOUSE_FILTER_IGNORE
  main.panel_box.add_child(scene)
- main._menu_text("WITNESS LANDED · "+main.sim.units[info.capsule.landed_by].name+"\nTHIS RECOVERY · CONCEALED LIFT POINT",20)
+ if main.sim.mission.id==41:main._menu_text("BOY LANDED / SOUTH BOAT LIFT",20)
+ else:main._menu_text("WITNESS LANDED · "+main.sim.units[info.capsule.landed_by].name+"\nTHIS RECOVERY · CONCEALED LIFT POINT",20)
  if main.sim.outcome!="won":main._menu_text("The passenger reached the lift point. Quietus did not recover; this dive grants no new campaign arrival.",17)
  elif info.capsule.rescues>0:main._menu_text("Same occupied pod rescued %d time(s) after actual transport loss."%info.capsule.rescues,17)
 func _ready():resized.connect(queue_redraw)

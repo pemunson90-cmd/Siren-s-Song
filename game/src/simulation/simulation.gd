@@ -620,12 +620,15 @@ func _camera_context_base() -> Dictionary:
 			return {"target":work.target,"ready":false,"text":"%s · %s · %s %.1f/2s"%[units[selected].name,"REPLY CARRIER" if c.get("source","")=="courier" else active.name,"receiving" if c.settled else "settling",work.elapsed]}
 		return {"target":work.target,"ready":false,"text":"%s · %s %.1f / %.0fs"%[units[selected].name,active.name,work.elapsed,work.duration]}
 	if Rendezvous.applies(mission):return rendezvous_receiver()
-	if mission.has("expedition_revision") and mission.objectives.all(func(o):return o.captured) and not mission.objectives.any(func(o):return Operations.own_origin(o)):
-		var facts=mission.expedition_facts.keys()
+	var camera_sites=mission.objectives.filter(func(o):return preload("res://src/campaign/sorley_rescue.gd").camera_candidate(self,o))
+	if mission.has("expedition_revision") and camera_sites.all(func(o):return o.captured) and not camera_sites.any(func(o):return Operations.own_origin(o)):
+		if mission.id==41:return {"target":-1,"ready":false,"text":Witness.status(self).text}
+		var facts=preload("res://src/campaign/sorley_rescue.gd").camera_facts(mission)
 		return {"target":-1,"ready":false,"text":"No exact source located · listen from another position or spend local RECON" if facts.is_empty() and mission.id!=8 else "Observed %s · choose an available named recovery corridor"%", ".join(facts)}
 	var unit=units[selected]; var best=-1; var nearest=-1; var distance=INF; var reshoot=-1; var best_score:=INF
 	for id in mission.objectives.size():
 		var objective=mission.objectives[id]
+		if not preload("res://src/campaign/sorley_rescue.gd").camera_candidate(self,objective):continue
 		if objective.captured and Photo.applies(objective) and not Operations.own_origin(objective) and Photo.seen_before(self,id).size()<objective.subject.features.size():
 			# A resolved record can be re-shot from a better viewpoint for what it missed.
 			if reshoot<0 and unit.pos.distance_to(objective.pos)<Photo.reach(self,selected) and Depth.optical_clear(self,unit.pos,objective.pos,unit.band):reshoot=id
@@ -651,7 +654,7 @@ func _camera_context_base() -> Dictionary:
 		if sighted>=0:return {"target":-2,"siren":sighted,"ready":true,"text":"READY · S%d %s · PHOTO %.0fs · observe its form and movement from clear water"%[sighted+1,str(sirens[sighted].get("type","patroller")).to_upper(),8.0]}
 	if nearest<0 and best<0: return {"target":-1,"ready":false,"text":Delivery.status(self).text if Delivery.applies(mission) else "Archive aboard · return Quietus to extraction."}
 	var candidate=best if best>=0 else nearest
-	if Witness.applies(mission) and mission.objectives[candidate].get("site_id","")=="witness_packet":return {"target":candidate,"ready":false,"text":Witness.context(self,selected).winch.reason}
+	if Witness.applies(mission) and mission.objectives[candidate].get("site_id","")==Witness.packet(mission):return {"target":candidate,"ready":false,"text":Witness.context(self,selected).winch.reason}
 	var owner=capture_at_target(candidate)
 	if owner.unit>=0:return {"target":candidate,"ready":false,"text":"%s · %s already acquiring this record"%[Photo.label(mission.objectives[candidate]),units[owner.unit].name]}
 	if mission.get("blackwater_revision",0)==1:
@@ -1439,6 +1442,7 @@ func _record_secured_core(record: Dictionary,unit_id:int=-1) -> void:
 		# A Siren study is film, not a charted record: it never advances an operation's own record logic.
 		Recon.secured(self,record,unit_id);events.append({"type":"record","pos":record.pos});message="Siren study filed · review it in FIELD RECORDS"
 		return
+	preload("res://src/campaign/sorley_rescue.gd").recorded(self,record)
 	Glass.recorded(self,record,unit_id)
 	Recon.secured(self,record,unit_id)
 	if Rendezvous.applies(mission) and mission.get("consequence_revision",0)==1 and record.get("site_id","")=="rendezvous":mission["measured_reference"]=mission.signal_sources[0].cadence.duplicate()

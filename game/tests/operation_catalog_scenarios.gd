@@ -42,12 +42,12 @@ static func run(t):
  t.check(not Sim.valid_snapshot(archive),"unknown registered-operation source rejects")
  archive=active.snapshot();archive.mission.expedition_facts["unknown_fact"]="invented"
  t.check(not Sim.valid_snapshot(archive),"unknown active recovered fact rejects")
- var graph=Catalog.definition(10);graph.id=41;graph.prerequisites=[7,8]
+ var graph=Catalog.definition(10);graph.id=1041;graph.prerequisites=[7,8]
  t.check(Catalog.register_definition(graph),"all-prerequisite definition registers")
- t.check(not Catalog.prerequisites_met(41,[7]) and Catalog.prerequisites_met(41,[7,8]),"all prerequisites required by default")
- graph=Catalog.definition(10);graph.id=42;graph.prerequisites=[7,8];graph.prerequisite_mode="any"
- t.check(Catalog.register_definition(graph) and Catalog.prerequisites_met(42,[7]),"explicit any-prerequisite alternative")
- graph=Catalog.definition(10);graph.id=43;graph.prerequisite_mode="invented"
+ t.check(not Catalog.prerequisites_met(1041,[7]) and Catalog.prerequisites_met(1041,[7,8]),"all prerequisites required by default")
+ graph=Catalog.definition(10);graph.id=1042;graph.prerequisites=[7,8];graph.prerequisite_mode="any"
+ t.check(Catalog.register_definition(graph) and Catalog.prerequisites_met(1042,[7]),"explicit any-prerequisite alternative")
+ graph=Catalog.definition(10);graph.id=1043;graph.prerequisite_mode="invented"
  t.check(not Catalog.register_definition(graph),"unknown prerequisite mode rejects")
  var progress=Consequences.upgrade({"version":1,"route":"deep","routes":["deep"],"facts":{"deep":"carrier"},"completed":[6,7]})
  for id in range(1014,1024):
@@ -79,7 +79,7 @@ static func run(t):
   var mission=sim.mission
   progress=Campaign.recover(progress,mission)
   t.check(id in progress.completed and Campaign.valid(progress),"recovered extension progression remains valid: "+str(id))
- for key in Catalog.fact_keys():progress.notes[key]="retained field note"
+ for key in Catalog.fact_keys():progress.notes[key]="000" if key=="sorley_boy" else "retained field note"
  t.check(progress.notes.size()>16 and Campaign.valid(progress),"registered note content exceeds old sixteen-note capacity")
  var store=Store.new();store.path="user://operation-catalog-completed.save"
  var data={"version":1,"unlocked":5,"completed":[0,1,2,3,4,5],"upgrade":"endurance","settings":{},"expedition":progress,"active":null}

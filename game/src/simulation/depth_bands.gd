@@ -112,7 +112,7 @@ static func cargo_bands(sim):
  var witness=sim.mission.get("witness_evacuation",{})
  if not witness.is_empty():
   if witness.state=="carried":bands["witness_capsule"]=sim.units[witness.carrier].band
-  elif not bands.has("witness_capsule"):bands["witness_capsule"]=1
+  elif not bands.has("witness_capsule"):bands["witness_capsule"]=0 if sim.mission.id==41 else 1
  var delivery=sim.mission.get("blackwater_delivery",{})
  if not delivery.is_empty():
   for id in [1,2]:

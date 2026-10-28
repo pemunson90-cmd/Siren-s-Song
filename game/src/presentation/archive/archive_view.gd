@@ -65,6 +65,7 @@ static func show(host)->void:
 	for region in Table.REGIONS:groups[region[0]]={"photos":[],"evidence":[],"artifacts":[],"done":0,"total":0}
 	groups[Table.OTHER_REGION]={"photos":[],"evidence":[],"artifacts":[],"done":0,"total":0}
 	for id in Catalog.registered_ids():
+		if not preload("res://src/campaign/sorley_rescue.gd").visible(id,host.expedition):continue
 		var group=groups[region_of(id)]
 		group.total+=1
 		if id in done:group.done+=1
@@ -75,6 +76,7 @@ static func show(host)->void:
 	var evidence_by_op={}
 	var records=record_map()
 	for index in keys.size():
+		if not preload("res://src/campaign/sorley_rescue.gd").enabled and (str(keys[index]).begins_with("sorley_log_") or keys[index]=="sorley_boy"):continue
 		var entry=host.recovered_evidence[keys[index]]
 		var op=evidence_op(str(keys[index]),entry,records)
 		groups[region_of(op)].evidence.append({"index":index,"op":op,"entry":entry})
@@ -114,6 +116,7 @@ static func _field_log(host,evidence_by_op:Dictionary,cache:Dictionary)->void:
 		host._menu_text("No messages received yet. Lines arrive by radio during briefings, dives and debriefs.",15)
 		return
 	for op in ids:
+		if op==41 and not preload("res://src/campaign/sorley_rescue.gd").enabled:continue
 		var lines=[title_of(op,cache)]
 		for slot in Voices.Table.SLOTS:
 			if Voices.heard(received,op,slot):lines.append(Voices.line(op,slot))

@@ -27,6 +27,12 @@ func button(node,id):
   if b.get_meta("ui_action","")==id and b.is_visible_in_tree():return b
  return null
 func press(node,id):
+ # Arc entry is a real prerequisite before interacting with its hidden briefing.
+ var arc=node.get_node_or_null("ArcCard")
+ if arc!=null and id!="arc_continue":
+  var continue_button=button(arc,"arc_continue")
+  check(continue_button!=null,"arc prerequisite offers touch Continue")
+  if continue_button!=null:await tap(continue_button.get_global_rect().get_center())
  var b=button(node,id)
  check(b!=null,"visible action "+id)
  if b==null:return false
