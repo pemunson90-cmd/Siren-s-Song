@@ -27,6 +27,17 @@ Import, core, and only the minimum suites in ORCHESTRATION section 5. Suite rank
 PR into claude/integration; merge on green; close per ORCHESTRATION section 7.
 
 ## Completion
+**28 Oct 2026 bounded fix055: pushed cbff4e05d4e3cef1286a99cd81643a0fe141f3fa; hosted checks and merge remain with root.**
+
+[KEEL: Codex log verification] Run40649865413 timed out in `opening_depth_policy_ui_tests` (headless, CI rank29), starting07:38:43.313UTC and exiting124 at07:46:43.284UTC. The preceding OPENING DEPTH UI suite passed60/0. Nine of ten complete touch journeys had won; the inner-display op5 was still progressing at mission time108.18. No assertion failure was reported. This was cumulative suite duration, separate from the already-landed Operations Home partition.
+
+[KEEL: implementation] CI now runs inherited cover/inner display partitions, all five operations each. Every original route/order/assertion, headless backend and480s per-suite cap remains. The original full-matrix script remains available locally. Only four test/registry files changed; protected gameplay and existing source edits/imports/UIDs are preserved. Reconciled integration once after diagnosis:0320f632437924efd8344df3b3b6388b2f95573d was already an ancestor, so no merge changes were needed.
+
+[KEEL: measured on exact head] Windows cover206/0 in272.6s, inner206/0 in287.0s; all ten journeys won. Core848/0 in197.8s; import passed in8.4s. Registry validation, unchanged-assertion source comparison, guidance and diff checks passed. Local logs: `C:/Users/Archi/.cache/sirens-song-toolchain/artifacts/` (opening_depth_policy_cover_ui_tests.log, opening_depth_policy_inner_ui_tests.log, run_tests.log, import.log).
+
+[PAT: current bounded invocation] Root collects exact-head hosted guidance/game-smoke and owns merge. No CI polling, no merge, no056 or other queue claim in this invocation. Claim stays open until055 merges; no owner pause occurred. Root next command: `gh pr checks 150`. If integration moves, root owns any final reconciliation. No game-state/ownership change requires a RESUME edit for this test-only repair; PR150 records that decision.
+
+Earlier checkpoint atf0e1f1a8 (historical validation/status; current result above supersedes pending-check wording):
 PR https://github.com/pemunson90-cmd/Siren-s-Song/pull/150: ac6c83ab gates passed40612282324; Native full-matrix timeouts had no assertion failures; landed C7 splits all cases by display. Combined calibration now requires eight research projects and both approved C2 IDs (was six before those targets existed); fresh gates pending.
 Recovery: claude/c2-equipment f0e1f1a82cbb5021c043dc8ace40c554f9ebb6cd, worktree 055-c2-equipment; next command gh pr checks 150.
 Windows import/core848/0, tools89/0, briefing touch52/0, craft upgrades11/0; new pairs9/11/16/22 preserve early rewards. Feedback touch12/0, warning UI218/0, Ops Home2096/0; economy campaign109/0 across all presets/routes/profiles after strengthening the research assertion; import/core848/0.
