@@ -1,3 +1,5 @@
+**28Oct04:12UTC:** C7/PR157 is merged asabd15c88 after current-head3848ef2a guidance+game-smoke passed40621628804. Campaign calibration and display-group UI runtime repair are now integrated. Boundary completion check passed on Windows. Equipment055 remains with its worker;058,060,074 are in flight;083 draft awaits its Operations entry after058.
+
 **Current progress:**061/062 DONE in PR160. Root parallel worker owns058. Pat directs continuous work until usage or stop; if planned queue completes, use an isolated experimental branch for the next improvement within authorized mechanics.
 
 **LIVE, 27 Oct 2026 22:11 Eastern:** Development is running. 059 is DONE (PR158). Sol6.1 medium owns055/PR150 and proceeds056 onward; parallel074/PR162 is building. 060/PR159 and061-062/PR160 plus C7/PR157 are awaiting checks. Entries describing pause or old claims below are historical; current handoff statuses govern.
