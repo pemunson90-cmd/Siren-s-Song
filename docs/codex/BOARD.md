@@ -177,7 +177,7 @@ These seven decisions are approved design direction, **not** evidence of impleme
 | 59 | 062 RESEARCH SCREEN, ARCHIVE AND CREDITS | CLAIMED (claude, claude/c10-archive-log) | | | |
 | 60 | 063 PERFORMANCE PASS | OPEN | | | |
 
-Claude lanes in parallel (not Codex work): C6 doc sweep (claude/c6-doc-sweep), C7 economy calibration by simulated campaign runs (claude/c7-economy-calibration).
+Claude lanes in parallel (not Codex work): C6 doc sweep (claude/c6-doc-sweep), C7 economy calibration by simulated campaign runs (claude/c7-economy-calibration): PR157 head75d2fdaa; local import/core846/sim109/native-home2060 all pass; prior hosted home-suite timeout diagnosed as runner slowdown. Fresh exact-head CI40613961002 pending; NOT merged. Completion: https://github.com/pemunson90-cmd/Siren-s-Song/pull/157#issuecomment-6458033466 .
 
 ## BATCH 15 (27 Oct, from Claude's verified gap scout; numeric order is priority, preconditions gate eligibility)
 | Order | Handoff | Status | PR | Finished (UTC) | One-line result |
