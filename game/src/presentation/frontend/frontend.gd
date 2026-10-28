@@ -222,8 +222,7 @@ func _credits_screen() -> void:
 	_reset("credits")
 	_button("BACK", _return, "frontend_back")
 	_text("CREDITS", 32, Color("80d9cf"))
-	_text("SIREN'S SONG  /  AUDIO ATTRIBUTION", 14)
-	for line in CreditsText.lines(Soundscape.ATTRIBUTION):
+	for line in CreditsText.credits(Soundscape.ATTRIBUTION):
 		_text(line.text, 20 if line.heading else 15, Color("80d9cf") if line.heading else Color(0, 0, 0, 0))
 # Main routes Android Back and Escape here before changing the campaign underneath.
 func back() -> void:
