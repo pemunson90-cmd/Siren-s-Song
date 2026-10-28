@@ -19,6 +19,7 @@ static func build(completed:Array,progress:Dictionary,intel:Dictionary,unlocked:
    rumors.append({"from":sources[key],"to":target,"key":key})
  var nodes=[];var edges=[]
  for id in ids:
+  if not preload("res://src/campaign/sorley_rescue.gd").visible(id,progress):continue
   var definition=Catalog.definition(id)
   var state="RECOVERED" if id in recovered else "AVAILABLE" if (id<6 and id<=unlocked) or id in available else "KNOWN FROM PHOTOS" if id in known else "LOCKED"
   var prerequisite_known=id==0 or (id<6 and id-1 in completed) or (id==6 and [0,1,2,3,4,5].all(func(required):return required in completed)) or (id>6 and Catalog.prerequisites_met(id,recovered))

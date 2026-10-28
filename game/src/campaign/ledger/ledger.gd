@@ -17,6 +17,10 @@ static func build(progress,intel)->Array:
    if not rows.has(row[0]):rows[row[0]]=[]
    rows[row[0]].append(text)
  preload("res://src/campaign/crew/crew.gd").add_people(rows,facts)
+ var sorley=preload("res://src/campaign/sorley_rescue.gd").line(progress)
+ if not sorley.is_empty():
+  if not rows.has("people"):rows["people"]=[]
+  rows.people.append(sorley)
  var counts=_counts(progress,intel)
  rows["knowledge"]=counts+rows.get("knowledge",[])
  var result=[]

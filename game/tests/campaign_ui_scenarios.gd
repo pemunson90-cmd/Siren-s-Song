@@ -7,6 +7,11 @@ static func run(t,game) -> void:
 		game.tool_racks=preload("res://src/equipment/tool_racks.gd").empty()
 		game.tool_racks.quietus={"emp":3,"decoy":3,"recon":2,"knock":2}
 		game._briefing(id); await t.process_frame
+		var arc=game.get_node_or_null("ArcCard")
+		if arc!=null:
+			var controls=arc.find_children("*","Button",true,false)
+			t.check(not controls.is_empty(),"campaign arc prerequisite presents Continue")
+			if not controls.is_empty():await t.click(controls[0].get_global_rect().get_center())
 		var begin
 		for child in game.panel_box.get_children()+game.menu_footer.get_children():
 			if child is Button and child.get_meta("action","")=="begin": begin=child
