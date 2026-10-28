@@ -26,10 +26,12 @@ func dive(s,band)->bool:
  if not s.command("depth",{"band":band}):return false
  tick(s,4.2);return s.units[0].band==band and s.units[0].transition.is_empty()
 # Bare-Quietus courses copied from glass_reach_journeys.gd for the ops a carry row changes.
+# Keep the 15/16 return surveys: passive travel earns the detour around measured
+# terrain before the final mouth order; retained courses cannot invent that water.
 const COURSES={
  14:[["go",Vector2(1000,1300)],["depth",2],["go",Vector2(1000,720)],["depth",1],["go",Vector2(950,560)],["camera"],["depth",2],["go",Vector2(1000,1300)],["depth",1],["go",Vector2(2000,1800)],["exit"]],
- 15:[["go",Vector2(800,2420)],["work","vane"],["go",Vector2(1000,2000)],["go",Vector2(1000,1150)],["go",Vector2(1000,600)],["camera"],["go",Vector2(1000,1150)],["go",Vector2(1000,2600)],["exit"]],
- 16:[["go",Vector2(1400,2250)],["depth",2],["go",Vector2(1400,1560)],["depth",1],["camera"],["depth",2],["go",Vector2(1400,2250)],["depth",1],["go",Vector2(700,2000)],["exit"]],
+ 15:[["go",Vector2(800,2420)],["work","vane"],["go",Vector2(1000,2000)],["go",Vector2(1000,1150)],["go",Vector2(1000,600)],["camera"],["go",Vector2(1000,1150)],["go",Vector2(1000,2600)],["go",Vector2(1000,2900)],["go",Vector2(1000,3350)],["exit"]],
+ 16:[["go",Vector2(1400,2250)],["depth",2],["go",Vector2(1400,1560)],["depth",1],["camera"],["depth",2],["go",Vector2(1400,2250)],["depth",1],["go",Vector2(700,2000)],["go",Vector2(200,800)],["go",Vector2(200,300)],["exit"]],
  17:[["depth",0],["go",Vector2(2700,1450)],["depth",1],["depth",2],["go",Vector2(2860,1395)],["recover"],["go",Vector2(2700,1450)],["depth",1],["go",Vector2(600,1350)],["go",Vector2(400,850)],["go",Vector2(2470,850)],["go",Vector2(2470,400)],["go",Vector2(2700,420)],["camera"],["exit",1]],
  20:[["go",Vector2(1150,1685)],["recover"],["go",Vector2(1200,1600)],["camera"],["exit"]],
  21:[["go",Vector2(2300,1500)],["go",Vector2(1950,800)],["go",Vector2(1700,1200)],["camera"],["go",Vector2(1635,1300)],["depth",2],["recover"],["depth",1],["go",Vector2(1950,800)],["go",Vector2(2300,1500)],["exit"]]}

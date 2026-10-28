@@ -218,7 +218,7 @@ func prechoice_fixture()->Dictionary:
 func ending_fixture()->Dictionary:
 	var completed=[6,7,9,11,12]
 	for id in range(14,30):completed.append(id)
-	completed.append(30);completed.append(31)
+	completed.append_array([30,31,32,33,34])
 	return {"version":2,"route":"deep","routes":["deep"],"facts":{"deep":"Recovered branch account","confluence_route":"concealed","glass_choice":"salvage","choir_choice":"bypass","choir_people":"landed","choir_plant":"reconnect"},"completed":completed,"notes":{},"references":{},"entitlements":[],"history":[],"selected_thread":"deep"}
 
 func glass_prechoice_fixture()->Dictionary:
@@ -313,7 +313,7 @@ func fork_journey_case(shape:Vector2i)->void:
 			game.active_started=false;game.sim.start(0);game.sim.paused=true;game.ocean.sim=game.sim;game.expedition=later_progress;game._show_campaign();await settle()
 			game._show_campaign();await settle()
 			game.CampaignFlow.show_ending(game,false);await settle()
-			check(game.screen=="ending" and has_text(game,"FIRST ENDING"),"legacy first-ending screen is labeled when later endings exist")
+			check(game.screen=="ending" and has_text(game,"CAMPAIGN OUTCOME"),"final campaign outcome is labeled after op34")
 			check(button(game,"continue_choir")==null and button(game,"continue_glass")==null,"already recovered Choir and Glass continuations stay hidden")
 			check(button(game,"save2_forks")!=null,"legacy first-ending screen offers Replay from Fork")
 			await capture("first-ending",shape)
@@ -323,7 +323,7 @@ func fork_journey_case(shape:Vector2i)->void:
 				await capture("first-ending-fork-list",shape)
 				await target_visible(game,"save2_back",game,"first-ending fork Back")
 				await android_back()
-				check(game.screen=="ending" and has_text(game,"FIRST ENDING"),"fork Back returns to the legacy first-ending screen")
+				check(game.screen=="ending" and has_text(game,"CAMPAIGN OUTCOME"),"fork Back returns to the final campaign outcome")
 			game._show_ending();await settle()
 			check(game.screen=="photo_ending" and button(game,"save2_forks")!=null,"later photo ending wall offers its fork list")
 			check(button(game,"continue_choir")==null and button(game,"continue_glass")==null,"the photo ending wall hides branches already recovered")
@@ -331,7 +331,7 @@ func fork_journey_case(shape:Vector2i)->void:
 			# Reverting SAVE2 restores the original photo/legacy ending flow and choices.
 			var enabled=Table.enabled;Table.enabled=false
 			game.CampaignFlow.show_ending(game,false);await settle()
-			check(game.screen=="ending" and not has_text(game,"FIRST ENDING") and button(game,"save2_forks")==null,"SAVE2 off switch preserves the original legacy ending flow")
+			check(game.screen=="ending" and has_text(game,"CAMPAIGN OUTCOME") and button(game,"save2_forks")==null,"SAVE2 off switch preserves the original legacy ending flow")
 			check(button(game,"continue_choir")!=null and button(game,"continue_glass")!=null,"SAVE2 off switch restores the original continuation controls")
 			game._show_ending();await settle()
 			check(game.screen=="photo_ending" and button(game,"save2_forks")==null,"SAVE2 off switch hides Replay from Fork on the photo wall")

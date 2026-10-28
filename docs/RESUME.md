@@ -1,6 +1,6 @@
 # RESUME: operational entry
 
-Current integration baseline `db60fe5a` includes056/072/085/086 and directive087. Promotion2 is production `225c3c45`; main unchanged. Career057 and late-ending088 are prepared for independent review; quality073 and earned-chart089 are in implementation. Current ownership and completion are on codex/handoffs BOARD; dated entries below are historical.
+Current integration baseline `04486ef9` includes Career057, quality073 and persisted expedition offers068. Production is `225c3c45`; main unchanged. Teaching067 is in hosted checks; full riders071 and ending088/earned-chart089 repairs await review. Canonical093 and regional fleet-fix ownership are on codex/handoffs. Root supplemental measurement data stays external and unpublished. Current claims supersede dated entries below.
 
 **26 Oct 2026:** Pat's finish-the-game ruling (top of USER_DIRECTIVES) governs. Plan, streams and file ownership: `docs/codex/ORCHESTRATION_2026-10-26.md` on `codex/handoffs`. Milestone promotion PR148 merged on 26 October (ORCHESTRATION).
 

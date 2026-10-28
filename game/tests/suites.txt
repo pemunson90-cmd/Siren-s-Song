@@ -24,6 +24,7 @@ v7_earned_view_tests|V7 EARNED VIEW|20|180
 craft_upgrades_tests|CRAFT UPGRADES|21|116
 craft_upgrade_sim_tests|CRAFT UPGRADE SIM|22|115
 campaign_endings_tests|CAMPAIGN ENDINGS|23|103
+late_ending_tests|LATE ENDING|591|691
 post_tutorial_roster_tests|POST TUTORIAL ROSTER|24|159
 polygon_bound_tests|POLYGON BOUND|25|158
 divergence_tests|DIVERGENCE|26|125
