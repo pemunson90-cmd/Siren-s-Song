@@ -24,6 +24,5 @@ static func layout()->Dictionary:
  "structures":[Rect2(1030,940,120,120),Rect2(1530,640,120,120)],
  "terrain":[[T.ridge([Vector2(-20,1700),Vector2(400,1700),Vector2(700,1650)],160,33),[1,2]],
  [T.ridge([Vector2(1300,1650),Vector2(1700,1700),Vector2(2020,1700)],160,34),[0,1]],
- [Rect2(1200,250,100,950),T.ALL],
- [T.shard(Vector2(1000,2500),170,7,35),T.ALL]],
+ [T.wall([Vector2(1200,250),Vector2(1300,250),Vector2(1300,1200),Vector2(1200,1200)]),T.ALL]],
  "sirens":[R.post(Vector2(1000,1650),1,160.),R.guard("patroller",Vector2(1500,2300),2,[Vector2(1500,2300),Vector2(1700,2700),Vector2(1300,2700)])]}
