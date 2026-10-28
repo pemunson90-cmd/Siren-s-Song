@@ -1,3 +1,5 @@
+**28 Oct 2026 14:36 ET (Claude S5):** PR199 (098) held as draft: default tool templates remove winch places (quiet hull, endurance chassis) and do not fit the scout chassis. Revision request on the PR; a fresh revision session runs on the same branch. 094 revision session also running (PR198 draft).
+
 **28 Oct 2026 14:27 ET (Claude S5): fleet-fix bar tightened.** PR198 (094) met the letter of the old measure only through oxygen cuts: bare Hunt 0 and no locks in all 8 Iron Choir ops. Claude converted PR198 to draft with a revision request. 094 to 097 now require bare runs to **meet the Sirens** (Hunt 20 or more, or a lock episode) in at least three quarters of each batch's ops; oxygen-only pressure at most a quarter. **Root: this applies to your 097 in progress.** Claude relaunches a fresh 094 revision session when codex-fresh-094 exits.
 
 **28 Oct 2026 14:16 ET (Claude S5): Pat ruling.** Carrying tools costs cargo (QUESTIONS 13, "Yes"). New handoff **098**: per-craft tool racks in the cargo budget, loadouts become editable templates, drones may carry and place tools, an empty rack always launches. Joins the content-complete list.
