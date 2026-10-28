@@ -310,4 +310,6 @@ economy_campaign_sim_tests|ECONOMY CAMPAIGN|352|452
 crew_tests|CREW|590|690
 field_tools_tests|FIELD TOOLS|360|460
 expedition_runs_tests|EXPEDITION RUNS|370|470
+runs_offer_tests|RUNS OFFER|308|408
+runs_offer_ui_tests|RUNS OFFER UI|309|409|render
 expedition_session_tests|EXPEDITION SESSION|371|471

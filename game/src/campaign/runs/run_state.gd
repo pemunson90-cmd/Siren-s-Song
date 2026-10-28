@@ -5,6 +5,7 @@ extends RefCounted
 const Table=preload("res://src/campaign/runs/run_table.gd")
 const Catalog=preload("res://src/campaign/operation_catalog.gd")
 const Hunt=preload("res://src/simulation/hunt_pressure/hunt_table.gd")
+const Offers=preload("res://src/campaign/runs/run_offers.gd")
 static func new_run(seed:int)->Dictionary:
 	seed=posmod(seed,Table.MAX_SEED+1)
 	var rng=RandomNumberGenerator.new();rng.seed=seed
@@ -20,7 +21,7 @@ static func new_run(seed:int)->Dictionary:
 static func current_operation(state:Dictionary)->int:
 	return int(state.operations[state.cursor]) if not state.is_empty() and state.status=="active" and state.cursor<state.operations.size() else -1
 static func launch(state:Dictionary)->Dictionary:
-	if not valid(state) or state.is_empty() or state.status!="active" or state.in_flight:return state.duplicate(true)
+	if not valid(state) or state.is_empty() or state.status!="active" or state.in_flight or Offers.pending(state):return state.duplicate(true)
 	var next=state.duplicate(true);next.in_flight=true;return next
 static func context(state:Dictionary)->Dictionary:
 	return {"run_seed":state.seed,"completed":state.story.recovered.duplicate(),"facts":state.story.facts.duplicate(true)}
@@ -46,7 +47,10 @@ static func _result(value,op:int,stock:Dictionary)->bool:
 static func _apply(state:Dictionary,result:Dictionary)->Dictionary:
 	var next=state.duplicate(true)
 	next.results.append(result.duplicate(true));next.in_flight=false;next.stock=result.tools.duplicate()
-	if result.outcome=="lost":next.status="lost";return next
+	if result.outcome=="lost":
+		next.status="lost"
+		if next.has("offers"):next.offers.pending=[]
+		return next
 	next.story.recovered.append(result.op)
 	next.story.facts.merge(result.story,true)
 	# One deterministic supply type per successful recovery. Scarce runs get none.
@@ -54,9 +58,14 @@ static func _apply(state:Dictionary,result:Dictionary)->Dictionary:
 	next.stock[key]=mini(9,next.stock[key]+Table.RESUPPLY[next.scarcity])
 	next.cursor+=1
 	if next.cursor==next.operations.size():next.status="won"
+	Offers.after_win(next)
 	return next
 static func settle(state:Dictionary,result:Dictionary)->Dictionary:
-	if not valid(state) or state.is_empty() or state.status!="active" or not state.in_flight:return state.duplicate(true)
+	if not valid(state) or state.is_empty() or state.status!="active":return state.duplicate(true)
+	# The existing Modes END RUN action can abandon a pending choice, but cannot
+	# launch or win past it. It supplies this exact zero-time abandonment result.
+	var ending_offer=Offers.pending(state) and result.get("outcome")=="lost" and result.get("time")==0. and result.get("hull")==100. and result.get("tools")==state.stock and result.get("story")=={}
+	if not state.in_flight and not ending_offer:return state.duplicate(true)
 	if not _result(result,current_operation(state),state.stock):return state.duplicate(true)
 	return _apply(state,result)
 static func interrupted(state:Dictionary)->Dictionary:
@@ -72,11 +81,22 @@ static func valid(value)->bool:
 	for op in value.operations:
 		if not op is int:return false
 	var expected=new_run(value.seed)
-	for key in ["operations","loadout","scarcity","hunt_stage"]:
+	if value.has("offers") and not Offers.shape(value.offers,value.results.size()):return false
+	for key in ["loadout","scarcity","hunt_stage"]:
 		if value[key]!=expected[key]:return false
 	for result in value.results:
+		if Offers.pending(expected) and not (result is Dictionary and result.get("outcome")=="lost" and result.get("time")==0. and result.get("hull")==100. and result.get("tools")==expected.stock and result.get("story")=={}):
+			var pick=value.offers.picks.get(str(expected.cursor),"")
+			if pick not in expected.offers.pending:return false
+			expected=Offers.choose(expected,pick)
 		if expected.status!="active" or not _result(result,current_operation(expected),expected.stock):return false
 		expected=_apply(expected,result)
-	for key in ["cursor","status","stock","story"]:
+		if value.has("offers") and expected.cursor==value.offers.start and not expected.has("offers"):
+			if expected.status!="active":return false
+			expected.offers={"version":1,"start":expected.cursor,"picks":{},"pending":Offers.draw(expected)}
+	if Offers.pending(expected) and value.offers.picks.has(str(expected.cursor)):
+		expected=Offers.choose(expected,value.offers.picks[str(expected.cursor)])
+	if value.has("offers") and expected.get("offers",{})!=value.offers:return false
+	for key in ["operations","cursor","status","stock","story"]:
 		if value[key]!=expected[key]:return false
-	return not value.in_flight or value.status=="active"
+	return not value.in_flight or (value.status=="active" and not Offers.pending(value))
