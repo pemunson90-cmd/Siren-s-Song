@@ -37,6 +37,7 @@ func _start_mission(_index:int)->void:
 	super._start_mission(RunState.current_operation(run_state))
 func _show_campaign()->void:
 	if not is_inside_tree():return
+	if recorded or run_state.status!="active":_result_menu();return
 	if not sim.outcome.is_empty():_debrief();return
 	sim.paused=true;screen="expedition_menu";_clear_menu()
 	_menu_text("EXPEDITION · SEED %d"%run_state.seed,30)
@@ -74,7 +75,9 @@ func _result_menu()->void:
 		call_deferred("_layout");return
 	if run_state.status=="active":
 		_button(panel_box,"NEXT OPERATION",func():
-			active_started=false;sim.configure(run_state);_start_mission(RunState.current_operation(run_state));active_started=false;_show_campaign()
+			active_started=false;sim.configure(run_state);_start_mission(RunState.current_operation(run_state));active_started=false
+			# The saved result is consumed only when explicitly preparing the next dive.
+			recorded=false;_show_campaign()
 		,"run_next")
 	_button(panel_box,"RETURN TO EXPEDITIONS",_return,"run_return")
 	call_deferred("_layout")
