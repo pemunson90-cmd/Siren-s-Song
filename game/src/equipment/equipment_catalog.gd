@@ -56,11 +56,11 @@ const ITEMS={
  "quietus_wellhead_seal":{"id":"quietus_wellhead_seal","name":"Trench wellhead seal","compatible_slots":["quietus"],
   "mount":"HARDWARE","power":2,"cargo":1,"noise":0.15,"endurance":0.4,
   "origin":"alien","gate":"research","artifact":"trench_seal_core",
-  "benefit":"Life support lasts 40% longer.","cost":"Pump hum raises motion sound 15%. Two power, one winch place."},
+  "benefit":"Life support lasts 40% longer. AI-DESIGNED: marked optional pump/lift work takes6s instead of12s, with half the sound radius and audible time.","cost":"Pump hum raises motion sound 15%. Two power, one winch place."},
  "drone_choir_tuner":{"id":"drone_choir_tuner","name":"Choir reed tuner","compatible_slots":["drone_a","drone_b"],
   "mount":"SENSOR","power":1,"cargo":0,"noise":0.15,"endurance":0.0,"reach":0.3,
   "origin":"alien","gate":"research","artifact":"choir_reed",
-  "benefit":"This drone's passive reach is 30% longer.","cost":"The reed tone raises its motion sound 15%."}
+  "benefit":"This drone's passive reach is 30% longer. AI-DESIGNED: this drone works marked optional reed/service machinery silently from its own position; bare work stays audible.","cost":"The reed tone raises its motion sound 15%."}
 }
 static func default_loadout()->Dictionary:
  var result={"hull":Hulls.DEFAULT,"chassis_a":Chassis.DEFAULT,"chassis_b":Chassis.DEFAULT}
