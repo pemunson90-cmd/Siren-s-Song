@@ -4,7 +4,7 @@ const Missions=preload("res://src/campaign/missions.gd")
 static func operations(main)->void:
  var available=Campaign.available(main.completed,main.expedition)
  if available.is_empty():return
- main._menu_text("BEYOND THE WARNING / OPERATIONS",22)
+ if not preload("res://src/campaign/arcs/arc_table.gd").enabled:main._menu_text("BEYOND THE WARNING / OPERATIONS",22)
  if preload("res://src/campaign/sorley_rescue.gd").unlocked(main.expedition) and 41 not in main.expedition.get("completed",[]):
   main._menu_text("SORLEY'S SIGNAL: a new course is open\nSORLEY: You have his window. Bring the pod to the south boat.",18)
  for id in available:

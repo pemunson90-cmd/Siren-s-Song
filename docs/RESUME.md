@@ -1,6 +1,6 @@
 # RESUME: operational entry
 
-Current accepted integration baseline `a658c2ca` includes Calder fleet096 and earned charts089, alongside Career057, offers068, late ending088, teaching067 and riders071. This reviewed integration branch combines tool cargo098, hidden rescue092 and expedition records069; it remains pending final exact-head checks. Next070 is reserved to codex-root after069 merge and release. Production is `225c3c45`; main unchanged. Live codex/handoffs claims govern parallel work.
+Current accepted integration baseline `a658c2ca` includes Calder fleet096 and earned charts089, alongside Career057, offers068, late ending088, teaching067 and riders071. This reviewed integration branch combines tool cargo098, hidden rescue092, expedition records069 and arc presentation080; it remains pending final exact-head checks. Next070 is reserved to codex-root after069 merge and release. Production is `225c3c45`; main unchanged. Live codex/handoffs claims govern parallel work.
 
 - [KEEL: 089 source] Glass Reach ops14/15/16/20 now use earned first-face terrain and public-water route planning; earlier in-progress saves keep their stored chart policy. Remaining authored operations retain their existing charts, as documented in V7_TO_GODOT_PARITY.
 
@@ -17,6 +17,8 @@ Frozen `gauntlet/production` and protected `main` require Pat's promotion approv
 Current decisions: [USER_DIRECTIVES](USER_DIRECTIVES.md). Intended release: [CURRENT_GAME_SPEC](CURRENT_GAME_SPEC.md). Actual module seams, settings, saves, tests and safe reverts: [MODULES](MODULES.md).
 
 ## Integrated capabilities
+
+- [KEEL: implementation080] Six provisional arc entry/departure cards carry saved thread and regional choices; Operations, recovered fold and route legend group under arc headings with recovery counts. Optional per-arc intro booleans preserve old archives; first core recoveries alone show departures. Text remains AI-DESIGNED placeholders.
 
 - 056 (PR175, merged `a4dd77e7`) mode selector separates Campaign, Challenges and seeded Expeditions; Career is available through057. Runs reuse3–6 distinct opening reconnaissance operations with seeded loadout, optional-tool scarcity and capped sight-only Hunt, finite carried tools and terminal loss. Profile-pinned `.runs` sidecars keep resources/story separate from campaign and SAVE2; interrupted dives end the run until070 adds exact dive recovery. Film, oxygen and required bare-craft routes retain their authored budgets. Campaign labels read Operations; code/save IDs stay unchanged. 068 adds persisted offer choices. The 069 patch adds full-clear/loss summaries (including explicit END RUN), best depth/last10 records and numeric seed entry/random/replay with the same starting modifiers. Optional photo values retain each attempted operation's best secured objective or Siren-study grade; earlier results show no photo recorded.
 
@@ -53,7 +55,7 @@ Current decisions: [USER_DIRECTIVES](USER_DIRECTIVES.md). Intended release: [CUR
 
 ## Next authorized work and limits
 
-Root reconciles the pending records/tool/rescue composition and requires independent review plus passing final exact-head checks. Then070 is reserved to root after069 merge and release. Parallel099/095 and the099-gated094 work remain with their existing owners; Claude queues100 after207. Live BOARD claims govern. The dated056 repair details below are historical.
+Root reconciles the pending records/tool/rescue/arc composition and requires independent review plus passing final exact-head checks. Then070 is reserved to root after069 merge and release. Parallel099/095 and the099-gated094 work remain with their existing owners; Claude queues100 after207. Live BOARD claims govern. The dated056 repair details below are historical.
 Historical056 repair note: 28 Oct bounded CI repair: preserve independently approved `ed032a1a`; retain the approved campaign RETRY OPERATION label and update the two stale exact-label UI fixtures, preserving existing `retry`/`back` IDs and callbacks. The profile UI's four-key absence expectation contradicts056's documented six-sidecar contract; diagnostics found all six absent. The uncommitted fixture now checks populated run-sidecar clear/undo, retired-host suspension and empty run-menu setup. PR175 stays draft; root obtains independent patch review before any commit/push, then owns exact-head full CI and integration. Corrected local evidence/report: `C:/Users/Archi/AppData/Local/Temp/sirens-orchestration-20261027/056-label-correction-report.txt`.
 For 050, Pat approved sight-only first: hearing, movement speed and lock timing stay unchanged. Earlier design text proposing hearing scaling is superseded. Keep tunable choices in tables with off switches/revert notes; keep working while ordinary reversible questions are pending. Protected mechanics, narrative/art direction, SIREN TELL and promotion still require Pat where not already authorized.
 Photography remains the primary military reconnaissance pillar; rescue, machinery and fleet work support it. Wider release modes/content and qualitative campaign assessment remain unfinished.

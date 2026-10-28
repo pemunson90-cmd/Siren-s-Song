@@ -257,6 +257,7 @@ ops_home_ui_tests|OPS HOME UI|240|-|render
 ops_home_cover_ui_tests|OPS HOME UI|-|260|render
 ops_home_inner_ui_tests|OPS HOME UI|-|287|render
 ops_home_desktop_ui_tests|OPS HOME UI|-|288|render
+arc_boundary_ui_tests|ARC BOUNDARY UI|316|417|render
 voices_tests|VOICES|530|630
 archive_views_ui_tests|ARCHIVE VIEWS UI|531|631|render
 menu_reach_ui_tests|MENU REACH UI|241|261|render
