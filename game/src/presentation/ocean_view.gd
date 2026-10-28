@@ -4,6 +4,7 @@ const ArtTable=preload("res://src/presentation/art/art_table.gd")
 const Art=preload("res://src/presentation/art/art_renderer.gd")
 const RegionTable=preload("res://src/presentation/art/region_table.gd")
 const RegionArt=preload("res://src/presentation/art/region_renderer.gd")
+const Quality=preload("res://src/presentation/quality/quality_table.gd")
 const FeatureViews=preload("res://src/presentation/feature_views.gd")
 const HullBand=preload("res://src/presentation/route_clearance/hull_band.gd")
 const Shelf=preload("res://src/presentation/shelf_habitat_view.gd")
@@ -28,6 +29,16 @@ var world_scale := 1.0
 var world_offset := Vector2.ZERO
 var ocean: ImageTexture
 var regional_style:Dictionary={}
+# QUALITY: only named decorative layers change; evidence and terrain remain intact.
+var quality_tier:String=Quality.STANDARD:
+	set(value):
+		if quality_tier==Quality.normalize(value):return
+		quality_tier=Quality.normalize(value)
+		queue_redraw()
+var quality_gate=preload("res://src/presentation/quality/quality_governor.gd").new()
+var quality_gesture_active:=false
+var _quality_visual_key:int=0
+var quality_draw_count:=0 # Actual CanvasItem draw callbacks, useful for scoped runtime probes.
 var rocks: Array = []
 var foundry=preload("res://assets/structures/foundry.png")
 var quietus=preload("res://assets/craft/quietus.png")
@@ -155,7 +166,12 @@ func _process(dt: float) -> void:
 		var height=minf(maxf(300,optical_feed.touch_height*4.8),size.y-instrument_top-54)
 		optical_feed.size=Vector2(minf(size.x-28,optical_feed.preferred_width()),height)
 		optical_feed.position=Vector2(14,maxf(instrument_top+40,size.y-height-14))
-	queue_redraw()
+	var visual_key=hash([world_scale,world_offset,size,presenting_mission,quality_tier,decoy_targeting,knock_targeting,sim.selected if sim!=null else -1])
+	var changed=visual_key!=_quality_visual_key
+	_quality_visual_key=visual_key
+	var idle=not presenting_mission or sim==null or sim.paused
+	var animated=camera_flash>0.0 or (optical_feed!=null and optical_feed.visible)
+	if quality_gate.should_redraw(dt,idle,changed,animated,quality_gesture_active):queue_redraw()
 func acoustic_rows() -> Array:
 	return preload("res://src/presentation/acoustic_feedback.gd").rows(sim.acoustic_feedback()) if sim!=null else []
 func contact_entries() -> Array:
@@ -224,6 +240,7 @@ func _depth_contours(extent: Vector2) -> Array:
 		_contour_extent=extent;_contour_points=lines
 	return lines
 func _draw() -> void:
+	quality_draw_count+=1
 	if sim==null or ocean==null: return
 	_sync_camera()
 	draw_rect(Rect2(Vector2.ZERO,size),Color("050f17"))
@@ -232,7 +249,7 @@ func _draw() -> void:
 	var earned=EarnedChart.chart(sim)
 	regional_style=RegionTable.style(sim.mission)
 	draw_texture_rect_region(ocean,Rect2(Vector2.ZERO,region),Rect2(Vector2.ZERO,region/2.0),regional_style.get("water",Color.WHITE))
-	RegionArt.atmosphere(self,regional_style,region,phase)
+	RegionArt.atmosphere(self,regional_style,region,phase,quality_tier)
 	# Cartographic graticule, subordinate to the physical water and stone.
 	for x in range(0,int(region.x)+1,160):
 		draw_line(Vector2(x,0),Vector2(x,region.y),Color(0.3,0.65,0.67,0.06),1)

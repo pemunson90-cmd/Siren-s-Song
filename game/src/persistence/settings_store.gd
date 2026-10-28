@@ -7,6 +7,7 @@ const DEFAULTS := {
 	"version": VERSION, "master": 1.0, "music": 0.5, "effects": 0.8, "text_scale": 1.0, "frame_cap": 60,
 	"high_contrast": false, "reduced_motion": false, "haptics": true, "safe_palette": false, "audio_captions": false,
 	"night_mode": false,
+	"quality": "STANDARD", # QUALITY: optional draw-only tier; legacy settings retain all effects.
 	# SETDEPTH: optional keys. Absent or invalid values load as these defaults (today's mix and feel).
 	"alerts": 0.8, "messages": 0.8, "haptic_strength": 2, "drag_preset": 1, "hold_preset": 1,
 }
@@ -15,6 +16,7 @@ var warning := ""
 static func sanitize(raw: Variant) -> Dictionary:
 	var out := DEFAULTS.duplicate()
 	if not raw is Dictionary: return out
+	out.quality = preload("res://src/presentation/quality/quality_table.gd").normalize(raw.get("quality"))
 	for key in ["master", "music", "effects", "alerts", "messages"]:
 		var v = raw.get(key, out[key])
 		if (v is float or v is int) and is_finite(float(v)): out[key] = clampf(float(v), 0.0, 1.0)

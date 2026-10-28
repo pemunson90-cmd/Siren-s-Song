@@ -215,6 +215,7 @@ func _audio_page() -> void:
 		button.reparent(audio_modes); button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	if Depth.ENABLED: _text(Depth.NIGHT_NOTE, 14)
 func _display_page() -> void:
+	_quality_row()
 	_text("TEXT SIZE", 17)
 	var sizes := _choice_row()
 	for s in SettingsStore.TEXT_SCALES:
@@ -229,6 +230,13 @@ func _display_page() -> void:
 	var rows := [["high_contrast", "HIGH CONTRAST"], ["reduced_motion", "REDUCED MOTION"], ["safe_palette", "SAFE PALETTE"], ["audio_captions", "AUDIO CAPTIONS"]]
 	if not Depth.ENABLED: rows.insert(2, ["haptics", "HAPTICS"])
 	for row in rows: _toggle_row(row[0], row[1])
+func _quality_row() -> void:
+	_text("QUALITY · decorative water effects", 17)
+	var choices := _choice_row()
+	for tier in ["STANDARD", "LOW_EFFECTS"]:
+		var picked: String = tier
+		var b := _choice_button(choices, picked.replace("_", " "), "quality_" + picked.to_lower(), values.quality == picked)
+		b.pressed.connect(func(): _set_value("quality", picked); _settings_screen(), CONNECT_DEFERRED)
 func _controls_page() -> void:
 	if not Depth.ENABLED: return
 	_toggle_row("haptics", "HAPTICS")
