@@ -30,7 +30,18 @@ const ROWS={
  26:["Lift and recover the physical pressure spindle.","The west mouth seals 100s after lifting.","COOLING opens the south return."],
  27:["Chock counterweight, tow to cradle, recover core.","The loose load slides back downhill.","Chock at LOCK A before towing onward."],
  28:["Tow bell via both locks, LAND at west dock; recover.","The tow needs two decompression stops.","Release a tow before changing depth."],
- 29:["Reconnect in the window, or DISMANTLE; recover Quietus.","The reconnect window lasts 150s.","LOCK C starts the reconnect sequence."]
+ 29:["Reconnect in the window, or DISMANTLE; recover Quietus.","The reconnect window lasts 150s.","LOCK C starts the reconnect sequence."],
+ 30:["Photograph SCOUR EDGE in MIDDLE; recover Quietus.","The crossing between walls is watched.","SPINDLE CHATTER is optional local LISTEN work."],
+ 31:["Photograph HUMAN SURVIVOR MARKS in MIDDLE; recover.","A sentinel watches the shaft waist.","West crosses in SHALLOW; east in DEEP."],
+ 32:["Photograph the breach, shut in the well; recover.","Local machinery work is audible.","Winch the optional seal core in DEEP."],
+ 33:["Photograph the gallery, equalize its passage; recover.","The return crosses watched gallery water.","Winch the optional choir reed in DEEP."],
+ 34:["Photograph the foundation, work three machines; recover.","The west shortcut opens audibly.","Work the marked MIDDLE machines in order."],
+ 35:["Photograph the deep keel; recover Quietus.","The deck lift makes noise.","Recover the optional plate with its living carrier."],
+ 36:["Photograph the guard window in DEEP; recover.","Listening relays can forward reports.","The optional breaker cuts the reporting line."],
+ 37:["Photograph the trawler in DEEP; recover Quietus.","The SHALLOW bonus costs another depth crossing.","A window photograph confirms life, not rescue."],
+ 38:["Photograph the saddle underside in DEEP; recover.","The sluice motor is audible across 1400m.","Recover at the southeast mouth in MIDDLE."],
+ 39:["Photograph the exhaust joint in MIDDLE; recover.","The exhaust front masks both sides' sound.","The northern contour passes optional numbers."],
+ 40:["Photograph the western divide in MIDDLE; recover.","The eastern bonus needs a sixteen-second exposure.","The optional sluice opens a noisy short return."]
 }
 const FOLD_LABELS={"show":"FITTINGS\nSHOW","hide":"FITTINGS\nHIDE"}
 const STYLE={"margin":24.,"title":18,"goal":14,"photo":14}

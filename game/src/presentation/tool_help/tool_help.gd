@@ -10,7 +10,11 @@ const TEXT = {
  "sonar_emit":"EMIT: spend reserve on an audible sonar pulse.",
  "sonar_sector":"SECTOR: choose all-around or forward sonar coverage.",
  "sonar_power":"POWER: choose low or high sonar pulse power.",
- "sonar_history":"HISTORY: read the sonar signals this craft has received."
+ "sonar_history":"HISTORY: read the sonar signals this craft has received.",
+ "sonobuoy":"SONOBUOY: drop a passive listener here for 90 s. Its bearings give direction, never range.",
+ "silt_screen":"SILT SCREEN: an audible release blocks sight through this band for 25 s, for your craft and Sirens.",
+ "hull_patch":"HULL PATCH: audible work repairs up to 30% collision hull damage on live Quietus. It cannot repair other damage.",
+ "relay_buoy":"RELAY BUOY: an audible chirp extends drone passive reach by 35% within 420m for three minutes. Quietus is unchanged."
 }
 var hud
 var timer:Timer
