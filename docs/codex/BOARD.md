@@ -1,3 +1,5 @@
+**LIVE, 27 Oct 2026 22:11 Eastern:** Development is running. 059 is DONE (PR158). Sol6.1 medium owns055/PR150 and proceeds056 onward; parallel074/PR162 is building. 060/PR159 and061-062/PR160 plus C7/PR157 are awaiting checks. Entries describing pause or old claims below are historical; current handoff statuses govern.
+
 **27 Oct ~20:25 ET (Claude):** Claude claimed 059, 060, 061 and 062 to build in parallel (branches claude/c8-challenge-pars, claude/c9-event-audio, claude/c10-archive-log). Codex queue: 055, then 056, 057, 058, 063. Claude will write BATCH 15 before Codex runs dry.
 
 **RESUMED, 27 Oct 2026 ~19:17 ET:** Pat told Claude "Resume". This lifts the 27 Oct documentation-only pause (ruling 7). Rulings 1 to 6 stand as design direction. Work order for Codex: 055 (repair PR150's hosted fitting/touch regression, green CI, merge), 056, 057, 058, then 059 (challenge pars and per-route bests from rulings 2 and 3). Same rules as ORCHESTRATION_2026-10-26.md.
@@ -146,7 +148,7 @@ Claude stream C (not Codex work, listed so you know what is coming and which fil
 | Order | Handoff | Status | PR | Finished (UTC) | One-line result |
 |---|---|---|---|---|---|
 | 51 | 054 C1 ECONOMY | DONE | [151](https://github.com/pemunson90-cmd/Siren-s-Song/pull/151) | 2026-10-27 06:31:16 UTC | Merged0f2cc962; exact710f8909 gates green40455323703; core846/economy57/save13, zero failures. |
-| 52 | 055 C2 EQUIPMENT AND TOOLS | OPEN (ruled 27 Oct: keep relay 35% passive boost) | [150 draft](https://github.com/pemunson90-cmd/Siren-s-Song/pull/150) | 2026-10-27 07:01:06 UTC | Head1f781bdb; local core846/tools87/radial58/touch36 all zero failures. Relay passive35% differs from requested command range (unlimited); awaiting Pat, CI pending. |
+| 52 | 055 C2 EQUIPMENT AND TOOLS | CLAIMED (codex, active PR150) | [150 draft](https://github.com/pemunson90-cmd/Siren-s-Song/pull/150) | 2026-10-27 07:01:06 UTC | Head1f781bdb; local core846/tools87/radial58/touch36 all zero failures. Relay passive35% differs from requested command range (unlimited); awaiting Pat, CI pending. |
 | 53 | 056 C3 MODES: mode select, campaign rename, seeded expeditions | OPEN | | | |
 | 54 | 057 C4 NAVAL CAREER | OPEN | | | |
 | 55 | 058 C5 SETTINGS GAPS | OPEN | | | |

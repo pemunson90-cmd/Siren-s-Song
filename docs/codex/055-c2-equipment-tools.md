@@ -43,3 +43,5 @@ Pat approved the inherited **35% passive-sensing bonus** for Relay buoys, benefi
 Keep relay_buoy as the published 35% passive-sensing boost near the buoy (drone command range is already unlimited, so a range effect would do nothing). Unblocked: resume from head 1f781bdb, get hosted CI green, merge, close out, then continue 056.
 
 Pat ratified the same relay ruling on 27 Oct (BOARD ruling 1): the boost applies to both drones when each is inside the buoy radius. Remaining work: repair PR150's failed hosted fitting/touch regression, fresh green exact-head CI, merge.
+
+Current checkpoint27Oct22:11ET: resume authorization stands; prior paused text is history. Sol6.1 medium worker is active on055, reconciling PR150 with landed059 before final green CI and merge. Root does not duplicate this lane.
