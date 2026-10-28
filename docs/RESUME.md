@@ -12,6 +12,8 @@ Current decisions: [USER_DIRECTIVES](USER_DIRECTIVES.md). Intended release: [CUR
 
 ## Integrated capabilities
 
+- 066 frame portion (lane `claude/lane-fleet-sites`, partial): optional37 adds a quiet-hull transit/listen detour and a Scout-reachable passive account; optional38 adds a sustained counterflow pump that stops its local current. Required photographs/records remain unchanged. Three-item cargo cache and tool sites remain unfinished;055/PR150 is still open. The board retains CLAIMED ownership.
+
 - 41 operation IDs0..40 include Calder Trench: core32..34, optional35/36, manual shut-in work, deep photography and three physically recovered artifacts. END OF LINE now follows first recovery of34; the existing photo wall, four ending families and12/13 fork remain. Reward target entries arrive in054/055; narrative stays placeholder text.
 - 038/PR136 reorganizes Operations;044/PR141 gives Operations access to shared Settings, Title, Challenges and Credits.041/PR125 handles Android Back without Godot's default immediate quit.
 - 030/PR124 supplies three independent profiles, copy/clear and export/import.043/PR143 adds three manual saves and four automatic fork states, pinned to each physical profile. Restore replaces later progress, film and fittings; it does not merge. Default campaign erase preserves states.
