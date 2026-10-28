@@ -51,7 +51,7 @@ func _initialize():
  host.end_of_line_seen=true
  check(Finale.first_recovery(host,{"completed":[30,31,32,33]}) and host.shown==1,"first operation 34 recovery opens the existing wall even when operation 31 legacy access marked it seen")
  check(Finale.heading(host,ending) and host.end_of_line_seen,"rendered intro records seen state")
- check(host.labels[0]==Table.TITLE and host.labels.size()==4,"one heading, two placeholders and existing film title only")
+ check(host.labels[0]==Table.TITLE and host.labels[1]==Finale.lines(ending.choices)[0] and host.labels[2]==Finale.lines(ending.choices)[1] and host.labels.back()==Table.FILM_TITLE and host.labels.size()>4,"heading, the two placeholders as first rows, ledger rows, then film title")
  check(not Finale.first_recovery(host,{"completed":[30,31,32,33,34]}) and host.shown==1,"replay never automatically repeats intro")
  var saved=data.duplicate(true);saved.expedition=host.expedition.duplicate(true);Finale.write(host,saved)
  check(saved[Table.SEEN_FIELD]==true,"seen marker written only as optional boolean")
