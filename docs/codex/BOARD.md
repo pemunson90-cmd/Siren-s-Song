@@ -177,8 +177,8 @@ These seven decisions are approved design direction, **not** evidence of impleme
 | Order | Handoff | Status | PR | Finished (UTC) | One-line result |
 |---|---|---|---|---|---|
 | 57 | 060 EQUIPMENT AND EVENT AUDIO | CLAIMED (claude, claude/c9-event-audio) | | | |
-| 58 | 061 RECEIVED MESSAGES, FIELD LOGS, RECURRING VOICES | CLAIMED (claude, claude/c10-archive-log) | | | |
-| 59 | 062 RESEARCH SCREEN, ARCHIVE AND CREDITS | CLAIMED (claude, claude/c10-archive-log) | | | |
+| 58 | 061 RECEIVED MESSAGES, FIELD LOGS, RECURRING VOICES | DONE | [160](https://github.com/pemunson90-cmd/Siren-s-Song/pull/160) | 2026-10-28 UTC | Merged88188bd0; current-head checks green. |
+| 59 | 062 RESEARCH SCREEN, ARCHIVE AND CREDITS | DONE | [160](https://github.com/pemunson90-cmd/Siren-s-Song/pull/160) | 2026-10-28 UTC | Merged88188bd0; current-head checks green. |
 | 60 | 063 PERFORMANCE PASS | OPEN | | | |
 
 Claude lanes in parallel (not Codex work): C6 doc sweep (claude/c6-doc-sweep), C7 economy calibration by simulated campaign runs (claude/c7-economy-calibration): PR157 head75d2fdaa; local import/core846/sim109/native-home2060 all pass; prior hosted home-suite timeout diagnosed as runner slowdown. Fresh exact-head CI40613961002 pending; NOT merged. Completion: https://github.com/pemunson90-cmd/Siren-s-Song/pull/157#issuecomment-6458033466 .
