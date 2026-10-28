@@ -27,9 +27,9 @@ Import, core, and only the minimum suites in ORCHESTRATION section 5. Suite rank
 PR into claude/integration; merge on green; close per ORCHESTRATION section 7.
 
 ## Completion
-PR https://github.com/pemunson90-cmd/Siren-s-Song/pull/150: ac6c83ab gates passed run40612282324; fresh combined head awaits gates after Claude059 landed.
+PR https://github.com/pemunson90-cmd/Siren-s-Song/pull/150: ac6c83ab gates passed40612282324; a475f31a run40619640793 attempt2 pending after render-only Ops Home timeout (no assertions).
 Recovery: claude/c2-equipment a475f31af5e47fc00ab5ce73aa49b80f1294ebd1, worktree 055-c2-equipment; next command gh pr checks 150.
-Windows import/core846/0, tools89/0, briefing touch52/0, craft upgrades11/0; new pairs9/11/16/22 preserve early rewards. Feedback touch12/0 and cold warning UI218/0 pass after warning cards move clear of tools.
+Windows import/core846/0, tools89/0, briefing touch52/0, craft upgrades11/0; new pairs9/11/16/22 preserve early rewards. Feedback touch12/0, cold warning UI218/0, Ops Home2060/0 in146s; layout probe stable, no code/test change for CI retry.
 No APK or promotion. Integration0f4d2a9b reconciled (Claude059); fresh import/core846/0; Pat's Relay decision is resolved, no further design decision pending.
 Additional necessary presentation seam: equipment_context.gd groups compatible carriers and retains their visibility; earlier minimal simulation/photo/HUD seams retained.
 ## Pat ruling, 27 October 2026 — design resolved, implementation paused
