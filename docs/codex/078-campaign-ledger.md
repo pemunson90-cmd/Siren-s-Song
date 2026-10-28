@@ -1,9 +1,9 @@
 # Handoff 078: Campaign ledger: expand END OF LINE and the ending into a full account of people, knowledge, infrastructure and disclosure
 
-Status: CLAIMED
+Status: DONE
 Claimed at: 2026-10-28 00:48:49 UTC
 Claimed by: codex-root-resume
-Finished at:
+Finished at: 2026-10-28 07:12:32 UTC
 
 Precondition: none. Read ORCHESTRATION_2026-10-26.md first.
 Codex may merge: yes, into claude/integration only, on green guidance + game-smoke for the exact head, merge commit.
@@ -43,3 +43,5 @@ PR into claude/integration; merge on green; close per ORCHESTRATION section 7.
 (five lines max)
 
 Recovery28Oct04:52UTC: root resumes prior Claude lane with existing uncommitted edits last written27Oct20:51-20:57ET. Preserve and snapshot owned source before updating integration. Bounded worker owns this existing branch; no duplicate lane is active. Current Pat ruling is continuous development within protected design limits.
+
+Closeout: PR167 merged0320f632 after current-head5934a374 guidance/game-smoke green40641512193. Ledger covers saved people, knowledge, infrastructure and disclosure; absent facts remain not recorded. Ending-family resolution unchanged. Archive shortcut deferred to a later small handoff because its screen is already separate.
