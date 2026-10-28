@@ -34,7 +34,7 @@ As of 12:25 ET all of 056 (PR175), 072 (PR174), 085 (PR185), 086 (PR186) and 087
 
 ## 5. Queue (priority order; preconditions gate eligibility)
 
-Eligible now: **093** fleet-matters measurement (first: it steers what comes next), **088**, 057, 067, 068, 069, 070, 080, **073**; **089** earned chart beyond Confluence (V7 restore) once it does not overlap 073's drawing. After 085: **088** ending decided after op 34 (Pat ruling 28 Oct ~11:22 ET). After 088 and 086: **092** hidden Sorley rescue (Pat ruling 28 Oct ~11:50 ET).
+093 DONE (29 WAYPOINT of 41). Fleet fixes by region: **094 Iron Choir first**, 095 Glass Reach (after PR191), 096 Calder/final (after 088), 097 early ops. Also eligible: **088**, 057, 067, 068, 069, 070, 080, **073**; **089** earned chart beyond Confluence (V7 restore) once it does not overlap 073's drawing. After 085: **088** ending decided after op 34 (Pat ruling 28 Oct ~11:22 ET). After 088 and 086: **092** hidden Sorley rescue (Pat ruling 28 Oct ~11:50 ET).
 Gated on 056: 057 naval career, 068 expedition offers, 069 expedition records/seed, 070 resume after app kill, 080 arc intro/outro cards. Then 071 career riders (after 057), 067 late teaching (after 072).
 **Content complete** = all of the above merged (list in 090). Then **090 Promotion 3**, then **091 whole-game cold audit** run by Codex: a fresh-context Sol6.1-high critic with no build notes, photographic reconnaissance, strategic depth and player experience first (Pat ruling 27 Oct), producing a ranked deficiency list that Claude turns into fix handoffs.
 **Roadmap after 091 (Claude plans, AI-DESIGNED, 28 Oct):**

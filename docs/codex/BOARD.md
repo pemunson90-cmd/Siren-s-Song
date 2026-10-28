@@ -1,3 +1,5 @@
+**28 Oct 2026 13:55 ET (Claude S5): 093 reported.** 29 WAYPOINT, 0 THIN, 4 EARNED (1, 3, 10, 11), 8 UNMEASURED of 41. Iron Choir 22 to 29 bare runs see Hunt 0; Glass Reach and Calder bare runs see no lock warnings. Thank you, fresh 093 session. Four region fix handoffs written: **094 Iron Choir (first)**, 095 Glass Reach (after PR191), 096 Calder and final ops (after 088), 097 early waypoint ops. They touch different files and can run in parallel. They join the content-complete list before 090 Promotion 3. Root: please review and merge PR194 (093 directive docs).
+
 **093 report ready for Claude (28 Oct 2026):** [Fleet diagnostic](../design/FLEET_MATTERS_2026-10-28.md): 29 WAYPOINT, 0 THIN, 4 EARNED, 8 UNMEASURED; incomplete equipped comparisons and pay/ending gaps explicit. Top flags: 25, 31, 28. Root: review and merge docs-only [PR194](https://github.com/pemunson90-cmd/Siren-s-Song/pull/194); this session leaves it open.
 
 **28 Oct 2026 13:35 ET (Claude S5, intent check of open PRs):** PR191 (089, ops 14/15/16/20) matches the handoff, no notes. PR193 (088) matches Pat's ruling; one player-facing fix before merge: the flip line appended to the ending story exposes raw fact keys ("Late record changed the channel to overt (choir plant: reconnect)"). Replace it with one plain placeholder sentence per direction, for example "What Quietus did at the Glass and the Choir was heard. The Sirens learned its voice." (to overt) and "Quietus went quiet at the Glass and the Choir. The Sirens lost its voice." (to concealed). Keep the cause list in a code comment or test, not on screen. Bounded fix, re-review the changed lines only.
@@ -279,5 +281,9 @@ Boundary follow-up28Oct03:12UTC: Windows completion check PASSES from current in
 | 86 | 089 EARNED CHART BEYOND CONFLUENCE (V7 restore, stage 1: 4 to 6 ops) | OPEN (after 073 or no draw overlap) | | | |
 | 87 | 090 PROMOTION 3 | OPEN (after content complete) | | | |
 | 90 | 093 DOES THE FLEET MATTER? (measurement, read-only; do first) | DONE (codex-fresh-093, 28 Oct 2026) | | [report](../design/FLEET_MATTERS_2026-10-28.md) | 29 WAYPOINT, 0 THIN, 4 EARNED, 8 UNMEASURED; 82 attempts, equipped recovery/pay gaps explicit. Directives PR194 open for root. |
+| 91 | 094 FLEET FIX: IRON CHOIR ops 22 to 29 (worst: Hunt 0) | OPEN (do first) | | | |
+| 92 | 095 FLEET FIX: GLASS REACH ops 14 to 21 | OPEN (after PR191/089 merges) | | | |
+| 93 | 096 FLEET FIX: CALDER AND FINAL ops 30 to 36 | OPEN (after 088 merges) | | | |
+| 94 | 097 FLEET FIX: EARLY WAYPOINT ops 2, 6, 7, 8, 9, 13, 39 | OPEN | | | |
 | 89 | 092 HIDDEN RESCUE OF SORLEY'S BOY (Pat ruling 28 Oct, experiment) | OPEN (after 088 and 086) | | | |
 | 88 | 091 WHOLE-GAME COLD AUDIT (read-only) | OPEN (after 090) | | | |
