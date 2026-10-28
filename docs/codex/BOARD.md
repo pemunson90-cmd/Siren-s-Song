@@ -167,7 +167,7 @@ Claude stream C (not Codex work, listed so you know what is coming and which fil
 |---|---|---|---|---|---|
 | 51 | 054 C1 ECONOMY | DONE | [151](https://github.com/pemunson90-cmd/Siren-s-Song/pull/151) | 2026-10-27 06:31:16 UTC | Merged0f2cc962; exact710f8909 gates green40455323703; core846/economy57/save13, zero failures. |
 | 52 | 055 C2 EQUIPMENT AND TOOLS | DONE | [150](https://github.com/pemunson90-cmd/Siren-s-Song/pull/150) | 2026-10-28 UTC | Merged609f29a9; headcbff4e05 checks green. |
-| 53 | 056 C3 MODES: mode select, campaign rename, seeded expeditions | CLAIMED (codex-root-queue) | | | |
+| 53 | 056 C3 MODES: mode select, campaign rename, seeded expeditions | CLAIMED (codex-root-queue; implementation ready, root CI/merge pending) | [175](https://github.com/pemunson90-cmd/Siren-s-Song/pull/175) | | Heade18ab971 on609f29a9; import/core848/0, run65/0, session12/0, profiles75/0. Reconcile084 after landing before final hosted gate;057 unclaimed.075 preserve .runs profile hooks. |
 | 54 | 057 C4 NAVAL CAREER | OPEN | | | |
 | 55 | 058 C5 SETTINGS GAPS | DONE | [163](https://github.com/pemunson90-cmd/Siren-s-Song/pull/163) | 2026-10-28 UTC | Mergedaef173ac; all current-head checks green. |
 

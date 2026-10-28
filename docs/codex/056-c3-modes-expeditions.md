@@ -27,4 +27,8 @@ Import, core, and only the minimum suites in ORCHESTRATION section 5. Suite rank
 PR into claude/integration; merge on green; close per ORCHESTRATION section 7.
 
 ## Completion
-(five lines max)
+Implementation pushed: e18ab971, PR175 into claude/integration; CLAIMED pending root's hosted gate/merge.
+Mode selector; seeded3–6 opening recon operations, finite carried tools, capped Hunt, run loss, profile-pinned sidecar; campaign/SAVE2 and079 isolated.
+Godot4.6.3 import/core848/0, run65/0, staged session12/0, profiles75/0; guidance/diff pass; isolated userdata/logs.
+084/PR172 still open: root reconciles landed integration before final hosted gate; no CI polling or057 claim.068–071 remain followups.
+MODULES/RESUME corrected. No files outside056 ownership; main.gd lifecycle guard only.075 must preserve new .runs profile suffixes/validation and legacy4-file package normalization.
