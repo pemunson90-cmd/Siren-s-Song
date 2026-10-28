@@ -25,7 +25,7 @@ Also complete the **UNMEASURED** early pairs where cheap: 4, 5 and 12 (093 repla
 Ops 1, 3, 10 and 11 are the EARNED reference ops; do not change them except to fix a measurement controller.
 
 ## Files you may edit
-The mission builder and layout files for these ops (opening_depth_operations.gd, onward_missions.gd, resolution_missions.gd, optional_operations.gd for 39 only), their journey suites and controllers, briefing lines, reward hooks, shared registration lines.
+The mission builder and layout files for these ops (opening_depth_operations.gd, onward_missions.gd, resolution_missions.gd, optional_operations.gd for 39 only), their journey suites and controllers, briefing lines, reward hooks, shared registration lines. Also game/src/campaign/onboarding2/briefing_rows.gd and onboarding_text.gd for the changed ops only (067/PR195 added GOAL/DANGER/NEW THIS DIVE rows; keep them true to the new jobs and name the equipped option in one line).
 
 ## Pat's rule (28 Oct, verbatim in USER_DIRECTIVES via PR194)
 A bare launch (no finite tools) finishing an op is a skill feat for a skilled player: possible, demanding, with worse results. Planning, drones, tools and progression must change the outcome. The game must not feel like a walking simulator in a submarine.

@@ -23,7 +23,7 @@ For each of ops 22 to 29, apply 1 to 3 patterns so the region becomes a working 
 Do not touch the choir_choice / choir_plant fact values (088's ending rule reads them).
 
 ## Files you may edit
-game/src/campaign/iron_choir_operations.gd and its encounter/layout data, Iron Choir journey suites and controllers, reward hooks in existing systems, briefing lines for these ops, shared registration lines.
+game/src/campaign/iron_choir_operations.gd and its encounter/layout data, Iron Choir journey suites and controllers, reward hooks in existing systems, briefing lines for these ops, shared registration lines. Also game/src/campaign/onboarding2/briefing_rows.gd and onboarding_text.gd for the changed ops only (067/PR195 added GOAL/DANGER/NEW THIS DIVE rows; keep them true to the new jobs and name the equipped option in one line).
 
 ## Pat's rule (28 Oct, verbatim in USER_DIRECTIVES via PR194)
 A bare launch (no finite tools) finishing an op is a skill feat for a skilled player: possible, demanding, with worse results. Planning, drones, tools and progression must change the outcome. The game must not feel like a walking simulator in a submarine.
