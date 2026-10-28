@@ -45,8 +45,10 @@ static func _draw_list(host,page:Dictionary)->void:
 		return
 	var kind:String=page.get("kind","manual")
 	host._menu_text("HARD SAVES" if kind=="manual" else "FORK STATES",24)
-	host._menu_text(Table.EXACT_WARNING)
-	host._menu_text(Table.PROFILE_NOTICE)
+	if load(CONTROLLER_PATH).locked(host):host._menu_text(Table.IRONMAN_LINE)
+	else:
+		host._menu_text(Table.EXACT_WARNING)
+		host._menu_text(Table.PROFILE_NOTICE)
 	if not str(page.get("message","")).is_empty():host._menu_text(str(page.message))
 	if kind=="manual":_manual_list(host,manager,page)
 	else:_fork_list(host,manager,page)
@@ -56,6 +58,7 @@ static func _draw_list(host,page:Dictionary)->void:
 static func _manual_list(host,manager,page:Dictionary)->void:
 	var entries=manager.list_entries("manual")
 	var allowed=load(CONTROLLER_PATH).manual_allowed(host)
+	var locked=load(CONTROLLER_PATH).locked(host)
 	for index in range(Table.MANUAL_COUNT):
 		var entry:Dictionary=entries[index] if index<entries.size() else {"status":"empty","token":"missing","record":{}}
 		var status:String=entry.get("status","unreadable")
@@ -71,7 +74,7 @@ static func _manual_list(host,manager,page:Dictionary)->void:
 		var token:String=entry.get("token","invalid")
 		var save=host._button(actions,"SAVE HERE",func():_save_action(host,manager,index,token,line,status,"manual",page.get("return_to","operations")),"save2_save_%d"%index)
 		save.disabled=not allowed or status=="unreadable"
-		if status=="ready":
+		if status=="ready" and not locked:
 			var load_button=host._button(actions,"LOAD",func():_confirm(host,"load",index,token,str(record.get("label","Hard save %d"%[index+1])),"manual",page.get("return_to","operations")),"save2_load_%d"%index)
 			load_button.disabled=false
 		if status!="empty":
@@ -85,6 +88,7 @@ static func _fork_list(host,manager,page:Dictionary)->void:
 		var asq=int(ar.get("sequence",Table.COUNT_LIMIT+1));var bsq=int(br.get("sequence",Table.COUNT_LIMIT+1))
 		return asq<bsq if asq!=bsq else int(a.get("index",0))<int(b.get("index",0)))
 	var any=false
+	var locked=load(CONTROLLER_PATH).locked(host)
 	for entry in entries:
 		if entry.get("status")=="empty":continue
 		any=true
@@ -97,7 +101,7 @@ static func _fork_list(host,manager,page:Dictionary)->void:
 		else:host._menu_text("Unreadable fork state. Its original files are retained.")
 		var actions=HBoxContainer.new();actions.add_theme_constant_override("separation",8);host.panel_box.add_child(actions)
 		var token:String=entry.get("token","invalid")
-		if entry.get("status")=="ready":host._button(actions,"LOAD",func():_confirm(host,"load",slot_index,token,title,"fork",page.get("return_to","ending")),"save2_fork_load_%d"%slot_index)
+		if entry.get("status")=="ready" and not locked:host._button(actions,"LOAD",func():_confirm(host,"load",slot_index,token,title,"fork",page.get("return_to","ending")),"save2_fork_load_%d"%slot_index)
 		host._button(actions,"DELETE",func():_confirm(host,"delete",slot_index,token,title,"fork",page.get("return_to","ending"),"",bool(entry.get("retained_on_delete",false))),"save2_fork_delete_%d"%slot_index)
 		_expand_actions(actions)
 	if not any:host._menu_text("No fork states have been recorded yet.")
@@ -149,6 +153,7 @@ static func _perform(host,page:Dictionary)->void:
 	if manager==null:_result(host,"Saved states are unavailable.");return
 	var kind:String=page.kind;var index:int=page.index;var token:String=page.token
 	var ok=false;var message=""
+	if page.operation!="delete" and load(CONTROLLER_PATH).locked(host):_result(host,Table.IRONMAN_LINE);return
 	match page.operation:
 		"save":
 			var archive:Dictionary=host._archive()

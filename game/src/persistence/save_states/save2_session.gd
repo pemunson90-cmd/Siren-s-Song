@@ -1,9 +1,12 @@
 extends Node
 # Retire queued writes before exact replacement; free the old host only after
 # the validated disk transaction succeeds. Revert through Table.enabled=false.
+const Table=preload("res://src/persistence/save_states/save2_table.gd")
 const Controller=preload("res://src/persistence/save_states/save2_controller.gd")
 static func restore(host,kind:String,index:int,token:String)->bool:
  if host.store.suspended:return false
+ if Controller.locked(host):
+  host.set_meta("save2_session_error",Table.IRONMAN_LINE);return false
  var storage=Controller.manager(host)
  if host.store.uses_profiles():
   var profiles=load("res://src/persistence/profiles/profile_store.gd").new()

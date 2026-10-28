@@ -26,7 +26,41 @@ const ITEMS={
  "photo_flash":{"id":"photo_flash","name":"Flash unit","compatible_slots":["quietus","drone_a","drone_b"],"mount":"OPTICS","power":1,"cargo":0,"noise":0.0,"endurance":0.0,"benefit":"Lights a subject within about 200m for a sharp frame in the dark. Four charges on Quietus, two on a drone.","cost":"Each flash exposure is a louder audible camera event and spends a charge."},
  "thermal_imager":{"id":"thermal_imager","name":"Thermal imager","compatible_slots":["quietus","drone_a","drone_b"],"mount":"OPTICS","power":1,"cargo":0,"noise":0.0,"endurance":0.0,"benefit":"Resolves heat features at range and through thermal shimmer, with no light needed.","cost":"15% lower resolution on every other feature."},
  "low_light_back":{"id":"low_light_back","name":"Low-light film back","compatible_slots":["quietus","drone_a","drone_b"],"mount":"OPTICS","power":0,"cargo":0,"noise":0.0,"endurance":0.0,"benefit":"A still exposure gathers light over eight seconds: dark subjects sharpen without a flash.","cost":"Gain is lost if the craft drifts or turns; short exposures see no benefit."},
- "drone_sampler":{"id":"drone_sampler","name":"Field sampler pod","compatible_slots":["drone_a","drone_b"],"mount":"UTILITY","power":1,"cargo":1,"noise":0.0,"endurance":0.0,"benefit":"Prepare compatible field receivers and operate the powered Warning Chain panel while Quietus takes another task.","cost":"One pod on one drone. Receiver exposure takes8 audible seconds; Quietus takes4. Plant switches require a settled local connection."}
+ "drone_sampler":{"id":"drone_sampler","name":"Field sampler pod","compatible_slots":["drone_a","drone_b"],"mount":"UTILITY","power":1,"cargo":1,"noise":0.0,"endurance":0.0,"benefit":"Prepare compatible field receivers and operate the powered Warning Chain panel while Quietus takes another task.","cost":"One pod on one drone. Receiver exposure takes8 audible seconds; Quietus takes4. Plant switches require a settled local connection."},
+ # C2 equipment: 8 conventional rows, then 2 alien rows that research grants (campaign/glass_research.gd).
+ # Optional keys: reach and speed are fractions added to passive reach and Quietus cruise (craft_upgrades.gd).
+ "quietus_ducted_shroud":{"id":"quietus_ducted_shroud","name":"Ducted prop shroud","compatible_slots":["quietus"],
+  "mount":"PROPULSION","power":1,"cargo":0,"noise":-0.15,"endurance":0.0,"speed":-0.08,
+  "benefit":"Motion sound 15% lower at the same speed.","cost":"Cruise 8% slower. Occupies the propulsion mount."},
+ "quietus_scrubber_bed":{"id":"quietus_scrubber_bed","name":"Regen scrubber bed","compatible_slots":["quietus"],
+  "mount":"UTILITY","power":1,"cargo":0,"noise":0.1,"endurance":0.25,
+  "benefit":"Life support lasts 25% longer.","cost":"Fan hum raises motion sound 10%."},
+ "quietus_long_hydrophone":{"id":"quietus_long_hydrophone","name":"Long hydrophone","compatible_slots":["quietus"],
+  "mount":"SENSOR","power":2,"cargo":0,"noise":0.05,"endurance":0.0,"reach":0.2,
+  "benefit":"Quietus passive reach 20% longer.","cost":"Draws 2 power and towing drag adds 5% motion sound."},
+ "quietus_reserve_cell":{"id":"quietus_reserve_cell","name":"Reserve air cell","compatible_slots":["quietus"],
+  "mount":"HARDWARE","power":1,"cargo":1,"noise":0.0,"endurance":0.2,
+  "benefit":"Life support lasts 20% longer.","cost":"Takes one winch place and one power."},
+ "quietus_camera_cowl":{"id":"quietus_camera_cowl","name":"Streamlined camera cowl","compatible_slots":["quietus"],
+  "mount":"OPTICS","power":1,"cargo":0,"noise":-0.1,"endurance":0.0,
+  "benefit":"Motion sound 10% lower.","cost":"Fills the camera mount, so no optics module rides with it."},
+ "drone_ballast_pack":{"id":"drone_ballast_pack","name":"Drone ballast pack","compatible_slots":["drone_a","drone_b"],
+  "mount":"CARGO","power":0,"cargo":1,"noise":0.0,"endurance":0.3,
+  "benefit":"This drone's battery lasts 30% longer.","cost":"Takes one winch place."},
+ "drone_mast_array":{"id":"drone_mast_array","name":"Drone mast array","compatible_slots":["drone_a","drone_b"],
+  "mount":"SENSOR","power":0,"cargo":0,"noise":0.0,"endurance":-0.15,"reach":0.12,
+  "benefit":"This drone's passive reach is 12% longer.","cost":"Mast drain shortens battery 15%."},
+ "drone_whisper_props":{"id":"drone_whisper_props","name":"Drone whisper props","compatible_slots":["drone_a","drone_b"],
+  "mount":"UTILITY","power":1,"cargo":0,"noise":-0.2,"endurance":-0.15,
+  "benefit":"This drone's motion sound is 20% lower.","cost":"Slow props shorten battery 15%."},
+ "quietus_wellhead_seal":{"id":"quietus_wellhead_seal","name":"Trench wellhead seal","compatible_slots":["quietus"],
+  "mount":"HARDWARE","power":2,"cargo":1,"noise":0.15,"endurance":0.4,
+  "origin":"alien","gate":"research","artifact":"trench_seal_core",
+  "benefit":"Life support lasts 40% longer.","cost":"Pump hum raises motion sound 15%. Two power, one winch place."},
+ "drone_choir_tuner":{"id":"drone_choir_tuner","name":"Choir reed tuner","compatible_slots":["drone_a","drone_b"],
+  "mount":"SENSOR","power":1,"cargo":0,"noise":0.15,"endurance":0.0,"reach":0.3,
+  "origin":"alien","gate":"research","artifact":"choir_reed",
+  "benefit":"This drone's passive reach is 30% longer.","cost":"The reed tone raises its motion sound 15%."}
 }
 static func default_loadout()->Dictionary:
  var result={"hull":Hulls.DEFAULT,"chassis_a":Chassis.DEFAULT,"chassis_b":Chassis.DEFAULT}
@@ -59,6 +93,11 @@ static func items_for(fit:Dictionary,unit_id:int)->Array:
   var item=fit.get(key,"")
   if not item.is_empty():result.append(item)
  return result
+# Sum of an optional fractional item key (reach, speed) across a unit's fitted items.
+static func stat(fit:Dictionary,unit_id:int,key:String)->float:
+ var total=0.0
+ for item in items_for(fit,unit_id):total+=float(ITEMS[item].get(key,0.0))
+ return total
 static func has(fit:Dictionary,unit_id:int,item:String)->bool:
  return item in items_for(fit,unit_id)
 static func all_items(fit)->Array:

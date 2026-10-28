@@ -17,12 +17,14 @@ static func valid(data:Dictionary)->bool:
   if not integer(s.recoveries,0,Table.COUNT_LIMIT) or not s.last_recovered is int or (s.last_recovered!=-1 and s.last_recovered not in Catalog.registered_ids()) or not s.legacy_minimum is bool or not s.between is bool:return false
  if data.has(Table.RECORD):
   var r=data[Table.RECORD]
-  if not r is Dictionary or r.size()!=11 or not r.has_all(["revision","kind","label","timestamp","sequence","event","digest","recovery_count","last_operation","run_id","launch_id"]):return false
+  if not r is Dictionary or r.size()!=(12 if r.has("ironman") else 11) or not r.has_all(["revision","kind","label","timestamp","sequence","event","digest","recovery_count","last_operation","run_id","launch_id"]):return false
   if not integer(r.revision,1,1) or r.kind not in Table.KINDS or not r.label is String or r.label.is_empty() or r.label.length()>Table.NAME_LIMIT or "\n" in r.label or "\r" in r.label:return false
   if not integer(r.timestamp,0,9007199254740991) or not integer(r.sequence,1,Table.COUNT_LIMIT) or not r.event is String or r.event.length()>Table.NAME_LIMIT or not hex(r.digest,64):return false
   if not integer(r.recovery_count,0,Table.COUNT_LIMIT) or not r.last_operation is int or (r.last_operation!=0 and r.last_operation-1 not in Catalog.registered_ids()):return false
   if not (r.run_id=="" or hex(r.run_id,32)) or not (r.launch_id=="" or hex(r.launch_id,32)):return false
   if r.kind=="fork" and r.event.is_empty():return false
+  # Optional pin: a record that names Ironman must match the economy block it seals.
+  if r.has("ironman") and (not r.ironman is bool or r.ironman!=(data.get("economy") is Dictionary and data.economy.get("ironman",false)==true)):return false
   var snapshot=data.duplicate(true);snapshot.erase(Table.RECORD)
   if r.digest!=var_to_bytes(snapshot).hex_encode().sha256_text():return false
  return true
