@@ -28,3 +28,5 @@ PR into claude/integration; merge on green; close per ORCHESTRATION section 7.
 
 ## Completion
 (five lines max)
+
+Root scheduling28Oct08:14UTC:081 owns chart/render files now while063 was unclaimed. Do not claim063 until081 releases those paths; keep060 precondition. This reverses only collision-avoidance order.
