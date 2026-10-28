@@ -51,6 +51,7 @@ static func debrief(main)->bool:
   var consequence=preload("res://src/presentation/consequence_lines.gd").line(mission)
   if not consequence.is_empty():main._menu_text(consequence,20)
   main._menu_text(mission.record,22)
+  preload("res://src/presentation/archive/voice_feed.gd").debrief(main)
   var plant=preload("res://src/presentation/warning_chain_view.gd").debrief_text(main.sim)
   if not plant.is_empty():main._menu_text(plant,19)
   preload("res://src/presentation/module_recovery_view.gd").debrief(main)
