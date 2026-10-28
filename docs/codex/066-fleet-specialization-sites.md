@@ -1,9 +1,9 @@
 # Handoff 066: Make hull, chassis and the new tools matter through optional fleet-specialization sites
 
-Status: CLAIMED
+Status: DONE
 Claimed at: 2026-10-28 06:12:07 UTC
 Claimed by: codex-root-parallel
-Finished at:
+Finished at: 2026-10-28 (PR169 merged)
 
 Precondition satisfied: 055 DONE, PR150 merged609f29a9. Continue only066 on claude/lane-fleet-sites; root owns current-head hosted CI/merge. Read ORCHESTRATION_2026-10-26.md first.
 Codex may merge: yes, into claude/integration only, on green guidance + game-smoke for the exact head, merge commit.
@@ -40,11 +40,11 @@ One bare-fleet finishability journey per touched operation, where a core operati
 PR into claude/integration; merge on green; close per ORCHESTRATION section 7.
 
 ## Completion
-- PARTIAL / CLAIMED codex-root-parallel: head8f58039c on claude/lane-fleet-sites, open [PR169](https://github.com/pemunson90-cmd/Siren-s-Song/pull/169); preserves acce5a2d frame sites and merges055/integration609f29a9 via11219c8d. Root collects current-head CI; no merge claimed.
-- Added optional relay account37, silt-covered watch reception38 and sonobuoy patrol account39 through existing finite tools; photography, bare-standard main routes, sensing/combat/hull formulas and legacy cargo are preserved. Recovered notes only; no economy changes.
-- Isolated Godot4.6.3: import/core848/0; tool order journeys24/0; bare37 real photo/screw/recovery8/0; existing bare38/39 photo recoveries18/0; legacy cargo checks25/0. No assertions changed, registered suite added, touch/phone/human acceptance claimed. External scripts/logs: C:/Users/Archi/.cache/sirens-song-toolchain/artifacts/066-tools-20261028 (failed probes retained).
-- Successful routes: relay standard drone west perch and return11.27s/100% hull; silt sluice/DEEP approach/MIDDLE account/DEEP retreat114.45s/86.44%; sonobuoy eastern-basin bearings/account plus both photos and extraction199.37s/98.85%. Bare37 screw recovery136.40s/86.50%; bare38/39 recoveries200.87s/100% and167.63s/98.85%.
-- Heavy/Fast three-piece cache remains undelivered, CLAIMED. Exact wider seam below; no fixture cargo, invented module/resource IDs or unsupported completion. RESUME/MODULES and PR corrected. Preserve072/082/084,076,056 and global-landmark ownership.
+- DONE: [PR169](https://github.com/pemunson90-cmd/Siren-s-Song/pull/169), independently reviewed final `d5eb74b873c2179886c13d22a72b46f53371db7a`, merged `701cb267c468f4d03888328ba795323293279815` into `claude/integration`.
+- Physical three-piece cache, all 3 frame sites and 3 tool sites fully integrated; legacy custody and bare-fleet routes preserved.
+- Final-head hosted CI: all seven checks passed, [run40683665470](https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/40683665470).
+- Source evidence: custody110/0; voyages72/0. These checks establish technical behavior, with no phone or human acceptance claim.
+- Ownership released: `optional_operations.gd` to065 root. Dated seam analysis and authorizations below are historical; the cache seam is complete.
 
 ## Remaining cache seam (28 October continuation)
 The permitted isolated helper plus registration/carriage count alone cannot implement the two-trip comparison safely. Existing W.cargo creates a single five-field artifact; Glass.context/command/tick/transfer/status/valid each address that one artifact and one job. Glass.valid pins its ID through ITEMS, ModuleRecovery.valid accepts only actual launched equipment IDs, and ModuleRecovery.carried counts one Reach artifact. A cache must own three distinct validated physical custody records and include them in capacity, interruption, lost-carrier/wreck and local transfer handling while retaining every legacy single-artifact case.
