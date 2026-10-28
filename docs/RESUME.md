@@ -1,6 +1,6 @@
 # RESUME: operational entry
 
-Current integration baseline `04486ef9` includes Career057, quality073 and persisted expedition offers068. Production is `225c3c45`; main unchanged. Teaching067 is in hosted checks; full riders071 and ending088/earned-chart089 repairs await review. Canonical093 and regional fleet-fix ownership are on codex/handoffs. Root supplemental measurement data stays external and unpublished. Current claims supersede dated entries below.
+Current integration baseline `04486ef9` includes Career057, quality073 and persisted expedition offers068. Production is `225c3c45`; main unchanged. Teaching067 is in hosted checks; full riders071 and ending088/earned-chart089 repairs await review. Canonical093 and regional fleet-fix ownership are on codex/handoffs. Root supplemental measurement data stays external and unpublished. 094 adds Iron Choir fleet pressure and complete equipped recovery comparisons. Current claims supersede dated entries below.
 
 **26 Oct 2026:** Pat's finish-the-game ruling (top of USER_DIRECTIVES) governs. Plan, streams and file ownership: `docs/codex/ORCHESTRATION_2026-10-26.md` on `codex/handoffs`. Milestone promotion PR148 merged on 26 October (ORCHESTRATION).
 
@@ -8,11 +8,13 @@ Current boundary: Pat resumed locally on Windows and continued work on 25 Octobe
 
 ## Source and authority
 
-Active integration: `claude/integration`. Last reconciled source baseline: a0a7550b5cfef239d65acd50b4e8492b01e048f7, including056/085/086 and087. A later live integration SHA is expected; fetch it at task boundaries. The board alone owns claims/completions.
+Active integration: `claude/integration`. Last reconciled source baseline: 737ac868, including057/068/073 and093 directives. A later live integration SHA is expected; fetch it at task boundaries. The board alone owns claims/completions.
 Frozen `gauntlet/production` and protected `main` require Pat's promotion approval. Preserve branches, personal saves, evidence and signing identity.
 Current decisions: [USER_DIRECTIVES](USER_DIRECTIVES.md). Intended release: [CURRENT_GAME_SPEC](CURRENT_GAME_SPEC.md). Actual module seams, settings, saves, tests and safe reverts: [MODULES](MODULES.md).
 
 ## Integrated capabilities
+
+- [KEEL, 094 implementation] Iron Choir ops22 to29 use authored oxygen reserves and work-site patrol placements, with parallel gate, valve, berth, tow, winch and breaker routes. Existing machinery, enemy behavior, people landing facts and choir choice/plant values remain unchanged. Equipped controllers return real fitted craft and material carriers before departure; isolated paired measurements and existing Iron Choir journey checks are recorded in the feature PR. These are source-known simulation results, with human/phone acceptance deferred.
 
 - 056 (PR175, merged `a4dd77e7`) mode selector separates Campaign, Challenges and seeded Expeditions; Career stays disabled until057. Runs reuse3–6 distinct opening reconnaissance operations with seeded loadout, optional-tool scarcity and capped sight-only Hunt, finite carried tools and terminal loss. Profile-pinned `.runs` sidecars keep resources/story separate from campaign and SAVE2; interrupted dives end the run until070 adds exact dive recovery. Film, oxygen and required bare-craft routes retain their authored budgets. Campaign labels read Operations; code/save IDs stay unchanged. Run choices/records/seed entry remain068/069.
 

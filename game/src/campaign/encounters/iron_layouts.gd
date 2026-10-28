@@ -52,12 +52,12 @@ static func roster(m:Dictionary,id:int,history:Dictionary)->void:
  match id:
   22:R.add(m,[R.guard("interceptor",Vector2(950,1250),1,[Vector2(950,1250),Vector2(950,1400)]),R.guard("interceptor",Vector2(2550,1500)),R.guard("warden",Vector2(1700,2300))])
   23:R.add(m,[R.guard("interceptor",Vector2(2400,1500)),R.guard("warden",Vector2(1500,850),2)])
-  24:R.add(m,[R.guard("interceptor",Vector2(1600,2200),1,[Vector2(1600,2200),Vector2(1650,2300)]),R.guard("warden",Vector2(2450,1500)),R.guard("relay",Vector2(1650,550))])
+  24:R.add(m,[R.guard("interceptor",Vector2(1600,2200),1,[Vector2(1600,2200),Vector2(1650,2300)]),R.guard("warden",Vector2(2700,1600)),R.guard("relay",Vector2(1650,550))])
   25:
-   R.add(m,[R.guard("interceptor",Vector2(1600,2200),1,[Vector2(1600,2200),Vector2(1650,2300)]),R.guard("warden",Vector2(2450,1200)),R.guard("relay",Vector2(1650,550))])
+   R.add(m,[R.guard("interceptor",Vector2(1600,2200),1,[Vector2(1600,2200),Vector2(1650,2300)]),R.guard("warden",Vector2(950,1100)),R.guard("relay",Vector2(1650,550))])
    if history.get("facts",{}).get("choir_choice","")=="isolate":m.sirens.pop_back()
    if history.get("facts",{}).get("choir_plant","")=="dismantle":m.sirens.remove_at(1)
-  26:R.add(m,[R.guard("warden",Vector2(1900,1000),2),R.guard("interceptor",Vector2(850,700),2)])
+  26:R.add(m,[R.guard("warden",Vector2(1600,550),2),R.guard("interceptor",Vector2(850,700),2)])
   27:R.add(m,[R.guard("interceptor",Vector2(1700,300)),R.guard("interceptor",Vector2(1100,1650)),R.guard("warden",Vector2(2000,2500))])
-  28:R.add(m,[R.guard("interceptor",Vector2(1250,1550)),R.guard("interceptor",Vector2(1200,200)),R.guard("warden",Vector2(1600,2300))])
-  29:R.add(m,[R.guard("warden",Vector2(1200,800)),R.guard("interceptor",Vector2(2050,950))])
+  28:R.add(m,[R.guard("interceptor",Vector2(1250,1550)),R.guard("interceptor",Vector2(1200,200)),R.guard("warden",Vector2(1050,1450))])
+  29:R.add(m,[R.guard("warden",Vector2(2200,600)),R.guard("interceptor",Vector2(2050,950))])
