@@ -30,6 +30,13 @@ static func apply(m:Dictionary)->void:
  var site=W.listen(log_record(m.id),"SORLEY'S RECORDER LOCKER",row.pos,row.text,6.)
  site.optional=true;site["sorley_log"]=true
  m.objectives.append(site)
+# Optional local finds do not replace the host's primary camera guidance remotely.
+# The shared capture path still owns range, settling, operator and clear-water rules.
+static func camera_candidate(sim,o:Dictionary)->bool:
+ return not o.get("sorley_log",false) or (enabled and sim.units[sim.selected].pos.distance_to(o.pos)<sim.Photo.reach(sim,sim.selected))
+static func camera_facts(m:Dictionary)->Array:
+ # Finding a side locker is not exact acquisition of the host's required source.
+ return m.expedition_facts.keys().filter(func(key):return key!=FACT or m.id not in LOGS)
 static func recorded(sim,o:Dictionary)->void:
  if not enabled or not LOGS.has(sim.mission.id) or o.get("site_id","")!=log_record(sim.mission.id):return
  var bits="000";var index=LOGS.keys().find(sim.mission.id)

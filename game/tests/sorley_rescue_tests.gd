@@ -41,6 +41,8 @@ func run():
  for id in [9,16,14]:
   var local=Sim.new();local.start(id)
   var log=local.mission.objectives.filter(func(o):return o.get("sorley_log",false))[0]
+  var log_index=local.mission.objectives.find(log)
+  check(local.camera_context().target!=log_index,"remote locker does not displace primary camera guidance "+str(id))
   var anchors=[local.mission.start,local.mission.extraction]
   anchors.append_array(local.mission.corridors.map(func(c):return c.pos))
   anchors.append_array(local.mission.objectives.filter(func(o):return not o.get("optional",false)).map(func(o):return o.pos))
@@ -53,9 +55,14 @@ func run():
   check(Sim.valid_snapshot(old) and Sim.new().restore(old),"pre-log active host save restores "+str(id))
   # Own-position fixture isolates real six-second local work from the host's full voyage.
   local.units[0].pos=log.pos;local.units[0].vel=Vector2.ZERO
+  var context=local.camera_context()
+  check(context.target==log_index and context.ready and context.text.contains("SORLEY") and context.text.contains("passive listen 6s"),"nearby locker exposes exact local six-second work guidance "+str(id))
   check(local.command("camera"),"local locker work starts "+str(id))
   tick(local,6.2)
   check(log.captured and local.mission.expedition_facts.get("sorley_boy","") in ["100","010","001"],"settled local work receives its one log bit "+str(id))
+  if id==9:
+   check(local.mission.signal_sources.all(func(source):return not source.located) and local.extraction_corridors().all(func(c):return not c.available),"optional locker neither acquires required signals nor opens recovery")
+   check(local.camera_context().text==preload("res://src/presentation/status_text/status_table.gd").FALLBACK,"collected side log preserves primary no-exact-source camera guidance")
  var last=Catalog.make(14).objectives.filter(func(o):return o.get("sorley_log",false))
  check(last.size()==1 and last[0].optional and last[0].pos.x>3000,"third locker is in the eastern detour")
  var bad=p.duplicate(true);bad.notes.sorley_boy="arbitrary"
@@ -86,6 +93,7 @@ func run():
   print("BARE LOADED ",s.mission.witness_evacuation," guards=",s.sirens.map(func(g):return [g.pos,g.lock,g.band]))
   ok=ok and s.mission.witness_evacuation.state=="carried"
   check(s.message.contains("south boat lift") and not s.message.contains("southeast"),"loaded rescue HUD names the actual south boat lift")
+  check(s._camera_context_base().text.contains("south boat lift") and not s.camera_context().text.contains("sorley_boy"),"carried rescue pod keeps physical landing guidance without a raw campaign fact key")
   check(not s.command("witness_land"),"remote landing rejected")
   ok=ok and go(s,Vector2(1250,980))
   ok=ok and dive(s,1) and dive(s,2) and go(s,Vector2(1600,1600)) and go(s,Vector2(300,1500)) and dive(s,1)

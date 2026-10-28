@@ -616,12 +616,15 @@ func _camera_context_base() -> Dictionary:
 			return {"target":work.target,"ready":false,"text":"%s · %s · %s %.1f/2s"%[units[selected].name,"REPLY CARRIER" if c.get("source","")=="courier" else active.name,"receiving" if c.settled else "settling",work.elapsed]}
 		return {"target":work.target,"ready":false,"text":"%s · %s %.1f / %.0fs"%[units[selected].name,active.name,work.elapsed,work.duration]}
 	if Rendezvous.applies(mission):return rendezvous_receiver()
-	if mission.has("expedition_revision") and mission.objectives.all(func(o):return o.captured) and not mission.objectives.any(func(o):return Operations.own_origin(o)):
-		var facts=mission.expedition_facts.keys()
+	var camera_sites=mission.objectives.filter(func(o):return preload("res://src/campaign/sorley_rescue.gd").camera_candidate(self,o))
+	if mission.has("expedition_revision") and camera_sites.all(func(o):return o.captured) and not camera_sites.any(func(o):return Operations.own_origin(o)):
+		if mission.id==41:return {"target":-1,"ready":false,"text":Witness.status(self).text}
+		var facts=preload("res://src/campaign/sorley_rescue.gd").camera_facts(mission)
 		return {"target":-1,"ready":false,"text":"No exact source located · listen from another position or spend local RECON" if facts.is_empty() and mission.id!=8 else "Observed %s · choose an available named recovery corridor"%", ".join(facts)}
 	var unit=units[selected]; var best=-1; var nearest=-1; var distance=INF; var reshoot=-1; var best_score:=INF
 	for id in mission.objectives.size():
 		var objective=mission.objectives[id]
+		if not preload("res://src/campaign/sorley_rescue.gd").camera_candidate(self,objective):continue
 		if objective.captured and Photo.applies(objective) and not Operations.own_origin(objective) and Photo.seen_before(self,id).size()<objective.subject.features.size():
 			# A resolved record can be re-shot from a better viewpoint for what it missed.
 			if reshoot<0 and unit.pos.distance_to(objective.pos)<Photo.reach(self,selected) and Depth.optical_clear(self,unit.pos,objective.pos,unit.band):reshoot=id
