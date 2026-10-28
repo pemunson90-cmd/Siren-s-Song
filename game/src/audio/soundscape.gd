@@ -5,14 +5,14 @@ const RegionAudioTable=preload("res://src/audio/region_audio_table.gd")
 const RATE := 22050
 const AMBIENCE_BUS := "SirenAmbience"
 const EFFECTS_BUS := "SirenEffects"
-const ALERTS_BUS := "SirenAlerts" # SETDEPTH: child of effects; threat cues. Default 1.0 keeps the mix.
-const MESSAGES_BUS := "SirenMessages" # SETDEPTH: child of effects; received messages.
+const ALERTS_BUS := "SirenAlerts" # SETDEPTH: independent Master child; threat cues.
+const MESSAGES_BUS := "SirenMessages" # SETDEPTH: independent Master child; received messages.
 const Depth=preload("res://src/presentation/frontend/settings_depth.gd")
 const ATTRIBUTION := preload("res://assets/audio/attribution.tres")
 var music_volume := 0.5
 var effects_volume := 0.8
-var alerts_volume := 1.0
-var messages_volume := 1.0
+var alerts_volume := 0.8
+var messages_volume := 0.8
 var muted := false
 var night_mode := false
 var region_mission_id := ""
@@ -77,13 +77,14 @@ static func stream(cue: String) -> AudioStreamWAV:
 func _bus(name: String,send_to: String="Master") -> int:
 	var index=AudioServer.get_bus_index(name)
 	if index<0:
-		AudioServer.add_bus(); index=AudioServer.bus_count-1; AudioServer.set_bus_name(index,name); AudioServer.set_bus_send(index,send_to)
+		AudioServer.add_bus(); index=AudioServer.bus_count-1; AudioServer.set_bus_name(index,name)
+	AudioServer.set_bus_send(index,send_to)
 	return index
 func _ready() -> void:
 	process_mode=Node.PROCESS_MODE_ALWAYS
 	set_meta("audio_attribution",ATTRIBUTION)
 	_bus(AMBIENCE_BUS); _bus(EFFECTS_BUS)
-	if Depth.ENABLED: _bus(ALERTS_BUS,EFFECTS_BUS); _bus(MESSAGES_BUS,EFFECTS_BUS)
+	if Depth.ENABLED: _bus(ALERTS_BUS); _bus(MESSAGES_BUS)
 	var guarded=false
 	for i in AudioServer.get_bus_effect_count(0):
 		if AudioServer.get_bus_effect(0,i).resource_name=="SirenPeakGuard": guarded=true
@@ -137,7 +138,7 @@ func _lock_update(sim,frozen:bool,active:bool)->void:
 	var frames=preload("res://src/presentation/lock_warning.gd").frames(sim) if active else []
 	if sim.elapsed<lock_clock:lock_source=-1;lock_next=-1.
 	lock_clock=sim.elapsed
-	if frames.is_empty() or muted or effects_volume<=0:
+	if frames.is_empty() or not cue_audible("alert"):
 		lock_voice.stop();lock_source=-1;lock_next=-1.;return
 	lock_voice.stream_paused=frozen
 	if frozen:return
@@ -199,8 +200,13 @@ func update(sim,dt: float,active_dive: bool=true) -> void:
 func event_cue(id: String) -> void:
 	var layer=get_node_or_null("EventAudio")
 	if layer!=null and layer.fire(id):accessibility.note(id,last_clock)
+# Each split category owns its gain; Effects no longer gates alerts or messages.
+func cue_audible(cue: String) -> bool:
+	var category=Depth.bus_category(cue)
+	var level=alerts_volume if category=="alerts" else (messages_volume if category=="messages" else effects_volume)
+	return not muted and level>0
 func play(cue: String,relative_position: Vector2=Vector2.ZERO) -> void:
-	if muted or effects_volume<=0 or system_suspended or not cues.has(cue): return
+	if not cue_audible(cue) or system_suspended or not cues.has(cue): return
 	for i in voices.size():
 		var voice=voices[i]
 		if not voice.playing:

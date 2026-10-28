@@ -8,7 +8,7 @@ const DEFAULTS := {
 	"high_contrast": false, "reduced_motion": false, "haptics": true, "safe_palette": false, "audio_captions": false,
 	"night_mode": false,
 	# SETDEPTH: optional keys. Absent or invalid values load as these defaults (today's mix and feel).
-	"alerts": 1.0, "messages": 1.0, "haptic_strength": 2, "drag_preset": 1, "hold_preset": 1,
+	"alerts": 0.8, "messages": 0.8, "haptic_strength": 2, "drag_preset": 1, "hold_preset": 1,
 }
 var path := "user://settings.json"
 var warning := ""
@@ -18,6 +18,10 @@ static func sanitize(raw: Variant) -> Dictionary:
 	for key in ["master", "music", "effects", "alerts", "messages"]:
 		var v = raw.get(key, out[key])
 		if (v is float or v is int) and is_finite(float(v)): out[key] = clampf(float(v), 0.0, 1.0)
+	# Before split buses, these cues inherited Effects. Seed absent keys from the
+	# sanitized legacy gain once; persisted split values remain independent.
+	for key in ["alerts", "messages"]:
+		if not raw.has(key): out[key] = out.effects
 	var scale = raw.get("text_scale", 1.0)
 	if scale is float or scale is int:
 		var best := 1.0

@@ -7,6 +7,7 @@ extends RefCounted
 # Operations through Main's ordinary rule. Revert: economy_table.enabled=false hides it all.
 const Economy=preload("res://src/campaign/economy.gd")
 const Table=preload("res://src/campaign/economy_table.gd")
+const Save2Table=preload("res://src/persistence/save_states/save2_table.gd")
 const Catalog=preload("res://src/equipment/equipment_catalog.gd")
 const Research=preload("res://src/campaign/glass_research.gd")
 const Inventory=preload("res://src/campaign/fleet_inventory.gd")
@@ -42,7 +43,7 @@ static func picker(host,e:Dictionary,changed:Callable)->void:
 		button.disabled=chosen
 	host._button(host.panel_box,"IRONMAN · ON (TAP TO TURN OFF)" if e.ironman else "IRONMAN · OFF (TAP TO TURN ON)",
 		func():changed.call(e.preset,not e.ironman),"eco_pick_ironman")
-	host._menu_text("Ironman charges every fitting on every launch and locks the preset once play begins.",14)
+	host._menu_text("Ironman charges every fitting on every launch and locks the preset once play begins.\n"+Save2Table.IRONMAN_LINE,14)
 # Erase confirmation: the next campaign's preset is chosen here and applied by new_campaign.
 static func draft_picker(host)->void:
 	if not Table.enabled:return
@@ -101,11 +102,13 @@ static func show(host)->void:
 	host._menu_text(e.report,14)
 	if e.ironman:
 		host._button(host.panel_box,"PRESET LOCKED · IRONMAN",func():pass,"eco_preset").disabled=true
+		host._menu_text(Save2Table.IRONMAN_LINE,15)
 	else:
 		var next=Table.ORDER[(Table.ORDER.find(e.preset)+1)%Table.ORDER.size()]
 		host._button(host.panel_box,"PRESET · %s → %s"%[Economy.preset(e).name,Table.PRESETS[next].name],
 			func():_redraw(host,func():Economy.cycle_preset(e)),"eco_preset")
 		var armed=host.get_meta("economy_iron_armed",false)
+		host._menu_text(Save2Table.IRONMAN_LINE,15)
 		host._button(host.panel_box,"CONFIRM IRONMAN · CANNOT BE UNDONE" if armed else "IRONMAN · OFF → ON (ONE WAY)",
 			_ironman.bind(host),"eco_ironman")
 	host._menu_text("NEXT LAUNCH REFIT · %s\nA craft keeps what it carried last launch for free. A bare standard Quietus always launches free."%

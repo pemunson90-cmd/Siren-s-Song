@@ -14,18 +14,32 @@ func check(ok,label):
 func _initialize():call_deferred("run")
 func send_of(bus):
 	return AudioServer.get_bus_send(AudioServer.get_bus_index(bus))
+func effective_gain(bus:String)->float:
+	var gain=1.0
+	while true:
+		var index=AudioServer.get_bus_index(bus)
+		if AudioServer.is_bus_mute(index):return 0.0
+		gain*=db_to_linear(AudioServer.get_bus_volume_db(index))
+		if index==0:return gain
+		bus=AudioServer.get_bus_send(index)
+	return gain
 func run():
 	var old={"version":1,"master":0.7,"music":0.3,"effects":0.6,"text_scale":1.3,"frame_cap":30,"haptics":false}
 	var loaded=Store.sanitize(old)
 	check(loaded.master==0.7 and loaded.music==0.3 and loaded.effects==0.6 and not loaded.haptics,"old file keeps its values")
-	for key in ["alerts","messages","haptic_strength","drag_preset","hold_preset"]:
+	check(loaded.alerts==0.6 and loaded.messages==0.6,"legacy category gains inherit the saved effects gain")
+	check(Store.sanitize(loaded)==loaded,"migrated split gains survive repeated sanitizing")
+	for gain in [0.0,0.2,1.0]:
+		var migrated=Store.sanitize({"effects":gain})
+		check(migrated.alerts==gain and migrated.messages==gain,"legacy effective gains preserved: "+str(gain))
+	for key in ["haptic_strength","drag_preset","hold_preset"]:
 		check(loaded[key]==Store.DEFAULTS[key],"old file loads new key at default: "+key)
-	check(Store.DEFAULTS.alerts==1.0 and Store.DEFAULTS.messages==1.0,"new bus levels default to 0 dB so the mix is unchanged")
+	check(Store.DEFAULTS.alerts==0.8 and Store.DEFAULTS.messages==0.8,"split bus defaults preserve the original effects gain")
 	for bad in ["x",-1,7,2.5,NAN,INF,true,null,[],{}]:
 		var v=Store.sanitize({"haptic_strength":bad,"drag_preset":bad,"hold_preset":bad,"alerts":bad,"messages":bad})
 		check(v.haptic_strength==2 and v.drag_preset==1 and v.hold_preset==1,"corrupt preset falls back: "+str(bad))
 		if not ((bad is int or bad is float) and is_finite(float(bad))):
-			check(v.alerts==1.0 and v.messages==1.0,"corrupt level falls back: "+str(bad))
+			check(v.alerts==0.8 and v.messages==0.8,"corrupt level falls back: "+str(bad))
 	check(Store.sanitize({"haptic_strength":0}).haptic_strength==2 and Store.sanitize({"haptic_strength":4}).haptic_strength==2,"strength outside 1..3 rejected")
 	check(Store.sanitize({"alerts":9.0}).alerts==1.0 and Store.sanitize({"alerts":-3}).alerts==0.0,"levels clamp to 0..1")
 	var chosen=Store.sanitize({"haptic_strength":3.0,"drag_preset":0,"hold_preset":2.0,"alerts":0.25,"messages":0.0})
@@ -36,7 +50,7 @@ func run():
 	check(store.save_settings(chosen) and store.load_settings()==chosen,"new keys round trip through the store")
 	var damaged=FileAccess.open(path,FileAccess.WRITE);damaged.store_string('{"alerts":"loud","haptic_strength":[1],"hold_preset":9}');damaged.close()
 	var recovered=store.load_settings()
-	check(recovered.alerts==1.0 and recovered.haptic_strength==2 and recovered.hold_preset==1,"corrupt new keys on disk fall back to defaults")
+	check(recovered.alerts==0.8 and recovered.haptic_strength==2 and recovered.hold_preset==1,"corrupt new keys on disk fall back to defaults")
 	for suffix in ["",".tmp"]:DirAccess.remove_absolute(path+suffix)
 	# Haptic strength scales pulse length; the normal level equals the previous fixed pulse.
 	check(Depth.pulse_ms(45,{"haptic_strength":2})==45,"normal strength keeps the 45 ms pulse")
@@ -64,21 +78,30 @@ func run():
 	check(precise.has("pan"),"precise drag preset starts a drag at 12 px")
 	check(Depth.hold_seconds({"hold_preset":0})<0.5 and Depth.hold_seconds({"hold_preset":2})>0.5,"hold presets bracket the default")
 	Settings.apply(Store.DEFAULTS)
-	# Bus mapping: categories route under effects, levels reach their AudioServer buses.
+	# Follow the actual bus chain as well as playback guards: sibling gain/mute isolation.
 	var sound=Sound.new();root.add_child(sound);await process_frame;await process_frame
-	for bus in [Sound.ALERTS_BUS,Sound.MESSAGES_BUS]:
-		check(AudioServer.get_bus_index(bus)>=0 and send_of(bus)==Sound.EFFECTS_BUS,bus+" exists under the effects bus")
-	check(send_of(Sound.AMBIENCE_BUS)=="Master" and send_of(Sound.EFFECTS_BUS)=="Master","ambience and effects stay under Master")
+	for bus in [Sound.AMBIENCE_BUS,Sound.EFFECTS_BUS,Sound.ALERTS_BUS,Sound.MESSAGES_BUS]:
+		check(AudioServer.get_bus_index(bus)>=0 and send_of(bus)=="Master",bus+" routes directly to Master")
+	sound.effects_volume=loaded.effects;sound.alerts_volume=loaded.alerts;sound.messages_volume=loaded.messages
 	sound.apply_bus_levels()
-	for bus in [Sound.ALERTS_BUS,Sound.MESSAGES_BUS]:
-		check(is_zero_approx(AudioServer.get_bus_volume_db(AudioServer.get_bus_index(bus))),bus+" default is 0 dB")
-	sound.alerts_volume=0.5;sound.messages_volume=0.0;sound.apply_bus_levels()
-	var alerts_index=AudioServer.get_bus_index(Sound.ALERTS_BUS);var messages_index=AudioServer.get_bus_index(Sound.MESSAGES_BUS)
-	check(is_equal_approx(AudioServer.get_bus_volume_db(alerts_index),linear_to_db(0.5)) and not AudioServer.is_bus_mute(alerts_index),"alerts level maps to its bus")
-	check(AudioServer.is_bus_mute(messages_index),"zero messages level mutes only its bus")
-	sound._route_voice(0,"alert");check(send_of("SirenVoice0")==Sound.ALERTS_BUS,"alert cue routes to the alerts bus")
-	sound._route_voice(0,"carrier_received");check(send_of("SirenVoice0")==Sound.MESSAGES_BUS,"received message routes to the messages bus")
-	sound._route_voice(0,"ping");check(send_of("SirenVoice0")==Sound.EFFECTS_BUS,"equipment cue stays on the effects bus")
+	for bus in [Sound.EFFECTS_BUS,Sound.ALERTS_BUS,Sound.MESSAGES_BUS]:
+		check(is_equal_approx(effective_gain(bus),0.6),bus+" preserves the legacy effective gain")
+	# A full category matrix catches both bus leakage and guards tied to Effects.
+	for silent in ["effects","alerts","messages","master"]:
+		sound.effects_volume=0.0 if silent=="effects" else 1.0
+		sound.alerts_volume=0.0 if silent=="alerts" else 1.0
+		sound.messages_volume=0.0 if silent=="messages" else 1.0
+		sound.muted=silent=="master"
+		Settings.apply({"master":0.0 if silent=="master" else 1.0})
+		sound.apply_bus_levels()
+		check(is_equal_approx(effective_gain(Sound.AMBIENCE_BUS),0.0 if silent=="master" else 0.5),silent+" mute: ambience effective bus gain")
+		for row in [["effects","ping",Sound.EFFECTS_BUS],["alerts","alert",Sound.ALERTS_BUS],["messages","carrier_received",Sound.MESSAGES_BUS]]:
+			for voice in sound.voices:voice.stop()
+			var enabled=silent!="master" and silent!=row[0]
+			sound.play(row[1])
+			check(sound.voices.any(func(voice):return voice.playing)==enabled,silent+" mute: "+row[0]+" playback guard")
+			check(is_equal_approx(effective_gain(row[2]),1.0 if enabled else 0.0),silent+" mute: "+row[0]+" effective bus gain")
+			if enabled:check(send_of("SirenVoice0")==row[2],row[1]+" playback routes to its category")
 	check(sound.lock_voice.bus==Sound.ALERTS_BUS,"lock warning voice is an alert")
 	Settings.apply(Store.DEFAULTS,null)
 	sound.queue_free();await process_frame

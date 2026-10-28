@@ -5,6 +5,7 @@ extends RefCounted
 const Table=preload("res://src/persistence/save_states/save2_table.gd")
 const Txn=preload("res://src/persistence/save_states/save2_transaction.gd")
 const Store=preload("res://src/persistence/save_store.gd")
+const Economy=preload("res://src/campaign/economy.gd")
 var live_path:String
 var directory:String
 var warning=""
@@ -58,7 +59,7 @@ func _record(kind:String,data:Dictionary,label:String,event:String,run:String=""
  var recovered=data.get("completed",[])+data.get("expedition",{}).get("completed",[])
  var state=data.get(Table.STATE,{})
  var last=int(state.get("last_recovered",recovered.back() if not recovered.is_empty() else -1))
- return {"revision":1,"kind":kind,"label":label,"timestamp":int(clock.call()),"sequence":_sequence(),"event":event,"digest":var_to_bytes(data).hex_encode().sha256_text(),"recovery_count":int(state.get("recoveries",recovered.size())),"last_operation":last+1,"run_id":run,"launch_id":launch}
+ return {"revision":1,"kind":kind,"label":label,"timestamp":int(clock.call()),"sequence":_sequence(),"event":event,"digest":var_to_bytes(data).hex_encode().sha256_text(),"recovery_count":int(state.get("recoveries",recovered.size())),"last_operation":last+1,"run_id":run,"launch_id":launch,"ironman":Economy.is_ironman(data.get("economy"))}
 func _write(kind:String,index:int,data:Dictionary,record:Dictionary)->bool:
  var payload=data.duplicate(true);payload[Table.RECORD]=record
  var codec=Store.new();var bytes=codec.encoded(payload)
@@ -70,6 +71,7 @@ func _write(kind:String,index:int,data:Dictionary,record:Dictionary)->bool:
  warning="";return true
 func save_manual(index:int,archive:Dictionary,label:String,confirmed:bool=false,expected_token:String="missing")->bool:
  if not _open():return false
+ if Table.ironman_lock and Economy.is_ironman(archive.get("economy")):warning=Table.IRONMAN_LINE;return false
  var current=inspect("manual",index)
  if current.status=="unreadable":warning="Hard save is unreadable. Its files were left alone.";return false
  if current.token!=expected_token or (current.status=="ready" and not confirmed):warning="Confirm the current hard-save slot before replacing it.";return false
@@ -100,6 +102,9 @@ func load_entry(kind:String,index:int,live_store,confirmed:bool=false,expected_t
  var entry=inspect(kind,index)
  if not confirmed or entry.status!="ready" or entry.token!=expected_token:warning="Confirm the current readable snapshot before loading it.";return false
  if live_store.path!=live_path:warning="The selected campaign changed. No archive was replaced.";return false
+ # Protect the archive seam as well as the UI; ordinary backup/transaction recovery never calls this.
+ if Table.ironman_lock and (Economy.is_ironman(live_store.load_game().get("economy")) or Economy.is_ironman(entry.data.get("economy"))):
+  warning=Table.IRONMAN_LINE;return false
  var bytes=live_store.encoded(entry.data)
  if bytes.is_empty():warning="Snapshot is invalid. Live campaign retained.";return false
  var old=Txn.bytes_at(live_path,Table.FILE_LIMIT) if FileAccess.file_exists(live_path) else null

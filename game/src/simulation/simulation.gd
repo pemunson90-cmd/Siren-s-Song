@@ -8,6 +8,7 @@ const SaveChecks=preload("res://src/persistence/save_checks.gd")
 const EnemyTypes=preload("res://src/simulation/enemy_types.gd")
 const GradeOnSecure=preload("res://src/photo_grade/grade_on_secure.gd")
 const LaunchLayout=preload("res://src/simulation/opening_fleet/launch_layout.gd")
+const FieldTools=preload("res://src/simulation/field_tool_effects.gd")
 const Shelf=preload("res://src/simulation/shelf_habitat.gd")
 const Wake=preload("res://src/simulation/wake_crossing.gd")
 const Endurance=preload("res://src/simulation/operation_endurance.gd")
@@ -137,6 +138,7 @@ func start(index: int, upgrade: String = "endurance", launch:Dictionary={}) -> v
 	if upgrade=="disruption": tools.emp += 1
 	if upgrade=="survey": tools.recon += 1
 	if upgrade=="endurance": oxygen=120.0
+	FieldTools.seed(self,upgrade)
 	_build_navigation()
 	_configure_terrain()
 	_configure_depth_charts()
@@ -250,7 +252,9 @@ func _hull_strike(u:Dictionary,impact:float=-1.0,hit:String="terrain")->void:
 	if u.name=="QUIETUS" and u.alive and outcome.is_empty() and elapsed-float(u.get("hit_at",-100.0))>=COLLISION_COOLDOWN:
 		var damage:=collision_damage(impact)
 		if damage>0.0:
+			var hull_before_strike:float=hull
 			hull=maxf(0.0,hull-damage);u["hit_at"]=elapsed
+			FieldTools.record_collision(self,hull_before_strike-hull)
 			events.append({"type":"creak","pos":u.pos});message="Hull strike against %s · %dm/s · hull -%d%%"%[hit,roundi(impact),roundi(damage)]
 func _hull_contacts(u:Dictionary,origin:Vector2,velocity:Vector2)->void:
 	var bodies=units.slice(1)+sirens
@@ -384,7 +388,7 @@ func equipment_feedback()->Dictionary:
 func _capture_duration(objective:Dictionary,unit_id:int)->float:
 	return Sampler.capture_spec(unit_id,mission.get("launch_equipment",{}),objective).get("duration",objective.get("duration",4.0))
 func passive_range(unit_id:int)->float:
-	return CraftUpgrades.passive_range(mission.get("launch_equipment",{}),unit_id)*(0.65 if mission.darkness else 1.0)
+	return CraftUpgrades.passive_range(mission.get("launch_equipment",{}),unit_id)*(0.65 if mission.darkness else 1.0)*FieldTools.reach_scale(self,unit_id)
 func motion_radius(unit_id:int)->float:
 	return CraftUpgrades.motion_radius(mission.get("launch_equipment",{}),unit_id,propulsion_speed(units[unit_id]))*AllStop.noise_scale(units[unit_id])+(130.0 if not units[unit_id].get("transition",{}).is_empty() else 0.0)+Choir.noise(self,unit_id)
 func _craft_speed(unit:Dictionary,fallback:float)->float:

@@ -6,6 +6,7 @@ const Sensors=preload("res://src/simulation/orders/sensor_orders.gd")
 const Route=preload("res://src/simulation/orders/route_orders.gd")
 const Photo=preload("res://src/simulation/orders/photo_orders.gd")
 const Features=preload("res://src/simulation/orders/feature_orders.gd")
+const ToolOrders=preload("res://src/simulation/orders/tool_orders.gd")
 var checks=0
 var failures=0
 func check(ok,label):
@@ -13,7 +14,7 @@ func check(ok,label):
  if not ok:failures+=1;printerr("FAIL ",label)
 func _initialize():call_deferred("run")
 func run():
- var families=[Weapons,Sensors,Route,Photo,Features]
+ var families=[Weapons,Sensors,Route,Photo,Features,ToolOrders]
  var counts={}
  for order in OrderTable.TABLE:
   var row=OrderTable.TABLE[order]
