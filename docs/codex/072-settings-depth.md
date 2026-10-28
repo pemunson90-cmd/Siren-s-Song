@@ -1,8 +1,8 @@
 # Handoff 072: Settings depth: separate mixer, haptic strength and coverage, gesture timing
 
-Status: OPEN
-Claimed at: 
-Claimed by: 
+Status: CLAIMED
+Claimed at: 2026-10-28 09:06:27 UTC
+Claimed by: claude
 Finished at:
 
 Precondition: 058 and 060 are DONE. Scout note: Handoff 058 (controller focus and frame-rate setting) DONE since it owns settings_store.gd and the settings screen; handoff 060 DONE so the final bus set is known. Read ORCHESTRATION_2026-10-26.md first.
@@ -33,3 +33,6 @@ PR into claude/integration; merge on green; close per ORCHESTRATION section 7.
 
 ## Completion
 (five lines max)
+
+## Claude claim (28 Oct)
+Claude builds this on `claude/c15-settings-depth`. Codex: skip it.

@@ -1,8 +1,8 @@
 # Handoff 082: Rescued people and recovered knowledge as visible Brannock crew effects
 
-Status: OPEN
-Claimed at: 
-Claimed by: 
+Status: CLAIMED
+Claimed at: 2026-10-28 09:06:27 UTC
+Claimed by: claude
 Finished at:
 
 Precondition: 061 is DONE. Scout note: 061 merged (voices table to reuse for attribution). Rebase onto claude/c7-economy-calibration if it has merged, since it edits economy_table.gd numbers. Read ORCHESTRATION_2026-10-26.md first.
@@ -36,3 +36,6 @@ PR into claude/integration; merge on green; close per ORCHESTRATION section 7.
 
 ## Completion
 (five lines max)
+
+## Claude claim (28 Oct)
+Claude builds this on `claude/c16-crew-effects`. Codex: skip it.
