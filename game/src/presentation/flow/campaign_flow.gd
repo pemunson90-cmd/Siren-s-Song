@@ -98,7 +98,7 @@ static func briefing(host, index: int) -> void:
 	var stock=host._loadout_stock(host.upgrade)
 	var fit_start=host.panel_box.get_child_count()
 	if not host._campaign_pristine() and not EconomyPanel.briefing_line(host).is_empty():host._menu_text(EconomyPanel.briefing_line(host),14)
-	host._menu_text("NEXT DIVE / RETRY · %s\nO₂ %d%% · DISRUPT %d · SURVEY %d · %s"%[host.upgrade.to_upper(),stock[0],stock[1],stock[2],FitSurfaceModel.stock_text(host.upgrade)],17)
+	host._menu_text("NEXT DIVE / RETRY · %s\nO₂ %d%% · DISRUPT %d · SURVEY %d · %s"%[host.upgrade.to_upper(),stock[0],stock[1],stock[2],FitSurfaceModel.stock_text(host.upgrade,not host._campaign_pristine())],17)
 	FitSurface.summary(host,host._equipment_context())
 	# Frames open after the first dive; recovered fittings appear once earned. A toggle folds them away.
 	if not compact:fit_start=host.panel_box.get_child_count()

@@ -108,10 +108,10 @@ static func summary(context:Dictionary)->String:
   if Catalog.ITEMS.has(id) and Catalog.key_of(slots,id).is_empty():spare+=1
  return "\n".join(lines)+("\n%d SPARE MODULE%s"%[spare,"" if spare==1 else "S"] if spare>0 else "")
 # Supplies line from the tool table instead of fixed words. Drones are the two non-Quietus craft.
-static func stock_text(choice:String)->String:
+static func stock_text(choice:String,with_field:bool=true)->String:
  var parts=["%d DECOYS"%Tools.loadout_count("decoy",choice),"%d DRONES"%(Catalog.SLOTS.size()-1)]
  parts.append("%d TORPEDOES"%Tools.loadout_count("knock",choice))
  var field=[]
- for id in Tools.field_ids():
+ for id in (Tools.field_ids() if with_field else []):
   if Tools.is_enabled(id):field.append("%s %d"%[Tools.spec(id).name.to_upper(),Tools.loadout_count(id,choice)])
  return " · ".join(parts)+("\n"+" · ".join(field) if not field.is_empty() else "")
