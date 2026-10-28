@@ -90,6 +90,14 @@ class DrawCommands extends RefCounted:
  func draw_line(a,b,color,width):commands.append(["line",a,b,color,width])
  func draw_arc(at,r,a,b,n,color,width):commands.append(["arc",at,r,a,b,n,color,width])
  func draw_dashed_line(a,b,color,width,dash):commands.append(["dash",a,b,color,width,dash])
+ func draw_polyline(points,color,width):commands.append(["polyline",points,color,width])
+class ReceivedRows extends RefCounted:
+ static func feedback(sim,_selected):return {"rows":sim.rows}
+class ReceivedFixture extends RefCounted:
+ var selected=0
+ var elapsed=10.
+ var Sonar=ReceivedRows
+ var rows=[{"enemy":0,"time":8.,"origin":Vector2.ZERO,"direction":Vector2.RIGHT,"confidence":.8,"kind":"bearing"},{"enemy":0,"time":9.,"origin":Vector2.ZERO,"direction":Vector2.UP,"confidence":.5,"kind":"echo"},{"enemy":1,"time":6.,"origin":Vector2.ONE,"direction":Vector2.RIGHT,"confidence":1.,"kind":"bearing"}]
 func chart_checks():
  var region=preload("res://src/presentation/art/region_renderer.gd")
  var style=preload("res://src/presentation/art/region_table.gd").STYLES.glass
@@ -123,6 +131,16 @@ func chart_checks():
  a.commands=[];region.atmosphere(a,style,Vector2(1600,960),1.)
  Settings.apply({});b.commands=[];region.atmosphere(b,style,Vector2(1600,960),1.)
  check(a.commands[0][2].a<b.commands[0][2].a,"chart_high_contrast_mutes_regional_light")
+ var received=ReceivedFixture.new()
+ Settings.apply({});a.commands=[];b.commands=[]
+ Palette.received_bearings(a,received)
+ preload("res://src/presentation/sonar_history.gd").draw_bearings(b,received)
+ check(a.commands==b.commands and a.commands.size()==3,"chart_default_received_commands_exact_legacy_latest_and_age_gates")
+ Settings.apply({"safe_palette":true});a.commands=[]
+ Palette.received_bearings(a,received)
+ check(a.commands.size()==5 and a.commands[1][0]=="dash" and a.commands[2][0]=="polyline","chart_safe_received_echo_has_dots_and_diamond_with_unchanged_row_gates")
+ check(a.commands[1][1]==b.commands[0][1] and a.commands[1][2]==b.commands[0][2] and a.commands[3][1]==b.commands[1][1] and a.commands[3][2]==b.commands[1][2],"chart_safe_received_preserves_published_ray_and_fan_geometry")
+ Settings.apply({})
  var ocean=preload("res://src/presentation/ocean_view.gd").new();ocean.sim=fresh()
  ocean.sim.contacts[0]={"pos":ocean.sim.units[0].pos+Vector2(80,0),"angle":PI,"time":0.,"mode":"LOCKING","lock":2.,"target":0,"type":"patroller","band":ocean.sim.units[0].band}
  var warnings=preload("res://src/presentation/lock_warning.gd")

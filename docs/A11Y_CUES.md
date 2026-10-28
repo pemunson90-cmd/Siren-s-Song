@@ -113,7 +113,9 @@ camera_flash presentation timer at 0.08 s (the chart currently draws no flash wa
 HIGH CONTRAST thickens chart/contact/craft outlines and course strokes, brightens
 course colors, and mutes decorative regional light/dust and photographic lamp wash.
 SAFE PALETTE adds long-dash threat rings, dotted evidence/received marks and
-short-dash warning rings with opaque dark stroke backing. Course geometry retains
+short-dash warning rings with opaque dark stroke backing. The received-bearing
+renderer uses the same published rows, latest-source/three-second gate and fan
+geometry as SonarHistory, with dotted rays and an extra diamond for echoes. Course geometry retains
 its solid confirmed / dashed unsurveyed distinction and gets role colors. Existing
 contact words, photographic finding shapes, warning arcs, seconds and eligibility
 remain authoritative. The existing Hunt help includes the optional chart legend.

@@ -373,7 +373,7 @@ func _draw() -> void:
 		var heading=Vector2.from_angle(projectile.angle)
 		draw_line(projectile.pos-heading*17,projectile.pos+heading*5,Color("a7c7c3"),3/world_scale)
 		draw_circle(projectile.pos+heading*5,2.2/world_scale,Color("ddede2"))
-	preload("res://src/presentation/sonar_history.gd").draw_bearings(self,sim)
+	Palette.received_bearings(self,sim)
 	var observed=contact_entries()
 	for entry in observed:
 		Palette.marker(self,entry.pos,72./world_scale,"threat",2./world_scale)

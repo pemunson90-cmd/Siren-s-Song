@@ -47,4 +47,29 @@ static func course(ci,parts:Array,scale:float,selected:bool)->void:
   if part.confirmed:ci.draw_line(part.from,part.to,tint,width)
   else:ci.draw_dashed_line(part.from,part.to,tint,width,18./maxf(scale,.01)*.55)
 static func legend()->String:
- return "\nChart: threat long dashes; received dots; route lines (dashed = unsurveyed); warning short dashes." if safe() else ""
+ return "\nChart: threat long dashes; received dots (echo diamond); route lines (dashed = unsurveyed); warning short dashes." if safe() else ""
+
+static func received_bearings(ci,sim)->void:
+ if not safe() and not high_contrast():
+  preload("res://src/presentation/sonar_history.gd").draw_bearings(ci,sim);return
+ # Same public rows, latest-per-source and three-second chart window as
+ # SonarHistory.draw_bearings. No live roster, range or sensing queries.
+ var feedback=sim.Sonar.feedback(sim,sim.selected)
+ var drawn={};var rows=feedback.rows.duplicate();rows.reverse()
+ for row in rows:
+  if drawn.has(row.enemy) or sim.elapsed-row.time>3:continue
+  drawn[row.enemy]=true
+  var point:Vector2=row.origin;var direction:Vector2=row.direction
+  var echo=row.kind!="bearing"
+  var tint=chart_color("evidence" if echo else "heard",Color(.95,.65,.3,.5) if echo else Color(.3,.85,.76,.35))
+  var a=point+direction*35;var b=point+direction*170
+  var width=stroke(1.5)/ci.world_scale
+  ci.draw_line(a,b,Color("07131b"),width+3./ci.world_scale)
+  if safe():ci.draw_dashed_line(a,b,tint,width,3./ci.world_scale)
+  else:ci.draw_line(a,b,tint,width)
+  if safe() and echo:
+   var side=direction.orthogonal()*5./ci.world_scale
+   var along=direction*5./ci.world_scale
+   ci.draw_polyline(PackedVector2Array([b-along,b+side,b+along,b-side,b-along]),tint,width)
+  var spread=deg_to_rad(lerpf(28,5,row.confidence))
+  for side in [-1,1]:ci.draw_line(point+direction*35,point+direction.rotated(spread*side)*170,Color(tint,.2),stroke(1.)/ci.world_scale)
