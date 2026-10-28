@@ -3,6 +3,14 @@ extends RefCounted
 # Prompts are shown once per campaign (ids are saved); warnings pause for reading.
 const MAX_OPERATION := 4
 const FIRST_USE_HINTS := ["first_depth", "first_emit", "first_research", "first_field_tool"]
+# Persistent vocabulary, independent of displayed hints and feature switches.
+# Keep these ids when reverting a module or removing its text. priced_gone is the
+# legacy priced-shots rollback marker; other unknown priced_* ids remain invalid.
+const SAVED_HINT_IDS := [
+	"move", "pause", "drone", "sweep", "warning", "noise",
+	"priced_reach", "priced_light", "priced_window", "priced_film", "priced_gone",
+	"first_depth", "first_emit", "first_research", "first_field_tool"
+]
 const Priced = preload("res://src/simulation/photo_pricing/photo_pricing_table.gd")
 # Short briefing lines for the opening operations. The full rules stay in the field manual.
 const GOALS := {
@@ -38,10 +46,10 @@ static func applies(id: String, operation: int) -> bool:
 	return HINTS.has(id) and operation in HINTS[id].ops
 # Saved first-run flags: a short list of known hint ids. Anything else is rejected.
 static func valid_seen(value: Variant) -> bool:
-	if not value is Array or value.size() > HINTS.size(): return false
+	if not value is Array or value.size() > SAVED_HINT_IDS.size(): return false
 	var unique := []
 	for id in value:
-		if not id is String or not HINTS.has(id) or id in unique: return false
+		if not id is String or not id in SAVED_HINT_IDS or id in unique: return false
 		unique.append(id)
 	return true
 static func reference_text(brief: String) -> String:

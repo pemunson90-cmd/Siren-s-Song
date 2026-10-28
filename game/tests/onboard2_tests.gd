@@ -34,6 +34,21 @@ func _initialize():
  check(not Text.valid_seen(["move","move"]) and not Text.valid_seen([4]),"duplicate and non-string hint ids rejected")
  var oversized=ids.duplicate();oversized.append("first_depth")
  check(not Text.valid_seen(oversized),"hint list size stays bounded")
+ # Historical save vocabulary survives presentation rollback/off switches.
+ var saved_ids=["move","pause","drone","sweep","warning","noise","priced_reach","priced_light","priced_window","priced_film","priced_gone","first_depth","first_emit","first_research","first_field_tool"]
+ Rows.enabled=false
+ check(Text.valid_seen(saved_ids),"all historical hint ids validate with briefing module off")
+ var rolled_back=archive.duplicate(true);rolled_back["hints_seen"]=saved_ids
+ check(store.save(rolled_back),"rolled-back presentation still saves historical hint ids")
+ var restored=store.load_game()
+ check(store.valid(restored) and restored.get("hints_seen")==saved_ids,"historical hint ids survive rollback archive round trip")
+ Rows.enabled=true
+ check(Text.hint_text("priced_gone").is_empty() and not Text.applies("priced_gone",0),"retired hint id validates without becoming a displayed hint")
+ check(not Text.valid_seen(null) and not Text.valid_seen({}) and not Text.valid_seen("move"),"seen flags reject non-array containers")
+ check(not Text.valid_seen([null]) and not Text.valid_seen([true]) and not Text.valid_seen([[]]),"seen flags reject non-string entries")
+ check(not Text.valid_seen(["priced_gone","priced_gone"]),"retired ids also reject duplicates")
+ var too_many=saved_ids.duplicate();too_many.append("priced_unknown")
+ check(not Text.valid_seen(too_many),"historical save vocabulary remains size bounded")
  for id in ["sonobuoy","silt_screen","hull_patch","relay_buoy"]:
   check(Help.TEXT.has(id) and Help.TEXT[id].length()<180,"new tool has bounded hold help "+id)
  print("ONBOARD2 CHECKS %d FAILURES %d"%[checks,failures]);quit(1 if failures else 0)
