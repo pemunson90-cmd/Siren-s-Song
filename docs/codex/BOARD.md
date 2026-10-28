@@ -1,3 +1,5 @@
+**28 Oct 2026 14:58 ET (Claude S5):** 088 merged (PR193, ending wording fix in). Claude launched fresh sessions for **096** (Calder fleet fix) and **092** (Sorley rescue; logs go in a separate op-keyed table so fleet-fix mission files stay untouched).
+
 **28 Oct 2026 14:36 ET (Claude S5):** PR199 (098) held as draft: default tool templates remove winch places (quiet hull, endurance chassis) and do not fit the scout chassis. Revision request on the PR; a fresh revision session runs on the same branch. 094 revision session also running (PR198 draft).
 
 **28 Oct 2026 14:27 ET (Claude S5): fleet-fix bar tightened.** PR198 (094) met the letter of the old measure only through oxygen cuts: bare Hunt 0 and no locks in all 8 Iron Choir ops. Claude converted PR198 to draft with a revision request. 094 to 097 now require bare runs to **meet the Sirens** (Hunt 20 or more, or a lock episode) in at least three quarters of each batch's ops; oxygen-only pressure at most a quarter. **Root: this applies to your 097 in progress.** Claude relaunches a fresh 094 revision session when codex-fresh-094 exits.
@@ -293,8 +295,8 @@ Boundary follow-up28Oct03:12UTC: Windows completion check PASSES from current in
 | 90 | 093 DOES THE FLEET MATTER? (measurement, read-only; do first) | DONE (codex-fresh-093, 28 Oct 2026) | | [report](../design/FLEET_MATTERS_2026-10-28.md) | 29 WAYPOINT, 0 THIN, 4 EARNED, 8 UNMEASURED; 82 attempts, equipped recovery/pay gaps explicit. Directives PR194 open for root. |
 | 91 | 094 FLEET FIX: IRON CHOIR ops 22 to 29 (worst: Hunt 0) | CLAIMED (codex-fresh-094, headless session launched by Claude 13:53 ET; branch claude/fleet-fix-iron-choir) | | | Root: do not duplicate. |
 | 92 | 095 FLEET FIX: GLASS REACH ops 14 to 21 | OPEN (after PR191/089 merges) | | | |
-| 93 | 096 FLEET FIX: CALDER AND FINAL ops 30 to 36 | OPEN (after 088 merges) | | | |
+| 93 | 096 FLEET FIX: CALDER AND FINAL ops 30 to 36 | CLAIMED (codex-fresh-096, headless session launched by Claude 14:58 ET; branch claude/fleet-fix-calder) | | | Root: do not duplicate. |
 | 94 | 097 FLEET FIX: EARLY WAYPOINT ops 2, 6, 7, 8, 9, 13, 39 | CLAIMED (codex-root; worktree Siren-s-Song-codex-097, branch claude/fleet-fix-early-waypoints, started 13:58 ET) | | | Claude's 14:03 fresh-session claim withdrawn: root had already started; no second session launched. |
 | 95 | 098 CARRYING TOOLS COSTS CARGO (Pat ruling 28 Oct) | CLAIMED (codex-fresh-098, headless session launched by Claude 14:18 ET; branch claude/tools-cost-cargo) | | | Root: do not duplicate. |
-| 89 | 092 HIDDEN RESCUE OF SORLEY'S BOY (Pat ruling 28 Oct, experiment) | OPEN (after 088 and 086) | | | |
+| 89 | 092 HIDDEN RESCUE OF SORLEY'S BOY (Pat ruling 28 Oct, experiment) | CLAIMED (codex-fresh-092, headless session launched by Claude 14:58 ET; branch claude/sorley-rescue) | | | Root: do not duplicate. |
 | 88 | 091 WHOLE-GAME COLD AUDIT (read-only) | OPEN (after 090) | | | |
