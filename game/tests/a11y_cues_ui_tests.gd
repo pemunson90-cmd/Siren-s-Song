@@ -18,8 +18,9 @@ func shape_case(shape):
  if shape.x==2520:game.fixture_safe_area=Rect2(136,0,2384,1080)
  root.add_child(game);await settle();game.set_process(false);game._show_campaign();await settle()
  var front=Front.new();front.settings_store.path=path;game.add_child(front);front.setup(game);await settle()
- await press(front,"frontend_settings");await press(front,"text_scale_150")
+ await press(front,"frontend_settings");await press(front,"settings_page_display");await press(front,"text_scale_150")
  for id in ["setting_safe_palette","setting_audio_captions","setting_haptics"]:
+  await press(front,"settings_page_controls" if id=="setting_haptics" else "settings_page_display")
   var b=button(front,id);check(b!=null,"setting is present "+id)
   if b!=null:
    var dp=float(root.size.x)/root.get_visible_rect().size.x*160./420.
@@ -81,7 +82,7 @@ func shape_case(shape):
  s.contacts={0:{"pos":u.pos+Vector2(80,0),"time":s.elapsed,"mode":"LOCKING","lock":2.,"target":0,"type":"patroller","source":"optical","angle":0.,"band":1}};game._refresh();await settle()
  check(not view.visible and game.lock_warning.visible,"captions off retains mandatory lock warning")
  # Both existing settings surfaces use the same optional settings and seam.
- game._settings_menu();await settle();await press(game,"setting_audio_captions")
+ game._settings_menu();await settle();await press(game,"settings_page_display");await press(game,"setting_audio_captions")
  await create_timer(.35).timeout # Shared frontend settings use the existing 300ms save debounce.
  check(store.load_settings().audio_captions,"operation settings persists through the same SettingsStore")
  await android_back();check(game.screen=="menu","Android Back leaves operation settings")
