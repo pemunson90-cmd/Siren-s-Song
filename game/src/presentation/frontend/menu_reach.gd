@@ -13,6 +13,8 @@ static func entries(host)->void:
  var nav=HBoxContainer.new();nav.add_theme_constant_override("separation",Table.NAV_GAP);host.panel_box.add_child(nav)
  var controls=[]
  for node in host.panel_box.get_children():
+  if node is Button and node.get_meta("action","")=="menu_modes":
+   node.reparent(nav);controls.append(node)
   if node is Button and node.get_meta("action","")=="settings":
    node.text="SETTINGS";node.reparent(nav);controls.append(node)
  for row in Table.ENTRIES:

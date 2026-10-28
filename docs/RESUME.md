@@ -36,7 +36,7 @@ Current decisions: [USER_DIRECTIVES](USER_DIRECTIVES.md). Intended release: [CUR
 
 ## Next authorized work and limits
 
-This continuation is scoped by Pat to056 modes/expeditions on `claude/c3-modes`; root collects hosted CI and owns subsequent dispatch. Reconcile084's CI migration once merged before the final hosted gate. Preserve072 settings-depth,082 crew and083 dossier/archived-ledger hooks.057 requires056 merged and root dispatch. The live board owns current assignments and completion.
+This continuation is scoped by Pat to056 modes/expeditions on `claude/c3-modes`; root collects hosted CI and owns subsequent dispatch. 084's sharded CI gate is integrated; PR175 must reconcile the latest integration tip before its hosted gate. Preserve072 settings-depth,082 crew and083 dossier/archived-ledger hooks.057 requires056 merged and root dispatch. The live board owns current assignments and completion.
 For 050, Pat approved sight-only first: hearing, movement speed and lock timing stay unchanged. Earlier design text proposing hearing scaling is superseded. Keep tunable choices in tables with off switches/revert notes; keep working while ordinary reversible questions are pending. Protected mechanics, narrative/art direction, SIREN TELL and promotion still require Pat where not already authorized.
 Photography remains the primary military reconnaissance pillar; rescue, machinery and fleet work support it. Wider release modes/content and qualitative campaign assessment remain unfinished.
 
