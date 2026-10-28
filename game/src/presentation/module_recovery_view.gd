@@ -13,6 +13,7 @@ static func build_panel(hud)->void:
 const Catalog=preload("res://src/equipment/equipment_catalog.gd")
 const Delivery=preload("res://src/presentation/blackwater_delivery_view.gd")
 const Witness=preload("res://src/presentation/witness_evacuation_view.gd")
+const Cache=preload("res://src/presentation/optional_cache_view.gd")
 # Own-module projection only. Recovery and inventory mutation belong to commands
 # and FleetInventory; a carried fitting is never an operational installation.
 static func status(sim)->Dictionary:
@@ -21,6 +22,8 @@ static func name(item:String)->String:
  if item.begins_with("glass_") or item.begins_with("choir_"):return item.trim_prefix("glass_").trim_prefix("choir_").replace("_"," ").to_upper()
  return Catalog.ITEMS.get(item,{"name":item}).name.to_upper()
 static func work(sim,unit:int)->Dictionary:
+ var cache_work=Cache.work(sim,unit)
+ if not cache_work.is_empty():return cache_work
  if sim.Choir.busy(sim,unit):
   var result=sim.mission.iron_choir.jobs[unit].duplicate(true);result.unit=unit;result.item="choir_"+result.action;return result
  if sim.Glass.busy(sim,unit):
@@ -29,7 +32,7 @@ static func work(sim,unit:int)->Dictionary:
  if unit<0 or unit>=jobs.size() or jobs[unit].is_empty():return {"unit":-1}
  var result=jobs[unit].duplicate(true);result.unit=unit;return result
 static func cargo(sim,unit:int)->String:
- var names=[]
+ var names=Cache.cargo(sim,unit)
  if sim.Choir.applies(sim.mission):
   var industrial=sim.mission.iron_choir.artifact
   if not industrial.is_empty() and industrial.state=="cargo" and industrial.carrier==unit:names.append("CHOIR MATERIAL · "+industrial.id.replace("_"," ").to_upper())
@@ -50,6 +53,7 @@ static func active(sim,unit:int)->bool:
 static func short_name(item:String)->String:
  return {"drone_sampler":"FIELD SAMPLER","drone_survey_array":"SURVEY ARRAY","drone_deep_cells":"DEEP CELLS"}.get(item,name(item))
 static func site_lines(sim,site:Dictionary)->Array:
+ if sim.Cache.pieces(sim).has(site.item):return ["OPTIONAL CACHE",site.name]
  if site.item.begins_with("glass_"):return ["REACH MATERIAL",site.name]
  if site.get("witness",false):return Witness.site_lines(sim,site)
  var packets=site.get("packets",[])
@@ -108,6 +112,7 @@ static func draw(ocean,sim=null)->void:
   for row in marker.lines.size():
    ocean.draw_string(font,box.position+Vector2(10,size+8+row*(size+6)),marker.lines[row],HORIZONTAL_ALIGNMENT_LEFT,box.size.x-20,size,Color("8eb1b3") if row==0 else color)
 static func detail(sim,item:String)->String:
+ if sim.Cache.pieces(sim).has(item):return name(item)+"\n"+sim.salvage_context(item).reason+"\n4s settled ·60m · same depth · clear terrain\nAUDIBLE WINCH ·520m open-water estimate\nOne shared cargo place per piece. CACHE / UNLOAD at recovery frees places before photography is complete. All three received earn a first-return account."
  if Witness.site_for_item(sim,item):return Witness.salvage_detail(sim,item)
  var context=sim.salvage_context(item)
  for site in sim.salvage_sites():

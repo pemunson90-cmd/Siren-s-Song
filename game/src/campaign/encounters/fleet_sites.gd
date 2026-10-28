@@ -1,8 +1,9 @@
 extends RefCounted
 # Optional fleet payoffs through existing Reach work, currents and finite tools.
 # Revert: set ENABLED=false; retain record registration for existing saved notes.
-# No new save fields, fleet rules or required records. Cargo cache awaits runtime support.
+# No fleet rules or required records. Optional cache custody lives in its module.
 const W=preload("res://src/campaign/encounters/work_sites.gd")
+const Cache=preload("res://src/simulation/optional_cache.gd")
 const ENABLED=true
 const LOITER_POS=Vector2(200,1900)
 const LOITER_SECONDS=620.
@@ -14,9 +15,10 @@ const RELAY_SOURCE=Vector2(300,850)
 const SILT_ACCOUNT=Vector2(1500,1680)
 const PATROL_ACCOUNT=Vector2(2300,1100)
 static func records(id:int)->Array:
- return {37:["glass_record_37_pilot","glass_record_37_hydrophone","glass_record_37_relay"],38:["glass_record_38_pump","glass_record_38_watch"],39:["glass_record_39_patrol"]}.get(id,[])
+ return {37:["glass_record_37_pilot","glass_record_37_hydrophone","glass_record_37_relay"],38:["glass_record_38_pump","glass_record_38_watch"],39:["glass_record_39_patrol",Cache.FACT]}.get(id,[])
 static func apply(m:Dictionary)->void:
  if not ENABLED:return
+ Cache.author(m)
  match m.id:
   37:
    var account=W.listen("glass_record_37_pilot","SOUTH PILOT ACCOUNT",LISTEN_POS,"The south approach leaves the trawler's underside in view.",6.)
