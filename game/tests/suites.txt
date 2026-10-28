@@ -249,6 +249,7 @@ menu_reach_ui_tests|MENU REACH UI|241|261|render
 settings_lifecycle_ui_tests|SETTINGS LIFECYCLE UI|242|262|render
 finale_provisional_tests|FINALE|243|263
 finale_provisional_ui_tests|FINALE UI|244|264|render
+ledger_tests|LEDGER|560|660
 save2_storage_tests|SAVE2 STORAGE|245|265
 save2_fork_tests|SAVE2 FORKS|246|266
 save2_ui_tests|SAVE2 UI|247|267|render
