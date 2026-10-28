@@ -17,7 +17,7 @@ Live execution/next work: [RESUME](RESUME.md). Rules: AGENTS and USER_DIRECTIVES
 ## Branch roles
 `claude/integration` is development integration; `gauntlet/production` is frozen promotion baseline; `main` is accepted baseline. Pat authorizes promotion. `codex/handoffs` owns the queue. Feature branches return to integration through reviewed PRs; review the current board before assigning work.
 
-Inventory snapshot:165 remote branches, fetched with full commit ancestry at integration7089470 and queueab293a7. Of these105 tips are ancestors of integration and60 are not. See [all branch names, exact tips and classifications](repository/branches-2026-10-22.tsv). The reference-package archive ref created by this organization pass is additional to that snapshot. No branch was deleted, renamed or force-reset.
+Inventory snapshot:165 remote branches, fetched with full commit ancestry at integration7089470 and queueab293a7. Of these105 tips are ancestors of integration and60 are not. See [all branch names, exact tips and classifications](https://github.com/pemunson90-cmd/Siren-s-Song/blob/archive/docs-pre-sweep-20261027/docs/repository/branches-2026-10-22.tsv). The reference-package archive ref created by this organization pass is additional to that snapshot. No branch was deleted, renamed or force-reset.
 
 | Lifecycle | Snapshot count | Treatment |
 |---|---:|---|
