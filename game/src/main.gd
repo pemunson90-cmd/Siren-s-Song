@@ -184,7 +184,7 @@ func _theme() -> void:
 func _label(parent: Node,text: String,font_size: int) -> Label:
 	var l=Label.new(); l.text=text; l.add_theme_font_size_override("font_size",font_size); parent.add_child(l); return l
 func _button(parent: Node,text: String,action: Callable,action_id: String="") -> Button:
-	var b=Button.new(); b.text=text; b.custom_minimum_size=Vector2(0,ui_touch_height); b.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART; b.pressed.connect(action,CONNECT_DEFERRED); b.focus_mode=Control.FOCUS_NONE; parent.add_child(b)
+	var b=Button.new(); b.text=text; b.custom_minimum_size=Vector2(0,ui_touch_height); b.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART; b.pressed.connect(action,CONNECT_DEFERRED); b.focus_mode=Control.FOCUS_ALL; parent.add_child(b)
 	if parent==menu_footer: b.size_flags_horizontal=Control.SIZE_EXPAND_FILL
 	# Let ScrollContainer observe touch-emulated drags begun on menu rows.
 	# Its scroll-begin notification cancels the button click; taps still activate.
@@ -678,9 +678,17 @@ func _settings_menu() -> void:
 	for choice in [["NORMAL",1.0],["LARGE",1.3],["EXTRA LARGE",1.5]]:
 		var scale:float=choice[1]
 		var b=Button.new(); b.text=choice[0]; b.custom_minimum_size=Vector2(0,ui_touch_height); b.size_flags_horizontal=Control.SIZE_EXPAND_FILL; b.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
-		b.focus_mode=Control.FOCUS_NONE; b.toggle_mode=true; b.button_pressed=is_equal_approx(FrontendSettings.text_scale(),scale)
+		b.focus_mode=Control.FOCUS_ALL; b.toggle_mode=true; b.button_pressed=is_equal_approx(FrontendSettings.text_scale(),scale)
 		b.set_meta("action","text_scale_%d"%roundi(scale*100)); b.set_meta("ui_action","text_scale_%d"%roundi(scale*100))
 		b.pressed.connect(_set_text_scale.bind(scale),CONNECT_DEFERRED); sizes.add_child(b)
+	_menu_text("FRAME RATE CAP",17)
+	var frame_caps=HBoxContainer.new(); frame_caps.add_theme_constant_override("separation",8); panel_box.add_child(frame_caps)
+	for cap in [30,60]:
+		var selected_cap:int=cap
+		var b=Button.new(); b.text="%d FPS"%selected_cap; b.custom_minimum_size=Vector2(0,ui_touch_height); b.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+		b.focus_mode=Control.FOCUS_ALL; b.toggle_mode=true; b.button_pressed=FrontendSettings.current.frame_cap==selected_cap
+		b.set_meta("action","frame_cap_%d"%selected_cap); b.set_meta("ui_action","frame_cap_%d"%selected_cap)
+		b.pressed.connect(_set_accessibility.bind("frame_cap",selected_cap),CONNECT_DEFERRED); frame_caps.add_child(b)
 	_button(panel_box,"SHOW FIRST-DIVE TIPS AGAIN",func(): hints_seen=[]; _save_archive(); sim.message="Tips will show again in the opening operations"; _settings_menu(),"reset_tips")
 	for row in [["safe_palette","SAFE PALETTE"],["audio_captions","AUDIO CAPTIONS"],["haptics","HAPTICS"]]:
 		var key:String=row[0]

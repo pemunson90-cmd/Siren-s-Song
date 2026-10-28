@@ -81,11 +81,16 @@ func shape_case(shape):
 	check(game.sim.snapshot()==initial_snapshot,"entering Operations leaves the active dive snapshot alone")
 	var settings_action=button(game,"settings")
 	check(settings_action!=null,"Operations exposes shared Settings action")
+	if settings_action!=null:check(settings_action.focus_mode==Control.FOCUS_ALL,"Operations Settings supports keyboard and controller focus")
 	check(button(game,"new_campaign")==null,"campaign erase is not exposed on Operations")
 	if await press(game,"settings"):
 		check(game.screen=="settings","Operations opens the shared settings screen")
 		var scale=button(game,"text_scale_115")
 		check(scale!=null,"shared settings exposes 115 percent text size")
+		if scale!=null:check(scale.focus_mode==Control.FOCUS_ALL,"shared settings text size supports keyboard and controller focus")
+		var cap_button_60=button(game,"frame_cap_60")
+		check(cap_button_60!=null and cap_button_60.focus_mode==Control.FOCUS_ALL,"shared settings frame cap supports focus navigation")
+		if cap_button_60!=null:check(cap_button_60.get_global_rect().size.y>=game.ui_touch_height-1,"frame cap control retains the density touch target")
 		if scale!=null:
 			var rect=scale.get_global_rect()
 			check(rect.size.y>=game.ui_touch_height-1,"115 percent control meets the density touch target")
@@ -208,7 +213,8 @@ func shape_case(shape):
 	ReachTable.enabled=false;game._show_campaign();await settle()
 	check(button(game,"menu_title")==null and button(game,"menu_challenges")==null and button(game,"menu_credits")==null,"off switch removes the new navigation entries")
 	await press(game,"settings")
-	check(button(game,"text_scale_115")==null and control(game,"volume_master")==null and button(game,"back")!=null,"off switch restores legacy settings routing")
+	var legacy_cap=button(game,"frame_cap_60")
+	check(button(game,"text_scale_115")==null and control(game,"volume_master")==null and legacy_cap!=null and legacy_cap.focus_mode==Control.FOCUS_ALL and button(game,"back")!=null,"legacy settings routing retains focusable frame cap")
 	await android_back();ReachTable.enabled=true;game._show_campaign();await settle()
 	for b in game.find_children("*","Button",true,false):
 		if b.is_visible_in_tree() and b.get_meta("ui_action","") in ["settings","menu_title","menu_challenges","menu_credits"]:
