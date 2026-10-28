@@ -59,7 +59,10 @@ func shape_case(shape):
   await android_back();check(game.screen=="menu","Android Back leaves Fittings "+label)
  game._briefing(0);await settle()
  var texts=game.panel_box.find_children("*","Label",true,false).map(func(l):return l.text)
- check(texts.any(func(t):return "FITTED" in t and "POWER" in t),"briefing carries the compact fit summary "+label)
+ check(button(game,"fit_summary")!=null and not texts.any(func(t):return "FITTED" in t and "POWER" in t),"opening briefing keeps fit summary optional "+label)
+ if await press(game,"fit_summary"):
+  texts=game.panel_box.find_children("*","Label",true,false).map(func(l):return l.text)
+  check(texts.any(func(t):return "FITTED" in t and "POWER" in t),"fit summary help reveals current craft details "+label)
  check(texts.any(func(t):return "DECOYS" in t and "TORPEDOES" in t),"briefing supplies line comes from the tool table "+label)
  game.queue_free();await settle()
  Settings.apply({})
