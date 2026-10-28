@@ -14,7 +14,7 @@ static func deep(m:Dictionary)->void:
  # Local landmark metadata is reserved for root's shared landmark reconciliation.
  m.landmarks=[{"id":"thread_split_tooth","pos":Vector2(1050,2390),"kind":"ribs"},{"id":"thread_low_roof","pos":Vector2(1250,1450),"kind":"ridge"},{"id":"thread_mooring_ribs","pos":Vector2(660,650),"kind":"berth"}]
 static func shelf(m:Dictionary)->void:
- m.world_size=Vector2(3000,1900);m.start=Vector2(350,1520)
+ m.world_size=Vector2(3000,1920);m.start=Vector2(350,1520)
  T.apply(m,[[T.ridge([Vector2(850,950),Vector2(1050,1150),Vector2(1150,1500),Vector2(1150,1900)],170,75),T.ALL],[T.wall([Vector2(1050,450),Vector2(2200,450),Vector2(2200,800),Vector2(1950,800),Vector2(1950,650),Vector2(1050,650)]),T.ALL],[T.shard(Vector2(1650,150),130,7,76,.2,Vector2(1.8,.6)),T.ALL],[Rect2(170,440,230,120),T.ALL],[Rect2(170,640,230,120),T.ALL]])
  m.structures=[];m.currents=[];m.sirens=[]
  m.thermal_revision=1;m.thermal_fronts=[{"area":Rect2(850,660,1500,280),"transmission":.4,"close_range":90.}]
