@@ -2,6 +2,8 @@ extends RefCounted
 const BriefRows029=preload("res://src/campaign/onboarding2/briefing_rows.gd")
 const EconomyPanel=preload("res://src/presentation/economy_panel.gd")
 const Economy=preload("res://src/campaign/economy.gd")
+const FitSurface=preload("res://src/presentation/fit_surface/fit_surface_view.gd")
+const FitSurfaceModel=preload("res://src/presentation/fit_surface/fit_surface.gd")
 # Campaign/menu flow extracted verbatim from main. Main keeps its existing
 # entry points as forwarders; host owns state, callbacks and deferred layout.
 # Revert the original extraction to restore bodies in main. 029 display rows
@@ -96,12 +98,13 @@ static func briefing(host, index: int) -> void:
 	var stock=host._loadout_stock(host.upgrade)
 	var fit_start=host.panel_box.get_child_count()
 	if not host._campaign_pristine() and not EconomyPanel.briefing_line(host).is_empty():host._menu_text(EconomyPanel.briefing_line(host),14)
-	host._menu_text("NEXT DIVE / RETRY · %s\nO₂ %d%% · DISRUPT %d · SURVEY %d · 3 DECOYS · 2 DRONES · 2 TORPEDOES"%[host.upgrade.to_upper(),stock[0],stock[1],stock[2]],17)
+	host._menu_text("NEXT DIVE / RETRY · %s\nO₂ %d%% · DISRUPT %d · SURVEY %d · %s"%[host.upgrade.to_upper(),stock[0],stock[1],stock[2],FitSurfaceModel.stock_text(host.upgrade)],17)
+	FitSurface.summary(host,host._equipment_context())
 	# Frames open after the first dive; recovered fittings appear once earned. A toggle folds them away.
 	if not compact:fit_start=host.panel_box.get_child_count()
 	var fold_control:Button=null
 	if 0 in host.completed or not host._equipment_entitlements().is_empty():preload("res://src/presentation/equipment_context.gd").loadout(host,host._equipment_context().slots,func(key,id):host._choose_equipment(key,id,index))
-	if not host._equipment_entitlements().is_empty():preload("res://src/presentation/equipment_context.gd").fitting(host,host._equipment_context(),func(slot,item):host._choose_equipment(slot,item,index))
+	if not host._equipment_entitlements().is_empty():FitSurface.fitting(host,host._equipment_context(),func(slot,item):host._choose_equipment(slot,item,index),func():host._briefing(index))
 	if host.panel_box.get_child_count()>fit_start:
 		var fit_nodes=host.panel_box.get_children().slice(fit_start)
 		var holder=[]
