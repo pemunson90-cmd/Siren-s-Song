@@ -29,7 +29,7 @@ Measure, per operation, whether the fleet and tools matter today. For each core 
    Note why in one line (for example "drones never needed: all objectives on Quietus's route").
 4. List which tools, modules and drone abilities are never decisive anywhere.
 
-Output `docs/design/FLEET_MATTERS_2026-10-28.md` on codex/handoffs. It holds the table, the counts per class, the unused-tools list and the 5 worst WAYPOINT ops ranked by how central they are. No proposals for Siren senses, lock, beam or damage (protected). Claude turns the result into fix handoffs.
+Output `docs/design/FLEET_MATTERS_2026-10-28.md` on codex/handoffs. It holds the table, the counts per class, the unused-tools list and the 5 worst WAYPOINT ops ranked by how central they are. No proposals for Siren senses, lock, beam or damage (protected). For each WAYPOINT or THIN op, name which pattern numbers from `docs/design/FLEET_MATTERS_FIX_PATTERNS.md` look most promising (one line). Claude turns the result into fix handoffs.
 
 Also add Pat's ruling verbatim to `docs/USER_DIRECTIVES.md` on integration, through a docs-only PR under normal review, with the operating effect lines above marked as Claude's reading.
 
