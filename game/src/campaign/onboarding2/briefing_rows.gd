@@ -37,7 +37,11 @@ const ROWS={
  33:["Equalize the gallery, photograph its people, recover the reed.","The southern post watches the equalizer approach.","Scout the western scoring with a drone while Quietus opens the gallery."],
  34:["Work all three machines in order; photograph the junction.","The west return crosses warden pressure.","Send a drone for the impact face; recover both drones and their modules."],
  35:["Photograph the keel and recover the physical plate.","A deep post watches the north approach.","The wellhead seal halves lift work; the lift opens the short south return."],
- 36:["Photograph the deep guard window; recover west.","A middle post watches the long west recovery approach.","A tuner drone can silence the breaker and open the central return."]
+ 36:["Photograph the deep guard window; recover west.","A middle post watches the long west recovery approach.","A tuner drone can silence the breaker and open the central return."],
+ 37:["Photograph the trawler in DEEP; recover Quietus.","The SHALLOW bonus costs another depth crossing.","A window photograph confirms life, not rescue."],
+ 38:["Photograph the saddle underside in DEEP; recover.","The sluice motor is audible across 1400m.","Recover at the southeast mouth in MIDDLE."],
+ 39:["Photograph the exhaust joint in MIDDLE; recover.","The exhaust front masks both sides' sound.","The northern contour passes optional numbers."],
+ 40:["Photograph the western divide in MIDDLE; recover.","The eastern bonus needs a sixteen-second exposure.","The optional sluice opens a noisy short return."]
 }
 const FOLD_LABELS={"show":"FITTINGS\nSHOW","hide":"FITTINGS\nHIDE"}
 const STYLE={"margin":24.,"title":18,"goal":14,"photo":14}

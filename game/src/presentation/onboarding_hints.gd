@@ -1,18 +1,25 @@
 extends Control
 # Revert display: remove MissionHUD hint installation/refresh; retain Text and
 # hints_seen validation, shared pricing hints and tests. No one-line off flag.
-# One-verb-at-a-time prompts in the opening operations. Each appears once per campaign, at the
+# One-verb-at-a-time prompts and first-use tips. Each appears once per campaign, at the
 # moment it matters. A prompt never blocks or auto-advances play; GOT IT only hides it. The one
 # exceptions are the first lock and heard-investigation warnings, which each pause once.
 const Text = preload("res://src/campaign/onboarding_text.gd")
 const SWEEP := [preload("res://src/simulation/sweeper_senses.gd").WARNING]
 const PricedHints = preload("res://src/presentation/photo_pricing/photo_pricing_hints.gd")
+const FieldTools = preload("res://src/equipment/field_tools.gd")
 var host
 var panel: PanelContainer
 var label: Label
 var dismiss_button: Button
 var current := ""
 var extra_line := ""
+# Read-only first-use observations; no simulation, session or new save fields.
+# Revert 067 by removing these observations/menu tip and the first_* text rows.
+var observed_mission: Dictionary = {}
+var observed_counts: Dictionary = {}
+var pending_first_use: Array = []
+var menu_dismiss: Button
 func setup(owner) -> void:
 	host = owner; mouse_filter = Control.MOUSE_FILTER_IGNORE
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -25,6 +32,38 @@ func setup(owner) -> void:
 	dismiss_button = Button.new(); dismiss_button.text = "GOT IT"; dismiss_button.focus_mode = Control.FOCUS_NONE
 	dismiss_button.pressed.connect(dismiss, CONNECT_DEFERRED); dismiss_button.set_meta("action", "hint_dismiss"); dismiss_button.set_meta("ui_action", "hint_dismiss"); row.add_child(dismiss_button)
 	panel.hide()
+func _process(_delta: float) -> void:
+	# The HUD is hidden in menus, but this component still observes the existing
+	# screen and recovered-material state. Menu controls own layout and touch.
+	if host == null or host.screen not in ["research", "economy"] or seen("first_research"): return
+	if host.expedition.get("research", {}).get("materials", []).is_empty(): return
+	var box = host.panel_box
+	var first: int = mini(1, box.get_child_count())
+	var tip = host._menu_text(Text.hint_text("first_research"), 15)
+	box.move_child(tip, first)
+	var got_it = host._button(box, "GOT IT", func():
+		if is_instance_valid(tip): tip.queue_free()
+		if is_instance_valid(menu_dismiss): menu_dismiss.queue_free(), "hint_dismiss")
+	menu_dismiss = got_it
+	box.move_child(got_it, first + 1)
+	host.hints_seen.append("first_research")
+func _observe_first_use() -> void:
+	var sim = host.sim
+	if not is_same(observed_mission, sim.mission):
+		observed_mission = sim.mission
+		observed_counts = sim.mission.get("field_tools", {}).get("counts", {}).duplicate()
+		pending_first_use.clear()
+	if sim.units.any(func(u): return not u.get("transition", {}).is_empty()):
+		_queue_first_use("first_depth")
+	if sim.sonar.get("listening_until", []).any(func(until): return until > sim.elapsed):
+		_queue_first_use("first_emit")
+	var counts: Dictionary = sim.mission.get("field_tools", {}).get("counts", {})
+	for id in FieldTools.field_ids():
+		if counts.has(id) and observed_counts.has(id) and counts[id] < observed_counts[id]:
+			_queue_first_use("first_field_tool")
+	observed_counts = counts.duplicate()
+func _queue_first_use(id: String) -> void:
+	if not seen(id) and id not in pending_first_use: pending_first_use.append(id)
 func seen(id: String) -> bool:
 	return id in host.hints_seen
 func show_hint(id: String) -> void:
@@ -55,10 +94,14 @@ func _warning_now() -> bool:
 	return false
 func _wanted() -> String:
 	var sim = host.sim; var op: int = sim.mission.get("id", -1)
-	if sim.mission.get("id", -1) > Text.MAX_OPERATION or not sim.outcome.is_empty(): return ""
+	if not sim.outcome.is_empty(): return ""
+	_observe_first_use()
 	if not seen("warning") and Text.applies("warning", op) and _warning_now(): return "warning"
 	var cue := _sweep_cue()
 	if not cue.is_empty() and not seen("sweep") and Text.applies("sweep", op): extra_line = cue; return "sweep"
+	for id in pending_first_use:
+		if not seen(id) and Text.applies(id, op): return id
+	if op > Text.MAX_OPERATION: return ""
 	if not seen("noise") and Text.applies("noise", op) and sim.selected == 0 and sim.motion_radius(0) > 180: return "noise"
 	var any_route: bool = sim.units.any(func(u): return not u.route.is_empty())
 	if not seen("move") and Text.applies("move", op) and sim.elapsed < 1.0 and not any_route: return "move"

@@ -1,6 +1,6 @@
 # RESUME: operational entry
 
-Last reconciled source baseline `2ba1edf9` includes ending088 (PR193). Production is `225c3c45`; main unchanged. This bounded 096 lane implements fleet pressure and complete equipped recovery for ops30 to36; its PR carries independent review, paired measurements and hosted checks. The codex/handoffs BOARD owns all other current claims and next work; a separate root session continues its queue.
+Last reconciled source baseline `3cfb34ba` includes ending088 (PR193), teaching067 (PR195) and career riders071 (PR200). Production is `225c3c45`; main unchanged. This bounded 096 lane implements fleet pressure and complete equipped recovery for ops30 to36; its PR carries independent review, paired measurements and hosted checks. The codex/handoffs BOARD owns all other current claims and next work; a separate root session continues its queue.
 
 - [KEEL: 096 source] Final-pair bonus subjects start unresolved; existing guards watch photo approaches and Calder return work. Op32 supplies the batch's endurance exception. Equipped journeys recover bonus drone film, both drones and fitted hardware;35/36 exercise the seal lift and tuner breaker. Three-stage34, carry facts and ending resolution are preserved. Evidence is source-known simulation under isolated096, not blind, touch or phone acceptance; raw measurements remain outside source at `C:/Users/Archi/.cache/sirens-song-toolchain/artifacts/096`.
 

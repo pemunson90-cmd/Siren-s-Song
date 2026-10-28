@@ -5,6 +5,8 @@ const Career=preload("res://src/campaign/career/career_state.gd")
 const CareerArchive=preload("res://src/campaign/career/career_archive.gd")
 const CareerTable=preload("res://src/campaign/career/career_table.gd")
 const CareerBoard=preload("res://src/presentation/career/career_board.gd")
+const RiderDive=preload("res://src/presentation/career/rider_dive.gd")
+var accept_rider=true
 var campaign_host
 var career_state:Dictionary={}
 var return_to_list:Callable
@@ -22,6 +24,7 @@ func freeze_campaign()->void:
 func _bind_state()->void:
 	economy=career_state.economy;expedition=career_state.progress;fitted_equipment=career_state.fitted
 func _ready()->void:
+	sim=RiderDive.new()
 	_bind_state();hints_seen=OnboardingText.HINTS.keys();settings=campaign_host.settings.duplicate();capture_scenario="career-session"
 	super._ready();active_started=false
 	FrontendSettings.apply(FrontendSettings.current,self);sound.muted=campaign_host.sound.muted
@@ -41,6 +44,7 @@ func _campaign_completed()->Array:return career_state.progress.completed
 func _launch_context(_index:int)->Dictionary:
 	return {"completed":career_state.progress.completed.duplicate(),"facts":career_state.progress.facts.duplicate(true)}
 func _start_mission(_index:int)->void:
+	sim.configure(career_state.get("rider",{}))
 	super._start_mission(CareerTable.CONTRACTS[selected_contract].op)
 func _show_campaign()->void:
 	if not is_inside_tree():return
@@ -50,10 +54,10 @@ func _show_campaign()->void:
 func _briefing(_index:int)->void:CareerBoard.briefing(self)
 func _select_contract(id:String)->void:
 	if active_started or save_failed or not Career.open(career_state,id):return
-	selected_contract=id;CareerBoard.briefing(self)
+	selected_contract=id;accept_rider=true;CareerBoard.briefing(self)
 func _begin()->void:
 	if active_started or career_state.in_flight or save_failed:return
-	var launched=Career.launch(career_state,selected_contract)
+	var launched=Career.launch(career_state,selected_contract,accept_rider)
 	if not launched.in_flight:return
 	if not CareerArchive.persist(campaign_host,launched):
 		save_failed=true;CareerBoard.briefing(self);return
@@ -65,7 +69,7 @@ func _debrief(abandoned:bool=false)->void:
 	if result_pending:return
 	if not career_state.in_flight:return
 	sim.paused=true
-	career_state=Career.settle(career_state,{"outcome":"won" if not abandoned and sim.outcome=="won" else "lost","hull":sim.hull,"alive":[sim.units[1].alive,sim.units[2].alive],"mission":sim.mission})
+	career_state=Career.settle(career_state,{"outcome":"won" if not abandoned and sim.outcome=="won" else "lost","hull":sim.hull,"alive":[sim.units[1].alive,sim.units[2].alive],"mission":sim.mission,"rider":sim.rider_result()})
 	_bind_state();result_pending=true;_save_archive();_result_menu()
 func _result_menu()->void:
 	sim.paused=true;screen="career_result";_clear_menu()
@@ -80,6 +84,16 @@ func _result_menu()->void:
 		,"career_board")
 	call_deferred("_layout")
 func _show_economy()->void:CareerBoard.supplies(self)
+func _refresh()->void:
+	super._refresh()
+	if status_label==null:return
+	status_label.visible=screen=="mission" and not sim.rider_status().is_empty()
+	if status_label.visible:
+		status_label.text=sim.rider_status()
+		status_label.position=Vector2(12,ui_touch_height+24)
+		status_label.size=Vector2(maxf(1,size.x-24),ui_touch_height*2)
+		status_label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+		status_label.mouse_filter=Control.MOUSE_FILTER_IGNORE
 func _show_fittings()->void:CareerBoard.fittings(self)
 func _equipment_context()->Dictionary:
 	return {"slots":fitted_equipment,"available":_equipment_entitlements(),"catalog":preload("res://src/equipment/equipment_catalog.gd").public_catalog(_equipment_entitlements())}
