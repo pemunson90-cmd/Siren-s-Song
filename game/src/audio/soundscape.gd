@@ -145,6 +145,7 @@ func _lock_update(sim,frozen:bool,active:bool)->void:
 func update(sim,dt: float,active_dive: bool=true) -> void:
 	accessibility.observe(sim,active_dive and not system_suspended)
 	var photo_engine=preload("res://src/audio/photo_audio/photo_audio.gd").sync(self,sim,dt,active_dive)
+	preload("res://src/audio/event_cues/event_cues.gd").sync(self,sim,dt,active_dive)
 	received_cues.observe_clock(sim.elapsed)
 	if ambience==null: return
 	var ambience_index=AudioServer.get_bus_index(AMBIENCE_BUS); var effects_index=AudioServer.get_bus_index(EFFECTS_BUS)
@@ -191,6 +192,10 @@ func update(sim,dt: float,active_dive: bool=true) -> void:
 	# event dispatch too, including a switch accepted while planning.
 	for voice in voices: voice.stream_paused=frozen
 	sim.events.clear()
+# Event audio entry point: field tools and research call this with their cue id.
+func event_cue(id: String) -> void:
+	var layer=get_node_or_null("EventAudio")
+	if layer!=null and layer.fire(id):accessibility.note(id,last_clock)
 func play(cue: String,relative_position: Vector2=Vector2.ZERO) -> void:
 	if muted or effects_volume<=0 or system_suspended or not cues.has(cue): return
 	for i in voices.size():
