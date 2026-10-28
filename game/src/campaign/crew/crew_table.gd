@@ -6,8 +6,7 @@ extends RefCounted
 # kind: mark (a chart mark on op, grant only), credit (one-time supply credit when the fact is first
 # recorded), line (a short briefing line on op). Every effect is a grant and is never required.
 # speaker: key in voices_table SPEAKERS. Groups without a recurring character are relayed by okafor.
-# Not covered yet: tessaly_divers, hollins_last_shift, varne_staff are named in the ledger but no
-# operation saves them, so they have no row until a fact exists to read.
+# Rescue follow-up lines describe only the recorded local completion, never an assumed landing.
 static var enabled=true
 const HEAD="BRANNOCK CREW"
 const FOOTER="AI-DESIGNED placeholder crew, Pat to rewrite. Grants only; none is required."
@@ -29,5 +28,17 @@ const ROWS=[
  {"id":"hollins_workers","name":"Hollins workers","when":{"fact":"choir_people","is":["landed"]},
   "kind":"credit","credit":{"scrap":3},"speaker":"rill",
   "line":"Rill's people sent salvage up from the service berth.",
-  "roster":"sent salvage up from the service berth."}
+  "roster":"sent salvage up from the service berth."},
+ {"id":"tessaly_divers","name":"Tessaly divers","when":{"fact":"tessaly_divers","is":["crossing_open"]},
+  "kind":"line","op":14,"speaker":"okafor",
+  "line":"The divers' reply confirmed the deep crossing could begin.",
+  "roster":"confirmed the deep crossing was open."},
+ {"id":"hollins_last_shift","name":"Hollins last shift","when":{"fact":"hollins_last_shift","is":["arrived"]},
+  "kind":"line","op":26,"speaker":"rill",
+  "line":"The last shift's evacuation sled reached its dock. Keep the next recovery route clear.",
+  "roster":"reached the evacuation dock."},
+ {"id":"varne_staff","name":"Varne staff","when":{"fact":"varne_staff","is":["service","sever"]},
+  "kind":"line","op":19,"speaker":"vey",
+  "line":"The habitat's station account is recorded. Check the chosen passage before returning.",
+  "roster":"provided the habitat passage account."}
 ]
