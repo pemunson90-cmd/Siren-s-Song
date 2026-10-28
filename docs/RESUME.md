@@ -1,5 +1,7 @@
 # RESUME: operational entry
 
+Current gameplay baseline49e3ca44 includes independently reviewed capstone076, chart accessibility081 and fitting surface064. Apply the28October independent-review ruling in USER_DIRECTIVES; current claims and HOLD details are on codex/handoffs HANDOFF/BOARD. Promotion179 remains held for the documented Silt/photo parity repair; modes056 and cache066 fixes are also under review.
+
 **26 Oct 2026:** Pat's finish-the-game ruling (top of USER_DIRECTIVES) governs. Plan, streams and file ownership: `docs/codex/ORCHESTRATION_2026-10-26.md` on `codex/handoffs`. Milestone promotion PR148 merged on 26 October (ORCHESTRATION).
 
 Current boundary: Pat resumed locally on Windows and continued work on 25 October 2026 Eastern. The 23 October cloud stop and 24 October art pause are historical. Follow the current claim and Completion on `codex/handoffs`; do not restart completed work from dated notes.
