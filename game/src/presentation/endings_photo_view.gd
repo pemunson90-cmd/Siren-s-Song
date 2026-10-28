@@ -3,12 +3,15 @@ extends RefCounted
 # Revert this presenter and its two flow hooks; no persisted state to migrate.
 const Ending=preload("res://src/campaign/endings_photo.gd")
 const Finale=preload("res://src/presentation/finale/finale.gd")
+const LedgerView=preload("res://src/presentation/ledger/ledger_view.gd")
 static func present(host,legacy:Callable)->bool:
  var ending=Ending.resolve(host.expedition,host.photo_intel)
  if ending.is_empty():return false
  host.sim.paused=true;host.screen="photo_ending";host._clear_menu()
  var finale=Finale.heading(host,ending)
- if not finale:host._menu_text("RECOVERED FILM",28)
+ if not finale:
+  host._menu_text("RECOVERED FILM",28)
+  LedgerView.render(host,host.expedition,host.photo_intel)
  var frames=Ending.frames(host.recovered_evidence)
  if frames.is_empty():host._menu_text("NO RECOVERED PHOTOGRAPHS",20)
  for item in frames:
