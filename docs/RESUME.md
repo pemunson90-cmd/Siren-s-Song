@@ -6,13 +6,14 @@ Current boundary: Pat resumed locally on Windows and continued work on 25 Octobe
 
 ## Source and authority
 
-Active integration: `claude/integration`. Last reconciled source baseline: 4d23a033608f9b81e35b40874f6256247a7b4df6, including C7/display-group CI repair, optional geometry PR162 and event audio PR159. A later live integration SHA is expected; fetch it at task boundaries. The board alone owns claims/completions.
+Active integration: `claude/integration`. Last reconciled source baseline: 00394df86153a93841f3ab52ab65ccc77d820179, including PR172 sharded CI and PR164 dossier. A later live integration SHA is expected; fetch it at task boundaries. The board alone owns claims/completions.
 Frozen `gauntlet/production` and protected `main` require Pat's promotion approval. Preserve branches, personal saves, evidence and signing identity.
 Current decisions: [USER_DIRECTIVES](USER_DIRECTIVES.md). Intended release: [CURRENT_GAME_SPEC](CURRENT_GAME_SPEC.md). Actual module seams, settings, saves, tests and safe reverts: [MODULES](MODULES.md).
 
 ## Integrated capabilities
 
 - [KEEL] 077 adds seven provisional route/fact deltas in Glass/Iron ops14,15,16,17,21,22: shelf recovery/start alternatives and changed authored guard rosters, with brief cause lines. Empty history preserves legacy missions; no new save fields. Revert with `Carry.ENABLED=false`. Local carry150/0 and existing Iron22 bare journey10/0 are source-known technical checks; Calder/final content remains owned by076.
+- 076 (PR165, pending integration): operations30..36 have distinct traversal layouts and recovery approaches;30/31 add optional passive listening. Calder34 uses three sequential existing machine gates around the casing, spatially escalating guards and a short west return versus the longer east retrace. Original photo keys, artifact rewards and finale trigger34 remain; layout switches restore prior geometry. Op31 uses three polygon terrain entries: two depth-gated ridges and the all-band central divider. Local work-sites27/0, terrain18/0, final-pair10/0 and Calder31/0 passed after the authored terrain fix; hosted 90-minute gate was cancelled without unresolved assertion failures. Human/phone quality remains deferred.
 - 41 operation IDs0..40 include Calder Trench: core32..34, optional35/36, manual shut-in work, deep photography and three physically recovered artifacts. END OF LINE now follows first recovery of34; the existing photo wall, four ending families and12/13 fork remain. Reward target entries arrive in054/055; narrative stays placeholder text.
 - Campaign ledger (078): END OF LINE and the ending wall show four fixed panels using saved outcomes only; absent people/artifact records read “not recorded.” AI-DESIGNED placeholders are in `campaign/ledger/ledger_table.gd`. Ledger appears only on the finale and ending screens.
 - 038/PR136 reorganizes Operations;044/PR141 gives Operations access to shared Settings, Title, Challenges and Credits.041/PR125 handles Android Back without Godot's default immediate quit.
