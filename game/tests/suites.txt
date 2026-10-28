@@ -244,7 +244,13 @@ order_table_tests|ORDER TABLE|223|246
 photo_window_rules_tests|PHOTO WINDOW RULES|224|247
 art_tests|ART|-|232
 art_render_measurements|ART RENDER|-|233|render
-ops_home_ui_tests|OPS HOME UI|240|260|render
+# Keep the full local matrix; bound each CI native-render process by display shape.
+ops_home_ui_tests|OPS HOME UI|240|-|render
+ops_home_cover_ui_tests|OPS HOME UI|-|260|render
+ops_home_inner_ui_tests|OPS HOME UI|-|287|render
+ops_home_desktop_ui_tests|OPS HOME UI|-|288|render
+voices_tests|VOICES|530|630
+archive_views_ui_tests|ARCHIVE VIEWS UI|531|631|render
 menu_reach_ui_tests|MENU REACH UI|241|261|render
 settings_lifecycle_ui_tests|SETTINGS LIFECYCLE UI|242|262|render
 finale_provisional_tests|FINALE|243|263
@@ -261,6 +267,7 @@ first_siren_cue_ext_ui_tests|FIRST SIREN CUE EXT UI|229|252|render
 challenges_completions_opening_tests|CHALLENGES COMPLETIONS OPENING|233|257
 challenges_completions_reach_tests|CHALLENGES COMPLETIONS REACH|234|258
 challenges_completions_iron_tests|CHALLENGES COMPLETIONS IRON|235|259
+challenges_route_pars_tests|CHALLENGES ROUTE PARS|395|495
 photo_row_tender_door_journey_tests|PHOTO ROW TENDER DOOR JOURNEY|248|268
 photo_row_relay_blink_journey_tests|PHOTO ROW RELAY BLINK JOURNEY|249|269
 photo_row_structure_edge_journey_tests|PHOTO ROW STRUCTURE EDGE JOURNEY|250|270
@@ -285,3 +292,4 @@ calder_trench_journey_tests|CALDER TRENCH JOURNEY|300|400
 regional_settings_tests|REGIONAL SETTINGS|301|401
 economy_tests|ECONOMY|350|450
 economy_save_tests|ECONOMY SAVE|351|451
+economy_campaign_sim_tests|ECONOMY CAMPAIGN|352|452

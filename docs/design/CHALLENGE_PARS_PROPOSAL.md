@@ -116,4 +116,4 @@ that `valid()` and tests read as a number, so the extra-field form above is safe
 
 Pat **approved** route-dependent time pars for `lung_solo`: **110 seconds for dismantle** and **300 seconds for reconnect**; hull 100 and tools 0 remain unchanged. Route identification must come from the actual recorded mission choice. Pat also approved storing **personal bests per route** alongside an **overall challenge completion** record. This settles the previously open scoring-model decision in this proposal. Other challenge pars remain unchanged pending evidence.
 
-**Implementation status:** decision recorded only; no scoring code, save schema, UI, tests or catalog values changed. Development is paused; implement and validate only when work is resumed.
+**Implementation status:** implemented in handoff 059: catalog `route_pars`, optional result `route` and per-row `routes` bests, route lines in the challenges detail screen, `challenges_route_pars_tests`. Choices other than dismantle/reconnect (bypass, isolate) use the base par.
