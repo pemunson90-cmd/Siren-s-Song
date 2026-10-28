@@ -7,6 +7,8 @@ extends RefCounted
 static var enabled:=true
 const VOICES:=3
 const MAX_PER_FRAME:=2
+# Field tool ids whose stock drop (a successful use) plays the cue of the same name.
+const TOOLS:=["sonobuoy","silt_screen","hull_patch","relay_buoy"]
 # Hull strain tiers by the hull percent the strike removed (highest matching min wins).
 const HULL_TIERS:=[{"min":0.01,"id":"hull_light"},{"min":6.,"id":"hull_medium"},{"min":15.,"id":"hull_heavy"}]
 # hz is a start/end chirp, noise its mix fraction, curve and pulses shape the envelope.
