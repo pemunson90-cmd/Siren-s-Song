@@ -22,6 +22,12 @@ func run():
  var layer=sound.get_node_or_null("EventAudio")
  check(layer!=null,"the soundscape owns an event audio layer")
  if layer==null:sound.queue_free();await process_frame;finish();return
+ var peer=Sound.new();root.add_child(peer);await process_frame;peer.update(fresh(),0.)
+ var peer_layer=peer.get_node("EventAudio")
+ for id in layer.streams:
+  check(is_same(layer.streams[id],peer_layer.streams[id]),"soundscapes share synthesized PCM for "+id)
+ peer.queue_free();await process_frame
+ check(not layer.streams.sonobuoy.data.is_empty(),"freeing a soundscape preserves shared PCM")
  sound.event_cue("not_a_tool");sound.event_cue("sonobuoy")
  check(layer.played==["sonobuoy"],"unknown ids are ignored and an unfired tool id plays by entry point")
  sound.event_cue("sonobuoy")

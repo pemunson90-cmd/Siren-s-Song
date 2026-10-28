@@ -8,6 +8,9 @@ extends Node
 # the TEXT rows; retain the table and tests.
 const Table=preload("res://src/audio/event_cues/event_cue_table.gd")
 const Wave=preload("res://src/audio/photo_audio/photo_wave.gd")
+# Immutable PCM is shared across soundscapes, as in PhotoWave.stream(). Keep players,
+# repeat clocks and observation state local; freeing a scene only releases its references.
+static var stream_cache:Dictionary={}
 var voices:Array=[]
 var next_voice:=0
 var last_play:Dictionary={}
@@ -30,7 +33,9 @@ static func sync(host,sim,dt:float,active:bool)->void:
 func setup(host)->void:
  host_ref=host
  for id in Table.CUES:
-  if not Table.CUES[id].has("recording"):streams[id]=Wave.render(Table.CUES[id])
+  if not Table.CUES[id].has("recording"):
+   if not stream_cache.has(id):stream_cache[id]=Wave.render(Table.CUES[id])
+   streams[id]=stream_cache[id]
  for n in Table.VOICES:
   var voice=AudioStreamPlayer.new();voice.bus=host.EFFECTS_BUS;add_child(voice);voices.append(voice)
 # Entry point for callers that own an event (field tools, research): sound.event_cue("sonobuoy").
