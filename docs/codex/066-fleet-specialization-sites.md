@@ -1,8 +1,8 @@
 # Handoff 066: Make hull, chassis and the new tools matter through optional fleet-specialization sites
 
-Status: OPEN
-Claimed at: 
-Claimed by: 
+Status: CLAIMED
+Claimed at: 2026-10-28 06:12:07 UTC
+Claimed by: codex-root-parallel
 Finished at:
 
 Precondition: 055 is DONE (frame-only sites may start earlier). Scout note: Handoff 055 / PR150 merged for the tool sites. The frame-only sites can start immediately. Read ORCHESTRATION_2026-10-26.md first.
@@ -41,3 +41,5 @@ PR into claude/integration; merge on green; close per ORCHESTRATION section 7.
 
 ## Completion
 (five lines max)
+
+28Oct06:13UTC ownership: start the explicitly permitted frame-only work now. Root assigns new fleet_sites.gd plus optional_operations.gd only (074 released). Do not edit glass_reach_operations, iron_layouts, calder_layouts or global landmarks while076/077 active. Defer tool-dependent hooks until055 lands. Preserve optionality and bare-fleet campaign completion. Record partial status honestly; do not mark complete until full assigned content is delivered.
