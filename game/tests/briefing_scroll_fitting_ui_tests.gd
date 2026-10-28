@@ -39,9 +39,14 @@ func action(id:String):
  for control in game.menu.find_children("*","Button",true,false):
   if control is Button and control.get_meta("action","")==id:return control
  return null
-func expose_fittings():
+# The fit surface lists one craft at a time; show the craft tab before reaching its rows.
+func show_tab(slot:String):
+ if fitting(slot)!=null:return
+ var tab=action("fit_tab_"+slot);game.scroll.ensure_control_visible(tab);await settle()
+ await tap(tab.get_global_rect().get_center())
+func expose_fittings(slot:String):
  for n in 20:
-  if game.scroll.get_global_rect().encloses(fitting("drone_b").get_global_rect()):break
+  if game.scroll.get_global_rect().encloses(fitting(slot).get_global_rect()):break
   var area=game.scroll.get_global_rect();var start=Vector2(area.get_center().x,area.end.y-20)
   await drag(start,Vector2(start.x,area.position.y+30))
 func change_loadout(label:String):
@@ -69,7 +74,7 @@ func capture(name:String):
  if folder.is_empty() or DisplayServer.get_name()=="headless":return
  await RenderingServer.frame_post_draw;root.get_texture().get_image().save_png(folder.path_join(name+".png"))
 func change_fit(slot:String,item:String,label:String):
- await expose_fittings()
+ await show_tab(slot);await expose_fittings(slot)
  var control=fitting(slot);var before=game.scroll.scroll_vertical;var before_rect=control.get_global_rect();var active=game.sim.snapshot()
  check(before>game.scroll.size.y and game.scroll.get_global_rect().encloses(before_rect),"long briefing is actually scrolled to a fully visible fitting before "+label)
  await capture(label+"-before")
@@ -100,9 +105,9 @@ func run():
    await tap(fold.get_global_rect().get_center())
    check("HIDE" in action("fit_fold").text,"real touch expands preparation before scrolling "+label)
   await change_fit("drone_b","drone_deep_cells",label+"-fit")
-  check(fitting("drone_a").disabled,"rebuilt fitting keeps the single kit reserved on drone B")
+  await show_tab("drone_a");check(fitting("drone_a").disabled,"rebuilt fitting keeps the single kit reserved on drone B")
   await change_fit("drone_b","",label+"-clear")
-  check(not fitting("drone_a").disabled,"clearing a fitting makes the other carrier available without stale stock")
+  await show_tab("drone_a");check(not fitting("drone_a").disabled,"clearing a fitting makes the other carrier available without stale stock")
   await change_fit("drone_a","drone_deep_cells",label+"-other-carrier")
   await tap(action("begin").get_global_rect().get_center())
   check(game.screen=="mission" and game.sim.equipment_feedback().fitted.drone_a=="drone_deep_cells" and game.sim.equipment_feedback().fitted.drone_b=="","ENTER WATER freezes the chosen fitting after scrolling and several changes")

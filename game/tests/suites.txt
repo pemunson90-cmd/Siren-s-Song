@@ -159,6 +159,7 @@ rules_witness_menu_tests|RULES WITNESS MENU|-|54
 t_pressure_tuning_tests|T PRESSURE|-|55
 ordinary_beam_industrial_tests|ORDINARY BEAM INDUSTRIAL|-|56
 loadout_frames_tests|LOADOUT FRAMES|-|73
+fit_surface_ui_tests|FIT SURFACE UI|610|710
 photo_capture_tests|PHOTO CAPTURE|-|79
 photo_capture_ui_tests|PHOTO CAPTURE UI|-|80
 photo_study_save_tests|PHOTO STUDY SAVE|-|81
@@ -299,6 +300,8 @@ calder_trench_journey_tests|CALDER TRENCH JOURNEY|300|400
 regional_settings_tests|REGIONAL SETTINGS|301|401
 frame_cap_settings_tests|FRAME CAP SETTINGS|390|490
 optional_thread_journey_tests|OPTIONAL THREAD JOURNEY|302|402
+optional_cache_tests|OPTIONAL CACHE|303|404
+optional_cache_journey_tests|OPTIONAL CACHE JOURNEY|304|405
 economy_tests|ECONOMY|350|450
 economy_save_tests|ECONOMY SAVE|351|451
 economy_campaign_sim_tests|ECONOMY CAMPAIGN|352|452

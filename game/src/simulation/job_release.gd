@@ -8,9 +8,10 @@ const Choir=preload("res://src/simulation/industrial_jobs.gd")
 const Delivery=preload("res://src/simulation/blackwater_delivery.gd")
 const Witness=preload("res://src/simulation/witness_evacuation.gd")
 const Chain=preload("res://src/simulation/warning_chain.gd")
-const JOBS = [ModuleRecovery, Glass, Choir, Delivery, Witness]
+const Cache=preload("res://src/simulation/optional_cache.gd")
+const JOBS = [ModuleRecovery, Glass, Choir, Delivery, Witness, Cache]
 # Retain the pre-existing depth-transition cancellation order as well.
-const DEPTH_JOBS = [ModuleRecovery, Delivery, Witness, Glass, Choir]
+const DEPTH_JOBS = [ModuleRecovery, Delivery, Witness, Glass, Choir, Cache]
 
 static func cancel(sim, unit: int, order: String) -> void:
 	if sim.units[unit].hold != "HOLD":

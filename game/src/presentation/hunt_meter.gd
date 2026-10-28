@@ -5,6 +5,8 @@ extends RefCounted
 const Pressure=preload("res://src/simulation/hunt_pressure/hunt_pressure.gd")
 const StatusView=preload("res://src/presentation/status_text/status_view.gd")
 const Table=preload("res://src/presentation/hunt_meter/meter_table.gd")
+const Palette=preload("res://src/presentation/accessibility/palette.gd")
+const Settings=preload("res://src/presentation/frontend/frontend_settings.gd")
 const CHIP="hunt_meter_button"
 const PENDING="hunt_meter_fit_pending"
 const HELP_HOOK="hunt_meter_help_resize_hook"
@@ -18,15 +20,15 @@ static func label(view:Dictionary,compact:bool=false,tight:bool=false)->String:
  return Table.TEXT.standard%[str(view.stage),float(view.scale),pips]
 static func tone(view:Dictionary,elapsed:float,hz:float=Table.PULSE_HZ)->Color:
  var index=clampi(int(view.index),0,Table.TONES.size()-1)
- var color:Color=Table.TONES[index]
- if index!=4 or not view.get("active",false) or hz<=0:return color
+ var color:Color=Palette.chart_color("threat",Table.TONES[index])
+ if index!=4 or not view.get("active",false) or hz<=0 or Settings.reduced_motion():return color
  var wave=0.5+0.5*sin(TAU*elapsed*hz)
  color.a=lerpf(Table.PULSE_MIN_ALPHA,1.0,wave)
  return color
 static func explanation(view:Dictionary)->String:
  var last=str(view.get("cause","")).replace("_"," ").strip_edges()
  if last.is_empty():last=Table.TEXT.no_rise
- return Table.TEXT.help%[str(view.stage),float(view.scale),last,float(view.floor),float(view.cap)]
+ return Table.TEXT.help%[str(view.stage),float(view.scale),last,float(view.floor),float(view.cap)]+Palette.legend()
 static func _open(hud)->void:
  var view=Pressure.view(hud.host.sim)
  if not view.active:return
