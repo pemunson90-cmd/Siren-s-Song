@@ -7,6 +7,7 @@ const W=preload("res://src/campaign/encounters/work_sites.gd")
 const P=preload("res://src/campaign/photo_ops.gd")
 const Layouts=preload("res://src/campaign/encounters/optional_layouts.gd")
 const Resolution=preload("res://src/campaign/resolution_missions.gd")
+const FleetSites=preload("res://src/campaign/encounters/fleet_sites.gd")
 static func supports_config(c:Dictionary)->bool:
  return c.size()==2 and c.get("history")==true and c.get("source_id",-1) in IDS
 static func supports_identity(id:int,c:Dictionary)->bool:return id==c.source_id
@@ -16,6 +17,8 @@ static func entries()->Array:
  for id in IDS:
   var k=key(id)
   result.append({"id":id,"factory":"res://src/campaign/optional_operations.gd","config":{"source_id":id,"history":true},"behaviors":["signals_v2","history","glass_reach"]+(["thermal"] if id==39 else []),"prerequisites":[{37:15,38:7,39:8,40:11}[id]],"facts":[k,k+"_bonus"],"records":[k,k+"_bonus"]+(["optional_40_sluice"] if id==40 else (["optional_38_sluice"] if id==38 else [])),"campaign":true,"route":{38:"deep",39:"shelf"}.get(id,""),"required_facts":{}})
+ for entry in result:
+  entry.facts.append_array(FleetSites.records(entry.id));entry.records.append_array(FleetSites.records(entry.id))
  return result
 static func make(id:int,history:Dictionary={})->Dictionary:
  return build({"source_id":id,"history":true},history)
@@ -29,6 +32,7 @@ static func build(c:Dictionary,history:Dictionary={})->Dictionary:
   38:_deep(m,k)
   39:_shelf(m,k)
   40:_confluence(m,k,history)
+ FleetSites.apply(m)
  m.extraction=m.corridors[0].pos
  if m.glass_reach.work_pos==Vector2.ZERO:m.glass_reach.work_pos=m.objectives[0].pos
  return m

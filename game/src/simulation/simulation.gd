@@ -37,6 +37,7 @@ const Acoustics = preload("res://src/simulation/acoustic_paths.gd")
 const TerrainChart=preload("res://src/simulation/terrain_chart.gd")
 const RouteProgram=preload("res://src/simulation/route_program.gd")
 const ModuleRecovery=preload("res://src/simulation/module_recovery.gd")
+const Cache=preload("res://src/simulation/optional_cache.gd")
 const Missions = preload("res://src/campaign/missions.gd")
 const Depth=preload("res://src/simulation/depth_bands.gd")
 const Industry=preload("res://src/simulation/industrial_threats.gd")
@@ -285,12 +286,13 @@ func signal_readings() -> Array:
 func extraction_corridors() -> Array:
 	return Consequences.corridors(self) if mission.get("expedition_revision",0)==2 else SignalField.corridors(self) if mission.has("expedition_revision") else [{"pos":mission.extraction,"name":"RECOVERY","route":"","available":all_records()}]
 func salvage_sites()->Array:
-	var sites=Witness.sites(self,Delivery.sites(self,ModuleRecovery.sites(self)))+Glass.sites(self)
+	var sites=Witness.sites(self,Delivery.sites(self,ModuleRecovery.sites(self)))+Glass.sites(self)+Cache.sites(self)
 	for site in sites:
 		if not site.has("band"):site["band"]=Depth.cargo_band(self,site.item)
 	return sites
 func salvage_context(item:String,unit_id:int=-1)->Dictionary:
 	var id=selected if unit_id<0 else unit_id
+	if Cache.pieces(self).has(item):return Cache.context(self,item,id)
 	if units[id].band!=Depth.cargo_band(self,item) or not units[id].transition.is_empty():return {"ready":false,"reason":"Salvage requires its recorded depth band","distance":0.,"active":false,"claimed_by":-1}
 	if item.begins_with("glass_"):return Glass.context(self,"recover",id)
 	if Witness.handles(self,item):return Witness.context(self,id,item).winch
@@ -340,6 +342,7 @@ func _try_extract(corridor:Dictionary,confirmed:bool=false)->bool:
 	if not Glass.can_extract(self,corridor):message="Bring the physical Reach material carrier to this recovery mouth in MIDDLE";return false
 	if not Choir.can_extract(self,corridor):message="Recover the actual industrial material carrier here in MIDDLE";return false
 	Glass.recover(self,corridor);Choir.recover(self,corridor)
+	Cache.recover(self,corridor)
 	ModuleRecovery.record(self,context)
 	if mission.has("expedition_revision"):mission.chosen_route=corridor.route;mission.recovered=true
 	outcome="won";paused=true;message="Archive recovered / "+corridor.name;events.append({"type":"extraction","pos":units[0].pos});return true
@@ -505,6 +508,7 @@ func command(order: String,args: Dictionary={}) -> bool:
 		selected=0; queue_mode=false; message="Selected drone lost. Quietus selected; reissue the order."; return false
 	if order in ["camera","chain_power","chain_route","chain_send","concealed_tow","witness_land","warning_gate","warning_depart","rendezvous_release","wake_playback","shelf_warn","shelf_alarm"] and ((u.band!=1 and not (order=="camera" and BandPhoto.can_shoot(self,u))) or not u.transition.is_empty()):
 		message="Ascend to MIDDLE and settle for local work";return false
+	if Cache.blocks(self,order):message="Finish this craft's cache winch first";return false
 	var handler=Orders.TABLE.get(order,[])
 	if handler.is_empty():return false
 	var accepted:bool=handler[0].command(self,order,args)
@@ -761,6 +765,7 @@ func _tick(dt: float) -> void:
 	var vaporized=_threats(dt)
 	Network.advance(self,dt)
 	Glass.tick(self,dt);Choir.tick(self,dt)
+	Cache.tick(self,dt)
 	_hull_contacts(units[0],hull_origin,hull_velocity)
 	Depth.cargo_bands(self)
 	Shelf.tick(self)
