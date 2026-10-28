@@ -1,8 +1,8 @@
 # Handoff 083: Add a Siren dossier: what each of the eight roles does and how to counter it, unlocked by what the player has seen or studied
 
-Status: OPEN
-Claimed at: 
-Claimed by: 
+Status: CLAIMED
+Claimed at: 2026-10-28 03:32:23 UTC
+Claimed by: codex-root-parallel
 Finished at:
 
 Precondition: 062 is DONE. Scout note: Handoff 062 (research/archive/credits) merged, so the archive entry point exists. Read ORCHESTRATION_2026-10-26.md first.
@@ -37,3 +37,5 @@ PR into claude/integration; merge on green; close per ORCHESTRATION section 7.
 
 ## Completion
 (five lines max)
+
+Ownership note:058 currently owns menu focus flags. Build standalone dossier and archive entry now; do not edit ops_home.gd until058 releases it. Coordinate that final one-line entry after058 lands, or leave it documented for root. Earlier eligible files overlap active owners; this task is independent after062.
