@@ -46,3 +46,21 @@ static func fittings(main)->void:
   var button=main._button(main.panel_box,"%s%s · O₂ %d%%\n%s"%[choice.to_upper()," · SELECTED" if main.upgrade==choice else "",oxygen," / ".join(stock)],choose.bind(main,choice),"tools_loadout_"+choice)
   button.disabled=main.upgrade==choice
  for id in Tools.field_ids():main._menu_text(Tools.spec(id).name.to_upper()+" · "+description(id),15)
+
+# Keep warning acknowledgement and every tool visible on the same command surface.
+static func place_notice(hud)->void:
+ if not hud.host.advanced_orders or hud.page not in ["tools","field_tools"] or not hud.hints.panel.visible:return
+ var panel=hud.hints.panel
+ var bounds=preload("res://src/presentation/status_text/status_view.gd").content_bounds(hud,hud.size)
+ var area=Rect2(Vector2.ZERO,bounds)
+ var occupied=[]
+ for button in hud.command_controls()+[hud.close_button,hud.host.pause_button]:
+  if button.is_visible_in_tree():occupied.append(Rect2(button.global_position-hud.global_position,button.size))
+ if hud.alarm.visible:occupied.append(hud.alarm.get_rect())
+ var right=bounds.x-panel.size.x-12
+ var bottom=bounds.y-panel.size.y-12
+ var points=[panel.position,Vector2(right,panel.position.y),Vector2(12,bottom),Vector2(right,bottom),Vector2(right,hud.touch_height+24),Vector2(12,hud.touch_height+24)]
+ for point in points:
+  var rect=Rect2(point,panel.size)
+  if area.encloses(rect) and not occupied.any(func(other):return rect.intersects(other)):
+   panel.position=point;return

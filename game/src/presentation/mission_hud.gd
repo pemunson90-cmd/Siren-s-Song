@@ -500,6 +500,7 @@ func refresh():
  var aid_font=maxi(14,roundi(touch_height*.26*text_scale))
  guard.refresh(size,touch_height,aid_font,intent.position.y if intent.visible else size.y)
  hints.refresh(size,touch_height,aid_font,host.ocean.instrument_top+touch_height+34)
+ preload("res://src/presentation/field_tool_view.gd").place_notice(self)
  fleet.refresh(blocked)
  host.ocean.ui_blocked_rects=occupied_rects().map(func(r):return Rect2(r.position-host.ocean.global_position,r.size))
  if host.decoy_armed or host.knock_armed:
