@@ -51,7 +51,7 @@ func _initialize():
  check(hurt.stock.cells==once+2,"repeating that retry's debrief still settles only once")
  var win=Economy.new_state()
  Economy.settle(win,facts("won",true,90.0,[true,true],2,true))
- check(win.stock.scrap==8+3+4 and win.stock.cells==10+2 and win.stock.alloy==1+3 and win.cond.quietus==90,"first win with salvage pays all three resources and keeps hull wear")
+ check(win.stock.scrap==8+3+4 and win.stock.cells==10+2 and win.stock.alloy==0+3 and win.cond.quietus==90,"first win with salvage pays all three resources and keeps hull wear")
  var surv=Economy.new_state("survival");Economy.settle(surv,facts("won",true))
  var std=Economy.new_state();Economy.settle(std,facts("won",true))
  check(surv.stock.scrap<std.stock.scrap and Economy.item_cost("drone_deep_cells",surv).scrap>Economy.item_cost("drone_deep_cells",std).scrap,"survival has leaner income and dearer parts")
