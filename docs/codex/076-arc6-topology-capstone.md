@@ -39,6 +39,7 @@ PR into claude/integration; merge on green; close per ORCHESTRATION section 7.
 ## Completion
 (five lines max)
 
-Codex recovery: owned source WIP9f6549b5 pushed on claude/c11-arc6-capstone before merging fresh integration abd15c88 (merge5f07f634).
-CLAIMED by codex-root-resume; bounded Sol6.1-medium implementation worker completing only076 Calder/final-pair content and named bare-Quietus checks.
-Generated imports/UIDs preserved outside commits; no077, APK or protected-mechanics changes. PR/checks pending.
+Codex recovery: owned source WIP9f6549b5 pushed before merging fresh integration abd15c88; completed head ad776a6b on claude/c11-arc6-capstone, PR165.
+CLAIMED by codex-root-resume pending exact-head hosted run40634024945: https://github.com/pemunson90-cmd/Siren-s-Song/pull/165 .
+Local import/core846/0, bare Calder30..36 journeys31/0, final-pair10/0, unchanged route-map67/0 and finale UI333/0 pass.
+Generated imports/UIDs preserved outside commits; no077, APK or protected-mechanics changes. Extra fixture: endings_photo_tests strictly retains both photos plus new receiver; no assertion weakening.
