@@ -41,3 +41,5 @@ PR into claude/integration; merge on green; close per ORCHESTRATION section 7.
 (five lines max)
 
 28Oct04:33UTC recovery: prior Claude worktree retains unpublished source edits last written27Oct20:51-20:57Eastern, no active lane CLI. Root resumes this existing branch and uncommitted work through a bounded Sol6.1-medium worker. Preserve all prior edits; snapshot owned source before reconciling current integration. Do not duplicate074/058 or other active paths.
+
+28Oct checkpoint: preserved/pushed owned WIP da88e157 before merging integration abd15c88; unrelated generated imports/UIDs preserved in named stash. PR166 head a6eaac9d adds seven Glass/Iron deltas only. Isolated import/core846/0, carry150/0, existing Iron22 journey10/0, registry/guidance pass. Hosted CI40633263492 running; not merged. Calder/final pair remain076.

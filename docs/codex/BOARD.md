@@ -201,7 +201,7 @@ Claude lanes in parallel (not Codex work): C6 doc sweep (claude/c6-doc-sweep), C
 | 71 | 074 New geometry for optional ops 38 and 39 | CLAIMED (codex-root-parallel) | [162](https://github.com/pemunson90-cmd/Siren-s-Song/pull/162) | | WIP 4435db13; local import/core846/0, bare journeys18/0; exact-head CI pending. |
 | 72 | 075 Profile export and import that works on a real phone (system file dialog or shar | OPEN | | | |
 | 73 | 076 Arc 6 distinct topologies and a staged capstone for op 34 | CLAIMED (codex-root-resume, claude/c11-arc6-capstone) | | | |
-| 74 | 077 Route and recovered-fact carry into arcs 4 to 6 | CLAIMED (codex-root-resume, claude/c12-route-carry) | | | |
+| 74 | 077 Route and recovered-fact carry into arcs 4 to 6 | CLAIMED (codex-root-resume, claude/c12-route-carry) | [166](https://github.com/pemunson90-cmd/Siren-s-Song/pull/166) | | Head a6eaac9d; import/core846, carry150, Iron22 journey10 pass; exact-head CI40633263492 running. |
 | 75 | 078 Campaign ledger: expand END OF LINE and the ending into a full account of people | CLAIMED (claude, claude/c13-ledger) | | | |
 | 76 | 079 Ironman save integrity (no hard-save or fork undo bypass) | CLAIMED (claude, claude/c14-ironman) | | | |
 | 77 | 080 Arc boundary beats and arc-grouped Operations list | OPEN | | | |
