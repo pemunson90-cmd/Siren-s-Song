@@ -28,10 +28,10 @@ PR into claude/integration; merge on green; close per ORCHESTRATION section 7.
 
 ## Completion
 PR https://github.com/pemunson90-cmd/Siren-s-Song/pull/150: ac6c83ab gates passed40612282324; Native full-matrix timeouts had no assertion failures; landed C7 splits all cases by display. Combined calibration now requires eight research projects and both approved C2 IDs (was six before those targets existed); fresh gates pending.
-Recovery: claude/c2-equipment 3bec8d269415aeba033aee76d973fee9ee6d79ed, worktree 055-c2-equipment; next command gh pr checks 150.
-Windows import/core846/0, tools89/0, briefing touch52/0, craft upgrades11/0; new pairs9/11/16/22 preserve early rewards. Feedback touch12/0, warning UI218/0, Ops Home2096/0; economy campaign109/0 across all presets/routes/profiles after strengthening the research assertion; import/core846/0.
-No APK or promotion. Integrationabd15c88 reconciled (C7 calibration and native display grouping); fresh import/core846/0; Pat's Relay decision is resolved, no further design decision pending.
-Necessary extra seams: equipment_context.gd carrier grouping/visibility; economy_campaign_sim_tests.gd exact eight-project expectation plus both C2 target IDs. Earlier minimal simulation/photo/HUD seams retained.
+Recovery: claude/c2-equipment f0e1f1a82cbb5021c043dc8ace40c554f9ebb6cd, worktree 055-c2-equipment; next command gh pr checks 150.
+Windows import/core848/0, tools89/0, briefing touch52/0, craft upgrades11/0; new pairs9/11/16/22 preserve early rewards. Feedback touch12/0, warning UI218/0, Ops Home2096/0; economy campaign109/0 across all presets/routes/profiles after strengthening the research assertion; import/core848/0.
+No APK or promotion. Integration0320f632 reconciled (audio/settings/geometry/carry/ledger); fresh import/core848/0; Pat's Relay decision is resolved, no further design decision pending.
+Necessary extra seams: equipment_context.gd carrier grouping/visibility; economy_campaign_sim_tests.gd exact eight-project expectation plus both C2 target IDs. CI whole-job allowance150min (90min cut passing tests); per-suite480s and all tests unchanged. Earlier simulation/photo/HUD seams retained.
 ## Native-render timeout lead for root's 058 owner
 
 SUPERSEDED by landed C7/PR157 (abd15c88): the full Operations Home matrix is partitioned into cover/inner/desktop native-render runs. All original cases, scales, recovery states and assertions remain. Do not apply the speculative Main guard for this timeout; it was never verified or implemented. 055 is reconciling that repair now.
