@@ -21,6 +21,7 @@ static func apply(values: Dictionary, host: Control = null) -> void:
 	AudioServer.set_bus_volume_db(0, master_db(current.master))
 	AudioServer.set_bus_mute(0, current.master <= 0.0)
 	if host == null: return
+	if host.get("ocean") != null: host.ocean.quality_tier = current.quality
 	if host.get("sound") != null:
 		host.sound.music_volume = current.music; host.sound.effects_volume = current.effects
 		host.sound.alerts_volume = current.alerts; host.sound.messages_volume = current.messages

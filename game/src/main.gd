@@ -104,6 +104,8 @@ var early_reward:Dictionary={}
 var lock_warning
 var audio_captions
 var settings_path="user://settings.json"
+var quality_runtime=preload("res://src/presentation/quality/quality_runtime.gd").new()
+var quality_periodic_refresh:=false
 func _ready() -> void:
 	get_tree().auto_accept_quit=false
 	_theme()
@@ -304,6 +306,7 @@ func _pause() -> void:
 func _confirm_module_departure()->void:
 	ModuleRecovery.confirm_departure(self)
 func _process(dt: float) -> void:
+	quality_runtime.process(self,dt)
 	frame+=1
 	if frame==4 and not capture_path.is_empty(): _take_capture()
 	if sound!=null: sound.update(sim,dt,screen=="mission")
@@ -315,8 +318,11 @@ func _process(dt: float) -> void:
 		_observation_diagnostics()
 		if not sim.outcome.is_empty(): _debrief()
 		elif sim.has_method("departure_context") and sim.departure_context().get("pending",false): _confirm_module_departure()
+		quality_periodic_refresh=true
 		_refresh()
+		quality_periodic_refresh=false
 func _refresh() -> void:
+	if not quality_runtime.refresh(self,quality_periodic_refresh):return
 	if lock_warning!=null:lock_warning.refresh(self)
 	if decoy_armed and (screen!="mission" or sim.selected!=decoy_unit or not sim.units[sim.selected].alive or sim.tools.decoy<=0 or not sim.outcome.is_empty()):decoy_armed=false
 	ocean.decoy_targeting=decoy_armed

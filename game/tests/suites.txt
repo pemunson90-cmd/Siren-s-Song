@@ -304,6 +304,8 @@ frame_cap_settings_tests|FRAME CAP SETTINGS|390|490
 optional_thread_journey_tests|OPTIONAL THREAD JOURNEY|302|402
 optional_cache_tests|OPTIONAL CACHE|303|404
 optional_cache_journey_tests|OPTIONAL CACHE JOURNEY|304|405
+quality_tests|QUALITY|305|406
+quality_ui_tests|QUALITY UI|306|407|render
 economy_tests|ECONOMY|350|450
 economy_save_tests|ECONOMY SAVE|351|451
 economy_campaign_sim_tests|ECONOMY CAMPAIGN|352|452
