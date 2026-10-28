@@ -39,7 +39,7 @@ DONE since 10:20: 063 (PR184), 065 (PR183), 075 (PR176), 082 (PR173), 087 (PR187
 
 ## 5. Queue (priority order; preconditions gate eligibility)
 
-Eligible now: **073** quality/battery tier (063 DONE).
+Eligible now: **073** quality/battery tier (063 DONE). After 085: **088** ending decided after op 34 (Pat ruling 28 Oct ~11:22 ET).
 Gated on 056: 057 naval career, 068 expedition offers, 069 expedition records/seed, 070 resume after app kill, 080 arc intro/outro cards. Then 071 career riders (after 057), 067 late teaching (after 072).
 **Content complete** = all of the above merged. Then **Promotion 3**, then the **whole-game cold audit** run by Codex: a fresh-context Sol6.1-high critic with no build notes, photographic reconnaissance, strategic depth and player experience first (Pat ruling 27 Oct), producing a ranked deficiency list that Claude turns into fix handoffs.
 Needs Pat before queuing: per-role Siren sounds, late-role silhouettes, economy custom toggles, ambient sea life, app icon/splash.
@@ -47,7 +47,7 @@ Context hygiene (Pat 28 Oct ~10:09 ET): let in-flight Codex runs finish; start n
 
 ## 6. Waiting on Pat
 
-- Pending: may arcs 4 to 6 change which ending family you get (decide at op 34), or stay decided at ops 12/13? Until ruled, unchanged.
+- Ruled 28 Oct ~11:22 ET: arcs 4 to 6 may change the ending family, decided at op 34 (handoff 088). Next question to ask: QUESTIONS_FOR_PAT item 2 or 4.
 - Full list: `docs/QUESTIONS_FOR_PAT.md` on integration. Lane-raised: credits creator name (placeholder), crediting Claude Code/Codex as tools, lung_solo bypass/isolate par, Alerts bus placement under Effects, fittings one-tap vs preview-confirm.
 
 ## 7. How-to (Windows box, Git Bash + PowerShell)
