@@ -1,8 +1,8 @@
 # Handoff 056: C3 MODES: mode select, campaign rename, seeded expeditions
 
-Status: OPEN
-Claimed at:
-Claimed by:
+Status: CLAIMED
+Claimed at: 2026-10-28 09:32:33 UTC
+Claimed by: codex-root-queue
 Finished at:
 
 Precondition: 054 and 055 are DONE. Read ORCHESTRATION_2026-10-26.md first. Claude's session hit its usage limit on 26 Oct; this lane transfers to Codex, and while you hold this claim you own the files listed here.

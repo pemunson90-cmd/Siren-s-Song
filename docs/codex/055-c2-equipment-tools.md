@@ -1,9 +1,9 @@
 # Handoff 055: C2 EQUIPMENT AND FIELD TOOLS (resume Claude lane)
 
-Status: CLAIMED
+Status: DONE
 Claimed at: 2026-10-27 23:19:56 UTC
 Claimed by: codex
-Finished at: 2026-10-27 07:01:06 UTC
+Finished at: 2026-10-28 09:32:33 UTC
 
 Precondition: 054 is DONE (avoids fittings/catalog overlap). Read ORCHESTRATION_2026-10-26.md first. Claude's session hit its usage limit on 26 Oct; this lane transfers to Codex, and while you hold this claim you own the files listed here.
 Codex may merge: yes, into claude/integration only, on green guidance + game-smoke for the exact head, merge commit.
@@ -75,3 +75,5 @@ Keep relay_buoy as the published 35% passive-sensing boost near the buoy (drone 
 Pat ratified the same relay ruling on 27 Oct (BOARD ruling 1): the boost applies to both drones when each is inside the buoy radius. Remaining work: repair PR150's failed hosted fitting/touch regression, fresh green exact-head CI, merge.
 
 Current checkpoint27Oct22:11ET: resume authorization stands; prior paused text is history. Sol6.1 medium worker is active on055, reconciling PR150 with landed059 before final green CI and merge. Root does not duplicate this lane.
+
+Verified closeout28Oct09:33UTC: PR150 merged609f29a9 after headcbff4e05 both checks passed40654271455.24modules/eight finite tools delivered;055 ownership released. Root dispatches056 and tool follow-ups060/066. Claude owns084 merge and next production promotion coordination.
