@@ -35,4 +35,6 @@ Import + core. Existing optional-op photo-row journey fixtures for 38 and 39 upd
 PR into claude/integration; merge on green; close per ORCHESTRATION section 7.
 
 ## Completion
-(five lines max)
+[KEEL: verified WIP] claude/lane-optional-geometry at 64d8e29fd15e0df40c84f474c7dd6bb49cd5f2b7; PR https://github.com/pemunson90-cmd/Siren-s-Song/pull/162.
+Import/core846/0 and two bare journeys18/0; guidance green, game-smoke40616056720 pending. Claim remains active; only074.
+Three local landmark metadata entries per map; shared renderer hook deferred to root/076.

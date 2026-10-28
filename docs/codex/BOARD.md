@@ -192,7 +192,7 @@ Claude lanes in parallel (not Codex work): C6 doc sweep (claude/c6-doc-sweep), C
 | 68 | 071 Career and expedition riders: optional contract conditions with bonus pay | OPEN | | | |
 | 69 | 072 Settings depth: separate mixer, haptic strength and coverage, gesture timing | OPEN | | | |
 | 70 | 073 Performance and battery tier: Low-effects quality setting, auto frame-time gover | OPEN | | | |
-| 71 | 074 New geometry for optional ops 38 and 39 | CLAIMED (codex-root-parallel) | | | |
+| 71 | 074 New geometry for optional ops 38 and 39 | CLAIMED (codex-root-parallel) | [162](https://github.com/pemunson90-cmd/Siren-s-Song/pull/162) | | WIP 64d8e29f; local import/core846/0, bare journeys18/0; exact-head CI pending. |
 | 72 | 075 Profile export and import that works on a real phone (system file dialog or shar | OPEN | | | |
 | 73 | 076 Arc 6 distinct topologies and a staged capstone for op 34 | CLAIMED (claude, claude/c11-arc6-capstone) | | | |
 | 74 | 077 Route and recovered-fact carry into arcs 4 to 6 | CLAIMED (claude, claude/c12-route-carry) | | | |
