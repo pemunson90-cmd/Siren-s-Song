@@ -317,3 +317,5 @@ runs_offer_tests|RUNS OFFER|308|408
 runs_offer_ui_tests|RUNS OFFER UI|309|409|render
 expedition_session_tests|EXPEDITION SESSION|371|471
 career_tests|CAREER|380|480
+rider_tests|RIDER|312|413
+rider_ui_tests|RIDER UI|313|414|render

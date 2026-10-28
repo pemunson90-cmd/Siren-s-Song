@@ -57,7 +57,7 @@ func run():
 		check(session.run_state==recovered and session.sim.mission.id==State.current_operation(recovered),"NEXT prepares the next operation while preserving recovered progress and supplies")
 		if begin.size()==1:begin[0].emit_signal("pressed")
 		await settle()
-		var launched=State.launch(recovered)
+		var launched=State.launch(recovered,true)
 		check(session.screen=="mission" and session.active_started and session.sim.paused and not session.recorded and session.run_state==launched and Archive.restore(host)==launched,"BEGIN commits only the next launch and enters its paused simulation")
 		session.sim.outcome="won";session._debrief();await settle()
 		check(session.recorded and session.run_state.cursor==2 and session.run_state.results.size()==2 and State.valid(session.run_state),"the next operation records its own recovery exactly once")
