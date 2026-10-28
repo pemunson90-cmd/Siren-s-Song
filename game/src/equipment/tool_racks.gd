@@ -12,14 +12,31 @@ const QUIETUS_ONLY=["knock","hull_patch"]
 const MAX_COUNT=9
 const CHARGE_PRICE={"scrap":1,"cells":1}
 static func empty()->Dictionary:return {"quietus":{},"drone_a":{},"drone_b":{}}
-static func template(choice:String)->Dictionary:
- var racks=empty()
+# Preserve the fit's pre-rack whole winch places. Current frame/module budgets
+# are integers, so they have no fractional spare room: their safe templates are
+# empty. Players explicitly load charges to trade away winch places.
+static func template(choice:String,fit:Dictionary)->Dictionary:
+ var racks=empty();var spare=[]
+ for unit in 3:
+  var b=Catalog.budget(fit,unit)
+  var ticks=roundi((b.cargo_cap-b.cargo)*100.0)
+  spare.append(maxi(0,ticks-maxi(0,floori(ticks/100.0))*100))
  for id in Tools.ids():
-  var slot="quietus" if id in ["emp","decoy","recon","knock","hull_patch"] else ("drone_a" if id=="sonobuoy" else "drone_b")
-  racks[slot][id]=Tools.loadout_count(id,choice) if id not in Tools.field_ids() or Tools.is_enabled(id) else 0
+  if id in Tools.field_ids() and not Tools.is_enabled(id):continue
+  var preferred=0 if id in ["emp","decoy","recon","knock","hull_patch"] else (1 if id=="sonobuoy" else 2)
+  var order=[preferred]
+  if id not in QUIETUS_ONLY:
+   for unit in 3:
+    if unit!=preferred:order.append(unit)
+  for charge in Tools.loadout_count(id,choice):
+   for unit in order:
+    if spare[unit]>=Tools.CARGO_WEIGHTS[id]:
+     var rack=racks[UNITS[unit]]
+     rack[id]=int(rack.get(id,0))+1;spare[unit]-=Tools.CARGO_WEIGHTS[id]
+     break
  return racks
-static func migrated(data:Dictionary)->Dictionary:
- return data.tool_racks.duplicate(true) if data.has("tool_racks") else template(data.get("upgrade","endurance"))
+static func migrated(data:Dictionary,fit:Dictionary)->Dictionary:
+ return data.tool_racks.duplicate(true) if data.has("tool_racks") else template(data.get("upgrade","endurance"),fit)
 static func valid(value)->bool:
  if not value is Dictionary or value.size()!=3 or not value.has_all(UNITS):return false
  for slot in UNITS:
@@ -87,6 +104,13 @@ static func winch_capacity(mission:Dictionary,unit:int)->int:
  # Capacity is queried by earlier save validators too; malformed stock must fail closed.
  if not valid(racks):return 0
  return maxi(0,floori(room_ticks(mission.get("launch_equipment",{}),racks,unit)/100.0))
+# Explain only a refusal that unloading tools would actually resolve.
+static func full_reason(mission:Dictionary,unit:int,carried:int,fallback:String)->String:
+ var fit=mission.get("launch_equipment",{})
+ var b=Catalog.budget(fit,unit)
+ if carried>=winch_capacity(mission,unit) and carried<maxi(0,b.cargo_cap-b.cargo):
+  return "Hold full of tools: unload at the fittings screen"
+ return fallback
 static func valid_archive(data:Dictionary)->bool:
  return not data.has("tool_racks") or valid(data.tool_racks)
 static func valid_snapshot(data:Dictionary)->bool:

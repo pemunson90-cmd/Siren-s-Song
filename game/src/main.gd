@@ -66,8 +66,8 @@ var end_of_line_seen=false
 var fleet:Dictionary={}
 var economy:Dictionary=preload("res://src/campaign/economy.gd").new_state()
 var challenge_records:Dictionary={}
-var tool_racks:Dictionary=preload("res://src/equipment/tool_racks.gd").template("endurance")
 var fitted_equipment:Dictionary=preload("res://src/equipment/equipment_catalog.gd").default_loadout()
+var tool_racks:Dictionary=preload("res://src/equipment/tool_racks.gd").template("endurance",fitted_equipment)
 var upgrade := "endurance"
 var capture_scenario := ""
 var frame := 0
@@ -653,7 +653,6 @@ func _load_archive() -> void:
 	var saved=store.load_game()
 	preload("res://src/presentation/finale/finale.gd").restore(self,saved)
 	if not saved.is_empty():
-		tool_racks=preload("res://src/equipment/tool_racks.gd").migrated(saved)
 		unlocked=saved.unlocked; completed=saved.completed; upgrade=saved.upgrade; settings=saved.settings
 		early_reward=saved.get("early_reward",{}).duplicate(true)
 		expedition=saved.get("expedition",{}).duplicate(true)
@@ -661,6 +660,7 @@ func _load_archive() -> void:
 		photo_intel=saved.get("intel",{}).duplicate(true)
 		fitted_equipment=preload("res://src/equipment/equipment_catalog.gd").canonical(saved.get("equipment",{}))
 		fitted_equipment=FleetInventory.reconcile_fitting(fitted_equipment,FleetInventory.available(_equipment_entitlements(),fleet))
+		tool_racks=preload("res://src/equipment/tool_racks.gd").migrated(saved,fitted_equipment)
 		var Economy=preload("res://src/campaign/economy.gd")
 		economy=saved.economy.duplicate(true) if saved.has("economy") else Economy.legacy_state(fitted_equipment)
 		recovered_evidence=saved.get("evidence",{})

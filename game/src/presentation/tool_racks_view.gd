@@ -14,7 +14,7 @@ static func _redraw(host,action:Callable)->void:
   if is_instance_valid(heading) and heading.get_parent()==host.panel_box:host.scroll.scroll_vertical=position
  ).call_deferred()
 static func fill(host,choice:String)->void:
- host.upgrade=choice;host.tool_racks=Racks.template(choice)
+ host.upgrade=choice;host.tool_racks=Racks.template(choice,host.fitted_equipment)
 static func edit(host,slot:String,id:String,delta:int)->void:
  var next=host.tool_racks.duplicate(true)
  next[slot][id]=int(next[slot].get(id,0))+delta
@@ -36,7 +36,7 @@ static func stock(host)->String:
 static func show(host)->void:
  if not Racks.enabled:return
  host._menu_text("FINITE TOOLS / EDITABLE CARGO RACKS",19)
- host._menu_text("Templates fill the racks. Each charge uses cargo shared with modules and winch work. Empty racks always launch. RESUME preserves the active dive's stock.",15)
+ host._menu_text("Templates preserve whole winch places; charges that cannot fit are omitted. Current frames have no spare fractional cargo, so templates start empty. LOAD +1 chooses tools at the cost of winch space. RESUME preserves the active dive's stock.",15)
  for choice in Tools.LOADOUTS:
   var oxygen=host._loadout_stock(choice)[0]
   host._button(host.panel_box,"FILL %s | O2 %d%%"%[choice.to_upper(),oxygen],func():_redraw(host,func():fill(host,choice)),"tools_loadout_"+choice)

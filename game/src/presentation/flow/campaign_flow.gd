@@ -39,12 +39,12 @@ static func show_campaign(host) -> void:
 	host._menu_text("Field records remain reviewable after loss or abandonment. Only successful extraction advances the campaign.",14)
 	var stock=host._loadout_stock(host.upgrade)
 	host._menu_text("NEXT DIVE / RETRY · %s\nO₂ %d%% · DISRUPT %d · SURVEY %d"%[host.upgrade.to_upper(),stock[0],preload("res://src/equipment/tool_racks.gd").total(host.tool_racks,"emp"),preload("res://src/equipment/tool_racks.gd").total(host.tool_racks,"recon")],15)
-	var rows=["COMPARE: O₂ / DISRUPT / SURVEY"]
+	var rows=["COMPARE: O₂ / FREE DISRUPT ALLOWANCE / FREE SURVEY ALLOWANCE"]
 	for choice in ["endurance","disruption","survey"]:
 		var supplies=host._loadout_stock(choice)
 		rows.append("%s · %d%% / %d / %d"%[choice.to_upper(),supplies[0],supplies[1],supplies[2]])
 	host._menu_text("\n".join(rows),14)
-	host._menu_text("TEMPLATES: 3 DECOYS · 2 DRONES · 2 TORPEDOES\nDISRUPT: 12s · SURVEY: 8s, audible",14)
+	host._menu_text("FREE TOOL ALLOWANCES: 3 DECOYS / 2 TORPEDOES\nLoad tool charges in Fittings; they use cargo and spend winch space.\nFLEET: 2 DRONES SUPPLIED\nDISRUPT: 12s / SURVEY: 8s, audible",14)
 	host._button(host.panel_box,"CYCLE LOADOUT · endurance / disruption / survey",host._cycle_loadout,"loadout")
 	host._button(host.panel_box,"AUDIO / SETTINGS",host._settings_menu,"settings")
 	preload("res://src/presentation/ops_home/ops_home.gd").arrange(host)
@@ -61,7 +61,7 @@ static func show_fittings(host)->void:
 static func cycle_loadout(host)->void:
 	var reading_position=host.scroll.scroll_vertical
 	host.upgrade=["endurance","disruption","survey"][( ["endurance","disruption","survey"].find(host.upgrade)+1)%3]
-	host.tool_racks=preload("res://src/equipment/tool_racks.gd").template(host.upgrade)
+	host.tool_racks=preload("res://src/equipment/tool_racks.gd").template(host.upgrade,host.fitted_equipment)
 	host._save_archive()
 	host._show_campaign()
 	var heading=host.panel_box.get_child(0)
@@ -278,6 +278,6 @@ static func new_campaign(host)->void:
 	host.completed=[];host.unlocked=0;host.expedition={};host.recovered_evidence={};host.photo_records={};host.photo_intel={};host.hints_seen=[]
 	host.fleet={};host.economy=EconomyPanel.take_draft(host)
 	host.fitted_equipment=preload("res://src/equipment/equipment_catalog.gd").default_loadout();host.upgrade="endurance"
-	host.tool_racks=preload("res://src/equipment/tool_racks.gd").template(host.upgrade)
+	host.tool_racks=preload("res://src/equipment/tool_racks.gd").template(host.upgrade,host.fitted_equipment)
 	preload("res://src/presentation/first_siren_cue/cue_archive.gd").restore_types(host,{})  # a new campaign forgets seen Siren kinds
 	host._start_mission(0);host._save_archive();host._show_campaign()

@@ -18,6 +18,8 @@ static func _name(item:String)->String:return Catalog.ITEMS.get(item,{}).get("na
 # Winch carriage is the craft's free cargo budget; the standard frames hold two.
 static func capacity_data(mission:Dictionary,unit_id:int)->int:return preload("res://src/equipment/tool_racks.gd").winch_capacity(mission,unit_id)
 static func capacity(sim,unit_id:int)->int:return capacity_data(sim.mission,unit_id)
+static func full_reason(sim,unit_id:int,fallback:String)->String:
+ return preload("res://src/equipment/tool_racks.gd").full_reason(sim.mission,unit_id,carried(sim,unit_id),fallback)
 static func carried(sim,unit_id:int)->int:
  var state=_state(sim);var count=0
  for item in state.modules:
@@ -54,7 +56,7 @@ static func context(sim,item:String,unit_id:int)->Dictionary:
  elif not unit.alive:result.reason="Craft lost"
  elif result.claimed_by>=0:result.reason="Recovery in progress"
  elif not state.jobs[unit_id].is_empty() or not sim.captures[unit_id].is_empty() or sim._blackwater_recovery_busy(unit_id) or sim._warning_chain_busy(unit_id) or sim._witness_recovery_busy(unit_id) or sim.Glass.busy(sim,unit_id) or sim.Choir.busy(sim,unit_id):result.reason="Finish this craft's active work first"
- elif result.cargo>=result.cargo_cap:result.reason="No free cargo place · %d / %d carried"%[result.cargo,result.cargo_cap]
+ elif result.cargo>=result.cargo_cap:result.reason=full_reason(sim,unit_id,"No free cargo place · %d / %d carried"%[result.cargo,result.cargo_cap])
  elif result.distance>RANGE:result.reason="Move within 60m"
  elif unit.band!=sim.Depth.cargo_band(sim,item) or not unit.transition.is_empty():result.reason="Salvage requires its recorded depth band"
  elif not sim.Depth.clear(sim,unit.pos,module.pos,unit.band):result.reason="Terrain blocks recovery"
