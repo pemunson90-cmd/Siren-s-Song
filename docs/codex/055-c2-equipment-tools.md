@@ -28,8 +28,8 @@ PR into claude/integration; merge on green; close per ORCHESTRATION section 7.
 
 ## Completion
 Resumed 27 Oct: repaired carrier grouping and selected-module visibility; PR https://github.com/pemunson90-cmd/Siren-s-Song/pull/150 awaits exact-head hosted gates.
-Recovery: claude/c2-equipment cb4336d6351207d7bb897dfcafdd5819e0d486ed, worktree 055-c2-equipment; next command gh pr checks 150.
-Windows import/core846/0, field tools89/0, unchanged briefing scroll/touch52/0 (cover and inner); craft upgrades11/0 after preserving early rewards (new pairs9/11/16/22). Relay35% bonus verified for both drones within420m.
+Recovery: claude/c2-equipment 36fbb0e23b73125abf994737da7a086de1b0e885, worktree 055-c2-equipment; next command gh pr checks 150.
+Windows import/core846/0, tools89/0, briefing touch52/0, craft upgrades11/0; new pairs9/11/16/22 preserve early rewards. Feedback touch12/0 and cold warning UI218/0 pass after warning cards move clear of tools.
 No APK or promotion. Integrationfaae7850 reconciled; Pat's Relay decision is resolved, no further design decision pending.
 Additional necessary presentation seam: equipment_context.gd groups compatible carriers and retains their visibility; earlier minimal simulation/photo/HUD seams retained.
 ## Pat ruling, 27 October 2026 — design resolved, implementation paused
