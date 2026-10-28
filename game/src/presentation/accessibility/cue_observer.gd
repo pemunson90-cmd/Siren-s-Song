@@ -29,6 +29,9 @@ func _emit(cue:String,time:float,suffix:String="")->void:
  history.append({"text":str(Table.TEXT[cue])+suffix,"at":time})
  while rows.size()>Table.MAX_ROWS:rows.pop_front()
  while history.size()>Table.HISTORY_ROWS:history.pop_front()
+# Caption for an event audio cue raised after observe() this frame. Same gates as _emit.
+func note(cue:String,time:float,suffix:String="")->void:
+ if Table.ENABLED:_emit(cue,time,suffix)
 func observe(sim,active:bool)->void:
  emitted=[]
  if not Table.ENABLED:rows.clear();history.clear();return

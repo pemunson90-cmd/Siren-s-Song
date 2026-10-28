@@ -3,7 +3,7 @@ extends RefCounted
 # campaign never resets accessibility or audio choices, and vice versa.
 const VERSION := 1
 const TEXT_SCALES := [1.0, 1.15, 1.3, 1.5]
-const DEFAULTS := {"version": VERSION, "master": 1.0, "music": 0.5, "effects": 0.8, "text_scale": 1.0, "high_contrast": false, "reduced_motion": false, "haptics": true, "safe_palette": false, "audio_captions": false, "night_mode": false}
+const DEFAULTS := {"version": VERSION, "master": 1.0, "music": 0.5, "effects": 0.8, "text_scale": 1.0, "frame_cap": 60, "high_contrast": false, "reduced_motion": false, "haptics": true, "safe_palette": false, "audio_captions": false, "night_mode": false}
 var path := "user://settings.json"
 var warning := ""
 static func sanitize(raw: Variant) -> Dictionary:
@@ -18,6 +18,8 @@ static func sanitize(raw: Variant) -> Dictionary:
 		for s in TEXT_SCALES:
 			if absf(s - float(scale)) < absf(best - float(scale)): best = s
 		out.text_scale = best
+	var frame_cap = raw.get("frame_cap", out.frame_cap)
+	if (frame_cap is int or frame_cap is float) and float(frame_cap) in [30.0, 60.0]: out.frame_cap = roundi(float(frame_cap))
 	for key in ["high_contrast", "reduced_motion", "haptics", "safe_palette", "audio_captions", "night_mode"]:
 		if raw.get(key) is bool: out[key] = raw[key]
 	return out
