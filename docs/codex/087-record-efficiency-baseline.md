@@ -1,9 +1,10 @@
 # Handoff 087: DOCS: RECORD PAT'S 28 OCT EFFICIENCY BASELINE IN USER_DIRECTIVES
 
-Status: OPEN
-Claimed at:
-Claimed by:
-Finished at:
+Status: DONE
+Claimed at: 2026-10-28 (UTC; exact claim time not retained here)
+Claimed by: codex-root
+Finished at: 2026-10-28 15:14:14 UTC
+Completion: PR187 head `209800ce`; independent review14B; docs-only checks passed (runtime skipped), run40710642054; merged `e09c2db8`. Pat's efficiency baseline recorded; docs only.
 
 Precondition: none (docs only). Read HANDOFF.md and ORCHESTRATION_2026-10-26.md first. Current review rule (Pat, 28 Oct): independent Sol6.1-high review of the frozen patch before commit and before merge.
 Codex may merge: yes, into claude/integration only, after independent approval and green required checks on the exact head, merge commit.

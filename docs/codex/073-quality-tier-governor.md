@@ -1,8 +1,8 @@
 # Handoff 073: Performance and battery tier: Low-effects quality setting, auto frame-time governor, and paused/idle redraw throttle
 
-Status: OPEN
-Claimed at: 
-Claimed by: 
+Status: CLAIMED
+Claimed at: 2026-10-28 (UTC; exact claim time not retained here)
+Claimed by: codex-root; branch claude/lane-quality-tier. Full implementation prepared uncommitted after072 release; independent review pending. Main _notification remains Career-owned. Not DONE.
 Finished at:
 
 Precondition: 058 and 063 are DONE. Scout note: 058 (frame-rate setting) landed so settings_store and frontend_settings are not double-owned; ideally 063 (performance pass) before or after, with no overlap on ocean_view draw code. Read ORCHESTRATION_2026-10-26.md first.

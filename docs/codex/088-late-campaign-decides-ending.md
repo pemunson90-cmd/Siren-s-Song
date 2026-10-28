@@ -1,8 +1,8 @@
 # Handoff 088: THE ENDING IS DECIDED AFTER OP 34, AND ARCS 4 TO 6 CAN CHANGE IT
 
-Status: OPEN
-Claimed at:
-Claimed by:
+Status: CLAIMED
+Claimed at: 2026-10-28 (UTC; exact claim time not retained here)
+Claimed by: codex-root; worker500; branch claude/codex-088-late-ending; Ending flow and docs ruling only.
 Finished at:
 
 Precondition: 085 is DONE (PR185; it owns the op 30 to 34 carry rows and facts this reads). Read HANDOFF.md and ORCHESTRATION_2026-10-26.md first. Current review rule (Pat, 28 Oct): independent Sol6.1-high review of the frozen patch before commit and before merge.

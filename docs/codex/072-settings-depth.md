@@ -1,9 +1,9 @@
 # Handoff 072: Settings depth: separate mixer, haptic strength and coverage, gesture timing
 
-Status: CLAIMED
+Status: DONE
 Claimed at: 2026-10-28 09:06:27 UTC
 Claimed by: codex-root (transferred from claude 28 Oct 2026 10:20 ET)
-Finished at:
+Finished at: 2026-10-28
 
 Precondition: 058 and 060 are DONE. Scout note: Handoff 058 (controller focus and frame-rate setting) DONE since it owns settings_store.gd and the settings screen; handoff 060 DONE so the final bus set is known. Read ORCHESTRATION_2026-10-26.md first.
 Codex may merge: yes, into claude/integration only, on green guidance + game-smoke for the exact head, merge commit.
@@ -32,7 +32,11 @@ Import and core. Settings round trip: old settings.json loads with defaults, cor
 PR into claude/integration; merge on green; close per ORCHESTRATION section 7.
 
 ## Completion
-(five lines max)
+PR174 head f99fa5a9; separate reviews10/15/16 approved source, fixes and clean integration.
+Own run40713900155 passed all seven required checks; merged db60fe5a.
+Independent Master mixer categories, warning guards, controls and haptics integrated.
+RESET test pins documented legacy-preserving defaults; no failed gate bypassed.
+Settings ownership released to073; physical-device acceptance remains deferred.
 
 ## Claude claim (28 Oct)
 Claude builds this on `claude/c15-settings-depth`. Codex: skip it.

@@ -1,15 +1,16 @@
 # Handoff 056: C3 MODES: mode select, campaign rename, seeded expeditions
 
-Status: CLAIMED
+Status: DONE
 Claimed at: 2026-10-28 09:32:33 UTC
 Claimed by: codex-root-queue
-Finished at:
+Finished at: 2026-10-28 15:33:58 UTC
+Completion: PR175 head `45991efb`; independent review13A+16; all seven own-head checks green, run40710486650; merged `a4dd77e7`. CLEAN automatic new base and byte identity checked before sequential merges under review16 carry conditions. Campaign, Challenges and seeded runs separated.
 
 Precondition: 054 and 055 are DONE. Read ORCHESTRATION_2026-10-26.md first. Claude's session hit its usage limit on 26 Oct; this lane transfers to Codex, and while you hold this claim you own the files listed here.
 Codex may merge: yes, into claude/integration only, on green guidance + game-smoke for the exact head, merge commit.
 
 ## Task (plain language)
-1) Rename player-facing EXPEDITION(S) strings in the post-tutorial campaign (presentation/expedition_operations.gd, ops_home, expedition_view) to OPERATIONS / CAMPAIGN wording; do NOT rename code ids or save keys. 2) A mode-select screen between START GAME and new campaign (Campaign, Challenges, Expeditions; Career disabled until 057). 3) Seeded roguelite expeditions: a run of 3 to 6 operations drawn from existing operation factories (OperationCatalog.make) with a seed choosing sequence and run modifiers (starting loadout, resource scarcity, starting Hunt stage within caps); the run ends on loss; separate resources and story state in its own sidecar archive (follow the challenge_session.gd and challenge archive precedent); profile and SAVE2 aware. No new enemy rules.
+1) Rename player-facing EXPEDITION(S) strings in the post-tutorial campaign (presentation/expedition_operations.gd, ops_home, expedition_view) to OPERATIONS / CAMPAIGN wording; do NOT rename code ids or save keys. 2) A mode-select screen between START GAME and new campaign (Campaign, Challenges, Expeditions; Career disabled until 057). 3) Seeded roguelite expeditions: a run of 3–6 operations drawn from existing operation factories (OperationCatalog.make) with a seed choosing sequence and run modifiers (starting loadout, resource scarcity, starting Hunt stage within caps); the run ends on loss; separate resources and story state in its own sidecar archive (follow the challenge_session.gd and challenge archive precedent); profile and SAVE2 aware. No new enemy rules.
 
 ## Base and branch
 Base: origin/claude/integration (fetch fresh). Create branch: claude/c3-modes
@@ -27,6 +28,13 @@ Import, core, and only the minimum suites in ORCHESTRATION section 5. Suite rank
 PR into claude/integration; merge on green; close per ORCHESTRATION section 7.
 
 ## Completion
+PR175 exact45991efb; independent reviews13A/16 approved code, profile reconciliation and UI repair.
+Own run40710486650 passed all seven required checks; merged a4dd77e7.
+Campaign, Challenges and seeded Expeditions are separate; campaign/SAVE2 remain isolated.
+Prior focused core848, profiles75/cold4, transfer35 and home2186 checks passed.
+056 ownership released; 057 Career is separately claimed, with .runs compatibility preserved.
+
+## Historical implementation snapshot (before final reconciliation)
 Implementation pushed: e18ab971, PR175 into claude/integration; CLAIMED pending root's hosted gate/merge.
 Mode selector; seeded3–6 opening recon operations, finite carried tools, capped Hunt, run loss, profile-pinned sidecar; campaign/SAVE2 and079 isolated.
 Godot4.6.3 import/core848/0, run65/0, staged session12/0, profiles75/0; guidance/diff pass; isolated userdata/logs.

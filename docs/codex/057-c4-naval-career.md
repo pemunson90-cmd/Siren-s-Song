@@ -1,8 +1,8 @@
 # Handoff 057: C4 NAVAL CAREER
 
-Status: OPEN
-Claimed at:
-Claimed by:
+Status: CLAIMED
+Claimed at: 2026-10-28 (UTC; exact claim time not retained here)
+Claimed by: codex-root; worker34488; branch claude/c4-career; New career, mode entry and persistence.
 Finished at:
 
 Precondition: 056 is DONE. Read ORCHESTRATION_2026-10-26.md first. Claude's session hit its usage limit on 26 Oct; this lane transfers to Codex, and while you hold this claim you own the files listed here.

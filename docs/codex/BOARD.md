@@ -8,11 +8,11 @@
 
 **28 Oct 2026 10:20 ET (Claude orchestrator, session S4):** Pat's efficiency baseline: Claude is sole Claude orchestrator and runs no subagents or workflows; Codex executes implementation, fixes, tests and independent review. Codex root: please keep executing exactly as you are, thank you for carrying P2 and the reviews. Claude transferred 072/PR174, 075/PR176 and 082/PR173 to you (you were already reconciling them). New eligible handoffs: 085 (arc 6 route carry), 086 (record unsaved rescues, after 082), 087 (docs: record the baseline). Claude keeps HANDOFF.md, LEDGER.md (new, one line per event) and the queue current; please append a LEDGER line when you close a handoff.
 
-**Root current status, 28 Oct 2026 (supersedes dated root status below):** 063/065/075/082 DONE per rows. Integration `db4395aa`; production `225c3c45` unchanged. Their owned source paths are released except056 repair ownership: worker29336 resolves the profile conflict under review12 and the ops_home UI regression;056 is not DONE.072 settings head `751d7f2f` awaits CI and is not DONE.085/086/087 are claimed below; all workers prepare without commits. This closeout patch awaits independent approval before commit.
+**Root current status, 28 Oct 2026:** 056/072/085/086/087 DONE; integration `db60fe5a`, production `225c3c45`. Career057 and ending088 patches await independent review; quality073 full wiring and earned-chart089 are in bounded implementation. Root owns Git; all new commits require separate review.
 
-**CURRENT closeout, 28 Oct 2026:** 066 DONE: PR169 independently reviewed final `d5eb74b873c2179886c13d22a72b46f53371db7a`, all seven checks passed (run40683665470), merged `701cb267c468f4d03888328ba795323293279815`. Physical three-piece cache and 3 frame/3 tool sites integrated; `optional_operations` released to065 root. Milestone2 PR179 promoted exact snapshot `c5bd45a55a03e6ac3d11e1a890daf50fa10d3603` (including Silt fix180), independently approved review6A, own fresh seven checks passed (run40686596642), via merge `225c3c456cf895ac5e84959c46a4041c00488131` to `gauntlet/production`. Integration `701cb267` contains newer content beyond that snapshot; main unchanged.
+**Prior milestone closeout, 28 Oct 2026:** 066 DONE: PR169 independently reviewed final `d5eb74b873c2179886c13d22a72b46f53371db7a`, all seven checks passed (run40683665470), merged `701cb267c468f4d03888328ba795323293279815`. Physical three-piece cache and 3 frame/3 tool sites integrated; `optional_operations` released to065 root. Milestone2 PR179 promoted exact snapshot `c5bd45a55a03e6ac3d11e1a890daf50fa10d3603` (including Silt fix180), independently approved review6A, own fresh seven checks passed (run40686596642), via merge `225c3c456cf895ac5e84959c46a4041c00488131` to `gauntlet/production`. Integration `701cb267` contains newer content beyond that snapshot; main unchanged.
 
-**CURRENT ownership:** 060 DONE (PR159+177, final `5ec944dd`);056 pending.065 partial `905d1dfd`/PR183, optional completion uncommitted under review8; crew173 `86489` and profile176 `91ad` latest merge preparations under review8; settings174 real-bus fix and perf063 under review7. Root owns Git and obtains separate independent approval before committing this documentation patch. Dated entries below are history.
+**CURRENT ownership:** Codex root executes and integrates; Claude owns HANDOFF/queue coordination. 057 Career and 088 ending are frozen for review17. 073 worker6896 owns quality/settings and main refresh sampling; main `_notification` remains Career-owned. 089 worker4124 owns mission chart flags/journeys only.
 
 **28Oct11:15UTC:** Independently approved+green076/PR165,081/PR171,064/PR178 merged; latest integrated gameplay49e3ca44.065 is the next eligible content task, root-claimed (no commits before independent approval).056,066 and promotion179 are HOLD for independently found Back-navigation, cache-validation and Silt-photo bugs; bounded fixes are prepared uncommitted for separate review. Other old pending heads also require independent review before merge.
 
@@ -194,8 +194,8 @@ Claude stream C (not Codex work, listed so you know what is coming and which fil
 |---|---|---|---|---|---|
 | 51 | 054 C1 ECONOMY | DONE | [151](https://github.com/pemunson90-cmd/Siren-s-Song/pull/151) | 2026-10-27 06:31:16 UTC | Merged0f2cc962; exact710f8909 gates green40455323703; core846/economy57/save13, zero failures. |
 | 52 | 055 C2 EQUIPMENT AND TOOLS | DONE | [150](https://github.com/pemunson90-cmd/Siren-s-Song/pull/150) | 2026-10-28 UTC | Merged609f29a9; headcbff4e05 checks green. |
-| 53 | 056 C3 MODES: mode select, campaign rename, seeded expeditions | CLAIMED (codex-root-queue; implementation ready, root CI/merge pending) | [175](https://github.com/pemunson90-cmd/Siren-s-Song/pull/175) | | Heade18ab971 on609f29a9; import/core848/0, run65/0, session12/0, profiles75/0. Reconcile084 after landing before final hosted gate;057 unclaimed.075 preserve .runs profile hooks. |
-| 54 | 057 C4 NAVAL CAREER | OPEN | | | |
+| 53 | 056 C3 MODES: mode select, campaign rename, seeded expeditions | DONE | [175](https://github.com/pemunson90-cmd/Siren-s-Song/pull/175) | 2026-10-28 UTC | PR175 head `45991efb`; independent review13A+16; all seven own-head checks green, run40710486650; merged `a4dd77e7`. CLEAN automatic new base and byte identity checked before sequential merges under review16 carry conditions. Campaign, Challenges and seeded runs separated. |
+| 54 | 057 C4 NAVAL CAREER | CLAIMED (codex-root; claude/c4-career) | | | Worker34488; New career, mode entry and persistence. |
 | 55 | 058 C5 SETTINGS GAPS | DONE | [163](https://github.com/pemunson90-cmd/Siren-s-Song/pull/163) | 2026-10-28 UTC | Mergedaef173ac; all current-head checks green. |
 
 
@@ -237,8 +237,8 @@ Claude lanes in parallel (not Codex work): C6 doc sweep (claude/c6-doc-sweep), C
 | 66 | 069 Expedition run summary, records and seed entry | OPEN | | | |
 | 67 | 070 Expedition and career dive resume after app kill | OPEN | | | |
 | 68 | 071 Career and expedition riders: optional contract conditions with bonus pay | OPEN | | | |
-| 69 | 072 Settings depth: separate mixer, haptic strength and coverage, gesture timing | CLAIMED (codex-root (from claude)) | | | |
-| 70 | 073 Performance and battery tier: Low-effects quality setting, auto frame-time gover | OPEN | | | |
+| 69 | 072 Settings depth: separate mixer, haptic strength and coverage, gesture timing | DONE | [174](https://github.com/pemunson90-cmd/Siren-s-Song/pull/174) | 2026-10-28 | Head `f99fa5a9`; independent reviews10/15/16, own seven checks green40713900155, merged `db60fe5a`. Settings paths released to073. |
+| 70 | 073 Performance and battery quality tier | CLAIMED (codex-root; claude/lane-quality-tier) | | | Worker6896 completes preserved slice after072 release; main refresh only, Career lifecycle guard untouched. Not DONE. |
 | 71 | 074 New geometry for optional ops 38 and 39 | DONE | [162](https://github.com/pemunson90-cmd/Siren-s-Song/pull/162) | 2026-10-28 05:10:50 UTC | Done074: merge6e87767e; exact4435db13 both gates green40631301176; core846/0, bare journeys18/0. Distinct maps/choices; shared landmark renderer deferred. |
 | 72 | 075 Profile export and import that works on a real phone (system file dialog or shar | DONE | [176](https://github.com/pemunson90-cmd/Siren-s-Song/pull/176) | 2026-10-28 UTC | Head6eff9038; independent reviews6B+8B+12B; full seven checks green40694543912; mergeddb4395aa. Profile transfer integrated; owned source paths released, subject to056 repair ownership. |
 | 73 | 076 Arc 6 distinct topologies and a staged capstone for op 34 | DONE | [165](https://github.com/pemunson90-cmd/Siren-s-Song/pull/165) | 2026-10-28 UTC | Independently approved and green; mergedc80c6c1c. |
@@ -262,10 +262,10 @@ Boundary follow-up28Oct03:12UTC: Windows completion check PASSES from current in
 ## BATCH 16 (28 Oct, Claude S4)
 | Order | Handoff | Status | PR | Finished (UTC) | One-line result |
 |---|---|---|---|---|---|
-| 82 | 085 EARLIER CHOICES CHANGE ARC 6 | CLAIMED (codex-root; claude/codex-085-arc6-carry) | | | Worker22356 prepares uncommitted changes; independent approval pending. |
-| 83 | 086 RECORD THE RESCUES THE LEDGER AND CREW CANNOT SEE | CLAIMED (codex-root; claude/codex-086-rescue-facts) | | | Worker46084 prepares uncommitted changes; independent approval pending. |
-| 84 | 087 DOCS: RECORD PAT'S EFFICIENCY BASELINE | CLAIMED (codex-root; claude/codex-087-directives) | | | Worker46424 prepares uncommitted changes; independent approval pending. |
-| 85 | 088 THE ENDING IS DECIDED AFTER OP 34 (Pat ruling 28 Oct) | OPEN (after 085) | | | |
+| 82 | 085 EARLIER CHOICES CHANGE ARC 6 | DONE | [185](https://github.com/pemunson90-cmd/Siren-s-Song/pull/185) | 2026-10-28 UTC | PR185 head `236aef01`; independent review13B+16; all seven own-head checks green, run40710625875; merged `913f58fa`. CLEAN automatic new base and byte identity checked before sequential merges under review16 carry conditions. Four meaningful late-choice deltas integrated. |
+| 83 | 086 RECORD THE RESCUES THE LEDGER AND CREW CANNOT SEE | DONE | [186](https://github.com/pemunson90-cmd/Siren-s-Song/pull/186) | 2026-10-28 UTC | PR186 head `45c58750`; independent review13C+16; all seven own-head checks green, run40710636101; merged `a0a7550b`. CLEAN automatic new base and byte identity checked before sequential merges under review16 carry conditions. Existing rescue records and briefing crew integrated; no new rescue mechanics. |
+| 84 | 087 DOCS: RECORD PAT'S EFFICIENCY BASELINE | DONE | [187](https://github.com/pemunson90-cmd/Siren-s-Song/pull/187) | 2026-10-28 UTC | PR187 head `209800ce`; independent review14B; docs-only checks passed (runtime skipped), run40710642054; merged `e09c2db8`. Pat's efficiency baseline recorded; docs only. |
+| 85 | 088 THE ENDING IS DECIDED AFTER OP 34 (Pat ruling 28 Oct) | CLAIMED (codex-root; claude/codex-088-late-ending) | | | Worker500; Ending flow and docs ruling only. |
 | 86 | 089 EARNED CHART BEYOND CONFLUENCE (V7 restore, stage 1: 4 to 6 ops) | OPEN (after 073 or no draw overlap) | | | |
 | 87 | 090 PROMOTION 3 | OPEN (after content complete) | | | |
 | 89 | 092 HIDDEN RESCUE OF SORLEY'S BOY (Pat ruling 28 Oct, experiment) | OPEN (after 088 and 086) | | | |

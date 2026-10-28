@@ -1,9 +1,10 @@
 # Handoff 086: RECORD THE RESCUES THE LEDGER AND CREW CANNOT SEE YET
 
-Status: OPEN
-Claimed at:
-Claimed by:
-Finished at:
+Status: DONE
+Claimed at: 2026-10-28 (UTC; exact claim time not retained here)
+Claimed by: codex-root
+Finished at: 2026-10-28 15:34:09 UTC
+Completion: PR186 head `45c58750`; independent review13C+16; all seven own-head checks green, run40710636101; merged `a0a7550b`. CLEAN automatic new base and byte identity checked before sequential merges under review16 carry conditions. Existing rescue records and briefing crew integrated; no new rescue mechanics.
 
 Precondition: 082 (crew, PR173) is DONE or its review is past the point of editing ledger/crew tables; otherwise none. Read HANDOFF.md and ORCHESTRATION_2026-10-26.md first. Current review rule (Pat, 28 Oct): independent Sol6.1-high review of the frozen patch before commit and before merge.
 Codex may merge: yes, into claude/integration only, after independent approval and green required checks on the exact head, merge commit.

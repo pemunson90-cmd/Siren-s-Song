@@ -1,9 +1,10 @@
 # Handoff 085: EARLIER CHOICES CHANGE ARC 6 (Calder and final pair)
 
-Status: OPEN
-Claimed at:
-Claimed by:
-Finished at:
+Status: DONE
+Claimed at: 2026-10-28 (UTC; exact claim time not retained here)
+Claimed by: codex-root
+Finished at: 2026-10-28 15:34:03 UTC
+Completion: PR185 head `236aef01`; independent review13B+16; all seven own-head checks green, run40710625875; merged `913f58fa`. CLEAN automatic new base and byte identity checked before sequential merges under review16 carry conditions. Four meaningful late-choice deltas integrated.
 
 Precondition: 076 is DONE (PR165) and 077 is DONE (PR166); none beyond that. Read HANDOFF.md and ORCHESTRATION_2026-10-26.md first. Current review rule (Pat, 28 Oct): independent Sol6.1-high review of the frozen patch before commit and before merge.
 Codex may merge: yes, into claude/integration only, after independent approval and green required checks on the exact head, merge commit.
