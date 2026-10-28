@@ -353,10 +353,10 @@ func _refresh() -> void:
 	order_buttons.decoy.disabled=sim.tools.decoy<=0 and not decoy_armed
 	order_buttons.recon.text="SURVEY\n%d"%sim.tools.recon
 	order_buttons.recon.disabled=sim.tools.recon<=0
-	log_label.text=sim.message
+	log_label.text=preload("res://src/presentation/archive/voice_feed.gd").log_text(self,sim.message)
 	if sim.mission.get("well_revision",0)==1 and sim.mission.objectives[0].captured:
 		var comparison="MATCH RECORDED" if not sim.mission.well_observation.is_empty() else ("REFERENCE LOGGED" if not sim.mission.well_reference.is_empty() else "UNVERIFIED")
-		log_label.text="WELL · %s | %s"%[comparison,sim.message]
+		log_label.text="WELL · %s | %s"%[comparison,log_label.text]
 	advanced_button.text="BACK\nORDERS" if advanced_orders else "MORE\nORDERS"
 	order_buttons.menu.text="MENU"
 	var scout=sim.scout_context()
@@ -594,6 +594,7 @@ func _archive() -> Dictionary:
 	if not early_reward.is_empty():data["early_reward"]=early_reward.duplicate(true)
 	preload("res://src/presentation/first_siren_cue/cue_archive.gd").write(self,data)
 	preload("res://src/presentation/finale/finale.gd").write(self,data)
+	preload("res://src/presentation/archive/voice_feed.gd").write(self,data)
 	preload("res://src/persistence/save_states/save2_controller.gd").write(self,data)
 	data["equipment"]=preload("res://src/equipment/equipment_catalog.gd").canonical(fitted_equipment)
 	return data
@@ -643,6 +644,7 @@ func _load_archive() -> void:
 		economy=saved.economy.duplicate(true) if saved.has("economy") else Economy.legacy_state(fitted_equipment)
 		recovered_evidence=saved.get("evidence",{})
 		photo_records=saved.get("photo_records",{}).duplicate(true)
+		preload("res://src/presentation/archive/voice_feed.gd").restore(self,saved)
 		hints_seen=saved.get("hints_seen",[]).duplicate()
 		preload("res://src/presentation/first_siren_cue/cue_archive.gd").restore_types(self,saved)
 		if saved.get("active") is Dictionary and sim.restore(saved.active):
