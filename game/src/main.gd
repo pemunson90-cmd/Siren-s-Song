@@ -481,6 +481,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 			elif knock_armed or decoy_armed:_primary_action()
 			else:sim.paused=true;_show_campaign()
 func _clear_menu() -> void:
+	preload("res://src/presentation/arcs/arc_card.gd").back(self)
 	var resolution=get_node_or_null("ConfluenceResolution")
 	if resolution!=null:remove_child(resolution);resolution.queue_free()
 	advanced_orders=false
@@ -599,6 +600,7 @@ func _archive() -> Dictionary:
 	if not hints_seen.is_empty():data["hints_seen"]=hints_seen.duplicate()
 	if not early_reward.is_empty():data["early_reward"]=early_reward.duplicate(true)
 	preload("res://src/presentation/first_siren_cue/cue_archive.gd").write(self,data)
+	preload("res://src/presentation/arcs/arc_card.gd").write(self,data)
 	preload("res://src/presentation/finale/finale.gd").write(self,data)
 	preload("res://src/presentation/archive/voice_feed.gd").write(self,data)
 	preload("res://src/persistence/save_states/save2_controller.gd").write(self,data)
@@ -637,6 +639,7 @@ func _update_archive_status()->void:
 	if changed:call_deferred("_layout")
 func _load_archive() -> void:
 	var saved=store.load_game()
+	preload("res://src/presentation/arcs/arc_card.gd").restore(self,saved)
 	preload("res://src/presentation/finale/finale.gd").restore(self,saved)
 	if not saved.is_empty():
 		unlocked=saved.unlocked; completed=saved.completed; upgrade=saved.upgrade; settings=saved.settings
@@ -734,6 +737,7 @@ func _notification(what: int) -> void:
 		sim.paused=true; _save_archive(); call_deferred("_android_back")
 
 func _frontend_back()->bool:
+	if preload("res://src/presentation/arcs/arc_card.gd").back(self):return true
 	if preload("res://src/persistence/save_states/save2_controller.gd").back(self):return true
 	var front=get_node_or_null("Frontend")
 	if front==null or not front.has_method("back"):return false

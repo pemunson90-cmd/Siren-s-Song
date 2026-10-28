@@ -14,6 +14,8 @@ Current decisions: [USER_DIRECTIVES](USER_DIRECTIVES.md). Intended release: [CUR
 
 ## Integrated capabilities
 
+- [KEEL: implementation080] Six provisional arc entry/departure cards carry saved thread and regional choices; Operations, recovered fold and route legend group under arc headings with recovery counts. Optional per-arc intro booleans preserve old archives; first core recoveries alone show departures. Text remains AI-DESIGNED placeholders.
+
 - 056 (PR175, merged `a4dd77e7`) mode selector separates Campaign, Challenges and seeded Expeditions; Career stays disabled until057. Runs reuse3–6 distinct opening reconnaissance operations with seeded loadout, optional-tool scarcity and capped sight-only Hunt, finite carried tools and terminal loss. Profile-pinned `.runs` sidecars keep resources/story separate from campaign and SAVE2; interrupted dives end the run until070 adds exact dive recovery. Film, oxygen and required bare-craft routes retain their authored budgets. Campaign labels read Operations; code/save IDs stay unchanged. Run choices/records/seed entry remain068/069.
 
 - 066 (PR169, merged `701cb267`): three-piece physical cache, receipt-based service account and three frame/three tool sites integrated after independent review and seven green checks (run40683665470).

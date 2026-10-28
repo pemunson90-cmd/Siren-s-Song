@@ -4,7 +4,7 @@ const Missions=preload("res://src/campaign/missions.gd")
 static func operations(main)->void:
  var available=Campaign.available(main.completed,main.expedition)
  if available.is_empty():return
- main._menu_text("BEYOND THE WARNING / OPERATIONS",22)
+ if not preload("res://src/campaign/arcs/arc_table.gd").enabled:main._menu_text("BEYOND THE WARNING / OPERATIONS",22)
  for id in available:
   var mission=Missions.make(id,preload("res://src/campaign/campaign_consequences.gd").context(main.expedition))
   if mission.id!=id:continue

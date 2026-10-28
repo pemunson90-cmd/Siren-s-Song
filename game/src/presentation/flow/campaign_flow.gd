@@ -49,6 +49,7 @@ static func show_campaign(host) -> void:
 	host._button(host.panel_box,"CYCLE LOADOUT · endurance / disruption / survey",host._cycle_loadout,"loadout")
 	host._button(host.panel_box,"AUDIO / SETTINGS",host._settings_menu,"settings")
 	preload("res://src/presentation/ops_home/ops_home.gd").arrange(host)
+	preload("res://src/presentation/arcs/arc_card.gd").group_rows(host,host.panel_box)
 	preload("res://src/presentation/frontend/menu_reach.gd").entries(host)
 	print("SS_SCREEN operations window=",host.get_window().size," viewport=",host.get_viewport_rect().size," root=",host.size," unlocked=",host.unlocked," active_time=",snappedf(host.sim.elapsed,0.01))
 	host.call_deferred("_layout")
@@ -131,6 +132,7 @@ static func briefing(host, index: int) -> void:
 	host._button(host.menu_footer,"BACK TO\nOPERATIONS",host._show_campaign,"back")
 	host.menu_footer.show()
 	if compact:preload("res://src/campaign/onboarding2/briefing_layout.gd").attach(host)
+	preload("res://src/presentation/arcs/arc_card.gd").intro(host,index)
 	host.call_deferred("_layout")
 
 static func fold_fit(host, nodes:Array,holder:Array) -> void:
@@ -201,7 +203,9 @@ static func debrief(host) -> void:
 	if host.sim.outcome=="won":
 		host._retain_evidence()
 		host.photo_intel=host.PhotoIntel.recover(host.photo_intel,host.sim.mission)
-	if host.ExpeditionOperations.debrief(host):return
+	if host.ExpeditionOperations.debrief(host):
+		preload("res://src/presentation/arcs/arc_card.gd").recovered(host,first_recovery)
+		return
 	if host.sim.outcome=="won":
 		host._retain_evidence()
 		if host.mission_index not in host.completed: host.completed.append(host.mission_index)
@@ -231,6 +235,7 @@ static func debrief(host) -> void:
 	host._button(host.panel_box,"RETRY DIVE",func(): host._briefing(host.mission_index),"retry")
 	host._button(host.panel_box,"OPERATIONS ARCHIVE",host._show_campaign,"back")
 	host._save_archive()
+	preload("res://src/presentation/arcs/arc_card.gd").recovered(host,first_recovery)
 	host.call_deferred("_layout")
 
 static func sync_craft_upgrades(host)->void:
@@ -271,6 +276,7 @@ static func confirm_new_campaign(host)->void:
 
 static func new_campaign(host)->void:
 	if not preload("res://src/persistence/save_states/save2_controller.gd").before_erase(host):host._confirm_new_campaign();return
+	preload("res://src/presentation/arcs/arc_card.gd").clear(host)
 	preload("res://src/presentation/finale/finale.gd").clear(host)
 	preload("res://src/presentation/archive/voice_feed.gd").clear(host)
 	host.early_reward={}

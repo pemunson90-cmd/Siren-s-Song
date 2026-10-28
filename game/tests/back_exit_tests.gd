@@ -47,6 +47,9 @@ func run():
  c._expire();var armed_before=c.quit_requests
  game._briefing(0);await settle()
  check(game.screen=="briefing","briefing reached")
+ if game.get_node_or_null("ArcCard")!=null:
+  await back()
+  check(game.get_node_or_null("ArcCard")==null and game.screen=="briefing" and not c.armed and quits==1,"first Back dismisses arc entry without entering exit confirmation")
  await back()
  check(game.screen=="menu" and not c.armed and c.quit_requests==armed_before and quits==1,"Back from a briefing returns to Operations without quitting")
  game._show_fittings();await settle()
