@@ -20,7 +20,9 @@ Pat follow-up (verbatim, 28 Oct 2026 ~12:30 ET): "I mean I guess a skilled playe
 
 [PAT, quoted in Claude S5 handoff 088] Claude asked: "Should what you do in arcs 4 to 6 be able to change which ending you get? Today the ending is locked at ops 12/13 ... I'd queue a follow-up that moves the decision to op 34." Pat answered: "Sure that's fine".
 
-[KEEL / AI-DESIGNED, pending Pat ratification] The thread remains fixed. At op 34, Glass service/sever, Choir bypass/isolate and Choir plant reconnect/dismantle vote overt/concealed respectively. Two matching votes with a strict majority select that channel; ties, sparse and empty records retain Confluence. Expedition resolution and save fields stay unchanged.
+[PAT, accepted provisionally 28 Oct 2026 ~15:45 ET; quoted in codex/handoffs BOARD] "Keep the vote rule as is for now".
+
+[AI-DESIGNED rule, now Pat-accepted provisionally] The thread remains fixed. At op 34, Glass service/sever, Choir bypass/isolate and Choir plant reconnect/dismantle vote overt/concealed respectively. Two matching votes with a strict majority select that channel; ties, sparse and empty records retain Confluence. Expedition resolution and save fields stay unchanged.
 
 ## 28 October 2026 (later): efficiency baseline
 

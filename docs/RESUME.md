@@ -1,6 +1,6 @@
 # RESUME: operational entry
 
-Last reconciled integration baseline `3cfb34ba` includes Career057, quality073, persisted expedition offers068, late-ending088, late teaching067 and optional career riders071. Production is `225c3c45`; main unchanged. Handoff092 adds the hidden Sorley rescue described below. Live PRs, completion and parallel fleet-fix ownership remain on codex/handoffs; this bounded session takes no further queue work. Current claims supersede dated entries below.
+Last reconciled integration baseline `64e628d4` includes Career057, quality073, persisted expedition offers068, late-ending088, late teaching067 and optional career riders071, plus Pat's provisional acceptance of the existing 088 vote rule. Production is `225c3c45`; main unchanged. Handoff092 adds the hidden Sorley rescue described below. Live PRs, completion and parallel fleet-fix ownership remain on codex/handoffs; this bounded session takes no further queue work. Current claims supersede dated entries below.
 
 **26 Oct 2026:** Pat's finish-the-game ruling (top of USER_DIRECTIVES) governs. Plan, streams and file ownership: `docs/codex/ORCHESTRATION_2026-10-26.md` on `codex/handoffs`. Milestone promotion PR148 merged on 26 October (ORCHESTRATION).
 
@@ -8,7 +8,7 @@ Current boundary: Pat resumed locally on Windows and continued work on 25 Octobe
 
 ## Source and authority
 
-Active integration: `claude/integration`. Last reconciled source baseline: 3cfb34ba994cab0fa8b216f4f010dc63fbc3fed1, including056/085/086/087/088/067 and071. A later live integration SHA is expected; fetch it at task boundaries. The board alone owns claims/completions.
+Active integration: `claude/integration`. Last reconciled source baseline: 64e628d4a05b98e43c3d62a7a16bf70fceed96bf, including056/085/086/087/088/067/071 and the provisional 088 vote ruling. A later live integration SHA is expected; fetch it at task boundaries. The board alone owns claims/completions.
 Frozen `gauntlet/production` and protected `main` require Pat's promotion approval. Preserve branches, personal saves, evidence and signing identity.
 Current decisions: [USER_DIRECTIVES](USER_DIRECTIVES.md). Intended release: [CURRENT_GAME_SPEC](CURRENT_GAME_SPEC.md). Actual module seams, settings, saves, tests and safe reverts: [MODULES](MODULES.md).
 
