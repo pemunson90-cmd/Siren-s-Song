@@ -22,7 +22,7 @@ func shape_case(shape):
  var game=load("res://scenes/main.tscn").instantiate();game.set_script(load("res://tests/density_main.gd"));game.capture_scenario="runtime-test"
  root.add_child(game);await settle();game.set_process(false)
  game.completed=[0,1,2,3,4,5];game.unlocked=5
- game.expedition={"version":2,"route":"deep","routes":["deep"],"facts":{"deep":"Recovered branch account","confluence_route":"concealed"},"completed":[6,7,9,11,12,14,15,16,17,18,19,22,23,24,25,30,31],"notes":{},"references":{},"entitlements":[],"history":[],"selected_thread":"deep"}
+ game.expedition={"version":2,"route":"deep","routes":["deep"],"facts":{"deep":"Recovered branch account","confluence_route":"concealed"},"completed":[6,7,9,11,12,14,15,16,17,18,19,22,23,24,25,30,31,32,33,34],"notes":{},"references":{},"entitlements":[],"history":[],"selected_thread":"deep"}
  game.recovered_evidence=archive_fixture();game.active_started=false
  var before=game.recovered_evidence.duplicate(true)
  check(game.store.valid(game._archive()),"new completed campaign and archive remain valid without added save fields")

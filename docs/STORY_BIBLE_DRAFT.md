@@ -42,6 +42,11 @@ Sorley's trawler sits as an optional operation in arc 2 or 4. Proposed renames f
 - **Iain Sorley**, trawler skipper and the local who knows the water. Gives honest pilotage notes. Wants his son found.
 
 ## 5. Ending families
+
+[PAT, Claude S5 handoff 088, 28 Oct 2026] "Sure that's fine": campaign family becomes final after op 34; arcs 4 to 6 may change it. The table below records the provisional Confluence seeds; the thread stays fixed.
+
+[KEEL / AI-DESIGNED placeholder, pending Pat ratification] On a channel flip only: "Late record changed the channel to {channel} ({recorded choices})." Choices name only saved Glass service/sever, Choir bypass/isolate and Choir plant reconnect/dismantle results.
+
 | Ending | Trigger (existing campaign facts) | Who gets out | Quietus in Siren eyes |
 |---|---|---|---|
 | UNHEARD | confluence_route concealed, op 12 completed, thread deep | Drill crews and divers, carried by craft; no surface ship came | Never registered. It can keep diving. |

@@ -5,13 +5,54 @@ const STORIES={
  "hidden_harbour":{"title":"STANDING DOWN","outcome":"The military survivors out quietly. Their weapons stay dark on the bottom.","story":"Quietus carried the military survivors out quietly. Their weapons stay dark on the bottom and the installations go silent for good. The Sirens never registered Quietus."},
  "surface_reckoning":{"title":"MARKED","outcome":"Everyone out by surface ship. The call went out from a military post.","story":"A surface ship took the most people out, but the channel came from a military post. The Sirens registered Quietus as a threat. Everyone is out, and Quietus can never dive near them again."}
 }
-static func resolve(progress:Dictionary)->Dictionary:
+const LATE_CHANNEL_FACTS={
+ "glass_choice":{"service":"overt","sever":"concealed"},
+ "choir_choice":{"bypass":"overt","isolate":"concealed"},
+ "choir_plant":{"reconnect":"overt","dismantle":"concealed"}
+}
+# 088 AI-DESIGNED, pending Pat ratification: two matching votes and a strict
+# majority among these three recovered choices. Missing/unknown facts abstain.
+# The Confluence channel wins ties and sparse records. No saved fields.
+# Revert campaign_resolve to resolve; expedition/fork resolution stays resolve.
+static func late_channel(facts:Dictionary,seed:String)->String:
+ var votes={"concealed":0,"overt":0}
+ for key in LATE_CHANNEL_FACTS:
+  var vote=LATE_CHANNEL_FACTS[key].get(facts.get(key,""),"")
+  if not vote.is_empty():votes[vote]+=1
+ for channel in votes:
+  if votes[channel]>=2 and votes[channel]>votes["overt" if channel=="concealed" else "concealed"]:return channel
+ return seed
+
+static func campaign_resolve(progress:Dictionary)->Dictionary:
+ var provisional=resolve(progress)
+ if provisional.is_empty():return {}
+ if 34 not in progress.get("completed",[]):return {}
+ var facts=progress.get("facts",{})
+ var seed=facts.get("confluence_route","")
+ var channel=late_channel(facts,seed)
+ var result=resolve(progress,channel)
+ if channel!=seed:
+  var causes=[]
+  for key in LATE_CHANNEL_FACTS:
+   var value=facts.get(key,"")
+   if LATE_CHANNEL_FACTS[key].get(value,"")==channel:causes.append(key.replace("_"," ")+": "+value)
+  result.story+=" Late record changed the channel to %s (%s)."%[channel,", ".join(causes)]
+ return result
+
+static func course_line(progress:Dictionary)->String:
+ var provisional=resolve(progress)
+ return "Course so far: %s (provisional)."%provisional.title if not provisional.is_empty() and 34 not in progress.get("completed",[]) else ""
+
+static func resolve(progress:Dictionary,channel:String="")->Dictionary:
  var thread=progress.get("selected_thread",progress.get("route",""))
  var done=progress.get("completed",[])
  var route=progress.get("facts",{}).get("confluence_route","")
+ # Validate the original recovered fork before applying the late channel.
+ if not ((route=="concealed" and 12 in done) or (route=="overt" and 13 in done)):return {}
+ if not channel.is_empty():route=channel
  var id=""
- if route=="concealed" and 12 in done:id="silent_exodus" if thread=="deep" else "hidden_harbour" if thread=="shelf" else ""
- if route=="overt" and 13 in done:id="beacon_pact" if thread=="deep" else "surface_reckoning" if thread=="shelf" else ""
+ if route=="concealed":id="silent_exodus" if thread=="deep" else "hidden_harbour" if thread=="shelf" else ""
+ if route=="overt":id="beacon_pact" if thread=="deep" else "surface_reckoning" if thread=="shelf" else ""
  if id.is_empty():return {}
  var result=STORIES[id].duplicate(true);result["id"]=id
  var arrival=progress.get("facts",{}).get("witness_arrival","")

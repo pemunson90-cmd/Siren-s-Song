@@ -146,7 +146,9 @@ static func entry(host)->void:
 static func replay_entry(host,return_to:String="ending")->void:
  if Table.enabled:host._button(host.panel_box,"REPLAY FROM FORK",func():open(host,"fork",return_to),"save2_forks")
 static func legacy_title(host,normal:String)->String:
- return "FIRST ENDING" if Table.enabled and not PhotoEnding.resolve(host.expedition,host.photo_intel).is_empty() else normal
+ if not Ending.resolve(host.expedition).is_empty() and Ending.campaign_resolve(host.expedition).is_empty():return "PROVISIONAL FORK / "+Ending.resolve(host.expedition).title
+ if not Ending.campaign_resolve(host.expedition).is_empty():return "VIEW CAMPAIGN OUTCOME" if normal=="VIEW FORK OUTCOME" else "CAMPAIGN OUTCOME"
+ return normal
 static func erase_option(host)->void:
  host.set_meta("save2_delete_states",false)
  if not Table.enabled:return

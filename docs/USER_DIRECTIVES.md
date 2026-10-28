@@ -1,3 +1,9 @@
+## 28 October 2026: late campaign decides the ending (handoff 088)
+
+[PAT, quoted in Claude S5 handoff 088] Claude asked: "Should what you do in arcs 4 to 6 be able to change which ending you get? Today the ending is locked at ops 12/13 ... I'd queue a follow-up that moves the decision to op 34." Pat answered: "Sure that's fine".
+
+[KEEL / AI-DESIGNED, pending Pat ratification] The thread remains fixed. At op 34, Glass service/sever, Choir bypass/isolate and Choir plant reconnect/dismantle vote overt/concealed respectively. Two matching votes with a strict majority select that channel; ties, sparse and empty records retain Confluence. Expedition resolution and save fields stay unchanged.
+
 ## 28 October 2026 (later): efficiency baseline
 
 Pat: Claude is the sole Claude orchestrator (Opus 5.5, medium effort) with autonomous responsibility for planning, architecture, research direction, Codex delegation, integration oversight, documentation, GitHub coordination and release readiness. Claude launches no Claude subagents, agent teams, forks or nested workflows. Parallel implementation, debugging, testing, code review and bounded research go to Codex, which may use its own parallelism within clear, non-conflicting boundaries (orchestrator Sol6.1 medium, weakest capable workers, independent Sol6.1-high reviewer, never Astra). Read the ledger, docs and GitHub state before planning; reuse findings; inspect only relevant files; delegate long-running commands and full test runs to Codex; investigate failures before retrying. Keep a persistent task queue (BOARD.md), a lightweight execution ledger (docs/codex/LEDGER.md) and a restart handoff (docs/codex/HANDOFF.md) current; on restart reconcile real GitHub and Codex state before issuing work and never repeat work because a conversation restarted. Goal: maximize verified, finished software per unit of Claude usage, without reducing scope or quality. The 28 Oct independent-review rule stays in force.
