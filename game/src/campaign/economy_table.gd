@@ -18,7 +18,7 @@ const START={"scrap":8,"cells":10,"alloy":0}
 const REFILL={"scrap":8,"cells":8,"alloy":2}
 const CAP=99
 # Salvage after a dive. Recovered modules add scrap each; a new alien artifact adds alloy.
-const INCOME={"first":{"scrap":3,"cells":2,"alloy":1},"replay":{"scrap":1,"cells":1,"alloy":0},"lost":{"scrap":0,"cells":1,"alloy":0},
+const INCOME={"first":{"scrap":3,"cells":2,"alloy":0},"replay":{"scrap":1,"cells":1,"alloy":0},"lost":{"scrap":0,"cells":1,"alloy":0},
  "module_scrap":2,"artifact_alloy":3}
 # Manufacturing: scrap = BASE + power of the fitting; alien-derived fittings also take alloy.
 const ITEM_BASE_SCRAP=2
