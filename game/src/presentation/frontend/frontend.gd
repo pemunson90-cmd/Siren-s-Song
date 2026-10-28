@@ -8,6 +8,7 @@ const SettingsStore = preload("res://src/persistence/settings_store.gd")
 const FrontendSettings = preload("res://src/presentation/frontend/frontend_settings.gd")
 const CreditsText = preload("res://src/presentation/frontend/credits_text.gd")
 const Soundscape = preload("res://src/audio/soundscape.gd")
+const Depth = preload("res://src/presentation/frontend/settings_depth.gd")
 const ReachTable=preload("res://src/presentation/frontend/menu_reach_table.gd")
 enum Profile { NONE, OK, RECOVERED, UNREADABLE }
 var profile_picker = preload("res://src/persistence/profiles/profile_picker.gd").new()
@@ -156,44 +157,87 @@ func _new_campaign() -> void:
 		_dismiss(); host._show_campaign()
 	else:
 		_dismiss(); host._confirm_new_campaign()
+# SETDEPTH: three pages (AUDIO, DISPLAY, CONTROLS) sharing one values store. With Depth.ENABLED false the
+# original single column is rebuilt. Every control keeps its ui_action id; the footer repeats on each page.
+var settings_page := "audio"
 func _settings_screen() -> void:
 	_reset("settings")
 	_button("BACK TO OPERATIONS" if embedded_settings else "BACK", _return, "frontend_back")
 	_text("SETTINGS", 32, Color("80d9cf"))
 	_text("Saved on this device, separate from your campaign.", 14)
 	if not settings_store.warning.is_empty(): _text(settings_store.warning, 15, Color("efc28d"))
-	for row in [["master", "MASTER VOLUME"], ["music", "MUSIC VOLUME"], ["effects", "EFFECTS VOLUME"]]:
-		var key: String = row[0]
-		var caption := _text("%s  %d%%" % [row[1], roundi(values[key] * 100)], 17)
-		var slider := HSlider.new(); slider.min_value = 0; slider.max_value = 1; slider.step = 0.05; slider.value = values[key]
-		slider.custom_minimum_size.y = touch_height(); slider.set_meta("ui_action", ("volume_" if embedded_settings else "setting_") + key); column.add_child(slider)
-		slider.value_changed.connect(func(v: float): _set_value(key, v); caption.text = "%s  %d%%" % [row[1], roundi(v * 100)])
-	_text("TEXT SIZE", 17)
-	var sizes := HBoxContainer.new(); sizes.add_theme_constant_override("separation", 8); column.add_child(sizes)
-	for s in SettingsStore.TEXT_SCALES:
-		var scale: float = s
-		var b := Button.new(); b.text = "%d%%" % roundi(scale * 100); b.custom_minimum_size = Vector2(0, touch_height()); b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		b.focus_mode = Control.FOCUS_ALL; b.set_meta("ui_action", "text_scale_%d" % roundi(scale * 100)); b.toggle_mode = true; b.button_pressed = is_equal_approx(values.text_scale, scale)
-		b.pressed.connect(func(): _set_value("text_scale", scale); _settings_screen(), CONNECT_DEFERRED); sizes.add_child(b)
-	var audio_modes := HBoxContainer.new(); audio_modes.add_theme_constant_override("separation", 8); column.add_child(audio_modes)
-	var mute_button := _button("MUTE: %s" % ("ON" if values.master<=0 else "OFF"),_toggle_mute,"mute")
-	var night_button := _button("NIGHT MODE: %s" % ("ON" if values.night_mode else "OFF"), func(): _set_value("night_mode", not values.night_mode); _settings_screen(), "setting_night_mode")
-	for button in [mute_button, night_button]:
-		button.reparent(audio_modes); button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	for cap in [30, 60]:
-		var selected_cap: int = cap
-		var cap_button := Button.new(); cap_button.text = "CAP %d FPS" % selected_cap; cap_button.custom_minimum_size = Vector2(0, touch_height()); cap_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		cap_button.focus_mode = Control.FOCUS_ALL; cap_button.set_meta("ui_action", "frame_cap_%d" % selected_cap); cap_button.toggle_mode = true; cap_button.button_pressed = values.frame_cap == selected_cap
-		cap_button.pressed.connect(func(): _set_value("frame_cap", selected_cap); _settings_screen(), CONNECT_DEFERRED); audio_modes.add_child(cap_button)
-	for row in [["high_contrast", "HIGH CONTRAST"], ["reduced_motion", "REDUCED MOTION"], ["haptics", "HAPTICS"], ["safe_palette", "SAFE PALETTE"], ["audio_captions", "AUDIO CAPTIONS"]]:
-		var key: String = row[0]; var label: String = row[1]
-		_button("%s: %s" % [label, "ON" if values[key] else "OFF"], func(): _set_value(key, not values[key]); _settings_screen(), "setting_" + key)
+	var paged: bool = Depth.ENABLED
+	if paged:
+		if not settings_page in Depth.PAGES: settings_page = "audio"
+		var tabs := _choice_row()
+		for page in Depth.PAGES:
+			var id: String = page
+			var tab := _choice_button(tabs, Depth.PAGE_LABELS[id], "settings_page_" + id, settings_page == id)
+			tab.pressed.connect(func(): settings_page = id; _settings_screen(), CONNECT_DEFERRED)
+	if not paged or settings_page == "audio": _audio_page()
+	if not paged or settings_page == "display": _display_page()
+	if not paged or settings_page == "controls": _controls_page()
 	if host.has_method("_save_archive"):
 		_button("SHOW FIRST-DIVE TIPS AGAIN",func():host.hints_seen=[];host._save_archive();_settings_screen(),"reset_tips")
 	_button("RESET TO DEFAULTS", func(): values = SettingsStore.DEFAULTS.duplicate(); _set_value("master", 1.0); _settings_screen(), "settings_reset")
 	if profile != Profile.NONE:
 		_button("ERASE PROGRESS · NEW CAMPAIGN", _new_campaign, "frontend_new_campaign")
 	if embedded_settings:host.call_deferred("_layout")
+func _choice_row() -> HBoxContainer:
+	var row := HBoxContainer.new(); row.add_theme_constant_override("separation", 8); column.add_child(row)
+	return row
+func _choice_button(row: Container, text: String, id: String, selected: bool) -> Button:
+	var b := Button.new(); b.text = text; b.custom_minimum_size = Vector2(0, touch_height()); b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	b.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	b.focus_mode = Control.FOCUS_ALL; b.set_meta("ui_action", id); b.toggle_mode = true; b.button_pressed = selected
+	row.add_child(b)
+	return b
+# One labelled row of exclusive choices storing an index or value under `key`.
+func _choice_setting(title: String, key: String, id_prefix: String, labels: Array, first: int) -> void:
+	_text(title, 17)
+	var row := _choice_row()
+	for n in labels.size():
+		var picked: int = n + first
+		var b := _choice_button(row, labels[n], "%s_%d" % [id_prefix, picked], int(values[key]) == picked)
+		b.pressed.connect(func(): _set_value(key, picked); _settings_screen(), CONNECT_DEFERRED)
+func _audio_page() -> void:
+	var rows: Array = Depth.MIXER if Depth.ENABLED else [["master", "MASTER VOLUME"], ["music", "MUSIC VOLUME"], ["effects", "EFFECTS VOLUME"]]
+	for row in rows:
+		var key: String = row[0]
+		var caption := _text("%s  %d%%" % [row[1], roundi(values[key] * 100)], 17)
+		var slider := HSlider.new(); slider.min_value = 0; slider.max_value = 1; slider.step = 0.05; slider.value = values[key]
+		slider.custom_minimum_size.y = touch_height(); slider.set_meta("ui_action", ("volume_" if embedded_settings else "setting_") + key); column.add_child(slider)
+		slider.value_changed.connect(func(v: float): _set_value(key, v); caption.text = "%s  %d%%" % [row[1], roundi(v * 100)])
+	var audio_modes := _choice_row()
+	var mute_button := _button("MUTE: %s" % ("ON" if values.master<=0 else "OFF"),_toggle_mute,"mute")
+	var night_button := _button("NIGHT MODE: %s" % ("ON" if values.night_mode else "OFF"), func(): _set_value("night_mode", not values.night_mode); _settings_screen(), "setting_night_mode")
+	for button in [mute_button, night_button]:
+		button.reparent(audio_modes); button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	if Depth.ENABLED: _text(Depth.NIGHT_NOTE, 14)
+func _display_page() -> void:
+	_text("TEXT SIZE", 17)
+	var sizes := _choice_row()
+	for s in SettingsStore.TEXT_SCALES:
+		var scale: float = s
+		var b := _choice_button(sizes, "%d%%" % roundi(scale * 100), "text_scale_%d" % roundi(scale * 100), is_equal_approx(values.text_scale, scale))
+		b.pressed.connect(func(): _set_value("text_scale", scale); _settings_screen(), CONNECT_DEFERRED)
+	var caps := _choice_row()
+	for cap in [30, 60]:
+		var selected_cap: int = cap
+		var cap_button := _choice_button(caps, "CAP %d FPS" % selected_cap, "frame_cap_%d" % selected_cap, values.frame_cap == selected_cap)
+		cap_button.pressed.connect(func(): _set_value("frame_cap", selected_cap); _settings_screen(), CONNECT_DEFERRED)
+	var rows := [["high_contrast", "HIGH CONTRAST"], ["reduced_motion", "REDUCED MOTION"], ["safe_palette", "SAFE PALETTE"], ["audio_captions", "AUDIO CAPTIONS"]]
+	if not Depth.ENABLED: rows.insert(2, ["haptics", "HAPTICS"])
+	for row in rows: _toggle_row(row[0], row[1])
+func _controls_page() -> void:
+	if not Depth.ENABLED: return
+	_toggle_row("haptics", "HAPTICS")
+	_choice_setting("HAPTIC STRENGTH · pulse length", "haptic_strength", "haptic_strength", Depth.HAPTIC_LABELS.slice(1), 1)
+	_text("Pulses cover lock, sweeper warning, film empty, loss, impact, torpedo launch, recovery and shutter.", 14)
+	_choice_setting("DRAG SENSITIVITY · distance before a touch counts as a drag", "drag_preset", "drag_preset", Depth.DRAG_LABELS, 0)
+	_choice_setting("LONG-PRESS DELAY · hold a tool for its help", "hold_preset", "hold_preset", Depth.HOLD_LABELS, 0)
+func _toggle_row(key: String, label: String) -> void:
+	_button("%s: %s" % [label, "ON" if values[key] else "OFF"], func(): _set_value(key, not values[key]); _settings_screen(), "setting_" + key)
 func _toggle_mute()->void:
 	var remembered=float(host.get_meta(ReachTable.UNMUTE_META,SettingsStore.DEFAULTS.master))
 	_set_value("master",0. if values.master>0 else remembered)

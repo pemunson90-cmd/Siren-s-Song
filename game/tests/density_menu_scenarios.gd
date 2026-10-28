@@ -40,10 +40,18 @@ func run() -> void:
 	else: game._settings_menu(); await process_frame; await process_frame
 	check(settings_present and game.screen=="settings","real pointer input opens settings through its stable target")
 	var settings_ids=[]
-	for control in game.menu.find_children("*","Control",true,false):
-		if control is BaseButton or control is Slider: settings_ids.append(control.get_meta("action",control.get_meta("ui_action","")))
+	# SETDEPTH: controls are spread over three pages; gather ids from each, ending on the CONTROLS page.
+	for page in ["audio","display","controls"]:
+		var tab=identified("settings_page_"+page)
+		if tab!=null:
+			await scroll_to(tab);await click(tab);await process_frame;await process_frame
+		for control in game.menu.find_children("*","Control",true,false):
+			if control is BaseButton or control is Slider: settings_ids.append(control.get_meta("action",control.get_meta("ui_action","")))
 	var required=["volume_master","volume_music","volume_effects","mute","back","text_scale_115","setting_high_contrast","setting_reduced_motion","setting_haptics"]
-	var expected=required+["text_scale_100","text_scale_130","text_scale_150","setting_safe_palette","setting_audio_captions","settings_reset","reset_tips","new_campaign"]
+	var expected=required+["text_scale_100","text_scale_130","text_scale_150","setting_safe_palette","setting_audio_captions","settings_reset","reset_tips","new_campaign",
+		"settings_page_audio","settings_page_display","settings_page_controls","volume_alerts","volume_messages","setting_night_mode",
+		"frame_cap_30","frame_cap_60","haptic_strength_1","haptic_strength_2","haptic_strength_3","drag_preset_0","drag_preset_1",
+		"drag_preset_2","hold_preset_0","hold_preset_1","hold_preset_2"]
 	var visible_ids=game._ui_metrics().controls.map(func(c):return c.action)
 	check(required.all(func(a):return a in settings_ids) and visible_ids.all(func(a):return a in expected),"shared settings retain stable slider/mute/BACK IDs and the full accessibility controls when optional rows scroll")
 	var back=identified("back")

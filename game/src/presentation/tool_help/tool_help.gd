@@ -1,6 +1,8 @@
 extends Node
 # Read-only touch explanations. Revert: remove ToolHelp seams in mission_hud.gd.
-const HOLD_SECONDS = .5
+const HOLD_SECONDS = .5 # Default; SETDEPTH presets apply it when the hold arms.
+const Settings=preload("res://src/presentation/frontend/frontend_settings.gd")
+const Depth=preload("res://src/presentation/frontend/settings_depth.gd")
 const TEXT = {
  "decoy":"DECOY: place a noise source to draw Sirens away.",
  "emp":"DISRUPT: briefly interrupt nearby Sirens.",
@@ -23,7 +25,7 @@ func cancel():
 func arm(_hud,button):
  cancel()
  if button==null or not TEXT.has(button.get_meta("action","")):return
- key=button.get_meta("action");timer.start()
+ key=button.get_meta("action");timer.start(Depth.hold_seconds(Settings.current))
 func _show():
  if not is_instance_valid(hud) or not hud.host.advanced_orders or not TEXT.has(key):return
  hud.help_return=hud.page

@@ -85,6 +85,7 @@ func shape_case(shape):
 	check(button(game,"new_campaign")==null,"campaign erase is not exposed on Operations")
 	if await press(game,"settings"):
 		check(game.screen=="settings","Operations opens the shared settings screen")
+		await press(game,"settings_page_display") # SETDEPTH: text size and frame cap live on the DISPLAY page.
 		var scale=button(game,"text_scale_115")
 		check(scale!=null,"shared settings exposes 115 percent text size")
 		if scale!=null:check(scale.focus_mode==Control.FOCUS_ALL,"shared settings text size supports keyboard and controller focus")
@@ -100,6 +101,7 @@ func shape_case(shape):
 			await tap(scale.get_global_rect().get_center())
 		check(is_equal_approx(FrontSettings.text_scale(),1.15),"115 percent takes effect from Operations settings")
 		await capture("settings115")
+		await press(game,"settings_page_audio")
 		for id in ["volume_master","volume_music","volume_effects"]:
 			var slider=control(game,id)
 			check(slider!=null,"shared settings exposes "+id)
@@ -118,9 +120,11 @@ func shape_case(shape):
 		check(not AudioServer.is_bus_mute(0) and not game.sound.muted and FrontSettings.current.master>0.,"Unmute restores the same shared master source")
 		check(is_equal_approx(FrontSettings.current.master,chosen_master),"reopening muted Settings preserves the chosen volume when unmuting")
 		for key in ["high_contrast","reduced_motion","haptics","safe_palette","audio_captions"]:
+			await press(game,"settings_page_"+("controls" if key=="haptics" else "display"))
 			var action="setting_"+key;var before=FrontSettings.current.get(key,false)
 			if await press(game,action):check(FrontSettings.current.get(key,false)!=before,"accessibility setting toggle takes effect: "+key)
 		# Exercise the large text layout, then restore the requested persisted scale.
+		await press(game,"settings_page_display")
 		if await press(game,"text_scale_150"):
 			check(is_equal_approx(FrontSettings.text_scale(),1.5),"150 percent text size takes effect")
 			await capture("settings150")
@@ -136,6 +140,7 @@ func shape_case(shape):
 					check(entry!=null and entry.size.x>=game.ui_touch_height and entry.size.y>=game.ui_touch_height and game.scroll.get_global_rect().encloses(entry.get_global_rect()),"large-text bottom navigation stays fully reachable: "+id)
 				await capture("operations-nav150")
 			await press(game,"settings")
+			await press(game,"settings_page_display")
 			await press(game,"text_scale_115")
 		await frames(30)
 		await android_back()
@@ -164,6 +169,7 @@ func shape_case(shape):
 		check(front.screen=="title","Title action opens original title overlay")
 		if await press(front,"frontend_settings"):
 			check(front.screen=="settings","title settings is the same original shared interface")
+			await press(front,"settings_page_display")
 			var selected=button(front,"text_scale_115")
 			check(selected!=null and selected.button_pressed,"115 percent stays selected on title settings")
 			await press(front,"text_scale_130");await press(front,"text_scale_115")
@@ -172,6 +178,7 @@ func shape_case(shape):
 		await press(front,"frontend_continue")
 		check(game.screen=="menu" and game.get_node_or_null("Frontend")==null,"title Continue returns to Operations")
 		if await press(game,"settings"):
+			await press(game,"settings_page_display")
 			var roundtrip=button(game,"text_scale_115")
 			check(roundtrip!=null and roundtrip.button_pressed,"title 115 percent remains selected in Operations settings")
 			await android_back()
@@ -204,6 +211,7 @@ func shape_case(shape):
 		# Hold only this fixture's debounce open so the dismissal boundary is
 		# deterministic even on slow software renderers; input is still real touch.
 		pending.save_timer.wait_time=60.
+		await press(game,"settings_page_display")
 		await press(game,"setting_reduced_motion")
 		var chosen=FrontSettings.current.reduced_motion
 		check(not pending.save_timer.is_stopped(),"touch leaves a pending settings save before Back")
