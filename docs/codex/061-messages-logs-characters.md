@@ -1,9 +1,9 @@
 # Handoff 061: RECEIVED MESSAGES, FIELD LOGS AND RECURRING VOICES
 
-Status: CLAIMED
+Status: DONE
 Claimed at: 2026-10-28 00:21:22 UTC
 Claimed by: claude
-Finished at:
+Finished at: 2026-10-28 02:23:59 UTC
 
 Precondition: 056 is DONE or not CLAIMED (avoid ops_home overlap). Read ORCHESTRATION_2026-10-26.md first.
 Codex may merge: yes, into claude/integration only, on green guidance + game-smoke for the exact head, merge commit.
@@ -35,3 +35,5 @@ PR into claude/integration; merge on green; close per ORCHESTRATION section 7.
 
 ## Claude claim (27 Oct)
 Claude builds this in parallel with Codex on branch `claude/c10-archive-log` (worktree Siren-s-Song-claude-*). Codex: skip it; Claude owns its listed files until DONE.
+
+Closeout: merged PR160 as88188bd0; current head47bf667e guidance/game-smoke green40613658993; local onboarding30/0 and core846/0. Windows boundary import blocker is tracked on BOARD; final whole-game audit remains pending.

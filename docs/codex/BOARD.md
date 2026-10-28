@@ -1,3 +1,5 @@
+**Current progress:**061/062 DONE in PR160. Root parallel worker owns058. Pat directs continuous work until usage or stop; if planned queue completes, use an isolated experimental branch for the next improvement within authorized mechanics.
+
 **LIVE, 27 Oct 2026 22:11 Eastern:** Development is running. 059 is DONE (PR158). Sol6.1 medium owns055/PR150 and proceeds056 onward; parallel074/PR162 is building. 060/PR159 and061-062/PR160 plus C7/PR157 are awaiting checks. Entries describing pause or old claims below are historical; current handoff statuses govern.
 
 **27 Oct ~20:25 ET (Claude):** Claude claimed 059, 060, 061 and 062 to build in parallel (branches claude/c8-challenge-pars, claude/c9-event-audio, claude/c10-archive-log). Codex queue: 055, then 056, 057, 058, 063. Claude will write BATCH 15 before Codex runs dry.
@@ -151,7 +153,7 @@ Claude stream C (not Codex work, listed so you know what is coming and which fil
 | 52 | 055 C2 EQUIPMENT AND TOOLS | CLAIMED (codex, active PR150) | [150 draft](https://github.com/pemunson90-cmd/Siren-s-Song/pull/150) | 2026-10-27 07:01:06 UTC | Head1f781bdb; local core846/tools87/radial58/touch36 all zero failures. Relay passive35% differs from requested command range (unlimited); awaiting Pat, CI pending. |
 | 53 | 056 C3 MODES: mode select, campaign rename, seeded expeditions | OPEN | | | |
 | 54 | 057 C4 NAVAL CAREER | OPEN | | | |
-| 55 | 058 C5 SETTINGS GAPS | OPEN | | | |
+| 55 | 058 C5 SETTINGS GAPS | CLAIMED (codex-root-parallel) | | | |
 
 
 ## PAT DESIGN RULINGS — 27 Oct 2026 (documentation-only; development PAUSED)

@@ -1,8 +1,8 @@
 # Handoff 058: C5 SETTINGS GAPS: controller focus, frame rate
 
-Status: OPEN
-Claimed at:
-Claimed by:
+Status: CLAIMED
+Claimed at: 2026-10-28 02:23:59 UTC
+Claimed by: codex-root-parallel
 Finished at:
 
 Precondition: no CLAIMED handoff currently owns presentation/frontend/*. Read ORCHESTRATION_2026-10-26.md first. Claude's session hit its usage limit on 26 Oct; this lane transfers to Codex, and while you hold this claim you own the files listed here.
