@@ -26,6 +26,8 @@ var folder=""
 var sample_frames=12
 var blocks=1
 var baseline=false
+var profile_chart=false
+var reference_source=""
 var table
 func _initialize():call_deferred("run")
 func check(ok,label):
@@ -77,6 +79,8 @@ func run():
  for arg in OS.get_cmdline_user_args():
   if arg.begins_with("--folder="):folder=arg.trim_prefix("--folder=")
   if arg=="--baseline":baseline=true
+  if arg=="--profile-chart":profile_chart=true
+  if arg.begins_with("--reference-source="):reference_source=arg.trim_prefix("--reference-source=")
   if arg.begins_with("--frames="):sample_frames=int(arg.trim_prefix("--frames="))
   if arg.begins_with("--blocks="):blocks=int(arg.trim_prefix("--blocks="))
  if ResourceLoader.exists("res://src/presentation/art/art_table.gd"):table=load("res://src/presentation/art/art_table.gd")
@@ -86,6 +90,9 @@ func run():
  var render_timing=RenderingServer.has_method("viewport_set_measure_render_time") and RenderingServer.has_method("viewport_get_measured_render_time_gpu") and RenderingServer.has_method("viewport_get_measured_render_time_cpu")
  if render_timing:RenderingServer.call("viewport_set_measure_render_time",root.get_viewport_rid(),true)
  print("ART HOST ",JSON.stringify({"adapter":RenderingServer.get_video_adapter_name(),"api":RenderingServer.get_video_adapter_api_version(),"display":DisplayServer.get_name(),"target_dpi":420,"vsync":DisplayServer.window_get_vsync_mode(),"baseline":baseline}))
+ if profile_chart:
+  await run_chart_profile(render_timing)
+  return
  var records=[]
  for dimensions in [Vector2i(2520,1080),Vector2i(2184,1968)]:
   root.size=dimensions;await process_frame;await process_frame
@@ -174,4 +181,122 @@ func run():
    check(accepted==accepted_reference and digest(s)==command_hash,"draw preserves subsequent ordinary command ")
    view.queue_free();await process_frame;s=null
  var file=FileAccess.open(folder.path_join("raw.json"),FileAccess.WRITE);file.store_string(JSON.stringify(records));file.close()
+ print("ART RENDER CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)
+
+# Opt-in native profile of the real OceanView source. Timers are injected in memory
+# only; the production script and draw commands stay byte-for-byte on disk.
+# -- --profile-chart --frames=120 --blocks=4 --folder=ABSOLUTE_PATH
+# Blocks use OFF/ON/ON/OFF. Fixed phase and manually timed _process(0)
+# isolate presentation from simulation. Native desktop timers are not phone FPS.
+# render_phase_wall_usec spans frame_pre_draw..frame_post_draw (CPU/submission/
+# driver waiting inclusive), not an isolated GPU or render-wait measurement.
+var render_started=0
+var render_wall_usec=0
+func profile_render_start():render_started=Time.get_ticks_usec()
+func profile_render_end():render_wall_usec=Time.get_ticks_usec()-render_started
+func profiled_ocean_script():
+ var source=FileAccess.get_file_as_string("res://src/presentation/ocean_view.gd").replace("\r", "")
+ source+="\nvar profile_costs={}\nvar profile_at=0\nvar profile_visibility_usec=0\nvar profile_visibility_calls=0\nfunc profile_visible(p):\n\tvar at=Time.get_ticks_usec()\n\tvar result=sim.visible(p)\n\tprofile_visibility_usec+=Time.get_ticks_usec()-at\n\tprofile_visibility_calls+=1\n\treturn result\nfunc profile_mark(key):\n\tvar now=Time.get_ticks_usec()\n\tif not key.is_empty():profile_costs[key]=now-profile_at\n\tprofile_at=now\n"
+ source=source.replace("func _draw() -> void:\n", "func _draw() -> void:\n\tprofile_visibility_usec=0;profile_visibility_calls=0\n\tprofile_costs={}\n\tprofile_mark(\"\")\n")
+ source=source.replace("if sim.visible(p) else 0.20", "if profile_visible(p) else 0.20")
+ var markers=[
+  ["\tRegionArt.atmosphere(self,regional_style,region,phase)","setup_chart"],
+  ["\t# Cartographic graticule", "region_atmosphere"],
+  ["\t# Briefed environment only", "graticule_contours"],
+  ["\t# Bedrock and columnar basalt", "departure_lamp"],
+  ["\tFeatureViews.draw_ground(self)", "terrain"],
+  ["\t# Intelligence marks are briefed", "ground_sites_structures"],
+  ["\tFeatureViews.draw(self)", "objectives_fog"],
+  ["\t_draw_observed_paths()", "features_sonar_extraction"],
+  ["\tfor i in sim.units.size():", "findings_rules_pricing"],
+  ["\tPalette.received_bearings(self,sim)", "fleet_routes_activity"],
+  ["\tvar acoustic=sim.acoustic_feedback()", "bearings_contacts"],
+  ["\t_draw_pressure_overlay()", "acoustics_particles"],
+  ["\t# Short screen-sized tags", "pressure_current_screen"],
+  ["\n# A Siren study keeps", "readouts"]]
+ for marker in markers:
+  check(source.count(marker[0])==1,"unique source timer anchor "+marker[1])
+  source=source.replace(marker[0],"\tprofile_mark(\"%s\")\n"%marker[1]+marker[0])
+ var script=GDScript.new();script.source_code=source
+ check(script.reload()==OK,"instrumented actual OceanView compiles")
+ return script
+func run_chart_profile(render_timing):
+ RenderingServer.frame_pre_draw.connect(profile_render_start)
+ RenderingServer.frame_post_draw.connect(profile_render_end)
+ var script=profiled_ocean_script()
+ var records=[]
+ table.enabled=true
+ var original=load("res://src/presentation/ocean_view.gd")
+ var contour_test=original.new()
+ for extent in [Vector2(1600,960),Vector2(4000,2500),Vector2(800,480),Vector2(1600,960)]:
+  contour_test.contour_cache_enabled=false
+  var rebuilt=contour_test._depth_contours(extent)
+  contour_test.contour_cache_enabled=true
+  var cached=contour_test._depth_contours(extent)
+  check(cached==rebuilt,"cache rebuilds identical geometry after extent change "+str(extent))
+  check(is_same(cached,contour_test._depth_contours(extent)),"same extent reuses contour array")
+ contour_test.free()
+ var fidelity_script=original
+ if not reference_source.is_empty():
+  fidelity_script=GDScript.new()
+  fidelity_script.source_code=FileAccess.get_file_as_string(reference_source).replace("\r", "")
+  check(fidelity_script.reload()==OK,"pre-patch source reference compiles")
+ for dimensions in [Vector2i(2520,1080),Vector2i(2184,1968)]:
+  root.size=dimensions;await process_frame;await process_frame
+  for operation in [11,28,32]:
+   var s=Sim.new();s.start(operation,"endurance");s.paused=true;s.elapsed=10.
+   # Source-known staged received evidence, not acquisition or encounter balance.
+   # Ordinary chart.observe creates only measured surfaces and certified water.
+   if s.terrain_chart!=null:
+    for unit in s.units:s.terrain_chart.observe([{"pos":unit.pos,"radius":720.}],{})
+   s.mission["reconnaissance"]=s.Recon.state(s.mission).duplicate(true)
+   s.mission.reconnaissance.hunt=85.
+   s.HuntPressure.initialize(s.mission)
+   s.mission.hunt_pressure.stage=s.HuntPressure.stage(s.mission)
+   s.contacts={}
+   for id in s.sirens.size():
+    var enemy=s.sirens[id]
+    s.contacts[id]={"pos":enemy.pos,"angle":enemy.angle,"type":enemy.type,"time":s.elapsed,"mode":"LOCKING","lock":2.,"target":0,"band":enemy.band,"source":"optical","confidence":1.,"seen_by":[0]}
+   for n in 72:
+    var id=n%s.sirens.size();var enemy=s.sirens[id];var station=n%3
+    s.sonar.history.append({"station":station,"enemy":id,"origin":s.units[station].pos,"direction":s.units[station].pos.direction_to(enemy.pos),"time":s.elapsed-float(n%12)*.1,"band":enemy.band,"confidence":.8,"classification":"PROPULSION","direct":true,"kind":"bearing","tone":enemy.acoustic_tone})
+   check(Sim.valid_snapshot(s.snapshot()),"dense public fixture valid op "+str(operation))
+   var state=digest(s);var reference=Sim.new();check(reference.restore(s.snapshot()),"reference restores dense fixture")
+   var accepted_reference=reference.command("select",{"unit":1});var command_hash=digest(reference);reference=null
+   var view=Control.new();view.set_script(script);view.sim=s;view.size=root.get_visible_rect().size;root.add_child(view)
+   view.set_process(false);view.optical_feed.set_process(false);view._process(0.);view.phase=.5
+   for n in 30:await draw_frame(view)
+   var before=root.get_texture().get_image();before.save_png(folder.path_join("op%d-%dx%d.png"%[operation,dimensions.x,dimensions.y]))
+   for block in blocks:
+    view.contour_cache_enabled=(block%4 in [1,2])
+    for n in 10:await draw_frame(view)
+    check(root.get_texture().get_image().get_data()==before.get_data(),"cache switch preserves default pixels op "+str(operation))
+    var draw=[];var process=[];var wall=[];var cadence=[];var renderer_cpu=[];var gpu=[];var sections={};var calls=[];var visibility=[];var visibility_calls=[]
+    for n in sample_frames:
+     var at=Time.get_ticks_usec();view._process(0.);process.append(Time.get_ticks_usec()-at)
+     at=Time.get_ticks_usec();await draw_frame(view);cadence.append(Time.get_ticks_usec()-at)
+     var total=0
+     for key in view.profile_costs:
+      if not sections.has(key):sections[key]=[]
+      sections[key].append(view.profile_costs[key]);total+=view.profile_costs[key]
+     draw.append(total);wall.append(render_wall_usec)
+     visibility.append(view.profile_visibility_usec);visibility_calls.append(view.profile_visibility_calls)
+     calls.append(Performance.get_monitor(Performance.RENDER_TOTAL_DRAW_CALLS_IN_FRAME))
+     renderer_cpu.append(float(RenderingServer.call("viewport_get_measured_render_time_cpu",root.get_viewport_rid()))*1000. if render_timing else 0.)
+     gpu.append(float(RenderingServer.call("viewport_get_measured_render_time_gpu",root.get_viewport_rid()))*1000. if render_timing else 0.)
+    records.append({"operation":operation,"dimensions":dimensions,"block":block,"contour_cache_enabled":view.contour_cache_enabled,"draw_cpu_usec":draw,"process_cpu_usec":process,"render_phase_wall_usec":wall,"await_frame_wall_usec":cadence,"viewport_render_cpu_usec":renderer_cpu,"viewport_gpu_usec":gpu,"draw_calls":calls,"sections_usec":sections,"fog_visibility_line_usec":visibility,"fog_visibility_calls":visibility_calls,"snapshot":state,"snapshot_after":digest(s),"contacts":s.contacts.size(),"sonar_history":s.sonar.history.size(),"public_clear_cells":s.public_chart().get("clear_cells",[]).size(),"public_surfaces":s.public_chart().get("surface_segments",[]).size(),"region":view.regional_style,"effective_viewport":root.get_visible_rect().size,"view_size":view.size,"window_size":DisplayServer.window_get_size()})
+    check(digest(s)==state,"profile preserves snapshot op "+str(operation))
+    print("CHART PROFILE op ",operation," size ",dimensions," block ",block)
+   # Compare a fresh uninstrumented production view at the same fixed pose.
+   # Exact native pixels must match with all default presentation enabled.
+   view.visible=false
+   var plain=fidelity_script.new();plain.sim=s;plain.size=root.get_visible_rect().size;root.add_child(plain)
+   plain.set_process(false);plain.optical_feed.set_process(false);plain._process(0.);plain.phase=.5
+   await draw_frame(plain);await draw_frame(plain)
+   root.get_texture().get_image().save_png(folder.path_join("op%d-%dx%d-plain.png"%[operation,dimensions.x,dimensions.y]))
+   check(root.get_texture().get_image().get_data()==before.get_data(),"instrumentation preserves default art pixels op "+str(operation))
+   check(digest(s)==state,"plain draw preserves snapshot op "+str(operation))
+   check(s.command("select",{"unit":1})==accepted_reference and digest(s)==command_hash,"draw preserves subsequent command op "+str(operation))
+   view.queue_free();plain.queue_free();await process_frame;s=null
+ var file=FileAccess.open(folder.path_join("chart-profile.json"),FileAccess.WRITE);file.store_string(JSON.stringify(records));file.close()
  print("ART RENDER CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)
