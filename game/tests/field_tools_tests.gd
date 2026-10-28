@@ -14,7 +14,7 @@ func check(ok:bool,label:String):
  if not ok:failures+=1;print("FAIL ",label)
 func _initialize():call_deferred("run")
 func run():
- table();modules();recoveries();tools_in_play();collision_patch();finish()
+ table();modules();recoveries();tools_in_play();camera_silt_parity();collision_patch();finish()
 func table():
  check(Tools.ids().size()==8 and Tools.field_ids().size()==4 and Tools.TOUCH_DP==48,"eight finite tools, four new, 48 dp targets")
  for id in Tools.ids():
@@ -88,6 +88,20 @@ func tools_in_play():
   var bad=s.snapshot();mutate.call(bad.mission);check(not Sim.valid_snapshot(bad),"corrupt field tool state is rejected")
  var old=s.snapshot();old.mission.erase("field_tools")
  var legacy=Sim.new();check(Sim.valid_snapshot(old) and legacy.restore(old) and not legacy.command("sonobuoy"),"older saves restore with no field tools")
+func camera_silt_parity():
+ var clear=open();var target:Vector2=clear.mission.objectives[0].pos
+ clear.units[0].pos=target+Vector2(-100,0);clear.units[0].angle=0.0
+ check(clear.camera_context().ready and clear.command("camera"),"ordinary camera initiation remains available through clear water")
+ var blocked=open();target=blocked.mission.objectives[0].pos
+ blocked.units[0].pos=target+Vector2(-100,0);blocked.units[0].angle=0.0
+ check(blocked.command("silt_screen",{"point":target+Vector2(-50,0)}),"silt screen deploys between craft and photographic subject")
+ check(not blocked.camera_context().ready and not blocked.command("camera"),"ordinary camera initiation is blocked by intervening silt")
+ var during=open();target=during.mission.objectives[0].pos
+ during.units[0].pos=target+Vector2(-100,0);during.units[0].angle=0.0
+ check(during.command("camera"),"clear-water exposure starts before the cloud arrives")
+ check(during.command("silt_screen",{"point":target+Vector2(-50,0)}),"silt can be introduced during exposure")
+ during.paused=false;during.advance(0.1)
+ check(during.captures[0].is_empty() and not during.mission.objectives[0].captured,"silt introduced mid-exposure interrupts photography")
 func collision_patch():
  var s=open()
  s.hull=60.0

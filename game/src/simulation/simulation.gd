@@ -620,7 +620,7 @@ func _camera_context_base() -> Dictionary:
 		var objective=mission.objectives[id]
 		if objective.captured and Photo.applies(objective) and not Operations.own_origin(objective) and Photo.seen_before(self,id).size()<objective.subject.features.size():
 			# A resolved record can be re-shot from a better viewpoint for what it missed.
-			if reshoot<0 and unit.pos.distance_to(objective.pos)<Photo.reach(self,selected) and line_clear(unit.pos,objective.pos):reshoot=id
+			if reshoot<0 and unit.pos.distance_to(objective.pos)<Photo.reach(self,selected) and Depth.optical_clear(self,unit.pos,objective.pos,unit.band):reshoot=id
 			continue
 		if objective.captured and not Operations.own_origin(objective) and not Delivery.needs_sample(self,id,selected): continue
 		if Operations.own_origin(objective):
@@ -631,7 +631,8 @@ func _camera_context_base() -> Dictionary:
 		var d:float=reception.distance if not reception.is_empty() else unit.pos.distance_to(objective.pos)
 		if not reception.is_empty() and reception.ready and best<0:best=id
 		if d<distance: nearest=id; distance=d
-		if d<Photo.reach(self,selected) and line_clear(unit.pos,objective.pos):
+		var photo_clear=Depth.optical_clear(self,unit.pos,objective.pos,unit.band) if Photo.applies(objective) else line_clear(unit.pos,objective.pos)
+		if d<Photo.reach(self,selected) and photo_clear:
 			# Several subjects in reach: the one the craft is turned toward is framed.
 			var aim_score:float=absf(angle_difference(unit.angle,unit.pos.angle_to_point(objective.pos)))+d/2000.0
 			if best<0:best=id;best_score=aim_score
@@ -780,7 +781,8 @@ func _tick(dt: float) -> void:
 		var exchange=o.get("kind","")=="exchange" and mission.get("blackwater_revision",0)==1
 		var mobile=Rendezvous.applies(mission) and o.get("site_id","")=="rendezvous"
 		var receiver=rendezvous_receiver(station) if mobile else blackwater_context(work.target,station) if exchange else {}
-		if not BandPhoto.can_shoot(self,u,o) or ((exchange or mobile) and not receiver.ready) or (Operations.own_origin(o) and not Operations.receiving(self,o,station)) or (not exchange and not mobile and not Operations.own_origin(o) and (u.pos.distance_to(o.pos)>Photo.reach(self,station) or not line_clear(u.pos,o.pos) or (o.has("siren") and not contact_visible(sirens[o.siren])))):
+		var photo_line_clear=Depth.optical_clear(self,u.pos,o.pos,u.band) if Photo.applies(o) else line_clear(u.pos,o.pos)
+		if not BandPhoto.can_shoot(self,u,o) or ((exchange or mobile) and not receiver.ready) or (Operations.own_origin(o) and not Operations.receiving(self,o,station)) or (not exchange and not mobile and not Operations.own_origin(o) and (u.pos.distance_to(o.pos)>Photo.reach(self,station) or not photo_line_clear or (o.has("siren") and not contact_visible(sirens[o.siren])))):
 			captures[station]={}
 			message=u.name+" · "+("Reception interrupted · move closer or SONAR for a local replay" if exchange else "Exposure interrupted · regain clear view")
 		elif exchange and not receiver.settled:work.elapsed=0.0
