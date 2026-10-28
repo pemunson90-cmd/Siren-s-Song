@@ -1,9 +1,9 @@
 # Handoff 098: CARRYING TOOLS COSTS CARGO (loadout becomes a real plan)
 
-Status: OPEN
-Claimed at:
-Claimed by:
-Finished at:
+Status: DONE
+Claimed at: 28 Oct 2026 14:18 ET (initial lane; bounded 098b revision followed)
+Claimed by: codex-fresh-098 and bounded Codex 098b revision
+Finished at: 2026-10-28 21:45:52 UTC
 
 Precondition: none of the files below claimed by another handoff. Read HANDOFF.md and ORCHESTRATION_2026-10-26.md first. Current review rule (Pat, 28 Oct): independent Sol6.1-high review of the frozen patch before commit and before merge.
 Codex may merge: yes, into claude/integration only, after independent approval and green required checks on the exact head, merge commit.
@@ -44,4 +44,9 @@ Rerun the field tool, economy, fittings and save suites.
 PR into claude/integration; independent review, merge on green; close per ORCHESTRATION section 7; one LEDGER line.
 
 ## Completion
-(five lines max; list the cargo weights chosen and whether drones deploy tools)
+
+- [PR199](https://github.com/pemunson90-cmd/Siren-s-Song/pull/199) merged `5bf86b88ab731bbf5f1efb44f4d67cf28c1c261f` from independently reviewed head `268f3e29ab71fa9d68cbc47025a388226ee89093`.
+- Fit-aware templates and old-profile migration preserve pre098 whole winch places; current templates are empty, and manual loading trades cargo.
+- Cargo weights: Decoy/Sonobuoy/Disrupt 0.05; Survey/Torpedo/Silt 0.10; Hull patch/Relay 0.20. Drones deploy supported carried tools; Torpedo/Patch stay Quietus-only.
+- Requested isolated checks passed, including core842/0 and racks2806/0; independent Sol6.1-high approval and [all seven exact-head CI jobs green](https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/40769571842).
+- Tool-caused winch refusal explains unloading at Fittings. Jettison omitted; branch retained; no APK or phone acceptance claimed.
