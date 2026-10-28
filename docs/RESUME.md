@@ -12,6 +12,7 @@ Current decisions: [USER_DIRECTIVES](USER_DIRECTIVES.md). Intended release: [CUR
 
 ## Integrated capabilities
 
+- [KEEL] 077 adds seven provisional route/fact deltas in Glass/Iron ops14,15,16,17,21,22: shelf recovery/start alternatives and changed authored guard rosters, with brief cause lines. Empty history preserves legacy missions; no new save fields. Revert with `Carry.ENABLED=false`. Local carry150/0 and existing Iron22 bare journey10/0 are source-known technical checks; Calder/final content remains owned by076.
 - 41 operation IDs0..40 include Calder Trench: core32..34, optional35/36, manual shut-in work, deep photography and three physically recovered artifacts. END OF LINE now follows first recovery of34; the existing photo wall, four ending families and12/13 fork remain. Reward target entries arrive in054/055; narrative stays placeholder text.
 - 038/PR136 reorganizes Operations;044/PR141 gives Operations access to shared Settings, Title, Challenges and Credits.041/PR125 handles Android Back without Godot's default immediate quit.
 - 030/PR124 supplies three independent profiles, copy/clear and export/import.043/PR143 adds three manual saves and four automatic fork states, pinned to each physical profile. Restore replaces later progress, film and fittings; it does not merge. Default campaign erase preserves states.
