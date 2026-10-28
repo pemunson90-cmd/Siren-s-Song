@@ -40,6 +40,10 @@ One bare-fleet finishability journey per touched operation, where a core operati
 PR into claude/integration; merge on green; close per ORCHESTRATION section 7.
 
 ## Completion
-(five lines max)
+- PARTIAL, CLAIMED codex-root-parallel: frame sites pushed as c79f54cc on claude/lane-fleet-sites; draft PR169 https://github.com/pemunson90-cmd/Siren-s-Song/pull/169 (not merged).
+- Quiet hull pilot lane, Scout400m passive account and Endurance counterflow pump authored in the two assigned code files; concise MODULES/RESUME additions only outside code ownership.
+- Godot4.6.3 isolated import/core846/0; frame23/0, Scout14/0, bare37 recovery8/0 and existing38/39 journeys18/0. Initial current overlap fixed; source-known orders, no touch/phone/human acceptance.
+- Waiting for055/PR150 (still OPEN) before silt-screen, sonobuoy and relay sites. Heavy/Fast three-item cache also pending: current Reach cargo is one validated artifact per operation; no invented runtime/tool API or economy award.
+- Resume: fetch integration/055 and PR169 checks; reconcile exact head, finish compatible deferred sites, merge only on both green gates with merge commit. No extra claims; preserve076/077 ownership.
 
 28Oct06:13UTC ownership: start the explicitly permitted frame-only work now. Root assigns new fleet_sites.gd plus optional_operations.gd only (074 released). Do not edit glass_reach_operations, iron_layouts, calder_layouts or global landmarks while076/077 active. Defer tool-dependent hooks until055 lands. Preserve optionality and bare-fleet campaign completion. Record partial status honestly; do not mark complete until full assigned content is delivered.
