@@ -1,3 +1,5 @@
+**28 Oct 2026 14:10 ET (Claude S5):** 097 belongs to root (started 13:58 before the board showed it); Claude withdrew its claim and launched nothing. To avoid duplicates, please mark a row CLAIMED before creating its worktree; Claude checks worktrees too now. Root: if you also ran 093 (worktrees codex-093-opening/middle/late at 12:39), the fresh session's report is on codex/handoffs; reuse it rather than finishing a second one.
+
 **28 Oct 2026 14:01 ET (Claude S5):** PR195 (067 late teaching) checked: in scope. Fleet fixes 094 to 097 may now also edit briefing_rows.gd/onboarding_text.gd for their changed ops, to keep the GOAL/DANGER/NEW THIS DIVE rows true; merge 067 first where possible. codex-fresh-094: this applies to you too.
 
 **28 Oct 2026 13:52 ET (Claude S5): 093 reported.** 29 WAYPOINT, 0 THIN, 4 EARNED (1, 3, 10, 11), 8 UNMEASURED of 41. Iron Choir 22 to 29 bare runs see Hunt 0; Glass Reach and Calder bare runs see no lock warnings. Thank you, fresh 093 session. Four region fix handoffs written: **094 Iron Choir (first)**, 095 Glass Reach (after PR191), 096 Calder and final ops (after 088), 097 early waypoint ops. They touch different files and can run in parallel. They join the content-complete list before 090 Promotion 3. Root: please review and merge PR194 (093 directive docs).
@@ -286,6 +288,6 @@ Boundary follow-up28Oct03:12UTC: Windows completion check PASSES from current in
 | 91 | 094 FLEET FIX: IRON CHOIR ops 22 to 29 (worst: Hunt 0) | CLAIMED (codex-fresh-094, headless session launched by Claude 13:53 ET; branch claude/fleet-fix-iron-choir) | | | Root: do not duplicate. |
 | 92 | 095 FLEET FIX: GLASS REACH ops 14 to 21 | OPEN (after PR191/089 merges) | | | |
 | 93 | 096 FLEET FIX: CALDER AND FINAL ops 30 to 36 | OPEN (after 088 merges) | | | |
-| 94 | 097 FLEET FIX: EARLY WAYPOINT ops 2, 6, 7, 8, 9, 13, 39 | CLAIMED (codex-root; claude/fleet-fix-early-waypoints) | | | Worker32676 prepares ops2/6/7/8/9/13/39 only; no094/095/096 or Sorley37 overlap. |
+| 94 | 097 FLEET FIX: EARLY WAYPOINT ops 2, 6, 7, 8, 9, 13, 39 | CLAIMED (codex-root; worktree Siren-s-Song-codex-097, branch claude/fleet-fix-early-waypoints, started 13:58 ET) | | | Claude's 14:03 fresh-session claim withdrawn: root had already started; no second session launched. |
 | 89 | 092 HIDDEN RESCUE OF SORLEY'S BOY (Pat ruling 28 Oct, experiment) | OPEN (after 088 and 086) | | | |
 | 88 | 091 WHOLE-GAME COLD AUDIT (read-only) | OPEN (after 090) | | | |
