@@ -1,5 +1,6 @@
 extends RefCounted
-# 098 editable campaign racks. Cargo uses exact hundredths, rounded only when a whole winch place is requested.
+# 098 editable racks, extended by100 lockers. Only overflow consumes general cargo.
+# Cargo uses exact hundredths, rounded only when a whole winch place is requested.
 # Seams: Main archive/launch, rack view, field tool stock and ModuleRecovery.capacity_data.
 # Revert: enabled=false bypasses cargo/editing and restores template seed; retain optional save validation.
 # Torpedoes and hull patches remain Quietus-only. All numbers are AI-DESIGNED, provisional.
@@ -12,31 +13,27 @@ const QUIETUS_ONLY=["knock","hull_patch"]
 const MAX_COUNT=9
 const CHARGE_PRICE={"scrap":1,"cells":1}
 static func empty()->Dictionary:return {"quietus":{},"drone_a":{},"drone_b":{}}
-# Preserve the fit's pre-rack whole winch places. Current frame/module budgets
-# are integers, so they have no fractional spare room: their safe templates are
-# empty. Players explicitly load charges to trade away winch places.
-static func template(choice:String,fit:Dictionary)->Dictionary:
- var racks=empty();var spare=[]
- for unit in 3:
-  var b=Catalog.budget(fit,unit)
-  var ticks=roundi((b.cargo_cap-b.cargo)*100.0)
-  spare.append(maxi(0,ticks-maxi(0,floori(ticks/100.0))*100))
+const ARCHIVE_VERSION=100
+# Original role allocation: Quietus keeps legacy tools and patch; A listens; B carries field support.
+# The largest original bundle is SURVEY: .95 Quietus, .15 A, .50 B.
+# All hulls/chassis, including zero-cargo scout, keep these separate tool lockers.
+static func template(choice:String,_fit:Dictionary)->Dictionary:
+ var racks=empty()
  for id in Tools.ids():
   if id in Tools.field_ids() and not Tools.is_enabled(id):continue
-  var preferred=0 if id in ["emp","decoy","recon","knock","hull_patch"] else (1 if id=="sonobuoy" else 2)
-  var order=[preferred]
-  if id not in QUIETUS_ONLY:
-   for unit in 3:
-    if unit!=preferred:order.append(unit)
-  for charge in Tools.loadout_count(id,choice):
-   for unit in order:
-    if spare[unit]>=Tools.CARGO_WEIGHTS[id]:
-     var rack=racks[UNITS[unit]]
-     rack[id]=int(rack.get(id,0))+1;spare[unit]-=Tools.CARGO_WEIGHTS[id]
-     break
+  var unit=0 if id in ["emp","decoy","recon","knock","hull_patch"] else (1 if id=="sonobuoy" else 2)
+  var n=Tools.loadout_count(id,choice)
+  if n>0:racks[UNITS[unit]][id]=n
  return racks
 static func migrated(data:Dictionary,fit:Dictionary)->Dictionary:
- return data.tool_racks.duplicate(true) if data.has("tool_racks") else template(data.get("upgrade","endurance"),fit)
+ # 098 did not record edits: its automatic template and EMPTY ALL are identical.
+ # Refill that exact unversioned shape once; any edited keys, even zero, survive.
+ if not data.has("tool_racks") or (not data.has("tool_racks_version") and data.tool_racks==empty()):
+  return template(data.get("upgrade","endurance"),fit)
+ return data.tool_racks.duplicate(true)
+static func write_archive(data:Dictionary,racks:Dictionary)->void:
+ data["tool_racks"]=racks.duplicate(true)
+ data["tool_racks_version"]=ARCHIVE_VERSION
 static func valid(value)->bool:
  if not value is Dictionary or value.size()!=3 or not value.has_all(UNITS):return false
  for slot in UNITS:
@@ -52,10 +49,14 @@ static func total(racks:Dictionary,id:String)->int:
  var n=0
  for slot in UNITS:n+=int(racks.get(slot,{}).get(id,0))
  return n
-static func cargo_ticks(racks:Dictionary,unit:int)->int:
+static func weight_ticks(racks:Dictionary,unit:int)->int:
  var n=0
  for id in racks.get(UNITS[unit],{}):n+=int(racks[UNITS[unit]][id])*int(Tools.CARGO_WEIGHTS.get(id,0))
- return n if enabled else 0
+ return n
+static func locker_ticks(unit:int)->int:return int(Tools.LOCKER_TICKS[UNITS[unit]])
+static func locker_used_ticks(racks:Dictionary,unit:int)->int:return mini(weight_ticks(racks,unit),locker_ticks(unit))
+static func cargo_ticks(racks:Dictionary,unit:int)->int:
+ return maxi(0,weight_ticks(racks,unit)-locker_ticks(unit)) if enabled else 0
 static func cargo(racks:Dictionary,unit:int)->float:return cargo_ticks(racks,unit)/100.0
 static func room_ticks(fit:Dictionary,racks:Dictionary,unit:int)->int:
  var b=Catalog.budget(fit,unit)
@@ -112,6 +113,8 @@ static func full_reason(mission:Dictionary,unit:int,carried:int,fallback:String)
   return "Hold full of tools: unload at the fittings screen"
  return fallback
 static func valid_archive(data:Dictionary)->bool:
+ if data.has("tool_racks_version"):
+  if not data.tool_racks_version is int or data.tool_racks_version!=ARCHIVE_VERSION or not data.has("tool_racks"):return false
  return not data.has("tool_racks") or valid(data.tool_racks)
 static func valid_snapshot(data:Dictionary)->bool:
  var mission=data.mission

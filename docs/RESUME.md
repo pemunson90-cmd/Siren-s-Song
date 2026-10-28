@@ -1,6 +1,6 @@
 # RESUME: operational entry
 
-Current accepted integration baseline `5bf86b88` includes tool cargo098, Calder fleet096 and earned charts089, alongside Career057, offers068, late ending088, teaching067 and riders071. This reviewed integration branch combines hidden rescue092, expedition records069 and arc presentation080 while preserving accepted tool cargo098; it remains pending final exact-head checks. Next070 is reserved to codex-root after069 merge and release. Production is `225c3c45`; main unchanged. Live codex/handoffs claims govern parallel work.
+Current accepted integration baseline `152111a1` includes records069, arc presentation080, hidden rescue092, tool cargo098, Calder fleet096 and earned charts089, alongside Career057, offers068, late ending088, teaching067 and riders071. Predecessor PR207 is accepted with its final exact-head gate passed. This separate100 successor restores default bundles with dedicated lockers and awaits its own final exact-head gate. 070 is assigned to codex-root; current implementation ownership is on the live BOARD. Production is `225c3c45`; main unchanged. Live codex/handoffs claims govern parallel work.
 
 - [KEEL: 089 source] Glass Reach ops14/15/16/20 now use earned first-face terrain and public-water route planning; earlier in-progress saves keep their stored chart policy. Remaining authored operations retain their existing charts, as documented in V7_TO_GODOT_PARITY.
 
@@ -12,11 +12,13 @@ Current boundary: Pat resumed locally on Windows and continued work on 25 Octobe
 
 ## Source and authority
 
-Active integration: `claude/integration`. Last reconciled source baseline: `5bf86b88ab731bbf5f1efb44f4d67cf28c1c261f`; earlier reconciliation `1b56be6f` remains in Git history. Fetch current refs at task boundaries; the board alone owns claims/completions.
+Active integration: `claude/integration`. Last reconciled source baseline: `152111a15845bc96d4592c73c4591c7df418d2e6`; earlier reconciliation `1b56be6f` remains in Git history. Fetch current refs at task boundaries; the board alone owns claims/completions.
 Frozen `gauntlet/production` and protected `main` require Pat's promotion approval. Preserve branches, personal saves, evidence and signing identity.
 Current decisions: [USER_DIRECTIVES](USER_DIRECTIVES.md). Intended release: [CURRENT_GAME_SPEC](CURRENT_GAME_SPEC.md). Actual module seams, settings, saves, tests and safe reverts: [MODULES](MODULES.md).
 
 ## Integrated capabilities
+
+- [KEEL:100 source] Next-launch templates restore the pre098 ENDURANCE/DISRUPTION/SURVEY tools in separate AI-DESIGNED lockers (Quietus1.00, each drone0.50, all frames including scout). Only overflow shares cargo with modules and winch work; Fittings shows locker and cargo separately. Exact-empty unversioned098 racks refill once; edited keys survive and version100 keeps subsequent deliberate empty racks.098 did not distinguish EMPTY ALL from its automatic empty template.
 
 - [KEEL: implementation080] Six provisional arc entry/departure cards carry saved thread and regional choices; Operations, recovered fold and route legend group under arc headings with recovery counts. Optional per-arc intro booleans preserve old archives; first core recoveries alone show departures. Text remains AI-DESIGNED placeholders.
 
@@ -55,7 +57,7 @@ Current decisions: [USER_DIRECTIVES](USER_DIRECTIVES.md). Intended release: [CUR
 
 ## Next authorized work and limits
 
-Root reconciles the pending records/tool/rescue/arc composition and requires independent review plus passing final exact-head checks. Then070 is reserved to root after069 merge and release. Parallel099/095 and the099-gated094 work remain with their existing owners; Claude queues100 after207. Live BOARD claims govern. The dated056 repair details below are historical.
+Root implements070 after accepted069 while this separate100 successor waits for its reviewed exact-head gate. Parallel099/095 and the099-gated094 work remain with their existing owners; 100 is prepared as a separate successor on accepted207. Live BOARD claims govern. The dated056 repair details below are historical.
 Historical056 repair note: 28 Oct bounded CI repair: preserve independently approved `ed032a1a`; retain the approved campaign RETRY OPERATION label and update the two stale exact-label UI fixtures, preserving existing `retry`/`back` IDs and callbacks. The profile UI's four-key absence expectation contradicts056's documented six-sidecar contract; diagnostics found all six absent. The uncommitted fixture now checks populated run-sidecar clear/undo, retired-host suspension and empty run-menu setup. PR175 stays draft; root obtains independent patch review before any commit/push, then owns exact-head full CI and integration. Corrected local evidence/report: `C:/Users/Archi/AppData/Local/Temp/sirens-orchestration-20261027/056-label-correction-report.txt`.
 For 050, Pat approved sight-only first: hearing, movement speed and lock timing stay unchanged. Earlier design text proposing hearing scaling is superseded. Keep tunable choices in tables with off switches/revert notes; keep working while ordinary reversible questions are pending. Protected mechanics, narrative/art direction, SIREN TELL and promotion still require Pat where not already authorized.
 Photography remains the primary military reconnaissance pillar; rescue, machinery and fleet work support it. Wider release modes/content and qualitative campaign assessment remain unfinished.
