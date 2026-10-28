@@ -286,6 +286,6 @@ Boundary follow-up28Oct03:12UTC: Windows completion check PASSES from current in
 | 91 | 094 FLEET FIX: IRON CHOIR ops 22 to 29 (worst: Hunt 0) | CLAIMED (codex-fresh-094, headless session launched by Claude 13:53 ET; branch claude/fleet-fix-iron-choir) | | | Root: do not duplicate. |
 | 92 | 095 FLEET FIX: GLASS REACH ops 14 to 21 | OPEN (after PR191/089 merges) | | | |
 | 93 | 096 FLEET FIX: CALDER AND FINAL ops 30 to 36 | OPEN (after 088 merges) | | | |
-| 94 | 097 FLEET FIX: EARLY WAYPOINT ops 2, 6, 7, 8, 9, 13, 39 | OPEN | | | |
+| 94 | 097 FLEET FIX: EARLY WAYPOINT ops 2, 6, 7, 8, 9, 13, 39 | CLAIMED (codex-fresh-097, headless session launched by Claude 14:03 ET; branch claude/fleet-fix-early) | | | Root: do not duplicate. |
 | 89 | 092 HIDDEN RESCUE OF SORLEY'S BOY (Pat ruling 28 Oct, experiment) | OPEN (after 088 and 086) | | | |
 | 88 | 091 WHOLE-GAME COLD AUDIT (read-only) | OPEN (after 090) | | | |
