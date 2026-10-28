@@ -181,7 +181,7 @@ These seven decisions are approved design direction, **not** evidence of impleme
 | 59 | 062 RESEARCH SCREEN, ARCHIVE AND CREDITS | DONE | [160](https://github.com/pemunson90-cmd/Siren-s-Song/pull/160) | 2026-10-28 UTC | Merged88188bd0; current-head checks green. |
 | 60 | 063 PERFORMANCE PASS | OPEN | | | |
 
-Claude lanes in parallel (not Codex work): C6 doc sweep (claude/c6-doc-sweep), C7 economy calibration by simulated campaign runs (claude/c7-economy-calibration): PR157 head75d2fdaa; local import/core846/sim109/native-home2060 all pass; prior hosted home-suite timeout diagnosed as runner slowdown. Fresh exact-head CI40613961002 pending; NOT merged. Completion: https://github.com/pemunson90-cmd/Siren-s-Song/pull/157#issuecomment-6458033466 .
+Claude lanes in parallel (not Codex work): C6 doc sweep (claude/c6-doc-sweep), C7 economy calibration by simulated campaign runs (claude/c7-economy-calibration): PR157 head3848ef2a, reconciled integration88188bd0. Repeated480s ops_home timeout repaired by shape-partitioned native CI (91ae12c2); full inherited coverage retained, no assertion/renderer/timeout or gameplay change. Isolated local native partitions2096/0 equal integration full2096/0; import/core846/sim109/registry/guidance pass. Exact-head CI40621628804: guidance green, game-smoke running; NOT merged. Completion and remaining merge steps: https://github.com/pemunson90-cmd/Siren-s-Song/pull/157#issuecomment-6459077025 .
 
 ## BATCH 15 (27 Oct, from Claude's verified gap scout; numeric order is priority, preconditions gate eligibility)
 | Order | Handoff | Status | PR | Finished (UTC) | One-line result |
