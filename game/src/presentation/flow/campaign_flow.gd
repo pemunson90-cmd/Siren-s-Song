@@ -31,7 +31,8 @@ static func show_campaign(host) -> void:
 	host._button(host.panel_box,"FITTINGS / NEXT LAUNCH",host._show_fittings,"fittings")
 	EconomyPanel.entry(host)
 	EconomyPanel.pristine_picker(host)
-	if not host.Endings.resolve(host.expedition).is_empty():host._button(host.panel_box,"VIEW CAMPAIGN ENDING",host._show_ending,"ending")
+	if not host.Endings.campaign_resolve(host.expedition).is_empty():host._button(host.panel_box,"VIEW CAMPAIGN ENDING",host._show_ending,"ending")
+	elif not host.Endings.course_line(host.expedition).is_empty():host._menu_text(host.Endings.course_line(host.expedition),17)
 	preload("res://src/presentation/finale/finale.gd").entry(host)
 	preload("res://src/persistence/save_states/save2_controller.gd").entry(host)
 	if not preload("res://src/presentation/ops_home/ops_home_table.gd").enabled and not host._campaign_pristine():host._button(host.panel_box,"ERASE PROGRESS · NEW CAMPAIGN",host._confirm_new_campaign,"new_campaign")
@@ -236,8 +237,10 @@ static func sync_craft_upgrades(host)->void:
 	if not host.expedition.is_empty():host.expedition.entitlements=host._equipment_entitlements()
 
 static func show_ending(host,photo:bool=true)->void:
+	if photo and host.Endings.campaign_resolve(host.expedition).is_empty():host._save_archive();host._show_campaign();return
 	if photo and preload("res://src/presentation/endings_photo_view.gd").present(host,func():show_ending(host,false)):return
-	var ending=host.Endings.resolve(host.expedition)
+	var ending=host.Endings.campaign_resolve(host.expedition)
+	if ending.is_empty():ending=host.Endings.resolve(host.expedition)
 	if ending.is_empty():host._show_campaign();return
 	host.sim.paused=true;host.screen="ending";host._clear_menu()
 	host._menu_text(preload("res://src/persistence/save_states/save2_controller.gd").legacy_title(host,"SIREN'S SONG / RECOVERED OUTCOME"),18)

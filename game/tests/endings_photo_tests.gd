@@ -60,6 +60,8 @@ func _initialize():
    p.completed.append(30)
    check(Campaign.valid(p) and Ending.resolve(p,{}).is_empty() and Catalog.accessible(31,p),"first final recovery is not the ending")
    p.completed.append(31)
+   check(Ending.resolve(p,{}).is_empty(),"second old final recovery remains provisional before op34")
+   p.completed.append_array([32,33,34])
    var final=Ending.resolve(p,{})
    check(Campaign.valid(p) and final.id==old.id and final.photo_variant=="blind","all four endings retained without film gate")
    check(Ending.resolve(p,{},false).is_empty(),"wall switch restores old ending flow")
