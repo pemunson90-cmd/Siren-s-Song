@@ -52,6 +52,17 @@ func lost_craft()->int:
 	for id in launched:
 		if not units[id].alive or (id==0 and hull<=0):count+=1
 	return count
+func route()->String:
+	var key=str(definition.get("route_pars",{}).get("key",""))
+	if key.is_empty():return ""
+	var value=mission
+	for part in key.split("."):
+		if not value is Dictionary or not value.has(part):return ""
+		value=value[part]
+	return value if value is String and value.length()<=32 else ""
 func result(abandoned:bool=false)->Dictionary:
 	var reason=Rules.violation(self)
-	return {"time":elapsed,"hull":hull,"tools_used":used.duplicate(),"loss":abandoned or outcome!="won" or not rule_failure.is_empty() or not reason.is_empty(),"lost_craft":lost_craft(),"loud_time":loud_time}
+	var out={"time":elapsed,"hull":hull,"tools_used":used.duplicate(),"loss":abandoned or outcome!="won" or not rule_failure.is_empty() or not reason.is_empty(),"lost_craft":lost_craft(),"loud_time":loud_time}
+	var taken=route()
+	if not taken.is_empty():out.route=taken
+	return out
