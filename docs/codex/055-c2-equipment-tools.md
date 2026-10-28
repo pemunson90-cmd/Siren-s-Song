@@ -27,11 +27,11 @@ Import, core, and only the minimum suites in ORCHESTRATION section 5. Suite rank
 PR into claude/integration; merge on green; close per ORCHESTRATION section 7.
 
 ## Completion
-PR https://github.com/pemunson90-cmd/Siren-s-Song/pull/150: ac6c83ab gates passed40612282324; Native full-matrix timeouts had no assertion failures; landed C7 splits all cases by display. Head80bafd02 awaits fresh gates; C2 code unchanged.
-Recovery: claude/c2-equipment 80bafd02bb165616f11a5993a8ba0615c3d8c2d6, worktree 055-c2-equipment; next command gh pr checks 150.
-Windows import/core846/0, tools89/0, briefing touch52/0, craft upgrades11/0; new pairs9/11/16/22 preserve early rewards. Feedback touch12/0, cold warning UI218/0, Ops Home2096/0 on combined head in146s; layout probe stable, no code/test change for CI retry.
+PR https://github.com/pemunson90-cmd/Siren-s-Song/pull/150: ac6c83ab gates passed40612282324; Native full-matrix timeouts had no assertion failures; landed C7 splits all cases by display. Combined calibration now requires eight research projects and both approved C2 IDs (was six before those targets existed); fresh gates pending.
+Recovery: claude/c2-equipment 3bec8d269415aeba033aee76d973fee9ee6d79ed, worktree 055-c2-equipment; next command gh pr checks 150.
+Windows import/core846/0, tools89/0, briefing touch52/0, craft upgrades11/0; new pairs9/11/16/22 preserve early rewards. Feedback touch12/0, warning UI218/0, Ops Home2096/0; economy campaign109/0 across all presets/routes/profiles after strengthening the research assertion; import/core846/0.
 No APK or promotion. Integrationabd15c88 reconciled (C7 calibration and native display grouping); fresh import/core846/0; Pat's Relay decision is resolved, no further design decision pending.
-Additional necessary presentation seam: equipment_context.gd groups compatible carriers and retains their visibility; earlier minimal simulation/photo/HUD seams retained.
+Necessary extra seams: equipment_context.gd carrier grouping/visibility; economy_campaign_sim_tests.gd exact eight-project expectation plus both C2 target IDs. Earlier minimal simulation/photo/HUD seams retained.
 ## Native-render timeout lead for root's 058 owner
 
 SUPERSEDED by landed C7/PR157 (abd15c88): the full Operations Home matrix is partitioned into cover/inner/desktop native-render runs. All original cases, scales, recovery states and assertions remain. Do not apply the speculative Main guard for this timeout; it was never verified or implemented. 055 is reconciling that repair now.
