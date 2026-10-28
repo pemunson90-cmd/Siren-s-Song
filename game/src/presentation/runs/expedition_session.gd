@@ -14,6 +14,7 @@ var prior_mode=Node.PROCESS_MODE_INHERIT
 var prior_visibility:Array=[]
 var prior_sound_suspended=false
 var recorded=false
+var accept_rider=true
 func freeze_campaign()->void:
 	prior_mode=campaign_host.process_mode;prior_sound_suspended=campaign_host.sound.system_suspended
 	for child in campaign_host.get_children():
@@ -48,15 +49,22 @@ func _show_campaign()->void:
 	_menu_text(sim.mission.brief,17)
 	_menu_text("%s LOADOUT · %s · STARTING HUNT %d\nTools carry across recovered operations. Film and oxygen replenish for each dive."%[run_state.loadout.to_upper(),RunTable.SCARCITY[run_state.scarcity].to_upper(),RunState.starting_hunt(run_state,RunState.current_operation(run_state))],17)
 	if active_started:
+		_menu_text(sim.rider_status(),17)
 		_button(panel_box,"RESUME DIVE",_enter_water,"run_resume")
 		_button(panel_box,"END DIVE · LOSE RUN",func():_debrief(true),"run_abandon")
 	else:
+		var rider=RunState.rider_offer(run_state)
+		_menu_text(RunState.Riders.description(rider,RunState.rider_bonus_text(rider)),17)
+		if not rider.is_empty():
+			_button(panel_box,"RIDER · "+("ACCEPTED" if accept_rider else "DECLINED"),func():
+				accept_rider=not accept_rider;_show_campaign()
+			,"run_rider")
 		_button(panel_box,"BEGIN OPERATION · START PAUSED",_begin,"run_begin")
 		_button(panel_box,"RETURN TO MODES",_return,"run_return")
 	call_deferred("_layout")
 func _begin()->void:
 	if active_started or run_state.in_flight or RunOffers.pending(run_state):return
-	var launched=RunState.launch(run_state)
+	var launched=RunState.launch(run_state,accept_rider)
 	if not RunArchive.persist(campaign_host,launched):
 		_menu_text("LAUNCH PAUSED · "+str(campaign_host.get_meta("runs_save_error","Check storage and retry.")),17);return
 	run_state=launched;sim.configure(run_state);recorded=false
@@ -72,6 +80,10 @@ func _result_menu()->void:
 	_menu_text("EXPEDITION LOST" if run_state.status=="lost" else "EXPEDITION RECOVERED" if run_state.status=="won" else "OPERATION RECOVERED",30)
 	_menu_text("SEED %d · %d / %d RECOVERED"%[run_state.seed,run_state.cursor,run_state.operations.size()],20)
 	_menu_text(sim.message,17)
+	if not run_state.results.is_empty():
+		var r:Dictionary=run_state.results.back().get("rider",{})
+		if not r.get("assignment",{}).is_empty():
+			_menu_text("RIDER %s · BONUS %s"%["PASSED" if r.passed else "FAILED",RunState.rider_bonus_text(r.assignment) if r.passed else "NONE"],17)
 	_show_photo_grade(sim.mission.objectives)
 	if not RunArchive.persist(campaign_host,run_state):
 		_menu_text("RESULT NOT SAVED · "+str(campaign_host.get_meta("runs_save_error","")),17)
@@ -106,7 +118,8 @@ func _refresh()->void:
 	status_label.visible=screen=="mission"
 	if not status_label.visible:return
 	status_label.text="EXPEDITION · %d / %d · SEED %d"%[run_state.cursor+1,run_state.operations.size(),run_state.seed]
-	status_label.position=Vector2(12,ui_touch_height+24);status_label.size=Vector2(maxf(1,size.x-24),ui_touch_height)
+	if not sim.rider_status().is_empty():status_label.text+="\n"+sim.rider_status()
+	status_label.position=Vector2(12,ui_touch_height+24);status_label.size=Vector2(maxf(1,size.x-24),ui_touch_height*2)
 	status_label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;status_label.mouse_filter=Control.MOUSE_FILTER_IGNORE
 func _return()->void:
 	if not is_inside_tree():return
