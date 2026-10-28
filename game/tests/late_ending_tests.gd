@@ -31,7 +31,10 @@ func run():
       var expected={"deepconcealed":"silent_exodus","deepovert":"beacon_pact","shelfconcealed":"hidden_harbour","shelfovert":"surface_reckoning"}[thread+channel]
       var before=row.duplicate(true);var result=Ending.campaign_resolve(row)
       check(result.id==expected and row==before,"pure channel table "+str([thread,seed,glass,choir,plant]))
-      check(result.story.contains("Late record changed")== (channel!=seed),"cause line only on flip")
+      var flip_line="What Quietus did at the Glass and the Choir was heard. The Sirens learned its voice." if channel=="overt" else "Quietus went quiet at the Glass and the Choir. The Sirens lost its voice."
+      check(result.story.ends_with(flip_line) if channel!=seed else result.story==legacy.story,"plain directional cause line only on flip")
+      for key in ["glass_choice","choir_choice","choir_plant","glass choice","choir choice","choir plant"]:
+       check(not result.story.contains(key),"ending story keeps coded fact keys off screen: "+key)
       check(Ending.resolve(row).id==legacy.id,"expedition and historical fork remain unchanged")
    check(Ending.late_channel({"glass_choice":"unknown","choir_choice":"bypass"},seed)==seed,"unknown fact and single vote abstain")
  var game=load("res://scenes/main.tscn").instantiate();game.capture_scenario="runtime-test"
@@ -57,12 +60,14 @@ func run():
  game.expedition={};game._load_archive();game._show_campaign()
  check(Ending.campaign_resolve(game.expedition).id=="beacon_pact" and button(game,"ending")!=null,"old op34 save recomputes final family on load")
  game.CampaignFlow.show_ending(game,false)
- check(labels(game).contains("CAMPAIGN OUTCOME") and labels(game).contains("Late record changed the channel to overt"),"final outcome story visibly explains the flip")
+ check(labels(game).contains("CAMPAIGN OUTCOME") and labels(game).contains("What Quietus did at the Glass and the Choir was heard. The Sirens learned its voice."),"final outcome story visibly explains the flip")
  var flipped=game.expedition.duplicate(true);flipped.facts.warning_arrival="sheltered"
  check(Ending.campaign_resolve(flipped).story.contains("sheltered service passage"),"resulting overt family keeps arrival variant")
  flipped.facts.confluence_route="overt";flipped.completed.erase(12);flipped.completed.append(13)
  flipped.facts.glass_choice="sever";flipped.facts.choir_choice="isolate";flipped.facts.concealed_consequence="deep_trace_severed"
  check(Ending.campaign_resolve(flipped).story.contains("tracking float"),"resulting concealed family keeps consequence variant")
+ game._start_mission(12);game.sim.outcome="won";game._debrief()
+ check(game.screen=="photo_ending","post34 fork replay retains the final campaign photo path")
  game.queue_free();await process_frame
  for suffix in ["",".bak",".tmp"]:DirAccess.remove_absolute("user://088-old-ending.save"+suffix)
  print("LATE ENDING CHECKS %d FAILURES %d"%[checks,failures]);quit(1 if failures else 0)

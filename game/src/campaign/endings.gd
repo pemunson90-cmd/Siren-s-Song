@@ -32,11 +32,9 @@ static func campaign_resolve(progress:Dictionary)->Dictionary:
  var channel=late_channel(facts,seed)
  var result=resolve(progress,channel)
  if channel!=seed:
-  var causes=[]
-  for key in LATE_CHANNEL_FACTS:
-   var value=facts.get(key,"")
-   if LATE_CHANNEL_FACTS[key].get(value,"")==channel:causes.append(key.replace("_"," ")+": "+value)
-  result.story+=" Late record changed the channel to %s (%s)."%[channel,", ".join(causes)]
+  # Causes: glass_choice service/sever, choir_choice bypass/isolate,
+  # choir_plant reconnect/dismantle vote overt/concealed in LATE_CHANNEL_FACTS.
+  result.story+=" What Quietus did at the Glass and the Choir was heard. The Sirens learned its voice." if channel=="overt" else " Quietus went quiet at the Glass and the Choir. The Sirens lost its voice."
  return result
 
 static func course_line(progress:Dictionary)->String:

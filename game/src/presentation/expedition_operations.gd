@@ -41,7 +41,11 @@ static func debrief(main)->bool:
   if preload("res://src/presentation/finale/finale.gd").first_recovery(main,previous):return true
   main._show_ending();return true
  if main.sim.outcome=="won" and mission.id in [12,13] and not preload("res://src/campaign/endings.gd").resolve(main.expedition).is_empty():
-  main._show_ending();return true
+  # This recovery owns real arrival feedback; show its explicitly provisional
+  # fork outcome without entering the op34-gated final campaign/photo path.
+  if preload("res://src/campaign/endings.gd").campaign_resolve(main.expedition).is_empty():main.CampaignFlow.show_ending(main,false)
+  else:main._show_ending()
+  return true
  if main.sim.outcome=="won" and mission.get("recovered",false) and mission.id==11 and preload("res://src/presentation/confluence_resolution.gd").present(main):
   main._save_archive();return true
  if main.sim.outcome=="won" and mission.get("recovered",false):

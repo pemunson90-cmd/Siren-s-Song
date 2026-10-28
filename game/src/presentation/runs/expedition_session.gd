@@ -5,6 +5,8 @@ const RunState=preload("res://src/campaign/runs/run_state.gd")
 const RunArchive=preload("res://src/campaign/runs/run_archive.gd")
 const RunSimulation=preload("res://src/campaign/runs/expedition_run.gd")
 const RunTable=preload("res://src/campaign/runs/run_table.gd")
+const RunOffers=preload("res://src/campaign/runs/run_offers.gd")
+const OfferView=preload("res://src/presentation/runs/offer_view.gd")
 var campaign_host
 var run_state:Dictionary={}
 var return_to_list:Callable
@@ -38,6 +40,7 @@ func _start_mission(_index:int)->void:
 func _show_campaign()->void:
 	if not is_inside_tree():return
 	if recorded or run_state.status!="active":_result_menu();return
+	if RunOffers.pending(run_state):OfferView.show(self);return
 	if not sim.outcome.is_empty():_debrief();return
 	sim.paused=true;screen="expedition_menu";_clear_menu()
 	_menu_text("EXPEDITION · SEED %d"%run_state.seed,30)
@@ -52,7 +55,7 @@ func _show_campaign()->void:
 		_button(panel_box,"RETURN TO MODES",_return,"run_return")
 	call_deferred("_layout")
 func _begin()->void:
-	if active_started or run_state.in_flight:return
+	if active_started or run_state.in_flight or RunOffers.pending(run_state):return
 	var launched=RunState.launch(run_state)
 	if not RunArchive.persist(campaign_host,launched):
 		_menu_text("LAUNCH PAUSED · "+str(campaign_host.get_meta("runs_save_error","Check storage and retry.")),17);return
@@ -62,6 +65,7 @@ func _debrief(abandoned:bool=false)->void:
 	if recorded:return
 	recorded=true;sim.paused=true;screen="expedition_result";_clear_menu()
 	run_state=RunState.settle(run_state,sim.result(abandoned))
+	run_state=RunOffers.prepare(run_state)
 	_result_menu()
 func _result_menu()->void:
 	screen="expedition_result";_clear_menu()
@@ -75,12 +79,24 @@ func _result_menu()->void:
 		call_deferred("_layout");return
 	if run_state.status=="active":
 		_button(panel_box,"NEXT OPERATION",func():
+			if RunOffers.pending(run_state):OfferView.show(self);return
 			active_started=false;sim.configure(run_state);_start_mission(RunState.current_operation(run_state));active_started=false
 			# The saved result is consumed only when explicitly preparing the next dive.
 			recorded=false;_show_campaign()
 		,"run_next")
 	_button(panel_box,"RETURN TO EXPEDITIONS",_return,"run_return")
 	call_deferred("_layout")
+func _pick_offer(id:String)->void:
+	if not RunState.valid(run_state) or not RunOffers.pending(run_state):return
+	var picked=RunOffers.choose(run_state,id)
+	if picked==run_state:return
+	if not RunArchive.persist(campaign_host,picked):
+		OfferView.show(self)
+		_menu_text("CHOICE NOT SAVED · "+str(campaign_host.get_meta("runs_save_error","Retry when storage is available.")),17)
+		return
+	run_state=picked;recorded=false;active_started=false
+	sim.configure(run_state);_start_mission(RunState.current_operation(run_state));active_started=false
+	_show_campaign()
 func _unhandled_key_input(event:InputEvent)->void:
 	if event is InputEventKey and event.pressed and event.keycode==KEY_ESCAPE:get_viewport().set_input_as_handled()
 	super._unhandled_key_input(event)

@@ -204,6 +204,8 @@ func _normalize_files(files: Dictionary) -> Dictionary:
  var legacy=["", ".bak", ".challenges", ".challenges.bak"]
  if out.size()==legacy.size() and legacy.all(func(suffix):return out.has(suffix)):
   out[".runs"]=null;out[".runs.bak"]=null
+ if out.size()==6 and ["", ".bak", ".challenges", ".challenges.bak", ".runs", ".runs.bak"].all(func(suffix):return out.has(suffix)):
+  out[".career"]=null;out[".career.bak"]=null
  return out
 func _holds_ironman(files: Dictionary) -> bool:
  # Match normal load precedence: a valid new ordinary campaign can retain an old Ironman backup.
@@ -216,7 +218,7 @@ func _holds_ironman(files: Dictionary) -> bool:
 func _valid_archive(bytes: PackedByteArray, suffix: String) -> bool:
  var value = _payload(bytes)
  if value == null:return false
- var path = "res://src/campaign/runs/run_archive.gd" if suffix.begins_with(".runs") else "res://src/campaign/challenges/challenge_archive.gd" if suffix.contains("challenges") else "res://src/persistence/save_store.gd"
+ var path = "res://src/campaign/career/career_archive.gd" if suffix.begins_with(".career") else "res://src/campaign/runs/run_archive.gd" if suffix.begins_with(".runs") else "res://src/campaign/challenges/challenge_archive.gd" if suffix.contains("challenges") else "res://src/persistence/save_store.gd"
  var validator = load(path).new()
  return validator.valid(value)
 func _payload(bytes: PackedByteArray) -> Variant:
