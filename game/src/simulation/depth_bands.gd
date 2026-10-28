@@ -2,6 +2,7 @@ extends RefCounted
 # Three discrete water volumes. Transitions occupy BOTH volumes until settled.
 const NAMES=["SHALLOW","MIDDLE","DEEP"]
 const DURATION=4.0
+const FieldTools=preload("res://src/simulation/field_tool_effects.gd")
 const BandPhoto=preload("res://src/photo_depth/band_photo.gd")
 const BandHint=preload("res://src/photo_depth/band_hint.gd")
 static func initialize(sim):
@@ -47,6 +48,9 @@ static func clear(sim,a:Vector2,b:Vector2,band:int,radius:float=0.)->bool:
    if Geometry2D.segment_intersects_segment(a,b,first,last)!=null:return false
    if radius>0 and (Geometry2D.get_closest_point_to_segment(b,first,last).distance_to(b)<radius or Geometry2D.get_closest_point_to_segment(first,a,b).distance_to(first)<radius):return false
  return true
+# Optical rays also cross temporary silt; physical navigation/work clearance stays unchanged.
+static func optical_clear(sim,a:Vector2,b:Vector2,band:int)->bool:
+ return clear(sim,a,b,band) and not FieldTools.silt_blocks(sim,a,b,band)
 static func command(sim,band)->bool:
  if not band is int or band<0 or band>2:return false
  var u=sim.units[sim.selected]
@@ -92,7 +96,7 @@ static func transmission(a:Dictionary,b:Dictionary)->float:
  return .42 if absi(a.get("band",1)-b.get("band",1))==1 else .18
 static func sight(sim,a:Dictionary,b:Dictionary)->bool:
  for band in occupied(a):
-  if band in occupied(b) and clear(sim,a.pos,b.pos,band):return true
+  if band in occupied(b) and clear(sim,a.pos,b.pos,band) and not FieldTools.silt_blocks(sim,a.pos,b.pos,band):return true
  return false
 static func pursue(sim,enemy:Dictionary):
  var wanted=enemy.get("known_band",enemy.band)

@@ -30,6 +30,7 @@ const ObservedStun=preload("res://src/simulation/observed_stun.gd")
 const WorldRegion=preload("res://src/simulation/world_region.gd")
 const Economy=preload("res://src/campaign/economy.gd")
 const Voices=preload("res://src/campaign/voices/voices.gd")
+const FieldTools=preload("res://src/simulation/field_tool_effects.gd")
 
 # phase, feature module, method, input shape
 const save_checks = [
@@ -56,6 +57,7 @@ const save_checks = [
 	["world", Wake, "valid", "snapshot"],
 	["world", Chain, "valid", "snapshot"],
 	["world", Rendezvous, "valid", "mission_time"],
+	["world", FieldTools, "valid", "mission"],
 	["transport", Departure, "valid", "mission_time"],
 	["transport", Courier, "valid", "mission_time"],
 	["transport", Thermal, "valid_mission", "mission"],
