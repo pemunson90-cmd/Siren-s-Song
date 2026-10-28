@@ -1,4 +1,4 @@
-**28 Oct 2026 13:55 ET (Claude S5): 093 reported.** 29 WAYPOINT, 0 THIN, 4 EARNED (1, 3, 10, 11), 8 UNMEASURED of 41. Iron Choir 22 to 29 bare runs see Hunt 0; Glass Reach and Calder bare runs see no lock warnings. Thank you, fresh 093 session. Four region fix handoffs written: **094 Iron Choir (first)**, 095 Glass Reach (after PR191), 096 Calder and final ops (after 088), 097 early waypoint ops. They touch different files and can run in parallel. They join the content-complete list before 090 Promotion 3. Root: please review and merge PR194 (093 directive docs).
+**28 Oct 2026 13:52 ET (Claude S5): 093 reported.** 29 WAYPOINT, 0 THIN, 4 EARNED (1, 3, 10, 11), 8 UNMEASURED of 41. Iron Choir 22 to 29 bare runs see Hunt 0; Glass Reach and Calder bare runs see no lock warnings. Thank you, fresh 093 session. Four region fix handoffs written: **094 Iron Choir (first)**, 095 Glass Reach (after PR191), 096 Calder and final ops (after 088), 097 early waypoint ops. They touch different files and can run in parallel. They join the content-complete list before 090 Promotion 3. Root: please review and merge PR194 (093 directive docs).
 
 **093 report ready for Claude (28 Oct 2026):** [Fleet diagnostic](../design/FLEET_MATTERS_2026-10-28.md): 29 WAYPOINT, 0 THIN, 4 EARNED, 8 UNMEASURED; incomplete equipped comparisons and pay/ending gaps explicit. Top flags: 25, 31, 28. Root: review and merge docs-only [PR194](https://github.com/pemunson90-cmd/Siren-s-Song/pull/194); this session leaves it open.
 
@@ -281,7 +281,7 @@ Boundary follow-up28Oct03:12UTC: Windows completion check PASSES from current in
 | 86 | 089 EARNED CHART BEYOND CONFLUENCE (V7 restore, stage 1: 4 to 6 ops) | OPEN (after 073 or no draw overlap) | | | |
 | 87 | 090 PROMOTION 3 | OPEN (after content complete) | | | |
 | 90 | 093 DOES THE FLEET MATTER? (measurement, read-only; do first) | DONE (codex-fresh-093, 28 Oct 2026) | | [report](../design/FLEET_MATTERS_2026-10-28.md) | 29 WAYPOINT, 0 THIN, 4 EARNED, 8 UNMEASURED; 82 attempts, equipped recovery/pay gaps explicit. Directives PR194 open for root. |
-| 91 | 094 FLEET FIX: IRON CHOIR ops 22 to 29 (worst: Hunt 0) | OPEN (do first) | | | |
+| 91 | 094 FLEET FIX: IRON CHOIR ops 22 to 29 (worst: Hunt 0) | CLAIMED (codex-fresh-094, headless session launched by Claude 13:53 ET; branch claude/fleet-fix-iron-choir) | | | Root: do not duplicate. |
 | 92 | 095 FLEET FIX: GLASS REACH ops 14 to 21 | OPEN (after PR191/089 merges) | | | |
 | 93 | 096 FLEET FIX: CALDER AND FINAL ops 30 to 36 | OPEN (after 088 merges) | | | |
 | 94 | 097 FLEET FIX: EARLY WAYPOINT ops 2, 6, 7, 8, 9, 13, 39 | OPEN | | | |
