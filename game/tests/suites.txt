@@ -18,6 +18,7 @@ current_propulsion_tests|CURRENT PROPULSION|15|118
 current_motion_tests|CURRENT MOTION|16|65
 current_chart_seam_tests|CURRENT CHART SEAM|17|117
 v7_earned_region_tests|V7 EARNED REGION|18|179
+glass_earned_chart_tests|GLASS EARNED CHART|307|410
 v7_terrain_chart_tests|V7 TERRAIN CHART|19|181
 v7_earned_view_tests|V7 EARNED VIEW|20|180
 craft_upgrades_tests|CRAFT UPGRADES|21|116
@@ -307,7 +308,7 @@ optional_cache_tests|OPTIONAL CACHE|303|404
 optional_cache_journey_tests|OPTIONAL CACHE JOURNEY|304|405
 quality_tests|QUALITY|305|406
 quality_ui_tests|QUALITY UI|306|407|render
-arc_boundary_ui_tests|ARC BOUNDARY UI|307|410|render
+arc_boundary_ui_tests|ARC BOUNDARY UI|314|415|render
 economy_tests|ECONOMY|350|450
 economy_save_tests|ECONOMY SAVE|351|451
 economy_campaign_sim_tests|ECONOMY CAMPAIGN|352|452
