@@ -44,7 +44,7 @@ No APK, phone/human-test request, branch deletion, force push, amend or frozen-b
 
 ## Historical evidence
 
-[Previous long operational snapshot](RESUME_2026-10-24_HISTORY.md) preserves the dated023..032 reports, original failures, evidence links and superseded pauses. [PHOTO_RECON](PHOTO_RECON.md) separates camera capability from audit limits. CONTINUATION and WORKBENCH remain short pointers, not competing task lists.
+[Previous long operational snapshot](https://github.com/pemunson90-cmd/Siren-s-Song/blob/archive/docs-pre-sweep-20261027/docs/RESUME_2026-10-24_HISTORY.md) preserves the dated023..032 reports, original failures, evidence links and superseded pauses. [PHOTO_RECON](PHOTO_RECON.md) separates camera capability from audit limits. CONTINUATION and WORKBENCH remain short pointers, not competing task lists.
 
 
 ## 27 October 2026: Pat's documentation-only decisions and pause
