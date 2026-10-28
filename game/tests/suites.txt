@@ -244,7 +244,11 @@ order_table_tests|ORDER TABLE|223|246
 photo_window_rules_tests|PHOTO WINDOW RULES|224|247
 art_tests|ART|-|232
 art_render_measurements|ART RENDER|-|233|render
-ops_home_ui_tests|OPS HOME UI|240|260|render
+# Keep the full local matrix; bound each CI native-render process by display shape.
+ops_home_ui_tests|OPS HOME UI|240|-|render
+ops_home_cover_ui_tests|OPS HOME UI|-|260|render
+ops_home_inner_ui_tests|OPS HOME UI|-|287|render
+ops_home_desktop_ui_tests|OPS HOME UI|-|288|render
 menu_reach_ui_tests|MENU REACH UI|241|261|render
 settings_lifecycle_ui_tests|SETTINGS LIFECYCLE UI|242|262|render
 finale_provisional_tests|FINALE|243|263
