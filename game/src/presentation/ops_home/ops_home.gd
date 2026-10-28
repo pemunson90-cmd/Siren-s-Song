@@ -50,6 +50,20 @@ static func arrange(host)->void:
   if action(node)=="fittings":node.text="FITTINGS"
   if action(node)=="economy":node.text="SUPPLIES"
  preload("res://src/presentation/archive/archive_nav.gd").entry(host,shortcuts.get_index()+1)
+ var dossier=host._button(host.panel_box,"SIREN DOSSIER",func():load("res://src/presentation/siren_dossier/siren_dossier.gd").show(host),"siren_dossier")
+ dossier.custom_minimum_size.y=maxf(dossier.custom_minimum_size.y,host.ui_touch_height)
+ for node in host.panel_box.get_children():
+  if action(node)=="archive":
+   # Keep both dossier entry points while sharing one vertical slot. This
+   # preserves an actually exposed disabled mission row at dense layouts.
+   var index=node.get_index();var row=HBoxContainer.new()
+   row.add_theme_constant_override("separation",Table.GAP)
+   host.panel_box.add_child(row);host.panel_box.move_child(row,index)
+   node.reparent(row);dossier.reparent(row)
+   for button in [node,dossier]:
+    button.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+    button.custom_minimum_size.x=maxf(button.custom_minimum_size.x,host.ui_touch_height)
+   break
  var group=VBoxContainer.new();group.add_theme_constant_override("separation",Table.GAP);host.panel_box.add_child(group)
  var fold=host._button(host.panel_box,Table.TEXT.fold%recovered.size(),func():group.visible=not group.visible;host.call_deferred("_layout"),"recovered_fold")
  for node in recovered:node.reparent(group)
@@ -62,6 +76,7 @@ static func arrange(host)->void:
  # Detailed stock comparisons remain reachable without filling the home screen.
  var details=[];var collecting=false;var start=-1
  for node in host.panel_box.get_children():
+  if action(node)=="siren_dossier":continue
   if node is Label and node.text.begins_with("NEXT DIVE / RETRY"):
    collecting=true;start=node.get_index()
   if collecting:details.append(node)

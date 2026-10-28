@@ -6,10 +6,15 @@ const Sensors=preload("res://src/simulation/orders/sensor_orders.gd")
 const Route=preload("res://src/simulation/orders/route_orders.gd")
 const Photo=preload("res://src/simulation/orders/photo_orders.gd")
 const Features=preload("res://src/simulation/orders/feature_orders.gd")
+const Tools=preload("res://src/simulation/orders/tool_orders.gd")
 const TABLE = {
 	"emp": [Weapons, true],
 	"knock": [Weapons, true],
 	"decoy": [Weapons, true],
+	"sonobuoy": [Tools, true],
+	"silt_screen": [Tools, true],
+	"hull_patch": [Tools, false],
+	"relay_buoy": [Tools, true],
 	"ping": [Sensors, true],
 	"recon": [Sensors, true],
 	"select": [Route, true],

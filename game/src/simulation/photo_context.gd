@@ -15,7 +15,7 @@ static func resolve(sim,context:Dictionary)->Dictionary:
   if not o.get("optional",false) or not Photo.applies(o) or Photo.stage(o)=="lead":continue
   if o.captured and Photo.seen_before(sim,id).size()>=o.subject.features.size():continue
   if not Band.can_shoot(sim,u,o) or u.pos.distance_to(o.pos)>Photo.reach(sim,sim.selected):continue
-  if not sim.Depth.clear(sim,u.pos,o.pos,u.band):continue
+  if not sim.Depth.optical_clear(sim,u.pos,o.pos,u.band):continue
   var aim=absf(angle_difference(u.angle,u.pos.angle_to_point(o.pos)))+u.pos.distance_to(o.pos)/2000.
   if aim<score:best=id;score=aim
  if best>=0:

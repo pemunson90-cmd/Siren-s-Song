@@ -3,10 +3,12 @@ extends RefCounted
 # Future photo rules belong here and in the catalog; use filed observations, not hidden actors.
 # Revert with challenge_run.gd; there are no calls from the ordinary Simulation.
 const EPSILON=0.000001
-const FINITE_TOOLS=["emp","decoy","recon","knock"]
+const FieldTools=preload("res://src/equipment/field_tools.gd")
+static var FINITE_TOOLS:Array=FieldTools.ids()
 static func before(run,order:String,args:Dictionary)->String:
 	var p=run.policy
 	if order in p.get("blocked",[]):return "CHALLENGE · "+p.label
+	if order in FieldTools.field_ids() and (p.has("max_tools") or "emp" in p.get("blocked",[])):return "CHALLENGE · fixed charge loadout"
 	if order=="select" and p.has("crafts") and int(args.get("unit",-1)) not in p.crafts:return "CHALLENGE · drones are ashore"
 	if order=="depth" and p.has("band") and int(args.get("band",-1))!=int(p.band):return "CHALLENGE · stay in MIDDLE"
 	if order in FINITE_TOOLS and p.has("max_tools") and run.tools_used()>=int(p.max_tools):return "CHALLENGE · charge budget spent"
