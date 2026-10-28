@@ -1,8 +1,8 @@
 # Handoff 075: Profile export and import that works on a real phone (system file dialog or share path)
 
-Status: OPEN
-Claimed at: 
-Claimed by: 
+Status: CLAIMED
+Claimed at: 2026-10-28 09:43:24 UTC
+Claimed by: claude
 Finished at:
 
 Precondition: none beyond ORCHESTRATION. Scout note: Verify the DisplayServer dialog API on Android in 4.6.3 in the first 20 minutes. If unavailable, ship the Downloads fallback only. No APK or phone test is allowed, so the code path must be capability-probed and fully faked in tests. Read ORCHESTRATION_2026-10-26.md first.
@@ -35,3 +35,6 @@ PR into claude/integration; merge on green; close per ORCHESTRATION section 7.
 
 ## Completion
 (five lines max)
+
+## Claude claim (28 Oct)
+Claude builds this on `claude/c19-profile-transfer`. Codex: skip it.
