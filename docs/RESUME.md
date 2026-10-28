@@ -1,12 +1,12 @@
 # RESUME: operational entry
 
-**26 Oct 2026:** Pat's finish-the-game ruling (top of USER_DIRECTIVES) governs. Plan, streams and file ownership: `docs/codex/ORCHESTRATION_2026-10-26.md` on `codex/handoffs`. Milestone promotion PR148 open.
+**26 Oct 2026:** Pat's finish-the-game ruling (top of USER_DIRECTIVES) governs. Plan, streams and file ownership: `docs/codex/ORCHESTRATION_2026-10-26.md` on `codex/handoffs`. Milestone promotion PR148 merged on 26 October (ORCHESTRATION).
 
 Current boundary: Pat resumed locally on Windows and continued work on 25 October 2026 Eastern. The 23 October cloud stop and 24 October art pause are historical. Follow the current claim and Completion on `codex/handoffs`; do not restart completed work from dated notes.
 
 ## Source and authority
 
-Active integration: `claude/integration`. Last reconciled source baseline: 0fb3873e4c0650560d57d19c89b106ae3803747c, the verified merge of HUD PR146. A later live integration SHA is expected; fetch it at task boundaries. The board alone owns claims/completions.
+Active integration: `claude/integration`. Last reconciled source baseline: 4d23a033608f9b81e35b40874f6256247a7b4df6, including C7/display-group CI repair, optional geometry PR162 and event audio PR159. A later live integration SHA is expected; fetch it at task boundaries. The board alone owns claims/completions.
 Frozen `gauntlet/production` and protected `main` require Pat's promotion approval. Preserve branches, personal saves, evidence and signing identity.
 Current decisions: [USER_DIRECTIVES](USER_DIRECTIVES.md). Intended release: [CURRENT_GAME_SPEC](CURRENT_GAME_SPEC.md). Actual module seams, settings, saves, tests and safe reverts: [MODULES](MODULES.md).
 
@@ -16,7 +16,8 @@ Current decisions: [USER_DIRECTIVES](USER_DIRECTIVES.md). Intended release: [CUR
 - 41 operation IDs0..40 include Calder Trench: core32..34, optional35/36, manual shut-in work, deep photography and three physically recovered artifacts. END OF LINE now follows first recovery of34; the existing photo wall, four ending families and12/13 fork remain. Reward target entries arrive in054/055; narrative stays placeholder text.
 - Campaign ledger (078): END OF LINE and the ending wall show four fixed panels using saved outcomes only; absent people/artifact records read “not recorded.” AI-DESIGNED placeholders are in `campaign/ledger/ledger_table.gd`. Ledger appears only on the finale and ending screens.
 - 038/PR136 reorganizes Operations;044/PR141 gives Operations access to shared Settings, Title, Challenges and Credits.041/PR125 handles Android Back without Godot's default immediate quit.
-- 030/PR124 supplies three independent profiles, copy/clear and export/import.043/PR143 adds three manual saves and four automatic fork states, pinned to each physical profile. Restore replaces later progress, film and fittings; it does not merge. Default campaign erase preserves states.
+- 030/PR124 supplies three independent profiles, copy/clear and export/import.043/PR143 adds three manual saves and four automatic fork states, pinned to each physical profile. Non-Ironman restore replaces later progress, film and fittings; it does not merge. Default campaign erase preserves states.
+- [KEEL: 079 source] Ironman keeps one timeline: manual save and exact/fork restore are blocked, including older non-Ironman snapshots and stale profile Undo. Profile copy/import/export cannot clone or overwrite Ironman; clear and undo-clear remain available. Optional validated `save2_record.ironman` pins the snapshot flag. Automatic checkpoints, transaction rollback and crash `.bak` recovery remain active; other profiles retain ordinary behavior. Revert guards with `save2_table.ironman_lock=false` and `profile_rules.IRONMAN_GUARD=false`, retaining record validation.
 - 031/PR127 adds optional audio captions/color alternatives;032/PR130 contains Pat's selected new art with an old-art switch.045/046/047/049 merged in PR140: three early fitting grants, loss-cause presentation, challenge completion evidence and first-Siren cue extension.
 - 040/PR144 proves all 14 later photo rows by actual launch, travel, usable target film and retreat with live authored Sirens. Thirteen use endurance; relay uses disruption and 3 finite EMP charges. No production rule/data changes.
 
@@ -32,7 +33,7 @@ Current decisions: [USER_DIRECTIVES](USER_DIRECTIVES.md). Intended release: [CUR
 
 ## Next authorized work and limits
 
-033 documentation and048 HUD are merged in PR145/146. The050 feature is supplied in PR147; the live board and PR own its claim, exact-head verification and merge/completion record. Keep one claim at a time and consult the board for any next eligible handoff; do not infer extra assignments from historical queues.
+033 documentation,048 HUD and050 Hunt are merged in PR145/146/147. This continuation is scoped by Pat to079 Ironman integrity; root owns the remaining queue. The live board owns current assignments and completion; do not infer extra assignments from historical queues.
 For 050, Pat approved sight-only first: hearing, movement speed and lock timing stay unchanged. Earlier design text proposing hearing scaling is superseded. Keep tunable choices in tables with off switches/revert notes; keep working while ordinary reversible questions are pending. Protected mechanics, narrative/art direction, SIREN TELL and promotion still require Pat where not already authorized.
 Photography remains the primary military reconnaissance pillar; rescue, machinery and fleet work support it. Wider release modes/content and qualitative campaign assessment remain unfinished.
 
