@@ -27,7 +27,11 @@ Import, core, and only the minimum suites in ORCHESTRATION section 5. Ranks: Cod
 PR into claude/integration; merge on green; close per ORCHESTRATION section 7.
 
 ## Completion
-(five lines max)
+Codex CI repair returned to root: [PR159](https://github.com/pemunson90-cmd/Siren-s-Song/pull/159) OPEN / NOT MERGED; head20743b68 includes integration88188bd0.
+Fixed repeated event PCM synthesis in f6a542de: 36 setups6094.9ms to171.1ms; players/state remain local.
+Verified isolated import/core846/0, event-cue45/0, native Operations2060/0 (167.65s original;159.59s fixed).
+[CI40621139086](https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/40621139086): guidance PASS; ops_home_ui_tests repeats480s timeout, no reported assertion failure. No further rerun.
+Remaining: root investigates hosted renderer/suite performance and field-tool hooks afterPR150; claimed status retained. Only owned audio/test fix; imports preserved. [Report](https://github.com/pemunson90-cmd/Siren-s-Song/pull/159#issuecomment-6460051280).
 
 ## Claude claim (27 Oct)
 Claude builds this in parallel with Codex on branch `claude/c9-event-audio` (worktree Siren-s-Song-claude-*). Codex: skip it; Claude owns its listed files until DONE.
