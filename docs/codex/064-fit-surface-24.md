@@ -1,9 +1,9 @@
 # Handoff 064: FITTINGS AND BRIEFING FIT SURFACE AT 24-MODULE CATALOG SCALE
 
-Status: CLAIMED
+Status: DONE
 Claimed at: 2026-10-28 09:43:24 UTC
 Claimed by: claude
-Finished at:
+Finished at: 2026-10-28 11:16:55 UTC
 
 Precondition: 055 is DONE. Scout note: Handoff 055 (modules and field tools, PR150) DONE and merged so the full catalog and tool table exist; handoff 062 adds only one-line entry buttons here. Read ORCHESTRATION_2026-10-26.md first.
 Codex may merge: yes, into claude/integration only, on green guidance + game-smoke for the exact head, merge commit.
@@ -36,3 +36,5 @@ PR into claude/integration; merge on green; close per ORCHESTRATION section 7.
 
 ## Claude claim (28 Oct)
 Claude builds this on `claude/c18-fit-surface`. Codex: skip it.
+
+Reviewed closeout: PR178 merged49e3ca44; immutablehead8bfa330a independently approved (review1 APPROVE,Sol6.1high) and all required checks green40672195317. Ownership released; phone/human play is not claimed.

@@ -1,9 +1,9 @@
 # Handoff 081: Reduced motion, high contrast and safe palette do not reach the tactical chart
 
-Status: CLAIMED
+Status: DONE
 Claimed at: 2026-10-28 08:13:45 UTC
 Claimed by: codex-root-parallel
-Finished at:
+Finished at: 2026-10-28 11:16:55 UTC
 
 Precondition: 063 is DONE or remains unclaimed with chart ownership reserved to081. Scout note: Handoff 063 (performance pass edits presentation draw code) should be DONE or unclaimed so ocean_view.gd edits do not collide. No other claimed handoff owns these files. Read ORCHESTRATION_2026-10-26.md first.
 Codex may merge: yes, into claude/integration only, on green guidance + game-smoke for the exact head, merge commit.
@@ -39,3 +39,5 @@ No simulation, eligibility, sensing, story, save or art-color changes. No APK/ph
 Outside source ownership: only owned A11Y docs, append-only MODULES/RESUME notes and this handoff/board status.
 
 Root scheduling28Oct08:14UTC:063 is OPEN/unclaimed and waits on060, so its ordering dependency exists only to avoid draw-file collision.081 may proceed now; reserve chart/render files to081 and make063 wait for081 release. No design scope change.
+
+Reviewed closeout: PR171 merged32414cdd; immutablehead64e313ba independently approved (review2 APPROVE,Sol6.1high) and all required checks green40671791559. Ownership released; phone/human play is not claimed.

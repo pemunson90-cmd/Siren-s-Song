@@ -1,8 +1,8 @@
 # Handoff 065: Give the two new alien modules (Trench wellhead seal, Choir reed tuner) a world interaction, like the other four alien modules have
 
-Status: OPEN
-Claimed at: 
-Claimed by: 
+Status: CLAIMED
+Claimed at: 2026-10-28 11:16:55 UTC
+Claimed by: codex-root-queue
 Finished at:
 
 Precondition: 055 is DONE. Scout note: Handoff 055 / PR150 merged (the two modules exist only there). Read ORCHESTRATION_2026-10-26.md first.

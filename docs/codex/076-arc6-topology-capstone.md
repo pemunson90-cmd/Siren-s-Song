@@ -1,9 +1,9 @@
 # Handoff 076: ARC 6 DISTINCT TOPOLOGIES AND A STAGED CAPSTONE FOR OP 34
 
-Status: CLAIMED
+Status: DONE
 Claimed at: 2026-10-28 00:48:49 UTC
 Claimed by: codex-root-resume
-Finished at:
+Finished at: 2026-10-28 11:16:55 UTC
 
 Precondition: none. Read ORCHESTRATION_2026-10-26.md first.
 Codex may merge: yes, into claude/integration only, on green guidance + game-smoke for the exact head, merge commit.
@@ -43,3 +43,5 @@ Codex recovery: WIP9f6549b5 preserved; head6fed1d6f on claude/c11-arc6-capstone 
 CLAIMED by codex-root-resume pending fresh exact-head hosted checks: https://github.com/pemunson90-cmd/Siren-s-Song/pull/165 . Earlier run40634024945 superseded by integration movement.
 Reconciled-head import/core846/0 pass; source-known bare Calder30..36 journeys31/0, final-pair10/0, unchanged route-map67/0 and finale UI333/0 pass.
 Generated imports/UIDs preserved outside commits; no077, APK or protected-mechanics changes. Extra fixture: endings_photo_tests strictly retains both photos plus new receiver; no assertion weakening.
+
+Reviewed closeout: PR165 mergedc80c6c1c; immutablehead306d886d independently approved (review2 APPROVE,Sol6.1high) and all required checks green40671728387. Ownership released; phone/human play is not claimed.
