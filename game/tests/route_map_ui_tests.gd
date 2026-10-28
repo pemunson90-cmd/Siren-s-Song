@@ -31,7 +31,7 @@ func shape_case(shape):
   Preferences.current.text_scale=text_scale;await settle()
   var bounds=Rect2(Vector2.ZERO,view.size)
   for control in [view.legend,view.chart,view.detail]:
-   check(bounds.encloses(Rect2(control.position,control.size)),"legend, chart and detail stay within viewport at text scale "+str(text_scale))
+   check(bounds.encloses(Rect2(control.position,control.size)),"legend/chart/detail bounded scale=%s class=%s name=%s pos=%s size=%s view=%s h=%s"%[text_scale,control.get_class(),control.name,control.position,control.size,view.size,view._touch_height()])
   var expected_font=view._font(view._touch_height(),view.Table.VIEW.legend_font)
   var labels=view.legend.find_children("*","Label",true,false)
   check(not labels.is_empty() and labels.all(func(label):return label.get_theme_font_size("font_size")==expected_font),"every arc legend Label uses density and text-scaled font")

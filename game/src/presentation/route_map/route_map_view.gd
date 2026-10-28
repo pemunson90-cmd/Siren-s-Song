@@ -82,7 +82,10 @@ func _fit():
  legend.position=Vector2(margin,h+margin*Table.VIEW.legend_margin);legend.size=Vector2(size.x-margin*2,h*Table.VIEW.legend_height);legend.add_theme_font_size_override("font_size",_font(h,Table.VIEW.legend_font))
  for label in legend.find_children("*","Label",true,false):label.add_theme_font_size_override("font_size",_font(h,Table.VIEW.legend_font))
  chart.position=Vector2(margin,h*Table.VIEW.chart_top+margin);chart.size=Vector2(size.x-margin*2,maxf(h,size.y-h*Table.VIEW.chart_reserve-margin*2))
- detail.position=Vector2(margin,chart.position.y+chart.size.y+margin);detail.size=Vector2(size.x-margin*2,h);detail.add_theme_font_size_override("font_size",_font(h,Table.VIEW.detail_font))
+ detail.add_theme_font_size_override("font_size",_font(h,Table.VIEW.detail_font));detail.position=Vector2(margin,chart.position.y+chart.size.y+margin);detail.size=Vector2(size.x-margin*2,h)
+ # Wrapped Label minimum height is recomputed after its width/font changes.
+ # Apply the bounded height after that deferred update, including first layout.
+ detail.set_deferred("size",Vector2(size.x-margin*2,h))
  _nodes(h);queue_redraw()
 func _nodes(h):
  for child in board.get_children():board.remove_child(child);child.queue_free()
