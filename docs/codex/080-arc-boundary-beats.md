@@ -1,9 +1,9 @@
 # Handoff 080: ARC BOUNDARY BEATS AND ARC-GROUPED OPERATIONS LIST
 
-Status: OPEN
+Status: DONE
 Claimed at: 
 Claimed by: 
-Finished at:
+Finished at: 2026-10-28T22:42:43Z
 
 Precondition: 056 and 061 are DONE. Scout note: 056 DONE (it renames the EXPEDITIONS strings in the same files) and 061 merged or not claiming (shares the debrief seam). Read ORCHESTRATION_2026-10-26.md first.
 Codex may merge: yes, into claude/integration only, on green guidance + game-smoke for the exact head, merge commit.
@@ -35,4 +35,6 @@ Import + core. One new UI suite at both required viewports: card shown once, not
 PR into claude/integration; merge on green; close per ORCHESTRATION section 7.
 
 ## Completion
-(five lines max)
+Six arc cards and grouped Operations integrated; owned paths released, with shared run seams now root070.
+Accepted through PR207 head951f8e00, merge152111a1; independent source44/doc-base46, exact treea0db916ed060db16b3da2a920e19647f8b44016b.
+All seven current required checks SUCCESS, run40775745180; integrated-batch gate, not standalone task gates. Source-known; no physical-phone claim.

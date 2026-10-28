@@ -1,9 +1,9 @@
 # Handoff 092: HIDDEN RESCUE OF SORLEY'S BOY (experiment)
 
-Status: OPEN
+Status: DONE
 Claimed at:
 Claimed by:
-Finished at:
+Finished at: 2026-10-28T22:42:43Z
 
 Precondition: 088 is DONE (it owns ending resolution) and 086 is DONE (rescue facts). Read HANDOFF.md and ORCHESTRATION_2026-10-26.md first. Current review rule (Pat, 28 Oct): independent Sol6.1-high review of the frozen patch before commit and before merge.
 Codex may merge: yes, into claude/integration only, after independent approval and green required checks on the exact head, merge commit.
@@ -53,4 +53,6 @@ Rerun the op 37, ledger and ending suites.
 PR into claude/integration; independent review, merge on green; close per ORCHESTRATION section 7; add one line to LEDGER.md.
 
 ## Completion
-(five lines max; name the reward chosen and whether the rescue feeds 088's rule)
+Hidden physical rescue and epilogue integrated; Sorley pilotage reward preserved; no ending vote or thread change. Owned paths released, subject to root070 shared seams.
+Accepted through PR207 head951f8e00, merge152111a1; independent source44/doc-base46, exact treea0db916ed060db16b3da2a920e19647f8b44016b.
+All seven current required checks SUCCESS, run40775745180; integrated-batch gate, not standalone task gates. Source-known; no physical-phone claim.

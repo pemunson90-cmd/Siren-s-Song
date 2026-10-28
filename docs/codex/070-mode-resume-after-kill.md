@@ -1,8 +1,8 @@
 # Handoff 070: EXPEDITION AND CAREER DIVE RESUME AFTER APP KILL
 
-Status: RESERVED (codex-root; implementation waits for 069/PR204 merge and release)
-Claimed at: reserved 2026-10-28 16:56 ET
-Claimed by: codex-root; no implementation worker dispatched yet
+Status: CLAIMED (codex-root; actual implementation dispatched, session54516, Sol6.1 medium)
+Claimed at: 28 Oct 2026 UTC (dispatch; prior reservation 16:56 ET)
+Claimed by: codex-root/session54516; Siren-s-Song-codex-070, claude/lane-mode-resume; base152111a1; uses070-resume-scout.result.txt. UNCOMMITTED code only; future independent review before commit. No concurrent095/101 mode-archive writer: original101/session27092 exited and collected; localdb5b360 fixes need review/reconciliation later.
 Finished at:
 
 Precondition: 056 is DONE (career half after 057). Scout note: 056 DONE; 057 DONE for the career half. The expedition half can ship alone. Read ORCHESTRATION_2026-10-26.md first.
@@ -17,7 +17,7 @@ Spec basis: CURRENT_GAME_SPEC.md: "All modes share operation systems; their reso
 Evidence it is missing: The campaign persists a mid-dive snapshot (`active`, validated in persistence/save_store.gd via Simulation.valid_snapshot, resumed by 'RESUME DIVE' in presentation/flow/campaign_flow.gd). The challenge session deliberately does not (challenge_session.gd overrides _load_archive and _save_archive to pass). Handoffs 056 and 057 copy the challenge sidecar precedent and say nothing about an active dive. If Android kills the process mid-operation, a roguelite expedition run is lost, or an unrecorded career contract is silently voided with no recovery message.
 
 ## Base and branch
-Base: origin/claude/integration (fetch fresh). Create branch: claude/lane-mode-resume
+Base: accepted152111a1. Active worktree: Siren-s-Song-codex-070; branch: claude/lane-mode-resume
 
 ## Files you may edit
 New campaign/runs/run_active.gd (and later campaign/career/career_active.gd or a shared mode_active.gd); presentation/runs/run_session.gd; sidecar archive validators in persistence/profiles/* file sets. Tests: new mode_resume_tests (snapshot round trip, corrupt snapshot falls back, single settlement after resume).
@@ -26,7 +26,7 @@ New campaign/runs/run_active.gd (and later campaign/career/career_active.gd or a
  Lock, beam, collision, damage, hull rules, Siren senses, photography design. Files owned by any other CLAIMED handoff.
 
 ## Checks
-Import + core. Never more than ORCHESTRATION section 5 requires. Suite ranks: Codex local 300-349 / CI 400-449 next free.
+Import + core. Never more than ORCHESTRATION section 5 requires. Suite ranks: mode_resume_tests EXACT local318 / CI418, root checked against accepted and pending100/095/101 registries (supersedes tentative419).
 
 ## Return
 PR into claude/integration; merge on green; close per ORCHESTRATION section 7.

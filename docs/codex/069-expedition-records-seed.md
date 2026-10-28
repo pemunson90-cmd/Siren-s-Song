@@ -1,9 +1,9 @@
 # Handoff 069: EXPEDITION RUN SUMMARY, RECORDS AND SEED ENTRY
 
-Status: OPEN
+Status: DONE
 Claimed at: 
 Claimed by: 
-Finished at:
+Finished at: 2026-10-28T22:42:43Z
 
 Precondition: 056 is DONE. Scout note: 056 DONE. Read ORCHESTRATION_2026-10-26.md first.
 Codex may merge: yes, into claude/integration only, on green guidance + game-smoke for the exact head, merge commit.
@@ -32,4 +32,6 @@ Import + core. Never more than ORCHESTRATION section 5 requires. Suite ranks: Co
 PR into claude/integration; merge on green; close per ORCHESTRATION section 7.
 
 ## Completion
-(five lines max)
+Run summaries, bounded records and seed replay integrated; records/run ownership released to root070.
+Accepted through PR207 head951f8e00, merge152111a1; independent source44/doc-base46, exact treea0db916ed060db16b3da2a920e19647f8b44016b.
+All seven current required checks SUCCESS, run40775745180; integrated-batch gate, not standalone task gates. Source-known; no physical-phone claim.
