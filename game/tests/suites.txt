@@ -52,6 +52,7 @@ industrial_threats_tests|INDUSTRIAL THREATS|49|38
 iron_research_tests|IRON RESEARCH|50|41
 iron_choir_journeys|IRON JOURNEY|51|42
 iron_choir_ui_tests|IRON CHOIR UI|52|43
+carry_tests|CARRY|550|650
 onward_mission_tests|ONWARD MISSIONS|53|44
 wake_crossing_tests|WAKE CROSSING|54|16
 wake_crossing_journey_tests|WAKE CROSSING JOURNEY|55|17
@@ -208,6 +209,7 @@ fix2_feedback_ui_tests|FIX2 FEEDBACK UI|184|205|render
 fix2_state_tests|FIX2 STATE|185|206
 fix2_study_ui_tests|FIX2 STUDY UI|186|207|render
 photo_audio_tests|PHOTO AUDIO|187|208
+event_cue_tests|EVENT CUE|520|620
 first_siren_cue_tests|FIRST SIREN CUE|188|209
 first_siren_cue_ui_tests|FIRST SIREN CUE UI|189|210|render
 early_reward_tests|EARLY REWARD|190|211
@@ -255,6 +257,7 @@ menu_reach_ui_tests|MENU REACH UI|241|261|render
 settings_lifecycle_ui_tests|SETTINGS LIFECYCLE UI|242|262|render
 finale_provisional_tests|FINALE|243|263
 finale_provisional_ui_tests|FINALE UI|244|264|render
+ledger_tests|LEDGER|560|660
 save2_storage_tests|SAVE2 STORAGE|245|265
 save2_fork_tests|SAVE2 FORKS|246|266
 save2_ui_tests|SAVE2 UI|247|267|render
@@ -290,6 +293,8 @@ hunt_pressure_integration_tests|HUNT INTEGRATION|265|285
 hunt_meter_ui_tests|HUNT METER UI|266|286|render
 calder_trench_journey_tests|CALDER TRENCH JOURNEY|300|400
 regional_settings_tests|REGIONAL SETTINGS|301|401
+frame_cap_settings_tests|FRAME CAP SETTINGS|390|490
+optional_thread_journey_tests|OPTIONAL THREAD JOURNEY|302|402
 economy_tests|ECONOMY|350|450
 economy_save_tests|ECONOMY SAVE|351|451
 economy_campaign_sim_tests|ECONOMY CAMPAIGN|352|452

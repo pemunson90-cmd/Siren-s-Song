@@ -116,7 +116,7 @@ func _button(text: String, action: Callable, id: String, disabled := false) -> B
 		if target==host.menu_footer:target.show()
 		return control
 	var b := Button.new(); b.text = text; b.custom_minimum_size = Vector2(0, touch_height()); b.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	b.focus_mode = Control.FOCUS_NONE; b.disabled = disabled
+	b.focus_mode = Control.FOCUS_ALL; b.disabled = disabled
 	b.set_meta("action", id); b.set_meta("ui_action", id)
 	b.pressed.connect(action, CONNECT_DEFERRED); column.add_child(b); return b
 func _title_screen() -> void:
@@ -170,13 +170,18 @@ func _settings_screen() -> void:
 	for s in SettingsStore.TEXT_SCALES:
 		var scale: float = s
 		var b := Button.new(); b.text = "%d%%" % roundi(scale * 100); b.custom_minimum_size = Vector2(0, touch_height()); b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		b.focus_mode = Control.FOCUS_NONE; b.set_meta("ui_action", "text_scale_%d" % roundi(scale * 100)); b.toggle_mode = true; b.button_pressed = is_equal_approx(values.text_scale, scale)
+		b.focus_mode = Control.FOCUS_ALL; b.set_meta("ui_action", "text_scale_%d" % roundi(scale * 100)); b.toggle_mode = true; b.button_pressed = is_equal_approx(values.text_scale, scale)
 		b.pressed.connect(func(): _set_value("text_scale", scale); _settings_screen(), CONNECT_DEFERRED); sizes.add_child(b)
 	var audio_modes := HBoxContainer.new(); audio_modes.add_theme_constant_override("separation", 8); column.add_child(audio_modes)
 	var mute_button := _button("MUTE: %s" % ("ON" if values.master<=0 else "OFF"),_toggle_mute,"mute")
 	var night_button := _button("NIGHT MODE: %s" % ("ON" if values.night_mode else "OFF"), func(): _set_value("night_mode", not values.night_mode); _settings_screen(), "setting_night_mode")
 	for button in [mute_button, night_button]:
 		button.reparent(audio_modes); button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	for cap in [30, 60]:
+		var selected_cap: int = cap
+		var cap_button := Button.new(); cap_button.text = "CAP %d FPS" % selected_cap; cap_button.custom_minimum_size = Vector2(0, touch_height()); cap_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		cap_button.focus_mode = Control.FOCUS_ALL; cap_button.set_meta("ui_action", "frame_cap_%d" % selected_cap); cap_button.toggle_mode = true; cap_button.button_pressed = values.frame_cap == selected_cap
+		cap_button.pressed.connect(func(): _set_value("frame_cap", selected_cap); _settings_screen(), CONNECT_DEFERRED); audio_modes.add_child(cap_button)
 	for row in [["high_contrast", "HIGH CONTRAST"], ["reduced_motion", "REDUCED MOTION"], ["haptics", "HAPTICS"], ["safe_palette", "SAFE PALETTE"], ["audio_captions", "AUDIO CAPTIONS"]]:
 		var key: String = row[0]; var label: String = row[1]
 		_button("%s: %s" % [label, "ON" if values[key] else "OFF"], func(): _set_value(key, not values[key]); _settings_screen(), "setting_" + key)

@@ -5,6 +5,7 @@ extends RefCounted
 # Revert Table.enabled=false; keep the optional marker for re-enabling safely.
 const Table=preload("res://src/presentation/finale/finale_table.gd")
 const PhotoEnding=preload("res://src/campaign/endings_photo.gd")
+const LedgerView=preload("res://src/presentation/ledger/ledger_view.gd")
 static func eligible(host)->bool:
  return not PhotoEnding.resolve(host.expedition,host.photo_intel).is_empty()
 static func valid(data:Dictionary)->bool:
@@ -40,6 +41,7 @@ static func heading(host,ending:Dictionary)->bool:
  host.end_of_line_seen=true
  host._menu_text(Table.TITLE,Table.TITLE_SIZE)
  for line in lines(ending.choices):host._menu_text(line,Table.LINE_SIZE)
+ LedgerView.render(host,host.expedition,host.photo_intel)
  host._menu_text(Table.FILM_TITLE,Table.FILM_SIZE)
  return true
 static func credits_button(host)->void:
