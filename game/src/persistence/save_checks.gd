@@ -23,6 +23,7 @@ const Depth=preload("res://src/simulation/depth_bands.gd")
 const Industry=preload("res://src/simulation/industrial_threats.gd")
 const Choir=preload("res://src/simulation/industrial_jobs.gd")
 const Glass=preload("res://src/simulation/glass_reach_work.gd")
+const Cache=preload("res://src/simulation/optional_cache.gd")
 const Network=preload("res://src/simulation/acoustic_network.gd")
 const Sonar=preload("res://src/simulation/advanced_sonar.gd")
 const Photo=preload("res://src/simulation/photo_capture.gd")
@@ -43,6 +44,7 @@ const save_checks = [
 	["features", ObservedStun, "valid", "snapshot"],
 	["features", DroneOperations, "valid", "snapshot"],
 	["features", Glass, "valid", "snapshot"],
+	["features", Cache, "valid", "snapshot"],
 	["features", Choir, "valid", "snapshot"],
 	["features", Network, "valid", "snapshot"],
 	["features", Industry, "valid", "snapshot"],
