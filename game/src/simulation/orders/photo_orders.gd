@@ -22,7 +22,8 @@ static func command(sim, order: String, args: Dictionary) -> bool:
 				sim.Photo.begin(sim,sim.selected,photo_target)
 				if target.captured:sim.Recon.action(sim.mission,Tuning.REPEAT_PHOTO_ACTION)
 			sim.message="%s · hold %.0f seconds"%["Hydrophone reception" if target.get("kind","")=="exchange" else ("Passive hydrophone decode" if target.get("kind","")=="receiver" else ("Archive uplink" if target.get("kind","")=="uplink" else "Warning transmission" if sim.Operations.own_origin(target) else "Camera exposure")),sim._capture_duration(target,sim.selected)]
-			if target.get("kind","") not in ["receiver","exchange","transmitter"] or not sim.Sampler.capture_spec(sim.selected,sim.mission.get("launch_equipment",{}),target).is_empty():
+			if sim.Glass.begin_machine(sim,target,sim.selected,Tuning.PHOTO_FALLBACK_NOISE,Tuning.PHOTO_NOISE_TIME):pass
+			elif target.get("kind","") not in ["receiver","exchange","transmitter"] or not sim.Sampler.capture_spec(sim.selected,sim.mission.get("launch_equipment",{}),target).is_empty():
 				sim._noise(u.pos,sim.Photo.noise_radius(sim,sim.selected) if sim.Photo.applies(target) else Tuning.PHOTO_FALLBACK_NOISE,"CAMERA",Tuning.PHOTO_NOISE_TIME,u.band);sim.noises.back()["record"]=photo_target
 			sim.events.append({"type":"camera","pos":u.pos})
 		_:return false

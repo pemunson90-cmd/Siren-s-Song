@@ -37,6 +37,7 @@ const Acoustics = preload("res://src/simulation/acoustic_paths.gd")
 const TerrainChart=preload("res://src/simulation/terrain_chart.gd")
 const RouteProgram=preload("res://src/simulation/route_program.gd")
 const ModuleRecovery=preload("res://src/simulation/module_recovery.gd")
+const Cache=preload("res://src/simulation/optional_cache.gd")
 const Missions = preload("res://src/campaign/missions.gd")
 const Depth=preload("res://src/simulation/depth_bands.gd")
 const Industry=preload("res://src/simulation/industrial_threats.gd")
@@ -285,12 +286,13 @@ func signal_readings() -> Array:
 func extraction_corridors() -> Array:
 	return Consequences.corridors(self) if mission.get("expedition_revision",0)==2 else SignalField.corridors(self) if mission.has("expedition_revision") else [{"pos":mission.extraction,"name":"RECOVERY","route":"","available":all_records()}]
 func salvage_sites()->Array:
-	var sites=Witness.sites(self,Delivery.sites(self,ModuleRecovery.sites(self)))+Glass.sites(self)
+	var sites=Witness.sites(self,Delivery.sites(self,ModuleRecovery.sites(self)))+Glass.sites(self)+Cache.sites(self)
 	for site in sites:
 		if not site.has("band"):site["band"]=Depth.cargo_band(self,site.item)
 	return sites
 func salvage_context(item:String,unit_id:int=-1)->Dictionary:
 	var id=selected if unit_id<0 else unit_id
+	if Cache.pieces(self).has(item):return Cache.context(self,item,id)
 	if units[id].band!=Depth.cargo_band(self,item) or not units[id].transition.is_empty():return {"ready":false,"reason":"Salvage requires its recorded depth band","distance":0.,"active":false,"claimed_by":-1}
 	if item.begins_with("glass_"):return Glass.context(self,"recover",id)
 	if Witness.handles(self,item):return Witness.context(self,id,item).winch
@@ -340,6 +342,7 @@ func _try_extract(corridor:Dictionary,confirmed:bool=false)->bool:
 	if not Glass.can_extract(self,corridor):message="Bring the physical Reach material carrier to this recovery mouth in MIDDLE";return false
 	if not Choir.can_extract(self,corridor):message="Recover the actual industrial material carrier here in MIDDLE";return false
 	Glass.recover(self,corridor);Choir.recover(self,corridor)
+	Cache.recover(self,corridor)
 	ModuleRecovery.record(self,context)
 	if mission.has("expedition_revision"):mission.chosen_route=corridor.route;mission.recovered=true
 	outcome="won";paused=true;message="Archive recovered / "+corridor.name;events.append({"type":"extraction","pos":units[0].pos});return true
@@ -386,7 +389,7 @@ func capture_at_target(target:int)->Dictionary:
 func equipment_feedback()->Dictionary:
 	return {"fitted":mission.get("launch_equipment",Consequences.EMPTY_FIT).duplicate(true),"correlation":correlation.duplicate(true)}
 func _capture_duration(objective:Dictionary,unit_id:int)->float:
-	return Sampler.capture_spec(unit_id,mission.get("launch_equipment",{}),objective).get("duration",objective.get("duration",4.0))
+	return Glass.machine_duration(self,objective,unit_id,Sampler.capture_spec(unit_id,mission.get("launch_equipment",{}),objective).get("duration",objective.get("duration",4.0)))
 func passive_range(unit_id:int)->float:
 	return CraftUpgrades.passive_range(mission.get("launch_equipment",{}),unit_id)*(0.65 if mission.darkness else 1.0)*FieldTools.reach_scale(self,unit_id)
 func motion_radius(unit_id:int)->float:
@@ -505,6 +508,7 @@ func command(order: String,args: Dictionary={}) -> bool:
 		selected=0; queue_mode=false; message="Selected drone lost. Quietus selected; reissue the order."; return false
 	if order in ["camera","chain_power","chain_route","chain_send","concealed_tow","witness_land","warning_gate","warning_depart","rendezvous_release","wake_playback","shelf_warn","shelf_alarm"] and ((u.band!=1 and not (order=="camera" and BandPhoto.can_shoot(self,u))) or not u.transition.is_empty()):
 		message="Ascend to MIDDLE and settle for local work";return false
+	if Cache.blocks(self,order):message="Finish this craft's cache winch first";return false
 	var handler=Orders.TABLE.get(order,[])
 	if handler.is_empty():return false
 	var accepted:bool=handler[0].command(self,order,args)
@@ -620,7 +624,7 @@ func _camera_context_base() -> Dictionary:
 		var objective=mission.objectives[id]
 		if objective.captured and Photo.applies(objective) and not Operations.own_origin(objective) and Photo.seen_before(self,id).size()<objective.subject.features.size():
 			# A resolved record can be re-shot from a better viewpoint for what it missed.
-			if reshoot<0 and unit.pos.distance_to(objective.pos)<Photo.reach(self,selected) and line_clear(unit.pos,objective.pos):reshoot=id
+			if reshoot<0 and unit.pos.distance_to(objective.pos)<Photo.reach(self,selected) and Depth.optical_clear(self,unit.pos,objective.pos,unit.band):reshoot=id
 			continue
 		if objective.captured and not Operations.own_origin(objective) and not Delivery.needs_sample(self,id,selected): continue
 		if Operations.own_origin(objective):
@@ -631,7 +635,8 @@ func _camera_context_base() -> Dictionary:
 		var d:float=reception.distance if not reception.is_empty() else unit.pos.distance_to(objective.pos)
 		if not reception.is_empty() and reception.ready and best<0:best=id
 		if d<distance: nearest=id; distance=d
-		if d<Photo.reach(self,selected) and line_clear(unit.pos,objective.pos):
+		var photo_clear=Depth.optical_clear(self,unit.pos,objective.pos,unit.band) if Photo.applies(objective) else line_clear(unit.pos,objective.pos)
+		if d<Photo.reach(self,selected) and photo_clear:
 			# Several subjects in reach: the one the craft is turned toward is framed.
 			var aim_score:float=absf(angle_difference(unit.angle,unit.pos.angle_to_point(objective.pos)))+d/2000.0
 			if best<0:best=id;best_score=aim_score
@@ -760,6 +765,7 @@ func _tick(dt: float) -> void:
 	var vaporized=_threats(dt)
 	Network.advance(self,dt)
 	Glass.tick(self,dt);Choir.tick(self,dt)
+	Cache.tick(self,dt)
 	_hull_contacts(units[0],hull_origin,hull_velocity)
 	Depth.cargo_bands(self)
 	Shelf.tick(self)
@@ -780,7 +786,8 @@ func _tick(dt: float) -> void:
 		var exchange=o.get("kind","")=="exchange" and mission.get("blackwater_revision",0)==1
 		var mobile=Rendezvous.applies(mission) and o.get("site_id","")=="rendezvous"
 		var receiver=rendezvous_receiver(station) if mobile else blackwater_context(work.target,station) if exchange else {}
-		if not BandPhoto.can_shoot(self,u,o) or ((exchange or mobile) and not receiver.ready) or (Operations.own_origin(o) and not Operations.receiving(self,o,station)) or (not exchange and not mobile and not Operations.own_origin(o) and (u.pos.distance_to(o.pos)>Photo.reach(self,station) or not line_clear(u.pos,o.pos) or (o.has("siren") and not contact_visible(sirens[o.siren])))):
+		var photo_line_clear=Depth.optical_clear(self,u.pos,o.pos,u.band) if Photo.applies(o) else line_clear(u.pos,o.pos)
+		if not BandPhoto.can_shoot(self,u,o) or ((exchange or mobile) and not receiver.ready) or (Operations.own_origin(o) and not Operations.receiving(self,o,station)) or (not exchange and not mobile and not Operations.own_origin(o) and (u.pos.distance_to(o.pos)>Photo.reach(self,station) or not photo_line_clear or (o.has("siren") and not contact_visible(sirens[o.siren])))):
 			captures[station]={}
 			message=u.name+" · "+("Reception interrupted · move closer or SONAR for a local replay" if exchange else "Exposure interrupted · regain clear view")
 		elif exchange and not receiver.settled:work.elapsed=0.0
@@ -1428,7 +1435,7 @@ func _record_secured_core(record: Dictionary,unit_id:int=-1) -> void:
 		# A Siren study is film, not a charted record: it never advances an operation's own record logic.
 		Recon.secured(self,record,unit_id);events.append({"type":"record","pos":record.pos});message="Siren study filed · review it in FIELD RECORDS"
 		return
-	Glass.recorded(self,record)
+	Glass.recorded(self,record,unit_id)
 	Recon.secured(self,record,unit_id)
 	if Rendezvous.applies(mission) and mission.get("consequence_revision",0)==1 and record.get("site_id","")=="rendezvous":mission["measured_reference"]=mission.signal_sources[0].cadence.duplicate()
 	if mission.get("expedition_revision",0)==2:Operations.complete(self,record)

@@ -28,7 +28,7 @@ static func entries()->Array:
  var result=[]
  for id in IDS:
   var k=key(id)
-  result.append({"id":id,"factory":"res://src/campaign/calder_trench_operations.gd","config":{"source_id":id,"history":true},"behaviors":["signals_v2","history","glass_reach"]+(["thermal"] if id in [32,33,34] else []),"prerequisites":[31 if id==32 else 32 if id in [33,35,36] else 33],"facts":[k,k+"_bonus"],"records":[k,k+"_bonus",WORK_KEYS[id]]+(Capstone.keys().slice(0,2) if id==34 and L.ENABLED and Capstone.ENABLED else []),"campaign":true,"route":"","required_facts":{}})
+  result.append({"id":id,"factory":"res://src/campaign/calder_trench_operations.gd","config":{"source_id":id,"history":true},"behaviors":["signals_v2","history","glass_reach"]+(["thermal"] if id in [32,33,34] else []),"prerequisites":[31 if id==32 else 32 if id in [33,35,36] else 33],"facts":[k,k+"_bonus"],"records":[k,k+"_bonus",WORK_KEYS[id]]+(Capstone.keys().slice(0,2) if id==34 and L.ENABLED and Capstone.ENABLED else [])+([L.MODULE_SITES[34].key] if id==34 and L.MODULE_SITES_ENABLED else []),"campaign":true,"route":"","required_facts":{}})
  return result
 static func make(id:int,history:Dictionary={})->Dictionary:
  return build({"source_id":id,"history":true},history)
@@ -49,12 +49,20 @@ static func build(c:Dictionary,history:Dictionary={})->Dictionary:
   m.objectives[2]=W.machine(works[2].key,works[2].name,works[2].pos,works[2].effect,false,12.)
   for stage in [0,1]:m.objectives.append(W.machine(works[stage].key,works[stage].name,works[stage].pos,works[stage].effect,false,12.))
   m.structures=works.map(func(w):return w.gate)
+ # 065 optional interactions share CAMERA work, never required_site_ids.
+ if L.MODULE_SITES_ENABLED and id in L.MODULE_SITES:
+  var site=L.MODULE_SITES[id]
+  if id==34:
+   m.objectives.append(W.machine(site.key,site.name,row.current+site.offset,site.effect.duplicate(true),true,site.duration,site.module))
+  else:m.objectives[2].needs_item=site.module
  m.glass_reach={"work_pos":row.work,"job":{},"choice":"","gate_open":false,"artifact":W.cargo(ITEMS[id],row.cargo,row.cargo_band) if id in ITEMS else {},"retrieved":false}
  if id in [32,33,34]:
   m.currents=[{"center":row.current,"radius":600.,"velocity":Vector2(0,12)}]
   m.thermal_revision=1;m.thermal_fronts=[{"area":row.front,"transmission":.55,"close_range":90.}]
  m.brief=ACCOUNTS[id]+"\nPrimary photograph is in DEEP. Return Quietus to "+row.mouth+" in settled MIDDLE. "+(CAPSTONE_BRIEF if not works.is_empty() else WORK_BRIEF if id in [32,33,34] else OPTIONAL_BRIEF)
  if id in ITEMS:m.brief+=" Use REACH WORK to winch the marked physical material within60m at DEEP, then return its living carrier to the recovery mouth."
+ if L.MODULE_SITES_ENABLED and id in L.MODULE_SITES:
+  m.brief+="\nAI-DESIGNED optional CAMERA work: seal on Quietus halves marked pump/lift time and sound; tuner on a drone silences the marked breaker. Bare work takes12s."
  return m
 static func _photo(k:String,label:String,pos:Vector2,band:int,art:String,optional:bool)->Dictionary:
  var feature=P.F("mark",label,0.,PI,0.12,0.,{"art":art,"glow":.7,"finding":{"kind":"person" if label=="DRILLERS AND GUARDS AT THE GLASS" else "note","text":label,"off":Vector2.ZERO}})

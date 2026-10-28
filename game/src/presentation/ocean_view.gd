@@ -32,6 +32,11 @@ var rocks: Array = []
 var foundry=preload("res://assets/structures/foundry.png")
 var quietus=preload("res://assets/craft/quietus.png")
 var basalt=preload("res://assets/materials/basalt.png")
+# Presentation-only static contours. Disable to rebuild the identical points on
+# every draw; cache retains only the last world extent and never reads sim state.
+var contour_cache_enabled := true
+var _contour_extent := Vector2(-1,-1)
+var _contour_points: Array = []
 var camera_flash := 0.0
 var decoy_targeting:=false
 var knock_targeting:=false
@@ -207,6 +212,17 @@ func knock_aim_key(point:Vector2) -> int:
 		if point.distance_to(target.anchor)<knock_touch_size/2:hits.append(target.key)
 	# A broad phone hit area cannot infer intent between overlapping bodies.
 	return hits[0] if hits.size()==1 else -1
+func _depth_contours(extent: Vector2) -> Array:
+	if contour_cache_enabled and extent==_contour_extent:return _contour_points
+	var lines: Array=[]
+	for n in int(ceil(extent.y/135.0)):
+		var points=PackedVector2Array()
+		for k in int(ceil(extent.x/38.0))+1:
+			points.append(Vector2(k*38,80+n*135+sin(k*0.19+n)*32))
+		lines.append(points)
+	if contour_cache_enabled:
+		_contour_extent=extent;_contour_points=lines
+	return lines
 func _draw() -> void:
 	if sim==null or ocean==null: return
 	_sync_camera()
@@ -223,10 +239,7 @@ func _draw() -> void:
 	for y in range(0,int(region.y)+1,160):
 		draw_line(Vector2(0,y),Vector2(region.x,y),Color(0.3,0.65,0.67,0.06),1)
 	# Depth contours and abyssal fissures occupy the navigable seabed.
-	for n in (int(ceil(region.y/135.0)) if earned.is_empty() else 0):
-		var points=PackedVector2Array()
-		for k in int(ceil(region.x/38.0))+1:
-			points.append(Vector2(k*38,80+n*135+sin(k*0.19+n)*32))
+	for points in (_depth_contours(region) if earned.is_empty() else []):
 		draw_polyline(points,Color(0.12,0.3,0.33,0.11),1.2)
 	# Briefed environment only; no listener positions or hidden arrival paths.
 	# Kept below stone, fog, craft and the foreground charging/beam warnings.

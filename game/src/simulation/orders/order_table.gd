@@ -37,6 +37,7 @@ const TABLE = {
 	"camera": [Photo, true],
 	"choir_action": [Features, false],
 	"glass_action": [Features, false],
+	"cache_action": [Features, false],
 	"depth": [Features, false],
 	"sonar_mode": [Features, false],
 	"wake_playback": [Features, false],
