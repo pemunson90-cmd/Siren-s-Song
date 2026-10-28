@@ -23,12 +23,14 @@ func run():
   root.size=dimensions;await frames()
   var g=load("res://scenes/main.tscn").instantiate();g.set_script(load("res://tests/density_main.gd"));g.store.path="user://glass-ui-"+str(dimensions.x)+".save"
   for suffix in ["",".bak",".tmp"]:DirAccess.remove_absolute(g.store.path+suffix)
+  g.capture_scenario="runtime-test"
   root.add_child(g);await frames();g.set_process(false)
   g.completed=[0,1,2,3,4,5];g.unlocked=5;g.expedition=progress(dimensions.x==2184);g._show_ending();await frames()
-  var buttons=g.panel_box.get_children().filter(func(c):return c is Button and c.get_meta("action","")=="continue_glass")
-  check(buttons.size()==1,"recovered outcome offers ordinary Glass Reach Continue")
+  check(g.screen=="menu" and g.panel_box.get_children().any(func(c):return c is Label and c.text=="Course so far: %s (provisional)."%g.Endings.resolve(g.expedition).title),"pre-op34 ending redirects to Operations with provisional course line")
+  var buttons=g.panel_box.get_children().filter(func(c):return c is Button and c.get_meta("action","")=="expedition14" and not c.disabled)
+  check(buttons.size()==1,"provisional Operations offers available Glass Reach operation")
   if buttons.size()==1:
-   g.scroll.ensure_control_visible(buttons[0]);await frames();await tap(buttons[0]);check(g.screen=="briefing","actual Continue touch opens new content briefing")
+   g.scroll.ensure_control_visible(buttons[0]);await frames();await tap(buttons[0]);check(g.screen=="briefing" and g.get_meta("onboard2_fit_index",-1)==14,"actual Operations touch opens Glass Reach briefing")
   g.expedition.completed.append_array([14,15,16,17]);g._start_mission(18);g._enter_water();g.sim.sirens=[];g.sim.units[0].pos=g.sim.mission.glass_reach.work_pos+Vector2(0,35);g.sim.units[0].vel=Vector2.ZERO;g._focus_craft();g.mission_hud.open("craft");g._refresh();await frames()
   check(g.mission_hud.extra.has("glass_work"),"new craft-local work control exists")
   if g.mission_hud.extra.has("glass_work"):
