@@ -32,8 +32,8 @@ Import and core. Extend cue_tests.gd: with all three settings off the draw-comma
 PR into claude/integration; merge on green; close per ORCHESTRATION section 7.
 
 ## Completion
-WIP: existing chart settings wired reversibly; PR [171](https://github.com/pemunson90-cmd/Siren-s-Song/pull/171), head93b9fdbf15ecb1aa6bb6b34a6665c88b2483bf36 on integration0320f632.
-Isolated import pass; core848/0, cue49/0, Compatibility cue/render63/0; standard legacy/earned charts byte-identical to pre081 source. Guidance pass.
+WIP: existing chart settings wired reversibly; PR [171](https://github.com/pemunson90-cmd/Siren-s-Song/pull/171), headf692ac85f9a784a129d4c9de0b356a6b4988d471 on integration0320f632.
+Isolated import pass; core848/0, cue52/0, Compatibility cue/render66/0; standard legacy/earned charts byte-identical to pre081 source. Guidance pass.
 Root collects exact-head hosted guidance/game-smoke and merges; CLAIMED until verified merge. 063 still waits for draw-file release.
 No simulation, eligibility, sensing, story, save or art-color changes. No APK/phone/human perception checks; camera_flash is an unused chart timer capped under reduced motion.
 Outside source ownership: only owned A11Y docs, append-only MODULES/RESUME notes and this handoff/board status.
