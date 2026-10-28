@@ -27,10 +27,16 @@ func copy():
 		if c is Label or c is Button:text+=c.text+"\n"
 	return text
 func stock(s):return "O₂ %d%% · DISRUPT %d · SURVEY %d"%[s.oxygen,s.tools.emp,s.tools.recon]
+# Explicit loading keeps this test about selected stock, launch and resume,
+# while the default templates preserve winch room rather than granting tools.
+func load_tools(host):
+	var Tools=preload("res://src/equipment/field_tools.gd")
+	host.tool_racks=preload("res://src/equipment/tool_racks.gd").empty()
+	for id in Tools.ids():host.tool_racks.quietus[id]=Tools.loadout_count(id,host.upgrade)
 func run():
 	root.size=Vector2i(1280,720);await settle()
 	game=load("res://scenes/main.tscn").instantiate();game.capture_scenario="loadout-test";game.store.path="user://test-loadout-ui.save";root.add_child(game);await settle();game.set_process(false)
-	game.upgrade="endurance";game._start_mission(0)
+	game.upgrade="endurance";load_tools(game);game._start_mission(0)
 	game.sim.command("emp");game.sim.command("recon");game.sim.command("route",{"point":Vector2(300,800)});game.sim.paused=true
 	var active=game.sim.snapshot();game._show_campaign();await settle()
 	await click(button("launch_details"))
@@ -38,6 +44,8 @@ func run():
 	for choice in ["endurance","disruption","survey"]:
 		var s=load("res://src/simulation/simulation.gd").new();s.start(0,choice);starts[choice]=s
 	for choice in ["endurance","disruption","survey"]:
+		load_tools(game);game._show_campaign();await settle()
+		if not game.get_meta("ops_home_details_open",false):await click(button("launch_details"))
 		check(game.upgrade==choice,"genuine cycle input reaches "+choice)
 		var text=copy();var expected=stock(starts[choice])
 		check("NEXT DIVE / RETRY" in text and choice.to_upper() in text and expected in text,"selected "+choice+" starting stock is advertised before launch")
@@ -45,7 +53,7 @@ func run():
 			var s=starts[option];var row="%s · %d%% / %d / %d"%[option.to_upper(),s.oxygen,s.tools.emp,s.tools.recon]
 			check("O₂ / DISRUPT / SURVEY" in text and row in text,"comparison exposes actual "+option+" stock while "+choice+" selected")
 		var ordinary=starts[choice];var drones=ordinary.units.slice(1).filter(func(u):return u.alive).size()
-		check(("%d DECOYS"%ordinary.tools.decoy) in text and ("%d DRONES"%drones) in text,"common equipment matches actual start while "+choice+" selected")
+		check("FREE TOOLS:" in text and ("%d DECOYS"%ordinary.tools.decoy) in text and ("%d DRONES"%drones) in text,"common equipment matches actual start while "+choice+" selected")
 		check(button("resume")!=null and button("resume").text.begins_with("RESUME DIVE") and game.sim.snapshot()==active,"selection explains active equipment preservation")
 		check(game.sim.snapshot()==active,"cycling next-dive choice preserves spent resources and paused route")
 		print("CHOICE ",choice," expected=",expected," active=",game.sim.tools," labels=",text)
@@ -65,7 +73,7 @@ func run():
 		root.size=dimensions;await settle()
 		var dense=load("res://scenes/main.tscn").instantiate();dense.set_script(load("res://tests/density_main.gd"));dense.capture_scenario="loadout-density";dense.store.path="user://test-loadout-density.save"
 		if dimensions.x==2520:dense.fixture_safe_area=Rect2(136,0,2384,1080)
-		root.add_child(dense);dense.set_process(false);await settle();dense.upgrade="survey";dense._start_mission(0);dense._show_campaign();await settle()
+		root.add_child(dense);dense.set_process(false);await settle();dense.upgrade="survey";load_tools(dense);dense._start_mission(0);dense._show_campaign();await settle()
 		var original_game=game;game=dense;await click(button("launch_details"));game=original_game
 		dense.scroll.scroll_vertical=100000;await settle()
 		var area=dense.scroll.get_global_rect();var selected=false;var comparison=false

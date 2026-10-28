@@ -39,12 +39,12 @@ static func show_campaign(host) -> void:
 	host._menu_text("Field records remain reviewable after loss or abandonment. Only successful extraction advances the campaign.",14)
 	var stock=host._loadout_stock(host.upgrade)
 	host._menu_text("NEXT DIVE / RETRY · %s\nO₂ %d%% · DISRUPT %d · SURVEY %d"%[host.upgrade.to_upper(),stock[0],preload("res://src/equipment/tool_racks.gd").total(host.tool_racks,"emp"),preload("res://src/equipment/tool_racks.gd").total(host.tool_racks,"recon")],15)
-	var rows=["COMPARE: O₂ / FREE DISRUPT ALLOWANCE / FREE SURVEY ALLOWANCE"]
+	var rows=["COMPARE: O₂ / DISRUPT / SURVEY"]
 	for choice in ["endurance","disruption","survey"]:
 		var supplies=host._loadout_stock(choice)
 		rows.append("%s · %d%% / %d / %d"%[choice.to_upper(),supplies[0],supplies[1],supplies[2]])
 	host._menu_text("\n".join(rows),14)
-	host._menu_text("FREE TOOL ALLOWANCES: 3 DECOYS / 2 TORPEDOES\nLoad tool charges in Fittings; they use cargo and spend winch space.\nFLEET: 2 DRONES SUPPLIED\nDISRUPT: 12s / SURVEY: 8s, audible",14)
+	host._menu_text("FREE TOOLS: 3 DECOYS / 2 TORPEDOES; 2 DRONES\nDISRUPT: 12s / SURVEY: 8s, audible",14)
 	host._button(host.panel_box,"CYCLE LOADOUT · endurance / disruption / survey",host._cycle_loadout,"loadout")
 	host._button(host.panel_box,"AUDIO / SETTINGS",host._settings_menu,"settings")
 	preload("res://src/presentation/ops_home/ops_home.gd").arrange(host)
@@ -101,11 +101,10 @@ static func briefing(host, index: int) -> void:
 	var fit_start=host.panel_box.get_child_count()
 	if not host._campaign_pristine() and not EconomyPanel.briefing_line(host).is_empty():host._menu_text(EconomyPanel.briefing_line(host),14)
 	preload("res://src/presentation/crew/crew_view.gd").briefing(host,index)
-	host._menu_text("NEXT DIVE / RETRY · %s\nO₂ %d%% · DISRUPT %d · SURVEY %d · %s"%[host.upgrade.to_upper(),stock[0],preload("res://src/equipment/tool_racks.gd").total(host.tool_racks,"emp"),preload("res://src/equipment/tool_racks.gd").total(host.tool_racks,"recon"),preload("res://src/presentation/tool_racks_view.gd").stock(host)],17)
+	host._menu_text("NEXT DIVE / RETRY · %s\nO₂ %d%% · DISRUPT %d · SURVEY %d"%[host.upgrade.to_upper(),stock[0],preload("res://src/equipment/tool_racks.gd").total(host.tool_racks,"emp"),preload("res://src/equipment/tool_racks.gd").total(host.tool_racks,"recon")],17)
 	# Frames open after the first dive; recovered fittings appear once earned. A toggle folds them away.
 	if not compact:fit_start=host.panel_box.get_child_count()
 	# Keep the first briefing focused; fit details stay available in its existing optional fold.
-	host._menu_text(preload("res://src/presentation/tool_racks_view.gd").summary(host),14)
 	host._button(host.panel_box,"EDIT TOOL RACKS / FITTINGS",host._show_fittings,"edit_racks")
 	FitSurface.summary(host,host._equipment_context())
 	var fold_control:Button=null

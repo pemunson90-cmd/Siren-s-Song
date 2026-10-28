@@ -3,6 +3,9 @@ const Routes=preload("res://tests/campaign_scenarios.gd")
 static func run(t,game) -> void:
 	game.completed=[]; game.unlocked=0; game.upgrade="disruption"
 	for id in 6:
+		# These established routes spend finite diversions; explicitly fit their stock.
+		game.tool_racks=preload("res://src/equipment/tool_racks.gd").empty()
+		game.tool_racks.quietus={"emp":3,"decoy":3,"recon":2,"knock":2}
 		game._briefing(id); await t.process_frame
 		var begin
 		for child in game.panel_box.get_children()+game.menu_footer.get_children():
