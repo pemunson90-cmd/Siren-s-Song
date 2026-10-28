@@ -16,7 +16,8 @@ static func _state(sim)->Dictionary:
  return sim.mission.get("module_recovery",{"modules":{},"jobs":[{},{},{}],"result":{},"deferred":""})
 static func _name(item:String)->String:return Catalog.ITEMS.get(item,{}).get("name",item)
 # Winch carriage is the craft's free cargo budget; the standard frames hold two.
-static func capacity(sim,unit_id:int)->int:return Upgrades.cargo_free(sim.mission.get("launch_equipment",{}),unit_id)
+static func capacity_data(mission:Dictionary,unit_id:int)->int:return Upgrades.cargo_free(mission.get("launch_equipment",{}),unit_id)
+static func capacity(sim,unit_id:int)->int:return capacity_data(sim.mission,unit_id)
 static func carried(sim,unit_id:int)->int:
  var state=_state(sim);var count=0
  for item in state.modules:
@@ -27,7 +28,7 @@ static func carried(sim,unit_id:int)->int:
   if artifact.get("state","")=="cargo" and artifact.get("carrier",-1)==unit_id:count+=1
  var witness:Dictionary=sim.mission.get("witness_evacuation",{})
  if witness.get("state","")=="carried" and witness.get("carrier",-1)==unit_id:count+=1
- return count
+ return count+sim.Cache.carried(sim,unit_id)
 static func status(sim)->Dictionary:
  var state=_state(sim);var result={"modules":[],"cargo":[[],[],[]],"jobs":[{},{},{}],"result":state.result.duplicate(true)}
  for item in state.modules:

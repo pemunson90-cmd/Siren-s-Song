@@ -7,6 +7,7 @@ const Operations=preload("res://src/presentation/operation_instruments.gd")
 const Equipment=preload("res://src/presentation/equipment_context.gd")
 const Expedition=preload("res://src/presentation/expedition_view.gd")
 const Recovery=preload("res://src/presentation/module_recovery_view.gd")
+const Cache=preload("res://src/presentation/optional_cache_view.gd")
 const Rendezvous=preload("res://src/presentation/rendezvous_view.gd")
 const WarningChain=preload("res://src/presentation/warning_chain_view.gd")
 const Delivery=preload("res://src/presentation/blackwater_delivery_view.gd")
@@ -76,6 +77,7 @@ func setup(owner):
  extra.audio_log=host._button(self,"AUDIO\nLOG",func():_extra("audio_log"),"audio_log")
  close_button=host._button(self,"BACK",_back,"radial_back")
  preload("res://src/presentation/field_tool_view.gd").setup(self)
+ Cache.setup(self)
  for entry in [["tools_menu","TOOLS"],["route_menu","ROUTE"],["guard_menu","GUARD"],["inspect","STATUS"],["route_here","ROUTE HERE"],["arrivals","ARRIVALS"],["view_menu","VIEW"],["salvage","RECOVER\n4s AUDIBLE"],["rendezvous_release","RELEASE BERTH\n950m / 6s"]]:
   var key=entry[0];extra[key]=host._button(self,entry[1],func():_extra(key),key)
  extra.all_stop=host._button(self,"ALL STOP",func():host._order("all_stop");open("route"),"all_stop")
@@ -289,6 +291,7 @@ func _outside(event):
  if (event is InputEventScreenTouch and event.pressed) or (event is InputEventMouseButton and event.pressed):dismiss();accept_event()
 func command_controls() -> Array:
  match page:
+  "cache":return Cache.controls(self)
   "choir":
    var controls=[]
    for action in host.sim.Choir.actions(host.sim):controls.append(extra["choir_"+action])
@@ -313,13 +316,14 @@ func command_controls() -> Array:
    if subject.get("subkind","")=="concealed":return ([extra.concealed_seat] if not subject.get("seat","").is_empty() else [extra.concealed_attach,extra.concealed_release])+[extra.route_here,extra.inspect]
    if subject.get("subkind","")=="warning_recipient":return [extra.warning_exposed,extra.warning_sheltered,host.order_buttons.camera,extra.route_here,extra.inspect]
    if subject.get("subkind","")=="warning_gate":return [extra.warning_gate,host.order_buttons.camera,extra.route_here,extra.inspect]
-   return ([extra.witness_land] if Witness.harbour_subject(host.sim,subject) else [])+([extra.rendezvous_release,extra.route_here,extra.inspect] if subject.get("subkind","")=="berth_control" else ([] if subject.get("subkind","")=="transmission" else [extra.route_here])+([] if subject.get("subkind","") in ["corridor","withdrawal"] else [host.order_buttons.camera])+[extra.inspect,host.order_buttons.program,host.order_buttons.queue])
+   return ([extra.cache_menu] if subject.get("subkind","")=="corridor" and Cache.applies(host.sim) else [])+([extra.witness_land] if Witness.harbour_subject(host.sim,subject) else [])+([extra.rendezvous_release,extra.route_here,extra.inspect] if subject.get("subkind","")=="berth_control" else ([] if subject.get("subkind","")=="transmission" else [extra.route_here])+([] if subject.get("subkind","") in ["corridor","withdrawal"] else [host.order_buttons.camera])+[extra.inspect,host.order_buttons.program,host.order_buttons.queue])
   "habitat":return ([extra.shelf_alarm] if subject.get("site","")=="alarm" else [extra.shelf_warn])+[extra.route_here,extra.inspect]
   "plant":return ([extra.chain_connect,extra.chain_disconnect,extra.chain_backup] if subject.get("station","")=="inlet" else [extra.chain_service,extra.chain_mast,extra.chain_send])+[extra.route_here,extra.inspect]
   "salvage":return [extra.salvage,extra.route_here,extra.inspect]
   "delivery":return [extra.blackwater_a,extra.blackwater_b,extra.inspect]
   "inspect","signals","recovery","order_help":return []
  var controls=[host.order_buttons.camera,extra.depth_menu,host.order_buttons.silent,host.order_buttons.program,extra.route_menu,extra.tools_menu,extra.guard_menu,extra.inspect]
+ if Cache.applies(host.sim):controls.append(extra.cache_menu)
  if host.sim.selected==0 and AllStop.available(host.sim):controls[6]=extra.all_stop
  if not host.sim.choir_context().is_empty():controls.append(extra.choir_work)
  if not host.sim.glass_context().is_empty():controls.append(extra.glass_work)
@@ -550,6 +554,7 @@ func _draw():
   var hull=Rendezvous.projection(host.sim).hull
   if not hull.is_empty():caption=str(hull.phase).to_upper()+" · LOCAL FIX" if hull.live else "STALE · %ds AGO"%floori(hull.age)
  var lines=[title,caption]
+ if page=="cache":lines.append_array(Cache.captions(host.sim))
  if page=="plant":lines.append(WarningChain.radial_state(WarningChain.context(host.sim)))
  elif page=="craft" and host.order_buttons.camera in ring_buttons:lines.append_array(camera_caption())
  lines=StatusView.captions(self,lines)
