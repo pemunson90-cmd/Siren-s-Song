@@ -1,6 +1,6 @@
 # RESUME: operational entry
 
-Last reconciled integration baseline `2ba1edf9` includes Career057, quality073, persisted expedition offers068 and late-ending088. Production is `225c3c45`; main unchanged. Handoff092 adds the hidden Sorley rescue described below. Live PRs, completion and parallel fleet-fix ownership remain on codex/handoffs; this bounded session takes no further queue work. Current claims supersede dated entries below.
+Last reconciled integration baseline `449bcf5c` includes Career057, quality073, persisted expedition offers068, late-ending088 and late teaching067. Production is `225c3c45`; main unchanged. Handoff092 adds the hidden Sorley rescue described below. Live PRs, completion and parallel fleet-fix ownership remain on codex/handoffs; this bounded session takes no further queue work. Current claims supersede dated entries below.
 
 **26 Oct 2026:** Pat's finish-the-game ruling (top of USER_DIRECTIVES) governs. Plan, streams and file ownership: `docs/codex/ORCHESTRATION_2026-10-26.md` on `codex/handoffs`. Milestone promotion PR148 merged on 26 October (ORCHESTRATION).
 
@@ -8,7 +8,7 @@ Current boundary: Pat resumed locally on Windows and continued work on 25 Octobe
 
 ## Source and authority
 
-Active integration: `claude/integration`. Last reconciled source baseline: 2ba1edf9a176d430274fe84f96e1e1931655d4c6, including056/085/086/087 and088. A later live integration SHA is expected; fetch it at task boundaries. The board alone owns claims/completions.
+Active integration: `claude/integration`. Last reconciled source baseline: 449bcf5c9e9f44d83a1b2473cb6820d315c58b89, including056/085/086/087/088 and067. A later live integration SHA is expected; fetch it at task boundaries. The board alone owns claims/completions.
 Frozen `gauntlet/production` and protected `main` require Pat's promotion approval. Preserve branches, personal saves, evidence and signing identity.
 Current decisions: [USER_DIRECTIVES](USER_DIRECTIVES.md). Intended release: [CURRENT_GAME_SPEC](CURRENT_GAME_SPEC.md). Actual module seams, settings, saves, tests and safe reverts: [MODULES](MODULES.md).
 
