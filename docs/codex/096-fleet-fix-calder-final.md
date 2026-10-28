@@ -1,9 +1,9 @@
 # Handoff 096: MAKE THE FLEET MATTER IN CALDER AND THE FINAL OPS (30 to 36)
 
-Status: OPEN
+Status: DONE (PR202, merge a658c2ca)
 Claimed at:
 Claimed by:
-Finished at:
+Finished at: 2026-10-28 20:58 UTC
 
 Precondition: 088 is DONE (PR193 merged) so endings are settled. Not owned by another CLAIMED handoff. Read HANDOFF.md and ORCHESTRATION_2026-10-26.md first. Current review rule (Pat, 28 Oct): independent Sol6.1-high review of the frozen patch before commit and before merge.
 Codex may merge: yes, into claude/integration only, after independent approval and green required checks on the exact head, merge commit.
@@ -50,4 +50,8 @@ Import + core; the region's existing journey suites (update source-known routes 
 PR into claude/integration; independent review, merge on green; close per ORCHESTRATION section 7; one LEDGER line.
 
 ## Completion
-(five lines max: per-op before/after class and the main pattern used)
+[KEEL:096v] PR202 merged a658c2ca: all 7 bare STANDARD SILENT finish, 6/7 pressure; independent review and exact-head CI green.
+30/31 WAYPOINT to EARNED, patterns 3/1: bonus drone film; SILENT Hunt 100/37.1, locks 67/4.
+32 WAYPOINT to EARNED, patterns 5/1: endurance exception, bonus film; SILENT Hunt 17.2, locks 0, O2=19.8%.
+33/35/36 WAYPOINT to EARNED, patterns 4/1: film and local tools; SILENT Hunt 27/44.8/20.9, locks 4/4/2.
+34 UNMEASURED to EARNED, pattern 1: full three-stage fleet return and bonus film; SILENT Hunt 33.2, locks 0, hull 39.7.
