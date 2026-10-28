@@ -22,6 +22,6 @@ Pat's rule (28 Oct): a bare launch finishing an op is a **skill feat**: possible
 ## Per-op fix handoff checklist
 - The op, its 093 class and the cause in one line.
 - Chosen patterns and the exact data seams (mission builder, objectives, endurance, guard placement, rewards).
-- Success measure: rerun the 093 bare and equipped pair. The op must now be EARNED. The bare run must show real risk (at least one lock warning, a Hunt peak above the low band, or under 25 percent oxygen margin) and still finish on STANDARD.
+- Success measure: rerun the 093 bare and equipped pair. The op must now be EARNED. The bare run must meet the Sirens (Hunt 20 or more, or a lock episode) and still finish on STANDARD. Oxygen-only pressure is a supplement, never the main lever.
 - Teaching: one briefing line names the equipped option (067 owns the wording pass).
 - Batch 3 to 5 ops per handoff by region, so they don't collide in shared files.

@@ -56,3 +56,4 @@ Started 28 Oct 2026 by Claude under Pat's efficiency baseline. Earlier entries a
 - 28 Oct 2026 13:52 ET: 093 DONE by a fresh headless Codex session launched by Claude (13:30 to 13:50 ET, ~20 min): 29 WAYPOINT/4 EARNED/8 UNMEASURED. Claude wrote region fix handoffs 094 to 097.
 - 28 Oct 2026 14:10 ET: Possible duplicate: root created 093 worktrees at 12:39 while Claude's fresh 093 session ran 13:30 to 13:50. 097 nearly duplicated (claim race); caught before launch. Lesson: claim on BOARD before worktree; Claude checks `git worktree list` before launching.
 - 28 Oct 2026 14:16 ET: Pat ruled tools cost cargo; Claude wrote handoff 098.
+- 28 Oct 2026 14:27 ET: PR198 (094) held as draft by Claude: success measure was too loose (Claude's wording), oxygen-only pressure passed it. Bar tightened for 094 to 097. Cost: one revision cycle.
