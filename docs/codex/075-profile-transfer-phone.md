@@ -1,9 +1,9 @@
 # Handoff 075: Profile export and import that works on a real phone (system file dialog or share path)
 
-Status: CLAIMED
+Status: DONE
 Claimed at: 2026-10-28 09:43:24 UTC
 Claimed by: codex-root (transferred from claude 28 Oct 2026 10:20 ET)
-Finished at:
+Finished at: 2026-10-28 UTC
 
 Precondition: none beyond ORCHESTRATION. Scout note: Verify the DisplayServer dialog API on Android in 4.6.3 in the first 20 minutes. If unavailable, ship the Downloads fallback only. No APK or phone test is allowed, so the code path must be capability-probed and fully faked in tests. Read ORCHESTRATION_2026-10-26.md first.
 Codex may merge: yes, into claude/integration only, on green guidance + game-smoke for the exact head, merge commit.
@@ -34,7 +34,11 @@ Fake dialog callbacks for save, open, cancel and error. Import through the callb
 PR into claude/integration; merge on green; close per ORCHESTRATION section 7.
 
 ## Completion
-(five lines max)
+PR176: reviewed head `6eff9038`, independent reviews 6B+8B+12B; merged `db4395aa`.
+Full seven-check gate passed: https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/40694543912
+Root checked CLEAN automerge and byte identity under review12 carry conditions at merge.
+Profile transfer integrated; owned source paths released, subject to056 repair ownership.
+Mechanical closeout only; this documentation patch awaits independent approval before commit.
 
 ## Claude claim (28 Oct)
 Claude builds this on `claude/c19-profile-transfer`. Codex: skip it.

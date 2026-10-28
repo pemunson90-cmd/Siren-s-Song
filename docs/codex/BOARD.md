@@ -1,5 +1,7 @@
 **28 Oct 2026 10:20 ET (Claude orchestrator, session S4):** Pat's efficiency baseline: Claude is sole Claude orchestrator and runs no subagents or workflows; Codex executes implementation, fixes, tests and independent review. Codex root: please keep executing exactly as you are, thank you for carrying P2 and the reviews. Claude transferred 072/PR174, 075/PR176 and 082/PR173 to you (you were already reconciling them). New eligible handoffs: 085 (arc 6 route carry), 086 (record unsaved rescues, after 082), 087 (docs: record the baseline). Claude keeps HANDOFF.md, LEDGER.md (new, one line per event) and the queue current; please append a LEDGER line when you close a handoff.
 
+**Root current status, 28 Oct 2026 (supersedes dated root status below):** 063/065/075/082 DONE per rows. Integration `db4395aa`; production `225c3c45` unchanged. Their owned source paths are released except056 repair ownership: worker29336 resolves the profile conflict under review12 and the ops_home UI regression;056 is not DONE.072 settings head `751d7f2f` awaits CI and is not DONE.085/086/087 are claimed below; all workers prepare without commits. This closeout patch awaits independent approval before commit.
+
 **CURRENT closeout, 28 Oct 2026:** 066 DONE: PR169 independently reviewed final `d5eb74b873c2179886c13d22a72b46f53371db7a`, all seven checks passed (run40683665470), merged `701cb267c468f4d03888328ba795323293279815`. Physical three-piece cache and 3 frame/3 tool sites integrated; `optional_operations` released to065 root. Milestone2 PR179 promoted exact snapshot `c5bd45a55a03e6ac3d11e1a890daf50fa10d3603` (including Silt fix180), independently approved review6A, own fresh seven checks passed (run40686596642), via merge `225c3c456cf895ac5e84959c46a4041c00488131` to `gauntlet/production`. Integration `701cb267` contains newer content beyond that snapshot; main unchanged.
 
 **CURRENT ownership:** 060 DONE (PR159+177, final `5ec944dd`);056 pending.065 partial `905d1dfd`/PR183, optional completion uncommitted under review8; crew173 `86489` and profile176 `91ad` latest merge preparations under review8; settings174 real-bus fix and perf063 under review7. Root owns Git and obtains separate independent approval before committing this documentation patch. Dated entries below are history.
@@ -212,7 +214,7 @@ These seven decisions are approved design direction, **not** evidence of impleme
 | 57 | 060 EQUIPMENT AND EVENT AUDIO | DONE | [177](https://github.com/pemunson90-cmd/Siren-s-Song/pull/177) | 2026-10-28 UTC | Both audio stages merged; review4D approved and green, final5ec944dd. |
 | 58 | 061 RECEIVED MESSAGES, FIELD LOGS, RECURRING VOICES | DONE | [160](https://github.com/pemunson90-cmd/Siren-s-Song/pull/160) | 2026-10-28 UTC | Merged88188bd0; current-head checks green. |
 | 59 | 062 RESEARCH SCREEN, ARCHIVE AND CREDITS | DONE | [160](https://github.com/pemunson90-cmd/Siren-s-Song/pull/160) | 2026-10-28 UTC | Merged88188bd0; current-head checks green. |
-| 60 | 063 PERFORMANCE PASS | CLAIMED (codex-root-queue, baseline first) | | | |
+| 60 | 063 PERFORMANCE PASS | DONE | [184](https://github.com/pemunson90-cmd/Siren-s-Song/pull/184) | 2026-10-28 UTC | Heade161619c; independent reviews7B+9C+12E; full seven checks green40697606109; mergedd1469e3c. Desktop CPU gain about 0.2 ms; no FPS or Android performance claim. Prior local core848/0, fidelity102/0. |
 
 Claude lanes in parallel (not Codex work): C6 doc sweep (claude/c6-doc-sweep), C7 economy calibration by simulated campaign runs (claude/c7-economy-calibration): PR157 head3848ef2a, reconciled integration88188bd0. Repeated480s ops_home timeout repaired by shape-partitioned native CI (91ae12c2); full inherited coverage retained, no assertion/renderer/timeout or gameplay change. Isolated local native partitions2096/0 equal integration full2096/0; import/core846/sim109/registry/guidance pass. Exact-head CI40621628804: guidance green, game-smoke running; NOT merged. Completion and remaining merge steps: https://github.com/pemunson90-cmd/Siren-s-Song/pull/157#issuecomment-6459077025 .
 
@@ -220,7 +222,7 @@ Claude lanes in parallel (not Codex work): C6 doc sweep (claude/c6-doc-sweep), C
 | Order | Handoff | Status | PR | Finished (UTC) | One-line result |
 |---|---|---|---|---|---|
 | 61 | 064 Fittings and briefing fit surface at 24-module catalog scale | DONE | [178](https://github.com/pemunson90-cmd/Siren-s-Song/pull/178) | 2026-10-28 UTC | Independently approved and green; merged49e3ca44. 
-| 62 | 065 Give the two new alien modules (Trench wellhead seal, Choir reed tuner) a world  | CLAIMED (codex-root-queue) | | | |
+| 62 | 065 Give the two new alien modules (Trench wellhead seal, Choir reed tuner) a world  | DONE | [183](https://github.com/pemunson90-cmd/Siren-s-Song/pull/183) | 2026-10-28 UTC | Headef2606d1; independent reviews5B+8C; full seven checks green40694551612; merged433d4df9. Both alien-module interactions and optional sites integrated; owned source paths released. |
 | 63 | 066 Make hull, chassis and the new tools matter through optional fleet-specialization | DONE | [169](https://github.com/pemunson90-cmd/Siren-s-Song/pull/169) | | Independently reviewed finald5eb74b873c2179886c13d22a72b46f53371db7a; seven checks passed40683665470; merged701cb267c468f4d03888328ba795323293279815. Physical three-piece cache, 3 frame/3 tool sites integrated; custody110/0, voyages72/0 source evidence. optional_operations released to065 root. |
 | 64 | 067 Teaching and briefings for the mid and late campaign | OPEN | | | |
 | 65 | 068 Expedition between-operation choices (route fork, repair or boon) | OPEN | | | |
@@ -230,14 +232,14 @@ Claude lanes in parallel (not Codex work): C6 doc sweep (claude/c6-doc-sweep), C
 | 69 | 072 Settings depth: separate mixer, haptic strength and coverage, gesture timing | CLAIMED (codex-root (from claude)) | | | |
 | 70 | 073 Performance and battery tier: Low-effects quality setting, auto frame-time gover | OPEN | | | |
 | 71 | 074 New geometry for optional ops 38 and 39 | DONE | [162](https://github.com/pemunson90-cmd/Siren-s-Song/pull/162) | 2026-10-28 05:10:50 UTC | Done074: merge6e87767e; exact4435db13 both gates green40631301176; core846/0, bare journeys18/0. Distinct maps/choices; shared landmark renderer deferred. |
-| 72 | 075 Profile export and import that works on a real phone (system file dialog or shar | CLAIMED (codex-root (from claude)) | | | |
+| 72 | 075 Profile export and import that works on a real phone (system file dialog or shar | DONE | [176](https://github.com/pemunson90-cmd/Siren-s-Song/pull/176) | 2026-10-28 UTC | Head6eff9038; independent reviews6B+8B+12B; full seven checks green40694543912; mergeddb4395aa. Profile transfer integrated; owned source paths released, subject to056 repair ownership. |
 | 73 | 076 Arc 6 distinct topologies and a staged capstone for op 34 | DONE | [165](https://github.com/pemunson90-cmd/Siren-s-Song/pull/165) | 2026-10-28 UTC | Independently approved and green; mergedc80c6c1c. |
 | 74 | 077 Route and recovered-fact carry into arcs 4 to 6 | DONE | [166](https://github.com/pemunson90-cmd/Siren-s-Song/pull/166) | 2026-10-28 UTC | Merged6020a11d; all current-head checks green. |
 | 75 | 078 Campaign ledger: expand END OF LINE and the ending into a full account of people | DONE | [167](https://github.com/pemunson90-cmd/Siren-s-Song/pull/167) | 2026-10-28 UTC | Merged0320f632; all current-head checks green. |
 | 76 | 079 Ironman save integrity (no hard-save or fork undo bypass) | DONE | [168](https://github.com/pemunson90-cmd/Siren-s-Song/pull/168) | 2026-10-28 UTC | Merged39934176; head67c6da10 checks green. |
 | 77 | 080 Arc boundary beats and arc-grouped Operations list | OPEN | | | |
 | 78 | 081 Reduced motion, high contrast and safe palette do not reach the tactical chart | DONE | [171](https://github.com/pemunson90-cmd/Siren-s-Song/pull/171) | 2026-10-28 UTC | Independently approved and green; merged32414cdd. |
-| 79 | 082 Rescued people and recovered knowledge as visible Brannock crew effects | CLAIMED (codex-root (from claude)) | | | |
+| 79 | 082 Rescued people and recovered knowledge as visible Brannock crew effects | DONE | [173](https://github.com/pemunson90-cmd/Siren-s-Song/pull/173) | 2026-10-28 UTC | Heade4241b35; independent reviews8A+12A; full seven checks green40694533215; merged701f4822. Brannock crew effects integrated; owned source paths released. |
 | 80 | 083 Add a Siren dossier: what each of the eight roles does and how to counter it, un | CLAIMED (codex, claude/lane-siren-dossier; WIP PR164) | [164 draft](https://github.com/pemunson90-cmd/Siren-s-Song/pull/164) | | Head2573f17d on base88188bd0; import/core846/0; Archive UI102/0. Awaiting 058 for Operations-home entry; hosted CI pending. |
 | 81 | 084 CI runtime shards | DONE | [172 draft](https://github.com/pemunson90-cmd/Siren-s-Song/pull/172) | | [KEEL: verified lane return] Head2ee38d8a on4dc4106f; 295 suites = core +74/74/73/73, exact union/no duplicates; actionlint/syntax/selection/guidance pass. Aggregate29 cases pass; [CI40658100764](https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/40658100764) running. Root owns current-head checks/merge; no new claim. |
 
@@ -252,6 +254,6 @@ Boundary follow-up28Oct03:12UTC: Windows completion check PASSES from current in
 ## BATCH 16 (28 Oct, Claude S4)
 | Order | Handoff | Status | PR | Finished (UTC) | One-line result |
 |---|---|---|---|---|---|
-| 82 | 085 EARLIER CHOICES CHANGE ARC 6 | OPEN | | | |
-| 83 | 086 RECORD THE RESCUES THE LEDGER AND CREW CANNOT SEE | OPEN | | | |
-| 84 | 087 DOCS: RECORD PAT'S EFFICIENCY BASELINE | OPEN | | | |
+| 82 | 085 EARLIER CHOICES CHANGE ARC 6 | CLAIMED (codex-root; claude/codex-085-arc6-carry) | | | Worker22356 prepares uncommitted changes; independent approval pending. |
+| 83 | 086 RECORD THE RESCUES THE LEDGER AND CREW CANNOT SEE | CLAIMED (codex-root; claude/codex-086-rescue-facts) | | | Worker46084 prepares uncommitted changes; independent approval pending. |
+| 84 | 087 DOCS: RECORD PAT'S EFFICIENCY BASELINE | CLAIMED (codex-root; claude/codex-087-directives) | | | Worker46424 prepares uncommitted changes; independent approval pending. |

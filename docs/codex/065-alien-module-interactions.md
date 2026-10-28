@@ -1,9 +1,9 @@
 # Handoff 065: Give the two new alien modules (Trench wellhead seal, Choir reed tuner) a world interaction, like the other four alien modules have
 
-Status: CLAIMED
+Status: DONE
 Claimed at: 2026-10-28 11:16:55 UTC
 Claimed by: codex-root-queue
-Finished at:
+Finished at: 2026-10-28 UTC
 
 Precondition: 055 is DONE. Scout note: Handoff 055 / PR150 merged (the two modules exist only there). Read ORCHESTRATION_2026-10-26.md first.
 Codex may merge: yes, into claude/integration only, on green guidance + game-smoke for the exact head, merge commit.
@@ -36,4 +36,8 @@ One journey per module showing the site completes faster or quieter with it. The
 PR into claude/integration; merge on green; close per ORCHESTRATION section 7.
 
 ## Completion
-(five lines max)
+PR183: reviewed head `ef2606d1`, independent reviews 5B+8C; merged `433d4df9`.
+Full seven-check gate passed: https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/40694551612
+Root checked CLEAN automerge and byte identity under review12 carry conditions at merge.
+Both alien-module interactions and optional sites integrated; owned source paths released.
+Mechanical closeout only; this documentation patch awaits independent approval before commit.

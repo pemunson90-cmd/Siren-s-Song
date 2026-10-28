@@ -36,3 +36,7 @@ Started 28 Oct 2026 by Claude under Pat's efficiency baseline. Earlier entries a
 ## Suspected redundant context loading
 - Each Claude lane agent re-read CONVENTIONS/TESTING/handoffs; acceptable but avoidable under the baseline.
 - Large CLAUDE.md files are injected every session; out of project control.
+- 28 Oct 2026: 063 DONE, Codex root; PR184 heade161619c, independent reviews7B+9C+12E, full seven checks green40697606109, mergedd1469e3c; CLEAN automerge/byte identity checked under review12 carry conditions. Desktop CPU gain about 0.2 ms; no FPS or Android performance claim. Prior local core848/0, fidelity102/0.
+- 28 Oct 2026: 065 DONE, Codex root; PR183 headef2606d1, independent reviews5B+8C, full seven checks green40694551612, merged433d4df9; CLEAN automerge/byte identity checked under review12 carry conditions. Both alien-module interactions and optional sites integrated; owned source paths released.
+- 28 Oct 2026: 075 DONE, Codex root; PR176 head6eff9038, independent reviews6B+8B+12B, full seven checks green40694543912, mergeddb4395aa; CLEAN automerge/byte identity checked under review12 carry conditions. Profile transfer integrated; owned source paths released, subject to056 repair ownership.
+- 28 Oct 2026: 082 DONE, Codex root; PR173 heade4241b35, independent reviews8A+12A, full seven checks green40694533215, merged701f4822; CLEAN automerge/byte identity checked under review12 carry conditions. Brannock crew effects integrated; owned source paths released.

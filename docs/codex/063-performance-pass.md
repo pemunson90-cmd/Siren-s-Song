@@ -1,9 +1,9 @@
 # Handoff 063: PERFORMANCE PASS (60 fps target, 30 fps fallback)
 
-Status: CLAIMED
+Status: DONE
 Claimed at: 2026-10-28 12:02:14 UTC
 Claimed by: codex-root-queue
-Finished at:
+Finished at: 2026-10-28 UTC
 
 Precondition: 060 is DONE. Read ORCHESTRATION_2026-10-26.md first.
 Codex may merge: yes, into claude/integration only, on green guidance + game-smoke for the exact head, merge commit.
@@ -27,7 +27,11 @@ Import, core, and only the minimum suites in ORCHESTRATION section 5. Ranks: Cod
 PR into claude/integration; merge on green; close per ORCHESTRATION section 7.
 
 ## Completion
-(five lines max)
+PR184: reviewed head `e161619c`, independent reviews 7B+9C+12E; merged `d1469e3c`.
+Full seven-check gate passed: https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/40697606109
+Root checked CLEAN automerge and byte identity under review12 carry conditions at merge.
+Desktop CPU gain about 0.2 ms; no FPS or Android performance claim. Prior local core848/0, fidelity102/0.
+Mechanical closeout only; this documentation patch awaits independent approval before commit.
 
 Root scheduling28Oct08:14UTC:081 owns chart/render files now while063 was unclaimed. Do not claim063 until081 releases those paths; keep060 precondition. This reverses only collision-avoidance order.
 

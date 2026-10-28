@@ -1,9 +1,9 @@
 # Handoff 082: Rescued people and recovered knowledge as visible Brannock crew effects
 
-Status: CLAIMED
+Status: DONE
 Claimed at: 2026-10-28 09:06:27 UTC
 Claimed by: codex-root (transferred from claude 28 Oct 2026 10:20 ET)
-Finished at:
+Finished at: 2026-10-28 UTC
 
 Precondition: 061 is DONE. Scout note: 061 merged (voices table to reuse for attribution). Rebase onto claude/c7-economy-calibration if it has merged, since it edits economy_table.gd numbers. Read ORCHESTRATION_2026-10-26.md first.
 Codex may merge: yes, into claude/integration only, on green guidance + game-smoke for the exact head, merge commit.
@@ -35,7 +35,11 @@ Import + core. One small suite: empty crew gives today's launch exactly; each cr
 PR into claude/integration; merge on green; close per ORCHESTRATION section 7.
 
 ## Completion
-(five lines max)
+PR173: reviewed head `e4241b35`, independent reviews 8A+12A; merged `701f4822`.
+Full seven-check gate passed: https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/40694533215
+Root checked CLEAN automerge and byte identity under review12 carry conditions at merge.
+Brannock crew effects integrated; owned source paths released.
+Mechanical closeout only; this documentation patch awaits independent approval before commit.
 
 ## Claude claim (28 Oct)
 Claude builds this on `claude/c16-crew-effects`. Codex: skip it.
