@@ -100,12 +100,13 @@ func arc_song(g):
  await band(g,0,1);await take(g,0,0);await band(g,0,0)
  for p in [Vector2(1180,400),Vector2(1180,760),Vector2(1250,870)]:await go(g,0,p)
  await band(g,0,1);await take(g,0,1);await go(g,0,Vector2(690,780));await take(g,0,2);await band(g,0,2);await go(g,0,g.sim.mission.extraction);await band(g,0,1)
+func display_shapes():return [Vector2i(2520,1080),Vector2i(2184,1968)]
 func run():
  var only=-1
  for arg in OS.get_cmdline_user_args():
   if arg.begins_with("--capture-dir="):captures=arg.trim_prefix("--capture-dir=");DirAccess.make_dir_recursive_absolute(captures)
   if arg.begins_with("--operation="):only=int(arg.trim_prefix("--operation="))
- for shape in [Vector2i(2520,1080),Vector2i(2184,1968)]:
+ for shape in display_shapes():
   root.size=shape;await settle()
   for id in range(1,6):
    if only>=0 and id!=only:continue

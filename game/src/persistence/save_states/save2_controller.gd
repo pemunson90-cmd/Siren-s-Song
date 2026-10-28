@@ -5,6 +5,7 @@ extends RefCounted
 const Table=preload("res://src/persistence/save_states/save2_table.gd")
 const Storage=preload("res://src/persistence/save_states/save2_store.gd")
 const Transaction=preload("res://src/persistence/save_states/save2_transaction.gd")
+const Economy=preload("res://src/campaign/economy.gd")
 const Ending=preload("res://src/campaign/endings.gd")
 const PhotoEnding=preload("res://src/campaign/endings_photo.gd")
 static func _persistent(host)->bool:
@@ -23,7 +24,11 @@ static func ensure_state(host)->Dictionary:
  return host.get_meta(Table.STATE)
 static func manager(host):return Storage.new(host.store.path)
 static func manual_allowed(host)->bool:
- return Table.enabled and not host.store.suspended and (not host.active_started or not host.sim.outcome.is_empty())
+ return Table.enabled and not locked(host) and not host.store.suspended and (not host.active_started or not host.sim.outcome.is_empty())
+# Ironman keeps one timeline: no exact restore, fork replay or new hard save for an Ironman campaign.
+# Automatic fork checkpoints, the pending checkpoint and crash recovery are untouched.
+static func locked(host)->bool:
+ return Table.enabled and Table.ironman_lock and Economy.is_ironman(host.get("economy"))
 static func notice(host,text:String,sticky:bool=true)->void:
  # Long SAVE2 details belong in the scrolling saved-state page. A growing
  # fixed archive banner can otherwise cover the body's touch targets.

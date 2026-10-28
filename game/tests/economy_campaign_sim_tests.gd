@@ -46,7 +46,7 @@ func _initialize():
   if r.preset=="accessible":
    check(r.reduced==0 and r.bare==0 and r.blocked==0,"accessible is never blocked by cost: "+key)
   if r.preset=="standard" and not r.ironman and r.profile in ["careful","average"]:
-   check(r.lags.size()==6 and r.lags.max()<=2,"standard researches each artifact within 2 ops: "+key+" "+str(r.lags))
+   check(r.lags.size()==8 and r.lags.max()<=2 and "quietus_wellhead_seal" in r.researched and "drone_choir_tuner" in r.researched,"standard researches each artifact within 2 ops: "+key+" "+str(r.lags))
    check(r.hull_arc>0 and r.hull_arc<=5,"standard holds a hull unlock by the end of arc 5: "+key)
    check(r.reduced==0 and r.bare==0,"standard launches are never cut back for cost: "+key)
    check(r.alloy_streak<=2 and r.max_alloy<=12,"standard alloy is spent, not hoarded: "+key+" max "+str(r.max_alloy))

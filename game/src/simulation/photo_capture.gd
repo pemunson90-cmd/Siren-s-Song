@@ -360,7 +360,7 @@ static func can_sight(sim,uid:int,pos:Vector2,sight:float=170.0)->bool:
 	if not BandPhoto.can_shoot(sim,u):return false
 	var op=optics(sim,uid)
 	var distance:float=sight*(0.65 if sim.mission.get("darkness",false) else 1.0)
-	return u.pos.distance_to(pos)<=distance and absf(angle_difference(u.angle,u.pos.angle_to_point(pos)))<=float(op.fov)*0.5+0.3 and sim.Depth.clear(sim,u.pos,pos,u.band)
+	return u.pos.distance_to(pos)<=distance and absf(angle_difference(u.angle,u.pos.angle_to_point(pos)))<=float(op.fov)*0.5+0.3 and sim.Depth.optical_clear(sim,u.pos,pos,u.band)
 static func discover(sim)->void:
 	for o in sim.mission.objectives:
 		if o.get("unknown",false) and o.has("lead") and not o.get("sighted",false):
@@ -381,7 +381,7 @@ static func discover(sim)->void:
 			var sight:float=float(h.get("sight",170.0))*(0.65 if sim.mission.get("darkness",false) else 1.0)
 			if u.pos.distance_to(h.pos)>sight:continue
 			if absf(angle_difference(u.angle,u.pos.angle_to_point(h.pos)))>float(op.fov)*0.5+0.3:continue
-			if not sim.Depth.clear(sim,u.pos,h.pos,u.band):continue
+			if not sim.Depth.optical_clear(sim,u.pos,h.pos,u.band):continue
 			h.found=true
 			var o={"pos":h.pos,"name":str(h.get("seen_as","UNIDENTIFIED SHAPE")),"captured":false,"optional":true,"unknown":true,"kind":"","subject":h.subject.duplicate(true),"optical":h.key,"site_id":h.key,"evidence":str(h.get("evidence",""))}
 			sim.mission.objectives.append(o)
@@ -396,7 +396,7 @@ static func siren_candidate(sim,uid:int)->int:
 		if s.get("band",1)!=u.band or not s.get("transition",{}).is_empty():continue
 		if not sim.contacts.has(i) or sim.elapsed-float(sim.contacts[i].time)>0.6 or not sim.contact_visible(s):continue
 		var dist=u.pos.distance_to(s.pos)
-		if dist<=reach(sim,uid) and dist<d and sim.Depth.clear(sim,u.pos,s.pos,u.band):best=i;d=dist
+		if dist<=reach(sim,uid) and dist<d and sim.Depth.optical_clear(sim,u.pos,s.pos,u.band):best=i;d=dist
 	return best
 static func siren_objective(sim,i:int)->int:
 	if i<0 or i>=sim.sirens.size():return -1
@@ -437,7 +437,7 @@ static func preview(sim,uid:int)->Dictionary:
 		return {"o":{"pos":s.pos,"name":"S%d %s"%[i+1,str(s.get("type","patroller")).to_upper()],"subject":siren_subject(s),"siren":i},"index":-2,"unit":uid,"ctx":ctx}
 	if t>=0 and t<sim.mission.objectives.size() and applies(sim.mission.objectives[t]):
 		var o=sim.mission.objectives[t]
-		if not sim.Depth.clear(sim,sim.units[uid].pos,o.pos,sim.units[uid].band):return {}
+		if not sim.Depth.optical_clear(sim,sim.units[uid].pos,o.pos,sim.units[uid].band):return {}
 		if stage(o)=="lead" and not can_sight(sim,uid,o.pos,float(o.lead.get("sight",170.0))):return {}
 		if sim.units[uid].pos.distance_to(o.pos)<=reach(sim,uid)*1.5 and BandPhoto.can_shoot(sim,sim.units[uid],o):return {"o":o,"index":t,"unit":uid,"ctx":ctx}
 	return {}

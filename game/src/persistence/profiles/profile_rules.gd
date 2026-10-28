@@ -5,6 +5,8 @@ extends RefCounted
 # SAVE2 sidecars stay pinned to their original slots; retain them and transaction
 # recovery. Copying these four files does not migrate/merge manual or fork states.
 const ENABLED = true
+# Ironman guard: false restores copy/import/export of Ironman campaigns (a rewind path).
+const IRONMAN_GUARD = true
 const COUNT = 3
 const NAME_LIMIT = 24
 const FILE_LIMIT = 4000000
