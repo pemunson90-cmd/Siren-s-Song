@@ -4,7 +4,9 @@ const Missions=preload("res://src/campaign/missions.gd")
 static func operations(main)->void:
  var available=Campaign.available(main.completed,main.expedition)
  if available.is_empty():return
- main._menu_text("BEYOND THE WARNING / OPERATIONS",22)
+ if not preload("res://src/campaign/arcs/arc_table.gd").enabled:main._menu_text("BEYOND THE WARNING / OPERATIONS",22)
+ if preload("res://src/campaign/sorley_rescue.gd").unlocked(main.expedition) and 41 not in main.expedition.get("completed",[]):
+  main._menu_text("SORLEY'S SIGNAL: a new course is open\nSORLEY: You have his window. Bring the pod to the south boat.",18)
  for id in available:
   var mission=Missions.make(id,preload("res://src/campaign/campaign_consequences.gd").context(main.expedition))
   if mission.id!=id:continue
@@ -12,7 +14,10 @@ static func operations(main)->void:
   main._button(main.panel_box,"%s · %s"%[mission.title,status],func():main._briefing(id),"expedition%d"%id)
 static func briefing(main,index:int)->bool:
  if index<6:return false
- if index in preload("res://src/campaign/final_pair_operations.gd").IDS:
+ if index==41:
+  main._menu_text("RESCUE ORDERS\nTap the occupied pod to WINCH from any settled craft within60m in SHALLOW. Carry it physically to SOUTH BOAT LIFT, ascend to MIDDLE, then select the carrier and LAND WITNESS. Quietus must recover too.",17)
+  return true
+ elif index in preload("res://src/campaign/final_pair_operations.gd").IDS:
   main._menu_text("Photograph the core mark in MIDDLE and recover Quietus. The second photograph is optional.",17)
   return true
  if index>=22:

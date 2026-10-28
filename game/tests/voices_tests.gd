@@ -17,7 +17,17 @@ func _initialize():
   for slot in Table.SLOTS:check(not Voices.row(id,slot).is_empty(),"line exists %d %s"%[id,slot])
  for id in Table.GENERIC_IDS:check(not Voices.row(id,"mid").is_empty(),"optional operation has a line %d"%id)
  check(not Voices.row(37,"brief").is_empty() and Voices.row(99,"brief").is_empty(),"unknown operation has no line")
- for id in Catalog.registered_ids():check(id<=40,"every registered operation id is within the voice id range")
+ for id in Catalog.registered_ids():check(id<=41,"every registered operation id is within the voice id range")
+ for slot in Table.SLOTS:
+  var rescue_line=Voices.row(41,slot)
+  check(not rescue_line.is_empty() and rescue_line.get("speaker","")==Table.SPEAKERS.sorley,"hidden rescue has its authored Sorley "+slot+" line")
+ var unheard=[]
+ check(41 not in Voices.operations(unheard) and Table.SLOTS.all(func(slot):return not Voices.heard(unheard,41,slot)),"authored hidden lines are absent from an unearned received log")
+ check(not Voices.progress(Catalog.make(41)),"unstarted rescue has no own progress to trigger a mid-dive voice")
+ var rescue=preload("res://src/campaign/sorley_rescue.gd")
+ rescue.enabled=false
+ check(Table.SLOTS.all(func(slot):return Voices.row(41,slot).is_empty() and not Voices.hear(unheard,41,slot)) and unheard.is_empty(),"experiment switch hides all rescue lines and prevents new received entries")
+ rescue.enabled=true
  var speakers=[]
  for id in Table.LINES:
   for line in Table.LINES[id]:

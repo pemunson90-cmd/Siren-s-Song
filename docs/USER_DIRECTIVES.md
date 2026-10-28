@@ -1,3 +1,8 @@
+## 28 October 2026: hidden rescue of Sorley's boy (handoff 092)
+
+[PAT, quoted in Claude S5 handoff 092, ~11:50 ET] "Experiment with a hidden rescue mission that requires either found logs off the beaten path, or certain photos. So its an option side quest with at least one game reward and ending changes."
+
+[KEEL / AI-DESIGNED, pending Pat ratification] The experiment uses the existing op 37 boy photograph or two of three optional Sorley logs as discovery keys. Physical rescue uses the existing witness pod rules. The rescue adds an epilogue and ledger outcome; it does not vote on the ending family or change the thread.
 ## 28 October 2026: carrying tools costs cargo
 
 Claude's question (QUESTIONS_FOR_PAT 13, verbatim): "today every loadout gets a fixed free bundle of tools. Should carrying tools cost module slots or cargo space, so a tool-heavy loadout means giving up a module? I recommend yes, because it turns the loadout into a real planning choice."

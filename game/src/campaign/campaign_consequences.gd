@@ -16,7 +16,9 @@ static func upgrade(previous:Dictionary)->Dictionary:
 static func retain(previous:Dictionary,mission:Dictionary)->Dictionary:
  var p=upgrade(previous)
  if p.is_empty() or not Catalog.valid_facts(mission.get("id",-1),mission.get("expedition_facts",{})):return p
- for key in mission.get("expedition_facts",{}):p.notes[key]=mission.expedition_facts[key]
+ for key in mission.get("expedition_facts",{}):
+  if key!="sorley_boy":p.notes[key]=mission.expedition_facts[key]
+ preload("res://src/campaign/sorley_rescue.gd").retain(p,mission)
  return p
 static func recovered(previous:Dictionary,mission:Dictionary)->Dictionary:
  var p=retain(previous,mission)
@@ -59,6 +61,7 @@ static func cadence_valid(value)->bool:
   if not (interval is int or interval is float) or not is_finite(interval) or interval<=0 or interval>10:return false
  return true
 static func valid(p:Dictionary)->bool:
+ if not preload("res://src/campaign/sorley_rescue.gd").valid_progress(p):return false
  if not preload("res://src/campaign/glass_research.gd").valid(p):return false
  if not p.has_all(["notes","entitlements","references","history","selected_thread"]) or not p.notes is Dictionary or p.notes.size()>Catalog.fact_keys().size() or not p.entitlements is Array or p.entitlements.size()>Equipment.ITEMS.size() or not p.references is Dictionary or not p.history is Array or p.history.size()>Catalog.ids_with("history").size() or p.selected_thread not in ["","deep","shelf"]:return false
  for key in p.notes:

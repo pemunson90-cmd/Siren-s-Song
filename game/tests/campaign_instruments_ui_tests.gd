@@ -25,7 +25,14 @@ func menu_button(game,action:String,item:String=""):
  for child in game.menu.find_children("*","Button",true,false):
   if child is Button and child.get_meta("action","")==action and (item.is_empty() or item in child.text):return child
  return null
+func dismiss_arc(game):
+ var card=game.get_node_or_null("ArcCard")
+ if card==null:return
+ var controls=card.find_children("*","Button",true,false)
+ check(not controls.is_empty(),"arc prerequisite offers touch Continue")
+ if not controls.is_empty():await tap(controls[0].get_global_rect().get_center())
 func menu_tap(game,button):
+ await dismiss_arc(game)
  if game.scroll.is_ancestor_of(button):game.scroll.ensure_control_visible(button);await settle()
  await tap(button.get_global_rect().get_center())
 # The fit surface lists one craft at a time; open the craft tab before reaching a row.
@@ -70,7 +77,7 @@ func run():
   root.size=dimensions;await settle()
   var g=load("res://scenes/main.tscn").instantiate();g.set_script(load("res://tests/density_main.gd"));g.capture_scenario="public-fitting-and-local-receiver-geometry"
   if dimensions.x==2520:g.fixture_safe_area=Rect2(136,0,2384,1080)
-  root.add_child(g);await settle();g.set_process(false);g._briefing(0);await settle()
+  root.add_child(g);await settle();g.set_process(false);g._briefing(0);await settle();await dismiss_arc(g)
   # Public equipment/context fixture exercises the actual view and touch path;
   # this is not a claimed earned recovery or campaign/Main progression proof.
   var context={"slots":{"quietus":"quietus_correlator","drone_a":"drone_sampler","drone_b":""},"available":["quietus_correlator","drone_sampler"],"catalog":[{"id":"quietus_correlator","name":"CADENCE CORRELATOR","compatible_slots":["quietus"],"benefit":"Compare received pulses with a recovered reference.","cost":"6 seconds settled listening. No identity or range fix."},{"id":"drone_sampler","name":"FIELD SAMPLER","compatible_slots":["drone_a","drone_b"],"benefit":"Operate compatible field receivers with one drone.","cost":"8 seconds exposed versus Quietus4. One sampler, A or B."}]}

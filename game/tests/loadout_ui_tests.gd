@@ -64,6 +64,15 @@ func run():
 	check("8s" in effects and "audible" in effects and survey.recon_time==8 and survey.noises.any(func(n):return n.label=="RECON UPLINK"),"advertised survey duration and emission match actual command")
 	await click(button("resume"));check(game.screen=="mission" and game.sim.snapshot()==active,"genuine resume preserves the active dive's equipment and plan")
 	game._show_campaign();game._briefing(0);await settle()
+	var arc=game.get_node_or_null("ArcCard")
+	if arc!=null:
+		var next=arc.find_children("*","Button",true,false)[0]
+		var point=next.get_global_rect().get_center()
+		for down in [true,false]:
+			var touch=InputEventScreenTouch.new();touch.index=0;touch.position=point;touch.pressed=down;root.push_input(touch,true)
+			var mouse=InputEventMouseButton.new();mouse.device=InputEvent.DEVICE_ID_EMULATION;mouse.position=point;mouse.button_index=MOUSE_BUTTON_LEFT;mouse.pressed=down;root.push_input(mouse,true);await process_frame
+		await settle()
+		check(game.get_node_or_null("ArcCard")==null,"real touch dismisses arc entry before launch stock checks")
 	var fresh=load("res://src/simulation/simulation.gd").new();fresh.start(0,"survey")
 	check("NEXT DIVE / RETRY" in copy() and "SURVEY" in copy() and stock(fresh) in copy(),"prelaunch briefing confirms the selected stock")
 	await click(button("begin"))

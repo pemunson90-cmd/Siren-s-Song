@@ -15,7 +15,8 @@ func _initialize():
  if Graph==null:finish();return
  var Table=load("res://src/campaign/route_map/route_graph_table.gd")
  var fresh=Graph.build([],{}, {},0)
- check(fresh.nodes.size()==41 and fresh.nodes.slice(0,30).map(func(row):return row.id)==range(30) and fresh.nodes.slice(0,32).map(func(row):return row.id)==range(32) and fresh.nodes.map(func(row):return row.id)==Catalog.registered_ids(),"all thirty original operations, both former final nodes and five Calder plus four optional nodes appear once")
+ check(fresh.nodes.size()==41 and fresh.nodes.slice(0,30).map(func(row):return row.id)==range(30) and fresh.nodes.slice(0,32).map(func(row):return row.id)==range(32) and fresh.nodes.map(func(row):return row.id)==Catalog.registered_ids().filter(func(id):return id!=41),"all thirty original operations, both former final nodes and five Calder plus four optional nodes appear once")
+ check(41 in Catalog.registered_ids() and not fresh.nodes.any(func(row):return row.id==41),"registered hidden rescue has no fresh route-map node")
  check(node(fresh,0).state=="AVAILABLE" and node(fresh,0).label!="UNKNOWN","first operation is available and named")
  check(fresh.nodes.slice(1).all(func(row):return row.state=="LOCKED" and row.label=="UNKNOWN"),"fresh profile cannot learn later operation names")
  var incomplete=Graph.build([0],{}, {},3)
@@ -23,7 +24,7 @@ func _initialize():
  check(node(incomplete,1).get("can_open",false) and not node(incomplete,2).get("can_open",true),"an unknown name cannot leak through a map briefing action")
  var positions={}
  for row in fresh.nodes:positions[row.position]=true
- check(Table.POSITIONS.size()==41 and Table.POSITIONS.keys().filter(func(id):return id<30).size()==30 and positions.size()==41,"layout preserves thirty original nodes and adds distinct final and Calder positions")
+ check(Table.POSITIONS.size()==42 and Table.POSITIONS.keys().filter(func(id):return id<30).size()==30 and positions.size()==41,"layout preserves thirty original nodes and adds distinct final and Calder positions")
  check(Table.POSITIONS[30]==Vector2(16,5) and Table.POSITIONS[31]==Vector2(17,5) and range(32,37).all(func(id):return Table.POSITIONS.has(id)),"former final positions remain fixed and each Calder operation has an authored position")
  for id in range(1,7):check(edge(fresh.edges,id-1,id),"opening group and expedition gate retain edge%d"%id)
  for id in range(7,41):
@@ -36,6 +37,17 @@ func _initialize():
  check(node(mid,6).state=="RECOVERED" and node(mid,7).state=="AVAILABLE","recovered branch point opens the existing deep route")
  check(node(mid,8).state=="LOCKED" and node(mid,8).label=="UNKNOWN","the unchosen branch grants no early name or availability")
  check(mid.nodes.filter(func(row):return row.id>=6 and row.state=="AVAILABLE").map(func(row):return row.id)==available.filter(func(id):return id not in progress.completed),"available expedition nodes use the existing campaign rules")
+ for key in ["photo","logs"]:
+  var earned=progress.duplicate(true)
+  if key=="photo":earned.facts.glass_record_37_bonus="Recovered window photograph"
+  else:earned["notes"]={"sorley_boy":"110"}
+  var rescue=Graph.build(completed,earned,{},5)
+  check(rescue.nodes.size()==42 and rescue.nodes.map(func(row):return row.id)==Catalog.registered_ids(),key+" key adds the hidden rescue exactly once after original nodes")
+  check(rescue.nodes.filter(func(row):return row.id!=41)==mid.nodes,key+" key preserves all original nodes and positions")
+  check(node(rescue,41).state=="AVAILABLE" and node(rescue,41).can_open and node(rescue,41).label!="UNKNOWN",key+" key opens the named optional rescue")
+  check(node(rescue,41).position==Table.POSITIONS[41] and not positions.has(node(rescue,41).position),key+" rescue has its own distinct authored position")
+ var one_log=progress.duplicate(true);one_log["notes"]={"sorley_boy":"100"}
+ check(not Graph.build(completed,one_log,{},5).nodes.any(func(row):return row.id==41),"one log does not disclose a rescue node")
  var intel={"silt_scour":{"q":.3,"op":17},"relay_blink":{"q":.4,"op":8}}
  var film=Graph.build(completed,progress,intel,5)
  check(node(film,19).state=="KNOWN FROM PHOTOS" and node(film,19).label!="UNKNOWN","returned film may name an unreached operation")
