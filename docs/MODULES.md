@@ -65,3 +65,5 @@ Use an existing switch first. A switch is not a save migration: retain optional-
 | [KEEL] Route/fact carry 077 | `campaign/carry/` | One hook after factory build in `OperationCatalog.make` | `Carry.ENABLED`; seven provisional rows in `carry_table.gd` | None; reads existing launch-context thread/facts, empty history unchanged | `carry_tests`; existing `iron_choir_journeys --only=22`; import/core | Set `Carry.ENABLED=false` or remove the single catalog hook. Glass/Iron14..29 only; Calder/final pair remain separate. |
 
 The source-known014 challenge/040 photo journeys are evidence, not extra production modules. No full campaign, blind-player, phone or human acceptance is implied by this index.
+
+081 extends the existing A11Y1 palette helpers into chart/render and warning consumers; no new module or save seam. Reduced motion/high contrast reuse their existing settings independently of `cue_table.ENABLED`; turn all three chart settings off for exact standard drawing. Named checks extend `a11y_cues_tests` (`cue_tests.gd`); optional `--chart-render` exercises Compatibility.

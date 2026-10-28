@@ -12,6 +12,8 @@ Current decisions: [USER_DIRECTIVES](USER_DIRECTIVES.md). Intended release: [CUR
 
 ## Integrated capabilities
 
+- 081 lane `claude/lane-chart-accessibility` (pending integration): existing reduced-motion, safe-palette and high-contrast settings now reach chart atmosphere, observed contacts/courses, lock/notice overlays and Hunt. Palette helpers retain the default draw path; no sensing, warning eligibility or save changes. Local import/core848/0, cue49/0 and Compatibility cue/render63/0; root owns hosted gates and merge. Revert by turning the three settings off.
+
 - [KEEL] 077 adds seven provisional route/fact deltas in Glass/Iron ops14,15,16,17,21,22: shelf recovery/start alternatives and changed authored guard rosters, with brief cause lines. Empty history preserves legacy missions; no new save fields. Revert with `Carry.ENABLED=false`. Local carry150/0 and existing Iron22 bare journey10/0 are source-known technical checks; Calder/final content remains owned by076.
 - 41 operation IDs0..40 include Calder Trench: core32..34, optional35/36, manual shut-in work, deep photography and three physically recovered artifacts. END OF LINE now follows first recovery of34; the existing photo wall, four ending families and12/13 fork remain. Reward target entries arrive in054/055; narrative stays placeholder text.
 - Campaign ledger (078): END OF LINE and the ending wall show four fixed panels using saved outcomes only; absent people/artifact records read “not recorded.” AI-DESIGNED placeholders are in `campaign/ledger/ledger_table.gd`. Ledger appears only on the finale and ending screens.
