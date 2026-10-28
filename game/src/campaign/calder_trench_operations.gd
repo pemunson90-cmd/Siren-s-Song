@@ -53,7 +53,7 @@ static func build(c:Dictionary,history:Dictionary={})->Dictionary:
  if id in [32,33,34]:
   m.currents=[{"center":row.current,"radius":600.,"velocity":Vector2(0,12)}]
   m.thermal_revision=1;m.thermal_fronts=[{"area":row.front,"transmission":.55,"close_range":90.}]
- m.brief=ACCOUNTS[id]+"\nPrimary photograph is in DEEP. Return Quietus to "+row.mouth+" in settled MIDDLE. "+(WORK_BRIEF if id in [32,33] else CAPSTONE_BRIEF if id==34 else OPTIONAL_BRIEF)
+ m.brief=ACCOUNTS[id]+"\nPrimary photograph is in DEEP. Return Quietus to "+row.mouth+" in settled MIDDLE. "+(CAPSTONE_BRIEF if not works.is_empty() else WORK_BRIEF if id in [32,33,34] else OPTIONAL_BRIEF)
  if id in ITEMS:m.brief+=" Use REACH WORK to winch the marked physical material within60m at DEEP, then return its living carrier to the recovery mouth."
  return m
 static func _photo(k:String,label:String,pos:Vector2,band:int,art:String,optional:bool)->Dictionary:

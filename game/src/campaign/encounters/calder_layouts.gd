@@ -26,7 +26,7 @@ static func layout(id:int)->Dictionary:
    row.merge({"world_size":Vector2(3200,2000),"start":Vector2(300,1700),"recovery":Vector2(3000,1700),"mouth":"CALDER GALLERY END","core":Vector2(1850,650),"core_label":"DRILLERS AND GUARDS AT THE GLASS","core_art":"count","bonus":Vector2(650,600),"bonus_label":"SIREN REED SCORING","bonus_art":"scoring","work":Vector2(1000,1550),"gate":Rect2(1600,950,650,100),"cargo":Vector2(1850,730),"cargo_band":2,"current":Vector2(1200,1500),"front":Rect2(900,1350,600,500)},true)
    row.terrain=[box(1500,300,100,700),box(2250,300,100,700),box(1500,250,850,50),box(1600,400,650,550,[0,1]),box(300,1150,1200,100),box(2350,1150,850,100),[T.shard(Vector2(1300,1750),140,7,52),T.ALL],[T.shard(Vector2(2600,1650),150,7,56),T.ALL]]
    row.sirens=[R.guard("buoy",Vector2(2250,1500),2),R.guard("relay",Vector2(2850,1400),2),R.guard("hunter",Vector2(2600,1900),2,[Vector2(2600,1900),Vector2(3000,1900),Vector2(3000,1500)]),R.post(Vector2(1750,1450),1,150.)]
-  34:return Capstone.layout()
+  34:return Capstone.layout() if Capstone.ENABLED else legacy(id)
   35:
    # Stepped keel: the keel lies under a deck at mid-map. A wall splits the east; the long way
    # round is the north gap, the optional deck lift opens a noisy shorter gate south.
@@ -41,7 +41,7 @@ static func layout(id:int)->Dictionary:
    row.sirens=[R.guard("buoy",Vector2(1550,1700),2),R.guard("relay",Vector2(2150,1300),2),R.guard("hunter",Vector2(1800,2250),2,[Vector2(1800,2250),Vector2(2250,2250),Vector2(2250,1900)]),R.post(Vector2(750,850),1,150.)]
  return row
 static func legacy(id:int)->Dictionary:
- var row={"world_size":Vector2(2800,2800),"start":Vector2(350,2450),"recovery":Vector2(350,2450),"terrain":[],"sirens":[],"structures":[],"core_band":2,"bonus_band":1}
+ var row={"world_size":Vector2(2800,2800),"start":Vector2(350,2450),"recovery":Vector2(350,2450),"terrain":[],"sirens":[],"structures":[],"core_band":2,"bonus_band":1,"mouth":"CALDER SOUTH RECOVERY","current":Vector2(1400,1250),"front":Rect2(1450,900,650,650)}
  match id:
   32:
    # Two drill-deck roofs force a descent into the west bore. The middle

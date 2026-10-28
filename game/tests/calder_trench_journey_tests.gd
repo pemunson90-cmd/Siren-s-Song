@@ -53,8 +53,8 @@ static func steps(id:int,s)->Array:
   32:return [["go",Vector2(1100,2700)],["go",obj(s,"calder_32_shut_in").pos],["shoot","calder_32_shut_in"],["go",Vector2(1100,1100)],["dive",2],["go",core],["shoot",k],["cargo"],["go",Vector2(1100,2300)],["dive",1],["go",m.extraction]]
   33:return [["go",obj(s,"calder_33_gallery").pos],["shoot","calder_33_gallery"],["go",Vector2(1900,1150)],["dive",2],["go",core],["shoot",k],["cargo"],["go",Vector2(1900,1150)],["dive",1],["go",m.extraction]]
   34:return [["go",obj(s,"calder_34_stage_1").pos],["shoot","calder_34_stage_1"],["go",obj(s,"calder_34_stage_2").pos],["shoot","calder_34_stage_2"],["go",obj(s,"calder_34_disconnect").pos],["shoot","calder_34_disconnect"],["dive",2],["go",core],["shoot",k],["dive",1],["go",Vector2(1050,2150)],["go",m.extraction]]
-  35:return [["dive",2],["go",core],["shoot",k],["cargo"],["dive",1],["go",m.extraction]]
-  36:return [["dive",2],["go",core],["shoot",k],["dive",1],["go",m.extraction]]
+  35:return [["dive",2],["go",Vector2(1100,300)],["go",Vector2(1800,300)],["go",core],["shoot",k],["cargo"],["go",Vector2(1800,300)],["go",Vector2(1800,200)],["go",Vector2(2900,200)],["dive",1],["go",m.extraction]]
+  36:return [["go",Vector2(1700,2100)],["go",Vector2(1700,1300)],["dive",2],["go",core],["shoot",k],["go",Vector2(1700,1300)],["dive",1],["go",Vector2(1700,2200)],["go",Vector2(300,2200)],["go",m.extraction]]
  return []
 static var last_step=""
 static func run_core(s,id:int)->bool:

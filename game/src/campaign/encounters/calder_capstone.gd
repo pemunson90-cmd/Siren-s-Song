@@ -3,7 +3,8 @@ extends RefCounted
 # sites around a ring corridor; each completed machine opens the next gate. The well casing
 # is solid in every band, so the order cannot be skipped under it. Stage rosters escalate
 # (stage 1 listeners, stage 2 relay and patrol, stage 3 hunter). Two returns exist: the
-# loud disconnect opens the west corridor shortcut, or the quiet longer retrace goes back
+# loud disconnect opens the west corridor shortcut under the Middle warden, within
+# the disconnect investigation radius; the quiet longer retrace leaves that sound field and goes back
 # around the east and south corridors. No new simulation rules: machines, cargo-free gates
 # and the roster builders are the existing pieces.
 # Seam: calder_layouts.layout(34) returns layout(); calder_trench_operations.build reads
@@ -28,14 +29,14 @@ static func work_rows()->Array:
 static func box(x:float,y:float,w:float,h:float,bands:Array=T.ALL)->Array:
  return [Rect2(x,y,w,h),bands]
 static func layout()->Dictionary:
- var row={"world_size":Vector2(3200,3200),"start":Vector2(300,2900),"recovery":Vector2(2900,2900),"mouth":"CALDER EAST RECOVERY","terrain":[],"sirens":[],"structures":[],"core_band":2,"bonus_band":1,
+ var row={"world_size":Vector2(3200,3200),"start":Vector2(300,2900),"recovery":Vector2(300,2500),"mouth":"CALDER WEST COLLAR","terrain":[],"sirens":[],"structures":[],"core_band":2,"bonus_band":1,
  "core":Vector2(1450,1050),"core_label":"HUMAN BORE THROUGH SIREN FOUNDATION","core_art":"array","bonus":Vector2(2100,2150),"bonus_label":"FIRST STRIKE IMPACT FACE","bonus_art":"scoring","current":Vector2(1100,2150),"front":Rect2(900,1900,700,450)}
  var works=work_rows()
  row.works=works;row.work=works[2].pos;row.gate=works[0].gate
- # Outer ring walls with a south-west entrance gap and a south-east exit gap; solid casing core.
- row.terrain=[box(700,700,1800,100),box(700,700,100,1800),box(2400,700,100,1800),box(700,2400,200,100),box(1200,2400,1000,100),box(1300,1300,600,600),
+ # Outer ring walls with a single south-west entrance gap; solid casing core.
+ row.terrain=[box(700,700,1800,100),box(700,700,100,1800),box(2400,700,100,1800),box(700,2400,200,100),box(1200,2400,1300,100),box(1300,1300,600,600),
  [T.shard(Vector2(2850,1700),170,7,57),T.ALL]]
  row.sirens=[R.guard("buoy",Vector2(2000,2150),1),R.guard("warden",Vector2(1100,2150),1),
- R.guard("relay",Vector2(2150,950),1),R.guard("patroller",Vector2(2150,1500),1,[Vector2(2150,1500),Vector2(2150,1000)]),
- R.guard("hunter",Vector2(1100,1000),1,[Vector2(1100,1000),Vector2(1550,1050),Vector2(1100,1450)])]
+ R.guard("relay",Vector2(2150,950),1),R.guard("patroller",Vector2(2150,1500),2,[Vector2(2150,1500),Vector2(2150,1000)]),
+ R.guard("hunter",Vector2(1100,1000),0,[Vector2(1100,1000),Vector2(1550,1050),Vector2(1100,1450)])]
  return row

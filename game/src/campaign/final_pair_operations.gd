@@ -16,7 +16,7 @@ static func supports_identity(id:int,c:Dictionary)->bool:return id==c.source_id
 static func entries()->Array:
  var result=[]
  for id in IDS:
-  result.append({"id":id,"factory":"res://src/campaign/final_pair_operations.gd","config":{"source_id":id,"history":true},"behaviors":["signals_v2","history"],"prerequisites":[25 if id==30 else 30],"facts":[],"records":[key(id),key(id)+"_bonus"],"campaign":true,"route":"","required_facts":{}})
+  result.append({"id":id,"factory":"res://src/campaign/final_pair_operations.gd","config":{"source_id":id,"history":true},"behaviors":["signals_v2","history"],"prerequisites":[25 if id==30 else 30],"facts":[],"records":[key(id),key(id)+"_bonus"]+(["final_listen_%d"%id] if LAYOUTS[id].ARC6 else []),"campaign":true,"route":"","required_facts":{}})
  return result
 static func key(id:int)->String:return "final_photo_"+str(id)
 static func build(c:Dictionary,history:Dictionary={})->Dictionary:
