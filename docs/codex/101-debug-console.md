@@ -1,8 +1,8 @@
 # Handoff 101: DEBUG CONSOLE (developer tools for playtesting and diagnosis)
 
-Status: OPEN
-Claimed at:
-Claimed by:
+Status: PREPARED FOR ROOT (not merged)
+Claimed at: 28 Oct 2026 17:46 ET
+Claimed by: codex-fresh-101, claude/debug-console
 Finished at:
 
 Precondition: none. Read HANDOFF.md and ORCHESTRATION_2026-10-26.md first. Current review rule (Pat, 28 Oct): independent Sol6.1-high review of the frozen patch before commit and before merge.
@@ -64,3 +64,8 @@ PR into claude/integration; independent review, merge on green; close per ORCHES
 
 ## Completion
 (five lines max)
+[KEEL] Prepared PR210 head `db5b36057141ff62bb49829f060cc88ee8ae1936`; root owns reconciliation/merge under BOARD17:58.
+[KEEL] Debug console, setup, read-only overlays, time/survival, durable DEV exclusion, metrics and JSON export implemented.
+[KEEL] Independent `/root/review_101` approves tree `8c81b917b23d3012243b0f43734b1450fe5b81cc`; provenance and fixes in PR body.
+[KEEL] Import/core842/0, console259/0, density11/0 and required save/profile/settings checks pass; final hosted CI pending.
+[KEEL] Root must reconcile PR207/op41/records; minimal Main/flow/settings/mode archive/SAVE2 seams touched; no simulation rules/APK/phone claim.
