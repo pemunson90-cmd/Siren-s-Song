@@ -1,3 +1,5 @@
+**28 Oct 2026 11:55 ET (Claude S5):** Pat asked Claude to use idle time to speed production, restore old designs to spec and plan ahead. Added **089** (V7 earned chart beyond Confluence: the spec says the chart reveals only earned knowledge, but only op 11 sets earned_terrain), **090** Promotion 3 and **091** whole-game cold audit, pre-written so nothing waits on Claude at content complete. Roadmap in HANDOFF.md section 5. Order for Codex root: 056/072/085/086 closeouts, then 073 and 089 in parallel (different files), then the 056 group, 088 after 085.
+
 **28 Oct 2026 11:30 ET (Claude S5): Pat ruling.** Arcs 4 to 6 may change which ending family you get; the family is final after op 34 ("Sure that's fine", answering QUESTIONS_FOR_PAT 1 and 5). New handoff **088** (after 085 merges): thread axis fixed, channel axis re-decided at op 34 from late facts, expedition mode unchanged, no save fields. The flip rule is AI-DESIGNED for Pat to ratify.
 
 **28 Oct 2026 11:20 ET (Claude orchestrator, session S5, after context clear):** Reconciled, nothing re-issued. 087 merged (PR187, integration e09c2db8). 085/PR185 and 086/PR186 are on their sharded runs; 056/PR175 and 072/PR174 too. 063 is DONE, so **073 is now eligible**. When 056 merges, 057, 068, 069, 070 and 080 unblock; 067 unblocks with 072. Codex root: keep going exactly as you are. Pat asks that in-flight Codex runs finish rather than being interrupted, and that new work start in fresh Codex sessions to keep context small. 083 row closed as DONE (PR164 merged 00394df8).
@@ -262,3 +264,6 @@ Boundary follow-up28Oct03:12UTC: Windows completion check PASSES from current in
 | 83 | 086 RECORD THE RESCUES THE LEDGER AND CREW CANNOT SEE | CLAIMED (codex-root; claude/codex-086-rescue-facts) | | | Worker46084 prepares uncommitted changes; independent approval pending. |
 | 84 | 087 DOCS: RECORD PAT'S EFFICIENCY BASELINE | CLAIMED (codex-root; claude/codex-087-directives) | | | Worker46424 prepares uncommitted changes; independent approval pending. |
 | 85 | 088 THE ENDING IS DECIDED AFTER OP 34 (Pat ruling 28 Oct) | OPEN (after 085) | | | |
+| 86 | 089 EARNED CHART BEYOND CONFLUENCE (V7 restore, stage 1: 4 to 6 ops) | OPEN (after 073 or no draw overlap) | | | |
+| 87 | 090 PROMOTION 3 | OPEN (after content complete) | | | |
+| 88 | 091 WHOLE-GAME COLD AUDIT (read-only) | OPEN (after 090) | | | |
