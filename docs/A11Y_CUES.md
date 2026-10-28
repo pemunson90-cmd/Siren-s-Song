@@ -64,7 +64,7 @@ their existing geometry, labels and numeric channels. Decorative background,
 lamps, particles and lighting carry no new warning semantics.
 
 SAFE PALETTE selects the table's Okabe/Ito Color Universal Design colors for the
-narrow warning/range consumers (blue, sky blue, orange, yellow), intended for
+warning/range and chart consumers (blue, sky blue, orange, yellow), intended for
 protanopia/deuteranopia support. Primary reference: Masataka Okabe and Kei Ito,
 [Color Universal Design](https://jfly.uni-koeln.de/color/index.html), including
 redundant coding guidance and palette. Labels and patterns are essential;
@@ -103,3 +103,27 @@ Revert optional cues with AUDIO CAPTIONS / SAFE PALETTE OFF; HAPTICS remains its
 existing independent setting. `CueTable.ENABLED=false` stops the observer and
 optional palette. Revert this PR to remove mandatory ring patterns/labels and
 film words as well. Campaigns remain readable because no campaign fields change.
+
+
+## 081 chart settings (lane implementation; integration pending)
+
+The existing REDUCED MOTION setting holds regional and legacy dust at phase zero,
+steadies the beam target arc, pressure vignette and Hunt tone, and caps the own
+camera_flash presentation timer at 0.08 s (the chart currently draws no flash wash).
+HIGH CONTRAST thickens chart/contact/craft outlines and course strokes, brightens
+course colors, and mutes decorative regional light/dust and photographic lamp wash.
+SAFE PALETTE adds long-dash threat rings, dotted evidence/received marks and
+short-dash warning rings with opaque dark stroke backing. The received-bearing
+renderer uses the same published rows, latest-source/three-second gate and fan
+geometry as SonarHistory, with dotted rays and an extra diamond for echoes. Course geometry retains
+its solid confirmed / dashed unsurveyed distinction and gets role colors. Existing
+contact words, photographic finding shapes, warning arcs, seconds and eligibility
+remain authoritative. The existing Hunt help includes the optional chart legend.
+
+Turn all three settings off to restore the standard draw path. There are no new
+settings, campaign fields, sensing values or warning gates. `cue_tests.gd` covers
+command equality, phase stability, distinct patterns, 3:1 stroke/backing contrast,
+flash cap and unchanged warning/contact data. Its optional `--chart-render` checks
+actual Compatibility output and reversible toggles; `--chart-baseline=<gd path>`
+compares pre-change OceanView source as well. These fixtures establish technical
+render behavior, not human perception or physical-phone readability.
