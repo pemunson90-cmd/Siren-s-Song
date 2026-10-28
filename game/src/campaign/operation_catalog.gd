@@ -92,6 +92,7 @@ static func make(id:int,history:Dictionary={})->Dictionary:
  var m=factory.build(d.config,history) if factory.has_method("build") else factory.make(d.config.source_id,history) if d.config.history else factory.make(d.config.source_id)
  if not m is Dictionary or not m.has_all(["id","objectives","sirens","extraction","rocks"]):return {}
  m.id=id
+ preload("res://src/campaign/carry/carry.gd").apply(m,id,history)
  preload("res://src/campaign/photo_ops.gd").apply(m,id,history)
  preload("res://src/simulation/photo_pricing/photo_pricing_data.gd").apply(m,id)
  preload("res://src/photo_rules/rule_data.gd").apply(m,id)

@@ -52,6 +52,7 @@ industrial_threats_tests|INDUSTRIAL THREATS|49|38
 iron_research_tests|IRON RESEARCH|50|41
 iron_choir_journeys|IRON JOURNEY|51|42
 iron_choir_ui_tests|IRON CHOIR UI|52|43
+carry_tests|CARRY|550|650
 onward_mission_tests|ONWARD MISSIONS|53|44
 wake_crossing_tests|WAKE CROSSING|54|16
 wake_crossing_journey_tests|WAKE CROSSING JOURNEY|55|17
