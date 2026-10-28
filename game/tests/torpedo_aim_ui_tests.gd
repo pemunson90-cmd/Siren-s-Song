@@ -18,6 +18,8 @@ func pointer(p:Vector2,down:bool,touch:bool=false,emulated:bool=false):
 func click(p:Vector2,touch:bool=false):
  await pointer(p,true,touch);await pointer(p,false,touch);await frames()
 func setup(g):
+ # The original aim cases require two finite torpedoes on Quietus.
+ g.tool_racks=preload("res://src/equipment/tool_racks.gd").empty();g.tool_racks.quietus.knock=2
  g._start_mission(4);g.sim.units[0].pos=Vector2(600,750)
  for i in 2:g.sim.sirens[i].pos=Vector2(710+2*i,750);g.sim.sirens[i].vel=Vector2.ZERO;g.sim.sirens[i].band=1;g.sim.sirens[i].transition={}
  g.sim.paused=false

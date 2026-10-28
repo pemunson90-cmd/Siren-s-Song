@@ -67,6 +67,7 @@ var fleet:Dictionary={}
 var economy:Dictionary=preload("res://src/campaign/economy.gd").new_state()
 var challenge_records:Dictionary={}
 var fitted_equipment:Dictionary=preload("res://src/equipment/equipment_catalog.gd").default_loadout()
+var tool_racks:Dictionary=preload("res://src/equipment/tool_racks.gd").template("endurance",fitted_equipment)
 var upgrade := "endurance"
 var capture_scenario := ""
 var frame := 0
@@ -229,10 +230,22 @@ func _layout(cancel_gesture:bool=true) -> void:
 		for slider in menu.find_children("*","Slider",true,false): slider.custom_minimum_size.y=h
 	if route_editor!=null and route_editor.visible: route_editor.configure(size,h)
 	call_deferred("_report_targets")
+# Mode sessions own fixed/persistent stock and separate economies. Their inherited Main
+# startup must not apply the campaign profile's racks.
+func _uses_tool_racks()->bool:
+	var script=get_script()
+	while script!=null:
+		if script.resource_path in ["res://src/presentation/frontend/challenge_session.gd","res://src/presentation/runs/expedition_session.gd","res://src/presentation/career/career_session.gd"]:return false
+		script=script.get_base_script()
+	return true
 func _start_mission(index: int) -> void:
 	fitted_equipment=FleetInventory.reconcile_fitting(fitted_equipment,FleetInventory.available(_equipment_entitlements(),fleet))
 	var launch=FleetInventory.launch(fitted_equipment,_equipment_entitlements(),fleet,index,_campaign_completed())
 	if not launch.ok:sim.message="Fitting unavailable · choose available hardware or BARE";return
+	var racks=preload("res://src/equipment/tool_racks.gd")
+	if _uses_tool_racks():
+		if not racks.reason(fitted_equipment,tool_racks).is_empty():sim.message=racks.reason(fitted_equipment,tool_racks);return
+		launch.launch["tool_racks"]=tool_racks.duplicate(true)
 	launch.launch["context"]=_launch_context(index)
 	# The first call builds the paused display before loading an archive. Even
 	# blocked recovery needs valid craft/UI; later player launches stay guarded.
@@ -279,7 +292,7 @@ func _order(order: String,args: Dictionary={}) -> void:
 	if order=="decoy" and not args.has("point"):
 		targeting_feedback=""
 		map_gesture.cancel(); knock_armed=false; ocean.knock_targeting=false
-		if sim.units[sim.selected].alive and sim.tools.decoy>0 and sim.outcome.is_empty():decoy_armed=not decoy_armed;decoy_unit=sim.selected
+		if sim.units[sim.selected].alive and preload("res://src/equipment/tool_racks.gd").count(sim,"decoy")>0 and sim.outcome.is_empty():decoy_armed=not decoy_armed;decoy_unit=sim.selected
 		else:decoy_armed=false;sim.message="Decoy unavailable · no charge spent"
 		_refresh(); print("SS_DECOY_AIM armed=",decoy_armed," selected=",sim.selected); call_deferred("_report_targets"); return
 	if order=="knock" and not args.has("target"):
@@ -324,7 +337,7 @@ func _process(dt: float) -> void:
 func _refresh() -> void:
 	if not quality_runtime.refresh(self,quality_periodic_refresh):return
 	if lock_warning!=null:lock_warning.refresh(self)
-	if decoy_armed and (screen!="mission" or sim.selected!=decoy_unit or not sim.units[sim.selected].alive or sim.tools.decoy<=0 or not sim.outcome.is_empty()):decoy_armed=false
+	if decoy_armed and (screen!="mission" or sim.selected!=decoy_unit or not sim.units[sim.selected].alive or preload("res://src/equipment/tool_racks.gd").count(sim,"decoy")<=0 or not sim.outcome.is_empty()):decoy_armed=false
 	ocean.decoy_targeting=decoy_armed
 	if knock_armed and (screen!="mission" or sim.selected!=0 or not sim.units[0].alive or not sim.outcome.is_empty()): knock_armed=false
 	ocean.knock_targeting=knock_armed; ocean.knock_touch_size=ui_touch_height
@@ -353,12 +366,12 @@ func _refresh() -> void:
 	order_buttons.silent.text=("LOW\nPROFILE" if sim.units[sim.selected].silent else "OPEN\nPROFILE") if sim.selected>0 else ("SILENT ✓" if sim.units[0].silent else "CRUISE")
 	order_buttons.knock.text="CANCEL\nTORPEDO" if knock_armed else "TORPEDO\n%d"%sim.tools.get("knock",0)
 	order_buttons.knock.disabled=not knock_armed and (sim.selected!=0 or not sim.units[0].alive or sim.tools.get("knock",0)<=0)
-	order_buttons.emp.text="DISRUPT\n%d"%sim.tools.emp
-	order_buttons.emp.disabled=sim.tools.emp<=0
-	order_buttons.decoy.text="CANCEL\nDECOY" if decoy_armed else "DECOY\n%d"%sim.tools.decoy
-	order_buttons.decoy.disabled=sim.tools.decoy<=0 and not decoy_armed
-	order_buttons.recon.text="SURVEY\n%d"%sim.tools.recon
-	order_buttons.recon.disabled=sim.tools.recon<=0
+	order_buttons.emp.text="DISRUPT\n%d"%preload("res://src/equipment/tool_racks.gd").count(sim,"emp")
+	order_buttons.emp.disabled=preload("res://src/equipment/tool_racks.gd").count(sim,"emp")<=0
+	order_buttons.decoy.text="CANCEL\nDECOY" if decoy_armed else "DECOY\n%d"%preload("res://src/equipment/tool_racks.gd").count(sim,"decoy")
+	order_buttons.decoy.disabled=preload("res://src/equipment/tool_racks.gd").count(sim,"decoy")<=0 and not decoy_armed
+	order_buttons.recon.text="SURVEY\n%d"%preload("res://src/equipment/tool_racks.gd").count(sim,"recon")
+	order_buttons.recon.disabled=preload("res://src/equipment/tool_racks.gd").count(sim,"recon")<=0
 	log_label.text=preload("res://src/presentation/archive/voice_feed.gd").log_text(self,sim.message)
 	if sim.mission.get("well_revision",0)==1 and sim.mission.objectives[0].captured:
 		var comparison="MATCH RECORDED" if not sim.mission.well_observation.is_empty() else ("REFERENCE LOGGED" if not sim.mission.well_reference.is_empty() else "UNVERIFIED")
@@ -602,6 +615,7 @@ func _archive() -> Dictionary:
 	preload("res://src/presentation/finale/finale.gd").write(self,data)
 	preload("res://src/presentation/archive/voice_feed.gd").write(self,data)
 	preload("res://src/persistence/save_states/save2_controller.gd").write(self,data)
+	data["tool_racks"]=tool_racks.duplicate(true)
 	data["equipment"]=preload("res://src/equipment/equipment_catalog.gd").canonical(fitted_equipment)
 	return data
 func _save_archive() -> void:
@@ -646,6 +660,7 @@ func _load_archive() -> void:
 		photo_intel=saved.get("intel",{}).duplicate(true)
 		fitted_equipment=preload("res://src/equipment/equipment_catalog.gd").canonical(saved.get("equipment",{}))
 		fitted_equipment=FleetInventory.reconcile_fitting(fitted_equipment,FleetInventory.available(_equipment_entitlements(),fleet))
+		tool_racks=preload("res://src/equipment/tool_racks.gd").migrated(saved,fitted_equipment)
 		var Economy=preload("res://src/campaign/economy.gd")
 		economy=saved.economy.duplicate(true) if saved.has("economy") else Economy.legacy_state(fitted_equipment)
 		recovered_evidence=saved.get("evidence",{})

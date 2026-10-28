@@ -1,3 +1,11 @@
+## 28 October 2026: carrying tools costs cargo
+
+Claude's question (QUESTIONS_FOR_PAT 13, verbatim): "today every loadout gets a fixed free bundle of tools. Should carrying tools cost module slots or cargo space, so a tool-heavy loadout means giving up a module? I recommend yes, because it turns the loadout into a real planning choice."
+
+Pat (verbatim, ~14:13 ET): "Yes to your open question."
+
+Operating effect: finite charges share each carrying craft's cargo with modules and winch work. ENDURANCE, DISRUPTION and SURVEY are editable starting templates; empty racks remain launchable. Handoff098 implements this through optional per-profile racks, old-loadout migration and owner-aware deployment. Specific cargo weights, allocation and extra-charge prices are AI-DESIGNED provisional choices, not Pat-ratified numbers. Existing tool effects stay unchanged; Torpedo and Hull patch retain their demonstrated Quietus-only guards. Other tools already deploy from the selected craft and now require its own stock.
+
 ## 28 October 2026: fleet, tools and bare-launch finishability
 
 Pat's ruling (verbatim, ~12:25 ET):

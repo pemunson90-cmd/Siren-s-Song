@@ -120,6 +120,9 @@ func run() -> void:
 	var intent=game.mission_hud.intent
 	check(intent.get_combined_minimum_size().y<=intent.size.y+1 and intent.size.y>=intent.get_line_height()*2 and intent.get_global_rect().end.y<=game.size.y,"status text wraps inside the screen")
 	# 067: real successful orders trigger first use, without adding a pause.
+	# Equip stock so rejected patch work and successful buoy use reach their real guards.
+	game.tool_racks=preload("res://src/equipment/tool_racks.gd").empty()
+	game.tool_racks.quietus={"sonobuoy":1,"hull_patch":1}
 	game.hints_seen=[]; game._start_mission(32); await settle()
 	game.set_process(false); game.sim.paused=false
 	hints.dismiss(); game._refresh()

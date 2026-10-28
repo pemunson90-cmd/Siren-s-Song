@@ -112,7 +112,13 @@ func run():
    if only>=0 and id!=only:continue
    var g=load("res://scenes/main.tscn").instantiate();g.set_script(load("res://tests/density_main.gd"));g.store.path="user://opening-policy-%d-%d.save"%[shape.x,id]
    if shape.x==2520:g.fixture_safe_area=Rect2(136,0,2384,1080)
-   root.add_child(g);await settle();g.set_process(false);g._start_mission(id);await settle()
+   root.add_child(g);await settle();g.set_process(false)
+   # These routes deliberately launch bare; compare actual stock before/after.
+   g.tool_racks=preload("res://src/equipment/tool_racks.gd").empty()
+   g._start_mission(id);await settle()
+   var launch_tools=g.sim.tools.duplicate(true)
+   var launch_field=g.sim.mission.field_tools.counts.duplicate(true)
+   var launch_racks=g.sim.mission.tool_racks.duplicate(true)
    match id:
     1:await arc_split(g)
     2:await arc_blackwater(g)
@@ -120,7 +126,7 @@ func run():
     4:await arc_well(g)
     5:await arc_song(g)
    check(g.sim.outcome=="won","actual touch completes opening "+str(id)+" on "+str(shape))
-   check(g.sim.tools.emp==2 and g.sim.tools.decoy==3 and g.sim.tools.recon==2 and g.sim.tools.knock==2,"actual input policy requires no finite tool")
+   check(launch_tools.values().all(func(n):return n==0) and launch_field.values().all(func(n):return n==0) and g.sim.tools==launch_tools and g.sim.mission.field_tools.counts==launch_field and g.sim.mission.tool_racks==launch_racks,"actual input policy requires no finite tool")
    check(g.sim.valid_snapshot(g.sim.snapshot()),"input-earned opening result remains current-save valid")
    print("OPENING TOUCH op=",id," shape=",shape," outcome=",g.sim.outcome," time=",g.sim.elapsed," hull=",g.sim.hull," oxygen=",g.sim.oxygen," alive=",g.sim.units.map(func(u):return u.alive))
    g.mission_hud.dismiss();g._refresh();await capture("%d-op%d-earned-return"%[shape.x,id]);g.queue_free();await settle()
