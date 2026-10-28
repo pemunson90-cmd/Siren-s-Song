@@ -208,3 +208,5 @@ Claude lanes in parallel (not Codex work): C6 doc sweep (claude/c6-doc-sweep), C
 | 80 | 083 Add a Siren dossier: what each of the eight roles does and how to counter it, un | OPEN | | | |
 
 Tooling repair pending: gauntlet-boundary.py imports fcntl unconditionally and cannot run on native Windows. Fix platform locking or supply supported Linux invocation; preserve guidance checks. Observed at059 closeout, 27Oct2026.
+
+Boundary follow-up28Oct03:12UTC: Windows completion check PASSES from current integration88188bd0 using Siren-s-Song-codex-058. Earlier fcntl error came from the stale protected-main checkout; integration already has platform-specific locking. Use the current lane copy for boundaries; no new tooling repair is required.
