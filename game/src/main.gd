@@ -681,14 +681,12 @@ func _settings_menu() -> void:
 		b.focus_mode=Control.FOCUS_ALL; b.toggle_mode=true; b.button_pressed=is_equal_approx(FrontendSettings.text_scale(),scale)
 		b.set_meta("action","text_scale_%d"%roundi(scale*100)); b.set_meta("ui_action","text_scale_%d"%roundi(scale*100))
 		b.pressed.connect(_set_text_scale.bind(scale),CONNECT_DEFERRED); sizes.add_child(b)
-	_menu_text("FRAME RATE CAP",17)
-	var frame_caps=HBoxContainer.new(); frame_caps.add_theme_constant_override("separation",8); panel_box.add_child(frame_caps)
 	for cap in [30,60]:
 		var selected_cap:int=cap
-		var b=Button.new(); b.text="%d FPS"%selected_cap; b.custom_minimum_size=Vector2(0,ui_touch_height); b.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+		var b=Button.new(); b.text="CAP %d FPS"%selected_cap; b.custom_minimum_size=Vector2(0,ui_touch_height); b.size_flags_horizontal=Control.SIZE_EXPAND_FILL
 		b.focus_mode=Control.FOCUS_ALL; b.toggle_mode=true; b.button_pressed=FrontendSettings.current.frame_cap==selected_cap
 		b.set_meta("action","frame_cap_%d"%selected_cap); b.set_meta("ui_action","frame_cap_%d"%selected_cap)
-		b.pressed.connect(_set_accessibility.bind("frame_cap",selected_cap),CONNECT_DEFERRED); frame_caps.add_child(b)
+		b.pressed.connect(_set_accessibility.bind("frame_cap",selected_cap),CONNECT_DEFERRED); audio_modes.add_child(b)
 	_button(panel_box,"SHOW FIRST-DIVE TIPS AGAIN",func(): hints_seen=[]; _save_archive(); sim.message="Tips will show again in the opening operations"; _settings_menu(),"reset_tips")
 	for row in [["safe_palette","SAFE PALETTE"],["audio_captions","AUDIO CAPTIONS"],["haptics","HAPTICS"]]:
 		var key:String=row[0]
