@@ -218,6 +218,9 @@ static func cycle_preset(e:Dictionary)->bool:
  return true
 static func set_ironman(e:Dictionary)->void:
  e.ironman=true
+# Read helper for the save layers (SAVE2 and profiles): true only for a well-formed Ironman block.
+static func is_ironman(e)->bool:
+ return e is Dictionary and e.get("ironman",false)==true
 # ---- save validation ---------------------------------------------------------
 # Registered in persistence/save_checks.gd; an absent field is new-economy defaults.
 static func valid_archive(data:Dictionary)->bool:

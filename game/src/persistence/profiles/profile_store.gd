@@ -161,6 +161,10 @@ func replace(index: int, files: Dictionary, confirmed: bool, restored_name: Stri
  if slot_path(index).is_empty() or not _valid_files(files):return _fail("Invalid profile replacement.")
  var previous = snapshot(index)
  if previous.is_empty():return _fail("Cannot preserve undo files.")
+ # Ironman keeps one timeline: never copy or import an Ironman archive, or replace one with progress.
+ # Clearing a slot and undoing a replacement (restored_name set) are not rewinds and stay allowed.
+ if Rules.IRONMAN_GUARD and restored_name.is_empty() and files.get("") != null:
+  if _holds_ironman(files) or _holds_ironman(previous):return _fail("Ironman keeps one timeline. This profile cannot be copied or replaced; clear it first.")
  var entries = {}
  for suffix in Rules.SUFFIXES:entries[slot_path(index) + suffix] = files[suffix]
  var next = state.duplicate(true)
@@ -191,29 +195,40 @@ func _valid_files(files: Dictionary) -> bool:
   if not files.has(suffix):return false
   if files[suffix] != null and (not files[suffix] is PackedByteArray or files[suffix].size() > Rules.FILE_LIMIT):return false
  return true
+func _holds_ironman(files: Dictionary) -> bool:
+ for suffix in ["", ".bak"]:
+  if not files.get(suffix) is PackedByteArray:continue
+  var value = _payload(files[suffix])
+  if value is Dictionary and value.get("economy") is Dictionary and value.economy.get("ironman",false) == true:return true
+ return false
 func _valid_archive(bytes: PackedByteArray, challenge: bool) -> bool:
- var buffer = StreamPeerBuffer.new();buffer.data_array = bytes
- if bytes.size() < 32 or bytes.size() > Rules.FILE_LIMIT:return false
- # Bound Pascal strings before decoding. SaveStore's writer uses little endian.
- var magic_size = buffer.get_u32()
- if magic_size != 13 or buffer.get_available_bytes() < magic_size + 4:return false
- var magic = buffer.get_data(magic_size)[1].get_string_from_utf8()
- if magic != "QUIETUS_PASS0":return false
- var hash_size = buffer.get_u32()
- if hash_size != 64 or buffer.get_available_bytes() < hash_size + 4:return false
- var checksum = buffer.get_data(hash_size)[1].get_string_from_utf8()
- var count = buffer.get_u32()
- if count <= 0 or count != buffer.get_available_bytes():return false
- var payload: PackedByteArray = buffer.get_data(count)[1]
- if payload.hex_encode().sha256_text() != checksum:return false
- var value = Codec.decode(payload)
- if not value is Dictionary or not value.get("version") is int:return false
+ var value = _payload(bytes)
+ if value == null:return false
  var validator = load("res://src/campaign/challenges/challenge_archive.gd" if challenge else "res://src/persistence/save_store.gd").new()
  return validator.valid(value)
+func _payload(bytes: PackedByteArray) -> Variant:
+ var buffer = StreamPeerBuffer.new();buffer.data_array = bytes
+ if bytes.size() < 32 or bytes.size() > Rules.FILE_LIMIT:return null
+ # Bound Pascal strings before decoding. SaveStore's writer uses little endian.
+ var magic_size = buffer.get_u32()
+ if magic_size != 13 or buffer.get_available_bytes() < magic_size + 4:return null
+ var magic = buffer.get_data(magic_size)[1].get_string_from_utf8()
+ if magic != "QUIETUS_PASS0":return null
+ var hash_size = buffer.get_u32()
+ if hash_size != 64 or buffer.get_available_bytes() < hash_size + 4:return null
+ var checksum = buffer.get_data(hash_size)[1].get_string_from_utf8()
+ var count = buffer.get_u32()
+ if count <= 0 or count != buffer.get_available_bytes():return null
+ var payload: PackedByteArray = buffer.get_data(count)[1]
+ if payload.hex_encode().sha256_text() != checksum:return null
+ var value = Codec.decode(payload)
+ if not value is Dictionary or not value.get("version") is int:return null
+ return value
 func export_profile(index: int) -> String:
  if not _ready_for_change():return ""
  var files = snapshot(index)
  if not _valid_files(files):_fail("Cannot read export source.");return ""
+ if Rules.IRONMAN_GUARD and _holds_ironman(files):_fail("Ironman keeps one timeline. An Ironman profile cannot be exported.");return ""
  for suffix in Rules.SUFFIXES:
   if files[suffix] != null and not _valid_archive(files[suffix],suffix.contains("challenges")):_fail("Export refused: unreadable archive " + suffix + ".");return ""
  var payload = var_to_bytes({"files":files})

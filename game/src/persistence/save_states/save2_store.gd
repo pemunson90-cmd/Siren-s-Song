@@ -5,6 +5,7 @@ extends RefCounted
 const Table=preload("res://src/persistence/save_states/save2_table.gd")
 const Txn=preload("res://src/persistence/save_states/save2_transaction.gd")
 const Store=preload("res://src/persistence/save_store.gd")
+const Economy=preload("res://src/campaign/economy.gd")
 var live_path:String
 var directory:String
 var warning=""
@@ -58,7 +59,7 @@ func _record(kind:String,data:Dictionary,label:String,event:String,run:String=""
  var recovered=data.get("completed",[])+data.get("expedition",{}).get("completed",[])
  var state=data.get(Table.STATE,{})
  var last=int(state.get("last_recovered",recovered.back() if not recovered.is_empty() else -1))
- return {"revision":1,"kind":kind,"label":label,"timestamp":int(clock.call()),"sequence":_sequence(),"event":event,"digest":var_to_bytes(data).hex_encode().sha256_text(),"recovery_count":int(state.get("recoveries",recovered.size())),"last_operation":last+1,"run_id":run,"launch_id":launch}
+ return {"revision":1,"kind":kind,"label":label,"timestamp":int(clock.call()),"sequence":_sequence(),"event":event,"digest":var_to_bytes(data).hex_encode().sha256_text(),"recovery_count":int(state.get("recoveries",recovered.size())),"last_operation":last+1,"run_id":run,"launch_id":launch,"ironman":Economy.is_ironman(data.get("economy"))}
 func _write(kind:String,index:int,data:Dictionary,record:Dictionary)->bool:
  var payload=data.duplicate(true);payload[Table.RECORD]=record
  var codec=Store.new();var bytes=codec.encoded(payload)
