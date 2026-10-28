@@ -1,6 +1,7 @@
 extends RefCounted
 # Fixed replays of recovered operations; these rows never modify the operation tables.
 # All rule budgets and pars live here. Pars are authored targets, not a playtest verdict.
+# Optional "route_pars":{"key":"<dot path in mission>","pars":{route:par}} scores by the route taken (Pat 27 Oct, lung_solo).
 # Extension: add a row and, for a new photographic rule, its check in challenge_rules.gd.
 # Revert: remove this folder, the frontend entry/session, and the small profile seams.
 const Gear=preload("res://src/equipment/equipment_catalog.gd")
@@ -27,7 +28,8 @@ const ROWS=[
 	{"id":"reach_quiet","op":16,"title":"REACH / QUIET PROPULSION","loadout":"endurance","rule":"quiet_propulsion","par":{"time":240.,"hull":85.,"tools":0}},
 	{"id":"glass_fast","op":19,"title":"GLASS / FAST RECOVERY","loadout":"survey","rule":"time_limit","par":{"time":240.,"hull":85.,"tools":0}},
 	{"id":"stair_no_charges","op":23,"title":"STAIR / NO CHARGES","loadout":"endurance","rule":"no_tools","par":{"time":240.,"hull":90.,"tools":0}},
-	{"id":"lung_solo","op":29,"title":"LUNG / QUIETUS ONLY","loadout":"endurance","rule":"quietus_only","par":{"time":110.,"hull":100.,"tools":0}}
+	{"id":"lung_solo","op":29,"title":"LUNG / QUIETUS ONLY","loadout":"endurance","rule":"quietus_only","par":{"time":110.,"hull":100.,"tools":0},
+		"route_pars":{"key":"iron_choir.choice","pars":{"dismantle":{"time":110.,"hull":100.,"tools":0},"reconnect":{"time":300.,"hull":100.,"tools":0}}}}
 ]
 static func all()->Array:
 	return ROWS.duplicate(true)

@@ -52,7 +52,7 @@ No APK, phone/human-test request, branch deletion, force push, amend or frozen-b
 Development was paused, then **resumed by Pat at ~19:17 ET the same day** (see USER_DIRECTIVES top entry); the rulings below are recorded for the next authorized continuation and **do not** authorize implementation, new claims, CI, merges, APK builds or production promotion. Live Codex claims/roadmap remain on `codex/handoffs` BOARD.md.
 
 - Relay buoy: retain +35% passive-sensing boost for **both drones within the buoy's effect radius**; unlimited drone command range stays. Equipment PR #150 still requires correction of the hosted fitting/touch failure and green exact-head CI **after resumption**.
-- `lung_solo` challenge: 110-second dismantle and 300-second reconnect route-aware pars; keep route-specific personal bests plus overall challenge completion. Design accepted, **not implemented**.
+- `lung_solo` challenge: 110-second dismantle and 300-second reconnect route-aware pars; keep route-specific personal bests plus overall challenge completion. Implemented on `claude/c8-challenge-pars` (059): `route_pars` in the catalog, optional `route` result and `routes` bests fields, `ROUTE_PARS_ENABLED` switch, `challenges_route_pars_tests`. Open: lung_solo bypass/isolate choices use the base 110 s par.
 - Sight-only Hunt's current reversible numbers/presentation are a **provisional testing baseline**, with retuning after whole-game runs, not final balance approval.
 - Economy prices, rewards and preset balance remain **provisional** until simulated full-campaign runs support tuning.
 - Finish content **before** independent whole-game audit; emphasize photography, strategic depth and player experience first, alongside other audit dimensions.
