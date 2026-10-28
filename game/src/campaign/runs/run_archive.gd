@@ -24,13 +24,15 @@ static func restore(host)->Dictionary:
 	host.set_meta("runs_archive_dirty",false)
 	host.set_meta("runs_save_error",archive.warning)
 	if state.get("in_flight",false):
-		state=State.interrupted(state)
+		if preload("res://src/debug/dev_state.gd").marked(host):state.in_flight=false
+		else:state=State.interrupted(state)
 		# Conversion is final in memory even when storage fails. A later restore retries
 		# the loss write instead of exposing the pre-crash dive as a playable state.
 		host.set_meta("runs_archive_state",state.duplicate(true));host.set_meta("runs_archive_dirty",true)
 		persist(host,state)
 	return state.duplicate(true)
 static func persist(host,state:Dictionary)->bool:
+	if preload("res://src/debug/dev_state.gd").marked(host):return true
 	if not _available(host):return false
 	var archive=load("res://src/campaign/runs/run_archive.gd").new();archive.path=host.store.path+".runs"
 	if host.get_meta("runs_archive_path","")!=archive.path:restore(host)

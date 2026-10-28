@@ -66,6 +66,8 @@ const save_checks = [
 	["transport", Courier, "valid", "mission_time"],
 	["transport", Thermal, "valid_mission", "mission"],
 	# Campaign archive phase: SaveStore.valid asks for it; an absent economy field is defaults.
+	["archive", preload("res://src/debug/dev_state.gd"), "valid", "snapshot"],
+	["initial", preload("res://src/debug/dev_state.gd"), "valid", "mission"],
 	["archive", Economy, "valid_archive", "snapshot"],
 	["archive", ToolRacks, "valid_archive", "snapshot"],
 	["archive", Voices, "valid_archive", "snapshot"],

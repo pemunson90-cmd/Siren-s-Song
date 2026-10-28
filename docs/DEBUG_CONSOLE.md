@@ -1,0 +1,15 @@
+# Developer console (handoff 101)
+
+[KEEL: implementation] Debug builds offer Settings > Developer and an 850ms three-finger hold during a dive. Opening pauses the dive; Close returns to the current screen. Buttons use the shared minimum 48dp touch metric. The desktop command line has Up/Down history. Release builds install no console or gesture entry points.
+
+Choose an operation, thread, Confluence channel, late-vote group and Sorley rescue preset, Apply history, then Launch. Individual facts and completion flags override launch history only; the ordinary campaign history is preserved. Fact Clear explicitly suppresses an inherited fact. Setup/grants apply between dives. End DEV Dive abandons the current developer attempt and returns to setup. The operation picker uses the authored registry, including operation 41 when handoff 092 is integrated; Sorley uses its `sorley_boy=rescued` fact, with absence representing no recovered landing.
+
+Commands: `jump OP`, `preset deep|shelf concealed|overt none|concealed|overt found|absent`, `fact KEY VALUE`, `clear KEY`, `complete OP`, `grant ID [COUNT]`, `unlock`, `overlay NAME`, `time 0.25..4`, `step`, `invulnerable`, `oxygen`, `end`, `export`, `help`. The panel lists supported overlays, facts and hardware/tool IDs. Grants respect existing resource, rack, carrying and tool limits.
+
+Every state or overlay change permanently marks the profile DEV until New Campaign. A DEV badge stays visible. DEV dives show measurements instead of settling campaign/Ironman progress, challenge bests, expedition records or career standing; the exclusion survives saving and release-build reloads. Modes inherit the parent profile's DEV status. Use a spare profile for developer work.
+
+Overlays independently show sight, Quietus-dependent hearing bounds, patrol/state, Hunt, locks, motion noise, endurance, cargo/winch capacity and earned-chart cells. Hearing circles are open-water upper bounds for Quietus emissions; geometry, depth and reception still govern actual hearing. Overlay drawing never feeds the simulation. Invulnerability restores survival and death-ejected cargo after ordinary fixed steps; sensing, lock, beam, collision and damage still execute. Time controls are scoped to the dive adapter.
+
+The DEV debrief reports simulation time, hull, peak Hunt, received lock episodes, oxygen reserve/seconds, spent finite tools and drones used. Export writes JSON through the existing profile transfer file/provider routes (native Android dialog, Downloads fallback, or desktop app folder). Export errors/cancellation are shown in the console.
+
+Implementation reference: Godot's [OS.is_debug_build](https://docs.godotengine.org/en/stable/classes/class_os.html#class-os-method-is-debug-build) and [InputEventScreenTouch](https://docs.godotengine.org/en/stable/classes/class_inputeventscreentouch.html). Time scales use ordinary fixed simulation advances, avoiding global Engine time changes to UI/audio/settings.

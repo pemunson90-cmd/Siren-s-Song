@@ -105,6 +105,8 @@ var early_reward:Dictionary={}
 var lock_warning
 var audio_captions
 var settings_path="user://settings.json"
+var debug_console
+const DevState=preload("res://src/debug/dev_state.gd")
 var quality_runtime=preload("res://src/presentation/quality/quality_runtime.gd").new()
 var quality_periodic_refresh:=false
 func _ready() -> void:
@@ -168,6 +170,7 @@ func _ready() -> void:
 	if capture_scenario.is_empty(): _load_archive(); _show_campaign(); _boot_frontend()
 	else: _scenario(capture_scenario)
 	_layout()
+	if OS.is_debug_build():debug_console=load("res://src/debug/debug_console.gd").install(self)
 # Title/settings/credits overlay. Any failure leaves the original campaign menu as the boot screen.
 func _boot_frontend() -> void:
 	var script=load("res://src/presentation/frontend/frontend.gd")
@@ -229,6 +232,7 @@ func _layout(cancel_gesture:bool=true) -> void:
 			button.custom_minimum_size.y=h; button.add_theme_font_size_override("font_size",maxi(17,roundi(h*0.29*FrontendSettings.text_scale())))
 		for slider in menu.find_children("*","Slider",true,false): slider.custom_minimum_size.y=h
 	if route_editor!=null and route_editor.visible: route_editor.configure(size,h)
+	if debug_console!=null:debug_console.badge_layout_key=0
 	call_deferred("_report_targets")
 # Mode sessions own fixed/persistent stock and separate economies. Their inherited Main
 # startup must not apply the campaign profile's racks.
@@ -255,6 +259,8 @@ func _start_mission(index: int) -> void:
 	call_deferred("_layout")
 	if route_editor!=null: route_editor.hide()
 	active_started=true; mission_index=index; sim.start(index,upgrade,launch.launch)
+	if DevState.marked(self):sim.mission["dev"]=true
+	if debug_console!=null:debug_console.reset_metrics()
 	if mission_hud!=null:
 		mission_hud.hints.dismiss();mission_hud.tool_help.cancel()
 		mission_hud.subject={};mission_hud.page="craft"
@@ -327,7 +333,8 @@ func _process(dt: float) -> void:
 		save_clock+=dt
 		if save_clock>5.0: _save_archive(); save_clock=0.0
 	if screen=="mission":
-		sim.advance(dt)
+		if debug_console!=null:debug_console.advance(dt)
+		else:sim.advance(dt)
 		_observation_diagnostics()
 		if not sim.outcome.is_empty(): _debrief()
 		elif sim.has_method("departure_context") and sim.departure_context().get("pending",false): _confirm_module_departure()
@@ -400,6 +407,8 @@ func _toggle_advanced() -> void:
 	if advanced_orders:mission_hud.dismiss()
 	else:mission_hud.open("craft",{"kind":"craft","unit":sim.selected,"pos":sim.units[sim.selected].pos})
 func _input(event:InputEvent) -> void:
+	if debug_console!=null and debug_console.input(event):get_viewport().set_input_as_handled();return
+	if debug_console!=null and debug_console.panel.visible:return
 	if screen!="mission":return
 	if mission_hud.owns_pointer(event):get_viewport().set_input_as_handled();return
 	if mission_hud.fleet.handle_input(event):get_viewport().set_input_as_handled();return
@@ -530,9 +539,9 @@ func _fold_fit(nodes:Array,holder:Array) -> void:
 func _reference(index:int) -> void:
 	CampaignFlow.show_reference(self, index)
 func _launch_context(index:int)->Dictionary:
-	return CampaignFlow.launch_context(self, index)
+	return DevState.context(self,CampaignFlow.launch_context(self, index))
 func _equipment_entitlements()->Array:
-	return CampaignFlow.equipment_entitlements(self)
+	return DevState.items(self,CampaignFlow.equipment_entitlements(self))
 func _campaign_completed()->Array:
 	return CampaignFlow.campaign_completed(self)
 func _equipment_context()->Dictionary:
@@ -540,6 +549,7 @@ func _equipment_context()->Dictionary:
 func _choose_equipment(slot:String,item:String,index:int)->void:
 	CampaignFlow.choose_equipment(self, slot, item, index)
 func _debrief() -> void:
+	if DevState.block_debrief(self):return
 	CampaignFlow.debrief(self)
 func _sync_craft_upgrades()->void:
 	CampaignFlow.sync_craft_upgrades(self)
@@ -615,6 +625,7 @@ func _archive() -> Dictionary:
 	preload("res://src/presentation/finale/finale.gd").write(self,data)
 	preload("res://src/presentation/archive/voice_feed.gd").write(self,data)
 	preload("res://src/persistence/save_states/save2_controller.gd").write(self,data)
+	DevState.write(self,data)
 	data["tool_racks"]=tool_racks.duplicate(true)
 	data["equipment"]=preload("res://src/equipment/equipment_catalog.gd").canonical(fitted_equipment)
 	return data
@@ -651,6 +662,7 @@ func _update_archive_status()->void:
 	if changed:call_deferred("_layout")
 func _load_archive() -> void:
 	var saved=store.load_game()
+	DevState.restore(self,saved)
 	preload("res://src/presentation/finale/finale.gd").restore(self,saved)
 	if not saved.is_empty():
 		unlocked=saved.unlocked; completed=saved.completed; upgrade=saved.upgrade; settings=saved.settings
@@ -759,6 +771,7 @@ func _back_exit_handled()->bool:
 	if back_exit==null:back_exit=preload("res://src/presentation/back_exit/back_exit_confirm.gd").new();add_child(back_exit)
 	return back_exit.handle(self)
 func _android_back()->void:
+	if debug_console!=null and debug_console.panel.visible:debug_console.panel.hide();return
 	if not is_inside_tree() or _frontend_back():return
 	if _back_exit_handled():return
 	# Match Escape in the route instrument, after Android's notification traversal.

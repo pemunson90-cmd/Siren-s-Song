@@ -163,6 +163,8 @@ var settings_page := "audio"
 func _settings_screen() -> void:
 	_reset("settings")
 	_button("BACK TO OPERATIONS" if embedded_settings else "BACK", _return, "frontend_back")
+	if OS.is_debug_build() and host.get("debug_console")!=null:
+		_button("DEVELOPER",func():host.debug_console.open(),"developer")
 	_text("SETTINGS", 32, Color("80d9cf"))
 	_text("Saved on this device, separate from your campaign.", 14)
 	if not settings_store.warning.is_empty(): _text(settings_store.warning, 15, Color("efc28d"))

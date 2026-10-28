@@ -98,14 +98,17 @@ func save_pending(archive:Dictionary,target:int,run:String,launch:String)->bool:
  if current.status=="unreadable":warning="Pending checkpoint is unreadable. Its files were left alone.";return false
  var data=archive.duplicate(true);data.erase(Table.RECORD)
  return _write("pending",0,data,_record("pending",data,"Before operation "+str(target+1),str(target),run,launch))
-func load_entry(kind:String,index:int,live_store,confirmed:bool=false,expected_token:String="")->bool:
+func load_entry(kind:String,index:int,live_store,confirmed:bool=false,expected_token:String="",preserve_dev:bool=false)->bool:
  var entry=inspect(kind,index)
  if not confirmed or entry.status!="ready" or entry.token!=expected_token:warning="Confirm the current readable snapshot before loading it.";return false
  if live_store.path!=live_path:warning="The selected campaign changed. No archive was replaced.";return false
  # Protect the archive seam as well as the UI; ordinary backup/transaction recovery never calls this.
  if Table.ironman_lock and (Economy.is_ironman(live_store.load_game().get("economy")) or Economy.is_ironman(entry.data.get("economy"))):
   warning=Table.IRONMAN_LINE;return false
- var bytes=live_store.encoded(entry.data)
+ # DEV belongs to the physical profile, so exact timeline replacement retains it.
+ var restored=entry.data.duplicate(true)
+ if preserve_dev or live_store.load_game().get("dev",false):restored["dev"]=true
+ var bytes=live_store.encoded(restored)
  if bytes.is_empty():warning="Snapshot is invalid. Live campaign retained.";return false
  var old=Txn.bytes_at(live_path,Table.FILE_LIMIT) if FileAccess.file_exists(live_path) else null
  var entries={};entries[live_path]=bytes;entries[live_path+".bak"]=old;entries[live_path+".tmp"]=null
