@@ -1,4 +1,4 @@
-# HANDOFF: Siren's Song, Claude orchestrator + Codex execution (updated 28 Oct 2026 10:20 ET)
+# HANDOFF: Siren's Song, Claude orchestrator + Codex execution (updated 28 Oct 2026 11:20 ET)
 
 Read this first after any context clear or restart, then LEDGER.md and the BOARD banner. Live refs, PRs and BOARD rows are newer than this file when they disagree. Pat's dated words in `docs/USER_DIRECTIVES.md` on `claude/integration` outrank everything here.
 
@@ -16,35 +16,34 @@ Read this first after any context clear or restart, then LEDGER.md and the BOARD
 - Protected (Pat's call): beam lethality, 4 s interruptible lock warning, collision/hull/damage rules, Siren senses (only the approved sight-only Hunt), enemy role senses, photography design, story ending conditions, art direction. Story text stays 1 to 2 line placeholders within `docs/STORY_BIBLE_DRAFT.md`. No em dashes. No APK, force push, amend of pushed commits, or branch deletion.
 - Evaluate before initiating; never repeat work because a conversation restarted.
 
-## 3. State (28 Oct 2026 10:20 ET)
+## 3. State (28 Oct 2026 11:20 ET)
 
 | Ref | SHA | Meaning |
 |---|---|---|
 | `gauntlet/production` | 225c3c45 | Promotion 2 (PR179), reviewed snapshot c5bd45a5 |
-| `claude/integration` | 433d4df9 | Newer than P2: 066 fleet sites, 065 partial (PR183), Silt photo fix |
+| `claude/integration` | e09c2db8 | Newer than P2: 063, 065, 066, 075, 082, 087 and Silt photo fix |
 | `codex/handoffs` | this commit | BOARD, handoffs, HANDOFF, LEDGER, prompts |
 
 CI: sharded gate (084) live, about 36 minutes per PR. Handoffs DONE through 084 except those listed below.
 
 ## 4. In flight (all executed by Codex root)
 
-| Handoff | PR | State at writing |
+| Handoff | PR | State at 11:20 ET |
 |---|---|---|
-| 056 mode select + expeditions | 175 (draft) | HOLD for independently found Back-navigation bug; bounded fix under review |
-| 063 performance | 184 | baseline first; shards running |
-| 065 alien module world uses | 183 merged (partial) | optional-op completion under review |
-| 072 settings depth | 174 | real-bus fix under review (transferred from Claude) |
-| 075 phone profile transfer | 176 | merge preparation under review (transferred from Claude) |
-| 082 crew effects | 173 | merge preparation under review (transferred from Claude) |
+| 056 mode select + expeditions | 175 (draft) | head 45991efb, sharded CI running; gates 057/068/069/070/080 |
+| 072 settings depth | 174 | head f99fa5a9, CI running; gates 067 |
+| 085 arc 6 route carry | 185 | head 236aef01, CI running |
+| 086 record unsaved rescues | 186 | head 45c58750, CI running |
 
-Board hygiene for Codex root: 083 row still says CLAIMED but PR164 merged.
+DONE since 10:20: 063 (PR184), 065 (PR183), 075 (PR176), 082 (PR173), 087 (PR187), 083 board row (PR164).
 
 ## 5. Queue (priority order; preconditions gate eligibility)
 
-Eligible now: **085** arc 6 route carry · **086** record unsaved rescues (after 082) · **087** docs: record the efficiency baseline.
-Gated on 056: 057 naval career, 068 expedition offers, 069 expedition records/seed, 070 resume after app kill, 080 arc intro/outro cards. Then 071 career riders (after 057), 067 late teaching (after 072), 073 quality/battery tier (after 063).
+Eligible now: **073** quality/battery tier (063 DONE).
+Gated on 056: 057 naval career, 068 expedition offers, 069 expedition records/seed, 070 resume after app kill, 080 arc intro/outro cards. Then 071 career riders (after 057), 067 late teaching (after 072).
 **Content complete** = all of the above merged. Then **Promotion 3**, then the **whole-game cold audit** run by Codex: a fresh-context Sol6.1-high critic with no build notes, photographic reconnaissance, strategic depth and player experience first (Pat ruling 27 Oct), producing a ranked deficiency list that Claude turns into fix handoffs.
 Needs Pat before queuing: per-role Siren sounds, late-role silhouettes, economy custom toggles, ambient sea life, app icon/splash.
+Context hygiene (Pat 28 Oct ~10:09 ET): let in-flight Codex runs finish; start new work in fresh Codex sessions rather than extending long ones.
 
 ## 6. Waiting on Pat
 

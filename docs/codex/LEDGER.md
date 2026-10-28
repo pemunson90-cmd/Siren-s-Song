@@ -8,7 +8,8 @@ Started 28 Oct 2026 by Claude under Pat's efficiency baseline. Earlier entries a
 | S1 | 26 Oct 16:53 to ~18:35 | usage limit (reset 21:20) | Full CLAUDE.md + governance read; necessary first orientation |
 | S2 | 27 Oct 19:16 to ~00:30 | usage limit (reset ~00:30) | Heavy: 4-agent inventory, 45-agent gap scout (~6.2M subagent tokens), 9 lane workflows |
 | S3 | 28 Oct 05:01 to ~06:25 | Pat hold-off, 5 h cooldown (reset 10:00) | Lane workflows ran to the limit; 5 died at CI stage |
-| S4 | 28 Oct 10:04 to | | Baseline: no Claude subagents; reconcile first |
+| S4 | 28 Oct 10:04 to ~10:20 | Pat /clear (context hygiene) | Baseline: no Claude subagents; reconcile first |
+| S5 | 28 Oct 11:13 to | | Cold restart at medium effort; reconcile from HANDOFF/BOARD/LEDGER + gh only, no re-issue |
 
 ## Usage observations (readily available only)
 - 26 Oct ~18:35 ET: five-hour limit hit with two sonnet lanes + Codex running.
@@ -40,3 +41,4 @@ Started 28 Oct 2026 by Claude under Pat's efficiency baseline. Earlier entries a
 - 28 Oct 2026: 065 DONE, Codex root; PR183 headef2606d1, independent reviews5B+8C, full seven checks green40694551612, merged433d4df9; CLEAN automerge/byte identity checked under review12 carry conditions. Both alien-module interactions and optional sites integrated; owned source paths released.
 - 28 Oct 2026: 075 DONE, Codex root; PR176 head6eff9038, independent reviews6B+8B+12B, full seven checks green40694543912, mergeddb4395aa; CLEAN automerge/byte identity checked under review12 carry conditions. Profile transfer integrated; owned source paths released, subject to056 repair ownership.
 - 28 Oct 2026: 082 DONE, Codex root; PR173 heade4241b35, independent reviews8A+12A, full seven checks green40694533215, merged701f4822; CLEAN automerge/byte identity checked under review12 carry conditions. Brannock crew effects integrated; owned source paths released.
+- 28 Oct 2026 11:20 ET: Claude S5 reconcile. 087 merged (PR187 e09c2db8). 056/072/085/086 on CI under Codex root. 073 newly eligible. 083 row closed. Pat: let Codex runs finish, fresh sessions for new work.
