@@ -301,6 +301,7 @@ hunt_pressure_integration_tests|HUNT INTEGRATION|265|285
 hunt_meter_ui_tests|HUNT METER UI|266|286|render
 calder_trench_journey_tests|CALDER TRENCH JOURNEY|300|400
 calder_fleet_journey_tests|CALDER FLEET JOURNEY|307|410
+calder_silent_journey_tests|CALDER SILENT|314|415
 regional_settings_tests|REGIONAL SETTINGS|301|401
 frame_cap_settings_tests|FRAME CAP SETTINGS|390|490
 optional_thread_journey_tests|OPTIONAL THREAD JOURNEY|302|402
