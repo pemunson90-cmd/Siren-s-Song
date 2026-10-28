@@ -1,9 +1,11 @@
 # Handoff 083: Add a Siren dossier: what each of the eight roles does and how to counter it, unlocked by what the player has seen or studied
 
-Status: CLAIMED
+Status: CLAIMED (WIP; awaiting Operations-home seam from 058)
 Claimed at: 2026-10-28 03:32:23 UTC
-Claimed by: codex-root-parallel
+Claimed by: codex, claude/lane-siren-dossier
 Finished at:
+Draft PR: https://github.com/pemunson90-cmd/Siren-s-Song/pull/164 (head 2573f17d; base 88188bd0)
+Progress: standalone dossier table/view and Archive entry pushed. Do not mark DONE: `ops_home.gd` remains owned by 058; add its one-line Operations entry only after 058 is DONE. Current user order lists roles only when first-hand notice or recovered Siren photo intel proves discovery, so unseen roles are absent rather than rendered as spoiler silhouettes.
 
 Precondition: 062 is DONE. Scout note: Handoff 062 (research/archive/credits) merged, so the archive entry point exists. Read ORCHESTRATION_2026-10-26.md first.
 Codex may merge: yes, into claude/integration only, on green guidance + game-smoke for the exact head, merge commit.

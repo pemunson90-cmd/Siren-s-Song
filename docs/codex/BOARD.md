@@ -205,7 +205,7 @@ Claude lanes in parallel (not Codex work): C6 doc sweep (claude/c6-doc-sweep), C
 | 77 | 080 Arc boundary beats and arc-grouped Operations list | OPEN | | | |
 | 78 | 081 Reduced motion, high contrast and safe palette do not reach the tactical chart | OPEN | | | |
 | 79 | 082 Rescued people and recovered knowledge as visible Brannock crew effects | OPEN | | | |
-| 80 | 083 Add a Siren dossier: what each of the eight roles does and how to counter it, un | CLAIMED (codex-root-parallel) | | | |
+| 80 | 083 Add a Siren dossier: what each of the eight roles does and how to counter it, un | CLAIMED (codex, claude/lane-siren-dossier; WIP PR164) | [164 draft](https://github.com/pemunson90-cmd/Siren-s-Song/pull/164) | | Head2573f17d on base88188bd0; import/core846/0; Archive UI102/0. Awaiting 058 for Operations-home entry; hosted CI pending. |
 
 Tooling repair pending: gauntlet-boundary.py imports fcntl unconditionally and cannot run on native Windows. Fix platform locking or supply supported Linux invocation; preserve guidance checks. Observed at059 closeout, 27Oct2026.
 
