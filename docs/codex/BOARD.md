@@ -208,7 +208,7 @@ Claude lanes in parallel (not Codex work): C6 doc sweep (claude/c6-doc-sweep), C
 | 72 | 075 Profile export and import that works on a real phone (system file dialog or shar | OPEN | | | |
 | 73 | 076 Arc 6 distinct topologies and a staged capstone for op 34 | CLAIMED (codex-root-resume, claude/c11-arc6-capstone) | [PR165](https://github.com/pemunson90-cmd/Siren-s-Song/pull/165) | 6fed1d6f | Reconciles integration4d23a033; local checks pass; fresh hosted checks pending |
 | 74 | 077 Route and recovered-fact carry into arcs 4 to 6 | DONE | [166](https://github.com/pemunson90-cmd/Siren-s-Song/pull/166) | 2026-10-28 UTC | Merged6020a11d; all current-head checks green. |
-| 75 | 078 Campaign ledger: expand END OF LINE and the ending into a full account of people | CLAIMED (root; final Archive seam) | [167](https://github.com/pemunson90-cmd/Siren-s-Song/pull/167) | 2026-10-28 UTC | Merged0320f632; all current-head checks green. |
+| 75 | 078 Campaign ledger: expand END OF LINE and the ending into a full account of people | DONE | [167](https://github.com/pemunson90-cmd/Siren-s-Song/pull/167) | 2026-10-28 UTC | Merged0320f632; all current-head checks green. |
 | 76 | 079 Ironman save integrity (no hard-save or fork undo bypass) | CLAIMED (codex-root-resume, claude/c14-ironman) | [168](https://github.com/pemunson90-cmd/Siren-s-Song/pull/168) | | Head095322e5 reconciles4d23a033; import/core846/0, integrity40/0; profiles68/0, storage194/0 previously passed. Current-head CI40640345953 running; prior run superseded by integration advance. |
 | 77 | 080 Arc boundary beats and arc-grouped Operations list | OPEN | | | |
 | 78 | 081 Reduced motion, high contrast and safe palette do not reach the tactical chart | CLAIMED (codex-root-parallel) | [171](https://github.com/pemunson90-cmd/Siren-s-Song/pull/171) | | WIP headf692ac85 on0320f632; import/core848/0, cue52/0, Compatibility cue/render66/0. Default legacy/earned render byte-identical. Root owns hosted gates/merge; 063 waits for draw-file release. |
@@ -218,3 +218,5 @@ Claude lanes in parallel (not Codex work): C6 doc sweep (claude/c6-doc-sweep), C
 Tooling repair pending: gauntlet-boundary.py imports fcntl unconditionally and cannot run on native Windows. Fix platform locking or supply supported Linux invocation; preserve guidance checks. Observed at059 closeout, 27Oct2026.
 
 Boundary follow-up28Oct03:12UTC: Windows completion check PASSES from current integration88188bd0 using Siren-s-Song-codex-058. Earlier fcntl error came from the stale protected-main checkout; integration already has platform-specific locking. Use the current lane copy for boundaries; no new tooling repair is required.
+
+**28Oct08:33UTC:**078 fullyDONE: PR167 ending ledger andPR170 Archive summary merged4dc4106f.084 CLAIMED root for confirmed CI90minute job cancellation: preserve full checks via parallel partitions and aggregate game-smoke. No tests will be skipped or timeouts increased.

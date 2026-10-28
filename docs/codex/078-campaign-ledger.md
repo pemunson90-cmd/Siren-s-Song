@@ -1,6 +1,6 @@
 # Handoff 078: Campaign ledger: expand END OF LINE and the ending into a full account of people, knowledge, infrastructure and disclosure
 
-Status: CLAIMED (root; Archive seam follow-up PR170 pending merge)
+Status: DONE
 Claimed at: 2026-10-28 00:48:49 UTC
 Claimed by: codex-root-resume
 Finished at: pending Archive seam merge
@@ -49,3 +49,5 @@ Closeout: PR167 merged0320f632 after current-head5934a374 guidance/game-smoke gr
 Completion correction: ending ledger is integrated, but the requested compact Archive presentation remains unfinished. Root retains078 until that seam lands; prior DONE entry described the merged main feature only and is superseded. Follow-up worker owns archive_view ledger summary, no new ending logic.
 
 28 Oct follow-up: PR170 (a5795832) adds the shared four-panel ledger to Archive. Handoff remains CLAIMED until this seam is merged.
+
+Final closeout28Oct08:33UTC: Archive summary PR170 mergeda4dc4106f (actual merge4dc4106f), heada5795832 passed both checks40649269894. Main ending ledger PR167 plus Archive summary are integrated;078 ownership released. Correct merge SHA is4dc4106f.
