@@ -290,6 +290,7 @@ hunt_pressure_integration_tests|HUNT INTEGRATION|265|285
 hunt_meter_ui_tests|HUNT METER UI|266|286|render
 calder_trench_journey_tests|CALDER TRENCH JOURNEY|300|400
 regional_settings_tests|REGIONAL SETTINGS|301|401
+optional_thread_journey_tests|OPTIONAL THREAD JOURNEY|302|402
 economy_tests|ECONOMY|350|450
 economy_save_tests|ECONOMY SAVE|351|451
 economy_campaign_sim_tests|ECONOMY CAMPAIGN|352|452

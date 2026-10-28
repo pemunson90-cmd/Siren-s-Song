@@ -5,7 +5,7 @@ const TITLES={37:"OPTIONAL / Sorley's Trawler",38:"OPTIONAL / Deep Thread",39:"O
 const T=preload("res://src/campaign/encounters/terrain.gd")
 const W=preload("res://src/campaign/encounters/work_sites.gd")
 const P=preload("res://src/campaign/photo_ops.gd")
-const Divergence=preload("res://src/campaign/divergence_missions.gd")
+const Layouts=preload("res://src/campaign/encounters/optional_layouts.gd")
 const Resolution=preload("res://src/campaign/resolution_missions.gd")
 static func supports_config(c:Dictionary)->bool:
  return c.size()==2 and c.get("history")==true and c.get("source_id",-1) in IDS
@@ -15,7 +15,7 @@ static func entries()->Array:
  var result=[]
  for id in IDS:
   var k=key(id)
-  result.append({"id":id,"factory":"res://src/campaign/optional_operations.gd","config":{"source_id":id,"history":true},"behaviors":["signals_v2","history","glass_reach"]+(["thermal"] if id==39 else []),"prerequisites":[{37:15,38:7,39:8,40:11}[id]],"facts":[k,k+"_bonus"],"records":[k,k+"_bonus"]+(["optional_40_sluice"] if id==40 else []),"campaign":true,"route":{38:"deep",39:"shelf"}.get(id,""),"required_facts":{}})
+  result.append({"id":id,"factory":"res://src/campaign/optional_operations.gd","config":{"source_id":id,"history":true},"behaviors":["signals_v2","history","glass_reach"]+(["thermal"] if id==39 else []),"prerequisites":[{37:15,38:7,39:8,40:11}[id]],"facts":[k,k+"_bonus"],"records":[k,k+"_bonus"]+(["optional_40_sluice"] if id==40 else (["optional_38_sluice"] if id==38 else [])),"campaign":true,"route":{38:"deep",39:"shelf"}.get(id,""),"required_facts":{}})
  return result
 static func make(id:int,history:Dictionary={})->Dictionary:
  return build({"source_id":id,"history":true},history)
@@ -52,23 +52,17 @@ static func _trawler(m:Dictionary,k:String)->void:
  m.record="Iain Sorley's pilotage notes honestly chart the shoals. His fishing boat was no threat to the wellhead; the Sirens hit it anyway. One boy remains in an air pocket, awaiting physical rescue."
  m.brief="Photograph Sorley's trawler at DEEP and winch its physical screw within60m using REACH WORK, then recover its living carrier in MIDDLE at SOUTH.\nThe optional SHALLOW window photograph confirms the boy alive but costs another depth crossing and does not rescue him."
 static func _deep(m:Dictionary,k:String)->void:
- var source=Divergence.make(7);_water(m,source)
- # The familiar central saddle gains a photographed underside; all original
- # rock remains, with a middle-depth roof over the short eastern approach.
- var layers=[]
- for rock in m.rocks:layers.append([rock,T.ALL])
- layers.append([Rect2(1160,1320,700,130),[0,1]])
- T.apply(m,layers)
- m.objectives=[_photo(k,"SADDLE UNDERSIDE",Vector2(1660,1160),2,"The deep saddle has a continuous underside seam below the tender's approach."),_photo(k+"_bonus","TENDER PILOTAGE PLATE",Vector2(650,650),1,"The tender's pilotage plate records the western mooring approach.",true)]
- m.corridors=[{"pos":Vector2(1800,2180),"name":"DEEP THREAD SOUTH RECOVERY","route":"deep"}]
+ Layouts.deep(m)
+ m.objectives=[_photo(k,"SADDLE UNDERSIDE",Vector2(1500,1000),2,"The deep saddle has a continuous underside seam below the tender's approach."),_photo(k+"_bonus","TENDER PILOTAGE PLATE",Vector2(480,950),1,"The tender's pilotage plate records the western mooring approach.",true),W.machine("optional_38_sluice","THREAD SLUICE RELEASE",Vector2(800,2070),W.sluice(Layouts.DEEP_GATE,"THREAD SLUICE MOTOR",1400.),true)]
+ m.corridors=[{"pos":Vector2(1650,2480),"name":"DEEP THREAD SOUTHEAST RECOVERY","route":"deep"}]
  m.record="A photographic underside survey of the deep rendezvous saddle, separate from the bell-line account."
- m.brief="Photograph the saddle underside in DEEP, then recover in MIDDLE at the southern entry.\nDive below the eastern roof for the short crossing or keep the longer western contour; the optional mooring plate adds a sentinel-side detour."
+ m.brief="Photograph the saddle underside in DEEP; recover in MIDDLE at the southeast mouth. The split tooth marks the southwest launch, the broad roof the central crossing, and the mooring ribs the western plate.\nStay west of the roof for the long quiet contour, or use CAMERA / WORK at THREAD SLUICE RELEASE: its1400m motor opens the short DEEP crossing under the MIDDLE roof. The optional MIDDLE plate adds a depth change beside the northern patrol."
 static func _shelf(m:Dictionary,k:String)->void:
- _water(m,Divergence.make(8))
- m.objectives=[_photo(k,"BUNKER EXHAUST JOINT",Vector2(560,1500),1,"A photographed joint joins the shelf bunker exhaust to its terrace wall."),_photo(k+"_bonus","OUTER TERRACE NUMBERS",Vector2(1700,1550),1,"The outer terrace carries the same service numbers as the exhaust joint.",true)]
- m.corridors=[{"pos":Vector2(2140,400),"name":"SHELF THREAD EAST RECOVERY","route":"shelf"}]
+ Layouts.shelf(m)
+ m.objectives=[_photo(k,"BUNKER EXHAUST JOINT",Vector2(650,700),1,"A photographed joint joins the shelf bunker exhaust to its terrace wall."),_photo(k+"_bonus","OUTER TERRACE NUMBERS",Vector2(1550,300),1,"The outer terrace carries the same service numbers as the exhaust joint.",true)]
+ m.corridors=[{"pos":Vector2(2650,1450),"name":"SHELF THREAD SOUTHEAST RECOVERY","route":"shelf"}]
  m.record="A shelf bunker exhaust survey. The film records infrastructure; it makes no new claim about the watch crew's evacuation."
- m.brief="Photograph the exhaust joint in MIDDLE and recover at the eastern entry.\nThe inner exhaust front masks both sides' sound; choose that shorter blind crossing or the longer outer contour with passive information."
+ m.brief="Photograph the exhaust joint in MIDDLE, then recover at the southeast mouth. The exhaust comb splits the west basin, a hooked terrace divides the crossings, and the numbered northern spur marks the outer route.\nThe short central gap crosses an exhaust front that masks both sides' sound. The long northern contour preserves passive information and passes the optional terrace numbers; leave time for the journey back."
 static func _confluence(m:Dictionary,k:String,history:Dictionary)->void:
  var context=history.duplicate(true)
  context.thread=history.get("thread","");context.completed=history.get("completed",[]);context.facts=history.get("facts",{})
