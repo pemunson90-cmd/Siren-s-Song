@@ -16,6 +16,7 @@ static func vibrate(ms: int) -> bool:
 	return true
 static func apply(values: Dictionary, host: Control = null) -> void:
 	current = SettingsStore.sanitize(values)
+	Engine.max_fps = current.frame_cap
 	AudioServer.set_bus_volume_db(0, master_db(current.master))
 	AudioServer.set_bus_mute(0, current.master <= 0.0)
 	if host == null: return
