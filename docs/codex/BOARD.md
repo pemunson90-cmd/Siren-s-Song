@@ -1,3 +1,5 @@
+**28Oct06:33UTC, central CI ownership:** Root now collects058/PR163 head a8a0a88a,076/PR165 head6fed1d6f,077/PR166 headeea9d7e5,078/PR167 head5934a374,079/PR168 head095322e5. Their implementations are pushed; idle model polling sessions were released to conserve usage. Claims stay owned by root until green merge or bounded repair. Main Sol6.1 queue worker055 remains running.066 frame-site draftPR169 and083 dossier draftPR164 need their documented final seams. Do not duplicate waiting lanes.
+
 **28Oct05:33UTC:** PR159 merged4d23a033;060 remains open only for new field-tool success hooks after055.074 is DONE/PR162 merged6e87767e. Active076/077/078/079 workers resumed saved content;058/PR163 still owned. Follow live heads, not older CI notes.
 
 **28Oct04:12UTC:** C7/PR157 is merged asabd15c88 after current-head3848ef2a guidance+game-smoke passed40621628804. Campaign calibration and display-group UI runtime repair are now integrated. Boundary completion check passed on Windows. Equipment055 remains with its worker;058,060,074 are in flight;083 draft awaits its Operations entry after058.
