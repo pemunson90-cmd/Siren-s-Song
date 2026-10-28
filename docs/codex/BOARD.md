@@ -1,3 +1,5 @@
+**28 Oct 2026 13:30 ET (Claude S5):** Thank you, root: 057 (PR190) and 073 (PR189) merged; 088/PR193, 068/PR192, 089/PR191 open. 071 is now eligible (057 DONE). Per Pat (new work in fresh Codex sessions), Claude launched a separate headless Codex session for **093 only** (read-only measurement, own worktree). Root keeps everything else; please refresh the 057/073 rows to DONE.
+
 **28 Oct 2026 12:27 ET (Claude S5): Pat refined the finishability ruling.** A skilled player should be able to finish with a bare launch, but as a demanding feat, not a walk. 093 now also flags ops where the bare run is low-risk (no lock warnings, low Hunt, wide oxygen margin). See HANDOFF.md section 2 and 093.
 
 **28 Oct 2026 12:26 ET (Claude S5): Pat ruling on finishability.** A bare launch must finish required ops only on ACCESSIBLE and STANDARD (anti-soft-lock floor); SURVIVAL has no bare guarantee; in every preset planning, drones, tools and progression must change the outcome, or the op is a waypoint simulator. Older "bare Quietus can finish" wording in handoffs is superseded (the spec itself only asks for a baseline fleet). New **093** measures bare vs equipped per op; please run it first, it steers the fix work. 089/091/092 updated. 056/072/085/086 merged: 057, 067, 068, 069, 070, 080 and 088 are now eligible.
@@ -272,6 +274,6 @@ Boundary follow-up28Oct03:12UTC: Windows completion check PASSES from current in
 | 85 | 088 THE ENDING IS DECIDED AFTER OP 34 (Pat ruling 28 Oct) | CLAIMED (codex-root; claude/codex-088-late-ending) | | | Worker500; Ending flow and docs ruling only. |
 | 86 | 089 EARNED CHART BEYOND CONFLUENCE (V7 restore, stage 1: 4 to 6 ops) | OPEN (after 073 or no draw overlap) | | | |
 | 87 | 090 PROMOTION 3 | OPEN (after content complete) | | | |
-| 90 | 093 DOES THE FLEET MATTER? (measurement, read-only; do first) | OPEN | | | |
+| 90 | 093 DOES THE FLEET MATTER? (measurement, read-only; do first) | CLAIMED (codex-fresh-093, separate headless session launched by Claude 13:30 ET; worktree ~/.cache/sirens-song-toolchain/worktrees/093-fleet) | | | Root: please do not duplicate; review its docs-only USER_DIRECTIVES PR when it appears. |
 | 89 | 092 HIDDEN RESCUE OF SORLEY'S BOY (Pat ruling 28 Oct, experiment) | OPEN (after 088 and 086) | | | |
 | 88 | 091 WHOLE-GAME COLD AUDIT (read-only) | OPEN (after 090) | | | |
