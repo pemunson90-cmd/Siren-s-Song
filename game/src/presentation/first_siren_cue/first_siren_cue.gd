@@ -2,6 +2,7 @@ extends Control
 # D1 bearing-only presentation of the existing acquisition decision, never a sensor.
 # Seam: install(host) in main; Simulation publishes its existing heard/seen decision.
 # Revert: cue_table.enabled=false, or remove install() and this signal consumer.
+const Palette=preload("res://src/presentation/accessibility/palette.gd")
 const Table=preload("res://src/presentation/first_siren_cue/cue_table.gd")
 const Tracker=preload("res://src/presentation/first_siren_cue/notice_tracker.gd")
 const Sound=preload("res://src/audio/soundscape.gd")
@@ -50,17 +51,18 @@ func refresh()->void:
  voice.stream_paused=host.sim.paused or suspended or host.sound.system_suspended
  queue_redraw()
 func _draw()->void:
- var panel=StyleBoxFlat.new();panel.bg_color=Color("102c39");panel.border_color=Color("a9d9df");panel.set_border_width_all(2);panel.set_corner_radius_all(8)
+ var panel=StyleBoxFlat.new();panel.bg_color=Color("102c39");panel.border_color=Palette.chart_color("evidence",Color("a9d9df"));panel.set_border_width_all(int(Palette.stroke(2)));panel.set_corner_radius_all(8)
  if not frames.is_empty():
   draw_style_box(panel,chip_rect)
   var center=chip_rect.position+Vector2(chip_rect.size.y*.5,chip_rect.size.y*.5)
   var direction:Vector2=frames.back().direction;var radius=chip_rect.size.y*.24
-  draw_line(center-direction*radius,center+direction*radius,Color("a9d9df"),3.,true)
+  Palette.marker(self,center,radius*1.35,"evidence")
+  draw_line(center-direction*radius,center+direction*radius,Palette.chart_color("evidence",Color("a9d9df")),3.,true)
   var tip=center+direction*radius;var side=direction.orthogonal()*radius*.4
-  draw_colored_polygon(PackedVector2Array([tip,center+side,center-side]),Color("a9d9df"))
+  draw_colored_polygon(PackedVector2Array([tip,center+side,center-side]),Palette.chart_color("evidence",Color("a9d9df")))
   draw_string(ThemeDB.fallback_font,chip_rect.position+Vector2(chip_rect.size.y,chip_rect.size.y*.62),label_text(),HORIZONTAL_ALIGNMENT_LEFT,-1,font_size,Color.WHITE)
  if not note_frames.is_empty():
-  panel.border_color=Color("e6c46a");draw_style_box(panel,note_rect)
+  panel.border_color=Palette.chart_color("warning",Color("e6c46a"));draw_style_box(panel,note_rect)
   draw_string(ThemeDB.fallback_font,note_rect.position+Vector2(note_rect.size.y*.4,note_rect.size.y*.62),note_text(),HORIZONTAL_ALIGNMENT_LEFT,-1,font_size,Color.WHITE)
 func note_text()->String:
  return "" if note_frames.is_empty() else note_frames.back().text

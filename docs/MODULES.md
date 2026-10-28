@@ -1,6 +1,6 @@
 # Module and revert index
 
-Verified against source baseline 0fb3873e plus the 050 feature in this change (25 October 2026 Eastern). Paths below are relative to `game/src/`; named tests are registered launchers under `game/tests/` unless stated. Internal helpers are grouped with their owning feature. Main=main.gd, Simulation=simulation/simulation.gd, OceanView=presentation/ocean_view.gd, MissionHUD=presentation/mission_hud.gd, Soundscape=audio/soundscape.gd; unqualified table files are in the listed feature folder. See RESUME for operational status and the live board for claims.
+Verified against source baseline 00394df8 (28 October 2026 Eastern). Paths below are relative to `game/src/`; named tests are registered launchers under `game/tests/` unless stated. Internal helpers are grouped with their owning feature. Main=main.gd, Simulation=simulation/simulation.gd, OceanView=presentation/ocean_view.gd, MissionHUD=presentation/mission_hud.gd, Soundscape=audio/soundscape.gd; unqualified table files are in the listed feature folder. See RESUME for operational status and the live board for claims.
 
 Use an existing switch first. A switch is not a save migration: retain optional-field validators, catalogs, profile files, hard-save sidecars and pending transaction recovery. Disable/copy/revert only in a reviewed change with the relevant tests; preserve tests/evidence and frozen baselines. No entry authorizes protected sensing/combat/story changes. A coordinated seam revert is explicitly different from a one-line off switch; do not delete a shared module merely because an older header describes standalone removal.
 
@@ -67,3 +67,5 @@ Use an existing switch first. A switch is not a save migration: retain optional-
 | [KEEL] Route/fact carry 077 | `campaign/carry/` | One hook after factory build in `OperationCatalog.make` | `Carry.ENABLED`; seven provisional rows in `carry_table.gd` | None; reads existing launch-context thread/facts, empty history unchanged | `carry_tests`; existing `iron_choir_journeys --only=22`; import/core | Set `Carry.ENABLED=false` or remove the single catalog hook. Glass/Iron14..29 only; Calder/final pair remain separate. |
 
 The source-known014 challenge/040 photo journeys are evidence, not extra production modules. No full campaign, blind-player, phone or human acceptance is implied by this index.
+
+081 extends the existing A11Y1 palette helpers into chart/render and warning consumers; no new module or save seam. Reduced motion/high contrast reuse their existing settings independently of `cue_table.ENABLED`; turn all three chart settings off for exact standard drawing. Named checks extend `a11y_cues_tests` (`cue_tests.gd`); optional `--chart-render` exercises Compatibility.

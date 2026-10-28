@@ -1,4 +1,5 @@
 extends RefCounted
+const Palette=preload("res://src/presentation/accessibility/palette.gd")
 # One shared immutable geometry cache. Draw methods consume public values only.
 # Revert via ArtTable.enabled. The preceding renderer stays in its original seam.
 const Table=preload("res://src/presentation/art/art_table.gd")
@@ -99,13 +100,14 @@ static func cache_lamp(fov:float,reach:float,strength:float)->void:
 static func lamp_wash(view,pos:Vector2,aim:float)->void:
  if lamp_strength<=0:return
  view.draw_set_transform(view.world_offset+pos*view.world_scale,aim,Vector2.ONE*view.world_scale)
- view.draw_mesh(meshes.lamp,null)
+ if Palette.high_contrast():view.draw_mesh(meshes.lamp,null,Transform2D.IDENTITY,Color(1,1,1,.2))
+ else:view.draw_mesh(meshes.lamp,null)
  view.draw_set_transform(view.world_offset,0,Vector2.ONE*view.world_scale)
 static func lamp_guide(view,pos:Vector2,aim:float,fov:float,reach:float)->void:
  # A short, dashed camera-direction instrument on earned charts. No filled
  # corridor or terrain sample; its fade cap is presentation, never visibility.
  var length=minf(reach,Table.LAMP_FADE_LENGTH)
- var tint=Color(Table.LAMP,Table.LAMP_GUIDE_ALPHA)
+ var tint=Color(Table.LAMP,Table.LAMP_GUIDE_ALPHA*(.2 if Palette.high_contrast() else 1.))
  for side in 2:
   var direction=Vector2.from_angle(aim+fov*(float(side)-.5))
   for n in Table.LAMP_GUIDE_DASHES:
