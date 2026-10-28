@@ -27,3 +27,5 @@ Sharded gate: game-core + four runtime shards + aggregate game-smoke, about 36 m
 PR172 merged as e52a8d6c on exact head 94835a77; run 40666390209 all seven checks green.
 Fix on top of the lane: absolute artifact paths (317e4630); conflict with PR150's 150-minute stopgap resolved keeping shards.
 Open PRs whose runs started on the old single job should merge fresh integration and push to rerun on the sharded gate.
+
+Verified merged PR172 by Claude as e52a8d6c; head94835a77 all seven checks green40666390209. Full suite matrix preserved; core plus four shards and aggregate. Root uses this gate going forward.

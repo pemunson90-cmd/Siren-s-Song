@@ -1,9 +1,9 @@
 # Handoff 083: Add a Siren dossier: what each of the eight roles does and how to counter it, unlocked by what the player has seen or studied
 
-Status: CLAIMED (WIP; awaiting Operations-home seam from 058)
+Status: DONE
 Claimed at: 2026-10-28 03:32:23 UTC
 Claimed by: codex, claude/lane-siren-dossier
-Finished at:
+Finished at: 2026-10-28 10:21:46 UTC
 Draft PR: https://github.com/pemunson90-cmd/Siren-s-Song/pull/164 (head 2573f17d; base 88188bd0)
 Progress: standalone dossier table/view and Archive entry pushed. Do not mark DONE: `ops_home.gd` remains owned by 058; add its one-line Operations entry only after 058 is DONE. Current user order lists roles only when first-hand notice or recovered Siren photo intel proves discovery, so unseen roles are absent rather than rendered as spoiler silhouettes.
 
@@ -41,3 +41,5 @@ PR into claude/integration; merge on green; close per ORCHESTRATION section 7.
 (five lines max)
 
 Ownership note:058 currently owns menu focus flags. Build standalone dossier and archive entry now; do not edit ops_home.gd until058 releases it. Coordinate that final one-line entry after058 lands, or leave it documented for root. Earlier eligible files overlap active owners; this task is independent after062.
+
+Closeout: PR164 merged00394df8 on currenthead3fb0c299; guidance/game-smoke green40662544231. Discovered-role dossier accessible from Operations and Archive, ledger retained; local Archive114/0.083 ownership released.

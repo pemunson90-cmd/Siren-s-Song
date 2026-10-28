@@ -1,3 +1,5 @@
+**28Oct06:22ET, explicit Pat authorization:** Claude is on a five-hour cooldown; Codex root continues without waiting.084/PR172 is merged e52a8d6c and083/PR164 merged00394df8. Codex root collects/reconciles pending Claude lanes072/082/064/075/060-cues, preserving their WIP;056/PR175 loadout-layout failure and064/PR178 opening-brief failure get bounded repairs. Migration of cancelled165/171 and other old-CI heads uses the integrated sharded gate.066 physical-cache worker remains active; do not touch its worktree. Promotion2 is now Codex-root integration work under standing approval when a coherent current head is green.
+
 # HANDOFF: Siren's Song, Claude root + Codex (written 28 Oct 2026 ~06:10 ET)
 
 Read this first after any context clear or restart. It is the single current handoff for both Claude (root orchestrator) and Codex (implementation, or codex-root while Claude is away). Live refs, PRs and BOARD.md rows are newer than this file whenever they disagree; check them before acting. Pat's dated words in `docs/USER_DIRECTIVES.md` on `claude/integration` outrank everything here.
