@@ -4,7 +4,7 @@ const Acoustics=preload("res://src/simulation/acoustic_paths.gd")
 # Conventional hardware enters the existing recovery/fitting path in pairs.
 # Alien hardware remains owned by research; these milestones grant none of it.
 const RECOVERY_GRANTS={
- 5:["quietus_ducted_shroud","drone_ballast_pack"],
+ 9:["quietus_ducted_shroud","drone_ballast_pack"],
  11:["quietus_scrubber_bed","drone_mast_array"],
  16:["quietus_long_hydrophone","drone_whisper_props"],
  22:["quietus_reserve_cell","quietus_camera_cowl"]

@@ -39,8 +39,8 @@ func modules():
 func recoveries():
  check(Upgrades.recovered([0,1,2,3,4],{})==[],"first five operations keep their original hardware rewards")
  var foundation=Upgrades.recovered([5],{})
- check(foundation.slice(0,2)==["quietus_vector_drive","drone_deep_cells"] and foundation.size()==4,"operation five preserves original drive and cell grants before new hardware")
- var milestones={5:["quietus_ducted_shroud","drone_ballast_pack"],11:["quietus_scrubber_bed","drone_mast_array"],16:["quietus_long_hydrophone","drone_whisper_props"],22:["quietus_reserve_cell","quietus_camera_cowl"]}
+ check(foundation.slice(0,2)==["quietus_vector_drive","drone_deep_cells"] and foundation.size()==2,"operation five keeps exactly its original drive and cell grants")
+ var milestones={9:["quietus_ducted_shroud","drone_ballast_pack"],11:["quietus_scrubber_bed","drone_mast_array"],16:["quietus_long_hydrophone","drone_whisper_props"],22:["quietus_reserve_cell","quietus_camera_cowl"]}
  var completed=[]
  for milestone in milestones:
   var before=Upgrades.recovered([],{"completed":completed})
@@ -48,7 +48,7 @@ func recoveries():
   var after=Upgrades.recovered([],{"completed":completed})
   for id in milestones[milestone]:
    check(id not in before and id in after,"conventional hardware becomes earned at operation %d: %s"%[milestone,id])
- var all_earned=Upgrades.recovered([5],{"completed":[5,7,8,11,16,22]})
+ var all_earned=Upgrades.recovered([5],{"completed":[7,8,9,11,16,22]})
  check("quietus_baffles" in all_earned and "drone_survey_array" in all_earned,"original expedition hardware rewards remain")
  check("quietus_wellhead_seal" not in all_earned and "drone_choir_tuner" not in all_earned,"alien research hardware is never automatically earned by operation completion")
 func open():
