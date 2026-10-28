@@ -14,7 +14,8 @@ static func received(host)->Array:
 static func briefing(host,op:int)->void:
 	if Voices.row(op,"brief").is_empty():return
 	Voices.hear(received(host),op,"brief")
-	host._menu_text(Voices.line(op,"brief"),16)
+	var radio=Voices.row(op,"brief")
+	host._menu_text("%s: %s"%[radio.speaker,Table.BRIEF_SUMMARIES.get(op,radio.text)],16)
 # Debrief line after a recovered operation.
 static func debrief(host)->void:
 	var mission=host.sim.mission

@@ -8,6 +8,8 @@ static var enabled=true
 # Seconds of dive time a mid-dive message stays on the HUD log row.
 const HOLD=9.0
 const SLOTS=["brief","mid","debrief"]
+# Opening orders stay concise; the field log retains the full received radio line.
+const BRIEF_SUMMARIES={0:"Listen first."}
 const SPEAKERS={"okafor":"OKAFOR / BRANNOCK","rill":"RILL / HOLLINS","ash":"ASH / HOLLINS","vey":"VEY / VARNE","kade":"KADE / TESSALY",
 	"sorley":"SORLEY / TRAWLER"}
 const GENERIC_IDS=[38,39,40]
