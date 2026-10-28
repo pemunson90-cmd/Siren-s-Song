@@ -9,6 +9,8 @@ extends RefCounted
 const enabled=true
 # Touch target for every tool order button, in dp (a presentation host builds it).
 const TOUCH_DP=48
+# 098 cargo per charge in hundredths of one cargo place. Provisional, AI-DESIGNED.
+const CARGO_WEIGHTS={"emp":5,"decoy":5,"sonobuoy":5,"recon":10,"knock":10,"silt_screen":10,"hull_patch":20,"relay_buoy":20}
 const LOADOUTS=["endurance","disruption","survey"]
 # counts: starting stock per campaign loadout. deploy: placement range from the craft in metres.
 const TOOLS={

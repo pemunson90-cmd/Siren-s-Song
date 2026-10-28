@@ -16,7 +16,7 @@ static func _state(sim)->Dictionary:
  return sim.mission.get("module_recovery",{"modules":{},"jobs":[{},{},{}],"result":{},"deferred":""})
 static func _name(item:String)->String:return Catalog.ITEMS.get(item,{}).get("name",item)
 # Winch carriage is the craft's free cargo budget; the standard frames hold two.
-static func capacity_data(mission:Dictionary,unit_id:int)->int:return Upgrades.cargo_free(mission.get("launch_equipment",{}),unit_id)
+static func capacity_data(mission:Dictionary,unit_id:int)->int:return preload("res://src/equipment/tool_racks.gd").winch_capacity(mission,unit_id)
 static func capacity(sim,unit_id:int)->int:return capacity_data(sim.mission,unit_id)
 static func carried(sim,unit_id:int)->int:
  var state=_state(sim);var count=0

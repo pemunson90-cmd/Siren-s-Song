@@ -140,6 +140,7 @@ func start(index: int, upgrade: String = "endurance", launch:Dictionary={}) -> v
 	if upgrade=="survey": tools.recon += 1
 	if upgrade=="endurance": oxygen=120.0
 	FieldTools.seed(self,upgrade)
+	if launch.has("tool_racks"):preload("res://src/equipment/tool_racks.gd").launch(self,launch.tool_racks)
 	_build_navigation()
 	_configure_terrain()
 	_configure_depth_charts()
@@ -509,9 +510,12 @@ func command(order: String,args: Dictionary={}) -> bool:
 	if order in ["camera","chain_power","chain_route","chain_send","concealed_tow","witness_land","warning_gate","warning_depart","rendezvous_release","wake_playback","shelf_warn","shelf_alarm"] and ((u.band!=1 and not (order=="camera" and BandPhoto.can_shoot(self,u))) or not u.transition.is_empty()):
 		message="Ascend to MIDDLE and settle for local work";return false
 	if Cache.blocks(self,order):message="Finish this craft's cache winch first";return false
+	if mission.has("tool_racks") and order in tools and preload("res://src/equipment/tool_racks.gd").count(self,order)<=0:
+		message="%s has no %s aboard"%[u.name,order.to_upper()];return false
 	var handler=Orders.TABLE.get(order,[])
 	if handler.is_empty():return false
 	var accepted:bool=handler[0].command(self,order,args)
+	if accepted:preload("res://src/equipment/tool_racks.gd").sync_legacy(self)
 	return _finish_command(u,order) if accepted and handler[1] else accepted
 func _finish_command(u:Dictionary,order:String)->bool:
 	if order=="emp":preload("res://src/simulation/observed_stun.gd").record(self)
