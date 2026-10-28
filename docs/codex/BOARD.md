@@ -1,3 +1,5 @@
+**28Oct05:33UTC:** PR159 merged4d23a033;060 remains open only for new field-tool success hooks after055.074 is DONE/PR162 merged6e87767e. Active076/077/078/079 workers resumed saved content;058/PR163 still owned. Follow live heads, not older CI notes.
+
 **28Oct04:12UTC:** C7/PR157 is merged asabd15c88 after current-head3848ef2a guidance+game-smoke passed40621628804. Campaign calibration and display-group UI runtime repair are now integrated. Boundary completion check passed on Windows. Equipment055 remains with its worker;058,060,074 are in flight;083 draft awaits its Operations entry after058.
 
 **Current progress:**061/062 DONE in PR160. Root parallel worker owns058. Pat directs continuous work until usage or stop; if planned queue completes, use an isolated experimental branch for the next improvement within authorized mechanics.

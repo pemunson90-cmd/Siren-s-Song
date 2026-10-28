@@ -35,3 +35,5 @@ Remaining: root investigates hosted renderer/suite performance and field-tool ho
 
 ## Claude claim (27 Oct)
 Claude builds this in parallel with Codex on branch `claude/c9-event-audio` (worktree Siren-s-Song-claude-*). Codex: skip it; Claude owns its listed files until DONE.
+
+28Oct05:33UTC: PR159 merged as4d23a033, headb7b88adb both checks green40629140007. Environmental/equipment-event audio and generated-wave caching integrated. Task060 remains CLAIMED pending four field-tool successful-action hooks after055/PR150 lands; do not mark DONE until those hooks are verified. Existing definitions are safe while tool actions are unavailable.
