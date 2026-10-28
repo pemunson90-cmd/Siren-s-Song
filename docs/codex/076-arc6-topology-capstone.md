@@ -39,7 +39,7 @@ PR into claude/integration; merge on green; close per ORCHESTRATION section 7.
 ## Completion
 (five lines max)
 
-Codex recovery: WIP9f6549b5 preserved; head d6cdfff0 on claude/c11-arc6-capstone reconciles integration6e87767e (PR162),076 source unchanged from ad776a6b.
+Codex recovery: WIP9f6549b5 preserved; head6fed1d6f on claude/c11-arc6-capstone reconciles integration4d23a033 (PR162/159),076 source unchanged from ad776a6b.
 CLAIMED by codex-root-resume pending fresh exact-head hosted checks: https://github.com/pemunson90-cmd/Siren-s-Song/pull/165 . Earlier run40634024945 superseded by integration movement.
 Reconciled-head import/core846/0 pass; source-known bare Calder30..36 journeys31/0, final-pair10/0, unchanged route-map67/0 and finale UI333/0 pass.
 Generated imports/UIDs preserved outside commits; no077, APK or protected-mechanics changes. Extra fixture: endings_photo_tests strictly retains both photos plus new receiver; no assertion weakening.
