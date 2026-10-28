@@ -9,6 +9,7 @@ static func show(main)->void:
  main._menu_text("Changes apply to the next dive. RESUME keeps the active dive's equipment.",16)
  preload("res://src/presentation/field_tool_view.gd").fittings(main)
  if preload("res://src/campaign/economy_table.gd").enabled:main._button(main.panel_box,"SUPPLIES / COSTS",main._show_economy,"economy")
+ preload("res://src/presentation/archive/archive_nav.gd").entry(main)
  preload("res://src/campaign/early_reward/early_reward.gd").fittings(main)
  var context=main._equipment_context()
  if 0 in main.completed or not main._equipment_entitlements().is_empty():

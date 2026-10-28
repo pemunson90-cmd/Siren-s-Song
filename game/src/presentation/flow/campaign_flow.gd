@@ -92,6 +92,7 @@ static func briefing(host, index: int) -> void:
 		if not photo_problems.is_empty():host._menu_text(photo_problems,17)
 		if host.ExpeditionOperations.briefing(host,index):pass
 		manual_control=host._button(host.panel_box,"FIELD MANUAL · full rules and orders",func(): host._reference(index),"manual")
+	preload("res://src/presentation/archive/voice_feed.gd").briefing(host,index)
 	var stock=host._loadout_stock(host.upgrade)
 	var fit_start=host.panel_box.get_child_count()
 	if not host._campaign_pristine() and not EconomyPanel.briefing_line(host).is_empty():host._menu_text(EconomyPanel.briefing_line(host),14)
@@ -202,6 +203,7 @@ static func debrief(host) -> void:
 		host._sync_craft_upgrades()
 		host._menu_text("ARCHIVE RECOVERED",32)
 		host._menu_text(host.sim.mission.record,22)
+		preload("res://src/presentation/archive/voice_feed.gd").debrief(host)
 		host.EarlyReward.debrief(host)
 		host.BlackwaterDelivery.debrief(host)
 		host.ModuleRecovery.debrief(host)
@@ -262,6 +264,7 @@ static func confirm_new_campaign(host)->void:
 static func new_campaign(host)->void:
 	if not preload("res://src/persistence/save_states/save2_controller.gd").before_erase(host):host._confirm_new_campaign();return
 	preload("res://src/presentation/finale/finale.gd").clear(host)
+	preload("res://src/presentation/archive/voice_feed.gd").clear(host)
 	host.early_reward={}
 	host.completed=[];host.unlocked=0;host.expedition={};host.recovered_evidence={};host.photo_records={};host.photo_intel={};host.hints_seen=[]
 	host.fleet={};host.economy=EconomyPanel.take_draft(host)
