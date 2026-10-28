@@ -206,7 +206,7 @@ Claude lanes in parallel (not Codex work): C6 doc sweep (claude/c6-doc-sweep), C
 | 72 | 075 Profile export and import that works on a real phone (system file dialog or shar | OPEN | | | |
 | 73 | 076 Arc 6 distinct topologies and a staged capstone for op 34 | CLAIMED (codex-root-resume, claude/c11-arc6-capstone) | [PR165](https://github.com/pemunson90-cmd/Siren-s-Song/pull/165) | 6fed1d6f | Reconciles integration4d23a033; local checks pass; fresh hosted checks pending |
 | 74 | 077 Route and recovered-fact carry into arcs 4 to 6 | DONE | [166](https://github.com/pemunson90-cmd/Siren-s-Song/pull/166) | 2026-10-28 UTC | Merged6020a11d; all current-head checks green. |
-| 75 | 078 Campaign ledger: expand END OF LINE and the ending into a full account of people | DONE | [167](https://github.com/pemunson90-cmd/Siren-s-Song/pull/167) | 2026-10-28 UTC | Merged0320f632; all current-head checks green. |
+| 75 | 078 Campaign ledger: expand END OF LINE and the ending into a full account of people | CLAIMED (root; final Archive seam) | [167](https://github.com/pemunson90-cmd/Siren-s-Song/pull/167) | 2026-10-28 UTC | Merged0320f632; all current-head checks green. |
 | 76 | 079 Ironman save integrity (no hard-save or fork undo bypass) | CLAIMED (codex-root-resume, claude/c14-ironman) | [168](https://github.com/pemunson90-cmd/Siren-s-Song/pull/168) | | Head095322e5 reconciles4d23a033; import/core846/0, integrity40/0; profiles68/0, storage194/0 previously passed. Current-head CI40640345953 running; prior run superseded by integration advance. |
 | 77 | 080 Arc boundary beats and arc-grouped Operations list | OPEN | | | |
 | 78 | 081 Reduced motion, high contrast and safe palette do not reach the tactical chart | OPEN | | | |

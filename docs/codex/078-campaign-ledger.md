@@ -45,3 +45,5 @@ PR into claude/integration; merge on green; close per ORCHESTRATION section 7.
 Recovery28Oct04:52UTC: root resumes prior Claude lane with existing uncommitted edits last written27Oct20:51-20:57ET. Preserve and snapshot owned source before updating integration. Bounded worker owns this existing branch; no duplicate lane is active. Current Pat ruling is continuous development within protected design limits.
 
 Closeout: PR167 merged0320f632 after current-head5934a374 guidance/game-smoke green40641512193. Ledger covers saved people, knowledge, infrastructure and disclosure; absent facts remain not recorded. Ending-family resolution unchanged. Archive shortcut deferred to a later small handoff because its screen is already separate.
+
+Completion correction: ending ledger is integrated, but the requested compact Archive presentation remains unfinished. Root retains078 until that seam lands; prior DONE entry described the merged main feature only and is superseded. Follow-up worker owns archive_view ledger summary, no new ending logic.
