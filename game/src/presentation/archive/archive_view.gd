@@ -10,6 +10,7 @@ const Catalog=preload("res://src/campaign/operation_catalog.gd")
 const Research=preload("res://src/campaign/glass_research.gd")
 const Voices=preload("res://src/campaign/voices/voices.gd")
 const Feed=preload("res://src/presentation/archive/voice_feed.gd")
+const LedgerView=preload("res://src/presentation/ledger/ledger_view.gd")
 static func region_of(op:int)->String:
 	for region in Table.REGIONS:
 		if op>=region[1] and op<=region[2]:return region[0]
@@ -52,6 +53,10 @@ static func show(host)->void:
 	Nav.header(host,"archive")
 	host._menu_text("ARCHIVE",30)
 	host._menu_text("Best photographs, evidence and recovered material by region. Only what you recovered is listed.",15)
+	host._menu_text("CAMPAIGN LEDGER",24)
+	var ledger_progress=host.expedition.duplicate(false)
+	ledger_progress["completed"]=host._campaign_completed()
+	LedgerView.render(host,ledger_progress,host.photo_intel)
 	var cache={}
 	var done=host._campaign_completed()
 	var groups={}
