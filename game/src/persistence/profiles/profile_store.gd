@@ -229,23 +229,35 @@ func _payload(bytes: PackedByteArray) -> Variant:
  var value = Codec.decode(payload)
  if not value is Dictionary or not value.get("version") is int:return null
  return value
-func export_profile(index: int) -> String:
- if not _ready_for_change():return ""
+func package_bytes(index: int) -> PackedByteArray:
+ # Shared by file export and the transfer seam (profile_transfer.gd). Empty means refused; warning says why.
+ var none = PackedByteArray()
+ if not _ready_for_change():return none
  var files = snapshot(index)
- if not _valid_files(files):_fail("Cannot read export source.");return ""
- if Rules.IRONMAN_GUARD and _holds_ironman(files):_fail("Ironman keeps one timeline. An Ironman profile cannot be exported.");return ""
+ if not _valid_files(files):_fail("Cannot read export source.");return none
+ if Rules.IRONMAN_GUARD and _holds_ironman(files):_fail("Ironman keeps one timeline. An Ironman profile cannot be exported.");return none
  for suffix in Rules.SUFFIXES:
-  if files[suffix] != null and not _valid_archive(files[suffix],suffix.contains("challenges")):_fail("Export refused: unreadable archive " + suffix + ".");return ""
+  if files[suffix] != null and not _valid_archive(files[suffix],suffix.contains("challenges")):_fail("Export refused: unreadable archive " + suffix + ".");return none
  var payload = var_to_bytes({"files":files})
  var package = var_to_bytes({"magic":Rules.MAGIC,"version":Rules.VERSION,"length":payload.size(),"checksum":payload.hex_encode().sha256_text(),"payload":payload})
+ if package.size() > Rules.PACKAGE_LIMIT:_fail("Cannot stage export.");return none
+ return package
+func export_profile(index: int) -> String:
+ var package = package_bytes(index)
+ if package.is_empty():return ""
  var destination = directory + "/profile%d-%d.qprofile" % [index + 1,Time.get_unix_time_from_system()]
- if package.size() > Rules.PACKAGE_LIMIT or not _write(destination + ".stage",package):_fail("Cannot stage export.");return ""
+ if not _write(destination + ".stage",package):_fail("Cannot stage export.");return ""
  if DirAccess.rename_absolute(destination + ".stage",destination) != OK:_fail("Cannot commit export.");return ""
  return ProjectSettings.globalize_path(destination)
 func read_package(path: String) -> Dictionary:
  warning = ""
  var raw = _bytes(path,Rules.PACKAGE_LIMIT)
  if raw == null:_fail("Import file unavailable or too large.");return {}
+ return parse_package(raw)
+func parse_package(raw: PackedByteArray) -> Dictionary:
+ # Validates a package already read into memory (also used by the transfer dialog seam).
+ warning = ""
+ if raw.size() > Rules.PACKAGE_LIMIT:_fail("Import file unavailable or too large.");return {}
  var envelope = Codec.decode(raw)
  if not envelope is Dictionary or not envelope.get("magic") is String or envelope.magic != Rules.MAGIC or not envelope.get("version") is int or envelope.version != Rules.VERSION or not envelope.get("length") is int or not envelope.get("checksum") is String or not envelope.get("payload") is PackedByteArray:_fail("Invalid profile package.");return {}
  var payload: PackedByteArray = envelope.payload

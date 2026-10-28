@@ -1,15 +1,22 @@
 extends RefCounted
 const Rules = preload("res://src/persistence/profiles/profile_rules.gd")
-var model = preload("res://src/persistence/profiles/profile_store.gd").new()
+var model = preload("res://src/persistence/profiles/profile_store.gd").new():
+ set(value):
+  # Session handover replaces the store; every transfer must use that same opened model.
+  model = value
+  if transfer != null:transfer.model = value
 var front
 var notice = ""
 var target = 0
 var return_dialog: Callable
+var transfer
 func setup(owner_front) -> void:
  front = owner_front
+ transfer = preload("res://src/persistence/profiles/profile_transfer.gd").new();transfer.model = model
 func available() -> bool:
  return Rules.ENABLED and front.host.store.uses_profiles()
 func show_picker() -> void:
+ if transfer != null:transfer.reset()
  var opened = model.open()
  if not opened:notice = model.warning
  front._reset("profiles")
@@ -30,8 +37,13 @@ func show_slot(index: int) -> void:
  front._button("RENAME",show_rename,"profile_rename")
  front._button("COPY FROM ANOTHER PROFILE",show_copy,"profile_copy")
  front._button("CLEAR PROFILE",func():confirm("Clear all campaign, backup and challenge files in " + model.state.names[target] + "? Undo lasts %d seconds." % Rules.UNDO_SECONDS,func():mutate(func():return model.clear(target,true))),"profile_clear")
- front._button("EXPORT",func():var path = model.export_profile(target);notice = "EXPORTED TO\n" + path if not path.is_empty() else model.warning;show_picker(),"profile_export")
+ front._button("EXPORT",do_export,"profile_export")
  front._button("IMPORT",show_import,"profile_import")
+func do_export() -> void:
+ if transfer.route() == "local":
+  var path = model.export_profile(target);notice = "EXPORTED TO\n" + path if not path.is_empty() else model.warning;show_picker();return
+ var slot = target
+ transfer.export_to(slot,func(message):notice = message;if front.screen == "profile_slot" and target == slot:show_picker())
 func show_rename() -> void:
  front._reset("profile_rename")
  front._button("CANCEL",func():show_slot(target),"profiles_cancel")
@@ -51,13 +63,25 @@ func show_import() -> void:
  front._reset("profile_import")
  front._button("CANCEL",func():show_slot(target),"profiles_cancel")
  front._text("IMPORT INTO " + model.state.names[target],25)
- front._text("Place a .qprofile export in:\n" + ProjectSettings.globalize_path(model.directory),16)
- var files = model.packages()
+ var kind = transfer.route()
+ if kind == "none":front._text(transfer.MSG_NONE,16);return
+ if kind == "dialog":
+  front._text("Choose a .qprofile export from your device.",16)
+  front._button("CHOOSE FILE",func():transfer.import_pick(imported),"profile_choose_file")
+  return
+ front._text("Place a .qprofile export in:\n" + (ProjectSettings.globalize_path(model.directory) if kind == "local" else transfer.downloads()),16)
+ var files = transfer.choices()
  if files.is_empty():front._text("No profile exports found.",16)
  for path in files:
   var source: String = path
-  front._button(source.get_file(),func():var bytes = model.read_package(source);if bytes.is_empty():notice = model.warning;show_picker()
-  else:confirm("Replace " + model.state.names[target] + " with this imported progress and challenge results? Undo lasts %d seconds." % Rules.UNDO_SECONDS,func():mutate(func():return model.replace(target,bytes,true))),"profile_file_" + source.get_file())
+  front._button(source.get_file(),func():var bytes = model.read_package(source) if kind == "local" else transfer.load_path(source);if bytes.is_empty():notice = model.warning;show_picker()
+  else:confirm_import(bytes),"profile_file_" + source.get_file())
+func imported(files: Dictionary, message: String) -> void:
+ if front.screen != "profile_import":return
+ if files.is_empty():notice = message;show_picker();return
+ confirm_import(files)
+func confirm_import(bytes: Dictionary) -> void:
+ confirm("Replace " + model.state.names[target] + " with this imported progress and challenge results? Undo lasts %d seconds." % Rules.UNDO_SECONDS,func():mutate(func():return model.replace(target,bytes,true)))
 func confirm(message: String, action: Callable) -> void:
  front._reset("profile_confirm")
  front._button("CANCEL",func():show_slot(target),"profiles_cancel")

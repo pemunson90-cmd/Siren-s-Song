@@ -232,6 +232,7 @@ consequence_lines_tests|CONSEQUENCE LINES|206|229
 consequence_lines_ui_tests|CONSEQUENCE LINES UI|207|230|render
 save_profiles_tests|SAVE PROFILES|203|224
 save_profiles_ui_tests|SAVE PROFILES UI|204|225|render
+save_profiles_transfer_tests|SAVE PROFILES TRANSFER|720|820
 back_exit_tests|BACK EXIT|205|226
 a11y_cues_tests|A11Y CUES|-|227
 a11y_cues_ui_tests|A11Y CUES UI|-|228|render
