@@ -159,7 +159,7 @@ Claude stream C (not Codex work, listed so you know what is coming and which fil
 | 52 | 055 C2 EQUIPMENT AND TOOLS | CLAIMED (codex, active PR150) | [150 draft](https://github.com/pemunson90-cmd/Siren-s-Song/pull/150) | 2026-10-27 07:01:06 UTC | Head1f781bdb; local core846/tools87/radial58/touch36 all zero failures. Relay passive35% differs from requested command range (unlimited); awaiting Pat, CI pending. |
 | 53 | 056 C3 MODES: mode select, campaign rename, seeded expeditions | OPEN | | | |
 | 54 | 057 C4 NAVAL CAREER | OPEN | | | |
-| 55 | 058 C5 SETTINGS GAPS | CLAIMED (codex-root-parallel) | | | |
+| 55 | 058 C5 SETTINGS GAPS | DONE | [163](https://github.com/pemunson90-cmd/Siren-s-Song/pull/163) | 2026-10-28 UTC | Mergedaef173ac; all current-head checks green. |
 
 
 ## PAT DESIGN RULINGS — 27 Oct 2026 (documentation-only; development PAUSED)
@@ -205,7 +205,7 @@ Claude lanes in parallel (not Codex work): C6 doc sweep (claude/c6-doc-sweep), C
 | 71 | 074 New geometry for optional ops 38 and 39 | DONE | [162](https://github.com/pemunson90-cmd/Siren-s-Song/pull/162) | 2026-10-28 05:10:50 UTC | Done074: merge6e87767e; exact4435db13 both gates green40631301176; core846/0, bare journeys18/0. Distinct maps/choices; shared landmark renderer deferred. |
 | 72 | 075 Profile export and import that works on a real phone (system file dialog or shar | OPEN | | | |
 | 73 | 076 Arc 6 distinct topologies and a staged capstone for op 34 | CLAIMED (codex-root-resume, claude/c11-arc6-capstone) | [PR165](https://github.com/pemunson90-cmd/Siren-s-Song/pull/165) | 6fed1d6f | Reconciles integration4d23a033; local checks pass; fresh hosted checks pending |
-| 74 | 077 Route and recovered-fact carry into arcs 4 to 6 | CLAIMED (codex-root-resume, claude/c12-route-carry) | [166](https://github.com/pemunson90-cmd/Siren-s-Song/pull/166) | | Headeea9d7e5 reconciles integration4d23a033; import/core846/0 again. Prior head CI40633263492 green, carry150/0, Iron22 journey10/0; current CI40639014310 pending. |
+| 74 | 077 Route and recovered-fact carry into arcs 4 to 6 | DONE | [166](https://github.com/pemunson90-cmd/Siren-s-Song/pull/166) | 2026-10-28 UTC | Merged6020a11d; all current-head checks green. |
 | 75 | 078 Campaign ledger: expand END OF LINE and the ending into a full account of people | CLAIMED (codex-root-resume, claude/c13-ledger) | | | |
 | 76 | 079 Ironman save integrity (no hard-save or fork undo bypass) | CLAIMED (codex-root-resume, claude/c14-ironman) | [168](https://github.com/pemunson90-cmd/Siren-s-Song/pull/168) | | Head095322e5 reconciles4d23a033; import/core846/0, integrity40/0; profiles68/0, storage194/0 previously passed. Current-head CI40640345953 running; prior run superseded by integration advance. |
 | 77 | 080 Arc boundary beats and arc-grouped Operations list | OPEN | | | |

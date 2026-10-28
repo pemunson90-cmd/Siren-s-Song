@@ -1,9 +1,9 @@
 # Handoff 058: C5 SETTINGS GAPS: controller focus, frame rate
 
-Status: CLAIMED
+Status: DONE
 Claimed at: 2026-10-28 02:23:59 UTC
 Claimed by: codex-root-parallel
-Finished at:
+Finished at: 2026-10-28 06:52:18 UTC
 
 Precondition: no CLAIMED handoff currently owns presentation/frontend/*. Read ORCHESTRATION_2026-10-26.md first. Claude's session hit its usage limit on 26 Oct; this lane transfers to Codex, and while you hold this claim you own the files listed here.
 Codex may merge: yes, into claude/integration only, on green guidance + game-smoke for the exact head, merge commit.
@@ -28,3 +28,5 @@ PR into claude/integration; merge on green; close per ORCHESTRATION section 7.
 
 ## Completion
 (five lines max)
+
+Verified closeout28Oct06:53UTC: PR163 mergedaef173ac; heada8a0a88a both checks green40637057079. Ownership released. Root collects semantic reconciliation and next eligible work.

@@ -1,9 +1,9 @@
 # Handoff 077: ROUTE AND RECOVERED-FACT CARRY INTO ARCS 4 TO 6
 
-Status: CLAIMED
+Status: DONE
 Claimed at: 2026-10-28 00:48:49 UTC
 Claimed by: codex-root-resume
-Finished at:
+Finished at: 2026-10-28 06:52:18 UTC
 
 Precondition: none. Read ORCHESTRATION_2026-10-26.md first.
 Codex may merge: yes, into claude/integration only, on green guidance + game-smoke for the exact head, merge commit.
@@ -43,3 +43,5 @@ PR into claude/integration; merge on green; close per ORCHESTRATION section 7.
 28Oct04:33UTC recovery: prior Claude worktree retains unpublished source edits last written27Oct20:51-20:57Eastern, no active lane CLI. Root resumes this existing branch and uncommitted work through a bounded Sol6.1-medium worker. Preserve all prior edits; snapshot owned source before reconciling current integration. Do not duplicate074/058 or other active paths.
 
 28Oct checkpoint: preserved/pushed owned WIP da88e157 before merging integration abd15c88; unrelated generated imports/UIDs preserved in stash a9762b52. PR166 adds seven Glass/Iron deltas only. Isolated import/core846/0, carry150/0, existing Iron22 journey10/0, registry/guidance pass; CI40633263492 green on a6eaac9d. Reconciled6e87767e then event-audio4d23a033 in headeea9d7e5, import/core846/0 again after each; current CI40639014310 pending. Not merged; Calder/final pair remain076.
+
+Verified closeout28Oct06:53UTC: PR166 merged6020a11d; headeea9d7e5 both checks green40639014310. Ownership released. Root collects semantic reconciliation and next eligible work.
