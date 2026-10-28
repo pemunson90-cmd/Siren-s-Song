@@ -1,5 +1,5 @@
 extends RefCounted
-# Route and recovered-fact carry table (ops 14 to 29). AI-DESIGNED, pending owner ratification.
+# Route and recovered-fact carry table (ops 14 to 36). AI-DESIGNED, pending owner ratification.
 # Every row reads facts the campaign already saves (launch_context: thread plus facts) and
 # applies one small authored world delta. Tune or remove rows here; carry.gd holds the logic.
 # when: {"thread": String} and/or {"fact": key, "is": [values]}. Missing facts never match.
@@ -24,4 +24,15 @@ const ROWS=[
   "type":"buoy","pos":Vector2(2450,2350),"band":1,
   "line":"Your mast transmission was heard outside; a listener now floats off the south-east rim."},
  {"id":"hammer_concealed_warden","op":22,"when":{"fact":"confluence_route","is":["concealed"]},"kind":"drop_guard","index":-1,
-  "line":"The concealed route left the southern warden unreplaced."}]
+  "line":"The concealed route left the southern warden unreplaced."},
+ # 085: independent, reversible arc-six rows. Remove a row to restore that op's baseline;
+ # Carry.ENABLED=false restores every carry delta. Core work, photos and gates stay intact.
+ {"id":"survey_shelf_mouth","op":30,"when":{"thread":"shelf"},"kind":"mouth",
+  "pos":Vector2(300,1500),"name":"SHELF GALLERY RECOVERY","route":"shelf",
+  "line":"Your shelf crossing charted a recovery mouth at the west end of the survey gallery."},
+ {"id":"shaft_local_receipt","op":31,"when":{"fact":"warning_chain","is":["service_local_receipt"]},"kind":"drop_guard","index":0,
+  "line":"The local warning receipt drew the middle shaft watch away from the feed line."},
+ {"id":"shut_in_recovered_workers","op":32,"when":{"fact":"choir_people","is":["landed"]},"kind":"start","pos":Vector2(1100,2700),
+  "line":"The recovered Hollins workers charted a direct approach to the foot of Calder's shut-in shaft."},
+ {"id":"well_dismantled_listener","op":34,"when":{"fact":"choir_plant","is":["dismantle"]},"kind":"drop_guard","index":0,
+  "line":"Dismantling the Hollins plant left Calder's first listener without its feed."}]
