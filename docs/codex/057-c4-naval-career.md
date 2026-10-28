@@ -1,9 +1,9 @@
 # Handoff 057: C4 NAVAL CAREER
 
-Status: CLAIMED
+Status: DONE
 Claimed at: 2026-10-28 (UTC; exact claim time not retained here)
 Claimed by: codex-root; worker34488; branch claude/c4-career; New career, mode entry and persistence.
-Finished at:
+Finished at: 2026-10-28 (date supplied; exact time not recorded)
 
 Precondition: 056 is DONE. Read ORCHESTRATION_2026-10-26.md first. Claude's session hit its usage limit on 26 Oct; this lane transfers to Codex, and while you hold this claim you own the files listed here.
 Codex may merge: yes, into claude/integration only, on green guidance + game-smoke for the exact head, merge commit.
@@ -27,4 +27,8 @@ Import, core, and only the minimum suites in ORCHESTRATION section 5. Suite rank
 PR into claude/integration; merge on green; close per ORCHESTRATION section 7.
 
 ## Completion
-(five lines max)
+[PAT: 28 Oct 2026 closeout facts] PR190 head `6e92643363aa6f2e02c42f914933e20fd1ff3c62`; independent reviews17A/19C/22; merged `2bfbfc1c688dd0eff48e9f888caf78861f6592c5`.
+All seven own-head checks green: [CI job](https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/40727569975/job/122954850748).
+CLEAN sequential merge under review22 carry conditions; byte identity verified.
+12 contracts / 4 factions; isolated career state; rewards, research and fittings.
+Career `_notification` and quality methods coexist.

@@ -1,9 +1,9 @@
 # Handoff 068: EXPEDITION BETWEEN-OPERATION CHOICES (ROUTE FORK, REPAIR OR BOON)
 
-Status: OPEN
+Status: DONE
 Claimed at: 
 Claimed by: 
-Finished at:
+Finished at: 2026-10-28T17:35:58Z
 
 Precondition: 056 is DONE. Scout note: 056 DONE (owns campaign/runs/* and presentation/runs/*). Also needs 054 DONE (it is). Read ORCHESTRATION_2026-10-26.md first.
 Codex may merge: yes, into claude/integration only, on green guidance + game-smoke for the exact head, merge commit.
@@ -32,4 +32,8 @@ Import + core. Never more than ORCHESTRATION section 5 requires. Suite ranks: Co
 PR into claude/integration; merge on green; close per ORCHESTRATION section 7.
 
 ## Completion
-(five lines max)
+PR192 head ff3a9e4c; independent review21 approved full source and review22 clean integration.
+Own run40730766122 passed all seven required checks; merged 04486ef9.
+Three persisted seeded offers after wins; picks cannot reroll or repeat rewards after reload.
+Import and1301 focused checks passed; source-known staged touch, no physical-device claim.
+Run flow ownership released to071 expedition rider integration; old states remain valid.

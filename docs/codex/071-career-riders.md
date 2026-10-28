@@ -1,8 +1,8 @@
 # Handoff 071: Career and expedition riders: optional contract conditions with bonus pay
 
-Status: OPEN
-Claimed at: 
-Claimed by: 
+Status: CLAIMED
+Claimed at: 2026-10-28 (exact time not supplied)
+Claimed by: codex-root; branch claude/lane-career-riders-complete, worker49768; preserved career slice ported to current offers integration; full expedition hook in progress, NOT DONE.
 Finished at:
 
 Precondition: 057 is DONE. Scout note: 057 DONE (contract board); 055 DONE (it changes FINITE_TOOLS in challenge_rules.gd, which this gap reads). Read ORCHESTRATION_2026-10-26.md first.

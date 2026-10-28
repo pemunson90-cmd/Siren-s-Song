@@ -1,8 +1,8 @@
 # Handoff 097: MAKE THE FLEET MATTER IN THE EARLY WAYPOINT OPS (2, 6, 7, 8, 9, 13, 39)
 
-Status: OPEN
-Claimed at:
-Claimed by:
+Status: CLAIMED
+Claimed at: 2026-10-28
+Claimed by: codex-root; worker32676; branch claude/fleet-fix-early-waypoints; assigned operations only.
 Finished at:
 
 Precondition: not owned by another CLAIMED handoff. Leave op 37 alone (092 owns the Sorley content). Read HANDOFF.md and ORCHESTRATION_2026-10-26.md first. Current review rule (Pat, 28 Oct): independent Sol6.1-high review of the frozen patch before commit and before merge.

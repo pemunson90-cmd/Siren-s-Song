@@ -1,8 +1,8 @@
 # Handoff 067: TEACHING AND BRIEFINGS FOR THE MID AND LATE CAMPAIGN
 
-Status: OPEN
-Claimed at: 
-Claimed by: 
+Status: CLAIMED
+Claimed at: 2026-10-28 (exact time not supplied)
+Claimed by: codex-root; worker21300; new teaching work, four authorized files only; shared root reserved-suite-ranks.json allocations067: local310/311, CI411/412.
 Finished at:
 
 Precondition: 055 is DONE. Scout note: Handoff 055 DONE (so the final tool names exist). No claimed handoff owns these files. Read ORCHESTRATION_2026-10-26.md first.
