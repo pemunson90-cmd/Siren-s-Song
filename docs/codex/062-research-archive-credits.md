@@ -27,7 +27,11 @@ Import, core, and only the minimum suites in ORCHESTRATION section 5. Ranks: Cod
 PR into claude/integration; merge on green; close per ORCHESTRATION section 7.
 
 ## Completion
-(five lines max)
+- PR160 head `47bf667ec8805c75da1ea40a8c37938bff9d5169`; fix `1be897fe`, integration reconciled at `8f76485d`.
+- Opening radio shortened; full received message retained in FIELD LOG; tests and gameplay rules unchanged.
+- Local isolated import OK; onboarding 30/0; core 846/0. Render archive suite skipped by Windows runner.
+- CI run40613658993: guidance PASS, game-smoke PENDING; not merged, claim remains active.
+- Evidence/next: https://github.com/pemunson90-cmd/Siren-s-Song/pull/160#issuecomment-6458016012; merge commit only after exact-head green checks.
 
 ## Claude claim (27 Oct)
 Claude builds this in parallel with Codex on branch `claude/c10-archive-log` (worktree Siren-s-Song-claude-*). Codex: skip it; Claude owns its listed files until DONE.
