@@ -1,9 +1,9 @@
 # Handoff 071: Career and expedition riders: optional contract conditions with bonus pay
 
-Status: OPEN
+Status: DONE
 Claimed at: 
 Claimed by: 
-Finished at:
+Finished at: 2026-10-28T19:39:23Z
 
 Precondition: 057 is DONE. Scout note: 057 DONE (contract board); 055 DONE (it changes FINITE_TOOLS in challenge_rules.gd, which this gap reads). Read ORCHESTRATION_2026-10-26.md first.
 Codex may merge: yes, into claude/integration only, on green guidance + game-smoke for the exact head, merge commit.
@@ -32,4 +32,8 @@ Import + core. Never more than ORCHESTRATION section 5 requires. Suite ranks: Co
 PR into claude/integration; merge on green; close per ORCHESTRATION section 7.
 
 ## Completion
-(five lines max)
+[Source: PR200; external independent review31] Head `d008d7badb9a82420c69a5def5a9e06e30195fa4`; reviews29/30/31; merged `3cfb34ba994cab0fa8b216f4f010dc63fbc3fed1`.
+All seven exact-head required checks passed: [run40749967537](https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/40749967537).
+Seeded optional riders and once-only bonuses integrated; base completion/pay preserved.
+CLEAN integration approved by independent Codex reviewer31; prior feature approvals carry.
+Career/run paths released, subject to Claude-owned069 and other current claims.

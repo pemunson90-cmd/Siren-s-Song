@@ -1,9 +1,11 @@
 # Handoff 073: Performance and battery tier: Low-effects quality setting, auto frame-time governor, and paused/idle redraw throttle
 
-Status: CLAIMED
+Status: DONE
 Claimed at: 2026-10-28 (UTC; exact claim time not retained here)
-Claimed by: codex-root; branch claude/lane-quality-tier. Full implementation prepared uncommitted after072 release; independent review pending. Main _notification remains Career-owned. Not DONE.
-Finished at:
+Claimed by: codex-root; branch claude/lane-quality-tier (completed; former implementation/review reservation released).
+Finished at: 2026-10-28 (date supplied; exact time not recorded)
+
+Historical claim note (superseded by completion below): Full implementation prepared uncommitted after072 release; independent review pending. Main _notification remains Career-owned. Not DONE.
 
 Precondition: 058 and 063 are DONE. Scout note: 058 (frame-rate setting) landed so settings_store and frontend_settings are not double-owned; ideally 063 (performance pass) before or after, with no overlap on ocean_view draw code. Read ORCHESTRATION_2026-10-26.md first.
 Codex may merge: yes, into claude/integration only, on green guidance + game-smoke for the exact head, merge commit.
@@ -35,4 +37,8 @@ Settings round-trip with the key absent and present. A paused-scene redraw-count
 PR into claude/integration; merge on green; close per ORCHESTRATION section 7.
 
 ## Completion
-(five lines max)
+[Source: PR197/febf813e reviewed closeout] PR189 head `4c28838b7b924d236ab0cd74a9924719baf4aa4c`; independent reviews19A+22; merged `1f98bcee4b20e86fedf76bd8e0fbbf371c3aa6ec`.
+All seven own-head checks green: [CI job](https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/40727567440/job/122954842942).
+CLEAN sequential merge under review22 carry conditions; byte identity verified.
+Actual desktop Compatibility paused redraw: cover10.84Hz / inner8.97Hz; UI44, quality43, core842.
+Accelerated60s simulation state identical; no phone battery, thermal or GPU claims. Ownership released; current claims remain authoritative.

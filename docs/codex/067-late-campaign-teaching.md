@@ -1,9 +1,9 @@
 # Handoff 067: TEACHING AND BRIEFINGS FOR THE MID AND LATE CAMPAIGN
 
-Status: OPEN
+Status: DONE
 Claimed at: 
 Claimed by: 
-Finished at:
+Finished at: 2026-10-28T19:36:04Z
 
 Precondition: 055 is DONE. Scout note: Handoff 055 DONE (so the final tool names exist). No claimed handoff owns these files. Read ORCHESTRATION_2026-10-26.md first.
 Codex may merge: yes, into claude/integration only, on green guidance + game-smoke for the exact head, merge commit.
@@ -32,4 +32,8 @@ Import and core. Data test: every operation id 0..40 has either a compact row or
 PR into claude/integration; merge on green; close per ORCHESTRATION section 7.
 
 ## Completion
-(five lines max)
+[Source: PR195; external independent review31] Head `b6e5b66f329a2cb4eff228ef50fe9218aee27005`; reviews24/31; merged `449bcf5c9e9f44d83a1b2473cb6820d315c58b89`.
+All seven exact-head required checks passed: [run40749723462](https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/40749723462).
+Compact briefs30–40, first-use hints and four tool descriptions integrated.
+CLEAN integration approved by independent Codex reviewer31; prior feature approvals carry.
+Teaching/help paths released, subject to current094/096/097 fleet-fix claims.
