@@ -1,3 +1,15 @@
+## 28 October 2026: fleet, tools and bare-launch finishability
+
+Pat's ruling (verbatim, ~12:25 ET):
+"I'm worried that the goal is to make sure everything is finishable with just the sub, that makes sense for the easy and normal difficulties for now, but if there's no progression skill and planning and usage of the tools and drones etc, then we don't really have a game we kind of just have a waypoint simulator"
+
+Pat follow-up (verbatim, 28 Oct 2026 ~12:30 ET): "I mean I guess a skilled player should be able to do it, but I still you know walk the game to feel like a game and not just a walking simulator in a submarine"
+
+**Operating effect, Claude's reading of both quotes; Pat may correct it:**
+- **Bare finish is a skill feat, not the easy path.** A skilled player should be able to finish required ops with a bare launch (no finite tools), but it should be demanding: tighter timing, more exposure, close calls, worse results. On ACCESSIBLE and STANDARD it is also the anti-soft-lock floor. On SURVIVAL it may be very hard, but should stay possible for an expert.
+- **Design target, every preset:** planning, drones, tools and progression must change the outcome. The bare minimum finish should be clearly worse than a planned, equipped finish (fewer people out, worse photos, lower pay, more Hunt, harsher ledger or ending lines, missed side objectives).
+- The spec already says "viable baseline fleet solution" (Quietus plus bare drones). Handoffs that say "bare Quietus alone" were stricter than the spec, and that wording is superseded.
+
 ## 28 October 2026: late campaign decides the ending (handoff 088)
 
 [PAT, quoted in Claude S5 handoff 088] Claude asked: "Should what you do in arcs 4 to 6 be able to change which ending you get? Today the ending is locked at ops 12/13 ... I'd queue a follow-up that moves the decision to op 34." Pat answered: "Sure that's fine".
