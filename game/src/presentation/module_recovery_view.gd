@@ -142,6 +142,7 @@ static func consequence(sim)->String:
 static func debrief(main)->void:
  var text=consequence(main.sim)
  if not text.is_empty():main._menu_text("FLEET RECOVERY\n"+text,17)
+ Cache.debrief(main)
 static func confirm_departure(main)->void:
  var context=main.sim.departure_context()
  if not context.available:return

@@ -128,6 +128,12 @@ static func valid(data:Dictionary)->bool:
  if not m.has("optional_cache"):return true # Old active dives stay loadable.
  var s=m.optional_cache
  if m.id!=OP or not s is Dictionary or s.size()!=2 or not s.get("pieces") is Dictionary or s.pieces.size()!=IDS.size() or not s.get("jobs") is Array or s.jobs.size()!=3:return false
+ # Cache custody shares recovery capacity and jobs; older dives without a cache
+ # may omit recovery, but a cache snapshot must carry this dependency safely.
+ var recovery=m.get("module_recovery")
+ if not recovery is Dictionary or not recovery.get("modules") is Dictionary or not recovery.get("jobs") is Array or recovery.jobs.size()!=3:return false
+ for job in recovery.jobs:
+  if not job is Dictionary:return false
  var counts=[0,0,0];var received=0
  for item in IDS:
   var p=s.pieces.get(item)
@@ -145,7 +151,7 @@ static func valid(data:Dictionary)->bool:
  for id in 3:
   # Count existing physical cargo too, without constructing a simulation.
   var total=counts[id]
-  for module in m.get("module_recovery",{}).get("modules",{}).values():
+  for module in recovery.modules.values():
    if module.state=="cargo" and module.unit==id:total+=1
   for key in ["glass_reach","iron_choir"]:
    var a=m.get(key,{}).get("artifact",{})
@@ -155,6 +161,6 @@ static func valid(data:Dictionary)->bool:
   if not job is Dictionary:return false
   if job.is_empty():continue
   if job.size()!=2 or job.get("item") not in IDS or job.item in claimed or s.pieces[job.item].state not in ["site","wreck"] or not (job.get("elapsed") is int or job.get("elapsed") is float) or not is_finite(job.elapsed) or job.elapsed<0 or job.elapsed>Winch.DURATION:return false
-  if not data.units[id].alive or data.units[id].hold!="HOLD" or not data.captures[id].is_empty() or not m.module_recovery.jobs[id].is_empty() or total>=Winch.capacity_data(m,id):return false
+  if not data.units[id].alive or data.units[id].hold!="HOLD" or not data.captures[id].is_empty() or not recovery.jobs[id].is_empty() or total>=Winch.capacity_data(m,id):return false
   claimed.append(job.item)
  return true

@@ -8,6 +8,9 @@ static func setup(hud)->void:
   hud.extra["cache_"+action]=hud.host._button(hud,{"unload":"UNLOAD CACHE\nAT RECOVERY","transfer":"TRANSFER CACHE\nTO QUIETUS","drop":"DROP ONE\nCACHE PIECE"}[action],func():hud.host._order("cache_action",{"action":action}),"cache_"+action)
 static func controls(hud)->Array:
  return [hud.extra.cache_unload,hud.extra.cache_transfer,hud.extra.cache_drop,hud.extra.inspect]
+static func captions(sim)->Array:
+ var received=Cache.pieces(sim).values().filter(func(p):return p.state=="received").size()
+ return ["RECEIVED %d / 3"%received,"CARGO %d / %d"%[sim.ModuleRecovery.carried(sim,sim.selected),sim.ModuleRecovery.capacity(sim,sim.selected)],"ACCOUNT RECEIVED" if received==3 else "UNLOAD READY" if Cache.unload_context(sim).ready else "UNLOAD · MIDDLE / MOUTH / STOP"]
 static func build_panel(hud)->void:
  var sim=hud.host.sim;var c=Cache.unload_context(sim)
  hud.extra.cache_unload.disabled=not c.ready;hud.extra.cache_unload.tooltip_text=c.reason
@@ -30,3 +33,7 @@ static func cargo(sim,id:int)->Array:
 static func work(sim,id:int)->Dictionary:
  if not Cache.busy(sim,id):return {}
  var job=sim.mission.optional_cache.jobs[id].duplicate(true);job.unit=id;job.duration=Cache.Winch.DURATION;return job
+static func debrief(main)->void:
+ if not applies(main.sim):return
+ var received=Cache.pieces(main.sim).values().filter(func(p):return p.state=="received").size()
+ main._menu_text("OPTIONAL CACHE · %d / 3 RECEIVED\n"%received+(Cache.NOTE if received==3 else "The complete service account requires three physical pieces. Remaining pieces were left in the water."),17)

@@ -10,15 +10,19 @@ var failures=0
 func check(ok,label):
  checks+=1
  if not ok:failures+=1;printerr("FAIL ",label)
-func _initialize():
+func _initialize():call_deferred("run")
+func run():
  var s=Sim.new();s.start(39)
  check(s.mission.has("optional_cache"),"39 authors three physical optional cache pieces")
  if s.mission.has("optional_cache"):exercise(s)
+ await touch_custody()
  print("OPTIONAL CACHE CHECKS %d FAILURES %d"%[checks,failures]);quit(1 if failures else 0)
 func exercise(s):
  check(Sim.valid_snapshot(s.snapshot()),"new optional cache launch validates")
  var old=s.snapshot();old.mission.erase("optional_cache")
  check(Sim.valid_snapshot(old),"legacy39 without optional fields remains loadable")
+ old.mission.erase("module_recovery")
+ check(Sim.valid_snapshot(old),"legacy39 without cache or recovery fields remains loadable")
  for op in [37,38]:
   var legacy=Sim.new();legacy.start(op)
   check(not legacy.mission.has("optional_cache") and Sim.valid_snapshot(legacy.snapshot()),"prior site launch unchanged "+str(op))
@@ -40,6 +44,12 @@ func exercise(s):
  s.Cache.tick(s,1.5)
  check(p.state=="site" and s.Cache.busy(s,0),"incomplete winch grants no cargo")
  roundtrip(s,"partial audible winch")
+ var pending=s.snapshot()
+ for dependency in [null,0,{}, {"modules":{},"jobs":[]}, {"modules":{},"jobs":[null,{},{}]}]:
+  var invalid=pending.duplicate(true)
+  if dependency==null:invalid.mission.erase("module_recovery")
+  else:invalid.mission.module_recovery=dependency
+  check(not Cache.valid(invalid) and not Sim.valid_snapshot(invalid),"active cache winch rejects missing or malformed recovery dependency "+str(dependency))
  u.vel=Vector2(2,0);s.Cache.tick(s,.1)
  check(s.mission.optional_cache.jobs[0].elapsed==0.,"motion resets winch progress")
  u.vel=Vector2.ZERO
@@ -97,6 +107,11 @@ func exercise(s):
    if ok:load.Cache.tick(load,4.)
   check(Cache.carried(load,load.selected)==mini(room,3),"no artificial frame gate "+str(fit))
   check(Sim.valid_snapshot(load.snapshot()),"loaded custody validates "+str(fit))
+  if room>=3:
+   roundtrip(load,"all pieces aboard "+str(fit))
+   craft.pos=load.mission.corridors[0].pos;load.Cache.tick(load,0.)
+   check(load.command("cache_action",{"action":"unload"}) and load.mission.expedition_facts.get(Cache.FACT)==Cache.NOTE,"full physical receipt earns exact account "+str(fit))
+   roundtrip(load,"all pieces received "+str(fit))
  var full=Sim.new();full.start(39);full.sirens=[]
  full.units[0].pos=Cache.POS+Vector2(20,0)
  for n in 2:
@@ -112,6 +127,15 @@ func exercise(s):
  check(Sim.valid_snapshot(legacy.snapshot()),"legacy artifact custody validates")
  var fitted=Sim.new();fitted.start(39,"endurance",{"fitted":Gear.canonical({"chassis_a":"heavy","drone_a":"drone_sampler"})})
  check(fitted.ModuleRecovery.capacity(fitted,1)==3,"real fitted sampler consumes one Heavy cargo place")
+ var mixed=Sim.new();mixed.start(39,"endurance",{"fitted":Gear.canonical({"drone_a":"drone_sampler"})})
+ mixed.units[0].pos=Cache.POS+Vector2(20,0)
+ mixed.command("salvage",{"item":Cache.IDS[0]});mixed.Cache.tick(mixed,4.)
+ var hardware=mixed.mission.module_recovery.modules.drone_sampler
+ hardware.state="salvage";hardware.unit=-1;hardware.pos=mixed.units[0].pos
+ check(mixed.command("salvage",{"item":"drone_sampler"}),"actual launched hardware can share cache carriage")
+ mixed.ModuleRecovery.tick(mixed,4.)
+ check(mixed.ModuleRecovery.carried(mixed,0)==2 and not mixed.command("salvage",{"item":Cache.IDS[1]}),"real inactive module plus cache fills standard carriage")
+ check(Sim.valid_snapshot(mixed.snapshot()),"mixed real hardware/cache custody validates")
 func roundtrip(s,label):
  var store=Store.new();store.path="user://optional-cache-custody.save"
  var progress=Sim.Consequences.upgrade({"version":1,"route":"shelf","routes":["shelf"],"facts":{"shelf":"received"},"completed":[6,8]})
@@ -122,3 +146,36 @@ func roundtrip(s,label):
  var loaded=store.load_game();var restored=Sim.new()
  check(loaded.has("active") and restored.restore(loaded.active),label+" archive restored")
  if not restored.units.is_empty():check(restored.mission.optional_cache==s.mission.optional_cache,label+" exact pieces and jobs roundtrip")
+func settle():
+ for n in 6:await process_frame
+func tap(button):
+ var point=button.get_global_rect().get_center()
+ for pressed in [true,false]:
+  var event=InputEventScreenTouch.new();event.position=point;event.index=0;event.pressed=pressed;root.push_input(event,true);await process_frame
+ await settle()
+func touch_custody():
+ for dimensions in [Vector2i(2520,1080),Vector2i(2184,1968)]:
+  root.size=dimensions;await settle()
+  var g=load("res://scenes/main.tscn").instantiate();g.set_script(load("res://tests/density_main.gd"));g.store.path="user://optional-cache-ui-%d.save"%dimensions.x
+  g.completed=[0,1,2,3,4,5];g.unlocked=5
+  g.expedition=Sim.Consequences.upgrade({"version":1,"route":"shelf","routes":["shelf"],"facts":{"shelf":"received"},"completed":[6,8]})
+  if dimensions.x==2520:g.fixture_safe_area=Rect2(136,0,2384,1080)
+  root.add_child(g);await settle();g.set_process(false);g._start_mission(39);await settle()
+  var h=g.mission_hud;var s=g.sim
+  check(s.mission.id==39,"cache custody touch fixture launches actual39 "+str(dimensions))
+  if s.mission.id==39:
+   var p=Cache.pieces(s)[Cache.IDS[0]]
+   s.units[0].pos=p.pos;s.units[0].vel=Vector2.ZERO;s.paused=true
+   h.open("salvage",{"kind":"salvage","item":Cache.IDS[0],"name":"SHELF CACHE1","pos":p.pos});await settle()
+   check(h.extra.salvage.visible and not h.extra.salvage.disabled and h.extra.salvage.size.y>=h.touch_height,"touch sized physical cache winch offered "+str(dimensions))
+   await tap(h.extra.salvage)
+   check(Cache.busy(s,0) and p.state=="site","injected touch starts actual winch without instant cargo "+str(dimensions))
+   s.Cache.tick(s,4.)
+   check(p.state=="cargo" and p.carrier==0,"touch winch finishes with exact carrier custody "+str(dimensions))
+   s.units[0].pos=s.mission.corridors[0].pos;s.Cache.tick(s,0.);g._refresh()
+   h.open("craft",{"kind":"craft","unit":0,"pos":s.units[0].pos});await settle()
+   await tap(h.extra.cache_menu)
+   check(h.page=="cache" and h.extra.cache_unload.visible and not h.extra.cache_unload.disabled and h.extra.cache_unload.size.y>=h.touch_height,"touch opens contextual local unload "+str(dimensions))
+   await tap(h.extra.cache_unload)
+   check(p.state=="received" and Cache.carried(s,0)==0 and s.outcome.is_empty(),"injected unload receives cargo and keeps photographic job running "+str(dimensions))
+  g.queue_free();await settle()

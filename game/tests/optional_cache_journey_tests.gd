@@ -12,9 +12,16 @@ func run():
   var carrier=1 if frame=="heavy" else 0
   check(Sim.valid_snapshot(s.snapshot()),frame+" live launch valid")
   # Quietus waits at launch while Heavy independently works in the east.
-  if carrier==1:s.command("select",{"unit":1})
+  if carrier==1:
+   s.command("select",{"unit":1})
+   check(s.command("drone_drive",{"mode":"quiet"}),"Heavy uses ordinary quiet propulsion instead of audible transit thrust")
+   check(s.command("depth",{"band":2}),"Heavy takes a physical DEEP approach below the patrol")
+   tick(s,4.2)
   var reached=travel(s,Vector2(550,820),carrier) and travel(s,Vector2(2450,870),carrier) and travel(s,Vector2(2790,1450),carrier) and travel(s,Cache.POS+Vector2(20,0),carrier)
   check(reached,frame+" physical launch-to-cache approach")
+  if carrier==1:
+   check(s.command("depth",{"band":1}),"Heavy settles back in cache depth")
+   tick(s,4.2)
   var trips=0
   if reached:
    var next=0

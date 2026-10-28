@@ -554,6 +554,7 @@ func _draw():
   var hull=Rendezvous.projection(host.sim).hull
   if not hull.is_empty():caption=str(hull.phase).to_upper()+" · LOCAL FIX" if hull.live else "STALE · %ds AGO"%floori(hull.age)
  var lines=[title,caption]
+ if page=="cache":lines.append_array(Cache.captions(host.sim))
  if page=="plant":lines.append(WarningChain.radial_state(WarningChain.context(host.sim)))
  elif page=="craft" and host.order_buttons.camera in ring_buttons:lines.append_array(camera_caption())
  lines=StatusView.captions(self,lines)
