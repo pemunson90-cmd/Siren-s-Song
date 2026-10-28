@@ -1,9 +1,9 @@
 # Handoff 099: SILENT RUNNING COSTS REAL TIME (player-side; Siren senses unchanged)
 
-Status: OPEN
-Claimed at:
-Claimed by:
-Finished at:
+Status: BLOCKED
+Claimed at: 28 Oct 2026 16:44 ET (Claude launch)
+Claimed by: codex-fresh-099, claude/silent-speed
+Finished at: blocked stop 2026-10-28 21:23 UTC
 
 Precondition: none. Do this before 094 is relaunched. Read HANDOFF.md and ORCHESTRATION_2026-10-26.md first. Current review rule (Pat, 28 Oct): independent Sol6.1-high review of the frozen patch before commit and before merge.
 Codex may merge: yes, into claude/integration only, after independent approval and green required checks on the exact head, merge commit.
@@ -41,4 +41,8 @@ Import + core. One new suite: silent speed is below the chosen bound; silent-eve
 PR into claude/integration; independent review, merge on green; close per ORCHESTRATION section 7; one LEDGER line. Then Claude relaunches 094 and asks open fleet-fix sessions to re-measure.
 
 ## Completion
-(five lines max: chosen speed, before/after silent-vs-cruise time ratio, ops where silent-everywhere now runs short)
+- BLOCKED; candidate6m/s frozen uncommitted at tree db1c475fce0fcc2a8bad0fcd3ecc88e3c5d02a4d, base a658c2ca. No gameplay commit, PR or merge.
+- [KEEL: measured] All37 measurements on1b56be6f (before096): SILENT42 wins29, CRUISE78 wins15, no oxygen-tight cases. Same-source candidate6 has19/37 at<=20% reserve, including14 oxygen losses.
+- Import/core842/0, Glass70/0 and new suite14/0 pass; its full-route comparisons are one actual mixed policy plus two all-CRUISE policies, ratios5.69 to7.31.
+- Required mixed bare8/10/11/12 remain unproven; affected recipient suite58/1 and latest Calder SILENT29/8 fail, pressure3/7 below the existing5 floor. Protected changes are not established as necessary.
+- Recovery: `C:/Users/Archi/.cache/sirens-song-toolchain/artifacts/099/` contains frozen-candidate.patch, frozen-source.json, measurement-table.csv and independent-review.txt. Resume with bounded source-known routes and preserved checks; other claims remain untouched.
