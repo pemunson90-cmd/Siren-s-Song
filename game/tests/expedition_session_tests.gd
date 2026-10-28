@@ -24,7 +24,7 @@ func run():
 	host.add_child(front);front.setup(host,true);front._mode_select();await settle()
 	check(front.screen=="modes","Start has a separate mode selector")
 	var career=front.find_children("*","Button",true,false).filter(func(b):return b.get_meta("ui_action","")=="mode_career")
-	check(career.size()==1 and career[0].disabled,"Career is visibly unavailable until057")
+	check(career.size()==1 and not career[0].disabled,"Career entry is available after057")
 	check(Archive.persist(host,State.new_run(12345)),"seeded run writes only its sidecar")
 	Modes.start(front);await settle()
 	var session=host.get_node_or_null("ExpeditionSession")

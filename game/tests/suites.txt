@@ -309,3 +309,4 @@ crew_tests|CREW|590|690
 field_tools_tests|FIELD TOOLS|360|460
 expedition_runs_tests|EXPEDITION RUNS|370|470
 expedition_session_tests|EXPEDITION SESSION|371|471
+career_tests|CAREER|380|480

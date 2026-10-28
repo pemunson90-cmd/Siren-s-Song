@@ -710,7 +710,7 @@ func _set_accessibility(key:String,value:Variant) -> void:
 	_settings_menu()
 func _notification(what: int) -> void:
 	# Isolated mode sessions own lifecycle handling while the campaign is frozen.
-	if get_node_or_null("ChallengeSession")!=null or get_node_or_null("ExpeditionSession")!=null:return
+	if get_node_or_null("ChallengeSession")!=null or get_node_or_null("ExpeditionSession")!=null or get_node_or_null("CareerSession")!=null:return
 	if what in [NOTIFICATION_APPLICATION_PAUSED,NOTIFICATION_APPLICATION_FOCUS_OUT,NOTIFICATION_WM_WINDOW_FOCUS_OUT]:
 		if sim.mission!=null:
 			knock_armed=false; ocean.knock_targeting=false; decoy_armed=false; ocean.decoy_targeting=false; map_gesture.cancel()
