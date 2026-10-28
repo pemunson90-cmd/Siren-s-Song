@@ -2,6 +2,7 @@ extends RefCounted
 # Live application of player settings. `current` is readable from any system
 # (reduced motion, haptics, contrast) without a reference to the frontend.
 const SettingsStore = preload("res://src/persistence/settings_store.gd")
+const Depth = preload("res://src/presentation/frontend/settings_depth.gd")
 static var current: Dictionary = SettingsStore.DEFAULTS.duplicate()
 static func master_db(v: float) -> float:
 	return linear_to_db(maxf(0.001, v))
@@ -12,7 +13,7 @@ static func text_scale() -> float:
 # Haptics go through here so the toggle is honored everywhere. Returns whether a pulse was requested.
 static func vibrate(ms: int) -> bool:
 	if not current.get("haptics", true): return false
-	if OS.get_name() == "Android": Input.vibrate_handheld(ms)
+	if OS.get_name() == "Android": Input.vibrate_handheld(Depth.pulse_ms(ms, current))
 	return true
 static func apply(values: Dictionary, host: Control = null) -> void:
 	current = SettingsStore.sanitize(values)
@@ -20,8 +21,10 @@ static func apply(values: Dictionary, host: Control = null) -> void:
 	AudioServer.set_bus_volume_db(0, master_db(current.master))
 	AudioServer.set_bus_mute(0, current.master <= 0.0)
 	if host == null: return
+	if host.get("ocean") != null: host.ocean.quality_tier = current.quality
 	if host.get("sound") != null:
 		host.sound.music_volume = current.music; host.sound.effects_volume = current.effects
+		host.sound.alerts_volume = current.alerts; host.sound.messages_volume = current.messages
 		host.sound.muted = current.master<=0.0
 		host.sound.night_mode = current.night_mode
 	if host.get("settings") is Dictionary:

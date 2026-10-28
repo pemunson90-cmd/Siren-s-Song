@@ -53,7 +53,7 @@ func case(game,id:int,ping:bool,dimensions):
  var buttons={}
  var dp=float(root.size.x)/root.get_visible_rect().size.x*160./420.
  for b in game.panel_box.get_children():
-  if b is Button and b.text in ["RETRY EXPEDITION","RETRY DIVE","OPERATIONS ARCHIVE"]:buttons[b.text]=b
+  if b is Button and b.text in ["RETRY OPERATION","RETRY DIVE","OPERATIONS ARCHIVE"]:buttons[b.text]=b
  check(buttons.size()==2 and buttons.has("OPERATIONS ARCHIVE"),tag+": retry and archive buttons exist")
  for key in buttons:
   game.scroll.ensure_control_visible(buttons[key]);await settle()

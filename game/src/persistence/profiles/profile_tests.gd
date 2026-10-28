@@ -2,6 +2,8 @@ extends SceneTree
 const Profiles=preload("res://src/persistence/profiles/profile_store.gd")
 const Store=preload("res://src/persistence/save_store.gd")
 const Archive=preload("res://src/campaign/challenges/challenge_archive.gd")
+const RunArchive=preload("res://src/campaign/runs/run_archive.gd")
+const RunState=preload("res://src/campaign/runs/run_state.gd")
 var checks=0
 var failures=0
 func check(ok,label):
@@ -17,6 +19,9 @@ func cold_process():
  var first=Archive.new();first.path=p.slot_path(0)+".challenges"
  var second=Archive.new();second.path=p.slot_path(1)+".challenges"
  check(not first.load_game().get("challenges",{}).is_empty() and second.load_game().is_empty(),"child process keeps challenge records isolated")
+ var run_first=RunArchive.new();run_first.path=p.slot_path(0)+".runs"
+ var run_second=RunArchive.new();run_second.path=p.slot_path(1)+".runs"
+ check(run_first.load_game().get("run",{})==RunState.new_run(31) and run_second.load_game().is_empty(),"child process keeps run ledgers isolated by profile slot")
  print("SAVE PROFILES COLD CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)
 func run():
  if "--cold" in OS.get_cmdline_user_args():cold_process();return
@@ -31,9 +36,14 @@ func run():
  check(legacy.save(data()) and legacy.save(data([0])),"legacy primary and backup saved")
  var challenge=Archive.new();challenge.path=p.legacy+".challenges"
  check(challenge.save({"version":1,"challenges":{}}) and challenge.save({"version":1,"challenges":{}}),"challenge primary and backup saved")
+ var run_archive=RunArchive.new();run_archive.path=p.legacy+".runs"
+ var run_state=RunState.new_run(31)
+ check(run_archive.save({"version":1,"run":run_state}) and run_archive.save({"version":1,"run":run_state}),"run archive primary and backup saved")
  var original=p._snapshot(p.legacy)
  check(p.open(),"migrate legacy profile")
- check(p.snapshot(0)==original and p._snapshot(p.legacy)==original,"all four files migrate byte for byte retaining originals")
+ check(p.snapshot(0)==original and p._snapshot(p.legacy)==original,"all six sidecars migrate byte for byte retaining originals")
+ var migrated_run=RunArchive.new();migrated_run.path=p.slot_path(0)+".runs"
+ check(not original[".runs"].is_empty() and not original[".runs.bak"].is_empty() and migrated_run.load_game().get("run",{})==run_state,"migration preserves both valid slot-pinned run sidecars")
  check(p.rename_profile(0,"First patrol") and p.rename_profile(1,"Second patrol"),"bounded names persist")
  check(not p.rename_profile(1," ") and not p.rename_profile(1,"x".repeat(25)),"invalid names rejected")
  var fresh=Profiles.new();fresh.directory=p.directory;fresh.legacy=p.legacy
@@ -44,11 +54,11 @@ func run():
  check(p.snapshot(0)==original,"second-slot progress leaves all first-slot bytes identical")
  var before=p.snapshot(1)
  check(not p.copy(0,1,false) and p.snapshot(1)==before,"cancel overwrite does not write")
- check(p.copy(0,1,true) and p.snapshot(1)==original,"copy includes all four raw files")
+ check(p.copy(0,1,true) and p.snapshot(1)==original,"copy includes all six raw sidecars")
  check(p.undo(true) and p.snapshot(1)==before,"undo copy restores absence and original target bytes")
- check(p.clear(0,true) and p.snapshot(0)=={"":null,".bak":null,".challenges":null,".challenges.bak":null},"clear removes all four files")
+ check(p.clear(0,true) and p.snapshot(0)=={"":null,".bak":null,".challenges":null,".challenges.bak":null,".runs":null,".runs.bak":null},"clear removes all six sidecars")
  check(p.rename_profile(0,"Renamed during undo"),"rename within undo window")
- check(p.undo(true) and p.snapshot(0)==original and p.state.names[0]=="First patrol","undo clear restores all four bytes and prior name")
+ check(p.undo(true) and p.snapshot(0)==original and p.state.names[0]=="First patrol","undo clear restores all six sidecars and prior name")
  var exported=p.export_profile(0)
  check(not exported.is_empty(),"valid profile exports single file")
  var invalid_utf8=var_to_bytes({"files":{}});invalid_utf8[16]=255
@@ -62,6 +72,13 @@ func run():
  check(p._write(exported,package_bytes),"restore complete package fixture")
  var imported=p.read_package(exported)
  check(imported==original,"validated package preserves raw bytes")
+ var legacy_files=original.duplicate(true);legacy_files.erase(".runs");legacy_files.erase(".runs.bak")
+ var legacy_payload=var_to_bytes({"files":legacy_files})
+ var legacy_package=var_to_bytes({"magic":p.Rules.MAGIC,"version":p.Rules.VERSION,"length":legacy_payload.size(),"checksum":legacy_payload.hex_encode().sha256_text(),"payload":legacy_payload})
+ check(p._write(exported,legacy_package),"write legacy four-sidecar package")
+ var legacy_import=p.read_package(exported)
+ check(legacy_import.size()==6 and legacy_import[""]==original[""] and legacy_import[".bak"]==original[".bak"] and legacy_import[".challenges"]==original[".challenges"] and legacy_import[".challenges.bak"]==original[".challenges.bak"] and legacy_import[".runs"]==null and legacy_import[".runs.bak"]==null,"legacy four-sidecar package imports with empty run history")
+ check(p._write(exported,package_bytes),"restore six-sidecar export fixture")
  check(p.replace(1,imported,true) and p.snapshot(1)==original,"import round trips all files")
  var no_challenges=before.duplicate(true)
  check(p.replace(1,no_challenges,true) and not FileAccess.file_exists(p.slot_path(1)+".challenges"),"replacing challenge-free profile removes stale archive")
@@ -78,6 +95,10 @@ func run():
  var invalid_payload=var_to_bytes({"files":invalid_files})
  var invalid_envelope=envelope.duplicate(true);invalid_envelope.payload=invalid_payload;invalid_envelope.length=invalid_payload.size();invalid_envelope.checksum=invalid_payload.hex_encode().sha256_text()
  check(p._write(exported,var_to_bytes(invalid_envelope)) and p.read_package(exported).is_empty() and p.snapshot(1)==keep,"valid checksum cannot bypass inner archive validation")
+ var invalid_runs=original.duplicate(true);invalid_runs[".runs"]=PackedByteArray([4,5,6])
+ var invalid_run_payload=var_to_bytes({"files":invalid_runs})
+ var invalid_run_envelope=envelope.duplicate(true);invalid_run_envelope.payload=invalid_run_payload;invalid_run_envelope.length=invalid_run_payload.size();invalid_run_envelope.checksum=invalid_run_payload.hex_encode().sha256_text()
+ check(p._write(exported,var_to_bytes(invalid_run_envelope)) and p.read_package(exported).is_empty() and p.snapshot(1)==keep,"corrupt run sidecar rejects import without target writes")
  # A real filesystem staging failure cannot alter an earlier target file.
  var obstruction=p.slot_path(1)+".bak.stage"
  check(DirAccess.make_dir_recursive_absolute(obstruction)==OK,"create real staging obstruction")
@@ -136,10 +157,12 @@ func run():
  var records=load("res://src/campaign/challenges/challenge_records.gd").add({},"shelf_passive",{"time":30.,"hull":100.,"tools_used":{},"loss":false})
  var saved_challenge=Archive.new();saved_challenge.path=default_profiles.slot_path(0)+".challenges"
  check(saved_challenge.save({"version":1,"challenges":records}),"seed real first-profile challenges")
+ var saved_run=RunArchive.new();saved_run.path=default_profiles.slot_path(0)+".runs"
+ check(saved_run.save({"version":1,"run":RunState.new_run(31)}),"seed real first-profile run archive")
  var bytes_before=default_profiles.snapshot(0)
  var output=[]
  var status=OS.execute(OS.get_executable_path(),["--headless","--path",ProjectSettings.globalize_path("res://"),"--audio-driver","Dummy","--script","res://tests/save_profiles_tests.gd","--","--cold"],output,true)
  for line in output:print(line)
- check(status==0 and "SAVE PROFILES COLD CHECKS 3 FAILURES 0" in str(output),"separate native cold process verifies disk state")
+ check(status==0 and "SAVE PROFILES COLD CHECKS 4 FAILURES 0" in str(output),"separate native cold process verifies disk state")
  check(default_profiles.snapshot(0)==bytes_before,"cold process leaves other profile byte-identical")
  print("SAVE PROFILES CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)

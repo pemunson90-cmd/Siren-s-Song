@@ -3,6 +3,7 @@ const Sim=preload("res://src/simulation/simulation.gd")
 const Catalog=preload("res://src/campaign/operation_catalog.gd")
 const Carry=preload("res://src/campaign/carry/carry.gd")
 const Table=preload("res://src/campaign/carry/carry_table.gd")
+const Calder=preload("res://tests/calder_trench_journey_tests.gd")
 var checks=0
 var failures=0
 func check(ok,label):
@@ -66,16 +67,21 @@ func ctx(row:Dictionary)->Dictionary:
  return h
 func _initialize():call_deferred("run")
 func run():
- check(Table.ROWS.size()>=6 and Table.ROWS.size()<=8,"carry table authors 6 to 8 deltas")
+ var earlier=Table.ROWS.filter(func(row):return row.op<30)
+ var arc6=Table.ROWS.filter(func(row):return row.op>=30)
+ check(earlier.size()>=6 and earlier.size()<=8,"earlier carry table retains 6 to 8 deltas")
+ check(arc6.size()>=3 and arc6.size()<=5,"arc six authors 3 to 5 deltas")
  var seen=[]
  for row in Table.ROWS:
-  check(row.id not in seen and row.op>=14 and row.op<=29 and row.kind in ["mouth","drop_guard","add_guard","start"],"row is well formed "+row.id)
+  check(row.id not in seen and row.op>=14 and row.op<=36 and row.kind in ["mouth","drop_guard","add_guard","start"],"row is well formed "+row.id)
   check(not row.line.contains("—") and row.line.length()<140,"row line is a short placeholder without em dashes "+row.id)
   seen.append(row.id)
  # Legacy and unrelated history: exactly today's mission.
  var other={"thread":"","facts":{"confluence_route":"unknown"}}
- for id in range(14,30):
+ for id in range(14,37):
   var base=Catalog.make(id)
+  var untouched=base.duplicate(true);Carry.apply(untouched,id,{})
+  check(var_to_bytes(base)==var_to_bytes(untouched),"empty carry is byte equivalent "+str(id))
   check(same(base,Catalog.make(id,{})),"empty history is the legacy mission "+str(id))
   check(same(base,Catalog.make(id,{"thread":"","facts":{}})),"blank thread and facts are the legacy mission "+str(id))
   check(same(base,Catalog.make(id,other)),"unmatched facts add no delta "+str(id))
@@ -97,6 +103,9 @@ func run():
   var absent={"thread":"" if row.when.has("thread") else "deep","facts":{}}
   if row.when.has("fact"):absent.facts[row.when.fact]="nothing_recorded"
   check(same(Catalog.make(row.op,absent),base),"absent fact leaves the mission unchanged "+row.id)
+  check(same(Catalog.make(row.op),base),"fact build cannot contaminate later legacy builds "+row.id)
+  if row.op>=30:
+   check(m.objectives==base.objectives and m.structures==base.structures and m.required_site_ids==base.required_site_ids,"arc six preserves photos, work and gates "+row.id)
  # Bare Quietus, no finite tool, still finishes every changed Glass op with its fact present.
  var cases=[[14,"shelf",{}],[14,"deep",{"wake_crossing":"repeater_played"}],[15,"deep",{"warning_chain":"service_local_receipt"}],
   [16,"deep",{"confluence_route":"overt"}],[17,"deep",{"warning_arrival":"sheltered"}],[21,"shelf",{}],
@@ -104,4 +113,31 @@ func run():
  for c in cases:journey(c[0],progress(c[1],c[2]))
  var steps=COURSES[14].duplicate();steps[steps.size()-1]=["exit",1]
  check(journey(14,progress("shelf",{}),steps).outcome=="won","the added shelf mouth is itself a finishing recovery")
+ # Ordinary authored core courses with each new fact; standard Quietus, no drones or finite tools.
+ for row in arc6:
+  arc6_journey(row,false)
+  if row.kind=="mouth":arc6_journey(row,true)
  print("CARRY CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)
+func arc6_journey(row:Dictionary,extra_mouth:bool):
+ var s=Sim.new();s.start(row.op,"standard",{"context":ctx(row)})
+ s.units[1].alive=false;s.units[2].alive=false
+ var tools=s.tools.duplicate(true)
+ var field=s.mission.get("field_tools",{}).get("counts",{}).duplicate(true)
+ var route=Calder.steps(row.op,s)
+ if extra_mouth:route[route.size()-1]=["go",s.mission.corridors[1].pos]
+ var finished=true
+ for step in route:
+  var ok=false
+  match step[0]:
+   "go":ok=Calder.go(s,step[1])
+   "dive":ok=Calder.dive(s,step[1])
+   "shoot":ok=Calder.expose(s,Calder.obj(s,step[1]))
+   "cargo":ok=Calder.recover_cargo(s)
+  if not ok:
+   finished=false;print("CARRY ARC6 STOP ",row.id," ",step," ",s.message," pos=",s.units[0].pos);break
+ Calder.tick(s,1.)
+ check(finished and s.outcome=="won" and s.mission.recovered,"bare arc six recovery "+row.id+str(extra_mouth))
+ check(s.tools==tools and s.mission.get("field_tools",{}).get("counts",{})==field,"no finite tools used "+row.id)
+ check(s.mission.objectives.filter(func(o):return not o.get("optional",false)).all(func(o):return o.captured),"all required stages and photos complete "+row.id)
+ check(Sim.valid_snapshot(s.snapshot()),"carried arc six current snapshot valid "+row.id)
+ print("CARRY ARC6 ",row.id," extra_mouth=",extra_mouth," outcome=",s.outcome," time=",s.elapsed," hull=",s.hull," oxygen=",s.oxygen)

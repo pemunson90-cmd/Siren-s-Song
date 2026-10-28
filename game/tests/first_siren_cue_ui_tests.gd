@@ -13,6 +13,21 @@ func shape_case(shape):
  for id in [1,2]:s.units[id].alive=false
  s._threats(.1)
  check(cue.voice.playing,"warning sound starts before suspension")
+ check(cue.voice.bus==game.sound.ALERTS_BUS,"first notice routes its recording through Alerts")
+ var alert_index=AudioServer.get_bus_index(cue.voice.bus)
+ check(AudioServer.get_bus_send(alert_index)=="Master","first notice gain is independent of Effects")
+ check(is_equal_approx(cue.voice.volume_db,cue.Table.AUDIO.gain_db) and is_equal_approx(db_to_linear(AudioServer.get_bus_volume_db(alert_index)),.8),"first notice keeps its authored gain and legacy default category gain")
+ game.sound.effects_volume=0.;game.sound.apply_bus_levels();cue.refresh()
+ check(cue.voice.playing,"Effects zero retains an active first notice")
+ game.sound.alerts_volume=0.;game.sound.apply_bus_levels();cue.refresh()
+ check(not cue.voice.playing,"Alerts zero stops an active first notice")
+ var audio_count=cue.audio_events.size();var notice={"id":0,"time":s.elapsed}
+ cue._notice(notice)
+ check(not cue.voice.playing and cue.audio_events.size()==audio_count,"Alerts zero blocks a fresh first-notice playback")
+ game.sound.alerts_volume=.8;game.sound.apply_bus_levels();cue._notice(notice)
+ check(cue.voice.playing and cue.audio_events.size()==audio_count+1,"Alerts restored permits a fresh notice with Effects still zero")
+ # The extra playback above exercises only the audio boundary; retain the acquisition log.
+ cue.audio_events.resize(audio_count);game.sound.effects_volume=.8;game.sound.apply_bus_levels()
  cue._notification(Node.NOTIFICATION_APPLICATION_PAUSED);cue.refresh()
  check(cue.voice.stream_paused,"application suspension freezes a playing cue immediately")
  cue._notification(Node.NOTIFICATION_APPLICATION_RESUMED)

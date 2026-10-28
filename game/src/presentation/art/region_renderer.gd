@@ -2,15 +2,18 @@ extends RefCounted
 # All atmosphere stays below stone, unknown-water masking, instruments and contacts.
 # Fixed draw budget, no geometry generation, random stream, nodes or sensing calls.
 const Palette=preload("res://src/presentation/accessibility/palette.gd")
-static func atmosphere(view,style:Dictionary,extent:Vector2,phase:float)->void:
+const Quality=preload("res://src/presentation/quality/quality_table.gd")
+static func atmosphere(view,style:Dictionary,extent:Vector2,phase:float,tier:String=Quality.STANDARD)->void:
  if style.is_empty():return
  phase=Palette.motion_phase(phase)
  var light:Color=style.light
  if Palette.high_contrast():light.a*=.2
  for band in 8:
+  if not Quality.decorative_enabled("regional_water_light_bands",tier):break
   var fraction=float(band)/7.
   view.draw_rect(Rect2(0,extent.y*band/8.,extent.x,extent.y/8.+1.),Color(light,light.a*(1.-fraction)))
   view.draw_rect(Rect2(0,extent.y*band/8.,extent.x,extent.y/8.+1.),Color(.005,.008,.016,float(style.falloff)*fraction))
+ if not Quality.decorative_enabled("regional_dust_drift",tier):return
  var drift:Vector2=style.drift
  # Tile the bounded viewport, rather than enumerating the whole world.
  var visible=Rect2(-view.world_offset/view.world_scale,view.size/view.world_scale)

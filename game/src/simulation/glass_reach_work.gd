@@ -113,6 +113,7 @@ static func tick(sim,dt:float):
     if enemy.get("type","")=="buoy":enemy.stun=maxf(enemy.stun,120.);enemy.network.packet={};enemy.network.charge=0.
   if sim.mission.id==18:
    sim.mission.expedition_facts.glass_choice=job.action
+   sim.mission.expedition_facts.varne_staff=job.action
    sim.mission.objectives[0].captured=true;recorded(sim,sim.mission.objectives[0]);sim._record_secured(sim.mission.objectives[0],job.unit)
   sim.message="Local service water opened; reporting spur remains supplied" if job.action=="service" else "Local reporting spur interrupted; outside water remains open"
  elif job.action=="gate":open_gate(sim);sim.message="Local service gate opened"

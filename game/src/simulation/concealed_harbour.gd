@@ -142,7 +142,7 @@ static func status(sim)->Dictionary:
 static func recovered_facts(m:Dictionary)->Dictionary:
  if not applies(m) or not m.concealed_harbour.receipt:return {}
  var state=m.concealed_harbour
- return {"concealed_consequence":"deep_trace_severed" if state.thread=="deep" else "shelf_"+state.placement}
+ return {"concealed_consequence":"deep_trace_severed","tessaly_divers":"crossing_open"} if state.thread=="deep" else {"concealed_consequence":"shelf_"+state.placement}
 static func valid(data:Dictionary)->bool:
  var m=data.mission
  if not OperationsCatalog.supports(m.get("id",-1),"witness"):return not m.has("concealed_harbour")

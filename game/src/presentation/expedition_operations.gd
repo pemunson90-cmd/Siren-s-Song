@@ -4,7 +4,7 @@ const Missions=preload("res://src/campaign/missions.gd")
 static func operations(main)->void:
  var available=Campaign.available(main.completed,main.expedition)
  if available.is_empty():return
- main._menu_text("BEYOND THE WARNING / EXPEDITIONS",22)
+ main._menu_text("BEYOND THE WARNING / OPERATIONS",22)
  for id in available:
   var mission=Missions.make(id,preload("res://src/campaign/campaign_consequences.gd").context(main.expedition))
   if mission.id!=id:continue
@@ -27,7 +27,7 @@ static func briefing(main,index:int)->bool:
  elif index==8:main._menu_text("WATCH ORDERS\nTap a measured bunker section or the charted bunker alarm for its local warning action and exact readiness. Watch the occupied windows, then hear the returning watch call. No camera hold is required.",17)
  else:main._menu_text("OBSERVATION ORDERS\nArrival arcs show where a carrier reached that receiver; sound may bend around basalt. They are not exact target bearings. Close clear passive reception or local RECON earns a precise source mark. Pause gives planning time, never new passive samples. Named recovery corridors show which interpretations you have confirmed.",17)
  if index in [9,10]:main._menu_text("RECOVERED THREAD / Your first successful recovery from Wake Crossing or Warning Chain selects the history carried into Confluence. The other dive remains replayable; replay does not rewrite a launched dive or the committed thread. Failed dives retain field notes, never the new fitting or continuation.",17)
- if index==6:main._menu_text("Choose a physical exit with Quietus after its carrier is identified. Investigating both retains both facts; your exit selects the continuation. The southern basin permits incomplete withdrawal after departure, without completing an expedition route.",17)
+ if index==6:main._menu_text("Choose a physical exit with Quietus after its carrier is identified. Investigating both retains both facts; your exit selects the continuation. The southern basin permits incomplete withdrawal after departure, without completing an operation route.",17)
  return true
 static func debrief(main)->bool:
  var mission=main.sim.mission
@@ -45,7 +45,7 @@ static func debrief(main)->bool:
  if main.sim.outcome=="won" and mission.get("recovered",false) and mission.id==11 and preload("res://src/presentation/confluence_resolution.gd").present(main):
   main._save_archive();return true
  if main.sim.outcome=="won" and mission.get("recovered",false):
-  main._menu_text("EXPEDITION RECOVERED",32)
+  main._menu_text("OPERATION RECOVERED",32)
   preload("res://src/presentation/witness_evacuation_view.gd").arrival(main)
   preload("res://src/presentation/warning_recipient_view.gd").arrival(main)
   var consequence=preload("res://src/presentation/consequence_lines.gd").line(mission)
@@ -69,16 +69,16 @@ static func debrief(main)->bool:
    main._button(main.panel_box,"CONTINUE / %s"%next_mission.title,func():main._briefing(next),"next_expedition")
   main._menu_text("Dive time %02d:%02d / Hull %d%%"%[int(main.sim.elapsed)/60,int(main.sim.elapsed)%60,int(main.sim.hull)],17)
  else:
-  main._menu_text("INCOMPLETE WITHDRAWAL" if main.sim.outcome=="withdrawn" else "EXPEDITION LOST",30)
+  main._menu_text("INCOMPLETE WITHDRAWAL" if main.sim.outcome=="withdrawn" else "OPERATION LOST",30)
   preload("res://src/presentation/witness_evacuation_view.gd").arrival(main)
   preload("res://src/presentation/warning_recipient_view.gd").arrival(main)
   main._menu_text(main.sim.message,20)
   main._menu_text(preload("res://src/presentation/loss_summary.gd").line(main.sim),17)
   preload("res://src/presentation/death_cause/cause_log.gd").debrief(main)
-  main._menu_text("Field observations remain in the archive. This dive grants no new recovered fitting, continuation or committed history.",17)
+  main._menu_text("Field observations remain in the archive. This operation grants no new recovered fitting, continuation or committed history.",17)
   preload("res://src/presentation/module_recovery_view.gd").debrief(main)
  if not main.recovered_evidence.is_empty():main._button(main.panel_box,"REVIEW FIELD RECORDS",func():main._evidence_gallery(0),"evidence")
- main._button(main.panel_box,"RETRY EXPEDITION",func():main._briefing(mission.id),"retry")
+ main._button(main.panel_box,"RETRY OPERATION",func():main._briefing(mission.id),"retry")
  main._button(main.panel_box,"OPERATIONS ARCHIVE",main._show_campaign,"back")
  if mission.id>=14:main._menu_text(preload("res://src/campaign/glass_research.gd").detail(main.expedition),17)
  main._save_archive();main.call_deferred("_layout")

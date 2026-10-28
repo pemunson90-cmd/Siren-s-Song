@@ -22,12 +22,12 @@ static func install(owner)->void:
  cue.name="FirstSirenCue";owner.hud.add_child(cue);cue.setup(owner)
 func setup(owner)->void:
  host=owner;mouse_filter=Control.MOUSE_FILTER_IGNORE
- voice=AudioStreamPlayer.new();voice.bus=Sound.EFFECTS_BUS;voice.stream=Sound.stream(Table.AUDIO.id)
+ voice=AudioStreamPlayer.new();voice.bus=Sound.ALERTS_BUS if Sound.Depth.ENABLED else Sound.EFFECTS_BUS;voice.stream=Sound.stream(Table.AUDIO.id)
  voice.volume_db=Table.AUDIO.gain_db;voice.pitch_scale=Table.AUDIO.pitch;host.sound.add_child(voice)
  tracker.noticed.connect(_notice);tracker.bind(host.sim);hide()
 func _notice(row:Dictionary)->void:
  refresh()
- if host.screen!="mission" or host.sound.muted or host.sound.effects_volume<=0 or host.sound.system_suspended or suspended:return
+ if host.screen!="mission" or not host.sound.cue_audible(Table.AUDIO.id) or host.sound.system_suspended or suspended:return
  voice.play();voice.stream_paused=host.sim.paused
  audio_events.append({"cue":Table.AUDIO.id,"type":"first_siren_notice","id":row.id,"time":row.time})
 func _process(_dt:float)->void:
@@ -46,7 +46,7 @@ func refresh()->void:
  # marker_rect is the chip (the note alone when no bearing); captions also avoid note_rect.
  marker_rect=chip_rect if not frames.is_empty() or note_frames.is_empty() else note_rect
  font_size=maxi(layout.font_min,roundi(h*layout.font_touch))
- var silent=not visible or host.sound.muted or host.sound.effects_volume<=0
+ var silent=not visible or not host.sound.cue_audible(Table.AUDIO.id)
  if silent or voice.get_playback_position()>=Table.AUDIO.seconds:voice.stop()
  voice.stream_paused=host.sim.paused or suspended or host.sound.system_suspended
  queue_redraw()
