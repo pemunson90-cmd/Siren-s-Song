@@ -50,5 +50,5 @@ Started 28 Oct 2026 by Claude under Pat's efficiency baseline. Earlier entries a
 - 28 Oct 2026: 086 DONE, Codex root; PR186 head `45c58750`; independent review13C+16; all seven own-head checks green, run40710636101; merged `a0a7550b`. CLEAN automatic new base and byte identity checked before sequential merges under review16 carry conditions. Existing rescue records and briefing crew integrated; no new rescue mechanics.
 - 28 Oct 2026: 087 DONE, Codex root; PR187 head `209800ce`; independent review14B; docs-only checks passed (runtime skipped), run40710642054; merged `e09c2db8`. Pat's efficiency baseline recorded; docs only.
 - 28 Oct 2026: 072 DONE, Codex root; PR174 head f99fa5a9, independent reviews10/15/16, own seven checks green40713900155, merged db60fe5a after clean unchanged integration; settings ownership released to073.
-- 28 Oct 2026 12:30 ET: Pat ruled the bare-launch floor applies to ACCESSIBLE/STANDARD only and the fleet must matter; Claude wrote 093 (measurement) and rewrote the bare rule in 089/091/092.
-- 28 Oct 2026 12:32 ET: Pat refined finishability: bare finish = skilled-player feat, must not feel like a walking simulator; 093 and HANDOFF updated.
+- 28 Oct 2026 12:26 ET: Pat ruled the bare-launch floor applies to ACCESSIBLE/STANDARD only and the fleet must matter; Claude wrote 093 (measurement) and rewrote the bare rule in 089/091/092.
+- 28 Oct 2026 12:27 ET: Pat refined finishability: bare finish = skilled-player feat, must not feel like a walking simulator; 093 and HANDOFF updated.
