@@ -202,3 +202,5 @@ Claude lanes in parallel (not Codex work): C6 doc sweep (claude/c6-doc-sweep), C
 | 78 | 081 Reduced motion, high contrast and safe palette do not reach the tactical chart | OPEN | | | |
 | 79 | 082 Rescued people and recovered knowledge as visible Brannock crew effects | OPEN | | | |
 | 80 | 083 Add a Siren dossier: what each of the eight roles does and how to counter it, un | OPEN | | | |
+
+Tooling repair pending: gauntlet-boundary.py imports fcntl unconditionally and cannot run on native Windows. Fix platform locking or supply supported Linux invocation; preserve guidance checks. Observed at059 closeout, 27Oct2026.
