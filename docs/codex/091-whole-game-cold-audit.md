@@ -30,6 +30,17 @@ Output `docs/design/COLD_REVIEW_4.md` on codex/handoffs. It holds one ranked def
 
 Put inherited issues and regressions in separate groups. End with the single most valuable next improvement. Do not propose balance numbers as final. Claude turns this list into fix handoffs.
 
+## Known open items (give to the critic only AFTER its own verdicts are written)
+Claude S5, 28 Oct. Reconcile these against the critic's findings; confirm, reject or re-rank each, and mark which the critic found independently.
+- Iron Choir 25, 27, 28: a silent bare run still meets no Sirens (094 accepted at 5 of 8).
+- Glass Reach 19 and 20: same (095 at 6 of 8). Calder 32: oxygen pressure only (096 at 6 of 7).
+- SILENT speed: slowing it globally (099) broke other ops and is parked. Is silent running still the dominant strategy in play?
+- Tool racks: default kits sit in lockers (100). Do players ever choose to carry extra tools? Do the decoy, survey, torpedo, sonobuoy, silt, patch and relay tools ever decide an outcome (093 found none decisive)?
+- Survival preset: does it feel harder in the dive, or only in the economy?
+- Sorley rescue reward is a small supply grant; is it worth the detour?
+- The 088 late-ending vote rule (Pat accepted provisionally): does it read as a consequence of play?
+- Use the debug console (101) DEV metrics and overlays to support findings, but play the findings themselves without overlays.
+
 ## Checks
 None beyond running the build. Report only.
 
