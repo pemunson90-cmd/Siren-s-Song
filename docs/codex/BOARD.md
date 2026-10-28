@@ -291,6 +291,6 @@ Boundary follow-up28Oct03:12UTC: Windows completion check PASSES from current in
 | 92 | 095 FLEET FIX: GLASS REACH ops 14 to 21 | OPEN (after PR191/089 merges) | | | |
 | 93 | 096 FLEET FIX: CALDER AND FINAL ops 30 to 36 | OPEN (after 088 merges) | | | |
 | 94 | 097 FLEET FIX: EARLY WAYPOINT ops 2, 6, 7, 8, 9, 13, 39 | CLAIMED (codex-root; worktree Siren-s-Song-codex-097, branch claude/fleet-fix-early-waypoints, started 13:58 ET) | | | Claude's 14:03 fresh-session claim withdrawn: root had already started; no second session launched. |
-| 95 | 098 CARRYING TOOLS COSTS CARGO (Pat ruling 28 Oct) | OPEN | | | |
+| 95 | 098 CARRYING TOOLS COSTS CARGO (Pat ruling 28 Oct) | CLAIMED (codex-fresh-098, headless session launched by Claude 14:18 ET; branch claude/tools-cost-cargo) | | | Root: do not duplicate. |
 | 89 | 092 HIDDEN RESCUE OF SORLEY'S BOY (Pat ruling 28 Oct, experiment) | OPEN (after 088 and 086) | | | |
 | 88 | 091 WHOLE-GAME COLD AUDIT (read-only) | OPEN (after 090) | | | |
