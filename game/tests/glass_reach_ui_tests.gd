@@ -27,7 +27,7 @@ func run():
   root.add_child(g);await frames();g.set_process(false)
   g.completed=[0,1,2,3,4,5];g.unlocked=5;g.expedition=progress(dimensions.x==2184);g._show_ending();await frames()
   check(g.screen=="menu" and g.panel_box.get_children().any(func(c):return c is Label and c.text=="Course so far: %s (provisional)."%g.Endings.resolve(g.expedition).title),"pre-op34 ending redirects to Operations with provisional course line")
-  var buttons=g.panel_box.get_children().filter(func(c):return c is Button and c.get_meta("action","")=="expedition14" and not c.disabled)
+  var buttons=g.panel_box.find_children("*","Button",true,false).filter(func(c):return c.get_meta("action","")=="expedition14" and not c.disabled and c.is_visible_in_tree())
   check(buttons.size()==1,"provisional Operations offers available Glass Reach operation")
   if buttons.size()==1:
    g.scroll.ensure_control_visible(buttons[0]);await frames();await tap(buttons[0]);check(g.screen=="briefing" and g.get_meta("onboard2_fit_index",-1)==14,"actual Operations touch opens Glass Reach briefing")

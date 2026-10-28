@@ -17,7 +17,7 @@ func run():
  # Portable menu contract fixture; earned-profile play is external evidence.
  main.completed=[0,1,2,3,4,5];main.unlocked=5
  main._show_campaign();await process_frame
- var buttons=main.panel_box.get_children().filter(func(c):return c is Button and c.get_meta("action","")=="expedition6")
+ var buttons=main.panel_box.find_children("*","Button",true,false).filter(func(c):return c.get_meta("action","")=="expedition6")
  check(buttons.size()==1 and not buttons[0].disabled,"completed tutorial offers actual playable expedition entry in Operations")
  if not buttons.is_empty():buttons[0].pressed.emit()
  await process_frame
@@ -33,8 +33,8 @@ func run():
  var archived=main._archive();check(store.valid(archived),"Main's extended archive passes production SaveStore validation")
  check(main._evidence_is_text({"optical":"divergence_shelf"}),"new acoustic field notes use text gallery rendering")
  main._show_campaign();await process_frame
- check(main.panel_box.get_children().any(func(c):return c is Button and c.get_meta("action","")=="expedition8"),"selected physical branch offers its real continuation")
- check(not main.panel_box.get_children().any(func(c):return c is Button and c.get_meta("action","")=="expedition7"),"unselected route does not appear as unlocked content")
+ check(main.panel_box.find_children("*","Button",true,false).any(func(c):return c.get_meta("action","")=="expedition8"),"selected physical branch offers its real continuation")
+ check(not main.panel_box.find_children("*","Button",true,false).any(func(c):return c.get_meta("action","")=="expedition7"),"unselected route does not appear as unlocked content")
  main.queue_free();await process_frame;await create_timer(0.5).timeout
  print("EXPEDITION MENU CHECKS ",checks," FAILURES ",failures)
  quit(1 if failures else 0)
