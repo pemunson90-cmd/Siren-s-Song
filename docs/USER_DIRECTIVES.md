@@ -1,3 +1,8 @@
+## 28 October 2026: bounded delegation and independent review
+
+Pat directs root to stay in control, stop idle worker loops, and re-task bounded workers as needed. A separate high-confidence independent reviewer checks changes before new commits and merges. This supersedes earlier entries dropping per-feature review. Implementation workers prepare patches without self-committing; root verifies review approval matches the frozen patch/head before committing and requires current passing checks before merge. Reuse valid review for unchanged code; review substantive fixes and conflict resolutions.
+
+Codex may use subagents while Claude is cooling down: Sol6.1 medium orchestrator, weakest capable implementation model/effort, no Astra. Factual questions require checking current internal docs or targeted official research first. Surface only necessary owner questions; subjective/design intent is Pat's unless already documented. Existing protected design, no-APK and source/save preservation rules remain.
 ## 27 October 2026 Eastern: resume
 
 **RESUMED, 27 Oct 2026 ~19:17 ET:** Pat told Claude "Resume". This lifts the 27 Oct documentation-only pause (ruling 7). Rulings 1 to 6 stand as design direction. Work order for Codex: 055 (repair PR150's hosted fitting/touch regression, green CI, merge), 056, 057, 058, then 059 (challenge pars and per-route bests from rulings 2 and 3). Same rules as ORCHESTRATION_2026-10-26.md. The 26 October finish-the-game entry below governs.

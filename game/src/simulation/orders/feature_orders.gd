@@ -5,6 +5,7 @@ extends RefCounted
 
 static func command(sim, order: String, args: Dictionary) -> bool:
 	match order:
+		"cache_action":return sim.Cache.command(sim,args)
 		"choir_action":return sim.Choir.command(sim,args)
 		"glass_action":return sim.Glass.command(sim,args)
 		"depth":return sim.Depth.command(sim,args.get("band"))
@@ -24,6 +25,7 @@ static func command(sim, order: String, args: Dictionary) -> bool:
 		"warning_depart":return sim.Recipient.depart(sim,args.get("course",""))
 		"salvage":
 			if not args.get("item") is String:return false
+			if sim.Cache.pieces(sim).has(args.item):return sim.Cache.begin(sim,args.item)
 			if not sim.salvage_context(args.item).get("ready",false):sim.message=sim.salvage_context(args.item).get("reason","Salvage unavailable");return false
 			if args.item.begins_with("glass_"):return sim.Glass.command(sim,{"action":"recover"})
 			if sim.Witness.handles(sim,args.item):return sim.Witness.begin(sim,args.item)

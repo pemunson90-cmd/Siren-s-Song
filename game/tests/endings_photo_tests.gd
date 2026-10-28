@@ -19,7 +19,7 @@ func _initialize():
   var s=Sim.new();s.start(id)
   check(Sim.valid_snapshot(s.snapshot()),"new mission active save valid "+str(id))
   var restored=Sim.new();check(restored.restore(s.snapshot()),"new mission active save restores "+str(id))
-  check(s.mission.objectives.size()==2 and s.mission.objectives[1].optional,"bonus photo optional "+str(id))
+  check(s.mission.objectives.size()==3 and s.mission.objectives[0].site_id=="final_photo_%d"%id and s.mission.objectives[1].site_id=="final_photo_%d_bonus"%id and s.mission.objectives[1].optional and s.mission.objectives[2].site_id=="final_listen_%d"%id and s.mission.objectives[2].kind=="receiver" and s.mission.objectives[2].optional,"both original photographs and optional local receiver retained "+str(id))
   var p=progress("deep","concealed");p.completed.append_array([14,15,16,17,18,19,22,23,24,25])
   if id==31:p.completed.append(30)
   var data={"version":1,"unlocked":5,"completed":[0,1,2,3,4,5],"settings":{},"upgrade":"endurance","expedition":p,"active":s.snapshot()}
