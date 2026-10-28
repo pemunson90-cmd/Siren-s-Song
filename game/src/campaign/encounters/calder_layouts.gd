@@ -5,6 +5,14 @@ extends RefCounted
 # (32 vertical shaft, 33 long gallery, 34 staged ring in calder_capstone.gd, 35 stepped
 # keel, 36 twin chambers). Revert: set ENABLED=false to restore the legacy 2800x2800 rows.
 static var ENABLED=true
+# 065 AI-DESIGNED optional work positions and tuning, separate from core gates.
+# Seal bypass stops drill wash before the mandatory disconnect; lift and breaker
+# reuse their authored physical benefits. Revert: MODULE_SITES_ENABLED=false.
+static var MODULE_SITES_ENABLED=true
+const MODULE_SITES={
+ 34:{"key":"calder_34_wash_bypass","name":"OPTIONAL WASH BYPASS","offset":Vector2(0,100),"module":"quietus_wellhead_seal","duration":12.,"effect":{"calm":0.,"noise":{"radius":900.,"label":"WASH BYPASS PUMP","duration":8.}}},
+ 35:{"module":"quietus_wellhead_seal"},
+ 36:{"module":"drone_choir_tuner"}}
 const T=preload("res://src/campaign/encounters/terrain.gd")
 const R=preload("res://src/campaign/encounters/roster.gd")
 const Capstone=preload("res://src/campaign/encounters/calder_capstone.gd")
