@@ -1,6 +1,6 @@
 # RESUME: operational entry
 
-Current accepted integration baseline `a658c2ca` includes Calder fleet096 and earned charts089, alongside Career057, offers068, late ending088, teaching067 and riders071. This reviewed integration branch combines tool cargo098, hidden rescue092, expedition records069 and arc presentation080; it remains pending final exact-head checks. Next070 is reserved to codex-root after069 merge and release. Production is `225c3c45`; main unchanged. Live codex/handoffs claims govern parallel work.
+Current accepted integration baseline `5bf86b88` includes tool cargo098, Calder fleet096 and earned charts089, alongside Career057, offers068, late ending088, teaching067 and riders071. This reviewed integration branch combines hidden rescue092, expedition records069 and arc presentation080 while preserving accepted tool cargo098; it remains pending final exact-head checks. Next070 is reserved to codex-root after069 merge and release. Production is `225c3c45`; main unchanged. Live codex/handoffs claims govern parallel work.
 
 - [KEEL: 089 source] Glass Reach ops14/15/16/20 now use earned first-face terrain and public-water route planning; earlier in-progress saves keep their stored chart policy. Remaining authored operations retain their existing charts, as documented in V7_TO_GODOT_PARITY.
 
@@ -12,7 +12,7 @@ Current boundary: Pat resumed locally on Windows and continued work on 25 Octobe
 
 ## Source and authority
 
-Active integration: `claude/integration`. Last reconciled source baseline: `a658c2ca0d08ff43f2ec3de799cb124c2c85c9f3`; earlier reconciliation `1b56be6f` remains in Git history. Fetch current refs at task boundaries; the board alone owns claims/completions.
+Active integration: `claude/integration`. Last reconciled source baseline: `5bf86b88ab731bbf5f1efb44f4d67cf28c1c261f`; earlier reconciliation `1b56be6f` remains in Git history. Fetch current refs at task boundaries; the board alone owns claims/completions.
 Frozen `gauntlet/production` and protected `main` require Pat's promotion approval. Preserve branches, personal saves, evidence and signing identity.
 Current decisions: [USER_DIRECTIVES](USER_DIRECTIVES.md). Intended release: [CURRENT_GAME_SPEC](CURRENT_GAME_SPEC.md). Actual module seams, settings, saves, tests and safe reverts: [MODULES](MODULES.md).
 
