@@ -43,7 +43,9 @@ func run():
   root.size=dimensions;await settle()
   var game=load("res://scenes/main.tscn").instantiate();game.set_script(load("res://tests/density_main.gd"));game.capture_scenario="playfield-hud"
   if dimensions.x==2520:game.fixture_safe_area=Rect2(136,0,2384,1080)
-  root.add_child(game);await settle();game.set_process(false);game._start_mission(0);await settle()
+  root.add_child(game);await settle();game.set_process(false)
+  game.tool_racks=preload("res://src/equipment/tool_racks.gd").empty();game.tool_racks.quietus.decoy=3
+  game._start_mission(0);await settle()
   var name="cover" if dimensions.x==2520 else "inner";var ocean=game.ocean
   await capture(name+"-start")
   if game.get("mission_hud")!=null:

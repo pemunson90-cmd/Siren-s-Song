@@ -40,7 +40,7 @@ static func context(sim,item:String,id:int)->Dictionary:
  elif p.state not in ["site","wreck"]:pass
  elif c.claimed_by>=0:c.reason="Cache winch in progress"
  elif occupied(sim,id):c.reason="Finish this craft's active work"
- elif Winch.carried(sim,id)>=Winch.capacity(sim,id):c.reason="No free cargo place · %d / %d carried"%[Winch.carried(sim,id),Winch.capacity(sim,id)]
+ elif Winch.carried(sim,id)>=Winch.capacity(sim,id):c.reason=Winch.full_reason(sim,id,"No free cargo place · %d / %d carried"%[Winch.carried(sim,id),Winch.capacity(sim,id)])
  elif u.band!=p.band or not u.transition.is_empty():c.reason="Settle at the piece's recorded depth"
  elif c.distance>Winch.RANGE:c.reason="Move within60m"
  elif not sim.Depth.clear(sim,u.pos,p.pos,u.band):c.reason="Terrain blocks winch"

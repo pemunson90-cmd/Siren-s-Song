@@ -57,6 +57,9 @@ func shape_case(shape):
  game.capture_scenario="runtime-test";game.store.path=path
  if shape.x==2520:game.fixture_safe_area=Rect2(136,0,2384,1080)
  root.add_child(game);await settle()
+ # The campaign snapshot intentionally starts with one remaining EMP; keep its
+ # carrying rack and legacy aggregate consistent before profile save/restore.
+ game.tool_racks=preload("res://src/equipment/tool_racks.gd").empty();game.tool_racks.quietus.emp=1
  game.completed=[0];game.unlocked=1;game.upgrade="survey";game._start_mission(1)
  game.sim.oxygen=57.;game.sim.hull=93.;game.sim.tools.emp=1;game.sim.command("select",{"unit":2})
  game._show_campaign();game.capture_scenario="";game._save_archive();await settle()

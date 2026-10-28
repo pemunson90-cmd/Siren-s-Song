@@ -37,6 +37,8 @@ func run():
   var game=load("res://scenes/main.tscn").instantiate();game.set_script(load("res://tests/density_main.gd"));game.capture_scenario="deep-rendezvous-ui-fixture"
   if dimensions.x==2520:game.fixture_safe_area=Rect2(136,0,2384,1080)
   root.add_child(game);await settle();game.set_process(false)
+  # The tender's measured hull is revealed by the selected Drone B's Survey.
+  game.tool_racks=preload("res://src/equipment/tool_racks.gd").empty();game.tool_racks.drone_b.recon=2
   game.completed=[0,1,2,3,4,5];game.unlocked=5;game.fitted_equipment.drone_a="drone_deep_cells";game._start_mission(7);await settle()
   var sim=game.sim;sim.sirens=[];var label="cover" if dimensions.x==2520 else "inner"
   check(game.sound.cues.has("berth_release"),"soundscape registers the berth release event as a real player machinery cue")
