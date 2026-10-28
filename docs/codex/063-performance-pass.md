@@ -1,8 +1,8 @@
 # Handoff 063: PERFORMANCE PASS (60 fps target, 30 fps fallback)
 
-Status: OPEN
-Claimed at:
-Claimed by:
+Status: CLAIMED
+Claimed at: 2026-10-28 12:02:14 UTC
+Claimed by: codex-root-queue
 Finished at:
 
 Precondition: 060 is DONE. Read ORCHESTRATION_2026-10-26.md first.
@@ -30,3 +30,5 @@ PR into claude/integration; merge on green; close per ORCHESTRATION section 7.
 (five lines max)
 
 Root scheduling28Oct08:14UTC:081 owns chart/render files now while063 was unclaimed. Do not claim063 until081 releases those paths; keep060 precondition. This reverses only collision-avoidance order.
+
+Rootassignment28Oct:060and081merged,sochartfilesreleased. BoundedLuna baselineworkermeasurescurrentheavyscenesandfindsonehotspotfirst; nosourcerewrite/commitbeforeseparatereview. Desktop/headlessmetricsmustnotbeclaimedAndroidGPUacceptance.

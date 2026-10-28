@@ -1,9 +1,9 @@
 # Handoff 060: EQUIPMENT AND EVENT AUDIO
 
-Status: CLAIMED
+Status: DONE
 Claimed at: 2026-10-28 00:21:22 UTC
 Claimed by: claude
-Finished at:
+Finished at: 2026-10-28 12:02:14 UTC
 
 Precondition: 053 is DONE. Take after 059 or whenever no CLAIMED handoff owns audio/*. Read ORCHESTRATION_2026-10-26.md first.
 Codex may merge: yes, into claude/integration only, on green guidance + game-smoke for the exact head, merge commit.
@@ -40,3 +40,5 @@ Claude builds this in parallel with Codex on branch `claude/c9-event-audio` (wor
 
 ## Claude follow-up (28 Oct)
 055 merged (PR150). Claude wires the four new field-tool cues on `claude/c17-tool-cues`; 060 closes when that merges.
+
+Final060 closeout: basePR159 plus toolhooksPR177 merged5ec944dd. Exact28af3440 independentlyAPPROVEDreview4D andgreen40668485980. Four toolsuseactualsuccessfulconsumption; refusedorders/loadseeding/mute/captionspreserved. Ownershipreleased.
