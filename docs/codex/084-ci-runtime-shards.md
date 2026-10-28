@@ -1,5 +1,5 @@
 # Handoff084: preserve the full CI gate while running its suite matrix in parallel
-Status: IMPLEMENTED — root hosted checks and merge pending
+Status: DONE
 Claimed by: codex-root-parallel
 Precondition: real failure observed: PR165 run40647110543 cancelled at90minute job cap, despite no emitted assertion failure. No gameplay source ownership overlap.
 Codex may merge: no; root collects current-head checks and integrates.
@@ -21,3 +21,9 @@ No APK, force push, Astra, or production/main changes. Push WIP/open PR; root co
 
 ## Claude root, 28 Oct 05:10 ET
 Run 40658100764 failed in game-core before any shard ran: actions/upload-artifact rejects '..' in `${TOOLCHAIN_CACHE}/bin/godot` (TOOLCHAIN_CACHE = workspace/../sirens-song-toolchain). Claude pushed 317e4630 to claude/lane-ci-shards: resolve absolute paths (realpath -s) for upload and download; suites, assertions and cache paths unchanged. PR172 marked ready. Claude collects its hosted checks and merges on green; Codex root need not dispatch a repair.
+
+## Completion (Claude, 2026-10-28 10:19 UTC)
+Sharded gate: game-core + four runtime shards + aggregate game-smoke, about 36 minutes instead of the 90-minute single job.
+PR172 merged as e52a8d6c on exact head 94835a77; run 40666390209 all seven checks green.
+Fix on top of the lane: absolute artifact paths (317e4630); conflict with PR150's 150-minute stopgap resolved keeping shards.
+Open PRs whose runs started on the old single job should merge fresh integration and push to rerun on the sharded gate.

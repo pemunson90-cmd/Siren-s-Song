@@ -30,13 +30,12 @@ Read this first after any context clear or restart. It is the single current han
 
 Merged since promotion 1: PR147 (050 Hunt), 151 (054 economy), 152 (051 Calder), 153 (052 optionals), 154 (053 regional look/sound, Night mode), 150 (055 modules + 8 field tools), 156 (doc sweep), 157 (C7 economy calibration), 158 (059 challenge pars), 159 (060 event audio), 160 (061+062 voices, field log, research, archive, credits), 162 (074 optional 38/39 geometry), 163 (058 menu focus, fps cap), 166 (077 route carry), 167+170 (078 ledger), 168 (079 Ironman one timeline).
 
-**CI:** the single game-smoke job outgrew GitHub's 90-minute cap. 084 (PR172) splits it into game-core plus four runtime shards and an aggregate `game-smoke` check (about 36 minutes total). Its first run failed on `..` in an upload-artifact path; Claude fixed it (317e4630, green on all seven checks), then resolved a conflict with PR150's temporary 150-minute cap by keeping the sharded jobs (94835a77). **Next action: merge PR172 when its rerun is green.** After that, any PR whose run was started on the old single job should merge fresh integration and push so it reruns on the sharded gate.
+**CI:** the single game-smoke job outgrew GitHub's 90-minute cap. 084 (PR172) splits it into game-core plus four runtime shards and an aggregate `game-smoke` check (about 36 minutes total). Its first run failed on `..` in an upload-artifact path; Claude fixed it (317e4630, green on all seven checks), then resolved a conflict with PR150's temporary 150-minute cap by keeping the sharded jobs (94835a77). **Done 06:20 ET: PR172 merged as e52a8d6c (084 DONE).** After that, any PR whose run was started on the old single job should merge fresh integration and push so it reruns on the sharded gate.
 
 ## 4. In flight (owner, branch, PR, next action)
 
 | Handoff | Owner | Branch / worktree | PR | Next action |
 |---|---|---|---|---|
-| 084 CI shards | Claude | claude/lane-ci-shards | 172 | Merge on green (rerun on 94835a77) |
 | 056 modes + expeditions | codex-root | claude/c3-modes | 175 | Codex root collects CI, merges |
 | 066 fleet sites | codex-root | claude/lane-fleet-sites | 169 | Codex root |
 | 076 Arc 6 maps + capstone | codex-root | claude/c11-arc6-capstone | 165 | Was cancelled by the 90-min cap and conflicts: merge integration (after 172), push, rerun |
@@ -56,7 +55,7 @@ Board hygiene owed: 059 row still says CLAIMED but it is DONE (PR158 merged); 06
 
 057 naval career (after 056) · 063 performance (after 081) · 065 alien module world uses (after 076) · 067 late-campaign teaching (after 072) · 068 expedition offers, 069 expedition records/seed, 070 resume after app kill (after 056; career half after 057) · 071 career riders (after 057) · 073 quality tier/battery governor (after 058 and 063) · 080 arc intro/outro cards (after 056 and 061).
 
-Then: **Promotion 2** (Claude: PR `claude/integration` to `gauntlet/production` once 084 is in and the integration head is green; merge commit; tell Pat in one line). Then the remaining queue, then the **whole-game cold audit** (fresh critic with no build notes; photographic reconnaissance, strategic depth and player experience first, per Pat's 27 Oct ruling 6), then fix lists for both streams.
+Then: **Promotion 2** (Claude: PR `claude/integration` to `gauntlet/production`; 084 is in, so open it once the integration head is green; merge commit; tell Pat in one line). Then the remaining queue, then the **whole-game cold audit** (fresh critic with no build notes; photographic reconnaissance, strategic depth and player experience first, per Pat's 27 Oct ruling 6), then fix lists for both streams.
 
 Not queued yet: content that needs Pat (sonic identity per Siren role, late-role silhouettes, economy custom toggles, ambient sea life, app icon/splash). See section 6.
 
