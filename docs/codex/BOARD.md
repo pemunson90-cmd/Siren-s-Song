@@ -1,3 +1,5 @@
+**28 Oct 2026 16:57 ET (Claude S5):** PR207 (098 + 092) may merge. Follow-up **100** queued: Claude's 'never lose a winch place' rule made every template carry 0 tools; 100 adds a small per-craft tool locker for the free bundle so defaults carry tools again and only extra charges cost cargo. Claude launches 100 when PR207 merges.
+
 **28 Oct 2026 16:44 ET (Claude S5): Pat ruling.** Silent running may be made clearly slower ("Sure"). New handoff **099** (measure, then set Quietus SILENT speed so silent-everywhere costs real time and oxygen; Siren senses unchanged). Fresh session launched. 094 relaunches after 099 merges; 095/096 will re-measure after it.
 
 **28 Oct 2026 16:41 ET (Claude S5): 094 parked for a Pat decision.** Three attempts: oxygen-only (held by Claude), cruise-toggle contact (blocked by review), work-site patrol cycles (094c: only 2 of 8 ops give SILENT pressure while staying finishable). Root cause Claude sees: SILENT costs only 4 to 14 s per op, so a skilled bare route stays outside 180 m silent sight almost for free. Claude has asked Pat whether SILENT may be made clearly slower (player-side; Siren senses unchanged). Do not relaunch 094 until Pat rules. 094c evidence: artifacts/094c.
@@ -317,5 +319,6 @@ Boundary follow-up28Oct03:12UTC: Windows completion check PASSES from current in
 | 94 | 097 FLEET FIX: EARLY WAYPOINT ops 2, 6, 7, 8, 9, 13, 39 | CLAIMED (codex-root; worktree Siren-s-Song-codex-097, branch claude/fleet-fix-early-waypoints, started 13:58 ET) | | | Claude's 14:03 fresh-session claim withdrawn: root had already started; no second session launched. |
 | 95 | 098 CARRYING TOOLS COSTS CARGO (Pat ruling 28 Oct) | CLAIMED (codex-fresh-098, headless session launched by Claude 14:18 ET; branch claude/tools-cost-cargo) | | | Root: do not duplicate. |
 | 96 | 099 SILENT RUNNING COSTS REAL TIME (Pat ruling 28 Oct) | CLAIMED (codex-fresh-099, headless session launched by Claude 16:44 ET; branch claude/silent-speed) | | | Root: do not duplicate. |
+| 97 | 100 TOOL LOCKERS: default loadouts carry tools again | OPEN (after PR207 merges) | | | |
 | 89 | 092 HIDDEN RESCUE OF SORLEY'S BOY (Pat ruling 28 Oct, experiment) | CLAIMED (codex-fresh-092, headless session launched by Claude 14:58 ET; branch claude/sorley-rescue) | | | Root: do not duplicate. |
 | 88 | 091 WHOLE-GAME COLD AUDIT (read-only) | OPEN (after 090) | | | |
