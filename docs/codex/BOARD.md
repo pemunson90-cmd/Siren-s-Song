@@ -198,7 +198,7 @@ Claude lanes in parallel (not Codex work): C6 doc sweep (claude/c6-doc-sweep), C
 | 68 | 071 Career and expedition riders: optional contract conditions with bonus pay | OPEN | | | |
 | 69 | 072 Settings depth: separate mixer, haptic strength and coverage, gesture timing | OPEN | | | |
 | 70 | 073 Performance and battery tier: Low-effects quality setting, auto frame-time gover | OPEN | | | |
-| 71 | 074 New geometry for optional ops 38 and 39 | CLAIMED (codex-root-parallel) | [162](https://github.com/pemunson90-cmd/Siren-s-Song/pull/162) | | WIP 4435db13; local import/core846/0, bare journeys18/0; exact-head CI pending. |
+| 71 | 074 New geometry for optional ops 38 and 39 | DONE | [162](https://github.com/pemunson90-cmd/Siren-s-Song/pull/162) | 2026-10-28 05:10:50 UTC | Done074: merge6e87767e; exact4435db13 both gates green40631301176; core846/0, bare journeys18/0. Distinct maps/choices; shared landmark renderer deferred. |
 | 72 | 075 Profile export and import that works on a real phone (system file dialog or shar | OPEN | | | |
 | 73 | 076 Arc 6 distinct topologies and a staged capstone for op 34 | CLAIMED (codex-root-resume, claude/c11-arc6-capstone) | [PR165](https://github.com/pemunson90-cmd/Siren-s-Song/pull/165) | ad776a6b | Local checks pass; hosted40634024945 pending |
 | 74 | 077 Route and recovered-fact carry into arcs 4 to 6 | CLAIMED (codex-root-resume, claude/c12-route-carry) | [166](https://github.com/pemunson90-cmd/Siren-s-Song/pull/166) | | Head a6eaac9d; import/core846, carry150, Iron22 journey10 pass; exact-head CI40633263492 running. |

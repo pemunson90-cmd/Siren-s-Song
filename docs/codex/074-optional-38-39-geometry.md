@@ -1,9 +1,9 @@
 # Handoff 074: NEW GEOMETRY FOR OPTIONAL OPS 38 AND 39
 
-Status: CLAIMED
+Status: DONE
 Claimed at: 2026-10-28 01:26:30 UTC
 Claimed by: codex-root-parallel
-Finished at:
+Finished at: 2026-10-28 05:10:50 UTC
 
 Precondition: none beyond ORCHESTRATION. Scout note: None. Read ORCHESTRATION_2026-10-26.md first.
 Codex may merge: yes, into claude/integration only, on green guidance + game-smoke for the exact head, merge commit.
@@ -35,6 +35,8 @@ Import + core. Existing optional-op photo-row journey fixtures for 38 and 39 upd
 PR into claude/integration; merge on green; close per ORCHESTRATION section 7.
 
 ## Completion
-[KEEL: verified WIP] claude/lane-optional-geometry at4435db13918b5156533c1140c11842ceb2793ac4; PR https://github.com/pemunson90-cmd/Siren-s-Song/pull/162.
-Reconciled integrationabd15c88, including accepted viewport-suite split for prior hosted home timeout; import/core846/0 and two bare journeys18/0.
-Fresh exact-head guidance/game-smoke40631301176 pending; claim active, only074. Three local landmarks per map; shared renderer deferred to root/076.
+[KEEL: verified implementation] Distinct trench38 and terrace39, quiet/noisy roof crossing and masking/outer-route decisions; required/bonus film and route gates preserved.
+PR https://github.com/pemunson90-cmd/Siren-s-Song/pull/162 merged6e87767e2e17edc1b3e9f4618d9ec562fe59a00e; landed tree equals tested4435db13.
+Import/core846/0; exactly two bare Quietus journeys18/0; exact-head guidance/game-smoke green40631301176 after integration's accepted home-suite timeout fix.
+Limits: source-known journeys, no human/phone acceptance; three local landmark metadata entries per map await root/076 shared rendering reconciliation.
+Ownership released, only074; source stayed in optional factory/new layout helper, plus authorized journey/registry and MODULES/RESUME closeout; shared landmark_data untouched.
