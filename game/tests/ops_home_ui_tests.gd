@@ -18,6 +18,10 @@ func home_case(shape, recovered, scale):
  if recovered>=6:game.expedition={"version":1,"route":"deep","routes":["deep"],"facts":{},"completed":range(6,recovered)}
  var before=[game.completed.duplicate(),game.expedition.duplicate(true),game.sim.snapshot()]
  game._show_campaign();await settle()
+ var later_available=game.ExpeditionCampaign.available(game.completed,game.expedition).any(func(id):return id not in game._campaign_completed())
+ for node in game.panel_box.get_children():
+  if node is Label and node.text=="BEYOND THE WARNING / OPERATIONS":
+   check(node.visible==later_available,"later heading follows operations outside recovered fold")
  var next=button(game,"next_operation")
  check(next!=null,"next operation exists "+str([shape,recovered]))
  if next!=null:

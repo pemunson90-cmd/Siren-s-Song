@@ -17,9 +17,11 @@ static func photo(key:String,name:String,pos:Vector2,evidence:String,subject:Dic
 # is audible while worked and its completion physically changes the water:
 #  open: Rect2 structures removed; quiet: network listeners within this radius
 #  go deaf for quiet_time; calm: authored currents stop; noise: completion sound.
-static func machine(key:String,name:String,pos:Vector2,effect:Dictionary,optional:bool=false,duration:float=8.)->Dictionary:
+static func machine(key:String,name:String,pos:Vector2,effect:Dictionary,optional:bool=false,duration:float=8.,needs_item:String="")->Dictionary:
  var o={"pos":pos,"name":name,"site_id":key,"captured":false,"duration":duration,"glass_effect":effect}
  if optional:o.optional=true
+ # Optional benefit tag only. Bare craft retain the same local work and effect.
+ if optional and not needs_item.is_empty():o.needs_item=needs_item
  return o
 static func sluice(shape:Rect2,label:String="REACH MACHINERY",radius:float=900.)->Dictionary:
  return {"open":[shape],"noise":{"radius":radius,"label":label,"duration":6.}}
