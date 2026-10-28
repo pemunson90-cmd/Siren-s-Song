@@ -19,7 +19,7 @@ Run a **fresh-context Sol6.1-high critic** that gets only `docs/CRITIC_BRIEF.md`
 - Ironman
 - settings and accessibility
 - save, export and import
-It records what it actually saw. Use bounded parallel critics only if each gets the same cold brief and a distinct slice (for example arcs 1 to 3, arcs 4 to 6, modes and menus); merge and dedupe their findings.
+It records what it actually saw, and for every op it judges whether planning, drones and tools changed the outcome or whether the op played like a waypoint simulator (Pat 28 Oct). Give it 093's report only after it has written its own verdicts. Use bounded parallel critics only if each gets the same cold brief and a distinct slice (for example arcs 1 to 3, arcs 4 to 6, modes and menus); merge and dedupe their findings.
 
 Output `docs/design/COLD_REVIEW_4.md` on codex/handoffs. It holds one ranked deficiency list. Each finding has:
 - rank and severity

@@ -19,7 +19,7 @@ Add one hidden optional operation, "OPTIONAL / Last Boat Out" (placeholder title
    - **Photo key:** the op 37 bonus frame "BOY AT THE AIR-POCKET WINDOW" was secured (existing record key `glass_record_37_bonus`).
    - **Log key:** the player found **2 of 3 Sorley logs** placed **off the main routes** of existing ops in his waters (arcs 2 to 4). Each log is a small optional local find (a recorder buoy or wreck locker) reached by a short side detour, picked up by settled local work the same way existing field logs or cargo are. A log is never on a required route and never gates finishability. Each log is a 1 to 2 line placeholder in Sorley's voice hinting where the boy is.
    On unlock, one Operations line (for example "SORLEY'S SIGNAL: a new course is open") and one Sorley voice line.
-2. **The mission.** Reuse the op 37 region and layout (`optional_operations.gd` `_trawler`) with a new objective: reach the air pocket, couple a pod or winch (reuse the 012/witness pod carry and landing mechanics, not new rules), and bring the boy home. Existing Siren roles only. Bare Quietus with no finite tools must be able to finish it.
+2. **The mission.** Reuse the op 37 region and layout (`optional_operations.gd` `_trawler`) with a new objective: reach the air pocket, couple a pod or winch (reuse the 012/witness pod carry and landing mechanics, not new rules), and bring the boy home. Existing Siren roles only. On ACCESSIBLE and STANDARD a bare launch (no finite tools) must still be able to finish it, as an anti-soft-lock floor; the best outcome must need planning, drones or tools (Pat 28 Oct, see 093). Bringing the boy home safely and quietly should reward drone or tool play.
 3. **At least one game reward** (pick the strongest that fits existing systems; more than one is fine):
    - preferred: **Sorley's pilotage**. He shares honest charts of his waters, which pre-charts shoal outlines in that region's later ops. If 089 is DONE this uses the earned-chart seed; otherwise it can be a fixed charted outline.
    - and/or a rescued-crew effect through the 082 Brannock crew system
@@ -42,7 +42,7 @@ Import + core. One new suite:
 - unlocked by the photo key alone
 - unlocked by 2 logs alone, not by 1
 - the logs are not on any required route
-- bare Quietus finishes the mission
+- a bare launch finishes the mission on STANDARD
 - the reward is applied once
 - ending and ledger lines for the rescued and not-rescued cases
 - an old save loads

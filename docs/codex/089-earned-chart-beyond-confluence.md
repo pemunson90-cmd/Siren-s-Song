@@ -15,7 +15,7 @@ V7 drew a rock only after a sensor revealed it (`obReveal`). Godot has the full 
 
 Stage 1 (this handoff): turn earned terrain on for **4 to 6 operations where the water is new to the navy**: core ops in arcs 4 and 5 (14 to 29) plus optional ops among 35 to 39. Keep arcs 1 and 2 and the teaching ops charted (they are surveyed home water and teach the basics). For each chosen op:
 1. Set `earned_terrain` and a sensible `launch_seed` rect around the start, as Confluence does.
-2. Prove a bare Quietus with no finite tools can still finish it (existing bare journeys; if a journey relied on precharted routing, give it real survey steps, never relax the chart).
+2. On ACCESSIBLE and STANDARD a bare launch (no finite tools) must still be able to finish it, as an anti-soft-lock floor; the best outcome must need planning, drones or tools (Pat 28 Oct, see 093). If a journey relied on precharted routing, give it real survey steps, never relax the chart.
 3. One short placeholder briefing line: "UNCHARTED: the chart fills in as your sensors find rock." (no em dashes).
 4. Check that depth bands, landmarks, photo rows, carry deltas and drone autopilot behave with an initially empty chart on that op.
 Add a one-row-per-op table (op, charted or earned, reason) to `docs/V7_TO_GODOT_PARITY.md` under that row, and update the row's disposition. Stage 2 (more ops, or partial old-survey outlines) is a later decision from the cold audit; do not start it.

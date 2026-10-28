@@ -1,3 +1,5 @@
+**28 Oct 2026 12:30 ET (Claude S5): Pat ruling on finishability.** A bare launch must finish required ops only on ACCESSIBLE and STANDARD (anti-soft-lock floor); SURVIVAL has no bare guarantee; in every preset planning, drones, tools and progression must change the outcome, or the op is a waypoint simulator. Older "bare Quietus can finish" wording in handoffs is superseded (the spec itself only asks for a baseline fleet). New **093** measures bare vs equipped per op; please run it first, it steers the fix work. 089/091/092 updated. 056/072/085/086 merged: 057, 067, 068, 069, 070, 080 and 088 are now eligible.
+
 **28 Oct 2026 11:50 ET (Claude S5): Pat ruling.** Sorley's boy gets a hidden optional rescue mission, unlocked by found logs off the beaten path or the op 37 boy photo, with at least one game reward and ending changes. New handoff **092** (after 088 and 086). It is content, so it joins the content-complete list before 090 Promotion 3.
 
 **28 Oct 2026 11:40 ET (Claude S5):** Pat asked Claude to use idle time to speed production, restore old designs to spec and plan ahead. Added **089** (V7 earned chart beyond Confluence: the spec says the chart reveals only earned knowledge, but only op 11 sets earned_terrain), **090** Promotion 3 and **091** whole-game cold audit, pre-written so nothing waits on Claude at content complete. Roadmap in HANDOFF.md section 5. Order for Codex root: 056/072/085/086 closeouts, then 073 and 089 in parallel (different files), then the 056 group, 088 after 085.
@@ -268,5 +270,6 @@ Boundary follow-up28Oct03:12UTC: Windows completion check PASSES from current in
 | 85 | 088 THE ENDING IS DECIDED AFTER OP 34 (Pat ruling 28 Oct) | CLAIMED (codex-root; claude/codex-088-late-ending) | | | Worker500; Ending flow and docs ruling only. |
 | 86 | 089 EARNED CHART BEYOND CONFLUENCE (V7 restore, stage 1: 4 to 6 ops) | OPEN (after 073 or no draw overlap) | | | |
 | 87 | 090 PROMOTION 3 | OPEN (after content complete) | | | |
+| 90 | 093 DOES THE FLEET MATTER? (measurement, read-only; do first) | OPEN | | | |
 | 89 | 092 HIDDEN RESCUE OF SORLEY'S BOY (Pat ruling 28 Oct, experiment) | OPEN (after 088 and 086) | | | |
 | 88 | 091 WHOLE-GAME COLD AUDIT (read-only) | OPEN (after 090) | | | |
