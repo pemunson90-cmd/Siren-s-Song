@@ -49,6 +49,7 @@ static func arrange(host)->void:
  for node in quick:
   if action(node)=="fittings":node.text="FITTINGS"
   if action(node)=="economy":node.text="SUPPLIES"
+ preload("res://src/presentation/archive/archive_nav.gd").entry(host,shortcuts.get_index()+1)
  var group=VBoxContainer.new();group.add_theme_constant_override("separation",Table.GAP);host.panel_box.add_child(group)
  var fold=host._button(host.panel_box,Table.TEXT.fold%recovered.size(),func():group.visible=not group.visible;host.call_deferred("_layout"),"recovered_fold")
  for node in recovered:node.reparent(group)

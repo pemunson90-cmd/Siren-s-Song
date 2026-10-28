@@ -38,6 +38,7 @@ static func details(front,id:String)->void:
 	front._text("FIXED %s · O₂ %d%% · DISRUPT %d · SURVEY %d\nSTANDARD FRAMES · NO FITTINGS"%[row.loadout.to_upper(),stock[0],stock[1],stock[2]],16)
 	front._text("PARS · %02d:%02d · HULL %d%% · TOOLS %d"%[int(row.par.time)/60,int(row.par.time)%60,roundi(row.par.hull),row.par.tools],17)
 	front._text("Best: "+Records.summary(history(front).get(id,{}).get("best",{})),16)
+	for line in Records.route_lines(row,history(front).get(id,{})):front._text(line,16)
 	front._text("A new attempt starts fresh. Ending it records a loss; successful bests remain.",15)
 	front._button("START CHALLENGE · START PAUSED",func():start(front,id),"challenge_start")
 static func start(front,id:String)->void:
