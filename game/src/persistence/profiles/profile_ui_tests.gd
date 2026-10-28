@@ -99,8 +99,8 @@ func shape_case(shape):
  await settle()
  var cleared=profiles.snapshot(1)
  print("PROFILE CLEAR keys=",cleared.keys()," present=",cleared.keys().filter(func(key):return cleared[key]!=null))
- # 056 adds two profile-pinned run sidecars; absence must cover all six files.
- check(cleared=={"":null,".bak":null,".challenges":null,".challenges.bak":null,".runs":null,".runs.bak":null},"clear remains empty after pending old-host save and replacement")
+ # 057 adds two profile-pinned career sidecars; absence must cover all eight files.
+ check(cleared=={"":null,".bak":null,".challenges":null,".challenges.bak":null,".runs":null,".runs.bak":null,".career":null,".career.bak":null},"clear remains empty after pending old-host save and replacement")
  check(retired_store.suspended and retired_host.get_ref()==null,"clear retires the old host and suspends its pending writers")
  check(host().completed.is_empty() and host().challenge_records.is_empty(),"active clear resets loaded campaign and challenge cache")
  load("res://src/presentation/runs/modes_frontend.gd").expeditions(front());await settle()

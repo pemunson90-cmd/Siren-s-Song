@@ -1,0 +1,45 @@
+extends "res://src/persistence/save_store.gd"
+# Independent checked atomic sidecar, pinned to the physical profile store.
+# An interrupted dive loses its contract; regional career progress survives.
+# Revert: remove the frontend seam; campaign saves never contain this ledger.
+const State=preload("res://src/campaign/career/career_state.gd")
+func valid(data:Dictionary)->bool:
+	return data.get("version") is int and data.version==1 and data.has("career") and State.valid(data.career) and not data.career.is_empty()
+static func _available(host)->bool:
+	if host.store.suspended or host.store.path.is_empty():
+		host.set_meta("career_save_error","Profile storage is unavailable. Career archive retained.")
+		return false
+	return true
+static func restore(host)->Dictionary:
+	if not _available(host):return {}
+	var location:String=host.store.path+".career"
+	if host.get_meta("career_archive_path","")==location:
+		var cached:Dictionary=host.get_meta("career_archive_state",{}).duplicate(true)
+		if host.get_meta("career_archive_dirty",false):persist(host,cached)
+		return cached
+	var archive=load("res://src/campaign/career/career_archive.gd").new();archive.path=location
+	var saved=archive.load_game();var state:Dictionary=saved.get("career",{}).duplicate(true)
+	host.set_meta("career_archive_path",location);host.set_meta("career_archive_state",state)
+	host.set_meta("career_archive_locked",saved.is_empty() and not archive.warning.is_empty())
+	host.set_meta("career_archive_dirty",false)
+	host.set_meta("career_save_error",archive.warning)
+	if state.get("in_flight",false):
+		state=State.interrupted(state)
+		# Conversion is final in memory even when storage fails. A later restore retries
+		# the contract loss write instead of exposing the pre-crash dive as a playable state.
+		host.set_meta("career_archive_state",state.duplicate(true));host.set_meta("career_archive_dirty",true)
+		persist(host,state)
+	return state.duplicate(true)
+static func persist(host,state:Dictionary)->bool:
+	if not _available(host):return false
+	var archive=load("res://src/campaign/career/career_archive.gd").new();archive.path=host.store.path+".career"
+	if host.get_meta("career_archive_path","")!=archive.path:restore(host)
+	if host.get_meta("career_archive_locked",false):
+		host.set_meta("career_save_error","Career archive is unreadable. Original files retained; select another profile to start a career.")
+		return false
+	var ok=archive.save({"version":1,"career":state.duplicate(true)})
+	if ok:
+		host.set_meta("career_archive_path",archive.path);host.set_meta("career_archive_state",state.duplicate(true))
+		host.set_meta("career_archive_dirty",false)
+	host.set_meta("career_save_error","" if ok else archive.warning)
+	return ok
