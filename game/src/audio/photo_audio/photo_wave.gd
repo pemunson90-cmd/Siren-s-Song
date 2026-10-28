@@ -5,7 +5,13 @@ const Table=preload("res://src/audio/photo_audio/photo_cue_table.gd")
 static var cache:Dictionary={}
 static func stream(cue:String)->AudioStreamWAV:
  if cache.has(cue):return cache[cue]
- var row=Table.CUES[cue];var frames=ceili(row.seconds*Table.RATE)
+ var wav=render(Table.CUES[cue])
+ if cue=="hold":wav.loop_mode=AudioStreamWAV.LOOP_FORWARD;wav.loop_begin=0;wav.loop_end=wav.data.size()/2-1
+ cache[cue]=wav
+ return wav
+# Shared synthesis. Event cues reuse it with their own rows (hz, noise, curve, pulses, seconds).
+static func render(row:Dictionary)->AudioStreamWAV:
+ var frames=ceili(row.seconds*Table.RATE)
  var pcm=PackedByteArray();pcm.resize(frames*2)
  var noise_seed=7919
  for n in frames:
@@ -20,6 +26,4 @@ static func stream(cue:String)->AudioStreamWAV:
   pcm.encode_s16(n*2,clampi(roundi(sample*32767.),-32767,32767))
  var wav=AudioStreamWAV.new();wav.format=AudioStreamWAV.FORMAT_16_BITS
  wav.mix_rate=Table.RATE;wav.stereo=false;wav.data=pcm
- if cue=="hold":wav.loop_mode=AudioStreamWAV.LOOP_FORWARD;wav.loop_begin=0;wav.loop_end=frames-1
- cache[cue]=wav
  return wav

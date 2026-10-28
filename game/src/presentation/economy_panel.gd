@@ -131,7 +131,9 @@ static func _revert_last(host)->void:
 	var available=Inventory.available(host._equipment_entitlements(),host.fleet)
 	host.fitted_equipment=Inventory.reconcile_fitting(host.economy.last_fit,available)
 static func _do_research(host,material:String)->void:
+	var spent=host.expedition.get("research",{}).get("spent",[]).size()
 	host.expedition=Economy.research(host.economy,host.expedition,material);host._sync_craft_upgrades()
+	if host.get("sound")!=null and host.expedition.get("research",{}).get("spent",[]).size()>spent:host.sound.event_cue("research_complete")
 static func _repairs(host)->void:
 	var e=host.economy
 	for target in Table.TARGETS:
