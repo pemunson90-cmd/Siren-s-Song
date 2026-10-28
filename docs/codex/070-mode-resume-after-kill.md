@@ -1,8 +1,8 @@
 # Handoff 070: EXPEDITION AND CAREER DIVE RESUME AFTER APP KILL
 
-Status: OPEN
-Claimed at: 
-Claimed by: 
+Status: RESERVED (codex-root; implementation waits for 069/PR204 merge and release)
+Claimed at: reserved 2026-10-28 16:56 ET
+Claimed by: codex-root; no implementation worker dispatched yet
 Finished at:
 
 Precondition: 056 is DONE (career half after 057). Scout note: 056 DONE; 057 DONE for the career half. The expedition half can ship alone. Read ORCHESTRATION_2026-10-26.md first.

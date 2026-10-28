@@ -33,7 +33,7 @@ Import + core. Bare journeys for every changed op. One small suite: each chosen 
 PR into claude/integration; independent review, merge on green; close per ORCHESTRATION section 7; add one line to LEDGER.md.
 
 ## Completion
-[PAT closeout evidence; GitHub PR191/run40755761718 verified 28 Oct 2026] Ops 14/15/16/20 now earn their chart; physical passive-survey return fixtures for 15/16 fixed without relaxing assertions or timeouts.
+[CODEX verified closeout evidence; GitHub PR191/run40755761718 verified 28 Oct 2026] Ops 14/15/16/20 now earn their chart; physical passive-survey return fixtures for 15/16 fixed without relaxing assertions or timeouts.
 PR191 head `1860c7d83a8460cac7ef18b5a3db47dc7b973b26`; all seven own-head checks green [40755761718](https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/40755761718); merged `1b56be6f699347096c5c796c0236616bd521176d`.
 Independent reviews21/26/31 cover source + carry fixture; current-base clean composition with separately approved doc205 carried under review35; root verified clean-merge rebound tree `48af8ca1774585509b996e9bf6d3c7877ce2533a`.
 Glass source ownership released to Claude-launched 095 (session48264, `claude/fleet-fix-glass`), subject to other current claims; root review37 HOLD reservation was never committed.
