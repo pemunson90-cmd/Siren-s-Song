@@ -38,15 +38,19 @@ func route() -> String:
 func _open_dialog(title: String, filename: String, mode: int, callback: Callable) -> int:
  if show.is_valid():return show.call(title,"",filename,mode,FILTERS,callback)
  return DisplayServer.file_dialog_show(title,"",filename,false,mode,PackedStringArray(FILTERS),callback)
+func _open_external(path: String, mode: int):
+ # Narrow file-open seam for write-only provider failure fixtures.
+ return FileAccess.open(path,mode)
 func write_external(path: String, bytes: PackedByteArray) -> bool:
- var file = FileAccess.open(path,FileAccess.WRITE)
+ var file = _open_external(path,FileAccess.WRITE)
  if file == null:return false
- file.store_buffer(bytes);file.flush()
- var ok = file.get_error() == OK
+ var written = file.store_buffer(bytes)
+ file.flush()
+ var ok = written and file.get_error() == OK
  file.close()
  if not ok:return false
- # Some content URIs are write-only; a readable copy must match, an unreadable one is accepted.
- var check = FileAccess.open(path,FileAccess.READ)
+ # Some content URIs are write-only; accept unreadable readback only after a successful write.
+ var check = _open_external(path,FileAccess.READ)
  if check == null:return true
  var same = check.get_length() == bytes.size() and check.get_buffer(bytes.size()) == bytes
  check.close()

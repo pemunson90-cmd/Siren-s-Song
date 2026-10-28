@@ -11,6 +11,20 @@ var pending:Callable
 var fail_open=false
 var message=""
 var picked={}
+class WriteOnlyFile extends RefCounted:
+ var succeeds=false
+ var closed=false
+ var writes=0
+ func store_buffer(_bytes):writes+=1;return succeeds
+ func flush():pass
+ func get_error():return OK # Android reports EOF/OK independently of write failure.
+ func close():closed=true
+class WriteOnlyTransfer extends Transfer:
+ var stream=WriteOnlyFile.new()
+ var reads=0
+ func _open_external(_path,mode):
+  if mode==FileAccess.WRITE:return stream
+  reads+=1;return null
 func check(ok,label):
  checks+=1
  if not ok:failures+=1;printerr("FAIL ",label)
@@ -26,6 +40,33 @@ func _initialize():call_deferred("run")
 func clean(dir):
  DirAccess.make_dir_recursive_absolute(dir)
  for file in DirAccess.open(dir).get_files():DirAccess.remove_absolute(dir+"/"+file)
+func handover_export():
+ var game=load("res://scenes/main.tscn").instantiate()
+ root.add_child(game)
+ for n in 6:await process_frame
+ var front=game.get_node("Frontend")
+ var picker=front.profile_picker
+ picker.show_picker()
+ var model=picker.model
+ var save=Store.new();save.path=model.slot_path(0)
+ check(save.save(data([0])),"handover export fixture writes real profile")
+ var before=model.snapshot(0)
+ picker.mutate(func():return model.select(1))
+ for n in 12:await process_frame
+ check(not is_instance_valid(game),"handover retires the original host")
+ var fresh=root.get_child(root.get_child_count()-1)
+ var replacement=fresh.get_node("Frontend").profile_picker
+ check(replacement.model==model and replacement.transfer.model==model,"handover shares the opened store with transfer helper")
+ var t=replacement.transfer;t.platform="Android";t.probe=yes_dialog;t.show=fake_show
+ calls.clear();message=""
+ var path="user://handover-export.qprofile"
+ t.export_to(0,note)
+ check(calls.size()==1 and t.busy,"Android export opens after real profile handover")
+ if t.busy:
+  pending.call(true,PackedStringArray([path]),0)
+  check(message=="EXPORT SAVED." and model.read_package(path)==before,"handover export preserves selected package bytes")
+ check(model.state.active==1 and model.snapshot(0)==before,"export preserves active choice and independent source profile")
+ fresh.free()
 func run():
  var p=Profiles.new();p.directory="user://transfer-fixture";p.legacy="user://transfer-legacy.save"
  clean(p.directory);for suffix in p.Rules.SUFFIXES:DirAccess.remove_absolute(p.legacy+suffix)
@@ -50,6 +91,14 @@ func run():
  check(message==Transfer.MSG_CANCEL and not t.busy and not FileAccess.file_exists(ext),"cancel is a no-op with a plain notice")
  t.export_to(0,note);pending.call(true,PackedStringArray([ext]),0)
  check(message=="EXPORT SAVED." and FileAccess.file_exists(ext),"saved export written to the chosen path")
+ # A failed Android write may leave get_error()==OK and no read permission.
+ var write_only=WriteOnlyTransfer.new();write_only.model=p;write_only.platform="Android";write_only.probe=yes_dialog;write_only.show=fake_show
+ write_only.export_to(0,note);pending.call(true,PackedStringArray(["content://fixture/export"]),0)
+ check(message.contains("Could not write") and message!="EXPORT SAVED.","failed write to unreadable URI cannot report export saved")
+ check(write_only.stream.writes==1 and write_only.stream.closed and write_only.reads==0,"failed write closes stream and never accepts unreadable readback")
+ write_only.stream=WriteOnlyFile.new();write_only.stream.succeeds=true
+ write_only.export_to(0,note);pending.call(true,PackedStringArray(["content://fixture/export"]),0)
+ check(message=="EXPORT SAVED." and write_only.reads==1 and write_only.stream.closed,"successful write-only URI remains supported")
  # Import round trip into another slot.
  t.import_pick(got);check(calls[-1].mode==DisplayServer.FILE_DIALOG_MODE_OPEN_FILE,"open dialog uses open mode")
  pending.call(true,PackedStringArray([ext]),0)
@@ -89,4 +138,5 @@ func run():
  check(not picked.is_empty() and not p.replace(1,picked,true) and p.snapshot(1)==keep,"importing an ironman package cannot replace a profile")
  check(not p.replace(2,p.snapshot(0),true) and p.snapshot(2)==iron,"import over an ironman profile refused")
  t.reset()
+ await handover_export()
  print("SAVE PROFILES TRANSFER CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)

@@ -1,6 +1,10 @@
 extends RefCounted
 const Rules = preload("res://src/persistence/profiles/profile_rules.gd")
-var model = preload("res://src/persistence/profiles/profile_store.gd").new()
+var model = preload("res://src/persistence/profiles/profile_store.gd").new():
+ set(value):
+  # Session handover replaces the store; every transfer must use that same opened model.
+  model = value
+  if transfer != null:transfer.model = value
 var front
 var notice = ""
 var target = 0
