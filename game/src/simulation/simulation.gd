@@ -8,9 +8,11 @@ const SaveChecks=preload("res://src/persistence/save_checks.gd")
 const EnemyTypes=preload("res://src/simulation/enemy_types.gd")
 const GradeOnSecure=preload("res://src/photo_grade/grade_on_secure.gd")
 const LaunchLayout=preload("res://src/simulation/opening_fleet/launch_layout.gd")
+const FieldTools=preload("res://src/simulation/field_tool_effects.gd")
 const Shelf=preload("res://src/simulation/shelf_habitat.gd")
 const Wake=preload("res://src/simulation/wake_crossing.gd")
 const Endurance=preload("res://src/simulation/operation_endurance.gd")
+const HuntPressure=preload("res://src/simulation/hunt_pressure/hunt_pressure.gd")
 const Recon=preload("res://src/simulation/recon_consequences.gd")
 const PolygonContainment=preload("res://src/simulation/polygon_containment.gd")
 const Operations=preload("res://src/simulation/resolution_operations.gd")
@@ -136,9 +138,11 @@ func start(index: int, upgrade: String = "endurance", launch:Dictionary={}) -> v
 	if upgrade=="disruption": tools.emp += 1
 	if upgrade=="survey": tools.recon += 1
 	if upgrade=="endurance": oxygen=120.0
+	FieldTools.seed(self,upgrade)
 	_build_navigation()
 	_configure_terrain()
 	_configure_depth_charts()
+	HuntPressure.initialize(mission)
 	_observe()
 # Physical terrain still serves enemies, collision and sound. Player routes
 # and presentation share only this locally measured chart in Confluence.
@@ -248,7 +252,9 @@ func _hull_strike(u:Dictionary,impact:float=-1.0,hit:String="terrain")->void:
 	if u.name=="QUIETUS" and u.alive and outcome.is_empty() and elapsed-float(u.get("hit_at",-100.0))>=COLLISION_COOLDOWN:
 		var damage:=collision_damage(impact)
 		if damage>0.0:
+			var hull_before_strike:float=hull
 			hull=maxf(0.0,hull-damage);u["hit_at"]=elapsed
+			FieldTools.record_collision(self,hull_before_strike-hull)
 			events.append({"type":"creak","pos":u.pos});message="Hull strike against %s · %dm/s · hull -%d%%"%[hit,roundi(impact),roundi(damage)]
 func _hull_contacts(u:Dictionary,origin:Vector2,velocity:Vector2)->void:
 	var bodies=units.slice(1)+sirens
@@ -382,7 +388,7 @@ func equipment_feedback()->Dictionary:
 func _capture_duration(objective:Dictionary,unit_id:int)->float:
 	return Sampler.capture_spec(unit_id,mission.get("launch_equipment",{}),objective).get("duration",objective.get("duration",4.0))
 func passive_range(unit_id:int)->float:
-	return CraftUpgrades.passive_range(mission.get("launch_equipment",{}),unit_id)*(0.65 if mission.darkness else 1.0)
+	return CraftUpgrades.passive_range(mission.get("launch_equipment",{}),unit_id)*(0.65 if mission.darkness else 1.0)*FieldTools.reach_scale(self,unit_id)
 func motion_radius(unit_id:int)->float:
 	return CraftUpgrades.motion_radius(mission.get("launch_equipment",{}),unit_id,propulsion_speed(units[unit_id]))*AllStop.noise_scale(units[unit_id])+(130.0 if not units[unit_id].get("transition",{}).is_empty() else 0.0)+Choir.noise(self,unit_id)
 func _craft_speed(unit:Dictionary,fallback:float)->float:
@@ -614,7 +620,7 @@ func _camera_context_base() -> Dictionary:
 		var objective=mission.objectives[id]
 		if objective.captured and Photo.applies(objective) and not Operations.own_origin(objective) and Photo.seen_before(self,id).size()<objective.subject.features.size():
 			# A resolved record can be re-shot from a better viewpoint for what it missed.
-			if reshoot<0 and unit.pos.distance_to(objective.pos)<Photo.reach(self,selected) and line_clear(unit.pos,objective.pos):reshoot=id
+			if reshoot<0 and unit.pos.distance_to(objective.pos)<Photo.reach(self,selected) and Depth.optical_clear(self,unit.pos,objective.pos,unit.band):reshoot=id
 			continue
 		if objective.captured and not Operations.own_origin(objective) and not Delivery.needs_sample(self,id,selected): continue
 		if Operations.own_origin(objective):
@@ -625,7 +631,8 @@ func _camera_context_base() -> Dictionary:
 		var d:float=reception.distance if not reception.is_empty() else unit.pos.distance_to(objective.pos)
 		if not reception.is_empty() and reception.ready and best<0:best=id
 		if d<distance: nearest=id; distance=d
-		if d<Photo.reach(self,selected) and line_clear(unit.pos,objective.pos):
+		var photo_clear=Depth.optical_clear(self,unit.pos,objective.pos,unit.band) if Photo.applies(objective) else line_clear(unit.pos,objective.pos)
+		if d<Photo.reach(self,selected) and photo_clear:
 			# Several subjects in reach: the one the craft is turned toward is framed.
 			var aim_score:float=absf(angle_difference(unit.angle,unit.pos.angle_to_point(objective.pos)))+d/2000.0
 			if best<0:best=id;best_score=aim_score
@@ -694,7 +701,8 @@ func decoy_target_valid(point:Variant) -> bool:
 func _noise(p: Vector2,radius: float,label: String,duration: float=2.0,band:int=1) -> void:
 	noises.append({"band":band,"pos":p,"radius":radius,"time":duration,"label":label})
 	var pressure={"ACTIVE SONAR":5.0,"DISRUPTION":4.0,"KNOCKDOWN":4.0,"DECOY":4.0,"RECON UPLINK":4.0}.get(label,0.0)
-	if pressure>0:Recon.action(mission,pressure)
+	pressure=HuntPressure.action_amount(mission,label,pressure)
+	if pressure>0:Recon.action(mission,pressure,label)
 func courier_feedback() -> Dictionary:
 	return Courier.feedback(self)
 func rendezvous_context(unit_id:int=-1)->Dictionary:return Rendezvous.feedback(self,selected if unit_id<0 else unit_id)
@@ -773,7 +781,8 @@ func _tick(dt: float) -> void:
 		var exchange=o.get("kind","")=="exchange" and mission.get("blackwater_revision",0)==1
 		var mobile=Rendezvous.applies(mission) and o.get("site_id","")=="rendezvous"
 		var receiver=rendezvous_receiver(station) if mobile else blackwater_context(work.target,station) if exchange else {}
-		if not BandPhoto.can_shoot(self,u,o) or ((exchange or mobile) and not receiver.ready) or (Operations.own_origin(o) and not Operations.receiving(self,o,station)) or (not exchange and not mobile and not Operations.own_origin(o) and (u.pos.distance_to(o.pos)>Photo.reach(self,station) or not line_clear(u.pos,o.pos) or (o.has("siren") and not contact_visible(sirens[o.siren])))):
+		var photo_line_clear=Depth.optical_clear(self,u.pos,o.pos,u.band) if Photo.applies(o) else line_clear(u.pos,o.pos)
+		if not BandPhoto.can_shoot(self,u,o) or ((exchange or mobile) and not receiver.ready) or (Operations.own_origin(o) and not Operations.receiving(self,o,station)) or (not exchange and not mobile and not Operations.own_origin(o) and (u.pos.distance_to(o.pos)>Photo.reach(self,station) or not photo_line_clear or (o.has("siren") and not contact_visible(sirens[o.siren])))):
 			captures[station]={}
 			message=u.name+" · "+("Reception interrupted · move closer or SONAR for a local replay" if exchange else "Exposure interrupted · regain clear view")
 		elif exchange and not receiver.settled:work.elapsed=0.0
@@ -785,7 +794,7 @@ func _tick(dt: float) -> void:
 				var usable=true
 				if Photo.applies(o):
 					var result=Photo.finish(self,station,o);usable=result.usable
-					if not usable:message="%s · exposure unusable: %s · retake from another angle"%[u.name,Photo.missing_text(Photo.frame(self,station,o),o.subject)];Recon.action(mission,3.0)
+					if not usable:message="%s · exposure unusable: %s · retake from another angle"%[u.name,Photo.missing_text(Photo.frame(self,station,o),o.subject)];Recon.action(mission,3.0,"UNUSABLE EXPOSURE")
 				u.hold=""; captures[station]={}
 				if usable:o.captured=true
 				if not usable:pass
@@ -809,6 +818,7 @@ func _tick(dt: float) -> void:
 	Consequences.extract(self)
 	if not mission.has("expedition_revision") and outcome.is_empty() and all_records() and units[0].pos.distance_to(mission.extraction)<65 and units[0].vel.length()<12:
 		_try_extract({"pos":mission.extraction,"name":"RECOVERY","route":"","available":true})
+	HuntPressure.observe(self,dt) # Commit actual sight/photo edges before pause input can clear them.
 # Player-only continuous hull corridor, O(terrain edges) rather than O(length).
 # Endpoints vs edges are covered by blocked(); the remaining closest segment
 # pairs are an edge intersection or a rock vertex vs this leg. No convexity
@@ -1040,7 +1050,7 @@ func contact_visible(enemy:Dictionary)->bool:
 	var target=int(enemy.get("target",-1))
 	if enemy.get("lock",0)>0 and enemy.get("stun",0)<=0 and target>=0 and target<units.size():
 		var craft=units[target]
-		return craft.alive and craft.pos.distance_to(enemy.pos)<(180.0 if craft.silent else 290.0)*Recon.readiness(enemy) and Depth.sight(self,craft,enemy)
+		return craft.alive and craft.pos.distance_to(enemy.pos)<(180.0 if craft.silent else 290.0)*HuntPressure.sight(mission,enemy,Recon.readiness(enemy)) and Depth.sight(self,craft,enemy)
 	return false
 func visible(p: Vector2,band:int=1) -> bool:
 	if WorldRegion.survey_visible(self,p): return true
@@ -1105,12 +1115,12 @@ func _threats(dt: float) -> bool:
 			var u=units[i]
 			if not u.alive: continue
 			var dist=s.pos.distance_to(u.pos)
-			var radius=(180.0 if u.silent else 290.0)*Recon.readiness(s)
+			var radius=(180.0 if u.silent else 290.0)*HuntPressure.sight(mission,s,Recon.readiness(s))
 			if dist<radius and Depth.sight(self,s,u): detected=i; break
 			if mission.get("acoustic_revision",0)!=1 and propulsion_speed(u)>50 and dist<430*Recon.readiness(s)*Sweeper.ear(s)*Depth.transmission(s,u) and Depth.clear(self,s.pos,u.pos,s.band):
 				s.goal=u.pos; heard=true; craft_heard=true; s.mode="INVESTIGATE"; s.suspicion=maxf(s.suspicion,0.3)
 		var recipient=Choir.body(self) if not Choir.body(self).is_empty() else Recipient.body(self);var recipient_seen=false
-		if detected<0 and not recipient.is_empty() and recipient.alive and s.pos.distance_to(recipient.pos)<180.*Recon.readiness(s) and Depth.sight(self,s,recipient):recipient_seen=true
+		if detected<0 and not recipient.is_empty() and recipient.alive and s.pos.distance_to(recipient.pos)<180.*HuntPressure.sight(mission,s,Recon.readiness(s)) and Depth.sight(self,s,recipient):recipient_seen=true
 		if mission.get("acoustic_revision",0)==1:
 			var arrival=_heard_arrival(s)
 			if not arrival.is_empty():

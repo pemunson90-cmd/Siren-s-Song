@@ -1,3 +1,7 @@
+## 27 October 2026 Eastern: resume
+
+**RESUMED, 27 Oct 2026 ~19:17 ET:** Pat told Claude "Resume". This lifts the 27 Oct documentation-only pause (ruling 7). Rulings 1 to 6 stand as design direction. Work order for Codex: 055 (repair PR150's hosted fitting/touch regression, green CI, merge), 056, 057, 058, then 059 (challenge pars and per-route bests from rulings 2 and 3). Same rules as ORCHESTRATION_2026-10-26.md. The 26 October finish-the-game entry below governs.
+
 ## 26 October 2026 Eastern: finish the game
 
 Pat: the goal is to finish the game. Prioritize completing content; tests only when absolutely necessary; audit everything at the end. Claude is root orchestrator and delegates lanes to Codex; Claude and Codex each orchestrate their own subagents and stay out of each other's files. Every task ends by cleaning up its claim, recording completion and correcting stale docs it touched.
@@ -10,13 +14,13 @@ Pat: the goal is to finish the game. Prioritize completing content; tests only w
 
 ## 25 October 2026 Eastern: local continuation and reversible work
 
-Pat continued the authorized queue, asked Codex to follow guidance and reconcile stale owned documentation while working, and approved Codex taking over unfinished048 HUD and050 after its existing tasks. The live board on `codex/handoffs` owns order, claims and completion; Claude's absence does not block ordinary authorized implementation, independent review or green integration merges.
+Pat continued the authorized queue, asked Codex to follow guidance and reconcile stale owned documentation while working, and approved Codex taking over unfinished 048 HUD and 050 after its existing tasks. The live board on `codex/handoffs` owns order, claims and completion; Claude's absence does not block ordinary authorized implementation, independent review or green integration merges.
 
-Pat accepted sight-only Hunt first for050. Global Hunt may increase sight notice range; hearing, movement speed and lock timing stay unchanged. The earlier proposal to scale hearing through shared readiness is superseded. Other proposal numbers/caps remain tunable defaults for testing, not claimed human acceptance. No hearing scaling is implicitly authorized later.
+Pat accepted sight-only Hunt first for 050. Global Hunt may increase sight notice range; hearing, movement speed and lock timing stay unchanged. The earlier proposal to scale hearing through shared readiness is superseded. Other proposal numbers/caps remain tunable defaults for testing, not claimed human acceptance. No hearing scaling is implicitly authorized later.
 
 Make ordinary choices reversible through narrow modules, data tables, off switches and documented reverts; ask concise questions where needed and keep independent work moving while responses are pending. This does not authorize irreversible promotion, new story/art direction, SIREN TELL or unapproved protected combat/sensing changes. Phone/human testing stays deferred until feature complete and tuned. Existing no-APK, save/evidence preservation and exact-head merge gates remain.
 
-Pat's later25October instruction: keep documentation clear, reconcile stale owned text without erasing history, and report verified task completions. Before implementation changes, use focused official web research and check existing project/library solutions. Prefer established approaches and reuse; keep research, delegation and test repetition proportionate to reduce token and compute overhead. This does not replace required independent review or final-head checks.
+Pat's later 25 October instruction: keep documentation clear, reconcile stale owned text without erasing history, and report verified task completions. Before implementation changes, use focused official web research and check existing project/library solutions. Prefer established approaches and reuse; keep research, delegation and test repetition proportionate to reduce token and compute overhead. This does not replace required independent review or final-head checks.
 
 ## Historical 23 October 2026 cloud stop and Windows handover (superseded by local resumption)
 
@@ -101,7 +105,7 @@ Only the user ends the Gauntlet; complete tasks automatically dispatch the next 
 
 ## Historical accepted baseline and prior phase scope
 These paragraphs record earlier decisions and implementation provenance. Their rough-only limits, placeholder acceptance and chapter shelving are superseded by the approved full-release order above; technical preservation rules still apply.
-The prior phase built the fixed [Pass 0 campaign](PASS0_CAMPAIGN_PLAN.md) and functional V7 recovery under [the living game specification](CURRENT_GAME_SPEC.md) and [parity ledger](V7_TO_GODOT_PARITY.md).
+The prior phase built the fixed [Pass 0 campaign](https://github.com/pemunson90-cmd/Siren-s-Song/blob/archive/docs-pre-sweep-20261027/docs/PASS0_CAMPAIGN_PLAN.md) and functional V7 recovery under [the living game specification](CURRENT_GAME_SPEC.md) and [parity ledger](V7_TO_GODOT_PARITY.md).
 The rough campaign nodes, four endings, general craft upgrades and mixed enemy rosters are implemented. Full branch touch journeys remain unfinished.
 The integrated V7 recovery builds currents, sensor-earned terrain, an evidence-driven local pressure floor, threat heartbeat/vignette and photographic grading. The PR gate passed; evaluate the whole game and develop the audit quality passes; preserve accepted Godot adaptations and fair information.
 The prior phase accepted placeholder art/text/audio and rough balance. Drop legacy-save compatibility and reject incompatible saves cleanly.

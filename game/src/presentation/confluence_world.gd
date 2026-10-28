@@ -6,7 +6,7 @@ const FOUNDRY=preload("res://assets/structures/foundry.png")
 const CYAN=Color("63c9cc")
 const AMBER=Color("d1a15d")
 
-static func draw_terrain(view,chart:Dictionary,scale:float,visible:Rect2=Rect2(-100000,-100000,200000,200000))->void:
+static func draw_terrain(view,chart:Dictionary,scale:float,visible:Rect2=Rect2(-100000,-100000,200000,200000),style:Dictionary={})->void:
  var cell=float(chart.get("cell_size",40.))
  for key in chart.get("clear_cells",[]):
   var rect=Rect2(Vector2(key)*cell,Vector2.ONE*cell)
@@ -15,7 +15,7 @@ static func draw_terrain(view,chart:Dictionary,scale:float,visible:Rect2=Rect2(-
   # sensing or obstacle meaning and never enter an unmeasured neighbouring cell.
   var seed_value=absi(int(key.x)*73856093 ^ int(key.y)*19349663)
   var shade=float(seed_value%17)/17.
-  view.draw_rect(rect,Color(.062+shade*.008,.148+shade*.018,.163+shade*.02,.88))
+  view.draw_rect(rect,Color(style.floor,.88) if not style.is_empty() else Color(.062+shade*.008,.148+shade*.018,.163+shade*.02,.88))
   if scale<.36:continue
   for n in 2:
    var y=rect.position.y+9.+n*15.+float(seed_value%5)
@@ -40,9 +40,9 @@ static func draw_terrain(view,chart:Dictionary,scale:float,visible:Rect2=Rect2(-
   view.draw_colored_polygon(wall,Color("13292e"))
   var uv=PackedVector2Array()
   for p in wall:uv.append(p/150.)
-  view.draw_polygon(wall,PackedColorArray([Color(.40,.54,.53)]),uv,BASALT)
+  view.draw_polygon(wall,PackedColorArray([style.get("stone",Color(.40,.54,.53))]),uv,BASALT)
   view.draw_line(a+inward*depth,b+inward*depth,Color("091a21"),2.)
-  view.draw_line(a,b,Color("71918a"),1.7/maxf(.65,scale))
+  view.draw_line(a,b,style.get("edge",Color("71918a")),1.7/maxf(.65,scale))
   if scale<.32:continue
   # Short transverse seams give columnar basalt a readable side/strata rhythm.
   for n in maxi(1,int(length/7.)):

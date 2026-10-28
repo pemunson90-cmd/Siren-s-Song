@@ -15,7 +15,7 @@ func _initialize():
  if Graph==null:finish();return
  var Table=load("res://src/campaign/route_map/route_graph_table.gd")
  var fresh=Graph.build([],{}, {},0)
- check(fresh.nodes.size()==32 and fresh.nodes.slice(0,30).map(func(row):return row.id)==range(30) and fresh.nodes.map(func(row):return row.id)==Catalog.registered_ids(),"all thirty existing operations and both final nodes appear once")
+ check(fresh.nodes.size()==41 and fresh.nodes.slice(0,30).map(func(row):return row.id)==range(30) and fresh.nodes.slice(0,32).map(func(row):return row.id)==range(32) and fresh.nodes.map(func(row):return row.id)==Catalog.registered_ids(),"all thirty original operations, both former final nodes and five Calder plus four optional nodes appear once")
  check(node(fresh,0).state=="AVAILABLE" and node(fresh,0).label!="UNKNOWN","first operation is available and named")
  check(fresh.nodes.slice(1).all(func(row):return row.state=="LOCKED" and row.label=="UNKNOWN"),"fresh profile cannot learn later operation names")
  var incomplete=Graph.build([0],{}, {},3)
@@ -23,10 +23,12 @@ func _initialize():
  check(node(incomplete,1).get("can_open",false) and not node(incomplete,2).get("can_open",true),"an unknown name cannot leak through a map briefing action")
  var positions={}
  for row in fresh.nodes:positions[row.position]=true
- check(Table.POSITIONS.size()==32 and Table.POSITIONS.keys().filter(func(id):return id<30).size()==30 and positions.size()==32,"layout preserves thirty original nodes and adds distinct final positions")
+ check(Table.POSITIONS.size()==41 and Table.POSITIONS.keys().filter(func(id):return id<30).size()==30 and positions.size()==41,"layout preserves thirty original nodes and adds distinct final and Calder positions")
+ check(Table.POSITIONS[30]==Vector2(16,5) and Table.POSITIONS[31]==Vector2(17,5) and range(32,37).all(func(id):return Table.POSITIONS.has(id)),"former final positions remain fixed and each Calder operation has an authored position")
  for id in range(1,7):check(edge(fresh.edges,id-1,id),"opening group and expedition gate retain edge%d"%id)
- for id in range(7,32):
+ for id in range(7,41):
   for prerequisite in Catalog.definition(id).prerequisites:check(edge(fresh.edges,prerequisite,id),"catalog edge%d to%d preserved"%[prerequisite,id])
+ for pair in [[31,32],[32,33],[33,34],[32,35],[32,36]]:check(edge(fresh.edges,pair[0],pair[1]),"Calder core and optional branch edge%d to%d"%pair)
  var completed=[0,1,2,3,4,5]
  var progress={"version":2,"route":"deep","routes":["deep"],"completed":[6],"facts":{"deep":"observed"}}
  var original=progress.duplicate(true);var available=Campaign.available(completed,progress)

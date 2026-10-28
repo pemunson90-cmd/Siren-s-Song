@@ -35,8 +35,9 @@ static func debrief(main)->bool:
  main._retain_evidence()
  var previous=main.expedition.duplicate(true)
  main.expedition=Campaign.recover(main.expedition,mission)
+ if main.get("economy") is Dictionary:main.expedition=preload("res://src/campaign/economy.gd").after_recover(main.economy,previous,main.expedition)
  preload("res://src/persistence/save_states/save2_controller.gd").recovered(main,previous)
- if main.sim.outcome=="won" and mission.id==31 and not preload("res://src/campaign/endings_photo.gd").resolve(main.expedition,main.photo_intel).is_empty():
+ if main.sim.outcome=="won" and mission.id in [31,preload("res://src/presentation/finale/finale_table.gd").LAST_ID] and not preload("res://src/campaign/endings_photo.gd").resolve(main.expedition,main.photo_intel).is_empty():
   if preload("res://src/presentation/finale/finale.gd").first_recovery(main,previous):return true
   main._show_ending();return true
  if main.sim.outcome=="won" and mission.id in [12,13] and not preload("res://src/campaign/endings.gd").resolve(main.expedition).is_empty():
@@ -50,6 +51,7 @@ static func debrief(main)->bool:
   var consequence=preload("res://src/presentation/consequence_lines.gd").line(mission)
   if not consequence.is_empty():main._menu_text(consequence,20)
   main._menu_text(mission.record,22)
+  preload("res://src/presentation/archive/voice_feed.gd").debrief(main)
   var plant=preload("res://src/presentation/warning_chain_view.gd").debrief_text(main.sim)
   if not plant.is_empty():main._menu_text(plant,19)
   preload("res://src/presentation/module_recovery_view.gd").debrief(main)

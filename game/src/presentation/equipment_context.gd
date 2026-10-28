@@ -2,23 +2,30 @@ extends RefCounted
 # A read-only projection of successfully recovered equipment. Main owns fitting,
 # uniqueness, persistence and the launch snapshot; this view grants nothing.
 const Catalog=preload("res://src/equipment/equipment_catalog.gd")
+const Economy=preload("res://src/campaign/economy.gd")
 const SLOTS={"quietus":"QUIETUS","drone_a":"DRONE A","drone_b":"DRONE B"}
+# A locked frame is bought with alloy when tapped, then chosen like any other.
+static func _pick_frame(main,locked:bool,unit:int,id:String,key:String,choose:Callable)->void:
+ if locked and not Economy.buy_unlock(main.economy,Economy.unlock_of(unit,id)):return
+ choose.call(key,id)
 static func rows(context:Dictionary)->Array:
  var result=[];var slots=context.get("slots",{});var available=context.get("available",[])
- for slot in SLOTS:
-  var unit=Catalog.SLOTS.find(slot)
+ # Quietus first, then each drone module with both compatible carriers together.
+ for carriers in [["quietus"],["drone_a","drone_b"]]:
   for item in context.get("catalog",[]):
-   if slot not in item.compatible_slots:continue
-   var holder=Catalog.key_of(slots,item.id);var other=Catalog._unit_of(holder) if not holder.is_empty() else ""
-   var here=other==slot
-   var refusal="";var replaces=""
-   if not here and other.is_empty() and item.id in available and Catalog.ITEMS.has(item.id):
-    var attempt=Catalog.choose(slots,slot,item.id,available)
-    if not attempt.ok:refusal=attempt.get("reason","")
-    else:
-     for previous in Catalog.items_for(slots,unit):
-      if previous not in Catalog.items_for(attempt.fitted,unit):replaces=Catalog.ITEMS[previous].name
-   result.append({"slot":slot,"station":SLOTS[slot],"id":item.id,"name":item.name,"current":item.id if here else "","key":holder if here else slot,"benefit":item.benefit,"cost":item.cost,"mount":Catalog.ITEMS.get(item.id,{}).get("mount",""),"power":Catalog.ITEMS.get(item.id,{}).get("power",0),"cargo":Catalog.ITEMS.get(item.id,{}).get("cargo",0),"blocked_by":SLOTS.get(other,"") if not here else "","refused":refusal,"replaces":replaces,"unavailable":item.id not in available,"unit":unit})
+   for slot in carriers:
+    var unit=Catalog.SLOTS.find(slot)
+    if slot not in item.compatible_slots:continue
+    var holder=Catalog.key_of(slots,item.id);var other=Catalog._unit_of(holder) if not holder.is_empty() else ""
+    var here=other==slot
+    var refusal="";var replaces=""
+    if not here and other.is_empty() and item.id in available and Catalog.ITEMS.has(item.id):
+     var attempt=Catalog.choose(slots,slot,item.id,available)
+     if not attempt.ok:refusal=attempt.get("reason","")
+     else:
+      for previous in Catalog.items_for(slots,unit):
+       if previous not in Catalog.items_for(attempt.fitted,unit):replaces=Catalog.ITEMS[previous].name
+    result.append({"slot":slot,"station":SLOTS[slot],"id":item.id,"name":item.name,"current":item.id if here else "","key":holder if here else slot,"benefit":item.benefit,"cost":item.cost,"mount":Catalog.ITEMS.get(item.id,{}).get("mount",""),"power":Catalog.ITEMS.get(item.id,{}).get("power",0),"cargo":Catalog.ITEMS.get(item.id,{}).get("cargo",0),"blocked_by":SLOTS.get(other,"") if not here else "","refused":refusal,"replaces":replaces,"unavailable":item.id not in available,"unit":unit})
  return result
 static func fitting(main,context:Dictionary,choose:Callable)->Array:
  var options=rows(context);var buttons=[]
@@ -37,9 +44,24 @@ static func fitting(main,context:Dictionary,choose:Callable)->Array:
   if not fitted and not row.blocked_by.is_empty():title="%s · %s ON %s"%[row.station,row.name,row.blocked_by]
   if row.unavailable:title="%s · %s UNAVAILABLE · LEFT BEHIND"%[row.station,row.name]
   var key=row.key;var id="" if fitted else row.id
-  var button=main._button(main.panel_box,title,func():choose.call(key,id),"fit_"+row.slot)
+  var button=main._button(main.panel_box,title,_choose_fitting.bind(main,key,id,row.id,choose),"fit_"+row.slot)
+  button.set_meta("fitting_id",row.id)
   button.disabled=blocked;buttons.append(button)
  return buttons
+# Keep the selected module and its alternative carriers in view after rebuilding.
+static func _choose_fitting(main,key:String,id:String,module_id:String,choose:Callable)->void:
+ choose.call(key,id)
+ var heading=main.panel_box.get_child(0)
+ for n in 2:await main.get_tree().process_frame
+ if not is_instance_valid(heading) or heading.get_parent()!=main.panel_box:return
+ var group=Rect2();var found=false
+ for control in main.panel_box.get_children():
+  if control is Button and control.get_meta("fitting_id","")==module_id:
+   group=group.merge(control.get_global_rect()) if found else control.get_global_rect();found=true
+ var area=main.scroll.get_global_rect()
+ if not found or group.size.y>area.size.y:return
+ if group.position.y<area.position.y:main.scroll.scroll_vertical-=ceili(area.position.y-group.position.y)
+ elif group.end.y>area.end.y:main.scroll.scroll_vertical+=ceili(group.end.y-area.end.y)
 # Hull and chassis frames with typed mounts and budget bars. Returns frame buttons.
 static func _bar(main,parent:Node,label:String,value:float,cap:float,text:String,over:bool)->void:
  var column=VBoxContainer.new();column.size_flags_horizontal=Control.SIZE_EXPAND_FILL;column.mouse_filter=Control.MOUSE_FILTER_PASS;parent.add_child(column)
@@ -70,8 +92,11 @@ static func loadout(main,fit:Dictionary,choose:Callable)->Array:
    var selected=Catalog.frame_id(fit,unit)==id
    var title="%s · %s%s"%[SLOTS[Catalog.SLOTS[unit]],Catalog.frames(unit)[id].name.to_upper()," · SELECTED" if selected else ""]
    if not attempt.ok:title+=" · REFUSED · "+attempt.reason.to_upper()
-   var button=main._button(main.panel_box,title,func():choose.call(key,id),"frame_"+Catalog.SLOTS[unit]+"_"+id)
-   button.disabled=selected or not attempt.ok;buttons.append(button)
+   var locked=Economy.frame_locked(main.economy,main.expedition,unit,id)
+   var price=Economy.unlock_cost(main.economy,Economy.unlock_of(unit,id))
+   if locked:title="%s · %s · LOCKED · BUY %s"%[SLOTS[Catalog.SLOTS[unit]],Catalog.frames(unit)[id].name.to_upper(),Economy.fmt(price)]
+   var button=main._button(main.panel_box,title,_pick_frame.bind(main,locked,unit,id,key,choose),"frame_"+Catalog.SLOTS[unit]+"_"+id)
+   button.disabled=selected or not attempt.ok or (locked and not Economy.can_pay(main.economy,price));buttons.append(button)
  return buttons
 static func status(sim)->String:
  if not sim.has_method("equipment_feedback"):return ""

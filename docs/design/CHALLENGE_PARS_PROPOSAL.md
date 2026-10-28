@@ -110,3 +110,10 @@ that `valid()` and tests read as a number, so the extra-field form above is safe
    decision for Pat, and adding a flag before that decision would fix one answer into
    code.
 2. No par number was edited in `challenge_catalog.gd`.
+
+
+## Ratification, 27 October 2026 (Pat)
+
+Pat **approved** route-dependent time pars for `lung_solo`: **110 seconds for dismantle** and **300 seconds for reconnect**; hull 100 and tools 0 remain unchanged. Route identification must come from the actual recorded mission choice. Pat also approved storing **personal bests per route** alongside an **overall challenge completion** record. This settles the previously open scoring-model decision in this proposal. Other challenge pars remain unchanged pending evidence.
+
+**Implementation status:** implemented in handoff 059: catalog `route_pars`, optional result `route` and per-row `routes` bests, route lines in the challenges detail screen, `challenges_route_pars_tests`. Choices other than dismantle/reconnect (bypass, isolate) use the base par.

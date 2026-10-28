@@ -64,6 +64,7 @@ var completed: Array=[]
 var expedition:Dictionary={}
 var end_of_line_seen=false
 var fleet:Dictionary={}
+var economy:Dictionary=preload("res://src/campaign/economy.gd").new_state()
 var challenge_records:Dictionary={}
 var fitted_equipment:Dictionary=preload("res://src/equipment/equipment_catalog.gd").default_loadout()
 var upgrade := "endurance"
@@ -183,7 +184,7 @@ func _theme() -> void:
 func _label(parent: Node,text: String,font_size: int) -> Label:
 	var l=Label.new(); l.text=text; l.add_theme_font_size_override("font_size",font_size); parent.add_child(l); return l
 func _button(parent: Node,text: String,action: Callable,action_id: String="") -> Button:
-	var b=Button.new(); b.text=text; b.custom_minimum_size=Vector2(0,ui_touch_height); b.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART; b.pressed.connect(action,CONNECT_DEFERRED); b.focus_mode=Control.FOCUS_NONE; parent.add_child(b)
+	var b=Button.new(); b.text=text; b.custom_minimum_size=Vector2(0,ui_touch_height); b.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART; b.pressed.connect(action,CONNECT_DEFERRED); b.focus_mode=Control.FOCUS_ALL; parent.add_child(b)
 	if parent==menu_footer: b.size_flags_horizontal=Control.SIZE_EXPAND_FILL
 	# Let ScrollContainer observe touch-emulated drags begun on menu rows.
 	# Its scroll-begin notification cancels the button click; taps still activate.
@@ -352,10 +353,10 @@ func _refresh() -> void:
 	order_buttons.decoy.disabled=sim.tools.decoy<=0 and not decoy_armed
 	order_buttons.recon.text="SURVEY\n%d"%sim.tools.recon
 	order_buttons.recon.disabled=sim.tools.recon<=0
-	log_label.text=sim.message
+	log_label.text=preload("res://src/presentation/archive/voice_feed.gd").log_text(self,sim.message)
 	if sim.mission.get("well_revision",0)==1 and sim.mission.objectives[0].captured:
 		var comparison="MATCH RECORDED" if not sim.mission.well_observation.is_empty() else ("REFERENCE LOGGED" if not sim.mission.well_reference.is_empty() else "UNVERIFIED")
-		log_label.text="WELL · %s | %s"%[comparison,sim.message]
+		log_label.text="WELL · %s | %s"%[comparison,log_label.text]
 	advanced_button.text="BACK\nORDERS" if advanced_orders else "MORE\nORDERS"
 	order_buttons.menu.text="MENU"
 	var scout=sim.scout_context()
@@ -496,6 +497,8 @@ func _campaign_pristine()->bool:
 	return CampaignFlow.campaign_pristine(self)
 func _show_fittings()->void:
 	CampaignFlow.show_fittings(self)
+func _show_economy()->void:
+	preload("res://src/presentation/economy_panel.gd").show(self)
 func _cycle_loadout()->void:
 	CampaignFlow.cycle_loadout(self)
 func _orders_text(briefing:Dictionary) -> String:
@@ -586,10 +589,12 @@ func _archive() -> Dictionary:
 	if not photo_intel.is_empty():data["intel"]=photo_intel.duplicate(true)
 	if not expedition.is_empty():data["expedition"]=expedition.duplicate(true)
 	if not fleet.is_empty():data["fleet"]=fleet.duplicate(true)
+	data["economy"]=economy.duplicate(true)
 	if not hints_seen.is_empty():data["hints_seen"]=hints_seen.duplicate()
 	if not early_reward.is_empty():data["early_reward"]=early_reward.duplicate(true)
 	preload("res://src/presentation/first_siren_cue/cue_archive.gd").write(self,data)
 	preload("res://src/presentation/finale/finale.gd").write(self,data)
+	preload("res://src/presentation/archive/voice_feed.gd").write(self,data)
 	preload("res://src/persistence/save_states/save2_controller.gd").write(self,data)
 	data["equipment"]=preload("res://src/equipment/equipment_catalog.gd").canonical(fitted_equipment)
 	return data
@@ -635,8 +640,11 @@ func _load_archive() -> void:
 		photo_intel=saved.get("intel",{}).duplicate(true)
 		fitted_equipment=preload("res://src/equipment/equipment_catalog.gd").canonical(saved.get("equipment",{}))
 		fitted_equipment=FleetInventory.reconcile_fitting(fitted_equipment,FleetInventory.available(_equipment_entitlements(),fleet))
+		var Economy=preload("res://src/campaign/economy.gd")
+		economy=saved.economy.duplicate(true) if saved.has("economy") else Economy.legacy_state(fitted_equipment)
 		recovered_evidence=saved.get("evidence",{})
 		photo_records=saved.get("photo_records",{}).duplicate(true)
+		preload("res://src/presentation/archive/voice_feed.gd").restore(self,saved)
 		hints_seen=saved.get("hints_seen",[]).duplicate()
 		preload("res://src/presentation/first_siren_cue/cue_archive.gd").restore_types(self,saved)
 		if saved.get("active") is Dictionary and sim.restore(saved.active):
@@ -660,15 +668,25 @@ func _settings_menu() -> void:
 		_menu_text("%s VOLUME"%key.to_upper(),17)
 		var slider=HSlider.new(); slider.min_value=0; slider.max_value=1; slider.step=0.05; slider.value=settings.get(key,0.5); slider.custom_minimum_size.y=ui_touch_height; slider.set_meta("ui_action","volume_"+key); panel_box.add_child(slider)
 		slider.value_changed.connect(func(value): settings[key]=value; sound.set(key+"_volume",value); _save_archive())
-	_button(panel_box,"MUTE: %s"%("ON" if sound.muted else "OFF"),func(): sound.muted=not sound.muted; settings.mute=sound.muted; _save_archive(); _settings_menu(),"mute")
+	var audio_modes=HBoxContainer.new(); audio_modes.add_theme_constant_override("separation",8); panel_box.add_child(audio_modes)
+	var mute_button=_button(panel_box,"MUTE: %s"%("ON" if sound.muted else "OFF"),func(): sound.muted=not sound.muted; settings.mute=sound.muted; _save_archive(); _settings_menu(),"mute")
+	var night_button=_button(panel_box,"NIGHT MODE: %s"%("ON" if FrontendSettings.current.night_mode else "OFF"),func():_set_accessibility("night_mode",not FrontendSettings.current.night_mode),"setting_night_mode")
+	for button in [mute_button,night_button]:
+		button.reparent(audio_modes); button.size_flags_horizontal=Control.SIZE_EXPAND_FILL
 	_menu_text("TEXT SIZE · applies to menus and the dive display",17)
 	var sizes=HBoxContainer.new(); sizes.add_theme_constant_override("separation",8); panel_box.add_child(sizes)
 	for choice in [["NORMAL",1.0],["LARGE",1.3],["EXTRA LARGE",1.5]]:
 		var scale:float=choice[1]
 		var b=Button.new(); b.text=choice[0]; b.custom_minimum_size=Vector2(0,ui_touch_height); b.size_flags_horizontal=Control.SIZE_EXPAND_FILL; b.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
-		b.focus_mode=Control.FOCUS_NONE; b.toggle_mode=true; b.button_pressed=is_equal_approx(FrontendSettings.text_scale(),scale)
+		b.focus_mode=Control.FOCUS_ALL; b.toggle_mode=true; b.button_pressed=is_equal_approx(FrontendSettings.text_scale(),scale)
 		b.set_meta("action","text_scale_%d"%roundi(scale*100)); b.set_meta("ui_action","text_scale_%d"%roundi(scale*100))
 		b.pressed.connect(_set_text_scale.bind(scale),CONNECT_DEFERRED); sizes.add_child(b)
+	for cap in [30,60]:
+		var selected_cap:int=cap
+		var b=Button.new(); b.text="CAP %d FPS"%selected_cap; b.custom_minimum_size=Vector2(0,ui_touch_height); b.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+		b.focus_mode=Control.FOCUS_ALL; b.toggle_mode=true; b.button_pressed=FrontendSettings.current.frame_cap==selected_cap
+		b.set_meta("action","frame_cap_%d"%selected_cap); b.set_meta("ui_action","frame_cap_%d"%selected_cap)
+		b.pressed.connect(_set_accessibility.bind("frame_cap",selected_cap),CONNECT_DEFERRED); audio_modes.add_child(b)
 	_button(panel_box,"SHOW FIRST-DIVE TIPS AGAIN",func(): hints_seen=[]; _save_archive(); sim.message="Tips will show again in the opening operations"; _settings_menu(),"reset_tips")
 	for row in [["safe_palette","SAFE PALETTE"],["audio_captions","AUDIO CAPTIONS"],["haptics","HAPTICS"]]:
 		var key:String=row[0]

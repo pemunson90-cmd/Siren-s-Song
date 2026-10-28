@@ -19,7 +19,7 @@ func shape_case(shape):
  root.size=shape;await settle()
  var game=load("res://scenes/main.tscn").instantiate();game.set_script(load("res://tests/onboard2_fixture_main.gd"));game.capture_scenario="runtime-test"
  root.add_child(game);await settle();game.set_process(false)
- game.completed=[0,1,2,3,4,5];game.unlocked=5;game.active_started=false
+ game.economy.unlocks=["hull:quiet","hull:fast","chassis:scout","chassis:heavy","chassis:endurance"];game.completed=[0,1,2,3,4,5];game.unlocked=5;game.active_started=false
  var prefs=preload("res://src/persistence/settings_store.gd").DEFAULTS.duplicate();prefs.text_scale=1.5;Prefs029.apply(prefs,game);await settle()
  check(is_equal_approx(Prefs029.text_scale(),1.5),"maximum real text setting active")
  for id in range(3,30):

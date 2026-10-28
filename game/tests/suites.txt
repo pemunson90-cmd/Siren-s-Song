@@ -39,7 +39,9 @@ depth_policy_ui_tests|DEPTH POLICY UI|36|25
 opening_depth_tests|OPENING DEPTH|37|26
 opening_depth_journeys|OPENING JOURNEY|38|27
 opening_depth_ui_tests|OPENING DEPTH UI|39|28
-opening_depth_policy_ui_tests|OPENING POLICY UI|40|29
+opening_depth_policy_ui_tests|OPENING POLICY UI|40|-
+opening_depth_policy_cover_ui_tests|OPENING POLICY UI|-|29
+opening_depth_policy_inner_ui_tests|OPENING POLICY UI|-|403
 glass_reach_tests|GLASS REACH|41|30
 glass_network_tests|GLASS NETWORK|42|31
 glass_work_tests|GLASS WORK|43|32
@@ -52,6 +54,7 @@ industrial_threats_tests|INDUSTRIAL THREATS|49|38
 iron_research_tests|IRON RESEARCH|50|41
 iron_choir_journeys|IRON JOURNEY|51|42
 iron_choir_ui_tests|IRON CHOIR UI|52|43
+carry_tests|CARRY|550|650
 onward_mission_tests|ONWARD MISSIONS|53|44
 wake_crossing_tests|WAKE CROSSING|54|16
 wake_crossing_journey_tests|WAKE CROSSING JOURNEY|55|17
@@ -208,6 +211,7 @@ fix2_feedback_ui_tests|FIX2 FEEDBACK UI|184|205|render
 fix2_state_tests|FIX2 STATE|185|206
 fix2_study_ui_tests|FIX2 STUDY UI|186|207|render
 photo_audio_tests|PHOTO AUDIO|187|208
+event_cue_tests|EVENT CUE|520|620
 first_siren_cue_tests|FIRST SIREN CUE|188|209
 first_siren_cue_ui_tests|FIRST SIREN CUE UI|189|210|render
 early_reward_tests|EARLY REWARD|190|211
@@ -244,14 +248,22 @@ order_table_tests|ORDER TABLE|223|246
 photo_window_rules_tests|PHOTO WINDOW RULES|224|247
 art_tests|ART|-|232
 art_render_measurements|ART RENDER|-|233|render
-ops_home_ui_tests|OPS HOME UI|240|260|render
+# Keep the full local matrix; bound each CI native-render process by display shape.
+ops_home_ui_tests|OPS HOME UI|240|-|render
+ops_home_cover_ui_tests|OPS HOME UI|-|260|render
+ops_home_inner_ui_tests|OPS HOME UI|-|287|render
+ops_home_desktop_ui_tests|OPS HOME UI|-|288|render
+voices_tests|VOICES|530|630
+archive_views_ui_tests|ARCHIVE VIEWS UI|531|631|render
 menu_reach_ui_tests|MENU REACH UI|241|261|render
 settings_lifecycle_ui_tests|SETTINGS LIFECYCLE UI|242|262|render
 finale_provisional_tests|FINALE|243|263
 finale_provisional_ui_tests|FINALE UI|244|264|render
+ledger_tests|LEDGER|560|660
 save2_storage_tests|SAVE2 STORAGE|245|265
 save2_fork_tests|SAVE2 FORKS|246|266
 save2_ui_tests|SAVE2 UI|247|267|render
+ironman_integrity_tests|IRONMAN INTEGRITY|570|670
 early_reward2_tests|EARLY REWARD2|231|255
 early_reward2_ui_tests|EARLY REWARD2 UI|232|256|render
 death_cause_tests|DEATH CAUSE|230|253
@@ -261,6 +273,7 @@ first_siren_cue_ext_ui_tests|FIRST SIREN CUE EXT UI|229|252|render
 challenges_completions_opening_tests|CHALLENGES COMPLETIONS OPENING|233|257
 challenges_completions_reach_tests|CHALLENGES COMPLETIONS REACH|234|258
 challenges_completions_iron_tests|CHALLENGES COMPLETIONS IRON|235|259
+challenges_route_pars_tests|CHALLENGES ROUTE PARS|395|495
 photo_row_tender_door_journey_tests|PHOTO ROW TENDER DOOR JOURNEY|248|268
 photo_row_relay_blink_journey_tests|PHOTO ROW RELAY BLINK JOURNEY|249|269
 photo_row_structure_edge_journey_tests|PHOTO ROW STRUCTURE EDGE JOURNEY|250|270
@@ -277,3 +290,15 @@ photo_row_bell_name_journey_tests|PHOTO ROW BELL NAME JOURNEY|260|280
 photo_row_feed_room_journey_tests|PHOTO ROW FEED ROOM JOURNEY|261|281
 status_text_tests|STATUS TEXT|262|282
 status_text_ui_tests|STATUS TEXT UI|263|283|render
+
+hunt_pressure_tests|HUNT PRESSURE|264|284
+hunt_pressure_integration_tests|HUNT INTEGRATION|265|285
+hunt_meter_ui_tests|HUNT METER UI|266|286|render
+calder_trench_journey_tests|CALDER TRENCH JOURNEY|300|400
+regional_settings_tests|REGIONAL SETTINGS|301|401
+frame_cap_settings_tests|FRAME CAP SETTINGS|390|490
+optional_thread_journey_tests|OPTIONAL THREAD JOURNEY|302|402
+economy_tests|ECONOMY|350|450
+economy_save_tests|ECONOMY SAVE|351|451
+economy_campaign_sim_tests|ECONOMY CAMPAIGN|352|452
+field_tools_tests|FIELD TOOLS|360|460

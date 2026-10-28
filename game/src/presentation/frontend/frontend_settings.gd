@@ -16,12 +16,14 @@ static func vibrate(ms: int) -> bool:
 	return true
 static func apply(values: Dictionary, host: Control = null) -> void:
 	current = SettingsStore.sanitize(values)
+	Engine.max_fps = current.frame_cap
 	AudioServer.set_bus_volume_db(0, master_db(current.master))
 	AudioServer.set_bus_mute(0, current.master <= 0.0)
 	if host == null: return
 	if host.get("sound") != null:
 		host.sound.music_volume = current.music; host.sound.effects_volume = current.effects
 		host.sound.muted = current.master<=0.0
+		host.sound.night_mode = current.night_mode
 	if host.get("settings") is Dictionary:
 		host.settings["music"] = current.music; host.settings["effects"] = current.effects
 		host.settings["mute"] = current.master<=0.0

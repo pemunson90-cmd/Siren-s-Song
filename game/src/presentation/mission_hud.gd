@@ -1,4 +1,5 @@
 extends Control
+const HuntMeter=preload("res://src/presentation/hunt_meter.gd")
 const FeatureViews=preload("res://src/presentation/feature_views.gd")
 const Shelf=preload("res://src/presentation/shelf_habitat_view.gd")
 const Wake=preload("res://src/presentation/wake_crossing_view.gd")
@@ -74,6 +75,7 @@ func setup(owner):
  focus_button=host._button(self,"FOCUS",host._focus_craft,"focus")
  extra.audio_log=host._button(self,"AUDIO\nLOG",func():_extra("audio_log"),"audio_log")
  close_button=host._button(self,"BACK",_back,"radial_back")
+ preload("res://src/presentation/field_tool_view.gd").setup(self)
  for entry in [["tools_menu","TOOLS"],["route_menu","ROUTE"],["guard_menu","GUARD"],["inspect","STATUS"],["route_here","ROUTE HERE"],["arrivals","ARRIVALS"],["view_menu","VIEW"],["salvage","RECOVER\n4s AUDIBLE"],["rendezvous_release","RELEASE BERTH\n950m / 6s"]]:
   var key=entry[0];extra[key]=host._button(self,entry[1],func():_extra(key),key)
  extra.all_stop=host._button(self,"ALL STOP",func():host._order("all_stop");open("route"),"all_stop")
@@ -149,7 +151,11 @@ func dismiss():
  draining_popup=not owned_touches.is_empty()
  host.map_gesture.cancel();host.knock_press.clear();popup_gesture.cancel();sheet_pointers.clear();sector_press=null;host.advanced_orders=false;instruments_open=false;host._layout()
 func _back():
- if page=="order_help":open(help_return);return
+ if page=="field_tools":open("tools");return
+ if page=="order_help":
+  if help_return=="water":dismiss()
+  else:open(help_return)
+  return
  if host.knock_armed or host.decoy_armed:host._primary_action();dismiss();return
  if page=="signals":
   if details_return=="water":dismiss()
@@ -295,7 +301,7 @@ func command_controls() -> Array:
    if host.sim.mission.id in [18,19]:controls.append(extra.glass_gate)
    return controls+[extra.glass_route,extra.glass_withdraw,extra.inspect]
   "acoustics":return [extra.depth_up,extra.depth_down,extra.sonar_emit,extra.sonar_sector,extra.sonar_power,extra.sonar_history]
-  "tools":return [host.order_buttons.decoy,host.order_buttons.emp,host.order_buttons.recon,host.order_buttons.knock]
+  "tools","field_tools":return preload("res://src/presentation/field_tool_view.gd").controls(self)
   "route":return [host.order_buttons.queue,host.order_buttons.hold,host.order_buttons.waypoint_mode,host.order_buttons.home,host.order_buttons.program]+([extra.all_stop] if AllStop.available(host.sim) else [])+([extra.guard_menu] if host.sim.selected==0 else [])
   "guard":return [host.order_buttons.contact_hold,host.order_buttons.wait_drone,host.order_buttons.hold]
   "view":return [focus_button,host.zoom_buttons[2],host.zoom_buttons[1],host.zoom_buttons[0]]
@@ -392,6 +398,7 @@ func _fit_sheet():
  host.call_deferred("_report_targets")
 func refresh():
  var sim=host.sim
+ preload("res://src/presentation/field_tool_view.gd").refresh(self)
  sonar_waterfall.visible=page=="inspect" and subject.get("subkind","")=="sonar"
  sonar_waterfall.sim=sim;sonar_waterfall.queue_redraw()
  var u=sim.units[sim.selected];var transition=u.transition
@@ -493,6 +500,7 @@ func refresh():
  var aid_font=maxi(14,roundi(touch_height*.26*text_scale))
  guard.refresh(size,touch_height,aid_font,intent.position.y if intent.visible else size.y)
  hints.refresh(size,touch_height,aid_font,host.ocean.instrument_top+touch_height+34)
+ preload("res://src/presentation/field_tool_view.gd").place_notice(self)
  fleet.refresh(blocked)
  host.ocean.ui_blocked_rects=occupied_rects().map(func(r):return Rect2(r.position-host.ocean.global_position,r.size))
  if host.decoy_armed or host.knock_armed:
@@ -504,6 +512,8 @@ func refresh():
   if sonar_waterfall.visible:host.title_label.hide();host.detail_label.hide()
   instrument_info.text=preload("res://src/presentation/sonar_history.gd").detail(sim)
   if not transition.is_empty():instrument_info.text="%s → %s · %.1fs remaining\n"%[sim.Depth.NAMES[u.band],sim.Depth.NAMES[transition.to],transition.remaining]+instrument_info.text
+
+ HuntMeter.sync(self)
 
 func _draw():
  caption_rects.clear()
