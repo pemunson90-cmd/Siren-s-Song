@@ -77,6 +77,8 @@ func run():
 	host.capture_scenario="runtime-test";host.store.path="user://records-ui.save"
 	for suffix in [".runs",".runs.bak",".runs.tmp"]:DirAccess.remove_absolute(host.store.path+suffix)
 	root.add_child(host);await settle()
+	# Frontend belongs to the campaign menu; runtime-test initially enters a dive.
+	host._show_campaign()
 	var front=load("res://src/presentation/frontend/frontend.gd").new();host.add_child(front);front.setup(host,true)
 	var active=State.new_run(42);var lost=completed(42,true)
 	check(Archive.persist(host,active) and Archive.persist(host,lost) and Archive.persist(host,lost) and Archive.records(host).last.size()==1,"terminal save retry records once")
