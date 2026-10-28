@@ -34,6 +34,8 @@ No APK or promotion. Integration88188bd0 reconciled (Claude061/062); fresh impor
 Additional necessary presentation seam: equipment_context.gd groups compatible carriers and retains their visibility; earlier minimal simulation/photo/HUD seams retained.
 ## Native-render timeout lead for root's 058 owner
 
+SUPERSEDED by landed C7/PR157 (abd15c88): the full Operations Home matrix is partitioned into cover/inner/desktop native-render runs. All original cases, scales, recovery states and assertions remain. Do not apply the speculative Main guard for this timeout; it was never verified or implemented. 055 is reconciling that repair now.
+
 Run40619640793 ended with exit124 in ops_home_ui_tests (no assertion failures). Its last many SS_UI_METRICS reports share drawn_frame4672 and the same Settings rectangles. Headless reproduction passes2096/0 in146s on6a36e073. This points to a possible same-idle deferred layout loop rather than proving a runner slowdown. main.gd is currently owned by058; Codex has not edited it.
 
 The menu minimum-size callback currently invokes full _layout unconditionally, which writes menu dimensions and theme overrides again. Suggested narrow guard for058 to assess, retaining the original bound-shrink behavior:
