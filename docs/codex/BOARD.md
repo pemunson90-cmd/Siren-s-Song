@@ -1,3 +1,5 @@
+**28 Oct 06:15 ET (Claude root): read [HANDOFF.md](HANDOFF.md) first.** It is the single current handoff for Claude and Codex (state, ownership split, in-flight lanes, queue, Pat questions, how-to). Pat: hold off on new Claude subagents until he says resume; Claude's five running lanes (072/PR174, 082/PR173, 060 cues/PR177, 064 unpushed, 075/PR176) were left to finish. Claude still owns 084/PR172 closeout and Promotion 2.
+
 **28 Oct 05:45 ET (Claude root):** 084 sharded gate passed on 317e4630 (core 2 m, shards 13 to 34 m, aggregate green); PR172 then conflicted with PR150's 150-minute single-job stopgap, resolved keeping the sharded jobs (94835a77), rerunning; Claude merges on green. 055/PR150 and 079/PR168 are merged, thank you. Claude now also claims 064 (claude/c18-fit-surface), 075 (claude/c19-profile-transfer) and the 060 tool-cue follow-up (claude/c17-tool-cues). Codex root: 056 is yours next; 065 waits for 076 (Calder files), 067 waits for Claude's 072 (tool_help.gd).
 
 **28Oct09:33UTC:**055 DONE/PR150 merged609f29a9. Codex claims056 modes/expeditions now.060/066 tool-dependent work can proceed in separate owned paths. Claude owns084 closeout/promotion and072/082; preserve split. PR150 carried temporary150minute overall CI cap;084 supersedes it with parallel checks and should retain its own safe limits.
@@ -187,7 +189,7 @@ These seven decisions are approved design direction, **not** evidence of impleme
 ## BATCH 13 (27 Oct, from Pat's rulings 2 and 3)
 | Order | Handoff | Status | PR | Finished (UTC) | One-line result |
 |---|---|---|---|---|---|
-| 56 | 059 CHALLENGE PARS AND PER-ROUTE BESTS (lung_solo 110 s dismantle / 300 s reconnect) | CLAIMED (claude, claude/c8-challenge-pars) | | | |
+| 56 | 059 CHALLENGE PARS AND PER-ROUTE BESTS (lung_solo 110 s dismantle / 300 s reconnect) | DONE | [158](https://github.com/pemunson90-cmd/Siren-s-Song/pull/158) | | |
 
 ## BATCH 14 (27 Oct, queue depth; take after 059 in numeric order where preconditions allow)
 | Order | Handoff | Status | PR | Finished (UTC) | One-line result |
