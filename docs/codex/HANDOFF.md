@@ -48,7 +48,7 @@ Merged since promotion 1: PR147 (050 Hunt), 151 (054 economy), 152 (051 Calder),
 | 072 settings depth | Claude lane | claude/c15-settings-depth, worktree Siren-s-Song-claude-c15-settings | 174 | Lane workflow collects CI and merges; if the lane died, collect CI and merge by hand |
 | 082 crew effects | Claude lane | claude/c16-crew-effects, Siren-s-Song-claude-c16-crew | 173 | same |
 | 060 follow-up: four field-tool cues | Claude lane | claude/c17-tool-cues, Siren-s-Song-claude-c17-cues | 177 | same; then mark 060 DONE |
-| 064 fit surface (24 modules) | Claude lane | claude/c18-fit-surface, Siren-s-Song-claude-c18-fit | none yet | Lane was still implementing (nothing pushed at writing). If dead: check the worktree for uncommitted work, commit and push it as WIP, then continue or release the claim |
+| 064 fit surface (24 modules) | codex-root bounded repair | claude/c18-fit-surface, Siren-s-Song-claude-c18-fit | 178 | Head `8bfa330a` includes pushed WIP and concise-opening fix. The fit summary remains available behind `FIT SUMMARY · SHOW`; the 420-character and goal/danger assertions remain. Local onboarding 30/0 and fit_surface_ui 52/0 passed after reconciling integration including 084. PR comment records the repair. Root owns CI collection and final task closeout. |
 | 075 phone profile transfer | Claude lane | claude/c19-profile-transfer, Siren-s-Song-claude-c19-profiles | 176 | same as 072 |
 
 Claude lane runner: `docs/codex/claude-lane-workflow.js` on this branch (implement, preflight, PR, CI watch/fix loop, merge). Relaunch a lane with the Workflow tool, `scriptPath` = a local copy of that file, and `args` = {key, worktree, branch, title, handoffs[], notes, files, avoid, anchor, ranksLocal, ranksCI}. Only when Pat allows subagents again.

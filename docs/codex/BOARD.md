@@ -210,7 +210,7 @@ Claude lanes in parallel (not Codex work): C6 doc sweep (claude/c6-doc-sweep), C
 ## BATCH 15 (27 Oct, from Claude's verified gap scout; numeric order is priority, preconditions gate eligibility)
 | Order | Handoff | Status | PR | Finished (UTC) | One-line result |
 |---|---|---|---|---|---|
-| 61 | 064 Fittings and briefing fit surface at 24-module catalog scale | CLAIMED (claude, claude/c18-fit-surface) | | | |
+| 61 | 064 Fittings and briefing fit surface at 24-module catalog scale | CLAIMED (codex-root bounded repair, claude/c18-fit-surface) | [178](https://github.com/pemunson90-cmd/Siren-s-Song/pull/178) | Head 8bfa330a; concise opening briefing with optional fit summary; onboarding 30/0 and fit_surface_ui 52/0 locally; root collects CI. |
 | 62 | 065 Give the two new alien modules (Trench wellhead seal, Choir reed tuner) a world  | OPEN | | | |
 | 63 | 066 Make hull, chassis and the new tools matter through optional fleet-specialization | CLAIMED (codex-root-parallel; cache pending) | [169](https://github.com/pemunson90-cmd/Siren-s-Song/pull/169) | | Head8f58039c on integration609f29a9; frame sites retained, relay/silt/sonobuoy sites delivered. Import/core848/0, tools24/0, bare37/38/39 recoveries26/0. Three-piece cache needs wider multi-custody/pre-victory unload/save/UI seam documented in066. Root collects CI; partial remains CLAIMED. |
 | 64 | 067 Teaching and briefings for the mid and late campaign | OPEN | | | |
