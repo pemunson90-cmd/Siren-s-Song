@@ -257,7 +257,7 @@ ops_home_ui_tests|OPS HOME UI|240|-|render
 ops_home_cover_ui_tests|OPS HOME UI|-|260|render
 ops_home_inner_ui_tests|OPS HOME UI|-|287|render
 ops_home_desktop_ui_tests|OPS HOME UI|-|288|render
-arc_boundary_ui_tests|ARC BOUNDARY UI|314|415|render
+arc_boundary_ui_tests|ARC BOUNDARY UI|316|417|render
 voices_tests|VOICES|530|630
 archive_views_ui_tests|ARCHIVE VIEWS UI|531|631|render
 menu_reach_ui_tests|MENU REACH UI|241|261|render
@@ -302,6 +302,8 @@ hunt_pressure_tests|HUNT PRESSURE|264|284
 hunt_pressure_integration_tests|HUNT INTEGRATION|265|285
 hunt_meter_ui_tests|HUNT METER UI|266|286|render
 calder_trench_journey_tests|CALDER TRENCH JOURNEY|300|400
+calder_fleet_journey_tests|CALDER FLEET JOURNEY|315|416
+calder_silent_journey_tests|CALDER SILENT|314|415
 regional_settings_tests|REGIONAL SETTINGS|301|401
 frame_cap_settings_tests|FRAME CAP SETTINGS|390|490
 optional_thread_journey_tests|OPTIONAL THREAD JOURNEY|302|402
