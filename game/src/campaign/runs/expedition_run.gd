@@ -29,6 +29,9 @@ func result(abandoned:bool=false)->Dictionary:
 	for key in mission.get("field_tools",{}).get("counts",{}):counts[key]=int(mission.field_tools.counts[key])
 	var value={"op":mission.id,"outcome":"won" if not abandoned and outcome=="won" else "lost","time":elapsed,"hull":hull,
 		"tools":counts,"story":mission.get("expedition_facts",{}).duplicate(true)}
+	value.photo=-1.
+	for objective in mission.objectives+mission.get("photo",{}).get("studies",[]):
+		if objective.get("captured",false) and objective.has("photo_quality"):value.photo=maxf(value.photo,float(objective.photo_quality))
 	if run_state.has("riders"):
 		value.rider=rider_result()
 		if abandoned:value.rider.passed=false

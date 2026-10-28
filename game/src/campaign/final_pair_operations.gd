@@ -22,11 +22,18 @@ static func key(id:int)->String:return "final_photo_"+str(id)
 static func build(c:Dictionary,history:Dictionary={})->Dictionary:
  if not supports_config(c):return {}
  var id:int=c.source_id;var row=LAYOUTS[id].layout();var k=key(id)
- var m={"id":id,"title":"FINAL SURVEY / %d"%(id-29),"depth":4100,"darkness":false,"region_revision":1,"acoustic_revision":1,"world_size":row.world_size,"start":row.start,"rocks":[],"structures":[],"sirens":row.sirens,"expedition_revision":2,"signal_sources":[],"signal_observations":[],"expedition_facts":{},"next_signal_time":0.,"chosen_route":"","recovered":false,"withdrawal_armed":false,"required_site_ids":[k],"launch_context":history.duplicate(true),"endurance":{"oxygen_seconds":720.,"drone_seconds":480.},"record":row.core_label,"brief":"Photograph %s in MIDDLE, then recover Quietus.\nThe second marked photograph is optional; keep film for the core job."%row.core_label+(LISTEN_BRIEF if row.has("listen") else "")}
+ var m={"id":id,"title":"FINAL SURVEY / %d"%(id-29),"depth":4100,"darkness":false,"region_revision":1,"acoustic_revision":1,"world_size":row.world_size,"start":row.start,"rocks":[],"structures":[],"sirens":row.sirens,"expedition_revision":2,"signal_sources":[],"signal_observations":[],"expedition_facts":{},"next_signal_time":0.,"chosen_route":"","recovered":false,"withdrawal_armed":false,"required_site_ids":[k],"launch_context":history.duplicate(true),"endurance":{"oxygen_seconds":180.,"drone_seconds":480.},"record":row.core_label,"brief":"Photograph %s in MIDDLE, then recover Quietus.\nThe second marked photograph is optional; keep film for the core job."%row.core_label+(LISTEN_BRIEF if row.has("listen") else "")}
  T.apply(m,row.terrain)
  m.structures=row.structures.duplicate()
  m.corridors=[{"pos":row.recovery,"name":row.get("mouth","SURVEY RECOVERY"),"route":"deep"}];m.extraction=row.recovery
  m.objectives=[_photo(k,row.core_label,row.core,row.core_band,false),_photo(k+"_bonus",row.bonus_label,row.bonus,row.bonus_band,true)]
+ # 096 existing unknown-return optics and longer optional integration reward parallel scouting.
+ # Revert this block and the180s budget to restore the earlier survey margin.
+ m.objectives[1]["duration"]=36.
+ m.objectives[1]["unknown"]=true
+ m.objectives[1]["alias"]="UNRESOLVED TERMINAL RETURN"
+ m.objectives[1]["lead"]={"r":200.,"off":Vector2(70,-60),"sight":170.}
+ m.brief+=" Scout the unresolved return with a drone at its recorded depth; the separated branch costs Quietus oxygen and exposes its approach."
  if row.has("listen"):
   # Optional local work: passive hydrophone reception in settled MIDDLE (Quietus only).
   var listen=W.listen(row.listen.key,row.listen.name,row.listen.pos,row.listen.evidence)

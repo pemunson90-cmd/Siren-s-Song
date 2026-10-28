@@ -301,6 +301,8 @@ hunt_pressure_tests|HUNT PRESSURE|264|284
 hunt_pressure_integration_tests|HUNT INTEGRATION|265|285
 hunt_meter_ui_tests|HUNT METER UI|266|286|render
 calder_trench_journey_tests|CALDER TRENCH JOURNEY|300|400
+calder_fleet_journey_tests|CALDER FLEET JOURNEY|315|416
+calder_silent_journey_tests|CALDER SILENT|314|415
 regional_settings_tests|REGIONAL SETTINGS|301|401
 frame_cap_settings_tests|FRAME CAP SETTINGS|390|490
 optional_thread_journey_tests|OPTIONAL THREAD JOURNEY|302|402
@@ -316,6 +318,7 @@ crew_tests|CREW|590|690
 field_tools_tests|FIELD TOOLS|360|460
 tool_racks_tests|TOOL RACKS|361|461|render
 expedition_runs_tests|EXPEDITION RUNS|370|470
+run_records_tests|RUN RECORDS|316|417
 runs_offer_tests|RUNS OFFER|308|408
 runs_offer_ui_tests|RUNS OFFER UI|309|409|render
 expedition_session_tests|EXPEDITION SESSION|371|471

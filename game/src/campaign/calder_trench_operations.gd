@@ -3,6 +3,9 @@ extends RefCounted
 # recovered cargo and local machinery retain their existing Reach custody rules.
 const IDS=[32,33,34,35,36]
 const TITLES={32:"Calder Shut-In",33:"The Human Gallery",34:"Beneath the Well",35:"Deep Keel",36:"The Guard Window"}
+# 096 provisional endurance data. Revert this table to1080s to restore the earlier
+# oxygen margin; no life-support, damage or sensing rules change.
+const OXYGEN={32:210.,33:360.,34:420.,35:360.,36:360.}
 const ITEMS={32:"trench_seal_core",33:"choir_reed",35:"deep_keel_plate"}
 const WORK_KEYS={32:"calder_32_shut_in",33:"calder_33_gallery",34:"calder_34_disconnect",35:"calder_35_lift",36:"calder_36_breaker"}
 const WORK_NAMES={32:"MANUAL WELL SHUT-IN",33:"SURVIVOR GALLERY EQUALIZER",34:"DRILL FEED DISCONNECT",35:"BROKEN DECK LIFT",36:"GUARD STATION BREAKER"}
@@ -39,7 +42,7 @@ static func build(c:Dictionary,history:Dictionary={})->Dictionary:
  if id in [32,33,34]:required.append(WORK_KEYS[id])
  var works=row.get("works",[])
  if not works.is_empty():required=[k]+works.map(func(w):return w.key)
- var m={"id":id,"title":TITLES[id],"depth":5400,"darkness":false,"region_revision":1,"acoustic_revision":1,"expedition_revision":2,"world_size":row.world_size,"start":row.start,"extraction":row.recovery,"rocks":[],"structures":[row.gate],"sirens":row.sirens,"signal_sources":[],"signal_observations":[],"expedition_facts":{},"next_signal_time":0.,"chosen_route":"","recovered":false,"withdrawal_armed":false,"required_site_ids":required,"launch_context":history.duplicate(true),"endurance":{"oxygen_seconds":1080.,"drone_seconds":720.},"record":ACCOUNTS[id],"corridors":[{"pos":row.recovery,"name":row.mouth,"route":"deep"}]}
+ var m={"id":id,"title":TITLES[id],"depth":5400,"darkness":false,"region_revision":1,"acoustic_revision":1,"expedition_revision":2,"world_size":row.world_size,"start":row.start,"extraction":row.recovery,"rocks":[],"structures":[row.gate],"sirens":row.sirens,"signal_sources":[],"signal_observations":[],"expedition_facts":{},"next_signal_time":0.,"chosen_route":"","recovered":false,"withdrawal_armed":false,"required_site_ids":required,"launch_context":history.duplicate(true),"endurance":{"oxygen_seconds":OXYGEN[id],"drone_seconds":720.},"record":ACCOUNTS[id],"corridors":[{"pos":row.recovery,"name":row.mouth,"route":"deep"}]}
  T.apply(m,row.terrain)
  var effect={"open":[row.gate],"quiet":1100.,"quiet_time":120.,"noise":{"radius":1350.,"label":WORK_NAMES[id],"duration":10.}}
  if id in [32,33,34]:effect.calm=0.

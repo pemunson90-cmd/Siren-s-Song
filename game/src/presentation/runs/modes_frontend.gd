@@ -3,6 +3,9 @@ extends RefCounted
 # Revert: remove frontend/menu-reach registrations; retain .runs sidecars.
 const State=preload("res://src/campaign/runs/run_state.gd")
 const Archive=preload("res://src/campaign/runs/run_archive.gd")
+const Records=preload("res://src/campaign/runs/run_records.gd")
+const Summary=preload("res://src/presentation/runs/run_summary_view.gd")
+const SeedEntry=preload("res://src/presentation/runs/seed_entry.gd")
 const Table=preload("res://src/campaign/runs/run_table.gd")
 static func show(front)->void:
 	front._reset("modes")
@@ -30,12 +33,31 @@ static func expeditions(front)->void:
 			front._button("CONTINUE EXPEDITION",func():start(front),"run_continue")
 			front._text("Finish or end this expedition before starting another.",16)
 			front._button("END EXPEDITION",func():confirm_end(front,state),"run_end")
+			history(front)
 			return
-	front._button("NEW SEEDED EXPEDITION",func():
-		var seed_value=int(Time.get_unix_time_from_system()) & 0x7fffffff
-		if Archive.persist(front.host,State.new_run(seed_value)):expeditions(front)
-		else:expeditions(front)
-	,"run_new")
+		else:
+			front._button("VIEW RUN SUMMARY",func():record_detail(front,Records.summary(state)),"run_summary")
+	front._button("NEW SEEDED EXPEDITION",func():seed_screen(front,randi_range(0,Table.MAX_SEED)),"run_new")
+	history(front)
+static func history(front)->void:
+	var records=Archive.records(front.host)
+	front._text("RUN RECORDS / BEST DEPTH %d"%records.best_depth,22)
+	if records.last.is_empty():front._text("No finished runs recorded yet.",16)
+	for i in records.last.size():
+		var row:Dictionary=records.last[i]
+		front._button("SEED %d / %s / %d OF %d CLEARED"%[row.seed,row.status.to_upper(),row.depth,row.total],func():record_detail(front,row),"run_record_%d"%i)
+static func record_detail(front,row:Dictionary)->void:
+	Summary.detail(front,row,func():expeditions(front),func():seed_screen(front,row.seed))
+static func seed_screen(front,seed_value:int)->void:
+	var current=Archive.restore(front.host)
+	if not current.is_empty() and current.status=="active":expeditions(front);return
+	SeedEntry.show(front,seed_value,func():expeditions(front),func(chosen:int):
+		# Recheck at mutation time so a stale screen cannot replace a live run.
+		var latest=Archive.restore(front.host)
+		if latest.is_empty() or latest.status!="active":Archive.persist(front.host,State.new_run(chosen))
+		expeditions(front)
+	)
+
 static func confirm_end(front,state:Dictionary)->void:
 	front._reset("run_end")
 	front._text("END THIS EXPEDITION?",30)
@@ -43,8 +65,9 @@ static func confirm_end(front,state:Dictionary)->void:
 	front._button("KEEP EXPEDITION",func():expeditions(front),"run_keep")
 	front._button("END RUN",func():
 		var launched=State.launch(state) if not state.in_flight else state
-		Archive.persist(front.host,State.settle(launched,{"outcome":"lost","op":State.current_operation(state),"time":0.,"hull":100.,"tools":state.stock,"story":{}}))
-		expeditions(front)
+		var ended=State.settle(launched,{"outcome":"lost","op":State.current_operation(state),"time":0.,"hull":100.,"tools":state.stock,"story":{}})
+		if Archive.persist(front.host,ended):record_detail(front,Records.summary(ended))
+		else:expeditions(front)
 	,"run_confirm_end")
 static func start(front)->void:
 	var state=Archive.restore(front.host)
