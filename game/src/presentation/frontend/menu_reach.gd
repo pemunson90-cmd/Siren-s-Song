@@ -7,11 +7,14 @@ const Table=preload("res://src/presentation/frontend/menu_reach_table.gd")
 const Front=preload("res://src/presentation/frontend/frontend.gd")
 static func entries(host)->void:
  if not Table.enabled:return
+ host._button(host.panel_box,"GAME MODES",func():open(host,"modes"),"menu_modes")
  # Share the existing bottom Settings row so navigation cannot push the
  # selected stock and all three comparison rows above the scrolled viewport.
  var nav=HBoxContainer.new();nav.add_theme_constant_override("separation",Table.NAV_GAP);host.panel_box.add_child(nav)
  var controls=[]
  for node in host.panel_box.get_children():
+  if node is Button and node.get_meta("action","")=="menu_modes":
+   node.reparent(nav);controls.append(node)
   if node is Button and node.get_meta("action","")=="settings":
    node.text="SETTINGS";node.reparent(nav);controls.append(node)
  for row in Table.ENTRIES:
@@ -37,4 +40,5 @@ static func open(host,destination:String)->void:
  if destination=="settings":front._settings_screen()
  elif destination=="credits":front._credits_screen()
  elif destination=="challenges":preload("res://src/presentation/frontend/challenges_frontend.gd").show(front)
+ elif destination=="modes":load("res://src/presentation/runs/modes_frontend.gd").show(front)
  else:front._title_screen()

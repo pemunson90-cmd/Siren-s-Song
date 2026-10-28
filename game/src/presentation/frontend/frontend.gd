@@ -127,13 +127,16 @@ func _title_screen() -> void:
 		var notice := _text(profile_message, 16, Color("efc28d")); notice.name = "ProfileNotice"
 	if profile == Profile.NONE:
 		# First launch: there is nothing to continue and nothing to erase.
-		_button("START GAME", _new_campaign, "frontend_new_campaign")
+		_button("START GAME", _mode_select, "frontend_new_campaign")
 	else:
 		_button("CONTINUE", _continue, "frontend_continue", profile == Profile.UNREADABLE)
+		_button("GAME MODES", _mode_select, "frontend_modes")
 	if profile_picker.available():_button("PROFILES", profile_picker.show_picker, "frontend_profiles")
 	_button("SETTINGS", _settings_screen, "frontend_settings")
 	_button("CHALLENGES", func():load("res://src/presentation/frontend/challenges_frontend.gd").show(self), "frontend_challenges", profile==Profile.UNREADABLE)
 	_button("CREDITS", _credits_screen, "frontend_credits")
+func _mode_select() -> void:
+	load("res://src/presentation/runs/modes_frontend.gd").show(self)
 func _dismiss() -> void:
 	_flush_pending()
 	set_process(false)
@@ -232,6 +235,7 @@ func _credits_screen() -> void:
 # Main routes Android Back and Escape here before changing the campaign underneath.
 func back() -> void:
 	if screen.begins_with("profile"):profile_picker.back();return
+	if screen=="expeditions":_mode_select();return
 	if screen == "challenge_details":
 		load("res://src/presentation/frontend/challenges_frontend.gd").show(self)
 	elif screen != "title" or not operations_entry.is_empty():
