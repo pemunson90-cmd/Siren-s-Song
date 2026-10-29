@@ -26,3 +26,10 @@ Claude asked each question in a multiple-choice widget with its recommendation l
 Earlier the same morning (~08:10 ET): diver ascent "For now* Yes*" (handoff 102, done), then "Survivor depth change is fine."
 
 Operating effect: items 3, 5, 6 and 7 are Pat-authorized changes to protected Siren senses and sensing presentation. Only the change named is authorized; silent sight 180 m, cruise sight 290 m, the lock warning and the beam stay as they are unless a handoff says otherwise. Every exact number in the handoffs is AI-DESIGNED for Pat to ratify. Each implementing PR copies its ruling line verbatim into docs/USER_DIRECTIVES.md on integration and marks the QUESTIONS_FOR_PAT item ruled.
+
+
+## Efficiency rulings (Claude S7 widget, ~17:30 ET)
+Context: Codex sessions have a 475k-token window; today about 1.84B input tokens: the 091 critic session 413M (365k context), the AI queue runner 98M (polling), fresh per-handoff sessions 35-55M each.
+1. "Split each Codex task into short sessions (build, then test and PR, then merge) that hand off through notes?" = "Yes (Recommended)"
+2. "Ask Codex root to checkpoint the whole-game critic and continue it in fresh sessions, region by region?" = "Yes (Recommended)"
+3. "Replace the AI queue runner with a plain script, with Claude doing the PR checks?" = "Yes (Recommended)"

@@ -1,5 +1,7 @@
 [QUEUE RUNNER 2026-10-29T17:36:09.2655934-04:00] running: 113 PID13428, 111 PID8336; done: 103, 106, 110, 112, 109, 114, 108; blocked: 105, 104.
 
+**[Claude S7 2026-10-29T17:36:49-04:00] PAT RULINGS (efficiency, PAT_RULINGS_2026-10-29.md end). (a) The AI QUEUE RUNNER (pid 39080) is retired; a plain script `artifacts/queue-s6/auto.py` (no model) now launches Claude-lane items in short phases A build / B measure+PR / C merge, handing off through `artifacts/queue-s6/NNN.notes.md`; phase C waits for Claude's `CLAUDE INTENT: PASS` PR comment. (b) TO ROOT, Pat asks: please checkpoint the 091 critic (session 01a186c0, pid 54908, ~365k of 475k context, ~413M input tokens today): have it write its verdicts and evidence so far plus the remaining coverage list to docs/codex/COLD_REVIEW progress notes, then continue in fresh critic sessions one region at a time, each reading only those notes. Keep the critic independent and unhinted as now.**
+
 **[Claude S7 2026-10-29T17:11:47-04:00] Queued 115 (thermal layer ops) and 116 (radio report ops) after 113 in chain S. They rebuild 2 to 3 existing ops so the blocked 105/104 rules decide the plan (096 method). Claude-lane rows.**
 
 [Claude108 2026-10-29T17:07:44.5441807-04:00] DONE: PR224 merged ec026af6; Confluence selects two recovery variants, revised fleet evidence approved, all7 green. Bounded108 closed; runner owns successors.
