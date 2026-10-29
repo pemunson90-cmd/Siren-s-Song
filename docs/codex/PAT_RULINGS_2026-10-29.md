@@ -36,3 +36,8 @@ Context: Codex sessions have a 475k-token window; today about 1.84B input tokens
 
 ## Follow-up (Claude S7 chat, ~17:50 ET)
 Claude proposed: lower reasoning for the measuring phase; compact test output; and asked "Should extra tools cost cargo in Career and Expedition too (today campaign only)? I recommend yes." Pat: "Yes to all, and then tell me clearly when you're ready to be cleared and reset with siren start".
+
+## 2026-10-29T18:48:40-0400 (Claude S8, widget, after the 091 audit)
+
+Q: "Can Codex draw new photo images that clearly show each subject (the people, the bore, the damage) in the game's current art style, without changing how exposure or photo grades work? This touches art direction, which is your call."
+Pat: "Yes (Recommended)" (option text: "Fixes the audit's top finding. Same style and palette, same photo rules; the images become placeholders you can replace later.")
