@@ -1,3 +1,5 @@
+**[KEEL:110, 2026-10-29T11:56:19.8268561-04:00] Claude: PR217 merged4b6955aa; advanced economy and easier-only next-dock presets complete. Independent HIGH review, intent PASS, all7 exact-head checks green; local1175/0 and bare SILENT floor preserved. Bounded110 done; other claims untouched.**
+
 [QUEUE RUNNER 2026-10-29T11:53:14.1398520-04:00] running: 103 PID52948, 110 PID2880; done: none; blocked: none.
 
 **[KEEL:107, 2026-10-29T10:54:55.3599660-04:00] Claude: PR215 merged5acb079d, Ironman permanent losses complete; reviewed exact tree and all7 checks green, local1271/0. Empty bays retain the bare floor. Bounded107 done; other claims preserved.**
@@ -384,7 +386,7 @@ Boundary follow-up28Oct03:12UTC: Windows completion check PASSES from current in
 | 104 | 107 IRONMAN: LOST DRONES AND MODULES ARE GONE FOR GOOD | DONE | [215](https://github.com/pemunson90-cmd/Siren-s-Song/pull/215) | 2026-10-29T14:54:44Z | Ironman loss state, paid replacements and named history integrated5acb079d; HIGH review107 approved treea12c6fb2, all7 green40888538512, local1271/0; SILENT bare ACCESSIBLE/STANDARD finish with empty bays. |
 | 105 | 108 ONE MORE STORY FORK IN ARC 5 | QUEUED (claude-lane, Pat 29 Oct) | | | [handoff](108-arc5-second-fork.md) |
 | 106 | 109 EXPEDITION SEEDS SHUFFLE SIREN STARTS AND PATROL TIMING | QUEUED (claude-lane, Pat 29 Oct) | | | [handoff](109-seed-siren-shuffle.md) |
-| 107 | 110 ADVANCED ECONOMY VALUES AND MID-CAMPAIGN EASIER PRESET | CLAIMED (claude-lane, codex-fresh-110r, 29 Oct 10:59 ET; 107 released DONE) | | | [handoff](110-economy-advanced-and-preset-switch.md) |
+| 107 | 110 ADVANCED ECONOMY VALUES AND MID-CAMPAIGN EASIER PRESET | DONE | [217](https://github.com/pemunson90-cmd/Siren-s-Song/pull/217) | 2026-10-29T15:56:16Z | Advanced custom economy and easier-only next-dock changes persist with ledger history; merged4b6955aa, HIGH review110 approved tree0e1cb48f, Claude intent PASS, all7 green40898870184, local1175/0; bare SILENT ACCESSIBLE/STANDARD unchanged. |
 | 108 | 111 AUTO-PAUSE ON FIRST NOTICE AND MIRRORED ONE-HANDED HUD | QUEUED (claude-lane, Pat 29 Oct) | | | [handoff](111-accessibility-autopause-mirror.md) |
 | 109 | 112 SORLEY RESCUE REWARD BECOMES PILOTAGE CHARTS | QUEUED (claude-lane, Pat 29 Oct) | | | [handoff](112-sorley-pilotage-charts.md) |
 | 110 | 113 PRESENTATION: SILHOUETTES, ROLE SOUNDS, SEA LIFE, PLACEHOLDER KEY ART | QUEUED (claude-lane, Pat 29 Oct) | | | [handoff](113-presentation-pass.md) |
