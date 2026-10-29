@@ -3,7 +3,6 @@ extends RefCounted
 # what it unlocks, its cost from the economy, and pending / paid / complete. Paying for a pending
 # project calls the existing Economy.research action (alloy, preset-scaled); no new rule here.
 # Seam: archive_nav.gd entry and tabs. Reads host.expedition, host.economy; saves only via that action.
-# Android Back returns to Operations (Main's ordinary rule). Revert: archive_table.enabled=false.
 const Table=preload("res://src/presentation/archive/archive_table.gd")
 const Nav=preload("res://src/presentation/archive/archive_nav.gd")
 const Research=preload("res://src/campaign/glass_research.gd")
@@ -40,7 +39,6 @@ static func rows(host)->Array:
 			"unlocks":unlocks(material),"operation":recipe.operation,"title":str(Catalog.make(recipe.operation).get("title","UNKNOWN")).to_upper()})
 	return result
 static func show(host)->void:
-	if not Table.enabled:return
 	var reading_position=host.scroll.scroll_vertical if host.screen=="research" else 0
 	host.screen="research";host.sim.paused=true;host._clear_menu()
 	Nav.header(host,"research")

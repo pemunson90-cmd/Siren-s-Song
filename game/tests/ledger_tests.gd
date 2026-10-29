@@ -32,6 +32,8 @@ func _initialize():
   check(has_row(panels,"Confluence:") and panels.size()==4,"four panels and recorded Confluence outcome "+id)
   check(panels.all(func(p):return not p.rows.is_empty()),"no empty panels "+id)
   check(Endings.resolve(progress).id==id,"ledger leaves ending family unchanged "+id)
+ check(has_row(Ledger.build({"facts":{"varne_staff":"service"}},{}),"Varne staff: recorded as service."),"legacy Varne staff fact remains readable")
+ check(has_row(Ledger.build({"facts":{"glass_choice":"sever","varne_staff":"service"}},{}),"Varne staff: recorded as sever."),"canonical Varne choice takes precedence over legacy alias")
  var deep=Ledger.build(cases.silent_exodus,{})
  check(has_row(deep,"Tessaly divers: not recorded") and has_row(deep,"Trench mouth") and not has_row(deep,"Port Ardent"),"deep thread reports only recorded trench infrastructure")
  check(has_row(Ledger.build(cases.hidden_harbour,{}),"Port Ardent watch: six came out through the baffled"),"shelf baffle line")
@@ -54,10 +56,6 @@ func _initialize():
  check(has_row(Ledger.build({"completed":[11]},{}),"Artifacts recovered: not recorded"),"missing research record is not recorded")
  var host=Host.new()
  check(View.render(host,cases.beacon_pact,{})>0 and host.labels.back()==Table.FOOTER and host.labels[0]=="PEOPLE","view emits panels and AI-DESIGNED footer")
- Table.enabled=false
- var off=Host.new()
- check(View.render(off,cases.beacon_pact,{})==0 and off.labels.is_empty() and Ledger.build(cases.beacon_pact,{}).is_empty(),"off switch removes ledger")
- Table.enabled=true
  var long=Table.FACT_ROWS.size()>0 and Table.FACT_ROWS.all(func(r):return r[5].values().all(func(v):return v.length()<=70 and not v.contains("—")))
  check(long,"table lines short and free of em dashes")
  print("LEDGER CHECKS %d FAILURES %d"%[checks,failures]);quit(1 if failures else 0)

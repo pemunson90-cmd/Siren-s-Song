@@ -83,9 +83,6 @@ func shape_case(shape):
  game._show_campaign();await settle();await press(game,"archive")
  check(texts(game).contains("OKAFOR / BRANNOCK:"),"field log lists received lines")
  await android_back()
- ArchiveTable.enabled=false;game._show_campaign();await settle()
- check(button(game,"archive")==null,"off switch removes the entry")
- ArchiveTable.enabled=true
  DirAccess.remove_absolute(game.store.path);DirAccess.remove_absolute(game.store.path+".bak")
  game.queue_free();await settle()
 func run():

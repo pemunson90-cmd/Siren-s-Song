@@ -18,7 +18,7 @@ static func show(front)->void:
 	front._text("Fixed attempts unlocked by recovered campaign operations.",16)
 	front._button("EXPEDITIONS",func():expeditions(front),"mode_expeditions",not Table.enabled)
 	front._text("Seeded runs of 3 to 6 operations. Finite tools carry forward. One loss ends the run.",16)
-	front._button("NAVAL CAREER",func():load("res://src/presentation/career/career_frontend.gd").show(front),"mode_career",not preload("res://src/campaign/career/career_table.gd").ENABLED)
+	front._button("NAVAL CAREER",func():load("res://src/presentation/career/career_frontend.gd").show(front),"mode_career")
 static func expeditions(front)->void:
 	var state=Archive.restore(front.host)
 	front._reset("expeditions")

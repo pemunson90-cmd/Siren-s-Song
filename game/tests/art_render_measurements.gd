@@ -229,9 +229,9 @@ func run_chart_profile(render_timing):
  var original=load("res://src/presentation/ocean_view.gd")
  var contour_test=original.new()
  for extent in [Vector2(1600,960),Vector2(4000,2500),Vector2(800,480),Vector2(1600,960)]:
-  contour_test.contour_cache_enabled=false
+  contour_test._contour_extent=Vector2(-1,-1)
   var rebuilt=contour_test._depth_contours(extent)
-  contour_test.contour_cache_enabled=true
+  contour_test._contour_extent=Vector2(-1,-1)
   var cached=contour_test._depth_contours(extent)
   check(cached==rebuilt,"cache rebuilds identical geometry after extent change "+str(extent))
   check(is_same(cached,contour_test._depth_contours(extent)),"same extent reuses contour array")
@@ -268,9 +268,8 @@ func run_chart_profile(render_timing):
    for n in 30:await draw_frame(view)
    var before=root.get_texture().get_image();before.save_png(folder.path_join("op%d-%dx%d.png"%[operation,dimensions.x,dimensions.y]))
    for block in blocks:
-    view.contour_cache_enabled=(block%4 in [1,2])
     for n in 10:await draw_frame(view)
-    check(root.get_texture().get_image().get_data()==before.get_data(),"cache switch preserves default pixels op "+str(operation))
+    check(root.get_texture().get_image().get_data()==before.get_data(),"repeated draw preserves default pixels op "+str(operation))
     var draw=[];var process=[];var wall=[];var cadence=[];var renderer_cpu=[];var gpu=[];var sections={};var calls=[];var visibility=[];var visibility_calls=[]
     for n in sample_frames:
      var at=Time.get_ticks_usec();view._process(0.);process.append(Time.get_ticks_usec()-at)
@@ -284,7 +283,7 @@ func run_chart_profile(render_timing):
      calls.append(Performance.get_monitor(Performance.RENDER_TOTAL_DRAW_CALLS_IN_FRAME))
      renderer_cpu.append(float(RenderingServer.call("viewport_get_measured_render_time_cpu",root.get_viewport_rid()))*1000. if render_timing else 0.)
      gpu.append(float(RenderingServer.call("viewport_get_measured_render_time_gpu",root.get_viewport_rid()))*1000. if render_timing else 0.)
-    records.append({"operation":operation,"dimensions":dimensions,"block":block,"contour_cache_enabled":view.contour_cache_enabled,"draw_cpu_usec":draw,"process_cpu_usec":process,"render_phase_wall_usec":wall,"await_frame_wall_usec":cadence,"viewport_render_cpu_usec":renderer_cpu,"viewport_gpu_usec":gpu,"draw_calls":calls,"sections_usec":sections,"fog_visibility_line_usec":visibility,"fog_visibility_calls":visibility_calls,"snapshot":state,"snapshot_after":digest(s),"contacts":s.contacts.size(),"sonar_history":s.sonar.history.size(),"public_clear_cells":s.public_chart().get("clear_cells",[]).size(),"public_surfaces":s.public_chart().get("surface_segments",[]).size(),"region":view.regional_style,"effective_viewport":root.get_visible_rect().size,"view_size":view.size,"window_size":DisplayServer.window_get_size()})
+    records.append({"operation":operation,"dimensions":dimensions,"block":block,"draw_cpu_usec":draw,"process_cpu_usec":process,"render_phase_wall_usec":wall,"await_frame_wall_usec":cadence,"viewport_render_cpu_usec":renderer_cpu,"viewport_gpu_usec":gpu,"draw_calls":calls,"sections_usec":sections,"fog_visibility_line_usec":visibility,"fog_visibility_calls":visibility_calls,"snapshot":state,"snapshot_after":digest(s),"contacts":s.contacts.size(),"sonar_history":s.sonar.history.size(),"public_clear_cells":s.public_chart().get("clear_cells",[]).size(),"public_surfaces":s.public_chart().get("surface_segments",[]).size(),"region":view.regional_style,"effective_viewport":root.get_visible_rect().size,"view_size":view.size,"window_size":DisplayServer.window_get_size()})
     check(digest(s)==state,"profile preserves snapshot op "+str(operation))
     print("CHART PROFILE op ",operation," size ",dimensions," block ",block)
    # Compare a fresh uninstrumented production view at the same fixed pose.

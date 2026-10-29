@@ -9,7 +9,7 @@ const Table=preload("res://src/campaign/crew/crew_table.gd")
 const Voices=preload("res://src/campaign/voices/voices_table.gd")
 static func matches(row:Dictionary,facts)->bool:
  if not Table.enabled or not facts is Dictionary:return false
- var value=facts.get(row.when.fact)
+ var value=facts.get(row.when.fact,facts.get(row.when.get("legacy_fact","")))
  return value is String and value in row.when.is
 # Rows whose rescued group is recorded in these facts, in table order.
 static func present(facts)->Array:

@@ -34,8 +34,7 @@ static func make(index:int,history:Dictionary={})->Dictionary:
  var m=_base(index,history)
  if index==11:
   _confluence(m)
-  m["earned_terrain"]=true
-  m["launch_seed"]=Rect2(m.start-Vector2(160,200),Vector2(480,480)).intersection(Rect2(Vector2.ONE*40,m.world_size-Vector2.ONE*80))
+  preload("res://src/campaign/encounters/terrain.gd").seed_chart(m)
  elif index==12:_concealed(m)
  else:_overt(m)
  return m

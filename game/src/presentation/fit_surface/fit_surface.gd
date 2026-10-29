@@ -1,7 +1,7 @@
 extends RefCounted
 # Pure projection of the recovered-fitting rows for one craft, grouped by mount type, with a per-row
 # budget delta. It grants nothing and validates nothing: Catalog.choose stays the only authority.
-# Seam: fit_surface_view.gd (screen widget), equipment_context.rows (row source). Revert: fit_surface_table.enabled=false.
+# Seam: fit_surface_view.gd (screen widget), equipment_context.rows (row source).
 const Table=preload("res://src/presentation/fit_surface/fit_surface_table.gd")
 const Catalog=preload("res://src/equipment/equipment_catalog.gd")
 const Tools=preload("res://src/equipment/field_tools.gd")
@@ -107,11 +107,9 @@ static func summary(context:Dictionary)->String:
  for id in context.get("available",[]):
   if Catalog.ITEMS.has(id) and Catalog.key_of(slots,id).is_empty():spare+=1
  return "\n".join(lines)+("\n%d SPARE MODULE%s"%[spare,"" if spare==1 else "S"] if spare>0 else "")
-# Supplies line from the tool table instead of fixed words. Drones are the two non-Quietus craft.
-static func stock_text(choice:String,with_field:bool=true)->String:
- var parts=["%d DECOYS"%Tools.loadout_count("decoy",choice),"%d DRONES"%(Catalog.SLOTS.size()-1)]
- parts.append("%d TORPEDOES"%Tools.loadout_count("knock",choice))
- var field=[]
- for id in (Tools.field_ids() if with_field else []):
-  if Tools.is_enabled(id):field.append("%s %d"%[Tools.spec(id).name.to_upper(),Tools.loadout_count(id,choice)])
- return " · ".join(parts)+("\n"+" · ".join(field) if not field.is_empty() else "")
+# Supplies line uses the actual editable racks and their shared tool labels.
+static func stock_text(racks:Dictionary)->String:
+ var Racks=preload("res://src/equipment/tool_racks.gd")
+ var parts=[]
+ for id in ["decoy","knock"]:parts.append("%d %s"%[Racks.total(racks,id),Racks.label(id)])
+ return " / ".join(parts)+"; %d DRONES"%(Catalog.SLOTS.size()-1)

@@ -3,14 +3,6 @@ extends RefCounted
 # Prompts are shown once per campaign (ids are saved); warnings pause for reading.
 const MAX_OPERATION := 4
 const FIRST_USE_HINTS := ["first_depth", "first_emit", "first_research", "first_field_tool"]
-# Persistent vocabulary, independent of displayed hints and feature switches.
-# Keep these ids when reverting a module or removing its text. priced_gone is the
-# legacy priced-shots rollback marker; other unknown priced_* ids remain invalid.
-const SAVED_HINT_IDS := [
-	"move", "pause", "drone", "sweep", "warning", "noise",
-	"priced_reach", "priced_light", "priced_window", "priced_film", "priced_gone",
-	"first_depth", "first_emit", "first_research", "first_field_tool"
-]
 const Priced = preload("res://src/simulation/photo_pricing/photo_pricing_table.gd")
 # Short briefing lines for the opening operations. The full rules stay in the field manual.
 const GOALS := {
@@ -37,6 +29,8 @@ const HINTS := {
 	"first_research": {"text": "Recovered material and its regional account unlock research. Check RESEARCH or SUPPLIES for the project and its cost before choosing it.", "ops": []},
 	"first_field_tool": {"text": "Field tools spend finite stock. Hold a tool button for its rules; SUPPLIES prepares the next launch, while RESUME keeps this dive's stock.", "ops": []}
 }
+# Keep the legacy priced-shots rollback marker for existing saves.
+static var SAVED_HINT_IDS=HINTS.keys()+["priced_gone"]
 static func goal(index: int) -> String:
 	return GOALS.get(index, "")
 static func hint_text(id: String) -> String:

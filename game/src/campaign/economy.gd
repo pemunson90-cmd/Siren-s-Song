@@ -31,8 +31,6 @@ static func legacy_state(fit:Dictionary)->Dictionary:
  return e
 static func preset(e:Dictionary)->Dictionary:
  return PRESETS[e.preset]
-static func pristine_choice(preset_id:String,ironman:bool)->Dictionary:
- return new_state(preset_id if preset_id in ORDER else "standard",ironman)
 # ---- costs -----------------------------------------------------------------
 static func scaled(cost:Dictionary,e:Dictionary)->Dictionary:
  var result={}
@@ -64,7 +62,6 @@ static func balance_text(e:Dictionary)->String:
  return "BALANCE · %s"%" · ".join(RES.map(func(k):return "%s %d"%[Table.NAMES[k],e.stock.get(k,0)]))
 # Manufacturing price of one copy of a fitting. Keyed by item id so new fittings price by power.
 static func item_cost(item:String,e:Dictionary)->Dictionary:
- if Table.ITEM_PRICE.has(item):return scaled(Table.ITEM_PRICE[item],e)
  var cost={"scrap":Table.ITEM_BASE_SCRAP+int(Catalog.ITEMS.get(item,{}).get("power",1))}
  if item in Table.ALIEN:cost["alloy"]=1
  return scaled(cost,e)
@@ -239,9 +236,6 @@ static func refill(e:Dictionary)->void:
  for key in RES:e.stock[key]=maxi(e.stock[key],Table.REFILL[key])
  for target in TARGETS:e.cond[target]=100
 # ---- presets ---------------------------------------------------------------
-static func cycle_preset(e:Dictionary)->bool:
- var choices=Options.choices(e)
- return Options.request(e,choices[0]) if not choices.is_empty() else false
 static func set_ironman(e:Dictionary)->void:
  if not Options.state(e).pending.is_empty():return
  e.ironman=true

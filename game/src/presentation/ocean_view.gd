@@ -35,17 +35,15 @@ var quality_tier:String=Quality.STANDARD:
 		if quality_tier==Quality.normalize(value):return
 		quality_tier=Quality.normalize(value)
 		queue_redraw()
-var quality_gate=preload("res://src/presentation/quality/quality_governor.gd").new()
+var quality_gate=preload("res://src/presentation/quality/redraw_gate.gd").new()
 var quality_gesture_active:=false
 var _quality_visual_key:int=0
-var quality_draw_count:=0 # Actual CanvasItem draw callbacks, useful for scoped runtime probes.
 var rocks: Array = []
 var foundry=preload("res://assets/structures/foundry.png")
 var quietus=preload("res://assets/craft/quietus.png")
 var basalt=preload("res://assets/materials/basalt.png")
 # Presentation-only static contours. Disable to rebuild the identical points on
 # every draw; cache retains only the last world extent and never reads sim state.
-var contour_cache_enabled := true
 var _contour_extent := Vector2(-1,-1)
 var _contour_points: Array = []
 var camera_flash := 0.0
@@ -229,18 +227,16 @@ func knock_aim_key(point:Vector2) -> int:
 	# A broad phone hit area cannot infer intent between overlapping bodies.
 	return hits[0] if hits.size()==1 else -1
 func _depth_contours(extent: Vector2) -> Array:
-	if contour_cache_enabled and extent==_contour_extent:return _contour_points
+	if extent==_contour_extent:return _contour_points
 	var lines: Array=[]
 	for n in int(ceil(extent.y/135.0)):
 		var points=PackedVector2Array()
 		for k in int(ceil(extent.x/38.0))+1:
 			points.append(Vector2(k*38,80+n*135+sin(k*0.19+n)*32))
 		lines.append(points)
-	if contour_cache_enabled:
-		_contour_extent=extent;_contour_points=lines
+	_contour_extent=extent;_contour_points=lines
 	return lines
 func _draw() -> void:
-	quality_draw_count+=1
 	if sim==null or ocean==null: return
 	_sync_camera()
 	draw_rect(Rect2(Vector2.ZERO,size),Color("050f17"))

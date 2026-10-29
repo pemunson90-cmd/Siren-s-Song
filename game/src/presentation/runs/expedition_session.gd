@@ -83,9 +83,7 @@ func _show_campaign()->void:
 		var rider=RunState.rider_offer(run_state)
 		_menu_text(RunState.Riders.description(rider,RunState.rider_bonus_text(rider)),17)
 		if not rider.is_empty():
-			_button(panel_box,"RIDER · "+("ACCEPTED" if accept_rider else "DECLINED"),func():
-				accept_rider=not accept_rider;_show_campaign()
-			,"run_rider")
+			_button(panel_box,"RIDER · "+("ACCEPTED" if accept_rider else "DECLINED"),preload("res://src/presentation/rider_choice.gd").toggle.bind(self,_show_campaign),"run_rider")
 		_button(panel_box,"BEGIN OPERATION · START PAUSED",_begin,"run_begin")
 		_button(panel_box,"RETURN TO MODES",_return,"run_return")
 	call_deferred("_layout")

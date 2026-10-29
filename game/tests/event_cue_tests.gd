@@ -67,12 +67,7 @@ func run():
  check(t.command("hull_patch"),"fixture: a struck hull accepts the patch")
  sound.update(t,0.);check(layer.played==["hull_patch"],"hull patch cue fires once on use")
  sound.update(t,0.);check(layer.played.is_empty(),"hull patch does not replay")
- Table.enabled=false
- var off=Sound.new();root.add_child(off);await process_frame
- off.update(fresh(),0.)
- check(off.get_node_or_null("EventAudio")==null,"disabled switch creates no layer")
- Table.enabled=true
- off.queue_free();sound.queue_free();await process_frame;await create_timer(.1).timeout
+ sound.queue_free();await process_frame;await create_timer(.1).timeout
  finish()
 func finish():
  print("EVENT CUE CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)

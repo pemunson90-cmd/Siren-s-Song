@@ -3,7 +3,6 @@ extends RefCounted
 # received log in the archive. Presentation only; no simulation or rule writes.
 # Seams (one line each): CampaignFlow.briefing and classic debrief, ExpeditionOperations.debrief,
 # Main._refresh log row, Main._archive / _load_archive, CampaignFlow.new_campaign.
-# Revert: voices_table.enabled=false (nothing shows, nothing saved), or remove those lines.
 const Voices=preload("res://src/campaign/voices/voices.gd")
 const Table=preload("res://src/campaign/voices/voices_table.gd")
 const META="voice_log"
@@ -25,7 +24,7 @@ static func debrief(host)->void:
 	host._menu_text(Voices.line(int(mission.id),"debrief"),17)
 # HUD log row text. A mid-dive message fires once on the player's own progress and stays for HOLD seconds.
 static func log_text(host,message:String)->String:
-	if not Table.enabled or host.screen!="mission" or host.sim.mission==null or not host.sim.outcome.is_empty():return message
+	if host.screen!="mission" or host.sim.mission==null or not host.sim.outcome.is_empty():return message
 	var op=int(host.sim.mission.get("id",-1))
 	var dive=host.sim.get_instance_id()
 	var state:Dictionary=host.get_meta("voice_mid",{})
@@ -40,7 +39,7 @@ static func log_text(host,message:String)->String:
 	return message
 # ---- archive ---------------------------------------------------------------
 static func write(host,data:Dictionary)->void:
-	if Table.enabled and not received(host).is_empty():data[Voices.FIELD]=received(host).duplicate()
+	if not received(host).is_empty():data[Voices.FIELD]=received(host).duplicate()
 static func restore(host,saved:Dictionary)->void:
 	var value=saved.get(Voices.FIELD,[])
 	host.set_meta(META,value.duplicate() if Voices.valid(value) else [])

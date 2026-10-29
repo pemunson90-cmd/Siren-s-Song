@@ -37,7 +37,7 @@ const ROWS=[
   "kind":"line","op":26,"speaker":"rill",
   "line":"The last shift's evacuation sled reached its dock. Keep the next recovery route clear.",
   "roster":"reached the evacuation dock."},
- {"id":"varne_staff","name":"Varne staff","when":{"fact":"varne_staff","is":["service","sever"]},
+ {"id":"varne_staff","name":"Varne staff","when":{"fact":"glass_choice","legacy_fact":"varne_staff","is":["service","sever"]},
   "kind":"line","op":19,"speaker":"vey",
   "line":"The habitat's station account is recorded. Check the chosen passage before returning.",
   "roster":"provided the habitat passage account."}

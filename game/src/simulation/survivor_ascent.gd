@@ -1,14 +1,12 @@
 extends RefCounted
-# 102 provisional tuning. Set ENABLED=false to restore ordinary depth timing.
+# 102 provisional tuning.
 # Custody is read from existing physical state; this creates no carry ability.
-const ENABLED=true
 const ONE_SECONDS=8.0
 const MANY_SECONDS=12.0
 const SETTLE_SECONDS=6.0
 static func duration_for_count(count:int)->float:
  return MANY_SECONDS if count>=2 else ONE_SECONDS if count==1 else 0.0
 static func count(mission:Dictionary,unit:int)->int:
- if not ENABLED:return 0
  var result=0
  var pod=mission.get("witness_evacuation",{})
  # resolution_missions.gd witness_packet evidence says "sailors alive inside".
@@ -29,7 +27,6 @@ static func line(mission:Dictionary,unit:int,body:Dictionary,compact:bool=false)
  if settle>0:return ("SETTLE %.1fs" if compact else "Survivors / settle %.1fs before next ascent")%settle
  return ("ASCENT %.0fs / SETTLE %.0fs" if compact else "Survivors / ascent %.0fs / settle %.0fs")%[duration_for_count(count(mission,unit)),SETTLE_SECONDS]
 static func briefing(mission:Dictionary)->String:
- if not ENABLED:return ""
  if mission.get("id") in [12,41]:return "Carried survivors need a slow ascent and six seconds at the new band before rising again; plan the return depth."
  if mission.get("id") in [25,28]:return "Occupied tows stay at their current depth; release before any depth change."
  return ""

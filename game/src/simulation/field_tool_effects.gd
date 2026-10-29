@@ -91,11 +91,6 @@ static func bearings(sim)->Array:
    var angle:float=item.pos.angle_to_point(s.pos)
    result.append({"from":item.pos,"angle":snappedf(angle,spec.bearing_step),"until":item.until})
  return result
-static func status(sim)->String:
- var parts=[]
- for id in Tools.field_ids():
-  if Tools.is_enabled(id) and count(sim,id)>0:parts.append("%s %d"%[Tools.spec(id).name.to_upper(),count(sim,id)])
- return " · ".join(parts)
 # Save shape of mission["field_tools"]; absent is valid.
 static func valid(mission:Dictionary)->bool:
  if not mission.has(KEY):return true

@@ -1,12 +1,10 @@
 extends RefCounted
 # MENU REACH: reuse the frontend settings renderer and existing overlay screens.
-# Seams: CampaignFlow.show_campaign, Main._settings_menu/_set_accessibility.
-# Revert: Table.enabled=false restores legacy settings and removes new entries.
+# Seams: CampaignFlow.show_campaign and Main._settings_menu.
 # No simulation commands, direct campaign writes or new setting/save keys.
 const Table=preload("res://src/presentation/frontend/menu_reach_table.gd")
 const Front=preload("res://src/presentation/frontend/frontend.gd")
 static func entries(host)->void:
- if not Table.enabled:return
  host._button(host.panel_box,"GAME MODES",func():open(host,"modes"),"menu_modes")
  # Share the existing bottom Settings row so navigation cannot push the
  # selected stock and all three comparison rows above the scrolled viewport.
@@ -28,7 +26,6 @@ static func dismiss_existing(host)->void:
  var front=host.get_node_or_null("Frontend")
  if front!=null:front._dismiss()
 static func settings(host)->bool:
- if not Table.enabled:return false
  dismiss_existing(host)
  var front=Front.new();host.add_child(front);front.setup_settings(host)
  return true

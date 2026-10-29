@@ -13,6 +13,8 @@ static func stage(m:Dictionary)->int:
  for threshold in Table.THRESHOLDS:
   if hunt>=threshold:index+=1
  return index
+static func _stage_cause(owned:Dictionary,index:int)->String:
+ return "COOLING" if index<int(owned.stage) else (owned.get("cause","ACTIVITY") if owned.get("pending",false) else "TIME")
 static func view_mission(m:Dictionary)->Dictionary:
  var index=stage(m);var id=int(m.get("id",-1))
  var cap:float=Table.CAPS[id] if id>=0 and id<Table.CAPS.size() else 1.
@@ -21,7 +23,7 @@ static func view_mission(m:Dictionary)->Dictionary:
  var owned:Dictionary=m.get("hunt_pressure",{})
  var change:String=owned.get("stage_cause",cause)
  if index!=int(owned.get("stage",index)):
-  change="COOLING" if index<int(owned.stage) else (cause if owned.get("pending",false) else "TIME")
+  change=_stage_cause(owned,index)
  return {"active":on,"hunt":float(p.get("hunt",0.)),"floor":float(p.get("floor",0.)),"index":index,"stage":Table.STAGES[index],"cap":cap,"scale":minf(Table.SCALES[index],cap) if on else 1.,"cause":Table.CAUSES.get(cause,"own activity"),"change_cause":Table.CAUSES.get(change,"own activity")}
 static func view(sim)->Dictionary:return view_mission(sim.mission)
 static func sight(m:Dictionary,guard:Dictionary,local:float)->float:
@@ -48,7 +50,7 @@ static func observe(sim,_dt:float)->void:
  if seen and not p.seen:sim.Recon.action(sim.mission,Table.SIGHT_EDGE,"NEW SIGHT")
  p.seen=seen
  var next=stage(sim.mission)
- if next!=p.stage:p.stage_cause="COOLING" if next<p.stage else (p.get("cause","ACTIVITY") if p.get("pending",false) else "TIME")
+ if next!=p.stage:p.stage_cause=_stage_cause(p,next)
  p.pending=false
  if next>p.stage and sim.elapsed-float(p.get("cue_at",-Table.CUE_INTERVAL))>=Table.CUE_INTERVAL:
   sim.events.append({"type":"hunt_stage","stage":next,"cause":p.get("stage_cause","ACTIVITY")})

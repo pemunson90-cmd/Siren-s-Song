@@ -63,7 +63,7 @@ func replacement():
  var e=Economy.new_state("accessible",true);Economy.settle(e,facts("lost",fit))
  Economy.refill(e)
  check(Losses.missing(e,1) and not Economy.repair(e,"drone_a"),"Accessible refill and repair cannot resurrect a missing drone")
- check(not Economy.cycle_preset(e),"Ironman preset remains locked")
+ check(Economy.Options.choices(e).is_empty(),"Ironman preset remains locked")
  e.stock={"scrap":0,"cells":0,"alloy":0}
  check(not Economy.rebuild_drone(e,1) and Losses.missing(e,1),"unaffordable drone manufacturing refused")
  var fleet={"outcomes":{0:{"recovered":[],"lost":["drone_deep_cells"]}}}

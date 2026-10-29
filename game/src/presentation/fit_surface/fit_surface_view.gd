@@ -1,7 +1,6 @@
 extends RefCounted
 # Screen widget: craft tabs, one section per mount type, one row per module that fits the shown craft.
 # Rows keep the legacy fit_<slot> action and fitting_id meta, so taps still go straight to Main._choose_equipment.
-# Seams: fittings_menu.gd show, flow/campaign_flow.gd briefing (fit hook). Revert: fit_surface_table.enabled=false.
 const Table=preload("res://src/presentation/fit_surface/fit_surface_table.gd")
 const Model=preload("res://src/presentation/fit_surface/fit_surface.gd")
 const Equipment=preload("res://src/presentation/equipment_context.gd")
@@ -23,7 +22,6 @@ static func _pick_tab(main,slot:String,rebuild:Callable)->void:
  ).call_deferred()
 # Tabs, frame line, budget bars and grouped rows. Returns the fit buttons (as Equipment.fitting does).
 static func fitting(main,context:Dictionary,choose:Callable,rebuild:Callable)->Array:
- if not Table.enabled:return Equipment.fitting(main,context,choose)
  var buttons=[]
  if Equipment.rows(context).is_empty():return buttons
  var shown=tab_of(main)
@@ -65,7 +63,6 @@ static func fitting(main,context:Dictionary,choose:Callable,rebuild:Callable)->A
  return buttons
 # Optional fit summary keeps the opening briefing focused; fitting rows hold the detail.
 static func summary(main,context:Dictionary)->void:
- if not Table.enabled:return
  var detail=[]
  main._button(main.panel_box,"FIT SUMMARY · SHOW",func():
   if not detail.is_empty() and is_instance_valid(detail[0]):

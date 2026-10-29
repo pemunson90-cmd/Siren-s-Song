@@ -34,3 +34,7 @@ static func layers(entries:Array)->Dictionary:
  return {"rocks":bands[1],"depth_geometry":{0:{"rocks":bands[0]},2:{"rocks":bands[2]}}}
 static func apply(m:Dictionary,entries:Array)->void:
  var built=layers(entries);m.rocks=built.rocks;m.depth_geometry=built.depth_geometry
+# Shared opening chart window for operations with earned terrain discovery.
+static func seed_chart(m:Dictionary)->void:
+ m["earned_terrain"]=true
+ m["launch_seed"]=Rect2(m.start-Vector2(160,200),Vector2(480,480)).intersection(Rect2(Vector2.ONE*40,m.world_size-Vector2.ONE*80))

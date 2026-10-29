@@ -2,14 +2,12 @@ extends RefCounted
 # RESEARCH / ARCHIVE entry and shared screen header. Presentation only; no saved fields.
 # Seams: one inserted entry line each in ops_home.gd (arrange) and fittings_menu.gd (show).
 # Android Back from either view returns to Operations through Main's ordinary rule.
-# Revert: Table.enabled=false hides the entries and both views; saves are untouched.
 const Table=preload("res://src/presentation/archive/archive_table.gd")
 # Views are loaded lazily: both views preload this header, so a preload here would be circular.
 const RESEARCH_VIEW="res://src/presentation/research/research_view.gd"
 const ARCHIVE_VIEW="res://src/presentation/archive/archive_view.gd"
 # One full-width touch row below the host's current shortcut row.
 static func entry(host,at:int=-1)->void:
-	if not Table.enabled:return
 	var button=host._button(host.panel_box,Table.TEXT.entry,func():load(ARCHIVE_VIEW).show(host),"archive")
 	if at>=0:host.panel_box.move_child(button,mini(at,host.panel_box.get_child_count()-1))
 # Back button and the two view tabs.

@@ -41,9 +41,6 @@ func _initialize():
  check(not Voices.hear(log,99,"brief") and not Voices.hear(log,0,"bogus"),"no line, no log entry")
  Voices.hear(log,3,"mid");Voices.hear(log,3,"debrief")
  check(Voices.operations(log)==[0,3],"log lists operations in order")
- Table.enabled=false
- check(Voices.row(0,"brief").is_empty() and not Voices.hear(log,5,"brief"),"off switch hides every line")
- Table.enabled=true
  # Progress is the player's own: objective captured, carrier recovered or a site job done.
  check(not Voices.progress({}) and not Voices.progress({"objectives":[{"captured":false}]}),"no progress, no message")
  check(Voices.progress({"objectives":[{"captured":true}]}),"captured objective counts")

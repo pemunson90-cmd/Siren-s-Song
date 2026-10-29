@@ -26,7 +26,6 @@ const ITEM_BASE_SCRAP=2
 const DRONE_PRICE={"scrap":4,"cells":2}
 const ALIEN=["quietus_pressure_sleeve","drone_traction_yoke","quietus_prism","quietus_decoder","quietus_wellhead_seal","drone_choir_tuner"]
 # Per-item price overrides keyed by item id, e.g. {"photo_flash":{"scrap":3}}.
-const ITEM_PRICE={}
 const RESEARCH_COST={"alloy":2}
 const REFINE={"scrap":6,"alloy":1}
 # Hull and chassis entitlements: bought with alloy, or granted by research of a recipe target.

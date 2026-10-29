@@ -177,9 +177,6 @@ func _use_band(band:int)->void:
 func choir_context()->Dictionary:return Choir.status(self)
 func glass_context()->Dictionary:return Glass.status(self)
 func network_feedback()->Array:return Network.feedback(self)
-func depth_feedback()->Dictionary:
-	var u=units[selected]
-	return {"band":u.band,"name":Depth.NAMES[u.band],"transition":u.transition.duplicate(),"sonar":Sonar.feedback(self,selected)}
 func public_chart()->Dictionary:
 	return terrain_chart.public_chart() if terrain_chart!=null else {}
 func player_path(a:Vector2,b:Vector2)->Array:

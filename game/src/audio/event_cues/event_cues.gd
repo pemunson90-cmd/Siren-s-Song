@@ -3,9 +3,7 @@ extends Node
 # Seam: Soundscape.update calls sync() once per frame; Soundscape.event_cue(id) stays the entry point for
 # callers that own an event (research). Observes simulation state and the public event list read-only, incl.
 # a drop in mission field_tools counts (a successful tool use; refused uses spend nothing). No hook in simulation.
-# Unknown ids are ignored, so a tool nobody fires yet is safe. Disabled restores today's sound.
-# Revert: event_cue_table.enabled=false, or remove the Soundscape sync/event_cue lines and
-# the TEXT rows; retain the table and tests.
+# Unknown ids are ignored, so a tool nobody fires yet is safe.
 const Table=preload("res://src/audio/event_cues/event_cue_table.gd")
 const Wave=preload("res://src/audio/photo_audio/photo_wave.gd")
 # Immutable PCM is shared across soundscapes, as in PhotoWave.stream(). Keep players,
@@ -25,7 +23,7 @@ var tool_counts:Dictionary={}
 var lifecycle_suspended:=false
 var host_ref
 static func sync(host,sim,dt:float,active:bool)->void:
- if not Table.enabled or not host.is_inside_tree():return
+ if not host.is_inside_tree():return
  var layer=host.get_node_or_null("EventAudio")
  if layer==null:
   layer=load("res://src/audio/event_cues/event_cues.gd").new();layer.name="EventAudio"
@@ -42,11 +40,11 @@ func setup(host)->void:
 # Entry point for callers that own an event (field tools, research): sound.event_cue("sonobuoy").
 # Plays at once when audible, honouring the id's repeat interval. Unknown ids are ignored.
 func fire(id:String)->bool:
- if not Table.enabled or not Table.CUES.has(id):return false
+ if not Table.CUES.has(id):return false
  if host_ref.muted or host_ref.effects_volume<=0 or host_ref.system_suspended or lifecycle_suspended:return false
  return _play(id,false)
 func request(id:String)->bool:
- if not Table.enabled or not Table.CUES.has(id):return false
+ if not Table.CUES.has(id):return false
  queued.append(id)
  return true
 func _now()->float:

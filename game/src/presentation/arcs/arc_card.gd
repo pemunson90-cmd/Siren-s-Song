@@ -75,7 +75,4 @@ static func group_rows(main,parent:Node)->void:
   var label=Label.new();label.text=Table.heading(arc,completed);label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;label.add_theme_font_size_override("font_size",roundi(16*main.ui_touch_height/48.0*preload("res://src/presentation/frontend/frontend_settings.gd").text_scale()));box.add_child(label)
   for row in rows:row.reparent(box)
 static func operation_id(node)->int:
- var key=str(node.get_meta("ui_action",node.get_meta("action","")))
- if key.begins_with("mission"):return int(key.trim_prefix("mission"))
- if key.begins_with("expedition"):return int(key.trim_prefix("expedition"))
- return -1
+ return load("res://src/presentation/ops_home/ops_home.gd").operation_id(node)

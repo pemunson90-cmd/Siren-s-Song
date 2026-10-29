@@ -44,7 +44,7 @@ func run():
  Economy.settle(e,facts("b"));check(e.preset=="accessible" and e.cond.quietus==100 and Options.choices(e).is_empty(),"accessible terminal preset refills at dock")
  check(str(Ledger.build({}, {},e)).contains("CUSTOM / ACCESSIBLE") and str(Ledger.build({}, {},e)).contains("SURVIVAL / STANDARD at dock"),"ledger displays custom and persisted transitions")
  check(Economy.valid(e),"two-transition final save valid")
- var iron=Economy.new_state("survival",true);check(not Options.request(iron,"standard") and not Economy.cycle_preset(iron),"Ironman cannot queue a switch")
+ var iron=Economy.new_state("survival",true);check(not Options.request(iron,"standard") and Options.choices(iron).is_empty(),"Ironman cannot queue a switch")
  for mutation in ["repair","income","start","pending","history","started","unknown"]:
   var bad=Economy.new_state();Options.configure(bad,{"repair":1.,"income":1.,"start":1.})
   match mutation:
