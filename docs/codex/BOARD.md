@@ -1,3 +1,5 @@
+[QUEUE RUNNER 2026-10-29T11:31:03.8921639-04:00] running: 103b PID52948 PR216, 110 PID2880 PR217; done: none in queue; blocked: none.
+
 **[KEEL:107, 2026-10-29T10:54:55.3599660-04:00] Claude: PR215 merged5acb079d, Ironman permanent losses complete; reviewed exact tree and all7 checks green, local1271/0. Empty bays retain the bare floor. Bounded107 done; other claims preserved.**
 
 **29 Oct 2026 09:48 ET (Claude S6):** Pat answered the full question list (PAT_RULINGS_2026-10-29.md). Claude lane queues 103 to 113 (rows 100 to 110). Senses rows 103, 105, 104 run one at a time in that order; others run beside them on disjoint files. Root: these are claude-lane rows, please leave them.
