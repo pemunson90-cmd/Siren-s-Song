@@ -4,11 +4,11 @@ Added 27 Oct 2026 by Claude's verified gap scout. Until you rule, the game keeps
 
 ## Story and endings
 
-1. The four ending families resolve at ops 12 and 13 (arc 3 of 6, endings.gd) and the campaign then runs 20 more core ops, ending on a photo wall with two placeholder lines. Should the four families instead be finalized after op 34 with arcs 4 to 6 modifying them, or stay as they are?
+1. **RULED 28 Oct 2026 [PAT]: "Sure that's fine" (Claude S5, handoff 088). Final after op 34; arcs 4 to 6 may change family. Exact flip math is AI-DESIGNED, pending ratification.** Original question: The four ending families resolve at ops 12 and 13 (arc 3 of 6, endings.gd) and the campaign then runs 20 more core ops, ending on a photo wall with two placeholder lines. Should the four families instead be finalized after op 34 with arcs 4 to 6 modifying them, or stay as they are?
 2. After the deep/shelf fork at ops 6 to 13 the campaign is one linear spine (14 to 34) with optional spurs. Do you want a second real branch point later (alternate core ops chosen by earlier play, Star Fox style), or is a single spine intended after Confluence?
 3. What should 'disclosure' mean as persistent state? Today the only disclosure-like fact is the overt versus concealed choice at Confluence, and it only affects the ending.
-4. Sorley's boy is confirmed alive by photograph in optional op 37 but never evacuated. Should he stay unresolved, or get a rescue follow-up operation?
-5. Late-campaign outcomes (Choir people and plant, Glass choice, the result of op 34) currently change only two END OF LINE lines. Which of the four ending families you get is decided by the op 12/13 fork and the thread alone. Should late outcomes ever change which ending family applies, or only the epilogue text?
+4. **RULED 28 Oct 2026 [PAT, Claude S5 handoff 092]: "Experiment with a hidden rescue mission that requires either found logs off the beaten path, or certain photos. So its an option side quest with at least one game reward and ending changes."** Original question: Sorley's boy is confirmed alive by photograph in optional op 37 but never evacuated. Should he stay unresolved, or get a rescue follow-up operation?
+5. **RULED 28 Oct 2026 [PAT]: "Sure that's fine" (same ruling as item 1). Late outcomes may change family.** Original question: Late-campaign outcomes (Choir people and plant, Glass choice, the result of op 34) currently change only two END OF LINE lines. Which of the four ending families you get is decided by the op 12/13 fork and the thread alone. Should late outcomes ever change which ending family applies, or only the epilogue text?
 
 ## Siren behaviour and sensing (protected; nothing changes until you rule)
 
@@ -22,7 +22,7 @@ Added 27 Oct 2026 by Claude's verified gap scout. Until you rule, the game keeps
 
 ## Economy, modes and Ironman
 
-13. Field-tool stock is a fixed bundle per launch loadout (endurance, disruption or survey) and does not use hull cargo or power. Should tools be loaded against hull and chassis budgets so carrying more tools costs a module slot, or stay a fixed bundle?
+13. Field-tool stock is a fixed bundle per launch loadout (endurance, disruption or survey) and does not use hull cargo or power. Should tools be loaded against hull and chassis budgets so carrying more tools costs a module slot, or stay a fixed bundle? **RULED 28 Oct 2026 ~14:13 ET:** Pat: "Yes to your open question." Carrying tools costs cargo; implementation098. Weights, allocations and prices remain AI-DESIGNED, provisional.
 14. Should Ironman mean anything beyond one save timeline and charged refits (for example, a craft or module lost in a dive is permanently gone)?
 15. Does 'customization between operations' mean only switching preset and fittings (what exists today), or also individually adjustable economy values such as repair cost, income and starting stock?
 16. Should a player on a non-Ironman campaign be allowed to change to an easier economy preset after play has begun? Today the preset is locked once the first operation is started.

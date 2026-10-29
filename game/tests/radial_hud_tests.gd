@@ -27,7 +27,10 @@ func run():
   root.size=dimensions;await settle()
   var g=load("res://scenes/main.tscn").instantiate();g.set_script(load("res://tests/density_main.gd"));g.capture_scenario="radial-hud"
   if dimensions.x==2520:g.fixture_safe_area=Rect2(136,0,2384,1080)
-  root.add_child(g);await settle();g.set_process(false);g._start_mission(0);await settle()
+  root.add_child(g);await settle();g.set_process(false)
+  # The aim/cancel path needs one equipped charge; cancellation must not spend it.
+  g.tool_racks=preload("res://src/equipment/tool_racks.gd").empty();g.tool_racks.quietus.decoy=1
+  g._start_mission(0);await settle()
   var name="cover" if dimensions.x==2520 else "inner";var h=g.mission_hud
   # Frame the chart before probing a world label or tapping a distant site.
   g.ocean.fit_chart();g._view_changed();await settle()

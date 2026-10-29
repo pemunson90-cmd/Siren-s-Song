@@ -16,6 +16,7 @@ const GENERIC_IDS=[38,39,40]
 const GENERIC=[["okafor","Optional water, Quietus. Your call. Air is still counted in minutes."],
 	["okafor","Brannock copies. Hold your route and keep the drones close."],["okafor","Logged. Surface when you are ready."]]
 const LINES={
+	41:[["sorley","His window is above the screw. Bring him to the south boat."],["sorley","Keep the pod steady. I am at the lift."],["sorley","He is breathing. That is all I needed to hear."]],
 	0:[["okafor","Okafor, Brannock. You have the shelf and twenty minutes of air. Listen first, then bring everything home."],
 		["okafor","Brannock copies your receiver. Rig logs are readable. Do not stay for a second look."],
 		["okafor","Logged. Eight minutes of margin left, Quietus. That is how I like it."]],

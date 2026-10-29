@@ -102,7 +102,10 @@ func run():
   for active in [false,true]:
    var g=load("res://scenes/main.tscn").instantiate();g.set_script(load("res://tests/density_main.gd"));g.store.path="user://depth-policy-touch-%d-%s.save"%[shape.x,str(active)]
    if shape.x==2520:g.fixture_safe_area=Rect2(136,0,2384,1080)
-   root.add_child(g);await settle();g.set_process(false);g._start_mission(0);await settle()
+   root.add_child(g);await settle();g.set_process(false)
+   # The active-scout route spends two finite Disrupt charges through touch orders.
+   g.tool_racks=preload("res://src/equipment/tool_racks.gd").empty();g.tool_racks.quietus.emp=2
+   g._start_mission(0);await settle()
    await journey(g,active,shape)
    g.queue_free();await settle()
  print("DEPTH POLICY UI CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)

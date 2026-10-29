@@ -44,7 +44,7 @@ static func context(sim,action:String,unit:int=-1)->Dictionary:
  if not sim.outcome.is_empty():result.reason="Dive ended"
  elif not body.alive:result.reason="Craft lost"
  elif action=="recover" and (a.is_empty() or a.state not in ["site","wreck"]):result.reason="Material already carried or unavailable"
- elif action=="recover" and sim.ModuleRecovery.carried(sim,unit)>=sim.ModuleRecovery.capacity(sim,unit):result.reason="No free cargo place · material needs one"
+ elif action=="recover" and sim.ModuleRecovery.carried(sim,unit)>=sim.ModuleRecovery.capacity(sim,unit):result.reason=sim.ModuleRecovery.full_reason(sim,unit,"No free cargo place · material needs one")
  elif action in ["service","sever"] and (sim.mission.id!=18 or not state.choice.is_empty()):result.reason="Anchorage choice already made or unavailable"
  elif action=="vane" and (sim.mission.id!=15 or not state.choice.is_empty()):result.reason="Vane already released or unavailable"
  elif action=="gate" and (sim.mission.id not in [18,19] or state.gate_open):result.reason="Service gate already open or unavailable"

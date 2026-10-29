@@ -68,12 +68,13 @@ static func arrange(host)->void:
  var group=VBoxContainer.new();group.add_theme_constant_override("separation",Table.GAP);host.panel_box.add_child(group)
  var fold=host._button(host.panel_box,Table.TEXT.fold%recovered.size(),func():group.visible=not group.visible;host.call_deferred("_layout"),"recovered_fold")
  for node in recovered:node.reparent(group)
+ preload("res://src/presentation/arcs/arc_card.gd").group_rows(host,group)
  var after=shortcuts.get_index()+1
  for node in host.panel_box.get_children():
   if node is Label and node.text=="BEYOND THE WARNING / OPERATIONS":
    # Recovered rows have their own fold; keep this heading only for later work
    # still listed here. At large text the otherwise empty heading spans three lines.
-   node.visible=later_available
+   node.visible=later_available and not preload("res://src/campaign/arcs/arc_table.gd").enabled
    after=node.get_index()+1
   if operation_id(node)>=0:after=node.get_index()+1
  host.panel_box.move_child(fold,after);host.panel_box.move_child(group,fold.get_index()+1)

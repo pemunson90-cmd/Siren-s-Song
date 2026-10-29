@@ -5,7 +5,10 @@ func shape_case(shape):
  var path="user://fix2-feedback-%d.save"%shape.x
  for suffix in ["",".bak",".tmp"]:DirAccess.remove_absolute(path+suffix)
  var game=load("res://scenes/main.tscn").instantiate();game.set_script(load("res://tests/density_main.gd"));game.capture_scenario="runtime-test";game.store.path=path
- root.add_child(game);await settle();game.set_process(false);game._start_mission(0)
+ root.add_child(game);await settle();game.set_process(false)
+ # The feedback assertion observes a real paid Disrupt order from Quietus.
+ game.tool_racks=preload("res://src/equipment/tool_racks.gd").empty();game.tool_racks.quietus.emp=1
+ game._start_mission(0)
  var s=game.sim;var u=s.units[0];var enemy=s.sirens[0]
  enemy.pos=u.pos+Vector2(60,0);enemy.band=1;enemy.transition={};enemy.lock=0.2;enemy.target=0;enemy.mode="LOCKING";s._observe()
  game._enter_water();game.mission_hud.hints.dismiss();game.mission_hud.open("tools",{"kind":"craft","unit":0,"pos":u.pos});await settle()

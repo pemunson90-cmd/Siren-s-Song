@@ -20,6 +20,7 @@ static func status(sim)->Dictionary:
  for job in jobs:
   if not job.is_empty():job["duration"]=4.0
  var text="Exchange aboard Quietus · return to recovery" if complete(sim) else "SAMPLE REQUEST and REPLY · raw exchange must return to Quietus"
+ if complete(sim) and handoff_paid(sim.mission):text+=" · transfer premium on first recovery"
  if not complete(sim) and packets.any(func(packet):return packet.recorded):text="Field notes %d/2 · Quietus buffers %d/2 · local TRANSFER or recover/resample missing data"%[packets.filter(func(packet):return packet.recorded).size(),state.aboard.size()]
  return {"packets":packets,"cargo":cargo,"jobs":jobs,"complete":complete(sim),"text":text}
 static func handoff_context(sim,carrier:int)->Dictionary:
@@ -42,9 +43,15 @@ static func handoff(sim,carrier:int)->bool:
  if not context.ready:sim.message=context.reason;return false
  if sim.selected not in [0,carrier]:sim.message="Select Quietus or this data carrier";return false
  var state=sim.mission.blackwater_delivery
- for packet in context.packets:state.aboard.append(packet);state.carriers[carrier].erase(packet)
+ for packet in context.packets:
+  state.aboard.append(packet);state.carriers[carrier].erase(packet)
+  # 097: optional receipt on the actual locally transferred packet. Older
+  # active dives have no receipt and retain their existing completion rules.
+  sim.mission.objectives[packet]["handoff"]=true
  state.aboard.sort();_cancel_redundant_samples(sim);sim.message="Raw exchange transferred locally · "+status(sim).text
  sim.events.append({"type":"data_handoff","pos":sim.units[0].pos,"carrier":carrier});return true
+static func handoff_paid(mission:Dictionary)->bool:
+ return mission.get("id",-1)==2 and mission.get("blackwater_delivery",{}).get("aboard",[]).has(0) and mission.blackwater_delivery.aboard.has(1) and mission.get("objectives",[]).any(func(o):return o.get("handoff",false)==true)
 static func sampled(sim,packet:int,unit:int)->void:
  if not applies(sim.mission):return
  var state=sim.mission.blackwater_delivery;var cargo=state.aboard if unit==0 else state.carriers[unit]
@@ -66,6 +73,7 @@ static func valid(data:Dictionary)->bool:
  if not mission.get("blackwater_delivery") is Dictionary or not mission.get("objectives") is Array or mission.objectives.size()!=2:return false
  for objective in mission.objectives:
   if not objective is Dictionary or not objective.get("captured") is bool:return false
+  if objective.has("handoff") and not objective.handoff is bool:return false
  var state=mission.blackwater_delivery
  if state.size()!=4 or not state.get("carriers") is Array or state.carriers.size()!=3 or not state.get("wrecks") is Dictionary or state.wrecks.size()>2 or not state.get("jobs") is Array or state.jobs.size()!=3 or not _packets(state.get("aboard"),mission.objectives):return false
  for cargo in state.carriers:

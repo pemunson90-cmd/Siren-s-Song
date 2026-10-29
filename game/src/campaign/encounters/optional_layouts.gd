@@ -18,7 +18,9 @@ static func shelf(m:Dictionary)->void:
  T.apply(m,[[T.ridge([Vector2(850,950),Vector2(1050,1150),Vector2(1150,1500),Vector2(1150,1900)],170,75),T.ALL],[T.wall([Vector2(1050,450),Vector2(2200,450),Vector2(2200,800),Vector2(1950,800),Vector2(1950,650),Vector2(1050,650)]),T.ALL],[T.shard(Vector2(1650,150),130,7,76,.2,Vector2(1.8,.6)),T.ALL],[Rect2(170,440,230,120),T.ALL],[Rect2(170,640,230,120),T.ALL]])
  m.structures=[];m.currents=[];m.sirens=[]
  m.thermal_revision=1;m.thermal_fronts=[{"area":Rect2(850,660,1500,280),"transmission":.4,"close_range":90.}]
- _patrol(m,[Vector2(1250,1040),Vector2(1800,1040),Vector2(2400,1100),Vector2(2000,1350)])
+ # 097 / patterns 1,4: the exhaust work lip is on a live patrol circuit;
+ # the fleet can take the three-piece cache below it while Quietus exposes film.
+ _patrol(m,[Vector2(700,850),Vector2(1000,1000),Vector2(1250,1040),Vector2(1800,1040)])
  _patrol(m,[Vector2(2350,300),Vector2(2750,300),Vector2(2750,750),Vector2(2400,750)])
  m.landmarks=[{"id":"shelf_exhaust_comb","pos":Vector2(285,600),"kind":"works"},{"id":"shelf_hooked_terrace","pos":Vector2(2000,550),"kind":"ridge"},{"id":"shelf_numbered_spur","pos":Vector2(1650,150),"kind":"scour"}]
 static func _patrol(m:Dictionary,points:Array)->void:

@@ -42,6 +42,11 @@ Sorley's trawler sits as an optional operation in arc 2 or 4. Proposed renames f
 - **Iain Sorley**, trawler skipper and the local who knows the water. Gives honest pilotage notes. Wants his son found.
 
 ## 5. Ending families
+
+[PAT, Claude S5 handoff 088, 28 Oct 2026] "Sure that's fine": campaign family becomes final after op 34; arcs 4 to 6 may change it. The table below records the provisional Confluence seeds; the thread stays fixed.
+
+[KEEL / AI-DESIGNED placeholders, pending Pat ratification; reconciled to 088 source] On a flip to overt: "What Quietus did at the Glass and the Choir was heard. The Sirens learned its voice." On a flip to concealed: "Quietus went quiet at the Glass and the Choir. The Sirens lost its voice."
+
 | Ending | Trigger (existing campaign facts) | Who gets out | Quietus in Siren eyes |
 |---|---|---|---|
 | UNHEARD | confluence_route concealed, op 12 completed, thread deep | Drill crews and divers, carried by craft; no surface ship came | Never registered. It can keep diving. |
@@ -49,6 +54,20 @@ Sorley's trawler sits as an optional operation in arc 2 or 4. Proposed renames f
 | OPEN WATER | confluence_route overt, op 13 completed, thread deep | The most people, by surface ship on a broadcast channel | Heard often enough to be learned: a known, unarmed voice the Sirens leave alone. |
 | MARKED | confluence_route overt, op 13 completed, thread shelf | The most people, by surface ship, but the channel came from a military post | Registered as a threat. Everyone out; Quietus can never dive near them again. |
 Modifiers inside each family: witness_arrival names which craft physically carried a living survivor; warning_arrival sheltered or exposed sets whether the surface ship took the quiet or loud water; choir_people and choir_plant decide whether Rill's whole shift is counted.
+
+## Sorley rescue experiment (092, 28 October 2026)
+
+[PAT, Claude S5 handoff 092] "Experiment with a hidden rescue mission that requires either found logs off the beaten path, or certain photos. So its an option side quest with at least one game reward and ending changes."
+
+[KEEL / AI-DESIGNED placeholders, pending Pat ratification] Rescue: "Sorley's boy came home in the sealed pod. His father waited beside the lift." Unresolved: "Sorley's boy was not brought home. No recovered landing is recorded."
+
+[KEEL / AI-DESIGNED] The rescue changes the epilogue and ledger only. It adds no ending-family vote and leaves the thread unchanged. Supplies reward the physical landing, with a better return for a quiet, intact drone rescue.
+
+[KEEL / AI-DESIGNED placeholders] Sorley's optional logs: "The boy knows the stern locker. There is air above its window." / "My trawler lies on the wellhead. Look for the stern window, above the screws." / "A sealed pod will fit that window. Bring him back to the south boat."
+
+[KEEL / AI-DESIGNED placeholders] Sorley's received rescue lines: "His window is above the screw. Bring him to the south boat." / "Keep the pod steady. I am at the lift." / "He is breathing. That is all I needed to hear."
+
+[KEEL / AI-DESIGNED placeholder] Unlock: "You have his window. Bring the pod to the south boat."
 
 ## 6. Decisions for Pat
 1. Does the op 6 deep or shelf choice mean "drilling crews first" or "military crews first"? (yes or change)

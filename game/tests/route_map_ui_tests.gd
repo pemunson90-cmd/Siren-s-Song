@@ -27,6 +27,16 @@ func shape_case(shape):
  check(button(game,"route_map_back").size.y>=game.ui_touch_height,"Back remains a full touch target")
  var Preferences=load("res://src/presentation/frontend/frontend_settings.gd");var previous_preferences=Preferences.current.duplicate(true)
  var original_font=view.buttons[0].get_theme_font_size("font_size")
+ for text_scale in [1.0,1.5]:
+  Preferences.current.text_scale=text_scale;await settle()
+  var bounds=Rect2(Vector2.ZERO,view.size)
+  for control in [view.legend,view.chart,view.detail]:
+   check(bounds.encloses(Rect2(control.position,control.size)),"legend/chart/detail bounded scale=%s class=%s name=%s pos=%s size=%s view=%s h=%s"%[text_scale,control.get_class(),control.name,control.position,control.size,view.size,view._touch_height()])
+  var expected_font=view._font(view._touch_height(),view.Table.VIEW.legend_font)
+  var labels=view.legend.find_children("*","Label",true,false)
+  check(not labels.is_empty() and labels.all(func(label):return label.get_theme_font_size("font_size")==expected_font),"every arc legend Label uses density and text-scaled font")
+ Preferences.current=previous_preferences.duplicate(true);await settle()
+
  Preferences.current.text_scale=1.5;await settle()
  check(view.buttons[0].get_theme_font_size("font_size")>=original_font*1.45 and Rect2(Vector2.ZERO,view.size).encloses(Rect2(view.chart.position,view.chart.size)),"largest existing text setting enlarges labels without clipping the chart")
  Preferences.current=previous_preferences;await settle()
@@ -45,6 +55,7 @@ func shape_case(shape):
  check(game._archive()==before,"viewing, pan and zoom never write campaign or active-dive state")
  var selected=await press(game,"route_map_op_0")
  check(selected and game.screen=="briefing" and game.get_node_or_null("RouteMapView")==null,"available node opens its existing briefing through real touch")
+ if game.get_node_or_null("ArcCard")!=null:await press(game,"arc_continue")
  await android_back();check(game.screen=="menu","Android Back leaves the existing briefing normally")
  game.completed=[0,1,2,3,4,5];game.unlocked=5
  game.expedition=preload("res://src/campaign/campaign_consequences.gd").upgrade({"version":2,"route":"deep","routes":["deep"],"completed":[6,7,9,11,12,14,15,16,17],"facts":{"deep":"observed","confluence_route":"concealed"}})

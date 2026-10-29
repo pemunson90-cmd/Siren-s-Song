@@ -64,6 +64,8 @@ func voyage(course:String,proof:String,tools:bool,wait_seconds:float=0.,expect_w
   elif stage==5 and local(s,Vector2(1840,160)):route(s,Vector2(2280,160));stage=6
   elif stage==6 and (local(s,Vector2(2280,160)) or local(s,Vector2(2200,440))):route(s,HOME if course=="sheltered" else Vector2(2300,220));stage=7
   elif stage==7 and course=="exposed" and s.warning_recipient_status().receipt:route(s,HOME);stage=9
+  if stage in [7,9] and local(s,HOME) and s.mission.objectives.any(func(o):return o.get("site_id","")=="warning_uplink" and not o.captured) and s.captures[0].is_empty():
+   check(s.command("camera"),"actual pickup service account reception starts")
  if expect_win:check(s.outcome=="won" and decoded and s.warning_recipient_status().receipt and Sim.valid_snapshot(s.snapshot()),course+" real-guard voyage completes actual physical beneficiary and independent Q recovery")
  else:check(s.outcome=="lost" and not s.mission.warning_recipient.body.alive and not s.warning_recipient_status().receipt,"unprotected exposed crossing genuinely loses recipient to the authored watch")
  if not tools:check(s.tools==initial_tools,"bare fallback spends no finite protection")

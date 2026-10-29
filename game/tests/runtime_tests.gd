@@ -28,7 +28,7 @@ func run() -> void:
 	await process_frame; await process_frame
 	game._show_campaign(); await process_frame
 	var pressed_mission
-	for child in game.panel_box.get_children():
+	for child in game.panel_box.find_children("*","Button",true,false):
 		if child is Button and child.get_meta("action","")=="mission0": pressed_mission=child
 	pressed_mission.pressed.emit()
 	check(pressed_mission.is_inside_tree(),"menu selection keeps dispatching control inside the tree until input delivery completes")

@@ -33,13 +33,13 @@ static func run(t):
  counterpolicies(t)
  private_listening(t)
 static func blackwater(t):
- var s=Sim.new();s.start(2);s.units[0].pos=Vector2(760,340);s.units[0].band=2
+ var s=Sim.new();s.start(2);s.units[0].pos=Vector2(560,200);s.units[0].band=2
  t.check(s.command("ping") and s.mission.objectives[0].replay_until==0,"deep pulse cannot trigger a middle relay's local handshake")
  t.check(not s.command("camera"),"deep shortcut does not bypass Blackwater middle sampling")
- tick(s,3.6);s.units[0].band=1;s.units[0].angle=PI/2
+ tick(s,3.6);s.units[0].band=1;s.units[0].angle=PI
  s.command("sonar_mode",{"sector":"forward","power":"low"})
  t.check(s.command("ping") and s.mission.objectives[0].replay_until==0,"forward pulse facing away cannot solicit a relay reply")
- tick(s,3.6);s.units[0].angle=-PI/2
+ tick(s,3.6);s.units[0].angle=0.
  t.check(s.command("ping") and s.mission.objectives[0].replay_until>s.elapsed,"facing the real local relay earns its replay")
  t.check(s.Depth.clear(s,Vector2(300,540),Vector2(760,540),2,24) and not s.Depth.clear(s,Vector2(300,540),Vector2(760,540),1,24),"Blackwater deep basalt underpass changes real navigation")
  t.check(s.sirens.any(func(e):return e.band==2 and e.type=="sweeper") and s.sirens.any(func(e):return e.band==0),"Blackwater alternative waters have differentiated local threats")

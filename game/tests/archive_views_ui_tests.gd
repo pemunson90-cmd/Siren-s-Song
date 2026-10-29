@@ -68,6 +68,7 @@ func shape_case(shape):
  await android_back();await android_back()
  # Voices: briefing radio, mid-dive message on the player's own progress, field log.
  game._briefing(0);await settle()
+ if game.get_node_or_null("ArcCard")!=null:await press(game,"arc_continue")
  check(texts(game).contains("OKAFOR / BRANNOCK:") and Feed.received(game).has("0:brief"),"briefing shows the radio line and logs it")
  game._start_mission(0);game.screen="mission";game.sim.paused=true
  check(Feed.log_text(game,"msg")=="msg","no mid-dive message before any progress")

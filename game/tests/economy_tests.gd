@@ -50,6 +50,16 @@ func _initialize():
  Economy.settle(hurt,facts("lost",false,0.0,[false,true],0,false,"b"))
  check(hurt.stock.cells==once+2,"repeating that retry's debrief still settles only once")
  var win=Economy.new_state()
+ var exchange=Economy.new_state();var direct=Economy.new_state()
+ var exchange_facts=facts("won",true);exchange_facts.blackwater_handoff=true
+ Economy.settle(exchange,exchange_facts);Economy.settle(direct,facts("won",true))
+ check(exchange.stock.cells==direct.stock.cells+2,"first locally transferred Blackwater exchange pays two extra Standard cells")
+ var paid_cells=exchange.stock.cells;Economy.settle(exchange,exchange_facts)
+ check(exchange.stock.cells==paid_cells,"repeating the transfer debrief cannot pay twice")
+ for result in ["won","lost"]:
+  var repeated=Economy.new_state();var baseline=Economy.new_state();var receipt=facts(result,false);receipt.blackwater_handoff=true
+  Economy.settle(repeated,receipt);Economy.settle(baseline,facts(result,false))
+  check(repeated.stock==baseline.stock,"transfer premium requires first successful recovery "+result)
  Economy.settle(win,facts("won",true,90.0,[true,true],2,true))
  check(win.stock.scrap==8+3+4 and win.stock.cells==10+2 and win.stock.alloy==0+3 and win.cond.quietus==90,"first win with salvage pays all three resources and keeps hull wear")
  var surv=Economy.new_state("survival");Economy.settle(surv,facts("won",true))

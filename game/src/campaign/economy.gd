@@ -152,6 +152,7 @@ static func target_name(item:String)->String:
 # recovered and the player pays alloy to research it from the supplies panel.
 static func after_recover(e:Dictionary,previous:Dictionary,current:Dictionary)->Dictionary:
  preload("res://src/campaign/crew/crew.gd").credit(e,previous,current)
+ preload("res://src/campaign/sorley_rescue.gd").credit(e,previous,current)
  if not Table.enabled or not current.has("research"):return current
  var result=Research.hold(previous,current)
  if result.research.spent.size()<current.research.spent.size():
@@ -196,6 +197,9 @@ static func settle(e:Dictionary,facts:Dictionary)->void:
  if facts.outcome=="won":base=Table.INCOME.first if facts.first else Table.INCOME.replay
  for key in gain:gain[key]=base[key]
  gain.scrap+=Table.INCOME.module_scrap*facts.recovered
+ # 097: first recovered Blackwater exchange with a real local buffer handoff.
+ # The caller supplies the physical receipt; replay and failed dives pay none.
+ if facts.outcome=="won" and facts.first and facts.get("blackwater_handoff",false):gain.cells+=2
  if facts.artifact:gain.alloy+=Table.INCOME.artifact_alloy
  var income={}
  for key in gain:

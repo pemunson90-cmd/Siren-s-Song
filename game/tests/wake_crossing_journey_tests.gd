@@ -37,9 +37,12 @@ func until(s,id:int,point:Vector2):
 func run_case(name:String,playback:bool,control:bool=false):
  control_run=control;distance=0;sight_seconds=0;played=-1;lure_reaction=false;peer_seconds=0
  var s=Sim.new();s.start(9,"endurance")
+ var initial_tools=s.tools.duplicate(true)
  if not playback:s.units[1].alive=false
  s.units[2].alive=false
- if playback:route(s,1,[Vector2(1420,1540),Vector2(1420,1320),Vector2(1940,1320),Vector2(1940,560),Vector2(1520,680)])
+ if playback:
+  s.command("select",{"unit":1});check(s.command("drone_drive",{"mode":"quiet"}),"operator approaches the live beacon quietly")
+  route(s,1,[Vector2(1420,1540),Vector2(1420,1320),Vector2(1940,1320),Vector2(1940,560),Vector2(1520,680)])
  route(s,0,[Vector2(700,1540),Vector2(580,1320),Vector2(60,1320),Vector2(60,620),Vector2(300,620)])
  until(s,0,Vector2(300,620))
  s.command("select",{"unit":0});check(s.command("camera"),"Quietus actually receives western onward packet")
@@ -48,11 +51,12 @@ func run_case(name:String,playback:bool,control:bool=false):
  var work=s.elapsed;var work_hull=s.hull
  if playback:
   until(s,1,Vector2(1520,680));s.command("select",{"unit":1})
-  if not control:check(s.command("wake_playback"),"staged independent bare drone starts its real local remaining loop");played=s.elapsed
-  route(s,1,[Vector2(1940,560),Vector2(1940,220),Vector2(1060,160)])
-  route(s,0,[Vector2(650,540),Vector2(820,320),Vector2(1100,180)])
-  until(s,0,Vector2(1100,180))
-  until(s,1,Vector2(1060,160))
+  if not control:check(s.command("wake_playback"),"independent drone starts its real local remaining loop");played=s.elapsed
+  s.command("drone_drive",{"mode":"transit"})
+  route(s,1,[Vector2(1940,560),Vector2(1940,220),Vector2(1040,180)])
+  route(s,0,[Vector2(650,540),Vector2(950,280),Vector2(1000,80)])
+  until(s,0,Vector2(1000,80))
+  until(s,1,Vector2(1040,180))
   route(s,0,[s.mission.extraction])
  else:route(s,0,[Vector2(60,620),Vector2(60,160),s.mission.extraction])
  for n in 18000:
@@ -60,7 +64,7 @@ func run_case(name:String,playback:bool,control:bool=false):
   tick(s)
  if not control:check(s.outcome=="won" and Sim.valid_snapshot(s.snapshot()),name+" completes through ordinary guards and a valid current recovery")
  else:check(s.outcome=="lost" and s.hull==0 and s.message==Sim.VAPORIZED_TEXT,"matched short-policy control is vaporized without playback")
- check(s.tools=={"emp":2,"decoy":3,"recon":2,"knock":2},name+" spends no mandatory finite tool")
+ check(s.tools==initial_tools,name+" spends no mandatory finite tool")
  if not control:
   var p={"version":2,"route":"deep","routes":["deep"],"facts":{"deep":"Deep branch recovered","rendezvous":"Berth recovered"},"completed":[6,7],"notes":{},"references":{},"entitlements":[],"history":[],"selected_thread":""}
   var recovered=Campaign.recover(p,s.mission)

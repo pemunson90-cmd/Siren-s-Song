@@ -10,6 +10,9 @@ static func make(id:int,history:Dictionary={})->Dictionary:
  var m={"id":id,"title":"Wake Crossing" if wake else "Warning Chain","brief":"","record":"","depth":5100 if wake else 2600,"darkness":false,"region_revision":1,"world_size":Vector2(2000,2080),"start":Vector2(1000,1880),"extraction":Vector2(1000,180),"rocks":[],"objectives":[],"sirens":[],"acoustic_revision":1,"expedition_revision":2,"signal_sources":[],"signal_observations":[],"expedition_facts":{},"next_signal_time":0.0,"chosen_route":"","recovered":false,"withdrawal_armed":false,"required_site_ids":[],"launch_context":history.duplicate(true)}
  m.corridors=[{"pos":m.extraction,"name":"NORTH WATER RECOVERY","route":"deep" if wake else "shelf"}]
  if wake:
+  # 097 / patterns 1,5: the outside solo contour spends most of the air;
+  # a local repeater operator buys the shorter saddle crossing and its record.
+  m.endurance={"oxygen_seconds":105.,"drone_seconds":240.}
   m.wake_crossing=preload("res://src/simulation/wake_crossing.gd").initial();m.contact_report_revision=1
   m.rocks=[Rect2(880,660,240,820),Rect2(100,1020,420,220),Rect2(1480,1020,420,220),Rect2(120,300,420,180),Rect2(1460,300,420,180)]
   m.signal_sources=[{"id":"wake_packet","label":"RETURN RECEIVER","pos":Vector2(480,620),"evidence":"The measured return is the bell's telemetry line, tight and regular. Someone is alive on it. Quietus can read the packet without answering it.","located":false,"confirm":true,"range":1600.0,"cadence":[0.8,1.6,0.8]}, {"id":"wake_repeater","label":"ABANDONED REPEATER","pos":Vector2(1520,620),"evidence":"A surviving repeater carries an older unequal cadence. Its close packet shows a wrecked rig's beacon; a matching rhythm alone never proves anyone is alive on it.","located":false,"range":1600.0,"cadence":[1.6,0.8,1.6]}]
@@ -22,8 +25,9 @@ static func make(id:int,history:Dictionary={})->Dictionary:
   Divergence._patrol(m,Vector2(620,850),[Vector2(620,850),Vector2(620,520),Vector2(780,420),Vector2(760,1400)])
   Divergence._patrol(m,Vector2(1340,850),[Vector2(1340,850),Vector2(1340,450),Vector2(1220,300),Vector2(1250,1430)])
   m.sirens[1].type="hunter"
-  m.sirens[1].pos=Vector2(900,380);m.sirens[1].home=m.sirens[1].pos;m.sirens[1].goal=m.sirens[1].pos
+  m.sirens[1].pos=Vector2(900,350);m.sirens[1].home=m.sirens[1].pos;m.sirens[1].goal=m.sirens[1].pos
   m.brief+=" A Siren patrol and a northern hunter can report local sightings. The long western outside water remains a solo route without tools or playback."
+  m.brief+=" Air favors the shorter coordinated crossing. Approach the beacon with quiet drone thrust, then reserve time to return its operator in MIDDLE before Quietus departs."
  else:
   m.rocks=[Rect2(880,800,240,160),Rect2(880,1080,240,520),Rect2(140,520,500,220),Rect2(1360,520,500,220),Rect2(300,1230,320,200),Rect2(1380,1230,320,200)]
   m.structures=[CHAIN_SHUTTER]

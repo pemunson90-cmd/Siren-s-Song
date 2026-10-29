@@ -35,7 +35,7 @@ static func run(t):
 	s.command("camera");tick(s,1.3)
 	t.check(not s.mission.objectives[0].captured and s.capture_unit<0,"replay expiry interrupts an incomplete standoff sample")
 	s=make();place(s,0);s.mission.rocks.append(Rect2(735,250,60,20));s._build_navigation();s.command("ping")
-	t.check(not s.command("camera") and s.mission.objectives[0].get("replay_until",0)==0,"cover blocks both quiet reception and sonar replay confirmation")
+	t.check(not s.blackwater_context(0,0).ready and s.camera_context().target!=0 and s.mission.objectives[0].get("replay_until",0)==0,"cover blocks both quiet reception and sonar replay confirmation")
 	var before=s.snapshot();s.camera_context();t.check(before==s.snapshot(),"receiver readiness is a read-only own-range and terrain query")
 	s=make();place(s,0);s.units[0].vel=Vector2(80,0);s.command("camera");s.paused=false;tick(s,0.25)
 	t.check(s.capture_time==0,"moving craft must settle before reception accumulates")
@@ -56,7 +56,7 @@ static func run(t):
 	for suffix in ["",".tmp",".bak"]:DirAccess.remove_absolute(store.path+suffix)
 	var clock_restore=Simulation.new();var restored_clock=clock_restore.restore(persisted.get("active",{}))
 	if restored_clock:clock_restore.paused=false;tick(clock_restore,2.65)
-	t.check(restored_clock and not clock_restore.camera_context().ready,"restored replay expires against active simulation time without a wall-clock extension")
+	t.check(restored_clock and not clock_restore.blackwater_context(0,0).ready and clock_restore.camera_context().target!=0,"restored replay expires against active simulation time without a wall-clock extension")
 	var malformed=s.snapshot();malformed.mission.objectives[0]["replay_until"]="forever"
 	t.check(not Simulation.valid_snapshot(malformed),"malformed optional replay state is rejected before restore")
 	malformed=s.snapshot();malformed.mission.objectives[0]["replay_until"]=NAN

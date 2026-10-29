@@ -19,6 +19,7 @@ func go(s,point)->bool:
   s.advance(Sim.STEP)
   if not s.outcome.is_empty() or (s.units[0].route.is_empty() and s.units[0].vel.length()<2):break
  s.paused=true
+ if s.units[0].pos.distance_to(point)>=25 and s.outcome!="won":print("GLASS COURSE STOP goal=",point," pos=",s.units[0].pos," message=",s.message)
  return (s.outcome=="won" or s.units[0].pos.distance_to(point)<25) and s.units[0].alive
 func dive(s,band)->bool:
  if not s.command("depth",{"band":band}):return false
@@ -27,14 +28,14 @@ func dive(s,band)->bool:
 # local work in order. Each place has its own crossing; none is a shared perimeter.
 const COURSES={
  14:[["go",Vector2(1000,1300)],["depth",2],["go",Vector2(1000,720)],["depth",1],["go",Vector2(950,560)],["camera"],["depth",2],["go",Vector2(1000,1300)],["depth",1],["go",Vector2(2000,1800)],["exit"]],
- 15:[["go",Vector2(800,2420)],["work","vane"],["go",Vector2(1000,2000)],["go",Vector2(1000,1150)],["go",Vector2(1000,600)],["camera"],["go",Vector2(1000,1150)],["go",Vector2(1000,2600)],["exit"]],
- 16:[["go",Vector2(1400,2250)],["depth",2],["go",Vector2(1400,1560)],["depth",1],["camera"],["depth",2],["go",Vector2(1400,2250)],["depth",1],["go",Vector2(700,2000)],["exit"]],
+ 15:[["go",Vector2(800,2420)],["work","vane"],["go",Vector2(1000,2000)],["go",Vector2(1000,1150)],["go",Vector2(1000,600)],["camera"],["go",Vector2(1000,1150)],["go",Vector2(1000,2600)],["go",Vector2(1000,2900)],["go",Vector2(1000,3350)],["exit"]],
+ 16:[["go",Vector2(1400,2250)],["depth",2],["go",Vector2(1400,1560)],["depth",1],["camera"],["depth",2],["go",Vector2(1400,2250)],["depth",1],["go",Vector2(700,2000)],["go",Vector2(200,800)],["go",Vector2(200,300)],["exit"]],
  17:[["depth",0],["go",Vector2(2700,1450)],["depth",1],["depth",2],["go",Vector2(2860,1395)],["recover"],["go",Vector2(2700,1450)],["depth",1],["go",Vector2(600,1350)],["go",Vector2(400,850)],["go",Vector2(2470,850)],["go",Vector2(2470,400)],["go",Vector2(2700,420)],["camera"],["exit",1]],
  18:[["go",Vector2(2650,1900)],["go",Vector2(2650,1150)],["go",Vector2(1400,935)],["work","service"],["go",Vector2(1400,1700)],["exit"]],
  # Cross the western reef mouth in SHALLOW, whether the central gate is shut
  # or open. Settle in MIDDLE only at the recovery mouth.
  19:[["go",Vector2(1600,1700)],["go",Vector2(1600,1200)],["go",Vector2(1600,700)],["camera"],["depth",0],["go",Vector2(725,1200)],["go",Vector2(725,1600)],["go",Vector2(1600,1700)],["exit"],["depth",1]],
- 20:[["go",Vector2(1150,1685)],["recover"],["go",Vector2(1200,1600)],["camera"],["exit"]],
+ 20:[["go",Vector2(1350,500)],["go",Vector2(1350,900)],["go",Vector2(1190,900)],["go",Vector2(1190,1250)],["go",Vector2(1150,1685)],["recover"],["go",Vector2(1200,1600)],["camera"],["go",Vector2(1350,1900)],["go",Vector2(1350,2220)],["go",Vector2(1190,2220)],["go",Vector2(1190,2550)],["go",Vector2(1350,2550)],["go",Vector2(1350,2840)],["exit"]],
  21:[["go",Vector2(2300,1500)],["go",Vector2(1950,800)],["go",Vector2(1700,1200)],["camera"],["go",Vector2(1635,1300)],["depth",2],["recover"],["depth",1],["go",Vector2(1950,800)],["go",Vector2(2300,1500)],["exit"]]}
 func course(s,id)->bool:
  for step in COURSES[id]:
