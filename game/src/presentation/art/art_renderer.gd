@@ -56,7 +56,8 @@ static func craft(view,index:int,frame:String="standard")->void:
   view.draw_polyline(outlines[key],Table.EDGE,Table.DRONE_OUTLINE_WIDTH,true)
   if key in ["drone_a","scout"]:view.draw_line(Vector2(-8,-5),Vector2(-8,5),Table.AMBER,3.)
   elif key=="heavy":view.draw_line(Vector2(-7,-11),Vector2(-7,11),Table.AMBER,3.);view.draw_line(Vector2(10,-9),Vector2(10,9),Table.CYAN,2.)
-  else:view.draw_circle(Vector2(-8,0),3.5,Table.AMBER);view.draw_line(Vector2(8,-7),Vector2(8,7),Table.CYAN,2.)
+  elif key=="endurance":view.draw_circle(Vector2(-8,0),3.5,Table.AMBER);view.draw_line(Vector2(8,-7),Vector2(8,7),Table.CYAN,2.)
+  else:view.draw_circle(Vector2(-8,0),3.5,Table.AMBER)
 static func siren(view,role:String,shade:Color)->void:
  prepare()
  # The dense material is nearly opaque for these three normal roles. Only the
