@@ -380,7 +380,7 @@ Boundary follow-up28Oct03:12UTC: Windows completion check PASSES from current in
 | 104 | 107 IRONMAN: LOST DRONES AND MODULES ARE GONE FOR GOOD | CLAIMED (claude-lane, codex-fresh-107, 29 Oct 09:50 ET) | | | [handoff](107-ironman-permanent-losses.md) |
 | 105 | 108 ONE MORE STORY FORK IN ARC 5 | QUEUED (claude-lane, Pat 29 Oct) | | | [handoff](108-arc5-second-fork.md) |
 | 106 | 109 EXPEDITION SEEDS SHUFFLE SIREN STARTS AND PATROL TIMING | QUEUED (claude-lane, Pat 29 Oct) | | | [handoff](109-seed-siren-shuffle.md) |
-| 107 | 110 ADVANCED ECONOMY VALUES AND MID-CAMPAIGN EASIER PRESET | CLAIMED (claude-lane, codex-fresh-110, 29 Oct 11:12 ET) | | | [handoff](110-economy-advanced-and-preset-switch.md) |
+| 107 | 110 ADVANCED ECONOMY VALUES AND MID-CAMPAIGN EASIER PRESET | CLAIMED (claude-lane, codex-fresh-110, 29 Oct 10:55 ET) | | | [handoff](110-economy-advanced-and-preset-switch.md) |
 | 108 | 111 AUTO-PAUSE ON FIRST NOTICE AND MIRRORED ONE-HANDED HUD | QUEUED (claude-lane, Pat 29 Oct) | | | [handoff](111-accessibility-autopause-mirror.md) |
 | 109 | 112 SORLEY RESCUE REWARD BECOMES PILOTAGE CHARTS | QUEUED (claude-lane, Pat 29 Oct) | | | [handoff](112-sorley-pilotage-charts.md) |
 | 110 | 113 PRESENTATION: SILHOUETTES, ROLE SOUNDS, SEA LIFE, PLACEHOLDER KEY ART | QUEUED (claude-lane, Pat 29 Oct) | | | [handoff](113-presentation-pass.md) |
