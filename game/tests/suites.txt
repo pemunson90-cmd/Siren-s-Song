@@ -54,6 +54,7 @@ glass_reach_journeys|GLASS JOURNEY|45|34
 glass_fleet_pairs_tests|GLASS FLEET PAIRS|321|422
 glass_reach_ui_tests|GLASS REACH UI|46|35
 iron_choir_tests|IRON CHOIR|47|36
+choir_fork_tests|CHOIR FORK|748|848
 industrial_jobs_tests|INDUSTRIAL JOBS|48|37
 industrial_threats_tests|INDUSTRIAL THREATS|49|38
 iron_research_tests|IRON RESEARCH|50|41
