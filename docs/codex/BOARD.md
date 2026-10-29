@@ -1,4 +1,4 @@
-**29 Oct 2026 09:50 ET (Claude S6):** Pat answered the full question list (PAT_RULINGS_2026-10-29.md). Claude lane queues 103 to 113 (rows 100 to 110). Senses rows 103, 105, 104 run one at a time in that order; others run beside them on disjoint files. Root: these are claude-lane rows, please leave them.
+**29 Oct 2026 09:48 ET (Claude S6):** Pat answered the full question list (PAT_RULINGS_2026-10-29.md). Claude lane queues 103 to 113 (rows 100 to 110). Senses rows 103, 105, 104 run one at a time in that order; others run beside them on disjoint files. Root: these are claude-lane rows, please leave them.
 
 **Root 2026-10-29T09:22:18.9970614-04:00: EXP-PHOTO-INTENT CLAIMED (codex-root). Isolated presentation prototype only; owns mission_hud.gd photo-caption/object-context functions, preserving Claude102 depth/ascent controls verbatim. No photography mechanics changes. Critic091 remains frozen at13a64ed0 and receives no hints. No production merge on provisional evidence. See EXP-PHOTO-INTENT.md.**
 
@@ -373,11 +373,11 @@ Boundary follow-up28Oct03:12UTC: Windows completion check PASSES from current in
 | 97 | 100 TOOL LOCKERS: default loadouts carry tools again | DONE (codex-fresh-100 authorship; root integration) | [208](https://github.com/pemunson90-cmd/Siren-s-Song/pull/208) | | Accepted head `bad644d3`; own seven green40785277937; merged `2dcb1bb3`; independent reviews47/49B, reviewed tree `4484cfd36bbfe8eced2fab74db26649271f576b9`. Worker collected; no restart. |
 | 98 | 101 DEBUG CONSOLE (Pat 28 Oct) | DONE (claude-lane, 28 Oct 20:52 ET) | [210](https://github.com/pemunson90-cmd/Siren-s-Song/pull/210) | 2026-10-29T00:52:41Z | Merged578102f1 after independent review (requested Sol6.1 high) and seven green exact-head checks; op41 picker, locker grants and DEV record/cache isolation verified. |
 | 99 | 102 CARRIED SURVIVORS SLOW ASCENT (Pat 29 Oct, provisional "for now") | DONE (claude-lane, codex-fresh-102) | [PR214](https://github.com/pemunson90-cmd/Siren-s-Song/pull/214) | 2026-10-29T13:11:24Z | 8/12s carried ascent, 6s settle, visible HUD and compatible resume; bare SILENT carry ops finish; [handoff](102-diver-ascent-rate.md). |
-| 100 | 103 SIREN ROLE SENSES: hunter and sentinel hear, search and attend differently | QUEUED (claude-lane, Pat 29 Oct) | | | [handoff](103-siren-role-senses.md) |
+| 100 | 103 SIREN ROLE SENSES: hunter and sentinel hear, search and attend differently | CLAIMED (claude-lane, codex-fresh-103, 29 Oct 09:50 ET) | | | [handoff](103-siren-role-senses.md) |
 | 101 | 104 SIRENS RADIO EACH OTHER WITH A VISIBLE, INTERRUPTIBLE CHARGE (2+ patrollers) | QUEUED (claude-lane, Pat 29 Oct) | | | [handoff](104-siren-reports.md) |
 | 102 | 105 THERMAL LAYER COVERS ONE DEPTH BAND ONLY | QUEUED (claude-lane, Pat 29 Oct) | | | [handoff](105-thermal-one-band.md) |
 | 103 | 106 SONAR SHOWS A ROUGH SIREN TYPE UNTIL SEEN OR PHOTOGRAPHED | QUEUED (claude-lane, Pat 29 Oct) | | | [handoff](106-sonar-coarse-class.md) |
-| 104 | 107 IRONMAN: LOST DRONES AND MODULES ARE GONE FOR GOOD | QUEUED (claude-lane, Pat 29 Oct) | | | [handoff](107-ironman-permanent-losses.md) |
+| 104 | 107 IRONMAN: LOST DRONES AND MODULES ARE GONE FOR GOOD | CLAIMED (claude-lane, codex-fresh-107, 29 Oct 09:50 ET) | | | [handoff](107-ironman-permanent-losses.md) |
 | 105 | 108 ONE MORE STORY FORK IN ARC 5 | QUEUED (claude-lane, Pat 29 Oct) | | | [handoff](108-arc5-second-fork.md) |
 | 106 | 109 EXPEDITION SEEDS SHUFFLE SIREN STARTS AND PATROL TIMING | QUEUED (claude-lane, Pat 29 Oct) | | | [handoff](109-seed-siren-shuffle.md) |
 | 107 | 110 ADVANCED ECONOMY VALUES AND MID-CAMPAIGN EASIER PRESET | QUEUED (claude-lane, Pat 29 Oct) | | | [handoff](110-economy-advanced-and-preset-switch.md) |
