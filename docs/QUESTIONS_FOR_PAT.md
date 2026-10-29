@@ -18,7 +18,7 @@ Added 27 Oct 2026 by Claude's verified gap scout. Until you rule, the game keeps
 9. **RULED 29 Oct 2026 [PAT, PAT_RULINGS_2026-10-29.md item 3, handoff 106]: "Should sonar only show a rough Siren type until you see or photograph it? (Changes Siren sense display, your call.)" = "Yes (Recommended)" (9).** Original question: A direct active sonar echo currently names the exact Siren role (for example WARDEN) at 90% confidence. Should an echo instead give only a coarse class, such as large and stationary or small and moving, until the player has seen or photographed the role?
 10. Thermal layers affect every depth band the same way. Should a thermal layer give cover in only one band, for example middle water but not shallow, so depth choice changes who can hear you?
 11. Should the Accessible preset, or a separate setting, add tactical aids such as auto-pause when a Siren first notices a craft? Pause stays unlimited and sensing stays unchanged either way.
-12. Should a seeded expedition vary only the operation order and run modifiers, or also Siren starting placement and patrol timing per seed?
+12. **RULED 29 Oct 2026 [PAT, PAT_RULINGS_2026-10-29.md item 8, handoff 109]: "Should expedition seeds also shuffle Siren start positions and patrol timing (never their senses)?" = "Yes (Recommended)".** Original question: Should a seeded expedition vary only the operation order and run modifiers, or also Siren starting placement and patrol timing per seed?
 
 ## Economy, modes and Ironman
 

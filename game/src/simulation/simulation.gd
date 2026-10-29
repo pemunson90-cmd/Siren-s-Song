@@ -146,8 +146,11 @@ func start(index: int, upgrade: String = "endurance", launch:Dictionary={}) -> v
 	_build_navigation()
 	_configure_terrain()
 	_configure_depth_charts()
+	_prepare_siren_starts()
 	HuntPressure.initialize(mission)
 	_observe()
+# Mode wrappers may place their initial patrol phase before any observation.
+func _prepare_siren_starts()->void:pass
 # Physical terrain still serves enemies, collision and sound. Player routes
 # and presentation share only this locally measured chart in Confluence.
 func _configure_terrain()->void:

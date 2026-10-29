@@ -6,6 +6,12 @@
 
 [KEEL / implementation scope] Sonar presents a coarse class until any craft sees the Siren or photographs identify it. Identification lasts for that Siren through the dive; recovered photographed dossier roles can pre-identify. Chart, contact list and audio use the same knowledge boundary. Class labels are AI-DESIGNED. Sensing, sight ranges, lock, beam, collision, damage and hull rules retain their existing behavior.
 
+## 29 October 2026: expedition Siren starts and patrol timing (handoff 109)
+
+8. "Should expedition seeds also shuffle Siren start positions and patrol timing (never their senses)?" = "Yes (Recommended)" (12)
+
+[PAT, verbatim selection recorded in PAT_RULINGS_2026-10-29.md, Claude S6] This authorizes deterministic Expedition-only start placement and patrol phase along authored safe paths. Campaign and Career retain authored starts. Placement bounds and phase values are AI-DESIGNED; Siren senses, role, lock, beam, collision, damage and hull rules retain their existing behavior.
+
 ## 29 October 2026: Sorley pilotage charts (handoff 112)
 
 [PAT, verbatim selections recorded in PAT_RULINGS_2026-10-29.md, items 12 and 13]
