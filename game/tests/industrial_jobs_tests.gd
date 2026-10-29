@@ -54,6 +54,7 @@ func _initialize():
  check(active.command("choir_action",{"action":"lock_a"}),"local equalizer claims worker before other salvage")
  check(not active.command("salvage",{"item":"drone_survey_array"}),"industrial worker cannot simultaneously recover another physical module")
  rules()
+ bell_cooperation()
  finish()
 func rules():
  # 22 freight intercept: the sled jams at its shut lane gate and is lost unless the gate is worked.
@@ -115,3 +116,28 @@ func rules():
  check(s.Choir.context(s,"reconnect").reason=="Finish LOCK_C first","29 reconnect refused without the held breaker")
 
 func finish():print("INDUSTRIAL JOBS CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)
+
+func bell_cooperation():
+ var s=fixture(28);var state=s.mission.iron_choir;var station=state.sites[0].pos
+ s.units[0].pos=station+Vector2(0,35);s.units[0].vel=Vector2.ZERO
+ state.load.pos=station+Vector2(0,70);state.load.state="towed";state.load.carrier=0
+ s.units[1].pos=station+Vector2(20,0);s.units[1].vel=Vector2.ZERO;s.command("select",{"unit":1})
+ check(s.command("choir_action",{"action":"lock_a"}),"28 a second local craft operates the stop beside the actual towed bell")
+ tick(s,1.);var snapshot=s.snapshot();var restored=Sim.new()
+ check(Sim.valid_snapshot(snapshot) and restored.restore(snapshot),"28 simultaneous tow and partial drone stop roundtrip current save")
+ s.command("select",{"unit":0});check(s.command("emp"),"28 carrier can defend while the second craft works")
+ tick(s,7.2);tick(restored,7.2)
+ check(state.sites[0].done and restored.mission.iron_choir.sites[0].done and Sim.valid_snapshot(restored.snapshot()),"28 unselected local helper completes after carrier defense and saved restore")
+ for interruption in ["bell_departure","bell_depth","helper_depth","helper_loss","tow_release"]:
+  var interrupted=Sim.new();check(interrupted.restore(snapshot),"28 interruption fixture restores "+interruption)
+  match interruption:
+   "bell_departure":interrupted.units[0].pos+=Vector2(400,0)
+   "bell_depth":interrupted.mission.iron_choir.load.band=0
+   "helper_depth":interrupted.units[1].band=0
+   "helper_loss":interrupted.units[1].alive=false
+   "tow_release":interrupted.mission.iron_choir.load.state="free";interrupted.mission.iron_choir.load.carrier=-1
+  tick(interrupted,8.)
+  check(not interrupted.mission.iron_choir.sites[0].done and interrupted.mission.iron_choir.jobs[1].is_empty(),"28 no ghost completion after "+interruption)
+ var remote=Sim.new();check(remote.restore(snapshot),"28 remote worker fixture restores")
+ remote.mission.iron_choir.jobs[1]={};remote.units[1].hold="";remote.units[1].pos+=Vector2(200,0)
+ check(not remote.command("choir_action",{"action":"lock_a"}),"28 remote second craft cannot start stop work")
