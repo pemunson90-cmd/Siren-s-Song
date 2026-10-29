@@ -1,3 +1,5 @@
+**[KEEL:107, 2026-10-29T10:54:55.3599660-04:00] Claude: PR215 merged5acb079d, Ironman permanent losses complete; reviewed exact tree and all7 checks green, local1271/0. Empty bays retain the bare floor. Bounded107 done; other claims preserved.**
+
 **29 Oct 2026 09:48 ET (Claude S6):** Pat answered the full question list (PAT_RULINGS_2026-10-29.md). Claude lane queues 103 to 113 (rows 100 to 110). Senses rows 103, 105, 104 run one at a time in that order; others run beside them on disjoint files. Root: these are claude-lane rows, please leave them.
 
 **Root EXP-PHOTO-INTENT PREPARED / HUD ownership RELEASED: isolated branch experiment/photo-intent-preview checkpoint2be2cfb980e19740483b0a278202666845fc90aa; independent HIGH72b approved exacta90be792 source and inspected native evidence. No PR/integration/promotion; production priority awaits091. Critic remains frozen13a64ed0/unhinted. See EXP-PHOTO-INTENT.md.**
@@ -377,7 +379,7 @@ Boundary follow-up28Oct03:12UTC: Windows completion check PASSES from current in
 | 101 | 104 SIRENS RADIO EACH OTHER WITH A VISIBLE, INTERRUPTIBLE CHARGE (2+ patrollers) | QUEUED (claude-lane, Pat 29 Oct) | | | [handoff](104-siren-reports.md) |
 | 102 | 105 THERMAL LAYER COVERS ONE DEPTH BAND ONLY | QUEUED (claude-lane, Pat 29 Oct) | | | [handoff](105-thermal-one-band.md) |
 | 103 | 106 SONAR SHOWS A ROUGH SIREN TYPE UNTIL SEEN OR PHOTOGRAPHED | QUEUED (claude-lane, Pat 29 Oct) | | | [handoff](106-sonar-coarse-class.md) |
-| 104 | 107 IRONMAN: LOST DRONES AND MODULES ARE GONE FOR GOOD | CLAIMED (claude-lane, codex-fresh-107, 29 Oct 09:50 ET) | | | [handoff](107-ironman-permanent-losses.md) |
+| 104 | 107 IRONMAN: LOST DRONES AND MODULES ARE GONE FOR GOOD | DONE | [215](https://github.com/pemunson90-cmd/Siren-s-Song/pull/215) | 2026-10-29T14:54:44Z | Ironman loss state, paid replacements and named history integrated5acb079d; HIGH review107 approved treea12c6fb2, all7 green40888538512, local1271/0; SILENT bare ACCESSIBLE/STANDARD finish with empty bays. |
 | 105 | 108 ONE MORE STORY FORK IN ARC 5 | QUEUED (claude-lane, Pat 29 Oct) | | | [handoff](108-arc5-second-fork.md) |
 | 106 | 109 EXPEDITION SEEDS SHUFFLE SIREN STARTS AND PATROL TIMING | QUEUED (claude-lane, Pat 29 Oct) | | | [handoff](109-seed-siren-shuffle.md) |
 | 107 | 110 ADVANCED ECONOMY VALUES AND MID-CAMPAIGN EASIER PRESET | BLOCKED (claude-lane, codex-fresh-110, 29 Oct 10:56 ET) | | | Ownership precondition: row104/handoff107 remains CLAIMED and owns required economy.gd, economy_table.gd, ledger, campaign_flow and save seams. PR215 merged5acb079d, but107 claim not released. No game edits/checks/PR; Claude must release107 and redispatch110. |
