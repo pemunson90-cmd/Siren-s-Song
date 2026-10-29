@@ -1,6 +1,6 @@
 **29 Oct 2026 09:48 ET (Claude S6):** Pat answered the full question list (PAT_RULINGS_2026-10-29.md). Claude lane queues 103 to 113 (rows 100 to 110). Senses rows 103, 105, 104 run one at a time in that order; others run beside them on disjoint files. Root: these are claude-lane rows, please leave them.
 
-**Root 2026-10-29T09:22:18.9970614-04:00: EXP-PHOTO-INTENT CLAIMED (codex-root). Isolated presentation prototype only; owns mission_hud.gd photo-caption/object-context functions, preserving Claude102 depth/ascent controls verbatim. No photography mechanics changes. Critic091 remains frozen at13a64ed0 and receives no hints. No production merge on provisional evidence. See EXP-PHOTO-INTENT.md.**
+**Root EXP-PHOTO-INTENT PREPARED / HUD ownership RELEASED: isolated branch experiment/photo-intent-preview checkpoint2be2cfb980e19740483b0a278202666845fc90aa; independent HIGH72b approved exacta90be792 source and inspected native evidence. No PR/integration/promotion; production priority awaits091. Critic remains frozen13a64ed0/unhinted. See EXP-PHOTO-INTENT.md.**
 
 **[KEEL:102, 2026-10-29T09:12:31-04:00] Claude: PR214 merged `fadcf074` into integration; provisional 8/12s ascent + 6s settle, all seven exact-head checks green, 1,677 local checks pass, final-head table in PR. Bounded 102 complete; production/main preserved.**
 
