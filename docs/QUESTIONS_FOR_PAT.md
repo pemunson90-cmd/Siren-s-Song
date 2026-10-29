@@ -39,8 +39,8 @@ Added 27 Oct 2026 by Claude's verified gap scout. Until you rule, the game keeps
 ## Scope
 
 23. The spec says 28 core operations, but the catalog has 29 non-optional ids (0-19, 22-25, 30-34) and 12 optional. Is 29 acceptable, or should two ops be merged or demoted to optional?
-24. Bible decision 3, the saturation-diver ascent-rate rule (carried survivors limit how fast Quietus can change depth bands), is still deferred in QUESTIONS_FOR_PAT. Should it be built, or dropped from scope?
+24. **RULED provisionally 29 Oct 2026 [PAT, handoff 102]: "For now* Yes*".** Build the carried-survivor ascent-rate rule (bible decision 3). Timing values are AI-DESIGNED and remain provisional.
 
 ## Earlier
 
-1. Diver ascent-rate rule (bible decision 3): deferred; build it as a feature lane later?
+1. **RULED provisionally 29 Oct 2026 [PAT, handoff 102]: "For now* Yes*".** Build the diver ascent-rate rule; see item 24.

@@ -2,6 +2,7 @@ extends RefCounted
 # Three discrete water volumes. Transitions occupy BOTH volumes until settled.
 const NAMES=["SHALLOW","MIDDLE","DEEP"]
 const DURATION=4.0
+const SurvivorAscent=preload("res://src/simulation/survivor_ascent.gd")
 const FieldTools=preload("res://src/simulation/field_tool_effects.gd")
 const BandPhoto=preload("res://src/photo_depth/band_photo.gd")
 const BandHint=preload("res://src/photo_depth/band_hint.gd")
@@ -58,15 +59,21 @@ static func command(sim,band)->bool:
   sim.message="Depth unavailable · adjacent band and local clearance required";return false
  if sim.Choir.towing(sim,sim.selected) or sim.mission.get("concealed_harbour",{}).get("carrier",-1)==sim.selected:
   sim.message="Release the physical tow before changing depth";return false
+ var people=SurvivorAscent.count(sim.mission,sim.selected)
+ var carried_ascent=people>0 and band<u.band
+ if carried_ascent and u.get("ascent_settle",0.)>0:
+  sim.message="Survivors must settle %.1fs before another ascent"%u.ascent_settle;return false
  # Soundings only reveal this local vertical clearance; never a remote detour.
  var held=u.hold
  var working=not sim.captures[sim.selected].is_empty() or not sim.module_recovery_status().jobs[sim.selected].is_empty() or sim.Delivery.busy(sim,sim.selected) or sim.Witness.busy(sim,sim.selected) or sim.Chain.connected(sim,sim.selected) or sim.Glass.busy(sim,sim.selected) or sim.Choir.busy(sim,sim.selected)
  var sleeve=sim.Equipment.has(sim.mission.launch_equipment,sim.selected,"quietus_pressure_sleeve")
- var duration=2.5 if sleeve else DURATION
+ var duration=SurvivorAscent.duration_for_count(people) if carried_ascent else (2.5 if sleeve else DURATION)
  if sleeve:
   if sim.oxygen<.75:sim.message="Insufficient pressure-sleeve reserve";return false
   sim.oxygen-=.75;sim._noise(u.pos,250.,"PRESSURE SLEEVE",duration,u.band)
- u.transition={"to":band,"remaining":duration};u.vel=Vector2.ZERO;u.hold=""
+ u.transition={"to":band,"remaining":duration}
+ if carried_ascent:u.transition["carried_ascent"]=true
+ u.vel=Vector2.ZERO;u.hold=""
  sim.JobRelease.cancel(sim,sim.selected,"depth")
  if not working:u.hold=held
  sim.captures[sim.selected]={};sim.message="%s · %s → %s · %.1fs exposed transition"%[u.name,NAMES[u.band],NAMES[band],duration]
@@ -75,10 +82,16 @@ static func advance(sim,dt):
  for u in sim.units+sim.sirens:
   if u.get("alive",true)==false:continue
   var transition=u.get("transition",{})
+  if u.get("ascent_settle",0.)>0:
+   # Settle means holding the attained band, not time spent descending.
+   if transition.is_empty():u.ascent_settle=maxf(0.,u.ascent_settle-dt)
+   else:u.ascent_settle=SurvivorAscent.SETTLE_SECONDS
   if not transition.is_empty():
    transition.remaining=maxf(0,transition.remaining-dt)
    if transition.remaining<=0:
-    if clear(sim,u.pos,u.pos,transition.to,12):u.band=transition.to
+    if clear(sim,u.pos,u.pos,transition.to,12):
+     u.band=transition.to
+     if transition.get("carried_ascent",false):u["ascent_settle"]=SurvivorAscent.SETTLE_SECONDS
     u.transition={}
     if u in sim.units:
      sim._use_band(u.band)
@@ -122,7 +135,9 @@ static func cargo_band(sim,item:String)->int:
 # State-aware reminders use own orders/custody and received evidence only.
 static func context(sim)->String:
  var u=sim.units[sim.selected]
- if not u.transition.is_empty():return "Depth change · stationary4s · exposed in BOTH bands until settled."
+ var ascent=SurvivorAscent.line(sim.mission,sim.selected,u)
+ if not ascent.is_empty():return ascent
+ if not u.transition.is_empty():return "Depth change · stationary %.1fs · exposed in BOTH bands until settled."%u.transition.remaining
  var delivery=sim.mission.get("blackwater_delivery",{})
  if not delivery.is_empty() and sim.selected>0 and not delivery.carriers[sim.selected].is_empty():return "RAW BUFFER aboard · meet Quietus at SAME settled depth within60m to TRANSFER."
  if sim.all_records() and sim.Delivery.complete(sim):return "Archive ready · recover Quietus settled in MIDDLE; retained kit still needs its carrier."
@@ -166,8 +181,13 @@ static func valid(data)->bool:
   if not body is Dictionary:return false
   if not body.get("band") is int or body.band<0 or body.band>2 or not body.get("transition") is Dictionary:return false
   if body.has("known_band") and (not body.known_band is int or body.known_band not in [0,1,2]):return false
+  var settle=body.get("ascent_settle",0.)
+  if not (settle is float or settle is int) or not is_finite(settle) or settle<0 or settle>SurvivorAscent.SETTLE_SECONDS:return false
+  if body in data.sirens and body.has("ascent_settle"):return false
   var t=body.transition
   if not t.is_empty():
-   if t.size()!=2 or not t.has_all(["to","remaining"]) or not t.to is int or t.to<0 or t.to>2 or absi(t.to-body.band)!=1:return false
-   if not (t.remaining is float or t.remaining is int) or not is_finite(t.remaining) or t.remaining<=0 or t.remaining>DURATION:return false
+   if t.size()!=(3 if t.has("carried_ascent") else 2) or not t.has_all(["to","remaining"]) or not t.to is int or t.to<0 or t.to>2 or absi(t.to-body.band)!=1:return false
+   var carried=t.get("carried_ascent",false)
+   if t.has("carried_ascent") and (not carried is bool or not carried or body in data.sirens or t.to>=body.band):return false
+   if not (t.remaining is float or t.remaining is int) or not is_finite(t.remaining) or t.remaining<=0 or t.remaining>(SurvivorAscent.MANY_SECONDS if carried else DURATION):return false
  return true
