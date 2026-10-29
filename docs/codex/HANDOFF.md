@@ -7,7 +7,8 @@ Read this first after any context clear or restart, then LEDGER.md and the BOARD
 - **Pat** rules and approves in chat only; never asked to operate anything. One plain question at a time, only when genuinely his.
 - **Claude** (sole Claude orchestrator, Opus 5.5 medium): plans, prioritizes, decides architecture and research direction, writes handoffs and queue order, keeps BOARD/HANDOFF/LEDGER and Pat's tracker current, verifies milestones and release readiness, talks to Pat. **Claude launches no subagents, agent teams, forks or workflows.** Claude does only small git coordination itself; implementation, fixes, test runs and reviews go to Codex.
 - **Codex root** (Sol6.1 medium, desktop session) executes: dispatches bounded Codex workers (weakest capable model, never Astra), obtains independent Sol6.1-high review of each frozen patch before commit and before merge, commits, collects CI, merges, closes handoffs, runs milestone promotions under Pat's standing option A after review. Its worktrees: `Siren-s-Song-codex-NNN` beside the repo and `~/.cache/sirens-song-toolchain/worktrees/`.
-- Claude launches Codex headless only if no codex-root session is active (check BOARD banner time and the mtime of `~/.codex/logs_2.sqlite-wal`).
+- **Two Codex lanes (Pat 28 Oct ~20:00 ET, "Op 2"):** Claude's fresh headless sessions own Claude-lane rows end to end, merging included; root owns codex-root rows. Neither lane stops, collects or merges the other's work. See BOARD 20:01 ET.
+- (Superseded) Claude launches Codex headless only if no codex-root session is active (check BOARD banner time and the mtime of `~/.codex/logs_2.sqlite-wal`).
 
 ## 2. Standing rules
 
