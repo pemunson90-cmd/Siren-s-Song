@@ -7,6 +7,7 @@ extends RefCounted
 # Seam: Main.economy (saved as archive "economy"), CampaignFlow briefing/debrief hooks,
 # ExpeditionOperations research hold, EconomyPanel. Data lives in economy_table.gd.
 # Revert: economy_table.enabled=false. Old archives without the field use new_state().
+const Options=preload("res://src/campaign/economy_options.gd")
 const Losses=preload("res://src/campaign/ironman_losses.gd")
 const Table=preload("res://src/campaign/economy_table.gd")
 const Catalog=preload("res://src/equipment/equipment_catalog.gd")
@@ -19,7 +20,7 @@ const TARGETS=Table.TARGETS
 static func new_state(preset:String="standard",ironman:bool=false)->Dictionary:
  return {"preset":preset,"ironman":ironman,"stock":Table.START.duplicate(),"spares":{},"unlocks":[],
   "cond":{"quietus":100,"drone_a":100,"drone_b":100},"last_fit":Catalog.default_loadout(),"settled":"",
-  "report":"No dive yet. Starter supplies aboard.","permanent_losses":Losses.fresh()}
+  "report":"No dive yet. Starter supplies aboard.","permanent_losses":Losses.fresh(),"economy_options":Options.fresh()}
 # An archive saved before the economy keeps the frames it already flew with.
 static func legacy_state(fit:Dictionary)->Dictionary:
  var e=new_state()
@@ -87,17 +88,24 @@ static func refit_cost(e:Dictionary,fitted:Dictionary)->Dictionary:
  return scaled({"cells":cells,"scrap":scrap},e)
 static func charge_launch(e:Dictionary,fitted:Dictionary)->bool:
  if not pay(e,refit_cost(e,fitted)):return false
+ Options.ensure(e).started=true
  e.last_fit=fitted.duplicate(true)
  # A retry can end at the exact same mission/time as its predecessor. Clear
  # only when a fresh launch succeeds; repeated debriefs still settle once.
  e.settled=""
  return true
 # ---- repair ----------------------------------------------------------------
+static func repair_scaled(cost:Dictionary,e:Dictionary)->Dictionary:
+ var result={}
+ for key in cost:
+  var n=int(ceil(cost[key]*preset(e).cost*Options.multiplier(e,"repair")-0.0001))
+  if cost[key]>0:result[key]=maxi(1,n)
+ return result
 static func repair_cost(e:Dictionary,target:String)->Dictionary:
  var missing=100-e.cond.get(target,100)
  if missing<=0:return {}
- if target=="quietus":return scaled({"cells":int(ceil(missing/float(Table.REPAIR_HULL_PER_STEP)))},e)
- return scaled({"cells":1,"scrap":1},e)
+ if target=="quietus":return repair_scaled({"cells":int(ceil(missing/float(Table.REPAIR_HULL_PER_STEP)))},e)
+ return repair_scaled({"cells":1,"scrap":1},e)
 static func repair(e:Dictionary,target:String)->bool:
  var cost=repair_cost(e,target)
  if (target=="drone_a" and Losses.missing(e,1)) or (target=="drone_b" and Losses.missing(e,2)):return false
@@ -204,6 +212,7 @@ static func lock_frames(e:Dictionary,expedition:Dictionary,fit:Dictionary)->Dict
 static func settle(e:Dictionary,facts:Dictionary)->void:
  if e.settled==facts.key:return
  e.settled=facts.key
+ Options.dock(e)
  Losses.settle(e,facts)
  var gain={"scrap":0,"cells":0,"alloy":0}
  var base=Table.INCOME.lost
@@ -216,7 +225,7 @@ static func settle(e:Dictionary,facts:Dictionary)->void:
  if facts.artifact:gain.alloy+=Table.INCOME.artifact_alloy
  var income={}
  for key in gain:
-  var n=int(ceil(gain[key]*preset(e).income-0.0001)) if gain[key]>0 else 0
+  var n=int(ceil(gain[key]*preset(e).income*Options.multiplier(e,"income")-0.0001)) if gain[key]>0 else 0
   income[key]=n;e.stock[key]=mini(Table.CAP,e.stock[key]+n)
  var floor_cond=preset(e).floor
  e.cond.quietus=maxi(floor_cond,mini(e.cond.quietus,roundi(facts.hull)))
@@ -231,11 +240,10 @@ static func refill(e:Dictionary)->void:
  for target in TARGETS:e.cond[target]=100
 # ---- presets ---------------------------------------------------------------
 static func cycle_preset(e:Dictionary)->bool:
- if e.ironman:return false
- e.preset=ORDER[(ORDER.find(e.preset)+1)%ORDER.size()]
- if preset(e).replenish:refill(e)
- return true
+ var choices=Options.choices(e)
+ return Options.request(e,choices[0]) if not choices.is_empty() else false
 static func set_ironman(e:Dictionary)->void:
+ if not Options.state(e).pending.is_empty():return
  e.ironman=true
 # Read helper for the save layers (SAVE2 and profiles): true only for a well-formed Ironman block.
 static func is_ironman(e)->bool:
@@ -246,9 +254,10 @@ static func valid_archive(data:Dictionary)->bool:
  return not data.has("economy") or valid(data.economy)
 static func valid(value)->bool:
  if not value is Dictionary or not value.has_all(["preset","ironman","stock","spares","cond","last_fit","settled","report"]):return false
- if value.size()!=8+int(value.has("unlocks"))+int(value.has("permanent_losses")):return false
+ if value.size()!=8+int(value.has("unlocks"))+int(value.has("permanent_losses"))+int(value.has("economy_options")):return false
  if value.has("permanent_losses") and not Losses.valid(value.permanent_losses):return false
  if not value.preset is String or value.preset not in ORDER or not value.ironman is bool:return false
+ if value.has("economy_options") and not Options.valid(value.economy_options,value.preset,value.ironman):return false
  if not value.stock is Dictionary or value.stock.size()!=RES.size():return false
  for key in RES:
   if not value.stock.get(key) is int or value.stock[key]<0 or value.stock[key]>Table.CAP:return false

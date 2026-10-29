@@ -36,6 +36,7 @@ operation_catalog_tests|OPERATION CATALOG|31|19
 depth_sonar_tests|DEPTH SONAR|32|20
 survivor_ascent_tests|SURVIVOR ASCENT|741|841
 sweeper_tests|SWEEPER|33|22
+role_senses_tests|ROLE SENSES|744|844
 depth_policy_journeys|DEPTH POLICY|34|23
 depth_sonar_ui_tests|DEPTH SONAR UI|35|24
 depth_policy_ui_tests|DEPTH POLICY UI|36|25
@@ -319,6 +320,7 @@ quality_ui_tests|QUALITY UI|306|407|render
 economy_tests|ECONOMY|350|450
 economy_save_tests|ECONOMY SAVE|351|451
 economy_campaign_sim_tests|ECONOMY CAMPAIGN|352|452
+economy_options_tests|ECONOMY OPTIONS|743|843
 crew_tests|CREW|590|690
 field_tools_tests|FIELD TOOLS|360|460
 tool_racks_tests|TOOL RACKS|361|461|render
@@ -331,4 +333,3 @@ expedition_session_tests|EXPEDITION SESSION|371|471
 career_tests|CAREER|380|480
 rider_tests|RIDER|312|413
 rider_ui_tests|RIDER UI|313|414|render
-role_senses_tests|ROLE SENSES|743|843
