@@ -91,6 +91,7 @@ func shape_case(shape):
 	game._show_campaign();game.capture_scenario=""
 	settings_api.current["text_scale"] = 1.5
 	debrief_last(game);await settle()
+	if game.get_node_or_null("ArcCard")!=null:await press(game,"arc_continue")
 	wall_case(game,true,"first successful operation 34 recovery")
 	check(game.expedition.completed.count(34)==1,"the first successful recovery records operation 34 once")
 	check(value_if_present(game,"end_of_line_seen")==true,"first recovery records End of Line as seen")
@@ -157,6 +158,7 @@ func shape_case(shape):
 			check(game.screen=="menu" and game.get_node_or_null("Frontend")==null,"Android Back leaves existing credits for unobscured Operations")
 	# Replay the recovered operation after the once-only automatic intro.
 	debrief_last(game);await settle()
+	if game.get_node_or_null("ArcCard")!=null:await press(game,"arc_continue")
 	wall_case(game,false,"operation 34 replay")
 	if await press(game,"back"):check(game.screen=="menu","replay wall Back returns to Operations")
 	# Old complete-pair saves without the optional field must still get a manual replay.

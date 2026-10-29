@@ -7,6 +7,7 @@ const Shelf=preload("res://src/simulation/shelf_habitat.gd")
 const Wake=preload("res://src/simulation/wake_crossing.gd")
 const Operations=preload("res://src/simulation/resolution_operations.gd")
 const Concealed=preload("res://src/simulation/concealed_harbour.gd")
+const Sorley=preload("res://src/campaign/sorley_rescue.gd")
 const Witness=preload("res://src/simulation/witness_evacuation.gd")
 const Recipient=preload("res://src/simulation/warning_recipient.gd")
 const Correlator=preload("res://src/equipment/cadence_correlator.gd")
@@ -52,6 +53,7 @@ const save_checks = [
 	["features", ContactReports, "valid", "snapshot"],
 	["photo", Photo, "valid", "mission"],
 	["world", WorldRegion, "valid", "snapshot"],
+	["world", Sorley, "valid", "snapshot"],
 	["world", Witness, "valid", "snapshot"],
 	["world", Concealed, "valid", "snapshot"],
 	["world", Recipient, "valid", "snapshot"],

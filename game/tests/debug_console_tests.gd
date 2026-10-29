@@ -27,6 +27,29 @@ func run():
     check(game.sim.mission.id==34 and game.sim.mission.get("launch_context",{}).get("facts",{}).get("confluence_route")==channel,"ordinary authored launch consumes history")
  for id in Console.Catalog.registered_ids():
   game.active_started=false;dev.execute("jump "+str(id));check(game.sim.mission.id==id,"jump authored op "+str(id))
+ # Reconcile PR207 operation41 and PR208 locker-aware rack grants.
+ game.active_started=false;game.screen="menu";dev.open()
+ var picker=dev.panel.body.get_child(4)
+ check(picker is OptionButton and picker.get_item_index(41)>=0,"operation picker includes authored Sorley rescue41")
+ dev.panel.hide();dev.execute("preset shelf overt concealed found");dev.execute("jump 41")
+ check(game.sim.mission.id==41 and game.sim.mission.launch_context.facts.sorley_boy=="rescued","Sorley launch consumes found preset")
+ game.active_started=false;dev.execute("preset deep concealed none absent");dev.execute("jump 41")
+ check(not game.sim.mission.launch_context.facts.has("sorley_boy"),"Sorley absent preset suppresses inherited rescue")
+ game.active_started=false;game.tool_racks=dev.Racks.empty();game.sim.selected=1
+ check(dev.execute("grant sonobuoy")=="Granted sonobuoy","tool grant fits drone dedicated locker")
+ check(game.tool_racks.drone_a.get("sonobuoy",0)==1 and dev.Racks.cargo_ticks(game.tool_racks,1)==0,"grant uses selected craft locker before cargo")
+ var rack_archive=game._archive()
+ check(rack_archive.tool_racks_version==100 and game.store.valid(rack_archive),"DEV archive retains locker migration version")
+ game.tool_racks=dev.Racks.empty();dev.Racks.write_archive(rack_archive,game.tool_racks)
+ check(dev.Racks.migrated(rack_archive,game.fitted_equipment)==dev.Racks.empty(),"explicit empty DEV racks survive locker migration")
+ game.sim.selected=0;dev.execute("grant hull_patch")
+ var racks_before=game.tool_racks.duplicate(true)
+ check(dev.execute("grant hull_patch")!="Granted hull_patch" and game.tool_racks==racks_before,"grant retains hull patch count limit")
+ game.sim.selected=1
+ check(dev.execute("grant knock")!="Granted knock" and game.tool_racks==racks_before,"drone grants retain Quietus-only restriction")
+ game.sim.selected=0;dev.execute("jump 41")
+ check(game.sim.mission.tool_racks==game.tool_racks,"DEV launch retains locker rack allocation")
+ game.active_started=false
  game.active_started=false;game.screen="menu";dev.execute("complete 17");check(17 in State.setup(game).completed,"DEV completion setup")
  dev.execute("fact glass_choice service");check(State.setup(game).history.glass_choice=="service","fact set")
  dev.execute("clear glass_choice");check(not State.setup(game).history.has("glass_choice"),"fact clear")
@@ -136,6 +159,22 @@ func run():
   session.debug_console=old;session.queue_free();await process_frame
  dev.debrief();check(game.screen=="dev_debrief","DEV debrief owns terminal flow")
  check(game.completed.is_empty(),"DEV result never credits campaign or Ironman progression")
+ # DEV seeded runs must survive frontend persist/restore without writing records.
+ var run_archive=preload("res://src/campaign/runs/run_archive.gd")
+ var run_state=preload("res://src/campaign/runs/run_state.gd")
+ var sidecar=game.store.path+".runs"
+ var bytes_before=FileAccess.get_file_as_bytes(sidecar) if FileAccess.file_exists(sidecar) else PackedByteArray()
+ var records_before=game.get_meta("runs_records",{}).duplicate(true)
+ run_archive.restore(game)
+ records_before=game.get_meta("runs_records",{}).duplicate(true)
+ var seeded=run_state.new_run(210)
+ check(run_archive.persist(game,seeded) and run_archive.restore(game)==seeded,"DEV seeded run survives frontend persist and restore")
+ var ended=run_state.interrupted(run_state.launch(seeded))
+ check(run_archive.persist(game,ended) and run_archive.restore(game)==ended,"DEV ended run remains diagnosable in memory")
+ var bytes_after=FileAccess.get_file_as_bytes(sidecar) if FileAccess.file_exists(sidecar) else PackedByteArray()
+ check(bytes_before==bytes_after and game.get_meta("runs_records",{})==records_before,"DEV seeded and ended runs preserve sidecar and records")
+ game._new_campaign()
+ check(not State.marked(game) and not game.has_meta("dev_runs_cache") and run_archive.restore(game).is_empty(),"New Campaign discards ephemeral DEV run before restoring eligibility")
  game.queue_free();await process_frame
  await replacement_case("manual");await replacement_case("fork")
  for suffix in ["",".bak",".tmp"]:DirAccess.remove_absolute("user://101-dev-test.save"+suffix)

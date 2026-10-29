@@ -24,6 +24,8 @@ func metadata_text(node):
 	return text
 
 func touch_press(node,id:String)->bool:
+	if id!="arc_continue" and node.get_node_or_null("ArcCard")!=null:
+		if not await touch_press(node,"arc_continue"):return false
 	var control=button(node,id)
 	check(control!=null,"visible touch action "+id)
 	if control==null:return false

@@ -13,6 +13,7 @@ static func key(op:int,slot:String)->String:
 	return "%d:%s"%[op,slot]
 # {"speaker","text"} for one slot, or {} when the operation has no line there.
 static func row(op:int,slot:String)->Dictionary:
+	if op==41 and not preload("res://src/campaign/sorley_rescue.gd").enabled:return {}
 	var slot_index=Table.SLOTS.find(slot)
 	if not Table.enabled or slot_index<0:return {}
 	var set:Array=Table.LINES.get(op,Table.GENERIC if op in Table.GENERIC_IDS else [])

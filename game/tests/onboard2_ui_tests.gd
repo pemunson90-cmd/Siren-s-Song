@@ -26,6 +26,7 @@ func shape_case(shape):
   game.expedition=progress029(id)
   check(game.ExpeditionCampaign.valid(game.expedition),"valid source-known briefing context "+str(id))
   game._briefing(id);await settle()
+  if game.get_node_or_null("ArcCard")!=null:await press(game,"arc_continue")
   var goal=Rows029.goal(id,game.OnboardingText.goal(id));var labels=game.panel_box.find_children("*","Label",true,false)
   var matching=labels.filter(func(label):return label.text==goal)
   if id in [3,6,32]:print("ONBOARD2_GEOMETRY ",JSON.stringify({"id":id,"shape":str(shape),"host":str(game.size),"scroll":str(game.scroll.get_global_rect()),"labels":labels.map(func(label):return {"text":label.text,"rect":str(label.get_global_rect()),"font":label.get_theme_font_size("font_size")}),"footer":game.menu_footer.get_children().map(func(c):return {"action":c.get_meta("ui_action",""),"rect":str(c.get_global_rect()),"minimum":str(c.custom_minimum_size)})}))
@@ -73,6 +74,7 @@ func shape_case(shape):
  Rows029.enabled=true
  for id in [0,1,2]:
   game._briefing(id);await settle()
+  if game.get_node_or_null("ArcCard")!=null:await press(game,"arc_continue")
   check(game.OnboardingText.goal(id) in texts029(game) and not "NEW THIS DIVE:" in texts029(game),"first three briefings retain existing text")
  game.queue_free();await settle()
 func run():

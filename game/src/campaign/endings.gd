@@ -76,6 +76,8 @@ static func resolve(progress:Dictionary,channel:String="")->Dictionary:
   else:
    result.outcome="Everyone out. The water is closed to Quietus."
    result.story=first+"The call had gone out on a military post's channel. Brannock took every survivor aboard. The Sirens registered Quietus as a threat, and Quietus cannot dive near them again."
+ var sorley=preload("res://src/campaign/sorley_rescue.gd").line(progress)
+ if not sorley.is_empty():result.story+=" "+sorley
  return result
 
 static func carrier_name(arrival:String)->String:return {"quietus":"QUIETUS","drone_a":"DRONE A","drone_b":"DRONE B"}.get(arrival,"The rescue craft")

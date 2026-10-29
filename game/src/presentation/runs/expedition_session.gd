@@ -6,6 +6,7 @@ const RunArchive=preload("res://src/campaign/runs/run_archive.gd")
 const RunSimulation=preload("res://src/campaign/runs/expedition_run.gd")
 const RunTable=preload("res://src/campaign/runs/run_table.gd")
 const RunOffers=preload("res://src/campaign/runs/run_offers.gd")
+const SummaryView=preload("res://src/presentation/runs/run_summary_view.gd")
 const OfferView=preload("res://src/presentation/runs/offer_view.gd")
 var campaign_host
 var run_state:Dictionary={}
@@ -85,7 +86,8 @@ func _result_menu()->void:
 		var r:Dictionary=run_state.results.back().get("rider",{})
 		if not r.get("assignment",{}).is_empty():
 			_menu_text("RIDER %s · BONUS %s"%["PASSED" if r.passed else "FAILED",RunState.rider_bonus_text(r.assignment) if r.passed else "NONE"],17)
-	_show_photo_grade(sim.mission.objectives)
+	if run_state.status!="active":SummaryView.session(self)
+	else:_show_photo_grade(sim.mission.objectives)
 	if not RunArchive.persist(campaign_host,run_state):
 		_menu_text("RESULT NOT SAVED · "+str(campaign_host.get_meta("runs_save_error","")),17)
 		_button(panel_box,"RETRY SAVE",_result_menu,"run_retry_save")

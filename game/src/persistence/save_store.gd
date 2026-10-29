@@ -37,6 +37,7 @@ func valid(data: Dictionary) -> bool:
 	if not preload("res://src/campaign/early_reward/early_reward.gd").valid(data):return false
 	if not preload("res://src/presentation/first_siren_cue/cue_archive.gd").valid(data):return false
 	if not preload("res://src/presentation/finale/finale.gd").valid(data):return false
+	if not preload("res://src/campaign/arcs/arc_table.gd").valid(data):return false
 	if data.has("challenges") and not preload("res://src/campaign/challenges/challenge_records.gd").valid(data.challenges):return false
 	if data.has("intel") and not preload("res://src/campaign/photo_intel.gd").valid(data.intel):return false
 	if data.has("expedition") and not preload("res://src/campaign/expedition_campaign.gd").valid(data.expedition):return false

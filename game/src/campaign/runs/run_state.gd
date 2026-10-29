@@ -56,6 +56,7 @@ static func _stock(value)->bool:
 static func _result(value,op:int,stock:Dictionary)->bool:
 	if not value is Dictionary or not value.has_all(["op","outcome","time","hull","tools","story"]):return false
 	if not value.op is int or value.op!=op or value.outcome not in ["won","lost"]:return false
+	if value.has("photo") and not _number(value.photo,-1.,1.):return false
 	if not _number(value.time,0.,604800.) or not _number(value.hull,0.,100.) or not _stock(value.tools):return false
 	for key in Table.TOOLS:
 		if value.tools[key]>stock[key]:return false

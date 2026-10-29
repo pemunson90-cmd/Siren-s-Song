@@ -289,6 +289,7 @@ func _credits_screen() -> void:
 # Main routes Android Back and Escape here before changing the campaign underneath.
 func back() -> void:
 	if screen.begins_with("profile"):profile_picker.back();return
+	if screen in ["run_seed","run_record","run_end"]:load("res://src/presentation/runs/modes_frontend.gd").expeditions(self);return
 	if screen=="expeditions":_mode_select();return
 	if screen == "challenge_details":
 		load("res://src/presentation/frontend/challenges_frontend.gd").show(self)

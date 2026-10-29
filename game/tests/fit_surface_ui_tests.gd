@@ -58,6 +58,7 @@ func shape_case(shape):
      check(not "drone_deep_cells" in game.fitted_equipment.values(),"one tap unfits the module "+label)
   await android_back();check(game.screen=="menu","Android Back leaves Fittings "+label)
  game._briefing(0);await settle()
+ if game.get_node_or_null("ArcCard")!=null:await press(game,"arc_continue")
  var texts=game.panel_box.find_children("*","Label",true,false).map(func(l):return l.text)
  check(button(game,"fit_summary")!=null and not texts.any(func(t):return "FITTED" in t and "POWER" in t),"opening briefing keeps fit summary optional "+label)
  if await press(game,"fit_summary"):

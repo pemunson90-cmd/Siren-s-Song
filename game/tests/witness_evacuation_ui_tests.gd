@@ -164,6 +164,11 @@ func already_home(dimensions:Vector2i,label:String):
  check(land!=null and land.is_visible_in_tree() and not land.disabled,"already-home Quietus still requires actual carrier's local LAND touch "+label)
  if land!=null and land.is_visible_in_tree() and not land.disabled:
   await tap(land.get_global_rect().get_center());advance(s,.02);g._process(0);await settle()
+  var arc=g.get_node_or_null("ArcCard")
+  if arc!=null:
+   var continue_controls=arc.find_children("*","Button",true,false)
+   check(not continue_controls.is_empty(),"arc departure offers touch Continue before arrival feedback "+label)
+   if not continue_controls.is_empty():await tap(continue_controls[0].get_global_rect().get_center())
   var arrival=g.menu.find_child("WitnessArrival",true,false)
   check(s.outcome=="won" and g.screen=="ending" and arrival!=null and arrival.is_visible_in_tree(),"same-frame ending cannot erase real witness arrival feedback "+label)
   if arrival!=null:
