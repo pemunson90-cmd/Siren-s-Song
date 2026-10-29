@@ -12,6 +12,7 @@ const IDLE_HEARTBEAT_SECONDS=0.1
 const DECORATIVES={
 	"regional_dust_drift":{STANDARD:true,LOW_EFFECTS:false},
 	"regional_water_light_bands":{STANDARD:true,LOW_EFFECTS:false},
+	"ambient_sea_life":{STANDARD:true,LOW_EFFECTS:false},
 }
 static func normalize(value:Variant)->String:
 	return LOW_EFFECTS if value is String and value==LOW_EFFECTS else STANDARD

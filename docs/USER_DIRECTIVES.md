@@ -1,3 +1,14 @@
+## 29 October 2026: presentation placeholders (handoff 113)
+
+[PAT, verbatim selections recorded in PAT_RULINGS_2026-10-29.md, Claude S6]
+
+15. "Give each hull and chassis a distinct silhouette so you can tell them apart at a glance? (Art, your call.)" = "Yes (Recommended)" (17)
+16. "Give each Siren role its own sound, heard only once sonar has earned it?" = "Yes (Recommended)" (20)
+17. "Add a little ambient sea life, in colours that never look like contacts and never on sonar? (Art, your call.)" = "Yes, limited (Recommended)" (19)
+19. "Use a placeholder title art, icon and splash built from the Quietus silhouette until you supply art?" = "Yes, placeholder (Recommended)" (18, 22)
+
+[KEEL / implementation scope] Silhouettes, synthesized role cues, limited visual sea life and replaceable Quietus key art are AI-DESIGNED placeholders consistent with the existing palette. Exact role sounds share the earned identification boundary from handoff 106. Sea life is decorative, excluded from sonar and chart, and disabled in battery saver. Simulation and campaign rules retain their existing behavior.
+
 ## 29 October 2026: second story fork in arc 5 (handoff 108)
 
 2. "Add one more story fork in arc 5, so earlier play picks which later ops you get?" = "Yes, one fork (Recommended)" (2)

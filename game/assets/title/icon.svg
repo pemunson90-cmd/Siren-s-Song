@@ -1,0 +1,9 @@
+<!-- Replaceable placeholder key art: quietus silhouette, kept as editable vector source. -->
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <rect width="512" height="512" fill="#07141c"/>
+  <circle cx="256" cy="256" r="226" fill="#10252d" stroke="#48636a" stroke-width="8"/>
+  <path d="M75 255 111 222 193 211 224 190 289 194 325 213 416 224 451 254 429 278 372 297 137 297 75 273Z" fill="#263841" stroke="#9bb0aa" stroke-width="9" stroke-linejoin="round"/>
+  <path d="M151 236h208M137 279h241" stroke="#526a6d" stroke-width="6"/>
+  <path d="M254 180 269 144 284 184" fill="none" stroke="#c09860" stroke-width="8" stroke-linejoin="round"/>
+  <text x="256" y="379" text-anchor="middle" fill="#82916c" font-family="sans-serif" font-size="25" letter-spacing="5">PLACEHOLDER</text>
+</svg>

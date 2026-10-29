@@ -10,6 +10,7 @@ const PHOSPHOR=Color("8cdcd3")
 const PhotoView=preload("res://src/presentation/photo_view.gd")
 const Priced=preload("res://src/presentation/photo_pricing/photo_pricing_overlay.gd")
 const Photo=preload("res://src/simulation/photo_capture.gd")
+const Quality=preload("res://src/presentation/quality/quality_table.gd")
 var _vm:Dictionary={}
 var _shot_count:=-1
 var _shot_seen_reset:=true
@@ -103,6 +104,7 @@ func _draw_photo(t:Dictionary) -> void:
 		art_lamp_mission=sim.mission.id;art_lamp_clock=sim.elapsed;art_lamp_source=sim.mission
 		_vm=PhotoView.from_frame(_frame,"siren" if o.has("siren") else "site",str(o.get("optical",o.get("site_id",""))),str(o.subject.get("type","")) if o.has("siren") else "")
 	PhotoView.draw(self,picture,_vm,time,fs)
+	if not live and Quality.decorative_enabled("ambient_sea_life",Settings.current.get("quality",Quality.STANDARD)):_draw_ambient_sea_life(picture)
 	Priced.draw_viewfinder(self,sim,uid,o,picture,fs,_frame)
 	_draw_quality(quality_rect,fs)
 	var since:=time-_filed_at
@@ -156,6 +158,16 @@ func _draw_photo(t:Dictionary) -> void:
 		draw_string(font,Vector2(size.x-70,size.y-fs-18),"%02d%%"%int(progress*100),HORIZONTAL_ALIGNMENT_LEFT,-1,fs,PHOSPHOR)
 		draw_rect(Rect2(10,size.y-9,size.x-20,3),Color("25464b"));draw_rect(Rect2(10,size.y-9,(size.x-20)*progress,3),PHOSPHOR)
 	draw_string(font,Vector2(10,size.y-12),status,HORIZONTAL_ALIGNMENT_LEFT,-1,fs,Color("a9c9c7"))
+func _draw_ambient_sea_life(picture:Rect2)->void:
+	# Viewfinder atmosphere only: no species data, collision, chart marks, sonar
+	# return, photo finding or archived-frame modification. Olive is not contact cyan.
+	var tint=Color("a1a27a",.68)
+	for n in 4:
+		var x=picture.position.x+picture.size.x*([.10,.19,.82,.90][n])
+		var y=picture.position.y+picture.size.y*([.74,.81,.18,.25][n])
+		var center=Vector2(x,y)+Vector2(sin(time*1.3+n)*2.,0.)
+		draw_colored_polygon(PackedVector2Array([center+Vector2(-6,-2),center+Vector2(2,-3),center+Vector2(7,0),center+Vector2(2,3),center+Vector2(-6,2)]),tint)
+		draw_colored_polygon(PackedVector2Array([center+Vector2(-5,0),center+Vector2(-10,-3),center+Vector2(-9,3)]),tint)
 func _draw_quality(picture:Rect2,fs:int)->void:
 	var width=(picture.size.x-24)/2.
 	for n in 2:
