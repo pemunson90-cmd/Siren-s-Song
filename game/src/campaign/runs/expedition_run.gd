@@ -2,13 +2,17 @@ extends "res://src/presentation/career/rider_dive.gd"
 # Only session policy changes: operation context, finite supplies and initial Hunt.
 # Physical rules, photography, oxygen, film and enemy behavior stay inherited.
 # Revert: choose the ordinary Simulation at the mode seam.
+const SeededPatrol=preload("res://src/campaign/runs/seeded_siren_patrol.gd")
 const RunState=preload("res://src/campaign/runs/run_state.gd")
 const RunTable=preload("res://src/campaign/runs/run_table.gd")
 var run_state:Dictionary={}
+var dev_launch=false
 func start_dev(index:int,upgrade:String,launch:Dictionary)->void:
 	# Console-only transient launch: bypass seeded operation selection, retain rules.
 	# DEV session guards exclude this simulation from checkpoints and settlement.
+	dev_launch=true
 	super.start(index,upgrade,launch)
+	dev_launch=false
 func configure(state:Dictionary)->bool:
 	if not RunTable.enabled or state.is_empty() or not RunState.valid(state) or state.status!="active":return false
 	run_state=state.duplicate(true)
@@ -27,6 +31,8 @@ func start(_index:int,_upgrade:String="endurance",_launch:Dictionary={})->void:
 		mission.reconnaissance=pressure;mission.hunt_pressure.stage=stage
 	mission["run_seed"]=run_state.seed
 	_observe()
+func _prepare_siren_starts()->void:
+	if not dev_launch and not run_state.is_empty():SeededPatrol.apply(self,int(run_state.seed))
 func result(abandoned:bool=false)->Dictionary:
 	var counts=run_state.stock.duplicate()
 	for key in tools:counts[key]=int(tools[key])
