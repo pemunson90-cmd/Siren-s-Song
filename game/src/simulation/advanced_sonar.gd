@@ -8,7 +8,7 @@ const SOUND_SPEED=300.0 # Tactical time scale, bounded two-way travel; not calib
 const MAX_HISTORY=72
 const POWERS={"low":{"radius":440.,"cost":.4,"signature":750.},"high":{"radius":720.,"cost":1.2,"signature":1300.}}
 static func initial()->Dictionary:
- return {"sector":"all","power":"low","pending":[],"history":[],"fixes":{},"clock":0.0,"listening_until":[-1.,-1.,-1.]}
+ return {"sector":"all","power":"low","pending":[],"history":[],"fixes":{},"identified":{},"clock":0.0,"listening_until":[-1.,-1.,-1.]}
 static func configure(sim,args)->bool:
  if args.get("sector") not in ["all","forward"] or args.get("power") not in ["low","high"]:return false
  sim.sonar.sector=args.sector;sim.sonar.power=args.power
@@ -79,6 +79,7 @@ static func advance(sim,dt):
   elif packet.kind=="echo":
    if packet.direct and (not sim.contacts.has(packet.enemy) or sim.contacts[packet.enemy].time<=packet.time):
     sim.contacts[packet.enemy]={"pos":packet.pos,"time":packet.time,"mode":"ECHO","lock":0.0,"angle":0.0,"target":-1,"type":packet.type,"band":packet.band,"seen_by":[],"source":"active","confidence":.9}
+    preload("res://src/simulation/contact_identity.gd").decorate(sim,packet.enemy)
    _remember(sim,{"station":packet.station,"enemy":packet.enemy,"origin":packet.origin,"direction":packet.direction,"time":packet.time,"band":packet.band if packet.direct else -1,"confidence":.9 if packet.direct else .35,"tone":packet.tone,"classification":packet.type if packet.direct else "DIFFRACTED ECHO","direct":packet.direct,"kind":"echo"})
  sim.sonar.clock-=dt
  if sim.sonar.clock>0:return
@@ -107,7 +108,7 @@ static func advance(sim,dt):
    if network:
     row.classification=("LISTENER UPLINK" if enemy.type=="buoy" else "RELAY FORWARDING") if enemy.get("network",{}).get("charge",0)>0 else "STATION TONE"
     if enemy.get("network",{}).get("charge",0)>0 and not sim.sonar.history.any(func(old):return old.station==station and old.enemy==id and old.classification==row.classification and sim.elapsed-old.time<3.):
-     sim.events.append({"type":"carrier_received" if enemy.type=="buoy" else "return_received","receiver":station,"direction":direction,"identity":"network","time":sim.elapsed})
+     sim.events.append({"type":"carrier_received" if enemy.type=="buoy" else "return_received","receiver":station,"direction":direction,"identity":"network","enemy":id,"time":sim.elapsed})
    # Correlate an actual received motor tone; indistinguishable received
    # sources suppress positional inference instead of inventing a unique fix.
    var ambiguous=sim.sonar.history.any(func(old):return old.tone==row.tone and old.enemy!=id and sim.elapsed-old.time<=3.)
@@ -126,7 +127,7 @@ static func advance(sim,dt):
      # Independent rays support an uncertain fix, never live tracking.
      sim.sonar.fixes[id]={"pos":fix,"time":sim.elapsed,"confidence":minf(confidence,previous.confidence),"band":-1}
    if row.classification==Sweeper.WARNING and not sim.sonar.history.any(func(old):return old.enemy==id and old.station==station and old.classification==Sweeper.WARNING and sim.elapsed-old.time<4.):
-    sim.events.append({"type":"sweep_received","receiver":station,"direction":direction,"time":sim.elapsed})
+    sim.events.append({"type":"sweep_received","enemy":id,"receiver":station,"direction":direction,"time":sim.elapsed})
    _remember(sim,row)
  for id in sim.sonar.fixes.keys():
   if sim.elapsed-sim.sonar.fixes[id].time>3:sim.sonar.fixes.erase(id)

@@ -480,7 +480,7 @@ func refresh():
  for row in received:
   if sim.elapsed-row.time>1.2 or row.classification!=preload("res://src/simulation/sweeper_senses.gd").WARNING:continue
   var bearing=fposmod(rad_to_deg(atan2(row.direction.x,-row.direction.y)),360.)
-  var heard="HEARD %s · %03d° · %.1fs"%[row.classification,roundi(bearing)%360,sim.elapsed-row.time]
+  var heard="HEARD %s · %03d° · %.1fs"%[preload("res://src/simulation/contact_identity.gd").classification(sim,row),roundi(bearing)%360,sim.elapsed-row.time]
   if host.advanced_orders:alarm.text=(alarm.text+"\n" if alarm.visible else "")+heard
   elif warnings.is_empty():alarm.text=heard
   alarm.visible=true;break

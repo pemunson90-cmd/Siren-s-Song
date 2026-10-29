@@ -34,6 +34,8 @@ func _notice(id:int,source:Vector2)->void:
 # One-time kind note: reads only the public sirens[id].type, adds no sim field.
 func _note_type(id:int)->void:
  if id<0 or id>=sim.sirens.size():return
+ var identity=preload("res://src/simulation/contact_identity.gd")
+ if not identity.known(sim,id) and not identity.sighted(sim,id):return
  var kind=str(sim.sirens[id].get("type","patroller"))
  if not Table.TYPE_NAMES.has(kind) or kind in types_seen:return
  types_seen.append(kind)
@@ -42,6 +44,9 @@ func notes()->Array:
  if sim==null:return []
  _observe_clock()
  if not Table.enabled:return []
+ # A first acoustic notice may precede sight; the first-hand role note can
+ # arrive later without replaying the bearing warning or consuming a notice.
+ for id in sim.sonar.get("identified",{}):_note_type(id)
  return note_records.filter(func(row):return sim.elapsed>=row.time and sim.elapsed-row.time<Table.NOTE_DURATION)
 func saved_types()->Array:
  return types_seen.duplicate()
