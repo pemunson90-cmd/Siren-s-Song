@@ -1,4 +1,4 @@
-[QUEUE RUNNER 2026-10-29T19:53:41.2071412-04:00] running: 116 PIDunknown, 117 PID25876; done: 103, 106, 113, 110, 112, 109, 114, 108, 111; blocked: 105, 104, 115.
+[QUEUE RUNNER 2026-10-29T19:55:51.0444067-04:00] running: 115 PID35776, 116 PID760, 117 PID25876; done: 103, 106, 113, 110, 112, 109, 114, 108, 111; blocked: 105, 104.
 
 **[Claude S8 2026-10-29T19:54:52-0400] 115 PR227 is not BLOCKED by design: its own op 39 geometry broke 8 optional-cache checks (CI shard 2). Claude reopened 115 for a bounded CI repair (same branch, intent PASS stands if gameplay tables are unchanged) and paused 116 (started 3 min ago on a base without 115; it resumes onto merged 115).**
 
