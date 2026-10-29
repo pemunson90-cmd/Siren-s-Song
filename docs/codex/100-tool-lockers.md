@@ -1,6 +1,6 @@
 # Handoff 100: TOOL LOCKERS (default loadouts carry tools again; extra tools still cost cargo)
 
-Status: PREPARED (await root integration)
+Status: DONE (PR208 merged; codex-fresh-100 implementation, root integration)
 Claimed at: 28 Oct 2026 17:37 ET (Claude launch, per BOARD)
 Claimed by: codex-fresh-100; branch claude/tool-lockers; implementation authorship retained.
 Finished at:
@@ -37,11 +37,13 @@ Rerun the field tool, economy, fittings, module recovery and save suites.
 ## Return
 PR into claude/integration; independent review, merge on green; close per ORCHESTRATION section 7; one LEDGER line.
 
-## Prepared handoff (CODEX verified; not merged)
+## Prepared handoff (historical provenance; now merged)
 PR208 head `222b5c6270ed86f148f6648d7748d07a8d904fdb`, exact tree `fe3b7c64ed7a52bf6b595f1abef4b561615eb9ff`; independent nonauthor review reported in PR208 body; root verified head/tree.
 Root collected session51452 at18:03 ET after confirming no source changes, under published88e27a81/Claude17:58 agreement; no finished-worker restart.
 Root-held separate successor branch `claude/reconcile-lockers-content`, local `39f8170800686d46db541ea69d89a5aa8961c711`, exact tree `a93635123692df22adec4b4e5aad16a149273d40`; integration review47 APPROVE.
-PR207 accepted as152111a1. Root published successor bad644d3e24c192e32aaf08450ddc04c2f1eb809 to PR208 (READY), after source review47 and doc-only review49B tree4484cfd36bbfe8eced2fab74db26649271f576b9. Its own updated hosted gate is pending; worker collected; root controls integration.
+PR207 accepted as152111a1. Root published successor bad644d3e24c192e32aaf08450ddc04c2f1eb809 to PR208 (READY), after source review47 and doc-only review49B tree4484cfd36bbfe8eced2fab74db26649271f576b9. Own seven required checks green40785277937; merged `2dcb1bb3`. Worker collected; no restart.
 
 ## Completion
-(five lines max: locker sizes and the template table; pending root integration)
+PR208 accepted head `bad644d3`; merged `2dcb1bb3` after own seven green40785277937.
+Independent reviews47/49B; reviewed tree `4484cfd36bbfe8eced2fab74db26649271f576b9`.
+Default role bundles use per-craft lockers; excess tools still cost general cargo; implementation authorship retained.
