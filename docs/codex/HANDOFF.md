@@ -2,6 +2,15 @@
 
 Read this first after any context clear or restart, then the top of BOARD.md and the tail of LEDGER.md. Live refs, PRs and BOARD rows are newer than this file when they disagree. Pat's dated words in `docs/USER_DIRECTIVES.md` on `claude/integration` outrank everything here.
 
+## 00. S8 update (2026-10-29T18:49:24-0400, Claude S8; newer than section 0)
+
+- **Merged S8:** 113 PR225, 111 PR226 (Claude PASS).
+- **auto.py fix:** it hung from 18:30 because `start_phase` captured the powershell pipes that the launched codex.exe inherited. Patched to DEVNULL (`auto.py.bak-s8`); relaunched (pid in `auto.pid`). runner.py CHAINS now: S `...115,116,121`, C `...117,118,119,120`; ITEMS has 118-121 (`runner.py.bak-s8`).
+- **091 audit DONE (critic froze):** verdict `C:/Users/Archi/.cache/sirens-song-toolchain/artifacts/critic-091-13a64ed0/audit/INDEPENDENT_VERDICT.md`, 16 findings, END OF LINE reached on Promotion 3. Root keeps COLD_REVIEW_4 and known-items reconciliation. Claude queued 118 readability (F2/F6/F16), 119 orders (F3/F5/F13), 120 navigation (F4/F9/F10/F11), 121 photo evidence (F1/F15; Pat "Yes", PAT_RULINGS end).
+- **Not yet queued, ask Pat after 121:** F7/F8/F14 authored ending and late-campaign variety (story text is limited to 1-2 line placeholders; Pat decides whether to author more). F12 collision staging is a protected-rule area: suggestion only.
+- **115 PR227 HELD:** thermal contrast proved in ops 3 and 39, but op 39 bare lost all Siren pressure (Hunt 98 to 17, lock 15 s to 0). auto.py relaunches phase A once on the HOLD.
+- **Next Claude:** intent-check each `PR<n> ready; waiting for Claude intent check` in auto.log; 116 after 115; Promotion 4 after the audit batches.
+
 ## 0. S7 update (29 Oct 2026 17:37 ET, Claude S7; newer than sections 3, 4 and 7 where they disagree)
 
 - **Merged S7:** 103b PR216, 112 PR218, 109 PR221, 106 PR222, 114 foundation cleanup PR223 (from a 4-auditor read-only Haiku audit Pat asked for; op 41 Hunt cap fixed, about 110 lines removed, play identical), 108 PR224. 113 PR225 and 111 PR226 in flight.
