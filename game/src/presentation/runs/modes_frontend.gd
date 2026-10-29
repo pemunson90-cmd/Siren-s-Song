@@ -25,12 +25,17 @@ static func expeditions(front)->void:
 	front._button("BACK",func():show(front),"frontend_back")
 	front._text("EXPEDITIONS",32,Color("80d9cf"))
 	front._text("Separate fleet, resources and records. Campaign saves, hard saves and Ironman progress stay in their own timeline. Returning between operations keeps this run; ending a dive loses it.",16)
+	var notice=str(front.host.get_meta("runs_recovery_notice",""))
+	if not notice.is_empty():front._text(notice,16,Color("efc28d"))
 	var error=str(front.host.get_meta("runs_save_error",""))
 	if not error.is_empty():front._text(error,16,Color("efc28d"))
+	if front.host.get_meta("runs_archive_dirty",false):
+		front._button("RETRY SAVE",func():expeditions(front),"run_retry_save")
+		return
 	if not state.is_empty():
 		front._text("SEED %d · %s · %d / %d RECOVERED"%[state.seed,state.status.to_upper(),state.cursor,state.operations.size()],20)
 		if state.status=="active":
-			front._button("CONTINUE EXPEDITION",func():start(front),"run_continue")
+			front._button("RESUME DIVE" if state.in_flight else "CONTINUE EXPEDITION",func():start(front),"run_continue")
 			front._text("Finish or end this expedition before starting another.",16)
 			front._button("END EXPEDITION",func():confirm_end(front,state),"run_end")
 			history(front)
@@ -64,14 +69,13 @@ static func confirm_end(front,state:Dictionary)->void:
 	front._text("The run will be recorded as lost. Campaign progress stays as it was.",17)
 	front._button("KEEP EXPEDITION",func():expeditions(front),"run_keep")
 	front._button("END RUN",func():
-		var launched=State.launch(state) if not state.in_flight else state
-		var ended=State.settle(launched,{"outcome":"lost","op":State.current_operation(state),"time":0.,"hull":100.,"tools":state.stock,"story":{}})
-		if Archive.persist(front.host,ended):record_detail(front,Records.summary(ended))
+		var ended=Archive.abandon(front.host)
+		if not ended.is_empty() and ended.get("status")=="lost" and not front.host.get_meta("runs_archive_dirty",false):record_detail(front,Records.summary(ended))
 		else:expeditions(front)
 	,"run_confirm_end")
 static func start(front)->void:
 	var state=Archive.restore(front.host)
-	if state.is_empty() or state.status!="active":return
+	if state.is_empty() or state.status!="active" or front.host.get_meta("runs_archive_dirty",false):return
 	var session=load("res://scenes/main.tscn").instantiate()
 	session.set_script(load("res://src/presentation/runs/expedition_session.gd"));session.name="ExpeditionSession"
 	session.campaign_host=front.host;session.run_state=state.duplicate(true)

@@ -16,6 +16,9 @@ var prior_visibility:Array=[]
 var prior_sound_suspended=false
 var result_pending=false
 var save_failed=false
+var snapshot_ready=false
+var active_envelope:Dictionary={}
+var pinned_path=""
 func freeze_campaign()->void:
 	prior_mode=campaign_host.process_mode;prior_sound_suspended=campaign_host.sound.system_suspended
 	for child in campaign_host.get_children():
@@ -24,9 +27,16 @@ func freeze_campaign()->void:
 func _bind_state()->void:
 	economy=career_state.economy;expedition=career_state.progress;fitted_equipment=career_state.fitted
 func _ready()->void:
+	pinned_path=campaign_host.store.path
+	active_envelope=campaign_host.get_meta("career_active",{}).duplicate(true)
+	if career_state.in_flight:selected_contract=career_state.active
 	sim=RiderDive.new()
 	_bind_state();hints_seen=OnboardingText.HINTS.keys();settings=campaign_host.settings.duplicate();capture_scenario="career-session"
 	super._ready();active_started=false
+	if not active_envelope.is_empty():
+		active_started=CareerArchive.Active.restore_sim(sim,active_envelope,career_state,"career")
+		mission_index=sim.mission.id;ocean.sim=sim;ocean.focus_craft()
+	snapshot_ready=true
 	FrontendSettings.apply(FrontendSettings.current,self);sound.muted=campaign_host.sound.muted
 	_show_campaign();_layout()
 func _scenario(_name:String)->void:pass
@@ -37,8 +47,26 @@ func ui_density_dpi()->float:
 func ui_density_source()->String:
 	return campaign_host.ui_density_source() if is_instance_valid(campaign_host) else super.ui_density_source()
 func _save_archive()->void:
+	if not snapshot_ready:return
+	# A failed between-dive write owns its exact candidate until committed.
+	var held:Dictionary=campaign_host.get_meta("career_archive_state",{})
+	if campaign_host.get_meta("career_archive_dirty",false) and not held.get("in_flight",false):
+		career_state=held.duplicate(true);_bind_state();active_envelope={}
+		save_failed=not _persist_state(career_state)
+		return
 	career_state.fitted=fitted_equipment.duplicate(true)
-	save_failed=not CareerArchive.persist(campaign_host,career_state)
+	if active_started and career_state.in_flight and not result_pending:
+		active_envelope=CareerArchive.Active.capture("career",career_state,sim,active_envelope)
+	else:active_envelope={}
+	save_failed=not _persist_state(career_state,active_envelope)
+func _enter_water()->void:
+	if save_failed:CareerBoard.show(self);return
+	super._enter_water()
+func _persist_state(state:Dictionary,envelope:Dictionary={})->bool:
+	if campaign_host.store.path!=pinned_path:
+		campaign_host.set_meta("career_save_error","Profile changed. Return to the original profile and retry.")
+		return false
+	return CareerArchive.persist(campaign_host,state,envelope)
 func _equipment_entitlements()->Array:return career_state.progress.entitlements
 func _campaign_completed()->Array:return career_state.progress.completed
 func _launch_context(_index:int)->Dictionary:
@@ -59,11 +87,11 @@ func _begin()->void:
 	if active_started or career_state.in_flight or save_failed:return
 	var launched=Career.launch(career_state,selected_contract,accept_rider)
 	if not launched.in_flight:return
-	if not CareerArchive.persist(campaign_host,launched):
-		save_failed=true;CareerBoard.briefing(self);return
-	career_state=launched;_bind_state();result_pending=false
+	career_state=launched;_bind_state();result_pending=false;active_envelope={}
 	_start_mission(CareerTable.CONTRACTS[selected_contract].op)
 	preload("res://src/campaign/economy.gd").apply_launch(economy,sim)
+	_save_archive()
+	if save_failed:CareerBoard.show(self);return
 	_enter_water()
 func _debrief(abandoned:bool=false)->void:
 	if result_pending:return
@@ -98,12 +126,19 @@ func _show_fittings()->void:CareerBoard.fittings(self)
 func _equipment_context()->Dictionary:
 	return {"slots":fitted_equipment,"available":_equipment_entitlements(),"catalog":preload("res://src/equipment/equipment_catalog.gd").public_catalog(_equipment_entitlements())}
 func _choose_equipment(slot:String,item:String,_index:int)->void:
+	if _mutations_blocked():return
 	var catalog=preload("res://src/equipment/equipment_catalog.gd")
 	var choice=catalog.choose(fitted_equipment,slot,item,_equipment_entitlements())
 	if not choice.ok:return
 	fitted_equipment=choice.fitted;_save_archive();_show_fittings()
+func _mutations_blocked()->bool:
+	return active_started or save_failed or campaign_host.get_meta("career_archive_dirty",false)
+func _apply_fitting(action:Callable)->void:
+	# Shared frame callbacks buy unlocks before choosing, so guard the whole action.
+	if _mutations_blocked():return
+	action.call()
 func _change(action:Callable,redraw:Callable)->void:
-	if active_started:return
+	if _mutations_blocked():return
 	action.call();_save_archive();redraw.call()
 func _frontend_back()->bool:return false
 func _back_exit_handled()->bool:return false

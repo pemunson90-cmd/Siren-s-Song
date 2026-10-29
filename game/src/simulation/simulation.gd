@@ -1388,8 +1388,11 @@ static func valid_snapshot(data: Dictionary) -> bool:
 				if not (p[key] is float or p[key] is int) or not is_finite(p[key]): return false
 			if p.life<=0 or p.life>TORPEDO_LIFE or p.noise_clock<0 or p.noise_clock>0.201: return false
 	if data.units.size()!=3 or not data.tools.has_all(["emp","decoy","recon"]): return false
-	if data.tools.has("knock") and (not data.tools.knock is int or data.tools.knock<0 or data.tools.knock>2): return false
-	if data.has("projectiles") and data.projectiles.size()+data.tools.get("knock",0)>2: return false
+	# 070: existing expedition resupply can carry more charges; physical projectile
+	# limits remain above. ModeActive also validates the actual ledger budget.
+	var knock_cap=FieldTools.stock_cap(data.mission,2)
+	if data.tools.has("knock") and (not data.tools.knock is int or data.tools.knock<0 or data.tools.knock>knock_cap): return false
+	if data.has("projectiles") and data.projectiles.size()+data.tools.get("knock",0)>knock_cap: return false
 	for u in data.units:
 		if not u is Dictionary or not u.has_all(["pos","vel","angle","route","alive","hold","silent","battery","name"]): return false
 		if not u.pos is Vector2 or not u.vel is Vector2 or not u.route is Array: return false

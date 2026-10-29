@@ -320,6 +320,7 @@ field_tools_tests|FIELD TOOLS|360|460
 tool_racks_tests|TOOL RACKS|361|461|render
 expedition_runs_tests|EXPEDITION RUNS|370|470
 run_records_tests|RUN RECORDS|310|411
+mode_resume_tests|MODE RESUME|318|418
 runs_offer_tests|RUNS OFFER|308|408
 runs_offer_ui_tests|RUNS OFFER UI|309|409|render
 expedition_session_tests|EXPEDITION SESSION|371|471
