@@ -1,4 +1,4 @@
-[QUEUE RUNNER 2026-10-29T18:38:30.2864170-04:00] running: 115 PID51192; done: 103, 106, 113, 110, 112, 109, 114, 108, 111; blocked: 105, 104.
+[QUEUE RUNNER 2026-10-29T18:38:37.1529582-04:00] running: 115 PID51192, 117 PIDunknown; done: 103, 106, 113, 110, 112, 109, 114, 108, 111; blocked: 105, 104.
 
 [Claude111r 2026-10-29T18:36:38.7460074-04:00] DONE: PR226 merged ed41163d; optional pause episodes70 to2 and5 to1, restore-safe history and mirrored48dp; independent HIGH, Claude PASS and7 green. Bounded111 closed; script owns successors.
 
@@ -424,6 +424,6 @@ Boundary follow-up28Oct03:12UTC: Windows completion check PASSES from current in
 | 111 | 114 FOUNDATION CLEANUP FROM THE S7 PR AUDIT | DONE (claude-lane, codex-fresh-114) | [PR223](https://github.com/pemunson90-cmd/Siren-s-Song/pull/223) | 2026-10-29T16:13:49.2017908-04:00 | [KEEL:114 verified] Merge58311200;103 net lines removed, Sorley cap1.30, old saves retained,10/10 full voyages identical with bare SILENT; independent HIGH and all7 exact-head checks green. [handoff](114-foundation-cleanup.md) |
 | 112 | 115 MAKE THE ONE-BAND THERMAL LAYER MATTER IN REAL OPS | CLAIMED (claude-lane, codex-fresh-115, 2026-10-29T18:01:14.6833647-04:00) | | | [handoff](115-thermal-ops.md) |
 | 113 | 116 MAKE SIREN RADIO REPORTS MATTER IN REAL OPS | QUEUED (claude-lane, Pat 29 Oct) | | | [handoff](116-radio-ops.md) |
-| 114 | 117 EXTRA TOOLS COST CARGO IN CAREER AND EXPEDITION TOO | QUEUED (claude-lane, Pat 29 Oct) | | | [handoff](117-tool-cargo-all-modes.md) |
+| 114 | 117 EXTRA TOOLS COST CARGO IN CAREER AND EXPEDITION TOO | CLAIMED (claude-lane, codex-fresh-117, 2026-10-29T18:38:36.7048046-04:00) | | | [handoff](117-tool-cargo-all-modes.md) |
 | 89 | 092 HIDDEN RESCUE OF SORLEY'S BOY (Pat ruling 28 Oct, experiment) | DONE | [207](https://github.com/pemunson90-cmd/Siren-s-Song/pull/207) | 2026-10-28T22:42:43Z | Hidden physical rescue, pilotage and epilogue; no ending vote/thread change integrated THROUGH207; batch review/checks above; owned paths released, shared seams now root070. |
 | 88 | 091 WHOLE-GAME COLD AUDIT (read-only) | CLAIMED (codex-root, fresh HIGH blind whole-game critic) | | 2026-10-29T04:19:07-04:00 | [PAT: current order; KEEL: local process/worktree inventory] 091 claimed from OPEN before dispatch; no active critic process found. Owner codex-root, fresh HIGH blind whole-game critic. Audit exact promoted production13a64ed0d17c1564670c124cba8110e11f065329/tree54459644057b559a22d0353492e5ec2876ce4394. Claim publication awaits independent MEDIUM metadata review; root starts the fresh critic only after reviewed claim publication. No critic dispatched, audit run or result claimed. |
