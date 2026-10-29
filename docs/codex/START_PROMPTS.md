@@ -41,7 +41,7 @@ Orient with ONLY these, then evaluate before initiating anything:
 4. gh pr list --state open, gh pr checks for each open PR, git worktree list, and whether a codex-root session is active (BOARD banner time, mtime of ~/.codex/logs_2.sqlite-wal).
 Do not scan the codebase or reread old governance.
 
-Then follow HANDOFF.md section 8 (Claude checklist): merge green PRs you own, do its next actions, refresh Pat's tracker, keep at least four eligible OPEN handoffs for Codex, write a BOARD banner with the current split, and tell Pat in plain language what changed and the one pending question if any. Never spawn Claude subagents, agent teams, forks or workflows (Pat's 28 Oct efficiency baseline); delegate execution, tests and reviews to Codex root through handoffs and BOARD banner notes. Read LEDGER.md and append one session line.
+Then follow HANDOFF.md section 8 (Claude checklist) and section 4 (next actions). Two Codex lanes (Pat 28 Oct, "Op 2"): Claude-lane handoffs run end to end, merging included, in fresh headless Codex sessions you launch from docs/codex/FRESH_SESSION_PROMPT.md (HANDOFF section 7); root-lane rows belong to the Codex root desktop session. Claim a BOARD row and check git worktree list before launching; never stop or merge the other lane's work. Intent-check every new PR's before/after table against Pat's rulings. Keep a background Monitor on merges, new PRs and your session pids so nothing idles, and refresh Pat's tracker. Never spawn Claude subagents, agent teams, forks or workflows. Read LEDGER.md and append one session line. Tell Pat in plain language what changed, with at most one question.
 ```
 
 ---
