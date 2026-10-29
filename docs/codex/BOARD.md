@@ -1,4 +1,4 @@
-[QUEUE RUNNER 2026-10-29T18:01:08.7831040-04:00] running: 111 PID8336; done: 103, 106, 113, 110, 112, 109, 114, 108; blocked: 105, 104.
+[QUEUE RUNNER 2026-10-29T18:01:15.0760303-04:00] running: 115 PIDunknown, 111 PID8336; done: 103, 106, 113, 110, 112, 109, 114, 108; blocked: 105, 104.
 
 [Claude-lane113 2026-10-29T21:58:58.1847910Z] DONE: PR225 merged a458d4c3; independent HIGH and 7 exact-head checks green. Presentation landed; bounded 113 complete, queue runner owns successors.
 
@@ -420,7 +420,7 @@ Boundary follow-up28Oct03:12UTC: Windows completion check PASSES from current in
 | 109 | 112 SORLEY RESCUE REWARD BECOMES PILOTAGE CHARTS | DONE | [218](https://github.com/pemunson90-cmd/Siren-s-Song/pull/218) | 2026-10-29T13:33:43.1456490-04:00 | Merged 3ffd8281; lasting MIDDLE pilotage in Needle Strait/Furnace Drift replaces supplies, old stock retained, no ending vote; HIGH review, all7 exact-head CI40914888630, local1022/0 +8 SILENT voyages. |
 | 110 | 113 PRESENTATION: SILHOUETTES, ROLE SOUNDS, SEA LIFE, PLACEHOLDER KEY ART | DONE | [225](https://github.com/pemunson90-cmd/Siren-s-Song/pull/225) | 2026-10-29T21:58:58.1847910Z | Merged a458d4c3; distinct fitted silhouettes, 8 earned role sounds, optical-only sea life and Quietus placeholder art; HIGH review tree a277d753, all 7 green, run40955586940; core844/0, new78/0, native348/0, 8 identical full SILENT voyage pairs. |
 | 111 | 114 FOUNDATION CLEANUP FROM THE S7 PR AUDIT | DONE (claude-lane, codex-fresh-114) | [PR223](https://github.com/pemunson90-cmd/Siren-s-Song/pull/223) | 2026-10-29T16:13:49.2017908-04:00 | [KEEL:114 verified] Merge58311200;103 net lines removed, Sorley cap1.30, old saves retained,10/10 full voyages identical with bare SILENT; independent HIGH and all7 exact-head checks green. [handoff](114-foundation-cleanup.md) |
-| 112 | 115 MAKE THE ONE-BAND THERMAL LAYER MATTER IN REAL OPS | QUEUED (claude-lane, Pat 29 Oct) | | | [handoff](115-thermal-ops.md) |
+| 112 | 115 MAKE THE ONE-BAND THERMAL LAYER MATTER IN REAL OPS | CLAIMED (claude-lane, codex-fresh-115, 2026-10-29T18:01:14.6833647-04:00) | | | [handoff](115-thermal-ops.md) |
 | 113 | 116 MAKE SIREN RADIO REPORTS MATTER IN REAL OPS | QUEUED (claude-lane, Pat 29 Oct) | | | [handoff](116-radio-ops.md) |
 | 114 | 117 EXTRA TOOLS COST CARGO IN CAREER AND EXPEDITION TOO | QUEUED (claude-lane, Pat 29 Oct) | | | [handoff](117-tool-cargo-all-modes.md) |
 | 89 | 092 HIDDEN RESCUE OF SORLEY'S BOY (Pat ruling 28 Oct, experiment) | DONE | [207](https://github.com/pemunson90-cmd/Siren-s-Song/pull/207) | 2026-10-28T22:42:43Z | Hidden physical rescue, pilotage and epilogue; no ending vote/thread change integrated THROUGH207; batch review/checks above; owned paths released, shared seams now root070. |
