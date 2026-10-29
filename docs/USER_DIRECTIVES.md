@@ -1,3 +1,9 @@
+## 29 October 2026: carried survivors slow ascent (handoff 102)
+
+[PAT, verbatim as recorded in handoff 102, ~08:10 ET] Asked "Should carrying survivors slow how fast the sub can change depth? I recommend yes." Pat: "For now* Yes*". This ruling is provisional, "for now".
+
+[KEEL / AI-DESIGNED provisional timing] Upward band changes with one survivor take 8 seconds, with multiple survivors 12 seconds, followed by 6 seconds at the new band before another ascent. Values stay together in survivor_ascent.gd for retuning. Existing carry permissions and tow restrictions remain authoritative; descent keeps its existing timing.
+
 ## 28 October 2026: hidden rescue of Sorley's boy (handoff 092)
 
 [PAT, quoted in Claude S5 handoff 092, ~11:50 ET] "Experiment with a hidden rescue mission that requires either found logs off the beaten path, or certain photos. So its an option side quest with at least one game reward and ending changes."

@@ -18,6 +18,12 @@ class ObservedSim:
   peak_hunt=maxf(peak_hunt,float(mission.get("reconnaissance",{}).get("hunt",0.)))
   for guard in sirens:
    if guard.lock>0:lock_frames+=1;max_lock=maxf(max_lock,guard.lock)
+# Wait for the actual authored depth duration, including carried-survivor ascent.
+static func dive(s,band)->bool:
+ if s.units[0].band==band and s.units[0].transition.is_empty():return true
+ if not s.command("depth",{"band":band}):return false
+ tick(s,float(s.units[0].transition.remaining)+.2)
+ return s.units[0].band==band and s.units[0].transition.is_empty()
 func progress()->Dictionary:
  return {"version":2,"route":"deep","routes":["deep"],"facts":{"deep":"Recovered branch"},"completed":[6],"notes":{},"references":{},"entitlements":[],"history":[],"selected_thread":"deep"}
 func run():
@@ -69,9 +75,7 @@ func run():
  check(not C.valid(bad),"corrupt log encoding rejected")
  bad=p.duplicate(true);bad.notes=[]
  check(not C.valid(bad),"malformed notes rejected without crash")
- var s=ObservedSim.new();s.start(41)
- for tool in s.tools:s.tools[tool]=0
- for tool in s.mission.field_tools.counts:s.mission.field_tools.counts[tool]=0
+ var s=ObservedSim.new();s.start(41,"endurance",{"tool_racks":{"quietus":{},"drone_a":{},"drone_b":{}}})
  check(Catalog.valid_definition(Catalog.definition(41)) and Sim.valid_snapshot(s.snapshot()),"rescue definition and initial save validate")
  for preset in ["standard","accessible"]:
   var economy=preload("res://src/campaign/economy.gd").new_state(preset)
@@ -109,7 +113,7 @@ func run():
  var e={"stock":{"scrap":0,"cells":0,"alloy":0},"report":""}
  S.credit(e,p,recovered);check(e.stock.scrap==2 and e.stock.cells==0,"ordinary rescue receives modest reward")
  S.credit(e,recovered,recovered);check(e.stock.scrap==2,"replay cannot duplicate reward")
- var fleet=ObservedSim.new();fleet.start(41)
+ var fleet=ObservedSim.new();fleet.start(41,"endurance",{"tool_racks":{"quietus":{},"drone_a":{"emp":1},"drone_b":{}}})
  var fleet_tools=fleet.tools.duplicate(true)
  fleet.command("select",{"unit":1})
  var fleet_ok=unit_dive(fleet,2) and unit_go(fleet,Vector2(1600,1500)) and unit_go(fleet,Vector2(1250,980)) and unit_dive(fleet,1) and unit_dive(fleet,0) and unit_go(fleet,Vector2(1420,980))
@@ -150,5 +154,5 @@ func unit_go(s,point)->bool:
  return body.alive and body.pos.distance_to(point)<25.
 func unit_dive(s,band:int)->bool:
  if not s.command("depth",{"band":band}):return false
- tick(s,4.2)
+ tick(s,float(s.units[s.selected].transition.remaining)+.2)
  return s.units[s.selected].band==band and s.units[s.selected].transition.is_empty()
