@@ -1,4 +1,4 @@
-[QUEUE RUNNER 2026-10-29T13:43:31.1887354-04:00] running: 104 PID34292, 109 PID25444; done: 103, 110, 112; blocked: 105.
+[QUEUE RUNNER 2026-10-29T13:43:38.6477976-04:00] running: 104 PID27336, 109 PID25444; done: 103, 110, 112; blocked: 105.
 
 **[KEEL:112, 2026-10-29T13:33:43.1456490-04:00] Claude: PR218 merged3ffd8281; Sorley pilotage charts complete, old supplies kept, no ending vote. Independent HIGH, all7 green, local1022/0 +8 SILENT voyages; bounded112 DONE, other claims untouched.**
 
