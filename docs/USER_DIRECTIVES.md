@@ -4,6 +4,12 @@
 
 [PAT, verbatim ruling recorded in PAT_RULINGS_2026-10-29.md, Claude S6] This authorizes the named role differences. Silent sight 180 m, cruise sight 290 m, the four-second interruptible lock warning, beam, collision, damage and hull rules retain their existing behavior. New profile values are AI-DESIGNED and provisional.
 
+## 29 October 2026: Ironman permanent losses (handoff 107)
+
+[PAT, verbatim selection recorded in PAT_RULINGS_2026-10-29.md, item 1] "In Ironman mode, should a drone or module lost in a dive be gone for good?" = "Yes, Ironman only (Recommended)" (QUESTIONS_FOR_PAT 14)
+
+[KEEL / operating effect] Existing dive loss and non-recovery rules remove the lost drone or fitted module from the Ironman profile. Replacements cost manufacturing resources. Quietus remains available and an empty drone bay can launch, preserving the bare floor on ACCESSIBLE and STANDARD. Other modes retain their existing recovery behaviour. Replacement prices and implementation details are AI-DESIGNED.
+
 ## 29 October 2026: carried survivors slow ascent (handoff 102)
 
 [PAT, verbatim as recorded in handoff 102, ~08:10 ET] Asked "Should carrying survivors slow how fast the sub can change depth? I recommend yes." Pat: "For now* Yes*". This ruling is provisional, "for now".

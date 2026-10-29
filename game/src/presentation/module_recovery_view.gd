@@ -123,7 +123,8 @@ static func departure_signature(context:Dictionary)->String:
  var left=[]
  for module in context.get("left",[]):left.append([module.item,module.state,module.unit])
  return str([context.get("available",false),context.get("corridor",{}),left,context.get("recovered",[])])
-static func consequence(sim)->String:
+static func consequence(sim,economy:Dictionary={})->String:
+ var iron=preload("res://src/campaign/ironman_losses.gd").active(economy)
  if not sim.has_method("module_recovery_status"):return ""
  var result=status(sim).get("result",{});var lines=[];var absent=false
  for id in [1,2]:
@@ -136,11 +137,11 @@ static func consequence(sim)->String:
   for item in result.get(key,[]):names.append(name(item))
   if not names.is_empty():lines.append(("MODULES RECOVERED · " if key=="recovered" else "LEFT BEHIND · ")+", ".join(names))
  if not result.get("lost",[]).is_empty() and sim.mission.get("fleet_commit",false):lines.append("Listed modules are unavailable for future launches.")
- if absent:lines.append("Bare replacement drones remain available.")
- if sim.outcome!="won" or not sim.mission.get("fleet_commit",false):lines.append("Retry / replay leaves permanent module stock unchanged.")
+ if absent:lines.append("Ironman replacements require paid manufacturing. Empty bays can launch." if iron else "Bare replacement drones remain available.")
+ if not iron and (sim.outcome!="won" or not sim.mission.get("fleet_commit",false)):lines.append("Retry / replay leaves permanent module stock unchanged.")
  return "\n".join(lines)
 static func debrief(main)->void:
- var text=consequence(main.sim)
+ var text=consequence(main.sim,main.get("economy") if main.get("economy") is Dictionary else {})
  if not text.is_empty():main._menu_text("FLEET RECOVERY\n"+text,17)
  Cache.debrief(main)
 static func confirm_departure(main)->void:
@@ -150,7 +151,8 @@ static func confirm_departure(main)->void:
  main.departure_confirmation=departure_signature(context)
  main._menu_text("RECOVERY DECISION",24)
  main._menu_text("RETURN TO · "+context.corridor.name.to_upper(),17)
- main._menu_text("Abandoned kits are unavailable next launch. Bare drones remain available." if main.sim.mission.get("fleet_commit",false) else "COMPLETED REPLAY · permanent module stock unchanged.",16)
+ if preload("res://src/campaign/ironman_losses.gd").active(main.economy):main._menu_text("IRONMAN: unrecovered drones and fittings are permanently lost, including replays. Replacements require paid manufacturing.",16)
+ else:main._menu_text("Abandoned kits are unavailable next launch. Bare drones remain available." if main.sim.mission.get("fleet_commit",false) else "COMPLETED REPLAY · permanent module stock unchanged.",16)
  for module in context.left:
   var place="SALVAGE · LOCAL RETRIEVAL" if module.state=="salvage" else main.sim.units[module.unit].name+" · "+("INACTIVE CARGO" if module.state=="cargo" else "FITTED · OUTSIDE MOUTH")
   main._menu_text(name(module.item)+"\n"+place,17)
