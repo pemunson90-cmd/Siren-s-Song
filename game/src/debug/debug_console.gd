@@ -203,7 +203,9 @@ func execute(line:String)->String:
   host._save_archive();return "Granted "+item
  if command=="jump" and a.size()==2 and a[1].is_valid_int() and int(a[1]) in Catalog.registered_ids():
   mark();var id=int(a[1]);host.mission_index=id
-  sim.start(id,host.upgrade,{"context":State.context(host,host.CampaignFlow.launch_context(host,id)),"fitted":host.fitted_equipment.duplicate(true),"tool_racks":host.tool_racks.duplicate(true)})
+  var launch={"context":State.context(host,host.CampaignFlow.launch_context(host,id)),"fitted":host.fitted_equipment.duplicate(true),"tool_racks":host.tool_racks.duplicate(true)}
+  if sim.has_method("start_dev"):sim.start_dev(id,host.upgrade,launch)
+  else:sim.start(id,host.upgrade,launch)
   sim.mission["dev"]=true;host.active_started=true;host.ocean.sim=sim;host.ocean.focus_craft();host.screen="mission";host.menu.hide();host.hud.show();host._layout();reset_metrics();panel.hide();host._save_archive();return "DEV operation launched."
  return "Unknown command or arguments. HELP lists supported commands."
 func json_log()->String:

@@ -10,6 +10,20 @@ var launched:Array=[]
 var used:Dictionary={}
 var loud_time:=0.0
 var rule_failure:=""
+func rider_snapshot()->Dictionary:
+	return {"launched":launched.duplicate(),"used":used.duplicate(),"loud_time":loud_time,"rule_failure":rule_failure}
+static func valid_rider_snapshot(value,snapshot:Dictionary)->bool:
+	if not value is Dictionary or value.size()!=4 or not value.has_all(["launched","used","loud_time","rule_failure"]):return false
+	if not value.launched is Array or not value.used is Dictionary or not value.rule_failure is String or value.rule_failure.length()>300:return false
+	if not (value.loud_time is float or value.loud_time is int) or not is_finite(value.loud_time) or value.loud_time<0 or value.loud_time>snapshot.get("elapsed",0.):return false
+	# Every mode launches the same independent three-craft fleet, including craft
+	# subsequently lost. Omitting a lost craft would erase a rider violation.
+	if value.launched!=[0,1,2]:return false
+	for key in value.used:
+		if key not in Rules.FINITE_TOOLS or not value.used[key] is int or value.used[key]<0 or value.used[key]>100:return false
+	return true
+func restore_rider(value:Dictionary)->void:
+	launched=value.launched.duplicate();used=value.used.duplicate();loud_time=float(value.loud_time);rule_failure=value.rule_failure
 func configure(value:Dictionary)->bool:
 	assignment=value.duplicate(true) if Riders.valid(value) else {}
 	policy=Riders.policy(assignment)
