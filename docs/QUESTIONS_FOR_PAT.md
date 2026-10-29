@@ -29,12 +29,12 @@ Added 27 Oct 2026 by Claude's verified gap scout. Until you rule, the game keeps
 
 ## Art, audio and presentation
 
-17. Hulls and drone chassis look the same on the chart today and differ only in stats. Since art is your call, do you want visibly different silhouettes per hull and chassis?
-18. Do you want a designed title backdrop with key art (art direction), or is the current flat typographic title screen acceptable for release?
-19. Do you want ambient non-hostile sea life and background machinery in the regions at all, given it could be mistaken for contacts on the chart, and if so is anything off limits (colours, shapes)?
-20. May each of the eight Siren roles have its own audible cue when it is heard through earned passive sonar, or does a per-role sound count as a detection-design change that you want to rule on first?
+17. **RULED 29 Oct 2026 [PAT, handoff 113, PAT_RULINGS_2026-10-29.md items 15 to 17 and 19]: Distinct hull and chassis silhouettes approved.** Original question: Hulls and drone chassis look the same on the chart today and differ only in stats. Since art is your call, do you want visibly different silhouettes per hull and chassis?
+18. **RULED 29 Oct 2026 [PAT, handoff 113, PAT_RULINGS_2026-10-29.md items 15 to 17 and 19]: Quietus placeholder title art approved.** Original question: Do you want a designed title backdrop with key art (art direction), or is the current flat typographic title screen acceptable for release?
+19. **RULED 29 Oct 2026 [PAT, handoff 113, PAT_RULINGS_2026-10-29.md items 15 to 17 and 19]: Limited ambient sea life in non-contact colours, never on sonar approved.** Original question: Do you want ambient non-hostile sea life and background machinery in the regions at all, given it could be mistaken for contacts on the chart, and if so is anything off limits (colours, shapes)?
+20. **RULED 29 Oct 2026 [PAT, handoff 113, PAT_RULINGS_2026-10-29.md items 15 to 17 and 19]: Role sounds after earned identification approved.** Original question: May each of the eight Siren roles have its own audible cue when it is heard through earned passive sonar, or does a per-role sound count as a detection-design change that you want to rule on first?
 21. **RULED 29 Oct 2026 [PAT, PAT_RULINGS_2026-10-29.md item 18, handoff 111]: "Add a mirrored HUD option for one-handed play?" = "Yes (Recommended)" (21).** Original question: Do you want a left-handed or mirrored HUD layout option for Fold7 one-handed play, or should controls stay as laid out?
-22. The icon and splash need a look. Should I make a plain placeholder from the existing Quietus silhouette for you to replace, or will you supply the art?
+22. **RULED 29 Oct 2026 [PAT, handoff 113, PAT_RULINGS_2026-10-29.md items 15 to 17 and 19]: Replaceable Quietus placeholder icon and splash approved.** Original question: The icon and splash need a look. Should I make a plain placeholder from the existing Quietus silhouette for you to replace, or will you supply the art?
 
 ## Scope
 

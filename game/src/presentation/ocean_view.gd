@@ -619,7 +619,9 @@ func _craft(u: Dictionary,index: int) -> void:
 		draw_line(p+Vector2(-55,-38),p+Vector2(-55,-25),CYAN,2)
 	draw_set_transform(world_offset+p*world_scale,u.angle,Vector2.ONE*world_scale)
 	if ArtTable.enabled:
-		Art.craft(self,index)
+		var fittings:Dictionary=sim.mission.get("launch_equipment",{})
+		var frame=str(fittings.get("hull","standard")) if index==0 else str(fittings.get("chassis_a" if index==1 else "chassis_b","standard"))
+		Art.craft(self,index,frame)
 	elif index==0:
 		draw_texture_rect_region(quietus,Rect2(-66,-17,132,34),Rect2(60,145,1940,390))
 		if u.vel.length()>8:
