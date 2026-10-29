@@ -1,4 +1,4 @@
-# HANDOFF: Siren's Song, Claude orchestrator + two Codex lanes (updated 29 Oct 2026 11:32 ET, end of Claude session S6)
+# HANDOFF: Siren's Song, Claude orchestrator + two Codex lanes (updated 29 Oct 2026 11:31 ET, end of Claude session S6)
 
 Read this first after any context clear or restart, then the top of BOARD.md and the tail of LEDGER.md. Live refs, PRs and BOARD rows are newer than this file when they disagree. Pat's dated words in `docs/USER_DIRECTIVES.md` on `claude/integration` outrank everything here.
 
@@ -42,7 +42,7 @@ Read this first after any context clear or restart, then the top of BOARD.md and
   - Proven method: 096 Calder (guards on forced routes, earned discovery, drone evidence).
 - Evaluate before initiating; never repeat work because a conversation restarted. Run `date` for every timestamp; never estimate.
 
-## 3. State (29 Oct 2026 11:32 ET)
+## 3. State (29 Oct 2026 11:31 ET)
 
 | Ref | Meaning |
 |---|---|
