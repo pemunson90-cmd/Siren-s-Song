@@ -1,8 +1,8 @@
 # RESUME: operational entry
 
-Last reconciled integration baseline `2dcb1bb3` includes PR207 (records069, arc presentation080, Sorley rescue092 and tool cargo098) and PR208 (dedicated tool lockers100). PR210 adds the debug console with operation41, locker-aware grants and durable DEV record exclusion. Claude lane owns its review, exact-head CI and merge; the live codex/handoffs BOARD owns other claims and next work. Production is `225c3c45`; main unchanged.
+Last reconciled source baseline `578102f18adb0a49f50aefc130428c2d2a33e90d` includes merged PR210 debug console, PR208 tool lockers and PR207 records069, arc presentation080 and Sorley rescue092, preserving tool cargo098, Calder fleet096 and earned charts089. This Claude-lane session completes094 Iron Choir (PR198); codex-root owns its separate queue under the live BOARD. Production is `225c3c45`; main unchanged.
 
-- [KEEL:101 reconciliation] Debug-only Settings/three-finger console, read-only overlays, time/survival controls, DEV exclusion and JSON export are implemented. The picker includes operation41; grants follow locker overflow and existing rack limits. Independent reconciliation review and exact-head CI are required before merge. Isolated evidence: `C:/Users/Archi/.cache/sirens-song-toolchain/artifacts210m`.
+- [KEEL:101 reconciliation] Debug-only Settings/three-finger console, read-only overlays, time/survival controls, DEV exclusion and JSON export are implemented. The picker includes operation41; grants follow locker overflow and existing rack limits. PR210 merged after independent reconciliation review and exact-head CI. Isolated evidence: `C:/Users/Archi/.cache/sirens-song-toolchain/artifacts210m`.
 
 - [KEEL: 089 source] Glass Reach ops14/15/16/20 now use earned first-face terrain and public-water route planning; earlier in-progress saves keep their stored chart policy. Remaining authored operations retain their existing charts, as documented in V7_TO_GODOT_PARITY.
 
@@ -14,12 +14,13 @@ Current boundary: Pat resumed locally on Windows and continued work on 25 Octobe
 
 ## Source and authority
 
-Active integration: `claude/integration`. Last reconciled source baseline: `2dcb1bb3d171a0a4bd7994f1b889d05d1e5dfcb3`; earlier reconciliation `1b56be6f` remains in Git history. Fetch current refs at task boundaries; the board alone owns claims/completions.
+Active integration: `claude/integration`. Last reconciled source baseline: `578102f18adb0a49f50aefc130428c2d2a33e90d`. This records fetched source, not the future merge commit containing this document. Fetch live integration at task boundaries; the board alone owns claims/completions.
 Frozen `gauntlet/production` and protected `main` require Pat's promotion approval. Preserve branches, personal saves, evidence and signing identity.
 Current decisions: [USER_DIRECTIVES](USER_DIRECTIVES.md). Intended release: [CURRENT_GAME_SPEC](CURRENT_GAME_SPEC.md). Actual module seams, settings, saves, tests and safe reverts: [MODULES](MODULES.md).
 
 ## Integrated capabilities
 
+- [KEEL:094d] Iron Choir22..29 retains physical industrial work and shared bell decompression. Authored patrols/posts and useful escape routes give continuously SILENT bare contact in22/23/24/26/29: honest5/8 under the user's bounded-attempt exception;25/27/28 remain quiet, including27's permanent shallow counterexample. Equipped routes return all launched craft, parallel work and safer cargo. Permanent bare journeys zero finite tools and enforce ordinary Quietus commands and SILENT on every tick. Source-known matched evidence lives outside source at `C:/Users/Archi/.cache/sirens-song-toolchain/artifacts/094d`; PR198 records results and review. No human/touch/phone acceptance is claimed.
 - [KEEL:100 source] Next-launch templates restore the pre098 ENDURANCE/DISRUPTION/SURVEY tools in separate AI-DESIGNED lockers (Quietus1.00, each drone0.50, all frames including scout). Only overflow shares cargo with modules and winch work; Fittings shows locker and cargo separately. Exact-empty unversioned098 racks refill once; edited keys survive and version100 keeps subsequent deliberate empty racks.098 did not distinguish EMPTY ALL from its automatic empty template.
 
 - [KEEL: implementation080] Six provisional arc entry/departure cards carry saved thread and regional choices; Operations, recovered fold and route legend group under arc headings with recovery counts. Optional per-arc intro booleans preserve old archives; first core recoveries alone show departures. Text remains AI-DESIGNED placeholders.
@@ -59,7 +60,7 @@ Current decisions: [USER_DIRECTIVES](USER_DIRECTIVES.md). Intended release: [CUR
 
 ## Next authorized work and limits
 
-Root implements070 after accepted069 while this separate100 successor waits for its reviewed exact-head gate. Parallel099/095 and the099-gated094 work remain with their existing owners; 100 is prepared as a separate successor on accepted207. Live BOARD claims govern. The dated056 repair details below are historical.
+Claude lane completes reviewed094 PR198 against accepted PR210 debug console and PR208 tool lockers, then waits for green required checks on its exact head before merge. Codex-root owns070 and its other claimed rows; separate095 ownership follows the live BOARD. The dated056 repair details below are historical.
 Historical056 repair note: 28 Oct bounded CI repair: preserve independently approved `ed032a1a`; retain the approved campaign RETRY OPERATION label and update the two stale exact-label UI fixtures, preserving existing `retry`/`back` IDs and callbacks. The profile UI's four-key absence expectation contradicts056's documented six-sidecar contract; diagnostics found all six absent. The uncommitted fixture now checks populated run-sidecar clear/undo, retired-host suspension and empty run-menu setup. PR175 stays draft; root obtains independent patch review before any commit/push, then owns exact-head full CI and integration. Corrected local evidence/report: `C:/Users/Archi/AppData/Local/Temp/sirens-orchestration-20261027/056-label-correction-report.txt`.
 For 050, Pat approved sight-only first: hearing, movement speed and lock timing stay unchanged. Earlier design text proposing hearing scaling is superseded. Keep tunable choices in tables with off switches/revert notes; keep working while ordinary reversible questions are pending. Protected mechanics, narrative/art direction, SIREN TELL and promotion still require Pat where not already authorized.
 Photography remains the primary military reconnaissance pillar; rescue, machinery and fleet work support it. Wider release modes/content and qualitative campaign assessment remain unfinished.
