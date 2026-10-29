@@ -313,6 +313,7 @@ regional_settings_tests|REGIONAL SETTINGS|301|401
 frame_cap_settings_tests|FRAME CAP SETTINGS|390|490
 optional_thread_journey_tests|OPTIONAL THREAD JOURNEY|302|402
 sorley_rescue_tests|SORLEY RESCUE|740|840
+sorley_pilotage_tests|SORLEY PILOTAGE|745|845
 optional_cache_tests|OPTIONAL CACHE|303|404
 optional_cache_journey_tests|OPTIONAL CACHE JOURNEY|304|405
 quality_tests|QUALITY|305|406

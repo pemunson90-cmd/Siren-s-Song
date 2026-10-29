@@ -111,8 +111,8 @@ func run():
  var recovered=C.recover(p,s.mission)
  check(recovered.facts.get("sorley_boy")=="rescued" and C.valid(recovered),"physical bare arrival commits exactly one rescue fact")
  var e={"stock":{"scrap":0,"cells":0,"alloy":0},"report":""}
- S.credit(e,p,recovered);check(e.stock.scrap==2 and e.stock.cells==0,"ordinary rescue receives modest reward")
- S.credit(e,recovered,recovered);check(e.stock.scrap==2,"replay cannot duplicate reward")
+ S.credit(e,p,recovered);check(e.stock.scrap==0 and e.stock.cells==0 and e.report.contains("PILOTAGE CHARTS"),"ordinary rescue receives pilotage charts")
+ S.credit(e,recovered,recovered);check(e.stock.scrap==0,"replay cannot duplicate reward")
  var fleet=ObservedSim.new();fleet.start(41,"endurance",{"tool_racks":{"quietus":{},"drone_a":{"emp":1},"drone_b":{}}})
  var fleet_tools=fleet.tools.duplicate(true)
  fleet.command("select",{"unit":1})
@@ -131,7 +131,7 @@ func run():
  check(fleet_ok and fleet.outcome=="won","independent drone physically brings the boy home while Quietus waits at lift")
  var quiet=C.recover(p,fleet.mission)
  check(quiet.facts.get("sorley_boy")=="rescued_quiet" and fleet.tools.emp==fleet_tools.emp-1,"real intact lock-free drone voyage earns quiet tier using one finite Disrupt")
- S.credit(e,p,quiet);check(e.stock.scrap==6 and e.stock.cells==2,"quiet intact drone tier rewards preparation")
+ S.credit(e,p,quiet);check(e.stock.scrap==0 and e.stock.cells==0,"quiet intact drone earns charts without supplies")
  var ending=progress();ending.completed=[6,7,9,11,12];ending.facts.confluence_route="concealed"
  check(Endings.resolve(ending).story.contains(S.LEFT),"unfound boy has different ending placeholder")
  ending.facts.sorley_boy="rescued"

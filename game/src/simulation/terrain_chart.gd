@@ -29,6 +29,12 @@ func configure(mission:Dictionary,shapes:Array,saved:Dictionary={})->void:
  for cell in _cells(seed):
   var rect=_rect(cell)
   if seed.encloses(rect) and _water(rect.grow(CLEARANCE)):_clear(cell)
+ # Recovered pilotage is pre-measured water, certified by the same authority as
+ # earned photographic lanes. Other bands and restored charts retain their policy.
+ if mission.get("pilotage_band",1)==1:
+  for passage in mission.get("pilotage_passages",[]):
+   for cell in _cells(passage):
+    if passage.encloses(_rect(cell)):certify(cell)
  _build_grid()
 # A witnessed opening retires measurements of that physical door. It does not
 # certify the water beyond it; live sensors still have to earn that water.

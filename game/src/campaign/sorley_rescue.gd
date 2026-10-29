@@ -9,8 +9,16 @@ const LOGS={
  9:{"pos":Vector2(1840,1820),"text":"Sorley: The boy knows the stern locker. There is air above its window."},
  14:{"pos":Vector2(3400,1320),"text":"Sorley: My trawler lies on the wellhead. Look for the stern window, above the screws."},
  16:{"pos":Vector2(2600,2600),"text":"Sorley: A sealed pod will fit that window. Bring him back to the south boat."}}
-const RESCUED="Sorley's boy came home in the sealed pod. His father waited beside the lift."
+const RESCUED="Sorley's boy came home in the sealed pod. His father gave Brannock pilotage charts for Needle Strait and Furnace Drift."
 const LEFT="Sorley's boy was not brought home. No recovered landing is recorded."
+# AI-DESIGNED MIDDLE-water passages. certify() retains physical hull clearance.
+# Derive ownership from the existing rescue fact, including pre112 saves. No
+# economy migration or new grant flag: earlier supplies remain with their owner.
+const PASSAGES={15:Rect2(920,240,160,3160),16:Rect2(240,240,160,2320)}
+static func chart_reward(m:Dictionary,history:Dictionary)->void:
+ if not enabled or not rescued(history) or not PASSAGES.has(m.id):return
+ m["pilotage_passages"]=[PASSAGES[m.id]]
+ m.brief+="\nSORLEY / PILOTAGE: "+("central strait" if m.id==15 else "western outside passage")+" pre-charted in MIDDLE. Confirmed water marks terrain clearance only; currents and Sirens remain live."
 static func rescued(p:Dictionary)->bool:return (p.get("facts",{}) is Dictionary and p.get("facts",{}).get(FACT,"") in ["rescued","rescued_quiet"])
 static func logs(p:Dictionary)->String:return str(p.get("notes",{}).get(FACT,"000"))
 static func unlocked(p:Dictionary)->bool:
@@ -53,11 +61,8 @@ static func valid_progress(p:Dictionary)->bool:
  return (not p.get("notes",{}).has(FACT) or p.notes[FACT] in ["000","001","010","011","100","101","110","111"]) and (not p.get("facts",{}).has(FACT) or p.facts[FACT] in ["rescued","rescued_quiet"])
 static func line(p:Dictionary)->String:return (RESCUED if rescued(p) else LEFT) if enabled else ""
 static func credit(e:Dictionary,before:Dictionary,after:Dictionary)->void:
- if not enabled or rescued(before) or not rescued(after) or not e.get("stock") is Dictionary:return
- # Quiet, intact drone landing repays preparation; bare winch always remains possible.
- var quiet=after.facts[FACT]=="rescued_quiet"
- e.stock.scrap=mini(99,e.stock.scrap+(4 if quiet else 2));e.stock.cells=mini(99,e.stock.cells+(2 if quiet else 0))
- e.report=str(e.get("report",""))+"\nSORLEY / Supplies aboard: "+("4 SCRAP, 2 CELLS for a quiet, intact drone landing." if quiet else "2 SCRAP for bringing the boy home.")
+ if not enabled or rescued(before) or not rescued(after):return
+ e.report=str(e.get("report",""))+"\nSORLEY / PILOTAGE CHARTS aboard: MIDDLE passages in Needle Strait and Furnace Drift."
 static func entries()->Array:
  return [{"id":ID,"factory":"res://src/campaign/sorley_operation.gd","config":{"source_id":ID,"history":true},"behaviors":["signals_v2","history","witness"],"prerequisites":[],"facts":[FACT],"records":[FACT],"campaign":true,"route":"","required_facts":{}}]
 
