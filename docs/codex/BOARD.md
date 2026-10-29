@@ -1,3 +1,5 @@
+[QUEUE RUNNER 2026-10-29T11:59:46.5205528-04:00] running: 103 PID52948, 112 PIDunknown; done: 110; blocked: none.
+
 **[KEEL:110, 2026-10-29T11:56:19.8268561-04:00] Claude: PR217 merged4b6955aa; advanced economy and easier-only next-dock presets complete. Independent HIGH review, intent PASS, all7 exact-head checks green; local1175/0 and bare SILENT floor preserved. Bounded110 done; other claims untouched.**
 
 [QUEUE RUNNER 2026-10-29T11:53:14.1398520-04:00] running: 103 PID52948, 110 PID2880; done: none; blocked: none.
@@ -388,7 +390,7 @@ Boundary follow-up28Oct03:12UTC: Windows completion check PASSES from current in
 | 106 | 109 EXPEDITION SEEDS SHUFFLE SIREN STARTS AND PATROL TIMING | QUEUED (claude-lane, Pat 29 Oct) | | | [handoff](109-seed-siren-shuffle.md) |
 | 107 | 110 ADVANCED ECONOMY VALUES AND MID-CAMPAIGN EASIER PRESET | DONE | [217](https://github.com/pemunson90-cmd/Siren-s-Song/pull/217) | 2026-10-29T15:56:16Z | Advanced custom economy and easier-only next-dock changes persist with ledger history; merged4b6955aa, HIGH review110 approved tree0e1cb48f, Claude intent PASS, all7 green40898870184, local1175/0; bare SILENT ACCESSIBLE/STANDARD unchanged. |
 | 108 | 111 AUTO-PAUSE ON FIRST NOTICE AND MIRRORED ONE-HANDED HUD | QUEUED (claude-lane, Pat 29 Oct) | | | [handoff](111-accessibility-autopause-mirror.md) |
-| 109 | 112 SORLEY RESCUE REWARD BECOMES PILOTAGE CHARTS | QUEUED (claude-lane, Pat 29 Oct) | | | [handoff](112-sorley-pilotage-charts.md) |
+| 109 | 112 SORLEY RESCUE REWARD BECOMES PILOTAGE CHARTS | CLAIMED (claude-lane, codex-fresh-112, 2026-10-29T11:59:46.2557654-04:00) | | | [handoff](112-sorley-pilotage-charts.md) |
 | 110 | 113 PRESENTATION: SILHOUETTES, ROLE SOUNDS, SEA LIFE, PLACEHOLDER KEY ART | QUEUED (claude-lane, Pat 29 Oct) | | | [handoff](113-presentation-pass.md) |
 | 89 | 092 HIDDEN RESCUE OF SORLEY'S BOY (Pat ruling 28 Oct, experiment) | DONE | [207](https://github.com/pemunson90-cmd/Siren-s-Song/pull/207) | 2026-10-28T22:42:43Z | Hidden physical rescue, pilotage and epilogue; no ending vote/thread change integrated THROUGH207; batch review/checks above; owned paths released, shared seams now root070. |
 | 88 | 091 WHOLE-GAME COLD AUDIT (read-only) | CLAIMED (codex-root, fresh HIGH blind whole-game critic) | | 2026-10-29T04:19:07-04:00 | [PAT: current order; KEEL: local process/worktree inventory] 091 claimed from OPEN before dispatch; no active critic process found. Owner codex-root, fresh HIGH blind whole-game critic. Audit exact promoted production13a64ed0d17c1564670c124cba8110e11f065329/tree54459644057b559a22d0353492e5ec2876ce4394. Claim publication awaits independent MEDIUM metadata review; root starts the fresh critic only after reviewed claim publication. No critic dispatched, audit run or result claimed. |
