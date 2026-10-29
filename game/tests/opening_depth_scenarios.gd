@@ -73,7 +73,7 @@ static func reports(t):
  s.sirens[0].pos=Vector2(1110,780);s.sirens[0].band=1
  s.sirens[1].pos=Vector2(1130,880);s.sirens[1].band=2
  for id in range(2,s.sirens.size()):s.sirens[id].stun=100.
- tick(s,2.1)
+ tick(s,preload("res://src/simulation/contact_reports.gd").charge(s.mission)+.1)
  t.check(s.sirens[1].get("known_band",-1)==1 and s.sirens[0].get("report",{}).get("sent",0)>0,"finale local report carries legitimately observed layer across actual water")
  var report_band=s.sirens[1].get("known_band",-1)
  s.units[0].pos=Vector2(700,780);s.command("depth",{"band":0});tick(s,4.1)

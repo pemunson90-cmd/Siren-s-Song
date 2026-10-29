@@ -98,6 +98,7 @@ drone_drive_ui_tests|DRONE DRIVE UI|87|127
 drone_operations_tests|DRONE OPERATIONS|88|128
 drone_operations_ui_tests|DRONE OPERATIONS UI|89|129
 contact_reports_tests|CONTACT REPORT|90|46
+siren_radio_tests|SIREN RADIO|745|845
 contact_reports_ui_tests|CONTACT REPORT UI|91|47
 blackwater_courier_tests|COURIER|92|98
 blackwater_delivery_tests|BLACKWATER DELIVERY|93|63
