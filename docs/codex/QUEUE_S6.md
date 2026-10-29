@@ -14,7 +14,7 @@ Two chains run side by side, at most one item per chain at a time.
 1. 103b (already running) -> 2. **105** thermal layer one band -> 3. **104** Siren reports -> 4. **106** sonar rough type -> 5. **113** presentation pass (moved here by Claude S7 2026-10-29T16:14:37-04:00 after 114 merged, so it runs beside 108) -> 6. **115** thermal layer ops -> 7. **116** radio report ops (Claude S7).
 
 **Chain C (everything else, one at a time):**
-1. 110 (already running) -> 2. **112** Sorley pilotage charts -> 3. **109** seeds shuffle Siren starts and timing -> 3b. **114** foundation cleanup (Claude S7, 29 Oct; see 114-foundation-cleanup.md; behaviour-preserving bar, an identical voyage table IS the pass except op 41) -> 4. **108** arc 5 second fork -> 5. **111** auto-pause and mirrored HUD (root released HUD ownership 29 Oct).
+1. 110 (already running) -> 2. **112** Sorley pilotage charts -> 3. **109** seeds shuffle Siren starts and timing -> 3b. **114** foundation cleanup (Claude S7, 29 Oct; see 114-foundation-cleanup.md; behaviour-preserving bar, an identical voyage table IS the pass except op 41) -> 4. **108** arc 5 second fork -> 5. **111** auto-pause and mirrored HUD (root released HUD ownership 29 Oct) -> 6. **117** tool cargo in Career and Expedition (Claude S7).
 
 If an item blocks, write BLOCKED with numbers on its row, skip to the next item in the same chain, and list the block in the runner's banner line.
 

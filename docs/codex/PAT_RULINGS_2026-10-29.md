@@ -33,3 +33,6 @@ Context: Codex sessions have a 475k-token window; today about 1.84B input tokens
 1. "Split each Codex task into short sessions (build, then test and PR, then merge) that hand off through notes?" = "Yes (Recommended)"
 2. "Ask Codex root to checkpoint the whole-game critic and continue it in fresh sessions, region by region?" = "Yes (Recommended)"
 3. "Replace the AI queue runner with a plain script, with Claude doing the PR checks?" = "Yes (Recommended)"
+
+## Follow-up (Claude S7 chat, ~17:50 ET)
+Claude proposed: lower reasoning for the measuring phase; compact test output; and asked "Should extra tools cost cargo in Career and Expedition too (today campaign only)? I recommend yes." Pat: "Yes to all, and then tell me clearly when you're ready to be cleared and reset with siren start".
