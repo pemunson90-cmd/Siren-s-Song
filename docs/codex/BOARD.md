@@ -1,4 +1,4 @@
-[QUEUE RUNNER 2026-10-29T17:26:23.3114307-04:00] running: 113 PID13428, 111 PID8336; done: 103, 106, 110, 112, 109, 114, 108; blocked: 105, 104.
+[QUEUE RUNNER 2026-10-29T17:36:09.2655934-04:00] running: 113 PID13428, 111 PID8336; done: 103, 106, 110, 112, 109, 114, 108; blocked: 105, 104.
 
 **[Claude S7 2026-10-29T17:11:47-04:00] Queued 115 (thermal layer ops) and 116 (radio report ops) after 113 in chain S. They rebuild 2 to 3 existing ops so the blocked 105/104 rules decide the plan (096 method). Claude-lane rows.**
 
