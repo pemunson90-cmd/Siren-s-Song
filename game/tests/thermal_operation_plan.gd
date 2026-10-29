@@ -48,14 +48,14 @@ static func go(s,id,point)->bool:
   if s.units[id].pos.distance_to(point)<18 and s.units[id].vel.length()<2:break
  s.paused=true
  return s.units[id].alive and s.units[id].pos.distance_to(point)<25
-static func record(s,id,index,framed=false)->bool:
+static func record(s,id,index,framed=false,linger=.3)->bool:
  s.command("select",{"unit":id})
  var o=s.mission.objectives[index]
  if framed:
   if not s.command("frame",{"mode":"wide","focus":o.optical,"flash":index==0 and s.use_flash}):return false
   tick(s,3.)
  if not s.command("camera"):return false
- tick(s,float(o.get("duration",4.))+.3)
+ tick(s,float(o.get("duration",4.))+linger)
  return o.captured
 static func play(id:int,band:int,voyage=null,flash:bool=true,launch:Dictionary={}):
  var s=Voyage.new() if voyage==null else voyage;s.use_flash=flash
@@ -72,15 +72,30 @@ static func play(id:int,band:int,voyage=null,flash:bool=true,launch:Dictionary={
   ok=go(s,0,Vector2(1110,820)) and record(s,0,1) and ok
   ok=shift(s,0,1) and go(s,0,s.mission.extraction) and ok
  else:
-  for p in [Vector2(550,300),Vector2(1430,300)]:ok=go(s,0,p) and ok
-  ok=record(s,0,1,true) and ok
-  for p in [Vector2(550,300),Vector2(530,700)]:ok=go(s,0,p) and ok
-  ok=record(s,0,0,true) and ok
-  ok=shift(s,0,band) and ok
-  for p in [Vector2(650,820),Vector2(1850,820)]:ok=go(s,0,p) and ok
-  for p in [Vector2(2250,820),Vector2(2450,700)]:ok=go(s,0,p) and ok
-  ok=shift(s,0,1) and ok
-  for p in [Vector2(2800,1450),s.mission.extraction]:ok=go(s,0,p) and ok
-  tick(s,1.)
+  # The thermal contrast keeps the recovery watch south of its final approach.
+  # The separate bare fleet route below takes the exposed eastern approach.
+  ok=shelf_route(s,band,.3,false,Vector2(2800,1300)) and ok
  var r=s.metrics();r.accepted=ok;r.band=band
+ return {"sim":s,"metrics":r}
+static func shelf_route(s,band:int,linger=.3,cruise=false,recovery_approach=Vector2(2800,1450))->bool:
+ var ok=true
+ if cruise:ok=s.command("silent") and ok
+ for p in [Vector2(550,300),Vector2(1430,300)]:ok=go(s,0,p) and ok
+ ok=record(s,0,1,true,linger) and ok
+ for p in [Vector2(550,300),Vector2(530,700)]:ok=go(s,0,p) and ok
+ ok=record(s,0,0,true,linger) and ok
+ ok=shift(s,0,band) and ok
+ for p in [Vector2(650,820),Vector2(1850,820),Vector2(2250,820),Vector2(2450,700)]:ok=go(s,0,p) and ok
+ ok=shift(s,0,1) and ok
+ if cruise:ok=s.command("silent") and ok
+ for p in [recovery_approach,s.mission.extraction]:ok=go(s,0,p) and ok
+ tick(s,1.)
+ return ok
+static func fleet39(preset:String,equipped=false):
+ var s=Voyage.new();s.use_flash=false
+ s.start(39,"endurance",{"tool_racks":preload("res://src/equipment/tool_racks.gd").empty(),"fitted":{"quietus":"quietus_vector_drive" if equipped else "","drone_a":"","drone_b":""}})
+ var economy=preload("res://src/campaign/economy.gd")
+ economy.apply_launch(economy.new_state(preset),s)
+ var ok=shelf_route(s,1,2.,equipped)
+ var r=s.metrics();r.accepted=ok;r.preset=preset;r.equipped=equipped;r.equipment=s.mission.launch_equipment;r.tools=s.tools
  return {"sim":s,"metrics":r}

@@ -32,4 +32,19 @@ func run():
    check(Sim.valid_snapshot(s.snapshot()),"op%d completed/lost save validates"%id)
   print("THERMAL OP LAYER ",JSON.stringify(layer.metrics))
   print("THERMAL OP WRONG ",JSON.stringify(wrong.metrics))
+ for preset in ["standard","accessible"]:
+  var bare=Plan.fleet39(preset);var equipped=Plan.fleet39(preset,true)
+  var s=bare.sim;var f=equipped.sim
+  check(bare.metrics.accepted and s.outcome=="won" and s.mission.recovered,"op39 %s bare physically recovers"%preset)
+  check(s.silent_throughout and s.mission.launch_equipment.values().all(func(item):return str(item).is_empty() or str(item)=="standard"),"op39 %s bare stays SILENT with empty fits"%preset)
+  check(s.hunt_peak>=20 or s.lock_seconds>0,"op39 %s bare meets the live recovery watch"%preset)
+  check(equipped.metrics.accepted and f.outcome=="won" and f.mission.recovered,"op39 %s vector drive physically recovers"%preset)
+  check(f.elapsed<s.elapsed*.8 and f.hull>=s.hull,"op39 %s equipped saves substantial time with equal or better hull"%preset)
+  check(s.mission.photo.shots.map(func(shot):return [shot.key,shot.q,shot.usable])==f.mission.photo.shots.map(func(shot):return [shot.key,shot.q,shot.usable]),"op39 %s comparison returns the same required and bonus evidence"%preset)
+  for voyage in [s,f]:
+   check(voyage.tools.values().all(func(count):return count==0),"op39 %s comparison spends no finite tools"%preset)
+   check(voyage.orders.all(func(order):return order in ["select","route","depth","camera","frame","silent"]),"op39 %s comparison uses ordinary orders"%preset)
+   check(Sim.valid_snapshot(voyage.snapshot()),"op39 %s recovered comparison save validates"%preset)
+  print("THERMAL OP FLEET ",JSON.stringify(bare.metrics))
+  print("THERMAL OP FLEET ",JSON.stringify(equipped.metrics))
  print("THERMAL OPERATION CHECKS %d FAILURES %d"%[checks,failures]);quit(1 if failures else 0)
