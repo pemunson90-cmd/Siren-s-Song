@@ -1,3 +1,11 @@
+## 29 October 2026: second story fork in arc 5 (handoff 108)
+
+2. "Add one more story fork in arc 5, so earlier play picks which later ops you get?" = "Yes, one fork (Recommended)" (2)
+
+[PAT, verbatim ruling recorded in PAT_RULINGS_2026-10-29.md, Claude S6] The named arc-five fork is authorized.
+
+[KEEL / AI-DESIGNED implementation] The recovered Confluence channel selects the recovery route for Pressure Stair and Choir Cut. Concealed and missing legacy facts retain southern recovery; overt uses existing northern/eastern water. Physical work, thread commitment and ending votes retain their existing rules. Active dives retain their stored mission and corridor.
+
 ## 29 October 2026: coarse sonar identification (handoff 106)
 
 3. "Should sonar only show a rough Siren type until you see or photograph it? (Changes Siren sense display, your call.)" = "Yes (Recommended)" (9)
