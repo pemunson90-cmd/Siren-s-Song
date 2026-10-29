@@ -1,4 +1,4 @@
-[QUEUE RUNNER 2026-10-29T13:43:38.6477976-04:00] running: 104 PID27336, 109 PID25444; done: 103, 110, 112; blocked: 105.
+[QUEUE RUNNER 2026-10-29T13:48:19.2453671-04:00] running: 104 PID27336, 109 PID25444; done: 103, 110, 112; blocked: 105.
 
 **[KEEL:112, 2026-10-29T13:33:43.1456490-04:00] Claude: PR218 merged3ffd8281; Sorley pilotage charts complete, old supplies kept, no ending vote. Independent HIGH, all7 green, local1022/0 +8 SILENT voyages; bounded112 DONE, other claims untouched.**
 
@@ -394,7 +394,7 @@ Boundary follow-up28Oct03:12UTC: Windows completion check PASSES from current in
 | 103 | 106 SONAR SHOWS A ROUGH SIREN TYPE UNTIL SEEN OR PHOTOGRAPHED | QUEUED (claude-lane, Pat 29 Oct) | | | [handoff](106-sonar-coarse-class.md) |
 | 104 | 107 IRONMAN: LOST DRONES AND MODULES ARE GONE FOR GOOD | DONE | [215](https://github.com/pemunson90-cmd/Siren-s-Song/pull/215) | 2026-10-29T14:54:44Z | Ironman loss state, paid replacements and named history integrated5acb079d; HIGH review107 approved treea12c6fb2, all7 green40888538512, local1271/0; SILENT bare ACCESSIBLE/STANDARD finish with empty bays. |
 | 105 | 108 ONE MORE STORY FORK IN ARC 5 | QUEUED (claude-lane, Pat 29 Oct) | | | [handoff](108-arc5-second-fork.md) |
-| 106 | 109 EXPEDITION SEEDS SHUFFLE SIREN STARTS AND PATROL TIMING | CLAIMED (claude-lane, codex-fresh-109, 2026-10-29T13:36:04.2667902-04:00) | | | [handoff](109-seed-siren-shuffle.md) |
+| 106 | 109 EXPEDITION SEEDS SHUFFLE SIREN STARTS AND PATROL TIMING | CLAIMED (claude-lane, codex-fresh-109r, 2026-10-29T13:48:18.8324525-04:00; PR221 draft, sole intent revision) | | | [handoff](109-seed-siren-shuffle.md) |
 | 107 | 110 ADVANCED ECONOMY VALUES AND MID-CAMPAIGN EASIER PRESET | DONE | [217](https://github.com/pemunson90-cmd/Siren-s-Song/pull/217) | 2026-10-29T15:56:16Z | Advanced custom economy and easier-only next-dock changes persist with ledger history; merged4b6955aa, HIGH review110 approved tree0e1cb48f, Claude intent PASS, all7 green40898870184, local1175/0; bare SILENT ACCESSIBLE/STANDARD unchanged. |
 | 108 | 111 AUTO-PAUSE ON FIRST NOTICE AND MIRRORED ONE-HANDED HUD | QUEUED (claude-lane, Pat 29 Oct) | | | [handoff](111-accessibility-autopause-mirror.md) |
 | 109 | 112 SORLEY RESCUE REWARD BECOMES PILOTAGE CHARTS | DONE | [218](https://github.com/pemunson90-cmd/Siren-s-Song/pull/218) | 2026-10-29T13:33:43.1456490-04:00 | Merged 3ffd8281; lasting MIDDLE pilotage in Needle Strait/Furnace Drift replaces supplies, old stock retained, no ending vote; HIGH review, all7 exact-head CI40914888630, local1022/0 +8 SILENT voyages. |
