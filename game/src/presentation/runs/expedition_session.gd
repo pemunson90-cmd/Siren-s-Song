@@ -35,6 +35,7 @@ func _ready()->void:
 	super._ready();active_started=false
 	if not active_envelope.is_empty():
 		active_started=RunArchive.Active.restore_sim(sim,active_envelope,run_state,"runs")
+		if active_started:tactical_aids.restore_history(active_envelope.get("tactical_pause_history"))
 		mission_index=sim.mission.id;ocean.sim=sim;ocean.focus_craft()
 	snapshot_ready=true
 	FrontendSettings.apply(FrontendSettings.current,self);sound.muted=campaign_host.sound.muted
@@ -45,6 +46,7 @@ func _save_archive()->void:
 	if not snapshot_ready or DevState.marked(self):return
 	if active_started and run_state.in_flight and not recorded:
 		active_envelope=RunArchive.Active.capture("runs",run_state,sim,active_envelope)
+		active_envelope["tactical_pause_history"]=tactical_aids.saved_history()
 		save_failed=not _persist_state(run_state,active_envelope)
 	elif recorded:save_failed=not _persist_state(run_state)
 
