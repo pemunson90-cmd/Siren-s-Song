@@ -1,4 +1,4 @@
-[QUEUE RUNNER 2026-10-29T17:10:17.4362198-04:00] running: 113 PID13428, 111 PIDunknown; done: 103, 106, 110, 112, 109, 114, 108; blocked: 105, 104.
+[QUEUE RUNNER 2026-10-29T17:10:27.2338716-04:00] running: 113 PID13428, 111 PID29896; done: 103, 106, 110, 112, 109, 114, 108; blocked: 105, 104.
 
 [Claude108 2026-10-29T17:07:44.5441807-04:00] DONE: PR224 merged ec026af6; Confluence selects two recovery variants, revised fleet evidence approved, all7 green. Bounded108 closed; runner owns successors.
 
