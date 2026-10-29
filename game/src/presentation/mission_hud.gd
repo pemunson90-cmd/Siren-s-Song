@@ -554,32 +554,52 @@ func _draw():
   var hull=Rendezvous.projection(host.sim).hull
   if not hull.is_empty():caption=str(hull.phase).to_upper()+" · LOCAL FIX" if hull.live else "STALE · %ds AGO"%floori(hull.age)
  var lines=[title,caption]
+ var camera_lines=camera_caption() if page in ["craft","object"] and host.order_buttons.camera in ring_buttons else []
  if page=="acoustics":
   var carry=acoustics_carry_caption()
   if not carry.is_empty():lines.append(carry)
  if page=="cache":lines.append_array(Cache.captions(host.sim))
  if page=="plant":lines.append(WarningChain.radial_state(WarningChain.context(host.sim)))
- elif page=="craft" and host.order_buttons.camera in ring_buttons:lines.append_array(camera_caption())
+ elif not camera_lines.is_empty():lines=[title]+camera_lines
  lines=StatusView.captions(self,lines)
  var first_y=CenterLayout.first_baseline(center.y,close_button.get_rect(),h,text_scale,lines.size(),font,text_size)
  for n in lines.size():
-  var text=lines[n];var width=font.get_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,-1,text_size).x
+  var text=lines[n]
+  if not camera_lines.is_empty():
+   # Keep photo context inside the existing full-size controls, at the chosen text size.
+   var top=first_y+n*(text_size+CenterLayout.STYLE.line_gap)-font.get_ascent(text_size)
+   var room=minf(center.x,size.x-center.x)-8.
+   for button in ring_buttons+[close_button]:
+    var rect=button.get_rect()
+    if rect.end.y<=top or rect.position.y>=top+font.get_height(text_size):continue
+    room=minf(room,maxf(0.,maxf(rect.position.x-center.x,center.x-rect.end.x))-8.)
+   if font.get_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,-1,text_size).x>room*2:
+    while not text.is_empty() and font.get_string_size(text+"…",HORIZONTAL_ALIGNMENT_LEFT,-1,text_size).x>room*2:text=text.left(-1)
+    text+="…"
+  var width=font.get_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,-1,text_size).x
   var baseline=Vector2(center.x-width/2,first_y+n*(text_size+CenterLayout.STYLE.line_gap))
   caption_rects.append(Rect2(baseline-Vector2(0,font.get_ascent(text_size)),Vector2(width,font.get_height(text_size))))
   draw_string(font,baseline,text,HORIZONTAL_ALIGNMENT_LEFT,-1,text_size,Color("a8d9d5"))
 func acoustics_carry_caption()->String:
  var sim=host.sim
  return sim.Depth.SurvivorAscent.line(sim.mission,sim.selected,sim.units[sim.selected],true)
-# What the contextual action is and what it will aim at, shown before the tap (two short lines).
+# Both camera entrypoints use the automatic context; the title above remains the selected object.
 func camera_caption() -> Array:
  var sim=host.sim;var button=host.order_buttons.camera
- var verb=button.text.replace("\n"," ")
+ var verb="AUTO · "+button.text.replace("\n"," ")
  var context=sim.camera_context();var target=int(context.get("target",-1))
- if target==-2:return [verb,"▸ SIREN S%d"%(int(context.get("siren",0))+1)]
- if target>=0 and target<sim.mission.objectives.size():
-  var site=sim.mission.objectives[target]
-  return [verb,"▸ %s"%sim.Photo.label(site).to_upper().substr(0,18),("READY · " if context.get("ready",false) else "NOT READY · ")+"%dm"%roundi(sim.units[sim.selected].pos.distance_to(site.pos))]
- return [verb,"▸ NO SITE IN RANGE"]
+ # refresh() gives a selected operation the control unless its final PHOTO override applies.
+ # A different operation target is not the automatic camera action, even if that is ready.
+ var operation=Operations.action(sim,subject.get("index",-1) if subject.get("kind","")=="objective" else -1)
+ if not preload("res://src/simulation/photo_context.gd").is_photo(sim,context) and not operation.is_empty() and operation.target!=target:return []
+ var readiness="READY" if context.get("ready",false) else "NOT READY"
+ var work=sim.capture_feedback(sim.selected)
+ if work.unit>=0 and work.target==target:readiness="IN PROGRESS"
+ if target==-2:return [verb,"▸ SIREN S%d"%(int(context.get("siren",0))+1),readiness]
+ if target>=0 and sim.Photo.target_valid(sim.mission,target):
+  var site=sim.Photo.obj(sim,target)
+  return [verb,"▸ %s"%sim.Photo.label(site).to_upper(),readiness]
+ return [verb,"NO CAMERA TARGET",readiness]
 func action_controls() -> Dictionary:
  var result={}
  for c in find_children("*","Button",true,false)+host.zoom_buttons:
