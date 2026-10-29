@@ -61,13 +61,13 @@ static func _fence(m,key):
   [T.ridge([Vector2(2650,1000),Vector2(2980,980)],170,8),T.ALL],
   [T.ridge([Vector2(2980,990),Vector2(3220,1000)],170,9),[1,2]],
   [T.ridge([Vector2(3220,1000),Vector2(3640,980)],170,10),T.ALL],
-  [T.shard(Vector2(1260,560),120,7,11),T.ALL],[T.shard(Vector2(620,260),110,6,12),T.ALL],
+  [T.shard(Vector2(1000,670),60,7,11),T.ALL],[T.shard(Vector2(620,260),110,6,12),T.ALL],
   [T.shard(Vector2(2300,1560),140,8,13),T.ALL],[T.shard(Vector2(1000,1560),100,6,14),T.ALL],[T.shard(Vector2(2900,420),130,7,15),[1,2]]])
  m.objectives=[W.listen(key,TITLES[14].to_upper()+" / RECEIVED ACCOUNT",Vector2(950,420),ACCOUNTS[14])]
  m.corridors=[corridor(Vector2(3300,1760),"EAST REACH RECOVERY")]
  # Order matters to the network fixtures: investigator, buoy, relay first.
  R.add(m,[R.post(Vector2(1640,800),1,180.),R.guard("buoy",Vector2(1700,1000)),R.guard("relay",Vector2(2250,640)),
-  R.guard("patroller",Vector2(1900,460),1,[Vector2(1900,460),Vector2(2700,330),Vector2(3200,700),Vector2(2200,720)]),
+  R.guard("patroller",Vector2(1070,760),1,[Vector2(1070,760),Vector2(1500,760),Vector2(1500,600),Vector2(1070,600)]),
   R.guard("hunter",Vector2(3100,700),0,[Vector2(3100,700),Vector2(2750,560)])])
 
 # 15 / A tall needle strait. Releasing the west vane silences every buoy for a
@@ -84,13 +84,13 @@ static func _strait(m,key):
   [T.wall([Vector2(2000,900),Vector2(1830,900),Vector2(1760,1250),Vector2(1720,1800),Vector2(1760,2350),Vector2(1820,2750),Vector2(2000,2750)]),[2]],
   [T.ridge([Vector2(780,1800),Vector2(1000,1790),Vector2(1220,1800)],110,1),[0]],[T.ridge([Vector2(740,2160),Vector2(1000,2170),Vector2(1260,2160)],120,6),[2]],
   [T.shard(Vector2(1500,3080),130,7,2),T.ALL],[T.shard(Vector2(620,3020),110,6,3),T.ALL],
-  [T.shard(Vector2(640,480),140,7,4),T.ALL],[T.shard(Vector2(1380,380),120,7,5),[1,2]]])
- m.objectives=[W.listen(key,TITLES[15].to_upper()+" / RECEIVED ACCOUNT",Vector2(1000,420),ACCOUNTS[15])]
+  [T.shard(Vector2(1060,500),140,7,4),T.ALL],[T.shard(Vector2(1240,770),70,7,5),[0]]])
+ m.objectives=[W.listen(key,TITLES[15].to_upper()+" / RECEIVED ACCOUNT",Vector2(1000,300),ACCOUNTS[15])]
  m.glass_reach.work_pos=Vector2(800,2380)
  m.corridors=[corridor(Vector2(300,3350),"SOUTH REACH RECOVERY")]
  R.add(m,R.listening_line([Vector2(1000,2250),Vector2(1000,1800),Vector2(1000,1350)],Vector2(1000,820)))
  R.add(m,[R.guard("relay",Vector2(1080,2860)),R.post(Vector2(1450,640),1,170.),
-  R.guard("patroller",Vector2(1250,2900),1,[Vector2(1250,2900),Vector2(1760,2930),Vector2(1720,3420),Vector2(1200,3180)]),
+  R.guard("patroller",Vector2(1250,850),1,[Vector2(1250,850),Vector2(1250,600)]),
   R.guard("relay",Vector2(1650,1150),2),R.guard("hunter",Vector2(1610,2300),2,[Vector2(1610,2300),Vector2(1590,1500)])])
 
 # 16 / A clockwise exhaust gyre around six piers and a walled cooling plant.
@@ -99,7 +99,7 @@ static func _strait(m,key):
 static func _drift(m,key):
  m.world_size=Vector2(2800,2800);m.start=Vector2(300,2500)
  var c=Vector2(1400,1400);var entries=[]
- for n in 6:entries.append([T.shard(c+Vector2.from_angle(TAU*n/6)*640,130,7,n),T.ALL])
+ for n in 6:entries.append([T.shard(Vector2(1480,2070) if n==1 else c+Vector2.from_angle(TAU*n/6)*640,60 if n==1 else 130,7,n),T.ALL])
  entries.append_array([[T.arc(c,250,330,.42,1.32,4),T.ALL],[T.arc(c,250,330,1.28,2.02,3),[0,1]],[T.arc(c,250,330,1.98,5.86,13),T.ALL]])
  entries.append([T.shard(c,60,6,9),T.ALL])
  entries.append_array([[T.shard(Vector2(2350,2350),160,7,10),T.ALL],[T.shard(Vector2(500,500),150,7,11),T.ALL],[T.shard(Vector2(2400,500),120,7,12),[1,2]]])
@@ -110,9 +110,10 @@ static func _drift(m,key):
  m.corridors=[corridor(Vector2(300,300),"NORTH REACH RECOVERY")] # TODO-S3
  m.currents=[{"center":Vector2(1400,760),"radius":700.,"velocity":Vector2(24,0)},{"center":Vector2(2040,1400),"radius":700.,"velocity":Vector2(0,24)},{"center":Vector2(1400,2040),"radius":700.,"velocity":Vector2(-24,0)},{"center":Vector2(760,1400),"radius":700.,"velocity":Vector2(0,-24)}]
  m.thermal_revision=1;m.thermal_fronts=[{"area":Rect2(1760,1050,600,700),"transmission":.45,"close_range":90.}]
- R.add(m,[R.guard("patroller",Vector2(1400,760),1,[Vector2(1400,760),Vector2(1954,1080),Vector2(1954,1720),Vector2(1400,2040),Vector2(846,1720),Vector2(846,1080)]),
+ R.add(m,[R.guard("patroller",Vector2(1250,1530),1,[Vector2(1250,1530),Vector2(1560,1450),Vector2(1500,1270),Vector2(1250,1270)]),
   R.post(Vector2(1900,1150),1,170.),R.guard("buoy",Vector2(520,1100)),R.guard("relay",Vector2(1000,700)),
-  R.guard("sweeper",Vector2(1950,2250),2,Patrols.circuit(16))])
+  R.guard("sweeper",Vector2(1950,2250),2,Patrols.circuit(16)),
+  R.guard("patroller",Vector2(1550,2000),2,[Vector2(1550,2000),Vector2(1750,2000)])])
 
 # 17 / Switchback silt terraces. The spindle lies under a silt mound that only
 # DEEP reaches; SHALLOW is choked by banks. Two recovery mouths, west and north.
@@ -127,11 +128,11 @@ static func _archive(m,key):
   [T.ridge([Vector2(940,2000),Vector2(2000,1980),Vector2(3240,2010)],120,7),[1,2]],
   [T.ridge([Vector2(-40,2000),Vector2(940,2000)],110,8),[0]],[T.shard(Vector2(2470,600),200,7,9,.1),[0]],[T.shard(Vector2(350,1100),200,7,10,.1),[0]],
   [T.shard(Vector2(2860,1350),120,8,11,.15),[0,1]],[T.shard(Vector2(1300,1350),110,7,12),T.ALL],[T.shard(Vector2(2000,300),110,6,13),T.ALL]])
- m.objectives=[W.listen(key,TITLES[17].to_upper()+" / RECEIVED ACCOUNT",Vector2(2620,380),ACCOUNTS[17])]
+ m.objectives=[W.listen(key,TITLES[17].to_upper()+" / RECEIVED ACCOUNT",Vector2(2100,380),ACCOUNTS[17])]
  m.glass_reach.artifact=W.cargo("silt_spindle",Vector2(2860,1350),2);m.glass_reach.work_pos=m.glass_reach.artifact.pos
  m.corridors=[corridor(Vector2(240,2180),"WEST REACH RECOVERY"),corridor(Vector2(1600,140),"NORTH REACH RECOVERY","shelf")] # TODO-S3
  R.add(m,[R.guard("buoy",Vector2(2560,1350),2),R.guard("relay",Vector2(2200,1830),2),R.guard("hunter",Vector2(1800,1350),2,[Vector2(1800,1350),Vector2(1800,800),Vector2(1200,850)]),
-  R.guard("patroller",Vector2(1100,1800),1,[Vector2(1100,1800),Vector2(2500,1800),Vector2(3000,1820)]),R.guard("warden",Vector2(1250,330))])
+  R.guard("patroller",Vector2(2580,340),1,[Vector2(2580,340),Vector2(2640,340),Vector2(2640,280),Vector2(2580,280)]),R.guard("warden",Vector2(1250,330))])
 
 # 18 / An anchorage behind a long reef. The service gate is the short sheltered
 # return; the east end is the long outside passage under a warden; DEEP has a
@@ -148,7 +149,8 @@ static func _anchorage(m,key):
  m.objectives=[W.listen(key,TITLES[18].to_upper()+" / RECEIVED ACCOUNT",Vector2(1400,900),ACCOUNTS[18])]
  m.corridors=[corridor(Vector2(400,2300),"SOUTH REACH RECOVERY")]
  R.add(m,[R.guard("buoy",Vector2(1120,720)),R.guard("buoy",Vector2(1700,820)),R.guard("relay",Vector2(1400,430)),R.post(Vector2(620,900),1,160.),
-  R.guard("warden",Vector2(2620,1700)),R.guard("sweeper",Vector2(610,1750),2)])
+  R.guard("warden",Vector2(2620,1700)),R.guard("sweeper",Vector2(610,1750),2),
+  R.guard("patroller",Vector2(1530,900),1,[Vector2(1530,900),Vector2(1760,900),Vector2(1760,450),Vector2(1530,450)])])
 
 # 19 / The listening chain: a broken wall with buoy-watched gaps west and east,
 # the anchorage service channel in the centre, and a DEEP-only gap watched by a

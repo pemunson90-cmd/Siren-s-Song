@@ -15,13 +15,16 @@ static func tick(s,seconds:float)->void:
  for n in roundi(seconds*60):s.advance(1./60)
  s.paused=true
 # Route one craft to a point and run until it settles; false if it dies, stalls or the run ends lost.
-static func go(s,id:int,point:Vector2,tol:float=22.)->bool:
+static func go(s,id:int,point:Vector2,tol:float=22.,survey:bool=false)->bool:
  if not s.outcome.is_empty():return s.outcome=="won" and s.units[id].pos.distance_to(point)<65
  s.command("select",{"unit":id})
  if not s.command("route",{"point":point}):printerr("ROUTE rejected ",point," ",s.message);return false
  s.paused=false
  for n in 30000:
   s.advance(1./60)
+  # An earned chart can stop at a newly observed face. Reissue the same intended
+  # waypoint through that observation, without changing the arrival tolerance.
+  if survey and s.units[id].has("chart_stop") and n%30==0:s.command("route",{"point":point})
   if not s.outcome.is_empty() or not s.units[id].alive:break
   if s.units[id].route.is_empty() and s.units[id].vel.length()<2:break
   if s.units[id].pos.distance_to(point)<18 and s.units[id].vel.length()<2:break
