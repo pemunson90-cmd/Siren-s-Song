@@ -103,6 +103,7 @@ static func make(id:int,history:Dictionary={})->Dictionary:
  preload("res://src/simulation/photo_pricing/photo_pricing_data.gd").apply(m,id)
  preload("res://src/photo_rules/rule_data.gd").apply(m,id)
  preload("res://src/campaign/photo_intel.gd").apply_effects(m,id,history)
+ preload("res://src/campaign/sorley_rescue.gd").chart_reward(m,history)
  return m
 static func prerequisites_met(id:int,completed:Array)->bool:
  var d=definition(id)

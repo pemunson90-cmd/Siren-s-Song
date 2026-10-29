@@ -102,7 +102,7 @@ static func land(sim)->bool:
  if not c.get("ready",false):sim.message=c.get("reason","Witness unavailable");return false
  var state=sim.mission.witness_evacuation;state.landed_by=sim.selected;state.carrier=-1;state.pos=harbour(sim.mission);state.state="landed"
  sim.mission.record="The living witness was physically landed in the concealed southeast lift point by "+sim.units[sim.selected].name+". The account is preserved without broadcasting the passage."
- if sim.mission.id==41:sim.mission.record="Sorley's boy reached the south boat alive aboard "+sim.units[sim.selected].name+". His father left supplies aboard Brannock."
+ if sim.mission.id==41:sim.mission.record="Sorley's boy reached the south boat alive aboard "+sim.units[sim.selected].name+". His father left pilotage charts aboard Brannock."
  sim.events.append({"type":"witness_landed","pos":harbour(sim.mission)});sim.message="Living witness landed safely · "+("return Quietus to recovery" if preload("res://src/simulation/concealed_harbour.gd").complete(sim) else "complete the witness-guided local work and receive its station reply");return true
 static func losses(sim)->void:
  if not applies(sim.mission):return

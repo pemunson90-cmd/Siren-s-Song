@@ -1,3 +1,12 @@
+## 29 October 2026: Sorley pilotage charts (handoff 112)
+
+[PAT, verbatim selections recorded in PAT_RULINGS_2026-10-29.md, items 12 and 13]
+
+12. "Change the Sorley rescue reward from supplies to pilotage charts?" = "Yes, charts (Recommended)"
+13. "Should the Sorley rescue count as one vote toward which ending you get?" = "No, keep it separate (Recommended)"
+
+[KEEL / implementation] Rescue grants lasting MIDDLE-water pilotage passages in Needle Strait and Furnace Drift through earned-chart certification. Both rescue tiers grant charts; old rescue facts qualify automatically and earlier supplies remain. Charts disclose terrain clearance, never Sirens. Passage extents are AI-DESIGNED. The rescue epilogue stays separate from ending votes.
+
 ## 29 October 2026: advanced economy and easier presets (handoff 110)
 
 [PAT, verbatim selections recorded in PAT_RULINGS_2026-10-29.md, items 9 and 10]
