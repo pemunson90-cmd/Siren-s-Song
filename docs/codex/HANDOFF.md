@@ -1,4 +1,4 @@
-# HANDOFF: Siren's Song, Claude orchestrator + two Codex lanes (updated 28 Oct 2026 20:20 ET, end of Claude session S5)
+# HANDOFF: Siren's Song, Claude orchestrator + two Codex lanes (updated 28 Oct 2026 22:21 ET, end of Claude session S5)
 
 Read this first after any context clear or restart, then the top of BOARD.md and the tail of LEDGER.md. Live refs, PRs and BOARD rows are newer than this file when they disagree. Pat's dated words in `docs/USER_DIRECTIVES.md` on `claude/integration` outrank everything here.
 
@@ -42,33 +42,27 @@ Read this first after any context clear or restart, then the top of BOARD.md and
   - Proven method: 096 Calder (guards on forced routes, earned discovery, drone evidence).
 - Evaluate before initiating; never repeat work because a conversation restarted. Run `date` for every timestamp; never estimate.
 
-## 3. State (28 Oct 2026 20:20 ET)
+## 3. State (28 Oct 2026 22:21 ET)
 
 | Ref | Meaning |
 |---|---|
 | `gauntlet/production` 225c3c45 | Promotion 2 (PR179) |
-| `claude/integration` | Everything below marked merged |
+| `claude/integration` 37bb9122 | Everything listed below as merged |
 | `codex/handoffs` | BOARD, handoffs, HANDOFF, LEDGER, prompts, design reports |
 
-Merged 28 Oct (S4 and S5): 056, 057, 063, 065, 066, 067, 068, 071, 072, 073, 075, 082, 085, 086, 087, 088, 089 (ops 14/15/16/20 earn their chart), 096 (Calder fleet fix, 6/7 SILENT pressure), 093 report, 098 tool cargo (PR199), 100 tool lockers (PR208), PR207 (069 expedition records, 080 arc cards, 092 hidden Sorley rescue op 41).
+Merged 28 Oct: 056, 057, 063, 065, 066, 067, 068, 069, 071, 072, 073, 075, 080, 082, 085, 086, 087, 088, 089, 092 (hidden Sorley rescue, op 41), 093 report, **094** (Iron Choir, PR198, 5/8 SILENT pressure), **095** (Glass Reach, PR209, 6/8 SILENT pressure; the sweeper patrol registry is preserved), **096** (Calder, 6/7), 098 tool cargo, 100 tool lockers, **101** debug console (PR210).
 
-**Claude lane, launched 20:03 ET, finishing:**
+**Root lane, open:**
+- **070** resume after app kill: PR211, independently approved, root merging.
+- **097** early-ops fleet fix: root's reviewer HOLD at 5/7 SILENT pressure against its required 6/7; all 7 equipped runs win at 100 hull. Next Claude decision: accept at 5/7 to match 094's accepted 5/8 (the acceptance bar is "about three quarters"), or ask root for one more placement pass. Tell root on BOARD either way.
 
-| Handoff | PR | Task |
-|---|---|---|
-| 094 Iron Choir fleet fix | 198 | Finish and merge. 5/8 SILENT pressure; 25, 27 and 28 still quiet |
-| 095 Glass Reach fleet fix | 209 | Repair 4 hosted failures (sweeper invariant, landmark shape, keel_mark route), keep 6/8, merge |
-| 101 debug console | 210 | Reconcile with integration (op 41, lockers) and merge |
+**Parked:** 099 slower SILENT. Pat said "Sure", but the global 6 m/s candidate caused 14 oxygen losses and cut Calder to 3/7. It is frozen on claude/silent-speed; revisit only from audit evidence.
 
-Check each BOARD row: DONE, or BLOCKED with a reason.
-
-**Root lane:** 070 resume after app kill (worktree Siren-s-Song-codex-070); 097 early-ops fleet fix (uncommitted edits in Siren-s-Song-codex-097, nothing pushed since 13:58; ask root for status if still silent).
-
-**Parked:** 099 slower SILENT. Pat said "Sure", but the global 6 m/s candidate caused 14 oxygen losses and cut Calder pressure to 3/7. Frozen on claude/silent-speed; revisit only from audit evidence.
+Still quiet after the fleet fixes (handed to 091 as known items): Iron Choir 25/27/28, Glass Reach 19/20, Calder 32 (oxygen only).
 
 ## 4. Next actions (in order)
 
-1. Make sure PR198, PR209 and PR210 merged (or handle their BLOCKED rows). Refresh Pat's tracker.
+1. Settle 097 (see section 3) and confirm PR211 (070) merged. Refresh Pat's tracker.
 2. When 070 and 097 land, **content is complete**: launch **090 Promotion 3** (Claude lane), then **091 whole-game cold audit**. 091 already lists the known open items, to hand the critic only after its own verdicts.
 3. Turn COLD_REVIEW_4 into fix batches (worst first; photographic reconnaissance, strategic depth and player experience first, per Pat 27 Oct). Then economy and Hunt calibration from simulated campaigns (numbers are provisional), then Promotion 4, then Pat plays on his phone when he chooses.
 4. Possible follow-ups to offer Pat:
