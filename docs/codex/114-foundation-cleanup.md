@@ -1,4 +1,4 @@
-# 114: Foundation cleanup from the S7 PR audit (Claude lane)
+# Handoff 114: Foundation cleanup from the S7 PR audit (Claude lane)
 
 **Why (Pat, 29 Oct 2026 ~13:00 ET):** "make sure that the code base doesn't become a sprawling mess that we have to untangle later ... before we set up for the next leg of the gauntlet, we should make sure we have a good foundation."
 
