@@ -1,5 +1,6 @@
 extends SceneTree
 const Sim=preload("res://src/simulation/simulation.gd")
+const Voyage=preload("res://tests/glass_fleet_voyage.gd")
 const Campaign=preload("res://src/campaign/expedition_campaign.gd")
 const Endings=preload("res://src/campaign/endings.gd")
 var checks=0
@@ -17,6 +18,7 @@ func go(s,point)->bool:
  s.paused=false
  for n in 18000:
   s.advance(Sim.STEP)
+  if s.units[0].has("chart_stop") and n%30==0:s.command("route",{"point":point})
   if not s.outcome.is_empty() or (s.units[0].route.is_empty() and s.units[0].vel.length()<2):break
  s.paused=true
  if s.units[0].pos.distance_to(point)>=25 and s.outcome!="won":print("GLASS COURSE STOP goal=",point," pos=",s.units[0].pos," message=",s.message)
@@ -27,11 +29,11 @@ func dive(s,band)->bool:
 # One authored bare-Quietus course per operation: waypoints, depth crossings and
 # local work in order. Each place has its own crossing; none is a shared perimeter.
 const COURSES={
- 14:[["go",Vector2(1000,1300)],["depth",2],["go",Vector2(1000,720)],["depth",1],["go",Vector2(950,560)],["camera"],["depth",2],["go",Vector2(1000,1300)],["depth",1],["go",Vector2(2000,1800)],["exit"]],
- 15:[["go",Vector2(800,2420)],["work","vane"],["go",Vector2(1000,2000)],["go",Vector2(1000,1150)],["go",Vector2(1000,600)],["camera"],["go",Vector2(1000,1150)],["go",Vector2(1000,2600)],["go",Vector2(1000,2900)],["go",Vector2(1000,3350)],["exit"]],
- 16:[["go",Vector2(1400,2250)],["depth",2],["go",Vector2(1400,1560)],["depth",1],["camera"],["depth",2],["go",Vector2(1400,2250)],["depth",1],["go",Vector2(700,2000)],["go",Vector2(200,800)],["go",Vector2(200,300)],["exit"]],
- 17:[["depth",0],["go",Vector2(2700,1450)],["depth",1],["depth",2],["go",Vector2(2860,1395)],["recover"],["go",Vector2(2700,1450)],["depth",1],["go",Vector2(600,1350)],["go",Vector2(400,850)],["go",Vector2(2470,850)],["go",Vector2(2470,400)],["go",Vector2(2700,420)],["camera"],["exit",1]],
- 18:[["go",Vector2(2650,1900)],["go",Vector2(2650,1150)],["go",Vector2(1400,935)],["work","service"],["go",Vector2(1400,1700)],["exit"]],
+ 14:[["go",Vector2(1000,1300)],["depth",2],["go",Vector2(1000,800)],["depth",1],["go",Vector2(850,560)],["camera"],["go",Vector2(700,560)],["depth",2],["go",Vector2(1000,1300)],["depth",1],["go",Vector2(2000,1800)],["exit"]],
+ 15:[["go",Vector2(1100,3350)],["go",Vector2(1100,2600)],["go",Vector2(800,2420)],["work","vane"],["go",Vector2(1100,2420)],["go",Vector2(1100,2000)],["go",Vector2(1100,1150)],["go",Vector2(1100,870)],["go",Vector2(950,800)],["go",Vector2(850,600)],["go",Vector2(850,300)],["go",Vector2(1050,180)],["middle"],["camera"],["depth",0],["go",Vector2(850,300)],["go",Vector2(850,600)],["go",Vector2(950,800)],["go",Vector2(950,1100)],["go",Vector2(1100,1150)],["depth",1],["go",Vector2(1100,2600)],["go",Vector2(1100,2900)],["go",Vector2(1100,3450)],["go",Vector2(300,3450)],["exit"]],
+ 16:[["go",Vector2(1400,2450)],["depth",2],["go",Vector2(1400,1560)],["wait",8],["depth",1],["camera"],["depth",2],["go",Vector2(1400,2450)],["depth",1],["go",Vector2(700,2000)],["go",Vector2(200,800)],["go",Vector2(200,300)],["exit"]],
+ 17:[["depth",0],["go",Vector2(2700,1450)],["depth",1],["depth",2],["go",Vector2(2860,1395)],["recover"],["go",Vector2(2700,1450)],["depth",1],["go",Vector2(600,1350)],["go",Vector2(400,850)],["go",Vector2(2470,850)],["go",Vector2(2470,400)],["go",Vector2(2250,380)],["camera"],["go",Vector2(2250,140)],["exit",1]],
+ 18:[["go",Vector2(2650,1900)],["go",Vector2(2650,1150)],["go",Vector2(1400,1200)],["go",Vector2(1345,900)],["work","service"],["go",Vector2(1345,1200)],["go",Vector2(1400,1700)],["exit"]],
  # Cross the western reef mouth in SHALLOW, whether the central gate is shut
  # or open. Settle in MIDDLE only at the recovery mouth.
  19:[["go",Vector2(1600,1700)],["go",Vector2(1600,1200)],["go",Vector2(1600,700)],["camera"],["depth",0],["go",Vector2(725,1200)],["go",Vector2(725,1600)],["go",Vector2(1600,1700)],["exit"],["depth",1]],
@@ -42,6 +44,9 @@ func course(s,id)->bool:
   match step[0]:
    "go":if not go(s,step[1]):check(false,"bare course reaches "+str(step[1])+" "+str(id));return false
    "depth":if not dive(s,step[1]):check(false,"bare depth crossing to band "+str(step[1])+" "+str(id));return false
+   "middle":
+    if s.units[0].band!=1 and not dive(s,1):return false
+   "wait":tick(s,step[1])
    "work":
     check(s.command("glass_action",{"action":step[1]}),"bare local machine accepts real work "+str(id));tick(s,8.2)
    "camera":
@@ -55,9 +60,9 @@ func course(s,id)->bool:
 func progress(route="concealed"):
  return {"version":2,"route":"deep","routes":["deep"],"completed":[6,7,9,11,12 if route=="concealed" else 13],"facts":{"deep":"received carrier","confluence_route":route,"resolution":"concealed_recovery" if route=="concealed" else "overt_warning"},"notes":{},"references":{},"entitlements":[],"history":[],"selected_thread":"deep"}
 func journey(id:int,p:Dictionary):
- var s=Sim.new();s.start(id,"endurance",{"context":Sim.Consequences.context(p)})
+ var s=Voyage.new();s.start(id,"endurance",{"context":Sim.Consequences.context(p)})
  # Explicit source-known Quietus-only access, no earned-campaign/profile claim.
- s.units[1].alive=false;s.units[2].alive=false
+ # Idle drones remain alive at their authored launch stations.
  var tools=s.tools.duplicate()
  course(s,id)
  check(s.outcome=="won" and s.hull>0 and s.tools==tools and s.mission.launch_equipment.values().all(func(v):return v==""),"baseline Quietus finishes without finite tools or advanced fitting "+str(id))
