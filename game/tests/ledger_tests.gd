@@ -48,7 +48,7 @@ func _initialize():
  check(Ledger.build(null,null).is_empty(),"non-dictionary progress prints nothing")
  var late={"selected_thread":"deep","completed":[18,22,28,29],"facts":{"choir_people":"landed","choir_plant":"dismantle","choir_choice":"weird_value","glass_choice":"sever"}}
  var lp=Ledger.build(late,{})
- check(has_row(lp,"Choir people: recovered workers") and has_row(lp,"Varne staff: not recorded") and has_row(lp,"Choir plant: plant dismantled.") and has_row(lp,"Varne fence: reporting spur severed."),"late arc lines")
+ check(has_row(lp,"Choir people: recovered workers") and has_row(lp,"Varne staff: recorded as sever.") and has_row(lp,"Choir plant: plant dismantled.") and has_row(lp,"Varne fence: reporting spur severed."),"late arc lines")
  check(has_row(lp,"Choir line: recorded as weird value."),"unknown value is echoed, not guessed")
  var know=Ledger.build({"research":{"materials":["prism_core","keeper_wafer","nonsense"],"spent":[],"projects":["quietus_prism"]}},{"siren_a":{"q":0.5},"siren_b":{"q":0.},"wreck_1":{"q":0.4}})
  var rows=flat(know)
