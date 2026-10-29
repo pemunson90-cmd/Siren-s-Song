@@ -94,7 +94,7 @@ static func draw_world(view,sim)->void:
   for n in 7:
    var y=area.position.y+25+n*50
    view.draw_polyline(PackedVector2Array([Vector2(area.position.x,y),Vector2(area.get_center().x,y-15),Vector2(area.end.x,y)]),Color(.67,.68,.46,.25),width)
-  view._label(area.position+Vector2(-90,-20),"EXHAUST FRONT · MUTUAL MASK",Color("b7b98e"),font)
+  view._label(area.position+Vector2(-90,-20),"EXHAUST FRONT / "+sim.Thermal.BAND_NAMES[sim.Thermal.band(sim.mission)]+" ONLY",Color("b7b98e"),font)
  var a:Vector2=report.alarm.pos
  # Open resonating vanes are distinct from a receiver cross or factory marker.
  view.draw_rect(Rect2(a-Vector2(28,34),Vector2(56,68)),Color("293d3b"));view.draw_arc(a,40,0,TAU,40,Color("bec69c"),width)

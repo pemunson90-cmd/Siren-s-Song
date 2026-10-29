@@ -98,6 +98,8 @@ static func briefing(host, index: int) -> void:
 		if not photo_problems.is_empty():host._menu_text(photo_problems,17)
 		if host.ExpeditionOperations.briefing(host,index):pass
 		manual_control=host._button(host.panel_box,"FIELD MANUAL · full rules and orders",func(): host._reference(index),"manual")
+	var thermal_line=preload("res://src/simulation/thermal_front.gd").briefing(briefing)
+	if not thermal_line.is_empty():host._menu_text(thermal_line,17)
 	preload("res://src/presentation/archive/voice_feed.gd").briefing(host,index)
 	var stock=host._loadout_stock(host.upgrade)
 	var fit_start=host.panel_box.get_child_count()

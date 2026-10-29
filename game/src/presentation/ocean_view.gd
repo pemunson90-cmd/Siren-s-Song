@@ -265,7 +265,7 @@ func _draw() -> void:
 			var area:Rect2=front.area
 			draw_rect(area,Color(0.22,0.54,0.7,0.07))
 			draw_rect(area,Color(0.36,0.66,0.78,0.38),false,1.2/world_scale)
-			_label(area.position+Vector2(120,106),str(sim.mission.get("photo_lane","COLD FRONT")),Color(0.46,0.7,0.78,0.8),14)
+			_label(area.position+Vector2(120,106),str(sim.mission.get("photo_lane","COLD FRONT"))+" / "+sim.Thermal.BAND_NAMES[sim.Thermal.band(sim.mission)],Color(0.46,0.7,0.78,0.8),14)
 	_draw_departure()
 	# Own cached camera wash sits below stone and unknown-water fog. It does
 	# not query photographic columns, hidden terrain, enemies or visibility.

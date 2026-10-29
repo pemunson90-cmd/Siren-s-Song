@@ -9,6 +9,8 @@ static func initialize(sim):
   if e.get("type","") in ROLES:e["network"]=initial()
 static func key(p:Dictionary)->String:return "%d:%.6f"%[p.origin,p.born]
 static func link(sim,a:Dictionary,b:Dictionary)->bool:
+ if sim.mission.get("thermal_revision",0)==1:
+  return not preload("res://src/simulation/thermal_front.gd").arrivals(sim,b,a.pos,700.*sim.Depth.transmission(b,a)).is_empty()
  return not sim.band_acoustics[a.band].arrivals(a.pos,b.pos,700.*sim.Depth.transmission(a,b)).is_empty()
 static func heard(sim,e:Dictionary)->Dictionary:
  var candidates=[]
