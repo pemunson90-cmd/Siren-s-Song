@@ -39,10 +39,9 @@ static func write(host,data:Dictionary)->void:
  if marked(host):
   data["dev"]=true;data["dev_setup"]=setup(host).duplicate(true)
 static func restore(host,data:Dictionary,reset:bool=false)->void:
- if reset and host.get_meta("dev_runs_cache",false):
-  # New Campaign restores eligibility; discard ephemeral DEV runs so ordinary
-  # expedition access reloads its untouched sidecar instead of crediting a DEV run.
-  for key in ["dev_runs_cache","runs_archive_path","runs_archive_state","runs_archive_dirty","runs_archive_locked","runs_save_error","runs_records","runs_recorded"]:
+ if reset:
+  # DEV mode copies never own the ordinary checkpoints or pending candidates.
+  for key in ["dev_mode_cache","dev_runs_cache"]:
    if host.has_meta(key):host.remove_meta(key)
  host.set_meta("dev_profile",data.get("dev",false) or (not reset and marked(host)))
  host.set_meta("dev_setup",data.get("dev_setup",{"history":{},"items":[],"completed":[],"cleared":[]}).duplicate(true))

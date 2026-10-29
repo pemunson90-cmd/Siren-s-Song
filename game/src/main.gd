@@ -214,6 +214,7 @@ func _reflow_mission() -> void:
 	mission_reflow_pending=false
 	if screen=="mission" and not _measured_mission_rows().is_equal_approx(mission_row_heights): _layout(false)
 func _layout(cancel_gesture:bool=true) -> void:
+	if not is_inside_tree():return
 	if ocean==null:return
 	if cancel_gesture:map_gesture.cancel()
 	_apply_safe_area()
@@ -790,6 +791,7 @@ func _take_capture() -> void:
 	print("SS_CAPTURE ",capture_path," size=",image.get_size()," result=",result)
 
 func _report_targets() -> void:
+	if not is_inside_tree():return
 	await get_tree().process_frame
 	if not is_inside_tree(): return
 	var capture_phase="layout_only"

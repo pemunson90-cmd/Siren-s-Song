@@ -16,21 +16,44 @@ var prior_visibility:Array=[]
 var prior_sound_suspended=false
 var recorded=false
 var accept_rider=true
+var snapshot_ready=false
+var save_failed=false
+var active_envelope:Dictionary={}
+var pinned_path=""
 func freeze_campaign()->void:
 	prior_mode=campaign_host.process_mode;prior_sound_suspended=campaign_host.sound.system_suspended
 	for child in campaign_host.get_children():
 		if child is CanvasItem:prior_visibility.append({"node":child,"visible":child.visible});child.hide()
 	campaign_host.sound.suspend();campaign_host.process_mode=Node.PROCESS_MODE_DISABLED
 func _ready()->void:
+	pinned_path=campaign_host.store.path
+	if DevState.marked(self):set_meta("dev_profile",true)
+	active_envelope=preload("res://src/campaign/mode_dev.gd").active(campaign_host,"runs") if DevState.marked(self) else campaign_host.get_meta("runs_active",{}).duplicate(true)
 	sim=RunSimulation.new();sim.configure(run_state)
 	upgrade=run_state.loadout;fitted_equipment=preload("res://src/equipment/equipment_catalog.gd").default_loadout()
 	hints_seen=OnboardingText.HINTS.keys();settings=campaign_host.settings.duplicate();capture_scenario="expedition-session"
 	super._ready();active_started=false
+	if not active_envelope.is_empty():
+		active_started=RunArchive.Active.restore_sim(sim,active_envelope,run_state,"runs")
+		mission_index=sim.mission.id;ocean.sim=sim;ocean.focus_craft()
+	snapshot_ready=true
 	FrontendSettings.apply(FrontendSettings.current,self);sound.muted=campaign_host.sound.muted
 	_show_campaign();_layout()
 func _scenario(_name:String)->void:pass
 func _load_archive()->void:pass
-func _save_archive()->void:pass
+func _save_archive()->void:
+	if not snapshot_ready or DevState.marked(self):return
+	if active_started and run_state.in_flight and not recorded:
+		active_envelope=RunArchive.Active.capture("runs",run_state,sim,active_envelope)
+		save_failed=not _persist_state(run_state,active_envelope)
+	elif recorded:save_failed=not _persist_state(run_state)
+
+func _persist_state(state:Dictionary,envelope:Dictionary={})->bool:
+	if DevState.marked(self):return false
+	if campaign_host.store.path!=pinned_path:
+		campaign_host.set_meta("runs_save_error","Profile changed. Return to the original profile and retry.")
+		return false
+	return RunArchive.persist(campaign_host,state,envelope)
 func _apply_safe_area()->void:pass
 func ui_density_dpi()->float:
 	return campaign_host.ui_density_dpi() if is_instance_valid(campaign_host) else super.ui_density_dpi()
@@ -50,6 +73,9 @@ func _show_campaign()->void:
 	_menu_text(sim.mission.brief,17)
 	_menu_text("%s LOADOUT · %s · STARTING HUNT %d\nTools carry across recovered operations. Film and oxygen replenish for each dive."%[run_state.loadout.to_upper(),RunTable.SCARCITY[run_state.scarcity].to_upper(),RunState.starting_hunt(run_state,RunState.current_operation(run_state))],17)
 	if active_started:
+		if save_failed:
+			_menu_text("SAVE PENDING · "+str(campaign_host.get_meta("runs_save_error","")),17)
+			_button(panel_box,"RETRY SAVE",func():_save_archive();_show_campaign(),"run_retry_save")
 		_menu_text(sim.rider_status(),17)
 		_button(panel_box,"RESUME DIVE",_enter_water,"run_resume")
 		_button(panel_box,"END DIVE · LOSE RUN",func():_debrief(true),"run_abandon")
@@ -65,17 +91,19 @@ func _show_campaign()->void:
 	call_deferred("_layout")
 func _begin()->void:
 	if active_started or run_state.in_flight or RunOffers.pending(run_state):return
+	if not RunArchive._available(campaign_host):
+		_menu_text("LAUNCH PAUSED · "+str(campaign_host.get_meta("runs_save_error","")),17);return
 	var launched=RunState.launch(run_state,accept_rider)
-	if not RunArchive.persist(campaign_host,launched):
-		_menu_text("LAUNCH PAUSED · "+str(campaign_host.get_meta("runs_save_error","Check storage and retry.")),17);return
-	run_state=launched;sim.configure(run_state);recorded=false
-	_start_mission(RunState.current_operation(run_state));_enter_water()
+	run_state=launched;sim.configure(run_state);recorded=false;active_envelope={}
+	_start_mission(RunState.current_operation(run_state));_save_archive()
+	if save_failed:_show_campaign();return
+	_enter_water()
 func _debrief(abandoned:bool=false)->void:
 	if DevState.block_debrief(self):return
 	if recorded:return
 	recorded=true;sim.paused=true;screen="expedition_result";_clear_menu()
 	run_state=RunState.settle(run_state,sim.result(abandoned))
-	run_state=RunOffers.prepare(run_state)
+	run_state=RunOffers.prepare(run_state);active_envelope={}
 	_result_menu()
 func _result_menu()->void:
 	screen="expedition_result";_clear_menu()
@@ -88,7 +116,8 @@ func _result_menu()->void:
 			_menu_text("RIDER %s · BONUS %s"%["PASSED" if r.passed else "FAILED",RunState.rider_bonus_text(r.assignment) if r.passed else "NONE"],17)
 	if run_state.status!="active":SummaryView.session(self)
 	else:_show_photo_grade(sim.mission.objectives)
-	if not RunArchive.persist(campaign_host,run_state):
+	save_failed=not _persist_state(run_state)
+	if save_failed:
 		_menu_text("RESULT NOT SAVED · "+str(campaign_host.get_meta("runs_save_error","")),17)
 		_button(panel_box,"RETRY SAVE",_result_menu,"run_retry_save")
 		call_deferred("_layout");return
@@ -105,13 +134,16 @@ func _pick_offer(id:String)->void:
 	if not RunState.valid(run_state) or not RunOffers.pending(run_state):return
 	var picked=RunOffers.choose(run_state,id)
 	if picked==run_state:return
-	if not RunArchive.persist(campaign_host,picked):
+	if not _persist_state(picked):
 		OfferView.show(self)
 		_menu_text("CHOICE NOT SAVED · "+str(campaign_host.get_meta("runs_save_error","Retry when storage is available.")),17)
 		return
 	run_state=picked;recorded=false;active_started=false
 	sim.configure(run_state);_start_mission(RunState.current_operation(run_state));active_started=false
 	_show_campaign()
+func _enter_water()->void:
+	if save_failed:_show_campaign();return
+	super._enter_water()
 func _unhandled_key_input(event:InputEvent)->void:
 	if event is InputEventKey and event.pressed and event.keycode==KEY_ESCAPE:get_viewport().set_input_as_handled()
 	super._unhandled_key_input(event)

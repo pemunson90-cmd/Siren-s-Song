@@ -5,6 +5,10 @@ extends "res://src/presentation/career/rider_dive.gd"
 const RunState=preload("res://src/campaign/runs/run_state.gd")
 const RunTable=preload("res://src/campaign/runs/run_table.gd")
 var run_state:Dictionary={}
+func start_dev(index:int,upgrade:String,launch:Dictionary)->void:
+	# Console-only transient launch: bypass seeded operation selection, retain rules.
+	# DEV session guards exclude this simulation from checkpoints and settlement.
+	super.start(index,upgrade,launch)
 func configure(state:Dictionary)->bool:
 	if not RunTable.enabled or state.is_empty() or not RunState.valid(state) or state.status!="active":return false
 	run_state=state.duplicate(true)

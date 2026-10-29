@@ -49,7 +49,7 @@ static func briefing(host)->void:
 	heading(host,"CAREER / "+mission.title.to_upper(),"career_briefing")
 	host._menu_text("%s\n%s\n%s"%[Table.FACTIONS[c.faction],c.brief,mission.brief],18)
 	host._menu_text("RECOVERY PAY · %s\nSTANDING %d · SUCCESS +%d / LOSS %d\nNEXT LAUNCH · %s"%[Economy.fmt(c.reward),host.career_state.standing[c.faction],Table.SUCCESS,Table.LOSS,Economy.fmt(Economy.refit_cost(host.economy,host.fitted_equipment))],17)
-	host._menu_text("Paused physical operation. Oxygen, film and field tools replenish each dive. Damage persists through the existing economy; bare standard equipment always launches free. An interrupted dive records a contract loss.",16)
+	host._menu_text("Paused physical operation. Oxygen, film and field tools replenish each dive. Damage persists through the existing economy; bare standard equipment always launches free. Interrupted dives resume paused; abandoning records a contract loss.",16)
 	var rider=State.rider_offer(host.career_state,host.selected_contract)
 	host._menu_text(Riders.description(rider),17)
 	if not rider.is_empty():
@@ -62,7 +62,7 @@ static func briefing(host)->void:
 	host._button(host.panel_box,"BACK TO CONTRACT BOARD",host._show_campaign,"career_board")
 static func spend(host,title:String,cost:Dictionary,action:Callable,id:String)->void:
 	var button=host._button(host.panel_box,"%s · %s"%[title,Economy.fmt(cost)],host._change.bind(action,host._show_economy),id)
-	button.disabled=host.save_failed or not Economy.can_pay(host.economy,cost)
+	button.disabled=host._mutations_blocked() or not Economy.can_pay(host.economy,cost)
 static func supplies(host)->void:
 	if host.active_started:return
 	heading(host,"CAREER / SUPPLIES AND RESEARCH","career_supplies")
@@ -86,5 +86,13 @@ static func fittings(host)->void:
 	host._button(host.panel_box,"BACK TO CONTRACT BOARD",host._show_campaign,"career_board")
 	host._button(host.panel_box,"SUPPLIES / MANUFACTURE / RESEARCH",host._show_economy,"career_supplies")
 	host._menu_text("Unlock hulls and chassis with existing alloy prices. Manufacture conventional modules or research recovered alien material, then fit it for the next dive.",17)
-	EquipmentView.loadout(host,host.fitted_equipment,func(key,id):host._choose_equipment(key,id,-1))
-	EquipmentView.fitting(host,host._equipment_context(),func(key,id):host._choose_equipment(key,id,-1))
+	_guard_fittings(host,EquipmentView.loadout(host,host.fitted_equipment,func(key,id):host._choose_equipment(key,id,-1)))
+	_guard_fittings(host,EquipmentView.fitting(host,host._equipment_context(),func(key,id):host._choose_equipment(key,id,-1)))
+static func _guard_fittings(host,buttons:Array)->void:
+	for button in buttons:
+		# Retain deferred dispatch and recheck when an already-rendered row is tapped.
+		for connection in button.pressed.get_connections():
+			var action:Callable=connection.callable
+			button.pressed.disconnect(action)
+			button.pressed.connect(host._apply_fitting.bind(action),CONNECT_DEFERRED)
+		button.disabled=button.disabled or host._mutations_blocked()

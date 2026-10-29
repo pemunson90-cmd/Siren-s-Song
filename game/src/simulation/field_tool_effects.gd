@@ -11,6 +11,12 @@ const KEY="field_tools"
 const MAX_PLACED=8
 const MAX_COUNT=9
 
+# 070 save-only exception for existing run resupply, bounded again by ModeActive's
+# ledger budget. No stock is granted here. Campaign keeps its original caps.
+# Revert with mode resume; retain the ordinary validator for campaign saves.
+static func stock_cap(mission:Dictionary,ordinary:int)->int:
+ return MAX_COUNT if mission.get("run_seed") is int and mission.run_seed>=0 and mission.run_seed<=2147483647 else ordinary
+
 static func state(sim)->Dictionary:
  return sim.mission.get(KEY,{}) if sim!=null and Tools.enabled else {}
 static func seed(sim,upgrade:String)->void:
@@ -99,7 +105,7 @@ static func valid(mission:Dictionary)->bool:
  if not (repairable is float or repairable is int) or not is_finite(repairable) or repairable<0.0 or repairable>100.0:return false
  for id in data.counts:
   if not id is String or id not in Tools.field_ids() or not data.counts[id] is int:return false
-  if data.counts[id]<0 or data.counts[id]>MAX_COUNT or (id=="hull_patch" and data.counts[id]>1):return false
+  if data.counts[id]<0 or data.counts[id]>MAX_COUNT or (id=="hull_patch" and data.counts[id]>stock_cap(mission,1)):return false
  if data.placed.size()>MAX_PLACED:return false
  for item in data.placed:
   if not item is Dictionary or not item.get("id") is String or item.id not in Tools.field_ids() or item.id=="hull_patch":return false
