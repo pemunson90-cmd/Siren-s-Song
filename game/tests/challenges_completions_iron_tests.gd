@@ -16,8 +16,8 @@ func finish(s,id:String,route:String):
 func stair():
  var s=R.fresh("stair_no_charges")
  var st=s.mission.iron_choir.sites
- check(R.go(s,0,st[0].pos+Vector2(0,35)),"stair reaches lock_a below first bulkhead");check(R.choir(s,"lock_a"),"stair cycles lock_a")
- check(R.course(s,0,[Vector2(650,1785),Vector2(1250,1385)]),"stair climbs to the shallow valve")
+ check(R.go(s,0,st[0].pos+Vector2(0,-55)),"stair reaches lock_a below first bulkhead");check(R.choir(s,"lock_a"),"stair cycles lock_a")
+ check(R.course(s,0,[Vector2(500,1850),Vector2(650,1785),Vector2(1250,1385)]),"stair climbs to the shallow valve")
  check(R.dive(s,0,0),"stair rises to shallow");check(R.choir(s,"lock_b"),"stair cycles lock_b")
  check(R.course(s,0,[Vector2(1430,1195),Vector2(2400,800)]),"stair passes second bulkhead")
  check(R.dive(s,0,1) and R.dive(s,0,2),"stair drops to deep")
