@@ -37,16 +37,39 @@ func wake():
  var s=R.fresh("wake_one_charge")
  check(R.course(s,0,[Vector2(700,1540),Vector2(580,1320),Vector2(60,1320),Vector2(60,620),Vector2(300,620)]),"wake Quietus reaches the western onward packet")
  s.command("select",{"unit":0});check(s.command("camera"),"wake Quietus receives the onward packet")
- R.tick(s,25.)
+ # The local packet is a four-second decode. Waiting another 21 seconds
+ # after it is aboard spends the authored 105-second crossing reserve.
+ R.tick(s,4.3)
  check(s.all_records(),"wake real passive decode earns the packet before the crossing")
+ check(s.mission.objectives.any(func(o):return o.get("site_id","")=="wake_packet" and o.captured),"wake required local packet is actually received")
  check(R.course(s,0,[Vector2(60,620),Vector2(60,160),s.mission.extraction]),"wake Quietus crosses the outer water and returns")
  finish(s,"wake_one_charge","quiet_outer")
 func rendezvous():
  var s=R.fresh("rendezvous_middle")
+ # A real independent receiver works the required saddle while Quietus
+ # approaches the tender. Neither source knowledge nor completion is injected.
+ s.command("select",{"unit":1})
+ check(s.command("drone_drive",{"mode":"quiet"}),"rendezvous helper uses quiet thrust")
+ check(s.command("route",{"point":Vector2(650,1120)}),"rendezvous helper approaches the saddle service")
  check(R.go(s,0,Vector2(380,760)),"rendezvous Quietus reaches the quiet western berth")
  R.tick(s,.8)
- check(R.record(s,0,0) and s.all_records(),"rendezvous Quietus keeps the berth packet")
+ var packet=s.mission.objectives.filter(func(o):return o.get("site_id","")=="rendezvous")
+ check(packet.size()==1 and s.rendezvous_context().vessel.live,"rendezvous actual local carrier observation exposes its packet")
+ check(R.go(s,1,Vector2(650,1120)) and R.record(s,1,0),"rendezvous helper receives the required saddle service account")
+ s.command("select",{"unit":1})
+ check(s.command("route",{"point":Vector2(520,980)}),"rendezvous helper starts its physical return")
+ s.command("queue")
+ for point in [Vector2(440,760),Vector2(440,300),s.mission.extraction]:
+  check(s.command("route",{"point":point}),"rendezvous helper queues its clear return water")
+ s.command("queue")
+ check(packet.size()==1 and R.record(s,0,s.mission.objectives.find(packet[0])) and s.all_records(),"rendezvous Quietus keeps the berth packet")
+ check(packet.size()==1 and packet[0].captured,"rendezvous Quietus actually decodes the observed tender packet")
+ # Give the quietly returning receiver a three-second lead before Quietus
+ # commits the final leg; recovery ends simulation for every craft.
+ R.tick(s,3.)
  check(R.go(s,0,s.mission.extraction),"rendezvous Quietus recovers by the north trench")
+ check(s.units[1].alive and s.units[1].pos.distance_to(s.mission.extraction)<180,"rendezvous service helper returns alive to recovery water")
+ print("RENDEZVOUS HELPER pos=",s.units[1].pos," route=",s.units[1].route," alive=",s.units[1].alive," battery=",s.units[1].battery)
  finish(s,"rendezvous_middle","quiet_berth")
 func _initialize():
  var only=OS.get_cmdline_user_args()

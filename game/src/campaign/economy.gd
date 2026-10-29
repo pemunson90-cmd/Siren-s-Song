@@ -197,6 +197,9 @@ static func settle(e:Dictionary,facts:Dictionary)->void:
  if facts.outcome=="won":base=Table.INCOME.first if facts.first else Table.INCOME.replay
  for key in gain:gain[key]=base[key]
  gain.scrap+=Table.INCOME.module_scrap*facts.recovered
+ # 097: first recovered Blackwater exchange with a real local buffer handoff.
+ # The caller supplies the physical receipt; replay and failed dives pay none.
+ if facts.outcome=="won" and facts.first and facts.get("blackwater_handoff",false):gain.cells+=2
  if facts.artifact:gain.alloy+=Table.INCOME.artifact_alloy
  var income={}
  for key in gain:

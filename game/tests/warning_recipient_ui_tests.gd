@@ -186,7 +186,21 @@ func run():
   await tap(h.extra.warning_sheltered.get_global_rect().get_center());advance(s,2);g._refresh();await settle()
   check(s.warning_recipient_status().course=="sheltered" and s.warning_recipient_status().recipient.pos.distance_to(BERTH)>1,"deliberate sheltered touch starts real continuous transit "+label)
   await capture(label+"-recipient-transit")
-  s.units[0].pos=HOME;s.units[0].vel=Vector2.ZERO;advance(s,60);g._process(0);await settle()
+  # Keep this staged touch fixture's original arrival wait, then receive the
+  # mandatory account through the same craft primary a player uses.
+  s.units[0].pos=HOME;s.units[0].vel=Vector2.ZERO;advance(s,60)
+  if g.advanced_orders:h.dismiss();await settle()
+  g.ocean.focus_craft();g._refresh();await settle();await open_craft(g)
+  check(s.camera_context().ready,"pickup LISTEN is locally ready after actual recipient transit "+label)
+  # At the arrived launch, the craft primary first opens recipient controls.
+  # Its ordinary LISTEN remains available inside that measured object context.
+  await tap(g.order_buttons.camera.get_global_rect().get_center())
+  check(h.subject.get("subkind","")=="warning_recipient","pickup craft primary opens the received recipient controls "+label)
+  await tap(g.order_buttons.camera.get_global_rect().get_center())
+  check(not s.captures[0].is_empty(),"deliberate contextual LISTEN starts real pickup work "+label)
+  advance(s,4.2)
+  check(s.mission.objectives.any(func(o):return o.get("site_id","")=="warning_uplink" and o.captured),"touch receives the mandatory pickup service account "+label)
+  g._process(0);await settle()
   check(s.outcome=="won" and g.screen=="ending" and g.menu.find_child("WarningArrival",true,false)!=null,"actual arrival receipt and recovered Q reach persistent distinct ending "+label)
   await capture(label+"-warning-arrival")
   g.queue_free();await settle()

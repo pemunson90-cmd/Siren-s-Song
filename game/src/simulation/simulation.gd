@@ -610,7 +610,7 @@ func camera_context() -> Dictionary:
 func _camera_context_base() -> Dictionary:
 	var closed:String=BandPhoto.unready(self,units[selected])
 	if not closed.is_empty():return {"ready":false,"target":-1,"text":closed}
-	if Shelf.applies(mission):return {"target":-1,"ready":false,"text":Shelf.context(self).account}
+	if Shelf.applies(mission):return Shelf.receiver(self)
 	if Chain.applies(mission):return {"target":-1,"ready":false,"text":Chain.context(self,selected).text}
 	var work=capture_feedback(selected)
 	if work.unit>=0:
@@ -619,7 +619,7 @@ func _camera_context_base() -> Dictionary:
 			var c=blackwater_context(work.target,selected)
 			return {"target":work.target,"ready":false,"text":"%s · %s · %s %.1f/2s"%[units[selected].name,"REPLY CARRIER" if c.get("source","")=="courier" else active.name,"receiving" if c.settled else "settling",work.elapsed]}
 		return {"target":work.target,"ready":false,"text":"%s · %s %.1f / %.0fs"%[units[selected].name,active.name,work.elapsed,work.duration]}
-	if Rendezvous.applies(mission):return rendezvous_receiver()
+	if Rendezvous.applies(mission):return Rendezvous.work_receiver(self,selected)
 	var camera_sites=mission.objectives.filter(func(o):return preload("res://src/campaign/sorley_rescue.gd").camera_candidate(self,o))
 	if mission.has("expedition_revision") and camera_sites.all(func(o):return o.captured) and not camera_sites.any(func(o):return Operations.own_origin(o)):
 		if mission.id==41:return {"target":-1,"ready":false,"text":Witness.status(self).text}

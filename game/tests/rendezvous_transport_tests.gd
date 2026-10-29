@@ -12,21 +12,42 @@ func advance(s,seconds:float)->void:
  for n in roundi(seconds*60):s.advance(Sim.STEP)
 func fresh():
  var s=Sim.new();s.start(7);s.sirens=[];return s
+func packet(m:Dictionary)->Dictionary:
+ for o in m.objectives:
+  if o.get("site_id","")=="rendezvous":return o
+ return {}
+func local_leg(s,point:Vector2)->bool:
+ s.command("select",{"unit":0})
+ if not s.command("route",{"point":point}):return false
+ for n in 18000:
+  advance(s,Sim.STEP)
+  if s.outcome!="":return s.outcome=="won"
+  if s.units[0].pos.distance_to(point)<20 and s.units[0].vel.length()<2:return true
+ return false
+func service_accounts(s):
+ for point in [Vector2(380,760),Vector2(520,980),Vector2(650,1080)]:check(local_leg(s,point),"real fixed service approach")
+ check(s.command("camera"),"fixed saddle service reception");advance(s,4.1)
+ for point in [Vector2(520,980),Vector2(380,760),Vector2(500,300)]:check(local_leg(s,point),"real north mooring approach")
+ check(s.command("camera"),"fixed north mooring reception");advance(s,4.1)
+ for point in [Vector2(600,300),Vector2(600,40),Vector2(180,40)]:check(local_leg(s,point),"clear physical berth withdrawal")
 func guard_choice()->void:
  var berth=Sim.new();berth.start(7);berth.units[0].pos=Vector2(380,760);berth.units[0].silent=true
  advance(berth,.8);check(berth.command("camera"),"quiet western berth stance still starts the existing local decode against actual guards")
  advance(berth,4.1)
+ service_accounts(berth)
  check(berth.all_records() and berth.hull==100 and not berth.rendezvous_context().released and berth.command("route",{"point":berth.mission.extraction}),"quiet berth path keeps its packet and can choose ordinary recovery without a new release action")
  advance(berth,25)
  check(berth.outcome=="won" and berth.hull==100 and berth.units[1].alive and berth.units[2].alive,"unreleased quiet route remains physically finishable with the real sentinel and no tool use")
  # Matched tactical fixture, not a deployment journey: both branches start with
  # the same legitimately acquired source, craft, guard and command state.
  var seed=Sim.new();seed.start(7)
- seed.units[0].pos=Vector2(440,360);seed.units[0].silent=true
+ seed.units[0].pos=Vector2(580,360);seed.units[0].silent=true
  seed.units[1].pos=Vector2(650,1120);seed.units[1].silent=true
  seed.units[2].pos=Vector2(380,760);advance(seed,.8)
  seed.units[2].pos=Vector2(1800,2180);seed.units[2].vel=Vector2.ZERO
  seed.command("select",{"unit":1});seed.paused=true
+ check(seed.command("camera"),"matched helper physically receives the service account before either release choice")
+ advance(seed,4.1);seed.paused=true
  var quiet=Sim.new();var released=Sim.new()
  check(quiet.restore(seed.snapshot()) and released.restore(seed.snapshot()),"matched quiet/release fixture starts from identical accepted public knowledge and real guards")
  check(released.command("rendezvous_release"),"scout-operated berth release is a real optional decision")
@@ -39,6 +60,8 @@ func guard_choice()->void:
  check(released.units[1].alive and released.hull==100 and released.tools==quiet.tools and not released.noises.any(func(n):return n.label=="BERTH RELEASE"),"planned operator withdrawal survives real guard response and emission expires without tool expenditure")
  released.command("select",{"unit":0});check(released.command("camera"),"northern staged Quietus can receive during actual guard diversion")
  advance(released,4.1)
+ check(local_leg(released,Vector2(600,300)),"intercepting Quietus settles beside the north account outside the tender hull")
+ check(released.command("camera"),"intercepting Quietus receives the local north mooring account");advance(released,4.1)
  check(released.all_records() and released.hull==100 and released.units[1].alive,"real sentinel continuation permits the distinct exposed-release and staged-intercept tactic")
  print("MATCHED RELEASE 12.1s guard=",released.sirens[1].pos,"/",released.sirens[1].mode," hull=",released.hull," drone_alive=",released.units[1].alive," packet=",released.all_records())
 func solo_refuge()->void:
@@ -46,10 +69,12 @@ func solo_refuge()->void:
  var solo=fresh();solo.units[1].alive=false;solo.units[2].alive=false
  solo.tools={"emp":0,"knock":0,"decoy":0,"recon":0};solo.units[0].pos=Vector2(650,1120);solo.units[0].silent=true
  advance(solo,.8)
+ check(solo.command("camera"),"solo receives the local service account before releasing the tender");advance(solo,4.1)
  check(solo.command("rendezvous_release") and solo.command("route",{"point":Vector2(440,360)}),"bare Quietus alone can operate the control then commit a normal interception route")
  advance(solo,20)
  check(solo.rendezvous_receiver(0).ready and solo.command("camera"),"actual independent-craft physics reaches a settled mobile receiver without any optional gear or living drone")
  advance(solo,4.1)
+ check(solo.command("camera"),"solo receives the north mooring account at the actual refuge");advance(solo,4.1)
  check(solo.all_records() and solo.command("route",{"point":solo.mission.extraction}),"late interception can finish after arrival at permanent refuge and accept recovery route")
  advance(solo,20)
  check(solo.outcome=="won" and solo.mission.measured_reference==[.8,1.6,.8] and Sim.valid_snapshot(solo.snapshot()),"bare solo release route physically extracts the same earned reference")
@@ -83,7 +108,7 @@ func save_integrity(snap:Dictionary)->void:
   check(not Sim.valid_snapshot(bad),"malformed or unsupported release/observation state cleanly rejects")
  bad=snap.duplicate(true);bad.mission.rendezvous_transport.seen.pos+=Vector2(10,0)
  check(not Sim.valid_snapshot(bad),"saved observation must agree with physical voyage at its recorded measurement time")
- bad=snap.duplicate(true);bad.mission.objectives[0].pos+=Vector2(10,0)
+ bad=snap.duplicate(true);packet(bad.mission).pos+=Vector2(10,0)
  check(not Sim.valid_snapshot(bad),"saved gold objective must retain the last actual measured hull position")
 func finish()->void:
  print("RENDEZVOUS TRANSPORT CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)
@@ -101,7 +126,7 @@ func _initialize():
  s.units[1].pos=Vector2(650,1120);s.command("select",{"unit":1});advance(s,.8)
  check(s.rendezvous_context().control.known and not s.rendezvous_context().vessel.known,"a nearby drone discovers control without acquiring an occluded distant hull")
  s.command("recon")
- check(s.rendezvous_context().vessel.known and s.mission.signal_sources[0].located and s.mission.objectives.size()==1,"finite local Survey keeps its useful immediate physical source fix")
+ check(s.rendezvous_context().vessel.known and s.mission.signal_sources[0].located and s.mission.objectives.size()==3 and s.mission.objectives.filter(func(o):return o.get("site_id","")=="rendezvous").size()==1,"finite local Survey keeps its useful immediate physical source fix")
  check(not s.rendezvous_receiver(0).ready,"remote Survey acquisition cannot grant Quietus local packet reception")
  var before=s.snapshot();s.rendezvous_context();s.rendezvous_receiver();s.camera_context()
  check(s.snapshot()==before,"read-only tender and receiver feedback cannot acquire terrain or vessel knowledge")
@@ -115,9 +140,9 @@ func _initialize():
  # Stop Survey and move all receivers out of reach: marker must become stale.
  s.recon_time=0
  for unit in s.units:unit.pos=Vector2(1800,2180);unit.vel=Vector2.ZERO
- advance(s,.8);var stale=s.rendezvous_context().vessel;var site_pos=s.mission.objectives[0].pos;advance(s,4)
+ advance(s,.8);var stale=s.rendezvous_context().vessel;var site_pos=packet(s.mission).pos;advance(s,4)
  var later=s.rendezvous_context().vessel
- check(stale.known and not stale.live and later.pos==stale.pos and later.phase==stale.phase and later.age>stale.age and s.mission.objectives[0].pos==site_pos,"unseen tender motion leaves both hull fix and gold objective position stale")
+ check(stale.known and not stale.live and later.pos==stale.pos and later.phase==stale.phase and later.age>stale.age and packet(s.mission).pos==site_pos,"unseen tender motion leaves both hull fix and gold objective position stale")
  s.units[0].pos=Vector2(440,600);s.units[0].vel=Vector2.ZERO;s.command("select",{"unit":0});advance(s,.8)
  check(s.rendezvous_context().vessel.live and s.camera_context().ready,"Quietus can acquire and intercept the real locally moving tender")
  check(s.command("camera"),"existing4s CAMERA begins local moving packet reception")
@@ -125,13 +150,13 @@ func _initialize():
  check(s.snapshot()==snap,"pause freezes transit and partial local reception")
  var copy=Sim.new();check(copy.restore(bytes_to_var(var_to_bytes(snap))),"mid-transit receiver and measured fixes restore in current binary snapshot")
  advance(s,4);advance(copy,4)
- check(s.mission.objectives[0].captured and copy.mission.objectives[0].captured and copy.rendezvous_context().vessel==s.rendezvous_context().vessel,"restored actual moving reception completes the same cadence record")
+ check(packet(s.mission).captured and packet(copy.mission).captured and copy.rendezvous_context().vessel==s.rendezvous_context().vessel,"restored actual moving reception completes the same cadence record")
  check(s.mission.measured_reference==[.8,1.6,.8],"moving source preserves the earned cadence reference")
  advance(s,40)
  check(Transport.position(s.mission,s.elapsed)==points.back() and Transport.position(s.mission,s.elapsed+1000)==points.back(),"missed voyage has a permanent accessible refuge instead of an invisible expiry")
  var fallback=fresh();fallback.units[0].pos=Vector2(380,760);advance(fallback,.8)
  check(fallback.camera_context().ready and fallback.command("camera"),"Quietus-only quiet western berth approach remains a complete local fallback")
- advance(fallback,4.1);check(fallback.mission.objectives[0].captured and not fallback.rendezvous_context().released and fallback.mission.measured_reference==[.8,1.6,.8],"quiet decode does not require releasing or escorting the vessel")
+ advance(fallback,4.1);check(packet(fallback.mission).captured and not fallback.rendezvous_context().released and fallback.mission.measured_reference==[.8,1.6,.8],"quiet decode does not require releasing or escorting the vessel")
  check(Sim.valid_snapshot(s.snapshot()) and Sim.valid_snapshot(fallback.snapshot()),"both tender outcomes retain valid mission/source/campaign state")
  var blocked=fresh();blocked.units[0].pos=Vector2(540,420);blocked.command("recon")
  check(blocked.rendezvous_context().vessel.known and not blocked.rendezvous_receiver(0).ready,"finite Survey can fix a covered hull without permitting reception through its berth structure")

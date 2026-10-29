@@ -26,6 +26,25 @@ func action(game,id:String):
  for b in game.menu.find_children("*","Button",true,false):
   if b.get_meta("action","")==id:return b
  return null
+func recover_approach(game):
+ game.mission_hud.dismiss();game._refresh();await settle()
+ await tap(game.advanced_button.get_global_rect().get_center())
+ await tap(game.unit_buttons[0].get_global_rect().get_center())
+ await tap(game.order_buttons.program.get_global_rect().get_center())
+ var preview=game.route_editor.preview;var point=game.sim.mission.extraction
+ for attempt in 8:
+  var p=preview.global_position+preview.screen_position(point)
+  if preview.get_global_rect().grow(-3).has_point(p) and not preview.navigation_buttons.any(func(button):return button.get_global_rect().has_point(p)):
+   await tap(p);break
+  await tap(preview.navigation_buttons[1].get_global_rect().get_center())
+ check(not game.sim.route_goals().is_empty() and game.sim.route_goals()[0].pos.distance_to(point)<2,"physical planner retains current northern recovery mouth")
+ for b in game.route_editor.find_children("*","Button",true,false):
+  if b.get_meta("action","")=="close":await tap(b.get_global_rect().get_center());break
+ for n in 1200:
+  advance(game.sim,.1)
+  if game.sim.units[0].pos.distance_to(point)<18 and game.sim.units[0].vel.length()<2:break
+ game._process(0);await settle()
+ check(game.sim.units[0].pos.distance_to(point)<18 and game.sim.units[0].vel.length()<2,"Quietus physically settles at current recovery mouth")
 func run():
  for arg in OS.get_cmdline_user_args():
   if arg.begins_with("--capture-dir="):folder=arg.trim_prefix("--capture-dir=");DirAccess.make_dir_recursive_absolute(folder)
@@ -51,6 +70,27 @@ func run():
   sim.units[2].pos=Vector2(650,1120);sim.command("select",{"unit":2});advance(sim,.8);game.ocean.focus_craft();game._refresh();await settle()
   var control=sim.rendezvous_context().control
   check(control.known and not View.projection(sim).control.is_empty() and View.projection(sim).hull.is_empty(),"local control discovery does not draw an unsensed hull")
+  # Spend the fixture's existing Survey before testing outstanding custody:
+  # the tender's packet enters the objective list only when actually discovered.
+  sim.command("recon");game._refresh();await settle()
+  # The local scout receives the newly required fixed service account through
+  # its normal craft context; the tender packet remains Quietus-only.
+  await tap(game.advanced_button.get_global_rect().get_center())
+  await tap(game.unit_buttons[2].get_global_rect().get_center())
+  check(game.mission_hud.page=="craft" and game.order_buttons.camera.visible and not game.order_buttons.camera.disabled,"local scout exposes actual fixed service reception")
+  print("SERVICE UI REPRO shape=",dimensions," camera=",sim.camera_context()," tender=",sim.rendezvous_receiver()," disabled=",game.order_buttons.camera.disabled," selected=",sim.selected," page=",game.mission_hud.page)
+  await capture(label+"-service-public-context")
+  await tap(game.order_buttons.camera.get_global_rect().get_center())
+  check(sim.capture_feedback().unit==2 and sim.capture_feedback().elapsed==0,"service touch starts selected drone's real paused receiver job")
+  await tap(game.advanced_button.get_global_rect().get_center())
+  await tap(game.unit_buttons[2].get_global_rect().get_center())
+  check(game.order_buttons.camera.disabled and not sim.camera_context().ready,"active service reception disables repeated camera work")
+  var receiving=sim.snapshot();await tap(game.order_buttons.camera.get_global_rect().get_center())
+  check(sim.snapshot()==receiving,"disabled busy receiver touch preserves the actual reception")
+  advance(sim,4.2);game._refresh();await settle()
+  check(sim.mission.objectives.any(func(site):return site.get("site_id","")=="rendezvous_service" and site.captured) and not sim.all_records(),"touch receives required service while Quietus tender packet remains outstanding")
+  check(game.order_buttons.camera.disabled and not sim.camera_context().ready,"completed fixed service cannot authorize Drone B to decode the Quietus-only tender")
+  game.mission_hud.dismiss();game._refresh();await settle()
   var goals=sim.route_goals().duplicate(true);before=sim.snapshot()
   var marker=View.markers(game.ocean,sim,game.ui_touch_height).filter(func(m):return m.subject.subkind=="berth_control")[0]
   check(not game.ocean.ship_instrument_rects().any(func(rect):return rect.intersects(marker.rect)),"discovered control badge stays clear of own craft instruments")
@@ -71,7 +111,7 @@ func run():
   check(h.extra.rendezvous_release.disabled,"used control cannot issue repeated departures")
   h.open("inspect");await settle()
   check("permanent" in h.instrument_info.text.to_lower() and "announced" in h.instrument_info.text.to_lower(),"control status explains authored course and permanent refuge without promising live tracking")
-  h.dismiss();sim.command("recon");game._refresh();await settle()
+  h.dismiss();game._refresh();await settle()
   var report=View.projection(sim)
   check(not report.hull.is_empty() and report.hull.live and report.course==sim.rendezvous_context().course,"finite Survey draws permitted measured hull and announced route")
   game.ocean.chart_camera.mode="free";game.ocean.chart_camera.center=Vector2(530,670);game._layout();await settle();await capture(label+"-sensed-tender")
@@ -106,17 +146,19 @@ func run():
   check(lines.any(func(line):return "LOCAL HULL" in line) and lines.any(func(line):return "m" in line) and not lines.any(func(line):return "No hull image" in line),"receiver feed reports permitted actual local hull reception rather than an unrelated analytical no-range claim")
   await capture(label+"-refuge-receiver")
   advance(sim,2.2);game._process(0);await settle()
-  check(sim.mission.objectives[0].captured and game.screen=="departure" and sim.paused and action(game,"keep_recovering")!=null,"refuge decode coexists with outstanding module-return decision without premature debrief")
+  check(sim.mission.objectives.any(func(site):return site.get("site_id","")=="rendezvous" and site.captured) and sim.outcome.is_empty() and game.screen!="debrief","actual refuge packet cannot prematurely debrief with module still outside recovery")
+  await recover_approach(game)
+  check(sim.all_records() and not sim.departure_context().left.is_empty() and sim.departure_context().pending and game.screen=="departure" and sim.paused and action(game,"keep_recovering")!=null,"refuge decode coexists with outstanding module-return decision without premature debrief")
   await capture(label+"-refuge-module-decision")
-  if action(game,"keep_recovering")==null:game.queue_free();await settle();continue
-  await tap(action(game,"keep_recovering").get_global_rect().get_center())
-  check(game.screen=="mission" and sim.paused and sim.outcome.is_empty(),"keep recovering returns from refuge departure to paused normal craft control")
+  if action(game,"keep_recovering")!=null:
+   await tap(action(game,"keep_recovering").get_global_rect().get_center())
+   check(game.screen=="mission" and sim.paused and sim.outcome.is_empty(),"keep recovering returns from refuge departure to paused normal craft control")
   # A separate bare Quietus fixture proves the original silent berth action.
   game.fitted_equipment.drone_a="";game._start_mission(7);sim=game.sim;sim.sirens=[];sim.units[0].pos=Vector2(380,760);sim.units[0].vel=Vector2.ZERO;advance(sim,.8)
   game.ocean.focus_craft();game._refresh();await settle();h.open("craft");await settle()
   check("DECODE" in game.order_buttons.camera.text and not game.order_buttons.camera.disabled,"Quietus-only quiet berth remains directly available through craft commands")
   await tap(game.order_buttons.camera.get_global_rect().get_center());advance(sim,4.2)
-  check(sim.mission.objectives[0].captured and not sim.rendezvous_context().released,"quiet berth touch decode never requires releasing the hull or optional hardware")
+  check(sim.mission.objectives.any(func(site):return site.get("site_id","")=="rendezvous" and site.captured) and not sim.rendezvous_context().released,"quiet berth touch decode never requires releasing the hull or optional hardware")
   game.queue_free();await settle()
  finish()
 func finish():

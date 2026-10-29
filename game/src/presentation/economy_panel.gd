@@ -99,6 +99,7 @@ static func settle(host,first_recovery:bool,fleet_before:Dictionary)->void:
 	var recovered=mission.get("module_recovery",{}).get("result",{}).get("recovered",[])
 	Economy.settle(host.economy,{"outcome":host.sim.outcome,"hull":host.sim.hull,"alive":[host.sim.units[1].alive,host.sim.units[2].alive],
 		"first":first_recovery and won,"recovered":recovered.size() if first_recovery and won else 0,"artifact":artifact,
+		"blackwater_handoff":preload("res://src/simulation/blackwater_delivery.gd").handoff_paid(mission),
 		"key":"%d|%s|%d"%[host.mission_index,host.sim.outcome,roundi(host.sim.elapsed*100.)]})
 # ---- the supplies screen -----------------------------------------------------
 static func show(host)->void:

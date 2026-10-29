@@ -91,10 +91,14 @@ static func _deep(m:Dictionary,k:String)->void:
  m.brief="Photograph the saddle underside in DEEP; recover in MIDDLE at the southeast mouth. The split tooth marks the southwest launch, the broad roof the central crossing, and the mooring ribs the western plate.\nStay west of the roof for the long quiet contour, or use CAMERA / WORK at THREAD SLUICE RELEASE: its1400m motor opens the short DEEP crossing under the MIDDLE roof. The optional MIDDLE plate adds a depth change beside the northern patrol."
 static func _shelf(m:Dictionary,k:String)->void:
  Layouts.shelf(m)
+ # 097 / patterns 1,5: the separate terrace image and physical cache compete
+ # for return air. Parallel carriers can bring the complete service account.
+ m.endurance={"oxygen_seconds":185.,"drone_seconds":480.}
  m.objectives=[_photo(k,"BUNKER EXHAUST JOINT",Vector2(650,700),1,"A photographed joint joins the shelf bunker exhaust to its terrace wall."),_photo(k+"_bonus","OUTER TERRACE NUMBERS",Vector2(1550,300),1,"The outer terrace carries the same service numbers as the exhaust joint.",true)]
  m.corridors=[{"pos":Vector2(2650,1450),"name":"SHELF THREAD SOUTHEAST RECOVERY","route":"shelf"}]
  m.record="A shelf bunker exhaust survey. The film records infrastructure; it makes no new claim about the watch crew's evacuation."
  m.brief="Photograph the exhaust joint in MIDDLE, then recover at the southeast mouth. The exhaust comb splits the west basin, a hooked terrace divides the crossings, and the numbered northern spur marks the outer route.\nThe short central gap crosses an exhaust front that masks both sides' sound. The long northern contour preserves passive information and passes the optional terrace numbers; leave time for the journey back."
+ m.brief+=" Full cache recovery and the outer numbers compete for return air. Share the three physical cache pieces across the fleet while Quietus photographs."
 static func _confluence(m:Dictionary,k:String,history:Dictionary)->void:
  var context=history.duplicate(true)
  context.thread=history.get("thread","");context.completed=history.get("completed",[]);context.facts=history.get("facts",{})

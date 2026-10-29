@@ -39,8 +39,16 @@ func run():
    if id==12:preload("res://tests/concealed_fixture.gd").solve(game.sim)
    game.sim.units[0].pos=game.sim.mission.extraction;game.sim.units[0].vel=Vector2.ZERO
    if id==12:check(game.sim.command("witness_land"),"actual occupied capsule is explicitly landed before final recovery")
+   if id==13:
+    step(game.sim,.8)
+    check(game.sim.outcome.is_empty() and not game.sim.mission.recovered and not game.sim.warning_recipient_status().receipt and game.sim.mission.objectives.any(func(o):return o.get("site_id","")=="warning_uplink" and not o.captured),"warning and reply alone cannot bypass local pickup work or actual recipient arrival")
+    check(game.sim.command("camera"),"actual local pickup service reception begins before final recovery")
+    step(game.sim,4.2)
+    check(game.sim.mission.objectives.any(func(o):return o.get("site_id","")=="warning_uplink" and o.captured),"required pickup service account is physically received")
    step(game.sim,55.0 if id==13 else .1)
+   if id==13:check(game.sim.warning_recipient_status().receipt,"actual recipient arrival is locally observed before ending recovery")
    check(game.sim.outcome=="won","final operation reaches its real extraction transition")
+   print("ENDING FIXTURE thread=",thread," route=",route," outcome=",game.sim.outcome," recovered=",game.sim.mission.recovered," all_records=",game.sim.all_records()," recipient_receipt=",game.sim.warning_recipient_status().get("receipt",false)," time=",game.sim.elapsed)
    game._process(0.)
    var expected={"deepconcealed":"silent_exodus","deepovert":"beacon_pact","shelfconcealed":"hidden_harbour","shelfovert":"surface_reckoning"}[thread+route]
    check(game.screen=="ending" and game.expedition.get("ending","")==expected,"each branch retains its provisional family and shows this recovery")

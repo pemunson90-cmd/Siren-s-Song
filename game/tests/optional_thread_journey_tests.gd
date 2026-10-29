@@ -41,7 +41,7 @@ func shelf_thread(s)->bool:
  if not expose(s,s.mission.objectives[1]) or not leg(s,Vector2(550,300)):return false
  if not leg(s,Vector2(530,700)) or not expose(s,s.mission.objectives[0]):return false
  # Short inner return crosses the actual masking front below the hooked terrace.
- if not leg(s,Vector2(650,820)) or not leg(s,Vector2(2450,870)):return false
- if not leg(s,Vector2(2650,1450)):return false
+ if not leg(s,Vector2(650,820)) or not leg(s,Vector2(1850,820)) or not leg(s,Vector2(2250,820)):return false
+ if not leg(s,Vector2(2450,700)) or not leg(s,Vector2(2800,1450)) or not leg(s,Vector2(2650,1450)):return false
  tick(s,1.)
  return s.outcome=="won"
