@@ -68,7 +68,7 @@ func _initialize():
  var easy=Economy.new_state("accessible");easy.stock.cells=0;easy.cond.quietus=40
  Economy.settle(easy,facts("lost",false,0.0,[false,false]))
  check(easy.stock.cells>=Table.REFILL.cells and easy.cond.quietus==100 and easy.cond.drone_a==100,"accessible replenishes supplies and mends craft")
- var locked=Economy.new_state();Economy.cycle_preset(locked);Economy.set_ironman(locked)
+ var locked=Economy.new_state();Economy.cycle_preset(locked);Economy.settle(locked,facts("won",true));Economy.set_ironman(locked)
  check(locked.preset=="accessible" and not Economy.cycle_preset(locked) and Economy.valid(locked),"ironman locks the preset")
  var m=Economy.new_state()
  var fleet={"outcomes":{7:{"recovered":[],"lost":["drone_deep_cells"]}}}

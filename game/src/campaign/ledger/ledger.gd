@@ -25,6 +25,8 @@ static func build(progress,intel,economy:Dictionary={})->Array:
  rows["knowledge"]=counts+rows.get("knowledge",[])
  var losses=preload("res://src/campaign/ironman_losses.gd").lines(economy)
  if not losses.is_empty():rows["infrastructure"]=rows.get("infrastructure",[])+losses
+ var economy_lines=preload("res://src/campaign/economy_options.gd").lines(economy)
+ if not economy_lines.is_empty():rows["infrastructure"]=rows.get("infrastructure",[])+economy_lines
  var result=[]
  for panel in Table.PANELS:
   result.append({"id":panel[0],"title":panel[1],"rows":rows.get(panel[0],[Table.NOT_RECORDED])})

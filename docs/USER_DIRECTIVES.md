@@ -1,3 +1,12 @@
+## 29 October 2026: advanced economy and easier presets (handoff 110)
+
+[PAT, verbatim selections recorded in PAT_RULINGS_2026-10-29.md, items 9 and 10]
+
+9. "Add a small set of custom economy values (repair cost, income, starting stock) behind an ADVANCED toggle?" = "Yes, small set (Recommended)" (15)
+10. "Allow switching to an easier preset mid-campaign (not in Ironman), marked in the ledger?" = "Yes (Recommended)" (16)
+
+[KEEL / implementation scope] Advanced starts off. Custom settings are identified in campaign records. Easier preset changes outside Ironman take effect at the next dock and remain in ledger history. Numerical bounds and implementation details are AI-DESIGNED.
+
 ## 29 October 2026: Ironman permanent losses (handoff 107)
 
 [PAT, verbatim selection recorded in PAT_RULINGS_2026-10-29.md, item 1] "In Ironman mode, should a drone or module lost in a dive be gone for good?" = "Yes, Ironman only (Recommended)" (QUESTIONS_FOR_PAT 14)
