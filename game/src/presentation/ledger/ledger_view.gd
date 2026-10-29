@@ -5,7 +5,7 @@ extends RefCounted
 const Ledger=preload("res://src/campaign/ledger/ledger.gd")
 const Table=preload("res://src/campaign/ledger/ledger_table.gd")
 static func render(host,progress,intel)->int:
- var panels=Ledger.build(progress,intel)
+ var panels=Ledger.build(progress,intel,host.get("economy") if host.get("economy") is Dictionary else {})
  if panels.is_empty():return 0
  var count=0
  for panel in panels:

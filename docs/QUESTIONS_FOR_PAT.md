@@ -23,7 +23,7 @@ Added 27 Oct 2026 by Claude's verified gap scout. Until you rule, the game keeps
 ## Economy, modes and Ironman
 
 13. Field-tool stock is a fixed bundle per launch loadout (endurance, disruption or survey) and does not use hull cargo or power. Should tools be loaded against hull and chassis budgets so carrying more tools costs a module slot, or stay a fixed bundle? **RULED 28 Oct 2026 ~14:13 ET:** Pat: "Yes to your open question." Carrying tools costs cargo; implementation098. Weights, allocations and prices remain AI-DESIGNED, provisional.
-14. Should Ironman mean anything beyond one save timeline and charged refits (for example, a craft or module lost in a dive is permanently gone)?
+14. **RULED 29 Oct 2026 [PAT, PAT_RULINGS_2026-10-29.md item 1]: "In Ironman mode, should a drone or module lost in a dive be gone for good?" = "Yes, Ironman only (Recommended)".** Original question: Should Ironman mean anything beyond one save timeline and charged refits (for example, a craft or module lost in a dive is permanently gone)?
 15. Does 'customization between operations' mean only switching preset and fittings (what exists today), or also individually adjustable economy values such as repair cost, income and starting stock?
 16. Should a player on a non-Ironman campaign be allowed to change to an easier economy preset after play has begun? Today the preset is locked once the first operation is started.
 

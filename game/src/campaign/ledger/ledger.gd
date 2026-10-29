@@ -5,7 +5,7 @@ extends RefCounted
 # Revert: Table.enabled=false.
 const Table=preload("res://src/campaign/ledger/ledger_table.gd")
 const Research=preload("res://src/campaign/glass_research.gd")
-static func build(progress,intel)->Array:
+static func build(progress,intel,economy:Dictionary={})->Array:
  if not Table.enabled or not progress is Dictionary:return []
  var facts=progress.get("facts",{}) if progress.get("facts",{}) is Dictionary else {}
  var done=progress.get("completed",[]) if progress.get("completed",[]) is Array else []
@@ -23,6 +23,8 @@ static func build(progress,intel)->Array:
   rows.people.append(sorley)
  var counts=_counts(progress,intel)
  rows["knowledge"]=counts+rows.get("knowledge",[])
+ var losses=preload("res://src/campaign/ironman_losses.gd").lines(economy)
+ if not losses.is_empty():rows["infrastructure"]=rows.get("infrastructure",[])+losses
  var result=[]
  for panel in Table.PANELS:
   result.append({"id":panel[0],"title":panel[1],"rows":rows.get(panel[0],[Table.NOT_RECORDED])})

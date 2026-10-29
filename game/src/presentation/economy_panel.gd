@@ -43,7 +43,7 @@ static func picker(host,e:Dictionary,changed:Callable)->void:
 		button.disabled=chosen
 	host._button(host.panel_box,"IRONMAN · ON (TAP TO TURN OFF)" if e.ironman else "IRONMAN · OFF (TAP TO TURN ON)",
 		func():changed.call(e.preset,not e.ironman),"eco_pick_ironman")
-	host._menu_text("Ironman charges every fitting on every launch and locks the preset once play begins.\n"+Save2Table.IRONMAN_LINE,14)
+	host._menu_text("Ironman permanently loses unrecovered drones and fittings. Replacements cost supplies. Empty bays can launch. Ironman charges every fitting on every launch and locks the preset once play begins.\n"+Save2Table.IRONMAN_LINE,14)
 # Erase confirmation: the next campaign's preset is chosen here and applied by new_campaign.
 static func draft_picker(host)->void:
 	if not Table.enabled:return
@@ -56,20 +56,20 @@ static func take_draft(host)->Dictionary:
 	return draft
 # ---- launch ----------------------------------------------------------------
 static func fitted(host)->Dictionary:
-	return Economy.lock_frames(host.economy,host.expedition,host.fitted_equipment)
+	return Economy.Losses.fitting(host.economy,Economy.lock_frames(host.economy,host.expedition,host.fitted_equipment))
 static func launch_cost(host)->Dictionary:
 	var cost=Economy.refit_cost(host.economy,fitted(host))
-	var extra=preload("res://src/equipment/tool_racks.gd").cost(host.tool_racks,host.upgrade,host.economy)
+	var extra=preload("res://src/equipment/tool_racks.gd").cost(Economy.Losses.racks(host.economy,host.tool_racks),host.upgrade,host.economy)
 	for key in extra:cost[key]=cost.get(key,0)+extra[key]
 	return cost
 static func begin_text(host)->String:
-	var why=preload("res://src/equipment/tool_racks.gd").reason(fitted(host),host.tool_racks)
+	var why=preload("res://src/equipment/tool_racks.gd").reason(fitted(host),Economy.Losses.racks(host.economy,host.tool_racks))
 	if not why.is_empty():return "UNLOAD TOOLS / CARGO FULL"
 	var cost=launch_cost(host)
 	if Economy.can_pay(host.economy,cost):return "ENTER WATER\nSTART PAUSED"
 	return "NEED %s\nOR FIT BARE"%Economy.shortfall(host.economy,cost)
 static func can_begin(host)->bool:
-	return preload("res://src/equipment/tool_racks.gd").reason(fitted(host),host.tool_racks).is_empty() and Economy.can_pay(host.economy,launch_cost(host))
+	return preload("res://src/equipment/tool_racks.gd").reason(fitted(host),Economy.Losses.racks(host.economy,host.tool_racks)).is_empty() and Economy.can_pay(host.economy,launch_cost(host))
 # Launch through Main's ordinary start, then pay for the refit and apply craft condition.
 static func begin(host,index:int)->void:
 	if not Table.enabled:
@@ -78,15 +78,16 @@ static func begin(host,index:int)->void:
 	if not can_begin(host):return
 	host.fitted_equipment=fitted(host)
 	var cost_fit=host.fitted_equipment.duplicate(true)
-	var tool_cost=preload("res://src/equipment/tool_racks.gd").cost(host.tool_racks,host.upgrade,host.economy)
+	var tool_cost=preload("res://src/equipment/tool_racks.gd").cost(Economy.Losses.racks(host.economy,host.tool_racks),host.upgrade,host.economy)
 	var previous=host.sim.mission
 	host._start_mission(index)
 	if host.screen=="mission" and host.active_started and not is_same(previous,host.sim.mission):
 		Economy.pay(host.economy,tool_cost)
 		Economy.charge_launch(host.economy,cost_fit);Economy.apply_launch(host.economy,host.sim)
+		host._save_archive()
 static func briefing_line(host)->String:
 	if not Table.enabled:return ""
-	return "%s · %s · NEXT LAUNCH %s"%[Economy.balance_text(host.economy),Economy.preset(host.economy).name,Economy.fmt(launch_cost(host))]
+	return "%s · %s · NEXT LAUNCH %s"%[Economy.balance_text(host.economy),Economy.preset(host.economy).name,Economy.fmt(launch_cost(host))]+("\nEMPTY DRONE BAYS: "+", ".join(Economy.Losses.state(host.economy).drones.map(func(id):return "A" if id==1 else "B")) if Economy.Losses.active(host.economy) and not Economy.Losses.state(host.economy).drones.is_empty() else "")
 # ---- settlement ------------------------------------------------------------
 # Called once per debrief before campaign recovery changes research material.
 static func settle(host,first_recovery:bool,fleet_before:Dictionary)->void:
@@ -98,9 +99,12 @@ static func settle(host,first_recovery:bool,fleet_before:Dictionary)->void:
 	artifact=artifact and state.artifact.get("id","") not in host.expedition.get("research",{}).get("materials",[])
 	var recovered=mission.get("module_recovery",{}).get("result",{}).get("recovered",[])
 	Economy.settle(host.economy,{"outcome":host.sim.outcome,"hull":host.sim.hull,"alive":[host.sim.units[1].alive,host.sim.units[2].alive],
-		"first":first_recovery and won,"recovered":recovered.size() if first_recovery and won else 0,"artifact":artifact,
+		"mission":mission,"first":first_recovery and won,"recovered":recovered.size() if first_recovery and won else 0,"artifact":artifact,
 		"blackwater_handoff":preload("res://src/simulation/blackwater_delivery.gd").handoff_paid(mission),
 		"key":"%d|%s|%d"%[host.mission_index,host.sim.outcome,roundi(host.sim.elapsed*100.)]})
+	if Economy.Losses.active(host.economy):
+		for item in Economy.Losses.state(host.economy).last:
+			if item not in Economy.Losses.state(host.economy).modules:host.fleet=Inventory.rebuild(host.fleet,item)
 # ---- the supplies screen -----------------------------------------------------
 static func show(host)->void:
 	var e=host.economy
@@ -138,7 +142,7 @@ static func _ironman(host)->void:
 	else:
 		host.set_meta("economy_iron_armed",true);show(host)
 static func _revert_last(host)->void:
-	var available=Inventory.available(host._equipment_entitlements(),host.fleet)
+	var available=Inventory.available(host._equipment_entitlements(),host.fleet,host.economy)
 	host.fitted_equipment=Inventory.reconcile_fitting(host.economy.last_fit,available)
 static func _do_research(host,material:String)->void:
 	var spent=host.expedition.get("research",{}).get("spent",[]).size()
@@ -147,6 +151,8 @@ static func _do_research(host,material:String)->void:
 static func _repairs(host)->void:
 	var e=host.economy
 	for target in Table.TARGETS:
+		if (target=="drone_a" and Economy.Losses.missing(e,1)) or (target=="drone_b" and Economy.Losses.missing(e,2)):
+			host._menu_text("%s / BAY EMPTY / MANUFACTURE REPLACEMENT"%Table.LABELS[target],14);continue
 		var cost=Economy.repair_cost(e,target)
 		if cost.is_empty():
 			host._menu_text("%s · CONDITION %d%%"%[Table.LABELS[target],e.cond[target]],14)
@@ -154,6 +160,9 @@ static func _repairs(host)->void:
 		_spend_button(host,"REPAIR %s · %d%%"%[Table.LABELS[target],e.cond[target]],cost,func():Economy.repair(e,target),"eco_repair_"+target)
 static func _manufacturing(host)->void:
 	var e=host.economy;var lost=Economy.lost_items(host.fleet)
+	if Economy.Losses.active(e):lost=lost+Economy.Losses.state(e).modules
+	for id in [1,2]:
+		if Economy.Losses.missing(e,id):_spend_button(host,"MANUFACTURE DRONE %s"%("A" if id==1 else "B"),Economy.drone_cost(e),func():Economy.rebuild_drone(e,id),"eco_drone_%d"%id)
 	for item in host._equipment_entitlements():
 		if not Catalog.ITEMS.has(item):continue
 		var cost=Economy.item_cost(item,e);var name=Catalog.ITEMS[item].name

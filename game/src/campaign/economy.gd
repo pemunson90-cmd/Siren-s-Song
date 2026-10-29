@@ -7,6 +7,7 @@ extends RefCounted
 # Seam: Main.economy (saved as archive "economy"), CampaignFlow briefing/debrief hooks,
 # ExpeditionOperations research hold, EconomyPanel. Data lives in economy_table.gd.
 # Revert: economy_table.enabled=false. Old archives without the field use new_state().
+const Losses=preload("res://src/campaign/ironman_losses.gd")
 const Table=preload("res://src/campaign/economy_table.gd")
 const Catalog=preload("res://src/equipment/equipment_catalog.gd")
 const Research=preload("res://src/campaign/glass_research.gd")
@@ -18,7 +19,7 @@ const TARGETS=Table.TARGETS
 static func new_state(preset:String="standard",ironman:bool=false)->Dictionary:
  return {"preset":preset,"ironman":ironman,"stock":Table.START.duplicate(),"spares":{},"unlocks":[],
   "cond":{"quietus":100,"drone_a":100,"drone_b":100},"last_fit":Catalog.default_loadout(),"settled":"",
-  "report":"No dive yet. Starter supplies aboard."}
+  "report":"No dive yet. Starter supplies aboard.","permanent_losses":Losses.fresh()}
 # An archive saved before the economy keeps the frames it already flew with.
 static func legacy_state(fit:Dictionary)->Dictionary:
  var e=new_state()
@@ -99,6 +100,7 @@ static func repair_cost(e:Dictionary,target:String)->Dictionary:
  return scaled({"cells":1,"scrap":1},e)
 static func repair(e:Dictionary,target:String)->bool:
  var cost=repair_cost(e,target)
+ if (target=="drone_a" and Losses.missing(e,1)) or (target=="drone_b" and Losses.missing(e,2)):return false
  if cost.is_empty() or not pay(e,cost):return false
  e.cond[target]=100
  return true
@@ -107,12 +109,21 @@ static func apply_launch(e:Dictionary,sim)->void:
  if not Table.enabled:return
  sim.hull=float(e.cond.quietus)
  sim.units[1].battery=float(e.cond.drone_a);sim.units[2].battery=float(e.cond.drone_b)
+ Losses.apply(e,sim)
 # ---- manufacturing ---------------------------------------------------------
 static func lost_items(fleet:Dictionary)->Array:
  return Fleet.lost(fleet)
 # Manufacture a replacement for a lost fitting; returns the corrected fleet.
+static func drone_cost(e:Dictionary)->Dictionary:return scaled(Table.DRONE_PRICE,e)
+static func rebuild_drone(e:Dictionary,id:int)->bool:
+ if not Losses.missing(e,id) or not pay(e,drone_cost(e)):return false
+ e.permanent_losses.drones.erase(id)
+ e.cond["drone_a" if id==1 else "drone_b"]=100
+ return true
 static func rebuild(e:Dictionary,fleet:Dictionary,item:String)->Dictionary:
- if item not in lost_items(fleet) or not pay(e,item_cost(item,e)):return fleet
+ var permanent=Losses.active(e) and item in Losses.state(e).modules
+ if (not permanent and item not in lost_items(fleet)) or not pay(e,item_cost(item,e)):return fleet
+ if permanent:e.permanent_losses.modules.erase(item)
  return Fleet.rebuild(fleet,item)
 static func spare_allowed(item:String)->bool:
  return Catalog.ITEMS.has(item) and Catalog.ITEMS[item].compatible_slots.any(func(s):return s in ["drone_a","drone_b"])
@@ -122,6 +133,7 @@ static func build_spare(e:Dictionary,item:String)->bool:
  return true
 # A spare copy replaces a fitting newly lost in the dive just recovered.
 static func absorb_losses(e:Dictionary,before:Dictionary,after:Dictionary)->Dictionary:
+ if Losses.active(e):return after
  var result=after.duplicate(true);var used=[]
  for id in result.get("outcomes",{}):
   if before.get("outcomes",{}).has(id):continue
@@ -192,6 +204,7 @@ static func lock_frames(e:Dictionary,expedition:Dictionary,fit:Dictionary)->Dict
 static func settle(e:Dictionary,facts:Dictionary)->void:
  if e.settled==facts.key:return
  e.settled=facts.key
+ Losses.settle(e,facts)
  var gain={"scrap":0,"cells":0,"alloy":0}
  var base=Table.INCOME.lost
  if facts.outcome=="won":base=Table.INCOME.first if facts.first else Table.INCOME.replay
@@ -211,6 +224,7 @@ static func settle(e:Dictionary,facts:Dictionary)->void:
   var target=TARGETS[i+1]
   if not facts.alive[i]:e.cond[target]=maxi(floor_cond,mini(e.cond[target],50))
  e.report="LAST DIVE · %s\nSALVAGE RECOVERED · %s"%[facts.outcome.to_upper(),fmt(income).replace("FREE","NONE")]
+ e.report+="\n"+"\n".join(Losses.lines(e,true)) if not Losses.lines(e,true).is_empty() else ""
  if preset(e).replenish:refill(e)
 static func refill(e:Dictionary)->void:
  for key in RES:e.stock[key]=maxi(e.stock[key],Table.REFILL[key])
@@ -232,7 +246,8 @@ static func valid_archive(data:Dictionary)->bool:
  return not data.has("economy") or valid(data.economy)
 static func valid(value)->bool:
  if not value is Dictionary or not value.has_all(["preset","ironman","stock","spares","cond","last_fit","settled","report"]):return false
- if value.size()!=(9 if value.has("unlocks") else 8):return false
+ if value.size()!=8+int(value.has("unlocks"))+int(value.has("permanent_losses")):return false
+ if value.has("permanent_losses") and not Losses.valid(value.permanent_losses):return false
  if not value.preset is String or value.preset not in ORDER or not value.ironman is bool:return false
  if not value.stock is Dictionary or value.stock.size()!=RES.size():return false
  for key in RES:

@@ -64,7 +64,8 @@ var completed: Array=[]
 var expedition:Dictionary={}
 var end_of_line_seen=false
 var fleet:Dictionary={}
-var economy:Dictionary=preload("res://src/campaign/economy.gd").new_state()
+const Economy=preload("res://src/campaign/economy.gd")
+var economy:Dictionary=Economy.new_state()
 var challenge_records:Dictionary={}
 var fitted_equipment:Dictionary=preload("res://src/equipment/equipment_catalog.gd").default_loadout()
 var tool_racks:Dictionary=preload("res://src/equipment/tool_racks.gd").template("endurance",fitted_equipment)
@@ -244,13 +245,13 @@ func _uses_tool_racks()->bool:
 		script=script.get_base_script()
 	return true
 func _start_mission(index: int) -> void:
-	fitted_equipment=FleetInventory.reconcile_fitting(fitted_equipment,FleetInventory.available(_equipment_entitlements(),fleet))
+	fitted_equipment=Economy.Losses.fitting(economy,FleetInventory.reconcile_fitting(fitted_equipment,FleetInventory.available(_equipment_entitlements(),fleet,economy)))
 	var launch=FleetInventory.launch(fitted_equipment,_equipment_entitlements(),fleet,index,_campaign_completed())
 	if not launch.ok:sim.message="Fitting unavailable · choose available hardware or BARE";return
 	var racks=preload("res://src/equipment/tool_racks.gd")
 	if _uses_tool_racks():
-		if not racks.reason(fitted_equipment,tool_racks).is_empty():sim.message=racks.reason(fitted_equipment,tool_racks);return
-		launch.launch["tool_racks"]=tool_racks.duplicate(true)
+		if not racks.reason(fitted_equipment,Economy.Losses.racks(economy,tool_racks)).is_empty():sim.message=racks.reason(fitted_equipment,Economy.Losses.racks(economy,tool_racks));return
+		launch.launch["tool_racks"]=Economy.Losses.racks(economy,tool_racks)
 	launch.launch["context"]=_launch_context(index)
 	# The first call builds the paused display before loading an archive. Even
 	# blocked recovery needs valid craft/UI; later player launches stay guarded.
@@ -677,8 +678,8 @@ func _load_archive() -> void:
 		fitted_equipment=preload("res://src/equipment/equipment_catalog.gd").canonical(saved.get("equipment",{}))
 		fitted_equipment=FleetInventory.reconcile_fitting(fitted_equipment,FleetInventory.available(_equipment_entitlements(),fleet))
 		tool_racks=preload("res://src/equipment/tool_racks.gd").migrated(saved,fitted_equipment)
-		var Economy=preload("res://src/campaign/economy.gd")
-		economy=saved.economy.duplicate(true) if saved.has("economy") else Economy.legacy_state(fitted_equipment)
+		economy=Economy.Losses.migrated(saved.economy) if saved.has("economy") else Economy.legacy_state(fitted_equipment)
+		fitted_equipment=Economy.Losses.fitting(economy,FleetInventory.reconcile_fitting(fitted_equipment,FleetInventory.available(_equipment_entitlements(),fleet,economy)))
 		recovered_evidence=saved.get("evidence",{})
 		photo_records=saved.get("photo_records",{}).duplicate(true)
 		preload("res://src/presentation/archive/voice_feed.gd").restore(self,saved)
