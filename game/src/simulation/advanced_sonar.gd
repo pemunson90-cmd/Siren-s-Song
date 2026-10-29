@@ -1,4 +1,5 @@
 extends RefCounted
+const Thermal=preload("res://src/simulation/thermal_front.gd")
 const Depth=preload("res://src/simulation/depth_bands.gd")
 const Equipment=preload("res://src/equipment/equipment_catalog.gd")
 const Upgrades=preload("res://src/equipment/craft_upgrades.gd")
@@ -16,9 +17,8 @@ static func configure(sim,args)->bool:
 static func in_sector(origin:Vector2,point:Vector2,angle:float,sector:String)->bool:
  return sector=="all" or absf(angle_difference(angle,origin.angle_to_point(point)))<=PI/4
 static func water_path(sim,receiver:Dictionary,source:Dictionary,radius:float)->Dictionary:
- var band=receiver.get("band",1)
  var reach=radius*Depth.transmission(receiver,source)
- var paths=sim.band_acoustics.get(band,sim.acoustic_paths).arrivals(receiver.pos,source.pos,reach)
+ var paths=Thermal.arrivals(sim,receiver,source.pos,reach,source)
  if paths.is_empty():return {}
  paths.sort_custom(func(a,b):return a.strength>b.strength)
  return paths[0]

@@ -38,7 +38,7 @@ static func advance(sim,observations:Array,fresh:Array,dt:float)->void:
   for id in sim.sirens.size():
    var peer=sim.sirens[id]
    if id==report.sender or id in assigned or fresh[id] or peer.stun>0 or peer.get("pin_time",0)>0:continue
-   var arrivals=sim.band_acoustics[peer.band].arrivals(peer.pos,source.pos,(650.0 if sim.mission.id==9 else RANGE)*sim.Depth.transmission(peer,source))
+   var arrivals=preload("res://src/simulation/thermal_front.gd").arrivals(sim,peer,source.pos,(650.0 if sim.mission.id==9 else RANGE)*sim.Depth.transmission(peer,source),source)
    for arrival in arrivals:
     if arrival.strength>strength:strength=arrival.strength;recipient=id
   if recipient<0:continue
