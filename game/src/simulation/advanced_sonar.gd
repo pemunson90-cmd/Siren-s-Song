@@ -18,7 +18,7 @@ static func in_sector(origin:Vector2,point:Vector2,angle:float,sector:String)->b
  return sector=="all" or absf(angle_difference(angle,origin.angle_to_point(point)))<=PI/4
 static func water_path(sim,receiver:Dictionary,source:Dictionary,radius:float)->Dictionary:
  var reach=radius*Depth.transmission(receiver,source)
- var paths=Thermal.arrivals(sim,receiver,source.pos,reach)
+ var paths=Thermal.arrivals(sim,receiver,source.pos,reach,source)
  if paths.is_empty():return {}
  paths.sort_custom(func(a,b):return a.strength>b.strength)
  return paths[0]

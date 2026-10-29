@@ -23,6 +23,18 @@ func _initialize():
  for depth in [0,1,2]:
   guard.band=depth;s.noises=[];s._noise(b,350.,"DECOY",2.,depth)
   check(s._heard_arrival(guard).is_empty()==(depth==1),"Siren hears outside default layer, band %d"%depth)
+ # A MIDDLE listener must not grant its thermal cover to an off-layer craft.
+ guard.band=1;guard.transition={};guard.pos=Vector2(960,840)
+ for source_band in [0,1,2]:
+  s.noises=[];s._noise(Vector2(1360,840),1100.,"CAMERA",2.,source_band)
+  check(s._heard_arrival(guard).is_empty()==(source_band==1),"Siren hearing uses emitter band too, band %d"%source_band)
+ guard.pos=a;s.noises=[];s._noise(b,900.,"CAMERA",2.,1)
+ s.units[0].band=1;s.units[0].transition={"to":2,"remaining":2.}
+ var emitter=s.units[0]
+ check(not Sim.Thermal.arrivals(s,guard,b,350.,emitter).is_empty(),"emitter crossing out of layer remains exposed")
+ emitter.band=2;emitter.transition={"to":1,"remaining":2.}
+ check(not Sim.Thermal.arrivals(s,guard,b,350.,emitter).is_empty(),"emitter entering layer stays exposed until settled")
+ emitter.transition={};emitter.band=1
  guard.band=1;guard.transition={"to":0,"remaining":2.};s.noises=[];s._noise(b,350.,"DECOY",2.,1)
  check(not s._heard_arrival(guard).is_empty(),"Siren leaving layer hears in both occupied bands")
  guard.band=0;guard.transition={"to":1,"remaining":2.}
@@ -58,7 +70,15 @@ func _initialize():
  var peer={"pos":b,"band":0,"transition":{}}
  var network=preload("res://src/simulation/acoustic_network.gd")
  check(network.link(s,sender,peer),"network sender uses unmasked peer receiving band")
- check(not network.link(s,peer,sender),"network return uses masked peer receiving band")
+ check(network.link(s,peer,sender),"off-layer sender cannot borrow the peer receiving layer")
+ # Buoy hearing retains the moving emitter's exposed transition occupancy.
+ s=fixture();s.units[1].alive=false;s.units[2].alive=false
+ var mover=s.units[0];mover.pos=Vector2(1360,840);mover.band=1
+ mover.vel=Vector2(78,0);mover["water_velocity"]=Vector2(78,0)
+ var buoy=s.sirens[0];buoy.pos=Vector2(960,840);buoy.band=1
+ check(network.heard(s,buoy).is_empty(),"settled moving emitter pays thermal masking at buoy")
+ mover.transition={"to":2,"remaining":2.}
+ check(not network.heard(s,buoy).is_empty(),"buoy hears exposed moving emitter transition")
  # A newly earned transitioning contact must reach its actual scout receiver.
  for origin in [0,1]:
   s=fixture();s.units[0].alive=false;s.units[1].alive=true;s.units[2].alive=false

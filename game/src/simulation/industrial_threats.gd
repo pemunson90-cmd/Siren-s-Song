@@ -64,7 +64,7 @@ static func advance(sim,e:Dictionary,dt:float):
   for id in sim.units.size():
    var u=sim.units[id]
    if not u.alive:continue
-   var arrivals=preload("res://src/simulation/thermal_front.gd").arrivals(sim,u,e.pos,WINDUP_CUE_RADIUS*sim.Depth.transmission(u,e))
+   var arrivals=preload("res://src/simulation/thermal_front.gd").arrivals(sim,u,e.pos,WINDUP_CUE_RADIUS*sim.Depth.transmission(u,e),e)
    if arrivals.is_empty():continue
    var direction=u.pos.direction_to(arrivals[0].goal)
    sim.events.append({"type":"carrier_received" if e.type=="interceptor" else "factory","receiver":id,"pos":u.pos+direction*180.,"direction":direction,"time":sim.elapsed})

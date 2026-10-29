@@ -2,7 +2,7 @@
 
 7. "Should the thermal layer cover only one depth band, so picking a depth decides who can hear you? (Protected, your call.)" = "Yes (Recommended)" (10)
 
-[PAT, verbatim ruling recorded in PAT_RULINGS_2026-10-29.md, Claude S6] Only the named thermal acoustic effect changes. [KEEL / AI-DESIGNED] The default layer is MIDDLE; optional operation thermal_band selects SHALLOW (0), MIDDLE (1) or DEEP (2). Receiving paths outside that band are unmasked. A transitioning receiver uses its strongest occupied path; source transitions retain the existing depth transmission. Photography, sight, lock, beam, damage, hull and collision rules retain their behavior.
+[PAT, verbatim ruling recorded in PAT_RULINGS_2026-10-29.md, Claude S6] Only the named thermal acoustic effect changes. [KEEL / AI-DESIGNED] The default layer is MIDDLE; optional operation thermal_band selects SHALLOW (0), MIDDLE (1) or DEEP (2). Physical sound is masked only when emitter and receiver occupy the layer band. An off-layer or transitioning emitter uses an exposed thermal path; a transitioning receiver uses its strongest occupied path. Existing depth transmission and acoustic geometry remain in effect. Photography, sight, lock, beam, damage, hull and collision rules retain their behavior.
 
 ## 29 October 2026: distinct hunter and sentinel senses (handoff 103)
 

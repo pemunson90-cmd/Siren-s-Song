@@ -9,17 +9,18 @@ static func fronts(mission:Dictionary,path_band:int)->Array:
  return mission.get("thermal_fronts",[]) if mission.get("thermal_revision",0)==1 and path_band==band(mission) else []
 static func briefing(mission:Dictionary)->String:
  if mission.get("thermal_revision",0)!=1:return ""
- return "COLD FRONT / %s only: sound and passive contacts weaken across it in this band. Other bands are unmasked; depth transitions remain exposed in both bands."%BAND_NAMES[band(mission)]
-static func arrivals(sim,receiver:Dictionary,source:Vector2,radius:float)->Array:
- # Existing water paths are receiver-band geometry. At a layer transition use
- # the strongest occupied path; neither direction grants instant thermal cover.
+ return "COLD FRONT / %s only: sound weakens across it when emitter and listener share this band. Other bands are unmasked; depth transitions remain exposed in both bands."%BAND_NAMES[band(mission)]
+static func arrivals(sim,receiver:Dictionary,source:Vector2,radius:float,source_body:Dictionary={})->Array:
+ # Geometry remains receiver-band geometry. Masking requires both ends in the
+ # layer. Either body crossing out of it supplies an exposed sound path.
  var bands=[receiver.get("band",1)]
  if sim.mission.get("thermal_revision",0)==1 and not receiver.get("transition",{}).is_empty():
   var destination=receiver.transition.to
   if band(sim.mission) in [bands[0],destination]:bands.append(destination)
  var best=[];var strength=0.
  for depth in bands:
-  var options=sim.band_acoustics.get(depth,sim.acoustic_paths).arrivals(receiver.pos,source,radius)
+  var masked=source_body.is_empty() or sim.Depth.occupied(source_body)==[band(sim.mission)]
+  var options=sim.band_acoustics.get(depth,sim.acoustic_paths).arrivals(receiver.pos,source,radius,masked)
   var peak=0.
   for option in options:peak=maxf(peak,option.strength)
   if peak>strength:best=options;strength=peak
