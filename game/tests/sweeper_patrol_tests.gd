@@ -37,9 +37,7 @@ func _initialize():
  for id in EXCLUDED_PHOTO_OPS:
   check(not Patrols.OPS.has(id) and Patrols.circuit(id).is_empty(),"photo-row op%d is left to handoff 040"%id)
   var s=Sim.new();s.start(id)
-  # 095 authors Lantern Lock locally; it remains outside the shared circuits.
-  var expected=[Vector2(1560,900),Vector2(1760,900),Vector2(1760,450),Vector2(1560,450)] if id==18 else []
-  check(sweepers(s).all(func(e):return e.patrol_points==expected),"op%d sweepers retain their authored photo approach patrol"%id)
+  check(sweepers(s).all(func(e):return e.patrol_points.is_empty()),"op%d sweepers keep empty points"%id)
  check(Patrols.circuit(99).is_empty() and Patrols.circuit(0,5).is_empty(),"unknown op or index yields no circuit")
  # Walking: in each op, the sweeper alone with Quietus parked out of earshot.
  for id in Patrols.OPS:

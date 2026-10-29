@@ -112,7 +112,8 @@ static func _drift(m,key):
  m.thermal_revision=1;m.thermal_fronts=[{"area":Rect2(1760,1050,600,700),"transmission":.45,"close_range":90.}]
  R.add(m,[R.guard("patroller",Vector2(1250,1530),1,[Vector2(1250,1530),Vector2(1560,1450),Vector2(1500,1270),Vector2(1250,1270)]),
   R.post(Vector2(1900,1150),1,170.),R.guard("buoy",Vector2(520,1100)),R.guard("relay",Vector2(1000,700)),
-  R.guard("sweeper",Vector2(1557,2100),2,Patrols.circuit(16))])
+  R.guard("sweeper",Vector2(1950,2250),2,Patrols.circuit(16)),
+  R.guard("patroller",Vector2(1550,2000),2,[Vector2(1550,2000),Vector2(1750,2000)])])
 
 # 17 / Switchback silt terraces. The spindle lies under a silt mound that only
 # DEEP reaches; SHALLOW is choked by banks. Two recovery mouths, west and north.
@@ -148,7 +149,8 @@ static func _anchorage(m,key):
  m.objectives=[W.listen(key,TITLES[18].to_upper()+" / RECEIVED ACCOUNT",Vector2(1400,900),ACCOUNTS[18])]
  m.corridors=[corridor(Vector2(400,2300),"SOUTH REACH RECOVERY")]
  R.add(m,[R.guard("buoy",Vector2(1120,720)),R.guard("buoy",Vector2(1700,820)),R.guard("relay",Vector2(1400,430)),R.post(Vector2(620,900),1,160.),
-  R.guard("warden",Vector2(2620,1700)),R.guard("sweeper",Vector2(1560,900),1,[Vector2(1560,900),Vector2(1760,900),Vector2(1760,450),Vector2(1560,450)])])
+  R.guard("warden",Vector2(2620,1700)),R.guard("sweeper",Vector2(610,1750),2),
+  R.guard("patroller",Vector2(1530,900),1,[Vector2(1530,900),Vector2(1760,900),Vector2(1760,450),Vector2(1530,450)])])
 
 # 19 / The listening chain: a broken wall with buoy-watched gaps west and east,
 # the anchorage service channel in the centre, and a DEEP-only gap watched by a

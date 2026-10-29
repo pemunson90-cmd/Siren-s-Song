@@ -17,7 +17,7 @@ const ROWS={
  13:["Transmit, hear reply, escort launch, hear arrival, recover.","Recipient destruction fails the dive.","The launch needs an explicit departure order."],
  14:["Receive the account in MIDDLE; recover Quietus.","A patrol watches the account crossing.","Quiet drones can record the buoy blind spot."],
  15:["Release a vane, receive its account, recover Quietus.","The inner account is watched; use cover and depth.","A quiet drone can photograph the released vane."],
- 16:["Receive the thermal atlas; recover Quietus.","A sweeper crosses the deep withdrawal.","A quiet drone can locate and photograph the exhaust stack."],
+ 16:["Receive the thermal atlas; recover Quietus.","A patrol crosses the deep withdrawal.","A quiet drone can locate and photograph the exhaust stack."],
  17:["Receive the account and recover the physical spindle.","The north account gap is guarded.","A quiet drone can search the terrace for scour lines."],
  18:["Choose SERVICE or SEVER SPUR, receive account, recover.","The account and service approach are watched.","A shallow drone can photograph the keel mark."],
  19:["Hear the northern register and recover Quietus.","Reef crossings and relays restrict the return.","A quiet drone can photograph the boat keel."],
