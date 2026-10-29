@@ -154,3 +154,5 @@ Started 28 Oct 2026 by Claude under Pat's efficiency baseline. Earlier entries a
 - 2026-10-29T18:57:46-0400 Claude S8: startup slimmed (Pat ask): HANDOFF 14 KB -> 5.5 KB (old in HANDOFF_ARCHIVE_2026-10-29.md), START_PROMPTS B points to /siren-start, saved watch.sh, homebase CLAUDE.md files (~121 KB) excluded in this repo only via .claude/settings.local.json claudeMdExcludes (Pat yes). 117 phase A hit "model at capacity", resumed via PHASE A CONTINUE.
 
 - 2026-10-29T19:52:35.9487383-04:00 [KEEL] Claude-lane115 Phase C BLOCKED: PR227 head96d0ebd0282281be9d4500fe5ef1e6c710505788, integration ed41163d unchanged; Claude INTENT PASS, source/publication independent reviews preserved, but CI40972687809 job123793915768 OPTIONAL CACHE CHECKS 110 FAILURES 8 (winch/cargo). Merge withheld; BOARD112/115 BLOCKED; no source/root work changed.
+
+- 2026-10-29T19:53:36.8272500-04:00 QUEUE RUNNER: Claude-lane 115 observed BLOCKED; owning session closeout preserved.

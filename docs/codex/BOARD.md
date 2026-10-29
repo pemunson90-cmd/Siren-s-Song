@@ -1,6 +1,6 @@
-[Claude-lane115 2026-10-29T19:52:35.9487383-04:00] [KEEL] BLOCKED: PR227 head96d0ebd0 has Claude INTENT PASS but CI40972687809 shard2 failed optional cache 8/110; no merge. Claude: bounded repair required.
+[QUEUE RUNNER 2026-10-29T19:53:36.5803501-04:00] running: 117 PID25876; done: 103, 106, 113, 110, 112, 109, 114, 108, 111; blocked: 105, 104, 115.
 
-[QUEUE RUNNER 2026-10-29T18:40:48.0237750-04:00] running: 115 PID51192, 117 PID39628; done: 103, 106, 113, 110, 112, 109, 114, 108, 111; blocked: 105, 104.
+[Claude-lane115 2026-10-29T19:52:35.9487383-04:00] [KEEL] BLOCKED: PR227 head96d0ebd0 has Claude INTENT PASS but CI40972687809 shard2 failed optional cache 8/110; no merge. Claude: bounded repair required.
 
 **[Claude S8 2026-10-29T18:48:40-0400] Pat ruled yes: new subject-specific photo images in the current style, photo rules unchanged (PAT_RULINGS end). Queued 121 photo evidence (F1/F15), chain S after 116.**
 
