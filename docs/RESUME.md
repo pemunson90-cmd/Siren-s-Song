@@ -1,6 +1,8 @@
 # RESUME: operational entry
 
-Current accepted integration baseline `152111a1` includes records069, arc presentation080, hidden rescue092, tool cargo098, Calder fleet096 and earned charts089, alongside Career057, offers068, late ending088, teaching067 and riders071. Predecessor PR207 is accepted with its final exact-head gate passed. This separate100 successor restores default bundles with dedicated lockers and awaits its own final exact-head gate. 070 is assigned to codex-root; current implementation ownership is on the live BOARD. Production is `225c3c45`; main unchanged. Live codex/handoffs claims govern parallel work.
+Last reconciled integration baseline `2dcb1bb3` includes PR207 (records069, arc presentation080, Sorley rescue092 and tool cargo098) and PR208 (dedicated tool lockers100). PR210 adds the debug console with operation41, locker-aware grants and durable DEV record exclusion. Claude lane owns its review, exact-head CI and merge; the live codex/handoffs BOARD owns other claims and next work. Production is `225c3c45`; main unchanged.
+
+- [KEEL:101 reconciliation] Debug-only Settings/three-finger console, read-only overlays, time/survival controls, DEV exclusion and JSON export are implemented. The picker includes operation41; grants follow locker overflow and existing rack limits. Independent reconciliation review and exact-head CI are required before merge. Isolated evidence: `C:/Users/Archi/.cache/sirens-song-toolchain/artifacts210m`.
 
 - [KEEL: 089 source] Glass Reach ops14/15/16/20 now use earned first-face terrain and public-water route planning; earlier in-progress saves keep their stored chart policy. Remaining authored operations retain their existing charts, as documented in V7_TO_GODOT_PARITY.
 
@@ -12,7 +14,7 @@ Current boundary: Pat resumed locally on Windows and continued work on 25 Octobe
 
 ## Source and authority
 
-Active integration: `claude/integration`. Last reconciled source baseline: `152111a15845bc96d4592c73c4591c7df418d2e6`; earlier reconciliation `1b56be6f` remains in Git history. Fetch current refs at task boundaries; the board alone owns claims/completions.
+Active integration: `claude/integration`. Last reconciled source baseline: `2dcb1bb3d171a0a4bd7994f1b889d05d1e5dfcb3`; earlier reconciliation `1b56be6f` remains in Git history. Fetch current refs at task boundaries; the board alone owns claims/completions.
 Frozen `gauntlet/production` and protected `main` require Pat's promotion approval. Preserve branches, personal saves, evidence and signing identity.
 Current decisions: [USER_DIRECTIVES](USER_DIRECTIVES.md). Intended release: [CURRENT_GAME_SPEC](CURRENT_GAME_SPEC.md). Actual module seams, settings, saves, tests and safe reverts: [MODULES](MODULES.md).
 

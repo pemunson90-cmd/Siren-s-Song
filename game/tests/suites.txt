@@ -262,6 +262,7 @@ voices_tests|VOICES|530|630
 archive_views_ui_tests|ARCHIVE VIEWS UI|531|631|render
 menu_reach_ui_tests|MENU REACH UI|241|261|render
 settings_lifecycle_ui_tests|SETTINGS LIFECYCLE UI|242|262|render
+debug_console_tests|DEBUG CONSOLE|721|821|render
 settings_depth_tests|SETTINGS DEPTH|580|680
 settings_depth_ui_tests|SETTINGS DEPTH UI|581|681|render
 finale_provisional_tests|FINALE|243|263

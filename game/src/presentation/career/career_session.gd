@@ -66,6 +66,7 @@ func _begin()->void:
 	preload("res://src/campaign/economy.gd").apply_launch(economy,sim)
 	_enter_water()
 func _debrief(abandoned:bool=false)->void:
+	if DevState.block_debrief(self):return
 	if result_pending:return
 	if not career_state.in_flight:return
 	sim.paused=true
