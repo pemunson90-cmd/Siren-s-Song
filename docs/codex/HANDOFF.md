@@ -1,4 +1,4 @@
-# HANDOFF: Siren's Song, Claude orchestrator + two Codex lanes (updated 28 Oct 2026 22:21 ET, end of Claude session S5)
+# HANDOFF: Siren's Song, Claude orchestrator + two Codex lanes (updated 29 Oct 2026 11:32 ET, end of Claude session S6)
 
 Read this first after any context clear or restart, then the top of BOARD.md and the tail of LEDGER.md. Live refs, PRs and BOARD rows are newer than this file when they disagree. Pat's dated words in `docs/USER_DIRECTIVES.md` on `claude/integration` outrank everything here.
 
@@ -42,44 +42,40 @@ Read this first after any context clear or restart, then the top of BOARD.md and
   - Proven method: 096 Calder (guards on forced routes, earned discovery, drone evidence).
 - Evaluate before initiating; never repeat work because a conversation restarted. Run `date` for every timestamp; never estimate.
 
-## 3. State (28 Oct 2026 22:21 ET)
+## 3. State (29 Oct 2026 11:32 ET)
 
 | Ref | Meaning |
 |---|---|
-| `gauntlet/production` 225c3c45 | Promotion 2 (PR179) |
-| `claude/integration` 37bb9122 | Everything listed below as merged |
-| `codex/handoffs` | BOARD, handoffs, HANDOFF, LEDGER, prompts, design reports |
+| `gauntlet/production` 13a64ed0 | Promotion 3 (PR213, content complete) |
+| `claude/integration` | 5acb079d plus whatever merged after (102 PR214, 107 PR215; 110 PR217 merging) |
+| `codex/handoffs` | BOARD, handoffs, HANDOFF, LEDGER, QUEUE_S6, PAT_RULINGS_2026-10-29 |
 
-Merged 28 Oct: 056, 057, 063, 065, 066, 067, 068, 069, 071, 072, 073, 075, 080, 082, 085, 086, 087, 088, 089, 092 (hidden Sorley rescue, op 41), 093 report, **094** (Iron Choir, PR198, 5/8 SILENT pressure), **095** (Glass Reach, PR209, 6/8 SILENT pressure; the sweeper patrol registry is preserved), **096** (Calder, 6/7), 098 tool cargo, 100 tool lockers, **101** debug console (PR210).
+Overnight root merged 070 (PR211), 097 (PR212, 6/7), 090 Promotion 3 (PR213). Claude S6 merged 102 diver ascent (PR214; small effect: only op 41 bare +4 s) and 107 Ironman permanent losses (PR215).
 
-**Root lane, open:**
-- **070** resume after app kill: PR211, independently approved, root merging.
-- **097** early-ops fleet fix: root's reviewer HOLD at 5/7 SILENT pressure against its required 6/7; all 7 equipped runs win at 100 hull. Next Claude decision: accept at 5/7 to match 094's accepted 5/8 (the acceptance bar is "about three quarters"), or ask root for one more placement pass. Tell root on BOARD either way.
+**Root lane:** 091 whole-game cold audit ACTIVE (critic pid 54908; verdicts not in). EXP-PHOTO-INTENT experiment prepared; HUD ownership released.
 
-**Parked:** 099 slower SILENT. Pat said "Sure", but the global 6 m/s candidate caused 14 oxygen losses and cut Calder to 3/7. It is frozen on claude/silent-speed; revisit only from audit evidence.
+**Claude lane, running when Claude S6 cleared:**
+- **Codex QUEUE RUNNER** pid 39080, prompt and logs in `C:\Users\Archi\.cache\sirens-song-toolchain\artifacts\queue-s6`. It works `docs/codex/QUEUE_S6.md`: chain S 103b -> 105 -> 104 -> 106; chain C 110 -> 112 -> 109 -> 108 -> 111 -> 113. It launches fresh sessions per item, applies Claude's intent bar, keeps a "[QUEUE RUNNER ...]" banner line on BOARD.
+- 103b role senses (PR216, draft): fresh pid 52948. Held because its table was identical everywhere; must show a hunter/sentinel contrast probe and two ops where the role decides the plan.
+- 110 advanced economy + easier preset (PR217): fresh pid 2880; Claude intent check PASS; merges on green.
 
-Still quiet after the fleet fixes (handed to 091 as known items): Iron Choir 25/27/28, Glass Reach 19/20, Calder 32 (oxygen only).
+**Parked:** 099 slower SILENT (frozen on claude/silent-speed).
 
 ## 4. Next actions (in order)
 
-1. Settle 097 (see section 3) and confirm PR211 (070) merged. Refresh Pat's tracker.
-2. When 070 and 097 land, **content is complete**: launch **090 Promotion 3** (Claude lane), then **091 whole-game cold audit**. 091 already lists the known open items, to hand the critic only after its own verdicts.
-3. Turn COLD_REVIEW_4 into fix batches (worst first; photographic reconnaissance, strategic depth and player experience first, per Pat 27 Oct). Then economy and Hunt calibration from simulated campaigns (numbers are provisional), then Promotion 4, then Pat plays on his phone when he chooses.
-4. Possible follow-ups to offer Pat:
-   - Sorley rescue reward: currently supplies; pilotage charts were the preferred idea.
-   - Whether the Sorley rescue counts as an 088 ending vote.
-   - SURVIVAL in-dive pressure.
+1. On restart: read the QUEUE RUNNER banner and pid 39080. If the runner died, relaunch it from its saved prompt (`queue-s6\prompt-runner.txt`) after checking BOARD for what is done. Re-arm the Monitor on merges, new PRs and pids (54908, 39080 plus any session pids the runner reports).
+2. Intent-check each new PR yourself too (the runner applies the bar, Claude has final say). Pay most attention to 103b, 105, 104: they must change play, not just numbers.
+3. When 091 verdicts land: turn COLD_REVIEW into fix batches (worst first; photographic reconnaissance, strategic depth and player experience first). Then economy and Hunt calibration from simulated campaigns, then Promotion 4, then Pat plays on his phone when he chooses.
+4. Pat deferred: wariness mark on chart (item 4), SURVIVAL in-dive pressure (item 14). Ask again after the audit, as yes/no.
 
-## 5. Pat's rulings this session (verbatim copies in USER_DIRECTIVES via PRs)
+## 5. Pat's rulings (S6, 29 Oct)
 
-- 088: arcs 4 to 6 may change the ending family, decided after op 34. Vote rule kept "as is for now".
-- 092: hidden Sorley rescue, unlocked by logs or the op 37 photo, with a reward and ending lines.
-- Finishability: the two quotes above.
-- 098: tools cost cargo ("Yes").
-- 099: SILENT may be slowed ("Sure"), but parked on evidence.
-- 101: "I think maybe we need a debug console."
-- Two Codex lanes: "Op 2".
-- Ask next from `docs/codex/PAT_QUESTION_PREP.md` (ranked by game-feel impact, with recommendations). Item 13 is ruled.
+- Diver ascent: "For now* Yes*"; then "Survivor depth change is fine."
+- Twenty widget answers, verbatim in `docs/codex/PAT_RULINGS_2026-10-29.md` (16 yes, Sorley vote no, wariness later, SURVIVAL later, keep 29 ops).
+- 110 harder-preset switch removed: "That's fine for now."
+- "Just keep codex running with a queue and plan your next steps so i can clear and reset you."
+- Ask Pat questions as yes/no lines, or in the multiple-choice widget (he prefers it), recommendation first.
+- `/siren-start` may not register as a slash command after /clear; Claude loads the `siren-start` skill instead.
 
 ## 6. Pat's phone tracker
 
