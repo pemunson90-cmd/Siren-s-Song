@@ -185,13 +185,14 @@ func update(sim,dt: float,active_dive: bool=true) -> void:
 			play("heartbeat");heartbeat_timer=.45 if pressure.hostile else .9
 		creak_timer-=dt
 		if creak_timer<=0: play("creak"); creak_timer=13.0+sin(sim.elapsed)*3
-	for event in sim.events:
+	for raw_event in sim.events:
+		var event=preload("res://src/simulation/contact_identity.gd").event(sim,raw_event)
 		if event.type=="hunt_stage" and not HuntPressure.active(sim.mission):continue
 		if event.type=="plant_control":play("plant_switch")
 		elif event.type in ["carrier_received","return_received","sweep_received"]:
 			var received=received_cues.take(event,sim.selected,sim.elapsed,active_dive and not sim.paused)
-			if not received.is_empty():play(received.cue,received.relative)
-		else:play(event.type,event.get("pos",sim.units[sim.selected].pos)-sim.units[sim.selected].pos)
+			if not received.is_empty():_play_observed(received.cue,received.relative,event.get("sound",""))
+		else:_play_observed(event.type,event.get("pos",sim.units[sim.selected].pos)-sim.units[sim.selected].pos,event.get("sound",""))
 	# play() starts a fresh voice unpaused. Apply the tactical freeze after
 	# event dispatch too, including a switch accepted while planning.
 	for voice in voices: voice.stream_paused=frozen
@@ -206,12 +207,20 @@ func cue_audible(cue: String) -> bool:
 	var level=alerts_volume if category=="alerts" else (messages_volume if category=="messages" else effects_volume)
 	return not muted and level>0
 func play(cue: String,relative_position: Vector2=Vector2.ZERO) -> void:
+	_play_recording(cue,relative_position,"")
+func _play_observed(cue:String,relative_position:Vector2,sound_override:String)->void:
+	# Keep the established public playback/observer seam for ordinary cues.
+	if sound_override.is_empty() or sound_override==cue:play(cue,relative_position)
+	else:_play_recording(cue,relative_position,sound_override)
+func _play_recording(cue:String,relative_position:Vector2,sound_override:String)->void:
 	if not cue_audible(cue) or system_suspended or not cues.has(cue): return
+	var recording=cue if sound_override.is_empty() else sound_override
+	if not cues.has(recording):return
 	for i in voices.size():
 		var voice=voices[i]
 		if not voice.playing:
 			if Depth.ENABLED: _route_voice(i,cue)
-			panners[i].pan=clampf(relative_position.x/550.0,-0.8,0.8); voice.stream=cues[cue]; voice.play(); return
+			panners[i].pan=clampf(relative_position.x/550.0,-0.8,0.8); voice.stream=cues[recording]; voice.play(); return
 func apply_bus_levels() -> void:
 	var ambience_index=AudioServer.get_bus_index(AMBIENCE_BUS); var effects_index=AudioServer.get_bus_index(EFFECTS_BUS)
 	AudioServer.set_bus_mute(ambience_index,muted or music_volume<=0); AudioServer.set_bus_mute(effects_index,muted or effects_volume<=0)

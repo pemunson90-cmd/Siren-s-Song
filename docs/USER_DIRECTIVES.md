@@ -1,3 +1,11 @@
+## 29 October 2026: coarse sonar identification (handoff 106)
+
+3. "Should sonar only show a rough Siren type until you see or photograph it? (Changes Siren sense display, your call.)" = "Yes (Recommended)" (9)
+
+[PAT, verbatim ruling recorded in PAT_RULINGS_2026-10-29.md, Claude S6] The named sensing presentation change is authorized.
+
+[KEEL / implementation scope] Sonar presents a coarse class until any craft sees the Siren or photographs identify it. Identification lasts for that Siren through the dive; recovered photographed dossier roles can pre-identify. Chart, contact list and audio use the same knowledge boundary. Class labels are AI-DESIGNED. Sensing, sight ranges, lock, beam, collision, damage and hull rules retain their existing behavior.
+
 ## 29 October 2026: Sorley pilotage charts (handoff 112)
 
 [PAT, verbatim selections recorded in PAT_RULINGS_2026-10-29.md, items 12 and 13]

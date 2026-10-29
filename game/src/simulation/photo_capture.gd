@@ -314,6 +314,7 @@ static func finish(sim,uid:int,o:Dictionary)->Dictionary:
 	shot["band"]=int(f.band)
 	st.next=int(st.next)+1
 	st.shots.append(shot)
+	if usable and shot.has("siren"):preload("res://src/simulation/contact_identity.gd").identify(sim,int(shot.siren))
 	while st.shots.size()>MAX_SHOTS:st.shots.remove_at(_weakest(st.shots))
 	st.acc.erase(uid)
 	if usable:
