@@ -1,6 +1,6 @@
-[KEEL:104r 2026-10-29T13:57:48.8922148-04:00] Claude:104 sole revision BLOCKED1/2 causal; external Foundry win83.62 to loss68.82,1EMP restores win83.62/hull100; bare adaptations lose68.82 on both presets. Source8100b5b5 preserved, PR220 draft, no merge. Exact routes/numbers in PR and artifacts104/revision. Bounded104 stops; other claims untouched.
+[QUEUE RUNNER 2026-10-29T14:02:47.6905448-04:00] running: 106 PIDunknown, 109 PID51324; done: 103, 110, 112; blocked: 105, 104.
 
-[QUEUE RUNNER 2026-10-29T13:59:40.1297510-04:00] running: 104 PID27336, 109 PID51324; done: 103, 110, 112; blocked: 105.
+[KEEL:104r 2026-10-29T13:57:48.8922148-04:00] Claude:104 sole revision BLOCKED1/2 causal; external Foundry win83.62 to loss68.82,1EMP restores win83.62/hull100; bare adaptations lose68.82 on both presets. Source8100b5b5 preserved, PR220 draft, no merge. Exact routes/numbers in PR and artifacts104/revision. Bounded104 stops; other claims untouched.
 
 **[KEEL:112, 2026-10-29T13:33:43.1456490-04:00] Claude: PR218 merged3ffd8281; Sorley pilotage charts complete, old supplies kept, no ending vote. Independent HIGH, all7 green, local1022/0 +8 SILENT voyages; bounded112 DONE, other claims untouched.**
 
@@ -393,7 +393,7 @@ Boundary follow-up28Oct03:12UTC: Windows completion check PASSES from current in
 | 100 | 103 SIREN ROLE SENSES: hunter and sentinel hear, search and attend differently | DONE | [216](https://github.com/pemunson90-cmd/Siren-s-Song/pull/216) | 2026-10-29T12:34:41.9153221-04:00 | [KEEL:103b] Merged b522312c; matched-noise sweep/hold contrast and two operation plans differ by role. Independent HIGH reviewbef0a467, Claude S7 intent PASS, all7 exact-head checks green40907173698; full fleet pressure/finishability retained. Source-known simulation, no phone claim. |
 | 101 | 104 SIRENS RADIO EACH OTHER WITH A VISIBLE, INTERRUPTIBLE CHARGE (2+ patrollers) | BLOCKED (claude-lane104r, 2026-10-29T13:57:48.8922148-04:00; sole revision1/2 causal; Foundry bare loss68.82s STANDARD/ACCESSIBLE; PR220 draft; source8100b5b5; recoverydf721dac) | | | [handoff](104-siren-reports.md) |
 | 102 | 105 THERMAL LAYER COVERS ONE DEPTH BAND ONLY | BLOCKED (claude-lane; sole S7 revision: 1/2 causal ops, no best-depth reversal) | [PR219 draft](https://github.com/pemunson90-cmd/Siren-s-Song/pull/219), head ab94dd85 | | Op3 DEEP win84.03s/H17.20/L3.10 before to loss72.87s/H22.87/L6.97 after; ops8/39 identical. Reviewed recovery only, no merge; [handoff](105-thermal-one-band.md). |
-| 103 | 106 SONAR SHOWS A ROUGH SIREN TYPE UNTIL SEEN OR PHOTOGRAPHED | QUEUED (claude-lane, Pat 29 Oct) | | | [handoff](106-sonar-coarse-class.md) |
+| 103 | 106 SONAR SHOWS A ROUGH SIREN TYPE UNTIL SEEN OR PHOTOGRAPHED | CLAIMED (claude-lane, codex-fresh-106, 2026-10-29T14:02:47.4145534-04:00) | | | [handoff](106-sonar-coarse-class.md) |
 | 104 | 107 IRONMAN: LOST DRONES AND MODULES ARE GONE FOR GOOD | DONE | [215](https://github.com/pemunson90-cmd/Siren-s-Song/pull/215) | 2026-10-29T14:54:44Z | Ironman loss state, paid replacements and named history integrated5acb079d; HIGH review107 approved treea12c6fb2, all7 green40888538512, local1271/0; SILENT bare ACCESSIBLE/STANDARD finish with empty bays. |
 | 105 | 108 ONE MORE STORY FORK IN ARC 5 | QUEUED (claude-lane, Pat 29 Oct) | | | [handoff](108-arc5-second-fork.md) |
 | 106 | 109 EXPEDITION SEEDS SHUFFLE SIREN STARTS AND PATROL TIMING | CLAIMED (claude-lane, codex-fresh-109r, 2026-10-29T13:48:18.8324525-04:00; PR221 draft, sole intent revision) | | | [handoff](109-seed-siren-shuffle.md) |
