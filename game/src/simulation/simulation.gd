@@ -163,6 +163,7 @@ func _configure_depth_charts()->void:
 			depth_charts[band]=terrain_chart;continue
 		var chart=TerrainChart.new()
 		var config=mission.duplicate();config["world_size"]=world_size();config["launch_seed"]=Rect2(mission.get("start",units[0].pos)-Vector2(60,60),Vector2(120,120))
+		config["pilotage_band"]=band
 		chart.configure(config,Depth.shapes(self,band),mission.get("depth_charts",{}).get(band,{}))
 		depth_charts[band]=chart
 	_use_band(units[selected].band)

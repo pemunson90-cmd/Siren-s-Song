@@ -1,3 +1,18 @@
+## 29 October 2026: interruptible Siren reports (handoff 104)
+
+6. "On ops with 2+ patrolling Sirens, should they radio each other with a visible charge-up you can interrupt? (Protected, your call.)" = "Yes, 2+ patrollers (Recommended)" (7)
+
+[PAT, verbatim ruling recorded in PAT_RULINGS_2026-10-29.md, Claude S6] This authorizes the named report extension. [KEEL, AI-DESIGNED provisional tuning] The new charge takes three seconds so a report can precede the existing four-second beam warning. Fresh operations with at least two patroller, hunter or sentinel Sirens use local interruptible reports; old active saves keep their recorded revision. The existing acoustic range, coarse last-known position, finite memory and cooldown stay bounded. Sweepers and industrial/network roles retain their established behavior. Sight, hearing, lock, beam, collision, hull and damage retain their existing rules.
+
+## 29 October 2026: Sorley pilotage charts (handoff 112)
+
+[PAT, verbatim selections recorded in PAT_RULINGS_2026-10-29.md, items 12 and 13]
+
+12. "Change the Sorley rescue reward from supplies to pilotage charts?" = "Yes, charts (Recommended)"
+13. "Should the Sorley rescue count as one vote toward which ending you get?" = "No, keep it separate (Recommended)"
+
+[KEEL / implementation] Rescue grants lasting MIDDLE-water pilotage passages in Needle Strait and Furnace Drift through earned-chart certification. Both rescue tiers grant charts; old rescue facts qualify automatically and earlier supplies remain. Charts disclose terrain clearance, never Sirens. Passage extents are AI-DESIGNED. The rescue epilogue stays separate from ending votes.
+
 ## 29 October 2026: distinct hunter and sentinel senses (handoff 103)
 
 5. "Should hunter and sentinel Sirens each get their own hearing, search and attention, so each type needs a different plan? (Siren senses, your call.)" = "Yes (Recommended)" (6)
