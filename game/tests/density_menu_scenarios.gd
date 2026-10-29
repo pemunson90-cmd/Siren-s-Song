@@ -53,7 +53,7 @@ func run() -> void:
 			await scroll_to(tab);await click(tab);await process_frame;await process_frame
 		for control in game.menu.find_children("*","Control",true,false):
 			if control is BaseButton or control is Slider: settings_ids.append(control.get_meta("action",control.get_meta("ui_action","")))
-	var required=["volume_master","volume_music","volume_effects","mute","back","text_scale_115","setting_high_contrast","setting_reduced_motion","setting_haptics"]
+	var required=["volume_master","volume_music","volume_effects","mute","back","text_scale_115","setting_high_contrast","setting_reduced_motion","setting_haptics","setting_mirrored_hud","setting_auto_pause_notice","setting_auto_pause_lock"]
 	if OS.is_debug_build():required.append("developer")
 	var expected=required+["text_scale_100","text_scale_130","text_scale_150","setting_safe_palette","setting_audio_captions","settings_reset","reset_tips","new_campaign",
 		"settings_page_audio","settings_page_display","settings_page_controls","volume_alerts","volume_messages","setting_night_mode",

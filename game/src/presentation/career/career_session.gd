@@ -36,6 +36,7 @@ func _ready()->void:
 	super._ready();active_started=false
 	if not active_envelope.is_empty():
 		active_started=CareerArchive.Active.restore_sim(sim,active_envelope,career_state,"career")
+		if active_started:tactical_aids.restore_history(active_envelope.get("tactical_pause_history"))
 		mission_index=sim.mission.id;ocean.sim=sim;ocean.focus_craft()
 	snapshot_ready=true
 	FrontendSettings.apply(FrontendSettings.current,self);sound.muted=campaign_host.sound.muted
@@ -58,6 +59,7 @@ func _save_archive()->void:
 	career_state.fitted=fitted_equipment.duplicate(true)
 	if active_started and career_state.in_flight and not result_pending:
 		active_envelope=CareerArchive.Active.capture("career",career_state,sim,active_envelope)
+		active_envelope["tactical_pause_history"]=tactical_aids.saved_history()
 	else:active_envelope={}
 	save_failed=not _persist_state(career_state,active_envelope)
 func _enter_water()->void:

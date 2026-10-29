@@ -349,11 +349,18 @@ func layout(bounds:Vector2,h:float):
  host.status_label.hide();host.log_label.hide()
  host.pause_button.show();host.pause_button.position=Vector2(12,12);host.pause_button.size=Vector2(bw,bh)
  host.advanced_button.visible=not host.advanced_orders;host.advanced_button.position=Vector2(bounds.x-bw-12,12);host.advanced_button.size=Vector2(bw,bh)
+ if preload("res://src/presentation/frontend/frontend_settings.gd").current.get("mirrored_hud",false):
+  host.pause_button.position.x=bounds.x-bw-12
+  host.advanced_button.position.x=12
  var line_height=ceili(intent.get_theme_font("font").get_height(font))
  intent.position=Vector2(16,bounds.y-line_height*2-14);intent.size=Vector2(bounds.x-32,line_height*2+8);intent.add_theme_font_size_override("font_size",font);intent.custom_minimum_size=Vector2(bounds.x-32,line_height*2+8)
  intent.visible=not host.advanced_orders
  blocker.position=Vector2.ZERO;blocker.size=bounds;blocker.visible=host.advanced_orders
  ring_buttons=command_controls()
+ # Reverse side clusters while keeping the top action and readable text upright.
+ # The same ordered list drives layout, wedges, fitting and hit testing.
+ if preload("res://src/presentation/frontend/frontend_settings.gd").current.get("mirrored_hud",false) and ring_buttons.size()>1:
+  var sides=ring_buttons.slice(1);sides.reverse();ring_buttons=[ring_buttons[0]]+sides
  anchor=host.ocean.screen_position(subject.get("pos",host.sim.units[host.sim.selected].pos))
  ring_radius=h*2.25*text_scale
  var edge=Vector2(h*3.1,h*2.9)*text_scale

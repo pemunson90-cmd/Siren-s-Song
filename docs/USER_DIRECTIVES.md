@@ -1,3 +1,12 @@
+## 29 October 2026: optional tactical pause aids and mirrored HUD (handoff 111)
+
+11. "Add tactical aids such as auto-pause when a Siren first notices you, as an Accessible option off by default?" = "Yes (Recommended)" (11)
+18. "Add a mirrored HUD option for one-handed play?" = "Yes (Recommended)" (21)
+
+[PAT, verbatim selections recorded in PAT_RULINGS_2026-10-29.md, Claude S6] Both options are authorized.
+
+[KEEL / implementation] Device settings offer separate first-notice and received-lock pause toggles plus mirrored HUD, all off by default and available on any preset. First notice uses the existing any-craft acquisition signal, once per Siren during the dive; a fresh received lock episode on any living craft also pauses when enabled. Brief gaps for the same Siren/craft pair coalesce until two continuous clear simulation seconds (AI-DESIGNED UI rearm); a different Siren or target pauses immediately. Optional presentation history survives active-dive restores, including Expedition and Career, so an ongoing notice or warning does not replay on resume. Older saves prime live craft acquisitions and received warnings. Pause is unlimited and resumes through the ordinary control. Mirroring swaps pause/fleet sides and radial side actions with matching touch wedges. Warning timing, sensing, beams, collision, hull and damage retain their existing rules. No phone acceptance is claimed.
+
 ## 29 October 2026: presentation placeholders (handoff 113)
 
 [PAT, verbatim selections recorded in PAT_RULINGS_2026-10-29.md, Claude S6]
