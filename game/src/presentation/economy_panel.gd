@@ -5,6 +5,7 @@ extends RefCounted
 # Seams: CampaignFlow (operations entry, briefing launch, debrief settle, new campaign preset),
 # Main._show_economy forwarder, EquipmentContext frame rows. Android Back returns to
 # Operations through Main's ordinary rule. Revert: economy_table.enabled=false hides it all.
+const Options=preload("res://src/campaign/economy_options.gd")
 const Economy=preload("res://src/campaign/economy.gd")
 const Table=preload("res://src/campaign/economy_table.gd")
 const Save2Table=preload("res://src/persistence/save_states/save2_table.gd")
@@ -27,29 +28,58 @@ static func _spend_button(host,text:String,cost:Dictionary,action:Callable,id:St
 	return button
 # Operations entry: a supplies button.
 static func entry(host)->void:
-	if Table.enabled:host._button(host.panel_box,"SUPPLIES",host._show_economy,"economy")
+	if Table.enabled:
+		host._button(host.panel_box,"SUPPLIES",host._show_economy,"economy")
+		if not host._campaign_pristine() or host.active_started or Options.state(host.economy).started:
+			_easier_picker(host,host._show_campaign)
+static func _easier_picker(host,redraw:Callable)->void:
+	var e=host.economy
+	var pending=Options.state(e).pending
+	if not pending.is_empty():host._menu_text("%s queued / effective at the next dock after a dive. Current dive keeps its rules."%Table.PRESETS[pending].name,14)
+	for id in Options.choices(e):
+		host._button(host.panel_box,"EASIER PRESET / %s / NEXT DOCK"%Table.PRESETS[id].name,func():
+			if Options.request(e,id):host._save_archive();redraw.call()
+		,"eco_easier_"+id)
+
 # The preset choice, shown at the top of Operations while the campaign is pristine.
 static func pristine_picker(host)->void:
-	if not Table.enabled or not host._campaign_pristine():return
-	picker(host,host.economy,func(id,iron):
-		host.economy=Economy.new_state(id,iron);host._save_archive();host._show_campaign())
+	if not Table.enabled or not host._campaign_pristine() or host.active_started or Options.state(host.economy).started or not host.economy.settled.is_empty():return
+	picker(host,host.economy,func(id,iron,custom):
+		host.economy=_choice(id,iron,custom);host._save_archive();host._show_campaign())
 # Preset buttons and the Ironman flag for a campaign that has not started.
 static func picker(host,e:Dictionary,changed:Callable)->void:
-	host._menu_text("CAMPAIGN PRESET · %s%s"%[Economy.preset(e).name," · IRONMAN" if e.ironman else ""],17)
+	host._menu_text("CAMPAIGN PRESET · %s%s"%[Options.label(e)," · IRONMAN" if e.ironman else ""],17)
 	for id in Table.ORDER:
 		var chosen=e.preset==id
 		var button=host._button(host.panel_box,"%s%s · %s"%[Table.PRESETS[id].name," · SELECTED" if chosen else "",Table.PRESETS[id].note],
-			func():changed.call(id,e.ironman),"eco_pick_"+id)
+			func():changed.call(id,e.ironman,Options.state(e).custom),"eco_pick_"+id)
 		button.disabled=chosen
 	host._button(host.panel_box,"IRONMAN · ON (TAP TO TURN OFF)" if e.ironman else "IRONMAN · OFF (TAP TO TURN ON)",
-		func():changed.call(e.preset,not e.ironman),"eco_pick_ironman")
+		func():changed.call(e.preset,not e.ironman,Options.state(e).custom),"eco_pick_ironman")
 	host._menu_text("Ironman permanently loses unrecovered drones and fittings. Replacements cost supplies. Empty bays can launch. Ironman charges every fitting on every launch and locks the preset once play begins.\n"+Save2Table.IRONMAN_LINE,14)
+	var custom=Options.state(e).custom
+	host._button(host.panel_box,"ADVANCED / "+("OFF" if custom.is_empty() else "ON / CUSTOM"),func():
+		var values={}
+		if custom.is_empty():
+			for key in Table.ADVANCED:values[key]=Table.ADVANCED[key].default
+		changed.call(e.preset,e.ironman,values)
+	,"eco_advanced")
+	if not custom.is_empty():
+		host._menu_text("CUSTOM campaign recorded permanently. Repair affects repairs only; income scales salvage. Starting stock scales 8 scrap / 10 cells / 0 alloy.",14)
+		for key in Table.ADVANCED:
+			var rule=Table.ADVANCED[key]
+			host._button(host.panel_box,"%s / %.2fx (%.2f to %.2f)"%[{"repair":"REPAIR COST","income":"INCOME","start":"STARTING STOCK"}[key],custom[key],rule.min,rule.max],func():
+				var values=custom.duplicate();values[key]=rule.min if values[key]>=rule.max else values[key]+rule.step
+				changed.call(e.preset,e.ironman,values)
+			,"eco_advanced_"+key)
+static func _choice(id:String,iron:bool,custom:Dictionary)->Dictionary:
+	var e=Economy.new_state(id,iron);Options.configure(e,custom);return e
 # Erase confirmation: the next campaign's preset is chosen here and applied by new_campaign.
 static func draft_picker(host)->void:
 	if not Table.enabled:return
 	if not host.has_meta("economy_draft"):host.set_meta("economy_draft",Economy.new_state())
-	picker(host,host.get_meta("economy_draft"),func(id,iron):
-		host.set_meta("economy_draft",Economy.new_state(id,iron));host._confirm_new_campaign())
+	picker(host,host.get_meta("economy_draft"),func(id,iron,custom):
+		host.set_meta("economy_draft",_choice(id,iron,custom));host._confirm_new_campaign())
 static func take_draft(host)->Dictionary:
 	var draft=host.get_meta("economy_draft",Economy.new_state())
 	if host.has_meta("economy_draft"):host.remove_meta("economy_draft")
@@ -87,7 +117,7 @@ static func begin(host,index:int)->void:
 		host._save_archive()
 static func briefing_line(host)->String:
 	if not Table.enabled:return ""
-	return "%s · %s · NEXT LAUNCH %s"%[Economy.balance_text(host.economy),Economy.preset(host.economy).name,Economy.fmt(launch_cost(host))]+("\nEMPTY DRONE BAYS: "+", ".join(Economy.Losses.state(host.economy).drones.map(func(id):return "A" if id==1 else "B")) if Economy.Losses.active(host.economy) and not Economy.Losses.state(host.economy).drones.is_empty() else "")
+	return "%s · %s · NEXT LAUNCH %s"%[Economy.balance_text(host.economy),Options.label(host.economy),Economy.fmt(launch_cost(host))]+("\nEMPTY DRONE BAYS: "+", ".join(Economy.Losses.state(host.economy).drones.map(func(id):return "A" if id==1 else "B")) if Economy.Losses.active(host.economy) and not Economy.Losses.state(host.economy).drones.is_empty() else "")
 # ---- settlement ------------------------------------------------------------
 # Called once per debrief before campaign recovery changes research material.
 static func settle(host,first_recovery:bool,fleet_before:Dictionary)->void:
@@ -111,20 +141,22 @@ static func show(host)->void:
 	host.screen="economy";host.sim.paused=true;host._clear_menu()
 	host._button(host.panel_box,"BACK TO OPERATIONS",host._show_campaign,"back")
 	host._menu_text("SUPPLIES / COSTS",30)
-	host._menu_text("%s\nPRESET · %s · %s%s"%[Economy.balance_text(e),Economy.preset(e).name,Economy.preset(e).note," · IRONMAN" if e.ironman else ""],16)
+	host._menu_text("%s\nPRESET · %s · %s%s"%[Economy.balance_text(e),Options.label(e),Economy.preset(e).note," · IRONMAN" if e.ironman else ""],16)
 	host._menu_text(e.report,14)
 	preload("res://src/presentation/crew/crew_view.gd").supplies(host)
 	if e.ironman:
 		host._button(host.panel_box,"PRESET LOCKED · IRONMAN",func():pass,"eco_preset").disabled=true
 		host._menu_text(Save2Table.IRONMAN_LINE,15)
 	else:
-		var next=Table.ORDER[(Table.ORDER.find(e.preset)+1)%Table.ORDER.size()]
-		host._button(host.panel_box,"PRESET · %s → %s"%[Economy.preset(e).name,Table.PRESETS[next].name],
-			func():_redraw(host,func():Economy.cycle_preset(e)),"eco_preset")
+		_easier_picker(host,show.bind(host))
 		var armed=host.get_meta("economy_iron_armed",false)
 		host._menu_text(Save2Table.IRONMAN_LINE,15)
-		host._button(host.panel_box,"CONFIRM IRONMAN · CANNOT BE UNDONE" if armed else "IRONMAN · OFF → ON (ONE WAY)",
+		var iron_button=host._button(host.panel_box,"CONFIRM IRONMAN · CANNOT BE UNDONE" if armed else "IRONMAN · OFF → ON (ONE WAY)",
 			_ironman.bind(host),"eco_ironman")
+		if not Options.state(e).pending.is_empty():
+			iron_button.disabled=true
+			iron_button.text="IRONMAN / EASIER PRESET QUEUED"
+			host._menu_text("Easier preset queued; Ironman can be enabled after the next dock.",14)
 	host._menu_text("NEXT LAUNCH REFIT · %s\nA craft keeps what it carried last launch for free. A bare standard Quietus always launches free."%
 		Economy.fmt(launch_cost(host)),15)
 	_repairs(host)
