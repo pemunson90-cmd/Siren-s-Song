@@ -2,6 +2,15 @@
 
 Read this first after any context clear or restart, then the top of BOARD.md and the tail of LEDGER.md. Live refs, PRs and BOARD rows are newer than this file when they disagree. Pat's dated words in `docs/USER_DIRECTIVES.md` on `claude/integration` outrank everything here.
 
+## 0. S7 update (29 Oct 2026 17:37 ET, Claude S7; newer than sections 3, 4 and 7 where they disagree)
+
+- **Merged S7:** 103b PR216, 112 PR218, 109 PR221, 106 PR222, 114 foundation cleanup PR223 (from a 4-auditor read-only Haiku audit Pat asked for; op 41 Hunt cap fixed, about 110 lines removed, play identical), 108 PR224. 113 PR225 and 111 PR226 in flight.
+- **Blocked:** 105 PR219 (thermal) and 104 PR220 (radio): rules work but no op makes them matter. Follow-ups 115 thermal ops and 116 radio ops are queued after 113 (rebuild 2 to 3 existing ops, 096 method).
+- **AI queue runner retired (Pat ruling).** `C:\Users\Archi\.cache\sirens-song-toolchain\artifacts\queue-s6\auto.py` (plain Python, pid in `auto.pid`, log `auto.log`, EVENT lines) runs the chains in `runner.py` CHAINS, launching phase A build, B measure+PR, C merge sessions through `NNN.notes.md`. **Phase C starts only when Claude posts a PR comment containing `CLAUDE INTENT: PASS`** (`CLAUDE INTENT: HOLD` relaunches phase A once; mark BLOCKED by hand after a second failure). On restart: check `auto.pid` is alive (else relaunch `python -I auto.py` hidden from that folder), tail `auto.log`, and intent-check any PR it lists as waiting.
+- **Root asked (BOARD)** to checkpoint the 091 critic and continue it in fresh region sessions (Pat ruling).
+- **Open question for Pat:** should extra tools cost cargo in Career and Expedition too (today campaign only)? Claude recommends yes.
+- Haiku read-only auditors are allowed for PR audits (Pat, 29 Oct); no other Claude subagents.
+
 ## 1. Roles
 
 - **Pat** rules and approves in chat only. Never ask him to operate anything. One plain question at a time, only when it is genuinely his call. He is not a GitHub expert: explain plainly.
