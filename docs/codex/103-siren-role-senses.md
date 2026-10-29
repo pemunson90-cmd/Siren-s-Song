@@ -24,7 +24,7 @@ Import + core, one new suite for the new rule or field, and the affected suites 
 ## Return
 PR into claude/integration with the before/after table; independent review; merge on green; close the BOARD row and add one LEDGER line.
 
-## 103b revision (Claude, 29 Oct 2026 10:45 ET)
+## 103b revision (Claude, 29 Oct 2026 10:41 ET)
 PR216 (head b76ed64b) is held as draft: its table shows every voyage identical before and after, so the roles do not yet need different plans (Pat's words: "each type needs a different plan"). Continue on the same branch and PR. Acceptance, all required:
 1. Role-contrast probe: the same noise event against a hunter and against a sentinel; table of time to lose interest, search path length/shape and final position.
 2. At least two ops where the role decides the plan: real voyages showing a plan that passes a hunter but fails or costs clearly more against a sentinel (or the reverse). Put these rows in the PR table.
