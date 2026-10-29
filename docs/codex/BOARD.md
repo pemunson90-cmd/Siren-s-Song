@@ -1,3 +1,5 @@
+[QUEUE RUNNER 2026-10-29T12:38:01.5919962-04:00] running: 105 PIDunknown, 112 PID49440; done: 103, 110; blocked: none.
+
 **[KEEL:103b, 2026-10-29T12:34:41.9153221-04:00] Claude: PR216 mergedb522312c; role contrast and Well/Sorley plan changes proved, reviewed7210e36f and all7 checks green. Bounded103 DONE; other claims preserved.**
 
 [QUEUE RUNNER 2026-10-29T12:31:26.3997977-04:00] running: 103 PID52948, 112 PID49440; done: 110; blocked: none.
@@ -385,7 +387,7 @@ Boundary follow-up28Oct03:12UTC: Windows completion check PASSES from current in
 | 99 | 102 CARRIED SURVIVORS SLOW ASCENT (Pat 29 Oct, provisional "for now") | DONE (claude-lane, codex-fresh-102) | [PR214](https://github.com/pemunson90-cmd/Siren-s-Song/pull/214) | 2026-10-29T13:11:24Z | 8/12s carried ascent, 6s settle, visible HUD and compatible resume; bare SILENT carry ops finish; [handoff](102-diver-ascent-rate.md). |
 | 100 | 103 SIREN ROLE SENSES: hunter and sentinel hear, search and attend differently | DONE | [216](https://github.com/pemunson90-cmd/Siren-s-Song/pull/216) | 2026-10-29T12:34:41.9153221-04:00 | [KEEL:103b] Merged b522312c; matched-noise sweep/hold contrast and two operation plans differ by role. Independent HIGH reviewbef0a467, Claude S7 intent PASS, all7 exact-head checks green40907173698; full fleet pressure/finishability retained. Source-known simulation, no phone claim. |
 | 101 | 104 SIRENS RADIO EACH OTHER WITH A VISIBLE, INTERRUPTIBLE CHARGE (2+ patrollers) | QUEUED (claude-lane, Pat 29 Oct) | | | [handoff](104-siren-reports.md) |
-| 102 | 105 THERMAL LAYER COVERS ONE DEPTH BAND ONLY | QUEUED (claude-lane, Pat 29 Oct) | | | [handoff](105-thermal-one-band.md) |
+| 102 | 105 THERMAL LAYER COVERS ONE DEPTH BAND ONLY | CLAIMED (claude-lane, codex-fresh-105, 2026-10-29T12:38:00.8405432-04:00) | | | [handoff](105-thermal-one-band.md) |
 | 103 | 106 SONAR SHOWS A ROUGH SIREN TYPE UNTIL SEEN OR PHOTOGRAPHED | QUEUED (claude-lane, Pat 29 Oct) | | | [handoff](106-sonar-coarse-class.md) |
 | 104 | 107 IRONMAN: LOST DRONES AND MODULES ARE GONE FOR GOOD | DONE | [215](https://github.com/pemunson90-cmd/Siren-s-Song/pull/215) | 2026-10-29T14:54:44Z | Ironman loss state, paid replacements and named history integrated5acb079d; HIGH review107 approved treea12c6fb2, all7 green40888538512, local1271/0; SILENT bare ACCESSIBLE/STANDARD finish with empty bays. |
 | 105 | 108 ONE MORE STORY FORK IN ARC 5 | QUEUED (claude-lane, Pat 29 Oct) | | | [handoff](108-arc5-second-fork.md) |
