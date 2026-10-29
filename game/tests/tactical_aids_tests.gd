@@ -46,11 +46,20 @@ func run():
  check(sim.elapsed==elapsed and sim.contacts[2].lock==lock,"paused aid freezes simulation and warning clock")
  sim.paused=false;aid.observe();check(not sim.paused,"resume with same lock does not trap player")
  sim.contacts.clear();aid.observe();sim.contacts={2:{"pos":sim.units[1].pos+Vector2(60,0),"time":10.,"mode":"LOCKING","lock":.1,"target":1,"band":sim.units[1].band}}
- aid.observe();check(sim.paused,"breaking and reacquiring starts a new warning")
+ aid.observe();check(not sim.paused,"brief warning gap coalesces instead of demanding another resume")
+ sim.elapsed+=1.;sim.contacts[2].time=sim.elapsed;aid.observe()
+ check(not sim.paused,"continued warning refreshes the same episode")
+ sim.contacts.clear();aid.observe();sim.elapsed+=Aids.LOCK_CLEAR_SECONDS+.01
+ sim.contacts={2:{"pos":sim.units[1].pos+Vector2(60,0),"time":sim.elapsed,"mode":"LOCKING","lock":.1,"target":1,"band":sim.units[1].band}}
+ aid.observe();check(sim.paused,"sustained clear interval rearms the warning")
+ sim.paused=false;sim.contacts[2].target=0;sim.contacts[2].pos=sim.units[0].pos+Vector2(60,0);sim.contacts[2].band=sim.units[0].band;aid.observe()
+ check(sim.paused,"different craft target pauses immediately despite same Siren")
+ sim.paused=false;sim.contacts[4]=sim.contacts[2].duplicate();aid.observe()
+ check(sim.paused,"different Siren pauses immediately despite same craft")
  sim.paused=false;sim.contacts.clear();aid.observe()
  sim.contacts={3:{"pos":Vector2.ZERO,"time":9.,"mode":"LOCKING","lock":1.,"target":0}}
  aid.observe();check(not sim.paused,"stale warning never pauses")
- sim.contacts[3].time=10.;sim.contacts[3].recipient_target=true;aid.observe();check(not sim.paused,"recipient warning never aliases craft")
+ sim.contacts[3].time=sim.elapsed;sim.contacts[3].recipient_target=true;aid.observe();check(not sim.paused,"recipient warning never aliases craft")
  host.screen="menu";sim.siren_notice.emit(4,Vector2.ZERO);aid.observe();check(not sim.paused,"menu never auto pauses")
  # Real simulation acquisition on an unselected, stationary SILENT drone.
  host.screen="mission";sim.start(0);sim.mission.structures=[];sim.mission.depth_geometry={}

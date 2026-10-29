@@ -2,12 +2,15 @@ extends RefCounted
 # Optional player pause hooks. Uses the existing any-craft acquisition signal and
 # fresh received contacts; never changes sensing, lock accumulation or damage.
 const Settings=preload("res://src/presentation/frontend/frontend_settings.gd")
+# AI-DESIGNED UI episode rearm: brief contact/cover gaps must not demand
+# repeated resume taps. This never changes an actual lock or warning display.
+const LOCK_CLEAR_SECONDS=2.0
 const Stun=preload("res://src/simulation/observed_stun.gd")
 var host
 var mission:Dictionary={}
 var clock=-1.
 var noticed:Dictionary={}
-var lock_ids:Array=[]
+var lock_seen:Dictionary={}
 var pending_notice=false
 func bind(owner)->void:
  host=owner
@@ -15,7 +18,7 @@ func bind(owner)->void:
 func _reset()->void:
  var sim=host.sim
  if not is_same(mission,sim.mission) or sim.elapsed<clock:
-  mission=sim.mission;noticed.clear();lock_ids.clear();pending_notice=false
+  mission=sim.mission;noticed.clear();lock_seen.clear();pending_notice=false
  clock=sim.elapsed
 func _notice(id:int,_source:Vector2)->void:
  _reset()
@@ -37,8 +40,11 @@ func observe()->void:
  var sim=host.sim
  if host.screen!="mission" or not sim.outcome.is_empty():pending_notice=false;return
  var ids=warnings()
- var new_lock=ids.any(func(id):return id not in lock_ids)
- lock_ids=ids
+ var new_lock=false
+ for id in ids:
+  var key="%d:%d"%[id[0],id[1]]
+  if not lock_seen.has(key) or sim.elapsed-float(lock_seen[key])>=LOCK_CLEAR_SECONDS:new_lock=true
+  lock_seen[key]=sim.elapsed
  if pending_notice or (new_lock and Settings.current.get("auto_pause_lock",false)):
   sim.paused=true
   sim.message="AUTO PAUSE: FIRST NOTICE" if pending_notice else "AUTO PAUSE: LOCK WARNING"

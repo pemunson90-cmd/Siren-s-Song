@@ -5,7 +5,7 @@
 
 [PAT, verbatim selections recorded in PAT_RULINGS_2026-10-29.md, Claude S6] Both options are authorized.
 
-[KEEL / implementation] Device settings offer separate first-notice and received-lock pause toggles plus mirrored HUD, all off by default and available on any preset. First notice uses the existing any-craft acquisition signal, once per Siren while the dive session remains loaded; a fresh received lock episode on any living craft also pauses when enabled. Restoring a dive may trigger one additional notice or current-lock pause. Pause is unlimited and resumes through the ordinary control. Mirroring swaps pause/fleet sides and radial side actions with matching touch wedges. Warning timing, sensing, beams, collision, hull and damage retain their existing rules. No phone acceptance is claimed.
+[KEEL / implementation] Device settings offer separate first-notice and received-lock pause toggles plus mirrored HUD, all off by default and available on any preset. First notice uses the existing any-craft acquisition signal, once per Siren while the dive session remains loaded; a fresh received lock episode on any living craft also pauses when enabled. Brief gaps for the same Siren/craft pair coalesce until two continuous clear simulation seconds (AI-DESIGNED UI rearm); a different Siren or target pauses immediately. Restoring a dive may trigger one additional notice or current-lock pause. Pause is unlimited and resumes through the ordinary control. Mirroring swaps pause/fleet sides and radial side actions with matching touch wedges. Warning timing, sensing, beams, collision, hull and damage retain their existing rules. No phone acceptance is claimed.
 
 ## 29 October 2026: second story fork in arc 5 (handoff 108)
 
