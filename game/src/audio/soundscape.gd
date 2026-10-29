@@ -2,6 +2,8 @@ extends Node
 const HuntPressure=preload("res://src/simulation/hunt_pressure/hunt_pressure.gd")
 const HuntTable=preload("res://src/simulation/hunt_pressure/hunt_table.gd")
 const RegionAudioTable=preload("res://src/audio/region_audio_table.gd")
+const RoleCues=preload("res://src/audio/siren_role_cues.gd")
+const PhotoWave=preload("res://src/audio/photo_audio/photo_wave.gd")
 const RATE := 22050
 const AMBIENCE_BUS := "SirenAmbience"
 const EFFECTS_BUS := "SirenEffects"
@@ -28,6 +30,8 @@ var panners: Array=[]
 var cues: Dictionary={}
 var accessibility=preload("res://src/presentation/accessibility/cue_observer.gd").new()
 var received_cues=preload("res://src/audio/received_cues.gd").new()
+var role_cue_observer=RoleCues.new()
+var role_bearing_events:Array=[]
 var heartbeat_timer := 0.0
 var lock_voice: AudioStreamPlayer
 var lock_interval := .7
@@ -92,6 +96,7 @@ func _ready() -> void:
 		var limiter=AudioEffectLimiter.new(); limiter.resource_name="SirenPeakGuard"; limiter.threshold_db=-3; limiter.ceiling_db=-1; AudioServer.add_bus_effect(0,limiter)
 	_sync_night_mode()
 	for cue in ["ping","camera","emp","knock","snare","salvage","record","loss","extraction","alert","recon","decoy","creak","beam","factory","carrier_received","return_received","sweep_received","heartbeat","berth_release","plant_switch"]: cues[cue]=stream(cue)
+	for cue in RoleCues.CUES:cues[cue]=PhotoWave.render(RoleCues.CUES[cue])
 	cues["hunt_stage"]=preload("res://src/audio/photo_audio/photo_wave.gd").stream(HuntTable.CUE_SOURCE)
 	ambience=AudioStreamPlayer.new(); ambience.stream=stream("ambience"); ambience.bus=AMBIENCE_BUS; ambience.volume_db=-17; add_child(ambience); ambience.play()
 	tension=AudioStreamPlayer.new(); tension.stream=stream("tension"); tension.bus=AMBIENCE_BUS; tension.volume_db=-80; add_child(tension); tension.play()
@@ -154,6 +159,7 @@ func update(sim,dt: float,active_dive: bool=true) -> void:
 	var photo_engine=preload("res://src/audio/photo_audio/photo_audio.gd").sync(self,sim,dt,active_dive)
 	preload("res://src/audio/event_cues/event_cues.gd").sync(self,sim,dt,active_dive)
 	received_cues.observe_clock(sim.elapsed)
+	role_bearing_events=role_cue_observer.new_bearing_events(sim)
 	if ambience==null: return
 	apply_bus_levels()
 	var frozen=sim.paused or not active_dive or system_suspended
@@ -185,14 +191,16 @@ func update(sim,dt: float,active_dive: bool=true) -> void:
 			play("heartbeat");heartbeat_timer=.45 if pressure.hostile else .9
 		creak_timer-=dt
 		if creak_timer<=0: play("creak"); creak_timer=13.0+sin(sim.elapsed)*3
-	for raw_event in sim.events:
-		var event=preload("res://src/simulation/contact_identity.gd").event(sim,raw_event)
+	for raw_event in sim.events+role_bearing_events:
+		var identity=preload("res://src/simulation/contact_identity.gd")
+		var signature=RoleCues.identified_signature(sim,raw_event)
+		var event=identity.event(sim,raw_event)
 		if event.type=="hunt_stage" and not HuntPressure.active(sim.mission):continue
 		if event.type=="plant_control":play("plant_switch")
 		elif event.type in ["carrier_received","return_received","sweep_received"]:
 			var received=received_cues.take(event,sim.selected,sim.elapsed,active_dive and not sim.paused)
-			if not received.is_empty():_play_observed(received.cue,received.relative,event.get("sound",""))
-		else:_play_observed(event.type,event.get("pos",sim.units[sim.selected].pos)-sim.units[sim.selected].pos,event.get("sound",""))
+			if not received.is_empty():_play_observed(received.cue,received.relative,signature if not signature.is_empty() else event.get("sound",""))
+		else:_play_observed(event.type,event.get("pos",sim.units[sim.selected].pos)-sim.units[sim.selected].pos,signature if not signature.is_empty() else event.get("sound",""))
 	# play() starts a fresh voice unpaused. Apply the tactical freeze after
 	# event dispatch too, including a switch accepted while planning.
 	for voice in voices: voice.stream_paused=frozen
@@ -220,7 +228,7 @@ func _play_recording(cue:String,relative_position:Vector2,sound_override:String)
 		var voice=voices[i]
 		if not voice.playing:
 			_route_voice(i,cue)
-			panners[i].pan=clampf(relative_position.x/550.0,-0.8,0.8); voice.stream=cues[recording]; voice.play(); return
+			panners[i].pan=clampf(relative_position.x/550.0,-0.8,0.8);voice.volume_db=float(RoleCues.CUES[recording].gain_db) if RoleCues.CUES.has(recording) else -7.5;voice.stream=cues[recording];voice.play();return
 func apply_bus_levels() -> void:
 	var ambience_index=AudioServer.get_bus_index(AMBIENCE_BUS); var effects_index=AudioServer.get_bus_index(EFFECTS_BUS)
 	AudioServer.set_bus_mute(ambience_index,muted or music_volume<=0); AudioServer.set_bus_mute(effects_index,muted or effects_volume<=0)

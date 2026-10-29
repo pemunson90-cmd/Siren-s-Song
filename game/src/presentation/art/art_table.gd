@@ -44,12 +44,17 @@ const FILAMENT_ALPHA=.65
 const LAMP_FADE_LENGTH=180.0 # Local artistic fade, never physical lamp reach.
 const LAMP_ALPHA=.34
 const MAX_GLOW_PASSES=1
-const BOUNDS={"installation":Vector2(38,72),"quietus":Vector2(66,17),"drone_a":Vector2(22,12),"drone_b":Vector2(22,14),"patroller":Vector2(67,40),"sentinel":Vector2(58,53),"sweeper":Vector2(70,50),"hunter":Vector2(66,38)}
+const BOUNDS={"installation":Vector2(38,72),"quietus":Vector2(66,17),"quiet":Vector2(66,17),"fast":Vector2(76,20),"drone_a":Vector2(22,12),"drone_b":Vector2(22,14),"scout":Vector2(22,14),"heavy":Vector2(27,17),"endurance":Vector2(22,14),"patroller":Vector2(67,40),"sentinel":Vector2(58,53),"sweeper":Vector2(70,50),"hunter":Vector2(66,38)}
 static var SHAPES={
  "installation":PackedVector2Array([Vector2(-38,36),Vector2(-38,-46),Vector2(-30,-56),Vector2(-30,-72),Vector2(-16,-72),Vector2(-12,-61),Vector2(12,-61),Vector2(18,-72),Vector2(30,-72),Vector2(30,-52),Vector2(38,-44),Vector2(38,36),Vector2(20,36),Vector2(14,28),Vector2(-14,28),Vector2(-20,36)]),
  "quietus":PackedVector2Array([Vector2(-66,-3),Vector2(-55,-12),Vector2(-22,-14),Vector2(-15,-17),Vector2(3,-17),Vector2(12,-13),Vector2(48,-11),Vector2(66,-2),Vector2(63,6),Vector2(43,13),Vector2(-53,13),Vector2(-66,5)]),
+ "quiet":PackedVector2Array([Vector2(-66,-2),Vector2(-55,-9),Vector2(-22,-11),Vector2(-15,-14),Vector2(3,-14),Vector2(12,-10),Vector2(48,-9),Vector2(60,-7),Vector2(66,-4),Vector2(66,4),Vector2(60,7),Vector2(48,9),Vector2(43,10),Vector2(-53,10),Vector2(-66,4)]),
+ "fast":PackedVector2Array([Vector2(-76,-2),Vector2(-61,-12),Vector2(-30,-16),Vector2(-19,-20),Vector2(12,-18),Vector2(23,-12),Vector2(59,-10),Vector2(76,-1),Vector2(72,6),Vector2(51,13),Vector2(-59,14),Vector2(-76,5)]),
  "drone_a":PackedVector2Array([Vector2(-21,-10),Vector2(-9,-6),Vector2(12,-6),Vector2(22,-10),Vector2(19,-2),Vector2(12,0),Vector2(19,2),Vector2(22,10),Vector2(12,6),Vector2(-9,6),Vector2(-21,10),Vector2(-16,0)]),
  "drone_b":PackedVector2Array([Vector2(-19,-7),Vector2(-10,-7),Vector2(-5,-14),Vector2(4,-14),Vector2(8,-7),Vector2(18,-4),Vector2(22,2),Vector2(14,8),Vector2(-1,8),Vector2(-7,13),Vector2(-18,13),Vector2(-13,5),Vector2(-21,2)]),
+ "scout":PackedVector2Array([Vector2(-22,-8),Vector2(-7,-8),Vector2(4,-14),Vector2(22,0),Vector2(4,14),Vector2(-7,8),Vector2(-22,8),Vector2(-16,0)]),
+ "heavy":PackedVector2Array([Vector2(-24,-11),Vector2(-13,-15),Vector2(-5,-10),Vector2(12,-10),Vector2(27,-6),Vector2(23,0),Vector2(27,6),Vector2(12,10),Vector2(-5,10),Vector2(-13,15),Vector2(-24,11),Vector2(-19,0)]),
+ "endurance":PackedVector2Array([Vector2(-22,-8),Vector2(-14,-8),Vector2(-8,-14),Vector2(3,-14),Vector2(9,-8),Vector2(22,-4),Vector2(18,0),Vector2(22,4),Vector2(9,8),Vector2(3,14),Vector2(-8,14),Vector2(-14,8),Vector2(-22,8),Vector2(-17,0)]),
  "patroller":PackedVector2Array([Vector2(67,0),Vector2(15,-13),Vector2(-48,-40),Vector2(-34,-13),Vector2(-61,-5),Vector2(-67,0),Vector2(-61,5),Vector2(-34,13),Vector2(-48,40),Vector2(15,13)]),
  "sentinel":PackedVector2Array([Vector2(58,0),Vector2(30,-34),Vector2(-5,-53),Vector2(-40,-39),Vector2(-58,-12),Vector2(-46,0),Vector2(-58,12),Vector2(-40,39),Vector2(-5,53),Vector2(30,34)]),
  "sweeper":PackedVector2Array([Vector2(70,-34),Vector2(29,-8),Vector2(19,0),Vector2(29,8),Vector2(70,34),Vector2(12,26),Vector2(-44,50),Vector2(-35,15),Vector2(-70,0),Vector2(-35,-15),Vector2(-44,-50),Vector2(12,-26)]),

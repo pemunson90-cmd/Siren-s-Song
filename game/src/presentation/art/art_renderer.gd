@@ -36,17 +36,27 @@ static func _mesh(points:PackedVector2Array,uv:PackedVector2Array)->ArrayMesh:
  var mesh=ArrayMesh.new()
  mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES,arrays,[],{},Mesh.ARRAY_FLAG_USE_2D_VERTICES)
  return mesh
-static func craft(view,index:int)->void:
+static func craft(view,index:int,frame:String="standard")->void:
  prepare()
  var key="quietus" if index==0 else "drone_a" if index==1 else "drone_b"
+ if index==0 and frame in ["quiet","fast"]:key=frame
+ elif index>0 and frame in ["scout","heavy","endurance"]:key=frame
  if index==0:
-  # Retain the charcoal painted material and its original footprint.
-  view.draw_texture_rect_region(view.quietus,Rect2(-66,-17,132,34),Rect2(60,145,1940,390))
-  view.draw_polyline(outlines[key],Table.HULL_SEAM,Table.HULL_OUTLINE_WIDTH,true)
+  if key=="quietus":
+   # Retain the charcoal painted material and its original footprint.
+   view.draw_texture_rect_region(view.quietus,Rect2(-66,-17,132,34),Rect2(60,145,1940,390))
+   view.draw_polyline(outlines[key],Table.HULL_SEAM,Table.HULL_OUTLINE_WIDTH,true)
+  else:
+   view.draw_mesh(meshes[key],null,Transform2D.IDENTITY,Table.HULL)
+   view.draw_polyline(outlines[key],Table.EDGE,Table.HULL_OUTLINE_WIDTH,true)
+   # The raised dorsal ridge distinguishes the fast transit frame at phone size.
+   if key=="fast":view.draw_line(Vector2(-20,-13),Vector2(13,-18),Table.AMBER,2.5)
  else:
-  view.draw_mesh(meshes[key],null,Transform2D.IDENTITY,Table.HULL)
+  view.draw_mesh(meshes[key],null,Transform2D.IDENTITY,Table.HULL if key in ["drone_a","drone_b"] else Color("30464b"))
   view.draw_polyline(outlines[key],Table.EDGE,Table.DRONE_OUTLINE_WIDTH,true)
-  view.draw_line(Vector2(-8,-5),Vector2(-8,5),Table.AMBER,3.)
+  if key in ["drone_a","scout"]:view.draw_line(Vector2(-8,-5),Vector2(-8,5),Table.AMBER,3.)
+  elif key=="heavy":view.draw_line(Vector2(-7,-11),Vector2(-7,11),Table.AMBER,3.);view.draw_line(Vector2(10,-9),Vector2(10,9),Table.CYAN,2.)
+  else:view.draw_circle(Vector2(-8,0),3.5,Table.AMBER);view.draw_line(Vector2(8,-7),Vector2(8,7),Table.CYAN,2.)
 static func siren(view,role:String,shade:Color)->void:
  prepare()
  # The dense material is nearly opaque for these three normal roles. Only the

@@ -89,7 +89,7 @@ static func run()->Dictionary:
   renderer.lamp_guide(canvas,Vector2.ZERO,0.,1.,240.)
  checks+=1
  # Two unused ornamental aperture discs were removed from the prepared cache.
- if geometry!=var_to_bytes(renderer.outlines) or lamp_geometry!=var_to_bytes(renderer.lamp) or lamp_palette!=var_to_bytes(renderer.lamp_colors) or renderer.meshes.size()!=8 or renderer.lamp.size()!=3 or renderer.lamp_colors.size()!=3 or renderer.uvs.size()!=4:
+ if geometry!=var_to_bytes(renderer.outlines) or lamp_geometry!=var_to_bytes(renderer.lamp) or lamp_palette!=var_to_bytes(renderer.lamp_colors) or renderer.meshes.size()!=13 or renderer.lamp.size()!=3 or renderer.lamp_colors.size()!=3 or renderer.uvs.size()!=4:
   failures+=1;printerr("FAIL repeated drawing retains bounded immutable geometry cache")
  for key in renderer.meshes:
   checks+=1
