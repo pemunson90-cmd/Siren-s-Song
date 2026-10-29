@@ -1,6 +1,8 @@
 # RESUME: operational entry
 
-Last reconciled source baseline `2dcb1bb3d171a0a4bd7994f1b889d05d1e5dfcb3` includes merged PR208 tool lockers, PR207 hidden rescue092, expedition records069 and arc presentation080, preserving tool cargo098, Calder fleet096 and earned charts089. This Claude-lane session completes094 Iron Choir (PR198); codex-root owns its separate queue under the live BOARD. Production is `225c3c45`; main unchanged.
+Last reconciled source baseline `578102f18adb0a49f50aefc130428c2d2a33e90d` includes merged PR210 debug console, PR208 tool lockers and PR207 records069, arc presentation080 and Sorley rescue092, preserving tool cargo098, Calder fleet096 and earned charts089. This Claude-lane session completes094 Iron Choir (PR198); codex-root owns its separate queue under the live BOARD. Production is `225c3c45`; main unchanged.
+
+- [KEEL:101 reconciliation] Debug-only Settings/three-finger console, read-only overlays, time/survival controls, DEV exclusion and JSON export are implemented. The picker includes operation41; grants follow locker overflow and existing rack limits. PR210 merged after independent reconciliation review and exact-head CI. Isolated evidence: `C:/Users/Archi/.cache/sirens-song-toolchain/artifacts210m`.
 
 - [KEEL: 089 source] Glass Reach ops14/15/16/20 now use earned first-face terrain and public-water route planning; earlier in-progress saves keep their stored chart policy. Remaining authored operations retain their existing charts, as documented in V7_TO_GODOT_PARITY.
 
@@ -12,7 +14,7 @@ Current boundary: Pat resumed locally on Windows and continued work on 25 Octobe
 
 ## Source and authority
 
-Active integration: `claude/integration`. Last reconciled source baseline: `2dcb1bb3d171a0a4bd7994f1b889d05d1e5dfcb3`. This records fetched source, not the future merge commit containing this document. Fetch live integration at task boundaries; the board alone owns claims/completions.
+Active integration: `claude/integration`. Last reconciled source baseline: `578102f18adb0a49f50aefc130428c2d2a33e90d`. This records fetched source, not the future merge commit containing this document. Fetch live integration at task boundaries; the board alone owns claims/completions.
 Frozen `gauntlet/production` and protected `main` require Pat's promotion approval. Preserve branches, personal saves, evidence and signing identity.
 Current decisions: [USER_DIRECTIVES](USER_DIRECTIVES.md). Intended release: [CURRENT_GAME_SPEC](CURRENT_GAME_SPEC.md). Actual module seams, settings, saves, tests and safe reverts: [MODULES](MODULES.md).
 
@@ -58,7 +60,7 @@ Current decisions: [USER_DIRECTIVES](USER_DIRECTIVES.md). Intended release: [CUR
 
 ## Next authorized work and limits
 
-Claude lane completes reviewed094 PR198 against accepted PR208 tool lockers, then waits for green required checks on its exact head before merge. Codex-root owns070 and its other claimed rows; separate095/101 ownership follows the live BOARD. The dated056 repair details below are historical.
+Claude lane completes reviewed094 PR198 against accepted PR210 debug console and PR208 tool lockers, then waits for green required checks on its exact head before merge. Codex-root owns070 and its other claimed rows; separate095 ownership follows the live BOARD. The dated056 repair details below are historical.
 Historical056 repair note: 28 Oct bounded CI repair: preserve independently approved `ed032a1a`; retain the approved campaign RETRY OPERATION label and update the two stale exact-label UI fixtures, preserving existing `retry`/`back` IDs and callbacks. The profile UI's four-key absence expectation contradicts056's documented six-sidecar contract; diagnostics found all six absent. The uncommitted fixture now checks populated run-sidecar clear/undo, retired-host suspension and empty run-menu setup. PR175 stays draft; root obtains independent patch review before any commit/push, then owns exact-head full CI and integration. Corrected local evidence/report: `C:/Users/Archi/AppData/Local/Temp/sirens-orchestration-20261027/056-label-correction-report.txt`.
 For 050, Pat approved sight-only first: hearing, movement speed and lock timing stay unchanged. Earlier design text proposing hearing scaling is superseded. Keep tunable choices in tables with off switches/revert notes; keep working while ordinary reversible questions are pending. Protected mechanics, narrative/art direction, SIREN TELL and promotion still require Pat where not already authorized.
 Photography remains the primary military reconnaissance pillar; rescue, machinery and fleet work support it. Wider release modes/content and qualitative campaign assessment remain unfinished.

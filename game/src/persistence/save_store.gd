@@ -26,6 +26,7 @@ func pin_path(location:String,managed:bool=false)->void:
 	path=location;_profile_path=location;_profile_resolved=true;_path_assigned=not managed
 var warning := ""
 func valid(data: Dictionary) -> bool:
+	if not preload("res://src/debug/dev_state.gd").valid(data):return false
 	# Version 2 adds hull, chassis and typed mount loadouts. Version 1 archives
 	# stay loadable: their single slot fittings read as standard frames.
 	if data.get("version",0) not in [1,VERSION]: return false
@@ -41,6 +42,8 @@ func valid(data: Dictionary) -> bool:
 	if data.has("intel") and not preload("res://src/campaign/photo_intel.gd").valid(data.intel):return false
 	if data.has("expedition") and not preload("res://src/campaign/expedition_campaign.gd").valid(data.expedition):return false
 	var earned=preload("res://src/campaign/early_reward/early_reward.gd").earned(data.get("early_reward",{}),preload("res://src/equipment/craft_upgrades.gd").recovered(data.completed,data.get("expedition",{}),data.get("intel",{})))
+	for item in data.get("dev_setup",{}).get("items",[]):
+		if item not in earned:earned.append(item)
 	if data.has("fleet") and not preload("res://src/campaign/fleet_inventory.gd").valid(data.fleet,earned,data.completed+data.get("expedition",{}).get("completed",[])):return false
 	if not preload("res://src/persistence/save_checks.gd").valid(data,"archive"):return false
 	if data.has("equipment"):
@@ -55,7 +58,7 @@ func valid(data: Dictionary) -> bool:
 			if entry.has("shots") and not preload("res://src/presentation/photo_view.gd").valid_shots(entry.shots):return false
 	if data.has("active") and data.active!=null:
 		if not data.active is Dictionary or not Simulation.valid_snapshot(data.active): return false
-		if preload("res://src/campaign/operation_catalog.gd").definition(data.active.mission.id).campaign and data.active.mission.id not in preload("res://src/campaign/expedition_campaign.gd").available(data.completed,data.get("expedition",{})):return false
+		if not data.get("dev",false) and preload("res://src/campaign/operation_catalog.gd").definition(data.active.mission.id).campaign and data.active.mission.id not in preload("res://src/campaign/expedition_campaign.gd").available(data.completed,data.get("expedition",{})):return false
 		var fitted=data.active.mission.get("launch_equipment",{})
 		for item in preload("res://src/equipment/equipment_catalog.gd").all_items(fitted):
 			if item not in earned:return false
