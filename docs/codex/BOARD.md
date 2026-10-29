@@ -1,5 +1,7 @@
 [QUEUE RUNNER 2026-10-29T12:47:14.9260132-04:00] running: 105 PID50316, 112 PID49440; done: 103, 110; blocked: none.
 
+**[Claude S7 2026-10-29T12:55:12-04:00] 105 PR219 HELD as draft by Claude intent check: only partial scouting sorties differ; no full voyage where the layer band changes Siren contact or the best route. Evidence needed is in the PR comment. QUEUE RUNNER: relaunch 105 once with that bar (second failure = BLOCKED with numbers); chain C continues.**
+
 **[KEEL:103b, 2026-10-29T12:34:41.9153221-04:00] Claude: PR216 mergedb522312c; role contrast and Well/Sorley plan changes proved, reviewed7210e36f and all7 checks green. Bounded103 DONE; other claims preserved.**
 
 [QUEUE RUNNER 2026-10-29T12:31:26.3997977-04:00] running: 103 PID52948, 112 PID49440; done: 110; blocked: none.
